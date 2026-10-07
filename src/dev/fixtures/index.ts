@@ -135,7 +135,7 @@ export const FIXTURES: Fixture[] = [
     id: "chaos",
     title: "Chaos",
     description:
-      "Stress test ending today: every limit at max (50 tags, 50 people, 6 photos, 10,000-character note, all emotions), many scripts and emoji, years with gaps, and 24 entries on the newest day.",
+      "Stress test ending today: every limit at max (50 tags, 50 people, 6 photos, 10,000-character note, all emotions), many scripts and emoji, years with gaps, 24 entries on the newest day, and past days with up to 100 entries.",
     endsToday: true,
     data: withChaos(asExport(empty)),
   },

@@ -18,7 +18,31 @@ const SEED = 805_461;
 const NEWEST_DAY = "2026-09-30";
 const OLDEST_DAY = "2019-01-01";
 // Entries on the newest day: one per hour.
-const MAX_DAY_ENTRIES = 24;
+const NEWEST_DAY_ENTRIES = 24;
+/**
+ * Entries on the fullest past day. The app has no entries-per-day limit:
+ * logger, storage, import, calendar and day view never cap it. 100 is the
+ * largest count that still loads fast and fills the day carousel with
+ * enough pages to stress it.
+ */
+export const CHAOS_MAX_ENTRIES_PER_DAY = 100;
+// Separate seed: the day plan never shifts when entry content changes.
+const PLAN_SEED = 31_337;
+// Days before the newest day: fullest day, and the day one entry short.
+const MAX_DAY_OFFSET = 3;
+const NEAR_MAX_DAY_OFFSET = 400;
+// Entries per planned day, spread across history: a few small days, then
+// days of 10 to 20 entries.
+const SMALL_DAY_COUNTS = [2, 3, 4, 5, 2];
+const BUSY_DAY_COUNTS = [10, 12, 14, 15, 17, 18, 19, 20];
+// Planned days spread their entries over 06:00 to 20:00 UTC, so a day stays
+// one calendar day in time zones from UTC-6 to UTC+3.
+const PLAN_START_MINUTE = 6 * 60;
+const PLAN_END_MINUTE = 20 * 60;
+// Every Nth entry of a crowded day carries photos, many tags, and people.
+const HEAVY_ENTRY_EVERY = 4;
+// Every Nth entry of a crowded day carries a note of the maximum length.
+const LONG_NOTE_EVERY = 10;
 // Photo files in `photoAssets.ts`.
 const PHOTO_FILES = 6;
 
@@ -386,13 +410,53 @@ const addDays = (day: string, days: number) => {
 const isInGap = (day: string) =>
   GAPS.some(([start, end]) => day >= start && day <= end);
 
+const daysBetween = (from: string, to: string) =>
+  Math.round(
+    (Date.parse(`${to}T00:00:00.000Z`) - Date.parse(`${from}T00:00:00.000Z`)) /
+      86_400_000
+  );
+
+/**
+ * Entry count per past day that holds more than one entry on purpose: the
+ * fullest day, the day one short of it, then small and busy days spread
+ * evenly across history. Planned days never fall into a gap.
+ */
+const planCrowdedDays = (): Map<string, number> => {
+  const random = createRandom(PLAN_SEED);
+  const plan = new Map<string, number>();
+  const place = (offset: number, count: number) => {
+    let day = addDays(NEWEST_DAY, -offset);
+    while (plan.has(day) || isInGap(day)) {
+      day = addDays(day, -1);
+    }
+    plan.set(day, count);
+  };
+  place(MAX_DAY_OFFSET, CHAOS_MAX_ENTRIES_PER_DAY);
+  place(NEAR_MAX_DAY_OFFSET, CHAOS_MAX_ENTRIES_PER_DAY - 1);
+  const counts = [...SMALL_DAY_COUNTS, ...BUSY_DAY_COUNTS];
+  const span = daysBetween(OLDEST_DAY, NEWEST_DAY) - 2;
+  const spread = sample(random, counts, counts.length);
+  for (const [index, count] of spread.entries()) {
+    place(2 + Math.floor(((index + random()) * span) / spread.length), count);
+  }
+  return plan;
+};
+
+/** Evenly spaced, strictly increasing minute of the day for entry `index`. */
+const planMinute = (random: Random, index: number, count: number) => {
+  const slot = Math.floor((PLAN_END_MINUTE - PLAN_START_MINUTE) / count);
+  return PLAN_START_MINUTE + index * slot + Math.floor(random() * slot);
+};
+
 /**
  * Stress-test user that hits every limit: {@link MAX_TAGS} tags and
  * {@link MAX_PEOPLE} people with names in many scripts, years of entries
  * with gaps, every rating, sleep quality, and emotion, notes in many
  * scripts, places around the world, and a newest day with 24 entries. The
  * first entry of that day carries every tag, person, and emotion, 6
- * photos, and a note of {@link MAX_MESSAGE_LENGTH} characters. Turns every
+ * photos, and a note of {@link MAX_MESSAGE_LENGTH} characters. Past days
+ * hold 2 to 5 and 10 to 20 entries, one day {@link CHAOS_MAX_ENTRIES_PER_DAY}
+ * and one day one fewer, with heavy entries mixed in. Turns every
  * logger step on. Seeded, so every load produces the same data.
  *
  * Photos reference bundled files by name, like `withTimeline`.
@@ -436,10 +500,11 @@ export const withChaos = (data: ImportData): ImportData => {
   const addEntry = (
     date: string,
     hour: number,
-    fields: Partial<LogItem> & Pick<LogItem, "rating" | "sleep">
+    fields: Partial<LogItem> & Pick<LogItem, "rating" | "sleep">,
+    minuteOfDay?: number
   ) => {
-    const minute = Math.floor(random() * 60);
-    const dateTime = `${date}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00.000Z`;
+    const minute = minuteOfDay ?? hour * 60 + Math.floor(random() * 60);
+    const dateTime = `${date}T${String(Math.floor(minute / 60)).padStart(2, "0")}:${String(minute % 60).padStart(2, "0")}:00.000Z`;
     items.push({
       id: chaosId(3, items.length),
       date,
@@ -455,27 +520,51 @@ export const withChaos = (data: ImportData): ImportData => {
     return dateTime;
   };
 
-  const randomEntry = (date: string, hour: number, sleep: LogItem["sleep"]) => {
-    const heavy = random() < 0.05;
-    const dateTime = addEntry(date, hour, {
-      rating: pick(random, RATING_KEYS),
-      sleep,
-      message: createMessage(random),
-      emotions: sample(
-        random,
-        CHAOS_EMOTION_KEYS,
-        heavy ? 20 : Math.floor(random() * 6)
-      ),
-      tags: sample(random, tags, heavy ? 15 : Math.floor(random() * 5)).map(
-        ({ id }) => ({ id })
-      ),
-      people: sample(random, people, heavy ? 10 : Math.floor(random() * 3)).map(
-        ({ id }) => ({ id })
-      ),
-      ...(random() < 0.4 && { location: pick(random, PLACES) }),
-    });
+  interface EntryOptions {
+    /** Minute of the UTC day; default is a random minute of `hour`. */
+    minuteOfDay?: number;
+    /** `true` forces photos, many tags, people and emotions. */
+    heavy?: boolean;
+    /** Note of the maximum length. */
+    longNote?: boolean;
+  }
+
+  const randomEntry = (
+    date: string,
+    hour: number,
+    sleep: LogItem["sleep"],
+    {
+      minuteOfDay,
+      heavy = random() < 0.05,
+      longNote = false,
+    }: EntryOptions = {}
+  ) => {
+    const dateTime = addEntry(
+      date,
+      hour,
+      {
+        rating: pick(random, RATING_KEYS),
+        sleep,
+        message: longNote ? createMaxMessage() : createMessage(random),
+        emotions: sample(
+          random,
+          CHAOS_EMOTION_KEYS,
+          heavy ? 20 : Math.floor(random() * 6)
+        ),
+        tags: sample(random, tags, heavy ? 15 : Math.floor(random() * 5)).map(
+          ({ id }) => ({ id })
+        ),
+        people: sample(
+          random,
+          people,
+          heavy ? 10 : Math.floor(random() * 3)
+        ).map(({ id }) => ({ id })),
+        ...(random() < 0.4 && { location: pick(random, PLACES) }),
+      },
+      minuteOfDay
+    );
     const entry = items.at(-1);
-    if (entry !== undefined && random() < 0.25) {
+    if (entry !== undefined && (random() < 0.25 || heavy)) {
       entry.photos = createPhotos(
         random,
         1 + Math.floor(random() * PHOTO_FILES),
@@ -499,7 +588,7 @@ export const withChaos = (data: ImportData): ImportData => {
   });
   const [maxEntry] = items;
   maxEntry.photos = createPhotos(random, PHOTO_FILES, maxDateTime, nextPhotoId);
-  for (let hour = 1; hour < MAX_DAY_ENTRIES; hour += 1) {
+  for (let hour = 1; hour < NEWEST_DAY_ENTRIES; hour += 1) {
     randomEntry(NEWEST_DAY, hour, maxSleep);
     const entry = items.at(-1);
     if (entry !== undefined) {
@@ -508,10 +597,30 @@ export const withChaos = (data: ImportData): ImportData => {
   }
 
   // Older days: dense for 60 days so statistics unlock, sparse before.
+  // Planned days hold 2 to {@link CHAOS_MAX_ENTRIES_PER_DAY} entries.
+  const crowdedDays = planCrowdedDays();
   for (let offset = 1; ; offset += 1) {
     const date = addDays(NEWEST_DAY, -offset);
     if (date < OLDEST_DAY) {
       break;
+    }
+    const crowdedCount = crowdedDays.get(date);
+    if (crowdedCount !== undefined) {
+      const sleep = { quality: pick(random, sleepQualities) };
+      for (let index = 0; index < crowdedCount; index += 1) {
+        // Every rating in turn; every 4th entry is heavy, every 10th has a
+        // note of maximum length.
+        randomEntry(date, 0, sleep, {
+          minuteOfDay: planMinute(random, index, crowdedCount),
+          heavy: crowdedCount >= 10 && index % HEAVY_ENTRY_EVERY === 0,
+          longNote: crowdedCount >= 10 && index % LONG_NOTE_EVERY === 0,
+        });
+        const entry = items.at(-1);
+        if (entry !== undefined) {
+          entry.rating = RATING_KEYS[index % RATING_KEYS.length];
+        }
+      }
+      continue;
     }
     const chance = offset <= 60 ? 0.9 : 0.5;
     if (isInGap(date) || random() >= chance) {

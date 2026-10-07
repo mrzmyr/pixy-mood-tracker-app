@@ -43,7 +43,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Metro's `cacheVersion` includes the variant ([`metro.config.js`](../metro.config.js)), because inlined `EXPO_PUBLIC_*` values are not part of Metro's cache key.
 - Development and preview icons carry a ribbon with the variant name (a label pill on Android adaptive icons). After changing `icon.png` or `adaptive-icon.png`, regenerate them with `swift scripts/generate-variant-icons.swift`.
 - Development and preview builds add Settings > Development > Test data and `<scheme>://dev/fixture?id=<id>` to load [fixtures](../src/dev/fixtures/index.ts). Production bundles do not contain them: [`src/dev/index.ts`](../src/dev/index.ts) checks the inlined variant at the `require`, so Metro drops the code.
-  - `chaos` fixture stress-tests the UI: every limit at max, text in many scripts and emoji, years with gaps ([`chaos.ts`](../src/dev/fixtures/chaos.ts))
+  - `chaos` fixture stress-tests the UI: every limit at max, text in many scripts and emoji, years with gaps, days with up to 100 entries, though the app has no per-day limit ([`chaos.ts`](../src/dev/fixtures/chaos.ts))
 - TestFlight builds are production builds. Apple promotes the tested TestFlight binary to the App Store.
 - `ios/` and `android/` are generated ([Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)). [`scripts/run-native.ts`](../scripts/run-native.ts) reruns `expo prebuild --clean` when the variant or native fingerprint changed since the last prebuild. Never edit these folders.
 

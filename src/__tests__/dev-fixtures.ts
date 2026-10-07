@@ -6,7 +6,7 @@ import {
   getStorageFixtureEntries,
   STORAGE_FIXTURES,
 } from "@/dev/fixtures";
-import { withChaos } from "@/dev/fixtures/chaos";
+import { CHAOS_MAX_ENTRIES_PER_DAY, withChaos } from "@/dev/fixtures/chaos";
 import {
   MAX_MESSAGE_LENGTH,
   MAX_PEOPLE,
@@ -70,6 +70,57 @@ describe("dev fixtures", () => {
     expect(new Set(maxEntry.emotions)).toEqual(
       new Set(enabledEmotions.map((emotion) => emotion.key))
     );
+  });
+
+  it("chaos has crowded days up to the maximum", () => {
+    const { items } = requireFixture("chaos").data;
+    const entries = Array.isArray(items) ? items : [];
+    const perDay = new Map<string, typeof entries>();
+    for (const entry of entries) {
+      perDay.set(entry.date, [...(perDay.get(entry.date) ?? []), entry]);
+    }
+    const counts = [...perDay.values()].map((day) => day.length);
+    const inRange = (min: number, max: number) =>
+      counts.filter((count) => count >= min && count <= max).length;
+
+    expect(Math.max(...counts)).toBe(CHAOS_MAX_ENTRIES_PER_DAY);
+    expect(counts).toContain(CHAOS_MAX_ENTRIES_PER_DAY - 1);
+    expect(inRange(10, 20)).toBeGreaterThanOrEqual(8);
+    expect(inRange(2, 5)).toBeGreaterThanOrEqual(5);
+
+    // The fullest day is a past day and carries heavy content.
+    const newest = [...perDay.keys()].sort().at(-1);
+    const maxDay = [...perDay.entries()].find(
+      ([, day]) => day.length === CHAOS_MAX_ENTRIES_PER_DAY
+    ) ?? ["", []];
+    expect(maxDay[0]).not.toBe(newest);
+    expect(maxDay[1].some((entry) => entry.photos.length > 0)).toBe(true);
+    expect(maxDay[1].some((entry) => entry.tags.length >= 10)).toBe(true);
+    expect(maxDay[1].some((entry) => entry.people.length >= 5)).toBe(true);
+    expect(maxDay[1].some((entry) => entry.message.length > 1000)).toBe(true);
+    expect(
+      new Set(maxDay[1].map((entry) => entry.rating)).size
+    ).toBeGreaterThan(1);
+  });
+
+  it("chaos entries have unique IDs and strictly increasing times per day", () => {
+    const { items } = requireFixture("chaos").data;
+    const entries = Array.isArray(items) ? items : [];
+    const photoIds = entries.flatMap((entry) =>
+      entry.photos.map((photo) => photo.id)
+    );
+    const ids = entries.map((entry) => entry.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(new Set(photoIds).size).toBe(photoIds.length);
+
+    const lastTime = new Map<string, number>();
+    for (const entry of entries) {
+      const time = Date.parse(entry.dateTime);
+      expect(Number.isNaN(time)).toBe(false);
+      expect(entry.dateTime.startsWith(entry.date)).toBe(true);
+      expect(time).toBeGreaterThan(lastTime.get(entry.date) ?? -Infinity);
+      lastTime.set(entry.date, time);
+    }
   });
 
   it("chaos names fit the tag and person name limits", () => {
