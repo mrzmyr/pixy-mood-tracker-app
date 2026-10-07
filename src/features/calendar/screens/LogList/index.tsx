@@ -12,7 +12,7 @@ import type { LogItem } from "@/features/logs";
 
 import { getDayDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
-import { useEffect, useEffectEvent, useRef } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import { Plus } from "react-native-feather";
 
@@ -47,6 +47,11 @@ const CardGap = () => <View style={{ height: CARD_GAP }} />;
  * photo viewer and logger, and a frozen screen leaves `FlashList` headers
  * stale; `FlatList` keeps variable card heights without recycling. New
  * entries from here use the current time on that day.
+ *
+ * Long notes fold to a few lines behind "More". The ids of unfolded entries
+ * live here, not in the cards: the list unmounts cards that scroll away.
+ * The state ends with the list, so the next visit starts folded. Folding a
+ * note scrolls its card to the top, because the list shrinks under the reader.
  *
  * Add is a float button at the bottom right, like on the calendar. The
  * list ends with padding, so the last card scrolls clear of it and of the
@@ -104,6 +109,25 @@ export const LogList = () => {
     }
   };
 
+  const [expandedNotes, setExpandedNotes] = useState<ReadonlySet<string>>(
+    () => new Set()
+  );
+  // Id of the entry whose note just folded. Folding a long note shrinks the
+  // list under the scroll offset and throws the reader far down the day.
+  const foldedNote = useRef<string | null>(null);
+  const toggleNote = (item: LogItem) => {
+    if (expandedNotes.has(item.id)) {
+      foldedNote.current = item.id;
+    }
+    setExpandedNotes((current) => {
+      const next = new Set(current);
+      if (!next.delete(item.id)) {
+        next.add(item.id);
+      }
+      return next;
+    });
+  };
+
   const listRef = useRef<FlatList<LogItem>>(null);
   const knownIds = useRef<Set<string> | null>(null);
 
@@ -145,12 +169,29 @@ export const LogList = () => {
         testID="log-list"
         data={items}
         keyExtractor={keyExtractor}
+        extraData={expandedNotes}
+        // The list shrinks once a folded note is laid out: only then bring its
+        // card back to the top.
+        onContentSizeChange={() => {
+          const id = foldedNote.current;
+          foldedNote.current = null;
+          const index = items.findIndex((item) => item.id === id);
+          if (index !== -1) {
+            listRef.current?.scrollToIndex({
+              index,
+              animated: false,
+              viewPosition: 0,
+            });
+          }
+        }}
         renderItem={({ item, index }) => (
           <Entry
             item={item}
             onEdit={edit}
             onDelete={_delete}
             position={{ index, count: items.length }}
+            isNoteExpanded={expandedNotes.has(item.id)}
+            onToggleNote={toggleNote}
           />
         )}
         ItemSeparatorComponent={CardGap}
