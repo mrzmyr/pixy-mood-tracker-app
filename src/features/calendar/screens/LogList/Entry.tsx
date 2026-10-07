@@ -21,6 +21,7 @@ import { BLOCK_GAP, INSET } from "./layout";
 import { Message } from "./Message";
 import { People, useKnownPeople } from "./People";
 import { Photos } from "./Photos";
+import { Place } from "./Place";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
 import { getTimeOfDay } from "./timeOfDay";
@@ -112,6 +113,7 @@ const EntryHeader = ({
           </View>
           <Sleep item={item} onEdit={onEditSleep} />
         </View>
+        <Place item={item} />
       </View>
       <EntryActions item={item} onEdit={onEdit} onDelete={onDelete} />
     </View>
@@ -119,7 +121,8 @@ const EntryHeader = ({
 };
 
 /**
- * Card for one entry in the day list. No section titles: white space
+ * Card for one entry in the day list. The header shows time, time of day,
+ * sleep, and the place with the `location` flag on. No section titles: white space
  * divides the blocks. Short blocks come first (emotions, people, tags,
  * photos), the note last, so a long note never hides the rest. Empty steps
  * show as dashed add pills at the end.

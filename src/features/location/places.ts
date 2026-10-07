@@ -29,7 +29,7 @@ export const formatPlaceName = (
 
 /** Text for a location: its name, else rounded coordinates. */
 export const getLocationLabel = (location: LogLocation): string =>
-  location.name ??
+  location.name?.trim() ||
   `${location.latitude.toFixed(3)}, ${location.longitude.toFixed(3)}`;
 
 /**

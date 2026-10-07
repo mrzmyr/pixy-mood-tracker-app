@@ -24,9 +24,11 @@ import {
 import type { SettingsState } from "@/state/settings";
 import { Entry } from "../screens/LogList/Entry";
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature flags come from PostHog after consent; these tests need them off.
+let mockOnFlags: string[] = [];
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- feature flags come from PostHog after consent; these tests set them by name, all others off.
 jest.mock("@/state/featureFlags", () => ({
-  useFeatureFlag: () => false,
+  useFeatureFlag: (flag: string) => mockOnFlags.includes(flag),
 }));
 
 const EditRoute = () => {
@@ -90,6 +92,7 @@ const renderEntry = async ({
 
 describe("day view entry card", () => {
   beforeEach(async () => {
+    mockOnFlags = [];
     await AsyncStorage.clear();
   });
 
@@ -150,5 +153,45 @@ describe("day view entry card", () => {
       expect(action === "edit" ? onEdit : onDelete).toHaveBeenCalledWith(item);
     });
     expect(action === "edit" ? onDelete : onEdit).not.toHaveBeenCalled();
+  });
+
+  describe("place", () => {
+    const berlin = {
+      latitude: 52.52,
+      longitude: 13.405,
+      name: "Mitte, Berlin",
+    };
+
+    test("shows the place of an entry with a location", async () => {
+      mockOnFlags = ["location"];
+      await renderEntry({ item: _generateItem({ location: berlin }) });
+
+      expect(await screen.findByText("Mitte, Berlin")).toBeTruthy();
+    });
+
+    test.each([
+      ["no name", { ...berlin, name: null }],
+      ["a blank name", { ...berlin, name: " " }],
+    ])("shows coordinates for a place with %s", async (_, location) => {
+      mockOnFlags = ["location"];
+      await renderEntry({ item: _generateItem({ location }) });
+
+      expect(await screen.findByText("52.520, 13.405")).toBeTruthy();
+    });
+
+    test("shows no place for an entry without a location", async () => {
+      mockOnFlags = ["location"];
+      await renderEntry({ item: _generateItem({}) });
+
+      await screen.findByLabelText("Edit");
+      expect(screen.queryByTestId("log-list-place")).toBeNull();
+    });
+
+    test("hides the place with the location flag off", async () => {
+      await renderEntry({ item: _generateItem({ location: berlin }) });
+
+      await screen.findByLabelText("Edit");
+      expect(screen.queryByText("Mitte, Berlin")).toBeNull();
+    });
   });
 });
