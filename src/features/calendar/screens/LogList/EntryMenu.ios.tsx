@@ -33,7 +33,9 @@ export const EntryMenu = ({
   const colors = useColors();
 
   return (
-    <Host matchContents style={{ marginRight: -4 }}>
+    // Fixed native size, not `matchContents`: a card that mounts while the list
+    // scrolls measures its content late and otherwise sits above the header row.
+    <Host style={{ width: SIZE, height: SIZE, marginRight: -4 }}>
       <Menu
         label={
           <Image
