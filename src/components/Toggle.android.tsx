@@ -1,3 +1,4 @@
+import useToggleColors from "./useToggleColors";
 import { Host, Switch } from "@expo/ui/jetpack-compose";
 import { View } from "react-native";
 import type { ToggleProps } from "./Toggle";
@@ -28,6 +29,7 @@ const Toggle = ({
         value={value}
         enabled={!disabled}
         onCheckedChange={onValueChange}
+        colors={useToggleColors()}
       />
     </Host>
   </View>

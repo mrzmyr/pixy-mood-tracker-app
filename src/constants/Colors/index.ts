@@ -165,6 +165,15 @@ const light = {
   checkboxCheckedBorder: tintColorLight,
   checkboxCheckedText: "#FFF",
 
+  // Android Material 3 switch. Checked track uses `tint`.
+  toggleThumbChecked: "#FFF",
+  toggleTrack: colors.neutral[200],
+  toggleOutline: colors.neutral[500],
+  toggleDisabledTrack: colors.neutral[100],
+  toggleDisabledOutline: colors.neutral[300],
+  toggleDisabledCheckedTrack: colors.neutral[300],
+  toggleDisabledCheckedThumb: "#FFF",
+
   statisticsBackground: colors.neutral[100],
   statisticsCardBackground: "#FFF",
   statisticsCardSubtitle: colors.neutral[500],
@@ -370,6 +379,14 @@ const dark: IColors & {
   checkboxCheckedBackground: buttonColorDark,
   checkboxCheckedBorder: buttonColorDark,
   checkboxCheckedText: "#FFF",
+
+  toggleThumbChecked: "#FFF",
+  toggleTrack: colors.neutral[800],
+  toggleOutline: colors.neutral[400],
+  toggleDisabledTrack: colors.neutral[900],
+  toggleDisabledOutline: colors.neutral[700],
+  toggleDisabledCheckedTrack: colors.neutral[700],
+  toggleDisabledCheckedThumb: colors.neutral[900],
 
   statisticsBackground: "#000",
   statisticsCardBackground: colors.neutral[900],
