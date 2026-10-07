@@ -43,6 +43,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Metro's `cacheVersion` includes the variant ([`metro.config.js`](../metro.config.js)), because inlined `EXPO_PUBLIC_*` values are not part of Metro's cache key.
 - Development and preview icons carry a ribbon with the variant name (a label pill on Android adaptive icons). After changing `icon.png` or `adaptive-icon.png`, regenerate them with `swift scripts/generate-variant-icons.swift`.
 - Development and preview builds add Settings > Development > Test data and `<scheme>://dev/fixture?id=<id>` to load [fixtures](../src/dev/fixtures/index.ts). Production bundles do not contain them: [`src/dev/index.ts`](../src/dev/index.ts) checks the inlined variant at the `require`, so Metro drops the code.
+  - `chaos` fixture stress-tests the UI: every limit at max, text in many scripts and emoji, years with gaps ([`chaos.ts`](../src/dev/fixtures/chaos.ts))
 - TestFlight builds are production builds. Apple promotes the tested TestFlight binary to the App Store.
 - `ios/` and `android/` are generated ([Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)). [`scripts/run-native.ts`](../scripts/run-native.ts) reruns `expo prebuild --clean` when the variant or native fingerprint changed since the last prebuild. Never edit these folders.
 
@@ -103,7 +104,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
   - `--fixture=<id>` and `--flag=<key>=<on|off>,...` open the dev deep links after launch
 - `bun app build` compiles a preview release with embedded JavaScript into the shared cache.
 - `bun app install` installs the cached preview binary directly, no prebuild. Builds first when cache has no match.
-- `bun app seed --fixture=<id>` loads `fresh`, `empty`, `seed`, `year`, or `people` data and prints a screenshot path. Seeds the dev client while this checkout's `bun app dev` runs, else the preview app. `--variant=<dev|preview>` overrides.
+- `bun app seed --fixture=<id>` loads a fixture and prints a screenshot path. Seeds the dev client while this checkout's `bun app dev` runs, else the preview app. `--variant=<dev|preview>` overrides.
 - `bun app open` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
 - `bun app close` ends the session, resets app data, and stops this checkout's Metro. See [Phones](#phones) for phone behavior.
 - `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.

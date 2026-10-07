@@ -5,6 +5,9 @@ export const MAX_TAG_LENGTH = 30;
 
 /** Tag limit; the tag screens hide the create action once it is reached. */
 export const MAX_TAGS = 50;
+/** Maximum note length; the message step input `maxLength`. */
+export const MAX_MESSAGE_LENGTH = 10 * 1000;
+
 /** People limit; the people screens hide the add action once it is reached. */
 export const MAX_PEOPLE = 50;
 /**
