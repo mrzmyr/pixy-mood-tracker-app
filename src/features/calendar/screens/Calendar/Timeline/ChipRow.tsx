@@ -21,6 +21,7 @@ export const ChipRow = ({
   onPress,
   inset = DEFAULT_INSET,
   accessibilityLabel,
+  accessibilityHint,
   testID,
 }: {
   children: ReactNode[];
@@ -28,6 +29,8 @@ export const ChipRow = ({
   /** Card padding before the first chip; the row bleeds to the card edge. */
   inset?: number;
   accessibilityLabel?: string;
+  /** What a tap does, read after the label. */
+  accessibilityHint?: string;
   testID?: string;
 }) => {
   const colors = useColors();
@@ -69,6 +72,7 @@ export const ChipRow = ({
           accessible={accessibilityLabel !== undefined}
           accessibilityRole={accessibilityLabel ? "button" : undefined}
           accessibilityLabel={accessibilityLabel}
+          accessibilityHint={accessibilityHint}
           disabled={!onPress}
           onPress={onPress}
         >
