@@ -11,6 +11,11 @@
 - Form modals with Save keep text Cancel top left
 - Card and toast dismiss icons are not page close
 
+## Nested Scrolling
+
+- Never put a sideways scroller inside a parent that scrolls sideways (pager, carousel). Android parent steals the swipe
+- Day view is one vertical list of cards. Chip and photo rows inside cards scroll sideways ([`LogList`](../src/features/calendar/screens/LogList/index.tsx))
+
 ## Toasts
 
 - Call `showToast` ([`src/lib/toast.ts`](../src/lib/toast.ts)), rendered by [`ToastHost`](../src/components/Toast.tsx)

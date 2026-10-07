@@ -4,7 +4,6 @@ import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
-import { LinearGradient } from "expo-linear-gradient";
 import { Moon, Sun, SunMedium, Sunrise, Sunset } from "lucide-react-native";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import { getAvailableStepsForEdit, hasSleepOnDate } from "@/features/logger";
@@ -12,7 +11,7 @@ import { getItemDate } from "@/lib/logDates";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { useSetting, useSettings } from "@/state/settings";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { AddPills } from "./AddPills";
 import type { AddableStep } from "./AddPills";
 import { Emotions } from "./Emotions";
@@ -27,6 +26,9 @@ import { Tags } from "./Tags";
 import { getTimeOfDay } from "./timeOfDay";
 import type { TimeOfDay } from "./timeOfDay";
 import { RADIUS } from "@/constants/Radius";
+
+/** Space below the last block of a card. */
+const CARD_BOTTOM_PADDING = 20;
 
 const TIME_OF_DAY_ICONS: Record<TimeOfDay, typeof Sun> = {
   morning: Sunrise,
@@ -56,16 +58,24 @@ const EntryActions = ({
   />
 );
 
+/** Place of an entry in its day: zero-based `index` of `count` entries. */
+export interface EntryPosition {
+  index: number;
+  count: number;
+}
+
 const EntryHeader = ({
   item,
   onEdit,
   onDelete,
   onEditSleep,
+  position,
 }: {
   item: LogItem;
   onEdit: (item: LogItem) => void;
   onDelete: (item: LogItem) => void;
   onEditSleep?: () => void;
+  position?: EntryPosition;
 }) => {
   const colors = useColors();
   const scaleType = useSetting("scaleType");
@@ -115,14 +125,27 @@ const EntryHeader = ({
         </View>
         <Place item={item} />
       </View>
+      {position && position.count > 1 && (
+        <Text
+          testID="log-list-position"
+          style={{
+            fontSize: 13,
+            color: colors.textSecondary,
+            fontVariant: ["tabular-nums"],
+          }}
+        >
+          {`${position.index + 1}/${position.count}`}
+        </Text>
+      )}
       <EntryActions item={item} onEdit={onEdit} onDelete={onDelete} />
     </View>
   );
 };
 
 /**
- * Card for one entry in the day list. The header shows time, time of day,
- * sleep, and the place with the `location` flag on. No section titles: white space
+ * Full-width card for one entry in the day list. The header shows time, time
+ * of day, sleep, the place with the `location` flag on, and with `position`
+ * the place of the entry in its day ("2/5"). No section titles: white space
  * divides the blocks. Short blocks come first (emotions, people, tags,
  * photos), the note last, so a long note never hides the rest. Empty steps
  * show as dashed add pills at the end.
@@ -132,19 +155,19 @@ const EntryHeader = ({
  * content for it. People show behind the `people` flag or when the entry has
  * people. Stored photos always show, so turning the `photos` flag or consent
  * off never hides user data. Delete calls `onDelete` without asking, so the
- * caller must confirm. `contentBottomInset` is the space below the last
- * block, so it can scroll above a float button over the card.
+ * caller must confirm. The card has its natural height; the list around it
+ * scrolls. Chip and photo rows scroll sideways inside it.
  */
 export const Entry = ({
   item,
   onEdit,
   onDelete,
-  contentBottomInset = 32,
+  position,
 }: {
   item: LogItem;
   onEdit: (item: LogItem) => void;
   onDelete: (item: LogItem) => void;
-  contentBottomInset?: number;
+  position?: EntryPosition;
 }) => {
   const colors = useColors();
   const router = useRouter();
@@ -187,61 +210,41 @@ export const Entry = ({
   return (
     <View
       style={{
-        flex: 1,
+        borderRadius: RADIUS.md,
+        borderWidth: 1,
+        borderColor: colors.logCardBorder,
+        backgroundColor: colors.logCardBackground,
+        overflow: "hidden",
       }}
     >
+      <EntryHeader
+        item={item}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        onEditSleep={editStep("sleep")}
+        position={position}
+      />
       <View
         style={{
-          flex: 1,
-          borderRadius: RADIUS.md,
-          borderWidth: 1,
-          borderColor: colors.logCardBorder,
-          backgroundColor: colors.logCardBackground,
-          overflow: "hidden",
+          paddingTop: 20,
+          paddingBottom: CARD_BOTTOM_PADDING,
+          gap: BLOCK_GAP,
         }}
       >
-        <EntryHeader
-          item={item}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          onEditSleep={editStep("sleep")}
-        />
-        <ScrollView
-          contentContainerStyle={{
-            paddingTop: 20,
-            paddingBottom: contentBottomInset,
-            gap: BLOCK_GAP,
-          }}
-        >
-          <Emotions item={item} onEdit={editStep("emotions")} />
-          {knownPeople.length > 0 && (
-            <FlagHighlight flag="people">
-              <People item={item} onEdit={editStep("people")} />
-            </FlagHighlight>
-          )}
-          <Tags item={item} onEdit={editStep("tags")} />
-          {item.photos.length > 0 && (
-            <FlagHighlight flag="photos">
-              <Photos item={item} onEdit={editStep("photos")} />
-            </FlagHighlight>
-          )}
-          <Message item={item} onEdit={editStep("message")} />
-          <AddPills steps={addSteps} onAdd={(step) => editStep(step)?.()} />
-        </ScrollView>
-        <LinearGradient
-          colors={[
-            colors.logCardBackgroundTransparent,
-            colors.logCardBackground,
-          ]}
-          style={{
-            position: "absolute",
-            height: 32,
-            bottom: 0,
-            left: 0,
-            right: 0,
-          }}
-          pointerEvents="none"
-        />
+        <Emotions item={item} onEdit={editStep("emotions")} />
+        {knownPeople.length > 0 && (
+          <FlagHighlight flag="people">
+            <People item={item} onEdit={editStep("people")} />
+          </FlagHighlight>
+        )}
+        <Tags item={item} onEdit={editStep("tags")} />
+        {item.photos.length > 0 && (
+          <FlagHighlight flag="photos">
+            <Photos item={item} onEdit={editStep("photos")} />
+          </FlagHighlight>
+        )}
+        <Message item={item} onEdit={editStep("message")} />
+        <AddPills steps={addSteps} onAdd={(step) => editStep(step)?.()} />
       </View>
     </View>
   );

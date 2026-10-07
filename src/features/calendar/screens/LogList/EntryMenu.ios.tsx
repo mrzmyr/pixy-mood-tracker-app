@@ -48,6 +48,8 @@ export const EntryMenu = ({
         }
         modifiers={[
           buttonStyle("plain"),
+          // Fixed layout box: cards mounted while scrolling otherwise place the glyph above the header row.
+          frame({ width: SIZE, height: SIZE }),
           accessibilityLabel(label),
           accessibilityIdentifier(testID),
         ]}

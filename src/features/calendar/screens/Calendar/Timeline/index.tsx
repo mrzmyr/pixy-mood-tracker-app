@@ -65,7 +65,12 @@ const TimelineComponent = ({
   );
   const indicatorInsets = useMemo(() => ({ top: topInset }), [topInset]);
   const openEntry = useCallback(
-    (item: LogItem) => openDay({ date: getItemDate(item), source: "timeline" }),
+    (item: LogItem) =>
+      openDay({
+        date: getItemDate(item),
+        entryId: item.id,
+        source: "timeline",
+      }),
     [openDay]
   );
   const renderRow = useCallback(
