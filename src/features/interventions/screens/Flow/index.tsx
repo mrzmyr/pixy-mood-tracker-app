@@ -12,7 +12,7 @@ import type {
 } from "@/state/analytics/events";
 import { INTERVENTIONS } from "../../catalog";
 import type { InterventionId } from "../../catalog";
-import { markCompleted } from "../../completed";
+import { addRun, setRunFeedback } from "../../history";
 import { EndCheckView } from "./EndCheckView";
 import { IntroView } from "./IntroView";
 import { StepStage } from "./StepStage";
@@ -52,7 +52,7 @@ export const InterventionFlow = ({
   const goStep = (index: number) => {
     if (index >= steps.length) {
       tracking.completed();
-      void markCompleted(id);
+      void addRun({ id: session, interventionId: id });
       setStage({ kind: "done" });
       return;
     }
@@ -157,6 +157,7 @@ export const InterventionFlow = ({
           selected={feedback}
           onAnswer={(answer) => {
             tracking.feedback(answer);
+            void setRunFeedback(session, answer);
             setFeedback(answer);
           }}
           onSkip={() => {

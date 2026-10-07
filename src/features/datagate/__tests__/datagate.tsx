@@ -316,6 +316,7 @@ describe("useLogs()", () => {
       ]) satisfies ExportSettings,
       tags: testTags,
       people: [],
+      interventions: [],
     });
     // Metadata only: export files never contain photo files.
     expect(JSON.parse(contents).items[1].photos).toEqual([testPhoto]);

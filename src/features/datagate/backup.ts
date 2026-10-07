@@ -1,3 +1,5 @@
+import { isInterventionId } from "@/features/interventions";
+import type { InterventionRun } from "@/features/interventions";
 import type { LogItem } from "@/features/logs";
 import type { Tag } from "@/features/tags";
 import type { ExportSettings } from "@/state/settings";
@@ -13,6 +15,8 @@ export interface Backup {
   items: LogItem[];
   tags: Tag[];
   people: ExportPerson[];
+  /** Finished interventions, oldest first. */
+  interventions: InterventionRun[];
   settings: ExportSettings;
 }
 
@@ -28,6 +32,7 @@ export const encodeBackup = (backup: Backup, version: string): string =>
     items: backup.items,
     tags: backup.tags,
     people: backup.people,
+    interventions: backup.interventions,
     settings: backup.settings,
   });
 
@@ -53,6 +58,10 @@ export const decodeBackupData = (data: ImportData): DecodeBackupResult => {
       items: migrated.items,
       tags: migrated.tags ?? [],
       people: migrated.people ?? [],
+      // Runs of interventions this version does not know are dropped.
+      interventions: (migrated.interventions ?? []).filter(
+        (run): run is InterventionRun => isInterventionId(run.interventionId)
+      ),
       settings: migrated.settings,
     },
   };

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
 import type { Tag } from "@/features/tags";
 import type { LogItem, LogsState } from "@/features/logs";
+import type { InterventionRun } from "@/features/interventions";
 import type { Person } from "@/features/people";
 import { RATING_KEYS } from "@/constants/Ratings";
 import type { ExportSettings } from "@/state/settings";
@@ -15,10 +16,19 @@ export type ExportPerson = Omit<Person, "avatar"> & {
 };
 
 /**
+ * Intervention run in an export file. `interventionId` stays a plain string:
+ * files from newer versions can hold interventions this version lacks.
+ */
+export type ImportInterventionRun = Omit<InterventionRun, "interventionId"> & {
+  interventionId: string;
+};
+
+/**
  * Parsed contents of an export file before {@link migrateImportData}.
  *
  * Older exports store `items` as an id-keyed object and keep tags under
- * `settings.tags`. Exports from before the people feature have no `people`.
+ * `settings.tags`. Exports from before the people feature have no `people`,
+ * exports from before the intervention history have no `interventions`.
  */
 export interface ImportData {
   version: string;
@@ -29,6 +39,7 @@ export interface ImportData {
       };
   tags?: Tag[];
   people?: ExportPerson[];
+  interventions?: ImportInterventionRun[];
   settings: ExportSettings;
 }
 
@@ -88,6 +99,18 @@ export const pixySchema = z.strictObject({
         avatar: z
           .object({ base64: z.string(), mime: z.literal("image/jpeg") })
           .nullable(),
+      })
+    )
+    .optional(),
+
+  interventions: z
+    .array(
+      z.object({
+        id: z.string(),
+        interventionId: z.string(),
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/u),
+        completedAt: z.string().nullable(),
+        feedback: z.enum(["worse", "same", "better"]).nullable(),
       })
     )
     .optional(),

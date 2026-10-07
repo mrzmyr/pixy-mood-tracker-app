@@ -69,7 +69,7 @@ interface DatagateValue {
 
 /**
  * Export, import, and reset flows for all user data (logs, tags, people,
- * settings). Owns prompts and analytics; the backup format lives in
+ * intervention history, settings). Owns prompts and analytics; the backup format lives in
  * `backup.ts`, store access in `useAppData`.
  *
  * Must render inside the logs, tags, people, and settings providers. Import

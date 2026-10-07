@@ -19,7 +19,11 @@ import {
   useTagsState,
   useTagsUpdater,
 } from "@/features/tags";
-import { INTERVENTIONS_STORAGE_KEY } from "@/features/interventions";
+import {
+  INTERVENTIONS_STORAGE_KEY,
+  loadInterventionRuns,
+  replaceInterventionRuns,
+} from "@/features/interventions";
 import { useAnalytics } from "@/state/analytics";
 import type { Load } from "@/state/persisted/createPersistedStore";
 import {
@@ -36,7 +40,7 @@ import type { ExportPerson } from "./import";
  *
  * `gated` stores load in React and block the app on a failed read.
  * Interventions load lazily outside React: a failed read keeps the stored
- * value and only hides today's progress.
+ * value, hides today's progress, and leaves history out of backups.
  */
 export const PERSISTED_STORES = [
   { name: "settings", key: SETTINGS_KEY, gated: true },
@@ -57,15 +61,16 @@ export interface AppData {
   load: Load;
   /**
    * Factory reset: logs, unreferenced photo files, tags, people with their
-   * avatars, settings (new device id), and the analytics identity.
+   * avatars, intervention history, settings (new device id), and the
+   * analytics identity.
    */
   resetAll: () => void;
   /** Current data as a backup, avatar files read inline. */
   snapshot: () => Promise<Backup>;
   /**
-   * Replaces logs, tags, people, and settings with `backup`. Resolves once
-   * every store, including avatar files, holds the data. Settings keep
-   * device-bound fields. No photo sweep: see `useLogUpdater().sweepPhotos`.
+   * Replaces logs, tags, people, intervention history, and settings with
+   * `backup`. Resolves once every store, including avatar files, holds the
+   * data. Settings keep device-bound fields. No photo sweep: see `useLogUpdater().sweepPhotos`.
    */
   replaceAll: (backup: Backup) => Promise<void>;
 }
@@ -138,6 +143,7 @@ export const useAppData = (): AppData => {
     logUpdater.sweepPhotos();
     tagsUpdater.reset();
     peopleUpdater.reset();
+    void replaceInterventionRuns([]);
     resetSettings();
     analytics.reset();
   };
@@ -153,6 +159,7 @@ export const useAppData = (): AppData => {
     items,
     tags,
     people: await toExportPeople(people),
+    interventions: await loadInterventionRuns(),
     settings: toExportSettings(settings),
   });
 
@@ -162,6 +169,7 @@ export const useAppData = (): AppData => {
     logUpdater.import({ items: backup.items });
     tagsUpdater.import({ tags: backup.tags });
     peopleUpdater.import({ people: importedPeople });
+    await replaceInterventionRuns(backup.interventions);
     importSettings(backup.settings);
   };
 

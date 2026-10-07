@@ -17,6 +17,10 @@ import {
   TagsProvider,
   useTagsState,
 } from "@/features/tags";
+import {
+  _resetInterventionHistory,
+  INTERVENTIONS_STORAGE_KEY as INTERVENTIONS_KEY,
+} from "@/features/interventions";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { AnalyticsProvider } from "@/state/analytics";
 import {
@@ -55,6 +59,7 @@ const _console_error = console.error;
 describe("useAppData()", () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
+    _resetInterventionHistory();
     console.error = jest.fn();
     jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
     jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
@@ -99,6 +104,20 @@ describe("useAppData()", () => {
         }),
       ],
       [
+        INTERVENTIONS_KEY,
+        JSON.stringify({
+          runs: [
+            {
+              id: "run",
+              interventionId: "slow_breath",
+              date: "2026-01-01",
+              completedAt: "2026-01-01T10:00:00.000Z",
+              feedback: "better",
+            },
+          ],
+        }),
+      ],
+      [
         SETTINGS_KEY,
         JSON.stringify({
           ...INITIAL_STATE,
@@ -137,5 +156,36 @@ describe("useAppData()", () => {
       deviceId: expect.any(String),
     });
     expect(second.result.current.settings.deviceId).not.toBe("old-device");
+    expect(
+      JSON.parse((await AsyncStorage.getItem(INTERVENTIONS_KEY)) ?? "")
+    ).toEqual({ runs: [] });
+  });
+
+  test("snapshot and replaceAll carry the intervention history", async () => {
+    const run = {
+      id: "run",
+      interventionId: "slow_breath" as const,
+      date: "2026-01-01",
+      completedAt: "2026-01-01T10:00:00.000Z",
+      feedback: "better" as const,
+    };
+    await AsyncStorage.setItem(
+      INTERVENTIONS_KEY,
+      JSON.stringify({ runs: [run] })
+    );
+    const hook = await renderAppData();
+    await waitFor(() => {
+      expect(hook.result.current.appData.load.status).toBe("ready");
+    });
+
+    const backup = await hook.result.current.appData.snapshot();
+    expect(backup.interventions).toEqual([run]);
+
+    await act(() =>
+      hook.result.current.appData.replaceAll({ ...backup, interventions: [] })
+    );
+    expect(
+      JSON.parse((await AsyncStorage.getItem(INTERVENTIONS_KEY)) ?? "")
+    ).toEqual({ runs: [] });
   });
 });

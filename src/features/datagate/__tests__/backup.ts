@@ -32,6 +32,22 @@ const backup: Backup = {
       createdAt: "2026-01-01T00:00:00.000Z",
     },
   ],
+  interventions: [
+    {
+      id: "run-1",
+      interventionId: "slow_breath",
+      date: "2026-01-01",
+      completedAt: "2026-01-01T10:05:00.000Z",
+      feedback: "better",
+    },
+    {
+      id: "legacy-2025-12-31-body_scan",
+      interventionId: "body_scan",
+      date: "2025-12-31",
+      completedAt: null,
+      feedback: null,
+    },
+  ],
   settings: toExportSettings({
     ...INITIAL_STATE,
     deviceId: "device",
@@ -81,9 +97,25 @@ describe("backup codec", () => {
         items: [expect.objectContaining({ date: "2022-01-02", people: [] })],
         tags: [{ id: "old", title: "Old", color: "slate" }],
         people: [],
+        interventions: [],
         settings: { actionsDone: [] },
       },
     });
+  });
+
+  test("drops runs of interventions this version does not know", () => {
+    const file = JSON.parse(encodeBackup(backup, "9.9.9"));
+    file.interventions.push({
+      ...backup.interventions[0],
+      id: "run-future",
+      interventionId: "from_a_newer_version",
+    });
+
+    const result = decodeBackup(JSON.stringify(file));
+
+    expect(result.ok && result.backup.interventions).toEqual(
+      backup.interventions
+    );
   });
 
   test.each([

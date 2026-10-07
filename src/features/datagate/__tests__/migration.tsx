@@ -48,6 +48,7 @@ describe("MigrationHelper", () => {
       ...testImportData,
       items: Object.values(testImportData.items),
       people: [],
+      interventions: [],
     });
   });
 
@@ -125,6 +126,7 @@ describe("MigrationHelper", () => {
       settings: _.omit(importData.settings, "tags"),
       tags: testTags,
       people: [],
+      interventions: [],
     });
   });
 
@@ -146,6 +148,7 @@ describe("MigrationHelper", () => {
       ...testImportData,
       items: Object.values(testImportData.items),
       people: [],
+      interventions: [],
     });
   });
 });
