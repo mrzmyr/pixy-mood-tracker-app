@@ -1,14 +1,8 @@
 import { useState } from "react";
-import {
-  Modal,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import Button from "@/components/Button";
 import { CloseButton } from "@/components/CloseButton";
+import { SheetModal } from "@/components/SheetModal";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
@@ -248,6 +242,7 @@ export const RequestEmotionSheet = ({
   source: FeedbackSource;
   onClose: () => void;
 }) => {
+  const colors = useColors();
   // Remount the form on each opening, but keep it during the close animation.
   const [session, setSession] = useState(0);
   const [wasVisible, setWasVisible] = useState(visible);
@@ -259,13 +254,12 @@ export const RequestEmotionSheet = ({
   }
 
   return (
-    <Modal
+    <SheetModal
       visible={visible}
-      animationType={Platform.OS === "web" ? "none" : "slide"}
-      presentationStyle="pageSheet"
-      onRequestClose={onClose}
+      onClose={onClose}
+      backgroundColor={colors.feedbackBackground}
     >
       <SheetContent key={session} source={source} onClose={onClose} />
-    </Modal>
+    </SheetModal>
   );
 };

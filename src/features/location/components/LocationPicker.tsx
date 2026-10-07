@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  Modal,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import { MapPin, Navigation, XCircle } from "react-native-feather";
 import { CloseButton } from "@/components/CloseButton";
+import { SheetModal } from "@/components/SheetModal";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";
@@ -300,6 +294,7 @@ export const LocationPicker = ({
   onChange: (location: LogLocation | undefined) => void;
   onClose: () => void;
 }) => {
+  const colors = useColors();
   // Remount the content on each opening, but keep it during the close animation.
   const [session, setSession] = useState(0);
   const [wasVisible, setWasVisible] = useState(visible);
@@ -311,11 +306,10 @@ export const LocationPicker = ({
   }
 
   return (
-    <Modal
+    <SheetModal
       visible={visible}
-      animationType={Platform.OS === "web" ? "none" : "slide"}
-      presentationStyle="pageSheet"
-      onRequestClose={onClose}
+      onClose={onClose}
+      backgroundColor={colors.background}
     >
       <SheetContent
         key={session}
@@ -323,6 +317,6 @@ export const LocationPicker = ({
         onChange={onChange}
         onClose={onClose}
       />
-    </Modal>
+    </SheetModal>
   );
 };
