@@ -157,17 +157,24 @@ const EntryHeader = ({
  * off never hides user data. Delete calls `onDelete` without asking, so the
  * caller must confirm. The card has its natural height; the list around it
  * scrolls. Chip and photo rows scroll sideways inside it.
+ *
+ * A long note folds behind "More" when `onToggleNote` is given. The list
+ * owns `isNoteExpanded`, so a card that scrolls out and in keeps its state.
  */
 export const Entry = ({
   item,
   onEdit,
   onDelete,
   position,
+  isNoteExpanded,
+  onToggleNote,
 }: {
   item: LogItem;
   onEdit: (item: LogItem) => void;
   onDelete: (item: LogItem) => void;
   position?: EntryPosition;
+  isNoteExpanded?: boolean;
+  onToggleNote?: (item: LogItem) => void;
 }) => {
   const colors = useColors();
   const router = useRouter();
@@ -243,7 +250,12 @@ export const Entry = ({
             <Photos item={item} onEdit={editStep("photos")} />
           </FlagHighlight>
         )}
-        <Message item={item} onEdit={editStep("message")} />
+        <Message
+          item={item}
+          onEdit={editStep("message")}
+          expanded={isNoteExpanded}
+          onToggleExpanded={onToggleNote && (() => onToggleNote(item))}
+        />
         <AddPills steps={addSteps} onAdd={(step) => editStep(step)?.()} />
       </View>
     </View>
