@@ -8,6 +8,7 @@ import useColors from "@/hooks/useColors";
 import type { TagsDistributionData } from "../../TagsDistribution";
 import type { Tag } from "@/features/tags";
 import { RADIUS } from "@/constants/Radius";
+import { getBarFraction, getMaxCount } from "../../barFraction";
 
 /**
  * Tag bars for the top `limit` tags. Tapping a bar filters the calendar to
@@ -23,6 +24,7 @@ export const TagDistributionContent = ({
   const colors = useColors();
   const calendarFilters = useCalendarFilters();
   const router = useRouter();
+  const max = getMaxCount(data.tags);
 
   const onPress = (tagId: Tag["id"]) => {
     calendarFilters.set({
@@ -53,7 +55,7 @@ export const TagDistributionContent = ({
             style={{
               backgroundColor: colors.tags[tag?.details?.color]?.background,
               height: 32,
-              width: `${(tag.count / data.tags[0].count) * 100}%` as const,
+              width: `${getBarFraction(tag.count, max) * 100}%` as const,
               borderRadius: RADIUS.xs,
               position: "absolute",
             }}
@@ -65,7 +67,9 @@ export const TagDistributionContent = ({
               fontWeight: "600",
               position: "relative",
               marginLeft: 8,
+              marginRight: 8,
             }}
+            numberOfLines={1}
           >
             {tag.count}x {tag?.details?.title}
           </Text>
