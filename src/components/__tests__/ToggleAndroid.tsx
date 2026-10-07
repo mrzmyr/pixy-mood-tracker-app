@@ -1,7 +1,9 @@
 import { fireEvent, render } from "@testing-library/react-native";
+import { DefaultTheme, ThemeProvider } from "expo-router";
 import { Pressable } from "react-native";
 
 import Toggle from "@/components/Toggle.android";
+import Colors from "@/constants/Colors";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- Compose views have no Jest renderer; the stand-ins keep the host's props and the switch's change callback.
 jest.mock("@expo/ui/jetpack-compose", () => {
@@ -21,10 +23,23 @@ jest.mock("@expo/ui/jetpack-compose", () => {
   };
 });
 
+// The app wraps every screen in its theme; Toggle may read colors from it.
+const renderInTheme = (element: React.ReactElement) =>
+  render(
+    <ThemeProvider
+      value={{
+        ...DefaultTheme,
+        colors: { ...DefaultTheme.colors, ...Colors.light },
+      }}
+    >
+      {element}
+    </ThemeProvider>
+  );
+
 describe("Android Toggle", () => {
   test("keeps the touch when it sits in a pressable row", async () => {
     const onValueChange = jest.fn();
-    const screen = await render(
+    const screen = await renderInTheme(
       <Pressable testID="row">
         <Toggle value={false} onValueChange={onValueChange} testID="toggle" />
       </Pressable>
@@ -39,7 +54,7 @@ describe("Android Toggle", () => {
 
   test("a tap on the switch passes the new value", async () => {
     const onValueChange = jest.fn();
-    const screen = await render(
+    const screen = await renderInTheme(
       <Toggle value={false} onValueChange={onValueChange} />
     );
 
@@ -50,7 +65,7 @@ describe("Android Toggle", () => {
 
   test("TalkBack activate flips the value", async () => {
     const onValueChange = jest.fn();
-    const screen = await render(
+    const screen = await renderInTheme(
       <Toggle value={false} onValueChange={onValueChange} testID="toggle" />
     );
 
@@ -63,7 +78,7 @@ describe("Android Toggle", () => {
 
   test("TalkBack activate does nothing while disabled", async () => {
     const onValueChange = jest.fn();
-    const screen = await render(
+    const screen = await renderInTheme(
       <Toggle value disabled onValueChange={onValueChange} testID="toggle" />
     );
 
