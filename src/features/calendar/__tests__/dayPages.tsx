@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
 import { fireEvent, waitFor } from "@testing-library/react-native";
 import dayjs from "dayjs";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { _generateItem } from "@/__tests__/utils";
 import { DATE_FORMAT } from "@/constants/Config";
 import { INITIAL_STATE } from "@/constants/Settings";
@@ -31,7 +31,18 @@ jest.mock("@/components/PressableScale", () => ({
   PressableScale: jest.requireActual("react-native").Pressable,
 }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-router's Jest setup replaces reanimated with an empty mock, so the animated float button cannot render; a plain Pressable keeps it tappable.
+jest.mock("@/components/FloatButton", () => ({
+  FloatButton: jest.requireActual("react-native").Pressable,
+}));
+
 const day = dayjs().subtract(1, "day").format(DATE_FORMAT);
+
+/** Stand-in logger: shows the day it was opened for. */
+const CreateStub = () => {
+  const { dateTime } = useLocalSearchParams<{ dateTime: string }>();
+  return <Text>{`create ${dayjs(dateTime).format(DATE_FORMAT)}`}</Text>;
+};
 
 const layout = (height: number) => ({
   nativeEvent: { layout: { x: 0, y: 0, width: 390, height } },
@@ -52,6 +63,7 @@ const renderDay = async () => {
         </SettingsProvider>
       ),
       "days/[date]": LogList,
+      "logs/create/[dateTime]": CreateStub,
     },
     { initialUrl: `/days/${day}` }
   );
@@ -83,5 +95,13 @@ describe("day view pages", () => {
 
     await fireEvent(pages, "layout", layout(740));
     await waitFor(() => expect(carouselHeight()).toBe(740));
+  });
+
+  test("add button opens the logger for the shown day", async () => {
+    const result = await renderDay();
+
+    fireEvent.press(await result.findByTestId("log-list-add"));
+
+    expect(await result.findByText(`create ${day}`)).toBeTruthy();
   });
 });

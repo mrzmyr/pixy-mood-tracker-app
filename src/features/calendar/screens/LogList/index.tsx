@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import Button from "@/components/Button";
+import { FloatButton } from "@/components/FloatButton";
 import { PageModalLayout } from "@/components/PageModalLayout";
+import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 import { isConfirmed } from "@/helpers/promptCancel";
 import { askToRemove } from "@/helpers/prompts";
 import { t } from "@/lib/translation";
@@ -15,6 +16,7 @@ import { useRef, useState } from "react";
 import { Dimensions, View } from "react-native";
 import { Carousel } from "react-native-reanimated-carousel";
 import type { CarouselRef } from "react-native-reanimated-carousel";
+import { Plus } from "react-native-feather";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Entry } from "./Entry";
@@ -22,6 +24,16 @@ import { Header } from "./Header";
 import { getItemDate, getItemTime } from "@/lib/logDates";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
+
+// Same spot as the calendar float button: 20 from the right and from the
+// bottom safe area.
+const FAB_MARGIN = 20;
+// Space between the page area and the bottom safe area.
+const PAGES_BOTTOM_GAP = 16;
+// Card content ends this far above the page area bottom, so the last block
+// scrolls clear of the float button with 16 to spare.
+const CONTENT_BOTTOM_INSET =
+  FLOAT_BUTTON_SIZE + FAB_MARGIN - PAGES_BOTTOM_GAP + 16;
 
 /**
  * Day entry list modal, opened from a calendar day.
@@ -34,6 +46,9 @@ const WINDOW_WIDTH = Dimensions.get("window").width;
  * pages keep their first measured height. iOS modals first lay out at full
  * window height, so pages stay too tall and the button hides the end of
  * each entry.
+ *
+ * Add is a float button at the bottom right, like on the calendar. It sits
+ * over the card, so card content gets bottom padding to scroll above it.
  */
 export const LogList = () => {
   const router = useRouter();
@@ -86,7 +101,13 @@ export const LogList = () => {
 
   const _carouselRef = useRef<CarouselRef>(null);
   const pages = items.map((item) => (
-    <Entry key={item.id} item={item} onEdit={edit} onDelete={_delete} />
+    <Entry
+      key={item.id}
+      item={item}
+      onEdit={edit}
+      onDelete={_delete}
+      contentBottomInset={CONTENT_BOTTOM_INSET}
+    />
   ));
 
   const PAGE_WIDTH = WINDOW_WIDTH * 0.9;
@@ -105,6 +126,7 @@ export const LogList = () => {
         testID="log-list-pages"
         style={{
           flex: 1,
+          marginBottom: PAGES_BOTTOM_GAP,
         }}
         onLayout={(event) => setPagesHeight(event.nativeEvent.layout.height)}
       >
@@ -130,19 +152,23 @@ export const LogList = () => {
       </View>
       <View
         style={{
-          paddingHorizontal: 16,
-          paddingBottom: 16,
+          position: "absolute",
+          right: FAB_MARGIN,
+          bottom: FAB_MARGIN + insets.bottom,
         }}
       >
-        <Button
-          type="primary"
-          style={{
-            marginTop: 12,
-          }}
+        <FloatButton
+          testID="log-list-add"
+          accessibilityLabel={t("add_entry")}
           onPress={add}
         >
-          {t("add_entry")}
-        </Button>
+          <Plus
+            color={colors.primaryButtonText}
+            width={24}
+            height={24}
+            strokeWidth={2.5}
+          />
+        </FloatButton>
       </View>
     </PageModalLayout>
   );
