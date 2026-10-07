@@ -796,6 +796,7 @@
   "tags_name_label": "Naam",
   "tags_per_day": "Gem. labels per dag",
   "tags_reached_max": "Je hebt het maximum van {{max_count}} tags bereikt. Verwijder enkele tags om nieuwe toe te voegen.",
+  "tags_reached_max_archived": "Je hebt het maximum van {{max_count}} tags bereikt. Gearchiveerde tags tellen ook mee. Verwijder een gearchiveerde tag om ruimte vrij te maken.",
   "tags_used": "Labels gebruikt",
   "time": "Tijd",
   "title": "Titel",

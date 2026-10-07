@@ -13,5 +13,6 @@ export {
   writeAvatarFromBase64,
 } from "./avatars";
 export { setPeopleSourcesOverride } from "./sources";
+export { getPeopleLimit } from "./peopleLimit";
 export { sortPeopleByUsage } from "./usage";
 export * from "./PeopleProvider";

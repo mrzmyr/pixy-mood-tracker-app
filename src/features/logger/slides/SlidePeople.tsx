@@ -12,7 +12,6 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
-import { MAX_PEOPLE } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { useLogState } from "@/features/logs";
@@ -20,6 +19,7 @@ import {
   PersonChip,
   TILE_RING_GAP,
   TILE_RING_WIDTH,
+  getPeopleLimit,
   sortPeopleByUsage,
   usePeopleState,
 } from "@/features/people";
@@ -34,7 +34,7 @@ const COLUMN_GAP = 12;
 const MAX_AVATAR_SIZE = 96;
 
 /**
- * Last grid cell: opens the person form, hidden at {@link MAX_PEOPLE}.
+ * Last grid cell: opens the person form, hidden at `MAX_PEOPLE`.
  * Border, icon, and label share one placeholder gray so the tile reads as an
  * empty slot, quieter than the people around it.
  */
@@ -232,7 +232,7 @@ export const SlidePeople = ({
                   />
                 </View>
               ))}
-              {people.length < MAX_PEOPLE && (
+              {!getPeopleLimit(people).reached && (
                 <View style={{ width: columnWidth, alignItems: "center" }}>
                   <AddPersonTile size={avatarSize} />
                 </View>

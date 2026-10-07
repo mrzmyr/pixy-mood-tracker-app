@@ -793,6 +793,7 @@
   "tags_name_label": "Nama",
   "tags_per_day": "Purata tag setiap hari",
   "tags_reached_max": "Anda mencapai maksimum {{max_count}} teg. Sila padamkan beberapa teg untuk menambah yang baharu.",
+  "tags_reached_max_archived": "Anda telah mencapai had maksimum {{max_count}} teg. Teg yang diarkibkan juga dikira. Padam teg yang diarkibkan untuk mengosongkan satu ruang.",
   "tags_used": "Tag digunakan",
   "time": "Masa",
   "title": "Tajuk",

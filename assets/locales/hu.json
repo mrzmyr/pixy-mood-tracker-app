@@ -793,6 +793,7 @@
   "tags_name_label": "Név",
   "tags_per_day": "Átl. címkék naponta",
   "tags_reached_max": "Elérted a maximális {{max_count}} címkét. Kérlek, törölj néhány címkét újak hozzáadásához.",
+  "tags_reached_max_archived": "Elérted a(z) {{max_count}} címke maximumát. Az archivált címkék is számítanak. Törölj egy archivált címkét, hogy helyet szabadíts fel.",
   "tags_used": "Használt címkék",
   "time": "Időpont",
   "title": "Cím",

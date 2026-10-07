@@ -8,20 +8,20 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
-import { MAX_PEOPLE } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import { getPeopleLimit } from "../peopleLimit";
 import { PeopleList } from "../components/PeopleList";
 import { usePeopleState } from "../PeopleProvider";
 
-/** Add button pinned above the bottom inset; hidden at {@link MAX_PEOPLE}. */
+/** Add button pinned above the bottom inset; hidden at `MAX_PEOPLE`. */
 const AddPersonButton = () => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { people } = usePeopleState();
 
-  if (people.length >= MAX_PEOPLE) {
+  if (getPeopleLimit(people).reached) {
     return null;
   }
 
@@ -104,7 +104,7 @@ export const SettingsPeople = ({
             </View>
             <PeopleList
               people={active}
-              totalCount={people.length}
+              limitReached={getPeopleLimit(people).reached}
               emptyText={t("people_empty")}
             />
             <View style={{ width: "100%", height: insets.bottom + 56 }} />
@@ -130,7 +130,7 @@ export const SettingsPeopleArchive = () => {
       <ScrollView style={{ flex: 1 }}>
         <PeopleList
           people={archived}
-          totalCount={0}
+          limitReached={false}
           emptyText={t("people_archive_empty")}
         />
         <View style={{ width: "100%", height: insets.bottom + 56 }} />

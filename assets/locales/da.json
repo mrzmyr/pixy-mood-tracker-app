@@ -793,6 +793,7 @@
   "tags_name_label": "Navn",
   "tags_per_day": "Gns. tags om dagen",
   "tags_reached_max": "Du har nået det maksimale antal af {{max_count}} tags. Slet venligst nogle tags for at tilføje nye.",
+  "tags_reached_max_archived": "Du har nået maksimum på {{max_count}} tags. Arkiverede tags tæller også med. Slet et arkiveret tag for at frigøre en plads.",
   "tags_used": "Tags brugt",
   "time": "Tid",
   "title": "Titel",
