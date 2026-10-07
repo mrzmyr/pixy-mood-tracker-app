@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pixy",
     "slug": "pixy-mood-tracker",
-    "version": "1.94.0",
+    "version": "1.95.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
