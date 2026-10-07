@@ -281,6 +281,7 @@ export const PersonChip = ({
         numberOfLines={1}
         style={{
           marginLeft: chipSize.gap,
+          flexShrink: 1,
           color: selected ? colors.tagTextActive : colors.tagText,
           fontSize: chipSize.fontSize,
         }}
