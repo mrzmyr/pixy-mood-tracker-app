@@ -18,7 +18,7 @@ const EMOTIONS_CATEGORY_ORDER = {
 
 /**
  * Emotions of an entry card as one scrollable chip row, positive first.
- * Same chips as the calendar timeline cards. A tap opens the logger at the
+ * Chips match the logger. A tap opens the logger at the
  * emotions step when `onEdit` is given. Unknown keys from newer app versions
  * are skipped; without emotions it renders nothing.
  */
@@ -58,7 +58,7 @@ export const Emotions = ({
       testID={onEdit ? "log-list-emotions-edit" : undefined}
     >
       {emotions.map((emotion) => (
-        <EmotionItem key={emotion.key} emotion={emotion} compact />
+        <EmotionItem key={emotion.key} emotion={emotion} />
       ))}
     </ChipRow>
   );

@@ -45,7 +45,6 @@ export const Tags = ({
           key={tag.id}
           title={tag.title}
           colorName={tag.color}
-          compact
           style={{
             marginRight: 0,
             marginBottom: 0,
