@@ -16,8 +16,8 @@ export const EmotionItem = ({
     <View>
       <View
         style={{
-          paddingVertical: 6,
-          paddingHorizontal: 12,
+          paddingVertical: 12,
+          paddingHorizontal: 14,
           borderRadius: 8,
           backgroundColor: colors.logCardBackground,
           borderWidth: 1,

@@ -35,8 +35,8 @@ const Tag = ({
         borderColor:
           colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)",
         borderWidth: 1,
-        paddingHorizontal: 12,
-        paddingVertical: 6,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
         ...style,
       }}
     >
