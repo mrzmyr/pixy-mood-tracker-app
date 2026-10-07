@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, Text, useColorScheme, View } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useIsFocused } from "expo-router";
 import Button from "@/components/Button";
 import tailwind from "@/constants/Colors/TailwindColors";
 import { ConfirmationOffer } from "@/features/interventions";
@@ -112,6 +113,8 @@ export const Confirmation = ({
     () => getDaySummary({ items: logState.items, item }),
     [logState.items, item]
   );
+  // Pixy idles only while the logger is on screen.
+  const isFocused = useIsFocused();
   const segments = getSummarySentence({ summary, emotionLabel });
   const dayTags =
     summary.tagIds.length <= SUMMARY_TAGS_MAX
@@ -255,7 +258,12 @@ export const Confirmation = ({
               key={`pixy-${jumps}`}
               entering={jumps === 0 ? jump : happyJump}
             >
-              <Pixy size={PIXY_SIZE} tone={summary.tone} isJoyful={isJoyful} />
+              <Pixy
+                size={PIXY_SIZE}
+                tone={summary.tone}
+                isJoyful={isJoyful}
+                isIdle={isFocused}
+              />
             </Animated.View>
           </Pressable>
           <Animated.View entering={titleEntering} style={{ flex: 1 }}>
