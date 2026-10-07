@@ -226,7 +226,7 @@ const CalendarDayComponent = ({
             top: 0,
             left: 0,
             right: 0,
-            bottom: 14,
+            bottom: 18,
             alignItems: "center",
           }}
         >
@@ -238,7 +238,12 @@ const CalendarDayComponent = ({
           />
         </View>
       )}
-      <View style={styles.dayNumberParent1}>
+      <View
+        style={[
+          styles.dayNumberParent1,
+          hasCharacter && { height: 16, justifyContent: "center" },
+        ]}
+      >
         <View style={dayNumberParent2Styles}>
           <Text style={dayNumberTextStyles}>{day}</Text>
         </View>
