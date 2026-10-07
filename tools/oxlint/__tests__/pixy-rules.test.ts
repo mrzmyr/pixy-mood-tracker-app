@@ -60,3 +60,23 @@ describe("no-layout-animation", () => {
     ).toBe(0);
   });
 });
+
+describe("no-hermes-missing-intl", () => {
+  it("reports Intl constructors Hermes lacks", () => {
+    expect(
+      lint(
+        "no-hermes-missing-intl",
+        'export const now = new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(0, "second");\nexport const list = new Intl.ListFormat("en").format(["a", "b"]);\n'
+      )
+    ).toBe(2);
+  });
+
+  it("allows Intl APIs Hermes implements", () => {
+    expect(
+      lint(
+        "no-hermes-missing-intl",
+        'export const day = new Intl.DateTimeFormat("en").format(new Date());\nexport const count = new Intl.NumberFormat("en").format(3);\n'
+      )
+    ).toBe(0);
+  });
+});

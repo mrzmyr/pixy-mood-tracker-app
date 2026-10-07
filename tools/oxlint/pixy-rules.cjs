@@ -190,6 +190,53 @@ const noHermesMissingArrayMethods = {
   },
 };
 
+// Intl constructors missing from Hermes. Hermes ships only Collator,
+// DateTimeFormat, NumberFormat, and getCanonicalLocales. Calling one of these
+// throws "undefined cannot be used as a constructor" (Android Reminder crash).
+const HERMES_MISSING_INTL_APIS = new Set([
+  "DisplayNames",
+  "DurationFormat",
+  "ListFormat",
+  "Locale",
+  "PluralRules",
+  "RelativeTimeFormat",
+  "Segmenter",
+]);
+
+const noHermesMissingIntl = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Disallow Intl APIs that Hermes does not implement",
+    },
+    messages: {
+      missing:
+        "Hermes has no Intl.{{name}}; it throws at runtime while Jest passes. Use a locale key or dayjs instead.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      MemberExpression(node) {
+        const { object, property } = node;
+        if (
+          !node.computed &&
+          object.type === "Identifier" &&
+          object.name === "Intl" &&
+          property.type === "Identifier" &&
+          HERMES_MISSING_INTL_APIS.has(property.name)
+        ) {
+          context.report({
+            messageId: "missing",
+            node: property,
+            data: { name: property.name },
+          });
+        }
+      },
+    };
+  },
+};
+
 // LayoutAnimation.configureNext is global: it animates every pending layout
 // change, including unrelated screen teardown, and crashed Fabric (#610).
 const noLayoutAnimation = {
@@ -298,6 +345,7 @@ module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
     "no-hermes-missing-array-methods": noHermesMissingArrayMethods,
+    "no-hermes-missing-intl": noHermesMissingIntl,
     "no-layout-animation": noLayoutAnimation,
     "require-exported-jsdoc": requireExportedJsDoc,
     "boolean-function-prefix": booleanFunctionPrefix,

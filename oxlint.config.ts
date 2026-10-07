@@ -106,6 +106,7 @@ export default defineConfig({
       files: ["src/**"],
       rules: {
         "pixy-standards/no-hermes-missing-array-methods": "error",
+        "pixy-standards/no-hermes-missing-intl": "error",
         "pixy-standards/no-layout-animation": "error",
       },
     },
