@@ -6,6 +6,12 @@ import react from "ultracite/oxlint/react";
 
 const jsPlugins = selectJsPlugins(["react-doctor"]);
 
+// Expo Router 57 fails the bundle when app code imports React Navigation directly.
+const reactNavigationImport = {
+  group: ["@react-navigation/*"],
+  message: "Import from expo-router/react-navigation instead.",
+};
+
 /**
  * Oxlint config: Ultracite presets plus the local `pixy-standards` rules
  * from `tools/oxlint/pixy-rules.cjs`.
@@ -43,6 +49,7 @@ export default defineConfig({
     "unicorn/prefer-set-has": "off",
     // Autofix renames to `error` even when that shadows an outer `error`, changing which value code reads.
     "unicorn/catch-error-name": "off",
+    "no-restricted-imports": ["error", { patterns: [reactNavigationImport] }],
   },
   overrides: [
     {
@@ -65,6 +72,7 @@ export default defineConfig({
                 group: ["@/features/**", "@/screens/**"],
                 message: "Lower layer must not import features or screens.",
               },
+              reactNavigationImport,
             ],
           },
         ],
@@ -82,6 +90,7 @@ export default defineConfig({
                 regex: "^@/features/[^/]+/.+",
                 message: "Import features through their entry file.",
               },
+              reactNavigationImport,
             ],
           },
         ],
