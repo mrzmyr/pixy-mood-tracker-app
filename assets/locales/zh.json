@@ -793,6 +793,7 @@
   "tags_name_label": "名称",
   "tags_per_day": "平均。每天标签",
   "tags_reached_max": "您已达到 {{max_count}} 个标签的上限。请删除一些标签以添加新标签。",
+  "tags_reached_max_archived": "你已达到 {{max_count}} 个标签的上限。已归档的标签也会计入。删除一个已归档的标签即可腾出空位。",
   "tags_used": "使用的标签",
   "time": "时间",
   "title": "标题",

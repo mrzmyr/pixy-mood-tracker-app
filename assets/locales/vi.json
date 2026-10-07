@@ -793,6 +793,7 @@
   "tags_name_label": "Tên",
   "tags_per_day": "Trung bình thẻ mỗi ngày",
   "tags_reached_max": "Bạn đã đạt đến tối đa {{max_count}} thẻ. Vui lòng xóa một số thẻ để thêm thẻ mới.",
+  "tags_reached_max_archived": "Bạn đã đạt tối đa {{max_count}} thẻ. Thẻ đã lưu trữ cũng được tính. Hãy xóa một thẻ đã lưu trữ để giải phóng chỗ.",
   "tags_used": "Thẻ đã sử dụng",
   "time": "Thời gian",
   "title": "Tiêu đề",

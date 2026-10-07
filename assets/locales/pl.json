@@ -793,6 +793,7 @@
   "tags_name_label": "Nazwa",
   "tags_per_day": "Śr. tagów dziennie",
   "tags_reached_max": "Osiągnięto maksymalną liczbę {{max_count}} tagów. Usuń niektóre tagi, aby dodać nowe.",
+  "tags_reached_max_archived": "Osiągnięto maksimum {{max_count}} tagów. Zarchiwizowane tagi też się liczą. Usuń zarchiwizowany tag, aby zwolnić miejsce.",
   "tags_used": "Używane tagi",
   "time": "Czas",
   "title": "Tytuł",

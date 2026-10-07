@@ -10,16 +10,16 @@ import { RADIUS } from "@/constants/Radius";
 
 /**
  * People list for the people screens; rows open the person editor. Shows a
- * notice once {@link MAX_PEOPLE} is reached and `emptyText` without rows.
+ * notice once the people limit is reached and `emptyText` without rows.
  */
 export const PeopleList = ({
   people,
-  totalCount,
+  limitReached,
   emptyText,
 }: {
   people: Person[];
-  /** Active plus archived people; archived people count toward the limit. */
-  totalCount: number;
+  /** From `getPeopleLimit` over all people, archived included. */
+  limitReached: boolean;
   emptyText: string;
 }) => {
   const colors = useColors();
@@ -27,7 +27,7 @@ export const PeopleList = ({
 
   return (
     <View style={{ backgroundColor: colors.background }}>
-      {totalCount >= MAX_PEOPLE && (
+      {limitReached && (
         <View
           style={{
             backgroundColor: colors.cardBackground,

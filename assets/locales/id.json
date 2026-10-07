@@ -793,6 +793,7 @@
   "tags_name_label": "Nama",
   "tags_per_day": "Rata-rata tag per hari",
   "tags_reached_max": "Anda mencapai maksimum {{max_count}} tag. Hapus beberapa tag untuk menambahkan yang baru.",
+  "tags_reached_max_archived": "Kamu mencapai batas maksimum {{max_count}} tag. Tag yang diarsipkan juga dihitung. Hapus tag yang diarsipkan untuk mengosongkan satu slot.",
   "tags_used": "Tag digunakan",
   "time": "Waktu",
   "title": "Judul",

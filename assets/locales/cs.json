@@ -793,6 +793,7 @@
   "tags_name_label": "Název",
   "tags_per_day": "Prům. značek za den",
   "tags_reached_max": "Dosáhli jste maximálního počtu {{max_count}} značek. Chcete-li přidat nové, odstraňte některé značky.",
+  "tags_reached_max_archived": "Dosáhl(a) jsi maxima {{max_count}} štítků. Počítají se i archivované štítky. Smaž archivovaný štítek a uvolni místo.",
   "tags_used": "Použité štítky",
   "time": "Čas",
   "title": "Titul",

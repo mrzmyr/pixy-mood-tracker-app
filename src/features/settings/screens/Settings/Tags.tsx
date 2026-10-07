@@ -1,14 +1,11 @@
 import { useRouter } from "expo-router";
-import { TagList, useTagsState } from "@/features/tags";
+import { CreateTagAction, TagList, useTagsState } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 
-import Button from "@/components/Button";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
-import { MAX_TAGS } from "@/constants/Config";
 import { t } from "@/lib/translation";
-import { LinearGradient } from "expo-linear-gradient";
 import sortBy from "lodash/sortBy";
 import { Archive } from "lucide-react-native";
 import { Platform, ScrollView, View } from "react-native";
@@ -21,7 +18,8 @@ const TagScrollView = Platform.OS === "ios" ? View : ScrollView;
 /**
  * Settings > Check-in > Tags: the step switch, then active tags and a link
  * to archived ones while the step is on. Archived tags still count toward
- * {@link MAX_TAGS}.
+ * `MAX_TAGS`; the bottom bar shows a notice instead of the create
+ * button at the cap.
  */
 export const SettingsTags = () => {
   const router = useRouter();
@@ -39,49 +37,7 @@ export const SettingsTags = () => {
         backgroundColor: colors.background,
       }}
     >
-      {enabled && tags.length < MAX_TAGS && (
-        <>
-          <LinearGradient
-            pointerEvents="none"
-            colors={[
-              colors.logBackgroundTransparent,
-              colors.background,
-              colors.background,
-            ]}
-            style={{
-              position: "absolute",
-              height: 120 + insets.bottom,
-              bottom: 0,
-              zIndex: 1,
-              width: "100%",
-            }}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              paddingHorizontal: 16,
-              position: "absolute",
-              bottom: insets.bottom + 16,
-              width: "100%",
-              zIndex: 2,
-            }}
-          >
-            <Button
-              style={{
-                marginTop: 16,
-                width: "100%",
-              }}
-              onPress={() => {
-                router.push("/tags/create");
-              }}
-            >
-              {t("create_tag")}
-            </Button>
-          </View>
-        </>
-      )}
+      {enabled && <CreateTagAction tags={tags} />}
       {enabled ? (
         <TagScrollView style={{ flex: 1 }}>
           <TagList

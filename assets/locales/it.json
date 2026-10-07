@@ -793,6 +793,7 @@
   "tags_name_label": "Nome",
   "tags_per_day": "Media tag al giorno",
   "tags_reached_max": "Hai raggiunto il massimo di {{max_count}} tag. Elimina alcuni tag per aggiungerne di nuovi.",
+  "tags_reached_max_archived": "Hai raggiunto il massimo di {{max_count}} tag. Contano anche i tag archiviati. Elimina un tag archiviato per liberare un posto.",
   "tags_used": "Tag utilizzati",
   "time": "Volta",
   "title": "Titolo",

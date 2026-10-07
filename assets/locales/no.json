@@ -793,6 +793,7 @@
   "tags_name_label": "Navn",
   "tags_per_day": "Gj.sn. tagger per dag",
   "tags_reached_max": "Du har nådd det maksimale antallet {{max_count}} tagger. Vennligst slett noen tagger for å legge til nye.",
+  "tags_reached_max_archived": "Du har nådd maksimum på {{max_count}} tagger. Arkiverte tagger teller også. Slett en arkivert tagg for å frigjøre en plass.",
   "tags_used": "Tagger brukt",
   "time": "Tid",
   "title": "Tittel",

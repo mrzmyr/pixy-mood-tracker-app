@@ -793,6 +793,7 @@
   "tags_name_label": "Naziv",
   "tags_per_day": "Prosj. oznaka po danu",
   "tags_reached_max": "Dosegli ste maksimum od {{max_count}} oznaka. Molimo izbrišite neke oznake da dodate nove.",
+  "tags_reached_max_archived": "Dosegnuo si maksimum od {{max_count}} oznaka. Arhivirane oznake također se računaju. Izbriši arhiviranu oznaku da oslobodiš mjesto.",
   "tags_used": "Korištene oznake",
   "time": "Vrijeme",
   "title": "Titula",

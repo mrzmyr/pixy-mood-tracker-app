@@ -794,6 +794,7 @@
   "tags_name_label": "Nom",
   "tags_per_day": "Moy. balises par jour",
   "tags_reached_max": "Vous avez atteint le maximum de {{max_count}} balises. Veuillez supprimer certaines balises pour en ajouter de nouvelles.",
+  "tags_reached_max_archived": "Tu as atteint le maximum de {{max_count}} tags. Les tags archivés comptent aussi. Supprime un tag archivé pour libérer une place.",
   "tags_used": "Balises utilisées",
   "time": "Temps",
   "title": "Titre",
