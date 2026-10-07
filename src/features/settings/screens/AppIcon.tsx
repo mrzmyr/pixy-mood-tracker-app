@@ -1,6 +1,5 @@
 import * as Sentry from "@sentry/react-native";
 import {
-  getAppIconName,
   setAlternateAppIcon,
   supportsAlternateIcons,
 } from "expo-alternate-app-icons";
@@ -22,6 +21,7 @@ import type { AppIcon, AppIconId } from "@/constants/AppIcons";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import Alert from "@/lib/Alert";
+import { readActiveAppIcon } from "@/lib/appIcon";
 import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
@@ -46,21 +46,6 @@ const LABELS: Record<
     title: "app_icon_tangerine_inverse",
     description: "app_icon_tangerine_inverse_description",
   },
-};
-
-/**
- * Reads the active icon from the OS. Android reports the icon of the running
- * activity, so a change shows only after the app restarts. The screen keeps
- * its own state after a change.
- */
-const readActiveAppIcon = (): AppIconId => {
-  if (!supportsAlternateIcons) {
-    return "default";
-  }
-  const nativeName = getAppIconName();
-  return (
-    APP_ICONS.find((icon) => icon.nativeName === nativeName)?.id ?? "default"
-  );
 };
 
 const reportAppIconError = ({
@@ -193,7 +178,9 @@ export const AppIconScreen = () => {
   const haptics = useHaptics();
   const analytics = useAnalytics();
   const isAppIconsEnabled = useFeatureFlag("app-icons");
-  const [activeId, setActiveId] = useState<AppIconId>(readActiveAppIcon);
+  const [activeId, setActiveId] = useState<AppIconId>(
+    () => readActiveAppIcon().id
+  );
 
   const isLocked = (icon: AppIcon) =>
     !supportsAlternateIcons || (icon.isFlagged && !isAppIconsEnabled);
