@@ -201,6 +201,10 @@ const LoggerSlides = ({
   const { isLocationVisible, isLocating } = usePassiveLocation({ mode });
 
   const _carousel = useRef<CarouselRef>(null);
+  // iOS lays the modal out at full window height first, then shrinks it to
+  // the sheet. Without an explicit height the carousel keeps the first,
+  // taller slide height, and slide bottoms end up under the home indicator.
+  const [carouselHeight, setCarouselHeight] = useState<number>();
 
   const slideKeys = SLIDE_ORDER.filter(
     (key) =>
@@ -389,6 +393,9 @@ const LoggerSlides = ({
           onRemove={remove}
         />
         <View
+          onLayout={(event) =>
+            setCarouselHeight(event.nativeEvent.layout.height)
+          }
           style={{
             flex: 1,
             flexDirection: "column",
@@ -397,6 +404,7 @@ const LoggerSlides = ({
           <Carousel
             loop={false}
             itemSize={Dimensions.get("window").width}
+            style={carouselHeight ? { height: carouselHeight } : undefined}
             ref={_carousel}
             data={content}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
