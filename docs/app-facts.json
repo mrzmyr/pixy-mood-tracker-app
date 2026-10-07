@@ -256,7 +256,7 @@
       "label": "Mood character themes",
       "status": "available",
       "group": "personalization",
-      "description": "Choose Soft Blobs, Cheeky Cats, or Pixel Robots for seven mood expressions in check-in, calendar, and entry markers. Classic colored pixels remain the default. Available in source; not in the store version.",
+      "description": "Choose Soft Blobs, Cheeky Cats, or Pixel Robots for seven mood expressions in check-in and calendar. Classic colored pixels remain the default. Available in source; not in the store version.",
       "evidence": [
         "src/components/MoodCharacter/",
         "src/features/settings/screens/Colors/MoodThemes.tsx"
