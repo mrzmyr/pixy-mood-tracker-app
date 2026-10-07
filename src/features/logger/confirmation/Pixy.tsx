@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { useReducedMotion } from "react-native-reanimated";
 import Svg, {
   Circle,
   ClipPath,
@@ -11,6 +12,8 @@ import Svg, {
   Stop,
 } from "react-native-svg";
 import type { MoodTone } from "./daySummary";
+import { usePixyIdle } from "./usePixyIdle";
+import type { PixyIdle } from "./usePixyIdle";
 
 const INK = "#3b1606";
 const CHEEK = "#ff8fa3";
@@ -19,15 +22,19 @@ const CHEEK = "#ff8fa3";
 const EYE_Y = 38;
 const EYE_R = 13;
 const EYES_X = [33.5, 66.5];
+// Pupils shift this far on a glance; they stay inside the eye.
+const GLANCE_X = EYE_R * 0.36;
 
 const Eye = ({
   cx,
   tone,
   isJoyful,
+  idle,
 }: {
   cx: number;
   tone: MoodTone;
   isJoyful: boolean;
+  idle: PixyIdle;
 }) => {
   // Joy: squeezed happy eyes, arcs bent up.
   if (isJoyful) {
@@ -56,14 +63,29 @@ const Eye = ({
     );
   }
 
+  // Blink: the eye closes to a flat line.
+  if (idle.isBlinking) {
+    return (
+      <Path
+        d={`M${cx - EYE_R * 0.75} ${EYE_Y} L${cx + EYE_R * 0.75} ${EYE_Y}`}
+        stroke="#fff"
+        strokeWidth={6.5}
+        strokeLinecap="round"
+        fill="none"
+      />
+    );
+  }
+
+  const pupilX =
+    cx + { center: 0, left: -GLANCE_X, right: GLANCE_X }[idle.look];
   const pupilY = tone === "good" ? EYE_Y - 1 : EYE_Y + 0.7;
   const pupilR = EYE_R * 0.44;
   return (
     <G>
       <Circle cx={cx} cy={EYE_Y} r={EYE_R} fill="#fff" />
-      <Circle cx={cx} cy={pupilY} r={pupilR} fill={INK} />
+      <Circle cx={pupilX} cy={pupilY} r={pupilR} fill={INK} />
       <Circle
-        cx={cx - pupilR * 0.35}
+        cx={pupilX - pupilR * 0.35}
         cy={pupilY - pupilR * 0.4}
         r={pupilR * 0.32}
         fill="#fff"
@@ -89,17 +111,27 @@ const JOY_TONGUE =
  * tangerine gradient, eyes on the icon's dot grid. `tone` only changes the
  * face; the color stays the brand color. `isJoyful` overrides the face
  * with a laugh while Pixy celebrates a tap.
+ *
+ * `isIdle` lets Pixy blink and glance around (`usePixyIdle`). Only open eyes
+ * do this: never on hard days, where Pixy keeps its calm closed eyes, and
+ * never while it laughs.
  */
 export const Pixy = ({
   size,
   tone,
   isJoyful = false,
+  isIdle = false,
 }: {
   size: number;
   tone: MoodTone;
   isJoyful?: boolean;
+  isIdle?: boolean;
 }) => {
   const id = useId().replaceAll(":", "");
+  const idle = usePixyIdle({
+    isEnabled: isIdle && tone !== "bad" && !isJoyful,
+    isReducedMotion: useReducedMotion(),
+  });
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
@@ -126,7 +158,7 @@ export const Pixy = ({
         <Rect width={100} height={100} fill={`url(#${id}b)`} />
         <Rect width={100} height={100} fill={`url(#${id}c)`} />
         {EYES_X.map((cx) => (
-          <Eye key={cx} cx={cx} tone={tone} isJoyful={isJoyful} />
+          <Eye key={cx} cx={cx} tone={tone} isJoyful={isJoyful} idle={idle} />
         ))}
         {(isJoyful || tone !== "neutral") &&
           [19, 81].map((cx) => (
