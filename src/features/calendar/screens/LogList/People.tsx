@@ -48,7 +48,6 @@ export const People = ({
         <PersonChip
           key={person.id}
           person={person}
-          compact
           style={{
             marginRight: 0,
             marginBottom: 0,

@@ -31,8 +31,8 @@ export const EmotionItem = ({
                 borderColor: colors.entryItemBorder,
               }
             : {
-                paddingVertical: 6,
-                paddingHorizontal: 12,
+                paddingVertical: 12,
+                paddingHorizontal: 14,
                 borderRadius: RADIUS.sm,
                 backgroundColor: colors.logCardBackground,
                 borderColor: colors.logCardBorder,
