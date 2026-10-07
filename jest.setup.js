@@ -108,6 +108,7 @@ jest.mock("@expo/ui/swift-ui", () => {
   const { Pressable, View } = require("react-native");
   return {
     Host: ({ children }) => children,
+    Image: () => null,
     Menu: ({ children }) => <View>{children}</View>,
     Button: ({ label, onPress }) => (
       <Pressable
@@ -119,10 +120,21 @@ jest.mock("@expo/ui/swift-ui", () => {
   };
 });
 
+const mockSwiftUiModifier = () => ({});
+const mockSwiftUiOutlines = new Proxy({}, { get: () => mockSwiftUiModifier });
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- SwiftUI modifiers build native view config; Jest ignores them.
 jest.mock(
   "@expo/ui/swift-ui/modifiers",
-  () => new Proxy({}, { get: () => () => ({}) })
+  () =>
+    new Proxy(
+      {},
+      {
+        get: (_target, name) =>
+          // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- export name of @expo/ui.
+          name === "shapes" ? mockSwiftUiOutlines : mockSwiftUiModifier,
+      }
+    )
 );
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load the widget sync; the ExpoWidgets native module does not exist in Jest.
