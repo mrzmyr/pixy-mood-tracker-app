@@ -1,5 +1,5 @@
 import chroma, { contrast, mix } from "chroma-js";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Platform, Pressable, Text, useColorScheme, View } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -26,12 +26,12 @@ import {
   createFadeIn,
   createHappyJump,
   createJump,
-  HAPPY_JUMP_MS,
   HAPPY_LAND_MS,
   LAND_MS,
 } from "./motion";
 import { Pixy } from "./Pixy";
 import { useConfirmation } from "./useConfirmation";
+import { usePixyJumps } from "./usePixyJumps";
 
 const emotionLabel = (key: string) =>
   EMOTIONS.find((emotion) => emotion.key === key)?.label ?? key;
@@ -101,11 +101,6 @@ export const Confirmation = ({
   const { settings } = useSettings();
   const isReducedMotion = useReducedMotion();
   const isDark = useColorScheme() === "dark";
-  // Each tap on Pixy remounts it, so the happy jump plays again.
-  const [jumps, setJumps] = useState(0);
-  // Tap that still laughs; 0 once the laugh is over.
-  const [joyfulJump, setJoyfulJump] = useState(0);
-  const isJoyful = joyfulJump > 0 && joyfulJump === jumps;
   useConfirmation({ item, entriesCount });
 
   const summary = useMemo(
@@ -159,7 +154,10 @@ export const Confirmation = ({
   );
   // Hard days: Pixy still jumps on tap, but keeps its caring face and skips
   // the confetti. Celebrate only good and neutral days.
-  const isCelebrating = summary.tone !== "bad";
+  const { jumps, isJoyful, hasConfetti, tap } = usePixyJumps({
+    isCelebrating: summary.tone !== "bad",
+    isReducedMotion,
+  });
   const confettiColors = [scaleColor, "#FFC23D", "#FB6B0F", "#ff8fa3"];
   const confetti = useMemo(
     () => CONFETTI.map((pixel) => createConfettiBurst(pixel)),
@@ -191,15 +189,6 @@ export const Confirmation = ({
     return () => clearTimeout(timeout);
   }, [haptics, isReducedMotion, jumps, landMs]);
 
-  // The laugh lasts as long as the happy jump.
-  useEffect(() => {
-    if (joyfulJump === 0) {
-      return;
-    }
-    const timeout = setTimeout(() => setJoyfulJump(0), HAPPY_JUMP_MS);
-    return () => clearTimeout(timeout);
-  }, [joyfulJump]);
-
   return (
     <View
       testID="confirmation"
@@ -220,12 +209,9 @@ export const Confirmation = ({
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
             hitSlop={8}
-            onPress={() => {
-              setJumps(jumps + 1);
-              setJoyfulJump(isCelebrating ? jumps + 1 : 0);
-            }}
+            onPress={tap}
           >
-            {jumps > 0 && isCelebrating && !isReducedMotion && (
+            {hasConfetti && (
               <View
                 key={`confetti-${jumps}`}
                 pointerEvents="none"
