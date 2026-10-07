@@ -86,7 +86,8 @@ const MapComponent = () => {
     [interval, entries]
   );
   const openEntry = useCallback(
-    (item: LogItem) => openDay({ date: getItemDate(item), source: "map" }),
+    (item: LogItem) =>
+      openDay({ date: getItemDate(item), entryId: item.id, source: "map" }),
     [openDay]
   );
   const getItemLayout = useCallback(

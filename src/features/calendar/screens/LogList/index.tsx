@@ -12,47 +12,52 @@ import type { LogItem } from "@/features/logs";
 
 import { getDayDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
-import { useRef, useState } from "react";
-import { Dimensions, View } from "react-native";
-import { Carousel } from "react-native-reanimated-carousel";
-import type { CarouselRef } from "react-native-reanimated-carousel";
+import { useEffect, useEffectEvent, useRef } from "react";
+import { FlatList, View } from "react-native";
 import { Plus } from "react-native-feather";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Entry } from "./Entry";
 import { Header } from "./Header";
+import { INSET } from "./layout";
 import { getItemDate, getItemTime } from "@/lib/logDates";
-
-const WINDOW_WIDTH = Dimensions.get("window").width;
 
 // Same spot as the calendar float button: 20 from the right and from the
 // bottom safe area.
 const FAB_MARGIN = 20;
-// Space between the page area and the bottom safe area.
-const PAGES_BOTTOM_GAP = 16;
-// Card content ends this far above the page area bottom, so the last block
-// scrolls clear of the float button with 16 to spare.
-const CONTENT_BOTTOM_INSET =
-  FLOAT_BUTTON_SIZE + FAB_MARGIN - PAGES_BOTTOM_GAP + 16;
+// Space between the last card and the float button.
+const FAB_CLEARANCE = 16;
+// Space between two cards.
+const CARD_GAP = 12;
+
+const keyExtractor = (item: LogItem) => item.id;
+const CardGap = () => <View style={{ height: CARD_GAP }} />;
 
 /**
  * Day entry list modal, opened from a calendar day.
  *
  * `date` is a local `YYYY-MM-DD` day; entries are matched by `dateTime` and
- * shown oldest first. New entries from here use the current time on that
- * day.
+ * shown oldest first as full-width cards in one vertical list. Chip and
+ * photo rows inside a card scroll sideways; they have no parent that
+ * scrolls the same way, so the swipe stays with the row.
  *
- * The carousel gets the measured page area height. Without it, carousel
- * pages keep their first measured height. iOS modals first lay out at full
- * window height, so pages stay too tall and the button hides the end of
- * each entry.
+ * The optional `entry` param is an entry id: the list opens scrolled to it.
+ * A new entry added from here is scrolled into view when the logger closes.
+ * The list is a `FlatList`, not a `FlashList`: the modal sits under the
+ * photo viewer and logger, and a frozen screen leaves `FlashList` headers
+ * stale; `FlatList` keeps variable card heights without recycling. New
+ * entries from here use the current time on that day.
  *
- * Add is a float button at the bottom right, like on the calendar. It sits
- * over the card, so card content gets bottom padding to scroll above it.
+ * Add is a float button at the bottom right, like on the calendar. The
+ * list ends with padding, so the last card scrolls clear of it and of the
+ * bottom safe area.
  */
 export const LogList = () => {
   const router = useRouter();
-  const { date } = useLocalSearchParams<{ date: string }>();
+  const { date, entry } = useLocalSearchParams<{
+    date: string;
+    entry?: string;
+  }>();
   const colors = useColors();
   const logState = useLogState();
   const analytics = useAnalytics();
@@ -99,57 +104,77 @@ export const LogList = () => {
     }
   };
 
-  const _carouselRef = useRef<CarouselRef>(null);
-  const pages = items.map((item) => (
-    <Entry
-      key={item.id}
-      item={item}
-      onEdit={edit}
-      onDelete={_delete}
-      contentBottomInset={CONTENT_BOTTOM_INSET}
-    />
-  ));
+  const listRef = useRef<FlatList<LogItem>>(null);
+  const knownIds = useRef<Set<string> | null>(null);
 
-  const PAGE_WIDTH = WINDOW_WIDTH * 0.9;
-  const [pagesHeight, setPagesHeight] = useState<number>();
+  const scrollToEntry = useEffectEvent((id: string, animated: boolean) => {
+    const index = items.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      listRef.current?.scrollToIndex({ index, animated, viewPosition: 0 });
+    }
+  });
+
+  // Open at the requested entry. Later edits do not pull the list back.
+  useEffect(() => {
+    if (entry) {
+      scrollToEntry(entry, false);
+    }
+  }, [entry]);
+
+  // Show an entry added while the list is open.
+  useEffect(() => {
+    const known = knownIds.current;
+    knownIds.current = new Set(items.map((item) => item.id));
+    const added =
+      known && known.size > 0 && items.find((item) => !known.has(item.id));
+    if (added) {
+      scrollToEntry(added.id, true);
+    }
+  }, [items]);
 
   return (
     <PageModalLayout
       style={{
         flex: 1,
         backgroundColor: colors.logBackground,
-        paddingBottom: insets.bottom,
       }}
     >
       <Header title={getDayDateTitle(date)} onClose={close} />
-      <View
-        testID="log-list-pages"
-        style={{
-          flex: 1,
-          marginBottom: PAGES_BOTTOM_GAP,
+      <FlatList
+        ref={listRef}
+        testID="log-list"
+        data={items}
+        keyExtractor={keyExtractor}
+        renderItem={({ item, index }) => (
+          <Entry
+            item={item}
+            onEdit={edit}
+            onDelete={_delete}
+            position={{ index, count: items.length }}
+          />
+        )}
+        ItemSeparatorComponent={CardGap}
+        initialNumToRender={4}
+        windowSize={5}
+        // Cards have no fixed height: jump near the target, then retry once
+        // the cards on the way are measured.
+        onScrollToIndexFailed={({ index, averageItemLength }) => {
+          listRef.current?.scrollToOffset({
+            offset: averageItemLength * index,
+            animated: false,
+          });
+          setTimeout(
+            () => listRef.current?.scrollToIndex({ index, animated: false }),
+            100
+          );
         }}
-        onLayout={(event) => setPagesHeight(event.nativeEvent.layout.height)}
-      >
-        <Carousel
-          testID="log-list-carousel"
-          loop={false}
-          ref={_carouselRef}
-          data={pages}
-          key={pages.length}
-          defaultIndex={0}
-          renderItem={({ index }) => (
-            <View style={{ flex: 1, marginLeft: "2.5%" }}>{pages[index]}</View>
-          )}
-          onConfigurePanGesture={(gesture) => gesture.activeOffsetX([-10, 10])}
-          itemSize={PAGE_WIDTH}
-          style={{
-            flex: 1,
-            height: pagesHeight,
-            marginLeft: "2.5%",
-            width: "100%",
-          }}
-        />
-      </View>
+        contentContainerStyle={{
+          paddingHorizontal: INSET,
+          paddingTop: 4,
+          paddingBottom:
+            insets.bottom + FAB_MARGIN + FLOAT_BUTTON_SIZE + FAB_CLEARANCE,
+        }}
+      />
       <View
         style={{
           position: "absolute",
