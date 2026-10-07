@@ -55,4 +55,10 @@ describe("getLocationLabel()", () => {
       getLocationLabel({ latitude: 52.52008, longitude: 13.40495, name: null })
     ).toBe("52.520, 13.405");
   });
+
+  test.each(["", "  "])("treats the blank name %j as no name", (name) => {
+    expect(
+      getLocationLabel({ latitude: 52.52008, longitude: 13.40495, name })
+    ).toBe("52.520, 13.405");
+  });
 });
