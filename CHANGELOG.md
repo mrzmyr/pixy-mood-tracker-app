@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.95.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.95.0...v1.95.1) (2026-10-07)
+
+
+### Bug Fixes
+
+* **calendar:** use logger chip size in the day view ([#729](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/729)) ([5e6ed46](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5e6ed46d69f14c9670d0a2c57c787b9f0e536acc))
+* **settings:** remove coming soon colors from Colors screen ([#727](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/727)) ([2418bc7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2418bc79d1409fae055851dab153c6a4c1270aa9))
+
 ## [1.95.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.94.0...v1.95.0) (2026-10-07)
 
 
