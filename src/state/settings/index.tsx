@@ -1,3 +1,5 @@
+import { MoodThemeSchema } from "@/constants/MoodThemes";
+import type { MoodTheme } from "@/constants/MoodThemes";
 import isBoolean from "lodash/isBoolean";
 import uniq from "lodash/uniq";
 import { useEffect, useMemo } from "react";
@@ -49,6 +51,8 @@ const isCalendarLayout = (value: unknown): value is CalendarLayout =>
 export interface SettingsState {
   deviceId: string | null;
   scaleType: (typeof SCALE_TYPES)[number];
+  /** Character appearance for calendar and check-in. */
+  moodTheme: MoodTheme;
   reminderEnabled: boolean;
   reminderTime: string;
   analyticsEnabled: boolean;
@@ -154,6 +158,8 @@ const reducer = (
         ...INITIAL_STATE,
         ...action.payload,
         steps: sanitizeSteps(action.payload.steps),
+        moodTheme:
+          MoodThemeSchema.safeParse(action.payload.moodTheme).data ?? "classic",
         storeReviewPromptedAt: state.storeReviewPromptedAt,
         storeReviewPromptedAppVersion: state.storeReviewPromptedAppVersion,
         photosDayAccessDismissed: state.photosDayAccessDismissed,
@@ -180,6 +186,8 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
         ...stored,
         deviceId: stored.deviceId || uuidv4(),
         steps: sanitizeSteps(stored.steps),
+        moodTheme:
+          MoodThemeSchema.safeParse(stored.moodTheme).data ?? "classic",
         photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
         locationEnabled: stored.locationEnabled === true,
         colorScheme:

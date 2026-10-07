@@ -21,11 +21,15 @@ const getPressableOpacity = (
  */
 export const Radio = ({
   onPress,
+  label,
+  testID,
   children,
   isSelected = false,
   isDisabled = false,
 }: {
   onPress: () => void;
+  label?: string;
+  testID?: string;
   children: React.ReactNode;
   isSelected?: boolean;
   isDisabled?: boolean;
@@ -42,6 +46,11 @@ export const Radio = ({
 
   return (
     <Pressable
+      testID={testID}
+      accessibilityRole="radio"
+      accessibilityLabel={label}
+      accessibilityState={{ selected: isSelected, disabled: isDisabled }}
+      disabled={isDisabled}
       onPress={_onPress}
       style={({ pressed }) => [
         {

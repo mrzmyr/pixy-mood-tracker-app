@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-10-03",
+  "verifiedOn": "2026-10-07",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -250,6 +250,17 @@
       "description": "One daily notification at a time you choose.",
       "competitorKey": "reminders",
       "evidence": ["src/features/notifications/reminderScheduler.ts"]
+    },
+    {
+      "id": "mood-themes",
+      "label": "Mood character themes",
+      "status": "available",
+      "group": "personalization",
+      "description": "Choose Soft Blobs, Cheeky Cats, or Pixel Robots for seven mood expressions in check-in, calendar, and entry markers. Classic colored pixels remain the default. Available in source; not in the store version.",
+      "evidence": [
+        "src/components/MoodCharacter/",
+        "src/features/settings/screens/Colors/MoodThemes.tsx"
+      ]
     },
     {
       "id": "color-scales",

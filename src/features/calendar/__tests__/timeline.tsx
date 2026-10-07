@@ -131,6 +131,7 @@ describe("useCalendarLayout", () => {
     await act(() =>
       result.current.settings.importSettings({
         scaleType: settings.scaleType,
+        moodTheme: settings.moodTheme,
         reminderEnabled: settings.reminderEnabled,
         reminderTime: settings.reminderTime,
         analyticsEnabled: settings.analyticsEnabled,

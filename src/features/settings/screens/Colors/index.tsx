@@ -12,6 +12,7 @@ import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useSettings } from "@/state/settings";
+import { MoodThemes } from "./MoodThemes";
 import { Radio } from "./Radio";
 import { Scale } from "./Scale";
 
@@ -82,6 +83,8 @@ export const ColorsScreen = () => {
           padding: 20,
         }}
       >
+        <MoodThemes />
+        <MenuListHeadline>{t("colors")}</MenuListHeadline>
         {typesNames
           .filter((d) => !d.disabled)
           .map((type) => (

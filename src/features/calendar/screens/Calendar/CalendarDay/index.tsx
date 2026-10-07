@@ -1,3 +1,4 @@
+import { MoodCharacter } from "@/components/MoodCharacter";
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { memo, useCallback, useMemo } from "react";
@@ -63,6 +64,8 @@ const CalendarDayComponent = ({
   onPress: () => void;
 }) => {
   const scaleType = useSetting("scaleType");
+  const moodTheme = useSetting("moodTheme");
+
   const colors = useColors();
   const ripple = usePressRipple({ foreground: true });
 
@@ -83,7 +86,13 @@ const CalendarDayComponent = ({
     [dateString, today]
   );
 
+  const hasCharacter =
+    moodTheme !== "classic" && !!rating && !isFuture && !_isFiltered;
+
   const backgroundColor = useMemo(() => {
+    if (hasCharacter) {
+      return colors.calendarBackground;
+    }
     if (isFuture || _isFiltered || (!rating && isFiltering)) {
       return colors.calendarItemBackgroundFuture;
     }
@@ -93,7 +102,15 @@ const CalendarDayComponent = ({
     return rating
       ? colors.scales[scaleType][rating].background
       : colors.scales[scaleType].empty.background;
-  }, [colors, isFuture, _isFiltered, isFiltering, rating, scaleType]);
+  }, [
+    colors,
+    isFuture,
+    _isFiltered,
+    isFiltering,
+    rating,
+    scaleType,
+    hasCharacter,
+  ]);
 
   const containerStyles = useStyle(
     () => [
@@ -112,13 +129,13 @@ const CalendarDayComponent = ({
   );
 
   const textColor = useMemo(() => {
-    if (_isFiltered) {
+    if (_isFiltered || hasCharacter) {
       return colors.text;
     }
     return rating
       ? colors.scales[scaleType][rating].textSecondary
       : colors.scales[scaleType].empty.text;
-  }, [_isFiltered, rating, scaleType, colors]);
+  }, [_isFiltered, rating, scaleType, colors, hasCharacter]);
 
   const dayNumberBackgroundColor = useMemo(() => {
     if (!isToday) {
@@ -201,6 +218,26 @@ const CalendarDayComponent = ({
       android_ripple={ripple}
       style={containerStyles}
     >
+      {hasCharacter && rating && (
+        <View
+          pointerEvents="none"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 14,
+            alignItems: "center",
+          }}
+        >
+          <MoodCharacter
+            theme={moodTheme}
+            rating={rating}
+            color={colors.scales[scaleType][rating].background}
+            size="100%"
+          />
+        </View>
+      )}
       <View style={styles.dayNumberParent1}>
         <View style={dayNumberParent2Styles}>
           <Text style={dayNumberTextStyles}>{day}</Text>

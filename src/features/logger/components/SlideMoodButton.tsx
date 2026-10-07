@@ -1,3 +1,4 @@
+import { MoodCharacter } from "@/components/MoodCharacter";
 import { useSetting } from "@/state/settings";
 import {
   Dimensions,
@@ -30,6 +31,7 @@ export const SlideMoodButton = ({
 }) => {
   const haptics = useHaptics();
   const scaleType = useSetting("scaleType");
+  const moodTheme = useSetting("moodTheme");
   const scale = useScale(scaleType);
   const colorScheme = useColorScheme();
 
@@ -68,7 +70,20 @@ export const SlideMoodButton = ({
           justifyContent: "center",
         }}
       >
+        {moodTheme !== "classic" && (
+          <MoodCharacter
+            theme={moodTheme}
+            rating={rating}
+            color={scale.colors[rating].background}
+            size={height - 4}
+          />
+        )}
         <Check
+          style={
+            moodTheme === "classic"
+              ? undefined
+              : { position: "absolute", right: -28 }
+          }
           color={selected ? scale.colors[rating].text : "transparent"}
           width={24}
           height={24}

@@ -1,3 +1,4 @@
+import { MoodCharacter } from "@/components/MoodCharacter";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
@@ -14,8 +15,20 @@ export const RatingDot = ({
 }) => {
   const colors = useColors();
   const scaleType = useSetting("scaleType");
+  const moodTheme = useSetting("moodTheme");
 
   const backgroundColor = colors.scales[scaleType][rating].background;
+
+  if (moodTheme !== "classic") {
+    return (
+      <MoodCharacter
+        theme={moodTheme}
+        rating={rating}
+        color={backgroundColor}
+        size={size}
+      />
+    );
+  }
 
   return (
     <View

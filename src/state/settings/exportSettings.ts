@@ -7,6 +7,7 @@ import type { ExportSettings, SettingsState } from "@/state/settings";
  */
 export const toExportSettings = (settings: SettingsState): ExportSettings => ({
   scaleType: settings.scaleType,
+  moodTheme: settings.moodTheme,
   reminderEnabled: settings.reminderEnabled,
   reminderTime: settings.reminderTime,
   trackBehaviour: settings.trackBehaviour,

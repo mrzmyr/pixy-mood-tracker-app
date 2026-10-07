@@ -14,6 +14,7 @@ export const DEFAULT_REMINDER_TIME = "20:00";
 export const INITIAL_STATE: SettingsState = {
   deviceId: null,
   scaleType: "ColorBrew-RdYlGn",
+  moodTheme: "classic",
   reminderEnabled: false,
   reminderTime: DEFAULT_REMINDER_TIME,
   analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,

@@ -40,6 +40,42 @@ const LOADED_STATE = {
 jest.mock("uuid", () => ({ v4: () => STATIC_DEVICE_ID }));
 
 describe("useSettings()", () => {
+  test.each(["blobs", "cats", "robots"] as const)(
+    "persists %s characters across remounts",
+    async (moodTheme) => {
+      const hook = await _renderHook();
+      await waitForLoaded(hook);
+      await act(() =>
+        hook.result.current.state.setSettings((current) => ({
+          ...current,
+          moodTheme,
+        }))
+      );
+      await waitFor(async () =>
+        expect(
+          JSON.parse(String(await AsyncStorage.getItem(STORAGE_KEY))).moodTheme
+        ).toBe(moodTheme)
+      );
+      await hook.unmount();
+      const reloaded = await _renderHook();
+      await waitForLoaded(reloaded);
+      expect(reloaded.result.current.state.settings.moodTheme).toBe(moodTheme);
+    }
+  );
+
+  test.each([undefined, "unknown-theme"])(
+    "loads classic for legacy or invalid appearance %s",
+    async (moodTheme) => {
+      await AsyncStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ ...INITIAL_STATE, moodTheme })
+      );
+      const hook = await _renderHook();
+      await waitForLoaded(hook);
+      expect(hook.result.current.state.settings.moodTheme).toBe("classic");
+    }
+  );
+
   beforeEach(async () => {
     await AsyncStorage.clear();
     console.error = jest.fn();
