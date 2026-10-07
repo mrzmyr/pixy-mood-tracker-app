@@ -65,12 +65,6 @@ export const hasLocationAccess = async (): Promise<boolean> => {
   return granted;
 };
 
-/** Asks for location access while the app is in use. */
-export const requestLocationAccess = async (): Promise<boolean> => {
-  const { granted } = await Location.requestForegroundPermissionsAsync();
-  return granted;
-};
-
 /**
  * Current place, or `null` without access or a position fix. Never asks for
  * access. Reuses a recent fix to answer fast.

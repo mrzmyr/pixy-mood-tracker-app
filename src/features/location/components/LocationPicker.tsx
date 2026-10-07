@@ -12,11 +12,9 @@ import {
   getCurrentPlace,
   getLocationLabel,
   getPlaceAt,
-  hasLocationAccess,
-  requestLocationAccess,
   searchPlaces,
 } from "../places";
-import { showLocationDenied } from "../useLocationSetting";
+import { ensureLocationAccess } from "../access";
 import { PlaceMap } from "./PlaceMap";
 import type { MapCoordinates } from "./placeMapProps";
 import { RADIUS } from "@/constants/Radius";
@@ -137,8 +135,7 @@ const SheetContent = ({
   };
 
   const useCurrentLocation = async () => {
-    if (!(await hasLocationAccess()) && !(await requestLocationAccess())) {
-      showLocationDenied();
+    if (!(await ensureLocationAccess())) {
       return;
     }
     setIsLocating(true);
