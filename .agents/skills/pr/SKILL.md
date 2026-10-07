@@ -1,6 +1,6 @@
 ---
 name: pr
-description: "Use when writing a PR body."
+description: "Use whenever creating, opening, or updating a pull request (\"create PR\", \"open PR\", \"make a PR\", \"gh pr create\", \"gh pr edit\"), or when writing or rewriting a PR title or body. Load before running any PR command."
 metadata:
   credits:
     skill: show-me
