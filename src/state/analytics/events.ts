@@ -385,8 +385,10 @@ export interface InterventionSessionProperties {
   intervention_id: string;
 }
 
-/** Answer to "How do you feel compared to before?" after a flow. */
-export type InterventionFeedback = "worse" | "same" | "better";
+/** Answers to "How do you feel compared to before?" after a flow. */
+export const INTERVENTION_FEEDBACKS = ["worse", "same", "better"] as const;
+/** One of {@link INTERVENTION_FEEDBACKS}. */
+export type InterventionFeedback = (typeof INTERVENTION_FEEDBACKS)[number];
 
 /**
  * Saved entry metadata sent with the confirmation events. Holds no free

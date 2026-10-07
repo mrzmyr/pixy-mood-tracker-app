@@ -4,6 +4,7 @@ import { render, screen, waitFor } from "@testing-library/react-native";
 import { Text } from "react-native";
 import Colors from "@/constants/Colors";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
+import { InterventionHistoryProvider } from "@/features/interventions";
 import { PeopleProvider } from "@/features/people";
 import { TagsProvider } from "@/features/tags";
 import { LaunchSplash } from "@/shell/LaunchSplash";
@@ -29,8 +30,10 @@ const renderApp = () =>
           <LogsProvider>
             <TagsProvider>
               <PeopleProvider>
-                <Text>Calendar</Text>
-                <LaunchSplash />
+                <InterventionHistoryProvider>
+                  <Text>Calendar</Text>
+                  <LaunchSplash />
+                </InterventionHistoryProvider>
               </PeopleProvider>
             </TagsProvider>
           </LogsProvider>

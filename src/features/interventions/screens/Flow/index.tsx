@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { useEffect, useMemo, useState } from "react";
 import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
@@ -12,7 +13,7 @@ import type {
 } from "@/state/analytics/events";
 import { INTERVENTIONS } from "../../catalog";
 import type { InterventionId } from "../../catalog";
-import { addRun, setRunFeedback } from "../../history";
+import { useInterventionHistoryUpdater } from "../../InterventionHistoryProvider";
 import { EndCheckView } from "./EndCheckView";
 import { IntroView } from "./IntroView";
 import { StepStage } from "./StepStage";
@@ -44,6 +45,9 @@ export const InterventionFlow = ({
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const tracking = useFlowTracking({ id, surface, session });
+  const history = useInterventionHistoryUpdater();
+  // Own id per mount, so the stored history never links to analytics events.
+  const runId = useMemo(() => uuidv4(), []);
   const { steps } = INTERVENTIONS[id];
   const [stage, setStage] = useState<Stage>({ kind: "intro" });
   const [isPaused, setIsPaused] = useState(false);
@@ -52,7 +56,7 @@ export const InterventionFlow = ({
   const goStep = (index: number) => {
     if (index >= steps.length) {
       tracking.completed();
-      void addRun({ id: session, interventionId: id });
+      history.addRun({ id: runId, interventionId: id });
       setStage({ kind: "done" });
       return;
     }
@@ -157,7 +161,7 @@ export const InterventionFlow = ({
           selected={feedback}
           onAnswer={(answer) => {
             tracking.feedback(answer);
-            void setRunFeedback(session, answer);
+            history.setFeedback(runId, answer);
             setFeedback(answer);
           }}
           onSkip={() => {

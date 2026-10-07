@@ -2,11 +2,13 @@ export { ConfirmationOffer } from "./components/ConfirmationOffer";
 export { ForYouToday } from "./components/ForYouToday";
 export { InterventionScreen } from "./screens/InterventionScreen";
 export {
+  InterventionHistoryProvider,
+  useInterventionHistoryLoad,
+  useInterventionHistoryUpdater,
+  useInterventionRuns,
+} from "./InterventionHistoryProvider";
+export {
+  sanitizeRuns as sanitizeInterventionRuns,
   STORAGE_KEY as INTERVENTIONS_STORAGE_KEY,
-  loadRuns as loadInterventionRuns,
-  replaceRuns as replaceInterventionRuns,
-  /** Test helper. */
-  _resetHistory as _resetInterventionHistory,
 } from "./history";
 export type { InterventionRun } from "./history";
-export { isInterventionId } from "./catalog";

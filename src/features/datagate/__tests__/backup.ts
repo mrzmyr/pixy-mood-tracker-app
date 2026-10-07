@@ -32,7 +32,7 @@ const backup: Backup = {
       createdAt: "2026-01-01T00:00:00.000Z",
     },
   ],
-  interventions: [
+  interventionRuns: [
     {
       id: "run-1",
       interventionId: "slow_breath",
@@ -97,25 +97,35 @@ describe("backup codec", () => {
         items: [expect.objectContaining({ date: "2022-01-02", people: [] })],
         tags: [{ id: "old", title: "Old", color: "slate" }],
         people: [],
-        interventions: [],
         settings: { actionsDone: [] },
       },
     });
   });
 
-  test("drops runs of interventions this version does not know", () => {
+  test("cleans runs from newer or broken files without rejecting them", () => {
+    const [run] = backup.interventionRuns ?? [];
     const file = JSON.parse(encodeBackup(backup, "9.9.9"));
-    file.interventions.push({
-      ...backup.interventions[0],
-      id: "run-future",
-      interventionId: "from_a_newer_version",
-    });
+    file.interventionRuns = [
+      { ...run, id: "a", feedback: "much_better" },
+      { ...run, id: "b", completedAt: "not a time" },
+      { ...run, id: "c", interventionId: "from_a_newer_version" },
+      { ...run, id: "a" },
+    ];
 
     const result = decodeBackup(JSON.stringify(file));
 
-    expect(result.ok && result.backup.interventions).toEqual(
-      backup.interventions
-    );
+    expect(result.ok && result.backup.interventionRuns).toEqual([
+      { ...run, id: "a", feedback: null },
+      { ...run, id: "b", completedAt: null },
+    ]);
+  });
+
+  test("a file without history leaves the field out", () => {
+    const { interventionRuns: _, ...withoutHistory } = backup;
+
+    const result = decodeBackup(encodeBackup(withoutHistory, "9.9.9"));
+
+    expect(result.ok && result.backup.interventionRuns).toBeUndefined();
   });
 
   test.each([

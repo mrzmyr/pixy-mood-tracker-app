@@ -13,6 +13,7 @@ import {
   PERSISTED_STORES,
   setFileTransferOverride,
 } from "@/features/datagate";
+import { InterventionHistoryProvider } from "@/features/interventions";
 import { PeopleProvider } from "@/features/people";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
@@ -50,9 +51,11 @@ const renderApp = ({ isTrackingEnabled = false } = {}) =>
           <LogsProvider>
             <TagsProvider>
               <PeopleProvider>
-                <StorageLoadGate>
-                  <Text>Calendar</Text>
-                </StorageLoadGate>
+                <InterventionHistoryProvider>
+                  <StorageLoadGate>
+                    <Text>Calendar</Text>
+                  </StorageLoadGate>
+                </InterventionHistoryProvider>
               </PeopleProvider>
             </TagsProvider>
           </LogsProvider>

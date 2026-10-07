@@ -5,7 +5,7 @@ import type { LogItem } from "@/features/logs";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { OPTIONS } from "../catalog";
-import { useCompletedToday } from "../history";
+import { useCompletedToday } from "../InterventionHistoryProvider";
 import { matchCluster } from "../match";
 import { useCardShown } from "../useCardShown";
 import { useOpenIntervention } from "../useOpenIntervention";

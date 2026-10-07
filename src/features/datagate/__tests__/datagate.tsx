@@ -2,6 +2,7 @@ import {
   createMemoryFileTransfer,
   setFileTransferOverride,
 } from "../fileTransfer";
+import { InterventionHistoryProvider } from "@/features/interventions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import * as FileSystem from "expo-file-system/legacy";
@@ -39,7 +40,11 @@ const wrapper = ({ children }) => (
     <AnalyticsProvider>
       <LogsProvider>
         <TagsProvider>
-          <PeopleProvider>{children}</PeopleProvider>
+          <PeopleProvider>
+            <InterventionHistoryProvider>
+              {children}
+            </InterventionHistoryProvider>
+          </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
     </AnalyticsProvider>
@@ -316,7 +321,7 @@ describe("useLogs()", () => {
       ]) satisfies ExportSettings,
       tags: testTags,
       people: [],
-      interventions: [],
+      interventionRuns: [],
     });
     // Metadata only: export files never contain photo files.
     expect(JSON.parse(contents).items[1].photos).toEqual([testPhoto]);

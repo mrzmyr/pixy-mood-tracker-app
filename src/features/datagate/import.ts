@@ -16,19 +16,11 @@ export type ExportPerson = Omit<Person, "avatar"> & {
 };
 
 /**
- * Intervention run in an export file. `interventionId` stays a plain string:
- * files from newer versions can hold interventions this version lacks.
- */
-export type ImportInterventionRun = Omit<InterventionRun, "interventionId"> & {
-  interventionId: string;
-};
-
-/**
  * Parsed contents of an export file before {@link migrateImportData}.
  *
  * Older exports store `items` as an id-keyed object and keep tags under
- * `settings.tags`. Exports from before the people feature have no `people`,
- * exports from before the intervention history have no `interventions`.
+ * `settings.tags`. Exports from before the people feature have no `people`.
+ * Exports from before the intervention history have no `interventionRuns`.
  */
 export interface ImportData {
   version: string;
@@ -39,7 +31,8 @@ export interface ImportData {
       };
   tags?: Tag[];
   people?: ExportPerson[];
-  interventions?: ImportInterventionRun[];
+  /** Unvalidated; `sanitizeInterventionRuns` cleans it. */
+  interventionRuns?: InterventionRun[];
   settings: ExportSettings;
 }
 
@@ -103,17 +96,9 @@ export const pixySchema = z.strictObject({
     )
     .optional(),
 
-  interventions: z
-    .array(
-      z.object({
-        id: z.string(),
-        interventionId: z.string(),
-        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/u),
-        completedAt: z.string().nullable(),
-        feedback: z.enum(["worse", "same", "better"]).nullable(),
-      })
-    )
-    .optional(),
+  // Checked run by run in `decodeBackupData`: one bad run must not reject
+  // the file.
+  interventionRuns: z.array(z.unknown()).optional(),
 
   tags: z
     .array(

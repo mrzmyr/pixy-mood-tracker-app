@@ -7,6 +7,7 @@ import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { AppLockProvider } from "@/features/applock";
 import { CalendarFiltersProvider } from "@/features/calendar";
+import { InterventionHistoryProvider } from "@/features/interventions";
 import { LogsProvider } from "@/features/logs";
 import { PeopleProvider } from "@/features/people";
 import { SettingsProvider } from "@/state/settings";
@@ -35,9 +36,11 @@ const Providers = ({
       <LogsProvider>
         <TagsProvider>
           <PeopleProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
+            <InterventionHistoryProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
+            </InterventionHistoryProvider>
           </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
@@ -47,9 +50,11 @@ const Providers = ({
       <LogsProvider>
         <TagsProvider>
           <PeopleProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
+            <InterventionHistoryProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
+            </InterventionHistoryProvider>
           </PeopleProvider>
         </TagsProvider>
       </LogsProvider>

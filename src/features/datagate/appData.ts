@@ -21,8 +21,9 @@ import {
 } from "@/features/tags";
 import {
   INTERVENTIONS_STORAGE_KEY,
-  loadInterventionRuns,
-  replaceInterventionRuns,
+  useInterventionHistoryLoad,
+  useInterventionHistoryUpdater,
+  useInterventionRuns,
 } from "@/features/interventions";
 import { useAnalytics } from "@/state/analytics";
 import type { Load } from "@/state/persisted/createPersistedStore";
@@ -39,8 +40,8 @@ import type { ExportPerson } from "./import";
  * Every storage key that holds user data. Raw export reads all of them.
  *
  * `gated` stores load in React and block the app on a failed read.
- * Interventions load lazily outside React: a failed read keeps the stored
- * value, hides today's progress, and leaves history out of backups.
+ * Intervention history never blocks the app: a failed read keeps the stored
+ * value, hides today's progress, and leaves the history out of backups.
  */
 export const PERSISTED_STORES = [
   { name: "settings", key: SETTINGS_KEY, gated: true },
@@ -68,9 +69,10 @@ export interface AppData {
   /** Current data as a backup, avatar files read inline. */
   snapshot: () => Promise<Backup>;
   /**
-   * Replaces logs, tags, people, intervention history, and settings with
-   * `backup`. Resolves once every store, including avatar files, holds the
-   * data. Settings keep device-bound fields. No photo sweep: see `useLogUpdater().sweepPhotos`.
+   * Replaces logs, tags, people, and settings with `backup`, and the
+   * intervention history when the backup has one. Resolves once every store,
+   * including avatar files, holds the data. Settings keep device-bound
+   * fields. No photo sweep: see `useLogUpdater().sweepPhotos`.
    */
   replaceAll: (backup: Backup) => Promise<void>;
 }
@@ -122,7 +124,7 @@ const combineLoads = (loads: Record<GatedStoreName, Load>): Load => {
 
 /**
  * App-wide data access. Must render inside the settings, analytics, logs,
- * tags, and people providers.
+ * tags, people, and intervention history providers.
  */
 export const useAppData = (): AppData => {
   const settingsLoad = useSettingsLoad();
@@ -135,6 +137,9 @@ export const useAppData = (): AppData => {
   const logUpdater = useLogUpdater();
   const tagsUpdater = useTagsUpdater();
   const peopleUpdater = usePeopleUpdater();
+  const interventionRuns = useInterventionRuns();
+  const interventionHistoryLoad = useInterventionHistoryLoad();
+  const interventionHistoryUpdater = useInterventionHistoryUpdater();
   const { settings, resetSettings, importSettings } = useSettings();
   const analytics = useAnalytics();
 
@@ -143,7 +148,7 @@ export const useAppData = (): AppData => {
     logUpdater.sweepPhotos();
     tagsUpdater.reset();
     peopleUpdater.reset();
-    void replaceInterventionRuns([]);
+    interventionHistoryUpdater.reset();
     resetSettings();
     analytics.reset();
   };
@@ -159,7 +164,8 @@ export const useAppData = (): AppData => {
     items,
     tags,
     people: await toExportPeople(people),
-    interventions: await loadInterventionRuns(),
+    interventionRuns:
+      interventionHistoryLoad.status === "ready" ? interventionRuns : undefined,
     settings: toExportSettings(settings),
   });
 
@@ -169,7 +175,9 @@ export const useAppData = (): AppData => {
     logUpdater.import({ items: backup.items });
     tagsUpdater.import({ tags: backup.tags });
     peopleUpdater.import({ people: importedPeople });
-    await replaceInterventionRuns(backup.interventions);
+    if (backup.interventionRuns) {
+      interventionHistoryUpdater.import(backup.interventionRuns);
+    }
     importSettings(backup.settings);
   };
 

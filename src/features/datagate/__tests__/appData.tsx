@@ -18,8 +18,10 @@ import {
   useTagsState,
 } from "@/features/tags";
 import {
-  _resetInterventionHistory,
+  InterventionHistoryProvider,
   INTERVENTIONS_STORAGE_KEY as INTERVENTIONS_KEY,
+  useInterventionHistoryLoad,
+  useInterventionRuns,
 } from "@/features/interventions";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { AnalyticsProvider } from "@/state/analytics";
@@ -35,7 +37,11 @@ const wrapper = ({ children }) => (
     <AnalyticsProvider>
       <LogsProvider>
         <TagsProvider>
-          <PeopleProvider>{children}</PeopleProvider>
+          <PeopleProvider>
+            <InterventionHistoryProvider>
+              {children}
+            </InterventionHistoryProvider>
+          </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
     </AnalyticsProvider>
@@ -49,6 +55,8 @@ const renderAppData = () =>
       items: useLogState().items,
       tags: useTagsState().tags,
       people: usePeopleState().people,
+      interventionRuns: useInterventionRuns(),
+      interventionHistoryLoad: useInterventionHistoryLoad(),
       settings: useSettings().settings,
     }),
     { wrapper }
@@ -59,7 +67,6 @@ const _console_error = console.error;
 describe("useAppData()", () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
-    _resetInterventionHistory();
     console.error = jest.fn();
     jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
     jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
@@ -156,9 +163,7 @@ describe("useAppData()", () => {
       deviceId: expect.any(String),
     });
     expect(second.result.current.settings.deviceId).not.toBe("old-device");
-    expect(
-      JSON.parse((await AsyncStorage.getItem(INTERVENTIONS_KEY)) ?? "")
-    ).toEqual({ runs: [] });
+    expect(second.result.current.interventionRuns).toEqual([]);
   });
 
   test("snapshot and replaceAll carry the intervention history", async () => {
@@ -175,17 +180,34 @@ describe("useAppData()", () => {
     );
     const hook = await renderAppData();
     await waitFor(() => {
-      expect(hook.result.current.appData.load.status).toBe("ready");
+      expect(hook.result.current.interventionHistoryLoad.status).toBe("ready");
     });
 
     const backup = await hook.result.current.appData.snapshot();
-    expect(backup.interventions).toEqual([run]);
+    expect(backup.interventionRuns).toEqual([run]);
+
+    const { interventionRuns: _, ...withoutHistory } = backup;
+    await act(() => hook.result.current.appData.replaceAll(withoutHistory));
+    expect(hook.result.current.interventionRuns).toEqual([run]);
 
     await act(() =>
-      hook.result.current.appData.replaceAll({ ...backup, interventions: [] })
+      hook.result.current.appData.replaceAll({
+        ...backup,
+        interventionRuns: [],
+      })
     );
-    expect(
-      JSON.parse((await AsyncStorage.getItem(INTERVENTIONS_KEY)) ?? "")
-    ).toEqual({ runs: [] });
+    expect(hook.result.current.interventionRuns).toEqual([]);
+  });
+
+  test("an unreadable history stays out of the backup", async () => {
+    await AsyncStorage.setItem(INTERVENTIONS_KEY, "{broken");
+    const hook = await renderAppData();
+    await waitFor(() => {
+      expect(hook.result.current.interventionHistoryLoad.status).toBe("error");
+    });
+
+    const backup = await hook.result.current.appData.snapshot();
+
+    expect(backup.interventionRuns).toBeUndefined();
   });
 });
