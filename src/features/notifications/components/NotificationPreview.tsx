@@ -1,7 +1,9 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
+import { useMemo } from "react";
 import { Image, Text, View } from "react-native";
+import { readActiveAppIcon } from "@/lib/appIcon";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { formatLockScreenTime, formatReminderTime } from "../reminderTime";
@@ -19,6 +21,7 @@ const NotificationPreview = ({
   enabled: boolean;
 }) => {
   const colors = useColors();
+  const appIcon = useMemo(() => readActiveAppIcon(), []);
 
   const clock = formatLockScreenTime(time);
   // Screen readers get the day period the lock screen clock leaves out.
@@ -101,8 +104,9 @@ const NotificationPreview = ({
           >
             <Image
               style={{ width: 38, height: 38 }}
-              source={require("../../../../assets/images/icon-notification.png")}
-              resizeMode="contain"
+              source={appIcon.preview}
+              testID="reminder-preview-icon"
+              accessibilityIgnoresInvertColors
             />
           </View>
           <View style={{ flex: 1, marginLeft: 10 }}>
