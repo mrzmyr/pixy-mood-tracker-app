@@ -257,7 +257,7 @@
       "label": "Color scales",
       "status": "available",
       "group": "personalization",
-      "description": "Choose one of 5 mood color scales.",
+      "description": "Choose one of 3 mood color scales.",
       "evidence": [
         "src/constants/Colors/Scales.ts",
         "src/features/settings/screens/Colors/index.tsx"
@@ -401,11 +401,16 @@
     {
       "id": "widgets",
       "label": "Home screen widgets",
-      "status": "available",
+      "status": "flagged",
       "group": "platforms",
-      "description": "iOS Home Screen widgets show the week, month, or year in pixels. Not on Android.",
+      "description": "iOS Home Screen widgets show the week, month, or year in pixels. Behind the ios-widget feature flag.",
       "competitorKey": "widgets",
-      "evidence": ["src/features/widget/widgets", "app.config.ts"]
+      "since": "1.0.0",
+      "evidence": [
+        "src/features/widget/useIsWidgetEnabled.ts",
+        "src/state/featureFlags/keys.ts",
+        "src/features/widget/widgets"
+      ]
     },
     {
       "id": "watch",
