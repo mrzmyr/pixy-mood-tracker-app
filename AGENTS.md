@@ -33,7 +33,7 @@
 - [`docs/app-facts.json`](docs/app-facts.json) is the only place for app facts: name, ids, links, license, claims, feature list with status, store and source versions.
 - Never create another facts file, feature list, or metadata table. README, store text, directory listings, and the website derive from this file.
 - Public copy may claim a feature only when its `status` is `available`. Check `claims` before stating free, no ads, no account, local storage.
-- Update after store releases or feature changes. Verify against source and live stores first. Bump `verifiedOn`.
+- MUST update [`docs/app-facts.json`](docs/app-facts.json) whenever a feature or service changes. Verify against source and live stores first. Bump `verifiedOn`.
 - Keep directory credentials and account recovery details outside this public repository.
 
 ## Tools
