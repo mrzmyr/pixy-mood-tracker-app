@@ -67,7 +67,6 @@ tags: [p1, tags]
 - tapOn: "Cancel"
 - back
 - back
-- back
 
 # The check-in groups tags under category headings.
 - tapOn: "Add another entry for today"
