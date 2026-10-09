@@ -46,14 +46,11 @@ const item = _generateItem({
 });
 
 const properties = {
-  rating: "very_bad",
-  emotions: ["tired", "worried"],
   emotions_count: 2,
   tags_count: 1,
   people_count: 0,
   message_length: 20,
   message_word_count: 4,
-  sleep_quality: "bad",
   entries_count: 3,
 };
 
@@ -98,7 +95,7 @@ describe("countWords()", () => {
 });
 
 describe("getEntryProperties()", () => {
-  test("sends counts for free text, never the text", () => {
+  test("sends usage counts without journal values", () => {
     expect(getEntryProperties({ item, entriesCount: 3 })).toEqual(properties);
   });
 });
@@ -120,6 +117,13 @@ describe("useConfirmation()", () => {
     await act(() => hook.unmount());
 
     expect(mockCapture).toHaveBeenCalledTimes(1);
+    const [[, sentProperties]] = jest.mocked(mockCapture).mock.calls;
+    for (const field of ["rating", "emotions", "sleep_quality", "message"]) {
+      expect(sentProperties).not.toHaveProperty(field);
+    }
+    expect(item.rating).toBe("very_bad");
+    expect(item.emotions).toEqual(["tired", "worried"]);
+    expect(item.sleep.quality).toBe("bad");
   });
 });
 

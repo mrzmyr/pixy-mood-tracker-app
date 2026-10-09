@@ -42,7 +42,6 @@ export const useOpenIntervention = () => {
     analytics.track("interventions:option_selected", {
       intervention_session_id: session,
       intervention_id: id,
-      cluster: intervention.cluster,
       length: intervention.length,
       surface,
       option_position: position,

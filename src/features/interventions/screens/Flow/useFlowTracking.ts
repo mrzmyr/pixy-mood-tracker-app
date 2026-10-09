@@ -66,7 +66,7 @@ export const useFlowTracking = ({
     if (answer === null) {
       analytics.track("interventions:feedback_skipped", ids);
     } else {
-      analytics.track("interventions:feedback_answered", { ...ids, answer });
+      analytics.track("interventions:feedback_answered", ids);
     }
   };
 

@@ -47,7 +47,7 @@
 
 ### Footguns
 
-- Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text (notes, custom tag names) to PostHog. Send counts and lengths instead. Fixed values (rating, emotion keys, sleep quality) are fine. Record every event rename in [docs/analytics.md](docs/analytics.md#event-history).
+- Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text (notes, custom tag names) to PostHog. Send counts and lengths instead. Never send ratings, emotion keys, sleep quality, or mood feedback. Record every event rename in [docs/analytics.md](docs/analytics.md#event-history).
 - Never write storage after a failed read. A read error must keep the stored data, not replace it with defaults (commits 1a1ddd8, f165aad).
 - Hermes lacks some modern array methods. `pixy-standards/no-hermes-missing-array-methods` enforces the safe forms.
 - Hermes lacks `Intl.RelativeTimeFormat`, `ListFormat`, `PluralRules`, `DisplayNames`, `Segmenter`, `Locale`. `pixy-standards/no-hermes-missing-intl` bans them in `src`.

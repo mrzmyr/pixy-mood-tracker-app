@@ -29,8 +29,6 @@ export const ConfirmationOffer = ({ item }: { item: LogItem }) => {
     match
       ? {
           surface: "confirmation",
-          cluster: match.cluster,
-          matched_emotions: match.emotions,
           options_shown: options,
           completed_today_count: completedToday.length,
         }
