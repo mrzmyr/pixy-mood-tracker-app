@@ -10,7 +10,9 @@ import ModalHeader from "@/components/ModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import TagCategoryPicker from "../components/TagCategoryPicker";
 import TagColorPicker from "../components/TagColorPicker";
+import { GENERAL_CATEGORY_ID } from "../tagCategories";
 import TagNameField from "../components/TagNameField";
 import { isValidTagTitle } from "../tagName";
 import { useTagsState, useTagsUpdater } from "../TagsProvider";
@@ -114,6 +116,12 @@ export const TagEdit = () => {
             value={tag.color}
             onChange={(color) => {
               setTag((currentTag) => ({ ...currentTag, color }));
+            }}
+          />
+          <TagCategoryPicker
+            value={tag.categoryId ?? GENERAL_CATEGORY_ID}
+            onChange={(categoryId) => {
+              setTag((currentTag) => ({ ...currentTag, categoryId }));
             }}
           />
           <MenuList

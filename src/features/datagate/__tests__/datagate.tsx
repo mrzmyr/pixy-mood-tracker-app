@@ -88,6 +88,11 @@ const testSettings = {
   ],
 };
 
+const testTagCategories = [{ id: "general", title: "General" }];
+// Backups from before tag categories: import puts every tag in General.
+const inGeneral = (tags: Tag[]) =>
+  tags.map((tag) => ({ ...tag, categoryId: "general" }));
+
 const testTags: Tag[] = [
   {
     id: "1",
@@ -191,7 +196,7 @@ describe("useLogs()", () => {
 
     await waitFor(() => {
       expect(hook.result.current.logState.items).toEqual(testItems);
-      expect(hook.result.current.tagsState.tags).toEqual(testTags);
+      expect(hook.result.current.tagsState.tags).toEqual(inGeneral(testTags));
     });
 
     expect(hook.result.current.logState).toEqual({
@@ -199,7 +204,8 @@ describe("useLogs()", () => {
     });
     expect(hook.result.current.logState.items[1].photos).toEqual([testPhoto]);
     expect(hook.result.current.tagsState).toEqual({
-      tags: testTags,
+      tags: inGeneral(testTags),
+      categories: testTagCategories,
     });
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
@@ -314,7 +320,8 @@ describe("useLogs()", () => {
         "calendarLayout",
         "appLockEnabled",
       ]) satisfies ExportSettings,
-      tags: testTags,
+      tags: inGeneral(testTags),
+      tagCategories: testTagCategories,
       people: [],
     });
     // Metadata only: export files never contain photo files.
@@ -400,6 +407,7 @@ describe("useLogs()", () => {
         expect.objectContaining({ id: "1" }),
         expect.objectContaining({ id: "18" }),
       ]),
+      categories: testTagCategories,
     });
     expect(hook.result.current.settingsState.settings).toEqual({
       ...INITIAL_STATE,
@@ -515,7 +523,8 @@ describe("useLogs()", () => {
     });
 
     expect(hook.result.current.tagsState).toEqual({
-      tags: testTags,
+      tags: inGeneral(testTags),
+      categories: testTagCategories,
     });
 
     expect(hook.result.current.settingsState.settings).toEqual({

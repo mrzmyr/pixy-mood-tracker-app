@@ -1,0 +1,99 @@
+appId: ${APP_ID}
+tags: [p1, tags]
+---
+# Tag categories: imported tags start in General, a new category takes tags
+# from the tag editor and by drag, categories reorder by drag, the check-in
+# groups tags under category headings, and Delete moves tags back to General.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+- runFlow: ../subflows/open-settings.yaml
+- tapOn: "Tags"
+- assertVisible:
+    id: "tag-category-edit-general"
+- assertVisible: "Work"
+
+# Create a category.
+- tapOn:
+    id: "tag-categories-link"
+- assertVisible: "General"
+- tapOn:
+    id: "tag-category-create"
+- tapOn:
+    id: "tag-category-name"
+- inputText: "Hobbies"
+- runFlow: ../subflows/dismiss-keyboard.yaml
+- tapOn:
+    id: "tag-category-save"
+- assertVisible: "Hobbies"
+
+# Reorder categories: drag Hobbies above General.
+- swipe:
+    from:
+      text: "Reorder Hobbies"
+    direction: UP
+    duration: 1500
+- waitForAnimationToEnd
+- tapOn:
+    id: "tag-categories-close"
+
+# The new, empty category offers a drop target.
+- scrollUntilVisible:
+    element:
+      text: "Drag tags here"
+    direction: DOWN
+
+# Move Sport into Hobbies in the tag editor.
+- tapOn: "Sport"
+- assertVisible: "Edit Tag"
+- tapOn: "Hobbies"
+- tapOn:
+    id: "tag-save"
+- assertNotVisible: "Drag tags here"
+
+# Drag Work by its handle to the end of the list: it joins the last category.
+- swipe:
+    from:
+      id: "tag-drag-handle-ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+    direction: DOWN
+    duration: 2000
+- waitForAnimationToEnd
+- back
+
+# The check-in groups tags under category headings.
+- tapOn: "Add another entry for today"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Add tags"
+- assertVisible:
+    id: "log-tags-category-general"
+- assertVisible: "Sport"
+- tapOn:
+    id: "logger-close"
+- runFlow:
+    when:
+      visible: "Discard Changes"
+    commands:
+      - tapOn: "Discard Changes"
+
+# Delete the category: its tags move back to General.
+- runFlow: ../subflows/open-settings.yaml
+- tapOn: "Tags"
+- tapOn:
+    id: "tag-categories-link"
+- tapOn: "Hobbies"
+- tapOn:
+    id: "tag-category-delete"
+- assertVisible: "Delete Category?"
+- tapOn:
+    text: "Delete"
+    index: 0
+- assertNotVisible: "Hobbies"
+- tapOn:
+    id: "tag-categories-close"
+- assertVisible: "Sport"
+- assertNotVisible: "Drag tags here"
