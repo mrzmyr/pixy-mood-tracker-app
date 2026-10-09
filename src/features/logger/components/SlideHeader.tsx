@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import { locale, t } from "@/lib/translation";
+import { getLocale, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import useHaptics from "@/hooks/useHaptics";
@@ -134,7 +134,7 @@ export const SlideHeader = ({
             />
           )}
           isVisible={isDatePickerVisible}
-          locale={locale}
+          locale={getLocale()}
           date={dateTime}
           mode="datetime"
           minuteInterval={10}
