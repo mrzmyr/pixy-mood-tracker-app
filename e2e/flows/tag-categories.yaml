@@ -52,13 +52,21 @@ tags: [p1, tags]
     id: "tag-save"
 - assertNotVisible: "Drag tags here"
 
-# Drag Work by its handle to the end of the list: it joins the last category.
+# Drag Work by its handle above the General header: it joins Hobbies, the
+# first category.
 - swipe:
     from:
       id: "tag-drag-handle-ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
-    direction: DOWN
+    direction: UP
     duration: 2000
 - waitForAnimationToEnd
+- tapOn: "Work"
+- assertVisible:
+    text: "Hobbies"
+    selected: true
+- tapOn: "Cancel"
+- back
+- back
 - back
 
 # The check-in groups tags under category headings.

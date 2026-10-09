@@ -16,10 +16,12 @@ const TagNameField = ({
   showError,
   placeholder = t("tags_add_placeholder"),
   testID = "tag-name",
+  autoFocus = false,
 }: {
   value: string;
   placeholder?: string;
   testID?: string;
+  autoFocus?: boolean;
   onChange: (title: string) => void;
   /** Show the length error under the field. */
   showError: boolean;
@@ -51,6 +53,7 @@ const TagNameField = ({
         accessibilityLabel={t("tags_name_label")}
         accessibilityLabelledBy="tag-name-label"
         testID={testID}
+        autoFocus={autoFocus}
         autoCorrect={false}
         style={{
           fontSize: 17,

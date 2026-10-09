@@ -115,6 +115,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
         <View style={{ flex: 1, padding: 20 }}>
           <TagNameField
             testID="tag-category-name"
+            autoFocus={!category}
             placeholder={t("tag_category_name_placeholder")}
             value={title}
             showError={submitted}
