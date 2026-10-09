@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.95.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.95.1...v1.95.2) (2026-10-09)
+
+
+### Bug Fixes
+
+* **analytics:** keep journal values out of usage events ([#732](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/732)) ([8c0b1c9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8c0b1c9eb71962e9c84e252c856b7359359ecd6c))
+
 ## [1.95.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.95.0...v1.95.1) (2026-10-07)
 
 
