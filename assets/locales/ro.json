@@ -772,7 +772,7 @@
   "tag_category_empty": "Trageți etichetele aici",
   "tag_category_general": "General",
   "tag_category_general_info": "{{general}} nu poate fi ștearsă. Etichetele fără categorie ajung aici.",
-  "tag_category_name_placeholder": "Hobby-uri",
+  "tag_category_name_placeholder": "Hobby-uri…",
   "tags": "Etichete",
   "tags_add": "Adaugă etichetă",
   "tags_add_placeholder": "#zi mare",

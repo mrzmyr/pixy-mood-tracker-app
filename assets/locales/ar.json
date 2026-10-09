@@ -772,7 +772,7 @@
   "tag_category_empty": "اسحب العلامات إلى هنا",
   "tag_category_general": "عام",
   "tag_category_general_info": "لا يمكن حذف {{general}}. تظهر هنا العلامات التي ليس لها فئة.",
-  "tag_category_name_placeholder": "الهوايات",
+  "tag_category_name_placeholder": "الهوايات…",
   "tags": "العلامات",
   "tags_add": "إضافة علامة",
   "tags_add_placeholder": "#يوم حافل",

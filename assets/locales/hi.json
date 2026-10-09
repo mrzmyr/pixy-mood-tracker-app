@@ -772,7 +772,7 @@
   "tag_category_empty": "टैग यहां खींचें",
   "tag_category_general": "सामान्य",
   "tag_category_general_info": "{{general}} को हटाया नहीं जा सकता। बिना श्रेणी वाले टैग यहां आते हैं।",
-  "tag_category_name_placeholder": "शौक",
+  "tag_category_name_placeholder": "शौक…",
   "tags": "टैग",
   "tags_add": "टैग जोड़ो",
   "tags_add_placeholder": "#बड़ा दिन",

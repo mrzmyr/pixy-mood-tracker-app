@@ -773,7 +773,7 @@
   "tag_category_empty": "Faites glisser des balises ici",
   "tag_category_general": "Général",
   "tag_category_general_info": "La catégorie {{general}} ne peut pas être supprimée. Les balises sans catégorie sont placées ici.",
-  "tag_category_name_placeholder": "Loisirs",
+  "tag_category_name_placeholder": "Loisirs…",
   "tags": "Mots clés",
   "tags_add": "Ajouter une étiquette",
   "tags_add_placeholder": "#grand jour",

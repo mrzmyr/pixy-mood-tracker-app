@@ -772,7 +772,7 @@
   "tag_category_empty": "여기로 태그를 드래그하세요",
   "tag_category_general": "일반",
   "tag_category_general_info": "{{general}}은(는) 삭제할 수 없습니다. 카테고리가 없는 태그는 여기에 표시됩니다.",
-  "tag_category_name_placeholder": "취미",
+  "tag_category_name_placeholder": "취미…",
   "tags": "태그",
   "tags_add": "태그 추가",
   "tags_add_placeholder": "#빅데이",

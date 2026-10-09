@@ -772,7 +772,7 @@
   "tag_category_empty": "Trascina qui i tag",
   "tag_category_general": "Generale",
   "tag_category_general_info": "{{general}} non può essere eliminata. Qui finiscono i tag senza categoria.",
-  "tag_category_name_placeholder": "Hobby",
+  "tag_category_name_placeholder": "Hobby…",
   "tags": "Tag",
   "tags_add": "Aggiungi Tag",
   "tags_add_placeholder": "#grande giorno",

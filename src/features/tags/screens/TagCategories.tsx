@@ -163,6 +163,8 @@ export const TagCategories = () => {
             renderItem={renderItem}
             onDragEnd={onDragEnd}
             customHandle
+            // Handles only drag, so the drag starts on touch like iOS reorder controls.
+            dragActivationDelay={0}
             hapticsEnabled
             overDrag="vertical"
             activeItemScale={1.03}

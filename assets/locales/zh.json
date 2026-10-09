@@ -772,7 +772,7 @@
   "tag_category_empty": "将标签拖到这里",
   "tag_category_general": "通用",
   "tag_category_general_info": "{{general}}无法删除。未分类的标签会放在这里。",
-  "tag_category_name_placeholder": "爱好",
+  "tag_category_name_placeholder": "爱好…",
   "tags": "标签",
   "tags_add": "添加标签",
   "tags_add_placeholder": "＃重要的日子",

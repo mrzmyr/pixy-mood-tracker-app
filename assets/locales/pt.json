@@ -772,7 +772,7 @@
   "tag_category_empty": "Arraste tags para cá",
   "tag_category_general": "Geral",
   "tag_category_general_info": "{{general}} não pode ser excluída. Tags sem categoria ficam aqui.",
-  "tag_category_name_placeholder": "Hobbies",
+  "tag_category_name_placeholder": "Hobbies…",
   "tags": "Tag",
   "tags_add": "Adicionar etiqueta",
   "tags_add_placeholder": "#Grande dia",

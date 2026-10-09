@@ -772,7 +772,7 @@
   "tag_category_empty": "ลากแท็กมาที่นี่",
   "tag_category_general": "ทั่วไป",
   "tag_category_general_info": "ไม่สามารถลบ {{general}} ได้ แท็กที่ไม่มีหมวดหมู่จะอยู่ที่นี่",
-  "tag_category_name_placeholder": "งานอดิเรก",
+  "tag_category_name_placeholder": "งานอดิเรก…",
   "tags": "แท็ก",
   "tags_add": "เพิ่มแท็ก",
   "tags_add_placeholder": "#วันสำคัญ",

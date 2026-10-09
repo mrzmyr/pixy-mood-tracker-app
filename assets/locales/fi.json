@@ -772,7 +772,7 @@
   "tag_category_empty": "Vedä tunnisteita tähän",
   "tag_category_general": "Yleiset",
   "tag_category_general_info": "Kohtaa {{general}} ei voi poistaa. Tunnisteet ilman kategoriaa päätyvät tänne.",
-  "tag_category_name_placeholder": "Harrastukset",
+  "tag_category_name_placeholder": "Harrastukset…",
   "tags": "Tunnisteet",
   "tags_add": "Lisää merkintä",
   "tags_add_placeholder": "#suuri päivä",
