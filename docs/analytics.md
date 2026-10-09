@@ -20,11 +20,12 @@
 - Widget guide: `widget:guide_*`
 - Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
   - Shown only after create, not edit
-  - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
+  - Usage counts only, including `message_word_count` and `entries_count`. No rating, emotion keys, or sleep quality
 - Interventions: `interventions:*` ([`src/features/interventions`](../src/features/interventions)), flag `interventions`
   - Card on confirmation and calendar: `card_shown`, then `option_selected` with a new `intervention_session_id`
   - Flow: `intro_viewed`, `flow_started`, `step_viewed`, `step_back`, `flow_paused`, `flow_resumed`, then `flow_completed` or `flow_abandoned` (`how`: `close`, `end_early`)
-  - End check: `feedback_answered` or `feedback_skipped`
+  - End check: `feedback_answered` or `feedback_skipped`. Never the answer value
+  - No selected emotion keys or emotion cluster in event properties
   - No dismiss control and no cooldown: cards show for every matching entry of today
 - Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](../src/features/notifications/reminderTaps.ts))
   - One event per tap on reminder body. Dismisses and other actions not sent
@@ -99,6 +100,13 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Removed events**
 
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
+
+**Removed journal values**
+
+- Release preparation after `v1.95.1`: removed `rating`, `emotions`, and `sleep_quality` from `logger:confirmation_viewed`
+- Removed `matched_emotions` and `cluster` from `interventions:card_shown`; removed `cluster` from `interventions:option_selected`
+- Removed `answer` from `interventions:feedback_answered`. Event still counts completed feedback
+- Older builds can continue sending these properties. Existing stored events are not deleted by this change
 
 **Removed properties** (never sent under the new names)
 

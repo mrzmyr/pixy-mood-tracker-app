@@ -96,7 +96,7 @@ describe("useFlowTracking()", () => {
     expect(sent("interventions:feedback_skipped")).toHaveLength(1);
   });
 
-  test("an answer is sent once and suppresses the skip", async () => {
+  test("counts feedback once without sending the answer", async () => {
     const hook = await renderTracking();
     await act(() => {
       hook.result.current.completed();
@@ -108,9 +108,12 @@ describe("useFlowTracking()", () => {
     expect(sent("interventions:feedback_answered")).toEqual([
       [
         "interventions:feedback_answered",
-        expect.objectContaining({ answer: "better" }),
+        expect.objectContaining({ intervention_session_id: "s1" }),
       ],
     ]);
+    expect(sent("interventions:feedback_answered")[0][1]).not.toHaveProperty(
+      "answer"
+    );
     expect(sent("interventions:feedback_skipped")).toHaveLength(0);
   });
 });

@@ -17,7 +17,7 @@ export const countWords = (text: string) => {
   return trimmed.split(/\s+/u).length;
 };
 
-/** Analytics metadata for a saved entry. Free text is sent as counts only. */
+/** Usage counts only. Journal values never leave the device through analytics. */
 export const getEntryProperties = ({
   item,
   entriesCount,
@@ -25,13 +25,10 @@ export const getEntryProperties = ({
   item: LogItem;
   entriesCount: number;
 }): SavedEntryProperties => ({
-  rating: item.rating,
-  emotions: item.emotions,
   emotions_count: item.emotions.length,
   tags_count: item.tags.length,
   people_count: item.people.length,
   message_length: item.message.length,
   message_word_count: countWords(item.message),
-  sleep_quality: item.sleep?.quality ?? null,
   entries_count: entriesCount,
 });

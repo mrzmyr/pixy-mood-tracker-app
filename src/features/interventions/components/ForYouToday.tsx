@@ -35,8 +35,6 @@ export const ForYouToday = () => {
     match
       ? {
           surface: "calendar",
-          cluster: match.cluster,
-          matched_emotions: match.emotions,
           options_shown: options,
           completed_today_count: completedToday.length,
         }
