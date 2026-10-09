@@ -23,7 +23,11 @@ const backup: Backup = {
       ],
     }),
   ],
-  tags: [{ id: "t1", title: "Work", color: "blue" }],
+  tags: [{ id: "t1", title: "Work", color: "blue", categoryId: "c1" }],
+  tagCategories: [
+    { id: "general", title: "General" },
+    { id: "c1", title: "Job" },
+  ],
   people: [
     {
       id: "p1",
@@ -80,6 +84,7 @@ describe("backup codec", () => {
       backup: {
         items: [expect.objectContaining({ date: "2022-01-02", people: [] })],
         tags: [{ id: "old", title: "Old", color: "slate" }],
+        tagCategories: [],
         people: [],
         settings: { actionsDone: [] },
       },

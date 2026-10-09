@@ -2,6 +2,20 @@ import { usePathname } from "expo-router";
 import { useEffect, useRef } from "react";
 import { useAnalytics } from "@/state/analytics";
 
+const TAG_ROUTES = new Map<string, string>(
+  Object.entries({
+    "/tags": "Tags",
+    "/tags/create": "TagCreate",
+    "/tags/categories": "TagCategories",
+    "/tags/categories/create": "TagCategoryCreate",
+  })
+);
+
+// Remaining tag routes are editors with an id param.
+const getTagScreenName = (pathname: string): string =>
+  TAG_ROUTES.get(pathname) ??
+  (pathname.startsWith("/tags/categories/") ? "TagCategoryEdit" : "TagEdit");
+
 const getScreenName = (pathname: string): string | null => {
   if (pathname === "/") {
     return "Calendar";
@@ -18,14 +32,8 @@ const getScreenName = (pathname: string): string | null => {
   if (pathname === "/onboarding") {
     return "Onboarding";
   }
-  if (pathname === "/tags") {
-    return "Tags";
-  }
-  if (pathname === "/tags/create") {
-    return "TagCreate";
-  }
-  if (pathname.startsWith("/tags/")) {
-    return "TagEdit";
+  if (pathname.startsWith("/tags")) {
+    return getTagScreenName(pathname);
   }
   if (pathname.startsWith("/days/")) {
     return "LogList";

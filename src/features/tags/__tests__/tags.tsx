@@ -25,8 +25,15 @@ import {
   useTagsUpdater,
 } from "../TagsProvider";
 import type { Tag } from "../TagsProvider";
+import { GENERAL_CATEGORY_ID } from "../tagCategories";
 
 import { _generateItem } from "@/__tests__/utils";
+
+const GENERAL = { id: GENERAL_CATEGORY_ID, title: "General" };
+const inGeneral = (tags: Tag[]) =>
+  tags.map((tag) => ({ ...tag, categoryId: GENERAL_CATEGORY_ID }));
+const idAndCategory = (tags: Tag[]) =>
+  tags.map((tag) => [tag.id, tag.categoryId]);
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -103,10 +110,14 @@ describe("useTags()", () => {
     AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({ tags: _testTags }));
     const hook = await _renderHook();
     await waitForLoaded(hook);
-    expect(hook.result.current.state.tags).toEqual(_testTags);
-    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(
-      JSON.stringify({ tags: _testTags })
-    );
+    // Tags stored before categories existed all land in General.
+    expect(hook.result.current.state.tags).toEqual(inGeneral(_testTags));
+    expect(hook.result.current.state.categories).toEqual([GENERAL]);
+    await waitFor(async () => {
+      expect(
+        JSON.parse((await AsyncStorage.getItem(STORAGE_KEY_TAGS)) ?? "null")
+      ).toEqual({ tags: inGeneral(_testTags), categories: [GENERAL] });
+    });
   });
 
   test("should load from settings (if tags async storage is empty)", async () => {
@@ -128,10 +139,12 @@ describe("useTags()", () => {
     );
     const hook = await _renderHook();
     await waitForLoaded(hook);
-    expect(hook.result.current.state.tags).toEqual(_testTags);
-    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(
-      JSON.stringify({ tags: _testTags })
-    );
+    expect(hook.result.current.state.tags).toEqual(inGeneral(_testTags));
+    await waitFor(async () => {
+      expect(
+        JSON.parse((await AsyncStorage.getItem(STORAGE_KEY_TAGS)) ?? "null")
+      ).toEqual({ tags: inGeneral(_testTags), categories: [GENERAL] });
+    });
   });
 
   test("should initialize (when tags async storage and settings async storage are empty)", async () => {
@@ -176,6 +189,105 @@ describe("useTags()", () => {
 
     expect(hook.result.current.state.tags.length).toBe(18);
     expect(hook.result.current.state.tags[0].title).toBe("test");
+  });
+
+  test("should move a tag to the end of its new category on updateTag", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.updater.createCategory({ id: "c1", title: "Job" });
+    });
+    await act(() => {
+      hook.result.current.updater.updateTag({
+        ...hook.result.current.state.tags[0],
+        categoryId: "c1",
+      });
+    });
+
+    const { tags } = hook.result.current.state;
+    expect(tags.at(-1)).toMatchObject({ id: "1", categoryId: "c1" });
+  });
+
+  test("should arrangeTags and store order and categories", async () => {
+    AsyncStorage.setItem(
+      STORAGE_KEY_TAGS,
+      JSON.stringify({
+        tags: [
+          { id: "1", title: "a", color: "slate" },
+          { id: "2", title: "b", color: "slate" },
+          { id: "3", title: "c", color: "slate", isArchived: true },
+        ],
+        categories: [GENERAL, { id: "c1", title: "Job" }],
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.updater.arrangeTags([
+        { categoryId: GENERAL_CATEGORY_ID, tagIds: ["2"] },
+        { categoryId: "c1", tagIds: ["1"] },
+      ]);
+    });
+
+    const expected = [
+      ["2", GENERAL_CATEGORY_ID],
+      ["1", "c1"],
+      ["3", GENERAL_CATEGORY_ID],
+    ];
+    expect(idAndCategory(hook.result.current.state.tags)).toEqual(expected);
+    await waitFor(async () => {
+      const json = JSON.parse(
+        (await AsyncStorage.getItem(STORAGE_KEY_TAGS)) ?? "null"
+      );
+      expect(idAndCategory(json.tags)).toEqual(expected);
+    });
+  });
+
+  test("should deleteCategory, move its tags to General, and keep General", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.updater.createCategory({ id: "c1", title: "Job" });
+    });
+    await act(() => {
+      hook.result.current.updater.arrangeTags([
+        { categoryId: "c1", tagIds: ["1"] },
+      ]);
+    });
+    await act(() => {
+      hook.result.current.updater.deleteCategory("c1");
+      hook.result.current.updater.deleteCategory(GENERAL_CATEGORY_ID);
+    });
+
+    const { tags, categories } = hook.result.current.state;
+    expect(categories).toEqual([GENERAL]);
+    expect(tags.find((tag) => tag.id === "1")?.categoryId).toBe(
+      GENERAL_CATEGORY_ID
+    );
+  });
+
+  test("should reorderCategories and rename with updateCategory", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.updater.createCategory({ id: "c1", title: "Job" });
+    });
+    await act(() => {
+      hook.result.current.updater.reorderCategories([
+        "c1",
+        GENERAL_CATEGORY_ID,
+      ]);
+      hook.result.current.updater.updateCategory({ id: "c1", title: "Work" });
+    });
+
+    expect(hook.result.current.state.categories).toEqual([
+      { id: "c1", title: "Work" },
+      GENERAL,
+    ]);
   });
 
   test("should deleteTag", async () => {
@@ -289,6 +401,7 @@ describe("useTags()", () => {
     const json = await AsyncStorage.getItem(STORAGE_KEY_TAGS);
     expect(JSON.parse(json ?? "null")).toEqual({
       tags: hook.result.current.state.tags,
+      categories: hook.result.current.state.categories,
     });
   });
 

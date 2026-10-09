@@ -1,5 +1,5 @@
 import type { LogItem } from "@/features/logs";
-import type { Tag } from "@/features/tags";
+import type { Tag, TagCategory } from "@/features/tags";
 import type { ExportSettings } from "@/state/settings";
 import { getJSONSchemaType } from "./import";
 import type { ExportPerson, ImportData } from "./import";
@@ -12,6 +12,8 @@ import { migrateImportData } from "./migration";
 export interface Backup {
   items: LogItem[];
   tags: Tag[];
+  /** Empty in backups from before tag categories; import puts all tags in General. */
+  tagCategories: TagCategory[];
   people: ExportPerson[];
   settings: ExportSettings;
 }
@@ -27,6 +29,7 @@ export const encodeBackup = (backup: Backup, version: string): string =>
     version,
     items: backup.items,
     tags: backup.tags,
+    tagCategories: backup.tagCategories,
     people: backup.people,
     settings: backup.settings,
   });
@@ -52,6 +55,7 @@ export const decodeBackupData = (data: ImportData): DecodeBackupResult => {
     backup: {
       items: migrated.items,
       tags: migrated.tags ?? [],
+      tagCategories: migrated.tagCategories ?? [],
       people: migrated.people ?? [],
       settings: migrated.settings,
     },

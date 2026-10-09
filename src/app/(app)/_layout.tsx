@@ -113,6 +113,9 @@ const AppLayout = () => {
           <Stack.Screen name="tags/index" options={modalOptions} />
           <Stack.Screen name="tags/create" options={modalOptions} />
           <Stack.Screen name="tags/[id]" options={modalOptions} />
+          <Stack.Screen name="tags/categories/index" options={modalOptions} />
+          <Stack.Screen name="tags/categories/create" options={modalOptions} />
+          <Stack.Screen name="tags/categories/[id]" options={modalOptions} />
           <Stack.Screen name="people/create" options={modalOptions} />
           <Stack.Screen name="people/import" options={modalOptions} />
           <Stack.Screen name="people/[id]" options={modalOptions} />

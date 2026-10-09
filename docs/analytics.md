@@ -32,6 +32,7 @@
   - Properties: `cold_start`, `minutes_since_delivered`
   - Cold start taps wait for stored settings, so a stored opt-out wins
   - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
+- Tag categories: `tags:category_created` (`title_length`, `categories_count`), `tags:category_updated` (`title_length`), `tags:category_deleted` (`tags_count`, `categories_count`), `tags:categories_reordered` (`categories_count`, `method`), `tags:tags_arranged` (`tags_count`, `categories_count`, `category_changed`, `method`). `method` is `drag` or `accessibility_action`. Never category or tag names
 
 ## Photos
 

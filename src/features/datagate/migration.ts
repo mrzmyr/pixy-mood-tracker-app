@@ -17,7 +17,7 @@ interface MigratedData extends ImportData {
  * an older export has none. Tag objects from `data` are mutated in place.
  */
 export const migrateImportData = (data: ImportData): MigratedData => {
-  const { items, settings, tags, people, version } = data;
+  const { items, settings, tags, tagCategories, people, version } = data;
 
   let newItems = clone(items);
 
@@ -51,11 +51,15 @@ export const migrateImportData = (data: ImportData): MigratedData => {
     _settings.actionsDone = [];
   }
 
-  return {
+  const migrated: MigratedData = {
     version: version || "1.0.0",
     items: newItems,
     settings: _settings,
     tags: _tags,
     people: people ?? [],
   };
+  if (tagCategories) {
+    migrated.tagCategories = tagCategories;
+  }
+  return migrated;
 };
