@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-10-03",
+  "verifiedOn": "2026-10-08",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -49,9 +49,9 @@
   },
   "releases": {
     "source": {
-      "version": "1.88.0",
-      "date": "2026-09-28",
-      "url": "https://github.com/mrzmyr/pixy-mood-tracker-app/releases/tag/v1.88.0"
+      "version": "1.95.1",
+      "date": "2026-10-07",
+      "url": "https://github.com/mrzmyr/pixy-mood-tracker-app/releases/tag/v1.95.1"
     },
     "store": {
       "version": "1.68.0",
@@ -62,6 +62,7 @@
   },
   "featureStatuses": {
     "available": "Works in the source version. Public copy may claim it.",
+    "flagged": "Exists in the source behind a feature flag. Off for the public. Do not claim.",
     "legacy": "Only shows data created by older versions. Do not claim.",
     "removed": "Existed in an earlier version. Do not claim.",
     "unavailable": "Never existed. Listed so comparisons can say no."
@@ -256,7 +257,7 @@
       "label": "Color scales",
       "status": "available",
       "group": "personalization",
-      "description": "Choose one of 5 mood color scales.",
+      "description": "Choose one of 3 mood color scales.",
       "evidence": [
         "src/constants/Colors/Scales.ts",
         "src/features/settings/screens/Colors/index.tsx"
@@ -338,12 +339,16 @@
     {
       "id": "app-lock",
       "label": "App lock",
-      "status": "removed",
+      "status": "flagged",
       "group": "data",
-      "description": "Passcode lock removed in 1.10.1. No PIN or Face ID lock.",
+      "description": "Face ID, Touch ID, or passcode lock. Behind the app-lock feature flag.",
       "competitorKey": "lock",
-      "until": "1.10.0",
-      "evidence": ["git: 2235cbbe remove passcode feature"]
+      "since": "1.95.0",
+      "evidence": [
+        "src/features/applock/",
+        "src/state/featureFlags/keys.ts",
+        "CHANGELOG.md: feat(app-lock): add App Lock with Face ID, Touch ID, and passcode (#665)"
+      ]
     },
     {
       "id": "anonymous-analytics",
@@ -396,11 +401,16 @@
     {
       "id": "widgets",
       "label": "Home screen widgets",
-      "status": "available",
+      "status": "flagged",
       "group": "platforms",
-      "description": "iOS Home Screen widgets show the week, month, or year in pixels. Not on Android.",
+      "description": "iOS Home Screen widgets show the week, month, or year in pixels. Behind the ios-widget feature flag.",
       "competitorKey": "widgets",
-      "evidence": ["src/features/widget/widgets", "app.config.ts"]
+      "since": "1.0.0",
+      "evidence": [
+        "src/features/widget/useIsWidgetEnabled.ts",
+        "src/state/featureFlags/keys.ts",
+        "src/features/widget/widgets"
+      ]
     },
     {
       "id": "watch",
@@ -423,11 +433,16 @@
     {
       "id": "photos",
       "label": "Photos",
-      "status": "unavailable",
-      "group": "platforms",
-      "description": "Not in the app.",
+      "status": "flagged",
+      "group": "logging",
+      "description": "Add photos to entries. Behind the photos feature flag.",
       "competitorKey": "photos",
-      "evidence": []
+      "since": "1.95.0",
+      "evidence": [
+        "src/features/photos/",
+        "src/state/featureFlags/keys.ts",
+        "CHANGELOG.md: feat(logger): ask for photos before the note (#661)"
+      ]
     },
     {
       "id": "voice",
