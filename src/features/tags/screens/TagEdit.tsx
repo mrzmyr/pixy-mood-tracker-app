@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../useTagActions";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
+import { EditActionButton } from "@/components/EditActionButton";
 import ModalHeader from "@/components/ModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -77,24 +78,20 @@ export const TagEdit = () => {
         <ModalHeader
           title={t("edit_tag")}
           left={
-            <LinkButton
-              onPress={() => {
-                router.back();
-              }}
-              type="primary"
-            >
-              {t("cancel")}
-            </LinkButton>
+            <EditActionButton
+              action="cancel"
+              label={t("cancel")}
+              testID="tag-cancel"
+              onPress={() => router.back()}
+            />
           }
           right={
-            <LinkButton
-              onPress={() => onSubmit(tag)}
-              type="primary"
+            <EditActionButton
+              action="save"
+              label={t("save")}
               testID="tag-save"
-              style={{ fontWeight: "700" }}
-            >
-              {t("save")}
-            </LinkButton>
+              onPress={() => onSubmit(tag)}
+            />
           }
         />
         <View

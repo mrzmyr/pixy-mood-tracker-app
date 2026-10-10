@@ -1,3 +1,4 @@
+import { EditActionButton } from "@/components/EditActionButton";
 import { CloseButton } from "@/components/CloseButton";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
@@ -89,6 +90,8 @@ export const SlideHeader = ({
         <View
           style={{
             flexDirection: "row",
+            alignItems: "center",
+            gap: 8,
           }}
         >
           {isDeleteable && (
@@ -109,7 +112,16 @@ export const SlideHeader = ({
               <Trash color={colors.logHeaderText} width={24} height={24} />
             </Pressable>
           )}
-          <CloseButton testID="logger-close" onPress={() => onClose?.()} />
+          {isDeleteable ? (
+            <EditActionButton
+              action="cancel"
+              label={t("cancel")}
+              testID="logger-close"
+              onPress={() => onClose?.()}
+            />
+          ) : (
+            <CloseButton testID="logger-close" onPress={() => onClose?.()} />
+          )}
         </View>
       </View>
     </View>

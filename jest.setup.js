@@ -103,17 +103,18 @@ jest.mock("@expo/ui", () => ({
   RNHostView: () => null,
 }));
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the SwiftUI menu has no Jest view; the stand-in renders menu items as pressable buttons.
+// oxlint-disable-next-line anti-slop/no-module-mocking -- SwiftUI has no Jest view; the stand-in keeps action labels and identifiers.
 jest.mock("@expo/ui/swift-ui", () => {
   const { Pressable, View } = require("react-native");
   return {
     Host: ({ children }) => children,
     Image: () => null,
     Menu: ({ children }) => <View>{children}</View>,
-    Button: ({ label, onPress }) => (
+    Button: ({ label, onPress, role, modifiers = [] }) => (
       <Pressable
-        accessibilityRole="menuitem"
+        accessibilityRole={role ? "button" : "menuitem"}
         accessibilityLabel={label}
+        testID={modifiers.find((modifier) => modifier.identifier)?.identifier}
         onPress={onPress}
       />
     ),
@@ -130,9 +131,16 @@ jest.mock(
     new Proxy(
       {},
       {
-        get: (_target, name) =>
+        get: (_target, name) => {
+          if (name === "accessibilityIdentifier") {
+            return (identifier) => ({ identifier });
+          }
           // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- export name of @expo/ui.
-          name === "shapes" ? mockSwiftUiOutlines : mockSwiftUiModifier,
+          if (name === "shapes") {
+            return mockSwiftUiOutlines;
+          }
+          return mockSwiftUiModifier;
+        },
       }
     )
 );
