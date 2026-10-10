@@ -1,5 +1,7 @@
-import { Pressable, Text, View, useColorScheme } from "react-native";
-import { RADIUS } from "@/constants/Radius";
+import { Circle, CircleCheck } from "lucide-react-native";
+import { Text, View } from "react-native";
+import MenuList from "@/components/MenuList";
+import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
@@ -7,8 +9,8 @@ import { useTagsState } from "../TagsProvider";
 import type { TagCategory } from "../TagsProvider";
 
 /**
- * Category choice in the tag forms: one radio chip per category, in
- * category order. Chips wrap, so all categories stay visible.
+ * Category choice in the tag forms: one radio row per category, in category
+ * order. Radio marks match the App Icon screen.
  */
 const TagCategoryPicker = ({
   value,
@@ -19,10 +21,7 @@ const TagCategoryPicker = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
-  const colorScheme = useColorScheme();
   const { categories } = useTagsState();
-  const borderColor =
-    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
   return (
     <View style={{ marginTop: 24 }}>
@@ -40,48 +39,41 @@ const TagCategoryPicker = ({
       <View
         accessibilityRole="radiogroup"
         accessibilityLabelledBy="tag-category-label"
-        style={{ flexDirection: "row", flexWrap: "wrap" }}
       >
-        {categories.map((category) => {
-          const selected = category.id === value;
-          return (
-            <Pressable
-              key={category.id}
-              testID={`tag-category-option-${category.id}`}
-              accessibilityRole="radio"
-              accessibilityState={{ selected }}
-              accessibilityLabel={category.title}
-              onPress={() => {
-                void haptics.selection();
-                onChange(category.id);
-              }}
-              style={({ pressed }) => ({
-                minHeight: 44,
-                justifyContent: "center",
-                paddingHorizontal: 16,
-                marginRight: 8,
-                marginBottom: 8,
-                borderRadius: RADIUS.full,
-                borderWidth: 1,
-                borderColor: selected ? colors.tint : borderColor,
-                backgroundColor: selected
-                  ? colors.tagBackgroundActive
-                  : colors.tagBackground,
-                opacity: pressed ? 0.8 : 1,
-              })}
-            >
-              <Text
-                numberOfLines={1}
-                style={{
-                  fontSize: 17,
-                  color: selected ? colors.tagTextActive : colors.tagText,
+        <MenuList>
+          {categories.map((category) => {
+            const checked = category.id === value;
+            return (
+              <MenuListItem
+                key={category.id}
+                testID={`tag-category-option-${category.id}`}
+                title={category.title}
+                checked={checked}
+                onPress={() => {
+                  void haptics.selection();
+                  onChange(category.id);
                 }}
-              >
-                {category.title}
-              </Text>
-            </Pressable>
-          );
-        })}
+                iconRight={
+                  checked ? (
+                    <CircleCheck
+                      size={24}
+                      color={colors.background}
+                      fill={colors.tint}
+                      aria-hidden
+                    />
+                  ) : (
+                    <Circle
+                      size={24}
+                      color={colors.textSecondary}
+                      strokeWidth={1.5}
+                      aria-hidden
+                    />
+                  )
+                }
+              />
+            );
+          })}
+        </MenuList>
       </View>
     </View>
   );

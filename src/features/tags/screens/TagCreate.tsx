@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import DismissKeyboard from "@/components/DismisKeyboard";
@@ -96,11 +96,11 @@ export const TagCreate = () => {
             </LinkButton>
           }
         />
-        <View
-          style={{
-            flex: 1,
-            padding: 20,
-          }}
+        {/* Scrolls once many categories push the form past the screen. */}
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+          keyboardShouldPersistTaps="handled"
         >
           <TagNameField
             value={tempTag.title}
@@ -121,7 +121,7 @@ export const TagCreate = () => {
               setTempTag((currentTag) => ({ ...currentTag, categoryId }));
             }}
           />
-        </View>
+        </ScrollView>
       </View>
     </DismissKeyboard>
   );
