@@ -26,7 +26,7 @@ export const ReorderHandle = ({
   const Icon = Platform.OS === "ios" ? Menu : GripVertical;
 
   return (
-    <Sortable.Handle>
+    <Sortable.Handle style={{ flex: 1 }}>
       <View
         testID={testID}
         accessible

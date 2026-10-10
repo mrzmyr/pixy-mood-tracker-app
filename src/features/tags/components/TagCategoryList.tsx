@@ -114,7 +114,7 @@ export const TagCategoryList = ({
                 params: { id: item.category.id },
               })
             }
-            style={{ fontSize: 15 }}
+            style={{ fontSize: 15, marginRight: IS_IOS ? 0 : 8 }}
           >
             {t("edit")}
           </LinkButton>
@@ -187,7 +187,8 @@ export const TagCategoryList = ({
       contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
     >
       {header}
-      <View style={{ paddingHorizontal: 16 }}>
+      {/* Android lists run full width (Material); iOS groups are inset. */}
+      <View style={{ paddingHorizontal: IS_IOS ? 16 : 0 }}>
         <Sortable.Grid
           columns={1}
           data={rows}
