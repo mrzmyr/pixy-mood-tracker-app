@@ -142,39 +142,39 @@ export const PrivacySlide = ({
           <ListItem delay={200}>{t(`onboarding_step_5_body_3`)}</ListItem>
           <ListItem delay={300}>{t(`onboarding_step_5_body_4`)}</ListItem>
           <ListItem delay={400}>{t(`onboarding_step_5_body_5`)}</ListItem>
-          {needsConsent ? null : (
-            <Animated.View
-              entering={FadeInRight.delay(500)}
+          <Animated.View
+            entering={FadeInRight.delay(500)}
+            style={{
+              width: "100%",
+              marginTop: 16,
+              padding: 16,
+              borderRadius: RADIUS.md,
+              borderWidth: 1,
+              borderColor: colors.cardBorder,
+              backgroundColor: colors.cardBackground,
+            }}
+          >
+            <Text
               style={{
-                width: "100%",
-                marginTop: 16,
-                padding: 16,
-                borderRadius: RADIUS.md,
-                borderWidth: 1,
-                borderColor: colors.onboardingBottomBorder,
-                backgroundColor: colors.onboardingBottomBackground,
+                color: colors.onboardingTitle,
+                fontSize: 17,
+                lineHeight: 24,
+                fontWeight: "bold",
+                marginBottom: 4,
               }}
             >
-              <Text
-                style={{
-                  color: colors.onboardingTitle,
-                  fontSize: 17,
-                  lineHeight: 24,
-                  fontWeight: "bold",
-                  marginBottom: 4,
-                }}
-              >
-                {t("onboarding_step_5_personal_title")}
-              </Text>
-              <Text
-                style={{
-                  color: colors.onboardingListItemText,
-                  fontSize: 15,
-                  lineHeight: 22,
-                }}
-              >
-                {t("onboarding_step_5_personal_body")}
-              </Text>
+              {t("onboarding_step_5_personal_title")}
+            </Text>
+            <Text
+              style={{
+                color: colors.onboardingListItemText,
+                fontSize: 15,
+                lineHeight: 22,
+              }}
+            >
+              {t("onboarding_step_5_personal_body")}
+            </Text>
+            {needsConsent ? null : (
               <Text
                 style={{
                   color: colors.onboardingTitle,
@@ -185,8 +185,8 @@ export const PrivacySlide = ({
               >
                 {t("onboarding_step_5_analytics_info")}
               </Text>
-            </Animated.View>
-          )}
+            )}
+          </Animated.View>
         </ScrollView>
         <View style={{ width: "100%" }}>
           {needsConsent ? (
