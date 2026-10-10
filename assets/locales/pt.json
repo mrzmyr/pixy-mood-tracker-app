@@ -1,4 +1,5 @@
 {
+  "a11y_hide_keyboard": "Ocultar teclado",
   "a11y_mood": "humor {{mood}}",
   "a11y_next": "Seguinte",
   "a11y_next_month": "Mês seguinte: {{month}}",
@@ -533,6 +534,7 @@
   "log_emotions_basic": "Alternar para Básico",
   "log_emotions_disable": "Eu não rastreio emoções",
   "log_emotions_question": "Como você está se sentindo?",
+  "log_emotions_search": "Pesquisar emoções…",
   "log_feedback_disable": "não quero dar feedback",
   "log_message_disable": "Eu não escrevo sobre o meu dia",
   "log_modal_message_example": "Hoje eu encontrei uma maneira de me reconectar comigo mesma.",
@@ -566,6 +568,7 @@
   "log_summary_title_neutral": "Anotado, obrigado!",
   "log_tags_disable": "não uso tags",
   "log_tags_question": "Adicione tags ao seu dia",
+  "log_tags_search": "Pesquisar tags…",
   "log_view_changed_body": "Agora você pode usar o botão [+] na parte superior para adicionar várias entradas. Se você tiver várias entradas por dia, uma lista será exibida, caso contrário, apenas uma entrada será exibida nesta visualização detalhada.",
   "log_view_changed_title": "Espere, onde estão meus dias?",
   "logger_date_hint": "Altera a hora deste registo.",

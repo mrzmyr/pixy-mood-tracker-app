@@ -1,4 +1,5 @@
 {
+  "a11y_hide_keyboard": "Masquer le clavier",
   "a11y_mood": "humeur {{mood}}",
   "a11y_next": "Suivant",
   "a11y_next_month": "Mois suivant : {{month}}",
@@ -534,6 +535,7 @@
   "log_emotions_basic": "Basculer vers Basique",
   "log_emotions_disable": "Je ne suis pas les émotions",
   "log_emotions_question": "Comment vous sentez-vous?",
+  "log_emotions_search": "Rechercher des émotions…",
   "log_feedback_disable": "Je ne veux pas donner d'avis",
   "log_message_disable": "Je n'écris pas sur ma journée",
   "log_modal_message_example": "Aujourd'hui, j'ai trouvé un moyen de me reconnecter à moi-même.",
@@ -567,6 +569,7 @@
   "log_summary_title_neutral": "C’est noté, merci !",
   "log_tags_disable": "je n'utilise pas de balises",
   "log_tags_question": "Ajoutez des balises à votre journée",
+  "log_tags_search": "Rechercher des tags…",
   "log_view_changed_body": "Vous pouvez maintenant utiliser le bouton [+] en haut pour ajouter plusieurs entrées. Si vous avez plusieurs entrées par jour, une liste sera affichée, sinon une seule entrée sera affichée dans cette vue détaillée.",
   "log_view_changed_title": "Attendez, où sont mes journées ?",
   "logger_date_hint": "Modifie l’heure de cette entrée.",

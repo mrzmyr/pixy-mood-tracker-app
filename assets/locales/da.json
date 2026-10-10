@@ -1,4 +1,5 @@
 {
+  "a11y_hide_keyboard": "Skjul tastatur",
   "a11y_mood": "humør {{mood}}",
   "a11y_next": "Næste",
   "a11y_next_month": "Næste måned: {{month}}",
@@ -533,6 +534,7 @@
   "log_emotions_basic": "Skift til Basic",
   "log_emotions_disable": "Jeg sporer ikke følelser",
   "log_emotions_question": "Hvordan har du det?",
+  "log_emotions_search": "Søg i følelser…",
   "log_feedback_disable": "Jeg ønsker ikke at give feedback",
   "log_message_disable": "Jeg skriver ikke om min dag",
   "log_modal_message_example": "I dag har jeg fundet en måde at genoprette forbindelsen til mig selv.",
@@ -566,6 +568,7 @@
   "log_summary_title_neutral": "Forstået, tak!",
   "log_tags_disable": "Jeg bruger ikke tags",
   "log_tags_question": "Tilføj tags til din dag",
+  "log_tags_search": "Søg i tags…",
   "log_view_changed_body": "Du kan nu bruge knappen [+] øverst til at tilføje flere poster. Hvis du har flere poster pr. dag, vil en liste blive vist, ellers vil kun én post blive vist i denne detaljevisning.",
   "log_view_changed_title": "Vent, hvor er mine dagtimer?",
   "logger_date_hint": "Ændrer tidspunktet for denne registrering.",

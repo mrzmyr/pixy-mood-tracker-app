@@ -1,4 +1,5 @@
 {
+  "a11y_hide_keyboard": "הסתרת המקלדת",
   "a11y_mood": "מצב רוח {{mood}}",
   "a11y_next": "הבא",
   "a11y_next_month": "החודש הבא: {{month}}",
@@ -533,6 +534,7 @@
   "log_emotions_basic": "עבור לבסיס",
   "log_emotions_disable": "אני לא עוקב אחר רגשות",
   "log_emotions_question": "איך אתה מרגיש?",
+  "log_emotions_search": "חיפוש רגשות…",
   "log_feedback_disable": "אני לא רוצה לתת משוב",
   "log_message_disable": "אני לא כותב על היום שלי",
   "log_modal_message_example": "היום מצאתי דרך להתחבר לעצמי מחדש.",
@@ -566,6 +568,7 @@
   "log_summary_title_neutral": "קיבלתי, תודה!",
   "log_tags_disable": "אני לא משתמש בתגיות",
   "log_tags_question": "הוסף תגים ליום שלך",
+  "log_tags_search": "חיפוש תגיות…",
   "log_view_changed_body": "כעת תוכל להשתמש בלחצן [+] בחלק העליון כדי להוסיף מספר ערכים. אם יש לך מספר ערכים ביום, רשימה תוצג, אחרת רק ערך אחד יוצג בתצוגת פירוט זו.",
   "log_view_changed_title": "רגע, איפה שעות היום שלי?",
   "logger_date_hint": "משנה את השעה של רשומה זו.",

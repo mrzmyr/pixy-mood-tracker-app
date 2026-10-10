@@ -1,4 +1,5 @@
 {
+  "a11y_hide_keyboard": "Sakrij tipkovnicu",
   "a11y_mood": "raspoloženje {{mood}}",
   "a11y_next": "Dalje",
   "a11y_next_month": "Sljedeći mjesec: {{month}}",
@@ -533,6 +534,7 @@
   "log_emotions_basic": "Prijeđi na Osnovno",
   "log_emotions_disable": "Ne pratim emocije",
   "log_emotions_question": "Kako se osjećaš?",
+  "log_emotions_search": "Pretraži emocije…",
   "log_feedback_disable": "Ne želim davati povratne informacije",
   "log_message_disable": "Ne pišem o svom danu",
   "log_modal_message_example": "Danas sam pronašao način da se ponovno povežem sa sobom.",
@@ -566,6 +568,7 @@
   "log_summary_title_neutral": "Primljeno, hvala!",
   "log_tags_disable": "Ne koristim oznake",
   "log_tags_question": "Dodajte oznake svom danu",
+  "log_tags_search": "Pretraži oznake…",
   "log_view_changed_body": "Sada možete koristiti gumb [+] na vrhu za dodavanje više unosa. Ako imate više unosa dnevno, prikazat će se popis, inače će u ovom detaljnom pregledu biti prikazan samo jedan unos.",
   "log_view_changed_title": "Čekaj, gdje su moji dani?",
   "logger_date_hint": "Mijenja vrijeme ovog unosa.",

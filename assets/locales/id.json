@@ -1,4 +1,5 @@
 {
+  "a11y_hide_keyboard": "Sembunyikan Keyboard",
   "a11y_mood": "suasana hati {{mood}}",
   "a11y_next": "Berikutnya",
   "a11y_next_month": "Bulan berikutnya: {{month}}",
@@ -533,6 +534,7 @@
   "log_emotions_basic": "Beralih ke Dasar",
   "log_emotions_disable": "Saya tidak melacak emosi",
   "log_emotions_question": "Bagaimana perasaanmu?",
+  "log_emotions_search": "Cari emosi…",
   "log_feedback_disable": "Saya tidak ingin memberikan umpan balik",
   "log_message_disable": "Saya tidak menulis tentang hari saya",
   "log_modal_message_example": "Hari ini saya telah menemukan cara untuk berhubungan kembali dengan diri saya sendiri.",
@@ -566,6 +568,7 @@
   "log_summary_title_neutral": "Oke, terima kasih!",
   "log_tags_disable": "Saya tidak menggunakan tag",
   "log_tags_question": "Tambahkan tag ke hari Anda",
+  "log_tags_search": "Cari tag…",
   "log_view_changed_body": "Anda sekarang dapat menggunakan tombol [+] di bagian atas untuk menambahkan beberapa entri. Jika Anda memiliki banyak entri per hari, daftar akan ditampilkan, jika tidak, hanya satu entri yang akan ditampilkan dalam tampilan detail ini.",
   "log_view_changed_title": "Tunggu, dimana siang hariku?",
   "logger_date_hint": "Mengubah waktu entri ini.",

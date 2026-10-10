@@ -1,4 +1,5 @@
 {
+  "a11y_hide_keyboard": "إخفاء لوحة المفاتيح",
   "a11y_mood": "المزاج {{mood}}",
   "a11y_next": "التالي",
   "a11y_next_month": "الشهر التالي: {{month}}",
@@ -533,6 +534,7 @@
   "log_emotions_basic": "قم بالتبديل إلى الأساسي",
   "log_emotions_disable": "أنا لا أتتبع العواطف",
   "log_emotions_question": "ما هو شعورك؟",
+  "log_emotions_search": "ابحث في المشاعر…",
   "log_feedback_disable": "لا أريد أن أعطي ملاحظات",
   "log_message_disable": "أنا لا أكتب عن يومي",
   "log_modal_message_example": "لقد وجدت اليوم طريقة لإعادة الاتصال بنفسي.",
@@ -566,6 +568,7 @@
   "log_summary_title_neutral": "تمام، شكرًا!",
   "log_tags_disable": "أنا لا أستخدم العلامات",
   "log_tags_question": "أضف علامات إلى يومك",
+  "log_tags_search": "ابحث في الوسوم…",
   "log_view_changed_body": "يمكنك الآن استخدام الزر [+] في الجزء العلوي لإضافة إدخالات متعددة. إذا كان لديك إدخالات متعددة في اليوم ، فسيتم عرض قائمة ، وإلا فسيتم عرض إدخال واحد فقط في عرض التفاصيل هذا.",
   "log_view_changed_title": "انتظر ، أين أوقات النهار الخاصة بي؟",
   "logger_date_hint": "يغيّر وقت هذا الإدخال.",

@@ -5,17 +5,20 @@ import { useTagsState, TagComponent as Tag } from "@/features/tags";
 import { useLogDraft } from "../logDraft";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import { ScrollView, View } from "react-native";
+import { useState } from "react";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
 import { MiniButton } from "@/components/MiniButton";
 import { SlideHeadline } from "../components/SlideHeadline";
+import { PullToSearch } from "../components/PullToSearch";
+import { matchesSearch } from "../components/matchesSearch";
 import { Footer } from "./Footer";
 import noop from "lodash/noop";
 
 /**
  * Tag picker slide. Archived tags are hidden unless the draft already has
- * them.
+ * them. Pulling the list down reveals a search by tag title.
  */
 export const SlideTags = ({
   onDisableStep = noop,
@@ -29,6 +32,7 @@ export const SlideTags = ({
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const { tags } = useTagsState();
+  const [query, setQuery] = useState("");
 
   const selectedTagIds = new Set(draft.tags.map((d) => d.id));
 
@@ -36,9 +40,10 @@ export const SlideTags = ({
     const isSelected = selectedTagIds.has(tag.id);
 
     return (
-      (!isSelected && !tag.isArchived) ||
-      (isSelected && tag.isArchived) ||
-      (isSelected && !tag.isArchived)
+      ((!isSelected && !tag.isArchived) ||
+        (isSelected && tag.isArchived) ||
+        (isSelected && !tag.isArchived)) &&
+      matchesSearch(tag.title, query)
     );
   });
 
@@ -71,10 +76,11 @@ export const SlideTags = ({
             width: "100%",
           }}
         />
-        <ScrollView
-          style={{
-            flex: 1,
-          }}
+        <PullToSearch
+          testID="logger-tags-search"
+          placeholder={t("log_tags_search")}
+          query={query}
+          onChangeQuery={setQuery}
         >
           <View
             style={{
@@ -133,7 +139,7 @@ export const SlideTags = ({
           )}
           {/* Keep final actions above the 54 pt Next button and its spacing. */}
           <View style={{ height: insets.bottom + 54 + 32 }} />
-        </ScrollView>
+        </PullToSearch>
       </View>
     </View>
   );

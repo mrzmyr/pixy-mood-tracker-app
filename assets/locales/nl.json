@@ -1,4 +1,5 @@
 {
+  "a11y_hide_keyboard": "Toetsenbord verbergen",
   "a11y_mood": "stemming {{mood}}",
   "a11y_next": "Volgende",
   "a11y_next_month": "Volgende maand: {{month}}",
@@ -533,6 +534,7 @@
   "log_emotions_basic": "Schakel over naar Basis",
   "log_emotions_disable": "Ik volg geen emoties",
   "log_emotions_question": "Hoe voel je je?",
+  "log_emotions_search": "Emoties zoeken…",
   "log_feedback_disable": "Ik wil geen feedback geven",
   "log_message_disable": "Ik schrijf niet over mijn dag",
   "log_modal_message_example": "Vandaag heb ik een manier gevonden om weer in contact te komen met mezelf.",
@@ -566,6 +568,7 @@
   "log_summary_title_neutral": "Begrepen, bedankt!",
   "log_tags_disable": "Ik gebruik geen tags",
   "log_tags_question": "Voeg tags toe aan je dag",
+  "log_tags_search": "Tags zoeken…",
   "log_view_changed_body": "U kunt nu de knop [+] bovenaan gebruiken om meerdere vermeldingen toe te voegen. Als u meerdere vermeldingen per dag heeft, wordt er een lijst weergegeven, anders wordt er slechts één vermelding weergegeven in dit detailoverzicht.",
   "log_view_changed_title": "Wacht, waar zijn mijn dagen?",
   "logger_date_hint": "Wijzigt de tijd van deze invoer.",
