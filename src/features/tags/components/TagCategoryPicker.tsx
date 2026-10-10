@@ -1,16 +1,18 @@
-import { Circle, CircleCheck } from "lucide-react-native";
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
+import RadioMark from "@/components/RadioMark";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 import { useTagsState } from "../TagsProvider";
 import type { TagCategory } from "../TagsProvider";
 
+const IS_ANDROID = Platform.OS === "android";
+
 /**
  * Category choice in the tag forms: one radio row per category, in category
- * order. Radio marks match the App Icon screen.
+ * order, with the platform radio mark from {@link RadioMark}.
  */
 const TagCategoryPicker = ({
   value,
@@ -43,33 +45,21 @@ const TagCategoryPicker = ({
         <MenuList>
           {categories.map((category) => {
             const checked = category.id === value;
+            const select = () => {
+              void haptics.selection();
+              onChange(category.id);
+            };
+            const mark = <RadioMark selected={checked} onSelect={select} />;
             return (
               <MenuListItem
                 key={category.id}
                 testID={`tag-category-option-${category.id}`}
                 title={category.title}
                 checked={checked}
-                onPress={() => {
-                  void haptics.selection();
-                  onChange(category.id);
-                }}
-                iconRight={
-                  checked ? (
-                    <CircleCheck
-                      size={24}
-                      color={colors.background}
-                      fill={colors.tint}
-                      aria-hidden
-                    />
-                  ) : (
-                    <Circle
-                      size={24}
-                      color={colors.textSecondary}
-                      strokeWidth={1.5}
-                      aria-hidden
-                    />
-                  )
-                }
+                onPress={select}
+                // Material lists lead with the radio; iOS trails the mark.
+                iconLeft={IS_ANDROID ? mark : null}
+                iconRight={IS_ANDROID ? null : mark}
               />
             );
           })}
