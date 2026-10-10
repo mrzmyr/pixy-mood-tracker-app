@@ -9,6 +9,7 @@ import { useCalendarFilters } from "../../filters";
 import { HAS_FLOATING_HEADER } from "../../floatingHeader";
 import { useCalendarLayout } from "../../calendarLayout";
 import useColors from "@/hooks/useColors";
+import { useToday } from "@/hooks/useToday";
 import { ForYouToday } from "@/features/interventions";
 import { useLogLoad, useLogState } from "@/features/logs";
 import { useSettingsLoad } from "@/state/settings";
@@ -26,7 +27,6 @@ import { ObserveInteractiveMarker } from "expo-observe";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import dayjs from "dayjs";
-import { DATE_FORMAT } from "@/constants/Config";
 import { getItemDate } from "@/lib/logDates";
 
 // Space between the list end and the foot note, revealed on overscroll.
@@ -66,7 +66,7 @@ const CalendarScreenComponent = () => {
     ? headerHeight + (isCalendar ? weekdayHeight : 0)
     : 0;
   const showFloatButton = !calendarFilters.isOpen;
-  const today = dayjs().format(DATE_FORMAT);
+  const today = useToday();
   const hasTodayEntry = logState.items.some(
     (item) => getItemDate(item) === today
   );

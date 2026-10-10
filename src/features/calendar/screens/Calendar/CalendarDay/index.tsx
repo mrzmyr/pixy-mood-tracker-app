@@ -3,9 +3,9 @@ import dayjs from "dayjs";
 import { memo, useCallback, useMemo } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
-import { DATE_FORMAT } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import usePressRipple from "@/hooks/usePressRipple";
+import { useToday } from "@/hooks/useToday";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
 import { getRatingLabel } from "@/lib/ratingLabel";
@@ -70,8 +70,8 @@ const CalendarDayComponent = ({
 
   const day = useMemo(() => dayjs(dateString).date(), [dateString]);
 
-  // Recompute when the current day changes, not only when `dateString` does.
-  const today = dayjs().format(DATE_FORMAT);
+  // Re-renders when the current day changes, not only when `dateString` does.
+  const today = useToday();
 
   const isFuture = useMemo(
     () => dayjs(dateString).isAfter(today, "day"),

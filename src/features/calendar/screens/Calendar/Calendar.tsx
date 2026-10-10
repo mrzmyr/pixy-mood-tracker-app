@@ -14,6 +14,7 @@ import type {
 
 import { DATE_FORMAT } from "@/constants/Config";
 import { useLogState } from "@/features/logs";
+import { useToday } from "@/hooks/useToday";
 import CalendarMonth from "./CalendarMonth";
 import { getGeometry, getMonths } from "./layout";
 import type { Month } from "./layout";
@@ -54,7 +55,8 @@ const CalendarComponent = ({
   const [width, setWidth] = useState(0);
   const [monthCount, setMonthCount] = useState(13);
   const isLoaded = useRef(false);
-  const currentMonth = dayjs().startOf("month").format(DATE_FORMAT);
+  const today = useToday();
+  const currentMonth = dayjs(today).startOf("month").format(DATE_FORMAT);
   const locale = useWeekLocale();
   const months = useMemo(
     () => getMonths({ end: currentMonth, count: monthCount, locale }),
