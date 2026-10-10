@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, Text, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../useTagActions";
@@ -99,11 +99,11 @@ export const TagEdit = () => {
             </LinkButton>
           }
         />
-        <View
-          style={{
-            flex: 1,
-            padding: 20,
-          }}
+        {/* Scrolls once many categories push the form past the screen. */}
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+          keyboardShouldPersistTaps="handled"
         >
           <TagNameField
             value={tag.title}
@@ -179,7 +179,7 @@ export const TagEdit = () => {
               {t("delete")}
             </LinkButton>
           )}
-        </View>
+        </ScrollView>
       </View>
     </DismissKeyboard>
   );
