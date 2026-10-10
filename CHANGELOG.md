@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.96.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.95.2...v1.96.0) (2026-10-10)
+
+
+### Features
+
+* let users pick the app language in system settings ([#734](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/734)) ([1b38057](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1b38057ca6649d23261eb80a98ab4c641ff4bfae))
+
+
+### Bug Fixes
+
+* **calendar:** move today to the new day after resume or midnight ([#735](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/735)) ([c35aa61](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c35aa61605428d9d887fe810e711148f7a3f4616))
+* **i18n:** format dates by device region and clock setting ([#739](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/739)) ([9d08ea5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9d08ea5fb1470343d8b3e20b822b4adf0ddd0713))
+* **logger:** remove tags bottom bar and use full scroll height ([#742](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/742)) ([fcf43ad](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fcf43addbb06fd6ac8ecc6c2db29e3ce097ffca8))
+* **onboarding:** show personal privacy note in a white card ([#738](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/738)) ([28fcedc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/28fcedc71b111af2fadfb65d952b2afbf380f865))
+
 ## [1.95.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.95.1...v1.95.2) (2026-10-09)
 
 
