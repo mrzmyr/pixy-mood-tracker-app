@@ -2,7 +2,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
 import type { ViewStyle } from "react-native";
-import { locale } from "@/lib/translation";
+import { getLocale } from "@/lib/translation";
 
 const Clock = ({
   timeDate,
@@ -14,7 +14,7 @@ const Clock = ({
   style?: ViewStyle;
 }) => (
   <DateTimePicker
-    locale={locale}
+    locale={getLocale()}
     testID="reminder-time"
     style={style}
     mode="time"

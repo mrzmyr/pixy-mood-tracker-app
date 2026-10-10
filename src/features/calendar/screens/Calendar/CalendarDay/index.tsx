@@ -9,7 +9,7 @@ import { useToday } from "@/hooks/useToday";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
 import { getRatingLabel } from "@/lib/ratingLabel";
-import { locale, t } from "@/lib/translation";
+import { getLocale, t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
 
 /** Diameter of the today circle behind the day number. */
@@ -174,7 +174,7 @@ const CalendarDayComponent = ({
   }, [isFuture, onPress]);
 
   const accessibilityLabel = useMemo(() => {
-    const date = new Intl.DateTimeFormat(locale, {
+    const date = new Intl.DateTimeFormat(getLocale(), {
       weekday: "long",
       year: "numeric",
       month: "long",

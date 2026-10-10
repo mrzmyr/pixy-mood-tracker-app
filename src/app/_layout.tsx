@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react-native";
+import { useLocales } from "expo-localization";
 import { Observe, ObserveRoot } from "expo-observe";
 import {
   Stack,
@@ -18,6 +19,7 @@ import { ToastHost } from "@/components/Toast";
 import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
+import { applyLocale, getLocale } from "@/lib/translation";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
@@ -72,6 +74,12 @@ const AppShell = () => {
 /** Root shell mounts Router immediately while stores load. */
 const RootLayout = () => {
   const scheme = useColorScheme();
+  // Android 13+ keeps the app running after a per-app language change.
+  // Translate with the new locale, then remount screens to show it.
+  const [{ languageTag }] = useLocales();
+  if (getLocale() !== languageTag) {
+    applyLocale(languageTag);
+  }
   const colors = scheme === "dark" ? Colors.dark : Colors.light;
   const theme = {
     ...DefaultTheme,
@@ -90,7 +98,7 @@ const RootLayout = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={theme}>
         <Providers>
-          <AppShell />
+          <AppShell key={languageTag} />
           <ToastHost />
           <StatusBar />
           <LaunchSplash />

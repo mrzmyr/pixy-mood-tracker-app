@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { locale } from "@/lib/translation";
+import { getLocale } from "@/lib/translation";
 
 /** Stored reminder time format. */
 const REMINDER_TIME_FORMAT = "HH:mm";
@@ -24,9 +24,9 @@ export const parseReminderTime = (time: string) => {
   return { hour: date.getHours(), minute: date.getMinutes() };
 };
 
-/** Reminder time for display, in the device locale (`20:00`, `8:00 PM`). */
+/** Reminder time for display, in the app locale (`20:00`, `8:00 PM`). */
 export const formatReminderTime = (date: Date): string =>
-  date.toLocaleTimeString(locale, { hour: "numeric", minute: "2-digit" });
+  date.toLocaleTimeString(getLocale(), { hour: "numeric", minute: "2-digit" });
 
 /**
  * Reminder time as a lock screen clock shows it: no day period, so
@@ -34,7 +34,7 @@ export const formatReminderTime = (date: Date): string =>
  */
 export const formatLockScreenTime = (
   date: Date,
-  locales: string = locale
+  locales: string = getLocale()
 ): string => {
   const parts = new Intl.DateTimeFormat(locales, {
     hour: "numeric",

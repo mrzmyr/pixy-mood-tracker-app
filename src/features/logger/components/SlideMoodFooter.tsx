@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 import { LocationPicker, getLocationLabel } from "@/features/location";
-import { locale, t } from "@/lib/translation";
+import { getLocale, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { getShortItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
@@ -195,7 +195,7 @@ export const SlideMoodFooter = ({
             />
           )}
           isVisible={isDatePickerVisible}
-          locale={locale}
+          locale={getLocale()}
           date={draft.dateTime ? new Date(draft.dateTime) : new Date()}
           mode="datetime"
           minuteInterval={10}

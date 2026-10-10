@@ -1,7 +1,7 @@
 import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import groupBy from "lodash/groupBy";
-import { locale, t } from "@/lib/translation";
+import { getLocale, t } from "@/lib/translation";
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogDay, LogItem } from "@/features/logs";
 import {
@@ -13,19 +13,35 @@ import { getItemDate } from "@/lib/logDates";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-const SHORT_DAY_FORMAT = new Intl.DateTimeFormat(locale, {
+const SHORT_DAY_OPTIONS: Intl.DateTimeFormatOptions = {
   month: "short",
   day: "numeric",
-});
-const SHORT_DAY_YEAR_FORMAT = new Intl.DateTimeFormat(locale, {
+};
+const SHORT_DAY_YEAR_OPTIONS: Intl.DateTimeFormatOptions = {
   month: "short",
   day: "numeric",
   year: "numeric",
-});
-const SHORT_TIME_FORMAT = new Intl.DateTimeFormat(locale, {
+};
+const SHORT_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
   hour: "numeric",
   minute: "2-digit",
-});
+};
+
+// Formatters are slow to create. Cache one per locale and options object.
+const formatters = new Map<string, Intl.DateTimeFormat>();
+const getFormatter = (
+  name: string,
+  options: Intl.DateTimeFormatOptions
+): Intl.DateTimeFormat => {
+  const locale = getLocale();
+  const key = `${locale}:${name}`;
+  let formatter = formatters.get(key);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, options);
+    formatters.set(key, formatter);
+  }
+  return formatter;
+};
 
 /**
  * Rounded mean rating on the {@link RATING_MAPPING} scale, or `null` for
@@ -146,9 +162,10 @@ export const getShortItemDateTitle = (dateTime: LogItem["dateTime"]) => {
 
   // Date and time apart: a combined format adds words like "at".
   const dayFormat = date.isSame(dayjs(), "year")
-    ? SHORT_DAY_FORMAT
-    : SHORT_DAY_YEAR_FORMAT;
-  return `${dayFormat.format(date.toDate())}, ${SHORT_TIME_FORMAT.format(date.toDate())}`;
+    ? getFormatter("short_day", SHORT_DAY_OPTIONS)
+    : getFormatter("short_day_year", SHORT_DAY_YEAR_OPTIONS);
+  const timeFormat = getFormatter("short_time", SHORT_TIME_OPTIONS);
+  return `${dayFormat.format(date.toDate())}, ${timeFormat.format(date.toDate())}`;
 };
 
 /**
@@ -159,7 +176,7 @@ export const getShortItemDateTitle = (dateTime: LogItem["dateTime"]) => {
 export const formatLocalizedDay = (
   date: string | Date,
   weekdayStyle: "long" | "short",
-  localeTag: string = locale
+  localeTag: string = getLocale()
 ) => {
   const day = dayjs(date);
   const options: Intl.DateTimeFormatOptions = {

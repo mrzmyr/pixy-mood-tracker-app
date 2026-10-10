@@ -93,30 +93,53 @@ const deviceLocale = Localization.getLocales()[0]?.languageTag ?? "en";
 
 const i18n = createI18n(deviceLocale);
 
-/** Device locale tag (for example `de-DE`), read once at startup. */
-export const { locale } = i18n;
-/** Language part of {@link locale} (for example `de`), read once at startup. */
-export const [language] = i18n.locale.split("-");
+/** App locale tag (for example `de-DE`). Follows the device or per-app language. */
+export const getLocale = () => i18n.locale;
+/** Language part of {@link getLocale} (for example `de`). */
+export const getLanguage = () => i18n.locale.split("-")[0] ?? "en";
 
-const dayjsLanguage = language in dayjs_locales ? language : "en";
+let dayjsLanguage = "en";
 
-// Register immutable week locales before first render. Local instance locales
-// keep cached dates valid when settings change, without changing global dayjs.
-// https://day.js.org/docs/en/i18n/instance-locale
-for (let weekStart = 0; weekStart < 7; weekStart += 1) {
-  dayjs.locale(
-    {
-      ...dayjs.Ls[dayjsLanguage],
-      name: `${dayjsLanguage}-week-${weekStart}`,
-      weekStart,
-    },
-    undefined,
-    true
-  );
-}
-dayjs.locale(dayjsLanguage);
+/**
+ * Set global dayjs to the app language and register its week locales.
+ *
+ * Immutable week locales keep cached dates valid when settings change,
+ * without changing global dayjs.
+ * https://day.js.org/docs/en/i18n/instance-locale
+ */
+const applyDayjsLanguage = () => {
+  const language = getLanguage();
+  dayjsLanguage = language in dayjs_locales ? language : "en";
+  for (let weekStart = 0; weekStart < 7; weekStart += 1) {
+    dayjs.locale(
+      {
+        ...dayjs.Ls[dayjsLanguage],
+        name: `${dayjsLanguage}-week-${weekStart}`,
+        weekStart,
+      },
+      undefined,
+      true
+    );
+  }
+  dayjs.locale(dayjsLanguage);
+};
+
+// Before first render.
+applyDayjsLanguage();
 dayjs.extend(weekOfYear);
 dayjs.extend(localizedFormat);
+
+/**
+ * Switch translations and dayjs to `locale` (for example `de-DE`).
+ *
+ * iOS restarts the app after a language change in Settings. Android 13+
+ * keeps the app running, so the root layout calls this again with the new
+ * locale. Unsupported languages fall back to English.
+ */
+export const applyLocale = (locale: string) => {
+  i18n.locale = locale;
+  applyDayjsLanguage();
+};
 
 /**
  * Day.js uses Sunday=0. A missing browser calendar preference retains
@@ -136,7 +159,7 @@ export const getWeekLocale = ({
 /** Key in `assets/locales/en.json`. */
 export type TranslationKey = keyof typeof en;
 
-/** Translate `key` for the device locale, falling back to English. */
+/** Translate `key` for the app locale, falling back to English. */
 export const t = (key: TranslationKey, options?: TranslateOptions) =>
   i18n.t(key, options);
 
