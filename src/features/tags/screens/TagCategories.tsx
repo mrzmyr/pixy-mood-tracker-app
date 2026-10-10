@@ -155,7 +155,7 @@ export const TagCategories = () => {
           paddingBottom: insets.bottom + 120,
         }}
       >
-        <View style={{ paddingHorizontal: 16 }}>
+        <View style={{ paddingHorizontal: IS_IOS ? 16 : 0 }}>
           <Sortable.Grid
             columns={1}
             data={categories}
