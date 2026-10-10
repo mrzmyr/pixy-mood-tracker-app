@@ -2,6 +2,18 @@
 
 - Use defined components, if you think a custom component is needed, ask the user to create a new component or create it right away but flag it
 
+## Tag Color Selection
+
+- Fixed palette: show swatches inline. One tap selects one color. Save commits changes; Cancel discards changes.
+- This layout applies platform selection and accessibility guidance to Pixy's fixed palette. Neither platform mandates this exact grid.
+- Apple: [color wells](https://developer.apple.com/design/human-interface-guidelines/color-wells) support color selection. [UI design tips](https://developer.apple.com/design/tips/) require targets at least 44 × 44 points.
+- Android: [Material radio buttons](https://m3.material.io/components/radio-button/overview) represent one choice. [Accessibility defaults](https://developer.android.com/develop/ui/compose/accessibility/api-defaults) require targets at least 48 × 48 dp. Avoid overlapping targets.
+- Shared picker uses 48 × 48 targets, 36-point swatches, wrapping rows. Targets never shrink to fit seven columns.
+- Selected color uses ring, black checkmark on white badge, visible color name. Selection never depends on hue alone.
+- Screen readers receive localized color names, radio roles, checked state. Keyboard focus gets visible ring.
+- Color names use English fallback when locale lacks translation. Palette values stay unchanged in storage.
+- Create and Edit share [`ColorPicker`](../src/features/tags/components/ColorPicker.tsx). Forms scroll when keyboard or larger text reduces space.
+
 # Copywriting
 
 - Headings & buttons use Title Case (Chicago)

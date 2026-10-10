@@ -1,13 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import {
-  Platform,
-  Switch,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { Check } from "react-native-feather";
+import { Platform, Switch, TextInput, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import Alert from "@/lib/Alert";
@@ -15,11 +8,7 @@ import Button from "@/components/Button";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
-import {
-  MAX_TAG_LENGTH,
-  MIN_TAG_LENGTH,
-  TAG_COLOR_NAMES,
-} from "@/constants/Config";
+import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
@@ -30,6 +19,8 @@ import type { Tag as ITag } from "../TagsProvider";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
+
+import { ColorPicker } from "../components/ColorPicker";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
@@ -132,9 +123,12 @@ export const TagEdit = () => {
             </LinkButton>
           }
         />
-        <View
-          style={{
-            flex: 1,
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode={
+            Platform.OS === "ios" ? "interactive" : "on-drag"
+          }
+          contentContainerStyle={{
             padding: 20,
           }}
         >
@@ -162,47 +156,12 @@ export const TagEdit = () => {
               }));
             }}
           />
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              alignItems: "center",
-              width: "100%",
+          <ColorPicker
+            value={tag.color}
+            onChange={(color) => {
+              setTag((currentTag) => ({ ...currentTag, color }));
             }}
-          >
-            {TAG_COLOR_NAMES.map((colorName) => (
-              <TouchableOpacity
-                key={colorName}
-                accessibilityLabel={colorName}
-                accessibilityRole="radio"
-                accessibilityState={{ selected: tag.color === colorName }}
-                testID={`tag-color-${colorName}`}
-                style={{
-                  flex: 1,
-                  flexBasis: `${100 / 7 - 2}%`,
-                  maxWidth: `${100 / 7 - 2}%`,
-                  aspectRatio: 1,
-                  borderRadius: 100,
-                  backgroundColor: colors.tags[colorName].dot,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "1%",
-                }}
-                onPress={async () => {
-                  await haptics.selection();
-                  setTag((currentTag) => ({
-                    ...currentTag,
-                    color: colorName,
-                  }));
-                }}
-                activeOpacity={0.8}
-              >
-                {tag.color === colorName && (
-                  <Check width={20} height={20} color={colors.palette.white} />
-                )}
-              </TouchableOpacity>
-            ))}
-          </View>
+          />
           <MenuList
             style={{
               marginTop: 16,
@@ -260,7 +219,8 @@ export const TagEdit = () => {
               {t("delete")}
             </Button>
           </View>
-        </View>
+          <View style={{ height: insets.bottom }} />
+        </ScrollView>
       </View>
     </DismissKeyboard>
   );

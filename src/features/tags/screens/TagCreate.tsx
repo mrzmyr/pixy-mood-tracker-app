@@ -1,24 +1,20 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, Pressable, TextInput, View } from "react-native";
-import { Check } from "react-native-feather";
+import { Platform, ScrollView, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import Button from "@/components/Button";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
-import {
-  MAX_TAG_LENGTH,
-  MIN_TAG_LENGTH,
-  TAG_COLOR_NAMES,
-} from "@/constants/Config";
+import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { useTagsUpdater } from "../TagsProvider";
 import type { Tag as ITag } from "../TagsProvider";
+
+import { ColorPicker } from "../components/ColorPicker";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
@@ -30,7 +26,6 @@ const REGEX_EMOJI = /\p{Emoji}/u;
 export const TagCreate = () => {
   const router = useRouter();
   const colors = useColors();
-  const haptics = useHaptics();
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const tagsUpdater = useTagsUpdater();
@@ -82,9 +77,12 @@ export const TagCreate = () => {
             </LinkButton>
           }
         />
-        <View
-          style={{
-            flex: 1,
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode={
+            Platform.OS === "ios" ? "interactive" : "on-drag"
+          }
+          contentContainerStyle={{
             padding: 20,
           }}
         >
@@ -112,51 +110,12 @@ export const TagCreate = () => {
               }));
             }}
           />
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              alignItems: "center",
-              width: "100%",
+          <ColorPicker
+            value={tempTag.color}
+            onChange={(color) => {
+              setTempTag((currentTag) => ({ ...currentTag, color }));
             }}
-          >
-            {TAG_COLOR_NAMES.map((colorName) => (
-              <Pressable
-                key={colorName}
-                accessibilityLabel={colorName}
-                accessibilityRole="radio"
-                accessibilityState={{ selected: tempTag.color === colorName }}
-                testID={`tag-color-${colorName}`}
-                style={({ pressed }) => ({
-                  flex: 1,
-                  flexBasis: `${100 / 7 - 2}%`,
-                  maxWidth: `${100 / 7 - 2}%`,
-                  aspectRatio: 1,
-                  borderRadius: 100,
-                  backgroundColor: colors.tags[colorName].dot,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "1%",
-                  opacity: pressed ? 0.8 : 1,
-                })}
-                onPress={() => {
-                  haptics.selection();
-                  setTempTag((currentTag) => ({
-                    ...currentTag,
-                    color: colorName,
-                  }));
-                }}
-              >
-                {tempTag.color === colorName && (
-                  <Check
-                    width={22}
-                    height={22}
-                    color={colors.tags[colorName].text}
-                  />
-                )}
-              </Pressable>
-            ))}
-          </View>
+          />
           <Button
             style={{
               marginTop: 32,
@@ -169,7 +128,8 @@ export const TagCreate = () => {
           >
             {t("create")}
           </Button>
-        </View>
+          <View style={{ height: insets.bottom }} />
+        </ScrollView>
       </View>
     </DismissKeyboard>
   );
