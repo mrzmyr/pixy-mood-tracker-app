@@ -1,36 +1,50 @@
 Run the dev client with Metro. Installs the cached dev client, starts this checkout's Metro, opens the app.
 
-Usage: bun app dev --platform=<ios|android>
+Usage: bun app dev --platform=<ios|android> [--fixture=<id>] [--flag=<key>=<on|off>,...]
 
 Options:
-  --platform=<ios|android>  Required. Simulator (ios) or emulator (android) of this checkout.
-                            CLI creates and boots it. Phones: use `bun ios --device <udid>`.
+  --platform=<ios|android>   Required. Simulator (ios) or emulator (android) of this checkout.
+                             CLI creates and boots it. Phones: use `bun ios --device <udid>`.
+  --fixture=<id>             Load a fixture after launch. One of: fresh, empty, seed, year, people, timeline, chaos.
+  --flag=<key>=<on|off>,...  Override feature flags after launch, until the app restarts.
 
 Behavior:
   Build  Reuses the cached dev client for this native fingerprint. All worktrees
          with the same native dependencies share it. Builds only on a miss.
   Metro  Starts `bun start` for this checkout on its own port (8082-8181),
          detached. Reuses it when it already runs. `bun app close` stops it.
+  Menu   Hides the dev menu onboarding, launch menu, and floating button.
   Open   Deep links the dev client to this Metro and waits for the first bundle.
          Edits reload in the app. Rerun the command to reload by hand.
+  Links  Opens --fixture, then --flag deep links in the running app.
 
 Output:
   Screenshot path on stdout. Build ID, Metro port, and log path on stderr.
 
 Examples:
   bun app dev --platform=ios
-  bun app dev --platform=android
+  bun app dev --platform=android --fixture=year --flag=people=on,photos=off
+
+Progress:
+  First stderr line: Log: <path>. New log file per run.
+  Step lines: Step N/7: <name>. Steps: Resolve device, Fingerprint, Build, Install, Start Metro, Open app, Wait for bundle.
+  Last stdout line: PIXY_RESULT status=<ok|error> command=app-dev [code=<status>] [path=<artifact>]
 
 Errors:
   missing_option          No --platform passed
   invalid_platform        --platform is not ios or android
+  fixture_not_found       --fixture has no match
+  invalid_flag            --flag has an unknown key or a value other than on, off
   native_build_failed     Compiler failed, read the log
   build_lock_timeout      Another build held the cache lock 30 minutes
+  build_slot_timeout      Two other native builds held all slots 90 minutes
+  disk_low                Less than 10 GiB free disk, run `bun builds reclaim`
   install_failed          Device refused the build
   metro_port_taken        Another process answers on this checkout's Metro port
   metro_start_failed      Metro did not answer in 120 seconds
   dev_client_open_failed  Deep link to the dev client failed
   bundle_failed           Metro could not bundle the app
   bundle_timeout          App did not load its bundle in 180 seconds
+  dev_link_failed         Fixture or flag deep link failed
 
 Exit codes: 0 ok, 1 failure, 2 usage error

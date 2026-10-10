@@ -73,7 +73,7 @@ export const useStoreReviewPrompt = () => {
       entriesCount,
       promptedAt: settings.storeReviewPromptedAt,
       isReviewBuild: IS_REVIEW_BUILD,
-      isSettingsReady: settingsLoad.status === "ready" && settings.loaded,
+      isSettingsReady: settingsLoad.status === "ready",
     };
 
     // Availability is async and checked after the delay. Check the rest now

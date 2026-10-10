@@ -7,7 +7,12 @@ import {
 import { AnalyticsProvider, useAnalytics } from "@/state/analytics";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
-import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettings,
+  useSettingsLoad,
+} from "@/state/settings";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -36,13 +41,14 @@ const _renderHook = () =>
     () => ({
       state: useAnalytics(),
       settingsState: useSettings(),
+      settingsLoad: useSettingsLoad(),
     }),
     { wrapper }
   );
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
-    expect(hook.result.current.settingsState.settings.loaded).toBe(true);
+    expect(hook.result.current.settingsLoad.status).toBe("ready");
   });
 
 const _console_error = console.error;
@@ -74,12 +80,19 @@ const USAGE_SUMMARY = {
   statistics_unlocked: false,
   tags_count: 2,
   archived_tags_count: 0,
+  people_count: 0,
+  archived_people_count: 0,
   reminder_enabled: true,
   reminder_hour: 20,
   scale_type: INITIAL_STATE.scaleType,
   steps: INITIAL_STATE.steps,
   onboarding_done: true,
   questions_answered_count: 1,
+  photos_enabled: true,
+  photos_pct_30d: 10,
+  photos_count: 4,
+  photos_day_pct: 50,
+  photo_library_access: "limited" as const,
 };
 
 describe("useAnalytics()", () => {
@@ -109,10 +122,10 @@ describe("useAnalytics()", () => {
     await waitForLoaded(hook);
 
     await act(() => {
-      hook.result.current.settingsState.setSettings({
-        ...hook.result.current.settingsState.settings,
+      hook.result.current.settingsState.setSettings((settings) => ({
+        ...settings,
         analyticsEnabled: false,
-      });
+      }));
     });
 
     expect(hook.result.current.state.isEnabled).toBe(false);

@@ -1,3 +1,4 @@
+import { useWeekLocale } from "@/hooks/useWeekLocale";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
 
@@ -6,7 +7,6 @@ import { Card } from "../../components/Card";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import type { TagsPeakData } from "../../TagsPeaks";
 import type { Tag as ITag } from "@/features/tags";
@@ -16,6 +16,7 @@ import keys from "lodash/keys";
 import range from "lodash/range";
 import { useCalendarNavigation } from "@/features/calendar";
 import { getItemDate } from "@/lib/logDates";
+import { RADIUS } from "@/constants/Radius";
 
 const DayDot = ({
   date,
@@ -29,7 +30,6 @@ const DayDot = ({
   item: LogItem | undefined;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const calendarNavigation = useCalendarNavigation();
 
   const color = isHighlighted
@@ -47,7 +47,7 @@ const DayDot = ({
         aspectRatio: 1,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 100,
+        borderRadius: RADIUS.full,
         backgroundColor: color?.background,
         maxWidth: 32,
         maxHeight: 32,
@@ -55,12 +55,11 @@ const DayDot = ({
         borderWidth: date.isSame(dayjs(), "day") ? 2 : 0,
         opacity: pressed ? 0.8 : 1,
       })}
-      onPress={async () => {
+      onPress={() => {
         if (!item) {
           return;
         }
 
-        await haptics.selection();
         calendarNavigation.openDay({
           date: dayjs(date).format(DATE_FORMAT),
           source: "tag_peaks",
@@ -129,13 +128,22 @@ const BodyWeek = ({
 
 /**
  * Highlight card for a frequently used tag, marking its days in the weeks
- * covering the last 14 days.
+ * covering `startDate` to `endDate` (`YYYY-MM-DD`).
  */
-export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
+export const TagPeaksCard = ({
+  tag,
+  startDate: start,
+  endDate: end,
+}: {
+  tag: TagsPeakData["tags"][0];
+  startDate: string;
+  endDate: string;
+}) => {
   const colors = useColors();
 
-  const startDate = dayjs().subtract(14, "days").startOf("week");
-  const endDate = dayjs().endOf("week");
+  const locale = useWeekLocale();
+  const startDate = dayjs(start).locale(locale).startOf("week");
+  const endDate = dayjs(end).locale(locale).endOf("week");
   const weekCount = dayjs(endDate).diff(dayjs(startDate), "week") + 1;
 
   const daysCount = keys(groupBy(tag.items, getItemDate)).length;

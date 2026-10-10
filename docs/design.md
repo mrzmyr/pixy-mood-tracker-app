@@ -2,6 +2,60 @@
 
 - Use defined components, if you think a custom component is needed, ask the user to create a new component or create it right away but flag it
 
+## Close Button
+
+- Page close (modal, sheet, full-screen page): top right, use [`CloseButton`](../src/components/CloseButton.tsx)
+- Android full-screen dialogs: close top left, title after it (Material 3). Day view does this ([`Header`](../src/features/calendar/screens/LogList/Header.tsx))
+- Never build own close icon. Need other color on media: pass `color`
+- Push-stack pages keep back arrow top left. Back is not close
+- Form modals with Save keep text Cancel top left
+- Card and toast dismiss icons are not page close
+
+## Nested Scrolling
+
+- Never put a sideways scroller inside a parent that scrolls sideways (pager, carousel). Android parent steals the swipe
+- Day view is one vertical list of cards. Chip and photo rows inside cards scroll sideways ([`LogList`](../src/features/calendar/screens/LogList/index.tsx))
+
+## Toasts
+
+- Call `showToast` ([`src/lib/toast.ts`](../src/lib/toast.ts)), rendered by [`ToastHost`](../src/components/Toast.tsx)
+- iOS: card at top, swipe up dismisses
+- Android: Material 3 snackbar at bottom above system bar, inverse surface, 4dp corners, 4s (8s with action), swipe down dismisses
+- Optional `action` ({ label, onPress }) for Undo. Never the only way to do something
+- Both platforms announce the message to screen readers
+
+## Menu Rows
+
+- Row component: [`MenuListItem`](../src/components/MenuListItem.tsx)
+- Title: short noun in Title Case, for example `Backup`. No sentence, no status in title
+- Status (`On`, `Off`, last backup date) goes in value slot (`iconRight`). Empty value slot is fine
+- Warnings and alerts are [`TextInfo`](../src/components/TextInfo.tsx) under list, never a menu row
+- One text color per row. No colored title or value for emphasis
+- Exception: destructive rows use `colors.danger` for icon and title
+- Title and value fit one line. Text too long: shorten text, never wrap or shrink font
+
+## Surfaces
+
+- Statistics cards and person tiles sit in a bezel: shell, gap, inner surface. Component: [`Bezel`](../src/components/Bezel.tsx)
+- Calendar days, mood buttons, day view and timeline cards, and list groups have no bezel
+- Android list groups: Material 3 full-width list. No chevron, no dividers. Rows 56dp ([`MenuList`](../src/components/MenuList.tsx), [`MenuListItem`](../src/components/MenuListItem.tsx))
+- Gaps and shell radius: [`src/constants/Bezel.ts`](../src/constants/Bezel.ts). Shell radius comes from `getBezelRadius`, never picked by hand
+- Colors: `bezelBackground`, `bezelBorder`, `bezelInnerBorder`, `bezelShadow`
+- Person tiles build a round shell in [`PersonChip`](../src/features/people/components/PersonChip.tsx). Selected tile: tint shell border
+
+## Sheets and Modals
+
+- Native presentation first: `Modal` with `presentationStyle="pageSheet"` and `animationType="slide"`. Pattern: [`useFeedbackModal`](../src/features/feedback/hooks/useFeedbackModal.tsx)
+- Never build custom slide-in sheet with Reanimated or `Animated`
+- Never track keyboard by hand to move sheet. Inside sheet, `KeyboardAvoidingView` wraps content only
+- Input fields sit at top of sheet, so keyboard never covers them
+
+## Settings
+
+- Prefer system settings over in-app setting, for example notifications, language, appearance
+- Before adding in-app setting: check [Apple HIG](https://developer.apple.com/design/human-interface-guidelines/settings), [Material](https://m3.material.io/) and 2-3 reference apps
+- Cite this research (links, screenshots) in PR
+
 # Copywriting
 
 - Headings & buttons use Title Case (Chicago)
@@ -10,6 +64,18 @@
   - Instead of _“Invalid API key,”_ say _“Your API key is incorrect or expired. Generate a new key in your account settings.”_ The copy & buttons/links should educate & give a clear action.
 - **Avoid ambiguity.** Labels are clear & specific.
   - Instead of the button label _“Continue”_ say _“Save API Key”_.
+
+## Core Modules
+
+- Term defined in [GLOSSARY.md](../GLOSSARY.md). Each Core Module uses its icon everywhere: Steps settings, Check-in, filters, statistics
+- Icons: `react-native-feather`, 20 px in lists, stroke `colors.text`
+- Mood: `Sun` ([Steps settings](../src/features/settings/screens/Steps.tsx))
+- Emotions: `Heart`
+- Tags: `Tag`
+- People: `Users`
+- Photos: `Image`
+- Note: `FileText`
+- Labels: Mood, Emotions, Tags, People, Photos, Note. Single noun, no verb ("Note", not "Write About Your Day")
 
 ## Interactions
 
@@ -31,7 +97,7 @@
 - **Tooltip equivalent.** RN has no native tooltip; use long-press hints only as a last resort, prefer inline help. If using a popover, delay the first, no delay for subsequent peers.
 - **Overscroll behavior.** `bounces={false}` / `overScrollMode="never"` only when intentional (e.g. nested scroll inside a bottom sheet). Keep native bounce on primary lists — users expect it.
 - **Scroll positions persist.** Going Back restores list offset: keep screens mounted in stacks, or persist `contentOffset` and restore via `scrollToOffset` on focus.
-- **Autofocus for speed.** `autoFocus` on a screen with a single primary input (search, OTP, compose). Watch keyboard-driven layout shift; pair with `KeyboardAvoidingView` / `react-native-keyboard-controller`.
+- **Autofocus for speed.** `autoFocus` on a screen with a single primary input (search, OTP, compose). Watch keyboard-driven layout shift; pair with `KeyboardAvoidingView` / `react-native-keyboard-controller`. In sheets, follow [Sheets and Modals](#sheets-and-modals).
 - **No dead zones.** If a card/row looks tappable, the whole row is the `Pressable`, not just the text.
 - **Deep-link everything.** Any `useState` that represents navigable state belongs in route params or a URL-backed store.
 - **Clean drag interactions.** During drag (Reanimated + Gesture Handler): disable text selection (`selectable={false}`), set `pointerEvents="none"` on siblings, raise `zIndex`/`elevation`, and run the animation on the UI thread.
@@ -44,7 +110,7 @@
 ## Animations
 
 - **Honor reduce motion.** Read `AccessibilityInfo.isReduceMotionEnabled()` / `useReducedMotion()` (Reanimated) and provide a reduced variant: cross-fade instead of slide, no parallax, no autoplay loops.
-- **Implementation preference.** UI-thread only. Preference: Reanimated (worklets) > `Animated` with `useNativeDriver: true` > LayoutAnimation > JS-thread animation (`useNativeDriver: false`, `setInterval`, `requestAnimationFrame` loops). Never animate on the JS thread when the bridge/JSI is busy — frames drop with every state update.
+- **Implementation preference.** UI-thread only. Preference: Reanimated (worklets) > `Animated` with `useNativeDriver: true` > JS-thread animation (`useNativeDriver: false`, `setInterval`, `requestAnimationFrame` loops). Never animate on the JS thread when the bridge/JSI is busy — frames drop with every state update.
 - **Compositor-friendly.** Animate `transform` & `opacity`. Width/height/margin/padding/`top`/`left` trigger layout (Yoga) each frame — avoid, or use Reanimated layout transitions / shared element transitions that handle it natively.
 - **Necessity check.** Animate only to clarify cause & effect (where did the sheet come from, what moved) or for deliberate delight. Default RN screen transitions already cover most cases.
 - **Easing fits the subject.** Springs (`withSpring`) for gestures & physical motion; `withTiming` + ease-out for enter, ease-in for exit; match platform (iOS springs, Material emphasized curves).
@@ -53,17 +119,20 @@
 - **Correct transform origin.** RN transforms originate at center; for scale-from-corner or anchor-at-touch-point, translate before/after scaling or use Reanimated's `transformOrigin` (0.72+ / RN 0.74 style prop).
 - **Never animate everything.** Only pass the properties you intend to animate to `useAnimatedStyle` / `Animated.View`; don't spread whole style objects into animated values.
 - **Cross-platform SVG transforms.** With `react-native-svg`, animate a wrapping `<G>` via `AnimatedProps` (Reanimated `createAnimatedComponent`) and set `origin` / `originX` explicitly; Android and iOS disagree on default origin.
-- **Layout animations opt-in.** `LayoutAnimation` on Android requires `UIManager.setLayoutAnimationEnabledExperimental(true)` on the old architecture; prefer Reanimated `entering`/`exiting`/`layout` props, which are consistent across platforms and the New Architecture.
+- **No `LayoutAnimation`.** `configureNext` is global: it animates every pending layout change, including screen teardown, and crashed Fabric on close ([#610](https://github.com/mrzmyr/pixy-mood-tracker-app/pull/610)). Use Reanimated `entering`/`exiting`/`layout` props. Lint rule `pixy-standards/no-layout-animation` blocks it in `src/**`.
 - **60/120 fps aware.** Test on ProMotion & high-refresh Android; durations in ms, not frames. Profile with the Perf Monitor & Reanimated's `useFrameCallback` only when needed.
 
 ## Layout
 
 - **Optical alignment.** Adjust ±1 pt when perception beats geometry (icon next to text, badge on avatar). Use `StyleSheet.hairlineWidth` for 1-px lines across densities.
+- **Swap keeps size.** Replacing a component's implementation keeps its measured width, height, and padding. Measure before and after.
+- **Narrowest spacing scope.** Spacing request for one element changes that element only, not shared component or theme token.
 - **Deliberate alignment.** Every element aligns to a grid, baseline, edge, or optical center. No accidental positioning; no magic numbers without a token.
+- **Corner radius from scale.** Use `RADIUS` from [`src/constants/Radius.ts`](../src/constants/Radius.ts). Pick step by role, not size. Nested surface radius never exceeds parent radius.
 - **Balance contrast in lockups.** When icon & text sit together, match stroke weight to font weight; `lucide-react-native` / `expo-symbols` stroke width adjusted, not default.
 - **Responsive coverage.** Verify on small phone (iPhone SE / 360 dp Android), large phone, tablet (split view & multitasking), foldables (`useWindowDimensions`, not `Dimensions.get` at module scope), landscape, and RN Web if targeted. Breakpoints by width, not by `Platform.isPad`.
 - **Respect safe areas.** `react-native-safe-area-context` (`SafeAreaView` or `useSafeAreaInsets`) for notch, Dynamic Island, home indicator, Android gesture nav & status bar. Never hardcode 44/20 pt. Account for `edge-to-edge` on Android 15+ (`react-native-edge-to-edge`).
-- **Keyboard is layout.** Content above the keyboard stays reachable: `KeyboardAvoidingView` (behavior per platform) or `react-native-keyboard-controller`; scroll the focused input into view; `keyboardShouldPersistTaps="handled"` so taps on buttons don't require a keyboard dismiss first.
+- **Keyboard is layout.** Content above the keyboard stays reachable: `KeyboardAvoidingView` (behavior per platform) or `react-native-keyboard-controller`; scroll the focused input into view; `keyboardShouldPersistTaps="handled"` so taps on buttons don't require a keyboard dismiss first. Never move views by hand from keyboard events.
 - **No excessive scroll indicators.** Show indicators only on real scroll areas; fix overflow (unbounded `ScrollView` inside `ScrollView`, `flex: 1` missing) instead of hiding with `showsVerticalScrollIndicator={false}`.
 - **Let Yoga size things.** Prefer flex, `gap`, `aspectRatio`, percentage & intrinsic sizing over `onLayout` measuring. Measure in JS only when truly needed (anchored popovers), and never in a render loop.
 - **Lists are virtualized.** Any list > ~20 items uses `FlatList` / `FlashList` / `LegendList` with stable `keyExtractor`, `getItemLayout` or `estimatedItemSize`, and memoized rows. Never map a long array inside `ScrollView`.

@@ -6,6 +6,7 @@ import { agentDevice } from "./agent-device.ts";
 import { getAdb, listPackagesArgs, listsPackage } from "./adb.ts";
 import { CliError } from "./shared.ts";
 import type { Device } from "./device.ts";
+import { findPhone } from "./target.ts";
 import type { AgentPhone, IosState } from "./target.ts";
 
 const run = (command: string, args: string[], timeout = 60_000) => {
@@ -25,7 +26,7 @@ const run = (command: string, args: string[], timeout = 60_000) => {
         status: "coredevice_stuck",
         message: `xcrun devicectl ${args.slice(1, 3).join(" ")} did not answer`,
         why: `Apple's device service gave no answer within ${timeout / 1000} seconds.`,
-        fix: "Restart it with `pkill -f CoreDeviceService` (macOS starts it again), then retry. If it fails again, reconnect the cable.",
+        fix: "Run `bun devices doctor` for the restart command. Restart interrupts phone work in other sessions.",
       });
     }
     if (isTimeout) {
@@ -76,6 +77,20 @@ export const readAndroidStates = () => {
         const [serial, state] = line.trim().split(/\s+/u);
         return serial && state ? [[serial, state]] : [];
       })
+  );
+};
+
+/** Find one connected phone by target without preflight. Lists phones only, no devicectl call. */
+export const findConnectedPhone = async (target: string) => {
+  const { devices = [] } = await agentDevice<{ devices?: AgentPhone[] }>(
+    ["devices"],
+    { timeoutMs: 30_000 }
+  );
+  return findPhone(
+    devices.filter(
+      (device) => device.kind === "device" && device.target === "mobile"
+    ),
+    target
   );
 };
 

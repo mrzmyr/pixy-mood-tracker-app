@@ -10,6 +10,11 @@ const haptics = {
       await Haptics.selectionAsync();
     }
   },
+  impact: async () => {
+    if (Platform.OS === "ios") {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+  },
   success: async () => {
     if (Platform.OS === "ios") {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);

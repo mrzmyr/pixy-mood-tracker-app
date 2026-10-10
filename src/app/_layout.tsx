@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react-native";
+import { useLocales } from "expo-localization";
 import { Observe, ObserveRoot } from "expo-observe";
 import {
   Stack,
@@ -14,13 +15,20 @@ import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";
 import Providers from "@/shell/Providers";
+import { ToastHost } from "@/components/Toast";
 import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
-import { initializeDayjs } from "@/lib/translation";
-import { useSettings } from "@/state/settings";
+import { applyLocale, getLocale } from "@/lib/translation";
+import { useSettings, useSettingsLoad } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
+import { LaunchSplash } from "@/shell/LaunchSplash";
+import { AppLockScreen } from "@/features/applock";
+import {
+  useReminderSync,
+  useReminderTapTracking,
+} from "@/features/notifications";
 
 // Configure before first render; each app variant reports to its own project.
 if (HAS_APP_VARIANT) {
@@ -31,12 +39,15 @@ enableScreens();
 Observe.configure({ dispatchingEnabled: false });
 
 const AppShell = () => {
-  const { settings, hasActionDone } = useSettings();
+  const { hasActionDone } = useSettings();
+  const isSettingsReady = useSettingsLoad().status === "ready";
   const router = useRouter();
   const pathname = usePathname();
   const rootState = useRootNavigationState();
   useScreenTracking();
   useUsageSummarySync();
+  useReminderTapTracking();
+  useReminderSync();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state, and dev links pick their own route.
@@ -44,6 +55,7 @@ const AppShell = () => {
       !hasActionDone("onboarding") &&
       pathname !== "/dev/fixture" &&
       pathname !== "/dev/fake-files" &&
+      pathname !== "/dev/fake-contacts" &&
       pathname !== "/dev/feature-flag"
     ) {
       router.replace("/onboarding");
@@ -51,11 +63,10 @@ const AppShell = () => {
   });
 
   useEffect(() => {
-    initializeDayjs();
-    if (settings.loaded && rootState?.key) {
+    if (isSettingsReady && rootState?.key) {
       onSettingsLoaded();
     }
-  }, [settings.loaded, rootState?.key]);
+  }, [isSettingsReady, rootState?.key]);
 
   return <Stack screenOptions={{ headerShown: false }} />;
 };
@@ -63,6 +74,12 @@ const AppShell = () => {
 /** Root shell mounts Router immediately while stores load. */
 const RootLayout = () => {
   const scheme = useColorScheme();
+  // Android 13+ keeps the app running after a per-app language change.
+  // Translate with the new locale, then remount screens to show it.
+  const [{ languageTag }] = useLocales();
+  if (getLocale() !== languageTag) {
+    applyLocale(languageTag);
+  }
   const colors = scheme === "dark" ? Colors.dark : Colors.light;
   const theme = {
     ...DefaultTheme,
@@ -81,8 +98,11 @@ const RootLayout = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={theme}>
         <Providers>
-          <AppShell />
+          <AppShell key={languageTag} />
+          <ToastHost />
           <StatusBar />
+          <LaunchSplash />
+          <AppLockScreen />
         </Providers>
       </ThemeProvider>
     </GestureHandlerRootView>

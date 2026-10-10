@@ -1,5 +1,5 @@
 import { QUESTIONS_PULL_URL, QUESTION_SUBMIT_URL } from "@/constants/API";
-import { language, locale } from "@/lib/translation";
+import { getLanguage, getLocale } from "@/lib/translation";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useState } from "react";
 import { Platform } from "react-native";
@@ -12,7 +12,7 @@ import { useSettings } from "@/state/settings";
  * Remote in-app survey question.
  *
  * `appVersion` is a semver range matched against the app version. Questions
- * without text in the device language are skipped.
+ * without text in the app language are skipped.
  */
 export interface IQuestion {
   id: string;
@@ -74,7 +74,7 @@ export const useQuestioner = () => {
           ? semver.satisfies(pkg.version, candidate.appVersion)
           : true;
         const hasBeenAnswered = hasActionDone(`question_slide_${candidate.id}`);
-        const isInMyLanguage = candidate.text[language] !== undefined;
+        const isInMyLanguage = candidate.text[getLanguage()] !== undefined;
 
         if (!satisfiesVersion) {
           console.log(
@@ -109,6 +109,7 @@ export const useQuestioner = () => {
     answeredQuestion: IQuestion,
     answers: IQuestion["answers"]
   ) => {
+    const language = getLanguage();
     const question_text =
       answeredQuestion.text[language] || answeredQuestion.text["en"];
 
@@ -127,7 +128,7 @@ export const useQuestioner = () => {
       .join(", ");
 
     const metaData = {
-      locale,
+      locale: getLocale(),
       version: pkg.version,
       os: Platform.OS,
       deviceId: settings.deviceId,

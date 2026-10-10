@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-10-01",
+  "verifiedOn": "2026-10-08",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -49,9 +49,9 @@
   },
   "releases": {
     "source": {
-      "version": "1.88.0",
-      "date": "2026-09-28",
-      "url": "https://github.com/mrzmyr/pixy-mood-tracker-app/releases/tag/v1.88.0"
+      "version": "1.95.1",
+      "date": "2026-10-07",
+      "url": "https://github.com/mrzmyr/pixy-mood-tracker-app/releases/tag/v1.95.1"
     },
     "store": {
       "version": "1.68.0",
@@ -62,6 +62,7 @@
   },
   "featureStatuses": {
     "available": "Works in the source version. Public copy may claim it.",
+    "flagged": "Exists in the source behind a feature flag. Off for the public. Do not claim.",
     "legacy": "Only shows data created by older versions. Do not claim.",
     "removed": "Existed in an earlier version. Do not claim.",
     "unavailable": "Never existed. Listed so comparisons can say no."
@@ -123,7 +124,7 @@
       "competitorKey": "tags",
       "evidence": [
         "src/features/tags/",
-        "src/app/(app)/settings/tags/index.tsx"
+        "src/app/(app)/settings/steps/tags/index.tsx"
       ]
     },
     {
@@ -140,20 +141,21 @@
       "label": "Choose your check-in steps",
       "status": "available",
       "group": "logging",
-      "description": "Turn each check-in step on or off: mood, tags, emotions, note, feedback.",
+      "description": "Turn each check-in step on or off: sleep, tags, emotions, note, feedback.",
       "evidence": [
         "src/constants/LoggerSteps.ts",
-        "src/app/(app)/settings/steps.tsx"
+        "src/app/(app)/settings/steps/index.tsx"
       ]
     },
     {
       "id": "sleep",
       "label": "Sleep quality",
-      "status": "legacy",
+      "status": "available",
       "group": "logging",
-      "description": "Sleep quality cannot be logged anymore. Entries and the sleep chart only show ratings saved by older versions.",
+      "description": "Rate how you slept on a 5-step scale, once per day. Entries show it, and the sleep chart tracks it over time.",
       "competitorKey": "health",
       "evidence": [
+        "src/features/logger/slides/SlideSleep.tsx",
         "src/features/calendar/screens/LogList/Sleep.tsx",
         "src/features/statistics/screens/Statistics/SleepQualityGraph.tsx"
       ]
@@ -248,14 +250,14 @@
       "group": "reminders",
       "description": "One daily notification at a time you choose.",
       "competitorKey": "reminders",
-      "evidence": ["src/features/notifications/Notifications.ts"]
+      "evidence": ["src/features/notifications/reminderScheduler.ts"]
     },
     {
       "id": "color-scales",
       "label": "Color scales",
       "status": "available",
       "group": "personalization",
-      "description": "Choose one of 5 mood color scales.",
+      "description": "Choose one of 3 mood color scales.",
       "evidence": [
         "src/constants/Colors/Scales.ts",
         "src/features/settings/screens/Colors/index.tsx"
@@ -292,10 +294,11 @@
       "label": "Export",
       "status": "available",
       "group": "data",
-      "description": "Export all entries as a JSON file through the share sheet.",
+      "description": "Export a JSON backup or CSV entries through the share sheet. CSV is for spreadsheets and cannot be imported into Pixy.",
       "competitorKey": "export",
       "evidence": [
         "src/features/datagate/DataGate.ts",
+        "src/features/datagate/csv.ts",
         "src/features/datagate/fileTransfer.ts"
       ]
     },
@@ -336,12 +339,16 @@
     {
       "id": "app-lock",
       "label": "App lock",
-      "status": "removed",
+      "status": "flagged",
       "group": "data",
-      "description": "Passcode lock removed in 1.10.1. No PIN or Face ID lock.",
+      "description": "Face ID, Touch ID, or passcode lock. Behind the app-lock feature flag.",
       "competitorKey": "lock",
-      "until": "1.10.0",
-      "evidence": ["git: 2235cbbe remove passcode feature"]
+      "since": "1.95.0",
+      "evidence": [
+        "src/features/applock/",
+        "src/state/featureFlags/keys.ts",
+        "CHANGELOG.md: feat(app-lock): add App Lock with Face ID, Touch ID, and passcode (#665)"
+      ]
     },
     {
       "id": "anonymous-analytics",
@@ -394,11 +401,16 @@
     {
       "id": "widgets",
       "label": "Home screen widgets",
-      "status": "unavailable",
+      "status": "flagged",
       "group": "platforms",
-      "description": "Not in the app.",
+      "description": "iOS Home Screen widgets show the week, month, or year in pixels. Behind the ios-widget feature flag.",
       "competitorKey": "widgets",
-      "evidence": []
+      "since": "1.0.0",
+      "evidence": [
+        "src/features/widget/useIsWidgetEnabled.ts",
+        "src/state/featureFlags/keys.ts",
+        "src/features/widget/widgets"
+      ]
     },
     {
       "id": "watch",
@@ -421,11 +433,16 @@
     {
       "id": "photos",
       "label": "Photos",
-      "status": "unavailable",
-      "group": "platforms",
-      "description": "Not in the app.",
+      "status": "flagged",
+      "group": "logging",
+      "description": "Add photos to entries. Behind the photos feature flag.",
       "competitorKey": "photos",
-      "evidence": []
+      "since": "1.95.0",
+      "evidence": [
+        "src/features/photos/",
+        "src/state/featureFlags/keys.ts",
+        "CHANGELOG.md: feat(logger): ask for photos before the note (#661)"
+      ]
     },
     {
       "id": "voice",

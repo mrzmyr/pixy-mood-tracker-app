@@ -1,0 +1,25 @@
+Free disk: delete old builds, build folders, and recordings
+
+Usage: bun builds reclaim [--dry-run] [--older-than=<hours>]
+
+Options:
+  --dry-run             Optional. List what reclaim would delete, delete nothing.
+  --older-than=<hours>  Optional. Age in hours since last use. Default: 24.
+
+Behavior:
+  Deletes only these, and prints each size:
+  - Cached builds older than --older-than. Keeps newest per platform and variant.
+  - Xcode DerivedData of this app for deleted or idle checkouts.
+  - ios/build/Build of idle checkouts. Never ios/build itself or generated code.
+  - Shut-down simulators of deleted checkouts. Other simulators stay.
+  - e2e recordings older than --older-than.
+  Idle: no xcodebuild, Gradle, pod, or native run process uses the checkout.
+
+Examples:
+  bun builds reclaim --dry-run
+  bun builds reclaim --older-than=6
+
+Errors:
+  invalid_value  --older-than is not a positive number
+
+Exit codes: 0 ok, 1 failure, 2 usage error

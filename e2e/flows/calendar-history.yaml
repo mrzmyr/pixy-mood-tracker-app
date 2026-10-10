@@ -11,14 +11,12 @@ tags: [p0, calendar]
 
 # With 3+ entries the logger can add a question slide from the live
 # questions API. It has no save button, so turn the step off.
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - tapOn: "Check-in"
 - tapOn:
     id: "step-feedback-enabled"
 - back
-- tapOn:
-    id: "calendar"
+- back
 - assertVisible:
     id: "calendar-day-${output.today}"
 
@@ -36,24 +34,29 @@ tags: [p0, calendar]
     direction: UP
     timeout: 180000
 
-# The day lies before the fixture, so it opens the logger.
+# The day lies before the fixture, so it opens the logger. The day has no
+# entries, so the logger asks for sleep.
 - tapOn:
     id: "calendar-day-${output.pastDay}"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-good"
+- assertVisible: "How did you sleep?"
 - tapOn:
     id: "logger-next"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day…"
+- tapOn:
+    id: "logger-next"
+- assertVisible:
+    id: "log-message"
 - tapOn:
     id: "log-message"
 - inputText: "e2e past ${output.runId}"
 - tapOn:
     id: "logger-save"
-- runFlow: ../subflows/answer-confirmation.yaml
+- runFlow: ../subflows/close-confirmation.yaml
 
 # Saving returns to the calendar. The old day now shows the entry.
 - scrollUntilVisible:

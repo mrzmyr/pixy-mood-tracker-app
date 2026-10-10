@@ -53,170 +53,6 @@ const createI18n = (locale: string) => {
   return instance;
 };
 
-// https://unicode.org/Public/cldr/37/core.zip
-const firstDayOfWeek = {
-  // sunday
-  0: [
-    "AG",
-    "AS",
-    "AU",
-    "BD",
-    "BR",
-    "BS",
-    "BT",
-    "BW",
-    "BZ",
-    "CA",
-    "CN",
-    "CO",
-    "DM",
-    "DO",
-    "ET",
-    "GT",
-    "GU",
-    "HK",
-    "HN",
-    "ID",
-    "IL",
-    "IN",
-    "JM",
-    "JP",
-    "KE",
-    "KH",
-    "KR",
-    "LA",
-    "MH",
-    "MM",
-    "MO",
-    "MT",
-    "MX",
-    "MZ",
-    "NI",
-    "NP",
-    "PA",
-    "PE",
-    "PH",
-    "PK",
-    "PR",
-    "PT",
-    "PY",
-    "SA",
-    "SG",
-    "SV",
-    "TH",
-    "TT",
-    "TW",
-    "UM",
-    "US",
-    "VE",
-    "VI",
-    "WS",
-    "YE",
-    "ZA",
-    "ZW",
-  ],
-  // monday
-  1: [
-    "001",
-    "AD",
-    "AI",
-    "AL",
-    "AM",
-    "AN",
-    "AR",
-    "AT",
-    "AX",
-    "AZ",
-    "BA",
-    "BE",
-    "BG",
-    "BM",
-    "BN",
-    "BY",
-    "CH",
-    "CL",
-    "CM",
-    "CR",
-    "CY",
-    "CZ",
-    "DE",
-    "DK",
-    "EC",
-    "EE",
-    "ES",
-    "FI",
-    "FJ",
-    "FO",
-    "FR",
-    "GB",
-    "GE",
-    "GF",
-    "GP",
-    "GR",
-    "HR",
-    "HU",
-    "IE",
-    "IS",
-    "IT",
-    "KG",
-    "KZ",
-    "LB",
-    "LI",
-    "LK",
-    "LT",
-    "LU",
-    "LV",
-    "MC",
-    "MD",
-    "ME",
-    "MK",
-    "MN",
-    "MQ",
-    "MY",
-    "NL",
-    "NO",
-    "NZ",
-    "PL",
-    "RE",
-    "RO",
-    "RS",
-    "RU",
-    "SE",
-    "SI",
-    "SK",
-    "SM",
-    "TJ",
-    "TM",
-    "TR",
-    "UA",
-    "UY",
-    "UZ",
-    "VA",
-    "VN",
-    "XK",
-  ],
-  // saturday
-  6: [
-    "AE",
-    "AF",
-    "BH",
-    "DJ",
-    "DZ",
-    "EG",
-    "IQ",
-    "IR",
-    "JO",
-    "KW",
-    "LY",
-    "OM",
-    "QA",
-    "SD",
-    "SY",
-  ],
-  // friday
-  5: ["MV"],
-};
-
 const dayjs_locales = {
   ar: require("dayjs/locale/ar"),
   ca: require("dayjs/locale/ca"),
@@ -254,64 +90,82 @@ const dayjs_locales = {
 };
 
 const deviceLocale = Localization.getLocales()[0]?.languageTag ?? "en";
-const deviceRegion = Localization.getLocales()[0]?.regionCode ?? null;
 
 const i18n = createI18n(deviceLocale);
 
-/** Device locale tag (for example `de-DE`), read once at startup. */
-export const { locale } = i18n;
-/** Language part of {@link locale} (for example `de`), read once at startup. */
-export const [language] = i18n.locale.split("-");
+/** App locale tag (for example `de-DE`). Follows the device or per-app language. */
+export const getLocale = () => i18n.locale;
+/** Language part of {@link getLocale} (for example `de`). */
+export const getLanguage = () => i18n.locale.split("-")[0] ?? "en";
+
+let dayjsLanguage = "en";
 
 /**
- * Locale for dates and times: app language plus device region.
+ * Set global dayjs to the app language and register its week locales.
  *
- * Keeps the region so `en-DE` shows `02/05/2026`, not US `05/02/2026`.
- * Unsupported languages use English, so `is-IS` becomes `en-IS`.
+ * Immutable week locales keep cached dates valid when settings change,
+ * without changing global dayjs.
+ * https://day.js.org/docs/en/i18n/instance-locale
  */
-export const dateLocale = (() => {
-  if (language in translations) {
-    return deviceLocale;
+const applyDayjsLanguage = () => {
+  const language = getLanguage();
+  dayjsLanguage = language in dayjs_locales ? language : "en";
+  for (let weekStart = 0; weekStart < 7; weekStart += 1) {
+    dayjs.locale(
+      {
+        ...dayjs.Ls[dayjsLanguage],
+        name: `${dayjsLanguage}-week-${weekStart}`,
+        weekStart,
+      },
+      undefined,
+      true
+    );
   }
-  return deviceRegion === null ? "en" : `en-${deviceRegion}`;
-})();
+  dayjs.locale(dayjsLanguage);
+};
 
-const _getFirstDayOfWeek = (region: string): number => {
-  for (const dayStr of Object.keys(firstDayOfWeek)) {
-    const dayNumber = Number(dayStr);
-    if (firstDayOfWeek[dayNumber].includes(region)) {
-      return dayNumber;
-    }
-  }
+// Before first render.
+applyDayjsLanguage();
+dayjs.extend(weekOfYear);
+dayjs.extend(localizedFormat);
 
-  return 1;
+/**
+ * Switch translations and dayjs to `locale` (for example `de-DE`).
+ *
+ * iOS restarts the app after a language change in Settings. Android 13+
+ * keeps the app running, so the root layout calls this again with the new
+ * locale. Unsupported languages fall back to English.
+ */
+export const applyLocale = (locale: string) => {
+  i18n.locale = locale;
+  applyDayjsLanguage();
 };
 
 /**
- * Apply the device locale and regional week start to dayjs.
- *
- * Runs once settings load; dayjs output before that uses English and a
- * Sunday week start. Unsupported languages fall back to English.
+ * Day.js uses Sunday=0. A missing browser calendar preference retains
+ * the date locale's week start without mutating existing date instances.
  */
-export const initializeDayjs = () => {
-  let dayjsLocale = deviceLocale;
-  if (dayjsLocale.includes("-")) {
-    [dayjsLocale] = dayjsLocale.split("-");
+export const getWeekLocale = ({
+  weekStart,
+}: {
+  weekStart: number | null;
+}): string => {
+  if (weekStart === null) {
+    return dayjsLanguage;
   }
-
-  if (dayjsLocale in dayjs_locales) {
-    dayjs.locale(dayjsLocale);
-    if (dayjs.Ls[dayjsLocale] && deviceRegion !== null) {
-      dayjs.Ls[dayjsLocale].weekStart = _getFirstDayOfWeek(deviceRegion);
-    }
-  } else {
-    dayjs.locale("en");
-  }
-
-  dayjs.extend(weekOfYear);
-  dayjs.extend(localizedFormat);
+  return `${dayjsLanguage}-week-${weekStart}`;
 };
 
-/** Translate `key` for the device locale, falling back to English. */
-export const t = (key: keyof typeof en | string, options?: TranslateOptions) =>
+/** Key in `assets/locales/en.json`. */
+export type TranslationKey = keyof typeof en;
+
+/** Translate `key` for the app locale, falling back to English. */
+export const t = (key: TranslationKey, options?: TranslateOptions) =>
+  i18n.t(key, options);
+
+/**
+ * Translate a key built at runtime, such as `` `log_emotion_${key}` ``.
+ * Type-check cannot prove the key exists. Prefer {@link t} with a literal key.
+ */
+export const tDynamic = (key: string, options?: TranslateOptions) =>
   i18n.t(key, options);

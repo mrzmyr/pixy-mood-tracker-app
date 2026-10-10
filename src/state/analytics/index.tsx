@@ -1,6 +1,6 @@
 import { usePostHog } from "posthog-react-native";
 import { createContext, useContext, useEffect, useMemo } from "react";
-import { useSettings } from "@/state/settings";
+import { useSettings, useSettingsLoad } from "@/state/settings";
 import { createMissingProviderError } from "@/lib/errors";
 import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
 import type {
@@ -47,15 +47,16 @@ const AnalyticsProvider = ({
   options?: AnalyticsProviderProps;
 }) => {
   const { settings, setSettings } = useSettings();
+  const isSettingsReady = useSettingsLoad().status === "ready";
   const posthog = usePostHog();
 
   // Derived from settings; `enable`, `disable`, and `reset` update settings.
   // Stays off until stored settings load: the default can be on, but a
   // stored opt-out must win before the first event.
-  const isEnabled = settings.loaded && settings.analyticsEnabled;
+  const isEnabled = isSettingsReady && settings.analyticsEnabled;
 
   useEffect(() => {
-    if (!settings.loaded) {
+    if (!isSettingsReady) {
       return;
     }
 
@@ -65,7 +66,7 @@ const AnalyticsProvider = ({
       posthog?.optOut();
     }
     Observe.configure({ dispatchingEnabled: settings.analyticsEnabled });
-  }, [settings.loaded, settings.analyticsEnabled, posthog]);
+  }, [isSettingsReady, settings.analyticsEnabled, posthog]);
 
   const settingsProperties = useMemo(
     () => ({
@@ -79,12 +80,12 @@ const AnalyticsProvider = ({
   // Super properties cover SDK lifecycle events. `track` and `screen` also
   // send them directly: child effects can capture before this effect runs.
   useEffect(() => {
-    if (!settings.loaded) {
+    if (!isSettingsReady) {
       return;
     }
 
     void posthog?.register(settingsProperties);
-  }, [settings.loaded, settingsProperties, posthog]);
+  }, [isSettingsReady, settingsProperties, posthog]);
 
   const value = useMemo<AnaylticsState>(
     () => ({

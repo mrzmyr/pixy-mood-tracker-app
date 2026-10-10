@@ -1,16 +1,13 @@
 import { EMOTIONS } from "@/features/logger";
-import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
-import type { Emotion } from "@/types";
-import { useRouter } from "expo-router";
-import { t } from "@/lib/translation";
-import get from "lodash/get";
+import { t, tDynamic } from "@/lib/translation";
 import keyBy from "lodash/keyBy";
 import sortBy from "lodash/sortBy";
-import { Text, View } from "react-native";
-import { SectionHeader } from "./SectionHeader";
+import { ChipRow } from "../Calendar/Timeline/ChipRow";
 import { EmotionItem } from "./EmotionItem";
+import { INSET } from "./layout";
 
+const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
 const EMOTIONS_CATEGORY_ORDER = {
   very_positive: 0,
   positive: 1,
@@ -20,69 +17,49 @@ const EMOTIONS_CATEGORY_ORDER = {
 };
 
 /**
- * Emotions section of an entry card; editing opens the logger at the
- * emotions step.
- *
- * Every emotion key on the entry must exist in `EMOTIONS`, otherwise the
- * lookup throws. Emotions show in stored order.
+ * Emotions of an entry card as one scrollable chip row, positive first.
+ * Chips match the logger. A tap opens the logger at the
+ * emotions step when `onEdit` is given. Unknown keys from newer app versions
+ * are skipped; without emotions it renders nothing.
  */
-export const Emotions = ({ item }: { item: LogItem }) => {
-  const colors = useColors();
-  const router = useRouter();
+export const Emotions = ({
+  item,
+  onEdit,
+}: {
+  item: LogItem;
+  onEdit?: () => void;
+}) => {
+  const emotions = sortBy(
+    item.emotions.flatMap((key) =>
+      EMOTIONS_BY_KEY[key] ? [EMOTIONS_BY_KEY[key]] : []
+    ),
+    (emotion) => EMOTIONS_CATEGORY_ORDER[emotion.category]
+  );
 
-  const emotionsByKey = keyBy(EMOTIONS, "key");
-  const emotions = get(item, "emotions", []).map((e: Emotion["key"]) => ({
-    key: e,
-    category: emotionsByKey[e].category,
-    order: EMOTIONS_CATEGORY_ORDER[emotionsByKey[e].category],
-  }));
+  if (emotions.length === 0) {
+    return null;
+  }
+
+  const moduleName = t("logger_step_emotions");
+  const names = emotions.map((emotion) =>
+    tDynamic(`log_emotion_${emotion.key}`)
+  );
 
   return (
-    <View style={{}}>
-      <SectionHeader
-        title={t("view_log_emotions")}
-        onEdit={() => {
-          router.push({
-            pathname: "/logs/[id]/edit",
-            params: {
-              id: item.id,
-              step: "emotions",
-            },
-          });
-        }}
-      />
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-        }}
-      >
-        {item && emotions.length > 0 ? (
-          sortBy(emotions, "order").map((emotion) => (
-            <View
-              key={emotion.key}
-              style={{
-                marginRight: 8,
-                marginBottom: 8,
-              }}
-            >
-              <EmotionItem emotion={emotion} />
-            </View>
-          ))
-        ) : (
-          <View
-            style={{
-              paddingTop: 4,
-              paddingBottom: 8,
-              paddingHorizontal: 8,
-            }}
-          >
-            <Text style={{ color: colors.textSecondary, fontSize: 17 }}>
-              {t("view_log_emotions_empty")}
-            </Text>
-          </View>
-        )}
-      </View>
-    </View>
+    <ChipRow
+      inset={INSET}
+      onPress={onEdit}
+      accessibilityLabel={
+        onEdit ? `${moduleName}: ${names.join(", ")}` : undefined
+      }
+      accessibilityHint={
+        onEdit ? t("view_log_edit", { module: moduleName }) : undefined
+      }
+      testID={onEdit ? "log-list-emotions-edit" : undefined}
+    >
+      {emotions.map((emotion) => (
+        <EmotionItem key={emotion.key} emotion={emotion} />
+      ))}
+    </ChipRow>
   );
 };

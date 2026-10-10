@@ -1,9 +1,12 @@
-import { Pressable, Text, View } from "react-native";
-import { X } from "react-native-feather";
+import { Platform, Text, View } from "react-native";
+import { CloseButton } from "@/components/CloseButton";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 
-/** Modal header of the day entry list with the day title and close action. */
+/**
+ * Modal header of the day entry list with the day title and close action.
+ * iOS puts close on the right. Android follows the Material 3 full-screen
+ * dialog: close on the left, title after it.
+ */
 export const Header = ({
   title,
   onClose,
@@ -11,8 +14,27 @@ export const Header = ({
   title: string;
   onClose?: () => void;
 }) => {
-  const haptics = useHaptics();
   const colors = useColors();
+  const closeLeft = Platform.OS === "android";
+
+  const close = (
+    <View
+      style={{
+        alignItems: closeLeft ? "flex-start" : "flex-end",
+        justifyContent: "center",
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          [closeLeft ? "marginLeft" : "marginRight"]: -8,
+        }}
+      >
+        <CloseButton testID="log-list-close" onPress={() => onClose?.()} />
+      </View>
+    </View>
+  );
 
   return (
     <View
@@ -25,11 +47,13 @@ export const Header = ({
         marginBottom: 8,
       }}
     >
+      {closeLeft ? close : null}
       <View
         style={{
           flex: 1,
           alignItems: "flex-start",
           justifyContent: "center",
+          ...(closeLeft ? { marginLeft: 16 } : null),
         }}
       >
         <View
@@ -38,6 +62,7 @@ export const Header = ({
           }}
         >
           <Text
+            accessibilityRole="header"
             style={{
               fontSize: 17,
               fontWeight: "600",
@@ -48,34 +73,7 @@ export const Header = ({
           </Text>
         </View>
       </View>
-      <View
-        style={{
-          alignItems: "flex-end",
-          justifyContent: "center",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            marginRight: -8,
-          }}
-        >
-          <Pressable
-            accessibilityRole="button"
-            testID="log-list-close"
-            style={{
-              padding: 12,
-            }}
-            onPress={async () => {
-              await haptics.selection();
-              onClose?.();
-            }}
-          >
-            <X color={colors.logHeaderText} width={22} height={22} />
-          </Pressable>
-        </View>
-      </View>
+      {closeLeft ? null : close}
     </View>
   );
 };

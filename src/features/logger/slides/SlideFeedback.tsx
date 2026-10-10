@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { language, t } from "@/lib/translation";
+import { getLanguage, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { useQuestioner } from "@/features/questioner";
@@ -10,6 +10,7 @@ import type { IQuestion } from "@/features/questioner";
 import LinkButton from "@/components/LinkButton";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
+import { RADIUS } from "@/constants/Radius";
 
 const AnswerSelector = ({
   answer,
@@ -24,14 +25,14 @@ const AnswerSelector = ({
   const haptics = useHaptics();
 
   const answerText = answer.text
-    ? answer.text[language] || answer.text["en"]
+    ? answer.text[getLanguage()] || answer.text["en"]
     : null;
 
   return (
     <Pressable
       style={({ pressed }) => ({
         opacity: pressed ? 0.8 : 1,
-        borderRadius: 8,
+        borderRadius: RADIUS.sm,
         backgroundColor: colors.logActionBackground,
         alignItems: "center",
         justifyContent: "center",
@@ -129,7 +130,7 @@ export const SlideFeedback = ({
         }}
       >
         <SlideHeadline>
-          {question.text[language] || question.text.en}
+          {question.text[getLanguage()] || question.text.en}
         </SlideHeadline>
         <View
           style={{

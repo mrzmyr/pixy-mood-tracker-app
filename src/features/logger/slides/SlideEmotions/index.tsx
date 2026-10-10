@@ -2,12 +2,12 @@ import { getSlideMarginTop } from "../marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
-import { useTemporaryLog } from "../../temporaryLog";
+import { useLogDraft } from "../../logDraft";
 import { getMostUsedEmotions } from "@/lib/utils";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ScrollView, View } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
@@ -20,6 +20,7 @@ import { EmotionBasicSelection } from "./EmotionBasicSelection";
 import { ExpandButton } from "./ExpandButton";
 import { Tooltip } from "./Tooltip";
 import { useAnalytics } from "@/state/analytics";
+import { RequestEmotionSheet } from "@/features/feedback";
 import noop from "lodash/noop";
 
 type Mode = "basic" | "advanced";
@@ -47,32 +48,36 @@ const appendMissingEmotions = (
  *
  * Basic mode shows up to 36 emotions: the draft's picks, then the 20 most
  * used, then the predefined basic set. Must render inside
- * `TemporaryLogProvider` and `LogsProvider`.
+ * `LogDraftProvider` and `LogsProvider`.
  */
 export const SlideEmotions = ({
   defaultIndex,
   onDisableStep = noop,
-  onChange,
   showDisable,
 }: {
   defaultIndex?: number;
   onDisableStep?: () => void;
-  onChange: (emotions: Emotion[]) => void;
   showDisable: boolean;
 }) => {
   const colors = useColors();
   const marginTop = getSlideMarginTop();
-  const tempLog = useTemporaryLog();
+  const { draft, setEmotions } = useLogDraft();
   const logState = useLogState();
   const analytics = useAnalytics();
+  const [isRequestOpen, setIsRequestOpen] = useState(false);
+  const closeRequest = useCallback(() => setIsRequestOpen(false), []);
+  const openRequest = () => {
+    analytics.track("feedback:modal_opened", { type: "emotion" });
+    setIsRequestOpen(true);
+  };
 
   const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
 
   const [initialSelectedEmotions, setInitialSelectedEmotions] = useState<
     Emotion[]
-  >(() => tempLog.data?.emotions?.map((d) => EMOTIONS_BY_KEY[d]) || []);
+  >(() => draft.emotions.map((d) => EMOTIONS_BY_KEY[d]));
   const [selectedEmotions, setSelectedEmotions] = useState<Emotion[]>(() =>
-    EMOTIONS.filter((d) => tempLog.data?.emotions?.includes(d.key))
+    EMOTIONS.filter((d) => draft.emotions.includes(d.key))
   );
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -83,7 +88,7 @@ export const SlideEmotions = ({
       setShowTooltip(false);
     }
     setSelectedEmotions(emotions);
-    onChange(emotions);
+    setEmotions(emotions.map((emotion) => emotion.key));
   };
 
   const [mode, setMode] = useState<Mode>("basic");
@@ -175,38 +180,41 @@ export const SlideEmotions = ({
             }}
           />
           <ScrollView>
-            <EmotionBasicSelection
-              emotions={basicEmotions}
-              onPress={(emotion) => {
-                if (selectedEmotions.map((d) => d.key).includes(emotion.key)) {
-                  _setSelectedEmotions(
-                    selectedEmotions.filter((e) => e.key !== emotion.key)
-                  );
-                } else {
-                  _setSelectedEmotions([...selectedEmotions, emotion]);
-                }
-              }}
-              selectedEmotions={selectedEmotions}
-              style={{
-                display: mode === "basic" ? "flex" : "none",
-              }}
-            />
-            <EmotionAdvancedSelection
-              defaultIndex={defaultIndex}
-              onPress={(emotion) => {
-                if (selectedEmotions.map((d) => d.key).includes(emotion.key)) {
-                  _setSelectedEmotions(
-                    selectedEmotions.filter((e) => e.key !== emotion.key)
-                  );
-                } else {
-                  _setSelectedEmotions([...selectedEmotions, emotion]);
-                }
-              }}
-              selectedEmotions={selectedEmotions}
-              style={{
-                display: mode === "advanced" ? "flex" : "none",
-              }}
-            />
+            {mode === "basic" ? (
+              <EmotionBasicSelection
+                emotions={basicEmotions}
+                onPress={(emotion) => {
+                  if (
+                    selectedEmotions.map((d) => d.key).includes(emotion.key)
+                  ) {
+                    _setSelectedEmotions(
+                      selectedEmotions.filter((e) => e.key !== emotion.key)
+                    );
+                  } else {
+                    _setSelectedEmotions([...selectedEmotions, emotion]);
+                  }
+                }}
+                selectedEmotions={selectedEmotions}
+                onRequestEmotion={openRequest}
+              />
+            ) : (
+              <EmotionAdvancedSelection
+                defaultIndex={defaultIndex}
+                onPress={(emotion) => {
+                  if (
+                    selectedEmotions.map((d) => d.key).includes(emotion.key)
+                  ) {
+                    _setSelectedEmotions(
+                      selectedEmotions.filter((e) => e.key !== emotion.key)
+                    );
+                  } else {
+                    _setSelectedEmotions([...selectedEmotions, emotion]);
+                  }
+                }}
+                selectedEmotions={selectedEmotions}
+                onRequestEmotion={openRequest}
+              />
+            )}
           </ScrollView>
           {mode === "basic" && <EmotionBasicGradients />}
           {mode === "advanced" && <EmotionAdvancedGradients />}
@@ -220,6 +228,11 @@ export const SlideEmotions = ({
             />
           )}
         </View>
+        <RequestEmotionSheet
+          visible={isRequestOpen}
+          source="logger"
+          onClose={closeRequest}
+        />
         <Footer
           style={{
             marginHorizontal: 16,

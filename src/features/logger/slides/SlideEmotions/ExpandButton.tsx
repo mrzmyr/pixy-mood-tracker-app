@@ -1,6 +1,5 @@
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { Pressable, Text, View } from "react-native";
 import { Minus, Plus } from "react-native-feather";
 
@@ -16,15 +15,9 @@ export const ExpandButton = ({
   expanded: boolean;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
 
   return (
-    <Pressable
-      onPress={() => {
-        haptics.selection();
-        onPress();
-      }}
-    >
+    <Pressable onPress={onPress}>
       <View
         style={{
           marginRight: 8,

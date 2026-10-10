@@ -5,7 +5,8 @@ import { Pressable, Text } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
-import { dateFormat, uses24hourClock } from "@/lib/dateFormat";
+import { formatReminderTime } from "../reminderTime";
+import { RADIUS } from "@/constants/Radius";
 
 const Clock = ({
   timeDate,
@@ -14,7 +15,7 @@ const Clock = ({
 }: {
   timeDate: Date;
   onChange: (event: DateTimePickerEvent, date?: Date) => void;
-  style: ViewStyle;
+  style?: ViewStyle;
 }) => {
   const colors = useColors();
 
@@ -23,7 +24,6 @@ const Clock = ({
       onPress={() => {
         DateTimePickerAndroid.open({
           value: timeDate,
-          is24Hour: uses24hourClock ?? true,
           mode: "time",
           onChange,
         });
@@ -32,7 +32,7 @@ const Clock = ({
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: colors.backgroundSecondary,
-        borderRadius: 8,
+        borderRadius: RADIUS.sm,
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 5,
@@ -41,7 +41,7 @@ const Clock = ({
       }}
     >
       <Text style={{ color: colors.text, fontSize: 17 }}>
-        {dateFormat.time(timeDate)}
+        {formatReminderTime(timeDate)}
       </Text>
     </Pressable>
   );

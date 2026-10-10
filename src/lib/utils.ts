@@ -1,8 +1,7 @@
 import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import groupBy from "lodash/groupBy";
-import { t } from "@/lib/translation";
-import { dateFormat } from "@/lib/dateFormat";
+import { getLocale, t } from "@/lib/translation";
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogDay, LogItem } from "@/features/logs";
 import {
@@ -13,6 +12,36 @@ import {
 import { getItemDate } from "@/lib/logDates";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+
+const SHORT_DAY_OPTIONS: Intl.DateTimeFormatOptions = {
+  month: "short",
+  day: "numeric",
+};
+const SHORT_DAY_YEAR_OPTIONS: Intl.DateTimeFormatOptions = {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+};
+const SHORT_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
+  hour: "numeric",
+  minute: "2-digit",
+};
+
+// Formatters are slow to create. Cache one per locale and options object.
+const formatters = new Map<string, Intl.DateTimeFormat>();
+const getFormatter = (
+  name: string,
+  options: Intl.DateTimeFormatOptions
+): Intl.DateTimeFormat => {
+  const locale = getLocale();
+  const key = `${locale}:${name}`;
+  let formatter = formatters.get(key);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, options);
+    formatters.set(key, formatter);
+  }
+  return formatter;
+};
 
 /**
  * Rounded mean rating on the {@link RATING_MAPPING} scale, or `null` for
@@ -93,26 +122,75 @@ export const getLogDays = (items: LogItem[]): LogDay[] => {
     .filter((item): item is LogDay => item !== null);
 };
 
+/** Time of day in the phone locale ("14:30" in en-GB, "2:30 PM" in en-US). */
+export const formatItemTime = (dateTime: LogItem["dateTime"]) =>
+  getFormatter("short_time", SHORT_TIME_OPTIONS).format(
+    dayjs(dateTime).toDate()
+  );
+
 /**
- * Localized entry title such as "Today, 14:30".
+ * Compact entry time for tight rows: "Today, 20:00", "Yesterday, 20:00",
+ * else short day and time ("Sep 28, 8:00 PM"). The year shows only outside
+ * the current year.
+ */
+export const getShortItemDateTitle = (dateTime: LogItem["dateTime"]) => {
+  const date = dayjs(dateTime);
+
+  if (date.isSame(dayjs(), "day")) {
+    return `${t("today")}, ${formatItemTime(dateTime)}`;
+  }
+
+  if (date.isSame(dayjs().subtract(1, "day"), "day")) {
+    return `${t("yesterday")}, ${formatItemTime(dateTime)}`;
+  }
+
+  // Date and time apart: a combined format adds words like "at".
+  const dayFormat = date.isSame(dayjs(), "year")
+    ? getFormatter("short_day", SHORT_DAY_OPTIONS)
+    : getFormatter("short_day_year", SHORT_DAY_YEAR_OPTIONS);
+  const timeFormat = getFormatter("short_time", SHORT_TIME_OPTIONS);
+  return `${dayFormat.format(date.toDate())}, ${timeFormat.format(date.toDate())}`;
+};
+
+/**
+ * Weekday, month and day in the phone locale ("Tuesday, September 29" in
+ * en-US, "Dienstag, 29. September" in de-DE). The year shows only outside
+ * the current year. Display only, never a storage key.
+ */
+export const formatLocalizedDay = (
+  date: string | Date,
+  weekdayStyle: "long" | "short",
+  localeTag: string = getLocale()
+) => {
+  const day = dayjs(date);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: weekdayStyle,
+    month: weekdayStyle === "long" ? "long" : "short",
+    day: "numeric",
+  };
+  if (!day.isSame(dayjs(), "year")) {
+    options.year = "numeric";
+  }
+  return new Intl.DateTimeFormat(localeTag, options).format(day.toDate());
+};
+
+/**
+ * Localized entry title: "Today, 14:30", or weekday, day and time
+ * ("Sat, 2 May, 14:30" in en-GB, "Sat, May 2, 2:30 PM" in en-US).
  *
- * Uses a shorter date format below 350 pt window width, measured once at
- * module load.
+ * Drops the weekday below 350 pt window width, measured once at module load.
  */
 export const getItemDateTitle = (dateTime: LogItem["dateTime"]) => {
-  const isSmallScreen = SCREEN_WIDTH < 350;
+  const date = dayjs(dateTime);
+  const isRecent =
+    date.isSame(dayjs(), "day") ||
+    date.isSame(dayjs().subtract(1, "day"), "day");
 
-  if (dayjs(dateTime).isSame(dayjs(), "day")) {
-    return `${t("today")}, ${dateFormat.time(dateTime)}`;
+  if (isRecent || SCREEN_WIDTH < 350) {
+    return getShortItemDateTitle(dateTime);
   }
 
-  if (dayjs(dateTime).isSame(dayjs().subtract(1, "day"), "day")) {
-    return `${t("yesterday")}, ${dateFormat.time(dateTime)}`;
-  }
-
-  return isSmallScreen
-    ? dateFormat.dateTimeCompact(dateTime)
-    : dateFormat.dateTime(dateTime);
+  return `${formatLocalizedDay(dateTime, "short")}, ${formatItemTime(dateTime)}`;
 };
 
 /** Localized day title: "Today", "Yesterday", or the full weekday and date. */
@@ -125,7 +203,7 @@ export const getDayDateTitle = (date: LogDay["date"]) => {
     return t("yesterday");
   }
 
-  return dateFormat.day(date);
+  return formatLocalizedDay(date, "long");
 };
 
 const isoDateRegExp =

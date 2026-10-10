@@ -1,13 +1,19 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { memo, useCallback, useMemo } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
-import { DATE_FORMAT } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
+import usePressRipple from "@/hooks/usePressRipple";
+import { useToday } from "@/hooks/useToday";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
+import { getRatingLabel } from "@/lib/ratingLabel";
+import { getLocale, t } from "@/lib/translation";
+import { RADIUS } from "@/constants/Radius";
+
+/** Diameter of the today circle behind the day number. */
+const DAY_NUMBER_SIZE = 20;
 
 const styles = StyleSheet.create({
   container: {
@@ -15,9 +21,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     padding: 4,
-    borderRadius: 8,
+    borderRadius: RADIUS.sm,
     width: "100%",
     aspectRatio: 1,
+    // Clips the Android ripple to the rounded day.
+    ...Platform.select({ android: { overflow: "hidden" as const } }),
   },
   textIndicatorParent2: {
     width: "30%",
@@ -29,12 +37,15 @@ const styles = StyleSheet.create({
     height: "50%",
     flexDirection: "row",
     justifyContent: "flex-end",
+    // No stretch: a stretched today circle turns into an oval.
+    alignItems: "center",
   },
   dayNumberParent2: {
     justifyContent: "center",
     alignItems: "center",
-    minWidth: 20,
-    borderRadius: 100,
+    minWidth: DAY_NUMBER_SIZE,
+    height: DAY_NUMBER_SIZE,
+    borderRadius: RADIUS.full,
   },
 });
 
@@ -53,14 +64,14 @@ const CalendarDayComponent = ({
 }) => {
   const scaleType = useSetting("scaleType");
   const colors = useColors();
-  const haptics = useHaptics();
+  const ripple = usePressRipple({ foreground: true });
 
   const _isFiltered = !isFiltered && isFiltering;
 
   const day = useMemo(() => dayjs(dateString).date(), [dateString]);
 
-  // Recompute when the current day changes, not only when `dateString` does.
-  const today = dayjs().format(DATE_FORMAT);
+  // Re-renders when the current day changes, not only when `dateString` does.
+  const today = useToday();
 
   const isFuture = useMemo(
     () => dayjs(dateString).isAfter(today, "day"),
@@ -158,16 +169,36 @@ const CalendarDayComponent = ({
 
   const _onPress = useCallback(() => {
     if (!isFuture) {
-      haptics.selection();
       onPress();
     }
-  }, [haptics, isFuture, onPress]);
+  }, [isFuture, onPress]);
+
+  const accessibilityLabel = useMemo(() => {
+    const date = new Intl.DateTimeFormat(getLocale(), {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(dayjs(dateString).toDate());
+    const parts = [date];
+    if (rating) {
+      parts.push(t("a11y_mood", { mood: getRatingLabel(rating) }));
+    }
+    if (isToday) {
+      parts.push(t("a11y_today"));
+    }
+    return parts.join(", ");
+  }, [dateString, rating, isToday]);
 
   return (
     <Pressable
       testID={`calendar-day-${dateString}`}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      accessibilityState={{ disabled: isFuture, selected: isToday }}
       disabled={isFuture}
       onPress={_onPress}
+      android_ripple={ripple}
       style={containerStyles}
     >
       <View style={styles.dayNumberParent1}>

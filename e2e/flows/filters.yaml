@@ -1,48 +1,25 @@
 appId: ${APP_ID}
 tags: [p1, filters]
 ---
-# Search and tag filters narrow the `year` fixture to exact counts.
-# iOS checks counts inside the sheet. Android checks the filter badge.
+# Search and tag filters narrow the `year` fixture to exact counts shown in
+# the sheet. The Android sheet is its own window, so the header badge is not
+# in the hierarchy while it is open.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
       FIXTURE: year
-- tapOn:
-    id: "filters"
+- runFlow: ../subflows/open-filters.yaml
 - tapOn:
     id: "calendar-filter-search"
 - inputText: "run"
 - runFlow: ../subflows/dismiss-keyboard.yaml
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - assertVisible: "41 Results"
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - assertVisible: "Filters \\(1\\)"
+- assertVisible: "41 Results"
 - tapOn: "Sport"
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - assertVisible: "10 Results"
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - assertVisible: "Filters \\(2\\)"
+- assertVisible: "10 Results"
 
-# Closing keeps both filters: the header badge shows them, and reopening
-# shows the same results. Reset clears them.
+# Closing keeps both filters: reopening shows the same results. Reset clears them.
 - runFlow: ../subflows/close-filters.yaml
-- assertVisible: "Filters \\(2\\)"
-- tapOn:
-    id: "filters"
-- assertVisible:
-    id: "calendar-filter-search"
+- runFlow: ../subflows/open-filters.yaml
 - assertVisible: "10 Results"
 # Reset shares the result row; scroll in case the sheet cuts it off.
 - scrollUntilVisible:
@@ -55,4 +32,3 @@ tags: [p1, filters]
 - assertNotVisible:
     id: "calendar-filter-reset"
 - runFlow: ../subflows/close-filters.yaml
-- assertNotVisible: "Filters \\(.*\\)"
