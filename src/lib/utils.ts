@@ -122,27 +122,11 @@ export const getLogDays = (items: LogItem[]): LogDay[] => {
     .filter((item): item is LogDay => item !== null);
 };
 
-/**
- * Localized entry title such as "Today, 14:30".
- *
- * Uses a shorter date format below 350 pt window width, measured once at
- * module load.
- */
-export const getItemDateTitle = (dateTime: LogItem["dateTime"]) => {
-  const isSmallScreen = SCREEN_WIDTH < 350;
-
-  if (dayjs(dateTime).isSame(dayjs(), "day")) {
-    return `${t("today")}, ${dayjs(dateTime).format("HH:mm")}`;
-  }
-
-  if (dayjs(dateTime).isSame(dayjs().subtract(1, "day"), "day")) {
-    return `${t("yesterday")}, ${dayjs(dateTime).format("HH:mm")}`;
-  }
-
-  return isSmallScreen
-    ? dayjs(dateTime).format("l - LT")
-    : dayjs(dateTime).format("ddd, L - LT");
-};
+/** Time of day in the phone locale ("14:30" in en-GB, "2:30 PM" in en-US). */
+export const formatItemTime = (dateTime: LogItem["dateTime"]) =>
+  getFormatter("short_time", SHORT_TIME_OPTIONS).format(
+    dayjs(dateTime).toDate()
+  );
 
 /**
  * Compact entry time for tight rows: "Today, 20:00", "Yesterday, 20:00",
@@ -153,11 +137,11 @@ export const getShortItemDateTitle = (dateTime: LogItem["dateTime"]) => {
   const date = dayjs(dateTime);
 
   if (date.isSame(dayjs(), "day")) {
-    return `${t("today")}, ${date.format("HH:mm")}`;
+    return `${t("today")}, ${formatItemTime(dateTime)}`;
   }
 
   if (date.isSame(dayjs().subtract(1, "day"), "day")) {
-    return `${t("yesterday")}, ${date.format("HH:mm")}`;
+    return `${t("yesterday")}, ${formatItemTime(dateTime)}`;
   }
 
   // Date and time apart: a combined format adds words like "at".
@@ -188,6 +172,25 @@ export const formatLocalizedDay = (
     options.year = "numeric";
   }
   return new Intl.DateTimeFormat(localeTag, options).format(day.toDate());
+};
+
+/**
+ * Localized entry title: "Today, 14:30", or weekday, day and time
+ * ("Sat, 2 May, 14:30" in en-GB, "Sat, May 2, 2:30 PM" in en-US).
+ *
+ * Drops the weekday below 350 pt window width, measured once at module load.
+ */
+export const getItemDateTitle = (dateTime: LogItem["dateTime"]) => {
+  const date = dayjs(dateTime);
+  const isRecent =
+    date.isSame(dayjs(), "day") ||
+    date.isSame(dayjs().subtract(1, "day"), "day");
+
+  if (isRecent || SCREEN_WIDTH < 350) {
+    return getShortItemDateTitle(dateTime);
+  }
+
+  return `${formatLocalizedDay(dateTime, "short")}, ${formatItemTime(dateTime)}`;
 };
 
 /** Localized day title: "Today", "Yesterday", or the full weekday and date. */

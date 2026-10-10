@@ -2,12 +2,12 @@ import FlagHighlight from "@/components/FlagHighlight";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
-import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Moon, Sun, SunMedium, Sunrise, Sunset } from "lucide-react-native";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import { getAvailableStepsForEdit, hasSleepOnDate } from "@/features/logger";
 import { getItemDate } from "@/lib/logDates";
+import { formatItemTime } from "@/lib/utils";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { useSetting, useSettings } from "@/state/settings";
@@ -112,7 +112,7 @@ const EntryHeader = ({
             fontVariant: ["tabular-nums"],
           }}
         >
-          {dayjs(item.dateTime).format("LT")}
+          {formatItemTime(item.dateTime)}
         </Text>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
