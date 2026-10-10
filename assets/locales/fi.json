@@ -622,6 +622,7 @@
   "onboarding_step_5_consent_allow": "Jaa",
   "onboarding_step_5_consent_deny": "Älä jaa",
   "onboarding_step_5_personal_body": "Pixyä tekee yksi ihminen: minä. Anonyymit käyttötiedot näyttävät minulle, mitkä toiminnot auttavat sinua ja mitä korjata seuraavaksi. Ne eivät koskaan sisällä merkintöjäsi, muistiinpanojasi tai tunnisteitasi.",
+  "onboarding_step_5_personal_reason": "Käytän sovellusta itsekin, enkä haluaisi kenenkään näkevän merkintöjäni.",
   "onboarding_step_5_personal_title": "Hei, täällä Moritz 👋",
   "onboarding_step_5_settings_hint": "Voit muuttaa tätä milloin tahansa kohdassa Asetukset › Yksityisyys.",
   "onboarding_step_5_title": "Suhtaudumme tietosuojaan vakavasti ja käsittelemme tietojasi huolellisesti.",

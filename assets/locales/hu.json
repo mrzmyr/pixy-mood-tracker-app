@@ -622,6 +622,7 @@
   "onboarding_step_5_consent_allow": "Megosztom",
   "onboarding_step_5_consent_deny": "Nem osztom meg",
   "onboarding_step_5_personal_body": "A Pixyt egyetlen ember fejleszti: én. Az anonim használati adatokból látom, mely funkciók segítenek neked, és mit javítsak legközelebb. Soha nem tartalmazzák a bejegyzéseidet, jegyzeteidet vagy címkéidet.",
+  "onboarding_step_5_personal_reason": "Én is használom az appot, és nem szeretném, hogy bárki lássa a bejegyzéseimet.",
   "onboarding_step_5_personal_title": "Szia, itt Moritz 👋",
   "onboarding_step_5_settings_hint": "Ezt bármikor módosíthatod itt: Beállítások › Adatvédelem.",
   "onboarding_step_5_title": "Komolyan vesszük az adatvédelmet, és óvatosan kezeljük adatait.",

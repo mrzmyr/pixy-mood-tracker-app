@@ -622,6 +622,7 @@
   "onboarding_step_5_consent_allow": "Del",
   "onboarding_step_5_consent_deny": "Ikke del",
   "onboarding_step_5_personal_body": "Pixy er laget av én person: meg. Anonyme bruksdata viser meg hvilke funksjoner som hjelper deg, og hva jeg bør fikse videre. De inneholder aldri oppføringene, notatene eller taggene dine.",
+  "onboarding_step_5_personal_reason": "Jeg bruker appen selv, og jeg ville ikke at noen skulle se oppføringene mine.",
   "onboarding_step_5_personal_title": "Hei, det er Moritz 👋",
   "onboarding_step_5_settings_hint": "Du kan endre dette når som helst under Innstillinger › Personvern.",
   "onboarding_step_5_title": "Vi tar personvernet på alvor og behandler dataene dine med forsiktighet.",
