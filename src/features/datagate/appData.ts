@@ -125,7 +125,7 @@ export const useAppData = (): AppData => {
   const tagsLoad = useTagsLoad();
   const peopleLoad = usePeopleLoad();
   const { items } = useLogState();
-  const { tags } = useTagsState();
+  const { tags, categories: tagCategories } = useTagsState();
   const { people } = usePeopleState();
   const logUpdater = useLogUpdater();
   const tagsUpdater = useTagsUpdater();
@@ -152,6 +152,7 @@ export const useAppData = (): AppData => {
   const snapshot = async (): Promise<Backup> => ({
     items,
     tags,
+    tagCategories,
     people: await toExportPeople(people),
     settings: toExportSettings(settings),
   });
@@ -160,7 +161,10 @@ export const useAppData = (): AppData => {
     // Avatar files first: the store must never point at a missing file.
     const importedPeople = await fromExportPeople(backup.people);
     logUpdater.import({ items: backup.items });
-    tagsUpdater.import({ tags: backup.tags });
+    tagsUpdater.import({
+      tags: backup.tags,
+      categories: backup.tagCategories,
+    });
     peopleUpdater.import({ people: importedPeople });
     importSettings(backup.settings);
   };

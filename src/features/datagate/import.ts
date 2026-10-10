@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
-import type { Tag } from "@/features/tags";
+import type { Tag, TagCategory } from "@/features/tags";
 import type { LogItem, LogsState } from "@/features/logs";
 import type { Person } from "@/features/people";
 import { RATING_KEYS } from "@/constants/Ratings";
@@ -28,6 +28,7 @@ export interface ImportData {
         [key: string]: LogsState["items"][number];
       };
   tags?: Tag[];
+  tagCategories?: TagCategory[];
   people?: ExportPerson[];
   settings: ExportSettings;
 }
@@ -98,8 +99,13 @@ export const pixySchema = z.strictObject({
         id: z.string(),
         title: z.string(),
         color: z.string().refine((color) => TAG_COLOR_NAMES.includes(color)),
+        categoryId: z.string().optional(),
       })
     )
+    .optional(),
+
+  tagCategories: z
+    .array(z.object({ id: z.string(), title: z.string() }))
     .optional(),
 
   settings: z.object({

@@ -181,6 +181,20 @@ export interface AnalyticsEvents {
   "tags:delete_requested": AnalyticsEvents["tags:tag_created"];
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];
   "tags:delete_cancelled": undefined;
+  /** Drag or accessibility move in the grouped tag list. */
+  "tags:tags_arranged": {
+    tags_count: number;
+    categories_count: number;
+    category_changed: boolean;
+    method: "drag" | "accessibility_action";
+  };
+  "tags:category_created": { title_length: number; categories_count: number };
+  "tags:category_updated": { title_length: number };
+  "tags:category_deleted": { tags_count: number; categories_count: number };
+  "tags:categories_reordered": {
+    categories_count: number;
+    method: "drag" | "accessibility_action";
+  };
 
   "people:person_added": { source: "manual"; has_avatar: boolean };
   "people:contacts_imported": {
