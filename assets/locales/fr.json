@@ -622,7 +622,7 @@
   "onboarding_step_5_button": "Entendu",
   "onboarding_step_5_consent_allow": "Partager",
   "onboarding_step_5_consent_deny": "Ne pas partager",
-  "onboarding_step_5_personal_body": "Pixy est développé par une seule personne : moi. Les données d'utilisation anonymes me montrent quelles fonctionnalités vous aident et ce que je dois corriger ensuite. Elles n'incluent jamais vos entrées, notes ou tags.",
+  "onboarding_step_5_personal_body": "Pixy est développé par une seule personne : moi. Les données d'utilisation anonymes me montrent quelles fonctionnalités vous aident et ce que je dois corriger ensuite. Elles n'incluent jamais vos entrées, notes ou tags. J'utilise l'app moi-même, et je ne voudrais pas que quelqu'un voie mes entrées.",
   "onboarding_step_5_personal_title": "Salut, c'est Moritz 👋",
   "onboarding_step_5_settings_hint": "Vous pouvez modifier ce choix à tout moment dans Réglages › Vie privée.",
   "onboarding_step_5_title": "Nous prenons la confidentialité au sérieux et traitons vos données avec soin.",
