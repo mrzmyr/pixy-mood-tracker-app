@@ -174,6 +174,16 @@ export const PrivacySlide = ({
             >
               {t("onboarding_step_5_personal_body")}
             </Text>
+            <Text
+              style={{
+                color: colors.onboardingListItemText,
+                fontSize: 15,
+                lineHeight: 22,
+                marginTop: 8,
+              }}
+            >
+              {t("onboarding_step_5_personal_reason")}
+            </Text>
             {needsConsent ? null : (
               <Text
                 style={{
