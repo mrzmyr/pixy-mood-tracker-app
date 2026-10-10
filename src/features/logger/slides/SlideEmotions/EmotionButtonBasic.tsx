@@ -5,6 +5,7 @@ import { Pressable, Text, useColorScheme, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import { EmotionIndicator } from "./EmotionsIndicator";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 
@@ -28,6 +29,9 @@ export const EmotionButtonBasic = ({
 
   return (
     <Pressable
+      accessibilityRole="checkbox"
+      accessibilityLabel={emotion.label}
+      accessibilityState={{ checked: selected }}
       onPress={() => {
         haptics.selection();
         onPress(emotion);
@@ -44,7 +48,7 @@ export const EmotionButtonBasic = ({
           width: "100%",
           // backgroundColor: colors.cardBackground,
           backgroundColor: colors.logCardBackground,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
           borderWidth: selected ? 2 : 1,
           borderColor: selected ? colors.tint : unselectedBorderColor,
           flexDirection: "row",
@@ -54,7 +58,7 @@ export const EmotionButtonBasic = ({
           paddingLeft: selected ? 13 : 14,
         }}
       >
-        <EmotionIndicator category={emotion.category} />
+        <EmotionIndicator emotion={emotion} />
         <Text
           style={{
             color: colors.text,

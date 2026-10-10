@@ -11,12 +11,12 @@ const Clock = ({
 }: {
   timeDate: Date;
   onChange: (event: DateTimePickerEvent, date?: Date) => void;
-  style: ViewStyle;
+  style?: ViewStyle;
 }) => (
   <DateTimePicker
     locale={getLocale()}
     testID="reminder-time"
-    style={{ width: "100%", height: 35, ...style }}
+    style={style}
     mode="time"
     value={timeDate}
     onChange={onChange}

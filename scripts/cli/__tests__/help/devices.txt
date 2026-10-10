@@ -6,5 +6,7 @@ Commands:
   list     List simulator, emulator, and connected phones
   reserve  Reserve one phone for this checkout
   release  Release this checkout's reservation of one phone
+  doctor   Check that Apple's device service answers
+  menubar  Open the macOS menu bar app that shows phone reservations
 
 Run `bun devices <command> --help` for details.

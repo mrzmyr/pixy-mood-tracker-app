@@ -1,0 +1,31 @@
+appId: ${APP_ID}
+tags: [p1, widget]
+---
+# iOS only: Settings > Widgets opens the guide; Done closes it.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - runFlow:
+          file: ../subflows/load-fixture.yaml
+          env:
+            FIXTURE: empty
+      # Widgets sit behind the ios-widget flag; force it on.
+      - openLink: ${APP_SCHEME}://dev/feature-flag?key=ios-widget&value=on
+      - runFlow:
+          when:
+            visible: "Open"
+          commands:
+            - tapOn: "Open"
+      - runFlow: ../subflows/open-settings.yaml
+      - tapOn:
+          id: "widget"
+      - assertVisible: "Hold Home Screen"
+      - tapOn:
+          id: "widget-guide-next"
+      - tapOn:
+          id: "widget-guide-next"
+      - assertVisible: "Pick Widget"
+      - tapOn:
+          id: "widget-guide-next"
+      - assertVisible: "Settings"

@@ -1,0 +1,171 @@
+appId: ${APP_ID}
+tags: [p1, photos]
+---
+# Photos step behind the `photos` feature flag. Check photos in place (iOS:
+# photos of the day and library picks; Android: Photo Picker picks),
+# uncheck and check again, open the viewer, save through the whole logger,
+# and find the photos in the day view. The photo library is a
+# system screen, so the flow swaps it for src/dev/fakePhotoSource.ts. Shared
+# flows run without the flag, so this flow turns it on with the dev
+# override link.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: seed
+- openLink: ${APP_SCHEME}://dev/fake-files
+- extendedWaitUntil:
+    visible:
+      id: "calendar-list"
+    timeout: 10000
+- runFlow:
+    file: ../subflows/enable-feature-flag.yaml
+    env:
+      FLAG: photos
+
+- tapOn: "Add New Entry"
+- assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "How did you feel?"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Add tags"
+- tapOn:
+    id: "logger-next"
+- assertVisible:
+    id: "slide-photos"
+
+# One grid, photos check in place. The counter shows the limit up front.
+- assertVisible: "0 of 6"
+
+# iOS: photos of the day fill the grid. Library access is undetermined: the
+# card asks, the step never shows the system dialog on its own. Not Now
+# hides the card, a button keeps access reachable.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - assertVisible: "From Today"
+      - assertVisible:
+          id: "photos-day-access"
+      - tapOn:
+          id: "photos-day-access-secondary"
+      - assertNotVisible:
+          id: "photos-day-access"
+      # The fake grants access and offers 4 day photos.
+      - tapOn:
+          id: "photos-day-access-button"
+      - extendedWaitUntil:
+          visible:
+            id: "photo-pick-4"
+          timeout: 10000
+      # Badge number = order in the entry, not grid position.
+      - tapOn:
+          id: "photo-pick-2"
+      - extendedWaitUntil:
+          visible: "1 of 6"
+          timeout: 10000
+      - tapOn:
+          id: "photo-pick-1"
+      - extendedWaitUntil:
+          visible: "2 of 6"
+          timeout: 10000
+      - assertVisible:
+          id: "photo-pick-2-order"
+      # Library picks join the grid first. The button waits for imports.
+      - extendedWaitUntil:
+          visible:
+            id: "photos-library-button"
+            enabled: true
+          timeout: 10000
+      - tapOn:
+          id: "photos-library-button"
+      - extendedWaitUntil:
+          visible: "3 of 6"
+          timeout: 10000
+      - assertVisible:
+          id: "photo-pick-1-tag"
+      # Unchecked, the pick stays in place and checks again.
+      - tapOn:
+          id: "photo-pick-1"
+      - assertVisible: "2 of 6"
+      - assertVisible:
+          id: "photo-pick-1"
+      - tapOn:
+          id: "photo-pick-1"
+      - assertVisible: "3 of 6"
+
+# Android: no photos of the day. The card opens the system Photo Picker,
+# picks land checked in the grid, "More…" opens the picker again.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertNotVisible: "From Today"
+      - tapOn:
+          id: "photos-choose-action"
+      - extendedWaitUntil:
+          visible: "1 of 6"
+          timeout: 10000
+      - extendedWaitUntil:
+          visible:
+            id: "photo-add-tile"
+            enabled: true
+          timeout: 10000
+      - tapOn:
+          id: "photo-add-tile"
+      - extendedWaitUntil:
+          visible: "2 of 6"
+          timeout: 10000
+      # Unchecked, the pick stays in place and checks again.
+      - tapOn:
+          id: "photo-pick-2"
+      - assertVisible: "1 of 6"
+      - assertVisible:
+          id: "photo-pick-2"
+      - tapOn:
+          id: "photo-pick-2"
+      - assertVisible: "2 of 6"
+
+# Long press on a checked photo opens the viewer, with Remove. Closing
+# keeps the photo.
+- longPressOn:
+    id: "photo-pick-1"
+- assertVisible:
+    id: "photo-viewer"
+- assertVisible:
+    id: "photo-viewer-remove"
+- tapOn:
+    id: "photo-viewer-close"
+- assertNotVisible:
+    id: "photo-viewer"
+
+# The message step follows photos.
+- tapOn:
+    id: "logger-next"
+- assertVisible:
+    id: "log-message"
+- runFlow: ../subflows/save-past-feedback.yaml
+- runFlow: ../subflows/close-confirmation.yaml
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible:
+    id: "photo-thumbnail-1"
+- assertVisible:
+    id: "photo-thumbnail-2"
+# Stored photos open in the viewer, view only.
+- tapOn:
+    id: "photo-thumbnail-2"
+- assertVisible:
+    id: "photo-viewer"
+- assertNotVisible:
+    id: "photo-viewer-remove"
+- tapOn:
+    id: "photo-viewer-close"
+- tapOn:
+    id: "log-list-close"

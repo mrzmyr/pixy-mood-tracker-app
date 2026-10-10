@@ -9,13 +9,54 @@
 - Onboarding skip: consent regions land on the privacy slide before completion.
 - Off switch: Settings > Privacy > Behavioral Data
 - Feature flags load only with consent ([development.md](development.md#feature-flags))
+- People ([spec](specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`. Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
+- Location ([development.md](development.md#location)): `settings:location_toggled` (`enabled`). `logger:log_saved` adds `has_location`. Never coordinates or place names
+- Calendar layout menu (Calendar, Timeline, Map): `calendar:layout_changed` with `layout`
+- Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
-- Confirmation after a new entry: `logger:confirmation_viewed`, `logger:confirmation_answered`, `logger:confirmation_skipped` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
-  - Answer: `worse`, `same`, `better`. Asked only after create, not edit
-  - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
+- Widget guide: `widget:guide_*`
+- Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
+  - Shown only after create, not edit
+  - Usage counts only, including `message_word_count` and `entries_count`. No rating, emotion keys, or sleep quality
+- Interventions: `interventions:*` ([`src/features/interventions`](../src/features/interventions)), flag `interventions`
+  - Card on confirmation and calendar: `card_shown`, then `option_selected` with a new `intervention_session_id`
+  - Flow: `intro_viewed`, `flow_started`, `step_viewed`, `step_back`, `flow_paused`, `flow_resumed`, then `flow_completed` or `flow_abandoned` (`how`: `close`, `end_early`)
+  - End check: `feedback_answered` or `feedback_skipped`. Never the answer value
+  - No selected emotion keys or emotion cluster in event properties
+  - No dismiss control and no cooldown: cards show for every matching entry of today
+- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](../src/features/notifications/reminderTaps.ts))
+  - One event per tap on reminder body. Dismisses and other actions not sent
+  - Properties: `cold_start`, `minutes_since_delivered`
+  - Cold start taps wait for stored settings, so a stored opt-out wins
+  - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
+
+## Photos
+
+- Events: `photos:*` in [`events.ts`](../src/state/analytics/events.ts). Sent through `track()` only, so consent applies
+- Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
+- `mode`: `create` or `edit`. `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`
+- Questions: [product-analytics.md](product-analytics.md#photos)
+
+| Event | When | Properties |
+| --- | --- | --- |
+| `logger:step_viewed` | Photos step shown | `step: "photos"` |
+| `photos:day_access_prompt_shown` | Permission card shows, once per step mount | `mode`, `entry_days_ago` |
+| `photos:day_access_prompt_dismissed` | Not Now on the card | `mode` |
+| `photos:day_access_answered` | System dialog closes | `status`, `source` (`card`, `button`) |
+| `photos:day_photos_loaded` | Day query resolves | `count` (0 to 20), `access`, `entry_days_ago` |
+| `photos:picker_opened` | Library picker opens | `remaining` |
+| `photos:picker_closed` | Library picker returns | `picked_count`, `is_cancelled` |
+| `photos:photo_added` | Photo attached: picked in the library picker, or a suggestion tapped. Before its import ends | `source` (`day`, `library`), `count`, `mode` |
+| `photos:photo_removed` | Remove button on a tile or in the viewer | `source`, `count`, `mode` |
+| `photos:limit_reached` | Unchecked photo or More… tapped at 6 attached | `mode` |
+| `photos:import_failed` | Import error | `source`, `status` |
+| `photos:viewer_closed` | Viewer closes | `context` (`logger`, `day`), `photos_count`, `viewed_count` |
+| `logger:log_saved` | Save | `photos_count`, `photos_day_count`, `photos_library_count` |
+| `settings:step_toggled` | Check-in toggle | `step: "photos"` |
+| `logger:step_disabled` | "I Don’t Add Photos" | `step: "photos"` |
 
 ## Event history
 
@@ -34,10 +75,38 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `log_changed` = `logger:log_saved` with `mode: "edit"`
   - `log_saved_without_rating` = `logger:log_saved` with `has_rating: false`
 
+**Added events**
+
+- Photo attachments, first release with photos ([`src/features/photos`](../src/features/photos))
+  - `photos:day_access_prompt_shown`: `mode`, `entry_days_ago`
+  - `photos:day_access_prompt_dismissed`: `mode`
+  - `photos:day_access_answered`: `status` (`granted`, `limited`, `denied`), `source` (`card`, `button`)
+  - `photos:day_photos_loaded`: `count`, `access` (`granted`, `limited`), `entry_days_ago`
+  - `photos:picker_opened`: `remaining`
+  - `photos:picker_closed`: `picked_count`, `is_cancelled`
+  - `photos:photo_added`, `photos:photo_removed`: `source` (`day`, `library`), `count` (attached after the change), `mode`
+  - `photos:limit_reached`: `mode`
+  - `photos:import_failed`: `source`, `status`
+  - `photos:viewer_closed`: `context` (`logger`, `day`), `photos_count`, `viewed_count`
+  - `logger:log_saved`: new `photos_count`, `photos_day_count`, `photos_library_count`
+  - Counts and enums only. Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
+- Never shipped in a release, replaced before the first photos release: `logger:library_permission_answered` (now `photos:day_access_answered`), `logger:photo_added` (now `photos:photo_added`), `logger:photo_removed` (now `photos:photo_removed`), `photos:photo_selected` (now `photos:photo_added`), `photos:photo_deselected` (now `photos:photo_removed`), `logger:photo_limit_reached` (now `photos:limit_reached`), `logger:camera_permission_denied` (dropped: no camera), `day:photo_opened` (now `photos:viewer_closed` with `context: "day"`)
+
 **Changed meaning**
 
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
 - `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
+
+**Removed events**
+
+- `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
+
+**Removed journal values**
+
+- Release preparation after `v1.95.1`: removed `rating`, `emotions`, and `sleep_quality` from `logger:confirmation_viewed`
+- Removed `matched_emotions` and `cluster` from `interventions:card_shown`; removed `cluster` from `interventions:option_selected`
+- Removed `answer` from `interventions:feedback_answered`. Event still counts completed feedback
+- Older builds can continue sending these properties. Existing stored events are not deleted by this change
 
 **Removed properties** (never sent under the new names)
 
@@ -49,6 +118,11 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `questioner_submit`: `question_text`, `answer_texts`, `question`, `deviceId`, `language`, `locale`, `version`, `os`, `date`
 - `loaded_logs`: `unit` (always `mb`)
 
+**New events**
+
+- `reminders:notification_opened`: added after `v1.88.0`. No older event. Earlier reminder taps sent nothing
+- `interventions:*`: added with the `interventions` flag
+
 **Removed events**
 
 - Statistics card feedback and its App Store review prompt removed in first release after `v1.88.0`. Last sent in `v1.88.0`. No replacement
@@ -57,7 +131,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `statistics_feedback_store_review_done`
   - `statistics_feedback_store_review_error`
 - New names never shipped in a release: `statistics:card_feedback_submitted`, `statistics:store_review_requested`, `statistics:store_review_completed`, `statistics:store_review_failed`
-- `feedback:type_changed`: feedback modal lost its type selector. Settings opens it as "Request a feature" (`type: "idea"`) or "Report a bug" (`type: "issue"`). Use `type` on `feedback:modal_opened`
+- `feedback:type_changed`: feedback modal lost its type selector. Settings opens it as "Request Feature" (`type: "idea"`) or "Report Bug" (`type: "issue"`). Use `type` on `feedback:modal_opened`
 
 **Renames**
 

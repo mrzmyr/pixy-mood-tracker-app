@@ -1,23 +1,21 @@
 import { Text, View } from "react-native";
-import { Edit2 } from "react-native-feather";
 import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";
 import type { Tag } from "../TagsProvider";
+import { RADIUS } from "@/constants/Radius";
 
 /** Row for one tag in {@link TagList}, showing its color dot and title. */
 export const TagListItem = ({
   tag,
-  isLast,
   onPress,
 }: {
   tag: Tag;
-  isLast: boolean;
   onPress: () => void;
 }) => {
   const colors = useColors();
 
   return (
-    <MenuListItem onPress={onPress} isLast={isLast}>
+    <MenuListItem onPress={onPress}>
       <View
         style={{
           flexDirection: "row",
@@ -37,7 +35,7 @@ export const TagListItem = ({
             style={{
               width: 10,
               height: 10,
-              borderRadius: 100,
+              borderRadius: RADIUS.full,
               backgroundColor: colors.tags[tag?.color]?.dot,
               marginRight: 16,
               marginLeft: 4,
@@ -53,9 +51,6 @@ export const TagListItem = ({
           >
             {tag.title}
           </Text>
-        </View>
-        <View style={{}}>
-          <Edit2 width={20} color={colors.tint} />
         </View>
       </View>
     </MenuListItem>

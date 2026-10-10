@@ -16,5 +16,8 @@ export default defineConfig({
     ".codex/**",
     // Oxfmt joins the GitHub alert marker with its body in this file.
     "README.md",
+    // release-please rewrites these on every release without formatting.
+    "CHANGELOG.md",
+    "app.json",
   ],
 });

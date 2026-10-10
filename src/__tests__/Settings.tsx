@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { act, render, userEvent, waitFor } from "@testing-library/react-native";
-import { Alert } from "react-native";
+import { Alert, Appearance } from "react-native";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
@@ -213,11 +213,11 @@ describe("Feedback in Settings", () => {
 
   test.each([
     {
-      item: "Request a feature",
+      item: "Request Feature",
       placeholder: "It would be great if…",
       type: "idea",
     },
-    { item: "Report a bug", placeholder: "I noticed that…", type: "issue" },
+    { item: "Report Bug", placeholder: "I noticed that…", type: "issue" },
   ])(
     "user sends $type feedback from $item without picking a type",
     async ({ item, placeholder, type }) => {
@@ -259,10 +259,12 @@ describe("Feedback in Settings", () => {
   });
 
   test("user finds feedback, about and development items in their sections", async () => {
+    mockReload.mockResolvedValue({ development: true });
     const screen = await renderSettings({
       enabled: false,
       openSupport: () => Promise.resolve(),
     });
+    await screen.findByText("Development");
 
     expect(screen.getByText("Feedback")).toBeOnTheScreen();
     expect(screen.getByText("About")).toBeOnTheScreen();
@@ -272,5 +274,103 @@ describe("Feedback in Settings", () => {
     expect(screen.getByText("What's new")).toBeOnTheScreen();
     expect(screen.getByText("Statistics for Nerds")).toBeOnTheScreen();
     expect(screen.getByText("Licenses")).toBeOnTheScreen();
+  });
+});
+
+const renderWithoutFlags = async () => {
+  mockReload.mockResolvedValue({});
+  const screen = await renderSettings({
+    enabled: false,
+    openSupport: () => Promise.resolve(),
+  });
+  await waitFor(() => expect(mockReload).toHaveBeenCalledTimes(1));
+  return screen;
+};
+
+describe("Development section in Settings", () => {
+  test("user does not see development items by default", async () => {
+    const screen = await renderWithoutFlags();
+
+    expect(screen.queryByText("Development")).toBeNull();
+    expect(screen.queryByText("Statistics for Nerds")).toBeNull();
+  });
+
+  test("user sees development items when the flag is on", async () => {
+    mockReload.mockResolvedValue({ development: true });
+    const screen = await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+    });
+
+    expect(await screen.findByText("Development")).toBeOnTheScreen();
+    expect(screen.queryByText("Feature flags")).toBeNull();
+  });
+
+  test("tester sees feature flag toggles when the override flag is on", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    const screen = await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+    });
+
+    expect(await screen.findByText("Feature flags")).toBeOnTheScreen();
+  });
+
+  test("user unlocks development items with 20 taps on the version", async () => {
+    const screen = await renderWithoutFlags();
+    const version = screen.getByTestId("settings-version");
+
+    for (const _tap of Array.from({ length: 19 })) {
+      // oxlint-disable-next-line no-await-in-loop -- taps must run one after another
+      await userEvent.press(version);
+    }
+    expect(screen.queryByText("Development")).toBeNull();
+
+    await userEvent.press(version);
+
+    expect(await screen.findByText("Development")).toBeOnTheScreen();
+    expect(screen.getByText("Statistics for Nerds")).toBeOnTheScreen();
+  });
+});
+
+describe("Theme in Settings", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  test("user cycles theme through light, dark, and system", async () => {
+    const setColorScheme = jest.spyOn(Appearance, "setColorScheme");
+    const screen = await renderSettings(createFakeSupportClient());
+    const theme = await screen.findByRole("button", { name: "Theme" });
+
+    expect(theme).toHaveAccessibilityValue({ text: "System" });
+
+    await userEvent.press(theme);
+    expect(theme).toHaveAccessibilityValue({ text: "Light" });
+    expect(setColorScheme).toHaveBeenLastCalledWith("light");
+
+    await userEvent.press(theme);
+    expect(theme).toHaveAccessibilityValue({ text: "Dark" });
+    expect(setColorScheme).toHaveBeenLastCalledWith("dark");
+
+    await userEvent.press(theme);
+    expect(theme).toHaveAccessibilityValue({ text: "System" });
+    expect(setColorScheme).toHaveBeenLastCalledWith("unspecified");
+  });
+
+  test("stored theme applies on launch", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, colorScheme: "dark" })
+    );
+    const setColorScheme = jest.spyOn(Appearance, "setColorScheme");
+    const screen = await renderSettings(createFakeSupportClient());
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "Theme" })
+      ).toHaveAccessibilityValue({ text: "Dark" })
+    );
+    expect(setColorScheme).toHaveBeenLastCalledWith("dark");
   });
 });

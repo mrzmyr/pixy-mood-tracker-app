@@ -5,6 +5,11 @@ export const MAX_TAG_LENGTH = 30;
 
 /** Tag limit; the tag screens hide the create action once it is reached. */
 export const MAX_TAGS = 50;
+/** Maximum note length; the message step input `maxLength`. */
+export const MAX_MESSAGE_LENGTH = 10 * 1000;
+
+/** People limit; the people screens hide the add action once it is reached. */
+export const MAX_PEOPLE = 50;
 /**
  * Entries required to unlock statistics. The Statistics tab counts only the
  * last 14 days; the calendar report promos count all entries.
@@ -56,3 +61,6 @@ export const CHANGELOG_URL = "https://pixy.hellonext.co/embed/c?no_header=true";
 /** Feature request board opened in the in-app browser from Settings. */
 export const FEEDBACK_FEATURES_URL =
   "https://pixy.featureos.app/embed/b/feedback?no_header=true";
+
+/** Support inbox, also in `docs/app-facts.json` (`links.supportEmail`). */
+export const SUPPORT_EMAIL = "team@pixy.day";

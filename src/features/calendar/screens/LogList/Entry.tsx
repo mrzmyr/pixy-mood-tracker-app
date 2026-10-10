@@ -1,17 +1,45 @@
-import LinkButton from "@/components/LinkButton";
+import FlagHighlight from "@/components/FlagHighlight";
 import useColors from "@/hooks/useColors";
+import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
-import { LinearGradient } from "expo-linear-gradient";
-import { Edit, Trash } from "lucide-react-native";
-import { ScrollView, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Moon, Sun, SunMedium, Sunrise, Sunset } from "lucide-react-native";
+import type { LoggerStep } from "@/constants/LoggerSteps";
+import { getAvailableStepsForEdit, hasSleepOnDate } from "@/features/logger";
+import { getItemDate } from "@/lib/logDates";
+import { t } from "@/lib/translation";
+import { useFeatureFlag } from "@/state/featureFlags";
+import { useSetting, useSettings } from "@/state/settings";
+import { Text, View } from "react-native";
+import { AddPills } from "./AddPills";
+import type { AddableStep } from "./AddPills";
 import { Emotions } from "./Emotions";
+import { EntryMenu } from "./EntryMenu";
+import { BLOCK_GAP, INSET } from "./layout";
 import { Message } from "./Message";
-import { RatingDot } from "./RatingDot";
+import { People, useKnownPeople } from "./People";
+import { Photos } from "./Photos";
+import { Place } from "./Place";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
+import { getTimeOfDay } from "./timeOfDay";
+import type { TimeOfDay } from "./timeOfDay";
+import { RADIUS } from "@/constants/Radius";
 
-const EntryHeader = ({
+/** Space below the last block of a card. */
+const CARD_BOTTOM_PADDING = 20;
+
+const TIME_OF_DAY_ICONS: Record<TimeOfDay, typeof Sun> = {
+  morning: Sunrise,
+  midday: Sun,
+  afternoon: SunMedium,
+  evening: Sunset,
+  night: Moon,
+};
+
+/** Edit and Delete for one entry behind one "…" menu with a 44 pt target. */
+const EntryActions = ({
   item,
   onEdit,
   onDelete,
@@ -19,185 +47,216 @@ const EntryHeader = ({
   item: LogItem;
   onEdit: (item: LogItem) => void;
   onDelete: (item: LogItem) => void;
+}) => (
+  <EntryMenu
+    testID="log-list-menu"
+    label={t("more")}
+    editLabel={t("edit")}
+    deleteLabel={t("delete")}
+    onEdit={() => onEdit(item)}
+    onDelete={() => onDelete(item)}
+  />
+);
+
+/** Place of an entry in its day: zero-based `index` of `count` entries. */
+export interface EntryPosition {
+  index: number;
+  count: number;
+}
+
+const EntryHeader = ({
+  item,
+  onEdit,
+  onDelete,
+  onEditSleep,
+  position,
+}: {
+  item: LogItem;
+  onEdit: (item: LogItem) => void;
+  onDelete: (item: LogItem) => void;
+  onEditSleep?: () => void;
+  position?: EntryPosition;
 }) => {
   const colors = useColors();
+  const scaleType = useSetting("scaleType");
+  const timeOfDay = getTimeOfDay(item.dateTime);
+  const TimeOfDayIcon = TIME_OF_DAY_ICONS[timeOfDay];
 
   return (
     <View
       style={{
         flexDirection: "row",
         alignItems: "center",
+        gap: 12,
+        marginHorizontal: INSET,
+        paddingTop: 16,
+        paddingBottom: 12,
         borderBottomColor: colors.logCardBorder,
         borderBottomWidth: 1,
-        paddingBottom: 12,
       }}
     >
-      <RatingDot rating={item.rating} />
       <View
         style={{
-          marginLeft: 12,
-          justifyContent: "center",
+          width: 6,
+          alignSelf: "stretch",
+          borderRadius: RADIUS.full,
+          backgroundColor: colors.scales[scaleType][item.rating].background,
         }}
-      >
+      />
+      <View style={{ flex: 1, gap: 2 }}>
         <Text
           style={{
             fontSize: 20,
             fontWeight: "bold",
             color: colors.text,
+            fontVariant: ["tabular-nums"],
           }}
         >
           {dayjs(item.dateTime).format("LT")}
         </Text>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+            <TimeOfDayIcon color={colors.textSecondary} size={14} />
+            <Text style={{ fontSize: 13, color: colors.textSecondary }}>
+              {t(timeOfDay)}
+            </Text>
+          </View>
+          <Sleep item={item} onEdit={onEditSleep} />
+        </View>
+        <Place item={item} />
       </View>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "flex-end",
-        }}
-      >
-        <LinkButton
-          testID="log-list-edit"
-          onPress={() => {
-            onEdit(item);
-          }}
+      {position && position.count > 1 && (
+        <Text
+          testID="log-list-position"
           style={{
-            marginLeft: -8,
-            marginTop: -8,
-            marginBottom: -8,
-            marginRight: 4,
-            paddingTop: 16,
-            paddingBottom: 16,
-            paddingLeft: 16,
-            paddingRight: 16,
+            fontSize: 13,
+            color: colors.textSecondary,
+            fontVariant: ["tabular-nums"],
           }}
         >
-          <Edit color={colors.tint} size={22} />
-        </LinkButton>
-        <LinkButton
-          testID="log-list-delete"
-          style={{
-            marginLeft: -8,
-            marginTop: -8,
-            marginBottom: -8,
-            marginRight: -8,
-            paddingTop: 16,
-            paddingBottom: 16,
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
-          onPress={() => {
-            onDelete(item);
-          }}
-        >
-          <Trash color={colors.tint} size={22} />
-        </LinkButton>
-      </View>
+          {`${position.index + 1}/${position.count}`}
+        </Text>
+      )}
+      <EntryActions item={item} onEdit={onEdit} onDelete={onDelete} />
     </View>
   );
 };
 
 /**
- * Card for one entry in the day list with its sleep, emotions, tags, and
- * message sections. The trash button calls `onDelete` without asking, so
- * the caller must confirm.
+ * Full-width card for one entry in the day list. The header shows time, time
+ * of day, sleep, the place with the `location` flag on, and with `position`
+ * the place of the entry in its day ("2/5"). No section titles: white space
+ * divides the blocks. Short blocks come first (emotions, people, tags,
+ * photos), the note last, so a long note never hides the rest. Empty steps
+ * show as dashed add pills at the end.
+ *
+ * A block or pill opens the logger at its step, only when the edit logger
+ * has that step: the step is on in Settings > Steps, or the entry holds
+ * content for it. People show behind the `people` flag or when the entry has
+ * people. Stored photos always show, so turning the `photos` flag or consent
+ * off never hides user data. Delete calls `onDelete` without asking, so the
+ * caller must confirm. The card has its natural height; the list around it
+ * scrolls. Chip and photo rows scroll sideways inside it.
+ *
+ * A long note folds behind "More" when `onToggleNote` is given. The list
+ * owns `isNoteExpanded`, so a card that scrolls out and in keeps its state.
  */
 export const Entry = ({
   item,
   onEdit,
   onDelete,
+  position,
+  isNoteExpanded,
+  onToggleNote,
 }: {
   item: LogItem;
   onEdit: (item: LogItem) => void;
   onDelete: (item: LogItem) => void;
+  position?: EntryPosition;
+  isNoteExpanded?: boolean;
+  onToggleNote?: (item: LogItem) => void;
 }) => {
   const colors = useColors();
+  const router = useRouter();
+  const hasPeople = useFeatureFlag("people");
+  const { hasStep } = useSettings();
+  const isPhotosEnabled = useFeatureFlag("photos");
+  const logState = useLogState();
+  const knownPeople = useKnownPeople(item);
+  // Same steps as the edit logger. A link to a missing step would open the
+  // logger at the rating step instead.
+  const editSteps = getAvailableStepsForEdit({
+    item,
+    hasStep,
+    hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(item)),
+    hasPeople,
+    isPhotosEnabled,
+  });
+  const editStep = (step: LoggerStep) =>
+    editSteps.includes(step)
+      ? () => {
+          router.push({
+            pathname: "/logs/[id]/edit",
+            params: { id: item.id, step },
+          });
+        }
+      : undefined;
+
+  const editableSteps = new Set(editSteps);
+  const emptySteps: [AddableStep, boolean][] = [
+    ["emotions", item.emotions.length === 0],
+    ["people", knownPeople.length === 0],
+    ["tags", item.tags.length === 0],
+    ["photos", item.photos.length === 0],
+    ["message", item.message.trim() === ""],
+  ];
+  const addSteps = emptySteps.flatMap(([step, isEmpty]) =>
+    isEmpty && editableSteps.has(step) ? [step] : []
+  );
 
   return (
     <View
       style={{
-        flex: 1,
+        borderRadius: RADIUS.md,
+        borderWidth: 1,
+        borderColor: colors.logCardBorder,
+        backgroundColor: colors.logCardBackground,
+        overflow: "hidden",
       }}
     >
+      <EntryHeader
+        item={item}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        onEditSleep={editStep("sleep")}
+        position={position}
+      />
       <View
         style={{
-          flex: 1,
-          paddingTop: 16,
-          paddingHorizontal: 16,
-          borderRadius: 12,
-          borderWidth: 1,
-          borderColor: colors.logCardBorder,
-          backgroundColor: colors.logCardBackground,
-          position: "relative",
+          paddingTop: 20,
+          paddingBottom: CARD_BOTTOM_PADDING,
+          gap: BLOCK_GAP,
         }}
       >
-        <EntryHeader item={item} onEdit={onEdit} onDelete={onDelete} />
-        <ScrollView>
-          <View
-            style={{
-              paddingBottom: 24,
-            }}
-          >
-            <View
-              style={{
-                marginTop: 8,
-              }}
-            >
-              <Sleep item={item} />
-            </View>
-            <View
-              style={{
-                marginTop: 8,
-              }}
-            >
-              <Emotions item={item} />
-            </View>
-            <View
-              style={{
-                marginTop: 8,
-              }}
-            >
-              <Tags item={item} />
-            </View>
-            <View
-              style={{
-                marginTop: 8,
-              }}
-            >
-              <Message item={item} />
-            </View>
-          </View>
-        </ScrollView>
-        <LinearGradient
-          colors={[
-            colors.logCardBackground,
-            colors.logCardBackgroundTransparent,
-          ]}
-          style={{
-            position: "absolute",
-            height: 24,
-            top: 67,
-            left: 16,
-            right: 16,
-            zIndex: 999,
-          }}
-          pointerEvents="none"
+        <Emotions item={item} onEdit={editStep("emotions")} />
+        {knownPeople.length > 0 && (
+          <FlagHighlight flag="people">
+            <People item={item} onEdit={editStep("people")} />
+          </FlagHighlight>
+        )}
+        <Tags item={item} onEdit={editStep("tags")} />
+        {item.photos.length > 0 && (
+          <FlagHighlight flag="photos">
+            <Photos item={item} onEdit={editStep("photos")} />
+          </FlagHighlight>
+        )}
+        <Message
+          item={item}
+          onEdit={editStep("message")}
+          expanded={isNoteExpanded}
+          onToggleExpanded={onToggleNote && (() => onToggleNote(item))}
         />
-        <LinearGradient
-          colors={[
-            colors.logCardBackgroundTransparent,
-            colors.logCardBackground,
-          ]}
-          style={{
-            position: "absolute",
-            height: 24,
-            bottom: 0,
-            left: 16,
-            right: 16,
-            zIndex: 999,
-          }}
-          pointerEvents="none"
-        />
+        <AddPills steps={addSteps} onAdd={(step) => editStep(step)?.()} />
       </View>
     </View>
   );

@@ -14,6 +14,9 @@ tags: [p0, entry]
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-good"
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - assertVisible: "How did you feel?"
 - tapOn: "Happy"
 - tapOn:
@@ -31,18 +34,24 @@ tags: [p0, entry]
 - tapOn:
     id: "calendar-day-${output.today}"
 - tapOn:
-    id: "log-list-edit"
+    id: "log-list-menu"
     index: 0
+- tapOn: "Edit"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-bad"
+# The basic entry skipped sleep, so the edit logger asks for it.
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - assertVisible: "How did you feel?"
 - tapOn:
     id: "logger-next"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day…"
+- assertVisible:
+    id: "log-message"
 - tapOn:
     id: "log-message"
 - inputText: "e2e discarded ${output.runId}"

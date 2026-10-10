@@ -5,6 +5,7 @@ import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 import noop from "lodash/noop";
+import { RADIUS } from "@/constants/Radius";
 
 const Clock = ({
   timeDate,
@@ -22,7 +23,7 @@ const Clock = ({
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: colors.backgroundSecondary,
-        borderRadius: 8,
+        borderRadius: RADIUS.sm,
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 5,

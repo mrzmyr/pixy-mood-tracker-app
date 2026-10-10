@@ -3,6 +3,7 @@ import { Pressable, View } from "react-native";
 import { Circle } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import { RADIUS } from "@/constants/Radius";
 
 const getPressableOpacity = (
   isDisabled: boolean | undefined,
@@ -49,7 +50,7 @@ export const Radio = ({
           marginBottom: 10,
           backgroundColor: colors.menuListItemBackground,
           padding: 16,
-          borderRadius: 10,
+          borderRadius: RADIUS.md,
           opacity: getPressableOpacity(isDisabled, pressed),
         },
       ]}
@@ -77,7 +78,7 @@ export const Radio = ({
                   ? colors.textSecondary
                   : colors.text,
                 position: "absolute",
-                borderRadius: 100,
+                borderRadius: RADIUS.full,
                 top: 7,
               }}
             />

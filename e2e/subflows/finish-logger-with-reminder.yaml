@@ -1,6 +1,9 @@
 appId: ${APP_ID}
 ---
 # The second-ever entry adds Pixy's reminder prompt after the message slide.
+# Sleep comes first: no entry of the day holds a sleep quality.
+- tapOn:
+    id: "logger-next"
 - tapOn:
     id: "logger-next"
 - tapOn:
@@ -9,4 +12,4 @@ appId: ${APP_ID}
     id: "logger-next"
 - tapOn:
     text: "Maybe later"
-- runFlow: answer-confirmation.yaml
+- runFlow: close-confirmation.yaml

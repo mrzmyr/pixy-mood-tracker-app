@@ -1,5 +1,6 @@
 import Alert from "@/lib/Alert";
 import { createStructuredError } from "@/lib/errors";
+import { showToast } from "@/lib/toast";
 import { t } from "@/lib/translation";
 import noop from "lodash/noop";
 
@@ -16,30 +17,30 @@ const askToConfirm = ({
 }) =>
   // oxlint-disable-next-line promise/avoid-new -- Alert.alert only reports the choice through button callbacks, so a Promise adapter is required
   new Promise((resolve, reject) => {
+    // Android maps the LAST button to the positive (right) slot, so Cancel
+    // goes first. iOS places `style: "cancel"` itself.
+    const cancel = () =>
+      reject(
+        createStructuredError({
+          status: "prompt_cancelled",
+          message: "Confirmation prompt cancelled",
+          why: `The user dismissed the "${title}" prompt without confirming`,
+          fix: "No action needed; the user chose not to continue",
+        })
+      );
     Alert.alert(
       title,
       message,
       [
+        { text: cancelText, onPress: cancel, style: "cancel" },
         {
           text: confirmText,
           onPress: () => resolve({}),
           style: "destructive",
         },
-        {
-          text: cancelText,
-          onPress: () =>
-            reject(
-              createStructuredError({
-                status: "prompt_cancelled",
-                message: "Confirmation prompt cancelled",
-                why: `The user pressed "${cancelText}" in the "${title}" prompt`,
-                fix: "No action needed; the user chose not to continue",
-              })
-            ),
-          style: "cancel",
-        },
       ],
-      { cancelable: true }
+      // Android fires onDismiss, not the cancel button, on a tap outside.
+      { cancelable: true, onDismiss: cancel }
     );
   });
 
@@ -86,7 +87,7 @@ export const askToImport = () =>
   });
 
 /**
- * Ask before deleting all entries, tags, and settings.
+ * Ask before deleting all entries, photos, tags, people, and settings.
  *
  * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
  *   error on cancel.
@@ -99,18 +100,12 @@ export const askToReset = () =>
     cancelText: t("cancel"),
   });
 
-/** Show the blocking "import succeeded" alert. */
+/** Show the "import succeeded" toast. No tap needed. */
 export const showImportSuccess = () => {
-  Alert.alert(
-    t("import_success_title"),
-    t("import_success_message"),
-    [
-      {
-        text: t("ok"),
-      },
-    ],
-    { cancelable: false }
-  );
+  showToast({
+    title: t("import_success_title"),
+    message: t("import_success_message"),
+  });
 };
 
 /** Show the blocking "import failed" alert. */
@@ -123,19 +118,12 @@ export const showImportError = () => {
   );
 };
 
-/** Show the "all data deleted" alert. */
+/** Show the "all data deleted" toast. No tap needed. */
 export const showResetSuccess = () => {
-  Alert.alert(
-    t("delete_all_data_success_title"),
-    t("delete_all_data_success_message"),
-    [
-      {
-        text: t("ok"),
-        onPress: noop,
-      },
-    ],
-    { cancelable: false }
-  );
+  showToast({
+    title: t("delete_all_data_success_title"),
+    message: t("delete_all_data_success_message"),
+  });
 };
 
 /**

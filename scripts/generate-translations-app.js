@@ -1,7 +1,24 @@
 const { Translate } = require("@google-cloud/translate").v2;
 const fs = require("node:fs");
 const path = require("node:path");
-const credentials = require("../credentials/google-cloud-service-account.json");
+
+const CREDENTIALS_PATH = path.join(
+  __dirname,
+  "../credentials/google-cloud-service-account.json"
+);
+
+if (!fs.existsSync(CREDENTIALS_PATH)) {
+  console.error(
+    [
+      "error [translate_credentials_missing]: Cannot translate missing locale keys",
+      "  why: credentials/google-cloud-service-account.json does not exist. Only maintainers have the Google Cloud service account.",
+      "  fix: Translate new keys by hand in every assets/locales/*.json file (docs/i18n.md#add-strings), then run `bun run check:locales`",
+    ].join("\n")
+  );
+  process.exit(1);
+}
+
+const credentials = require(CREDENTIALS_PATH);
 
 const localesDir = path.join(__dirname, "../assets/locales/");
 const filesArray = fs

@@ -1,7 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Linking from "expo-linking";
-import { Check } from "lucide-react-native";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
@@ -19,16 +18,15 @@ import {
 import type { Fixture } from "@/dev/fixtures";
 
 import { setFileTransferOverride } from "@/features/datagate";
+import { setPhotoSourceOverride } from "@/features/photos";
 import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
-import {
-  getOverrides,
-  isOverride,
-  setOverride,
-  subscribe,
-} from "@/dev/featureFlagOverrides";
-import type { FeatureFlagOverride } from "@/dev/featureFlagOverrides";
+import { fakePeopleSources } from "@/dev/fakePeopleSources";
+import { addFakeContacts, removeFakeContacts } from "@/dev/fakeContacts";
+import { setPeopleSourcesOverride } from "@/features/people";
+import { isOverride, setOverride } from "@/state/featureFlags/overrides";
 import { FEATURE_FLAGS, isFeatureFlag } from "@/state/featureFlags/keys";
-import { useSettings } from "@/state/settings";
+import { useSettings, useSettingsLoad } from "@/state/settings";
+import { fakePhotoSource } from "@/dev/fakePhotoSource";
 import { useLoadFixture, writeStorageFixture } from "@/dev/useLoadFixture";
 
 // Drops every screen behind the new state, like a fresh app start.
@@ -46,7 +44,7 @@ export const DevFixturesScreen = () => {
   const confirm = (fixture: Fixture) => {
     Alert.alert(
       `Load "${fixture.title}"?`,
-      "This replaces all entries, tags, and settings.",
+      "This replaces all entries, tags, people, and settings.",
       [
         { style: "cancel", text: "Cancel" },
         {
@@ -67,12 +65,11 @@ export const DevFixturesScreen = () => {
     >
       <MenuListHeadline>Fixtures</MenuListHeadline>
       <MenuList>
-        {FIXTURES.map((fixture, index) => (
+        {FIXTURES.map((fixture) => (
           <MenuListItem
             key={fixture.id}
             title={fixture.title}
             onPress={isReady ? () => confirm(fixture) : undefined}
-            isLast={index === FIXTURES.length - 1}
             testID={`fixture-${fixture.id}`}
           />
         ))}
@@ -170,12 +167,16 @@ export const DevFixtureLinkScreen = () => {
 
 /**
  * Target of `<scheme>://dev/fake-files`. Swaps the share sheet and document
- * picker for `fakeFileTransfer` until the app restarts, then opens the app.
+ * picker for `fakeFileTransfer`, the contact picker and person photo
+ * library for `fakePeopleSources`, and the photo picker and photo library
+ * for `fakePhotoSource`, until the app restarts. Then opens the app.
  */
 export const DevFakeFilesLinkScreen = () => {
   const router = useRouter();
   useEffect(() => {
     setFileTransferOverride(fakeFileTransfer);
+    setPeopleSourcesOverride(fakePeopleSources);
+    setPhotoSourceOverride(fakePhotoSource);
     router.dismissAll();
     router.replace("/calendar");
   }, [router]);
@@ -183,50 +184,75 @@ export const DevFakeFilesLinkScreen = () => {
   return <ActivityIndicator testID="dev-fake-files-link" />;
 };
 
-const OVERRIDE_OPTIONS: { value: FeatureFlagOverride; title: string }[] = [
-  { value: "remote", title: "PostHog (needs consent)" },
-  { value: "on", title: "On" },
-  { value: "off", title: "Off" },
-];
+/** Largest `count` the fake contacts link accepts. */
+const MAX_FAKE_CONTACTS = 2000;
 
 /**
- * Settings > Development > Feature flags: override PostHog flags on this device until the
- * app restarts. Overrides work without analytics consent.
+ * Target of `<scheme>://dev/fake-contacts?count=<n>`. Writes `n` fake
+ * contacts into the real device address book, or with `count=0` deletes
+ * every fake contact it wrote before. Shows the result as text.
  */
-export const DevFeatureFlagsScreen = () => {
+export const DevFakeContactsLinkScreen = () => {
   const colors = useColors();
-  const overrides = useSyncExternalStore(subscribe, getOverrides);
+  const { count } = useLocalSearchParams<{ count?: string }>();
+  const [message, setMessage] = useState<string | null>(null);
+  const parsed = Number(count);
+  const isValid =
+    Number.isInteger(parsed) && parsed >= 0 && parsed <= MAX_FAKE_CONTACTS;
+
+  useEffect(() => {
+    if (!isValid) {
+      return;
+    }
+    let isActive = true;
+    void (async () => {
+      let text: string;
+      try {
+        text =
+          parsed === 0
+            ? `Deleted ${await removeFakeContacts()} fake contacts.`
+            : `Added ${await addFakeContacts(parsed)} fake contacts.`;
+      } catch (error) {
+        text = [
+          "fake_contacts_failed: Could not change the address book",
+          `why: ${error instanceof Error ? error.message : String(error)}`,
+          "fix: Allow Contacts for Pixy Preview in the system settings, then open the link again.",
+        ].join("\n");
+      }
+      if (isActive) {
+        setMessage(text);
+      }
+    })();
+    return () => {
+      isActive = false;
+    };
+  }, [isValid, parsed]);
+
+  const text = isValid
+    ? message
+    : [
+        `fake_contacts_count_invalid: Count "${count}" is not a number from 0 to ${MAX_FAKE_CONTACTS}`,
+        "why: The link needs ?count=<n>; 0 deletes the fake contacts.",
+        "fix: Open the link again with a valid count.",
+      ].join("\n");
 
   return (
-    <ScrollView
-      style={{ backgroundColor: colors.background, flex: 1, padding: 16 }}
+    <View
+      style={{
+        alignItems: "center",
+        backgroundColor: colors.background,
+        flex: 1,
+        justifyContent: "center",
+        padding: 24,
+      }}
+      testID="dev-fake-contacts-link"
     >
-      {FEATURE_FLAGS.map((key) => (
-        <View key={key}>
-          <MenuListHeadline>{key}</MenuListHeadline>
-          <MenuList>
-            {OVERRIDE_OPTIONS.map((option, index) => (
-              <MenuListItem
-                key={option.value}
-                title={option.title}
-                onPress={() => setOverride({ key, value: option.value })}
-                iconRight={
-                  (overrides[key] ?? "remote") === option.value ? (
-                    <Check size={18} color={colors.tint} />
-                  ) : null
-                }
-                isLast={index === OVERRIDE_OPTIONS.length - 1}
-                testID={`feature-flag-${key}-${option.value}`}
-              />
-            ))}
-          </MenuList>
-        </View>
-      ))}
-      <TextInfo>
-        {`Overrides end when the app restarts. Tests set one with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote.`}
-      </TextInfo>
-      <View style={{ height: 100 }} />
-    </ScrollView>
+      {text ? (
+        <Text style={{ color: colors.text, fontSize: 15 }}>{text}</Text>
+      ) : (
+        <ActivityIndicator />
+      )}
+    </View>
   );
 };
 
@@ -237,7 +263,8 @@ export const DevFeatureFlagsScreen = () => {
 export const DevFeatureFlagLinkScreen = () => {
   const router = useRouter();
   const colors = useColors();
-  const { settings, hasActionDone } = useSettings();
+  const { hasActionDone } = useSettings();
+  const isSettingsReady = useSettingsLoad().status === "ready";
   const { key, value } = useLocalSearchParams<{
     key: string;
     value: string;
@@ -247,13 +274,13 @@ export const DevFeatureFlagLinkScreen = () => {
 
   // Waits for settings: a cold start through the link has not read them yet.
   useEffect(() => {
-    if (!isFeatureFlag(key) || !isOverride(value) || !settings.loaded) {
+    if (!isFeatureFlag(key) || !isOverride(value) || !isSettingsReady) {
       return;
     }
     setOverride({ key, value });
     router.dismissAll();
     router.replace(isOnboarded ? "/calendar" : "/onboarding");
-  }, [key, value, settings.loaded, isOnboarded, router]);
+  }, [key, value, isSettingsReady, isOnboarded, router]);
 
   if (isValid) {
     return <ActivityIndicator testID="dev-feature-flag-link" />;

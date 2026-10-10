@@ -10,6 +10,8 @@ import { Check } from "react-native-feather";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
+import { getRatingLabel } from "@/lib/ratingLabel";
+import { RADIUS } from "@/constants/Radius";
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
@@ -37,6 +39,9 @@ export const SlideMoodButton = ({
   return (
     <Pressable
       testID={`mood-${rating}`}
+      accessibilityRole="radio"
+      accessibilityLabel={getRatingLabel(rating)}
+      accessibilityState={{ selected }}
       onPress={async () => {
         await haptics.selection();
         onPress();
@@ -47,7 +52,7 @@ export const SlideMoodButton = ({
           Platform.OS === "android" && colorScheme === "dark" ? 0 : 1,
         borderColor:
           colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.2)",
-        borderRadius: 12,
+        borderRadius: RADIUS.md,
         marginBottom: 8,
         width,
         height,

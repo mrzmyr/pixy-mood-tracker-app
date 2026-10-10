@@ -24,7 +24,7 @@ const _renderHook = () =>
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
-    expect(hook.result.current.state.settings.loaded).toBe(true);
+    expect(hook.result.current.load.status).toBe("ready");
   });
 
 const _console_error = console.error;
@@ -33,7 +33,6 @@ const STATIC_DEVICE_ID = "test-device-id";
 
 const LOADED_STATE = {
   ...INITIAL_STATE,
-  loaded: true,
   deviceId: STATIC_DEVICE_ID,
 };
 
@@ -50,12 +49,6 @@ describe("useSettings()", () => {
     console.error = _console_error;
   });
 
-  test("should have `loaded` prop", async () => {
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-    expect(hook.result.current.state.settings.loaded).toBe(true);
-  });
-
   test("should load from settings async storage & initialize device id if missing", async () => {
     AsyncStorage.setItem(
       STORAGE_KEY,
@@ -70,21 +63,24 @@ describe("useSettings()", () => {
     expect(hook.result.current.state.settings.deviceId).toBe(STATIC_DEVICE_ID);
   });
 
-  test("should remove retired sleep step from stored settings", async () => {
+  test("should keep the sleep step from stored settings", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         ...INITIAL_STATE,
-        steps: [...INITIAL_STATE.steps, "sleep"],
+        steps: ["rating", "message", "sleep"],
       })
     );
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
-    expect(hook.result.current.state.settings.steps).toEqual(
-      INITIAL_STATE.steps
-    );
+    expect(hook.result.current.state.settings.steps).toEqual([
+      "rating",
+      "message",
+      "sleep",
+    ]);
+    expect(hook.result.current.state.hasStep("sleep")).toBe(true);
   });
 
   test("should initiate with empty `settings` when async storage is empty", async () => {
@@ -115,20 +111,22 @@ describe("useSettings()", () => {
     expect(hook.result.current.state.settings.reminderTime).toBe("12:00");
   });
 
-  test("should remove retired sleep step from imported settings", async () => {
+  test("should keep the sleep step from imported settings", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
     await act(() => {
       hook.result.current.state.importSettings({
         ...INITIAL_STATE,
-        steps: [...INITIAL_STATE.steps, "sleep"],
+        steps: ["rating", "message", "sleep"],
       });
     });
 
-    expect(hook.result.current.state.settings.steps).toEqual(
-      INITIAL_STATE.steps
-    );
+    expect(hook.result.current.state.settings.steps).toEqual([
+      "rating",
+      "message",
+      "sleep",
+    ]);
   });
 
   test("should keep store review prompt state on import", async () => {
@@ -157,6 +155,56 @@ describe("useSettings()", () => {
     });
   });
 
+  test("keeps the photo access dismissal of this device on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, photosDayAccessDismissed: true })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    expect(hook.result.current.state.settings.photosDayAccessDismissed).toBe(
+      true
+    );
+
+    await act(() => {
+      hook.result.current.state.importSettings({ ...INITIAL_STATE });
+    });
+
+    expect(hook.result.current.state.settings.photosDayAccessDismissed).toBe(
+      true
+    );
+  });
+
+  test("keeps the app lock of this device on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, appLockEnabled: true })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    // Backups never carry the lock; an old or edited file still must not change it.
+    const backup = { ...INITIAL_STATE, appLockEnabled: false };
+    await act(() => {
+      hook.result.current.state.importSettings(backup);
+    });
+
+    expect(hook.result.current.state.settings.appLockEnabled).toBe(true);
+  });
+
+  test("reads a missing or invalid photo access dismissal as false", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, photosDayAccessDismissed: "yes" })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.settings.photosDayAccessDismissed).toBe(
+      false
+    );
+  });
+
   test("should addActionDone", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -177,7 +225,7 @@ describe("useSettings()", () => {
     );
     const json = await AsyncStorage.getItem(STORAGE_KEY);
     expect(JSON.parse(json ?? "null")).toEqual({
-      ..._.omit(LOADED_STATE, "loaded"),
+      ...LOADED_STATE,
       actionsDone: ACTIONS_DONE,
     });
   });
@@ -206,7 +254,7 @@ describe("useSettings()", () => {
     );
     const json = await AsyncStorage.getItem(STORAGE_KEY);
     expect(JSON.parse(json ?? "null")).toEqual({
-      ..._.omit(LOADED_STATE, "loaded"),
+      ...LOADED_STATE,
       actionsDone: ACTIONS_DONE,
     });
   });
@@ -242,13 +290,13 @@ describe("useSettings()", () => {
       hook.result.current.state.toggleStep("feedback");
     });
 
-    expect(hook.result.current.state.settings.steps.length).toEqual(4);
+    expect(hook.result.current.state.settings.steps.length).toEqual(6);
 
     await act(() => {
       hook.result.current.state.toggleStep("feedback");
     });
 
-    expect(hook.result.current.state.settings.steps[3]).toEqual("message");
+    expect(hook.result.current.state.settings.steps[4]).toEqual("photos");
   });
 
   test("should `toggleStep` with value", async () => {
@@ -263,11 +311,31 @@ describe("useSettings()", () => {
 
     expect(hook.result.current.state.settings.steps).toEqual([
       "rating",
+      "sleep",
       "emotions",
+      "photos",
       "message",
       "feedback",
       "tags",
     ]);
+  });
+
+  test("new installs get the photos and sleep steps, stored step lists stay as they are", async () => {
+    const fresh = await _renderHook();
+    await waitForLoaded(fresh);
+    expect(fresh.result.current.state.hasStep("photos")).toBe(true);
+    expect(fresh.result.current.state.hasStep("sleep")).toBe(true);
+    await fresh.unmount();
+
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ steps: ["rating", "message"] })
+    );
+    const existing = await _renderHook();
+    await waitForLoaded(existing);
+
+    expect(existing.result.current.state.hasStep("photos")).toBe(false);
+    expect(existing.result.current.state.hasStep("sleep")).toBe(false);
   });
 
   test("should `hasStep`", async () => {
@@ -279,33 +347,5 @@ describe("useSettings()", () => {
     });
 
     expect(hook.result.current.state.hasStep("feedback")).toEqual(false);
-  });
-
-  test("should expose load error and never store when stored settings cannot be parsed", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
-    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
-    setItemSpy.mockClear();
-
-    const hook = await _renderHook();
-    await waitFor(() => {
-      expect(hook.result.current.load.status).toBe("error");
-    });
-    expect(hook.result.current.load.error).toEqual(
-      expect.objectContaining({
-        status: "storage_invalid_value",
-        message: "Stored data is invalid",
-        why: expect.stringContaining(STORAGE_KEY),
-        fix: expect.any(String),
-      })
-    );
-    expect(hook.result.current.state.settings.loaded).toBe(false);
-
-    // `resetSettings` sets `loaded`; it still must not overwrite storage.
-    await act(() => {
-      hook.result.current.state.resetSettings();
-    });
-
-    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
-    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
   });
 });

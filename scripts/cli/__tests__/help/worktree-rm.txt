@@ -1,0 +1,29 @@
+Remove one worktree. Keep its branch.
+
+Usage: bun worktree rm <slug|path> [--force]
+
+Arguments:
+  <slug|path>  Slug from `bun worktree new`, or an absolute worktree path.
+
+Options:
+  --force  Remove even with uncommitted changes. Discards them.
+
+Behavior:
+  Refuses a worktree with uncommitted changes unless --force.
+  Runs `git worktree prune` after removal.
+  Run `bun builds prune` after to free its simulator and checkout state.
+
+Examples:
+  bun worktree rm tag-swipes
+  bun worktree rm /path/to/old-checkout --force
+
+Errors:
+  missing_argument    No <slug|path> passed
+  invalid_slug        <slug> has characters other than a-z, 0-9, -
+  invalid_target      Path is relative
+  worktree_not_found  No worktree at this path
+  main_checkout       Path is the main checkout
+  worktree_dirty      Worktree has uncommitted changes
+  git_failed          A git command failed
+
+Exit codes: 0 ok, 1 failure, 2 usage error

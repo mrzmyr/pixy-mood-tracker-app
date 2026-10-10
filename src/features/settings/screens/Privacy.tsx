@@ -1,22 +1,29 @@
 import * as WebBrowser from "expo-web-browser";
-import { ScrollView, Switch, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import Toggle from "@/components/Toggle";
 import { Shield } from "react-native-feather";
 import Markdown from "react-native-markdown-display";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 import { t } from "@/lib/translation";
+import { useFeatureFlag } from "@/state/featureFlags";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 
 /**
  * Settings > Privacy: privacy summary, link to the full policy, and the
- * analytics opt-in switch.
+ * analytics opt-in switch. The people section shows only behind the
+ * `people` feature flag.
  */
 export const PrivacyScreen = () => {
   const colors = useColors();
   const analytics = useAnalytics();
+  const hasPeople = useFeatureFlag("people");
+  const content = hasPeople
+    ? `${t("privacy_content")}\n\n${t("privacy_people_content")}`
+    : t("privacy_content");
 
   const _handlePressButtonAsync = async () => {
     await WebBrowser.openBrowserAsync("https://pixy.day/privacy", {
@@ -72,7 +79,7 @@ export const PrivacyScreen = () => {
               em: { color: colors.text, opacity: 0.5, fontStyle: "normal" },
             }}
           >
-            {t("privacy_content")}
+            {content}
           </Markdown>
 
           <MenuList
@@ -83,8 +90,7 @@ export const PrivacyScreen = () => {
             <MenuListItem
               title={t("behavioral_data")}
               iconRight={
-                <Switch
-                  ios_backgroundColor={colors.backgroundSecondary}
+                <Toggle
                   onValueChange={() => {
                     analytics.track("settings:analytics_toggled", {
                       enabled: !analytics.isEnabled,
@@ -99,7 +105,6 @@ export const PrivacyScreen = () => {
                   testID="behavioral-data-enabled"
                 />
               }
-              isLast
             />
           </MenuList>
           <TextInfo>{t("behavioral_data_help")}</TextInfo>

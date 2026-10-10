@@ -14,12 +14,17 @@ tags: [p0, entry]
 - tapOn:
     id: "calendar-day-${output.today}"
 - tapOn:
-    id: "log-list-edit"
+    id: "log-list-menu"
     index: 0
+- tapOn: "Edit"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-bad"
+# The basic entry skipped sleep, so the edit logger asks for it.
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - assertVisible: "How did you feel?"
 - scrollUntilVisible:
     element:
@@ -32,7 +37,8 @@ tags: [p0, entry]
 - assertVisible: "Add tags"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day…"
+- assertVisible:
+    id: "log-message"
 - tapOn:
     id: "log-message"
 - inputText: "e2e edited ${output.runId}"
@@ -43,23 +49,28 @@ tags: [p0, entry]
 - assertVisible: "e2e edited ${output.runId}"
 
 # Second entry from the day list. The second-ever entry adds the reminder slide.
+# No entry of the day holds a sleep quality, so the logger asks for sleep.
 - tapOn: "Add Entry"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-very_good"
+- assertVisible: "How did you sleep?"
 - tapOn:
     id: "logger-next"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day…"
+- tapOn:
+    id: "logger-next"
+- assertVisible:
+    id: "log-message"
 - tapOn:
     id: "log-message"
 - inputText: "e2e second ${output.runId}"
 - tapOn:
     id: "logger-next"
 - tapOn: "Maybe later"
-- runFlow: ../subflows/answer-confirmation.yaml
+- runFlow: ../subflows/close-confirmation.yaml
 
 # Delete the edited entry. Both entries can share the same minute, so the
 # day list order is not fixed.
@@ -74,7 +85,8 @@ tags: [p0, entry]
           end: 20%, 50%
 - assertVisible: "e2e edited ${output.runId}"
 - tapOn:
-    id: "log-list-delete"
+    id: "log-list-menu"
+- tapOn: "Delete"
 - assertVisible: "Are you sure you want to delete this entry?"
 - tapOn:
     text: "Delete"

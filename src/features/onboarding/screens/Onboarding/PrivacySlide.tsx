@@ -8,6 +8,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 import { DEVICE_REQUIRES_CONSENT } from "@/state/analytics/consent";
+import { RADIUS } from "@/constants/Radius";
 
 const ListItem = ({ children, delay }) => {
   const colors = useColors();
@@ -26,7 +27,7 @@ const ListItem = ({ children, delay }) => {
         style={{
           width: 6,
           height: 6,
-          borderRadius: 4,
+          borderRadius: RADIUS.full,
           backgroundColor: colors.onboardingListItemDot,
           marginRight: 12,
           marginTop: 9,
@@ -148,7 +149,7 @@ export const PrivacySlide = ({
                 width: "100%",
                 marginTop: 16,
                 padding: 16,
-                borderRadius: 12,
+                borderRadius: RADIUS.md,
                 borderWidth: 1,
                 borderColor: colors.onboardingBottomBorder,
                 backgroundColor: colors.onboardingBottomBackground,

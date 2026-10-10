@@ -1,8 +1,7 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { ArrowLeft } from "react-native-feather";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { HeaderPagination } from "./HeaderPagination";
 
 /** Back, pagination, and skip controls above onboarding slides. */
@@ -15,7 +14,6 @@ export const HeaderNavigation = ({
   setIndex: (index: number) => void;
   onSkip: () => void;
 }) => {
-  const haptics = useHaptics();
   const colors = useColors();
 
   return (
@@ -29,14 +27,18 @@ export const HeaderNavigation = ({
         borderBottomWidth: 1,
       }}
     >
-      <TouchableOpacity
+      <Pressable
         testID="onboarding-back"
+        accessibilityRole="button"
+        accessibilityLabel={t("onboarding_back")}
         style={{
-          padding: 16,
-          marginLeft: -16,
+          minWidth: 44,
+          minHeight: 44,
+          padding: 10,
+          marginLeft: -10,
+          justifyContent: "center",
         }}
-        onPress={async () => {
-          await haptics.selection();
+        onPress={() => {
           setIndex(index - 1);
         }}
       >
@@ -45,14 +47,21 @@ export const HeaderNavigation = ({
           height={24}
           color={colors.onboardingPaginationText}
         />
-      </TouchableOpacity>
+      </Pressable>
       <HeaderPagination index={index} />
-      <TouchableOpacity
-        onPress={() => setIndex(index + 1)}
+      <Pressable
+        testID="onboarding-skip"
+        accessibilityRole="button"
+        accessibilityLabel={t("onboarding_skip")}
+        onPress={() => {
+          onSkip();
+        }}
         style={{
-          paddingVertical: 16,
+          minWidth: 44,
+          minHeight: 44,
           paddingHorizontal: 16,
           marginRight: -16,
+          justifyContent: "center",
         }}
       >
         <Text
@@ -61,14 +70,10 @@ export const HeaderNavigation = ({
             fontSize: 17,
             fontWeight: "600",
           }}
-          onPress={async () => {
-            await haptics.selection();
-            onSkip();
-          }}
         >
           {t("onboarding_skip")}
         </Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

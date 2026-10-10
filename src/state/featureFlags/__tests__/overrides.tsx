@@ -1,68 +1,221 @@
-import type * as TestingLibrary from "@testing-library/react-native";
-import type * as FeatureFlags from "@/state/featureFlags";
-import type * as Overrides from "@/state/featureFlags/overrides";
-import type * as DevOverrides from "@/dev/featureFlagOverrides";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  act,
+  render,
+  renderHook,
+  waitFor,
+} from "@testing-library/react-native";
+import { Text } from "react-native";
+import {
+  PostHogProvider,
+  usePostHog as getPostHogTestClient,
+} from "posthog-react-native";
+import FlagHighlight from "@/components/FlagHighlight";
+import { INITIAL_STATE } from "@/constants/Settings";
+import {
+  FeatureFlagsProvider,
+  useCanOverrideFeatureFlags,
+  useFeatureFlag,
+} from "@/state/featureFlags";
+import { FEATURE_FLAGS } from "@/state/featureFlags/keys";
+import {
+  setHighlight,
+  setOverride,
+  setOverrides,
+  subscribe,
+} from "@/state/featureFlags/overrides";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettings,
+  useSettingsLoad,
+} from "@/state/settings";
 
-// The override gate reads the variant at module load. This file loads every
-// module after setting it, so React and the flag module share one registry.
-const ORIGINAL_VARIANT = process.env.EXPO_PUBLIC_APP_VARIANT;
-process.env.EXPO_PUBLIC_APP_VARIANT = "preview";
+// Jest sets no app variant, so this file covers production builds.
+// jest.setup.js replaces posthog-react-native with one shared fake client.
+const mockReload = jest.mocked(getPostHogTestClient().reloadFeatureFlagsAsync);
 
-// oxlint-disable-next-line typescript/no-require-imports -- loads after the variant is set above.
-const testingLibrary: typeof TestingLibrary = require("@testing-library/react-native");
-// oxlint-disable-next-line typescript/no-require-imports -- loads after the variant is set above.
-const featureFlags: typeof FeatureFlags = require("@/state/featureFlags");
-// oxlint-disable-next-line typescript/no-require-imports -- loads after the variant is set above.
-const devOverrides: typeof DevOverrides = require("@/dev/featureFlagOverrides");
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <SettingsProvider>
+    <PostHogProvider apiKey="POSTHOG_API_KEY" autocapture={false}>
+      <FeatureFlagsProvider options={{ enabled: true }}>
+        {children}
+      </FeatureFlagsProvider>
+    </PostHogProvider>
+  </SettingsProvider>
+);
 
-const { act, renderHook } = testingLibrary;
-const { useFeatureFlag } = featureFlags;
-const { setOverride } = devOverrides;
-
-const loadGate = (variant?: string) => {
-  const { env } = process;
-  process.env = { ...env, EXPO_PUBLIC_APP_VARIANT: variant };
-  let gate: typeof Overrides.DEV_OVERRIDES | undefined;
-  jest.isolateModules(() => {
-    // oxlint-disable-next-line typescript/no-require-imports -- the gate reads the variant at module load; each case needs a fresh module.
-    gate = require("@/state/featureFlags/overrides").DEV_OVERRIDES;
+const renderFlags = async () => {
+  await AsyncStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      ...INITIAL_STATE,
+      deviceId: "test-device-id",
+      analyticsEnabled: true,
+      actionsDone: [{ title: "onboarding", date: "2026-10-01T10:00:00.000Z" }],
+    })
+  );
+  const hook = await renderHook(
+    () => ({
+      canOverride: useCanOverrideFeatureFlags(),
+      isPhotosOn: useFeatureFlag("photos"),
+      isPeopleOn: useFeatureFlag("people"),
+      isAccessOn: useFeatureFlag("feature-flag-overrides"),
+      settings: useSettings(),
+      settingsLoad: useSettingsLoad(),
+    }),
+    { wrapper }
+  );
+  await waitFor(() => {
+    expect(mockReload).toHaveBeenCalledTimes(1);
   });
-  process.env = env;
-  return gate;
+  return hook;
 };
 
-afterAll(() => {
-  process.env.EXPO_PUBLIC_APP_VARIANT = ORIGINAL_VARIANT;
-});
-
-describe("feature flag overrides", () => {
-  test("development and preview builds load the override store", () => {
-    expect(loadGate("development")).not.toBeNull();
-    expect(loadGate("preview")).not.toBeNull();
+describe("feature flag overrides in production builds", () => {
+  beforeEach(async () => {
+    mockReload.mockReset();
+    await AsyncStorage.clear();
+    // Overrides live in memory; drop the ones of the last test.
+    setOverrides({ keys: FEATURE_FLAGS, value: "remote" });
+    setHighlight(false);
   });
 
-  test("production builds never load the override store", () => {
-    expect(loadGate("production")).toBeNull();
-    expect(loadGate()).toBeNull();
-  });
-
-  test("override wins without consent and `remote` removes it", async () => {
-    const hook = await renderHook(() => useFeatureFlag("photos"));
-    expect(hook.result.current).toBe(false);
-
-    await act(() => {
-      setOverride({ key: "photos", value: "on" });
-    });
-    expect(hook.result.current).toBe(true);
+  test("ignores overrides without the access flag", async () => {
+    mockReload.mockResolvedValue({ photos: true });
+    const hook = await renderFlags();
 
     await act(() => {
       setOverride({ key: "photos", value: "off" });
     });
-    expect(hook.result.current).toBe(false);
+
+    expect(hook.result.current.canOverride).toBe(false);
+    expect(hook.result.current.isPhotosOn).toBe(true);
+  });
+
+  test("applies overrides while the access flag is on", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.canOverride).toBe(true);
+    });
 
     await act(() => {
-      setOverride({ key: "photos", value: "remote" });
+      setOverride({ key: "photos", value: "on" });
     });
-    expect(hook.result.current).toBe(false);
+
+    expect(hook.result.current.isPhotosOn).toBe(true);
+  });
+
+  test("sets many flags in one update", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.canOverride).toBe(true);
+    });
+    const listener = jest.fn();
+    const unsubscribe = subscribe(listener);
+
+    await act(() => {
+      setOverrides({ keys: ["photos", "people"], value: "on" });
+    });
+    unsubscribe();
+
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(hook.result.current.isPhotosOn).toBe(true);
+    expect(hook.result.current.isPeopleOn).toBe(true);
+  });
+
+  test("returns many flags to PostHog in one update", async () => {
+    mockReload.mockResolvedValue({
+      "feature-flag-overrides": true,
+      people: true,
+    });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.canOverride).toBe(true);
+    });
+    await act(() => {
+      setOverrides({ keys: ["photos", "people"], value: "off" });
+    });
+    expect(hook.result.current.isPeopleOn).toBe(false);
+
+    await act(() => {
+      setOverrides({ keys: ["photos", "people"], value: "remote" });
+    });
+
+    expect(hook.result.current.isPhotosOn).toBe(false);
+    expect(hook.result.current.isPeopleOn).toBe(true);
+  });
+
+  test("never overrides the access flag itself", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.isAccessOn).toBe(true);
+    });
+
+    await act(() => {
+      setOverride({ key: "feature-flag-overrides", value: "off" });
+    });
+
+    expect(hook.result.current.isAccessOn).toBe(true);
+    expect(hook.result.current.canOverride).toBe(true);
+  });
+
+  test("drops overrides when consent ends", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.canOverride).toBe(true);
+    });
+    await act(() => {
+      setOverride({ key: "photos", value: "on" });
+    });
+
+    await act(() => {
+      hook.result.current.settings.setSettings((settings) => ({
+        ...settings,
+        analyticsEnabled: false,
+      }));
+    });
+
+    expect(hook.result.current.canOverride).toBe(false);
+    expect(hook.result.current.isPhotosOn).toBe(false);
+  });
+
+  test("never outlines UI without the access flag", async () => {
+    mockReload.mockResolvedValue({ photos: true });
+    await renderFlags();
+    setHighlight(true);
+
+    const screen = await render(
+      <FlagHighlight flag="photos">
+        <Text>flagged</Text>
+      </FlagHighlight>,
+      { wrapper }
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("flagged")).toBeTruthy();
+    });
+    expect(screen.queryByTestId("feature-flag-highlight-photos")).toBeNull();
+  });
+
+  test("outlines UI while the access flag is on", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    await renderFlags();
+    setHighlight(true);
+
+    const screen = await render(
+      <FlagHighlight flag="photos">
+        <Text>flagged</Text>
+      </FlagHighlight>,
+      { wrapper }
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("feature-flag-highlight-photos")).toBeTruthy();
+    });
   });
 });

@@ -6,6 +6,12 @@ import react from "ultracite/oxlint/react";
 
 const jsPlugins = selectJsPlugins(["react-doctor"]);
 
+// Expo Router 57 fails the bundle when app code imports React Navigation directly.
+const reactNavigationImport = {
+  group: ["@react-navigation/*"],
+  message: "Import from expo-router/react-navigation instead.",
+};
+
 /**
  * Oxlint config: Ultracite presets plus the local `pixy-standards` rules
  * from `tools/oxlint/pixy-rules.cjs`.
@@ -39,6 +45,11 @@ export default defineConfig({
     // Hermes has no Array#toSorted or Array#toReversed; copy with spread first.
     "unicorn/no-array-sort": "off",
     "unicorn/no-array-reverse": "off",
+    // Autofix turns string `.includes` into `new Set(string).has`, which never matches a phrase.
+    "unicorn/prefer-set-has": "off",
+    // Autofix renames to `error` even when that shadows an outer `error`, changing which value code reads.
+    "unicorn/catch-error-name": "off",
+    "no-restricted-imports": ["error", { patterns: [reactNavigationImport] }],
   },
   overrides: [
     {
@@ -61,6 +72,7 @@ export default defineConfig({
                 group: ["@/features/**", "@/screens/**"],
                 message: "Lower layer must not import features or screens.",
               },
+              reactNavigationImport,
             ],
           },
         ],
@@ -78,6 +90,7 @@ export default defineConfig({
                 regex: "^@/features/[^/]+/.+",
                 message: "Import features through their entry file.",
               },
+              reactNavigationImport,
             ],
           },
         ],
@@ -89,9 +102,18 @@ export default defineConfig({
       rules: { "oxc/no-barrel-file": "off" },
     },
     {
-      // App code runs on Hermes; scripts run on Bun and Node.
+      // App code runs on Hermes and Fabric; scripts run on Bun and Node.
       files: ["src/**"],
-      rules: { "pixy-standards/no-hermes-missing-array-methods": "error" },
+      rules: {
+        "pixy-standards/no-hermes-missing-array-methods": "error",
+        "pixy-standards/no-hermes-missing-intl": "error",
+        "pixy-standards/no-layout-animation": "error",
+      },
+    },
+    {
+      // Append-only lists conflict on every merge; sorted lists do not.
+      files: ["src/state/featureFlags/keys.ts"],
+      rules: { "pixy-standards/sorted-string-arrays": "error" },
     },
   ],
 });

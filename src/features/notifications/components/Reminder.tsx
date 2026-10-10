@@ -1,140 +1,100 @@
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { Platform, Switch, Text, View } from "react-native";
+import { useEffect, useEffectEvent } from "react";
+import { Linking, Text, View } from "react-native";
+import Toggle from "@/components/Toggle";
 import Clock from "./Clock";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import NotificationPreview from "./NotificationPreview";
+import TextInfo from "@/components/TextInfo";
+import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import useColors from "@/hooks/useColors";
-import useNotification, { createDailyTrigger } from "../Notifications";
-import { useSettings } from "@/state/settings";
-import type { SettingsState } from "@/state/settings";
+import { reminderTimeToDate } from "../reminderTime";
+import { useNotificationPermissionDenied } from "../useNotificationPermissionDenied";
+import { useReminder } from "../useReminder";
 
 const Reminder = () => {
-  const { setSettings, settings } = useSettings();
-  const { askForPermission, hasPermission, schedule, cancelAll } =
-    useNotification();
-
-  const [reminderEnabled, setReminderEnabled] = useState(
-    settings.reminderEnabled
-  );
-  const [reminderTime, setReminderTime] = useState(settings.reminderTime);
-  const colors = useColors();
+  const reminder = useReminder();
   const analytics = useAnalytics();
+  const colors = useColors();
+  const { denied, refresh } = useNotificationPermissionDenied();
 
-  const hourAndMinute = reminderTime.split(":");
-  const hour = Number(hourAndMinute[0]);
-  const minute = Number(hourAndMinute[1]);
-  const timeDate = dayjs().hour(hour).minute(minute).toDate();
+  const reminderEnabled = reminder.enabled;
+  const timeDate = reminderTimeToDate(reminder.time);
+
+  // Reapply the stored reminder on open. Repairs the schedule after a data
+  // import or a lost notification. Never asks for permission.
+  const reapply = useEffectEvent(() => {
+    void reminder.setTime(reminder.time);
+  });
+  useEffect(() => {
+    reapply();
+  }, []);
 
   const onEnabledChange = async (value: boolean) => {
-    let has = await hasPermission();
-    if (value && !has) {
-      has = await askForPermission();
+    let permissionGranted: boolean;
+    if (value) {
+      const result = await reminder.enable(reminder.time);
+      permissionGranted = result.status === "enabled";
+    } else {
+      const result = await reminder.disable();
+      ({ permissionGranted } = result);
     }
-    if (!value) {
-      await cancelAll();
-    }
+    void refresh();
     analytics.track("reminders:reminder_toggled", {
       enabled: value,
-      permission_granted: Boolean(has),
+      permission_granted: permissionGranted,
     });
-
-    const enable = value && Boolean(has);
-
-    setReminderEnabled(enable);
   };
 
-  useEffect(() => {
-    (async () => {
-      await cancelAll();
-      if (reminderEnabled) {
-        await schedule({
-          trigger: createDailyTrigger(hour, minute),
-        });
-      }
-
-      setSettings((currentSettings: SettingsState) => ({
-        ...currentSettings,
-        reminderEnabled,
-        reminderTime,
-      }));
-    })();
-  }, [
-    reminderEnabled,
-    reminderTime,
-    hour,
-    minute,
-    schedule,
-    cancelAll,
-    setSettings,
-  ]);
-
   const onTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    analytics.track("reminders:time_changed", {
-      time: dayjs(selectedDate).format("HH:mm"),
-    });
-    setReminderTime(dayjs(selectedDate).format("HH:mm"));
+    if (event.type !== "set" || !selectedDate) {
+      return;
+    }
+    const time = dayjs(selectedDate).format("HH:mm");
+    analytics.track("reminders:time_changed", { time });
+    void reminder.setTime(time);
   };
 
   return (
     <View>
-      <View
-        style={{
-          opacity: reminderEnabled ? 1 : 0.5,
-          marginBottom: 20,
-        }}
-      >
-        <NotificationPreview />
+      <View style={{ marginBottom: 20 }}>
+        <NotificationPreview time={timeDate} enabled={reminderEnabled} />
       </View>
       <MenuList>
         <MenuListItem
           title={t("reminder")}
           iconRight={
-            <Switch
+            <Toggle
               onValueChange={() => onEnabledChange(!reminderEnabled)}
               value={reminderEnabled}
               testID="reminder-enabled"
             />
           }
-          isLast={!reminderEnabled}
         />
         {reminderEnabled && (
-          <View
-            style={{
-              padding: 16,
-              flexDirection: "row",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
-              <Text
-                style={{
-                  color: colors.text,
-                  fontSize: 17,
-                }}
-              >
-                {t("time")}
-              </Text>
-            </View>
-            <View
-              style={{
-                flex: Platform.OS === "ios" ? 1 : 0,
-              }}
-            >
-              <Clock onChange={onTimeChange} timeDate={timeDate} />
-            </View>
-          </View>
+          <MenuListItem
+            title={t("time")}
+            iconRight={<Clock onChange={onTimeChange} timeDate={timeDate} />}
+          />
         )}
       </MenuList>
+      {denied && (
+        <TextInfo>
+          {t("reminder_permission_denied")}{" "}
+          <Text
+            accessibilityRole="link"
+            style={{ color: colors.link }}
+            onPress={() => {
+              void Linking.openSettings();
+            }}
+          >
+            {t("location_open_settings")}
+          </Text>
+        </TextInfo>
+      )}
     </View>
   );
 };

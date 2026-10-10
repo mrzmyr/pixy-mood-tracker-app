@@ -21,6 +21,8 @@ const today = dayjs().format(DATE_FORMAT);
 const twoDaysAgo = dayjs().subtract(2, "day").format(DATE_FORMAT);
 const twoDaysAgoNoon = dayjs(twoDaysAgo).hour(12).toISOString();
 
+const SECOND_ENTRY_ID = "second-entry";
+
 const Days = () => {
   const calendarNavigation = useCalendarNavigation();
   return (
@@ -39,13 +41,27 @@ const Days = () => {
       >
         <Text>Open two days ago</Text>
       </Pressable>
+      <Pressable
+        onPress={() =>
+          calendarNavigation.openDay({
+            date: twoDaysAgo,
+            entryId: SECOND_ENTRY_ID,
+            source: "timeline",
+          })
+        }
+      >
+        <Text>Open second entry</Text>
+      </Pressable>
     </>
   );
 };
 
 const OpenedDay = () => {
-  const { date } = useLocalSearchParams<{ date: string }>();
-  return <Text>{`Opened ${date}`}</Text>;
+  const { date, entry } = useLocalSearchParams<{
+    date: string;
+    entry?: string;
+  }>();
+  return <Text>{`Opened ${date} ${entry ?? "none"}`}</Text>;
 };
 
 const OpenedCreate = () => {
@@ -88,7 +104,7 @@ describe("useCalendarNavigation()", () => {
       JSON.stringify({
         items: [
           _generateItem({ dateTime: twoDaysAgoNoon }),
-          _generateItem({ dateTime: twoDaysAgoNoon }),
+          _generateItem({ id: SECOND_ENTRY_ID, dateTime: twoDaysAgoNoon }),
         ],
       })
     );
@@ -107,7 +123,17 @@ describe("useCalendarNavigation()", () => {
         })
       )
     );
-    expect(await result.findByText(`Opened ${twoDaysAgo}`)).toBeOnTheScreen();
+    expect(
+      await result.findByText(`Opened ${twoDaysAgo} none`)
+    ).toBeOnTheScreen();
+  });
+
+  test("opens a day at the entry that was tapped", async () => {
+    const result = await renderDays();
+    await userEvent.press(await result.findByText("Open second entry"));
+    expect(
+      await result.findByText(`Opened ${twoDaysAgo} ${SECOND_ENTRY_ID}`)
+    ).toBeOnTheScreen();
   });
 
   test("tracks opening an empty day", async () => {

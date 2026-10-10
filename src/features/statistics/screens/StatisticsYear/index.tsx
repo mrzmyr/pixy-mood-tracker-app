@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import { BestMonth } from "./BestMonth";
+import { useReportHeader } from "../../components/useReportHeader";
 import { Header } from "./Header";
 import { MoodChart } from "./MoodChart";
 import { WorstMonth } from "./WorstMonth";
@@ -27,6 +28,16 @@ export const StatisticsYearScreen = () => {
     [routeDate]
   );
 
+  const gradientColors: [string, string, string] = [
+    colors.palette.orange[700],
+    colors.palette.orange[500],
+    colors.palette.yellow[500],
+  ];
+  const { bannerHeight, headerHeight, onScroll } = useReportHeader({
+    title: date.format("YYYY"),
+    headerColor: gradientColors[0],
+  });
+
   const logState = useLogState();
   const year = date.format("YYYY");
   const items = logState.items.filter((item) =>
@@ -35,6 +46,8 @@ export const StatisticsYearScreen = () => {
 
   return (
     <ScrollView
+      onScroll={onScroll}
+      scrollEventThrottle={16}
       style={{
         flex: 1,
         backgroundColor: colors.statisticsBackground,
@@ -43,11 +56,9 @@ export const StatisticsYearScreen = () => {
       <Header
         title={date.format("YYYY")}
         subtitle={t("year_report")}
-        gradientColors={[
-          colors.palette.orange[700],
-          colors.palette.orange[500],
-          colors.palette.yellow[500],
-        ]}
+        gradientColors={gradientColors}
+        bannerHeight={bannerHeight}
+        headerHeight={headerHeight}
       />
       <View
         style={{

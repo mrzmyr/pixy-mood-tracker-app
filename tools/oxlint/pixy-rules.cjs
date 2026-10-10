@@ -190,12 +190,166 @@ const noHermesMissingArrayMethods = {
   },
 };
 
+// Intl constructors missing from Hermes. Hermes ships only Collator,
+// DateTimeFormat, NumberFormat, and getCanonicalLocales. Calling one of these
+// throws "undefined cannot be used as a constructor" (Android Reminder crash).
+const HERMES_MISSING_INTL_APIS = new Set([
+  "DisplayNames",
+  "DurationFormat",
+  "ListFormat",
+  "Locale",
+  "PluralRules",
+  "RelativeTimeFormat",
+  "Segmenter",
+]);
+
+const noHermesMissingIntl = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Disallow Intl APIs that Hermes does not implement",
+    },
+    messages: {
+      missing:
+        "Hermes has no Intl.{{name}}; it throws at runtime while Jest passes. Use a locale key or dayjs instead.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      MemberExpression(node) {
+        const { object, property } = node;
+        if (
+          !node.computed &&
+          object.type === "Identifier" &&
+          object.name === "Intl" &&
+          property.type === "Identifier" &&
+          HERMES_MISSING_INTL_APIS.has(property.name)
+        ) {
+          context.report({
+            messageId: "missing",
+            node: property,
+            data: { name: property.name },
+          });
+        }
+      },
+    };
+  },
+};
+
+// LayoutAnimation.configureNext is global: it animates every pending layout
+// change, including unrelated screen teardown, and crashed Fabric (#610).
+const noLayoutAnimation = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Disallow LayoutAnimation from react-native",
+    },
+    messages: {
+      banned:
+        "LayoutAnimation is global and crashed Fabric on screen close (#610). Use Reanimated `entering`, `exiting`, or `layout` props instead.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const reactNativeNames = new Set();
+
+    return {
+      ImportDeclaration(node) {
+        if (node.source.value !== "react-native") {
+          return;
+        }
+        for (const specifier of node.specifiers) {
+          if (specifier.type !== "ImportSpecifier") {
+            reactNativeNames.add(specifier.local.name);
+          } else if (
+            (specifier.imported.name ?? specifier.imported.value) ===
+            "LayoutAnimation"
+          ) {
+            context.report({ messageId: "banned", node: specifier });
+          }
+        }
+      },
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.object.type === "Identifier" &&
+          reactNativeNames.has(node.object.name) &&
+          node.property.type === "Identifier" &&
+          node.property.name === "LayoutAnimation"
+        ) {
+          context.report({ messageId: "banned", node: node.property });
+        }
+      },
+    };
+  },
+};
+
+// String literals are the only literals whose raw source starts with a quote.
+const getStringValue = (element) =>
+  element?.type === "Literal" && /^["']/u.test(element.raw)
+    ? element.value
+    : undefined;
+
+// Sorted lists put new items at different lines, so parallel branches stop
+// conflicting at the list end.
+const sortedStringArrays = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Require string literal arrays in code point order",
+    },
+    fixable: "code",
+    messages: {
+      unsorted:
+        "Sort this list: {{previous}} comes after {{current}}. `bun run fix` sorts it.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      ArrayExpression(node) {
+        const values = node.elements.map(getStringValue);
+        if (values.length < 2 || values.includes(undefined)) {
+          return;
+        }
+        const index = values.findIndex(
+          (value, position) => position > 0 && values[position - 1] > value
+        );
+        if (index === -1) {
+          return;
+        }
+        const { sourceCode } = context;
+        const sortedTexts = node.elements
+          .map((element) => ({
+            text: sourceCode.getText(element),
+            value: element.value,
+          }))
+          .sort((a, b) => (a.value < b.value ? -1 : 1))
+          .map(({ text }) => text);
+        context.report({
+          messageId: "unsorted",
+          node: node.elements[index],
+          data: { previous: values[index - 1], current: values[index] },
+          fix: (fixer) =>
+            node.elements.map((element, position) =>
+              fixer.replaceText(element, sortedTexts[position])
+            ),
+        });
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
     "no-hermes-missing-array-methods": noHermesMissingArrayMethods,
+    "no-hermes-missing-intl": noHermesMissingIntl,
+    "no-layout-animation": noLayoutAnimation,
     "require-exported-jsdoc": requireExportedJsDoc,
     "boolean-function-prefix": booleanFunctionPrefix,
     "structured-thrown-errors": structuredThrownErrors,
+    "sorted-string-arrays": sortedStringArrays,
   },
 };

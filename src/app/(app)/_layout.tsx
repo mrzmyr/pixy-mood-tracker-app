@@ -6,15 +6,29 @@ import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { DEV_TOOLS } from "@/dev";
+import { useCanOverrideFeatureFlags } from "@/state/featureFlags";
+import { WidgetSync } from "@/features/widget";
+import {
+  CalendarScreenReaderTitle,
+  HAS_FLOATING_HEADER,
+} from "@/features/calendar";
 
-const renderHeaderLeft = () =>
-  Platform.OS === "ios" ? null : <BackButton testID="settings-back-button" />;
+const renderHeaderLeft = () => <BackButton testID="settings-back-button" />;
+
+// Report screens draw a gradient banner under the header and refine these
+// options while scrolling (see `useReportHeader`).
+const reportHeaderOptions = {
+  headerTransparent: true,
+  headerTitle: "",
+  headerShadowVisible: false,
+};
 
 const modalOptions = { presentation: "modal" as const, headerShown: false };
 
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
+  const canOverrideFeatureFlags = useCanOverrideFeatureFlags();
   const defaultOptions = {
     headerTintColor: colors.text,
     headerBackTitle: "",
@@ -23,14 +37,51 @@ const AppLayout = () => {
     headerStyle: { backgroundColor: colors.background },
     headerShadowVisible: Platform.OS !== "web",
   };
-  const pageOptions = { ...defaultOptions, headerLeft: renderHeaderLeft };
+  // iOS and Android render the native back button. Web has none.
+  const pageOptions =
+    Platform.OS === "web"
+      ? { ...defaultOptions, headerLeft: renderHeaderLeft }
+      : defaultOptions;
 
   return (
     <StorageLoadGate>
+      <WidgetSync />
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="calendar"
+            options={{
+              // Title stays the iOS back button label. The header shows none
+              // but exposes the screen name to screen readers.
+              title: t("calendar"),
+              headerTitle: CalendarScreenReaderTitle,
+              headerTintColor: colors.text,
+              headerShadowVisible: false,
+              ...(HAS_FLOATING_HEADER
+                ? {
+                    headerTransparent: true,
+                    scrollEdgeEffects: { top: "soft" as const },
+                  }
+                : {
+                    headerStyle: {
+                      backgroundColor: colors.calendarBackground,
+                    },
+                  }),
+            }}
+          />
+          <Stack.Screen
+            name="statistics/index"
+            options={{
+              ...pageOptions,
+              title: t("statistics"),
+              headerStyle: { backgroundColor: colors.statisticsBackground },
+            }}
+          />
+          <Stack.Screen
+            name="settings/index"
+            options={{ ...pageOptions, title: t("settings") }}
+          />
           <Stack.Screen
             name="onboarding"
             options={{ ...modalOptions, gestureEnabled: false }}
@@ -40,13 +91,31 @@ const AppLayout = () => {
             options={{ ...modalOptions, gestureEnabled: false }}
           />
           <Stack.Screen name="days/[date]" options={modalOptions} />
+          <Stack.Screen name="widget" options={modalOptions} />
+          <Stack.Screen
+            name="interventions/[id]"
+            options={{ ...modalOptions, gestureEnabled: false }}
+          />
           <Stack.Screen
             name="logs/[id]/edit"
             options={{ ...modalOptions, gestureEnabled: false }}
           />
+          <Stack.Screen
+            name="photos/[id]"
+            options={{
+              // Transparent: the screen below shows through while a swipe
+              // closes the viewer.
+              presentation: "transparentModal",
+              animation: "fade",
+              headerShown: false,
+            }}
+          />
           <Stack.Screen name="tags/index" options={modalOptions} />
           <Stack.Screen name="tags/create" options={modalOptions} />
           <Stack.Screen name="tags/[id]" options={modalOptions} />
+          <Stack.Screen name="people/create" options={modalOptions} />
+          <Stack.Screen name="people/import" options={modalOptions} />
+          <Stack.Screen name="people/[id]" options={modalOptions} />
           <Stack.Screen
             name="statistics/highlights"
             options={{ ...pageOptions, title: t("statistics_highlights") }}
@@ -56,7 +125,7 @@ const AppLayout = () => {
             options={{
               ...pageOptions,
               title: t("month_report"),
-              headerShown: false,
+              ...reportHeaderOptions,
             }}
           />
           <Stack.Screen
@@ -64,7 +133,7 @@ const AppLayout = () => {
             options={{
               ...pageOptions,
               title: dayjs().format("YYYY"),
-              headerShown: false,
+              ...reportHeaderOptions,
             }}
           />
           <Stack.Screen
@@ -72,11 +141,19 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("colors") }}
           />
           <Stack.Screen
+            name="settings/app-lock"
+            options={{ ...pageOptions, title: t("app_lock") }}
+          />
+          <Stack.Screen
+            name="settings/app-icon"
+            options={{ ...pageOptions, title: t("app_icon") }}
+          />
+          <Stack.Screen
             name="settings/licenses"
             options={{ ...pageOptions, title: t("licenses") }}
           />
           <Stack.Screen
-            name="settings/steps"
+            name="settings/steps/index"
             options={{ ...pageOptions, title: t("steps") }}
           />
           <Stack.Screen
@@ -99,13 +176,27 @@ const AppLayout = () => {
             }}
           />
           <Stack.Screen
-            name="settings/tags/index"
+            name="settings/steps/tags/index"
             options={{ ...pageOptions, title: t("tags") }}
           />
           <Stack.Screen
-            name="settings/tags/archive"
+            name="settings/steps/tags/archive"
             options={{ ...pageOptions, title: t("archive_tag") }}
           />
+          <Stack.Screen
+            name="settings/steps/people/index"
+            options={{ ...pageOptions, title: t("people") }}
+          />
+          <Stack.Screen
+            name="settings/steps/people/archive"
+            options={{ ...pageOptions, title: t("people_archive") }}
+          />
+          <Stack.Protected guard={canOverrideFeatureFlags}>
+            <Stack.Screen
+              name="settings/feature-flags"
+              options={{ ...pageOptions, title: "Feature flags" }}
+            />
+          </Stack.Protected>
           <Stack.Protected guard={DEV_TOOLS !== null}>
             <Stack.Screen
               name="dev/fixtures"
@@ -120,8 +211,8 @@ const AppLayout = () => {
               options={{ ...pageOptions, headerShown: false }}
             />
             <Stack.Screen
-              name="dev/feature-flags"
-              options={{ ...pageOptions, title: "Feature flags" }}
+              name="dev/fake-contacts"
+              options={{ ...pageOptions, headerShown: false }}
             />
             <Stack.Screen
               name="dev/feature-flag"
