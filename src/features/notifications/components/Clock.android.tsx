@@ -1,11 +1,11 @@
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
-import dayjs from "dayjs";
 import { Pressable, Text } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
+import { dateFormat, uses24hourClock } from "@/lib/dateFormat";
 
 const Clock = ({
   timeDate,
@@ -23,7 +23,7 @@ const Clock = ({
       onPress={() => {
         DateTimePickerAndroid.open({
           value: timeDate,
-          is24Hour: true,
+          is24Hour: uses24hourClock ?? true,
           mode: "time",
           onChange,
         });
@@ -41,7 +41,7 @@ const Clock = ({
       }}
     >
       <Text style={{ color: colors.text, fontSize: 17 }}>
-        {dayjs(timeDate).format("HH:mm")}
+        {dateFormat.time(timeDate)}
       </Text>
     </Pressable>
   );

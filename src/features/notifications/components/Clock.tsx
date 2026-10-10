@@ -1,9 +1,9 @@
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import dayjs from "dayjs";
 import { Pressable, Text } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
+import { dateFormat } from "@/lib/dateFormat";
 import noop from "lodash/noop";
 
 const Clock = ({
@@ -30,7 +30,7 @@ const Clock = ({
       }}
     >
       <Text style={{ color: colors.text, fontSize: 17 }}>
-        {dayjs(timeDate).format("HH:mm")}
+        {dateFormat.time(timeDate)}
       </Text>
     </Pressable>
   );

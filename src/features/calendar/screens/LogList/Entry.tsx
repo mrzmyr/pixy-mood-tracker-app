@@ -1,7 +1,7 @@
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
-import dayjs from "dayjs";
+import { dateFormat } from "@/lib/dateFormat";
 import { LinearGradient } from "expo-linear-gradient";
 import { Edit, Trash } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
@@ -46,7 +46,7 @@ const EntryHeader = ({
             color: colors.text,
           }}
         >
-          {dayjs(item.dateTime).format("LT")}
+          {dateFormat.time(item.dateTime)}
         </Text>
       </View>
       <View

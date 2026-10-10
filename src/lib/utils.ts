@@ -2,6 +2,7 @@ import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import groupBy from "lodash/groupBy";
 import { t } from "@/lib/translation";
+import { dateFormat } from "@/lib/dateFormat";
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogDay, LogItem } from "@/features/logs";
 import {
@@ -102,16 +103,16 @@ export const getItemDateTitle = (dateTime: LogItem["dateTime"]) => {
   const isSmallScreen = SCREEN_WIDTH < 350;
 
   if (dayjs(dateTime).isSame(dayjs(), "day")) {
-    return `${t("today")}, ${dayjs(dateTime).format("HH:mm")}`;
+    return `${t("today")}, ${dateFormat.time(dateTime)}`;
   }
 
   if (dayjs(dateTime).isSame(dayjs().subtract(1, "day"), "day")) {
-    return `${t("yesterday")}, ${dayjs(dateTime).format("HH:mm")}`;
+    return `${t("yesterday")}, ${dateFormat.time(dateTime)}`;
   }
 
   return isSmallScreen
-    ? dayjs(dateTime).format("l - LT")
-    : dayjs(dateTime).format("ddd, L - LT");
+    ? dateFormat.dateTimeCompact(dateTime)
+    : dateFormat.dateTime(dateTime);
 };
 
 /** Localized day title: "Today", "Yesterday", or the full weekday and date. */
@@ -124,7 +125,7 @@ export const getDayDateTitle = (date: LogDay["date"]) => {
     return t("yesterday");
   }
 
-  return dayjs(date).format("dddd, L");
+  return dateFormat.day(date);
 };
 
 const isoDateRegExp =

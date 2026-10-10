@@ -263,6 +263,19 @@ export const { locale } = i18n;
 /** Language part of {@link locale} (for example `de`), read once at startup. */
 export const [language] = i18n.locale.split("-");
 
+/**
+ * Locale for dates and times: app language plus device region.
+ *
+ * Keeps the region so `en-DE` shows `02/05/2026`, not US `05/02/2026`.
+ * Unsupported languages use English, so `is-IS` becomes `en-IS`.
+ */
+export const dateLocale = (() => {
+  if (language in translations) {
+    return deviceLocale;
+  }
+  return deviceRegion === null ? "en" : `en-${deviceRegion}`;
+})();
+
 const _getFirstDayOfWeek = (region: string): number => {
   for (const dayStr of Object.keys(firstDayOfWeek)) {
     const dayNumber = Number(dayStr);
