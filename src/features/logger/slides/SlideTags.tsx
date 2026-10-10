@@ -50,7 +50,6 @@ export const SlideTags = ({
         flex: 1,
         width: "100%",
         paddingHorizontal: 20,
-        paddingBottom: insets.bottom + 20,
         marginTop,
       }}
     >
@@ -72,17 +71,6 @@ export const SlideTags = ({
             width: "100%",
           }}
         />
-        <LinearGradient
-          colors={[colors.logBackgroundTransparent, colors.logBackground]}
-          style={{
-            position: "absolute",
-            height: 32,
-            bottom: 0,
-            zIndex: 1,
-            width: "100%",
-          }}
-          pointerEvents="none"
-        />
         <ScrollView
           style={{
             flex: 1,
@@ -95,7 +83,6 @@ export const SlideTags = ({
               alignItems: "flex-start",
               justifyContent: "flex-start",
               marginTop: 24,
-              paddingBottom: insets.bottom,
             }}
           >
             {_tags?.map((tag) => (
@@ -131,21 +118,23 @@ export const SlideTags = ({
               </MiniButton>
             </View>
           </View>
+          {showDisable && (
+            <Footer>
+              <LinkButton
+                type="secondary"
+                onPress={onDisableStep}
+                style={{
+                  fontWeight: "400",
+                }}
+              >
+                {t("log_tags_disable")}
+              </LinkButton>
+            </Footer>
+          )}
+          {/* Keep final actions above the 54 pt Next button and its spacing. */}
+          <View style={{ height: insets.bottom + 54 + 32 }} />
         </ScrollView>
       </View>
-      <Footer>
-        {showDisable && (
-          <LinkButton
-            type="secondary"
-            onPress={onDisableStep}
-            style={{
-              fontWeight: "400",
-            }}
-          >
-            {t("log_tags_disable")}
-          </LinkButton>
-        )}
-      </Footer>
     </View>
   );
 };
