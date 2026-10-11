@@ -90,6 +90,19 @@ describe("stood out", () => {
     ).toEqual([]);
   });
 
+  test("never names an archived tag", () => {
+    expect(
+      cards("stood-out", {
+        tags: makeTags(3, { isArchived: true }),
+        items: [
+          ...history,
+          { date: mon, ...sport },
+          { date: "2026-10-07", ...sport },
+        ],
+      })
+    ).toEqual([]);
+  });
+
   test("needs 28 days of history before the week", () => {
     expect(
       cards("stood-out", {
@@ -171,6 +184,15 @@ describe("people and mood", () => {
         .sort()
     ).toEqual(["a", "b", "c", "d"]);
     expect(three).toEqual([]);
+  });
+
+  test("stays hidden when no person shows a clear difference", () => {
+    const flat = withPeople(["a", "b", "c", "d"]).map((day) => ({
+      ...day,
+      rating: "neutral" as const,
+    }));
+
+    expect(cards("people-mood", { ...quarter, items: flat })).toEqual([]);
   });
 
   test("skips the card with the People step off", () => {

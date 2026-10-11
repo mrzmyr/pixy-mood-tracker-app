@@ -69,4 +69,6 @@ export const THRESHOLDS = {
   whatMovesMaxRows: 8,
   /** People and mood: people with enough days needed. */
   peopleMoodMinPeople: 4,
+  /** People and mood: rows at most. */
+  peopleMoodMaxRows: 8,
 } as const;

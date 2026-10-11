@@ -1,20 +1,60 @@
 import { GENERAL_CATEGORY_ID } from "@/features/tags";
+import { CARD_TYPES } from "../cardTypes";
 import { getEffect } from "../correlation";
 import type { Effect } from "../correlation";
-import { addDays, dayHas } from "../days";
+import { addDays } from "../days";
 import { parsePlace } from "../places";
 import { THRESHOLDS } from "../thresholds";
-import type { EffectRow, PatternCard, RecapDay, RecapInput } from "../types";
+import type {
+  CardType,
+  EffectRow,
+  PatternCard,
+  RecapDay,
+  RecapInput,
+} from "../types";
+import { getActiveTags } from "./nudges";
+import { peopleOn } from "./summaries";
 
-const tagIdsOf = (day: RecapDay) =>
-  new Set(day.items.flatMap((item) => item.tags.map((tag) => tag.id)));
+const fits = (input: RecapInput, type: CardType) =>
+  CARD_TYPES[type].periods.includes(input.period.kind);
+
+/** What a day holds, computed once so drivers only look things up. */
+interface DayIndex {
+  tags: Set<string>;
+  people: Set<string>;
+  /** Full place name, "District, City". */
+  place: string | null;
+}
+
+const indexDays = (days: RecapDay[]) =>
+  new Map<string, DayIndex>(
+    days.map((day) => {
+      const name = day.items.find((item) => item.location?.name)?.location
+        ?.name;
+      return [
+        day.date,
+        {
+          tags: new Set(
+            day.items.flatMap((item) => item.tags.map((tag) => tag.id))
+          ),
+          people: new Set(
+            day.items.flatMap((item) => item.people.map((person) => person.id))
+          ),
+          place: parsePlace(name) ? (name ?? null) : null,
+        },
+      ];
+    })
+  );
+
+const EMPTY: DayIndex = { tags: new Set(), people: new Set(), place: null };
 
 /**
- * Week only. A tag on 2+ days this week whose days felt clearly lighter in
- * the 90 days before. Two cards at most, most days times lift first.
+ * Week only. An active tag on 2+ days this week whose days felt clearly
+ * lighter in the 90 days before. Two cards at most, most days times lift
+ * first.
  */
 export const stoodOut = (input: RecapInput): PatternCard[] => {
-  if (!input.steps.has("tags")) {
+  if (!fits(input, "stood-out") || !input.steps.has("tags")) {
     return [];
   }
   const from = addDays(input.period.start, -THRESHOLDS.stoodOutHistoryDays);
@@ -24,17 +64,19 @@ export const stoodOut = (input: RecapInput): PatternCard[] => {
   if (history.length < THRESHOLDS.stoodOutMinHistoryDays) {
     return [];
   }
+  const index = indexDays([...history, ...input.days]);
+  const at = (day: RecapDay) => index.get(day.date) ?? EMPTY;
   const weekCounts = new Map<string, number>();
   for (const day of input.days) {
-    for (const id of tagIdsOf(day)) {
+    for (const id of at(day).tags) {
       weekCounts.set(id, (weekCounts.get(id) ?? 0) + 1);
     }
   }
-  const known = new Set(input.tags.map((tag) => tag.id));
+  const active = new Set(getActiveTags(input.tags).map((tag) => tag.id));
   const candidates: { tagId: string; count: number; effect: Effect }[] = [];
   for (const [tagId, count] of weekCounts) {
-    if (known.has(tagId) && count >= THRESHOLDS.stoodOutMinDays) {
-      const effect = getEffect(history, (day) => tagIdsOf(day).has(tagId));
+    if (active.has(tagId) && count >= THRESHOLDS.stoodOutMinDays) {
+      const effect = getEffect(history, (day) => at(day).tags.has(tagId));
       if (
         effect.signal === "strong" &&
         effect.delta > THRESHOLDS.stoodOutMinDelta
@@ -82,30 +124,32 @@ const rows = (days: RecapDay[], drivers: Driver[]): EffectRow[] => {
     .sort((a, b) => b.delta - a.delta);
 };
 
-const placeOf = (day: RecapDay) => {
-  const name = day.items.find((item) => item.location?.name)?.location?.name;
-  const place = parsePlace(name);
-  return place ? (place.district ?? place.city) : null;
-};
-
 /**
- * Quarter and year, 40+ check-in days. Tags, categories (never General),
- * and places on days with vs. without. Shows when any row is strong.
+ * Quarter and year, 40+ check-in days. Active tags, categories (never
+ * General), and places on days with vs. without. Places compare only days
+ * that have a place. Shows when any row is strong.
  */
 export const whatMoves = (input: RecapInput): PatternCard[] => {
   if (
+    !fits(input, "what-moves") ||
     !input.steps.has("tags") ||
     input.days.length < THRESHOLDS.whatMovesMinDays
   ) {
     return [];
   }
-  const tagDrivers: Driver[] = input.tags.map((tag) => ({
-    id: tag.id,
-    label: null,
-    has: (day) => tagIdsOf(day).has(tag.id),
-  }));
+  const index = indexDays(input.days);
+  const at = (day: RecapDay) => index.get(day.date) ?? EMPTY;
+  const activeTags = getActiveTags(input.tags);
+  const tags = rows(
+    input.days,
+    activeTags.map((tag) => ({
+      id: tag.id,
+      label: null,
+      has: (day) => at(day).tags.has(tag.id),
+    }))
+  );
   const categoryOf = new Map(
-    input.tags.map((tag) => [tag.id, tag.categoryId ?? GENERAL_CATEGORY_ID])
+    activeTags.map((tag) => [tag.id, tag.categoryId ?? GENERAL_CATEGORY_ID])
   );
   const categoryDrivers: Driver[] = [];
   for (const category of input.tagCategories) {
@@ -114,50 +158,60 @@ export const whatMoves = (input: RecapInput): PatternCard[] => {
         id: category.id,
         label: null,
         has: (day) =>
-          [...tagIdsOf(day)].some((id) => categoryOf.get(id) === category.id),
+          [...at(day).tags].some((id) => categoryOf.get(id) === category.id),
       });
     }
   }
-  const placeNames = new Set<string>();
-  if (input.locationEnabled) {
-    for (const day of input.days) {
-      const name = placeOf(day);
-      if (name) {
-        placeNames.add(name);
-      }
-    }
-  }
-  const placeDrivers: Driver[] = [...placeNames].map((name) => ({
-    id: name,
-    label: name,
-    has: (day) => placeOf(day) === name,
-  }));
-  const tags = rows(input.days, tagDrivers);
   const categories = rows(input.days, categoryDrivers);
-  const places = rows(input.days, placeDrivers);
+  const placed = input.locationEnabled
+    ? input.days.filter((day) => at(day).place !== null)
+    : [];
+  const placeNames = new Set(placed.flatMap((day) => at(day).place ?? []));
+  const places = rows(
+    placed,
+    [...placeNames].map((name) => ({
+      id: name,
+      label: name,
+      has: (day) => at(day).place === name,
+    }))
+  );
   const anyStrong = [...tags, ...categories, ...places].some(
     (row) => row.signal === "strong"
   );
   return anyStrong ? [{ type: "what-moves", tags, categories, places }] : [];
 };
 
+/** Clear effects first by lift, then "no clear difference" rows. */
+const byClarity = (a: EffectRow, b: EffectRow) =>
+  Number(a.signal === "weak") - Number(b.signal === "weak") ||
+  b.delta - a.delta;
+
 /**
- * Quarter and year, 4+ people with 5+ connected days. Mood on connected
- * days is a hint only: a connection can feel good, bad, or mixed. Rows keep
- * weak effects and show them as no clear difference.
+ * Quarter and year, 4+ people with 5+ connected days, and at least one
+ * medium or strong row. Mood on connected days is a hint only: a
+ * connection can feel good, bad, or mixed. Weak rows read as no clear
+ * difference. 8 rows at most.
  */
 export const peopleMood = (input: RecapInput): PatternCard[] => {
-  if (!input.steps.has("people") || !input.availableSteps.has("people")) {
+  if (!fits(input, "people-mood") || !peopleOn(input)) {
     return [];
   }
+  const index = indexDays(input.days);
+  const connected = new Map<string, number>();
+  for (const { people } of index.values()) {
+    for (const id of people) {
+      if (input.personIds.has(id)) {
+        connected.set(id, (connected.get(id) ?? 0) + 1);
+      }
+    }
+  }
   const people: EffectRow[] = [];
-  for (const personId of input.personIds) {
-    const effect = getEffect(input.days, (day) =>
-      dayHas(day, (item) =>
-        item.people.some((person) => person.id === personId)
-      )
-    );
-    if (effect.days >= THRESHOLDS.effectMinDays) {
+  for (const [personId, count] of connected) {
+    if (count >= THRESHOLDS.effectMinDays) {
+      const effect = getEffect(
+        input.days,
+        (day) => index.get(day.date)?.people.has(personId) ?? false
+      );
       people.push({
         id: personId,
         label: null,
@@ -167,11 +221,12 @@ export const peopleMood = (input: RecapInput): PatternCard[] => {
       });
     }
   }
-  return people.length >= THRESHOLDS.peopleMoodMinPeople
+  const clear = people.some((row) => row.signal !== "weak");
+  return clear && people.length >= THRESHOLDS.peopleMoodMinPeople
     ? [
         {
           type: "people-mood",
-          people: people.sort((a, b) => b.delta - a.delta),
+          people: people.sort(byClarity).slice(0, THRESHOLDS.peopleMoodMaxRows),
         },
       ]
     : [];

@@ -67,11 +67,12 @@ describe("getEffect", () => {
   });
 
   test("calls a noisy difference medium, not strong", () => {
+    // With: 6 4 5 3 5, without: 4 3 4 2 4. Delta 1.2, score about 1.85.
     const ratings: LogItem["rating"][] = [
       "extremely_good",
-      "neutral",
+      "good",
       "very_good",
-      "bad",
+      "neutral",
       "very_good",
       "good",
       "neutral",
@@ -79,10 +80,9 @@ describe("getEffect", () => {
       "bad",
       "good",
     ];
-
     const effect = getEffect(days(ratings, [0, 1, 2, 3, 4]), hasSport);
 
     expect(effect.signal).toBe("medium");
-    expect(effect.delta).toBeCloseTo(0.8);
+    expect(effect.delta).toBeCloseTo(1.2);
   });
 });

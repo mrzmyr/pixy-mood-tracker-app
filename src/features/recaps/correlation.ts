@@ -22,9 +22,16 @@ export interface Effect {
 const mean = (values: number[]) =>
   values.reduce((sum, value) => sum + value, 0) / values.length;
 
+/** Sample variance (n − 1). One value has no spread. */
 const variance = (values: number[]) => {
+  if (values.length < 2) {
+    return 0;
+  }
   const average = mean(values);
-  return mean(values.map((value) => (value - average) ** 2));
+  return (
+    values.reduce((sum, value) => sum + (value - average) ** 2, 0) /
+    (values.length - 1)
+  );
 };
 
 /** Difference over its standard error. No spread: any difference is sure. */
