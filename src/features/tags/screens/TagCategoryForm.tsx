@@ -15,7 +15,7 @@ import Alert from "@/lib/Alert";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import TagNameField from "../components/TagNameField";
-import { GENERAL_CATEGORY_ID } from "../tagCategories";
+import { GENERAL_CATEGORY_ID, getGeneralCategoryTitle } from "../tagCategories";
 import { isValidTagTitle } from "../tagName";
 import { useTagsState, useTagsUpdater } from "../TagsProvider";
 import type { TagCategory } from "../TagsProvider";
@@ -35,9 +35,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
   const [title, setTitle] = useState(category?.title ?? "");
   const [submitted, setSubmitted] = useState(false);
   const isGeneral = category?.id === GENERAL_CATEGORY_ID;
-  const general =
-    categories.find((item) => item.id === GENERAL_CATEGORY_ID)?.title ??
-    t("tag_category_general");
+  const general = getGeneralCategoryTitle(categories);
 
   const onSave = () => {
     setSubmitted(true);
@@ -72,8 +70,10 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
           onPress: () => {
             void haptics.impact();
             analytics.track("tags:category_deleted", {
-              tags_count: tags.filter((tag) => tag.categoryId === toDelete.id)
-                .length,
+              // Matches the count on the categories list: archived tags excluded.
+              tags_count: tags.filter(
+                (tag) => tag.categoryId === toDelete.id && !tag.isArchived
+              ).length,
               categories_count: categories.length - 1,
             });
             updater.deleteCategory(toDelete.id);

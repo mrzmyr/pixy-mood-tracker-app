@@ -1,3 +1,4 @@
+import { t } from "@/lib/translation";
 import type { Tag, TagCategory } from "./TagsProvider";
 
 /**
@@ -5,6 +6,11 @@ import type { Tag, TagCategory } from "./TagsProvider";
  * here, so it can be renamed but never deleted.
  */
 export const GENERAL_CATEGORY_ID = "general";
+
+/** Current General title: the user's name for it, else the default one. */
+export const getGeneralCategoryTitle = (categories: TagCategory[]): string =>
+  categories.find((category) => category.id === GENERAL_CATEGORY_ID)?.title ??
+  t("tag_category_general");
 
 /** Most categories a user can have, General included. */
 export const MAX_TAG_CATEGORIES = 10;

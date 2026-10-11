@@ -19,7 +19,7 @@ import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { cardCorners } from "../components/cardCorners";
 import { ReorderHandle } from "../components/ReorderHandle";
-import { GENERAL_CATEGORY_ID, MAX_TAG_CATEGORIES } from "../tagCategories";
+import { getGeneralCategoryTitle, MAX_TAG_CATEGORIES } from "../tagCategories";
 import { useTagsState, useTagsUpdater } from "../TagsProvider";
 import type { TagCategory } from "../TagsProvider";
 
@@ -38,9 +38,7 @@ export const TagCategories = () => {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const { tags, categories } = useTagsState();
   const { reorderCategories } = useTagsUpdater();
-  const general =
-    categories.find((category) => category.id === GENERAL_CATEGORY_ID)?.title ??
-    t("tag_category_general");
+  const general = getGeneralCategoryTitle(categories);
   const reachedMax = categories.length >= MAX_TAG_CATEGORIES;
 
   const reorder = (
