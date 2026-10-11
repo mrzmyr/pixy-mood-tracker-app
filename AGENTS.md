@@ -65,6 +65,17 @@
 - Type safety and translation tooling catch label collisions at build time
 - Write tests for behavior, logic, and user-facing outcomes, not for checking static data structures
 
+### E2E
+
+- Setup, commands, severity tags: [docs/development.md](docs/development.md#e2e-flows)
+- e2e is slow. Iterate with unit tests and one flow (`bun e2e run --paths=<flow>`). Run the full suite when the change is settled
+- User-visible change: add or update a flow when no flow covers it. PR names the flow and links the `--video` recording
+- New flows start from a fixture. Never depend on state that another flow left behind
+- Assert the user-visible result and the important failure path. Opening a screen is not a test
+- Never weaken, skip, or rewrite a failing assertion to make a run green. Fix the app, fixture, or flow
+- Flow fails on `main` for an unrelated cause: add it to [`e2e/known-failures.json`](e2e/known-failures.json) with the cause. Remove the entry with the fix
+- Fixtures contain fake data only. Never real entries, names, or photos
+
 ## Notifications
 
 - Toasts: `showToast` from [`src/lib/toast.ts`](src/lib/toast.ts). Reference: [shadcn Sonner](https://ui.shadcn.com/docs/components/radix/sonner)
