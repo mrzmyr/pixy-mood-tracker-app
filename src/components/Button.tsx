@@ -18,7 +18,8 @@ const Button = ({
   children,
   style = DEFAULT_STYLE,
 }: {
-  type?: "primary" | "secondary" | "danger" | "tertiary";
+  /** `contrast`: black in light mode, white in dark mode. */
+  type?: "primary" | "secondary" | "contrast" | "danger" | "tertiary";
   icon?: React.ReactNode;
   testID?: string;
   /** Name for icon-only buttons. */
@@ -46,6 +47,14 @@ const Button = ({
       disabledBorder: colors.secondaryButtonBorderDisabled,
       disabledBackground: colors.secondaryButtonBackgroundDisabled,
       disabledText: colors.secondaryButtonTextDisabled,
+    },
+    contrast: {
+      background: colors.contrastButtonBackground,
+      text: colors.contrastButtonText,
+      border: colors.contrastButtonBorder,
+      disabledBackground: colors.contrastButtonBackgroundDisabled,
+      disabledText: colors.contrastButtonTextDisabled,
+      disabledBorder: colors.contrastButtonBorderDisabled,
     },
     tertiary: {
       background: colors.tertiaryButtonBackground,

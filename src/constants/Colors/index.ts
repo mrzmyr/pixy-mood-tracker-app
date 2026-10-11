@@ -140,6 +140,13 @@ const light = {
   secondaryButtonBackgroundDisabled: colors.neutral[300],
   secondaryButtonTextDisabled: colors.neutral[500],
 
+  contrastButtonBackground: colors.neutral[900],
+  contrastButtonText: colors.white,
+  contrastButtonBorder: colors.neutral[900],
+  contrastButtonBackgroundDisabled: colors.neutral[300],
+  contrastButtonTextDisabled: colors.neutral[500],
+  contrastButtonBorderDisabled: colors.neutral[300],
+
   tertiaryButtonBackground: colors.neutral[200],
   tertiaryButtonText: colors.neutral[600],
   tertiaryButtonBorder: colors.neutral[200],
@@ -354,6 +361,13 @@ const dark: IColors & {
   secondaryButtonBackgroundDisabled: colors.neutral[800],
   secondaryButtonTextDisabled: colors.neutral[400],
   secondaryButtonBorderDisabled: colors.neutral[800],
+
+  contrastButtonBackground: colors.white,
+  contrastButtonText: colors.neutral[900],
+  contrastButtonBorder: colors.white,
+  contrastButtonBackgroundDisabled: colors.neutral[800],
+  contrastButtonTextDisabled: colors.neutral[400],
+  contrastButtonBorderDisabled: colors.neutral[800],
 
   tertiaryButtonBackground: colors.neutral[800],
   tertiaryButtonText: colors.white,

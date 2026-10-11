@@ -196,13 +196,28 @@ export const NudgeCard = ({
       title={t(copy.title, options)}
       text={t(copy.text)}
       actions={
-        <View style={{ gap: 4 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            alignItems: "center",
+            // LinkButton pads itself by 8, so the visible gap is 16.
+            columnGap: 8,
+            rowGap: 8,
+          }}
+        >
           <Button
+            type="contrast"
             onPress={() => {
               void turnOn();
             }}
             disabled={isBusy}
             testID={`recap-nudge-turn-on-${card.type}`}
+            style={{
+              borderRadius: RADIUS.md,
+              paddingVertical: 12,
+              paddingHorizontal: 18,
+            }}
           >
             {t(copy.action, options)}
           </Button>
