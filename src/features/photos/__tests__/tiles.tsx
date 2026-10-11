@@ -65,26 +65,41 @@ describe("PickTile", () => {
     expect(onToggle).toHaveBeenCalledTimes(1);
   });
 
-  test("checked: long press and the View action open the photo", async () => {
+  test("checked: preview menu and the View action open the photo", async () => {
     const { view, onOpen, onToggle } = renderPick({ order: 1 });
     await view;
-    const tile = screen.getByLabelText("Photo 2 of 4");
 
-    await fireEvent(tile, "longPress");
-    await fireEvent(tile, "accessibilityAction", {
-      nativeEvent: { actionName: "view" },
-    });
+    await fireEvent.press(screen.getByLabelText("View Photo"));
+    await fireEvent(
+      screen.getByLabelText("Photo 2 of 4"),
+      "accessibilityAction",
+      {
+        nativeEvent: { actionName: "view" },
+      }
+    );
 
     expect(onOpen).toHaveBeenCalledTimes(2);
     expect(onToggle).not.toHaveBeenCalled();
   });
 
-  test("unchecked: long press does not open the photo", async () => {
-    const { view, onOpen } = renderPick({});
+  test("checked: preview menu removes the photo", async () => {
+    const { view, onOpen, onToggle } = renderPick({ order: 1 });
     await view;
 
-    await fireEvent(screen.getByLabelText("Photo 2 of 4"), "longPress");
+    await fireEvent.press(screen.getByLabelText("Remove"));
 
+    expect(onToggle).toHaveBeenCalledTimes(1);
+    expect(onOpen).not.toHaveBeenCalled();
+  });
+
+  test("unchecked: preview menu adds the photo, never opens it", async () => {
+    const { view, onOpen, onToggle } = renderPick({});
+    await view;
+
+    expect(screen.queryByLabelText("View Photo")).toBeNull();
+    await fireEvent.press(screen.getByLabelText("Add Photo"));
+
+    expect(onToggle).toHaveBeenCalledTimes(1);
     expect(onOpen).not.toHaveBeenCalled();
   });
 

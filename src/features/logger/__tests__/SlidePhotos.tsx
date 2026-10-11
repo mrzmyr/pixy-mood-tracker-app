@@ -172,11 +172,11 @@ describe("SlidePhotos", () => {
       expect(isChecked(1)).toBe(true);
     });
 
-    test("long press opens the viewer; Remove unchecks", async () => {
+    test("View Photo opens the viewer; Remove unchecks", async () => {
       await renderStep();
       await pickOnAndroid();
 
-      await fireEvent(getTile(1), "longPress");
+      await fireEvent.press(screen.getByLabelText("View Photo"));
       expect(screen.getByTestId("photo-viewer")).toBeTruthy();
 
       await fireEvent.press(screen.getByText("Remove"));
