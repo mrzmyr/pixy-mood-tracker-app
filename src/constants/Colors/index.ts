@@ -243,13 +243,14 @@ const light = {
   sleepQualityFull: colors.indigo[500],
 
   // Recap card module names. Sleep shares the sleep quality hue.
-  moduleMood: colors.emerald[600],
+  // 700 shades (indigo 600) keep 4.5:1 on the white card.
+  moduleMood: colors.emerald[700],
   moduleEmotions: colors.rose[600],
-  modulePeople: colors.amber[600],
-  moduleLocation: colors.teal[600],
+  modulePeople: colors.amber[700],
+  moduleLocation: colors.teal[700],
   moduleTags: colors.violet[600],
-  moduleSleep: colors.indigo[500],
-  modulePhotos: colors.sky[600],
+  moduleSleep: colors.indigo[600],
+  modulePhotos: colors.sky[700],
 
   scales: scales.light,
   tags: tagsLight,
@@ -344,7 +345,7 @@ const dark: IColors & {
 
   linkButtonTextPrimary: tintColorDark,
   linkButtonTextPrimaryDisabled: colors.neutral[400],
-  linkButtonTextSecondary: colors.neutral[500],
+  linkButtonTextSecondary: colors.neutral[400],
   linkButtonTextSecondaryDisabled: colors.neutral[400],
 
   primaryButtonBackground: tintColorDark,

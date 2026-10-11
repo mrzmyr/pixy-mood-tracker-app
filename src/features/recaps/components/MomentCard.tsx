@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import { MapPin, Moon } from "react-native-feather";
-import { Micro } from "@/components/Type";
+import { Secondary } from "@/components/Type";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
@@ -34,20 +34,23 @@ const PersonArt = ({ person }: { person: Person }) => (
   </View>
 );
 
-/** One moon per night of the run, in the sleep color. No numbers. */
+/**
+ * One moon per night of the run: filled in the sleep color for good nights,
+ * an outline in secondary text color for rough ones. No numbers.
+ */
 const NightsArt = ({ nights, good }: { nights: string[]; good: boolean }) => {
   const colors = useColors();
   return (
-    <View style={{ flexDirection: "row", gap: 12 }}>
+    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
       {nights.map((night) => (
-        <View key={night} style={{ alignItems: "center", gap: 6 }}>
+        <View key={night} style={{ alignItems: "center", gap: 8 }}>
           <Moon
-            width={28}
-            height={28}
-            color={good ? colors.sleepQualityFull : colors.sleepQualityEmpty}
+            width={32}
+            height={32}
+            color={good ? colors.sleepQualityFull : colors.textSecondary}
             fill={good ? colors.sleepQualityFull : "transparent"}
           />
-          <Micro>{dayjs(night).format("ddd")}</Micro>
+          <Secondary>{dayjs(night).format("ddd")}</Secondary>
         </View>
       ))}
     </View>

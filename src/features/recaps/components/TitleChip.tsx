@@ -1,3 +1,4 @@
+import chroma from "chroma-js";
 import { Fragment } from "react";
 import type { ReactNode } from "react";
 import { Text, View } from "react-native";
@@ -10,8 +11,9 @@ import { tDynamic } from "@/lib/translation";
 import { CHIP } from "../chipMarker";
 
 /**
- * Emotion or tag inside a card title: marker plus name, on the chip surface
- * of the check-in. Sits inline, so the title wraps around it.
+ * Emotion or tag inside a card title: marker plus name on a faint text-color
+ * tint. No border, so it does not read as a tappable tag. Sits inline, so
+ * the title wraps around it.
  */
 export const TitleChip = ({
   marker,
@@ -28,12 +30,12 @@ export const TitleChip = ({
       style={{
         flexDirection: "row",
         alignItems: "center",
-        gap: 6,
-        paddingHorizontal: 10,
+        gap: 8,
+        paddingHorizontal: 8,
         borderRadius: RADIUS.full,
-        borderWidth: 1,
-        borderColor: colors.cardBorder,
-        backgroundColor: colors.tagBackground,
+        backgroundColor: chroma(colors.text).alpha(0.08).css(),
+        // Inline views sit on the line bottom; this moves the chip text onto
+        // the title baseline.
         transform: [{ translateY: 4 }],
       }}
     >

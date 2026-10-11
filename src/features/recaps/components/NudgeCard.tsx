@@ -22,6 +22,7 @@ import { getActiveTags } from "../cards/nudges";
 import type { NudgeCard as NudgeCardData } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
+import { ROW_TAG } from "./rowLayout";
 
 type NudgeType = NudgeCardData["type"];
 
@@ -86,7 +87,7 @@ const EmotionsArt = () => (
 );
 
 const PeopleArt = () => (
-  <View style={{ flexDirection: "row", gap: 12 }}>
+  <View style={{ flexDirection: "row", gap: 16 }}>
     {PLACEHOLDER_PEOPLE.map((person) => (
       <RingedAvatar key={person.id} person={person} size={56} />
     ))}
@@ -96,7 +97,7 @@ const PeopleArt = () => (
 const PhotosArt = () => {
   const colors = useColors();
   return (
-    <View style={{ flexDirection: "row", gap: 12 }}>
+    <View style={{ flexDirection: "row", gap: 16 }}>
       {PHOTO_ROTATIONS.map((rotation) => (
         <View
           key={rotation}
@@ -104,15 +105,14 @@ const PhotosArt = () => {
             width: 72,
             height: 72,
             borderRadius: RADIUS.md,
-            borderWidth: 1,
-            borderColor: colors.cardBorder,
+            // Fill only: the screen background shows on the card in both modes.
             backgroundColor: colors.background,
             alignItems: "center",
             justifyContent: "center",
             transform: [{ rotate: `${rotation}deg` }],
           }}
         >
-          <ImageIcon width={28} height={28} color={colors.textSecondary} />
+          <ImageIcon width={32} height={32} color={colors.textSecondary} />
         </View>
       ))}
     </View>
@@ -123,13 +123,14 @@ const PhotosArt = () => {
 const CategoriesArt = ({ tags }: ArtProps) => {
   const shownTags = getActiveTags(tags).slice(0, 6);
   return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
       {shownTags.map((tag) => (
         <TagComponent
           key={tag.id}
           title={tag.title}
           colorName={tag.color}
           compact
+          style={ROW_TAG}
         />
       ))}
     </View>
@@ -160,6 +161,7 @@ export const NudgeCard = ({
   onNotNow: () => void;
   onLayout?: (event: LayoutChangeEvent) => void;
 }) => {
+  const colors = useColors();
   const [isBusy, setIsBusy] = useState(false);
   const copy = COPY[card.type];
   const Art = ART[card.type];
@@ -202,15 +204,20 @@ export const NudgeCard = ({
             testID={`recap-nudge-turn-on-${card.type}`}
             style={{
               borderRadius: RADIUS.md,
+              minHeight: 48,
               paddingVertical: 12,
-              paddingHorizontal: 18,
+              paddingHorizontal: 24,
             }}
           >
             {t(copy.action, options)}
           </Button>
+          {/* Tertiary action: text color plus underline, never gray. */}
           <LinkButton
             type="secondary"
             onPress={onNotNow}
+            underline
+            hitSlop={8}
+            style={{ color: colors.text, minHeight: 48 }}
             testID={`recap-nudge-not-now-${card.type}`}
           >
             {t("recaps_nudge_not_now")}

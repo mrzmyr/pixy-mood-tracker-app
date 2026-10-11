@@ -41,9 +41,10 @@ const ReasonChip = ({
       style={{
         flexDirection: "row",
         alignItems: "center",
-        gap: 6,
-        paddingHorizontal: 14,
-        paddingVertical: 10,
+        gap: 8,
+        minHeight: 48,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
         borderRadius: RADIUS.full,
         borderWidth: 1,
         borderColor: selected ? colors.text : colors.cardBorder,
@@ -114,6 +115,7 @@ export const FeedbackSheet = ({
           left={
             <LinkButton
               type="primary"
+              hitSlop={8}
               onPress={() => {
                 reset();
                 onCancel();
@@ -126,6 +128,7 @@ export const FeedbackSheet = ({
           right={
             <LinkButton
               type="primary"
+              hitSlop={8}
               onPress={() => {
                 onSend(
                   FEEDBACK_REASONS.filter((reason) => reasons.has(reason)),

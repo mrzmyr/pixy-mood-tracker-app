@@ -27,6 +27,7 @@ export const ModuleIndicator = ({ modules }: { modules: RecapModule[] }) => {
     <Text
       style={{
         fontSize: 12,
+        lineHeight: 16,
         fontWeight: "700",
         letterSpacing: 0.8,
         textTransform: "uppercase",

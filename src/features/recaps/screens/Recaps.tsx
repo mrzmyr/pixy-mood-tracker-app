@@ -17,7 +17,7 @@ import {
 import { Pressable, ScrollView, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import { ChevronLeft, ChevronRight } from "react-native-feather";
-import { Headline, Secondary } from "@/components/Type";
+import { Secondary, Section } from "@/components/Type";
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 import { useLocationSetting } from "@/features/location";
 import { useFeedback } from "@/features/feedback";
@@ -89,6 +89,19 @@ const PERIOD_LABELS: Record<PeriodKind, (period: Period) => string> = {
       year: dayjs(start).year(),
     }),
   year: ({ start }) => dayjs(start).format("YYYY"),
+};
+
+/** Empty period. Text color: secondary gray is under 4.5:1 on the screen. */
+const EmptyRecaps = () => {
+  const colors = useColors();
+  return (
+    <Secondary
+      testID="recaps-empty"
+      style={{ textAlign: "center", color: colors.text }}
+    >
+      {t("recaps_empty")}
+    </Secondary>
+  );
 };
 
 const cardKey = (card: RecapCard, period: Period) =>
@@ -310,7 +323,7 @@ const Recaps = () => {
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
-      contentContainerStyle={{ padding: 20, gap: 16 }}
+      contentContainerStyle={{ padding: 16, gap: 16 }}
       scrollEventThrottle={100}
       onLayout={(event) => {
         viewport.current = {
@@ -354,9 +367,9 @@ const Recaps = () => {
         >
           <ChevronLeft width={24} height={24} color={colors.text} />
         </Pressable>
-        <Headline accessibilityRole="header" testID="recaps-period-label">
+        <Section accessibilityRole="header" testID="recaps-period-label">
           {PERIOD_LABELS[period.kind](period)}
-        </Headline>
+        </Section>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={t("recaps_period_next")}
@@ -371,17 +384,13 @@ const Recaps = () => {
         </Pressable>
       </View>
       <View
-        style={{ gap: 16 }}
+        style={{ gap: 24 }}
         onLayout={(event) => {
           listY.current = event.nativeEvent.layout.y;
           trackShown();
         }}
       >
-        {cards.length === 0 && (
-          <Secondary testID="recaps-empty" style={{ textAlign: "center" }}>
-            {t("recaps_empty")}
-          </Secondary>
-        )}
+        {cards.length === 0 && <EmptyRecaps />}
         {cards.map(renderCard)}
       </View>
       <FeedbackSheet

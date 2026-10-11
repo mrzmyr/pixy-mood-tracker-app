@@ -3,7 +3,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import Svg, { Line, Path } from "react-native-svg";
-import { Caption, Headline } from "@/components/Type";
+import { Body, Secondary } from "@/components/Type";
 import type { Person } from "@/features/people";
 import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
@@ -18,6 +18,7 @@ import type {
 } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
+import { LABEL_COLUMN, ROW_TAG } from "./rowLayout";
 
 const HEIGHT = 32;
 /** Effects beyond this many mood steps draw at the edge. */
@@ -61,7 +62,7 @@ const Sparkline = ({ series }: { series: TrendSeries }) => {
   const [width, setWidth] = useState(0);
   return (
     <View
-      style={{ flex: 1, height: HEIGHT }}
+      style={{ height: HEIGHT }}
       onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
       accessible={false}
       importantForAccessibility="no-hide-descendants"
@@ -73,7 +74,7 @@ const Sparkline = ({ series }: { series: TrendSeries }) => {
             x2={width}
             y1={HEIGHT / 2}
             y2={HEIGHT / 2}
-            stroke={colors.cardBorder}
+            stroke={colors.textSecondary}
             strokeDasharray="2 3"
           />
           <Path
@@ -108,7 +109,12 @@ const getSubject = (
       ? {
           name: tag.title,
           label: (
-            <TagComponent title={tag.title} colorName={tag.color} compact />
+            <TagComponent
+              title={tag.title}
+              colorName={tag.color}
+              compact
+              style={ROW_TAG}
+            />
           ),
         }
       : null;
@@ -123,7 +129,7 @@ const getSubject = (
               style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
               <RingedAvatar person={person} size={24} />
-              <Headline>{person.name}</Headline>
+              <Body style={{ flexShrink: 1 }}>{person.name}</Body>
             </View>
           ),
         }
@@ -132,7 +138,7 @@ const getSubject = (
   const name = series.label ?? "";
   return {
     name,
-    label: <Caption>{name}</Caption>,
+    label: <Body>{name}</Body>,
   };
 };
 
@@ -167,7 +173,7 @@ export const ChangeCard = ({
       titleLabel={title}
       text={t("recaps_trend_text", { days: card.window })}
       body={
-        <View style={{ gap: 14 }}>
+        <View style={{ gap: 16 }}>
           {rows.map(({ series, subject }) => {
             const trend = t(TRENDS[series.trend]);
             const now = t("recaps_trend_now", {
@@ -178,15 +184,24 @@ export const ChangeCard = ({
                 key={series.id}
                 accessible
                 accessibilityLabel={`${subject.name}: ${trend}, ${now}`}
-                style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
               >
-                <View style={{ width: 96 }}>{subject.label}</View>
-                <Sparkline series={series} />
-                <View style={{ width: 92, alignItems: "flex-end" }}>
-                  <Caption style={{ fontWeight: "600" }}>{trend}</Caption>
-                  <Caption style={{ fontVariant: ["tabular-nums"] }}>
-                    {now}
-                  </Caption>
+                <View style={LABEL_COLUMN}>{subject.label}</View>
+                {/* Trend and value sit under the line on one left edge. */}
+                <View style={{ flex: 1, gap: 4 }}>
+                  <Sparkline series={series} />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      columnGap: 8,
+                    }}
+                  >
+                    <Secondary style={{ fontWeight: "700" }}>{trend}</Secondary>
+                    <Secondary style={{ fontVariant: ["tabular-nums"] }}>
+                      {now}
+                    </Secondary>
+                  </View>
                 </View>
               </View>
             );
