@@ -52,6 +52,7 @@ const LinkButton = ({
   disabled,
   accessibilityLabel,
   hitSlop,
+  underline = false,
 }: {
   type?: "primary" | "secondary";
   onPress: () => void;
@@ -64,6 +65,8 @@ const LinkButton = ({
   accessibilityLabel?: string;
   /** Extra touch area around a small button. */
   hitSlop?: number;
+  /** Underlines the label, for text-only (tertiary) actions. */
+  underline?: boolean;
 }) => {
   const colors = useColors();
   const isIconOnly = !children;
@@ -122,6 +125,7 @@ const LinkButton = ({
             textAlign: "center",
             color: style.color || color,
             fontWeight: style.fontWeight || "500",
+            textDecorationLine: underline ? "underline" : "none",
           }}
         >
           {children}
