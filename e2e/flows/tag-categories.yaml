@@ -61,9 +61,21 @@ tags: [p1, tags]
     duration: 2000
 - waitForAnimationToEnd
 - tapOn: "Work"
-- assertVisible:
-    text: "Hobbies"
-    selected: true
+# Category rows expose selected on iOS and checked on Android.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - assertVisible:
+          text: "Hobbies"
+          selected: true
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertVisible:
+          text: "Hobbies"
+          checked: true
 - tapOn: "Cancel"
 - back
 - back

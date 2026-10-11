@@ -77,6 +77,15 @@ const getAccessibilityRole = (hasPress: boolean, checked?: boolean) => {
   return hasPress ? "button" : undefined;
 };
 
+// One state per platform, else screen readers announce it twice: iOS
+// selection lists use the selected trait, Android radio buttons use checked.
+const getAccessibilityState = (isAndroid: boolean, checked?: boolean) => {
+  if (checked === undefined) {
+    return;
+  }
+  return isAndroid ? { checked } : { selected: checked };
+};
+
 const MenuListItem = ({
   title,
   onPress = null,
@@ -139,9 +148,7 @@ const MenuListItem = ({
         android_ripple={onPress ? ripple : undefined}
         accessible={Boolean(onPress)}
         accessibilityRole={getAccessibilityRole(Boolean(onPress), checked)}
-        accessibilityState={
-          checked === undefined ? undefined : { checked, selected: checked }
-        }
+        accessibilityState={getAccessibilityState(isAndroid, checked)}
         accessibilityLabel={onPress ? titleText : undefined}
         style={({ pressed }) => [
           {
