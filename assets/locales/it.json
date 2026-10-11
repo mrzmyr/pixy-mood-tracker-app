@@ -675,11 +675,13 @@
     "other": "{{count}} giorni in contatto"
   },
   "recaps_connected_more": "+%{count} altri",
-  "recaps_connected_title": "Sei stato in contatto con %{count} persone",
+  "recaps_connected_title": {
+    "one": "Sei stato in contatto con {{count}} persone",
+    "other": "Sei stato in contatto con {{count}} persone"
+  },
   "recaps_connected_title_one": "Sei stato in contatto con %{name}",
   "recaps_day_ago_text": "Un anno fa: %{date}.",
   "recaps_day_ago_title": "Una bella giornata, un anno fa",
-  "recaps_day_ago_title_with": "%{place} con %{names}",
   "recaps_day_best_title_month": "%{day} è stato il tuo giorno migliore del mese",
   "recaps_day_best_title_week": "%{day} è stato il tuo giorno migliore della settimana",
   "recaps_day_hard_text": "Hai comunque fatto il check-in. Giorni così passano.",

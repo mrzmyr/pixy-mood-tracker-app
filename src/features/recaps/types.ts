@@ -55,6 +55,8 @@ export interface RecapInput {
   availableSteps: ReadonlySet<ConfigurableLoggerStep>;
   reminderEnabled: boolean;
   tags: Tag[];
+  /** Ids of people that still exist. Cards never name deleted people. */
+  personIds: ReadonlySet<string>;
 }
 
 /** Card that offers to turn a feature on. */

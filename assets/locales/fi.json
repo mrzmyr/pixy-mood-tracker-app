@@ -675,11 +675,13 @@
     "other": "{{count}} päivää yhteydessä"
   },
   "recaps_connected_more": "+%{count} muuta",
-  "recaps_connected_title": "Olit yhteydessä %{count} ihmiseen",
+  "recaps_connected_title": {
+    "one": "Olit yhteydessä {{count}} ihmiseen",
+    "other": "Olit yhteydessä {{count}} ihmiseen"
+  },
   "recaps_connected_title_one": "Olit yhteydessä: %{name}",
   "recaps_day_ago_text": "Vuosi sitten: %{date}.",
   "recaps_day_ago_title": "Hieno päivä vuosi sitten",
-  "recaps_day_ago_title_with": "%{place}: %{names}",
   "recaps_day_best_title_month": "%{day} oli kuukauden paras päiväsi",
   "recaps_day_best_title_week": "%{day} oli viikon paras päiväsi",
   "recaps_day_hard_text": "Kirjasit silti. Tällaiset päivät menevät ohi.",

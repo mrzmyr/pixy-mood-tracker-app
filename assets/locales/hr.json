@@ -675,11 +675,13 @@
     "other": "{{count}} dana u kontaktu"
   },
   "recaps_connected_more": "+%{count} više",
-  "recaps_connected_title": "Bio si u kontaktu s %{count} osoba",
+  "recaps_connected_title": {
+    "one": "Bio si u kontaktu s {{count}} osoba",
+    "other": "Bio si u kontaktu s {{count}} osoba"
+  },
   "recaps_connected_title_one": "Bio si u kontaktu s: %{name}",
   "recaps_day_ago_text": "Prije godinu dana: %{date}.",
   "recaps_day_ago_title": "Sjajan dan prije godinu dana",
-  "recaps_day_ago_title_with": "%{place} s: %{names}",
   "recaps_day_best_title_month": "%{day}: tvoj najbolji dan u mjesecu",
   "recaps_day_best_title_week": "%{day}: tvoj najbolji dan u tjednu",
   "recaps_day_hard_text": "Ipak si napravio unos. Takvi dani prolaze.",

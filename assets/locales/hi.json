@@ -675,11 +675,13 @@
     "other": "{{count}} दिन जुड़े"
   },
   "recaps_connected_more": "+%{count} और",
-  "recaps_connected_title": "आप %{count} लोगों से जुड़े",
+  "recaps_connected_title": {
+    "one": "आप {{count}} लोगों से जुड़े",
+    "other": "आप {{count}} लोगों से जुड़े"
+  },
   "recaps_connected_title_one": "आप %{name} से जुड़े",
   "recaps_day_ago_text": "एक साल पहले: %{date}।",
   "recaps_day_ago_title": "एक साल पहले का एक शानदार दिन",
-  "recaps_day_ago_title_with": "%{place}, %{names} के साथ",
   "recaps_day_best_title_month": "%{day} इस महीने का आपका सबसे अच्छा दिन था",
   "recaps_day_best_title_week": "%{day} इस हफ़्ते का आपका सबसे अच्छा दिन था",
   "recaps_day_hard_text": "फिर भी आपने चेक-इन किया। ऐसे दिन बीत जाते हैं।",

@@ -675,11 +675,13 @@
     "other": "{{count}} يومًا من التواصل"
   },
   "recaps_connected_more": "+%{count} آخرين",
-  "recaps_connected_title": "تواصلت مع %{count} أشخاص",
+  "recaps_connected_title": {
+    "one": "تواصلت مع {{count}} أشخاص",
+    "other": "تواصلت مع {{count}} أشخاص"
+  },
   "recaps_connected_title_one": "تواصلت مع %{name}",
   "recaps_day_ago_text": "قبل عام: %{date}.",
   "recaps_day_ago_title": "يوم رائع قبل عام",
-  "recaps_day_ago_title_with": "%{place} مع %{names}",
   "recaps_day_best_title_month": "كان %{day} أفضل أيامك هذا الشهر",
   "recaps_day_best_title_week": "كان %{day} أفضل أيامك هذا الأسبوع",
   "recaps_day_hard_text": "ومع ذلك سجّلت. أيام كهذه تمضي.",

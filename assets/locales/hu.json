@@ -675,11 +675,13 @@
     "other": "{{count}} nap kapcsolat"
   },
   "recaps_connected_more": "+%{count} további",
-  "recaps_connected_title": "%{count} emberrel voltál kapcsolatban",
+  "recaps_connected_title": {
+    "one": "{{count}} emberrel voltál kapcsolatban",
+    "other": "{{count}} emberrel voltál kapcsolatban"
+  },
   "recaps_connected_title_one": "Kapcsolatban voltál vele: %{name}",
   "recaps_day_ago_text": "Egy éve: %{date}.",
   "recaps_day_ago_title": "Remek nap egy évvel ezelőtt",
-  "recaps_day_ago_title_with": "%{place}: %{names}",
   "recaps_day_best_title_month": "%{day}: a hónapod legjobb napja",
   "recaps_day_best_title_week": "%{day}: a heted legjobb napja",
   "recaps_day_hard_text": "Mégis rögzítetted. Az ilyen napok elmúlnak.",

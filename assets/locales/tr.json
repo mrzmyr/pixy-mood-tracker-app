@@ -675,11 +675,13 @@
     "other": "{{count}} gün bağlantı"
   },
   "recaps_connected_more": "+%{count} kişi daha",
-  "recaps_connected_title": "%{count} kişiyle bağlantıdaydın",
+  "recaps_connected_title": {
+    "one": "{{count}} kişiyle bağlantıdaydın",
+    "other": "{{count}} kişiyle bağlantıdaydın"
+  },
   "recaps_connected_title_one": "%{name} ile bağlantıdaydın",
   "recaps_day_ago_text": "Bir yıl önce: %{date}.",
   "recaps_day_ago_title": "Bir yıl önce harika bir gün",
-  "recaps_day_ago_title_with": "%{place}, %{names} ile",
   "recaps_day_best_title_month": "%{day} ayın en iyi günüydü",
   "recaps_day_best_title_week": "%{day} haftanın en iyi günüydü",
   "recaps_day_hard_text": "Yine de kayıt yaptın. Böyle günler geçer.",

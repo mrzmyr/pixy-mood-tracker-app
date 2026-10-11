@@ -675,11 +675,13 @@
     "other": "{{count}} días conectado"
   },
   "recaps_connected_more": "+%{count} más",
-  "recaps_connected_title": "Conectaste con %{count} personas",
+  "recaps_connected_title": {
+    "one": "Conectaste con {{count}} personas",
+    "other": "Conectaste con {{count}} personas"
+  },
   "recaps_connected_title_one": "Conectaste con %{name}",
   "recaps_day_ago_text": "Hace un año: %{date}.",
   "recaps_day_ago_title": "Un gran día, hace un año",
-  "recaps_day_ago_title_with": "%{place} con %{names}",
   "recaps_day_best_title_month": "%{day} fue tu mejor día del mes",
   "recaps_day_best_title_week": "%{day} fue tu mejor día de la semana",
   "recaps_day_hard_text": "Aun así hiciste tu registro. Los días así pasan.",

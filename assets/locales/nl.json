@@ -675,11 +675,13 @@
     "other": "{{count}} dagen contact"
   },
   "recaps_connected_more": "+%{count} meer",
-  "recaps_connected_title": "Je had contact met %{count} mensen",
+  "recaps_connected_title": {
+    "one": "Je had contact met {{count}} mensen",
+    "other": "Je had contact met {{count}} mensen"
+  },
   "recaps_connected_title_one": "Je had contact met %{name}",
   "recaps_day_ago_text": "Een jaar geleden: %{date}.",
   "recaps_day_ago_title": "Een mooie dag, een jaar geleden",
-  "recaps_day_ago_title_with": "%{place} met %{names}",
   "recaps_day_best_title_month": "%{day} was je beste dag van de maand",
   "recaps_day_best_title_week": "%{day} was je beste dag van de week",
   "recaps_day_hard_text": "Je checkte toch in. Zulke dagen gaan voorbij.",

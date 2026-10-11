@@ -674,11 +674,13 @@
     "other": "{{count}} Tage in Kontakt"
   },
   "recaps_connected_more": "+%{count} weitere",
-  "recaps_connected_title": "Du warst mit %{count} Personen in Kontakt",
+  "recaps_connected_title": {
+    "one": "Du warst mit {{count}} Personen in Kontakt",
+    "other": "Du warst mit {{count}} Personen in Kontakt"
+  },
   "recaps_connected_title_one": "Du warst in Kontakt mit %{name}",
   "recaps_day_ago_text": "Vor einem Jahr: %{date}.",
   "recaps_day_ago_title": "Ein toller Tag, vor einem Jahr",
-  "recaps_day_ago_title_with": "%{place} mit %{names}",
   "recaps_day_best_title_month": "%{day} war dein bester Tag diesen Monat",
   "recaps_day_best_title_week": "%{day} war dein bester Tag diese Woche",
   "recaps_day_hard_text": "Du hast trotzdem eingecheckt. Solche Tage gehen vorbei.",

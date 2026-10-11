@@ -164,6 +164,30 @@ describe("people", () => {
     expect(summaries("connected", { items: [{ date: mon }] })).toEqual([]);
   });
 
+  test("leaves deleted people out, also from the podium count", () => {
+    const month = {
+      kind: "month" as const,
+      date: "2026-10-01",
+      today: "2026-11-02",
+    };
+    const items = [
+      { date: mon, people: [lena, sam] },
+      { date: "2026-10-06", people: [lena] },
+    ];
+
+    expect(
+      summaries("connected", { ...month, items, personIds: ["sam"] })
+    ).toEqual([
+      {
+        type: "connected",
+        people: [{ personId: "sam", days: 1, emotions: [] }],
+      },
+    ]);
+    expect(
+      summaries("most-connected", { ...month, items, personIds: ["sam"] })
+    ).toEqual([]);
+  });
+
   test("podium needs 2 people and a month or longer", () => {
     const month = {
       kind: "month" as const,
@@ -240,6 +264,60 @@ describe("places and trips", () => {
         ],
       },
     ]);
+  });
+
+  test("ends a trip on a day checked in at home", () => {
+    expect(
+      summaries("places-trips", {
+        ...month,
+        items: [
+          ...home,
+          { date: "2026-10-03", location: lisbon },
+          { date: "2026-10-04", location: berlin },
+          { date: "2026-10-05", location: lisbon },
+        ],
+      })
+    ).toEqual([
+      {
+        type: "places-trips",
+        trips: [
+          { city: "Lisbon", start: "2026-10-03", end: "2026-10-03", days: 1 },
+          { city: "Lisbon", start: "2026-10-05", end: "2026-10-05", days: 1 },
+        ],
+      },
+    ]);
+  });
+
+  test("never counts the far side of the home city as a trip", () => {
+    const spread = [
+      ...run("2026-09-01", 10, {
+        location: {
+          latitude: 52.36,
+          longitude: 13.5,
+          name: "Schönefeld, Berlin",
+        },
+      }),
+      ...run("2026-09-11", 10, {
+        location: { latitude: 52.6, longitude: 13.2, name: "Spandau, Berlin" },
+      }),
+    ];
+
+    expect(
+      summaries("places-trips", {
+        ...month,
+        items: [
+          ...spread,
+          {
+            date: "2026-10-03",
+            location: {
+              latitude: 52.6,
+              longitude: 13.2,
+              name: "Spandau, Berlin",
+            },
+          },
+        ],
+      })
+    ).toEqual([]);
   });
 
   test("ignores places near home and needs location on", () => {

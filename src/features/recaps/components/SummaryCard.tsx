@@ -231,8 +231,7 @@ const connectedContent = (
   };
 };
 
-const MOST_CONNECTED_TITLES: Record<PeriodKind, TranslationKey> = {
-  week: "recaps_most_connected_title_month",
+const MOST_CONNECTED_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
   month: "recaps_most_connected_title_month",
   quarter: "recaps_most_connected_title_quarter",
   year: "recaps_most_connected_title_year",
@@ -273,8 +272,7 @@ const Podium = ({
   </View>
 );
 
-const TRIP_TITLES: Record<PeriodKind, TranslationKey> = {
-  week: "recaps_trips_title_month",
+const TRIP_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
   month: "recaps_trips_title_month",
   quarter: "recaps_trips_title_quarter",
   year: "recaps_trips_title_year",
@@ -299,11 +297,9 @@ const TripDot = () => {
   );
 };
 
-const BEST_DAY_TITLES: Record<PeriodKind, TranslationKey> = {
+const BEST_DAY_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
   week: "recaps_day_best_title_week",
   month: "recaps_day_best_title_month",
-  quarter: "recaps_day_best_title_month",
-  year: "recaps_day_best_title_month",
 };
 
 /** Mood color of the day, or a calm gray block on a harder day. */
@@ -377,6 +373,10 @@ const dayContent = (
     return null;
   }
   const hard = card.mode === "hard";
+  const bestKey = BEST_DAY_TITLES[periodKind];
+  if (card.mode === "best" && !bestKey) {
+    return null;
+  }
   const dayPeople = [
     ...new Set(
       day.items.flatMap((item) => item.people.map((person) => person.id))
@@ -394,17 +394,17 @@ const dayContent = (
   const weekday = dayjs(day.date).format(
     periodKind === "week" ? "dddd" : "dddd, D MMMM"
   );
-  const names = dayPeople.map((person) => person.name).join(" & ");
-  const agoTitle = () => {
-    if (!place) {
-      return t("recaps_day_ago_title");
-    }
-    return names
-      ? t("recaps_day_ago_title_with", { place: place.city, names })
-      : place.city;
-  };
+  const shownPeople = dayPeople.slice(0, 4);
+  const names = [
+    ...shownPeople.map((person) => person.name),
+    ...(dayPeople.length > 4
+      ? [t("recaps_connected_more", { count: dayPeople.length - 4 })]
+      : []),
+  ].join(", ");
+  // People on a day are connections, not company: never "with" in titles.
+  const agoTitle = () => place?.city ?? t("recaps_day_ago_title");
   const titles = {
-    best: () => t(BEST_DAY_TITLES[periodKind], { day: weekday }),
+    best: () => (bestKey ? t(bestKey, { day: weekday }) : ""),
     hard: () => t("recaps_day_hard_title", { day: weekday }),
     ago: agoTitle,
   };
@@ -424,7 +424,7 @@ const dayContent = (
       <View style={{ gap: 12 }}>
         {dayPeople.length > 0 && (
           <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            {dayPeople.slice(0, 4).map((person) => (
+            {shownPeople.map((person) => (
               <RingedAvatar key={person.id} person={person} size={32} />
             ))}
             <Secondary>{names}</Secondary>
@@ -474,7 +474,11 @@ const getContent = (
       return connectedContent(card.people, context.people);
     }
     case "most-connected": {
-      const title = t(MOST_CONNECTED_TITLES[context.periodKind]);
+      const key = MOST_CONNECTED_TITLES[context.periodKind];
+      if (!key) {
+        return null;
+      }
+      const title = t(key);
       return {
         title,
         titleLabel: title,
@@ -482,7 +486,11 @@ const getContent = (
       };
     }
     case "places-trips": {
-      const title = t(TRIP_TITLES[context.periodKind], {
+      const key = TRIP_TITLES[context.periodKind];
+      if (!key) {
+        return null;
+      }
+      const title = t(key, {
         count: card.trips.length,
       });
       return {

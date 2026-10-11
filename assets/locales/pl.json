@@ -675,11 +675,13 @@
     "other": "{{count}} dni w kontakcie"
   },
   "recaps_connected_more": "+%{count} więcej",
-  "recaps_connected_title": "Byłeś w kontakcie z %{count} osobami",
+  "recaps_connected_title": {
+    "one": "Byłeś w kontakcie z {{count}} osobami",
+    "other": "Byłeś w kontakcie z {{count}} osobami"
+  },
   "recaps_connected_title_one": "Byłeś w kontakcie z: %{name}",
   "recaps_day_ago_text": "Rok temu: %{date}.",
   "recaps_day_ago_title": "Świetny dzień sprzed roku",
-  "recaps_day_ago_title_with": "%{place} z: %{names}",
   "recaps_day_best_title_month": "%{day}: Twój najlepszy dzień miesiąca",
   "recaps_day_best_title_week": "%{day}: Twój najlepszy dzień tygodnia",
   "recaps_day_hard_text": "Mimo to zrobiłeś wpis. Takie dni mijają.",

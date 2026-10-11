@@ -805,11 +805,13 @@
     "other": "{{count}} days connected"
   },
   "recaps_connected_more": "+%{count} more",
-  "recaps_connected_title": "You connected with %{count} people",
+  "recaps_connected_title": {
+    "one": "You connected with 1 person",
+    "other": "You connected with {{count}} people"
+  },
   "recaps_connected_title_one": "You connected with %{name}",
   "recaps_day_ago_text": "One year ago: %{date}.",
   "recaps_day_ago_title": "A great day, a year ago",
-  "recaps_day_ago_title_with": "%{place} with %{names}",
   "recaps_day_best_title_month": "%{day} was your best day this month",
   "recaps_day_best_title_week": "%{day} was your best day this week",
   "recaps_day_hard_text": "You still checked in. Days like this pass.",

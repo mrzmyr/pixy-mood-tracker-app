@@ -675,11 +675,13 @@
     "other": "{{count}} dní v kontaktu"
   },
   "recaps_connected_more": "+%{count} další",
-  "recaps_connected_title": "Byl jsi v kontaktu s %{count} lidmi",
+  "recaps_connected_title": {
+    "one": "Byl jsi v kontaktu s {{count}} lidmi",
+    "other": "Byl jsi v kontaktu s {{count}} lidmi"
+  },
   "recaps_connected_title_one": "Byl jsi v kontaktu s: %{name}",
   "recaps_day_ago_text": "Před rokem: %{date}.",
   "recaps_day_ago_title": "Skvělý den před rokem",
-  "recaps_day_ago_title_with": "%{place} s: %{names}",
   "recaps_day_best_title_month": "%{day}: tvůj nejlepší den měsíce",
   "recaps_day_best_title_week": "%{day}: tvůj nejlepší den týdne",
   "recaps_day_hard_text": "I tak jsi zapsal záznam. Takové dny přejdou.",

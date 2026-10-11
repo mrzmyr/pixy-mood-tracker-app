@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import type { LogItem } from "@/features/logs";
 import { daysBetween, getDayRating } from "../days";
 import { distanceKm, parsePlace } from "../places";
 import { THRESHOLDS } from "../thresholds";
@@ -29,12 +28,14 @@ const emotionsOf = (day: RecapDay) =>
 export const dayRecap = (input: RecapInput): SummaryCard[] => {
   const cards: SummaryCard[] = [];
   const [best] = input.days
-    .filter(hasExtremelyGood)
+    .flatMap((day) =>
+      hasExtremelyGood(day) ? [{ day, emotions: emotionsOf(day).size }] : []
+    )
     .sort(
       (a, b) =>
-        emotionsOf(b).size - emotionsOf(a).size ||
-        b.items.length - a.items.length
-    );
+        b.emotions - a.emotions || b.day.items.length - a.day.items.length
+    )
+    .map(({ day }) => day);
   const [hardest] = [...input.days].sort(
     (a, b) => getDayRating(a) - getDayRating(b)
   );
@@ -82,29 +83,35 @@ export const emotions = (input: RecapInput): SummaryCard[] => {
     : [];
 };
 
-const hasPerson = (personId: string) => (item: LogItem) =>
-  item.people.some((person) => person.id === personId);
-
-/** People of the period by connected days, with top 2 emotions then. */
+/**
+ * People of the period by connected days, with their top 2 emotions on
+ * those days. Deleted people stay out. One pass over the days.
+ */
 const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
-  const ids = new Set(
-    input.days.flatMap((day) =>
+  const daysByPerson = new Map<string, RecapDay[]>();
+  for (const day of input.days) {
+    const ids = new Set(
       day.items.flatMap((item) => item.people.map((person) => person.id))
-    )
-  );
-  return [...ids]
-    .map((personId) => {
-      const days = input.days.filter((day) =>
-        day.items.some(hasPerson(personId))
-      );
-      return {
-        personId,
-        days: days.length,
-        emotions: countEmotions(days)
-          .slice(0, 2)
-          .map((count) => count.emotion),
-      };
-    })
+    );
+    for (const id of ids) {
+      if (input.personIds.has(id)) {
+        const personDays = daysByPerson.get(id);
+        if (personDays) {
+          personDays.push(day);
+        } else {
+          daysByPerson.set(id, [day]);
+        }
+      }
+    }
+  }
+  return [...daysByPerson.entries()]
+    .map(([personId, days]) => ({
+      personId,
+      days: days.length,
+      emotions: countEmotions(days)
+        .slice(0, 2)
+        .map((count) => count.emotion),
+    }))
     .sort((a, b) => b.days - a.days);
 };
 
@@ -125,31 +132,42 @@ export const mostConnected = (input: RecapInput): SummaryCard[] => {
     : [];
 };
 
-/** Place the user checks in from most: the most common city name. */
+/** Home: the most common city name and the average point of its places. */
 const getHome = (history: RecapDay[]) => {
-  const counts = new Map<
-    string,
-    { count: number; location: NonNullable<LogItem["location"]> }
-  >();
+  const byCity = new Map<string, { latitude: number; longitude: number }[]>();
   for (const day of history) {
     for (const item of day.items) {
       const city = parsePlace(item.location?.name)?.city;
       if (city && item.location) {
-        const current = counts.get(city);
-        counts.set(city, {
-          count: (current?.count ?? 0) + 1,
-          location: current?.location ?? item.location,
-        });
+        const points = byCity.get(city);
+        if (points) {
+          points.push(item.location);
+        } else {
+          byCity.set(city, [item.location]);
+        }
       }
     }
   }
-  const [home] = [...counts.values()].sort((a, b) => b.count - a.count);
-  return home?.location ?? null;
+  const [home] = [...byCity.entries()].sort(
+    ([, a], [, b]) => b.length - a.length
+  );
+  if (!home) {
+    return null;
+  }
+  const [city, points] = home;
+  return {
+    city,
+    latitude:
+      points.reduce((sum, point) => sum + point.latitude, 0) / points.length,
+    longitude:
+      points.reduce((sum, point) => sum + point.longitude, 0) / points.length,
+  };
 };
 
 /**
- * Trips of the period: days with a place 25+ km from home, merged per
- * city across gaps of up to 2 days. Location on.
+ * Trips of the period: days with a place 25+ km from home, outside the
+ * home city, merged per city across gaps of up to 2 days. A day checked
+ * in at home ends a trip. Location on.
  */
 export const placesTrips = (input: RecapInput): SummaryCard[] => {
   const home = input.locationEnabled ? getHome(input.history) : null;
@@ -157,26 +175,33 @@ export const placesTrips = (input: RecapInput): SummaryCard[] => {
     return [];
   }
   const trips: Trip[] = [];
+  let open: Trip | null = null;
   for (const day of input.days) {
-    const away = day.items.find(
-      (item) =>
-        item.location &&
-        parsePlace(item.location.name) &&
-        distanceKm(home, item.location) > THRESHOLDS.tripMinKm
+    const places = day.items.flatMap((item) => {
+      const place = parsePlace(item.location?.name);
+      return item.location && place
+        ? [{ ...place, location: item.location }]
+        : [];
+    });
+    const away = places.find(
+      (place) =>
+        place.city !== home.city &&
+        distanceKm(home, place.location) > THRESHOLDS.tripMinKm
     );
-    const city = parsePlace(away?.location?.name)?.city;
-    if (city) {
-      const last = trips.at(-1);
+    if (away) {
       if (
-        last &&
-        last.city === city &&
-        daysBetween(last.end, day.date) <= THRESHOLDS.tripMaxGapDays + 1
+        open &&
+        open.city === away.city &&
+        daysBetween(open.end, day.date) <= THRESHOLDS.tripMaxGapDays + 1
       ) {
-        last.end = day.date;
-        last.days += 1;
+        open.end = day.date;
+        open.days += 1;
       } else {
-        trips.push({ city, start: day.date, end: day.date, days: 1 });
+        open = { city: away.city, start: day.date, end: day.date, days: 1 };
+        trips.push(open);
       }
+    } else if (places.length > 0) {
+      open = null;
     }
   }
   return trips.length > 0 ? [{ type: "places-trips", trips }] : [];

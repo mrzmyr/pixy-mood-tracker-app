@@ -148,7 +148,11 @@ export const personMoments = (input: RecapInput): MomentCard[] => {
   const earlier = before(input);
   const ids = new Set(
     input.days.flatMap((day) =>
-      day.items.flatMap((item) => item.people.map((person) => person.id))
+      day.items.flatMap((item) =>
+        item.people.flatMap((person) =>
+          input.personIds.has(person.id) ? [person.id] : []
+        )
+      )
     )
   );
   const year = Number(input.period.end.slice(0, 4));

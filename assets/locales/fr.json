@@ -676,11 +676,13 @@
     "other": "{{count}} jours en lien"
   },
   "recaps_connected_more": "+%{count} autres",
-  "recaps_connected_title": "Vous avez été en lien avec %{count} personnes",
+  "recaps_connected_title": {
+    "one": "Vous avez été en lien avec {{count}} personnes",
+    "other": "Vous avez été en lien avec {{count}} personnes"
+  },
   "recaps_connected_title_one": "Vous avez été en lien avec %{name}",
   "recaps_day_ago_text": "Il y a un an : %{date}.",
   "recaps_day_ago_title": "Une belle journée, il y a un an",
-  "recaps_day_ago_title_with": "%{place} avec %{names}",
   "recaps_day_best_title_month": "%{day} a été votre meilleur jour du mois",
   "recaps_day_best_title_week": "%{day} a été votre meilleur jour de la semaine",
   "recaps_day_hard_text": "Vous avez quand même fait votre check-in. Ces jours-là passent.",

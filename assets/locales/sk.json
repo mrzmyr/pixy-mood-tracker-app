@@ -675,11 +675,13 @@
     "other": "{{count}} dní v kontakte"
   },
   "recaps_connected_more": "+%{count} ďalší",
-  "recaps_connected_title": "Bol si v kontakte s %{count} ľuďmi",
+  "recaps_connected_title": {
+    "one": "Bol si v kontakte s {{count}} ľuďmi",
+    "other": "Bol si v kontakte s {{count}} ľuďmi"
+  },
   "recaps_connected_title_one": "Bol si v kontakte s: %{name}",
   "recaps_day_ago_text": "Pred rokom: %{date}.",
   "recaps_day_ago_title": "Skvelý deň pred rokom",
-  "recaps_day_ago_title_with": "%{place} s: %{names}",
   "recaps_day_best_title_month": "%{day}: tvoj najlepší deň mesiaca",
   "recaps_day_best_title_week": "%{day}: tvoj najlepší deň týždňa",
   "recaps_day_hard_text": "Aj tak si zapísal záznam. Také dni prejdú.",

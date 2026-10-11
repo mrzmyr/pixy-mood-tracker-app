@@ -675,11 +675,13 @@
     "other": "{{count}} zile în legătură"
   },
   "recaps_connected_more": "+%{count} în plus",
-  "recaps_connected_title": "Ai fost în legătură cu %{count} persoane",
+  "recaps_connected_title": {
+    "one": "Ai fost în legătură cu {{count}} persoane",
+    "other": "Ai fost în legătură cu {{count}} persoane"
+  },
   "recaps_connected_title_one": "Ai fost în legătură cu %{name}",
   "recaps_day_ago_text": "Acum un an: %{date}.",
   "recaps_day_ago_title": "O zi minunată, acum un an",
-  "recaps_day_ago_title_with": "%{place} cu %{names}",
   "recaps_day_best_title_month": "%{day} a fost cea mai bună zi a lunii",
   "recaps_day_best_title_week": "%{day} a fost cea mai bună zi a săptămânii",
   "recaps_day_hard_text": "Totuși ai făcut înregistrarea. Zilele astea trec.",

@@ -675,11 +675,13 @@
     "other": "{{count}} дн. на зв’язку"
   },
   "recaps_connected_more": "+ще %{count}",
-  "recaps_connected_title": "Ви були на зв’язку з %{count} людьми",
+  "recaps_connected_title": {
+    "one": "Ви були на зв’язку з {{count}} людьми",
+    "other": "Ви були на зв’язку з {{count}} людьми"
+  },
   "recaps_connected_title_one": "Ви були на зв’язку: %{name}",
   "recaps_day_ago_text": "Рік тому: %{date}.",
   "recaps_day_ago_title": "Чудовий день рік тому",
-  "recaps_day_ago_title_with": "%{place}: %{names}",
   "recaps_day_best_title_month": "%{day}: найкращий день місяця",
   "recaps_day_best_title_week": "%{day}: найкращий день тижня",
   "recaps_day_hard_text": "Ви все одно зробили відмітку. Такі дні минають.",

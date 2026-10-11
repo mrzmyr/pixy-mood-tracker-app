@@ -675,11 +675,13 @@
     "other": "{{count}}일 연결"
   },
   "recaps_connected_more": "+%{count}명 더",
-  "recaps_connected_title": "%{count}명과 연결되었어요",
+  "recaps_connected_title": {
+    "one": "{{count}}명과 연결되었어요",
+    "other": "{{count}}명과 연결되었어요"
+  },
   "recaps_connected_title_one": "%{name} 님과 연결되었어요",
   "recaps_day_ago_text": "1년 전: %{date}.",
   "recaps_day_ago_title": "1년 전 멋진 하루",
-  "recaps_day_ago_title_with": "%{names} 님과 %{place}",
   "recaps_day_best_title_month": "이번 달 최고의 날은 %{day}",
   "recaps_day_best_title_week": "이번 주 최고의 날은 %{day}",
   "recaps_day_hard_text": "그래도 기록했어요. 이런 날은 지나가요.",

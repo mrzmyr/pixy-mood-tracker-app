@@ -675,11 +675,13 @@
     "other": "联系 {{count}} 天"
   },
   "recaps_connected_more": "另外 %{count} 人",
-  "recaps_connected_title": "你和 %{count} 个人有联系",
+  "recaps_connected_title": {
+    "one": "你和 {{count}} 个人有联系",
+    "other": "你和 {{count}} 个人有联系"
+  },
   "recaps_connected_title_one": "你和 %{name} 有联系",
   "recaps_day_ago_text": "一年前：%{date}。",
   "recaps_day_ago_title": "一年前美好的一天",
-  "recaps_day_ago_title_with": "%{place}，和 %{names}",
   "recaps_day_best_title_month": "%{day}是你本月最好的一天",
   "recaps_day_best_title_week": "%{day}是你本周最好的一天",
   "recaps_day_hard_text": "你依然记录了。这样的日子会过去。",

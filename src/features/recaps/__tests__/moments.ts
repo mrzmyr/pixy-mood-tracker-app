@@ -234,6 +234,23 @@ describe("people", () => {
     ]);
   });
 
+  test("never names a deleted person", () => {
+    const items = [
+      { date: "2026-09-01", ...sam },
+      { date: mon, ...sam },
+    ];
+
+    expect(moments({ items, personIds: [] })).toEqual([]);
+    expect(moments({ items, personIds: ["sam"] })).toEqual([
+      {
+        type: "person-back",
+        personId: "sam",
+        lastDate: "2026-09-01",
+        weeks: 5,
+      },
+    ]);
+  });
+
   test("shows nothing with the People step off", () => {
     expect(
       moments({

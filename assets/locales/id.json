@@ -675,11 +675,13 @@
     "other": "{{count}} hari terhubung"
   },
   "recaps_connected_more": "+%{count} lagi",
-  "recaps_connected_title": "Kamu terhubung dengan %{count} orang",
+  "recaps_connected_title": {
+    "one": "Kamu terhubung dengan {{count}} orang",
+    "other": "Kamu terhubung dengan {{count}} orang"
+  },
   "recaps_connected_title_one": "Kamu terhubung dengan %{name}",
   "recaps_day_ago_text": "Setahun lalu: %{date}.",
   "recaps_day_ago_title": "Hari yang indah, setahun lalu",
-  "recaps_day_ago_title_with": "%{place} bersama %{names}",
   "recaps_day_best_title_month": "%{day} adalah hari terbaikmu bulan ini",
   "recaps_day_best_title_week": "%{day} adalah hari terbaikmu minggu ini",
   "recaps_day_hard_text": "Kamu tetap mencatat. Hari seperti ini akan berlalu.",

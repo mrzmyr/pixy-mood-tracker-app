@@ -675,11 +675,13 @@
     "other": "{{count}} dage i kontakt"
   },
   "recaps_connected_more": "+%{count} mere",
-  "recaps_connected_title": "Du var i kontakt med %{count} personer",
+  "recaps_connected_title": {
+    "one": "Du var i kontakt med {{count}} personer",
+    "other": "Du var i kontakt med {{count}} personer"
+  },
   "recaps_connected_title_one": "Du var i kontakt med %{name}",
   "recaps_day_ago_text": "For et år siden: %{date}.",
   "recaps_day_ago_title": "En god dag for et år siden",
-  "recaps_day_ago_title_with": "%{place} med %{names}",
   "recaps_day_best_title_month": "%{day} var din bedste dag i måneden",
   "recaps_day_best_title_week": "%{day} var din bedste dag i ugen",
   "recaps_day_hard_text": "Du tjekkede alligevel ind. Sådanne dage går over.",

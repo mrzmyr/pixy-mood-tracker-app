@@ -119,6 +119,7 @@ const Recaps = () => {
     )
   );
 
+  const { people } = usePeopleState();
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
   const cards = buildCards({
     period,
@@ -131,10 +132,10 @@ const Recaps = () => {
     availableSteps,
     reminderEnabled: settings.reminderEnabled,
     tags,
+    personIds: new Set(people.map((person) => person.id)),
   }).filter((card) => !hidden.has(cardKey(card, period)));
 
   const nudge = useNudgeActions(period);
-  const { people } = usePeopleState();
   const feedbackChannel = useFeedback();
   const [feedback, setFeedback] = useState<ReadonlyMap<string, CardFeedback>>(
     new Map()
@@ -225,6 +226,50 @@ const Recaps = () => {
     trackShown();
   };
 
+  const renderCard = (card: RecapCard) => {
+    const key = cardKey(card, period);
+    if (isNudgeCard(card)) {
+      return (
+        <NudgeCard
+          key={key}
+          card={card}
+          tags={tags}
+          reminderTime={nudge.reminderTime}
+          onLayout={onCardLayout(key)}
+          onTurnOn={() => nudge.turnOn(card)}
+          onNotNow={() => {
+            nudge.notNow(card);
+            setHidden((current) => new Set([...current, key]));
+          }}
+        />
+      );
+    }
+    if (isSummaryCard(card)) {
+      return (
+        <SummaryCard
+          key={key}
+          card={card}
+          history={history}
+          people={people}
+          tags={tags}
+          periodKind={period.kind}
+          onLayout={onCardLayout(key)}
+          footer={footerFor(card, key)}
+        />
+      );
+    }
+    return (
+      <MomentCard
+        key={key}
+        card={card}
+        people={people}
+        tags={tags}
+        onLayout={onCardLayout(key)}
+        footer={footerFor(card, key)}
+      />
+    );
+  };
+
   const setPeriod = (next: Pick<Period, "kind" | "start">) =>
     router.setParams({ kind: next.kind, date: next.start });
 
@@ -303,43 +348,7 @@ const Recaps = () => {
             {t("recaps_empty")}
           </Secondary>
         )}
-        {cards.map((card) => {
-          const key = cardKey(card, period);
-          return isNudgeCard(card) ? (
-            <NudgeCard
-              key={key}
-              card={card}
-              tags={tags}
-              reminderTime={nudge.reminderTime}
-              onLayout={onCardLayout(key)}
-              onTurnOn={() => nudge.turnOn(card)}
-              onNotNow={() => {
-                nudge.notNow(card);
-                setHidden((current) => new Set([...current, key]));
-              }}
-            />
-          ) : (
-            <View key={key} onLayout={onCardLayout(key)}>
-              {isSummaryCard(card) ? (
-                <SummaryCard
-                  card={card}
-                  history={history}
-                  people={people}
-                  tags={tags}
-                  periodKind={period.kind}
-                  footer={footerFor(card, key)}
-                />
-              ) : (
-                <MomentCard
-                  card={card}
-                  people={people}
-                  tags={tags}
-                  footer={footerFor(card, key)}
-                />
-              )}
-            </View>
-          );
-        })}
+        {cards.map(renderCard)}
       </View>
       <FeedbackSheet
         visible={askingCard !== null}
