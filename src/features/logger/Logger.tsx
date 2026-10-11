@@ -448,7 +448,7 @@ const LoggerSlides = ({
             itemSize={Dimensions.get("window").width}
             style={carouselHeight ? { height: carouselHeight } : undefined}
             ref={_carousel}
-            data={content}
+            data={slideKeys}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
             onProgressChange={(progress) => {
               if (isMounted.current) {
