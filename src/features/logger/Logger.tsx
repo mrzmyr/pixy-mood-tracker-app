@@ -230,17 +230,19 @@ const LoggerSlides = ({
     );
   });
 
-  const next = () => {
-    if (slideIndex + 1 === slideKeys.length - 1) {
+  const advance = (nextIndex: number) => {
+    if (nextIndex === slideKeys.length - 1) {
       Keyboard.dismiss();
     }
 
-    if (slideIndex + 1 === slideKeys.length) {
+    if (nextIndex === slideKeys.length) {
       save();
     } else if (_carousel.current) {
-      _carousel.current.next();
+      _carousel.current.scrollTo({ index: nextIndex, animated: true });
     }
   };
+
+  const next = () => advance(slideIndex + 1);
 
   // Shared by the optional slides: confirm, turn the step off, move on.
   const disableStep = async (
@@ -317,7 +319,7 @@ const LoggerSlides = ({
       slide: (
         <FlagHighlight flag="menstruation" pillOnly style={{ flex: 1 }}>
           <SlideMenstruation
-            onSelect={next}
+            onSelect={() => advance(slideKeys.indexOf("menstruation") + 1)}
             onDisableStep={() => disableStep("menstruation")}
             showDisable={showDisable}
           />
