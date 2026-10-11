@@ -144,6 +144,7 @@ describe("CLI options", () => {
     expect(shortHelp.stdout).toBe(result.stdout);
   });
 
+  // Spawns one CLI process per help page at once; 2-core CI runners need more than the 5 s default.
   test("every help page matches its golden file byte for byte", async () => {
     const helpDir = path.join(import.meta.dir, "help");
     const files = fs
@@ -162,7 +163,7 @@ describe("CLI options", () => {
         );
       })
     );
-  });
+  }, 30_000);
 
   test("long commands end with a result line on usage errors", async () => {
     const result = await call("e2e", "run", "--platform=windows");
