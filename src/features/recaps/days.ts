@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
-import { RATING_MAPPING, SLEEP_QUALITY_MAPPING } from "@/constants/Ratings";
+import { RATING_MAPPING } from "@/constants/Ratings";
 import type { LogItem } from "@/features/logs";
+import { getAverageSleepQuality } from "@/lib/utils";
 import { isInPeriod } from "./period";
 import type { DateKey, Period, RecapDay } from "./types";
 
@@ -8,7 +9,12 @@ import type { DateKey, Period, RecapDay } from "./types";
 export const getDays = (items: LogItem[]): RecapDay[] => {
   const byDate = new Map<string, LogItem[]>();
   for (const item of items) {
-    byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
+    const dayItems = byDate.get(item.date);
+    if (dayItems) {
+      dayItems.push(item);
+    } else {
+      byDate.set(item.date, [item]);
+    }
   }
   return [...byDate.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
@@ -32,12 +38,11 @@ export const getDayRating = (day: RecapDay) =>
   day.items.reduce((sum, item) => sum + RATING_MAPPING[item.rating], 0) /
   day.items.length;
 
-/** Mean sleep quality of the day, 0 (worst) to 4 (best). */
-export const getDaySleep = (day: RecapDay) =>
-  day.items.reduce(
-    (sum, item) => sum + SLEEP_QUALITY_MAPPING[item.sleep.quality],
-    0
-  ) / day.items.length;
+/**
+ * Mean sleep quality of the day, 0 (worst) to 4 (best). `null` when every
+ * entry skipped sleep: skipped sleep is stored as `null`.
+ */
+export const getDaySleep = (day: RecapDay) => getAverageSleepQuality(day.items);
 
 /** Mean rating over `days`, `null` without days. */
 export const getMeanRating = (days: RecapDay[]) =>

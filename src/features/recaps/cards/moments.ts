@@ -32,6 +32,9 @@ const weeks = (days: number) => Math.round(days / 7);
 
 /** Good emotion, first time in 30+ days. The longest gap wins. */
 export const emotionAgain = (input: RecapInput): MomentCard[] => {
+  if (!input.steps.has("emotions")) {
+    return [];
+  }
   const earlier = before(input);
   const keys = new Set(
     input.days.flatMap((day) =>
@@ -82,13 +85,15 @@ const isHeavierWeek = (input: RecapInput) => {
  * weeks, with enough check-ins to tell. Not in a heavier week.
  */
 export const emotionAbsent = (input: RecapInput): MomentCard[] => {
-  if (isHeavierWeek(input)) {
+  if (!input.steps.has("emotions") || isHeavierWeek(input)) {
     return [];
   }
-  const since = addDays(input.period.end, 1 - THRESHOLDS.emotionAbsentDays);
+  // A current week ends in the future: count only days that happened.
+  const end = input.today < input.period.end ? input.today : input.period.end;
+  const since = addDays(end, 1 - THRESHOLDS.emotionAbsentDays);
   const from = addDays(since, -THRESHOLDS.emotionAbsentBeforeDays);
   const recent = input.history.filter(
-    (day) => day.date >= since && day.date <= input.period.end
+    (day) => day.date >= since && day.date <= end
   );
   const earlier = input.history.filter(
     (day) => day.date >= from && day.date < since
@@ -194,21 +199,54 @@ const parsePlace = (name: string | null | undefined) => {
     : { district: null, city: first };
 };
 
-/** First check-in in a city never seen before. Location on. */
+const EARTH_RADIUS_KM = 6371;
+const toRadians = (degrees: number) => (degrees * Math.PI) / 180;
+
+/** Great-circle distance in kilometers. */
+const distanceKm = (
+  a: { latitude: number; longitude: number },
+  b: { latitude: number; longitude: number }
+) => {
+  const dLat = toRadians(b.latitude - a.latitude);
+  const dLon = toRadians(b.longitude - a.longitude);
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRadians(a.latitude)) *
+      Math.cos(toRadians(b.latitude)) *
+      Math.sin(dLon / 2) ** 2;
+  return 2 * EARTH_RADIUS_KM * Math.asin(Math.sqrt(h));
+};
+
+/**
+ * First check-in far from every earlier place. Location on, and 15+ earlier
+ * days with a place. Compares coordinates, not names: place names change
+ * with the device language.
+ */
 export const firstCity = (input: RecapInput): MomentCard[] => {
-  const earlier = before(input);
-  if (!input.locationEnabled || earlier.length < THRESHOLDS.newMinHistoryDays) {
+  if (!input.locationEnabled) {
     return [];
   }
-  const seen = new Set(
-    earlier.flatMap((day) =>
-      day.items.flatMap((item) => parsePlace(item.location?.name)?.city ?? [])
-    )
-  );
+  const places: NonNullable<LogItem["location"]>[] = [];
+  let placedDays = 0;
+  for (const day of before(input)) {
+    const dayPlaces = day.items.flatMap((item) => item.location ?? []);
+    places.push(...dayPlaces);
+    placedDays += dayPlaces.length > 0 ? 1 : 0;
+  }
+  if (placedDays < THRESHOLDS.newMinHistoryDays) {
+    return [];
+  }
   for (const day of input.days) {
     for (const item of day.items) {
       const place = parsePlace(item.location?.name);
-      if (place && !seen.has(place.city)) {
+      const { location } = item;
+      if (
+        place &&
+        location &&
+        places.every(
+          (earlier) => distanceKm(earlier, location) > THRESHOLDS.newCityMinKm
+        )
+      ) {
         return [{ type: "first-city", ...place, date: day.date }];
       }
     }
@@ -260,8 +298,15 @@ export const tagBack = (input: RecapInput): MomentCard[] => {
   return cards;
 };
 
-const isGoodNight = (day: RecapDay) => getDaySleep(day) >= 3;
-const isRoughNight = (day: RecapDay) => getDaySleep(day) <= 1;
+const isGoodNight = (day: RecapDay) => {
+  const sleep = getDaySleep(day);
+  return sleep !== null && sleep >= 3;
+};
+
+const isRoughNight = (day: RecapDay) => {
+  const sleep = getDaySleep(day);
+  return sleep !== null && sleep <= 1;
+};
 
 /** Longest run of calendar days in a row that pass `test`. */
 const longestRun = (days: RecapDay[], test: (day: RecapDay) => boolean) => {
@@ -286,7 +331,8 @@ const longestRun = (days: RecapDay[], test: (day: RecapDay) => boolean) => {
 
 /**
  * Week only, sleep step on. 3+ good nights in a row after 2+ rough nights
- * the week before, or 3+ rough nights in a row after a steadier week.
+ * the week before, or 3+ rough nights in a row after a steadier week: one
+ * with 3+ nights of sleep data and at most 1 rough night.
  */
 export const sleepMoments = (input: RecapInput): MomentCard[] => {
   if (!input.steps.has("sleep")) {
@@ -298,10 +344,12 @@ export const sleepMoments = (input: RecapInput): MomentCard[] => {
       day.date < input.period.start
   );
   const roughBefore = weekBefore.filter(isRoughNight).length;
+  const sleptBefore = weekBefore.filter((day) => getDaySleep(day) !== null);
   const good = longestRun(input.days, isGoodNight);
   const rough = longestRun(input.days, isRoughNight);
   if (
     rough.length >= THRESHOLDS.sleepRunNights &&
+    sleptBefore.length >= THRESHOLDS.sleepRunNights &&
     roughBefore <= THRESHOLDS.sleepRoughMaxRoughBefore
   ) {
     return [{ type: "sleep-rough", nights: rough }];

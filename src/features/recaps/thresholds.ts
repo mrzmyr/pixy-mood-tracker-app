@@ -23,6 +23,8 @@ export const THRESHOLDS = {
   usualMinDays: 20,
   /** Person back: connected again after at least this many days. */
   personBackMinGapDays: 28,
+  /** First city: farther than this from every earlier place, in km. */
+  newCityMinKm: 15,
   /** New person and first city: earlier check-in days needed. */
   newMinHistoryDays: 15,
   /** Person milestone: connected days in a calendar year. */

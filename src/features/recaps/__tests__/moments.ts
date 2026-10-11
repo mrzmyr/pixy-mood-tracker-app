@@ -125,6 +125,46 @@ describe("emotion absent", () => {
     ).toEqual([]);
   });
 
+  test("counts only days that happened in the current week", () => {
+    // Wednesday: since moves back to 2026-09-17, so 2026-09-17 to -20 count.
+    expect(
+      moments({
+        today: "2026-10-07",
+        items: [
+          ...stressedBefore,
+          { date: "2026-09-18", emotions: ["stressed"] },
+          ...calmRecent,
+        ],
+      })
+    ).toEqual([]);
+    expect(
+      moments({
+        today: "2026-10-12",
+        items: [
+          ...stressedBefore,
+          { date: "2026-09-18", emotions: ["stressed"] },
+          ...calmRecent,
+        ],
+      })
+    ).toEqual([
+      {
+        type: "emotion-absent",
+        emotion: "stressed",
+        countBefore: 7,
+        since: "2026-09-21",
+      },
+    ]);
+  });
+
+  test("stays quiet with the Emotions step off", () => {
+    expect(
+      moments({
+        items: [...stressedBefore, ...calmRecent],
+        steps: ["rating", "tags"],
+      })
+    ).toEqual([]);
+  });
+
   test("ignores neutral emotions like tired", () => {
     const tiredBefore = run("2026-08-10", 6, { emotions: ["tired"] });
 
@@ -233,6 +273,20 @@ describe("first city", () => {
     ).toEqual([]);
   });
 
+  test("needs 15 earlier days with a place", () => {
+    const unplaced = run("2026-08-01", 15);
+
+    expect(
+      moments({ items: [...unplaced, potsdam], locationEnabled: true })
+    ).toEqual([]);
+    expect(
+      moments({
+        items: [...unplaced, ...berlin.slice(1), potsdam],
+        locationEnabled: true,
+      })
+    ).toEqual([]);
+  });
+
   test("skips cities seen before and places without a name", () => {
     expect(
       moments({
@@ -338,6 +392,7 @@ describe("sleep", () => {
       moments({
         items: [
           { date: "2026-09-29", ...night("bad") },
+          ...run("2026-09-30", 2, night("neutral")),
           ...run("2026-10-05", 3, night("very_bad")),
         ],
       })
@@ -345,6 +400,33 @@ describe("sleep", () => {
       {
         type: "sleep-rough",
         nights: ["2026-10-05", "2026-10-06", "2026-10-07"],
+      },
+    ]);
+  });
+
+  test("never calls a week without sleep data steadier", () => {
+    expect(moments({ items: run("2026-10-05", 3, night("very_bad")) })).toEqual(
+      []
+    );
+  });
+
+  test("ignores entries that skipped sleep", () => {
+    // SAFETY: entries saved with the sleep step skipped store `null`.
+    // oxlint-disable-next-line anti-slop/no-chained-type-assertions -- see comment above.
+    const skipped = { sleep: { quality: null } } as unknown as Partial<LogItem>;
+
+    expect(
+      moments({
+        items: [
+          ...run("2026-09-28", 2, night("bad")),
+          ...run("2026-10-07", 3, night("very_good")),
+          { date: "2026-10-08", ...skipped },
+        ],
+      })
+    ).toEqual([
+      {
+        type: "sleep-turnaround",
+        nights: ["2026-10-07", "2026-10-08", "2026-10-09"],
       },
     ]);
   });

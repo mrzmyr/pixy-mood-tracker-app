@@ -158,8 +158,8 @@ const Recaps = () => {
         type: "other",
         source: "recaps",
         message: `${note}\n\nRecap card: ${card.type}`,
+        // Without `onCancel`, a failed send shows the feedback error alert.
         onOk: noop,
-        onCancel: noop,
       });
     }
     const key = cardKey(card, period);
@@ -320,7 +320,7 @@ const Recaps = () => {
                   feedback={feedback.get(key) ?? null}
                   onHelpful={() => sendFeedback(card, true, [], "")}
                   onNotHelpful={() => setAskingCard(card)}
-                  testID={`recap-feedback-${card.type}`}
+                  testID={`recap-feedback-${getCardId(card)}`}
                 />
               }
             />
