@@ -53,15 +53,15 @@ main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;let
 .stats{align-self:stretch;display:flex;align-items:center;justify-content:center;margin-top:16px}.award{display:flex;align-items:center;gap:6px}.award svg{height:52px;width:auto}.award .mid{text-align:center;line-height:1.15}.award .mid b{display:block;font-size:13px;font-weight:600;opacity:.85;margin-top:3px}.award .rt{justify-content:center}
 .stats .dl{display:flex;align-items:center;gap:2px}.stats .dl svg{height:46px;width:auto}.stats .dl div{text-align:center;line-height:1.05}.stats .dl b{font-size:19px;display:block}.stats .dl span{font-size:10.5px;opacity:.8}
 .stats .div,.logos2 .div{width:1px;align-self:stretch;background:rgba(255,247,237,.22)}.stats .rt{display:flex;gap:6px;align-items:center;font-size:17px;font-weight:600}.stats .star{letter-spacing:1px;font-size:15px}
-.pfade{position:absolute;z-index:5;left:0;right:0;top:470px;bottom:0;background:var(--bg)}
-.qcard{position:absolute;z-index:6;left:16px;right:16px;top:412px;background:#1c1c1e;border:1px solid rgba(255,247,237,.14);border-radius:16px;padding:14px 16px;font-size:14px;font-weight:600;line-height:1.38;box-shadow:0 16px 30px rgba(0,0,0,.4)}
+.pfade{position:absolute;z-index:5;left:0;right:0;top:450px;bottom:0;background:var(--bg)}
+.qcard{position:absolute;z-index:6;left:16px;right:16px;top:434px;background:#1c1c1e;border:1px solid rgba(255,247,237,.14);border-radius:16px;padding:14px 16px;font-size:14px;font-weight:600;line-height:1.38;box-shadow:0 16px 30px rgba(0,0,0,.4)}
 .qcard small{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:500;opacity:.85;margin-top:10px}
 .lbar{position:absolute;z-index:6;left:0;right:0;bottom:18px;text-align:center}.lo2{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin-bottom:6px}
 .logos2{display:flex;justify-content:center;align-items:center;gap:7px;padding:0 10px}.logos2 .lg{padding:0;font-size:10px;gap:4px;white-space:nowrap}.logos2 .lg img{height:13px;width:13px}.logos2 .div{height:14px;align-self:center}
 .scr.center{justify-content:center;padding-bottom:20px}.scr.dark{background:#0b0b0c;--cream:#FFF7ED}.scr.dark h4{font-weight:700}.scr.dark .subtle{text-align:left}.scr.dark .k,.scr.dark .sub{color:var(--mint)}
 .k{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mint);margin-bottom:8px;text-align:center;display:flex;gap:6px;align-items:center}
 .scr h4{margin:0;font-size:32px;line-height:1.06;font-weight:800;letter-spacing:-.03em;text-align:center}
-.scr h4{white-space:nowrap}.scr h4.long{font-size:25px}.scr h4.xl{font-size:22px}.sub{font-size:14px;color:var(--mint);text-align:center;margin-top:10px;line-height:1.3}
+.scr h4{white-space:nowrap}.scr h4.long{font-size:25px}.scr h4.xl{font-size:22px}.sub{font-size:17px;color:var(--mint);text-align:center;margin-top:12px;line-height:1.3}
 .tag{position:absolute;top:10px;left:10px;font-size:10px;font-weight:700;border-radius:5px;padding:2px 6px;z-index:9}
 .tag.branch{background:#ffe08a;color:#3b2a00}.tag.flag{background:#c7c2ff;color:#1e1773}.tag.plan{background:var(--peach);color:#3b1d00}
 .wreath{display:flex;align-items:center;gap:4px;margin-top:16px}.wreath div{text-align:center;line-height:1.1}.wreath b{font-size:26px;display:block;letter-spacing:-.01em}.wreath span{font-size:12px;opacity:.85}
@@ -132,37 +132,37 @@ SLOTS = [
  <div class="k" style="align-self:flex-start">mood journal</div>
  <h4 style="text-align:left;align-self:flex-start;white-space:normal">Understand what makes you feel that way.</h4>
  <div class="stats"><div class="award">{laurel()}<div class="mid"><div class="rt"><span class="star">★★★★★</span></div><b>10,000+ downloads</b></div>{laurel(True)}</div></div>
- {phone('calendar', 236)}
+ {phone('calendar', 190, 'transform:translateX(-50%) scale(0.88);transform-origin:50% 0;')}
  <div class="pfade"></div>
  <div class="qcard">“I am a mental health counselor and I love suggesting to my clients to use this for reflection.”<small><img src="photos/p-jenna.svg" width="22" height="22" style="border-radius:50%">Google Play User</small></div>
  <div class="lbar"><div class="lo2">Listed on</div><div class="logos2">{LOGOS.replace('</span><span class="lg">', '</span><i class="div"></i><span class="lg">')}</div></div>"""),
     ("<b>2 · Mood.</b> Logger mood slide behind, calendar in front and higher.", None, "", f"""
  <h4>Mood in<br>Pixels</h4><div class="sub">Your days turn into colors.</div>
- {phone('mood', 186, 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.74);transform-origin:50% 0;')}
- {phone('calendar', 150, 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.74);transform-origin:50% 0;z-index:2;')}"""),
+ {phone('mood', 180, 'left:30%;transform:translateX(-50%) rotate(-4deg) scale(.7);transform-origin:50% 0;')}
+ {phone('calendar', 150, 'left:70%;transform:translateX(-50%) rotate(4deg) scale(.7);transform-origin:50% 0;z-index:2;')}"""),
     ("<b>3 · Timeline.</b> Day 2 Oma hug + letter, day 1 Munich + puppy; day 2 popped out.", ("flag", "flag: calendar-timeline"), "", f"""
  <h4>Go back<br>in Time</h4><div class="sub">View past entries in timeline.</div>
- {phone('timeline2', 196)}
- {popcard('day2', 10, 274, 0.72, -2)}"""),
+ {phone('timeline2', 200)}
+ {popcard('day2', 10, 260, 0.65, -2)}"""),
     ("<b>4 · Emotions.</b> Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.", None, "", f"""
  <h4>Name what<br>you feel.</h4><div class="sub">161 emotions, each explained.</div>
- {phone('emotions', 196)}
- {pop('calm', 10, 236, -4, True)}{pop('hopeful', 'r10', 306, 4, True)}{pop('grateful', 10, 426, 4)}{pop('anxious', 'r10', 496, -4)}"""),
+ {phone('emotions', 200)}
+ {pop('calm', 18, 250, -3, True)}{pop('hopeful', 'r18', 330, 3, True)}{pop('grateful', 18, 440, 3)}{pop('anxious', 'r18', 520, -3)}"""),
     ("<b>5 · Tags.</b> Check-in tags, flat list (no categories), gray bg; popular tags popped out in gray cards.", None, "", f"""
  <h4>Tag what<br>matters</h4><div class="sub">Track what fills your days.</div>
- {phone('tags', 196)}
- {taggroup('', [('Sport','#22c55e',1),('Hyperfocus','#f59e0b',1),('Long walk','#22c55e',0)], 'r10', 306)}{taggroup('', [('Took meds','#8b5cf6',1),('Therapy','#8b5cf6',0)], 10, 476)}"""),
+ {phone('tags', 200)}
+ {taggroup('', [('Sport','#22c55e',1),('Hyperfocus','#f59e0b',1),('Long walk','#22c55e',0)], 'r18', 320)}{taggroup('', [('Took meds','#8b5cf6',1),('Therapy','#8b5cf6',0)], 18, 490)}"""),
     ("<b>6 · People.</b> Check-in people step (3-column avatars + add tile); Add Person card popped out.", ("flag", "flag: people"), "", f"""
  <h4>Who makes<br>your day?</h4><div class="sub">Add the people in your life.</div>
- {phone('people', 196)}
- {popcard('addperson', 'r10', 470, 0.72, 2)}"""),
+ {phone('people', 200)}
+ {popcard('addperson', 'r18', 480, 0.65, 2)}"""),
     ("<b>7 · Places.</b> Real map at Bäderland Kaifubad, entry: Swim with family (swim photos).", ("flag", "flag: location, calendar-map"), "", f"""
  <h4>See where you<br>feel good</h4><div class="sub">Track where you have been with locations.</div>
  {phone('mapentry', 196)}"""),
     ("<b>8 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
  <h4 style="align-self:flex-start;text-align:left">Private by<br>design</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
- <div class="plist" style="margin-top:auto;margin-bottom:auto"><div>{FACEID}Face ID lock</div><div>{CK}No account, no sign-up</div><div>{CK}No ads, no tracking of entries</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>
- <div class="subtle" style="margin:0 0 26px">{PHONE_ICON}<div><b>Stored on your device only.</b> <span>Most journal apps keep your entries on their servers. Pixy doesn't.</span></div></div>"""),
+ <div class="plist" style="margin-top:40px;margin-bottom:30px"><div>{FACEID}Face ID lock</div><div>{CK}No account, no sign-up</div><div>{CK}No ads, no tracking of entries</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>
+ <div class="subtle" style="margin:0 0 32px">{PHONE_ICON}<div><b>Stored on your device only.</b> <span>Most journal apps keep your entries on their servers. Pixy doesn't.</span></div></div>"""),
 ]
 
 body = "".join(
