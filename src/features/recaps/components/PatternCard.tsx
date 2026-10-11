@@ -2,7 +2,6 @@ import { SegmentedControl } from "@expo/ui/community/segmented-control";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { View } from "react-native";
-import Svg, { Line } from "react-native-svg";
 import type { LayoutChangeEvent } from "react-native";
 import { Body, Secondary } from "@/components/Type";
 import { RADIUS } from "@/constants/Radius";
@@ -33,23 +32,21 @@ const DivergingBar = ({ delta, scale }: { delta: number; scale: number }) => {
     borderRadius: RADIUS.full,
   } as const;
   return (
-    <View style={{ flex: 1, height: 8, flexDirection: "row" }}>
+    <View
+      style={{
+        flex: 1,
+        height: 16,
+        flexDirection: "row",
+        alignItems: "center",
+      }}
+    >
       <View style={{ flex: 1, alignItems: "flex-end" }}>
         {delta < 0 && (
           <View style={{ ...bar, backgroundColor: colors.textSecondary }} />
         )}
       </View>
-      <Svg width={1} height={8}>
-        <Line
-          x1={0.5}
-          x2={0.5}
-          y1={0}
-          y2={8}
-          stroke={colors.text}
-          strokeWidth={1}
-          strokeDasharray="2 3"
-        />
-      </Svg>
+      {/* Zero mark: taller than the bars, so it never merges with them. */}
+      <View style={{ width: 1, height: 16, backgroundColor: colors.text }} />
       <View style={{ flex: 1 }}>
         {delta >= 0 && (
           <View style={{ ...bar, backgroundColor: colors.moduleMood }} />
