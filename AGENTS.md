@@ -49,7 +49,7 @@
 
 - Record mistakes in [MISTAKES.md](MISTAKES.md), missing capabilities in [DESIRES.md](DESIRES.md), and environment discoveries in [LEARNINGS.md](LEARNINGS.md)
 - Public repo: entries contain no private names, internal context, or user data
-- Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text (notes, custom tag names) to PostHog. Send counts and lengths instead. Never send ratings, emotion keys, sleep quality, or mood feedback. Record every event rename in [docs/analytics.md](docs/analytics.md#event-history).
+- Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text (notes, custom tag names) to PostHog. Send counts and lengths instead. Never send ratings, emotion keys, sleep quality, or mood feedback. Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
 
 ### Testing
 
