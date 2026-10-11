@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "דרגו את Pixy ב-App Store",
   "rate_pixy_google_play": "דרגו את Pixy ב-Google Play",
   "recaps": "סיכומים",
+  "recaps_connected_days": {
+    "one": "יום אחד בקשר",
+    "other": "{{count}} ימים בקשר"
+  },
+  "recaps_connected_more": "+%{count} נוספים",
+  "recaps_connected_title": "היית בקשר עם %{count} אנשים",
+  "recaps_connected_title_one": "היית בקשר עם %{name}",
+  "recaps_day_ago_text": "לפני שנה: %{date}.",
+  "recaps_day_ago_title": "יום נהדר, לפני שנה",
+  "recaps_day_ago_title_with": "%{place} עם %{names}",
+  "recaps_day_best_title_month": "%{day} היה היום הכי טוב שלך החודש",
+  "recaps_day_best_title_week": "%{day} היה היום הכי טוב שלך השבוע",
+  "recaps_day_hard_text": "בכל זאת תיעדת. ימים כאלה עוברים.",
+  "recaps_day_hard_title": "%{day} היה יום קשה יותר",
+  "recaps_day_see": "הצגת היום הזה",
+  "recaps_days": {
+    "one": "יום אחד",
+    "other": "{{count}} ימים"
+  },
   "recaps_emotion_absent_text": {
     "one": "זה עלה ביום אחד בחודשיים שלפני כן.",
     "other": "זה עלה ב־{{count}} ימים בחודשיים שלפני כן."
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 שבועות בלי %{emotion}",
   "recaps_emotion_again_text": "לראשונה מאז %{date}.",
   "recaps_emotion_again_title": "שוב %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "ביום אחד. אחר כך:",
+    "other": "ב־{{count}} ימים. אחר כך:"
+  },
+  "recaps_emotions_quarter_title": "בעיקר %{emotion} ברבעון הזה",
+  "recaps_emotions_title": "הרגשות הנפוצים שלך",
+  "recaps_emotions_year_title": "10 הרגשות המובילים שלך",
   "recaps_empty": "עדיין אין כרטיסים לתקופה הזו. הם יופיעו ככל שתתעד יותר ימים.",
   "recaps_feedback_helpful": "מועיל",
   "recaps_feedback_not_helpful": "לא מועיל",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "הפעלת תמונות",
   "recaps_intro_photos_text": "הוסף תמונה לתיעודים. בעוד שנה, הסיכום שלך יוכל להיפתח ב„היום לפני שנה”.",
   "recaps_intro_photos_title": "שמור תמונה של היום",
+  "recaps_most_connected_title_month": "הכי הרבה בקשר החודש",
+  "recaps_most_connected_title_quarter": "הכי הרבה בקשר ברבעון",
+  "recaps_most_connected_title_year": "הכי הרבה בקשר השנה",
   "recaps_nudge_not_now": "לא עכשיו",
   "recaps_nudge_reminder_action": "הזכר לי ב־%{time}",
   "recaps_nudge_reminder_text": "ימים גדולים נשארים בזיכרון. ימים טובים קטנים נמוגים עד הבוקר. תיעוד קצר בכל ערב שומר עליהם.",
@@ -735,6 +764,18 @@
     "other": "ב־{{count}} ימים, אחרי %{weeks} שבועות בלי."
   },
   "recaps_tag_back_title": "%{tag} חזר",
+  "recaps_trips_title_month": {
+    "one": "נסיעה אחת החודש",
+    "other": "{{count}} נסיעות החודש"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "נסיעה אחת ברבעון",
+    "other": "{{count}} נסיעות ברבעון"
+  },
+  "recaps_trips_title_year": {
+    "one": "נסיעה אחת השנה",
+    "other": "{{count}} נסיעות השנה"
+  },
   "reminder": "תִזכּוֹרֶת",
   "reminder_device_required_message": "התראות לא פועלות בסימולטורים. נסו במכשיר אמיתי.",
   "reminder_device_required_title": "תזכורות דורשות טלפון",

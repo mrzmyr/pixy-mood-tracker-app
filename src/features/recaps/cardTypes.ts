@@ -1,6 +1,13 @@
-import type { CardMeta, CardType, NudgeCard, RecapCard } from "./types";
+import type {
+  CardMeta,
+  CardType,
+  NudgeCard,
+  RecapCard,
+  SummaryCard,
+} from "./types";
 
 const WEEK_MONTH: CardMeta["periods"] = ["week", "month"];
+const ALL_PERIODS: CardMeta["periods"] = ["week", "month", "quarter", "year"];
 
 /** Family, modules, signal, and fitting recaps of every card type. */
 export const CARD_TYPES: Record<CardType, CardMeta> = {
@@ -88,6 +95,36 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "medium",
     periods: ["week"],
   },
+  "day-recap": {
+    family: "summary",
+    modules: ["mood", "photos"],
+    signal: "strong",
+    periods: WEEK_MONTH,
+  },
+  emotions: {
+    family: "summary",
+    modules: ["emotions"],
+    signal: "strong",
+    periods: ALL_PERIODS,
+  },
+  connected: {
+    family: "summary",
+    modules: ["people", "emotions"],
+    signal: "strong",
+    periods: ALL_PERIODS,
+  },
+  "most-connected": {
+    family: "summary",
+    modules: ["people"],
+    signal: "strong",
+    periods: ["month", "quarter", "year"],
+  },
+  "places-trips": {
+    family: "summary",
+    modules: ["location"],
+    signal: "strong",
+    periods: ["month", "quarter", "year"],
+  },
 };
 
 /**
@@ -99,6 +136,7 @@ export const getCardId = (card: RecapCard) => {
     ("personId" in card && card.personId) ||
     ("tagId" in card && card.tagId) ||
     ("emotion" in card && card.emotion) ||
+    ("mode" in card && card.mode) ||
     "";
   return `${card.type}:${subject}`;
 };
@@ -106,3 +144,7 @@ export const getCardId = (card: RecapCard) => {
 /** Nudges offer an action; every other family asks for feedback. */
 export const isNudgeCard = (card: RecapCard): card is NudgeCard =>
   CARD_TYPES[card.type].family === "nudge";
+
+/** Summaries describe the period: a day, emotions, people, places. */
+export const isSummaryCard = (card: RecapCard): card is SummaryCard =>
+  CARD_TYPES[card.type].family === "summary";

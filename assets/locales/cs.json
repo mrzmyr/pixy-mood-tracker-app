@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "Ohodnoťte Pixy v App Store",
   "rate_pixy_google_play": "Ohodnoťte Pixy na Google Play",
   "recaps": "Ohlédnutí",
+  "recaps_connected_days": {
+    "one": "1 den v kontaktu",
+    "other": "{{count}} dní v kontaktu"
+  },
+  "recaps_connected_more": "+%{count} další",
+  "recaps_connected_title": "Byl jsi v kontaktu s %{count} lidmi",
+  "recaps_connected_title_one": "Byl jsi v kontaktu s: %{name}",
+  "recaps_day_ago_text": "Před rokem: %{date}.",
+  "recaps_day_ago_title": "Skvělý den před rokem",
+  "recaps_day_ago_title_with": "%{place} s: %{names}",
+  "recaps_day_best_title_month": "%{day}: tvůj nejlepší den měsíce",
+  "recaps_day_best_title_week": "%{day}: tvůj nejlepší den týdne",
+  "recaps_day_hard_text": "I tak jsi zapsal záznam. Takové dny přejdou.",
+  "recaps_day_hard_title": "%{day}: těžší den",
+  "recaps_day_see": "Zobrazit tento den",
+  "recaps_days": {
+    "one": "1 den",
+    "other": "{{count}} dní"
+  },
   "recaps_emotion_absent_text": {
     "one": "Objevilo se jeden den v předchozích dvou měsících.",
     "other": "Objevilo se {{count}} dní v předchozích dvou měsících."
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 týdny bez emoce: %{emotion}",
   "recaps_emotion_again_text": "Poprvé od %{date}.",
   "recaps_emotion_again_title": "Zase %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Jeden den. Potom:",
+    "other": "{{count}} dní. Potom:"
+  },
+  "recaps_emotions_quarter_title": "Hlavně %{emotion} toto čtvrtletí",
+  "recaps_emotions_title": "Tvé nejčastější emoce",
+  "recaps_emotions_year_title": "Tvých 10 hlavních emocí",
   "recaps_empty": "Pro toto období zatím nejsou žádné karty. Objeví se, až zapíšeš víc dní.",
   "recaps_feedback_helpful": "Užitečné",
   "recaps_feedback_not_helpful": "Neužitečné",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "Zapnout fotky",
   "recaps_intro_photos_text": "Přidávej fotku k záznamům. Za rok může tvé ohlédnutí začít slovy „Dnes před rokem“.",
   "recaps_intro_photos_title": "Uchovej si fotku dne",
+  "recaps_most_connected_title_month": "Nejvíc v kontaktu tento měsíc",
+  "recaps_most_connected_title_quarter": "Nejvíc v kontaktu toto čtvrtletí",
+  "recaps_most_connected_title_year": "Nejvíc v kontaktu letos",
   "recaps_nudge_not_now": "Teď ne",
   "recaps_nudge_reminder_action": "Připomenout v %{time}",
   "recaps_nudge_reminder_text": "Velké dny zůstávají v paměti. Malé dobré dny do rána vyblednou. Krátký záznam každý večer je uchová.",
@@ -735,6 +764,18 @@
     "other": "{{count}} dní, po %{weeks} týdnech bez."
   },
   "recaps_tag_back_title": "%{tag} je zpět",
+  "recaps_trips_title_month": {
+    "one": "1 cesta tento měsíc",
+    "other": "{{count}} cest tento měsíc"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 cesta toto čtvrtletí",
+    "other": "{{count}} cest toto čtvrtletí"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 cesta letos",
+    "other": "{{count}} cest letos"
+  },
   "reminder": "Připomínka",
   "reminder_device_required_message": "Na simulátorech oznámení nefungují. Zkus to na skutečném zařízení.",
   "reminder_device_required_title": "Připomínky potřebují telefon",

@@ -39,7 +39,8 @@ import { FeedbackSheet } from "../components/FeedbackSheet";
 import type { FeedbackReason } from "../feedbackReasons";
 import { MomentCard } from "../components/MomentCard";
 import { NudgeCard } from "../components/NudgeCard";
-import { getCardId, isNudgeCard } from "../cardTypes";
+import { SummaryCard } from "../components/SummaryCard";
+import { getCardId, isNudgeCard, isSummaryCard } from "../cardTypes";
 import { getDays, getPeriodDays } from "../days";
 import { getPeriod, shiftPeriod } from "../period";
 import type { Period, PeriodKind, RecapCard } from "../types";
@@ -168,6 +169,15 @@ const Recaps = () => {
         new Map([...current, [key, helpful ? "helpful" : "not_helpful"]])
     );
   };
+
+  const footerFor = (card: RecapCard, key: string) => (
+    <FeedbackFooter
+      feedback={feedback.get(key) ?? null}
+      onHelpful={() => sendFeedback(card, true, [], "")}
+      onNotHelpful={() => setAskingCard(card)}
+      testID={`recap-feedback-${getCardId(card)}`}
+    />
+  );
 
   const viewport = useRef<Span>({ y: 0, height: 0 });
   const listY = useRef(0);
@@ -309,21 +319,25 @@ const Recaps = () => {
               }}
             />
           ) : (
-            <MomentCard
-              key={key}
-              card={card}
-              people={people}
-              tags={tags}
-              onLayout={onCardLayout(key)}
-              footer={
-                <FeedbackFooter
-                  feedback={feedback.get(key) ?? null}
-                  onHelpful={() => sendFeedback(card, true, [], "")}
-                  onNotHelpful={() => setAskingCard(card)}
-                  testID={`recap-feedback-${getCardId(card)}`}
+            <View key={key} onLayout={onCardLayout(key)}>
+              {isSummaryCard(card) ? (
+                <SummaryCard
+                  card={card}
+                  history={history}
+                  people={people}
+                  tags={tags}
+                  periodKind={period.kind}
+                  footer={footerFor(card, key)}
                 />
-              }
-            />
+              ) : (
+                <MomentCard
+                  card={card}
+                  people={people}
+                  tags={tags}
+                  footer={footerFor(card, key)}
+                />
+              )}
+            </View>
           );
         })}
       </View>

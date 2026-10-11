@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "Оцініть Pixy в App Store",
   "rate_pixy_google_play": "Оцініть Pixy в Google Play",
   "recaps": "Підсумки",
+  "recaps_connected_days": {
+    "one": "1 день на зв’язку",
+    "other": "{{count}} дн. на зв’язку"
+  },
+  "recaps_connected_more": "+ще %{count}",
+  "recaps_connected_title": "Ви були на зв’язку з %{count} людьми",
+  "recaps_connected_title_one": "Ви були на зв’язку: %{name}",
+  "recaps_day_ago_text": "Рік тому: %{date}.",
+  "recaps_day_ago_title": "Чудовий день рік тому",
+  "recaps_day_ago_title_with": "%{place}: %{names}",
+  "recaps_day_best_title_month": "%{day}: найкращий день місяця",
+  "recaps_day_best_title_week": "%{day}: найкращий день тижня",
+  "recaps_day_hard_text": "Ви все одно зробили відмітку. Такі дні минають.",
+  "recaps_day_hard_title": "%{day}: важчий день",
+  "recaps_day_see": "Відкрити цей день",
+  "recaps_days": {
+    "one": "1 день",
+    "other": "{{count}} дн."
+  },
   "recaps_emotion_absent_text": {
     "one": "Це було в один день за два місяці до цього.",
     "other": "Це було в {{count}} дн. за два місяці до цього."
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 тижні без почуття «%{emotion}»",
   "recaps_emotion_again_text": "Уперше з %{date}.",
   "recaps_emotion_again_title": "Знову %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Один день. Далі:",
+    "other": "{{count}} дн. Далі:"
+  },
+  "recaps_emotions_quarter_title": "Найчастіше %{emotion} цього кварталу",
+  "recaps_emotions_title": "Ваші найчастіші емоції",
+  "recaps_emotions_year_title": "Ваші топ-10 емоцій",
   "recaps_empty": "Для цього періоду ще немає карток. Вони з’являться, коли відміток стане більше.",
   "recaps_feedback_helpful": "Корисно",
   "recaps_feedback_not_helpful": "Некорисно",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "Увімкнути фото",
   "recaps_intro_photos_text": "Додавайте фото до відміток. Через рік ваші підсумки зможуть почати з «Рівно рік тому».",
   "recaps_intro_photos_title": "Зберігайте фото дня",
+  "recaps_most_connected_title_month": "Найбільше на зв’язку цього місяця",
+  "recaps_most_connected_title_quarter": "Найбільше на зв’язку цього кварталу",
+  "recaps_most_connected_title_year": "Найбільше на зв’язку цього року",
   "recaps_nudge_not_now": "Не зараз",
   "recaps_nudge_reminder_action": "Нагадати о %{time}",
   "recaps_nudge_reminder_text": "Великі дні лишаються в пам’яті. Маленькі добрі дні забуваються до ранку. Коротка відмітка щовечора збереже їх.",
@@ -735,6 +764,18 @@
     "other": "{{count}} дн., після %{weeks} тиж. без."
   },
   "recaps_tag_back_title": "%{tag} знову тут",
+  "recaps_trips_title_month": {
+    "one": "1 поїздка цього місяця",
+    "other": "Поїздок цього місяця: {{count}}"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 поїздка цього кварталу",
+    "other": "Поїздок цього кварталу: {{count}}"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 поїздка цього року",
+    "other": "Поїздок цього року: {{count}}"
+  },
   "reminder": "Нагадування",
   "reminder_device_required_message": "Сповіщення не працюють на симуляторах. Спробуй на справжньому пристрої.",
   "reminder_device_required_title": "Для нагадувань потрібен телефон",

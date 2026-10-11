@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "Evaluează Pixy în App Store",
   "rate_pixy_google_play": "Evaluează Pixy pe Google Play",
   "recaps": "Retrospective",
+  "recaps_connected_days": {
+    "one": "1 zi în legătură",
+    "other": "{{count}} zile în legătură"
+  },
+  "recaps_connected_more": "+%{count} în plus",
+  "recaps_connected_title": "Ai fost în legătură cu %{count} persoane",
+  "recaps_connected_title_one": "Ai fost în legătură cu %{name}",
+  "recaps_day_ago_text": "Acum un an: %{date}.",
+  "recaps_day_ago_title": "O zi minunată, acum un an",
+  "recaps_day_ago_title_with": "%{place} cu %{names}",
+  "recaps_day_best_title_month": "%{day} a fost cea mai bună zi a lunii",
+  "recaps_day_best_title_week": "%{day} a fost cea mai bună zi a săptămânii",
+  "recaps_day_hard_text": "Totuși ai făcut înregistrarea. Zilele astea trec.",
+  "recaps_day_hard_title": "%{day} a fost o zi mai grea",
+  "recaps_day_see": "Vezi această zi",
+  "recaps_days": {
+    "one": "1 zi",
+    "other": "{{count}} zile"
+  },
   "recaps_emotion_absent_text": {
     "one": "A apărut într-o zi în cele două luni dinainte.",
     "other": "A apărut în {{count}} zile în cele două luni dinainte."
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 săptămâni fără să te simți %{emotion}",
   "recaps_emotion_again_text": "Pentru prima dată din %{date}.",
   "recaps_emotion_again_title": "Din nou %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Într-o zi. Apoi:",
+    "other": "În {{count}} zile. Apoi:"
+  },
+  "recaps_emotions_quarter_title": "Mai ales %{emotion} în acest trimestru",
+  "recaps_emotions_title": "Emoțiile tale cele mai dese",
+  "recaps_emotions_year_title": "Primele tale 10 emoții",
   "recaps_empty": "Încă nu există carduri pentru această perioadă. Apar pe măsură ce înregistrezi mai multe zile.",
   "recaps_feedback_helpful": "Util",
   "recaps_feedback_not_helpful": "Nu e util",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "Activează fotografiile",
   "recaps_intro_photos_text": "Adaugă o fotografie în înregistrări. Peste un an, retrospectiva ta poate începe cu „Acum un an, azi”.",
   "recaps_intro_photos_title": "Păstrează o fotografie a zilei",
+  "recaps_most_connected_title_month": "Cel mai mult în legătură luna aceasta",
+  "recaps_most_connected_title_quarter": "Cel mai mult în legătură în acest trimestru",
+  "recaps_most_connected_title_year": "Cel mai mult în legătură anul acesta",
   "recaps_nudge_not_now": "Nu acum",
   "recaps_nudge_reminder_action": "Amintește-mi la %{time}",
   "recaps_nudge_reminder_text": "Zilele mari rămân în memorie. Zilele mici și bune se estompează până dimineața. O înregistrare scurtă în fiecare seară le păstrează.",
@@ -735,6 +764,18 @@
     "other": "În {{count}} zile, după %{weeks} săptămâni fără."
   },
   "recaps_tag_back_title": "%{tag} s-a întors",
+  "recaps_trips_title_month": {
+    "one": "1 călătorie luna aceasta",
+    "other": "{{count}} călătorii luna aceasta"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 călătorie în acest trimestru",
+    "other": "{{count}} călătorii în acest trimestru"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 călătorie anul acesta",
+    "other": "{{count}} călătorii anul acesta"
+  },
   "reminder": "Aducere aminte",
   "reminder_device_required_message": "Notificările nu funcționează pe simulatoare. Încearcă pe un dispozitiv real.",
   "reminder_device_required_title": "Mementourile au nevoie de un telefon",

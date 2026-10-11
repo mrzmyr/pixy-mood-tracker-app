@@ -39,4 +39,12 @@ export const THRESHOLDS = {
   sleepTurnaroundMinRoughBefore: 2,
   /** Rough nights: rough nights the week before, at most. */
   sleepRoughMaxRoughBefore: 1,
+  /** Your emotions: different emotions needed. */
+  emotionsMinDifferent: 3,
+  /** Most connected: people needed. */
+  mostConnectedMinPeople: 2,
+  /** Trips: farther than this from home, in km. */
+  tripMinKm: 25,
+  /** Trips: days in one city merge across gaps up to this many days. */
+  tripMaxGapDays: 2,
 } as const;

@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "Arvostele Pixy App Storessa",
   "rate_pixy_google_play": "Arvostele Pixy Google Playssa",
   "recaps": "Katsaukset",
+  "recaps_connected_days": {
+    "one": "1 päivä yhteydessä",
+    "other": "{{count}} päivää yhteydessä"
+  },
+  "recaps_connected_more": "+%{count} muuta",
+  "recaps_connected_title": "Olit yhteydessä %{count} ihmiseen",
+  "recaps_connected_title_one": "Olit yhteydessä: %{name}",
+  "recaps_day_ago_text": "Vuosi sitten: %{date}.",
+  "recaps_day_ago_title": "Hieno päivä vuosi sitten",
+  "recaps_day_ago_title_with": "%{place}: %{names}",
+  "recaps_day_best_title_month": "%{day} oli kuukauden paras päiväsi",
+  "recaps_day_best_title_week": "%{day} oli viikon paras päiväsi",
+  "recaps_day_hard_text": "Kirjasit silti. Tällaiset päivät menevät ohi.",
+  "recaps_day_hard_title": "%{day} oli raskaampi päivä",
+  "recaps_day_see": "Näytä tämä päivä",
+  "recaps_days": {
+    "one": "1 päivä",
+    "other": "{{count}} päivää"
+  },
   "recaps_emotion_absent_text": {
     "one": "Se tuli esiin yhtenä päivänä kahden edellisen kuukauden aikana.",
     "other": "Se tuli esiin {{count}} päivänä kahden edellisen kuukauden aikana."
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 viikkoa ilman tunnetta %{emotion}",
   "recaps_emotion_again_text": "Ensimmäistä kertaa sitten %{date}.",
   "recaps_emotion_again_title": "Taas %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Yhtenä päivänä. Sitten:",
+    "other": "{{count}} päivänä. Sitten:"
+  },
+  "recaps_emotions_quarter_title": "Enimmäkseen %{emotion} tällä neljänneksellä",
+  "recaps_emotions_title": "Useimmin kirjatut tunteesi",
+  "recaps_emotions_year_title": "10 yleisintä tunnettasi",
   "recaps_empty": "Tälle jaksolle ei ole vielä kortteja. Ne ilmestyvät, kun kirjaat useampia päiviä.",
   "recaps_feedback_helpful": "Hyödyllinen",
   "recaps_feedback_not_helpful": "Ei hyödyllinen",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "Ota kuvat käyttöön",
   "recaps_intro_photos_text": "Lisää kuva kirjauksiin. Vuoden päästä katsauksesi voi alkaa sanoilla ”Tänään vuosi sitten”.",
   "recaps_intro_photos_title": "Säilytä päivän kuva",
+  "recaps_most_connected_title_month": "Eniten yhteydessä tässä kuussa",
+  "recaps_most_connected_title_quarter": "Eniten yhteydessä tällä neljänneksellä",
+  "recaps_most_connected_title_year": "Eniten yhteydessä tänä vuonna",
   "recaps_nudge_not_now": "Ei nyt",
   "recaps_nudge_reminder_action": "Muistuta klo %{time}",
   "recaps_nudge_reminder_text": "Isot päivät jäävät mieleen. Pienet hyvät päivät haalistuvat seuraavaan aamuun mennessä. Lyhyt kirjaus joka ilta säilyttää ne.",
@@ -735,6 +764,18 @@
     "other": "{{count}} päivänä, %{weeks} viikon tauon jälkeen."
   },
   "recaps_tag_back_title": "%{tag} on taas mukana",
+  "recaps_trips_title_month": {
+    "one": "1 matka tässä kuussa",
+    "other": "{{count}} matkaa tässä kuussa"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 matka tällä neljänneksellä",
+    "other": "{{count}} matkaa tällä neljänneksellä"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 matka tänä vuonna",
+    "other": "{{count}} matkaa tänä vuonna"
+  },
   "reminder": "Muistutus",
   "reminder_device_required_message": "Ilmoitukset eivät toimi simulaattoreissa. Kokeile oikealla laitteella.",
   "reminder_device_required_title": "Muistutukset tarvitsevat puhelimen",

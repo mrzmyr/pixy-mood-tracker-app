@@ -669,6 +669,25 @@
   "rate_pixy_app_store": "Pixy im App Store bewerten",
   "rate_pixy_google_play": "Pixy bei Google Play bewerten",
   "recaps": "Rückblicke",
+  "recaps_connected_days": {
+    "one": "1 Tag in Kontakt",
+    "other": "{{count}} Tage in Kontakt"
+  },
+  "recaps_connected_more": "+%{count} weitere",
+  "recaps_connected_title": "Du warst mit %{count} Personen in Kontakt",
+  "recaps_connected_title_one": "Du warst in Kontakt mit %{name}",
+  "recaps_day_ago_text": "Vor einem Jahr: %{date}.",
+  "recaps_day_ago_title": "Ein toller Tag, vor einem Jahr",
+  "recaps_day_ago_title_with": "%{place} mit %{names}",
+  "recaps_day_best_title_month": "%{day} war dein bester Tag diesen Monat",
+  "recaps_day_best_title_week": "%{day} war dein bester Tag diese Woche",
+  "recaps_day_hard_text": "Du hast trotzdem eingecheckt. Solche Tage gehen vorbei.",
+  "recaps_day_hard_title": "%{day} war ein schwererer Tag",
+  "recaps_day_see": "Diesen Tag ansehen",
+  "recaps_days": {
+    "one": "1 Tag",
+    "other": "{{count}} Tage"
+  },
   "recaps_emotion_absent_text": {
     "one": "Es kam in den zwei Monaten davor an einem Tag vor.",
     "other": "Es kam in den zwei Monaten davor an {{count}} Tagen vor."
@@ -676,6 +695,13 @@
   "recaps_emotion_absent_title": "3 Wochen ohne %{emotion}",
   "recaps_emotion_again_text": "Zum ersten Mal seit dem %{date}.",
   "recaps_emotion_again_title": "Wieder %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "An einem Tag. Danach:",
+    "other": "An {{count}} Tagen. Danach:"
+  },
+  "recaps_emotions_quarter_title": "Meist %{emotion} in diesem Quartal",
+  "recaps_emotions_title": "Deine häufigsten Gefühle",
+  "recaps_emotions_year_title": "Deine Top 10 Gefühle",
   "recaps_empty": "Noch keine Karten für diesen Zeitraum. Sie erscheinen, sobald du öfter eincheckst.",
   "recaps_feedback_helpful": "Hilfreich",
   "recaps_feedback_not_helpful": "Nicht hilfreich",
@@ -704,6 +730,9 @@
   "recaps_intro_photos_action": "Fotos einschalten",
   "recaps_intro_photos_text": "Füge deinen Check-ins ein Foto hinzu. In einem Jahr kann dein Rückblick mit „Heute vor einem Jahr“ beginnen.",
   "recaps_intro_photos_title": "Behalte ein Foto des Tages",
+  "recaps_most_connected_title_month": "Am meisten in Kontakt diesen Monat",
+  "recaps_most_connected_title_quarter": "Am meisten in Kontakt dieses Quartal",
+  "recaps_most_connected_title_year": "Am meisten in Kontakt dieses Jahr",
   "recaps_nudge_not_now": "Nicht jetzt",
   "recaps_nudge_reminder_action": "Um %{time} erinnern",
   "recaps_nudge_reminder_text": "Große Tage bleiben im Gedächtnis. Kleine gute Tage verblassen bis zum nächsten Morgen. Ein kurzer Check-in am Abend hält sie fest.",
@@ -734,6 +763,18 @@
     "other": "An {{count}} Tagen, nach %{weeks} Wochen ohne."
   },
   "recaps_tag_back_title": "%{tag} ist zurück",
+  "recaps_trips_title_month": {
+    "one": "1 Reise diesen Monat",
+    "other": "{{count}} Reisen diesen Monat"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 Reise dieses Quartal",
+    "other": "{{count}} Reisen dieses Quartal"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 Reise dieses Jahr",
+    "other": "{{count}} Reisen dieses Jahr"
+  },
   "reminder": "Erinnerung",
   "reminder_device_required_message": "Auf Simulatoren funktionieren keine Benachrichtigungen. Probiere es auf einem echten Gerät.",
   "reminder_device_required_title": "Erinnerungen brauchen ein Handy",

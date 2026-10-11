@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "Bedøm Pixy i App Store",
   "rate_pixy_google_play": "Bedøm Pixy på Google Play",
   "recaps": "Tilbageblik",
+  "recaps_connected_days": {
+    "one": "1 dag i kontakt",
+    "other": "{{count}} dage i kontakt"
+  },
+  "recaps_connected_more": "+%{count} mere",
+  "recaps_connected_title": "Du var i kontakt med %{count} personer",
+  "recaps_connected_title_one": "Du var i kontakt med %{name}",
+  "recaps_day_ago_text": "For et år siden: %{date}.",
+  "recaps_day_ago_title": "En god dag for et år siden",
+  "recaps_day_ago_title_with": "%{place} med %{names}",
+  "recaps_day_best_title_month": "%{day} var din bedste dag i måneden",
+  "recaps_day_best_title_week": "%{day} var din bedste dag i ugen",
+  "recaps_day_hard_text": "Du tjekkede alligevel ind. Sådanne dage går over.",
+  "recaps_day_hard_title": "%{day} var en hårdere dag",
+  "recaps_day_see": "Se denne dag",
+  "recaps_days": {
+    "one": "1 dag",
+    "other": "{{count}} dage"
+  },
   "recaps_emotion_absent_text": {
     "one": "Det kom op én dag i de to måneder før.",
     "other": "Det kom op {{count}} dage i de to måneder før."
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 uger uden at føle %{emotion}",
   "recaps_emotion_again_text": "For første gang siden %{date}.",
   "recaps_emotion_again_title": "%{emotion} igen",
+  "recaps_emotions_quarter_text": {
+    "one": "Én dag. Derefter:",
+    "other": "{{count}} dage. Derefter:"
+  },
+  "recaps_emotions_quarter_title": "Mest %{emotion} dette kvartal",
+  "recaps_emotions_title": "Dine mest brugte følelser",
+  "recaps_emotions_year_title": "Dine top 10 følelser",
   "recaps_empty": "Ingen kort for denne periode endnu. De dukker op, når du tjekker ind flere dage.",
   "recaps_feedback_helpful": "Nyttig",
   "recaps_feedback_not_helpful": "Ikke nyttig",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "Slå billeder til",
   "recaps_intro_photos_text": "Tilføj et billede til check-ins. Om et år kan dit tilbageblik starte med “I dag for et år siden”.",
   "recaps_intro_photos_title": "Gem et billede af dagen",
+  "recaps_most_connected_title_month": "Mest i kontakt denne måned",
+  "recaps_most_connected_title_quarter": "Mest i kontakt dette kvartal",
+  "recaps_most_connected_title_year": "Mest i kontakt i år",
   "recaps_nudge_not_now": "Ikke nu",
   "recaps_nudge_reminder_action": "Mind mig om det kl. %{time}",
   "recaps_nudge_reminder_text": "Store dage bliver i hukommelsen. Små gode dage forsvinder til næste morgen. Et kort check-in hver aften gemmer dem.",
@@ -735,6 +764,18 @@
     "other": "{{count}} dage, efter %{weeks} uger uden."
   },
   "recaps_tag_back_title": "%{tag} er tilbage",
+  "recaps_trips_title_month": {
+    "one": "1 rejse denne måned",
+    "other": "{{count}} rejser denne måned"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 rejse dette kvartal",
+    "other": "{{count}} rejser dette kvartal"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 rejse i år",
+    "other": "{{count}} rejser i år"
+  },
   "reminder": "Påmindelse",
   "reminder_device_required_message": "Notifikationer virker ikke på simulatorer. Prøv på en rigtig enhed.",
   "reminder_device_required_title": "Påmindelser kræver en telefon",

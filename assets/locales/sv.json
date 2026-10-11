@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "Betygsätt Pixy i App Store",
   "rate_pixy_google_play": "Betygsätt Pixy på Google Play",
   "recaps": "Tillbakablickar",
+  "recaps_connected_days": {
+    "one": "1 dag i kontakt",
+    "other": "{{count}} dagar i kontakt"
+  },
+  "recaps_connected_more": "+%{count} till",
+  "recaps_connected_title": "Du hade kontakt med %{count} personer",
+  "recaps_connected_title_one": "Du hade kontakt med %{name}",
+  "recaps_day_ago_text": "För ett år sedan: %{date}.",
+  "recaps_day_ago_title": "En fin dag för ett år sedan",
+  "recaps_day_ago_title_with": "%{place} med %{names}",
+  "recaps_day_best_title_month": "%{day} var din bästa dag den här månaden",
+  "recaps_day_best_title_week": "%{day} var din bästa dag den här veckan",
+  "recaps_day_hard_text": "Du checkade in ändå. Sådana dagar går över.",
+  "recaps_day_hard_title": "%{day} var en tyngre dag",
+  "recaps_day_see": "Visa den här dagen",
+  "recaps_days": {
+    "one": "1 dag",
+    "other": "{{count}} dagar"
+  },
   "recaps_emotion_absent_text": {
     "one": "Det kom upp en dag under de två månaderna innan.",
     "other": "Det kom upp {{count}} dagar under de två månaderna innan."
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 veckor utan att känna dig %{emotion}",
   "recaps_emotion_again_text": "För första gången sedan %{date}.",
   "recaps_emotion_again_title": "%{emotion} igen",
+  "recaps_emotions_quarter_text": {
+    "one": "En dag. Sedan:",
+    "other": "{{count}} dagar. Sedan:"
+  },
+  "recaps_emotions_quarter_title": "Mest %{emotion} det här kvartalet",
+  "recaps_emotions_title": "Dina vanligaste känslor",
+  "recaps_emotions_year_title": "Dina topp 10 känslor",
   "recaps_empty": "Inga kort för den här perioden än. De dyker upp när du checkar in fler dagar.",
   "recaps_feedback_helpful": "Hjälpsamt",
   "recaps_feedback_not_helpful": "Inte hjälpsamt",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "Slå på foton",
   "recaps_intro_photos_text": "Lägg till ett foto i incheckningar. Om ett år kan din tillbakablick börja med ”I dag för ett år sedan”.",
   "recaps_intro_photos_title": "Spara ett foto från dagen",
+  "recaps_most_connected_title_month": "Mest kontakt den här månaden",
+  "recaps_most_connected_title_quarter": "Mest kontakt det här kvartalet",
+  "recaps_most_connected_title_year": "Mest kontakt i år",
   "recaps_nudge_not_now": "Inte nu",
   "recaps_nudge_reminder_action": "Påminn mig kl. %{time}",
   "recaps_nudge_reminder_text": "Stora dagar stannar i minnet. Små bra dagar bleknar till nästa morgon. En kort incheckning varje kväll sparar dem.",
@@ -735,6 +764,18 @@
     "other": "{{count}} dagar, efter %{weeks} veckor utan."
   },
   "recaps_tag_back_title": "%{tag} är tillbaka",
+  "recaps_trips_title_month": {
+    "one": "1 resa den här månaden",
+    "other": "{{count}} resor den här månaden"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 resa det här kvartalet",
+    "other": "{{count}} resor det här kvartalet"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 resa i år",
+    "other": "{{count}} resor i år"
+  },
   "reminder": "Påminnelse",
   "reminder_device_required_message": "Aviseringar fungerar inte på simulatorer. Prova på en riktig enhet.",
   "reminder_device_required_title": "Påminnelser kräver en telefon",

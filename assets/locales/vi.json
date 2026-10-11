@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "Đánh giá Pixy trên App Store",
   "rate_pixy_google_play": "Đánh giá Pixy trên Google Play",
   "recaps": "Tổng kết",
+  "recaps_connected_days": {
+    "one": "1 ngày kết nối",
+    "other": "{{count}} ngày kết nối"
+  },
+  "recaps_connected_more": "+%{count} người khác",
+  "recaps_connected_title": "Bạn đã kết nối với %{count} người",
+  "recaps_connected_title_one": "Bạn đã kết nối với %{name}",
+  "recaps_day_ago_text": "Một năm trước: %{date}.",
+  "recaps_day_ago_title": "Một ngày tuyệt vời, một năm trước",
+  "recaps_day_ago_title_with": "%{place} cùng %{names}",
+  "recaps_day_best_title_month": "%{day} là ngày tuyệt nhất tháng này",
+  "recaps_day_best_title_week": "%{day} là ngày tuyệt nhất tuần này",
+  "recaps_day_hard_text": "Bạn vẫn ghi lại. Những ngày như vậy sẽ qua.",
+  "recaps_day_hard_title": "%{day} là một ngày khó khăn hơn",
+  "recaps_day_see": "Xem ngày này",
+  "recaps_days": {
+    "one": "1 ngày",
+    "other": "{{count}} ngày"
+  },
   "recaps_emotion_absent_text": {
     "one": "Nó xuất hiện một ngày trong hai tháng trước đó.",
     "other": "Nó xuất hiện {{count}} ngày trong hai tháng trước đó."
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 tuần không thấy %{emotion}",
   "recaps_emotion_again_text": "Lần đầu kể từ %{date}.",
   "recaps_emotion_again_title": "Lại thấy %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Một ngày. Sau đó:",
+    "other": "{{count}} ngày. Sau đó:"
+  },
+  "recaps_emotions_quarter_title": "Chủ yếu là %{emotion} trong quý này",
+  "recaps_emotions_title": "Cảm xúc bạn hay có nhất",
+  "recaps_emotions_year_title": "10 cảm xúc hàng đầu của bạn",
   "recaps_empty": "Chưa có thẻ nào cho giai đoạn này. Thẻ sẽ xuất hiện khi bạn ghi lại nhiều ngày hơn.",
   "recaps_feedback_helpful": "Hữu ích",
   "recaps_feedback_not_helpful": "Không hữu ích",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "Bật ảnh",
   "recaps_intro_photos_text": "Thêm ảnh vào ghi chép. Một năm nữa, bản tổng kết có thể mở đầu bằng “Một năm trước vào hôm nay”.",
   "recaps_intro_photos_title": "Giữ một bức ảnh của ngày",
+  "recaps_most_connected_title_month": "Kết nối nhiều nhất tháng này",
+  "recaps_most_connected_title_quarter": "Kết nối nhiều nhất quý này",
+  "recaps_most_connected_title_year": "Kết nối nhiều nhất năm nay",
   "recaps_nudge_not_now": "Để sau",
   "recaps_nudge_reminder_action": "Nhắc tôi lúc %{time}",
   "recaps_nudge_reminder_text": "Những ngày lớn ở lại trong trí nhớ. Những ngày tốt nhỏ phai đi trước sáng hôm sau. Một lần ghi ngắn mỗi tối sẽ giữ chúng lại.",
@@ -735,6 +764,18 @@
     "other": "{{count}} ngày, sau %{weeks} tuần vắng."
   },
   "recaps_tag_back_title": "%{tag} đã trở lại",
+  "recaps_trips_title_month": {
+    "one": "1 chuyến đi tháng này",
+    "other": "{{count}} chuyến đi tháng này"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 chuyến đi quý này",
+    "other": "{{count}} chuyến đi quý này"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 chuyến đi năm nay",
+    "other": "{{count}} chuyến đi năm nay"
+  },
   "reminder": "Lời nhắc nhở",
   "reminder_device_required_message": "Thông báo không hoạt động trên trình giả lập. Hãy thử trên thiết bị thật.",
   "reminder_device_required_title": "Lời nhắc cần có điện thoại",

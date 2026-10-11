@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "Βαθμολόγησε το Pixy στο App Store",
   "rate_pixy_google_play": "Βαθμολόγησε το Pixy στο Google Play",
   "recaps": "Ανασκοπήσεις",
+  "recaps_connected_days": {
+    "one": "1 μέρα σε επαφή",
+    "other": "{{count}} μέρες σε επαφή"
+  },
+  "recaps_connected_more": "+%{count} ακόμη",
+  "recaps_connected_title": "Ήσουν σε επαφή με %{count} άτομα",
+  "recaps_connected_title_one": "Ήσουν σε επαφή με %{name}",
+  "recaps_day_ago_text": "Πριν από έναν χρόνο: %{date}.",
+  "recaps_day_ago_title": "Μια υπέροχη μέρα, πριν από έναν χρόνο",
+  "recaps_day_ago_title_with": "%{place} με %{names}",
+  "recaps_day_best_title_month": "%{day}: η καλύτερη μέρα του μήνα",
+  "recaps_day_best_title_week": "%{day}: η καλύτερη μέρα της εβδομάδας",
+  "recaps_day_hard_text": "Παρ’ όλα αυτά κατέγραψες. Τέτοιες μέρες περνούν.",
+  "recaps_day_hard_title": "%{day}: μια πιο δύσκολη μέρα",
+  "recaps_day_see": "Δες αυτή τη μέρα",
+  "recaps_days": {
+    "one": "1 μέρα",
+    "other": "{{count}} μέρες"
+  },
   "recaps_emotion_absent_text": {
     "one": "Εμφανίστηκε μία μέρα τους δύο προηγούμενους μήνες.",
     "other": "Εμφανίστηκε {{count}} μέρες τους δύο προηγούμενους μήνες."
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 εβδομάδες χωρίς %{emotion}",
   "recaps_emotion_again_text": "Για πρώτη φορά από %{date}.",
   "recaps_emotion_again_title": "Ξανά %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Μία μέρα. Μετά:",
+    "other": "{{count}} μέρες. Μετά:"
+  },
+  "recaps_emotions_quarter_title": "Κυρίως %{emotion} αυτό το τρίμηνο",
+  "recaps_emotions_title": "Τα πιο συχνά συναισθήματά σου",
+  "recaps_emotions_year_title": "Τα 10 κορυφαία συναισθήματά σου",
   "recaps_empty": "Δεν υπάρχουν ακόμη κάρτες για αυτή την περίοδο. Θα εμφανιστούν όσο καταγράφεις περισσότερες μέρες.",
   "recaps_feedback_helpful": "Χρήσιμο",
   "recaps_feedback_not_helpful": "Όχι χρήσιμο",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "Ενεργοποίηση φωτογραφιών",
   "recaps_intro_photos_text": "Πρόσθεσε φωτογραφία στις καταγραφές. Σε έναν χρόνο, η ανασκόπησή σου μπορεί να ξεκινά με «Σαν σήμερα πριν από έναν χρόνο».",
   "recaps_intro_photos_title": "Κράτα μια φωτογραφία της μέρας",
+  "recaps_most_connected_title_month": "Περισσότερη επαφή αυτόν τον μήνα",
+  "recaps_most_connected_title_quarter": "Περισσότερη επαφή αυτό το τρίμηνο",
+  "recaps_most_connected_title_year": "Περισσότερη επαφή φέτος",
   "recaps_nudge_not_now": "Όχι τώρα",
   "recaps_nudge_reminder_action": "Υπενθύμιση στις %{time}",
   "recaps_nudge_reminder_text": "Οι μεγάλες μέρες μένουν στη μνήμη. Οι μικρές καλές ξεθωριάζουν ως το επόμενο πρωί. Μια σύντομη καταγραφή κάθε βράδυ τις κρατά.",
@@ -735,6 +764,18 @@
     "other": "{{count}} μέρες, μετά από %{weeks} εβδομάδες χωρίς."
   },
   "recaps_tag_back_title": "%{tag}: ξανά εδώ",
+  "recaps_trips_title_month": {
+    "one": "1 ταξίδι αυτόν τον μήνα",
+    "other": "{{count}} ταξίδια αυτόν τον μήνα"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 ταξίδι αυτό το τρίμηνο",
+    "other": "{{count}} ταξίδια αυτό το τρίμηνο"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 ταξίδι φέτος",
+    "other": "{{count}} ταξίδια φέτος"
+  },
   "reminder": "Υπενθύμιση",
   "reminder_device_required_message": "Οι ειδοποιήσεις δεν λειτουργούν σε προσομοιωτές. Δοκίμασε σε πραγματική συσκευή.",
   "reminder_device_required_title": "Οι υπενθυμίσεις θέλουν τηλέφωνο",

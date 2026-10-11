@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "ให้คะแนน Pixy ใน App Store",
   "rate_pixy_google_play": "ให้คะแนน Pixy ใน Google Play",
   "recaps": "สรุปย้อนหลัง",
+  "recaps_connected_days": {
+    "one": "ติดต่อ 1 วัน",
+    "other": "ติดต่อ {{count}} วัน"
+  },
+  "recaps_connected_more": "+อีก %{count}",
+  "recaps_connected_title": "คุณได้ติดต่อกับ %{count} คน",
+  "recaps_connected_title_one": "คุณได้ติดต่อกับ %{name}",
+  "recaps_day_ago_text": "เมื่อปีที่แล้ว: %{date}",
+  "recaps_day_ago_title": "วันที่ดีมากเมื่อปีที่แล้ว",
+  "recaps_day_ago_title_with": "%{place} กับ %{names}",
+  "recaps_day_best_title_month": "%{day} เป็นวันที่ดีที่สุดของเดือน",
+  "recaps_day_best_title_week": "%{day} เป็นวันที่ดีที่สุดของสัปดาห์",
+  "recaps_day_hard_text": "คุณยังบันทึกอยู่ วันแบบนี้จะผ่านไป",
+  "recaps_day_hard_title": "%{day} เป็นวันที่หนักกว่า",
+  "recaps_day_see": "ดูวันนี้",
+  "recaps_days": {
+    "one": "1 วัน",
+    "other": "{{count}} วัน"
+  },
   "recaps_emotion_absent_text": {
     "one": "เกิดขึ้น 1 วันในสองเดือนก่อนหน้า",
     "other": "เกิดขึ้น {{count}} วันในสองเดือนก่อนหน้า"
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 สัปดาห์ที่ไม่รู้สึก%{emotion}",
   "recaps_emotion_again_text": "ครั้งแรกนับตั้งแต่ %{date}",
   "recaps_emotion_again_title": "รู้สึก%{emotion}อีกครั้ง",
+  "recaps_emotions_quarter_text": {
+    "one": "1 วัน จากนั้น:",
+    "other": "{{count}} วัน จากนั้น:"
+  },
+  "recaps_emotions_quarter_title": "ไตรมาสนี้ส่วนใหญ่รู้สึก%{emotion}",
+  "recaps_emotions_title": "อารมณ์ที่คุณรู้สึกบ่อยที่สุด",
+  "recaps_emotions_year_title": "10 อารมณ์อันดับต้นของคุณ",
   "recaps_empty": "ยังไม่มีการ์ดสำหรับช่วงนี้ การ์ดจะปรากฏเมื่อคุณบันทึกมากขึ้น",
   "recaps_feedback_helpful": "มีประโยชน์",
   "recaps_feedback_not_helpful": "ไม่มีประโยชน์",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "เปิดรูปภาพ",
   "recaps_intro_photos_text": "เพิ่มรูปในการบันทึก อีกหนึ่งปี สรุปของคุณอาจเริ่มด้วย “เมื่อปีที่แล้ววันนี้”",
   "recaps_intro_photos_title": "เก็บรูปถ่ายของวันนี้",
+  "recaps_most_connected_title_month": "ติดต่อมากที่สุดเดือนนี้",
+  "recaps_most_connected_title_quarter": "ติดต่อมากที่สุดไตรมาสนี้",
+  "recaps_most_connected_title_year": "ติดต่อมากที่สุดปีนี้",
   "recaps_nudge_not_now": "ไว้ทีหลัง",
   "recaps_nudge_reminder_action": "เตือนฉันเวลา %{time}",
   "recaps_nudge_reminder_text": "วันสำคัญยังอยู่ในความทรงจำ วันดีเล็กๆ จะเลือนหายไปภายในเช้าวันรุ่งขึ้น การบันทึกสั้นๆ ทุกเย็นช่วยเก็บไว้",
@@ -735,6 +764,18 @@
     "other": "{{count}} วัน หลังจากหายไป %{weeks} สัปดาห์"
   },
   "recaps_tag_back_title": "%{tag} กลับมาแล้ว",
+  "recaps_trips_title_month": {
+    "one": "1 ทริปเดือนนี้",
+    "other": "{{count}} ทริปเดือนนี้"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 ทริปไตรมาสนี้",
+    "other": "{{count}} ทริปไตรมาสนี้"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 ทริปปีนี้",
+    "other": "{{count}} ทริปปีนี้"
+  },
   "reminder": "เตือนความจำ",
   "reminder_device_required_message": "การแจ้งเตือนใช้งานบนซิมูเลเตอร์ไม่ได้ ลองบนอุปกรณ์จริง",
   "reminder_device_required_title": "การเตือนต้องใช้โทรศัพท์",

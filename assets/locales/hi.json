@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "App Store पर Pixy को रेट करें",
   "rate_pixy_google_play": "Google Play पर Pixy को रेट करें",
   "recaps": "रीकैप",
+  "recaps_connected_days": {
+    "one": "1 दिन जुड़े",
+    "other": "{{count}} दिन जुड़े"
+  },
+  "recaps_connected_more": "+%{count} और",
+  "recaps_connected_title": "आप %{count} लोगों से जुड़े",
+  "recaps_connected_title_one": "आप %{name} से जुड़े",
+  "recaps_day_ago_text": "एक साल पहले: %{date}।",
+  "recaps_day_ago_title": "एक साल पहले का एक शानदार दिन",
+  "recaps_day_ago_title_with": "%{place}, %{names} के साथ",
+  "recaps_day_best_title_month": "%{day} इस महीने का आपका सबसे अच्छा दिन था",
+  "recaps_day_best_title_week": "%{day} इस हफ़्ते का आपका सबसे अच्छा दिन था",
+  "recaps_day_hard_text": "फिर भी आपने चेक-इन किया। ऐसे दिन बीत जाते हैं।",
+  "recaps_day_hard_title": "%{day} थोड़ा मुश्किल दिन था",
+  "recaps_day_see": "यह दिन देखें",
+  "recaps_days": {
+    "one": "1 दिन",
+    "other": "{{count}} दिन"
+  },
   "recaps_emotion_absent_text": {
     "one": "पिछले दो महीनों में यह एक दिन आया।",
     "other": "पिछले दो महीनों में यह {{count}} दिन आया।"
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 हफ़्ते बिना %{emotion} महसूस किए",
   "recaps_emotion_again_text": "%{date} के बाद पहली बार।",
   "recaps_emotion_again_title": "फिर से %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "एक दिन। फिर:",
+    "other": "{{count}} दिन। फिर:"
+  },
+  "recaps_emotions_quarter_title": "इस तिमाही ज़्यादातर %{emotion}",
+  "recaps_emotions_title": "आपकी सबसे आम भावनाएँ",
+  "recaps_emotions_year_title": "आपकी शीर्ष 10 भावनाएँ",
   "recaps_empty": "इस अवधि के लिए अभी कोई कार्ड नहीं है। जैसे-जैसे आप ज़्यादा दिन दर्ज करेंगे, ये दिखेंगे।",
   "recaps_feedback_helpful": "मददगार",
   "recaps_feedback_not_helpful": "मददगार नहीं",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "फ़ोटो चालू करें",
   "recaps_intro_photos_text": "चेक-इन में फ़ोटो जोड़ें। एक साल बाद आपका रीकैप “आज से एक साल पहले” से शुरू हो सकता है।",
   "recaps_intro_photos_title": "दिन की एक फ़ोटो रखें",
+  "recaps_most_connected_title_month": "इस महीने सबसे ज़्यादा जुड़े",
+  "recaps_most_connected_title_quarter": "इस तिमाही सबसे ज़्यादा जुड़े",
+  "recaps_most_connected_title_year": "इस साल सबसे ज़्यादा जुड़े",
   "recaps_nudge_not_now": "अभी नहीं",
   "recaps_nudge_reminder_action": "%{time} पर याद दिलाएँ",
   "recaps_nudge_reminder_text": "बड़े दिन याद रहते हैं। छोटे अच्छे दिन अगली सुबह तक धुंधले हो जाते हैं। हर शाम एक छोटा चेक-इन उन्हें सहेज लेता है।",
@@ -735,6 +764,18 @@
     "other": "{{count}} दिन, %{weeks} हफ़्तों बाद।"
   },
   "recaps_tag_back_title": "%{tag} वापस आया",
+  "recaps_trips_title_month": {
+    "one": "इस महीने 1 यात्रा",
+    "other": "इस महीने {{count}} यात्राएँ"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "इस तिमाही 1 यात्रा",
+    "other": "इस तिमाही {{count}} यात्राएँ"
+  },
+  "recaps_trips_title_year": {
+    "one": "इस साल 1 यात्रा",
+    "other": "इस साल {{count}} यात्राएँ"
+  },
   "reminder": "अनुस्मारक",
   "reminder_device_required_message": "सिम्युलेटर पर नोटिफ़िकेशन काम नहीं करते। असली डिवाइस पर आज़माएँ।",
   "reminder_device_required_title": "रिमाइंडर के लिए फ़ोन चाहिए",

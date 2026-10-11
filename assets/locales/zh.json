@@ -670,6 +670,25 @@
   "rate_pixy_app_store": "在 App Store 为 Pixy 评分",
   "rate_pixy_google_play": "在 Google Play 为 Pixy 评分",
   "recaps": "回顾",
+  "recaps_connected_days": {
+    "one": "联系 1 天",
+    "other": "联系 {{count}} 天"
+  },
+  "recaps_connected_more": "另外 %{count} 人",
+  "recaps_connected_title": "你和 %{count} 个人有联系",
+  "recaps_connected_title_one": "你和 %{name} 有联系",
+  "recaps_day_ago_text": "一年前：%{date}。",
+  "recaps_day_ago_title": "一年前美好的一天",
+  "recaps_day_ago_title_with": "%{place}，和 %{names}",
+  "recaps_day_best_title_month": "%{day}是你本月最好的一天",
+  "recaps_day_best_title_week": "%{day}是你本周最好的一天",
+  "recaps_day_hard_text": "你依然记录了。这样的日子会过去。",
+  "recaps_day_hard_title": "%{day}是比较艰难的一天",
+  "recaps_day_see": "查看这一天",
+  "recaps_days": {
+    "one": "1 天",
+    "other": "{{count}} 天"
+  },
   "recaps_emotion_absent_text": {
     "one": "之前两个月里出现过 1 天。",
     "other": "之前两个月里出现过 {{count}} 天。"
@@ -677,6 +696,13 @@
   "recaps_emotion_absent_title": "3 周没有感到%{emotion}",
   "recaps_emotion_again_text": "自 %{date} 以来第一次。",
   "recaps_emotion_again_title": "又感到%{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "1 天。其次：",
+    "other": "{{count}} 天。其次："
+  },
+  "recaps_emotions_quarter_title": "本季度大多是%{emotion}",
+  "recaps_emotions_title": "你最常有的情绪",
+  "recaps_emotions_year_title": "你的前 10 种情绪",
   "recaps_empty": "这个时段还没有卡片。记录越多，卡片越多。",
   "recaps_feedback_helpful": "有帮助",
   "recaps_feedback_not_helpful": "没帮助",
@@ -705,6 +731,9 @@
   "recaps_intro_photos_action": "开启照片",
   "recaps_intro_photos_text": "在记录中添加照片。一年后，你的回顾可以从“一年前的今天”开始。",
   "recaps_intro_photos_title": "留下一张今天的照片",
+  "recaps_most_connected_title_month": "本月联系最多",
+  "recaps_most_connected_title_quarter": "本季度联系最多",
+  "recaps_most_connected_title_year": "今年联系最多",
   "recaps_nudge_not_now": "以后再说",
   "recaps_nudge_reminder_action": "在 %{time} 提醒我",
   "recaps_nudge_reminder_text": "重要的日子会被记住。小小的好日子到第二天早上就淡了。每晚简短记录一下，就能留住它们。",
@@ -735,6 +764,18 @@
     "other": "隔了 %{weeks} 周后出现 {{count}} 天。"
   },
   "recaps_tag_back_title": "%{tag} 回来了",
+  "recaps_trips_title_month": {
+    "one": "本月 1 次旅行",
+    "other": "本月 {{count}} 次旅行"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "本季度 1 次旅行",
+    "other": "本季度 {{count}} 次旅行"
+  },
+  "recaps_trips_title_year": {
+    "one": "今年 1 次旅行",
+    "other": "今年 {{count}} 次旅行"
+  },
   "reminder": "提醒",
   "reminder_device_required_message": "模拟器无法显示通知。请在真机上试试。",
   "reminder_device_required_title": "提醒需要手机",
