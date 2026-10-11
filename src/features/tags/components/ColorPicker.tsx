@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
 /**
  * Fixed tag palette in a grouped card, like iOS Reminders list colors.
  * Columns spread across the card width. Targets stay 48 points and never shrink.
- * Selected color: ring in the dot's own color plus a check, like iOS Reminders.
- * Keyboard focus uses a text-color ring so it stays visible on light dots.
+ * Selected color: check tinted with the tag's text shade. Keyboard focus adds
+ * a ring in text color.
  */
 export const ColorPicker = ({
   value,
@@ -123,11 +123,7 @@ export const ColorPicker = ({
                       styles.ring,
                       {
                         borderColor:
-                          focusedColor === color
-                            ? colors.text
-                            : isSelected
-                              ? colors.tags[color].dot
-                              : "transparent",
+                          focusedColor === color ? colors.text : "transparent",
                       },
                     ]}
                   >
@@ -142,7 +138,7 @@ export const ColorPicker = ({
                           width={18}
                           height={18}
                           strokeWidth={3}
-                          color={colors.palette.black}
+                          color={colors.tags[color].text}
                         />
                       )}
                     </View>
