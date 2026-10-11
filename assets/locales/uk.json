@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "%{quarter} кв. %{year}",
   "recaps_period_week": "Тиждень",
   "recaps_period_year": "Рік",
+  "recaps_reminder_failed": "Не вдалося ввімкнути нагадування. Увімкніть його в Налаштування > Нагадування.",
   "recaps_reminder_set": "Нагадування о %{time}",
   "recaps_step_turned_on": "Додано до відмітки",
   "reminder": "Нагадування",

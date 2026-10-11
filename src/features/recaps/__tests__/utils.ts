@@ -10,10 +10,15 @@ import type { PeriodKind, RecapInput } from "../types";
 /** Weeks from Monday. Importing translation registers the week locales. */
 export const WEEK_LOCALE = getWeekLocale({ weekStart: 1 });
 
-/** Recap input for the period around `today`, all steps on by default. */
+/**
+ * Recap input for the period around `today`, all steps on by default. The
+ * first entry defaults to long before the period.
+ */
 export const makeInput = ({
   kind = "week",
   today = "2026-10-07",
+  date = today,
+  firstEntryDate = "2020-01-01",
   items = [],
   steps = ["rating", "tags", "emotions", "people", "photos"],
   availableSteps = ["rating", "tags", "emotions", "people", "photos"],
@@ -22,21 +27,25 @@ export const makeInput = ({
 }: {
   kind?: PeriodKind;
   today?: string;
+  /** Any day of the period. Defaults to `today`. */
+  date?: string;
+  firstEntryDate?: string | null;
   items?: Partial<LogItem>[];
   steps?: ConfigurableLoggerStep[];
   availableSteps?: ConfigurableLoggerStep[];
   reminderEnabled?: boolean;
   tags?: Tag[];
 } = {}): RecapInput => {
-  const period = getPeriod(kind, today, WEEK_LOCALE);
+  const period = getPeriod(kind, date, WEEK_LOCALE);
   return {
     period,
+    today,
+    firstEntryDate,
     days: getPeriodDays(items.map(_generateItem), period),
     steps: new Set(steps),
     availableSteps: new Set(availableSteps),
     reminderEnabled,
     tags,
-    tagCategories: [{ id: "general", title: "General" }],
   };
 };
 

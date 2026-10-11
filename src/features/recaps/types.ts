@@ -1,6 +1,6 @@
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 import type { LogItem } from "@/features/logs";
-import type { Tag, TagCategory } from "@/features/tags";
+import type { Tag } from "@/features/tags";
 
 /** Part of the app a card reads from. Shown above the card title. */
 export type RecapModule =
@@ -40,6 +40,9 @@ export interface RecapDay {
 /** Everything a card rule reads. Built once per period by the screen. */
 export interface RecapInput {
   period: Period;
+  today: DateKey;
+  /** Oldest entry of the user, `null` without entries. */
+  firstEntryDate: DateKey | null;
   /** Days of `period` with at least one entry, oldest first. */
   days: RecapDay[];
   /** Logger steps the user has on. */
@@ -48,7 +51,6 @@ export interface RecapInput {
   availableSteps: ReadonlySet<ConfigurableLoggerStep>;
   reminderEnabled: boolean;
   tags: Tag[];
-  tagCategories: TagCategory[];
 }
 
 /** Card data. `type` selects meta in `CARD_TYPES` and the body component. */

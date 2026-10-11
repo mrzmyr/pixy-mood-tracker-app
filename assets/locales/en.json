@@ -830,6 +830,7 @@
   "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Week",
   "recaps_period_year": "Year",
+  "recaps_reminder_failed": "Reminder could not be set. Turn it on in Settings > Reminder.",
   "recaps_reminder_set": "Reminder set for %{time}",
   "recaps_step_turned_on": "Added to your check-in",
   "reminder": "Reminder",

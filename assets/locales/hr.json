@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Tjedan",
   "recaps_period_year": "Godina",
+  "recaps_reminder_failed": "Podsjetnik nije postavljen. Uključi ga u Postavke > Podsjetnik.",
   "recaps_reminder_set": "Podsjetnik u %{time}",
   "recaps_step_turned_on": "Dodano u unos",
   "reminder": "Podsjetnik",

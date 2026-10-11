@@ -35,7 +35,3 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     periods: WEEK_MONTH,
   },
 };
-
-/** Nudges only offer an action; every other family asks for feedback. */
-export const hasFeedback = (type: CardType) =>
-  CARD_TYPES[type].family !== "nudge";

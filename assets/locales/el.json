@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "Τ%{quarter} %{year}",
   "recaps_period_week": "Εβδομάδα",
   "recaps_period_year": "Έτος",
+  "recaps_reminder_failed": "Δεν ήταν δυνατή η ρύθμιση της υπενθύμισης. Ενεργοποίησέ την στις Ρυθμίσεις > Υπενθύμιση.",
   "recaps_reminder_set": "Υπενθύμιση στις %{time}",
   "recaps_step_turned_on": "Προστέθηκε στην καταγραφή",
   "reminder": "Υπενθύμιση",

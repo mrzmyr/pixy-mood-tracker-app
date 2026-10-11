@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "%{quarter} кв. %{year}",
   "recaps_period_week": "Неделя",
   "recaps_period_year": "Год",
+  "recaps_reminder_failed": "Не удалось включить напоминание. Включите его в Настройки > Напоминание.",
   "recaps_reminder_set": "Напоминание в %{time}",
   "recaps_step_turned_on": "Добавлено в отметку",
   "reminder": "Напоминание",

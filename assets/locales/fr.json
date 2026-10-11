@@ -701,6 +701,7 @@
   "recaps_period_quarter_label": "T%{quarter} %{year}",
   "recaps_period_week": "Semaine",
   "recaps_period_year": "Année",
+  "recaps_reminder_failed": "Impossible de régler le rappel. Activez-le dans Réglages > Rappel.",
   "recaps_reminder_set": "Rappel réglé à %{time}",
   "recaps_step_turned_on": "Ajouté à votre check-in",
   "reminder": "Rappel",

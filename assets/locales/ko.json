@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "%{year}년 %{quarter}분기",
   "recaps_period_week": "주",
   "recaps_period_year": "연도",
+  "recaps_reminder_failed": "알림을 설정하지 못했습니다. 설정 > 알림에서 켜 주세요.",
   "recaps_reminder_set": "%{time}에 알림이 설정되었습니다",
   "recaps_step_turned_on": "기록에 추가되었습니다",
   "reminder": "알림",

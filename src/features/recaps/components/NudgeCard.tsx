@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { useState } from "react";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
@@ -18,7 +19,7 @@ import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
-import { THRESHOLDS } from "../thresholds";
+import { getActiveTags } from "../cards/nudges";
 import type { RecapCard } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
 
@@ -55,6 +56,12 @@ const COPY: Record<
   },
 };
 
+interface ArtProps {
+  tags: Tag[];
+  /** Saved reminder time, `HH:mm`. */
+  reminderTime: string;
+}
+
 const ART_EMOTION_KEYS = new Set(["calm", "proud", "loved"]);
 const ART_EMOTIONS = EMOTIONS.filter((emotion) =>
   ART_EMOTION_KEYS.has(emotion.key)
@@ -66,11 +73,8 @@ const PLACEHOLDER_PEOPLE = ["a", "b", "c"].map((id) => ({
 }));
 const PHOTO_ROTATIONS = [-4, 2, -2];
 
-const ReminderArt = () => (
-  <NotificationPreview
-    time={reminderTimeToDate(THRESHOLDS.reminderTime)}
-    enabled
-  />
+const ReminderArt = ({ reminderTime }: ArtProps) => (
+  <NotificationPreview time={reminderTimeToDate(reminderTime)} enabled />
 );
 
 const EmotionsArt = () => (
@@ -114,8 +118,8 @@ const PhotosArt = () => {
 };
 
 /** First 6 active tags of the user, as they look in the check-in. */
-const CategoriesArt = ({ tags }: { tags: Tag[] }) => {
-  const shownTags = tags.filter((tag) => !tag.isArchived).slice(0, 6);
+const CategoriesArt = ({ tags }: ArtProps) => {
+  const shownTags = getActiveTags(tags).slice(0, 6);
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
       {shownTags.map((tag) => (
@@ -130,7 +134,7 @@ const CategoriesArt = ({ tags }: { tags: Tag[] }) => {
   );
 };
 
-const ART: Record<NudgeType, (props: { tags: Tag[] }) => ReactNode> = {
+const ART: Record<NudgeType, (props: ArtProps) => ReactNode> = {
   "nudge-reminder": ReminderArt,
   "intro-emotions": EmotionsArt,
   "intro-people": PeopleArt,
@@ -142,36 +146,47 @@ const ART: Record<NudgeType, (props: { tags: Tag[] }) => ReactNode> = {
 export const NudgeCard = ({
   card,
   tags,
+  reminderTime,
   onTurnOn,
   onNotNow,
   onLayout,
 }: {
   card: RecapCard;
   tags: Tag[];
-  onTurnOn: () => void;
+  reminderTime: string;
+  onTurnOn: () => Promise<void>;
   onNotNow: () => void;
   onLayout?: (event: LayoutChangeEvent) => void;
 }) => {
+  const [isBusy, setIsBusy] = useState(false);
   const copy = COPY[card.type];
   const Art = ART[card.type];
   const options =
     card.type === "intro-categories"
       ? { count: card.tagsCount }
-      : {
-          time: dayjs(reminderTimeToDate(THRESHOLDS.reminderTime)).format("LT"),
-        };
+      : { time: dayjs(reminderTimeToDate(reminderTime)).format("LT") };
+
+  // `onTurnOn` reports its own failures and never rejects.
+  const turnOn = async () => {
+    setIsBusy(true);
+    await onTurnOn();
+    setIsBusy(false);
+  };
 
   return (
     <RecapCardShell
       type={card.type}
       onLayout={onLayout}
-      art={<Art tags={tags} />}
+      art={<Art tags={tags} reminderTime={reminderTime} />}
       title={t(copy.title, options)}
       text={t(copy.text)}
       actions={
         <View style={{ gap: 4 }}>
           <Button
-            onPress={onTurnOn}
+            onPress={() => {
+              void turnOn();
+            }}
+            disabled={isBusy}
             testID={`recap-nudge-turn-on-${card.type}`}
           >
             {t(copy.action, options)}

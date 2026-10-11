@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Viikko",
   "recaps_period_year": "Vuosi",
+  "recaps_reminder_failed": "Muistutusta ei voitu asettaa. Ota se käyttöön kohdassa Asetukset > Muistutus.",
   "recaps_reminder_set": "Muistutus klo %{time}",
   "recaps_step_turned_on": "Lisätty kirjaukseesi",
   "reminder": "Muistutus",

@@ -26,9 +26,18 @@ const FAMILY_ORDER: CardFamily[] = [
   "nudge",
 ];
 
-/** Cards of `input.period`, in family order, only types that fit it. */
-export const buildCards = (input: RecapInput): RecapCard[] =>
-  RULES.map((rule) => rule(input))
+/**
+ * Cards of `input.period`, in family order, only types that fit it. No
+ * cards for periods that end before the first entry.
+ */
+export const buildCards = (input: RecapInput): RecapCard[] => {
+  if (
+    input.firstEntryDate === null ||
+    input.period.end < input.firstEntryDate
+  ) {
+    return [];
+  }
+  return RULES.map((rule) => rule(input))
     .filter(
       (card): card is RecapCard =>
         card !== null &&
@@ -39,3 +48,4 @@ export const buildCards = (input: RecapInput): RecapCard[] =>
         FAMILY_ORDER.indexOf(CARD_TYPES[a.type].family) -
         FAMILY_ORDER.indexOf(CARD_TYPES[b.type].family)
     );
+};

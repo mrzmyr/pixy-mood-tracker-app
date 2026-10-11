@@ -1,7 +1,18 @@
 import { SegmentedControl } from "@expo/ui/community/segmented-control";
 import dayjs from "dayjs";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useRef, useState } from "react";
+import {
+  Redirect,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import { ChevronLeft, ChevronRight } from "react-native-feather";
@@ -36,6 +47,21 @@ const KINDS: { kind: PeriodKind; label: TranslationKey }[] = [
 const isPeriodKind = (value: unknown): value is PeriodKind =>
   KINDS.some(({ kind }) => kind === value);
 
+const isDateKey = (value: unknown): value is string =>
+  typeof value === "string" &&
+  /^\d{4}-\d{2}-\d{2}$/u.test(value) &&
+  dayjs(value).isValid();
+
+const getFirstEntryDate = (items: { date: string }[]) => {
+  let first: string | null = null;
+  for (const item of items) {
+    if (first === null || item.date < first) {
+      first = item.date;
+    }
+  }
+  return first;
+};
+
 const PERIOD_LABELS: Record<PeriodKind, (period: Period) => string> = {
   week: ({ start, end }) =>
     `${dayjs(start).format("D MMM")} – ${dayjs(end).format("D MMM YYYY")}`,
@@ -56,7 +82,7 @@ const cardKey = (card: RecapCard, period: Period) =>
  * live in route params. Each card counts as shown once per screen visit,
  * when half of it is on screen.
  */
-export const RecapsScreen = () => {
+const Recaps = () => {
   const colors = useColors();
   const router = useRouter();
   const analytics = useAnalytics();
@@ -64,11 +90,15 @@ export const RecapsScreen = () => {
   const params = useLocalSearchParams<{ kind?: string; date?: string }>();
   const today = dayjs().format("YYYY-MM-DD");
   const kind = isPeriodKind(params.kind) ? params.kind : "week";
-  const period = getPeriod(kind, params.date ?? today, weekLocale);
+  const period = getPeriod(
+    kind,
+    isDateKey(params.date) ? params.date : today,
+    weekLocale
+  );
   const isCurrent = period.end >= today;
 
   const { items } = useLogState();
-  const { tags, categories } = useTagsState();
+  const { tags } = useTagsState();
   const { settings } = useSettings();
   const isPeopleOn = useFeatureFlag("people");
   const isPhotosOn = useFeatureFlag("photos");
@@ -81,12 +111,13 @@ export const RecapsScreen = () => {
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
   const cards = buildCards({
     period,
+    today,
+    firstEntryDate: getFirstEntryDate(items),
     days: getPeriodDays(items, period),
     steps: new Set(settings.steps),
     availableSteps,
     reminderEnabled: settings.reminderEnabled,
     tags,
-    tagCategories: categories,
   }).filter((card) => !hidden.has(cardKey(card, period)));
 
   const nudge = useNudgeActions(period);
@@ -113,6 +144,23 @@ export const RecapsScreen = () => {
       }
     }
   };
+
+  // A new visit counts every card again, also after Back from a pushed page.
+  const [visit, setVisit] = useState(0);
+  useFocusEffect(
+    useCallback(() => {
+      shown.current = new Set();
+      setVisit((current) => current + 1);
+    }, [])
+  );
+  const onVisit = useEffectEvent((visitCount: number) => {
+    if (visitCount > 0) {
+      trackShown();
+    }
+  });
+  useEffect(() => {
+    onVisit(visit);
+  }, [visit]);
 
   const onCardLayout = (key: string) => (event: LayoutChangeEvent) => {
     const { y, height } = event.nativeEvent.layout;
@@ -205,6 +253,7 @@ export const RecapsScreen = () => {
               key={key}
               card={card}
               tags={tags}
+              reminderTime={nudge.reminderTime}
               onLayout={onCardLayout(key)}
               onTurnOn={() => nudge.turnOn(card)}
               onNotNow={() => {
@@ -218,3 +267,7 @@ export const RecapsScreen = () => {
     </ScrollView>
   );
 };
+
+/** Recaps behind flag `recaps`. Deep links with the flag off go to Settings. */
+export const RecapsScreen = () =>
+  useFeatureFlag("recaps") ? <Recaps /> : <Redirect href="/settings" />;

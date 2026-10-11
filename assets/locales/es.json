@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "T%{quarter} %{year}",
   "recaps_period_week": "Semana",
   "recaps_period_year": "Año",
+  "recaps_reminder_failed": "No se pudo activar el recordatorio. Actívalo en Ajustes > Recordatorio.",
   "recaps_reminder_set": "Recordatorio a las %{time}",
   "recaps_step_turned_on": "Añadido a tu registro",
   "reminder": "Recordatorio",

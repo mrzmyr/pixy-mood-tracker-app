@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "สัปดาห์",
   "recaps_period_year": "ปี",
+  "recaps_reminder_failed": "ตั้งการเตือนไม่สำเร็จ เปิดได้ที่ การตั้งค่า > การเตือน",
   "recaps_reminder_set": "ตั้งการเตือนเวลา %{time} แล้ว",
   "recaps_step_turned_on": "เพิ่มในการบันทึกแล้ว",
   "reminder": "เตือนความจำ",

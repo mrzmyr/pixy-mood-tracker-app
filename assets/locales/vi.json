@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Tuần",
   "recaps_period_year": "Năm",
+  "recaps_reminder_failed": "Không thể đặt lời nhắc. Hãy bật trong Cài đặt > Lời nhắc.",
   "recaps_reminder_set": "Đã đặt nhắc lúc %{time}",
   "recaps_step_turned_on": "Đã thêm vào ghi chép",
   "reminder": "Lời nhắc nhở",

@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "K%{quarter} %{year}",
   "recaps_period_week": "Minggu",
   "recaps_period_year": "Tahun",
+  "recaps_reminder_failed": "Pengingat tidak bisa diatur. Aktifkan di Pengaturan > Pengingat.",
   "recaps_reminder_set": "Pengingat pukul %{time}",
   "recaps_step_turned_on": "Ditambahkan ke catatanmu",
   "reminder": "Pengingat",

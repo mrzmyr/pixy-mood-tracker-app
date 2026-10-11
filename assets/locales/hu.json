@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "%{year}. Q%{quarter}",
   "recaps_period_week": "Hét",
   "recaps_period_year": "Év",
+  "recaps_reminder_failed": "Az emlékeztetőt nem sikerült beállítani. Kapcsold be a Beállítások > Emlékeztető menüben.",
   "recaps_reminder_set": "Emlékeztető: %{time}",
   "recaps_step_turned_on": "Hozzáadva a bejegyzéshez",
   "reminder": "Emlékeztetők",

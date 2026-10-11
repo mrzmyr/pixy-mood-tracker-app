@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "%{year}年 第%{quarter}四半期",
   "recaps_period_week": "週",
   "recaps_period_year": "年",
+  "recaps_reminder_failed": "リマインダーを設定できませんでした。設定 > リマインダーでオンにしてください。",
   "recaps_reminder_set": "%{time}にリマインダーを設定しました",
   "recaps_step_turned_on": "記録に追加しました",
   "reminder": "リマインダー",

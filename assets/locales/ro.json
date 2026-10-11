@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "T%{quarter} %{year}",
   "recaps_period_week": "Săptămână",
   "recaps_period_year": "An",
+  "recaps_reminder_failed": "Mementoul nu a putut fi setat. Activează-l din Setări > Memento.",
   "recaps_reminder_set": "Memento la %{time}",
   "recaps_step_turned_on": "Adăugat în înregistrare",
   "reminder": "Aducere aminte",

@@ -699,6 +699,7 @@
   "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Woche",
   "recaps_period_year": "Jahr",
+  "recaps_reminder_failed": "Erinnerung konnte nicht eingestellt werden. Schalte sie unter Einstellungen > Erinnerung ein.",
   "recaps_reminder_set": "Erinnerung um %{time} eingestellt",
   "recaps_step_turned_on": "Zum Check-in hinzugefügt",
   "reminder": "Erinnerung",

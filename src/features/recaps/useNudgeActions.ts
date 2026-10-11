@@ -1,13 +1,14 @@
+import * as Sentry from "@sentry/react-native";
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Linking } from "react-native";
 import { reminderTimeToDate, useReminder } from "@/features/notifications";
 import { useStepEnabled } from "@/features/settings";
+import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import { showToast } from "@/lib/toast";
 import { useAnalytics } from "@/state/analytics";
 import { getCardProperties } from "./analytics";
-import { THRESHOLDS } from "./thresholds";
 import type { CardType, Period, RecapCard } from "./types";
 
 const turnOnStep = (setEnabled: (next: boolean) => void) => {
@@ -15,9 +16,21 @@ const turnOnStep = (setEnabled: (next: boolean) => void) => {
   showToast({ title: t("recaps_step_turned_on") });
 };
 
+const reportReminderError = (cause: unknown) => {
+  const error = createStructuredError({
+    status: "recap_reminder_enable_failed",
+    message: "Reminder could not be turned on from a recap card",
+    why: `useReminder().enable failed: ${cause instanceof Error ? cause.message : String(cause)}`,
+    fix: "Turn the reminder on in Settings > Reminder",
+  });
+  console.error(error);
+  Sentry.captureException(error);
+};
+
 /**
  * Turn On and Not Now of nudge cards. Turn On changes the real setting
- * through the same hooks as Settings, so their events fire too.
+ * through the same hooks as Settings, so their events fire too. The
+ * reminder starts at the time the user saved before.
  */
 export const useNudgeActions = (period: Period) => {
   const analytics = useAnalytics();
@@ -35,7 +48,14 @@ export const useNudgeActions = (period: Period) => {
   };
 
   const enableReminder = async () => {
-    const result = await reminder.enable(THRESHOLDS.reminderTime);
+    let result: Awaited<ReturnType<typeof reminder.enable>>;
+    try {
+      result = await reminder.enable(reminder.time);
+    } catch (cause) {
+      reportReminderError(cause);
+      showToast({ title: t("recaps_reminder_failed") });
+      return;
+    }
     analytics.track("reminders:reminder_toggled", {
       enabled: true,
       permission_granted: result.status === "enabled",
@@ -59,10 +79,8 @@ export const useNudgeActions = (period: Period) => {
     });
   };
 
-  const turnOnActions: Record<CardType, () => void> = {
-    "nudge-reminder": () => {
-      void enableReminder();
-    },
+  const turnOnActions: Record<CardType, () => Promise<void> | void> = {
+    "nudge-reminder": enableReminder,
     "intro-emotions": () => turnOnStep(emotions.setEnabled),
     "intro-people": () => turnOnStep(people.setEnabled),
     "intro-photos": () => turnOnStep(photos.setEnabled),
@@ -70,9 +88,10 @@ export const useNudgeActions = (period: Period) => {
   };
 
   return {
-    turnOn: (card: RecapCard) => {
+    reminderTime: reminder.time,
+    turnOn: async (card: RecapCard) => {
       track(card, "turn_on");
-      turnOnActions[card.type]();
+      await turnOnActions[card.type]();
     },
     notNow: (card: RecapCard) => track(card, "not_now"),
   };

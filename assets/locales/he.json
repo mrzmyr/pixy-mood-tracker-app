@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "רבעון %{quarter} %{year}",
   "recaps_period_week": "שבוע",
   "recaps_period_year": "שנה",
+  "recaps_reminder_failed": "לא ניתן היה להגדיר את התזכורת. הפעל אותה בהגדרות > תזכורת.",
   "recaps_reminder_set": "תזכורת נקבעה ל־%{time}",
   "recaps_step_turned_on": "נוסף לתיעוד שלך",
   "reminder": "תִזכּוֹרֶת",

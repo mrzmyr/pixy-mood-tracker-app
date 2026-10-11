@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "सप्ताह",
   "recaps_period_year": "साल",
+  "recaps_reminder_failed": "रिमाइंडर सेट नहीं हो सका। इसे सेटिंग्स > रिमाइंडर में चालू करें।",
   "recaps_reminder_set": "रिमाइंडर %{time} पर सेट है",
   "recaps_step_turned_on": "आपके चेक-इन में जोड़ा गया",
   "reminder": "अनुस्मारक",

@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "K%{quarter} %{year}",
   "recaps_period_week": "Uge",
   "recaps_period_year": "År",
+  "recaps_reminder_failed": "Påmindelsen kunne ikke indstilles. Slå den til under Indstillinger > Påmindelse.",
   "recaps_reminder_set": "Påmindelse kl. %{time}",
   "recaps_step_turned_on": "Tilføjet til dit check-in",
   "reminder": "Påmindelse",

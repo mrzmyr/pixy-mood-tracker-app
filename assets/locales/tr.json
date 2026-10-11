@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "%{year} Ç%{quarter}",
   "recaps_period_week": "Hafta",
   "recaps_period_year": "Yıl",
+  "recaps_reminder_failed": "Hatırlatıcı ayarlanamadı. Ayarlar > Hatırlatıcı bölümünden aç.",
   "recaps_reminder_set": "Hatırlatıcı %{time} için ayarlandı",
   "recaps_step_turned_on": "Kaydına eklendi",
   "reminder": "Hatırlatma",

@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "S%{quarter} %{year}",
   "recaps_period_week": "Minggu",
   "recaps_period_year": "Tahun",
+  "recaps_reminder_failed": "Peringatan tidak dapat ditetapkan. Hidupkan dalam Tetapan > Peringatan.",
   "recaps_reminder_set": "Peringatan pada %{time}",
   "recaps_step_turned_on": "Ditambah pada rekod anda",
   "reminder": "Peringatan",

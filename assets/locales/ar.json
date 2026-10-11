@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "الربع %{quarter} %{year}",
   "recaps_period_week": "أسبوع",
   "recaps_period_year": "سنة",
+  "recaps_reminder_failed": "تعذّر ضبط التذكير. فعّله من الإعدادات > التذكير.",
   "recaps_reminder_set": "تم ضبط التذكير على %{time}",
   "recaps_step_turned_on": "أُضيف إلى تسجيلك",
   "reminder": "تذكير",

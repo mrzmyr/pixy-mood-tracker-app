@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Týden",
   "recaps_period_year": "Rok",
+  "recaps_reminder_failed": "Připomenutí se nepodařilo nastavit. Zapni ho v Nastavení > Připomenutí.",
   "recaps_reminder_set": "Připomenutí v %{time}",
   "recaps_step_turned_on": "Přidáno k záznamu",
   "reminder": "Připomínka",

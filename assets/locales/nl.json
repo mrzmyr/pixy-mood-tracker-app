@@ -700,6 +700,7 @@
   "recaps_period_quarter_label": "K%{quarter} %{year}",
   "recaps_period_week": "Week",
   "recaps_period_year": "Jaar",
+  "recaps_reminder_failed": "Herinnering kon niet worden ingesteld. Zet hem aan via Instellingen > Herinnering.",
   "recaps_reminder_set": "Herinnering om %{time}",
   "recaps_step_turned_on": "Toegevoegd aan je check-in",
   "reminder": "Herinnering",
