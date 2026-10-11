@@ -18,6 +18,8 @@ Personal mood journal on one device. Person records how they feel, then sees pat
 
 **Tag**: Person-defined label (activity, person, place) with title and color. Entry holds zero or more. _Avoid_: Label, category, factor
 
+**Tag Category**: Person-named group of Tags, for example Work or Hobbies. Orders Tags in Check-in and Settings. Every Tag sits in one. General always exists and takes Tags of deleted categories. _Avoid_: Group, folder, tag type
+
 **Archived Tag**: Tag hidden from picker, Filters, Statistics. Stays on Entries that already hold it. _Avoid_: Deleted tag, hidden tag
 
 **Note**: Optional free text on Entry. _Avoid_: Message, journal, text

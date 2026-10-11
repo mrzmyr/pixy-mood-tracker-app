@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import DismissKeyboard from "@/components/DismisKeyboard";
@@ -9,7 +9,9 @@ import ModalHeader from "@/components/ModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import TagCategoryPicker from "../components/TagCategoryPicker";
 import TagColorPicker from "../components/TagColorPicker";
+import { GENERAL_CATEGORY_ID } from "../tagCategories";
 import TagNameField from "../components/TagNameField";
 import { isValidTagTitle } from "../tagName";
 import { useTagsUpdater } from "../TagsProvider";
@@ -34,6 +36,7 @@ export const TagCreate = () => {
     id: uuidv4(),
     title: "",
     color: Object.keys(colors.tags)[0],
+    categoryId: GENERAL_CATEGORY_ID,
   });
 
   const onCreate = () => {
@@ -52,6 +55,7 @@ export const TagCreate = () => {
       id: uuidv4(),
       title: "",
       color: Object.keys(colors.tags)[0],
+      categoryId: GENERAL_CATEGORY_ID,
     });
 
     tagsUpdater.createTag(tempTag);
@@ -92,11 +96,11 @@ export const TagCreate = () => {
             </LinkButton>
           }
         />
-        <View
-          style={{
-            flex: 1,
-            padding: 20,
-          }}
+        {/* Scrolls once many categories push the form past the screen. */}
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+          keyboardShouldPersistTaps="handled"
         >
           <TagNameField
             value={tempTag.title}
@@ -111,7 +115,13 @@ export const TagCreate = () => {
               setTempTag((currentTag) => ({ ...currentTag, color }));
             }}
           />
-        </View>
+          <TagCategoryPicker
+            value={tempTag.categoryId ?? GENERAL_CATEGORY_ID}
+            onChange={(categoryId) => {
+              setTempTag((currentTag) => ({ ...currentTag, categoryId }));
+            }}
+          />
+        </ScrollView>
       </View>
     </DismissKeyboard>
   );
