@@ -4,6 +4,7 @@ import { ArrowRight, Check } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { FloatButton } from "@/components/FloatButton";
+import { BUTTON_PADDING, KEYBOARD_OVERLAP } from "./slideActionLayout";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ON_EVENT_NAME =
@@ -46,7 +47,7 @@ export const SlideAction = ({
   }
 
   const bottom = keyboardHeight
-    ? Math.round(keyboardHeight) - (Platform.OS === "ios" ? 20 : 0)
+    ? Math.round(keyboardHeight) - KEYBOARD_OVERLAP
     : 0;
 
   return (
@@ -55,7 +56,7 @@ export const SlideAction = ({
         flex: 1,
         justifyContent: "flex-end",
         alignItems: "flex-end",
-        paddingBottom: insets.bottom + 16,
+        paddingBottom: insets.bottom + BUTTON_PADDING,
         paddingRight: 32,
         position: "absolute",
         bottom,

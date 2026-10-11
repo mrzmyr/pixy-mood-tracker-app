@@ -11,12 +11,15 @@ import LinkButton from "@/components/LinkButton";
 import TextArea from "@/components/TextArea";
 import { LOGGER_HEADER_ICON_INSET } from "../components/LoggerHeader";
 import { Footer } from "./Footer";
+import { getActionHeightAboveKeyboard } from "../components/slideActionLayout";
 import { MAX_MESSAGE_LENGTH } from "@/constants/Config";
 
 const SLIDE_MARGIN_TOP = 8;
 
-// Keeps the last lines above the floating next/save button while typing.
-const INPUT_BOTTOM_PADDING_TYPING = 72;
+// Space between the last line of text and the floating next/save button.
+const BUTTON_GAP = 8;
+// Slide bottom padding while the keyboard is open.
+const KEYBOARD_PADDING_BOTTOM = 8;
 
 const ON_EVENT_NAME =
   Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
@@ -25,15 +28,15 @@ const OFF_EVENT_NAME =
 
 // No LayoutAnimation here: configureNext is global, so it also animated the
 // logger teardown on close and crashed Fabric (PIXY-APP-PRODUCTION-QM).
-const useKeyboardVisible = () => {
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
+const useKeyboardHeight = () => {
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
-    const show = Keyboard.addListener(ON_EVENT_NAME, () => {
-      setKeyboardVisible(true);
+    const show = Keyboard.addListener(ON_EVENT_NAME, (event) => {
+      setKeyboardHeight(event.endCoordinates.height);
     });
     const hide = Keyboard.addListener(OFF_EVENT_NAME, () => {
-      setKeyboardVisible(false);
+      setKeyboardHeight(0);
     });
 
     return () => {
@@ -42,7 +45,7 @@ const useKeyboardVisible = () => {
     };
   }, []);
 
-  return keyboardVisible;
+  return keyboardHeight;
 };
 
 const SlideMessageComponent = (
@@ -58,14 +61,29 @@ const SlideMessageComponent = (
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const { draft, setMessage } = useLogDraft();
-  const keyboardVisible = useKeyboardVisible();
+  const keyboardHeight = useKeyboardHeight();
+  const keyboardVisible = keyboardHeight > 0;
 
   // The footer only exists while the disable link shows and the keyboard is
   // hidden, so typing gets the full height between header and keyboard.
   const footerVisible = showDisable && !keyboardVisible;
 
+  // The input must end above the floating next/save button, because iOS scrolls
+  // only to the caret and ignores input padding. iOS places the slide from the
+  // keyboard height like the button does: the keyboard avoiding view measures
+  // from the wrong origin inside the sheet and ends the slide too low.
+  const buttonClearance =
+    getActionHeightAboveKeyboard(insets.bottom) + BUTTON_GAP;
+  let paddingBottom = insets.bottom + 16;
+  if (keyboardVisible) {
+    paddingBottom =
+      buttonClearance +
+      (Platform.OS === "ios" ? keyboardHeight : KEYBOARD_PADDING_BOTTOM);
+  }
+
   return (
     <KeyboardAvoidingView
+      enabled={Platform.OS !== "ios"}
       keyboardVerticalOffset={SLIDE_MARGIN_TOP + insets.top + 16}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{
@@ -79,7 +97,7 @@ const SlideMessageComponent = (
             backgroundColor: colors.logBackground,
             width: "100%",
             paddingHorizontal: LOGGER_HEADER_ICON_INSET,
-            paddingBottom: keyboardVisible ? 8 : insets.bottom + 16,
+            paddingBottom,
           }}
         >
           <View
@@ -103,9 +121,7 @@ const SlideMessageComponent = (
                 backgroundColor: "transparent",
                 paddingHorizontal: 0,
                 paddingTop: 8,
-                paddingBottom: keyboardVisible
-                  ? INPUT_BOTTOM_PADDING_TYPING
-                  : 16,
+                paddingBottom: 16,
                 fontSize: 18,
                 lineHeight: 26,
               }}
