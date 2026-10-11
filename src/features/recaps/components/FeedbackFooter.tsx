@@ -1,4 +1,4 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { ThumbsDown, ThumbsUp } from "react-native-feather";
 import { Secondary } from "@/components/Type";
 import useColors from "@/hooks/useColors";
@@ -6,6 +6,9 @@ import { t } from "@/lib/translation";
 
 /** Answer to a card, `null` before the user answers. */
 export type CardFeedback = "helpful" | "not_helpful" | null;
+
+/** Row height: the touch target of both answers. */
+const ROW_HEIGHT = 48;
 
 const FooterButton = ({
   label,
@@ -17,31 +20,30 @@ const FooterButton = ({
   icon: React.ReactNode;
   onPress: () => void;
   testID: string;
-}) => {
-  const colors = useColors();
-  return (
-    <Pressable
-      accessibilityRole="button"
-      onPress={onPress}
-      hitSlop={8}
-      testID={testID}
-      style={({ pressed }) => ({
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 6,
-        paddingVertical: 8,
-        opacity: pressed ? 0.6 : 1,
-      })}
-    >
-      {icon}
-      <Text style={{ fontSize: 15, color: colors.textSecondary }}>{label}</Text>
-    </Pressable>
-  );
-};
+}) => (
+  <Pressable
+    accessibilityRole="button"
+    onPress={onPress}
+    // Vertical slop would reach into the card above.
+    hitSlop={{ left: 8, right: 8 }}
+    testID={testID}
+    style={({ pressed }) => ({
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+      minHeight: ROW_HEIGHT,
+      opacity: pressed ? 0.6 : 1,
+    })}
+  >
+    {icon}
+    <Secondary>{label}</Secondary>
+  </Pressable>
+);
 
 /**
- * Helpful / Not Helpful below a card. After an answer it thanks the user
- * and offers nothing else.
+ * Helpful / Not Helpful in the card frame, below the card: muted text,
+ * like a frame footer. After an answer it thanks the user at the same
+ * height and offers nothing else.
  */
 export const FeedbackFooter = ({
   feedback,
@@ -59,14 +61,16 @@ export const FeedbackFooter = ({
 
   if (feedback !== null) {
     return (
-      <Secondary testID={`${testID}-thanks`} style={{ padding: 8 }}>
-        {t("recaps_feedback_thanks")}
-      </Secondary>
+      <View style={{ minHeight: ROW_HEIGHT, justifyContent: "center" }}>
+        <Secondary testID={`${testID}-thanks`}>
+          {t("recaps_feedback_thanks")}
+        </Secondary>
+      </View>
     );
   }
 
   return (
-    <View style={{ flexDirection: "row", gap: 20, paddingHorizontal: 8 }}>
+    <View style={{ flexDirection: "row", flexWrap: "wrap", columnGap: 16 }}>
       <FooterButton
         label={t("recaps_feedback_helpful")}
         icon={<ThumbsUp {...iconProps} />}
