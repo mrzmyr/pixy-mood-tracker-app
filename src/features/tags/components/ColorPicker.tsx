@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Platform, Pressable, StyleSheet, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { Check } from "react-native-feather";
 import MenuList from "@/components/MenuList";
-import MenuListHeadline from "@/components/MenuListHeadline";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
@@ -13,6 +12,8 @@ const GAP = 8;
 
 const styles = StyleSheet.create({
   // Android lists run edge to edge, so swatches keep Material's 16dp inset.
+  // Matches the Name label in TagNameField.
+  label: { fontSize: 13, fontWeight: "600", paddingBottom: 8 },
   card: Platform.select({
     android: { paddingHorizontal: 16, paddingVertical: 12 },
     default: { padding: 12 },
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Fixed tag palette in a grouped section, like iOS Reminders list colors.
+ * Fixed tag palette in a grouped card, like iOS Reminders list colors.
  * Columns spread across the card width. Targets stay 48 points and never shrink.
  */
 export const ColorPicker = ({
@@ -68,9 +69,12 @@ export const ColorPicker = ({
 
   return (
     <View>
-      <MenuListHeadline style={{ marginTop: 8 }}>
+      <Text
+        accessibilityRole="header"
+        style={[styles.label, { color: colors.textSecondary }]}
+      >
         {t("color")}: {tDynamic(`tag_color_${value}`)}
-      </MenuListHeadline>
+      </Text>
       <MenuList style={styles.card}>
         <View
           accessibilityRole="radiogroup"
