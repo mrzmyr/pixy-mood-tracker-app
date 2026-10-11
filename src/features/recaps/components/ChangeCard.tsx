@@ -10,7 +10,7 @@ import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
-import { parsePlace } from "../places";
+import { formatDelta } from "../format";
 import type {
   ChangeCard as ChangeCardData,
   Trend,
@@ -36,9 +36,6 @@ const TRENDS: Record<Trend, TranslationKey> = {
   "weighs-more": "recaps_trend_weighs_more",
   "weighs-less": "recaps_trend_weighs_less",
 };
-
-const formatDelta = (delta: number) =>
-  `${delta >= 0 ? "+" : "−"}${Math.abs(delta).toFixed(1)}`;
 
 /** SVG path through the values; gaps where data is thin. */
 const toPath = (values: (number | null)[], width: number) => {
@@ -93,35 +90,50 @@ const Sparkline = ({ series }: { series: TrendSeries }) => {
   );
 };
 
-/** Tag chip, person, or place for a trend row. */
-const RowLabel = ({
-  type,
-  series,
-  people,
-  tags,
-}: {
-  type: ChangeCardData["type"];
-  series: TrendSeries;
-  people: Person[];
-  tags: Tag[];
-}) => {
+interface RowSubject {
+  name: string;
+  label: ReactNode;
+}
+
+/** Name and label of a trend row, `null` when its tag or person is gone. */
+const getSubject = (
+  type: ChangeCardData["type"],
+  series: TrendSeries,
+  people: Person[],
+  tags: Tag[]
+): RowSubject | null => {
   if (type === "trend-tags") {
     const tag = tags.find((item) => item.id === series.id);
-    return tag ? (
-      <TagComponent title={tag.title} colorName={tag.color} compact />
-    ) : null;
+    return tag
+      ? {
+          name: tag.title,
+          label: (
+            <TagComponent title={tag.title} colorName={tag.color} compact />
+          ),
+        }
+      : null;
   }
   if (type === "trend-people") {
     const person = people.find((item) => item.id === series.id);
-    return person ? (
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-        <RingedAvatar person={person} size={24} />
-        <Headline>{person.name}</Headline>
-      </View>
-    ) : null;
+    return person
+      ? {
+          name: person.name,
+          label: (
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+            >
+              <RingedAvatar person={person} size={24} />
+              <Headline>{person.name}</Headline>
+            </View>
+          ),
+        }
+      : null;
   }
-  const place = parsePlace(series.label);
-  return <Headline>{place?.district ?? place?.city ?? ""}</Headline>;
+  const name = series.label ?? "";
+  return {
+    name,
+    label: <Caption>{name}</Caption>,
+  };
 };
 
 /** Card for drivers whose effect grew or faded over the period. */
@@ -139,6 +151,13 @@ export const ChangeCard = ({
   onLayout?: (event: LayoutChangeEvent) => void;
 }) => {
   const title = t(TITLES[card.type]);
+  const rows = card.series.flatMap((series) => {
+    const subject = getSubject(card.type, series, people, tags);
+    return subject ? [{ series, subject }] : [];
+  });
+  if (rows.length === 0) {
+    return null;
+  }
   return (
     <RecapCardShell
       type={card.type}
@@ -149,32 +168,29 @@ export const ChangeCard = ({
       text={t("recaps_trend_text", { days: card.window })}
       body={
         <View style={{ gap: 14 }}>
-          {card.series.map((series) => (
-            <View
-              key={series.id}
-              accessible
-              accessibilityLabel={`${t(TRENDS[series.trend])}, ${t("recaps_trend_now", { value: formatDelta(series.last) })}`}
-              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
-            >
-              <View style={{ width: 96 }}>
-                <RowLabel
-                  type={card.type}
-                  series={series}
-                  people={people}
-                  tags={tags}
-                />
+          {rows.map(({ series, subject }) => {
+            const trend = t(TRENDS[series.trend]);
+            const now = t("recaps_trend_now", {
+              value: formatDelta(series.last),
+            });
+            return (
+              <View
+                key={series.id}
+                accessible
+                accessibilityLabel={`${subject.name}: ${trend}, ${now}`}
+                style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+              >
+                <View style={{ width: 96 }}>{subject.label}</View>
+                <Sparkline series={series} />
+                <View style={{ width: 92, alignItems: "flex-end" }}>
+                  <Caption style={{ fontWeight: "600" }}>{trend}</Caption>
+                  <Caption style={{ fontVariant: ["tabular-nums"] }}>
+                    {now}
+                  </Caption>
+                </View>
               </View>
-              <Sparkline series={series} />
-              <View style={{ width: 92, alignItems: "flex-end" }}>
-                <Caption style={{ fontWeight: "600" }}>
-                  {t(TRENDS[series.trend])}
-                </Caption>
-                <Caption style={{ fontVariant: ["tabular-nums"] }}>
-                  {t("recaps_trend_now", { value: formatDelta(series.last) })}
-                </Caption>
-              </View>
-            </View>
-          ))}
+            );
+          })}
         </View>
       }
     />

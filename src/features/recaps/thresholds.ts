@@ -75,8 +75,8 @@ export const THRESHOLDS = {
   trendWindowDays: { quarter: 30, year: 60 },
   /** Trends: days between window ends, per recap. */
   trendStepDays: { quarter: 7, year: 14 },
-  /** Trends: days with the driver per window, per recap. */
-  trendMinDays: { quarter: 3, year: 5 },
+  /** Trends: days with and days without the driver per window. */
+  trendMinDays: 5,
   /** Trends: window ends needed for a line. */
   trendMinPoints: 4,
   /** Trends: share of windows with enough data, more than. */

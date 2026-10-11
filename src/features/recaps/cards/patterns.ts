@@ -1,52 +1,12 @@
 import { GENERAL_CATEGORY_ID } from "@/features/tags";
-import { CARD_TYPES } from "../cardTypes";
 import { getEffect } from "../correlation";
 import type { Effect } from "../correlation";
 import { addDays } from "../days";
-import { parsePlace } from "../places";
+import { fits, indexDays } from "../dayIndex";
 import { THRESHOLDS } from "../thresholds";
-import type {
-  CardType,
-  EffectRow,
-  PatternCard,
-  RecapDay,
-  RecapInput,
-} from "../types";
+import type { EffectRow, PatternCard, RecapDay, RecapInput } from "../types";
 import { getActiveTags } from "./nudges";
 import { peopleOn } from "./summaries";
-
-const fits = (input: RecapInput, type: CardType) =>
-  CARD_TYPES[type].periods.includes(input.period.kind);
-
-/** What a day holds, computed once so drivers only look things up. */
-interface DayIndex {
-  tags: Set<string>;
-  people: Set<string>;
-  /** Full place name, "District, City". */
-  place: string | null;
-}
-
-const indexDays = (days: RecapDay[]) =>
-  new Map<string, DayIndex>(
-    days.map((day) => {
-      const name = day.items.find((item) => item.location?.name)?.location
-        ?.name;
-      return [
-        day.date,
-        {
-          tags: new Set(
-            day.items.flatMap((item) => item.tags.map((tag) => tag.id))
-          ),
-          people: new Set(
-            day.items.flatMap((item) => item.people.map((person) => person.id))
-          ),
-          place: parsePlace(name) ? (name ?? null) : null,
-        },
-      ];
-    })
-  );
-
-const EMPTY: DayIndex = { tags: new Set(), people: new Set(), place: null };
 
 /**
  * Week only. An active tag on 2+ days this week whose days felt clearly
@@ -64,8 +24,7 @@ export const stoodOut = (input: RecapInput): PatternCard[] => {
   if (history.length < THRESHOLDS.stoodOutMinHistoryDays) {
     return [];
   }
-  const index = indexDays([...history, ...input.days]);
-  const at = (day: RecapDay) => index.get(day.date) ?? EMPTY;
+  const at = indexDays([...history, ...input.days]);
   const weekCounts = new Map<string, number>();
   for (const day of input.days) {
     for (const id of at(day).tags) {
@@ -134,8 +93,7 @@ export const whatMoves = (input: RecapInput): PatternCard[] => {
   ) {
     return [];
   }
-  const index = indexDays(input.days);
-  const at = (day: RecapDay) => index.get(day.date) ?? EMPTY;
+  const at = indexDays(input.days);
   const activeTags = getActiveTags(input.tags);
   const tags = rows(
     input.days,
@@ -161,15 +119,15 @@ export const whatMoves = (input: RecapInput): PatternCard[] => {
   }
   const categories = rows(input.days, categoryDrivers);
   const placed = input.locationEnabled
-    ? input.days.filter((day) => at(day).place !== null)
+    ? input.days.filter((day) => at(day).places.size > 0)
     : [];
-  const placeNames = new Set(placed.flatMap((day) => at(day).place ?? []));
+  const placeNames = new Set(placed.flatMap((day) => [...at(day).places]));
   const places = rows(
     placed,
     [...placeNames].map((name) => ({
       id: name,
       label: name,
-      has: (day) => at(day).place === name,
+      has: (day) => at(day).places.has(name),
     }))
   );
   const anyStrong = [...tags, ...categories, ...places].some(
@@ -193,10 +151,10 @@ export const peopleMood = (input: RecapInput): PatternCard[] => {
   if (!fits(input, "people-mood") || !peopleOn(input)) {
     return [];
   }
-  const index = indexDays(input.days);
+  const at = indexDays(input.days);
   const connected = new Map<string, number>();
-  for (const { people } of index.values()) {
-    for (const id of people) {
+  for (const day of input.days) {
+    for (const id of at(day).people) {
       if (input.personIds.has(id)) {
         connected.set(id, (connected.get(id) ?? 0) + 1);
       }
@@ -205,9 +163,8 @@ export const peopleMood = (input: RecapInput): PatternCard[] => {
   const people: EffectRow[] = [];
   for (const [personId, count] of connected) {
     if (count >= THRESHOLDS.effectMinDays) {
-      const effect = getEffect(
-        input.days,
-        (day) => index.get(day.date)?.people.has(personId) ?? false
+      const effect = getEffect(input.days, (day) =>
+        at(day).people.has(personId)
       );
       people.push({
         id: personId,

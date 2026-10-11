@@ -1,7 +1,6 @@
-import { CARD_TYPES } from "../cardTypes";
 import { getEffect } from "../correlation";
+import { fits, indexDays } from "../dayIndex";
 import { addDays, daysBetween } from "../days";
-import { parsePlace } from "../places";
 import { THRESHOLDS } from "../thresholds";
 import type {
   ChangeCard,
@@ -40,7 +39,10 @@ export const getTrend = (first: number, last: number): Trend => {
   return change < 0 ? "weighs-more" : "weighs-less";
 };
 
-/** Window ends from one window after the period start to its last day. */
+/**
+ * Window ends from one window after the period start, every step, and
+ * always the last day, so the newest days count.
+ */
 const windowEnds = (days: RecapDay[], start: string, kind: TrendKind) => {
   const last = days.at(-1)?.date;
   const ends: string[] = [];
@@ -56,13 +58,22 @@ const windowEnds = (days: RecapDay[], start: string, kind: TrendKind) => {
   ) {
     ends.push(end);
   }
+  if (ends.length > 0 && ends.at(-1) !== last) {
+    ends.push(last);
+  }
   return ends;
 };
 
+/** Lines that changed first, biggest change first; steady lines last. */
+const byChange = (a: TrendSeries, b: TrendSeries) =>
+  Number(a.trend === "steady") - Number(b.trend === "steady") ||
+  Math.abs(b.last - b.first) - Math.abs(a.last - a.first);
+
 /**
- * Rolling effect per driver over the period, top 5 by the latest effect.
- * Drivers need data in more than 55% of the windows. Empty when every
- * line is steady.
+ * Rolling effect per driver over the period. A window counts when it has
+ * 5+ days with and 5+ without the driver; a line needs data in more than
+ * 55% of the windows. Top 5, changes first. `null` when every line is
+ * steady.
  */
 const trends = (
   input: RecapInput,
@@ -84,12 +95,11 @@ const trends = (
   });
   const series: TrendSeries[] = [];
   for (const { id, label, has } of drivers) {
-    // A window needs enough days with and without the driver to compare.
     const values = windows.map((windowDays) => {
       const effect = getEffect(windowDays, has);
       const without = windowDays.length - effect.days;
-      return effect.days >= THRESHOLDS.trendMinDays[kind] &&
-        without >= THRESHOLDS.trendMinDays[kind]
+      return effect.days >= THRESHOLDS.trendMinDays &&
+        without >= THRESHOLDS.trendMinDays
         ? effect.delta
         : null;
     });
@@ -108,32 +118,25 @@ const trends = (
       });
     }
   }
-  const top = series
-    .sort((a, b) => Math.abs(b.last) - Math.abs(a.last))
-    .slice(0, THRESHOLDS.trendMaxRows);
+  const top = series.sort(byChange).slice(0, THRESHOLDS.trendMaxRows);
   return top.some((line) => line.trend !== "steady")
     ? { window, series: top }
     : null;
 };
-
-const fits = (input: RecapInput, type: ChangeCard["type"]) =>
-  CARD_TYPES[type].periods.includes(input.period.kind);
-
-const tagSet = (day: RecapDay) =>
-  new Set(day.items.flatMap((item) => item.tags.map((tag) => tag.id)));
 
 /** Rolling T×M per active tag. */
 export const trendTags = (input: RecapInput): ChangeCard[] => {
   if (!fits(input, "trend-tags") || !input.steps.has("tags")) {
     return [];
   }
+  const at = indexDays(input.days);
   const result = trends(
     input,
     input.days,
     getActiveTags(input.tags).map((tag) => ({
       id: tag.id,
       label: null,
-      has: (day) => tagSet(day).has(tag.id),
+      has: (day) => at(day).tags.has(tag.id),
     }))
   );
   return result ? [{ type: "trend-tags", ...result }] : [];
@@ -144,24 +147,17 @@ export const trendPeople = (input: RecapInput): ChangeCard[] => {
   if (!fits(input, "trend-people") || !peopleOn(input)) {
     return [];
   }
+  const at = indexDays(input.days);
   const result = trends(
     input,
     input.days,
     [...input.personIds].map((personId) => ({
       id: personId,
       label: null,
-      has: (day) =>
-        day.items.some((item) =>
-          item.people.some((person) => person.id === personId)
-        ),
+      has: (day) => at(day).people.has(personId),
     }))
   );
   return result ? [{ type: "trend-people", ...result }] : [];
-};
-
-const placeOf = (day: RecapDay) => {
-  const name = day.items.find((item) => item.location?.name)?.location?.name;
-  return parsePlace(name) ? (name ?? null) : null;
 };
 
 /** Rolling L×M per place, on days with a place only. Location on. */
@@ -169,15 +165,16 @@ export const trendLocation = (input: RecapInput): ChangeCard[] => {
   if (!fits(input, "trend-location") || !input.locationEnabled) {
     return [];
   }
-  const placed = input.days.filter((day) => placeOf(day) !== null);
-  const names = new Set(placed.flatMap((day) => placeOf(day) ?? []));
+  const at = indexDays(input.days);
+  const placed = input.days.filter((day) => at(day).places.size > 0);
+  const names = new Set(placed.flatMap((day) => [...at(day).places]));
   const result = trends(
     input,
     placed,
     [...names].map((name) => ({
       id: name,
       label: name,
-      has: (day) => placeOf(day) === name,
+      has: (day) => at(day).places.has(name),
     }))
   );
   return result ? [{ type: "trend-location", ...result }] : [];

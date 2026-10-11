@@ -50,8 +50,8 @@ describe("tags over time", () => {
     expect(card?.type).toBe("trend-tags");
     expect(line?.trend).toBe("growing-lift");
     expect(line?.first).toBe(0);
-    expect(line?.last).toBeCloseTo(1.91, 2);
-    expect(line?.values).toHaveLength(9);
+    expect(line?.last).toBe(2);
+    expect(line?.values).toHaveLength(10);
   });
 
   test("skips a tag on every day: nothing to compare with", () => {

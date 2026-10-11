@@ -12,14 +12,11 @@ import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { CHIP } from "../chipMarker";
+import { formatDelta } from "../format";
 import type { EffectRow, PatternCard as PatternCardData } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
 import { ChipText, TagChip } from "./TitleChip";
-
-/** Signed mood steps, one decimal: "+0.8", "−0.4". */
-const formatDelta = (delta: number) =>
-  `${delta >= 0 ? "+" : "−"}${Math.abs(delta).toFixed(1)}`;
 
 /**
  * Bar from the center: right for lighter days, left for heavier ones.
