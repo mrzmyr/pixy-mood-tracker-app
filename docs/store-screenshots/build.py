@@ -153,10 +153,7 @@ SLOTS = [
     ("<b>6 · People.</b> Check-in people step (3-column avatars + add tile); Add Person card popped out.", ("flag", "flag: people"), "", f"""
  <h4>Who makes<br>your day?</h4><div class="sub">Add the people in your life.</div>
  {phone('people', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
-    ("<b>7 · Places.</b> Real map at Bäderland Kaifubad, entry: Swim with family (swim photos).", ("flag", "flag: location, calendar-map"), "", f"""
- <h4>See where you<br>feel good</h4><div class="sub">Track where you have been with locations.</div>
- {phone('mapentry', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
-    ("<b>8 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
+    ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
  <h4 style="align-self:flex-start;text-align:left">Private by<br>design</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
  <div class="plist" style="margin-top:32px"><div>{FACEID}Face ID lock</div><div>{CK}No account, no sign-up</div><div>{CK}No ads, no tracking of entries</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>
  <div class="subtle" style="margin:24px 0 0">{PHONE_ICON}<div><b>Stored on your device only.</b> <span>Most journal apps keep your entries on their servers. Pixy doesn't.</span></div></div>
@@ -188,7 +185,7 @@ createRoot(document.getElementById("agentation-root")).render(React.createElemen
 page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Pixy store screenshots</title>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"><style>{CSS}</style></head><body><main>
 <h1>Pixy store screenshots</h1>
-<p class="muted">8 screens for the App Store and Google Play. Spec: <a href="app-screens.md">app-screens.md</a>. Rebuild: <code>python3 build.py</code>, then serve this folder (<code>python3 -m http.server</code>).</p>
+<p class="muted">7 screens for the App Store and Google Play. Spec: <a href="app-screens.md">app-screens.md</a>. Rebuild: <code>python3 build.py</code>, then serve this folder (<code>python3 -m http.server</code>).</p>
 <div class="platform"><h2>iPhone · App Store</h2></div>
 <div class="set">{body}</div>
 <div class="platform"><h2>Android · Google Play</h2></div>
