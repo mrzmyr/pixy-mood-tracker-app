@@ -90,6 +90,7 @@ main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;let
 .pop.on{box-shadow:0 0 0 2.5px #0a7aff,0 0 0 1px rgba(0,0,0,0.06),0 1px 1px -0.5px rgba(0,0,0,0.06),0 3px 3px -1.5px rgba(0,0,0,0.06),0 16px 30px rgba(0,0,0,.4)}
 .popcard .card{border:1px solid rgba(0,0,0,.08) !important;box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 1px 1px -0.5px rgba(0,0,0,0.06),0 3px 3px -1.5px rgba(0,0,0,0.06),0 16px 30px rgba(0,0,0,.4)}
 .tgcard{border:1px solid rgba(0,0,0,.08);box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 1px 1px -0.5px rgba(0,0,0,0.06),0 3px 3px -1.5px rgba(0,0,0,0.06),0 16px 30px rgba(0,0,0,.4) !important}
+.scr{--fit:.86}.android-set .scr{--fit:.79}
 """
 
 SVG_LOCK = '<svg width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" fill="rgba(52,211,153,.18)"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.3" fill="#34d399"/></svg>'
@@ -142,23 +143,19 @@ SLOTS = [
  {phone('calendar', 150, 'left:78%;transform:translateX(-50%) rotate(5deg) scale(.68);transform-origin:50% 0;z-index:2;')}"""),
     ("<b>3 · Timeline.</b> Day 2 Oma hug + letter, day 1 Munich + puppy; day 2 popped out.", ("flag", "flag: calendar-timeline"), "", f"""
  <h4>Go back<br>in Time</h4><div class="sub">View past entries in timeline.</div>
- {phone('timeline2', 200)}
- {popcard('day2', 10, 260, 0.65, -2)}"""),
+ {phone('timeline2', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>4 · Emotions.</b> Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.", None, "", f"""
  <h4>Name what<br>you feel.</h4><div class="sub">161 emotions, each explained.</div>
- {phone('emotions', 200)}
- {pop('calm', 18, 250, -3, True)}{pop('hopeful', 'r18', 330, 3, True)}{pop('grateful', 18, 440, 3)}{pop('anxious', 'r18', 520, -3)}"""),
+ {phone('emotions', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>5 · Tags.</b> Check-in tags, flat list (no categories), gray bg; popular tags popped out in gray cards.", None, "", f"""
  <h4>Tag what<br>matters</h4><div class="sub">Track what fills your days.</div>
- {phone('tags', 200)}
- {taggroup('', [('Sport','#22c55e',1),('Hyperfocus','#f59e0b',1),('Long walk','#22c55e',0)], 'r18', 320)}{taggroup('', [('Took meds','#8b5cf6',1),('Therapy','#8b5cf6',0)], 18, 490)}"""),
+ {phone('tags', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>6 · People.</b> Check-in people step (3-column avatars + add tile); Add Person card popped out.", ("flag", "flag: people"), "", f"""
  <h4>Who makes<br>your day?</h4><div class="sub">Add the people in your life.</div>
- {phone('people', 200)}
- {popcard('addperson', 'r18', 480, 0.65, 2)}"""),
+ {phone('people', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>7 · Places.</b> Real map at Bäderland Kaifubad, entry: Swim with family (swim photos).", ("flag", "flag: location, calendar-map"), "", f"""
  <h4>See where you<br>feel good</h4><div class="sub">Track where you have been with locations.</div>
- {phone('mapentry', 196)}"""),
+ {phone('mapentry', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>8 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
  <h4 style="align-self:flex-start;text-align:left">Private by<br>design</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
  <div class="plist" style="margin-top:32px"><div>{FACEID}Face ID lock</div><div>{CK}No account, no sign-up</div><div>{CK}No ads, no tracking of entries</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>
@@ -180,6 +177,14 @@ def to_android(html):
 
 android_body = to_android(body)
 
+AGENTATION = """<div id="agentation-root"></div>
+<script type="module">
+import React from "https://esm.sh/react@18.3.1";
+import {{ createRoot }} from "https://esm.sh/react-dom@18.3.1/client";
+import {{ Agentation }} from "https://esm.sh/agentation@3.1.2?deps=react@18.3.1,react-dom@18.3.1";
+createRoot(document.getElementById("agentation-root")).render(React.createElement(Agentation));
+</script>""".replace("{{", "{").replace("}}", "}")
+
 page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Pixy store screenshots</title>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"><style>{CSS}</style></head><body><main>
 <h1>Pixy store screenshots</h1>
@@ -193,7 +198,7 @@ document.head.insertAdjacentHTML('beforeend','<style>'+APP.css+'</style>');
 document.querySelectorAll('[data-app]').forEach(el=>{{window.PIXY_OS=el.closest('.android-set')?'android':'ios';const a=(el.dataset.args||'').split(',').filter(Boolean);el.innerHTML=APP.render(el.dataset.app,a[0]||undefined,a[1]==='dark')}});window.PIXY_OS='ios';
 document.querySelectorAll('[data-card]').forEach(el=>el.innerHTML='<div class="ps">'+APP.card(el.dataset.card)+'</div>');
 document.querySelectorAll('[data-emo]').forEach(el=>el.innerHTML=APP.emo(el.dataset.emo,24)+APP.label(el.dataset.emo));APP.icons();
-</script></body></html>"""
+</script>{AGENTATION}</body></html>"""
 open(os.path.join(HERE, "index.html"), "w").write(page)
 open(os.path.join(HERE, "photos", "p-jenna.svg"), "w").write('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="20" fill="#fdba74"/><text x="20" y="26" font-family="system-ui" font-size="17" font-weight="700" text-anchor="middle" fill="#3b1d00">J</text></svg>')
 print("wrote index.html")
