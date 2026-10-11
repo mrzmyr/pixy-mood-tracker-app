@@ -9,7 +9,11 @@ import {
 import type { LogItem } from "@/features/logs";
 import { createMissingProviderError } from "@/lib/errors";
 import { toLogDate } from "@/lib/logDates";
-import { finalizeDraft, hasDraftContent } from "./finalizeDraft";
+import {
+  finalizeDraft,
+  hasDraftContent,
+  getMenstruationConflict,
+} from "./finalizeDraft";
 import type { FinalizedDraft, LogDraft } from "./finalizeDraft";
 
 /** Draft and its verbs, shared by the logger slides. */
@@ -29,6 +33,10 @@ export interface LogDraftValue {
   setPhotos: (photos: LogItem["photos"]) => void;
   /** `null` clears the sleep quality. */
   setSleepQuality: (quality: LogDraft["sleep"]["quality"]) => void;
+  /** `null` removes the daily menstruation value. */
+  setMenstruationFlow: (
+    flow: NonNullable<LogItem["menstruation"]>["flow"] | null
+  ) => void;
   /** User pick: sets or removes (`undefined`) the location. */
   setLocation: (location: LogItem["location"]) => void;
   /**
@@ -46,6 +54,10 @@ export interface LogDraftValue {
    * See `finalizeDraft`.
    */
   commit: (existingItems: LogItem[]) => FinalizedDraft;
+  /** Validate the latest draft, including setters from the same event. */
+  getMenstruationConflict: (
+    items: LogItem[]
+  ) => ReturnType<typeof getMenstruationConflict>;
   /** Restore the initial draft and clear `isDirty`. */
   discard: () => void;
 }
@@ -89,6 +101,8 @@ export const LogDraftProvider = ({
       setMessage: (message) => patch({ message }),
       setPhotos: (photos) => patch({ photos }),
       setSleepQuality: (quality) => patch({ sleep: { quality } }),
+      setMenstruationFlow: (flow) =>
+        patch({ menstruation: flow === null ? undefined : { flow } }),
       setLocation: (location) => {
         isLocationPicked.current = true;
         patch({ location });
@@ -114,6 +128,8 @@ export const LogDraftProvider = ({
         setState({ draft: latest.current, isDirty: false });
         return finalized;
       },
+      getMenstruationConflict: (items) =>
+        getMenstruationConflict({ draft: latest.current, items }),
       discard: () => {
         isLocationPicked.current = false;
         isLocationPrefilled.current = false;

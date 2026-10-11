@@ -1,3 +1,4 @@
+import { createStructuredError } from "@/lib/errors";
 import type { LogItem } from "@/features/logs";
 import { getItemDate, toLogDate } from "@/lib/logDates";
 
@@ -41,6 +42,9 @@ export const finalizeDraft = (
     // SAFETY: a skipped sleep step keeps a null quality, as stored since the first sleep release; statistics and the day view treat it as missing.
     sleep: draft.sleep as LogItem["sleep"],
   };
+  if (item.menstruation === undefined) {
+    delete item.menstruation;
+  }
   const day = toLogDate(draft.dateTime);
   const otherItemsOnDay = existingItems.filter(
     (existing) => existing.id !== draft.id && getItemDate(existing) === day
@@ -60,4 +64,32 @@ export const hasDraftContent = (draft: LogDraft): boolean =>
   draft.people.length > 0 ||
   draft.emotions.length > 0 ||
   draft.photos.length > 0 ||
-  !!draft.sleep?.quality;
+  !!draft.sleep?.quality ||
+  draft.menstruation !== undefined;
+
+/** Date edits and overlapping check-ins must never replace another daily value. */
+export const getMenstruationConflict = ({
+  draft,
+  items,
+}: {
+  draft: LogDraft;
+  items: LogItem[];
+}) => {
+  if (
+    draft.menstruation === undefined ||
+    !items.some(
+      (item) =>
+        item.id !== draft.id &&
+        item.menstruation !== undefined &&
+        getItemDate(item) === toLogDate(draft.dateTime)
+    )
+  ) {
+    return null;
+  }
+  return createStructuredError({
+    status: "menstruation_day_conflict",
+    message: "Entry could not be saved",
+    why: "Another entry on the selected day already holds a menstruation value",
+    fix: "Choose another date or clear this entry’s menstruation value",
+  });
+};

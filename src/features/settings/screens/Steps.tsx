@@ -11,7 +11,7 @@ import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import { Fragment } from "react";
 import type { ReactElement } from "react";
-import { BedDouble } from "lucide-react-native";
+import { BedDouble, Droplet } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import Toggle from "@/components/Toggle";
 import {
@@ -94,6 +94,7 @@ const StepRow = ({
 const STEP_FLAGS: Partial<Record<LoggerStep, FeatureFlag>> = {
   people: "people",
   photos: "photos",
+  menstruation: "menstruation",
 };
 
 /** Switch that adds the current place to new check-ins. */
@@ -137,11 +138,13 @@ export const StepsScreen = () => {
   const colors = useColors();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const { isAvailable: isLocationAvailable } = useLocationSetting();
   const options = STEP_OPTIONS.filter(
     (option) =>
       (option !== "people" || hasPeople) &&
-      (option !== "photos" || isPhotosEnabled)
+      (option !== "photos" || isPhotosEnabled) &&
+      (option !== "menstruation" || isMenstruationEnabled)
   );
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {
@@ -151,6 +154,7 @@ export const StepsScreen = () => {
     tags: <Tag width={20} height={20} color={colors.text} />,
     people: <Users width={20} height={20} color={colors.text} />,
     sleep: <BedDouble size={20} color={colors.text} />,
+    menstruation: <Droplet size={20} color={colors.text} />,
     emotions: <Heart width={20} height={20} color={colors.text} />,
     feedback: <MessageSquare width={20} height={20} color={colors.text} />,
     reminder: <Bell width={20} height={20} color={colors.text} />,

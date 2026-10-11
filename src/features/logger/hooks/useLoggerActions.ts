@@ -1,3 +1,5 @@
+import { t } from "@/lib/translation";
+import { showToast } from "@/lib/toast";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import { useDiscardGuard } from "@/hooks/useDiscardGuard";
@@ -65,12 +67,20 @@ export const useLoggerActions = ({
 
   /** Store the latest draft, including a rating set in the same event. */
   const save = () => {
+    if (logDraft.getMenstruationConflict(logState.items)) {
+      showToast({
+        title: t("logger_step_menstruation"),
+        message: t("menstruation_day_conflict"),
+      });
+      return;
+    }
     const { item, hasRating, closeTo } = logDraft.commit(logState.items);
     const photoCounts = countPhotosBySource({ photos: item.photos });
     analytics.track("logger:log_saved", {
       mode,
       duration_ms: Date.now() - startedAt.current,
       has_rating: hasRating,
+      has_menstruation: item.menstruation !== undefined,
       message_length: item.message.length,
       tags_count: item.tags.length,
       people_count: item.people.length,
@@ -82,7 +92,8 @@ export const useLoggerActions = ({
     });
 
     if (mode === "edit") {
-      logUpdater.editLog(item);
+      // editLog shallow-merges: explicit undefined clears the old daily value.
+      logUpdater.editLog({ ...item, menstruation: item.menstruation });
       close();
       return;
     }

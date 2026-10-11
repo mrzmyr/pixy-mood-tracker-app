@@ -5,7 +5,7 @@ Usage: bun app dev --platform=<ios|android> [--fixture=<id>] [--flag=<key>=<on|o
 Options:
   --platform=<ios|android>   Required. Simulator (ios) or emulator (android) of this checkout.
                              CLI creates and boots it. Phones: use `bun ios --device <udid>`.
-  --fixture=<id>             Load a fixture after launch. One of: fresh, empty, seed, year, people, timeline, chaos.
+  --fixture=<id>             Load a fixture after launch. One of: fresh, empty, seed, menstruation, year, people, timeline, chaos.
   --flag=<key>=<on|off>,...  Override feature flags after launch, until the app restarts.
 
 Behavior:

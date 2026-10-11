@@ -21,6 +21,7 @@ import { Message } from "./Message";
 import { People, useKnownPeople } from "./People";
 import { Photos } from "./Photos";
 import { Place } from "./Place";
+import { Menstruation } from "./Menstruation";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
 import { getTimeOfDay } from "./timeOfDay";
@@ -181,6 +182,7 @@ export const Entry = ({
   const hasPeople = useFeatureFlag("people");
   const { hasStep } = useSettings();
   const isPhotosEnabled = useFeatureFlag("photos");
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const logState = useLogState();
   const knownPeople = useKnownPeople(item);
   // Same steps as the edit logger. A link to a missing step would open the
@@ -191,6 +193,7 @@ export const Entry = ({
     hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(item)),
     hasPeople,
     isPhotosEnabled,
+    isMenstruationEnabled,
   });
   const editStep = (step: LoggerStep) =>
     editSteps.includes(step)
@@ -238,6 +241,7 @@ export const Entry = ({
           gap: BLOCK_GAP,
         }}
       >
+        <Menstruation item={item} onEdit={editStep("menstruation")} />
         <Emotions item={item} onEdit={editStep("emotions")} />
         {knownPeople.length > 0 && (
           <FlagHighlight flag="people">

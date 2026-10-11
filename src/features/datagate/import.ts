@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { MenstruationFlowSchema } from "@/types";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
 import type { Tag } from "@/features/tags";
 import type { LogItem, LogsState } from "@/features/logs";
@@ -63,6 +64,7 @@ export const pixySchema = z.strictObject({
             .optional(),
         })
       ),
+      menstruation: z.object({ flow: MenstruationFlowSchema }).optional(),
       people: z.array(z.object({ id: z.string() })).optional(),
       photos: z
         .array(
