@@ -774,6 +774,16 @@
     "other": "{{count}} दिन, %{weeks} हफ़्तों बाद।"
   },
   "recaps_tag_back_title": "%{tag} वापस आया",
+  "recaps_trend_fading_lift": "घटता असर",
+  "recaps_trend_growing_lift": "बढ़ता असर",
+  "recaps_trend_location_title": "समय के साथ जगहें",
+  "recaps_trend_now": "अभी %{value}",
+  "recaps_trend_people_title": "समय के साथ लोग",
+  "recaps_trend_steady": "स्थिर",
+  "recaps_trend_tags_title": "समय के साथ टैग",
+  "recaps_trend_text": "%{days} दिनों का चलता औसत। रेखा के ऊपर: हल्के दिन।",
+  "recaps_trend_weighs_less": "कम भारी",
+  "recaps_trend_weighs_more": "ज़्यादा भारी",
   "recaps_trips_title_month": {
     "one": "इस महीने 1 यात्रा",
     "other": "इस महीने {{count}} यात्राएँ"

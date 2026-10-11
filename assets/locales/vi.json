@@ -774,6 +774,16 @@
     "other": "{{count}} ngày, sau %{weeks} tuần vắng."
   },
   "recaps_tag_back_title": "%{tag} đã trở lại",
+  "recaps_trend_fading_lift": "Tác động tốt giảm",
+  "recaps_trend_growing_lift": "Tác động tốt tăng",
+  "recaps_trend_location_title": "Địa điểm theo thời gian",
+  "recaps_trend_now": "hiện tại %{value}",
+  "recaps_trend_people_title": "Người theo thời gian",
+  "recaps_trend_steady": "Ổn định",
+  "recaps_trend_tags_title": "Thẻ theo thời gian",
+  "recaps_trend_text": "Trung bình trượt %{days} ngày. Trên đường kẻ: ngày nhẹ nhàng hơn.",
+  "recaps_trend_weighs_less": "Bớt nặng nề",
+  "recaps_trend_weighs_more": "Nặng nề hơn",
   "recaps_trips_title_month": {
     "one": "1 chuyến đi tháng này",
     "other": "{{count}} chuyến đi tháng này"

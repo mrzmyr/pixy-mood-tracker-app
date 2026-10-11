@@ -774,6 +774,16 @@
     "other": "في {{count}} يومًا، بعد %{weeks} أسابيع من دونه."
   },
   "recaps_tag_back_title": "%{tag} عاد",
+  "recaps_trend_fading_lift": "أثر إيجابي يتراجع",
+  "recaps_trend_growing_lift": "أثر إيجابي يزداد",
+  "recaps_trend_location_title": "الأماكن عبر الوقت",
+  "recaps_trend_now": "الآن %{value}",
+  "recaps_trend_people_title": "الأشخاص عبر الوقت",
+  "recaps_trend_steady": "ثابت",
+  "recaps_trend_tags_title": "الوسوم عبر الوقت",
+  "recaps_trend_text": "متوسط متحرك لـ %{days} يومًا. فوق الخط: أيام أخف.",
+  "recaps_trend_weighs_less": "يثقل أقل",
+  "recaps_trend_weighs_more": "يثقل أكثر",
   "recaps_trips_title_month": {
     "one": "رحلة واحدة هذا الشهر",
     "other": "{{count}} رحلات هذا الشهر"

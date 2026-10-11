@@ -775,6 +775,16 @@
     "other": "{{count}} jours, après %{weeks} semaines sans."
   },
   "recaps_tag_back_title": "%{tag} est de retour",
+  "recaps_trend_fading_lift": "Effet positif en baisse",
+  "recaps_trend_growing_lift": "Effet positif en hausse",
+  "recaps_trend_location_title": "Lieux au fil du temps",
+  "recaps_trend_now": "maintenant %{value}",
+  "recaps_trend_people_title": "Personnes au fil du temps",
+  "recaps_trend_steady": "Stable",
+  "recaps_trend_tags_title": "Tags au fil du temps",
+  "recaps_trend_text": "Sur %{days} jours glissants. Au-dessus de la ligne : jours plus légers.",
+  "recaps_trend_weighs_less": "Pèse moins",
+  "recaps_trend_weighs_more": "Pèse plus",
   "recaps_trips_title_month": {
     "one": "1 voyage ce mois-ci",
     "other": "{{count}} voyages ce mois-ci"

@@ -774,6 +774,16 @@
     "other": "{{count}} dana, nakon %{weeks} tjedana bez."
   },
   "recaps_tag_back_title": "%{tag} se vraća",
+  "recaps_trend_fading_lift": "Slabljenje utjecaja",
+  "recaps_trend_growing_lift": "Rastući utjecaj",
+  "recaps_trend_location_title": "Mjesta kroz vrijeme",
+  "recaps_trend_now": "sada %{value}",
+  "recaps_trend_people_title": "Osobe kroz vrijeme",
+  "recaps_trend_steady": "Stabilno",
+  "recaps_trend_tags_title": "Oznake kroz vrijeme",
+  "recaps_trend_text": "Klizno %{days} dana. Iznad linije: lakši dani.",
+  "recaps_trend_weighs_less": "Teži manje",
+  "recaps_trend_weighs_more": "Teži više",
   "recaps_trips_title_month": {
     "one": "1 putovanje ovaj mjesec",
     "other": "{{count}} putovanja ovaj mjesec"

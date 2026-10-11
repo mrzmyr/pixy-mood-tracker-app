@@ -904,6 +904,16 @@
     "other": "On {{count}} days, after %{weeks} weeks without."
   },
   "recaps_tag_back_title": "%{tag} is back",
+  "recaps_trend_fading_lift": "Fading lift",
+  "recaps_trend_growing_lift": "Growing lift",
+  "recaps_trend_location_title": "Places over time",
+  "recaps_trend_now": "now %{value}",
+  "recaps_trend_people_title": "People over time",
+  "recaps_trend_steady": "Steady",
+  "recaps_trend_tags_title": "Tags over time",
+  "recaps_trend_text": "Rolling %{days} days. Above the line: lighter days.",
+  "recaps_trend_weighs_less": "Weighs less",
+  "recaps_trend_weighs_more": "Weighs more",
   "recaps_trips_title_month": {
     "one": "1 trip this month",
     "other": "{{count}} trips this month"

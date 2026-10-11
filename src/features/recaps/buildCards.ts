@@ -22,6 +22,7 @@ import {
   placesTrips,
 } from "./cards/summaries";
 import { peopleMood, stoodOut, whatMoves } from "./cards/patterns";
+import { trendLocation, trendPeople, trendTags } from "./cards/changes";
 import type { CardFamily, RecapCard, RecapInput } from "./types";
 
 /** One card, several cards (one per person or tag), or none. */
@@ -42,6 +43,9 @@ const RULES: Rule[] = [
   stoodOut,
   whatMoves,
   peopleMood,
+  trendTags,
+  trendPeople,
+  trendLocation,
   nudgeReminder,
   introEmotions,
   introPeople,

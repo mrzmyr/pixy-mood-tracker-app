@@ -774,6 +774,16 @@
     "other": "{{count}} วัน หลังจากหายไป %{weeks} สัปดาห์"
   },
   "recaps_tag_back_title": "%{tag} กลับมาแล้ว",
+  "recaps_trend_fading_lift": "ผลดีลดลง",
+  "recaps_trend_growing_lift": "ผลดีเพิ่มขึ้น",
+  "recaps_trend_location_title": "สถานที่ตามเวลา",
+  "recaps_trend_now": "ตอนนี้ %{value}",
+  "recaps_trend_people_title": "บุคคลตามเวลา",
+  "recaps_trend_steady": "คงที่",
+  "recaps_trend_tags_title": "แท็กตามเวลา",
+  "recaps_trend_text": "ค่าเฉลี่ยเคลื่อนที่ %{days} วัน เหนือเส้น: วันที่เบากว่า",
+  "recaps_trend_weighs_less": "เบาลง",
+  "recaps_trend_weighs_more": "หนักขึ้น",
   "recaps_trips_title_month": {
     "one": "1 ทริปเดือนนี้",
     "other": "{{count}} ทริปเดือนนี้"

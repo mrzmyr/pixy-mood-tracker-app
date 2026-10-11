@@ -1,6 +1,7 @@
 import type {
   CardMeta,
   CardType,
+  ChangeCard,
   NudgeCard,
   PatternCard,
   RecapCard,
@@ -147,6 +148,24 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "medium",
     periods: QUARTER_YEAR,
   },
+  "trend-tags": {
+    family: "change",
+    modules: ["tags", "mood"],
+    signal: "strong",
+    periods: QUARTER_YEAR,
+  },
+  "trend-people": {
+    family: "change",
+    modules: ["people", "mood"],
+    signal: "strong",
+    periods: QUARTER_YEAR,
+  },
+  "trend-location": {
+    family: "change",
+    modules: ["location", "mood"],
+    signal: "strong",
+    periods: QUARTER_YEAR,
+  },
 };
 
 /**
@@ -174,3 +193,7 @@ export const isSummaryCard = (card: RecapCard): card is SummaryCard =>
 /** Patterns: a driver goes with an outcome over enough days. */
 export const isPatternCard = (card: RecapCard): card is PatternCard =>
   CARD_TYPES[card.type].family === "pattern";
+
+/** Changes: something grew or faded over the period. */
+export const isChangeCard = (card: RecapCard): card is ChangeCard =>
+  CARD_TYPES[card.type].family === "change";

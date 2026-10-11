@@ -774,6 +774,16 @@
     "other": "Op {{count}} dagen, na %{weeks} weken zonder."
   },
   "recaps_tag_back_title": "%{tag} is terug",
+  "recaps_trend_fading_lift": "Afnemende boost",
+  "recaps_trend_growing_lift": "Groeiende boost",
+  "recaps_trend_location_title": "Plaatsen door de tijd",
+  "recaps_trend_now": "nu %{value}",
+  "recaps_trend_people_title": "Mensen door de tijd",
+  "recaps_trend_steady": "Stabiel",
+  "recaps_trend_tags_title": "Tags door de tijd",
+  "recaps_trend_text": "Voortschrijdend over %{days} dagen. Boven de lijn: lichtere dagen.",
+  "recaps_trend_weighs_less": "Weegt lichter",
+  "recaps_trend_weighs_more": "Weegt zwaarder",
   "recaps_trips_title_month": {
     "one": "1 reis deze maand",
     "other": "{{count}} reizen deze maand"

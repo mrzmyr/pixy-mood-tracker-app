@@ -774,6 +774,16 @@
     "other": "{{count}} päivänä, %{weeks} viikon tauon jälkeen."
   },
   "recaps_tag_back_title": "%{tag} on taas mukana",
+  "recaps_trend_fading_lift": "Hiipuva nosto",
+  "recaps_trend_growing_lift": "Kasvava nosto",
+  "recaps_trend_location_title": "Paikat ajan myötä",
+  "recaps_trend_now": "nyt %{value}",
+  "recaps_trend_people_title": "Ihmiset ajan myötä",
+  "recaps_trend_steady": "Tasainen",
+  "recaps_trend_tags_title": "Tunnisteet ajan myötä",
+  "recaps_trend_text": "Liukuva %{days} päivää. Viivan yllä: kevyemmät päivät.",
+  "recaps_trend_weighs_less": "Painaa vähemmän",
+  "recaps_trend_weighs_more": "Painaa enemmän",
   "recaps_trips_title_month": {
     "one": "1 matka tässä kuussa",
     "other": "{{count}} matkaa tässä kuussa"

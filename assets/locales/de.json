@@ -773,6 +773,16 @@
     "other": "An {{count}} Tagen, nach %{weeks} Wochen ohne."
   },
   "recaps_tag_back_title": "%{tag} ist zurück",
+  "recaps_trend_fading_lift": "Hebt weniger",
+  "recaps_trend_growing_lift": "Hebt mehr",
+  "recaps_trend_location_title": "Orte im Verlauf",
+  "recaps_trend_now": "jetzt %{value}",
+  "recaps_trend_people_title": "Personen im Verlauf",
+  "recaps_trend_steady": "Gleichbleibend",
+  "recaps_trend_tags_title": "Tags im Verlauf",
+  "recaps_trend_text": "Gleitend über %{days} Tage. Über der Linie: leichtere Tage.",
+  "recaps_trend_weighs_less": "Wiegt leichter",
+  "recaps_trend_weighs_more": "Wiegt schwerer",
   "recaps_trips_title_month": {
     "one": "1 Reise diesen Monat",
     "other": "{{count}} Reisen diesen Monat"

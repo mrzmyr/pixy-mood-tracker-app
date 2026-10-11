@@ -774,6 +774,16 @@
     "other": "{{count}} gün, %{weeks} haftalık aradan sonra."
   },
   "recaps_tag_back_title": "%{tag} geri döndü",
+  "recaps_trend_fading_lift": "Azalan etki",
+  "recaps_trend_growing_lift": "Artan etki",
+  "recaps_trend_location_title": "Zaman içinde yerler",
+  "recaps_trend_now": "şimdi %{value}",
+  "recaps_trend_people_title": "Zaman içinde kişiler",
+  "recaps_trend_steady": "Sabit",
+  "recaps_trend_tags_title": "Zaman içinde etiketler",
+  "recaps_trend_text": "Kayan %{days} gün. Çizginin üstü: daha hafif günler.",
+  "recaps_trend_weighs_less": "Daha hafif geliyor",
+  "recaps_trend_weighs_more": "Daha ağır geliyor",
   "recaps_trips_title_month": {
     "one": "Bu ay 1 seyahat",
     "other": "Bu ay {{count}} seyahat"

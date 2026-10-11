@@ -133,8 +133,41 @@ export type PatternCard =
     }
   | { type: "people-mood"; people: EffectRow[] };
 
+/** Direction of a driver's effect from the start to the end of the period. */
+export type Trend =
+  | "steady"
+  | "growing-lift"
+  | "fading-lift"
+  | "weighs-more"
+  | "weighs-less";
+
+/** One driver over time: rolling effects, `null` where data is thin. */
+export interface TrendSeries {
+  id: string;
+  /** Place name; tags and people resolve their name by id. */
+  label: string | null;
+  values: (number | null)[];
+  /** Mean effect of the first and last third of the windows. */
+  first: number;
+  last: number;
+  trend: Trend;
+}
+
+/** Something grew or faded over the period. */
+export interface ChangeCard {
+  type: "trend-tags" | "trend-people" | "trend-location";
+  /** Rolling window in days. */
+  window: number;
+  series: TrendSeries[];
+}
+
 /** Card data. `type` selects meta in `CARD_TYPES` and the body component. */
-export type RecapCard = NudgeCard | MomentCard | SummaryCard | PatternCard;
+export type RecapCard =
+  | NudgeCard
+  | MomentCard
+  | SummaryCard
+  | PatternCard
+  | ChangeCard;
 
 /** Key of a card type in `CARD_TYPES`. */
 export type CardType = RecapCard["type"];

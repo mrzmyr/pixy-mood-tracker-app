@@ -774,6 +774,16 @@
     "other": "Pada {{count}} hari, setelah %{weeks} minggu tanpa."
   },
   "recaps_tag_back_title": "%{tag} kembali",
+  "recaps_trend_fading_lift": "Dorongan memudar",
+  "recaps_trend_growing_lift": "Dorongan menguat",
+  "recaps_trend_location_title": "Tempat dari waktu ke waktu",
+  "recaps_trend_now": "sekarang %{value}",
+  "recaps_trend_people_title": "Orang dari waktu ke waktu",
+  "recaps_trend_steady": "Stabil",
+  "recaps_trend_tags_title": "Tag dari waktu ke waktu",
+  "recaps_trend_text": "Rata-rata bergulir %{days} hari. Di atas garis: hari lebih ringan.",
+  "recaps_trend_weighs_less": "Kurang membebani",
+  "recaps_trend_weighs_more": "Lebih membebani",
   "recaps_trips_title_month": {
     "one": "1 perjalanan bulan ini",
     "other": "{{count}} perjalanan bulan ini"

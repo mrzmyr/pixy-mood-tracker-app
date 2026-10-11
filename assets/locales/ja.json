@@ -774,6 +774,16 @@
     "other": "%{weeks}週間ぶりに{{count}}日。"
   },
   "recaps_tag_back_title": "%{tag}が戻ってきました",
+  "recaps_trend_fading_lift": "よい影響が縮小",
+  "recaps_trend_growing_lift": "よい影響が拡大",
+  "recaps_trend_location_title": "場所の推移",
+  "recaps_trend_now": "現在 %{value}",
+  "recaps_trend_people_title": "人の推移",
+  "recaps_trend_steady": "安定",
+  "recaps_trend_tags_title": "タグの推移",
+  "recaps_trend_text": "%{days}日間の移動平均。線より上：軽い日。",
+  "recaps_trend_weighs_less": "重さが減少",
+  "recaps_trend_weighs_more": "重さが増加",
   "recaps_trips_title_month": {
     "one": "今月の旅：1回",
     "other": "今月の旅：{{count}}回"

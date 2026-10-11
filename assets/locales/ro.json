@@ -774,6 +774,16 @@
     "other": "În {{count}} zile, după %{weeks} săptămâni fără."
   },
   "recaps_tag_back_title": "%{tag} s-a întors",
+  "recaps_trend_fading_lift": "Impuls în scădere",
+  "recaps_trend_growing_lift": "Impuls în creștere",
+  "recaps_trend_location_title": "Locuri în timp",
+  "recaps_trend_now": "acum %{value}",
+  "recaps_trend_people_title": "Persoane în timp",
+  "recaps_trend_steady": "Stabil",
+  "recaps_trend_tags_title": "Etichete în timp",
+  "recaps_trend_text": "Medie mobilă pe %{days} zile. Deasupra liniei: zile mai ușoare.",
+  "recaps_trend_weighs_less": "Apasă mai puțin",
+  "recaps_trend_weighs_more": "Apasă mai mult",
   "recaps_trips_title_month": {
     "one": "1 călătorie luna aceasta",
     "other": "{{count}} călătorii luna aceasta"

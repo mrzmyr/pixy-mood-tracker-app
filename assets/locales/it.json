@@ -774,6 +774,16 @@
     "other": "{{count}} giorni, dopo %{weeks} settimane senza."
   },
   "recaps_tag_back_title": "%{tag} è tornato",
+  "recaps_trend_fading_lift": "Spinta in calo",
+  "recaps_trend_growing_lift": "Spinta in crescita",
+  "recaps_trend_location_title": "Luoghi nel tempo",
+  "recaps_trend_now": "ora %{value}",
+  "recaps_trend_people_title": "Persone nel tempo",
+  "recaps_trend_steady": "Stabile",
+  "recaps_trend_tags_title": "Tag nel tempo",
+  "recaps_trend_text": "Media mobile di %{days} giorni. Sopra la linea: giorni più leggeri.",
+  "recaps_trend_weighs_less": "Pesa di meno",
+  "recaps_trend_weighs_more": "Pesa di più",
   "recaps_trips_title_month": {
     "one": "1 viaggio questo mese",
     "other": "{{count}} viaggi questo mese"
