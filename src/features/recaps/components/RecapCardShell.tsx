@@ -10,7 +10,7 @@ import type { CardType } from "../types";
 import { ModuleIndicator } from "./ModuleIndicator";
 
 /**
- * Frame of every recap card: art, module indicator, title, text, then the
+ * Frame of every recap card: art, module names, title, text, then the
  * family's actions.
  */
 export const RecapCardShell = ({
@@ -29,7 +29,7 @@ export const RecapCardShell = ({
   onLayout?: (event: LayoutChangeEvent) => void;
 }) => {
   const colors = useColors();
-  const { modules, family } = CARD_TYPES[type];
+  const { modules } = CARD_TYPES[type];
 
   return (
     <View onLayout={onLayout} testID={`recap-card-${type}`}>
@@ -38,7 +38,7 @@ export const RecapCardShell = ({
         innerStyle={{ padding: 20, backgroundColor: colors.cardBackground }}
       >
         {art && <View style={{ marginBottom: 20 }}>{art}</View>}
-        <ModuleIndicator modules={modules} family={family} />
+        <ModuleIndicator modules={modules} />
         <Title accessibilityRole="header" style={{ marginTop: 6 }}>
           {title}
         </Title>

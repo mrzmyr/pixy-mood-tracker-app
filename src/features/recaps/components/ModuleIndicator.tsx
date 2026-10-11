@@ -4,7 +4,7 @@ import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import type { IColors } from "@/constants/Colors";
-import type { CardFamily, RecapModule } from "../types";
+import type { RecapModule } from "../types";
 
 const MODULES: Record<
   RecapModule,
@@ -19,22 +19,8 @@ const MODULES: Record<
   photos: { label: "logger_step_photos", color: "modulePhotos" },
 };
 
-const FAMILIES: Record<CardFamily, TranslationKey> = {
-  moment: "recaps_family_moment",
-  summary: "recaps_family_summary",
-  pattern: "recaps_family_pattern",
-  change: "recaps_family_change",
-  nudge: "recaps_family_nudge",
-};
-
-/** "PEOPLE × MOOD · PATTERN": module names in their color, then the family. */
-export const ModuleIndicator = ({
-  modules,
-  family,
-}: {
-  modules: RecapModule[];
-  family: CardFamily;
-}) => {
+/** "PEOPLE × MOOD": module names in their color. Never the card family. */
+export const ModuleIndicator = ({ modules }: { modules: RecapModule[] }) => {
   const colors = useColors();
 
   return (
@@ -55,7 +41,6 @@ export const ModuleIndicator = ({
           </Text>
         </Fragment>
       ))}
-      {` · ${t(FAMILIES[family])}`}
     </Text>
   );
 };
