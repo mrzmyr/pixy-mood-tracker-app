@@ -32,7 +32,7 @@ const getScreenName = (pathname: string): string | null => {
   if (pathname === "/onboarding") {
     return "Onboarding";
   }
-  if (pathname.startsWith("/tags")) {
+  if (pathname === "/tags" || pathname.startsWith("/tags/")) {
     return getTagScreenName(pathname);
   }
   if (pathname.startsWith("/days/")) {
