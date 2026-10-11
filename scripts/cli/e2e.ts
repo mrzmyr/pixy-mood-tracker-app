@@ -574,7 +574,8 @@ const E2E: Noun = {
         ios_runner_not_ready: "agent-device runner did not start on iPhone",
         e2e_failed: "One or more flows failed, read artifacts",
         known_failures_invalid: "e2e/known-failures.json is not valid",
-        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
+        disk_low:
+          "Less than 10 GiB free disk, follow the error fix steps to free disk",
       },
       run: (values) => {
         const paths =
