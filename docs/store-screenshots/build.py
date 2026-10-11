@@ -37,7 +37,7 @@ def laurel(flip=False):
 
 
 CSS = r"""
-:root{--bg:#111;--cream:#fff;--mint:#fff;--peach:#fdba74;--orange:#f97316;--fg:#16181d;--muted:#5f6570;--acc:#3a2fb0}
+:root{--bg:#05392D;--cream:#FFF7ED;--mint:#34D399;--peach:#fdba74;--orange:#f97316;--fg:#16181d;--muted:#5f6570;--acc:#3a2fb0}
 *{box-sizing:border-box}html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}body{margin:0;font:14px/1.5 Geist,system-ui,sans-serif;color:var(--fg)}
 main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;letter-spacing:-.02em;margin:0 0 4px}p{margin:4px 0}.muted{color:var(--muted)}a{color:var(--acc)}
 .warn{background:#fde4e4;border-radius:10px;padding:10px 14px;margin:12px 0}.warn ul{margin:4px 0 0 16px;padding:0}
@@ -58,7 +58,7 @@ main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;let
 .qcard small{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:500;opacity:.85;margin-top:10px}
 .lbar{position:absolute;z-index:6;left:0;right:0;bottom:18px;text-align:center}.lo2{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin-bottom:6px}
 .logos2{display:flex;justify-content:center;align-items:center;gap:7px;padding:0 10px}.logos2 .lg{padding:0;font-size:10px;gap:4px;white-space:nowrap}.logos2 .lg img{height:13px;width:13px}.logos2 .div{height:14px;align-self:center}
-.scr.center{justify-content:center;padding-bottom:20px}.scr.dark{background:#111;--cream:#fff}.scr.dark h4{font-weight:700}.scr.dark .subtle{text-align:left}.scr.dark .k,.scr.dark .sub{color:var(--mint)}
+.scr.center{justify-content:center;padding-bottom:20px}.scr.dark{background:#0b0b0c;--cream:#FFF7ED}.scr.dark h4{font-weight:700}.scr.dark .subtle{text-align:left}.scr.dark .k,.scr.dark .sub{color:var(--mint)}
 .k{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mint);margin-bottom:8px;text-align:center;display:flex;gap:6px;align-items:center}
 .scr h4{margin:0;font-size:32px;line-height:1.06;font-weight:800;letter-spacing:-.03em;text-align:center}
 .scr h4{white-space:nowrap}.scr h4.long{font-size:25px}.scr h4.xl{font-size:22px}.sub{font-size:14px;color:var(--mint);text-align:center;margin-top:10px;line-height:1.3}
@@ -160,7 +160,7 @@ SLOTS = [
  <h4>See where you<br>feel good</h4><div class="sub">Track where you have been with locations.</div>
  {phone('mapentry', 196)}"""),
     ("<b>8 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
- <h4 style="align-self:flex-start;text-align:left">We care about<br>your privacy.</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
+ <h4 style="align-self:flex-start;text-align:left">Private by<br>design</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
  <div class="plist" style="margin-top:auto;margin-bottom:auto"><div>{FACEID}Face ID lock</div><div>{CK}No account, no sign-up</div><div>{CK}No ads, no tracking of entries</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>
  <div class="subtle" style="margin:0 0 26px">{PHONE_ICON}<div><b>Stored on your device only.</b> <span>Most journal apps keep your entries on their servers. Pixy doesn't.</span></div></div>"""),
 ]
