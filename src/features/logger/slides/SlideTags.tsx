@@ -78,6 +78,7 @@ export const SlideTags = ({
         />
         <PullToSearch
           testID="logger-tags-search"
+          inset={0}
           placeholder={t("log_tags_search")}
           query={query}
           onChangeQuery={setQuery}

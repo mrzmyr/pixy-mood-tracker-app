@@ -15,18 +15,21 @@ const SEARCH_HEIGHT = PADDING_TOP + INPUT_HEIGHT;
  * Vertical scroll view with a search bar hidden above its content, like iOS
  * Settings. Pulling the bar more than halfway into view reveals it and
  * focuses the input. Blurring an empty input hides the bar again.
+ * `inset` pads the bar horizontally; pass 0 inside an already padded parent.
  */
 export const PullToSearch = ({
   query,
   onChangeQuery,
   placeholder,
   testID,
+  inset = 20,
   children,
 }: {
   query: string;
   onChangeQuery: (query: string) => void;
   placeholder: string;
   testID: string;
+  inset?: number;
   children: React.ReactNode;
 }) => {
   const colors = useColors();
@@ -101,7 +104,7 @@ export const PullToSearch = ({
         style={{
           height: SEARCH_HEIGHT,
           paddingTop: PADDING_TOP,
-          paddingHorizontal: 20,
+          paddingHorizontal: inset,
         }}
       >
         <View
