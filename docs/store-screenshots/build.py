@@ -7,7 +7,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 listings = json.load(open(os.path.join(HERE, "logos", "listings.json")))
 NAMES = {"alternativeto.svg": "AlternativeTo", "github.svg": "GitHub", "apkpure.webp": "APKPure", "moodtrackers-org.png": "moodtrackers.org", "medevel.png": "MEDevel"}
 ok = {l["logo"] for l in listings if l.get("confirmed") and l.get("logo")}
-LOGOS = "".join(f'<span class="lg"><img class="{"mono" if f.endswith(".svg") else ""}" src="logos/{f}" alt="">{n}</span>' for f, n in NAMES.items() if f in ok and f in ("alternativeto.svg", "moodtrackers-org.png", "medevel.png"))
+LOGOS = "".join(f'<span class="lg lgtxt">{n}</span>' for f, n in NAMES.items() if f in ok and f in ("alternativeto.svg", "moodtrackers-org.png", "medevel.png"))
 
 
 def laurel(flip=False):
@@ -50,7 +50,7 @@ main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;let
 .android-set .ps,.android-set .pop,.android-set [style*="font-family:-apple-system"]{font-family:Roboto,system-ui !important}
 .platform{display:flex;align-items:center;gap:10px;margin:36px 0 4px}.platform h2{margin:0;font-size:22px}
 .scr.proof{padding:30px 22px 0}.scr.proof h4{font-size:32px;line-height:1.06}
-.stats{align-self:stretch;display:flex;align-items:center;justify-content:center;margin-top:16px}.award{display:flex;align-items:center;gap:6px}.award svg{height:52px;width:auto}.award .mid{text-align:center;line-height:1.15}.award .mid b{display:block;font-size:13px;font-weight:600;opacity:.85;margin-top:3px}.award .rt{justify-content:center}
+.stats{align-self:stretch;display:flex;align-items:center;justify-content:center;margin-top:16px}.award{display:flex;align-items:center;gap:2px}.award svg{height:34px;width:auto}.award .mid{text-align:center;line-height:1.15}.award .mid b{display:block;font-size:13px;font-weight:600;opacity:.85;margin-top:3px}.award .rt{justify-content:center}
 .stats .dl{display:flex;align-items:center;gap:2px}.stats .dl svg{height:46px;width:auto}.stats .dl div{text-align:center;line-height:1.05}.stats .dl b{font-size:19px;display:block}.stats .dl span{font-size:10.5px;opacity:.8}
 .stats .div,.logos2 .div{width:1px;align-self:stretch;background:rgba(255,247,237,.22)}.stats .rt{display:flex;gap:6px;align-items:center;font-size:17px;font-weight:600}.stats .star{letter-spacing:1px;font-size:15px}
 .pfade{position:absolute;z-index:5;left:0;right:0;top:490px;bottom:0;background:var(--bg)}
@@ -83,7 +83,7 @@ main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;let
 .popcard{position:absolute;z-index:6;filter:drop-shadow(0 16px 30px rgba(0,0,0,.4))}.popcard .ps{width:370px;height:auto;background:transparent;overflow:visible}
 .biglock{width:66px;height:66px;border-radius:20px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.35);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
 .scr{align-items:flex-start}
-.scr h4{text-align:left !important;font-weight:700 !important;align-self:flex-start}
+.scr h4{text-align:left !important;font-weight:600 !important;align-self:flex-start}
 .scr .sub{text-align:left !important;color:#fff !important;align-self:flex-start}
 .scr .k{text-align:left;align-self:flex-start}
 .pop:not(.on){border:1px solid rgba(0,0,0,.08);box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 1px 1px -0.5px rgba(0,0,0,0.06),0 3px 3px -1.5px rgba(0,0,0,0.06),0 16px 30px rgba(0,0,0,.4)}
@@ -91,6 +91,13 @@ main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;let
 .popcard .card{border:1px solid rgba(0,0,0,.08) !important;box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 1px 1px -0.5px rgba(0,0,0,0.06),0 3px 3px -1.5px rgba(0,0,0,0.06),0 16px 30px rgba(0,0,0,.4)}
 .tgcard{border:1px solid rgba(0,0,0,.08);box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 1px 1px -0.5px rgba(0,0,0,0.06),0 3px 3px -1.5px rgba(0,0,0,0.06),0 16px 30px rgba(0,0,0,.4) !important}
 .scr{--fit:.86}.android-set .scr{--fit:.79}
+
+.zoom{position:absolute;z-index:7;background:#fff;border-radius:22px;padding:14px 14px 8px;display:flex;flex-wrap:wrap;align-content:flex-start;box-shadow:0 0 0 1px rgba(0,0,0,.06),0 0 0 6px rgba(255,255,255,.18),0 24px 44px rgba(0,0,0,.55);font-family:-apple-system,system-ui;color:#111}
+.zoom .zl{flex-basis:100%;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8a8a8e;margin-bottom:8px;display:flex;gap:6px;align-items:center}
+.zoom .zc{display:inline-flex;align-items:center;gap:6px;border:1px solid #dcdcdc;border-radius:999px;padding:6px 11px;font-size:15px;font-weight:500;margin:0 6px 7px 0;background:#fff}
+.zoom .zc.on{border:2px solid #0a7aff}
+.zoom .zc i{width:10px;height:10px;border-radius:50%}
+.lgtxt{color:var(--cream);opacity:.78;font-size:11px;font-weight:600;white-space:nowrap}
 """
 
 SVG_LOCK = '<svg width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" fill="rgba(52,211,153,.18)"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.3" fill="#34d399"/></svg>'
@@ -136,26 +143,28 @@ SLOTS = [
  {phone('calendar', 244, 'transform:translateX(-50%) scale(0.85);transform-origin:50% 0;')}
  <div class="pfade"></div>
  <div class="qcard">“I am a mental health counselor and I love suggesting to my clients to use this for reflection.”<small><img src="photos/p-jenna.svg" width="22" height="22" style="border-radius:50%">Google Play User</small></div>
- <div class="lbar"><div class="lo2">Listed on</div><div class="logos2">{LOGOS.replace('</span><span class="lg">', '</span><i class="div"></i><span class="lg">')}</div></div>"""),
+ <div class="lbar"><div class="lo2">Listed on</div><div class="logos2">{LOGOS.replace('</span><span class="lg lgtxt">', '</span><i class="div"></i><span class="lg lgtxt">')}</div></div>"""),
     ("<b>2 · Mood.</b> Logger mood slide behind, calendar in front and higher.", None, "", f"""
  <h4>Mood in<br>Pixels</h4><div class="sub">Your days turn into colors.</div>
  {phone('mood', 186, 'left:22%;transform:translateX(-50%) rotate(-5deg) scale(.68);transform-origin:50% 0;')}
  {phone('calendar', 150, 'left:78%;transform:translateX(-50%) rotate(5deg) scale(.68);transform-origin:50% 0;z-index:2;')}"""),
     ("<b>3 · Timeline.</b> Day 2 Oma hug + letter, day 1 Munich + puppy; day 2 popped out.", ("flag", "flag: calendar-timeline"), "", f"""
- <h4>Go back<br>in Time</h4><div class="sub">View past entries in timeline.</div>
+ <h4>Relive your<br>best days</h4><div class="sub">Every moment, photo and feeling in one timeline.</div>
  {phone('timeline2', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>4 · Emotions.</b> Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.", None, "", f"""
  <h4>Name what<br>you feel.</h4><div class="sub">161 emotions, each explained.</div>
- {phone('emotions', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
+ {phone('emotions', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
+ <div class="zoom" style="left:22px;right:22px;top:420px"><div class="zl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a8a8e" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Most felt</div><span class="zc" data-emo="happy"></span><span class="zc on" data-emo="calm"></span><span class="zc" data-emo="grateful"></span><span class="zc" data-emo="anxious"></span></div>"""),
     ("<b>5 · Tags.</b> Check-in tags, flat list (no categories), gray bg; popular tags popped out in gray cards.", None, "", f"""
  <h4>Tag what<br>matters</h4><div class="sub">Track what fills your days.</div>
- {phone('tags', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
+ {phone('tags', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
+ <div class="zoom" style="left:22px;right:22px;top:420px"><div class="zl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a8a8e" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Mental health</div><span class="zc on"><i style="background:#f59e0b"></i>Hyperfocus</span><span class="zc on"><i style="background:#8b5cf6"></i>Took meds</span><span class="zc"><i style="background:#8b5cf6"></i>Therapy</span><span class="zc"><i style="background:#f43f5e"></i>Social battery low</span></div>"""),
     ("<b>6 · People.</b> Check-in people step (3-column avatars + add tile); Add Person card popped out.", ("flag", "flag: people"), "", f"""
  <h4>Who makes<br>your day?</h4><div class="sub">Add the people in your life.</div>
  {phone('people', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
  <h4 style="align-self:flex-start;text-align:left">Private by<br>design</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
- <div class="plist" style="margin-top:32px"><div>{PHONE_ICON}Stored on your device only</div><div>{FACEID}Face ID lock</div><div>{CK}No account, no sign-up</div><div>{CK}No ads, no tracking of entries</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>
+ <div class="plist" style="margin-top:32px"><div>{FACEID}Face ID lock</div><div>{CK}Stored on your device only</div><div>{CK}No account, no sign-up</div><div>{CK}No ads, no tracking of entries</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>
  {phone('lock', 360, 'transform:translateX(-50%) scale(0.72);transform-origin:50% 0;opacity:0.85;')}"""),
 ]
 
