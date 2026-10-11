@@ -156,7 +156,7 @@ Names follow the `<area>:<object>_<verb>` convention of [events.ts](../../src/st
 - `logger:log_saved` gets `people_count` (like `tags_count`), no separate slide event
 - `calendar:filters_applied` gets `people_count`
 - Usage summary: `people_count`, `archived_people_count`
-- Register in [`events.ts`](../../src/state/analytics/events.ts), document in [analytics.md](../analytics.md)
+- Register in [`events.ts`](../../src/state/analytics/events.ts), document in [TELEMETRY.md](../../TELEMETRY.md)
 
 ## Privacy
 
