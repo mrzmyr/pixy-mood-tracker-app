@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import {
+  formatItemTime,
   formatLocalizedDay,
   getItemDateTitle,
   getShortItemDateTitle,
@@ -29,6 +30,22 @@ describe("getShortItemDateTitle()", () => {
     expect(getShortItemDateTitle(dateTime).length).toBeLessThan(
       getItemDateTitle(dateTime).length
     );
+  });
+});
+
+describe("item date titles", () => {
+  test("show only the time for an entry from today", () => {
+    const dateTime = dayjs().hour(9).minute(5).toISOString();
+
+    expect(getShortItemDateTitle(dateTime)).toBe(formatItemTime(dateTime));
+    expect(getItemDateTitle(dateTime)).toBe(formatItemTime(dateTime));
+  });
+
+  test("keep the day for an entry from yesterday", () => {
+    const dateTime = dayjs().subtract(1, "day").hour(9).toISOString();
+
+    expect(getShortItemDateTitle(dateTime)).not.toBe(formatItemTime(dateTime));
+    expect(getShortItemDateTitle(dateTime)).toContain(formatItemTime(dateTime));
   });
 });
 
