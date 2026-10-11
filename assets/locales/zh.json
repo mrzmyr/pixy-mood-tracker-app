@@ -797,7 +797,7 @@
     "other": "今年 {{count}} 次旅行"
   },
   "recaps_what_moves_places": "地点",
-  "recaps_what_moves_text": "有它的日子与没有它的日子的心情对比。",
+  "recaps_what_moves_text": "有它的日子与没有它的日子的心情对比，以心情等级计。",
   "recaps_what_moves_title": "什么影响了你的心情",
   "reminder": "提醒",
   "reminder_device_required_message": "模拟器无法显示通知。请在真机上试试。",

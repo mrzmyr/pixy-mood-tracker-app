@@ -797,7 +797,7 @@
     "other": "{{count}} viaggi quest’anno"
   },
   "recaps_what_moves_places": "Luoghi",
-  "recaps_what_moves_text": "Umore nei giorni con, rispetto ai giorni senza.",
+  "recaps_what_moves_text": "Umore nei giorni con, rispetto ai giorni senza, in livelli di umore.",
   "recaps_what_moves_title": "Cosa muove il tuo umore",
   "reminder": "Promemoria",
   "reminder_device_required_message": "Le notifiche non funzionano sui simulatori. Prova su un dispositivo reale.",

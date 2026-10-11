@@ -45,8 +45,9 @@ const DivergingBar = ({ delta, scale }: { delta: number; scale: number }) => {
           x2={0.5}
           y1={0}
           y2={8}
-          stroke={colors.textSecondary}
-          strokeDasharray="2 2"
+          stroke={colors.text}
+          strokeWidth={1}
+          strokeDasharray="2 3"
         />
       </Svg>
       <View style={{ flex: 1 }}>

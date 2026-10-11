@@ -797,7 +797,7 @@
     "other": "{{count}} podróże w tym roku"
   },
   "recaps_what_moves_places": "Miejsca",
-  "recaps_what_moves_text": "Nastrój w dni z tym w porównaniu z dniami bez tego.",
+  "recaps_what_moves_text": "Nastrój w dni z tym w porównaniu z dniami bez tego, w stopniach nastroju.",
   "recaps_what_moves_title": "Co wpływa na Twój nastrój",
   "reminder": "Przypomnienie",
   "reminder_device_required_message": "Powiadomienia nie działają na symulatorach. Spróbuj na prawdziwym urządzeniu.",

@@ -797,7 +797,7 @@
     "other": "今年の旅：{{count}}回"
   },
   "recaps_what_moves_places": "場所",
-  "recaps_what_moves_text": "あった日となかった日の気分の比較。",
+  "recaps_what_moves_text": "あった日となかった日の気分の比較（気分の段階）。",
   "recaps_what_moves_title": "気分を動かすもの",
   "reminder": "リマインダー",
   "reminder_device_required_message": "シミュレーターでは通知が動作しません。実機でお試しください。",

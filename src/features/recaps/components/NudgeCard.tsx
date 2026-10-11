@@ -217,7 +217,7 @@ export const NudgeCard = ({
             onPress={onNotNow}
             underline
             hitSlop={8}
-            style={{ color: colors.text, minHeight: 48 }}
+            style={{ color: colors.text, fontWeight: "400", minHeight: 48 }}
             testID={`recap-nudge-not-now-${card.type}`}
           >
             {t("recaps_nudge_not_now")}

@@ -797,7 +797,7 @@
     "other": "{{count}} viajes este año"
   },
   "recaps_what_moves_places": "Lugares",
-  "recaps_what_moves_text": "Ánimo en días con ello comparado con días sin ello.",
+  "recaps_what_moves_text": "Ánimo en días con ello comparado con días sin ello, en niveles de ánimo.",
   "recaps_what_moves_title": "Qué mueve tu estado de ánimo",
   "reminder": "Recordatorio",
   "reminder_device_required_message": "Las notificaciones no funcionan en simuladores. Prueba en un dispositivo real.",

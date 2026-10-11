@@ -797,7 +797,7 @@
     "other": "{{count}} ciest tento rok"
   },
   "recaps_what_moves_places": "Miesta",
-  "recaps_what_moves_text": "Nálada v dňoch s tým v porovnaní s dňami bez toho.",
+  "recaps_what_moves_text": "Nálada v dňoch s tým v porovnaní s dňami bez toho, v stupňoch nálady.",
   "recaps_what_moves_title": "Čo hýbe tvojou náladou",
   "reminder": "Pripomenutie",
   "reminder_device_required_message": "Na simulátoroch oznámenia nefungujú. Skús to na skutočnom zariadení.",

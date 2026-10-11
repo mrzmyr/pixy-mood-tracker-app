@@ -47,8 +47,8 @@ const NightsArt = ({ nights, good }: { nights: string[]; good: boolean }) => {
           <Moon
             width={32}
             height={32}
-            color={good ? colors.sleepQualityFull : colors.textSecondary}
-            fill={good ? colors.sleepQualityFull : "transparent"}
+            color={good ? colors.moduleSleep : colors.textSecondary}
+            fill={good ? colors.moduleSleep : "transparent"}
           />
           <Secondary>{dayjs(night).format("ddd")}</Secondary>
         </View>

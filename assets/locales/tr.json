@@ -797,7 +797,7 @@
     "other": "Bu yıl {{count}} seyahat"
   },
   "recaps_what_moves_places": "Yerler",
-  "recaps_what_moves_text": "Olduğu günlerdeki ruh hali, olmadığı günlerle karşılaştırmalı.",
+  "recaps_what_moves_text": "Olduğu günlerdeki ruh hali, olmadığı günlerle karşılaştırmalı, ruh hali adımlarıyla.",
   "recaps_what_moves_title": "Ruh halini ne etkiliyor",
   "reminder": "Hatırlatma",
   "reminder_device_required_message": "Bildirimler simülatörlerde çalışmaz. Gerçek bir cihazda dene.",

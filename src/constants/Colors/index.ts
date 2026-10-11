@@ -242,8 +242,8 @@ const light = {
   sleepQualityEmpty: colors.indigo[100],
   sleepQualityFull: colors.indigo[500],
 
-  // Recap card module names. Sleep shares the sleep quality hue.
-  // 700 shades (indigo 600) keep 4.5:1 on the white card.
+  // Recap card module names. 700 shades (indigo 600) keep 4.5:1 on the
+  // white card. Sleep moons in recap art use the sleep module color too.
   moduleMood: colors.emerald[700],
   moduleEmotions: colors.rose[600],
   modulePeople: colors.amber[700],
@@ -251,6 +251,12 @@ const light = {
   moduleTags: colors.violet[600],
   moduleSleep: colors.indigo[600],
   modulePhotos: colors.sky[700],
+
+  // Recap card frame: tinted so the shell reads as a frame around the
+  // white card. Footer text (neutral 500) keeps 4.5:1 on it.
+  recapShellBackground: colors.neutral[50],
+  // Title chip: text color at 8% alpha.
+  titleChipBackground: "rgba(0, 0, 0, 0.08)",
 
   scales: scales.light,
   tags: tagsLight,
@@ -345,7 +351,7 @@ const dark: IColors & {
 
   linkButtonTextPrimary: tintColorDark,
   linkButtonTextPrimaryDisabled: colors.neutral[400],
-  linkButtonTextSecondary: colors.neutral[400],
+  linkButtonTextSecondary: colors.neutral[500],
   linkButtonTextSecondaryDisabled: colors.neutral[400],
 
   primaryButtonBackground: tintColorDark,
@@ -471,6 +477,9 @@ const dark: IColors & {
   moduleTags: colors.violet[400],
   moduleSleep: colors.indigo[400],
   modulePhotos: colors.sky[400],
+
+  recapShellBackground: "#0f0f0f",
+  titleChipBackground: "rgba(255, 255, 255, 0.08)",
 
   scales: scales.dark,
   tags: tagsDark,

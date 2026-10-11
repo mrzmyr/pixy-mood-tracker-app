@@ -5,7 +5,7 @@
  */
 export const BEZEL = {
   /** Space between shell and inner surface. */
-  gap: 4,
+  gap: 5,
   borderWidth: 1,
 } as const;
 

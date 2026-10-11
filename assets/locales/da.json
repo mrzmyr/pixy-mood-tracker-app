@@ -797,7 +797,7 @@
     "other": "{{count}} rejser i år"
   },
   "recaps_what_moves_places": "Steder",
-  "recaps_what_moves_text": "Humør på dage med det sammenlignet med dage uden.",
+  "recaps_what_moves_text": "Humør på dage med det sammenlignet med dage uden, i humørtrin.",
   "recaps_what_moves_title": "Hvad der påvirker dit humør",
   "reminder": "Påmindelse",
   "reminder_device_required_message": "Notifikationer virker ikke på simulatorer. Prøv på en rigtig enhed.",

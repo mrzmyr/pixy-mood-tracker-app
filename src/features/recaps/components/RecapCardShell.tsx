@@ -12,6 +12,8 @@ import { ModuleIndicator } from "./ModuleIndicator";
 
 /** Inner padding of a recap card. */
 const CARD_PADDING = 24;
+/** Space between frame and card, on the 4px grid. */
+const SHELL_GAP = 4;
 
 /**
  * Frame of every recap card: art, module names, title, text, body, the
@@ -49,13 +51,17 @@ export const RecapCardShell = ({
     <View onLayout={onLayout} testID={`recap-card-${type}`}>
       <Bezel
         radius={RADIUS.lg}
+        gap={SHELL_GAP}
+        style={{ backgroundColor: colors.recapShellBackground }}
         innerStyle={{
           padding: CARD_PADDING,
           backgroundColor: colors.cardBackground,
         }}
         footer={
           footer ? (
-            // Footer text starts where the card text starts.
+            // Footer text starts where the card text starts. The frame pads
+            // footer and card by SHELL_GAP alike, so only the card border and
+            // padding remain.
             <View
               style={{ paddingHorizontal: CARD_PADDING + BEZEL.borderWidth }}
             >

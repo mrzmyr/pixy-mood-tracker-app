@@ -797,7 +797,7 @@
     "other": "{{count}} chuyến đi năm nay"
   },
   "recaps_what_moves_places": "Địa điểm",
-  "recaps_what_moves_text": "Tâm trạng vào ngày có so với ngày không có.",
+  "recaps_what_moves_text": "Tâm trạng vào ngày có so với ngày không có, theo bậc tâm trạng.",
   "recaps_what_moves_title": "Điều gì tác động đến tâm trạng",
   "reminder": "Lời nhắc nhở",
   "reminder_device_required_message": "Thông báo không hoạt động trên trình giả lập. Hãy thử trên thiết bị thật.",

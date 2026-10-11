@@ -797,7 +797,7 @@
     "other": "{{count}} putovanja ove godine"
   },
   "recaps_what_moves_places": "Mjesta",
-  "recaps_what_moves_text": "Raspoloženje danima s tim u usporedbi s danima bez toga.",
+  "recaps_what_moves_text": "Raspoloženje danima s tim u usporedbi s danima bez toga, u stupnjevima raspoloženja.",
   "recaps_what_moves_title": "Što pokreće tvoje raspoloženje",
   "reminder": "Podsjetnik",
   "reminder_device_required_message": "Obavijesti ne rade na simulatorima. Isprobaj na pravom uređaju.",

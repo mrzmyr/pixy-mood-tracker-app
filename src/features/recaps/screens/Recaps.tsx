@@ -367,7 +367,11 @@ const Recaps = () => {
         >
           <ChevronLeft width={24} height={24} color={colors.text} />
         </Pressable>
-        <Section accessibilityRole="header" testID="recaps-period-label">
+        <Section
+          accessibilityRole="header"
+          testID="recaps-period-label"
+          style={{ fontWeight: "700" }}
+        >
           {PERIOD_LABELS[period.kind](period)}
         </Section>
         <Pressable

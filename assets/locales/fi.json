@@ -797,7 +797,7 @@
     "other": "{{count}} matkaa tänä vuonna"
   },
   "recaps_what_moves_places": "Paikat",
-  "recaps_what_moves_text": "Mieliala päivinä sen kanssa verrattuna päiviin ilman sitä.",
+  "recaps_what_moves_text": "Mieliala päivinä sen kanssa verrattuna päiviin ilman sitä, mielialan askelina.",
   "recaps_what_moves_title": "Mikä liikuttaa mielialaasi",
   "reminder": "Muistutus",
   "reminder_device_required_message": "Ilmoitukset eivät toimi simulaattoreissa. Kokeile oikealla laitteella.",

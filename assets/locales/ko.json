@@ -797,7 +797,7 @@
     "other": "올해 여행 {{count}}회"
   },
   "recaps_what_moves_places": "장소",
-  "recaps_what_moves_text": "있던 날과 없던 날의 기분 비교.",
+  "recaps_what_moves_text": "있던 날과 없던 날의 기분 비교(기분 단계).",
   "recaps_what_moves_title": "기분을 움직이는 것",
   "reminder": "알림",
   "reminder_device_required_message": "시뮬레이터에서는 알림이 작동하지 않아요. 실제 기기에서 시도해 보세요.",

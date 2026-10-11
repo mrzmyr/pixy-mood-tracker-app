@@ -798,7 +798,7 @@
     "other": "{{count}} voyages cette année"
   },
   "recaps_what_moves_places": "Lieux",
-  "recaps_what_moves_text": "Humeur les jours avec, comparée aux jours sans.",
+  "recaps_what_moves_text": "Humeur les jours avec, comparée aux jours sans, en niveaux d’humeur.",
   "recaps_what_moves_title": "Ce qui influence votre humeur",
   "reminder": "Rappel",
   "reminder_device_required_message": "Les notifications ne fonctionnent pas sur les simulateurs. Essaie sur un vrai appareil.",

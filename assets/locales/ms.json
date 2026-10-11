@@ -797,7 +797,7 @@
     "other": "{{count}} perjalanan tahun ini"
   },
   "recaps_what_moves_places": "Tempat",
-  "recaps_what_moves_text": "Mood pada hari dengannya berbanding hari tanpanya.",
+  "recaps_what_moves_text": "Mood pada hari dengannya berbanding hari tanpanya, dalam tahap mood.",
   "recaps_what_moves_title": "Apa yang menggerakkan mood anda",
   "reminder": "Peringatan",
   "reminder_device_required_message": "Pemberitahuan tidak berfungsi pada simulator. Cuba pada peranti sebenar.",

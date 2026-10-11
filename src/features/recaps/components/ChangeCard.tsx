@@ -74,7 +74,8 @@ const Sparkline = ({ series }: { series: TrendSeries }) => {
             x2={width}
             y1={HEIGHT / 2}
             y2={HEIGHT / 2}
-            stroke={colors.textSecondary}
+            stroke={colors.text}
+            strokeWidth={1}
             strokeDasharray="2 3"
           />
           <Path
@@ -183,10 +184,22 @@ export const ChangeCard = ({
               <View
                 key={series.id}
                 accessible
-                accessibilityLabel={`${subject.name}: ${trend}, ${now}`}
-                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+                accessibilityLabel={`${subject.name}: ${trend}. ${now}`}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-start",
+                  gap: 8,
+                }}
               >
-                <View style={LABEL_COLUMN}>{subject.label}</View>
+                {/* Names center on the sparkline. */}
+                <View
+                  style={[
+                    LABEL_COLUMN,
+                    { minHeight: HEIGHT, justifyContent: "center" },
+                  ]}
+                >
+                  {subject.label}
+                </View>
                 {/* Trend and value sit under the line on one left edge. */}
                 <View style={{ flex: 1, gap: 4 }}>
                   <Sparkline series={series} />
@@ -195,6 +208,7 @@ export const ChangeCard = ({
                       flexDirection: "row",
                       flexWrap: "wrap",
                       columnGap: 8,
+                      rowGap: 4,
                     }}
                   >
                     <Secondary style={{ fontWeight: "700" }}>{trend}</Secondary>

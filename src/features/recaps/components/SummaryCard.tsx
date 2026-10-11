@@ -5,6 +5,7 @@ import { ScrollView, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import Button from "@/components/Button";
 import { Body, Secondary } from "@/components/Type";
+import { getTypeMetrics } from "@/components/typeMetrics";
 import { RADIUS } from "@/constants/Radius";
 import { RATING_MAPPING } from "@/constants/Ratings";
 import { EmotionItem } from "@/features/calendar";
@@ -96,14 +97,14 @@ const Ranked = ({ counts }: { counts: EmotionCount[] }) => {
           key={count.emotion}
           style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
         >
-          <Secondary style={{ minWidth: 16, fontVariant: ["tabular-nums"] }}>
+          <Secondary style={{ minWidth: 24, fontVariant: ["tabular-nums"] }}>
             {index + 1}
           </Secondary>
           <Emotion emotionKey={count.emotion} />
           <Bar fraction={count.days / top} />
           <Secondary
             style={{
-              minWidth: 24,
+              minWidth: 32,
               textAlign: "right",
               fontVariant: ["tabular-nums"],
             }}
@@ -158,8 +159,9 @@ const emotionsContent = (
     };
   }
   const size = periodKind === "year" ? 10 : 3;
+  // "Top 10" only when there are 10 to show.
   const title =
-    periodKind === "year"
+    periodKind === "year" && counts.length >= size
       ? t("recaps_emotions_year_title")
       : t("recaps_emotions_title");
   return {
@@ -284,17 +286,21 @@ const formatRange = (start: string, end: string) =>
     ? dayjs(start).format("D MMM")
     : `${dayjs(start).format("D MMM")} – ${dayjs(end).format("D MMM")}`;
 
+/** Dot centered on the first line of the city name. */
 const TripDot = () => {
   const colors = useColors();
+  const { lineHeight } = getTypeMetrics().body;
   return (
-    <View
-      style={{
-        width: 8,
-        height: 8,
-        borderRadius: RADIUS.full,
-        backgroundColor: colors.moduleLocation,
-      }}
-    />
+    <View style={{ height: lineHeight, justifyContent: "center" }}>
+      <View
+        style={{
+          width: 8,
+          height: 8,
+          borderRadius: RADIUS.full,
+          backgroundColor: colors.moduleLocation,
+        }}
+      />
+    </View>
   );
 };
 
@@ -507,16 +513,27 @@ const getContent = (
                 key={`${trip.city}-${trip.start}`}
                 style={{
                   flexDirection: "row",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                  columnGap: 8,
+                  alignItems: "flex-start",
+                  gap: 8,
                 }}
               >
                 <TripDot />
-                <Body>{trip.city}</Body>
-                <Secondary>
-                  {`${formatRange(trip.start, trip.end)} · ${t("recaps_days", { count: trip.days })}`}
-                </Secondary>
+                {/* Dates wrap under the city, not under the dot. */}
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "baseline",
+                    columnGap: 8,
+                    rowGap: 4,
+                  }}
+                >
+                  <Body>{trip.city}</Body>
+                  <Secondary>
+                    {`${formatRange(trip.start, trip.end)} · ${t("recaps_days", { count: trip.days })}`}
+                  </Secondary>
+                </View>
               </View>
             ))}
           </View>

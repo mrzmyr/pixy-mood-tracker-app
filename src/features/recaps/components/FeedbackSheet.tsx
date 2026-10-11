@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { Check } from "react-native-feather";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
@@ -47,19 +47,14 @@ const ReasonChip = ({
         paddingVertical: 8,
         borderRadius: RADIUS.full,
         borderWidth: 1,
-        borderColor: selected ? colors.text : colors.cardBorder,
+        borderColor: selected ? colors.text : colors.textSecondary,
         backgroundColor: selected ? colors.text : colors.cardBackground,
       }}
     >
       {selected && <Check width={16} height={16} color={colors.background} />}
-      <Text
-        style={{
-          fontSize: 15,
-          color: selected ? colors.background : colors.text,
-        }}
-      >
+      <Secondary style={{ color: selected ? colors.background : colors.text }}>
         {t(LABELS[reason])}
-      </Text>
+      </Secondary>
     </Pressable>
   );
 };

@@ -1,4 +1,3 @@
-import chroma from "chroma-js";
 import { Fragment } from "react";
 import type { ReactNode } from "react";
 import { Text, View } from "react-native";
@@ -33,14 +32,23 @@ export const TitleChip = ({
         gap: 8,
         paddingHorizontal: 8,
         borderRadius: RADIUS.full,
-        backgroundColor: chroma(colors.text).alpha(0.08).css(),
+        backgroundColor: colors.titleChipBackground,
         // Inline views sit on the line bottom; this moves the chip text onto
         // the title baseline.
         transform: [{ translateY: 4 }],
       }}
     >
       {marker}
-      <Text style={{ fontSize, fontWeight, color: colors.text }}>{label}</Text>
+      <Text
+        style={{
+          fontSize,
+          fontWeight,
+          letterSpacing: -0.25,
+          color: colors.text,
+        }}
+      >
+        {label}
+      </Text>
     </View>
   );
 };

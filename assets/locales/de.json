@@ -796,7 +796,7 @@
     "other": "{{count}} Reisen dieses Jahr"
   },
   "recaps_what_moves_places": "Orte",
-  "recaps_what_moves_text": "Stimmung an Tagen damit im Vergleich zu Tagen ohne.",
+  "recaps_what_moves_text": "Stimmung an Tagen damit im Vergleich zu Tagen ohne, in Stimmungsstufen.",
   "recaps_what_moves_title": "Was deine Stimmung bewegt",
   "reminder": "Erinnerung",
   "reminder_device_required_message": "Auf Simulatoren funktionieren keine Benachrichtigungen. Probiere es auf einem echten Gerät.",

@@ -797,7 +797,7 @@
     "other": "{{count}} reizen dit jaar"
   },
   "recaps_what_moves_places": "Plaatsen",
-  "recaps_what_moves_text": "Stemming op dagen met, vergeleken met dagen zonder.",
+  "recaps_what_moves_text": "Stemming op dagen met, vergeleken met dagen zonder, in stemmingsstappen.",
   "recaps_what_moves_title": "Wat je stemming beweegt",
   "reminder": "Herinnering",
   "reminder_device_required_message": "Meldingen werken niet op simulators. Probeer het op een echt apparaat.",

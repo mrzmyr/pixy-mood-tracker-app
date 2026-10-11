@@ -797,7 +797,7 @@
     "other": "Поїздок цього року: {{count}}"
   },
   "recaps_what_moves_places": "Місця",
-  "recaps_what_moves_text": "Настрій у дні з цим порівняно з днями без цього.",
+  "recaps_what_moves_text": "Настрій у дні з цим порівняно з днями без цього, у кроках настрою.",
   "recaps_what_moves_title": "Що впливає на ваш настрій",
   "reminder": "Нагадування",
   "reminder_device_required_message": "Сповіщення не працюють на симуляторах. Спробуй на справжньому пристрої.",

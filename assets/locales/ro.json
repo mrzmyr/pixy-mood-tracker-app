@@ -797,7 +797,7 @@
     "other": "{{count}} călătorii anul acesta"
   },
   "recaps_what_moves_places": "Locuri",
-  "recaps_what_moves_text": "Starea în zilele cu asta comparativ cu zilele fără.",
+  "recaps_what_moves_text": "Starea în zilele cu asta comparativ cu zilele fără, în trepte de stare.",
   "recaps_what_moves_title": "Ce îți influențează starea",
   "reminder": "Aducere aminte",
   "reminder_device_required_message": "Notificările nu funcționează pe simulatoare. Încearcă pe un dispozitiv real.",

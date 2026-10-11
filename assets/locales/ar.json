@@ -797,7 +797,7 @@
     "other": "{{count}} رحلات هذا العام"
   },
   "recaps_what_moves_places": "الأماكن",
-  "recaps_what_moves_text": "المزاج في الأيام التي فيها مقارنةً بالأيام التي بدونه.",
+  "recaps_what_moves_text": "المزاج في الأيام التي يوجد فيها مقارنةً بالأيام التي لا يوجد فيها، بدرجات المزاج.",
   "recaps_what_moves_title": "ما الذي يحرّك مزاجك",
   "reminder": "تذكير",
   "reminder_device_required_message": "الإشعارات لا تعمل على المحاكيات. جرّب على جهاز حقيقي.",

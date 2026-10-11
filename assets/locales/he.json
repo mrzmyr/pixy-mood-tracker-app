@@ -797,7 +797,7 @@
     "other": "{{count}} נסיעות השנה"
   },
   "recaps_what_moves_places": "מקומות",
-  "recaps_what_moves_text": "מצב רוח בימים שבהם זה היה בהשוואה לימים בלי.",
+  "recaps_what_moves_text": "מצב רוח בימים שבהם זה היה בהשוואה לימים בלי, בדרגות מצב רוח.",
   "recaps_what_moves_title": "מה מזיז את מצב הרוח שלך",
   "reminder": "תִזכּוֹרֶת",
   "reminder_device_required_message": "התראות לא פועלות בסימולטורים. נסו במכשיר אמיתי.",
