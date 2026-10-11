@@ -129,15 +129,15 @@ export const formatItemTime = (dateTime: LogItem["dateTime"]) =>
   );
 
 /**
- * Compact entry time for tight rows: "Today, 20:00", "Yesterday, 20:00",
- * else short day and time ("Sep 28, 8:00 PM"). The year shows only outside
- * the current year.
+ * Compact entry time for tight rows: time only today ("20:00"),
+ * "Yesterday, 20:00", else short day and time ("Sep 28, 8:00 PM"). The year
+ * shows only outside the current year.
  */
 export const getShortItemDateTitle = (dateTime: LogItem["dateTime"]) => {
   const date = dayjs(dateTime);
 
   if (date.isSame(dayjs(), "day")) {
-    return `${t("today")}, ${formatItemTime(dateTime)}`;
+    return formatItemTime(dateTime);
   }
 
   if (date.isSame(dayjs().subtract(1, "day"), "day")) {
@@ -175,8 +175,8 @@ export const formatLocalizedDay = (
 };
 
 /**
- * Localized entry title: "Today, 14:30", or weekday, day and time
- * ("Sat, 2 May, 14:30" in en-GB, "Sat, May 2, 2:30 PM" in en-US).
+ * Localized entry title: "14:30" today, "Yesterday, 14:30", or weekday, day
+ * and time ("Sat, 2 May, 14:30" in en-GB, "Sat, May 2, 2:30 PM" in en-US).
  *
  * Drops the weekday below 350 pt window width, measured once at module load.
  */
