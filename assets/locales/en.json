@@ -786,6 +786,8 @@
   "photos_open_settings": "Open Settings",
   "photos_pick_hint": "Adds the photo to this entry.",
   "photos_pick_hint_checked": "Removes the photo from this entry.",
+  "photos_pick_select": "Select",
+  "photos_pick_unselect": "Unselect",
   "photos_pick_view": "View Photo",
   "photos_step_helper": "Photos stay on your device.",
   "photos_thumbnail_label": "Photo {{index}} of {{count}}",

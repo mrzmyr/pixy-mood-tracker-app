@@ -14,8 +14,9 @@ const DEFAULT_ASPECT_RATIO = 3 / 4;
 
 /**
  * Long press on a photo tile on iOS: the system context menu with a large
- * preview of the photo, like in Photos. Unchecked: "Add Photo". Checked:
- * "View Photo" opens the viewer, "Remove" unchecks.
+ * preview of the photo, like in Photos. Unchecked: "Select". Checked:
+ * "View Photo" opens the viewer, "Unselect" unchecks. Neither deletes
+ * the photo from the library.
  *
  * The preview mounts on the first touch, not with the tile: a full-size
  * image for every tile of the grid costs memory the user never sees.
@@ -84,17 +85,15 @@ export const PickTileMenu = ({
                 onPress={onOpen}
               />
               <Button
-                label={t("photos_viewer_remove")}
-                systemImage="minus.circle"
-                // oxlint-disable-next-line jsx-a11y/aria-role -- SwiftUI button role, not an ARIA role.
-                role="destructive"
+                label={t("photos_pick_unselect")}
+                systemImage="circle"
                 onPress={onToggle}
               />
             </>
           ) : (
             <Button
-              label={t("photos_add")}
-              systemImage="plus.circle"
+              label={t("photos_pick_select")}
+              systemImage="checkmark.circle"
               onPress={onToggle}
             />
           )}

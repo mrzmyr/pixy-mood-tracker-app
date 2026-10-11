@@ -82,22 +82,22 @@ describe("PickTile", () => {
     expect(onToggle).not.toHaveBeenCalled();
   });
 
-  test("checked: preview menu removes the photo", async () => {
+  test("checked: preview menu unselects the photo", async () => {
     const { view, onOpen, onToggle } = renderPick({ order: 1 });
     await view;
 
-    await fireEvent.press(screen.getByLabelText("Remove"));
+    await fireEvent.press(screen.getByLabelText("Unselect"));
 
     expect(onToggle).toHaveBeenCalledTimes(1);
     expect(onOpen).not.toHaveBeenCalled();
   });
 
-  test("unchecked: preview menu adds the photo, never opens it", async () => {
+  test("unchecked: preview menu selects the photo, never opens it", async () => {
     const { view, onOpen, onToggle } = renderPick({});
     await view;
 
     expect(screen.queryByLabelText("View Photo")).toBeNull();
-    await fireEvent.press(screen.getByLabelText("Add Photo"));
+    await fireEvent.press(screen.getByLabelText("Select"));
 
     expect(onToggle).toHaveBeenCalledTimes(1);
     expect(onOpen).not.toHaveBeenCalled();
