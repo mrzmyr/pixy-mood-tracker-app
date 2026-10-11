@@ -12,14 +12,15 @@ import TextArea from "@/components/TextArea";
 import { LOGGER_HEADER_ICON_INSET } from "../components/LoggerHeader";
 import { Footer } from "./Footer";
 import { getActionHeightAboveKeyboard } from "../components/slideActionLayout";
+import { ScrollingNoteInput } from "./ScrollingNoteInput";
 import { MAX_MESSAGE_LENGTH } from "@/constants/Config";
 
 const SLIDE_MARGIN_TOP = 8;
 
-// Space between the last line of text and the floating next/save button.
+// Space between the caret line and the floating next/save button on iOS.
 const BUTTON_GAP = 8;
-// Slide bottom padding while the keyboard is open.
-const KEYBOARD_PADDING_BOTTOM = 8;
+// Keeps the last lines above the floating next/save button while typing.
+const INPUT_BOTTOM_PADDING_TYPING = 72;
 
 const ON_EVENT_NAME =
   Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
@@ -63,27 +64,23 @@ const SlideMessageComponent = (
   const { draft, setMessage } = useLogDraft();
   const keyboardHeight = useKeyboardHeight();
   const keyboardVisible = keyboardHeight > 0;
+  const isIos = Platform.OS === "ios";
 
   // The footer only exists while the disable link shows and the keyboard is
   // hidden, so typing gets the full height between header and keyboard.
   const footerVisible = showDisable && !keyboardVisible;
 
-  // The input must end above the floating next/save button, because iOS scrolls
-  // only to the caret and ignores input padding. iOS places the slide from the
-  // keyboard height like the button does: the keyboard avoiding view measures
-  // from the wrong origin inside the sheet and ends the slide too low.
-  const buttonClearance =
-    getActionHeightAboveKeyboard(insets.bottom) + BUTTON_GAP;
-  let paddingBottom = insets.bottom + 16;
-  if (keyboardVisible) {
-    paddingBottom =
-      buttonClearance +
-      (Platform.OS === "ios" ? keyboardHeight : KEYBOARD_PADDING_BOTTOM);
-  }
+  // iOS: the slide ends exactly at the keyboard top, from the keyboard height
+  // like the button. The keyboard avoiding view measures from the wrong origin
+  // inside the sheet and left the input 24 pt behind the keyboard.
+  const keyboardPaddingBottom = isIos ? keyboardHeight : 8;
+  const slidePaddingBottom = keyboardVisible
+    ? keyboardPaddingBottom
+    : insets.bottom + 16;
 
   return (
     <KeyboardAvoidingView
-      enabled={Platform.OS !== "ios"}
+      enabled={!isIos}
       keyboardVerticalOffset={SLIDE_MARGIN_TOP + insets.top + 16}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{
@@ -97,7 +94,7 @@ const SlideMessageComponent = (
             backgroundColor: colors.logBackground,
             width: "100%",
             paddingHorizontal: LOGGER_HEADER_ICON_INSET,
-            paddingBottom,
+            paddingBottom: slidePaddingBottom,
           }}
         >
           <View
@@ -106,26 +103,45 @@ const SlideMessageComponent = (
               marginTop: SLIDE_MARGIN_TOP,
             }}
           >
-            <TextArea
-              ref={ref}
-              accessibilityLabel={t("log_note_question")}
-              testID="log-message"
-              placeholder={t("log_note_question")}
-              value={draft.message}
-              onChange={setMessage}
-              maxLength={MAX_MESSAGE_LENGTH}
-              style={{
-                flex: 1,
-                marginBottom: 0,
-                borderWidth: 0,
-                backgroundColor: "transparent",
-                paddingHorizontal: 0,
-                paddingTop: 8,
-                paddingBottom: 16,
-                fontSize: 18,
-                lineHeight: 26,
-              }}
-            />
+            {isIos ? (
+              <ScrollingNoteInput
+                ref={ref}
+                accessibilityLabel={t("log_note_question")}
+                testID="log-message"
+                placeholder={t("log_note_question")}
+                value={draft.message}
+                onChange={setMessage}
+                maxLength={MAX_MESSAGE_LENGTH}
+                bottomInset={
+                  keyboardVisible
+                    ? getActionHeightAboveKeyboard(insets.bottom) + BUTTON_GAP
+                    : 0
+                }
+              />
+            ) : (
+              <TextArea
+                ref={ref}
+                accessibilityLabel={t("log_note_question")}
+                testID="log-message"
+                placeholder={t("log_note_question")}
+                value={draft.message}
+                onChange={setMessage}
+                maxLength={MAX_MESSAGE_LENGTH}
+                style={{
+                  flex: 1,
+                  marginBottom: 0,
+                  borderWidth: 0,
+                  backgroundColor: "transparent",
+                  paddingHorizontal: 0,
+                  paddingTop: 8,
+                  paddingBottom: keyboardVisible
+                    ? INPUT_BOTTOM_PADDING_TYPING
+                    : 16,
+                  fontSize: 18,
+                  lineHeight: 26,
+                }}
+              />
+            )}
           </View>
           {footerVisible && (
             <Footer>

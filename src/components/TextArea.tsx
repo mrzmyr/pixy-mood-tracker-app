@@ -15,6 +15,7 @@ const TextAreaComponent = (
     maxLength = 500,
     autoFocus = false,
     style,
+    scrollEnabled = true,
     onChange = noop,
   }: {
     value?: string;
@@ -24,6 +25,8 @@ const TextAreaComponent = (
     maxLength?: number;
     autoFocus?: boolean;
     style?: TextStyle;
+    /** `false` sizes the input to its text, for a parent that scrolls it. */
+    scrollEnabled?: boolean;
     onChange?: (text: string) => void;
   },
   ref: React.ForwardedRef<TextInput>
@@ -37,6 +40,7 @@ const TextAreaComponent = (
       testID={testID}
       autoFocus={autoFocus}
       multiline
+      scrollEnabled={scrollEnabled}
       onChangeText={(text) => {
         const newText = text.slice(0, maxLength);
         onChange(newText);
