@@ -47,16 +47,9 @@
 
 ### Footguns
 
+- Record mistakes in [MISTAKES.md](MISTAKES.md), missing capabilities in [DESIRES.md](DESIRES.md), and environment discoveries in [LEARNINGS.md](LEARNINGS.md)
+- Public repo: entries contain no private names, internal context, or user data
 - Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text (notes, custom tag names) to PostHog. Send counts and lengths instead. Never send ratings, emotion keys, sleep quality, or mood feedback. Record every event rename in [docs/analytics.md](docs/analytics.md#event-history).
-- Never write storage after a failed read. A read error must keep the stored data, not replace it with defaults (commits 1a1ddd8, f165aad).
-- Hermes lacks some modern array methods. `pixy-standards/no-hermes-missing-array-methods` enforces the safe forms.
-- Hermes lacks `Intl.RelativeTimeFormat`, `ListFormat`, `PluralRules`, `DisplayNames`, `Segmenter`, `Locale`. `pixy-standards/no-hermes-missing-intl` bans them in `src`.
-- Keep all `@react-navigation/*` packages on the same major version. Mixing v6 and v7 breaks native navigation.
-- React Compiler plus frozen screens (`freezeOnBlur`) can leave FlashList headers or footers stale after the screen unfreezes. No screen freezes today. `src/features/calendar/screens/Calendar/index.tsx` still opts out with `"use no memo"`. Run the e2e suite after enabling the compiler for more code.
-- Initialize Sentry once, at module load in `src/app/_layout.tsx`, before the first render.
-- Native builds live in `~/.cache/pixy-mood-tracker/build-cache`, shared by all worktrees. Check `bun builds list` before any compile. `ios/build` and Xcode DerivedData say nothing about cached builds. Dev client with Metro: `bun app dev --platform=<ios|android>` ([run-app skill](.agents/skills/run-app/SKILL.md)). Never create simulators by hand.
-- Error `disk_low`: free disk without asking. Follow its `fix` steps ([`scripts/cli/disk.ts`](scripts/cli/disk.ts)). Never delete other files. Never delete all of `ios/build`: it holds React Native codegen output, and a delete forces full rebuilds.
-- Device availability comes from `bun devices list` only. Not `adb devices`, not other device tools. A shut-down emulator is free: the CLI boots it.
 
 ### Testing
 
@@ -79,6 +72,7 @@
 ## References
 
 - MUST read [CODING_STANDARDS.md](CODING_STANDARDS.md)
+- MUST read [MISTAKES.md](MISTAKES.md) and [LEARNINGS.md](LEARNINGS.md) before code changes
 - MUST read [docs/documentation.md](docs/documentation.md)
 - MUST read [docs/design.md](docs/design.md) for UI, copy, layout, forms, and interaction guidelines
 - Use domain terms from [GLOSSARY.md](GLOSSARY.md) in code, copy, and docs
