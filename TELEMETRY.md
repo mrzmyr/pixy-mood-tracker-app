@@ -4,24 +4,23 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 
 ## What is sent
 
-- Feature usage events, for example `logger:log_saved` or `calendar:filters_opened`
-- Usage summary: counts, shares, and booleans ([product-analytics.md](docs/product-analytics.md))
-- Screen views: route name only
-- On every event: random install id, `scale_type`, `reminder_enabled`, `steps`
-- Complete catalog: [`src/state/analytics/events.ts`](src/state/analytics/events.ts). `track()` accepts only events from this file
-
-## What is never sent
-
-- Entry content: notes, tag names, people names, photos, photo metadata, coordinates, place names
-- Mood data: ratings, emotions, sleep quality, mood feedback
-- Identity: no account, no `identify()`. The install stays anonymous
+| Data | Sent | Details |
+| --- | --- | --- |
+| Feature usage events | Yes | For example `logger:log_saved`, `calendar:filters_opened`. Catalog: [`events.ts`](src/state/analytics/events.ts). `track()` accepts only events from this file |
+| Usage summary | Yes | Counts, shares, and booleans ([product-analytics.md](docs/product-analytics.md)) |
+| Screen views | Yes | Route name only |
+| Settings on every event | Yes | `scale_type`, `reminder_enabled`, `steps` |
+| Install id | Yes | Random. New id after "Delete all my data" |
+| Entry content | Never | Notes, tag names, people names, photos, photo metadata, coordinates, place names |
+| Mood data | Never | Ratings, emotions, sleep quality, mood feedback |
+| Identity | Never | No account, no `identify()`. The install stays anonymous |
 
 ## Consent and opt out
 
 - Default off in the EU, EEA, UK, Switzerland, and when the region is unknown. Default on elsewhere ([`consent.ts`](src/state/analytics/consent.ts))
 - Off switch: Settings > Privacy > Behavioral Data
 - Off means no events, no feature flags, no startup metrics
-- "Delete all my data" creates a new install id and restores the regional default
+- "Delete all my data" restores the regional default
 - Crash reports go to Sentry. The Behavioral Data switch does not cover them
 
 ## Developer reference
