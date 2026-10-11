@@ -53,13 +53,14 @@ describe("tag form", () => {
     const screen = await renderCreate();
     await act(async () => {});
 
-    expect(screen.queryByTestId("tag-name-error")?.props.children).toBe("");
+    expect(screen.queryByTestId("tag-name-error")).toBeNull();
 
     await fireEvent.press(screen.getByTestId("tag-save"));
 
     await waitFor(() => {
-      expect(screen.getByTestId("tag-name-error").props.children).toContain(
-        String(MIN_TAG_LENGTH)
+      expect(screen.getByTestId("tag-name-error")).toHaveTextContent(
+        String(MIN_TAG_LENGTH),
+        { exact: false }
       );
     });
     expect(await storedTitles()).not.toContain("");
@@ -73,7 +74,7 @@ describe("tag form", () => {
     await fireEvent.changeText(screen.getByTestId("tag-name"), "Valid name");
 
     await waitFor(() => {
-      expect(screen.getByTestId("tag-name-error").props.children).toBe("");
+      expect(screen.queryByTestId("tag-name-error")).toBeNull();
     });
   });
 

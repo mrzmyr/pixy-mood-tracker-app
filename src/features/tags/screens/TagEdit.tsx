@@ -122,7 +122,7 @@ export const TagEdit = () => {
           />
           <MenuList
             style={{
-              marginTop: 16,
+              marginTop: 24,
             }}
           >
             <MenuListItem
@@ -145,7 +145,7 @@ export const TagEdit = () => {
           <TextInfo>{t("archive_tag_description")}</TextInfo>
 
           {Platform.OS === "ios" ? (
-            <MenuList style={{ marginTop: 32 }}>
+            <MenuList style={{ marginTop: 8 }}>
               <MenuListItem
                 testID="tag-delete"
                 title={
@@ -167,7 +167,7 @@ export const TagEdit = () => {
               testID="tag-delete"
               onPress={() => confirmDelete(tag)}
               style={{
-                marginTop: 32,
+                marginTop: 8,
                 alignSelf: "center",
                 color: colors.dangerButtonText,
               }}
