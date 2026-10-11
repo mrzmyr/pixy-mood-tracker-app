@@ -11,7 +11,7 @@ import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import TagCategoryPicker from "../components/TagCategoryPicker";
-import TagColorPicker from "../components/TagColorPicker";
+import { ColorPicker } from "../components/ColorPicker";
 import { GENERAL_CATEGORY_ID } from "../tagCategories";
 import TagNameField from "../components/TagNameField";
 import { isValidTagTitle } from "../tagName";
@@ -112,7 +112,7 @@ export const TagEdit = () => {
               setTag((currentTag) => ({ ...currentTag, title }));
             }}
           />
-          <TagColorPicker
+          <ColorPicker
             value={tag.color}
             onChange={(color) => {
               setTag((currentTag) => ({ ...currentTag, color }));
@@ -126,7 +126,7 @@ export const TagEdit = () => {
           />
           <MenuList
             style={{
-              marginTop: 16,
+              marginTop: 24,
             }}
           >
             <MenuListItem
@@ -149,7 +149,7 @@ export const TagEdit = () => {
           <TextInfo>{t("archive_tag_description")}</TextInfo>
 
           {Platform.OS === "ios" ? (
-            <MenuList style={{ marginTop: 32 }}>
+            <MenuList style={{ marginTop: 8 }}>
               <MenuListItem
                 testID="tag-delete"
                 title={
@@ -171,7 +171,7 @@ export const TagEdit = () => {
               testID="tag-delete"
               onPress={() => confirmDelete(tag)}
               style={{
-                marginTop: 32,
+                marginTop: 8,
                 alignSelf: "center",
                 color: colors.dangerButtonText,
               }}
