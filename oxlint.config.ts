@@ -23,6 +23,8 @@ export default defineConfig({
     ".agents/**",
     ".claude/**",
     ".codex/**",
+    // Generated store screenshot prototypes (built by build.py), not app code.
+    "docs/store-screenshots/**",
   ],
   jsPlugins: [
     ...jsPlugins.jsPlugins,
