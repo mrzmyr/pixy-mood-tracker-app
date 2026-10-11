@@ -4,9 +4,8 @@ import type { LogItem } from "@/features/logs";
 import useColors from "@/hooks/useColors";
 import usePressRipple from "@/hooks/usePressRipple";
 import { t } from "@/lib/translation";
-import { INSET } from "./layout";
 
-/** Stored daily flow remains visible when the feature flag is off. */
+/** Compact header flow stays visible when the flag is off. Accessible label names the module. */
 export const Menstruation = ({
   item,
   onEdit,
@@ -35,18 +34,20 @@ export const Menstruation = ({
           : undefined
       }
       android_ripple={onEdit ? ripple : undefined}
+      hitSlop={{ top: 14, bottom: 14 }}
       style={({ pressed }) => ({
-        minHeight: 48,
-        paddingHorizontal: INSET,
         flexDirection: "row",
         alignItems: "center",
-        gap: 8,
-        opacity: pressed ? 0.7 : 1,
+        flexShrink: 1,
+        gap: 5,
+        opacity: pressed ? 0.6 : 1,
       })}
     >
       <MenstruationIcon flow={flow} />
-      <Text style={{ flex: 1, fontSize: 17, color: colors.textSecondary }}>
-        {label}
+      <Text
+        style={{ flexShrink: 1, fontSize: 13, color: colors.textSecondary }}
+      >
+        {t(`menstruation_flow_${flow}`)}
       </Text>
     </Pressable>
   );

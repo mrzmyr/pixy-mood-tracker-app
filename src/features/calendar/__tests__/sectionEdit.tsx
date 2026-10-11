@@ -107,8 +107,8 @@ test("flag off keeps stored menstruation visible and read-only", async () => {
     item: { menstruation: { flow: "none" } },
   });
   await waitFor(() =>
-    expect(screen.getByTestId("log-list-menstruation")).toHaveTextContent(
-      "Menstruation: None"
+    expect(screen.getByLabelText("Menstruation: None")).toHaveTextContent(
+      "None"
     )
   );
   expect(
