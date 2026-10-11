@@ -168,6 +168,10 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("reminder") }}
           />
           <Stack.Screen
+            name="settings/recaps"
+            options={{ ...pageOptions, title: t("recaps") }}
+          />
+          <Stack.Screen
             name="settings/privacy"
             options={{ ...pageOptions, title: t("privacy") }}
           />

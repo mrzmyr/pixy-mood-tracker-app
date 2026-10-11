@@ -9,6 +9,7 @@ import year from "@/dev/fixtures/year.json";
 import { withTimeline } from "@/dev/fixtures/timeline";
 import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
+import { withRecapNudges } from "@/dev/fixtures/recapNudges";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 
@@ -138,6 +139,14 @@ export const FIXTURES: Fixture[] = [
       "Stress test ending today: every limit at max (50 tags, 50 people, 6 photos, 10,000-character note, all emotions), many scripts and emoji, years with gaps, 24 entries on the newest day, and past days with up to 100 entries.",
     endsToday: true,
     data: withChaos(asExport(empty)),
+  },
+  {
+    id: "recap-nudges",
+    title: "Recap nudges",
+    description:
+      "3 check-in days ending today, reminder off, Emotions, People, and Photos steps off, 34 tags in General. Shows every nudge in the week recap.",
+    endsToday: true,
+    data: withRecapNudges(asExport(empty)),
   },
 ];
 

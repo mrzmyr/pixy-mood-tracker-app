@@ -5,3 +5,4 @@ export type { ReminderResult } from "./useReminder";
 export { useReminderSync } from "./reminderSync";
 export { useReminderTapTracking } from "./reminderTaps";
 export { reminderTimeToDate } from "./reminderTime";
+export { default as NotificationPreview } from "./components/NotificationPreview";
