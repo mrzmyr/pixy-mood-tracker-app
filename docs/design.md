@@ -10,8 +10,9 @@
 - Android: [Material radio buttons](https://m3.material.io/components/radio-button/overview) represent one choice. [Accessibility defaults](https://developer.android.com/develop/ui/compose/accessibility/api-defaults) require targets at least 48 × 48 dp. Avoid overlapping targets.
 - Layout follows native fixed-palette pickers (iOS Reminders list color, Google Keep note color): label outside (same style as Name label), swatches inside grouped card like settings rows.
 - Grid columns spread across card width. 48 × 48 targets, 30-point dots. Targets never shrink; narrow screens get fewer columns.
-- Selected color: one ring in text color (black in light, white in dark), black check on dot, color name in label. Selection never depends on hue alone.
-- Screen readers receive localized color names, radio roles, checked state. Keyboard focus gets visible ring.
+- Selected color: ring in dot color (iOS Reminders), black check on dot, color name in label. Check and label carry selection, so selection never depends on hue alone.
+- Keyboard focus: ring in text color. Dot-colored ring is too faint on light dots for focus.
+- Screen readers receive localized color names, radio roles, checked state.
 - Color names use English fallback when locale lacks translation. Palette values stay unchanged in storage.
 - Create and Edit share [`ColorPicker`](../src/features/tags/components/ColorPicker.tsx). Forms scroll when keyboard or larger text reduces space.
 
