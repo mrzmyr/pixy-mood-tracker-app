@@ -25,7 +25,7 @@ import {
   useTagsUpdater,
 } from "../TagsProvider";
 import type { Tag } from "../TagsProvider";
-import { GENERAL_CATEGORY_ID } from "../tagCategories";
+import { GENERAL_CATEGORY_ID, MAX_TAG_CATEGORIES } from "../tagCategories";
 
 import { _generateItem } from "@/__tests__/utils";
 
@@ -264,9 +264,54 @@ describe("useTags()", () => {
 
     const { tags, categories } = hook.result.current.state;
     expect(categories).toEqual([GENERAL]);
-    expect(tags.find((tag) => tag.id === "1")?.categoryId).toBe(
-      GENERAL_CATEGORY_ID
+    // Moved tags follow the tags already in General.
+    expect(tags.at(-1)).toMatchObject({
+      id: "1",
+      categoryId: GENERAL_CATEGORY_ID,
+    });
+  });
+
+  test("should not createCategory beyond MAX_TAG_CATEGORIES or with a used id", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.updater.createCategory({ id: "c1", title: "Job" });
+      hook.result.current.updater.createCategory({ id: "c1", title: "Again" });
+      for (let index = 2; index <= MAX_TAG_CATEGORIES + 1; index += 1) {
+        hook.result.current.updater.createCategory({
+          id: `c${index}`,
+          title: `Category ${index}`,
+        });
+      }
+    });
+
+    const { categories } = hook.result.current.state;
+    expect(categories).toHaveLength(MAX_TAG_CATEGORIES);
+    expect(categories.filter((category) => category.id === "c1")).toEqual([
+      { id: "c1", title: "Job" },
+    ]);
+  });
+
+  test("should import more than MAX_TAG_CATEGORIES categories without duplicate ids", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    const imported = Array.from(
+      { length: MAX_TAG_CATEGORIES + 2 },
+      (_, index) => ({ id: `c${index}`, title: `Category ${index}` })
     );
+
+    await act(() => {
+      hook.result.current.updater.import({
+        tags: testTags,
+        categories: [GENERAL, ...imported, imported[0]],
+      });
+    });
+
+    expect(hook.result.current.state.categories).toEqual([
+      GENERAL,
+      ...imported,
+    ]);
   });
 
   test("should reorderCategories and rename with updateCategory", async () => {

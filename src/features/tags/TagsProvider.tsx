@@ -9,6 +9,7 @@ import { useSettings, useSettingsLoad } from "@/state/settings";
 import {
   arrangeTags,
   GENERAL_CATEGORY_ID,
+  MAX_TAG_CATEGORIES,
   normalizeTagCategories,
   reorderCategories,
 } from "./tagCategories";
@@ -142,6 +143,13 @@ const reducer = (state: State, action: StateAction): State => {
       return { ...state, tags: arrangeTags(state.tags, action.payload) };
     }
     case "add_category": {
+      // The create button hides at the limit; this guards repeated taps.
+      if (
+        state.categories.length >= MAX_TAG_CATEGORIES ||
+        state.categories.some((category) => category.id === action.payload.id)
+      ) {
+        return state;
+      }
       return { ...state, categories: [...state.categories, action.payload] };
     }
     case "edit_category": {
@@ -156,8 +164,13 @@ const reducer = (state: State, action: StateAction): State => {
       if (action.payload === GENERAL_CATEGORY_ID) {
         return state;
       }
+      // Like a re-categorized tag, its tags follow the tags already in General.
+      const isDeleted = (tag: Tag) => tag.categoryId === action.payload;
       return normalize(
-        state.tags,
+        [
+          ...state.tags.filter((tag) => !isDeleted(tag)),
+          ...state.tags.filter(isDeleted),
+        ],
         state.categories.filter((category) => category.id !== action.payload)
       );
     }
