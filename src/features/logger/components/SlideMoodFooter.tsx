@@ -1,6 +1,10 @@
 import Button from "@/components/Button";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
-import { LocationPicker, getLocationLabel } from "@/features/location";
+import {
+  LocationPicker,
+  MapPinOff,
+  getLocationLabel,
+} from "@/features/location";
 import { getLocale, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { getShortItemDateTitle } from "@/lib/utils";
@@ -65,23 +69,23 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
   );
 };
 
-/** Rounded button with an icon and one line of text. */
+/**
+ * Rounded button with an icon and, with `label`, one line of text. Without
+ * `label` it is a square icon button named by `accessibilityLabel`.
+ */
 const Pill = ({
   icon,
   label,
   accessibilityLabel,
   accessibilityHint,
   testID,
-  isShrinkable,
   onPress,
 }: {
   icon: ReactElement;
-  label: string;
+  label?: string;
   accessibilityLabel: string;
   accessibilityHint: string;
   testID: string;
-  /** Truncates the label when the row runs out of space. */
-  isShrinkable: boolean;
   onPress: () => void;
 }) => {
   const colors = useColors();
@@ -99,7 +103,9 @@ const Pill = ({
         alignItems: "center",
         gap: 6,
         minHeight: PILL_HEIGHT,
-        flexShrink: isShrinkable ? 1 : 0,
+        minWidth: PILL_HEIGHT,
+        justifyContent: "center",
+        flexShrink: 0,
         paddingVertical: 6,
         paddingHorizontal: 12,
         backgroundColor: colors.logHeaderHighlight,
@@ -107,21 +113,24 @@ const Pill = ({
       })}
     >
       {icon}
-      <Text
-        numberOfLines={1}
-        style={{
-          fontSize: 17,
-          fontWeight: "600",
-          color: colors.logHeaderText,
-          flexShrink: 1,
-        }}
-      >
-        {label}
-      </Text>
+      {label !== undefined && (
+        <Text
+          numberOfLines={1}
+          style={{
+            fontSize: 17,
+            fontWeight: "600",
+            color: colors.logHeaderText,
+            flexShrink: 1,
+          }}
+        >
+          {label}
+        </Text>
+      )}
     </Pressable>
   );
 };
 
+/** Spoken name of the location button. The button itself shows only an icon. */
 const getLocationText = ({
   location,
   isLocating,
@@ -144,7 +153,8 @@ const getLocationText = ({
  *
  * - Time: opens the date and time picker. Changing it updates `dateTime`
  *   and `date`.
- * - Location: shows with `isLocationVisible`. Opens the location picker.
+ * - Location: shows with `isLocationVisible` as an icon button. Pin: the
+ *   entry has a place. Struck pin: none. Opens the location picker.
  * - `isActionVisible`: the floating next/save button shows. The row leaves
  *   room for it and centers on it.
  */
@@ -208,7 +218,6 @@ export const SlideMoodFooter = ({
       )}
       <Pill
         testID="logger-date"
-        isShrinkable={false}
         icon={<Clock {...iconProps} />}
         label={dateTimeTitle}
         accessibilityLabel={dateTimeTitle}
@@ -219,9 +228,13 @@ export const SlideMoodFooter = ({
         <>
           <Pill
             testID="logger-location"
-            isShrinkable
-            icon={<MapPin {...iconProps} />}
-            label={locationText}
+            icon={
+              draft.location === undefined && !isLocating ? (
+                <MapPinOff {...iconProps} />
+              ) : (
+                <MapPin {...iconProps} />
+              )
+            }
             accessibilityLabel={locationText}
             accessibilityHint={t("location_hint")}
             onPress={() => setIsLocationPickerVisible(true)}
