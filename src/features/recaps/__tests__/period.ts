@@ -1,4 +1,4 @@
-import { getPeriodDays } from "../days";
+import { getDays, getPeriodDays } from "../days";
 import { getPeriod, shiftPeriod } from "../period";
 import { _generateItem } from "@/__tests__/utils";
 import { getWeekLocale } from "@/lib/translation";
@@ -67,7 +67,7 @@ describe("getPeriodDays", () => {
     ];
 
     expect(
-      getPeriodDays(items, period).map((day) => [
+      getPeriodDays(getDays(items), period).map((day) => [
         day.date,
         day.items.map((item) => item.id),
       ])

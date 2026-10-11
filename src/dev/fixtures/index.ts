@@ -9,6 +9,7 @@ import year from "@/dev/fixtures/year.json";
 import { withTimeline } from "@/dev/fixtures/timeline";
 import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
+import { withRecapMoments } from "@/dev/fixtures/recapMoments";
 import { withRecapNudges } from "@/dev/fixtures/recapNudges";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
@@ -147,6 +148,14 @@ export const FIXTURES: Fixture[] = [
       "3 check-in days ending today, reminder off, Emotions, People, and Photos steps off, 34 tags in General. Shows every nudge in the week recap.",
     endsToday: true,
     data: withRecapNudges(asExport(empty)),
+  },
+  {
+    id: "recap-moments",
+    title: "Recap moments",
+    description:
+      "91 days ending today with every week moment: person back, new person, 25 days with Lena, emotion again and absent, tag back, sleep turnaround, first city (location on).",
+    endsToday: true,
+    data: withRecapMoments(asExport(empty)),
   },
 ];
 

@@ -1,5 +1,6 @@
 import { SegmentedControl } from "@expo/ui/community/segmented-control";
 import dayjs from "dayjs";
+import noop from "lodash/noop";
 import {
   Redirect,
   useFocusEffect,
@@ -18,7 +19,10 @@ import type { LayoutChangeEvent } from "react-native";
 import { ChevronLeft, ChevronRight } from "react-native-feather";
 import { Headline, Secondary } from "@/components/Type";
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import { useLocationSetting } from "@/features/location";
+import { useFeedback } from "@/features/feedback";
 import { useLogState } from "@/features/logs";
+import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 import { useWeekLocale } from "@/hooks/useWeekLocale";
@@ -29,8 +33,14 @@ import { useFeatureFlag } from "@/state/featureFlags";
 import { useSettings } from "@/state/settings";
 import { getCardProperties } from "../analytics";
 import { buildCards } from "../buildCards";
+import { FeedbackFooter } from "../components/FeedbackFooter";
+import type { CardFeedback } from "../components/FeedbackFooter";
+import { FeedbackSheet } from "../components/FeedbackSheet";
+import type { FeedbackReason } from "../feedbackReasons";
+import { MomentCard } from "../components/MomentCard";
 import { NudgeCard } from "../components/NudgeCard";
-import { getPeriodDays } from "../days";
+import { getCardId, isNudgeCard } from "../cardTypes";
+import { getDays, getPeriodDays } from "../days";
 import { getPeriod, shiftPeriod } from "../period";
 import type { Period, PeriodKind, RecapCard } from "../types";
 import { useNudgeActions } from "../useNudgeActions";
@@ -51,16 +61,6 @@ const isDateKey = (value: unknown): value is string =>
   typeof value === "string" &&
   /^\d{4}-\d{2}-\d{2}$/u.test(value) &&
   dayjs(value).isValid();
-
-const getFirstEntryDate = (items: { date: string }[]) => {
-  let first: string | null = null;
-  for (const item of items) {
-    if (first === null || item.date < first) {
-      first = item.date;
-    }
-  }
-  return first;
-};
 
 /** Day and month in the phone locale; the end of a range adds the year. */
 const formatRangeDay = (date: string, withYear: boolean) =>
@@ -83,7 +83,7 @@ const PERIOD_LABELS: Record<PeriodKind, (period: Period) => string> = {
 };
 
 const cardKey = (card: RecapCard, period: Period) =>
-  `${period.kind}:${period.start}:${card.type}`;
+  `${period.kind}:${period.start}:${getCardId(card)}`;
 
 /**
  * Recap cards of one week, month, quarter, or year. Period kind and date
@@ -106,6 +106,8 @@ const Recaps = () => {
   const isCurrent = period.end >= today;
 
   const { items } = useLogState();
+  const history = getDays(items);
+  const location = useLocationSetting();
   const { tags } = useTagsState();
   const { settings } = useSettings();
   const isPeopleOn = useFeatureFlag("people");
@@ -120,8 +122,10 @@ const Recaps = () => {
   const cards = buildCards({
     period,
     today,
-    firstEntryDate: getFirstEntryDate(items),
-    days: getPeriodDays(items, period),
+    firstEntryDate: history[0]?.date ?? null,
+    days: getPeriodDays(history, period),
+    history,
+    locationEnabled: location.isAvailable && location.isEnabled,
     steps: new Set(settings.steps),
     availableSteps,
     reminderEnabled: settings.reminderEnabled,
@@ -129,6 +133,41 @@ const Recaps = () => {
   }).filter((card) => !hidden.has(cardKey(card, period)));
 
   const nudge = useNudgeActions(period);
+  const { people } = usePeopleState();
+  const feedbackChannel = useFeedback();
+  const [feedback, setFeedback] = useState<ReadonlyMap<string, CardFeedback>>(
+    new Map()
+  );
+  const [askingCard, setAskingCard] = useState<RecapCard | null>(null);
+
+  const sendFeedback = (
+    card: RecapCard,
+    helpful: boolean,
+    reasons: FeedbackReason[],
+    note: string
+  ) => {
+    analytics.track("recaps:card_feedback_sent", {
+      ...getCardProperties(card, period),
+      helpful,
+      reasons,
+      has_note: note.length > 0,
+    });
+    if (note.length > 0) {
+      // Notes go to the Pixy team like other feedback, never to analytics.
+      void feedbackChannel.send({
+        type: "other",
+        source: "recaps",
+        message: `${note}\n\nRecap card: ${card.type}`,
+        onOk: noop,
+        onCancel: noop,
+      });
+    }
+    const key = cardKey(card, period);
+    setFeedback(
+      (current) =>
+        new Map([...current, [key, helpful ? "helpful" : "not_helpful"]])
+    );
+  };
 
   const viewport = useRef<Span>({ y: 0, height: 0 });
   const listY = useRef(0);
@@ -256,7 +295,7 @@ const Recaps = () => {
         )}
         {cards.map((card) => {
           const key = cardKey(card, period);
-          return (
+          return isNudgeCard(card) ? (
             <NudgeCard
               key={key}
               card={card}
@@ -269,9 +308,35 @@ const Recaps = () => {
                 setHidden((current) => new Set([...current, key]));
               }}
             />
+          ) : (
+            <MomentCard
+              key={key}
+              card={card}
+              people={people}
+              tags={tags}
+              onLayout={onCardLayout(key)}
+              footer={
+                <FeedbackFooter
+                  feedback={feedback.get(key) ?? null}
+                  onHelpful={() => sendFeedback(card, true, [], "")}
+                  onNotHelpful={() => setAskingCard(card)}
+                  testID={`recap-feedback-${card.type}`}
+                />
+              }
+            />
           );
         })}
       </View>
+      <FeedbackSheet
+        visible={askingCard !== null}
+        onCancel={() => setAskingCard(null)}
+        onSend={(reasons, note) => {
+          if (askingCard) {
+            sendFeedback(askingCard, false, reasons, note);
+          }
+          setAskingCard(null);
+        }}
+      />
     </ScrollView>
   );
 };

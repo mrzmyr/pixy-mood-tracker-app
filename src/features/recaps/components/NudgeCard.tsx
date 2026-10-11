@@ -20,10 +20,10 @@ import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { getActiveTags } from "../cards/nudges";
-import type { RecapCard } from "../types";
+import type { NudgeCard as NudgeCardData } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
 
-type NudgeType = RecapCard["type"];
+type NudgeType = NudgeCardData["type"];
 
 const COPY: Record<
   NudgeType,
@@ -166,7 +166,7 @@ export const NudgeCard = ({
   onNotNow,
   onLayout,
 }: {
-  card: RecapCard;
+  card: NudgeCardData;
   tags: Tag[];
   reminderTime: string;
   onTurnOn: () => Promise<void>;

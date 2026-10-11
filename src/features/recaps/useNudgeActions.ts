@@ -9,7 +9,7 @@ import { t } from "@/lib/translation";
 import { showToast } from "@/lib/toast";
 import { useAnalytics } from "@/state/analytics";
 import { getCardProperties } from "./analytics";
-import type { CardType, Period, RecapCard } from "./types";
+import type { NudgeCard, Period } from "./types";
 
 const turnOnStep = (setEnabled: (next: boolean) => void) => {
   setEnabled(true);
@@ -40,7 +40,7 @@ export const useNudgeActions = (period: Period) => {
   const people = useStepEnabled("people");
   const photos = useStepEnabled("photos");
 
-  const track = (card: RecapCard, action: "turn_on" | "not_now") => {
+  const track = (card: NudgeCard, action: "turn_on" | "not_now") => {
     analytics.track("recaps:nudge_tapped", {
       ...getCardProperties(card, period),
       action,
@@ -79,7 +79,7 @@ export const useNudgeActions = (period: Period) => {
     });
   };
 
-  const turnOnActions: Record<CardType, () => Promise<void> | void> = {
+  const turnOnActions: Record<NudgeCard["type"], () => Promise<void> | void> = {
     "nudge-reminder": enableReminder,
     "intro-emotions": () => turnOnStep(emotions.setEnabled),
     "intro-people": () => turnOnStep(people.setEnabled),
@@ -89,10 +89,10 @@ export const useNudgeActions = (period: Period) => {
 
   return {
     reminderTime: reminder.time,
-    turnOn: async (card: RecapCard) => {
+    turnOn: async (card: NudgeCard) => {
       track(card, "turn_on");
       await turnOnActions[card.type]();
     },
-    notNow: (card: RecapCard) => track(card, "not_now"),
+    notNow: (card: NudgeCard) => track(card, "not_now"),
   };
 };
