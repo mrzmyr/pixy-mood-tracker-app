@@ -11,7 +11,6 @@ import {
   BookOpen,
   CheckCircle,
   Database,
-  Droplet,
   Flag,
   Github,
   Layout,
@@ -42,7 +41,13 @@ import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
 import { AppLockMenuItem } from "@/features/applock";
 import pkg from "../../../../../package.json";
-import { Bug, Lightbulb, Squircle, SunMoon } from "lucide-react-native";
+import {
+  Bug,
+  Lightbulb,
+  Palette,
+  Squircle,
+  SunMoon,
+} from "lucide-react-native";
 import { useSupport } from "@/support";
 
 const DEVELOPMENT_UNLOCK_TAPS = 20;
@@ -165,7 +170,7 @@ export const SettingsScreen = () => {
           />
           <MenuListItem
             title={t("colors")}
-            iconLeft={<Droplet {...iconProps} />}
+            iconLeft={<Palette {...iconProps} />}
             onPress={() => router.push("/settings/colors")}
             isLink
           />
