@@ -19,7 +19,7 @@ import type { ExportSettings } from "@/state/settings";
 import { INITIAL_STATE } from "@/constants/Settings";
 
 import { TagsProvider, useTagsState, useTagsUpdater } from "@/features/tags";
-import type { Tag } from "@/features/tags";
+import type { Tag, TagCategory } from "@/features/tags";
 import {
   PeopleProvider,
   usePeopleState,
@@ -310,18 +310,20 @@ describe("useLogs()", () => {
     expect(JSON.parse(contents)).toEqual({
       version: pkg.version,
       items: testItems,
-      settings: _.omit(testSettings, [
-        "deviceId",
-        "storeReviewPromptedAt",
-        "storeReviewPromptedAppVersion",
-        "photosDayAccessDismissed",
-        "colorScheme",
-        "locationEnabled",
-        "calendarLayout",
-        "appLockEnabled",
-      ]) satisfies ExportSettings,
+      settings: {
+        ..._.omit(testSettings, [
+          "deviceId",
+          "storeReviewPromptedAt",
+          "storeReviewPromptedAppVersion",
+          "photosDayAccessDismissed",
+          "colorScheme",
+          "locationEnabled",
+          "calendarLayout",
+          "appLockEnabled",
+        ]),
+        tagCategories: testTagCategories,
+      } satisfies ExportSettings & { tagCategories: TagCategory[] },
       tags: inGeneral(testTags),
-      tagCategories: testTagCategories,
       people: [],
     });
     // Metadata only: export files never contain photo files.

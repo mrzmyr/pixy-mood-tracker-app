@@ -29,9 +29,10 @@ export const encodeBackup = (backup: Backup, version: string): string =>
     version,
     items: backup.items,
     tags: backup.tags,
-    tagCategories: backup.tagCategories,
     people: backup.people,
-    settings: backup.settings,
+    // Inside settings: 1.95.2 and older reject unknown top-level keys but
+    // ignore unknown settings keys, so they can still restore this file.
+    settings: { ...backup.settings, tagCategories: backup.tagCategories },
   });
 
 /**

@@ -30,7 +30,8 @@ export interface ImportData {
   tags?: Tag[];
   tagCategories?: TagCategory[];
   people?: ExportPerson[];
-  settings: ExportSettings;
+  /** Export files keep `tagCategories` here; migration moves it to the top. */
+  settings: ExportSettings & { tagCategories?: TagCategory[] };
 }
 
 /**

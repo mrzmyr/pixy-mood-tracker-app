@@ -52,6 +52,28 @@ describe("backup codec", () => {
     });
   });
 
+  test("writes only top-level keys that 1.95.2 accepts", () => {
+    const file = JSON.parse(encodeBackup(backup, "9.9.9"));
+
+    // 1.95.2 validates the top level with z.strictObject and these keys.
+    expect(
+      Object.keys(file).filter(
+        (key) =>
+          !["version", "items", "tags", "people", "settings"].includes(key)
+      )
+    ).toEqual([]);
+    expect(file.settings.tagCategories).toEqual(backup.tagCategories);
+  });
+
+  test("reads tag categories from the top level too", () => {
+    const file = JSON.parse(encodeBackup(backup, "9.9.9"));
+    const { tagCategories, ...settings } = file.settings;
+
+    expect(
+      decodeBackup(JSON.stringify({ ...file, settings, tagCategories }))
+    ).toEqual({ ok: true, version: "9.9.9", backup });
+  });
+
   test("never writes device-bound settings into the file", () => {
     const { settings } = JSON.parse(encodeBackup(backup, "9.9.9"));
 
