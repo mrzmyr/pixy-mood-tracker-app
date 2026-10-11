@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Paling terhubung bulan ini",
   "recaps_most_connected_title_quarter": "Paling terhubung kuartal ini",
   "recaps_most_connected_title_year": "Paling terhubung tahun ini",
+  "recaps_no_clear_difference": "Tidak ada perbedaan jelas",
   "recaps_nudge_not_now": "Nanti Saja",
   "recaps_nudge_reminder_action": "Ingatkan Pukul %{time}",
   "recaps_nudge_reminder_text": "Hari besar tetap diingat. Hari baik yang kecil memudar keesokan paginya. Catatan singkat tiap malam menyimpannya.",
   "recaps_nudge_reminder_title": "Simpan juga hari-hari baik yang tenang",
   "recaps_open_settings": "Buka Pengaturan",
+  "recaps_people_mood_text": "Petunjuk, bukan penyebab. Hubungan bisa terasa baik, berat, atau campur aduk.",
+  "recaps_people_mood_title": "Suasana hati di hari terhubung",
   "recaps_period_month": "Bulan",
   "recaps_period_next": "Periode Berikutnya",
   "recaps_period_previous": "Periode Sebelumnya",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Setelah beberapa malam berat minggu sebelumnya.",
   "recaps_sleep_turnaround_title": "%{count} malam nyenyak berturut-turut",
   "recaps_step_turned_on": "Ditambahkan ke catatanmu",
+  "recaps_stood_out_text": "Hari-hari itu biasanya terasa lebih ringan bagimu.",
+  "recaps_stood_out_title": {
+    "one": "1 hari dengan %{tag} minggu ini",
+    "other": "{{count}} hari dengan %{tag} minggu ini"
+  },
   "recaps_tag_back_text": {
     "one": "Pada satu hari, setelah %{weeks} minggu tanpa.",
     "other": "Pada {{count}} hari, setelah %{weeks} minggu tanpa."
@@ -778,6 +786,9 @@
     "one": "1 perjalanan tahun ini",
     "other": "{{count}} perjalanan tahun ini"
   },
+  "recaps_what_moves_places": "Tempat",
+  "recaps_what_moves_text": "Suasana hati di hari dengan dan tanpa, dalam tingkat suasana hati.",
+  "recaps_what_moves_title": "Apa yang menggerakkan suasana hatimu",
   "reminder": "Pengingat",
   "reminder_device_required_message": "Notifikasi tidak berfungsi di simulator. Coba di perangkat asli.",
   "reminder_device_required_title": "Pengingat Butuh Ponsel",

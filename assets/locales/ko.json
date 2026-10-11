@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "이번 달 가장 많이 연결된 사람",
   "recaps_most_connected_title_quarter": "이번 분기 가장 많이 연결된 사람",
   "recaps_most_connected_title_year": "올해 가장 많이 연결된 사람",
+  "recaps_no_clear_difference": "뚜렷한 차이 없음",
   "recaps_nudge_not_now": "나중에",
   "recaps_nudge_reminder_action": "%{time}에 알림 받기",
   "recaps_nudge_reminder_text": "큰일이 있던 날은 기억에 남습니다. 작은 좋은 날은 다음 날 아침이면 흐려집니다. 매일 저녁 짧은 기록이 그날을 남겨 줍니다.",
   "recaps_nudge_reminder_title": "조용히 좋은 날도 남겨 두세요",
   "recaps_open_settings": "설정 열기",
+  "recaps_people_mood_text": "원인이 아니라 힌트예요. 연결은 좋을 수도, 무거울 수도, 섞일 수도 있어요.",
+  "recaps_people_mood_title": "연결된 날의 기분",
   "recaps_period_month": "월",
   "recaps_period_next": "다음 기간",
   "recaps_period_previous": "이전 기간",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "지난주 힘든 밤들이 지난 뒤예요.",
   "recaps_sleep_turnaround_title": "%{count}일 연속 잘 잔 밤",
   "recaps_step_turned_on": "기록에 추가되었습니다",
+  "recaps_stood_out_text": "그런 날은 보통 더 가볍게 느껴져요.",
+  "recaps_stood_out_title": {
+    "one": "이번 주 %{tag} 있었던 날 1일",
+    "other": "이번 주 %{tag} 있었던 날 {{count}}일"
+  },
   "recaps_tag_back_text": {
     "one": "%{weeks}주 만에 하루.",
     "other": "%{weeks}주 만에 {{count}}일."
@@ -778,6 +786,9 @@
     "one": "올해 여행 1회",
     "other": "올해 여행 {{count}}회"
   },
+  "recaps_what_moves_places": "장소",
+  "recaps_what_moves_text": "있던 날과 없던 날의 기분 차이(기분 단계).",
+  "recaps_what_moves_title": "기분을 움직이는 것",
   "reminder": "알림",
   "reminder_device_required_message": "시뮬레이터에서는 알림이 작동하지 않아요. 실제 기기에서 시도해 보세요.",
   "reminder_device_required_title": "미리 알림에는 휴대폰이 필요해요",

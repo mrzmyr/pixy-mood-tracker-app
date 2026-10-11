@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Legtöbb kapcsolat ebben a hónapban",
   "recaps_most_connected_title_quarter": "Legtöbb kapcsolat ebben a negyedévben",
   "recaps_most_connected_title_year": "Legtöbb kapcsolat idén",
+  "recaps_no_clear_difference": "Nincs egyértelmű különbség",
   "recaps_nudge_not_now": "Most nem",
   "recaps_nudge_reminder_action": "Emlékeztess %{time}-kor",
   "recaps_nudge_reminder_text": "A nagy napok megmaradnak. A kis jó napok másnap reggelre elhalványulnak. Egy rövid esti bejegyzés megőrzi őket.",
   "recaps_nudge_reminder_title": "Őrizd meg a csendes jó napokat is",
   "recaps_open_settings": "Beállítások megnyitása",
+  "recaps_people_mood_text": "Jelzés, nem ok. A kapcsolat lehet jó, nehéz vagy vegyes.",
+  "recaps_people_mood_title": "Hangulat a kapcsolat napjain",
   "recaps_period_month": "Hónap",
   "recaps_period_next": "Következő időszak",
   "recaps_period_previous": "Előző időszak",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Néhány nehéz éjszaka után az előző héten.",
   "recaps_sleep_turnaround_title": "%{count} jó éjszaka egymás után",
   "recaps_step_turned_on": "Hozzáadva a bejegyzéshez",
+  "recaps_stood_out_text": "Ezek a napok általában könnyebbek neked.",
+  "recaps_stood_out_title": {
+    "one": "1 nap ezzel: %{tag} ezen a héten",
+    "other": "{{count}} nap ezzel: %{tag} ezen a héten"
+  },
   "recaps_tag_back_text": {
     "one": "Egy napon, %{weeks} hét szünet után.",
     "other": "{{count}} napon, %{weeks} hét szünet után."
@@ -778,6 +786,9 @@
     "one": "1 utazás idén",
     "other": "{{count}} utazás idén"
   },
+  "recaps_what_moves_places": "Helyek",
+  "recaps_what_moves_text": "Hangulat a napokon vele és nélküle, hangulatszintekben.",
+  "recaps_what_moves_title": "Mi mozgatja a hangulatodat",
   "reminder": "Emlékeztetők",
   "reminder_device_required_message": "Az értesítések nem működnek szimulátoron. Próbáld valódi eszközön.",
   "reminder_device_required_title": "Az emlékeztetőkhöz telefon kell",

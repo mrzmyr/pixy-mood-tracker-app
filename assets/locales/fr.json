@@ -737,11 +737,14 @@
   "recaps_most_connected_title_month": "Le plus en lien ce mois-ci",
   "recaps_most_connected_title_quarter": "Le plus en lien ce trimestre",
   "recaps_most_connected_title_year": "Le plus en lien cette année",
+  "recaps_no_clear_difference": "Pas de différence nette",
   "recaps_nudge_not_now": "Pas maintenant",
   "recaps_nudge_reminder_action": "Me le rappeler à %{time}",
   "recaps_nudge_reminder_text": "Les grandes journées restent en mémoire. Les petites bonnes s’effacent dès le lendemain. Un court check-in chaque soir les garde.",
   "recaps_nudge_reminder_title": "Gardez aussi les bonnes journées calmes",
   "recaps_open_settings": "Ouvrir les réglages",
+  "recaps_people_mood_text": "Un indice, pas une cause. Un lien peut sembler bon, difficile ou mitigé.",
+  "recaps_people_mood_title": "Humeur les jours en lien",
   "recaps_period_month": "Mois",
   "recaps_period_next": "Période suivante",
   "recaps_period_previous": "Période précédente",
@@ -762,6 +765,11 @@
   "recaps_sleep_turnaround_text": "Après quelques nuits difficiles la semaine d’avant.",
   "recaps_sleep_turnaround_title": "%{count} bonnes nuits d’affilée",
   "recaps_step_turned_on": "Ajouté à votre check-in",
+  "recaps_stood_out_text": "Ces jours-là vous semblent souvent plus légers.",
+  "recaps_stood_out_title": {
+    "one": "1 jour avec %{tag} cette semaine",
+    "other": "{{count}} jours avec %{tag} cette semaine"
+  },
   "recaps_tag_back_text": {
     "one": "Un jour, après %{weeks} semaines sans.",
     "other": "{{count}} jours, après %{weeks} semaines sans."
@@ -779,6 +787,9 @@
     "one": "1 voyage cette année",
     "other": "{{count}} voyages cette année"
   },
+  "recaps_what_moves_places": "Lieux",
+  "recaps_what_moves_text": "Humeur les jours avec et sans, en niveaux d’humeur.",
+  "recaps_what_moves_title": "Ce qui influence votre humeur",
   "reminder": "Rappel",
   "reminder_device_required_message": "Les notifications ne fonctionnent pas sur les simulateurs. Essaie sur un vrai appareil.",
   "reminder_device_required_title": "Les rappels nécessitent un téléphone",

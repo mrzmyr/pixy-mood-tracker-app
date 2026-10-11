@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Più in contatto questo mese",
   "recaps_most_connected_title_quarter": "Più in contatto questo trimestre",
   "recaps_most_connected_title_year": "Più in contatto quest’anno",
+  "recaps_no_clear_difference": "Nessuna differenza chiara",
   "recaps_nudge_not_now": "Non ora",
   "recaps_nudge_reminder_action": "Ricordamelo alle %{time}",
   "recaps_nudge_reminder_text": "I grandi giorni restano nella memoria. Quelli piccoli e buoni svaniscono entro il mattino dopo. Un breve check-in ogni sera li conserva.",
   "recaps_nudge_reminder_title": "Conserva anche i giorni buoni e tranquilli",
   "recaps_open_settings": "Apri Impostazioni",
+  "recaps_people_mood_text": "Un indizio, non una causa. Un contatto può sembrare bello, pesante o misto.",
+  "recaps_people_mood_title": "Umore nei giorni in contatto",
   "recaps_period_month": "Mese",
   "recaps_period_next": "Periodo successivo",
   "recaps_period_previous": "Periodo precedente",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Dopo alcune notti difficili la settimana prima.",
   "recaps_sleep_turnaround_title": "%{count} notti buone di fila",
   "recaps_step_turned_on": "Aggiunto al tuo check-in",
+  "recaps_stood_out_text": "Quei giorni di solito ti sembrano più leggeri.",
+  "recaps_stood_out_title": {
+    "one": "1 giorno con %{tag} questa settimana",
+    "other": "{{count}} giorni con %{tag} questa settimana"
+  },
   "recaps_tag_back_text": {
     "one": "Un giorno, dopo %{weeks} settimane senza.",
     "other": "{{count}} giorni, dopo %{weeks} settimane senza."
@@ -778,6 +786,9 @@
     "one": "1 viaggio quest’anno",
     "other": "{{count}} viaggi quest’anno"
   },
+  "recaps_what_moves_places": "Luoghi",
+  "recaps_what_moves_text": "Umore nei giorni con e senza, in livelli di umore.",
+  "recaps_what_moves_title": "Cosa muove il tuo umore",
   "reminder": "Promemoria",
   "reminder_device_required_message": "Le notifiche non funzionano sui simulatori. Prova su un dispositivo reale.",
   "reminder_device_required_title": "I promemoria richiedono un telefono",

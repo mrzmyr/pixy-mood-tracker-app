@@ -47,4 +47,26 @@ export const THRESHOLDS = {
   tripMinKm: 25,
   /** Trips: days in one city merge across gaps up to this many days. */
   tripMaxGapDays: 2,
+  /** Effects: days with the driver needed for any signal. */
+  effectMinDays: 5,
+  /** Effects: difference over standard error for a strong signal. */
+  effectStrongScore: 2,
+  /** Effects: difference over standard error for a medium signal. */
+  effectMediumScore: 1,
+  /** Stood out: days before the week the pattern comes from. */
+  stoodOutHistoryDays: 90,
+  /** Stood out: days with history needed in those 90 days. */
+  stoodOutMinHistoryDays: 28,
+  /** Stood out: tag days in the week, at least. */
+  stoodOutMinDays: 2,
+  /** Stood out: smallest lift in mood steps worth naming. */
+  stoodOutMinDelta: 0.25,
+  /** Stood out: cards per week, at most. */
+  stoodOutMaxCards: 2,
+  /** What moves your mood: check-in days in the period needed. */
+  whatMovesMinDays: 40,
+  /** What moves your mood: rows per kind, at most. */
+  whatMovesMaxRows: 8,
+  /** People and mood: people with enough days needed. */
+  peopleMoodMinPeople: 4,
 } as const;

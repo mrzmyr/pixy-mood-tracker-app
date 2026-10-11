@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Najviše u kontaktu ovaj mjesec",
   "recaps_most_connected_title_quarter": "Najviše u kontaktu ovo tromjesečje",
   "recaps_most_connected_title_year": "Najviše u kontaktu ove godine",
+  "recaps_no_clear_difference": "Nema jasne razlike",
   "recaps_nudge_not_now": "Ne sada",
   "recaps_nudge_reminder_action": "Podsjeti me u %{time}",
   "recaps_nudge_reminder_text": "Veliki dani ostaju u sjećanju. Mali dobri dani izblijede do sljedećeg jutra. Kratak unos svake večeri ih čuva.",
   "recaps_nudge_reminder_title": "Sačuvaj i mirne dobre dane",
   "recaps_open_settings": "Otvori Postavke",
+  "recaps_people_mood_text": "Nagovještaj, ne uzrok. Kontakt može biti dobar, težak ili mješovit.",
+  "recaps_people_mood_title": "Raspoloženje danima kontakta",
   "recaps_period_month": "Mjesec",
   "recaps_period_next": "Sljedeće razdoblje",
   "recaps_period_previous": "Prethodno razdoblje",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Nakon nekoliko teških noći tjedan prije.",
   "recaps_sleep_turnaround_title": "%{count} dobre noći zaredom",
   "recaps_step_turned_on": "Dodano u unos",
+  "recaps_stood_out_text": "Ti dani su ti obično lakši.",
+  "recaps_stood_out_title": {
+    "one": "1 dan s %{tag} ovaj tjedan",
+    "other": "{{count}} dana s %{tag} ovaj tjedan"
+  },
   "recaps_tag_back_text": {
     "one": "Jedan dan, nakon %{weeks} tjedana bez.",
     "other": "{{count}} dana, nakon %{weeks} tjedana bez."
@@ -778,6 +786,9 @@
     "one": "1 putovanje ove godine",
     "other": "{{count}} putovanja ove godine"
   },
+  "recaps_what_moves_places": "Mjesta",
+  "recaps_what_moves_text": "Raspoloženje danima s i bez, u stupnjevima raspoloženja.",
+  "recaps_what_moves_title": "Što pokreće tvoje raspoloženje",
   "reminder": "Podsjetnik",
   "reminder_device_required_message": "Obavijesti ne rade na simulatorima. Isprobaj na pravom uređaju.",
   "reminder_device_required_title": "Podsjetnici trebaju telefon",

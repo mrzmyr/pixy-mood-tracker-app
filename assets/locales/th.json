@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "ติดต่อมากที่สุดเดือนนี้",
   "recaps_most_connected_title_quarter": "ติดต่อมากที่สุดไตรมาสนี้",
   "recaps_most_connected_title_year": "ติดต่อมากที่สุดปีนี้",
+  "recaps_no_clear_difference": "ไม่มีความต่างที่ชัดเจน",
   "recaps_nudge_not_now": "ไว้ทีหลัง",
   "recaps_nudge_reminder_action": "เตือนฉันเวลา %{time}",
   "recaps_nudge_reminder_text": "วันสำคัญยังอยู่ในความทรงจำ วันดีเล็กๆ จะเลือนหายไปภายในเช้าวันรุ่งขึ้น การบันทึกสั้นๆ ทุกเย็นช่วยเก็บไว้",
   "recaps_nudge_reminder_title": "เก็บวันดีๆ ที่เงียบสงบไว้ด้วย",
   "recaps_open_settings": "เปิดการตั้งค่า",
+  "recaps_people_mood_text": "เป็นเพียงสัญญาณ ไม่ใช่สาเหตุ การติดต่ออาจรู้สึกดี หนัก หรือปะปนกัน",
+  "recaps_people_mood_title": "อารมณ์ในวันที่ได้ติดต่อ",
   "recaps_period_month": "เดือน",
   "recaps_period_next": "ช่วงถัดไป",
   "recaps_period_previous": "ช่วงก่อนหน้า",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "หลังจากหลายคืนที่นอนไม่ดีในสัปดาห์ก่อน",
   "recaps_sleep_turnaround_title": "นอนหลับดี %{count} คืนติดกัน",
   "recaps_step_turned_on": "เพิ่มในการบันทึกแล้ว",
+  "recaps_stood_out_text": "วันเหล่านั้นมักรู้สึกเบาขึ้นสำหรับคุณ",
+  "recaps_stood_out_title": {
+    "one": "1 วันที่มี %{tag} สัปดาห์นี้",
+    "other": "{{count}} วันที่มี %{tag} สัปดาห์นี้"
+  },
   "recaps_tag_back_text": {
     "one": "1 วัน หลังจากหายไป %{weeks} สัปดาห์",
     "other": "{{count}} วัน หลังจากหายไป %{weeks} สัปดาห์"
@@ -778,6 +786,9 @@
     "one": "1 ทริปปีนี้",
     "other": "{{count}} ทริปปีนี้"
   },
+  "recaps_what_moves_places": "สถานที่",
+  "recaps_what_moves_text": "อารมณ์ในวันที่มีและไม่มี เป็นระดับอารมณ์",
+  "recaps_what_moves_title": "อะไรส่งผลต่ออารมณ์ของคุณ",
   "reminder": "เตือนความจำ",
   "reminder_device_required_message": "การแจ้งเตือนใช้งานบนซิมูเลเตอร์ไม่ได้ ลองบนอุปกรณ์จริง",
   "reminder_device_required_title": "การเตือนต้องใช้โทรศัพท์",

@@ -2,12 +2,14 @@ import type {
   CardMeta,
   CardType,
   NudgeCard,
+  PatternCard,
   RecapCard,
   SummaryCard,
 } from "./types";
 
 const WEEK_MONTH: CardMeta["periods"] = ["week", "month"];
 const ALL_PERIODS: CardMeta["periods"] = ["week", "month", "quarter", "year"];
+const QUARTER_YEAR: CardMeta["periods"] = ["quarter", "year"];
 
 /** Family, modules, signal, and fitting recaps of every card type. */
 export const CARD_TYPES: Record<CardType, CardMeta> = {
@@ -127,6 +129,24 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "strong",
     periods: ["month", "quarter", "year"],
   },
+  "stood-out": {
+    family: "pattern",
+    modules: ["tags", "mood"],
+    signal: "strong",
+    periods: ["week"],
+  },
+  "what-moves": {
+    family: "pattern",
+    modules: ["tags", "mood"],
+    signal: "strong",
+    periods: QUARTER_YEAR,
+  },
+  "people-mood": {
+    family: "pattern",
+    modules: ["people", "mood"],
+    signal: "medium",
+    periods: QUARTER_YEAR,
+  },
 };
 
 /**
@@ -150,3 +170,7 @@ export const isNudgeCard = (card: RecapCard): card is NudgeCard =>
 /** Summaries describe the period: a day, emotions, people, places. */
 export const isSummaryCard = (card: RecapCard): card is SummaryCard =>
   CARD_TYPES[card.type].family === "summary";
+
+/** Patterns: a driver goes with an outcome over enough days. */
+export const isPatternCard = (card: RecapCard): card is PatternCard =>
+  CARD_TYPES[card.type].family === "pattern";

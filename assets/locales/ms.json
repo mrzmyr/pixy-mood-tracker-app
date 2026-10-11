@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Paling berhubung bulan ini",
   "recaps_most_connected_title_quarter": "Paling berhubung suku tahun ini",
   "recaps_most_connected_title_year": "Paling berhubung tahun ini",
+  "recaps_no_clear_difference": "Tiada perbezaan jelas",
   "recaps_nudge_not_now": "Bukan Sekarang",
   "recaps_nudge_reminder_action": "Ingatkan Pada %{time}",
   "recaps_nudge_reminder_text": "Hari besar kekal dalam ingatan. Hari baik yang kecil pudar menjelang pagi. Rekod ringkas setiap petang menyimpannya.",
   "recaps_nudge_reminder_title": "Simpan juga hari baik yang tenang",
   "recaps_open_settings": "Buka Tetapan",
+  "recaps_people_mood_text": "Petunjuk, bukan punca. Hubungan boleh terasa baik, berat atau bercampur.",
+  "recaps_people_mood_title": "Mood pada hari berhubung",
   "recaps_period_month": "Bulan",
   "recaps_period_next": "Tempoh Seterusnya",
   "recaps_period_previous": "Tempoh Sebelumnya",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Selepas beberapa malam yang sukar minggu sebelumnya.",
   "recaps_sleep_turnaround_title": "%{count} malam yang baik berturut-turut",
   "recaps_step_turned_on": "Ditambah pada rekod anda",
+  "recaps_stood_out_text": "Hari-hari itu biasanya terasa lebih ringan bagi anda.",
+  "recaps_stood_out_title": {
+    "one": "1 hari dengan %{tag} minggu ini",
+    "other": "{{count}} hari dengan %{tag} minggu ini"
+  },
   "recaps_tag_back_text": {
     "one": "Pada satu hari, selepas %{weeks} minggu tanpanya.",
     "other": "Pada {{count}} hari, selepas %{weeks} minggu tanpanya."
@@ -778,6 +786,9 @@
     "one": "1 perjalanan tahun ini",
     "other": "{{count}} perjalanan tahun ini"
   },
+  "recaps_what_moves_places": "Tempat",
+  "recaps_what_moves_text": "Mood pada hari dengan dan tanpa, dalam tahap mood.",
+  "recaps_what_moves_title": "Apa yang menggerakkan mood anda",
   "reminder": "Peringatan",
   "reminder_device_required_message": "Pemberitahuan tidak berfungsi pada simulator. Cuba pada peranti sebenar.",
   "reminder_device_required_title": "Peringatan Perlukan Telefon",

@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Eniten yhteydessä tässä kuussa",
   "recaps_most_connected_title_quarter": "Eniten yhteydessä tällä neljänneksellä",
   "recaps_most_connected_title_year": "Eniten yhteydessä tänä vuonna",
+  "recaps_no_clear_difference": "Ei selvää eroa",
   "recaps_nudge_not_now": "Ei nyt",
   "recaps_nudge_reminder_action": "Muistuta klo %{time}",
   "recaps_nudge_reminder_text": "Isot päivät jäävät mieleen. Pienet hyvät päivät haalistuvat seuraavaan aamuun mennessä. Lyhyt kirjaus joka ilta säilyttää ne.",
   "recaps_nudge_reminder_title": "Säilytä myös hiljaiset hyvät päivät",
   "recaps_open_settings": "Avaa Asetukset",
+  "recaps_people_mood_text": "Vihje, ei syy. Yhteys voi tuntua hyvältä, raskaalta tai sekavalta.",
+  "recaps_people_mood_title": "Mieliala yhteyden päivinä",
   "recaps_period_month": "Kuukausi",
   "recaps_period_next": "Seuraava jakso",
   "recaps_period_previous": "Edellinen jakso",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Muutaman raskaan yön jälkeen edellisellä viikolla.",
   "recaps_sleep_turnaround_title": "%{count} hyvää yötä peräkkäin",
   "recaps_step_turned_on": "Lisätty kirjaukseesi",
+  "recaps_stood_out_text": "Ne päivät tuntuvat sinusta yleensä kevyemmiltä.",
+  "recaps_stood_out_title": {
+    "one": "1 päivä, jona %{tag}, tällä viikolla",
+    "other": "{{count}} päivää, joina %{tag}, tällä viikolla"
+  },
   "recaps_tag_back_text": {
     "one": "Yhtenä päivänä, %{weeks} viikon tauon jälkeen.",
     "other": "{{count}} päivänä, %{weeks} viikon tauon jälkeen."
@@ -778,6 +786,9 @@
     "one": "1 matka tänä vuonna",
     "other": "{{count}} matkaa tänä vuonna"
   },
+  "recaps_what_moves_places": "Paikat",
+  "recaps_what_moves_text": "Mieliala päivinä sen kanssa ja ilman, mielialan askelina.",
+  "recaps_what_moves_title": "Mikä liikuttaa mielialaasi",
   "reminder": "Muistutus",
   "reminder_device_required_message": "Ilmoitukset eivät toimi simulaattoreissa. Kokeile oikealla laitteella.",
   "reminder_device_required_title": "Muistutukset tarvitsevat puhelimen",

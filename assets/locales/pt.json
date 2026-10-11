@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Mais conectado neste mês",
   "recaps_most_connected_title_quarter": "Mais conectado neste trimestre",
   "recaps_most_connected_title_year": "Mais conectado neste ano",
+  "recaps_no_clear_difference": "Sem diferença clara",
   "recaps_nudge_not_now": "Agora não",
   "recaps_nudge_reminder_action": "Lembrar às %{time}",
   "recaps_nudge_reminder_text": "Os grandes dias ficam na memória. Os pequenos dias bons somem na manhã seguinte. Um registro curto à noite guarda esses dias.",
   "recaps_nudge_reminder_title": "Guarde também os dias bons e tranquilos",
   "recaps_open_settings": "Abrir Ajustes",
+  "recaps_people_mood_text": "Uma pista, não uma causa. Uma conexão pode parecer boa, difícil ou mista.",
+  "recaps_people_mood_title": "Humor em dias conectado",
   "recaps_period_month": "Mês",
   "recaps_period_next": "Próximo período",
   "recaps_period_previous": "Período anterior",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Depois de algumas noites difíceis na semana anterior.",
   "recaps_sleep_turnaround_title": "%{count} boas noites seguidas",
   "recaps_step_turned_on": "Adicionado ao seu registro",
+  "recaps_stood_out_text": "Esses dias costumam parecer mais leves para você.",
+  "recaps_stood_out_title": {
+    "one": "1 dia com %{tag} nesta semana",
+    "other": "{{count}} dias com %{tag} nesta semana"
+  },
   "recaps_tag_back_text": {
     "one": "Em um dia, após %{weeks} semanas sem.",
     "other": "Em {{count}} dias, após %{weeks} semanas sem."
@@ -778,6 +786,9 @@
     "one": "1 viagem neste ano",
     "other": "{{count}} viagens neste ano"
   },
+  "recaps_what_moves_places": "Lugares",
+  "recaps_what_moves_text": "Humor em dias com e sem, em níveis de humor.",
+  "recaps_what_moves_title": "O que move seu humor",
   "reminder": "Lembrete",
   "reminder_device_required_message": "As notificações não funcionam em simuladores. Experimenta num dispositivo real.",
   "reminder_device_required_title": "Os lembretes precisam de um telemóvel",

@@ -25,6 +25,18 @@ const PEOPLE: ExportPerson[] = [
     avatar: null,
     createdAt: "2026-01-01T09:00:00.000Z",
   },
+  {
+    id: "recap-kai",
+    name: "Kai",
+    avatar: null,
+    createdAt: "2026-01-01T09:00:00.000Z",
+  },
+  {
+    id: "recap-mira",
+    name: "Mira",
+    avatar: null,
+    createdAt: "2026-01-01T09:00:00.000Z",
+  },
 ];
 
 const TAGS: Tag[] = [
@@ -41,20 +53,23 @@ const POTSDAM = {
 };
 
 /** Days before the newest day, per moment it triggers. */
-const SAM = new Set([3, 45, 47, 50]);
+const SAM = new Set([3, 45, 47, 50, 52, 55]);
 const ROSA = new Set([2]);
 // 24 connected days before the newest week, then day 4: crosses 25.
 const LENA = new Set([
   4,
   ...Array.from({ length: 24 }, (_, index) => 8 + index * 3),
 ]);
-const SPORT = new Set([2, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58]);
+const SPORT = new Set([2, 3, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58]);
 const STRESSED = new Set([30, 35, 40, 45, 50, 55]);
 const PROUD = new Set([1, 70]);
 const GRATEFUL = new Set([3, 6]);
 const ROUGH_NIGHTS = new Set([9, 10]);
 const GOOD_NIGHTS = new Set([0, 1, 2]);
 const BEST_DAY = 5;
+// Q3 people for "People and mood": 4+ people with 5+ connected days.
+const KAI = new Set([20, 25, 30, 35, 40, 45, 50, 55, 60]);
+const MIRA = new Set([15, 22, 29, 36, 43, 50, 57, 64]);
 const LISBON_TRIP = new Set([7, 8]);
 // One year before a day of the newest week: an extremely good day away.
 const YEAR_AGO = 366;
@@ -107,7 +122,9 @@ const days: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
     (person) =>
       (person.id === "recap-sam" && SAM.has(ago)) ||
       (person.id === "recap-rosa" && ROSA.has(ago)) ||
-      (person.id === "recap-lena" && LENA.has(ago))
+      (person.id === "recap-lena" && LENA.has(ago)) ||
+      (person.id === "recap-kai" && KAI.has(ago)) ||
+      (person.id === "recap-mira" && MIRA.has(ago))
   ).map((person) => ({ id: person.id }));
   return {
     id: `recap-moment-${ago}`,
@@ -140,8 +157,10 @@ const items = [...days, yearAgo];
  * Rosa new, 25 days connected with Lena, Proud again, 3 weeks without Stressed,
  * Sport back, 3 good nights after rough ones, first check-in in Potsdam
  * (needs the location setting on). Summaries: a best day, a year ago in
- * Lisbon with Sam, emotions, people, and a Lisbon trip this month. All
- * steps and the reminder are on, so no nudges show.
+ * Lisbon with Sam, emotions, people, and a Lisbon trip this month.
+ * Patterns: Sport stood out this week; the quarter before has what moves
+ * your mood and people and mood. All steps and the reminder are on, so no
+ * nudges show.
  */
 export const withRecapMoments = (data: ImportData): ImportData => ({
   ...data,

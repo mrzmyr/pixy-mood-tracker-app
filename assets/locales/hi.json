@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "इस महीने सबसे ज़्यादा जुड़े",
   "recaps_most_connected_title_quarter": "इस तिमाही सबसे ज़्यादा जुड़े",
   "recaps_most_connected_title_year": "इस साल सबसे ज़्यादा जुड़े",
+  "recaps_no_clear_difference": "कोई साफ़ अंतर नहीं",
   "recaps_nudge_not_now": "अभी नहीं",
   "recaps_nudge_reminder_action": "%{time} पर याद दिलाएँ",
   "recaps_nudge_reminder_text": "बड़े दिन याद रहते हैं। छोटे अच्छे दिन अगली सुबह तक धुंधले हो जाते हैं। हर शाम एक छोटा चेक-इन उन्हें सहेज लेता है।",
   "recaps_nudge_reminder_title": "शांत अच्छे दिनों को भी सहेजें",
   "recaps_open_settings": "सेटिंग्स खोलें",
+  "recaps_people_mood_text": "एक संकेत, कारण नहीं। जुड़ाव अच्छा, भारी या मिला-जुला लग सकता है।",
+  "recaps_people_mood_title": "जुड़े हुए दिनों का मूड",
   "recaps_period_month": "महीना",
   "recaps_period_next": "अगली अवधि",
   "recaps_period_previous": "पिछली अवधि",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "पिछले हफ़्ते कुछ मुश्किल रातों के बाद।",
   "recaps_sleep_turnaround_title": "लगातार %{count} अच्छी रातें",
   "recaps_step_turned_on": "आपके चेक-इन में जोड़ा गया",
+  "recaps_stood_out_text": "वे दिन आमतौर पर आपको हल्के लगते हैं।",
+  "recaps_stood_out_title": {
+    "one": "इस हफ़्ते %{tag} वाला 1 दिन",
+    "other": "इस हफ़्ते %{tag} वाले {{count}} दिन"
+  },
   "recaps_tag_back_text": {
     "one": "एक दिन, %{weeks} हफ़्तों बाद।",
     "other": "{{count}} दिन, %{weeks} हफ़्तों बाद।"
@@ -778,6 +786,9 @@
     "one": "इस साल 1 यात्रा",
     "other": "इस साल {{count}} यात्राएँ"
   },
+  "recaps_what_moves_places": "जगहें",
+  "recaps_what_moves_text": "उसके साथ और बिना वाले दिनों का मूड, मूड के स्तरों में।",
+  "recaps_what_moves_title": "आपके मूड को क्या प्रभावित करता है",
   "reminder": "अनुस्मारक",
   "reminder_device_required_message": "सिम्युलेटर पर नोटिफ़िकेशन काम नहीं करते। असली डिवाइस पर आज़माएँ।",
   "reminder_device_required_title": "रिमाइंडर के लिए फ़ोन चाहिए",

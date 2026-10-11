@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Kết nối nhiều nhất tháng này",
   "recaps_most_connected_title_quarter": "Kết nối nhiều nhất quý này",
   "recaps_most_connected_title_year": "Kết nối nhiều nhất năm nay",
+  "recaps_no_clear_difference": "Không có khác biệt rõ",
   "recaps_nudge_not_now": "Để sau",
   "recaps_nudge_reminder_action": "Nhắc tôi lúc %{time}",
   "recaps_nudge_reminder_text": "Những ngày lớn ở lại trong trí nhớ. Những ngày tốt nhỏ phai đi trước sáng hôm sau. Một lần ghi ngắn mỗi tối sẽ giữ chúng lại.",
   "recaps_nudge_reminder_title": "Giữ cả những ngày tốt bình yên",
   "recaps_open_settings": "Mở Cài đặt",
+  "recaps_people_mood_text": "Một gợi ý, không phải nguyên nhân. Kết nối có thể tốt, nặng nề hoặc lẫn lộn.",
+  "recaps_people_mood_title": "Tâm trạng vào những ngày kết nối",
   "recaps_period_month": "Tháng",
   "recaps_period_next": "Giai đoạn sau",
   "recaps_period_previous": "Giai đoạn trước",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Sau vài đêm khó ngủ tuần trước.",
   "recaps_sleep_turnaround_title": "%{count} đêm ngủ ngon liên tiếp",
   "recaps_step_turned_on": "Đã thêm vào ghi chép",
+  "recaps_stood_out_text": "Những ngày đó thường nhẹ nhàng hơn với bạn.",
+  "recaps_stood_out_title": {
+    "one": "1 ngày có %{tag} tuần này",
+    "other": "{{count}} ngày có %{tag} tuần này"
+  },
   "recaps_tag_back_text": {
     "one": "Một ngày, sau %{weeks} tuần vắng.",
     "other": "{{count}} ngày, sau %{weeks} tuần vắng."
@@ -778,6 +786,9 @@
     "one": "1 chuyến đi năm nay",
     "other": "{{count}} chuyến đi năm nay"
   },
+  "recaps_what_moves_places": "Địa điểm",
+  "recaps_what_moves_text": "Tâm trạng vào ngày có và không có, theo bậc tâm trạng.",
+  "recaps_what_moves_title": "Điều gì tác động đến tâm trạng",
   "reminder": "Lời nhắc nhở",
   "reminder_device_required_message": "Thông báo không hoạt động trên trình giả lập. Hãy thử trên thiết bị thật.",
   "reminder_device_required_title": "Lời nhắc cần có điện thoại",

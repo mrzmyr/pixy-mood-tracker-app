@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Bu ay en çok bağlantı",
   "recaps_most_connected_title_quarter": "Bu çeyrek en çok bağlantı",
   "recaps_most_connected_title_year": "Bu yıl en çok bağlantı",
+  "recaps_no_clear_difference": "Belirgin fark yok",
   "recaps_nudge_not_now": "Şimdi Değil",
   "recaps_nudge_reminder_action": "Saat %{time} Hatırlat",
   "recaps_nudge_reminder_text": "Büyük günler akılda kalır. Küçük iyi günler ertesi sabaha unutulur. Her akşam kısa bir kayıt onları saklar.",
   "recaps_nudge_reminder_title": "Sessiz iyi günleri de sakla",
   "recaps_open_settings": "Ayarları Aç",
+  "recaps_people_mood_text": "Bir ipucu, neden değil. Bir bağlantı iyi, zor ya da karışık hissettirebilir.",
+  "recaps_people_mood_title": "Bağlantılı günlerde ruh hali",
   "recaps_period_month": "Ay",
   "recaps_period_next": "Sonraki Dönem",
   "recaps_period_previous": "Önceki Dönem",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Önceki hafta birkaç zor geceden sonra.",
   "recaps_sleep_turnaround_title": "Arka arkaya %{count} iyi gece",
   "recaps_step_turned_on": "Kaydına eklendi",
+  "recaps_stood_out_text": "O günler genelde sana daha hafif gelir.",
+  "recaps_stood_out_title": {
+    "one": "Bu hafta %{tag} olan 1 gün",
+    "other": "Bu hafta %{tag} olan {{count}} gün"
+  },
   "recaps_tag_back_text": {
     "one": "Bir gün, %{weeks} haftalık aradan sonra.",
     "other": "{{count}} gün, %{weeks} haftalık aradan sonra."
@@ -778,6 +786,9 @@
     "one": "Bu yıl 1 seyahat",
     "other": "Bu yıl {{count}} seyahat"
   },
+  "recaps_what_moves_places": "Yerler",
+  "recaps_what_moves_text": "Olduğu ve olmadığı günlerde ruh hali, ruh hali adımlarıyla.",
+  "recaps_what_moves_title": "Ruh halini ne etkiliyor",
   "reminder": "Hatırlatma",
   "reminder_device_required_message": "Bildirimler simülatörlerde çalışmaz. Gerçek bir cihazda dene.",
   "reminder_device_required_title": "Hatırlatıcılar Telefon Gerektirir",

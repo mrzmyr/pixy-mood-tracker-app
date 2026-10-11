@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Mest kontakt den här månaden",
   "recaps_most_connected_title_quarter": "Mest kontakt det här kvartalet",
   "recaps_most_connected_title_year": "Mest kontakt i år",
+  "recaps_no_clear_difference": "Ingen tydlig skillnad",
   "recaps_nudge_not_now": "Inte nu",
   "recaps_nudge_reminder_action": "Påminn mig kl. %{time}",
   "recaps_nudge_reminder_text": "Stora dagar stannar i minnet. Små bra dagar bleknar till nästa morgon. En kort incheckning varje kväll sparar dem.",
   "recaps_nudge_reminder_title": "Spara även de lugna bra dagarna",
   "recaps_open_settings": "Öppna Inställningar",
+  "recaps_people_mood_text": "En ledtråd, inte en orsak. Kontakt kan kännas bra, tung eller blandad.",
+  "recaps_people_mood_title": "Humör dagar i kontakt",
   "recaps_period_month": "Månad",
   "recaps_period_next": "Nästa period",
   "recaps_period_previous": "Föregående period",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Efter några tunga nätter veckan innan.",
   "recaps_sleep_turnaround_title": "%{count} bra nätter i rad",
   "recaps_step_turned_on": "Tillagt i din incheckning",
+  "recaps_stood_out_text": "De dagarna känns oftast lättare för dig.",
+  "recaps_stood_out_title": {
+    "one": "1 dag med %{tag} den här veckan",
+    "other": "{{count}} dagar med %{tag} den här veckan"
+  },
   "recaps_tag_back_text": {
     "one": "En dag, efter %{weeks} veckor utan.",
     "other": "{{count}} dagar, efter %{weeks} veckor utan."
@@ -778,6 +786,9 @@
     "one": "1 resa i år",
     "other": "{{count}} resor i år"
   },
+  "recaps_what_moves_places": "Platser",
+  "recaps_what_moves_text": "Humör dagar med och utan, i humörsteg.",
+  "recaps_what_moves_title": "Vad som påverkar ditt humör",
   "reminder": "Påminnelse",
   "reminder_device_required_message": "Aviseringar fungerar inte på simulatorer. Prova på en riktig enhet.",
   "reminder_device_required_title": "Påminnelser kräver en telefon",

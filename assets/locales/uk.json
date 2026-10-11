@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Найбільше на зв’язку цього місяця",
   "recaps_most_connected_title_quarter": "Найбільше на зв’язку цього кварталу",
   "recaps_most_connected_title_year": "Найбільше на зв’язку цього року",
+  "recaps_no_clear_difference": "Немає явної різниці",
   "recaps_nudge_not_now": "Не зараз",
   "recaps_nudge_reminder_action": "Нагадати о %{time}",
   "recaps_nudge_reminder_text": "Великі дні лишаються в пам’яті. Маленькі добрі дні забуваються до ранку. Коротка відмітка щовечора збереже їх.",
   "recaps_nudge_reminder_title": "Зберігайте й тихі добрі дні",
   "recaps_open_settings": "Відкрити Налаштування",
+  "recaps_people_mood_text": "Підказка, а не причина. Зв’язок може відчуватися добрим, важким чи змішаним.",
+  "recaps_people_mood_title": "Настрій у дні на зв’язку",
   "recaps_period_month": "Місяць",
   "recaps_period_next": "Наступний період",
   "recaps_period_previous": "Попередній період",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Після кількох важких ночей минулого тижня.",
   "recaps_sleep_turnaround_title": "%{count} добрі ночі поспіль",
   "recaps_step_turned_on": "Додано до відмітки",
+  "recaps_stood_out_text": "Такі дні зазвичай відчуваються легшими.",
+  "recaps_stood_out_title": {
+    "one": "1 день з %{tag} цього тижня",
+    "other": "Днів з %{tag} цього тижня: {{count}}"
+  },
   "recaps_tag_back_text": {
     "one": "Один день, після %{weeks} тиж. без.",
     "other": "{{count}} дн., після %{weeks} тиж. без."
@@ -778,6 +786,9 @@
     "one": "1 поїздка цього року",
     "other": "Поїздок цього року: {{count}}"
   },
+  "recaps_what_moves_places": "Місця",
+  "recaps_what_moves_text": "Настрій у дні з цим і без, у кроках настрою.",
+  "recaps_what_moves_title": "Що впливає на ваш настрій",
   "reminder": "Нагадування",
   "reminder_device_required_message": "Сповіщення не працюють на симуляторах. Спробуй на справжньому пристрої.",
   "reminder_device_required_title": "Для нагадувань потрібен телефон",

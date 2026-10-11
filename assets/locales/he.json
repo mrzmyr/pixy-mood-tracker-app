@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "הכי הרבה בקשר החודש",
   "recaps_most_connected_title_quarter": "הכי הרבה בקשר ברבעון",
   "recaps_most_connected_title_year": "הכי הרבה בקשר השנה",
+  "recaps_no_clear_difference": "אין הבדל ברור",
   "recaps_nudge_not_now": "לא עכשיו",
   "recaps_nudge_reminder_action": "הזכר לי ב־%{time}",
   "recaps_nudge_reminder_text": "ימים גדולים נשארים בזיכרון. ימים טובים קטנים נמוגים עד הבוקר. תיעוד קצר בכל ערב שומר עליהם.",
   "recaps_nudge_reminder_title": "שמור גם את הימים הטובים והשקטים",
   "recaps_open_settings": "פתיחת ההגדרות",
+  "recaps_people_mood_text": "רמז, לא סיבה. קשר יכול להרגיש טוב, קשה או מעורב.",
+  "recaps_people_mood_title": "מצב רוח בימים של קשר",
   "recaps_period_month": "חודש",
   "recaps_period_next": "התקופה הבאה",
   "recaps_period_previous": "התקופה הקודמת",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "אחרי כמה לילות קשים בשבוע הקודם.",
   "recaps_sleep_turnaround_title": "%{count} לילות טובים ברצף",
   "recaps_step_turned_on": "נוסף לתיעוד שלך",
+  "recaps_stood_out_text": "הימים האלה בדרך כלל מרגישים לך קלים יותר.",
+  "recaps_stood_out_title": {
+    "one": "יום אחד עם %{tag} השבוע",
+    "other": "{{count}} ימים עם %{tag} השבוע"
+  },
   "recaps_tag_back_text": {
     "one": "ביום אחד, אחרי %{weeks} שבועות בלי.",
     "other": "ב־{{count}} ימים, אחרי %{weeks} שבועות בלי."
@@ -778,6 +786,9 @@
     "one": "נסיעה אחת השנה",
     "other": "{{count}} נסיעות השנה"
   },
+  "recaps_what_moves_places": "מקומות",
+  "recaps_what_moves_text": "מצב רוח בימים עם ובלי, בדרגות מצב רוח.",
+  "recaps_what_moves_title": "מה מזיז את מצב הרוח שלך",
   "reminder": "תִזכּוֹרֶת",
   "reminder_device_required_message": "התראות לא פועלות בסימולטורים. נסו במכשיר אמיתי.",
   "reminder_device_required_title": "תזכורות דורשות טלפון",

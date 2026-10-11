@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Больше всего на связи в этом месяце",
   "recaps_most_connected_title_quarter": "Больше всего на связи в этом квартале",
   "recaps_most_connected_title_year": "Больше всего на связи в этом году",
+  "recaps_no_clear_difference": "Нет явной разницы",
   "recaps_nudge_not_now": "Не сейчас",
   "recaps_nudge_reminder_action": "Напомнить в %{time}",
   "recaps_nudge_reminder_text": "Большие дни остаются в памяти. Маленькие хорошие дни забываются к утру. Короткая отметка каждый вечер сохранит их.",
   "recaps_nudge_reminder_title": "Сохраняйте и тихие хорошие дни",
   "recaps_open_settings": "Открыть Настройки",
+  "recaps_people_mood_text": "Подсказка, а не причина. Связь может ощущаться хорошей, тяжёлой или смешанной.",
+  "recaps_people_mood_title": "Настроение в дни на связи",
   "recaps_period_month": "Месяц",
   "recaps_period_next": "Следующий период",
   "recaps_period_previous": "Предыдущий период",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "После нескольких тяжёлых ночей на прошлой неделе.",
   "recaps_sleep_turnaround_title": "%{count} хорошие ночи подряд",
   "recaps_step_turned_on": "Добавлено в отметку",
+  "recaps_stood_out_text": "Такие дни обычно ощущаются легче.",
+  "recaps_stood_out_title": {
+    "one": "1 день с %{tag} на этой неделе",
+    "other": "Дней с %{tag} на этой неделе: {{count}}"
+  },
   "recaps_tag_back_text": {
     "one": "Один день, после %{weeks} нед. без.",
     "other": "{{count}} дн., после %{weeks} нед. без."
@@ -778,6 +786,9 @@
     "one": "1 поездка в этом году",
     "other": "Поездок в этом году: {{count}}"
   },
+  "recaps_what_moves_places": "Места",
+  "recaps_what_moves_text": "Настроение в дни с этим и без, в шагах настроения.",
+  "recaps_what_moves_title": "Что влияет на ваше настроение",
   "reminder": "Напоминание",
   "reminder_device_required_message": "Уведомления не работают на симуляторах. Попробуй на реальном устройстве.",
   "reminder_device_required_title": "Для напоминаний нужен телефон",

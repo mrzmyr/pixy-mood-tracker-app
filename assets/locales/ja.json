@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "今月いちばんつながった人",
   "recaps_most_connected_title_quarter": "この四半期いちばんつながった人",
   "recaps_most_connected_title_year": "今年いちばんつながった人",
+  "recaps_no_clear_difference": "はっきりした差はありません",
   "recaps_nudge_not_now": "今はしない",
   "recaps_nudge_reminder_action": "%{time}に通知する",
   "recaps_nudge_reminder_text": "大きな日は記憶に残ります。小さな良い日は翌朝には薄れてしまいます。毎晩の短い記録で残せます。",
   "recaps_nudge_reminder_title": "穏やかな良い日も残そう",
   "recaps_open_settings": "設定を開く",
+  "recaps_people_mood_text": "ヒントであって原因ではありません。つながりは良くも、重くも、入り混じることもあります。",
+  "recaps_people_mood_title": "つながった日の気分",
   "recaps_period_month": "月",
   "recaps_period_next": "次の期間",
   "recaps_period_previous": "前の期間",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "前の週のつらい夜のあとで。",
   "recaps_sleep_turnaround_title": "%{count}日連続でよく眠れた夜",
   "recaps_step_turned_on": "記録に追加しました",
+  "recaps_stood_out_text": "そういう日はふだん気分が軽くなりがちです。",
+  "recaps_stood_out_title": {
+    "one": "今週%{tag}があった日：1日",
+    "other": "今週%{tag}があった日：{{count}}日"
+  },
   "recaps_tag_back_text": {
     "one": "%{weeks}週間ぶりに1日。",
     "other": "%{weeks}週間ぶりに{{count}}日。"
@@ -778,6 +786,9 @@
     "one": "今年の旅：1回",
     "other": "今年の旅：{{count}}回"
   },
+  "recaps_what_moves_places": "場所",
+  "recaps_what_moves_text": "あった日となかった日の気分の差（気分の段階）。",
+  "recaps_what_moves_title": "気分を動かすもの",
   "reminder": "リマインダー",
   "reminder_device_required_message": "シミュレーターでは通知が動作しません。実機でお試しください。",
   "reminder_device_required_title": "リマインダーには実機が必要です",

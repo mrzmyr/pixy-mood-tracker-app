@@ -735,11 +735,14 @@
   "recaps_most_connected_title_month": "Am meisten in Kontakt diesen Monat",
   "recaps_most_connected_title_quarter": "Am meisten in Kontakt dieses Quartal",
   "recaps_most_connected_title_year": "Am meisten in Kontakt dieses Jahr",
+  "recaps_no_clear_difference": "Kein klarer Unterschied",
   "recaps_nudge_not_now": "Nicht jetzt",
   "recaps_nudge_reminder_action": "Um %{time} erinnern",
   "recaps_nudge_reminder_text": "Große Tage bleiben im Gedächtnis. Kleine gute Tage verblassen bis zum nächsten Morgen. Ein kurzer Check-in am Abend hält sie fest.",
   "recaps_nudge_reminder_title": "Behalte auch die stillen guten Tage",
   "recaps_open_settings": "Einstellungen öffnen",
+  "recaps_people_mood_text": "Ein Hinweis, kein Grund. Kontakt kann sich gut, schwer oder gemischt anfühlen.",
+  "recaps_people_mood_title": "Stimmung an Tagen in Kontakt",
   "recaps_period_month": "Monat",
   "recaps_period_next": "Nächster Zeitraum",
   "recaps_period_previous": "Vorheriger Zeitraum",
@@ -760,6 +763,11 @@
   "recaps_sleep_turnaround_text": "Nach ein paar unruhigen Nächten in der Woche davor.",
   "recaps_sleep_turnaround_title": "%{count} gute Nächte in Folge",
   "recaps_step_turned_on": "Zum Check-in hinzugefügt",
+  "recaps_stood_out_text": "Solche Tage fühlen sich für dich meist leichter an.",
+  "recaps_stood_out_title": {
+    "one": "1 Tag mit %{tag} diese Woche",
+    "other": "{{count}} Tage mit %{tag} diese Woche"
+  },
   "recaps_tag_back_text": {
     "one": "An einem Tag, nach %{weeks} Wochen ohne.",
     "other": "An {{count}} Tagen, nach %{weeks} Wochen ohne."
@@ -777,6 +785,9 @@
     "one": "1 Reise dieses Jahr",
     "other": "{{count}} Reisen dieses Jahr"
   },
+  "recaps_what_moves_places": "Orte",
+  "recaps_what_moves_text": "Stimmung an Tagen mit und ohne, in Stimmungsstufen.",
+  "recaps_what_moves_title": "Was deine Stimmung bewegt",
   "reminder": "Erinnerung",
   "reminder_device_required_message": "Auf Simulatoren funktionieren keine Benachrichtigungen. Probiere es auf einem echten Gerät.",
   "reminder_device_required_title": "Erinnerungen brauchen ein Handy",

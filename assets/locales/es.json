@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Más conectado este mes",
   "recaps_most_connected_title_quarter": "Más conectado este trimestre",
   "recaps_most_connected_title_year": "Más conectado este año",
+  "recaps_no_clear_difference": "Sin diferencia clara",
   "recaps_nudge_not_now": "Ahora no",
   "recaps_nudge_reminder_action": "Recordármelo a las %{time}",
   "recaps_nudge_reminder_text": "Los grandes días se quedan en la memoria. Los pequeños días buenos se olvidan a la mañana siguiente. Un registro breve cada noche los guarda.",
   "recaps_nudge_reminder_title": "Guarda también los días buenos y tranquilos",
   "recaps_open_settings": "Abrir Ajustes",
+  "recaps_people_mood_text": "Una pista, no una causa. Una conexión puede sentirse bien, mal o mezclada.",
+  "recaps_people_mood_title": "Ánimo en días conectado",
   "recaps_period_month": "Mes",
   "recaps_period_next": "Periodo siguiente",
   "recaps_period_previous": "Periodo anterior",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Tras algunas noches difíciles la semana anterior.",
   "recaps_sleep_turnaround_title": "%{count} buenas noches seguidas",
   "recaps_step_turned_on": "Añadido a tu registro",
+  "recaps_stood_out_text": "Esos días suelen sentirse más ligeros para ti.",
+  "recaps_stood_out_title": {
+    "one": "1 día con %{tag} esta semana",
+    "other": "{{count}} días con %{tag} esta semana"
+  },
   "recaps_tag_back_text": {
     "one": "Un día, tras %{weeks} semanas sin.",
     "other": "{{count}} días, tras %{weeks} semanas sin."
@@ -778,6 +786,9 @@
     "one": "1 viaje este año",
     "other": "{{count}} viajes este año"
   },
+  "recaps_what_moves_places": "Lugares",
+  "recaps_what_moves_text": "Ánimo en días con y sin, en niveles de ánimo.",
+  "recaps_what_moves_title": "Qué mueve tu estado de ánimo",
   "reminder": "Recordatorio",
   "reminder_device_required_message": "Las notificaciones no funcionan en simuladores. Prueba en un dispositivo real.",
   "reminder_device_required_title": "Los recordatorios necesitan un móvil",
