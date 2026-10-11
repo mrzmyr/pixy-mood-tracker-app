@@ -8,12 +8,16 @@ import useHaptics from "@/hooks/useHaptics";
 import { t, tDynamic } from "@/lib/translation";
 
 const TARGET_SIZE = 48;
+const DOT_SIZE = 30;
+const RING_GAP = 2;
+const RING_WIDTH = 2;
+const RING_SIZE = DOT_SIZE + 2 * (RING_GAP + RING_WIDTH);
 const GAP = 8;
 
 const styles = StyleSheet.create({
-  // Android lists run edge to edge, so swatches keep Material's 16dp inset.
   // Matches the Name label in TagNameField.
   label: { fontSize: 13, fontWeight: "600", paddingBottom: 8 },
+  // Android lists run edge to edge, so swatches keep Material's 16dp inset.
   card: Platform.select({
     android: { paddingHorizontal: 16, paddingVertical: 12 },
     default: { padding: 12 },
@@ -23,23 +27,23 @@ const styles = StyleSheet.create({
   target: {
     width: TARGET_SIZE,
     height: TARGET_SIZE,
-    borderWidth: 2,
     borderRadius: TARGET_SIZE / 2,
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
   },
-  swatch: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+  ring: {
+    width: RING_SIZE,
+    height: RING_SIZE,
+    borderWidth: RING_WIDTH,
+    borderRadius: RING_SIZE / 2,
     alignItems: "center",
     justifyContent: "center",
   },
-  check: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+  dot: {
+    width: DOT_SIZE,
+    height: DOT_SIZE,
+    borderRadius: DOT_SIZE / 2,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -48,6 +52,7 @@ const styles = StyleSheet.create({
 /**
  * Fixed tag palette in a grouped card, like iOS Reminders list colors.
  * Columns spread across the card width. Targets stay 48 points and never shrink.
+ * Selected color: one ring in text color plus a check on the dot.
  */
 export const ColorPicker = ({
   value,
@@ -99,13 +104,7 @@ export const ColorPicker = ({
                   }}
                   style={({ pressed }) => [
                     styles.target,
-                    {
-                      borderColor:
-                        isSelected || focusedColor === color
-                          ? colors.text
-                          : "transparent",
-                      opacity: pressed ? 0.7 : 1,
-                    },
+                    { opacity: pressed ? 0.7 : 1 },
                   ]}
                   onPress={() => {
                     if (isSelected) {
@@ -120,24 +119,30 @@ export const ColorPicker = ({
                     accessibilityElementsHidden
                     importantForAccessibility="no-hide-descendants"
                     style={[
-                      styles.swatch,
-                      { backgroundColor: colors.tags[color].dot },
+                      styles.ring,
+                      {
+                        borderColor:
+                          isSelected || focusedColor === color
+                            ? colors.text
+                            : "transparent",
+                      },
                     ]}
                   >
-                    {isSelected && (
-                      <View
-                        style={[
-                          styles.check,
-                          { backgroundColor: colors.palette.white },
-                        ]}
-                      >
+                    <View
+                      style={[
+                        styles.dot,
+                        { backgroundColor: colors.tags[color].dot },
+                      ]}
+                    >
+                      {isSelected && (
                         <Check
-                          width={16}
-                          height={16}
+                          width={18}
+                          height={18}
+                          strokeWidth={3}
                           color={colors.palette.black}
                         />
-                      </View>
-                    )}
+                      )}
+                    </View>
                   </View>
                 </Pressable>
               </View>
