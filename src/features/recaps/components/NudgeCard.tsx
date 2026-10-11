@@ -85,13 +85,26 @@ const EmotionsArt = () => (
   </View>
 );
 
-const PeopleArt = () => (
-  <View style={{ flexDirection: "row", gap: 12 }}>
-    {PLACEHOLDER_PEOPLE.map((person) => (
-      <PersonAvatar key={person.id} person={person} size={56} />
-    ))}
-  </View>
-);
+// The ring keeps the avatar circle visible on the card in dark mode.
+const PeopleArt = () => {
+  const colors = useColors();
+  return (
+    <View style={{ flexDirection: "row", gap: 12 }}>
+      {PLACEHOLDER_PEOPLE.map((person) => (
+        <View
+          key={person.id}
+          style={{
+            borderRadius: RADIUS.full,
+            borderWidth: 1,
+            borderColor: colors.cardBorder,
+          }}
+        >
+          <PersonAvatar person={person} size={56} />
+        </View>
+      ))}
+    </View>
+  );
+};
 
 const PhotosArt = () => {
   const colors = useColors();
@@ -104,7 +117,9 @@ const PhotosArt = () => {
             width: 72,
             height: 72,
             borderRadius: RADIUS.md,
-            backgroundColor: colors.backgroundSecondary,
+            borderWidth: 1,
+            borderColor: colors.cardBorder,
+            backgroundColor: colors.background,
             alignItems: "center",
             justifyContent: "center",
             transform: [{ rotate: `${rotation}deg` }],
