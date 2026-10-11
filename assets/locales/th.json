@@ -703,8 +703,8 @@
     "other": "{{count}} วัน จากนั้น:"
   },
   "recaps_emotions_quarter_title": "ไตรมาสนี้ส่วนใหญ่รู้สึก%{emotion}",
-  "recaps_emotions_title": "อารมณ์ที่คุณรู้สึกบ่อยที่สุด",
-  "recaps_emotions_year_title": "10 อารมณ์อันดับต้นของคุณ",
+  "recaps_emotions_title": "อารมณ์ที่ใช้บ่อยที่สุด",
+  "recaps_emotions_year_title": "10 อารมณ์อันดับต้น",
   "recaps_empty": "ยังไม่มีการ์ดสำหรับช่วงนี้ การ์ดจะปรากฏเมื่อคุณบันทึกมากขึ้น",
   "recaps_feedback_helpful": "มีประโยชน์",
   "recaps_feedback_not_helpful": "ไม่มีประโยชน์",
@@ -757,7 +757,7 @@
   "recaps_person_milestone_title": "ติดต่อกับ %{name} %{count} วันในปี %{year}",
   "recaps_person_new_text": "%{name} อยู่ในการบันทึกของคุณตั้งแต่ %{date}",
   "recaps_person_new_title": "ยินดีต้อนรับ %{name}",
-  "recaps_reminder_failed": "ตั้งการเตือนไม่สำเร็จ เปิดได้ที่ การตั้งค่า > การเตือน",
+  "recaps_reminder_failed": "ยังไม่ได้ตั้งการเตือน ไม่สามารถตั้งเวลาการแจ้งเตือนได้ ลองอีกครั้งที่ การตั้งค่า > การเตือน",
   "recaps_reminder_set": "ตั้งการเตือนเวลา %{time} แล้ว",
   "recaps_sleep_rough_text": "นอนไม่ดี %{count} คืนติดกัน พักผ่อนเมื่อทำได้",
   "recaps_sleep_rough_title": "หลายคืนที่นอนไม่ดี",
@@ -781,7 +781,7 @@
   "recaps_trend_people_title": "บุคคลตามเวลา",
   "recaps_trend_steady": "คงที่",
   "recaps_trend_tags_title": "แท็กตามเวลา",
-  "recaps_trend_text": "ค่าเฉลี่ยเคลื่อนที่ %{days} วัน เหนือเส้น: วันที่เบากว่า",
+  "recaps_trend_text": "ค่าเฉลี่ย %{days} วันล่าสุดในแต่ละจุด เหนือเส้น: วันที่เบากว่า",
   "recaps_trend_weighs_less": "เบาลง",
   "recaps_trend_weighs_more": "หนักขึ้น",
   "recaps_trips_title_month": {
@@ -797,7 +797,7 @@
     "other": "{{count}} ทริปปีนี้"
   },
   "recaps_what_moves_places": "สถานที่",
-  "recaps_what_moves_text": "อารมณ์ในวันที่มีและไม่มี เป็นระดับอารมณ์",
+  "recaps_what_moves_text": "อารมณ์ในวันที่มี เทียบกับวันที่ไม่มี",
   "recaps_what_moves_title": "อะไรส่งผลต่ออารมณ์ของคุณ",
   "reminder": "เตือนความจำ",
   "reminder_device_required_message": "การแจ้งเตือนใช้งานบนซิมูเลเตอร์ไม่ได้ ลองบนอุปกรณ์จริง",

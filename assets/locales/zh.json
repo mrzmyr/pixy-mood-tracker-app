@@ -703,8 +703,8 @@
     "other": "{{count}} 天。其次："
   },
   "recaps_emotions_quarter_title": "本季度大多是%{emotion}",
-  "recaps_emotions_title": "你最常有的情绪",
-  "recaps_emotions_year_title": "你的前 10 种情绪",
+  "recaps_emotions_title": "最常用的情绪",
+  "recaps_emotions_year_title": "前 10 种情绪",
   "recaps_empty": "这个时段还没有卡片。记录越多，卡片越多。",
   "recaps_feedback_helpful": "有帮助",
   "recaps_feedback_not_helpful": "没帮助",
@@ -757,7 +757,7 @@
   "recaps_person_milestone_title": "%{year} 年与 %{name} 联系了 %{count} 天",
   "recaps_person_new_text": "%{name} 从 %{date} 起出现在你的记录中。",
   "recaps_person_new_title": "欢迎，%{name}",
-  "recaps_reminder_failed": "无法设置提醒。请在“设置 > 提醒”中开启。",
+  "recaps_reminder_failed": "未设置提醒。无法安排通知。请在“设置 > 提醒”中重试。",
   "recaps_reminder_set": "已设置 %{time} 提醒",
   "recaps_sleep_rough_text": "连续 %{count} 个难眠之夜。能休息时就好好休息。",
   "recaps_sleep_rough_title": "几个难眠之夜",
@@ -781,7 +781,7 @@
   "recaps_trend_people_title": "人物的变化",
   "recaps_trend_steady": "平稳",
   "recaps_trend_tags_title": "标签的变化",
-  "recaps_trend_text": "%{days} 天滚动平均。线以上：更轻松的日子。",
+  "recaps_trend_text": "每个点为最近 %{days} 天的平均值。线以上：更轻松的日子。",
   "recaps_trend_weighs_less": "没那么沉重",
   "recaps_trend_weighs_more": "更沉重",
   "recaps_trips_title_month": {
@@ -797,7 +797,7 @@
     "other": "今年 {{count}} 次旅行"
   },
   "recaps_what_moves_places": "地点",
-  "recaps_what_moves_text": "有和没有时的心情差异，以心情等级计。",
+  "recaps_what_moves_text": "有它的日子与没有它的日子的心情对比。",
   "recaps_what_moves_title": "什么影响了你的心情",
   "reminder": "提醒",
   "reminder_device_required_message": "模拟器无法显示通知。请在真机上试试。",

@@ -703,8 +703,8 @@
     "other": "في {{count}} يومًا. ثم:"
   },
   "recaps_emotions_quarter_title": "غالبًا %{emotion} في هذا الربع",
-  "recaps_emotions_title": "أكثر مشاعرك تكرارًا",
-  "recaps_emotions_year_title": "أهم 10 مشاعر لديك",
+  "recaps_emotions_title": "أكثر المشاعر استخدامًا",
+  "recaps_emotions_year_title": "أهم 10 مشاعر",
   "recaps_empty": "لا توجد بطاقات لهذه الفترة بعد. ستظهر كلما سجّلت أيامًا أكثر.",
   "recaps_feedback_helpful": "مفيد",
   "recaps_feedback_not_helpful": "غير مفيد",
@@ -757,7 +757,7 @@
   "recaps_person_milestone_title": "%{count} يومًا من التواصل مع %{name} في %{year}",
   "recaps_person_new_text": "%{name} في تسجيلاتك منذ %{date}.",
   "recaps_person_new_title": "أهلًا، %{name}",
-  "recaps_reminder_failed": "تعذّر ضبط التذكير. فعّله من الإعدادات > التذكير.",
+  "recaps_reminder_failed": "لم يُضبط التذكير. تعذّرت جدولة الإشعارات. حاول مجددًا من الإعدادات > التذكير.",
   "recaps_reminder_set": "تم ضبط التذكير على %{time}",
   "recaps_sleep_rough_text": "%{count} ليالٍ صعبة متتالية. استرح متى استطعت.",
   "recaps_sleep_rough_title": "بضع ليالٍ صعبة",
@@ -781,7 +781,7 @@
   "recaps_trend_people_title": "الأشخاص عبر الوقت",
   "recaps_trend_steady": "ثابت",
   "recaps_trend_tags_title": "الوسوم عبر الوقت",
-  "recaps_trend_text": "متوسط متحرك لـ %{days} يومًا. فوق الخط: أيام أخف.",
+  "recaps_trend_text": "متوسط آخر %{days} يومًا عند كل نقطة. فوق الخط: أيام أخف.",
   "recaps_trend_weighs_less": "يثقل أقل",
   "recaps_trend_weighs_more": "يثقل أكثر",
   "recaps_trips_title_month": {
@@ -797,7 +797,7 @@
     "other": "{{count}} رحلات هذا العام"
   },
   "recaps_what_moves_places": "الأماكن",
-  "recaps_what_moves_text": "المزاج في الأيام معه ومن دونه، بدرجات المزاج.",
+  "recaps_what_moves_text": "المزاج في الأيام التي فيها مقارنةً بالأيام التي بدونه.",
   "recaps_what_moves_title": "ما الذي يحرّك مزاجك",
   "reminder": "تذكير",
   "reminder_device_required_message": "الإشعارات لا تعمل على المحاكيات. جرّب على جهاز حقيقي.",
