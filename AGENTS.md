@@ -36,6 +36,13 @@
 - MUST update [`docs/app-facts.json`](docs/app-facts.json) whenever a feature or service changes. Verify against source and live stores first. Bump `verifiedOn`.
 - Keep directory credentials and account recovery details outside this public repository.
 
+## People semantics
+
+- Person on an entry = user connected with them that day: met, called, texted, thought about. Not proof of time together.
+- Connection can feel good, bad, or mixed. Never assume a person is positive.
+- Day mood hints at a connection; it does not prove it. Prefer emotions on those days over mood averages.
+- Copy says "connected" ("3 days connected"). Avoid "together", "spent time with".
+
 ## Tools
 
 - Posthog for product analytics (MCP installed)
