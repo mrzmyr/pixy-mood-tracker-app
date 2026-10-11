@@ -1,19 +1,25 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Check } from "react-native-feather";
+import MenuList from "@/components/MenuList";
+import MenuListHeadline from "@/components/MenuListHeadline";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 
+const TARGET_SIZE = 48;
+const GAP = 8;
+
 const styles = StyleSheet.create({
-  label: { fontSize: 17, fontWeight: "600", marginBottom: 8 },
-  grid: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+  card: { padding: 12 },
+  grid: { flexDirection: "row", flexWrap: "wrap", rowGap: GAP },
+  cell: { alignItems: "center" },
   target: {
-    width: 48,
-    height: 48,
+    width: TARGET_SIZE,
+    height: TARGET_SIZE,
     borderWidth: 2,
-    borderRadius: 24,
+    borderRadius: TARGET_SIZE / 2,
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
@@ -34,7 +40,10 @@ const styles = StyleSheet.create({
   },
 });
 
-/** Fixed tag palette. Targets stay 48 points wide and wrap without shrinking. */
+/**
+ * Fixed tag palette in a grouped section, like iOS Reminders list colors.
+ * Columns spread across the card width. Targets stay 48 points and never shrink.
+ */
 export const ColorPicker = ({
   value,
   onChange,
@@ -45,81 +54,89 @@ export const ColorPicker = ({
   const colors = useColors();
   const haptics = useHaptics();
   const [focusedColor, setFocusedColor] = useState<string | null>(null);
+  const [gridWidth, setGridWidth] = useState(0);
+
+  const columns = Math.max(
+    1,
+    Math.floor((gridWidth + GAP) / (TARGET_SIZE + GAP))
+  );
+  const cellWidth = gridWidth > 0 ? gridWidth / columns : TARGET_SIZE + GAP;
 
   return (
     <View>
-      <Text
-        accessibilityRole="header"
-        style={[styles.label, { color: colors.text }]}
-      >
+      <MenuListHeadline style={{ marginTop: 8 }}>
         {t("color")}: {t(`tag_color_${value}`)}
-      </Text>
-      <View
-        accessibilityRole="radiogroup"
-        accessibilityLabel={t("color")}
-        style={styles.grid}
-      >
-        {TAG_COLOR_NAMES.map((color) => {
-          const isSelected = value === color;
-          return (
-            <Pressable
-              key={color}
-              accessibilityLabel={t(`tag_color_${color}`)}
-              accessibilityRole="radio"
-              accessibilityState={{ checked: isSelected }}
-              testID={`tag-color-${color}`}
-              onFocus={() => setFocusedColor(color)}
-              onBlur={() => setFocusedColor(null)}
-              android_ripple={{
-                color: colors.backgroundSecondary,
-                borderless: false,
-              }}
-              style={({ pressed }) => [
-                styles.target,
-                {
-                  borderColor:
-                    isSelected || focusedColor === color
-                      ? colors.text
-                      : "transparent",
-                  opacity: pressed ? 0.7 : 1,
-                },
-              ]}
-              onPress={() => {
-                if (isSelected) {
-                  return;
-                }
-                onChange(color);
-                haptics.selection();
-              }}
-            >
-              <View
-                accessible={false}
-                accessibilityElementsHidden
-                importantForAccessibility="no-hide-descendants"
-                style={[
-                  styles.swatch,
-                  { backgroundColor: colors.tags[color].dot },
-                ]}
-              >
-                {isSelected && (
+      </MenuListHeadline>
+      <MenuList style={styles.card}>
+        <View
+          accessibilityRole="radiogroup"
+          accessibilityLabel={t("color")}
+          onLayout={(event) => setGridWidth(event.nativeEvent.layout.width)}
+          style={styles.grid}
+        >
+          {TAG_COLOR_NAMES.map((color) => {
+            const isSelected = value === color;
+            return (
+              <View key={color} style={[styles.cell, { width: cellWidth }]}>
+                <Pressable
+                  accessibilityLabel={t(`tag_color_${color}`)}
+                  accessibilityRole="radio"
+                  accessibilityState={{ checked: isSelected }}
+                  testID={`tag-color-${color}`}
+                  onFocus={() => setFocusedColor(color)}
+                  onBlur={() => setFocusedColor(null)}
+                  android_ripple={{
+                    color: colors.backgroundSecondary,
+                    borderless: false,
+                  }}
+                  style={({ pressed }) => [
+                    styles.target,
+                    {
+                      borderColor:
+                        isSelected || focusedColor === color
+                          ? colors.text
+                          : "transparent",
+                      opacity: pressed ? 0.7 : 1,
+                    },
+                  ]}
+                  onPress={() => {
+                    if (isSelected) {
+                      return;
+                    }
+                    onChange(color);
+                    haptics.selection();
+                  }}
+                >
                   <View
+                    accessible={false}
+                    accessibilityElementsHidden
+                    importantForAccessibility="no-hide-descendants"
                     style={[
-                      styles.check,
-                      { backgroundColor: colors.palette.white },
+                      styles.swatch,
+                      { backgroundColor: colors.tags[color].dot },
                     ]}
                   >
-                    <Check
-                      width={16}
-                      height={16}
-                      color={colors.palette.black}
-                    />
+                    {isSelected && (
+                      <View
+                        style={[
+                          styles.check,
+                          { backgroundColor: colors.palette.white },
+                        ]}
+                      >
+                        <Check
+                          width={16}
+                          height={16}
+                          color={colors.palette.black}
+                        />
+                      </View>
+                    )}
                   </View>
-                )}
+                </Pressable>
               </View>
-            </Pressable>
-          );
-        })}
-      </View>
+            );
+          })}
+        </View>
+      </MenuList>
     </View>
   );
 };
