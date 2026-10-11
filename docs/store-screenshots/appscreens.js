@@ -132,8 +132,6 @@
   // ---- Round 8 screens (spec: app-screens.md) ----
   const SCALES = {
     default: [C.m1, C.m2, C.m3, C.m4, C.m5, C.m6, C.m7],
-    puor: ['#542788', '#998ec3', '#d8daeb', '#e5e5e5', '#fee0b6', '#f1a340', '#b35806'],
-    brbg: ['#01665e', '#5ab4ac', '#c7eae5', '#e5e5e5', '#f6e8c3', '#d8b365', '#8c510a'],
   };
   const pickMood = (x, sc) => x < 0.08 ? sc[0] : x < 0.34 ? sc[1] : x < 0.58 ? sc[2] : x < 0.76 ? sc[3] : x < 0.88 ? sc[4] : x < 0.96 ? sc[5] : sc[6];
   S.mood = () => `<div style="position:absolute;inset:0;background:#d9d9db"></div><div style="position:relative">${statusbar()}</div>
