@@ -171,6 +171,22 @@
               "foregroundImage": "./assets/images/app-icons/tangerine-inverse-foreground.png",
               "backgroundColor": "#FFFFFF"
             }
+          },
+          {
+            "name": "Forest",
+            "ios": "./assets/images/app-icons/forest.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/forest-foreground.png",
+              "backgroundColor": "#05392D"
+            }
+          },
+          {
+            "name": "ForestInverse",
+            "ios": "./assets/images/app-icons/forest-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/forest-inverse-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
           }
         ]
       ],

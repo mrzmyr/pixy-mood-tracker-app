@@ -46,6 +46,14 @@ const LABELS: Record<
     title: "app_icon_tangerine_inverse",
     description: "app_icon_tangerine_inverse_description",
   },
+  forest: {
+    title: "app_icon_forest",
+    description: "app_icon_forest_description",
+  },
+  "forest-inverse": {
+    title: "app_icon_forest_inverse",
+    description: "app_icon_forest_inverse_description",
+  },
 };
 
 const reportAppIconError = ({
