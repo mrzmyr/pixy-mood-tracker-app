@@ -89,10 +89,11 @@ export const SlideAction = ({
       {keyboardHeight > 0 && (
         <FloatButton
           testID="logger-hide-keyboard"
+          variant="secondary"
           accessibilityLabel={t("a11y_hide_keyboard")}
           onPress={() => Keyboard.dismiss()}
         >
-          <KeyboardHideIcon color={colors.primaryButtonText} />
+          <KeyboardHideIcon color={colors.tertiaryButtonText} />
         </FloatButton>
       )}
       <FloatButton

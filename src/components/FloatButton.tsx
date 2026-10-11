@@ -25,18 +25,20 @@ const SIZE = FLOAT_BUTTON_SIZE;
 const RADIUS = IS_ANDROID ? 16 : SIZE / 2;
 
 /**
- * Primary floating action button. Liquid Glass on iOS 26, Material 3 FAB on
- * Android, soft shadow on older iOS. `disabled` only changes the color;
- * presses still call `onPress`.
+ * Floating action button. Liquid Glass on iOS 26, Material 3 FAB on Android,
+ * soft shadow on older iOS. `secondary` is gray, or untinted glass on iOS 26.
+ * `disabled` only changes the color; presses still call `onPress`.
  */
 export const FloatButton = ({
   onPress,
+  variant = "primary",
   disabled,
   children,
   testID,
   accessibilityLabel,
 }: {
   onPress: () => void;
+  variant?: "primary" | "secondary";
   disabled?: boolean;
   children?: React.ReactNode;
   testID?: string;
@@ -46,9 +48,13 @@ export const FloatButton = ({
   const colors = useColors();
   const isReducedMotion = useReducedMotion();
   const pressed = useSharedValue(0);
-  const background = disabled
-    ? colors.primaryButtonBackgroundDisabled
+  const isSecondary = variant === "secondary";
+  let background = isSecondary
+    ? colors.tertiaryButtonBackground
     : colors.primaryButtonBackground;
+  if (disabled) {
+    background = colors.primaryButtonBackgroundDisabled;
+  }
 
   const setPressed = (value: 0 | 1) =>
     pressed.set(
@@ -82,7 +88,12 @@ export const FloatButton = ({
       onPress={onPress}
       onPressIn={() => setPressed(1)}
       onPressOut={() => setPressed(0)}
-      android_ripple={{ color: "rgba(255, 255, 255, 0.24)", foreground: true }}
+      android_ripple={{
+        color: isSecondary
+          ? "rgba(0, 0, 0, 0.12)"
+          : "rgba(255, 255, 255, 0.24)",
+        foreground: true,
+      }}
       style={{
         width: SIZE,
         height: SIZE,
@@ -117,7 +128,7 @@ export const FloatButton = ({
         {HAS_GLASS && (
           <GlassView
             isInteractive
-            tintColor={background}
+            tintColor={isSecondary ? undefined : background}
             style={[StyleSheet.absoluteFill, { borderRadius: RADIUS }]}
           />
         )}
