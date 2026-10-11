@@ -70,10 +70,14 @@ const appendMissingEmotions = (
 export const SlideEmotions = ({
   defaultIndex,
   onDisableStep = noop,
+  initialMode = "basic",
+  onModeChange = noop,
   showDisable,
 }: {
   defaultIndex?: number;
   onDisableStep?: () => void;
+  initialMode?: Mode;
+  onModeChange?: (mode: Mode) => void;
   showDisable: boolean;
 }) => {
   const colors = useColors();
@@ -108,7 +112,7 @@ export const SlideEmotions = ({
     setEmotions(emotions.map((emotion) => emotion.key));
   };
 
-  const [mode, setMode] = useState<Mode>("basic");
+  const [mode, setMode] = useState<Mode>(initialMode);
 
   const mostUsedEmotionKeys = new Set(
     getMostUsedEmotions(logState.items)
@@ -149,11 +153,9 @@ export const SlideEmotions = ({
   };
 
   const toggleMode = () => {
-    if (mode === "basic") {
-      setMode("advanced");
-    } else {
-      setMode("basic");
-    }
+    const nextMode = mode === "basic" ? "advanced" : "basic";
+    setMode(nextMode);
+    onModeChange(nextMode);
 
     setShowTooltip(false);
     setInitialSelectedEmotions(selectedEmotions);

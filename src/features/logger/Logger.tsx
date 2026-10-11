@@ -191,11 +191,19 @@ const LoggerSlides = ({
   const isEditing = mode === "edit";
   const showDisable = logState.items.length <= 3 && !isEditing;
 
-  const [touched, setTouched] = useState(false);
-
   const indexFound = initialStep ? avaliableSteps.indexOf(initialStep) : -1;
   const initialIndex = indexFound === -1 ? 0 : indexFound;
   const [slideIndex, setSlideIndex] = useState(initialIndex);
+  // Furthest slide the user has been on. Swiping forward stops here, so a
+  // new entry cannot skip ahead; an existing entry has no such limit.
+  const [furthestIndex, setFurthestIndex] = useState(
+    isEditing ? Number.MAX_SAFE_INTEGER : initialIndex
+  );
+  // The advanced emotions page swipes sideways by itself, so slide swiping
+  // pauses while it shows.
+  const [emotionsMode, setEmotionsMode] = useState<"basic" | "advanced">(
+    "basic"
+  );
 
   const { save, remove, cancel } = useLoggerActions({ mode, onCreated });
   const { isLocationVisible, isLocating } = usePassiveLocation({ mode });
@@ -212,6 +220,9 @@ const LoggerSlides = ({
       (avaliableSteps.includes(key) && (key !== "feedback" || !!question))
   );
 
+  // Slide to open once the carousel holds it, see the effect below.
+  const pendingIndex = useRef<number | null>(null);
+
   const next = () => {
     if (slideIndex + 1 === slideKeys.length - 1) {
       Keyboard.dismiss();
@@ -219,8 +230,11 @@ const LoggerSlides = ({
 
     if (slideIndex + 1 === slideKeys.length) {
       save();
-    } else if (_carousel.current) {
-      _carousel.current.next();
+    } else if (slideIndex + 1 > furthestIndex) {
+      pendingIndex.current = slideIndex + 1;
+      setFurthestIndex(slideIndex + 1);
+    } else {
+      _carousel.current?.scrollTo({ index: slideIndex + 1, animated: true });
     }
   };
 
@@ -248,7 +262,7 @@ const LoggerSlides = ({
   const ratingActionType = getRatingActionType({
     slideCount: slideKeys.length,
     slideIndex,
-    isTouched: touched,
+    isTouched: furthestIndex > 0,
     mode,
   });
 
@@ -299,6 +313,8 @@ const LoggerSlides = ({
           <SlideEmotions
             defaultIndex={EMOTIONS_INDEX_MAPPING[draft.rating ?? "neutral"]}
             onDisableStep={() => disableStep("emotions")}
+            initialMode={emotionsMode}
+            onModeChange={setEmotionsMode}
             showDisable={showDisable}
           />
         </View>
@@ -336,6 +352,24 @@ const LoggerSlides = ({
       action: <SlideAction type="hidden" />,
     });
   }
+
+  const reachedIndex = Math.min(furthestIndex, content.length - 1);
+  const reachedContent = content.slice(0, reachedIndex + 1);
+
+  // The carousel only holds slides up to `reachedIndex`. A step forward adds
+  // the next slide first, then scrolls to it.
+  useEffect(() => {
+    const target = pendingIndex.current;
+    if (target === null) {
+      return;
+    }
+    pendingIndex.current = null;
+    _carousel.current?.scrollTo({
+      index: Math.min(target, reachedIndex),
+      animated: true,
+    });
+    // `_carousel` is a stable ref; listed because the lint rule cannot tell.
+  }, [reachedIndex, _carousel]);
 
   const messageSlideIndex = content.findIndex((item) => item.key === "message");
   const hasMessageSlide = messageSlideIndex !== -1;
@@ -406,17 +440,22 @@ const LoggerSlides = ({
             itemSize={Dimensions.get("window").width}
             style={carouselHeight ? { height: carouselHeight } : undefined}
             ref={_carousel}
-            data={content}
+            data={reachedContent}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
             onProgressChange={(progress) => {
               if (isMounted.current) {
                 setSlideIndex(Math.round(progress));
               }
             }}
-            onScrollStart={() => {
-              setTouched(true);
-            }}
-            scrollEnabled={false}
+            scrollEnabled={
+              !(
+                slideKeys[slideIndex] === "emotions" &&
+                emotionsMode === "advanced"
+              )
+            }
+            onConfigurePanGesture={(gesture) =>
+              gesture.activeOffsetX([-10, 10]).failOffsetY([-10, 10])
+            }
             renderItem={({ index }) => content[index].slide}
           />
         </View>
