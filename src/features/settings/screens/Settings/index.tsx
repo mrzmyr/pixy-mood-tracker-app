@@ -49,7 +49,8 @@ const DEVELOPMENT_UNLOCK_TAPS = 20;
 
 /**
  * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
- * The App Lock row needs the `app-lock` flag, or the lock being on.
+ * The Privacy & Security section holds Privacy and the App Lock row. The App
+ * Lock row needs the `app-lock` flag, or the lock being on.
  * The Development section shows in development and preview builds, with the
  * `development` or `feature-flag-overrides` feature flag, or after 20 taps on
  * the version in this session.
@@ -128,7 +129,6 @@ export const SettingsScreen = () => {
             onPress={() => router.push("/settings/steps")}
             isLink
           />
-          <AppLockMenuItem />
           {isWidgetEnabled && (
             <FlagHighlight flag="ios-widget">
               <MenuListItem
@@ -167,6 +167,17 @@ export const SettingsScreen = () => {
             title={t("colors")}
             iconLeft={<Droplet {...iconProps} />}
             onPress={() => router.push("/settings/colors")}
+            isLink
+          />
+        </MenuList>
+
+        <MenuListHeadline>{t("settings_privacy_security")}</MenuListHeadline>
+        <MenuList>
+          <AppLockMenuItem />
+          <MenuListItem
+            title={t("privacy")}
+            onPress={() => router.push("/settings/privacy")}
+            iconLeft={<Shield {...iconProps} />}
             isLink
           />
         </MenuList>
@@ -217,12 +228,6 @@ export const SettingsScreen = () => {
             }}
             iconLeft={<BookOpen {...iconProps} />}
             testID="changelog"
-          />
-          <MenuListItem
-            title={t("privacy")}
-            onPress={() => router.push("/settings/privacy")}
-            iconLeft={<Shield {...iconProps} />}
-            isLink
           />
           <MenuListItem
             title={t("licenses")}
