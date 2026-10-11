@@ -19,7 +19,7 @@ import type { ExportSettings } from "@/state/settings";
 import { INITIAL_STATE } from "@/constants/Settings";
 
 import { TagsProvider, useTagsState, useTagsUpdater } from "@/features/tags";
-import type { Tag } from "@/features/tags";
+import type { Tag, TagCategory } from "@/features/tags";
 import {
   PeopleProvider,
   usePeopleState,
@@ -87,6 +87,11 @@ const testSettings = {
     },
   ],
 };
+
+const testTagCategories = [{ id: "general", title: "General" }];
+// Backups from before tag categories: import puts every tag in General.
+const inGeneral = (tags: Tag[]) =>
+  tags.map((tag) => ({ ...tag, categoryId: "general" }));
 
 const testTags: Tag[] = [
   {
@@ -191,7 +196,7 @@ describe("useLogs()", () => {
 
     await waitFor(() => {
       expect(hook.result.current.logState.items).toEqual(testItems);
-      expect(hook.result.current.tagsState.tags).toEqual(testTags);
+      expect(hook.result.current.tagsState.tags).toEqual(inGeneral(testTags));
     });
 
     expect(hook.result.current.logState).toEqual({
@@ -199,7 +204,8 @@ describe("useLogs()", () => {
     });
     expect(hook.result.current.logState.items[1].photos).toEqual([testPhoto]);
     expect(hook.result.current.tagsState).toEqual({
-      tags: testTags,
+      tags: inGeneral(testTags),
+      categories: testTagCategories,
     });
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
@@ -304,17 +310,20 @@ describe("useLogs()", () => {
     expect(JSON.parse(contents)).toEqual({
       version: pkg.version,
       items: testItems,
-      settings: _.omit(testSettings, [
-        "deviceId",
-        "storeReviewPromptedAt",
-        "storeReviewPromptedAppVersion",
-        "photosDayAccessDismissed",
-        "colorScheme",
-        "locationEnabled",
-        "calendarLayout",
-        "appLockEnabled",
-      ]) satisfies ExportSettings,
-      tags: testTags,
+      settings: {
+        ..._.omit(testSettings, [
+          "deviceId",
+          "storeReviewPromptedAt",
+          "storeReviewPromptedAppVersion",
+          "photosDayAccessDismissed",
+          "colorScheme",
+          "locationEnabled",
+          "calendarLayout",
+          "appLockEnabled",
+        ]),
+        tagCategories: testTagCategories,
+      } satisfies ExportSettings & { tagCategories: TagCategory[] },
+      tags: inGeneral(testTags),
       people: [],
     });
     // Metadata only: export files never contain photo files.
@@ -400,6 +409,7 @@ describe("useLogs()", () => {
         expect.objectContaining({ id: "1" }),
         expect.objectContaining({ id: "18" }),
       ]),
+      categories: testTagCategories,
     });
     expect(hook.result.current.settingsState.settings).toEqual({
       ...INITIAL_STATE,
@@ -515,7 +525,8 @@ describe("useLogs()", () => {
     });
 
     expect(hook.result.current.tagsState).toEqual({
-      tags: testTags,
+      tags: inGeneral(testTags),
+      categories: testTagCategories,
     });
 
     expect(hook.result.current.settingsState.settings).toEqual({

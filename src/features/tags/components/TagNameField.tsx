@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
-import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/Config";
 import MenuList from "@/components/MenuList";
+import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { isValidTagTitle, shouldShowCounter } from "../tagName";
 
 /**
- * Tag name input with a visible label, an `n/MAX` counter near the limit, and
+ * Tag or tag category name input with a visible label, an `n/MAX` counter near the limit, and
  * an inline error. Tapping the label focuses the input. The input sits in a
  * {@link MenuList} so it matches the other form sections.
  */
@@ -15,8 +15,14 @@ const TagNameField = ({
   value,
   onChange,
   showError,
+  placeholder = t("tags_add_placeholder"),
+  testID = "tag-name",
+  autoFocus = false,
 }: {
   value: string;
+  placeholder?: string;
+  testID?: string;
+  autoFocus?: boolean;
   onChange: (title: string) => void;
   /** Show the length error under the field. */
   showError: boolean;
@@ -49,7 +55,8 @@ const TagNameField = ({
           ref={inputRef}
           accessibilityLabel={t("tags_name_label")}
           accessibilityLabelledBy="tag-name-label"
-          testID="tag-name"
+          testID={testID}
+          autoFocus={autoFocus}
           autoCorrect={false}
           style={{
             fontSize: 17,
@@ -57,7 +64,7 @@ const TagNameField = ({
             width: "100%",
             padding: 16,
           }}
-          placeholder={t("tags_add_placeholder")}
+          placeholder={placeholder}
           placeholderTextColor={colors.textInputPlaceholder}
           maxLength={MAX_TAG_LENGTH}
           value={value}
@@ -74,7 +81,7 @@ const TagNameField = ({
       >
         {hasError && (
           <Text
-            testID="tag-name-error"
+            testID={`${testID}-error`}
             style={{ flex: 1, fontSize: 13, color: colors.dangerButtonText }}
           >
             {t("tags_name_error", {
@@ -85,7 +92,7 @@ const TagNameField = ({
         )}
         {showCounter && (
           <Text
-            testID="tag-name-counter"
+            testID={`${testID}-counter`}
             style={{
               marginLeft: "auto",
               fontSize: 13,

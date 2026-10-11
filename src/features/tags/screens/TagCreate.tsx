@@ -9,7 +9,9 @@ import ModalHeader from "@/components/ModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import TagCategoryPicker from "../components/TagCategoryPicker";
 import { ColorPicker } from "../components/ColorPicker";
+import { GENERAL_CATEGORY_ID } from "../tagCategories";
 import TagNameField from "../components/TagNameField";
 import { isValidTagTitle } from "../tagName";
 import { useTagsUpdater } from "../TagsProvider";
@@ -34,6 +36,7 @@ export const TagCreate = () => {
     id: uuidv4(),
     title: "",
     color: Object.keys(colors.tags)[0],
+    categoryId: GENERAL_CATEGORY_ID,
   });
 
   const onCreate = () => {
@@ -52,6 +55,7 @@ export const TagCreate = () => {
       id: uuidv4(),
       title: "",
       color: Object.keys(colors.tags)[0],
+      categoryId: GENERAL_CATEGORY_ID,
     });
 
     tagsUpdater.createTag(tempTag);
@@ -92,15 +96,11 @@ export const TagCreate = () => {
             </LinkButton>
           }
         />
+        {/* Scrolls once many categories push the form past the screen. */}
         <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
           keyboardShouldPersistTaps="handled"
-          keyboardDismissMode={
-            Platform.OS === "ios" ? "interactive" : "on-drag"
-          }
-          contentContainerStyle={{
-            padding: 20,
-            paddingBottom: 20 + insets.bottom,
-          }}
         >
           <TagNameField
             value={tempTag.title}
@@ -113,6 +113,12 @@ export const TagCreate = () => {
             value={tempTag.color}
             onChange={(color) => {
               setTempTag((currentTag) => ({ ...currentTag, color }));
+            }}
+          />
+          <TagCategoryPicker
+            value={tempTag.categoryId ?? GENERAL_CATEGORY_ID}
+            onChange={(categoryId) => {
+              setTempTag((currentTag) => ({ ...currentTag, categoryId }));
             }}
           />
         </ScrollView>

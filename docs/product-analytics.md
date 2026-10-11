@@ -9,7 +9,7 @@
 
 ## Photos
 
-Events: [analytics.md](analytics.md#photos).
+Events: [TELEMETRY.md](../TELEMETRY.md#photos).
 
 1. Adoption: step reach (`logger:step_viewed` with `step: "photos"`) to entries with photos (`logger:log_saved.photos_count > 0`)
 2. Day photos worth the permission: prompt shown, allow rate, granted vs limited vs denied, `photos_day_count` share of saved photos

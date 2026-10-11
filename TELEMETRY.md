@@ -1,44 +1,70 @@
-# Analytics
+# Telemetry
 
-- Event catalog: [`src/state/analytics/events.ts`](../src/state/analytics/events.ts)
-- Usage summary and behaviour signals: [product-analytics.md](product-analytics.md)
-- Screens: `$screen` with the route name, from [`src/shell/screenTracking.ts`](../src/shell/screenTracking.ts)
-- Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](../src/state/analytics/index.tsx))
-- Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
-- Default: off in consent regions and when region is unknown; on elsewhere. Factory reset restores the device-region default ([`src/state/analytics/consent.ts`](../src/state/analytics/consent.ts))
+Pixy sends anonymous usage events to PostHog. This file lists what is sent, what is never sent, and how to switch it off.
+
+## What is sent
+
+| Data | Sent | Details |
+| --- | --- | --- |
+| Feature usage events | Yes | For example `logger:log_saved`, `calendar:filters_opened`. Catalog: [`events.ts`](src/state/analytics/events.ts). `track()` accepts only events from this file |
+| Usage summary | Yes | Counts, shares, and booleans ([product-analytics.md](docs/product-analytics.md)) |
+| Screen views | Yes | Route name only |
+| Settings on every event | Yes | `scale_type`, `reminder_enabled`, `steps` |
+| Install id | Yes | Random. New id after "Delete all my data" |
+| Entry content | Never | Notes, tag names, people names, photos, photo metadata, coordinates, place names |
+| Mood data | Never | Ratings, emotions, sleep quality, mood feedback |
+| Identity | Never | No account, no `identify()`. The install stays anonymous |
+
+## Consent and opt out
+
+- Default off in the EU, EEA, UK, Switzerland, and when the region is unknown. Default on elsewhere ([`consent.ts`](src/state/analytics/consent.ts))
+- Off switch: Settings > Privacy > Behavioral Data
+- Off means no events, no feature flags, no startup metrics
+- "Delete all my data" restores the regional default
+- Crash reports go to Sentry. The Behavioral Data switch does not cover them
+
+## Developer reference
+
+- Event catalog: [`src/state/analytics/events.ts`](src/state/analytics/events.ts)
+- Usage summary and behaviour signals: [product-analytics.md](docs/product-analytics.md)
+- Screens: `$screen` with the route name, from [`src/shell/screenTracking.ts`](src/shell/screenTracking.ts)
+- Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](src/state/analytics/index.tsx))
+- Privacy rule: [AGENTS.md footguns](AGENTS.md#footguns)
+- Default: off in consent regions and when region is unknown; on elsewhere. Factory reset restores the device-region default ([`src/state/analytics/consent.ts`](src/state/analytics/consent.ts))
 - Onboarding skip: consent regions land on the privacy slide before completion.
 - Off switch: Settings > Privacy > Behavioral Data
-- Feature flags load only with consent ([development.md](development.md#feature-flags))
-- People ([spec](specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`. Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
-- Location ([development.md](development.md#location)): `settings:location_toggled` (`enabled`). `logger:log_saved` adds `has_location`. Never coordinates or place names
+- Feature flags load only with consent ([development.md](docs/development.md#feature-flags))
+- People ([spec](docs/specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`. Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
+- Location ([development.md](docs/development.md#location)): `settings:location_toggled` (`enabled`). `logger:log_saved` adds `has_location`. Never coordinates or place names
 - Calendar layout menu (Calendar, Timeline, Map): `calendar:layout_changed` with `layout`
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
-- Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
+- Store review prompt: `logger:store_review_requested` ([`src/features/review`](src/features/review))
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
 - Widget guide: `widget:guide_*`
-- Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
+- Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](src/features/logger/confirmation))
   - Shown only after create, not edit
   - Usage counts only, including `message_word_count` and `entries_count`. No rating, emotion keys, or sleep quality
-- Interventions: `interventions:*` ([`src/features/interventions`](../src/features/interventions)), flag `interventions`
+- Interventions: `interventions:*` ([`src/features/interventions`](src/features/interventions)), flag `interventions`
   - Card on confirmation and calendar: `card_shown`, then `option_selected` with a new `intervention_session_id`
   - Flow: `intro_viewed`, `flow_started`, `step_viewed`, `step_back`, `flow_paused`, `flow_resumed`, then `flow_completed` or `flow_abandoned` (`how`: `close`, `end_early`)
   - End check: `feedback_answered` or `feedback_skipped`. Never the answer value
   - No selected emotion keys or emotion cluster in event properties
   - No dismiss control and no cooldown: cards show for every matching entry of today
-- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](../src/features/notifications/reminderTaps.ts))
+- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](src/features/notifications/reminderTaps.ts))
   - One event per tap on reminder body. Dismisses and other actions not sent
   - Properties: `cold_start`, `minutes_since_delivered`
   - Cold start taps wait for stored settings, so a stored opt-out wins
   - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
+- Tag categories: `tags:category_created` (`title_length`, `categories_count`), `tags:category_updated` (`title_length`), `tags:category_deleted` (`tags_count` without archived tags, `categories_count`), `tags:categories_reordered` (`categories_count`, `method`), `tags:tags_arranged` (`tags_count`, `categories_count`, `category_changed`, `method`). `method` is `drag` or `accessibility_action`. Never category or tag names
 
 ## Photos
 
-- Events: `photos:*` in [`events.ts`](../src/state/analytics/events.ts). Sent through `track()` only, so consent applies
+- Events: `photos:*` in [`events.ts`](src/state/analytics/events.ts). Sent through `track()` only, so consent applies
 - Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
 - `mode`: `create` or `edit`. `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`
-- Questions: [product-analytics.md](product-analytics.md#photos)
+- Questions: [product-analytics.md](docs/product-analytics.md#photos)
 
 | Event | When | Properties |
 | --- | --- | --- |
@@ -77,7 +103,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 
 **Added events**
 
-- Photo attachments, first release with photos ([`src/features/photos`](../src/features/photos))
+- Photo attachments, first release with photos ([`src/features/photos`](src/features/photos))
   - `photos:day_access_prompt_shown`: `mode`, `entry_days_ago`
   - `photos:day_access_prompt_dismissed`: `mode`
   - `photos:day_access_answered`: `status` (`granted`, `limited`, `denied`), `source` (`card`, `button`)

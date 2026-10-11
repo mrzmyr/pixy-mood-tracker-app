@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, Text, ScrollView, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../useTagActions";
@@ -10,7 +10,9 @@ import ModalHeader from "@/components/ModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import TagCategoryPicker from "../components/TagCategoryPicker";
 import { ColorPicker } from "../components/ColorPicker";
+import { GENERAL_CATEGORY_ID } from "../tagCategories";
 import TagNameField from "../components/TagNameField";
 import { isValidTagTitle } from "../tagName";
 import { useTagsState, useTagsUpdater } from "../TagsProvider";
@@ -97,15 +99,11 @@ export const TagEdit = () => {
             </LinkButton>
           }
         />
+        {/* Scrolls once many categories push the form past the screen. */}
         <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
           keyboardShouldPersistTaps="handled"
-          keyboardDismissMode={
-            Platform.OS === "ios" ? "interactive" : "on-drag"
-          }
-          contentContainerStyle={{
-            padding: 20,
-            paddingBottom: 20 + insets.bottom,
-          }}
         >
           <TagNameField
             value={tag.title}
@@ -118,6 +116,12 @@ export const TagEdit = () => {
             value={tag.color}
             onChange={(color) => {
               setTag((currentTag) => ({ ...currentTag, color }));
+            }}
+          />
+          <TagCategoryPicker
+            value={tag.categoryId ?? GENERAL_CATEGORY_ID}
+            onChange={(categoryId) => {
+              setTag((currentTag) => ({ ...currentTag, categoryId }));
             }}
           />
           <MenuList
