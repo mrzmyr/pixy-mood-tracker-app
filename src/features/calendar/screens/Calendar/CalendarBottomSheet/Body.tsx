@@ -1,29 +1,37 @@
+import FlagHighlight from "@/components/FlagHighlight";
 import type { DebouncedFunc } from "lodash";
 import debounce from "lodash/debounce";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
-import { RotateCcw } from "react-native-feather";
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/lib/translation";
 import { useCalendarFilters } from "../../../filters";
 import { useTagsState } from "@/features/tags";
+import { usePeopleState } from "@/features/people";
+import type { Person } from "@/features/people";
+import { useFeatureFlag } from "@/state/featureFlags";
+import { PeopleSection } from "./PeopleSection";
 import { RatingSection } from "./RatingSection";
 import { ResultsSection } from "./ResultsSection";
 import { SearchInputSection } from "./SearchInputSection";
 import { TagsSection } from "./TagsSection";
 
 /**
- * Calendar filter form (text, ratings, tags). Archived tags cannot be
- * selected. Text search is debounced by 200 ms; rating and tag changes
+ * Calendar filter form (text, ratings, tags, people). Archived tags and
+ * people cannot be selected; people show only behind the `people` flag. Text search is debounced by 200 ms; rating and tag changes
  * apply at once. Filters stay when the sheet closes; Reset clears them.
  * Must render inside `CalendarFiltersProvider`.
  */
 export const Body = () => {
   const calendarFilters = useCalendarFilters();
   const { tags } = useTagsState();
+  const { people } = usePeopleState();
+  const hasPeople = useFeatureFlag("people");
 
   const _tags = tags.filter((tag) => !tag.isArchived);
   const selectedTagIds = new Set(calendarFilters.data.tagIds);
+  const _people = people.filter((person) => !person.isArchived);
+  const selectedPersonIds = new Set(calendarFilters.data.personIds);
 
   // Filters outlive the sheet, so reopening shows the kept search text.
   const [searchText, setSearchText] = useState(calendarFilters.data.text);
@@ -34,6 +42,15 @@ export const Body = () => {
       tagIds: calendarFilters.data.tagIds.includes(tag.id)
         ? calendarFilters.data.tagIds.filter((id) => id !== tag.id)
         : [...calendarFilters.data.tagIds, tag.id],
+    });
+  };
+
+  const onPressPerson = (person: Person) => {
+    calendarFilters.set({
+      ...calendarFilters.data,
+      personIds: selectedPersonIds.has(person.id)
+        ? calendarFilters.data.personIds.filter((id) => id !== person.id)
+        : [...calendarFilters.data.personIds, person.id],
     });
   };
 
@@ -100,24 +117,30 @@ export const Body = () => {
         selectedTags={_tags.filter((tag) => selectedTagIds.has(tag.id))}
         onSelect={onPressTag}
       />
+      {hasPeople && _people.length > 0 && (
+        <FlagHighlight flag="people">
+          <PeopleSection
+            people={_people}
+            selectedIds={selectedPersonIds}
+            onSelect={onPressPerson}
+          />
+        </FlagHighlight>
+      )}
       {/* Reset shares the result row: the half-height Android sheet cuts off
           anything below it. */}
       {(calendarFilters.data.isFiltering || searchText !== "") && (
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
-            gap: 16,
+            marginTop: 16,
           }}
         >
-          {calendarFilters.data.filteredItems.length !== 0 && (
-            <ResultsSection count={calendarFilters.data.filteredItems.length} />
-          )}
           <LinkButton
             type="secondary"
-            icon={RotateCcw}
             testID="calendar-filter-reset"
+            style={{ marginLeft: -8 }}
             onPress={() => {
               debouncedTextChangeRef.current?.cancel();
               setSearchText("");
@@ -126,6 +149,9 @@ export const Body = () => {
           >
             {t("reset")}
           </LinkButton>
+          {calendarFilters.data.filteredItems.length !== 0 && (
+            <ResultsSection count={calendarFilters.data.filteredItems.length} />
+          )}
         </View>
       )}
     </View>

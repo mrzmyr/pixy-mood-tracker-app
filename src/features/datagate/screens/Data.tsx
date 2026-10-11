@@ -1,6 +1,7 @@
 import { ScrollView, View } from "react-native";
 import { Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
+import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
@@ -13,6 +14,7 @@ import { useDatagate } from "../DataGate";
  */
 export const DataScreen = () => {
   const colors = useColors();
+  const iconProps = { width: 20, height: 20, color: colors.menuListItemIcon };
   const datagate = useDatagate();
 
   return (
@@ -32,7 +34,7 @@ export const DataScreen = () => {
           <MenuListItem
             title={t("import")}
             onPress={() => datagate.openImportDialog()}
-            iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Download {...iconProps} />}
           />
           {__DEV__ && (
             <MenuListItem
@@ -40,17 +42,29 @@ export const DataScreen = () => {
               onPress={() =>
                 datagate.openDangerousImportDirectlyToAsyncStorageDialog()
               }
-              iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
+              iconLeft={<Download {...iconProps} />}
             />
           )}
+        </MenuList>
+        <MenuListHeadline>{t("export")}</MenuListHeadline>
+        <MenuList>
           <MenuListItem
-            title={t("export")}
-            onPress={() => datagate.openExportDialog()}
-            iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
-            isLast
+            testID="export-json"
+            title="JSON"
+            onPress={() => datagate.openExportDialog({ format: "json" })}
+            iconLeft={<Upload {...iconProps} />}
+          />
+          <MenuListItem
+            testID="export-csv"
+            title="CSV"
+            onPress={() => datagate.openExportDialog({ format: "csv" })}
+            iconLeft={<Upload {...iconProps} />}
           />
         </MenuList>
-        <TextInfo>{t("export_help")}</TextInfo>
+        <TextInfo>{`${t("export_help")}\n${t("export_csv_help")}`}</TextInfo>
+        <TextInfo style={{ paddingTop: 0 }}>
+          {t("data_export_photos_note")}
+        </TextInfo>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
             testID="delete-all-data"
@@ -62,11 +76,10 @@ export const DataScreen = () => {
                 console.log(error);
               }
             }}
-            iconLeft={<Trash width={18} color="red" />}
+            iconLeft={<Trash width={20} height={20} color={colors.danger} />}
             style={{
-              color: "red",
+              color: colors.danger,
             }}
-            isLast
           />
         </MenuList>
         <TextInfo>{t("delete_all_data_description")}</TextInfo>

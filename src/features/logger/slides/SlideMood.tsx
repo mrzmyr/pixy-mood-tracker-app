@@ -1,35 +1,36 @@
-import { useRouter } from "expo-router";
-import dayjs from "dayjs";
-import { useState } from "react";
-import { Platform, View } from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { DATE_FORMAT } from "@/constants/Config";
 import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import type { LogItem } from "@/features/logs";
 import { RATING_KEYS } from "@/constants/Ratings";
-import { useTemporaryLog } from "../temporaryLog";
+import { useLogDraft } from "../logDraft";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { SlideMoodButton } from "../components/SlideMoodButton";
+import { SlideMoodFooter } from "../components/SlideMoodFooter";
 
 /**
  * Rating slide, always the first logger slide. Must render inside
- * `TemporaryLogProvider`.
+ * `LogDraftProvider`. Picking a rating stores it in the draft;
+ * `onRatingChanged` runs after a pick that changed the rating. The bottom
+ * row holds the entry time and location, see `SlideMoodFooter`.
  */
 export const SlideMood = ({
-  onChange,
+  onRatingChanged,
+  isLocationVisible,
+  isLocating,
+  isActionVisible,
 }: {
-  onChange: (rating: LogItem["rating"]) => void;
+  onRatingChanged: () => void;
+  isLocationVisible: boolean;
+  isLocating: boolean;
+  isActionVisible: boolean;
 }) => {
   const colors = useColors();
-  const tempLog = useTemporaryLog();
-  const router = useRouter();
+  const { draft, setRating } = useLogDraft();
   const insets = useSafeAreaInsets();
 
   const marginTop = getSlideMarginTop();
-  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   return (
     <View
@@ -48,26 +49,6 @@ export const SlideMood = ({
           marginTop,
         }}
       >
-        {Platform.OS !== "web" && (
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            date={
-              tempLog.data.dateTime
-                ? new Date(tempLog.data.dateTime)
-                : new Date()
-            }
-            mode="datetime"
-            onConfirm={(date) => {
-              setIsDatePickerVisible(false);
-              tempLog.update({
-                date: dayjs(date).format(DATE_FORMAT),
-                dateTime: dayjs(date).toISOString(),
-              });
-              router.setParams({ dateTime: dayjs(date).toISOString() });
-            }}
-            onCancel={() => setIsDatePickerVisible(false)}
-          />
-        )}
         <SlideHeadline
           style={{
             justifyContent: "center",
@@ -89,12 +70,23 @@ export const SlideMood = ({
             <SlideMoodButton
               key={key}
               rating={key}
-              selected={tempLog?.data?.rating === key}
-              onPress={() => onChange(key)}
+              selected={draft.rating === key}
+              onPress={() => {
+                const isChanged = draft.rating !== key;
+                setRating(key);
+                if (isChanged) {
+                  onRatingChanged();
+                }
+              }}
             />
           ))}
         </View>
       </View>
+      <SlideMoodFooter
+        isLocationVisible={isLocationVisible}
+        isLocating={isLocating}
+        isActionVisible={isActionVisible}
+      />
     </View>
   );
 };

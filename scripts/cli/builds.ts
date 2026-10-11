@@ -6,13 +6,17 @@ import os from "node:os";
 import path from "node:path";
 
 import { agentDevice, stopStaleDaemon } from "./agent-device.ts";
+import { formatGiB, measureSize, readFreeBytes } from "./disk.ts";
 import { stopMetroIn } from "./metro.ts";
+import { findReclaimable, selectStaleBuilds } from "./reclaim.ts";
+import type { Candidate } from "./reclaim.ts";
 import {
   CHECKOUTS_DIR,
   CHECKOUT_FILE,
   CliError,
   defineCommand,
   formatAge,
+  note,
   printTable,
   readJson,
 } from "./shared.ts";
@@ -69,8 +73,9 @@ interface DeviceClaim {
   device?: { id: string; platform: string };
 }
 
-const KEEP_BUILDS = 1;
-const KEEP_WITHIN_MS = 2 * 24 * 60 * 60_000;
+const HOUR_MS = 60 * 60_000;
+const PRUNE_OLDER_THAN_HOURS = 48;
+const RECLAIM_OLDER_THAN_HOURS = 24;
 
 const localRequire = createRequire(import.meta.url);
 // SAFETY: the provider module exports these functions; see its module.exports.
@@ -339,18 +344,28 @@ const pruneCheckouts = async () => {
   }
 };
 
-const pruneBuilds = async () => {
-  const groups = Map.groupBy(
+const parseHours = (value: string | undefined, fallback: number) => {
+  if (value === undefined) {
+    return fallback;
+  }
+  const hours = Number(value);
+  if (!Number.isFinite(hours) || hours <= 0) {
+    throw new CliError({
+      exitCode: 2,
+      status: "invalid_value",
+      message: `Invalid value "${value}" for --older-than`,
+      why: "--older-than accepts a positive number of hours.",
+      fix: "Pass hours, for example --older-than=12.",
+    });
+  }
+  return hours;
+};
+
+const pruneBuilds = async (olderThanHours = PRUNE_OLDER_THAN_HOURS) => {
+  const stale = selectStaleBuilds(
     listBuilds(),
-    (build) => `${build.platform}-${build.target}-${build.variant}`
-  );
-  const stale = [...groups.values()].flatMap((group) =>
-    group
-      .toSorted((a, b) => b.lastUsedAt.localeCompare(a.lastUsedAt))
-      .slice(KEEP_BUILDS)
-      .filter(
-        (build) => Date.now() - Date.parse(build.lastUsedAt) > KEEP_WITHIN_MS
-      )
+    Date.now(),
+    olderThanHours * HOUR_MS
   );
   for (const build of stale) {
     console.log(
@@ -372,6 +387,64 @@ const pruneBuilds = async () => {
   const freed = stale.reduce((sum, build) => sum + build.sizeBytes, 0);
   console.log(`${stale.length} build(s) removed, ${formatSize(freed)}.`);
 };
+
+const formatBytes = (bytes: number | null) =>
+  bytes === null ? "size unknown" : formatGiB(bytes);
+
+const reclaim = (isDryRun: boolean, olderThanHours: number) => {
+  const maxAgeMs = olderThanHours * HOUR_MS;
+  const builds = selectStaleBuilds(listBuilds(), Date.now(), maxAgeMs).map(
+    (build): Candidate => ({
+      kind: "build",
+      path: build.id,
+      reason: `last used ${formatAge(build.lastUsedAt)} ago`,
+      bytes: build.sizeBytes,
+      remove: () => removeBuild(build),
+    })
+  );
+  note("Measuring reclaimable space.");
+  const { candidates, state } = findReclaimable(maxAgeMs, measureSize);
+  if (state.hasUnknown) {
+    note(
+      "note: a native build runs outside known checkouts. Kept DerivedData and ios/build/Build of all existing checkouts."
+    );
+  }
+  if (state.busy.size) {
+    note(
+      `note: kept build folders of busy checkouts: ${[...state.busy].join(", ")}`
+    );
+  }
+  let freed = 0;
+  let removed = 0;
+  for (const candidate of [...builds, ...candidates]) {
+    const line = `${candidate.kind} ${candidate.path} (${formatBytes(candidate.bytes)}): ${candidate.reason}`;
+    if (isDryRun) {
+      console.log(`Would remove ${line}`);
+    } else {
+      try {
+        candidate.remove();
+      } catch (error) {
+        note(
+          `warning [reclaim_remove_failed]: Could not remove ${candidate.kind} ${candidate.path}\n  why: ${error instanceof Error ? error.message : String(error)}\n  fix: Check permissions and whether a process uses it, then retry.`
+        );
+        continue;
+      }
+      console.log(`Removed ${line}`);
+    }
+    removed += 1;
+    freed += candidate.bytes ?? 0;
+  }
+  console.log(
+    isDryRun
+      ? `${removed} item(s), ${formatGiB(freed)} reclaimable. Run without --dry-run to delete.`
+      : `${removed} item(s) removed, ${formatGiB(freed)} freed. ${formatGiB(readFreeBytes())} free disk now.`
+  );
+};
+
+const OLDER_THAN_OPTION = (hours: number) => ({
+  value: "<hours>",
+  description: [`Optional. Age in hours since last use. Default: ${hours}.`],
+});
 
 const cmdBuildsRm = (target: string) => {
   const matches = listBuilds().filter(
@@ -420,8 +493,55 @@ const BUILDS: Noun = {
       summary: "Remove one cached build.",
     }),
     prune: defineCommand({
-      run: () => pruneBuilds(),
+      options: { "older-than": OLDER_THAN_OPTION(PRUNE_OLDER_THAN_HOURS) },
+      usage: "Usage: bun builds prune [--older-than=<hours>]",
+      errors: {
+        invalid_value: "--older-than is not a positive number",
+      },
+      run: (values) =>
+        pruneBuilds(parseHours(values["older-than"], PRUNE_OLDER_THAN_HOURS)),
       summary: "Remove old builds and state of deleted worktrees",
+    }),
+    reclaim: defineCommand({
+      options: {
+        "dry-run": {
+          description: [
+            "Optional. List what reclaim would delete, delete nothing.",
+          ],
+        },
+        "older-than": OLDER_THAN_OPTION(RECLAIM_OLDER_THAN_HOURS),
+      },
+      usage: "Usage: bun builds reclaim [--dry-run] [--older-than=<hours>]",
+      sections: [
+        {
+          title: "Behavior",
+          lines: [
+            "Deletes only these, and prints each size:",
+            "- Cached builds older than --older-than. Keeps newest per platform and variant.",
+            "- Xcode DerivedData of this app for deleted or idle checkouts.",
+            "- ios/build/Build of idle checkouts. Never ios/build itself or generated code.",
+            "- Shut-down simulators of deleted checkouts. Other simulators stay.",
+            "- e2e recordings older than --older-than.",
+            "Idle: no xcodebuild, Gradle, pod, or native run process uses the checkout.",
+          ],
+        },
+        {
+          title: "Examples",
+          lines: [
+            "bun builds reclaim --dry-run",
+            "bun builds reclaim --older-than=6",
+          ],
+        },
+      ],
+      errors: {
+        invalid_value: "--older-than is not a positive number",
+      },
+      run: (values) =>
+        reclaim(
+          values["dry-run"] === "true",
+          parseHours(values["older-than"], RECLAIM_OLDER_THAN_HOURS)
+        ),
+      summary: "Free disk: delete old builds, build folders, and recordings",
     }),
   },
   footer: "Create builds with `bun app build`.",

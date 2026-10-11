@@ -1,0 +1,31 @@
+Run one agent-device command on the selected device.
+
+Usage: bun app drive (--platform=<ios|android> | --target=<target>) -- <agent-device args>
+
+Options:
+  --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
+  --target=<target>         One phone. Copy the value from `bun devices list`.
+
+Behavior:
+  Runs agent-device with the args after `--` unchanged, no shell.
+  Adds --platform, --udid or --serial, and --session for this device.
+  Adds signing and Android SDK environment. Phones: fails on device_reserved.
+  Does not create or boot a simulator or emulator. Run `bun app open` first.
+
+Output:
+  agent-device output and exit code. Commands: `bunx agent-device help workflow`.
+
+Examples:
+  bun app drive --platform=ios -- snapshot -i
+  bun app drive --target=pixel-8-09yw -- press 'label="Start"' --settle
+
+Errors:
+  missing_option       Neither --platform nor --target passed
+  conflicting_options  Both --platform and --target passed, or args after `--` select a device
+  invalid_platform     --platform is not ios or android
+  missing_argument     No agent-device command after `--`
+  target_not_found     No connected phone has this target
+  device_reserved      Another checkout reserved this phone
+  device_not_running   Simulator not created or emulator not booted
+
+Exit codes: 0 ok, 1 failure, 2 usage error

@@ -1,5 +1,11 @@
 Remove old builds and state of deleted worktrees
 
-Usage: bun builds prune
+Usage: bun builds prune [--older-than=<hours>]
+
+Options:
+  --older-than=<hours>  Optional. Age in hours since last use. Default: 48.
+
+Errors:
+  invalid_value  --older-than is not a positive number
 
 Exit codes: 0 ok, 1 failure, 2 usage error

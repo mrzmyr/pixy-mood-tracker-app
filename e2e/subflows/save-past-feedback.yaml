@@ -1,0 +1,22 @@
+appId: ${APP_ID}
+---
+# Saves from the last content step. With 3+ entries, a product question from
+# pixy.day can follow. The flow turns it off instead of answering, so test
+# runs never send survey answers. Disabling saves the entry, like an answer.
+- runFlow:
+    when:
+      visible:
+        id: "logger-next"
+    commands:
+      - tapOn:
+          id: "logger-next"
+      - tapOn: "I don't want to give feedback"
+      - assertVisible: "Disable Product Questions?"
+      - tapOn: "Disable"
+- runFlow:
+    when:
+      visible:
+        id: "logger-save"
+    commands:
+      - tapOn:
+          id: "logger-save"

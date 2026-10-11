@@ -12,12 +12,14 @@ import type { LogItem } from "@/features/logs";
 
 import { useContentStableValue } from "@/hooks/useContentStableValue";
 import type { Tag } from "@/features/tags";
+import type { Person } from "@/features/people";
 import { createMissingProviderError } from "@/lib/errors";
 
 interface FiltersData {
   text: string;
   ratings: LogItem["rating"][];
   tagIds: Tag["id"][];
+  personIds: Person["id"][];
 }
 
 /**
@@ -25,7 +27,7 @@ interface FiltersData {
  *
  * `filteredItems` follows the current logs, so new and edited entries match
  * while filters stay active. Selected tags must all be present on an entry
- * for it to match.
+ * for it to match; one selected person is enough.
  */
 export interface CalendarFiltersData extends FiltersData {
   filteredItems: LogItem[];
@@ -49,6 +51,7 @@ const initialFilters: FiltersData = {
   text: "",
   ratings: [],
   tagIds: [],
+  personIds: [],
 };
 
 const isMatchingFilters = (item: LogItem, filters: FiltersData) => {
@@ -58,6 +61,8 @@ const isMatchingFilters = (item: LogItem, filters: FiltersData) => {
   const matchesRatings = filters.ratings.includes(item.rating);
   const tagIds = item?.tags?.map((tag) => tag.id);
   const matchesTags = difference(filters.tagIds, tagIds).length === 0;
+  const personIds = new Set(item.people.map((person) => person.id));
+  const matchesPeople = filters.personIds.some((id) => personIds.has(id));
 
   const conditions: boolean[] = [];
 
@@ -69,6 +74,9 @@ const isMatchingFilters = (item: LogItem, filters: FiltersData) => {
   }
   if (filters.tagIds.length !== 0) {
     conditions.push(matchesTags);
+  }
+  if (filters.personIds.length !== 0) {
+    conditions.push(matchesPeople);
   }
 
   return conditions.every(Boolean);
@@ -90,12 +98,14 @@ const CalendarFiltersProvider = ({
         text_length: next.text.length,
         ratings_count: next.ratings.length,
         tags_count: next.tagIds.length,
+        people_count: next.personIds.length,
       });
       // Callers spread `data` into `next`; keep only the filter fields.
       setFilters({
         text: next.text,
         ratings: next.ratings,
         tagIds: next.tagIds,
+        personIds: next.personIds,
       });
     },
     [analytics]
@@ -105,11 +115,13 @@ const CalendarFiltersProvider = ({
     const isFiltering =
       filters.text !== "" ||
       filters.ratings.length !== 0 ||
-      filters.tagIds.length !== 0;
+      filters.tagIds.length !== 0 ||
+      filters.personIds.length !== 0;
     const filterCount =
       (filters.text === "" ? 0 : 1) +
       filters.ratings.length +
-      filters.tagIds.length;
+      filters.tagIds.length +
+      filters.personIds.length;
     return {
       ...filters,
       isFiltering,

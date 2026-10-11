@@ -2,48 +2,48 @@ import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useTagsState, TagComponent as Tag } from "@/features/tags";
-import { useTemporaryLog } from "../temporaryLog";
-import type { TagReference } from "@/types";
+import { useLogDraft } from "../logDraft";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import { ScrollView, View } from "react-native";
+import { useState } from "react";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
 import { MiniButton } from "@/components/MiniButton";
 import { SlideHeadline } from "../components/SlideHeadline";
+import { PullToSearch } from "../components/PullToSearch";
+import { matchesSearch } from "../components/matchesSearch";
 import { Footer } from "./Footer";
 import noop from "lodash/noop";
 
 /**
  * Tag picker slide. Archived tags are hidden unless the draft already has
- * them.
+ * them. Pulling the list down reveals a search by tag title.
  */
 export const SlideTags = ({
-  onChange,
   onDisableStep = noop,
   showDisable,
 }: {
-  onChange: (tags: TagReference[]) => void;
   onDisableStep?: () => void;
   showDisable: boolean;
 }) => {
-  const tempLog = useTemporaryLog();
+  const { draft, setTags } = useLogDraft();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const { tags } = useTagsState();
+  const [query, setQuery] = useState("");
 
-  const tempLogTagIds = tempLog?.data?.tags
-    ? new Set(tempLog.data.tags.map((d) => d.id))
-    : undefined;
+  const selectedTagIds = new Set(draft.tags.map((d) => d.id));
 
   const _tags = tags.filter((tag) => {
-    const inTempLog = tempLogTagIds?.has(tag.id);
+    const isSelected = selectedTagIds.has(tag.id);
 
     return (
-      (!inTempLog && !tag.isArchived) ||
-      (inTempLog && tag.isArchived) ||
-      (inTempLog && !tag.isArchived)
+      ((!isSelected && !tag.isArchived) ||
+        (isSelected && tag.isArchived) ||
+        (isSelected && !tag.isArchived)) &&
+      matchesSearch(tag.title, query)
     );
   });
 
@@ -55,7 +55,6 @@ export const SlideTags = ({
         flex: 1,
         width: "100%",
         paddingHorizontal: 20,
-        paddingBottom: insets.bottom + 20,
         marginTop,
       }}
     >
@@ -77,21 +76,12 @@ export const SlideTags = ({
             width: "100%",
           }}
         />
-        <LinearGradient
-          colors={[colors.logBackgroundTransparent, colors.logBackground]}
-          style={{
-            position: "absolute",
-            height: 32,
-            bottom: 0,
-            zIndex: 1,
-            width: "100%",
-          }}
-          pointerEvents="none"
-        />
-        <ScrollView
-          style={{
-            flex: 1,
-          }}
+        <PullToSearch
+          testID="logger-tags-search"
+          inset={0}
+          placeholder={t("log_tags_search")}
+          query={query}
+          onChangeQuery={setQuery}
         >
           <View
             style={{
@@ -100,22 +90,28 @@ export const SlideTags = ({
               alignItems: "flex-start",
               justifyContent: "flex-start",
               marginTop: 24,
-              paddingBottom: insets.bottom,
             }}
           >
             {_tags?.map((tag) => (
               <Tag
                 onPress={() => {
-                  const newTags = tempLogTagIds?.has(tag.id)
-                    ? tempLog?.data?.tags.filter(
-                        (selectedTag) => selectedTag.id !== tag.id
-                      )
-                    : [...(tempLog?.data.tags || []), tag];
-                  onChange(newTags);
+                  setTags(
+                    selectedTagIds.has(tag.id)
+                      ? draft.tags.filter(
+                          (selectedTag) => selectedTag.id !== tag.id
+                        )
+                      : [...draft.tags, tag]
+                  );
                 }}
+                onLongPress={() =>
+                  router.push({
+                    pathname: "/tags/[id]",
+                    params: { id: tag.id },
+                  })
+                }
                 title={tag.title}
                 colorName={tag.color}
-                selected={tempLogTagIds?.has(tag.id)}
+                selected={selectedTagIds.has(tag.id)}
                 key={tag.id}
               />
             ))}
@@ -129,21 +125,23 @@ export const SlideTags = ({
               </MiniButton>
             </View>
           </View>
-        </ScrollView>
+          {showDisable && (
+            <Footer>
+              <LinkButton
+                type="secondary"
+                onPress={onDisableStep}
+                style={{
+                  fontWeight: "400",
+                }}
+              >
+                {t("log_tags_disable")}
+              </LinkButton>
+            </Footer>
+          )}
+          {/* Keep final actions above the 54 pt Next button and its spacing. */}
+          <View style={{ height: insets.bottom + 54 + 32 }} />
+        </PullToSearch>
       </View>
-      <Footer>
-        {showDisable && (
-          <LinkButton
-            type="secondary"
-            onPress={onDisableStep}
-            style={{
-              fontWeight: "400",
-            }}
-          >
-            {t("log_tags_disable")}
-          </LinkButton>
-        )}
-      </Footer>
     </View>
   );
 };

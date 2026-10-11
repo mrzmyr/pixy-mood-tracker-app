@@ -1,18 +1,22 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Platform, Pressable, StyleSheet, View } from "react-native";
 import { Check } from "react-native-feather";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { t } from "@/lib/translation";
+import { t, tDynamic } from "@/lib/translation";
 
 const TARGET_SIZE = 48;
 const GAP = 8;
 
 const styles = StyleSheet.create({
-  card: { padding: 12 },
+  // Android lists run edge to edge, so swatches keep Material's 16dp inset.
+  card: Platform.select({
+    android: { paddingHorizontal: 16, paddingVertical: 12 },
+    default: { padding: 12 },
+  }),
   grid: { flexDirection: "row", flexWrap: "wrap", rowGap: GAP },
   cell: { alignItems: "center" },
   target: {
@@ -65,7 +69,7 @@ export const ColorPicker = ({
   return (
     <View>
       <MenuListHeadline style={{ marginTop: 8 }}>
-        {t("color")}: {t(`tag_color_${value}`)}
+        {t("color")}: {tDynamic(`tag_color_${value}`)}
       </MenuListHeadline>
       <MenuList style={styles.card}>
         <View
@@ -79,7 +83,7 @@ export const ColorPicker = ({
             return (
               <View key={color} style={[styles.cell, { width: cellWidth }]}>
                 <Pressable
-                  accessibilityLabel={t(`tag_color_${color}`)}
+                  accessibilityLabel={tDynamic(`tag_color_${color}`)}
                   accessibilityRole="radio"
                   accessibilityState={{ checked: isSelected }}
                   testID={`tag-color-${color}`}

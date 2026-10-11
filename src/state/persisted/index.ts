@@ -1,10 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
-// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
-import type { useFeedback } from "@/features/feedback";
-import noop from "lodash/noop";
-
-type StorageFeedback = ReturnType<typeof useFeedback>;
+import { asyncStorage } from "./storage";
+import type { KeyValueStorage } from "./storage";
 
 type StorageError = Error & {
   status: string;
@@ -56,9 +52,13 @@ const captureStorageError = (error: StorageError, key: string) => {
  * Never rejects: write failures are only reported to Sentry, so callers
  * cannot detect a failed save.
  */
-export const store = async <State>(key: string, state: State) => {
+export const store = async <State>(
+  key: string,
+  state: State,
+  storage: KeyValueStorage = asyncStorage
+) => {
   try {
-    await AsyncStorage.setItem(key, JSON.stringify(state));
+    await storage.set(key, JSON.stringify(state));
   } catch (error) {
     captureStorageError(
       createStorageError(
@@ -83,35 +83,8 @@ const createInvalidStoredValueError = (
     "Restore valid JSON data or remove the corrupted storage entry"
   );
 
-const reportLoadError = (
-  error: StorageError,
-  key: string,
-  feedback?: StorageFeedback
-) => {
+const reportLoadError = (error: StorageError, key: string) => {
   console.error(error);
-  try {
-    feedback?.send({
-      type: "issue",
-      message: JSON.stringify({
-        title: `Error loading storage key ${key}`,
-        description: error.message,
-        trace: error.stack,
-      }),
-      email: "team@pixy.day",
-      source: "error",
-      onCancel: noop,
-      onOk: noop,
-    });
-  } catch (feedbackError) {
-    console.error(
-      createStorageError(
-        "storage_feedback_failed",
-        "Storage feedback could not be sent",
-        `Feedback failed for storage key "${key}": ${errorMessage(feedbackError)}`,
-        "Retry later and check the feedback service configuration"
-      )
-    );
-  }
   try {
     Sentry.captureException(error);
   } catch (captureError) {
@@ -137,12 +110,12 @@ const reportLoadError = (
  */
 export const load = async <ReturnValue>(
   key: string,
-  feedback?: StorageFeedback
+  storage: KeyValueStorage = asyncStorage
 ): Promise<ReturnValue | null> => {
   let data: string | null;
 
   try {
-    data = await AsyncStorage.getItem(key);
+    data = await storage.get(key);
   } catch (error) {
     const storageError = createStorageError(
       "storage_read_failed",
@@ -150,7 +123,7 @@ export const load = async <ReturnValue>(
       `Reading storage key "${key}" failed: ${errorMessage(error)}`,
       "Retry the operation and check device storage access"
     );
-    reportLoadError(storageError, key, feedback);
+    reportLoadError(storageError, key);
     throw storageError;
   }
 
@@ -174,7 +147,10 @@ export const load = async <ReturnValue>(
           key,
           `could not be parsed: ${errorMessage(error)}`
         );
-    reportLoadError(storageError, key, feedback);
+    reportLoadError(storageError, key);
     throw storageError;
   }
 };
+
+export { asyncStorage, createMemoryStorage } from "./storage";
+export type { KeyValueStorage } from "./storage";

@@ -5,12 +5,13 @@ import { TRACKING_ENABLED } from "@/constants/Config";
 import { POSTHOG_OPTIONS } from "@/shell/posthogOptions";
 import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
+import { AppLockProvider } from "@/features/applock";
 import { CalendarFiltersProvider } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
+import { PeopleProvider } from "@/features/people";
 import { SettingsProvider } from "@/state/settings";
 import { StatisticsProvider } from "@/features/statistics";
 import { TagsProvider } from "@/features/tags";
-import { TemporaryLogProvider } from "@/features/logger";
 import { SupportProvider } from "@/support";
 import type { SupportClient } from "@/support";
 
@@ -33,11 +34,11 @@ const Providers = ({
     <SupportProvider client={injectedSupportClient}>
       <LogsProvider>
         <TagsProvider>
-          <TemporaryLogProvider>
+          <PeopleProvider>
             <CalendarFiltersProvider>
               <StatisticsProvider>{children}</StatisticsProvider>
             </CalendarFiltersProvider>
-          </TemporaryLogProvider>
+          </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
     </SupportProvider>
@@ -45,11 +46,11 @@ const Providers = ({
     <ConfiguredSupportProvider>
       <LogsProvider>
         <TagsProvider>
-          <TemporaryLogProvider>
+          <PeopleProvider>
             <CalendarFiltersProvider>
               <StatisticsProvider>{children}</StatisticsProvider>
             </CalendarFiltersProvider>
-          </TemporaryLogProvider>
+          </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
     </ConfiguredSupportProvider>
@@ -65,7 +66,7 @@ const Providers = ({
         >
           <AnalyticsProvider options={{ enabled: TRACKING_ENABLED }}>
             <FeatureFlagsProvider options={{ enabled: TRACKING_ENABLED }}>
-              {supportContent}
+              <AppLockProvider>{supportContent}</AppLockProvider>
             </FeatureFlagsProvider>
           </AnalyticsProvider>
         </PostHogProvider>

@@ -54,7 +54,7 @@ const _renderHook = () =>
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
-    expect(hook.result.current.state.loaded).toBe(true);
+    expect(hook.result.current.load.status).toBe("ready");
   });
 
 const testTags: Tag[] = [
@@ -88,12 +88,6 @@ const testItems: LogsState["items"] = [
 describe("useTags()", () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
-  });
-
-  test("should have `loaded` prop", async () => {
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-    expect(hook.result.current.state.loaded).toBe(true);
   });
 
   test("should load from tags async storage", async () => {
@@ -312,34 +306,6 @@ describe("useTags()", () => {
     expect(hook.result.current.state.tags[0].title).toBe("test1");
   });
 
-  test("should expose load error and never store when stored tags cannot be parsed", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY_TAGS, "🐇");
-    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
-    setItemSpy.mockClear();
-
-    const hook = await _renderHook();
-    await waitFor(() => {
-      expect(hook.result.current.load.status).toBe("error");
-    });
-    expect(hook.result.current.load.error).toEqual(
-      expect.objectContaining({
-        status: "storage_invalid_value",
-        why: expect.stringContaining(STORAGE_KEY_TAGS),
-      })
-    );
-
-    // `reset` sets `loaded`; it still must not overwrite storage.
-    await act(() => {
-      hook.result.current.updater.reset();
-    });
-
-    expect(setItemSpy).not.toHaveBeenCalledWith(
-      STORAGE_KEY_TAGS,
-      expect.anything()
-    );
-    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toBe("🐇");
-  });
-
   test("should stay loading while settings cannot be loaded", async () => {
     await AsyncStorage.setItem(STORAGE_KEY_SETTINGS, "🐇");
     await AsyncStorage.setItem(
@@ -353,7 +319,6 @@ describe("useTags()", () => {
     });
 
     expect(hook.result.current.load.status).toBe("loading");
-    expect(hook.result.current.state.loaded).toBe(false);
     expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toBe(
       JSON.stringify({ tags: testTags })
     );

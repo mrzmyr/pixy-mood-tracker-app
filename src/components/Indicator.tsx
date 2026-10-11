@@ -3,6 +3,7 @@ import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
+import { RADIUS } from "@/constants/Radius";
 
 const Indicator = ({
   children,
@@ -22,7 +23,7 @@ const Indicator = ({
         padding: 4,
         paddingLeft: 8,
         paddingRight: 8,
-        borderRadius: 6,
+        borderRadius: RADIUS.sm,
         ...style,
       }}
     >

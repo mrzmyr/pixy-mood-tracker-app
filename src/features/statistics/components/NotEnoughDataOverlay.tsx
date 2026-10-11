@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
+import { RADIUS } from "@/constants/Radius";
 
 const getSubtitleKey = (limit: number | undefined) => {
   if (!limit) {
@@ -40,7 +41,7 @@ export const NotEnoughDataOverlay = ({
         backgroundColor: colors.statisticsNotEnoughDataBackdrop,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 8,
+        borderRadius: RADIUS.md,
         zIndex: 999,
       }}
     >

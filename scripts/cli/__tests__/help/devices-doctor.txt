@@ -1,0 +1,16 @@
+Check that Apple's device service answers. Never restarts it.
+
+Usage: bun devices doctor
+
+Behavior:
+  Runs `xcrun devicectl list devices` with a 20 second limit.
+  On a hang, prints the restart command. Restart interrupts other sessions.
+
+Output:
+  One line on stdout: devicectl ok in <seconds>s.
+
+Errors:
+  core_device_service_wedged  devicectl did not answer in 20 seconds
+  devicectl_failed            devicectl exited with an error
+
+Exit codes: 0 ok, 1 failure, 2 usage error

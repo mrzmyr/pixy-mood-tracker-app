@@ -2,12 +2,14 @@
   "expo": {
     "name": "Pixy",
     "slug": "pixy-mood-tracker",
-    "version": "1.88.0",
+    "version": "1.95.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
     "userInterfaceStyle": "automatic",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.devmood.pixymoodtracker",
       "appleTeamId": "8VVNC4724B",
@@ -60,7 +62,13 @@
       "package": "com.devmood.pixymoodtracker",
       "allowBackup": false,
       "permissions": [],
-      "blockedPermissions": ["android.permission.SYSTEM_ALERT_WINDOW"],
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.READ_EXTERNAL_STORAGE"
+      ],
       "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -72,13 +80,14 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash.png",
+          "image": "./assets/images/splash-standby.png",
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
-            "image": "./assets/images/splash.png",
+            "image": "./assets/images/splash-standby.png",
             "backgroundColor": "#171717"
-          }
+          },
+          "imageWidth": 48
         }
       ],
       "@react-native-community/datetimepicker",
@@ -86,7 +95,44 @@
       "expo-router",
       "expo-font",
       "expo-notifications",
-      "expo-localization",
+      [
+        "expo-localization",
+        {
+          "supportedLocales": [
+            "en",
+            "ar",
+            "cs",
+            "da",
+            "de",
+            "el",
+            "es",
+            "fi",
+            "fr",
+            "he",
+            "hi",
+            "hr",
+            "hu",
+            "id",
+            "it",
+            "ja",
+            "ko",
+            "ms",
+            "nb",
+            "nl",
+            "pl",
+            "pt",
+            "ro",
+            "ru",
+            "sk",
+            "sv",
+            "th",
+            "tr",
+            "uk",
+            "vi",
+            "zh-Hans"
+          ]
+        }
+      ],
       "expo-sharing",
       "expo-status-bar",
       "expo-web-browser",
@@ -105,6 +151,67 @@
         "expo-document-picker",
         {
           "appleTeamId": "8VVNC4724B"
+        }
+      ],
+      [
+        "expo-alternate-app-icons",
+        [
+          {
+            "name": "Tangerine",
+            "ios": "./assets/images/app-icons/tangerine.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/tangerine-foreground.png",
+              "backgroundImage": "./assets/images/app-icons/tangerine-background.png"
+            }
+          },
+          {
+            "name": "TangerineInverse",
+            "ios": "./assets/images/app-icons/tangerine-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/tangerine-inverse-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
+          }
+        ]
+      ],
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Pixy lists your contacts so you can add people. Only the people you pick are saved, with name and photo, on your device."
+        }
+      ],
+      "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Pixy adds photos you choose to your entries and people. Photos stay on your device.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Pixy adds photos you choose to your entries and people. Photos stay on your device.",
+          "savePhotosPermission": false,
+          "isAccessMediaLocationEnabled": false,
+          "preventAutomaticLimitedAccessAlert": true,
+          "granularPermissions": []
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Pixy adds the place where you check in to your entry. Your location stays on your device.",
+          "locationAlwaysAndWhenInUsePermission": false,
+          "locationAlwaysPermission": false,
+          "motionUsagePermission": "Pixy does not use motion data. Our location tool includes this permission, but Pixy never asks for it."
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Pixy uses Face ID to unlock the app when App Lock is on."
         }
       ]
     ],

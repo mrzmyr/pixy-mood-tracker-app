@@ -21,7 +21,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        script: [lint, "format:check", type-check, "test:ci", "test:cli"]
+        script:
+          - lint
+          - "format:check"
+          - type-check
+          - "check:locales"
+          - "i18n:sort:check"
+          - "test:ci"
+          - "test:cli"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

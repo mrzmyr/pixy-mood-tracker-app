@@ -3,6 +3,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { Subtitle } from "./Subtitle";
 import { Title } from "./Title";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Locked highlights placeholder; `count` is the number of entries still
@@ -28,7 +29,7 @@ export const EmptyPlaceholder = ({ count }: { count: number }) => {
           borderColor: colors.statisticsNoDataBorder,
           borderStyle: "dashed",
           padding: 16,
-          borderRadius: 8,
+          borderRadius: RADIUS.md,
           minHeight: 120,
           marginTop: 16,
         }}

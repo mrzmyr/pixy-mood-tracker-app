@@ -1,8 +1,7 @@
 import * as FileSystem from "expo-file-system/legacy";
 import { Platform } from "react-native";
-import { getFileTransfer } from "./fileTransfer";
 
-const EXPORT_FILE_PATTERN = /^pixy-mood-tracker-.*\.json$/u;
+const EXPORT_FILE_PATTERN = /^pixy-mood-tracker-.*\.(?:json|csv)$/u;
 
 const getExportDirectories = (): string[] =>
   [FileSystem.cacheDirectory, FileSystem.documentDirectory].filter(
@@ -43,8 +42,8 @@ export const removeLeftoverExportFiles = async (): Promise<void> => {
 };
 
 /**
- * Writes `contents` to the cache folder and hands the file to the share
- * sheet. Resolves `false` when sharing is unavailable.
+ * Writes `contents` to the cache folder and hands the file to
+ * `openShareSheet`. Resolves `false` when sharing is unavailable.
  *
  * The cache folder stays out of OS backups and the system may purge it.
  * iOS deletes the file as soon as the share sheet closes. Android keeps it
@@ -53,7 +52,8 @@ export const removeLeftoverExportFiles = async (): Promise<void> => {
  */
 export const shareExportFile = async (
   filename: string,
-  contents: string
+  contents: string,
+  openShareSheet: (uri: string) => Promise<boolean>
 ): Promise<boolean> => {
   await removeLeftoverExportFiles();
 
@@ -61,7 +61,7 @@ export const shareExportFile = async (
   await FileSystem.writeAsStringAsync(uri, contents);
 
   try {
-    return await getFileTransfer().share(uri);
+    return await openShareSheet(uri);
   } finally {
     if (Platform.OS === "ios") {
       await deleteQuietly(uri);

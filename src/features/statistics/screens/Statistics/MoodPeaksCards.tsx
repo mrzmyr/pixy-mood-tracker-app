@@ -1,3 +1,4 @@
+import { useWeekLocale } from "@/hooks/useWeekLocale";
 import { useSetting } from "@/state/settings";
 import { Card } from "../../components/Card";
 import { DATE_FORMAT } from "@/constants/Config";
@@ -9,7 +10,6 @@ import type { Dayjs } from "dayjs";
 import range from "lodash/range";
 import { Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import type { LogDay } from "@/features/logs";
 import useScale from "@/hooks/useScale";
 import type {
@@ -17,6 +17,7 @@ import type {
   MoodPeaksPositiveData,
 } from "../../MoodPeaks";
 import { HeaderWeek } from "./HeaderWeek";
+import { RADIUS } from "@/constants/Radius";
 
 const getDayDotOpacity = (isPressed: boolean, isFuture: boolean) => {
   if (isPressed) {
@@ -29,7 +30,6 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
   const colors = useColors();
   const scaleType = useSetting("scaleType");
   const scale = useScale(scaleType);
-  const haptics = useHaptics();
   const calendarNavigation = useCalendarNavigation();
 
   const color = day
@@ -53,7 +53,7 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
         aspectRatio: 1,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 100,
+        borderRadius: RADIUS.full,
         backgroundColor: color.bg,
         maxWidth: 32,
         maxHeight: 32,
@@ -61,11 +61,10 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
         borderWidth: dayjs(date).isSame(dayjs(), "day") ? 2 : 0,
         opacity: getDayDotOpacity(pressed, isFuture),
       })}
-      onPress={async () => {
+      onPress={() => {
         if (!day) {
           return;
         }
-        await haptics.selection();
         calendarNavigation.openDay({
           date: dayjs(date).format(DATE_FORMAT),
           source: "mood_peaks",
@@ -128,8 +127,9 @@ export const MoodPeaksContent = ({
   startDate: string;
   endDate: string;
 }) => {
-  const _endDate = dayjs(endDate).endOf("week");
-  const _startDate = dayjs(startDate).startOf("week");
+  const locale = useWeekLocale();
+  const _endDate = dayjs(endDate).locale(locale).endOf("week");
+  const _startDate = dayjs(startDate).locale(locale).startOf("week");
   const weekCount = dayjs(_endDate).diff(dayjs(_startDate), "week") + 1;
 
   return (

@@ -1,6 +1,8 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import Button from "@/components/Button";
+import { FloatButton } from "@/components/FloatButton";
 import { PageModalLayout } from "@/components/PageModalLayout";
+import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
+import { isConfirmed } from "@/helpers/promptCancel";
 import { askToRemove } from "@/helpers/prompts";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -10,28 +12,57 @@ import type { LogItem } from "@/features/logs";
 
 import { getDayDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
-import { useRef } from "react";
-import { Dimensions, View } from "react-native";
-import { Carousel } from "react-native-reanimated-carousel";
-import type { CarouselRef } from "react-native-reanimated-carousel";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { FlatList, View } from "react-native";
+import { Plus } from "react-native-feather";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Entry } from "./Entry";
 import { Header } from "./Header";
+import { INSET } from "./layout";
 import { getItemDate, getItemTime } from "@/lib/logDates";
 
-const WINDOW_WIDTH = Dimensions.get("window").width;
+// Same spot as the calendar float button: 20 from the right and from the
+// bottom safe area.
+const FAB_MARGIN = 20;
+// Space between the last card and the float button.
+const FAB_CLEARANCE = 16;
+// Space between two cards.
+const CARD_GAP = 12;
+
+const keyExtractor = (item: LogItem) => item.id;
+const CardGap = () => <View style={{ height: CARD_GAP }} />;
 
 /**
  * Day entry list modal, opened from a calendar day.
  *
  * `date` is a local `YYYY-MM-DD` day; entries are matched by `dateTime` and
- * shown oldest first. New entries from here use the current time on that
- * day.
+ * shown oldest first as full-width cards in one vertical list. Chip and
+ * photo rows inside a card scroll sideways; they have no parent that
+ * scrolls the same way, so the swipe stays with the row.
+ *
+ * The optional `entry` param is an entry id: the list opens scrolled to it.
+ * A new entry added from here is scrolled into view when the logger closes.
+ * The list is a `FlatList`, not a `FlashList`: the modal sits under the
+ * photo viewer and logger, and a frozen screen leaves `FlashList` headers
+ * stale; `FlatList` keeps variable card heights without recycling. New
+ * entries from here use the current time on that day.
+ *
+ * Long notes fold to a few lines behind "More". The ids of unfolded entries
+ * live here, not in the cards: the list unmounts cards that scroll away.
+ * The state ends with the list, so the next visit starts folded. Folding a
+ * note scrolls its card to the top, because the list shrinks under the reader.
+ *
+ * Add is a float button at the bottom right, like on the calendar. The
+ * list ends with padding, so the last card scrolls clear of it and of the
+ * bottom safe area.
  */
 export const LogList = () => {
   const router = useRouter();
-  const { date } = useLocalSearchParams<{ date: string }>();
+  const { date, entry } = useLocalSearchParams<{
+    date: string;
+    entry?: string;
+  }>();
   const colors = useColors();
   const logState = useLogState();
   const analytics = useAnalytics();
@@ -68,68 +99,142 @@ export const LogList = () => {
   const remove = (item: LogItem) => {
     analytics.track("day:delete_tapped");
     logUpdater.deleteLog(item.id);
+    logUpdater.sweepPhotos();
     // navigation.goBack();
   };
 
   const _delete = async (item: LogItem) => {
-    await askToRemove();
-    remove(item);
+    if (await isConfirmed(askToRemove())) {
+      remove(item);
+    }
   };
 
-  const _carouselRef = useRef<CarouselRef>(null);
-  const pages = items.map((item) => (
-    <Entry key={item.id} item={item} onEdit={edit} onDelete={_delete} />
-  ));
+  const [expandedNotes, setExpandedNotes] = useState<ReadonlySet<string>>(
+    () => new Set()
+  );
+  // Id of the entry whose note just folded. Folding a long note shrinks the
+  // list under the scroll offset and throws the reader far down the day.
+  const foldedNote = useRef<string | null>(null);
+  const toggleNote = (item: LogItem) => {
+    if (expandedNotes.has(item.id)) {
+      foldedNote.current = item.id;
+    }
+    setExpandedNotes((current) => {
+      const next = new Set(current);
+      if (!next.delete(item.id)) {
+        next.add(item.id);
+      }
+      return next;
+    });
+  };
 
-  const PAGE_WIDTH = WINDOW_WIDTH * 0.9;
+  const listRef = useRef<FlatList<LogItem>>(null);
+  const knownIds = useRef<Set<string> | null>(null);
+
+  const scrollToEntry = useEffectEvent((id: string, animated: boolean) => {
+    const index = items.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      listRef.current?.scrollToIndex({ index, animated, viewPosition: 0 });
+    }
+  });
+
+  // Open at the requested entry. Later edits do not pull the list back.
+  useEffect(() => {
+    if (entry) {
+      scrollToEntry(entry, false);
+    }
+  }, [entry]);
+
+  // Show an entry added while the list is open.
+  useEffect(() => {
+    const known = knownIds.current;
+    knownIds.current = new Set(items.map((item) => item.id));
+    const added =
+      known && known.size > 0 && items.find((item) => !known.has(item.id));
+    if (added) {
+      scrollToEntry(added.id, true);
+    }
+  }, [items]);
 
   return (
     <PageModalLayout
       style={{
         flex: 1,
         backgroundColor: colors.logBackground,
-        paddingBottom: insets.bottom,
       }}
     >
       <Header title={getDayDateTitle(date)} onClose={close} />
+      <FlatList
+        ref={listRef}
+        testID="log-list"
+        data={items}
+        keyExtractor={keyExtractor}
+        extraData={expandedNotes}
+        // The list shrinks once a folded note is laid out: only then bring its
+        // card back to the top.
+        onContentSizeChange={() => {
+          const id = foldedNote.current;
+          foldedNote.current = null;
+          const index = items.findIndex((item) => item.id === id);
+          if (index !== -1) {
+            listRef.current?.scrollToIndex({
+              index,
+              animated: false,
+              viewPosition: 0,
+            });
+          }
+        }}
+        renderItem={({ item, index }) => (
+          <Entry
+            item={item}
+            onEdit={edit}
+            onDelete={_delete}
+            position={{ index, count: items.length }}
+            isNoteExpanded={expandedNotes.has(item.id)}
+            onToggleNote={toggleNote}
+          />
+        )}
+        ItemSeparatorComponent={CardGap}
+        initialNumToRender={4}
+        windowSize={5}
+        // Cards have no fixed height: jump near the target, then retry once
+        // the cards on the way are measured.
+        onScrollToIndexFailed={({ index, averageItemLength }) => {
+          listRef.current?.scrollToOffset({
+            offset: averageItemLength * index,
+            animated: false,
+          });
+          setTimeout(
+            () => listRef.current?.scrollToIndex({ index, animated: false }),
+            100
+          );
+        }}
+        contentContainerStyle={{
+          paddingHorizontal: INSET,
+          paddingTop: 4,
+          paddingBottom:
+            insets.bottom + FAB_MARGIN + FLOAT_BUTTON_SIZE + FAB_CLEARANCE,
+        }}
+      />
       <View
         style={{
-          flex: 1,
+          position: "absolute",
+          right: FAB_MARGIN,
+          bottom: FAB_MARGIN + insets.bottom,
         }}
       >
-        <Carousel
-          loop={false}
-          ref={_carouselRef}
-          data={pages}
-          key={pages.length}
-          defaultIndex={0}
-          renderItem={({ index }) => (
-            <View style={{ flex: 1, marginLeft: "2.5%" }}>{pages[index]}</View>
-          )}
-          onConfigurePanGesture={(gesture) => gesture.activeOffsetX([-10, 10])}
-          itemSize={PAGE_WIDTH}
-          style={{
-            flex: 1,
-            marginLeft: "2.5%",
-            width: "100%",
-          }}
-        />
-      </View>
-      <View
-        style={{
-          paddingHorizontal: 16,
-          paddingBottom: 16,
-        }}
-      >
-        <Button
-          type="primary"
-          style={{
-            marginTop: 12,
-          }}
+        <FloatButton
+          testID="log-list-add"
+          accessibilityLabel={t("add_entry")}
           onPress={add}
         >
-          {t("add_entry")}
-        </Button>
+          <Plus
+            color={colors.primaryButtonText}
+            width={24}
+            height={24}
+            strokeWidth={2.5}
+          />
+        </FloatButton>
       </View>
     </PageModalLayout>
   );

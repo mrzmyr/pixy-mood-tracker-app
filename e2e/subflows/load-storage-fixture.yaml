@@ -5,7 +5,8 @@ appId: ${APP_ID}
 - stopApp
 - launchApp
 - extendedWaitUntil:
-    visible: "Calendar"
+    visible:
+      id: "calendar-list"
     timeout: 10000
 - openLink: ${APP_SCHEME}://dev/fixture?id=${FIXTURE}
 - waitForAnimationToEnd

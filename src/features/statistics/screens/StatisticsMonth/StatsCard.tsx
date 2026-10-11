@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Summary tile. The trend row renders whenever `trendValue` is not 0,
@@ -26,7 +27,7 @@ export const StatsCard = ({
     <View
       style={{
         backgroundColor: colors.cardBackground,
-        borderRadius: 8,
+        borderRadius: RADIUS.md,
         padding: 16,
         ...style,
       }}

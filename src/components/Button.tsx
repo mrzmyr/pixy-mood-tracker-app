@@ -1,26 +1,18 @@
 import isString from "lodash/isString";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
+import { PressableScale } from "@/components/PressableScale";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
-
-const getPressableOpacity = (
-  isDisabled: boolean | undefined,
-  isPressed: boolean
-) => {
-  if (isDisabled) {
-    return 0.5;
-  }
-  return isPressed ? 0.8 : 1;
-};
 
 const Button = ({
   type = "primary",
   icon,
   testID,
+  accessibilityLabel,
   onPress,
   disabled = false,
   children,
@@ -29,13 +21,14 @@ const Button = ({
   type?: "primary" | "secondary" | "danger" | "tertiary";
   icon?: React.ReactNode;
   testID?: string;
+  /** Name for icon-only buttons. */
+  accessibilityLabel?: string;
   disabled?: boolean;
   children: React.ReactNode;
   style?: ViewStyle;
   onPress?: () => void;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
 
   const buttonColors = {
     primary: {
@@ -68,16 +61,16 @@ const Button = ({
   }[type];
 
   return (
-    <Pressable
-      style={({ pressed }) => ({
+    <PressableScale
+      style={{
         padding: 16,
         paddingRight: 16,
         paddingLeft: 16,
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
-        borderRadius: 12,
-        opacity: getPressableOpacity(disabled, pressed),
+        borderRadius: RADIUS.full,
+        opacity: disabled ? 0.5 : 1,
         backgroundColor: disabled
           ? buttonColors.disabledBackground
           : buttonColors.background,
@@ -86,9 +79,8 @@ const Button = ({
           ? buttonColors.disabledBorder
           : buttonColors?.border,
         ...style,
-      })}
-      onPress={async () => {
-        await haptics.selection();
+      }}
+      onPress={() => {
         if (!disabled) {
           onPress?.();
         }
@@ -96,6 +88,7 @@ const Button = ({
       disabled={disabled}
       testID={testID}
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
     >
       {icon && <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>}
       {isString(children) ? (
@@ -112,7 +105,7 @@ const Button = ({
       ) : (
         children
       )}
-    </Pressable>
+    </PressableScale>
   );
 };
 

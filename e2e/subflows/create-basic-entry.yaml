@@ -1,7 +1,7 @@
 appId: ${APP_ID}
 ---
 # Creates the first basic entry for today (rating "good", skips optional steps).
-# Assumes fresh state on the Calendar tab.
+# Assumes fresh state on the Calendar screen.
 - tapOn:
     text: "Add New Entry"
 - assertVisible: "How was your day?"
@@ -10,5 +10,5 @@ appId: ${APP_ID}
 - tapOn:
     id: "mood-good"
 - runFlow: finish-logger.yaml
-- runFlow: answer-confirmation.yaml
+- runFlow: close-confirmation.yaml
 - assertVisible: "Add another entry for today"

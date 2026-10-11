@@ -1,28 +1,18 @@
-import noop from "lodash/noop";
 import { usePostHog } from "posthog-react-native";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { createStructuredError } from "@/lib/errors";
-import { useSettings } from "@/state/settings";
+import { useSettings, useSettingsLoad } from "@/state/settings";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
-import { DEV_OVERRIDES } from "@/state/featureFlags/overrides";
+import {
+  FeatureFlagsContext,
+  useAppliedOverride,
+} from "@/state/featureFlags/context";
+import type { RemoteFlags } from "@/state/featureFlags/context";
 
-type RemoteFlags = Record<string, boolean | string>;
-
-/**
- * Flags fetched after consent in this app session; `null` means none. Outside
- * {@link FeatureFlagsProvider} every flag is off.
- */
-const FeatureFlagsContext = createContext<RemoteFlags | null>(null);
-
-const EMPTY_OVERRIDES = {};
-const subscribeNothing = () => noop;
-const getEmptyOverrides = () => EMPTY_OVERRIDES;
+export {
+  useCanOverrideFeatureFlags,
+  useFeatureFlagSource,
+} from "@/state/featureFlags/context";
 
 /**
  * Loads PostHog feature flags only after the user agreed to share data:
@@ -45,11 +35,12 @@ export const FeatureFlagsProvider = ({
 }) => {
   const posthog = usePostHog();
   const { settings, hasActionDone } = useSettings();
+  const isSettingsReady = useSettingsLoad().status === "ready";
   const [remoteFlags, setRemoteFlags] = useState<RemoteFlags | null>(null);
 
   const hasConsent =
     options.enabled &&
-    settings.loaded &&
+    isSettingsReady &&
     hasActionDone("onboarding") &&
     settings.analyticsEnabled;
 
@@ -63,10 +54,14 @@ export const FeatureFlagsProvider = ({
       try {
         const flags = await posthog.reloadFeatureFlagsAsync();
         // A failed request resolves `undefined`; every flag stays off.
-        if (isCurrent && flags) {
-          setRemoteFlags(flags);
+        if (isCurrent) {
+          setRemoteFlags(flags ?? {});
         }
       } catch (error) {
+        // Stop loading: every flag stays off.
+        if (isCurrent) {
+          setRemoteFlags({});
+        }
         console.warn(
           createStructuredError({
             status: "feature_flags_load_failed",
@@ -86,33 +81,61 @@ export const FeatureFlagsProvider = ({
     };
   }, [hasConsent, posthog]);
 
+  const isLoading =
+    options.enabled &&
+    (!isSettingsReady || (hasConsent && remoteFlags === null));
+  const value = useMemo(
+    () => ({ flags: remoteFlags, isLoading }),
+    [remoteFlags, isLoading]
+  );
+
   return (
-    <FeatureFlagsContext.Provider value={remoteFlags}>
+    <FeatureFlagsContext.Provider value={value}>
       {children}
     </FeatureFlagsContext.Provider>
   );
 };
 
+/** Feature state: `loading` while settings or the first flag request after consent are pending. */
+export type FeatureFlagState = "on" | "off" | "loading";
+
+/**
+ * Like {@link useFeatureFlag}, but tells `loading` apart from `off`. Use it
+ * when showing "off" too early would flash, for example widget content.
+ */
+export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
+  const { flags: remoteFlags, isLoading } = useContext(FeatureFlagsContext);
+  const override = useAppliedOverride(key);
+
+  if (override === "on") {
+    return "on";
+  }
+  if (override === "off") {
+    return "off";
+  }
+  if (isLoading) {
+    return "loading";
+  }
+  return remoteFlags?.[key] === true ? "on" : "off";
+};
+
 /**
  * Whether a feature is on. A local override from Settings > Development >
  * Feature flags wins in development and preview builds, also without
- * consent. Otherwise the PostHog flag decides once it loaded after consent.
+ * consent. Production builds apply it only while
+ * {@link useCanOverrideFeatureFlags} is true. Otherwise the PostHog flag decides once it loaded after consent.
  * Until then, and without consent, the feature is off.
  */
 // oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
-export const useFeatureFlag = (key: FeatureFlag): boolean => {
-  const remoteFlags = useContext(FeatureFlagsContext);
-  const overrides = useSyncExternalStore(
-    DEV_OVERRIDES?.subscribe ?? subscribeNothing,
-    DEV_OVERRIDES?.getOverrides ?? getEmptyOverrides
-  );
-  const override = overrides[key];
+export const useFeatureFlag = (key: FeatureFlag): boolean =>
+  useFeatureFlagState(key) === "on";
 
-  if (override === "on") {
-    return true;
-  }
-  if (override === "off") {
-    return false;
-  }
-  return remoteFlags?.[key] === true;
-};
+/**
+ * PostHog value of `key`, ignoring local overrides. Use it where an override
+ * would be a security hole, for example the App Lock bypass: dev and preview
+ * builds accept overrides by deep link, also on a locked phone. Off without
+ * consent.
+ */
+// oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
+export const useRemoteFeatureFlag = (key: FeatureFlag): boolean =>
+  useContext(FeatureFlagsContext).flags?.[key] === true;

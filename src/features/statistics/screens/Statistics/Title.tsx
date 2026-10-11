@@ -7,6 +7,7 @@ export const Title = ({ children }: { children: string }) => {
 
   return (
     <Text
+      accessibilityRole="header"
       style={{
         fontSize: 20,
         color: colors.text,

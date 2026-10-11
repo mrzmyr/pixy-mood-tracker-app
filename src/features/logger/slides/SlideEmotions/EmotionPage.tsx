@@ -5,28 +5,31 @@ import {
   EmotionButtonAdvanced,
   EmotionButtonEmpty,
 } from "./EmotionButtonAdvanced";
+import { MissingEmotionTile } from "./MissingEmotionTile";
+
+type Cell = Emotion | "missing" | "empty";
+
+const keyOf = (cell: Cell) =>
+  cell === "missing" || cell === "empty" ? cell : cell.key;
 
 /**
- * One page of advanced emotions in two columns; an odd count is padded
- * with a blank cell.
+ * One page of advanced emotions in two columns, ending with a "Missing
+ * one?" tile; an odd count is padded with a blank cell.
  */
 export const EmotionPage = ({
   emotions,
   onPress,
+  onRequestEmotion,
   selectedEmotions,
 }: {
   emotions: Emotion[];
   onPress: (emotion: Emotion) => void;
+  onRequestEmotion: () => void;
   selectedEmotions: Emotion[];
 }) => {
-  const chunks = chunkArray(emotions, 2).map((d) =>
-    d.length === 1
-      ? [
-          ...d,
-          // SAFETY: the "empty" placeholder is only rendered by EmotionButtonEmpty, which reads no Emotion fields.
-          { key: "empty", label: "" } as Emotion,
-        ]
-      : d
+  const cells: Cell[] = [...emotions, "missing"];
+  const chunks = chunkArray(cells, 2).map((d): Cell[] =>
+    d.length === 1 ? [...d, "empty"] : d
   );
 
   return (
@@ -40,30 +43,36 @@ export const EmotionPage = ({
     >
       {chunks.map((chunk) => (
         <View
-          key={`emotion-page-${chunk[0].key}`}
+          key={`emotion-page-${keyOf(chunk[0])}`}
           style={{
             flexDirection: "row",
             marginBottom: 2,
           }}
         >
-          {chunk.map((emotion) =>
-            emotion.key === "empty" ? (
-              <EmotionButtonEmpty key={`advanced-${emotion.key}`} />
-            ) : (
+          {chunk.map((cell, index) => {
+            if (cell === "empty") {
+              return <EmotionButtonEmpty key="advanced-empty" />;
+            }
+            const marginRight = index === 0 ? 6 : 0;
+            if (cell === "missing") {
+              return (
+                <MissingEmotionTile
+                  key="advanced-missing"
+                  onPress={onRequestEmotion}
+                  style={{ marginRight, marginBottom: 4 }}
+                />
+              );
+            }
+            return (
               <EmotionButtonAdvanced
-                key={`advanced-${emotion.key}`}
-                emotion={emotion}
+                key={`advanced-${cell.key}`}
+                emotion={cell}
                 onPress={onPress}
-                selected={selectedEmotions
-                  .map((d) => d.key)
-                  .includes(emotion.key)}
-                style={{
-                  marginRight: chunk.indexOf(emotion) === 0 ? 6 : 0,
-                  // when only one emotion is in the chunk, make it full width
-                }}
+                selected={selectedEmotions.map((d) => d.key).includes(cell.key)}
+                style={{ marginRight }}
               />
-            )
-          )}
+            );
+          })}
         </View>
       ))}
     </View>

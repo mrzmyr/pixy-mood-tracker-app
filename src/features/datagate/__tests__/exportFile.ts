@@ -1,7 +1,6 @@
 import * as FileSystem from "expo-file-system/legacy";
 import { Platform } from "react-native";
 import { removeLeftoverExportFiles, shareExportFile } from "../exportFile";
-import { setFileTransferOverride } from "../fileTransfer";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- Jest has no native file system, so the directory constants are undefined; the tests assert on the paths built from them.
 jest.mock("expo-file-system/legacy", () => ({
@@ -16,19 +15,17 @@ describe("shareExportFile()", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     share.mockReset().mockResolvedValue(true);
-    setFileTransferOverride({ share, pickJson: jest.fn() });
     jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
     jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
     jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
   });
 
   afterEach(() => {
-    setFileTransferOverride(null);
     jest.restoreAllMocks();
   });
 
   test("writes into the cache folder, not the documents folder", async () => {
-    await shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}");
+    await shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}", share);
 
     const [[uri, contents]] = jest.mocked(FileSystem.writeAsStringAsync).mock
       .calls;
@@ -42,7 +39,7 @@ describe("shareExportFile()", () => {
   test("deletes the file after the iOS share sheet closes", async () => {
     jest.replaceProperty(Platform, "OS", "ios");
 
-    await shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}");
+    await shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}", share);
 
     expect(FileSystem.deleteAsync).toHaveBeenCalledWith(
       `${FileSystem.cacheDirectory}pixy-mood-tracker-2026-10-02.json`,
@@ -53,7 +50,7 @@ describe("shareExportFile()", () => {
   test("keeps the file on Android for apps that read it later", async () => {
     jest.replaceProperty(Platform, "OS", "android");
 
-    await shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}");
+    await shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}", share);
 
     expect(FileSystem.deleteAsync).not.toHaveBeenCalled();
   });
@@ -61,7 +58,11 @@ describe("shareExportFile()", () => {
   test("deletes leftover exports but leaves other files alone", async () => {
     jest
       .mocked(FileSystem.readDirectoryAsync)
-      .mockResolvedValueOnce(["pixy-mood-tracker-2025-01-01.json"])
+      .mockResolvedValueOnce([
+        "pixy-mood-tracker-2025-01-01.json",
+        "pixy-mood-tracker-2025-01-02.csv",
+        "unrelated.csv",
+      ])
       .mockResolvedValueOnce([
         "pixy-mood-tracker-2024-12-24.json",
         "pixy-mood-tracker-raw-2024-12-24.json",
@@ -76,6 +77,7 @@ describe("shareExportFile()", () => {
       .mock.calls.map(([uri]) => uri);
     expect(deleted).toEqual([
       `${FileSystem.cacheDirectory}pixy-mood-tracker-2025-01-01.json`,
+      `${FileSystem.cacheDirectory}pixy-mood-tracker-2025-01-02.csv`,
       `${FileSystem.documentDirectory}pixy-mood-tracker-2024-12-24.json`,
       `${FileSystem.documentDirectory}pixy-mood-tracker-raw-2024-12-24.json`,
     ]);
@@ -87,7 +89,7 @@ describe("shareExportFile()", () => {
       .mockRejectedValue(new Error("no such directory"));
 
     await expect(
-      shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}")
+      shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}", share)
     ).resolves.toBe(true);
     expect(share).toHaveBeenCalled();
   });

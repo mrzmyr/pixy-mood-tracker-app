@@ -6,18 +6,16 @@ import { HeaderNavigation } from "./HeaderNavigation";
 import Animated, { FadeIn } from "react-native-reanimated";
 import {
   Clock,
-  useNotification,
-  createDailyTrigger,
+  reminderTimeToDate,
+  useReminder,
 } from "@/features/notifications";
+import { DEFAULT_REMINDER_TIME } from "@/constants/Settings";
 
 import { useState } from "react";
-import dayjs from "dayjs";
-import { useSettings } from "@/state/settings";
-import type { SettingsState } from "@/state/settings";
 
 import { useAnalytics } from "@/state/analytics";
 import LinkButton from "@/components/LinkButton";
-import { t } from "@/lib/translation";
+import { t, tDynamic } from "@/lib/translation";
 
 const Body = ({ index }: { index: number }) => {
   const colors = useColors();
@@ -37,7 +35,7 @@ const Body = ({ index }: { index: number }) => {
           marginBottom: 8,
         }}
       >
-        {t(`onboarding_step_${index}_title`)}
+        {tDynamic(`onboarding_step_${index}_title`)}
       </Text>
       <Text
         style={{
@@ -46,7 +44,7 @@ const Body = ({ index }: { index: number }) => {
           lineHeight: 24,
         }}
       >
-        {t(`onboarding_step_${index}_body`)}
+        {tDynamic(`onboarding_step_${index}_body`)}
       </Text>
     </View>
   );
@@ -67,36 +65,13 @@ export const ReminderSlide = ({
   onSkip: () => void;
 }) => {
   const colors = useColors();
-  const { setSettings } = useSettings();
   const analytics = useAnalytics();
 
-  const { askForPermission, hasPermission, schedule, cancelAll } =
-    useNotification();
+  const reminder = useReminder();
 
   const [time, setTime] = useState(() =>
-    dayjs().hour(20).minute(0).second(0).toDate()
+    reminderTimeToDate(DEFAULT_REMINDER_TIME)
   );
-
-  const enable = async () => {
-    const has = await hasPermission();
-    const granted = has || (await askForPermission());
-    if (!granted) {
-      return;
-    }
-
-    await (async () => {
-      await cancelAll();
-      await schedule({
-        trigger: createDailyTrigger(dayjs(time).hour(), dayjs(time).minute()),
-      });
-
-      setSettings((settings: SettingsState) => ({
-        ...settings,
-        reminderEnabled: true,
-        reminderTime: dayjs(time).format("HH:mm"),
-      }));
-    })();
-  };
 
   const onLater = () => {
     analytics.track("onboarding:reminder_postponed");
@@ -105,7 +80,7 @@ export const ReminderSlide = ({
 
   const onEnable = async () => {
     analytics.track("onboarding:reminder_enabled");
-    await enable();
+    await reminder.enable(time);
     setIndex(index + 1);
   };
 

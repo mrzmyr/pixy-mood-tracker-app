@@ -31,16 +31,14 @@ appId: ${APP_ID}
 
 # Legacy steps include feedback. The live questions API can add a slide
 # without a save button, so turn it off. This also reads legacy steps.
-- tapOn:
-    id: "settings"
+- runFlow: open-settings.yaml
 - tapOn: "Check-in"
 - tapOn:
     id: "step-feedback-enabled"
 - back
+- back
 
 # First write after the upgrade.
-- tapOn:
-    id: "calendar"
 - tapOn: "Add another entry for today"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
@@ -50,13 +48,14 @@ appId: ${APP_ID}
     id: "logger-next"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day…"
+- assertVisible:
+    id: "log-message"
 - tapOn:
     id: "log-message"
 - inputText: "after upgrade ${output.runId}"
 - tapOn:
     id: "logger-save"
-- runFlow: answer-confirmation.yaml
+- runFlow: close-confirmation.yaml
 
 # Legacy and new data survive a cold start: 8 legacy entries plus 1 new.
 - stopApp
@@ -64,8 +63,7 @@ appId: ${APP_ID}
 - extendedWaitUntil:
     visible: "Add another entry for today"
     timeout: 15000
-- tapOn:
-    id: "settings"
+- runFlow: open-settings.yaml
 - scrollUntilVisible:
     element:
       text: "Statistics for Nerds"
@@ -73,8 +71,7 @@ appId: ${APP_ID}
 - tapOn: "Statistics for Nerds"
 - assertVisible: "9"
 - back
-- tapOn:
-    id: "calendar"
+- back
 - tapOn:
     id: "calendar-day-${output.today}"
 # Three entries now: swipe up to two pages.

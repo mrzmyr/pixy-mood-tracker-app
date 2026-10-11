@@ -19,7 +19,9 @@ export const _generateItem = (item: Partial<LogItem>): LogItem => {
     createdAt: new Date().toISOString(),
     dateTime: new Date().toISOString(),
     tags: [],
+    people: [],
     emotions: [],
+    photos: [],
     ...item,
   };
 

@@ -148,6 +148,16 @@ const startMetro = async (): Promise<Metro> => {
   return metro;
 };
 
+/** True while the Metro that `bun app dev` started for this checkout runs. */
+const isOwnMetroRunning = () => isProcessAlive(readPid(METRO_PID));
+
 /** Starts, finds, and stops this checkout's Metro. */
-export { METRO_LOG, METRO_PORT, startMetro, stopMetro, stopMetroIn };
+export {
+  METRO_LOG,
+  METRO_PORT,
+  isOwnMetroRunning,
+  startMetro,
+  stopMetro,
+  stopMetroIn,
+};
 export type { Metro };

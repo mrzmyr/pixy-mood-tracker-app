@@ -1,0 +1,37 @@
+Create a worktree with installed dependencies. Print its path.
+
+Usage: bun worktree new <slug> [--branch=<name>] [--from=<ref>] [--no-install]
+
+Arguments:
+  <slug>  Folder name. 1 to 60 lowercase letters, digits, and hyphens.
+
+Options:
+  --branch=<name>  Optional. Branch to create or check out. Default: <slug>.
+  --from=<ref>     Optional. Start of a new branch. Default: origin/main.
+  --no-install     Skip `bun install`. Hooks and checks fail without it.
+
+Behavior:
+  Runs `git fetch origin`.
+  Creates <parent of main checkout>/pixy-mood-tracker-worktrees/<slug>.
+  Branch already checked out in a worktree: reuses that worktree.
+  Runs `bun install --frozen-lockfile`. Never symlinks node_modules.
+
+Output:
+  Worktree path as last line on stdout. Progress goes to stderr.
+
+Examples:
+  bun worktree new tag-swipes --branch=feat/tag-swipes
+  bun worktree new fix-crash --branch=fix/crash --from=origin/release
+
+Errors:
+  missing_argument         No <slug> passed
+  invalid_slug             <slug> has characters other than a-z, 0-9, -
+  invalid_branch           --branch is not a valid git branch name
+  branch_exists            --from passed for a branch that exists
+  ref_not_found            --from names no commit
+  slug_taken               Folder exists and holds another branch
+  branch_in_main_checkout  Main checkout has --branch checked out
+  install_failed           bun install failed. Worktree stays.
+  git_failed               A git command failed
+
+Exit codes: 0 ok, 1 failure, 2 usage error

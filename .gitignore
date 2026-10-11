@@ -37,3 +37,7 @@ build-*.aab
 
 expo-env.d.ts
 # @end expo-cli
+
+# PR proof: upload with gh pr edit --attach, never commit
+/output/
+/screens/

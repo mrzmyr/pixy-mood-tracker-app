@@ -1,14 +1,12 @@
 import { DATE_FORMAT } from "@/constants/Config";
-import { load, store } from "@/state/persisted";
-import { useStorageLoad } from "@/state/persisted/useStorageLoad";
-import type { StorageLoad } from "@/state/persisted/useStorageLoad";
+import { createPersistedStore } from "@/state/persisted/createPersistedStore";
+import type { Load } from "@/state/persisted/createPersistedStore";
 
 import type { AtLeast, LogItemSchema } from "@/types";
 // oxlint-disable-next-line unicorn/prefer-node-protocol -- `buffer` is the npm polyfill bundled for React Native; `node:buffer` does not resolve in Hermes.
 import dayjs from "dayjs";
 import isArray from "lodash/isArray";
 import isEqual from "lodash/isEqual";
-import omit from "lodash/omit";
 import pick from "lodash/pick";
 import {
   createContext,
@@ -17,8 +15,8 @@ import {
   useEffect,
   useEffectEvent,
   useMemo,
-  useReducer,
   useRef,
+  useState,
 } from "react";
 import * as Sentry from "@sentry/react-native";
 import { v4 as uuidv4 } from "uuid";
@@ -26,6 +24,10 @@ import type z from "zod";
 import type { RATING_KEYS } from "@/constants/Ratings";
 import { useAnalytics } from "@/state/analytics";
 import { createMissingProviderError } from "@/lib/errors";
+import {
+  deleteUnreferencedPhotos,
+  getReferencedFileNames,
+} from "@/features/photos";
 
 /**
  * AsyncStorage key for logs. Keep the legacy name; changing it orphans all
@@ -48,12 +50,8 @@ export interface LogDay {
   sleepQualityAvg: number | null;
 }
 
-/**
- * Logs store state. `loaded` stays `false` until storage is read; nothing
- * is persisted before that.
- */
+/** Logs store state. Readiness lives in `useLogLoad()`. */
 export interface LogsState {
-  loaded?: boolean;
   items: LogItem[];
 }
 
@@ -64,14 +62,21 @@ type LogAction =
   | { type: "batchEdit"; payload: LogItem[] }
   | { type: "delete"; payload: LogItem["id"] }
   | { type: "removeTag"; payload: string }
-  | { type: "reset"; payload: LogsState };
+  | { type: "removePerson"; payload: string }
+  | { type: "reset" };
 
 /**
  * Mutations for the logs store from `useLogUpdater`.
  *
  * `editLog` shallow-merges into the entry with the same `id` and ignores
  * unknown ids. `updateLogs` replaces all entries. `import` also migrates
- * legacy data (keyed items, missing ids, tags, or emotions).
+ * legacy data (keyed items, missing ids, tags, people, emotions, or photos).
+ *
+ * `sweepPhotos` deletes photo files no stored entry references, after the
+ * pending updates are applied. Call it after a change that can drop photo
+ * references (logger closed, reset, delete). Never after a data import: it
+ * deletes the files of every entry missing from the backup. Never call it
+ * while a logger draft holds unsaved photos: it deletes them.
  */
 export interface UpdaterValue {
   addLog: (item: LogItem) => void;
@@ -79,18 +84,14 @@ export interface UpdaterValue {
   updateLogs: (items: LogsState["items"]) => void;
   deleteLog: (id: LogItem["id"]) => void;
   removeTagFromLogs: (tagId: string) => void;
+  /** Strips a deleted person from every entry that references them. */
+  removePersonFromLogs: (personId: string) => void;
   reset: () => void;
   import: (data: LogsState) => void;
+  sweepPhotos: () => void;
 }
 
-type StateValue = LogsState;
-
-// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
-const LogStateContext = createContext<StateValue>(undefined as never);
-// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
-const LogUpdaterContext = createContext<UpdaterValue>(undefined as never);
-// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
-const LogLoadContext = createContext<StorageLoad>(undefined as never);
+const PhotoSweepContext = createContext<(() => void) | undefined>(undefined);
 
 // Stored data is unvalidated JSON: legacy tag references can be null or
 // carry extra keys.
@@ -130,6 +131,13 @@ const migrate = (data: LogsState): LogsState => {
     if (!newItem.emotions) {
       newItem.emotions = [];
     }
+    // Entries from before the people feature have no `people` key.
+    if (!newItem.people) {
+      newItem.people = [];
+    }
+    if (!newItem.photos) {
+      newItem.photos = [];
+    }
 
     newItem.tags = newItem.tags.map((tag) =>
       isTagReference(tag) ? tag : pick(tag, ["id"])
@@ -144,10 +152,7 @@ const migrate = (data: LogsState): LogsState => {
 const reducer = (state: LogsState, action: LogAction): LogsState => {
   switch (action.type) {
     case "import": {
-      return migrate({
-        ...action.payload,
-        loaded: true,
-      });
+      return migrate(action.payload);
     }
     case "add": {
       return {
@@ -207,11 +212,30 @@ const reducer = (state: LogsState, action: LogAction): LogsState => {
         ),
       };
     }
-    case "reset": {
+    case "removePerson": {
+      if (
+        !state.items.some((item) =>
+          item.people.some((person) => person.id === action.payload)
+        )
+      ) {
+        return state;
+      }
       return {
-        ...action.payload,
-        loaded: true,
+        ...state,
+        items: state.items.map((item) =>
+          item.people.some((person) => person.id === action.payload)
+            ? {
+                ...item,
+                people: item.people.filter(
+                  (person) => person.id !== action.payload
+                ),
+              }
+            : item
+        ),
       };
+    }
+    case "reset": {
+      return { items: [] };
     }
     default: {
       return state;
@@ -219,175 +243,112 @@ const reducer = (state: LogsState, action: LogAction): LogsState => {
   }
 };
 
-const INITIAL_STATE: LogsState = {
-  loaded: false,
-  items: [],
+const logsStore = createPersistedStore<LogsState, LogAction>({
+  key: STORAGE_KEY,
+  name: "Logs",
+  initial: () => ({ items: [] }),
+  hydrate: (stored) => (stored === null ? { items: [] } : migrate(stored)),
+  reducer,
+});
+
+/**
+ * Deletes photo files no stored entry references: once after logs load and
+ * once per `sweepPhotos` request. Never after a failed load: unread entries
+ * reference photos too.
+ */
+const PhotoSweepProvider = ({ children }: { children: React.ReactNode }) => {
+  const { items } = logsStore.useState();
+  const { status } = logsStore.useLoad();
+  // Bumped by `sweepPhotos`; the sweep effect reads committed items.
+  const [photoSweepRequest, setPhotoSweepRequest] = useState(0);
+  const lastPhotoSweep = useRef<number | null>(null);
+
+  // Effect event: sweeps against the latest committed items without
+  // re-running the effect below on every edit.
+  const sweepUnreferencedPhotos = useEffectEvent(() => {
+    try {
+      deleteUnreferencedPhotos({
+        referencedFileNames: getReferencedFileNames({ items }),
+      });
+    } catch (error) {
+      console.error(error);
+      Sentry.captureException(error);
+    }
+  });
+
+  useEffect(() => {
+    if (status !== "ready" || lastPhotoSweep.current === photoSweepRequest) {
+      return;
+    }
+    lastPhotoSweep.current = photoSweepRequest;
+    sweepUnreferencedPhotos();
+  }, [status, photoSweepRequest]);
+
+  const sweepPhotos = useCallback(
+    () => setPhotoSweepRequest((request) => request + 1),
+    []
+  );
+
+  return (
+    <PhotoSweepContext.Provider value={sweepPhotos}>
+      {children}
+    </PhotoSweepContext.Provider>
+  );
 };
 
 const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   const analytics = useAnalytics();
 
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const loadedValue = useRef<LogsState | null>(null);
-  const {
-    load: storageLoad,
-    markReady,
-    markFailed,
-  } = useStorageLoad(STORAGE_KEY);
-  const storageStatus = storageLoad.status;
-
-  // Effect event: the load effect runs once on mount but tracks with the
-  // latest analytics instance.
-  const trackLoadedLogs = useEffectEvent((megaBytes: number) => {
-    analytics.track("app:logs_loaded", { size_mb: megaBytes });
-  });
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const value = await load<LogsState>(STORAGE_KEY);
-        if (value === null) {
-          dispatch({
-            type: "import",
-            payload: {
-              ...INITIAL_STATE,
-            },
-          });
-        } else {
-          dispatch({
-            type: "import",
-            payload: value,
-          });
-        }
-        markReady();
-
-        loadedValue.current = value;
-      } catch (error) {
-        markFailed(error);
-        Sentry.captureException(error);
-      }
-    })();
-  }, [markReady, markFailed]);
-
   // Measuring re-serializes every log, so it runs after the loaded logs
   // have rendered instead of delaying the first render.
-  useEffect(() => {
-    if (storageStatus !== "ready") {
-      return;
-    }
+  const trackLoadedLogs = (stored: LogsState | null) => {
     try {
-      const size = new TextEncoder().encode(
-        JSON.stringify(loadedValue.current)
-      ).length;
+      const size = new TextEncoder().encode(JSON.stringify(stored)).length;
       const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
-      trackLoadedLogs(megaBytes);
+      analytics.track("app:logs_loaded", { size_mb: megaBytes });
     } catch (error) {
       Sentry.captureException(error);
     }
-    loadedValue.current = null;
-  }, [storageStatus]);
-
-  useEffect(() => {
-    if (storageStatus === "ready" && state.loaded) {
-      store<Omit<LogsState, "loaded">>(STORAGE_KEY, omit(state, "loaded"));
-    }
-  }, [state, storageStatus]);
-
-  const importState = useCallback((data: LogsState) => {
-    dispatch({
-      type: "import",
-      payload: data,
-    });
-  }, []);
-
-  const addLog = useCallback(
-    (payload: LogItem) => dispatch({ type: "add", payload }),
-    []
-  );
-  const editLog = useCallback(
-    (payload: AtLeast<LogItem, "id">) => dispatch({ type: "edit", payload }),
-    []
-  );
-  const updateLogs = useCallback(
-    (items: LogsState["items"]) =>
-      dispatch({ type: "batchEdit", payload: items }),
-    []
-  );
-  const deleteLog = useCallback(
-    (payload: LogItem["id"]) => dispatch({ type: "delete", payload }),
-    []
-  );
-  const removeTagFromLogs = useCallback(
-    (tagId: string) => dispatch({ type: "removeTag", payload: tagId }),
-    []
-  );
-  const reset = useCallback(
-    () => dispatch({ type: "reset", payload: INITIAL_STATE }),
-    []
-  );
-
-  const updaterValue: UpdaterValue = useMemo(
-    () => ({
-      addLog,
-      editLog,
-      updateLogs,
-      deleteLog,
-      removeTagFromLogs,
-      reset,
-      import: importState,
-    }),
-    [
-      addLog,
-      editLog,
-      updateLogs,
-      deleteLog,
-      removeTagFromLogs,
-      reset,
-      importState,
-    ]
-  );
-
-  const stateValue: StateValue = useMemo(
-    () => ({
-      ...state,
-    }),
-    [state]
-  );
+  };
 
   return (
-    <LogStateContext.Provider value={stateValue}>
-      <LogUpdaterContext.Provider value={updaterValue}>
-        <LogLoadContext.Provider value={storageLoad}>
-          {children}
-        </LogLoadContext.Provider>
-      </LogUpdaterContext.Provider>
-    </LogStateContext.Provider>
+    <logsStore.Provider onLoad={trackLoadedLogs}>
+      <PhotoSweepProvider>{children}</PhotoSweepProvider>
+    </logsStore.Provider>
   );
 };
 
-const useLogState = (): StateValue => {
-  const context = useContext(LogStateContext);
-  if (context === undefined) {
-    throw createMissingProviderError("useLogState", "LogsProvider");
-  }
-  return context;
-};
+const useLogState = (): LogsState => logsStore.useState();
 
 const useLogUpdater = (): UpdaterValue => {
-  const context = useContext(LogUpdaterContext);
-  if (context === undefined) {
+  const dispatch = logsStore.useDispatch();
+  const sweepPhotos = useContext(PhotoSweepContext);
+  if (sweepPhotos === undefined) {
     throw createMissingProviderError("useLogUpdater", "LogsProvider");
   }
-  return context;
+
+  return useMemo(
+    () => ({
+      addLog: (payload: LogItem) => dispatch({ type: "add", payload }),
+      editLog: (payload: AtLeast<LogItem, "id">) =>
+        dispatch({ type: "edit", payload }),
+      updateLogs: (items: LogsState["items"]) =>
+        dispatch({ type: "batchEdit", payload: items }),
+      deleteLog: (payload: LogItem["id"]) =>
+        dispatch({ type: "delete", payload }),
+      removeTagFromLogs: (tagId: string) =>
+        dispatch({ type: "removeTag", payload: tagId }),
+      removePersonFromLogs: (personId: string) =>
+        dispatch({ type: "removePerson", payload: personId }),
+      reset: () => dispatch({ type: "reset" }),
+      import: (data: LogsState) => dispatch({ type: "import", payload: data }),
+      sweepPhotos,
+    }),
+    [dispatch, sweepPhotos]
+  );
 };
 
 /** Load status of the logs store; `error` means stored logs exist but could not be read. */
-const useLogLoad = (): StorageLoad => {
-  const context = useContext(LogLoadContext);
-  if (context === undefined) {
-    throw createMissingProviderError("useLogLoad", "LogsProvider");
-  }
-  return context;
-};
+const useLogLoad = (): Load => logsStore.useLoad();
 
 export { LogsProvider, useLogLoad, useLogState, useLogUpdater };

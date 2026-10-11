@@ -1,0 +1,11 @@
+List worktrees with branch, uncommitted changes, and state.
+
+Usage: bun worktree list
+
+Output:
+  Table on stdout, one row per worktree. First row: main checkout.
+  DIRTY        Count of uncommitted changes
+  STATE        merge, rebase, cherry-pick, or revert in progress; missing when the folder is gone
+  LAST COMMIT  Age of the last commit
+
+Exit codes: 0 ok, 1 failure, 2 usage error

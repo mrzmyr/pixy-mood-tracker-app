@@ -6,10 +6,13 @@ Options:
   --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
                             CLI creates and boots it.
   --target=<target>         One phone. Copy the value from `bun devices list`.
-  --fixture=<id>            Required. One of: fresh, empty, seed, year.
+  --fixture=<id>            Required. One of: fresh, empty, seed, year, people, timeline, chaos.
+  --variant=<dev|preview>   App to seed. Default: dev while this checkout's `bun app dev` runs,
+                            else preview. Phones: preview only.
 
 Requires:
-  Preview app installed. Run `bun app install` with the same device option first.
+  preview: run `bun app install` with the same device option first.
+  dev: run `bun app dev --platform=<ios|android>` first.
 
 Output:
   Screenshot path on stdout.
@@ -31,6 +34,8 @@ Errors:
   device_in_use        Another run holds this device
   device_reserved      Another checkout reserved this phone
   fixture_not_found    --fixture has no match
+  variant_unsupported  --variant=dev passed with --target
+  dev_session_missing  --variant=dev passed, but Metro is not running
   app_not_ready        First screen did not appear in 120 seconds
 
 Exit codes: 0 ok, 1 failure, 2 usage error

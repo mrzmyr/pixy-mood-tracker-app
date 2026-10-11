@@ -41,10 +41,21 @@ export interface TargetInput {
 }
 /** Relevant devicectl fields for one iOS phone. */
 export interface IosState {
-  hardwareProperties?: { udid?: string };
+  hardwareProperties?: { udid?: string; deviceType?: string };
   connectionProperties?: { pairingState?: string; tunnelState?: string };
   deviceProperties?: { bootState?: string; developerModeStatus?: string };
 }
+
+/** Name the phone type. devicectl tells iPad from iPhone. */
+export const toPhoneType = (phone: AgentPhone, iosDevices: IosState[] = []) => {
+  if (phone.platform === "android") {
+    return "Android phone";
+  }
+  const device = iosDevices.find(
+    (item) => item.hardwareProperties?.udid === phone.id
+  );
+  return device?.hardwareProperties?.deviceType === "iPad" ? "iPad" : "iPhone";
+};
 
 /** Create stateless phone target token from display name and device ID. */
 export const toToken = (name: string, id: string) => {
@@ -60,7 +71,8 @@ export const toToken = (name: string, id: string) => {
   return `${slug}-${suffix}`;
 };
 
-const phoneProblem = (phone: AgentPhone, input: TargetInput) => {
+/** First blocking problem of one phone as [status, fix], else null. */
+export const phoneProblem = (phone: AgentPhone, input: TargetInput) => {
   if (phone.platform === "ios") {
     const device = input.iosDevices?.find(
       (item) => item.hardwareProperties?.udid === phone.id

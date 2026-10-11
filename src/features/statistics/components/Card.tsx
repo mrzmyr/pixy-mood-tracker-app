@@ -1,7 +1,9 @@
 import isString from "lodash/isString";
 import type { ReactNode } from "react";
 import { Text, View } from "react-native";
+import Bezel from "@/components/Bezel";
 import useColors from "@/hooks/useColors";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Plain statistics card with a title and optional subtitle; unlike
@@ -19,15 +21,12 @@ export const Card = ({
   const colors = useColors();
 
   return (
-    <View
-      style={{
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingLeft: 16,
-        paddingRight: 16,
-        borderRadius: 8,
+    <Bezel
+      radius={RADIUS.md}
+      style={{ marginTop: 16 }}
+      innerStyle={{
+        padding: 16,
         backgroundColor: colors.cardBackground,
-        marginTop: 16,
       }}
     >
       <View
@@ -78,6 +77,6 @@ export const Card = ({
       >
         {children}
       </View>
-    </View>
+    </Bezel>
   );
 };

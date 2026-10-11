@@ -2,6 +2,7 @@ import { useSetting } from "@/state/settings";
 import { View } from "react-native";
 import { RATING_KEYS } from "@/constants/Ratings";
 import useScale from "@/hooks/useScale";
+import { RADIUS } from "@/constants/Radius";
 
 /** Single rating bar in {@link Content}; `height` is in points. */
 export const Bar = ({ height, ratingName }) => {
@@ -22,8 +23,8 @@ export const Bar = ({ height, ratingName }) => {
           height,
           width: "100%",
           backgroundColor: scale.colors[ratingName].background,
-          borderTopLeftRadius: 4,
-          borderTopRightRadius: 4,
+          borderTopLeftRadius: RADIUS.xs,
+          borderTopRightRadius: RADIUS.xs,
         }}
       />
     </View>

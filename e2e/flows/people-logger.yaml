@@ -1,0 +1,72 @@
+appId: ${APP_ID}
+tags: [p1, people]
+---
+# With the `people` flag and step on, a new entry asks "Who played a part?".
+# The picked person shows on the entry card, and the people filter narrows
+# the calendar to entries with that person.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: people
+- openLink: ${APP_SCHEME}://dev/feature-flag?key=people&value=on
+- extendedWaitUntil:
+    visible:
+      id: "calendar-list"
+    timeout: 10000
+
+# Enable the step on Check-in > People. It is off by default.
+- runFlow: ../subflows/open-settings.yaml
+- tapOn: "Check-in"
+- tapOn:
+    id: "step-people"
+- tapOn:
+    id: "step-people-enabled"
+- back
+- back
+
+# New entry: mood, emotions, tags, then people. Today's fixture entry holds
+# a sleep quality, so the logger skips sleep.
+- assertVisible:
+    id: "calendar-list"
+- tapOn: "Add another entry for today"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- tapOn:
+    id: "logger-next"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Who played a part?"
+- tapOn: "Alex"
+- tapOn:
+    id: "logger-next"
+- tapOn:
+    id: "logger-save"
+- runFlow: ../subflows/close-confirmation.yaml
+
+# The entry card lists Alex under People.
+- runScript: ../scripts/set-output-date.js
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible: "People"
+- assertVisible: "Alex"
+- back
+
+# Filter by Alex: every 4th of 365 fixture entries plus the new one.
+- runFlow: ../subflows/open-filters.yaml
+- scrollUntilVisible:
+    element:
+      text: "People"
+    direction: DOWN
+- tapOn:
+    id: "filter-person-7f1d6a3e-0002-4a3e-8f6e-0f0000000002"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - assertVisible: "93 Results"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertVisible: "Filters \\(1\\)"

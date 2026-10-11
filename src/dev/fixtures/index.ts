@@ -1,11 +1,14 @@
 import dayjs from "dayjs";
-import type { ImportData } from "@/features/datagate";
+import type { ExportPerson, ImportData } from "@/features/datagate";
 import empty from "@/dev/fixtures/empty.json";
 import fresh from "@/dev/fixtures/fresh.json";
 import legacy168 from "@/dev/fixtures/legacy-1.68.json";
 import legacy181 from "@/dev/fixtures/legacy-1.81.1.json";
 import seed from "@/dev/fixtures/seed.json";
 import year from "@/dev/fixtures/year.json";
+import { withTimeline } from "@/dev/fixtures/timeline";
+import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
+import { withChaos } from "@/dev/fixtures/chaos";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 
@@ -15,6 +18,57 @@ const asExport = (file: FixtureFile) =>
   // SAFETY: fixture files are Pixy exports; src/__tests__/dev-fixtures.ts checks each against pixySchema.
   // oxlint-disable-next-line anti-slop/no-chained-type-assertions -- see comment above.
   file as unknown as ImportData;
+
+/** Fixed ids so e2e flows and tests can reference fixture people. */
+export const FIXTURE_PEOPLE_IDS = {
+  sam: "7f1d6a3e-0001-4a3e-8f6e-0f0000000001",
+  alex: "7f1d6a3e-0002-4a3e-8f6e-0f0000000002",
+  mia: "7f1d6a3e-0003-4a3e-8f6e-0f0000000003",
+} as const;
+
+const FIXTURE_PEOPLE: ExportPerson[] = [
+  {
+    id: FIXTURE_PEOPLE_IDS.sam,
+    name: "Sam",
+    avatar: { base64: FIXTURE_AVATAR_BASE64, mime: "image/jpeg" },
+    createdAt: "2026-01-01T00:00:00.000Z",
+  },
+  {
+    id: FIXTURE_PEOPLE_IDS.alex,
+    name: "Alex",
+    avatar: null,
+    createdAt: "2026-01-02T00:00:00.000Z",
+  },
+  {
+    id: FIXTURE_PEOPLE_IDS.mia,
+    name: "Mia",
+    avatar: null,
+    isArchived: true,
+    createdAt: "2026-01-03T00:00:00.000Z",
+  },
+];
+
+/**
+ * Adds three people to an export and references them on a fixed share of
+ * entries: Sam on every 3rd, Alex on every 4th, Mia (archived) on every 7th.
+ */
+const withPeople = (data: ImportData): ImportData => {
+  const items = Array.isArray(data.items)
+    ? data.items
+    : Object.values(data.items);
+  return {
+    ...data,
+    people: FIXTURE_PEOPLE,
+    items: items.map((item, index) => ({
+      ...item,
+      people: [
+        ...(index % 3 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.sam }] : []),
+        ...(index % 4 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.alex }] : []),
+        ...(index % 7 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.mia }] : []),
+      ],
+    })),
+  };
+};
 
 /**
  * Named test data set in the Pixy export format. To add one, export data
@@ -60,6 +114,30 @@ export const FIXTURES: Fixture[] = [
       "365 entries ending today, with notes, emotions, sleep, and 5 tags.",
     endsToday: true,
     data: asExport(year),
+  },
+  {
+    id: "people",
+    title: "One year with people",
+    description:
+      "The `year` fixture plus 3 people (one with photo, one archived) on a fixed share of entries.",
+    endsToday: true,
+    data: withPeople(asExport(year)),
+  },
+  {
+    id: "timeline",
+    title: "Timeline",
+    description:
+      "One week ending today: several entries a day, places, photos, both together, long notes, and many chips.",
+    endsToday: true,
+    data: withTimeline(withPeople(asExport(empty))),
+  },
+  {
+    id: "chaos",
+    title: "Chaos",
+    description:
+      "Stress test ending today: every limit at max (50 tags, 50 people, 6 photos, 10,000-character note, all emotions), many scripts and emoji, years with gaps, 24 entries on the newest day, and past days with up to 100 entries.",
+    endsToday: true,
+    data: withChaos(asExport(empty)),
   },
 ];
 

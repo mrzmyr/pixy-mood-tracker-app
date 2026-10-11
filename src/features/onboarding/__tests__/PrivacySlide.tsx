@@ -7,13 +7,19 @@ import Colors from "@/constants/Colors";
 import { PrivacySlide } from "../screens/Onboarding/PrivacySlide";
 import { AnalyticsProvider } from "@/state/analytics";
 import { INITIAL_STATE } from "@/constants/Settings";
-import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettings,
+  useSettingsLoad,
+} from "@/state/settings";
 
 const AnalyticsSetting = () => {
   const { settings } = useSettings();
+  const { status } = useSettingsLoad();
   return (
     <Text testID="analytics-setting">
-      {settings.loaded ? String(settings.analyticsEnabled) : "loading"}
+      {status === "ready" ? String(settings.analyticsEnabled) : "loading"}
     </Text>
   );
 };

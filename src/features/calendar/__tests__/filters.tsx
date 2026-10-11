@@ -72,6 +72,7 @@ xdescribe("useCalendarFilters()", () => {
         text: "test",
         ratings: ["neutral"],
         tagIds: ["1"],
+        personIds: [],
       });
     });
 
@@ -93,6 +94,7 @@ xdescribe("useCalendarFilters()", () => {
         text: "test",
         ratings: ["neutral"],
         tagIds: ["1"],
+        personIds: [],
       });
     });
 
@@ -150,6 +152,7 @@ xdescribe("useCalendarFilters()", () => {
         text: "",
         ratings: ["good"],
         tagIds: [],
+        personIds: [],
       });
     });
 
@@ -169,6 +172,7 @@ xdescribe("useCalendarFilters()", () => {
         text: "",
         ratings: [],
         tagIds: ["t3"],
+        personIds: [],
       });
     });
 
@@ -179,6 +183,7 @@ xdescribe("useCalendarFilters()", () => {
         text: "",
         ratings: [],
         tagIds: ["t1"],
+        personIds: [],
       });
     });
 
@@ -201,6 +206,7 @@ xdescribe("useCalendarFilters()", () => {
         text: "🐶",
         ratings: [],
         tagIds: [],
+        personIds: [],
       });
     });
 
@@ -214,6 +220,7 @@ xdescribe("useCalendarFilters()", () => {
         text: "🦄",
         ratings: [],
         tagIds: [],
+        personIds: [],
       });
     });
 
@@ -233,6 +240,7 @@ xdescribe("useCalendarFilters()", () => {
         text: "🐶",
         ratings: ["good"],
         tagIds: [],
+        personIds: [],
       });
     });
 
@@ -252,6 +260,7 @@ xdescribe("useCalendarFilters()", () => {
         text: "🐶",
         ratings: [],
         tagIds: ["t1"],
+        personIds: [],
       });
     });
 
@@ -262,8 +271,35 @@ xdescribe("useCalendarFilters()", () => {
 // Runs apart from the suite above: that suite seeds AsyncStorage, which
 // leaves the provider tree unmounted, so it stays skipped.
 describe("useCalendarFilters() keeps filters", () => {
-  afterEach(async () => {
-    await AsyncStorage.clear();
+  test("should match entries with any selected person", async () => {
+    const hook = await renderHook(
+      () => ({ filters: useCalendarFilters(), logs: useLogUpdater() }),
+      { wrapper }
+    );
+    await act(async () => {});
+    const sam = _generateItem({ date: "2022-02-01", people: [{ id: "sam" }] });
+    const alex = _generateItem({
+      date: "2022-02-02",
+      people: [{ id: "alex" }],
+    });
+    const nobody = _generateItem({ date: "2022-02-03", people: [] });
+
+    await act(() => {
+      hook.result.current.filters.set({
+        text: "",
+        ratings: [],
+        tagIds: [],
+        personIds: ["sam", "alex"],
+      });
+    });
+    await act(() => {
+      hook.result.current.logs.updateLogs([sam, alex, nobody]);
+    });
+
+    expect(hook.result.current.filters.data.filterCount).toBe(2);
+    expect(
+      hook.result.current.filters.data.filteredItems.map((item) => item.id)
+    ).toEqual([sam.id, alex.id]);
   });
 
   test("should keep filters on `close`", async () => {
@@ -271,7 +307,12 @@ describe("useCalendarFilters() keeps filters", () => {
     await act(async () => {});
 
     await act(() => {
-      hook.result.current.set({ text: "", ratings: ["good"], tagIds: [] });
+      hook.result.current.set({
+        text: "",
+        ratings: ["good"],
+        tagIds: [],
+        personIds: [],
+      });
     });
     await act(() => {
       hook.result.current.open();
@@ -298,6 +339,7 @@ describe("useCalendarFilters() keeps filters", () => {
         text: "",
         ratings: ["good"],
         tagIds: [],
+        personIds: [],
       });
     });
     expect(hook.result.current.filters.data.filteredItems).toEqual([]);

@@ -6,6 +6,7 @@ import { DATE_FORMAT } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * One pixel in the year grid; `null` ratings render an empty ring and
@@ -27,7 +28,7 @@ export const Day = ({
       style={{
         aspectRatio: 1,
         width: "100%",
-        borderRadius: 100,
+        borderRadius: RADIUS.full,
         backgroundColor: rating
           ? scale.colors[rating].background
           : "transparent",
@@ -45,7 +46,7 @@ export const Day = ({
           style={{
             width: 8,
             height: 8,
-            borderRadius: 100,
+            borderRadius: RADIUS.full,
             backgroundColor: rating
               ? colors.cardBackground
               : colors.yearPixelsEmptyDot,

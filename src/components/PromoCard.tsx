@@ -1,9 +1,10 @@
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { useSettings } from "@/state/settings";
 import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
 import Indicator from "@/components/Indicator";
+import { PressableScale } from "@/components/PressableScale";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Dismissible promo card on the calendar screen.
@@ -25,16 +26,13 @@ export const PromoCard = ({
   colorName?: string;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const { addActionDone, hasActionDone } = useSettings();
 
   const _onPress = () => {
-    haptics.selection();
     onPress();
   };
 
   const onClose = () => {
-    haptics.selection();
     addActionDone(slug);
   };
 
@@ -43,20 +41,17 @@ export const PromoCard = ({
   }
 
   return (
-    <Pressable
-      style={({ pressed }) => [
-        {
-          backgroundColor: colors.promoCardBackground,
-          borderRadius: 12,
-          overflow: "hidden",
-          paddingVertical: 16,
-          paddingHorizontal: 16,
-          opacity: pressed ? 0.8 : 1,
-          minHeight: 140,
-          borderColor: colors.promoCardBorder,
-          borderWidth: 1,
-        },
-      ]}
+    <PressableScale
+      style={{
+        backgroundColor: colors.promoCardBackground,
+        borderRadius: RADIUS.md,
+        overflow: "hidden",
+        paddingVertical: 16,
+        paddingHorizontal: 16,
+        minHeight: 140,
+        borderColor: colors.promoCardBorder,
+        borderWidth: 1,
+      }}
       onPress={_onPress}
     >
       <Indicator
@@ -103,6 +98,6 @@ export const PromoCard = ({
           {title}
         </Text>
       </View>
-    </Pressable>
+    </PressableScale>
   );
 };

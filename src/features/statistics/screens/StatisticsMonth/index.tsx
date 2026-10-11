@@ -9,6 +9,7 @@ import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
+import { useReportHeader } from "../../components/useReportHeader";
 import { Header } from "./Header";
 import { MoodChart } from "./MoodChart";
 import { MoodPeaks } from "./MoodPeaks";
@@ -40,6 +41,16 @@ export const StatisticsMonthScreen = () => {
     setDate(nextDate);
   };
 
+  const gradientColors: [string, string, string] = [
+    colors.palette.indigo[900],
+    colors.palette.indigo[600],
+    colors.palette.indigo[500],
+  ];
+  const { bannerHeight, headerHeight, onScroll } = useReportHeader({
+    title: date.format("MMMM YYYY"),
+    headerColor: gradientColors[0],
+  });
+
   const prevMonth = date.subtract(1, "month");
   const nextMonth = date.add(1, "month");
 
@@ -62,15 +73,13 @@ export const StatisticsMonthScreen = () => {
         backgroundColor: colors.statisticsBackground,
       }}
     >
-      <ScrollView>
+      <ScrollView onScroll={onScroll} scrollEventThrottle={16}>
         <Header
           title={date.format("MMMM YYYY")}
           subtitle={t("month_report")}
-          gradientColors={[
-            colors.palette.indigo[900],
-            colors.palette.indigo[600],
-            colors.palette.indigo[500],
-          ]}
+          gradientColors={gradientColors}
+          bannerHeight={bannerHeight}
+          headerHeight={headerHeight}
         />
         <View
           style={{

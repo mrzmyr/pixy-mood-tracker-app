@@ -1,9 +1,16 @@
-import { Text } from "react-native";
+import { Platform, Text } from "react-native";
 import type { TextStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 
 const DEFAULT_STYLE = {};
+
+// iOS grouped-list header: 13pt Footnote, secondary label, casing as written.
+// Android Material list subheader: 14sp, weight 500, accent color, no uppercase.
+const platformStyle = (): TextStyle =>
+  Platform.OS === "android"
+    ? { fontSize: 14, fontWeight: "500" }
+    : { fontSize: 13 };
 
 const MenuListHeadline = ({
   children,
@@ -16,12 +23,11 @@ const MenuListHeadline = ({
 
   return (
     <Text
+      accessibilityRole="header"
       style={{
-        fontSize: 14,
-        textTransform: "uppercase",
-        color: colors.textSecondary,
+        ...platformStyle(),
+        color: Platform.OS === "android" ? colors.tint : colors.textSecondary,
         padding: 0,
-        borderRadius: 8,
         width: "100%",
         marginTop: 32,
         paddingLeft: 16,

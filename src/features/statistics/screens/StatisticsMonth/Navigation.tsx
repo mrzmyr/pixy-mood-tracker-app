@@ -3,12 +3,15 @@ import { View } from "react-native";
 import { ChevronLeft, ChevronRight } from "react-native-feather";
 import Button from "@/components/Button";
 import useColors from "@/hooks/useColors";
+import { t } from "@/lib/translation";
 
 /**
  * Previous/next month buttons. A direction is disabled when that month has
- * no entries. `nextMonth` and `prevMonth` are unused.
+ * no entries. `nextMonth` and `prevMonth` name the buttons for screen readers.
  */
 export const Navigation = ({
+  nextMonth,
+  prevMonth,
   onNext,
   onPrev,
   nextMonthDisabled,
@@ -31,6 +34,9 @@ export const Navigation = ({
     >
       <Button
         onPress={onPrev}
+        accessibilityLabel={t("a11y_previous_month", {
+          month: prevMonth.format("MMMM YYYY"),
+        })}
         disabled={prevMonthDisabled}
         type="tertiary"
         style={{
@@ -47,6 +53,9 @@ export const Navigation = ({
       </Button>
       <Button
         onPress={onNext}
+        accessibilityLabel={t("a11y_next_month", {
+          month: nextMonth.format("MMMM YYYY"),
+        })}
         disabled={nextMonthDisabled}
         type="tertiary"
         style={{

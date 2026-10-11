@@ -8,13 +8,8 @@ import { ensurePrebuild } from "../run-native.ts";
 import { readSigningTeams } from "./agent-device.ts";
 import { withCacheLock } from "./cache-lock.ts";
 import { includesPhone, readProfile } from "./provisioning.ts";
-import {
-  CliError,
-  getCheckoutDir,
-  getStateDir,
-  note,
-  withLogsOnStderr,
-} from "./shared.ts";
+import { openOutputLog, step } from "./run-log.ts";
+import { CliError, getStateDir, note, withLogsOnStderr } from "./shared.ts";
 import type { Platform } from "./shared.ts";
 import { preflightPhone } from "./phone.ts";
 import type { Device } from "./device.ts";
@@ -57,7 +52,7 @@ const runBuildCommand = async (
   command: string,
   args: string[],
   cwd: string,
-  logFile: string,
+  log: ReturnType<typeof openOutputLog>,
   team?: string
 ) => {
   const child = spawn(command, args, {
@@ -65,7 +60,6 @@ const runBuildCommand = async (
     env: process.env,
     stdio: ["ignore", "pipe", "pipe"],
   });
-  const log = fs.createWriteStream(logFile);
   let pending = "";
   const redact = (chunk: Buffer) => {
     const output = pending + chunk.toString("utf-8");
@@ -89,13 +83,12 @@ const runBuildCommand = async (
   // SAFETY: ChildProcess close passes exit code as its first event argument.
   const [code] = (await once(child, "close")) as [number | null];
   log.write(team ? pending.replaceAll(team, "<team>") : pending);
-  log.end();
   if (code !== 0) {
     throw new CliError({
       status: "native_build_failed",
       message: `${command} failed`,
       why: `Process exited with ${code}.`,
-      fix: `Read ${logFile}, fix the first error, then retry.`,
+      fix: `Read ${log.file}, fix the first error, then retry.`,
     });
   }
 };
@@ -103,6 +96,7 @@ const runBuildCommand = async (
 /** Build signed preview app for one iPhone, reusing cache only when profile covers that phone. */
 export const buildIosPhone = async (device: Device) => {
   preflightPhone(device);
+  step("Fingerprint");
   process.env.EXPO_PUBLIC_APP_VARIANT = "preview";
   const fingerprint = await createFingerprintAsync(REPO_ROOT);
   const { hash: fingerprintHash } = fingerprint;
@@ -117,6 +111,7 @@ export const buildIosPhone = async (device: Device) => {
   const cached = path.join(cache.resolveCacheDir(), `${key}.app`);
   const reusable = () =>
     fs.existsSync(cached) && hasPhoneProfile(cached, device.id);
+  step("Build");
   if (reusable()) {
     note("Cached iPhone build found");
     return key;
@@ -125,6 +120,7 @@ export const buildIosPhone = async (device: Device) => {
     if (reusable()) {
       return;
     }
+    const log = openOutputLog(getStateDir("logs"), "ios-phone-build");
     const env = { ...process.env, EXPO_PUBLIC_APP_VARIANT: "preview" };
     await ensurePrebuild("ios", "preview", env, fingerprintHash);
     const podfile = path.join(IOS_DIR, "Podfile.lock");
@@ -134,12 +130,7 @@ export const buildIosPhone = async (device: Device) => {
       fs.readFileSync(podfile, "utf-8") !==
         (fs.existsSync(manifest) ? fs.readFileSync(manifest, "utf-8") : "")
     ) {
-      await runBuildCommand(
-        "pod",
-        ["install"],
-        IOS_DIR,
-        path.join(getStateDir("build"), "ios-phone-build.log")
-      );
+      await runBuildCommand("pod", ["install"], IOS_DIR, log);
     }
     let team: string | null = null;
     try {
@@ -169,8 +160,6 @@ export const buildIosPhone = async (device: Device) => {
     }
     const workspace = path.join(IOS_DIR, workspaceName);
     const scheme = path.basename(workspaceName, ".xcworkspace");
-    const logFile = path.join(getCheckoutDir(REPO_ROOT), "ios-phone-build.log");
-    note(`Log: ${logFile}`);
     const args = [
       "-workspace",
       workspace,
@@ -197,7 +186,7 @@ export const buildIosPhone = async (device: Device) => {
       "xcodebuild",
       args,
       REPO_ROOT,
-      logFile,
+      log,
       team ?? localTeam
     );
     const app = path.join(
@@ -210,7 +199,7 @@ export const buildIosPhone = async (device: Device) => {
         status: "build_product_missing",
         message: "Built iPhone app not found",
         why: `xcodebuild did not create ${app}.`,
-        fix: `Read ${logFile}, then retry.`,
+        fix: `Read ${log.file}, then retry.`,
       });
     }
     if (!hasPhoneProfile(app, device.id)) {
@@ -236,6 +225,7 @@ export const buildIosPhone = async (device: Device) => {
         fix: "Check build cache permissions and free disk space, then retry.",
       });
     }
+    log.close();
   });
   return key;
 };

@@ -3,7 +3,6 @@ import type { Emotion } from "@/types";
 
 import { useRef } from "react";
 import { Dimensions } from "react-native";
-import type { ViewStyle } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
 import type { CarouselRef } from "react-native-reanimated-carousel";
@@ -12,25 +11,23 @@ import { EMOTIONS } from "../../config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
 
-const DEFAULT_STYLE = {};
-
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
 /**
  * Swipeable emotion pages, one per category from worst to best, sorted by
  * label. `defaultIndex` picks the first page shown. Disabled emotions are
- * hidden.
+ * hidden. Every page ends with a "Missing one?" tile.
  */
 export const EmotionAdvancedSelection = ({
   defaultIndex = 0,
   selectedEmotions,
   onPress,
-  style = DEFAULT_STYLE,
+  onRequestEmotion,
 }: {
   defaultIndex?: number;
   selectedEmotions: Emotion[];
   onPress: (emotion: Emotion) => void;
-  style?: ViewStyle;
+  onRequestEmotion: () => void;
 }) => {
   const _carousel = useRef<CarouselRef>(null);
 
@@ -44,6 +41,7 @@ export const EmotionAdvancedSelection = ({
         key={`emotions-page-inner-${category}`}
         emotions={filteredEmotions}
         onPress={onPress}
+        onRequestEmotion={onRequestEmotion}
         selectedEmotions={selectedEmotions}
       />
     );
@@ -63,7 +61,6 @@ export const EmotionAdvancedSelection = ({
         width: WINDOW_WIDTH,
         justifyContent: "center",
         alignItems: "center",
-        ...style,
       }}
     />
   );

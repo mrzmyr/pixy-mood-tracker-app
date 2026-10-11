@@ -1,20 +1,19 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, ScrollView, TextInput, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import Button from "@/components/Button";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
-import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import { ColorPicker } from "../components/ColorPicker";
+import TagNameField from "../components/TagNameField";
+import { isValidTagTitle } from "../tagName";
 import { useTagsUpdater } from "../TagsProvider";
 import type { Tag as ITag } from "../TagsProvider";
-
-import { ColorPicker } from "../components/ColorPicker";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
@@ -30,6 +29,7 @@ export const TagCreate = () => {
   const analytics = useAnalytics();
   const tagsUpdater = useTagsUpdater();
 
+  const [submitted, setSubmitted] = useState(false);
   const [tempTag, setTempTag] = useState<ITag>({
     id: uuidv4(),
     title: "",
@@ -37,6 +37,11 @@ export const TagCreate = () => {
   });
 
   const onCreate = () => {
+    setSubmitted(true);
+    if (!isValidTagTitle(tempTag.title)) {
+      return;
+    }
+
     analytics.track("tags:tag_created", {
       title_length: tempTag.title.length,
       color: tempTag.color,
@@ -76,6 +81,16 @@ export const TagCreate = () => {
               {t("cancel")}
             </LinkButton>
           }
+          right={
+            <LinkButton
+              onPress={onCreate}
+              type="primary"
+              testID="tag-save"
+              style={{ fontWeight: "700" }}
+            >
+              {t("save")}
+            </LinkButton>
+          }
         />
         <ScrollView
           keyboardShouldPersistTaps="handled"
@@ -84,30 +99,14 @@ export const TagCreate = () => {
           }
           contentContainerStyle={{
             padding: 20,
+            paddingBottom: 20 + insets.bottom,
           }}
         >
-          <TextInput
-            accessibilityLabel={t("tags_add_placeholder")}
-            testID="tag-name"
-            autoCorrect={false}
-            style={{
-              fontSize: 17,
-              color: colors.textInputText,
-              backgroundColor: colors.textInputBackground,
-              width: "100%",
-              padding: 16,
-              borderRadius: 8,
-              marginBottom: 16,
-            }}
-            placeholder={t("tags_add_placeholder")}
-            placeholderTextColor={colors.textInputPlaceholder}
-            maxLength={MAX_TAG_LENGTH}
+          <TagNameField
             value={tempTag.title}
-            onChangeText={(text) => {
-              setTempTag((currentTag) => ({
-                ...currentTag,
-                title: text,
-              }));
+            showError={submitted}
+            onChange={(title) => {
+              setTempTag((currentTag) => ({ ...currentTag, title }));
             }}
           />
           <ColorPicker
@@ -116,19 +115,6 @@ export const TagCreate = () => {
               setTempTag((currentTag) => ({ ...currentTag, color }));
             }}
           />
-          <Button
-            style={{
-              marginTop: 32,
-            }}
-            onPress={onCreate}
-            disabled={
-              tempTag.title.length < MIN_TAG_LENGTH ||
-              tempTag.title.length > MAX_TAG_LENGTH
-            }
-          >
-            {t("create")}
-          </Button>
-          <View style={{ height: insets.bottom }} />
         </ScrollView>
       </View>
     </DismissKeyboard>

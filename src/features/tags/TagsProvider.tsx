@@ -1,23 +1,11 @@
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
-import { load, store } from "@/state/persisted";
-import { useStorageLoad } from "@/state/persisted/useStorageLoad";
-import type { StorageLoad } from "@/state/persisted/useStorageLoad";
+import { createPersistedStore } from "@/state/persisted/createPersistedStore";
+import type { Load, LoadInput } from "@/state/persisted/createPersistedStore";
 
 import { t } from "@/lib/translation";
-import omit from "lodash/omit";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useEffectEvent,
-  useMemo,
-  useReducer,
-} from "react";
+import { useMemo } from "react";
 import { useLogUpdater } from "@/features/logs";
-import { useSettings } from "@/state/settings";
-import { useContentStableValue } from "@/hooks/useContentStableValue";
-import { createMissingProviderError } from "@/lib/errors";
+import { useSettings, useSettingsLoad } from "@/state/settings";
 
 /**
  * AsyncStorage key for tags. Keep the legacy name; changing it orphans all
@@ -39,7 +27,6 @@ export interface Tag {
 }
 
 interface State {
-  loaded?: boolean;
   tags: Tag[];
 }
 
@@ -48,9 +35,7 @@ type StateAction =
   | { type: "edit"; payload: Tag }
   | { type: "delete"; payload: Tag["id"] }
   | { type: "import"; payload: State }
-  | { type: "reset"; payload: State };
-
-type StateValue = State;
+  | { type: "reset" };
 
 interface UpdaterValue {
   createTag: (tag: Tag) => void;
@@ -60,50 +45,6 @@ interface UpdaterValue {
   import: (data: State) => void;
 }
 
-// SAFETY: every consumer renders inside TagsProvider, which supplies the full state.
-const TagsStateContext = createContext({} as StateValue);
-// SAFETY: every consumer renders inside TagsProvider, which supplies the full updater.
-const TagsUpdaterContext = createContext({} as UpdaterValue);
-// SAFETY: every consumer renders inside TagsProvider, which supplies the value; the default is never read.
-const TagsLoadContext = createContext<StorageLoad>(undefined as never);
-
-const reducer = (state: State, action: StateAction): State => {
-  switch (action.type) {
-    case "import": {
-      return {
-        ...action.payload,
-        loaded: true,
-      };
-    }
-    case "add": {
-      return { ...state, tags: [...state.tags, action.payload] };
-    }
-    case "edit": {
-      return {
-        ...state,
-        tags: state.tags.map((tag) =>
-          tag.id === action.payload.id ? action.payload : tag
-        ),
-      };
-    }
-    case "delete": {
-      return {
-        ...state,
-        tags: state.tags.filter((tag) => tag.id !== action.payload),
-      };
-    }
-    case "reset": {
-      return {
-        ...action.payload,
-        loaded: true,
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
 const _generateTag = (id: number, title: string, color: Tag["color"]): Tag => ({
   id: `${id}`,
   title,
@@ -111,7 +52,6 @@ const _generateTag = (id: number, title: string, color: Tag["color"]): Tag => ({
 });
 
 const getInitialState = (): State => ({
-  loaded: false,
   tags: [
     _generateTag(1, `${t("tags_default_1_title")} 🏡`, "slate"),
     _generateTag(2, `${t("tags_default_2_title")} 🤝`, "orange"),
@@ -134,142 +74,90 @@ const getInitialState = (): State => ({
   ],
 });
 
-const TagsProvider = ({ children }: { children: React.ReactNode }) => {
-  const { settings } = useSettings();
-  const logsUpdater = useLogUpdater();
+const reducer = (state: State, action: StateAction): State => {
+  switch (action.type) {
+    case "import": {
+      return { tags: action.payload.tags };
+    }
+    case "add": {
+      return { ...state, tags: [...state.tags, action.payload] };
+    }
+    case "edit": {
+      return {
+        ...state,
+        tags: state.tags.map((tag) =>
+          tag.id === action.payload.id ? action.payload : tag
+        ),
+      };
+    }
+    case "delete": {
+      return {
+        ...state,
+        tags: state.tags.filter((tag) => tag.id !== action.payload),
+      };
+    }
+    case "reset": {
+      return getInitialState();
+    }
+    default: {
+      return state;
+    }
+  }
+};
 
+// Legacy tags live in settings, so the load waits for settings.
+const useLegacySettingsTags = (): LoadInput<Tag[] | undefined> => {
+  const { settings } = useSettings();
+  const { status } = useSettingsLoad();
+  return status === "ready"
+    ? { ready: true, input: settings.tags }
+    : { ready: false };
+};
+
+const tagsStore = createPersistedStore<State, StateAction, Tag[] | undefined>({
+  key: STORAGE_KEY,
+  name: "Tags",
   // Default tags are built when needed so their titles follow the current
   // locale.
-  const [state, dispatch] = useReducer(reducer, undefined, getInitialState);
-  // Stays `loading` until settings load: legacy tags live in settings.
-  const {
-    load: storageLoad,
-    markReady,
-    markFailed,
-  } = useStorageLoad(STORAGE_KEY);
-  const storageStatus = storageLoad.status;
-  // Reducer updates can produce equal copies; only content changes should
-  // persist or notify consumers.
-  const stableState = useContentStableValue(state);
-
-  const stateValue: StateValue = stableState;
-
-  const createTag = useCallback(
-    (tag: Tag) => dispatch({ type: "add", payload: tag }),
-    [dispatch]
-  );
-  const updateTag = useCallback(
-    (tag: Tag) => dispatch({ type: "edit", payload: tag }),
-    [dispatch]
-  );
-
-  const deleteTag = useCallback(
-    (tagId: Tag["id"]) => {
-      dispatch({ type: "delete", payload: tagId });
-      logsUpdater.removeTagFromLogs(tagId);
-    },
-    [dispatch, logsUpdater]
-  );
-
-  const reset = useCallback(
-    () => dispatch({ type: "reset", payload: getInitialState() }),
-    [dispatch]
-  );
-  const importData = useCallback(
-    (data: State) => dispatch({ type: "import", payload: data }),
-    [dispatch]
-  );
-
-  const updaterValue: UpdaterValue = useMemo(
-    () => ({
-      createTag,
-      updateTag,
-      deleteTag,
-      reset,
-      import: importData,
-    }),
-    [createTag, updateTag, deleteTag, reset, importData]
-  );
-
-  // Effect event: legacy tags are read when the load effect runs, without
-  // re-running the load when settings tags change.
-  const getLegacySettingsTags = useEffectEvent(() => settings.tags);
-
-  useEffect(() => {
-    if (!settings.loaded) {
-      return;
+  initial: getInitialState,
+  hydrate: (stored, legacySettingsTags) => {
+    if (stored !== null) {
+      return { tags: stored.tags };
     }
-
-    const legacySettingsTags = getLegacySettingsTags();
-
-    (async () => {
-      let json: State | null;
-      try {
-        json = await load<State>(STORAGE_KEY);
-      } catch (error) {
-        // Keep `loaded: false` so the persist effect below stays disabled;
-        // resetting to the default tags would overwrite the stored ones.
-        markFailed(error);
-        return;
-      }
-      if (json !== null) {
-        dispatch({ type: "import", payload: json });
-      } else if (legacySettingsTags) {
-        dispatch({
-          type: "import",
-          payload: {
-            tags: legacySettingsTags,
-          },
-        });
-      } else {
-        dispatch({ type: "reset", payload: getInitialState() });
-      }
-      markReady();
-    })();
-  }, [settings.loaded, markReady, markFailed]);
-
-  // Never persist after a failed read: `import` and `reset` set `loaded`, so
-  // also require a successful load.
-  useEffect(() => {
-    if (storageStatus === "ready" && stableState.loaded) {
-      store<Omit<State, "loaded">>(STORAGE_KEY, omit(stableState, "loaded"));
+    if (legacySettingsTags) {
+      return { tags: legacySettingsTags };
     }
-  }, [stableState, storageStatus]);
+    return getInitialState();
+  },
+  reducer,
+  useLoadInput: useLegacySettingsTags,
+});
 
-  return (
-    <TagsStateContext.Provider value={stateValue}>
-      <TagsUpdaterContext.Provider value={updaterValue}>
-        <TagsLoadContext.Provider value={storageLoad}>
-          {children}
-        </TagsLoadContext.Provider>
-      </TagsUpdaterContext.Provider>
-    </TagsStateContext.Provider>
-  );
-};
+/** Tags store. Must render inside `SettingsProvider` and `LogsProvider`. */
+const TagsProvider = tagsStore.Provider;
 
-const useTagsState = (): StateValue => {
-  const context = useContext(TagsStateContext);
-  if (context === undefined) {
-    throw createMissingProviderError("useTagsState", "TagsProvider");
-  }
-  return context;
-};
+const useTagsState = (): State => tagsStore.useState();
 
 const useTagsUpdater = (): UpdaterValue => {
-  const context = useContext(TagsUpdaterContext);
-  if (context === undefined) {
-    throw createMissingProviderError("useTagsUpdater", "TagsProvider");
-  }
-  return context;
+  const dispatch = tagsStore.useDispatch();
+  const logsUpdater = useLogUpdater();
+
+  return useMemo(
+    () => ({
+      createTag: (tag: Tag) => dispatch({ type: "add", payload: tag }),
+      updateTag: (tag: Tag) => dispatch({ type: "edit", payload: tag }),
+      deleteTag: (tagId: Tag["id"]) => {
+        dispatch({ type: "delete", payload: tagId });
+        logsUpdater.removeTagFromLogs(tagId);
+      },
+      reset: () => dispatch({ type: "reset" }),
+      import: (data: State) => dispatch({ type: "import", payload: data }),
+    }),
+    [dispatch, logsUpdater]
+  );
 };
 
 /** Load status of the tags store; `error` means stored tags exist but could not be read. */
-const useTagsLoad = (): StorageLoad => {
-  const context = useContext(TagsLoadContext);
-  if (context === undefined) {
-    throw createMissingProviderError("useTagsLoad", "TagsProvider");
-  }
-  return context;
-};
+const useTagsLoad = (): Load => tagsStore.useLoad();
 
 export { TagsProvider, useTagsLoad, useTagsState, useTagsUpdater };

@@ -1,14 +1,19 @@
 import { EmotionIndicator } from "@/features/logger";
 import useColors from "@/hooks/useColors";
-import { t } from "@/lib/translation";
+import { tDynamic } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
+import { RADIUS } from "@/constants/Radius";
+import { COMPACT_CHIP } from "@/constants/Chip";
 
-/** Emotion chip with its category dot, used in entries and statistics. */
+/** Emotion chip with its category marker, used in entries and statistics. */
 export const EmotionItem = ({
   emotion,
+  compact = false,
 }: {
   emotion: Pick<Emotion, "key" | "category">;
+  /** Small chip for dense rows, like timeline cards. */
+  compact?: boolean;
 }) => {
   const colors = useColors();
 
@@ -16,25 +21,36 @@ export const EmotionItem = ({
     <View>
       <View
         style={{
-          paddingVertical: 6,
-          paddingHorizontal: 12,
-          borderRadius: 8,
-          backgroundColor: colors.logCardBackground,
+          ...(compact
+            ? {
+                height: COMPACT_CHIP.height,
+                paddingHorizontal: COMPACT_CHIP.paddingHorizontal,
+                borderRadius: COMPACT_CHIP.borderRadius,
+                // Same surface as compact tag and person chips.
+                backgroundColor: colors.entryBackground,
+                borderColor: colors.entryItemBorder,
+              }
+            : {
+                paddingVertical: 8,
+                paddingHorizontal: 16,
+                borderRadius: RADIUS.sm,
+                backgroundColor: colors.logCardBackground,
+                borderColor: colors.logCardBorder,
+              }),
           borderWidth: 1,
-          borderColor: colors.logCardBorder,
           flex: 1,
           flexDirection: "row",
           alignItems: "center",
         }}
       >
-        <EmotionIndicator category={emotion.category} />
+        <EmotionIndicator emotion={emotion} compact={compact} />
         <Text
           style={{
             color: colors.text,
-            fontSize: 17,
+            fontSize: compact ? COMPACT_CHIP.fontSize : 17,
           }}
         >
-          {t(`log_emotion_${emotion.key}`)}
+          {tDynamic(`log_emotion_${emotion.key}`)}
         </Text>
       </View>
     </View>

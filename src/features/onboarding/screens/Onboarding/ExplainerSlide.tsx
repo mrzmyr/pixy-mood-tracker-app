@@ -4,7 +4,7 @@ import useColors from "@/hooks/useColors";
 import { HeaderImage } from "./HeaderImage";
 import { HeaderNavigation } from "./HeaderNavigation";
 import Animated, { FadeIn } from "react-native-reanimated";
-import { t } from "@/lib/translation";
+import { t, tDynamic } from "@/lib/translation";
 
 const Body = ({ index }: { index: number }) => {
   const colors = useColors();
@@ -25,7 +25,7 @@ const Body = ({ index }: { index: number }) => {
           marginBottom: 8,
         }}
       >
-        {t(`onboarding_step_${index}_title`)}
+        {tDynamic(`onboarding_step_${index}_title`)}
       </Text>
       <Text
         style={{
@@ -34,7 +34,7 @@ const Body = ({ index }: { index: number }) => {
           lineHeight: 24,
         }}
       >
-        {t(`onboarding_step_${index}_body`)}
+        {tDynamic(`onboarding_step_${index}_body`)}
       </Text>
     </View>
   );

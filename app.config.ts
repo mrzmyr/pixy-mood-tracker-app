@@ -38,6 +38,32 @@ export const APP_VARIANTS = {
 /** Name of an app variant: `development`, `preview`, or `production`. */
 export type AppVariant = keyof typeof APP_VARIANTS;
 
+/**
+ * Home screen widgets (iOS). Each entry is one widget kind in the gallery.
+ * The `name` must match the first argument of `createWidget` in
+ * `src/features/widget/widgets`.
+ */
+export const WIDGETS = [
+  {
+    name: "PixyWeek",
+    displayName: "4 weeks",
+    description: "Your pixels for the last four weeks.",
+    ios: { supportedFamilies: ["systemSmall", "systemMedium"] },
+  },
+  {
+    name: "PixyMonth",
+    displayName: "Month",
+    description: "Your pixels for this month.",
+    ios: { supportedFamilies: ["systemSmall", "systemMedium", "systemLarge"] },
+  },
+  {
+    name: "PixyYear",
+    displayName: "Year",
+    description: "Your pixels for this year.",
+    ios: { supportedFamilies: ["systemMedium", "systemLarge"] },
+  },
+];
+
 const isAppVariant = (value: string): value is AppVariant =>
   Object.hasOwn(APP_VARIANTS, value);
 
@@ -241,7 +267,33 @@ const appConfig = ({ config }: ConfigContext): ExpoConfig => {
           ...config.android?.adaptiveIcon,
           foregroundImage: variant.adaptiveIcon,
         },
+        intentFilters: [
+          ...(config.android?.intentFilters ?? []),
+          // Alternate app icons disable MainActivity and launch an
+          // activity-alias. expo-alternate-app-icons copies only
+          // `android.intentFilters` into each alias, not the scheme filter
+          // Expo adds to MainActivity. Without this entry, scheme links stop
+          // opening the app while an alternate icon is active.
+          {
+            action: "VIEW",
+            category: ["BROWSABLE", "DEFAULT"],
+            data: [{ scheme: variant.scheme }],
+          },
+        ],
       },
+      plugins: [
+        ...(config.plugins ?? []),
+        // Widget extension and app group follow the variant's bundle id, so
+        // every variant installs side by side with its own widgets.
+        [
+          "expo-widgets",
+          {
+            bundleIdentifier: `${variant.appId}.widgets`,
+            groupIdentifier: `group.${variant.appId}`,
+            widgets: WIDGETS,
+          },
+        ],
+      ],
     })
   );
 };

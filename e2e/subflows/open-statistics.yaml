@@ -1,0 +1,6 @@
+appId: ${APP_ID}
+---
+# Statistics is a button in the calendar header. Native header items have no
+# test IDs, so this subflow taps by accessibility label.
+# Assumes the Calendar screen.
+- tapOn: "Statistics"

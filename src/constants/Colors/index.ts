@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 import colors from "@/constants/Colors/TailwindColors";
 
 import { TAG_COLOR_NAMES } from "@/constants/Config";
@@ -36,6 +38,10 @@ for (const color of tagColorNames) {
     border: colors[color]["400"],
   };
 }
+
+// iOS systemRed, Android Material 3 error
+const dangerLight = Platform.OS === "android" ? "#BA1A1A" : "#FF3B30";
+const dangerDark = Platform.OS === "android" ? "#FFB4AB" : "#FF453A";
 
 const tintColorLight = "#007aff";
 const tintColorDark = "#0a84ff";
@@ -85,6 +91,10 @@ const light = {
 
   cardBackground: "#fff",
   cardBorder: colors.neutral[200],
+  toastSuccessIcon: colors.green[600],
+  snackbarBackground: colors.neutral[800],
+  snackbarText: colors.neutral[50],
+  snackbarAction: colors.blue[300],
 
   headerBorder: colors.neutral[300],
 
@@ -100,6 +110,8 @@ const light = {
   menuListItemText: "#000",
   menuListItemIcon: "#000",
   menuListItemBorder: colors.neutral[100],
+
+  pressRipple: "rgba(0, 0, 0, 0.12)",
 
   notificationBackground: "#FFF",
 
@@ -133,8 +145,9 @@ const light = {
   tertiaryButtonBorder: colors.neutral[200],
   tertiaryButtonBorderDisabled: colors.neutral[300],
 
+  danger: dangerLight,
   dangerButtonBackground: colors.neutral[200],
-  dangerButtonText: colors.red[500],
+  dangerButtonText: dangerLight,
   dangerButtonBorder: colors.neutral[200],
 
   textInputBackground: colors.neutral[200],
@@ -173,6 +186,12 @@ const light = {
   statisticsTagsTrendMutedText: colors.neutral[800],
 
   yearPixelsEmptyDot: colors.neutral[200],
+
+  widgetBackground: colors.white,
+  widgetText: colors.neutral[900],
+  widgetTextSecondary: colors.neutral[500],
+  widgetFutureDay: colors.neutral[100],
+  widgetGuideImageBackground: colors.neutral[200],
   yearPixelsLegendText: colors.neutral[400],
 
   onboardingTitle: colors.black,
@@ -196,6 +215,12 @@ const light = {
 
   entryBackground: colors.white,
   entryItemBorder: colors.neutral[200],
+
+  // Bezel: outer shell around statistics cards and person tiles.
+  bezelBackground: colors.white,
+  bezelBorder: colors.neutral[200],
+  bezelInnerBorder: colors.neutral[200],
+  bezelShadow: "0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.035)",
 
   tooltipBackground: "rgba(0, 0, 0, 0.8)",
   tooltipText: colors.white,
@@ -272,6 +297,10 @@ const dark: IColors & {
 
   cardBackground: colors.neutral[900],
   cardBorder: colors.neutral[800],
+  toastSuccessIcon: colors.green[400],
+  snackbarBackground: colors.neutral[200],
+  snackbarText: colors.neutral[900],
+  snackbarAction: colors.blue[700],
 
   headerBorder: colors.neutral[800],
 
@@ -287,6 +316,8 @@ const dark: IColors & {
   menuListItemText: colors.neutral[50],
   menuListItemIcon: colors.neutral[200],
   menuListItemBorder: colors.neutral[800],
+
+  pressRipple: "rgba(255, 255, 255, 0.16)",
 
   notificationBackground: colors.neutral[900],
 
@@ -320,8 +351,9 @@ const dark: IColors & {
   tertiaryButtonBorder: colors.neutral[800],
   tertiaryButtonBorderDisabled: colors.neutral[800],
 
+  danger: dangerDark,
   dangerButtonBackground: colors.neutral[800],
-  dangerButtonText: colors.red[500],
+  dangerButtonText: dangerDark,
   dangerButtonBorder: colors.neutral[800],
 
   textInputBackground: colors.neutral[800],
@@ -360,6 +392,12 @@ const dark: IColors & {
   statisticsNotEnoughDataBackdrop: "rgba(0, 0, 0, 0.7)",
 
   yearPixelsEmptyDot: colors.neutral[800],
+
+  widgetBackground: colors.neutral[900],
+  widgetText: colors.white,
+  widgetTextSecondary: colors.neutral[400],
+  widgetFutureDay: colors.neutral[700],
+  widgetGuideImageBackground: colors.neutral[800],
   yearPixelsLegendText: colors.neutral[500],
 
   onboardingTitle: colors.white,
@@ -382,6 +420,12 @@ const dark: IColors & {
 
   entryBackground: colors.neutral[800],
   entryItemBorder: colors.neutral[700],
+
+  // Darker than the inner surfaces, lighter than the black background.
+  bezelBackground: "#0f0f0f",
+  bezelBorder: colors.neutral[800],
+  bezelInnerBorder: colors.neutral[700],
+  bezelShadow: "0 1px 2px rgba(0,0,0,0.5)",
 
   feedbackBoxBackground: colors.neutral[900],
 

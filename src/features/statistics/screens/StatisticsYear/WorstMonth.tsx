@@ -11,6 +11,7 @@ import orderBy from "lodash/orderBy";
 import sumBy from "lodash/sumBy";
 import { Text, View } from "react-native";
 import { getItemDate } from "@/lib/logDates";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Worst month of the year of `date`.
@@ -56,7 +57,7 @@ export const WorstMonth = ({ date }: { date: Dayjs }) => {
       style={{
         flex: 1,
         backgroundColor: colors.cardBackground,
-        borderRadius: 8,
+        borderRadius: RADIUS.md,
         padding: 16,
         marginTop: 16,
         minHeight: 80,

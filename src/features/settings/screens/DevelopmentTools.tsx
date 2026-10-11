@@ -13,8 +13,11 @@ import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import { useSettings } from "@/state/settings";
 import { useTagsState } from "@/features/tags";
+import { IS_WIDGET_SUPPORTED, getWidgetSyncStatus } from "@/features/widget";
 import { Trash } from "lucide-react-native";
 import { getWordCount } from "@/lib/utils";
+import { usePostHog } from "posthog-react-native";
+import { RADIUS } from "@/constants/Radius";
 
 const Card = ({
   title,
@@ -31,7 +34,7 @@ const Card = ({
     <View
       style={{
         backgroundColor: colors.cardBackground,
-        borderRadius: 8,
+        borderRadius: RADIUS.md,
         padding: 16,
         flex: 1,
         height: "100%",
@@ -71,10 +74,19 @@ export const DevelopmentTools = () => {
   const logState = useLogState();
   const { tags } = useTagsState();
   const { settings, setSettings, removeActionDone } = useSettings();
+  const posthog = usePostHog();
 
   const words_total = logState.items
     .map((d) => getWordCount(d.message))
     .reduce((a, b) => a + b, 0);
+  const widgetSync = getWidgetSyncStatus();
+  let widgetSyncText = "No sync yet";
+  if (widgetSync) {
+    widgetSyncText = `${widgetSync.status} ${dayjs(widgetSync.at).format("LT")}`;
+    if (widgetSync.why) {
+      widgetSyncText = `${widgetSyncText}: ${widgetSync.why}`;
+    }
+  }
 
   return (
     <View
@@ -127,7 +139,7 @@ export const DevelopmentTools = () => {
         </View>
         <MenuListHeadline>Device Information</MenuListHeadline>
         <MenuList>
-          <MenuListItem isLast>
+          <MenuListItem>
             <View>
               <Text
                 style={{
@@ -139,6 +151,7 @@ export const DevelopmentTools = () => {
                 Device ID
               </Text>
               <Text
+                selectable
                 style={{
                   color: colors.textSecondary,
                   fontSize: 14,
@@ -149,16 +162,68 @@ export const DevelopmentTools = () => {
               </Text>
             </View>
           </MenuListItem>
+          <MenuListItem>
+            <View>
+              <Text
+                style={{
+                  color: colors.text,
+                  fontSize: 17,
+                  marginTop: 4,
+                }}
+              >
+                PostHog Distinct ID
+              </Text>
+              <Text
+                selectable
+                style={{
+                  color: colors.textSecondary,
+                  fontSize: 14,
+                  marginTop: 4,
+                }}
+              >
+                {posthog?.getDistinctId() ?? "-"}
+              </Text>
+            </View>
+          </MenuListItem>
         </MenuList>
+        {IS_WIDGET_SUPPORTED && (
+          <>
+            <MenuListHeadline>Widgets</MenuListHeadline>
+            <MenuList>
+              <MenuListItem>
+                <View>
+                  <Text
+                    style={{
+                      color: colors.text,
+                      fontSize: 17,
+                      marginTop: 4,
+                    }}
+                  >
+                    Last sync
+                  </Text>
+                  <Text
+                    testID="widget-sync-status"
+                    style={{
+                      color: colors.textSecondary,
+                      fontSize: 14,
+                      marginTop: 4,
+                    }}
+                  >
+                    {widgetSyncText}
+                  </Text>
+                </View>
+              </MenuListItem>
+            </MenuList>
+          </>
+        )}
         <MenuListHeadline>Actions Done</MenuListHeadline>
         <MenuList style={{}}>
-          {settings.actionsDone.map((action, i) => (
+          {settings.actionsDone.map((action) => (
             <MenuListItem
               style={{
                 flexDirection: "column",
               }}
               key={`${action.title}-${action.date}`}
-              isLast={i === settings.actionsDone.length - 1}
             >
               <View
                 style={{

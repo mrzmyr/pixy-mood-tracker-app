@@ -1,9 +1,11 @@
 Reserve one phone for this checkout. Other checkouts cannot use it until release or expiry.
 
-Usage: bun devices reserve --target=<target> [--minutes=<minutes>]
+Usage: bun devices reserve --target=<target> --goal=<goal> [--minutes=<minutes>]
 
 Options:
   --target=<target>    One phone. Copy the value from `bun devices list`.
+  --goal=<goal>        What you use the phone for. 1 to 120 characters.
+                       Other agents and the menu bar app show it.
   --minutes=<minutes>  Optional. Reservation length. Default: 60.
                        Run reserve again to extend it.
 
@@ -15,11 +17,12 @@ Output:
   One line on stdout: <target> <expiry time>.
 
 Examples:
-  bun devices reserve --target=pixel-8-09yw
-  bun devices reserve --target=pixel-8-09yw --minutes=120
+  bun devices reserve --target=pixel-8-09yw --goal="Proof video for tag swipes"
+  bun devices reserve --target=pixel-8-09yw --goal="e2e run" --minutes=120
 
 Errors:
-  missing_option    --target not passed
+  missing_option    --target or --goal not passed
+  invalid_goal      --goal is empty or too long
   invalid_value     --minutes is not a whole number of 1 or more
   target_not_found  No connected phone has this target
   device_reserved   Another checkout reserved this phone

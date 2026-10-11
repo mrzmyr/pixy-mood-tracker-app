@@ -4,6 +4,7 @@ import type { TextStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 import noop from "lodash/noop";
+import { RADIUS } from "@/constants/Radius";
 
 const TextAreaComponent = (
   {
@@ -55,7 +56,7 @@ const TextAreaComponent = (
         fontSize: 17,
         height: "100%",
         width: "100%",
-        borderRadius: 8,
+        borderRadius: RADIUS.sm,
         ...style,
       }}
     />
