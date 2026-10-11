@@ -104,6 +104,18 @@ export const LogLocationSchema = z.object({
 /** Place stored on a log entry. */
 export type LogLocation = z.infer<typeof LogLocationSchema>;
 
+/** Bleeding levels with HealthKit counterparts; missing means not logged. */
+export const MenstruationFlowSchema = z.enum([
+  "none",
+  "spotting",
+  "light",
+  "medium",
+  "heavy",
+]);
+
+/** One explicitly logged daily bleeding level. */
+export type MenstruationFlow = z.infer<typeof MenstruationFlowSchema>;
+
 /**
  * Shape of a persisted log entry.
  *
@@ -126,6 +138,7 @@ export const LogItemSchema = z.object({
   sleep: z.object({
     quality: z.enum(["very_good", "good", "neutral", "bad", "very_bad"]),
   }),
+  menstruation: z.object({ flow: MenstruationFlowSchema }).optional(),
   message: z.string(),
   createdAt: z.string().refine((value) => isISODate(value)),
   tags: z.array(TagReferenceSchema),

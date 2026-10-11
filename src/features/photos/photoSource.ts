@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import noop from "lodash/noop";
 import * as ImagePicker from "expo-image-picker";
-import * as MediaLibrary from "expo-media-library";
+import type * as MediaLibrary from "expo-media-library";
+import { createStructuredError } from "@/lib/errors";
 import { Platform } from "react-native";
 
 /** Most photos {@link PhotoSource.listPhotosOnDate} returns. */
@@ -107,6 +108,12 @@ export const getDayBounds = ({ date }: { date: string }) => {
 // https://support.google.com/googleplay/android-developer/answer/14115180
 const IS_LIBRARY_SUPPORTED = Platform.OS === "ios";
 
+/** The SDK's native Query module cannot load on web. */
+// SAFETY: require returns this installed SDK's exports; type-only import keeps web startup native-free.
+const loadMediaLibrary = (): typeof MediaLibrary =>
+  // oxlint-disable-next-line typescript/no-require-imports -- library is loaded only inside supported native operations.
+  require("expo-media-library") as typeof MediaLibrary;
+
 const toLibraryPermission = (
   response: MediaLibrary.PermissionResponse
 ): LibraryPermission => {
@@ -144,30 +151,39 @@ const systemPhotoSource: PhotoSource = {
         exif: false,
       })
     ),
-  getLibraryPermission: async () =>
-    IS_LIBRARY_SUPPORTED
-      ? toLibraryPermission(await MediaLibrary.getPermissionsAsync(false))
-      : "unavailable",
-  requestLibraryPermission: async () =>
-    IS_LIBRARY_SUPPORTED
-      ? toLibraryPermission(await MediaLibrary.requestPermissionsAsync(false))
-      : "unavailable",
+  getLibraryPermission: async () => {
+    if (!IS_LIBRARY_SUPPORTED) {
+      return "unavailable";
+    }
+    return toLibraryPermission(
+      await loadMediaLibrary().getPermissionsAsync(false)
+    );
+  },
+  requestLibraryPermission: async () => {
+    if (!IS_LIBRARY_SUPPORTED) {
+      return "unavailable";
+    }
+    return toLibraryPermission(
+      await loadMediaLibrary().requestPermissionsAsync(false)
+    );
+  },
   manageLibraryAccess: async () => {
     if (IS_LIBRARY_SUPPORTED) {
-      await MediaLibrary.presentPermissionsPicker(["photo"]);
+      await loadMediaLibrary().presentPermissionsPicker(["photo"]);
     }
   },
   addLibraryListener: (listener) => {
     if (!IS_LIBRARY_SUPPORTED) {
       return noop;
     }
-    const subscription = MediaLibrary.addListener(listener);
+    const subscription = loadMediaLibrary().addListener(listener);
     return () => subscription.remove();
   },
   listPhotosOnDate: async ({ date }) => {
     if (!IS_LIBRARY_SUPPORTED) {
       return [];
     }
+    const MediaLibrary = loadMediaLibrary();
     const { start, end } = getDayBounds({ date });
     const assets = await new MediaLibrary.Query()
       .eq(MediaLibrary.AssetField.MEDIA_TYPE, MediaLibrary.MediaType.IMAGE)
@@ -183,7 +199,18 @@ const systemPhotoSource: PhotoSource = {
     // `content://` on Android.
     return assets.map(({ id }) => ({ id, uri: id }));
   },
-  getLibraryPhotoUri: ({ photo }) => new MediaLibrary.Asset(photo.id).getUri(),
+  getLibraryPhotoUri: ({ photo }) => {
+    if (!IS_LIBRARY_SUPPORTED) {
+      throw createStructuredError({
+        status: "photo_library_unavailable",
+        message: "Library photo could not be opened",
+        why: "This platform does not support direct photo library access",
+        fix: "Add the photo through the system photo picker",
+      });
+    }
+    const MediaLibrary = loadMediaLibrary();
+    return new MediaLibrary.Asset(photo.id).getUri();
+  },
 };
 
 let override: PhotoSource | null = null;

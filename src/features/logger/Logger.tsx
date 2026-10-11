@@ -37,6 +37,7 @@ import FlagHighlight from "@/components/FlagHighlight";
 import { SlidePhotos } from "./slides/SlidePhotos";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlidePeople } from "./slides/SlidePeople";
+import { SlideMenstruation } from "./slides/SlideMenstruation";
 import { SlideSleep } from "./slides/SlideSleep";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
@@ -49,6 +50,7 @@ import {
   getAvailableStepsForEdit,
   getRatingActionType,
   hasSleepOnDate,
+  hasMenstruationOnDate,
 } from "./steps";
 
 /** Whether the logger creates a new entry or edits an existing one. */
@@ -58,6 +60,7 @@ export type LoggerMode = "create" | "edit";
 const SLIDE_ORDER: LoggerStep[] = [
   "rating",
   "sleep",
+  "menstruation",
   "emotions",
   "tags",
   "people",
@@ -182,7 +185,8 @@ const LoggerSlides = ({
 
   const logState = useLogState();
 
-  const { toggleStep } = useSettings();
+  const { toggleStep, hasStep } = useSettings();
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const analytics = useAnalytics();
 
   const { draft } = useLogDraft();
@@ -206,27 +210,50 @@ const LoggerSlides = ({
   // taller slide height, and slide bottoms end up under the home indicator.
   const [carouselHeight, setCarouselHeight] = useState<number>();
 
-  const slideKeys = SLIDE_ORDER.filter(
-    (key) =>
+  const slideKeys = SLIDE_ORDER.filter((key) => {
+    if (key === "menstruation") {
+      if (!isMenstruationEnabled) {
+        return false;
+      }
+      if (mode === "edit") {
+        return avaliableSteps.includes(key);
+      }
+      return (
+        hasStep(key) &&
+        (draft.menstruation !== undefined ||
+          !hasMenstruationOnDate(logState.items, toLogDate(draft.dateTime)))
+      );
+    }
+    return (
       key === "rating" ||
       (avaliableSteps.includes(key) && (key !== "feedback" || !!question))
-  );
+    );
+  });
 
-  const next = () => {
-    if (slideIndex + 1 === slideKeys.length - 1) {
+  const advance = (nextIndex: number) => {
+    if (nextIndex === slideKeys.length - 1) {
       Keyboard.dismiss();
     }
 
-    if (slideIndex + 1 === slideKeys.length) {
+    if (nextIndex === slideKeys.length) {
       save();
     } else if (_carousel.current) {
-      _carousel.current.next();
+      _carousel.current.scrollTo({ index: nextIndex, animated: true });
     }
   };
 
+  const next = () => advance(slideIndex + 1);
+
   // Shared by the optional slides: confirm, turn the step off, move on.
   const disableStep = async (
-    step: "sleep" | "emotions" | "tags" | "people" | "message" | "photos"
+    step:
+      | "menstruation"
+      | "sleep"
+      | "emotions"
+      | "tags"
+      | "people"
+      | "message"
+      | "photos"
   ) => {
     if (!(await isConfirmed(askToDisableStep()))) {
       return;
@@ -282,6 +309,21 @@ const LoggerSlides = ({
           onDisableStep={() => disableStep("sleep")}
           showDisable={showDisable}
         />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("menstruation")) {
+    content.push({
+      key: "menstruation",
+      slide: (
+        <FlagHighlight flag="menstruation" pillOnly style={{ flex: 1 }}>
+          <SlideMenstruation
+            onSelect={() => advance(slideKeys.indexOf("menstruation") + 1)}
+            onDisableStep={() => disableStep("menstruation")}
+            showDisable={showDisable}
+          />
+        </FlagHighlight>
       ),
     });
   }
@@ -406,7 +448,7 @@ const LoggerSlides = ({
             itemSize={Dimensions.get("window").width}
             style={carouselHeight ? { height: carouselHeight } : undefined}
             ref={_carousel}
-            data={content}
+            data={slideKeys}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
             onProgressChange={(progress) => {
               if (isMounted.current) {
@@ -462,6 +504,7 @@ export const LoggerEdit = ({
   const { hasStep } = useSettings();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const initialItem = logState?.items.find((item) => item.id === id);
 
   if (initialItem === undefined) {
@@ -478,6 +521,7 @@ export const LoggerEdit = ({
     hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(initialItem)),
     hasPeople,
     isPhotosEnabled,
+    isMenstruationEnabled,
   });
 
   return (
@@ -516,6 +560,7 @@ export const LoggerCreate = ({
   const { hasStep, settings } = useSettings();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const logState = useLogState();
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
@@ -546,6 +591,11 @@ export const LoggerCreate = ({
       itemsCount: logState.items.length,
       hasSleepOnDay: hasSleepOnDate(logState.items, initialItem.date),
       isPhotosEnabled,
+      isMenstruationEnabled,
+      hasMenstruationOnDay: hasMenstruationOnDate(
+        logState.items,
+        initialItem.date
+      ),
     });
 
   if (saved !== null) {

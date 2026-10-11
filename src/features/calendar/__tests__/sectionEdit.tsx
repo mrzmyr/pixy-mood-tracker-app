@@ -100,3 +100,18 @@ describe("day view section pencils", () => {
     expect(screen.queryByTestId("log-list-tags-edit")).toBeNull();
   });
 });
+
+test("flag off keeps stored menstruation visible and read-only", async () => {
+  await renderEntry({
+    steps: ["rating", "menstruation"],
+    item: { menstruation: { flow: "none" } },
+  });
+  await waitFor(() =>
+    expect(screen.getByTestId("log-list-menstruation")).toHaveTextContent(
+      "Menstruation: None"
+    )
+  );
+  expect(
+    screen.getByTestId("log-list-menstruation").props.accessibilityRole
+  ).toBe("text");
+});

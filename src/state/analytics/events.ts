@@ -42,6 +42,7 @@ export interface AnalyticsEvents {
     mode: "create" | "edit";
     duration_ms: number;
     has_rating: boolean;
+    has_menstruation: boolean;
     message_length: number;
     tags_count: number;
     people_count: number;

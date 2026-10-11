@@ -14,6 +14,7 @@ export const FEATURE_FLAGS = [
   "interventions",
   "ios-widget",
   "location",
+  "menstruation",
   "people",
   "photos",
   "support-pixy",
@@ -74,6 +75,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   location: {
     description: "Place of the check-in",
     location: "Settings > Check-in",
+  },
+  menstruation: {
+    description: "Daily menstruation flow check-in",
+    location: "Check-in, Settings > Check-in",
   },
   people: {
     description: "People step and people on entries",

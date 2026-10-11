@@ -1,0 +1,385 @@
+appId: ${APP_ID}
+tags: [p1, menstruation]
+---
+# Daily ownership, explicit none, skip, every flow, deselect, flag off,
+# preserved exports/imports, deletion, and persistence after restart.
+- launchApp
+- extendedWaitUntil:
+    visible: "Start"
+    timeout: 15000
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: menstruation
+- runFlow: ../subflows/open-settings.yaml
+- tapOn: "Check-in"
+- assertNotVisible:
+    id: "step-menstruation-enabled"
+- waitForAnimationToEnd
+- takeScreenshot: menstruation-settings-flag-off
+- back
+- back
+- runFlow:
+    file: ../subflows/enable-feature-flag.yaml
+    env:
+      FLAG: menstruation
+- runFlow: ../subflows/open-settings.yaml
+- scrollUntilVisible:
+    element:
+      id: "theme"
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: "theme"
+- scrollUntilVisible:
+    element:
+      text: "Check-in"
+    direction: UP
+    timeout: 10000
+- tapOn: "Check-in"
+- assertVisible:
+    id: "step-menstruation-enabled"
+- tapOn:
+    id: "step-menstruation-enabled"
+- waitForAnimationToEnd
+- takeScreenshot: menstruation-settings-light
+- back
+- back
+
+# Skip stores no flow. Later create on the same day still offers it.
+- tapOn: "Add another entry for today"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- assertVisible:
+    id: "slide-menstruation"
+- tapOn:
+    id: "logger-next"
+- tapOn:
+    id: "log-message"
+- inputText: "Skipped flow"
+- tapOn:
+    id: "logger-save"
+- runFlow: ../subflows/close-confirmation.yaml
+- tapOn: "Add another entry for today"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- assertVisible:
+    id: "slide-menstruation"
+- waitForAnimationToEnd
+- takeScreenshot: menstruation-slide-light
+- tapOn:
+    id: "menstruation-flow-none"
+- assertVisible:
+    id: "log-message"
+- tapOn:
+    id: "log-message"
+- inputText: "Daily flow"
+- tapOn:
+    id: "logger-save"
+- runFlow: ../subflows/close-confirmation.yaml
+- tapOn:
+    id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      id: "log-list-menstruation"
+    direction: DOWN
+    timeout: 10000
+- assertVisible: "Menstruation: None"
+- waitForAnimationToEnd
+- takeScreenshot: menstruation-day-none-light
+
+# Existing entry without flow cannot acquire it through edit.
+- scrollUntilVisible:
+    element:
+      text: "Not logged"
+    direction: UP
+    timeout: 10000
+- tapOn:
+    id: "log-list-menu"
+    index: 0
+- tapOn: "Edit"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+# Fixture entry retains its existing Sleep value, even with Sleep disabled.
+- tapOn:
+    id: "logger-next"
+- assertVisible:
+    id: "log-message"
+- assertNotVisible:
+    id: "slide-menstruation"
+- tapOn:
+    id: "logger-close"
+- tapOn: "Discard Changes"
+- tapOn:
+    id: "log-list-close"
+
+# Explicit none occupies the day, so create skips the step.
+- tapOn: "Add another entry for today"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- assertVisible:
+    id: "log-message"
+- assertNotVisible:
+    id: "slide-menstruation"
+- tapOn:
+    id: "logger-close"
+- tapOn: "Discard Changes"
+- tapOn:
+    id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      id: "log-list-menstruation"
+    direction: DOWN
+    timeout: 10000
+
+# Only the holding entry offers edit. All five choices replace the value.
+- tapOn:
+    id: "log-list-menstruation"
+- assertVisible:
+    id: "slide-menstruation"
+- tapOn:
+    id: "menstruation-flow-spotting"
+- tapOn:
+    id: "logger-save"
+- assertVisible: "Menstruation: Spotting"
+- tapOn:
+    id: "log-list-menstruation"
+- tapOn:
+    id: "menstruation-flow-light"
+- tapOn:
+    id: "logger-save"
+- assertVisible: "Menstruation: Light"
+- waitForAnimationToEnd
+- takeScreenshot: menstruation-day-light
+- tapOn:
+    id: "log-list-menstruation"
+- tapOn:
+    id: "menstruation-flow-medium"
+- tapOn:
+    id: "logger-save"
+- assertVisible: "Menstruation: Medium"
+- tapOn:
+    id: "log-list-menstruation"
+- tapOn:
+    id: "menstruation-flow-heavy"
+- tapOn:
+    id: "logger-save"
+- assertVisible: "Menstruation: Heavy"
+- tapOn:
+    id: "log-list-close"
+
+# Disabled check-in step still lets the holding entry edit its value.
+- runFlow: ../subflows/open-settings.yaml
+- tapOn: "Check-in"
+- tapOn:
+    id: "step-menstruation-enabled"
+- back
+- back
+- tapOn:
+    id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      id: "log-list-menstruation"
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: "log-list-menstruation"
+- assertVisible:
+    id: "slide-menstruation"
+- tapOn:
+    id: "logger-close"
+- assertVisible: "Menstruation: Heavy"
+- tapOn:
+    id: "log-list-close"
+- runFlow: ../subflows/open-settings.yaml
+- tapOn: "Check-in"
+- tapOn:
+    id: "step-menstruation-enabled"
+- back
+- back
+
+# Daily value hides create step, even for explicit none.
+- tapOn: "Add another entry for today"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- assertVisible:
+    id: "log-message"
+- assertNotVisible:
+    id: "slide-menstruation"
+- tapOn:
+    id: "logger-close"
+- tapOn:
+    text: "Discard Changes"
+    optional: true
+- tapOn:
+    id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      id: "log-list-menstruation"
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: "log-list-menstruation"
+# Tap selected Heavy: deselect, stay on slide, save without flow.
+- tapOn:
+    id: "menstruation-flow-heavy"
+- assertVisible:
+    id: "slide-menstruation"
+- tapOn:
+    id: "logger-next"
+- tapOn:
+    id: "logger-save"
+- assertNotVisible:
+    id: "log-list-menstruation"
+- tapOn:
+    id: "log-list-close"
+
+# Removing the value permits recording it on a new entry.
+- tapOn: "Add another entry for today"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- assertVisible:
+    id: "slide-menstruation"
+- tapOn:
+    id: "menstruation-flow-light"
+- tapOn:
+    id: "logger-save"
+- runFlow: ../subflows/close-confirmation.yaml
+
+# Dark settings, stored row, and slide. Cancel preserves the saved flow.
+- runFlow: ../subflows/open-settings.yaml
+- scrollUntilVisible:
+    element:
+      id: "theme"
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: "theme"
+- scrollUntilVisible:
+    element:
+      text: "Check-in"
+    direction: UP
+    timeout: 10000
+- tapOn: "Check-in"
+- waitForAnimationToEnd
+- takeScreenshot: menstruation-settings-dark
+- back
+- back
+- tapOn:
+    id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      id: "log-list-menstruation"
+    direction: DOWN
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: menstruation-day-dark
+- tapOn:
+    id: "log-list-menstruation"
+- waitForAnimationToEnd
+- takeScreenshot: menstruation-slide-dark
+- tapOn:
+    id: "menstruation-flow-heavy"
+- tapOn:
+    id: "logger-close"
+- tapOn: "Discard Changes"
+- assertVisible: "Menstruation: Light"
+- tapOn:
+    id: "log-list-close"
+
+# Flag off hides settings + recording, but stored row remains.
+- openLink: ${APP_SCHEME}://dev/feature-flag?key=menstruation&value=off
+- waitForAnimationToEnd
+- tapOn:
+    id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      id: "log-list-menstruation"
+    direction: DOWN
+    timeout: 10000
+- assertVisible: "Menstruation: Light"
+- tapOn:
+    id: "log-list-close"
+- runFlow: ../subflows/open-settings.yaml
+- tapOn: "Check-in"
+- assertNotVisible:
+    id: "step-menstruation-enabled"
+- back
+- back
+
+# JSON round trip with flag off retains the daily flow.
+- openLink: ${APP_SCHEME}://dev/fake-files
+- waitForAnimationToEnd
+- runFlow: ../subflows/open-settings.yaml
+- tapOn:
+    id: "data"
+- tapOn:
+    id: "export-json"
+- tapOn: "Import"
+- tapOn:
+    text: "Import"
+    below: "Are you sure you want to import data?.*"
+- assertVisible: "Import successful"
+- back
+- back
+- tapOn:
+    id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      id: "log-list-menstruation"
+    direction: DOWN
+    timeout: 10000
+- assertVisible: "Menstruation: Light"
+- tapOn:
+    id: "log-list-close"
+- stopApp
+- launchApp
+- tapOn:
+    id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      id: "log-list-menstruation"
+    direction: DOWN
+    timeout: 10000
+- assertVisible: "Menstruation: Light"
+
+# Delete the holding entry. Create offers the step again.
+- tapOn:
+    id: "log-list-close"
+- runFlow:
+    file: ../subflows/enable-feature-flag.yaml
+    env:
+      FLAG: menstruation
+- tapOn:
+    id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      id: "log-list-menstruation"
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: "log-list-menstruation"
+- tapOn:
+    id: "logger-delete"
+- tapOn:
+    text: "Delete"
+    below: "Are you sure you want to delete this entry?"
+- assertNotVisible:
+    id: "log-list-menstruation"
+- tapOn:
+    id: "log-list-close"
+- tapOn: "Add another entry for today"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- assertVisible:
+    id: "slide-menstruation"
+- tapOn:
+    id: "logger-close"
+- tapOn: "Discard Changes"

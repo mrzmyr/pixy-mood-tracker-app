@@ -11,6 +11,7 @@ const HEADERS = [
   "tags",
   "note",
   "sleep_quality",
+  "menstruation_flow",
 ];
 
 const escapeCell = (value: string) => {
@@ -47,6 +48,7 @@ export const createCsv = ({
       item.tags.map((tag) => tagNames.get(tag.id) ?? tag.id).join("; "),
       item.message ?? "",
       item.sleep?.quality ?? "",
+      item.menstruation?.flow ?? "",
     ]
       .map(escapeCell)
       .join(",")

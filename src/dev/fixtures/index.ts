@@ -6,6 +6,7 @@ import legacy168 from "@/dev/fixtures/legacy-1.68.json";
 import legacy181 from "@/dev/fixtures/legacy-1.81.1.json";
 import seed from "@/dev/fixtures/seed.json";
 import year from "@/dev/fixtures/year.json";
+import { withMenstruation } from "@/dev/fixtures/menstruation";
 import { withTimeline } from "@/dev/fixtures/timeline";
 import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
@@ -106,6 +107,13 @@ export const FIXTURES: Fixture[] = [
     title: "E2E seed",
     description: "15 entries on fixed dates, including 2023-09-24.",
     data: asExport(seed),
+  },
+  {
+    id: "menstruation",
+    title: "Menstruation",
+    description: "Every daily flow and one day without a value. Step off.",
+    endsToday: true,
+    data: withMenstruation(asExport(empty)),
   },
   {
     id: "year",
