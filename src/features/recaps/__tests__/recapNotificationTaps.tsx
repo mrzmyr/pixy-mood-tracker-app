@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
 import { act, waitFor } from "@testing-library/react-native";
 import { DEFAULT_ACTION_IDENTIFIER } from "expo-notifications";
@@ -154,15 +154,36 @@ describe("useRecapNotificationTaps()", () => {
     expect(tappedCalls()).toHaveLength(1);
   });
 
-  test("does nothing while flag recaps is off", async () => {
+  test("opens the recap route also while flag recaps is off", async () => {
     const { source, tap } = createSource();
     const screen = await renderApp({ source, recaps: false });
 
     await tap(createResponse());
 
+    // The real route redirects to Settings while the flag is off.
+    await waitFor(() =>
+      expect(screen.getByTestId("recap-route").props.children).toBe(
+        "month 2026-09-30"
+      )
+    );
+  });
+
+  test("a second tap on the recap on screen adds no copy to history", async () => {
+    const { source, tap } = createSource();
+    const screen = await renderApp({ source, recaps: true });
+
+    await tap(createResponse());
+    await waitFor(() => screen.getByTestId("recap-route"));
+    await tap({
+      ...createResponse(),
+      notification: { ...createResponse().notification, date: Date.now() + 1 },
+    });
+
+    await waitFor(() => expect(tappedCalls()).toHaveLength(2));
+    await act(() => {
+      router.back();
+    });
     expect(screen.getByTestId("home")).toBeTruthy();
-    expect(screen.queryByTestId("recap-route")).toBeNull();
-    expect(tappedCalls()).toHaveLength(0);
   });
 
   test("ignores dismisses and reminder taps", async () => {

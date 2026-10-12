@@ -5,10 +5,21 @@ import type { LogItem } from "@/features/logs";
 import { parseReminderTime } from "./reminderTime";
 
 /**
- * Days ahead that get a reminder, today included. iOS keeps at most 64
- * pending local notifications per app, the soonest first. Recap
- * notifications add up to 8, so the latest reminders or recaps can drop
- * until the next daily reschedule.
+ * Pending local notifications iOS keeps per app. It drops the latest ones
+ * beyond this limit.
+ */
+export const IOS_SCHEDULED_LIMIT = 64;
+
+/**
+ * Most recap notifications scheduled at once (`getRecapNotifications`
+ * defaults). `REMINDER_DAYS + RECAP_NOTIFICATION_SLOTS <= IOS_SCHEDULED_LIMIT`.
+ */
+export const RECAP_NOTIFICATION_SLOTS = 4;
+
+/**
+ * Days ahead that get a reminder, today included. Leaves
+ * `RECAP_NOTIFICATION_SLOTS` of `IOS_SCHEDULED_LIMIT` for recaps. The app
+ * reschedules on each new day, so the schedule stays ahead.
  */
 export const REMINDER_DAYS = 60;
 

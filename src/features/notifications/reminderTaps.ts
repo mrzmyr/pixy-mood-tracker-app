@@ -64,7 +64,7 @@ export const isReminderTap = (response: NotificationResponse): boolean => {
 };
 
 /** One key per delivery: daily repeats share the identifier, not the date. */
-const getDeliveryKey = (response: NotificationResponse) =>
+export const getDeliveryKey = (response: NotificationResponse) =>
   `${response.notification.request.identifier}:${response.notification.date}`;
 
 /** Event properties for one reminder tap. No notification text. */

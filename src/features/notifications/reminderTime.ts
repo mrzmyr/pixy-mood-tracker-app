@@ -3,6 +3,7 @@ import { getLocale } from "@/lib/translation";
 
 /** Stored reminder time format. */
 const REMINDER_TIME_FORMAT = "HH:mm";
+const REMINDER_TIME_PATTERN = /^\d{1,2}:\d{2}$/u;
 
 /**
  * Today's date at a stored reminder time (`HH:mm`), for the time picker.
@@ -18,8 +19,14 @@ export const toReminderTime = (time: Date | string): string =>
     REMINDER_TIME_FORMAT
   );
 
-/** Hour and minute of a stored reminder time (`HH:mm`). */
+/**
+ * Hour and minute of a stored reminder time (`HH:mm`). Both are `NaN` for
+ * a time that is not `HH:mm`.
+ */
 export const parseReminderTime = (time: string) => {
+  if (!REMINDER_TIME_PATTERN.test(time)) {
+    return { hour: Number.NaN, minute: Number.NaN };
+  }
   const date = reminderTimeToDate(time);
   return { hour: date.getHours(), minute: date.getMinutes() };
 };

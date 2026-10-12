@@ -5,6 +5,7 @@ export type { ReminderResult } from "./useReminder";
 export { useReminderSync } from "./reminderSync";
 export {
   defaultNotificationResponseSource,
+  getDeliveryKey,
   useReminderTapTracking,
 } from "./reminderTaps";
 export type { NotificationResponseSource } from "./reminderTaps";
@@ -18,5 +19,10 @@ export type {
   RecapNotificationScheduler,
 } from "./reminderScheduler";
 export { useNotificationPermissionDenied } from "./useNotificationPermissionDenied";
-export { reminderTimeToDate } from "./reminderTime";
+export { parseReminderTime, reminderTimeToDate } from "./reminderTime";
+export {
+  IOS_SCHEDULED_LIMIT,
+  RECAP_NOTIFICATION_SLOTS,
+  REMINDER_DAYS,
+} from "./reminderDates";
 export { default as NotificationPreview } from "./components/NotificationPreview";

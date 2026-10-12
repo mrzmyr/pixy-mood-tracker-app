@@ -5,6 +5,7 @@ import { useEffect, useEffectEvent, useLayoutEffect, useRef } from "react";
 import { z } from "zod";
 import {
   defaultNotificationResponseSource,
+  getDeliveryKey,
   RECAP_NOTIFICATION_TYPE,
 } from "@/features/notifications";
 import type { NotificationResponseSource } from "@/features/notifications";
@@ -42,18 +43,16 @@ export const getRecapTap = (
   return data ? { kind: data.kind, date: data.date } : null;
 };
 
-/** One key per delivery. */
-const getDeliveryKey = (response: NotificationResponse) =>
-  `${response.notification.request.identifier}:${response.notification.date}`;
-
 /**
  * Opens the recap of the period on a tap on a recap notification, and sends
  * `recaps:notification_tapped`.
  *
  * - Cold start: the response that launched the app
  * - Warm start: taps while the app runs or sits in background
- * - Waits for stored settings, flags, and navigation
- * - Does nothing while flag `recaps` is off
+ * - Waits for stored settings, flags, and navigation: the recap route
+ *   redirects while flag `recaps` still loads
+ * - Opens the route also while flag `recaps` is off; its gate redirects
+ * - Navigates, so a tap on the recap already on screen adds no copy
  */
 export const useRecapNotificationTaps = (
   source: NotificationResponseSource = defaultNotificationResponseSource
@@ -72,15 +71,12 @@ export const useRecapNotificationTaps = (
     }
     const taps = pending.current;
     pending.current = [];
-    if (flag === "off") {
-      return;
-    }
     for (const { kind } of taps) {
       analytics.track("recaps:notification_tapped", { period: kind });
     }
     const last = taps.at(-1);
     if (last) {
-      router.push(`/recaps/${last.kind}/${last.date}`);
+      router.navigate(`/recaps/${last.kind}/${last.date}`);
     }
   });
 

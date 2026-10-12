@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import { DATE_FORMAT } from "@/constants/Config";
+import { parseReminderTime } from "@/features/notifications";
 import { getPeriod, shiftPeriod } from "./period";
 import type { DateKey } from "./types";
 
@@ -14,8 +16,6 @@ export interface RecapNotification {
   at: Date;
 }
 
-const FORMAT = "YYYY-MM-DD";
-
 /** Bigger periods win when several end on the same day. */
 const RANK: Record<RecapNotificationKind, number> = {
   week: 0,
@@ -23,33 +23,37 @@ const RANK: Record<RecapNotificationKind, number> = {
   year: 2,
 };
 
-const atReminderTime = (date: DateKey, reminderTime: string): Date => {
-  const [hour, minute] = reminderTime.split(":").map(Number);
-  return dayjs(date)
-    .hour(hour)
-    .minute(minute)
-    .second(0)
-    .millisecond(0)
-    .toDate();
-};
+interface Time {
+  hour: number;
+  minute: number;
+}
+
+const atTime = (date: DateKey, { hour, minute }: Time): Date =>
+  dayjs(date).hour(hour).minute(minute).second(0).millisecond(0).toDate();
 
 const getUpcoming = ({
   kind,
   count,
   now,
   weekLocale,
-  reminderTime,
+  time,
 }: {
   kind: RecapNotificationKind;
   count: number;
   now: Date;
   weekLocale: string;
-  reminderTime: string;
+  time: Time;
 }): RecapNotification[] => {
   const notifications: RecapNotification[] = [];
-  let period = getPeriod(kind, dayjs(now).format(FORMAT), weekLocale);
-  while (notifications.length < count) {
-    const at = atReminderTime(period.end, reminderTime);
+  let period = getPeriod(kind, dayjs(now).format(DATE_FORMAT), weekLocale);
+  // At most one period ends before `now`; the cap only guards against a
+  // bad date so the loop can never spin.
+  for (
+    let step = 0;
+    notifications.length < count && step < count * 4;
+    step += 1
+  ) {
+    const at = atTime(period.end, time);
     if (at > now) {
       notifications.push({ kind, periodEnd: period.end, at });
     }
@@ -66,8 +70,10 @@ const getUpcoming = ({
  * - Includes the current period while its time is after `now`
  * - One notification per day: when periods end on the same day, the
  *   biggest wins (year over month over week)
- * - Defaults keep reminders (60) plus recaps within the 64 notifications
- *   iOS keeps scheduled; the app reschedules on each new day
+ * - Defaults stay within `RECAP_NOTIFICATION_SLOTS`, so reminders plus
+ *   recaps fit the 64 notifications iOS keeps; the app reschedules on each
+ *   new day
+ * - None for a `reminderTime` that is not `HH:mm`
  * - Sorted by time
  */
 export const getRecapNotifications = ({
@@ -85,27 +91,33 @@ export const getRecapNotifications = ({
   months?: number;
   years?: number;
 }): RecapNotification[] => {
+  const time = parseReminderTime(reminderTime);
+  // Settings store `HH:mm`. A bad stored time schedules nothing; no error
+  // report, since every sync would send the same one again.
+  if (Number.isNaN(time.hour) || Number.isNaN(time.minute)) {
+    return [];
+  }
   const all = [
     ...getUpcoming({
       kind: "week",
       count: weeks,
       now,
       weekLocale,
-      reminderTime,
+      time,
     }),
     ...getUpcoming({
       kind: "month",
       count: months,
       now,
       weekLocale,
-      reminderTime,
+      time,
     }),
     ...getUpcoming({
       kind: "year",
       count: years,
       now,
       weekLocale,
-      reminderTime,
+      time,
     }),
   ];
   const byDay = new Map<DateKey, RecapNotification>();

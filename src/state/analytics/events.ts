@@ -258,7 +258,8 @@ export interface AnalyticsEvents {
   /** Recaps toggle in Settings > Reminder. Denied permission keeps it off. */
   "reminders:recaps_toggled": {
     enabled: boolean;
-    permission_granted: boolean;
+    /** Only when turning on: turning off never checks permission. */
+    permission_granted?: boolean;
   };
   "reminders:notification_opened": {
     /** App launched from the tap, not resumed from background. */

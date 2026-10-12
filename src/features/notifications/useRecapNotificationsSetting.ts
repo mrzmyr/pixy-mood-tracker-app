@@ -2,13 +2,19 @@ import { useSettings } from "@/state/settings";
 import { defaultReminderScheduler } from "./reminderScheduler";
 import type { ReminderScheduler } from "./reminderScheduler";
 
+/** Outcome of `setEnabled`. */
+export interface RecapNotificationsSettingResult {
+  /** Notification permission; only checked when turning on. */
+  permissionGranted?: boolean;
+}
+
 /**
  * Stored `recapNotificationsEnabled` setting. The recaps feature schedules
  * the notifications (`useRecapNotificationSync`).
  *
  * - `setEnabled(true)`: ask permission. Denied permission keeps it off
- * - `setEnabled(false)`: save off
- * - Resolves whether notification permission is granted
+ * - `setEnabled(false)`: save off. Never touches permission, so no system
+ *   prompt or alert appears
  */
 export const useRecapNotificationsSetting = (
   scheduler: Pick<
@@ -18,16 +24,25 @@ export const useRecapNotificationsSetting = (
 ) => {
   const { settings, setSettings } = useSettings();
 
-  const setEnabled = async (value: boolean) => {
-    const permissionGranted = value
-      ? (await scheduler.hasPermission()) ||
-        (await scheduler.requestPermission())
-      : await scheduler.hasPermission();
-    if (!value || permissionGranted) {
-      setSettings((current) => ({
-        ...current,
-        recapNotificationsEnabled: value,
-      }));
+  const save = (value: boolean) => {
+    setSettings((current) => ({
+      ...current,
+      recapNotificationsEnabled: value,
+    }));
+  };
+
+  const setEnabled = async (
+    value: boolean
+  ): Promise<RecapNotificationsSettingResult> => {
+    if (!value) {
+      save(false);
+      return {};
+    }
+    const permissionGranted =
+      (await scheduler.hasPermission()) ||
+      (await scheduler.requestPermission());
+    if (permissionGranted) {
+      save(true);
     }
     return { permissionGranted };
   };

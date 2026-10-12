@@ -26,6 +26,7 @@ const FLAGS = {
   on: { flags: { recaps: true }, isLoading: false },
   off: { flags: { recaps: false }, isLoading: false },
   loading: { flags: null, isLoading: true },
+  failed: { flags: {}, isLoading: false, hasLoadFailed: true },
 };
 
 /** In-memory scheduler. */
@@ -49,7 +50,7 @@ const renderSync = async ({
   flag,
 }: {
   settings: Partial<typeof INITIAL_STATE>;
-  flag: "on" | "off" | "loading";
+  flag: keyof typeof FLAGS;
 }) => {
   await AsyncStorage.setItem(
     STORAGE_KEY,
@@ -167,5 +168,39 @@ describe("useRecapNotificationSync()", () => {
     });
     await act(() => jest.advanceTimersByTimeAsync(100));
     expect(state.requests).toBeNull();
+  });
+
+  test("keeps the schedule when the flag request failed", async () => {
+    const { hook, state } = await renderSync({
+      settings: { recapNotificationsEnabled: true },
+      flag: "failed",
+    });
+
+    await waitFor(() => {
+      expect(hook.result.current.load.status).toBe("ready");
+    });
+    await act(() => jest.advanceTimersByTimeAsync(100));
+    expect(state.requests).toBeNull();
+  });
+
+  test("cancels after a failed flag request once Recaps is turned off", async () => {
+    const { hook, state } = await renderSync({
+      settings: { recapNotificationsEnabled: true },
+      flag: "failed",
+    });
+    await waitFor(() => {
+      expect(hook.result.current.load.status).toBe("ready");
+    });
+
+    await act(() => {
+      hook.result.current.setSettings((current) => ({
+        ...current,
+        recapNotificationsEnabled: false,
+      }));
+    });
+
+    await waitFor(() => {
+      expect(state.requests).toEqual([]);
+    });
   });
 });

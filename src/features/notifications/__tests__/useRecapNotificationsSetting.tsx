@@ -7,6 +7,7 @@ import {
   useSettingsLoad,
 } from "@/state/settings";
 import { useRecapNotificationsSetting } from "../useRecapNotificationsSetting";
+import type { RecapNotificationsSettingResult } from "../useRecapNotificationsSetting";
 
 const createPermission = ({
   granted = false,
@@ -49,7 +50,7 @@ describe("useRecapNotificationsSetting()", () => {
   test("turns on after permission is granted", async () => {
     const hook = await renderSetting(createPermission({}));
 
-    let result = { permissionGranted: false };
+    let result: RecapNotificationsSettingResult = {};
     await act(async () => {
       result = await hook.result.current.recaps.setEnabled(true);
     });
@@ -63,7 +64,7 @@ describe("useRecapNotificationsSetting()", () => {
       createPermission({ grantOnRequest: false })
     );
 
-    let result = { permissionGranted: true };
+    let result: RecapNotificationsSettingResult = {};
     await act(async () => {
       result = await hook.result.current.recaps.setEnabled(true);
     });
@@ -78,6 +79,7 @@ describe("useRecapNotificationsSetting()", () => {
       JSON.stringify({ ...INITIAL_STATE, recapNotificationsEnabled: true })
     );
     const permission = createPermission({ granted: true });
+    const hasPermission = jest.spyOn(permission, "hasPermission");
     const requestPermission = jest.spyOn(permission, "requestPermission");
     const hook = await renderSetting(permission);
 
@@ -86,6 +88,7 @@ describe("useRecapNotificationsSetting()", () => {
     });
 
     expect(hook.result.current.recaps.enabled).toBe(false);
+    expect(hasPermission).not.toHaveBeenCalled();
     expect(requestPermission).not.toHaveBeenCalled();
   });
 });

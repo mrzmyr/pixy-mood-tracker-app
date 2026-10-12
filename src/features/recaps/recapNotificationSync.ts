@@ -1,18 +1,20 @@
 import * as Sentry from "@sentry/react-native";
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { AppState } from "react-native";
-import { DATE_FORMAT } from "@/constants/Config";
+import { useEffect } from "react";
 import { defaultRecapScheduler } from "@/features/notifications";
 import type {
   RecapNotificationRequest,
   RecapNotificationScheduler,
 } from "@/features/notifications";
+import { useToday } from "@/hooks/useToday";
 import { useWeekLocale } from "@/hooks/useWeekLocale";
 import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
-import { useFeatureFlagState } from "@/state/featureFlags";
+import {
+  useFeatureFlagSource,
+  useFeatureFlagsLoadFailed,
+  useFeatureFlagState,
+} from "@/state/featureFlags";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import { getRecapNotifications } from "./recapNotifications";
 import type { RecapNotificationKind } from "./recapNotifications";
@@ -22,8 +24,6 @@ const TITLES: Record<RecapNotificationKind, TranslationKey> = {
   month: "notification_recap_month_title",
   year: "notification_recap_year_title",
 };
-
-const getToday = () => dayjs().format(DATE_FORMAT);
 
 /** Recap notification requests from `now`, with text in the app language. */
 export const getRecapRequests = ({
@@ -61,8 +61,10 @@ const reportScheduleError = (cause: unknown) => {
  * - On, with flag `recaps` on: schedules the last day of the coming weeks,
  *   months, and year at the reminder time
  * - Off, or flag `recaps` off: cancels recap notifications. Reminders stay
+ * - A failed flag request keeps the schedule: it reads off without PostHog
+ *   turning the flag off
  * - Reschedules when the setting, the reminder time, or the week start
- *   changes, and on the first foreground of a new day
+ *   changes, and on a new day (`useToday`)
  * - Waits for stored settings and flags; never touches the schedule on a
  *   failed read
  */
@@ -72,24 +74,20 @@ export const useRecapNotificationSync = (
   const { settings } = useSettings();
   const isSettingsReady = useSettingsLoad().status === "ready";
   const flag = useFeatureFlagState("recaps");
+  const hasFlagLoadFailed = useFeatureFlagsLoadFailed();
+  const flagSource = useFeatureFlagSource("recaps");
+  // Only an override or a loaded PostHog flag may turn recaps off.
+  const isFlagUnknown = hasFlagLoadFailed && flagSource === "remote";
   const weekLocale = useWeekLocale();
-  const [today, setToday] = useState(getToday);
-
-  useEffect(() => {
-    const subscription = AppState.addEventListener("change", (state) => {
-      if (state === "active") {
-        setToday(getToday());
-      }
-    });
-    return () => {
-      subscription.remove();
-    };
-  }, []);
+  const today = useToday();
 
   const { recapNotificationsEnabled, reminderTime } = settings;
 
   useEffect(() => {
     if (!isSettingsReady || flag === "loading") {
+      return;
+    }
+    if (recapNotificationsEnabled && flag === "off" && isFlagUnknown) {
       return;
     }
     const isOn = recapNotificationsEnabled && flag === "on";
@@ -108,6 +106,7 @@ export const useRecapNotificationSync = (
   }, [
     isSettingsReady,
     flag,
+    isFlagUnknown,
     recapNotificationsEnabled,
     reminderTime,
     weekLocale,

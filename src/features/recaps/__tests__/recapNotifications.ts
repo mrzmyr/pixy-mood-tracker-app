@@ -1,3 +1,8 @@
+import {
+  IOS_SCHEDULED_LIMIT,
+  RECAP_NOTIFICATION_SLOTS,
+  REMINDER_DAYS,
+} from "@/features/notifications";
 import { getWeekLocale } from "@/lib/translation";
 import { getRecapNotifications } from "../recapNotifications";
 import { WEEK_LOCALE } from "./utils";
@@ -133,5 +138,37 @@ describe("getRecapNotifications", () => {
           notification.periodEnd === "2026-06-07"
       )
     ).toBe(true);
+  });
+
+  test("schedules nothing for a reminder time that is not HH:mm", () => {
+    expect(
+      getRecapNotifications({
+        now,
+        weekLocale: WEEK_LOCALE,
+        reminderTime: "evening",
+      })
+    ).toEqual([]);
+  });
+
+  test("defaults fit the recap share of the iOS notification limit", () => {
+    expect(REMINDER_DAYS + RECAP_NOTIFICATION_SLOTS).toBeLessThanOrEqual(
+      IOS_SCHEDULED_LIMIT
+    );
+    // Mid-month, month end on a Sunday, last week of the year, New Year's Eve after the time.
+    const dates = [
+      now,
+      new Date(2026, 4, 25, 12, 0),
+      new Date(2026, 11, 27, 12, 0),
+      new Date(2026, 11, 31, 22, 0),
+    ];
+    for (const date of dates) {
+      expect(
+        getRecapNotifications({
+          now: date,
+          weekLocale: WEEK_LOCALE,
+          reminderTime: "20:00",
+        }).length
+      ).toBeLessThanOrEqual(RECAP_NOTIFICATION_SLOTS);
+    }
   });
 });
