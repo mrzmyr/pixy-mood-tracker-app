@@ -90,7 +90,7 @@ main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;let
 .pop.on{box-shadow:0 0 0 2.5px #0a7aff,0 0 0 1px rgba(0,0,0,0.06),0 1px 1px -0.5px rgba(0,0,0,0.06),0 3px 3px -1.5px rgba(0,0,0,0.06),0 16px 30px rgba(0,0,0,.4)}
 .popcard .card{border:1px solid rgba(0,0,0,.08) !important;box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 1px 1px -0.5px rgba(0,0,0,0.06),0 3px 3px -1.5px rgba(0,0,0,0.06),0 16px 30px rgba(0,0,0,.4)}
 .tgcard{border:1px solid rgba(0,0,0,.08);box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 1px 1px -0.5px rgba(0,0,0,0.06),0 3px 3px -1.5px rgba(0,0,0,0.06),0 16px 30px rgba(0,0,0,.4) !important}
-.scr{--fit:.86}.android-set .scr{--fit:.79}
+.scr{--fit:.92}.android-set .scr{--fit:.83}
 
 .zoom{position:absolute;z-index:7;background:#fff;border-radius:22px;padding:14px 14px 8px;display:flex;flex-wrap:wrap;align-content:flex-start;box-shadow:0 0 0 1px rgba(0,0,0,.06),0 0 0 6px rgba(255,255,255,.18),0 24px 44px rgba(0,0,0,.55);font-family:-apple-system,system-ui;color:#111}
 .zoom .zl{flex-basis:100%;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8a8a8e;margin-bottom:8px;display:flex;gap:6px;align-items:center}
@@ -146,22 +146,22 @@ SLOTS = [
  <div class="lbar"><div class="lo2">Listed on</div><div class="logos2">{LOGOS.replace('</span><span class="lg lgtxt">', '</span><i class="div"></i><span class="lg lgtxt">')}</div></div>"""),
     ("<b>2 · Mood.</b> Logger mood slide behind, calendar in front and higher.", None, "", f"""
  <h4>Mood in<br>Pixels</h4><div class="sub">Your days turn into colors.</div>
- {phone('mood', 186, 'left:22%;transform:translateX(-50%) rotate(-5deg) scale(.68);transform-origin:50% 0;')}
- {phone('calendar', 150, 'left:78%;transform:translateX(-50%) rotate(5deg) scale(.68);transform-origin:50% 0;z-index:2;')}"""),
+ {phone('mood', 186, 'left:22%;transform:translateX(-50%) rotate(-5deg) scale(.8);transform-origin:50% 0;')}
+ {phone('calendar', 150, 'left:78%;transform:translateX(-50%) rotate(5deg) scale(.8);transform-origin:50% 0;z-index:2;')}"""),
     ("<b>3 · Timeline.</b> Day 2 Oma hug + letter, day 1 Munich + puppy; day 2 popped out.", ("flag", "flag: calendar-timeline"), "", f"""
  <h4>Relive your<br>best days</h4><div class="sub">Every moment, photo and feeling in one timeline.</div>
- {phone('timeline2', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
+ {phone('timeline2', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>4 · Emotions.</b> Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.", None, "", f"""
  <h4>Name what<br>you feel.</h4><div class="sub">161 emotions, each explained.</div>
- {phone('emotions', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
+ {phone('emotions', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
  <div class="zoom" style="left:22px;right:22px;top:420px"><div class="zl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a8a8e" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Most felt</div><span class="zc" data-emo="happy"></span><span class="zc on" data-emo="calm"></span><span class="zc" data-emo="grateful"></span><span class="zc" data-emo="anxious"></span></div>"""),
     ("<b>5 · Tags.</b> Check-in tags, flat list (no categories), gray bg; popular tags popped out in gray cards.", None, "", f"""
  <h4>Tag what<br>matters</h4><div class="sub">Track what fills your days.</div>
- {phone('tags', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
+ {phone('tags', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
  <div class="zoom" style="left:22px;right:22px;top:420px"><div class="zl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a8a8e" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Mental health</div><span class="zc on"><i style="background:#f59e0b"></i>Hyperfocus</span><span class="zc on"><i style="background:#8b5cf6"></i>Took meds</span><span class="zc"><i style="background:#8b5cf6"></i>Therapy</span><span class="zc"><i style="background:#f43f5e"></i>Social battery low</span></div>"""),
     ("<b>6 · People.</b> Check-in people step (3-column avatars + add tile); Add Person card popped out.", ("flag", "flag: people"), "", f"""
  <h4>Who makes<br>your day?</h4><div class="sub">Add the people in your life.</div>
- {phone('people', 170, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
+ {phone('people', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
  <h4 style="align-self:flex-start;text-align:left">Private by<br>design</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
  <div class="plist" style="margin-top:32px"><div>{FACEID}Face ID lock</div><div>{CK}Stored on your device only</div><div>{CK}No account, no sign-up</div><div>{CK}No ads, no tracking of entries</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>
