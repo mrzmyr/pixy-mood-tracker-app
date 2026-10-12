@@ -31,6 +31,7 @@ const FooterButton = ({
     style={({ pressed }) => ({
       flexDirection: "row",
       alignItems: "center",
+      flexShrink: 1,
       gap: 8,
       minHeight: ROW_HEIGHT,
       paddingHorizontal: BUTTON_INSET,
@@ -38,7 +39,7 @@ const FooterButton = ({
     })}
   >
     {icon}
-    <Secondary>{label}</Secondary>
+    <Secondary style={{ flexShrink: 1 }}>{label}</Secondary>
   </Pressable>
 );
 
@@ -80,8 +81,9 @@ export const FeedbackFooter = ({
   return (
     <View
       style={{
+        // One line, so the hairline always sits between the answers; large
+        // text wraps inside each button instead.
         flexDirection: "row",
-        flexWrap: "wrap",
         alignItems: "center",
         paddingHorizontal: CARD_PADDING - BUTTON_INSET,
       }}

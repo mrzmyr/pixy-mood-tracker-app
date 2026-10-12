@@ -42,7 +42,9 @@ const NIGHT_BOX = 32;
 
 /**
  * Every night of the week with the sleep meter from the check-in. Nights of
- * the run sit in a box with a bold weekday; the others fade back.
+ * the run sit in a box with a bold weekday; the other meters fade back.
+ * Nights without sleep data show a short dash, never an empty meter, which
+ * would read as a very bad night.
  */
 const NightsArt = ({
   week,
@@ -63,10 +65,7 @@ const NightsArt = ({
         {week.map((night) => {
           const inRun = run.has(night.date);
           return (
-            <View
-              key={night.date}
-              style={{ alignItems: "center", gap: 4, opacity: inRun ? 1 : 0.4 }}
-            >
+            <View key={night.date} style={{ alignItems: "center", gap: 4 }}>
               <View
                 style={{
                   width: NIGHT_BOX,
@@ -77,9 +76,22 @@ const NightsArt = ({
                   borderWidth: 1,
                   borderColor: inRun ? colors.recapCardBorder : "transparent",
                   backgroundColor: inRun ? colors.cardBackground : undefined,
+                  // Fades the meter only: weekday labels keep their contrast.
+                  opacity: inRun ? 1 : 0.4,
                 }}
               >
-                <SleepQualityMeter value={night.sleep ?? 0} height={16} />
+                {night.sleep === null ? (
+                  <View
+                    style={{
+                      width: 8,
+                      height: 2,
+                      borderRadius: RADIUS.full,
+                      backgroundColor: colors.textSecondary,
+                    }}
+                  />
+                ) : (
+                  <SleepQualityMeter value={night.sleep} height={16} />
+                )}
               </View>
               <Secondary
                 style={

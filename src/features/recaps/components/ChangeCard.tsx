@@ -195,7 +195,7 @@ const TrendChart = ({
               ];
             return (
               <SvgText
-                key={label}
+                key={index}
                 x={x(index)}
                 y={PLOT_HEIGHT + AXIS_HEIGHT - 6}
                 fontSize={12}
