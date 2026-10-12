@@ -4,6 +4,7 @@ import { addDays, daysBetween } from "../days";
 import { THRESHOLDS } from "../thresholds";
 import type {
   ChangeCard,
+  DateKey,
   RecapDay,
   RecapInput,
   Trend,
@@ -88,7 +89,7 @@ const trends = (
   input: RecapInput,
   days: RecapDay[],
   drivers: Driver[]
-): { window: number; series: TrendSeries[] } | null => {
+): { window: number; ends: DateKey[]; series: TrendSeries[] } | null => {
   const { kind } = input.period;
   if (kind !== "quarter" && kind !== "year") {
     return null;
@@ -129,7 +130,7 @@ const trends = (
   }
   const top = series.sort(byChange).slice(0, THRESHOLDS.trendMaxRows);
   return top.some((line) => line.trend !== "steady")
-    ? { window, series: top }
+    ? { window, ends, series: top }
     : null;
 };
 

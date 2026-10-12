@@ -252,11 +252,13 @@ const light = {
   moduleSleep: colors.indigo[600],
   modulePhotos: colors.sky[700],
 
-  // Recap card frame: tinted so the shell reads as a frame around the
-  // white card. Footer text (neutral 500) keeps 4.5:1 on it.
-  recapShellBackground: colors.neutral[50],
-  // Title chip: text color at 8% alpha.
-  titleChipBackground: "rgba(0, 0, 0, 0.08)",
+  // Recap card: white card, hairline border, small shadow; footer row on a
+  // faint tint (footer text, neutral 500, keeps 4.5:1 on it). Media panels
+  // and chips share the muted gray.
+  recapCardBorder: colors.neutral[200],
+  recapCardShadow: "0 1px 2px rgba(0,0,0,0.05)",
+  recapFooterBackground: colors.neutral[50],
+  recapMutedBackground: colors.neutral[100],
 
   scales: scales.light,
   tags: tagsLight,
@@ -478,8 +480,10 @@ const dark: IColors & {
   moduleSleep: colors.indigo[400],
   modulePhotos: colors.sky[400],
 
-  recapShellBackground: "#0f0f0f",
-  titleChipBackground: "rgba(255, 255, 255, 0.08)",
+  recapCardBorder: colors.neutral[800],
+  recapCardShadow: "0 1px 2px rgba(0,0,0,0.5)",
+  recapFooterBackground: "#0f0f0f",
+  recapMutedBackground: colors.neutral[800],
 
   scales: scales.dark,
   tags: tagsDark,

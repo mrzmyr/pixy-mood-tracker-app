@@ -6,7 +6,6 @@ import type { LayoutChangeEvent } from "react-native";
 import { Body, Secondary } from "@/components/Type";
 import { RADIUS } from "@/constants/Radius";
 import type { Person } from "@/features/people";
-import { TagComponent } from "@/features/tags";
 import type { Tag, TagCategory } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
@@ -16,8 +15,8 @@ import { formatDelta } from "../format";
 import type { EffectRow, PatternCard as PatternCardData } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
-import { LABEL_COLUMN, ROW_TAG } from "./rowLayout";
-import { ChipText, TagChip } from "./TitleChip";
+import { LABEL_COLUMN } from "./rowLayout";
+import { ChipText, RowTagChip, TagChip } from "./TitleChip";
 
 /**
  * Bar from the center: right for lighter days, left for heavier ones.
@@ -121,14 +120,7 @@ const WhatMoves = ({
   const label = (row: EffectRow): ReactNode => {
     if (kind === "tags") {
       const tag = tags.find((item) => item.id === row.id);
-      return tag ? (
-        <TagComponent
-          title={tag.title}
-          colorName={tag.color}
-          compact
-          style={ROW_TAG}
-        />
-      ) : null;
+      return tag ? <RowTagChip tag={tag} /> : null;
     }
     const name =
       kind === "categories"

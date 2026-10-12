@@ -1,99 +1,119 @@
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import Bezel from "@/components/Bezel";
 import { Body, Title } from "@/components/Type";
-import { BEZEL } from "@/constants/Bezel";
 import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
-import { CARD_TYPES } from "../cardTypes";
 import type { CardType } from "../types";
-import { ModuleIndicator } from "./ModuleIndicator";
-
-/** Inner padding of a recap card. */
-const CARD_PADDING = 24;
-/** Space between frame and card, on the 4px grid. */
-const SHELL_GAP = 4;
+import { CARD_PADDING } from "./rowLayout";
 
 /**
- * Frame of every recap card: art, module names, title, text, body, the
- * family's actions, then the footer (feedback) in the frame below the card.
- * Titles with inline chips pass the plain sentence as `titleLabel` for
- * screen readers.
+ * Card of every recap: media flush with the top edge, art, title, text,
+ * body, then the footer row (actions or feedback) on a muted strip. Titles
+ * with inline chips pass the plain sentence as `titleLabel` for screen
+ * readers.
  */
 export const RecapCardShell = ({
   type,
+  media,
   art,
   title,
   titleLabel,
   text,
   body,
-  actions,
   footer,
   onLayout,
 }: {
   type: CardType;
+  /** Full-bleed panel above the title: no padding to the card edges. */
+  media?: ReactNode;
+  /** Inset art above the title, such as an avatar. */
   art?: ReactNode;
   title: ReactNode;
   titleLabel?: string;
   text?: string;
   /** Lists and charts below the text. */
   body?: ReactNode;
-  actions?: ReactNode;
-  /** Muted row in the frame, below the card. */
+  /** Row below a top border. Sets its own horizontal padding. */
   footer?: ReactNode;
   onLayout?: (event: LayoutChangeEvent) => void;
 }) => {
   const colors = useColors();
-  const { modules } = CARD_TYPES[type];
 
   return (
-    <View onLayout={onLayout} testID={`recap-card-${type}`}>
-      <Bezel
-        radius={RADIUS.lg}
-        gap={SHELL_GAP}
-        style={{ backgroundColor: colors.recapShellBackground }}
-        innerStyle={{
-          padding: CARD_PADDING,
-          backgroundColor: colors.cardBackground,
-        }}
-        footer={
-          footer ? (
-            // Footer text starts where the card text starts. The frame pads
-            // footer and card by SHELL_GAP alike, so only the card border and
-            // padding remain.
-            <View
-              style={{ paddingHorizontal: CARD_PADDING + BEZEL.borderWidth }}
+    <View
+      onLayout={onLayout}
+      testID={`recap-card-${type}`}
+      style={{
+        borderRadius: RADIUS.md,
+        borderWidth: 1,
+        borderColor: colors.recapCardBorder,
+        backgroundColor: colors.cardBackground,
+        boxShadow: colors.recapCardShadow,
+      }}
+    >
+      {/* Clips media and footer to the rounded corners; the outer view keeps
+          the shadow, which `overflow: hidden` would cut. */}
+      <View style={{ borderRadius: RADIUS.md - 1, overflow: "hidden" }}>
+        {media}
+        <View style={{ padding: CARD_PADDING }}>
+          {art && <View style={{ marginBottom: 24 }}>{art}</View>}
+          <View
+            accessible
+            accessibilityRole="header"
+            accessibilityLabel={titleLabel}
+          >
+            <Title style={{ letterSpacing: -0.25 }}>{title}</Title>
+          </View>
+          {text && (
+            <Body
+              style={{
+                marginTop: 8,
+                lineHeight: 24,
+                color: colors.textSecondary,
+              }}
             >
-              {footer}
-            </View>
-          ) : undefined
-        }
-      >
-        {art && <View style={{ marginBottom: 24 }}>{art}</View>}
-        <ModuleIndicator modules={modules} />
-        <View
-          accessible
-          accessibilityRole="header"
-          accessibilityLabel={titleLabel}
-          style={{ marginTop: 8 }}
-        >
-          <Title style={{ letterSpacing: -0.25 }}>{title}</Title>
+              {text}
+            </Body>
+          )}
+          {body && <View style={{ marginTop: 24 }}>{body}</View>}
         </View>
-        {text && (
-          <Body
+        {footer && (
+          <View
             style={{
-              marginTop: 8,
-              lineHeight: 24,
-              color: colors.textSecondary,
+              borderTopWidth: 1,
+              borderTopColor: colors.recapCardBorder,
+              backgroundColor: colors.recapFooterBackground,
             }}
           >
-            {text}
-          </Body>
+            {footer}
+          </View>
         )}
-        {body && <View style={{ marginTop: 16 }}>{body}</View>}
-        {actions && <View style={{ marginTop: 24 }}>{actions}</View>}
-      </Bezel>
+      </View>
+    </View>
+  );
+};
+
+/** Muted panel for media: flush with the card edges, padded inside. */
+export const MediaPanel = ({
+  children,
+  minHeight,
+}: {
+  children: ReactNode;
+  minHeight?: number;
+}) => {
+  const colors = useColors();
+  return (
+    <View
+      style={{
+        minHeight,
+        justifyContent: "center",
+        paddingVertical: 20,
+        paddingHorizontal: CARD_PADDING,
+        backgroundColor: colors.recapMutedBackground,
+      }}
+    >
+      {children}
     </View>
   );
 };

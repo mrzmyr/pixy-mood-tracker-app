@@ -9,7 +9,7 @@ import {
 } from "../days";
 import { distanceKm, parsePlace } from "../places";
 import { THRESHOLDS } from "../thresholds";
-import type { MomentCard, RecapDay, RecapInput } from "../types";
+import type { MomentCard, RecapDay, RecapInput, SleepNight } from "../types";
 
 const CATEGORY = new Map(
   EMOTIONS.map((emotion) => [emotion.key, emotion.category])
@@ -303,6 +303,17 @@ const longestRun = (days: RecapDay[], test: (day: RecapDay) => boolean) => {
   return best;
 };
 
+/** Every night of the period, so cards show the run among the others. */
+const weekNights = (input: RecapInput): SleepNight[] => {
+  const byDate = new Map(input.days.map((day) => [day.date, day]));
+  const count = daysBetween(input.period.start, input.period.end) + 1;
+  return Array.from({ length: count }, (_, index) => {
+    const date = addDays(input.period.start, index);
+    const day = byDate.get(date);
+    return { date, sleep: day ? getDaySleep(day) : null };
+  });
+};
+
 /**
  * Week only, sleep step on. 3+ good nights in a row after 2+ rough nights
  * the week before, or 3+ rough nights in a row after a steadier week: one
@@ -326,13 +337,15 @@ export const sleepMoments = (input: RecapInput): MomentCard[] => {
     sleptBefore.length >= THRESHOLDS.sleepRunNights &&
     roughBefore <= THRESHOLDS.sleepRoughMaxRoughBefore
   ) {
-    return [{ type: "sleep-rough", nights: rough }];
+    return [{ type: "sleep-rough", nights: rough, week: weekNights(input) }];
   }
   if (
     good.length >= THRESHOLDS.sleepRunNights &&
     roughBefore >= THRESHOLDS.sleepTurnaroundMinRoughBefore
   ) {
-    return [{ type: "sleep-turnaround", nights: good }];
+    return [
+      { type: "sleep-turnaround", nights: good, week: weekNights(input) },
+    ];
   }
   return [];
 };

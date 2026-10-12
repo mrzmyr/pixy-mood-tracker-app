@@ -20,9 +20,9 @@ import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { getActiveTags } from "../cards/nudges";
 import type { NudgeCard as NudgeCardData } from "../types";
-import { RecapCardShell } from "./RecapCardShell";
+import { MediaPanel, RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
-import { ROW_TAG } from "./rowLayout";
+import { CARD_PADDING, ROW_TAG } from "./rowLayout";
 
 type NudgeType = NudgeCardData["type"];
 
@@ -105,8 +105,8 @@ const PhotosArt = () => {
             width: 72,
             height: 72,
             borderRadius: RADIUS.md,
-            // Fill only: the screen background shows on the card in both modes.
-            backgroundColor: colors.background,
+            // Card white on the gray media panel, in both modes.
+            backgroundColor: colors.cardBackground,
             alignItems: "center",
             justifyContent: "center",
             transform: [{ rotate: `${rotation}deg` }],
@@ -181,15 +181,21 @@ export const NudgeCard = ({
     <RecapCardShell
       type={card.type}
       onLayout={onLayout}
-      art={<Art tags={tags} reminderTime={reminderTime} />}
+      media={
+        <MediaPanel>
+          <Art tags={tags} reminderTime={reminderTime} />
+        </MediaPanel>
+      }
       title={t(copy.title, options)}
       text={t(copy.text)}
-      actions={
+      footer={
         <View
           style={{
             flexDirection: "row",
             flexWrap: "wrap",
             alignItems: "center",
+            paddingHorizontal: CARD_PADDING,
+            paddingVertical: 8,
             // LinkButton pads itself by 8, so the visible gap is 16.
             columnGap: 8,
             rowGap: 8,
@@ -203,21 +209,20 @@ export const NudgeCard = ({
             disabled={isBusy}
             testID={`recap-nudge-turn-on-${card.type}`}
             style={{
-              borderRadius: RADIUS.md,
-              minHeight: 48,
-              paddingVertical: 12,
-              paddingHorizontal: 24,
+              borderRadius: RADIUS.sm,
+              minHeight: 44,
+              paddingVertical: 10,
+              paddingHorizontal: 20,
             }}
           >
             {t(copy.action, options)}
           </Button>
-          {/* Tertiary action: text color plus underline, never gray. */}
+          {/* Tertiary action: text color, never gray. */}
           <LinkButton
             type="secondary"
             onPress={onNotNow}
-            underline
             hitSlop={8}
-            style={{ color: colors.text, fontWeight: "400", minHeight: 48 }}
+            style={{ color: colors.text, fontWeight: "400", minHeight: 44 }}
             testID={`recap-nudge-not-now-${card.type}`}
           >
             {t("recaps_nudge_not_now")}

@@ -59,6 +59,20 @@ describe("tags over time", () => {
     expect(line?.values).toHaveLength(10);
   });
 
+  test("dates every point, so the chart can label months", () => {
+    const card = buildCards(
+      makeInput({
+        ...quarter,
+        items: q3((index) => (index < 46 ? "neutral" : "very_good")),
+      })
+    ).find((item) => item.type === "trend-tags");
+    const ends = card && "ends" in card ? card.ends : [];
+
+    expect(ends).toHaveLength(10);
+    expect(ends.at(0)?.startsWith("2026-07")).toBe(true);
+    expect(ends.at(-1)).toBe("2026-09-30");
+  });
+
   test("skips a tag on every day: nothing to compare with", () => {
     const daily = q3((index) => (index < 46 ? "neutral" : "very_good")).map(
       (day) => ({ ...day, tags: [{ id: "tag-0" }, { id: "tag-1" }] })

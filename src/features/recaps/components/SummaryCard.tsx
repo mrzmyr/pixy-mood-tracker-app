@@ -8,11 +8,9 @@ import { Body, Secondary } from "@/components/Type";
 import { getTypeMetrics } from "@/components/typeMetrics";
 import { RADIUS } from "@/constants/Radius";
 import { RATING_MAPPING } from "@/constants/Ratings";
-import { EmotionItem } from "@/features/calendar";
 import { EMOTIONS } from "@/features/logger";
 import type { Person } from "@/features/people";
 import { PhotoThumbnail } from "@/features/photos";
-import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 import { t, tDynamic } from "@/lib/translation";
@@ -27,18 +25,16 @@ import type {
   RecapDay,
   SummaryCard as SummaryCardData,
 } from "../types";
-import { RecapCardShell } from "./RecapCardShell";
+import { MediaPanel, RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
-import { ROW_TAG } from "./rowLayout";
-import { ChipText, EmotionChip } from "./TitleChip";
+import { ChipText, EmotionChip, RowEmotionChip, RowTagChip } from "./TitleChip";
 
 interface Content {
-  art?: ReactNode;
+  media?: ReactNode;
   title: ReactNode;
   titleLabel: string;
   text?: string;
   body?: ReactNode;
-  actions?: ReactNode;
 }
 
 interface Context {
@@ -53,10 +49,9 @@ const EMOTION_BY_KEY = new Map(
 );
 const GOOD = new Set(["very_good", "good"]);
 
-const Emotion = ({ emotionKey }: { emotionKey: string }) => {
-  const emotion = EMOTION_BY_KEY.get(emotionKey);
-  return emotion ? <EmotionItem emotion={emotion} compact /> : null;
-};
+const Emotion = ({ emotionKey }: { emotionKey: string }) => (
+  <RowEmotionChip emotionKey={emotionKey} />
+);
 
 const Row = ({ children }: { children: ReactNode }) => (
   <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
@@ -319,8 +314,7 @@ const DayBlock = ({ day, hard }: { day: RecapDay; hard: boolean }) => {
   return (
     <View
       style={{
-        height: 120,
-        borderRadius: RADIUS.md,
+        height: 160,
         backgroundColor: hard
           ? colors.backgroundSecondary
           : colors.scales[settings.scaleType][best.rating].background,
@@ -335,39 +329,44 @@ const DayMedia = ({ day, hard }: { day: RecapDay; hard: boolean }) => {
     return <DayBlock day={day} hard={hard} />;
   }
   return (
-    <View style={{ flexDirection: "row", gap: 8 }}>
-      {photos.map((photo, index) => (
-        <View key={photo.id} style={{ flex: 1 }}>
-          <PhotoThumbnail
-            photo={photo}
-            index={index}
-            count={photos.length}
-            aspectRatio={photos.length === 1 ? 4 / 3 : 3 / 4}
-          />
-        </View>
-      ))}
-    </View>
+    <MediaPanel>
+      <View style={{ flexDirection: "row", gap: 8 }}>
+        {photos.map((photo, index) => (
+          <View key={photo.id} style={{ flex: 1 }}>
+            <PhotoThumbnail
+              photo={photo}
+              index={index}
+              count={photos.length}
+              aspectRatio={photos.length === 1 ? 4 / 3 : 3 / 4}
+            />
+          </View>
+        ))}
+      </View>
+    </MediaPanel>
   );
 };
 
+/** Outline button across the card: secondary to the card's message. */
 const SeeThisDay = ({ date }: { date: string }) => {
   const router = useRouter();
+  const colors = useColors();
   return (
     <Button
-      type="contrast"
+      type="secondary"
       onPress={() =>
         router.push({ pathname: "/days/[date]", params: { date } })
       }
       testID={`recap-see-day-${date}`}
       style={{
-        alignSelf: "flex-start",
-        borderRadius: RADIUS.md,
-        minHeight: 48,
-        paddingVertical: 12,
-        paddingHorizontal: 24,
+        borderRadius: RADIUS.sm,
+        borderWidth: 1,
+        borderColor: colors.recapCardBorder,
+        backgroundColor: colors.cardBackground,
+        minHeight: 44,
+        paddingVertical: 10,
       }}
     >
-      {t("recaps_day_see")}
+      <Body style={{ fontWeight: "600" }}>{t("recaps_day_see")}</Body>
     </Button>
   );
 };
@@ -425,7 +424,7 @@ const dayContent = (
   };
   const title = titles[card.mode]();
   return {
-    art: <DayMedia day={day} hard={hard} />,
+    media: <DayMedia day={day} hard={hard} />,
     title,
     titleLabel: title,
     text: texts[card.mode],
@@ -452,20 +451,14 @@ const dayContent = (
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={{ flexDirection: "row", gap: 8 }}>
               {dayTags.map((tag) => (
-                <TagComponent
-                  key={tag.id}
-                  title={tag.title}
-                  colorName={tag.color}
-                  compact
-                  style={ROW_TAG}
-                />
+                <RowTagChip key={tag.id} tag={tag} />
               ))}
             </View>
           </ScrollView>
         )}
+        <SeeThisDay date={day.date} />
       </View>
     ),
-    actions: <SeeThisDay date={day.date} />,
   };
 };
 
@@ -566,12 +559,11 @@ export const SummaryCard = ({
     <RecapCardShell
       type={card.type}
       onLayout={onLayout}
-      art={content.art}
+      media={content.media}
       title={content.title}
       titleLabel={content.titleLabel}
       text={content.text}
       body={content.body}
-      actions={content.actions}
       footer={footer}
     />
   );

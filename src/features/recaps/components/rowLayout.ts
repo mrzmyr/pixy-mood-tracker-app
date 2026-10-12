@@ -1,5 +1,8 @@
 import type { ViewStyle } from "react-native";
 
+/** Inner padding of a recap card. Footers and media line up with it. */
+export const CARD_PADDING = 24;
+
 /**
  * Name column of list rows in change and pattern cards. One width for both,
  * so names line up; long names wrap instead of pushing the chart out.
