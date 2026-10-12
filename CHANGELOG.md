@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.96.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.95.2...v1.96.0) (2026-10-11)
+
+
+### Features
+
+* **cli:** tell agents how to free disk safely on disk_low ([#745](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/745)) ([b9932e2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b9932e268a4beb204164ec2e723eeeb6ceb4f008))
+* let users pick the app language in system settings ([#734](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/734)) ([1b38057](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1b38057ca6649d23261eb80a98ab4c641ff4bfae))
+* **logger:** pull down to search emotions and tags ([#744](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/744)) ([baa1ed9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/baa1ed91df71c6d8c5c5aa2a247415bb25725dd6))
+* **logger:** show location as icon-only button ([#756](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/756)) ([f2dbb57](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f2dbb5742900596b4d1b09e4bcd0e14478033972))
+* **logger:** swipe between steps already visited ([#759](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/759)) ([2c2c2e5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2c2c2e53b9e33e540d5917aeb1d98454ab4a8c52))
+* **photos:** native photo preview on long press (iOS) ([#757](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/757)) ([a488a0b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a488a0bcdc675e9b529f2acc84920b29cca0e404))
+* **tags:** group tags into categories ([#736](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/736)) ([9995d8c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9995d8c604a2d1b37c6ca33a27d9933fe50067a7))
+
+
+### Bug Fixes
+
+* **calendar:** move today to the new day after resume or midnight ([#735](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/735)) ([c35aa61](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c35aa61605428d9d887fe810e711148f7a3f4616))
+* **i18n:** format dates by device region and clock setting ([#739](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/739)) ([9d08ea5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9d08ea5fb1470343d8b3e20b822b4adf0ddd0713))
+* **interventions:** stop saying anxious for every cluster emotion ([#758](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/758)) ([4e6bd3b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4e6bd3b47085e9e5276c1423c5498394ae1b8aac))
+* **logger:** remove tags bottom bar and use full scroll height ([#742](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/742)) ([fcf43ad](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fcf43addbb06fd6ac8ecc6c2db29e3ce097ffca8))
+* **logger:** show only the time when logging an entry from today ([#755](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/755)) ([e23789a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e23789a6429308d28c46e0b52d7945ee613bfdb0))
+* **onboarding:** show personal privacy note in a white card ([#738](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/738)) ([28fcedc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/28fcedc71b111af2fadfb65d952b2afbf380f865))
+* **tags:** align tag color picker with iOS and Android guidelines ([#748](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/748)) ([89794d9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/89794d9e144832a9c206248dfe8221447be2fb10))
+
 ## [1.95.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.95.1...v1.95.2) (2026-10-09)
 
 
