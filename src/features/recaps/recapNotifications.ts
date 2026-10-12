@@ -16,6 +16,13 @@ export interface RecapNotification {
 
 const FORMAT = "YYYY-MM-DD";
 
+/** Bigger periods win when several end on the same day. */
+const RANK: Record<RecapNotificationKind, number> = {
+  week: 0,
+  month: 1,
+  year: 2,
+};
+
 const atReminderTime = (date: DateKey, reminderTime: string): Date => {
   const [hour, minute] = reminderTime.split(":").map(Number);
   return dayjs(date)
@@ -57,15 +64,18 @@ const getUpcoming = ({
  *
  * - Weeks end on the last day of `weekLocale` (`useWeekLocale`)
  * - Includes the current period while its time is after `now`
- * - Sorted by time; on a shared day weeks come before months, months
- *   before years
+ * - One notification per day: when periods end on the same day, the
+ *   biggest wins (year over month over week)
+ * - Defaults keep reminders (60) plus recaps within the 64 notifications
+ *   iOS keeps scheduled; the app reschedules on each new day
+ * - Sorted by time
  */
 export const getRecapNotifications = ({
   now,
   weekLocale,
   reminderTime,
-  weeks = 4,
-  months = 3,
+  weeks = 2,
+  months = 1,
   years = 1,
 }: {
   now: Date;
@@ -74,8 +84,8 @@ export const getRecapNotifications = ({
   weeks?: number;
   months?: number;
   years?: number;
-}): RecapNotification[] =>
-  [
+}): RecapNotification[] => {
+  const all = [
     ...getUpcoming({
       kind: "week",
       count: weeks,
@@ -97,4 +107,13 @@ export const getRecapNotifications = ({
       weekLocale,
       reminderTime,
     }),
-  ].sort((a, b) => a.at.getTime() - b.at.getTime());
+  ];
+  const byDay = new Map<DateKey, RecapNotification>();
+  for (const notification of all) {
+    const current = byDay.get(notification.periodEnd);
+    if (!current || RANK[notification.kind] > RANK[current.kind]) {
+      byDay.set(notification.periodEnd, notification);
+    }
+  }
+  return [...byDay.values()].sort((a, b) => a.at.getTime() - b.at.getTime());
+};

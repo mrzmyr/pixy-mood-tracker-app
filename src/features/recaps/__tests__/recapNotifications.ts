@@ -19,6 +19,7 @@ describe("getRecapNotifications", () => {
       now,
       weekLocale: WEEK_LOCALE,
       reminderTime: "20:00",
+      weeks: 4,
     });
 
     expect(ends(notifications, "week")).toEqual([
@@ -34,13 +35,14 @@ describe("getRecapNotifications", () => {
       now,
       weekLocale: getWeekLocale({ weekStart: 0 }),
       reminderTime: "20:00",
+      weeks: 4,
     });
 
     expect(ends(notifications, "week")).toEqual([
       "2026-10-10",
       "2026-10-17",
       "2026-10-24",
-      "2026-10-31",
+      // 2026-10-31 also ends the month: the month notification covers it.
     ]);
   });
 
@@ -103,12 +105,33 @@ describe("getRecapNotifications", () => {
       now: new Date(2026, 9, 31, 20, 0),
       weekLocale: WEEK_LOCALE,
       reminderTime: "20:00",
+      months: 3,
     });
 
-    expect(ends(notifications, "month")).toEqual([
-      "2026-11-30",
-      "2026-12-31",
-      "2027-01-31",
-    ]);
+    // 2026-12-31 also ends the year: the year notification covers it.
+    expect(ends(notifications, "month")).toEqual(["2026-11-30", "2027-01-31"]);
+    expect(ends(notifications, "year")).toEqual(["2026-12-31"]);
+  });
+
+  test("sends one notification per day: the biggest period wins", () => {
+    // 2026-05-31 is a Sunday and the last day of May.
+    const notifications = getRecapNotifications({
+      now: new Date(2026, 4, 25, 12, 0),
+      weekLocale: WEEK_LOCALE,
+      reminderTime: "20:00",
+    });
+
+    expect(
+      notifications
+        .filter((notification) => notification.periodEnd === "2026-05-31")
+        .map((notification) => notification.kind)
+    ).toEqual(["month"]);
+    expect(
+      notifications.some(
+        (notification) =>
+          notification.kind === "week" &&
+          notification.periodEnd === "2026-06-07"
+      )
+    ).toBe(true);
   });
 });
