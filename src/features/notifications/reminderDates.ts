@@ -6,7 +6,9 @@ import { parseReminderTime } from "./reminderTime";
 
 /**
  * Days ahead that get a reminder, today included. iOS keeps at most 64
- * pending local notifications per app, and Pixy schedules no others.
+ * pending local notifications per app, the soonest first. Recap
+ * notifications add up to 8, so the latest reminders or recaps can drop
+ * until the next daily reschedule.
  */
 export const REMINDER_DAYS = 60;
 

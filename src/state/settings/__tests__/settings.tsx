@@ -192,6 +192,25 @@ describe("useSettings()", () => {
     expect(hook.result.current.state.settings.appLockEnabled).toBe(true);
   });
 
+  test("keeps recap notifications of this device on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, recapNotificationsEnabled: true })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    // Backups never carry the setting; an old or edited file still must not change it.
+    const backup = { ...INITIAL_STATE, recapNotificationsEnabled: false };
+    await act(() => {
+      hook.result.current.state.importSettings(backup);
+    });
+
+    expect(hook.result.current.state.settings.recapNotificationsEnabled).toBe(
+      true
+    );
+  });
+
   test("reads a missing or invalid photo access dismissal as false", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,

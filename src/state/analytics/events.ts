@@ -216,6 +216,8 @@ export interface AnalyticsEvents {
     )[];
     has_note: boolean;
   };
+  /** Tap on a recap notification body. Ignored while flag `recaps` is off. */
+  "recaps:notification_tapped": { period: "week" | "month" | "year" };
   "tags:categories_reordered": {
     categories_count: number;
     method: "drag" | "accessibility_action";
@@ -253,6 +255,11 @@ export interface AnalyticsEvents {
     permission_granted: boolean;
   };
   "reminders:time_changed": { time: string };
+  /** Recaps toggle in Settings > Reminder. Denied permission keeps it off. */
+  "reminders:recaps_toggled": {
+    enabled: boolean;
+    permission_granted: boolean;
+  };
   "reminders:notification_opened": {
     /** App launched from the tap, not resumed from background. */
     cold_start: boolean;

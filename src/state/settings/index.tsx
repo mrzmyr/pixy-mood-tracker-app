@@ -77,6 +77,11 @@ export interface SettingsState {
    * launch and after time away. Device auth belongs to the device.
    */
   appLockEnabled: boolean;
+  /**
+   * Pixy sends a notification on the last day of each week, month, and year.
+   * Needs notification permission, which belongs to the device.
+   */
+  recapNotificationsEnabled: boolean;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -89,8 +94,8 @@ export interface SettingsState {
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
- * location, calendar layout, and app lock to the device, so imports keep the
- * current values.
+ * location, calendar layout, app lock, and recap notifications to the
+ * device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -102,6 +107,7 @@ export type ExportSettings = Omit<
   | "locationEnabled"
   | "calendarLayout"
   | "appLockEnabled"
+  | "recapNotificationsEnabled"
 >;
 
 interface IAction {
@@ -147,8 +153,8 @@ const reducer = (
       return action.payload(state);
     }
     // Store review prompt state, photo library access, theme, location,
-    // calendar layout, and app lock belong to this device, so imports keep
-    // the current values.
+    // calendar layout, app lock, and recap notifications belong to this
+    // device, so imports keep the current values.
     case "import": {
       return {
         ...INITIAL_STATE,
@@ -161,6 +167,7 @@ const reducer = (
         locationEnabled: state.locationEnabled,
         calendarLayout: state.calendarLayout,
         appLockEnabled: state.appLockEnabled,
+        recapNotificationsEnabled: state.recapNotificationsEnabled,
       };
     }
     case "reset": {
@@ -189,6 +196,7 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
           ? stored.calendarLayout
           : "calendar",
         appLockEnabled: stored.appLockEnabled === true,
+        recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
       };
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({

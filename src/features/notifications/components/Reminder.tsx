@@ -2,6 +2,7 @@ import type { DateTimePickerEvent } from "@react-native-community/datetimepicker
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent } from "react";
 import { Linking, Text, View } from "react-native";
+import FlagHighlight from "@/components/FlagHighlight";
 import Toggle from "@/components/Toggle";
 import Clock from "./Clock";
 import MenuList from "@/components/MenuList";
@@ -11,8 +12,10 @@ import TextInfo from "@/components/TextInfo";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { reminderTimeToDate } from "../reminderTime";
 import { useNotificationPermissionDenied } from "../useNotificationPermissionDenied";
+import { useRecapNotificationsSetting } from "../useRecapNotificationsSetting";
 import { useReminder } from "../useReminder";
 
 const Reminder = () => {
@@ -20,6 +23,8 @@ const Reminder = () => {
   const analytics = useAnalytics();
   const colors = useColors();
   const { denied, refresh } = useNotificationPermissionDenied();
+  const isRecapsOn = useFeatureFlag("recaps");
+  const recaps = useRecapNotificationsSetting();
 
   const reminderEnabled = reminder.enabled;
   const timeDate = reminderTimeToDate(reminder.time);
@@ -44,6 +49,15 @@ const Reminder = () => {
     }
     void refresh();
     analytics.track("reminders:reminder_toggled", {
+      enabled: value,
+      permission_granted: permissionGranted,
+    });
+  };
+
+  const onRecapsChange = async (value: boolean) => {
+    const { permissionGranted } = await recaps.setEnabled(value);
+    void refresh();
+    analytics.track("reminders:recaps_toggled", {
       enabled: value,
       permission_granted: permissionGranted,
     });
@@ -94,6 +108,25 @@ const Reminder = () => {
             {t("location_open_settings")}
           </Text>
         </TextInfo>
+      )}
+      {isRecapsOn && (
+        <View style={{ marginTop: 20 }}>
+          <FlagHighlight flag="recaps">
+            <MenuList>
+              <MenuListItem
+                title={t("recaps_notifications_setting")}
+                iconRight={
+                  <Toggle
+                    onValueChange={() => onRecapsChange(!recaps.enabled)}
+                    value={recaps.enabled}
+                    testID="recap-notifications-enabled"
+                  />
+                }
+              />
+            </MenuList>
+            <TextInfo>{t("recaps_notifications_hint")}</TextInfo>
+          </FlagHighlight>
+        </View>
       )}
     </View>
   );

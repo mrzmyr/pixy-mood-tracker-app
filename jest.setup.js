@@ -213,3 +213,9 @@ jest.mock("expo-clipboard", () => ({
   __esModule: true,
   setStringAsync: jest.fn(() => Promise.resolve(true)),
 }));
+
+// jest-expo's native notification scheduler resolves `undefined` for the
+// schedule; native code resolves an array. Reminder and recap changes read
+// the schedule before they cancel. Default: nothing scheduled.
+require("expo-notifications/build/NotificationScheduler").default.getAllScheduledNotificationsAsync =
+  () => Promise.resolve([]);

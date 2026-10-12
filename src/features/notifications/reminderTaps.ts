@@ -30,7 +30,9 @@ const webSource: NotificationResponseSource = {
   addResponseListener: () => ({ remove: () => null }),
 };
 
-const defaultSource = Platform.OS === "web" ? webSource : nativeSource;
+/** Expo notification responses on native, none on web. */
+export const defaultNotificationResponseSource =
+  Platform.OS === "web" ? webSource : nativeSource;
 
 /**
  * Whether the response is a tap on the reminder body, not a dismiss or
@@ -86,7 +88,7 @@ export const getReminderTapProperties = (
  * - No-op on web
  */
 export const useReminderTapTracking = (
-  source: NotificationResponseSource = defaultSource
+  source: NotificationResponseSource = defaultNotificationResponseSource
 ) => {
   const analytics = useAnalytics();
   const isSettingsReady = useSettingsLoad().status === "ready";
