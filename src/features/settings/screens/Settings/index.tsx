@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import * as StoreReview from "expo-store-review";
@@ -28,7 +29,11 @@ import MenuListItem from "@/components/MenuListItem";
 import { SupportCard } from "@/components/SupportCard";
 import TextInfo from "@/components/TextInfo";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
-import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
+import {
+  CHANGELOG_URL,
+  DATE_FORMAT,
+  FEEDBACK_FEATURES_URL,
+} from "@/constants/Config";
 import { DEV_TOOLS } from "@/dev";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -136,7 +141,9 @@ export const SettingsScreen = () => {
               <MenuListItem
                 title={t("recaps")}
                 iconLeft={<Layers {...iconProps} />}
-                onPress={() => router.push("/settings/recaps")}
+                onPress={() =>
+                  router.push(`/recaps/week/${dayjs().format(DATE_FORMAT)}`)
+                }
                 testID="recaps"
                 isLink
               />
