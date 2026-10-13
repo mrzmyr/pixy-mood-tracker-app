@@ -12,11 +12,17 @@ import TextArea from "@/components/TextArea";
 import { LOGGER_HEADER_ICON_INSET } from "../components/LoggerHeader";
 import { Footer } from "./Footer";
 import { MAX_MESSAGE_LENGTH } from "@/constants/Config";
+import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 
 const SLIDE_MARGIN_TOP = 8;
 
 // Keeps the last lines above the floating next/save button while typing.
 const INPUT_BOTTOM_PADDING_TYPING = 72;
+
+// Extra right padding when keyboard is visible to prevent text from being
+// covered by the floating button. Accounts for button width (54-56px) plus
+// the button's right margin (32px) plus safety margin.
+const INPUT_RIGHT_PADDING_TYPING = FLOAT_BUTTON_SIZE + 32 + 8;
 
 const ON_EVENT_NAME =
   Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
@@ -101,7 +107,8 @@ const SlideMessageComponent = (
                 marginBottom: 0,
                 borderWidth: 0,
                 backgroundColor: "transparent",
-                paddingHorizontal: 0,
+                paddingLeft: 0,
+                paddingRight: keyboardVisible ? INPUT_RIGHT_PADDING_TYPING : 0,
                 paddingTop: 8,
                 paddingBottom: keyboardVisible
                   ? INPUT_BOTTOM_PADDING_TYPING
