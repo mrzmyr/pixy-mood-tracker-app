@@ -4,7 +4,14 @@ import type { FlashListRef, ListRenderItemInfo } from "@shopify/flash-list";
 
 import dayjs from "dayjs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import React, { memo, useCallback, useMemo, useRef, useState } from "react";
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Platform, useWindowDimensions, View } from "react-native";
 import type {
   LayoutChangeEvent,
@@ -53,10 +60,30 @@ const CalendarComponent = ({
   );
   const indicatorInsets = useMemo(() => ({ top: topInset }), [topInset]);
   const [width, setWidth] = useState(0);
-  const [monthCount, setMonthCount] = useState(13);
-  const isLoaded = useRef(false);
   const today = useToday();
   const currentMonth = dayjs(today).startOf("month").format(DATE_FORMAT);
+  
+  const initialMonthCount = useMemo(() => {
+    if (logState.items.length === 0) {
+      return 13;
+    }
+    
+    const oldestDate = logState.items.reduce((oldest, item) => {
+      const itemDate = getItemDate(item);
+      return itemDate < oldest ? itemDate : oldest;
+    }, getItemDate(logState.items[0]));
+    
+    const monthsToOldest = dayjs(currentMonth).diff(dayjs(oldestDate), "month") + 1;
+    return Math.max(13, monthsToOldest);
+  }, [logState.items, currentMonth]);
+  
+  const [monthCount, setMonthCount] = useState(initialMonthCount);
+  const isLoaded = useRef(false);
+  
+  useEffect(() => {
+    setMonthCount(initialMonthCount);
+  }, [initialMonthCount]);
+  
   const locale = useWeekLocale();
   const months = useMemo(
     () => getMonths({ end: currentMonth, count: monthCount, locale }),
