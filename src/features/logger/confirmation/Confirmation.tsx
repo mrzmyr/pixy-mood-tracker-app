@@ -37,6 +37,9 @@ import { usePixyJumps } from "./usePixyJumps";
 const emotionLabel = (key: string) =>
   EMOTIONS.find((emotion) => emotion.key === key)?.label ?? key;
 
+const getEmotion = (key: string) =>
+  EMOTIONS.find((emotion) => emotion.key === key);
+
 /** WCAG AA contrast for normal text. */
 const MIN_CONTRAST = 4.5;
 
@@ -110,7 +113,7 @@ export const Confirmation = ({
   );
   // Pixy idles only while the logger is on screen.
   const isFocused = useIsFocused();
-  const segments = getSummarySentence({ summary, emotionLabel });
+  const segments = getSummarySentence({ summary, getEmotion });
   const dayTags =
     summary.tagIds.length <= SUMMARY_TAGS_MAX
       ? summary.tagIds.flatMap((id) => tags.filter((tag) => tag.id === id))
@@ -122,29 +125,38 @@ export const Confirmation = ({
     const background = mix(colors.logBackground, color, amount, "rgb").hex();
     return { background, text: readableOn(color, background) };
   };
-  // Hard days: emotions get a neutral tint. Naming feelings is good;
-  // coloring them as bad is not.
-  const isNeutralEmotion = summary.tone === "bad";
+  
+  /** Get appropriate colors for an emotion based on its category. */
+  const getEmotionColors = (
+    category: "very_good" | "good" | "neutral" | "bad" | "very_bad" | undefined
+  ): MarkColors => {
+    // Hard days or neutral/negative emotions: use neutral styling
+    const isNegativeEmotion =
+      category === "bad" || category === "very_bad" || category === undefined;
+    const isNeutralOrNegative =
+      isNegativeEmotion || category === "neutral" || summary.tone === "bad";
+
+    if (isDark) {
+      return isNeutralOrNegative
+        ? { background: tailwind.neutral[800], text: colors.text }
+        : darkMark(scaleColor, 0.1);
+    }
+
+    return {
+      background: isNeutralOrNegative
+        ? chroma(colors.textSecondary).alpha(0.16).css()
+        : chroma(scaleColor).alpha(0.35).css(),
+      text: colors.text,
+    };
+  };
+
   // Dark mode: light scale colors behind white text do not read. Use a deep
   // tint of the scale color and color the text instead.
-  const marks: Record<NonNullable<SummarySegment["mark"]>, MarkColors> = isDark
-    ? {
-        mood: darkMark(scaleColor, 0.16),
-        emotion: isNeutralEmotion
-          ? { background: tailwind.neutral[800], text: colors.text }
-          : darkMark(scaleColor, 0.1),
-      }
+  const moodColors: MarkColors = isDark
+    ? darkMark(scaleColor, 0.16)
     : {
-        mood: {
-          background: chroma(scaleColor).alpha(0.7).css(),
-          text: colors.text,
-        },
-        emotion: {
-          background: isNeutralEmotion
-            ? chroma(colors.textSecondary).alpha(0.16).css()
-            : chroma(scaleColor).alpha(0.35).css(),
-          text: colors.text,
-        },
+        background: chroma(scaleColor).alpha(0.7).css(),
+        text: colors.text,
       };
 
   const jump = useMemo(
@@ -272,22 +284,29 @@ export const Confirmation = ({
               color: colors.textSecondary,
             }}
           >
-            {segments.map((segment) =>
-              segment.mark ? (
+            {segments.map((segment, index) => {
+              if (!segment.mark) {
+                return segment.text;
+              }
+
+              const colors =
+                segment.mark === "mood"
+                  ? moodColors
+                  : getEmotionColors(segment.emotionCategory);
+
+              return (
                 <Text
                   // Marked texts are unique: one mood, distinct emotions.
-                  key={`${segment.mark}:${segment.text}`}
+                  key={`${segment.mark}:${segment.text}:${index}`}
                   style={{
-                    color: marks[segment.mark].text,
-                    backgroundColor: marks[segment.mark].background,
+                    color: colors.text,
+                    backgroundColor: colors.background,
                   }}
                 >
                   {segment.text}
                 </Text>
-              ) : (
-                segment.text
-              )
-            )}
+              );
+            })}
           </Text>
         </Animated.View>
         {dayTags.length > 0 && (

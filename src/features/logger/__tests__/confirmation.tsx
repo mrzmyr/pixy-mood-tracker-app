@@ -70,7 +70,11 @@ const summaryOf = (overrides: Partial<DaySummary>): DaySummary => ({
 });
 
 const sentence = (summary: DaySummary) =>
-  getSummarySentence({ summary, emotionLabel: (key) => key, today: TODAY });
+  getSummarySentence({
+    summary,
+    getEmotion: (key) => ({ key, label: key, category: "neutral" }) as any,
+    today: TODAY,
+  });
 const text = (summary: DaySummary) =>
   sentence(summary)
     .map((segment) => segment.text)

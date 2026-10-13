@@ -5,6 +5,7 @@ import { getItemDate, getItemTime } from "@/lib/logDates";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { getAverageMood } from "@/lib/utils";
+import type { Emotion } from "@/types";
 
 /** Mood group that picks the tone of the confirmation. */
 export type MoodTone = "good" | "neutral" | "bad";
@@ -83,6 +84,8 @@ export const getDaySummary = ({
 export interface SummarySegment {
   text: string;
   mark?: "mood" | "emotion";
+  /** Emotion category when mark is "emotion" */
+  emotionCategory?: Emotion["category"];
 }
 
 // Placeholder boundary for splitting translated templates into segments.
@@ -139,11 +142,11 @@ export const getSummaryTitle = (summary: DaySummary) =>
  */
 export const getSummarySentence = ({
   summary,
-  emotionLabel,
+  getEmotion,
   today = dayjs().format(DATE_FORMAT),
 }: {
   summary: DaySummary;
-  emotionLabel: (key: string) => string;
+  getEmotion: (key: string) => Emotion | undefined;
   /** Today in `DATE_FORMAT`; injectable for tests. */
   today?: string;
 }): SummarySegment[] => {
@@ -182,10 +185,14 @@ export const getSummarySentence = ({
   if (summary.emotions.length > 0) {
     const shown = summary.emotions.slice(0, SUMMARY_EMOTIONS_MAX);
     const rest = summary.emotions.length - shown.length;
-    const items: SummarySegment[] = shown.map((key) => ({
-      text: emotionLabel(key).toLocaleLowerCase(),
-      mark: "emotion",
-    }));
+    const items: SummarySegment[] = shown.map((key) => {
+      const emotion = getEmotion(key);
+      return {
+        text: (emotion?.label ?? key).toLocaleLowerCase(),
+        mark: "emotion" as const,
+        emotionCategory: emotion?.category,
+      };
+    });
     if (rest > 0) {
       items.push({ text: t("log_summary_more", { count: rest }) });
     }
