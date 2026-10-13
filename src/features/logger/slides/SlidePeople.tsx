@@ -1,7 +1,8 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
 import { Plus } from "lucide-react-native";
+import { useEffect } from "react";
 import {
   Pressable,
   ScrollView,
@@ -112,6 +113,7 @@ export const SlidePeople = ({
 }) => {
   const { draft, setPeople } = useLogDraft();
   const router = useRouter();
+  const { newPersonId } = useLocalSearchParams<{ newPersonId?: string }>();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const { people } = usePeopleState();
@@ -138,6 +140,19 @@ export const SlidePeople = ({
         : [...draft.people, { id }]
     );
   };
+
+  useEffect(() => {
+    if (newPersonId) {
+      const isAlreadySelected = draft.people.some((p) => p.id === newPersonId);
+      if (!isAlreadySelected) {
+        const personExists = people.some((person) => person.id === newPersonId);
+        if (personExists) {
+          setPeople([...draft.people, { id: newPersonId }]);
+        }
+      }
+      router.setParams({ newPersonId: undefined });
+    }
+  }, [newPersonId, people, setPeople, draft.people, router]);
 
   return (
     <View
