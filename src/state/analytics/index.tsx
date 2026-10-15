@@ -69,8 +69,8 @@ const AnalyticsProvider = ({
   }, [isSettingsReady, settings.analyticsEnabled, posthog]);
 
   // Identify the install by its random device id, only while analytics is on.
-  // No traits: usage data goes through `sendUsageSummary`. `reset` clears the
-  // PostHog id, and the settings reset issues a new device id.
+  // The id carries no properties. `reset` clears the PostHog id, and the
+  // settings reset issues a new device id.
   useEffect(() => {
     if (
       !isSettingsReady ||
