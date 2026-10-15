@@ -58,6 +58,7 @@ const STATIC_DEVICE_ID = "test-device-id";
 const {
   optOut: mockOptOut,
   optIn: mockOptIn,
+  identify: mockIdentify,
   capture: mockCapture,
   reset: mockReset,
   screen: mockScreen,
@@ -311,6 +312,58 @@ describe("useAnalytics()", () => {
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
       DEFAULT_ANALYTICS_ENABLED
     );
+  });
+
+  test("should `identify` with the device id only while enabled", async () => {
+    AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        analyticsEnabled: false,
+        deviceId: STATIC_DEVICE_ID,
+      })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(mockIdentify).not.toBeCalled();
+
+    await act(() => {
+      hook.result.current.state.enable();
+    });
+
+    expect(mockIdentify).toBeCalledWith(STATIC_DEVICE_ID);
+  });
+
+  test("should identify the new device id after a settings reset", async () => {
+    AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        analyticsEnabled: true,
+        deviceId: STATIC_DEVICE_ID,
+      })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    await waitFor(() => {
+      expect(mockIdentify).toBeCalledWith(STATIC_DEVICE_ID);
+    });
+
+    await act(() => {
+      hook.result.current.settingsState.resetSettings();
+      hook.result.current.state.reset();
+    });
+
+    const newDeviceId = hook.result.current.settingsState.settings.deviceId;
+    expect(newDeviceId).not.toBe(STATIC_DEVICE_ID);
+    if (DEFAULT_ANALYTICS_ENABLED) {
+      expect(mockIdentify).toHaveBeenLastCalledWith(newDeviceId);
+    } else {
+      expect(mockIdentify).not.toBeCalledWith(newDeviceId);
+    }
   });
 
   test("should send usage summary only while enabled", async () => {

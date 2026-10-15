@@ -4,7 +4,8 @@
 - Sent after stores load and on every change. Counts, shares, booleans only
 - Values come from last app open. Day counts do not age while app stays closed
 - `first_app_version` (`$set_once`): first version that sent usage summary, not install version
-- No `identify()`: install stays anonymous
+- `identify(deviceId)` after opt-in and settings load: random install UUID, no traits. Code: [`src/state/analytics/index.tsx`](../src/state/analytics/index.tsx)
+- Reset: PostHog `reset()` plus new device id, then regional default decides opt-in
 - Photos fields: `photos_enabled` (PostHog flag `photos`), `photos_pct_30d`, `photos_count`, `photos_day_pct`, `photo_library_access` (`unavailable` on Android). Counts and shares only, never photo metadata
 
 ## Photos
