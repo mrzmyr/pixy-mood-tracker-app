@@ -101,29 +101,34 @@ Every error has `status`, `message`, `why`, `fix` ([AGENTS.md](../../AGENTS.md#e
 
 ## Verification
 
+Result 2026-10-15: preview Release builds (EAS local), iPhone 16e (iOS 26, Siri off) records, iPhone 14 Pro plays TTS clips from Safari. Fixture `people`, flags `people` and `voice-mode` on.
+
 ### Automated
 
-- [ ] `matchTranscript` unit tests: case, diacritics, multi word, overlap, order, duplicates, archived excluded, disabled emotions excluded, people off, no-space scripts
-- [ ] Prefill parsing tests: valid, invalid JSON, unknown ids dropped
-- [ ] Transcript segment logic tests: partials replace, finals commit, resume appends
-- [ ] `bun run check` passes (lint, format, types, locales)
-- [ ] `bun run test:ci` passes
+- [x] `matchTranscript` unit tests: case, diacritics, whole words, multi word, overlap, order, duplicates, unknown names, no-space scripts
+- [x] Prefill parsing tests: valid, invalid JSON, unknown and duplicate ids dropped
+- [x] Transcript tests: partials replace, finals commit, resume appends, restart after pause keeps text
+- [x] Speech locale order tests
+- [x] `bun run check` passes (lint, format, types, locales)
+- [x] `bun run test:ci` passes
 
 ### Real device (two iPhones)
 
-Setup: iPhone A runs dev build with flag `voice-mode` and `people` on. iPhone B plays TTS clip on speaker, ~20 cm from iPhone A.
+Clip 1: "Today was a long day at work. In the morning I did some sport. Then I called Mia and talked to Sam. I met Lisa for coffee. Honestly, I felt stressed, but also grateful, and a bit tired." Clip 2: "In the evening I had dinner with my family and felt calm."
 
-Clip text uses names from iPhone A data: one person, one tag, two emotions, one unknown name.
-
-- [ ] Mic button shows left of "+", hidden with flag off
-- [ ] First tap asks microphone and speech permission
-- [ ] Waveform moves with clip audio, flat in silence
-- [ ] Transcript cards appear live in order: person, tag, emotions
-- [ ] Unknown name: no card
-- [ ] Pause stops cards and waveform. Resume plus second clip appends
-- [ ] Airplane mode: transcription still works (on device)
-- [ ] Check opens logger at rating slide. Note holds transcript. Tags, people, emotions preselected
-- [ ] Pick rating, save: entry in calendar with all items
-- [ ] Close logger without saving: discard prompt
-- [ ] Deny permission (Settings reset): explanation plus Open Settings button
-- [ ] Proof: screenshots plus screen recording from iPhone A in PR
+- [x] Mic button shows left of "+", hidden with flag off
+- [x] First tap asks speech recognition, then microphone permission. Purpose strings show
+- [x] Waveform moves with clip audio, flat in silence
+- [x] Cards appear live in order of mention: Work, Sport, Sam, Stressed, Grateful, Tired
+- [x] Unknown name (Lisa) and archived person (Mia): no card
+- [x] Pause keeps cards. Resume plus clip 2 appends Family, Calm
+- [x] 6 min of silence: still listening, no text, no error
+- [x] Check opens logger at rating slide. Note holds both clips. Tags, emotions, person preselected
+- [x] Save: day view shows Sam, Work, Sport, Family, 5 emotions, full note
+- [x] Close logger without saving: discard prompt
+- [x] iOS 26 with Siri off works (SpeechAnalyzer). Legacy path with Siri off fails with `kLSRErrorDomain 201`, now shows the Siri state
+- [ ] Airplane mode: not tested. Both engines run on device by API contract (`requiresOnDeviceRecognition`, SpeechAnalyzer)
+- [ ] Deny permission: not tested on device
+- [ ] iOS < 26 legacy path with Siri on: tested on build 3 before SpeechAnalyzer, not on the final build
+- [ ] Android: not tested
+- [x] Proof: screenshots plus screen recording in PR

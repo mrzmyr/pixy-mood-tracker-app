@@ -445,6 +445,18 @@
       ]
     },
     {
+      "id": "voice-mode",
+      "label": "Voice check-in",
+      "status": "flagged",
+      "group": "logging",
+      "description": "Talk about your day. Pixy transcribes on device, finds your people, tags, and emotions, and opens a prefilled check-in. Behind the voice-mode feature flag.",
+      "evidence": [
+        "src/features/voice/",
+        "src/state/featureFlags/keys.ts",
+        "patches/expo-speech-transcriber@0.1.9.patch"
+      ]
+    },
+    {
       "id": "voice",
       "label": "Voice notes",
       "status": "unavailable",
