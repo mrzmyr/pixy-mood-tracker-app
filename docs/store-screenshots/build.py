@@ -54,7 +54,7 @@ main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;let
 .stats .dl{display:flex;align-items:center;gap:2px}.stats .dl svg{height:46px;width:auto}.stats .dl div{text-align:center;line-height:1.05}.stats .dl b{font-size:19px;display:block}.stats .dl span{font-size:10.5px;opacity:.8}
 .stats .div,.logos2 .div{width:1px;align-self:stretch;background:rgba(255,247,237,.22)}.stats .rt{display:flex;gap:6px;align-items:center;font-size:17px;font-weight:600}.stats .star{letter-spacing:1px;font-size:15px}
 .pfade{position:absolute;z-index:5;left:0;right:0;top:490px;bottom:0;background:var(--bg)}
-.qcard{position:absolute;z-index:6;left:16px;right:16px;top:480px;background:#1c1c1e;border:1px solid rgba(255,247,237,.14);border-radius:16px;padding:14px 16px;font-size:14px;font-weight:600;line-height:1.38;box-shadow:0 16px 30px rgba(0,0,0,.4)}
+.qcard{position:absolute;z-index:6;left:22px;right:22px;top:462px;background:#1c1c1e;border:1px solid rgba(255,247,237,.14);border-radius:16px;padding:14px 16px;font-size:14px;font-weight:600;line-height:1.38;box-shadow:0 16px 30px rgba(0,0,0,.4)}
 .qcard small{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:500;opacity:.85;margin-top:10px}
 .lbar{position:absolute;z-index:6;left:0;right:0;bottom:18px;text-align:center}.lo2{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin-bottom:6px}
 .logos2{display:flex;justify-content:center;align-items:center;gap:7px;padding:0 10px}.logos2 .lg{padding:0;font-size:10px;gap:4px;white-space:nowrap}.logos2 .lg img{height:13px;width:13px}.logos2 .div{height:14px;align-self:center}
@@ -98,10 +98,15 @@ main{max-width:2600px;margin:0 auto;padding:28px 28px 80px}h1{font-size:30px;let
 .zoom .zc.on{border:2px solid #0a7aff}
 .zoom .zc i{width:10px;height:10px;border-radius:50%}
 .lgtxt{color:var(--cream);opacity:.78;font-size:11px;font-weight:600;white-space:nowrap}
+.zoom{left:22px;right:22px;top:436px}
+.android-set .zoom{top:396px;font-family:Roboto,system-ui !important}
+.android-set .qcard{top:404px}
+.zoom.zemo{top:392px}.android-set .zoom.zemo{top:388px}
+.scr:has(.zemo) .phA .fab{display:none}
 """
 
 SVG_LOCK = '<svg width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" fill="rgba(52,211,153,.18)"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.3" fill="#34d399"/></svg>'
-FACEID = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M8.5 9v1.5M15.5 9v1.5M12 9v4h-1"/><path d="M8.5 15.5c1.8 1.6 5.2 1.6 7 0"/></svg>'
+FACEID = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#34d399" stroke-linecap="round"><circle cx="11" cy="11" r="10" stroke-width="1.6"/><g transform="translate(5 5) scale(.5)" stroke-width="2.6"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M8.5 9v1.5M15.5 9v1.5M12 9v4h-1"/><path d="M8.5 15.5c1.8 1.6 5.2 1.6 7 0"/></g></svg>'
 CK = '<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="none" stroke="#34d399" stroke-width="1.6"/><path d="M6.5 11.5l3 3L15.5 8" stroke="#34d399" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 PHONE_ICON = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.7" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>'
 
@@ -146,23 +151,23 @@ SLOTS = [
  <div class="lbar"><div class="lo2">Listed on</div><div class="logos2">{LOGOS.replace('</span><span class="lg lgtxt">', '</span><i class="div"></i><span class="lg lgtxt">')}</div></div>"""),
     ("<b>2 · Mood.</b> Logger mood slide behind, calendar in front and higher.", None, "", f"""
  <h4>Mood in<br>Pixels</h4><div class="sub">Your days turn into colors.</div>
- {phone('mood', 186, 'left:22%;transform:translateX(-50%) rotate(-5deg) scale(.8);transform-origin:50% 0;')}
+ {phone('mood', 186, 'left:25%;transform:translateX(-50%) rotate(-5deg) scale(.8);transform-origin:50% 0;')}
  {phone('calendar', 150, 'left:78%;transform:translateX(-50%) rotate(5deg) scale(.8);transform-origin:50% 0;z-index:2;')}"""),
     ("<b>3 · Timeline.</b> Day 2 Oma hug + letter, day 1 Munich + puppy; day 2 popped out.", ("flag", "flag: calendar-timeline"), "", f"""
  <h4>Relive your<br>best days</h4><div class="sub">Every moment, photo and feeling in one timeline.</div>
- {phone('timeline2', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
+ {phone('timeline2', 166, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>4 · Emotions.</b> Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.", None, "", f"""
  <h4>Name what<br>you feel.</h4><div class="sub">161 emotions, each explained.</div>
  {phone('emotions', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
- <div class="zoom" style="left:22px;right:22px;top:420px"><div class="zl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a8a8e" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Most felt</div><span class="zc" data-emo="happy"></span><span class="zc on" data-emo="calm"></span><span class="zc" data-emo="grateful"></span><span class="zc" data-emo="anxious"></span></div>"""),
+ <div class="zoom zemo"><div class="zl">Most felt</div><span class="zc on" data-emo="calm"></span><span class="zc on" data-emo="hopeful"></span><span class="zc" data-emo="grateful"></span><span class="zc" data-emo="anxious"></span></div>"""),
     ("<b>5 · Tags.</b> Check-in tags, flat list (no categories), gray bg; popular tags popped out in gray cards.", None, "", f"""
  <h4>Tag what<br>matters</h4><div class="sub">Track what fills your days.</div>
  {phone('tags', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
- <div class="zoom" style="left:22px;right:22px;top:420px"><div class="zl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a8a8e" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Mental health</div><span class="zc on"><i style="background:#f59e0b"></i>Hyperfocus</span><span class="zc on"><i style="background:#8b5cf6"></i>Took meds</span><span class="zc"><i style="background:#8b5cf6"></i>Therapy</span><span class="zc"><i style="background:#f43f5e"></i>Social battery low</span></div>"""),
+ <div class="zoom"><div class="zl">Mental health</div><span class="zc on"><i style="background:#f59e0b"></i>Hyperfocus</span><span class="zc on"><i style="background:#8b5cf6"></i>Took meds</span><span class="zc"><i style="background:#8b5cf6"></i>Therapy</span><span class="zc"><i style="background:#f43f5e"></i>Social battery low</span></div>"""),
     ("<b>6 · People.</b> Check-in people step (3-column avatars + add tile); Add Person card popped out.", ("flag", "flag: people"), "", f"""
  <h4>Who makes<br>your day?</h4><div class="sub">Add the people in your life.</div>
  {phone('people', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
-    ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
+    ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark center", f"""
  <h4 style="align-self:flex-start;text-align:left">Private by<br>design</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
  <div class="plist" style="margin-top:32px"><div>{FACEID}Face ID lock</div><div>{CK}Stored on your device only</div><div>{CK}No account, no sign-up</div><div>{CK}No ads</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>"""),
 ]

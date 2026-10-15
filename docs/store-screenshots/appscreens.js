@@ -141,7 +141,7 @@
     return h + '</div>'; };
   S.calendar = (scale = 'default', dark = false) => { const sc = SCALES[scale]; return `<div style="position:absolute;inset:0;background:${dark ? '#0b0b0c' : C.bg}"></div><div style="position:relative;color:${dark ? '#fff' : '#111'}">${statusbar(dark)}<div class="top">${['stats', 'filter', 'gear'].map((k, i) => `${i === 1 ? '<span class="g">' : ''}<span class="rb" style="${dark ? 'background:#1c1c1e;filter:invert(1)' : ''}">${svg[k]}</span>`).join('')}</span></div>
     <div style="display:grid;grid-template-columns:repeat(7,1fr);padding:14px 16px 0;color:#8a8a8e;font-size:13px;text-align:center">${'Mon Tue Wed Thu Fri Sat Sun'.split(' ').map((d) => `<span>${d}</span>`).join('')}</div>
-    ${monthGrid('September 2026', 0, 30, 11 + scale.length, sc, 30, dark)}${monthGrid('October 2026', 3, 31, 5 + scale.length, sc, 11, dark)}</div><div class="fab">${svg.plus}</div>`; };
+    ${monthGrid('September 2026', 1, 30, 11 + scale.length, sc, 30, dark)}${monthGrid('October 2026', 3, 31, 5 + scale.length, sc, 11, dark)}</div><div class="fab">${svg.plus}</div>`; };
 
   // Impact cards (from impact concept v5 screenshots)
   const av = (img, size = 34, ring) => `<span style="width:${size}px;height:${size}px;border-radius:50%;flex:0 0 ${size}px;${img ? `background:url(photos/${img}) center/cover` : 'background:#d9d9de'};${ring ? 'border:3px solid #fff' : ''};display:inline-flex;align-items:center;justify-content:center">${img ? '' : '<svg width="60%" height="60%" viewBox="0 0 24 24" fill="#a1a1a6"><circle cx="12" cy="8" r="4.5"/><path d="M3.5 21c1.4-4.3 4.7-6.5 8.5-6.5s7.1 2.2 8.5 6.5z"/></svg>'}</span>`;
