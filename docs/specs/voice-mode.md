@@ -143,3 +143,6 @@ Clip 1: "Today was a long day at work. In the morning I did some sport. Then I c
 - [ ] iOS < 26 legacy path with Siri on: tested on build 3 before SpeechAnalyzer, not on the final build
 - [ ] Android: not tested
 - [x] Proof: screenshots plus screen recording in PR
+- [x] Feedback sheet shows ~1 s after save, over the confirmation. Face tap shows comment field and Done. Done shows "Thanks for your feedback!" toast
+- [ ] Feedback comment keyboard autofocus: fixed after the device run, not rebuilt
+- [ ] Feedback sheet on voice check-ins 2 to 4: unit test only (`voiceFeedbackPrompt`)
