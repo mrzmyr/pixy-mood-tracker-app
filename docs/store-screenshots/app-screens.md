@@ -2,7 +2,7 @@
 
 Human-owned spec. Agents never edit this file. Agents propose changes as before/after and wait for confirmation.
 
-Implementation: `screens-final.html` (built by `build_screens_v3.py`, app UI in `appscreens.js`).
+Implementation: `index.html` (built by `build.py`, app UI in `appscreens.js`).
 
 ## Style
 
@@ -74,24 +74,7 @@ Implementation: `screens-final.html` (built by `build_screens_v3.py`, app UI in 
 - photos: `photos/p-ada.jpg`, `photos/p-jonas.jpg`, `photos/p-priya.jpg`, `photos/p-yasmin.jpg`
 - pop out: "Add Person" card (Ada photo + name, "Pick From Contacts…")
 
-## 7. Places
-
-- "See where you feel good"
-- "Track where you have been with locations"
-  - use map view screen with one entry: "Ada had her first 3m jump, I'm so proud." (location: Bäderland Kaifubad)
-  - emotions Proud, Happy, Loved; tags Family, Sport; people Mia, Sam
-  - map: real Apple Maps capture `photos/map-kaifubad.png`
-  - photos: the swim at Bäderland Kaifubad: `photos/d2-kaifubad.png`, `photos/d2-underwater.png`, `photos/d2-poollaugh.png`
-
-## 8. themes
-
-- "Make it your own"
-- "Beautiful colors in light and dark mode."
-- screen: 2 alternative themes of the calendar side by side, no original theme: purple (PuOr, light) left, teal-brown (BrBG, dark) right
-- same layout on iOS and Android
-- widgets screen removed
-
-## 9. privacy
+## 7. privacy
 
 - black bg, serious look, no lock icon
 - "Private by design"
@@ -110,5 +93,5 @@ Implementation: `screens-final.html` (built by `build_screens_v3.py`, app UI in 
 
 ## Before publishing
 
-- Features behind flags (people, places, timeline, Face ID): release + update `app-facts.json` first
+- Features behind flags (people, timeline, Face ID): release + update `app-facts.json` first
 - Model releases for people photos
