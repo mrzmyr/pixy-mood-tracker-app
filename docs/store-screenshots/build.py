@@ -164,8 +164,7 @@ SLOTS = [
  {phone('people', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
     ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
  <h4 style="align-self:flex-start;text-align:left">Private by<br>design</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
- <div class="plist" style="margin-top:32px"><div>{FACEID}Face ID lock</div><div>{CK}Stored on your device only</div><div>{CK}No account, no sign-up</div><div>{CK}No ads, no tracking of entries</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>
- {phone('lock', 360, 'transform:translateX(-50%) scale(0.72);transform-origin:50% 0;opacity:0.85;')}"""),
+ <div class="plist" style="margin-top:32px"><div>{FACEID}Face ID lock</div><div>{CK}Stored on your device only</div><div>{CK}No account, no sign-up</div><div>{CK}No ads</div><div>{CK}Export your data anytime</div><div>{CK}Open source</div></div>"""),
 ]
 
 body = "".join(

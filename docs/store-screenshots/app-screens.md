@@ -79,7 +79,7 @@ Implementation: `index.html` (built by `build.py`, app UI in `appscreens.js`).
 - black bg, serious look, no lock icon
 - "Private by design"
 - box above list: "Stored on your device only"; "Most journal apps keep your entries on their servers. Pixy doesn't."
-- list of features: Face ID lock (+ icon), checklist: No account, no sign-up, No ads, no tracking of entries, Export your data anytime, Open source
+- list of features: Face ID lock (+ icon), checklist: No account, no sign-up, No ads, Export your data anytime, Open source
 
 ## Paused: Impact
 
