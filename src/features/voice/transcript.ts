@@ -16,6 +16,17 @@ export interface TranscriptState {
 /** Transcript before the first result. */
 export const EMPTY_TRANSCRIPT: TranscriptState = { committed: [], partial: "" };
 
+// Partials of one utterance grow or revise the end. A new utterance starts
+// with other words.
+const CONTINUATION_PREFIX = 8;
+const isContinuation = (previous: string, next: string) => {
+  const length = Math.min(CONTINUATION_PREFIX, previous.length, next.length);
+  return (
+    previous.slice(0, length).toLowerCase() ===
+    next.slice(0, length).toLowerCase()
+  );
+};
+
 /** Apply one recognizer result. */
 export const applyResult = (
   state: TranscriptState,
@@ -23,6 +34,14 @@ export const applyResult = (
 ): TranscriptState => {
   const text = result.text.trim();
   if (!result.isFinal) {
+    if (text === "") {
+      return state;
+    }
+    // iOS 18+ restarts the text after a pause in the same session. Keep the
+    // old partial as a segment instead of losing it.
+    if (state.partial !== "" && !isContinuation(state.partial, text)) {
+      return { committed: [...state.committed, state.partial], partial: text };
+    }
     return { ...state, partial: text };
   }
   return {

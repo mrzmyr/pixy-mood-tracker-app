@@ -37,4 +37,20 @@ describe("transcript", () => {
     expect(state.committed).toEqual([]);
     expect(transcriptText(state)).toBe("");
   });
+
+  it("keeps the old text when the recognizer restarts after a pause", () => {
+    let state = applyResult(EMPTY_TRANSCRIPT, {
+      text: "Long day at work",
+      isFinal: false,
+    });
+    state = applyResult(state, { text: "I called", isFinal: false });
+    state = applyResult(state, { text: "I called Sam", isFinal: false });
+    expect(transcriptText(state)).toBe("Long day at work I called Sam");
+  });
+
+  it("ignores empty partial results", () => {
+    let state = applyResult(EMPTY_TRANSCRIPT, { text: "Sam", isFinal: false });
+    state = applyResult(state, { text: " ", isFinal: false });
+    expect(transcriptText(state)).toBe("Sam");
+  });
 });
