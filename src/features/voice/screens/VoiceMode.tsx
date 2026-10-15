@@ -69,6 +69,7 @@ export const VoiceMode = () => {
   const haptics = useHaptics();
   const terms = useVoiceTerms();
   const hasStarted = useRef(false);
+  const cardsRef = useRef<ScrollView>(null);
   // Set when listening starts, in the start effect.
   const startedAt = useRef(0);
 
@@ -177,6 +178,9 @@ export const VoiceMode = () => {
       </View>
 
       <ScrollView
+        ref={cardsRef}
+        // Newest card last: keep it in view while the list grows.
+        onContentSizeChange={() => cardsRef.current?.scrollToEnd()}
         style={{ flex: 1 }}
         contentContainerStyle={{ paddingHorizontal: 20, gap: 8 }}
       >
