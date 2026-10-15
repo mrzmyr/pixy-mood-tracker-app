@@ -7,6 +7,9 @@ index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2
 diff --git a/node_modules/expo-speech-transcriber/.bun-tag-708f231130225856 b/.bun-tag-708f231130225856
 new file mode 100644
 index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/expo-speech-transcriber/.bun-tag-87fbd73d7e37987a b/.bun-tag-87fbd73d7e37987a
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/node_modules/expo-speech-transcriber/.bun-tag-895c8b567baff586 b/.bun-tag-895c8b567baff586
 new file mode 100644
 index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
@@ -327,10 +330,10 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..105260174268a1ee1a667c31b71c59d4
      
 diff --git a/node_modules/expo-speech-transcriber/ios/LiveAnalyzer.swift b/ios/LiveAnalyzer.swift
 new file mode 100644
-index 0000000000000000000000000000000000000000..e15d8bcf3aa36fcc6479e347bfbfacc579ce86ad
+index 0000000000000000000000000000000000000000..2ea22febae898c2472102a538c998dbce7e11045
 --- /dev/null
 +++ b/ios/LiveAnalyzer.swift
-@@ -0,0 +1,147 @@
+@@ -0,0 +1,150 @@
 +import AVFoundation
 +import Foundation
 +import Speech
@@ -367,7 +370,8 @@ index 0000000000000000000000000000000000000000..e15d8bcf3aa36fcc6479e347bfbfacc5
 +    let transcriber = SpeechTranscriber(
 +      locale: locale,
 +      transcriptionOptions: [],
-+      reportingOptions: [.volatileResults],
++      // fastResults: low latency. Without it, results arrive ~10 s late in bursts.
++      reportingOptions: [.volatileResults, .fastResults],
 +      attributeOptions: []
 +    )
 +    do {
@@ -448,6 +452,8 @@ index 0000000000000000000000000000000000000000..e15d8bcf3aa36fcc6479e347bfbfacc5
 +    }
 +
 +    do {
++      // Loads the model before audio flows, so the first words are not delayed.
++      try await analyzer.prepareToAnalyze(in: analyzerFormat)
 +      try await analyzer.start(inputSequence: stream)
 +      engine.prepare()
 +      try engine.start()
