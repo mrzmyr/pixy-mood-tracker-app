@@ -1,0 +1,325 @@
+diff --git a/android/src/main/java/expo/modules/speechtranscriber/ExpoSpeechTranscriberModule.kt b/android/src/main/java/expo/modules/speechtranscriber/ExpoSpeechTranscriberModule.kt
+index 9857dc95491f442cf891b880c544244991ace3f1..94779486255abd3baf1d72bfccfb638f5f50e025 100644
+--- a/android/src/main/java/expo/modules/speechtranscriber/ExpoSpeechTranscriberModule.kt
++++ b/android/src/main/java/expo/modules/speechtranscriber/ExpoSpeechTranscriberModule.kt
+@@ -27,11 +27,11 @@ class ExpoSpeechTranscriberModule : Module() {
+ 
+   override fun definition() = ModuleDefinition {
+     Name("ExpoSpeechTranscriber")
+-    Events("onTranscriptionProgress", "onTranscriptionError")
++    Events("onTranscriptionProgress", "onTranscriptionError", "onAudioLevel")
+ 
+-    AsyncFunction("recordRealTimeAndTranscribe") { promise: Promise ->
++    AsyncFunction("recordRealTimeAndTranscribe") { locale: String?, promise: Promise ->
+       mainHandler.post {
+-        startListening(promise)
++        startListening(locale, promise)
+       }
+     }
+ 
+@@ -58,7 +58,7 @@ class ExpoSpeechTranscriberModule : Module() {
+     }
+   }
+ 
+-  private fun startListening(promise: Promise) {
++  private fun startListening(locale: String?, promise: Promise) {
+     val context = appContext.reactContext ?: run {
+       sendEvent("onTranscriptionError", mapOf("message" to "Context is not available"))
+       promise.resolve(false)
+@@ -86,7 +86,11 @@ class ExpoSpeechTranscriberModule : Module() {
+     
+     val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+       putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+-      putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
++      putExtra(
++        RecognizerIntent.EXTRA_LANGUAGE,
++        if (locale != null) Locale.forLanguageTag(locale).toLanguageTag() else Locale.getDefault().toLanguageTag()
++      )
++      putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
+       putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+       putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+     }
+@@ -123,7 +127,11 @@ class ExpoSpeechTranscriberModule : Module() {
+         Log.d("ExpoSpeechTranscriber", "Speech started")
+       }
+ 
+-      override fun onRmsChanged(rmsdB: Float) {}
++      override fun onRmsChanged(rmsdB: Float) {
++        // SpeechRecognizer reports about -2..10 dB.
++        val level = ((rmsdB + 2f) / 12f).coerceIn(0f, 1f)
++        sendEvent("onAudioLevel", mapOf("level" to level))
++      }
+       override fun onBufferReceived(buffer: ByteArray?) {}
+ 
+       override fun onEndOfSpeech() {
+@@ -155,7 +163,7 @@ class ExpoSpeechTranscriberModule : Module() {
+ 
+       override fun onError(error: Int) {
+         val errorMessage = getErrorMessage(error)
+-        sendEvent("onTranscriptionError", mapOf("message" to errorMessage))
++        sendEvent("onTranscriptionError", mapOf("message" to errorMessage, "code" to getErrorCode(error)))
+         stopListening()
+       }
+ 
+@@ -163,6 +171,15 @@ class ExpoSpeechTranscriberModule : Module() {
+     }
+   }
+ 
++  private fun getErrorCode(errorCode: Int): String {
++    return when (errorCode) {
++      SpeechRecognizer.ERROR_NO_MATCH, SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "no_speech"
++      SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "permission_denied"
++      SpeechRecognizer.ERROR_LANGUAGE_NOT_SUPPORTED, SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE -> "recognizer_unavailable"
++      else -> "transcription_failed"
++    }
++  }
++
+   private fun getErrorMessage(errorCode: Int): String {
+     return when (errorCode) {
+       SpeechRecognizer.ERROR_AUDIO -> "Audio recording error"
+diff --git a/build/ExpoSpeechTranscriber.types.d.ts b/build/ExpoSpeechTranscriber.types.d.ts
+index ea1bd72c1dcf7ad8087ba2790c44235eb04087c5..1643ba3a60d76f7695d0e2c15279cddc8f9f1084 100644
+--- a/build/ExpoSpeechTranscriber.types.d.ts
++++ b/build/ExpoSpeechTranscriber.types.d.ts
+@@ -7,11 +7,16 @@ export type TranscriptionProgressPayload = {
+     isFinal: boolean;
+ };
+ export type TranscriptionErrorPayload = {
+-    error: string;
++    message: string;
++    code?: string;
++};
++export type AudioLevelPayload = {
++    level: number;
+ };
+ export type ExpoSpeechTranscriberModuleEvents = {
+     onTranscriptionProgress(payload: TranscriptionProgressPayload): void;
+     onTranscriptionError(payload: TranscriptionErrorPayload): void;
++    onAudioLevel(payload: AudioLevelPayload): void;
+ };
+ export type ChangeEventPayload = {
+     value: string;
+diff --git a/build/ExpoSpeechTranscriberModule.d.ts b/build/ExpoSpeechTranscriberModule.d.ts
+index 293f941291311cb85c56d9f2d8e3872d00211307..3ed59e644be15addb167a0cba0cdc465ea2629a4 100644
+--- a/build/ExpoSpeechTranscriberModule.d.ts
++++ b/build/ExpoSpeechTranscriberModule.d.ts
+@@ -1,7 +1,7 @@
+ import { NativeModule } from 'expo-modules-core';
+ import type { ExpoSpeechTranscriberModuleEvents, PermissionTypes, MicrophonePermissionTypes } from './ExpoSpeechTranscriber.types';
+ declare class ExpoSpeechTranscriberNative extends NativeModule<ExpoSpeechTranscriberModuleEvents> {
+-    recordRealTimeAndTranscribe(): Promise<void>;
++    recordRealTimeAndTranscribe(locale?: string | null): Promise<void>;
+     stopListening(): void;
+     transcribeAudioWithSFRecognizer(audioFilePath: string): Promise<string>;
+     transcribeAudioWithAnalyzer(audioFilePath: string): Promise<string>;
+diff --git a/build/index.js b/build/index.js
+index 3f06123dc313287da6eafb4271dd576809a8bd2a..2a15ad623f277f6b49be07155ac6e9722284b311 100644
+--- a/build/index.js
++++ b/build/index.js
+@@ -46,7 +46,7 @@ export function useRealTimeTranscription() {
+             setIsFinal(payload.isFinal);
+         });
+         const errorListener = ExpoSpeechTranscriberModule.addListener('onTranscriptionError', (payload) => {
+-            setError(payload.error);
++            setError(payload.message);
+         });
+         const interval = setInterval(() => {
+             const newIsRecording = ExpoSpeechTranscriberModule.isRecording();
+diff --git a/ios/ExpoSpeechTranscriberModule.swift b/ios/ExpoSpeechTranscriberModule.swift
+index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..a5df7a2127fa669ad27be0770ac1732544d94772 100644
+--- a/ios/ExpoSpeechTranscriberModule.swift
++++ b/ios/ExpoSpeechTranscriberModule.swift
+@@ -13,11 +13,11 @@ public class ExpoSpeechTranscriberModule: Module {
+     public func definition() -> ModuleDefinition {
+         Name("ExpoSpeechTranscriber")
+         
+-        Events("onTranscriptionProgress", "onTranscriptionError")
++        Events("onTranscriptionProgress", "onTranscriptionError", "onAudioLevel")
+         
+         // expose realtime recording/transcription
+-        AsyncFunction("recordRealTimeAndTranscribe") { () async -> Void in
+-            await self.recordRealTimeAndTranscribe()
++        AsyncFunction("recordRealTimeAndTranscribe") { (locale: String?) async -> Void in
++            await self.recordRealTimeAndTranscribe(localeIdentifier: locale)
+         }
+         
+         // Method 2: Transcribe from URL using SFSpeechRecognizer (iOS 13+)
+@@ -147,22 +147,61 @@ public class ExpoSpeechTranscriberModule: Module {
+         bufferRecognitionTask = nil
+     }
+     
+-    // startRecordingAndTranscription using SFSpeechRecognizer
+-    private func recordRealTimeAndTranscribe() async -> Void  {
+-        let speechRecognizer = SFSpeechRecognizer()!
++    // startRecordingAndTranscription using SFSpeechRecognizer.
++    // Patched: locale, on-device only, audio session, level events, no force unwrap.
++    private func recordRealTimeAndTranscribe(localeIdentifier: String?) async -> Void  {
++        stopListening()
++        let recognizer: SFSpeechRecognizer?
++        if let localeIdentifier = localeIdentifier {
++            recognizer = SFSpeechRecognizer(locale: Locale(identifier: localeIdentifier))
++        } else {
++            recognizer = SFSpeechRecognizer()
++        }
++        guard let speechRecognizer = recognizer, speechRecognizer.isAvailable else {
++            self.sendEvent("onTranscriptionError", ["message": "Speech recognizer not available for locale", "code": "recognizer_unavailable"])
++            return
++        }
++        guard speechRecognizer.supportsOnDeviceRecognition else {
++            self.sendEvent("onTranscriptionError", ["message": "On-device speech recognition not supported for locale", "code": "on_device_unavailable"])
++            return
++        }
+         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+         guard let recognitionRequest = recognitionRequest else {
+-            self.sendEvent("onTranscriptionError", ["message": "Unable to create recognition request"])
++            self.sendEvent("onTranscriptionError", ["message": "Unable to create recognition request", "code": "transcription_failed"])
+             return
+         }
+         recognitionRequest.shouldReportPartialResults = true
++        recognitionRequest.requiresOnDeviceRecognition = true
++
++        do {
++            let session = AVAudioSession.sharedInstance()
++            try session.setCategory(.record, mode: .measurement, options: [])
++            try session.setActive(true, options: .notifyOthersOnDeactivation)
++        } catch {
++            self.sendEvent("onTranscriptionError", ["message": error.localizedDescription, "code": "transcription_failed"])
++            return
++        }
+         
+         let inputNode = audioEngine.inputNode
+         let recordingFormat = inputNode.outputFormat(forBus: 0)
+         inputNode.removeTap(onBus: 0)
++        var lastLevelAt = Date.distantPast
+         
+-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, when in
++        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] buffer, when in
+             recognitionRequest.append(buffer)
++            let now = Date()
++            guard now.timeIntervalSince(lastLevelAt) >= 0.05,
++                  let channel = buffer.floatChannelData?[0] else { return }
++            lastLevelAt = now
++            let count = Int(buffer.frameLength)
++            guard count > 0 else { return }
++            var sum: Float = 0
++            for i in 0..<count { sum += channel[i] * channel[i] }
++            let rms = sqrt(sum / Float(count))
++            // -50 dB..0 dB mapped to 0..1
++            let db = 20 * log10(max(rms, 0.000_01))
++            let level = max(0, min(1, (db + 50) / 50))
++            self?.sendEvent("onAudioLevel", ["level": level])
+         }
+         
+         audioEngine.prepare()
+@@ -170,40 +209,43 @@ public class ExpoSpeechTranscriberModule: Module {
+             try audioEngine.start()
+             startedListening = true
+         } catch {
+-            self.sendEvent("onTranscriptionError", ["message": error.localizedDescription])
++            self.stopListening()
++            self.sendEvent("onTranscriptionError", ["message": error.localizedDescription, "code": "transcription_failed"])
+             return
+         }
+         
+-        recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
+-            if let error = error {
+-                self.stopListening()
+-                self.sendEvent("onTranscriptionError", ["message": error.localizedDescription])
+-                return
+-            }
+-            
+-            guard let result = result else {
++        recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
++            guard let self = self else { return }
++            if let result = result {
++                self.sendEvent(
++                    "onTranscriptionProgress",
++                    ["text": result.bestTranscription.formattedString, "isFinal": result.isFinal]
++                )
++                if result.isFinal {
++                    self.stopListening()
++                }
+                 return
+             }
+-            
+-            let recognizedText = result.bestTranscription.formattedString
+-            self.sendEvent(
+-                "onTranscriptionProgress",
+-                ["text": recognizedText, "isFinal": result.isFinal]
+-            )
+-            
+-            if result.isFinal {
++            if let error = error {
+                 self.stopListening()
++                self.sendEvent("onTranscriptionError", ["message": error.localizedDescription, "code": "transcription_failed"])
+             }
+         }
+     }
+     
+     private func stopListening() {
+-        audioEngine.stop()
++        if audioEngine.isRunning {
++            audioEngine.stop()
++        }
+         audioEngine.inputNode.removeTap(onBus: 0)
+-        //recognitionRequest?.endAudio()
++        recognitionRequest?.endAudio()
+         recognitionRequest = nil
+         recognitionTask?.cancel()
+         recognitionTask = nil
++        if startedListening {
++            startedListening = false
++            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
++        }
+     }
+     
+     
+diff --git a/src/ExpoSpeechTranscriber.types.ts b/src/ExpoSpeechTranscriber.types.ts
+index 75ec5839fac4f48a7f450daa0f3a9f8fbd66b9b7..251bc47cef31253c3b562cc46b86d8ce6ce4d0d3 100644
+--- a/src/ExpoSpeechTranscriber.types.ts
++++ b/src/ExpoSpeechTranscriber.types.ts
+@@ -11,12 +11,17 @@ export type TranscriptionProgressPayload = {
+ 
+ 
+ export type TranscriptionErrorPayload = {
+-  error: string;
++  message: string;
++  code?: string;
++};
++export type AudioLevelPayload = {
++  level: number;
+ };
+ 
+ export type ExpoSpeechTranscriberModuleEvents = {
+   onTranscriptionProgress(payload: TranscriptionProgressPayload): void;
+   onTranscriptionError(payload: TranscriptionErrorPayload): void;
++  onAudioLevel(payload: AudioLevelPayload): void;
+ };
+ 
+ export type ChangeEventPayload = {
+diff --git a/src/ExpoSpeechTranscriberModule.ts b/src/ExpoSpeechTranscriberModule.ts
+index d3db448c3807ec5bda3cfe4e15201481a28972d8..24c37a19cf7cfa2d518c5fcac0dabe9faea3955f 100644
+--- a/src/ExpoSpeechTranscriberModule.ts
++++ b/src/ExpoSpeechTranscriberModule.ts
+@@ -6,7 +6,7 @@ import type {
+ } from './ExpoSpeechTranscriber.types';
+ 
+ declare class ExpoSpeechTranscriberNative extends NativeModule<ExpoSpeechTranscriberModuleEvents> {
+-  recordRealTimeAndTranscribe(): Promise<void>;
++  recordRealTimeAndTranscribe(locale?: string | null): Promise<void>;
+   stopListening(): void;
+   transcribeAudioWithSFRecognizer(audioFilePath: string): Promise<string>;
+   transcribeAudioWithAnalyzer(audioFilePath: string): Promise<string>;
+diff --git a/src/index.ts b/src/index.ts
+index d5731e30deafc0a0ab28e4863a5bb31cc044c2fc..f7aba04f263b00813804aed15a1f6e358eed2a11 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -72,7 +72,7 @@ export function useRealTimeTranscription() {
+     });
+ 
+     const errorListener = ExpoSpeechTranscriberModule.addListener('onTranscriptionError', (payload: TranscriptionErrorPayload) => {
+-      setError(payload.error);
++      setError(payload.message);
+     })
+ 
+ 

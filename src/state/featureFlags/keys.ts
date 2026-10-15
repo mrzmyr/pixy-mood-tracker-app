@@ -17,6 +17,7 @@ export const FEATURE_FLAGS = [
   "people",
   "photos",
   "support-pixy",
+  "voice-mode",
 ] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */
@@ -87,6 +88,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   "support-pixy": {
     description: "Support Pixy card",
     location: "Settings, below Development",
+  },
+  "voice-mode": {
+    description: "Talk about your day; Pixy prefills a check-in",
+    location: "Calendar > Mic button next to +",
   },
 };
 

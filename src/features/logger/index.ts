@@ -5,3 +5,5 @@ export { LogEdit } from "./screens/Log/Edit";
 export { SlideSleepButton } from "./slides/SlideSleepButton";
 export * from "./Logger";
 export { getAvailableStepsForEdit, hasSleepOnDate } from "./steps";
+export { encodeLoggerPrefill } from "./prefill";
+export type { LoggerPrefill } from "./prefill";

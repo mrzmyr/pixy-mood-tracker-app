@@ -57,6 +57,19 @@ export interface AnalyticsEvents {
   };
   "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
+
+  /** Voice mode. Never the transcript, names, or emotion keys. */
+  "voice:flow_started": undefined;
+  "voice:flow_cancelled": { duration_ms: number; transcript_length: number };
+  "voice:flow_finished": {
+    duration_ms: number;
+    transcript_length: number;
+    tags_count: number;
+    people_count: number;
+    emotions_count: number;
+  };
+  "voice:permission_denied": { kind: "microphone" | "speech" };
+  "voice:failed": { status: string };
   "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
@@ -132,6 +145,7 @@ export interface AnalyticsEvents {
   };
   "calendar:add_today_tapped": { has_entries: boolean };
   "calendar:today_tapped": undefined;
+  "calendar:voice_tapped": { has_entries: boolean };
   "calendar:filters_opened": undefined;
   "calendar:filters_applied": {
     text_length: number;

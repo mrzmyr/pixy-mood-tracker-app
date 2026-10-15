@@ -90,6 +90,10 @@ const AppLayout = () => {
             name="logs/create/[dateTime]"
             options={{ ...modalOptions, gestureEnabled: false }}
           />
+          <Stack.Screen
+            name="logs/voice"
+            options={{ ...modalOptions, gestureEnabled: false }}
+          />
           <Stack.Screen name="days/[date]" options={modalOptions} />
           <Stack.Screen name="widget" options={modalOptions} />
           <Stack.Screen

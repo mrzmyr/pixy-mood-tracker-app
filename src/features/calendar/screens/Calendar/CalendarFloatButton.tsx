@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Platform, Pressable, StyleSheet } from "react-native";
-import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
+import { Pressable, StyleSheet } from "react-native";
+import { GlassView } from "expo-glass-effect";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   Easing,
@@ -16,6 +16,7 @@ import Animated, {
 import type { SharedValue } from "react-native-reanimated";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import { HAS_GLASS, IS_ANDROID, RADIUS, SIZE } from "./floatButtonMetrics";
 
 const BAR_LENGTH = 14;
 const BAR_THICKNESS = 2.5;
@@ -39,13 +40,6 @@ const COLOR_MS = 150;
 // Press feedback: 0.97 scale in 120 ms, strong ease-out.
 const PRESS_MS = 120;
 const PRESS_SCALE = 0.97;
-
-// iOS 26+: native Liquid Glass with its own shadow and press response.
-const HAS_GLASS = Platform.OS === "ios" && isGlassEffectAPIAvailable();
-// Android: Material 3 FAB, 56 dp, 16 dp corners, elevation level 3, ripple.
-const IS_ANDROID = Platform.OS === "android";
-const SIZE = IS_ANDROID ? 56 : 54;
-const RADIUS = IS_ANDROID ? 16 : SIZE / 2;
 
 const styles = StyleSheet.create({
   bar: {

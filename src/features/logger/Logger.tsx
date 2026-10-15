@@ -44,6 +44,7 @@ import { useLoggerTracking } from "./hooks/useLoggerTracking";
 import { usePassiveLocation } from "./hooks/usePassiveLocation";
 import type { SavedEntry } from "./hooks/useLoggerActions";
 import { Confirmation } from "./confirmation/Confirmation";
+import type { LoggerPrefill } from "./prefill";
 import {
   getAvailableStepsForCreate,
   getAvailableStepsForEdit,
@@ -163,6 +164,8 @@ const useStepSlides = ({
 
 interface LoggerProps {
   initialItem: LogDraft;
+  /** `initialItem` holds content from outside the logger. See `LogDraftProvider`. */
+  isPrefilled?: boolean;
   initialStep?: LoggerStep;
   avaliableSteps: LoggerStep[];
   mode: LoggerMode;
@@ -176,7 +179,7 @@ const LoggerSlides = ({
   mode,
   question,
   onCreated,
-}: Omit<LoggerProps, "initialItem">) => {
+}: Omit<LoggerProps, "initialItem" | "isPrefilled">) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
 
@@ -480,8 +483,8 @@ const LoggerSlides = ({
  * shows, and `feedback` also needs a `question`. With rating as the only
  * slide, picking a new rating saves at once.
  */
-export const Logger = ({ initialItem, ...props }: LoggerProps) => (
-  <LogDraftProvider initialDraft={initialItem}>
+export const Logger = ({ initialItem, isPrefilled, ...props }: LoggerProps) => (
+  <LogDraftProvider initialDraft={initialItem} isPrefilled={isPrefilled}>
     <LoggerSlides {...props} />
   </LogDraftProvider>
 );
@@ -541,10 +544,13 @@ export const LoggerCreate = ({
   dateTime,
   initialStep,
   avaliableSteps,
+  prefill,
 }: {
   dateTime: string;
   initialStep?: LoggerStep;
   avaliableSteps?: LoggerStep[];
+  /** Start values, for example from voice mode. */
+  prefill?: LoggerPrefill | null;
 }) => {
   // Generated once per mount so the new entry keeps a stable id and timestamp.
   const { id, createdAt } = useMemo(
@@ -564,10 +570,10 @@ export const LoggerCreate = ({
     date: toLogDate(dateTime || dayjs().toISOString()),
     dateTime,
     rating: null,
-    message: "",
-    emotions: [],
-    tags: [],
-    people: [],
+    message: prefill?.message ?? "",
+    emotions: prefill?.emotions ?? [],
+    tags: prefill?.tags.map((tagId) => ({ id: tagId })) ?? [],
+    people: prefill?.people.map((personId) => ({ id: personId })) ?? [],
     photos: [],
     sleep: {
       quality: null,
@@ -608,6 +614,7 @@ export const LoggerCreate = ({
       mode="create"
       onCreated={setSaved}
       initialItem={initialItem}
+      isPrefilled={!!prefill}
       initialStep={initialStep}
       avaliableSteps={steps}
       question={questioner.question}
