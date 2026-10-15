@@ -61,7 +61,6 @@ export const VoiceFeedbackSheet = ({
   const [rating, setRating] = useState<Rating | null>(null);
   const [comment, setComment] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const commentRef = useRef<TextInput>(null);
 
   // Prompt picked for this entry, waiting for the show delay.
   const [pending, setPending] = useState<typeof prompt>(null);
@@ -113,7 +112,6 @@ export const VoiceFeedbackSheet = ({
       });
     }
     setRating(next);
-    commentRef.current?.focus();
   };
 
   const sendComment = async () => {
@@ -227,7 +225,8 @@ export const VoiceFeedbackSheet = ({
               {t("voice_feedback_comment_label")}
             </Text>
             <TextInput
-              ref={commentRef}
+              // Mounts after the face tap, so focus here, not in `pick`.
+              autoFocus
               testID="voice-feedback-comment"
               accessibilityLabel={t("voice_feedback_comment_label")}
               accessibilityLabelledBy="voice-feedback-comment-label"
