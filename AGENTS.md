@@ -57,6 +57,7 @@
 - Never add tests that only assert static content matches expected values (translation keys, UI copy, enum labels)
 - Type safety and translation tooling catch label collisions at build time
 - Write tests for behavior, logic, and user-facing outcomes, not for checking static data structures
+- Never add meaningless unit tests: no tests that only mirror the implementation (mock called with X), re-check a one-line effect, or cover trivial wiring. Add a test only when it can fail for a real regression
 
 ## Notifications
 
