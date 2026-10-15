@@ -844,6 +844,7 @@
   "voice_done": "Tovább a bejegyzéshez",
   "voice_failed_body": "Hiba történt hallgatás közben. Próbáld újra.",
   "voice_failed_language": "A nyelved beszédfelismerése nincs ezen az eszközön. Töltsd le a Beállítások > Általános > Billentyűzet > Diktálási nyelvek menüben, majd próbáld újra.",
+  "voice_failed_siri": "Ezen az iOS-verzión a hanggal való bejegyzéshez Siri kell. Kapcsold be a Sirit a Beállításokban, vagy frissíts iOS 26-ra.",
   "voice_failed_title": "A hallgatás leállt",
   "voice_hint": "Mesélj a napodról: kivel voltál kapcsolatban, mit csináltál, hogy érzed magad.",
   "voice_kind_emotion": "Érzelem",

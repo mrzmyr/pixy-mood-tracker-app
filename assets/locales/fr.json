@@ -845,6 +845,7 @@
   "voice_done": "Continuer vers le check-in",
   "voice_failed_body": "Un problème est survenu pendant l’écoute. Réessaie.",
   "voice_failed_language": "La reconnaissance vocale pour ta langue n’est pas installée sur cet appareil. Télécharge-la dans Réglages > Général > Clavier > Langues de dictée, puis réessaie.",
+  "voice_failed_siri": "Sur cette version d’iOS, le check-in vocal a besoin de Siri. Active Siri dans Réglages ou passe à iOS 26.",
   "voice_failed_title": "Écoute interrompue",
   "voice_hint": "Parle de ta journée : avec qui tu as été en lien, ce que tu as fait, comment tu te sens.",
   "voice_kind_emotion": "Émotion",

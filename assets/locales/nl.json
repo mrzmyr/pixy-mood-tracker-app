@@ -847,6 +847,7 @@
   "voice_done": "Verder naar check-in",
   "voice_failed_body": "Er ging iets mis tijdens het luisteren. Probeer het opnieuw.",
   "voice_failed_language": "Spraakherkenning voor je taal staat niet op dit apparaat. Download die via Instellingen > Algemeen > Toetsenbord > Dicteertalen en probeer het daarna opnieuw.",
+  "voice_failed_siri": "Op deze iOS-versie heeft inchecken met je stem Siri nodig. Zet Siri aan in Instellingen of werk bij naar iOS 26.",
   "voice_failed_title": "Luisteren gestopt",
   "voice_hint": "Vertel over je dag: met wie je contact had, wat je deed, hoe je je voelt.",
   "voice_kind_emotion": "Emotie",

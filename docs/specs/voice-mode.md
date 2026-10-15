@@ -10,7 +10,9 @@ Speak about your day. Pixy transcribes on device, finds known people, tags, and 
 - Behind PostHog flag `voice-mode`. Flag off hides the mic button. Dev override in Settings > Development > Feature flags
 - Platforms: iOS, Android 13+ (API 33). Older Android hides the mic button
 - Transcription: [`expo-speech-transcriber`](https://github.com/DaveyEke/expo-speech-transcriber), patched with `bun patch` (see [Library patch](#library-patch))
-- Transcription stays on device. Locale = app language (`getLocale()`)
+- Transcription stays on device. Locale = app language ([`getSpeechLocales`](../../src/features/voice/speechLocale.ts))
+- iOS 26+: Apple `SpeechAnalyzer` (`SpeechTranscriber`). Works with Siri off. Downloads the language model from Apple once
+- iOS < 26: `SFSpeechRecognizer` on-device mode. Needs Siri on (`kLSRErrorDomain 201` "Siri and Dictation are disabled", found on device 2026-10-15). Siri off: state "voice mode needs Siri"
 - Matching: on-device keyword match (option a). Swappable matcher for Apple Foundation Models later (option c, out of scope)
 - Match only existing, non-archived tags, people, and enabled emotions. Unknown names are ignored. Nothing is auto-created
 - People match only when flag `people` is on
@@ -66,18 +68,22 @@ File: `src/features/voice/matchTranscript.ts`. Pure function, unit tested.
 `patches/expo-speech-transcriber@0.1.9.patch`
 
 - `recordRealTimeAndTranscribe(locale?: string)`: recognizer for given locale. Unsupported locale: error event, no crash (removes `SFSpeechRecognizer()!`)
-- iOS: `requiresOnDeviceRecognition = true` when supported. Not supported for locale, or `kLSRErrorDomain 201`: error `on_device_unavailable`, no server fallback
-- JavaScript retries once with the system recognizer (no locale = Siri and Dictation language), then shows the language state
+- iOS 26+: `LiveAnalyzer.swift` runs `SpeechAnalyzer` with volatile results. Progress events carry `endsSession: false`, so JavaScript does not restart
+- iOS < 26: `requiresOnDeviceRecognition = true`. Not supported for locale: `on_device_unavailable`. `kLSRErrorDomain 201`: `siri_disabled`. No server fallback
+- Stale task callbacks are ignored. No speech (`1110`) and cancel (`216`, `301`) map to `no_speech`, JavaScript restarts (max 5 in a row)
+- Locale problems: JavaScript tries device region, system recognizer, then main region ("en-US"), then shows the language state
 - iOS: configure `AVAudioSession` (`.record`, `.measurement`) on start, deactivate on stop
 - iOS: tap computes RMS per buffer, emits `onAudioLevel { level: 0...1 }` (throttled ~20 Hz)
 - Android: `EXTRA_LANGUAGE` from locale param, `EXTRA_PREFER_OFFLINE = true`, `onRmsChanged` emits `onAudioLevel`
 - Final result ends one segment. JavaScript commits the segment and restarts while not paused (Android stops after silence, iOS caps one task at ~1 min)
+- iOS 18+ restarts partial text after a pause in one task. A partial that does not continue the previous one commits the previous one ([`transcript.ts`](../../src/features/voice/transcript.ts))
 
 ## Errors
 
 Every error has `status`, `message`, `why`, `fix` ([AGENTS.md](../../AGENTS.md#errors)).
 
-- `voice_permission_denied`, `voice_recognizer_unavailable`, `voice_on_device_unavailable`, `voice_transcription_failed`
+- `voice_permission_denied`, `voice_recognizer_unavailable`, `voice_on_device_unavailable`, `voice_siri_disabled`, `voice_transcription_failed`
+- Failures go to `console.error` and Sentry. `why` holds the native message and locale, never speech
 
 ## Analytics
 

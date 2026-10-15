@@ -844,6 +844,7 @@
   "voice_done": "Jatka kirjaukseen",
   "voice_failed_body": "Kuuntelussa tapahtui virhe. Yritä uudelleen.",
   "voice_failed_language": "Kielesi puheentunnistusta ei ole tällä laitteella. Lataa se kohdassa Asetukset > Yleiset > Näppäimistö > Sanelukielet ja yritä sitten uudelleen.",
+  "voice_failed_siri": "Tässä iOS-versiossa puheella kirjaaminen vaatii Sirin. Laita Siri päälle Asetuksista tai päivitä iOS 26:een.",
   "voice_failed_title": "Kuuntelu pysähtyi",
   "voice_hint": "Kerro päivästäsi: kenen kanssa olit yhteydessä, mitä teit, miltä sinusta tuntuu.",
   "voice_kind_emotion": "Tunne",

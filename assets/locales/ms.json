@@ -844,6 +844,7 @@
   "voice_done": "Teruskan ke daftar masuk",
   "voice_failed_body": "Ada masalah semasa mendengar. Cuba lagi.",
   "voice_failed_language": "Pengecaman pertuturan untuk bahasa anda tiada pada peranti ini. Muat turun dalam Seting > Umum > Papan Kekunci > Bahasa Imlak, kemudian cuba lagi.",
+  "voice_failed_siri": "Pada versi iOS ini, daftar masuk dengan suara memerlukan Siri. Hidupkan Siri dalam Seting, atau kemas kini ke iOS 26.",
   "voice_failed_title": "Mendengar dihentikan",
   "voice_hint": "Ceritakan hari anda: dengan siapa anda berhubung, apa yang anda buat, bagaimana perasaan anda.",
   "voice_kind_emotion": "Emosi",

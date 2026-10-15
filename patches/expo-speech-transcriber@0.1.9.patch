@@ -1,3 +1,9 @@
+diff --git a/node_modules/expo-speech-transcriber/.bun-tag-36e3a87a5d079281 b/.bun-tag-36e3a87a5d079281
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/expo-speech-transcriber/.bun-tag-601bb8b6d7e303fd b/.bun-tag-601bb8b6d7e303fd
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/node_modules/expo-speech-transcriber/.bun-tag-708f231130225856 b/.bun-tag-708f231130225856
 new file mode 100644
 index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
@@ -84,11 +90,15 @@ index 9857dc95491f442cf891b880c544244991ace3f1..94779486255abd3baf1d72bfccfb638f
      return when (errorCode) {
        SpeechRecognizer.ERROR_AUDIO -> "Audio recording error"
 diff --git a/build/ExpoSpeechTranscriber.types.d.ts b/build/ExpoSpeechTranscriber.types.d.ts
-index ea1bd72c1dcf7ad8087ba2790c44235eb04087c5..1643ba3a60d76f7695d0e2c15279cddc8f9f1084 100644
+index ea1bd72c1dcf7ad8087ba2790c44235eb04087c5..40ed25660b3a46f09408b248c2004b44b5f13888 100644
 --- a/build/ExpoSpeechTranscriber.types.d.ts
 +++ b/build/ExpoSpeechTranscriber.types.d.ts
-@@ -7,11 +7,16 @@ export type TranscriptionProgressPayload = {
+@@ -5,13 +5,20 @@ export type OnLoadEventPayload = {
+ export type TranscriptionProgressPayload = {
+     text: string;
      isFinal: boolean;
++    /** false: the session keeps running after this final result. */
++    endsSession?: boolean;
  };
  export type TranscriptionErrorPayload = {
 -    error: string;
@@ -132,10 +142,16 @@ index 3f06123dc313287da6eafb4271dd576809a8bd2a..2a15ad623f277f6b49be07155ac6e972
          const interval = setInterval(() => {
              const newIsRecording = ExpoSpeechTranscriberModule.isRecording();
 diff --git a/ios/ExpoSpeechTranscriberModule.swift b/ios/ExpoSpeechTranscriberModule.swift
-index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..02335335f1690b17cb0018c73636762d9d522671 100644
+index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..105260174268a1ee1a667c31b71c59d4a50d73d1 100644
 --- a/ios/ExpoSpeechTranscriberModule.swift
 +++ b/ios/ExpoSpeechTranscriberModule.swift
-@@ -13,11 +13,11 @@ public class ExpoSpeechTranscriberModule: Module {
+@@ -9,15 +9,17 @@ public class ExpoSpeechTranscriberModule: Module {
+     private var recognitionTask: SFSpeechRecognitionTask?
+     private var bufferRecognitionTask: SFSpeechRecognitionTask?
+     private var startedListening = false
++    // LiveAnalyzer on iOS 26+. `Any` because stored properties cannot be @available.
++    private var liveAnalyzer: Any?
+     
      public func definition() -> ModuleDefinition {
          Name("ExpoSpeechTranscriber")
          
@@ -150,7 +166,7 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..02335335f1690b17cb0018c73636762d
          }
          
          // Method 2: Transcribe from URL using SFSpeechRecognizer (iOS 13+)
-@@ -147,22 +147,61 @@ public class ExpoSpeechTranscriberModule: Module {
+@@ -147,22 +149,78 @@ public class ExpoSpeechTranscriberModule: Module {
          bufferRecognitionTask = nil
      }
      
@@ -160,6 +176,23 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..02335335f1690b17cb0018c73636762d
 +    // startRecordingAndTranscription using SFSpeechRecognizer.
 +    // Patched: locale, on-device only, audio session, level events, no force unwrap.
 +    private func recordRealTimeAndTranscribe(localeIdentifier: String?) async -> Void  {
++        if #available(iOS 26.0, *), LiveAnalyzer.isSupported {
++            let analyzer = (liveAnalyzer as? LiveAnalyzer) ?? LiveAnalyzer()
++            liveAnalyzer = analyzer
++            await analyzer.start(
++                localeIdentifier: localeIdentifier,
++                onText: { [weak self] text, isFinal in
++                    self?.sendEvent("onTranscriptionProgress", ["text": text, "isFinal": isFinal, "endsSession": false])
++                },
++                onLevel: { [weak self] level in
++                    self?.sendEvent("onAudioLevel", ["level": level])
++                },
++                onError: { [weak self] message, code in
++                    self?.sendEvent("onTranscriptionError", ["message": message, "code": code])
++                }
++            )
++            return
++        }
 +        stopListening()
 +        let recognizer: SFSpeechRecognizer?
 +        if let localeIdentifier = localeIdentifier {
@@ -217,7 +250,7 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..02335335f1690b17cb0018c73636762d
          }
          
          audioEngine.prepare()
-@@ -170,40 +209,52 @@ public class ExpoSpeechTranscriberModule: Module {
+@@ -170,40 +228,55 @@ public class ExpoSpeechTranscriberModule: Module {
              try audioEngine.start()
              startedListening = true
          } catch {
@@ -241,7 +274,7 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..02335335f1690b17cb0018c73636762d
 +            if let result = result {
 +                self.sendEvent(
 +                    "onTranscriptionProgress",
-+                    ["text": result.bestTranscription.formattedString, "isFinal": result.isFinal]
++                    ["text": result.bestTranscription.formattedString, "isFinal": result.isFinal, "endsSession": result.isFinal]
 +                )
 +                if result.isFinal {
 +                    self.stopListening()
@@ -261,11 +294,11 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..02335335f1690b17cb0018c73636762d
 +                // No speech (1110) or a cancelled task (216, 301): JS starts a new segment.
 +                let isNoSpeech = (error.domain == "kAFAssistantErrorDomain" && [1110, 216, 203].contains(error.code))
 +                    || (error.domain == "kLSRErrorDomain" && error.code == 301)
-+                // 201: no on-device model or dictation for this locale.
-+                let isOnDeviceUnavailable = error.domain == "kLSRErrorDomain" && error.code == 201
++                // 201: "Siri and Dictation are disabled". On-device SFSpeechRecognizer needs Siri on.
++                let isSiriDisabled = error.domain == "kLSRErrorDomain" && error.code == 201
 +                self.sendEvent("onTranscriptionError", [
 +                    "message": "\(error.localizedDescription) [\(error.domain) \(error.code)] locale=\(speechRecognizer.locale.identifier)",
-+                    "code": isNoSpeech ? "no_speech" : (isOnDeviceUnavailable ? "on_device_unavailable" : "transcription_failed")
++                    "code": isNoSpeech ? "no_speech" : (isSiriDisabled ? "siri_disabled" : "transcription_failed")
 +                ])
              }
          }
@@ -273,6 +306,9 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..02335335f1690b17cb0018c73636762d
      
      private func stopListening() {
 -        audioEngine.stop()
++        if #available(iOS 26.0, *), let analyzer = liveAnalyzer as? LiveAnalyzer {
++            Task { await analyzer.stop() }
++        }
 +        if audioEngine.isRunning {
 +            audioEngine.stop()
 +        }
@@ -289,11 +325,170 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..02335335f1690b17cb0018c73636762d
      }
      
      
+diff --git a/node_modules/expo-speech-transcriber/ios/LiveAnalyzer.swift b/ios/LiveAnalyzer.swift
+new file mode 100644
+index 0000000000000000000000000000000000000000..e15d8bcf3aa36fcc6479e347bfbfacc579ce86ad
+--- /dev/null
++++ b/ios/LiveAnalyzer.swift
+@@ -0,0 +1,147 @@
++import AVFoundation
++import Foundation
++import Speech
++
++/// Live, on-device transcription with SpeechAnalyzer (iOS 26+).
++/// Works without Siri, unlike SFSpeechRecognizer on-device mode.
++/// Volatile results report the running range; final results end one range.
++@available(iOS 26.0, *)
++final class LiveAnalyzer {
++  typealias TextHandler = (_ text: String, _ isFinal: Bool) -> Void
++  typealias LevelHandler = (_ level: Float) -> Void
++  typealias ErrorHandler = (_ message: String, _ code: String) -> Void
++
++  private let engine = AVAudioEngine()
++  private var analyzer: SpeechAnalyzer?
++  private var inputContinuation: AsyncStream<AnalyzerInput>.Continuation?
++  private var resultsTask: Task<Void, Never>?
++  private var isRunning = false
++
++  static var isSupported: Bool { SpeechTranscriber.isAvailable }
++
++  func start(
++    localeIdentifier: String?,
++    onText: @escaping TextHandler,
++    onLevel: @escaping LevelHandler,
++    onError: @escaping ErrorHandler
++  ) async {
++    await stop()
++    let requested = localeIdentifier.map { Locale(identifier: $0) } ?? Locale.current
++    guard let locale = await SpeechTranscriber.supportedLocale(equivalentTo: requested) else {
++      onError("SpeechTranscriber has no model for locale \(requested.identifier)", "recognizer_unavailable")
++      return
++    }
++    let transcriber = SpeechTranscriber(
++      locale: locale,
++      transcriptionOptions: [],
++      reportingOptions: [.volatileResults],
++      attributeOptions: []
++    )
++    do {
++      // Downloads the language model from Apple once. No user data leaves the device.
++      if let request = try await AssetInventory.assetInstallationRequest(supporting: [transcriber]) {
++        try await request.downloadAndInstall()
++      }
++    } catch {
++      onError("Speech model download failed: \(error.localizedDescription) locale=\(locale.identifier)", "on_device_unavailable")
++      return
++    }
++    guard let analyzerFormat = await SpeechAnalyzer.bestAvailableAudioFormat(compatibleWith: [transcriber]) else {
++      onError("No audio format for SpeechTranscriber", "transcription_failed")
++      return
++    }
++
++    do {
++      let session = AVAudioSession.sharedInstance()
++      try session.setCategory(.record, mode: .measurement, options: [])
++      try session.setActive(true, options: .notifyOthersOnDeactivation)
++    } catch {
++      onError(error.localizedDescription, "transcription_failed")
++      return
++    }
++
++    let (stream, continuation) = AsyncStream<AnalyzerInput>.makeStream()
++    inputContinuation = continuation
++    let analyzer = SpeechAnalyzer(modules: [transcriber])
++    self.analyzer = analyzer
++
++    resultsTask = Task {
++      do {
++        for try await result in transcriber.results {
++          onText(String(result.text.characters), result.isFinal)
++        }
++      } catch is CancellationError {
++      } catch {
++        onError("\(error.localizedDescription) locale=\(locale.identifier)", "transcription_failed")
++      }
++    }
++
++    let inputNode = engine.inputNode
++    let inputFormat = inputNode.outputFormat(forBus: 0)
++    guard let converter = AVAudioConverter(from: inputFormat, to: analyzerFormat) else {
++      onError("Cannot convert microphone audio", "transcription_failed")
++      await stop()
++      return
++    }
++    var lastLevelAt = Date.distantPast
++    inputNode.removeTap(onBus: 0)
++    inputNode.installTap(onBus: 0, bufferSize: 4096, format: inputFormat) { buffer, _ in
++      let now = Date()
++      if now.timeIntervalSince(lastLevelAt) >= 0.05, let channel = buffer.floatChannelData?[0], buffer.frameLength > 0 {
++        lastLevelAt = now
++        let count = Int(buffer.frameLength)
++        var sum: Float = 0
++        for i in 0..<count { sum += channel[i] * channel[i] }
++        let db = 20 * log10(max(sqrt(sum / Float(count)), 0.000_01))
++        onLevel(max(0, min(1, (db + 50) / 50)))
++      }
++      let ratio = analyzerFormat.sampleRate / inputFormat.sampleRate
++      let capacity = AVAudioFrameCount(Double(buffer.frameLength) * ratio) + 1
++      guard let converted = AVAudioPCMBuffer(pcmFormat: analyzerFormat, frameCapacity: capacity) else { return }
++      var consumed = false
++      var conversionError: NSError?
++      converter.convert(to: converted, error: &conversionError) { _, status in
++        if consumed {
++          status.pointee = .noDataNow
++          return nil
++        }
++        consumed = true
++        status.pointee = .haveData
++        return buffer
++      }
++      if conversionError == nil, converted.frameLength > 0 {
++        continuation.yield(AnalyzerInput(buffer: converted))
++      }
++    }
++
++    do {
++      try await analyzer.start(inputSequence: stream)
++      engine.prepare()
++      try engine.start()
++      isRunning = true
++    } catch {
++      onError("\(error.localizedDescription) locale=\(locale.identifier)", "transcription_failed")
++      await stop()
++    }
++  }
++
++  func stop() async {
++    if engine.isRunning {
++      engine.stop()
++    }
++    engine.inputNode.removeTap(onBus: 0)
++    inputContinuation?.finish()
++    inputContinuation = nil
++    if let analyzer = analyzer {
++      // Finalize so the last volatile range arrives as a final result.
++      try? await analyzer.finalizeAndFinishThroughEndOfInput()
++    }
++    analyzer = nil
++    resultsTask?.cancel()
++    resultsTask = nil
++    if isRunning {
++      isRunning = false
++      try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
++    }
++  }
++}
 diff --git a/src/ExpoSpeechTranscriber.types.ts b/src/ExpoSpeechTranscriber.types.ts
-index 75ec5839fac4f48a7f450daa0f3a9f8fbd66b9b7..251bc47cef31253c3b562cc46b86d8ce6ce4d0d3 100644
+index 75ec5839fac4f48a7f450daa0f3a9f8fbd66b9b7..699cb4ba1ae0b4ff8599618b8c01974c985366f5 100644
 --- a/src/ExpoSpeechTranscriber.types.ts
 +++ b/src/ExpoSpeechTranscriber.types.ts
-@@ -11,12 +11,17 @@ export type TranscriptionProgressPayload = {
+@@ -7,16 +7,23 @@ export type OnLoadEventPayload = {
+ export type TranscriptionProgressPayload = {
+   text: string;
+   isFinal: boolean;
++  /** false: the session keeps running after this final result. */
++  endsSession?: boolean;
+ };
  
  
  export type TranscriptionErrorPayload = {

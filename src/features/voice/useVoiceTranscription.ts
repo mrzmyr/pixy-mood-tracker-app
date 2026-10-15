@@ -29,6 +29,7 @@ export type VoiceErrorStatus =
   | "voice_permission_denied"
   | "voice_recognizer_unavailable"
   | "voice_on_device_unavailable"
+  | "voice_siri_disabled"
   | "voice_transcription_failed";
 
 // Maps native error codes of the patched library.
@@ -43,6 +44,9 @@ const toErrorStatus = (code: string | undefined): VoiceErrorStatus => {
     case "on_device_unavailable": {
       return "voice_on_device_unavailable";
     }
+    case "siri_disabled": {
+      return "voice_siri_disabled";
+    }
     default: {
       return "voice_transcription_failed";
     }
@@ -56,6 +60,7 @@ const FIXES: Record<VoiceErrorStatus, string> = {
     "Allow microphone and speech recognition in Settings",
   voice_recognizer_unavailable:
     "Add the dictation language in iOS Settings > General > Keyboard, or switch the app language",
+  voice_siri_disabled: "Turn on Siri in iOS Settings, or update to iOS 26",
   voice_on_device_unavailable:
     "Add the dictation language in iOS Settings > General > Keyboard, or switch the app language",
   voice_transcription_failed: "Close voice mode and try again",
@@ -153,7 +158,9 @@ export const useVoiceTranscription = ({
         }
         emptyRestarts.current = 0;
         updateTranscript((current) => applyResult(current, payload));
-        if (payload.isFinal) {
+        // Legacy recognizers stop after a final result. SpeechAnalyzer keeps
+        // running (`endsSession: false`).
+        if (payload.isFinal && payload.endsSession !== false) {
           // The recognizer stopped itself. Keep listening in a new segment.
           startSegment();
         }

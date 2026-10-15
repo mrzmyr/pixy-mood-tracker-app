@@ -844,6 +844,7 @@
   "voice_done": "Lanjut ke check-in",
   "voice_failed_body": "Terjadi masalah saat mendengarkan. Coba lagi.",
   "voice_failed_language": "Pengenalan suara untuk bahasamu tidak ada di perangkat ini. Unduh di Pengaturan > Umum > Papan Ketik > Bahasa Dikte, lalu coba lagi.",
+  "voice_failed_siri": "Di versi iOS ini, check-in dengan suara butuh Siri. Nyalakan Siri di Pengaturan, atau perbarui ke iOS 26.",
   "voice_failed_title": "Berhenti mendengarkan",
   "voice_hint": "Ceritakan harimu: siapa yang kamu hubungi, apa yang kamu lakukan, bagaimana perasaanmu.",
   "voice_kind_emotion": "Emosi",

@@ -844,6 +844,7 @@
   "voice_done": "Przejdź do wpisu",
   "voice_failed_body": "Coś poszło nie tak podczas słuchania. Spróbuj ponownie.",
   "voice_failed_language": "Na tym urządzeniu nie ma rozpoznawania mowy dla Twojego języka. Pobierz je w Ustawienia > Ogólne > Klawiatura > Języki dyktowania i spróbuj ponownie.",
+  "voice_failed_siri": "W tej wersji iOS wpis głosowy wymaga Siri. Włącz Siri w Ustawieniach lub zaktualizuj system do iOS 26.",
   "voice_failed_title": "Słuchanie przerwane",
   "voice_hint": "Opowiedz o swoim dniu: z kim miałeś kontakt, co robiłeś, jak się czujesz.",
   "voice_kind_emotion": "Emocja",

@@ -844,6 +844,7 @@
   "voice_done": "체크인으로 계속",
   "voice_failed_body": "듣는 중에 문제가 발생했습니다. 다시 시도하세요.",
   "voice_failed_language": "이 기기에 사용 언어의 음성 인식이 없습니다. 설정 > 일반 > 키보드 > 받아쓰기 언어에서 다운로드한 후 다시 시도하세요.",
+  "voice_failed_siri": "이 iOS 버전에서는 음성으로 체크인하려면 Siri가 필요합니다. 설정에서 Siri를 켜거나 iOS 26으로 업데이트하세요.",
   "voice_failed_title": "듣기가 중지됨",
   "voice_hint": "오늘 하루를 이야기해 주세요: 누구와 연결되었는지, 무엇을 했는지, 기분이 어떤지.",
   "voice_kind_emotion": "감정",

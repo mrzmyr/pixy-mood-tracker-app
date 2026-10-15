@@ -844,6 +844,7 @@
   "voice_done": "Continuă la înregistrare",
   "voice_failed_body": "Ceva n-a mers bine în timpul ascultării. Încearcă din nou.",
   "voice_failed_language": "Recunoașterea vorbirii pentru limba ta nu este pe acest dispozitiv. Descarc-o din Configurări > General > Tastatură > Limbi dictare, apoi încearcă din nou.",
+  "voice_failed_siri": "Pe această versiune de iOS, înregistrarea vocală are nevoie de Siri. Activează Siri din Configurări sau actualizează la iOS 26.",
   "voice_failed_title": "Ascultare oprită",
   "voice_hint": "Vorbește despre ziua ta: cu cine ai fost în legătură, ce ai făcut, cum te simți.",
   "voice_kind_emotion": "Emoție",

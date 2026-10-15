@@ -844,6 +844,7 @@
   "voice_done": "Fortsett til innsjekking",
   "voice_failed_body": "Noe gikk galt under lyttingen. Prøv igjen.",
   "voice_failed_language": "Talegjenkjenning for språket ditt finnes ikke på denne enheten. Last det ned under Innstillinger > Generelt > Tastatur > Dikteringsspråk, og prøv igjen.",
+  "voice_failed_siri": "På denne iOS-versjonen trenger innsjekking med stemmen Siri. Slå på Siri i Innstillinger, eller oppdater til iOS 26.",
   "voice_failed_title": "Lyttingen stoppet",
   "voice_hint": "Fortell om dagen din: hvem du var i kontakt med, hva du gjorde, hvordan du har det.",
   "voice_kind_emotion": "Følelse",

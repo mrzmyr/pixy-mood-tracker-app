@@ -844,6 +844,7 @@
   "voice_done": "Pokračovat k záznamu",
   "voice_failed_body": "Při poslechu se něco pokazilo. Zkus to znovu.",
   "voice_failed_language": "Rozpoznávání řeči pro tvůj jazyk na tomto zařízení není. Stáhni ho v Nastavení > Obecné > Klávesnice > Jazyky diktování a pak to zkus znovu.",
+  "voice_failed_siri": "Na této verzi iOS potřebuje záznam hlasem Siri. Zapni Siri v Nastavení, nebo aktualizuj na iOS 26.",
   "voice_failed_title": "Poslech zastaven",
   "voice_hint": "Povídej o svém dni: s kým jsi byl v kontaktu, co jsi dělal, jak se cítíš.",
   "voice_kind_emotion": "Emoce",

@@ -993,6 +993,7 @@
   "voice_done": "Continue to Check-In",
   "voice_failed_body": "Something went wrong while listening. Try again.",
   "voice_failed_language": "Speech recognition for your language is not on this device. Download it in Settings > General > Keyboard > Dictation Languages, then try again.",
+  "voice_failed_siri": "On this iOS version, voice mode needs Siri. Turn on Siri in Settings, or update to iOS 26.",
   "voice_failed_title": "Listening Stopped",
   "voice_hint": "Talk about your day: who you connected with, what you did, how you feel.",
   "voice_kind_emotion": "Emotion",

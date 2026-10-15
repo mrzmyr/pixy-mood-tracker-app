@@ -844,6 +844,7 @@
   "voice_done": "Continuar para o check-in",
   "voice_failed_body": "Algo correu mal durante a escuta. Tenta de novo.",
   "voice_failed_language": "O reconhecimento de voz para o teu idioma não está neste dispositivo. Descarrega-o em Definições > Geral > Teclado > Idiomas de ditado e tenta de novo.",
+  "voice_failed_siri": "Nesta versão do iOS, o check-in por voz precisa da Siri. Ativa a Siri em Definições ou atualiza para o iOS 26.",
   "voice_failed_title": "Escuta interrompida",
   "voice_hint": "Fala sobre o teu dia: com quem te ligaste, o que fizeste, como te sentes.",
   "voice_kind_emotion": "Emoção",

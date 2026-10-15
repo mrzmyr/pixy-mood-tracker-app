@@ -844,6 +844,7 @@
   "voice_done": "Fortsätt till incheckning",
   "voice_failed_body": "Något gick fel när appen lyssnade. Försök igen.",
   "voice_failed_language": "Taligenkänning för ditt språk finns inte på den här enheten. Hämta det under Inställningar > Allmänt > Tangentbord > Dikteringsspråk och försök sedan igen.",
+  "voice_failed_siri": "På den här iOS-versionen behöver incheckning med rösten Siri. Slå på Siri i Inställningar eller uppdatera till iOS 26.",
   "voice_failed_title": "Lyssnandet stoppades",
   "voice_hint": "Berätta om din dag: vem du hade kontakt med, vad du gjorde, hur du mår.",
   "voice_kind_emotion": "Känsla",

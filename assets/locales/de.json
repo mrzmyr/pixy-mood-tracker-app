@@ -851,6 +851,7 @@
   "voice_done": "Weiter zum Check-in",
   "voice_failed_body": "Beim Zuhören ist etwas schiefgelaufen. Versuch es noch einmal.",
   "voice_failed_language": "Die Spracherkennung für deine Sprache ist auf diesem Gerät nicht vorhanden. Lade sie unter Einstellungen > Allgemein > Tastatur > Diktiersprachen herunter und versuch es dann noch einmal.",
+  "voice_failed_siri": "Auf dieser iOS-Version braucht der Check-in per Sprache Siri. Schalte Siri in den Einstellungen ein oder aktualisiere auf iOS 26.",
   "voice_failed_title": "Zuhören gestoppt",
   "voice_hint": "Erzähl von deinem Tag: mit wem du in Verbindung warst, was du gemacht hast, wie du dich fühlst.",
   "voice_kind_emotion": "Emotion",

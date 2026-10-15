@@ -844,6 +844,7 @@
   "voice_done": "Continuar al registro",
   "voice_failed_body": "Algo salió mal mientras escuchaba. Inténtalo de nuevo.",
   "voice_failed_language": "El reconocimiento de voz para tu idioma no está en este dispositivo. Descárgalo en Ajustes > General > Teclado > Idiomas de dictado e inténtalo de nuevo.",
+  "voice_failed_siri": "En esta versión de iOS, el registro por voz necesita Siri. Activa Siri en Ajustes o actualiza a iOS 26.",
   "voice_failed_title": "Escucha detenida",
   "voice_hint": "Habla de tu día: con quién conectaste, qué hiciste, cómo te sientes.",
   "voice_kind_emotion": "Emoción",

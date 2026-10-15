@@ -844,6 +844,7 @@
   "voice_done": "Kayda devam et",
   "voice_failed_body": "Dinlerken bir şeyler ters gitti. Tekrar dene.",
   "voice_failed_language": "Dilin için konuşma tanıma bu cihazda yok. Ayarlar > Genel > Klavye > Dikte Dilleri bölümünden indir, sonra tekrar dene.",
+  "voice_failed_siri": "Bu iOS sürümünde sesle kayıt için Siri gerekiyor. Siri'yi Ayarlar'dan aç veya iOS 26'ya güncelle.",
   "voice_failed_title": "Dinleme durdu",
   "voice_hint": "Gününü anlat: kimle bağlantı kurdun, ne yaptın, nasıl hissediyorsun.",
   "voice_kind_emotion": "Duygu",

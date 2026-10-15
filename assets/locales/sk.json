@@ -844,6 +844,7 @@
   "voice_done": "Pokračovať na záznam",
   "voice_failed_body": "Pri počúvaní sa niečo pokazilo. Skús to znova.",
   "voice_failed_language": "Rozpoznávanie reči pre tvoj jazyk v tomto zariadení nie je. Stiahni ho v Nastavenia > Všeobecné > Klávesnica > Jazyky diktovania a potom to skús znova.",
+  "voice_failed_siri": "Na tejto verzii iOS potrebuje záznam hlasom Siri. Zapni Siri v Nastaveniach alebo aktualizuj na iOS 26.",
   "voice_failed_title": "Počúvanie zastavené",
   "voice_hint": "Porozprávaj o svojom dni: s kým si bol v kontakte, čo si robil, ako sa cítiš.",
   "voice_kind_emotion": "Emócia",

@@ -844,6 +844,7 @@
   "voice_done": "Tiếp tục ghi",
   "voice_failed_body": "Đã xảy ra lỗi khi nghe. Hãy thử lại.",
   "voice_failed_language": "Thiết bị này chưa có nhận dạng giọng nói cho ngôn ngữ của bạn. Hãy tải xuống trong Cài đặt > Cài đặt chung > Bàn phím > Ngôn ngữ đọc chính tả, rồi thử lại.",
+  "voice_failed_siri": "Trên phiên bản iOS này, ghi bằng giọng nói cần Siri. Hãy bật Siri trong Cài đặt, hoặc cập nhật lên iOS 26.",
   "voice_failed_title": "Đã dừng nghe",
   "voice_hint": "Kể về ngày của bạn: bạn đã kết nối với ai, đã làm gì, cảm thấy thế nào.",
   "voice_kind_emotion": "Cảm xúc",

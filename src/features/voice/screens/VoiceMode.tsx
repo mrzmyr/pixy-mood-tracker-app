@@ -43,6 +43,9 @@ const blockedCopy = (
       body: t("voice_permission_body"),
     };
   }
+  if (errorStatus === "voice_siri_disabled") {
+    return { title: t("voice_failed_title"), body: t("voice_failed_siri") };
+  }
   const isLanguageMissing =
     errorStatus === "voice_on_device_unavailable" ||
     errorStatus === "voice_recognizer_unavailable";

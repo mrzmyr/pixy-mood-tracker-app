@@ -844,6 +844,7 @@
   "voice_done": "Nastavi na unos",
   "voice_failed_body": "Nešto je pošlo po zlu tijekom slušanja. Pokušaj ponovno.",
   "voice_failed_language": "Prepoznavanje govora za tvoj jezik nije na ovom uređaju. Preuzmi ga u Postavke > Općenito > Tipkovnica > Jezici diktiranja pa pokušaj ponovno.",
+  "voice_failed_siri": "Na ovoj verziji iOS-a unos glasom treba Siri. Uključi Siri u Postavkama ili ažuriraj na iOS 26.",
   "voice_failed_title": "Slušanje zaustavljeno",
   "voice_hint": "Ispričaj svoj dan: s kim si bio u kontaktu, što si radio, kako se osjećaš.",
   "voice_kind_emotion": "Emocija",
