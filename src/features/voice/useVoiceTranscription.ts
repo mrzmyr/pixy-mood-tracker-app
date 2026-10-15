@@ -12,7 +12,7 @@ import {
   transcriptText,
 } from "./transcript";
 import type { TranscriptState } from "./transcript";
-import { getSpeechLocale } from "./speechLocale";
+import { getSpeechLocales } from "./speechLocale";
 import { getSpeechModule } from "./speechModule";
 
 /** Lifecycle of voice mode listening. `denied` and `failed` need user action. */
@@ -102,8 +102,8 @@ export const useVoiceTranscription = ({
   const latestLevel = useRef(0);
   // Restarts without any text in between. Stops a restart loop.
   const emptyRestarts = useRef(0);
-  // App language recognizer failed: use the system dictation language.
-  const useSystemLocale = useRef(false);
+  // Index into `getSpeechLocales()`. Moves on when a locale has no model.
+  const localeIndex = useRef(0);
   const statusRef = useRef<VoiceStatus>("idle");
   const callbacks = useRef({ onPermissionDenied, onFailed });
   useEffect(() => {
@@ -126,7 +126,7 @@ export const useVoiceTranscription = ({
   const startSegment = useCallback(async () => {
     try {
       await getSpeechModule()?.recordRealTimeAndTranscribe(
-        useSystemLocale.current ? null : getSpeechLocale()
+        getSpeechLocales()[localeIndex.current] ?? null
       );
     } catch (cause) {
       const failure = voiceError(
@@ -183,8 +183,11 @@ export const useVoiceTranscription = ({
         const isLocaleProblem =
           errorStatus === "voice_on_device_unavailable" ||
           errorStatus === "voice_recognizer_unavailable";
-        if (isLocaleProblem && !useSystemLocale.current) {
-          useSystemLocale.current = true;
+        if (
+          isLocaleProblem &&
+          localeIndex.current < getSpeechLocales().length - 1
+        ) {
+          localeIndex.current += 1;
           startSegment();
           return;
         }
