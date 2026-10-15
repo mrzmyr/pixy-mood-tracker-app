@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Platform } from "react-native";
+import * as Sentry from "@sentry/react-native";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
 import { createStructuredError } from "@/lib/errors";
@@ -48,6 +49,8 @@ const toErrorStatus = (code: string | undefined): VoiceErrorStatus => {
   }
 };
 
+const MAX_EMPTY_RESTARTS = 5;
+
 const FIXES: Record<VoiceErrorStatus, string> = {
   voice_permission_denied:
     "Allow microphone and speech recognition in Settings",
@@ -68,6 +71,12 @@ const voiceError = (
     why,
     fix: FIXES[status],
   });
+
+/** Report a voice failure. `why` holds the native message, never speech. */
+const reportFailure = (failure: StructuredError<VoiceErrorStatus>) => {
+  console.error(failure);
+  Sentry.captureException(failure);
+};
 
 /**
  * Live, on-device transcription for voice mode.
@@ -91,6 +100,8 @@ export const useVoiceTranscription = ({
   const transcriptRef = useRef<TranscriptState>(EMPTY_TRANSCRIPT);
   const level: SharedValue<number> = useSharedValue(0);
   const latestLevel = useRef(0);
+  // Restarts without any text in between. Stops a restart loop.
+  const emptyRestarts = useRef(0);
   const statusRef = useRef<VoiceStatus>("idle");
   const callbacks = useRef({ onPermissionDenied, onFailed });
   useEffect(() => {
@@ -120,6 +131,7 @@ export const useVoiceTranscription = ({
       );
       setError(failure);
       setStatusBoth("failed");
+      reportFailure(failure);
       callbacks.current.onFailed?.(failure);
     }
   }, [setStatusBoth]);
@@ -135,6 +147,7 @@ export const useVoiceTranscription = ({
         if (statusRef.current !== "listening") {
           return;
         }
+        emptyRestarts.current = 0;
         updateTranscript((current) => applyResult(current, payload));
         if (payload.isFinal) {
           // The recognizer stopped itself. Keep listening in a new segment.
@@ -153,7 +166,11 @@ export const useVoiceTranscription = ({
           return;
         }
         // Android: silence ends a segment with "no speech". Keep listening.
-        if (code === "no_speech") {
+        if (
+          code === "no_speech" &&
+          emptyRestarts.current < MAX_EMPTY_RESTARTS
+        ) {
+          emptyRestarts.current += 1;
           updateTranscript(commitPartial);
           startSegment();
           return;
@@ -164,6 +181,7 @@ export const useVoiceTranscription = ({
         setStatusBoth(
           failure.status === "voice_permission_denied" ? "denied" : "failed"
         );
+        reportFailure(failure);
         callbacks.current.onFailed?.(failure);
       }
     );
@@ -185,6 +203,7 @@ export const useVoiceTranscription = ({
       );
       setError(failure);
       setStatusBoth("failed");
+      reportFailure(failure);
       callbacks.current.onFailed?.(failure);
       return;
     }
@@ -204,6 +223,7 @@ export const useVoiceTranscription = ({
       return;
     }
     setError(undefined);
+    emptyRestarts.current = 0;
     setStatusBoth("listening");
     startSegment();
   }, [setStatusBoth, startSegment]);
@@ -216,6 +236,7 @@ export const useVoiceTranscription = ({
   }, [level, setStatusBoth, updateTranscript]);
 
   const resume = useCallback(() => {
+    emptyRestarts.current = 0;
     setStatusBoth("listening");
     startSegment();
   }, [setStatusBoth, startSegment]);

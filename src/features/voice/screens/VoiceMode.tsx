@@ -217,11 +217,11 @@ export const VoiceMode = () => {
           }}
         >
           <View style={{ alignItems: "center", gap: 4 }}>
-            <Headline accessibilityRole="header" testID="voice-status">
-              {voice.status === "paused"
-                ? t("voice_paused")
-                : t("voice_listening")}
-            </Headline>
+            {(isListening || voice.status === "paused") && (
+              <Headline accessibilityRole="header" testID="voice-status">
+                {isListening ? t("voice_listening") : t("voice_paused")}
+              </Headline>
+            )}
             <Secondary style={{ textAlign: "center" }}>
               {t("voice_hint")}
             </Secondary>

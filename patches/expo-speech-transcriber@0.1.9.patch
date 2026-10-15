@@ -1,3 +1,6 @@
+diff --git a/node_modules/expo-speech-transcriber/.bun-tag-708f231130225856 b/.bun-tag-708f231130225856
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/android/src/main/java/expo/modules/speechtranscriber/ExpoSpeechTranscriberModule.kt b/android/src/main/java/expo/modules/speechtranscriber/ExpoSpeechTranscriberModule.kt
 index 9857dc95491f442cf891b880c544244991ace3f1..94779486255abd3baf1d72bfccfb638f5f50e025 100644
 --- a/android/src/main/java/expo/modules/speechtranscriber/ExpoSpeechTranscriberModule.kt
@@ -126,7 +129,7 @@ index 3f06123dc313287da6eafb4271dd576809a8bd2a..2a15ad623f277f6b49be07155ac6e972
          const interval = setInterval(() => {
              const newIsRecording = ExpoSpeechTranscriberModule.isRecording();
 diff --git a/ios/ExpoSpeechTranscriberModule.swift b/ios/ExpoSpeechTranscriberModule.swift
-index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..a5df7a2127fa669ad27be0770ac1732544d94772 100644
+index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..b69981afe3927dcf2e6bd31f1ccb02641ed6758c 100644
 --- a/ios/ExpoSpeechTranscriberModule.swift
 +++ b/ios/ExpoSpeechTranscriberModule.swift
 @@ -13,11 +13,11 @@ public class ExpoSpeechTranscriberModule: Module {
@@ -211,7 +214,7 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..a5df7a2127fa669ad27be0770ac17325
          }
          
          audioEngine.prepare()
-@@ -170,40 +209,43 @@ public class ExpoSpeechTranscriberModule: Module {
+@@ -170,40 +209,50 @@ public class ExpoSpeechTranscriberModule: Module {
              try audioEngine.start()
              startedListening = true
          } catch {
@@ -230,7 +233,8 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..a5df7a2127fa669ad27be0770ac17325
 -            
 -            guard let result = result else {
 +        recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
-+            guard let self = self else { return }
++            // Ignore callbacks of a task that a newer segment already replaced.
++            guard let self = self, self.recognitionRequest === recognitionRequest else { return }
 +            if let result = result {
 +                self.sendEvent(
 +                    "onTranscriptionProgress",
@@ -249,9 +253,15 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..a5df7a2127fa669ad27be0770ac17325
 -            )
 -            
 -            if result.isFinal {
-+            if let error = error {
++            if let error = error as NSError? {
                  self.stopListening()
-+                self.sendEvent("onTranscriptionError", ["message": error.localizedDescription, "code": "transcription_failed"])
++                // No speech (1110) or a cancelled task (216, 301): JS starts a new segment.
++                let isNoSpeech = (error.domain == "kAFAssistantErrorDomain" && [1110, 216, 203].contains(error.code))
++                    || (error.domain == "kLSRErrorDomain" && error.code == 301)
++                self.sendEvent("onTranscriptionError", [
++                    "message": "\(error.localizedDescription) [\(error.domain) \(error.code)]",
++                    "code": isNoSpeech ? "no_speech" : "transcription_failed"
++                ])
              }
          }
      }
