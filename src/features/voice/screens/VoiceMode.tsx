@@ -130,6 +130,8 @@ export const VoiceMode = () => {
       tags: [],
       people: [],
       emotions: [],
+      source: "voice",
+      durationMs: Date.now() - startedAt.current,
     };
     for (const match of matchTranscript(message, terms)) {
       PREFILL_LIST[match.kind](prefill).push(match.id);

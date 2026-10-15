@@ -45,6 +45,7 @@ import { usePassiveLocation } from "./hooks/usePassiveLocation";
 import type { SavedEntry } from "./hooks/useLoggerActions";
 import { Confirmation } from "./confirmation/Confirmation";
 import type { LoggerPrefill } from "./prefill";
+import { VoiceFeedbackSheet } from "@/features/feedback";
 import {
   getAvailableStepsForCreate,
   getAvailableStepsForEdit,
@@ -595,17 +596,29 @@ export const LoggerCreate = ({
 
   if (saved !== null) {
     return (
-      <Confirmation
-        item={saved.item}
-        entriesCount={logState.items.length}
-        onClose={() => {
-          if (saved.closeTo === "calendar") {
-            router.dismissTo("/calendar");
-            return;
-          }
-          router.back();
-        }}
-      />
+      <>
+        <Confirmation
+          item={saved.item}
+          entriesCount={logState.items.length}
+          onClose={() => {
+            if (saved.closeTo === "calendar") {
+              router.dismissTo("/calendar");
+              return;
+            }
+            router.back();
+          }}
+        />
+        {prefill?.source === "voice" && (
+          <VoiceFeedbackSheet
+            context={{
+              durationMs: prefill.durationMs ?? 0,
+              tagsCount: saved.item.tags.length,
+              peopleCount: saved.item.people.length,
+              emotionsCount: saved.item.emotions.length,
+            }}
+          />
+        )}
+      </>
     );
   }
 

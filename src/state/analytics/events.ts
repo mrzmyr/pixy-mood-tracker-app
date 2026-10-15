@@ -70,6 +70,16 @@ export interface AnalyticsEvents {
   };
   "voice:permission_denied": { kind: "microphone" | "speech" };
   "voice:failed": { status: string };
+  /** Feedback sheet after saving a voice check-in. `prompt_index` 1 to 3. */
+  "voice:feedback_submitted": {
+    rating: "bad" | "okay" | "great";
+    prompt_index: number;
+    duration_ms: number;
+    tags_count: number;
+    people_count: number;
+    emotions_count: number;
+  };
+  "voice:feedback_skipped": { prompt_index: number };
   "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;

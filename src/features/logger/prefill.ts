@@ -9,6 +9,10 @@ const LoggerPrefillSchema = z.object({
   tags: z.array(z.string()).default([]),
   people: z.array(z.string()).default([]),
   emotions: z.array(z.string()).default([]),
+  /** `voice`: values come from voice mode, which asks for feedback after saving. */
+  source: z.literal("voice").optional(),
+  /** Voice mode listening time, for the feedback event. */
+  durationMs: z.number().optional(),
 });
 
 /** Start values of a new entry. Ids may be stale until parsed. */
@@ -47,6 +51,7 @@ export const parseLoggerPrefill = (
     return null;
   }
   return {
+    ...parsed.data,
     message: parsed.data.message,
     tags: keepKnown(parsed.data.tags, known.tags),
     people: keepKnown(parsed.data.people, known.people),
