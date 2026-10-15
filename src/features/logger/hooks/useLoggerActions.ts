@@ -3,10 +3,10 @@ import { useEffect, useRef } from "react";
 import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import { useAnalytics } from "@/state/analytics";
 import { useLogState, useLogUpdater } from "@/features/logs";
-import { countPhotosBySource } from "@/features/photos";
 import { useStoreReviewPrompt } from "@/features/review";
 
 import { useLogDraft } from "../logDraft";
+import { getLogSavedProperties } from "../logSavedProperties";
 import type { FinalizedDraft } from "../finalizeDraft";
 import type { LoggerMode } from "../Logger";
 
@@ -66,20 +66,16 @@ export const useLoggerActions = ({
   /** Store the latest draft, including a rating set in the same event. */
   const save = () => {
     const { item, hasRating, closeTo } = logDraft.commit(logState.items);
-    const photoCounts = countPhotosBySource({ photos: item.photos });
-    analytics.track("logger:log_saved", {
-      mode,
-      duration_ms: Date.now() - startedAt.current,
-      has_rating: hasRating,
-      message_length: item.message.length,
-      tags_count: item.tags.length,
-      people_count: item.people.length,
-      emotions_count: item.emotions.length,
-      photos_count: item.photos.length,
-      photos_day_count: photoCounts.day,
-      photos_library_count: photoCounts.library,
-      has_location: item.location !== undefined,
-    });
+    analytics.track(
+      "logger:log_saved",
+      getLogSavedProperties({
+        mode,
+        item,
+        hasRating,
+        durationMs: Date.now() - startedAt.current,
+        now: new Date(),
+      })
+    );
 
     if (mode === "edit") {
       logUpdater.editLog(item);
