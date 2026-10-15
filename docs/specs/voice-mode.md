@@ -39,6 +39,15 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
 - Close with transcript asks to discard ([`useDiscardGuard`](../../src/hooks/useDiscardGuard.ts))
 - Native module missing (web, Jest, old dev client): screen shows the failed state, never throws on import ([`speechModule.ts`](../../src/features/voice/speechModule.ts))
 
+## Feedback
+
+- After saving a voice check-in, a sheet asks "How was checking in by voice?" over the saved confirmation ([`VoiceFeedbackSheet`](../../src/features/feedback/components/VoiceFeedbackSheet.tsx))
+- First 3 voice check-ins only. Each shown sheet adds `voice_feedback_1` to `_3` to `actionsDone`. Skips count
+- Cancelled voice sessions get no sheet
+- 3 faces: Not Great, Okay, Great. One tap sends `voice:feedback_submitted` with rating, counts, and duration
+- Optional comment after a face, sent to the feedback webhook with source `voice_mode`. Never to analytics
+- Skip, close, or swipe down without a face: `voice:feedback_skipped`
+
 ## Data flow
 
 ```
@@ -92,6 +101,8 @@ Every error has `status`, `message`, `why`, `fix` ([AGENTS.md](../../AGENTS.md#e
 - `voice:flow_finished` `{ duration_ms, transcript_length, tags_count, people_count, emotions_count }`
 - `voice:permission_denied` `{ kind: "microphone" | "speech" }`
 - `voice:failed` `{ status }`
+- `voice:feedback_submitted` `{ rating, prompt_index, duration_ms, tags_count, people_count, emotions_count }`
+- `voice:feedback_skipped` `{ prompt_index }`
 
 ## Out of scope
 
