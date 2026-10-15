@@ -44,6 +44,12 @@ export interface AnalyticsEvents {
     mode: "create" | "edit";
     duration_ms: number;
     has_rating: boolean;
+    /** `null`: no rating picked, the entry got the neutral fallback. */
+    rating: LogItem["rating"] | null;
+    emotions: LogItem["emotions"];
+    sleep_quality: LogItem["sleep"]["quality"] | null;
+    /** Days between the entry's day and today. 0 for today. */
+    entry_days_ago: number;
     message_length: number;
     tags_count: number;
     people_count: number;
@@ -359,6 +365,14 @@ export type UsageSummary = {
   questions_answered_count: number;
   /** Value of the `photos` feature flag on this install. */
   photos_enabled: boolean;
+  /** Average rating of entries in the last 30 days, 0 (worst) to 6 (best), 1 decimal. */
+  rating_avg_30d: number | null;
+  /** Share of entries in the last 30 days rated `bad` or worse, 0 to 100. */
+  low_mood_pct_30d: number | null;
+  /** Average sleep quality in the last 30 days, 0 (worst) to 4 (best), 1 decimal. */
+  sleep_quality_avg_30d: number | null;
+  /** Up to 3 emotion keys of the last 30 days, most used first. */
+  top_emotions_30d: string[];
   /** Share of entries in the last 30 days with at least 1 photo, 0 to 100. */
   photos_pct_30d: number | null;
   /** Photos on all entries. */

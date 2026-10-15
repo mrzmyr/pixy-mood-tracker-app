@@ -7,7 +7,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 | Data | Sent | Details |
 | --- | --- | --- |
 | Feature usage events | Yes | For example `logger:log_saved`, `calendar:filters_opened`. Catalog: [`events.ts`](src/state/analytics/events.ts). `track()` accepts only events from this file |
-| Usage summary | Yes | Counts, shares, and booleans ([product-analytics.md](docs/product-analytics.md)) |
+| Usage summary | Yes | Counts, shares, booleans, and 30-day mood values ([product-analytics.md](docs/product-analytics.md)) |
 | Screen views | Yes | Route name only |
 | Settings on every event | Yes | `scale_type`, `reminder_enabled`, `steps` |
 | Install id | Yes | Random. New id after "Delete all my data" |
@@ -117,6 +117,12 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `logger:log_saved`: new `photos_count`, `photos_day_count`, `photos_library_count`
   - Counts and enums only. Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
 - Never shipped in a release, replaced before the first photos release: `logger:library_permission_answered` (now `photos:day_access_answered`), `logger:photo_added` (now `photos:photo_added`), `logger:photo_removed` (now `photos:photo_removed`), `photos:photo_selected` (now `photos:photo_added`), `photos:photo_deselected` (now `photos:photo_removed`), `logger:photo_limit_reached` (now `photos:limit_reached`), `logger:camera_permission_denied` (dropped: no camera), `day:photo_opened` (now `photos:viewer_closed` with `context: "day"`)
+
+**Mood signals** (first release after `v1.96.0`)
+
+- `logger:log_saved`: new `rating` (`null` without a picked rating), `emotions`, `sleep_quality`, `entry_days_ago`
+- Usage summary: new `rating_avg_30d`, `low_mood_pct_30d`, `sleep_quality_avg_30d`, `top_emotions_30d`
+- `v1.96.0` sent no rating, emotion keys, sleep quality, intervention cluster, or feedback answer (#732). Join across versions with care
 
 **Changed meaning**
 

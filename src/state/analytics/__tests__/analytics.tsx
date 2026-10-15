@@ -93,6 +93,10 @@ const USAGE_SUMMARY = {
   photos_count: 4,
   photos_day_pct: 50,
   photo_library_access: "limited" as const,
+  rating_avg_30d: 4.2,
+  low_mood_pct_30d: 10,
+  sleep_quality_avg_30d: 2.5,
+  top_emotions_30d: ["calm", "tired"],
 };
 
 describe("useAnalytics()", () => {

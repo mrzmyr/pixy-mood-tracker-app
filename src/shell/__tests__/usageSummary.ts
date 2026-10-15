@@ -94,6 +94,10 @@ describe("getUsageSummary()", () => {
       onboarding_done: true,
       questions_answered_count: 1,
       photos_enabled: true,
+      rating_avg_30d: 3,
+      low_mood_pct_30d: 0,
+      sleep_quality_avg_30d: 2,
+      top_emotions_30d: ["alive"],
       photos_pct_30d: 0,
       photos_count: 0,
       photos_day_pct: null,
@@ -141,6 +145,58 @@ describe("getUsageSummary()", () => {
     expect(serialized).not.toContain(".jpg");
   });
 
+  it("summarizes mood of the last 30 days without free text", () => {
+    const items = [
+      // Outside 30 days: ignored.
+      _generateItem({
+        dateTime: at(7, 1),
+        rating: "extremely_bad",
+        emotions: ["sad", "sad", "sad"],
+      }),
+      _generateItem({
+        dateTime: at(9, 8),
+        rating: "very_bad",
+        sleep: { quality: "very_bad" },
+        emotions: ["tired", "worried"],
+        message: "secret diary note",
+      }),
+      _generateItem({
+        dateTime: at(9, 9),
+        rating: "good",
+        sleep: { quality: "good" },
+        emotions: ["tired", "calm"],
+        tags: [{ id: "t1" }],
+      }),
+      _generateItem({
+        dateTime: at(9, 10),
+        rating: "extremely_good",
+        sleep: { quality: "very_good" },
+        emotions: ["tired", "calm", "proud", "alive"],
+      }),
+    ];
+
+    const properties = getUsageSummary({
+      items,
+      tags: [{ id: "t1", title: "Therapy", color: "red" as const }],
+      settings,
+      isPhotosEnabled: false,
+      photoLibraryAccess: "unavailable",
+      now: NOW,
+    });
+
+    expect(properties).toMatchObject({
+      // (1 + 4 + 6) / 3
+      rating_avg_30d: 3.7,
+      low_mood_pct_30d: 33,
+      // (0 + 3 + 4) / 3
+      sleep_quality_avg_30d: 2.3,
+      top_emotions_30d: ["tired", "calm", "worried"],
+    });
+    const serialized = JSON.stringify(properties);
+    expect(serialized).not.toContain("secret");
+    expect(serialized).not.toContain("Therapy");
+  });
+
   it("returns empty values for a fresh install", () => {
     const properties = getUsageSummary({
       items: [],
@@ -161,6 +217,10 @@ describe("getUsageSummary()", () => {
       photos_pct_30d: null,
       photos_count: 0,
       photos_day_pct: null,
+      rating_avg_30d: null,
+      low_mood_pct_30d: null,
+      sleep_quality_avg_30d: null,
+      top_emotions_30d: [],
     });
   });
 });

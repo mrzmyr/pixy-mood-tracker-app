@@ -2,8 +2,10 @@ import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import pkg from "../../package.json";
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
+import { RATING_MAPPING, SLEEP_QUALITY_MAPPING } from "@/constants/Ratings";
 import { createStructuredError } from "@/lib/errors";
 import { getItemDate } from "@/lib/logDates";
+import { getMostUsedEmotions } from "@/lib/utils";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
 import type { UsageSummary } from "@/state/analytics/events";
@@ -43,6 +45,18 @@ const readPhotoLibraryAccess = async (): Promise<LibraryPermission> => {
 const getPercent = (count: number, total: number) =>
   total === 0 ? null : Math.round((count / total) * 100);
 
+const TOP_EMOTIONS_COUNT = 3;
+/** `bad` on the 0 to 6 scale of {@link RATING_MAPPING}. */
+const LOW_MOOD_MAX = RATING_MAPPING.bad;
+
+/** Mean with 1 decimal, `null` without values. */
+const getAverage = (values: number[]) =>
+  values.length === 0
+    ? null
+    : Math.round(
+        (values.reduce((sum, value) => sum + value, 0) / values.length) * 10
+      ) / 10;
+
 const getReminderHour = (time: string) => {
   const hour = Number(time.split(":")[0]);
   return Number.isInteger(hour) ? hour : null;
@@ -51,8 +65,9 @@ const getReminderHour = (time: string) => {
 /**
  * Usage profile of this install from local data, at `now`.
  *
- * Counts, shares, and booleans only: never ratings, emotions, text, tag
- * titles, people names, or photo metadata. Day windows include today, in
+ * Counts, shares, booleans, and fixed mood values (rating and sleep
+ * averages, emotion keys). Never free text: notes, tag titles, people names.
+ * Never photo metadata. Day windows include today, in
  * device local time.
  */
 export const getUsageSummary = ({
@@ -121,6 +136,11 @@ export const getUsageSummary = ({
     }
   }
 
+  const ratings30d = items30d.map((item) => RATING_MAPPING[item.rating]);
+  const sleep30d = items30d.flatMap((item) =>
+    item.sleep?.quality ? [SLEEP_QUALITY_MAPPING[item.sleep.quality]] : []
+  );
+
   const daysSince = (date: string | null) =>
     date === null ? null : dayjs(today).diff(dayjs(date), "day");
 
@@ -163,6 +183,15 @@ export const getUsageSummary = ({
       action.title.startsWith(QUESTION_ACTION_PREFIX)
     ).length,
     photos_enabled: isPhotosEnabled,
+    rating_avg_30d: getAverage(ratings30d),
+    low_mood_pct_30d: getPercent(
+      ratings30d.filter((value) => value <= LOW_MOOD_MAX).length,
+      ratings30d.length
+    ),
+    sleep_quality_avg_30d: getAverage(sleep30d),
+    top_emotions_30d: getMostUsedEmotions(items30d)
+      .slice(0, TOP_EMOTIONS_COUNT)
+      .map((emotion) => emotion.key),
     photos_pct_30d: getPercent(
       items30d.filter((item) => item.photos.length > 0).length,
       items30d.length
