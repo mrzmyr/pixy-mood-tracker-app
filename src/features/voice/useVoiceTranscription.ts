@@ -102,6 +102,8 @@ export const useVoiceTranscription = ({
   const latestLevel = useRef(0);
   // Restarts without any text in between. Stops a restart loop.
   const emptyRestarts = useRef(0);
+  // App language recognizer failed: use the system dictation language.
+  const useSystemLocale = useRef(false);
   const statusRef = useRef<VoiceStatus>("idle");
   const callbacks = useRef({ onPermissionDenied, onFailed });
   useEffect(() => {
@@ -123,7 +125,9 @@ export const useVoiceTranscription = ({
 
   const startSegment = useCallback(async () => {
     try {
-      await getSpeechModule()?.recordRealTimeAndTranscribe(getSpeechLocale());
+      await getSpeechModule()?.recordRealTimeAndTranscribe(
+        useSystemLocale.current ? null : getSpeechLocale()
+      );
     } catch (cause) {
       const failure = voiceError(
         "voice_transcription_failed",
@@ -175,7 +179,16 @@ export const useVoiceTranscription = ({
           startSegment();
           return;
         }
-        const failure = voiceError(toErrorStatus(code), message);
+        const errorStatus = toErrorStatus(code);
+        const isLocaleProblem =
+          errorStatus === "voice_on_device_unavailable" ||
+          errorStatus === "voice_recognizer_unavailable";
+        if (isLocaleProblem && !useSystemLocale.current) {
+          useSystemLocale.current = true;
+          startSegment();
+          return;
+        }
+        const failure = voiceError(errorStatus, message);
         updateTranscript(commitPartial);
         setError(failure);
         setStatusBoth(

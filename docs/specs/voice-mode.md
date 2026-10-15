@@ -66,7 +66,8 @@ File: `src/features/voice/matchTranscript.ts`. Pure function, unit tested.
 `patches/expo-speech-transcriber@0.1.9.patch`
 
 - `recordRealTimeAndTranscribe(locale?: string)`: recognizer for given locale. Unsupported locale: error event, no crash (removes `SFSpeechRecognizer()!`)
-- iOS: `requiresOnDeviceRecognition = true` when supported. Not supported for locale: error `on_device_unavailable`, no server fallback
+- iOS: `requiresOnDeviceRecognition = true` when supported. Not supported for locale, or `kLSRErrorDomain 201`: error `on_device_unavailable`, no server fallback
+- JavaScript retries once with the system recognizer (no locale = Siri and Dictation language), then shows the language state
 - iOS: configure `AVAudioSession` (`.record`, `.measurement`) on start, deactivate on stop
 - iOS: tap computes RMS per buffer, emits `onAudioLevel { level: 0...1 }` (throttled ~20 Hz)
 - Android: `EXTRA_LANGUAGE` from locale param, `EXTRA_PREFER_OFFLINE = true`, `onRmsChanged` emits `onAudioLevel`
