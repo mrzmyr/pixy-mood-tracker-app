@@ -1,6 +1,7 @@
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 import type { LogItem } from "@/features/logs";
 import { buildCards } from "../buildCards";
+import { CARD_TYPES } from "../cardTypes";
 import { addDays } from "../days";
 import { makeInput, makeTags } from "./utils";
 
@@ -31,7 +32,7 @@ const night = (quality: LogItem["sleep"]["quality"]) => ({
 const moments = (input: Parameters<typeof makeInput>[0]) =>
   buildCards(
     makeInput({ ...week, reminderEnabled: true, steps: ALL_STEPS, ...input })
-  ).filter((card) => !card.type.startsWith("intro"));
+  ).filter((card) => CARD_TYPES[card.type].family === "moment");
 
 describe("emotion again", () => {
   test("shows a good emotion back after 30 days, not after 29", () => {
@@ -229,6 +230,23 @@ describe("people", () => {
         personId: "sam",
         lastDate: "2025-12-28",
         weeks: 40,
+      },
+    ]);
+  });
+
+  test("never names a deleted person", () => {
+    const items = [
+      { date: "2026-09-01", ...sam },
+      { date: mon, ...sam },
+    ];
+
+    expect(moments({ items, personIds: [] })).toEqual([]);
+    expect(moments({ items, personIds: ["sam"] })).toEqual([
+      {
+        type: "person-back",
+        personId: "sam",
+        lastDate: "2026-09-01",
+        weeks: 5,
       },
     ]);
   });

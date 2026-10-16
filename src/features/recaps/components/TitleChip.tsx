@@ -4,6 +4,9 @@ import { Text, View } from "react-native";
 import { getTypeMetrics } from "@/components/typeMetrics";
 import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
+import { EmotionIndicator, EMOTIONS } from "@/features/logger";
+import type { Tag } from "@/features/tags";
+import { tDynamic } from "@/lib/translation";
 import { CHIP } from "../chipMarker";
 
 /**
@@ -53,3 +56,34 @@ export const ChipText = ({ text, chip }: { text: string; chip: ReactNode }) => (
     ))}
   </>
 );
+
+/** Emotion with its category marker, as a title chip. */
+export const EmotionChip = ({ emotionKey }: { emotionKey: string }) => {
+  const emotion = EMOTIONS.find((item) => item.key === emotionKey);
+  return emotion ? (
+    <TitleChip
+      marker={<EmotionIndicator emotion={emotion} compact />}
+      label={tDynamic(`log_emotion_${emotion.key}`)}
+    />
+  ) : null;
+};
+
+/** Tag with its color dot, as a title chip. */
+export const TagChip = ({ tag }: { tag: Tag }) => {
+  const colors = useColors();
+  return (
+    <TitleChip
+      marker={
+        <View
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: RADIUS.sm,
+            backgroundColor: colors.tags[tag.color]?.dot,
+          }}
+        />
+      }
+      label={tag.title}
+    />
+  );
+};

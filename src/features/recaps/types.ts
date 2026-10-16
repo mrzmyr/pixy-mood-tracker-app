@@ -55,6 +55,8 @@ export interface RecapInput {
   availableSteps: ReadonlySet<ConfigurableLoggerStep>;
   reminderEnabled: boolean;
   tags: Tag[];
+  /** Ids of people that still exist. Cards never name deleted people. */
+  personIds: ReadonlySet<string>;
 }
 
 /** Card that offers to turn a feature on. */
@@ -80,8 +82,37 @@ export type MomentCard =
   | { type: "sleep-turnaround"; nights: DateKey[] }
   | { type: "sleep-rough"; nights: DateKey[] };
 
+/** Emotion and the number of days it showed up. */
+export interface EmotionCount {
+  emotion: string;
+  days: number;
+}
+
+/** Person, connected days in the period, and their top emotions then. */
+export interface ConnectedPerson {
+  personId: string;
+  days: number;
+  emotions: string[];
+}
+
+/** Days away from home in one city, gaps of up to 2 days allowed. */
+export interface Trip {
+  city: string;
+  start: DateKey;
+  end: DateKey;
+  days: number;
+}
+
+/** Describes the period: a day, emotions, people, places. No causes. */
+export type SummaryCard =
+  | { type: "day-recap"; mode: "best" | "ago" | "hard"; date: DateKey }
+  | { type: "emotions"; counts: EmotionCount[] }
+  | { type: "connected"; people: ConnectedPerson[] }
+  | { type: "most-connected"; people: ConnectedPerson[] }
+  | { type: "places-trips"; trips: Trip[] };
+
 /** Card data. `type` selects meta in `CARD_TYPES` and the body component. */
-export type RecapCard = NudgeCard | MomentCard;
+export type RecapCard = NudgeCard | MomentCard | SummaryCard;
 
 /** Key of a card type in `CARD_TYPES`. */
 export type CardType = RecapCard["type"];

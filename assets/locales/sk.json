@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "Ohodnoť Pixy v App Store",
   "rate_pixy_google_play": "Ohodnoť Pixy na Google Play",
   "recaps": "Ohliadnutia",
+  "recaps_connected_days": {
+    "one": "1 deň v kontakte",
+    "other": "{{count}} dní v kontakte"
+  },
+  "recaps_connected_more": "+%{count} ďalší",
+  "recaps_connected_title": {
+    "one": "Bol si v kontakte s {{count}} ľuďmi",
+    "other": "Bol si v kontakte s {{count}} ľuďmi"
+  },
+  "recaps_connected_title_one": "Bol si v kontakte s: %{name}",
+  "recaps_day_ago_text": "Pred rokom: %{date}.",
+  "recaps_day_ago_title": "Skvelý deň pred rokom",
+  "recaps_day_best_title_month": "%{day}: tvoj najlepší deň mesiaca",
+  "recaps_day_best_title_week": "%{day}: tvoj najlepší deň týždňa",
+  "recaps_day_hard_text": "Každý záznam sa počíta, nech je deň akýkoľvek.",
+  "recaps_day_hard_title": "Ďakujeme za záznam: %{day}",
+  "recaps_day_see": "Zobraziť tento deň",
+  "recaps_days": {
+    "one": "1 deň",
+    "other": "{{count}} dní"
+  },
   "recaps_emotion_absent_text": {
     "one": "Objavilo sa jeden deň v predchádzajúcich dvoch mesiacoch.",
     "other": "Objavilo sa {{count}} dní v predchádzajúcich dvoch mesiacoch."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "3 týždne bez emócie: %{emotion}",
   "recaps_emotion_again_text": "Prvýkrát od %{date}.",
   "recaps_emotion_again_title": "Zase %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Jeden deň. Potom:",
+    "other": "{{count}} dní. Potom:"
+  },
+  "recaps_emotions_quarter_title": "Hlavne %{emotion} tento štvrťrok",
+  "recaps_emotions_title": "Tvoje najčastejšie emócie",
+  "recaps_emotions_year_title": "Tvojich 10 hlavných emócií",
   "recaps_empty": "Pre toto obdobie zatiaľ nie sú žiadne karty. Objavia sa, keď zapíšeš viac dní.",
   "recaps_feedback_helpful": "Užitočné",
   "recaps_feedback_not_helpful": "Neužitočné",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "Zapnúť fotky",
   "recaps_intro_photos_text": "Pridávaj fotku k záznamom. O rok môže tvoje ohliadnutie začať slovami „Dnes pred rokom“.",
   "recaps_intro_photos_title": "Uchovaj si fotku dňa",
+  "recaps_most_connected_title_month": "Najviac v kontakte tento mesiac",
+  "recaps_most_connected_title_quarter": "Najviac v kontakte tento štvrťrok",
+  "recaps_most_connected_title_year": "Najviac v kontakte tento rok",
   "recaps_nudge_not_now": "Teraz nie",
   "recaps_nudge_reminder_action": "Pripomenúť o %{time}",
   "recaps_nudge_reminder_text": "Veľké dni zostávajú v pamäti. Malé dobré dni do rána vyblednú. Krátky záznam každý večer ich uchová.",
@@ -735,6 +766,18 @@
     "other": "{{count}} dní, po %{weeks} týždňoch bez."
   },
   "recaps_tag_back_title": "%{tag} je späť",
+  "recaps_trips_title_month": {
+    "one": "1 cesta tento mesiac",
+    "other": "{{count}} ciest tento mesiac"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 cesta tento štvrťrok",
+    "other": "{{count}} ciest tento štvrťrok"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 cesta tento rok",
+    "other": "{{count}} ciest tento rok"
+  },
   "reminder": "Pripomenutie",
   "reminder_device_required_message": "Na simulátoroch oznámenia nefungujú. Skús to na skutočnom zariadení.",
   "reminder_device_required_title": "Pripomienky potrebujú telefón",

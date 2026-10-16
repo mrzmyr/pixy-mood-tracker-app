@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "App StoreでPixyを評価",
   "rate_pixy_google_play": "Google PlayでPixyを評価",
   "recaps": "振り返り",
+  "recaps_connected_days": {
+    "one": "つながった日：1日",
+    "other": "つながった日：{{count}}日"
+  },
+  "recaps_connected_more": "ほか%{count}人",
+  "recaps_connected_title": {
+    "one": "{{count}}人とつながりました",
+    "other": "{{count}}人とつながりました"
+  },
+  "recaps_connected_title_one": "%{name}さんとつながりました",
+  "recaps_day_ago_text": "1年前：%{date}。",
+  "recaps_day_ago_title": "1年前のすてきな日",
+  "recaps_day_best_title_month": "今月いちばんの日は%{day}",
+  "recaps_day_best_title_week": "今週いちばんの日は%{day}",
+  "recaps_day_hard_text": "どんな日でも、記録の一つひとつが大切です。",
+  "recaps_day_hard_title": "%{day}も記録してくれてありがとう",
+  "recaps_day_see": "この日を見る",
+  "recaps_days": {
+    "one": "1日",
+    "other": "{{count}}日"
+  },
   "recaps_emotion_absent_text": {
     "one": "その前の2か月で1日ありました。",
     "other": "その前の2か月で{{count}}日ありました。"
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "%{emotion}がない3週間",
   "recaps_emotion_again_text": "%{date}以来はじめて。",
   "recaps_emotion_again_title": "また%{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "1日。その次は：",
+    "other": "{{count}}日。その次は："
+  },
+  "recaps_emotions_quarter_title": "この四半期はほとんど%{emotion}",
+  "recaps_emotions_title": "よく感じた感情",
+  "recaps_emotions_year_title": "感情トップ10",
   "recaps_empty": "この期間のカードはまだありません。記録が増えると表示されます。",
   "recaps_feedback_helpful": "役に立った",
   "recaps_feedback_not_helpful": "役に立たなかった",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "写真をオンにする",
   "recaps_intro_photos_text": "記録に写真を追加しましょう。1年後、振り返りが「1年前の今日」から始まるかもしれません。",
   "recaps_intro_photos_title": "その日の写真を残す",
+  "recaps_most_connected_title_month": "今月いちばんつながった人",
+  "recaps_most_connected_title_quarter": "この四半期いちばんつながった人",
+  "recaps_most_connected_title_year": "今年いちばんつながった人",
   "recaps_nudge_not_now": "今はしない",
   "recaps_nudge_reminder_action": "%{time}に通知する",
   "recaps_nudge_reminder_text": "大きな日は記憶に残ります。小さな良い日は翌朝には薄れてしまいます。毎晩の短い記録で残せます。",
@@ -735,6 +766,18 @@
     "other": "%{weeks}週間ぶりに{{count}}日。"
   },
   "recaps_tag_back_title": "%{tag}が戻ってきました",
+  "recaps_trips_title_month": {
+    "one": "今月の旅：1回",
+    "other": "今月の旅：{{count}}回"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "この四半期の旅：1回",
+    "other": "この四半期の旅：{{count}}回"
+  },
+  "recaps_trips_title_year": {
+    "one": "今年の旅：1回",
+    "other": "今年の旅：{{count}}回"
+  },
   "reminder": "リマインダー",
   "reminder_device_required_message": "シミュレーターでは通知が動作しません。実機でお試しください。",
   "reminder_device_required_title": "リマインダーには実機が必要です",

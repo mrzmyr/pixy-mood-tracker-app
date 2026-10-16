@@ -33,6 +33,7 @@ const TAGS: Tag[] = [
 ];
 
 const BERLIN = { latitude: 52.52, longitude: 13.4, name: "Mitte, Berlin" };
+const LISBON = { latitude: 38.71, longitude: -9.14, name: "Baixa, Lisbon" };
 const POTSDAM = {
   latitude: 52.39,
   longitude: 13.1,
@@ -50,8 +51,13 @@ const LENA = new Set([
 const SPORT = new Set([2, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58]);
 const STRESSED = new Set([30, 35, 40, 45, 50, 55]);
 const PROUD = new Set([1, 70]);
+const GRATEFUL = new Set([3, 6]);
 const ROUGH_NIGHTS = new Set([9, 10]);
 const GOOD_NIGHTS = new Set([0, 1, 2]);
+const BEST_DAY = 5;
+const LISBON_TRIP = new Set([7, 8]);
+// One year before a day of the newest week: an extremely good day away.
+const YEAR_AGO = 366;
 
 const dayAgo = (ago: number) => {
   const date = new Date(`${NEWEST_DAY}T18:00:00.000Z`);
@@ -66,7 +72,36 @@ const sleepOf = (ago: number): LogItem["sleep"]["quality"] => {
   return ROUGH_NIGHTS.has(ago) ? "bad" : "neutral";
 };
 
-const items: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
+const ratingOf = (ago: number): LogItem["rating"] => {
+  if (ago === BEST_DAY) {
+    return "extremely_good";
+  }
+  return SPORT.has(ago) ? "very_good" : "good";
+};
+
+const placeOf = (ago: number) => {
+  if (ago === 1) {
+    return POTSDAM;
+  }
+  return LISBON_TRIP.has(ago) ? LISBON : BERLIN;
+};
+
+const yearAgo: LogItem = {
+  id: "recap-moment-year-ago",
+  date: dayAgo(YEAR_AGO).slice(0, 10),
+  dateTime: dayAgo(YEAR_AGO),
+  createdAt: dayAgo(YEAR_AGO),
+  rating: "extremely_good",
+  message: "",
+  sleep: { quality: "good" },
+  tags: [],
+  people: [{ id: "recap-sam" }],
+  emotions: ["proud", "calm"],
+  photos: [],
+  location: LISBON,
+};
+
+const days: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
   const iso = dayAgo(ago);
   const people = PEOPLE.filter(
     (person) =>
@@ -79,7 +114,7 @@ const items: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
     date: iso.slice(0, 10),
     dateTime: iso,
     createdAt: iso,
-    rating: SPORT.has(ago) ? "very_good" : "good",
+    rating: ratingOf(ago),
     message: "",
     sleep: { quality: sleepOf(ago) },
     tags: [
@@ -90,19 +125,23 @@ const items: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
     emotions: [
       "calm",
       ...(PROUD.has(ago) ? ["proud"] : []),
+      ...(GRATEFUL.has(ago) ? ["grateful"] : []),
       ...(STRESSED.has(ago) ? ["stressed"] : []),
     ],
     photos: [],
-    location: ago === 1 ? POTSDAM : BERLIN,
+    location: placeOf(ago),
   };
 });
+
+const items = [...days, yearAgo];
 
 /**
  * Data that shows every moment in the week recap: Sam back after 6 weeks,
  * Rosa new, 25 days connected with Lena, Proud again, 3 weeks without Stressed,
  * Sport back, 3 good nights after rough ones, first check-in in Potsdam
- * (needs the location setting on). All steps and the reminder are on, so
- * no nudges show.
+ * (needs the location setting on). Summaries: a best day, a year ago in
+ * Lisbon with Sam, emotions, people, and a Lisbon trip this month. All
+ * steps and the reminder are on, so no nudges show.
  */
 export const withRecapMoments = (data: ImportData): ImportData => ({
   ...data,

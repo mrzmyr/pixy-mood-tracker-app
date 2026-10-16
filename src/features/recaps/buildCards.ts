@@ -14,6 +14,13 @@ import {
   sleepMoments,
   tagBack,
 } from "./cards/moments";
+import {
+  connected,
+  dayRecap,
+  emotions,
+  mostConnected,
+  placesTrips,
+} from "./cards/summaries";
 import type { CardFamily, RecapCard, RecapInput } from "./types";
 
 /** One card, several cards (one per person or tag), or none. */
@@ -26,6 +33,11 @@ const RULES: Rule[] = [
   emotionAbsent,
   tagBack,
   sleepMoments,
+  dayRecap,
+  emotions,
+  mostConnected,
+  connected,
+  placesTrips,
   nudgeReminder,
   introEmotions,
   introPeople,

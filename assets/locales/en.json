@@ -800,6 +800,27 @@
   "rate_pixy_app_store": "Rate Pixy in the App Store",
   "rate_pixy_google_play": "Rate Pixy on Google Play",
   "recaps": "Recaps",
+  "recaps_connected_days": {
+    "one": "1 day connected",
+    "other": "{{count}} days connected"
+  },
+  "recaps_connected_more": "+%{count} more",
+  "recaps_connected_title": {
+    "one": "You connected with 1 person",
+    "other": "You connected with {{count}} people"
+  },
+  "recaps_connected_title_one": "You connected with %{name}",
+  "recaps_day_ago_text": "One year ago: %{date}.",
+  "recaps_day_ago_title": "A great day, a year ago",
+  "recaps_day_best_title_month": "%{day} was your best day this month",
+  "recaps_day_best_title_week": "%{day} was your best day this week",
+  "recaps_day_hard_text": "Every check-in counts, on every kind of day.",
+  "recaps_day_hard_title": "Thanks for checking in on %{day}",
+  "recaps_day_see": "See This Day",
+  "recaps_days": {
+    "one": "1 day",
+    "other": "{{count}} days"
+  },
   "recaps_emotion_absent_text": {
     "one": "It came up once in the two months before.",
     "other": "It came up on {{count}} days in the two months before."
@@ -807,6 +828,13 @@
   "recaps_emotion_absent_title": "3 weeks without feeling %{emotion}",
   "recaps_emotion_again_text": "For the first time since %{date}.",
   "recaps_emotion_again_title": "Feeling %{emotion} again",
+  "recaps_emotions_quarter_text": {
+    "one": "On one day. Then:",
+    "other": "On {{count}} days. Then:"
+  },
+  "recaps_emotions_quarter_title": "Mostly %{emotion} this quarter",
+  "recaps_emotions_title": "Your most used emotions",
+  "recaps_emotions_year_title": "Your top 10 emotions",
   "recaps_empty": "No cards for this period yet. They show up as your check-ins add up.",
   "recaps_feedback_helpful": "Helpful",
   "recaps_feedback_not_helpful": "Not Helpful",
@@ -835,6 +863,9 @@
   "recaps_intro_photos_action": "Turn On Photos",
   "recaps_intro_photos_text": "Add a photo to check-ins. A year from now, your recap can open with “One year ago today”.",
   "recaps_intro_photos_title": "Keep a photo of the day",
+  "recaps_most_connected_title_month": "Most connected this month",
+  "recaps_most_connected_title_quarter": "Most connected this quarter",
+  "recaps_most_connected_title_year": "Most connected this year",
   "recaps_nudge_not_now": "Not Now",
   "recaps_nudge_reminder_action": "Remind Me at %{time}",
   "recaps_nudge_reminder_text": "Big days stay in memory. Small good ones fade by the next morning. A short check-in each evening keeps them.",
@@ -865,6 +896,18 @@
     "other": "On {{count}} days, after %{weeks} weeks without."
   },
   "recaps_tag_back_title": "%{tag} is back",
+  "recaps_trips_title_month": {
+    "one": "1 trip this month",
+    "other": "{{count}} trips this month"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 trip this quarter",
+    "other": "{{count}} trips this quarter"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 trip this year",
+    "other": "{{count}} trips this year"
+  },
   "reminder": "Reminder",
   "reminder_device_required_message": "Notifications don't work on simulators. Try on a real device.",
   "reminder_device_required_title": "Reminders Need a Phone",

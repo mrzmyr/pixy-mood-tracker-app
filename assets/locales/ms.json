@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "Nilaikan Pixy di App Store",
   "rate_pixy_google_play": "Nilaikan Pixy di Google Play",
   "recaps": "Imbasan",
+  "recaps_connected_days": {
+    "one": "1 hari berhubung",
+    "other": "{{count}} hari berhubung"
+  },
+  "recaps_connected_more": "+%{count} lagi",
+  "recaps_connected_title": {
+    "one": "Anda berhubung dengan {{count}} orang",
+    "other": "Anda berhubung dengan {{count}} orang"
+  },
+  "recaps_connected_title_one": "Anda berhubung dengan %{name}",
+  "recaps_day_ago_text": "Setahun lalu: %{date}.",
+  "recaps_day_ago_title": "Hari yang hebat, setahun lalu",
+  "recaps_day_best_title_month": "%{day} hari terbaik anda bulan ini",
+  "recaps_day_best_title_week": "%{day} hari terbaik anda minggu ini",
+  "recaps_day_hard_text": "Setiap rekod bermakna, pada apa jua hari.",
+  "recaps_day_hard_title": "Terima kasih kerana merekod pada %{day}",
+  "recaps_day_see": "Lihat Hari Ini",
+  "recaps_days": {
+    "one": "1 hari",
+    "other": "{{count}} hari"
+  },
   "recaps_emotion_absent_text": {
     "one": "Ia muncul pada satu hari dalam dua bulan sebelumnya.",
     "other": "Ia muncul pada {{count}} hari dalam dua bulan sebelumnya."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "3 minggu tanpa rasa %{emotion}",
   "recaps_emotion_again_text": "Buat pertama kali sejak %{date}.",
   "recaps_emotion_again_title": "Rasa %{emotion} lagi",
+  "recaps_emotions_quarter_text": {
+    "one": "Pada satu hari. Kemudian:",
+    "other": "Pada {{count}} hari. Kemudian:"
+  },
+  "recaps_emotions_quarter_title": "Kebanyakannya %{emotion} suku tahun ini",
+  "recaps_emotions_title": "Emosi yang paling kerap anda rasa",
+  "recaps_emotions_year_title": "10 emosi teratas anda",
   "recaps_empty": "Belum ada kad untuk tempoh ini. Kad akan muncul apabila anda merekod lebih banyak hari.",
   "recaps_feedback_helpful": "Membantu",
   "recaps_feedback_not_helpful": "Tidak membantu",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "Hidupkan Foto",
   "recaps_intro_photos_text": "Tambah foto pada rekod. Setahun dari sekarang, imbasan anda boleh bermula dengan “Setahun lalu hari ini”.",
   "recaps_intro_photos_title": "Simpan foto hari ini",
+  "recaps_most_connected_title_month": "Paling berhubung bulan ini",
+  "recaps_most_connected_title_quarter": "Paling berhubung suku tahun ini",
+  "recaps_most_connected_title_year": "Paling berhubung tahun ini",
   "recaps_nudge_not_now": "Bukan Sekarang",
   "recaps_nudge_reminder_action": "Ingatkan Pada %{time}",
   "recaps_nudge_reminder_text": "Hari besar kekal dalam ingatan. Hari baik yang kecil pudar menjelang pagi. Rekod ringkas setiap petang menyimpannya.",
@@ -735,6 +766,18 @@
     "other": "Pada {{count}} hari, selepas %{weeks} minggu tanpanya."
   },
   "recaps_tag_back_title": "%{tag} kembali",
+  "recaps_trips_title_month": {
+    "one": "1 perjalanan bulan ini",
+    "other": "{{count}} perjalanan bulan ini"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 perjalanan suku tahun ini",
+    "other": "{{count}} perjalanan suku tahun ini"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 perjalanan tahun ini",
+    "other": "{{count}} perjalanan tahun ini"
+  },
   "reminder": "Peringatan",
   "reminder_device_required_message": "Pemberitahuan tidak berfungsi pada simulator. Cuba pada peranti sebenar.",
   "reminder_device_required_title": "Peringatan Perlukan Telefon",

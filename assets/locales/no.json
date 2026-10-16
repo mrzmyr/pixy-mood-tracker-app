@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "Vurder Pixy i App Store",
   "rate_pixy_google_play": "Vurder Pixy på Google Play",
   "recaps": "Tilbakeblikk",
+  "recaps_connected_days": {
+    "one": "1 dag i kontakt",
+    "other": "{{count}} dager i kontakt"
+  },
+  "recaps_connected_more": "+%{count} til",
+  "recaps_connected_title": {
+    "one": "Du var i kontakt med {{count}} personer",
+    "other": "Du var i kontakt med {{count}} personer"
+  },
+  "recaps_connected_title_one": "Du var i kontakt med %{name}",
+  "recaps_day_ago_text": "For ett år siden: %{date}.",
+  "recaps_day_ago_title": "En fin dag for ett år siden",
+  "recaps_day_best_title_month": "%{day} var din beste dag denne måneden",
+  "recaps_day_best_title_week": "%{day} var din beste dag denne uken",
+  "recaps_day_hard_text": "Hver innsjekking teller, uansett hva slags dag.",
+  "recaps_day_hard_title": "Takk for at du sjekket inn %{day}",
+  "recaps_day_see": "Se denne dagen",
+  "recaps_days": {
+    "one": "1 dag",
+    "other": "{{count}} dager"
+  },
   "recaps_emotion_absent_text": {
     "one": "Det dukket opp én dag i de to månedene før.",
     "other": "Det dukket opp {{count}} dager i de to månedene før."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "3 uker uten å føle deg %{emotion}",
   "recaps_emotion_again_text": "For første gang siden %{date}.",
   "recaps_emotion_again_title": "%{emotion} igjen",
+  "recaps_emotions_quarter_text": {
+    "one": "Én dag. Deretter:",
+    "other": "{{count}} dager. Deretter:"
+  },
+  "recaps_emotions_quarter_title": "Mest %{emotion} dette kvartalet",
+  "recaps_emotions_title": "Følelsene du brukte mest",
+  "recaps_emotions_year_title": "Dine topp 10 følelser",
   "recaps_empty": "Ingen kort for denne perioden ennå. De dukker opp når du sjekker inn flere dager.",
   "recaps_feedback_helpful": "Nyttig",
   "recaps_feedback_not_helpful": "Ikke nyttig",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "Slå på bilder",
   "recaps_intro_photos_text": "Legg til et bilde i innsjekkinger. Om et år kan tilbakeblikket ditt starte med «I dag for ett år siden».",
   "recaps_intro_photos_title": "Ta vare på et bilde fra dagen",
+  "recaps_most_connected_title_month": "Mest i kontakt denne måneden",
+  "recaps_most_connected_title_quarter": "Mest i kontakt dette kvartalet",
+  "recaps_most_connected_title_year": "Mest i kontakt i år",
   "recaps_nudge_not_now": "Ikke nå",
   "recaps_nudge_reminder_action": "Påminn meg kl. %{time}",
   "recaps_nudge_reminder_text": "Store dager blir i minnet. Små gode dager blekner til neste morgen. En kort innsjekking hver kveld tar vare på dem.",
@@ -735,6 +766,18 @@
     "other": "{{count}} dager, etter %{weeks} uker uten."
   },
   "recaps_tag_back_title": "%{tag} er tilbake",
+  "recaps_trips_title_month": {
+    "one": "1 reise denne måneden",
+    "other": "{{count}} reiser denne måneden"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 reise dette kvartalet",
+    "other": "{{count}} reiser dette kvartalet"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 reise i år",
+    "other": "{{count}} reiser i år"
+  },
   "reminder": "Påminnelse",
   "reminder_device_required_message": "Varsler fungerer ikke på simulatorer. Prøv på en ekte enhet.",
   "reminder_device_required_title": "Påminnelser trenger en telefon",

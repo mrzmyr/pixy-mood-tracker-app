@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "Beoordeel Pixy in de App Store",
   "rate_pixy_google_play": "Beoordeel Pixy op Google Play",
   "recaps": "Terugblikken",
+  "recaps_connected_days": {
+    "one": "1 dag contact",
+    "other": "{{count}} dagen contact"
+  },
+  "recaps_connected_more": "+%{count} meer",
+  "recaps_connected_title": {
+    "one": "Je had contact met {{count}} mensen",
+    "other": "Je had contact met {{count}} mensen"
+  },
+  "recaps_connected_title_one": "Je had contact met %{name}",
+  "recaps_day_ago_text": "Een jaar geleden: %{date}.",
+  "recaps_day_ago_title": "Een mooie dag, een jaar geleden",
+  "recaps_day_best_title_month": "%{day} was je beste dag van de maand",
+  "recaps_day_best_title_week": "%{day} was je beste dag van de week",
+  "recaps_day_hard_text": "Elke check-in telt, op elke soort dag.",
+  "recaps_day_hard_title": "Bedankt voor je check-in op %{day}",
+  "recaps_day_see": "Bekijk deze dag",
+  "recaps_days": {
+    "one": "1 dag",
+    "other": "{{count}} dagen"
+  },
   "recaps_emotion_absent_text": {
     "one": "Het kwam op één dag voor in de twee maanden ervoor.",
     "other": "Het kwam op {{count}} dagen voor in de twee maanden ervoor."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "3 weken zonder %{emotion}",
   "recaps_emotion_again_text": "Voor het eerst sinds %{date}.",
   "recaps_emotion_again_title": "Weer %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Op één dag. Daarna:",
+    "other": "Op {{count}} dagen. Daarna:"
+  },
+  "recaps_emotions_quarter_title": "Vooral %{emotion} dit kwartaal",
+  "recaps_emotions_title": "Je vaakste emoties",
+  "recaps_emotions_year_title": "Je top 10 emoties",
   "recaps_empty": "Nog geen kaarten voor deze periode. Ze verschijnen naarmate je vaker incheckt.",
   "recaps_feedback_helpful": "Nuttig",
   "recaps_feedback_not_helpful": "Niet nuttig",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "Foto’s aanzetten",
   "recaps_intro_photos_text": "Voeg een foto toe aan check-ins. Over een jaar kan je terugblik openen met ‘Vandaag een jaar geleden’.",
   "recaps_intro_photos_title": "Bewaar een foto van de dag",
+  "recaps_most_connected_title_month": "Meeste contact deze maand",
+  "recaps_most_connected_title_quarter": "Meeste contact dit kwartaal",
+  "recaps_most_connected_title_year": "Meeste contact dit jaar",
   "recaps_nudge_not_now": "Niet nu",
   "recaps_nudge_reminder_action": "Herinner me om %{time}",
   "recaps_nudge_reminder_text": "Grote dagen blijven je bij. Kleine goede dagen vervagen voor de volgende ochtend. Een korte check-in elke avond houdt ze vast.",
@@ -735,6 +766,18 @@
     "other": "Op {{count}} dagen, na %{weeks} weken zonder."
   },
   "recaps_tag_back_title": "%{tag} is terug",
+  "recaps_trips_title_month": {
+    "one": "1 reis deze maand",
+    "other": "{{count}} reizen deze maand"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 reis dit kwartaal",
+    "other": "{{count}} reizen dit kwartaal"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 reis dit jaar",
+    "other": "{{count}} reizen dit jaar"
+  },
   "reminder": "Herinnering",
   "reminder_device_required_message": "Meldingen werken niet op simulators. Probeer het op een echt apparaat.",
   "reminder_device_required_title": "Herinneringen hebben een telefoon nodig",

@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "Pixy'yi App Store'da değerlendir",
   "rate_pixy_google_play": "Pixy'yi Google Play'de değerlendir",
   "recaps": "Özetler",
+  "recaps_connected_days": {
+    "one": "1 gün bağlantı",
+    "other": "{{count}} gün bağlantı"
+  },
+  "recaps_connected_more": "+%{count} kişi daha",
+  "recaps_connected_title": {
+    "one": "{{count}} kişiyle bağlantıdaydın",
+    "other": "{{count}} kişiyle bağlantıdaydın"
+  },
+  "recaps_connected_title_one": "%{name} ile bağlantıdaydın",
+  "recaps_day_ago_text": "Bir yıl önce: %{date}.",
+  "recaps_day_ago_title": "Bir yıl önce harika bir gün",
+  "recaps_day_best_title_month": "%{day} ayın en iyi günüydü",
+  "recaps_day_best_title_week": "%{day} haftanın en iyi günüydü",
+  "recaps_day_hard_text": "Her kayıt önemli, gün nasıl olursa olsun.",
+  "recaps_day_hard_title": "%{day} günü kayıt yaptığın için teşekkürler",
+  "recaps_day_see": "Bu Günü Gör",
+  "recaps_days": {
+    "one": "1 gün",
+    "other": "{{count}} gün"
+  },
   "recaps_emotion_absent_text": {
     "one": "Önceki iki ayda bir gün ortaya çıktı.",
     "other": "Önceki iki ayda {{count}} gün ortaya çıktı."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "3 haftadır %{emotion} hissetmedin",
   "recaps_emotion_again_text": "%{date} tarihinden beri ilk kez.",
   "recaps_emotion_again_title": "Yine %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Bir gün. Sonra:",
+    "other": "{{count}} gün. Sonra:"
+  },
+  "recaps_emotions_quarter_title": "Bu çeyrek çoğunlukla %{emotion}",
+  "recaps_emotions_title": "En sık hissettiğin duygular",
+  "recaps_emotions_year_title": "En çok hissettiğin 10 duygu",
   "recaps_empty": "Bu dönem için henüz kart yok. Daha fazla gün kaydettikçe görünürler.",
   "recaps_feedback_helpful": "Faydalı",
   "recaps_feedback_not_helpful": "Faydalı değil",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "Fotoğrafları Aç",
   "recaps_intro_photos_text": "Kayıtlarına fotoğraf ekle. Bir yıl sonra özetin “Bir yıl önce bugün” ile açılabilir.",
   "recaps_intro_photos_title": "Günün bir fotoğrafını sakla",
+  "recaps_most_connected_title_month": "Bu ay en çok bağlantı",
+  "recaps_most_connected_title_quarter": "Bu çeyrek en çok bağlantı",
+  "recaps_most_connected_title_year": "Bu yıl en çok bağlantı",
   "recaps_nudge_not_now": "Şimdi Değil",
   "recaps_nudge_reminder_action": "Saat %{time} Hatırlat",
   "recaps_nudge_reminder_text": "Büyük günler akılda kalır. Küçük iyi günler ertesi sabaha unutulur. Her akşam kısa bir kayıt onları saklar.",
@@ -735,6 +766,18 @@
     "other": "{{count}} gün, %{weeks} haftalık aradan sonra."
   },
   "recaps_tag_back_title": "%{tag} geri döndü",
+  "recaps_trips_title_month": {
+    "one": "Bu ay 1 seyahat",
+    "other": "Bu ay {{count}} seyahat"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "Bu çeyrek 1 seyahat",
+    "other": "Bu çeyrek {{count}} seyahat"
+  },
+  "recaps_trips_title_year": {
+    "one": "Bu yıl 1 seyahat",
+    "other": "Bu yıl {{count}} seyahat"
+  },
   "reminder": "Hatırlatma",
   "reminder_device_required_message": "Bildirimler simülatörlerde çalışmaz. Gerçek bir cihazda dene.",
   "reminder_device_required_title": "Hatırlatıcılar Telefon Gerektirir",

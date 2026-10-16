@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "App Store에서 Pixy 평가하기",
   "rate_pixy_google_play": "Google Play에서 Pixy 평가하기",
   "recaps": "돌아보기",
+  "recaps_connected_days": {
+    "one": "1일 연결",
+    "other": "{{count}}일 연결"
+  },
+  "recaps_connected_more": "+%{count}명 더",
+  "recaps_connected_title": {
+    "one": "{{count}}명과 연결되었어요",
+    "other": "{{count}}명과 연결되었어요"
+  },
+  "recaps_connected_title_one": "%{name} 님과 연결되었어요",
+  "recaps_day_ago_text": "1년 전: %{date}.",
+  "recaps_day_ago_title": "1년 전 멋진 하루",
+  "recaps_day_best_title_month": "이번 달 최고의 날은 %{day}",
+  "recaps_day_best_title_week": "이번 주 최고의 날은 %{day}",
+  "recaps_day_hard_text": "어떤 날이든 모든 기록이 소중해요.",
+  "recaps_day_hard_title": "%{day}에도 기록해 줘서 고마워요",
+  "recaps_day_see": "이날 보기",
+  "recaps_days": {
+    "one": "1일",
+    "other": "{{count}}일"
+  },
   "recaps_emotion_absent_text": {
     "one": "그전 두 달 동안 하루 있었어요.",
     "other": "그전 두 달 동안 {{count}}일 있었어요."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "%{emotion} 없이 3주",
   "recaps_emotion_again_text": "%{date} 이후 처음입니다.",
   "recaps_emotion_again_title": "다시 %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "하루. 그다음:",
+    "other": "{{count}}일. 그다음:"
+  },
+  "recaps_emotions_quarter_title": "이번 분기는 주로 %{emotion}",
+  "recaps_emotions_title": "가장 자주 느낀 감정",
+  "recaps_emotions_year_title": "감정 톱 10",
   "recaps_empty": "이 기간의 카드가 아직 없습니다. 기록이 쌓이면 나타납니다.",
   "recaps_feedback_helpful": "도움이 됨",
   "recaps_feedback_not_helpful": "도움이 안 됨",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "사진 켜기",
   "recaps_intro_photos_text": "기록에 사진을 추가하세요. 1년 뒤 돌아보기가 “1년 전 오늘”로 시작할 수 있습니다.",
   "recaps_intro_photos_title": "오늘의 사진 남기기",
+  "recaps_most_connected_title_month": "이번 달 가장 많이 연결된 사람",
+  "recaps_most_connected_title_quarter": "이번 분기 가장 많이 연결된 사람",
+  "recaps_most_connected_title_year": "올해 가장 많이 연결된 사람",
   "recaps_nudge_not_now": "나중에",
   "recaps_nudge_reminder_action": "%{time}에 알림 받기",
   "recaps_nudge_reminder_text": "큰일이 있던 날은 기억에 남습니다. 작은 좋은 날은 다음 날 아침이면 흐려집니다. 매일 저녁 짧은 기록이 그날을 남겨 줍니다.",
@@ -735,6 +766,18 @@
     "other": "%{weeks}주 만에 {{count}}일."
   },
   "recaps_tag_back_title": "%{tag}이(가) 돌아왔어요",
+  "recaps_trips_title_month": {
+    "one": "이번 달 여행 1회",
+    "other": "이번 달 여행 {{count}}회"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "이번 분기 여행 1회",
+    "other": "이번 분기 여행 {{count}}회"
+  },
+  "recaps_trips_title_year": {
+    "one": "올해 여행 1회",
+    "other": "올해 여행 {{count}}회"
+  },
   "reminder": "알림",
   "reminder_device_required_message": "시뮬레이터에서는 알림이 작동하지 않아요. 실제 기기에서 시도해 보세요.",
   "reminder_device_required_title": "미리 알림에는 휴대폰이 필요해요",

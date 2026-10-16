@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "Értékeld a Pixyt az App Store-ban",
   "rate_pixy_google_play": "Értékeld a Pixyt a Google Playen",
   "recaps": "Visszatekintések",
+  "recaps_connected_days": {
+    "one": "1 nap kapcsolat",
+    "other": "{{count}} nap kapcsolat"
+  },
+  "recaps_connected_more": "+%{count} további",
+  "recaps_connected_title": {
+    "one": "{{count}} emberrel voltál kapcsolatban",
+    "other": "{{count}} emberrel voltál kapcsolatban"
+  },
+  "recaps_connected_title_one": "Kapcsolatban voltál vele: %{name}",
+  "recaps_day_ago_text": "Egy éve: %{date}.",
+  "recaps_day_ago_title": "Remek nap egy évvel ezelőtt",
+  "recaps_day_best_title_month": "%{day}: a hónapod legjobb napja",
+  "recaps_day_best_title_week": "%{day}: a heted legjobb napja",
+  "recaps_day_hard_text": "Minden bejegyzés számít, bármilyen is a nap.",
+  "recaps_day_hard_title": "Köszönjük a bejegyzést: %{day}",
+  "recaps_day_see": "Nap megtekintése",
+  "recaps_days": {
+    "one": "1 nap",
+    "other": "{{count}} nap"
+  },
   "recaps_emotion_absent_text": {
     "one": "Egy napon jött elő az előző két hónapban.",
     "other": "{{count}} napon jött elő az előző két hónapban."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "3 hét %{emotion} érzés nélkül",
   "recaps_emotion_again_text": "Először %{date} óta.",
   "recaps_emotion_again_title": "Újra %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Egy napon. Aztán:",
+    "other": "{{count}} napon. Aztán:"
+  },
+  "recaps_emotions_quarter_title": "Főleg %{emotion} ebben a negyedévben",
+  "recaps_emotions_title": "Leggyakoribb érzelmeid",
+  "recaps_emotions_year_title": "A 10 leggyakoribb érzelmed",
   "recaps_empty": "Erre az időszakra még nincs kártya. Megjelennek, ahogy több napot rögzítesz.",
   "recaps_feedback_helpful": "Hasznos",
   "recaps_feedback_not_helpful": "Nem hasznos",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "Fotók bekapcsolása",
   "recaps_intro_photos_text": "Adj fotót a bejegyzéseidhez. Egy év múlva a visszatekintésed így kezdődhet: „Ma egy éve”.",
   "recaps_intro_photos_title": "Őrizz meg egy fotót a napról",
+  "recaps_most_connected_title_month": "Legtöbb kapcsolat ebben a hónapban",
+  "recaps_most_connected_title_quarter": "Legtöbb kapcsolat ebben a negyedévben",
+  "recaps_most_connected_title_year": "Legtöbb kapcsolat idén",
   "recaps_nudge_not_now": "Most nem",
   "recaps_nudge_reminder_action": "Emlékeztess %{time}-kor",
   "recaps_nudge_reminder_text": "A nagy napok megmaradnak. A kis jó napok másnap reggelre elhalványulnak. Egy rövid esti bejegyzés megőrzi őket.",
@@ -735,6 +766,18 @@
     "other": "{{count}} napon, %{weeks} hét szünet után."
   },
   "recaps_tag_back_title": "%{tag} újra itt van",
+  "recaps_trips_title_month": {
+    "one": "1 utazás ebben a hónapban",
+    "other": "{{count}} utazás ebben a hónapban"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 utazás ebben a negyedévben",
+    "other": "{{count}} utazás ebben a negyedévben"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 utazás idén",
+    "other": "{{count}} utazás idén"
+  },
   "reminder": "Emlékeztetők",
   "reminder_device_required_message": "Az értesítések nem működnek szimulátoron. Próbáld valódi eszközön.",
   "reminder_device_required_title": "Az emlékeztetőkhöz telefon kell",

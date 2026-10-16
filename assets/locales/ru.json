@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "Оцените Pixy в App Store",
   "rate_pixy_google_play": "Оцените Pixy в Google Play",
   "recaps": "Итоги",
+  "recaps_connected_days": {
+    "one": "1 день на связи",
+    "other": "{{count}} дн. на связи"
+  },
+  "recaps_connected_more": "+ещё %{count}",
+  "recaps_connected_title": {
+    "one": "Вы были на связи с {{count}} людьми",
+    "other": "Вы были на связи с {{count}} людьми"
+  },
+  "recaps_connected_title_one": "Вы были на связи: %{name}",
+  "recaps_day_ago_text": "Год назад: %{date}.",
+  "recaps_day_ago_title": "Отличный день год назад",
+  "recaps_day_best_title_month": "%{day}: лучший день месяца",
+  "recaps_day_best_title_week": "%{day}: лучший день недели",
+  "recaps_day_hard_text": "Каждая отметка важна, каким бы ни был день.",
+  "recaps_day_hard_title": "Спасибо за отметку: %{day}",
+  "recaps_day_see": "Открыть этот день",
+  "recaps_days": {
+    "one": "1 день",
+    "other": "{{count}} дн."
+  },
   "recaps_emotion_absent_text": {
     "one": "Это было в один день за два месяца до этого.",
     "other": "Это было в {{count}} дн. за два месяца до этого."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "3 недели без чувства «%{emotion}»",
   "recaps_emotion_again_text": "Впервые с %{date}.",
   "recaps_emotion_again_title": "Снова %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Один день. Дальше:",
+    "other": "{{count}} дн. Дальше:"
+  },
+  "recaps_emotions_quarter_title": "Чаще всего %{emotion} в этом квартале",
+  "recaps_emotions_title": "Ваши самые частые эмоции",
+  "recaps_emotions_year_title": "Ваши топ-10 эмоций",
   "recaps_empty": "Для этого периода пока нет карточек. Они появятся, когда отметок станет больше.",
   "recaps_feedback_helpful": "Полезно",
   "recaps_feedback_not_helpful": "Неполезно",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "Включить фото",
   "recaps_intro_photos_text": "Добавляйте фото к отметкам. Через год ваши итоги смогут начаться с «Ровно год назад».",
   "recaps_intro_photos_title": "Сохраняйте фото дня",
+  "recaps_most_connected_title_month": "Больше всего на связи в этом месяце",
+  "recaps_most_connected_title_quarter": "Больше всего на связи в этом квартале",
+  "recaps_most_connected_title_year": "Больше всего на связи в этом году",
   "recaps_nudge_not_now": "Не сейчас",
   "recaps_nudge_reminder_action": "Напомнить в %{time}",
   "recaps_nudge_reminder_text": "Большие дни остаются в памяти. Маленькие хорошие дни забываются к утру. Короткая отметка каждый вечер сохранит их.",
@@ -735,6 +766,18 @@
     "other": "{{count}} дн., после %{weeks} нед. без."
   },
   "recaps_tag_back_title": "%{tag} снова здесь",
+  "recaps_trips_title_month": {
+    "one": "1 поездка в этом месяце",
+    "other": "Поездок в этом месяце: {{count}}"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 поездка в этом квартале",
+    "other": "Поездок в этом квартале: {{count}}"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 поездка в этом году",
+    "other": "Поездок в этом году: {{count}}"
+  },
   "reminder": "Напоминание",
   "reminder_device_required_message": "Уведомления не работают на симуляторах. Попробуй на реальном устройстве.",
   "reminder_device_required_title": "Для напоминаний нужен телефон",

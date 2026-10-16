@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "قيّم Pixy في App Store",
   "rate_pixy_google_play": "قيّم Pixy على Google Play",
   "recaps": "الملخصات",
+  "recaps_connected_days": {
+    "one": "يوم واحد من التواصل",
+    "other": "{{count}} يومًا من التواصل"
+  },
+  "recaps_connected_more": "+%{count} آخرين",
+  "recaps_connected_title": {
+    "one": "تواصلت مع {{count}} أشخاص",
+    "other": "تواصلت مع {{count}} أشخاص"
+  },
+  "recaps_connected_title_one": "تواصلت مع %{name}",
+  "recaps_day_ago_text": "قبل عام: %{date}.",
+  "recaps_day_ago_title": "يوم رائع قبل عام",
+  "recaps_day_best_title_month": "كان %{day} أفضل أيامك هذا الشهر",
+  "recaps_day_best_title_week": "كان %{day} أفضل أيامك هذا الأسبوع",
+  "recaps_day_hard_text": "كل تسجيل له قيمة، في كل أنواع الأيام.",
+  "recaps_day_hard_title": "شكرًا لأنك سجّلت يوم %{day}",
+  "recaps_day_see": "عرض هذا اليوم",
+  "recaps_days": {
+    "one": "يوم واحد",
+    "other": "{{count}} أيام"
+  },
   "recaps_emotion_absent_text": {
     "one": "ظهر في يوم واحد خلال الشهرين السابقين.",
     "other": "ظهر في {{count}} يومًا خلال الشهرين السابقين."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "3 أسابيع دون شعور %{emotion}",
   "recaps_emotion_again_text": "لأول مرة منذ %{date}.",
   "recaps_emotion_again_title": "%{emotion} من جديد",
+  "recaps_emotions_quarter_text": {
+    "one": "في يوم واحد. ثم:",
+    "other": "في {{count}} يومًا. ثم:"
+  },
+  "recaps_emotions_quarter_title": "غالبًا %{emotion} في هذا الربع",
+  "recaps_emotions_title": "أكثر مشاعرك تكرارًا",
+  "recaps_emotions_year_title": "أهم 10 مشاعر لديك",
   "recaps_empty": "لا توجد بطاقات لهذه الفترة بعد. ستظهر كلما سجّلت أيامًا أكثر.",
   "recaps_feedback_helpful": "مفيد",
   "recaps_feedback_not_helpful": "غير مفيد",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "تفعيل الصور",
   "recaps_intro_photos_text": "أضف صورة إلى تسجيلاتك. بعد عام، يمكن أن يبدأ ملخصك بعبارة «في مثل هذا اليوم قبل عام».",
   "recaps_intro_photos_title": "احتفظ بصورة لليوم",
+  "recaps_most_connected_title_month": "الأكثر تواصلًا هذا الشهر",
+  "recaps_most_connected_title_quarter": "الأكثر تواصلًا هذا الربع",
+  "recaps_most_connected_title_year": "الأكثر تواصلًا هذا العام",
   "recaps_nudge_not_now": "ليس الآن",
   "recaps_nudge_reminder_action": "ذكّرني في %{time}",
   "recaps_nudge_reminder_text": "الأيام الكبيرة تبقى في الذاكرة. أما الأيام الجيدة الصغيرة فتتلاشى بحلول الصباح. تسجيل قصير كل مساء يحفظها.",
@@ -735,6 +766,18 @@
     "other": "في {{count}} يومًا، بعد %{weeks} أسابيع من دونه."
   },
   "recaps_tag_back_title": "%{tag} عاد",
+  "recaps_trips_title_month": {
+    "one": "رحلة واحدة هذا الشهر",
+    "other": "{{count}} رحلات هذا الشهر"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "رحلة واحدة هذا الربع",
+    "other": "{{count}} رحلات هذا الربع"
+  },
+  "recaps_trips_title_year": {
+    "one": "رحلة واحدة هذا العام",
+    "other": "{{count}} رحلات هذا العام"
+  },
   "reminder": "تذكير",
   "reminder_device_required_message": "الإشعارات لا تعمل على المحاكيات. جرّب على جهاز حقيقي.",
   "reminder_device_required_title": "التذكيرات تحتاج إلى هاتف",

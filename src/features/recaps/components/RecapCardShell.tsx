@@ -10,8 +10,8 @@ import type { CardType } from "../types";
 import { ModuleIndicator } from "./ModuleIndicator";
 
 /**
- * Frame of every recap card: art, module names, title, text, the family's
- * actions, then the footer (feedback). Titles with inline chips pass the
+ * Frame of every recap card: art, module names, title, text, body, the
+ * family's actions, then the footer (feedback). Titles with inline chips pass the
  * plain sentence as `titleLabel` for screen readers.
  */
 export const RecapCardShell = ({
@@ -20,6 +20,7 @@ export const RecapCardShell = ({
   title,
   titleLabel,
   text,
+  body,
   actions,
   footer,
   onLayout,
@@ -29,6 +30,8 @@ export const RecapCardShell = ({
   title: ReactNode;
   titleLabel?: string;
   text?: string;
+  /** Lists and charts below the text. */
+  body?: ReactNode;
   actions?: ReactNode;
   footer?: ReactNode;
   onLayout?: (event: LayoutChangeEvent) => void;
@@ -53,6 +56,7 @@ export const RecapCardShell = ({
           <Title>{title}</Title>
         </View>
         {text && <Secondary style={{ marginTop: 8 }}>{text}</Secondary>}
+        {body && <View style={{ marginTop: 16 }}>{body}</View>}
         {actions && <View style={{ marginTop: 20 }}>{actions}</View>}
       </Bezel>
       {footer}

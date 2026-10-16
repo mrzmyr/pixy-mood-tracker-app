@@ -13,7 +13,6 @@ import {
   NotificationPreview,
   reminderTimeToDate,
 } from "@/features/notifications";
-import { PersonAvatar } from "@/features/people";
 import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
@@ -22,6 +21,7 @@ import type { TranslationKey } from "@/lib/translation";
 import { getActiveTags } from "../cards/nudges";
 import type { NudgeCard as NudgeCardData } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
+import { RingedAvatar } from "./RingedAvatar";
 
 type NudgeType = NudgeCardData["type"];
 
@@ -85,26 +85,13 @@ const EmotionsArt = () => (
   </View>
 );
 
-// The ring keeps the avatar circle visible on the card in dark mode.
-const PeopleArt = () => {
-  const colors = useColors();
-  return (
-    <View style={{ flexDirection: "row", gap: 12 }}>
-      {PLACEHOLDER_PEOPLE.map((person) => (
-        <View
-          key={person.id}
-          style={{
-            borderRadius: RADIUS.full,
-            borderWidth: 1,
-            borderColor: colors.cardBorder,
-          }}
-        >
-          <PersonAvatar person={person} size={56} />
-        </View>
-      ))}
-    </View>
-  );
-};
+const PeopleArt = () => (
+  <View style={{ flexDirection: "row", gap: 12 }}>
+    {PLACEHOLDER_PEOPLE.map((person) => (
+      <RingedAvatar key={person.id} person={person} size={56} />
+    ))}
+  </View>
+);
 
 const PhotosArt = () => {
   const colors = useColors();

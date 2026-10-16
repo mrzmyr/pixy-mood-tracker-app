@@ -670,6 +670,27 @@
   "rate_pixy_app_store": "Oceń Pixy w App Store",
   "rate_pixy_google_play": "Oceń Pixy w Google Play",
   "recaps": "Podsumowania",
+  "recaps_connected_days": {
+    "one": "1 dzień w kontakcie",
+    "other": "{{count}} dni w kontakcie"
+  },
+  "recaps_connected_more": "+%{count} więcej",
+  "recaps_connected_title": {
+    "one": "Byłeś w kontakcie z {{count}} osobami",
+    "other": "Byłeś w kontakcie z {{count}} osobami"
+  },
+  "recaps_connected_title_one": "Byłeś w kontakcie z: %{name}",
+  "recaps_day_ago_text": "Rok temu: %{date}.",
+  "recaps_day_ago_title": "Świetny dzień sprzed roku",
+  "recaps_day_best_title_month": "%{day}: Twój najlepszy dzień miesiąca",
+  "recaps_day_best_title_week": "%{day}: Twój najlepszy dzień tygodnia",
+  "recaps_day_hard_text": "Każdy wpis się liczy, bez względu na dzień.",
+  "recaps_day_hard_title": "Dzięki za wpis: %{day}",
+  "recaps_day_see": "Zobacz ten dzień",
+  "recaps_days": {
+    "one": "1 dzień",
+    "other": "{{count}} dni"
+  },
   "recaps_emotion_absent_text": {
     "one": "Pojawiło się w jednym dniu w dwóch miesiącach wcześniej.",
     "other": "Pojawiło się w {{count}} dniach w dwóch miesiącach wcześniej."
@@ -677,6 +698,13 @@
   "recaps_emotion_absent_title": "3 tygodnie bez emocji: %{emotion}",
   "recaps_emotion_again_text": "Pierwszy raz od %{date}.",
   "recaps_emotion_again_title": "Znów %{emotion}",
+  "recaps_emotions_quarter_text": {
+    "one": "Jeden dzień. Potem:",
+    "other": "{{count}} dni. Potem:"
+  },
+  "recaps_emotions_quarter_title": "Głównie %{emotion} w tym kwartale",
+  "recaps_emotions_title": "Twoje najczęstsze emocje",
+  "recaps_emotions_year_title": "Twoje 10 głównych emocji",
   "recaps_empty": "Brak kart dla tego okresu. Pojawią się, gdy zapiszesz więcej dni.",
   "recaps_feedback_helpful": "Pomocne",
   "recaps_feedback_not_helpful": "Niepomocne",
@@ -705,6 +733,9 @@
   "recaps_intro_photos_action": "Włącz zdjęcia",
   "recaps_intro_photos_text": "Dodawaj zdjęcie do wpisów. Za rok Twoje podsumowanie może zacząć się od „Dziś rok temu”.",
   "recaps_intro_photos_title": "Zachowaj zdjęcie dnia",
+  "recaps_most_connected_title_month": "Najwięcej kontaktu w tym miesiącu",
+  "recaps_most_connected_title_quarter": "Najwięcej kontaktu w tym kwartale",
+  "recaps_most_connected_title_year": "Najwięcej kontaktu w tym roku",
   "recaps_nudge_not_now": "Nie teraz",
   "recaps_nudge_reminder_action": "Przypomnij o %{time}",
   "recaps_nudge_reminder_text": "Wielkie dni zostają w pamięci. Małe dobre dni bledną do następnego ranka. Krótki wpis każdego wieczoru je zachowa.",
@@ -735,6 +766,18 @@
     "other": "{{count}} dni, po %{weeks} tygodniach przerwy."
   },
   "recaps_tag_back_title": "%{tag} wraca",
+  "recaps_trips_title_month": {
+    "one": "1 podróż w tym miesiącu",
+    "other": "{{count}} podróże w tym miesiącu"
+  },
+  "recaps_trips_title_quarter": {
+    "one": "1 podróż w tym kwartale",
+    "other": "{{count}} podróże w tym kwartale"
+  },
+  "recaps_trips_title_year": {
+    "one": "1 podróż w tym roku",
+    "other": "{{count}} podróże w tym roku"
+  },
   "reminder": "Przypomnienie",
   "reminder_device_required_message": "Powiadomienia nie działają na symulatorach. Spróbuj na prawdziwym urządzeniu.",
   "reminder_device_required_title": "Przypomnienia wymagają telefonu",

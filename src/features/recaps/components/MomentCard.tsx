@@ -4,17 +4,15 @@ import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import { MapPin, Moon } from "react-native-feather";
 import { Micro } from "@/components/Type";
-import { RADIUS } from "@/constants/Radius";
-import { EmotionIndicator, EMOTIONS } from "@/features/logger";
-import { PersonAvatar } from "@/features/people";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 import { t, tDynamic } from "@/lib/translation";
 import type { MomentCard as MomentCardData } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
+import { RingedAvatar } from "./RingedAvatar";
 import { CHIP } from "../chipMarker";
-import { ChipText, TitleChip } from "./TitleChip";
+import { ChipText, EmotionChip, TagChip } from "./TitleChip";
 
 const formatDay = (date: string) => dayjs(date).format("D MMMM");
 
@@ -30,50 +28,11 @@ interface Lookup {
   tags: Tag[];
 }
 
-const EmotionChip = ({ emotionKey }: { emotionKey: string }) => {
-  const emotion = EMOTIONS.find((item) => item.key === emotionKey);
-  return emotion ? (
-    <TitleChip
-      marker={<EmotionIndicator emotion={emotion} compact />}
-      label={tDynamic(`log_emotion_${emotion.key}`)}
-    />
-  ) : null;
-};
-
-const TagChip = ({ tag }: { tag: Tag }) => {
-  const colors = useColors();
-  return (
-    <TitleChip
-      marker={
-        <View
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: RADIUS.sm,
-            backgroundColor: colors.tags[tag.color]?.dot,
-          }}
-        />
-      }
-      label={tag.title}
-    />
-  );
-};
-
-const PersonArt = ({ person }: { person: Person }) => {
-  const colors = useColors();
-  return (
-    <View
-      style={{
-        alignSelf: "flex-start",
-        borderRadius: RADIUS.full,
-        borderWidth: 1,
-        borderColor: colors.cardBorder,
-      }}
-    >
-      <PersonAvatar person={person} size={72} />
-    </View>
-  );
-};
+const PersonArt = ({ person }: { person: Person }) => (
+  <View style={{ alignItems: "flex-start" }}>
+    <RingedAvatar person={person} size={72} />
+  </View>
+);
 
 /** One moon per night of the run, in the sleep color. No numbers. */
 const NightsArt = ({ nights, good }: { nights: string[]; good: boolean }) => {

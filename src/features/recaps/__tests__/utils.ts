@@ -25,6 +25,7 @@ export const makeInput = ({
   reminderEnabled = false,
   tags = [],
   locationEnabled = false,
+  personIds,
 }: {
   kind?: PeriodKind;
   today?: string;
@@ -37,6 +38,8 @@ export const makeInput = ({
   reminderEnabled?: boolean;
   tags?: Tag[];
   locationEnabled?: boolean;
+  /** Existing people. Defaults to everyone on `items`. */
+  personIds?: string[];
 } = {}): RecapInput => {
   const period = getPeriod(kind, date, WEEK_LOCALE);
   const history = getDays(items.map(_generateItem));
@@ -51,6 +54,10 @@ export const makeInput = ({
     availableSteps: new Set(availableSteps),
     reminderEnabled,
     tags,
+    personIds: new Set(
+      personIds ??
+        items.flatMap((item) => (item.people ?? []).map((person) => person.id))
+    ),
   };
 };
 
