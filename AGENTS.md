@@ -83,4 +83,5 @@
 - MUST read [MISTAKES.md](MISTAKES.md) and [LEARNINGS.md](LEARNINGS.md) before code changes
 - MUST read [docs/documentation.md](docs/documentation.md)
 - MUST read [docs/design.md](docs/design.md) for UI, copy, layout, forms, and interaction guidelines
+- MUST read [DESIGN.md](DESIGN.md) for marketing assets: store screenshots, website pages, launch headers, social cards
 - Use domain terms from [GLOSSARY.md](GLOSSARY.md) in code, copy, and docs

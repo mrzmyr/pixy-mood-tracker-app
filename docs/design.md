@@ -1,5 +1,6 @@
 # Design
 
+- Marketing assets (store screenshots, website, launch headers): [DESIGN.md](../DESIGN.md)
 - Use defined components, if you think a custom component is needed, ask the user to create a new component or create it right away but flag it
 
 ## Tag Color Selection
