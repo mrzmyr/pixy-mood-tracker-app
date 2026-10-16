@@ -22,7 +22,7 @@ import { useLogState } from "@/features/logs";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 import { useWeekLocale } from "@/hooks/useWeekLocale";
-import { t } from "@/lib/translation";
+import { getLocale, t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
@@ -62,9 +62,17 @@ const getFirstEntryDate = (items: { date: string }[]) => {
   return first;
 };
 
+/** Day and month in the phone locale; the end of a range adds the year. */
+const formatRangeDay = (date: string, withYear: boolean) =>
+  new Intl.DateTimeFormat(getLocale(), {
+    day: "numeric",
+    month: "short",
+    year: withYear ? "numeric" : undefined,
+  }).format(dayjs(date).toDate());
+
 const PERIOD_LABELS: Record<PeriodKind, (period: Period) => string> = {
   week: ({ start, end }) =>
-    `${dayjs(start).format("D MMM")} – ${dayjs(end).format("D MMM YYYY")}`,
+    `${formatRangeDay(start, false)} – ${formatRangeDay(end, true)}`,
   month: ({ start }) => dayjs(start).format("MMMM YYYY"),
   quarter: ({ start }) =>
     t("recaps_period_quarter_label", {
