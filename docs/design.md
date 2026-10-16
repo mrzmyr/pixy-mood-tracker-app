@@ -82,7 +82,10 @@
 ## Core Modules
 
 - Term defined in [GLOSSARY.md](../GLOSSARY.md). Each Core Module uses its icon everywhere: Steps settings, Check-in, filters, statistics
-- Icons: `react-native-feather`, 20 px in lists, stroke `colors.text`
+- Icons: existing Feather or Lucide components, 20 px in lists, stroke `colors.text`
+- **Never conflict.** Never reuse one icon for unrelated meanings. Color themes use `Palette`; Menstruation uses `Droplet`.
+- **State stays visible.** Day view icons show stored state. Use same state icon in selection and Day view.
+- **One fixed-size icon.** Each state uses one glyph with same width and height. Change fill or detail, never icon count or size.
 - Mood: `Sun` ([Steps settings](../src/features/settings/screens/Steps.tsx))
 - Emotions: `Heart`
 - Tags: `Tag`

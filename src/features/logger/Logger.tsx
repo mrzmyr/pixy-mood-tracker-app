@@ -2,6 +2,7 @@ import { isConfirmed } from "@/helpers/promptCancel";
 import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
+import type { LogItem } from "@/features/logs";
 
 import { useQuestioner } from "@/features/questioner";
 import type { IQuestion } from "@/features/questioner";
@@ -37,6 +38,7 @@ import FlagHighlight from "@/components/FlagHighlight";
 import { SlidePhotos } from "./slides/SlidePhotos";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlidePeople } from "./slides/SlidePeople";
+import { SlideMenstruation } from "./slides/SlideMenstruation";
 import { SlideSleep } from "./slides/SlideSleep";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
@@ -49,6 +51,7 @@ import {
   getAvailableStepsForEdit,
   getRatingActionType,
   hasSleepOnDate,
+  hasMenstruationOnDate,
 } from "./steps";
 
 /** Whether the logger creates a new entry or edits an existing one. */
@@ -58,6 +61,7 @@ export type LoggerMode = "create" | "edit";
 const SLIDE_ORDER: LoggerStep[] = [
   "rating",
   "sleep",
+  "menstruation",
   "emotions",
   "tags",
   "people",
@@ -170,6 +174,99 @@ interface LoggerProps {
   onCreated?: (saved: SavedEntry) => void;
 }
 
+type OptionalStep =
+  | "menstruation"
+  | "sleep"
+  | "emotions"
+  | "tags"
+  | "people"
+  | "message"
+  | "photos";
+
+/**
+ * Slides the logger shows, in order. Menstruation follows its own rules: off
+ * with the flag off, in edit mode only when the entry can edit it, and in
+ * create mode once per day unless this draft already holds it.
+ */
+const getSlideKeys = ({
+  mode,
+  avaliableSteps,
+  hasQuestion,
+  isMenstruationEnabled,
+  hasStep,
+  draft,
+  items,
+}: {
+  mode: LoggerMode;
+  avaliableSteps: LoggerStep[];
+  hasQuestion: boolean;
+  isMenstruationEnabled: boolean;
+  hasStep: (step: LoggerStep) => boolean;
+  draft: LogDraft;
+  items: LogItem[];
+}) =>
+  SLIDE_ORDER.filter((key) => {
+    if (key === "menstruation") {
+      if (!isMenstruationEnabled) {
+        return false;
+      }
+      if (mode === "edit") {
+        return avaliableSteps.includes(key);
+      }
+      return (
+        hasStep(key) &&
+        (draft.menstruation !== undefined ||
+          !hasMenstruationOnDate(items, toLogDate(draft.dateTime)))
+      );
+    }
+    return (
+      key === "rating" ||
+      (avaliableSteps.includes(key) && (key !== "feedback" || hasQuestion))
+    );
+  });
+
+/**
+ * Closes the keyboard on every slide change and focuses the note input on its
+ * slide. The returned ref turns false on unmount, so late carousel progress
+ * events skip state updates.
+ */
+const useSlideFocus = ({
+  slideIndex,
+  focusSlideIndex,
+  texAreaRef,
+}: {
+  slideIndex: number;
+  focusSlideIndex: number | null;
+  texAreaRef: RefObject<TextInput | null>;
+}) => {
+  const isMounted = useRef(true);
+
+  useEffect(
+    () => () => {
+      isMounted.current = false;
+    },
+    []
+  );
+
+  // Effect event: reads the latest note slide position without re-running
+  // the effect below when it changes; only slide changes should dismiss the
+  // keyboard or focus the note input.
+  const getFocusSlideIndex = useEffectEvent(() => focusSlideIndex);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      Keyboard.dismiss();
+
+      if (slideIndex === getFocusSlideIndex()) {
+        texAreaRef.current?.focus();
+      }
+    }
+    // `texAreaRef` is stable; listed because the lint rule cannot tell.
+  }, [slideIndex, texAreaRef]);
+
+  return isMounted;
+};
+
 const LoggerSlides = ({
   initialStep,
   avaliableSteps,
@@ -182,7 +279,8 @@ const LoggerSlides = ({
 
   const logState = useLogState();
 
-  const { toggleStep } = useSettings();
+  const { toggleStep, hasStep } = useSettings();
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const analytics = useAnalytics();
 
   const { draft } = useLogDraft();
@@ -214,34 +312,38 @@ const LoggerSlides = ({
   // taller slide height, and slide bottoms end up under the home indicator.
   const [carouselHeight, setCarouselHeight] = useState<number>();
 
-  const slideKeys = SLIDE_ORDER.filter(
-    (key) =>
-      key === "rating" ||
-      (avaliableSteps.includes(key) && (key !== "feedback" || !!question))
-  );
+  const slideKeys = getSlideKeys({
+    mode,
+    avaliableSteps,
+    hasQuestion: !!question,
+    isMenstruationEnabled,
+    hasStep,
+    draft,
+    items: logState.items,
+  });
 
   // Slide to open once the carousel holds it, see the effect below.
   const pendingIndex = useRef<number | null>(null);
 
-  const next = () => {
-    if (slideIndex + 1 === slideKeys.length - 1) {
+  const advance = (nextIndex: number) => {
+    if (nextIndex === slideKeys.length - 1) {
       Keyboard.dismiss();
     }
 
-    if (slideIndex + 1 === slideKeys.length) {
+    if (nextIndex === slideKeys.length) {
       save();
-    } else if (slideIndex + 1 > furthestIndex) {
-      pendingIndex.current = slideIndex + 1;
-      setFurthestIndex(slideIndex + 1);
+    } else if (nextIndex > furthestIndex) {
+      pendingIndex.current = nextIndex;
+      setFurthestIndex(nextIndex);
     } else {
-      _carousel.current?.scrollTo({ index: slideIndex + 1, animated: true });
+      _carousel.current?.scrollTo({ index: nextIndex, animated: true });
     }
   };
 
+  const next = () => advance(slideIndex + 1);
+
   // Shared by the optional slides: confirm, turn the step off, move on.
-  const disableStep = async (
-    step: "sleep" | "emotions" | "tags" | "people" | "message" | "photos"
-  ) => {
+  const disableStep = async (step: OptionalStep) => {
     if (!(await isConfirmed(askToDisableStep()))) {
       return;
     }
@@ -296,6 +398,21 @@ const LoggerSlides = ({
           onDisableStep={() => disableStep("sleep")}
           showDisable={showDisable}
         />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("menstruation")) {
+    content.push({
+      key: "menstruation",
+      slide: (
+        <FlagHighlight flag="menstruation" pillOnly style={{ flex: 1 }}>
+          <SlideMenstruation
+            onSelect={() => advance(slideKeys.indexOf("menstruation") + 1)}
+            onDisableStep={() => disableStep("menstruation")}
+            showDisable={showDisable}
+          />
+        </FlagHighlight>
       ),
     });
   }
@@ -368,41 +485,19 @@ const LoggerSlides = ({
       index: Math.min(target, reachedIndex),
       animated: true,
     });
-    // `_carousel` is a stable ref; listed because the lint rule cannot tell.
-  }, [reachedIndex, _carousel]);
+    // The refs are stable; listed because the lint rule cannot tell.
+  }, [reachedIndex, _carousel, pendingIndex]);
 
   const messageSlideIndex = content.findIndex((item) => item.key === "message");
-  const hasMessageSlide = messageSlideIndex !== -1;
 
-  const isMounted = useRef(true);
-
-  useEffect(
-    () => () => {
-      isMounted.current = false;
-    },
-    []
-  );
-
-  // Effect event: reads the latest message slide position without re-running
-  // the effect below when it changes; only slide changes should dismiss the
-  // keyboard or focus the message input.
-  const getFocusableMessageSlideIndex = useEffectEvent(() =>
-    hasMessageSlide && mode === "create" ? messageSlideIndex : null
-  );
+  const isMounted = useSlideFocus({
+    slideIndex,
+    focusSlideIndex:
+      mode === "create" && messageSlideIndex !== -1 ? messageSlideIndex : null,
+    texAreaRef,
+  });
 
   useLoggerTracking({ mode, slideKeys, slideIndex });
-
-  useEffect(() => {
-    if (isMounted.current) {
-      Keyboard.dismiss();
-
-      if (slideIndex === getFocusableMessageSlideIndex()) {
-        texAreaRef.current?.focus();
-      }
-    }
-    // `texAreaRef` is stable; listed because the rating slide now reads the
-    // slide index and the lint rule can no longer tell.
-  }, [slideIndex, texAreaRef]);
 
   return (
     <View
@@ -461,12 +556,12 @@ const LoggerSlides = ({
         </View>
       </View>
       {content[slideIndex] &&
-        (content[slideIndex].action ||
-          (slideIndex === content.length - 1 ? (
-            <SlideAction type="save" onPress={next} />
-          ) : (
-            <SlideAction type="next" onPress={next} />
-          )))}
+        (content[slideIndex].action || (
+          <SlideAction
+            type={slideIndex === content.length - 1 ? "save" : "next"}
+            onPress={next}
+          />
+        ))}
     </View>
   );
 };
@@ -501,6 +596,7 @@ export const LoggerEdit = ({
   const { hasStep } = useSettings();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const initialItem = logState?.items.find((item) => item.id === id);
 
   if (initialItem === undefined) {
@@ -517,6 +613,7 @@ export const LoggerEdit = ({
     hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(initialItem)),
     hasPeople,
     isPhotosEnabled,
+    isMenstruationEnabled,
   });
 
   return (
@@ -555,6 +652,7 @@ export const LoggerCreate = ({
   const { hasStep, settings } = useSettings();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const logState = useLogState();
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
@@ -585,6 +683,11 @@ export const LoggerCreate = ({
       itemsCount: logState.items.length,
       hasSleepOnDay: hasSleepOnDate(logState.items, initialItem.date),
       isPhotosEnabled,
+      isMenstruationEnabled,
+      hasMenstruationOnDay: hasMenstruationOnDate(
+        logState.items,
+        initialItem.date
+      ),
     });
 
   if (saved !== null) {

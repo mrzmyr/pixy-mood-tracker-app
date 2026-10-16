@@ -11,9 +11,23 @@ import {
   YEAR_WIDGET_TIMELINE_DAYS,
 } from "../widgetData";
 import type { YearImages } from "../widgetData";
-import PixyMonthWidget from "./PixyMonthWidget";
-import PixyWeekWidget from "./PixyWeekWidget";
-import PixyYearWidget from "./PixyYearWidget";
+import type PixyMonthWidget from "./PixyMonthWidget";
+import type PixyWeekWidget from "./PixyWeekWidget";
+import type PixyYearWidget from "./PixyYearWidget";
+
+/** SwiftUI views load only when iOS actually syncs widgets. */
+const loadWidgets = () => ({
+  // SAFETY: local widget modules export these SDK widget objects as their defaults.
+  // oxlint-disable-next-line typescript/no-require-imports -- native SwiftUI views cannot load on web.
+  PixyMonthWidget: require("./PixyMonthWidget")
+    .default as typeof PixyMonthWidget,
+  // SAFETY: same local default export contract.
+  // oxlint-disable-next-line typescript/no-require-imports -- native SwiftUI views cannot load on web.
+  PixyWeekWidget: require("./PixyWeekWidget").default as typeof PixyWeekWidget,
+  // SAFETY: same local default export contract.
+  // oxlint-disable-next-line typescript/no-require-imports -- native SwiftUI views cannot load on web.
+  PixyYearWidget: require("./PixyYearWidget").default as typeof PixyYearWidget,
+});
 
 /** Home screen widgets exist on iOS only. */
 export const IS_WIDGET_SUPPORTED = Platform.OS === "ios";
@@ -43,6 +57,7 @@ const firstEntryKeys = (entries: { props: object }[]) =>
 
 /** Entry counts and first-entry keys read back from the widget store. */
 const describeTimelines = async () => {
+  const { PixyWeekWidget, PixyMonthWidget, PixyYearWidget } = loadWidgets();
   const [week, month, year] = await Promise.all([
     PixyWeekWidget.getTimeline(),
     PixyMonthWidget.getTimeline(),
@@ -74,6 +89,7 @@ export const syncWidgets = async ({
     return;
   }
   try {
+    const { PixyWeekWidget, PixyMonthWidget, PixyYearWidget } = loadWidgets();
     const input = { items, scaleType, url: getWidgetUrl(), isAvailable };
     PixyWeekWidget.updateTimeline(getWidgetTimeline(input, getWeekWidgetProps));
     PixyMonthWidget.updateTimeline(

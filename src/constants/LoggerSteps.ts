@@ -8,7 +8,8 @@ export type LoggerStep =
   | "feedback"
   | "reminder"
   | "emotions"
-  | "sleep";
+  | "sleep"
+  | "menstruation";
 
 /** Settings omit the new-user reminder slide. */
 export type ConfigurableLoggerStep = Exclude<LoggerStep, "reminder">;
@@ -22,6 +23,7 @@ export const STEP_OPTIONS: ConfigurableLoggerStep[] = [
   "tags",
   "people",
   "sleep",
+  "menstruation",
   "emotions",
   "photos",
   "message",

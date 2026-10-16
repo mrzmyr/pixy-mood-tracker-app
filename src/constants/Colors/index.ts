@@ -234,6 +234,8 @@ const light = {
 
   sleepQualityEmpty: colors.indigo[100],
   sleepQualityFull: colors.indigo[500],
+  menstruationEmpty: colors.rose[100],
+  menstruationFull: colors.rose[500],
 
   scales: scales.light,
   tags: tagsLight,
@@ -439,6 +441,8 @@ const dark: IColors & {
 
   sleepQualityEmpty: colors.indigo[800],
   sleepQualityFull: colors.indigo[400],
+  menstruationEmpty: colors.rose[900],
+  menstruationFull: colors.rose[400],
 
   scales: scales.dark,
   tags: tagsDark,

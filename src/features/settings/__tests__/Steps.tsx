@@ -6,9 +6,12 @@ import { SettingsProvider } from "@/state/settings";
 import { StepsScreen } from "../screens/Steps";
 
 let mockIsPhotosEnabled = true;
+let mockIsMenstruationEnabled = false;
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the photos flag comes from PostHog after consent; each test picks on or off.
 jest.mock("@/state/featureFlags", () => ({
-  useFeatureFlag: (flag: string) => flag === "photos" && mockIsPhotosEnabled,
+  useFeatureFlag: (flag: string) =>
+    (flag === "photos" && mockIsPhotosEnabled) ||
+    (flag === "menstruation" && mockIsMenstruationEnabled),
 }));
 
 const renderSteps = () =>
@@ -31,6 +34,7 @@ const renderSteps = () =>
 describe("Settings > Check-in", () => {
   afterEach(() => {
     mockIsPhotosEnabled = true;
+    mockIsMenstruationEnabled = false;
   });
 
   test("flag on: shows the Photos toggle, on for new installs", async () => {
@@ -59,4 +63,18 @@ describe("Settings > Check-in", () => {
     });
     expect(within(row).getByText("Tags")).toBeTruthy();
   });
+});
+
+test("menstruation flag on offers an opt-in switch; flag off hides it", async () => {
+  mockIsMenstruationEnabled = true;
+  const view = await renderSteps();
+  await waitFor(() =>
+    expect(screen.getByTestId("step-menstruation-enabled").props.value).toBe(
+      false
+    )
+  );
+  await view.unmount();
+  mockIsMenstruationEnabled = false;
+  await renderSteps();
+  expect(screen.queryByTestId("step-menstruation-enabled")).toBeNull();
 });

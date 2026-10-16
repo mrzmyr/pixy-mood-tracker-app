@@ -2,7 +2,7 @@ import { _generateItem } from "@/__tests__/utils";
 import { createCsv } from "../csv";
 
 const HEADER =
-  '\uFEFF"id","date","date_time","created_at","rating","emotions","tags","note","sleep_quality"\r\n';
+  '\uFEFF"id","date","date_time","created_at","rating","emotions","tags","note","sleep_quality","menstruation_flow"\r\n';
 
 describe("createCsv", () => {
   test("exports every entry field, including archived tag names and Unicode", () => {
@@ -30,7 +30,7 @@ describe("createCsv", () => {
     ).toBe(
       `${
         HEADER
-      }"entry-1","2026-10-03","2026-10-03T00:00:00.000Z","2026-10-03T00:00:00.000Z","good","happy; calm","Walk, ""park""; missing-tag","Coffee, ""friends""\nGrüße 🦄","very_good"\r\n`
+      }"entry-1","2026-10-03","2026-10-03T00:00:00.000Z","2026-10-03T00:00:00.000Z","good","happy; calm","Walk, ""park""; missing-tag","Coffee, ""friends""\nGrüße 🦄","very_good",""\r\n`
     );
   });
 
