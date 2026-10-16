@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "יום נהדר, לפני שנה",
   "recaps_day_best_title_month": "%{day} היה היום הכי טוב שלך החודש",
   "recaps_day_best_title_week": "%{day} היה היום הכי טוב שלך השבוע",
-  "recaps_day_hard_text": "בכל זאת תיעדת. ימים כאלה עוברים.",
-  "recaps_day_hard_title": "%{day} היה יום קשה יותר",
+  "recaps_day_hard_text": "כל תיעוד חשוב, בכל סוג של יום.",
+  "recaps_day_hard_title": "תודה שתיעדת ב%{day}",
   "recaps_day_see": "הצגת היום הזה",
   "recaps_days": {
     "one": "יום אחד",

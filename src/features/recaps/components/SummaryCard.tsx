@@ -401,7 +401,8 @@ const dayContent = (
       ? [t("recaps_connected_more", { count: dayPeople.length - 4 })]
       : []),
   ].join(", ");
-  // People on a day are connections, not company: never "with" in titles.
+  // People on a day are connections, not company: titles never say "a day
+  // with" someone.
   const agoTitle = () => place?.city ?? t("recaps_day_ago_title");
   const titles = {
     best: () => (bestKey ? t(bestKey, { day: weekday }) : ""),

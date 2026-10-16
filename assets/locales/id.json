@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Hari yang indah, setahun lalu",
   "recaps_day_best_title_month": "%{day} adalah hari terbaikmu bulan ini",
   "recaps_day_best_title_week": "%{day} adalah hari terbaikmu minggu ini",
-  "recaps_day_hard_text": "Kamu tetap mencatat. Hari seperti ini akan berlalu.",
-  "recaps_day_hard_title": "%{day} adalah hari yang lebih berat",
+  "recaps_day_hard_text": "Setiap catatan berarti, di hari apa pun.",
+  "recaps_day_hard_title": "Terima kasih sudah mencatat pada %{day}",
   "recaps_day_see": "Lihat Hari Ini",
   "recaps_days": {
     "one": "1 hari",

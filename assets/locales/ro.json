@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "O zi minunată, acum un an",
   "recaps_day_best_title_month": "%{day} a fost cea mai bună zi a lunii",
   "recaps_day_best_title_week": "%{day} a fost cea mai bună zi a săptămânii",
-  "recaps_day_hard_text": "Totuși ai făcut înregistrarea. Zilele astea trec.",
-  "recaps_day_hard_title": "%{day} a fost o zi mai grea",
+  "recaps_day_hard_text": "Fiecare înregistrare contează, în orice fel de zi.",
+  "recaps_day_hard_title": "Mulțumim pentru înregistrarea din %{day}",
   "recaps_day_see": "Vezi această zi",
   "recaps_days": {
     "one": "1 zi",

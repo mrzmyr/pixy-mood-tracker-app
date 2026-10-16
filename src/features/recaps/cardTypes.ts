@@ -107,11 +107,13 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "strong",
     periods: ALL_PERIODS,
   },
+  // Week only: longer recaps show the podium instead, so people never
+  // appear twice.
   connected: {
     family: "summary",
     modules: ["people", "emotions"],
     signal: "strong",
-    periods: ALL_PERIODS,
+    periods: ["week"],
   },
   "most-connected": {
     family: "summary",

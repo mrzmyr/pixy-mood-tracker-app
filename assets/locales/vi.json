@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Một ngày tuyệt vời, một năm trước",
   "recaps_day_best_title_month": "%{day} là ngày tuyệt nhất tháng này",
   "recaps_day_best_title_week": "%{day} là ngày tuyệt nhất tuần này",
-  "recaps_day_hard_text": "Bạn vẫn ghi lại. Những ngày như vậy sẽ qua.",
-  "recaps_day_hard_title": "%{day} là một ngày khó khăn hơn",
+  "recaps_day_hard_text": "Mỗi lần ghi lại đều có ý nghĩa, dù là ngày nào.",
+  "recaps_day_hard_title": "Cảm ơn bạn đã ghi lại vào %{day}",
   "recaps_day_see": "Xem ngày này",
   "recaps_days": {
     "one": "1 ngày",

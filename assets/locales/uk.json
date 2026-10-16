@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Чудовий день рік тому",
   "recaps_day_best_title_month": "%{day}: найкращий день місяця",
   "recaps_day_best_title_week": "%{day}: найкращий день тижня",
-  "recaps_day_hard_text": "Ви все одно зробили відмітку. Такі дні минають.",
-  "recaps_day_hard_title": "%{day}: важчий день",
+  "recaps_day_hard_text": "Кожна відмітка важлива, яким би не був день.",
+  "recaps_day_hard_title": "Дякуємо за відмітку: %{day}",
   "recaps_day_see": "Відкрити цей день",
   "recaps_days": {
     "one": "1 день",

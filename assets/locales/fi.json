@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Hieno päivä vuosi sitten",
   "recaps_day_best_title_month": "%{day} oli kuukauden paras päiväsi",
   "recaps_day_best_title_week": "%{day} oli viikon paras päiväsi",
-  "recaps_day_hard_text": "Kirjasit silti. Tällaiset päivät menevät ohi.",
-  "recaps_day_hard_title": "%{day} oli raskaampi päivä",
+  "recaps_day_hard_text": "Jokainen kirjaus on tärkeä, oli päivä millainen tahansa.",
+  "recaps_day_hard_title": "Kiitos kirjauksesta: %{day}",
   "recaps_day_see": "Näytä tämä päivä",
   "recaps_days": {
     "one": "1 päivä",

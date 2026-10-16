@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Una bella giornata, un anno fa",
   "recaps_day_best_title_month": "%{day} è stato il tuo giorno migliore del mese",
   "recaps_day_best_title_week": "%{day} è stato il tuo giorno migliore della settimana",
-  "recaps_day_hard_text": "Hai comunque fatto il check-in. Giorni così passano.",
-  "recaps_day_hard_title": "%{day} è stato un giorno più difficile",
+  "recaps_day_hard_text": "Ogni check-in conta, in ogni tipo di giorno.",
+  "recaps_day_hard_title": "Grazie per il check-in di %{day}",
   "recaps_day_see": "Vedi questo giorno",
   "recaps_days": {
     "one": "1 giorno",

@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "يوم رائع قبل عام",
   "recaps_day_best_title_month": "كان %{day} أفضل أيامك هذا الشهر",
   "recaps_day_best_title_week": "كان %{day} أفضل أيامك هذا الأسبوع",
-  "recaps_day_hard_text": "ومع ذلك سجّلت. أيام كهذه تمضي.",
-  "recaps_day_hard_title": "كان %{day} يومًا أصعب",
+  "recaps_day_hard_text": "كل تسجيل له قيمة، في كل أنواع الأيام.",
+  "recaps_day_hard_title": "شكرًا لأنك سجّلت يوم %{day}",
   "recaps_day_see": "عرض هذا اليوم",
   "recaps_days": {
     "one": "يوم واحد",

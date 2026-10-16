@@ -164,6 +164,21 @@ describe("people", () => {
     expect(summaries("connected", { items: [{ date: mon }] })).toEqual([]);
   });
 
+  test("lists people in week recaps only; longer ones show the podium", () => {
+    const items = [
+      { date: mon, people: [lena, sam] },
+      { date: "2026-10-06", people: [lena] },
+    ];
+    const month = {
+      kind: "month" as const,
+      date: "2026-10-01",
+      today: "2026-11-02",
+    };
+
+    expect(summaries("connected", { items })).toHaveLength(1);
+    expect(summaries("connected", { ...month, items })).toEqual([]);
+  });
+
   test("leaves deleted people out, also from the podium count", () => {
     const month = {
       kind: "month" as const,
@@ -175,9 +190,7 @@ describe("people", () => {
       { date: "2026-10-06", people: [lena] },
     ];
 
-    expect(
-      summaries("connected", { ...month, items, personIds: ["sam"] })
-    ).toEqual([
+    expect(summaries("connected", { items, personIds: ["sam"] })).toEqual([
       {
         type: "connected",
         people: [{ personId: "sam", days: 1, emotions: [] }],

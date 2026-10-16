@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "一年前美好的一天",
   "recaps_day_best_title_month": "%{day}是你本月最好的一天",
   "recaps_day_best_title_week": "%{day}是你本周最好的一天",
-  "recaps_day_hard_text": "你依然记录了。这样的日子会过去。",
-  "recaps_day_hard_title": "%{day}是比较艰难的一天",
+  "recaps_day_hard_text": "每一次记录都有意义，无论哪一天。",
+  "recaps_day_hard_title": "谢谢你在%{day}记录",
   "recaps_day_see": "查看这一天",
   "recaps_days": {
     "one": "1 天",

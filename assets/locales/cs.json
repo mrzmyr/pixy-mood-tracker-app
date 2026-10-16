@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Skvělý den před rokem",
   "recaps_day_best_title_month": "%{day}: tvůj nejlepší den měsíce",
   "recaps_day_best_title_week": "%{day}: tvůj nejlepší den týdne",
-  "recaps_day_hard_text": "I tak jsi zapsal záznam. Takové dny přejdou.",
-  "recaps_day_hard_title": "%{day}: těžší den",
+  "recaps_day_hard_text": "Každý záznam se počítá, ať je den jakýkoli.",
+  "recaps_day_hard_title": "Díky, že ses zapsal(a) v %{day}",
   "recaps_day_see": "Zobrazit tento den",
   "recaps_days": {
     "one": "1 den",

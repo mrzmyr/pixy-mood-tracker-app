@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Remek nap egy évvel ezelőtt",
   "recaps_day_best_title_month": "%{day}: a hónapod legjobb napja",
   "recaps_day_best_title_week": "%{day}: a heted legjobb napja",
-  "recaps_day_hard_text": "Mégis rögzítetted. Az ilyen napok elmúlnak.",
-  "recaps_day_hard_title": "%{day}: nehezebb nap",
+  "recaps_day_hard_text": "Minden bejegyzés számít, bármilyen is a nap.",
+  "recaps_day_hard_title": "Köszönjük a bejegyzést: %{day}",
   "recaps_day_see": "Nap megtekintése",
   "recaps_days": {
     "one": "1 nap",

@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Отличный день год назад",
   "recaps_day_best_title_month": "%{day}: лучший день месяца",
   "recaps_day_best_title_week": "%{day}: лучший день недели",
-  "recaps_day_hard_text": "Вы всё равно сделали отметку. Такие дни проходят.",
-  "recaps_day_hard_title": "%{day}: день тяжелее",
+  "recaps_day_hard_text": "Каждая отметка важна, каким бы ни был день.",
+  "recaps_day_hard_title": "Спасибо за отметку: %{day}",
   "recaps_day_see": "Открыть этот день",
   "recaps_days": {
     "one": "1 день",

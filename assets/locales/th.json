@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "วันที่ดีมากเมื่อปีที่แล้ว",
   "recaps_day_best_title_month": "%{day} เป็นวันที่ดีที่สุดของเดือน",
   "recaps_day_best_title_week": "%{day} เป็นวันที่ดีที่สุดของสัปดาห์",
-  "recaps_day_hard_text": "คุณยังบันทึกอยู่ วันแบบนี้จะผ่านไป",
-  "recaps_day_hard_title": "%{day} เป็นวันที่หนักกว่า",
+  "recaps_day_hard_text": "ทุกการบันทึกมีความหมาย ไม่ว่าจะเป็นวันแบบไหน",
+  "recaps_day_hard_title": "ขอบคุณที่บันทึกในวัน%{day}",
   "recaps_day_see": "ดูวันนี้",
   "recaps_days": {
     "one": "1 วัน",

@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Sjajan dan prije godinu dana",
   "recaps_day_best_title_month": "%{day}: tvoj najbolji dan u mjesecu",
   "recaps_day_best_title_week": "%{day}: tvoj najbolji dan u tjednu",
-  "recaps_day_hard_text": "Ipak si napravio unos. Takvi dani prolaze.",
-  "recaps_day_hard_title": "%{day}: teži dan",
+  "recaps_day_hard_text": "Svaki unos se računa, kakav god dan bio.",
+  "recaps_day_hard_title": "Hvala na unosu: %{day}",
   "recaps_day_see": "Pogledaj ovaj dan",
   "recaps_days": {
     "one": "1 dan",

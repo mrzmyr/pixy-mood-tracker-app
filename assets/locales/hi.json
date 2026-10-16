@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "एक साल पहले का एक शानदार दिन",
   "recaps_day_best_title_month": "%{day} इस महीने का आपका सबसे अच्छा दिन था",
   "recaps_day_best_title_week": "%{day} इस हफ़्ते का आपका सबसे अच्छा दिन था",
-  "recaps_day_hard_text": "फिर भी आपने चेक-इन किया। ऐसे दिन बीत जाते हैं।",
-  "recaps_day_hard_title": "%{day} थोड़ा मुश्किल दिन था",
+  "recaps_day_hard_text": "हर चेक-इन मायने रखता है, दिन चाहे जैसा भी हो।",
+  "recaps_day_hard_title": "%{day} को चेक-इन करने के लिए धन्यवाद",
   "recaps_day_see": "यह दिन देखें",
   "recaps_days": {
     "one": "1 दिन",

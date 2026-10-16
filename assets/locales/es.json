@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "Un gran día, hace un año",
   "recaps_day_best_title_month": "%{day} fue tu mejor día del mes",
   "recaps_day_best_title_week": "%{day} fue tu mejor día de la semana",
-  "recaps_day_hard_text": "Aun así hiciste tu registro. Los días así pasan.",
-  "recaps_day_hard_title": "%{day} fue un día más difícil",
+  "recaps_day_hard_text": "Cada registro cuenta, sea el día que sea.",
+  "recaps_day_hard_title": "Gracias por tu registro del %{day}",
   "recaps_day_see": "Ver este día",
   "recaps_days": {
     "one": "1 día",

@@ -684,8 +684,8 @@
   "recaps_day_ago_title": "En god dag for et år siden",
   "recaps_day_best_title_month": "%{day} var din bedste dag i måneden",
   "recaps_day_best_title_week": "%{day} var din bedste dag i ugen",
-  "recaps_day_hard_text": "Du tjekkede alligevel ind. Sådanne dage går over.",
-  "recaps_day_hard_title": "%{day} var en hårdere dag",
+  "recaps_day_hard_text": "Hvert check-in tæller, uanset hvilken slags dag.",
+  "recaps_day_hard_title": "Tak, fordi du tjekkede ind %{day}",
   "recaps_day_see": "Se denne dag",
   "recaps_days": {
     "one": "1 dag",
