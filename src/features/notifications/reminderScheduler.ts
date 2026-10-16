@@ -20,13 +20,39 @@ export interface ReminderScheduler {
   hasPermission: () => Promise<boolean>;
   /** Ask the user when permission is not granted yet. */
   requestPermission: () => Promise<boolean>;
-  /** Replace all scheduled notifications with one reminder per date. */
+  /**
+   * Replace all scheduled notifications, except recap notifications, with
+   * one reminder per date.
+   */
   replace: (dates: Date[]) => Promise<void>;
+  /** Cancel all scheduled notifications except recap notifications. */
+  cancelAll: () => Promise<void>;
+}
+
+/** `content.data.type` of recap notifications. Reminder changes keep them. */
+export const RECAP_NOTIFICATION_TYPE = "recap";
+
+/** One recap notification. `data` marks the period it opens. */
+export interface RecapNotificationRequest {
+  at: Date;
+  title: string;
+  body: string;
+  data: { kind: string; date: string };
+}
+
+/** Recap notification API. Tests pass an in-memory fake. */
+export interface RecapNotificationScheduler {
+  /** Replace all scheduled recap notifications. Reminders stay. */
+  replace: (requests: RecapNotificationRequest[]) => Promise<void>;
+  /** Cancel all scheduled recap notifications. Reminders stay. */
   cancelAll: () => Promise<void>;
 }
 
 const alertNoDevice = () => {
-  Alert.alert("Alert", "Must use physical device for Push Notifications");
+  Alert.alert(
+    t("reminder_device_required_title"),
+    t("reminder_device_required_message")
+  );
 };
 
 const getNativePermission = async () => {
@@ -67,13 +93,57 @@ const scheduleReminder = (date: Date) =>
     },
   });
 
+const scheduleRecap = ({ at, title, body, data }: RecapNotificationRequest) =>
+  Notifications.scheduleNotificationAsync({
+    content: {
+      title,
+      body,
+      data: { ...data, type: RECAP_NOTIFICATION_TYPE },
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: at,
+    },
+  });
+
+const isRecapRequest = (request: Notifications.NotificationRequest) =>
+  request.content.data?.type === RECAP_NOTIFICATION_TYPE;
+
+/**
+ * Cancel each scheduled notification that matches. Reminders and recaps
+ * share the schedule, so neither may cancel all. Older app versions
+ * scheduled a repeating reminder without data; it counts as a reminder.
+ */
+const cancelWhere = async (
+  matches: (request: Notifications.NotificationRequest) => boolean
+) => {
+  const requests = await Notifications.getAllScheduledNotificationsAsync();
+  const cancels: Promise<void>[] = [];
+  for (const request of requests) {
+    if (matches(request)) {
+      cancels.push(
+        Notifications.cancelScheduledNotificationAsync(request.identifier)
+      );
+    }
+  }
+  await Promise.all(cancels);
+};
+
+const isReminderRequest = (request: Notifications.NotificationRequest) =>
+  !isRecapRequest(request);
+
 const replaceNative = async (dates: Date[]) => {
-  await Notifications.cancelAllScheduledNotificationsAsync();
+  await cancelWhere(isReminderRequest);
   await Promise.all(dates.map(scheduleReminder));
 };
 
-// Runs one change at a time: overlapping replace calls would interleave
-// cancel and schedule, and leave duplicate reminders.
+const replaceRecapsNative = async (requests: RecapNotificationRequest[]) => {
+  await cancelWhere(isRecapRequest);
+  await Promise.all(requests.map(scheduleRecap));
+};
+
+// Runs one change at a time, reminders and recaps alike: overlapping changes
+// would interleave cancel and schedule, and leave duplicates.
 let pending: Promise<void> = Promise.resolve();
 
 const settle = async (change: Promise<void>) => {
@@ -98,8 +168,7 @@ const nativeScheduler: ReminderScheduler = {
   hasPermission: getNativePermission,
   requestPermission: requestNativePermission,
   replace: (dates) => serialize(() => replaceNative(dates)),
-  cancelAll: () =>
-    serialize(() => Notifications.cancelAllScheduledNotificationsAsync()),
+  cancelAll: () => serialize(() => cancelWhere(isReminderRequest)),
 };
 
 const webScheduler: ReminderScheduler = {
@@ -112,3 +181,17 @@ const webScheduler: ReminderScheduler = {
 /** Expo notifications on native, no-op on web. */
 export const defaultReminderScheduler =
   Platform.OS === "web" ? webScheduler : nativeScheduler;
+
+const nativeRecapScheduler: RecapNotificationScheduler = {
+  replace: (requests) => serialize(() => replaceRecapsNative(requests)),
+  cancelAll: () => serialize(() => cancelWhere(isRecapRequest)),
+};
+
+const webRecapScheduler: RecapNotificationScheduler = {
+  replace: () => Promise.resolve(),
+  cancelAll: () => Promise.resolve(),
+};
+
+/** Expo notifications on native, no-op on web. Shares the reminder queue. */
+export const defaultRecapScheduler =
+  Platform.OS === "web" ? webRecapScheduler : nativeRecapScheduler;

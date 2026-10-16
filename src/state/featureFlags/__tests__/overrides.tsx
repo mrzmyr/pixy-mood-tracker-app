@@ -1,16 +1,29 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { act, renderHook, waitFor } from "@testing-library/react-native";
+import {
+  act,
+  render,
+  renderHook,
+  waitFor,
+} from "@testing-library/react-native";
+import { Text } from "react-native";
 import {
   PostHogProvider,
   usePostHog as getPostHogTestClient,
 } from "posthog-react-native";
+import FlagHighlight from "@/components/FlagHighlight";
 import { INITIAL_STATE } from "@/constants/Settings";
 import {
   FeatureFlagsProvider,
   useCanOverrideFeatureFlags,
   useFeatureFlag,
 } from "@/state/featureFlags";
-import { setOverride } from "@/state/featureFlags/overrides";
+import { FEATURE_FLAGS } from "@/state/featureFlags/keys";
+import {
+  setHighlight,
+  setOverride,
+  setOverrides,
+  subscribe,
+} from "@/state/featureFlags/overrides";
 import {
   SettingsProvider,
   STORAGE_KEY,
@@ -46,6 +59,7 @@ const renderFlags = async () => {
     () => ({
       canOverride: useCanOverrideFeatureFlags(),
       isPhotosOn: useFeatureFlag("photos"),
+      isPeopleOn: useFeatureFlag("people"),
       isAccessOn: useFeatureFlag("feature-flag-overrides"),
       settings: useSettings(),
       settingsLoad: useSettingsLoad(),
@@ -63,8 +77,8 @@ describe("feature flag overrides in production builds", () => {
     mockReload.mockReset();
     await AsyncStorage.clear();
     // Overrides live in memory; drop the ones of the last test.
-    setOverride({ key: "photos", value: "remote" });
-    setOverride({ key: "feature-flag-overrides", value: "remote" });
+    setOverrides({ keys: FEATURE_FLAGS, value: "remote" });
+    setHighlight(false);
   });
 
   test("ignores overrides without the access flag", async () => {
@@ -91,6 +105,47 @@ describe("feature flag overrides in production builds", () => {
     });
 
     expect(hook.result.current.isPhotosOn).toBe(true);
+  });
+
+  test("sets many flags in one update", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.canOverride).toBe(true);
+    });
+    const listener = jest.fn();
+    const unsubscribe = subscribe(listener);
+
+    await act(() => {
+      setOverrides({ keys: ["photos", "people"], value: "on" });
+    });
+    unsubscribe();
+
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(hook.result.current.isPhotosOn).toBe(true);
+    expect(hook.result.current.isPeopleOn).toBe(true);
+  });
+
+  test("returns many flags to PostHog in one update", async () => {
+    mockReload.mockResolvedValue({
+      "feature-flag-overrides": true,
+      people: true,
+    });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.canOverride).toBe(true);
+    });
+    await act(() => {
+      setOverrides({ keys: ["photos", "people"], value: "off" });
+    });
+    expect(hook.result.current.isPeopleOn).toBe(false);
+
+    await act(() => {
+      setOverrides({ keys: ["photos", "people"], value: "remote" });
+    });
+
+    expect(hook.result.current.isPhotosOn).toBe(false);
+    expect(hook.result.current.isPeopleOn).toBe(true);
   });
 
   test("never overrides the access flag itself", async () => {
@@ -127,5 +182,40 @@ describe("feature flag overrides in production builds", () => {
 
     expect(hook.result.current.canOverride).toBe(false);
     expect(hook.result.current.isPhotosOn).toBe(false);
+  });
+
+  test("never outlines UI without the access flag", async () => {
+    mockReload.mockResolvedValue({ photos: true });
+    await renderFlags();
+    setHighlight(true);
+
+    const screen = await render(
+      <FlagHighlight flag="photos">
+        <Text>flagged</Text>
+      </FlagHighlight>,
+      { wrapper }
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("flagged")).toBeTruthy();
+    });
+    expect(screen.queryByTestId("feature-flag-highlight-photos")).toBeNull();
+  });
+
+  test("outlines UI while the access flag is on", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    await renderFlags();
+    setHighlight(true);
+
+    const screen = await render(
+      <FlagHighlight flag="photos">
+        <Text>flagged</Text>
+      </FlagHighlight>,
+      { wrapper }
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("feature-flag-highlight-photos")).toBeTruthy();
+    });
   });
 });

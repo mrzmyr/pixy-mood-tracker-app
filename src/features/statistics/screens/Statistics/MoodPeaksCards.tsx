@@ -10,7 +10,6 @@ import type { Dayjs } from "dayjs";
 import range from "lodash/range";
 import { Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import type { LogDay } from "@/features/logs";
 import useScale from "@/hooks/useScale";
 import type {
@@ -31,7 +30,6 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
   const colors = useColors();
   const scaleType = useSetting("scaleType");
   const scale = useScale(scaleType);
-  const haptics = useHaptics();
   const calendarNavigation = useCalendarNavigation();
 
   const color = day
@@ -63,11 +61,10 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
         borderWidth: dayjs(date).isSame(dayjs(), "day") ? 2 : 0,
         opacity: getDayDotOpacity(pressed, isFuture),
       })}
-      onPress={async () => {
+      onPress={() => {
         if (!day) {
           return;
         }
-        await haptics.selection();
         calendarNavigation.openDay({
           date: dayjs(date).format(DATE_FORMAT),
           source: "mood_peaks",

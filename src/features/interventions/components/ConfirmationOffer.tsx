@@ -1,3 +1,4 @@
+import FlagHighlight from "@/components/FlagHighlight";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
@@ -41,29 +42,31 @@ export const ConfirmationOffer = ({ item }: { item: LogItem }) => {
   }
 
   return (
-    <View testID="intervention-offer" style={{ gap: 12, marginBottom: 16 }}>
-      <Text style={{ fontSize: 15, color: colors.textSecondary }}>
-        {t(`interventions_offer_${match.cluster}`)}
-      </Text>
-      <View style={{ flexDirection: "row", gap: 10 }}>
-        {options.map((id, position) => (
-          <OptionTile
-            key={id}
-            id={id}
-            backgroundColor={colors.logCardBackground}
-            style={{ flex: 1 }}
-            onPress={() =>
-              open({
-                id,
-                surface: "confirmation",
-                position,
-                completedToday,
-                navigation: "replace",
-              })
-            }
-          />
-        ))}
+    <FlagHighlight flag="interventions">
+      <View testID="intervention-offer" style={{ gap: 12, marginBottom: 16 }}>
+        <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+          {t(`interventions_offer_${match.cluster}`)}
+        </Text>
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          {options.map((id, position) => (
+            <OptionTile
+              key={id}
+              id={id}
+              backgroundColor={colors.logCardBackground}
+              style={{ flex: 1 }}
+              onPress={() =>
+                open({
+                  id,
+                  surface: "confirmation",
+                  position,
+                  completedToday,
+                  navigation: "replace",
+                })
+              }
+            />
+          ))}
+        </View>
       </View>
-    </View>
+    </FlagHighlight>
   );
 };

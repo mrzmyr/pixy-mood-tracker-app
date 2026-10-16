@@ -6,6 +6,7 @@ import useHaptics from "@/hooks/useHaptics";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
+import { COMPACT_CHIP } from "@/constants/Chip";
 
 const DEFAULT_STYLE = {};
 
@@ -15,6 +16,7 @@ const Tag = ({
   colorName,
   onPress,
   onLongPress,
+  compact = false,
   style = DEFAULT_STYLE,
 }: {
   title: string;
@@ -23,6 +25,8 @@ const Tag = ({
   onPress?: () => void;
   /** Opens the tag editor; also offered as the "edit" accessibility action. */
   onLongPress?: () => void;
+  /** Small read-only pill for dense rows, like timeline cards. */
+  compact?: boolean;
   style?: ViewStyle;
 }) => {
   const colors = useColors();
@@ -45,8 +49,12 @@ const Tag = ({
           : colors.tagBackground,
         borderColor: selected ? colors.tint : unselectedBorderColor,
         borderWidth: 1,
-        paddingHorizontal: 16,
-        paddingVertical: 8,
+        ...(compact
+          ? {
+              height: COMPACT_CHIP.height,
+              paddingHorizontal: COMPACT_CHIP.paddingHorizontal,
+            }
+          : { paddingHorizontal: 16, paddingVertical: 8 }),
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}
@@ -76,17 +84,17 @@ const Tag = ({
     >
       <View
         style={{
-          width: 8,
-          height: 8,
+          width: compact ? 7 : 8,
+          height: compact ? 7 : 8,
           borderRadius: RADIUS.sm,
-          marginRight: 10,
+          marginRight: compact ? COMPACT_CHIP.gap : 10,
           backgroundColor: colors.tags[colorName]?.dot,
         }}
       />
       <Text
         style={{
           color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: 17,
+          fontSize: compact ? COMPACT_CHIP.fontSize : 17,
         }}
       >
         {title}

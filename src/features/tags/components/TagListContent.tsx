@@ -1,16 +1,13 @@
 import { Text, View } from "react-native";
 import MenuList from "@/components/MenuList";
-import { MAX_TAGS } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { Tag } from "../TagsProvider";
 import { TagListItem } from "./TagListItem";
 import { useRouter } from "expo-router";
-import { RADIUS } from "@/constants/Radius";
 
 /**
- * Tag list for the tag settings screens; rows open the tag editor. Shows a
- * notice once {@link MAX_TAGS} is reached.
+ * Tag list for the tag settings screens; rows open the tag editor.
  */
 export const TagListContent = ({
   tags,
@@ -38,29 +35,6 @@ export const TagListContent = ({
       }}
     >
       {header}
-      {tags.length >= MAX_TAGS && (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: colors.cardBackground,
-            padding: 16,
-            marginTop: 16,
-            marginHorizontal: 16,
-            borderRadius: RADIUS.md,
-          }}
-        >
-          <Text
-            style={{
-              color: colors.text,
-              fontSize: 17,
-            }}
-          >
-            {t("tags_reached_max", { max_count: MAX_TAGS })}
-          </Text>
-        </View>
-      )}
       <View
         style={{
           paddingTop: 16,

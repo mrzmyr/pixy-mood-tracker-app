@@ -16,8 +16,6 @@ import { INITIAL_STATE } from "@/constants/Settings";
 import { applyColorScheme, ColorSchemeSettingSchema } from "./colorScheme";
 import type { ColorSchemeSetting } from "./colorScheme";
 
-type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
-
 /**
  * AsyncStorage key for settings. Keep the legacy name; changing it resets
  * every user's settings.
@@ -30,6 +28,16 @@ const SCALE_TYPES = [
   "ColorBrew-PiYG",
   "ColorBrew-BrBG",
 ];
+
+/**
+ * Calendar screen layout: `calendar` shows month grids, `timeline` a list of
+ * entry cards, `map` the places of entries. Read through `useCalendarLayout`,
+ * which applies the `calendar-timeline` and `calendar-map` flags.
+ */
+export type CalendarLayout = "calendar" | "timeline" | "map";
+
+const isCalendarLayout = (value: unknown): value is CalendarLayout =>
+  value === "calendar" || value === "timeline" || value === "map";
 
 /**
  * Persisted user settings.
@@ -53,7 +61,7 @@ export interface SettingsState {
    */
   backupWrittenAt: string | null;
   actionsDone: IAction[];
-  steps: KnownSettingsStep[];
+  steps: ConfigurableLoggerStep[];
   /** ISO date of the automatic store review prompt; `null` until shown once. */
   storeReviewPromptedAt: string | null;
   /** App version that showed the automatic store review prompt. */
@@ -70,6 +78,18 @@ export interface SettingsState {
    * belongs to the device.
    */
   locationEnabled: boolean;
+  /** Calendar screen layout for this device. */
+  calendarLayout: CalendarLayout;
+  /**
+   * Pixy asks for Face ID, Touch ID, fingerprint, or the device passcode on
+   * launch and after time away. Device auth belongs to the device.
+   */
+  appLockEnabled: boolean;
+  /**
+   * Pixy sends a notification on the last day of each week, month, and year.
+   * Needs notification permission, which belongs to the device.
+   */
+  recapNotificationsEnabled: boolean;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -82,8 +102,8 @@ export interface SettingsState {
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
- * location, and the backup switch to the device, so imports keep the current
- * values.
+ * location, calendar layout, app lock, recap notifications, and the backup
+ * switch to the device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -95,6 +115,9 @@ export type ExportSettings = Omit<
   | "photosDayAccessDismissed"
   | "colorScheme"
   | "locationEnabled"
+  | "calendarLayout"
+  | "appLockEnabled"
+  | "recapNotificationsEnabled"
 >;
 
 interface IAction {
@@ -111,7 +134,7 @@ interface Value {
   hasActionDone: (actionTitle: IAction["title"]) => boolean;
   removeActionDone: (actionTitle: IAction["title"]) => void;
   toggleStep: (step: ConfigurableLoggerStep, value?: boolean) => void;
-  hasStep: (step: KnownSettingsStep) => boolean;
+  hasStep: (step: ConfigurableLoggerStep) => boolean;
 }
 
 const isConfigurableLoggerStep = (
@@ -139,9 +162,9 @@ const reducer = (
     case "set": {
       return action.payload(state);
     }
-    // The device id, backup switch, store review prompt state, photo library
-    // access, theme, and location belong to this device, so imports keep the
-    // current values.
+    // Store review prompt state, photo library access, theme, location,
+    // calendar layout, app lock, recap notifications, and the backup switch
+    // belong to this device, so imports keep the current values.
     case "import": {
       return {
         ...INITIAL_STATE,
@@ -155,6 +178,9 @@ const reducer = (
         photosDayAccessDismissed: state.photosDayAccessDismissed,
         colorScheme: state.colorScheme,
         locationEnabled: state.locationEnabled,
+        calendarLayout: state.calendarLayout,
+        appLockEnabled: state.appLockEnabled,
+        recapNotificationsEnabled: state.recapNotificationsEnabled,
       };
     }
     case "reset": {
@@ -179,6 +205,11 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
         colorScheme:
           ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ??
           "system",
+        calendarLayout: isCalendarLayout(stored.calendarLayout)
+          ? stored.calendarLayout
+          : "calendar",
+        appLockEnabled: stored.appLockEnabled === true,
+        recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
       };
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({

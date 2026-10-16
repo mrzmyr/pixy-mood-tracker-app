@@ -4,6 +4,7 @@ import {
   getAvailableStepsForCreate,
   getAvailableStepsForEdit,
   getRatingActionType,
+  hasSleepOnDate,
 } from "../steps";
 
 const PHOTO: LogPhoto = {
@@ -28,6 +29,7 @@ const getCreateSteps = ({ isPhotosEnabled }: { isPhotosEnabled: boolean }) =>
   getAvailableStepsForCreate({
     question: null,
     hasStep,
+    hasSleepOnDay: false,
     reminderEnabled: true,
     itemsCount: 5,
     hasPeople: false,
@@ -35,13 +37,13 @@ const getCreateSteps = ({ isPhotosEnabled }: { isPhotosEnabled: boolean }) =>
   });
 
 describe("logger steps and the photos flag", () => {
-  test("flag on: create shows the photos step after the message", () => {
+  test("flag on: create shows the photos step before the message", () => {
     expect(getCreateSteps({ isPhotosEnabled: true })).toEqual([
       "rating",
       "emotions",
       "tags",
-      "message",
       "photos",
+      "message",
     ]);
   });
 
@@ -56,10 +58,25 @@ describe("logger steps and the photos flag", () => {
       getAvailableStepsForEdit({
         item,
         hasStep: () => false,
+        hasSleepOnDay: false,
         hasPeople: false,
         isPhotosEnabled: true,
       })
     ).toContain("photos");
+  });
+
+  test("edit shows the photos step before the message", () => {
+    const item = _generateItem({ photos: [PHOTO], message: "Lunch" });
+
+    const steps = getAvailableStepsForEdit({
+      item,
+      hasStep: () => false,
+      hasSleepOnDay: false,
+      hasPeople: false,
+      isPhotosEnabled: true,
+    });
+
+    expect(steps.slice(-2)).toEqual(["photos", "message"]);
   });
 
   test("flag off: edit hides the photos step, also with photos", () => {
@@ -69,6 +86,7 @@ describe("logger steps and the photos flag", () => {
       getAvailableStepsForEdit({
         item,
         hasStep: () => true,
+        hasSleepOnDay: false,
         hasPeople: false,
         isPhotosEnabled: false,
       })
@@ -82,6 +100,7 @@ describe("logger steps and the people flag", () => {
       getAvailableStepsForCreate({
         question: null,
         hasStep: () => true,
+        hasSleepOnDay: false,
         reminderEnabled: true,
         itemsCount: 5,
         hasPeople: false,
@@ -97,10 +116,90 @@ describe("logger steps and the people flag", () => {
       getAvailableStepsForEdit({
         item,
         hasStep: () => false,
+        hasSleepOnDay: false,
         hasPeople: false,
         isPhotosEnabled: false,
       })
     ).toContain("people");
+  });
+});
+
+const getCreateStepsWithSleep = ({
+  hasSleepOnDay,
+}: {
+  hasSleepOnDay: boolean;
+}) =>
+  getAvailableStepsForCreate({
+    question: null,
+    hasStep: (step) => step === "sleep" || step === "emotions",
+    reminderEnabled: true,
+    itemsCount: 5,
+    hasSleepOnDay,
+    hasPeople: false,
+    isPhotosEnabled: false,
+  });
+
+describe("logger steps and sleep", () => {
+  test("create asks for sleep after the rating, before emotions", () => {
+    expect(getCreateStepsWithSleep({ hasSleepOnDay: false })).toEqual([
+      "rating",
+      "sleep",
+      "emotions",
+    ]);
+  });
+
+  test("create skips sleep when the day already holds a sleep quality", () => {
+    expect(getCreateStepsWithSleep({ hasSleepOnDay: true })).toEqual([
+      "rating",
+      "emotions",
+    ]);
+  });
+
+  test("edit keeps the sleep step for an entry with sleep, also with the step off", () => {
+    const item = _generateItem({ sleep: { quality: "good" } });
+
+    expect(
+      getAvailableStepsForEdit({
+        item,
+        hasStep: () => false,
+        hasSleepOnDay: true,
+        hasPeople: false,
+        isPhotosEnabled: false,
+      })
+    ).toContain("sleep");
+  });
+
+  test("edit skips sleep when another entry of the day holds it", () => {
+    // SAFETY: entries saved with a skipped sleep step store a null quality.
+    const item = _generateItem({ sleep: { quality: null as never } });
+
+    expect(
+      getAvailableStepsForEdit({
+        item,
+        hasStep: () => true,
+        hasSleepOnDay: true,
+        hasPeople: false,
+        isPhotosEnabled: false,
+      })
+    ).not.toContain("sleep");
+  });
+
+  test("hasSleepOnDate only counts entries of that day with a quality", () => {
+    const items = [
+      _generateItem({
+        dateTime: "2026-10-01T09:00:00",
+        sleep: { quality: "good" },
+      }),
+      // SAFETY: entries saved with a skipped sleep step store a null quality.
+      _generateItem({
+        dateTime: "2026-10-02T09:00:00",
+        sleep: { quality: null as never },
+      }),
+    ];
+
+    expect(hasSleepOnDate(items, "2026-10-01")).toBe(true);
+    expect(hasSleepOnDate(items, "2026-10-02")).toBe(false);
+    expect(hasSleepOnDate(items, "2026-10-03")).toBe(false);
   });
 });
 

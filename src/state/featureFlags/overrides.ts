@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from "@/state/featureFlags/keys";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
 
 /**
@@ -57,7 +58,48 @@ export const setOverride = ({
   }
 };
 
-/** Subscribe to override changes; returns the unsubscribe function. */
+/**
+ * Set the same override on many flags in one store update, so subscribers
+ * render once. `remote` removes the override of every key.
+ */
+export const setOverrides = ({
+  keys,
+  value,
+}: {
+  keys: readonly FeatureFlag[];
+  value: FeatureFlagOverride;
+}) => {
+  const next: Overrides = {};
+  for (const key of FEATURE_FLAGS) {
+    const isChanged = keys.some((changed) => changed === key);
+    const current = isChanged ? value : overrides[key];
+    if (current === "on" || current === "off") {
+      next[key] = current;
+    }
+  }
+  overrides = next;
+  for (const listener of listeners) {
+    listener();
+  }
+};
+
+let highlight = false;
+
+/**
+ * Whether flagged UI shows its flag key in a dashed outline. Lives in memory
+ * like overrides, so screenshots and e2e flows start without it.
+ */
+export const isHighlightOn = (): boolean => highlight;
+
+/** Turn the flag highlight on or off until the app restarts. */
+export const setHighlight = (value: boolean) => {
+  highlight = value;
+  for (const listener of listeners) {
+    listener();
+  }
+};
+
+/** Subscribe to override and highlight changes; returns the unsubscribe function. */
 export const subscribe = (listener: () => void) => {
   listeners.add(listener);
   return () => {

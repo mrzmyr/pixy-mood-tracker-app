@@ -7,12 +7,33 @@ import { t } from "@/lib/translation";
 import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
 import { RADIUS } from "@/constants/Radius";
+import { COMPACT_CHIP } from "@/constants/Chip";
+import { BEZEL } from "@/constants/Bezel";
+import { TILE_RING_GAP, TILE_RING_WIDTH } from "../tile";
 
 const DEFAULT_STYLE = {};
-/** Space between avatar and selection ring of the `tile` variant. */
-export const TILE_RING_GAP = 3;
-/** Selection ring of the `tile` variant; adds to the tile's outer size. */
-export const TILE_RING_WIDTH = 3;
+/** Selected shell border. Padding shrinks by the same amount, so size holds. */
+const TILE_SELECTED_RING_WIDTH = 2;
+/** Measurements of the `chip` variant, regular and compact. */
+const CHIP_SIZES = {
+  regular: {
+    paddingLeft: 8,
+    paddingRight: 16,
+    paddingVertical: 6,
+    avatar: 24,
+    gap: 8,
+    fontSize: 17,
+  },
+  compact: {
+    paddingLeft: COMPACT_CHIP.paddingLeftAvatar,
+    paddingRight: COMPACT_CHIP.paddingHorizontal,
+    paddingVertical: 0,
+    height: COMPACT_CHIP.height,
+    avatar: COMPACT_CHIP.avatarSize,
+    gap: COMPACT_CHIP.gap,
+    fontSize: COMPACT_CHIP.fontSize,
+  },
+};
 
 type LongPressProps = Pick<
   PressableProps,
@@ -38,6 +59,8 @@ const PersonTile = ({
   size: number;
 }) => {
   const colors = useColors();
+  const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
+  const ringWidth = selected ? TILE_SELECTED_RING_WIDTH : TILE_RING_WIDTH;
 
   return (
     <Pressable
@@ -53,21 +76,36 @@ const PersonTile = ({
         ...style,
       })}
     >
+      {/* Bezel shell: hairline border and shadow, gap, then the avatar with
+          its inner border. Both are circles, so they stay concentric. */}
       <View
         style={{
-          padding: TILE_RING_GAP,
-          borderRadius: size,
-          borderWidth: TILE_RING_WIDTH,
-          borderColor: selected ? colors.tint : "transparent",
+          width: outer,
+          height: outer,
+          padding: BEZEL.gap + TILE_RING_WIDTH - ringWidth,
+          borderRadius: outer / 2,
+          borderWidth: ringWidth,
+          borderColor: selected ? colors.tint : colors.bezelBorder,
+          backgroundColor: colors.bezelBackground,
+          boxShadow: colors.bezelShadow,
         }}
       >
-        <PersonAvatar person={person} size={size} />
+        <View
+          style={{
+            borderRadius: RADIUS.full,
+            borderWidth: BEZEL.borderWidth,
+            borderColor: colors.bezelInnerBorder,
+            overflow: "hidden",
+          }}
+        >
+          <PersonAvatar person={person} size={size} />
+        </View>
       </View>
       {selected && (
         <View
           style={{
             position: "absolute",
-            top: size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH) - 28,
+            top: outer - 28,
             right: 0,
             width: 28,
             height: 28,
@@ -86,7 +124,7 @@ const PersonTile = ({
         numberOfLines={1}
         style={{
           marginTop: 6,
-          maxWidth: size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH),
+          maxWidth: outer,
           fontSize: 15,
           fontWeight: selected ? "600" : "400",
           color: colors.text,
@@ -104,8 +142,9 @@ const PersonTile = ({
  *
  * - `chip`: avatar plus name, like a tag pill
  * - `large`: big avatar with the name below, for the person screen
- * - `tile`: grid cell for the logger slide; selection shows a ring and a
- *   check badge, so it reads without relying on color alone
+ * - `tile`: grid cell for the logger slide; avatar sits in a bezel.
+ *   Selection tints the shell border and adds a check badge, so it reads
+ *   without relying on color alone
  *
  * `onLongPress` opens the person editor in `chip` and `tile`; screen readers
  * get it as the "edit" action.
@@ -120,6 +159,7 @@ export const PersonChip = ({
   testID,
   previewUri = null,
   size = 88,
+  compact = false,
 }: {
   person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
   selected?: boolean;
@@ -132,12 +172,15 @@ export const PersonChip = ({
   previewUri?: string | null;
   /** Avatar diameter of the `tile` variant. */
   size?: number;
+  /** Small `chip` for dense rows, like timeline cards. */
+  compact?: boolean;
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
   const unselectedBorderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
+  const chipSize = CHIP_SIZES[compact ? "compact" : "regular"];
 
   const press = async () => {
     if (!onPress) {
@@ -223,22 +266,24 @@ export const PersonChip = ({
           : colors.tagBackground,
         borderColor: selected ? colors.tint : unselectedBorderColor,
         borderWidth: 1,
-        paddingLeft: 8,
-        paddingRight: 16,
-        paddingVertical: 6,
+        paddingLeft: chipSize.paddingLeft,
+        paddingRight: chipSize.paddingRight,
+        paddingVertical: chipSize.paddingVertical,
+        height: "height" in chipSize ? chipSize.height : undefined,
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}
       onPress={onPress ? press : undefined}
       {...longPressProps}
     >
-      <PersonAvatar person={person} size={24} />
+      <PersonAvatar person={person} size={chipSize.avatar} />
       <Text
         numberOfLines={1}
         style={{
-          marginLeft: 8,
+          marginLeft: chipSize.gap,
+          flexShrink: 1,
           color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: 17,
+          fontSize: chipSize.fontSize,
         }}
       >
         {person.name}

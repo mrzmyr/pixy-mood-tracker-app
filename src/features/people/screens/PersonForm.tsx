@@ -1,5 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Platform, Switch, TextInput, View } from "react-native";
+import { Platform, TextInput, View } from "react-native";
+import Toggle from "@/components/Toggle";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import DismissKeyboard from "@/components/DismisKeyboard";
@@ -25,40 +26,43 @@ const EditActions = ({
   personId,
   isArchived,
   onToggleArchived,
+  onLeave,
 }: {
   personId: string;
   isArchived: boolean;
   onToggleArchived: () => void;
+  /** Called before the screen closes itself, so the discard guard stays quiet. */
+  onLeave: () => void;
 }) => {
   const router = useRouter();
-  const colors = useColors();
   const haptics = useHaptics();
   const analytics = useAnalytics();
   const peopleUpdater = usePeopleUpdater();
   const entryCount = usePersonEntryCount(personId);
 
-  const askToDelete = async () => {
-    await haptics.selection();
+  const askToDelete = () => {
     analytics.track("people:delete_requested", { entries_count: entryCount });
     Alert.alert(
       t("people_delete_confirm_title"),
       t("people_delete_confirm_message", { count: entryCount }),
       [
         {
+          text: t("cancel"),
+          style: "cancel",
+          onPress: () => analytics.track("people:delete_cancelled"),
+        },
+        {
           text: t("delete"),
           style: "destructive",
           onPress: () => {
+            void haptics.impact();
             analytics.track("people:person_deleted", {
               entries_count: entryCount,
             });
             peopleUpdater.deletePerson(personId);
+            onLeave();
             router.back();
           },
-        },
-        {
-          text: t("cancel"),
-          style: "cancel",
-          onPress: () => analytics.track("people:delete_cancelled"),
         },
       ],
       { cancelable: true }
@@ -71,10 +75,9 @@ const EditActions = ({
         <MenuListItem
           title={t("people_archive")}
           iconRight={
-            <Switch
+            <Toggle
               accessibilityLabel={t("people_archive")}
               testID="person-archived"
-              ios_backgroundColor={colors.backgroundSecondary}
               onValueChange={onToggleArchived}
               value={isArchived}
             />
@@ -113,6 +116,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
     toggleArchived: handleToggleArchived,
     fromLibrary: handlePickPhoto,
     removePhoto: handleRemovePhoto,
+    allowLeave: handleAllowLeave,
   } = draft;
 
   return (
@@ -198,6 +202,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
               personId={draft.person.id}
               isArchived={Boolean(draft.person.isArchived)}
               onToggleArchived={handleToggleArchived}
+              onLeave={handleAllowLeave}
             />
           )}
         </View>

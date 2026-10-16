@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { language, t } from "@/lib/translation";
+import { getLanguage, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { useQuestioner } from "@/features/questioner";
@@ -25,7 +25,7 @@ const AnswerSelector = ({
   const haptics = useHaptics();
 
   const answerText = answer.text
-    ? answer.text[language] || answer.text["en"]
+    ? answer.text[getLanguage()] || answer.text["en"]
     : null;
 
   return (
@@ -130,7 +130,7 @@ export const SlideFeedback = ({
         }}
       >
         <SlideHeadline>
-          {question.text[language] || question.text.en}
+          {question.text[getLanguage()] || question.text.en}
         </SlideHeadline>
         <View
           style={{

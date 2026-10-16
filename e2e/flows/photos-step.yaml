@@ -28,14 +28,13 @@ tags: [p1, photos]
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-good"
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - assertVisible: "How did you feel?"
 - tapOn:
     id: "logger-next"
 - assertVisible: "Add tags"
-- tapOn:
-    id: "logger-next"
-- assertVisible:
-    id: "log-message"
 - tapOn:
     id: "logger-next"
 - assertVisible:
@@ -146,6 +145,11 @@ tags: [p1, photos]
 - assertNotVisible:
     id: "photo-viewer"
 
+# The message step follows photos.
+- tapOn:
+    id: "logger-next"
+- assertVisible:
+    id: "log-message"
 - runFlow: ../subflows/save-past-feedback.yaml
 - runFlow: ../subflows/close-confirmation.yaml
 - tapOn:

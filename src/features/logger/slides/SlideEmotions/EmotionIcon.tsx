@@ -1,7 +1,10 @@
 import type { IconSvgObject } from "@hugeicons/core-free-icons/types";
-import Svg, { Circle, Ellipse, Path } from "react-native-svg";
+import Svg, { Circle, Ellipse, Path, Rect } from "react-native-svg";
 
-/** SVG element for a Hugeicons shape type. Free icons use only these three. */
+/**
+ * SVG element for a Hugeicons shape type: every type the free set uses.
+ * Unknown types return `null` and the shape is skipped.
+ */
 const elementFor = (type: string) => {
   if (type === "path") {
     return Path;
@@ -11,6 +14,9 @@ const elementFor = (type: string) => {
   }
   if (type === "ellipse") {
     return Ellipse;
+  }
+  if (type === "rect") {
+    return Rect;
   }
   return null;
 };

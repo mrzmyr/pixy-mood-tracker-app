@@ -34,13 +34,17 @@ tags: [p0, calendar]
     direction: UP
     timeout: 180000
 
-# The day lies before the fixture, so it opens the logger.
+# The day lies before the fixture, so it opens the logger. The day has no
+# entries, so the logger asks for sleep.
 - tapOn:
     id: "calendar-day-${output.pastDay}"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-good"
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - tapOn:
     id: "logger-next"
 - tapOn:

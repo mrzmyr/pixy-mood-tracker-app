@@ -21,12 +21,23 @@ export const INITIAL_STATE: SettingsState = {
   backupEnabled: false,
   backupWrittenAt: null,
   actionsDone: [],
-  // `photos` is on for new installs only. Stored settings keep their own
-  // step list, so existing users turn it on in Settings > Steps.
-  steps: ["rating", "emotions", "tags", "message", "photos", "feedback"],
+  // `photos` and `sleep` are on for new installs only. Stored settings keep
+  // their own step list, so existing users turn them on in Settings > Steps.
+  steps: [
+    "rating",
+    "sleep",
+    "emotions",
+    "tags",
+    "photos",
+    "message",
+    "feedback",
+  ],
   storeReviewPromptedAt: null,
   storeReviewPromptedAppVersion: null,
   photosDayAccessDismissed: false,
   colorScheme: "system",
   locationEnabled: false,
+  calendarLayout: "calendar",
+  appLockEnabled: false,
+  recapNotificationsEnabled: false,
 };

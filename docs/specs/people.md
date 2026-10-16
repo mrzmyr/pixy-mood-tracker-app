@@ -2,7 +2,7 @@
 
 Status: spec, 2026-10-03. Not built. Local draft, not committed.
 
-Track who user was with per entry. Goal: statistics per person ("avg mood with Sam").
+Track who played a part in each entry: met, called, or thought of. Goal: statistics per person ("avg mood with Sam").
 
 ## Decisions
 
@@ -104,8 +104,8 @@ people: Array<
 ### Logger slide `SlidePeople`
 
 - Position after tags
-- Headline: "Who were you with?"
-- 3-column grid of `tile` chips. Tap = toggle select. Selected = tint ring + check badge. Archived hidden unless already on draft (copy `SlideTags` filter)
+- Headline: "Who played a part?"
+- 3-column grid of `tile` chips. Tap = toggle select. Avatar sits in a bezel. Selected = tint shell border + check badge. Archived hidden unless already on draft (copy `SlideTags` filter)
 - Last cell: "Add Person" tile pushes `/people/create`. Hidden at `MAX_PEOPLE`
 - Order: most used in last 90 days first, then alphabetical
 - Step enabled and `people.length === 0`: simple empty state, one "Add Person" button pushes `/people/create`. No skip
@@ -156,7 +156,7 @@ Names follow the `<area>:<object>_<verb>` convention of [events.ts](../../src/st
 - `logger:log_saved` gets `people_count` (like `tags_count`), no separate slide event
 - `calendar:filters_applied` gets `people_count`
 - Usage summary: `people_count`, `archived_people_count`
-- Register in [`events.ts`](../../src/state/analytics/events.ts), document in [analytics.md](../analytics.md)
+- Register in [`events.ts`](../../src/state/analytics/events.ts), document in [TELEMETRY.md](../../TELEMETRY.md)
 
 ## Privacy
 

@@ -63,21 +63,24 @@ describe("useSettings()", () => {
     expect(hook.result.current.state.settings.deviceId).toBe(STATIC_DEVICE_ID);
   });
 
-  test("should remove retired sleep step from stored settings", async () => {
+  test("should keep the sleep step from stored settings", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         ...INITIAL_STATE,
-        steps: [...INITIAL_STATE.steps, "sleep"],
+        steps: ["rating", "message", "sleep"],
       })
     );
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
-    expect(hook.result.current.state.settings.steps).toEqual(
-      INITIAL_STATE.steps
-    );
+    expect(hook.result.current.state.settings.steps).toEqual([
+      "rating",
+      "message",
+      "sleep",
+    ]);
+    expect(hook.result.current.state.hasStep("sleep")).toBe(true);
   });
 
   test("should initiate with empty `settings` when async storage is empty", async () => {
@@ -108,20 +111,22 @@ describe("useSettings()", () => {
     expect(hook.result.current.state.settings.reminderTime).toBe("12:00");
   });
 
-  test("should remove retired sleep step from imported settings", async () => {
+  test("should keep the sleep step from imported settings", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
     await act(() => {
       hook.result.current.state.importSettings({
         ...INITIAL_STATE,
-        steps: [...INITIAL_STATE.steps, "sleep"],
+        steps: ["rating", "message", "sleep"],
       });
     });
 
-    expect(hook.result.current.state.settings.steps).toEqual(
-      INITIAL_STATE.steps
-    );
+    expect(hook.result.current.state.settings.steps).toEqual([
+      "rating",
+      "message",
+      "sleep",
+    ]);
   });
 
   test("should keep store review prompt state on import", async () => {
@@ -194,6 +199,42 @@ describe("useSettings()", () => {
     });
 
     expect(hook.result.current.state.settings.photosDayAccessDismissed).toBe(
+      true
+    );
+  });
+
+  test("keeps the app lock of this device on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, appLockEnabled: true })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    // Backups never carry the lock; an old or edited file still must not change it.
+    const backup = { ...INITIAL_STATE, appLockEnabled: false };
+    await act(() => {
+      hook.result.current.state.importSettings(backup);
+    });
+
+    expect(hook.result.current.state.settings.appLockEnabled).toBe(true);
+  });
+
+  test("keeps recap notifications of this device on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, recapNotificationsEnabled: true })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    // Backups never carry the setting; an old or edited file still must not change it.
+    const backup = { ...INITIAL_STATE, recapNotificationsEnabled: false };
+    await act(() => {
+      hook.result.current.state.importSettings(backup);
+    });
+
+    expect(hook.result.current.state.settings.recapNotificationsEnabled).toBe(
       true
     );
   });
@@ -296,13 +337,13 @@ describe("useSettings()", () => {
       hook.result.current.state.toggleStep("feedback");
     });
 
-    expect(hook.result.current.state.settings.steps.length).toEqual(5);
+    expect(hook.result.current.state.settings.steps.length).toEqual(6);
 
     await act(() => {
       hook.result.current.state.toggleStep("feedback");
     });
 
-    expect(hook.result.current.state.settings.steps[3]).toEqual("message");
+    expect(hook.result.current.state.settings.steps[4]).toEqual("photos");
   });
 
   test("should `toggleStep` with value", async () => {
@@ -317,18 +358,20 @@ describe("useSettings()", () => {
 
     expect(hook.result.current.state.settings.steps).toEqual([
       "rating",
+      "sleep",
       "emotions",
-      "message",
       "photos",
+      "message",
       "feedback",
       "tags",
     ]);
   });
 
-  test("new installs get the photos step, stored step lists stay as they are", async () => {
+  test("new installs get the photos and sleep steps, stored step lists stay as they are", async () => {
     const fresh = await _renderHook();
     await waitForLoaded(fresh);
     expect(fresh.result.current.state.hasStep("photos")).toBe(true);
+    expect(fresh.result.current.state.hasStep("sleep")).toBe(true);
     await fresh.unmount();
 
     await AsyncStorage.setItem(
@@ -339,6 +382,7 @@ describe("useSettings()", () => {
     await waitForLoaded(existing);
 
     expect(existing.result.current.state.hasStep("photos")).toBe(false);
+    expect(existing.result.current.state.hasStep("sleep")).toBe(false);
   });
 
   test("should `hasStep`", async () => {

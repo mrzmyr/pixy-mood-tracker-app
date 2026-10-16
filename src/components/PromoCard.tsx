@@ -1,5 +1,4 @@
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { useSettings } from "@/state/settings";
 import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
@@ -27,16 +26,13 @@ export const PromoCard = ({
   colorName?: string;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const { addActionDone, hasActionDone } = useSettings();
 
   const _onPress = () => {
-    haptics.selection();
     onPress();
   };
 
   const onClose = () => {
-    haptics.selection();
     addActionDone(slug);
   };
 

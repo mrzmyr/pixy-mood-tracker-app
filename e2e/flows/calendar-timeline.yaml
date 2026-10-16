@@ -1,0 +1,34 @@
+appId: ${APP_ID}
+tags: [p1, calendar]
+---
+# Behind the `calendar-timeline` flag. The View section of the Filters menu
+# switches the calendar screen to a timeline of entry cards and back.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+- runScript: ../scripts/set-output-date.js
+- runFlow:
+    file: ../subflows/enable-feature-flag.yaml
+    env:
+      FLAG: calendar-timeline
+
+- tapOn: "Filters"
+- tapOn: "Timeline"
+- assertVisible:
+    id: "timeline-list"
+- assertNotVisible:
+    id: "calendar-list"
+
+# A card opens its day.
+- tapOn:
+    id: "timeline-entry-.*"
+    index: 0
+- assertVisible: "Add Entry"
+- tapOn:
+    id: "log-list-close"
+
+- tapOn: "Filters"
+- tapOn: "Calendar"
+- assertVisible:
+    id: "calendar-list"

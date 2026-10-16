@@ -8,9 +8,11 @@ import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";
 import { useCallback, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
+import { PullToSearch } from "../../components/PullToSearch";
+import { matchesSearch } from "../../components/matchesSearch";
 import { EMOTIONS } from "../../config";
 import { Footer } from "../Footer";
 import { EmotionAdvancedGradients } from "./EmotionAdvancedGradients";
@@ -26,6 +28,20 @@ import noop from "lodash/noop";
 type Mode = "basic" | "advanced";
 
 const MAX_BASIC_EMOTIONS = 36;
+
+// The basic grid sorts by good, neutral, and bad only.
+const toBasicCategory = (emotion: Emotion): Emotion => ({
+  ...emotion,
+  category: (
+    {
+      very_bad: "bad",
+      bad: "bad",
+      neutral: "neutral",
+      good: "good",
+      very_good: "good",
+    } satisfies Record<Emotion["category"], Emotion["category"]>
+  )[emotion.category],
+});
 
 const appendMissingEmotions = (
   emotions: Emotion[],
@@ -47,16 +63,21 @@ const appendMissingEmotions = (
  * Emotion slide of the logger.
  *
  * Basic mode shows up to 36 emotions: the draft's picks, then the 20 most
- * used, then the predefined basic set. Must render inside
+ * used, then the predefined basic set. Pulling the list down reveals a
+ * search over all emotions, shown in the basic grid. Must render inside
  * `LogDraftProvider` and `LogsProvider`.
  */
 export const SlideEmotions = ({
   defaultIndex,
   onDisableStep = noop,
+  initialMode = "basic",
+  onModeChange = noop,
   showDisable,
 }: {
   defaultIndex?: number;
   onDisableStep?: () => void;
+  initialMode?: Mode;
+  onModeChange?: (mode: Mode) => void;
   showDisable: boolean;
 }) => {
   const colors = useColors();
@@ -91,7 +112,7 @@ export const SlideEmotions = ({
     setEmotions(emotions.map((emotion) => emotion.key));
   };
 
-  const [mode, setMode] = useState<Mode>("basic");
+  const [mode, setMode] = useState<Mode>(initialMode);
 
   const mostUsedEmotionKeys = new Set(
     getMostUsedEmotions(logState.items)
@@ -110,25 +131,31 @@ export const SlideEmotions = ({
     predefinedBasicEmotions
   );
 
-  basicEmotions = basicEmotions.map((emotion) => ({
-    ...emotion,
-    category: (
-      {
-        very_bad: "bad",
-        bad: "bad",
-        neutral: "neutral",
-        good: "good",
-        very_good: "good",
-      } satisfies Record<Emotion["category"], Emotion["category"]>
-    )[emotion.category],
-  }));
+  basicEmotions = basicEmotions.map(toBasicCategory);
+
+  const [query, setQuery] = useState("");
+  const isSearching = query.trim() !== "";
+  const searchResults: Emotion[] = [];
+  for (const emotion of EMOTIONS) {
+    if (emotion.disabled !== true && matchesSearch(emotion.label, query)) {
+      searchResults.push(toBasicCategory(emotion));
+    }
+  }
+
+  const onPressEmotion = (emotion: Emotion) => {
+    if (selectedEmotions.map((d) => d.key).includes(emotion.key)) {
+      _setSelectedEmotions(
+        selectedEmotions.filter((e) => e.key !== emotion.key)
+      );
+    } else {
+      _setSelectedEmotions([...selectedEmotions, emotion]);
+    }
+  };
 
   const toggleMode = () => {
-    if (mode === "basic") {
-      setMode("advanced");
-    } else {
-      setMode("basic");
-    }
+    const nextMode = mode === "basic" ? "advanced" : "basic";
+    setMode(nextMode);
+    onModeChange(nextMode);
 
     setShowTooltip(false);
     setInitialSelectedEmotions(selectedEmotions);
@@ -179,45 +206,30 @@ export const SlideEmotions = ({
               width: "100%",
             }}
           />
-          <ScrollView>
-            {mode === "basic" ? (
+          <PullToSearch
+            testID="logger-emotions-search"
+            placeholder={t("log_emotions_search")}
+            query={query}
+            onChangeQuery={setQuery}
+          >
+            {isSearching || mode === "basic" ? (
               <EmotionBasicSelection
-                emotions={basicEmotions}
-                onPress={(emotion) => {
-                  if (
-                    selectedEmotions.map((d) => d.key).includes(emotion.key)
-                  ) {
-                    _setSelectedEmotions(
-                      selectedEmotions.filter((e) => e.key !== emotion.key)
-                    );
-                  } else {
-                    _setSelectedEmotions([...selectedEmotions, emotion]);
-                  }
-                }}
+                emotions={isSearching ? searchResults : basicEmotions}
+                onPress={onPressEmotion}
                 selectedEmotions={selectedEmotions}
                 onRequestEmotion={openRequest}
               />
             ) : (
               <EmotionAdvancedSelection
                 defaultIndex={defaultIndex}
-                onPress={(emotion) => {
-                  if (
-                    selectedEmotions.map((d) => d.key).includes(emotion.key)
-                  ) {
-                    _setSelectedEmotions(
-                      selectedEmotions.filter((e) => e.key !== emotion.key)
-                    );
-                  } else {
-                    _setSelectedEmotions([...selectedEmotions, emotion]);
-                  }
-                }}
+                onPress={onPressEmotion}
                 selectedEmotions={selectedEmotions}
                 onRequestEmotion={openRequest}
               />
             )}
-          </ScrollView>
-          {mode === "basic" && <EmotionBasicGradients />}
-          {mode === "advanced" && <EmotionAdvancedGradients />}
+          </PullToSearch>
+          {(isSearching || mode === "basic") && <EmotionBasicGradients />}
+          {!isSearching && mode === "advanced" && <EmotionAdvancedGradients />}
           {showTooltip && (
             <Tooltip
               emotion={selectedEmotions.at(-1)}

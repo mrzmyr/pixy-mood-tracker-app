@@ -13,6 +13,7 @@ jest.mock("posthog-react-native", () => {
     register: jest.fn(),
     reloadFeatureFlagsAsync: jest.fn(),
     setPersonProperties: jest.fn(),
+    getDistinctId: jest.fn(() => "test-distinct-id"),
   };
 
   return {
@@ -31,13 +32,31 @@ jest.mock("expo-alternate-app-icons", () => ({
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load logger exports during provider tests; native carousel is unavailable in Jest.
 jest.mock("react-native-reanimated-carousel", () => ({ Carousel: () => null }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- tag screens load sortable lists; their gestures need native worklets, unavailable in Jest.
+jest.mock("react-native-sortables", () => {
+  const { createElement, Fragment } = require("react");
+  const Grid = ({ data, renderItem, keyExtractor }) =>
+    data.map((item, index) =>
+      createElement(
+        Fragment,
+        { key: keyExtractor(item) },
+        renderItem({ item, index })
+      )
+    );
+  return {
+    __esModule: true,
+    default: { Grid, Handle: ({ children }) => children },
+  };
+});
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load animated UI during provider tests; native worklets are unavailable in Jest.
 jest.mock("react-native-reanimated", () => {
-  const { View } = require("react-native");
+  const { ScrollView, View } = require("react-native");
   const animation = { duration: () => animation, delay: () => animation };
   return {
     __esModule: true,
-    default: { View },
+    default: { ScrollView, View },
+    useAnimatedRef: () => ({ current: null }),
     createAnimatedComponent: (component) => component,
     css: { create: (styles) => styles },
     cubicBezier: () => "ease-out",
@@ -47,7 +66,16 @@ jest.mock("react-native-reanimated", () => {
     FadeInUp: animation,
     FadeOut: animation,
     FadeOutUp: animation,
+    Keyframe: class {
+      delay() {
+        return this;
+      }
+      duration() {
+        return this;
+      }
+    },
     Extrapolation: { CLAMP: "clamp" },
+    ReduceMotion: { System: "system", Always: "always", Never: "never" },
     Easing: { cubic: (t) => t, quad: (t) => t, in: (f) => f, inOut: (f) => f },
     cancelAnimation: jest.fn(),
     interpolate: () => 0,
@@ -93,6 +121,53 @@ jest.mock("@expo/ui", () => ({
   RNHostView: () => null,
 }));
 
+const mockSwiftUiChildren = ({ children }) => children;
+const mockSwiftUiContextMenu = Object.assign(
+  ({ children }) => mockSwiftUiChildren({ children }),
+  {
+    Trigger: mockSwiftUiChildren,
+    // The system shows the preview only during a long press.
+    Preview: () => null,
+    Items: mockSwiftUiChildren,
+  }
+);
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the SwiftUI menu has no Jest view; the stand-in renders menu items as pressable buttons.
+jest.mock("@expo/ui/swift-ui", () => {
+  const { Pressable, View } = require("react-native");
+  return {
+    Host: ({ children }) => children,
+    RNHostView: ({ children }) => children,
+    ContextMenu: mockSwiftUiContextMenu,
+    Image: () => null,
+    Menu: ({ children }) => <View>{children}</View>,
+    Button: ({ label, onPress }) => (
+      <Pressable
+        accessibilityRole="menuitem"
+        accessibilityLabel={label}
+        onPress={onPress}
+      />
+    ),
+  };
+});
+
+const mockSwiftUiModifier = () => ({});
+const mockSwiftUiOutlines = new Proxy({}, { get: () => mockSwiftUiModifier });
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- SwiftUI modifiers build native view config; Jest ignores them.
+jest.mock(
+  "@expo/ui/swift-ui/modifiers",
+  () =>
+    new Proxy(
+      {},
+      {
+        get: (_target, name) =>
+          // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- export name of @expo/ui.
+          name === "shapes" ? mockSwiftUiOutlines : mockSwiftUiModifier,
+      }
+    )
+);
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load the widget sync; the ExpoWidgets native module does not exist in Jest.
 jest.mock("expo-widgets", () => ({
   createWidget: () => ({
@@ -122,3 +197,25 @@ jest.mock("expo-file-system/legacy", () => ({
   documentDirectory: "file:///documents/",
   cacheDirectory: "file:///cache/",
 }));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-local-authentication is a native module; every provider test mounts AppLockProvider. Default: no device passcode.
+jest.mock("expo-local-authentication", () => ({
+  __esModule: true,
+  SecurityLevel: { NONE: 0, SECRET: 1, BIOMETRIC_WEAK: 2, BIOMETRIC_STRONG: 3 },
+  AuthenticationType: { FINGERPRINT: 1, FACIAL_RECOGNITION: 2, IRIS: 3 },
+  getEnrolledLevelAsync: jest.fn(() => Promise.resolve(0)),
+  supportedAuthenticationTypesAsync: jest.fn(() => Promise.resolve([])),
+  authenticateAsync: jest.fn(() => Promise.resolve({ success: true })),
+}));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-clipboard is a native module; the lock screen copies the support code.
+jest.mock("expo-clipboard", () => ({
+  __esModule: true,
+  setStringAsync: jest.fn(() => Promise.resolve(true)),
+}));
+
+// jest-expo's native notification scheduler resolves `undefined` for the
+// schedule; native code resolves an array. Reminder and recap changes read
+// the schedule before they cancel. Default: nothing scheduled.
+require("expo-notifications/build/NotificationScheduler").default.getAllScheduledNotificationsAsync =
+  () => Promise.resolve([]);

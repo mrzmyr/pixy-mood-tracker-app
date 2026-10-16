@@ -3,6 +3,8 @@ import type { TextProps, TextStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 
+import { getTypeMetrics } from "./typeMetrics";
+
 interface RoleProps {
   children: React.ReactNode;
   style?: TextStyle;
@@ -33,19 +35,15 @@ const getMicroRole = ({
   caps: boolean;
   color: string;
 }): TextStyle => {
+  const { fontSize, lineHeight, fontWeight } = getTypeMetrics().micro;
+
   if (!caps) {
-    return {
-      fontSize: 12,
-      lineHeight: 16,
-      fontWeight: "400",
-      letterSpacing: 0,
-      color,
-    };
+    return { fontSize, lineHeight, fontWeight, letterSpacing: 0, color };
   }
 
   return {
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize,
+    lineHeight,
     fontWeight: "600",
     letterSpacing: 0.6,
     textTransform: "uppercase",
@@ -54,7 +52,7 @@ const getMicroRole = ({
 };
 
 /**
- * Tab and axis labels. 12/16.
+ * Tab and axis labels. iOS Caption1, Android bodySmall.
  * All-caps labels use tracking 0.6 and weight 600; other roles keep tracking at 0.
  */
 export const Micro = ({
@@ -78,7 +76,7 @@ export const Micro = ({
   );
 };
 
-/** Hint under a control. 13/18. */
+/** Hint under a control. iOS Footnote, Android bodySmall. */
 export const Caption = ({
   children,
   style,
@@ -90,9 +88,7 @@ export const Caption = ({
   return (
     <RoleText
       role={{
-        fontSize: 13,
-        lineHeight: 18,
-        fontWeight: "400",
+        ...getTypeMetrics().caption,
         letterSpacing: 0,
         color: colors.textSecondary,
       }}
@@ -105,7 +101,7 @@ export const Caption = ({
   );
 };
 
-/** Line under a title. 15/20. */
+/** Line under a title. iOS Subheadline, Android bodyMedium. */
 export const Secondary = ({
   children,
   style,
@@ -117,9 +113,7 @@ export const Secondary = ({
   return (
     <RoleText
       role={{
-        fontSize: 15,
-        lineHeight: 20,
-        fontWeight: "400",
+        ...getTypeMetrics().secondary,
         letterSpacing: 0,
         color: colors.textSecondary,
       }}
@@ -132,30 +126,19 @@ export const Secondary = ({
   );
 };
 
-/**
- * Body copy. Wrapped paragraphs and lists use 17/24.
- * Set `wraps` to false for a single-line row (17/22).
- */
+/** Body copy. iOS Body, Android bodyLarge. */
 export const Body = ({
-  wraps = true,
   children,
   style,
   accessibilityRole,
   testID,
-}: RoleProps & { wraps?: boolean }) => {
+}: RoleProps) => {
   const colors = useColors();
-  let lineHeight = 24;
-
-  if (!wraps) {
-    lineHeight = 22;
-  }
 
   return (
     <RoleText
       role={{
-        fontSize: 17,
-        lineHeight,
-        fontWeight: "400",
+        ...getTypeMetrics().body,
         letterSpacing: 0,
         color: colors.text,
       }}
@@ -168,7 +151,32 @@ export const Body = ({
   );
 };
 
-/** Card and sheet title. 20/26, weight 600. */
+/** Row title and emphasized body. iOS Headline, Android titleMedium. */
+export const Headline = ({
+  children,
+  style,
+  accessibilityRole,
+  testID,
+}: RoleProps) => {
+  const colors = useColors();
+
+  return (
+    <RoleText
+      role={{
+        ...getTypeMetrics().headline,
+        letterSpacing: 0,
+        color: colors.text,
+      }}
+      style={style}
+      accessibilityRole={accessibilityRole}
+      testID={testID}
+    >
+      {children}
+    </RoleText>
+  );
+};
+
+/** Card and sheet title. iOS Title3, Android titleLarge. Weight 600. */
 export const Section = ({
   children,
   style,
@@ -180,9 +188,7 @@ export const Section = ({
   return (
     <RoleText
       role={{
-        fontSize: 20,
-        lineHeight: 26,
-        fontWeight: "600",
+        ...getTypeMetrics().section,
         letterSpacing: 0,
         color: colors.text,
       }}
@@ -195,7 +201,7 @@ export const Section = ({
   );
 };
 
-/** Screen title. 24/30, weight 700. */
+/** Screen title. iOS Title2, Android headlineSmall. Weight 700. */
 export const Title = ({
   children,
   style,
@@ -207,9 +213,7 @@ export const Title = ({
   return (
     <RoleText
       role={{
-        fontSize: 24,
-        lineHeight: 30,
-        fontWeight: "700",
+        ...getTypeMetrics().title,
         letterSpacing: 0,
         color: colors.text,
       }}
@@ -222,7 +226,7 @@ export const Title = ({
   );
 };
 
-/** Onboarding headline. 32/38, weight 700. */
+/** Onboarding headline. iOS LargeTitle, Android displaySmall. Weight 700. */
 export const Display = ({
   children,
   style,
@@ -234,9 +238,7 @@ export const Display = ({
   return (
     <RoleText
       role={{
-        fontSize: 32,
-        lineHeight: 38,
-        fontWeight: "700",
+        ...getTypeMetrics().display,
         letterSpacing: 0,
         color: colors.text,
       }}

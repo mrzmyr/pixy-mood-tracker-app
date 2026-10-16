@@ -8,6 +8,7 @@ import { useColorScheme, View } from "react-native";
 import { EMOTION_ICONS } from "../../emotionIcons";
 import { EmotionIcon } from "./EmotionIcon";
 import { RADIUS } from "@/constants/Radius";
+import { COMPACT_CHIP } from "@/constants/Chip";
 
 /**
  * Category marker for an emotion. Uses only the scale's `very_good`,
@@ -18,8 +19,11 @@ import { RADIUS } from "@/constants/Radius";
  */
 export const EmotionIndicator = ({
   emotion,
+  compact = false,
 }: {
   emotion: Pick<Emotion, "key" | "category">;
+  /** Smaller icon or dot for compact chips. */
+  compact?: boolean;
 }) => {
   const scaleType = useSetting("scaleType");
   const scale = useScale(scaleType);
@@ -38,9 +42,13 @@ export const EmotionIndicator = ({
 
   if (isIconsEnabled && icon) {
     return (
-      <View testID={`emotion-icon-${emotion.key}`} style={{ marginRight: 8 }}>
+      <View
+        testID={`emotion-icon-${emotion.key}`}
+        style={{ marginRight: compact ? COMPACT_CHIP.gap : 8 }}
+      >
         <EmotionIcon
           icon={icon}
+          size={compact ? 16 : 20}
           tint={color.background}
           stroke={
             // Light category colors are too pale for a thin outline on white.
@@ -56,11 +64,11 @@ export const EmotionIndicator = ({
   return (
     <View
       style={{
-        width: 8,
-        height: 8,
+        width: compact ? 7 : 8,
+        height: compact ? 7 : 8,
         backgroundColor: color.background,
         borderRadius: RADIUS.full,
-        marginRight: 10,
+        marginRight: compact ? COMPACT_CHIP.gap : 10,
         paddingRight: 8,
       }}
     />

@@ -5,6 +5,7 @@ import { _generateItem } from "@/__tests__/utils";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { LogsProvider } from "@/features/logs";
+import { PeopleProvider } from "@/features/people";
 import type { LogItem } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
 import { AnalyticsProvider } from "@/state/analytics";
@@ -50,13 +51,15 @@ const renderEntry = async ({
         <AnalyticsProvider>
           <LogsProvider>
             <TagsProvider>
-              <Loaded>
-                <Entry
-                  item={_generateItem(item)}
-                  onEdit={jest.fn()}
-                  onDelete={jest.fn()}
-                />
-              </Loaded>
+              <PeopleProvider>
+                <Loaded>
+                  <Entry
+                    item={_generateItem(item)}
+                    onEdit={jest.fn()}
+                    onDelete={jest.fn()}
+                  />
+                </Loaded>
+              </PeopleProvider>
             </TagsProvider>
           </LogsProvider>
         </AnalyticsProvider>

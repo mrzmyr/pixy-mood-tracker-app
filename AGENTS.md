@@ -21,6 +21,7 @@
 ## PRs
 
 - When multiple things have beend worked on in one go you want to create PR, suggest the user to create multiple PRs by topics for easier reviews; If you are sure, just go ahead and create multiple PRs even when the user said "create PR"
+- Visual change: screenshot required, video too when motion
 - Screenshots and videos: upload to PR body with [pr-proof skill](.agents/skills/pr-proof/SKILL.md). Proof files stay outside git
 
 ## Public repository security
@@ -32,8 +33,15 @@
 - [`docs/app-facts.json`](docs/app-facts.json) is the only place for app facts: name, ids, links, license, claims, feature list with status, store and source versions.
 - Never create another facts file, feature list, or metadata table. README, store text, directory listings, and the website derive from this file.
 - Public copy may claim a feature only when its `status` is `available`. Check `claims` before stating free, no ads, no account, local storage.
-- Update after store releases or feature changes. Verify against source and live stores first. Bump `verifiedOn`.
+- MUST update [`docs/app-facts.json`](docs/app-facts.json) whenever a feature or service changes. Verify against source and live stores first. Bump `verifiedOn`.
 - Keep directory credentials and account recovery details outside this public repository.
+
+## People semantics
+
+- Person on an entry = user connected with them that day: met, called, texted, thought about. Not proof of time together.
+- Connection can feel good, bad, or mixed. Never assume a person is positive.
+- Day mood hints at a connection; it does not prove it. Prefer emotions on those days over mood averages.
+- Copy says "connected" ("3 days connected"). Avoid "together", "spent time with".
 
 ## Tools
 
@@ -46,16 +54,9 @@
 
 ### Footguns
 
-- Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text (notes, custom tag names) to PostHog. Send counts and lengths instead. Fixed values (rating, emotion keys, sleep quality) are fine. Record every event rename in [docs/analytics.md](docs/analytics.md#event-history).
-- Never write storage after a failed read. A read error must keep the stored data, not replace it with defaults (commits 1a1ddd8, f165aad).
-- Hermes lacks some modern array methods. `pixy-standards/no-hermes-missing-array-methods` enforces the safe forms.
-- Keep all `@react-navigation/*` packages on the same major version. Mixing v6 and v7 breaks native navigation.
-- React Compiler plus frozen screens (`freezeOnBlur`) can leave FlashList headers or footers stale after the screen unfreezes. No screen freezes today. `src/features/calendar/screens/Calendar/index.tsx` still opts out with `"use no memo"`. Run the e2e suite after enabling the compiler for more code.
-- Initialize Sentry once, at module load in `src/app/_layout.tsx`, before the first render.
-- Cloud backup replaces the cloud file. Keep [`canReplaceBackup`](src/features/backup/backupFile.ts) in every write path, or a fresh install wipes the user's backup. See [docs/backup.md](docs/backup.md).
-- Native builds live in `~/.cache/pixy-mood-tracker/build-cache`, shared by all worktrees. Check `bun builds list` before any compile. `ios/build` and Xcode DerivedData say nothing about cached builds. Dev client with Metro: `bun app dev --platform=<ios|android>` ([run-app skill](.agents/skills/run-app/SKILL.md)). Never create simulators by hand.
-- Free disk only with `bun builds reclaim` (`--dry-run` first). Never delete all of `ios/build`: it holds React Native codegen output, and a delete forces full rebuilds.
-- Device availability comes from `bun devices list` only. Not `adb devices`, not other device tools. A shut-down emulator is free: the CLI boots it.
+- Record mistakes in [MISTAKES.md](MISTAKES.md), missing capabilities in [DESIRES.md](DESIRES.md), and environment discoveries in [LEARNINGS.md](LEARNINGS.md)
+- Public repo: entries contain no private names, internal context, or user data
+- Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Fixed values are fine: rating, emotion keys, sleep quality, intervention cluster, feedback answer. Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
 
 ### Testing
 
@@ -63,6 +64,7 @@
 - Never add tests that only assert static content matches expected values (translation keys, UI copy, enum labels)
 - Type safety and translation tooling catch label collisions at build time
 - Write tests for behavior, logic, and user-facing outcomes, not for checking static data structures
+- Never add meaningless unit tests: no tests that only mirror the implementation (mock called with X), re-check a one-line effect, or cover trivial wiring. Add a test only when it can fail for a real regression
 
 ## Notifications
 
@@ -78,5 +80,7 @@
 ## References
 
 - MUST read [CODING_STANDARDS.md](CODING_STANDARDS.md)
+- MUST read [MISTAKES.md](MISTAKES.md) and [LEARNINGS.md](LEARNINGS.md) before code changes
 - MUST read [docs/documentation.md](docs/documentation.md)
 - MUST read [docs/design.md](docs/design.md) for UI, copy, layout, forms, and interaction guidelines
+- Use domain terms from [GLOSSARY.md](GLOSSARY.md) in code, copy, and docs

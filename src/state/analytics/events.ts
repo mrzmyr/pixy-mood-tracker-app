@@ -1,7 +1,7 @@
 import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { AppIconId } from "@/constants/AppIcons";
-import type { SettingsState } from "@/state/settings";
+import type { CalendarLayout, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
@@ -10,7 +10,8 @@ import type { LogItemSchema, PhotoSourceKind } from "@/types";
  *
  * - Name: `<area>:<object>_<verb>`, verb in past tense
  * - Properties: snake_case, JSON values only
- * - Never send free text (notes, custom tag names). Send counts and lengths
+ * - Never send free text (notes, tag names, people names, filter text,
+ *   feedback messages), not even hashed or truncated. Send counts and lengths
  *   instead. Fixed values (rating, emotion keys, sleep quality) are fine.
  * - Photo events never carry file names, URIs, dimensions, EXIF, location,
  *   photo timestamps, or library ids.
@@ -20,6 +21,10 @@ export interface AnalyticsEvents {
   "app:logs_loaded": { size_mb: number };
   "app:storage_load_failed": { status: string | number };
   "app:storage_recovery_tapped": { action: "export" | "contact" };
+  /** `status`: error code of the OS prompt, for example `lockout`. */
+  "app:unlock_failed": { status: string };
+  /** Flag `app-lock-bypass` opened a locked app. */
+  "app:app_lock_bypassed": undefined;
 
   "onboarding:slide_viewed": { index: number };
   "onboarding:reminder_enabled": undefined;
@@ -121,7 +126,7 @@ export interface AnalyticsEvents {
   };
 
   "calendar:day_opened": {
-    source: "calendar" | "mood_peaks" | "tag_peaks";
+    source: "calendar" | "timeline" | "map" | "mood_peaks" | "tag_peaks";
     entries_count: number;
     days_ago: number;
   };
@@ -136,6 +141,7 @@ export interface AnalyticsEvents {
   };
   "calendar:filters_reset": undefined;
   "calendar:filters_closed": undefined;
+  "calendar:layout_changed": { layout: CalendarLayout };
   "calendar:promo_tapped": { card: "changelog" };
 
   "statistics:highlights_viewed": {
@@ -177,6 +183,45 @@ export interface AnalyticsEvents {
   "tags:delete_requested": AnalyticsEvents["tags:tag_created"];
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];
   "tags:delete_cancelled": undefined;
+  /** Drag or accessibility move in the grouped tag list. */
+  "tags:tags_arranged": {
+    tags_count: number;
+    categories_count: number;
+    category_changed: boolean;
+    method: "drag" | "accessibility_action";
+  };
+  "tags:category_created": { title_length: number; categories_count: number };
+  "tags:category_updated": { title_length: number };
+  "tags:category_deleted": { tags_count: number; categories_count: number };
+
+  /** At least half of the card was on screen. Once per card per screen visit. */
+  "recaps:card_shown": RecapCardProperties;
+  /** Nudge card button. `turn_on` also fires the event of the setting. */
+  "recaps:nudge_tapped": RecapCardProperties & {
+    action: "turn_on" | "not_now";
+  };
+  /**
+   * Helpful or Not Helpful below a card. `reasons` are fixed keys. Notes go
+   * to the feedback service, never here: `has_note` only.
+   */
+  "recaps:card_feedback_sent": RecapCardProperties & {
+    helpful: boolean;
+    reasons: (
+      | "not_true"
+      | "knew_already"
+      | "not_relevant"
+      | "too_personal"
+      | "hard_to_understand"
+      | "feels_judgmental"
+    )[];
+    has_note: boolean;
+  };
+  /** Tap on a recap notification body. Ignored while flag `recaps` is off. */
+  "recaps:notification_tapped": { period: "week" | "month" | "year" };
+  "tags:categories_reordered": {
+    categories_count: number;
+    method: "drag" | "accessibility_action";
+  };
 
   "people:person_added": { source: "manual"; has_avatar: boolean };
   "people:contacts_imported": {
@@ -202,6 +247,7 @@ export interface AnalyticsEvents {
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
   "settings:backup_toggled": { enabled: boolean };
+  "settings:app_lock_toggled": { enabled: boolean };
   "settings:app_icon_changed": { icon: AppIconId };
   "settings:theme_changed": { color_scheme: SettingsState["colorScheme"] };
 
@@ -210,6 +256,12 @@ export interface AnalyticsEvents {
     permission_granted: boolean;
   };
   "reminders:time_changed": { time: string };
+  /** Recaps toggle in Settings > Reminder. Denied permission keeps it off. */
+  "reminders:recaps_toggled": {
+    enabled: boolean;
+    /** Only when turning on: turning off never checks permission. */
+    permission_granted?: boolean;
+  };
   "reminders:notification_opened": {
     /** App launched from the tap, not resumed from background. */
     cold_start: boolean;
@@ -407,3 +459,17 @@ export interface SavedEntryProperties {
 /** Properties of the statistics highlight events: shown cards and item counts. */
 export type HighlightsProperties =
   AnalyticsEvents["statistics:highlights_viewed"];
+
+/**
+ * Card a recap event is about. Type, family, and modules only: never tag
+ * names, person names, emotion keys, or ratings from the card.
+ */
+export interface RecapCardProperties {
+  card_type: string;
+  family: "moment" | "summary" | "pattern" | "change" | "nudge";
+  modules: string[];
+  signal: "strong" | "medium";
+  period: "week" | "month" | "quarter" | "year";
+  /** Screen that showed the card. */
+  source: "settings";
+}

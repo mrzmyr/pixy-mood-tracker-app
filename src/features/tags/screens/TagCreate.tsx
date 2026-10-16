@@ -1,25 +1,21 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, Pressable, TextInput, View } from "react-native";
-import { Check } from "react-native-feather";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import Button from "@/components/Button";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
-import {
-  MAX_TAG_LENGTH,
-  MIN_TAG_LENGTH,
-  TAG_COLOR_NAMES,
-} from "@/constants/Config";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
+import TagCategoryPicker from "../components/TagCategoryPicker";
+import { ColorPicker } from "../components/ColorPicker";
+import { GENERAL_CATEGORY_ID } from "../tagCategories";
+import TagNameField from "../components/TagNameField";
+import { isValidTagTitle } from "../tagName";
 import { useTagsUpdater } from "../TagsProvider";
 import type { Tag as ITag } from "../TagsProvider";
-import { RADIUS } from "@/constants/Radius";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
@@ -31,18 +27,24 @@ const REGEX_EMOJI = /\p{Emoji}/u;
 export const TagCreate = () => {
   const router = useRouter();
   const colors = useColors();
-  const haptics = useHaptics();
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const tagsUpdater = useTagsUpdater();
 
+  const [submitted, setSubmitted] = useState(false);
   const [tempTag, setTempTag] = useState<ITag>({
     id: uuidv4(),
     title: "",
     color: Object.keys(colors.tags)[0],
+    categoryId: GENERAL_CATEGORY_ID,
   });
 
   const onCreate = () => {
+    setSubmitted(true);
+    if (!isValidTagTitle(tempTag.title)) {
+      return;
+    }
+
     analytics.track("tags:tag_created", {
       title_length: tempTag.title.length,
       color: tempTag.color,
@@ -53,6 +55,7 @@ export const TagCreate = () => {
       id: uuidv4(),
       title: "",
       color: Object.keys(colors.tags)[0],
+      categoryId: GENERAL_CATEGORY_ID,
     });
 
     tagsUpdater.createTag(tempTag);
@@ -82,95 +85,43 @@ export const TagCreate = () => {
               {t("cancel")}
             </LinkButton>
           }
+          right={
+            <LinkButton
+              onPress={onCreate}
+              type="primary"
+              testID="tag-save"
+              style={{ fontWeight: "700" }}
+            >
+              {t("save")}
+            </LinkButton>
+          }
         />
-        <View
-          style={{
-            flex: 1,
-            padding: 20,
-          }}
+        {/* Scrolls once many categories push the form past the screen. */}
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+          keyboardShouldPersistTaps="handled"
         >
-          <TextInput
-            accessibilityLabel={t("tags_add_placeholder")}
-            testID="tag-name"
-            autoCorrect={false}
-            style={{
-              fontSize: 17,
-              color: colors.textInputText,
-              backgroundColor: colors.textInputBackground,
-              width: "100%",
-              padding: 16,
-              borderRadius: RADIUS.sm,
-              marginBottom: 16,
-            }}
-            placeholder={t("tags_add_placeholder")}
-            placeholderTextColor={colors.textInputPlaceholder}
-            maxLength={MAX_TAG_LENGTH}
+          <TagNameField
             value={tempTag.title}
-            onChangeText={(text) => {
-              setTempTag((currentTag) => ({
-                ...currentTag,
-                title: text,
-              }));
+            showError={submitted}
+            onChange={(title) => {
+              setTempTag((currentTag) => ({ ...currentTag, title }));
             }}
           />
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              alignItems: "center",
-              width: "100%",
+          <ColorPicker
+            value={tempTag.color}
+            onChange={(color) => {
+              setTempTag((currentTag) => ({ ...currentTag, color }));
             }}
-          >
-            {TAG_COLOR_NAMES.map((colorName) => (
-              <Pressable
-                key={colorName}
-                accessibilityLabel={colorName}
-                accessibilityRole="radio"
-                accessibilityState={{ selected: tempTag.color === colorName }}
-                testID={`tag-color-${colorName}`}
-                style={({ pressed }) => ({
-                  flex: 1,
-                  flexBasis: `${100 / 7 - 2}%`,
-                  maxWidth: `${100 / 7 - 2}%`,
-                  aspectRatio: 1,
-                  borderRadius: RADIUS.full,
-                  backgroundColor: colors.tags[colorName].dot,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "1%",
-                  opacity: pressed ? 0.8 : 1,
-                })}
-                onPress={() => {
-                  haptics.selection();
-                  setTempTag((currentTag) => ({
-                    ...currentTag,
-                    color: colorName,
-                  }));
-                }}
-              >
-                {tempTag.color === colorName && (
-                  <Check
-                    width={22}
-                    height={22}
-                    color={colors.tags[colorName].text}
-                  />
-                )}
-              </Pressable>
-            ))}
-          </View>
-          <Button
-            style={{
-              marginTop: 32,
+          />
+          <TagCategoryPicker
+            value={tempTag.categoryId ?? GENERAL_CATEGORY_ID}
+            onChange={(categoryId) => {
+              setTempTag((currentTag) => ({ ...currentTag, categoryId }));
             }}
-            onPress={onCreate}
-            disabled={
-              tempTag.title.length < MIN_TAG_LENGTH ||
-              tempTag.title.length > MAX_TAG_LENGTH
-            }
-          >
-            {t("create")}
-          </Button>
-        </View>
+          />
+        </ScrollView>
       </View>
     </DismissKeyboard>
   );

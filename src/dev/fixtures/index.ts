@@ -6,6 +6,11 @@ import legacy168 from "@/dev/fixtures/legacy-1.68.json";
 import legacy181 from "@/dev/fixtures/legacy-1.81.1.json";
 import seed from "@/dev/fixtures/seed.json";
 import year from "@/dev/fixtures/year.json";
+import { withTimeline } from "@/dev/fixtures/timeline";
+import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
+import { withChaos } from "@/dev/fixtures/chaos";
+import { withRecapMoments } from "@/dev/fixtures/recapMoments";
+import { withRecapNudges } from "@/dev/fixtures/recapNudges";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 
@@ -22,10 +27,6 @@ export const FIXTURE_PEOPLE_IDS = {
   alex: "7f1d6a3e-0002-4a3e-8f6e-0f0000000002",
   mia: "7f1d6a3e-0003-4a3e-8f6e-0f0000000003",
 } as const;
-
-/** 64x64 blue to orange gradient JPEG; gives one fixture person a photo. */
-const FIXTURE_AVATAR_BASE64 =
-  "/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAQKADAAQAAAABAAAAQAAAAAD/7QA4UGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAAA4QklNBCUAAAAAABDUHYzZjwCyBOmACZjs+EJ+/8AAEQgAQABAAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/bAEMAAgICAgICBAICBAYEBAQGCAYGBgYICggICAgICgwKCgoKCgoMDAwMDAwMDA4ODg4ODhAQEBAQEhISEhISEhISEv/bAEMBAwMDBQQFCAQECBMNCw0TExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTE//dAAQABP/aAAwDAQACEQMRAD8Ay9lGyrmyjZX9Hf235n5d/ZHkU9lGyrmyjZR/bfmH9keRT2UbKubKNlH9t+Yf2R5FPZRsq5so2Uf235h/ZHkf/9B2yjZVzYKNgr7H+2/MP7I8inso2Vc2CjYKP7b8w/sjyKeyjZVzYKNgo/tvzD+yPIp7KNlXNgo2Cj+2/MP7I8j/0djZRsq7so2V8j/bfmfqH9k+RS2UbKu7KNlH9t+Yf2T5FLZRsq7so2Uf235h/ZPkUtlGyruyjZR/bfmH9k+R/9LsNho2Grfl0eXX85/235n9Q/2R5FTYaNhq35dHl0f235h/ZHkVNho2Grfl0eXR/bfmH9keRU2GjYat+XR5dH9t+Yf2R5H/2Q==";
 
 const FIXTURE_PEOPLE: ExportPerson[] = [
   {
@@ -123,6 +124,38 @@ export const FIXTURES: Fixture[] = [
       "The `year` fixture plus 3 people (one with photo, one archived) on a fixed share of entries.",
     endsToday: true,
     data: withPeople(asExport(year)),
+  },
+  {
+    id: "timeline",
+    title: "Timeline",
+    description:
+      "One week ending today: several entries a day, places, photos, both together, long notes, and many chips.",
+    endsToday: true,
+    data: withTimeline(withPeople(asExport(empty))),
+  },
+  {
+    id: "chaos",
+    title: "Chaos",
+    description:
+      "Stress test ending today: every limit at max (50 tags, 50 people, 6 photos, 10,000-character note, all emotions), many scripts and emoji, years with gaps, 24 entries on the newest day, and past days with up to 100 entries.",
+    endsToday: true,
+    data: withChaos(asExport(empty)),
+  },
+  {
+    id: "recap-nudges",
+    title: "Recap nudges",
+    description:
+      "3 check-in days ending today, reminder off, Emotions, People, and Photos steps off, 34 tags in General. Shows every nudge in the week recap.",
+    endsToday: true,
+    data: withRecapNudges(asExport(empty)),
+  },
+  {
+    id: "recap-moments",
+    title: "Recap moments",
+    description:
+      "91 days ending today with every week moment: person back, new person, 25 days connected with Lena, emotion again and absent, tag back, sleep turnaround, first city (location on).",
+    endsToday: true,
+    data: withRecapMoments(asExport(empty)),
   },
 ];
 

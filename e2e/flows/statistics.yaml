@@ -19,16 +19,14 @@ tags: [p1, statistics]
 - tapOn: "Month Report"
 - assertVisible: "${output.monthTitle}"
 - assertVisible: "Entries"
-- tapOn:
-    id: "statistics-back"
+- back
 - scrollUntilVisible:
     element:
       text: "Year Report"
     direction: DOWN
 - tapOn: "Year Report"
 - assertVisible: "${output.year}"
-- tapOn:
-    id: "statistics-back"
+- back
 
 # All 365 fixture entries are counted.
 - back

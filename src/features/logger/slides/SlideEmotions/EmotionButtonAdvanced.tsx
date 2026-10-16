@@ -30,6 +30,9 @@ export const EmotionButtonAdvanced = ({
 
   return (
     <RectButton
+      accessibilityRole="checkbox"
+      accessibilityLabel={emotion.label}
+      accessibilityState={{ checked: selected }}
       onPress={() => {
         haptics.selection();
         onPress(emotion);

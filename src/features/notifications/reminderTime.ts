@@ -1,7 +1,9 @@
 import dayjs from "dayjs";
+import { getLocale } from "@/lib/translation";
 
 /** Stored reminder time format. */
 const REMINDER_TIME_FORMAT = "HH:mm";
+const REMINDER_TIME_PATTERN = /^\d{1,2}:\d{2}$/u;
 
 /**
  * Today's date at a stored reminder time (`HH:mm`), for the time picker.
@@ -17,8 +19,39 @@ export const toReminderTime = (time: Date | string): string =>
     REMINDER_TIME_FORMAT
   );
 
-/** Hour and minute of a stored reminder time (`HH:mm`). */
+/**
+ * Hour and minute of a stored reminder time (`HH:mm`). Both are `NaN` for
+ * a time that is not `HH:mm`.
+ */
 export const parseReminderTime = (time: string) => {
+  if (!REMINDER_TIME_PATTERN.test(time)) {
+    return { hour: Number.NaN, minute: Number.NaN };
+  }
   const date = reminderTimeToDate(time);
   return { hour: date.getHours(), minute: date.getMinutes() };
+};
+
+/** Reminder time for display, in the app locale (`20:00`, `8:00 PM`). */
+export const formatReminderTime = (date: Date): string =>
+  date.toLocaleTimeString(getLocale(), { hour: "numeric", minute: "2-digit" });
+
+/**
+ * Reminder time as a lock screen clock shows it: no day period, so
+ * `8:00 PM` becomes `8:00`. 24-hour locales stay as they are (`20:00`).
+ */
+export const formatLockScreenTime = (
+  date: Date,
+  locales: string = getLocale()
+): string => {
+  const parts = new Intl.DateTimeFormat(locales, {
+    hour: "numeric",
+    minute: "2-digit",
+  }).formatToParts(date);
+  let text = "";
+  for (const part of parts) {
+    if (part.type !== "dayPeriod") {
+      text += part.value;
+    }
+  }
+  return text.trim();
 };

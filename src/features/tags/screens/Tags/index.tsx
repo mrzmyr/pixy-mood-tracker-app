@@ -1,32 +1,27 @@
 import { useRouter } from "expo-router";
-import useColors from "@/hooks/useColors";
-import { useTagsState } from "../../TagsProvider";
-import type { Tag } from "../../TagsProvider";
-
-import Button from "@/components/Button";
-import { CloseButton } from "@/components/CloseButton";
-import ModalHeader from "@/components/ModalHeader";
-import { TagList } from "../../components/TagList";
-import { MAX_TAGS } from "@/constants/Config";
-import { t } from "@/lib/translation";
-import { LinearGradient } from "expo-linear-gradient";
-import _ from "lodash";
-import { Platform, ScrollView, View } from "react-native";
+import { Folder } from "lucide-react-native";
+import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const TagScrollView = Platform.OS === "ios" ? View : ScrollView;
+import { CloseButton } from "@/components/CloseButton";
+import MenuList from "@/components/MenuList";
+import MenuListItem from "@/components/MenuListItem";
+import ModalHeader from "@/components/ModalHeader";
+import useColors from "@/hooks/useColors";
+import { t } from "@/lib/translation";
+import { CreateTagAction } from "../../components/CreateTagAction";
+import { TagCategoryList } from "../../components/TagCategoryList";
+import { useTagsState } from "../../TagsProvider";
 
 /**
- * Tag manager modal opened from the logger's tag slide. Archived tags are
- * hidden here but still count toward {@link MAX_TAGS}.
+ * Tag manager modal opened from the logger's tag slide: active tags grouped
+ * by category, plus a link to manage categories. Archived tags are hidden
+ * here but still count toward `MAX_TAGS`.
  */
 export const Tags = () => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState();
-
-  const _tags = tags.filter((tag: Tag) => !tag.isArchived);
 
   return (
     <View
@@ -43,59 +38,22 @@ export const Tags = () => {
           <CloseButton testID="tags-close" onPress={() => router.back()} />
         }
       />
-      {tags.length < MAX_TAGS && (
-        <>
-          <LinearGradient
-            pointerEvents="none"
-            colors={[
-              colors.logBackgroundTransparent,
-              colors.background,
-              colors.background,
-            ]}
-            style={{
-              position: "absolute",
-              height: 120 + insets.bottom,
-              bottom: 0,
-              zIndex: 1,
-              width: "100%",
-            }}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              paddingHorizontal: 16,
-              position: "absolute",
-              bottom: insets.bottom + 16,
-              width: "100%",
-              zIndex: 2,
-            }}
-          >
-            <Button
-              style={{
-                marginTop: 16,
-                width: "100%",
-              }}
-              onPress={() => {
-                router.push("/tags/create");
-              }}
-            >
-              {t("create_tag")}
-            </Button>
+      <CreateTagAction tags={tags} />
+      <TagCategoryList
+        header={
+          <View style={{ marginTop: 8, marginHorizontal: 16 }}>
+            <MenuList>
+              <MenuListItem
+                testID="tag-categories-link"
+                title={t("tag_categories")}
+                iconLeft={<Folder size={20} color={colors.text} />}
+                isLink
+                onPress={() => router.push("/tags/categories")}
+              />
+            </MenuList>
           </View>
-        </>
-      )}
-      <TagScrollView
-        style={{
-          flex: 1,
-        }}
-      >
-        <TagList tags={_tags} />
-        {Platform.OS !== "ios" && (
-          <View style={{ height: insets.bottom + 56 }} />
-        )}
-      </TagScrollView>
+        }
+      />
     </View>
   );
 };

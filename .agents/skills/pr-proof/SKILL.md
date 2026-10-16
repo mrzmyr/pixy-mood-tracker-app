@@ -1,9 +1,16 @@
 ---
 name: pr-proof
-description: Upload screenshots or videos to a PR body. Use when asked for screenshots, video, before/after, or visual proof in a PR.
+description: Upload screenshots or videos to a PR body. Required for every PR with a visual change. Use also when asked for screenshots, video, before/after, or visual proof.
 ---
 
 One method: `gh pr edit --attach`. Never commit proof files to any branch. No proof branches, no releases, no `docs/pr-evidence/`.
+
+# When
+
+- PR changes what the user sees (screens, components, colors, layout, copy, animation): screenshot required. Never open the PR without it
+- Changed existing UI: add before and after
+- Motion (animation, transition, gesture, scroll): add video too
+- Capture on iOS and Android, see [run-app skill](../run-app/SKILL.md)
 
 # Steps
 

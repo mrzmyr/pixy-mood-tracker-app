@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pixy",
     "slug": "pixy-mood-tracker",
-    "version": "1.91.0",
+    "version": "1.97.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
@@ -80,14 +80,14 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-sunburst.png",
+          "image": "./assets/images/splash-standby.png",
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
-            "image": "./assets/images/splash-sunburst-white.png",
+            "image": "./assets/images/splash-standby.png",
             "backgroundColor": "#171717"
           },
-          "imageWidth": 96
+          "imageWidth": 48
         }
       ],
       "@react-native-community/datetimepicker",
@@ -95,7 +95,44 @@
       "expo-router",
       "expo-font",
       "expo-notifications",
-      "expo-localization",
+      [
+        "expo-localization",
+        {
+          "supportedLocales": [
+            "en",
+            "ar",
+            "cs",
+            "da",
+            "de",
+            "el",
+            "es",
+            "fi",
+            "fr",
+            "he",
+            "hi",
+            "hr",
+            "hu",
+            "id",
+            "it",
+            "ja",
+            "ko",
+            "ms",
+            "nb",
+            "nl",
+            "pl",
+            "pt",
+            "ro",
+            "ru",
+            "sk",
+            "sv",
+            "th",
+            "tr",
+            "uk",
+            "vi",
+            "zh-Hans"
+          ]
+        }
+      ],
       "expo-sharing",
       "expo-status-bar",
       "expo-web-browser",
@@ -119,54 +156,6 @@
       [
         "expo-alternate-app-icons",
         [
-          {
-            "name": "Sunburst",
-            "ios": "./assets/images/app-icons/sunburst.png",
-            "android": {
-              "foregroundImage": "./assets/images/app-icons/sunburst-foreground.png",
-              "backgroundColor": "#FFFFFF"
-            }
-          },
-          {
-            "name": "SunburstInverse",
-            "ios": "./assets/images/app-icons/sunburst-inverse.png",
-            "android": {
-              "foregroundImage": "./assets/images/app-icons/sunburst-inverse-foreground.png",
-              "backgroundColor": "#F97316"
-            }
-          },
-          {
-            "name": "SunburstBlack",
-            "ios": "./assets/images/app-icons/sunburst-black.png",
-            "android": {
-              "foregroundImage": "./assets/images/app-icons/sunburst-black-foreground.png",
-              "backgroundColor": "#FFFFFF"
-            }
-          },
-          {
-            "name": "SunburstBlackInverse",
-            "ios": "./assets/images/app-icons/sunburst-black-inverse.png",
-            "android": {
-              "foregroundImage": "./assets/images/app-icons/sunburst-inverse-foreground.png",
-              "backgroundColor": "#000000"
-            }
-          },
-          {
-            "name": "Dither",
-            "ios": "./assets/images/app-icons/dither.png",
-            "android": {
-              "foregroundImage": "./assets/images/app-icons/dither-foreground.png",
-              "backgroundImage": "./assets/images/app-icons/dither-background.png"
-            }
-          },
-          {
-            "name": "DitherInverse",
-            "ios": "./assets/images/app-icons/dither-inverse.png",
-            "android": {
-              "foregroundImage": "./assets/images/app-icons/dither-inverse-foreground.png",
-              "backgroundColor": "#FFFFFF"
-            }
-          },
           {
             "name": "Tangerine",
             "ios": "./assets/images/app-icons/tangerine.png",
@@ -217,7 +206,13 @@
           "locationWhenInUsePermission": "Pixy adds the place where you check in to your entry. Your location stays on your device.",
           "locationAlwaysAndWhenInUsePermission": false,
           "locationAlwaysPermission": false,
-          "motionUsagePermission": false
+          "motionUsagePermission": "Pixy does not use motion data. Our location tool includes this permission, but Pixy never asks for it."
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Pixy uses Face ID to unlock the app when App Lock is on."
         }
       ]
     ],

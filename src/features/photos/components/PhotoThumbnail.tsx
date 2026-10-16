@@ -7,7 +7,7 @@ import { TileImage } from "./TileImage";
 import { RADIUS } from "@/constants/Radius";
 
 /**
- * Square photo tile of a stored entry photo, radius 12. Shows a
+ * Photo tile of a stored entry photo, radius 12, square by default. Shows a
  * placeholder when the file is missing or unreadable, for example after an
  * import from another device. Never removes the reference itself.
  *
@@ -18,6 +18,7 @@ export const PhotoThumbnail = ({
   index,
   count,
   size,
+  aspectRatio = 1,
   onPress,
 }: {
   photo: LogPhoto;
@@ -25,13 +26,15 @@ export const PhotoThumbnail = ({
   index: number;
   count: number;
   size?: number;
+  /** Width divided by height. The image covers the tile and crops. */
+  aspectRatio?: number;
   onPress?: () => void;
 }) => {
   const colors = useColors();
   const position = index + 1;
 
   return (
-    <View style={{ width: size ?? "100%", aspectRatio: 1 }}>
+    <View style={{ width: size ?? "100%", aspectRatio }}>
       <Pressable
         onPress={onPress}
         disabled={!onPress}

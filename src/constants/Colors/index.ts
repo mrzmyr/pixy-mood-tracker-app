@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 import colors from "@/constants/Colors/TailwindColors";
 
 import { TAG_COLOR_NAMES } from "@/constants/Config";
@@ -36,6 +38,10 @@ for (const color of tagColorNames) {
     border: colors[color]["400"],
   };
 }
+
+// iOS systemRed, Android Material 3 error
+const dangerLight = Platform.OS === "android" ? "#BA1A1A" : "#FF3B30";
+const dangerDark = Platform.OS === "android" ? "#FFB4AB" : "#FF453A";
 
 const tintColorLight = "#007aff";
 const tintColorDark = "#0a84ff";
@@ -86,6 +92,9 @@ const light = {
   cardBackground: "#fff",
   cardBorder: colors.neutral[200],
   toastSuccessIcon: colors.green[600],
+  snackbarBackground: colors.neutral[800],
+  snackbarText: colors.neutral[50],
+  snackbarAction: colors.blue[300],
 
   headerBorder: colors.neutral[300],
 
@@ -101,6 +110,8 @@ const light = {
   menuListItemText: "#000",
   menuListItemIcon: "#000",
   menuListItemBorder: colors.neutral[100],
+
+  pressRipple: "rgba(0, 0, 0, 0.12)",
 
   notificationBackground: "#FFF",
 
@@ -129,13 +140,21 @@ const light = {
   secondaryButtonBackgroundDisabled: colors.neutral[300],
   secondaryButtonTextDisabled: colors.neutral[500],
 
+  contrastButtonBackground: colors.neutral[900],
+  contrastButtonText: colors.white,
+  contrastButtonBorder: colors.neutral[900],
+  contrastButtonBackgroundDisabled: colors.neutral[300],
+  contrastButtonTextDisabled: colors.neutral[500],
+  contrastButtonBorderDisabled: colors.neutral[300],
+
   tertiaryButtonBackground: colors.neutral[200],
   tertiaryButtonText: colors.neutral[600],
   tertiaryButtonBorder: colors.neutral[200],
   tertiaryButtonBorderDisabled: colors.neutral[300],
 
+  danger: dangerLight,
   dangerButtonBackground: colors.neutral[200],
-  dangerButtonText: colors.red[500],
+  dangerButtonText: dangerLight,
   dangerButtonBorder: colors.neutral[200],
 
   textInputBackground: colors.neutral[200],
@@ -203,6 +222,12 @@ const light = {
   entryBackground: colors.white,
   entryItemBorder: colors.neutral[200],
 
+  // Bezel: outer shell around statistics cards and person tiles.
+  bezelBackground: colors.white,
+  bezelBorder: colors.neutral[200],
+  bezelInnerBorder: colors.neutral[200],
+  bezelShadow: "0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.035)",
+
   tooltipBackground: "rgba(0, 0, 0, 0.8)",
   tooltipText: colors.white,
   tooltipTextSecondary: colors.neutral[400],
@@ -215,6 +240,19 @@ const light = {
 
   sleepQualityEmpty: colors.indigo[100],
   sleepQualityFull: colors.indigo[500],
+
+  // Recap chart and marker accents.
+  moduleMood: colors.emerald[700],
+  moduleEmotions: colors.rose[600],
+  moduleLocation: colors.teal[700],
+
+  // Recap card: white card, hairline border, small shadow; footer row on a
+  // faint tint (footer text, neutral 500, keeps 4.5:1 on it). Media panels
+  // and chips share the muted gray.
+  recapCardBorder: colors.neutral[200],
+  recapCardShadow: "0 1px 2px rgba(0,0,0,0.05)",
+  recapFooterBackground: colors.neutral[50],
+  recapMutedBackground: colors.neutral[100],
 
   scales: scales.light,
   tags: tagsLight,
@@ -279,6 +317,9 @@ const dark: IColors & {
   cardBackground: colors.neutral[900],
   cardBorder: colors.neutral[800],
   toastSuccessIcon: colors.green[400],
+  snackbarBackground: colors.neutral[200],
+  snackbarText: colors.neutral[900],
+  snackbarAction: colors.blue[700],
 
   headerBorder: colors.neutral[800],
 
@@ -294,6 +335,8 @@ const dark: IColors & {
   menuListItemText: colors.neutral[50],
   menuListItemIcon: colors.neutral[200],
   menuListItemBorder: colors.neutral[800],
+
+  pressRipple: "rgba(255, 255, 255, 0.16)",
 
   notificationBackground: colors.neutral[900],
 
@@ -322,13 +365,21 @@ const dark: IColors & {
   secondaryButtonTextDisabled: colors.neutral[400],
   secondaryButtonBorderDisabled: colors.neutral[800],
 
+  contrastButtonBackground: colors.white,
+  contrastButtonText: colors.neutral[900],
+  contrastButtonBorder: colors.white,
+  contrastButtonBackgroundDisabled: colors.neutral[800],
+  contrastButtonTextDisabled: colors.neutral[400],
+  contrastButtonBorderDisabled: colors.neutral[800],
+
   tertiaryButtonBackground: colors.neutral[800],
   tertiaryButtonText: colors.white,
   tertiaryButtonBorder: colors.neutral[800],
   tertiaryButtonBorderDisabled: colors.neutral[800],
 
+  danger: dangerDark,
   dangerButtonBackground: colors.neutral[800],
-  dangerButtonText: colors.red[500],
+  dangerButtonText: dangerDark,
   dangerButtonBorder: colors.neutral[800],
 
   textInputBackground: colors.neutral[800],
@@ -395,6 +446,12 @@ const dark: IColors & {
   entryBackground: colors.neutral[800],
   entryItemBorder: colors.neutral[700],
 
+  // Darker than the inner surfaces, lighter than the black background.
+  bezelBackground: "#0f0f0f",
+  bezelBorder: colors.neutral[800],
+  bezelInnerBorder: colors.neutral[700],
+  bezelShadow: "0 1px 2px rgba(0,0,0,0.5)",
+
   feedbackBoxBackground: colors.neutral[900],
 
   tooltipBackground: "rgba(0, 0, 0, 0.8)",
@@ -407,6 +464,16 @@ const dark: IColors & {
 
   sleepQualityEmpty: colors.indigo[800],
   sleepQualityFull: colors.indigo[400],
+
+  moduleMood: colors.emerald[400],
+  moduleEmotions: colors.rose[400],
+  moduleLocation: colors.teal[400],
+
+  // Lighter than the muted panel, so boxed nights keep an edge.
+  recapCardBorder: colors.neutral[700],
+  recapCardShadow: "0 1px 2px rgba(0,0,0,0.5)",
+  recapFooterBackground: "#0f0f0f",
+  recapMutedBackground: colors.neutral[800],
 
   scales: scales.dark,
   tags: tagsDark,

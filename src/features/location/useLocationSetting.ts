@@ -1,22 +1,8 @@
-import { Alert, Linking, Platform } from "react-native";
-import { t } from "@/lib/translation";
+import { Platform } from "react-native";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { useSettings } from "@/state/settings";
-import { requestLocationAccess } from "./places";
-
-/** Tells the user location access is off and offers the system settings. */
-export const showLocationDenied = () => {
-  Alert.alert(t("location_denied_title"), t("location_denied_message"), [
-    { text: t("cancel"), style: "cancel" },
-    {
-      text: t("location_open_settings"),
-      onPress: () => {
-        void Linking.openSettings();
-      },
-    },
-  ]);
-};
+import { ensureLocationAccess } from "./access";
 
 /**
  * Check-in location setting.
@@ -24,7 +10,7 @@ export const showLocationDenied = () => {
  * - `isAvailable`: the `location` feature flag is on, outside web
  * - `isEnabled`: available and switched on in Settings > Check-in
  * - `setEnabled(true)` asks for location access first and stays off when
- *   the user denies it
+ *   access is missing
  */
 export const useLocationSetting = () => {
   const isFlagOn = useFeatureFlag("location");
@@ -33,8 +19,7 @@ export const useLocationSetting = () => {
   const isAvailable = isFlagOn && Platform.OS !== "web";
 
   const setEnabled = async (next: boolean) => {
-    if (next && !(await requestLocationAccess())) {
-      showLocationDenied();
+    if (next && !(await ensureLocationAccess())) {
       return;
     }
     analytics.track("settings:location_toggled", { enabled: next });

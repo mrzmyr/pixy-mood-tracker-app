@@ -1,4 +1,5 @@
 import { Card } from "../../components/Card";
+import { getCardChartWidth } from "../../components/cardChartWidth";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
 import { Dimensions, View } from "react-native";
@@ -26,7 +27,7 @@ export const SleepQualityChartCard = ({
 
   const data = getSleepQualityDistributionForXDays(items, startDate, 14);
 
-  const width = Dimensions.get("window").width - 80;
+  const width = getCardChartWidth(Dimensions.get("window").width);
   const height = width / 3;
 
   return (

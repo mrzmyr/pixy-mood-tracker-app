@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
+import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import { useAnalytics } from "@/state/analytics";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import { countPhotosBySource } from "@/features/photos";
@@ -42,7 +43,21 @@ export const useLoggerActions = ({
   const requestStoreReviewPrompt = useStoreReviewPrompt();
   const logDraft = useLogDraft();
 
+  const sweepDiscarded = () => {
+    analytics.track("logger:flow_cancelled", { mode });
+    logDraft.discard();
+    logUpdater.sweepPhotos();
+  };
+
+  // Android back and the back gesture take this path; the close button and
+  // save paths set `allowLeave` first.
+  const { allowLeave } = useDiscardGuard({
+    isDirty: logDraft.isDirty,
+    onDiscard: sweepDiscarded,
+  });
+
   const close = () => {
+    allowLeave();
     logDraft.discard();
     logUpdater.sweepPhotos();
     router.back();

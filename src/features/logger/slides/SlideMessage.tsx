@@ -11,8 +11,8 @@ import LinkButton from "@/components/LinkButton";
 import TextArea from "@/components/TextArea";
 import { LOGGER_HEADER_ICON_INSET } from "../components/LoggerHeader";
 import { Footer } from "./Footer";
+import { MAX_MESSAGE_LENGTH } from "@/constants/Config";
 
-const MAX_LENGTH = 10 * 1000;
 const SLIDE_MARGIN_TOP = 8;
 
 // Keeps the last lines above the floating next/save button while typing.
@@ -95,7 +95,7 @@ const SlideMessageComponent = (
               placeholder={t("log_note_question")}
               value={draft.message}
               onChange={setMessage}
-              maxLength={MAX_LENGTH}
+              maxLength={MAX_MESSAGE_LENGTH}
               style={{
                 flex: 1,
                 marginBottom: 0,

@@ -15,9 +15,7 @@ export const useTagActions = ({
   const analytics = useAnalytics();
   const haptics = useHaptics();
 
-  const confirmDelete = async (tagToDelete: ITag) => {
-    await haptics.selection();
-
+  const confirmDelete = (tagToDelete: ITag) => {
     analytics.track("tags:delete_requested", {
       title_length: tagToDelete.title.length,
       color: tagToDelete.color,
@@ -29,8 +27,16 @@ export const useTagActions = ({
       t("delete_tag_confirm_message"),
       [
         {
+          text: t("cancel"),
+          onPress: () => {
+            analytics.track("tags:delete_cancelled");
+          },
+          style: "cancel",
+        },
+        {
           text: t("delete"),
           onPress: () => {
+            void haptics.impact();
             analytics.track("tags:tag_deleted", {
               title_length: tagToDelete.title.length,
               color: tagToDelete.color,
@@ -40,13 +46,6 @@ export const useTagActions = ({
             onDeleted?.();
           },
           style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => {
-            analytics.track("tags:delete_cancelled");
-          },
-          style: "cancel",
         },
       ],
       { cancelable: true }
@@ -61,7 +60,6 @@ export const useTagActions = ({
       is_archived: true,
     });
     tagsUpdater.updateTag({ ...tag, isArchived: true });
-    void haptics.selection();
   };
 
   return { confirmDelete, archive };

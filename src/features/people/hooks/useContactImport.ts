@@ -2,13 +2,14 @@ import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { MAX_PEOPLE, MAX_TAG_LENGTH } from "@/constants/Config";
+import { MAX_TAG_LENGTH } from "@/constants/Config";
 import Alert from "@/lib/Alert";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { saveAvatar } from "../avatars";
 import { buildContactRows } from "../contactImport";
 import { usePeopleState, usePeopleUpdater } from "../PeopleProvider";
+import { getPeopleLimit } from "../peopleLimit";
 import { getPeopleSources } from "../sources";
 import type { ContactList } from "../sources";
 import type { Person } from "../PeopleProvider";
@@ -53,7 +54,7 @@ const readContacts = async (): Promise<ContactList | "denied"> => {
 
 /**
  * State of the contact import list: loads the address book, filters it,
- * tracks the selection up to {@link MAX_PEOPLE}, and imports the picked
+ * tracks the selection up to `MAX_PEOPLE`, and imports the picked
  * contacts with their photos. A refused permission shows an alert that leads
  * to the system settings and closes the screen.
  */
@@ -89,7 +90,7 @@ export const useContactImport = () => {
     () => buildContactRows({ contacts: list?.contacts ?? [], people, query }),
     [list, people, query]
   );
-  const remaining = Math.max(0, MAX_PEOPLE - people.length);
+  const { remaining } = getPeopleLimit(people);
   const isAtLimit = selectedIds.length >= remaining;
 
   const toggle = (contactId: string) => {

@@ -1,5 +1,4 @@
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import type { Emotion } from "@/types";
 import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
@@ -18,7 +17,6 @@ export const Tooltip = ({
   onClose: () => void;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
 
   return (
     <Animated.View
@@ -65,10 +63,7 @@ export const Tooltip = ({
                 justifyContent: "center",
                 alignItems: "center",
               }}
-              onPress={() => {
-                haptics.selection();
-                onClose();
-              }}
+              onPress={onClose}
             >
               <X color={colors.tooltipTextSecondary} width={24} height={24} />
             </Pressable>

@@ -1,3 +1,4 @@
+import { isConfirmed } from "@/helpers/promptCancel";
 import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
@@ -10,7 +11,7 @@ import { useFeatureFlag } from "@/state/featureFlags";
 import { useAnalytics } from "@/state/analytics";
 import { LogDraftProvider, useLogDraft } from "./logDraft";
 import type { LogDraft } from "./finalizeDraft";
-import { toLogDate } from "@/lib/logDates";
+import { getItemDate, toLogDate } from "@/lib/logDates";
 
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
@@ -32,9 +33,11 @@ import { SlideEmotions } from "./slides/SlideEmotions";
 import { SlideFeedback } from "./slides/SlideFeedback";
 import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
+import FlagHighlight from "@/components/FlagHighlight";
 import { SlidePhotos } from "./slides/SlidePhotos";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlidePeople } from "./slides/SlidePeople";
+import { SlideSleep } from "./slides/SlideSleep";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
 import { useLoggerTracking } from "./hooks/useLoggerTracking";
@@ -45,6 +48,7 @@ import {
   getAvailableStepsForCreate,
   getAvailableStepsForEdit,
   getRatingActionType,
+  hasSleepOnDate,
 } from "./steps";
 
 /** Whether the logger creates a new entry or edits an existing one. */
@@ -53,11 +57,12 @@ export type LoggerMode = "create" | "edit";
 // Slide order in the carousel; `rating` is always shown.
 const SLIDE_ORDER: LoggerStep[] = [
   "rating",
+  "sleep",
   "emotions",
   "tags",
   "people",
-  "message",
   "photos",
+  "message",
   "reminder",
   "feedback",
 ];
@@ -114,10 +119,28 @@ const useStepSlides = ({
     slides.push({
       key: "people",
       slide: (
-        <SlidePeople
-          onDisableStep={() => disableStep("people")}
-          showDisable={showDisable}
-        />
+        <FlagHighlight flag="people" pillOnly style={{ flex: 1 }}>
+          <SlidePeople
+            onDisableStep={() => disableStep("people")}
+            showDisable={showDisable}
+          />
+        </FlagHighlight>
+      ),
+    });
+  }
+
+  if (slideKeys.includes("photos")) {
+    slides.push({
+      key: "photos",
+      slide: (
+        <FlagHighlight flag="photos" pillOnly style={{ flex: 1 }}>
+          <SlidePhotos
+            mode={mode}
+            isActive={isPhotosSlideActive}
+            onDisableStep={() => disableStep("photos")}
+            showDisable={showDisable}
+          />
+        </FlagHighlight>
       ),
     });
   }
@@ -129,20 +152,6 @@ const useStepSlides = ({
         <SlideMessage
           onDisableStep={() => disableStep("message")}
           ref={texAreaRef}
-          showDisable={showDisable}
-        />
-      ),
-    });
-  }
-
-  if (slideKeys.includes("photos")) {
-    slides.push({
-      key: "photos",
-      slide: (
-        <SlidePhotos
-          mode={mode}
-          isActive={isPhotosSlideActive}
-          onDisableStep={() => disableStep("photos")}
           showDisable={showDisable}
         />
       ),
@@ -182,22 +191,37 @@ const LoggerSlides = ({
   const isEditing = mode === "edit";
   const showDisable = logState.items.length <= 3 && !isEditing;
 
-  const [touched, setTouched] = useState(false);
-
   const indexFound = initialStep ? avaliableSteps.indexOf(initialStep) : -1;
   const initialIndex = indexFound === -1 ? 0 : indexFound;
   const [slideIndex, setSlideIndex] = useState(initialIndex);
+  // Furthest slide the user has been on. Swiping forward stops here, so a
+  // new entry cannot skip ahead; an existing entry has no such limit.
+  const [furthestIndex, setFurthestIndex] = useState(
+    isEditing ? Number.MAX_SAFE_INTEGER : initialIndex
+  );
+  // The advanced emotions page swipes sideways by itself, so slide swiping
+  // pauses while it shows.
+  const [emotionsMode, setEmotionsMode] = useState<"basic" | "advanced">(
+    "basic"
+  );
 
   const { save, remove, cancel } = useLoggerActions({ mode, onCreated });
   const { isLocationVisible, isLocating } = usePassiveLocation({ mode });
 
   const _carousel = useRef<CarouselRef>(null);
+  // iOS lays the modal out at full window height first, then shrinks it to
+  // the sheet. Without an explicit height the carousel keeps the first,
+  // taller slide height, and slide bottoms end up under the home indicator.
+  const [carouselHeight, setCarouselHeight] = useState<number>();
 
   const slideKeys = SLIDE_ORDER.filter(
     (key) =>
       key === "rating" ||
       (avaliableSteps.includes(key) && (key !== "feedback" || !!question))
   );
+
+  // Slide to open once the carousel holds it, see the effect below.
+  const pendingIndex = useRef<number | null>(null);
 
   const next = () => {
     if (slideIndex + 1 === slideKeys.length - 1) {
@@ -206,16 +230,21 @@ const LoggerSlides = ({
 
     if (slideIndex + 1 === slideKeys.length) {
       save();
-    } else if (_carousel.current) {
-      _carousel.current.next();
+    } else if (slideIndex + 1 > furthestIndex) {
+      pendingIndex.current = slideIndex + 1;
+      setFurthestIndex(slideIndex + 1);
+    } else {
+      _carousel.current?.scrollTo({ index: slideIndex + 1, animated: true });
     }
   };
 
   // Shared by the optional slides: confirm, turn the step off, move on.
   const disableStep = async (
-    step: "tags" | "people" | "message" | "photos"
+    step: "sleep" | "emotions" | "tags" | "people" | "message" | "photos"
   ) => {
-    await askToDisableStep();
+    if (!(await isConfirmed(askToDisableStep()))) {
+      return;
+    }
     analytics.track("logger:step_disabled", { step });
     toggleStep(step);
     next();
@@ -233,7 +262,7 @@ const LoggerSlides = ({
   const ratingActionType = getRatingActionType({
     slideCount: slideKeys.length,
     slideIndex,
-    isTouched: touched,
+    isTouched: furthestIndex > 0,
     mode,
   });
 
@@ -258,6 +287,19 @@ const LoggerSlides = ({
     action: <SlideAction type={ratingActionType} onPress={next} />,
   });
 
+  if (slideKeys.includes("sleep")) {
+    content.push({
+      key: "sleep",
+      slide: (
+        <SlideSleep
+          onSelect={next}
+          onDisableStep={() => disableStep("sleep")}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
   if (slideKeys.includes("emotions")) {
     content.push({
       key: "emotions",
@@ -270,6 +312,9 @@ const LoggerSlides = ({
         >
           <SlideEmotions
             defaultIndex={EMOTIONS_INDEX_MAPPING[draft.rating ?? "neutral"]}
+            onDisableStep={() => disableStep("emotions")}
+            initialMode={emotionsMode}
+            onModeChange={setEmotionsMode}
             showDisable={showDisable}
           />
         </View>
@@ -295,7 +340,9 @@ const LoggerSlides = ({
           question={question}
           onPress={next}
           onDisableStep={async () => {
-            await askToDisableFeedbackStep();
+            if (!(await isConfirmed(askToDisableFeedbackStep()))) {
+              return;
+            }
             analytics.track("logger:step_disabled", { step: "feedback" });
             toggleStep("feedback");
             next();
@@ -305,6 +352,24 @@ const LoggerSlides = ({
       action: <SlideAction type="hidden" />,
     });
   }
+
+  const reachedIndex = Math.min(furthestIndex, content.length - 1);
+  const reachedContent = content.slice(0, reachedIndex + 1);
+
+  // The carousel only holds slides up to `reachedIndex`. A step forward adds
+  // the next slide first, then scrolls to it.
+  useEffect(() => {
+    const target = pendingIndex.current;
+    if (target === null) {
+      return;
+    }
+    pendingIndex.current = null;
+    _carousel.current?.scrollTo({
+      index: Math.min(target, reachedIndex),
+      animated: true,
+    });
+    // `_carousel` is a stable ref; listed because the lint rule cannot tell.
+  }, [reachedIndex, _carousel]);
 
   const messageSlideIndex = content.findIndex((item) => item.key === "message");
   const hasMessageSlide = messageSlideIndex !== -1;
@@ -362,6 +427,9 @@ const LoggerSlides = ({
           onRemove={remove}
         />
         <View
+          onLayout={(event) =>
+            setCarouselHeight(event.nativeEvent.layout.height)
+          }
           style={{
             flex: 1,
             flexDirection: "column",
@@ -370,18 +438,24 @@ const LoggerSlides = ({
           <Carousel
             loop={false}
             itemSize={Dimensions.get("window").width}
+            style={carouselHeight ? { height: carouselHeight } : undefined}
             ref={_carousel}
-            data={content}
+            data={reachedContent}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
             onProgressChange={(progress) => {
               if (isMounted.current) {
                 setSlideIndex(Math.round(progress));
               }
             }}
-            onScrollStart={() => {
-              setTouched(true);
-            }}
-            scrollEnabled={false}
+            scrollEnabled={
+              !(
+                slideKeys[slideIndex] === "emotions" &&
+                emotionsMode === "advanced"
+              )
+            }
+            onConfigurePanGesture={(gesture) =>
+              gesture.activeOffsetX([-10, 10]).failOffsetY([-10, 10])
+            }
             renderItem={({ index }) => content[index].slide}
           />
         </View>
@@ -440,6 +514,7 @@ export const LoggerEdit = ({
   const avaliableSteps = getAvailableStepsForEdit({
     item: initialItem,
     hasStep,
+    hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(initialItem)),
     hasPeople,
     isPhotosEnabled,
   });
@@ -508,6 +583,7 @@ export const LoggerCreate = ({
       hasPeople,
       reminderEnabled: settings.reminderEnabled,
       itemsCount: logState.items.length,
+      hasSleepOnDay: hasSleepOnDate(logState.items, initialItem.date),
       isPhotosEnabled,
     });
 

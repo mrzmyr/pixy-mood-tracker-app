@@ -107,6 +107,7 @@ const remoteFile = (deviceId: string, itemCount: number): BackupFile =>
         _generateItem({ date: `2025-01-${String(index + 1).padStart(2, "0")}` })
       ),
       tags: [],
+      tagCategories: [],
       people: [],
       // Onboarding done, like every real backup: restoring it keeps consent.
       settings: { ...INITIAL_STATE, actionsDone: ONBOARDED },
@@ -154,7 +155,8 @@ const waitForAutoBackup = () =>
 const runConfirmed = (action: () => Promise<void>) =>
   act(async () => {
     const running = action();
-    jest.mocked(Alert.alert).mock.calls.at(-1)?.[2]?.[0]?.onPress?.();
+    const buttons = jest.mocked(Alert.alert).mock.calls.at(-1)?.[2] ?? [];
+    buttons.find((button) => button.style === "destructive")?.onPress?.();
     await running;
   });
 

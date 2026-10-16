@@ -1,11 +1,10 @@
 import * as Sentry from "@sentry/react-native";
 import {
-  getAppIconName,
   setAlternateAppIcon,
   supportsAlternateIcons,
 } from "expo-alternate-app-icons";
 import { Circle, CircleCheck, Lock } from "lucide-react-native";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Image,
   Platform,
@@ -14,6 +13,7 @@ import {
   Text,
   View,
 } from "react-native";
+import FlagHighlight from "@/components/FlagHighlight";
 import MenuList from "@/components/MenuList";
 import TextInfo from "@/components/TextInfo";
 import { APP_ICONS } from "@/constants/AppIcons";
@@ -21,6 +21,7 @@ import type { AppIcon, AppIconId } from "@/constants/AppIcons";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import Alert from "@/lib/Alert";
+import { readActiveAppIcon } from "@/lib/appIcon";
 import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
@@ -37,30 +38,6 @@ const LABELS: Record<
     title: "app_icon_default",
     description: "app_icon_default_description",
   },
-  sunburst: {
-    title: "app_icon_sunburst",
-    description: "app_icon_sunburst_description",
-  },
-  "sunburst-inverse": {
-    title: "app_icon_sunburst_inverse",
-    description: "app_icon_sunburst_inverse_description",
-  },
-  "sunburst-black": {
-    title: "app_icon_sunburst_black",
-    description: "app_icon_sunburst_black_description",
-  },
-  "sunburst-black-inverse": {
-    title: "app_icon_sunburst_black_inverse",
-    description: "app_icon_sunburst_black_inverse_description",
-  },
-  dither: {
-    title: "app_icon_dither",
-    description: "app_icon_dither_description",
-  },
-  "dither-inverse": {
-    title: "app_icon_dither_inverse",
-    description: "app_icon_dither_inverse_description",
-  },
   tangerine: {
     title: "app_icon_tangerine",
     description: "app_icon_tangerine_description",
@@ -69,21 +46,6 @@ const LABELS: Record<
     title: "app_icon_tangerine_inverse",
     description: "app_icon_tangerine_inverse_description",
   },
-};
-
-/**
- * Reads the active icon from the OS. Android reports the icon of the running
- * activity, so a change shows only after the app restarts. The screen keeps
- * its own state after a change.
- */
-const readActiveAppIcon = (): AppIconId => {
-  if (!supportsAlternateIcons) {
-    return "default";
-  }
-  const nativeName = getAppIconName();
-  return (
-    APP_ICONS.find((icon) => icon.nativeName === nativeName)?.id ?? "default"
-  );
 };
 
 const reportAppIconError = ({
@@ -216,7 +178,9 @@ export const AppIconScreen = () => {
   const haptics = useHaptics();
   const analytics = useAnalytics();
   const isAppIconsEnabled = useFeatureFlag("app-icons");
-  const [activeId, setActiveId] = useState<AppIconId>(readActiveAppIcon);
+  const [activeId, setActiveId] = useState<AppIconId>(
+    () => readActiveAppIcon().id
+  );
 
   const isLocked = (icon: AppIcon) =>
     !supportsAlternateIcons || (icon.isFlagged && !isAppIconsEnabled);
@@ -264,18 +228,26 @@ export const AppIconScreen = () => {
         accessibilityRole="radiogroup"
       >
         <MenuList>
-          {APP_ICONS.map((icon, index) => (
-            <AppIconRow
-              key={icon.id}
-              icon={icon}
-              isSelected={icon.id === activeId}
-              // The active icon stays selected after the flag turns off, so
-              // the user sees it and can switch back to Default.
-              isLocked={isLocked(icon) && icon.id !== activeId}
-              isLast={index === APP_ICONS.length - 1}
-              onSelect={selectIcon}
-            />
-          ))}
+          {APP_ICONS.map((icon, index) => {
+            const row = (
+              <AppIconRow
+                icon={icon}
+                isSelected={icon.id === activeId}
+                // The active icon stays selected after the flag turns off, so
+                // the user sees it and can switch back to Default.
+                isLocked={isLocked(icon) && icon.id !== activeId}
+                isLast={index === APP_ICONS.length - 1}
+                onSelect={selectIcon}
+              />
+            );
+            return icon.isFlagged ? (
+              <FlagHighlight key={icon.id} flag="app-icons">
+                {row}
+              </FlagHighlight>
+            ) : (
+              <Fragment key={icon.id}>{row}</Fragment>
+            );
+          })}
         </MenuList>
         {hasLockedIcons && (
           <View testID="app-icon-locked-info">

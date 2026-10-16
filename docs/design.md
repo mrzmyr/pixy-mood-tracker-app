@@ -2,13 +2,41 @@
 
 - Use defined components, if you think a custom component is needed, ask the user to create a new component or create it right away but flag it
 
+## Tag Color Selection
+
+- Fixed palette: show swatches inline. One tap selects one color. Save commits changes; Cancel discards changes.
+- This layout applies platform selection and accessibility guidance to Pixy's fixed palette. Neither platform mandates this exact grid.
+- Apple: [color wells](https://developer.apple.com/design/human-interface-guidelines/color-wells) support color selection. [UI design tips](https://developer.apple.com/design/tips/) require targets at least 44 × 44 points.
+- Android: [Material radio buttons](https://m3.material.io/components/radio-button/overview) represent one choice. [Accessibility defaults](https://developer.android.com/develop/ui/compose/accessibility/api-defaults) require targets at least 48 × 48 dp. Avoid overlapping targets.
+- Layout follows native fixed-palette pickers (iOS Reminders list color, Google Keep note color): label outside (same style as Name label), swatches inside grouped card like settings rows.
+- Grid columns spread across card width. 48 × 48 targets, 30-point dots. Targets never shrink; narrow screens get fewer columns.
+- Selected color: check on dot, tinted with tag text shade (`colors.tags[color].text`), plus color name in label. Check and label carry selection, so selection never depends on hue alone.
+- Keyboard focus: ring in text color.
+- Screen readers receive localized color names, radio roles, checked state.
+- Color names use English fallback when locale lacks translation. Palette values stay unchanged in storage.
+- Create and Edit share [`ColorPicker`](../src/features/tags/components/ColorPicker.tsx). Forms scroll when keyboard or larger text reduces space.
+
 ## Close Button
 
 - Page close (modal, sheet, full-screen page): top right, use [`CloseButton`](../src/components/CloseButton.tsx)
+- Android full-screen dialogs: close top left, title after it (Material 3). Day view does this ([`Header`](../src/features/calendar/screens/LogList/Header.tsx))
 - Never build own close icon. Need other color on media: pass `color`
 - Push-stack pages keep back arrow top left. Back is not close
 - Form modals with Save keep text Cancel top left
 - Card and toast dismiss icons are not page close
+
+## Nested Scrolling
+
+- Never put a sideways scroller inside a parent that scrolls sideways (pager, carousel). Android parent steals the swipe
+- Day view is one vertical list of cards. Chip and photo rows inside cards scroll sideways ([`LogList`](../src/features/calendar/screens/LogList/index.tsx))
+
+## Toasts
+
+- Call `showToast` ([`src/lib/toast.ts`](../src/lib/toast.ts)), rendered by [`ToastHost`](../src/components/Toast.tsx)
+- iOS: card at top, swipe up dismisses
+- Android: Material 3 snackbar at bottom above system bar, inverse surface, 4dp corners, 4s (8s with action), swipe down dismisses
+- Optional `action` ({ label, onPress }) for Undo. Never the only way to do something
+- Both platforms announce the message to screen readers
 
 ## Menu Rows
 
@@ -17,7 +45,17 @@
 - Status (`On`, `Off`, last backup date) goes in value slot (`iconRight`). Empty value slot is fine
 - Warnings and alerts are [`TextInfo`](../src/components/TextInfo.tsx) under list, never a menu row
 - One text color per row. No colored title or value for emphasis
+- Exception: destructive rows use `colors.danger` for icon and title
 - Title and value fit one line. Text too long: shorten text, never wrap or shrink font
+
+## Surfaces
+
+- Statistics cards and person tiles sit in a bezel: shell, gap, inner surface. Component: [`Bezel`](../src/components/Bezel.tsx)
+- Calendar days, mood buttons, day view and timeline cards, and list groups have no bezel
+- Android list groups: Material 3 full-width list. No chevron, no dividers. Rows 56dp ([`MenuList`](../src/components/MenuList.tsx), [`MenuListItem`](../src/components/MenuListItem.tsx))
+- Gaps and shell radius: [`src/constants/Bezel.ts`](../src/constants/Bezel.ts). Shell radius comes from `getBezelRadius`, never picked by hand
+- Colors: `bezelBackground`, `bezelBorder`, `bezelInnerBorder`, `bezelShadow`
+- Person tiles build a round shell in [`PersonChip`](../src/features/people/components/PersonChip.tsx). Selected tile: tint shell border
 
 ## Sheets and Modals
 
@@ -40,6 +78,18 @@
   - Instead of _“Invalid API key,”_ say _“Your API key is incorrect or expired. Generate a new key in your account settings.”_ The copy & buttons/links should educate & give a clear action.
 - **Avoid ambiguity.** Labels are clear & specific.
   - Instead of the button label _“Continue”_ say _“Save API Key”_.
+
+## Core Modules
+
+- Term defined in [GLOSSARY.md](../GLOSSARY.md). Each Core Module uses its icon everywhere: Steps settings, Check-in, filters, statistics
+- Icons: `react-native-feather`, 20 px in lists, stroke `colors.text`
+- Mood: `Sun` ([Steps settings](../src/features/settings/screens/Steps.tsx))
+- Emotions: `Heart`
+- Tags: `Tag`
+- People: `Users`
+- Photos: `Image`
+- Note: `FileText`
+- Labels: Mood, Emotions, Tags, People, Photos, Note. Single noun, no verb ("Note", not "Write About Your Day")
 
 ## Interactions
 

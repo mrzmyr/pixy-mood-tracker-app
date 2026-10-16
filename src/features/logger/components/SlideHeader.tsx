@@ -2,7 +2,6 @@ import { CloseButton } from "@/components/CloseButton";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
-import useHaptics from "@/hooks/useHaptics";
 import { Pressable, View } from "react-native";
 import { ArrowLeft, Trash } from "react-native-feather";
 import { Stepper } from "./Stepper";
@@ -29,7 +28,6 @@ export const SlideHeader = ({
   onDelete?: () => void;
 }) => {
   const { Modal } = useFeedbackModal();
-  const haptics = useHaptics();
   const colors = useColors();
 
   return (
@@ -64,7 +62,6 @@ export const SlideHeader = ({
               accessibilityLabel={t("logger_back")}
               testID="logger-back"
               onPress={() => {
-                haptics.selection();
                 onBack?.();
               }}
               style={({ pressed }) => ({
@@ -105,8 +102,7 @@ export const SlideHeader = ({
                 justifyContent: "center",
                 alignItems: "center",
               }}
-              onPress={async () => {
-                await haptics.selection();
+              onPress={() => {
                 onDelete?.();
               }}
             >

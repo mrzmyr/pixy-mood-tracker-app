@@ -6,3 +6,5 @@ export {
 } from "./places";
 export { useLocationSetting } from "./useLocationSetting";
 export { LocationPicker } from "./components/LocationPicker";
+export { PlacePreview } from "./components/PlacePreview";
+export { MapPinOff } from "./components/MapPinOff";

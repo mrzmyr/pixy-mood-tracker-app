@@ -29,7 +29,7 @@ export const formatPlaceName = (
 
 /** Text for a location: its name, else rounded coordinates. */
 export const getLocationLabel = (location: LogLocation): string =>
-  location.name ??
+  location.name?.trim() ||
   `${location.latitude.toFixed(3)}, ${location.longitude.toFixed(3)}`;
 
 /**
@@ -62,12 +62,6 @@ export const getPlaceAt = async ({
 /** Location access is granted. Never asks. */
 export const hasLocationAccess = async (): Promise<boolean> => {
   const { granted } = await Location.getForegroundPermissionsAsync();
-  return granted;
-};
-
-/** Asks for location access while the app is in use. */
-export const requestLocationAccess = async (): Promise<boolean> => {
-  const { granted } = await Location.requestForegroundPermissionsAsync();
   return granted;
 };
 

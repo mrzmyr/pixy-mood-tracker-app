@@ -119,7 +119,6 @@ export const CLUSTERS: { cluster: InterventionCluster; emotions: string[] }[] =
         "worried",
         "apprehensive",
         "concerned",
-        "uneasy",
         "jittery",
         "restless",
         "tense",

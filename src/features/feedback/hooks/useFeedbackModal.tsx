@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
-  Modal,
   Platform,
   Text,
   TextInput,
@@ -11,6 +10,7 @@ import {
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
+import { SheetModal } from "@/components/SheetModal";
 import TextArea from "@/components/TextArea";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
@@ -46,6 +46,7 @@ const FeedbackModalContent = ({
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const messageRef = useRef<TextInput>(null);
 
   const setMessageProxy = (nextMessage: string) => {
     setMessage(nextMessage);
@@ -73,14 +74,13 @@ const FeedbackModalContent = ({
   };
 
   return (
-    <Modal
-      animationType={Platform.OS === "web" ? "none" : "slide"}
-      presentationStyle="pageSheet"
-      onRequestClose={() => hide()}
+    <SheetModal
       visible={visible}
-      style={{
-        position: "relative",
-      }}
+      onClose={hide}
+      // Focus once the sheet finished sliding in: `autoFocus` during the
+      // presentation animation is flaky on iOS.
+      onShow={() => messageRef.current?.focus()}
+      backgroundColor={colors.logHeaderBackground}
     >
       <DismissKeyboard>
         <KeyboardAvoidingView
@@ -156,6 +156,7 @@ const FeedbackModalContent = ({
                 {t("feedback_modal_description")}
               </Text>
               <TextArea
+                ref={messageRef}
                 testID="feedback-modal-message"
                 style={{
                   height: 200,
@@ -199,7 +200,7 @@ const FeedbackModalContent = ({
           </View>
         </KeyboardAvoidingView>
       </DismissKeyboard>
-    </Modal>
+    </SheetModal>
   );
 };
 

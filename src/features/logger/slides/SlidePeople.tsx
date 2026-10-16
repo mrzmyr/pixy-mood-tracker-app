@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
 import { Plus } from "lucide-react-native";
+import { useEffect, useRef } from "react";
 import {
   Pressable,
   ScrollView,
@@ -12,7 +13,6 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
-import { MAX_PEOPLE } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { useLogState } from "@/features/logs";
@@ -20,6 +20,7 @@ import {
   PersonChip,
   TILE_RING_GAP,
   TILE_RING_WIDTH,
+  getPeopleLimit,
   sortPeopleByUsage,
   usePeopleState,
 } from "@/features/people";
@@ -33,10 +34,15 @@ const SLIDE_PADDING = 20;
 const COLUMN_GAP = 12;
 const MAX_AVATAR_SIZE = 96;
 
-/** Last grid cell: opens the person form, hidden at {@link MAX_PEOPLE}. */
+/**
+ * Last grid cell: opens the person form, hidden at `MAX_PEOPLE`.
+ * Border, icon, and label share one placeholder gray so the tile reads as an
+ * empty slot, quieter than the people around it.
+ */
 const AddPersonTile = ({ size }: { size: number }) => {
   const router = useRouter();
   const colors = useColors();
+  const quiet = colors.textInputPlaceholder;
   const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
 
   return (
@@ -65,14 +71,14 @@ const AddPersonTile = ({ size }: { size: number }) => {
             borderRadius: size / 2,
             borderWidth: 2,
             borderStyle: "dashed",
-            borderColor: colors.textSecondary,
+            borderColor: quiet,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           <Plus
             size={Math.round(size * 0.35)}
-            color={colors.textSecondary}
+            color={quiet}
             strokeWidth={1.5}
           />
         </View>
@@ -83,7 +89,7 @@ const AddPersonTile = ({ size }: { size: number }) => {
           marginTop: 6,
           maxWidth: outer,
           fontSize: 15,
-          color: colors.text,
+          color: quiet,
         }}
       >
         {t("people_add")}
@@ -93,7 +99,7 @@ const AddPersonTile = ({ size }: { size: number }) => {
 };
 
 /**
- * People picker slide: "Who were you with?". Archived people are hidden
+ * People picker slide: "Who played a part?". Archived people are hidden
  * unless the draft already has them. Chips show the most used people of the
  * last 90 days first, in a grid of avatars that ends with an add tile.
  * Without people it offers one way out: add some.
@@ -133,6 +139,24 @@ export const SlidePeople = ({
         : [...draft.people, { id }]
     );
   };
+
+  // The add-person form opens on top of this slide, which stays mounted.
+  // Anyone who shows up in the list after mount is new: select them.
+  const knownIds = useRef<Set<string> | null>(null);
+  if (knownIds.current === null) {
+    knownIds.current = new Set(people.map((person) => person.id));
+  }
+  useEffect(() => {
+    const known = knownIds.current;
+    const added = people.filter((person) => !known?.has(person.id));
+    if (added.length === 0) {
+      return;
+    }
+    for (const person of added) {
+      known?.add(person.id);
+    }
+    setPeople([...draft.people, ...added.map((person) => ({ id: person.id }))]);
+  }, [people, draft.people, setPeople]);
 
   return (
     <View
@@ -227,7 +251,7 @@ export const SlidePeople = ({
                   />
                 </View>
               ))}
-              {people.length < MAX_PEOPLE && (
+              {!getPeopleLimit(people).reached && (
                 <View style={{ width: columnWidth, alignItems: "center" }}>
                   <AddPersonTile size={avatarSize} />
                 </View>

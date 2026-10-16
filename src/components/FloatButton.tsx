@@ -34,11 +34,14 @@ export const FloatButton = ({
   disabled,
   children,
   testID,
+  accessibilityLabel,
 }: {
   onPress: () => void;
   disabled?: boolean;
   children?: React.ReactNode;
   testID?: string;
+  /** Name for the icon-only button. */
+  accessibilityLabel?: string;
 }) => {
   const colors = useColors();
   const isReducedMotion = useReducedMotion();
@@ -75,6 +78,7 @@ export const FloatButton = ({
     <Pressable
       testID={testID}
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
       onPress={onPress}
       onPressIn={() => setPressed(1)}
       onPressOut={() => setPressed(0)}

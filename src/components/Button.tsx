@@ -3,7 +3,6 @@ import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { PressableScale } from "@/components/PressableScale";
 import { RADIUS } from "@/constants/Radius";
 
@@ -13,21 +12,24 @@ const Button = ({
   type = "primary",
   icon,
   testID,
+  accessibilityLabel,
   onPress,
   disabled = false,
   children,
   style = DEFAULT_STYLE,
 }: {
-  type?: "primary" | "secondary" | "danger" | "tertiary";
+  /** `contrast`: black in light mode, white in dark mode. */
+  type?: "primary" | "secondary" | "contrast" | "danger" | "tertiary";
   icon?: React.ReactNode;
   testID?: string;
+  /** Name for icon-only buttons. */
+  accessibilityLabel?: string;
   disabled?: boolean;
   children: React.ReactNode;
   style?: ViewStyle;
   onPress?: () => void;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
 
   const buttonColors = {
     primary: {
@@ -45,6 +47,14 @@ const Button = ({
       disabledBorder: colors.secondaryButtonBorderDisabled,
       disabledBackground: colors.secondaryButtonBackgroundDisabled,
       disabledText: colors.secondaryButtonTextDisabled,
+    },
+    contrast: {
+      background: colors.contrastButtonBackground,
+      text: colors.contrastButtonText,
+      border: colors.contrastButtonBorder,
+      disabledBackground: colors.contrastButtonBackgroundDisabled,
+      disabledText: colors.contrastButtonTextDisabled,
+      disabledBorder: colors.contrastButtonBorderDisabled,
     },
     tertiary: {
       background: colors.tertiaryButtonBackground,
@@ -80,7 +90,6 @@ const Button = ({
         ...style,
       }}
       onPress={() => {
-        void haptics.selection();
         if (!disabled) {
           onPress?.();
         }
@@ -88,6 +97,7 @@ const Button = ({
       disabled={disabled}
       testID={testID}
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
     >
       {icon && <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>}
       {isString(children) ? (

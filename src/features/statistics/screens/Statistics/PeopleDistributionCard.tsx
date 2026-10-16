@@ -5,9 +5,9 @@ import { t } from "@/lib/translation";
 import { useCalendarFilters } from "@/features/calendar";
 import { PersonChip } from "@/features/people";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import type { PeopleDistributionData } from "../../PeopleDistribution";
 import { RADIUS } from "@/constants/Radius";
+import { getBarFraction, getMaxCount } from "../../barFraction";
 
 const LIMIT = 5;
 
@@ -21,13 +21,11 @@ export const PeopleDistributionCard = ({
   data: PeopleDistributionData;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const calendarFilters = useCalendarFilters();
   const router = useRouter();
-  const max = data.people[0]?.count ?? 1;
+  const max = getMaxCount(data.people);
 
   const onPress = (personId: string) => {
-    haptics.selection();
     calendarFilters.set({ ...calendarFilters.data, personIds: [personId] });
     router.dismissTo("/calendar");
   };
@@ -46,44 +44,53 @@ export const PeopleDistributionCard = ({
             accessibilityLabel={`${entry.details.name}, ${entry.count}`}
             testID={`statistics-person-${entry.id}`}
             style={({ pressed }) => ({
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: 8,
+              marginBottom: 12,
               opacity: pressed ? 0.8 : 1,
             })}
           >
-            <PersonChip person={entry.details} style={{ marginBottom: 0 }} />
+            {/* Name row above the bar: the bar spans the full card width, so
+                every bar shares one scale whatever the name length. */}
             <View
               style={{
-                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: 6,
+              }}
+            >
+              <PersonChip
+                person={entry.details}
+                style={{ marginBottom: 0, flexShrink: 1, minWidth: 0 }}
+              />
+              <Text
+                style={{
+                  color: colors.text,
+                  fontSize: 14,
+                  fontWeight: "600",
+                  fontVariant: ["tabular-nums"],
+                  marginLeft: "auto",
+                  paddingLeft: 12,
+                }}
+              >
+                {entry.count}x
+              </Text>
+            </View>
+            <View
+              style={{
                 height: 8,
                 borderRadius: RADIUS.xs,
                 backgroundColor: colors.tagBackgroundActive,
-                marginRight: 12,
+                overflow: "hidden",
               }}
             >
               <View
                 style={{
-                  width: `${(entry.count / max) * 100}%`,
+                  width: `${getBarFraction(entry.count, max) * 100}%`,
                   height: 8,
                   borderRadius: RADIUS.xs,
                   backgroundColor: colors.tint,
                 }}
               />
             </View>
-            <Text
-              style={{
-                color: colors.text,
-                fontSize: 14,
-                fontWeight: "600",
-                fontVariant: ["tabular-nums"],
-                minWidth: 32,
-                textAlign: "right",
-              }}
-            >
-              {entry.count}x
-            </Text>
           </Pressable>
         ))}
         {data.people.length > LIMIT && (

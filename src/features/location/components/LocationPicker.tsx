@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  Modal,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import { MapPin, Navigation, XCircle } from "react-native-feather";
 import { CloseButton } from "@/components/CloseButton";
+import { SheetModal } from "@/components/SheetModal";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";
@@ -18,11 +12,9 @@ import {
   getCurrentPlace,
   getLocationLabel,
   getPlaceAt,
-  hasLocationAccess,
-  requestLocationAccess,
   searchPlaces,
 } from "../places";
-import { showLocationDenied } from "../useLocationSetting";
+import { ensureLocationAccess } from "../access";
 import { PlaceMap } from "./PlaceMap";
 import type { MapCoordinates } from "./placeMapProps";
 import { RADIUS } from "@/constants/Radius";
@@ -143,8 +135,7 @@ const SheetContent = ({
   };
 
   const useCurrentLocation = async () => {
-    if (!(await hasLocationAccess()) && !(await requestLocationAccess())) {
-      showLocationDenied();
+    if (!(await ensureLocationAccess())) {
       return;
     }
     setIsLocating(true);
@@ -300,6 +291,7 @@ export const LocationPicker = ({
   onChange: (location: LogLocation | undefined) => void;
   onClose: () => void;
 }) => {
+  const colors = useColors();
   // Remount the content on each opening, but keep it during the close animation.
   const [session, setSession] = useState(0);
   const [wasVisible, setWasVisible] = useState(visible);
@@ -311,11 +303,10 @@ export const LocationPicker = ({
   }
 
   return (
-    <Modal
+    <SheetModal
       visible={visible}
-      animationType={Platform.OS === "web" ? "none" : "slide"}
-      presentationStyle="pageSheet"
-      onRequestClose={onClose}
+      onClose={onClose}
+      backgroundColor={colors.background}
     >
       <SheetContent
         key={session}
@@ -323,6 +314,6 @@ export const LocationPicker = ({
         onChange={onChange}
         onClose={onClose}
       />
-    </Modal>
+    </SheetModal>
   );
 };

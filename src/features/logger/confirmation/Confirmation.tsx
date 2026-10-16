@@ -1,8 +1,9 @@
 import chroma, { contrast, mix } from "chroma-js";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Platform, Pressable, Text, useColorScheme, View } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useIsFocused } from "expo-router";
 import Button from "@/components/Button";
 import tailwind from "@/constants/Colors/TailwindColors";
 import { ConfirmationOffer } from "@/features/interventions";
@@ -20,18 +21,18 @@ import {
   getSummaryTitle,
   SUMMARY_TAGS_MAX,
 } from "./daySummary";
-import type { SummarySegment } from "./daySummary";
+import type { MoodTone, SummarySegment } from "./daySummary";
 import {
   createConfettiBurst,
   createFadeIn,
   createHappyJump,
   createJump,
-  HAPPY_JUMP_MS,
   HAPPY_LAND_MS,
   LAND_MS,
 } from "./motion";
 import { Pixy } from "./Pixy";
 import { useConfirmation } from "./useConfirmation";
+import { usePixyJumps } from "./usePixyJumps";
 
 const emotionLabel = (key: string) =>
   EMOTIONS.find((emotion) => emotion.key === key)?.label ?? key;
@@ -101,53 +102,55 @@ export const Confirmation = ({
   const { settings } = useSettings();
   const isReducedMotion = useReducedMotion();
   const isDark = useColorScheme() === "dark";
-  // Each tap on Pixy remounts it, so the happy jump plays again.
-  const [jumps, setJumps] = useState(0);
-  // Tap that still laughs; 0 once the laugh is over.
-  const [joyfulJump, setJoyfulJump] = useState(0);
-  const isJoyful = joyfulJump > 0 && joyfulJump === jumps;
   useConfirmation({ item, entriesCount });
 
   const summary = useMemo(
     () => getDaySummary({ items: logState.items, item }),
     [logState.items, item]
   );
+  // Pixy idles only while the logger is on screen.
+  const isFocused = useIsFocused();
   const segments = getSummarySentence({ summary, emotionLabel });
   const dayTags =
     summary.tagIds.length <= SUMMARY_TAGS_MAX
       ? summary.tagIds.flatMap((id) => tags.filter((tag) => tag.id === id))
       : [];
 
-  const scaleColor =
-    colors.scales[settings.scaleType][summary.rating].background;
+  const scale = colors.scales[settings.scaleType];
+  const scaleColor = scale[summary.rating].background;
   const darkMark = (color: string, amount: number): MarkColors => {
     const background = mix(colors.logBackground, color, amount, "rgb").hex();
     return { background, text: readableOn(color, background) };
   };
-  // Hard days: emotions get a neutral tint. Naming feelings is good;
-  // coloring them as bad is not.
-  const isNeutralEmotion = summary.tone === "bad";
   // Dark mode: light scale colors behind white text do not read. Use a deep
   // tint of the scale color and color the text instead.
-  const marks: Record<NonNullable<SummarySegment["mark"]>, MarkColors> = isDark
-    ? {
-        mood: darkMark(scaleColor, 0.16),
-        emotion: isNeutralEmotion
-          ? { background: tailwind.neutral[800], text: colors.text }
-          : darkMark(scaleColor, 0.1),
-      }
-    : {
-        mood: {
-          background: chroma(scaleColor).alpha(0.7).css(),
+  const moodMark: MarkColors = isDark
+    ? darkMark(scaleColor, 0.16)
+    : { background: chroma(scaleColor).alpha(0.7).css(), text: colors.text };
+  // Each emotion takes its own category color, like its picker indicator.
+  // Negative emotions get a neutral tint: naming feelings is good; coloring
+  // them as bad is not.
+  const emotionMark = (color: string): MarkColors =>
+    isDark
+      ? darkMark(color, 0.1)
+      : { background: chroma(color).alpha(0.35).css(), text: colors.text };
+  const emotionMarks: Record<MoodTone, MarkColors> = {
+    good: emotionMark(scale.very_good.background),
+    neutral: emotionMark(scale.neutral.background),
+    bad: isDark
+      ? { background: tailwind.neutral[800], text: colors.text }
+      : {
+          background: chroma(colors.textSecondary).alpha(0.16).css(),
           text: colors.text,
         },
-        emotion: {
-          background: isNeutralEmotion
-            ? chroma(colors.textSecondary).alpha(0.16).css()
-            : chroma(scaleColor).alpha(0.35).css(),
-          text: colors.text,
-        },
-      };
+  };
+  const markStyle = (segment: SummarySegment) => {
+    const mark =
+      segment.mark === "mood"
+        ? moodMark
+        : emotionMarks[segment.tone ?? "neutral"];
+    return { color: mark.text, backgroundColor: mark.background };
+  };
 
   const jump = useMemo(
     () => createJump({ isReducedMotion }),
@@ -159,7 +162,10 @@ export const Confirmation = ({
   );
   // Hard days: Pixy still jumps on tap, but keeps its caring face and skips
   // the confetti. Celebrate only good and neutral days.
-  const isCelebrating = summary.tone !== "bad";
+  const { jumps, isJoyful, hasConfetti, tap } = usePixyJumps({
+    isCelebrating: summary.tone !== "bad",
+    isReducedMotion,
+  });
   const confettiColors = [scaleColor, "#FFC23D", "#FB6B0F", "#ff8fa3"];
   const confetti = useMemo(
     () => CONFETTI.map((pixel) => createConfettiBurst(pixel)),
@@ -191,15 +197,6 @@ export const Confirmation = ({
     return () => clearTimeout(timeout);
   }, [haptics, isReducedMotion, jumps, landMs]);
 
-  // The laugh lasts as long as the happy jump.
-  useEffect(() => {
-    if (joyfulJump === 0) {
-      return;
-    }
-    const timeout = setTimeout(() => setJoyfulJump(0), HAPPY_JUMP_MS);
-    return () => clearTimeout(timeout);
-  }, [joyfulJump]);
-
   return (
     <View
       testID="confirmation"
@@ -220,13 +217,9 @@ export const Confirmation = ({
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
             hitSlop={8}
-            onPress={() => {
-              void haptics.selection();
-              setJumps(jumps + 1);
-              setJoyfulJump(isCelebrating ? jumps + 1 : 0);
-            }}
+            onPress={tap}
           >
-            {jumps > 0 && isCelebrating && !isReducedMotion && (
+            {hasConfetti && (
               <View
                 key={`confetti-${jumps}`}
                 pointerEvents="none"
@@ -256,7 +249,12 @@ export const Confirmation = ({
               key={`pixy-${jumps}`}
               entering={jumps === 0 ? jump : happyJump}
             >
-              <Pixy size={PIXY_SIZE} tone={summary.tone} isJoyful={isJoyful} />
+              <Pixy
+                size={PIXY_SIZE}
+                tone={summary.tone}
+                isJoyful={isJoyful}
+                isIdle={isFocused}
+              />
             </Animated.View>
           </Pressable>
           <Animated.View entering={titleEntering} style={{ flex: 1 }}>
@@ -284,10 +282,7 @@ export const Confirmation = ({
                 <Text
                   // Marked texts are unique: one mood, distinct emotions.
                   key={`${segment.mark}:${segment.text}`}
-                  style={{
-                    color: marks[segment.mark].text,
-                    backgroundColor: marks[segment.mark].background,
-                  }}
+                  style={markStyle(segment)}
                 >
                   {segment.text}
                 </Text>

@@ -32,6 +32,13 @@ const HEADER_IMAGES = {
   ],
 };
 
+/** Screenshots repeat the slide text, so screen readers skip them. */
+const DECORATIVE = {
+  accessible: false,
+  accessibilityElementsHidden: true,
+  importantForAccessibility: "no-hide-descendants",
+} as const;
+
 /**
  * Onboarding screenshot for the platform and color scheme; `index` must be
  * 0 to 4.
@@ -53,6 +60,7 @@ export const HeaderImage = ({
       <Image
         style={style}
         {...props}
+        {...DECORATIVE}
         source={
           isAndroid
             ? HEADER_IMAGES.androidDark[index]
@@ -65,6 +73,7 @@ export const HeaderImage = ({
     <Image
       style={style}
       {...props}
+      {...DECORATIVE}
       source={
         isAndroid
           ? HEADER_IMAGES.androidLight[index]

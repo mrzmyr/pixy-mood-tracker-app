@@ -8,10 +8,20 @@ import useColors from "@/hooks/useColors";
 import { DEV_TOOLS } from "@/dev";
 import { useCanOverrideFeatureFlags } from "@/state/featureFlags";
 import { WidgetSync } from "@/features/widget";
-import { HAS_FLOATING_HEADER } from "@/features/calendar";
+import {
+  CalendarScreenReaderTitle,
+  HAS_FLOATING_HEADER,
+} from "@/features/calendar";
 
-const renderHeaderLeft = () =>
-  Platform.OS === "ios" ? null : <BackButton testID="settings-back-button" />;
+const renderHeaderLeft = () => <BackButton testID="settings-back-button" />;
+
+// Report screens draw a gradient banner under the header and refine these
+// options while scrolling (see `useReportHeader`).
+const reportHeaderOptions = {
+  headerTransparent: true,
+  headerTitle: "",
+  headerShadowVisible: false,
+};
 
 const modalOptions = { presentation: "modal" as const, headerShown: false };
 
@@ -27,7 +37,11 @@ const AppLayout = () => {
     headerStyle: { backgroundColor: colors.background },
     headerShadowVisible: Platform.OS !== "web",
   };
-  const pageOptions = { ...defaultOptions, headerLeft: renderHeaderLeft };
+  // iOS and Android render the native back button. Web has none.
+  const pageOptions =
+    Platform.OS === "web"
+      ? { ...defaultOptions, headerLeft: renderHeaderLeft }
+      : defaultOptions;
 
   return (
     <StorageLoadGate>
@@ -38,9 +52,10 @@ const AppLayout = () => {
           <Stack.Screen
             name="calendar"
             options={{
-              // Title stays the iOS back button label. The header shows none.
+              // Title stays the iOS back button label. The header shows none
+              // but exposes the screen name to screen readers.
               title: t("calendar"),
-              headerTitle: "",
+              headerTitle: CalendarScreenReaderTitle,
               headerTintColor: colors.text,
               headerShadowVisible: false,
               ...(HAS_FLOATING_HEADER
@@ -98,6 +113,9 @@ const AppLayout = () => {
           <Stack.Screen name="tags/index" options={modalOptions} />
           <Stack.Screen name="tags/create" options={modalOptions} />
           <Stack.Screen name="tags/[id]" options={modalOptions} />
+          <Stack.Screen name="tags/categories/index" options={modalOptions} />
+          <Stack.Screen name="tags/categories/create" options={modalOptions} />
+          <Stack.Screen name="tags/categories/[id]" options={modalOptions} />
           <Stack.Screen name="people/create" options={modalOptions} />
           <Stack.Screen name="people/import" options={modalOptions} />
           <Stack.Screen name="people/[id]" options={modalOptions} />
@@ -110,7 +128,7 @@ const AppLayout = () => {
             options={{
               ...pageOptions,
               title: t("month_report"),
-              headerShown: false,
+              ...reportHeaderOptions,
             }}
           />
           <Stack.Screen
@@ -118,12 +136,20 @@ const AppLayout = () => {
             options={{
               ...pageOptions,
               title: dayjs().format("YYYY"),
-              headerShown: false,
+              ...reportHeaderOptions,
             }}
+          />
+          <Stack.Screen
+            name="recaps/[kind]/[date]"
+            options={{ ...pageOptions, title: t("recaps") }}
           />
           <Stack.Screen
             name="settings/colors"
             options={{ ...pageOptions, title: t("colors") }}
+          />
+          <Stack.Screen
+            name="settings/app-lock"
+            options={{ ...pageOptions, title: t("app_lock") }}
           />
           <Stack.Screen
             name="settings/app-icon"

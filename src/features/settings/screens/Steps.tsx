@@ -4,13 +4,19 @@ import type {
   LoggerStep,
 } from "@/constants/LoggerSteps";
 
+import FlagHighlight from "@/components/FlagHighlight";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
+import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
+import { Fragment } from "react";
 import type { ReactElement } from "react";
-import { ScrollView, Switch, Text, View } from "react-native";
+import { BedDouble } from "lucide-react-native";
+import { ScrollView, Text, View } from "react-native";
+import Toggle from "@/components/Toggle";
 import {
   Bell,
+  ChevronRight,
   FileText,
   Heart,
   Image as ImageIcon,
@@ -23,6 +29,7 @@ import {
 import { useRouter } from "expo-router";
 import useColors from "@/hooks/useColors";
 import { useFeatureFlag } from "@/state/featureFlags";
+import type { FeatureFlag } from "@/state/featureFlags/keys";
 import { useLocationSetting } from "@/features/location";
 import { useStepEnabled } from "../useStepEnabled";
 
@@ -52,7 +59,7 @@ const StepRow = ({
   let iconRight: ReactElement | undefined;
   if (page === null && step !== "rating") {
     iconRight = (
-      <Switch
+      <Toggle
         accessibilityLabel={t(`logger_step_${step}`)}
         testID={`step-${step}-enabled`}
         onValueChange={setEnabled}
@@ -61,40 +68,32 @@ const StepRow = ({
     );
   }
 
+  if (page !== null) {
+    iconRight = (
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <Text style={{ fontSize: 17, color: colors.textSecondary }}>
+          {enabled ? t("step_status_on") : t("step_status_off")}
+        </Text>
+        <ChevronRight width={18} color={colors.menuListItemIcon} />
+      </View>
+    );
+  }
+
   return (
     <MenuListItem
-      title={
-        <View
-          style={{
-            flex: 1,
-            minWidth: 0,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ flex: 1, fontSize: 17, color: colors.text }}>
-            {t(`logger_step_${step}`)}
-          </Text>
-          {page !== null && (
-            <Text
-              style={{
-                fontSize: 17,
-                color: colors.textSecondary,
-                marginRight: 8,
-              }}
-            >
-              {enabled ? t("step_status_on") : t("step_status_off")}
-            </Text>
-          )}
-        </View>
-      }
+      title={t(`logger_step_${step}`)}
       iconLeft={icon}
       iconRight={iconRight}
-      isLink={page !== null}
       onPress={page === null ? null : () => router.push(page)}
       testID={page === null ? undefined : `step-${step}`}
     />
   );
+};
+
+/** Steps that show only behind a feature flag. */
+const STEP_FLAGS: Partial<Record<LoggerStep, FeatureFlag>> = {
+  people: "people",
+  photos: "photos",
 };
 
 /** Switch that adds the current place to new check-ins. */
@@ -104,30 +103,26 @@ const LocationRow = () => {
 
   return (
     <>
-      <MenuList style={{ marginTop: 24 }}>
-        <MenuListItem
-          title={t("location_setting")}
-          iconLeft={<MapPin width={20} height={20} color={colors.text} />}
-          iconRight={
-            <Switch
-              accessibilityLabel={t("location_setting")}
-              testID="location-enabled"
-              onValueChange={setEnabled}
-              value={isEnabled}
+      {/* The margin sits outside: FlagHighlight drops its style when highlight is off. */}
+      <View style={{ marginTop: 24 }}>
+        <FlagHighlight flag="location">
+          <MenuList>
+            <MenuListItem
+              title={t("location_setting")}
+              iconLeft={<MapPin width={20} height={20} color={colors.text} />}
+              iconRight={
+                <Toggle
+                  accessibilityLabel={t("location_setting")}
+                  testID="location-enabled"
+                  onValueChange={setEnabled}
+                  value={isEnabled}
+                />
+              }
             />
-          }
-        />
-      </MenuList>
-      <Text
-        style={{
-          marginTop: 8,
-          paddingHorizontal: 16,
-          fontSize: 13,
-          color: colors.textSecondary,
-        }}
-      >
-        {t("location_setting_description")}
-      </Text>
+          </MenuList>
+        </FlagHighlight>
+      </View>
+      <TextInfo>{t("location_setting_description")}</TextInfo>
     </>
   );
 };
@@ -155,6 +150,7 @@ export const StepsScreen = () => {
     photos: <ImageIcon width={20} height={20} color={colors.text} />,
     tags: <Tag width={20} height={20} color={colors.text} />,
     people: <Users width={20} height={20} color={colors.text} />,
+    sleep: <BedDouble size={20} color={colors.text} />,
     emotions: <Heart width={20} height={20} color={colors.text} />,
     feedback: <MessageSquare width={20} height={20} color={colors.text} />,
     reminder: <Bell width={20} height={20} color={colors.text} />,
@@ -191,9 +187,17 @@ export const StepsScreen = () => {
           </Text>
         </View>
         <MenuList style={{ marginTop: 16 }}>
-          {options.map((option) => (
-            <StepRow key={option} step={option} icon={ICONS_MAP[option]} />
-          ))}
+          {options.map((option) => {
+            const flag = STEP_FLAGS[option];
+            const row = <StepRow step={option} icon={ICONS_MAP[option]} />;
+            return flag === undefined ? (
+              <Fragment key={option}>{row}</Fragment>
+            ) : (
+              <FlagHighlight key={option} flag={flag}>
+                {row}
+              </FlagHighlight>
+            );
+          })}
         </MenuList>
         {isLocationAvailable && <LocationRow />}
       </ScrollView>
