@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, Text, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../useTagActions";
@@ -10,7 +10,9 @@ import ModalHeader from "@/components/ModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
-import TagColorPicker from "../components/TagColorPicker";
+import TagCategoryPicker from "../components/TagCategoryPicker";
+import { ColorPicker } from "../components/ColorPicker";
+import { GENERAL_CATEGORY_ID } from "../tagCategories";
 import TagNameField from "../components/TagNameField";
 import { isValidTagTitle } from "../tagName";
 import { useTagsState, useTagsUpdater } from "../TagsProvider";
@@ -97,11 +99,11 @@ export const TagEdit = () => {
             </LinkButton>
           }
         />
-        <View
-          style={{
-            flex: 1,
-            padding: 20,
-          }}
+        {/* Scrolls once many categories push the form past the screen. */}
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+          keyboardShouldPersistTaps="handled"
         >
           <TagNameField
             value={tag.title}
@@ -110,15 +112,21 @@ export const TagEdit = () => {
               setTag((currentTag) => ({ ...currentTag, title }));
             }}
           />
-          <TagColorPicker
+          <ColorPicker
             value={tag.color}
             onChange={(color) => {
               setTag((currentTag) => ({ ...currentTag, color }));
             }}
           />
+          <TagCategoryPicker
+            value={tag.categoryId ?? GENERAL_CATEGORY_ID}
+            onChange={(categoryId) => {
+              setTag((currentTag) => ({ ...currentTag, categoryId }));
+            }}
+          />
           <MenuList
             style={{
-              marginTop: 16,
+              marginTop: 24,
             }}
           >
             <MenuListItem
@@ -141,7 +149,7 @@ export const TagEdit = () => {
           <TextInfo>{t("archive_tag_description")}</TextInfo>
 
           {Platform.OS === "ios" ? (
-            <MenuList style={{ marginTop: 32 }}>
+            <MenuList style={{ marginTop: 8 }}>
               <MenuListItem
                 testID="tag-delete"
                 title={
@@ -163,7 +171,7 @@ export const TagEdit = () => {
               testID="tag-delete"
               onPress={() => confirmDelete(tag)}
               style={{
-                marginTop: 32,
+                marginTop: 8,
                 alignSelf: "center",
                 color: colors.dangerButtonText,
               }}
@@ -171,7 +179,7 @@ export const TagEdit = () => {
               {t("delete")}
             </LinkButton>
           )}
-        </View>
+        </ScrollView>
       </View>
     </DismissKeyboard>
   );

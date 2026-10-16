@@ -139,7 +139,13 @@ describe("daily menstruation", () => {
       ];
       const result = decodeBackup(
         encodeBackup(
-          { items, tags: [], people: [], settings: INITIAL_STATE },
+          {
+            items,
+            tags: [],
+            tagCategories: [],
+            people: [],
+            settings: INITIAL_STATE,
+          },
           "1.95.2"
         )
       );

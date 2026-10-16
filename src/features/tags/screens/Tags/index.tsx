@@ -1,30 +1,27 @@
 import { useRouter } from "expo-router";
-import useColors from "@/hooks/useColors";
-import { useTagsState } from "../../TagsProvider";
-import type { Tag } from "../../TagsProvider";
-
-import { CloseButton } from "@/components/CloseButton";
-import ModalHeader from "@/components/ModalHeader";
-import { CreateTagAction } from "../../components/CreateTagAction";
-import { TagList } from "../../components/TagList";
-import { t } from "@/lib/translation";
-import _ from "lodash";
-import { Platform, ScrollView, View } from "react-native";
+import { Folder } from "lucide-react-native";
+import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const TagScrollView = Platform.OS === "ios" ? View : ScrollView;
+import { CloseButton } from "@/components/CloseButton";
+import MenuList from "@/components/MenuList";
+import MenuListItem from "@/components/MenuListItem";
+import ModalHeader from "@/components/ModalHeader";
+import useColors from "@/hooks/useColors";
+import { t } from "@/lib/translation";
+import { CreateTagAction } from "../../components/CreateTagAction";
+import { TagCategoryList } from "../../components/TagCategoryList";
+import { useTagsState } from "../../TagsProvider";
 
 /**
- * Tag manager modal opened from the logger's tag slide. Archived tags are
- * hidden here but still count toward `MAX_TAGS`.
+ * Tag manager modal opened from the logger's tag slide: active tags grouped
+ * by category, plus a link to manage categories. Archived tags are hidden
+ * here but still count toward `MAX_TAGS`.
  */
 export const Tags = () => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState();
-
-  const _tags = tags.filter((tag: Tag) => !tag.isArchived);
 
   return (
     <View
@@ -42,16 +39,21 @@ export const Tags = () => {
         }
       />
       <CreateTagAction tags={tags} />
-      <TagScrollView
-        style={{
-          flex: 1,
-        }}
-      >
-        <TagList tags={_tags} />
-        {Platform.OS !== "ios" && (
-          <View style={{ height: insets.bottom + 56 }} />
-        )}
-      </TagScrollView>
+      <TagCategoryList
+        header={
+          <View style={{ marginTop: 8, marginHorizontal: 16 }}>
+            <MenuList>
+              <MenuListItem
+                testID="tag-categories-link"
+                title={t("tag_categories")}
+                iconLeft={<Folder size={20} color={colors.text} />}
+                isLink
+                onPress={() => router.push("/tags/categories")}
+              />
+            </MenuList>
+          </View>
+        }
+      />
     </View>
   );
 };

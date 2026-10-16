@@ -68,6 +68,28 @@ const AnalyticsProvider = ({
     Observe.configure({ dispatchingEnabled: settings.analyticsEnabled });
   }, [isSettingsReady, settings.analyticsEnabled, posthog]);
 
+  // Identify the install by its random device id, only while analytics is on.
+  // The id carries no properties. `reset` clears the PostHog id, and the
+  // settings reset issues a new device id.
+  useEffect(() => {
+    if (
+      !isSettingsReady ||
+      !settings.analyticsEnabled ||
+      !options.enabled ||
+      !settings.deviceId
+    ) {
+      return;
+    }
+
+    posthog?.identify(settings.deviceId);
+  }, [
+    isSettingsReady,
+    settings.analyticsEnabled,
+    settings.deviceId,
+    options.enabled,
+    posthog,
+  ]);
+
   const settingsProperties = useMemo(
     () => ({
       scale_type: settings.scaleType,

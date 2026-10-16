@@ -38,7 +38,7 @@ Errors:
   native_build_failed     Compiler failed, read the log
   build_lock_timeout      Another build held the cache lock 30 minutes
   build_slot_timeout      Two other native builds held all slots 90 minutes
-  disk_low                Less than 10 GiB free disk, run `bun builds reclaim`
+  disk_low                Less than 10 GiB free disk, follow the error fix steps to free disk
   install_failed          Device refused the build
   metro_port_taken        Another process answers on this checkout's Metro port
   metro_start_failed      Metro did not answer in 120 seconds

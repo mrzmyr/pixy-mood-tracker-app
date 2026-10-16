@@ -2,15 +2,17 @@ import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { AppIconId } from "@/constants/AppIcons";
 import type { CalendarLayout, SettingsState } from "@/state/settings";
-import type { PhotoSourceKind } from "@/types";
+import type { z } from "zod";
+import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
  *
  * - Name: `<area>:<object>_<verb>`, verb in past tense
  * - Properties: snake_case, JSON values only
- * - Never send free text (notes, custom tag names). Send counts and lengths
- *   instead. Never send ratings, emotion keys, sleep quality, or mood feedback.
+ * - Never send free text (notes, tag names, people names, filter text,
+ *   feedback messages), not even hashed or truncated. Send counts and lengths
+ *   instead. Fixed values (rating, emotion keys, sleep quality) are fine.
  * - Photo events never carry file names, URIs, dimensions, EXIF, location,
  *   photo timestamps, or library ids.
  * - `undefined`: the event has no properties
@@ -182,6 +184,20 @@ export interface AnalyticsEvents {
   "tags:delete_requested": AnalyticsEvents["tags:tag_created"];
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];
   "tags:delete_cancelled": undefined;
+  /** Drag or accessibility move in the grouped tag list. */
+  "tags:tags_arranged": {
+    tags_count: number;
+    categories_count: number;
+    category_changed: boolean;
+    method: "drag" | "accessibility_action";
+  };
+  "tags:category_created": { title_length: number; categories_count: number };
+  "tags:category_updated": { title_length: number };
+  "tags:category_deleted": { tags_count: number; categories_count: number };
+  "tags:categories_reordered": {
+    categories_count: number;
+    method: "drag" | "accessibility_action";
+  };
 
   "people:person_added": { source: "manual"; has_avatar: boolean };
   "people:contacts_imported": {
@@ -247,10 +263,13 @@ export interface AnalyticsEvents {
 
   "interventions:card_shown": {
     surface: InterventionSurface;
+    cluster: InterventionCluster;
+    matched_emotions: string[];
     options_shown: string[];
     completed_today_count: number;
   };
   "interventions:option_selected": InterventionSessionProperties & {
+    cluster: InterventionCluster;
     length: InterventionLength;
     surface: InterventionSurface;
     option_position: number;
@@ -290,7 +309,9 @@ export interface AnalyticsEvents {
     expected_ms: number;
     pauses: number;
   };
-  "interventions:feedback_answered": InterventionSessionProperties;
+  "interventions:feedback_answered": InterventionSessionProperties & {
+    answer: InterventionFeedback;
+  };
   "interventions:feedback_skipped": InterventionSessionProperties;
 }
 
@@ -360,6 +381,8 @@ export type UsageSummaryOnce = {
   first_app_version: string;
 };
 
+type LogItem = z.infer<typeof LogItemSchema>;
+
 /** Where an intervention card shows. */
 export type InterventionSurface = "confirmation" | "calendar";
 
@@ -382,16 +405,19 @@ export interface InterventionSessionProperties {
 export type InterventionFeedback = "worse" | "same" | "better";
 
 /**
- * Saved entry usage counts sent with confirmation events. Never journal
- * values: ratings, emotion keys, sleep quality, notes, or tag names.
+ * Saved entry metadata sent with the confirmation events. Holds no free
+ * text: notes and tag names are sent as counts only.
  */
 export interface SavedEntryProperties {
+  rating: LogItem["rating"];
+  emotions: LogItem["emotions"];
   emotions_count: number;
   tags_count: number;
   people_count: number;
   message_length: number;
   /** Whitespace-separated words; Chinese, Japanese, and Thai notes count as 1. */
   message_word_count: number;
+  sleep_quality: LogItem["sleep"]["quality"] | null;
   /** All entries, including the saved one. */
   entries_count: number;
 }

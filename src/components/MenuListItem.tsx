@@ -70,6 +70,22 @@ const getRightIcon = ({
   color: string;
 }) => (showChevron ? <ChevronRight width={18} color={color} /> : iconRight);
 
+const getAccessibilityRole = (hasPress: boolean, checked?: boolean) => {
+  if (checked !== undefined) {
+    return "radio";
+  }
+  return hasPress ? "button" : undefined;
+};
+
+// One state per platform, else screen readers announce it twice: iOS
+// selection lists use the selected trait, Android radio buttons use checked.
+const getAccessibilityState = (isAndroid: boolean, checked?: boolean) => {
+  if (checked === undefined) {
+    return;
+  }
+  return isAndroid ? { checked } : { selected: checked };
+};
+
 const MenuListItem = ({
   title,
   onPress = null,
@@ -81,6 +97,7 @@ const MenuListItem = ({
   children,
   testID,
   accessibilityValue,
+  checked,
 }: {
   title?: string | React.ReactElement;
   onPress?: (() => void) | null;
@@ -93,6 +110,8 @@ const MenuListItem = ({
   testID?: string;
   /** Current value, read after the title, for example a selected option. */
   accessibilityValue?: AccessibilityValue;
+  /** Makes the row a radio button with this checked state. */
+  checked?: boolean;
 }) => {
   const colors = useColors();
   const ripple = usePressRipple({ foreground: true });
@@ -128,7 +147,8 @@ const MenuListItem = ({
         onPress={onPress ? _onPress : undefined}
         android_ripple={onPress ? ripple : undefined}
         accessible={Boolean(onPress)}
-        accessibilityRole={onPress ? "button" : undefined}
+        accessibilityRole={getAccessibilityRole(Boolean(onPress), checked)}
+        accessibilityState={getAccessibilityState(isAndroid, checked)}
         accessibilityLabel={onPress ? titleText : undefined}
         style={({ pressed }) => [
           {

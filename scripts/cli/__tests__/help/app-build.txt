@@ -29,6 +29,6 @@ Errors:
   native_build_failed      Compiler failed, read the log
   build_lock_timeout       Another build held the cache lock 30 minutes
   build_slot_timeout       Two other native builds held all slots 90 minutes
-  disk_low                 Less than 10 GiB free disk, run `bun builds reclaim`
+  disk_low                 Less than 10 GiB free disk, follow the error fix steps to free disk
 
 Exit codes: 0 ok, 1 failure, 2 usage error

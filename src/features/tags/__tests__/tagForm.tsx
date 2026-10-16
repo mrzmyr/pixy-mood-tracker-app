@@ -7,7 +7,6 @@ import { SettingsProvider } from "@/state/settings";
 import Colors from "@/constants/Colors";
 import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/Config";
 import { STORAGE_KEY as STORAGE_KEY_TAGS, TagsProvider } from "../TagsProvider";
-import TagColorPicker from "../components/TagColorPicker";
 import { TagCreate } from "../screens/TagCreate";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
@@ -54,13 +53,14 @@ describe("tag form", () => {
     const screen = await renderCreate();
     await act(async () => {});
 
-    expect(screen.queryByTestId("tag-name-error")?.props.children).toBe("");
+    expect(screen.queryByTestId("tag-name-error")).toBeNull();
 
     await fireEvent.press(screen.getByTestId("tag-save"));
 
     await waitFor(() => {
-      expect(screen.getByTestId("tag-name-error").props.children).toContain(
-        String(MIN_TAG_LENGTH)
+      expect(screen.getByTestId("tag-name-error")).toHaveTextContent(
+        String(MIN_TAG_LENGTH),
+        { exact: false }
       );
     });
     expect(await storedTitles()).not.toContain("");
@@ -74,7 +74,7 @@ describe("tag form", () => {
     await fireEvent.changeText(screen.getByTestId("tag-name"), "Valid name");
 
     await waitFor(() => {
-      expect(screen.getByTestId("tag-name-error").props.children).toBe("");
+      expect(screen.queryByTestId("tag-name-error")).toBeNull();
     });
   });
 
@@ -91,22 +91,5 @@ describe("tag form", () => {
     expect(screen.getByTestId("tag-name-counter")).toHaveTextContent(
       `${atThreshold + 1}/${MAX_TAG_LENGTH}`
     );
-  });
-});
-
-describe("<TagColorPicker>", () => {
-  test("user selects a color and only that swatch reports selected", async () => {
-    const onChange = jest.fn();
-    const screen = await render(
-      <ThemeProvider value={theme}>
-        <TagColorPicker value="slate" onChange={onChange} />
-      </ThemeProvider>
-    );
-
-    expect(screen.getByTestId("tag-color-slate")).toBeSelected();
-    expect(screen.getByTestId("tag-color-lime")).not.toBeSelected();
-
-    await fireEvent.press(screen.getByTestId("tag-color-lime"));
-    expect(onChange).toHaveBeenCalledWith("lime");
   });
 });

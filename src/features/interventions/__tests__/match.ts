@@ -18,6 +18,11 @@ describe("matchCluster()", () => {
       emotions: ["worried", "nervous"],
     });
   });
+
+  test("uneasy alone does not trigger anxiety interventions", () => {
+    expect(matchCluster(["connected", "calm", "uneasy"])).toBeNull();
+    expect(matchCluster(["uneasy"])).toBeNull();
+  });
 });
 
 describe("matchToday()", () => {

@@ -56,7 +56,8 @@ const APP: Noun = {
         native_build_failed: "Compiler failed, read the log",
         build_lock_timeout: "Another build held the cache lock 30 minutes",
         build_slot_timeout: "Two other native builds held all slots 90 minutes",
-        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
+        disk_low:
+          "Less than 10 GiB free disk, follow the error fix steps to free disk",
       },
       steps: ["Resolve device", "Fingerprint", "Build"],
       run: (values) => buildFor(values),
@@ -78,7 +79,8 @@ const APP: Noun = {
         ...DEVICE_ERRORS,
         signing_profile_missing: "Provisioning profile lacks this iPhone",
         install_failed: "Device refused the build",
-        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
+        disk_low:
+          "Less than 10 GiB free disk, follow the error fix steps to free disk",
       },
       steps: ["Resolve device", "Fingerprint", "Build", "Install"],
       run: (values) => installFor(values),
@@ -305,7 +307,8 @@ const APP: Noun = {
         native_build_failed: "Compiler failed, read the log",
         build_lock_timeout: "Another build held the cache lock 30 minutes",
         build_slot_timeout: "Two other native builds held all slots 90 minutes",
-        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
+        disk_low:
+          "Less than 10 GiB free disk, follow the error fix steps to free disk",
         install_failed: "Device refused the build",
         metro_port_taken:
           "Another process answers on this checkout's Metro port",

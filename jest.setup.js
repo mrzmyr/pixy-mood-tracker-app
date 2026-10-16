@@ -32,13 +32,31 @@ jest.mock("expo-alternate-app-icons", () => ({
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load logger exports during provider tests; native carousel is unavailable in Jest.
 jest.mock("react-native-reanimated-carousel", () => ({ Carousel: () => null }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- tag screens load sortable lists; their gestures need native worklets, unavailable in Jest.
+jest.mock("react-native-sortables", () => {
+  const { createElement, Fragment } = require("react");
+  const Grid = ({ data, renderItem, keyExtractor }) =>
+    data.map((item, index) =>
+      createElement(
+        Fragment,
+        { key: keyExtractor(item) },
+        renderItem({ item, index })
+      )
+    );
+  return {
+    __esModule: true,
+    default: { Grid, Handle: ({ children }) => children },
+  };
+});
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load animated UI during provider tests; native worklets are unavailable in Jest.
 jest.mock("react-native-reanimated", () => {
-  const { View } = require("react-native");
+  const { ScrollView, View } = require("react-native");
   const animation = { duration: () => animation, delay: () => animation };
   return {
     __esModule: true,
-    default: { View },
+    default: { ScrollView, View },
+    useAnimatedRef: () => ({ current: null }),
     createAnimatedComponent: (component) => component,
     css: { create: (styles) => styles },
     cubicBezier: () => "ease-out",
@@ -103,11 +121,24 @@ jest.mock("@expo/ui", () => ({
   RNHostView: () => null,
 }));
 
+const mockSwiftUiChildren = ({ children }) => children;
+const mockSwiftUiContextMenu = Object.assign(
+  ({ children }) => mockSwiftUiChildren({ children }),
+  {
+    Trigger: mockSwiftUiChildren,
+    // The system shows the preview only during a long press.
+    Preview: () => null,
+    Items: mockSwiftUiChildren,
+  }
+);
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the SwiftUI menu has no Jest view; the stand-in renders menu items as pressable buttons.
 jest.mock("@expo/ui/swift-ui", () => {
   const { Pressable, View } = require("react-native");
   return {
     Host: ({ children }) => children,
+    RNHostView: ({ children }) => children,
+    ContextMenu: mockSwiftUiContextMenu,
     Image: () => null,
     Menu: ({ children }) => <View>{children}</View>,
     Button: ({ label, onPress }) => (
