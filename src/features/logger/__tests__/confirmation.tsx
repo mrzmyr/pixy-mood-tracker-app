@@ -220,6 +220,20 @@ describe("getSummarySentence()", () => {
     ).toBe("Today was very good. You felt grateful, calm, proud and 2 more.");
   });
 
+  test("tones each emotion by its own category, not the day's mood", () => {
+    const tones = sentence(
+      summaryOf({ emotions: ["grateful", "weak", "uneasy"] })
+    )
+      .filter((segment) => segment.mark === "emotion")
+      .map((segment) => [segment.text, segment.tone]);
+
+    expect(tones).toEqual([
+      ["grateful", "good"],
+      ["weak", "bad"],
+      ["uneasy", "bad"],
+    ]);
+  });
+
   test("counts tags only when there are more than 3", () => {
     expect(text(summaryOf({ tagIds: ["a", "b", "c"] }))).toBe(
       "Today was very good."

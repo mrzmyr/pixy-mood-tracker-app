@@ -21,7 +21,7 @@ import {
   getSummaryTitle,
   SUMMARY_TAGS_MAX,
 } from "./daySummary";
-import type { SummarySegment } from "./daySummary";
+import type { MoodTone, SummarySegment } from "./daySummary";
 import {
   createConfettiBurst,
   createFadeIn,
@@ -116,36 +116,41 @@ export const Confirmation = ({
       ? summary.tagIds.flatMap((id) => tags.filter((tag) => tag.id === id))
       : [];
 
-  const scaleColor =
-    colors.scales[settings.scaleType][summary.rating].background;
+  const scale = colors.scales[settings.scaleType];
+  const scaleColor = scale[summary.rating].background;
   const darkMark = (color: string, amount: number): MarkColors => {
     const background = mix(colors.logBackground, color, amount, "rgb").hex();
     return { background, text: readableOn(color, background) };
   };
-  // Hard days: emotions get a neutral tint. Naming feelings is good;
-  // coloring them as bad is not.
-  const isNeutralEmotion = summary.tone === "bad";
   // Dark mode: light scale colors behind white text do not read. Use a deep
   // tint of the scale color and color the text instead.
-  const marks: Record<NonNullable<SummarySegment["mark"]>, MarkColors> = isDark
-    ? {
-        mood: darkMark(scaleColor, 0.16),
-        emotion: isNeutralEmotion
-          ? { background: tailwind.neutral[800], text: colors.text }
-          : darkMark(scaleColor, 0.1),
-      }
-    : {
-        mood: {
-          background: chroma(scaleColor).alpha(0.7).css(),
+  const moodMark: MarkColors = isDark
+    ? darkMark(scaleColor, 0.16)
+    : { background: chroma(scaleColor).alpha(0.7).css(), text: colors.text };
+  // Each emotion takes its own category color, like its picker indicator.
+  // Negative emotions get a neutral tint: naming feelings is good; coloring
+  // them as bad is not.
+  const emotionMark = (color: string): MarkColors =>
+    isDark
+      ? darkMark(color, 0.1)
+      : { background: chroma(color).alpha(0.35).css(), text: colors.text };
+  const emotionMarks: Record<MoodTone, MarkColors> = {
+    good: emotionMark(scale.very_good.background),
+    neutral: emotionMark(scale.neutral.background),
+    bad: isDark
+      ? { background: tailwind.neutral[800], text: colors.text }
+      : {
+          background: chroma(colors.textSecondary).alpha(0.16).css(),
           text: colors.text,
         },
-        emotion: {
-          background: isNeutralEmotion
-            ? chroma(colors.textSecondary).alpha(0.16).css()
-            : chroma(scaleColor).alpha(0.35).css(),
-          text: colors.text,
-        },
-      };
+  };
+  const markStyle = (segment: SummarySegment) => {
+    const mark =
+      segment.mark === "mood"
+        ? moodMark
+        : emotionMarks[segment.tone ?? "neutral"];
+    return { color: mark.text, backgroundColor: mark.background };
+  };
 
   const jump = useMemo(
     () => createJump({ isReducedMotion }),
@@ -277,10 +282,7 @@ export const Confirmation = ({
                 <Text
                   // Marked texts are unique: one mood, distinct emotions.
                   key={`${segment.mark}:${segment.text}`}
-                  style={{
-                    color: marks[segment.mark].text,
-                    backgroundColor: marks[segment.mark].background,
-                  }}
+                  style={markStyle(segment)}
                 >
                   {segment.text}
                 </Text>

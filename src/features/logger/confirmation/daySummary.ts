@@ -5,6 +5,8 @@ import { getItemDate, getItemTime } from "@/lib/logDates";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { getAverageMood } from "@/lib/utils";
+import type { Emotion } from "@/types";
+import { EMOTIONS } from "../config";
 
 /** Mood group that picks the tone of the confirmation. */
 export type MoodTone = "good" | "neutral" | "bad";
@@ -21,6 +23,20 @@ const TONES: Record<LogItem["rating"], MoodTone> = {
 
 /** Tone of the confirmation: celebrate good days, comfort hard days. */
 export const getMoodTone = (rating: LogItem["rating"]) => TONES[rating];
+
+const EMOTION_TONES: Record<Emotion["category"], MoodTone> = {
+  very_good: "good",
+  good: "good",
+  neutral: "neutral",
+  bad: "bad",
+  very_bad: "bad",
+};
+
+/** Tone of one emotion, from its own category; unknown keys are neutral. */
+export const getEmotionTone = (key: string): MoodTone => {
+  const emotion = EMOTIONS.find((candidate) => candidate.key === key);
+  return emotion ? EMOTION_TONES[emotion.category] : "neutral";
+};
 
 /** Emotions named in the sentence; the rest collapse into "N more". */
 export const SUMMARY_EMOTIONS_MAX = 3;
@@ -83,6 +99,8 @@ export const getDaySummary = ({
 export interface SummarySegment {
   text: string;
   mark?: "mood" | "emotion";
+  /** Emotion marks only: the emotion's own tone, not the day's. */
+  tone?: MoodTone;
 }
 
 // Placeholder boundary for splitting translated templates into segments.
@@ -185,6 +203,7 @@ export const getSummarySentence = ({
     const items: SummarySegment[] = shown.map((key) => ({
       text: emotionLabel(key).toLocaleLowerCase(),
       mark: "emotion",
+      tone: getEmotionTone(key),
     }));
     if (rest > 0) {
       items.push({ text: t("log_summary_more", { count: rest }) });
