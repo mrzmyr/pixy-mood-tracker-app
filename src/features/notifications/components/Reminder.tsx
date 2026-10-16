@@ -1,7 +1,9 @@
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import * as Sentry from "@sentry/react-native";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent } from "react";
 import { Linking, Text, View } from "react-native";
+import FlagHighlight from "@/components/FlagHighlight";
 import Toggle from "@/components/Toggle";
 import Clock from "./Clock";
 import MenuList from "@/components/MenuList";
@@ -9,17 +11,34 @@ import MenuListItem from "@/components/MenuListItem";
 import NotificationPreview from "./NotificationPreview";
 import TextInfo from "@/components/TextInfo";
 import useColors from "@/hooks/useColors";
+import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { reminderTimeToDate } from "../reminderTime";
 import { useNotificationPermissionDenied } from "../useNotificationPermissionDenied";
+import { useRecapNotificationsSetting } from "../useRecapNotificationsSetting";
+import type { RecapNotificationsSettingResult } from "../useRecapNotificationsSetting";
 import { useReminder } from "../useReminder";
+
+const reportRecapsToggleError = (value: boolean, cause: unknown) => {
+  const error = createStructuredError({
+    status: "recap_notifications_toggle_failed",
+    message: `Recaps could not be turned ${value ? "on" : "off"}`,
+    why: `useRecapNotificationsSetting().setEnabled failed: ${cause instanceof Error ? cause.message : String(cause)}`,
+    fix: "Try the Recaps toggle in Settings > Reminder again",
+  });
+  console.error(error);
+  Sentry.captureException(error);
+};
 
 const Reminder = () => {
   const reminder = useReminder();
   const analytics = useAnalytics();
   const colors = useColors();
   const { denied, refresh } = useNotificationPermissionDenied();
+  const isRecapsOn = useFeatureFlag("recaps");
+  const recaps = useRecapNotificationsSetting();
 
   const reminderEnabled = reminder.enabled;
   const timeDate = reminderTimeToDate(reminder.time);
@@ -44,6 +63,24 @@ const Reminder = () => {
     }
     void refresh();
     analytics.track("reminders:reminder_toggled", {
+      enabled: value,
+      permission_granted: permissionGranted,
+    });
+  };
+
+  const onRecapsChange = async (value: boolean) => {
+    let result: RecapNotificationsSettingResult;
+    try {
+      result = await recaps.setEnabled(value);
+    } catch (error) {
+      // The setting saves only after success, so the toggle keeps its state.
+      reportRecapsToggleError(value, error);
+      void refresh();
+      return;
+    }
+    void refresh();
+    const { permissionGranted } = result;
+    analytics.track("reminders:recaps_toggled", {
       enabled: value,
       permission_granted: permissionGranted,
     });
@@ -94,6 +131,25 @@ const Reminder = () => {
             {t("location_open_settings")}
           </Text>
         </TextInfo>
+      )}
+      {isRecapsOn && (
+        <View style={{ marginTop: 20 }}>
+          <FlagHighlight flag="recaps">
+            <MenuList>
+              <MenuListItem
+                title={t("recaps_notifications_setting")}
+                iconRight={
+                  <Toggle
+                    onValueChange={() => onRecapsChange(!recaps.enabled)}
+                    value={recaps.enabled}
+                    testID="recap-notifications-enabled"
+                  />
+                }
+              />
+            </MenuList>
+            <TextInfo>{t("recaps_notifications_hint")}</TextInfo>
+          </FlagHighlight>
+        </View>
       )}
     </View>
   );

@@ -320,6 +320,7 @@ describe("useLogs()", () => {
           "locationEnabled",
           "calendarLayout",
           "appLockEnabled",
+          "recapNotificationsEnabled",
         ]),
         tagCategories: testTagCategories,
       } satisfies ExportSettings & { tagCategories: TagCategory[] },

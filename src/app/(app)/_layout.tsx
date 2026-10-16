@@ -140,6 +140,10 @@ const AppLayout = () => {
             }}
           />
           <Stack.Screen
+            name="recaps/[kind]/[date]"
+            options={{ ...pageOptions, title: t("recaps") }}
+          />
+          <Stack.Screen
             name="settings/colors"
             options={{ ...pageOptions, title: t("colors") }}
           />
@@ -166,10 +170,6 @@ const AppLayout = () => {
           <Stack.Screen
             name="settings/reminder"
             options={{ ...pageOptions, title: t("reminder") }}
-          />
-          <Stack.Screen
-            name="settings/recaps"
-            options={{ ...pageOptions, title: t("recaps") }}
           />
           <Stack.Screen
             name="settings/privacy"

@@ -18,12 +18,18 @@ interface FeatureFlagsValue {
   flags: RemoteFlags | null;
   /** Settings or the first flag request after consent are still pending. */
   isLoading: boolean;
+  /**
+   * The last flag request failed, so every remote flag reads off without
+   * PostHog saying so. Missing means `false`.
+   */
+  hasLoadFailed?: boolean;
 }
 
 /** Outside `FeatureFlagsProvider` every flag is off and nothing loads. */
 export const FeatureFlagsContext = createContext<FeatureFlagsValue>({
   flags: null,
   isLoading: false,
+  hasLoadFailed: false,
 });
 
 /**

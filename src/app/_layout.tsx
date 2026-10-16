@@ -29,6 +29,10 @@ import {
   useReminderSync,
   useReminderTapTracking,
 } from "@/features/notifications";
+import {
+  useRecapNotificationSync,
+  useRecapNotificationTaps,
+} from "@/features/recaps";
 
 // Configure before first render; each app variant reports to its own project.
 if (HAS_APP_VARIANT) {
@@ -48,6 +52,8 @@ const AppShell = () => {
   useUsageSummarySync();
   useReminderTapTracking();
   useReminderSync();
+  useRecapNotificationTaps();
+  useRecapNotificationSync();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state, and dev links pick their own route.

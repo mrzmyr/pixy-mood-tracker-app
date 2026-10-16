@@ -5,8 +5,10 @@ import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { LogsProvider } from "@/features/logs";
 import { AnalyticsProvider } from "@/state/analytics";
+import { FeatureFlagsContext } from "@/state/featureFlags/context";
 import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
 import Reminder from "../components/Reminder";
+import { defaultReminderScheduler } from "../reminderScheduler";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the native time picker has no Jest implementation; the stub forwards picker events to the Reminder handler
 jest.mock("../components/Clock", () => {
@@ -22,10 +24,22 @@ jest.mock("../components/Clock", () => {
 
 const StoredTime = () => {
   const { settings } = useSettings();
-  return <Text testID="stored-time">{settings.reminderTime}</Text>;
+  return (
+    <>
+      <Text testID="stored-time">{settings.reminderTime}</Text>
+      <Text testID="stored-recaps">
+        {String(settings.recapNotificationsEnabled)}
+      </Text>
+    </>
+  );
 };
 
-const setup = async () => {
+const FLAGS = {
+  on: { flags: { recaps: true }, isLoading: false },
+  off: { flags: { recaps: false }, isLoading: false },
+};
+
+const setup = async ({ recaps = false }: { recaps?: boolean } = {}) => {
   await AsyncStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({
@@ -38,10 +52,12 @@ const setup = async () => {
     <ThemeProvider value={DefaultTheme}>
       <SettingsProvider>
         <AnalyticsProvider>
-          <LogsProvider>
-            <Reminder />
-            <StoredTime />
-          </LogsProvider>
+          <FeatureFlagsContext.Provider value={recaps ? FLAGS.on : FLAGS.off}>
+            <LogsProvider>
+              <Reminder />
+              <StoredTime />
+            </LogsProvider>
+          </FeatureFlagsContext.Provider>
         </AnalyticsProvider>
       </SettingsProvider>
     </ThemeProvider>
@@ -82,5 +98,52 @@ describe("Reminder time picker", () => {
     const screen = await setup();
     await pick(screen, { type: "set" });
     expect(screen.getByTestId("stored-time").props.children).toBe("20:00");
+  });
+});
+
+describe("Recaps notification toggle", () => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+  });
+
+  it("shows while flag recaps is on", async () => {
+    const screen = await setup({ recaps: true });
+    expect(screen.getByTestId("recap-notifications-enabled")).toBeTruthy();
+  });
+
+  it("stays hidden while flag recaps is off", async () => {
+    const screen = await setup();
+    expect(screen.queryByTestId("recap-notifications-enabled")).toBeNull();
+  });
+
+  it("keeps Recaps off and reports a structured error when turning on fails", async () => {
+    jest
+      .spyOn(defaultReminderScheduler, "hasPermission")
+      .mockRejectedValue(new Error("permission lookup failed"));
+    const consoleError = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => null);
+    const screen = await setup({ recaps: true });
+
+    fireEvent(
+      screen.getByTestId("recap-notifications-enabled"),
+      "valueChange",
+      true
+    );
+
+    await waitFor(() =>
+      expect(consoleError).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: "recap_notifications_toggle_failed",
+          why: expect.stringContaining("permission lookup failed"),
+          fix: expect.any(String),
+        })
+      )
+    );
+    expect(screen.getByTestId("stored-recaps").props.children).toBe("false");
+    expect(screen.getByTestId("recap-notifications-enabled").props.value).toBe(
+      false
+    );
+    jest.restoreAllMocks();
   });
 });

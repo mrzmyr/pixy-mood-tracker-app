@@ -10,6 +10,7 @@ import { POSTHOG_OPTIONS } from "@/shell/posthogOptions";
 import {
   FeatureFlagsProvider,
   useFeatureFlag,
+  useFeatureFlagsLoadFailed,
   useFeatureFlagState,
 } from "@/state/featureFlags";
 import {
@@ -178,6 +179,19 @@ const renderState = async (analyticsEnabled: boolean) => {
   });
 };
 
+const renderLoadFailed = async () => {
+  await AsyncStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      ...INITIAL_STATE,
+      deviceId: "test-device-id",
+      analyticsEnabled: true,
+      actionsDone: ONBOARDED,
+    })
+  );
+  return renderHook(() => useFeatureFlagsLoadFailed(), { wrapper });
+};
+
 describe("feature flag state", () => {
   beforeEach(async () => {
     mockReload.mockReset();
@@ -214,5 +228,21 @@ describe("feature flag state", () => {
     await waitFor(() => {
       expect(hook.result.current).toBe("off");
     });
+  });
+
+  test("tells a failed flag request apart from a flag that is off", async () => {
+    // oxlint-disable-next-line unicorn/no-useless-undefined -- the SDK resolves `undefined` for a failed request.
+    mockReload.mockResolvedValue(undefined);
+    const failed = await renderLoadFailed();
+    await waitFor(() => {
+      expect(failed.result.current).toBe(true);
+    });
+
+    mockReload.mockResolvedValue({ "ios-widget": false });
+    const off = await renderLoadFailed();
+    await waitFor(() => {
+      expect(mockReload).toHaveBeenCalledTimes(2);
+    });
+    expect(off.result.current).toBe(false);
   });
 });

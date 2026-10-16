@@ -37,6 +37,7 @@ export const FeatureFlagsProvider = ({
   const { settings, hasActionDone } = useSettings();
   const isSettingsReady = useSettingsLoad().status === "ready";
   const [remoteFlags, setRemoteFlags] = useState<RemoteFlags | null>(null);
+  const [hasLoadFailed, setHasLoadFailed] = useState(false);
 
   const hasConsent =
     options.enabled &&
@@ -56,11 +57,13 @@ export const FeatureFlagsProvider = ({
         // A failed request resolves `undefined`; every flag stays off.
         if (isCurrent) {
           setRemoteFlags(flags ?? {});
+          setHasLoadFailed(flags === undefined);
         }
       } catch (error) {
         // Stop loading: every flag stays off.
         if (isCurrent) {
           setRemoteFlags({});
+          setHasLoadFailed(true);
         }
         console.warn(
           createStructuredError({
@@ -78,6 +81,7 @@ export const FeatureFlagsProvider = ({
     return () => {
       isCurrent = false;
       setRemoteFlags(null);
+      setHasLoadFailed(false);
     };
   }, [hasConsent, posthog]);
 
@@ -85,8 +89,8 @@ export const FeatureFlagsProvider = ({
     options.enabled &&
     (!isSettingsReady || (hasConsent && remoteFlags === null));
   const value = useMemo(
-    () => ({ flags: remoteFlags, isLoading }),
-    [remoteFlags, isLoading]
+    () => ({ flags: remoteFlags, isLoading, hasLoadFailed }),
+    [remoteFlags, isLoading, hasLoadFailed]
   );
 
   return (
@@ -129,6 +133,15 @@ export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
 // oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
 export const useFeatureFlag = (key: FeatureFlag): boolean =>
   useFeatureFlagState(key) === "on";
+
+/**
+ * Whether the last PostHog flag request failed. Every remote flag then
+ * reads off, but PostHog never said so. Use it before undoing user state
+ * on a flag turning off, for example cancelling scheduled notifications.
+ */
+// oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
+export const useFeatureFlagsLoadFailed = (): boolean =>
+  useContext(FeatureFlagsContext).hasLoadFailed === true;
 
 /**
  * PostHog value of `key`, ignoring local overrides. Use it where an override

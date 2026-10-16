@@ -36,4 +36,5 @@ export const INITIAL_STATE: SettingsState = {
   locationEnabled: false,
   calendarLayout: "calendar",
   appLockEnabled: false,
+  recapNotificationsEnabled: false,
 };
