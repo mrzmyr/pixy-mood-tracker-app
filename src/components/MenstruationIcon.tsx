@@ -12,12 +12,22 @@ const FILL_TOP = {
 const DROPLET_PATH =
   "M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z";
 
-/** One 20px droplet encodes flow by fill. Parent supplies the accessible label. */
-export const MenstruationIcon = ({ flow }: { flow: MenstruationFlow }) => {
+/**
+ * One 20px droplet encodes flow by fill. Parent supplies the accessible label.
+ * `color` overrides the module hue, e.g. gray in the Day view header.
+ */
+export const MenstruationIcon = ({
+  flow,
+  color: colorOverride,
+}: {
+  flow: MenstruationFlow;
+  color?: string;
+}) => {
   const colors = useColors();
   const clipId = `menstruation-${useId()}`;
   const color =
-    flow === "none" ? colors.menstruationEmpty : colors.menstruationFull;
+    colorOverride ??
+    (flow === "none" ? colors.menstruationEmpty : colors.menstruationFull);
   return (
     <View
       accessibilityElementsHidden

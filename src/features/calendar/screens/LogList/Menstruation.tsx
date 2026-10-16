@@ -43,7 +43,7 @@ export const Menstruation = ({
         opacity: pressed ? 0.6 : 1,
       })}
     >
-      <MenstruationIcon flow={flow} />
+      <MenstruationIcon flow={flow} color={colors.textSecondary} />
       <Text
         style={{ flexShrink: 1, fontSize: 13, color: colors.textSecondary }}
       >
