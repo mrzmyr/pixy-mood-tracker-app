@@ -680,7 +680,7 @@
   "recaps_empty": "ยังไม่มีการ์ดสำหรับช่วงนี้ การ์ดจะปรากฏเมื่อคุณบันทึกมากขึ้น",
   "recaps_feedback_helpful": "มีประโยชน์",
   "recaps_feedback_not_helpful": "ไม่มีประโยชน์",
-  "recaps_feedback_note_hint": "ไม่บังคับ ส่งถึงทีม Pixy พร้อมเวอร์ชันแอป ไม่เคยส่งพร้อมการบันทึกของคุณ",
+  "recaps_feedback_note_hint": "ไม่บังคับ ส่งถึงทีม Pixy พร้อมข้อมูลแอปและอุปกรณ์ ไม่เคยส่งพร้อมการบันทึกของคุณ",
   "recaps_feedback_note_placeholder": "อย่างอื่น…",
   "recaps_feedback_reason_feels_judgmental": "รู้สึกเหมือนถูกตัดสิน",
   "recaps_feedback_reason_hard_to_understand": "เข้าใจยาก",

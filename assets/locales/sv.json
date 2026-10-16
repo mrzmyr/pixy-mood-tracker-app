@@ -680,7 +680,7 @@
   "recaps_empty": "Inga kort för den här perioden än. De dyker upp när du checkar in fler dagar.",
   "recaps_feedback_helpful": "Hjälpsamt",
   "recaps_feedback_not_helpful": "Inte hjälpsamt",
-  "recaps_feedback_note_hint": "Valfritt. Skickas till Pixy-teamet med din appversion, aldrig med dina incheckningar.",
+  "recaps_feedback_note_hint": "Valfritt. Skickas till Pixy-teamet med app- och enhetsinfo, aldrig med dina incheckningar.",
   "recaps_feedback_note_placeholder": "Något annat…",
   "recaps_feedback_reason_feels_judgmental": "Känns dömande",
   "recaps_feedback_reason_hard_to_understand": "Svårt att förstå",

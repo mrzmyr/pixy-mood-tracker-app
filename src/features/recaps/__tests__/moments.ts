@@ -92,7 +92,6 @@ describe("emotion absent", () => {
         type: "emotion-absent",
         emotion: "stressed",
         countBefore: 6,
-        since: "2026-09-21",
       },
     ]);
   });
@@ -151,7 +150,6 @@ describe("emotion absent", () => {
         type: "emotion-absent",
         emotion: "stressed",
         countBefore: 7,
-        since: "2026-09-21",
       },
     ]);
   });

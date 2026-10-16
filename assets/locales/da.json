@@ -680,7 +680,7 @@
   "recaps_empty": "Ingen kort for denne periode endnu. De dukker op, når du tjekker ind flere dage.",
   "recaps_feedback_helpful": "Nyttig",
   "recaps_feedback_not_helpful": "Ikke nyttig",
-  "recaps_feedback_note_hint": "Valgfrit. Sendes til Pixy-teamet med din appversion, aldrig med dine check-ins.",
+  "recaps_feedback_note_hint": "Valgfrit. Sendes til Pixy-teamet med app- og enhedsoplysninger, aldrig med dine check-ins.",
   "recaps_feedback_note_placeholder": "Andet…",
   "recaps_feedback_reason_feels_judgmental": "Føles dømmende",
   "recaps_feedback_reason_hard_to_understand": "Svært at forstå",

@@ -680,7 +680,7 @@
   "recaps_empty": "Для цього періоду ще немає карток. Вони з’являться, коли відміток стане більше.",
   "recaps_feedback_helpful": "Корисно",
   "recaps_feedback_not_helpful": "Некорисно",
-  "recaps_feedback_note_hint": "Необов’язково. Надходить команді Pixy з версією застосунку, ніколи з вашими відмітками.",
+  "recaps_feedback_note_hint": "Необов’язково. Надходить команді Pixy з даними про застосунок і пристрій, ніколи з вашими відмітками.",
   "recaps_feedback_note_placeholder": "Щось іще…",
   "recaps_feedback_reason_feels_judgmental": "Звучить осудливо",
   "recaps_feedback_reason_hard_to_understand": "Важко зрозуміти",

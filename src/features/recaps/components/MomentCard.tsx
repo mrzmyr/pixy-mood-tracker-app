@@ -17,7 +17,6 @@ import { CHIP } from "../chipMarker";
 import { ChipText, TitleChip } from "./TitleChip";
 
 const formatDay = (date: string) => dayjs(date).format("D MMMM");
-const formatWeekday = (date: string) => dayjs(date).format("dddd");
 
 interface Content {
   art?: ReactNode;
@@ -195,10 +194,10 @@ const getContent = (
         titleLabel: title,
         text: card.district
           ? t("recaps_first_city_text_district", {
-              day: formatWeekday(card.date),
+              day: formatDay(card.date),
               district: card.district,
             })
-          : t("recaps_first_city_text", { day: formatWeekday(card.date) }),
+          : t("recaps_first_city_text", { day: formatDay(card.date) }),
       };
     }
     case "tag-back": {

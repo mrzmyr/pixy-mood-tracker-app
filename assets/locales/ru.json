@@ -680,7 +680,7 @@
   "recaps_empty": "Для этого периода пока нет карточек. Они появятся, когда отметок станет больше.",
   "recaps_feedback_helpful": "Полезно",
   "recaps_feedback_not_helpful": "Неполезно",
-  "recaps_feedback_note_hint": "Необязательно. Уходит команде Pixy с версией приложения, никогда с вашими отметками.",
+  "recaps_feedback_note_hint": "Необязательно. Уходит команде Pixy с данными о приложении и устройстве, никогда с вашими отметками.",
   "recaps_feedback_note_placeholder": "Что-то ещё…",
   "recaps_feedback_reason_feels_judgmental": "Звучит осуждающе",
   "recaps_feedback_reason_hard_to_understand": "Сложно понять",

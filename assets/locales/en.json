@@ -810,7 +810,7 @@
   "recaps_empty": "No cards for this period yet. They show up as your check-ins add up.",
   "recaps_feedback_helpful": "Helpful",
   "recaps_feedback_not_helpful": "Not Helpful",
-  "recaps_feedback_note_hint": "Optional. Goes to the Pixy team with your app version, never with your entries.",
+  "recaps_feedback_note_hint": "Optional. Goes to the Pixy team with app and device info, never with your entries.",
   "recaps_feedback_note_placeholder": "Anything else…",
   "recaps_feedback_reason_feels_judgmental": "Feels judgmental",
   "recaps_feedback_reason_hard_to_understand": "Hard to understand",

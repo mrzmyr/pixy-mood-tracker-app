@@ -153,7 +153,7 @@ export const FIXTURES: Fixture[] = [
     id: "recap-moments",
     title: "Recap moments",
     description:
-      "91 days ending today with every week moment: person back, new person, 25 days with Lena, emotion again and absent, tag back, sleep turnaround, first city (location on).",
+      "91 days ending today with every week moment: person back, new person, 25 days connected with Lena, emotion again and absent, tag back, sleep turnaround, first city (location on).",
     endsToday: true,
     data: withRecapMoments(asExport(empty)),
   },

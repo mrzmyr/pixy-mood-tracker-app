@@ -99,7 +99,7 @@ const items: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
 
 /**
  * Data that shows every moment in the week recap: Sam back after 6 weeks,
- * Rosa new, 25 days with Lena, Proud again, 3 weeks without Stressed,
+ * Rosa new, 25 days connected with Lena, Proud again, 3 weeks without Stressed,
  * Sport back, 3 good nights after rough ones, first check-in in Potsdam
  * (needs the location setting on). All steps and the reminder are on, so
  * no nudges show.

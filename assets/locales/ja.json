@@ -680,7 +680,7 @@
   "recaps_empty": "この期間のカードはまだありません。記録が増えると表示されます。",
   "recaps_feedback_helpful": "役に立った",
   "recaps_feedback_not_helpful": "役に立たなかった",
-  "recaps_feedback_note_hint": "任意。アプリのバージョンとともにPixyチームに送られます。記録は送られません。",
+  "recaps_feedback_note_hint": "任意。アプリと端末の情報とともにPixyチームに送られます。記録は送られません。",
   "recaps_feedback_note_placeholder": "その他…",
   "recaps_feedback_reason_feels_judgmental": "責められている気がする",
   "recaps_feedback_reason_hard_to_understand": "わかりにくい",

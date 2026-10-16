@@ -680,7 +680,7 @@
   "recaps_empty": "这个时段还没有卡片。记录越多，卡片越多。",
   "recaps_feedback_helpful": "有帮助",
   "recaps_feedback_not_helpful": "没帮助",
-  "recaps_feedback_note_hint": "可选。会和应用版本一起发给 Pixy 团队，绝不会附带你的记录。",
+  "recaps_feedback_note_hint": "可选。会和应用及设备信息一起发给 Pixy 团队，绝不会附带你的记录。",
   "recaps_feedback_note_placeholder": "还有别的…",
   "recaps_feedback_reason_feels_judgmental": "感觉在评判我",
   "recaps_feedback_reason_hard_to_understand": "难以理解",

@@ -125,7 +125,6 @@ export const emotionAbsent = (input: RecapInput): MomentCard[] => {
           type: "emotion-absent",
           emotion: absent[0],
           countBefore: absent[1],
-          since,
         },
       ]
     : [];

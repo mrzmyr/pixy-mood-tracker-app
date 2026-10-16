@@ -71,12 +71,7 @@ export type NudgeCard =
  */
 export type MomentCard =
   | { type: "emotion-again"; emotion: string; lastDate: DateKey }
-  | {
-      type: "emotion-absent";
-      emotion: string;
-      countBefore: number;
-      since: DateKey;
-    }
+  | { type: "emotion-absent"; emotion: string; countBefore: number }
   | { type: "person-back"; personId: string; lastDate: DateKey; weeks: number }
   | { type: "person-new"; personId: string; firstDate: DateKey }
   | { type: "person-milestone"; personId: string; days: number; year: number }

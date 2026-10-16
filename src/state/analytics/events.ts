@@ -206,7 +206,14 @@ export interface AnalyticsEvents {
    */
   "recaps:card_feedback_sent": RecapCardProperties & {
     helpful: boolean;
-    reasons: string[];
+    reasons: (
+      | "not_true"
+      | "knew_already"
+      | "not_relevant"
+      | "too_personal"
+      | "hard_to_understand"
+      | "feels_judgmental"
+    )[];
     has_note: boolean;
   };
   "tags:categories_reordered": {

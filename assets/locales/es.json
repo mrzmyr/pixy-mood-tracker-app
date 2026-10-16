@@ -680,7 +680,7 @@
   "recaps_empty": "Aún no hay tarjetas para este periodo. Aparecerán a medida que registres más días.",
   "recaps_feedback_helpful": "Útil",
   "recaps_feedback_not_helpful": "No útil",
-  "recaps_feedback_note_hint": "Opcional. Se envía al equipo de Pixy con la versión de la app, nunca con tus registros.",
+  "recaps_feedback_note_hint": "Opcional. Se envía al equipo de Pixy con datos de la app y del dispositivo, nunca con tus registros.",
   "recaps_feedback_note_placeholder": "Algo más…",
   "recaps_feedback_reason_feels_judgmental": "Parece que juzga",
   "recaps_feedback_reason_hard_to_understand": "Difícil de entender",
