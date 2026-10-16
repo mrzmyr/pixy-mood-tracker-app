@@ -14,6 +14,7 @@ import {
   Droplet,
   Flag,
   Github,
+  Layers,
   Layout,
   PieChart,
   Shield,
@@ -60,6 +61,7 @@ export const SettingsScreen = () => {
   const iconProps = { width: 20, height: 20, color: colors.menuListItemIcon };
   const analytics = useAnalytics();
   const isWidgetEnabled = useIsWidgetEnabled();
+  const isRecapsEnabled = useFeatureFlag("recaps");
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
   const isDevelopmentFlagOn = useFeatureFlag("development");
@@ -129,6 +131,17 @@ export const SettingsScreen = () => {
             isLink
           />
           <AppLockMenuItem />
+          {isRecapsEnabled && (
+            <FlagHighlight flag="recaps">
+              <MenuListItem
+                title={t("recaps")}
+                iconLeft={<Layers {...iconProps} />}
+                onPress={() => router.push("/settings/recaps")}
+                testID="recaps"
+                isLink
+              />
+            </FlagHighlight>
+          )}
           {isWidgetEnabled && (
             <FlagHighlight flag="ios-widget">
               <MenuListItem

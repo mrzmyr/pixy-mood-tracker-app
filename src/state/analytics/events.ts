@@ -193,6 +193,13 @@ export interface AnalyticsEvents {
   "tags:category_created": { title_length: number; categories_count: number };
   "tags:category_updated": { title_length: number };
   "tags:category_deleted": { tags_count: number; categories_count: number };
+
+  /** At least half of the card was on screen. Once per card per screen visit. */
+  "recaps:card_shown": RecapCardProperties;
+  /** Nudge card button. `turn_on` also fires the event of the setting. */
+  "recaps:nudge_tapped": RecapCardProperties & {
+    action: "turn_on" | "not_now";
+  };
   "tags:categories_reordered": {
     categories_count: number;
     method: "drag" | "accessibility_action";
@@ -424,3 +431,17 @@ export interface SavedEntryProperties {
 /** Properties of the statistics highlight events: shown cards and item counts. */
 export type HighlightsProperties =
   AnalyticsEvents["statistics:highlights_viewed"];
+
+/**
+ * Card a recap event is about. Type, family, and modules only: never tag
+ * names, person names, emotion keys, or ratings from the card.
+ */
+export interface RecapCardProperties {
+  card_type: string;
+  family: "moment" | "summary" | "pattern" | "change" | "nudge";
+  modules: string[];
+  signal: "strong" | "medium";
+  period: "week" | "month" | "quarter" | "year";
+  /** Screen that showed the card. */
+  source: "settings";
+}
