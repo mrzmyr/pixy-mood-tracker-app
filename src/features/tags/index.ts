@@ -9,4 +9,5 @@ export { TagListItem } from "./components/TagListItem";
 export { Tags } from "./screens/Tags";
 export { default as TagComponent } from "./components/Tag";
 export * from "./TagsProvider";
+export { useTagActions } from "./useTagActions";
 export * from "./tagCategories";

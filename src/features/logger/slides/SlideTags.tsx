@@ -3,6 +3,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import {
   groupTagsByCategory,
+  useTagActions,
   useTagsState,
   TagComponent as Tag,
 } from "@/features/tags";
@@ -25,7 +26,8 @@ import noop from "lodash/noop";
  * Tag picker slide. Archived tags are hidden unless the draft already has
  * them. Pulling the list down reveals a search by tag title. Tags are grouped
  * by category; headings show only when more than one category has tags, so a
- * single category looks like a plain tag list.
+ * single category looks like a plain tag list. A long press opens the tag
+ * menu: edit, archive, delete.
  */
 export const SlideTags = ({
   onDisableStep = noop,
@@ -40,6 +42,10 @@ export const SlideTags = ({
   const colors = useColors();
   const { tags, categories } = useTagsState();
   const [query, setQuery] = useState("");
+  const { confirmDelete, archive } = useTagActions({
+    onDeleted: (deleted) =>
+      setTags(draft.tags.filter((tag) => tag.id !== deleted.id)),
+  });
 
   const selectedTagIds = new Set(draft.tags.map((d) => d.id));
 
@@ -70,12 +76,16 @@ export const SlideTags = ({
             : [...draft.tags, tag]
         );
       }}
-      onLongPress={() =>
-        router.push({
-          pathname: "/tags/[id]",
-          params: { id: tag.id },
-        })
-      }
+      menu={{
+        onEdit: () =>
+          router.push({
+            pathname: "/tags/[id]",
+            params: { id: tag.id },
+          }),
+        onArchive: tag.isArchived ? undefined : () => archive(tag),
+        archiveLabel: t("archive_tag"),
+        onDelete: () => confirmDelete(tag),
+      }}
       title={tag.title}
       colorName={tag.color}
       selected={selectedTagIds.has(tag.id)}

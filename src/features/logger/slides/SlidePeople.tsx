@@ -23,6 +23,7 @@ import {
   getPeopleLimit,
   sortPeopleByUsage,
   usePeopleState,
+  usePersonActions,
 } from "@/features/people";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { useLogDraft } from "../logDraft";
@@ -102,7 +103,8 @@ const AddPersonTile = ({ size }: { size: number }) => {
  * People picker slide: "Who played a part?". Archived people are hidden
  * unless the draft already has them. Chips show the most used people of the
  * last 90 days first, in a grid of avatars that ends with an add tile.
- * Without people it offers one way out: add some.
+ * Without people it offers one way out: add some. A long press opens the
+ * person menu: edit, archive, delete.
  */
 export const SlidePeople = ({
   onDisableStep = noop,
@@ -126,6 +128,10 @@ export const SlidePeople = ({
   );
 
   const selectedIds = new Set(draft.people.map((person) => person.id));
+  const { confirmDelete, archive } = usePersonActions({
+    onDeleted: (personId) =>
+      setPeople(draft.people.filter((person) => person.id !== personId)),
+  });
   const visible = sortPeopleByUsage(
     people.filter((person) => !person.isArchived || selectedIds.has(person.id)),
     items
@@ -241,12 +247,18 @@ export const SlidePeople = ({
                     person={person}
                     selected={selectedIds.has(person.id)}
                     onPress={() => toggle(person.id)}
-                    onLongPress={() =>
-                      router.push({
-                        pathname: "/people/[id]",
-                        params: { id: person.id },
-                      })
-                    }
+                    menu={{
+                      onEdit: () =>
+                        router.push({
+                          pathname: "/people/[id]",
+                          params: { id: person.id },
+                        }),
+                      onArchive: person.isArchived
+                        ? undefined
+                        : () => archive(person),
+                      archiveLabel: t("people_archive"),
+                      onDelete: () => confirmDelete(person.id),
+                    }}
                     testID={`log-person-${person.id}`}
                   />
                 </View>

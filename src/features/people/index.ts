@@ -15,4 +15,5 @@ export {
 export { setPeopleSourcesOverride } from "./sources";
 export { getPeopleLimit } from "./peopleLimit";
 export { sortPeopleByUsage } from "./usage";
+export { usePersonActions } from "./usePersonActions";
 export * from "./PeopleProvider";

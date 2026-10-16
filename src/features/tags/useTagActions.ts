@@ -10,7 +10,7 @@ const REGEX_EMOJI = /\p{Emoji}/u;
 /** Shared delete confirmation and immediate archive action; analytics exclude tag names. */
 export const useTagActions = ({
   onDeleted,
-}: { onDeleted?: () => void } = {}) => {
+}: { onDeleted?: (tag: ITag) => void } = {}) => {
   const tagsUpdater = useTagsUpdater();
   const analytics = useAnalytics();
   const haptics = useHaptics();
@@ -43,7 +43,7 @@ export const useTagActions = ({
               has_emoji: REGEX_EMOJI.test(tagToDelete.title),
             });
             tagsUpdater.deleteTag(tagToDelete.id);
-            onDeleted?.();
+            onDeleted?.(tagToDelete);
           },
           style: "destructive",
         },

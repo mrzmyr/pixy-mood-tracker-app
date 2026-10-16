@@ -11,14 +11,10 @@ import ModalHeader from "@/components/ModalHeader";
 import TextInfo from "@/components/TextInfo";
 import { MAX_TAG_LENGTH } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
-import Alert from "@/lib/Alert";
 import { t } from "@/lib/translation";
-import { useAnalytics } from "@/state/analytics";
 import { PersonChip } from "../components/PersonChip";
 import { usePersonDraft } from "../hooks/usePersonDraft";
-import { usePersonEntryCount } from "../hooks/usePersonEntryCount";
-import { usePeopleUpdater } from "../PeopleProvider";
+import { usePersonActions } from "../usePersonActions";
 import { RADIUS } from "@/constants/Radius";
 
 /** Archive switch and delete button of the edit form. */
@@ -35,39 +31,12 @@ const EditActions = ({
   onLeave: () => void;
 }) => {
   const router = useRouter();
-  const haptics = useHaptics();
-  const analytics = useAnalytics();
-  const peopleUpdater = usePeopleUpdater();
-  const entryCount = usePersonEntryCount(personId);
-
-  const askToDelete = () => {
-    analytics.track("people:delete_requested", { entries_count: entryCount });
-    Alert.alert(
-      t("people_delete_confirm_title"),
-      t("people_delete_confirm_message", { count: entryCount }),
-      [
-        {
-          text: t("cancel"),
-          style: "cancel",
-          onPress: () => analytics.track("people:delete_cancelled"),
-        },
-        {
-          text: t("delete"),
-          style: "destructive",
-          onPress: () => {
-            void haptics.impact();
-            analytics.track("people:person_deleted", {
-              entries_count: entryCount,
-            });
-            peopleUpdater.deletePerson(personId);
-            onLeave();
-            router.back();
-          },
-        },
-      ],
-      { cancelable: true }
-    );
-  };
+  const { confirmDelete } = usePersonActions({
+    onDeleted: () => {
+      onLeave();
+      router.back();
+    },
+  });
 
   return (
     <>
@@ -88,7 +57,7 @@ const EditActions = ({
       <View style={{ marginTop: 32 }}>
         <Button
           style={{ width: "100%" }}
-          onPress={askToDelete}
+          onPress={() => confirmDelete(personId)}
           type="danger"
           testID="person-delete"
         >

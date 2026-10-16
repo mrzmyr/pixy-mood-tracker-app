@@ -1,9 +1,11 @@
 import { Check } from "lucide-react-native";
 import { Pressable, Text, View, useColorScheme } from "react-native";
-import type { PressableProps, ViewStyle } from "react-native";
+import type { ReactElement } from "react";
+import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { t } from "@/lib/translation";
+import { ItemMenu, useItemMenuPressProps } from "@/components/ItemMenu";
+import type { ItemMenuActions } from "@/components/ItemMenu";
 import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
 import { RADIUS } from "@/constants/Radius";
@@ -12,6 +14,7 @@ import { BEZEL } from "@/constants/Bezel";
 import { TILE_RING_GAP, TILE_RING_WIDTH } from "../tile";
 
 const DEFAULT_STYLE = {};
+const CHIP_SPACING = { marginRight: 8, marginBottom: 8 };
 /** Selected shell border. Padding shrinks by the same amount, so size holds. */
 const TILE_SELECTED_RING_WIDTH = 2;
 /** Measurements of the `chip` variant, regular and compact. */
@@ -35,17 +38,14 @@ const CHIP_SIZES = {
   },
 };
 
-type LongPressProps = Pick<
-  PressableProps,
-  "onLongPress" | "accessibilityActions" | "onAccessibilityAction"
->;
+type MenuPressProps = ReturnType<typeof useItemMenuPressProps>;
 
 /** `tile` variant of {@link PersonChip}; `onPress` already plays haptics. */
 const PersonTile = ({
   person,
   selected,
   onPress,
-  longPressProps,
+  menuPressProps,
   style,
   testID,
   size,
@@ -53,7 +53,7 @@ const PersonTile = ({
   person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
   selected: boolean;
   onPress?: () => void;
-  longPressProps: LongPressProps;
+  menuPressProps: MenuPressProps;
   style: ViewStyle;
   testID?: string;
   size: number;
@@ -65,7 +65,7 @@ const PersonTile = ({
   return (
     <Pressable
       onPress={onPress}
-      {...longPressProps}
+      {...menuPressProps}
       accessibilityRole={onPress ? "button" : undefined}
       accessibilityState={onPress ? { selected } : undefined}
       accessibilityLabel={person.name}
@@ -146,15 +146,15 @@ const PersonTile = ({
  *   Selection tints the shell border and adds a check badge, so it reads
  *   without relying on color alone
  *
- * `onLongPress` opens the person editor in `chip` and `tile`; screen readers
- * get it as the "edit" action.
+ * `menu` adds the long-press menu (edit, archive, delete) to `chip` and
+ * `tile`; screen readers get its items as actions.
  */
 export const PersonChip = ({
   person,
   selected = false,
   variant = "chip",
   onPress,
-  onLongPress,
+  menu,
   style = DEFAULT_STYLE,
   testID,
   previewUri = null,
@@ -165,7 +165,8 @@ export const PersonChip = ({
   selected?: boolean;
   variant?: "chip" | "large" | "tile";
   onPress?: () => void;
-  onLongPress?: () => void;
+  /** Long-press menu of `chip` and `tile`: edit, archive, delete. */
+  menu?: ItemMenuActions;
   style?: ViewStyle;
   testID?: string;
   /** Picked image not stored yet; only the `large` variant shows it. */
@@ -190,20 +191,15 @@ export const PersonChip = ({
     onPress();
   };
 
-  const longPressProps: LongPressProps = onLongPress
-    ? {
-        onLongPress: async () => {
-          await haptics.impact();
-          onLongPress();
-        },
-        accessibilityActions: [{ name: "edit", label: t("edit") }],
-        onAccessibilityAction: ({ nativeEvent }) => {
-          if (nativeEvent.actionName === "edit") {
-            onLongPress();
-          }
-        },
-      }
-    : {};
+  const menuPressProps = useItemMenuPressProps(menu);
+  const withMenu = (item: ReactElement, spacing?: ViewStyle) =>
+    menu ? (
+      <ItemMenu menu={menu} style={spacing}>
+        {item}
+      </ItemMenu>
+    ) : (
+      item
+    );
 
   if (variant === "large") {
     return (
@@ -235,12 +231,12 @@ export const PersonChip = ({
   }
 
   if (variant === "tile") {
-    return (
+    return withMenu(
       <PersonTile
         person={person}
         selected={selected}
         onPress={onPress ? press : undefined}
-        longPressProps={longPressProps}
+        menuPressProps={menuPressProps}
         style={style}
         testID={testID}
         size={size}
@@ -248,7 +244,7 @@ export const PersonChip = ({
     );
   }
 
-  return (
+  return withMenu(
     <Pressable
       accessibilityRole={onPress ? "button" : undefined}
       accessibilityState={onPress ? { selected } : undefined}
@@ -259,8 +255,7 @@ export const PersonChip = ({
         alignItems: "center",
         flexDirection: "row",
         borderRadius: RADIUS.full,
-        marginRight: 8,
-        marginBottom: 8,
+        ...(menu ? undefined : CHIP_SPACING),
         backgroundColor: selected
           ? colors.tagBackgroundActive
           : colors.tagBackground,
@@ -274,7 +269,7 @@ export const PersonChip = ({
         ...style,
       })}
       onPress={onPress ? press : undefined}
-      {...longPressProps}
+      {...menuPressProps}
     >
       <PersonAvatar person={person} size={chipSize.avatar} />
       <Text
@@ -288,6 +283,7 @@ export const PersonChip = ({
       >
         {person.name}
       </Text>
-    </Pressable>
+    </Pressable>,
+    CHIP_SPACING
   );
 };

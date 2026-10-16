@@ -4,18 +4,20 @@ import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
-import { t } from "@/lib/translation";
+import { ItemMenu, useItemMenuPressProps } from "@/components/ItemMenu";
+import type { ItemMenuActions } from "@/components/ItemMenu";
 import { RADIUS } from "@/constants/Radius";
 import { COMPACT_CHIP } from "@/constants/Chip";
 
 const DEFAULT_STYLE = {};
+const SPACING = { marginRight: 8, marginBottom: 8 };
 
 const Tag = ({
   title,
   selected = false,
   colorName,
   onPress,
-  onLongPress,
+  menu,
   compact = false,
   style = DEFAULT_STYLE,
 }: {
@@ -23,8 +25,8 @@ const Tag = ({
   selected?: boolean;
   colorName: (typeof TAG_COLOR_NAMES)[number];
   onPress?: () => void;
-  /** Opens the tag editor; also offered as the "edit" accessibility action. */
-  onLongPress?: () => void;
+  /** Long-press menu: edit, archive, delete. Also offered as accessibility actions. */
+  menu?: ItemMenuActions;
   /** Small read-only pill for dense rows, like timeline cards. */
   compact?: boolean;
   style?: ViewStyle;
@@ -32,18 +34,18 @@ const Tag = ({
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
+  const menuPressProps = useItemMenuPressProps(menu);
   const unselectedBorderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
-  return (
+  const chip = (
     <Pressable
       style={({ pressed }) => ({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
         borderRadius: RADIUS.full,
-        marginRight: 8,
-        marginBottom: 8,
+        ...(menu ? undefined : SPACING),
         backgroundColor: selected
           ? colors.tagBackgroundActive
           : colors.tagBackground,
@@ -65,22 +67,7 @@ const Tag = ({
         await haptics.selection();
         onPress?.();
       }}
-      onLongPress={
-        onLongPress
-          ? async () => {
-              await haptics.impact();
-              onLongPress();
-            }
-          : undefined
-      }
-      accessibilityActions={
-        onLongPress ? [{ name: "edit", label: t("edit") }] : undefined
-      }
-      onAccessibilityAction={({ nativeEvent }) => {
-        if (nativeEvent.actionName === "edit") {
-          onLongPress?.();
-        }
-      }}
+      {...menuPressProps}
     >
       <View
         style={{
@@ -100,6 +87,16 @@ const Tag = ({
         {title}
       </Text>
     </Pressable>
+  );
+
+  if (!menu) {
+    return chip;
+  }
+
+  return (
+    <ItemMenu menu={menu} style={SPACING}>
+      {chip}
+    </ItemMenu>
   );
 };
 
