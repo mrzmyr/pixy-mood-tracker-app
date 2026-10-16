@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.97.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.96.0...v1.97.0) (2026-10-16)
+
+
+### Features
+
+* **analytics:** identify install by device id ([#776](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/776)) ([3c78a99](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3c78a992136ba615d732414e329517350117cb97))
+
+
+### Bug Fixes
+
+* **analytics:** send fixed mood values again, never free text ([#772](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/772)) ([9fa5887](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9fa5887c64e4af2c7f985da89c1b2920762f0f41))
+* **interventions:** remove uneasy from anxiety cluster ([#768](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/768)) ([b749a22](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b749a22c5bed5532e1e5d835bc4acd295ddfc451))
+* **logger:** keep tags tappable after pull-to-search settles ([#777](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/777)) ([bc6b35a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bc6b35a38eb48a6ab8e8a0538ee169d386e07d66))
+
 ## [1.96.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.95.2...v1.96.0) (2026-10-11)
 
 
