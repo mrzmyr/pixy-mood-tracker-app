@@ -21,6 +21,7 @@ import {
   mostConnected,
   placesTrips,
 } from "./cards/summaries";
+import { peopleMood, stoodOut, whatMoves } from "./cards/patterns";
 import type { CardFamily, RecapCard, RecapInput } from "./types";
 
 /** One card, several cards (one per person or tag), or none. */
@@ -38,6 +39,9 @@ const RULES: Rule[] = [
   mostConnected,
   connected,
   placesTrips,
+  stoodOut,
+  whatMoves,
+  peopleMood,
   nudgeReminder,
   introEmotions,
   introPeople,

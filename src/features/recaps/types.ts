@@ -1,6 +1,7 @@
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 import type { LogItem } from "@/features/logs";
-import type { Tag } from "@/features/tags";
+import type { Tag, TagCategory } from "@/features/tags";
+import type { EffectSignal } from "./correlation";
 
 /** Part of the app a card reads from. Shown above the card title. */
 export type RecapModule =
@@ -55,6 +56,7 @@ export interface RecapInput {
   availableSteps: ReadonlySet<ConfigurableLoggerStep>;
   reminderEnabled: boolean;
   tags: Tag[];
+  tagCategories: TagCategory[];
   /** Ids of people that still exist. Cards never name deleted people. */
   personIds: ReadonlySet<string>;
 }
@@ -111,8 +113,28 @@ export type SummaryCard =
   | { type: "most-connected"; people: ConnectedPerson[] }
   | { type: "places-trips"; trips: Trip[] };
 
+/** One driver in a pattern list: id, label for places, and its effect. */
+export interface EffectRow {
+  id: string;
+  /** Place name; tags, categories, and people resolve their name by id. */
+  label: string | null;
+  delta: number;
+  signal: EffectSignal;
+}
+
+/** A driver goes with an outcome over enough days. Never a cause. */
+export type PatternCard =
+  | { type: "stood-out"; tagId: string; days: number }
+  | {
+      type: "what-moves";
+      tags: EffectRow[];
+      categories: EffectRow[];
+      places: EffectRow[];
+    }
+  | { type: "people-mood"; people: EffectRow[] };
+
 /** Card data. `type` selects meta in `CARD_TYPES` and the body component. */
-export type RecapCard = NudgeCard | MomentCard | SummaryCard;
+export type RecapCard = NudgeCard | MomentCard | SummaryCard | PatternCard;
 
 /** Key of a card type in `CARD_TYPES`. */
 export type CardType = RecapCard["type"];

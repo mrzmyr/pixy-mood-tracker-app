@@ -866,11 +866,14 @@
   "recaps_most_connected_title_month": "Most connected this month",
   "recaps_most_connected_title_quarter": "Most connected this quarter",
   "recaps_most_connected_title_year": "Most connected this year",
+  "recaps_no_clear_difference": "No clear difference",
   "recaps_nudge_not_now": "Not Now",
   "recaps_nudge_reminder_action": "Remind Me at %{time}",
   "recaps_nudge_reminder_text": "Big days stay in memory. Small good ones fade by the next morning. A short check-in each evening keeps them.",
   "recaps_nudge_reminder_title": "Keep the quiet good days, too",
   "recaps_open_settings": "Open Settings",
+  "recaps_people_mood_text": "A hint, not a cause. A connection can feel good, bad, or mixed.",
+  "recaps_people_mood_title": "Mood on connected days",
   "recaps_period_month": "Month",
   "recaps_period_next": "Next Period",
   "recaps_period_previous": "Previous Period",
@@ -891,6 +894,11 @@
   "recaps_sleep_turnaround_text": "After a few rough nights the week before.",
   "recaps_sleep_turnaround_title": "%{count} good nights in a row",
   "recaps_step_turned_on": "Added to your check-in",
+  "recaps_stood_out_text": "Those days usually feel lighter for you.",
+  "recaps_stood_out_title": {
+    "one": "1 day with %{tag} this week",
+    "other": "{{count}} days with %{tag} this week"
+  },
   "recaps_tag_back_text": {
     "one": "On one day, after %{weeks} weeks without.",
     "other": "On {{count}} days, after %{weeks} weeks without."
@@ -908,6 +916,9 @@
     "one": "1 trip this year",
     "other": "{{count}} trips this year"
   },
+  "recaps_what_moves_places": "Places",
+  "recaps_what_moves_text": "Mood on days with vs. without, in mood steps.",
+  "recaps_what_moves_title": "What moves your mood",
   "reminder": "Reminder",
   "reminder_device_required_message": "Notifications don't work on simulators. Try on a real device.",
   "reminder_device_required_title": "Reminders Need a Phone",

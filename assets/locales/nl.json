@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Meeste contact deze maand",
   "recaps_most_connected_title_quarter": "Meeste contact dit kwartaal",
   "recaps_most_connected_title_year": "Meeste contact dit jaar",
+  "recaps_no_clear_difference": "Geen duidelijk verschil",
   "recaps_nudge_not_now": "Niet nu",
   "recaps_nudge_reminder_action": "Herinner me om %{time}",
   "recaps_nudge_reminder_text": "Grote dagen blijven je bij. Kleine goede dagen vervagen voor de volgende ochtend. Een korte check-in elke avond houdt ze vast.",
   "recaps_nudge_reminder_title": "Bewaar ook de rustige goede dagen",
   "recaps_open_settings": "Open Instellingen",
+  "recaps_people_mood_text": "Een aanwijzing, geen oorzaak. Contact kan goed, zwaar of gemengd voelen.",
+  "recaps_people_mood_title": "Stemming op dagen met contact",
   "recaps_period_month": "Maand",
   "recaps_period_next": "Volgende periode",
   "recaps_period_previous": "Vorige periode",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Na een paar zware nachten de week ervoor.",
   "recaps_sleep_turnaround_title": "%{count} goede nachten op rij",
   "recaps_step_turned_on": "Toegevoegd aan je check-in",
+  "recaps_stood_out_text": "Die dagen voelen meestal lichter voor je.",
+  "recaps_stood_out_title": {
+    "one": "1 dag met %{tag} deze week",
+    "other": "{{count}} dagen met %{tag} deze week"
+  },
   "recaps_tag_back_text": {
     "one": "Op één dag, na %{weeks} weken zonder.",
     "other": "Op {{count}} dagen, na %{weeks} weken zonder."
@@ -778,6 +786,9 @@
     "one": "1 reis dit jaar",
     "other": "{{count}} reizen dit jaar"
   },
+  "recaps_what_moves_places": "Plaatsen",
+  "recaps_what_moves_text": "Stemming op dagen met en zonder, in stemmingsstappen.",
+  "recaps_what_moves_title": "Wat je stemming beweegt",
   "reminder": "Herinnering",
   "reminder_device_required_message": "Meldingen werken niet op simulators. Probeer het op een echt apparaat.",
   "reminder_device_required_title": "Herinneringen hebben een telefoon nodig",

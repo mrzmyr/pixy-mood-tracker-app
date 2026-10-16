@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Cel mai mult în legătură luna aceasta",
   "recaps_most_connected_title_quarter": "Cel mai mult în legătură în acest trimestru",
   "recaps_most_connected_title_year": "Cel mai mult în legătură anul acesta",
+  "recaps_no_clear_difference": "Nicio diferență clară",
   "recaps_nudge_not_now": "Nu acum",
   "recaps_nudge_reminder_action": "Amintește-mi la %{time}",
   "recaps_nudge_reminder_text": "Zilele mari rămân în memorie. Zilele mici și bune se estompează până dimineața. O înregistrare scurtă în fiecare seară le păstrează.",
   "recaps_nudge_reminder_title": "Păstrează și zilele bune și liniștite",
   "recaps_open_settings": "Deschide Setări",
+  "recaps_people_mood_text": "Un indiciu, nu o cauză. O legătură poate fi bună, grea sau amestecată.",
+  "recaps_people_mood_title": "Starea în zilele în legătură",
   "recaps_period_month": "Lună",
   "recaps_period_next": "Perioada următoare",
   "recaps_period_previous": "Perioada anterioară",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "După câteva nopți grele săptămâna dinainte.",
   "recaps_sleep_turnaround_title": "%{count} nopți bune la rând",
   "recaps_step_turned_on": "Adăugat în înregistrare",
+  "recaps_stood_out_text": "Acele zile ți se par de obicei mai ușoare.",
+  "recaps_stood_out_title": {
+    "one": "1 zi cu %{tag} săptămâna aceasta",
+    "other": "{{count}} zile cu %{tag} săptămâna aceasta"
+  },
   "recaps_tag_back_text": {
     "one": "Într-o zi, după %{weeks} săptămâni fără.",
     "other": "În {{count}} zile, după %{weeks} săptămâni fără."
@@ -778,6 +786,9 @@
     "one": "1 călătorie anul acesta",
     "other": "{{count}} călătorii anul acesta"
   },
+  "recaps_what_moves_places": "Locuri",
+  "recaps_what_moves_text": "Starea în zilele cu și fără, în trepte de stare.",
+  "recaps_what_moves_title": "Ce îți influențează starea",
   "reminder": "Aducere aminte",
   "reminder_device_required_message": "Notificările nu funcționează pe simulatoare. Încearcă pe un dispozitiv real.",
   "reminder_device_required_title": "Mementourile au nevoie de un telefon",

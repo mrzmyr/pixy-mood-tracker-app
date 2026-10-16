@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Najwięcej kontaktu w tym miesiącu",
   "recaps_most_connected_title_quarter": "Najwięcej kontaktu w tym kwartale",
   "recaps_most_connected_title_year": "Najwięcej kontaktu w tym roku",
+  "recaps_no_clear_difference": "Brak wyraźnej różnicy",
   "recaps_nudge_not_now": "Nie teraz",
   "recaps_nudge_reminder_action": "Przypomnij o %{time}",
   "recaps_nudge_reminder_text": "Wielkie dni zostają w pamięci. Małe dobre dni bledną do następnego ranka. Krótki wpis każdego wieczoru je zachowa.",
   "recaps_nudge_reminder_title": "Zachowaj też spokojne dobre dni",
   "recaps_open_settings": "Otwórz Ustawienia",
+  "recaps_people_mood_text": "Wskazówka, nie przyczyna. Kontakt może być dobry, trudny lub mieszany.",
+  "recaps_people_mood_title": "Nastrój w dni kontaktu",
   "recaps_period_month": "Miesiąc",
   "recaps_period_next": "Następny okres",
   "recaps_period_previous": "Poprzedni okres",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Po kilku ciężkich nocach w poprzednim tygodniu.",
   "recaps_sleep_turnaround_title": "%{count} dobre noce z rzędu",
   "recaps_step_turned_on": "Dodano do wpisu",
+  "recaps_stood_out_text": "Te dni zwykle są dla Ciebie lżejsze.",
+  "recaps_stood_out_title": {
+    "one": "1 dzień z %{tag} w tym tygodniu",
+    "other": "{{count}} dni z %{tag} w tym tygodniu"
+  },
   "recaps_tag_back_text": {
     "one": "Jeden dzień, po %{weeks} tygodniach przerwy.",
     "other": "{{count}} dni, po %{weeks} tygodniach przerwy."
@@ -778,6 +786,9 @@
     "one": "1 podróż w tym roku",
     "other": "{{count}} podróże w tym roku"
   },
+  "recaps_what_moves_places": "Miejsca",
+  "recaps_what_moves_text": "Nastrój w dni z i bez, w stopniach nastroju.",
+  "recaps_what_moves_title": "Co wpływa na Twój nastrój",
   "reminder": "Przypomnienie",
   "reminder_device_required_message": "Powiadomienia nie działają na symulatorach. Spróbuj na prawdziwym urządzeniu.",
   "reminder_device_required_title": "Przypomnienia wymagają telefonu",

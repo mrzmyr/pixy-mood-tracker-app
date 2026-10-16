@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Mest i kontakt denne måned",
   "recaps_most_connected_title_quarter": "Mest i kontakt dette kvartal",
   "recaps_most_connected_title_year": "Mest i kontakt i år",
+  "recaps_no_clear_difference": "Ingen tydelig forskel",
   "recaps_nudge_not_now": "Ikke nu",
   "recaps_nudge_reminder_action": "Mind mig om det kl. %{time}",
   "recaps_nudge_reminder_text": "Store dage bliver i hukommelsen. Små gode dage forsvinder til næste morgen. Et kort check-in hver aften gemmer dem.",
   "recaps_nudge_reminder_title": "Gem også de stille gode dage",
   "recaps_open_settings": "Åbn Indstillinger",
+  "recaps_people_mood_text": "Et hint, ikke en årsag. Kontakt kan føles god, tung eller blandet.",
+  "recaps_people_mood_title": "Humør på dage i kontakt",
   "recaps_period_month": "Måned",
   "recaps_period_next": "Næste periode",
   "recaps_period_previous": "Forrige periode",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Efter et par hårde nætter ugen før.",
   "recaps_sleep_turnaround_title": "%{count} gode nætter i træk",
   "recaps_step_turned_on": "Tilføjet til dit check-in",
+  "recaps_stood_out_text": "De dage føles som regel lettere for dig.",
+  "recaps_stood_out_title": {
+    "one": "1 dag med %{tag} denne uge",
+    "other": "{{count}} dage med %{tag} denne uge"
+  },
   "recaps_tag_back_text": {
     "one": "Én dag, efter %{weeks} uger uden.",
     "other": "{{count}} dage, efter %{weeks} uger uden."
@@ -778,6 +786,9 @@
     "one": "1 rejse i år",
     "other": "{{count}} rejser i år"
   },
+  "recaps_what_moves_places": "Steder",
+  "recaps_what_moves_text": "Humør på dage med og uden, i humørtrin.",
+  "recaps_what_moves_title": "Hvad der påvirker dit humør",
   "reminder": "Påmindelse",
   "reminder_device_required_message": "Notifikationer virker ikke på simulatorer. Prøv på en rigtig enhed.",
   "reminder_device_required_title": "Påmindelser kræver en telefon",

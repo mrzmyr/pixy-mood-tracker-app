@@ -115,7 +115,8 @@ const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
     .sort((a, b) => b.days - a.days);
 };
 
-const peopleOn = (input: RecapInput) =>
+/** People step on and available. */
+export const peopleOn = (input: RecapInput) =>
   input.steps.has("people") && input.availableSteps.has("people");
 
 /** Everyone connected in the period, most connected first. */

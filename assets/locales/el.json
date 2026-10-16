@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Περισσότερη επαφή αυτόν τον μήνα",
   "recaps_most_connected_title_quarter": "Περισσότερη επαφή αυτό το τρίμηνο",
   "recaps_most_connected_title_year": "Περισσότερη επαφή φέτος",
+  "recaps_no_clear_difference": "Καμία σαφής διαφορά",
   "recaps_nudge_not_now": "Όχι τώρα",
   "recaps_nudge_reminder_action": "Υπενθύμιση στις %{time}",
   "recaps_nudge_reminder_text": "Οι μεγάλες μέρες μένουν στη μνήμη. Οι μικρές καλές ξεθωριάζουν ως το επόμενο πρωί. Μια σύντομη καταγραφή κάθε βράδυ τις κρατά.",
   "recaps_nudge_reminder_title": "Κράτα και τις ήσυχες καλές μέρες",
   "recaps_open_settings": "Άνοιγμα Ρυθμίσεων",
+  "recaps_people_mood_text": "Μια ένδειξη, όχι αιτία. Η επαφή μπορεί να είναι καλή, βαριά ή ανάμεικτη.",
+  "recaps_people_mood_title": "Διάθεση σε μέρες επαφής",
   "recaps_period_month": "Μήνας",
   "recaps_period_next": "Επόμενη περίοδος",
   "recaps_period_previous": "Προηγούμενη περίοδος",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Μετά από μερικές δύσκολες νύχτες την προηγούμενη εβδομάδα.",
   "recaps_sleep_turnaround_title": "%{count} καλές νύχτες στη σειρά",
   "recaps_step_turned_on": "Προστέθηκε στην καταγραφή",
+  "recaps_stood_out_text": "Αυτές οι μέρες συνήθως σου φαίνονται πιο ανάλαφρες.",
+  "recaps_stood_out_title": {
+    "one": "1 μέρα με %{tag} αυτή την εβδομάδα",
+    "other": "{{count}} μέρες με %{tag} αυτή την εβδομάδα"
+  },
   "recaps_tag_back_text": {
     "one": "Μία μέρα, μετά από %{weeks} εβδομάδες χωρίς.",
     "other": "{{count}} μέρες, μετά από %{weeks} εβδομάδες χωρίς."
@@ -778,6 +786,9 @@
     "one": "1 ταξίδι φέτος",
     "other": "{{count}} ταξίδια φέτος"
   },
+  "recaps_what_moves_places": "Μέρη",
+  "recaps_what_moves_text": "Διάθεση σε μέρες με και χωρίς, σε βήματα διάθεσης.",
+  "recaps_what_moves_title": "Τι επηρεάζει τη διάθεσή σου",
   "reminder": "Υπενθύμιση",
   "reminder_device_required_message": "Οι ειδοποιήσεις δεν λειτουργούν σε προσομοιωτές. Δοκίμασε σε πραγματική συσκευή.",
   "reminder_device_required_title": "Οι υπενθυμίσεις θέλουν τηλέφωνο",

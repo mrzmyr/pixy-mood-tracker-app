@@ -39,8 +39,14 @@ import { FeedbackSheet } from "../components/FeedbackSheet";
 import type { FeedbackReason } from "../feedbackReasons";
 import { MomentCard } from "../components/MomentCard";
 import { NudgeCard } from "../components/NudgeCard";
+import { PatternCard } from "../components/PatternCard";
 import { SummaryCard } from "../components/SummaryCard";
-import { getCardId, isNudgeCard, isSummaryCard } from "../cardTypes";
+import {
+  getCardId,
+  isNudgeCard,
+  isPatternCard,
+  isSummaryCard,
+} from "../cardTypes";
 import { getDays, getPeriodDays } from "../days";
 import { getPeriod, shiftPeriod } from "../period";
 import type { Period, PeriodKind, RecapCard } from "../types";
@@ -109,7 +115,7 @@ const Recaps = () => {
   const { items } = useLogState();
   const history = getDays(items);
   const location = useLocationSetting();
-  const { tags } = useTagsState();
+  const { tags, categories } = useTagsState();
   const { settings } = useSettings();
   const isPeopleOn = useFeatureFlag("people");
   const isPhotosOn = useFeatureFlag("photos");
@@ -132,6 +138,7 @@ const Recaps = () => {
     availableSteps,
     reminderEnabled: settings.reminderEnabled,
     tags,
+    tagCategories: categories,
     personIds: new Set(people.map((person) => person.id)),
   }).filter((card) => !hidden.has(cardKey(card, period)));
 
@@ -253,6 +260,19 @@ const Recaps = () => {
           people={people}
           tags={tags}
           periodKind={period.kind}
+          onLayout={onCardLayout(key)}
+          footer={footerFor(card, key)}
+        />
+      );
+    }
+    if (isPatternCard(card)) {
+      return (
+        <PatternCard
+          key={key}
+          card={card}
+          people={people}
+          tags={tags}
+          categories={categories}
           onLayout={onCardLayout(key)}
           footer={footerFor(card, key)}
         />

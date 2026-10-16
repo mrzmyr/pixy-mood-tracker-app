@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "الأكثر تواصلًا هذا الشهر",
   "recaps_most_connected_title_quarter": "الأكثر تواصلًا هذا الربع",
   "recaps_most_connected_title_year": "الأكثر تواصلًا هذا العام",
+  "recaps_no_clear_difference": "لا فرق واضح",
   "recaps_nudge_not_now": "ليس الآن",
   "recaps_nudge_reminder_action": "ذكّرني في %{time}",
   "recaps_nudge_reminder_text": "الأيام الكبيرة تبقى في الذاكرة. أما الأيام الجيدة الصغيرة فتتلاشى بحلول الصباح. تسجيل قصير كل مساء يحفظها.",
   "recaps_nudge_reminder_title": "احتفظ بالأيام الجيدة الهادئة أيضًا",
   "recaps_open_settings": "فتح الإعدادات",
+  "recaps_people_mood_text": "مجرد إشارة لا سبب. قد يكون التواصل جيدًا أو صعبًا أو مختلطًا.",
+  "recaps_people_mood_title": "المزاج في أيام التواصل",
   "recaps_period_month": "شهر",
   "recaps_period_next": "الفترة التالية",
   "recaps_period_previous": "الفترة السابقة",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "بعد بضع ليالٍ صعبة في الأسبوع السابق.",
   "recaps_sleep_turnaround_title": "%{count} ليالٍ جيدة متتالية",
   "recaps_step_turned_on": "أُضيف إلى تسجيلك",
+  "recaps_stood_out_text": "تبدو تلك الأيام عادة أخف عليك.",
+  "recaps_stood_out_title": {
+    "one": "يوم واحد مع %{tag} هذا الأسبوع",
+    "other": "{{count}} أيام مع %{tag} هذا الأسبوع"
+  },
   "recaps_tag_back_text": {
     "one": "في يوم واحد، بعد %{weeks} أسابيع من دونه.",
     "other": "في {{count}} يومًا، بعد %{weeks} أسابيع من دونه."
@@ -778,6 +786,9 @@
     "one": "رحلة واحدة هذا العام",
     "other": "{{count}} رحلات هذا العام"
   },
+  "recaps_what_moves_places": "الأماكن",
+  "recaps_what_moves_text": "المزاج في الأيام معه ومن دونه، بدرجات المزاج.",
+  "recaps_what_moves_title": "ما الذي يحرّك مزاجك",
   "reminder": "تذكير",
   "reminder_device_required_message": "الإشعارات لا تعمل على المحاكيات. جرّب على جهاز حقيقي.",
   "reminder_device_required_title": "التذكيرات تحتاج إلى هاتف",

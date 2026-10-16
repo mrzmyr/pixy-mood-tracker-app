@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "本月联系最多",
   "recaps_most_connected_title_quarter": "本季度联系最多",
   "recaps_most_connected_title_year": "今年联系最多",
+  "recaps_no_clear_difference": "没有明显差异",
   "recaps_nudge_not_now": "以后再说",
   "recaps_nudge_reminder_action": "在 %{time} 提醒我",
   "recaps_nudge_reminder_text": "重要的日子会被记住。小小的好日子到第二天早上就淡了。每晚简短记录一下，就能留住它们。",
   "recaps_nudge_reminder_title": "也留住平静的好日子",
   "recaps_open_settings": "打开设置",
+  "recaps_people_mood_text": "只是提示，不是原因。联系可能是好的、沉重的或复杂的。",
+  "recaps_people_mood_title": "有联系的日子的心情",
   "recaps_period_month": "月",
   "recaps_period_next": "下一个时段",
   "recaps_period_previous": "上一个时段",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "在前一周几个难眠之夜之后。",
   "recaps_sleep_turnaround_title": "连续 %{count} 个好眠之夜",
   "recaps_step_turned_on": "已添加到你的记录",
+  "recaps_stood_out_text": "这些日子通常让你感觉更轻松。",
+  "recaps_stood_out_title": {
+    "one": "本周有 %{tag} 的 1 天",
+    "other": "本周有 %{tag} 的 {{count}} 天"
+  },
   "recaps_tag_back_text": {
     "one": "隔了 %{weeks} 周后出现 1 天。",
     "other": "隔了 %{weeks} 周后出现 {{count}} 天。"
@@ -778,6 +786,9 @@
     "one": "今年 1 次旅行",
     "other": "今年 {{count}} 次旅行"
   },
+  "recaps_what_moves_places": "地点",
+  "recaps_what_moves_text": "有和没有时的心情差异，以心情等级计。",
+  "recaps_what_moves_title": "什么影响了你的心情",
   "reminder": "提醒",
   "reminder_device_required_message": "模拟器无法显示通知。请在真机上试试。",
   "reminder_device_required_title": "提醒需要手机",

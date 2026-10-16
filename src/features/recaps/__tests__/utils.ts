@@ -54,6 +54,7 @@ export const makeInput = ({
     availableSteps: new Set(availableSteps),
     reminderEnabled,
     tags,
+    tagCategories: [{ id: "general", title: "General" }],
     personIds: new Set(
       personIds ??
         items.flatMap((item) => (item.people ?? []).map((person) => person.id))

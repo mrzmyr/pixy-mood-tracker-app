@@ -736,11 +736,14 @@
   "recaps_most_connected_title_month": "Najviac v kontakte tento mesiac",
   "recaps_most_connected_title_quarter": "Najviac v kontakte tento štvrťrok",
   "recaps_most_connected_title_year": "Najviac v kontakte tento rok",
+  "recaps_no_clear_difference": "Žiadny jasný rozdiel",
   "recaps_nudge_not_now": "Teraz nie",
   "recaps_nudge_reminder_action": "Pripomenúť o %{time}",
   "recaps_nudge_reminder_text": "Veľké dni zostávajú v pamäti. Malé dobré dni do rána vyblednú. Krátky záznam každý večer ich uchová.",
   "recaps_nudge_reminder_title": "Uchovaj si aj pokojné dobré dni",
   "recaps_open_settings": "Otvoriť Nastavenia",
+  "recaps_people_mood_text": "Náznak, nie príčina. Kontakt môže byť dobrý, ťažký alebo zmiešaný.",
+  "recaps_people_mood_title": "Nálada v dňoch kontaktu",
   "recaps_period_month": "Mesiac",
   "recaps_period_next": "Ďalšie obdobie",
   "recaps_period_previous": "Predchádzajúce obdobie",
@@ -761,6 +764,11 @@
   "recaps_sleep_turnaround_text": "Po pár ťažkých nociach týždeň predtým.",
   "recaps_sleep_turnaround_title": "%{count} dobré noci za sebou",
   "recaps_step_turned_on": "Pridané k záznamu",
+  "recaps_stood_out_text": "Také dni bývajú pre teba ľahšie.",
+  "recaps_stood_out_title": {
+    "one": "1 deň s %{tag} tento týždeň",
+    "other": "{{count}} dní s %{tag} tento týždeň"
+  },
   "recaps_tag_back_text": {
     "one": "Jeden deň, po %{weeks} týždňoch bez.",
     "other": "{{count}} dní, po %{weeks} týždňoch bez."
@@ -778,6 +786,9 @@
     "one": "1 cesta tento rok",
     "other": "{{count}} ciest tento rok"
   },
+  "recaps_what_moves_places": "Miesta",
+  "recaps_what_moves_text": "Nálada v dňoch s a bez, v stupňoch nálady.",
+  "recaps_what_moves_title": "Čo hýbe tvojou náladou",
   "reminder": "Pripomenutie",
   "reminder_device_required_message": "Na simulátoroch oznámenia nefungujú. Skús to na skutočnom zariadení.",
   "reminder_device_required_title": "Pripomienky potrebujú telefón",
