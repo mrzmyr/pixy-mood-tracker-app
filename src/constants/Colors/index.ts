@@ -242,14 +242,18 @@ const light = {
   sleepQualityEmpty: colors.indigo[100],
   sleepQualityFull: colors.indigo[500],
 
-  // Recap card module names. Sleep shares the sleep quality hue.
-  moduleMood: colors.emerald[600],
+  // Recap chart and marker accents.
+  moduleMood: colors.emerald[700],
   moduleEmotions: colors.rose[600],
-  modulePeople: colors.amber[600],
-  moduleLocation: colors.teal[600],
-  moduleTags: colors.violet[600],
-  moduleSleep: colors.indigo[500],
-  modulePhotos: colors.sky[600],
+  moduleLocation: colors.teal[700],
+
+  // Recap card: white card, hairline border, small shadow; footer row on a
+  // faint tint (footer text, neutral 500, keeps 4.5:1 on it). Media panels
+  // and chips share the muted gray.
+  recapCardBorder: colors.neutral[200],
+  recapCardShadow: "0 1px 2px rgba(0,0,0,0.05)",
+  recapFooterBackground: colors.neutral[50],
+  recapMutedBackground: colors.neutral[100],
 
   scales: scales.light,
   tags: tagsLight,
@@ -465,11 +469,13 @@ const dark: IColors & {
 
   moduleMood: colors.emerald[400],
   moduleEmotions: colors.rose[400],
-  modulePeople: colors.amber[400],
   moduleLocation: colors.teal[400],
-  moduleTags: colors.violet[400],
-  moduleSleep: colors.indigo[400],
-  modulePhotos: colors.sky[400],
+
+  // Lighter than the muted panel, so boxed nights keep an edge.
+  recapCardBorder: colors.neutral[700],
+  recapCardShadow: "0 1px 2px rgba(0,0,0,0.5)",
+  recapFooterBackground: "#0f0f0f",
+  recapMutedBackground: colors.neutral[800],
 
   scales: scales.dark,
   tags: tagsDark,

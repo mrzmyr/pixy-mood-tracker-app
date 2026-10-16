@@ -1,65 +1,119 @@
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import Bezel from "@/components/Bezel";
-import { Secondary, Title } from "@/components/Type";
+import { Body, Title } from "@/components/Type";
 import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
-import { CARD_TYPES } from "../cardTypes";
 import type { CardType } from "../types";
-import { ModuleIndicator } from "./ModuleIndicator";
+import { CARD_PADDING } from "./layout";
 
 /**
- * Frame of every recap card: art, module names, title, text, body, the
- * family's actions, then the footer (feedback). Titles with inline chips pass the
- * plain sentence as `titleLabel` for screen readers.
+ * Card of every recap: media flush with the top edge, art, title, text,
+ * body, then the footer row (actions or feedback) on a muted strip. Titles
+ * with inline chips pass the plain sentence as `titleLabel` for screen
+ * readers.
  */
 export const RecapCardShell = ({
   type,
+  media,
   art,
   title,
   titleLabel,
   text,
   body,
-  actions,
   footer,
   onLayout,
 }: {
   type: CardType;
+  /** Full-bleed panel above the title: no padding to the card edges. */
+  media?: ReactNode;
+  /** Inset art above the title, such as an avatar. */
   art?: ReactNode;
   title: ReactNode;
   titleLabel?: string;
   text?: string;
   /** Lists and charts below the text. */
   body?: ReactNode;
-  actions?: ReactNode;
+  /** Row below a top border. Sets its own horizontal padding. */
   footer?: ReactNode;
   onLayout?: (event: LayoutChangeEvent) => void;
 }) => {
   const colors = useColors();
-  const { modules } = CARD_TYPES[type];
 
   return (
-    <View onLayout={onLayout} testID={`recap-card-${type}`}>
-      <Bezel
-        radius={RADIUS.lg}
-        innerStyle={{ padding: 20, backgroundColor: colors.cardBackground }}
-      >
-        {art && <View style={{ marginBottom: 20 }}>{art}</View>}
-        <ModuleIndicator modules={modules} />
-        <View
-          accessible
-          accessibilityRole="header"
-          accessibilityLabel={titleLabel}
-          style={{ marginTop: 6 }}
-        >
-          <Title>{title}</Title>
+    <View
+      onLayout={onLayout}
+      testID={`recap-card-${type}`}
+      style={{
+        borderRadius: RADIUS.md,
+        borderWidth: 1,
+        borderColor: colors.recapCardBorder,
+        backgroundColor: colors.cardBackground,
+        boxShadow: colors.recapCardShadow,
+      }}
+    >
+      {/* Clips media and footer to the rounded corners; the outer view keeps
+          the shadow, which `overflow: hidden` would cut. */}
+      <View style={{ borderRadius: RADIUS.md - 1, overflow: "hidden" }}>
+        {media}
+        <View style={{ padding: CARD_PADDING }}>
+          {art && <View style={{ marginBottom: 24 }}>{art}</View>}
+          <View
+            accessible
+            accessibilityRole="header"
+            accessibilityLabel={titleLabel}
+          >
+            <Title style={{ letterSpacing: -0.25 }}>{title}</Title>
+          </View>
+          {text && (
+            <Body
+              style={{
+                marginTop: 8,
+                lineHeight: 24,
+                color: colors.textSecondary,
+              }}
+            >
+              {text}
+            </Body>
+          )}
+          {body && <View style={{ marginTop: 24 }}>{body}</View>}
         </View>
-        {text && <Secondary style={{ marginTop: 8 }}>{text}</Secondary>}
-        {body && <View style={{ marginTop: 16 }}>{body}</View>}
-        {actions && <View style={{ marginTop: 20 }}>{actions}</View>}
-      </Bezel>
-      {footer}
+        {footer && (
+          <View
+            style={{
+              borderTopWidth: 1,
+              borderTopColor: colors.recapCardBorder,
+              backgroundColor: colors.recapFooterBackground,
+            }}
+          >
+            {footer}
+          </View>
+        )}
+      </View>
+    </View>
+  );
+};
+
+/** Muted panel for media: flush with the card edges, padded inside. */
+export const MediaPanel = ({
+  children,
+  minHeight,
+}: {
+  children: ReactNode;
+  minHeight?: number;
+}) => {
+  const colors = useColors();
+  return (
+    <View
+      style={{
+        minHeight,
+        justifyContent: "center",
+        paddingVertical: 20,
+        paddingHorizontal: CARD_PADDING,
+        backgroundColor: colors.recapMutedBackground,
+      }}
+    >
+      {children}
     </View>
   );
 };

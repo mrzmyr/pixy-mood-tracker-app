@@ -2,11 +2,10 @@ import { SegmentedControl } from "@expo/ui/community/segmented-control";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { View } from "react-native";
-import type { LayoutChangeEvent } from "react-native";
-import { Caption, Headline } from "@/components/Type";
+import type { LayoutChangeEvent, ViewStyle } from "react-native";
+import { Body, Secondary } from "@/components/Type";
 import { RADIUS } from "@/constants/Radius";
 import type { Person } from "@/features/people";
-import { TagComponent } from "@/features/tags";
 import type { Tag, TagCategory } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
@@ -16,11 +15,20 @@ import { formatDelta } from "../format";
 import type { EffectRow, PatternCard as PatternCardData } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
-import { ChipText, TagChip } from "./TitleChip";
+import { ChipText, RowTagChip, TagChip } from "./TitleChip";
+
+/**
+ * Name column of effect rows: one width, so names line up; long names wrap
+ * instead of pushing the bar out.
+ */
+const LABEL_COLUMN: ViewStyle = {
+  flexBasis: "35%",
+  flexShrink: 1,
+};
 
 /**
  * Bar from the center: right for lighter days, left for heavier ones.
- * Heavier stays gray, never alarming.
+ * Heavier stays gray, never alarming. Dashed zero line between them.
  */
 const DivergingBar = ({ delta, scale }: { delta: number; scale: number }) => {
   const colors = useColors();
@@ -31,19 +39,21 @@ const DivergingBar = ({ delta, scale }: { delta: number; scale: number }) => {
     borderRadius: RADIUS.full,
   } as const;
   return (
-    <View style={{ flex: 1, height: 8, flexDirection: "row" }}>
+    <View
+      style={{
+        flex: 1,
+        height: 16,
+        flexDirection: "row",
+        alignItems: "center",
+      }}
+    >
       <View style={{ flex: 1, alignItems: "flex-end" }}>
         {delta < 0 && (
-          <View
-            style={{
-              ...bar,
-              backgroundColor: colors.textSecondary,
-              opacity: 0.5,
-            }}
-          />
+          <View style={{ ...bar, backgroundColor: colors.textSecondary }} />
         )}
       </View>
-      <View style={{ width: 1, backgroundColor: colors.cardBorder }} />
+      {/* Zero mark: taller than the bars, so it never merges with them. */}
+      <View style={{ width: 1, height: 16, backgroundColor: colors.text }} />
       <View style={{ flex: 1 }}>
         {delta >= 0 && (
           <View style={{ ...bar, backgroundColor: colors.moduleMood }} />
@@ -62,29 +72,29 @@ const EffectList = ({
 }) => {
   const scale = Math.max(...rows.map((row) => Math.abs(row.delta)), 0.5);
   return (
-    <View style={{ gap: 12 }}>
+    <View style={{ gap: 16 }}>
       {rows.map((row) => (
         <View
           key={row.id}
-          style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+          style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
         >
-          <View style={{ width: 110 }}>{renderLabel(row)}</View>
+          <View style={LABEL_COLUMN}>{renderLabel(row)}</View>
           {row.signal === "weak" ? (
-            <Caption style={{ flex: 1 }}>
+            <Secondary style={{ flex: 1 }}>
               {t("recaps_no_clear_difference")}
-            </Caption>
+            </Secondary>
           ) : (
             <>
               <DivergingBar delta={row.delta} scale={scale} />
-              <Caption
+              <Secondary
                 style={{
-                  width: 36,
+                  minWidth: 40,
                   textAlign: "right",
                   fontVariant: ["tabular-nums"],
                 }}
               >
                 {formatDelta(row.delta)}
-              </Caption>
+              </Secondary>
             </>
           )}
         </View>
@@ -118,15 +128,13 @@ const WhatMoves = ({
   const label = (row: EffectRow): ReactNode => {
     if (kind === "tags") {
       const tag = tags.find((item) => item.id === row.id);
-      return tag ? (
-        <TagComponent title={tag.title} colorName={tag.color} compact />
-      ) : null;
+      return tag ? <RowTagChip tag={tag} /> : null;
     }
     const name =
       kind === "categories"
         ? categories.find((item) => item.id === row.id)?.title
         : row.label;
-    return <Headline>{name ?? ""}</Headline>;
+    return <Body>{name ?? ""}</Body>;
   };
   return (
     <View style={{ gap: 16 }}>
@@ -215,8 +223,8 @@ export const PatternCard = ({
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
               >
-                <RingedAvatar person={person} size={28} />
-                <Headline>{person.name}</Headline>
+                <RingedAvatar person={person} size={24} />
+                <Body style={{ flexShrink: 1 }}>{person.name}</Body>
               </View>
             ) : null;
           }}

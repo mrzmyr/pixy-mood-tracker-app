@@ -20,8 +20,9 @@ import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { getActiveTags } from "../cards/nudges";
 import type { NudgeCard as NudgeCardData } from "../types";
-import { RecapCardShell } from "./RecapCardShell";
+import { MediaPanel, RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
+import { CARD_PADDING } from "./layout";
 
 type NudgeType = NudgeCardData["type"];
 
@@ -86,7 +87,7 @@ const EmotionsArt = () => (
 );
 
 const PeopleArt = () => (
-  <View style={{ flexDirection: "row", gap: 12 }}>
+  <View style={{ flexDirection: "row", gap: 16 }}>
     {PLACEHOLDER_PEOPLE.map((person) => (
       <RingedAvatar key={person.id} person={person} size={56} />
     ))}
@@ -96,7 +97,7 @@ const PeopleArt = () => (
 const PhotosArt = () => {
   const colors = useColors();
   return (
-    <View style={{ flexDirection: "row", gap: 12 }}>
+    <View style={{ flexDirection: "row", gap: 16 }}>
       {PHOTO_ROTATIONS.map((rotation) => (
         <View
           key={rotation}
@@ -104,15 +105,14 @@ const PhotosArt = () => {
             width: 72,
             height: 72,
             borderRadius: RADIUS.md,
-            borderWidth: 1,
-            borderColor: colors.cardBorder,
-            backgroundColor: colors.background,
+            // Card white on the gray media panel, in both modes.
+            backgroundColor: colors.cardBackground,
             alignItems: "center",
             justifyContent: "center",
             transform: [{ rotate: `${rotation}deg` }],
           }}
         >
-          <ImageIcon width={28} height={28} color={colors.textSecondary} />
+          <ImageIcon width={32} height={32} color={colors.textSecondary} />
         </View>
       ))}
     </View>
@@ -123,13 +123,15 @@ const PhotosArt = () => {
 const CategoriesArt = ({ tags }: ArtProps) => {
   const shownTags = getActiveTags(tags).slice(0, 6);
   return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
       {shownTags.map((tag) => (
         <TagComponent
           key={tag.id}
           title={tag.title}
           colorName={tag.color}
           compact
+          // Drops the tag's flow margins; the row gap spaces the tags.
+          style={{ marginRight: 0, marginBottom: 0 }}
         />
       ))}
     </View>
@@ -160,6 +162,7 @@ export const NudgeCard = ({
   onNotNow: () => void;
   onLayout?: (event: LayoutChangeEvent) => void;
 }) => {
+  const colors = useColors();
   const [isBusy, setIsBusy] = useState(false);
   const copy = COPY[card.type];
   const Art = ART[card.type];
@@ -179,15 +182,21 @@ export const NudgeCard = ({
     <RecapCardShell
       type={card.type}
       onLayout={onLayout}
-      art={<Art tags={tags} reminderTime={reminderTime} />}
+      media={
+        <MediaPanel>
+          <Art tags={tags} reminderTime={reminderTime} />
+        </MediaPanel>
+      }
       title={t(copy.title, options)}
       text={t(copy.text)}
-      actions={
+      footer={
         <View
           style={{
             flexDirection: "row",
             flexWrap: "wrap",
             alignItems: "center",
+            paddingHorizontal: CARD_PADDING,
+            paddingVertical: 8,
             // LinkButton pads itself by 8, so the visible gap is 16.
             columnGap: 8,
             rowGap: 8,
@@ -201,16 +210,20 @@ export const NudgeCard = ({
             disabled={isBusy}
             testID={`recap-nudge-turn-on-${card.type}`}
             style={{
-              borderRadius: RADIUS.md,
-              paddingVertical: 12,
-              paddingHorizontal: 18,
+              borderRadius: RADIUS.sm,
+              minHeight: 44,
+              paddingVertical: 10,
+              paddingHorizontal: 20,
             }}
           >
             {t(copy.action, options)}
           </Button>
+          {/* Tertiary action: text color, never gray. */}
           <LinkButton
             type="secondary"
             onPress={onNotNow}
+            hitSlop={8}
+            style={{ color: colors.text, fontWeight: "400", minHeight: 44 }}
             testID={`recap-nudge-not-now-${card.type}`}
           >
             {t("recaps_nudge_not_now")}

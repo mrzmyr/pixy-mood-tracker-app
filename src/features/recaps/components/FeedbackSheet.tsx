@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { Check } from "react-native-feather";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
@@ -41,24 +41,20 @@ const ReasonChip = ({
       style={{
         flexDirection: "row",
         alignItems: "center",
-        gap: 6,
-        paddingHorizontal: 14,
-        paddingVertical: 10,
+        gap: 8,
+        minHeight: 48,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
         borderRadius: RADIUS.full,
         borderWidth: 1,
-        borderColor: selected ? colors.text : colors.cardBorder,
+        borderColor: selected ? colors.text : colors.textSecondary,
         backgroundColor: selected ? colors.text : colors.cardBackground,
       }}
     >
       {selected && <Check width={16} height={16} color={colors.background} />}
-      <Text
-        style={{
-          fontSize: 15,
-          color: selected ? colors.background : colors.text,
-        }}
-      >
+      <Secondary style={{ color: selected ? colors.background : colors.text }}>
         {t(LABELS[reason])}
-      </Text>
+      </Secondary>
     </Pressable>
   );
 };
@@ -114,6 +110,7 @@ export const FeedbackSheet = ({
           left={
             <LinkButton
               type="primary"
+              hitSlop={8}
               onPress={() => {
                 reset();
                 onCancel();
@@ -126,6 +123,7 @@ export const FeedbackSheet = ({
           right={
             <LinkButton
               type="primary"
+              hitSlop={8}
               onPress={() => {
                 onSend(
                   FEEDBACK_REASONS.filter((reason) => reasons.has(reason)),

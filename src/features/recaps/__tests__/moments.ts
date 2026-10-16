@@ -383,11 +383,33 @@ describe("sleep", () => {
         ],
       })
     ).toEqual([
-      {
+      expect.objectContaining({
         type: "sleep-turnaround",
         nights: ["2026-10-07", "2026-10-08", "2026-10-09"],
-      },
+      }),
     ]);
+  });
+
+  test("lists every night of the week, so the run shows among them", () => {
+    const [card] = moments({
+      items: [
+        ...run("2026-09-28", 2, night("bad")),
+        { date: "2026-10-05", ...night("neutral") },
+        ...run("2026-10-07", 3, night("very_good")),
+      ],
+    });
+
+    expect(card).toMatchObject({
+      week: [
+        { date: "2026-10-05", sleep: 2 },
+        { date: "2026-10-06", sleep: null },
+        { date: "2026-10-07", sleep: 4 },
+        { date: "2026-10-08", sleep: 4 },
+        { date: "2026-10-09", sleep: 4 },
+        { date: "2026-10-10", sleep: null },
+        { date: "2026-10-11", sleep: null },
+      ],
+    });
   });
 
   test("needs the nights in a row", () => {
@@ -413,10 +435,10 @@ describe("sleep", () => {
         ],
       })
     ).toEqual([
-      {
+      expect.objectContaining({
         type: "sleep-rough",
         nights: ["2026-10-05", "2026-10-06", "2026-10-07"],
-      },
+      }),
     ]);
   });
 
@@ -440,10 +462,10 @@ describe("sleep", () => {
         ],
       })
     ).toEqual([
-      {
+      expect.objectContaining({
         type: "sleep-turnaround",
         nights: ["2026-10-07", "2026-10-08", "2026-10-09"],
-      },
+      }),
     ]);
   });
 

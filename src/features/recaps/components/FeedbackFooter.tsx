@@ -1,11 +1,17 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { ThumbsDown, ThumbsUp } from "react-native-feather";
 import { Secondary } from "@/components/Type";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import { CARD_PADDING } from "./layout";
 
 /** Answer to a card, `null` before the user answers. */
 export type CardFeedback = "helpful" | "not_helpful" | null;
+
+/** Row height: the touch target of both answers, no padding around. */
+const ROW_HEIGHT = 44;
+/** Button side padding. The row pulls in by it, so icons line up with the card text. */
+const BUTTON_INSET = 12;
 
 const FooterButton = ({
   label,
@@ -17,31 +23,30 @@ const FooterButton = ({
   icon: React.ReactNode;
   onPress: () => void;
   testID: string;
-}) => {
-  const colors = useColors();
-  return (
-    <Pressable
-      accessibilityRole="button"
-      onPress={onPress}
-      hitSlop={8}
-      testID={testID}
-      style={({ pressed }) => ({
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 6,
-        paddingVertical: 8,
-        opacity: pressed ? 0.6 : 1,
-      })}
-    >
-      {icon}
-      <Text style={{ fontSize: 15, color: colors.textSecondary }}>{label}</Text>
-    </Pressable>
-  );
-};
+}) => (
+  <Pressable
+    accessibilityRole="button"
+    onPress={onPress}
+    testID={testID}
+    style={({ pressed }) => ({
+      flexDirection: "row",
+      alignItems: "center",
+      flexShrink: 1,
+      gap: 8,
+      minHeight: ROW_HEIGHT,
+      paddingHorizontal: BUTTON_INSET,
+      opacity: pressed ? 0.6 : 1,
+    })}
+  >
+    {icon}
+    <Secondary style={{ flexShrink: 1 }}>{label}</Secondary>
+  </Pressable>
+);
 
 /**
- * Helpful / Not Helpful below a card. After an answer it thanks the user
- * and offers nothing else.
+ * Helpful / Not Helpful in the card footer: muted text, a hairline between.
+ * After an answer it thanks the user at the same height and offers nothing
+ * else.
  */
 export const FeedbackFooter = ({
   feedback,
@@ -59,19 +64,42 @@ export const FeedbackFooter = ({
 
   if (feedback !== null) {
     return (
-      <Secondary testID={`${testID}-thanks`} style={{ padding: 8 }}>
-        {t("recaps_feedback_thanks")}
-      </Secondary>
+      <View
+        style={{
+          minHeight: ROW_HEIGHT,
+          justifyContent: "center",
+          paddingHorizontal: CARD_PADDING,
+        }}
+      >
+        <Secondary testID={`${testID}-thanks`}>
+          {t("recaps_feedback_thanks")}
+        </Secondary>
+      </View>
     );
   }
 
   return (
-    <View style={{ flexDirection: "row", gap: 20, paddingHorizontal: 8 }}>
+    <View
+      style={{
+        // One line, so the hairline always sits between the answers; large
+        // text wraps inside each button instead.
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: CARD_PADDING - BUTTON_INSET,
+      }}
+    >
       <FooterButton
         label={t("recaps_feedback_helpful")}
         icon={<ThumbsUp {...iconProps} />}
         onPress={onHelpful}
         testID={`${testID}-helpful`}
+      />
+      <View
+        style={{
+          width: 1,
+          height: 16,
+          backgroundColor: colors.recapCardBorder,
+        }}
       />
       <FooterButton
         label={t("recaps_feedback_not_helpful")}

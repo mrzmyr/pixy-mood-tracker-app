@@ -11,6 +11,41 @@ import { t } from "@/lib/translation";
 const DEFAULT_STYLE = {};
 
 /**
+ * Sleep quality as a filled bar: `value` 0 to 4 fills 0 to 4 quarters.
+ * Width is half the height. Shared by the sleep slide, the entry list,
+ * and recap cards.
+ */
+export const SleepQualityMeter = ({
+  value,
+  height,
+}: {
+  value: number;
+  height: number;
+}) => {
+  const colors = useColors();
+  const width = height / 2;
+  return (
+    <View
+      style={{
+        height,
+        width,
+        borderRadius: Math.min(RADIUS.sm, width / 2),
+        overflow: "hidden",
+        justifyContent: "flex-end",
+        backgroundColor: colors.sleepQualityEmpty,
+      }}
+    >
+      <View
+        style={{
+          height: (value / 4) * height,
+          backgroundColor: colors.sleepQualityFull,
+        }}
+      />
+    </View>
+  );
+};
+
+/**
  * Sleep quality bar; also reused read-only in the entry list. Without
  * `onPress` it is not a button for screen readers.
  */
@@ -73,37 +108,7 @@ export const SlideSleepButton = ({
           onPress?.();
         }}
       >
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            height: HEIGHT,
-            width: 16,
-            borderRadius: RADIUS.sm,
-            overflow: "hidden",
-          }}
-        >
-          <View
-            style={{
-              width: 16,
-              height: HEIGHT,
-              backgroundColor: colors.sleepQualityEmpty,
-              position: "absolute",
-              bottom: 0,
-              zIndex: 1,
-            }}
-          />
-          <View
-            style={{
-              width: 16,
-              height: _value * 8,
-              backgroundColor: colors.sleepQualityFull,
-              position: "absolute",
-              bottom: 0,
-              zIndex: 1,
-            }}
-          />
-        </View>
+        <SleepQualityMeter value={_value} height={HEIGHT} />
       </Pressable>
     </View>
   );

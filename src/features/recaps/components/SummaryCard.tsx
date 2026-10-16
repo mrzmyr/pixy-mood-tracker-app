@@ -4,14 +4,13 @@ import type { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import Button from "@/components/Button";
-import { Caption, Headline, Secondary } from "@/components/Type";
+import { Body, Secondary } from "@/components/Type";
+import { getTypeMetrics } from "@/components/typeMetrics";
 import { RADIUS } from "@/constants/Radius";
 import { RATING_MAPPING } from "@/constants/Ratings";
-import { EmotionItem } from "@/features/calendar";
 import { EMOTIONS } from "@/features/logger";
 import type { Person } from "@/features/people";
 import { PhotoThumbnail } from "@/features/photos";
-import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 import { t, tDynamic } from "@/lib/translation";
@@ -26,17 +25,16 @@ import type {
   RecapDay,
   SummaryCard as SummaryCardData,
 } from "../types";
-import { RecapCardShell } from "./RecapCardShell";
+import { MediaPanel, RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
-import { ChipText, EmotionChip } from "./TitleChip";
+import { ChipText, EmotionChip, RowEmotionChip, RowTagChip } from "./TitleChip";
 
 interface Content {
-  art?: ReactNode;
+  media?: ReactNode;
   title: ReactNode;
   titleLabel: string;
   text?: string;
   body?: ReactNode;
-  actions?: ReactNode;
 }
 
 interface Context {
@@ -51,13 +49,8 @@ const EMOTION_BY_KEY = new Map(
 );
 const GOOD = new Set(["very_good", "good"]);
 
-const Emotion = ({ emotionKey }: { emotionKey: string }) => {
-  const emotion = EMOTION_BY_KEY.get(emotionKey);
-  return emotion ? <EmotionItem emotion={emotion} compact /> : null;
-};
-
 const Row = ({ children }: { children: ReactNode }) => (
-  <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6 }}>
+  <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
     {children}
   </View>
 );
@@ -68,7 +61,7 @@ const Bar = ({ fraction }: { fraction: number }) => {
     <View
       style={{
         flex: 1,
-        height: 6,
+        height: 8,
         borderRadius: RADIUS.full,
         backgroundColor: colors.cardBorder,
       }}
@@ -76,7 +69,7 @@ const Bar = ({ fraction }: { fraction: number }) => {
       <View
         style={{
           width: `${Math.round(fraction * 100)}%`,
-          height: 6,
+          height: 8,
           borderRadius: RADIUS.full,
           backgroundColor: colors.moduleEmotions,
         }}
@@ -89,26 +82,26 @@ const Bar = ({ fraction }: { fraction: number }) => {
 const Ranked = ({ counts }: { counts: EmotionCount[] }) => {
   const top = counts[0]?.days ?? 1;
   return (
-    <View style={{ gap: 10 }}>
+    <View style={{ gap: 8 }}>
       {counts.map((count, index) => (
         <View
           key={count.emotion}
-          style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+          style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
         >
-          <Caption style={{ width: 18, fontVariant: ["tabular-nums"] }}>
+          <Secondary style={{ minWidth: 24, fontVariant: ["tabular-nums"] }}>
             {index + 1}
-          </Caption>
-          <Emotion emotionKey={count.emotion} />
+          </Secondary>
+          <RowEmotionChip emotionKey={count.emotion} />
           <Bar fraction={count.days / top} />
-          <Caption
+          <Secondary
             style={{
-              width: 24,
+              minWidth: 32,
               textAlign: "right",
               fontVariant: ["tabular-nums"],
             }}
           >
             {count.days}
-          </Caption>
+          </Secondary>
         </View>
       ))}
     </View>
@@ -136,7 +129,7 @@ const emotionsContent = (
       body: (
         <Row>
           {rest.slice(0, 2).map((count) => (
-            <Emotion key={count.emotion} emotionKey={count.emotion} />
+            <RowEmotionChip key={count.emotion} emotionKey={count.emotion} />
           ))}
         </Row>
       ),
@@ -150,15 +143,16 @@ const emotionsContent = (
       body: (
         <Row>
           {counts.slice(0, 6).map((count) => (
-            <Emotion key={count.emotion} emotionKey={count.emotion} />
+            <RowEmotionChip key={count.emotion} emotionKey={count.emotion} />
           ))}
         </Row>
       ),
     };
   }
   const size = periodKind === "year" ? 10 : 3;
+  // "Top 10" only when there are 10 to show.
   const title =
-    periodKind === "year"
+    periodKind === "year" && counts.length >= size
       ? t("recaps_emotions_year_title")
       : t("recaps_emotions_title");
   return {
@@ -175,15 +169,15 @@ const PersonRow = ({
   entry: ConnectedPerson;
   person: Person;
 }) => (
-  <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-    <RingedAvatar person={person} size={44} />
+  <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+    <RingedAvatar person={person} size={40} />
     <View style={{ flex: 1, gap: 4 }}>
-      <Headline>{person.name}</Headline>
-      <Caption>{t("recaps_connected_days", { count: entry.days })}</Caption>
+      <Body>{person.name}</Body>
+      <Secondary>{t("recaps_connected_days", { count: entry.days })}</Secondary>
       {entry.emotions.length > 0 && (
         <Row>
           {entry.emotions.map((emotion) => (
-            <Emotion key={emotion} emotionKey={emotion} />
+            <RowEmotionChip key={emotion} emotionKey={emotion} />
           ))}
         </Row>
       )}
@@ -261,11 +255,11 @@ const Podium = ({
       return person ? (
         <View
           key={entry.personId}
-          style={{ alignItems: "center", gap: 6, flex: 1 }}
+          style={{ alignItems: "center", gap: 8, flex: 1 }}
         >
-          <RingedAvatar person={person} size={index === 0 ? 84 : 60} />
-          <Headline>{person.name}</Headline>
-          <Caption>{t("recaps_days", { count: entry.days })}</Caption>
+          <RingedAvatar person={person} size={index === 0 ? 80 : 64} />
+          <Body style={{ textAlign: "center" }}>{person.name}</Body>
+          <Secondary>{t("recaps_days", { count: entry.days })}</Secondary>
         </View>
       ) : null;
     })}
@@ -283,17 +277,21 @@ const formatRange = (start: string, end: string) =>
     ? dayjs(start).format("D MMM")
     : `${dayjs(start).format("D MMM")} – ${dayjs(end).format("D MMM")}`;
 
+/** Dot centered on the first line of the city name. */
 const TripDot = () => {
   const colors = useColors();
+  const { lineHeight } = getTypeMetrics().body;
   return (
-    <View
-      style={{
-        width: 10,
-        height: 10,
-        borderRadius: RADIUS.full,
-        backgroundColor: colors.moduleLocation,
-      }}
-    />
+    <View style={{ height: lineHeight, justifyContent: "center" }}>
+      <View
+        style={{
+          width: 8,
+          height: 8,
+          borderRadius: RADIUS.full,
+          backgroundColor: colors.moduleLocation,
+        }}
+      />
+    </View>
   );
 };
 
@@ -312,8 +310,7 @@ const DayBlock = ({ day, hard }: { day: RecapDay; hard: boolean }) => {
   return (
     <View
       style={{
-        height: 120,
-        borderRadius: RADIUS.md,
+        height: 160,
         backgroundColor: hard
           ? colors.backgroundSecondary
           : colors.scales[settings.scaleType][best.rating].background,
@@ -328,38 +325,44 @@ const DayMedia = ({ day, hard }: { day: RecapDay; hard: boolean }) => {
     return <DayBlock day={day} hard={hard} />;
   }
   return (
-    <View style={{ flexDirection: "row", gap: 6 }}>
-      {photos.map((photo, index) => (
-        <View key={photo.id} style={{ flex: 1 }}>
-          <PhotoThumbnail
-            photo={photo}
-            index={index}
-            count={photos.length}
-            aspectRatio={photos.length === 1 ? 4 / 3 : 3 / 4}
-          />
-        </View>
-      ))}
-    </View>
+    <MediaPanel>
+      <View style={{ flexDirection: "row", gap: 8 }}>
+        {photos.map((photo, index) => (
+          <View key={photo.id} style={{ flex: 1 }}>
+            <PhotoThumbnail
+              photo={photo}
+              index={index}
+              count={photos.length}
+              aspectRatio={photos.length === 1 ? 4 / 3 : 3 / 4}
+            />
+          </View>
+        ))}
+      </View>
+    </MediaPanel>
   );
 };
 
+/** Outline button across the card: secondary to the card's message. */
 const SeeThisDay = ({ date }: { date: string }) => {
   const router = useRouter();
+  const colors = useColors();
   return (
     <Button
-      type="contrast"
+      type="secondary"
       onPress={() =>
         router.push({ pathname: "/days/[date]", params: { date } })
       }
       testID={`recap-see-day-${date}`}
       style={{
-        alignSelf: "flex-start",
-        borderRadius: RADIUS.md,
-        paddingVertical: 12,
-        paddingHorizontal: 18,
+        borderRadius: RADIUS.sm,
+        borderWidth: 1,
+        borderColor: colors.recapCardBorder,
+        backgroundColor: colors.cardBackground,
+        minHeight: 44,
+        paddingVertical: 10,
       }}
     >
-      {t("recaps_day_see")}
+      <Body style={{ fontWeight: "600" }}>{t("recaps_day_see")}</Body>
     </Button>
   );
 };
@@ -417,46 +420,41 @@ const dayContent = (
   };
   const title = titles[card.mode]();
   return {
-    art: <DayMedia day={day} hard={hard} />,
+    media: <DayMedia day={day} hard={hard} />,
     title,
     titleLabel: title,
     text: texts[card.mode],
     body: (
-      <View style={{ gap: 12 }}>
+      <View style={{ gap: 16 }}>
         {dayPeople.length > 0 && (
           <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
             {shownPeople.map((person) => (
-              <RingedAvatar key={person.id} person={person} size={32} />
+              <RingedAvatar key={person.id} person={person} size={24} />
             ))}
-            <Secondary>{names}</Secondary>
+            <Secondary style={{ flexShrink: 1 }}>{names}</Secondary>
           </View>
         )}
         {!hard && goodEmotions.length > 0 && (
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <Row>
               {goodEmotions.map((emotion) => (
-                <Emotion key={emotion} emotionKey={emotion} />
+                <RowEmotionChip key={emotion} emotionKey={emotion} />
               ))}
             </Row>
           </ScrollView>
         )}
         {dayTags.length > 0 && (
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", gap: 8 }}>
               {dayTags.map((tag) => (
-                <TagComponent
-                  key={tag.id}
-                  title={tag.title}
-                  colorName={tag.color}
-                  compact
-                />
+                <RowTagChip key={tag.id} tag={tag} />
               ))}
             </View>
           </ScrollView>
         )}
+        <SeeThisDay date={day.date} />
       </View>
     ),
-    actions: <SeeThisDay date={day.date} />,
   };
 };
 
@@ -498,17 +496,33 @@ const getContent = (
         title,
         titleLabel: title,
         body: (
-          <View style={{ gap: 10 }}>
+          <View style={{ gap: 8 }}>
             {card.trips.map((trip) => (
               <View
                 key={`${trip.city}-${trip.start}`}
-                style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-start",
+                  gap: 8,
+                }}
               >
                 <TripDot />
-                <Headline>{trip.city}</Headline>
-                <Caption>
-                  {`${formatRange(trip.start, trip.end)} · ${t("recaps_days", { count: trip.days })}`}
-                </Caption>
+                {/* Dates wrap under the city, not under the dot. */}
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "baseline",
+                    columnGap: 8,
+                    rowGap: 4,
+                  }}
+                >
+                  <Body>{trip.city}</Body>
+                  <Secondary>
+                    {`${formatRange(trip.start, trip.end)} · ${t("recaps_days", { count: trip.days })}`}
+                  </Secondary>
+                </View>
               </View>
             ))}
           </View>
@@ -541,12 +555,11 @@ export const SummaryCard = ({
     <RecapCardShell
       type={card.type}
       onLayout={onLayout}
-      art={content.art}
+      media={content.media}
       title={content.title}
       titleLabel={content.titleLabel}
       text={content.text}
       body={content.body}
-      actions={content.actions}
       footer={footer}
     />
   );

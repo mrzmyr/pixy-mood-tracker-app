@@ -81,8 +81,14 @@ export type MomentCard =
   | { type: "person-milestone"; personId: string; days: number; year: number }
   | { type: "first-city"; city: string; district: string | null; date: DateKey }
   | { type: "tag-back"; tagId: string; days: number; weeks: number }
-  | { type: "sleep-turnaround"; nights: DateKey[] }
-  | { type: "sleep-rough"; nights: DateKey[] };
+  | { type: "sleep-turnaround"; nights: DateKey[]; week: SleepNight[] }
+  | { type: "sleep-rough"; nights: DateKey[]; week: SleepNight[] };
+
+/** Night of the recap week: sleep 0 (very bad) to 4 (very good), or `null`. */
+export interface SleepNight {
+  date: DateKey;
+  sleep: number | null;
+}
 
 /** Emotion and the number of days it showed up. */
 export interface EmotionCount {
@@ -158,6 +164,8 @@ export interface ChangeCard {
   type: "trend-tags" | "trend-people" | "trend-location";
   /** Rolling window in days. */
   window: number;
+  /** Last day of each window, one per value in every series. */
+  ends: DateKey[];
   series: TrendSeries[];
 }
 

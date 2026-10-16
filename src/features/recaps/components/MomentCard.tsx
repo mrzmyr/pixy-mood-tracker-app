@@ -2,14 +2,16 @@ import dayjs from "dayjs";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import { MapPin, Moon } from "react-native-feather";
-import { Micro } from "@/components/Type";
+import { MapPin } from "react-native-feather";
+import { Secondary } from "@/components/Type";
+import { SleepQualityMeter } from "@/features/logger";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
+import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
 import { t, tDynamic } from "@/lib/translation";
-import type { MomentCard as MomentCardData } from "../types";
-import { RecapCardShell } from "./RecapCardShell";
+import type { MomentCard as MomentCardData, SleepNight } from "../types";
+import { MediaPanel, RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
 import { CHIP } from "../chipMarker";
 import { ChipText, EmotionChip, TagChip } from "./TitleChip";
@@ -17,6 +19,7 @@ import { ChipText, EmotionChip, TagChip } from "./TitleChip";
 const formatDay = (date: string) => dayjs(date).format("D MMMM");
 
 interface Content {
+  media?: ReactNode;
   art?: ReactNode;
   title: ReactNode;
   titleLabel: string;
@@ -34,29 +37,86 @@ const PersonArt = ({ person }: { person: Person }) => (
   </View>
 );
 
-/** One moon per night of the run, in the sleep color. No numbers. */
-const NightsArt = ({ nights, good }: { nights: string[]; good: boolean }) => {
+/** Night box: the sleep slide's meter at half size. */
+const NIGHT_BOX = 32;
+
+/**
+ * Every night of the week with the sleep meter from the check-in. Nights of
+ * the run sit in a box with a bold weekday; the other meters fade back.
+ * Nights without sleep data show a short dash, never an empty meter, which
+ * would read as a very bad night.
+ */
+const NightsArt = ({
+  week,
+  nights,
+}: {
+  week: SleepNight[];
+  nights: string[];
+}) => {
   const colors = useColors();
+  const run = new Set(nights);
   return (
-    <View style={{ flexDirection: "row", gap: 12 }}>
-      {nights.map((night) => (
-        <View key={night} style={{ alignItems: "center", gap: 6 }}>
-          <Moon
-            width={28}
-            height={28}
-            color={good ? colors.sleepQualityFull : colors.sleepQualityEmpty}
-            fill={good ? colors.sleepQualityFull : "transparent"}
-          />
-          <Micro>{dayjs(night).format("ddd")}</Micro>
-        </View>
-      ))}
-    </View>
+    <MediaPanel>
+      <View
+        style={{ flexDirection: "row", justifyContent: "space-between" }}
+        accessible={false}
+        importantForAccessibility="no-hide-descendants"
+      >
+        {week.map((night) => {
+          const inRun = run.has(night.date);
+          return (
+            <View key={night.date} style={{ alignItems: "center", gap: 4 }}>
+              <View
+                style={{
+                  width: NIGHT_BOX,
+                  height: NIGHT_BOX,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: RADIUS.sm,
+                  borderWidth: 1,
+                  borderColor: inRun ? colors.recapCardBorder : "transparent",
+                  backgroundColor: inRun ? colors.cardBackground : undefined,
+                  // Fades the meter only: weekday labels keep their contrast.
+                  opacity: inRun ? 1 : 0.4,
+                }}
+              >
+                {night.sleep === null ? (
+                  <View
+                    style={{
+                      width: 8,
+                      height: 2,
+                      borderRadius: RADIUS.full,
+                      backgroundColor: colors.textSecondary,
+                    }}
+                  />
+                ) : (
+                  <SleepQualityMeter value={night.sleep} height={16} />
+                )}
+              </View>
+              <Secondary
+                style={
+                  inRun ? { color: colors.text, fontWeight: "600" } : undefined
+                }
+              >
+                {dayjs(night.date).format("dd")}
+              </Secondary>
+            </View>
+          );
+        })}
+      </View>
+    </MediaPanel>
   );
 };
 
 const CityArt = () => {
   const colors = useColors();
-  return <MapPin width={40} height={40} color={colors.moduleLocation} />;
+  return (
+    <MediaPanel minHeight={120}>
+      <View style={{ alignItems: "center" }}>
+        <MapPin width={32} height={32} color={colors.text} />
+      </View>
+    </MediaPanel>
+  );
 };
 
 const emotionLabel = (key: string) => tDynamic(`log_emotion_${key}`);
@@ -124,8 +184,7 @@ const getContent = (
         title,
         titleLabel: title,
         text: t("recaps_person_new_text", {
-          name: person.name,
-          date: formatDay(card.firstDate),
+          date: dayjs(card.firstDate).format("dddd, D MMMM"),
         }),
       };
     }
@@ -148,7 +207,7 @@ const getContent = (
     case "first-city": {
       const title = t("recaps_first_city_title", { city: card.city });
       return {
-        art: <CityArt />,
+        media: <CityArt />,
         title,
         titleLabel: title,
         text: card.district
@@ -179,7 +238,7 @@ const getContent = (
         count: card.nights.length,
       });
       return {
-        art: <NightsArt nights={card.nights} good />,
+        media: <NightsArt week={card.week} nights={card.nights} />,
         title,
         titleLabel: title,
         text: t("recaps_sleep_turnaround_text"),
@@ -188,7 +247,7 @@ const getContent = (
     case "sleep-rough": {
       const title = t("recaps_sleep_rough_title");
       return {
-        art: <NightsArt nights={card.nights} good={false} />,
+        media: <NightsArt week={card.week} nights={card.nights} />,
         title,
         titleLabel: title,
         text: t("recaps_sleep_rough_text", { count: card.nights.length }),
@@ -223,6 +282,7 @@ export const MomentCard = ({
     <RecapCardShell
       type={card.type}
       onLayout={onLayout}
+      media={content.media}
       art={content.art}
       title={content.title}
       titleLabel={content.titleLabel}
