@@ -6,11 +6,26 @@ import {
   introPhotos,
   nudgeReminder,
 } from "./cards/nudges";
+import {
+  emotionAbsent,
+  emotionAgain,
+  firstCity,
+  personMoments,
+  sleepMoments,
+  tagBack,
+} from "./cards/moments";
 import type { CardFamily, RecapCard, RecapInput } from "./types";
 
-type Rule = (input: RecapInput) => RecapCard | null;
+/** One card, several cards (one per person or tag), or none. */
+type Rule = (input: RecapInput) => RecapCard | RecapCard[] | null;
 
 const RULES: Rule[] = [
+  personMoments,
+  emotionAgain,
+  firstCity,
+  emotionAbsent,
+  tagBack,
+  sleepMoments,
   nudgeReminder,
   introEmotions,
   introPeople,
@@ -27,8 +42,9 @@ const FAMILY_ORDER: CardFamily[] = [
 ];
 
 /**
- * Cards of `input.period`, in family order, only types that fit it. No
- * cards for periods that end before the first entry.
+ * Cards of `input.period`, in family order, only types that fit it. Inside
+ * a family, rule order sets the order. No cards for periods that end
+ * before the first entry.
  */
 export const buildCards = (input: RecapInput): RecapCard[] => {
   if (
@@ -37,15 +53,17 @@ export const buildCards = (input: RecapInput): RecapCard[] => {
   ) {
     return [];
   }
-  return RULES.map((rule) => rule(input))
-    .filter(
-      (card): card is RecapCard =>
-        card !== null &&
-        CARD_TYPES[card.type].periods.includes(input.period.kind)
-    )
-    .sort(
-      (a, b) =>
-        FAMILY_ORDER.indexOf(CARD_TYPES[a.type].family) -
-        FAMILY_ORDER.indexOf(CARD_TYPES[b.type].family)
-    );
+  const cards: RecapCard[] = [];
+  for (const rule of RULES) {
+    for (const card of [rule(input) ?? []].flat()) {
+      if (CARD_TYPES[card.type].periods.includes(input.period.kind)) {
+        cards.push(card);
+      }
+    }
+  }
+  return cards.sort(
+    (a, b) =>
+      FAMILY_ORDER.indexOf(CARD_TYPES[a.type].family) -
+      FAMILY_ORDER.indexOf(CARD_TYPES[b.type].family)
+  );
 };

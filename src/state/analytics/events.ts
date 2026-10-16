@@ -200,6 +200,22 @@ export interface AnalyticsEvents {
   "recaps:nudge_tapped": RecapCardProperties & {
     action: "turn_on" | "not_now";
   };
+  /**
+   * Helpful or Not Helpful below a card. `reasons` are fixed keys. Notes go
+   * to the feedback service, never here: `has_note` only.
+   */
+  "recaps:card_feedback_sent": RecapCardProperties & {
+    helpful: boolean;
+    reasons: (
+      | "not_true"
+      | "knew_already"
+      | "not_relevant"
+      | "too_personal"
+      | "hard_to_understand"
+      | "feels_judgmental"
+    )[];
+    has_note: boolean;
+  };
   "tags:categories_reordered": {
     categories_count: number;
     method: "drag" | "accessibility_action";

@@ -45,6 +45,10 @@ export interface RecapInput {
   firstEntryDate: DateKey | null;
   /** Days of `period` with at least one entry, oldest first. */
   days: RecapDay[];
+  /** Every day with an entry, oldest first. Rules look back with it. */
+  history: RecapDay[];
+  /** Location setting on and available. */
+  locationEnabled: boolean;
   /** Logger steps the user has on. */
   steps: ReadonlySet<ConfigurableLoggerStep>;
   /** Steps that exist in this build: People and Photos sit behind flags. */
@@ -53,13 +57,31 @@ export interface RecapInput {
   tags: Tag[];
 }
 
-/** Card data. `type` selects meta in `CARD_TYPES` and the body component. */
-export type RecapCard =
+/** Card that offers to turn a feature on. */
+export type NudgeCard =
   | { type: "nudge-reminder" }
   | { type: "intro-emotions" }
   | { type: "intro-people" }
   | { type: "intro-photos" }
   | { type: "intro-categories"; tagsCount: number };
+
+/**
+ * A fact worth noticing. Cards name people, tags, and emotions by id; the
+ * screen looks up names, so rules never read display data.
+ */
+export type MomentCard =
+  | { type: "emotion-again"; emotion: string; lastDate: DateKey }
+  | { type: "emotion-absent"; emotion: string; countBefore: number }
+  | { type: "person-back"; personId: string; lastDate: DateKey; weeks: number }
+  | { type: "person-new"; personId: string; firstDate: DateKey }
+  | { type: "person-milestone"; personId: string; days: number; year: number }
+  | { type: "first-city"; city: string; district: string | null; date: DateKey }
+  | { type: "tag-back"; tagId: string; days: number; weeks: number }
+  | { type: "sleep-turnaround"; nights: DateKey[] }
+  | { type: "sleep-rough"; nights: DateKey[] };
+
+/** Card data. `type` selects meta in `CARD_TYPES` and the body component. */
+export type RecapCard = NudgeCard | MomentCard;
 
 /** Key of a card type in `CARD_TYPES`. */
 export type CardType = RecapCard["type"];

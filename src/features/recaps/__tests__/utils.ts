@@ -3,7 +3,7 @@ import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 import type { LogItem } from "@/features/logs";
 import type { Tag } from "@/features/tags";
 import { getWeekLocale } from "@/lib/translation";
-import { getPeriodDays } from "../days";
+import { getDays, getPeriodDays } from "../days";
 import { getPeriod } from "../period";
 import type { PeriodKind, RecapInput } from "../types";
 
@@ -24,6 +24,7 @@ export const makeInput = ({
   availableSteps = ["rating", "tags", "emotions", "people", "photos"],
   reminderEnabled = false,
   tags = [],
+  locationEnabled = false,
 }: {
   kind?: PeriodKind;
   today?: string;
@@ -35,13 +36,17 @@ export const makeInput = ({
   availableSteps?: ConfigurableLoggerStep[];
   reminderEnabled?: boolean;
   tags?: Tag[];
+  locationEnabled?: boolean;
 } = {}): RecapInput => {
   const period = getPeriod(kind, date, WEEK_LOCALE);
+  const history = getDays(items.map(_generateItem));
   return {
     period,
     today,
     firstEntryDate,
-    days: getPeriodDays(items.map(_generateItem), period),
+    days: getPeriodDays(history, period),
+    history,
+    locationEnabled,
     steps: new Set(steps),
     availableSteps: new Set(availableSteps),
     reminderEnabled,
