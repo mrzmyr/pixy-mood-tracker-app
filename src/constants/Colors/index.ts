@@ -242,15 +242,10 @@ const light = {
   sleepQualityEmpty: colors.indigo[100],
   sleepQualityFull: colors.indigo[500],
 
-  // Recap card module names. 700 shades (indigo 600) keep 4.5:1 on the
-  // white card. Sleep moons in recap art use the sleep module color too.
+  // Recap chart and marker accents.
   moduleMood: colors.emerald[700],
   moduleEmotions: colors.rose[600],
-  modulePeople: colors.amber[700],
   moduleLocation: colors.teal[700],
-  moduleTags: colors.violet[600],
-  moduleSleep: colors.indigo[600],
-  modulePhotos: colors.sky[700],
 
   // Recap card: white card, hairline border, small shadow; footer row on a
   // faint tint (footer text, neutral 500, keeps 4.5:1 on it). Media panels
@@ -474,13 +469,10 @@ const dark: IColors & {
 
   moduleMood: colors.emerald[400],
   moduleEmotions: colors.rose[400],
-  modulePeople: colors.amber[400],
   moduleLocation: colors.teal[400],
-  moduleTags: colors.violet[400],
-  moduleSleep: colors.indigo[400],
-  modulePhotos: colors.sky[400],
 
-  recapCardBorder: colors.neutral[800],
+  // Lighter than the muted panel, so boxed nights keep an edge.
+  recapCardBorder: colors.neutral[700],
   recapCardShadow: "0 1px 2px rgba(0,0,0,0.5)",
   recapFooterBackground: "#0f0f0f",
   recapMutedBackground: colors.neutral[800],

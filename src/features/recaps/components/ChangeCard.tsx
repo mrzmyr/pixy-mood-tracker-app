@@ -190,9 +190,12 @@ const TrendChart = ({
           {ticks.map(({ index, label }, position) => {
             const anchors = ["start", "middle", "end"] as const;
             const anchor =
-              anchors[
-                Math.min(position, 1) + Number(position === ticks.length - 1)
-              ];
+              ticks.length === 1
+                ? "start"
+                : anchors[
+                    Math.min(position, 1) +
+                      Number(position === ticks.length - 1)
+                  ];
             return (
               <SvgText
                 key={index}
@@ -297,12 +300,45 @@ export const ChangeCard = ({
 }) => {
   const colors = useColors();
   const title = t(TITLES[card.type]);
+  // Tags often share a color. A repeated one gets a palette color and a
+  // swatch, so every line stays apart in the legend.
+  const used = new Set<string>();
   const rows = card.series.flatMap((series, index) => {
     const subject = getSubject(
       { type: card.type, series, index },
       { people, tags, colors }
     );
-    return subject ? [{ series, subject }] : [];
+    if (!subject) {
+      return [];
+    }
+    const color = used.has(subject.color)
+      ? colors.tags[PALETTE[index % PALETTE.length]].dot
+      : subject.color;
+    used.add(color);
+    return [
+      {
+        series,
+        subject:
+          color === subject.color
+            ? subject
+            : {
+                ...subject,
+                color,
+                label: (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    <Swatch color={color} />
+                    {subject.label}
+                  </View>
+                ),
+              },
+      },
+    ];
   });
   if (rows.length === 0) {
     return null;

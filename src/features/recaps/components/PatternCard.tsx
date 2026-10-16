@@ -2,7 +2,7 @@ import { SegmentedControl } from "@expo/ui/community/segmented-control";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { View } from "react-native";
-import type { LayoutChangeEvent } from "react-native";
+import type { LayoutChangeEvent, ViewStyle } from "react-native";
 import { Body, Secondary } from "@/components/Type";
 import { RADIUS } from "@/constants/Radius";
 import type { Person } from "@/features/people";
@@ -15,8 +15,16 @@ import { formatDelta } from "../format";
 import type { EffectRow, PatternCard as PatternCardData } from "../types";
 import { RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
-import { LABEL_COLUMN } from "./rowLayout";
 import { ChipText, RowTagChip, TagChip } from "./TitleChip";
+
+/**
+ * Name column of effect rows: one width, so names line up; long names wrap
+ * instead of pushing the bar out.
+ */
+const LABEL_COLUMN: ViewStyle = {
+  flexBasis: "35%",
+  flexShrink: 1,
+};
 
 /**
  * Bar from the center: right for lighter days, left for heavier ones.

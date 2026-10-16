@@ -3,7 +3,7 @@ import { ThumbsDown, ThumbsUp } from "react-native-feather";
 import { Secondary } from "@/components/Type";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
-import { CARD_PADDING } from "./rowLayout";
+import { CARD_PADDING } from "./layout";
 
 /** Answer to a card, `null` before the user answers. */
 export type CardFeedback = "helpful" | "not_helpful" | null;

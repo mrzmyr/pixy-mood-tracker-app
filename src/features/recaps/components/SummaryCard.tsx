@@ -49,10 +49,6 @@ const EMOTION_BY_KEY = new Map(
 );
 const GOOD = new Set(["very_good", "good"]);
 
-const Emotion = ({ emotionKey }: { emotionKey: string }) => (
-  <RowEmotionChip emotionKey={emotionKey} />
-);
-
 const Row = ({ children }: { children: ReactNode }) => (
   <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
     {children}
@@ -95,7 +91,7 @@ const Ranked = ({ counts }: { counts: EmotionCount[] }) => {
           <Secondary style={{ minWidth: 24, fontVariant: ["tabular-nums"] }}>
             {index + 1}
           </Secondary>
-          <Emotion emotionKey={count.emotion} />
+          <RowEmotionChip emotionKey={count.emotion} />
           <Bar fraction={count.days / top} />
           <Secondary
             style={{
@@ -133,7 +129,7 @@ const emotionsContent = (
       body: (
         <Row>
           {rest.slice(0, 2).map((count) => (
-            <Emotion key={count.emotion} emotionKey={count.emotion} />
+            <RowEmotionChip key={count.emotion} emotionKey={count.emotion} />
           ))}
         </Row>
       ),
@@ -147,7 +143,7 @@ const emotionsContent = (
       body: (
         <Row>
           {counts.slice(0, 6).map((count) => (
-            <Emotion key={count.emotion} emotionKey={count.emotion} />
+            <RowEmotionChip key={count.emotion} emotionKey={count.emotion} />
           ))}
         </Row>
       ),
@@ -181,7 +177,7 @@ const PersonRow = ({
       {entry.emotions.length > 0 && (
         <Row>
           {entry.emotions.map((emotion) => (
-            <Emotion key={emotion} emotionKey={emotion} />
+            <RowEmotionChip key={emotion} emotionKey={emotion} />
           ))}
         </Row>
       )}
@@ -442,7 +438,7 @@ const dayContent = (
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <Row>
               {goodEmotions.map((emotion) => (
-                <Emotion key={emotion} emotionKey={emotion} />
+                <RowEmotionChip key={emotion} emotionKey={emotion} />
               ))}
             </Row>
           </ScrollView>

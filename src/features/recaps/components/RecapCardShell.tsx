@@ -5,7 +5,7 @@ import { Body, Title } from "@/components/Type";
 import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
 import type { CardType } from "../types";
-import { CARD_PADDING } from "./rowLayout";
+import { CARD_PADDING } from "./layout";
 
 /**
  * Card of every recap: media flush with the top edge, art, title, text,

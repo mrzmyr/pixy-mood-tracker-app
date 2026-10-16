@@ -22,7 +22,7 @@ import { getActiveTags } from "../cards/nudges";
 import type { NudgeCard as NudgeCardData } from "../types";
 import { MediaPanel, RecapCardShell } from "./RecapCardShell";
 import { RingedAvatar } from "./RingedAvatar";
-import { CARD_PADDING, ROW_TAG } from "./rowLayout";
+import { CARD_PADDING } from "./layout";
 
 type NudgeType = NudgeCardData["type"];
 
@@ -130,7 +130,8 @@ const CategoriesArt = ({ tags }: ArtProps) => {
           title={tag.title}
           colorName={tag.color}
           compact
-          style={ROW_TAG}
+          // Drops the tag's flow margins; the row gap spaces the tags.
+          style={{ marginRight: 0, marginBottom: 0 }}
         />
       ))}
     </View>
