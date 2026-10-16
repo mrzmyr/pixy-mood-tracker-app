@@ -82,5 +82,5 @@
 - MUST read [CODING_STANDARDS.md](CODING_STANDARDS.md)
 - MUST read [MISTAKES.md](MISTAKES.md) and [LEARNINGS.md](LEARNINGS.md) before code changes
 - MUST read [docs/documentation.md](docs/documentation.md)
-- MUST read [docs/design.md](docs/design.md) for UI, copy, layout, forms, and interaction guidelines
+- MUST read [DESIGN.md](DESIGN.md) for UI, copy, layout, forms, interaction, and marketing asset guidelines
 - Use domain terms from [GLOSSARY.md](GLOSSARY.md) in code, copy, and docs
