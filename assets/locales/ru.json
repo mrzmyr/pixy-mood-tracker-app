@@ -774,6 +774,16 @@
     "other": "{{count}} дн., после %{weeks} нед. без."
   },
   "recaps_tag_back_title": "%{tag} снова здесь",
+  "recaps_trend_fading_lift": "Подъём слабеет",
+  "recaps_trend_growing_lift": "Подъём растёт",
+  "recaps_trend_location_title": "Места со временем",
+  "recaps_trend_now": "сейчас %{value}",
+  "recaps_trend_people_title": "Люди со временем",
+  "recaps_trend_steady": "Стабильно",
+  "recaps_trend_tags_title": "Теги со временем",
+  "recaps_trend_text": "Скользящие %{days} дн. Выше линии: дни легче.",
+  "recaps_trend_weighs_less": "Давит меньше",
+  "recaps_trend_weighs_more": "Давит сильнее",
   "recaps_trips_title_month": {
     "one": "1 поездка в этом месяце",
     "other": "Поездок в этом месяце: {{count}}"

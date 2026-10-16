@@ -774,6 +774,16 @@
     "other": "ב־{{count}} ימים, אחרי %{weeks} שבועות בלי."
   },
   "recaps_tag_back_title": "%{tag} חזר",
+  "recaps_trend_fading_lift": "השפעה חיובית דועכת",
+  "recaps_trend_growing_lift": "השפעה חיובית גוברת",
+  "recaps_trend_location_title": "מקומות לאורך זמן",
+  "recaps_trend_now": "עכשיו %{value}",
+  "recaps_trend_people_title": "אנשים לאורך זמן",
+  "recaps_trend_steady": "יציב",
+  "recaps_trend_tags_title": "תגיות לאורך זמן",
+  "recaps_trend_text": "ממוצע נע של %{days} ימים. מעל הקו: ימים קלים יותר.",
+  "recaps_trend_weighs_less": "מכביד פחות",
+  "recaps_trend_weighs_more": "מכביד יותר",
   "recaps_trips_title_month": {
     "one": "נסיעה אחת החודש",
     "other": "{{count}} נסיעות החודש"

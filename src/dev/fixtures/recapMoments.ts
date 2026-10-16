@@ -87,11 +87,21 @@ const sleepOf = (ago: number): LogItem["sleep"]["quality"] => {
   return ROUGH_NIGHTS.has(ago) ? "bad" : "neutral";
 };
 
+// Lena: neutral days early in the quarter before, very good days later.
+// "People over time" shows a growing lift.
+const LENA_LIFT_FROM = 40;
+
 const ratingOf = (ago: number): LogItem["rating"] => {
   if (ago === BEST_DAY) {
     return "extremely_good";
   }
-  return SPORT.has(ago) ? "very_good" : "good";
+  if (SPORT.has(ago)) {
+    return "very_good";
+  }
+  if (LENA.has(ago)) {
+    return ago <= LENA_LIFT_FROM ? "very_good" : "neutral";
+  }
+  return "good";
 };
 
 const placeOf = (ago: number) => {

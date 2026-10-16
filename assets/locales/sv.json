@@ -774,6 +774,16 @@
     "other": "{{count}} dagar, efter %{weeks} veckor utan."
   },
   "recaps_tag_back_title": "%{tag} är tillbaka",
+  "recaps_trend_fading_lift": "Avtagande lyft",
+  "recaps_trend_growing_lift": "Växande lyft",
+  "recaps_trend_location_title": "Platser över tid",
+  "recaps_trend_now": "nu %{value}",
+  "recaps_trend_people_title": "Personer över tid",
+  "recaps_trend_steady": "Stabil",
+  "recaps_trend_tags_title": "Taggar över tid",
+  "recaps_trend_text": "Rullande %{days} dagar. Över linjen: lättare dagar.",
+  "recaps_trend_weighs_less": "Väger mindre",
+  "recaps_trend_weighs_more": "Väger mer",
   "recaps_trips_title_month": {
     "one": "1 resa den här månaden",
     "other": "{{count}} resor den här månaden"

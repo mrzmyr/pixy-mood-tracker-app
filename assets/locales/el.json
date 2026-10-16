@@ -774,6 +774,16 @@
     "other": "{{count}} μέρες, μετά από %{weeks} εβδομάδες χωρίς."
   },
   "recaps_tag_back_title": "%{tag}: ξανά εδώ",
+  "recaps_trend_fading_lift": "Μειούμενη ώθηση",
+  "recaps_trend_growing_lift": "Αυξανόμενη ώθηση",
+  "recaps_trend_location_title": "Μέρη με τον χρόνο",
+  "recaps_trend_now": "τώρα %{value}",
+  "recaps_trend_people_title": "Άτομα με τον χρόνο",
+  "recaps_trend_steady": "Σταθερό",
+  "recaps_trend_tags_title": "Ετικέτες με τον χρόνο",
+  "recaps_trend_text": "Κυλιόμενες %{days} μέρες. Πάνω από τη γραμμή: πιο ανάλαφρες μέρες.",
+  "recaps_trend_weighs_less": "Βαραίνει λιγότερο",
+  "recaps_trend_weighs_more": "Βαραίνει περισσότερο",
   "recaps_trips_title_month": {
     "one": "1 ταξίδι αυτόν τον μήνα",
     "other": "{{count}} ταξίδια αυτόν τον μήνα"

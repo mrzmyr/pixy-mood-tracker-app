@@ -774,6 +774,16 @@
     "other": "{{count}} napon, %{weeks} hét szünet után."
   },
   "recaps_tag_back_title": "%{tag} újra itt van",
+  "recaps_trend_fading_lift": "Csökkenő emelés",
+  "recaps_trend_growing_lift": "Növekvő emelés",
+  "recaps_trend_location_title": "Helyek az időben",
+  "recaps_trend_now": "most %{value}",
+  "recaps_trend_people_title": "Személyek az időben",
+  "recaps_trend_steady": "Állandó",
+  "recaps_trend_tags_title": "Címkék az időben",
+  "recaps_trend_text": "Gördülő %{days} nap. A vonal felett: könnyebb napok.",
+  "recaps_trend_weighs_less": "Kevésbé nyom",
+  "recaps_trend_weighs_more": "Jobban nyom",
   "recaps_trips_title_month": {
     "one": "1 utazás ebben a hónapban",
     "other": "{{count}} utazás ebben a hónapban"

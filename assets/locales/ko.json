@@ -774,6 +774,16 @@
     "other": "%{weeks}주 만에 {{count}}일."
   },
   "recaps_tag_back_title": "%{tag}이(가) 돌아왔어요",
+  "recaps_trend_fading_lift": "긍정 효과 감소",
+  "recaps_trend_growing_lift": "긍정 효과 증가",
+  "recaps_trend_location_title": "시간에 따른 장소",
+  "recaps_trend_now": "현재 %{value}",
+  "recaps_trend_people_title": "시간에 따른 사람",
+  "recaps_trend_steady": "안정",
+  "recaps_trend_tags_title": "시간에 따른 태그",
+  "recaps_trend_text": "%{days}일 이동 평균. 선 위: 더 가벼운 날.",
+  "recaps_trend_weighs_less": "덜 무거워짐",
+  "recaps_trend_weighs_more": "더 무거워짐",
   "recaps_trips_title_month": {
     "one": "이번 달 여행 1회",
     "other": "이번 달 여행 {{count}}회"

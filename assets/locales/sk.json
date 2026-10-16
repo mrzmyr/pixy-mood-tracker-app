@@ -774,6 +774,16 @@
     "other": "{{count}} dní, po %{weeks} týždňoch bez."
   },
   "recaps_tag_back_title": "%{tag} je späť",
+  "recaps_trend_fading_lift": "Slabnúci vplyv",
+  "recaps_trend_growing_lift": "Rastúci vplyv",
+  "recaps_trend_location_title": "Miesta v čase",
+  "recaps_trend_now": "teraz %{value}",
+  "recaps_trend_people_title": "Ľudia v čase",
+  "recaps_trend_steady": "Stabilné",
+  "recaps_trend_tags_title": "Štítky v čase",
+  "recaps_trend_text": "Kĺzavo %{days} dní. Nad čiarou: ľahšie dni.",
+  "recaps_trend_weighs_less": "Ťaží menej",
+  "recaps_trend_weighs_more": "Ťaží viac",
   "recaps_trips_title_month": {
     "one": "1 cesta tento mesiac",
     "other": "{{count}} ciest tento mesiac"

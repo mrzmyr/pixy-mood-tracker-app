@@ -774,6 +774,16 @@
     "other": "隔了 %{weeks} 周后出现 {{count}} 天。"
   },
   "recaps_tag_back_title": "%{tag} 回来了",
+  "recaps_trend_fading_lift": "正面影响减弱",
+  "recaps_trend_growing_lift": "正面影响增强",
+  "recaps_trend_location_title": "地点的变化",
+  "recaps_trend_now": "现在 %{value}",
+  "recaps_trend_people_title": "人物的变化",
+  "recaps_trend_steady": "平稳",
+  "recaps_trend_tags_title": "标签的变化",
+  "recaps_trend_text": "%{days} 天滚动平均。线以上：更轻松的日子。",
+  "recaps_trend_weighs_less": "没那么沉重",
+  "recaps_trend_weighs_more": "更沉重",
   "recaps_trips_title_month": {
     "one": "本月 1 次旅行",
     "other": "本月 {{count}} 次旅行"

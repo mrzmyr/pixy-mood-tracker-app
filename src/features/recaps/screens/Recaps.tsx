@@ -38,11 +38,13 @@ import type { CardFeedback } from "../components/FeedbackFooter";
 import { FeedbackSheet } from "../components/FeedbackSheet";
 import type { FeedbackReason } from "../feedbackReasons";
 import { MomentCard } from "../components/MomentCard";
+import { ChangeCard } from "../components/ChangeCard";
 import { NudgeCard } from "../components/NudgeCard";
 import { PatternCard } from "../components/PatternCard";
 import { SummaryCard } from "../components/SummaryCard";
 import {
   getCardId,
+  isChangeCard,
   isNudgeCard,
   isPatternCard,
   isSummaryCard,
@@ -260,6 +262,18 @@ const Recaps = () => {
           people={people}
           tags={tags}
           periodKind={period.kind}
+          onLayout={onCardLayout(key)}
+          footer={footerFor(card, key)}
+        />
+      );
+    }
+    if (isChangeCard(card)) {
+      return (
+        <ChangeCard
+          key={key}
+          card={card}
+          people={people}
+          tags={tags}
           onLayout={onCardLayout(key)}
           footer={footerFor(card, key)}
         />

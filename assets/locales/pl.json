@@ -774,6 +774,16 @@
     "other": "{{count}} dni, po %{weeks} tygodniach przerwy."
   },
   "recaps_tag_back_title": "%{tag} wraca",
+  "recaps_trend_fading_lift": "Słabnący wpływ",
+  "recaps_trend_growing_lift": "Rosnący wpływ",
+  "recaps_trend_location_title": "Miejsca w czasie",
+  "recaps_trend_now": "teraz %{value}",
+  "recaps_trend_people_title": "Osoby w czasie",
+  "recaps_trend_steady": "Stabilnie",
+  "recaps_trend_tags_title": "Tagi w czasie",
+  "recaps_trend_text": "Kroczące %{days} dni. Nad linią: lżejsze dni.",
+  "recaps_trend_weighs_less": "Ciąży mniej",
+  "recaps_trend_weighs_more": "Ciąży bardziej",
   "recaps_trips_title_month": {
     "one": "1 podróż w tym miesiącu",
     "other": "{{count}} podróże w tym miesiącu"

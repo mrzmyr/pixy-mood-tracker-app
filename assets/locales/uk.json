@@ -774,6 +774,16 @@
     "other": "{{count}} дн., після %{weeks} тиж. без."
   },
   "recaps_tag_back_title": "%{tag} знову тут",
+  "recaps_trend_fading_lift": "Підйом слабшає",
+  "recaps_trend_growing_lift": "Підйом зростає",
+  "recaps_trend_location_title": "Місця з часом",
+  "recaps_trend_now": "зараз %{value}",
+  "recaps_trend_people_title": "Люди з часом",
+  "recaps_trend_steady": "Стабільно",
+  "recaps_trend_tags_title": "Теги з часом",
+  "recaps_trend_text": "Ковзні %{days} дн. Вище лінії: легші дні.",
+  "recaps_trend_weighs_less": "Тисне менше",
+  "recaps_trend_weighs_more": "Тисне сильніше",
   "recaps_trips_title_month": {
     "one": "1 поїздка цього місяця",
     "other": "Поїздок цього місяця: {{count}}"
