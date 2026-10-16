@@ -55,16 +55,24 @@ const LogDraftContext = createContext<LogDraftValue | null>(null);
 /**
  * Holds one logger draft. Mount one per logger: the draft starts at
  * `initialDraft` and ends when the provider unmounts.
+ *
+ * `isPrefilled`: the draft starts dirty, so closing asks before discarding
+ * content the user did not type in the logger (voice mode).
  */
 export const LogDraftProvider = ({
   initialDraft,
+  isPrefilled = false,
   children,
 }: {
   initialDraft: LogDraft;
+  isPrefilled?: boolean;
   children: React.ReactNode;
 }) => {
   const initial = useRef(initialDraft);
-  const [state, setState] = useState({ draft: initialDraft, isDirty: false });
+  const [state, setState] = useState({
+    draft: initialDraft,
+    isDirty: isPrefilled,
+  });
   // Latest draft for verbs called in the same event as a setter, before
   // React renders the new state.
   const latest = useRef(initialDraft);

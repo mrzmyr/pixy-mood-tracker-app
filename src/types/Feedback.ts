@@ -13,4 +13,5 @@ export type FeedbackSource =
   | "modal"
   | "statistics"
   | "error"
-  | "logger";
+  | "logger"
+  | "voice_mode";

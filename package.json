@@ -84,6 +84,7 @@
     "expo-observe": "~57.0.24",
     "expo-router": "~57.0.23",
     "expo-sharing": "~57.0.22",
+    "expo-speech-transcriber": "0.1.9",
     "expo-splash-screen": "~57.0.9",
     "expo-status-bar": "~57.0.1",
     "expo-store-review": "~57.0.3",
@@ -178,5 +179,8 @@
         ]
       }
     }
+  },
+  "patchedDependencies": {
+    "expo-speech-transcriber@0.1.9": "patches/expo-speech-transcriber@0.1.9.patch"
   }
 }
