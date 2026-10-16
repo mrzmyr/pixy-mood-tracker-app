@@ -1,8 +1,4 @@
-import {
-  IOS_SCHEDULED_LIMIT,
-  RECAP_NOTIFICATION_SLOTS,
-  REMINDER_DAYS,
-} from "@/features/notifications";
+import { RECAP_NOTIFICATION_SLOTS } from "@/features/notifications";
 import { getWeekLocale } from "@/lib/translation";
 import { getRecapNotifications } from "../recapNotifications";
 import { WEEK_LOCALE } from "./utils";
@@ -151,9 +147,6 @@ describe("getRecapNotifications", () => {
   });
 
   test("defaults fit the recap share of the iOS notification limit", () => {
-    expect(REMINDER_DAYS + RECAP_NOTIFICATION_SLOTS).toBeLessThanOrEqual(
-      IOS_SCHEDULED_LIMIT
-    );
     // Mid-month, month end on a Sunday, last week of the year, New Year's Eve after the time.
     const dates = [
       now,

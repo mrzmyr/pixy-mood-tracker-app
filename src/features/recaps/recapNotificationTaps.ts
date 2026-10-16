@@ -71,8 +71,10 @@ export const useRecapNotificationTaps = (
     }
     const taps = pending.current;
     pending.current = [];
-    for (const { kind } of taps) {
-      analytics.track("recaps:notification_tapped", { period: kind });
+    if (flag === "on") {
+      for (const { kind } of taps) {
+        analytics.track("recaps:notification_tapped", { period: kind });
+      }
     }
     const last = taps.at(-1);
     if (last) {

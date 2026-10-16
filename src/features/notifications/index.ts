@@ -18,11 +18,6 @@ export type {
   RecapNotificationRequest,
   RecapNotificationScheduler,
 } from "./reminderScheduler";
-export { useNotificationPermissionDenied } from "./useNotificationPermissionDenied";
 export { parseReminderTime, reminderTimeToDate } from "./reminderTime";
-export {
-  IOS_SCHEDULED_LIMIT,
-  RECAP_NOTIFICATION_SLOTS,
-  REMINDER_DAYS,
-} from "./reminderDates";
+export { RECAP_NOTIFICATION_SLOTS } from "./reminderDates";
 export { default as NotificationPreview } from "./components/NotificationPreview";
