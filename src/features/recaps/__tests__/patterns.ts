@@ -64,8 +64,6 @@ describe("stood out", () => {
         type: "stood-out",
         tagId: "tag-0",
         days: 2,
-        with: 5,
-        without: 3.6,
       },
     ]);
   });

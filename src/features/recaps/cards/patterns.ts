@@ -88,12 +88,10 @@ export const stoodOut = (input: RecapInput): PatternCard[] => {
   return candidates
     .sort((a, b) => b.count * b.effect.delta - a.count * a.effect.delta)
     .slice(0, THRESHOLDS.stoodOutMaxCards)
-    .map(({ tagId, count, effect }) => ({
+    .map(({ tagId, count }) => ({
       type: "stood-out",
       tagId,
       days: count,
-      with: effect.with,
-      without: effect.without,
     }));
 };
 
@@ -112,7 +110,6 @@ const rows = (days: RecapDay[], drivers: Driver[]): EffectRow[] => {
       found.push({
         id,
         label,
-        days: effect.days,
         delta: effect.delta,
         signal: effect.signal,
       });
@@ -215,7 +212,6 @@ export const peopleMood = (input: RecapInput): PatternCard[] => {
       people.push({
         id: personId,
         label: null,
-        days: effect.days,
         delta: effect.delta,
         signal: effect.signal,
       });

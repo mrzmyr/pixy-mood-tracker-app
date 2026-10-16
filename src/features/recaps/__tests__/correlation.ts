@@ -28,11 +28,20 @@ describe("getEffect", () => {
 
     expect(getEffect(days(ratings, [0, 1, 2, 3, 4]), hasSport)).toEqual({
       days: 5,
-      with: 5,
-      without: 3.5,
       delta: 1.5,
       signal: "strong",
     });
+  });
+
+  test("stays weak with fewer than 5 days without the driver", () => {
+    const ratings: LogItem["rating"][] = [
+      ...Array.from({ length: 9 }, () => "very_good" as const),
+      "neutral",
+    ];
+
+    expect(
+      getEffect(days(ratings, [0, 1, 2, 3, 4, 5, 6, 7, 8]), hasSport).signal
+    ).toBe("weak");
   });
 
   test("rates a difference without any spread as strong", () => {

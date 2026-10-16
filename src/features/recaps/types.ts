@@ -118,20 +118,13 @@ export interface EffectRow {
   id: string;
   /** Place name; tags, categories, and people resolve their name by id. */
   label: string | null;
-  days: number;
   delta: number;
   signal: EffectSignal;
 }
 
 /** A driver goes with an outcome over enough days. Never a cause. */
 export type PatternCard =
-  | {
-      type: "stood-out";
-      tagId: string;
-      days: number;
-      with: number;
-      without: number;
-    }
+  | { type: "stood-out"; tagId: string; days: number }
   | {
       type: "what-moves";
       tags: EffectRow[];

@@ -2,7 +2,7 @@ import { getDayRating } from "./days";
 import { THRESHOLDS } from "./thresholds";
 import type { RecapDay } from "./types";
 
-/** Signal of an effect. Weak effects never become cards or rows. */
+/** Signal of an effect. Weak rows read "No clear difference". */
 export type EffectSignal = "strong" | "medium" | "weak";
 
 /**
@@ -12,9 +12,7 @@ export type EffectSignal = "strong" | "medium" | "weak";
 export interface Effect {
   /** Days with the driver. */
   days: number;
-  with: number;
-  without: number;
-  /** `with` minus `without`. Positive: those days feel lighter. */
+  /** Mean mood with minus without. Positive: those days feel lighter. */
   delta: number;
   signal: EffectSignal;
 }
@@ -45,7 +43,7 @@ const getScore = (delta: number, error: number) => {
 /**
  * Mood on days with vs. without, and how sure that difference is: the
  * difference over its standard error. 2+ is strong, 1+ medium. Fewer than
- * 5 days with the driver, or none without, is always weak.
+ * 5 days on either side is always weak.
  */
 export const getEffect = (
   days: RecapDay[],
@@ -57,13 +55,7 @@ export const getEffect = (
     (has(day) ? withDriver : withoutDriver).push(getDayRating(day));
   }
   if (withDriver.length === 0 || withoutDriver.length === 0) {
-    return {
-      days: withDriver.length,
-      with: withDriver.length > 0 ? mean(withDriver) : 0,
-      without: withoutDriver.length > 0 ? mean(withoutDriver) : 0,
-      delta: 0,
-      signal: "weak",
-    };
+    return { days: withDriver.length, delta: 0, signal: "weak" };
   }
   const delta = mean(withDriver) - mean(withoutDriver);
   const error = Math.sqrt(
@@ -71,18 +63,15 @@ export const getEffect = (
       variance(withoutDriver) / withoutDriver.length
   );
   const score = getScore(delta, error);
-  const enough = withDriver.length >= THRESHOLDS.effectMinDays;
+  // One day without has no spread, so it alone would look certain.
+  const enough =
+    withDriver.length >= THRESHOLDS.effectMinDays &&
+    withoutDriver.length >= THRESHOLDS.effectMinDays;
   let signal: EffectSignal = "weak";
   if (enough && score >= THRESHOLDS.effectStrongScore) {
     signal = "strong";
   } else if (enough && score >= THRESHOLDS.effectMediumScore) {
     signal = "medium";
   }
-  return {
-    days: withDriver.length,
-    with: mean(withDriver),
-    without: mean(withoutDriver),
-    delta,
-    signal,
-  };
+  return { days: withDriver.length, delta, signal };
 };
