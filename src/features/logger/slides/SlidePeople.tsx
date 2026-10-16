@@ -1,8 +1,8 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
 import { Plus } from "lucide-react-native";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   Pressable,
   ScrollView,
@@ -113,7 +113,6 @@ export const SlidePeople = ({
 }) => {
   const { draft, setPeople } = useLogDraft();
   const router = useRouter();
-  const { newPersonId } = useLocalSearchParams<{ newPersonId?: string }>();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const { people } = usePeopleState();
@@ -141,18 +140,23 @@ export const SlidePeople = ({
     );
   };
 
+  // The add-person form opens on top of this slide, which stays mounted.
+  // Anyone who shows up in the list after mount is new: select them.
+  const knownIds = useRef<Set<string> | null>(null);
+  if (knownIds.current === null) {
+    knownIds.current = new Set(people.map((person) => person.id));
+  }
   useEffect(() => {
-    if (newPersonId) {
-      const isAlreadySelected = draft.people.some((p) => p.id === newPersonId);
-      if (!isAlreadySelected) {
-        const personExists = people.some((person) => person.id === newPersonId);
-        if (personExists) {
-          setPeople([...draft.people, { id: newPersonId }]);
-        }
-      }
-      router.setParams({ newPersonId: undefined });
+    const known = knownIds.current;
+    const added = people.filter((person) => !known?.has(person.id));
+    if (added.length === 0) {
+      return;
     }
-  }, [newPersonId, people, setPeople, draft.people, router]);
+    for (const person of added) {
+      known?.add(person.id);
+    }
+    setPeople([...draft.people, ...added.map((person) => ({ id: person.id }))]);
+  }, [people, draft.people, setPeople]);
 
   return (
     <View

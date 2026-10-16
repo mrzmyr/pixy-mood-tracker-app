@@ -143,9 +143,6 @@ export const usePersonDraft = ({
         has_avatar: avatar !== null,
       });
       peopleUpdater.createPerson(person);
-      if (router.canGoBack()) {
-        router.setParams({ newPersonId: person.id });
-      }
     } else {
       analytics.track("people:person_updated", {
         name_changed: existing?.name !== name,
