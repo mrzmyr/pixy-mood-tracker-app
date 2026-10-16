@@ -38,6 +38,10 @@ export const PullToSearch = ({
   const [viewportHeight, setViewportHeight] = useState(0);
   const contentHeight = useRef(0);
   const isInitiallyHidden = useRef(false);
+  // iOS also reports the end of `scrollTo` as a momentum end. Settling on
+  // those ends loops when the hidden offset is out of reach, and the scroll
+  // view swallows every tap while it thinks it is still moving.
+  const isUserMomentum = useRef(false);
 
   // Layout and content size arrive in either order; hide once both fit.
   const hideInitially = (viewport: number) => {
@@ -98,7 +102,16 @@ export const PullToSearch = ({
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
       onScrollEndDrag={settle(true)}
-      onMomentumScrollEnd={settle(false)}
+      onMomentumScrollBegin={() => {
+        isUserMomentum.current = true;
+      }}
+      onMomentumScrollEnd={(event) => {
+        if (!isUserMomentum.current) {
+          return;
+        }
+        isUserMomentum.current = false;
+        settle(false)(event);
+      }}
     >
       <View
         style={{
