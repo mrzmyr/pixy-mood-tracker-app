@@ -35,6 +35,11 @@ describe("getTrend", () => {
     expect(getTrend(-1, 1)).toBe("growing-lift");
     expect(getTrend(1, -1)).toBe("weighs-more");
   });
+
+  test("reads a line that ends at +0.0 by where it came from", () => {
+    expect(getTrend(0.6, -0.04)).toBe("fading-lift");
+    expect(getTrend(-0.6, 0.04)).toBe("weighs-less");
+  });
 });
 
 describe("tags over time", () => {
@@ -62,9 +67,7 @@ describe("tags over time", () => {
       makeInput({ ...quarter, tags: makeTags(2), items: daily })
     ).find((item) => item.type === "trend-tags");
 
-    expect(
-      card && "series" in card ? card.series.map((line) => line.id) : []
-    ).toEqual([]);
+    expect(card).toBeUndefined();
   });
 
   test("stays hidden when every line is steady", () => {

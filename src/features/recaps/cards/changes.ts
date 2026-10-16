@@ -26,14 +26,17 @@ const mean = (values: number[]) =>
 /**
  * Steady, or which way the effect moved. Above zero now: a lift that grew
  * or faded. At or below zero: weighs more or less than before. Direction,
- * not size, so heavier days turning lighter read as a growing lift.
+ * not size, so heavier days turning lighter read as a growing lift. "Now"
+ * rounds like the shown value, so a lift fading to +0.0 never reads as
+ * weighing more.
  */
 export const getTrend = (first: number, last: number): Trend => {
   const change = last - first;
   if (Math.abs(change) < THRESHOLDS.trendSteadyBelow) {
     return "steady";
   }
-  if (last > 0) {
+  const now = Math.round(last * 10) / 10;
+  if (now > 0 || (now === 0 && change < 0)) {
     return change > 0 ? "growing-lift" : "fading-lift";
   }
   return change < 0 ? "weighs-more" : "weighs-less";
@@ -41,7 +44,8 @@ export const getTrend = (first: number, last: number): Trend => {
 
 /**
  * Window ends from one window after the period start, every step, and
- * always the last day, so the newest days count.
+ * always the last day, so the newest days count. A last day close to the
+ * previous end replaces it, so two windows never nearly overlap.
  */
 const windowEnds = (days: RecapDay[], start: string, kind: TrendKind) => {
   const last = days.at(-1)?.date;
@@ -58,8 +62,13 @@ const windowEnds = (days: RecapDay[], start: string, kind: TrendKind) => {
   ) {
     ends.push(end);
   }
-  if (ends.length > 0 && ends.at(-1) !== last) {
-    ends.push(last);
+  const previous = ends.at(-1);
+  if (previous && previous !== last) {
+    if (daysBetween(previous, last) < step / 2) {
+      ends[ends.length - 1] = last;
+    } else {
+      ends.push(last);
+    }
   }
   return ends;
 };
