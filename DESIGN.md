@@ -123,6 +123,34 @@ Store screens stack top to bottom, positions follow content: eyebrow, headline, 
 - People: "connected", never "together".
 - Store badges: official Apple and Google artwork only.
 
+## Demo characters
+
+Use in every asset, fixture, and copy example. Photos: [docs/demo-characters/](docs/demo-characters/). Never real user data, never stock photos.
+
+**Klara** (user): 36, physiotherapist, part-time, Hamburg-Eimsbüttel. Single parent of Ada since separation last year, shares care with Tobi. Tracks mood to learn what keeps her steady: swimming, Ada, walks with Chuky, Jen. Story: first year rebuilding her routine. Good weeks have swimming and play. Hard days cluster around handovers and Oma Hilde's health.
+
+Klara's people (each connection can feel good, bad, or mixed):
+
+- **Ada**: daughter, 8. Loves Kaifu-Bad and playgrounds. Mostly joyful, some tired evenings. Avatar: [ada.jpg](docs/demo-characters/ada.jpg)
+- **Chuky**: golden retriever puppy since spring. Joy and chaos. Avatar: dog in [klara-chuky.jpg](docs/demo-characters/klara-chuky.jpg)
+- **Jen**: best friend since university. Nights out, long calls. Avatar: Jen in [klara-jen.jpg](docs/demo-characters/klara-jen.jpg)
+- **Oma Hilde**: grandmother, 91, Lübeck, writes letters. Love and worry. Initials avatar
+- **Tobi**: Ada's father. Handovers feel mixed or bad. Initials avatar
+
+Klara's moments:
+
+- **Swim day**: Saturday at Kaifu-Bad with Ada. Very good, happy, proud. Ada, tag Sport, place Kaifu-Bad. Photos: [klara-ada-kaifu-bad.jpg](docs/demo-characters/klara-ada-kaifu-bad.jpg), [klara-ada-swimming.jpg](docs/demo-characters/klara-ada-swimming.jpg), [klara-underwater.jpg](docs/demo-characters/klara-underwater.jpg)
+- **Chuky's first week**: good, loved, tired. Chuky. Photo: [klara-chuky.jpg](docs/demo-characters/klara-chuky.jpg)
+- **Jen's birthday**: very good, silly, energized. Jen. Photo: [klara-jen.jpg](docs/demo-characters/klara-jen.jpg)
+- **Letter from Oma Hilde**: neutral, moved, grateful, sad. Oma Hilde. Photo: [klara-letter.jpg](docs/demo-characters/klara-letter.jpg)
+- **Handover day**: bad, drained, irritated. Tobi. No photo
+
+Feature assets (changelog, launch, store feature):
+
+- One unreleased feature per asset. Turn off flags of all other unreleased features.
+- Entries carry no data from other unreleased features: no photos in People assets, no places in Timeline assets.
+- Released modules (mood, emotions, tags, note) may appear everywhere.
+
 ## Render
 
 ```sh
