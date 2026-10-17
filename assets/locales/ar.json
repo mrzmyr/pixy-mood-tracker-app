@@ -182,6 +182,8 @@
   "keep_editing": "استمر في التحرير",
   "less": "أقل",
   "licenses": "التراخيص",
+  "licenses_load_failed": "تعذّر تحميل التراخيص. حاول مرة أخرى.",
+  "licenses_retry": "حاول مرة أخرى",
   "location_add": "إضافة موقع",
   "location_current": "استخدام الموقع الحالي",
   "location_denied_message": "اسمح لـ Pixy باستخدام موقعك من إعدادات النظام لإضافة أماكن إلى تسجيلاتك.",

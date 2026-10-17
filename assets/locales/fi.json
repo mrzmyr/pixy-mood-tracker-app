@@ -182,6 +182,8 @@
   "keep_editing": "Jatka muokkaamista",
   "less": "Vähemmän",
   "licenses": "Lisenssit",
+  "licenses_load_failed": "Lisenssejä ei voitu ladata. Yritä uudelleen.",
+  "licenses_retry": "Yritä uudelleen",
   "location_add": "Lisää sijainti",
   "location_current": "Käytä nykyistä sijaintia",
   "location_denied_message": "Salli Pixyn käyttää sijaintiasi järjestelmäasetuksissa, jotta voit lisätä paikkoja kirjauksiisi.",

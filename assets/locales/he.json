@@ -182,6 +182,8 @@
   "keep_editing": "תמשיך לערוך",
   "less": "פָּחוּת",
   "licenses": "רישיונות",
+  "licenses_load_failed": "לא ניתן לטעון את הרישיונות. נסה שוב.",
+  "licenses_retry": "נסה שוב",
   "location_add": "הוספת מיקום",
   "location_current": "שימוש במיקום הנוכחי",
   "location_denied_message": "יש לאפשר ל-Pixy להשתמש במיקום שלך בהגדרות המערכת כדי להוסיף מקומות לרשומות.",

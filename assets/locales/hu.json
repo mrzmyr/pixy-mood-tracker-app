@@ -182,6 +182,8 @@
   "keep_editing": "Folytasd a szerkesztést",
   "less": "Kevesebb",
   "licenses": "Licencek",
+  "licenses_load_failed": "A licenceket nem sikerült betölteni. Próbáld újra.",
+  "licenses_retry": "Újrapróbálás",
   "location_add": "Helyszín hozzáadása",
   "location_current": "Jelenlegi hely használata",
   "location_denied_message": "Engedélyezd a rendszerbeállításokban, hogy a Pixy használja a helyadataidat, így helyszíneket adhatsz a bejegyzéseidhez.",

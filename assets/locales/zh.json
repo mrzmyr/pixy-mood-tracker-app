@@ -182,6 +182,8 @@
   "keep_editing": "继续编辑",
   "less": "较少的",
   "licenses": "许可证",
+  "licenses_load_failed": "无法加载许可证。请重试。",
+  "licenses_retry": "重试",
   "location_add": "添加位置",
   "location_current": "使用当前位置",
   "location_denied_message": "请在系统设置中允许 Pixy 使用你的位置，以便为打卡添加地点。",

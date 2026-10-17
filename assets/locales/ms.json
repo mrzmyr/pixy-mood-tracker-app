@@ -182,6 +182,8 @@
   "keep_editing": "Teruskan Mengedit",
   "less": "Kurang",
   "licenses": "Lesen",
+  "licenses_load_failed": "Lesen tidak dapat dimuatkan. Cuba lagi.",
+  "licenses_retry": "Cuba Lagi",
   "location_add": "Tambah Lokasi",
   "location_current": "Guna Lokasi Semasa",
   "location_denied_message": "Benarkan Pixy menggunakan lokasi anda dalam tetapan sistem untuk menambah tempat pada daftar masuk anda.",
