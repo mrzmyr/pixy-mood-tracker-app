@@ -57,7 +57,7 @@
 - Record mistakes in [MISTAKES.md](MISTAKES.md), missing capabilities in [DESIRES.md](DESIRES.md), and environment discoveries in [LEARNINGS.md](LEARNINGS.md)
 - Public repo: entries contain no private names, internal context, or user data
 - Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Fixed values are fine: rating, emotion keys, sleep quality, intervention cluster, feedback answer. Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
-- Call EAS Observe config only through `configureObserve` ([`src/lib/observe.ts`](src/lib/observe.ts)). Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others.
+- Call EAS Observe only through [`src/lib/observe.ts`](src/lib/observe.ts): `configureObserve` for config, `logObserveEvent` for events. Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others. Same free-text ban as PostHog.
 
 ### Testing
 
