@@ -20,7 +20,11 @@ const SHORT_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
 
 // Formatters are slow to create. Cache one per locale and options object.
 const formatters = new Map<string, Intl.DateTimeFormat>();
-const getFormatter = (
+/**
+ * Cached `Intl.DateTimeFormat` for the current locale. `name` must be unique
+ * per options object: the cache key is `${locale}:${name}`.
+ */
+export const getFormatter = (
   name: string,
   options: Intl.DateTimeFormatOptions
 ): Intl.DateTimeFormat => {
