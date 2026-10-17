@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Platform, Pressable, StyleSheet } from "react-native";
-import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   Easing,
@@ -40,9 +39,8 @@ const COLOR_MS = 150;
 const PRESS_MS = 120;
 const PRESS_SCALE = 0.97;
 
-// iOS 26+: native Liquid Glass with its own shadow and press response.
-const HAS_GLASS = Platform.OS === "ios" && isGlassEffectAPIAvailable();
 // Android: Material 3 FAB, 56 dp, 16 dp corners, elevation level 3, ripple.
+// iOS uses the native bottom toolbar instead (`CalendarBottomToolbar`).
 const IS_ANDROID = Platform.OS === "android";
 const SIZE = IS_ANDROID ? 56 : 54;
 const RADIUS = IS_ANDROID ? 16 : SIZE / 2;
@@ -77,7 +75,7 @@ const useBarStyle = (
   });
 
 /**
- * Floating button of the calendar. Away from today it is a tertiary chevron
+ * Floating button of the calendar on Android and web. Away from today it is a tertiary chevron
  * that scrolls to the end. At the end it turns into a plus that adds an
  * entry, always primary, also after today has an entry. The color fades
  * fast; the chevron springs into the plus.
@@ -126,17 +124,15 @@ export const CalendarFloatButton = ({
       })
     );
 
-  // Glass and ripple bring their own press response. Elsewhere reduced
-  // motion dims instead of scaling.
-  const ownsPress = !HAS_GLASS && !IS_ANDROID;
+  // Ripple brings its own press response. Elsewhere reduced motion dims
+  // instead of scaling.
+  const ownsPress = !IS_ANDROID;
   const backgroundStyle = useAnimatedStyle(() => ({
-    backgroundColor: HAS_GLASS
-      ? "transparent"
-      : interpolateColor(
-          color.get(),
-          [0, 1],
-          [colors.tertiaryButtonBackground, colors.primaryButtonBackground]
-        ),
+    backgroundColor: interpolateColor(
+      color.get(),
+      [0, 1],
+      [colors.tertiaryButtonBackground, colors.primaryButtonBackground]
+    ),
     opacity: ownsPress && isReducedMotion ? 1 - pressed.get() * 0.3 : 1,
     transform: [
       {
@@ -199,23 +195,15 @@ export const CalendarFloatButton = ({
             justifyContent: "center",
             alignItems: "center",
           },
-          !HAS_GLASS &&
-            !IS_ANDROID && {
-              shadowColor: "#000",
-              shadowOpacity: 0.16,
-              shadowRadius: 8,
-              shadowOffset: { width: 0, height: 4 },
-            },
+          !IS_ANDROID && {
+            shadowColor: "#000",
+            shadowOpacity: 0.16,
+            shadowRadius: 8,
+            shadowOffset: { width: 0, height: 4 },
+          },
           backgroundStyle,
         ]}
       >
-        {HAS_GLASS && (
-          <GlassView
-            isInteractive
-            tintColor={isAtBottom ? colors.primaryButtonBackground : undefined}
-            style={[StyleSheet.absoluteFill, { borderRadius: RADIUS }]}
-          />
-        )}
         <Animated.View style={[styles.bar, firstBar]} />
         <Animated.View style={[styles.bar, secondBar]} />
       </Animated.View>

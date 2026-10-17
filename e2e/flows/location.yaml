@@ -46,8 +46,7 @@ tags: [p1, location]
       FLAG: location
 
 # The new entry shows the time bottom left and the place bottom right.
-- tapOn:
-    id: "calendar-add-entry"
+- runFlow: ../subflows/calendar-add-entry.yaml
 - waitForAnimationToEnd
 - assertVisible:
     id: "logger-date"

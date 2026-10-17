@@ -1,0 +1,11 @@
+appId: ${APP_ID}
+---
+# Scrolls the calendar back to today when it is away from today. iOS shows a
+# native bottom toolbar button, Android a floating button. Toolbar items have
+# no test IDs, so this subflow taps by accessibility label.
+# Assumes the Calendar screen.
+- runFlow:
+    when:
+      visible: "Back to today"
+    commands:
+      - tapOn: "Back to today"

@@ -20,6 +20,7 @@ import { Body } from "./CalendarBottomSheet/Body";
 import { PromoCards } from "./PromoCards";
 import CalendarHeader from "./CalendarHeader";
 import { CalendarFloatButton } from "./CalendarFloatButton";
+import { CalendarBottomToolbar } from "./CalendarBottomToolbar";
 import { useFootNote } from "./footNote";
 import { Timeline } from "./Timeline";
 import { CalendarMap } from "./Map";
@@ -28,6 +29,10 @@ import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import dayjs from "dayjs";
 import { getItemDate } from "@/lib/logDates";
+
+// iOS: native bottom toolbar. Android: Material 3 FAB. Web: floating button.
+const AddEntryControl =
+  process.env.EXPO_OS === "ios" ? CalendarBottomToolbar : CalendarFloatButton;
 
 // Space between the list end and the foot note, revealed on overscroll.
 const FOOT_NOTE_GAP = 20;
@@ -91,6 +96,26 @@ const CalendarScreenComponent = () => {
       </View>
     );
   }
+
+  const addEntryProps = {
+    // Newest entries sit at the timeline top, and the map does not
+    // scroll: both always show add.
+    isAtBottom: !isCalendar || !isAwayFromToday,
+    hasTodayEntry,
+    onScrollToBottom: () => {
+      analytics.track("calendar:today_tapped");
+      scrollRef.current?.scrollToEnd({ animated: true });
+    },
+    onAdd: () => {
+      analytics.track("calendar:add_today_tapped", {
+        has_entries: hasTodayEntry,
+      });
+      router.push({
+        pathname: "/logs/create/[dateTime]",
+        params: { dateTime: dayjs().toISOString() },
+      });
+    },
+  };
 
   const filtersBody =
     Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null;
@@ -167,27 +192,7 @@ const CalendarScreenComponent = () => {
   return (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
       {content}
-      {showFloatButton && (
-        <CalendarFloatButton
-          // Newest entries sit at the timeline top, and the map does not
-          // scroll: both always show add.
-          isAtBottom={!isCalendar || !isAwayFromToday}
-          hasTodayEntry={hasTodayEntry}
-          onScrollToBottom={() => {
-            analytics.track("calendar:today_tapped");
-            scrollRef.current?.scrollToEnd({ animated: true });
-          }}
-          onAdd={() => {
-            analytics.track("calendar:add_today_tapped", {
-              has_entries: hasTodayEntry,
-            });
-            router.push({
-              pathname: "/logs/create/[dateTime]",
-              params: { dateTime: dayjs().toISOString() },
-            });
-          }}
-        />
-      )}
+      {showFloatButton && <AddEntryControl {...addEntryProps} />}
       {Platform.OS !== "web" && <CalendarBottomSheet />}
       <ObserveInteractiveMarker />
     </View>
