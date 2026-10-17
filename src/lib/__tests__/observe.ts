@@ -23,6 +23,12 @@ describe("observeConfig", () => {
     expect(configKeys(true)).toEqual(configKeys(false));
   });
 
+  it("keeps the router integration on whatever the consent", () => {
+    expect(observeConfig({ consent: false }, phone).integrations).toEqual(
+      observeConfig({ consent: true }, phone).integrations
+    );
+  });
+
   it("dispatches from preview builds on real devices", () => {
     const build = { ...phone, variant: "preview" } as const;
 
