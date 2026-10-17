@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import type { LayoutChangeEvent, ViewStyle } from "react-native";
+import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import type { ViewStyle } from "react-native";
 import { Platform, View, useWindowDimensions } from "react-native";
 
 import useColors from "@/hooks/useColors";
@@ -17,31 +17,45 @@ const MenuList = ({
   const colors = useColors();
   const { width: windowWidth } = useWindowDimensions();
   const [bleed, setBleed] = useState({ left: 0, right: 0 });
-  const [listRef, setListRef] = useState<View | null>(null);
+  const listRef = useRef<View>(null);
 
   // Android lists run edge to edge: grow past the screen padding on both sides.
   // Measured offsets are relative to the current bleed, so add them on top.
-  const measureBleed = useCallback(
-    (_event: LayoutChangeEvent) => {
-      listRef?.measureInWindow((x, _y, width) => {
-        const extraLeft = Math.round(x);
-        const extraRight = Math.round(windowWidth - x - width);
-        if (extraLeft === 0 && extraRight === 0) {
-          return;
-        }
-        setBleed((current) => ({
-          left: Math.max(0, current.left + extraLeft),
-          right: Math.max(0, current.right + extraRight),
-        }));
-      });
-    },
-    [listRef, windowWidth]
-  );
+  // `getBoundingClientRect` reads the same window coordinates as
+  // `measureInWindow`, but synchronously.
+  const measureBleed = useCallback(() => {
+    // The Jest test renderer gives refs without DOM methods.
+    if (listRef.current?.getBoundingClientRect === undefined) {
+      return;
+    }
+    const { x, width } = listRef.current.getBoundingClientRect();
+    // Not laid out yet (detached or hidden): `onLayout` measures later.
+    if (width === 0) {
+      return;
+    }
+    const extraLeft = Math.round(x);
+    const extraRight = Math.round(windowWidth - x - width);
+    if (extraLeft === 0 && extraRight === 0) {
+      return;
+    }
+    setBleed((current) => ({
+      left: Math.max(0, current.left + extraLeft),
+      right: Math.max(0, current.right + extraRight),
+    }));
+  }, [windowWidth]);
+
+  // First bleed before paint: the list never shows inset. `onLayout` keeps it
+  // current after rotation or resize.
+  useLayoutEffect(() => {
+    if (Platform.OS === "android") {
+      measureBleed();
+    }
+  }, [measureBleed]);
 
   if (Platform.OS === "android") {
     return (
       <View
-        ref={setListRef}
+        ref={listRef}
         onLayout={measureBleed}
         testID="menu-list-flat"
         style={[

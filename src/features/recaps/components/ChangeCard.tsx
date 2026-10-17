@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import type { ReactNode } from "react";
-import { useState } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import Svg, { Circle, G, Line, Path, Text as SvgText } from "react-native-svg";
@@ -10,6 +9,7 @@ import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
+import { useMeasuredSize } from "@/hooks/useMeasuredSize";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { formatDelta } from "../format";
@@ -118,7 +118,9 @@ const TrendChart = ({
   ends: DateKey[];
 }) => {
   const colors = useColors();
-  const [width, setWidth] = useState(0);
+  // Known before the first paint: the chart shows in the first frame.
+  const { ref, size, onLayout } = useMeasuredSize();
+  const { width } = size;
   const known = lines.flatMap(({ series }) =>
     series.values.flatMap((value) => (value === null ? [] : [Math.abs(value)]))
   );
@@ -131,8 +133,9 @@ const TrendChart = ({
 
   return (
     <View
+      ref={ref}
       style={{ height: PLOT_HEIGHT + AXIS_HEIGHT }}
-      onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
+      onLayout={onLayout}
       accessible={false}
       importantForAccessibility="no-hide-descendants"
     >

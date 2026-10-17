@@ -1,12 +1,24 @@
 import { AppleMaps } from "expo-maps";
-import { memo, useCallback, useMemo, useRef, useState } from "react";
+import {
+  memo,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FlatList, Text, View, useWindowDimensions } from "react-native";
-import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import type {
+  HostInstance,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getLocationLabel } from "@/features/location";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import useColors from "@/hooks/useColors";
+import { readMeasuredSize, useMeasuredSize } from "@/hooks/useMeasuredSize";
 import useScale from "@/hooks/useScale";
 import { getItemDate } from "@/lib/logDates";
 import { t } from "@/lib/translation";
@@ -50,8 +62,26 @@ const MapComponent = () => {
   const listRef = useRef<FlatList<MapEntry>>(null);
   // `null`: the newest card. A deleted or filtered out entry falls back too.
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [mapHeight, setMapHeight] = useState(0);
+  // Map and card heights known before the first paint: the first camera is
+  // final, no jump from the default region.
+  const {
+    ref: mapBoxRef,
+    size: { height: mapHeight },
+    onLayout: handleMapLayout,
+  } = useMeasuredSize();
   const [cardsHeight, setCardsHeight] = useState(0);
+  // Mount only: entries are in memory when the map opens. A card row that
+  // mounts later reports through `onLayout`.
+  useLayoutEffect(() => {
+    const cards = readMeasuredSize(
+      // SAFETY: FlatList renders a host ScrollView, so its native scroll ref
+      // is a host instance; Jest refs without DOM methods read as `null`.
+      listRef.current?.getNativeScrollRef() as HostInstance | null | undefined
+    );
+    if (cards) {
+      setCardsHeight(cards.height);
+    }
+  }, []);
   const cardWidth = width - CARD_INSET * 2;
   const interval = cardWidth + CARD_GAP;
   const active =
@@ -108,9 +138,10 @@ const MapComponent = () => {
 
   return (
     <View
+      ref={mapBoxRef}
       testID="calendar-map"
       style={{ flex: 1 }}
-      onLayout={(event) => setMapHeight(event.nativeEvent.layout.height)}
+      onLayout={handleMapLayout}
     >
       <AppleMaps.View
         ref={mapRef}
