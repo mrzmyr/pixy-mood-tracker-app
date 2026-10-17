@@ -1,44 +1,56 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Platform, TextInput, View } from "react-native";
-import Toggle from "@/components/Toggle";
+import { Contact, Trash2 } from "lucide-react-native";
+import { useRef } from "react";
+import { Platform, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Button from "@/components/Button";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
+import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import ModalHeader from "@/components/ModalHeader";
 import TextInfo from "@/components/TextInfo";
+import Toggle from "@/components/Toggle";
 import { MAX_TAG_LENGTH } from "@/constants/Config";
+import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import Alert from "@/lib/Alert";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import { PersonChip } from "../components/PersonChip";
+import { PersonAvatar } from "../components/PersonAvatar";
+import { PhotoButton } from "../components/PhotoButton";
+import type { PhotoAction } from "../components/PhotoButton/types";
 import { usePersonDraft } from "../hooks/usePersonDraft";
 import { usePersonEntryCount } from "../hooks/usePersonEntryCount";
 import { usePeopleUpdater } from "../PeopleProvider";
-import { RADIUS } from "@/constants/Radius";
 
-/** Archive switch and delete button of the edit form. */
+const AVATAR_SIZE = 112;
+const SECTION_GAP = 32;
+
+/** Archive switch and delete row of the edit form. */
 const EditActions = ({
   personId,
+  name,
   isArchived,
   onToggleArchived,
   onLeave,
 }: {
   personId: string;
+  /** Stored name, not the draft, so the footers do not change while typing. */
+  name: string;
   isArchived: boolean;
   onToggleArchived: () => void;
   /** Called before the screen closes itself, so the discard guard stays quiet. */
   onLeave: () => void;
 }) => {
   const router = useRouter();
+  const colors = useColors();
   const haptics = useHaptics();
   const analytics = useAnalytics();
   const peopleUpdater = usePeopleUpdater();
   const entryCount = usePersonEntryCount(personId);
+  const isIOS = Platform.OS === "ios";
 
   const askToDelete = () => {
     analytics.track("people:delete_requested", { entries_count: entryCount });
@@ -71,9 +83,10 @@ const EditActions = ({
 
   return (
     <>
-      <MenuList style={{ marginTop: 16 }}>
+      <MenuList style={{ marginTop: SECTION_GAP }}>
         <MenuListItem
           title={t("people_archive")}
+          onPress={onToggleArchived}
           iconRight={
             <Toggle
               accessibilityLabel={t("people_archive")}
@@ -85,39 +98,91 @@ const EditActions = ({
         />
       </MenuList>
       <TextInfo>{t("people_archive_description")}</TextInfo>
-      <View style={{ marginTop: 32 }}>
-        <Button
-          style={{ width: "100%" }}
-          onPress={askToDelete}
-          type="danger"
+      <MenuList style={{ marginTop: SECTION_GAP - 16 }}>
+        <MenuListItem
           testID="person-delete"
-        >
-          {t("delete")}
-        </Button>
-      </View>
+          onPress={askToDelete}
+          iconLeft={
+            isIOS ? null : <Trash2 size={24} color={colors.dangerButtonText} />
+          }
+          title={
+            <Text
+              style={{
+                fontSize: isIOS ? 17 : 16,
+                color: colors.dangerButtonText,
+                textAlign: isIOS ? "center" : "left",
+              }}
+            >
+              {t("people_delete")}
+            </Text>
+          }
+        />
+      </MenuList>
+      <TextInfo>
+        {t("people_delete_footer", { count: entryCount, name })}
+      </TextInfo>
     </>
   );
 };
 
 /**
- * Create or edit a person: avatar from contacts or the photo library, name,
- * archive switch, and delete. Files change only on save, so cancel leaves
- * the stored avatar untouched.
+ * Create or edit a person: photo, name, archive switch, and delete. "Add
+ * Photo" opens the library; with a photo, "Edit Photo" opens a native menu.
+ * Files change only on save, so cancel leaves the stored avatar untouched.
  */
 const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id?: string }>();
   const colors = useColors();
   const insets = useSafeAreaInsets();
+  const nameRef = useRef<TextInput>(null);
   const draft = usePersonDraft({ mode, id });
   const {
-    save: handleSave,
+    save,
+    fromLibrary,
+    fromContact,
     setName: handleNameChange,
-    toggleArchived: handleToggleArchived,
-    fromLibrary: handlePickPhoto,
     removePhoto: handleRemovePhoto,
+    toggleArchived: handleToggleArchived,
     allowLeave: handleAllowLeave,
   } = draft;
+  const isIOS = Platform.OS === "ios";
+
+  const handleSave = () => {
+    if (!draft.isNameValid) {
+      nameRef.current?.focus();
+    }
+    void save();
+  };
+  const handlePickPhoto = () => {
+    void fromLibrary();
+  };
+  const handleContactPhoto = () => {
+    void fromContact();
+  };
+
+  const photoActions: PhotoAction[] = [
+    {
+      label: t("people_photo_choose"),
+      testID: "person-photo-choose",
+      onPress: handlePickPhoto,
+    },
+    ...(draft.canUseContactPhoto
+      ? [
+          {
+            label: t("people_photo_use_contact"),
+            testID: "person-photo-contact",
+            onPress: handleContactPhoto,
+          },
+        ]
+      : []),
+    {
+      label: t("people_photo_remove"),
+      testID: "person-remove-photo",
+      onPress: handleRemovePhoto,
+      destructive: true,
+    },
+  ];
 
   return (
     <DismissKeyboard>
@@ -139,47 +204,66 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
             <LinkButton
               onPress={handleSave}
               type="primary"
-              disabled={!draft.canSave}
+              disabled={draft.isSaving}
               testID="person-save"
             >
               {mode === "create" ? t("add") : t("save")}
             </LinkButton>
           }
         />
-        <View style={{ flex: 1, padding: 20 }}>
-          <View style={{ alignItems: "center", marginBottom: 8 }}>
-            <PersonChip
-              variant="large"
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode={isIOS ? "interactive" : "on-drag"}
+          contentContainerStyle={{
+            padding: 20,
+            paddingBottom: 20 + insets.bottom,
+          }}
+        >
+          <View style={{ alignItems: "center", gap: 12 }}>
+            <PersonAvatar
               person={{ ...draft.person, avatar: draft.previewAvatar }}
               previewUri={draft.previewUri}
-              onPress={handlePickPhoto}
-              testID="person-avatar"
+              size={AVATAR_SIZE}
             />
-            <LinkButton onPress={handlePickPhoto} type="primary">
-              {t("people_change_photo")}
-            </LinkButton>
-            {draft.hasPhoto && (
-              <LinkButton
-                onPress={handleRemovePhoto}
-                type="primary"
-                testID="person-remove-photo"
-              >
-                {t("people_photo_remove")}
-              </LinkButton>
-            )}
+            <PhotoButton
+              hasPhoto={draft.hasPhoto}
+              addLabel={t("people_photo_add")}
+              editLabel={t("people_photo_edit")}
+              testID="person-photo"
+              onAdd={handlePickPhoto}
+              actions={photoActions}
+            />
           </View>
+          {mode === "create" && (
+            <MenuList style={{ marginTop: SECTION_GAP }}>
+              <MenuListItem
+                title={t("people_add_from_contacts")}
+                iconLeft={<Contact size={22} color={colors.tint} />}
+                onPress={() => router.replace("/people/import")}
+                style={{ color: colors.tint }}
+                testID="person-from-contacts"
+              />
+            </MenuList>
+          )}
+          <MenuListHeadline>{t("people_name")}</MenuListHeadline>
           <TextInput
-            accessibilityLabel={t("people_name_placeholder")}
+            ref={nameRef}
+            accessibilityLabel={t("people_name")}
             testID="person-name"
             autoCorrect={false}
+            autoComplete="name"
+            textContentType="name"
+            clearButtonMode="while-editing"
             style={{
-              fontSize: 17,
+              fontSize: isIOS ? 17 : 16,
               color: colors.textInputText,
-              backgroundColor: colors.textInputBackground,
+              backgroundColor: isIOS
+                ? colors.menuListItemBackground
+                : colors.textInputBackground,
               width: "100%",
-              padding: 16,
-              borderRadius: RADIUS.sm,
-              marginBottom: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 14,
+              borderRadius: isIOS ? RADIUS.md : RADIUS.sm,
             }}
             placeholder={t("people_name_placeholder")}
             placeholderTextColor={colors.textInputPlaceholder}
@@ -189,23 +273,31 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
             onSubmitEditing={handleSave}
             onChangeText={handleNameChange}
           />
-          {mode === "create" ? (
-            <Button
-              type="secondary"
-              onPress={() => router.replace("/people/import")}
-              testID="person-from-contacts"
+          {draft.nameError && (
+            <Text
+              accessibilityRole="alert"
+              accessibilityLiveRegion="polite"
+              testID="person-name-error"
+              style={{
+                fontSize: 13,
+                color: colors.dangerButtonText,
+                paddingHorizontal: 16,
+                marginTop: 8,
+              }}
             >
-              {t("people_add_from_contacts")}
-            </Button>
-          ) : (
+              {t("people_name_required")}
+            </Text>
+          )}
+          {mode === "edit" && (
             <EditActions
               personId={draft.person.id}
+              name={draft.storedName}
               isArchived={Boolean(draft.person.isArchived)}
               onToggleArchived={handleToggleArchived}
               onLeave={handleAllowLeave}
             />
           )}
-        </View>
+        </ScrollView>
       </View>
     </DismissKeyboard>
   );
