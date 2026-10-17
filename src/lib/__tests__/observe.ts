@@ -31,6 +31,17 @@ describe("observeConfig", () => {
     );
   });
 
+  it("tags events with the build variant", () => {
+    const build = { ...phone, variant: "preview" } as const;
+
+    expect(observeConfig({ consent: true }, phone).environment).toBe(
+      "production"
+    );
+    expect(observeConfig({ consent: false }, build).environment).toBe(
+      "preview"
+    );
+  });
+
   it.each([
     ["simulator or emulator", { ...phone, isDevice: false }],
     ["development build", { ...phone, variant: "development" }],

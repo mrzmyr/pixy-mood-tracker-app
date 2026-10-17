@@ -37,8 +37,10 @@ const canDispatch = ({ hasVariant, variant, isDevice }: ObserveBuild) =>
 export const observeConfig = (
   { consent }: ObserveOptions,
   build: ObserveBuild = currentBuild
-): Required<Pick<ObserveConfig, "dispatchingEnabled">> => ({
+): Required<Pick<ObserveConfig, "dispatchingEnabled" | "environment">> => ({
   dispatchingEnabled: consent && canDispatch(build),
+  // Default is NODE_ENV, which reads `production` for preview builds too.
+  environment: build.variant,
 });
 
 /**
