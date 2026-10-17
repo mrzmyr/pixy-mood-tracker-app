@@ -91,6 +91,7 @@ export const PrivacyScreen = () => {
               title={t("behavioral_data")}
               iconRight={
                 <Toggle
+                  accessibilityLabel={t("behavioral_data")}
                   onValueChange={() => {
                     analytics.track("settings:analytics_toggled", {
                       enabled: !analytics.isEnabled,
