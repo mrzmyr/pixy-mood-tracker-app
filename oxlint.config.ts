@@ -138,6 +138,16 @@ export default defineConfig({
       },
     },
     {
+      // Tests never ship, so they may reach into features and dev fixtures.
+      files: ["src/**/__tests__/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          { patterns: [reactNavigationImport] },
+        ],
+      },
+    },
+    {
       // Feature entry files intentionally re-export public symbols.
       files: ["src/features/*/index.ts"],
       rules: { "oxc/no-barrel-file": "off" },
