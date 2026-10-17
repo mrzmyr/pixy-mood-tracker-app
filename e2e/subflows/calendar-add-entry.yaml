@@ -1,0 +1,7 @@
+appId: ${APP_ID}
+---
+# Adds an entry for today from the calendar. iOS shows a native bottom
+# toolbar, Android a floating button. Toolbar items have no test IDs, so this
+# subflow taps by accessibility label on both platforms.
+# Assumes the Calendar screen, scrolled to today.
+- tapOn: "Add New Entry|Add another entry for today"

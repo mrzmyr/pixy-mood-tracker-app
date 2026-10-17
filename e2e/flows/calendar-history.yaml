@@ -71,13 +71,7 @@ tags: [p0, calendar]
     id: "log-list-close"
 
 # Back to today.
-- runFlow:
-    when:
-      visible:
-        id: "scroll-to-bottom"
-    commands:
-      - tapOn:
-          id: "scroll-to-bottom"
+- runFlow: ../subflows/calendar-back-to-today.yaml
 - extendedWaitUntil:
     visible:
       id: "calendar-day-${output.today}"
