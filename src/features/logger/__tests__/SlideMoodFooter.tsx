@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react-native";
+import { fireEvent, render, screen } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { _generateItem } from "@/__tests__/utils";
 import Colors from "@/constants/Colors";
@@ -62,5 +62,37 @@ describe("SlideMoodFooter location button", () => {
       "Locating…"
     );
     expect(screen.queryByText("Locating…")).toBeNull();
+  });
+});
+
+describe("SlideMoodFooter entry time (iOS)", () => {
+  test("shows separate date and time controls", async () => {
+    await renderFooter({});
+
+    expect(await screen.findByTestId("logger-date")).toBeTruthy();
+    expect(screen.getByTestId("logger-time")).toBeTruthy();
+  });
+
+  test("a picked time moves the entry", async () => {
+    await renderFooter({});
+    const picked = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
+
+    await fireEvent(screen.getByTestId("logger-time"), "dateChange", picked);
+
+    expect(screen.getByTestId("logger-date")).toHaveProp("accessibilityValue", {
+      text: picked.toISOString(),
+    });
+  });
+
+  test("a picked time after now saves now", async () => {
+    await renderFooter({});
+    const later = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+    await fireEvent(screen.getByTestId("logger-date"), "dateChange", later);
+
+    const saved = new Date(
+      screen.getByTestId("logger-date").props.accessibilityValue.text
+    );
+    expect(saved.getTime()).toBeLessThan(later.getTime());
   });
 });

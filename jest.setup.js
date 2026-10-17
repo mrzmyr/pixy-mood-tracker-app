@@ -141,6 +141,14 @@ jest.mock("@expo/ui/swift-ui", () => {
     ContextMenu: mockSwiftUiContextMenu,
     Image: () => null,
     Menu: ({ children }) => <View>{children}</View>,
+    // Fire "dateChange" with a Date to pick. The selection shows as the value text.
+    DatePicker: ({ testID, selection, onDateChange }) => (
+      <View
+        testID={testID}
+        accessibilityValue={{ text: selection?.toISOString() }}
+        onDateChange={onDateChange}
+      />
+    ),
     Button: ({ label, onPress }) => (
       <Pressable
         accessibilityRole="menuitem"
