@@ -262,6 +262,15 @@ On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails 
 | `production` | iOS | TestFlight | `eas:ios:prod` | `.ipa` | Submit `.ipa` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
 | `production` | Android | Google Play Console | `eas:android:prod` | `.aab` | Submit `.aab` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
 
+### Tree shaking
+
+- `preview` and `production` bundles use [Expo tree shaking](https://docs.expo.dev/guides/tree-shaking/): `EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH=1` and `EXPO_UNSTABLE_TREE_SHAKING=1`
+- EAS profiles set both in [`eas.json`](../eas.json). [`metro.config.js`](../metro.config.js) defaults both to `1` unless variant is `development`, so local release builds match
+- Production-mode bundles only. Metro dev server ignores both variables
+- Reproduce locally: `EXPO_PUBLIC_APP_VARIANT=production bunx expo export --platform ios --dump-sourcemap`
+- Compare: same command with `EXPO_UNSTABLE_TREE_SHAKING=0 EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH=0`. Inspect bundle contents with [Expo Atlas](https://docs.expo.dev/guides/analyzing-bundles/)
+- Tree shaking skips CommonJS modules (`require`, `module.exports`) and modules with side effects
+
 ## Releasing
 
 - Merging a Release Please PR creates the GitHub release and builds production iOS and Android apps with EAS
