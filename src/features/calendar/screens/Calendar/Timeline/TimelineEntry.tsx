@@ -15,11 +15,10 @@ import { EmotionItem } from "../../LogList/EmotionItem";
 import { RatingDot } from "../../LogList/RatingDot";
 import { ChipRow } from "./ChipRow";
 import { FadingNote } from "./FadingNote";
+import { getEntryTiles } from "./tiles";
 
-// Apple Journal shows up to three media tiles per card: photos, then the
-// map. A single tile is a wide banner; a full-width square would fill most
+// A single media tile is a wide banner; a full-width square would fill most
 // of the screen.
-const MAX_TILES = 3;
 const SINGLE_TILE_ASPECT_RATIO = 2;
 // Chips rendered per row; the rest collapse into a `+N` chip. Keeps an entry
 // with all 161 emotions cheap to lay out.
@@ -78,12 +77,7 @@ const TimelineEntryComponent = ({
   const { tags } = useTagsState();
   const { people } = usePeopleState();
   const { location } = item;
-  const placeTile = showPlace ? location : undefined;
-  const photos = item.photos.slice(
-    0,
-    placeTile === undefined ? MAX_TILES : MAX_TILES - 1
-  );
-  const tileCount = photos.length + (placeTile === undefined ? 0 : 1);
+  const { photos, placeTile, tileCount } = getEntryTiles(item, showPlace);
   const tileAspectRatio = tileCount === 1 ? SINGLE_TILE_ASPECT_RATIO : 1;
   // Only rendered chips are built; unknown keys and ids come from newer app
   // versions, broken imports, or deleted tags and people; skip them.
