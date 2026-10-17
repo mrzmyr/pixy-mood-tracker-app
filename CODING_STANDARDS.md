@@ -13,6 +13,13 @@
 - Use `feat` for features and `fix` for bug fixes. Use `build`, `chore`, `ci`, `docs`, `refactor`, `style`, or `test` when they fit.
 - Mark breaking changes with `!` before `:` or a `BREAKING CHANGE:` footer.
 
+## Unit Tests
+
+- Name test files `*.test.ts` or `*.test.tsx`. Jest runs only these files.
+- Put tests in the `__tests__/` folder next to the module they cover.
+- Shared test helpers keep plain names (`__tests__/utils.ts`) or live in `src/testing/`.
+- Put tests that cover several features in `src/__tests__/`.
+
 ## E2E Tests
 
 **Naming conventions**

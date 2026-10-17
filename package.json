@@ -156,9 +156,9 @@
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
     ],
-    "testPathIgnorePatterns": [
-      "./__tests__/utils.ts",
-      "<rootDir>/scripts/"
+    "testMatch": [
+      "<rootDir>/src/**/*.test.[jt]s?(x)",
+      "<rootDir>/tools/**/*.test.[jt]s?(x)"
     ],
     "transformIgnorePatterns": [
       "/node_modules/(?!(.pnpm|react-native|@react-native|@react-native-community|expo|@expo|@expo-google-fonts|react-navigation|@react-navigation|@sentry/react-native|native-base|standard-navigation|uuid))",
