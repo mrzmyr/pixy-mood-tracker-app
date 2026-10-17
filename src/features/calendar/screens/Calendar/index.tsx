@@ -23,7 +23,6 @@ import { CalendarFloatButton } from "./CalendarFloatButton";
 import { useFootNote } from "./footNote";
 import { Timeline } from "./Timeline";
 import { CalendarMap } from "./Map";
-import { ObserveInteractiveMarker } from "expo-observe";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import dayjs from "dayjs";
@@ -189,7 +188,6 @@ const CalendarScreenComponent = () => {
         />
       )}
       {Platform.OS !== "web" && <CalendarBottomSheet />}
-      <ObserveInteractiveMarker />
     </View>
   );
 };

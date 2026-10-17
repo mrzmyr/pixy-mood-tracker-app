@@ -22,6 +22,7 @@ import Colors from "@/constants/Colors";
 import { configureObserve } from "@/lib/observe";
 import { applyLocale, getLocale } from "@/lib/translation";
 import { useSettings, useSettingsLoad } from "@/state/settings";
+import { useStartupInteractive } from "@/shell/startupInteractive";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
 import { LaunchSplash } from "@/shell/LaunchSplash";
@@ -49,6 +50,7 @@ const AppShell = () => {
   const router = useRouter();
   const pathname = usePathname();
   const rootState = useRootNavigationState();
+  useStartupInteractive();
   useScreenTracking();
   useUsageSummarySync();
   useReminderTapTracking();
