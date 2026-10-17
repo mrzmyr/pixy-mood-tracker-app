@@ -4,6 +4,7 @@ import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { useSettings } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
 import { Radio } from "./Radio";
@@ -26,6 +27,7 @@ export const ColorsScreen = () => {
   const { setSettings, settings } = useSettings();
   const colors = useColors();
   const analytics = useAnalytics();
+  const paddingBottom = useScrollBottomPadding(20);
 
   const { scaleType } = settings;
 
@@ -45,9 +47,8 @@ export const ColorsScreen = () => {
       }}
     >
       <ScrollView
-        style={{
-          padding: 20,
-        }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 20, paddingBottom }}
       >
         {typesNames.map((type) => (
           <Fragment key={type.id}>

@@ -42,6 +42,7 @@ import {
 import { useSettings } from "@/state/settings";
 import { COLOR_SCHEMES } from "@/state/settings/colorScheme";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { useIsWidgetEnabled } from "@/features/widget";
 import { AppLockMenuItem } from "@/features/applock";
 import { ProfileRow } from "@/features/profile";
@@ -66,6 +67,7 @@ const DEVELOPMENT_UNLOCK_TAPS = 20;
 export const SettingsScreen = () => {
   const router = useRouter();
   const colors = useColors();
+  const paddingBottom = useScrollBottomPadding(20);
   const iconProps = { width: 20, height: 20, color: colors.menuListItemIcon };
   const analytics = useAnalytics();
   const isWidgetEnabled = useIsWidgetEnabled();
@@ -111,9 +113,8 @@ export const SettingsScreen = () => {
       }}
     >
       <ScrollView
-        style={{
-          padding: 20,
-        }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 20, paddingBottom }}
       >
         {isProfileEnabled && (
           <View style={{ marginBottom: 24 }}>
