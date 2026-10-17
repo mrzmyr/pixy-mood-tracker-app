@@ -1,7 +1,9 @@
 import { Platform } from "react-native";
 import Animated, {
+  KeyboardState,
   useAnimatedKeyboard,
   useAnimatedStyle,
+  withTiming,
 } from "react-native-reanimated";
 import ArrowRight from "lucide-react-native/icons/arrow-right";
 import Check from "lucide-react-native/icons/check";
@@ -13,6 +15,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 // iOS keyboard height includes the home indicator area, which the button
 // padding already covers.
 const KEYBOARD_OVERLAP = Platform.OS === "ios" ? 20 : 0;
+
+// iOS: Reanimated estimates the opening frames toward the notification end
+// frame, then reports the measured keyboard view once open. The two can
+// differ by a few points; ease that last step instead of snapping.
+const SETTLE_DURATION = 120;
 
 /**
  * Floating next/save button of the logger. It follows the native keyboard
@@ -33,13 +40,19 @@ export const SlideAction = ({
 
   const keyboard = useAnimatedKeyboard();
 
-  const keyboardStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: -Math.max(keyboard.height.get() - KEYBOARD_OVERLAP, 0),
-      },
-    ],
-  }));
+  const keyboardStyle = useAnimatedStyle(() => {
+    const lift = -Math.max(keyboard.height.get() - KEYBOARD_OVERLAP, 0);
+    const settled = keyboard.state.get() === KeyboardState.OPEN;
+    return {
+      transform: [
+        {
+          translateY: settled
+            ? withTiming(lift, { duration: SETTLE_DURATION })
+            : lift,
+        },
+      ],
+    };
+  });
 
   if (type === "hidden") {
     return null;
