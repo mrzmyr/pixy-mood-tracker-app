@@ -1,6 +1,7 @@
 import round from "lodash/round";
 import { View } from "react-native";
 import { t } from "@/lib/translation";
+import { formatNumber } from "@/lib/formatNumber";
 import type { LogItem } from "@/features/logs";
 import { StatsCard } from "./StatsCard";
 import { getWordCount } from "@/lib/utils";
@@ -65,7 +66,7 @@ export const Stats = ({
         }}
       >
         <StatsCard
-          title={`${items.length}`}
+          title={formatNumber(items.length)}
           subtitle={t("entries")}
           trendType={items.length > prevItems.length ? "up" : "down"}
           trendValue={Math.abs(items.length - prevItems.length)}
@@ -75,7 +76,7 @@ export const Stats = ({
           }}
         />
         <StatsCard
-          title={`${itemsPerDay}`}
+          title={formatNumber(itemsPerDay)}
           subtitle={t("entries_per_day")}
           trendType={itemsPerDay > itemsPerDayPrev ? "up" : "down"}
           trendValue={itemsPerDayDiff}
@@ -91,7 +92,7 @@ export const Stats = ({
         }}
       >
         <StatsCard
-          title={`${tags}`}
+          title={formatNumber(tags)}
           subtitle={t("tags_used")}
           trendType={tags > tagsPrev ? "up" : "down"}
           trendValue={Math.abs(tags - tagsPrev)}
@@ -101,7 +102,7 @@ export const Stats = ({
           }}
         />
         <StatsCard
-          title={`${tagsPerDay}`}
+          title={formatNumber(tagsPerDay)}
           subtitle={t("tags_per_day")}
           trendType={tagsPerDay > tagsPerDayPrev ? "up" : "down"}
           trendValue={tagsPerDayDiff}
@@ -117,7 +118,7 @@ export const Stats = ({
         }}
       >
         <StatsCard
-          title={`${words}`}
+          title={formatNumber(words)}
           subtitle={t("words_written")}
           trendType={words > wordsPrev ? "up" : "down"}
           trendValue={wordsDiff}
@@ -127,7 +128,7 @@ export const Stats = ({
           }}
         />
         <StatsCard
-          title={`${wordsPerDay}`}
+          title={formatNumber(wordsPerDay)}
           subtitle={t("words_written_per_day")}
           trendType={wordsPerDay > wordsPerDayPrev ? "up" : "down"}
           trendValue={wordsPerDayDiff}
