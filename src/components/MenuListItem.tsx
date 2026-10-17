@@ -1,6 +1,11 @@
 import React, { isValidElement, useCallback } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import type { AccessibilityValue, TextStyle, ViewStyle } from "react-native";
+import type {
+  AccessibilityValue,
+  ColorValue,
+  TextStyle,
+  ViewStyle,
+} from "react-native";
 
 import { ChevronRight } from "react-native-feather";
 import useColors from "@/hooks/useColors";
@@ -67,7 +72,7 @@ const getRightIcon = ({
 }: {
   showChevron: boolean;
   iconRight: React.ReactElement | null;
-  color: string;
+  color: ColorValue;
 }) => (showChevron ? <ChevronRight width={18} color={color} /> : iconRight);
 
 const getAccessibilityRole = (hasPress: boolean, checked?: boolean) => {
@@ -124,7 +129,7 @@ const MenuListItem = ({
   const rightIcon = getRightIcon({
     showChevron: Boolean(isLink) && !isAndroid,
     iconRight,
-    color: colors.menuListItemIcon,
+    color: colors.menuListItemChevron,
   });
 
   const _onPress = useCallback(() => {

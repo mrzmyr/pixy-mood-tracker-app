@@ -74,7 +74,7 @@ const StepRow = ({
         <Text style={{ fontSize: 17, color: colors.textSecondary }}>
           {enabled ? t("step_status_on") : t("step_status_off")}
         </Text>
-        <ChevronRight width={18} color={colors.menuListItemIcon} />
+        <ChevronRight width={18} color={colors.menuListItemChevron} />
       </View>
     );
   }
