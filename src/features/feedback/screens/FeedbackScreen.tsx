@@ -5,6 +5,7 @@ import {
   useRouter,
 } from "expo-router";
 import type { NativeStackNavigationProp } from "expo-router/native-stack";
+import { useHeaderHeight } from "expo-router/react-navigation";
 import type { ParamListBase } from "expo-router/react-navigation";
 import { useEffect, useEffectEvent, useRef } from "react";
 import { ActivityIndicator, Platform, ScrollView } from "react-native";
@@ -59,6 +60,7 @@ export const FeedbackScreen = () => {
   const router = useRouter();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const colors = useColors();
+  const headerHeight = useHeaderHeight();
   const analytics = useAnalytics();
   const params = useLocalSearchParams<{ type?: string }>();
   const type = isFeedbackType(params.type) ? params.type : "issue";
@@ -179,9 +181,18 @@ export const FeedbackScreen = () => {
       )}
       <ScrollView
         style={{ flex: 1, backgroundColor: colors.feedbackBackground }}
-        // iOS insets the content below the transparent sheet header and above
-        // the keyboard natively. No offsets.
-        contentInsetAdjustmentBehavior="automatic"
+        // iOS form sheet header is transparent (app layout), and the automatic
+        // content inset does not reach a ScrollView inside the sheet. Offset
+        // by the header height.
+        // Android and web headers are opaque: content starts below them.
+        contentInsetAdjustmentBehavior="never"
+        contentContainerStyle={{
+          paddingTop: Platform.OS === "ios" ? headerHeight : 0,
+        }}
+        scrollIndicatorInsets={{
+          top: Platform.OS === "ios" ? headerHeight : 0,
+        }}
+        // iOS insets the content above the keyboard natively. No offsets.
         automaticallyAdjustKeyboardInsets
         keyboardDismissMode="interactive"
         keyboardShouldPersistTaps="handled"

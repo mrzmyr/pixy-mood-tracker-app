@@ -42,7 +42,17 @@ const AppLayout = () => {
   // the screen (`Stack.Toolbar`).
   const feedbackOptions =
     Platform.OS === "ios"
-      ? { presentation: "formSheet" as const, headerTintColor: colors.text }
+      ? {
+          presentation: "formSheet" as const,
+          headerTintColor: colors.text,
+          // Always transparent, so the screen offsets content by the header
+          // height on every iOS version. expo-router sets it on iOS 26 only.
+          headerTransparent: true,
+          // Before iOS 26 no Liquid Glass: blur keeps the title readable.
+          ...(!HAS_FLOATING_HEADER && {
+            headerBlurEffect: "systemChromeMaterial" as const,
+          }),
+        }
       : {
           ...defaultOptions,
           presentation: "modal" as const,
