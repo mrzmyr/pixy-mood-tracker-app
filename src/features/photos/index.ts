@@ -4,6 +4,11 @@ export type {
   PickedPhoto,
 } from "./photoSource";
 export { AddPhotoTile } from "./components/AddPhotoTile";
+export {
+  IS_PHOTO_GALLERY_SUPPORTED,
+  PhotoGallery,
+  PhotoGalleryItem,
+} from "./components/PhotoGallery";
 export { PhotoGrid } from "./components/PhotoGrid";
 export { PhotoLimitNotice } from "./components/PhotoLimitNotice";
 export { PhotosPromptCard } from "./components/PhotosPromptCard";
