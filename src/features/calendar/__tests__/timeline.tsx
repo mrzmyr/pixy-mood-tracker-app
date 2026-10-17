@@ -10,7 +10,12 @@ import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
 import { useCalendarLayout } from "../calendarLayout";
-import { getTimelineRows } from "../screens/Calendar/Timeline/rows";
+import type { LogItem } from "@/features/logs";
+import type { LogPhoto } from "@/types";
+import {
+  getTimelineItemType,
+  getTimelineRows,
+} from "../screens/Calendar/Timeline/rows";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
 const mockReload = jest.mocked(getPostHogTestClient().reloadFeatureFlagsAsync);
@@ -160,5 +165,51 @@ describe("getTimelineRows", () => {
       lateSeptember.id,
       earlySeptember.id,
     ]);
+  });
+});
+
+const photosOf = (count: number): LogPhoto[] =>
+  Array.from({ length: count }, (_, index) => ({
+    id: `photo-${index}`,
+    fileName: `photo-${index}.jpg`,
+    width: 1200,
+    height: 1600,
+    createdAt: "2026-10-02T10:00:00.000Z",
+    source: "day",
+    libraryId: `library-${index}`,
+  }));
+const place = { latitude: 52.52, longitude: 13.405, name: "Mitte, Berlin" };
+const typeOf = (item: Partial<LogItem>) =>
+  getTimelineItemType({
+    type: "entry",
+    key: "entry",
+    item: _generateItem(item),
+  });
+
+describe("getTimelineItemType", () => {
+  it("recycles cards only into cards with the same media tiles", () => {
+    const layouts = [
+      typeOf({}),
+      typeOf({ photos: photosOf(1) }),
+      typeOf({ photos: photosOf(2) }),
+      typeOf({ photos: photosOf(3) }),
+      typeOf({ location: place }),
+      typeOf({ photos: photosOf(1), location: place }),
+      typeOf({ photos: photosOf(2), location: place }),
+    ];
+
+    expect(new Set(layouts).size).toBe(layouts.length);
+    expect(layouts).not.toContain(
+      getTimelineItemType({ type: "month", key: "month", month: "2026-10" })
+    );
+  });
+
+  it("shares a type for entries past the tile limit", () => {
+    expect(typeOf({ photos: photosOf(5) })).toBe(
+      typeOf({ photos: photosOf(3) })
+    );
+    expect(typeOf({ photos: photosOf(5), location: place })).toBe(
+      typeOf({ photos: photosOf(2), location: place })
+    );
   });
 });

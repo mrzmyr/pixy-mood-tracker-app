@@ -11,7 +11,7 @@ import { getItemDate } from "@/lib/logDates";
 import { t } from "@/lib/translation";
 import { useCalendarFilters } from "../../../filters";
 import { useCalendarNavigation } from "../../../navigation";
-import { getTimelineRows } from "./rows";
+import { getTimelineItemType, getTimelineRows } from "./rows";
 import type { TimelineRow } from "./rows";
 import { TimelineEntry } from "./TimelineEntry";
 
@@ -19,7 +19,6 @@ import { TimelineEntry } from "./TimelineEntry";
 const FLOAT_BUTTON_SPACE = 96;
 
 const getKey = (row: TimelineRow) => row.key;
-const getType = (row: TimelineRow) => row.type;
 
 const MonthTitle = ({ month }: { month: string }) => {
   const colors = useColors();
@@ -89,7 +88,7 @@ const TimelineComponent = ({
       data={rows}
       renderItem={renderRow}
       keyExtractor={getKey}
-      getItemType={getType}
+      getItemType={getTimelineItemType}
       contentContainerStyle={contentStyle}
       scrollIndicatorInsets={indicatorInsets}
       ListHeaderComponent={header}
