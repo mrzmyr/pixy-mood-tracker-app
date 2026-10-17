@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
-import { Keyboard, Platform, View } from "react-native";
+import { Platform } from "react-native";
+import Animated, {
+  useAnimatedKeyboard,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 import ArrowRight from "lucide-react-native/icons/arrow-right";
 import Check from "lucide-react-native/icons/check";
 import useColors from "@/hooks/useColors";
@@ -7,14 +10,14 @@ import { t } from "@/lib/translation";
 import { FloatButton } from "@/components/FloatButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const ON_EVENT_NAME =
-  Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
-const OFF_EVENT_NAME =
-  Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+// iOS keyboard height includes the home indicator area, which the button
+// padding already covers.
+const KEYBOARD_OVERLAP = Platform.OS === "ios" ? 20 : 0;
 
 /**
- * Floating next/save button of the logger. It moves above the keyboard
- * while the keyboard is open; `hidden` renders nothing.
+ * Floating next/save button of the logger. It follows the native keyboard
+ * frame on the UI thread, so it moves in sync with the keyboard; `hidden`
+ * renders nothing.
  */
 export const SlideAction = ({
   type,
@@ -28,41 +31,36 @@ export const SlideAction = ({
   const colors = useColors();
   const insets = useSafeAreaInsets();
 
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const keyboard = useAnimatedKeyboard();
 
-  useEffect(() => {
-    const r1 = Keyboard.addListener(ON_EVENT_NAME, (e) =>
-      setKeyboardHeight(e.endCoordinates.height)
-    );
-    const r2 = Keyboard.addListener(OFF_EVENT_NAME, () => setKeyboardHeight(0));
-
-    return () => {
-      r1.remove();
-      r2.remove();
-    };
-  }, []);
+  const keyboardStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: -Math.max(keyboard.height.get() - KEYBOARD_OVERLAP, 0),
+      },
+    ],
+  }));
 
   if (type === "hidden") {
     return null;
   }
 
-  const bottom = keyboardHeight
-    ? Math.round(keyboardHeight) - (Platform.OS === "ios" ? 20 : 0)
-    : 0;
-
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "flex-end",
-        alignItems: "flex-end",
-        paddingBottom: insets.bottom + 16,
-        paddingRight: 32,
-        position: "absolute",
-        bottom,
-        right: 0,
-        zIndex: 999,
-      }}
+    <Animated.View
+      style={[
+        {
+          flex: 1,
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+          paddingBottom: insets.bottom + 16,
+          paddingRight: 32,
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          zIndex: 999,
+        },
+        keyboardStyle,
+      ]}
     >
       <FloatButton
         testID={`logger-${type}`}
@@ -96,6 +94,6 @@ export const SlideAction = ({
           />
         )}
       </FloatButton>
-    </View>
+    </Animated.View>
   );
 };
