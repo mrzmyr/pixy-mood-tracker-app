@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.98.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.97.0...v1.98.0) (2026-10-17)
+
+
+### Features
+
+* **people:** auto-select newly added person in entry flow ([#770](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/770)) ([0100f75](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0100f75268374904f5cf2e0021a01c38bff3495e))
+* **recaps:** add change cards for tags, people, and places over time ([#764](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/764)) ([0db0fc5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0db0fc5a3f918e477a0124d3bf5ee54fe02e2ae7))
+* **recaps:** add moment cards with helpful feedback ([#761](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/761)) ([76f8425](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/76f842543198fe3b3b1885b3bc075577c55c8b0a))
+* **recaps:** add pattern cards on a shared correlation engine ([#763](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/763)) ([b9b406a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b9b406a24664c9dbd3a02e7c484d9b5f955dd5c6))
+* **recaps:** add recap card shell and nudge cards behind flag recaps ([#754](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/754)) ([314cbf0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/314cbf089b78ce9ff8acf8b91b067ec831bb6a8a))
+* **recaps:** add summary cards for days, emotions, people, and trips ([#762](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/762)) ([ff55868](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ff558689049de102cce36f8e7126c03a07f89bf9))
+* **recaps:** recap notifications and /recaps/[kind]/[date] route ([#766](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/766)) ([36bb6a8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/36bb6a8bc9c0fa7954c3a6f5206ea8eac91a273d))
+* **recaps:** shadcn-style card design pass on recap cards ([#765](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/765)) ([0a05914](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0a059147fdc0ff39188c9396bd9183861ec5bce3))
+
+
+### Bug Fixes
+
+* **logger:** color summary emotions by their own valence ([#778](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/778)) ([6900c55](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6900c55f55d137c9067712ecf6d58e52dc7d74c2))
+
 ## [1.97.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.96.0...v1.97.0) (2026-10-16)
 
 
