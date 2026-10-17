@@ -3,6 +3,7 @@ import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 import { RADIUS } from "@/constants/Radius";
+import { formatTrend } from "@/lib/formatNumber";
 
 /**
  * Summary tile. The trend row renders whenever `trendValue` is not 0,
@@ -55,6 +56,7 @@ export const StatsCard = ({
                 fontSize: 20,
                 color: colors.text,
                 fontWeight: "bold",
+                fontVariant: ["tabular-nums"],
                 marginRight: 4,
               }}
             >
@@ -64,14 +66,14 @@ export const StatsCard = ({
               <Text
                 style={{
                   fontSize: 14,
+                  fontVariant: ["tabular-nums"],
                   color:
                     trendType === "up"
                       ? colors.palette.green[500]
                       : colors.palette.red[500],
                 }}
               >
-                {trendType === "up" ? "+" : "-"}
-                {trendValue}
+                {formatTrend(trendValue ?? 0, trendType ?? "down")}
               </Text>
             )}
           </View>
