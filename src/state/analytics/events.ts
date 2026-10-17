@@ -246,6 +246,7 @@ export interface AnalyticsEvents {
   "settings:location_toggled": { enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
+  "settings:backup_toggled": { enabled: boolean };
   "settings:app_lock_toggled": { enabled: boolean };
   "settings:app_icon_changed": { icon: AppIconId };
   "settings:theme_changed": { color_scheme: SettingsState["colorScheme"] };
@@ -279,6 +280,9 @@ export interface AnalyticsEvents {
   "data:reset_requested": { kind: ResetKind };
   "data:reset_completed": { kind: ResetKind };
   "data:reset_cancelled": { kind: ResetKind };
+
+  "backup:failed": { status: string };
+  "backup:restored": undefined;
 
   "feedback:modal_opened": { type: FeedackType };
   "feedback:feedback_submitted": {

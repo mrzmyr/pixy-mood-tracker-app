@@ -86,8 +86,45 @@ const getAccessibilityState = (isAndroid: boolean, checked?: boolean) => {
   return isAndroid ? { checked } : { selected: checked };
 };
 
+/** Spoken label of a pressable row: title, then value when present. */
+const getAccessibilityLabel = (
+  onPress: (() => void) | null,
+  title: string | undefined,
+  value: string | undefined
+) => {
+  if (!onPress || title === undefined) {
+    return;
+  }
+  return value ? `${title}, ${value}` : title;
+};
+
+const MenuListItemValue = ({
+  value,
+  fontSize,
+}: {
+  value: string;
+  fontSize: number;
+}) => {
+  const colors = useColors();
+
+  return (
+    <Text
+      style={{
+        flexShrink: 0,
+        marginLeft: 12,
+        fontSize,
+        color: colors.textSecondary,
+      }}
+      numberOfLines={1}
+    >
+      {value}
+    </Text>
+  );
+};
+
 const MenuListItem = ({
   title,
+  value,
   onPress = null,
   iconLeft = null,
   iconRight = null,
@@ -100,6 +137,8 @@ const MenuListItem = ({
   checked,
 }: {
   title?: string | React.ReactElement;
+  /** Current value or status, shown in gray before the right icon. */
+  value?: string;
   onPress?: (() => void) | null;
   iconLeft?: React.ReactElement | null;
   iconRight?: React.ReactElement | null;
@@ -149,7 +188,7 @@ const MenuListItem = ({
         accessible={Boolean(onPress)}
         accessibilityRole={getAccessibilityRole(Boolean(onPress), checked)}
         accessibilityState={getAccessibilityState(isAndroid, checked)}
-        accessibilityLabel={onPress ? titleText : undefined}
+        accessibilityLabel={getAccessibilityLabel(onPress, titleText, value)}
         style={({ pressed }) => [
           {
             flexDirection: "row",
@@ -206,6 +245,9 @@ const MenuListItem = ({
           >
             {children}
           </View>
+        )}
+        {value && (
+          <MenuListItemValue value={value} fontSize={platform.titleSize} />
         )}
         {rightIcon && (
           <View

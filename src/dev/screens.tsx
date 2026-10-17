@@ -20,6 +20,8 @@ import type { Fixture } from "@/dev/fixtures";
 import { setFileTransferOverride } from "@/features/datagate";
 import { setPhotoSourceOverride } from "@/features/photos";
 import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
+import { fakeBackupCloud } from "@/dev/fakeBackupCloud";
+import { setBackupCloudOverride } from "@/features/backup";
 import { fakePeopleSources } from "@/dev/fakePeopleSources";
 import { addFakeContacts, removeFakeContacts } from "@/dev/fakeContacts";
 import { setPeopleSourcesOverride } from "@/features/people";
@@ -182,6 +184,24 @@ export const DevFakeFilesLinkScreen = () => {
   }, [router]);
 
   return <ActivityIndicator testID="dev-fake-files-link" />;
+};
+
+/**
+ * Target of `<scheme>://dev/fake-cloud`. Swaps iCloud and Google Drive for
+ * `fakeBackupCloud` until the app restarts, turns the backup switch off so
+ * the next switch-on uses the fake, then opens the app.
+ */
+export const DevFakeCloudLinkScreen = () => {
+  const router = useRouter();
+  const { setSettings } = useSettings();
+  useEffect(() => {
+    setBackupCloudOverride(fakeBackupCloud);
+    setSettings((current) => ({ ...current, backupEnabled: false }));
+    router.dismissAll();
+    router.replace("/calendar");
+  }, [router, setSettings]);
+
+  return <ActivityIndicator testID="dev-fake-cloud-link" />;
 };
 
 /** Largest `count` the fake contacts link accepts. */

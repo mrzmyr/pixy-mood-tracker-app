@@ -87,6 +87,41 @@ export const askToImport = () =>
   });
 
 /**
+ * Ask before replacing local data with the cloud backup. The message names
+ * both entry counts and the backup age, so losing newer local entries is a
+ * conscious choice.
+ */
+export const askToRestoreBackup = ({
+  localCount,
+  backupCount,
+  backupAge,
+}: {
+  localCount: number;
+  backupCount: number;
+  /** Relative time of the backup, for example "2 days ago". */
+  backupAge: string;
+}) =>
+  askToConfirm({
+    title: t("backup_restore_confirm_title"),
+    message: t("backup_restore_confirm_message", {
+      localCount,
+      backupCount,
+      backupAge,
+    }),
+    confirmText: t("backup_restore_confirm_ok"),
+    cancelText: t("cancel"),
+  });
+
+/** Ask before turning backup off, which deletes the cloud backup. */
+export const askToTurnOffBackup = () =>
+  askToConfirm({
+    title: t("backup_off_confirm_title"),
+    message: t("backup_off_confirm_message"),
+    confirmText: t("backup_off_confirm_ok"),
+    cancelText: t("cancel"),
+  });
+
+/**
  * Ask before deleting all entries, photos, tags, people, and settings.
  *
  * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
@@ -113,6 +148,21 @@ export const showImportError = () => {
   Alert.alert(
     t("import_error_title"),
     t("import_error_message"),
+    [{ text: t("ok"), onPress: noop }],
+    { cancelable: false }
+  );
+};
+
+/**
+ * Show that backup is off but the cloud copy may remain, with the steps to
+ * delete it in iCloud or Google Drive.
+ */
+export const showBackupNotDeleted = (provider: "icloud" | "googledrive") => {
+  Alert.alert(
+    t("backup_off_not_deleted_title"),
+    provider === "icloud"
+      ? t("backup_off_not_deleted_ios")
+      : t("backup_off_not_deleted_android"),
     [{ text: t("ok"), onPress: noop }],
     { cancelable: false }
   );
