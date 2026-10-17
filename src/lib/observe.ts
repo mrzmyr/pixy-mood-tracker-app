@@ -33,14 +33,28 @@ const currentBuild: ObserveBuild = {
 const canDispatch = ({ hasVariant, variant, isDevice }: ObserveBuild) =>
   hasVariant && variant !== "development" && isDevice;
 
+/**
+ * Route params that point at one user's data: entry dates and log, tag, and
+ * person ids. Observe drops them and hides the URL; `routeName` keeps the
+ * pattern, for example `/logs/[id]`.
+ */
+const FILTERED_ROUTE_PARAMS = ["date", "dateTime", "id"];
+
 /** Full Observe config. Every field is set, so no call resets another. */
 export const observeConfig = (
   { consent }: ObserveOptions,
   build: ObserveBuild = currentBuild
-): Required<Pick<ObserveConfig, "dispatchingEnabled" | "environment">> => ({
+): Required<
+  Pick<ObserveConfig, "dispatchingEnabled" | "environment" | "integrations">
+> => ({
   dispatchingEnabled: consent && canDispatch(build),
   // Default is NODE_ENV, which reads `production` for preview builds too.
   environment: build.variant,
+  // Must stay the same on every call: Observe throws when the router
+  // integration toggles after the app mounted.
+  integrations: {
+    "expo-router": { filteredParams: FILTERED_ROUTE_PARAMS },
+  },
 });
 
 /**
