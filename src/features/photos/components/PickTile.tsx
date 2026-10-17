@@ -179,7 +179,7 @@ export const PickTile = ({
           {isChecked && (
             <Text
               style={{
-                color: ON_PHOTO,
+                color: colors.primaryButtonText,
                 fontSize: 12,
                 fontWeight: "700",
                 fontVariant: ["tabular-nums"],
