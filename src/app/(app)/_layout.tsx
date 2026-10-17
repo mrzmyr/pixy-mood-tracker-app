@@ -90,7 +90,23 @@ const AppLayout = () => {
             name="logs/create/[dateTime]"
             options={{ ...modalOptions, gestureEnabled: false }}
           />
-          <Stack.Screen name="days/[date]" options={modalOptions} />
+          <Stack.Screen
+            name="days/[date]"
+            options={{
+              // Day view sets its title and close button (see `LogList`).
+              presentation: "modal",
+              headerShown: true,
+              headerTintColor: colors.text,
+              headerShadowVisible: false,
+              contentStyle: { backgroundColor: colors.logBackground },
+              ...(HAS_FLOATING_HEADER
+                ? {
+                    headerTransparent: true,
+                    scrollEdgeEffects: { top: "soft" as const },
+                  }
+                : { headerStyle: { backgroundColor: colors.logBackground } }),
+            }}
+          />
           <Stack.Screen name="widget" options={modalOptions} />
           <Stack.Screen
             name="interventions/[id]"
