@@ -37,3 +37,21 @@ export const fakePeopleSources: PeopleSources = {
   shareMoreContacts: () => Promise.resolve(),
   pickImage: writeAvatar,
 };
+
+/**
+ * `fakePeopleSources` whose first contact read fails, so the contact import
+ * shows its error state; Try Again then reads the fake contacts.
+ */
+export const createFailOnceFakePeopleSources = (): PeopleSources => {
+  let hasFailed = false;
+  return {
+    ...fakePeopleSources,
+    listContacts: () => {
+      if (hasFailed) {
+        return fakePeopleSources.listContacts();
+      }
+      hasFailed = true;
+      return Promise.reject(new Error("Fake contact read failure"));
+    },
+  };
+};
