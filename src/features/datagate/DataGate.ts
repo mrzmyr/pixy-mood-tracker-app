@@ -15,8 +15,8 @@ import {
   showImportError,
   showImportSuccess,
   showResetSuccess,
-} from "@/helpers/prompts";
-import { isConfirmed } from "@/helpers/promptCancel";
+} from "@/lib/prompts";
+import { isConfirmed } from "@/lib/promptCancel";
 import { t } from "@/lib/translation";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
