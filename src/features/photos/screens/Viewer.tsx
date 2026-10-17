@@ -1,5 +1,6 @@
 import { Image } from "expo-image";
-import { ImageOff, Trash2 } from "lucide-react-native";
+import ImageOff from "lucide-react-native/icons/image-off";
+import Trash from "lucide-react-native/icons/trash";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import {
   Modal,
@@ -330,7 +331,7 @@ export const PhotoViewer = ({
                 opacity: pressed ? 0.8 : 1,
               })}
             >
-              <Trash2
+              <Trash
                 color={FOREGROUND}
                 size={20}
                 accessibilityElementsHidden

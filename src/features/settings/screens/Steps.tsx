@@ -11,21 +11,19 @@ import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import { Fragment } from "react";
 import type { ReactElement } from "react";
-import { BedDouble } from "lucide-react-native";
+import BedDouble from "lucide-react-native/icons/bed-double";
 import { ScrollView, Text, View } from "react-native";
 import Toggle from "@/components/Toggle";
-import {
-  Bell,
-  ChevronRight,
-  FileText,
-  Heart,
-  Image as ImageIcon,
-  MapPin,
-  MessageSquare,
-  Sun,
-  Tag,
-  Users,
-} from "react-native-feather";
+import Bell from "lucide-react-native/icons/bell";
+import ChevronRight from "lucide-react-native/icons/chevron-right";
+import FileText from "lucide-react-native/icons/file-text";
+import Heart from "lucide-react-native/icons/heart";
+import ImageIcon from "lucide-react-native/icons/image";
+import MapPin from "lucide-react-native/icons/map-pin";
+import MessageSquare from "lucide-react-native/icons/message-square";
+import Sun from "lucide-react-native/icons/sun";
+import Tag from "lucide-react-native/icons/tag";
+import Users from "lucide-react-native/icons/users";
 import { useRouter } from "expo-router";
 import useColors from "@/hooks/useColors";
 import { useFeatureFlag } from "@/state/featureFlags";

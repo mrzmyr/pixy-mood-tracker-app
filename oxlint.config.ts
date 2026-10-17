@@ -12,6 +12,20 @@ const reactNavigationImport = {
   message: "Import from expo-router/react-navigation instead.",
 };
 
+// Metro does not tree-shake: one barrel import bundles every Lucide icon.
+const iconImports = [
+  {
+    name: "lucide-react-native",
+    allowTypeImports: true,
+    message:
+      'Import each icon from "lucide-react-native/icons/<kebab-name>" instead.',
+  },
+  {
+    name: "react-native-feather",
+    message: 'Use Lucide: "lucide-react-native/icons/<kebab-name>".',
+  },
+];
+
 /**
  * Oxlint config: Ultracite presets plus the local `pixy-standards` rules
  * from `tools/oxlint/pixy-rules.cjs`.
@@ -51,7 +65,10 @@ export default defineConfig({
     "unicorn/prefer-set-has": "off",
     // Autofix renames to `error` even when that shadows an outer `error`, changing which value code reads.
     "unicorn/catch-error-name": "off",
-    "no-restricted-imports": ["error", { patterns: [reactNavigationImport] }],
+    "no-restricted-imports": [
+      "error",
+      { paths: iconImports, patterns: [reactNavigationImport] },
+    ],
   },
   overrides: [
     {
@@ -69,6 +86,7 @@ export default defineConfig({
         "no-restricted-imports": [
           "error",
           {
+            paths: iconImports,
             patterns: [
               {
                 group: ["@/features/**", "@/screens/**"],
@@ -87,6 +105,7 @@ export default defineConfig({
         "no-restricted-imports": [
           "error",
           {
+            paths: iconImports,
             patterns: [
               {
                 regex: "^@/features/[^/]+/.+",

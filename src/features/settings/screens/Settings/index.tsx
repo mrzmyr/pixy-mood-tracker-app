@@ -5,23 +5,21 @@ import * as StoreReview from "expo-store-review";
 import * as WebBrowser from "expo-web-browser";
 import { useState } from "react";
 import { Platform, Pressable, ScrollView, Text, View } from "react-native";
-import {
-  ArrowUpCircle,
-  Award,
-  Bell,
-  BookOpen,
-  CheckCircle,
-  Database,
-  Droplet,
-  Flag,
-  Github,
-  Layers,
-  Layout,
-  PieChart,
-  Shield,
-  Smartphone,
-  Star,
-} from "react-native-feather";
+import CircleArrowUp from "lucide-react-native/icons/circle-arrow-up";
+import Award from "lucide-react-native/icons/award";
+import Bell from "lucide-react-native/icons/bell";
+import BookOpen from "lucide-react-native/icons/book-open";
+import CircleCheckBig from "lucide-react-native/icons/circle-check-big";
+import Database from "lucide-react-native/icons/database";
+import Droplet from "lucide-react-native/icons/droplet";
+import Flag from "lucide-react-native/icons/flag";
+import GithubIcon from "@/components/GithubIcon";
+import Layers from "lucide-react-native/icons/layers";
+import PanelsTopLeft from "lucide-react-native/icons/panels-top-left";
+import ChartPie from "lucide-react-native/icons/chart-pie";
+import Shield from "lucide-react-native/icons/shield";
+import Smartphone from "lucide-react-native/icons/smartphone";
+import Star from "lucide-react-native/icons/star";
 import FlagHighlight from "@/components/FlagHighlight";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
@@ -48,7 +46,10 @@ import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
 import { AppLockMenuItem } from "@/features/applock";
 import pkg from "../../../../../package.json";
-import { Bug, Lightbulb, Squircle, SunMoon } from "lucide-react-native";
+import Bug from "lucide-react-native/icons/bug";
+import Lightbulb from "lucide-react-native/icons/lightbulb";
+import Squircle from "lucide-react-native/icons/squircle";
+import SunMoon from "lucide-react-native/icons/sun-moon";
 import { useSupport } from "@/support";
 
 const DEVELOPMENT_UNLOCK_TAPS = 20;
@@ -131,7 +132,7 @@ export const SettingsScreen = () => {
           />
           <MenuListItem
             title={t("steps")}
-            iconLeft={<CheckCircle {...iconProps} />}
+            iconLeft={<CircleCheckBig {...iconProps} />}
             onPress={() => router.push("/settings/steps")}
             isLink
           />
@@ -153,7 +154,7 @@ export const SettingsScreen = () => {
             <FlagHighlight flag="ios-widget">
               <MenuListItem
                 title={t("widget")}
-                iconLeft={<Layout {...iconProps} />}
+                iconLeft={<PanelsTopLeft {...iconProps} />}
                 onPress={() => router.push("/widget")}
                 testID="widget"
                 isLink
@@ -205,7 +206,7 @@ export const SettingsScreen = () => {
               analytics.track("settings:vote_features_tapped");
               await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
             }}
-            iconLeft={<ArrowUpCircle {...iconProps} />}
+            iconLeft={<CircleArrowUp {...iconProps} />}
             testID="vote_features"
           />
           <MenuListItem
@@ -257,7 +258,7 @@ export const SettingsScreen = () => {
                 "https://github.com/mrzmyr/pixy-mood-tracker-app"
               );
             }}
-            iconLeft={<Github {...iconProps} />}
+            iconLeft={<GithubIcon {...iconProps} />}
           />
         </MenuList>
 
@@ -290,7 +291,7 @@ export const SettingsScreen = () => {
               )}
               <MenuListItem
                 title={t("settings_development_statistics")}
-                iconLeft={<PieChart {...iconProps} />}
+                iconLeft={<ChartPie {...iconProps} />}
                 onPress={() => router.push("/settings/development-tools")}
                 isLink
               />

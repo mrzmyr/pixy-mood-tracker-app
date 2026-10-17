@@ -14,7 +14,7 @@ import { getDayDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
-import { Plus } from "react-native-feather";
+import Plus from "lucide-react-native/icons/plus";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Entry } from "./Entry";

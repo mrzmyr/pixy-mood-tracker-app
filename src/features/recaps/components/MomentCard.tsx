@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import { MapPin } from "react-native-feather";
+import MapPin from "lucide-react-native/icons/map-pin";
 import { Secondary } from "@/components/Type";
 import { SleepQualityMeter } from "@/features/logger";
 import type { Person } from "@/features/people";

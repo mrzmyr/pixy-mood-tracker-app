@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
-import { MapPin, Navigation, XCircle } from "react-native-feather";
+import MapPin from "lucide-react-native/icons/map-pin";
+import Navigation from "lucide-react-native/icons/navigation";
+import CircleX from "lucide-react-native/icons/circle-x";
 import { CloseButton } from "@/components/CloseButton";
 import { SheetModal } from "@/components/SheetModal";
 import MenuList from "@/components/MenuList";
@@ -236,7 +238,7 @@ const SheetContent = ({
             <MenuListItem
               testID="location-remove"
               title={t("location_remove")}
-              iconLeft={<XCircle {...iconProps} />}
+              iconLeft={<CircleX {...iconProps} />}
               onPress={() => pick()}
             />
           )}

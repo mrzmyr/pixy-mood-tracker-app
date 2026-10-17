@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { ActivityIndicator, Image, Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
-import { Share } from "react-native-feather";
+import Share from "lucide-react-native/icons/share";
 import { captureRef } from "react-native-view-shot";
 import LinkButton from "@/components/LinkButton";
 import { RADIUS } from "@/constants/Radius";
