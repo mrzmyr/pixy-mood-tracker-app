@@ -2,6 +2,7 @@ import FlagHighlight from "@/components/FlagHighlight";
 import dayjs from "dayjs";
 import { ScrollView, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
+import { useToday } from "@/hooks/useToday";
 import { useLogState } from "@/features/logs";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/featureFlags";
@@ -25,10 +26,12 @@ export const ForYouToday = () => {
   const isEnabled = useFeatureFlag("interventions");
   const colors = useColors();
   const logState = useLogState();
+  // Own subscription: a memoized parent does not re-render at midnight.
+  const today = useToday();
   const completedToday = useCompletedToday();
   const open = useOpenIntervention();
   const done = new Set(completedToday);
-  const match = isEnabled ? matchToday(logState.items) : null;
+  const match = isEnabled ? matchToday(logState.items, today) : null;
   const options = match ? OPTIONS[match.cluster].calendar : [];
 
   useCardShown(
