@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import { ButtonIcon } from "@/components/ButtonContent";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
@@ -260,7 +261,7 @@ export const DevelopmentTools = () => {
                     removeActionDone(action.title);
                   }}
                 >
-                  <Trash size={20} color={colors.tint} />
+                  <ButtonIcon icon={Trash} size={20} />
                 </LinkButton>
               </View>
             </MenuListItem>

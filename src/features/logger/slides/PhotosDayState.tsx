@@ -1,8 +1,8 @@
-import { Linking, Text } from "react-native";
+import { Linking } from "react-native";
+import { ButtonText } from "@/components/ButtonContent";
 import LinkButton from "@/components/LinkButton";
 import { PhotosPromptCard } from "@/features/photos";
 import type { useDraftPhotos } from "@/features/photos";
-import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 
 /**
@@ -23,8 +23,6 @@ export const PhotosDayState = ({
   /** "today", "yesterday", or a short date. */
   dayLabel: string;
 }) => {
-  const colors = useColors();
-
   if (draft.isDayAccessPromptVisible) {
     return (
       <PhotosPromptCard
@@ -54,9 +52,13 @@ export const PhotosDayState = ({
           paddingHorizontal: 0,
         }}
       >
-        <Text style={{ color: colors.link, fontSize: 15 }}>
+        <ButtonText
+          weight="400"
+          numberOfLines={0}
+          style={{ fontSize: 15, textAlign: "auto" }}
+        >
           {t("photos_day_access_button", { day: dayTitle })}
-        </Text>
+        </ButtonText>
       </LinkButton>
     );
   }

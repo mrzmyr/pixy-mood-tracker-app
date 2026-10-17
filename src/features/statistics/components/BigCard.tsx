@@ -7,6 +7,7 @@ import type { ViewStyle } from "react-native";
 
 import { Share } from "react-native-feather";
 import { captureRef } from "react-native-view-shot";
+import { ButtonIcon } from "@/components/ButtonContent";
 import LinkButton from "@/components/LinkButton";
 import { RADIUS } from "@/constants/Radius";
 import { t } from "@/lib/translation";
@@ -167,7 +168,7 @@ export const BigCard = ({
                 onPress={() => share()}
                 style={{}}
               >
-                <Share stroke={colors.tint} width={20} />
+                <ButtonIcon icon={Share} size={20} />
               </LinkButton>
             )}
           </View>

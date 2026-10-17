@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import { ButtonText } from "@/components/ButtonContent";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 import {
   LocationPicker,
@@ -28,7 +29,6 @@ const PILL_HEIGHT = 44;
 const FLOAT_BUTTON_SPACE = 12 + FLOAT_BUTTON_SIZE + 8;
 
 const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
-  const colors = useColors();
   const { draft } = useLogDraft();
 
   return (
@@ -60,9 +60,9 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
             borderRadius: RADIUS.sm,
           }}
         >
-          <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
+          <ButtonText weight="400" numberOfLines={0}>
             {t(label)}
-          </Text>
+          </ButtonText>
         </Button>
       ))}
     </View>
