@@ -4,7 +4,6 @@ import Check from "lucide-react-native/icons/check";
 import {
   ActivityIndicator,
   FlatList,
-  Platform,
   Pressable,
   Text,
   TextInput,
@@ -12,7 +11,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import TextInfo from "@/components/TextInfo";
 import { MAX_PEOPLE } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
@@ -111,17 +110,13 @@ export const ContactImport = () => {
       style={{
         flex: 1,
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
       }}
     >
-      <ModalHeader
+      <RouteModalHeader
         title={t("people_import_title")}
-        left={
-          <LinkButton onPress={() => router.back()} type="primary">
-            {t("cancel")}
-          </LinkButton>
-        }
-        right={
+        onClose={() => router.back()}
+        closeTestID="contact-import-cancel"
+        action={
           <LinkButton
             onPress={handleImport}
             type="primary"
