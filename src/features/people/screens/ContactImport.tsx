@@ -88,6 +88,47 @@ const ContactRow = ({
   );
 };
 
+/** Shown when the address book read fails; Try Again reads it again. */
+const ContactImportError = ({ onRetry }: { onRetry: () => void }) => {
+  const colors = useColors();
+  return (
+    <View
+      testID="contact-import-error"
+      style={{ alignItems: "center", paddingHorizontal: 32, paddingTop: 48 }}
+    >
+      <Text
+        accessibilityRole="header"
+        style={{
+          fontSize: 17,
+          fontWeight: "600",
+          textAlign: "center",
+          color: colors.text,
+        }}
+      >
+        {t("people_import_error_title")}
+      </Text>
+      <Text
+        style={{
+          marginTop: 8,
+          marginBottom: 12,
+          fontSize: 15,
+          textAlign: "center",
+          color: colors.textSecondary,
+        }}
+      >
+        {t("people_import_error_message")}
+      </Text>
+      <LinkButton
+        onPress={onRetry}
+        type="primary"
+        testID="contact-import-retry"
+      >
+        {t("people_import_retry")}
+      </LinkButton>
+    </View>
+  );
+};
+
 /**
  * `/people/import`: pick any number of contacts from the address book and
  * add them as people at once. Only names are listed; photos are read for the
@@ -103,6 +144,7 @@ export const ContactImport = () => {
     shareMore: handleShareMore,
     importSelected: handleImport,
     setQuery: handleQueryChange,
+    retry: handleRetry,
   } = contactImport;
   const count = contactImport.selectedIds.length;
 
@@ -166,9 +208,13 @@ export const ContactImport = () => {
           </TextInfo>
         )}
       </View>
-      {contactImport.isLoading ? (
+      {contactImport.error !== null && (
+        <ContactImportError onRetry={handleRetry} />
+      )}
+      {contactImport.isLoading && (
         <ActivityIndicator style={{ marginTop: 32 }} />
-      ) : (
+      )}
+      {!contactImport.isLoading && contactImport.error === null && (
         <View style={{ flex: 1 }}>
           <FlatList
             data={contactImport.rows}
@@ -189,7 +235,9 @@ export const ContactImport = () => {
                   color: colors.textSecondary,
                 }}
               >
-                {t("people_import_empty")}
+                {contactImport.query.trim() === ""
+                  ? t("people_import_empty")
+                  : t("people_import_no_match")}
               </Text>
             }
             renderItem={({ item }) => (
