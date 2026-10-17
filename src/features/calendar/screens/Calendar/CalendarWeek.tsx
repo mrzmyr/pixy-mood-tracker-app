@@ -10,6 +10,7 @@ import type { LogItem } from "@/features/logs";
 import { getAverageMood } from "@/lib/utils";
 import CalendarDay from "./CalendarDay";
 import { useCalendarNavigation } from "../../navigation";
+import { useSetting } from "@/state/settings";
 
 dayjs.extend(isSameOrBefore);
 
@@ -48,8 +49,9 @@ const CalendarWeekComponent = ({
   };
 }) => {
   const { getMappingKey } = useMappingHelper();
-  const calendarNavigation = useCalendarNavigation();
-  const calendarFilters = useCalendarFilters();
+  const { openDay } = useCalendarNavigation();
+  const { data: filters } = useCalendarFilters();
+  const scaleType = useSetting("scaleType");
 
   const days = useMemo(() => {
     const weekDays: string[] = [];
@@ -76,31 +78,27 @@ const CalendarWeekComponent = ({
     dateString,
   }));
 
+  // One handler for all days: memoized days skip re-rendering when only
+  // other days changed.
   const onPressDay = useCallback(
     (date: string) => {
-      calendarNavigation.openDay({ date, source: "calendar" });
+      openDay({ date, source: "calendar" });
     },
-    [calendarNavigation]
-  );
-
-  const filteredItemIds = useMemo(
-    () => new Set(calendarFilters.data.filteredItems.map((item) => item.id)),
-    // `data` keeps its reference while the filter content is unchanged.
-    [calendarFilters.data.filteredItems]
+    [openDay]
   );
 
   const renderDay = ({ date }) => {
     const items = itemMap[date] || [];
     const averageRating = items.length < 1 ? null : getAverageMood(items);
-    const isFiltered = items.some((item) => filteredItemIds.has(item.id));
 
     return (
       <CalendarDay
         dateString={date}
         rating={averageRating}
-        isFiltered={isFiltered}
-        isFiltering={calendarFilters.data.isFiltering}
-        onPress={() => onPressDay(date)}
+        scaleType={scaleType}
+        isFiltered={filters.filteredDates.has(date)}
+        isFiltering={filters.isFiltering}
+        onPress={onPressDay}
       />
     );
   };

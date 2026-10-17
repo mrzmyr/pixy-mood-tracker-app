@@ -3,6 +3,7 @@ import { Platform } from "react-native";
 import {
   getCalendarLayoutLabel,
   useCalendarFilters,
+  useCalendarFiltersSheet,
   useCalendarLayout,
 } from "@/features/calendar";
 import { t } from "@/lib/translation";
@@ -39,6 +40,7 @@ export const CalendarHeaderButtons = () => {
   const router = useRouter();
   const calendarFilters = useCalendarFilters();
   const { filterCount, isFiltering } = calendarFilters.data;
+  const filtersSheet = useCalendarFiltersSheet();
   const calendarLayout = useCalendarLayout();
 
   return (
@@ -61,7 +63,7 @@ export const CalendarHeaderButtons = () => {
             )}
             <Stack.Toolbar.MenuAction
               icon={ICONS.filters}
-              onPress={() => calendarFilters.open()}
+              onPress={() => filtersSheet.open()}
             >
               {isFiltering
                 ? `${t("calendar_filters_open")} (${filterCount})`
@@ -83,7 +85,7 @@ export const CalendarHeaderButtons = () => {
           <Stack.Toolbar.Button
             icon={ICONS.filters}
             accessibilityLabel={t("calendar_filters")}
-            onPress={() => calendarFilters.open()}
+            onPress={() => filtersSheet.open()}
           >
             {isFiltering && (
               <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
