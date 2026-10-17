@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { Image, View } from "react-native";
-import type { LayoutChangeEvent } from "react-native";
 import useColors from "@/hooks/useColors";
+import { useMeasuredSize } from "@/hooks/useMeasuredSize";
 
 /** Same inset on every side of the screenshot. */
 const IMAGE_INSET = 24;
@@ -52,27 +51,17 @@ const fitGuideImage = ({
 /** Screenshot card for a guide step; `step` must be 1 to 3. */
 export const GuideImage = ({ step }: { step: number }) => {
   const colors = useColors();
-  const [box, setBox] = useState({ width: 0, height: 0 });
+  // Known before the first paint: the screenshot shows in the first frame.
+  const { ref, size: box, onLayout } = useMeasuredSize();
   const imageSize = fitGuideImage({
     width: box.width,
     height: box.height,
     inset: IMAGE_INSET,
   });
 
-  const onLayout = (event: LayoutChangeEvent) => {
-    const { width, height } = event.nativeEvent.layout;
-
-    setBox((current) => {
-      if (current.width === width && current.height === height) {
-        return current;
-      }
-
-      return { width, height };
-    });
-  };
-
   return (
     <View
+      ref={ref}
       onLayout={onLayout}
       style={{
         flex: 1,

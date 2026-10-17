@@ -2,9 +2,10 @@ import chroma from "chroma-js";
 import { useWeekLocale } from "@/hooks/useWeekLocale";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useLayoutEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
+import { useMeasuredSize } from "@/hooks/useMeasuredSize";
 
 // Height of the fade below the floating weekday row.
 const FADE_HEIGHT = 24;
@@ -84,7 +85,15 @@ const CalendarHeader = ({
   onHeightChange?: (height: number) => void;
 }) => {
   const colors = useColors();
-  const [rowHeight, setRowHeight] = useState(0);
+  const { ref, size, onLayout } = useMeasuredSize();
+  const rowHeight = size.height;
+
+  // Before paint: the list starts below the row in its first frame.
+  useLayoutEffect(() => {
+    if (rowHeight > 0) {
+      onHeightChange?.(rowHeight);
+    }
+  }, [rowHeight, onHeightChange]);
 
   if (floatingTop === undefined) {
     return (
@@ -142,11 +151,8 @@ const CalendarHeader = ({
         style={StyleSheet.absoluteFill}
       />
       <View
-        onLayout={(event) => {
-          const { height: measured } = event.nativeEvent.layout;
-          setRowHeight(measured);
-          onHeightChange?.(measured);
-        }}
+        ref={ref}
+        onLayout={onLayout}
         style={{
           position: "absolute",
           top: floatingTop,

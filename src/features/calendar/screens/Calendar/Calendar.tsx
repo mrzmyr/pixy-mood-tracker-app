@@ -6,13 +6,10 @@ import dayjs from "dayjs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 import { Platform, useWindowDimensions, View } from "react-native";
-import type {
-  LayoutChangeEvent,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-} from "react-native";
+import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
 import { DATE_FORMAT } from "@/constants/Config";
+import { useMeasuredSize } from "@/hooks/useMeasuredSize";
 import { useLogState } from "@/features/logs";
 import { useToday } from "@/hooks/useToday";
 import CalendarMonth from "./CalendarMonth";
@@ -52,7 +49,9 @@ const CalendarComponent = ({
     [topInset, insets.bottom]
   );
   const indicatorInsets = useMemo(() => ({ top: topInset }), [topInset]);
-  const [width, setWidth] = useState(0);
+  // Known before the first paint: the list shows in the first frame.
+  const { ref, size, onLayout } = useMeasuredSize();
+  const { width } = size;
   const [monthCount, setMonthCount] = useState(13);
   const isLoaded = useRef(false);
   const today = useToday();
@@ -99,12 +98,9 @@ const CalendarComponent = ({
   const onLoad = useCallback(() => {
     isLoaded.current = true;
   }, []);
-  const onLayout = useCallback((event: LayoutChangeEvent) => {
-    setWidth(event.nativeEvent.layout.width);
-  }, []);
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayout}>
+    <View ref={ref} style={{ flex: 1 }} onLayout={onLayout}>
       {width > 0 && (
         <FlashList
           ref={listRef}

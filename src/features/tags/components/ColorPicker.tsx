@@ -5,6 +5,7 @@ import MenuList from "@/components/MenuList";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import { useMeasuredSize } from "@/hooks/useMeasuredSize";
 import { t, tDynamic } from "@/lib/translation";
 
 const TARGET_SIZE = 48;
@@ -65,7 +66,13 @@ export const ColorPicker = ({
   const colors = useColors();
   const haptics = useHaptics();
   const [focusedColor, setFocusedColor] = useState<string | null>(null);
-  const [gridWidth, setGridWidth] = useState(0);
+  // Known before the first paint, also after the Android list bleed: the
+  // swatches never shift sideways.
+  const {
+    ref: gridRef,
+    size: { width: gridWidth },
+    onLayout: handleGridLayout,
+  } = useMeasuredSize();
 
   const columns = Math.max(
     1,
@@ -85,7 +92,8 @@ export const ColorPicker = ({
         <View
           accessibilityRole="radiogroup"
           accessibilityLabel={t("color")}
-          onLayout={(event) => setGridWidth(event.nativeEvent.layout.width)}
+          ref={gridRef}
+          onLayout={handleGridLayout}
           style={styles.grid}
         >
           {TAG_COLOR_NAMES.map((color) => {
