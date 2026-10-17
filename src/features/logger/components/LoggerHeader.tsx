@@ -18,8 +18,8 @@ export const LOGGER_HEADER_ICON_INSET = LOGGER_HEADER_INSET + 10 + 4;
 
 /**
  * Logger stepper and header controls.
- * Closing a dirty log and deleting a log with content (see `hasDraftContent`)
- * ask for confirmation first.
+ * Closing a dirty log asks for confirmation first. Deleting a log always
+ * asks, even for a mood-only entry: delete has no Undo.
  */
 export const LoggerHeader = ({
   carouselRef,
@@ -36,7 +36,7 @@ export const LoggerHeader = ({
   onCancel: () => void;
   onRemove: () => void;
 }) => {
-  const { isDirty, hasContent } = useLogDraft();
+  const { isDirty } = useLogDraft();
 
   return (
     <View
@@ -66,7 +66,7 @@ export const LoggerHeader = ({
           }
         }}
         onDelete={async () => {
-          if (hasContent && !(await isConfirmed(askToRemove()))) {
+          if (!(await isConfirmed(askToRemove()))) {
             return;
           }
           onRemove();
