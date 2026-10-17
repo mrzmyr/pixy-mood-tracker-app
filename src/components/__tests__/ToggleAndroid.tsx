@@ -63,6 +63,18 @@ describe("Android Toggle", () => {
     expect(onValueChange).toHaveBeenCalledWith(true);
   });
 
+  test("TalkBack finds one named switch that reports its state", async () => {
+    const screen = await renderInTheme(
+      <Toggle value onValueChange={jest.fn()} accessibilityLabel="Reminder" />
+    );
+
+    const toggle = screen.getByRole("switch", { name: "Reminder" });
+    expect(toggle.props.accessibilityState).toEqual({
+      checked: true,
+      disabled: false,
+    });
+  });
+
   test("TalkBack activate flips the value", async () => {
     const onValueChange = jest.fn();
     const screen = await renderInTheme(

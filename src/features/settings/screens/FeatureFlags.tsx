@@ -141,6 +141,7 @@ export const FeatureFlagsScreen = () => {
           title="Highlight flagged features"
           iconRight={
             <Toggle
+              accessibilityLabel="Highlight flagged features"
               onValueChange={setHighlight}
               value={isHighlighting}
               testID="feature-flag-highlight"
