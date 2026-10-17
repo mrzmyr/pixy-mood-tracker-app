@@ -29,7 +29,10 @@ export interface PeopleSources {
    * refused access.
    */
   listContacts: () => Promise<ContactList>;
-  /** Photo of one contact as a local URI, or `null` without a photo. */
+  /**
+   * Photo of one contact as a local URI, or `null` without a photo. Rejects
+   * with status `contacts_permission_denied` when the user refused access.
+   */
   getContactImage: (contactId: string) => Promise<string | null>;
   /** Small photo of one contact for list rows, or `null` without a photo. */
   getContactThumbnail: (contactId: string) => Promise<string | null>;
@@ -62,7 +65,19 @@ const systemPeopleSources: PeopleSources = {
       isLimited: permission.accessPrivileges === "limited",
     };
   },
-  getContactImage: (contactId) => new Contacts.Contact(contactId).getImage(),
+  getContactImage: async (contactId) => {
+    // Granted after an import; asks again when the user revoked it since.
+    const permission = await Contacts.requestPermissionsAsync();
+    if (!permission.granted) {
+      throw createStructuredError({
+        status: "contacts_permission_denied",
+        message: "Contacts access was not granted",
+        why: "The contact photo cannot be read without the permission",
+        fix: "Allow Contacts for Pixy in the system settings, or choose a photo from the library",
+      });
+    }
+    return new Contacts.Contact(contactId).getImage();
+  },
   getContactThumbnail: (contactId) =>
     new Contacts.Contact(contactId).getThumbnail(),
   shareMoreContacts: async () => {
