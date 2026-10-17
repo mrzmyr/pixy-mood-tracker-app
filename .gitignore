@@ -3,6 +3,8 @@ node_modules/
 dist/
 android/
 ios/
+# Local Expo modules keep their native code in git
+!modules/*/ios/
 npm-debug.*
 *.jks
 *.p8
