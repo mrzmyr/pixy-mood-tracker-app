@@ -1,15 +1,6 @@
 import { Dimensions } from "react-native";
 import dayjs from "dayjs";
-import groupBy from "lodash/groupBy";
 import { getLocale, t } from "@/lib/translation";
-// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
-import type { LogDay, LogItem } from "@/features/logs";
-import {
-  RATING_KEYS,
-  RATING_MAPPING,
-  SLEEP_QUALITY_MAPPING,
-} from "@/constants/Ratings";
-import { getItemDate } from "@/lib/logDates";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -43,87 +34,14 @@ const getFormatter = (
   return formatter;
 };
 
-/**
- * Rounded mean rating on the {@link RATING_MAPPING} scale, or `null` for
- * no items.
- */
-export const getAverageMood = (items: LogItem[]): LogItem["rating"] | null => {
-  let averageRating = 0;
-
-  if (items.length > 0) {
-    const sum = items.reduce(
-      (acc, item) => acc + RATING_MAPPING[item.rating],
-      0
-    );
-    averageRating = Math.round(sum / items.length);
-  } else {
-    return null;
-  }
-
-  return (
-    RATING_KEYS.find((rating) => RATING_MAPPING[rating] === averageRating) ??
-    null
-  );
-};
-
-/**
- * Rounded mean on the {@link SLEEP_QUALITY_MAPPING} scale over items with a
- * sleep rating, or `null` when none has one.
- */
-export const getAverageSleepQuality = (items: LogItem[]): number | null => {
-  const itemsWithSleep = items.filter(
-    (item) =>
-      item.sleep?.quality &&
-      SLEEP_QUALITY_MAPPING[item.sleep.quality] !== undefined
-  );
-
-  if (itemsWithSleep.length === 0) {
-    return null;
-  }
-
-  const sum = itemsWithSleep.reduce(
-    (acc, item) => acc + SLEEP_QUALITY_MAPPING[item.sleep.quality],
-    0
-  );
-  return Math.round(sum / itemsWithSleep.length);
-};
-
 /** Counts whitespace-separated words; blank text counts as 0. */
 export const getWordCount = (text = "") => {
   const normalized = text.trim();
   return normalized === "" ? 0 : normalized.split(/\s+/u).length;
 };
 
-/**
- * Group entries into local calendar days (`DATE_FORMAT`) with day averages.
- *
- * Days come back in insertion order, not sorted by date.
- */
-export const getLogDays = (items: LogItem[]): LogDay[] => {
-  const moodsPerDay = groupBy(items, getItemDate);
-
-  return Object.keys(moodsPerDay)
-    .map((date) => {
-      const dayItems = moodsPerDay[date];
-      const avgMood = getAverageMood(dayItems);
-      const avgSleepQuality = getAverageSleepQuality(dayItems);
-
-      if (avgMood === null) {
-        return null;
-      }
-
-      return {
-        date,
-        ratingAvg: avgMood,
-        sleepQualityAvg: avgSleepQuality,
-        items: dayItems,
-      };
-    })
-    .filter((item): item is LogDay => item !== null);
-};
-
 /** Time of day in the phone locale ("14:30" in en-GB, "2:30 PM" in en-US). */
-export const formatItemTime = (dateTime: LogItem["dateTime"]) =>
+export const formatItemTime = (dateTime: string) =>
   getFormatter("short_time", SHORT_TIME_OPTIONS).format(
     dayjs(dateTime).toDate()
   );
@@ -133,7 +51,7 @@ export const formatItemTime = (dateTime: LogItem["dateTime"]) =>
  * "Yesterday, 20:00", else short day and time ("Sep 28, 8:00 PM"). The year
  * shows only outside the current year.
  */
-export const getShortItemDateTitle = (dateTime: LogItem["dateTime"]) => {
+export const getShortItemDateTitle = (dateTime: string) => {
   const date = dayjs(dateTime);
 
   if (date.isSame(dayjs(), "day")) {
@@ -180,7 +98,7 @@ export const formatLocalizedDay = (
  *
  * Drops the weekday below 350 pt window width, measured once at module load.
  */
-export const getItemDateTitle = (dateTime: LogItem["dateTime"]) => {
+export const getItemDateTitle = (dateTime: string) => {
   const date = dayjs(dateTime);
   const isRecent =
     date.isSame(dayjs(), "day") ||
@@ -194,7 +112,7 @@ export const getItemDateTitle = (dateTime: LogItem["dateTime"]) => {
 };
 
 /** Localized day title: "Today", "Yesterday", or the full weekday and date. */
-export const getDayDateTitle = (date: LogDay["date"]) => {
+export const getDayDateTitle = (date: string) => {
   if (dayjs(date).isSame(dayjs(), "day")) {
     return t("today");
   }
@@ -216,26 +134,3 @@ const isoDateRegExp =
  * The pattern is unanchored, so surrounding text still passes.
  */
 export const isISODate = (date: string) => isoDateRegExp.test(date);
-
-/** Emotion keys with usage counts, most used first. */
-export const getMostUsedEmotions = (items: LogItem[]) => {
-  const emotions: Record<string, number> = {};
-  for (const item of items) {
-    if (item.emotions) {
-      for (const emotion of item.emotions) {
-        if (emotions[emotion]) {
-          emotions[emotion] += 1;
-        } else {
-          emotions[emotion] = 1;
-        }
-      }
-    }
-  }
-
-  return Object.keys(emotions)
-    .map((emotion) => ({
-      key: emotion,
-      count: emotions[emotion],
-    }))
-    .sort((a, b) => b.count - a.count);
-};
