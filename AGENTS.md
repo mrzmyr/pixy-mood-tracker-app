@@ -20,6 +20,7 @@
 
 ## PRs
 
+- When helpful to visualize a change, generate flow diagrams with [Pele](https://pele.run), export as PNG, and include in PR body. Keep generated files outside git.
 - When multiple things have beend worked on in one go you want to create PR, suggest the user to create multiple PRs by topics for easier reviews; If you are sure, just go ahead and create multiple PRs even when the user said "create PR"
 - Visual change: screenshot required, video too when motion
 - Screenshots and videos: upload to PR body with [pr-proof skill](.agents/skills/pr-proof/SKILL.md). Proof files stay outside git
