@@ -1,8 +1,8 @@
 import type { RefObject } from "react";
 import { View } from "react-native";
 import type { CarouselRef } from "react-native-reanimated-carousel";
-import { isConfirmed } from "@/helpers/promptCancel";
-import { askToCancel, askToRemove } from "@/helpers/prompts";
+import { isConfirmed } from "@/lib/promptCancel";
+import { askToCancel, askToRemove } from "@/lib/prompts";
 import { useLogDraft } from "../logDraft";
 import { SlideHeader } from "./SlideHeader";
 
