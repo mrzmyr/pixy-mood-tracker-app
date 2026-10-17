@@ -1,1 +1,1 @@
-export { LogEdit as default } from "@/features/logger";
+export { LogEdit as default } from "@/features/logger/routes";

@@ -11,7 +11,7 @@ import { PersonChip, usePeopleState } from "@/features/people";
 import { PhotoThumbnail } from "@/features/photos";
 import { TagComponent, useTagsState } from "@/features/tags";
 import useColors from "@/hooks/useColors";
-import { EmotionItem } from "../../LogList/EmotionItem";
+import { EmotionItem } from "../../../EmotionItem";
 import { RatingDot } from "../../LogList/RatingDot";
 import { ChipRow } from "./ChipRow";
 import { FadingNote } from "./FadingNote";

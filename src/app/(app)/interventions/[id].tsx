@@ -1,1 +1,1 @@
-export { InterventionScreen as default } from "@/features/interventions";
+export { InterventionScreen as default } from "@/features/interventions/routes";

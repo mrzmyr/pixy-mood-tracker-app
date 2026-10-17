@@ -12,6 +12,20 @@ const reactNavigationImport = {
   message: "Import from expo-router/react-navigation instead.",
 };
 
+// Features expose `index.ts` (providers, hooks, logic) and `routes.ts` (screens).
+const featureDeepImport = {
+  group: ["@/features/*/**", "!@/features/*/routes"],
+  message: "Import features through their entry file.",
+};
+
+// Startup code imports only feature `index.ts`. `routes.ts` re-exports every screen, so importing it evaluates them all.
+// Regex, not a group: oxlint merges group negations across patterns, so `featureDeepImport` would allow `routes` here.
+const startupFeatureImport = {
+  regex: "^@/features/[^/]+/.+",
+  message:
+    "Startup code imports features through index.ts only. Screens load per route from routes.ts.",
+};
+
 /**
  * Oxlint config: Ultracite presets plus the local `pixy-standards` rules
  * from `tools/oxlint/pixy-rules.cjs`.
@@ -81,16 +95,47 @@ export default defineConfig({
       },
     },
     {
-      // Feature consumers use public entry files.
+      // Feature consumers use public entry files: `index.ts`, or `routes.ts` for screens.
       files: ["src/features/**", "src/shell/**", "src/app/**"],
       rules: {
         "no-restricted-imports": [
           "error",
           {
+            patterns: [featureDeepImport, reactNavigationImport],
+          },
+        ],
+      },
+    },
+    {
+      // Startup code evaluates at launch. Screens load lazily per route, so keep them out.
+      files: [
+        "src/shell/**",
+        "src/app/_layout.tsx",
+        "src/app/**/_layout.tsx",
+        "src/features/**/*Provider.tsx",
+      ],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: [startupFeatureImport, reactNavigationImport],
+          },
+        ],
+      },
+    },
+    {
+      // Feature entry files intentionally re-export public symbols.
+      files: ["src/features/*/index.ts"],
+      rules: {
+        "oxc/no-barrel-file": "off",
+        "no-restricted-imports": [
+          "error",
+          {
             patterns: [
               {
-                regex: "^@/features/[^/]+/.+",
-                message: "Import features through their entry file.",
+                group: ["./routes", "./screens/**"],
+                message:
+                  "Export screens from routes.ts. index.ts loads at startup through providers and hooks.",
               },
               reactNavigationImport,
             ],
@@ -99,8 +144,8 @@ export default defineConfig({
       },
     },
     {
-      // Feature entry files intentionally re-export public symbols.
-      files: ["src/features/*/index.ts"],
+      // Feature route entries intentionally re-export screens.
+      files: ["src/features/*/routes.ts"],
       rules: { "oxc/no-barrel-file": "off" },
     },
     {

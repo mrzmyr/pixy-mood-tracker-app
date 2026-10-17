@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useLogState } from "@/features/logs";
-import { PhotoViewer, getViewerItem } from "@/features/photos";
+import { getViewerItem } from "@/features/photos";
+import { PhotoViewer } from "@/features/photos/routes";
 
 /**
  * Photo viewer for a stored entry, target of `/photos/[id]?index=<n>`.
