@@ -1,5 +1,5 @@
 import { Platform, Pressable, StyleSheet } from "react-native";
-import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
+import { GlassView } from "expo-glass-effect";
 import Animated, {
   Easing,
   interpolate,
@@ -10,6 +10,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import useColors from "@/hooks/useColors";
+import { useCanUseGlass } from "@/hooks/useCanUseGlass";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 
 // Press feedback: 0.97 scale in 120 ms, strong ease-out. Same as the
@@ -17,8 +18,6 @@ import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 const PRESS_MS = 120;
 const PRESS_SCALE = 0.97;
 
-// iOS 26+: native Liquid Glass with its own shadow and press response.
-const HAS_GLASS = Platform.OS === "ios" && isGlassEffectAPIAvailable();
 // Android: Material 3 FAB, 56 dp, 16 dp corners, elevation 6, ripple.
 const IS_ANDROID = Platform.OS === "android";
 const SIZE = FLOAT_BUTTON_SIZE;
@@ -45,6 +44,9 @@ export const FloatButton = ({
 }) => {
   const colors = useColors();
   const isReducedMotion = useReducedMotion();
+  // iOS 26+: native Liquid Glass with its own shadow and press response.
+  // Reduce Transparency: solid surface with shadow instead.
+  const hasGlass = useCanUseGlass();
   const pressed = useSharedValue(0);
   const background = disabled
     ? colors.primaryButtonBackgroundDisabled
@@ -61,7 +63,7 @@ export const FloatButton = ({
 
   // Glass and ripple bring their own press response. Elsewhere reduced
   // motion dims instead of scaling.
-  const ownsPress = !HAS_GLASS && !IS_ANDROID;
+  const ownsPress = !hasGlass && !IS_ANDROID;
   const pressStyle = useAnimatedStyle(() => ({
     opacity: ownsPress && isReducedMotion ? 1 - pressed.get() * 0.3 : 1,
     transform: [
@@ -103,7 +105,7 @@ export const FloatButton = ({
             justifyContent: "center",
             alignItems: "center",
           },
-          !HAS_GLASS &&
+          !hasGlass &&
             !IS_ANDROID && {
               backgroundColor: background,
               shadowColor: "#000",
@@ -114,7 +116,7 @@ export const FloatButton = ({
           pressStyle,
         ]}
       >
-        {HAS_GLASS && (
+        {hasGlass && (
           <GlassView
             isInteractive
             tintColor={background}
