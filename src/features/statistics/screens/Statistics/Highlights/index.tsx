@@ -1,12 +1,12 @@
 import { useEffect, useEffectEvent } from "react";
 import { useContentStableValue } from "@/hooks/useContentStableValue";
-import { ActivityIndicator, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 import type { HighlightsProperties } from "@/state/analytics/events";
-import { useStatistics } from "../../../StatisticsProvider";
 import type { HighlightsReport } from "../../../highlightsReport";
+import { useHighlightsReport } from "../../../useHighlightsReport";
 import { MoodAvgCard } from "../MoodAvgCard";
 import { MoodPeaksCard } from "../MoodPeaksCards";
 import { TagPeaksCard } from "../TagPeaksCards";
@@ -97,17 +97,15 @@ const ReportCards = ({
 
 /**
  * Full highlights screen with every available card of the highlights
- * report. Must render inside `StatisticsProvider`; cards appear once the
- * report is built.
+ * report.
  */
 export const StatisticsHighlights = () => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const analytics = useAnalytics();
-  const statistics = useStatistics();
+  const report = useHighlightsReport();
 
   const hasPeople = useFeatureFlag("people");
-  const { report } = statistics;
 
   // Effect event: tracks with the latest visibility flags and analytics, but
   // only when the report content changes (see the effect below).
@@ -164,10 +162,6 @@ export const StatisticsHighlights = () => {
   const stableReport = useContentStableValue(report);
 
   useEffect(() => {
-    if (stableReport === null) {
-      return;
-    }
-
     trackHighlights(stableReport);
   }, [stableReport]);
 
@@ -191,22 +185,7 @@ export const StatisticsHighlights = () => {
         >
           <Title>{t("statistics_2_week_highlights")}</Title>
 
-          {statistics.isLoading ? (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 32,
-              }}
-            >
-              <ActivityIndicator color={colors.loadingIndicator} />
-            </View>
-          ) : (
-            report !== null && (
-              <ReportCards report={report} hasPeople={hasPeople} />
-            )
-          )}
+          <ReportCards report={report} hasPeople={hasPeople} />
         </View>
       </ScrollView>
     </View>
