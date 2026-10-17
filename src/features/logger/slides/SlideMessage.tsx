@@ -57,7 +57,16 @@ const SlideMessageComponent = (
 ) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
-  const { draft, setMessage } = useLogDraft();
+  const { draft, typeMessage, flushMessage } = useLogDraft();
+  // Uncontrolled: the native input owns the text, so typing re-renders
+  // neither the logger nor the other slides. Keep the start text fixed;
+  // a changing `defaultValue` would push text back into the input.
+  // oxlint-disable-next-line react/hook-use-state -- start text never changes, so no setter
+  const [initialMessage] = useState(draft.message);
+
+  // Slide changes dismiss the keyboard, so `onBlur` publishes the text. This
+  // covers an unmount with the keyboard still open.
+  useEffect(() => flushMessage, [flushMessage]);
   const keyboardVisible = useKeyboardVisible();
 
   // The footer only exists while the disable link shows and the keyboard is
@@ -93,8 +102,9 @@ const SlideMessageComponent = (
               accessibilityLabel={t("log_note_question")}
               testID="log-message"
               placeholder={t("log_note_question")}
-              value={draft.message}
-              onChange={setMessage}
+              defaultValue={initialMessage}
+              onChange={typeMessage}
+              onBlur={flushMessage}
               maxLength={MAX_MESSAGE_LENGTH}
               style={{
                 flex: 1,
