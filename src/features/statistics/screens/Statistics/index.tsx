@@ -45,27 +45,17 @@ export const StatisticsScreen = () => {
     }, [refresh])
   );
 
-  if (statistics.isLoading || report === null) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 32,
-        }}
-      >
-        <ActivityIndicator color={colors.loadingIndicator} />
-      </View>
-    );
-  }
+  const isLoading = statistics.isLoading || report === null;
 
+  // One ScrollView in every state: the iOS large title tracks the first
+  // ScrollView it finds, so swapping views after loading would detach it.
   return (
     <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
       refreshControl={
-        Platform.OS === "web" ? undefined : (
+        Platform.OS === "web" || isLoading ? undefined : (
           <RefreshControl
-            // Loading replaces this view with a spinner, so it never shows
+            // Loading replaces the content with a spinner, so it never shows
             // as refreshing.
             refreshing={false}
             onRefresh={() => {
@@ -77,64 +67,77 @@ export const StatisticsScreen = () => {
       style={{
         backgroundColor: colors.statisticsBackground,
       }}
+      contentContainerStyle={
+        isLoading
+          ? { flexGrow: 1, justifyContent: "center", alignItems: "center" }
+          : undefined
+      }
     >
-      <View
-        style={{
-          paddingHorizontal: 20,
-          paddingTop: 20,
-          paddingBottom: insets.bottom + 20,
-        }}
-      >
-        {!report.unlocked && <EmptyPlaceholder count={report.missingEntries} />}
+      {isLoading ? (
+        <ActivityIndicator color={colors.loadingIndicator} />
+      ) : (
+        <View
+          style={{
+            paddingHorizontal: 20,
+            paddingTop: 20,
+            // iOS adds the bottom safe area through
+            // `contentInsetAdjustmentBehavior`.
+            paddingBottom: (Platform.OS === "ios" ? 0 : insets.bottom) + 20,
+          }}
+        >
+          {!report.unlocked && (
+            <EmptyPlaceholder count={report.missingEntries} />
+          )}
 
-        {report.unlocked && <HighlightsSection report={report} />}
+          {report.unlocked && <HighlightsSection report={report} />}
 
-        {report.unlocked && (
-          <>
-            <MenuListHeadline>{t("more_statistics")}</MenuListHeadline>
-            <MenuList style={{}}>
-              <MenuListItem
-                title={t("month_report")}
-                onPress={() =>
-                  router.push({
-                    pathname: "/statistics/month/[date]",
-                    params: {
-                      date: dayjs().startOf("month").format(DATE_FORMAT),
-                    },
-                  })
-                }
-                iconLeft={
-                  <Moon
-                    width={18}
-                    fill={colors.palette.indigo[500]}
-                    color={colors.palette.indigo[500]}
-                  />
-                }
-                isLink
-              />
-              <MenuListItem
-                title={t("year_report")}
-                onPress={() =>
-                  router.push({
-                    pathname: "/statistics/year/[date]",
-                    params: {
-                      date: dayjs().startOf("year").format(DATE_FORMAT),
-                    },
-                  })
-                }
-                iconLeft={
-                  <Star
-                    width={18}
-                    fill={colors.palette.amber[500]}
-                    color={colors.palette.amber[500]}
-                  />
-                }
-                isLink
-              />
-            </MenuList>
-          </>
-        )}
-      </View>
+          {report.unlocked && (
+            <>
+              <MenuListHeadline>{t("more_statistics")}</MenuListHeadline>
+              <MenuList style={{}}>
+                <MenuListItem
+                  title={t("month_report")}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/statistics/month/[date]",
+                      params: {
+                        date: dayjs().startOf("month").format(DATE_FORMAT),
+                      },
+                    })
+                  }
+                  iconLeft={
+                    <Moon
+                      width={18}
+                      fill={colors.palette.indigo[500]}
+                      color={colors.palette.indigo[500]}
+                    />
+                  }
+                  isLink
+                />
+                <MenuListItem
+                  title={t("year_report")}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/statistics/year/[date]",
+                      params: {
+                        date: dayjs().startOf("year").format(DATE_FORMAT),
+                      },
+                    })
+                  }
+                  iconLeft={
+                    <Star
+                      width={18}
+                      fill={colors.palette.amber[500]}
+                      color={colors.palette.amber[500]}
+                    />
+                  }
+                  isLink
+                />
+              </MenuList>
+            </>
+          )}
+        </View>
+      )}
     </ScrollView>
   );
 };

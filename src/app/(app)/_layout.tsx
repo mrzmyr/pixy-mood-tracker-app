@@ -25,6 +25,23 @@ const reportHeaderOptions = {
 
 const modalOptions = { presentation: "modal" as const, headerShown: false };
 
+/**
+ * iOS top-level screens: 34pt title that collapses into the inline title on
+ * scroll. The screen's first child must be a ScrollView with
+ * `contentInsetAdjustmentBehavior="automatic"`. Both bar states use the screen
+ * background, so the large title has no hairline. Android and web keep the
+ * regular header.
+ */
+const largeTitleOptions = (backgroundColor: string) =>
+  Platform.OS === "ios"
+    ? {
+        headerLargeTitleEnabled: true,
+        headerLargeTitleShadowVisible: false,
+        headerStyle: { backgroundColor },
+        headerLargeStyle: { backgroundColor },
+      }
+    : {};
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
@@ -114,11 +131,16 @@ const AppLayout = () => {
               ...pageOptions,
               title: t("statistics"),
               headerStyle: { backgroundColor: colors.statisticsBackground },
+              ...largeTitleOptions(colors.statisticsBackground),
             }}
           />
           <Stack.Screen
             name="settings/index"
-            options={{ ...pageOptions, title: t("settings") }}
+            options={{
+              ...pageOptions,
+              title: t("settings"),
+              ...largeTitleOptions(colors.background),
+            }}
           />
           <Stack.Screen
             name="onboarding"
