@@ -570,6 +570,7 @@
   "log_tags_search": "Pesquisar tags…",
   "log_view_changed_body": "Agora você pode usar o botão [+] na parte superior para adicionar várias entradas. Se você tiver várias entradas por dia, uma lista será exibida, caso contrário, apenas uma entrada será exibida nesta visualização detalhada.",
   "log_view_changed_title": "Espere, onde estão meus dias?",
+  "logger_date_choose": "Escolher data e hora…",
   "logger_date_hint": "Altera a hora deste registo.",
   "logger_step_emotions": "emoções",
   "logger_step_feedback": "Perguntas sobre produtos",

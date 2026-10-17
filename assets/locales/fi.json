@@ -570,6 +570,7 @@
   "log_tags_search": "Hae tunnisteita…",
   "log_view_changed_body": "Voit nyt käyttää yläreunassa olevaa [+]-painiketta lisätäksesi useita merkintöjä. Jos sinulla on useita merkintöjä päivässä, luettelo tulee näkyviin, muuten vain yksi merkintä näytetään tässä yksityiskohtaisessa näkymässä.",
   "log_view_changed_title": "Hetkinen, missä ovat päiväni?",
+  "logger_date_choose": "Valitse päivä ja aika…",
   "logger_date_hint": "Muuttaa tämän merkinnän ajan.",
   "logger_step_emotions": "Tunteet",
   "logger_step_feedback": "Tuotekysymykset",

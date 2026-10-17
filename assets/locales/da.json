@@ -570,6 +570,7 @@
   "log_tags_search": "Søg i tags…",
   "log_view_changed_body": "Du kan nu bruge knappen [+] øverst til at tilføje flere poster. Hvis du har flere poster pr. dag, vil en liste blive vist, ellers vil kun én post blive vist i denne detaljevisning.",
   "log_view_changed_title": "Vent, hvor er mine dagtimer?",
+  "logger_date_choose": "Vælg dato og tid…",
   "logger_date_hint": "Ændrer tidspunktet for denne registrering.",
   "logger_step_emotions": "Følelser",
   "logger_step_feedback": "Produkt spørgsmål",
