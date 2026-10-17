@@ -7,6 +7,7 @@ import { useTagActions } from "../useTagActions";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
+import { showSaveFailed } from "@/lib/saveFailed";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
@@ -50,9 +51,18 @@ export const TagEdit = () => {
 
   const { confirmDelete } = useTagActions({ onDeleted: () => router.back() });
 
-  const onSubmit = (updatedTag: ITag) => {
+  const onSubmit = async (updatedTag: ITag) => {
     setSubmitted(true);
     if (!isValidTagTitle(updatedTag.title)) {
+      return;
+    }
+
+    tagsUpdater.updateTag(updatedTag);
+    const result = await tagsUpdater.persist();
+    if (!result.ok) {
+      showSaveFailed(() => {
+        void onSubmit(updatedTag);
+      });
       return;
     }
 
@@ -62,7 +72,6 @@ export const TagEdit = () => {
       has_emoji: REGEX_EMOJI.test(updatedTag.title),
       is_archived: Boolean(updatedTag.isArchived),
     });
-    tagsUpdater.updateTag(updatedTag);
     router.back();
   };
 

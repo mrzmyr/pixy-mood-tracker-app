@@ -46,29 +46,34 @@ const captureStorageError = (error: StorageError, key: string) => {
   }
 };
 
+/** Outcome of a write. A failed write carries `status`, `message`, `why`, and `fix`. */
+export type StoreResult = { ok: true } | { ok: false; error: StorageError };
+
+const STORED: StoreResult = { ok: true };
+
 /**
  * Persist `state` as JSON under `key`.
  *
- * Never rejects: write failures are only reported to Sentry, so callers
- * cannot detect a failed save.
+ * Never rejects. A failed write is reported to Sentry and returned as
+ * `{ ok: false, error }`, so callers can keep unsaved input.
  */
 export const store = async <State>(
   key: string,
   state: State,
   storage: KeyValueStorage = asyncStorage
-) => {
+): Promise<StoreResult> => {
   try {
     await storage.set(key, JSON.stringify(state));
+    return STORED;
   } catch (error) {
-    captureStorageError(
-      createStorageError(
-        "storage_write_failed",
-        "Stored data could not be saved",
-        `Writing storage key "${key}" failed: ${errorMessage(error)}`,
-        "Retry the operation and check available device storage"
-      ),
-      key
+    const storageError = createStorageError(
+      "storage_write_failed",
+      "Stored data could not be saved",
+      `Writing storage key "${key}" failed: ${errorMessage(error)}`,
+      "Retry the operation and check available device storage"
     );
+    captureStorageError(storageError, key);
+    return { ok: false, error: storageError };
   }
 };
 

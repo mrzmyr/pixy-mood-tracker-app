@@ -46,6 +46,8 @@ export interface LogDraftValue {
    * See `finalizeDraft`.
    */
   commit: (existingItems: LogItem[]) => FinalizedDraft;
+  /** Sets `isDirty` again after a failed save, so leaving asks first. */
+  markUnsaved: () => void;
   /** Restore the initial draft and clear `isDirty`. */
   discard: () => void;
 }
@@ -113,6 +115,9 @@ export const LogDraftProvider = ({
         const finalized = finalizeDraft(latest.current, existingItems);
         setState({ draft: latest.current, isDirty: false });
         return finalized;
+      },
+      markUnsaved: () => {
+        setState((current) => ({ ...current, isDirty: true }));
       },
       discard: () => {
         isLocationPicked.current = false;

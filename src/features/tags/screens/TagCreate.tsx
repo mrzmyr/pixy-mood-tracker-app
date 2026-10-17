@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
+import { showSaveFailed } from "@/lib/saveFailed";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
@@ -39,9 +40,18 @@ export const TagCreate = () => {
     categoryId: GENERAL_CATEGORY_ID,
   });
 
-  const onCreate = () => {
+  const onCreate = async () => {
     setSubmitted(true);
     if (!isValidTagTitle(tempTag.title)) {
+      return;
+    }
+
+    tagsUpdater.createTag(tempTag);
+    const result = await tagsUpdater.persist();
+    if (!result.ok) {
+      showSaveFailed(() => {
+        void onCreate();
+      });
       return;
     }
 
@@ -57,8 +67,6 @@ export const TagCreate = () => {
       color: Object.keys(colors.tags)[0],
       categoryId: GENERAL_CATEGORY_ID,
     });
-
-    tagsUpdater.createTag(tempTag);
 
     router.back();
   };

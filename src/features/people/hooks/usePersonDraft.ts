@@ -3,6 +3,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import Alert from "@/lib/Alert";
+import { showSaveFailed } from "@/lib/saveFailed";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { deleteAvatar, saveAvatar } from "../avatars";
@@ -138,18 +139,29 @@ export const usePersonDraft = ({
     };
 
     if (mode === "create") {
+      peopleUpdater.createPerson(person);
+    } else {
+      peopleUpdater.updatePerson(person);
+    }
+    const result = await peopleUpdater.persist();
+    setIsSaving(false);
+    if (!result.ok) {
+      showSaveFailed(() => {
+        void save();
+      });
+      return;
+    }
+    if (mode === "create") {
       analytics.track("people:person_added", {
         source: "manual",
         has_avatar: avatar !== null,
       });
-      peopleUpdater.createPerson(person);
     } else {
       analytics.track("people:person_updated", {
         name_changed: existing?.name !== name,
         avatar_changed: avatarChanged,
         is_archived: Boolean(person.isArchived),
       });
-      peopleUpdater.updatePerson(person);
     }
     allowLeave();
     router.back();

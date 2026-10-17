@@ -2,7 +2,10 @@ import { z } from "zod";
 import { useMemo } from "react";
 import { useLogUpdater } from "@/features/logs";
 import { createPersistedStore } from "@/state/persisted/createPersistedStore";
-import type { Load } from "@/state/persisted/createPersistedStore";
+import type {
+  Load,
+  PersistResult,
+} from "@/state/persisted/createPersistedStore";
 import { deleteAllAvatars, deleteAvatar, removeOrphanAvatars } from "./avatars";
 
 /** AsyncStorage key for people. Changing it orphans all stored people. */
@@ -50,6 +53,8 @@ interface UpdaterValue {
   /** Clears every person and the avatar folder. */
   reset: () => void;
   import: (data: PeopleState) => void;
+  /** Resolves once pending changes are stored. See `usePersist`. */
+  persist: () => Promise<PersistResult>;
 }
 
 /**
@@ -137,6 +142,7 @@ const usePeopleState = (): PeopleState => peopleStore.useState();
 
 const usePeopleUpdater = (): UpdaterValue => {
   const dispatch = peopleStore.useDispatch();
+  const persist = peopleStore.usePersist();
   const { people } = peopleStore.useState();
   const logsUpdater = useLogUpdater();
 
@@ -160,8 +166,9 @@ const usePeopleUpdater = (): UpdaterValue => {
       },
       import: (data: PeopleState) =>
         dispatch({ type: "import", payload: data }),
+      persist,
     }),
-    [dispatch, logsUpdater, people]
+    [dispatch, logsUpdater, people, persist]
   );
 };
 

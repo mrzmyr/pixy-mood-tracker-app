@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { createStructuredError } from "@/lib/errors";
 import { createPersistedStore } from "../createPersistedStore";
-import type { LoadInput } from "../createPersistedStore";
+import type { LoadInput, PersistResult } from "../createPersistedStore";
 import { createMemoryStorage } from "../storage";
 import type { KeyValueStorage } from "../storage";
 
@@ -46,6 +46,7 @@ const renderStore = (
       state: store.useState(),
       dispatch: store.useDispatch(),
       load: store.useLoad(),
+      persist: store.usePersist(),
     }),
     {
       wrapper: ({ children }) => (
@@ -53,6 +54,23 @@ const renderStore = (
       ),
     }
   );
+
+const failingWrites = (storage: ReturnType<typeof createMemoryStorage>) => {
+  let isFailing = false;
+  const failing: KeyValueStorage = {
+    ...storage,
+    set: (key, value) =>
+      isFailing
+        ? Promise.reject(new Error("disk full"))
+        : storage.set(key, value),
+  };
+  return {
+    storage: failing,
+    fail: (value: boolean) => {
+      isFailing = value;
+    },
+  };
+};
 
 const _console_error = console.error;
 
@@ -257,6 +275,131 @@ describe("createPersistedStore", () => {
 
     expect(onLoad).toHaveBeenCalledTimes(1);
     expect(onLoad).toHaveBeenCalledWith({ count: 4 }, { count: 4 });
+  });
+
+  describe("persist", () => {
+    test("resolves ok after the dispatched change is stored", async () => {
+      const storage = createMemoryStorage({ [KEY]: '{"count":4}' });
+      const hook = await renderStore(createCounterStore(storage));
+      await waitFor(() => {
+        expect(hook.result.current.load.status).toBe("ready");
+      });
+
+      let pending: Promise<PersistResult> | undefined;
+      await act(() => {
+        hook.result.current.dispatch({ type: "increment" });
+        pending = hook.result.current.persist();
+      });
+      const result = await pending;
+
+      expect(result).toEqual({ ok: true });
+      expect(storage.values.get(KEY)).toBe('{"count":5}');
+    });
+
+    test("resolves ok without a write when nothing changed", async () => {
+      const storage = createMemoryStorage({ [KEY]: '{"count":4}' });
+      const hook = await renderStore(createCounterStore(storage));
+      await waitFor(() => {
+        expect(hook.result.current.load.status).toBe("ready");
+      });
+
+      let pending: Promise<PersistResult> | undefined;
+      await act(() => {
+        pending = hook.result.current.persist();
+      });
+      const result = await pending;
+
+      expect(result).toEqual({ ok: true });
+      expect(storage.writes).toEqual([]);
+    });
+
+    test("reports a failed write and rolls state back to stored data", async () => {
+      const memory = createMemoryStorage({ [KEY]: '{"count":4}' });
+      const { storage, fail } = failingWrites(memory);
+      const hook = await renderStore(createCounterStore(storage));
+      await waitFor(() => {
+        expect(hook.result.current.load.status).toBe("ready");
+      });
+
+      fail(true);
+      let pending: Promise<PersistResult> | undefined;
+      await act(() => {
+        hook.result.current.dispatch({ type: "increment" });
+        pending = hook.result.current.persist();
+      });
+      const result = await pending;
+
+      expect(result).toEqual({
+        ok: false,
+        error: expect.objectContaining({
+          status: "storage_write_failed",
+          message: "Stored data could not be saved",
+          why: expect.stringContaining("disk full"),
+          fix: expect.any(String),
+        }),
+      });
+      await waitFor(() => {
+        expect(hook.result.current.state).toEqual({ count: 4 });
+      });
+      expect(memory.values.get(KEY)).toBe('{"count":4}');
+    });
+
+    test("stores the change on retry after a failed write", async () => {
+      const memory = createMemoryStorage({ [KEY]: '{"count":4}' });
+      const { storage, fail } = failingWrites(memory);
+      const hook = await renderStore(createCounterStore(storage));
+      await waitFor(() => {
+        expect(hook.result.current.load.status).toBe("ready");
+      });
+
+      fail(true);
+      let failed: Promise<PersistResult> | undefined;
+      await act(() => {
+        hook.result.current.dispatch({ type: "increment" });
+        failed = hook.result.current.persist();
+      });
+      await failed;
+      await waitFor(() => {
+        expect(hook.result.current.state).toEqual({ count: 4 });
+      });
+
+      fail(false);
+      let pending: Promise<PersistResult> | undefined;
+      await act(() => {
+        hook.result.current.dispatch({ type: "increment" });
+        pending = hook.result.current.persist();
+      });
+      const result = await pending;
+
+      expect(result).toEqual({ ok: true });
+      expect(hook.result.current.state).toEqual({ count: 5 });
+      expect(memory.values.get(KEY)).toBe('{"count":5}');
+    });
+
+    test("never writes after a failed read and returns the load error", async () => {
+      const storage = createMemoryStorage({ [KEY]: '{"count":4}' });
+      const failingStorage: KeyValueStorage = {
+        ...storage,
+        get: () => Promise.reject(new Error("disk unavailable")),
+      };
+      const hook = await renderStore(createCounterStore(failingStorage));
+      await waitFor(() => {
+        expect(hook.result.current.load.status).toBe("error");
+      });
+
+      let pending: Promise<PersistResult> | undefined;
+      await act(() => {
+        hook.result.current.dispatch({ type: "increment" });
+        pending = hook.result.current.persist();
+      });
+      const result = await pending;
+
+      expect(result).toEqual({
+        ok: false,
+        error: expect.objectContaining({ status: "storage_read_failed" }),
+      });
+      expect(storage.writes).toEqual([]);
+    });
   });
 
   test("throws a structured error when used outside its provider", async () => {

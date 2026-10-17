@@ -1,6 +1,9 @@
 import { DATE_FORMAT } from "@/constants/Config";
 import { createPersistedStore } from "@/state/persisted/createPersistedStore";
-import type { Load } from "@/state/persisted/createPersistedStore";
+import type {
+  Load,
+  PersistResult,
+} from "@/state/persisted/createPersistedStore";
 
 import type { AtLeast, LogItemSchema } from "@/types";
 // oxlint-disable-next-line unicorn/prefer-node-protocol -- `buffer` is the npm polyfill bundled for React Native; `node:buffer` does not resolve in Hermes.
@@ -89,6 +92,8 @@ export interface UpdaterValue {
   reset: () => void;
   import: (data: LogsState) => void;
   sweepPhotos: () => void;
+  /** Resolves once pending changes are stored. See `usePersist`. */
+  persist: () => Promise<PersistResult>;
 }
 
 const PhotoSweepContext = createContext<(() => void) | undefined>(undefined);
@@ -322,6 +327,7 @@ const useLogState = (): LogsState => logsStore.useState();
 
 const useLogUpdater = (): UpdaterValue => {
   const dispatch = logsStore.useDispatch();
+  const persist = logsStore.usePersist();
   const sweepPhotos = useContext(PhotoSweepContext);
   if (sweepPhotos === undefined) {
     throw createMissingProviderError("useLogUpdater", "LogsProvider");
@@ -343,8 +349,9 @@ const useLogUpdater = (): UpdaterValue => {
       reset: () => dispatch({ type: "reset" }),
       import: (data: LogsState) => dispatch({ type: "import", payload: data }),
       sweepPhotos,
+      persist,
     }),
-    [dispatch, sweepPhotos]
+    [dispatch, sweepPhotos, persist]
   );
 };
 

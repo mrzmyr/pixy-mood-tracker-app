@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Platform, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
@@ -12,6 +12,7 @@ import TextInfo from "@/components/TextInfo";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import Alert from "@/lib/Alert";
+import { showSaveFailed } from "@/lib/saveFailed";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import TagNameField from "../components/TagNameField";
@@ -34,26 +35,40 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
   const updater = useTagsUpdater();
   const [title, setTitle] = useState(category?.title ?? "");
   const [submitted, setSubmitted] = useState(false);
+  // Stable across a failed save and its Retry.
+  const newCategoryId = useRef<string | null>(null);
   const isGeneral = category?.id === GENERAL_CATEGORY_ID;
   const general = getGeneralCategoryTitle(categories);
 
-  const onSave = () => {
+  const onSave = async () => {
     setSubmitted(true);
     const trimmed = title.trim();
     if (!isValidTagTitle(trimmed)) {
       return;
     }
     if (category) {
+      updater.updateCategory({ ...category, title: trimmed });
+    } else {
+      const id = newCategoryId.current ?? uuidv4();
+      newCategoryId.current = id;
+      updater.createCategory({ id, title: trimmed });
+    }
+    const result = await updater.persist();
+    if (!result.ok) {
+      showSaveFailed(() => {
+        void onSave();
+      });
+      return;
+    }
+    if (category) {
       analytics.track("tags:category_updated", {
         title_length: trimmed.length,
       });
-      updater.updateCategory({ ...category, title: trimmed });
     } else {
       analytics.track("tags:category_created", {
         title_length: trimmed.length,
         categories_count: categories.length + 1,
       });
-      updater.createCategory({ id: uuidv4(), title: trimmed });
     }
     router.back();
   };

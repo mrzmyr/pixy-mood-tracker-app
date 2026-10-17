@@ -229,7 +229,7 @@ const LoggerSlides = ({
     }
 
     if (slideIndex + 1 === slideKeys.length) {
-      save();
+      void save();
     } else if (slideIndex + 1 > furthestIndex) {
       pendingIndex.current = slideIndex + 1;
       setFurthestIndex(slideIndex + 1);
@@ -277,7 +277,7 @@ const LoggerSlides = ({
         isActionVisible={ratingActionType !== "hidden"}
         onRatingChanged={() => {
           if (slideKeys.length === 1) {
-            save();
+            void save();
             return;
           }
           next();

@@ -1,6 +1,10 @@
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import { createPersistedStore } from "@/state/persisted/createPersistedStore";
-import type { Load, LoadInput } from "@/state/persisted/createPersistedStore";
+import type {
+  Load,
+  LoadInput,
+  PersistResult,
+} from "@/state/persisted/createPersistedStore";
 
 import { t } from "@/lib/translation";
 import { useMemo } from "react";
@@ -78,6 +82,8 @@ interface UpdaterValue {
   reorderCategories: (categoryIds: TagCategory["id"][]) => void;
   reset: () => void;
   import: (data: ImportState) => void;
+  /** Resolves once pending changes are stored. See `usePersist`. */
+  persist: () => Promise<PersistResult>;
 }
 
 const _generateTag = (id: number, title: string, color: Tag["color"]): Tag => ({
@@ -229,6 +235,7 @@ const useTagsState = (): State => tagsStore.useState();
 
 const useTagsUpdater = (): UpdaterValue => {
   const dispatch = tagsStore.useDispatch();
+  const persist = tagsStore.usePersist();
   const logsUpdater = useLogUpdater();
 
   return useMemo(
@@ -252,8 +259,9 @@ const useTagsUpdater = (): UpdaterValue => {
       reset: () => dispatch({ type: "reset" }),
       import: (data: ImportState) =>
         dispatch({ type: "import", payload: data }),
+      persist,
     }),
-    [dispatch, logsUpdater]
+    [dispatch, logsUpdater, persist]
   );
 };
 
