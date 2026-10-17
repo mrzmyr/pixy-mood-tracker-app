@@ -570,6 +570,7 @@
   "log_tags_search": "חיפוש תגיות…",
   "log_view_changed_body": "כעת תוכל להשתמש בלחצן [+] בחלק העליון כדי להוסיף מספר ערכים. אם יש לך מספר ערכים ביום, רשימה תוצג, אחרת רק ערך אחד יוצג בתצוגת פירוט זו.",
   "log_view_changed_title": "רגע, איפה שעות היום שלי?",
+  "logger_date_choose": "בחירת תאריך ושעה…",
   "logger_date_hint": "משנה את השעה של רשומה זו.",
   "logger_step_emotions": "רגשות",
   "logger_step_feedback": "שאלות מוצר",

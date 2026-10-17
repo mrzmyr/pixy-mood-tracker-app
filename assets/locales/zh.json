@@ -570,6 +570,7 @@
   "log_tags_search": "搜索标签…",
   "log_view_changed_body": "您现在可以使用顶部的 [+] 按钮添加多个条目。如果您每天有多个条目，则会显示一个列表，否则在此详细视图中只会显示一个条目。",
   "log_view_changed_title": "等等，我的白天在哪里？",
+  "logger_date_choose": "选择日期和时间…",
   "logger_date_hint": "更改此记录的时间。",
   "logger_step_emotions": "情绪",
   "logger_step_feedback": "产品问题",

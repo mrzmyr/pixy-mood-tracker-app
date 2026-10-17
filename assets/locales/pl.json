@@ -570,6 +570,7 @@
   "log_tags_search": "Szukaj tagów…",
   "log_view_changed_body": "Możesz teraz użyć przycisku [+] u góry, aby dodać wiele wpisów. Jeśli masz wiele wpisów dziennie, zostanie wyświetlona lista, w przeciwnym razie w tym widoku szczegółowym zostanie wyświetlony tylko jeden wpis.",
   "log_view_changed_title": "Chwila, gdzie są moje dni?",
+  "logger_date_choose": "Wybierz datę i godzinę…",
   "logger_date_hint": "Zmienia godzinę tego wpisu.",
   "logger_step_emotions": "Emocje",
   "logger_step_feedback": "Pytania dotyczące produktów",

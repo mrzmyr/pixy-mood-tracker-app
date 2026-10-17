@@ -135,12 +135,20 @@ const mockSwiftUiContextMenu = Object.assign(
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the SwiftUI menu has no Jest view; the stand-in renders menu items as pressable buttons.
 jest.mock("@expo/ui/swift-ui", () => {
   const { Pressable, View } = require("react-native");
+  const { isValidElement } = require("react");
   return {
     Host: ({ children }) => children,
     RNHostView: ({ children }) => children,
     ContextMenu: mockSwiftUiContextMenu,
     Image: () => null,
-    Menu: ({ children }) => <View>{children}</View>,
+    // Renders a custom label (for example the logger time pill) and the items.
+    Menu: ({ label, children }) => (
+      <View>
+        {isValidElement(label) ? label : null}
+        {children}
+      </View>
+    ),
+    Divider: () => null,
     Button: ({ label, onPress }) => (
       <Pressable
         accessibilityRole="menuitem"
