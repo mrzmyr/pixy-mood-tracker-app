@@ -1,7 +1,6 @@
 import { CloseButton } from "@/components/CloseButton";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import { useFeedbackModal } from "@/features/feedback";
 import { Pressable, View } from "react-native";
 import ArrowLeft from "lucide-react-native/icons/arrow-left";
 import Trash from "lucide-react-native/icons/trash";
@@ -28,7 +27,6 @@ export const SlideHeader = ({
   onClose?: () => void;
   onDelete?: () => void;
 }) => {
-  const { Modal } = useFeedbackModal();
   const colors = useColors();
 
   return (
@@ -48,7 +46,6 @@ export const SlideHeader = ({
           flex: 1,
         }}
       >
-        <Modal />
         <View
           style={{
             flexDirection: "row",

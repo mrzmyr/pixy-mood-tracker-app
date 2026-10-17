@@ -21,7 +21,8 @@ export type { FeedackType, FeedbackSource } from "@/types/Feedback";
  * Without `onOk`, success plays a haptic and shows a toast. Without
  * `onCancel`, failure shows an error alert.
  * Network and HTTP errors never reject: `onCancel` gets them as
- * {@link StructuredError}.
+ * {@link StructuredError}, and `send` resolves `true` only when the server
+ * accepted the feedback.
  */
 export const useFeedback = () => {
   const deviceId = useSetting("deviceId");
@@ -42,7 +43,7 @@ export const useFeedback = () => {
     message: string;
     onOk?: () => void;
     onCancel?: (error: StructuredError) => void;
-  }) => {
+  }): Promise<boolean> => {
     const metaData = {
       locale: Localization.getLocales()[0]?.languageTag,
       version: pkg.version,
@@ -85,28 +86,29 @@ export const useFeedback = () => {
             message: t("feedback_success_message"),
           });
         }
-      } else {
-        analytics.track("feedback:submit_failed", {
-          http_status: resp.status,
-        });
-        if (onCancel) {
-          onCancel(
-            createStructuredError({
-              status: resp.status,
-              message: "Feedback could not be sent",
-              why: `Feedback endpoint answered HTTP ${resp.status}`,
-              fix: "Check the connection, then send again",
-            })
-          );
-        } else {
-          Alert.alert(
-            t("feedback_error_title"),
-            t("feedback_error_message"),
-            [{ text: t("ok") }],
-            { cancelable: false }
-          );
-        }
+        return true;
       }
+      analytics.track("feedback:submit_failed", {
+        http_status: resp.status,
+      });
+      if (onCancel) {
+        onCancel(
+          createStructuredError({
+            status: resp.status,
+            message: "Feedback could not be sent",
+            why: `Feedback endpoint answered HTTP ${resp.status}`,
+            fix: "Check the connection, then send again",
+          })
+        );
+      } else {
+        Alert.alert(
+          t("feedback_error_title"),
+          t("feedback_error_message"),
+          [{ text: t("ok") }],
+          { cancelable: false }
+        );
+      }
+      return false;
     } catch (error) {
       analytics.track("feedback:submit_failed", { http_status: null });
       if (onCancel) {
@@ -126,6 +128,7 @@ export const useFeedback = () => {
           { cancelable: false }
         );
       }
+      return false;
     }
   };
 

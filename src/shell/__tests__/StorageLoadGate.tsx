@@ -6,7 +6,7 @@ import {
   userEvent,
   waitFor,
 } from "@testing-library/react-native";
-import { Linking, Text } from "react-native";
+import { Alert, Linking, Text } from "react-native";
 import Colors from "@/constants/Colors";
 import {
   createMemoryFileTransfer,
@@ -189,5 +189,66 @@ describe("StorageLoadGate", () => {
     expect(await screen.findByText("Report Bug")).toBeOnTheScreen();
 
     openURLSpy.mockRestore();
+  });
+
+  test("user sends feedback from the fallback form", async () => {
+    await AsyncStorage.setItem(LOGS_KEY, "🐇");
+    const openURLSpy = jest
+      .spyOn(Linking, "openURL")
+      .mockRejectedValue(new Error("no mail app"));
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation();
+    global.fetch = jest.fn().mockResolvedValue({ ok: true });
+    const user = userEvent.setup();
+
+    await renderApp();
+    await user.press(await screen.findByText("Contact support"));
+    expect(screen.getByTestId("feedback-modal-send")).toBeDisabled();
+
+    await user.type(
+      screen.getByTestId("feedback-modal-message"),
+      "Data is gone"
+    );
+    await user.press(screen.getByTestId("feedback-modal-send"));
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+    const [[, request]] = jest.mocked(global.fetch).mock.calls;
+    expect(JSON.parse(String(request?.body))).toMatchObject({
+      type: "issue",
+      message: "Data is gone",
+    });
+    await waitFor(() => expect(screen.queryByText("Report Bug")).toBeNull());
+
+    openURLSpy.mockRestore();
+    alertSpy.mockRestore();
+  });
+
+  test("user keeps the draft and sees an error when sending fails", async () => {
+    await AsyncStorage.setItem(LOGS_KEY, "🐇");
+    const openURLSpy = jest
+      .spyOn(Linking, "openURL")
+      .mockRejectedValue(new Error("no mail app"));
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation();
+    global.fetch = jest.fn().mockRejectedValue(new Error("offline"));
+    const user = userEvent.setup();
+
+    await renderApp();
+    await user.press(await screen.findByText("Contact support"));
+    await user.type(
+      screen.getByTestId("feedback-modal-message"),
+      "Data is gone"
+    );
+    await user.press(screen.getByTestId("feedback-modal-send"));
+
+    expect(await screen.findByRole("alert")).toHaveAccessibleName(
+      "Feedback not sent. Check your connection and try again."
+    );
+    expect(screen.getByTestId("feedback-modal-message")).toHaveDisplayValue(
+      "Data is gone"
+    );
+    expect(screen.getByTestId("feedback-modal-send")).toBeEnabled();
+    expect(alertSpy).not.toHaveBeenCalled();
+
+    openURLSpy.mockRestore();
+    alertSpy.mockRestore();
   });
 });
