@@ -72,6 +72,8 @@ const TagNameField = ({
           maxLength={MAX_TAG_LENGTH}
           value={value}
           returnKeyType="done"
+          // Keep the keyboard up so a too-short name can be fixed right away.
+          submitBehavior="submit"
           onSubmitEditing={onSubmit}
           onChangeText={onChange}
         />
