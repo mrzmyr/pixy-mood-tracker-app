@@ -28,19 +28,29 @@ const modalOptions = { presentation: "modal" as const, headerShown: false };
 /**
  * iOS top-level screens: 34pt title that collapses into the inline title on
  * scroll. The screen's first child must be a ScrollView with
- * `contentInsetAdjustmentBehavior="automatic"`. Both bar states use the screen
- * background, so the large title has no hairline. Android and web keep the
+ * `contentInsetAdjustmentBehavior="automatic"`. Android and web keep the
  * regular header.
+ *
+ * iOS 26+ needs an unset header background: with a background color, the
+ * large title is invisible (expo-router `useHeaderConfigProps`). The bar then
+ * stays transparent and shows the screen background. Older iOS paints both
+ * bar states in the screen background.
  */
-const largeTitleOptions = (backgroundColor: string) =>
-  Platform.OS === "ios"
-    ? {
-        headerLargeTitleEnabled: true,
-        headerLargeTitleShadowVisible: false,
-        headerStyle: { backgroundColor },
-        headerLargeStyle: { backgroundColor },
-      }
-    : {};
+const largeTitleOptions = (backgroundColor: string) => {
+  if (Platform.OS !== "ios") {
+    return {};
+  }
+  return {
+    headerLargeTitleEnabled: true,
+    headerLargeTitleShadowVisible: false,
+    ...(HAS_FLOATING_HEADER
+      ? { headerStyle: undefined }
+      : {
+          headerStyle: { backgroundColor },
+          headerLargeStyle: { backgroundColor },
+        }),
+  };
+};
 
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
