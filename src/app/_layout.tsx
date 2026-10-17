@@ -23,6 +23,7 @@ import { configureObserve } from "@/lib/observe";
 import { applyLocale, getLocale } from "@/lib/translation";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import { useStartupInteractive } from "@/shell/startupInteractive";
+import { useStorageLoadEvent } from "@/shell/storageLoadEvent";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
 import { LaunchSplash } from "@/shell/LaunchSplash";
@@ -51,6 +52,7 @@ const AppShell = () => {
   const pathname = usePathname();
   const rootState = useRootNavigationState();
   useStartupInteractive();
+  useStorageLoadEvent();
   useScreenTracking();
   useUsageSummarySync();
   useReminderTapTracking();
