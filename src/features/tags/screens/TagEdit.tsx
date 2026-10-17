@@ -8,6 +8,7 @@ import RouteModalHeader from "@/components/RouteModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import TagCategoryPicker from "../components/TagCategoryPicker";
 import { ColorPicker } from "../components/ColorPicker";
 import { GENERAL_CATEGORY_ID } from "../tagCategories";
@@ -45,7 +46,21 @@ export const TagEdit = () => {
   const [submitted, setSubmitted] = useState(false);
   const [tag, setTag] = useState(tagExists || defaultTag);
 
-  const { confirmDelete } = useTagActions({ onDeleted: () => router.back() });
+  const isDirty =
+    tag.title !== defaultTag.title ||
+    tag.color !== defaultTag.color ||
+    (tag.categoryId ?? GENERAL_CATEGORY_ID) !==
+      (defaultTag.categoryId ?? GENERAL_CATEGORY_ID) ||
+    Boolean(tag.isArchived) !== Boolean(defaultTag.isArchived);
+  // Back, the swipe-down gesture, and Cancel ask before dropping edits.
+  const { allowLeave } = useDiscardGuard({ isDirty });
+
+  const { confirmDelete } = useTagActions({
+    onDeleted: () => {
+      allowLeave();
+      router.back();
+    },
+  });
 
   const onSubmit = (updatedTag: ITag) => {
     setSubmitted(true);
@@ -60,6 +75,7 @@ export const TagEdit = () => {
       is_archived: Boolean(updatedTag.isArchived),
     });
     tagsUpdater.updateTag(updatedTag);
+    allowLeave();
     router.back();
   };
 
@@ -97,6 +113,7 @@ export const TagEdit = () => {
         <TagNameField
           value={tag.title}
           showError={submitted}
+          onSubmit={() => onSubmit(tag)}
           onChange={(title) => {
             setTag((currentTag) => ({ ...currentTag, title }));
           }}

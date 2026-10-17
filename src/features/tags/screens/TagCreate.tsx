@@ -7,6 +7,7 @@ import RouteModalHeader from "@/components/RouteModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import TagCategoryPicker from "../components/TagCategoryPicker";
 import { ColorPicker } from "../components/ColorPicker";
 import { GENERAL_CATEGORY_ID } from "../tagCategories";
@@ -28,13 +29,21 @@ export const TagCreate = () => {
   const analytics = useAnalytics();
   const tagsUpdater = useTagsUpdater();
 
+  const [firstColor] = Object.keys(colors.tags);
   const [submitted, setSubmitted] = useState(false);
   const [tempTag, setTempTag] = useState<ITag>({
     id: uuidv4(),
     title: "",
-    color: Object.keys(colors.tags)[0],
+    color: firstColor,
     categoryId: GENERAL_CATEGORY_ID,
   });
+
+  const isDirty =
+    tempTag.title !== "" ||
+    tempTag.color !== firstColor ||
+    tempTag.categoryId !== GENERAL_CATEGORY_ID;
+  // Back, the swipe-down gesture, and Cancel ask before dropping the form.
+  const { allowLeave } = useDiscardGuard({ isDirty });
 
   const onCreate = () => {
     setSubmitted(true);
@@ -51,12 +60,13 @@ export const TagCreate = () => {
     setTempTag({
       id: uuidv4(),
       title: "",
-      color: Object.keys(colors.tags)[0],
+      color: firstColor,
       categoryId: GENERAL_CATEGORY_ID,
     });
 
     tagsUpdater.createTag(tempTag);
 
+    allowLeave();
     router.back();
   };
 
@@ -92,8 +102,10 @@ export const TagCreate = () => {
         automaticallyAdjustKeyboardInsets
       >
         <TagNameField
+          autoFocus
           value={tempTag.title}
           showError={submitted}
+          onSubmit={onCreate}
           onChange={(title) => {
             setTempTag((currentTag) => ({ ...currentTag, title }));
           }}

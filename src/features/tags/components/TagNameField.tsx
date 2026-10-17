@@ -18,12 +18,15 @@ const TagNameField = ({
   placeholder = t("tags_add_placeholder"),
   testID = "tag-name",
   autoFocus = false,
+  onSubmit,
 }: {
   value: string;
   placeholder?: string;
   testID?: string;
   autoFocus?: boolean;
   onChange: (title: string) => void;
+  /** Runs on the keyboard Return key, labelled "done". */
+  onSubmit?: () => void;
   /** Show the length error under the field. */
   showError: boolean;
 }) => {
@@ -68,6 +71,8 @@ const TagNameField = ({
           placeholderTextColor={colors.textInputPlaceholder}
           maxLength={MAX_TAG_LENGTH}
           value={value}
+          returnKeyType="done"
+          onSubmitEditing={onSubmit}
           onChangeText={onChange}
         />
       </MenuList>

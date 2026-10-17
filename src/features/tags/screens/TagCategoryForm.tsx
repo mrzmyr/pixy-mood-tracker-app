@@ -8,6 +8,7 @@ import MenuListItem from "@/components/MenuListItem";
 import RouteModalHeader from "@/components/RouteModalHeader";
 import TextInfo from "@/components/TextInfo";
 import useColors from "@/hooks/useColors";
+import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import useHaptics from "@/hooks/useHaptics";
 import Alert from "@/lib/Alert";
 import { t } from "@/lib/translation";
@@ -33,6 +34,10 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
   const [submitted, setSubmitted] = useState(false);
   const isGeneral = category?.id === GENERAL_CATEGORY_ID;
   const general = getGeneralCategoryTitle(categories);
+  // Back, the swipe-down gesture, and Cancel ask before dropping the name.
+  const { allowLeave } = useDiscardGuard({
+    isDirty: title !== (category?.title ?? ""),
+  });
 
   const onSave = () => {
     setSubmitted(true);
@@ -52,6 +57,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
       });
       updater.createCategory({ id: uuidv4(), title: trimmed });
     }
+    allowLeave();
     router.back();
   };
 
@@ -74,6 +80,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
               categories_count: categories.length - 1,
             });
             updater.deleteCategory(toDelete.id);
+            allowLeave();
             router.back();
           },
         },
@@ -117,6 +124,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
           placeholder={t("tag_category_name_placeholder")}
           value={title}
           showError={submitted}
+          onSubmit={onSave}
           onChange={setTitle}
         />
         {isGeneral && (
