@@ -1,16 +1,28 @@
-import isString from "lodash/isString";
-import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
+import { ButtonChildren, ButtonProvider } from "@/components/ButtonContent";
 import useColors from "@/hooks/useColors";
 import { PressableScale } from "@/components/PressableScale";
 import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
+const TEXT_STYLE = { fontWeight: "600" } as const;
 
+interface Palette {
+  background: string;
+  text: string;
+  border: string;
+  disabledBackground?: string;
+  disabledText?: string;
+  disabledBorder?: string;
+}
+
+/**
+ * Filled button. Children: a label string, or `ButtonIcon` and `ButtonText`
+ * from `@/components/ButtonContent`, which take the button's color.
+ */
 const Button = ({
   type = "primary",
-  icon,
   testID,
   accessibilityLabel,
   onPress,
@@ -20,7 +32,6 @@ const Button = ({
 }: {
   /** `contrast`: black in light mode, white in dark mode. */
   type?: "primary" | "secondary" | "contrast" | "danger" | "tertiary";
-  icon?: React.ReactNode;
   testID?: string;
   /** Name for icon-only buttons. */
   accessibilityLabel?: string;
@@ -31,7 +42,7 @@ const Button = ({
 }) => {
   const colors = useColors();
 
-  const buttonColors = {
+  const buttonColors: Palette = {
     primary: {
       background: colors.primaryButtonBackground,
       text: colors.primaryButtonText,
@@ -69,52 +80,47 @@ const Button = ({
     },
   }[type];
 
+  const textColor = disabled
+    ? (buttonColors.disabledText ?? buttonColors.text)
+    : buttonColors.text;
+
   return (
-    <PressableScale
-      style={{
-        padding: 16,
-        paddingRight: 16,
-        paddingLeft: 16,
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "row",
-        borderRadius: RADIUS.full,
-        opacity: disabled ? 0.5 : 1,
-        backgroundColor: disabled
-          ? buttonColors.disabledBackground
-          : buttonColors.background,
-        borderWidth: 2,
-        borderColor: disabled
-          ? buttonColors.disabledBorder
-          : buttonColors?.border,
-        ...style,
-      }}
-      onPress={() => {
-        if (!disabled) {
-          onPress?.();
-        }
-      }}
-      disabled={disabled}
-      testID={testID}
-      accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel}
+    <ButtonProvider
+      value={{ color: textColor, disabled, textStyle: TEXT_STYLE }}
     >
-      {icon && <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>}
-      {isString(children) ? (
-        <Text
-          style={{
-            fontSize: 17,
-            color: disabled ? buttonColors.disabledText : buttonColors.text,
-            fontWeight: "600",
-          }}
-          numberOfLines={1}
-        >
-          {children}
-        </Text>
-      ) : (
-        children
-      )}
-    </PressableScale>
+      <PressableScale
+        style={{
+          padding: 16,
+          paddingRight: 16,
+          paddingLeft: 16,
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "row",
+          gap: 8,
+          borderRadius: RADIUS.full,
+          opacity: disabled ? 0.5 : 1,
+          backgroundColor: disabled
+            ? buttonColors.disabledBackground
+            : buttonColors.background,
+          borderWidth: 2,
+          borderColor: disabled
+            ? buttonColors.disabledBorder
+            : buttonColors?.border,
+          ...style,
+        }}
+        onPress={() => {
+          if (!disabled) {
+            onPress?.();
+          }
+        }}
+        disabled={disabled}
+        testID={testID}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel}
+      >
+        <ButtonChildren>{children}</ButtonChildren>
+      </PressableScale>
+    </ButtonProvider>
   );
 };
 

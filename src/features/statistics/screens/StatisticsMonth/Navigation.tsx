@@ -2,7 +2,7 @@ import type { Dayjs } from "dayjs";
 import { View } from "react-native";
 import { ChevronLeft, ChevronRight } from "react-native-feather";
 import Button from "@/components/Button";
-import useColors from "@/hooks/useColors";
+import { ButtonIcon } from "@/components/ButtonContent";
 import { t } from "@/lib/translation";
 
 /**
@@ -23,52 +23,38 @@ export const Navigation = ({
   onPrev: () => void;
   nextMonthDisabled: boolean;
   prevMonthDisabled: boolean;
-}) => {
-  const colors = useColors();
-
-  return (
-    <View
+}) => (
+  <View
+    style={{
+      flexDirection: "row",
+    }}
+  >
+    <Button
+      onPress={onPrev}
+      accessibilityLabel={t("a11y_previous_month", {
+        month: prevMonth.format("MMMM YYYY"),
+      })}
+      disabled={prevMonthDisabled}
+      type="tertiary"
       style={{
-        flexDirection: "row",
+        flex: 1,
+        marginRight: 8,
       }}
     >
-      <Button
-        onPress={onPrev}
-        accessibilityLabel={t("a11y_previous_month", {
-          month: prevMonth.format("MMMM YYYY"),
-        })}
-        disabled={prevMonthDisabled}
-        type="tertiary"
-        style={{
-          flex: 1,
-          marginRight: 8,
-        }}
-      >
-        <ChevronLeft
-          width={20}
-          height={20}
-          color={colors.tertiaryButtonText}
-          strokeWidth={3}
-        />
-      </Button>
-      <Button
-        onPress={onNext}
-        accessibilityLabel={t("a11y_next_month", {
-          month: nextMonth.format("MMMM YYYY"),
-        })}
-        disabled={nextMonthDisabled}
-        type="tertiary"
-        style={{
-          flex: 1,
-        }}
-      >
-        <ChevronRight
-          width={20}
-          height={20}
-          color={colors.tertiaryButtonText}
-          strokeWidth={3}
-        />
-      </Button>
-    </View>
-  );
-};
+      <ButtonIcon icon={ChevronLeft} size={20} strokeWidth={3} />
+    </Button>
+    <Button
+      onPress={onNext}
+      accessibilityLabel={t("a11y_next_month", {
+        month: nextMonth.format("MMMM YYYY"),
+      })}
+      disabled={nextMonthDisabled}
+      type="tertiary"
+      style={{
+        flex: 1,
+      }}
+    >
+      <ButtonIcon icon={ChevronRight} size={20} strokeWidth={3} />
+    </Button>
+  </View>
+);
