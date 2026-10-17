@@ -1,8 +1,6 @@
 import { useSetting } from "@/state/settings";
-import dayjs from "dayjs";
 import React from "react";
 import { View } from "react-native";
-import { DATE_FORMAT } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
@@ -13,11 +11,11 @@ import { RADIUS } from "@/constants/Radius";
  * today gets a marker.
  */
 export const Day = ({
-  date,
   rating,
+  isToday,
 }: {
-  date: string;
   rating: LogItem["rating"] | null;
+  isToday: boolean;
 }) => {
   const colors = useColors();
   const scaleType = useSetting("scaleType");
@@ -40,8 +38,7 @@ export const Day = ({
         alignItems: "center",
       }}
     >
-      {/* if date dayjs is today */}
-      {dayjs().format(DATE_FORMAT) === date && (
+      {isToday && (
         <View
           style={{
             width: 8,
