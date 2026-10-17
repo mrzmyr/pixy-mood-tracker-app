@@ -128,13 +128,17 @@ export const PlacePreviewMap = ({ location }: { location: LogLocation }) => {
               { alignItems: "center", justifyContent: "center" },
             ]}
           >
-            <MapPin
-              size={PIN_SIZE}
-              color="white"
-              fill={colors.tint}
-              strokeWidth={1.5}
-              style={{ transform: [{ translateY: PIN_OFFSET }] }}
-            />
+            {/* Offset on a wrapper: react-native-svg applies a transform style
+                to both the Svg view and its content, which doubled the lift
+                and clipped the top of the pin. */}
+            <View style={{ transform: [{ translateY: PIN_OFFSET }] }}>
+              <MapPin
+                size={PIN_SIZE}
+                color="white"
+                fill={colors.tint}
+                strokeWidth={1.5}
+              />
+            </View>
           </View>
         </>
       ) : (
