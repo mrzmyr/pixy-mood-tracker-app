@@ -1,3 +1,4 @@
+import { Color } from "expo-router";
 import { Platform } from "react-native";
 
 import colors from "@/constants/Colors/TailwindColors";
@@ -109,7 +110,11 @@ const light = {
   menuListItemBackground: "#FFF",
   menuListItemText: "#000",
   menuListItemIcon: "#000",
-  menuListItemBorder: colors.neutral[100],
+  // iOS semantic colors follow dark mode and Increase Contrast. Android rows
+  // have no dividers or chevrons.
+  menuListItemChevron: Platform.OS === "ios" ? Color.ios.tertiaryLabel : "#000",
+  menuListItemBorder:
+    Platform.OS === "ios" ? Color.ios.separator : colors.neutral[100],
 
   pressRipple: "rgba(0, 0, 0, 0.12)",
 
@@ -335,7 +340,10 @@ const dark: IColors & {
   menuListItemBackground: colors.neutral[900],
   menuListItemText: colors.neutral[50],
   menuListItemIcon: colors.neutral[200],
-  menuListItemBorder: colors.neutral[800],
+  menuListItemChevron:
+    Platform.OS === "ios" ? Color.ios.tertiaryLabel : colors.neutral[200],
+  menuListItemBorder:
+    Platform.OS === "ios" ? Color.ios.separator : colors.neutral[800],
 
   pressRipple: "rgba(255, 255, 255, 0.16)",
 
