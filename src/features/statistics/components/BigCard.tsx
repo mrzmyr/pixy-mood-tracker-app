@@ -8,6 +8,7 @@ import type { ViewStyle } from "react-native";
 import Share from "lucide-react-native/icons/share";
 import { captureRef } from "react-native-view-shot";
 import * as Sentry from "@sentry/react-native";
+import { ButtonIcon } from "@/components/ButtonContent";
 import LinkButton from "@/components/LinkButton";
 import { RADIUS } from "@/constants/Radius";
 import { t } from "@/lib/translation";
@@ -255,7 +256,7 @@ export const BigCard = ({
                 onPress={() => share()}
                 style={{}}
               >
-                <Share stroke={colors.tint} width={20} />
+                <ButtonIcon icon={Share} size={20} />
               </LinkButton>
             )}
           </View>

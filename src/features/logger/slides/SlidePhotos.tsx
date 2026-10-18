@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
+import { ButtonIcon, ButtonText } from "@/components/ButtonContent";
 import LinkButton from "@/components/LinkButton";
 import {
   AddPhotoTile,
@@ -188,7 +189,6 @@ export const SlidePhotos = ({
         <Button
           type="secondary"
           testID="photos-library-button"
-          icon={<Images color={colors.secondaryButtonText} size={18} />}
           onPress={addFromLibrary}
           disabled={draft.isAddDisabled}
           style={{
@@ -198,7 +198,8 @@ export const SlidePhotos = ({
             minHeight: 44,
           }}
         >
-          {t("photos_library_button")}
+          <ButtonIcon icon={Images} size={18} />
+          <ButtonText>{t("photos_library_button")}</ButtonText>
         </Button>
       </View>
       {(draft.items.length > 0 || isLimited) && (
