@@ -1,12 +1,10 @@
 import { useEffect } from "react";
 import { AccessibilityInfo, Platform, Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
-import {
-  AlertCircle,
-  AlertTriangle,
-  CheckCircle,
-  Info,
-} from "react-native-feather";
+import AlertCircle from "lucide-react-native/icons/circle-alert";
+import CheckCircle from "lucide-react-native/icons/circle-check";
+import Info from "lucide-react-native/icons/info";
+import AlertTriangle from "lucide-react-native/icons/triangle-alert";
 import LinkButton from "@/components/LinkButton";
 import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
