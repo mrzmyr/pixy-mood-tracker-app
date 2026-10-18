@@ -61,6 +61,7 @@ export const CalendarHeaderButtons = () => {
           <Stack.Toolbar.Menu
             icon={ICONS.filters}
             accessibilityLabel={t("calendar_filters")}
+            separateBackground
           >
             {isFiltering && (
               <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
@@ -90,24 +91,23 @@ export const CalendarHeaderButtons = () => {
             icon={ICONS.filters}
             accessibilityLabel={t("calendar_filters")}
             onPress={() => calendarFilters.open()}
+            separateBackground
           >
             {isFiltering && (
               <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
             )}
           </Stack.Toolbar.Button>
         )}
+        {/* Direct child only: Stack.Toolbar drops Fragments. Filters sets
+            `separateBackground`, so the avatar gets its own glass circle. */}
         {isProfileEnabled ? (
-          <>
-            {/* Fixed space starts a new glass group, like `separateBackground`. */}
-            <Stack.Toolbar.Spacer width={0} />
-            {/* Remount on change: native items ignore later prop updates. */}
-            <Stack.Toolbar.View
-              key={hasProfileAvatar ? "avatar" : "silhouette"}
-              hidesSharedBackground={hasProfileAvatar}
-            >
-              <ProfileHeaderButton onPress={openSettings} />
-            </Stack.Toolbar.View>
-          </>
+          // Remount on change: native items ignore later prop updates.
+          <Stack.Toolbar.View
+            key={hasProfileAvatar ? "avatar" : "silhouette"}
+            hidesSharedBackground={hasProfileAvatar}
+          >
+            <ProfileHeaderButton onPress={openSettings} />
+          </Stack.Toolbar.View>
         ) : (
           <Stack.Toolbar.Button
             icon={ICONS.settings}

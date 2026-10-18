@@ -3,8 +3,10 @@ import { t } from "@/lib/translation";
 import { useProfile } from "../useProfile";
 import { ProfileAvatar } from "./ProfileAvatar";
 
-/** Avatar size inside the header item; the system draws the button around it. */
-export const PROFILE_HEADER_AVATAR_SIZE = 32;
+/** Silhouette size inside the system glass circle. */
+export const PROFILE_HEADER_GLYPH_SIZE = 32;
+/** Photo or initials size: fills the 44 pt circle of the glass buttons. */
+export const PROFILE_HEADER_AVATAR_SIZE = 44;
 
 /** Whether the header avatar shows a photo or initials, not the silhouette. */
 export const useHasProfileAvatar = () => {
@@ -14,17 +16,16 @@ export const useHasProfileAvatar = () => {
 
 /**
  * Calendar header button that opens Settings. Shows the user's avatar
- * instead of the cog. Keeps the "Settings" label, so screen readers and
+ * instead of the cog: a photo or initials fill the circle, the silhouette
+ * sits inside the system glass. Keeps the "Settings" label, so screen readers and
  * e2e flows find it like before.
  */
-export const ProfileHeaderButton = ({
-  onPress,
-  size = PROFILE_HEADER_AVATAR_SIZE,
-}: {
-  onPress: () => void;
-  size?: number;
-}) => {
+export const ProfileHeaderButton = ({ onPress }: { onPress: () => void }) => {
   const profile = useProfile();
+  const hasAvatar = profile.photoUri !== null || profile.initials !== "";
+  const size = hasAvatar
+    ? PROFILE_HEADER_AVATAR_SIZE
+    : PROFILE_HEADER_GLYPH_SIZE;
 
   return (
     <Pressable
