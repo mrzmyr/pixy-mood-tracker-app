@@ -29,6 +29,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 - `Modal` with `presentationStyle="pageSheet"`, `animationType="slide"` ([`SheetModal`](src/components/SheetModal.tsx)).
 - Router form with native header: iOS `formSheet`, Android full-screen `modal`, header items via `Stack.Toolbar` ([Feedback](src/features/feedback/screens/FeedbackScreen.tsx)).
 - Never custom slide-in sheet. Never move views from keyboard events. Inputs sit at sheet top.
+- Route modal header: [`RouteModalHeader`](src/components/RouteModalHeader.tsx). iOS native sheet bar, Android Material top app bar.
 
 ## Settings
 

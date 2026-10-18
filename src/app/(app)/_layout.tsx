@@ -59,6 +59,17 @@ const AppLayout = () => {
           headerStyle: { backgroundColor: colors.feedbackBackground },
           headerShadowVisible: false,
         };
+  // Tag, tag category, and people modals. iOS shows the native sheet bar;
+  // the screen sets title and bar items (`RouteModalHeader`). Android and
+  // web draw their header in the screen.
+  const formModalOptions =
+    Platform.OS === "ios"
+      ? {
+          presentation: "modal" as const,
+          headerShown: true,
+          headerTintColor: colors.text,
+        }
+      : modalOptions;
   // iOS and Android render the native back button. Web has none.
   const pageOptions =
     Platform.OS === "web"
@@ -137,15 +148,24 @@ const AppLayout = () => {
               headerShown: false,
             }}
           />
-          <Stack.Screen name="tags/index" options={modalOptions} />
-          <Stack.Screen name="tags/create" options={modalOptions} />
-          <Stack.Screen name="tags/[id]" options={modalOptions} />
-          <Stack.Screen name="tags/categories/index" options={modalOptions} />
-          <Stack.Screen name="tags/categories/create" options={modalOptions} />
-          <Stack.Screen name="tags/categories/[id]" options={modalOptions} />
-          <Stack.Screen name="people/create" options={modalOptions} />
-          <Stack.Screen name="people/import" options={modalOptions} />
-          <Stack.Screen name="people/[id]" options={modalOptions} />
+          <Stack.Screen name="tags/index" options={formModalOptions} />
+          <Stack.Screen name="tags/create" options={formModalOptions} />
+          <Stack.Screen name="tags/[id]" options={formModalOptions} />
+          <Stack.Screen
+            name="tags/categories/index"
+            options={formModalOptions}
+          />
+          <Stack.Screen
+            name="tags/categories/create"
+            options={formModalOptions}
+          />
+          <Stack.Screen
+            name="tags/categories/[id]"
+            options={formModalOptions}
+          />
+          <Stack.Screen name="people/create" options={formModalOptions} />
+          <Stack.Screen name="people/import" options={formModalOptions} />
+          <Stack.Screen name="people/[id]" options={formModalOptions} />
           <Stack.Screen name="profile" options={modalOptions} />
           <Stack.Screen
             name="statistics/highlights"
