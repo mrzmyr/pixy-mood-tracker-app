@@ -9,6 +9,7 @@ export const FEATURE_FLAGS = [
   "calendar-map",
   "calendar-timeline",
   "development",
+  "emotion-dials",
   "emotion-icons",
   "feature-flag-overrides",
   "interventions",
@@ -56,6 +57,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   development: {
     description: "Development section in production builds",
     location: "Settings > Development",
+  },
+  "emotion-dials": {
+    description: "Two dials picker: energy and pleasantness sort all emotions",
+    location: "Check-in > Emotions step",
   },
   "emotion-icons": {
     description: "Icons instead of dots for chosen emotions",
