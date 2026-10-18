@@ -5,6 +5,7 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import Colors from "@/constants/Colors";
 import { LicensesScreen } from "../screens/Licenses";
 
@@ -34,17 +35,24 @@ jest.mock("@sentry/react-native", () => ({
   captureException: jest.fn(),
 }));
 
+const initialMetrics = {
+  frame: { x: 0, y: 0, width: 393, height: 852 },
+  insets: { top: 47, right: 0, bottom: 34, left: 0 },
+};
+
 const renderLicenses = () =>
   render(
-    <ThemeProvider
-      value={{
-        ...DefaultTheme,
-        dark: false,
-        colors: { ...DefaultTheme.colors, ...Colors.light },
-      }}
-    >
-      <LicensesScreen />
-    </ThemeProvider>
+    <SafeAreaProvider initialMetrics={initialMetrics}>
+      <ThemeProvider
+        value={{
+          ...DefaultTheme,
+          dark: false,
+          colors: { ...DefaultTheme.colors, ...Colors.light },
+        }}
+      >
+        <LicensesScreen />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 
 describe("Settings > Licenses", () => {

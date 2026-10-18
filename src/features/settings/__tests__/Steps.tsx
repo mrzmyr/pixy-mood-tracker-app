@@ -1,6 +1,5 @@
 import { render, screen, waitFor, within } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import Colors from "@/constants/Colors";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
@@ -12,28 +11,21 @@ jest.mock("@/state/featureFlags", () => ({
   useFeatureFlag: (flag: string) => flag === "photos" && mockIsPhotosEnabled,
 }));
 
-const initialMetrics = {
-  frame: { x: 0, y: 0, width: 393, height: 852 },
-  insets: { top: 47, right: 0, bottom: 34, left: 0 },
-};
-
 const renderSteps = () =>
   render(
-    <SafeAreaProvider initialMetrics={initialMetrics}>
-      <ThemeProvider
-        value={{
-          ...DefaultTheme,
-          dark: false,
-          colors: { ...DefaultTheme.colors, ...Colors.light },
-        }}
-      >
-        <SettingsProvider>
-          <AnalyticsProvider>
-            <StepsScreen />
-          </AnalyticsProvider>
-        </SettingsProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <ThemeProvider
+      value={{
+        ...DefaultTheme,
+        dark: false,
+        colors: { ...DefaultTheme.colors, ...Colors.light },
+      }}
+    >
+      <SettingsProvider>
+        <AnalyticsProvider>
+          <StepsScreen />
+        </AnalyticsProvider>
+      </SettingsProvider>
+    </ThemeProvider>
   );
 
 describe("Settings > Check-in", () => {
