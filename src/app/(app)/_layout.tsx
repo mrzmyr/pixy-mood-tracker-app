@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import dayjs from "dayjs";
 import { Platform, View } from "react-native";
 import { BackButton } from "@/shell/BackButton";
 import { StorageLoadGate } from "@/shell/StorageLoadGate";
@@ -232,7 +231,7 @@ const AppLayout = () => {
             name="statistics/year/[date]"
             options={{
               ...pageOptions,
-              title: dayjs().format("YYYY"),
+              title: t("year_report"),
               ...reportHeaderOptions,
             }}
           />
