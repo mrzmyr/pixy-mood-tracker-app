@@ -97,7 +97,7 @@ export const StatisticsYearScreen = () => {
           items={items}
         />
         <MoodChart date={date} />
-        <YearInPixels date={date} />
+        <YearInPixels date={date} items={items} />
         <EmotionsDistribution
           title={t("statistics_most_used_emotions")}
           subtitle={t("statistics_most_used_emotions_description", {

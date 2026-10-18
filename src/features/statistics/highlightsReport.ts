@@ -27,6 +27,14 @@ import type { TagsPeakData } from "./TagsPeaks";
 /** Length of the highlights window, counted back from `now`. */
 export const HIGHLIGHTS_WINDOW_DAYS = 14;
 
+/**
+ * `now` for the report on local day `today` (`DATE_FORMAT`): the last
+ * millisecond of `today`. All entries of `today` count, and the report stays
+ * the same until midnight.
+ */
+export const getHighlightsNow = (today: string): Date =>
+  dayjs(today).endOf("day").toDate();
+
 /** Entries in the window the mood chart needs. */
 const MOOD_CHART_MIN_ENTRIES = 4;
 
