@@ -12,6 +12,12 @@ import useColors from "@/hooks/useColors";
 export type FieldRowKind = "push" | "external" | "action";
 
 const ICON_SIZE = 20;
+/**
+ * Fixed icon slot, icon centered. Symbols differ in width; without the slot
+ * each title starts at a different x, and iOS draws each row separator from
+ * its own title, so separators misalign and add a stray hairline.
+ */
+const ICON_FRAME = 28;
 const AFFORDANCE_SIZE = 13;
 
 const IOS_AFFORDANCE = {
@@ -63,7 +69,12 @@ const FieldRow = ({
       // Android: the section row already paints the container.
       colors={{ containerColor: "transparent" }}
       leading={
-        <Icon name={icon} size={ICON_SIZE} color={colors.menuListItemIcon} />
+        <Icon
+          name={icon}
+          size={ICON_SIZE}
+          color={colors.menuListItemIcon}
+          style={{ width: ICON_FRAME }}
+        />
       }
       trailing={
         valueText && affordanceIcon ? (
