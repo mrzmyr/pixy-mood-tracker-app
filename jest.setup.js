@@ -85,6 +85,12 @@ jest.mock("react-native-reanimated", () => {
       return { get: () => current, set: (next) => (current = next) };
     },
     useAnimatedStyle: (worklet) => worklet(),
+    KeyboardState: { UNKNOWN: 0, OPENING: 1, OPEN: 2, CLOSING: 3, CLOSED: 4 },
+    useAnimatedKeyboard: () => ({
+      height: { get: () => 0 },
+      state: { get: () => 4 },
+    }),
+    useAnimatedReaction: jest.fn(),
     withSpring: (value) => value,
     withTiming: (value) => value,
     withDelay: (_delay, value) => value,
