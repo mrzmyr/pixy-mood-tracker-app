@@ -1,5 +1,6 @@
 import { act, fireEvent, waitFor } from "@testing-library/react-native";
 import { Stack, useRouter } from "expo-router";
+import type { Href } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
 import noop from "lodash/noop";
 import { useState } from "react";
@@ -8,8 +9,11 @@ import { useDiscardGuard } from "../useDiscardGuard";
 
 const Home = () => {
   const router = useRouter();
+  // SAFETY: "/form" exists in this test's renderRouter routes. Typed routes
+  // (.expo/types) list only the app's file routes.
+  const href = "/form" as Href;
   return (
-    <Pressable onPress={() => router.push("/form")}>
+    <Pressable onPress={() => router.push(href)}>
       <Text>Open form</Text>
     </Pressable>
   );

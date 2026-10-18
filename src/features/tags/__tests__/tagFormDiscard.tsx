@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, Stack, ThemeProvider, useRouter } from "expo-router";
+import type { Href } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
 import { act, fireEvent, waitFor } from "@testing-library/react-native";
 import noop from "lodash/noop";
@@ -25,8 +26,11 @@ const theme = {
 
 const Home = () => {
   const router = useRouter();
+  // SAFETY: "/create" exists in this test's renderRouter routes. Typed routes
+  // (.expo/types) list only the app's file routes.
+  const href = "/create" as Href;
   return (
-    <Pressable onPress={() => router.push("/create")}>
+    <Pressable onPress={() => router.push(href)}>
       <Text>Open form</Text>
     </Pressable>
   );

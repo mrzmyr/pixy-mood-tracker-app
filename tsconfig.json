@@ -8,7 +8,14 @@
     "types": ["jest", "node"],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    // expo/tsconfig.base sets ["react-native"]. That condition points some
+    // packages (react-native-reanimated-carousel, react-native-view-shot) at
+    // their .tsx source, which skipLibCheck does not skip. With the generated
+    // expo-env.d.ts, the react-native-web ViewStyle types then break the
+    // carousel source. Without the condition, tsc reads their published .d.ts.
+    // Metro and Jest resolve modules on their own, so bundles do not change.
+    "customConditions": []
   },
   "include": ["src/**/*", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }
