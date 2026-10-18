@@ -23,6 +23,7 @@ import useColors from "@/hooks/useColors";
 import { getToastDuration, hideToast, useToast } from "@/lib/toast";
 import type { Toast } from "@/lib/toast";
 import { RADIUS } from "@/constants/Radius";
+import { SHADOW } from "@/constants/Shadow";
 
 const IS_ANDROID = Platform.OS === "android";
 /** Drag distance or speed toward the screen edge that dismisses the toast. */
@@ -100,7 +101,7 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
                     paddingVertical: 8,
                     borderRadius: RADIUS.xs,
                     backgroundColor: colors.snackbarBackground,
-                    elevation: 6,
+                    boxShadow: SHADOW.snackbar,
                   }
                 : {
                     borderRadius: RADIUS.md,
