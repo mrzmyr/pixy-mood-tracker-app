@@ -38,6 +38,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
         flexDirection: "column",
         alignItems: "center",
         paddingTop: 16,
+        gap: 8,
       }}
     >
       {(
@@ -46,7 +47,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
           ["afternoon", 13],
           ["evening", 20],
         ] as const
-      ).map(([label, hour], index, all) => (
+      ).map(([label, hour]) => (
         <Button
           key={label}
           type="tertiary"
@@ -57,7 +58,6 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
             width: "100%",
             maxWidth: 240,
             padding: 12,
-            marginBottom: index === all.length - 1 ? 0 : 8,
             borderRadius: RADIUS.sm,
           }}
         >

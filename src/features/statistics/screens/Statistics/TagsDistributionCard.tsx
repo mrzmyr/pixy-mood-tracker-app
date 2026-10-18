@@ -35,46 +35,43 @@ export const TagDistributionContent = ({
   };
 
   return (
-    <View
-      style={{
-        flexDirection: "column",
-      }}
-    >
-      {data.tags.slice(0, limit).map((tag) => (
-        <Pressable
-          key={tag?.details?.id}
-          onPress={() => onPress(tag.id)}
-          style={{
-            position: "relative",
-            height: 32,
-            marginBottom: 8,
-            justifyContent: "center",
-          }}
-        >
-          <View
+    <View>
+      <View style={{ gap: 8, paddingBottom: 8 }}>
+        {data.tags.slice(0, limit).map((tag) => (
+          <Pressable
+            key={tag?.details?.id}
+            onPress={() => onPress(tag.id)}
             style={{
-              backgroundColor: colors.tags[tag?.details?.color]?.background,
-              height: 32,
-              width: `${getBarFraction(tag.count, max) * 100}%` as const,
-              borderRadius: RADIUS.xs,
-              position: "absolute",
-            }}
-          />
-          <Text
-            style={{
-              color: colors.tags[tag?.details?.color]?.text,
-              fontSize: 14,
-              fontWeight: "600",
               position: "relative",
-              marginLeft: 8,
-              marginRight: 8,
+              height: 32,
+              justifyContent: "center",
             }}
-            numberOfLines={1}
           >
-            {tag.count}x {tag?.details?.title}
-          </Text>
-        </Pressable>
-      ))}
+            <View
+              style={{
+                backgroundColor: colors.tags[tag?.details?.color]?.background,
+                height: 32,
+                width: `${getBarFraction(tag.count, max) * 100}%` as const,
+                borderRadius: RADIUS.xs,
+                position: "absolute",
+              }}
+            />
+            <Text
+              style={{
+                color: colors.tags[tag?.details?.color]?.text,
+                fontSize: 14,
+                fontWeight: "600",
+                position: "relative",
+                marginLeft: 8,
+                marginRight: 8,
+              }}
+              numberOfLines={1}
+            >
+              {tag.count}x {tag?.details?.title}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
       {data.tags.length > limit && (
         <View
           style={{

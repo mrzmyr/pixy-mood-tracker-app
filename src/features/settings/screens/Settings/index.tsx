@@ -323,19 +323,18 @@ export const SettingsScreen = () => {
           flex: 1,
           justifyContent: "flex-end",
           alignItems: "center",
+          gap: 5,
+          paddingTop: 5,
           marginBottom: 40,
         }}
       >
-        <Text
-          style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}
-        >
+        <Text style={{ fontSize: 14, color: colors.textSecondary }}>
           Pixy v{pkg.version}
         </Text>
         {HAS_APP_VARIANT && (
           <Text
             style={{
               fontSize: 14,
-              marginTop: 5,
               color: colors.textSecondary,
             }}
           >

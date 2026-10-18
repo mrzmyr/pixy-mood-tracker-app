@@ -27,6 +27,8 @@ const Scale = ({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
+        gap: 8,
+        paddingVertical: 4,
       }}
     >
       {_labels.map((key, index) => {
@@ -38,8 +40,6 @@ const Scale = ({
           <ScaleButton
             accessibilityLabel={_labels[index]}
             key={key}
-            isFirst={index === 0}
-            isLast={index === _labels.length - 1}
             isSelected={isSelected}
             onPress={async () => {
               if (onPress) {

@@ -18,58 +18,52 @@ export const SearchInputSection = ({
   return (
     <View
       style={{
-        marginBottom: 16,
+        flexDirection: "row",
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: colors.textInputBorder,
+        backgroundColor: colors.textInputBackground,
+        borderRadius: RADIUS.sm,
+        padding: 8,
       }}
     >
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          borderWidth: 1,
-          borderColor: colors.textInputBorder,
-          backgroundColor: colors.textInputBackground,
-          borderRadius: RADIUS.sm,
-          padding: 8,
+          marginLeft: 4,
         }}
       >
-        <View
-          style={{
-            marginLeft: 4,
-          }}
-        >
-          <Search color={colors.textInputPlaceholder} width={20} />
-        </View>
-        <TextInput
-          accessibilityLabel={t("calendar_filters_search")}
-          testID="calendar-filter-search"
-          placeholder={t("calendar_filters_search")}
-          value={value}
-          placeholderTextColor={colors.textInputPlaceholder}
-          style={{
-            flex: 1,
-            color: colors.textInputText,
-            marginLeft: 12,
-            fontSize: 17,
-            width: "100%",
-            borderRadius: RADIUS.sm,
-          }}
-          onChangeText={onChange}
-        />
-        {value !== "" && (
-          <Pressable
-            accessibilityLabel={t("clear")}
-            accessibilityRole="button"
-            style={{
-              paddingRight: 8,
-              padding: 8,
-              margin: -8,
-            }}
-            onPress={() => onChange("")}
-          >
-            <CircleX color={colors.textInputPlaceholder} width={20} />
-          </Pressable>
-        )}
+        <Search color={colors.textInputPlaceholder} width={20} />
       </View>
+      <TextInput
+        accessibilityLabel={t("calendar_filters_search")}
+        testID="calendar-filter-search"
+        placeholder={t("calendar_filters_search")}
+        value={value}
+        placeholderTextColor={colors.textInputPlaceholder}
+        style={{
+          flex: 1,
+          color: colors.textInputText,
+          marginLeft: 12,
+          fontSize: 17,
+          width: "100%",
+          borderRadius: RADIUS.sm,
+        }}
+        onChangeText={onChange}
+      />
+      {value !== "" && (
+        <Pressable
+          accessibilityLabel={t("clear")}
+          accessibilityRole="button"
+          style={{
+            paddingRight: 8,
+            padding: 8,
+            margin: -8,
+          }}
+          onPress={() => onChange("")}
+        >
+          <CircleX color={colors.textInputPlaceholder} width={20} />
+        </Pressable>
+      )}
     </View>
   );
 };

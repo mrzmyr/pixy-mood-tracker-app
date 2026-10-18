@@ -130,8 +130,6 @@ const CategoriesArt = ({ tags }: ArtProps) => {
           title={tag.title}
           colorName={tag.color}
           compact
-          // Drops the tag's flow margins; the row gap spaces the tags.
-          style={{ marginRight: 0, marginBottom: 0 }}
         />
       ))}
     </View>

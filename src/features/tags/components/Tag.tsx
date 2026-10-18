@@ -41,9 +41,8 @@ const Tag = ({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
+        gap: compact ? COMPACT_CHIP.gap : 10,
         borderRadius: RADIUS.full,
-        marginRight: 8,
-        marginBottom: 8,
         backgroundColor: selected
           ? colors.tagBackgroundActive
           : colors.tagBackground,
@@ -87,7 +86,6 @@ const Tag = ({
           width: compact ? 7 : 8,
           height: compact ? 7 : 8,
           borderRadius: RADIUS.sm,
-          marginRight: compact ? COMPACT_CHIP.gap : 10,
           backgroundColor: colors.tags[colorName]?.dot,
         }}
       />

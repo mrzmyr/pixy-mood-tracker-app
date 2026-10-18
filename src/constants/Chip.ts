@@ -15,3 +15,18 @@ export const COMPACT_CHIP = {
   gap: 6,
   avatarSize: 20,
 } as const;
+
+/** Space between chips in a row or a wrapping group. */
+export const CHIP_GAP = 8;
+
+/**
+ * Wrapping group of tag or person chips. Right padding reserves one gap at
+ * the end of each line, bottom padding one gap below the last line.
+ */
+export const CHIP_FLOW = {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: CHIP_GAP,
+  paddingRight: CHIP_GAP,
+  paddingBottom: CHIP_GAP,
+} as const;

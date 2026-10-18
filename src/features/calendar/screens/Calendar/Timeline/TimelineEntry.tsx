@@ -88,8 +88,6 @@ const TimelineEntryComponent = ({
   // Only rendered chips are built; unknown keys and ids come from newer app
   // versions, broken imports, or deleted tags and people; skip them.
   const chipStyle = {
-    marginRight: 0,
-    marginBottom: 0,
     backgroundColor: colors.entryBackground,
     borderColor: colors.entryItemBorder,
   };
