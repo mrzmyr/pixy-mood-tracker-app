@@ -79,7 +79,6 @@ export interface AnalyticsEvents {
     emotions_count: number;
   };
   "voice:feedback_skipped": { prompt_index: number };
-  "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;

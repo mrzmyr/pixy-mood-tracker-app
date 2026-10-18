@@ -127,6 +127,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Removed events**
 
 - `logger:log_deleted`: the logger lost its trash button. Entries are deleted from the day view entry menu, which sends `day:delete_tapped`
+- `log_emotions_tooltip_close`, `logger:emotions_tooltip_closed`: emotion description tooltip removed from the logger. No replacement
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
 
 **Removed properties** (never sent under the new names)
@@ -170,7 +171,6 @@ Use this section to join old and new events in PostHog, for example with an Acti
 | `log_saved_without_rating` | `logger:log_saved` | `has_rating: false` |
 | `log_deleted` | `logger:log_deleted` |  |
 | `log_cancled` | `logger:flow_cancelled` | New: `mode` |
-| `log_emotions_tooltip_close` | `logger:emotions_tooltip_closed` |  |
 | `log_reminder_enable` | `logger:reminder_enabled` |  |
 | `log_reminder_later` | `logger:reminder_postponed` |  |
 | `log_list_add` | `day:add_tapped` |  |
