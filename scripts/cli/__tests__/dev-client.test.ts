@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import {
+  devClientUrl,
   devLinks,
-  mergeAndroidDevMenuPrefs,
   parseFlagOverrides,
   pickSeedVariant,
 } from "../dev-client.ts";
@@ -44,37 +44,17 @@ describe("dev links", () => {
   });
 });
 
-describe("android dev menu preferences", () => {
-  test("create file on first launch, then report no change", () => {
-    const first = mergeAndroidDevMenuPrefs();
-    expect(first.changed).toBe(true);
-    expect(mergeAndroidDevMenuPrefs(first.xml)).toEqual({
-      changed: false,
-      xml: first.xml,
+describe("dev client launch URL", () => {
+  test("load this Metro with dev menu onboarding, button, and launch menu off", () => {
+    const url = new URL(devClientUrl("pixy-dev", "http://localhost:8090"));
+    expect(url.protocol).toBe("pixy-dev:");
+    expect(url.host).toBe("");
+    expect(Object.fromEntries(url.searchParams)).toEqual({
+      __expo_disable_auto_launch: "1",
+      __expo_disable_fab: "1",
+      __expo_disable_onboarding: "1",
+      __expo_url: "http://localhost:8090",
     });
-  });
-
-  test("replace only dev menu values and keep other entries", () => {
-    const existing = [
-      "<?xml version='1.0' encoding='utf-8' standalone='yes' ?>",
-      "<map>",
-      '    <boolean name="showFab" value="true" />',
-      '    <boolean name="motionGestureEnabled" value="false" />',
-      '    <string name="lastBundle">http://localhost:8090</string>',
-      "</map>",
-      "",
-    ].join("\n");
-    const { changed, xml } = mergeAndroidDevMenuPrefs(existing);
-    expect(changed).toBe(true);
-    expect(xml).toContain('<boolean name="showFab" value="false" />');
-    expect(xml).not.toContain('<boolean name="showFab" value="true" />');
-    expect(xml).toContain(
-      '<boolean name="motionGestureEnabled" value="false" />'
-    );
-    expect(xml).toContain(
-      '<string name="lastBundle">http://localhost:8090</string>'
-    );
-    expect(xml.match(/name="showFab"/gu)).toHaveLength(1);
   });
 });
 

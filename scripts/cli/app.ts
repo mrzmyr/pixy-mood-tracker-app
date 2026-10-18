@@ -311,7 +311,7 @@ const APP: Noun = {
           "Less than 10 GiB free disk, follow the error fix steps to free disk",
         install_failed: "Device refused the build",
         metro_port_taken:
-          "Another process answers on this checkout's Metro port",
+          "Another process listens on this checkout's Metro port",
         metro_start_failed: "Metro did not answer in 120 seconds",
         dev_client_open_failed: "Deep link to the dev client failed",
         bundle_failed: "Metro could not bundle the app",

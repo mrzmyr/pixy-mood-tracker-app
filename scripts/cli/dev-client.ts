@@ -1,4 +1,4 @@
-// Pure helpers for the dev client: dev menu preferences, dev deep links, and
+// Pure helpers for the dev client: launch URL, dev deep links, and
 // the app variant `bun app seed` targets. No device access here.
 import {
   FEATURE_FLAGS,
@@ -6,74 +6,24 @@ import {
 } from "../../src/state/featureFlags/keys.ts";
 import { CliError } from "./shared.ts";
 
-// expo-dev-menu shows an onboarding sheet, opens itself at launch, and draws a
-// floating button over the app. These values turn all three off. Key names
-// come from expo-dev-menu: `DevMenuPreferences.swift` (iOS user defaults) and
-// `DevMenuPreferences.kt` (Android shared preferences, property names).
-const DEV_MENU_PREFERENCES = [
-  {
-    ios: "EXDevMenuIsOnboardingFinished",
-    android: "isOnboardingFinished",
-    value: true,
-  },
-  { ios: "EXDevMenuShowsAtLaunch", android: "showsAtLaunch", value: false },
-  {
-    ios: "EXDevMenuShowFloatingActionButton",
-    android: "showFab",
-    value: false,
-  },
-] as const;
-
-/** Shared preferences file of expo-dev-menu, relative to the app data dir. */
-const ANDROID_DEV_MENU_PREFS_FILE =
-  "shared_prefs/expo.modules.devmenu.sharedpreferences.xml";
-
-/** `xcrun` argument lists that write the dev menu defaults on a simulator. */
-const iosDevMenuCommands = (udid: string, bundleId: string) =>
-  DEV_MENU_PREFERENCES.map(({ ios, value }) => [
-    "simctl",
-    "spawn",
-    udid,
-    "defaults",
-    "write",
-    bundleId,
-    ios,
-    "-bool",
-    String(value),
-  ]);
-
-const escapeRegExp = (value: string) =>
-  value.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+// Reserved params of an SDK 58 launch URL. expo-dev-menu saves
+// `__expo_disable_onboarding` in its preferences. It applies the floating
+// button and launch menu params to the app process the link starts, so every
+// `bun app dev` run opens the app with this link. Source: `ExpoLauncherURL`
+// in expo-dev-menu (iOS and Android).
+const NO_DEV_MENU_PARAMS = [
+  "__expo_disable_onboarding=1",
+  "__expo_disable_fab=1",
+  "__expo_disable_auto_launch=1",
+].join("&");
 
 /**
- * Sets the dev menu keys in an Android shared preferences file. Keeps every
- * other entry. `changed` is false when the file already holds these values.
+ * Launch URL that makes the dev client load from `metroUrl` with the dev menu
+ * onboarding, floating button, and launch menu off. Same form as Expo CLI 58
+ * `UrlCreator.constructDevClientUrl`.
  */
-const mergeAndroidDevMenuPrefs = (existing: string | undefined) => {
-  let xml =
-    existing?.includes("</map>") === true
-      ? existing
-      : "<?xml version='1.0' encoding='utf-8' standalone='yes' ?>\n<map>\n</map>\n";
-  let changed = false;
-  for (const { android, value } of DEV_MENU_PREFERENCES) {
-    const entry = new RegExp(
-      `\\s*<boolean name="${escapeRegExp(android)}" value="(true|false)" />`,
-      "u"
-    );
-    const current = entry.exec(xml)?.[1];
-    if (current === String(value)) {
-      continue;
-    }
-    changed = true;
-    xml = xml
-      .replace(entry, "")
-      .replace(
-        "</map>",
-        `    <boolean name="${android}" value="${value}" />\n</map>`
-      );
-  }
-  return { changed, xml };
-};
+const devClientUrl = (scheme: string, metroUrl: string) =>
+  `${scheme}://?__expo_url=${encodeURIComponent(metroUrl)}&${NO_DEV_MENU_PARAMS}`;
 
 type FlagValue = "on" | "off";
 
@@ -158,12 +108,5 @@ const pickSeedVariant = ({
   return !isPhone && isDevSessionRunning ? "dev" : "preview";
 };
 
-export {
-  ANDROID_DEV_MENU_PREFS_FILE,
-  devLinks,
-  iosDevMenuCommands,
-  mergeAndroidDevMenuPrefs,
-  parseFlagOverrides,
-  pickSeedVariant,
-};
+export { devClientUrl, devLinks, parseFlagOverrides, pickSeedVariant };
 export type { FlagValue, SeedVariant };
