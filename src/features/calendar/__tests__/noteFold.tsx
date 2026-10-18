@@ -1,7 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import {
+  fireEvent,
+  render,
+  userEvent,
+  waitFor,
+} from "@testing-library/react-native";
 import dayjs from "dayjs";
 import { FlatList } from "react-native";
 import { _generateItem } from "@/testing/logItem";
@@ -151,6 +156,17 @@ describe("note fold", () => {
       expect(onEdit).not.toHaveBeenCalled();
 
       await fireEvent.press(screen.getByTestId(EDIT));
+      expect(onEdit).toHaveBeenCalledTimes(1);
+    });
+
+    test("a long press on the text selects it and does not open the editor", async () => {
+      const onEdit = jest.fn();
+      const screen = await renderMessage({ onEdit });
+
+      await userEvent.longPress(screen.getByTestId(TEXT), { duration: 800 });
+      expect(onEdit).not.toHaveBeenCalled();
+
+      await userEvent.press(screen.getByTestId(TEXT));
       expect(onEdit).toHaveBeenCalledTimes(1);
     });
 

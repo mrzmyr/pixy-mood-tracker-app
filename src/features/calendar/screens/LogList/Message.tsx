@@ -1,3 +1,4 @@
+import noop from "lodash/noop";
 import { useState } from "react";
 import { Headline } from "@/components/Type";
 import useColors from "@/hooks/useColors";
@@ -15,7 +16,8 @@ const NOTE_STYLE = { fontSize: 17, lineHeight: 24 } as const;
 /**
  * Note of an entry card. It comes last: notes can run to thousands of
  * characters, and everything above stays visible. A tap on the text opens the
- * logger at the note step when `onEdit` is given. Without a note it renders
+ * logger at the note step when `onEdit` is given. A long press selects the
+ * text to copy and does not open the logger. Without a note it renders
  * nothing.
  *
  * With `onToggleExpanded` the note folds to `COLLAPSED_LINES` lines. A
@@ -59,6 +61,9 @@ export const Message = ({
         testID={onEdit ? "log-list-message-edit" : undefined}
         disabled={!onEdit}
         onPress={onEdit}
+        // A long press selects the note for Copy. A handler here stops the
+        // release of that press from also opening the editor.
+        onLongPress={noop}
         accessibilityRole={onEdit ? "button" : "text"}
         accessibilityHint={
           onEdit
