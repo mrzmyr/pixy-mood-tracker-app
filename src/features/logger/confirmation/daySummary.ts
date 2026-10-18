@@ -4,7 +4,7 @@ import type { LogItem } from "@/features/logs";
 import { getItemDate, getItemTime } from "@/lib/logDates";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
-import { getAverageMood } from "@/lib/utils";
+import { getAverageMood } from "@/features/logs";
 import type { Emotion } from "@/types";
 import { EMOTIONS } from "../config";
 

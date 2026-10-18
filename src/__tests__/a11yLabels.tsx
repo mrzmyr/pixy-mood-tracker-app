@@ -13,6 +13,8 @@ import { EmotionButtonBasic } from "@/features/logger/slides/SlideEmotions/Emoti
 import { Navigation } from "@/features/statistics/screens/StatisticsMonth/Navigation";
 import { Title } from "@/features/statistics/screens/Statistics/Title";
 import { SettingsProvider } from "@/state/settings";
+import { INITIAL_STATE } from "@/constants/Settings";
+import { getLocale } from "@/lib/translation";
 import { EMOTIONS } from "@/features/logger/config";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- gesture-handler native module is absent in Jest; RectButton becomes a plain Pressable.
@@ -52,7 +54,12 @@ describe("calendar day", () => {
   const today = dayjs().format(DATE_FORMAT);
   const tomorrow = dayjs().add(1, "day").format(DATE_FORMAT);
   const yesterday = dayjs().subtract(1, "day").format(DATE_FORMAT);
-  const props = { isFiltered: false, isFiltering: false, onPress: jest.fn() };
+  const props = {
+    isFiltered: false,
+    isFiltering: false,
+    scaleType: INITIAL_STATE.scaleType,
+    onPress: jest.fn(),
+  };
 
   test("names date, mood and today; selected marks today", async () => {
     await wrap(<CalendarDay {...props} dateString={today} rating="good" />);
@@ -82,6 +89,34 @@ describe("calendar day", () => {
     const rated = await screen.findByRole("button");
     expect(String(rated.props.accessibilityLabel)).not.toBe(withMood);
     expect(String(rated.props.accessibilityLabel)).toContain(withMood);
+  });
+
+  test("days share one cached date formatter; label text unchanged", async () => {
+    const week = [1, 2, 3, 4, 5, 6, 7].map((day) =>
+      dayjs("2022-01-01").date(day).format(DATE_FORMAT)
+    );
+    const createFormatter = jest.spyOn(Intl, "DateTimeFormat");
+
+    await wrap(
+      <>
+        {week.map((dateString) => (
+          <CalendarDay key={dateString} {...props} dateString={dateString} />
+        ))}
+      </>
+    );
+    // One per locale, or none when an earlier test filled the cache.
+    expect(createFormatter.mock.calls.length).toBeLessThanOrEqual(1);
+    createFormatter.mockRestore();
+
+    // Same text as the per-cell formatter this replaced.
+    const expected = new Intl.DateTimeFormat(getLocale(), {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(dayjs(week[0]).toDate());
+    const buttons = await screen.findAllByRole("button");
+    expect(buttons[0]?.props.accessibilityLabel).toBe(expected);
   });
 
   test("future day is disabled", async () => {

@@ -2,7 +2,7 @@ import { BottomSheet, RNHostView } from "@expo/ui";
 import { presentationCornerRadius } from "@expo/ui/swift-ui/modifiers";
 import { Keyboard, Platform, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useCalendarFilters } from "../../../filters";
+import { useCalendarFiltersSheet } from "../../../filters";
 import useColors from "@/hooks/useColors";
 import { Body } from "./Body";
 
@@ -15,21 +15,21 @@ const sheetModifiers =
  *
  * Native `@expo/ui` sheet: SwiftUI on iOS, Material 3 on Android. Swipe,
  * outside tap, and Android Back close it and keep the filters. Visibility
- * follows `useCalendarFilters().isOpen`.
+ * follows `useCalendarFiltersSheet().isOpen`.
  */
 export const CalendarBottomSheet = () => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const calendarFilters = useCalendarFilters();
+  const filtersSheet = useCalendarFiltersSheet();
 
   const close = () => {
     Keyboard.dismiss();
-    calendarFilters.close();
+    filtersSheet.close();
   };
 
   return (
     <BottomSheet
-      isPresented={calendarFilters.isOpen}
+      isPresented={filtersSheet.isOpen}
       onDismiss={close}
       snapPoints={["half", "full"]}
       contentPadding={0}

@@ -11,7 +11,7 @@ import { PersonChip, usePeopleState } from "@/features/people";
 import { PhotoThumbnail } from "@/features/photos";
 import { TagComponent, useTagsState } from "@/features/tags";
 import useColors from "@/hooks/useColors";
-import { EmotionItem } from "../../LogList/EmotionItem";
+import { EmotionItem } from "../../../EmotionItem";
 import { RatingDot } from "../../LogList/RatingDot";
 import { ChipRow } from "./ChipRow";
 import { FadingNote } from "./FadingNote";
@@ -88,8 +88,6 @@ const TimelineEntryComponent = ({
   // Only rendered chips are built; unknown keys and ids come from newer app
   // versions, broken imports, or deleted tags and people; skip them.
   const chipStyle = {
-    marginRight: 0,
-    marginBottom: 0,
     backgroundColor: colors.entryBackground,
     borderColor: colors.entryItemBorder,
   };

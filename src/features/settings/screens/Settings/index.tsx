@@ -31,23 +31,25 @@ import {
 import { useSettings } from "@/state/settings";
 import { COLOR_SCHEMES } from "@/state/settings/colorScheme";
 import useColors from "@/hooks/useColors";
-import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
 import {
   AppLockMenuItem,
   useIsAppLockMenuItemVisible,
 } from "@/features/applock";
+import { ProfileRow } from "@/features/profile";
 import pkg from "../../../../../package.json";
 import { useSupport } from "@/support";
 import { SETTINGS_ICONS } from "./icons";
 
 const DEVELOPMENT_UNLOCK_TAPS = 20;
 
-/** Horizontal space the native section footer leaves on each side. */
-const FOOTER_INSET = Platform.select({ ios: 20, android: 32, default: 16 });
+/** Horizontal space a native section header or footer leaves on each side. */
+const SECTION_INSET = Platform.select({ ios: 20, android: 32, default: 16 });
 
 /**
- * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
+ * Settings screen, opened from the calendar header. With the `profile` flag,
+ * the user's name and photo row comes first. The support card needs its
+ * feature flag and an enabled client.
  * The App Lock row needs the `app-lock` flag, or the lock being on.
  * The Development section shows in development and preview builds, with the
  * `development` or `feature-flag-overrides` feature flag, or after 20 taps on
@@ -61,6 +63,7 @@ export const SettingsScreen = () => {
   const isWidgetEnabled = useIsWidgetEnabled();
   const isAppLockVisible = useIsAppLockMenuItemVisible();
   const isRecapsEnabled = useFeatureFlag("recaps");
+  const isProfileEnabled = useFeatureFlag("profile");
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
   const isDevelopmentFlagOn = useFeatureFlag("development");
@@ -73,8 +76,6 @@ export const SettingsScreen = () => {
     versionTaps >= DEVELOPMENT_UNLOCK_TAPS;
   const { settings, setSettings } = useSettings();
   const { colorScheme } = settings;
-
-  const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
   /** Cycles System, Light, Dark. */
   const cycleColorScheme = () => {
@@ -98,7 +99,7 @@ export const SettingsScreen = () => {
   const footer = (
     <FieldGroup.SectionFooter>
       <RNHostView matchContents>
-        <View style={{ width: windowWidth - 2 * FOOTER_INSET }}>
+        <View style={{ width: windowWidth - 2 * SECTION_INSET }}>
           {isSupportEnabled && support.enabled && (
             <FlagHighlight flag="support-pixy">
               <SupportCard />
@@ -111,6 +112,8 @@ export const SettingsScreen = () => {
             style={{
               marginTop: 20,
               alignItems: "center",
+              gap: 5,
+              paddingTop: 5,
               marginBottom: 40,
             }}
           >
@@ -121,7 +124,6 @@ export const SettingsScreen = () => {
               <Text
                 style={{
                   fontSize: 14,
-                  marginTop: 5,
                   color: colors.textSecondary,
                 }}
               >
@@ -136,7 +138,6 @@ export const SettingsScreen = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <FeedbackModal />
       <Host style={{ flex: 1 }} seedColor={colors.tint}>
         <FieldGroup
           style={
@@ -146,6 +147,17 @@ export const SettingsScreen = () => {
           }
         >
           <FieldGroup.Section>
+            {isProfileEnabled && (
+              <FieldGroup.SectionHeader>
+                <RNHostView matchContents>
+                  <View style={{ width: windowWidth - 2 * SECTION_INSET }}>
+                    <FlagHighlight flag="profile">
+                      <ProfileRow />
+                    </FlagHighlight>
+                  </View>
+                </RNHostView>
+              </FieldGroup.SectionHeader>
+            )}
             <FieldRow
               title={t("data")}
               icon={SETTINGS_ICONS.data}
@@ -218,7 +230,9 @@ export const SettingsScreen = () => {
               title={t("request_a_feature")}
               icon={SETTINGS_ICONS.requestFeature}
               kind="action"
-              onPress={() => showFeedbackModal({ type: "idea" })}
+              onPress={() =>
+                router.push({ pathname: "/feedback", params: { type: "idea" } })
+              }
               testID="request_a_feature"
             />
             <FieldRow
@@ -235,7 +249,12 @@ export const SettingsScreen = () => {
               title={t("report_a_bug")}
               icon={SETTINGS_ICONS.reportBug}
               kind="action"
-              onPress={() => showFeedbackModal({ type: "issue" })}
+              onPress={() =>
+                router.push({
+                  pathname: "/feedback",
+                  params: { type: "issue" },
+                })
+              }
               testID="report_a_bug"
             />
             <FieldRow

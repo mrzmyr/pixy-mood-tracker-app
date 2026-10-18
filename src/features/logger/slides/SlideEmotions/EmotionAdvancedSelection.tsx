@@ -2,7 +2,7 @@ import { EMOTION_CATEGORIES } from "@/types";
 import type { Emotion } from "@/types";
 
 import { useRef } from "react";
-import { Dimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
 import type { CarouselRef } from "react-native-reanimated-carousel";
@@ -10,8 +10,6 @@ import type { CarouselRef } from "react-native-reanimated-carousel";
 import { EMOTIONS } from "../../config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
-
-const WINDOW_WIDTH = Dimensions.get("window").width;
 
 /**
  * Swipeable emotion pages, one per category from worst to best, sorted by
@@ -30,6 +28,7 @@ export const EmotionAdvancedSelection = ({
   onRequestEmotion: () => void;
 }) => {
   const _carousel = useRef<CarouselRef>(null);
+  const { width: windowWidth } = useWindowDimensions();
 
   const pages = EMOTION_CATEGORIES.map((category) => {
     const filteredEmotions = EMOTIONS.filter(
@@ -55,10 +54,10 @@ export const EmotionAdvancedSelection = ({
       defaultIndex={defaultIndex}
       renderItem={({ index }) => pages[index]}
       onConfigurePanGesture={(gesture) => gesture.activeOffsetX([-10, 10])}
-      itemSize={WINDOW_WIDTH / 1.2}
+      itemSize={windowWidth / 1.2}
       style={{
         height: EMOTION_BUTTON_HEIGHT * 9 + 16 * 8,
-        width: WINDOW_WIDTH,
+        width: windowWidth,
         justifyContent: "center",
         alignItems: "center",
       }}

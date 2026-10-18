@@ -1,29 +1,63 @@
-import { buildContactRows } from "../contactImport";
+import { buildContactIndex, filterContactRows } from "../contactImport";
 
-describe("buildContactRows()", () => {
+describe("contact import search", () => {
   const contacts = [
     { contactId: "c-zoe", name: "Zoë Park" },
+    { contactId: "c-emile", name: "Émile Zola" },
+    { contactId: "c-ben", name: "ben Zoeller" },
     { contactId: "c-ann", name: "Ann Lee" },
-    { contactId: "c-ben", name: "Ben Zoeller" },
+    { contactId: "c-emma", name: "Emma Öhrn" },
+    { contactId: "c-carl", name: "Carl Ebert" },
   ];
+  const index = buildContactIndex({ contacts, people: [] });
+  const search = (query: string) =>
+    filterContactRows(index, query).map((row) => row.contactId);
 
-  test("sorts by name and marks contacts that are already people", () => {
-    const rows = buildContactRows({
-      contacts,
-      people: [{ contactId: "c-ben" }, { contactId: undefined }],
-      query: "",
-    });
-
-    expect(rows).toEqual([
-      { contactId: "c-ann", name: "Ann Lee", isAdded: false },
-      { contactId: "c-ben", name: "Ben Zoeller", isAdded: true },
-      { contactId: "c-zoe", name: "Zoë Park", isAdded: false },
+  test("sorts by name like localeCompare, not by code point", () => {
+    expect(search("")).toEqual([
+      "c-ann",
+      "c-ben",
+      "c-carl",
+      "c-emile",
+      "c-emma",
+      "c-zoe",
     ]);
   });
 
-  test("filters by name, ignoring case and accents", () => {
-    const rows = buildContactRows({ contacts, people: [], query: " ZOE " });
+  test.each([
+    [" ZOE ", ["c-ben", "c-zoe"]],
+    ["zo", ["c-ben", "c-emile", "c-zoe"]],
+    ["ÉMILE", ["c-emile"]],
+    ["emile", ["c-emile"]],
+    ["ohrn", ["c-emma"]],
+    ["Lee", ["c-ann"]],
+    ["eb", ["c-carl"]],
+    ["xyz", []],
+  ])(
+    "query %j matches given or family name, ignoring case and accents",
+    (query, expected) => {
+      expect(search(query)).toEqual(expected);
+    }
+  );
 
-    expect(rows.map((row) => row.contactId)).toEqual(["c-ben", "c-zoe"]);
+  test("marks contacts that are already people", () => {
+    const rows = filterContactRows(
+      buildContactIndex({
+        contacts,
+        people: [{ contactId: "c-ben" }, { contactId: undefined }],
+      }),
+      ""
+    );
+
+    expect(
+      rows.filter((row) => row.isAdded).map((row) => row.contactId)
+    ).toEqual(["c-ben"]);
+  });
+
+  test("keeps row objects across queries", () => {
+    const all = filterContactRows(index, "");
+    const filtered = filterContactRows(index, "zo");
+
+    expect(filtered[0]).toBe(all.find((row) => row.contactId === "c-ben"));
   });
 });

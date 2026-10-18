@@ -1,6 +1,6 @@
 import chroma from "chroma-js";
 import { Pressable, Text, useColorScheme } from "react-native";
-import { Check } from "react-native-feather";
+import Check from "lucide-react-native/icons/check";
 import { RADIUS } from "@/constants/Radius";
 
 const ScaleButton = ({
@@ -8,16 +8,12 @@ const ScaleButton = ({
   textColor,
   isSelected = false,
   accessibilityLabel,
-  isFirst = false,
-  isLast = false,
   onPress,
 }: {
   backgroundColor: string;
   textColor: string;
   isSelected?: boolean;
   accessibilityLabel?: string;
-  isFirst?: boolean;
-  isLast?: boolean;
   onPress: () => void;
 }) => {
   const colorScheme = useColorScheme();
@@ -37,11 +33,8 @@ const ScaleButton = ({
           borderRadius: RADIUS.sm,
           width: "100%",
           aspectRatio: 1,
-          marginLeft: isFirst ? 0 : 4,
-          marginRight: isLast ? 0 : 4,
           justifyContent: "center",
           alignItems: "center",
-          margin: 4,
         },
       ]}
       testID={`scale-button-${accessibilityLabel}`}

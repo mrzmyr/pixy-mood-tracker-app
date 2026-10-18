@@ -1,5 +1,6 @@
 import { Pressable, View } from "react-native";
-import { ThumbsDown, ThumbsUp } from "react-native-feather";
+import ThumbsDown from "lucide-react-native/icons/thumbs-down";
+import ThumbsUp from "lucide-react-native/icons/thumbs-up";
 import { Secondary } from "@/components/Type";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";

@@ -41,7 +41,6 @@ const AnswerSelector = ({
         borderColor: selected ? colors.logActionBorder : "transparent",
         aspectRatio: 1,
         width: 150,
-        marginHorizontal: 8,
       })}
       onPress={async () => {
         await haptics.selection();
@@ -135,11 +134,14 @@ export const SlideFeedback = ({
         <View
           style={{
             padding: 32,
+            gap: 16,
           }}
         >
           <View
             style={{
               flexDirection: "row",
+              gap: 16,
+              paddingHorizontal: 8,
             }}
           >
             {question.answers.slice(0, 2).map((answer) => (
@@ -153,8 +155,9 @@ export const SlideFeedback = ({
           </View>
           <View
             style={{
-              marginTop: 16,
               flexDirection: "row",
+              gap: 16,
+              paddingHorizontal: 8,
             }}
           >
             {question.answers.slice(2, 4).map((answer) => (

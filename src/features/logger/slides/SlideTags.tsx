@@ -1,4 +1,4 @@
-import { getSlideMarginTop } from "./marginTop";
+import { useSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import {
@@ -15,9 +15,10 @@ import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
 import { MiniButton } from "@/components/MiniButton";
+import { CHIP_FLOW, CHIP_GAP } from "@/constants/Chip";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { PullToSearch } from "../components/PullToSearch";
-import { matchesSearch } from "../components/matchesSearch";
+import { matchesSearch } from "@/lib/search";
 import { Footer } from "./Footer";
 import noop from "lodash/noop";
 
@@ -59,7 +60,7 @@ export const SlideTags = ({
   );
   const showHeadings = sections.length > 1;
 
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
 
   const renderTag = (tag: ITag) => (
     <Tag
@@ -132,13 +133,15 @@ export const SlideTags = ({
           <View
             style={{
               marginTop: 24,
+              gap: showHeadings ? 12 : 0,
+              paddingBottom: showHeadings ? 12 : 0,
             }}
           >
             {sections.map(({ category, tags: sectionTags }, index) => (
               <View
                 key={category.id}
                 testID={`log-tags-category-${category.id}`}
-                style={{ marginBottom: showHeadings ? 12 : 0 }}
+                style={{ gap: 8 }}
               >
                 {showHeadings && (
                   <Text
@@ -147,7 +150,6 @@ export const SlideTags = ({
                       fontSize: 15,
                       fontWeight: "600",
                       color: colors.textSecondary,
-                      marginBottom: 8,
                     }}
                   >
                     {category.title}
@@ -155,8 +157,7 @@ export const SlideTags = ({
                 )}
                 <View
                   style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
+                    ...CHIP_FLOW,
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
                   }}
@@ -166,7 +167,11 @@ export const SlideTags = ({
                 </View>
               </View>
             ))}
-            {sections.length === 0 && editButton}
+            {sections.length === 0 && (
+              <View style={{ paddingRight: CHIP_GAP, paddingBottom: CHIP_GAP }}>
+                {editButton}
+              </View>
+            )}
           </View>
           {showDisable && (
             <Footer>

@@ -97,9 +97,10 @@ export const ReminderSlide = ({
       >
         <HeaderImage
           index={index}
+          // Same size as the old RN Image: asset height (1030), capped at 100%.
           style={{
             width: "95%",
-            maxHeight: "100%",
+            height: "100%",
             maxWidth: 360,
           }}
         />
@@ -133,14 +134,7 @@ export const ReminderSlide = ({
                   justifyContent: "center",
                 }}
               >
-                <Clock
-                  timeDate={time}
-                  onChange={(event, date) => {
-                    if (date) {
-                      setTime(date);
-                    }
-                  }}
-                />
+                <Clock timeDate={time} onChange={setTime} />
               </View>
             </View>
           </Animated.View>

@@ -1,7 +1,7 @@
 import { Card } from "../../components/Card";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import type { EmotionsDistributionData } from "../../EmotionsDistributuon";
+import type { EmotionsDistributionData } from "../../EmotionsDistribution";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
 import { EmotionItem } from "@/features/calendar";
@@ -19,7 +19,6 @@ const EmotionBar = ({
     <View
       style={{
         position: "relative",
-        marginBottom: 8,
         flexDirection: "row",
         alignItems: "center",
       }}
@@ -61,6 +60,8 @@ export const EmotionsDistributionContent = ({
   <View
     style={{
       flexDirection: "column",
+      gap: 8,
+      paddingBottom: 8,
     }}
   >
     {data.emotions.slice(0, limit).map((emotion) => (

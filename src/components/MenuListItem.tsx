@@ -2,7 +2,7 @@ import React, { isValidElement, useCallback } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import type { AccessibilityValue, TextStyle, ViewStyle } from "react-native";
 
-import { ChevronRight } from "react-native-feather";
+import ChevronRight from "lucide-react-native/icons/chevron-right";
 import useColors from "@/hooks/useColors";
 import usePressRipple from "@/hooks/usePressRipple";
 
@@ -14,6 +14,8 @@ interface Metrics {
   row: ViewStyle;
   tallRow: ViewStyle;
   icon: ViewStyle;
+  /** Space between the left icon and the title. */
+  iconGap: number;
   titleSize: number;
 }
 
@@ -24,11 +26,11 @@ const ANDROID: Metrics = {
   icon: {
     width: 24,
     height: 24,
-    marginRight: 16,
     flexShrink: 0,
     alignItems: "center",
     justifyContent: "center",
   },
+  iconGap: 16,
   titleSize: 16,
 };
 
@@ -40,7 +42,8 @@ const IOS: Metrics = {
   },
   row: { minHeight: 50 },
   tallRow: { minHeight: 50 },
-  icon: { marginRight: 15, flexShrink: 0 },
+  icon: { flexShrink: 0 },
+  iconGap: 15,
   titleSize: 17,
 };
 
@@ -176,6 +179,7 @@ const MenuListItem = ({
               minWidth: 0,
               flexDirection: "row",
               alignItems: "center",
+              gap: platform.iconGap,
             }}
           >
             {iconLeft && <View style={platform.icon}>{iconLeft}</View>}

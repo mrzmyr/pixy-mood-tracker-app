@@ -5,7 +5,7 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import Colors from "@/constants/Colors";
 import { EMOTIONS } from "@/features/logger";
 import { PeopleProvider } from "@/features/people";

@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { User } from "lucide-react-native";
+import User from "lucide-react-native/icons/user";
 import { View } from "react-native";
 import useColors from "@/hooks/useColors";
 import { getAvatarUri } from "../avatars";

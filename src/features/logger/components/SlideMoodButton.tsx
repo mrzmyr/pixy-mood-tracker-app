@@ -1,23 +1,16 @@
 import { useSetting } from "@/state/settings";
-import {
-  Dimensions,
-  Platform,
-  Pressable,
-  useColorScheme,
-  View,
-} from "react-native";
-import { Check } from "react-native-feather";
+import { Platform, Pressable, useColorScheme, View } from "react-native";
+import Check from "lucide-react-native/icons/check";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
 import { getRatingLabel } from "@/lib/ratingLabel";
 import { RADIUS } from "@/constants/Radius";
-
-const SCREEN_HEIGHT = Dimensions.get("screen").height;
+import { useScreenHeight } from "@/hooks/useScreenHeight";
 
 /**
  * Rating button on the mood slide, colored from the user's scale. Height
- * scales with the screen height measured at module load.
+ * scales with the screen height.
  */
 export const SlideMoodButton = ({
   rating,
@@ -32,8 +25,9 @@ export const SlideMoodButton = ({
   const scaleType = useSetting("scaleType");
   const scale = useScale(scaleType);
   const colorScheme = useColorScheme();
+  const screenHeight = useScreenHeight();
 
-  const height = Math.max(40, (SCREEN_HEIGHT * 0.48) / 7);
+  const height = Math.max(40, (screenHeight * 0.48) / 7);
   const width = height * 2.4;
 
   return (
@@ -53,7 +47,6 @@ export const SlideMoodButton = ({
         borderColor:
           colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.2)",
         borderRadius: RADIUS.md,
-        marginBottom: 8,
         width,
         height,
         opacity: pressed ? 0.8 : 1,

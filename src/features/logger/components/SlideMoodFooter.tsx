@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import { ButtonText } from "@/components/ButtonContent";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 import {
   LocationPicker,
@@ -12,7 +13,8 @@ import dayjs from "dayjs";
 import type { ReactElement } from "react";
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { Clock, MapPin } from "react-native-feather";
+import Clock from "lucide-react-native/icons/clock";
+import MapPin from "lucide-react-native/icons/map-pin";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useLogDraft } from "../logDraft";
 import { RADIUS } from "@/constants/Radius";
@@ -28,7 +30,6 @@ const PILL_HEIGHT = 44;
 const FLOAT_BUTTON_SPACE = 12 + FLOAT_BUTTON_SIZE + 8;
 
 const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
-  const colors = useColors();
   const { draft } = useLogDraft();
 
   return (
@@ -37,6 +38,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
         flexDirection: "column",
         alignItems: "center",
         paddingTop: 16,
+        gap: 8,
       }}
     >
       {(
@@ -45,7 +47,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
           ["afternoon", 13],
           ["evening", 20],
         ] as const
-      ).map(([label, hour], index, all) => (
+      ).map(([label, hour]) => (
         <Button
           key={label}
           type="tertiary"
@@ -56,13 +58,12 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
             width: "100%",
             maxWidth: 240,
             padding: 12,
-            marginBottom: index === all.length - 1 ? 0 : 8,
             borderRadius: RADIUS.sm,
           }}
         >
-          <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
+          <ButtonText weight="400" numberOfLines={0}>
             {t(label)}
-          </Text>
+          </ButtonText>
         </Button>
       ))}
     </View>

@@ -16,6 +16,7 @@ export const FEATURE_FLAGS = [
   "location",
   "people",
   "photos",
+  "profile",
   "recaps",
   "support-pixy",
 ] as const;
@@ -84,6 +85,11 @@ export const FEATURE_FLAG_DETAILS: Record<
   photos: {
     description: "Photos step and photos on entries",
     location: "Check-in, Settings > Check-in, Day view",
+  },
+  profile: {
+    description:
+      "Name and photo of the user; avatar replaces the Settings icon",
+    location: "Calendar header, Settings > Profile",
   },
   recaps: {
     description: "Recap cards for week, month, quarter, and year",

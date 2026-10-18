@@ -20,7 +20,10 @@ import type { Fixture } from "@/dev/fixtures";
 import { setFileTransferOverride } from "@/features/datagate";
 import { setPhotoSourceOverride } from "@/features/photos";
 import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
-import { fakePeopleSources } from "@/dev/fakePeopleSources";
+import {
+  createFailOnceFakePeopleSources,
+  fakePeopleSources,
+} from "@/dev/fakePeopleSources";
 import { addFakeContacts, removeFakeContacts } from "@/dev/fakeContacts";
 import { setPeopleSourcesOverride } from "@/features/people";
 import { isOverride, setOverride } from "@/state/featureFlags/overrides";
@@ -170,16 +173,22 @@ export const DevFixtureLinkScreen = () => {
  * picker for `fakeFileTransfer`, the contact picker and person photo
  * library for `fakePeopleSources`, and the photo picker and photo library
  * for `fakePhotoSource`, until the app restarts. Then opens the app.
+ * `?contacts=fail-once` makes the first contact read fail.
  */
 export const DevFakeFilesLinkScreen = () => {
   const router = useRouter();
+  const { contacts } = useLocalSearchParams<{ contacts?: string }>();
   useEffect(() => {
     setFileTransferOverride(fakeFileTransfer);
-    setPeopleSourcesOverride(fakePeopleSources);
+    setPeopleSourcesOverride(
+      contacts === "fail-once"
+        ? createFailOnceFakePeopleSources()
+        : fakePeopleSources
+    );
     setPhotoSourceOverride(fakePhotoSource);
     router.dismissAll();
     router.replace("/calendar");
-  }, [router]);
+  }, [router, contacts]);
 
   return <ActivityIndicator testID="dev-fake-files-link" />;
 };

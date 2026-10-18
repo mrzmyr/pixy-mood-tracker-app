@@ -4,4 +4,3 @@ export {
   useIsAppLockMenuItemVisible,
 } from "./AppLockMenuItem";
 export { AppLockScreen } from "./AppLockScreen";
-export { AppLockSettingsScreen } from "./AppLockSettingsScreen";

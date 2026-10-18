@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import { Image as ImageIcon } from "react-native-feather";
+import ImageIcon from "lucide-react-native/icons/image";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
 import { RADIUS } from "@/constants/Radius";
@@ -130,8 +130,6 @@ const CategoriesArt = ({ tags }: ArtProps) => {
           title={tag.title}
           colorName={tag.color}
           compact
-          // Drops the tag's flow margins; the row gap spaces the tags.
-          style={{ marginRight: 0, marginBottom: 0 }}
         />
       ))}
     </View>

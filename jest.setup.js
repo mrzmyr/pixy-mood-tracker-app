@@ -85,6 +85,12 @@ jest.mock("react-native-reanimated", () => {
       return { get: () => current, set: (next) => (current = next) };
     },
     useAnimatedStyle: (worklet) => worklet(),
+    KeyboardState: { UNKNOWN: 0, OPENING: 1, OPEN: 2, CLOSING: 3, CLOSED: 4 },
+    useAnimatedKeyboard: () => ({
+      height: { get: () => 0 },
+      state: { get: () => 4 },
+    }),
+    useAnimatedReaction: jest.fn(),
     withSpring: (value) => value,
     withTiming: (value) => value,
     withDelay: (_delay, value) => value,
@@ -109,13 +115,8 @@ jest.mock("react-native-gesture-handler", () => {
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI; FlashList's ESM build is unavailable to Jest.
 jest.mock("@shopify/flash-list", () => ({ FlashList: () => null }));
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load icon UI; Jest does not transform lucide's ESM build.
-jest.mock(
-  "lucide-react-native",
-  () => new Proxy({}, { get: () => require("react-native").View })
-);
+const mockSlot = ({ children }) => children;
 
-const mockExpoUiChildren = ({ children }) => children ?? null;
 // Native rows wrap bare strings in a text view; so does the stand-in.
 const mockExpoUiText = (node) => {
   const { isValidElement } = require("react");
@@ -125,30 +126,34 @@ const mockExpoUiText = (node) => {
   }
   return <Text>{node}</Text>;
 };
-const mockExpoUiSection = ({ title, children }) => {
-  const { Text, View } = require("react-native");
-  return (
-    <View>
-      {title ? <Text accessibilityRole="header">{title}</Text> : null}
-      {children}
-    </View>
-  );
-};
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- universal @expo/ui views have no Jest view; the stand-ins render rows as pressable React Native views.
+// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI and native settings lists; SwiftUI and Compose views have no Jest view. The stand-ins render React Native views: the switch keeps the `Switch` props tests read, a pressable row or list item is a button.
 jest.mock("@expo/ui", () => {
   const { isValidElement } = require("react");
-  const { Pressable, Text, View } = require("react-native");
+  const { Pressable, Switch, Text, View } = require("react-native");
+  const FieldGroup = Object.assign(({ children }) => <View>{children}</View>, {
+    Section: ({ title, children }) => (
+      <View>
+        {title ? <Text>{title}</Text> : null}
+        {children}
+      </View>
+    ),
+    SectionHeader: mockSlot,
+    SectionFooter: mockSlot,
+  });
   return {
-    // The calendar sheet stays closed in Jest.
     BottomSheet: () => null,
-    Host: mockExpoUiChildren,
-    RNHostView: mockExpoUiChildren,
-    FieldGroup: Object.assign((props) => mockExpoUiChildren(props), {
-      Section: mockExpoUiSection,
-      SectionHeader: mockExpoUiChildren,
-      SectionFooter: mockExpoUiChildren,
-    }),
+    RNHostView: mockSlot,
+    Host: mockSlot,
+    FieldGroup,
+    Row: ({ children, onPress, testID }) =>
+      onPress ? (
+        <Pressable accessibilityRole="button" onPress={onPress} testID={testID}>
+          {children}
+        </Pressable>
+      ) : (
+        <View testID={testID}>{children}</View>
+      ),
     ListItem: ({ children, leading, trailing, onPress, testID }) => (
       <Pressable
         accessibilityRole="button"
@@ -161,9 +166,33 @@ jest.mock("@expo/ui", () => {
         {mockExpoUiText(trailing)}
       </Pressable>
     ),
-    Row: ({ children }) => <View>{children}</View>,
-    Text: ({ children }) => <Text>{children}</Text>,
     Icon: Object.assign(() => null, { select: ({ ios }) => ios }),
+    Spacer: () => null,
+    Switch: ({ label, value, onValueChange, disabled, testID }) => (
+      <Switch
+        accessibilityLabel={label}
+        value={value}
+        onValueChange={onValueChange}
+        disabled={disabled}
+        testID={testID}
+      />
+    ),
+    Text: ({ children }) => <Text>{children}</Text>,
+  };
+});
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- Galeria is a native view without a Jest build; the stand-in renders tiles as views that receive the native viewer events.
+jest.mock("@nandorojo/galeria", () => {
+  const { View } = require("react-native");
+  const Image = ({ index = 0, children, onIndexChange, onDismiss }) =>
+    require("react").createElement(
+      View,
+      { testID: `galeria-image-${index}`, onIndexChange, onDismiss },
+      children
+    );
+  return {
+    __esModule: true,
+    Galeria: Object.assign(({ children }) => children, { Image, Item: Image }),
   };
 });
 
@@ -185,6 +214,7 @@ jest.mock("@expo/ui/swift-ui", () => {
     Host: ({ children }) => children,
     RNHostView: ({ children }) => children,
     ContextMenu: mockSwiftUiContextMenu,
+    DatePicker: () => null,
     Image: () => null,
     Menu: ({ children }) => <View>{children}</View>,
     Button: ({ label, onPress }) => (

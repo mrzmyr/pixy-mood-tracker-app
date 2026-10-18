@@ -16,7 +16,8 @@ import {
 } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import { ChevronLeft, ChevronRight } from "react-native-feather";
+import ChevronLeft from "lucide-react-native/icons/chevron-left";
+import ChevronRight from "lucide-react-native/icons/chevron-right";
 import { Secondary, Section } from "@/components/Type";
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 import { useLocationSetting } from "@/features/location";
@@ -25,6 +26,7 @@ import { useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { useWeekLocale } from "@/hooks/useWeekLocale";
 import { getLocale, t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
@@ -114,6 +116,7 @@ const cardKey = (card: RecapCard, period: Period) =>
  */
 const Recaps = () => {
   const colors = useColors();
+  const paddingBottom = useScrollBottomPadding(16);
   const router = useRouter();
   const analytics = useAnalytics();
   const weekLocale = useWeekLocale();
@@ -323,7 +326,8 @@ const Recaps = () => {
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
-      contentContainerStyle={{ padding: 16, gap: 16 }}
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{ padding: 16, paddingBottom, gap: 16 }}
       scrollEventThrottle={100}
       onLayout={(event) => {
         viewport.current = {
@@ -370,7 +374,7 @@ const Recaps = () => {
         <Section
           accessibilityRole="header"
           testID="recaps-period-label"
-          style={{ fontWeight: "700" }}
+          style={{ fontWeight: "700", fontVariant: ["tabular-nums"] }}
         >
           {PERIOD_LABELS[period.kind](period)}
         </Section>

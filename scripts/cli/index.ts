@@ -3,6 +3,7 @@ import { APP } from "./app.ts";
 import { BUILDS } from "./builds.ts";
 import { E2E } from "./e2e.ts";
 import { DEVICES } from "./devices.ts";
+import { RELEASE } from "./release.ts";
 import { WORKTREE } from "./worktree.ts";
 import { reportMemory } from "./memory.ts";
 import { finishRunLog, startRunLog } from "./run-log.ts";
@@ -14,6 +15,7 @@ const NOUNS = new Map<string, Noun>([
   ["builds", BUILDS],
   ["e2e", E2E],
   ["devices", DEVICES],
+  ["release", RELEASE],
   ["worktree", WORKTREE],
 ]);
 const ALIASES = new Map([
@@ -377,8 +379,8 @@ const main = async () => {
       "",
       "unknown_cli",
       `Unknown CLI "${noun}"`,
-      "The first argument must be app, builds, devices, e2e, or worktree.",
-      "Run `bun app --help`, `bun builds --help`, `bun devices --help`, `bun e2e --help`, or `bun worktree --help`."
+      "The first argument must be app, builds, devices, e2e, release, or worktree.",
+      "Run `bun app --help`, `bun builds --help`, `bun devices --help`, `bun e2e --help`, `bun release --help`, or `bun worktree --help`."
     );
   }
   if (!verb || ["--help", "-h", "help"].includes(verb)) {
