@@ -11,10 +11,10 @@ import {
   PhotoGrid,
   PhotoLimitNotice,
   PhotosPromptCard,
-  PhotoViewerModal,
   PickTile,
   useDraftPhotos,
 } from "@/features/photos";
+import { PhotoViewerModal } from "@/features/photos/routes";
 import useColors from "@/hooks/useColors";
 import { toLogDate } from "@/lib/logDates";
 import { t } from "@/lib/translation";

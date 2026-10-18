@@ -1,4 +1,4 @@
-import { SettingsPeople } from "@/features/people";
+import { SettingsPeople } from "@/features/people/routes";
 import { StepSwitch } from "../components/StepSwitch";
 import { useStepEnabled } from "../useStepEnabled";
 

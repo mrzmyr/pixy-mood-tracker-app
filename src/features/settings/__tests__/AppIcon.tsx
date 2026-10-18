@@ -10,7 +10,7 @@ import { INITIAL_STATE } from "@/constants/Settings";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { STORAGE_KEY } from "@/state/settings";
 import { createFakeSupportClient } from "@/support/clients";
-import { AppIconScreen } from "@/features/settings";
+import { AppIconScreen } from "@/features/settings/routes";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-superwall is a native module imported transitively by Providers
 jest.mock(

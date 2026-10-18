@@ -1,1 +1,1 @@
-export { SettingsPeopleArchive as default } from "@/features/people";
+export { SettingsPeopleArchive as default } from "@/features/people/routes";

@@ -1,1 +1,1 @@
-export { FeatureFlagsScreen as default } from "@/features/settings";
+export { FeatureFlagsScreen as default } from "@/features/settings/routes";

@@ -1,1 +1,1 @@
-export { PrivacyScreen as default } from "@/features/settings";
+export { PrivacyScreen as default } from "@/features/settings/routes";

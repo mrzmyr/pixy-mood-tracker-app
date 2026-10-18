@@ -13,7 +13,7 @@ import {
   createFakeSupportClient,
   resolveDevelopmentSupportClient,
 } from "@/support/clients";
-import { SettingsScreen } from "@/features/settings";
+import { SettingsScreen } from "@/features/settings/routes";
 import noop from "lodash/noop";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-superwall is a native module imported transitively by Providers; the support client itself is injected

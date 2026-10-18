@@ -1,1 +1,1 @@
-export { Onboarding as default } from "@/features/onboarding";
+export { Onboarding as default } from "@/features/onboarding/routes";

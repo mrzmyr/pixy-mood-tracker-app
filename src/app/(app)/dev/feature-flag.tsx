@@ -1,1 +1,1 @@
-export { DevFeatureFlagLinkScreen as default } from "@/features/settings";
+export { DevFeatureFlagLinkScreen as default } from "@/features/settings/routes";

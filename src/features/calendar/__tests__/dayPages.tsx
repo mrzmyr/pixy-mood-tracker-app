@@ -13,7 +13,7 @@ import { _generateItem } from "@/testing/logItem";
 import { DATE_FORMAT } from "@/constants/Config";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
-import { LogList } from "@/features/calendar";
+import { LogList } from "@/features/calendar/routes";
 import {
   LogsProvider,
   STORAGE_KEY as LOGS_KEY,

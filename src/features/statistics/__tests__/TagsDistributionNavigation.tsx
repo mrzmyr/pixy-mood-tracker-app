@@ -10,7 +10,7 @@ import {
 } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
 import { SettingsProvider } from "@/state/settings";
-import { TagDistributionContent } from "@/features/statistics";
+import { TagDistributionContent } from "@/features/statistics/routes";
 import type { TagsDistributionData } from "@/features/statistics";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide

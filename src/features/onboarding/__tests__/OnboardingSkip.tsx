@@ -3,7 +3,7 @@ import { DefaultTheme, ThemeProvider } from "expo-router";
 import { render, userEvent } from "@testing-library/react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Colors from "@/constants/Colors";
-import { Onboarding } from "@/features/onboarding";
+import { Onboarding } from "@/features/onboarding/routes";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
 
