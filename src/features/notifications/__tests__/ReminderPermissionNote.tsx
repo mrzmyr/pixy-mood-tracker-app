@@ -78,7 +78,9 @@ describe("Reminder permission note", () => {
     await renderReminder();
 
     expect(await screen.findByText(new RegExp(NOTE, "u"))).toBeOnTheScreen();
-    fireEvent.press(screen.getByRole("button", { name: "Open Settings" }));
+    await fireEvent.press(
+      screen.getByRole("button", { name: "Open Settings" })
+    );
     expect(openSettings).toHaveBeenCalledTimes(1);
   });
 });

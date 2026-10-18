@@ -119,7 +119,11 @@ describe("Logger > emotions > request a missing emotion", () => {
 
     await userEvent.press(await screen.findByTestId("request-emotion"));
     await userEvent.type(screen.getByTestId("request-emotion-word"), "Cozy");
-    fireEvent(screen.getByTestId("request-emotion-reply"), "valueChange", true);
+    await fireEvent(
+      screen.getByTestId("request-emotion-reply"),
+      "valueChange",
+      true
+    );
     await userEvent.type(
       await screen.findByTestId("request-emotion-email"),
       "me@example.com"

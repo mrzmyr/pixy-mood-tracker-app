@@ -38,7 +38,7 @@ describe("SheetModal", () => {
     while (modal.parent && !modal.props.onRequestClose) {
       modal = modal.parent;
     }
-    fireEvent(modal, "requestClose");
+    await fireEvent(modal, "requestClose");
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

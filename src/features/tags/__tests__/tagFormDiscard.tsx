@@ -82,20 +82,23 @@ describe("tag form discard guard", () => {
     jest.useRealTimers();
 
     // Clean form closes at once.
-    fireEvent.press(await result.findByText("Open form"));
-    fireEvent.press(await result.findByText("Cancel"));
-    fireEvent.press(await result.findByText("Open form"));
+    await fireEvent.press(await result.findByText("Open form"));
+    await fireEvent.press(await result.findByText("Cancel"));
+    await fireEvent.press(await result.findByText("Open form"));
     expect(Alert.alert).not.toHaveBeenCalled();
 
     // Typed name: Cancel asks; Keep Editing keeps the name.
-    fireEvent.changeText(await result.findByTestId("tag-name"), "Big day");
-    fireEvent.press(result.getByText("Cancel"));
+    await fireEvent.changeText(
+      await result.findByTestId("tag-name"),
+      "Big day"
+    );
+    await fireEvent.press(result.getByText("Cancel"));
     await waitFor(() => expect(Alert.alert).toHaveBeenCalledTimes(1));
     await act(() => Promise.resolve(pressPrompt("cancel")));
     expect(result.getByTestId("tag-name")).toHaveDisplayValue("Big day");
 
     // Return saves and closes without a second prompt.
-    fireEvent(result.getByTestId("tag-name"), "submitEditing");
+    await fireEvent(result.getByTestId("tag-name"), "submitEditing");
     expect(await result.findByText("Open form")).toBeOnTheScreen();
     expect(Alert.alert).toHaveBeenCalledTimes(1);
     await waitFor(async () => {

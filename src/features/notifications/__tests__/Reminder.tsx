@@ -125,7 +125,7 @@ describe("Recaps notification toggle", () => {
       .mockImplementation(() => null);
     const screen = await setup({ recaps: true });
 
-    fireEvent(
+    await fireEvent(
       screen.getByTestId("recap-notifications-enabled"),
       "valueChange",
       true

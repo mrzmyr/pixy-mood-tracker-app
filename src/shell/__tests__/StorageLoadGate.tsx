@@ -161,7 +161,7 @@ describe("StorageLoadGate", () => {
 
   test("user can mail support with the error code and no stored data", async () => {
     await AsyncStorage.setItem(LOGS_KEY, "🐇");
-    const openURLSpy = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
+    const openURLSpy = jest.spyOn(Linking, "openURL").mockResolvedValue();
     const user = userEvent.setup();
 
     await renderApp();

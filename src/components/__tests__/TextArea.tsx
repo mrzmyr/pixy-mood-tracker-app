@@ -49,7 +49,7 @@ xdescribe("<TextArea>", () => {
       />
     );
     const textInput = getByPlaceholderText("message placeholder");
-    fireEvent.changeText(textInput, "test message");
+    await fireEvent.changeText(textInput, "test message");
     expect(onChange).toHaveBeenCalledWith("test message");
   });
 
@@ -77,7 +77,7 @@ xdescribe("<TextArea>", () => {
     );
 
     const textInput = getByPlaceholderText("message placeholder");
-    fireEvent.changeText(
+    await fireEvent.changeText(
       textInput,
       "test message test message test message test message test message test message test message test message test message"
     );
