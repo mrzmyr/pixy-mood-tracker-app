@@ -20,6 +20,16 @@ const weightForStroke = (strokeWidth = DEFAULT_STROKE_WIDTH): SymbolWeight => {
 };
 
 /**
+ * Lucide SVGs never reached the accessibility tree, but a SymbolView reads
+ * out its symbol name ("lock", "person"). Hide it unless the caller labels it.
+ */
+const DECORATIVE = {
+  accessible: false,
+  accessibilityElementsHidden: true,
+  importantForAccessibility: "no-hide-descendants",
+} as const;
+
+/**
  * iOS: SF Symbol, so icons follow the system look and Bold Text. Android and
  * web render the Lucide `fallback` (`Icon.tsx`).
  */
@@ -31,16 +41,22 @@ const Icon = ({
   fill,
   strokeWidth,
   weight,
+  accessibilityLabel,
   ...props
 }: IconProps) => (
   <SymbolView
     name={sf}
     size={size}
-    tintColor={color}
-    type={fill ? "palette" : "monochrome"}
-    colors={fill ? [color, fill] : undefined}
+    // expo-symbols repaints the whole image in `tintColor` when it is set,
+    // which flattens a palette symbol to one color. Palette mode gets colors only.
+    {...(fill
+      ? { type: "palette", colors: [color, fill] }
+      : { type: "monochrome", tintColor: color })}
     weight={weight ?? weightForStroke(strokeWidth)}
     {...props}
+    {...(accessibilityLabel
+      ? { accessible: true, accessibilityRole: "image", accessibilityLabel }
+      : DECORATIVE)}
   />
 );
 

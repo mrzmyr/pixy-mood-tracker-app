@@ -2,10 +2,15 @@ import type { LucideIcon } from "lucide-react-native";
 import type { SFSymbol, SymbolWeight } from "expo-symbols";
 import type { StyleProp, ViewProps, ViewStyle } from "react-native";
 
-/** Props of the shared icon: SF Symbol on iOS, Lucide icon elsewhere. */
+/**
+ * Props of the shared icon: SF Symbol on iOS, Lucide icon elsewhere.
+ * Decorative unless `accessibilityLabel` is set.
+ */
 export interface IconProps extends Pick<
   ViewProps,
-  "accessibilityElementsHidden" | "importantForAccessibility"
+  | "accessibilityElementsHidden"
+  | "importantForAccessibility"
+  | "accessibilityLabel"
 > {
   /** SF Symbol name, iOS only. */
   sf: SFSymbol;
@@ -15,8 +20,9 @@ export interface IconProps extends Pick<
   /** Symbol tint on iOS, stroke color of the Lucide icon elsewhere. */
   color: string;
   /**
-   * Shape fill. Lucide fills the shape; iOS draws a two-color palette
-   * symbol with `color` on top of `fill`, for example `checkmark.circle.fill`.
+   * Shape fill. Lucide fills the shape. iOS draws a palette symbol: `color`
+   * on the primary layer (the glyph, for example the check of
+   * `checkmark.circle.fill`), `fill` on the secondary layer (the circle).
    */
   fill?: string;
   /** Lucide stroke width. iOS picks the matching symbol weight. */
