@@ -8,6 +8,7 @@ import { INTERVENTIONS } from "../catalog";
 import type { InterventionId } from "../catalog";
 import { Duration } from "./Duration";
 import { RADIUS } from "@/constants/Radius";
+import { SHADOW } from "@/constants/Shadow";
 
 /** Tappable intervention: title, one-line purpose, length or done state. */
 export const OptionTile = ({
@@ -47,11 +48,7 @@ export const OptionTile = ({
           justifyContent: "space-between",
           gap: 10,
           opacity: pressed ? 0.8 : 1,
-          shadowColor: "#000",
-          shadowOpacity: 0.06,
-          shadowRadius: 12,
-          shadowOffset: { width: 0, height: 4 },
-          elevation: 1,
+          boxShadow: SHADOW.tile,
         },
         style,
       ]}
