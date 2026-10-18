@@ -27,7 +27,7 @@ import {
 import type { Tag } from "../TagsProvider";
 import { GENERAL_CATEGORY_ID, MAX_TAG_CATEGORIES } from "../tagCategories";
 
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 
 const GENERAL = { id: GENERAL_CATEGORY_ID, title: "General" };
 const inGeneral = (tags: Tag[]) =>

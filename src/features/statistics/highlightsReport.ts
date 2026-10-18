@@ -4,8 +4,8 @@ import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
 import { getItemTime } from "@/lib/logDates";
-import { getEmotionsDistributionData } from "./EmotionsDistributuon";
-import type { EmotionsDistributionData } from "./EmotionsDistributuon";
+import { getEmotionsDistributionData } from "./EmotionsDistribution";
+import type { EmotionsDistributionData } from "./EmotionsDistribution";
 import { getMoodAvgData } from "./MoodAvg";
 import type { MoodAvgData } from "./MoodAvg";
 import {

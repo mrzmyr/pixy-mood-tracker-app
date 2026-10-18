@@ -27,17 +27,18 @@ describe("iOS NotificationPreview app icon", () => {
   it("shows the default icon when no alternate icon is active", async () => {
     mockGetIconName.mockReturnValue(null);
     await renderPreview();
-    expect(screen.getByTestId("reminder-preview-icon").props.source).toBe(
-      APP_ICONS[0].preview
-    );
+    // expo-image hands its native view a list of sources.
+    expect(screen.getByTestId("reminder-preview-icon").props.source).toEqual([
+      APP_ICONS[0].preview,
+    ]);
   });
 
   it("shows the icon the user selected", async () => {
     mockGetIconName.mockReturnValue("TangerineInverse");
     await renderPreview();
     const selected = APP_ICONS.find((icon) => icon.id === "tangerine-inverse");
-    expect(screen.getByTestId("reminder-preview-icon").props.source).toBe(
-      selected?.preview
-    );
+    expect(screen.getByTestId("reminder-preview-icon").props.source).toEqual([
+      selected?.preview,
+    ]);
   });
 });

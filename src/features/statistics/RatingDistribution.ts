@@ -1,4 +1,4 @@
-import { getLogDays } from "@/lib/utils";
+import { getLogDays } from "@/features/logs";
 import dayjs from "dayjs";
 import type { LogItem } from "@/features/logs";
 import { RATING_MAPPING } from "@/constants/Ratings";

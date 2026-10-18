@@ -1,1 +1,1 @@
-export { SettingsPeopleScreen as default } from "@/features/settings";
+export { SettingsPeopleScreen as default } from "@/features/settings/routes";

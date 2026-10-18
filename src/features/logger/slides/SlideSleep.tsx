@@ -1,4 +1,4 @@
-import { getSlideMarginTop } from "./marginTop";
+import { useSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { SLEEP_QUALITY_KEYS } from "@/constants/Ratings";
@@ -31,7 +31,7 @@ export const SlideSleep = ({
   const { draft, setSleepQuality } = useLogDraft();
   const selected = draft.sleep?.quality ?? null;
 
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
 
   return (
     <View

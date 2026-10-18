@@ -55,7 +55,6 @@ export interface AnalyticsEvents {
     /** Never the place itself. */
     has_location: boolean;
   };
-  "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
   "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
@@ -237,6 +236,14 @@ export interface AnalyticsEvents {
   "people:delete_requested": { entries_count: number };
   "people:person_deleted": { entries_count: number };
   "people:delete_cancelled": undefined;
+
+  /** Name length only; the name itself never leaves the device. */
+  "profile:profile_saved": {
+    has_name: boolean;
+    name_length: number;
+    has_photo: boolean;
+    photo_changed: boolean;
+  };
 
   "settings:rate_app_tapped": undefined;
   "settings:vote_features_tapped": undefined;

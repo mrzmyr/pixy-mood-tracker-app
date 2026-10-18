@@ -1,11 +1,9 @@
 import { useRouter } from "expo-router";
-import { Folder } from "lucide-react-native";
-import { Platform, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { CloseButton } from "@/components/CloseButton";
+import Folder from "lucide-react-native/icons/folder";
+import { View } from "react-native";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { CreateTagAction } from "../../components/CreateTagAction";
@@ -20,7 +18,6 @@ import { useTagsState } from "../../TagsProvider";
 export const Tags = () => {
   const router = useRouter();
   const colors = useColors();
-  const insets = useSafeAreaInsets();
   const { tags } = useTagsState();
 
   return (
@@ -29,14 +26,12 @@ export const Tags = () => {
         flex: 1,
         justifyContent: "flex-start",
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
       }}
     >
-      <ModalHeader
+      <RouteModalHeader
         title={t("tags")}
-        right={
-          <CloseButton testID="tags-close" onPress={() => router.back()} />
-        }
+        onClose={() => router.back()}
+        closeTestID="tags-close"
       />
       <CreateTagAction tags={tags} />
       <TagCategoryList

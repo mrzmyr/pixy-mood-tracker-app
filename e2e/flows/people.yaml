@@ -64,7 +64,8 @@ tags: [p1, people]
 - inputText: "lee"
 - assertVisible: "Lee Fake"
 - assertNotVisible: "Kim Fake"
-- tapOn: "Cancel"
+- tapOn:
+    id: "contact-import-cancel"
 
 # Manual add with a typed name.
 - tapOn:

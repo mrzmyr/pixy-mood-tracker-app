@@ -1,8 +1,8 @@
 import { useEffect, useEffectEvent } from "react";
 import { useContentStableValue } from "@/hooks/useContentStableValue";
 import { ActivityIndicator, ScrollView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { useAnalytics } from "@/state/analytics";
 import type { HighlightsProperties } from "@/state/analytics/events";
 import { useStatistics } from "../../../StatisticsProvider";
@@ -101,7 +101,7 @@ const ReportCards = ({
  * report is built.
  */
 export const StatisticsHighlights = () => {
-  const insets = useSafeAreaInsets();
+  const paddingBottom = useScrollBottomPadding(20);
   const colors = useColors();
   const analytics = useAnalytics();
   const statistics = useStatistics();
@@ -179,14 +179,13 @@ export const StatisticsHighlights = () => {
       }}
     >
       <ScrollView
-        style={{
-          padding: 20,
-        }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 20, paddingBottom }}
       >
         <View
           style={{
             flex: 1,
-            paddingBottom: insets.bottom + 50,
+            paddingBottom: 30,
           }}
         >
           <Title>{t("statistics_2_week_highlights")}</Title>

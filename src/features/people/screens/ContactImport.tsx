@@ -1,10 +1,9 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { Check } from "lucide-react-native";
+import Check from "lucide-react-native/icons/check";
 import {
   ActivityIndicator,
   FlatList,
-  Platform,
   Pressable,
   Text,
   TextInput,
@@ -12,7 +11,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import TextInfo from "@/components/TextInfo";
 import { MAX_PEOPLE } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
@@ -88,6 +87,47 @@ const ContactRow = ({
   );
 };
 
+/** Shown when the address book read fails; Try Again reads it again. */
+const ContactImportError = ({ onRetry }: { onRetry: () => void }) => {
+  const colors = useColors();
+  return (
+    <View
+      testID="contact-import-error"
+      style={{ alignItems: "center", paddingHorizontal: 32, paddingTop: 48 }}
+    >
+      <Text
+        accessibilityRole="header"
+        style={{
+          fontSize: 17,
+          fontWeight: "600",
+          textAlign: "center",
+          color: colors.text,
+        }}
+      >
+        {t("people_import_error_title")}
+      </Text>
+      <Text
+        style={{
+          marginTop: 8,
+          marginBottom: 12,
+          fontSize: 15,
+          textAlign: "center",
+          color: colors.textSecondary,
+        }}
+      >
+        {t("people_import_error_message")}
+      </Text>
+      <LinkButton
+        onPress={onRetry}
+        type="primary"
+        testID="contact-import-retry"
+      >
+        {t("people_import_retry")}
+      </LinkButton>
+    </View>
+  );
+};
+
 /**
  * `/people/import`: pick any number of contacts from the address book and
  * add them as people at once. Only names are listed; photos are read for the
@@ -103,6 +143,7 @@ export const ContactImport = () => {
     shareMore: handleShareMore,
     importSelected: handleImport,
     setQuery: handleQueryChange,
+    retry: handleRetry,
   } = contactImport;
   const count = contactImport.selectedIds.length;
 
@@ -111,17 +152,13 @@ export const ContactImport = () => {
       style={{
         flex: 1,
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
       }}
     >
-      <ModalHeader
+      <RouteModalHeader
         title={t("people_import_title")}
-        left={
-          <LinkButton onPress={() => router.back()} type="primary">
-            {t("cancel")}
-          </LinkButton>
-        }
-        right={
+        onClose={() => router.back()}
+        closeTestID="contact-import-cancel"
+        action={
           <LinkButton
             onPress={handleImport}
             type="primary"
@@ -166,9 +203,13 @@ export const ContactImport = () => {
           </TextInfo>
         )}
       </View>
-      {contactImport.isLoading ? (
+      {contactImport.error !== null && (
+        <ContactImportError onRetry={handleRetry} />
+      )}
+      {contactImport.isLoading && (
         <ActivityIndicator style={{ marginTop: 32 }} />
-      ) : (
+      )}
+      {!contactImport.isLoading && contactImport.error === null && (
         <View style={{ flex: 1 }}>
           <FlatList
             data={contactImport.rows}
@@ -189,7 +230,9 @@ export const ContactImport = () => {
                   color: colors.textSecondary,
                 }}
               >
-                {t("people_import_empty")}
+                {contactImport.query.trim() === ""
+                  ? t("people_import_empty")
+                  : t("people_import_no_match")}
               </Text>
             }
             renderItem={({ item }) => (

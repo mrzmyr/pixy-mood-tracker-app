@@ -1,1 +1,1 @@
-export { LogList as default } from "@/features/calendar";
+export { LogList as default } from "@/features/calendar/routes";

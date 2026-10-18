@@ -5,7 +5,7 @@ import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import type { FlashListRef } from "@shopify/flash-list";
 import { HeaderHeightContext } from "expo-router/react-navigation";
 import type { Month } from "./layout";
-import { useCalendarFilters } from "../../filters";
+import { useCalendarFiltersSheet } from "../../filters";
 import { HAS_FLOATING_HEADER } from "../../floatingHeader";
 import { useCalendarLayout } from "../../calendarLayout";
 import useColors from "@/hooks/useColors";
@@ -48,7 +48,7 @@ const CalendarScreenComponent = () => {
   const isLogsLoaded = useLogLoad().status === "ready";
   const analytics = useAnalytics();
   const logState = useLogState();
-  const calendarFilters = useCalendarFilters();
+  const filtersSheet = useCalendarFiltersSheet();
   const { layout } = useCalendarLayout();
   // Timeline and map: no weekday row, no scroll to today.
   const isCalendar = layout === "calendar";
@@ -65,7 +65,7 @@ const CalendarScreenComponent = () => {
   const topInset = HAS_FLOATING_HEADER
     ? headerHeight + (isCalendar ? weekdayHeight : 0)
     : 0;
-  const showFloatButton = !calendarFilters.isOpen;
+  const showFloatButton = !filtersSheet.isOpen;
   const today = useToday();
   const hasTodayEntry = logState.items.some(
     (item) => getItemDate(item) === today
@@ -93,7 +93,7 @@ const CalendarScreenComponent = () => {
   }
 
   const filtersBody =
-    Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null;
+    Platform.OS === "web" && filtersSheet.isOpen ? <Body /> : null;
 
   const calendarList = isCalendar ? (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>

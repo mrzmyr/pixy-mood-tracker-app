@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DefaultTheme, ThemeProvider } from "expo-router";
-import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
+import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
+import { renderRouter } from "expo-router/testing-library";
+import { act, fireEvent, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "@/state/analytics";
 import { LogsProvider } from "@/features/logs";
 import { SettingsProvider } from "@/state/settings";
@@ -9,10 +10,10 @@ import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/Config";
 import { STORAGE_KEY as STORAGE_KEY_TAGS, TagsProvider } from "../TagsProvider";
 import { TagCreate } from "../screens/TagCreate";
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
-jest.mock("react-native-safe-area-context", () => ({
-  SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
-  useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the discard guard needs a navigator (covered in tagFormDiscard tests); this suite renders the form without one
+jest.mock("@/hooks/useDiscardGuard", () => ({
+  __esModule: true,
+  useDiscardGuard: () => ({ allowLeave: jest.fn() }),
 }));
 
 const theme = {
@@ -21,20 +22,32 @@ const theme = {
   colors: { ...DefaultTheme.colors, ...Colors.light },
 };
 
-const renderCreate = () =>
-  render(
-    <ThemeProvider value={theme}>
-      <SettingsProvider>
-        <AnalyticsProvider>
-          <LogsProvider>
-            <TagsProvider>
-              <TagCreate />
-            </TagsProvider>
-          </LogsProvider>
-        </AnalyticsProvider>
-      </SettingsProvider>
-    </ThemeProvider>
+// Inside a stack with a header: on iOS, Save sits in the native bar.
+// The router store settles on fake timers; the test runs on real ones.
+const renderCreate = async () => {
+  jest.useFakeTimers();
+  const screen = await renderRouter(
+    {
+      _layout: () => (
+        <ThemeProvider value={theme}>
+          <SettingsProvider>
+            <AnalyticsProvider>
+              <LogsProvider>
+                <TagsProvider>
+                  <Stack screenOptions={{ headerShown: true }} />
+                </TagsProvider>
+              </LogsProvider>
+            </AnalyticsProvider>
+          </SettingsProvider>
+        </ThemeProvider>
+      ),
+      index: TagCreate,
+    },
+    { initialUrl: "/" }
   );
+  jest.useRealTimers();
+  return screen;
+};
 
 const storedTitles = async (): Promise<string[]> => {
   const raw = await AsyncStorage.getItem(STORAGE_KEY_TAGS);
@@ -64,6 +77,17 @@ describe("tag form", () => {
       );
     });
     expect(await storedTitles()).not.toContain("");
+  });
+
+  test("user sees the length error after pressing Return on a short name", async () => {
+    const screen = await renderCreate();
+    await act(async () => {});
+
+    await fireEvent(screen.getByTestId("tag-name"), "submitEditing");
+
+    await waitFor(() => {
+      expect(screen.getByTestId("tag-name-error")).toBeOnTheScreen();
+    });
   });
 
   test("user sees the error go away once the name is valid", async () => {

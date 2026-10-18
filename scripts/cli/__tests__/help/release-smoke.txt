@@ -1,0 +1,50 @@
+Launch the release JS bundle in a cached Release app. Catches startup crashes in minutes, no native compile.
+
+Usage: bun release smoke --platform=<ios|android> [--profile=<production|preview>]
+
+Options:
+  --platform=<ios|android>        Required. ios: simulator of this checkout. CLI boots it.
+                                  android: fails with platform_not_supported.
+  --profile=<production|preview>  eas.json build profile. Its env goes to the JS export.
+                                  Default: production.
+
+Behavior:
+  Export  `expo export` of the release JS with the eas.json profile env.
+          Fresh Metro cache. No native compile.
+  Patch   Copies the cached iOS Release simulator build, prefers the current
+          native fingerprint. Swaps in the exported JS and assets.
+  Launch  Installs on this checkout's simulator, watches the app log
+          15 seconds. Fails on a fatal JS error or when the app quits.
+  Clean   Removes the patched app. Run `bun app install` for the preview app.
+
+Requires:
+  One cached iOS Release simulator build. Run `bun app build --platform=ios` once.
+
+Output:
+  Screenshot path on stdout.
+
+Examples:
+  bun release smoke --platform=ios
+  bun release smoke --platform=ios --profile=preview
+
+Progress:
+  First stderr line: Log: <path>. New log file per run.
+  Step lines: Step N/6: <name>. Steps: Resolve build, Export JS, Patch app, Install, Launch, Watch.
+  Last stdout line: PIXY_RESULT status=<ok|error> command=release-smoke [code=<status>] [path=<artifact>]
+
+Errors:
+  missing_option          No --platform passed
+  invalid_platform        --platform is not ios or android
+  invalid_value           --profile is not production or preview
+  platform_not_supported  --platform=android passed
+  release_build_missing   No cached iOS Release simulator build
+  eas_profile_invalid     eas.json lacks the profile
+  export_failed           `expo export` failed, read the log
+  export_bundle_missing   Export produced no single iOS bundle
+  codesign_failed         Patched app could not be re-signed
+  install_failed          Simulator refused the patched app
+  launch_crashed          App logged a fatal error at launch
+  launch_exited           App quit within 15 seconds, no fatal log line
+  disk_low                Less than 10 GiB free disk, follow the error fix steps to free disk
+
+Exit codes: 0 pass, 1 failure, 2 usage error

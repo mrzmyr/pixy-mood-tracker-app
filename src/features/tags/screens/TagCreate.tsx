@@ -1,14 +1,13 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import TagCategoryPicker from "../components/TagCategoryPicker";
 import { ColorPicker } from "../components/ColorPicker";
 import { GENERAL_CATEGORY_ID } from "../tagCategories";
@@ -27,17 +26,24 @@ const REGEX_EMOJI = /\p{Emoji}/u;
 export const TagCreate = () => {
   const router = useRouter();
   const colors = useColors();
-  const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const tagsUpdater = useTagsUpdater();
 
+  const [firstColor] = Object.keys(colors.tags);
   const [submitted, setSubmitted] = useState(false);
   const [tempTag, setTempTag] = useState<ITag>({
     id: uuidv4(),
     title: "",
-    color: Object.keys(colors.tags)[0],
+    color: firstColor,
     categoryId: GENERAL_CATEGORY_ID,
   });
+
+  const isDirty =
+    tempTag.title !== "" ||
+    tempTag.color !== firstColor ||
+    tempTag.categoryId !== GENERAL_CATEGORY_ID;
+  // Back, the swipe-down gesture, and Cancel ask before dropping the form.
+  const { allowLeave } = useDiscardGuard({ isDirty });
 
   const onCreate = () => {
     setSubmitted(true);
@@ -54,75 +60,69 @@ export const TagCreate = () => {
     setTempTag({
       id: uuidv4(),
       title: "",
-      color: Object.keys(colors.tags)[0],
+      color: firstColor,
       categoryId: GENERAL_CATEGORY_ID,
     });
 
     tagsUpdater.createTag(tempTag);
 
+    allowLeave();
     router.back();
   };
 
   return (
-    <DismissKeyboard>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-start",
-          backgroundColor: colors.logBackground,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
-        }}
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "flex-start",
+        backgroundColor: colors.logBackground,
+      }}
+    >
+      <RouteModalHeader
+        title={t("create_tag")}
+        onClose={() => router.back()}
+        closeTestID="tag-cancel"
+        action={
+          <LinkButton
+            onPress={onCreate}
+            type="primary"
+            testID="tag-save"
+            style={{ fontWeight: "700" }}
+          >
+            {t("save")}
+          </LinkButton>
+        }
+      />
+      {/* Scrolls once many categories push the form past the screen. */}
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
+        automaticallyAdjustKeyboardInsets
       >
-        <ModalHeader
-          title={t("create_tag")}
-          left={
-            <LinkButton
-              onPress={() => {
-                router.back();
-              }}
-              type="primary"
-            >
-              {t("cancel")}
-            </LinkButton>
-          }
-          right={
-            <LinkButton
-              onPress={onCreate}
-              type="primary"
-              testID="tag-save"
-              style={{ fontWeight: "700" }}
-            >
-              {t("save")}
-            </LinkButton>
-          }
+        <TagNameField
+          autoFocus
+          value={tempTag.title}
+          showError={submitted}
+          onSubmit={onCreate}
+          onChange={(title) => {
+            setTempTag((currentTag) => ({ ...currentTag, title }));
+          }}
         />
-        {/* Scrolls once many categories push the form past the screen. */}
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          <TagNameField
-            value={tempTag.title}
-            showError={submitted}
-            onChange={(title) => {
-              setTempTag((currentTag) => ({ ...currentTag, title }));
-            }}
-          />
-          <ColorPicker
-            value={tempTag.color}
-            onChange={(color) => {
-              setTempTag((currentTag) => ({ ...currentTag, color }));
-            }}
-          />
-          <TagCategoryPicker
-            value={tempTag.categoryId ?? GENERAL_CATEGORY_ID}
-            onChange={(categoryId) => {
-              setTempTag((currentTag) => ({ ...currentTag, categoryId }));
-            }}
-          />
-        </ScrollView>
-      </View>
-    </DismissKeyboard>
+        <ColorPicker
+          value={tempTag.color}
+          onChange={(color) => {
+            setTempTag((currentTag) => ({ ...currentTag, color }));
+          }}
+        />
+        <TagCategoryPicker
+          value={tempTag.categoryId ?? GENERAL_CATEGORY_ID}
+          onChange={(categoryId) => {
+            setTempTag((currentTag) => ({ ...currentTag, categoryId }));
+          }}
+        />
+      </ScrollView>
+    </View>
   );
 };

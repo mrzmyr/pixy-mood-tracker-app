@@ -1,1 +1,1 @@
-export { TagEdit as default } from "@/features/tags";
+export { TagEdit as default } from "@/features/tags/routes";
