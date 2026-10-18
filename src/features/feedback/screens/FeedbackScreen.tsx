@@ -16,6 +16,7 @@ import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import type { FeedackType } from "../Feedback";
+import { isFeedbackSource } from "@/types/Feedback";
 import ModalHeader from "@/components/ModalHeader";
 import { FeedbackFields } from "../components/FeedbackFields";
 import { getFeedbackTitle } from "../feedbackTitle";
@@ -47,8 +48,9 @@ const ICONS =
       };
 
 /**
- * Feedback form route (`/feedback?type=issue|idea|…`). The `type` sets title
- * and placeholder; unknown values fall back to `issue`.
+ * Feedback form route (`/feedback?type=issue|idea|…&source=…`). The `type`
+ * sets title and placeholder; unknown values fall back to `issue`. The
+ * optional `source` tells where the form was opened; it defaults to `modal`.
  *
  * iOS presents a form sheet, Android a full-screen dialog (see the app
  * layout). Header items are native: close leads, send trails. Send stays
@@ -62,9 +64,12 @@ export const FeedbackScreen = () => {
   const colors = useColors();
   const headerHeight = useHeaderHeight();
   const analytics = useAnalytics();
-  const params = useLocalSearchParams<{ type?: string }>();
+  const params = useLocalSearchParams<{ type?: string; source?: string }>();
   const type = isFeedbackType(params.type) ? params.type : "issue";
-  const form = useFeedbackForm(type);
+  const form = useFeedbackForm(
+    type,
+    isFeedbackSource(params.source) ? params.source : "modal"
+  );
   const messageRef = useRef<TextInput>(null);
   const wasSent = useRef(false);
   const { allowLeave } = useDiscardGuard({ isDirty: form.hasDraft });
