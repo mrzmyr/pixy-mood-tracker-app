@@ -34,7 +34,7 @@ const writeImage = ({ name, base64 }: { name: string; base64: string }) => {
   const file = new File(Paths.cache, `fake-photo-${name}.png`);
   try {
     file.create({ overwrite: true });
-    file.write(base64, { encoding: "base64" });
+    file.writeSync(base64, { encoding: "base64" });
   } catch (error) {
     throw createStructuredError({
       status: "fake_photo_unavailable",
