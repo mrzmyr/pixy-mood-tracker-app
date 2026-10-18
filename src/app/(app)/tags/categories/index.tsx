@@ -1,1 +1,1 @@
-export { TagCategories as default } from "@/features/tags";
+export { TagCategories as default } from "@/features/tags/routes";

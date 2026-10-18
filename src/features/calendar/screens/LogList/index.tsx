@@ -1,9 +1,9 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useHeaderHeight } from "expo-router/react-navigation";
 import { FloatButton } from "@/components/FloatButton";
-import { PageModalLayout } from "@/components/PageModalLayout";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
-import { isConfirmed } from "@/helpers/promptCancel";
-import { askToRemove } from "@/helpers/prompts";
+import { isConfirmed } from "@/lib/promptCancel";
+import { askToRemove } from "@/lib/prompts";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
@@ -14,13 +14,14 @@ import { getDayDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
-import { Plus } from "react-native-feather";
+import Plus from "lucide-react-native/icons/plus";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Entry } from "./Entry";
 import { Header } from "./Header";
 import { INSET } from "./layout";
 import { getItemDate, getItemTime } from "@/lib/logDates";
+import { HAS_FLOATING_HEADER } from "../../floatingHeader";
 
 // Same spot as the calendar float button: 20 from the right and from the
 // bottom safe area.
@@ -56,6 +57,11 @@ const CardGap = () => <View style={{ height: CARD_GAP }} />;
  * Add is a float button at the bottom right, like on the calendar. The
  * list ends with padding, so the last card scrolls clear of it and of the
  * bottom safe area.
+ *
+ * Title and close live in the native stack header. The list is the first
+ * view of the screen, so iOS insets it below the header. On iOS 26 the
+ * header is transparent and cards scroll under it: scrolling to an entry
+ * keeps the card below the header.
  */
 export const LogList = () => {
   const router = useRouter();
@@ -68,6 +74,9 @@ export const LogList = () => {
   const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
   const logUpdater = useLogUpdater();
+  const headerHeight = useHeaderHeight();
+  // Header covers the list only when it is transparent.
+  const viewOffset = HAS_FLOATING_HEADER ? headerHeight : 0;
 
   const items = logState.items
     .filter((item) => getItemDate(item) === date)
@@ -134,7 +143,12 @@ export const LogList = () => {
   const scrollToEntry = useEffectEvent((id: string, animated: boolean) => {
     const index = items.findIndex((item) => item.id === id);
     if (index !== -1) {
-      listRef.current?.scrollToIndex({ index, animated, viewPosition: 0 });
+      listRef.current?.scrollToIndex({
+        index,
+        animated,
+        viewPosition: 0,
+        viewOffset,
+      });
     }
   });
 
@@ -157,16 +171,13 @@ export const LogList = () => {
   }, [items]);
 
   return (
-    <PageModalLayout
-      style={{
-        flex: 1,
-        backgroundColor: colors.logBackground,
-      }}
-    >
+    <>
       <Header title={getDayDateTitle(date)} onClose={close} />
       <FlatList
         ref={listRef}
         testID="log-list"
+        style={{ flex: 1 }}
+        contentInsetAdjustmentBehavior="automatic"
         data={items}
         keyExtractor={keyExtractor}
         extraData={expandedNotes}
@@ -181,6 +192,7 @@ export const LogList = () => {
               index,
               animated: false,
               viewPosition: 0,
+              viewOffset,
             });
           }
         }}
@@ -201,11 +213,16 @@ export const LogList = () => {
         // the cards on the way are measured.
         onScrollToIndexFailed={({ index, averageItemLength }) => {
           listRef.current?.scrollToOffset({
-            offset: averageItemLength * index,
+            offset: averageItemLength * index - viewOffset,
             animated: false,
           });
           setTimeout(
-            () => listRef.current?.scrollToIndex({ index, animated: false }),
+            () =>
+              listRef.current?.scrollToIndex({
+                index,
+                animated: false,
+                viewOffset,
+              }),
             100
           );
         }}
@@ -236,6 +253,6 @@ export const LogList = () => {
           />
         </FloatButton>
       </View>
-    </PageModalLayout>
+    </>
   );
 };

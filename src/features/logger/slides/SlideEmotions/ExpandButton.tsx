@@ -1,7 +1,8 @@
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { Pressable, Text, View } from "react-native";
-import { Minus, Plus } from "react-native-feather";
+import Minus from "lucide-react-native/icons/minus";
+import Plus from "lucide-react-native/icons/plus";
 
 /**
  * Toggle between basic and advanced emotions. `expanded` is true in basic

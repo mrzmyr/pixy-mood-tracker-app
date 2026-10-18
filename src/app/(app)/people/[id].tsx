@@ -1,1 +1,1 @@
-export { PersonEdit as default } from "@/features/people";
+export { PersonEdit as default } from "@/features/people/routes";

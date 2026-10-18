@@ -9,7 +9,7 @@ import useColors from "@/hooks/useColors";
 import { getShortItemDateTitle } from "@/lib/utils";
 import { useState } from "react";
 import { View } from "react-native";
-import { MapPin } from "react-native-feather";
+import MapPin from "lucide-react-native/icons/map-pin";
 import { useEntryTimePicker } from "../hooks/useEntryTimePicker";
 import { useLogDraft } from "../logDraft";
 import { EntryTimeMenu } from "./EntryTimeMenu";

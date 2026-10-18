@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { Clock } from "react-native-feather";
+import Clock from "lucide-react-native/icons/clock";
 import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";

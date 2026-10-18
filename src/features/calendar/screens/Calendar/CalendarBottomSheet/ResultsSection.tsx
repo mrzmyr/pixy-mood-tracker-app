@@ -16,7 +16,13 @@ export const ResultsSection = ({ count }: { count: number }) => {
           alignItems: "center",
         }}
       >
-        <Text style={{ color: colors.textSecondary, opacity: 0.5 }}>
+        <Text
+          style={{
+            color: colors.textSecondary,
+            opacity: 0.5,
+            fontVariant: ["tabular-nums"],
+          }}
+        >
           {count} {t("calendar_filters_results")}
         </Text>
       </View>

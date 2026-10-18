@@ -6,7 +6,7 @@ import {
   buttonStyle,
   disabled,
 } from "@expo/ui/swift-ui/modifiers";
-import { Clock } from "react-native-feather";
+import Clock from "lucide-react-native/icons/clock";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { EntryTimePreset } from "../entryTime";

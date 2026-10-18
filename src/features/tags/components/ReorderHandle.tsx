@@ -1,4 +1,5 @@
-import { GripVertical, Menu } from "lucide-react-native";
+import GripVertical from "lucide-react-native/icons/grip-vertical";
+import Menu from "lucide-react-native/icons/menu";
 import { Platform, View } from "react-native";
 import Sortable from "react-native-sortables";
 import useColors from "@/hooks/useColors";

@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system/legacy";
-import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { createStructuredError } from "@/lib/errors";
+import { renderSquareJpeg } from "@/lib/squareImage";
 
 /** Folder under the app documents directory that holds every avatar file. */
 export const AVATAR_DIRECTORY = "people/";
@@ -66,22 +66,11 @@ export const saveAvatar = async ({
 }): Promise<string> => {
   let resultUri: string;
   try {
-    const original = await ImageManipulator.manipulate(sourceUri).renderAsync();
-    const size = Math.min(original.width, original.height);
-    const rendered = await ImageManipulator.manipulate(original)
-      .crop({
-        originX: Math.floor((original.width - size) / 2),
-        originY: Math.floor((original.height - size) / 2),
-        width: size,
-        height: size,
-      })
-      .resize({ width: AVATAR_SIZE, height: AVATAR_SIZE })
-      .renderAsync();
-    const saved = await rendered.saveAsync({
-      compress: AVATAR_QUALITY,
-      format: SaveFormat.JPEG,
+    resultUri = await renderSquareJpeg({
+      sourceUri,
+      size: AVATAR_SIZE,
+      quality: AVATAR_QUALITY,
     });
-    resultUri = saved.uri;
   } catch (error) {
     throw createStructuredError({
       status: "avatar_resize_failed",

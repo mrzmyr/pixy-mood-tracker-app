@@ -27,7 +27,7 @@ import {
 } from "@/features/people";
 import type { Person } from "@/features/people";
 
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import { hideToast, useToast } from "@/lib/toast";
 
 import { File } from "expo-file-system";
@@ -321,6 +321,8 @@ describe("useLogs()", () => {
           "calendarLayout",
           "appLockEnabled",
           "recapNotificationsEnabled",
+          "profileName",
+          "profileAvatar",
         ]),
         tagCategories: testTagCategories,
       } satisfies ExportSettings & { tagCategories: TagCategory[] },

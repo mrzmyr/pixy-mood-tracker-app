@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { Check } from "react-native-feather";
+import Check from "lucide-react-native/icons/check";
 import {
   GestureDetector,
   GestureHandlerRootView,
@@ -23,6 +23,8 @@ import useColors from "@/hooks/useColors";
 import { getToastDuration, hideToast, useToast } from "@/lib/toast";
 import type { Toast } from "@/lib/toast";
 import { RADIUS } from "@/constants/Radius";
+import { SHADOW } from "@/constants/Shadow";
+import { getTypeMetrics } from "@/components/typeMetrics";
 
 const IS_ANDROID = Platform.OS === "android";
 /** Drag distance or speed toward the screen edge that dismisses the toast. */
@@ -33,6 +35,8 @@ const EDGE = IS_ANDROID ? 1 : -1;
 
 const ToastCard = ({ toast }: { toast: Toast }) => {
   const colors = useColors();
+  // iOS Subheadline 15/20, Android bodyMedium 14/20 (M3 snackbar text).
+  const text = getTypeMetrics().secondary;
   const [isHeld, setIsHeld] = useState(false);
   const offset = useSharedValue(0);
 
@@ -89,18 +93,19 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
             {
               flexDirection: "row",
               alignItems: toast.message ? "flex-start" : "center",
-              gap: 10,
-              paddingVertical: 14,
-              paddingHorizontal: 16,
+              gap: 12,
+              paddingVertical: 16,
+              paddingHorizontal: 20,
               ...(IS_ANDROID
                 ? {
                     // Material 3 snackbar: inverse surface, 4dp corners.
                     alignItems: "center",
                     minHeight: 48,
                     paddingVertical: 8,
+                    paddingHorizontal: 16,
                     borderRadius: RADIUS.xs,
                     backgroundColor: colors.snackbarBackground,
-                    elevation: 6,
+                    boxShadow: SHADOW.snackbar,
                   }
                 : {
                     borderRadius: RADIUS.md,
@@ -121,10 +126,10 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
               style={{ marginTop: toast.message ? 1 : 0 }}
             />
           )}
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, gap: 2 }}>
             <Text
               style={{
-                fontSize: 15,
+                ...text,
                 fontWeight: "600",
                 color: IS_ANDROID ? colors.snackbarText : colors.text,
               }}
@@ -134,8 +139,7 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
             {toast.message && (
               <Text
                 style={{
-                  marginTop: 2,
-                  fontSize: 15,
+                  ...text,
                   color: IS_ANDROID
                     ? colors.snackbarText
                     : colors.textSecondary,

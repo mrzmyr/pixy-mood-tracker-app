@@ -1,4 +1,3 @@
-import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Pressable, Text } from "react-native";
 import type { ViewStyle } from "react-native";
 
@@ -6,14 +5,9 @@ import useColors from "@/hooks/useColors";
 import { formatReminderTime } from "../reminderTime";
 import noop from "lodash/noop";
 import { RADIUS } from "@/constants/Radius";
+import type { ClockProps } from "./clockTypes";
 
-const Clock = ({
-  timeDate,
-}: {
-  timeDate: Date;
-  onChange: (event: DateTimePickerEvent, date?: Date) => void;
-  style?: ViewStyle;
-}) => {
+const Clock = ({ timeDate }: ClockProps & { style?: ViewStyle }) => {
   const colors = useColors();
 
   return (
@@ -30,7 +24,13 @@ const Clock = ({
         paddingBottom: 5,
       }}
     >
-      <Text style={{ color: colors.text, fontSize: 17 }}>
+      <Text
+        style={{
+          color: colors.text,
+          fontSize: 17,
+          fontVariant: ["tabular-nums"],
+        }}
+      >
         {formatReminderTime(timeDate)}
       </Text>
     </Pressable>

@@ -10,7 +10,7 @@ import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
 import Reminder from "../components/Reminder";
 import { defaultReminderScheduler } from "../reminderScheduler";
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the native time picker has no Jest implementation; the stub forwards picker events to the Reminder handler
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the native time picker has no Jest implementation; the stub forwards the picked time to the Reminder handler
 jest.mock("../components/Clock", () => {
   const { Pressable } = require("react-native");
   return {
@@ -69,35 +69,28 @@ const setup = async ({ recaps = false }: { recaps?: boolean } = {}) => {
   return screen;
 };
 
-const pick = (
-  screen: Awaited<ReturnType<typeof setup>>,
-  event: { type: string },
-  date?: Date
-) => fireEvent(screen.getByTestId("reminder-time"), "onChange", event, date);
+const pick = (screen: Awaited<ReturnType<typeof setup>>, date: Date) =>
+  fireEvent(screen.getByTestId("reminder-time"), "onChange", date);
 
 describe("Reminder time picker", () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
   });
 
-  it("saves the picked time", async () => {
+  it("saves the picked time as HH:mm", async () => {
     const screen = await setup();
-    await pick(screen, { type: "set" }, new Date(2026, 9, 6, 7, 30));
+    await pick(screen, new Date(2026, 9, 6, 7, 30));
     await waitFor(() =>
       expect(screen.getByTestId("stored-time").props.children).toBe("07:30")
     );
   });
 
-  it("keeps the old time when the picker is dismissed", async () => {
+  it("saves an afternoon time in 24-hour form", async () => {
     const screen = await setup();
-    await pick(screen, { type: "dismissed" }, new Date(2026, 9, 6, 7, 30));
-    expect(screen.getByTestId("stored-time").props.children).toBe("20:00");
-  });
-
-  it("ignores a set event without a date", async () => {
-    const screen = await setup();
-    await pick(screen, { type: "set" });
-    expect(screen.getByTestId("stored-time").props.children).toBe("20:00");
+    await pick(screen, new Date(2026, 9, 6, 21, 5));
+    await waitFor(() =>
+      expect(screen.getByTestId("stored-time").props.children).toBe("21:05")
+    );
   });
 });
 

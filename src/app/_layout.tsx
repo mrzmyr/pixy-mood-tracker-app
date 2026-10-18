@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react-native";
 import { useLocales } from "expo-localization";
-import { Observe, ObserveRoot } from "expo-observe";
+import { ObserveRoot } from "expo-observe";
 import {
   Stack,
   ThemeProvider,
@@ -19,6 +19,7 @@ import { ToastHost } from "@/components/Toast";
 import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
+import { configureObserve } from "@/lib/observe";
 import { applyLocale, getLocale } from "@/lib/translation";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
@@ -40,7 +41,7 @@ if (HAS_APP_VARIANT) {
 }
 enableScreens();
 // Drop startup metrics until stored settings confirm analytics consent.
-Observe.configure({ dispatchingEnabled: false });
+configureObserve({ consent: false });
 
 const AppShell = () => {
   const { hasActionDone } = useSettings();

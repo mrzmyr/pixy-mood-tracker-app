@@ -1,1 +1,1 @@
-export { WidgetGuide as default } from "@/features/widget";
+export { WidgetGuide as default } from "@/features/widget/routes";

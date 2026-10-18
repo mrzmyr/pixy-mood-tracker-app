@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { Edit2 } from "react-native-feather";
+import Pen from "lucide-react-native/icons/pen";
 import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";
 import type { Person } from "../PeopleProvider";
@@ -36,7 +36,7 @@ export const PersonListItem = ({
         >
           {person.name}
         </Text>
-        <Edit2 width={20} color={colors.tint} />
+        <Pen width={20} color={colors.tint} />
       </View>
     </MenuListItem>
   );

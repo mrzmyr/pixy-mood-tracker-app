@@ -7,7 +7,7 @@ import {
   Text,
 } from "@expo/ui/jetpack-compose";
 import { useState } from "react";
-import { Clock } from "react-native-feather";
+import Clock from "lucide-react-native/icons/clock";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { Pill } from "./Pill";

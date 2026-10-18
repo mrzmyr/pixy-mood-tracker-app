@@ -8,7 +8,8 @@ import { RADIUS } from "@/constants/Radius";
 
 const TextAreaComponent = (
   {
-    value = "",
+    value,
+    defaultValue,
     placeholder = "",
     accessibilityLabel,
     testID,
@@ -16,8 +17,12 @@ const TextAreaComponent = (
     autoFocus = false,
     style,
     onChange = noop,
+    onBlur,
   }: {
+    /** Controlled text. Omit and pass `defaultValue` to let the input own it. */
     value?: string;
+    /** Start text of an uncontrolled input. */
+    defaultValue?: string;
     placeholder?: string;
     accessibilityLabel?: string;
     testID?: string;
@@ -25,6 +30,7 @@ const TextAreaComponent = (
     autoFocus?: boolean;
     style?: TextStyle;
     onChange?: (text: string) => void;
+    onBlur?: () => void;
   },
   ref: React.ForwardedRef<TextInput>
 ) => {
@@ -42,6 +48,8 @@ const TextAreaComponent = (
         onChange(newText);
       }}
       value={value}
+      defaultValue={value === undefined ? defaultValue : undefined}
+      onBlur={onBlur}
       maxLength={maxLength}
       placeholder={placeholder}
       placeholderTextColor={colors.textInputPlaceholder}

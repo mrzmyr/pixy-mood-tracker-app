@@ -1,7 +1,7 @@
 import { Card } from "../../components/Card";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import type { EmotionsDistributionData } from "../../EmotionsDistributuon";
+import type { EmotionsDistributionData } from "../../EmotionsDistribution";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
 import { EmotionItem } from "@/features/calendar";

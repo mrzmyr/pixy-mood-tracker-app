@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Pressable, View } from "react-native";
-import { Circle } from "react-native-feather";
+import Circle from "lucide-react-native/icons/circle";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { RADIUS } from "@/constants/Radius";
@@ -24,8 +24,10 @@ export const Radio = ({
   children,
   isSelected = false,
   isDisabled = false,
+  testID,
 }: {
   onPress: () => void;
+  testID?: string;
   children: React.ReactNode;
   isSelected?: boolean;
   isDisabled?: boolean;
@@ -42,6 +44,7 @@ export const Radio = ({
 
   return (
     <Pressable
+      testID={testID}
       onPress={_onPress}
       style={({ pressed }) => [
         {

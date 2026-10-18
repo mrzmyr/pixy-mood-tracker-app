@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react-native";
 import dayjs from "dayjs";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import Colors from "@/constants/Colors";
 import { getShortItemDateTitle } from "@/lib/utils";
 import type { LogItem } from "@/features/logs";

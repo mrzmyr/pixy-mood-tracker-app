@@ -5,6 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
+import { SHADOW } from "@/constants/Shadow";
 
 // Height of the fade below the floating weekday row.
 const FADE_HEIGHT = 24;
@@ -94,15 +95,7 @@ const CalendarHeader = ({
           paddingLeft: 16,
           paddingRight: 16,
           backgroundColor: colors.calendarBackground,
-
-          shadowColor: "rgba(0, 0, 0, 0.6)",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowRadius: 1,
-          shadowOpacity: 0.2,
-          elevation: 3,
+          boxShadow: SHADOW.header,
           zIndex: 3,
         }}
       >

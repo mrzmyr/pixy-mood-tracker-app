@@ -1,0 +1,8 @@
+Checks to run before a store release.
+
+Usage: bun release <command> [options]
+
+Commands:
+  smoke  Launch the release JS bundle in a cached Release app
+
+Run `bun release <command> --help` for details.
