@@ -46,6 +46,7 @@
     "i18n:sort:check": "bun scripts/sort-locales.ts --check"
   },
   "dependencies": {
+    "@expo/material-symbols": "^0.1.1",
     "@expo/ui": "~57.0.25",
     "@hugeicons/core-free-icons": "4.3.5",
     "@nandorojo/galeria": "^3.1.0",

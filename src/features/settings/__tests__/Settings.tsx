@@ -1,7 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import { act, render, userEvent, waitFor } from "@testing-library/react-native";
+import {
+  act,
+  render,
+  userEvent,
+  waitFor,
+  within,
+} from "@testing-library/react-native";
 import { Alert, Appearance } from "react-native";
 import { ToastHost } from "@/components/Toast";
 import Providers from "@/shell/Providers";
@@ -300,18 +306,18 @@ describe("Theme in Settings", () => {
     const screen = await renderSettings(createFakeSupportClient());
     const theme = await screen.findByRole("button", { name: "Theme" });
 
-    expect(theme).toHaveAccessibilityValue({ text: "System" });
+    expect(within(theme).getByText("System")).toBeOnTheScreen();
 
     await userEvent.press(theme);
-    expect(theme).toHaveAccessibilityValue({ text: "Light" });
+    expect(within(theme).getByText("Light")).toBeOnTheScreen();
     expect(setColorScheme).toHaveBeenLastCalledWith("light");
 
     await userEvent.press(theme);
-    expect(theme).toHaveAccessibilityValue({ text: "Dark" });
+    expect(within(theme).getByText("Dark")).toBeOnTheScreen();
     expect(setColorScheme).toHaveBeenLastCalledWith("dark");
 
     await userEvent.press(theme);
-    expect(theme).toHaveAccessibilityValue({ text: "System" });
+    expect(within(theme).getByText("System")).toBeOnTheScreen();
     expect(setColorScheme).toHaveBeenLastCalledWith("unspecified");
   });
 
@@ -325,8 +331,8 @@ describe("Theme in Settings", () => {
 
     await waitFor(() =>
       expect(
-        screen.getByRole("button", { name: "Theme" })
-      ).toHaveAccessibilityValue({ text: "Dark" })
+        within(screen.getByRole("button", { name: "Theme" })).getByText("Dark")
+      ).toBeOnTheScreen()
     );
     expect(setColorScheme).toHaveBeenLastCalledWith("dark");
   });

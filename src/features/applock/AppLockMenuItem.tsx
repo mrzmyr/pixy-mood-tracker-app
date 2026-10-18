@@ -1,65 +1,47 @@
+import { Icon } from "@expo/ui";
 import { useRouter } from "expo-router";
-import { Text, View } from "react-native";
-import Lock from "lucide-react-native/icons/lock";
-import FlagHighlight from "@/components/FlagHighlight";
-import MenuListItem from "@/components/MenuListItem";
-import useColors from "@/hooks/useColors";
+import FieldRow from "@/components/FieldRow";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { useAppLock } from "./AppLockProvider";
 
+const LOCK_ICON = Icon.select({
+  ios: "lock",
+  android: import("@expo/material-symbols/lock.xml"),
+});
+
 /**
- * Settings row that opens Settings > App Lock and shows On or Off. Needs the
- * `app-lock` flag, and stays while the lock is on, so the user can turn it
- * off without the flag.
+ * Whether Settings shows the App Lock row. Needs the `app-lock` flag, and
+ * stays while the lock is on, so the user can turn it off without the flag.
+ */
+export const useIsAppLockMenuItemVisible = () => {
+  const { isEnabled } = useAppLock();
+  const hasFlag = useFeatureFlag("app-lock");
+  return hasFlag || isEnabled;
+};
+
+/**
+ * Settings row that opens Settings > App Lock and shows On or Off. Renders
+ * inside the Settings `FieldGroup`; gate it with
+ * `useIsAppLockMenuItemVisible`.
  */
 export const AppLockMenuItem = () => {
   const router = useRouter();
-  const colors = useColors();
   const { isEnabled } = useAppLock();
-  const hasFlag = useFeatureFlag("app-lock");
+  const isVisible = useIsAppLockMenuItemVisible();
 
-  if (!hasFlag && !isEnabled) {
+  if (!isVisible) {
     return null;
   }
 
-  const status = t(isEnabled ? "step_status_on" : "step_status_off");
-
   return (
-    <FlagHighlight flag="app-lock">
-      <MenuListItem
-        title={
-          <View
-            style={{
-              flex: 1,
-              minWidth: 0,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{ flex: 1, fontSize: 17, color: colors.text }}
-              numberOfLines={1}
-            >
-              {t("app_lock")}
-            </Text>
-            <Text
-              style={{
-                fontSize: 17,
-                color: colors.textSecondary,
-                marginRight: 8,
-              }}
-            >
-              {status}
-            </Text>
-          </View>
-        }
-        iconLeft={<Lock width={18} color={colors.menuListItemIcon} />}
-        accessibilityValue={{ text: status }}
-        onPress={() => router.push("/settings/app-lock")}
-        testID="app-lock"
-        isLink
-      />
-    </FlagHighlight>
+    <FieldRow
+      title={t("app_lock")}
+      icon={LOCK_ICON}
+      kind="push"
+      value={t(isEnabled ? "step_status_on" : "step_status_off")}
+      onPress={() => router.push("/settings/app-lock")}
+      testID="app-lock"
+    />
   );
 };
