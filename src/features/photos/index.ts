@@ -2,24 +2,24 @@ export type {
   LibraryPermission,
   PhotoSource,
   PickedPhoto,
-} from "./photoSource";
-export { AddPhotoTile } from "./components/AddPhotoTile";
+} from "./photo-source";
+export { AddPhotoTile } from "./components/add-photo-tile";
 export {
   IS_PHOTO_GALLERY_SUPPORTED,
   PhotoGallery,
   PhotoGalleryItem,
-} from "./components/PhotoGallery";
-export { PhotoGrid } from "./components/PhotoGrid";
-export { PhotoLimitNotice } from "./components/PhotoLimitNotice";
-export { PhotosPromptCard } from "./components/PhotosPromptCard";
-export { PhotoThumbnail } from "./components/PhotoThumbnail";
-export { PickTile } from "./components/PickTile";
-export { getViewerItem } from "./viewerItem";
-export type { PhotoViewerItem } from "./viewerItem";
+} from "./components/photo-gallery";
+export { PhotoGrid } from "./components/photo-grid";
+export { PhotoLimitNotice } from "./components/photo-limit-notice";
+export { PhotosPromptCard } from "./components/photos-prompt-card";
+export { PhotoThumbnail } from "./components/photo-thumbnail";
+export { PickTile } from "./components/pick-tile";
+export { getViewerItem } from "./viewer-item";
+export type { PhotoViewerItem } from "./viewer-item";
 export { countPhotosBySource } from "./sources";
-export { getPhotoSource, setPhotoSourceOverride } from "./photoSource";
-export { useDraftPhotos } from "./hooks/useDraftPhotos";
-export type { DraftPhoto, PickItem } from "./hooks/useDraftPhotos";
+export { getPhotoSource, setPhotoSourceOverride } from "./photo-source";
+export { useDraftPhotos } from "./hooks/use-draft-photos";
+export type { DraftPhoto, PickItem } from "./hooks/use-draft-photos";
 export {
   MAX_PHOTOS_PER_ENTRY,
   deleteUnreferencedPhotos,

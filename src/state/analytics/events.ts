@@ -1,6 +1,6 @@
-import type { FeedackType, FeedbackSource } from "@/types/Feedback";
-import type { LoggerStep } from "@/constants/LoggerSteps";
-import type { AppIconId } from "@/constants/AppIcons";
+import type { FeedackType, FeedbackSource } from "@/types/feedback";
+import type { LoggerStep } from "@/constants/logger-steps";
+import type { AppIconId } from "@/constants/app-icons";
 import type { CalendarLayout, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";

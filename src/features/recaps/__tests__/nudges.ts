@@ -1,4 +1,4 @@
-import { buildCards } from "../buildCards";
+import { buildCards } from "../build-cards";
 import { makeInput, makeTags } from "./utils";
 
 const days = (dates: string[]) => dates.map((date) => ({ date }));

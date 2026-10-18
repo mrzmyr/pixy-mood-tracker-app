@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { useCallback, useEffect, useRef } from "react";
 import { useLogState } from "@/features/logs";
 import dayjs from "dayjs";
-import { getItemDate } from "@/lib/logDates";
+import { getItemDate } from "@/lib/log-dates";
 import { useAnalytics } from "@/state/analytics";
 
 /**

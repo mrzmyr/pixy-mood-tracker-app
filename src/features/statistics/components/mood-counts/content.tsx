@@ -1,0 +1,82 @@
+import { Text, View } from "react-native";
+import useColors from "@/hooks/use-colors";
+import { RATING_KEYS } from "@/constants/ratings";
+import { formatNumber } from "@/lib/format-number";
+import { Bar } from "./bar";
+
+/**
+ * Bar chart of entry counts per rating, worst to best. `total` must be the
+ * sum of `values`, otherwise bar heights are off.
+ */
+export const Content = ({
+  data,
+}: {
+  data: {
+    values: {
+      [key: string]: number;
+    };
+    total: number;
+  };
+}) => {
+  const colors = useColors();
+
+  return (
+    <>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          borderBottomColor: colors.cardBorder,
+          borderBottomWidth: 1,
+          paddingHorizontal: 16,
+          marginTop: 16,
+        }}
+      >
+        {[...RATING_KEYS].reverse().map((ratingName) => (
+          <Bar
+            key={`rating-bar-${ratingName}`}
+            height={(data.values[ratingName] / data.total) * 400}
+            ratingName={ratingName}
+          />
+        ))}
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          paddingHorizontal: 16,
+        }}
+      >
+        {[...RATING_KEYS].reverse().map((ratingName) => (
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "flex-end",
+              flex: RATING_KEYS.length,
+              marginHorizontal: 2,
+            }}
+            key={`rating-count-${ratingName}`}
+          >
+            <Text
+              key={`text-${ratingName}`}
+              style={{
+                width: "100%",
+                marginTop: 8,
+                color: colors.text,
+                opacity: data.values[ratingName] === 0 ? 0.3 : 1,
+                textAlign: "center",
+                fontSize: 12,
+                fontWeight: "bold",
+                fontVariant: ["tabular-nums"],
+              }}
+            >
+              {formatNumber(data.values[ratingName])}×
+            </Text>
+          </View>
+        ))}
+      </View>
+    </>
+  );
+};

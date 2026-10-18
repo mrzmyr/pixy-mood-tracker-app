@@ -1,4 +1,4 @@
-import Alert from "@/lib/Alert";
+import Alert from "@/lib/alert";
 import { askToRemove } from "../prompts";
 
 const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});

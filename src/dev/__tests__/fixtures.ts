@@ -13,7 +13,7 @@ import {
   MAX_TAG_LENGTH,
   MAX_TAGS,
   MIN_TAG_LENGTH,
-} from "@/constants/Config";
+} from "@/constants/config";
 import { decodeBackupData } from "@/features/datagate";
 import { EMOTIONS } from "@/features/logger";
 import { MAX_PHOTOS_PER_ENTRY } from "@/features/photos";

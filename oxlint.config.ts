@@ -161,7 +161,7 @@ export default defineConfig({
         "src/shell/**",
         "src/app/_layout.tsx",
         "src/app/**/_layout.tsx",
-        "src/features/**/*Provider.tsx",
+        "src/features/**/*-provider.tsx",
       ],
       rules: {
         "no-restricted-imports": [
@@ -238,7 +238,7 @@ export default defineConfig({
     },
     {
       // Append-only lists conflict on every merge; sorted lists do not.
-      files: ["src/state/featureFlags/keys.ts"],
+      files: ["src/state/feature-flags/keys.ts"],
       rules: { "pixy-standards/sorted-string-arrays": "error" },
     },
   ],

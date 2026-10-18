@@ -1,1 +1,1 @@
-export { useStoreReviewPrompt } from "./useStoreReviewPrompt";
+export { useStoreReviewPrompt } from "./use-store-review-prompt";

@@ -1,7 +1,7 @@
 export type { ContactList, ContactSummary, PeopleSources } from "./sources";
-export { PeopleList } from "./components/PeopleList";
-export { PersonAvatar } from "./components/PersonAvatar";
-export { PersonChip } from "./components/PersonChip";
+export { PeopleList } from "./components/people-list";
+export { PersonAvatar } from "./components/person-avatar";
+export { PersonChip } from "./components/person-chip";
 export { TILE_RING_GAP, TILE_RING_WIDTH } from "./tile";
 export {
   deleteAllAvatars,
@@ -10,6 +10,6 @@ export {
   writeAvatarFromBase64,
 } from "./avatars";
 export { setPeopleSourcesOverride } from "./sources";
-export { getPeopleLimit } from "./peopleLimit";
+export { getPeopleLimit } from "./people-limit";
 export { sortPeopleByUsage } from "./usage";
-export * from "./PeopleProvider";
+export * from "./people-provider";

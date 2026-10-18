@@ -1,11 +1,11 @@
 import { render, fireEvent } from "@testing-library/react-native";
 import * as Haptics from "expo-haptics";
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import Button from "@/components/Button";
-import { CloseButton } from "@/components/CloseButton";
-import LinkButton from "@/components/LinkButton";
-import MenuListItem from "@/components/MenuListItem";
-import Colors from "@/constants/Colors";
+import Button from "@/components/button";
+import { CloseButton } from "@/components/close-button";
+import LinkButton from "@/components/link-button";
+import MenuListItem from "@/components/menu-list-item";
+import Colors from "@/constants/colors";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-haptics is a native module; the test asserts on its calls
 jest.mock("expo-haptics", () => ({

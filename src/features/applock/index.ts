@@ -1,6 +1,6 @@
-export { AppLockProvider, useAppLock } from "./AppLockProvider";
+export { AppLockProvider, useAppLock } from "./app-lock-provider";
 export {
   AppLockMenuItem,
   useIsAppLockMenuItemVisible,
-} from "./AppLockMenuItem";
-export { AppLockScreen } from "./AppLockScreen";
+} from "./app-lock-menu-item";
+export { AppLockScreen } from "./app-lock-screen";

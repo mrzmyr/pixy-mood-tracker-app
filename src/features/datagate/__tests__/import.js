@@ -1,6 +1,6 @@
 import { getJSONSchemaType } from "../import";
 import { migrateImportData } from "../migration";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { INITIAL_STATE } from "@/constants/settings";
 
 describe("getJSONSchemaType", () => {
   test("pixy schema: valid", () => {

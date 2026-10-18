@@ -4,7 +4,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 - [App UI](#app-ui): components and rules for screens in the app
 - [Marketing assets](#marketing-assets): store screenshots, website, launch headers, social cards
-- Colors: [`src/constants/Colors`](src/constants/Colors/index.ts), mood scales in [`Scales.ts`](src/constants/Colors/Scales.ts)
+- Colors: [`src/constants/colors`](src/constants/colors/index.ts), mood scales in [`scales.ts`](src/constants/colors/scales.ts)
 - Facts and claims: [docs/app-facts.json](docs/app-facts.json)
 
 # App UI
@@ -15,22 +15,22 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 ## Components
 
-- Page close: top right [`CloseButton`](src/components/CloseButton.tsx). Android full-screen dialog: close top left. Modal title and close go in native stack header ([Day view `Header`](src/features/calendar/screens/LogList/Header.tsx)). Back arrow is not close. Form modal with Save keeps text Cancel top left.
-- Buttons: [`Button`](src/components/Button.tsx) (filled), [`LinkButton`](src/components/LinkButton.tsx) (text). Label is plain string, or compose `ButtonIcon` + `ButtonText` ([`ButtonContent`](src/components/ButtonContent.tsx)). Never own `Text` or icon color inside button: disabled color comes from button.
+- Page close: top right [`CloseButton`](src/components/close-button.tsx). Android full-screen dialog: close top left. Modal title and close go in native stack header ([Day view `Header`](src/features/calendar/screens/log-list/header.tsx)). Back arrow is not close. Form modal with Save keeps text Cancel top left.
+- Buttons: [`Button`](src/components/button.tsx) (filled), [`LinkButton`](src/components/link-button.tsx) (text). Label is plain string, or compose `ButtonIcon` + `ButtonText` ([`ButtonContent`](src/components/button-content.tsx)). Never own `Text` or icon color inside button: disabled color comes from button.
 - Toasts: `showToast` ([`src/lib/toast.ts`](src/lib/toast.ts)). iOS top card, Android M3 snackbar. Optional Undo `action`, never only way to do something.
-- Inline errors, warnings, notices: [`InlineAlert`](src/components/InlineAlert.tsx) next to the content they are about. Stays until state changes. Never plain colored text.
-- Menu rows: [`MenuListItem`](src/components/MenuListItem.tsx). Title = short Title Case noun. Status in value slot. One text color per row, except destructive rows (`colors.danger`). Never wrap or shrink: shorten text. Warnings use [`TextInfo`](src/components/TextInfo.tsx) under list.
-- Bezel ([`Bezel`](src/components/Bezel.tsx), radius from `getBezelRadius`): statistics cards and person tiles only. Calendar days, mood buttons, entry cards, list groups have no bezel.
-- Android list groups: M3 full-width list, no chevron, no dividers, 56dp rows ([`MenuList`](src/components/MenuList.tsx)).
-- Tag colors: fixed palette inline in grouped card ([`ColorPicker`](src/features/tags/components/ColorPicker.tsx)). 48 × 48 targets, never shrink. Selection shown by check + color name, never hue alone.
+- Inline errors, warnings, notices: [`InlineAlert`](src/components/inline-alert.tsx) next to the content they are about. Stays until state changes. Never plain colored text.
+- Menu rows: [`MenuListItem`](src/components/menu-list-item.tsx). Title = short Title Case noun. Status in value slot. One text color per row, except destructive rows (`colors.danger`). Never wrap or shrink: shorten text. Warnings use [`TextInfo`](src/components/text-info.tsx) under list.
+- Bezel ([`Bezel`](src/components/bezel.tsx), radius from `getBezelRadius`): statistics cards and person tiles only. Calendar days, mood buttons, entry cards, list groups have no bezel.
+- Android list groups: M3 full-width list, no chevron, no dividers, 56dp rows ([`MenuList`](src/components/menu-list.tsx)).
+- Tag colors: fixed palette inline in grouped card ([`ColorPicker`](src/features/tags/components/color-picker.tsx)). 48 × 48 targets, never shrink. Selection shown by check + color name, never hue alone.
 - Core Modules ([GLOSSARY.md](GLOSSARY.md)) use same Lucide icon everywhere, 20 px: Mood `Sun`, Emotions `Heart`, Tags `Tag`, People `Users`, Photos `Image`, Note `FileText`. Labels are single nouns.
 
 ## Sheets and Modals
 
-- `Modal` with `presentationStyle="pageSheet"`, `animationType="slide"` ([`SheetModal`](src/components/SheetModal.tsx)).
-- Router form with native header: iOS `formSheet`, Android full-screen `modal`, header items via `Stack.Toolbar` ([Feedback](src/features/feedback/screens/FeedbackScreen.tsx)).
+- `Modal` with `presentationStyle="pageSheet"`, `animationType="slide"` ([`SheetModal`](src/components/sheet-modal.tsx)).
+- Router form with native header: iOS `formSheet`, Android full-screen `modal`, header items via `Stack.Toolbar` ([Feedback](src/features/feedback/screens/feedback-screen.tsx)).
 - Never custom slide-in sheet. Never move views from keyboard events. Inputs sit at sheet top.
-- Route modal header: [`RouteModalHeader`](src/components/RouteModalHeader.tsx). iOS native sheet bar, Android Material top app bar.
+- Route modal header: [`RouteModalHeader`](src/components/route-modal-header.tsx). iOS native sheet bar, Android Material top app bar.
 
 ## Settings
 
@@ -41,8 +41,8 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 - Swap keeps size: replacing implementation keeps measured width, height, padding. Measure before and after.
 - Spacing request for one element changes that element only, not shared component or token.
-- Parent owns spacing between children: flex `gap`, not sibling margins. Shared chips (`Tag`, `PersonChip`, `MiniButton`) carry no outer margin. Wrapping chip groups use [`CHIP_FLOW`](src/constants/Chip.ts).
-- Radius from [`RADIUS`](src/constants/Radius.ts), picked by role. Nested radius ≤ parent radius.
+- Parent owns spacing between children: flex `gap`, not sibling margins. Shared chips (`Tag`, `PersonChip`, `MiniButton`) carry no outer margin. Wrapping chip groups use [`CHIP_FLOW`](src/constants/chip.ts).
+- Radius from [`RADIUS`](src/constants/radius.ts), picked by role. Nested radius ≤ parent radius.
 - No sideways scroller inside sideways parent (pager, carousel): Android steals swipe.
 - Lists > ~20 items virtualized. Safe areas from `react-native-safe-area-context`, never hardcoded.
 - No `LayoutAnimation` ([#610](https://github.com/mrzmyr/pixy-mood-tracker-app/pull/610)). Use Reanimated `entering`/`exiting`/`layout`. Honor reduce motion.

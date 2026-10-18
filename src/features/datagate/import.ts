@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { TAG_COLOR_NAMES } from "@/constants/Config";
+import { TAG_COLOR_NAMES } from "@/constants/config";
 import type { Tag, TagCategory } from "@/features/tags";
 import type { LogItem, LogsState } from "@/features/logs";
 import type { Person } from "@/features/people";
-import { RATING_KEYS } from "@/constants/Ratings";
+import { RATING_KEYS } from "@/constants/ratings";
 import type { ExportSettings } from "@/state/settings";
 
 /**

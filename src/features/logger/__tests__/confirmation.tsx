@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
-import { _generateItem } from "@/testing/logItem";
+import { _generateItem } from "@/testing/log-item";
 import { t } from "@/lib/translation";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { INITIAL_STATE } from "@/constants/settings";
 import { AnalyticsProvider } from "@/state/analytics";
 import {
   SettingsProvider,
@@ -13,14 +13,14 @@ import {
 import {
   countWords,
   getEntryProperties,
-} from "../confirmation/entryProperties";
+} from "../confirmation/entry-properties";
 import {
   getDaySummary,
   getSummarySentence,
   getSummaryTitle,
-} from "../confirmation/daySummary";
-import type { DaySummary } from "../confirmation/daySummary";
-import { useConfirmation } from "../confirmation/useConfirmation";
+} from "../confirmation/day-summary";
+import type { DaySummary } from "../confirmation/day-summary";
+import { useConfirmation } from "../confirmation/use-confirmation";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
 const { capture: mockCapture } = getPostHogTestClient();

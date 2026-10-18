@@ -1,0 +1,76 @@
+import { useSetting } from "@/state/settings";
+import { useFeatureFlag } from "@/state/feature-flags";
+import useScale from "@/hooks/use-scale";
+import type { Emotion } from "@/types";
+import chroma from "chroma-js";
+import { useColorScheme, View } from "react-native";
+
+import { EMOTION_ICONS } from "../../emotion-icons";
+import { EmotionIcon } from "./emotion-icon";
+import { RADIUS } from "@/constants/radius";
+import { COMPACT_CHIP } from "@/constants/chip";
+
+/**
+ * Category marker for an emotion. Uses only the scale's `very_good`,
+ * `neutral`, and `very_bad` colors, so `good` and `bad` match the extremes.
+ *
+ * Flag `emotion-icons` on: two-tone icon tinted with the category color.
+ * Off, or no icon for the emotion: 8pt category dot.
+ */
+export const EmotionIndicator = ({
+  emotion,
+  compact = false,
+}: {
+  emotion: Pick<Emotion, "key" | "category">;
+  /** Smaller icon or dot for compact chips. */
+  compact?: boolean;
+}) => {
+  const scaleType = useSetting("scaleType");
+  const scale = useScale(scaleType);
+  const colorScheme = useColorScheme();
+  const isIconsEnabled = useFeatureFlag("emotion-icons");
+  const colorMapping = {
+    very_good: scale.colors.very_good,
+    good: scale.colors.very_good,
+    neutral: scale.colors.neutral,
+    bad: scale.colors.very_bad,
+    very_bad: scale.colors.very_bad,
+  };
+
+  const color = colorMapping[emotion.category];
+  const icon = EMOTION_ICONS[emotion.key];
+
+  if (isIconsEnabled && icon) {
+    return (
+      <View
+        testID={`emotion-icon-${emotion.key}`}
+        style={{ marginRight: compact ? COMPACT_CHIP.gap : 8 }}
+      >
+        <EmotionIcon
+          icon={icon}
+          size={compact ? 16 : 20}
+          tint={color.background}
+          stroke={
+            // Light category colors are too pale for a thin outline on white.
+            colorScheme === "light"
+              ? chroma(color.background).darken(1.5).hex()
+              : color.background
+          }
+        />
+      </View>
+    );
+  }
+
+  return (
+    <View
+      style={{
+        width: compact ? 7 : 8,
+        height: compact ? 7 : 8,
+        backgroundColor: color.background,
+        borderRadius: RADIUS.full,
+        marginRight: compact ? COMPACT_CHIP.gap : 10,
+        paddingRight: 8,
+      }}
+    />
+  );
+};

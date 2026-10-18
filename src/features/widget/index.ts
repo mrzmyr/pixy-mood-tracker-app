@@ -1,4 +1,4 @@
-export { WidgetSync } from "./WidgetSync";
+export { WidgetSync } from "./widget-sync";
 export { IS_WIDGET_SUPPORTED, getWidgetSyncStatus } from "./widgets";
 export type { WidgetSyncStatus } from "./widgets";
-export { useIsWidgetEnabled } from "./useIsWidgetEnabled";
+export { useIsWidgetEnabled } from "./use-is-widget-enabled";
