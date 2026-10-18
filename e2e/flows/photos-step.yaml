@@ -158,14 +158,19 @@ tags: [p1, photos]
     id: "photo-thumbnail-1"
 - assertVisible:
     id: "photo-thumbnail-2"
-# Stored photos open in the viewer, view only.
+# Stored photos open in the native viewer (Galeria), not the route viewer.
+# A swipe down shrinks the photo back into its tile.
 - tapOn:
     id: "photo-thumbnail-2"
-- assertVisible:
-    id: "photo-viewer"
+- waitForAnimationToEnd
 - assertNotVisible:
-    id: "photo-viewer-remove"
-- tapOn:
-    id: "photo-viewer-close"
+    id: "photo-viewer"
+- swipe:
+    start: 50%, 40%
+    end: 50%, 90%
+    duration: 400
+- waitForAnimationToEnd
+- assertVisible:
+    id: "photo-thumbnail-2"
 - tapOn:
     id: "log-list-close"
