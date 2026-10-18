@@ -1,7 +1,7 @@
 import {
   createContext,
   useCallback,
-  useContext,
+  use,
   useMemo,
   useRef,
   useState,
@@ -173,7 +173,7 @@ export const LogDraftProvider = ({
 
 /** Draft of the logger around the caller. Throws outside `LogDraftProvider`. */
 export const useLogDraft = (): LogDraftValue => {
-  const context = useContext(LogDraftContext);
+  const context = use(LogDraftContext);
   if (context === null) {
     throw createMissingProviderError("useLogDraft", "LogDraftProvider");
   }

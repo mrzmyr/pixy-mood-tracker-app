@@ -1,11 +1,5 @@
 import isEqual from "lodash/isEqual";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useCallback, use, useMemo, useState } from "react";
 import { useLogState } from "@/features/logs";
 import { useTagsState } from "@/features/tags";
 import { usePeopleState } from "@/features/people";
@@ -89,7 +83,7 @@ export const StatisticsProvider = ({
  * Highlights report and refresh. Must render inside {@link StatisticsProvider}.
  */
 export const useStatistics = (): Value => {
-  const context = useContext(StatisticsContext);
+  const context = use(StatisticsContext);
   if (context === undefined) {
     throw createMissingProviderError("useStatistics", "StatisticsProvider");
   }

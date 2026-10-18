@@ -2,7 +2,7 @@ import isEqual from "lodash/isEqual";
 import {
   createContext,
   useCallback,
-  useContext,
+  use,
   useEffect,
   useEffectEvent,
   useReducer,
@@ -226,7 +226,7 @@ export const createPersistedStore = <
   };
 
   const useStoreState = (): State => {
-    const value = useContext(StateContext);
+    const value = use(StateContext);
     if (value === undefined) {
       throw createMissingProviderError(`${name}.useState`, `${name}Provider`);
     }
@@ -234,7 +234,7 @@ export const createPersistedStore = <
   };
 
   const useStoreDispatch = (): Dispatch<Action> => {
-    const value = useContext(DispatchContext);
+    const value = use(DispatchContext);
     if (value === undefined) {
       throw createMissingProviderError(
         `${name}.useDispatch`,
@@ -245,7 +245,7 @@ export const createPersistedStore = <
   };
 
   const useStoreLoad = (): Load => {
-    const value = useContext(LoadContext);
+    const value = use(LoadContext);
     if (value === undefined) {
       throw createMissingProviderError(`${name}.useLoad`, `${name}Provider`);
     }

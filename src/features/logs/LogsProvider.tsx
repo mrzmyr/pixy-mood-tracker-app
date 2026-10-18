@@ -11,7 +11,7 @@ import pick from "lodash/pick";
 import {
   createContext,
   useCallback,
-  useContext,
+  use,
   useEffect,
   useEffectEvent,
   useMemo,
@@ -322,7 +322,7 @@ const useLogState = (): LogsState => logsStore.useState();
 
 const useLogUpdater = (): UpdaterValue => {
   const dispatch = logsStore.useDispatch();
-  const sweepPhotos = useContext(PhotoSweepContext);
+  const sweepPhotos = use(PhotoSweepContext);
   if (sweepPhotos === undefined) {
     throw createMissingProviderError("useLogUpdater", "LogsProvider");
   }

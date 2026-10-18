@@ -285,6 +285,53 @@ const noLayoutAnimation = {
   },
 };
 
+// React 19 `use` reads context and may run after early returns or inside
+// conditions; one hook name keeps context reads consistent.
+const preferReactUse = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Disallow useContext; read context with React 19 `use`",
+    },
+    messages: {
+      banned: "Read context with `use(Context)` from react, not `useContext`.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const reactNames = new Set();
+
+    return {
+      ImportDeclaration(node) {
+        if (node.source.value !== "react") {
+          return;
+        }
+        for (const specifier of node.specifiers) {
+          if (specifier.type !== "ImportSpecifier") {
+            reactNames.add(specifier.local.name);
+          } else if (
+            (specifier.imported.name ?? specifier.imported.value) ===
+            "useContext"
+          ) {
+            context.report({ messageId: "banned", node: specifier });
+          }
+        }
+      },
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.object.type === "Identifier" &&
+          reactNames.has(node.object.name) &&
+          node.property.type === "Identifier" &&
+          node.property.name === "useContext"
+        ) {
+          context.report({ messageId: "banned", node: node.property });
+        }
+      },
+    };
+  },
+};
+
 // String literals are the only literals whose raw source starts with a quote.
 const getStringValue = (element) =>
   element?.type === "Literal" && /^["']/u.test(element.raw)
@@ -347,6 +394,7 @@ module.exports = {
     "no-hermes-missing-array-methods": noHermesMissingArrayMethods,
     "no-hermes-missing-intl": noHermesMissingIntl,
     "no-layout-animation": noLayoutAnimation,
+    "prefer-react-use": preferReactUse,
     "require-exported-jsdoc": requireExportedJsDoc,
     "boolean-function-prefix": booleanFunctionPrefix,
     "structured-thrown-errors": structuredThrownErrors,

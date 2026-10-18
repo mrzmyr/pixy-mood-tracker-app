@@ -1,7 +1,7 @@
 import {
   createContext,
   useCallback,
-  useContext,
+  use,
   useEffect,
   useEffectEvent,
   useMemo,
@@ -244,7 +244,7 @@ export const AppLockProvider = ({
 
 /** App lock state from `AppLockProvider`. */
 export const useAppLock = (): AppLockValue => {
-  const value = useContext(AppLockContext);
+  const value = use(AppLockContext);
   if (!value) {
     throw createMissingProviderError("useAppLock", "AppLockProvider");
   }

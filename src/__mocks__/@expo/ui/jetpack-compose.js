@@ -2,7 +2,7 @@
 // these stand-ins render React Native views. They keep the native rule: a
 // Compose view outside a `Host` (or inside an `RNHostView`) throws, like the
 // "must be rendered as a direct child of a <Host>" error on the phone.
-const { Children, createContext, useContext } = require("react");
+const { Children, createContext, use } = require("react");
 const { Pressable, Text } = require("react-native");
 
 const InCompose = createContext(false);
@@ -20,7 +20,7 @@ const Slot = ({ children }) => children;
 const Items = ({ children }) => children;
 
 const DropdownMenu = ({ expanded, children }) => {
-  if (!useContext(InCompose)) {
+  if (!use(InCompose)) {
     throw Object.assign(new Error("Compose view outside Host"), {
       status: "compose_outside_host",
       why: 'A Jetpack Compose view "DropdownMenuView" must be rendered as a direct child of a <Host> component.',

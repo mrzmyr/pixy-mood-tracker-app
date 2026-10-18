@@ -1,5 +1,5 @@
 import { usePostHog } from "posthog-react-native";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { createStructuredError } from "@/lib/errors";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
@@ -108,7 +108,7 @@ export type FeatureFlagState = "on" | "off" | "loading";
  * when showing "off" too early would flash, for example widget content.
  */
 export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
-  const { flags: remoteFlags, isLoading } = useContext(FeatureFlagsContext);
+  const { flags: remoteFlags, isLoading } = use(FeatureFlagsContext);
   const override = useAppliedOverride(key);
 
   if (override === "on") {
@@ -141,7 +141,7 @@ export const useFeatureFlag = (key: FeatureFlag): boolean =>
  */
 // oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
 export const useFeatureFlagsLoadFailed = (): boolean =>
-  useContext(FeatureFlagsContext).hasLoadFailed === true;
+  use(FeatureFlagsContext).hasLoadFailed === true;
 
 /**
  * PostHog value of `key`, ignoring local overrides. Use it where an override
@@ -151,4 +151,4 @@ export const useFeatureFlagsLoadFailed = (): boolean =>
  */
 // oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
 export const useRemoteFeatureFlag = (key: FeatureFlag): boolean =>
-  useContext(FeatureFlagsContext).flags?.[key] === true;
+  use(FeatureFlagsContext).flags?.[key] === true;

@@ -1,5 +1,5 @@
 import { usePostHog } from "posthog-react-native";
-import { createContext, useContext, useEffect, useMemo } from "react";
+import { createContext, use, useEffect, useMemo } from "react";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import { createMissingProviderError } from "@/lib/errors";
 import { configureObserve } from "@/lib/observe";
@@ -189,7 +189,7 @@ const AnalyticsProvider = ({
 };
 
 const useAnalytics = (): AnaylticsState => {
-  const context = useContext(AnalyticsContext);
+  const context = use(AnalyticsContext);
   if (context === undefined) {
     throw createMissingProviderError("useAnalytics", "AnalyticsProvider");
   }

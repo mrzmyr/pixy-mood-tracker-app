@@ -1,4 +1,4 @@
-import { createContext, useContext, useSyncExternalStore } from "react";
+import { createContext, use, useSyncExternalStore } from "react";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
 import {
   getOverrides,
@@ -39,7 +39,7 @@ export const FeatureFlagsContext = createContext<FeatureFlagsValue>({
  */
 // oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
 export const useCanOverrideFeatureFlags = (): boolean => {
-  const { flags: remoteFlags } = useContext(FeatureFlagsContext);
+  const { flags: remoteFlags } = use(FeatureFlagsContext);
   return IS_OVERRIDE_BUILD || remoteFlags?.[OVERRIDE_ACCESS_FLAG] === true;
 };
 

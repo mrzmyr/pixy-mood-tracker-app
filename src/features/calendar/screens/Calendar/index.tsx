@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useRef, useState } from "react";
+import React, { memo, useCallback, use, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Text, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
@@ -58,7 +58,7 @@ const CalendarScreenComponent = () => {
   // for one screen plus the footer.
   const footerHeight = useRef(0);
   const scrollRef = useRef<FlashListRef<Month>>(null);
-  const headerHeight = useContext(HeaderHeightContext) ?? 0;
+  const headerHeight = use(HeaderHeightContext) ?? 0;
   const [weekdayHeight, setWeekdayHeight] = useState(0);
   // A floating header overlaps the list, so the list starts below it. The
   // timeline and the map have no weekday row.

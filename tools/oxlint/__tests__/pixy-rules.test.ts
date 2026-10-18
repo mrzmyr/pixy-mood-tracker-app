@@ -61,6 +61,35 @@ describe("no-layout-animation", () => {
   });
 });
 
+describe("prefer-react-use", () => {
+  it("reports a named useContext import from react", () => {
+    expect(
+      lint(
+        "prefer-react-use",
+        'import { createContext, useContext } from "react";\nconst Ctx = createContext(0);\nexport const useValue = () => useContext(Ctx);\n'
+      )
+    ).toBe(1);
+  });
+
+  it("reports useContext through a React namespace or default import", () => {
+    expect(
+      lint(
+        "prefer-react-use",
+        'import React from "react";\nimport * as R from "react";\nconst Ctx = React.createContext(0);\nexport const a = () => React.useContext(Ctx);\nexport const b = () => R.useContext(Ctx);\n'
+      )
+    ).toBe(2);
+  });
+
+  it("allows use from react and useContext from other modules", () => {
+    expect(
+      lint(
+        "prefer-react-use",
+        'import { createContext, use } from "react";\nimport { useContext } from "./local";\nconst Ctx = createContext(0);\nexport const a = () => [use(Ctx), useContext];\n'
+      )
+    ).toBe(0);
+  });
+});
+
 describe("no-hermes-missing-intl", () => {
   it("reports Intl constructors Hermes lacks", () => {
     expect(

@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 import { disabledSupportClient } from "@/support/clients";
 
 /** Fake support outcomes selectable in development builds. */
@@ -55,4 +55,4 @@ export const SupportProvider = ({
  * Current support client; the support UI must hide itself when `enabled` is
  * `false`.
  */
-export const useSupport = () => useContext(SupportContext);
+export const useSupport = () => use(SupportContext);

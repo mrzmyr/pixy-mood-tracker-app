@@ -1,11 +1,5 @@
 import difference from "lodash/difference";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useCallback, use, useMemo, useState } from "react";
 import { useAnalytics } from "@/state/analytics";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
@@ -172,7 +166,7 @@ const CalendarFiltersProvider = ({
 };
 
 const useCalendarFilters = (): Value => {
-  const context = useContext(CalendarFiltersStateContext);
+  const context = use(CalendarFiltersStateContext);
   if (context === undefined) {
     throw createMissingProviderError(
       "useCalendarFilters",
