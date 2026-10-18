@@ -374,7 +374,7 @@ const Recaps = () => {
         <Section
           accessibilityRole="header"
           testID="recaps-period-label"
-          style={{ fontWeight: "700" }}
+          style={{ fontWeight: "700", fontVariant: ["tabular-nums"] }}
         >
           {PERIOD_LABELS[period.kind](period)}
         </Section>
