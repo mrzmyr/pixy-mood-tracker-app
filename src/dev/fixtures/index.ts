@@ -9,8 +9,8 @@ import year from "@/dev/fixtures/year.json";
 import { withTimeline } from "@/dev/fixtures/timeline";
 import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
-import { withRecapMoments } from "@/dev/fixtures/recapMoments";
-import { withRecapNudges } from "@/dev/fixtures/recapNudges";
+import { withRecapMoments } from "@/dev/fixtures/recap-moments";
+import { withRecapNudges } from "@/dev/fixtures/recap-nudges";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useEffect, useSyncExternalStore } from "react";
-import { DATE_FORMAT } from "@/constants/Config";
+import { DATE_FORMAT } from "@/constants/config";
 import { load, store } from "@/state/persisted";
 import type { InterventionId } from "./catalog";
 

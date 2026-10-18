@@ -5,9 +5,9 @@ import { userEvent, waitFor } from "@testing-library/react-native";
 import dayjs from "dayjs";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { Pressable, Text } from "react-native";
-import { _generateItem } from "@/testing/logItem";
-import { INITIAL_STATE } from "@/constants/Settings";
-import { DATE_FORMAT } from "@/constants/Config";
+import { _generateItem } from "@/testing/log-item";
+import { INITIAL_STATE } from "@/constants/settings";
+import { DATE_FORMAT } from "@/constants/config";
 import { useCalendarNavigation } from "../navigation";
 import {
   LogsProvider,

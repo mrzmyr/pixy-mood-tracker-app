@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system/legacy";
 import { createStructuredError } from "@/lib/errors";
-import { renderSquareJpeg } from "@/lib/squareImage";
+import { renderSquareJpeg } from "@/lib/square-image";
 
 /** Folder under the app documents directory that holds every avatar file. */
 export const AVATAR_DIRECTORY = "people/";

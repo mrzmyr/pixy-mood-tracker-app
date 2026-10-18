@@ -587,6 +587,7 @@
   "log_tags_search": "Rechercher des tags…",
   "log_view_changed_body": "Vous pouvez maintenant utiliser le bouton [+] en haut pour ajouter plusieurs entrées. Si vous avez plusieurs entrées par jour, une liste sera affichée, sinon une seule entrée sera affichée dans cette vue détaillée.",
   "log_view_changed_title": "Attendez, où sont mes journées ?",
+  "logger_date_choose": "Choisir la date et l’heure…",
   "logger_date_hint": "Modifie l’heure de cette entrée.",
   "logger_step_emotions": "Émotions",
   "logger_step_feedback": "Questions sur le produit",

@@ -1,4 +1,4 @@
-import { BEZEL } from "@/constants/Bezel";
+import { BEZEL } from "@/constants/bezel";
 
 /**
  * Space between avatar and bezel shell border of the `tile` variant: inner

@@ -586,6 +586,7 @@
   "log_tags_search": "Hľadať štítky…",
   "log_view_changed_body": "Teraz môžete použiť tlačidlo [+] v hornej časti na pridanie viacerých záznamov. Ak máte viac záznamov za deň, zobrazí sa zoznam, inak sa v tomto detailnom zobrazení zobrazí iba jeden záznam.",
   "log_view_changed_title": "Počkaj, kde sú moje dni?",
+  "logger_date_choose": "Vybrať dátum a čas…",
   "logger_date_hint": "Zmení čas tohto záznamu.",
   "logger_step_emotions": "Emócie",
   "logger_step_feedback": "Otázky o produkte",

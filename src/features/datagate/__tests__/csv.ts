@@ -1,4 +1,4 @@
-import { _generateItem } from "@/testing/logItem";
+import { _generateItem } from "@/testing/log-item";
 import { createCsv } from "../csv";
 
 const HEADER =

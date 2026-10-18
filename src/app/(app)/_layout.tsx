@@ -1,11 +1,11 @@
 import { Stack } from "expo-router";
 import { Platform, View } from "react-native";
-import { BackButton } from "@/shell/BackButton";
-import { StorageLoadGate } from "@/shell/StorageLoadGate";
+import { BackButton } from "@/shell/back-button";
+import { StorageLoadGate } from "@/shell/storage-load-gate";
 import { t } from "@/lib/translation";
-import useColors from "@/hooks/useColors";
+import useColors from "@/hooks/use-colors";
 import { DEV_TOOLS } from "@/dev";
-import { useCanOverrideFeatureFlags } from "@/state/featureFlags";
+import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
 import { WidgetSync } from "@/features/widget";
 import {
   CalendarScreenReaderTitle,

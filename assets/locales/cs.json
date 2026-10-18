@@ -586,6 +586,7 @@
   "log_tags_search": "Hledat štítky…",
   "log_view_changed_body": "Nyní můžete pomocí tlačítka [+] v horní části přidat více položek. Pokud máte více záznamů za den, zobrazí se seznam, jinak se v tomto podrobném zobrazení zobrazí pouze jeden záznam.",
   "log_view_changed_title": "Počkej, kde jsou moje dny?",
+  "logger_date_choose": "Zvolit datum a čas…",
   "logger_date_hint": "Změní čas tohoto záznamu.",
   "logger_step_emotions": "Emoce",
   "logger_step_feedback": "Otázky k produktu",

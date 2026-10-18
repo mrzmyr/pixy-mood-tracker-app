@@ -3,9 +3,9 @@ import {
   MAX_PEOPLE,
   MAX_TAGS,
   TAG_COLOR_NAMES,
-} from "@/constants/Config";
-import { STEP_OPTIONS } from "@/constants/LoggerSteps";
-import { RATING_KEYS, SLEEP_QUALITY_MAPPING } from "@/constants/Ratings";
+} from "@/constants/config";
+import { STEP_OPTIONS } from "@/constants/logger-steps";
+import { RATING_KEYS, SLEEP_QUALITY_MAPPING } from "@/constants/ratings";
 import type { ExportPerson, ImportData } from "@/features/datagate";
 import type { LogItem } from "@/features/logs";
 import type { Tag } from "@/features/tags";

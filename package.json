@@ -17,7 +17,7 @@
     "hub": "expo-device-hub --hide-boot-device",
     "release": "bun scripts/cli/index.ts release",
     "worktree": "bun scripts/cli/index.ts worktree",
-    "test:cli": "bun test scripts/cli scripts/check-locales scripts/sort-locales scripts/generate-licenses",
+    "test:cli": "bun test scripts/cli scripts/codemods scripts/check-locales scripts/sort-locales scripts/generate-licenses",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",
     "test:ci": "jest --env=jsdom",
@@ -46,8 +46,10 @@
     "i18n:sort:check": "bun scripts/sort-locales.ts --check"
   },
   "dependencies": {
+    "@expo/material-symbols": "^0.1.1",
     "@expo/ui": "~57.0.25",
     "@hugeicons/core-free-icons": "4.3.5",
+    "@nandorojo/galeria": "^3.1.0",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "9.1.0",
     "@react-navigation/bottom-tabs": "^7.19.2",
@@ -105,7 +107,6 @@
     "react-native-gesture-handler": "~3.1.0",
     "react-native-get-random-values": "~1.11.0",
     "react-native-markdown-display": "^7.0.2",
-    "react-native-modal-datetime-picker": "^18.0.0",
     "react-native-reanimated": "4.5.1",
     "react-native-reanimated-carousel": "^5.0.0",
     "react-native-safe-area-context": "~5.7.0",

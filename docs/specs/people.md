@@ -21,11 +21,11 @@ Track who played a part in each entry: met, called, or thought of. Goal: statist
 
 ## Data model
 
-- Storage key `PIXEL_TRACKER_PEOPLE`, provider mirrors [`TagsProvider`](../../src/features/tags/TagsProvider.tsx)
+- Storage key `PIXEL_TRACKER_PEOPLE`, provider mirrors [`TagsProvider`](../../src/features/tags/tags-provider.tsx)
 - Never persist after failed read ([footguns](../../AGENTS.md#footguns))
 
 ```ts
-// src/features/people/PeopleProvider.tsx
+// src/features/people/people-provider.tsx
 export interface Person {
   id: string; // uuid v4
   name: string; // user editable, max MAX_TAG_LENGTH
@@ -51,7 +51,7 @@ people: z.array(PersonReferenceSchema).default([]),
 - Entries reference by `id` only. Rename follows history
 - Unlimited people per entry
 - `logsUpdater.removePersonFromLogs(id)` on delete, mirrors `removeTagFromLogs`
-- Logger step type: add `"people"` to `LoggerStep` and `STEP_OPTIONS` after `"tags"` ([LoggerSteps](../../src/constants/LoggerSteps.ts))
+- Logger step type: add `"people"` to `LoggerStep` and `STEP_OPTIONS` after `"tags"` ([LoggerSteps](../../src/constants/logger-steps.ts))
 
 ## Avatars
 
@@ -76,7 +76,7 @@ people: z.array(PersonReferenceSchema).default([]),
 
 ## Export and import
 
-- Export shape in [`DataGate`](../../src/features/datagate/DataGate.ts):
+- Export shape in [`DataGate`](../../src/features/datagate/data-gate.ts):
 
 ```ts
 people: Array<
@@ -95,9 +95,9 @@ people: Array<
 
 ### `PersonChip` (shared component)
 
-- Path `src/features/people/components/PersonChip.tsx`
+- Path `src/features/people/components/person-chip.tsx`
 - One component for slide, log detail, logs list, filters, stats. Consistent everywhere
-- Pill like [`Tag`](../../src/features/tags/components/Tag.tsx): 1px border, radius 100, selected = `tagBackgroundActive` + tint border
+- Pill like [`Tag`](../../src/features/tags/components/tag.tsx): 1px border, radius 100, selected = `tagBackgroundActive` + tint border
 - Left: 24px circle avatar or gray user icon. Right: name 17px
 - Variants: `chip` (default), `large` (detail screen), `tile` (logger grid)
 
@@ -136,7 +136,7 @@ people: Array<
 
 ## Statistics
 
-- `PeopleDistribution`: count per person, most seen first. Mirrors [`TagsDistribution`](../../src/features/statistics/TagsDistribution.ts)
+- `PeopleDistribution`: count per person, most seen first. Mirrors [`TagsDistribution`](../../src/features/statistics/tags-distribution.ts)
 - `PeoplePeaks`: avg mood with person vs overall avg. Min 5 entries per person. All qualifying persons sorted by delta. One card with one row per person
 - Scale 1 to 7 (`RATING_MAPPING` plus one) so the worst rating reads 1, not 0
 - Statistics tab short list shows the peaks card only when one person differs by 0.5 or more; full highlights always
@@ -169,7 +169,7 @@ Names follow the `<area>:<object>_<verb>` convention of [events.ts](../../src/st
 ## Testing
 
 - Contact picker and photo library = OS UI, Maestro cannot drive
-- `PeopleSources` override like [`fileTransfer.ts`](../../src/features/datagate/fileTransfer.ts), fake in [`src/dev/fakePeopleSources.ts`](../../src/dev/fakePeopleSources.ts). `<scheme>://dev/fake-files` enables both fakes
+- `PeopleSources` override like [`file-transfer.ts`](../../src/features/datagate/file-transfer.ts), fake in [`src/dev/fake-people-sources.ts`](../../src/dev/fake-people-sources.ts). `<scheme>://dev/fake-files` enables both fakes
 - Fixture `people`: `year` plus Sam (photo), Alex, Mia (archived) on every 3rd, 4th, 7th entry ([fixtures](../../src/dev/fixtures/index.ts))
 - E2E: manual add, fake contact pick, duplicate block, slide select, filter, stats cards, export import round trip, delete strips references
 - Unit: provider reducer, migration, avatar file lifecycle, peaks math

@@ -4,18 +4,18 @@ import { useEffect, useMemo } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
-import { STEP_OPTIONS } from "@/constants/LoggerSteps";
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import { STEP_OPTIONS } from "@/constants/logger-steps";
+import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 
-import { createPersistedStore } from "@/state/persisted/createPersistedStore";
-import type { Load } from "@/state/persisted/createPersistedStore";
+import { createPersistedStore } from "@/state/persisted/create-persisted-store";
+import type { Load } from "@/state/persisted/create-persisted-store";
 
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
-import { INITIAL_STATE } from "@/constants/Settings";
-import { applyColorScheme, ColorSchemeSettingSchema } from "./colorScheme";
-import type { ColorSchemeSetting } from "./colorScheme";
+import { INITIAL_STATE } from "@/constants/settings";
+import { applyColorScheme, ColorSchemeSettingSchema } from "./color-scheme";
+import type { ColorSchemeSetting } from "./color-scheme";
 
 /**
  * AsyncStorage key for settings. Keep the legacy name; changing it resets

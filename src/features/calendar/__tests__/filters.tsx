@@ -10,7 +10,7 @@ import { LogsProvider, STORAGE_KEY, useLogUpdater } from "@/features/logs";
 import type { LogsState } from "@/features/logs";
 
 import { SettingsProvider } from "@/state/settings";
-import { _generateItem } from "@/testing/logItem";
+import { _generateItem } from "@/testing/log-item";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>

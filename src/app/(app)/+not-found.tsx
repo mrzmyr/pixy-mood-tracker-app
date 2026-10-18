@@ -1,9 +1,9 @@
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { View } from "react-native";
-import Button from "@/components/Button";
-import { Section } from "@/components/Type";
-import useColors from "@/hooks/useColors";
+import Button from "@/components/button";
+import { Section } from "@/components/type";
+import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 

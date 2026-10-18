@@ -1,5 +1,5 @@
 import * as FileSystem from "expo-file-system/legacy";
-import * as squareImage from "@/lib/squareImage";
+import * as squareImage from "@/lib/square-image";
 import { deleteProfilePhotos, saveProfilePhoto } from "../photo";
 
 const DIRECTORY = `${FileSystem.documentDirectory}profile/`;

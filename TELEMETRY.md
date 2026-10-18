@@ -28,7 +28,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 
 - Event catalog: [`src/state/analytics/events.ts`](src/state/analytics/events.ts)
 - Usage summary and behaviour signals: [product-analytics.md](docs/product-analytics.md)
-- Screens: `$screen` with the route name, from [`src/shell/screenTracking.ts`](src/shell/screenTracking.ts)
+- Screens: `$screen` with the route name, from [`src/shell/screen-tracking.ts`](src/shell/screen-tracking.ts)
 - Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](src/state/analytics/index.tsx))
 - Privacy rule: [AGENTS.md footguns](AGENTS.md#footguns)
 - Default: off in consent regions and when region is unknown; on elsewhere. Factory reset restores the device-region default ([`src/state/analytics/consent.ts`](src/state/analytics/consent.ts))
@@ -52,7 +52,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
   - Flow: `intro_viewed`, `flow_started`, `step_viewed`, `step_back`, `flow_paused`, `flow_resumed`, then `flow_completed` or `flow_abandoned` (`how`: `close`, `end_early`)
   - End check: `feedback_answered` or `feedback_skipped`
   - No dismiss control and no cooldown: cards show for every matching entry of today
-- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](src/features/notifications/reminderTaps.ts))
+- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminder-taps.ts`](src/features/notifications/reminder-taps.ts))
   - One event per tap on reminder body. Dismisses and other actions not sent
   - Properties: `cold_start`, `minutes_since_delivered`
   - Cold start taps wait for stored settings, so a stored opt-out wins

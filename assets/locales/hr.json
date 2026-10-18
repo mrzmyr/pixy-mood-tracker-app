@@ -586,6 +586,7 @@
   "log_tags_search": "Pretraži oznake…",
   "log_view_changed_body": "Sada možete koristiti gumb [+] na vrhu za dodavanje više unosa. Ako imate više unosa dnevno, prikazat će se popis, inače će u ovom detaljnom pregledu biti prikazan samo jedan unos.",
   "log_view_changed_title": "Čekaj, gdje su moji dani?",
+  "logger_date_choose": "Odaberi datum i vrijeme…",
   "logger_date_hint": "Mijenja vrijeme ovog unosa.",
   "logger_step_emotions": "Emocije",
   "logger_step_feedback": "Pitanja o proizvodu",

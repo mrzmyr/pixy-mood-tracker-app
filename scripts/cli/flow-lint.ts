@@ -10,7 +10,7 @@ import { z } from "zod";
 // Flow IDs that no testID pattern in src/ can produce, each with the reason.
 const ALLOWED_IDS = {
   "widget-guide-next":
-    "getTestId in src/components/Demo.tsx joins testID `widget-guide` and `next` at runtime.",
+    "getTestId in src/components/demo.tsx joins testID `widget-guide` and `next` at runtime.",
 } satisfies Record<string, string>;
 
 const FILE_KEYS = new Set(["runFlow", "runScript"]);
