@@ -535,6 +535,7 @@
   "log_emotions_advanced": "アドバンスに切り替える",
   "log_emotions_basic": "ベーシックに切り替える",
   "log_emotions_disable": "感情を追わない",
+  "log_emotions_feedback": "フィードバックを送信",
   "log_emotions_question": "気分はどうですか？",
   "log_emotions_search": "感情を検索…",
   "log_feedback_disable": "フィードバックしたくない",
