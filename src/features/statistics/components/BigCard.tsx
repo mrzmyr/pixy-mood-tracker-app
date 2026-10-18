@@ -3,7 +3,7 @@ import useColors from "@/hooks/useColors";
 import * as Sharing from "expo-sharing";
 import { useRef, useState } from "react";
 import { ActivityIndicator, Image, Text, View } from "react-native";
-import type { ViewStyle } from "react-native";
+import type { ViewInstance, ViewStyle } from "react-native";
 
 import Share from "lucide-react-native/icons/share";
 import { captureRef } from "react-native-view-shot";
@@ -111,7 +111,7 @@ const shareCardImage = async ({
   onCaptured,
   onShared,
 }: {
-  view: View | null;
+  view: ViewInstance | null;
   card: string;
   onCaptured: () => void;
   onShared: () => void;
@@ -184,7 +184,7 @@ export const BigCard = ({
   analyticsId: string;
 }) => {
   const colors = useColors();
-  const viewRef = useRef<View>(null);
+  const viewRef = useRef<ViewInstance>(null);
   // Set on the first layout of the share copy; later layouts must not capture again.
   const captureStartedRef = useRef(false);
   const analytics = useAnalytics();

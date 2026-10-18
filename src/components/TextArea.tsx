@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { TextInput } from "react-native";
-import type { TextStyle } from "react-native";
+import type { TextInputInstance, TextStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 import noop from "lodash/noop";
@@ -32,7 +32,7 @@ const TextAreaComponent = (
     onChange?: (text: string) => void;
     onBlur?: () => void;
   },
-  ref: React.ForwardedRef<TextInput>
+  ref: React.ForwardedRef<TextInputInstance>
 ) => {
   const colors = useColors();
 

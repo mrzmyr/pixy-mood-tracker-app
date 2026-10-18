@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, Stack, ThemeProvider, useRouter } from "expo-router";
+import type { Href } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
 import { act, fireEvent, waitFor } from "@testing-library/react-native";
 import noop from "lodash/noop";
@@ -25,8 +26,11 @@ const theme = {
 
 const Home = () => {
   const router = useRouter();
+  // SAFETY: "/create" exists in this test's renderRouter routes. Typed routes
+  // (.expo/types) list only the app's file routes.
+  const href = "/create" as Href;
   return (
-    <Pressable onPress={() => router.push("/create")}>
+    <Pressable onPress={() => router.push(href)}>
       <Text>Open form</Text>
     </Pressable>
   );
@@ -82,20 +86,23 @@ describe("tag form discard guard", () => {
     jest.useRealTimers();
 
     // Clean form closes at once.
-    fireEvent.press(await result.findByText("Open form"));
-    fireEvent.press(await result.findByText("Cancel"));
-    fireEvent.press(await result.findByText("Open form"));
+    await fireEvent.press(await result.findByText("Open form"));
+    await fireEvent.press(await result.findByText("Cancel"));
+    await fireEvent.press(await result.findByText("Open form"));
     expect(Alert.alert).not.toHaveBeenCalled();
 
     // Typed name: Cancel asks; Keep Editing keeps the name.
-    fireEvent.changeText(await result.findByTestId("tag-name"), "Big day");
-    fireEvent.press(result.getByText("Cancel"));
+    await fireEvent.changeText(
+      await result.findByTestId("tag-name"),
+      "Big day"
+    );
+    await fireEvent.press(result.getByText("Cancel"));
     await waitFor(() => expect(Alert.alert).toHaveBeenCalledTimes(1));
     await act(() => Promise.resolve(pressPrompt("cancel")));
     expect(result.getByTestId("tag-name")).toHaveDisplayValue("Big day");
 
     // Return saves and closes without a second prompt.
-    fireEvent(result.getByTestId("tag-name"), "submitEditing");
+    await fireEvent(result.getByTestId("tag-name"), "submitEditing");
     expect(await result.findByText("Open form")).toBeOnTheScreen();
     expect(Alert.alert).toHaveBeenCalledTimes(1);
     await waitFor(async () => {

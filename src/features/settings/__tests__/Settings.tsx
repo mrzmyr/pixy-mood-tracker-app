@@ -157,7 +157,10 @@ describe("Support Pixy in Settings", () => {
     const showAlert = jest
       .spyOn(Alert, "alert")
       .mockImplementation((_title, _message, buttons) => {
-        retry = buttons?.find((button) => button.text === "Retry")?.onPress;
+        const onPress = buttons?.find(
+          (button) => button.text === "Retry"
+        )?.onPress;
+        retry = onPress ? () => onPress() : undefined;
       });
     const screen = await renderSettings(supportClient);
 

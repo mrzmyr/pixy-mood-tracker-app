@@ -95,7 +95,7 @@ describe("Settings > Licenses", () => {
       })
     );
 
-    fireEvent.press(screen.getByTestId("licenses-retry"));
+    await fireEvent.press(screen.getByTestId("licenses-retry"));
 
     await waitFor(() => {
       expect(screen.getByText("Notice A")).toBeTruthy();

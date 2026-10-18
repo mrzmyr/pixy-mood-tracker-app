@@ -9,7 +9,7 @@ import { useHeaderHeight } from "expo-router/react-navigation";
 import type { ParamListBase } from "expo-router/react-navigation";
 import { useEffect, useEffectEvent, useRef } from "react";
 import { ActivityIndicator, Platform, ScrollView } from "react-native";
-import type { TextInput } from "react-native";
+import type { TextInputInstance } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import { useDiscardGuard } from "@/hooks/useDiscardGuard";
@@ -65,7 +65,7 @@ export const FeedbackScreen = () => {
   const params = useLocalSearchParams<{ type?: string }>();
   const type = isFeedbackType(params.type) ? params.type : "issue";
   const form = useFeedbackForm(type);
-  const messageRef = useRef<TextInput>(null);
+  const messageRef = useRef<TextInputInstance>(null);
   const wasSent = useRef(false);
   const { allowLeave } = useDiscardGuard({ isDirty: form.hasDraft });
 

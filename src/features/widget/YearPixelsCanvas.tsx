@@ -1,5 +1,6 @@
 import type { Ref } from "react";
 import { Text, View } from "react-native";
+import type { ViewInstance } from "react-native";
 import type { WidgetSchemeColors, YearDayCode, YearGrid } from "./widgetProps";
 
 /** Width in points of the captured image. Widgets scale it to their width. */
@@ -92,7 +93,7 @@ export const YearPixelsCanvas = ({
   colors: WidgetSchemeColors;
   layout: "band" | "months";
   row: number;
-  ref: Ref<View>;
+  ref: Ref<ViewInstance>;
 }) => {
   if (layout === "band") {
     const last = grid.today.column + 1;

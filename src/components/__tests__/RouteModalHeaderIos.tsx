@@ -1,5 +1,6 @@
 import { fireEvent, waitFor } from "@testing-library/react-native";
 import { Stack, useRouter } from "expo-router";
+import type { Href } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
 import { Pressable, Text } from "react-native";
 
@@ -9,8 +10,11 @@ const onSave = jest.fn();
 
 const Home = () => {
   const router = useRouter();
+  // SAFETY: "/form" exists in this test's renderRouter routes. Typed routes
+  // (.expo/types) list only the app's file routes.
+  const href = "/form" as Href;
   return (
-    <Pressable onPress={() => router.push("/form")}>
+    <Pressable onPress={() => router.push(href)}>
       <Text>Open form</Text>
     </Pressable>
   );

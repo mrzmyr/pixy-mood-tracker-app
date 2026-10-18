@@ -61,7 +61,9 @@ export const AppLockProvider = ({
   const analytics = useAnalytics();
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [appState, setAppState] = useState<AppStateStatus>(
-    AppState.currentState
+    // SAFETY: RN 0.88 types `currentState` as `string | null`, but native
+    // only reports AppStateStatus values. Only `"active"` is compared.
+    AppState.currentState as AppStateStatus
   );
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [hasFailed, setHasFailed] = useState(false);

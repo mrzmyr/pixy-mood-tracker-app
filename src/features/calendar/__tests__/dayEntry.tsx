@@ -100,7 +100,7 @@ describe("day view entry card", () => {
     const item = _generateItem({ emotions: [], message: "" });
     await renderEntry({ item });
 
-    fireEvent.press(await screen.findByLabelText("Add Note"));
+    await fireEvent.press(await screen.findByLabelText("Add Note"));
 
     expect(await screen.findByText(`edit ${item.id} message`)).toBeTruthy();
   });
@@ -109,7 +109,7 @@ describe("day view entry card", () => {
     const item = _generateItem({ emotions: [], message: "Long walk" });
     await renderEntry({ item });
 
-    fireEvent.press(await screen.findByText("Long walk"));
+    await fireEvent.press(await screen.findByText("Long walk"));
 
     expect(await screen.findByText(`edit ${item.id} message`)).toBeTruthy();
   });
@@ -133,7 +133,7 @@ describe("day view entry card", () => {
     expect(await screen.findByText("Happy")).toBeTruthy();
     expect(screen.getByText("Joyful")).toBeTruthy();
 
-    fireEvent.press(screen.getByHintText("Edit Emotions"));
+    await fireEvent.press(screen.getByHintText("Edit Emotions"));
 
     expect(await screen.findByText(`edit ${item.id} emotions`)).toBeTruthy();
   });
@@ -147,7 +147,7 @@ describe("day view entry card", () => {
     const onDelete = jest.fn();
     await renderEntry({ item, onEdit, onDelete });
 
-    fireEvent.press(await screen.findByLabelText(label));
+    await fireEvent.press(await screen.findByLabelText(label));
 
     await waitFor(() => {
       expect(action === "edit" ? onEdit : onDelete).toHaveBeenCalledWith(item);

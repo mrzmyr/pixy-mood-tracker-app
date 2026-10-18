@@ -155,7 +155,7 @@ describe("day view list", () => {
     const result = await renderDay();
     await waitFor(() => expect(shownMessages(result)).toHaveLength(3));
 
-    fireEvent.press(result.getByTestId("add-entry"));
+    await fireEvent.press(result.getByTestId("add-entry"));
 
     // "added" is the newest entry, so it sorts last.
     await waitFor(() =>
@@ -187,7 +187,7 @@ describe("day view list", () => {
   test("add button opens the logger for the shown day", async () => {
     const result = await renderDay();
 
-    fireEvent.press(await result.findByTestId("log-list-add"));
+    await fireEvent.press(await result.findByTestId("log-list-add"));
 
     expect(await result.findByText(`create ${day}`)).toBeTruthy();
   });
@@ -221,12 +221,13 @@ describe("day view delete", () => {
     );
 
     const [deleteFirst] = await result.findAllByLabelText("Delete");
-    fireEvent.press(deleteFirst);
-
-    expect(alertSpy).toHaveBeenCalledTimes(1);
+    // The press resolves after the prompt answers, so answer it first.
+    const pressed = fireEvent.press(deleteFirst);
+    await waitFor(() => expect(alertSpy).toHaveBeenCalledTimes(1));
     expect(shownMessages(result)).toEqual(["entry-a", "entry-b"]);
 
     pressAlertButton(alertSpy, "destructive");
+    await pressed;
     await waitFor(() => expect(shownMessages(result)).toEqual(["entry-b"]));
   });
 
@@ -238,8 +239,10 @@ describe("day view delete", () => {
     );
 
     const [deleteFirst] = await result.findAllByLabelText("Delete");
-    fireEvent.press(deleteFirst);
+    const pressed = fireEvent.press(deleteFirst);
+    await waitFor(() => expect(alertSpy).toHaveBeenCalledTimes(1));
     pressAlertButton(alertSpy, "cancel");
+    await pressed;
 
     // Let the rejected prompt settle before checking.
     await waitFor(() => expect(alertSpy).toHaveBeenCalledTimes(1));

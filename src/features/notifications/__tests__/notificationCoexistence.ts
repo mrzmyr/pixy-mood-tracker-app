@@ -92,6 +92,7 @@ describe("reminder and recap notifications", () => {
         data: {},
         categoryIdentifier: null,
         sound: null,
+        threadIdentifier: null,
       },
       // SAFETY: the fake module reads only `type`; the daily trigger shape of older versions.
       trigger: { type: "daily", hour: 20, minute: 0 } as never,

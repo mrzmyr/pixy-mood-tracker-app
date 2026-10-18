@@ -19,7 +19,7 @@ import { useRouter } from "expo-router";
 import type { ReactElement, RefObject } from "react";
 
 import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
-import type { TextInput } from "react-native";
+import type { TextInputInstance } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
 import type { CarouselRef } from "react-native-reanimated-carousel";
@@ -96,7 +96,7 @@ const useStepSlides = ({
   isPhotosSlideActive: boolean;
   mode: LoggerMode;
   showDisable: boolean;
-  texAreaRef: RefObject<TextInput | null>;
+  texAreaRef: RefObject<TextInputInstance | null>;
   disableStep: (
     step: "tags" | "people" | "message" | "photos"
   ) => Promise<void>;
@@ -187,7 +187,7 @@ const LoggerSlides = ({
 
   const { draft } = useLogDraft();
 
-  const texAreaRef = useRef<TextInput>(null);
+  const texAreaRef = useRef<TextInputInstance>(null);
   const isEditing = mode === "edit";
   const showDisable = logState.items.length <= 3 && !isEditing;
 

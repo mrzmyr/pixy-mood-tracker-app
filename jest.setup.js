@@ -1,6 +1,23 @@
 globalThis.URL = require("node:url").URL;
 globalThis.URLSearchParams = require("node:url").URLSearchParams;
 
+// jest-expo 58.0.11 native mocks lag behind the SDK 58 modules:
+// - ExpoAppMetrics lacks `setNetworkTracesConfig`, which `Observe.configure` calls.
+// - `addListener` returns undefined. expo-notifications 58 subscribes its default
+//   handler at import and calls `remove()` on it in `setNotificationHandler`.
+// Remove both when jest-expo ships complete mocks.
+{
+  // jest-expo builds each mocked module from this shared proxy object. Its
+  // `expo-modules-core` mock replaces the proxy functions on first require,
+  // so require the mock first, then override.
+  require("expo-modules-core");
+  const { NativeModulesProxy } = jest.requireActual("expo-modules-core");
+  NativeModulesProxy.ExpoAppMetrics.setNetworkTracesConfig = jest.fn();
+  NativeModulesProxy.ExpoNotificationsHandlerModule.addListener = jest.fn(
+    () => ({ remove: jest.fn() })
+  );
+}
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- posthog-react-native needs native modules that do not exist in Jest; every provider test needs this fake client
 jest.mock("posthog-react-native", () => {
   const client = {
@@ -55,7 +72,12 @@ jest.mock("react-native-reanimated", () => {
   const animation = { duration: () => animation, delay: () => animation };
   return {
     __esModule: true,
-    default: { ScrollView, View },
+    // Gesture handler 3.3 calls `default.createAnimatedComponent` at import.
+    default: {
+      ScrollView,
+      View,
+      createAnimatedComponent: (component) => component,
+    },
     useAnimatedRef: () => ({ current: null }),
     createAnimatedComponent: (component) => component,
     css: { create: (styles) => styles },

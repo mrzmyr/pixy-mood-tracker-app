@@ -58,7 +58,7 @@ describe("Android Toggle", () => {
       <Toggle value={false} onValueChange={onValueChange} />
     );
 
-    fireEvent.press(screen.getByTestId("material-switch"));
+    await fireEvent.press(screen.getByTestId("material-switch"));
 
     expect(onValueChange).toHaveBeenCalledWith(true);
   });
@@ -81,7 +81,7 @@ describe("Android Toggle", () => {
       <Toggle value={false} onValueChange={onValueChange} testID="toggle" />
     );
 
-    fireEvent(screen.getByTestId("toggle"), "accessibilityAction", {
+    await fireEvent(screen.getByTestId("toggle"), "accessibilityAction", {
       nativeEvent: { actionName: "activate" },
     });
 
@@ -94,7 +94,7 @@ describe("Android Toggle", () => {
       <Toggle value disabled onValueChange={onValueChange} testID="toggle" />
     );
 
-    fireEvent(screen.getByTestId("toggle"), "accessibilityAction", {
+    await fireEvent(screen.getByTestId("toggle"), "accessibilityAction", {
       nativeEvent: { actionName: "activate" },
     });
 

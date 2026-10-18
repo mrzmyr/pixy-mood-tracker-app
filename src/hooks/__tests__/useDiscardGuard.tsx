@@ -1,5 +1,6 @@
 import { act, fireEvent, waitFor } from "@testing-library/react-native";
 import { Stack, useRouter } from "expo-router";
+import type { Href } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
 import noop from "lodash/noop";
 import { useState } from "react";
@@ -8,8 +9,11 @@ import { useDiscardGuard } from "../useDiscardGuard";
 
 const Home = () => {
   const router = useRouter();
+  // SAFETY: "/form" exists in this test's renderRouter routes. Typed routes
+  // (.expo/types) list only the app's file routes.
+  const href = "/form" as Href;
   return (
-    <Pressable onPress={() => router.push("/form")}>
+    <Pressable onPress={() => router.push(href)}>
       <Text>Open form</Text>
     </Pressable>
   );
@@ -50,7 +54,7 @@ const renderForm = async () => {
     { initialUrl: "/" }
   );
   jest.useRealTimers();
-  fireEvent.press(await result.findByText("Open form"));
+  await fireEvent.press(await result.findByText("Open form"));
   await result.findByText("Form, discards 0");
   return result;
 };
@@ -78,23 +82,23 @@ describe("useDiscardGuard()", () => {
     const result = await renderForm();
 
     // Clean form closes at once.
-    fireEvent.press(result.getByText("Back"));
-    fireEvent.press(await result.findByText("Open form"));
+    await fireEvent.press(result.getByText("Back"));
+    await fireEvent.press(await result.findByText("Open form"));
 
     // `allowLeave` skips the prompt for a changed form.
-    fireEvent.press(await result.findByText("Edit"));
-    fireEvent.press(result.getByText("Save"));
+    await fireEvent.press(await result.findByText("Edit"));
+    await fireEvent.press(result.getByText("Save"));
     expect(Alert.alert).not.toHaveBeenCalled();
-    fireEvent.press(await result.findByText("Open form"));
+    await fireEvent.press(await result.findByText("Open form"));
 
     // Changed form: cancel keeps it, confirm closes it, one prompt each.
-    fireEvent.press(await result.findByText("Edit"));
-    fireEvent.press(result.getByText("Back"));
+    await fireEvent.press(await result.findByText("Edit"));
+    await fireEvent.press(result.getByText("Back"));
     await waitFor(() => expect(Alert.alert).toHaveBeenCalledTimes(1));
     await act(() => Promise.resolve(pressPrompt("cancel")));
     expect(result.getByText("Form, discards 0")).toBeOnTheScreen();
 
-    fireEvent.press(result.getByText("Back"));
+    await fireEvent.press(result.getByText("Back"));
     await waitFor(() => expect(Alert.alert).toHaveBeenCalledTimes(2));
     await act(() => Promise.resolve(pressPrompt("destructive")));
     expect(await result.findByText("Open form")).toBeOnTheScreen();

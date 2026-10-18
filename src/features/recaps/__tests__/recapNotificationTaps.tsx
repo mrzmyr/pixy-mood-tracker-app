@@ -38,6 +38,7 @@ const createResponse = ({
         data,
         categoryIdentifier: null,
         sound: null,
+        threadIdentifier: null,
       },
       trigger: null,
     },

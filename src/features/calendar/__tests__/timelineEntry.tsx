@@ -103,7 +103,7 @@ describe("timeline entry card", () => {
     const item = _generateItem({});
 
     const onPress = await renderEntry(item);
-    fireEvent.press(screen.getByTestId(`timeline-entry-${item.id}`));
+    await fireEvent.press(screen.getByTestId(`timeline-entry-${item.id}`));
 
     expect(onPress).toHaveBeenCalledWith(item);
   });

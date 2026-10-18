@@ -3,6 +3,7 @@ import { widgetsDirectory } from "expo-widgets";
 import * as FileSystem from "expo-file-system/legacy";
 import { useEffect, useMemo, useRef } from "react";
 import { AppState, View } from "react-native";
+import type { ViewInstance } from "react-native";
 import { captureRef } from "react-native-view-shot";
 import { useLogLoad, useLogState } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
@@ -27,7 +28,7 @@ const DEFAULT_SCALE = "ColorBrew-RdYlGn";
  * Captures the year grid of one scheme and moves it into the shared widget
  * directory. Returns the `file://` URI.
  */
-const captureYearImage = async (view: View, name: string) => {
+const captureYearImage = async (view: ViewInstance, name: string) => {
   const captured = await captureRef(view, { format: "png", quality: 1 });
   // view-shot returns a bare path; the file system API wants a file URI.
   const from = captured.startsWith("file://") ? captured : `file://${captured}`;
@@ -53,7 +54,7 @@ export const WidgetSync = () => {
   const scaleType = useSetting("scaleType") ?? DEFAULT_SCALE;
   const flagState = useFeatureFlagState("ios-widget");
   // One view per captured row: [scheme][layout][row].
-  const rowRefs = useRef<Record<string, View | null>>({});
+  const rowRefs = useRef<Record<string, ViewInstance | null>>({});
 
   const grid = useMemo(
     () =>

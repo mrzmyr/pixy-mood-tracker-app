@@ -143,7 +143,7 @@ describe("useAnalytics()", () => {
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
       true
     );
-    expect(mockOptIn).toBeCalled();
+    expect(mockOptIn).toHaveBeenCalled();
   });
 
   test("should `disable`", async () => {
@@ -158,7 +158,7 @@ describe("useAnalytics()", () => {
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
       false
     );
-    expect(mockOptOut).toBeCalled();
+    expect(mockOptOut).toHaveBeenCalled();
   });
 
   test("should `track` with properties", async () => {
@@ -183,7 +183,7 @@ describe("useAnalytics()", () => {
       });
     });
 
-    expect(mockCapture).toBeCalledWith("settings:analytics_toggled", {
+    expect(mockCapture).toHaveBeenCalledWith("settings:analytics_toggled", {
       scale_type: INITIAL_STATE.scaleType,
       reminder_enabled: INITIAL_STATE.reminderEnabled,
       steps: INITIAL_STATE.steps,
@@ -204,7 +204,7 @@ describe("useAnalytics()", () => {
       });
     });
 
-    expect(mockCapture).toBeCalledWith(
+    expect(mockCapture).toHaveBeenCalledWith(
       "settings:scale_changed",
       expect.objectContaining({ scale_type: "ColorBrew-PiYG" })
     );
@@ -242,7 +242,7 @@ describe("useAnalytics()", () => {
       });
     });
 
-    expect(mockCapture).not.toBeCalled();
+    expect(mockCapture).not.toHaveBeenCalled();
   });
 
   test("should send `screen` only while enabled", async () => {
@@ -256,7 +256,7 @@ describe("useAnalytics()", () => {
     await act(() => {
       hook.result.current.state.screen("Calendar");
     });
-    expect(mockScreen).not.toBeCalled();
+    expect(mockScreen).not.toHaveBeenCalled();
 
     await act(() => {
       hook.result.current.state.enable();
@@ -264,7 +264,7 @@ describe("useAnalytics()", () => {
     await act(() => {
       hook.result.current.state.screen("Calendar");
     });
-    expect(mockScreen).toBeCalledWith("Calendar", {
+    expect(mockScreen).toHaveBeenCalledWith("Calendar", {
       scale_type: INITIAL_STATE.scaleType,
       reminder_enabled: INITIAL_STATE.reminderEnabled,
       steps: INITIAL_STATE.steps,
@@ -306,7 +306,7 @@ describe("useAnalytics()", () => {
       hook.result.current.state.reset();
     });
 
-    expect(mockReset).toBeCalled();
+    expect(mockReset).toHaveBeenCalled();
     expect(hook.result.current.state.isEnabled).toBe(DEFAULT_ANALYTICS_ENABLED);
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
       DEFAULT_ANALYTICS_ENABLED
@@ -325,7 +325,7 @@ describe("useAnalytics()", () => {
         first_app_version: "1.0.0",
       });
     });
-    expect(mockPostHogSet).toBeCalledWith(
+    expect(mockPostHogSet).toHaveBeenCalledWith(
       USAGE_SUMMARY,
       { first_app_version: "1.0.0" },
       false
@@ -340,6 +340,6 @@ describe("useAnalytics()", () => {
         first_app_version: "1.0.0",
       });
     });
-    expect(mockPostHogSet).not.toBeCalled();
+    expect(mockPostHogSet).not.toHaveBeenCalled();
   });
 });

@@ -77,8 +77,8 @@ const renderCard = async () => {
 
 const layoutShareCopy = async () => {
   const copy = await screen.findByTestId(SHARE_COPY);
-  await act(() => {
-    fireEvent(copy, "layout", {
+  await act(async () => {
+    await fireEvent(copy, "layout", {
       nativeEvent: { layout: { x: 0, y: 0, width: 320, height: 400 } },
     });
   });
@@ -116,7 +116,7 @@ describe("BigCard share", () => {
     mockShareAsync.mockResolvedValue();
     await renderCard();
 
-    fireEvent.press(screen.getByLabelText(t("a11y_share")));
+    await fireEvent.press(screen.getByLabelText(t("a11y_share")));
     await layoutShareCopy();
 
     await waitFor(() => expect(mockShareAsync).toHaveBeenCalledTimes(1));
@@ -138,14 +138,14 @@ describe("BigCard share", () => {
     mockShareAsync.mockResolvedValue();
     await renderCard();
 
-    fireEvent.press(screen.getByLabelText(t("a11y_share")));
+    await fireEvent.press(screen.getByLabelText(t("a11y_share")));
     const copy = await screen.findByTestId(SHARE_COPY);
     const layout = {
       nativeEvent: { layout: { x: 0, y: 0, width: 320, height: 400 } },
     };
-    await act(() => {
-      fireEvent(copy, "layout", layout);
-      fireEvent(copy, "layout", layout);
+    await act(async () => {
+      await fireEvent(copy, "layout", layout);
+      await fireEvent(copy, "layout", layout);
     });
 
     await waitFor(() => expect(mockShareAsync).toHaveBeenCalledTimes(1));
@@ -156,7 +156,7 @@ describe("BigCard share", () => {
     mockCaptureRef.mockRejectedValue(new Error("view not found"));
     await renderCard();
 
-    fireEvent.press(screen.getByLabelText(t("a11y_share")));
+    await fireEvent.press(screen.getByLabelText(t("a11y_share")));
     await layoutShareCopy();
 
     await waitFor(() => expect(mockCaptureException).toHaveBeenCalledTimes(1));
@@ -179,7 +179,7 @@ describe("BigCard share", () => {
     mockShareAsync.mockRejectedValue(new Error("sharing not available"));
     await renderCard();
 
-    fireEvent.press(screen.getByLabelText(t("a11y_share")));
+    await fireEvent.press(screen.getByLabelText(t("a11y_share")));
     await layoutShareCopy();
 
     await waitFor(() => expect(mockCaptureException).toHaveBeenCalledTimes(1));

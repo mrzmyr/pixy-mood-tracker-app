@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { ActivityIndicator, ScrollView } from "react-native";
-import type { TextInput } from "react-native";
+import type { TextInputInstance } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import { SheetModal } from "@/components/SheetModal";
@@ -32,7 +32,7 @@ export const FeedbackModal = ({
   const colors = useColors();
   const analytics = useAnalytics();
   const form = useFeedbackForm(type);
-  const messageRef = useRef<TextInput>(null);
+  const messageRef = useRef<TextInputInstance>(null);
 
   const cancel = () => {
     analytics.track("feedback:modal_closed");

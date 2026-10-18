@@ -3,7 +3,7 @@ import useColors from "@/hooks/useColors";
 import { useLogDraft } from "../logDraft";
 import { forwardRef, useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
-import type { TextInput } from "react-native";
+import type { TextInputInstance } from "react-native";
 import {
   KeyboardState,
   useAnimatedKeyboard,
@@ -56,7 +56,7 @@ const SlideMessageComponent = (
     onDisableStep: () => void;
     showDisable: boolean;
   },
-  ref: React.ForwardedRef<TextInput>
+  ref: React.ForwardedRef<TextInputInstance>
 ) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
