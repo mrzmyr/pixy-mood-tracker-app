@@ -105,16 +105,6 @@ describe("buildYearPixels()", () => {
     }
   });
 
-  test("puts entries near midnight on their local day", () => {
-    process.env.TZ = "Europe/Berlin";
-    const rows = currentYearPixels(dayjs("2024-01-01"), fixture());
-
-    // June is month index 5, rows start at day 1. Berlin is UTC+2 in June.
-    expect(rows[13][5]).toMatchObject({ date: "2024-06-14", rating: null });
-    expect(rows[14][5].rating).toBe(getAverageMood(fixture().slice(3, 5)));
-    expect(rows[15][5]).toMatchObject({ date: "2024-06-16", rating: "good" });
-  });
-
   test("puts entries logged near local midnight on their local day", () => {
     const rows = buildYearPixels(2026, [
       entryAt("2026-03-01T00:30:00", "very_bad"),
