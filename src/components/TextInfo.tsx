@@ -6,14 +6,18 @@ import useColors from "@/hooks/useColors";
 const TextInfo = ({
   children,
   style,
+  selectable,
 }: {
   children: React.ReactNode;
   style?: TextStyle;
+  /** Lets the user copy the text. Use for error messages, not for help. */
+  selectable?: boolean;
 }) => {
   const colors = useColors();
 
   return (
     <Text
+      selectable={selectable}
       style={[
         {
           fontSize: 13,

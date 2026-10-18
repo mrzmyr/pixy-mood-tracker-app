@@ -91,6 +91,7 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
           {t("storage_load_error_title")}
         </Text>
         <Text
+          selectable
           style={{
             color: colors.text,
             fontSize: 17,
@@ -102,6 +103,7 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
           {t("storage_load_error_body")}
         </Text>
         <Text
+          selectable
           style={{
             color: colors.textSecondary,
             fontSize: 15,

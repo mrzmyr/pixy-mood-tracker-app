@@ -63,7 +63,9 @@ export const AppLockSetting = () => {
           : t("app_lock_help", { method: methodLabel(unlockMethod) })}
       </TextInfo>
       {hasFailed && (
-        <TextInfo style={{ marginTop: 0 }}>{t("app_lock_failed")}</TextInfo>
+        <TextInfo selectable style={{ marginTop: 0 }}>
+          {t("app_lock_failed")}
+        </TextInfo>
       )}
     </View>
   );

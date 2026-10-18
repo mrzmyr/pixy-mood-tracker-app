@@ -72,6 +72,7 @@ export const Message = ({
       >
         <Text
           testID="log-list-message-text"
+          selectable
           numberOfLines={isFolded ? COLLAPSED_LINES : undefined}
           style={style}
         >

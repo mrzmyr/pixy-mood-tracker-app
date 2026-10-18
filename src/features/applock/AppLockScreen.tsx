@@ -156,6 +156,7 @@ export const AppLockScreen = () => {
           </Button>
           {hasFailed && (
             <Text
+              selectable
               accessibilityLiveRegion="polite"
               style={{
                 marginTop: 16,

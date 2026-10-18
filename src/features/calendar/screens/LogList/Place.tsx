@@ -31,6 +31,7 @@ export const Place = ({ item }: { item: LogItem }) => {
     >
       <MapPin color={colors.textSecondary} size={14} />
       <Text
+        selectable
         numberOfLines={1}
         style={{ flexShrink: 1, fontSize: 13, color: colors.textSecondary }}
       >

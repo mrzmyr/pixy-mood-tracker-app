@@ -206,6 +206,7 @@ const SheetContent = ({
       />
       {status === "failed" && (
         <Text
+          selectable
           accessibilityLiveRegion="polite"
           testID="request-emotion-error"
           style={{ marginTop: 12, fontSize: 15, color: colors.text }}
