@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useIsPreview, useLocalSearchParams, useRouter } from "expo-router";
 import { FloatButton } from "@/components/FloatButton";
 import { PageModalLayout } from "@/components/PageModalLayout";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
@@ -9,8 +9,8 @@ import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 
 import { getDayDateTitle } from "@/lib/utils";
-import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { FlatList, View } from "react-native";
+import { Fragment, useEffect, useEffectEvent, useRef, useState } from "react";
+import { FlatList, ScrollView, View } from "react-native";
 import Plus from "lucide-react-native/icons/plus";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -27,6 +27,8 @@ const FAB_MARGIN = 20;
 const FAB_CLEARANCE = 16;
 // Space between two cards.
 const CARD_GAP = 12;
+// Cards a long-press preview renders: more than its height shows.
+const PREVIEW_ENTRIES = 10;
 
 const keyExtractor = (item: LogItem) => item.id;
 const CardGap = () => <View style={{ height: CARD_GAP }} />;
@@ -54,6 +56,11 @@ const CardGap = () => <View style={{ height: CARD_GAP }} />;
  * Add is a float button at the bottom right, like on the calendar. The
  * list ends with padding, so the last card scrolls clear of it and of the
  * bottom safe area.
+ *
+ * A calendar day's long-press preview renders this screen inside the
+ * calendar's vertical `ScrollView`. A `FlatList` there is a nested
+ * virtualized list, so the preview maps the first cards into a plain
+ * `ScrollView` with the same layout.
  */
 export const LogList = () => {
   const router = useRouter();
@@ -66,6 +73,7 @@ export const LogList = () => {
   const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
   const dayActions = useDayActions(date, "day");
+  const isPreview = useIsPreview();
 
   const items = logState.items
     .filter((item) => getItemDate(item) === date)
@@ -123,6 +131,23 @@ export const LogList = () => {
     }
   }, [items]);
 
+  const renderEntry = (item: LogItem, index: number) => (
+    <Entry
+      item={item}
+      onEdit={dayActions.handleEdit}
+      onDelete={dayActions.handleDelete}
+      position={{ index, count: items.length }}
+      isNoteExpanded={expandedNotes.has(item.id)}
+      onToggleNote={toggleNote}
+    />
+  );
+  const contentContainerStyle = {
+    paddingHorizontal: INSET,
+    paddingTop: 4,
+    paddingBottom:
+      insets.bottom + FAB_MARGIN + FLOAT_BUTTON_SIZE + FAB_CLEARANCE,
+  };
+
   return (
     <PageModalLayout
       style={{
@@ -131,58 +156,59 @@ export const LogList = () => {
       }}
     >
       <Header title={getDayDateTitle(date)} onClose={close} />
-      <FlatList
-        ref={listRef}
-        testID="log-list"
-        data={items}
-        keyExtractor={keyExtractor}
-        extraData={expandedNotes}
-        // The list shrinks once a folded note is laid out: only then bring its
-        // card back to the top.
-        onContentSizeChange={() => {
-          const id = foldedNote.current;
-          foldedNote.current = null;
-          const index = items.findIndex((item) => item.id === id);
-          if (index !== -1) {
-            listRef.current?.scrollToIndex({
-              index,
+      {isPreview ? (
+        <ScrollView
+          testID="log-list-preview"
+          scrollEnabled={false}
+          contentContainerStyle={contentContainerStyle}
+        >
+          {items.slice(0, PREVIEW_ENTRIES).map((item, index) => (
+            <Fragment key={item.id}>
+              {index > 0 && <CardGap />}
+              {renderEntry(item, index)}
+            </Fragment>
+          ))}
+        </ScrollView>
+      ) : (
+        <FlatList
+          ref={listRef}
+          testID="log-list"
+          data={items}
+          keyExtractor={keyExtractor}
+          extraData={expandedNotes}
+          // The list shrinks once a folded note is laid out: only then bring its
+          // card back to the top.
+          onContentSizeChange={() => {
+            const id = foldedNote.current;
+            foldedNote.current = null;
+            const index = items.findIndex((item) => item.id === id);
+            if (index !== -1) {
+              listRef.current?.scrollToIndex({
+                index,
+                animated: false,
+                viewPosition: 0,
+              });
+            }
+          }}
+          renderItem={({ item, index }) => renderEntry(item, index)}
+          ItemSeparatorComponent={CardGap}
+          initialNumToRender={4}
+          windowSize={5}
+          // Cards have no fixed height: jump near the target, then retry once
+          // the cards on the way are measured.
+          onScrollToIndexFailed={({ index, averageItemLength }) => {
+            listRef.current?.scrollToOffset({
+              offset: averageItemLength * index,
               animated: false,
-              viewPosition: 0,
             });
-          }
-        }}
-        renderItem={({ item, index }) => (
-          <Entry
-            item={item}
-            onEdit={dayActions.handleEdit}
-            onDelete={dayActions.handleDelete}
-            position={{ index, count: items.length }}
-            isNoteExpanded={expandedNotes.has(item.id)}
-            onToggleNote={toggleNote}
-          />
-        )}
-        ItemSeparatorComponent={CardGap}
-        initialNumToRender={4}
-        windowSize={5}
-        // Cards have no fixed height: jump near the target, then retry once
-        // the cards on the way are measured.
-        onScrollToIndexFailed={({ index, averageItemLength }) => {
-          listRef.current?.scrollToOffset({
-            offset: averageItemLength * index,
-            animated: false,
-          });
-          setTimeout(
-            () => listRef.current?.scrollToIndex({ index, animated: false }),
-            100
-          );
-        }}
-        contentContainerStyle={{
-          paddingHorizontal: INSET,
-          paddingTop: 4,
-          paddingBottom:
-            insets.bottom + FAB_MARGIN + FLOAT_BUTTON_SIZE + FAB_CLEARANCE,
-        }}
-      />
+            setTimeout(
+              () => listRef.current?.scrollToIndex({ index, animated: false }),
+              100
+            );
+          }}
+          contentContainerStyle={contentContainerStyle}
+        />
+      )}
       <View
         style={{
           position: "absolute",

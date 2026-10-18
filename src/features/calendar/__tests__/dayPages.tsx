@@ -5,6 +5,7 @@ import {
   ThemeProvider,
   useLocalSearchParams,
 } from "expo-router";
+import { PreviewRouteContext } from "expo-router/build/link/preview/PreviewRouteContext";
 import { renderRouter } from "expo-router/testing-library";
 import { fireEvent, waitFor } from "@testing-library/react-native";
 import dayjs from "dayjs";
@@ -64,12 +65,19 @@ const AddEntry = ({ id, dateTime }: { id: string; dateTime: string }) => {
   );
 };
 
+/** The context a long-press preview renders the day route in. */
+const PREVIEW = {
+  params: { date: day },
+  pathname: `/days/${day}`,
+  segments: ["days", "[date]"],
+};
+
 const at = (hour: number) => dayjs(day).hour(hour).toISOString();
 
 const seed = (items: ReturnType<typeof _generateItem>[]) =>
   AsyncStorage.setItem(LOGS_KEY, JSON.stringify({ items }));
 
-const renderDay = async (search = "") => {
+const renderDay = async (search = "", { preview = false } = {}) => {
   const result = await renderRouter(
     {
       _layout: () => (
@@ -86,7 +94,11 @@ const renderDay = async (search = "") => {
                 <TagsProvider>
                   <PeopleProvider>
                     <Loaded>
-                      <Stack />
+                      <PreviewRouteContext
+                        value={preview ? PREVIEW : undefined}
+                      >
+                        <Stack />
+                      </PreviewRouteContext>
                       <AddEntry id="added" dateTime={at(23)} />
                     </Loaded>
                   </PeopleProvider>
@@ -181,6 +193,18 @@ describe("day view list", () => {
       expect(shownMessages(result).length).toBeGreaterThan(0)
     );
     expect(shownMessages(result).length).toBeLessThan(100);
+  });
+
+  test("a long-press preview shows the cards without a virtualized list", async () => {
+    // The preview renders inside the calendar's ScrollView, where a FlatList
+    // is a nested virtualized list.
+    const result = await renderDay("", { preview: true });
+
+    await waitFor(() =>
+      expect(shownMessages(result)).toEqual(["entry-a", "entry-b", "entry-c"])
+    );
+    expect(result.getByTestId("log-list-preview")).toBeTruthy();
+    expect(result.queryByTestId("log-list")).toBeNull();
   });
 
   test("add button opens the logger for the shown day", async () => {
