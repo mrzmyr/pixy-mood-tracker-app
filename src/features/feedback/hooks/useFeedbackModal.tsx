@@ -188,13 +188,6 @@ const FeedbackModalContent = ({
                 onChangeText={(text) => setEmail(text)}
                 placeholder={t("feedback_modal_email_placeholder")}
               />
-              {status === "failed" && (
-                <InlineAlert
-                  testID="feedback-modal-error"
-                  message={t("feedback_modal_error")}
-                  style={{ marginTop: 12 }}
-                />
-              )}
               <Text
                 style={{
                   fontSize: 14,
@@ -206,6 +199,13 @@ const FeedbackModalContent = ({
               >
                 {t("feedback_modal_help")}
               </Text>
+              {status === "failed" && (
+                <InlineAlert
+                  testID="feedback-modal-error"
+                  message={t("feedback_modal_error")}
+                  style={{ marginTop: 8 }}
+                />
+              )}
             </View>
           </View>
         </KeyboardAvoidingView>
