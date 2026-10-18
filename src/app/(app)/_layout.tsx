@@ -236,6 +236,10 @@ const AppLayout = () => {
             }}
           />
           <Stack.Screen
+            name="+not-found"
+            options={{ ...pageOptions, title: t("not_found_title") }}
+          />
+          <Stack.Screen
             name="recaps/[kind]/[date]"
             options={{ ...pageOptions, title: t("recaps") }}
           />
