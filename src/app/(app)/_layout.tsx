@@ -68,6 +68,7 @@ const AppLayout = () => {
           presentation: "modal" as const,
           headerShown: true,
           headerTintColor: colors.text,
+          headerShadowVisible: false,
         }
       : modalOptions;
   // iOS and Android render the native back button. Web has none.
