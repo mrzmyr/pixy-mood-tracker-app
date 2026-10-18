@@ -2,6 +2,7 @@ import { FieldGroup, Host, ListItem, Text } from "@expo/ui";
 import { HStack, Image, RNHostView, Spacer } from "@expo/ui/swift-ui";
 import {
   accessibilityAddTraits,
+  accessibilityElement,
   accessibilityHidden,
   accessibilityLabel,
   opacity,
@@ -22,7 +23,8 @@ const formModifiers = [scrollContentBackground("hidden")];
  * The checkmark sits in the headline, not in `trailing`: `ListItem` hosts
  * trailing content as React Native, and the checkmark is a SwiftUI symbol.
  * Every row renders it, transparent when not selected, so the dots of all
- * rows line up.
+ * rows line up. The row is one accessibility element: its children (dots,
+ * checkmark) are ignored, and label plus selected trait describe it.
  */
 export const ScaleList = ({
   scaleIds,
@@ -51,10 +53,11 @@ export const ScaleList = ({
                   onSelect(id);
                 }}
                 modifiers={[
+                  accessibilityElement("ignore"),
                   accessibilityLabel(scaleLabel(index, scaleIds.length)),
-                  ...(isSelected
-                    ? [accessibilityAddTraits(["isSelected"])]
-                    : []),
+                  accessibilityAddTraits(
+                    isSelected ? ["isButton", "isSelected"] : ["isButton"]
+                  ),
                 ]}
               >
                 <HStack spacing={12}>
