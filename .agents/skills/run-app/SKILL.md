@@ -44,6 +44,7 @@ Rules:
 
 - Builds live in `~/.cache/pixy-mood-tracker/build-cache`. `bun builds list` shows them. Never search `ios/build` or `~/Library/Developer/Xcode/DerivedData`, never conclude "no dev build" from them.
 - Never create simulators by hand. The CLI owns one simulator per checkout.
+- Never run `@expo/agent-cli` `dev`, `smoke`, or `navigate`. It creates own simulators and skips shared build cache.
 - Dev client is shared across worktrees with the same native dependencies. A cache miss means native dependencies changed. Compile then, not before.
 - Phones: `bun ios --device <udid>`.
 

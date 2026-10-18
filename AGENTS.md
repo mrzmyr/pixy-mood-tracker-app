@@ -59,6 +59,7 @@
 - Public repo: entries contain no private names, internal context, or user data
 - Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Fixed values are fine: rating, emotion keys, sleep quality, intervention cluster, feedback answer. Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
 - Call EAS Observe config only through `configureObserve` ([`src/lib/observe.ts`](src/lib/observe.ts)). Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others.
+- Never run `@expo/agent-cli` `dev`, `smoke`, `navigate`, or `agents:setup`. It creates own simulators, skips shared build cache, rewrites AGENTS.md. Use `bun app dev` ([run-app skill](.agents/skills/run-app/SKILL.md)).
 
 ### Testing
 
