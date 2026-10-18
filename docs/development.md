@@ -141,6 +141,15 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - iPhone: flows with `openLink` outside [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml) ([agent-device#2998](https://github.com/callstack/agent-device/issues/2998)). For `load-fixture.yaml`, `bun e2e run` loads the fixture with `devicectl` before each flow and runs flows one at a time.
 - iPhone: flows with `clearState`. agent-device clears app state on simulators only.
 
+### Device Hub
+
+- `bun hub` opens [Expo Device Hub](https://github.com/expo/expo-device-hub) on `http://localhost:3400`: live view of every simulator and emulator, tap and type, appearance, Liquid Glass, text size, accessibility toggles.
+- For humans only. Agents drive devices with `bun app drive`.
+- Never press **Shut down** or **Remove**. Simulators belong to checkouts: shut down stops another session, remove deletes its claimed simulator. `--hide-boot-device` hides only boot and create.
+- Plugin stays out of `expo start` (`expo.autolinking.exclude` in [`package.json`](../package.json)). Reason: Metro listens on all interfaces and the plugin API has no token, so anyone on the network could control devices.
+- Other Mac: run `bun hub` there, forward the port over SSH: `ssh -N -L 3400:localhost:3400 <mac>`, then open `http://localhost:3400`.
+- No SSH: `bun hub --host 0.0.0.0 --require-token` on the other Mac. Open the printed link. Treat the token like a password: never paste it into issues, PRs, or logs.
+
 ### Widgets (iOS)
 
 - Code: [`src/features/widget`](../src/features/widget). Extension bundle ID `<appId>.widgets`, app group `group.<appId>` ([`app.config.ts`](../app.config.ts))
