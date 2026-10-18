@@ -182,6 +182,8 @@
   "keep_editing": "編集を続ける",
   "less": "以下",
   "licenses": "ライセンス",
+  "licenses_load_failed": "ライセンスを読み込めませんでした。もう一度お試しください。",
+  "licenses_retry": "再試行",
   "location_add": "場所を追加",
   "location_current": "現在地を使用",
   "location_denied_message": "チェックインに場所を追加するには、システム設定で Pixy に位置情報の使用を許可してください。",

@@ -182,6 +182,8 @@
   "keep_editing": "แก้ไขต่อไป",
   "less": "น้อย",
   "licenses": "ใบอนุญาต",
+  "licenses_load_failed": "ไม่สามารถโหลดใบอนุญาตได้ ลองอีกครั้ง",
+  "licenses_retry": "ลองอีกครั้ง",
   "location_add": "เพิ่มตำแหน่ง",
   "location_current": "ใช้ตำแหน่งปัจจุบัน",
   "location_denied_message": "อนุญาตให้ Pixy ใช้ตำแหน่งของคุณในการตั้งค่าระบบเพื่อเพิ่มสถานที่ในการเช็กอิน",

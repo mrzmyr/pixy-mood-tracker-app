@@ -182,6 +182,8 @@
   "keep_editing": "Kontynuuj edycję",
   "less": "Mniej",
   "licenses": "Licencje",
+  "licenses_load_failed": "Nie udało się wczytać licencji. Spróbuj ponownie.",
+  "licenses_retry": "Spróbuj ponownie",
   "location_add": "Dodaj miejsce",
   "location_current": "Użyj bieżącej lokalizacji",
   "location_denied_message": "Zezwól Pixy na używanie Twojej lokalizacji w ustawieniach systemu, aby dodawać miejsca do wpisów.",

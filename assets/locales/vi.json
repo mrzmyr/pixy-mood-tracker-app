@@ -182,6 +182,8 @@
   "keep_editing": "Tiếp tục chỉnh sửa",
   "less": "Ít hơn",
   "licenses": "Giấy phép",
+  "licenses_load_failed": "Không thể tải giấy phép. Hãy thử lại.",
+  "licenses_retry": "Thử lại",
   "location_add": "Thêm vị trí",
   "location_current": "Dùng vị trí hiện tại",
   "location_denied_message": "Cho phép Pixy dùng vị trí của bạn trong cài đặt hệ thống để thêm địa điểm vào các lần ghi.",

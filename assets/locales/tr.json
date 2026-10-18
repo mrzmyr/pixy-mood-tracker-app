@@ -182,6 +182,8 @@
   "keep_editing": "Düzenlemeye Devam Et",
   "less": "Az",
   "licenses": "lisanslar",
+  "licenses_load_failed": "Lisanslar yüklenemedi. Tekrar dene.",
+  "licenses_retry": "Tekrar Dene",
   "location_add": "Konum Ekle",
   "location_current": "Mevcut Konumu Kullan",
   "location_denied_message": "Kayıtlarına yer eklemek için sistem ayarlarından Pixy’nin konumunu kullanmasına izin ver.",

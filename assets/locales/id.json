@@ -182,6 +182,8 @@
   "keep_editing": "Terus Mengedit",
   "less": "Lebih sedikit",
   "licenses": "Lisensi",
+  "licenses_load_failed": "Lisensi tidak dapat dimuat. Coba lagi.",
+  "licenses_retry": "Coba Lagi",
   "location_add": "Tambah Lokasi",
   "location_current": "Gunakan Lokasi Saat Ini",
   "location_denied_message": "Izinkan Pixy menggunakan lokasimu di pengaturan sistem untuk menambahkan tempat ke check-in.",

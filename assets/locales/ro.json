@@ -182,6 +182,8 @@
   "keep_editing": "Continuați să editați",
   "less": "Mai puțin",
   "licenses": "Licențe",
+  "licenses_load_failed": "Licențele nu au putut fi încărcate. Încearcă din nou.",
+  "licenses_retry": "Încearcă din nou",
   "location_add": "Adaugă locație",
   "location_current": "Folosește locația curentă",
   "location_denied_message": "Permite aplicației Pixy să folosească locația ta din setările sistemului pentru a adăuga locuri la înregistrări.",

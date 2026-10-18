@@ -182,6 +182,8 @@
   "keep_editing": "Fortsett å redigere",
   "less": "Mindre",
   "licenses": "Lisenser",
+  "licenses_load_failed": "Lisensene kunne ikke lastes inn. Prøv igjen.",
+  "licenses_retry": "Prøv igjen",
   "location_add": "Legg til sted",
   "location_current": "Bruk nåværende posisjon",
   "location_denied_message": "La Pixy bruke posisjonen din i systeminnstillingene for å legge til steder i innsjekkingene dine.",

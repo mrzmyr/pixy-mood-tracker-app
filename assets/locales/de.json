@@ -185,6 +185,8 @@
   "keep_editing": "Weiter bearbeiten",
   "less": "Weniger",
   "licenses": "Lizenzen",
+  "licenses_load_failed": "Lizenzen konnten nicht geladen werden. Versuche es erneut.",
+  "licenses_retry": "Erneut versuchen",
   "location_add": "Ort hinzufügen",
   "location_current": "Aktuellen Standort verwenden",
   "location_denied_message": "Erlaube Pixy in den Systemeinstellungen, deinen Standort zu verwenden, um Orte zu deinen Check-ins hinzuzufügen.",

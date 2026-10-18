@@ -182,6 +182,8 @@
   "keep_editing": "Blijf bewerken",
   "less": "Minder",
   "licenses": "Licenties",
+  "licenses_load_failed": "Licenties konden niet worden geladen. Probeer het opnieuw.",
+  "licenses_retry": "Opnieuw proberen",
   "location_add": "Locatie toevoegen",
   "location_current": "Huidige locatie gebruiken",
   "location_denied_message": "Sta Pixy in de systeeminstellingen toe je locatie te gebruiken om plekken aan je check-ins toe te voegen.",

@@ -182,6 +182,8 @@
   "keep_editing": "Pokračujte v úpravách",
   "less": "Méně",
   "licenses": "licence",
+  "licenses_load_failed": "Licence se nepodařilo načíst. Zkuste to znovu.",
+  "licenses_retry": "Zkusit znovu",
   "location_add": "Přidat místo",
   "location_current": "Použít aktuální polohu",
   "location_denied_message": "Povol Pixy v nastavení systému používat tvou polohu, abys mohl přidávat místa k záznamům.",

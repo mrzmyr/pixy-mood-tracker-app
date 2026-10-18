@@ -182,6 +182,8 @@
   "keep_editing": "Fortsätt redigera",
   "less": "Mindre",
   "licenses": "Licenser",
+  "licenses_load_failed": "Licenserna kunde inte läsas in. Försök igen.",
+  "licenses_retry": "Försök igen",
   "location_add": "Lägg till plats",
   "location_current": "Använd nuvarande plats",
   "location_denied_message": "Låt Pixy använda din plats i systeminställningarna för att lägga till platser i dina incheckningar.",

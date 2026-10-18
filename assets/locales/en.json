@@ -278,6 +278,8 @@
   "keep_editing": "Keep Editing",
   "less": "Less",
   "licenses": "Licenses",
+  "licenses_load_failed": "Licenses could not be loaded. Try again.",
+  "licenses_retry": "Try Again",
   "location_add": "Add Location",
   "location_current": "Use Current Location",
   "location_denied_message": "Allow Pixy to use your location in the system settings to add places to your check-ins.",

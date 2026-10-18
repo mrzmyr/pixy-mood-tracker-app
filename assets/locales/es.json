@@ -182,6 +182,8 @@
   "keep_editing": "Seguir editando",
   "less": "Menos",
   "licenses": "Licencias",
+  "licenses_load_failed": "No se pudieron cargar las licencias. Inténtalo de nuevo.",
+  "licenses_retry": "Intentar de nuevo",
   "location_add": "Añadir ubicación",
   "location_current": "Usar ubicación actual",
   "location_denied_message": "Permite que Pixy use tu ubicación en los ajustes del sistema para añadir lugares a tus registros.",
