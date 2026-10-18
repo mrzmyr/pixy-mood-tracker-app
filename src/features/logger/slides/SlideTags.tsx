@@ -1,4 +1,4 @@
-import { getSlideMarginTop } from "./marginTop";
+import { useSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import {
@@ -17,7 +17,7 @@ import LinkButton from "@/components/LinkButton";
 import { MiniButton } from "@/components/MiniButton";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { PullToSearch } from "../components/PullToSearch";
-import { matchesSearch } from "../components/matchesSearch";
+import { matchesSearch } from "@/lib/search";
 import { Footer } from "./Footer";
 import noop from "lodash/noop";
 
@@ -59,7 +59,7 @@ export const SlideTags = ({
   );
   const showHeadings = sections.length > 1;
 
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
 
   const renderTag = (tag: ITag) => (
     <Tag

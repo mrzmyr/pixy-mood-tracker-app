@@ -3,6 +3,7 @@ import uniq from "lodash/uniq";
 import { useEffect, useMemo } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
+import { z } from "zod";
 import { STEP_OPTIONS } from "@/constants/LoggerSteps";
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 
@@ -82,6 +83,13 @@ export interface SettingsState {
    * Needs notification permission, which belongs to the device.
    */
   recapNotificationsEnabled: boolean;
+  /** Name the user gave themselves; empty until set. Stays on this device. */
+  profileName: string;
+  /**
+   * Relative path of the profile photo under the documents directory, or
+   * `null`. Stays on this device; backups carry no profile.
+   */
+  profileAvatar: string | null;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -94,8 +102,8 @@ export interface SettingsState {
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
- * location, calendar layout, app lock, and recap notifications to the
- * device, so imports keep the current values.
+ * location, calendar layout, app lock, recap notifications, and the profile
+ * to the device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -108,6 +116,8 @@ export type ExportSettings = Omit<
   | "calendarLayout"
   | "appLockEnabled"
   | "recapNotificationsEnabled"
+  | "profileName"
+  | "profileAvatar"
 >;
 
 interface IAction {
@@ -153,8 +163,8 @@ const reducer = (
       return action.payload(state);
     }
     // Store review prompt state, photo library access, theme, location,
-    // calendar layout, app lock, and recap notifications belong to this
-    // device, so imports keep the current values.
+    // calendar layout, app lock, recap notifications, and the profile belong
+    // to this device, so imports keep the current values.
     case "import": {
       return {
         ...INITIAL_STATE,
@@ -168,6 +178,8 @@ const reducer = (
         calendarLayout: state.calendarLayout,
         appLockEnabled: state.appLockEnabled,
         recapNotificationsEnabled: state.recapNotificationsEnabled,
+        profileName: state.profileName,
+        profileAvatar: state.profileAvatar,
       };
     }
     case "reset": {
@@ -197,6 +209,8 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
           : "calendar",
         appLockEnabled: stored.appLockEnabled === true,
         recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
+        profileName: z.string().safeParse(stored.profileName).data ?? "",
+        profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
       };
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({

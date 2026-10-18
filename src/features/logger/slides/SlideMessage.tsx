@@ -2,8 +2,14 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogDraft } from "../logDraft";
 import { forwardRef, useEffect, useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
+import {
+  KeyboardState,
+  useAnimatedKeyboard,
+  useAnimatedReaction,
+} from "react-native-reanimated";
+import { scheduleOnRN } from "react-native-worklets";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "@/components/DismisKeyboard";
@@ -18,29 +24,26 @@ const SLIDE_MARGIN_TOP = 8;
 // Keeps the last lines above the floating next/save button while typing.
 const INPUT_BOTTOM_PADDING_TYPING = 72;
 
-const ON_EVENT_NAME =
-  Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
-const OFF_EVENT_NAME =
-  Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
-
+// Reads the native keyboard state, the same source as the floating
+// next/save button, so the footer and the button switch together. Flips when
+// the keyboard starts to open or close, on iOS and Android.
 // No LayoutAnimation here: configureNext is global, so it also animated the
 // logger teardown on close and crashed Fabric (PIXY-APP-PRODUCTION-QM).
 const useKeyboardVisible = () => {
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const keyboard = useAnimatedKeyboard();
 
-  useEffect(() => {
-    const show = Keyboard.addListener(ON_EVENT_NAME, () => {
-      setKeyboardVisible(true);
-    });
-    const hide = Keyboard.addListener(OFF_EVENT_NAME, () => {
-      setKeyboardVisible(false);
-    });
-
-    return () => {
-      show.remove();
-      hide.remove();
-    };
-  }, []);
+  useAnimatedReaction(
+    () => {
+      const state = keyboard.state.get();
+      return state === KeyboardState.OPENING || state === KeyboardState.OPEN;
+    },
+    (visible, previous) => {
+      if (visible !== previous) {
+        scheduleOnRN(setKeyboardVisible, visible);
+      }
+    }
+  );
 
   return keyboardVisible;
 };
@@ -57,7 +60,16 @@ const SlideMessageComponent = (
 ) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
-  const { draft, setMessage } = useLogDraft();
+  const { draft, typeMessage, flushMessage } = useLogDraft();
+  // Uncontrolled: the native input owns the text, so typing re-renders
+  // neither the logger nor the other slides. Keep the start text fixed;
+  // a changing `defaultValue` would push text back into the input.
+  // oxlint-disable-next-line react/hook-use-state -- start text never changes, so no setter
+  const [initialMessage] = useState(draft.message);
+
+  // Slide changes dismiss the keyboard, so `onBlur` publishes the text. This
+  // covers an unmount with the keyboard still open.
+  useEffect(() => flushMessage, [flushMessage]);
   const keyboardVisible = useKeyboardVisible();
 
   // The footer only exists while the disable link shows and the keyboard is
@@ -93,8 +105,9 @@ const SlideMessageComponent = (
               accessibilityLabel={t("log_note_question")}
               testID="log-message"
               placeholder={t("log_note_question")}
-              value={draft.message}
-              onChange={setMessage}
+              defaultValue={initialMessage}
+              onChange={typeMessage}
+              onBlur={flushMessage}
               maxLength={MAX_MESSAGE_LENGTH}
               style={{
                 flex: 1,

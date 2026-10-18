@@ -1,14 +1,14 @@
 import * as Sentry from "@sentry/react-native";
 import { useEffect, useEffectEvent } from "react";
-import { Linking, Text, View } from "react-native";
-import FlagHighlight from "@/components/FlagHighlight";
-import Toggle from "@/components/Toggle";
+import { Linking, View } from "react-native";
+import {
+  SettingsForm,
+  SettingsRow,
+  SettingsSection,
+  SettingsSwitch,
+} from "@/components/SettingsForm";
 import Clock from "./Clock";
-import MenuList from "@/components/MenuList";
-import MenuListItem from "@/components/MenuListItem";
 import NotificationPreview from "./NotificationPreview";
-import TextInfo from "@/components/TextInfo";
-import useColors from "@/hooks/useColors";
 import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -30,10 +30,13 @@ const reportRecapsToggleError = (value: boolean, cause: unknown) => {
   Sentry.captureException(error);
 };
 
+/**
+ * Settings > Reminder: notification preview, then a native grouped list with
+ * the reminder switch, its time, and the recaps switch.
+ */
 const Reminder = () => {
   const reminder = useReminder();
   const analytics = useAnalytics();
-  const colors = useColors();
   const { denied, refresh } = useNotificationPermissionDenied();
   const isRecapsOn = useFeatureFlag("recaps");
   const recaps = useRecapNotificationsSetting();
@@ -91,61 +94,50 @@ const Reminder = () => {
   };
 
   return (
-    <View>
-      <View style={{ marginBottom: 20 }}>
+    <View style={{ flex: 1 }}>
+      <View style={{ padding: 20, paddingBottom: 0 }}>
         <NotificationPreview time={timeDate} enabled={reminderEnabled} />
       </View>
-      <MenuList>
-        <MenuListItem
-          title={t("reminder")}
-          iconRight={
-            <Toggle
-              onValueChange={() => onEnabledChange(!reminderEnabled)}
-              value={reminderEnabled}
-              testID="reminder-enabled"
-            />
-          }
-        />
-        {reminderEnabled && (
-          <MenuListItem
-            title={t("time")}
-            iconRight={<Clock onChange={onTimeChange} timeDate={timeDate} />}
+      <SettingsForm>
+        <SettingsSection
+          footer={denied ? t("reminder_permission_denied") : undefined}
+        >
+          <SettingsSwitch
+            label={t("reminder")}
+            value={reminderEnabled}
+            onValueChange={onEnabledChange}
+            testID="reminder-enabled"
           />
-        )}
-      </MenuList>
-      {denied && (
-        <TextInfo>
-          {t("reminder_permission_denied")}{" "}
-          <Text
-            accessibilityRole="link"
-            style={{ color: colors.link }}
-            onPress={() => {
-              void Linking.openSettings();
-            }}
+          {reminderEnabled && (
+            <SettingsRow
+              title={t("time")}
+              accessory={<Clock onChange={onTimeChange} timeDate={timeDate} />}
+            />
+          )}
+          {denied && (
+            <SettingsRow
+              title={t("location_open_settings")}
+              kind="link"
+              onPress={() => {
+                void Linking.openSettings();
+              }}
+            />
+          )}
+        </SettingsSection>
+        {isRecapsOn && (
+          <SettingsSection
+            flag="recaps"
+            footer={t("recaps_notifications_hint")}
           >
-            {t("location_open_settings")}
-          </Text>
-        </TextInfo>
-      )}
-      {isRecapsOn && (
-        <View style={{ marginTop: 20 }}>
-          <FlagHighlight flag="recaps">
-            <MenuList>
-              <MenuListItem
-                title={t("recaps_notifications_setting")}
-                iconRight={
-                  <Toggle
-                    onValueChange={() => onRecapsChange(!recaps.enabled)}
-                    value={recaps.enabled}
-                    testID="recap-notifications-enabled"
-                  />
-                }
-              />
-            </MenuList>
-            <TextInfo>{t("recaps_notifications_hint")}</TextInfo>
-          </FlagHighlight>
-        </View>
-      )}
+            <SettingsSwitch
+              label={t("recaps_notifications_setting")}
+              value={recaps.enabled}
+              onValueChange={onRecapsChange}
+              testID="recap-notifications-enabled"
+            />
+          </SettingsSection>
+        )}
+      </SettingsForm>
     </View>
   );
 };

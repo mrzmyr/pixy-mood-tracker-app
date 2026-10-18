@@ -1,6 +1,6 @@
 import chroma from "chroma-js";
 import { Pressable, Text, useColorScheme } from "react-native";
-import { Check } from "react-native-feather";
+import Check from "lucide-react-native/icons/check";
 import { RADIUS } from "@/constants/Radius";
 
 const ScaleButton = ({

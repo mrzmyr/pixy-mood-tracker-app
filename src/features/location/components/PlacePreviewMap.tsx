@@ -1,4 +1,4 @@
-import { MapPin } from "lucide-react-native";
+import MapPin from "lucide-react-native/icons/map-pin";
 import { View } from "react-native";
 import useColors from "@/hooks/useColors";
 import type { LogLocation } from "@/types";

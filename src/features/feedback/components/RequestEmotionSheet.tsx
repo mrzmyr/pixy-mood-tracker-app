@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import Button from "@/components/Button";
 import { CloseButton } from "@/components/CloseButton";
+import { InlineAlert } from "@/components/InlineAlert";
 import { SheetModal } from "@/components/SheetModal";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
@@ -205,13 +206,11 @@ const SheetContent = ({
         onEmailChange={setEmail}
       />
       {status === "failed" && (
-        <Text
-          accessibilityLiveRegion="polite"
+        <InlineAlert
           testID="request-emotion-error"
-          style={{ marginTop: 12, fontSize: 15, color: colors.text }}
-        >
-          {t("request_emotion_error")}
-        </Text>
+          message={t("request_emotion_error")}
+          style={{ marginTop: 12 }}
+        />
       )}
       <Button
         testID="request-emotion-send"

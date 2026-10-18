@@ -25,6 +25,20 @@ const showPhotoFailed = () => {
   Alert.alert(t("people_photo_failed_title"), t("people_photo_failed_message"));
 };
 
+const showContactPhotoMissing = () => {
+  Alert.alert(
+    t("people_photo_contact_missing_title"),
+    t("people_photo_contact_missing_message")
+  );
+};
+
+const showContactPhotoDenied = () => {
+  Alert.alert(
+    t("people_contacts_denied_title"),
+    t("people_photo_contact_denied_message")
+  );
+};
+
 /**
  * Draft of a person being created or edited, with the picker actions and
  * save. Avatar files change only in `save`, so cancel leaves the stored
@@ -54,6 +68,8 @@ export const usePersonDraft = ({
     removeAvatar: false,
   }));
   const [isSaving, setIsSaving] = useState(false);
+  /** Set by a save with an empty name; cleared by typing a valid name. */
+  const [nameError, setNameError] = useState(false);
 
   const isDirty =
     draft.pendingImageUri !== null ||
@@ -66,19 +82,42 @@ export const usePersonDraft = ({
   const hasPhoto =
     draft.pendingImageUri !== null ||
     (!draft.removeAvatar && draft.person.avatar !== null);
-  const canSave =
-    draft.person.name.trim().length >= MIN_NAME_LENGTH && !isSaving;
+  const isNameValid = draft.person.name.trim().length >= MIN_NAME_LENGTH;
 
-  const fromLibrary = async () => {
-    const uri = await getPeopleSources().pickImage();
-    if (uri === null) {
-      return;
-    }
+  const setPendingImage = (uri: string) => {
     setDraft((current) => ({
       ...current,
       pendingImageUri: uri,
       removeAvatar: false,
     }));
+  };
+
+  const fromLibrary = async () => {
+    const uri = await getPeopleSources().pickImage();
+    if (uri !== null) {
+      setPendingImage(uri);
+    }
+  };
+
+  /** Copies the photo of the linked contact; alerts when there is none. */
+  const fromContact = async () => {
+    const { contactId } = draft.person;
+    if (!contactId) {
+      return;
+    }
+    let uri: string | null;
+    try {
+      uri = await getPeopleSources().getContactImage(contactId);
+    } catch (error) {
+      console.warn(error);
+      showContactPhotoDenied();
+      return;
+    }
+    if (uri === null) {
+      showContactPhotoMissing();
+      return;
+    }
+    setPendingImage(uri);
   };
 
   const removePhoto = () => {
@@ -94,6 +133,9 @@ export const usePersonDraft = ({
       ...current,
       person: { ...current.person, name },
     }));
+    if (name.trim().length >= MIN_NAME_LENGTH) {
+      setNameError(false);
+    }
   };
 
   const toggleArchived = () => {
@@ -105,7 +147,11 @@ export const usePersonDraft = ({
 
   const save = async () => {
     const name = draft.person.name.trim();
-    if (!canSave) {
+    if (isSaving) {
+      return;
+    }
+    if (!isNameValid) {
+      setNameError(true);
       return;
     }
     setIsSaving(true);
@@ -160,11 +206,16 @@ export const usePersonDraft = ({
     previewUri: draft.pendingImageUri,
     previewAvatar: draft.removeAvatar ? null : draft.person.avatar,
     hasPhoto,
-    canSave,
+    isNameValid,
+    storedName: existing?.name ?? "",
+    canUseContactPhoto: Boolean(draft.person.contactId),
+    isSaving,
+    nameError,
     allowLeave,
     setName,
     toggleArchived,
     fromLibrary,
+    fromContact,
     removePhoto,
     save,
   };

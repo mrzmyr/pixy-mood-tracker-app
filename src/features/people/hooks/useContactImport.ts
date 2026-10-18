@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { MAX_TAG_LENGTH } from "@/constants/Config";
 import Alert from "@/lib/Alert";
+import { createStructuredError } from "@/lib/errors";
+import type { StructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { saveAvatar } from "../avatars";
@@ -34,9 +36,11 @@ const showPermissionDenied = (onClose: () => void) => {
 
 /**
  * Reads the address book. Resolves `"denied"` when the user refused the
- * permission; other failures resolve an empty list.
+ * permission; other failures resolve a `contacts_read_failed` error.
  */
-const readContacts = async (): Promise<ContactList | "denied"> => {
+const readContacts = async (): Promise<
+  ContactList | "denied" | StructuredError
+> => {
   try {
     return await getPeopleSources().listContacts();
   } catch (error) {
@@ -47,8 +51,14 @@ const readContacts = async (): Promise<ContactList | "denied"> => {
     ) {
       return "denied";
     }
-    console.warn(error);
-    return { contacts: [], isLimited: false };
+    const readError = createStructuredError({
+      status: "contacts_read_failed",
+      message: "Contacts could not be read",
+      why: error instanceof Error ? error.message : String(error),
+      fix: "Try again, or add the person by name",
+    });
+    console.warn(readError);
+    return readError;
   }
 };
 
@@ -67,6 +77,7 @@ export const useContactImport = () => {
   const [query, setQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isImporting, setIsImporting] = useState(false);
+  const [readError, setReadError] = useState<StructuredError | null>(null);
 
   useEffect(() => {
     let isActive = true;
@@ -79,12 +90,29 @@ export const useContactImport = () => {
         showPermissionDenied(() => router.back());
         return;
       }
+      if (result instanceof Error) {
+        setReadError(result);
+        return;
+      }
       setList(result);
     })();
     return () => {
       isActive = false;
     };
   }, [router]);
+
+  const retry = async () => {
+    setReadError(null);
+    setList(null);
+    const result = await readContacts();
+    if (result === "denied") {
+      showPermissionDenied(() => router.back());
+    } else if (result instanceof Error) {
+      setReadError(result);
+    } else {
+      setList(result);
+    }
+  };
 
   const rows = useMemo(
     () => buildContactRows({ contacts: list?.contacts ?? [], people, query }),
@@ -109,7 +137,9 @@ export const useContactImport = () => {
       console.warn(error);
     }
     const result = await readContacts();
-    if (result !== "denied") {
+    if (result instanceof Error) {
+      setReadError(result);
+    } else if (result !== "denied") {
       setList(result);
     }
   };
@@ -160,7 +190,9 @@ export const useContactImport = () => {
   };
 
   return {
-    isLoading: list === null,
+    isLoading: list === null && readError === null,
+    error: readError,
+    retry,
     isLimited: Boolean(list?.isLimited),
     rows,
     query,

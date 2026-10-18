@@ -1,1 +1,1 @@
-export { ContactImport as default } from "@/features/people";
+export { ContactImport as default } from "@/features/people/routes";

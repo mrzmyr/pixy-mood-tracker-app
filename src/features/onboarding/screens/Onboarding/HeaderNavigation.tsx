@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from "react-native";
-import { ArrowLeft } from "react-native-feather";
+import ArrowLeft from "lucide-react-native/icons/arrow-left";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { HeaderPagination } from "./HeaderPagination";

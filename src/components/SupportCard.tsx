@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
-import { Heart } from "react-native-feather";
+import Heart from "lucide-react-native/icons/heart";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useSupport } from "@/support";

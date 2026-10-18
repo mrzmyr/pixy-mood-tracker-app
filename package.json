@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.98.0",
+  "version": "1.99.1",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
@@ -14,8 +14,10 @@
     "e2e": "bun scripts/cli/index.ts e2e",
     "devices": "bun scripts/cli/index.ts devices",
     "builds": "bun scripts/cli/index.ts builds",
+    "hub": "expo-device-hub --hide-boot-device",
+    "release": "bun scripts/cli/index.ts release",
     "worktree": "bun scripts/cli/index.ts worktree",
-    "test:cli": "bun test scripts/cli scripts/check-locales scripts/sort-locales",
+    "test:cli": "bun test scripts/cli scripts/check-locales scripts/sort-locales scripts/generate-licenses",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",
     "test:ci": "jest --env=jsdom",
@@ -31,6 +33,7 @@
     "eas:preview": "bun run eas:ios:preview && bun run eas:android:preview",
     "eas:prod": "bun run eas:ios:prod && bun run eas:android:prod",
     "translate-app": "bun scripts/generate-translations-app.js",
+    "licenses": "bun scripts/generate-licenses.ts",
     "reviews": "node scripts/store-reviews.mjs",
     "type-check": "tsc",
     "lint": "oxlint",
@@ -43,7 +46,7 @@
     "i18n:sort:check": "bun scripts/sort-locales.ts --check"
   },
   "dependencies": {
-    "@expo/ui": "~57.0.21",
+    "@expo/ui": "~57.0.25",
     "@hugeicons/core-free-icons": "4.3.5",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "9.1.0",
@@ -55,65 +58,64 @@
     "@shopify/flash-list": "^2.3.2",
     "chroma-js": "^3.2.0",
     "dayjs": "^1.11.7",
-    "expo": "~57.0.25",
+    "expo": "~57.0.30",
     "expo-alternate-app-icons": "^8.0.0",
     "expo-application": "~57.0.3",
-    "expo-asset": "~57.0.18",
+    "expo-asset": "~57.0.20",
     "expo-build-properties": "~57.0.22",
     "expo-clipboard": "~57.0.2",
-    "expo-constants": "~57.0.19",
-    "expo-contacts": "~57.0.6",
-    "expo-dev-client": "~57.0.19",
+    "expo-constants": "~57.0.22",
+    "expo-contacts": "~57.0.8",
+    "expo-dev-client": "~57.0.20",
     "expo-device": "~57.0.2",
-    "expo-document-picker": "~57.0.2",
+    "expo-document-picker": "~57.0.3",
     "expo-file-system": "~57.0.7",
     "expo-font": "~57.0.4",
     "expo-glass-effect": "~57.0.4",
     "expo-haptics": "~57.0.3",
     "expo-image": "~57.0.5",
-    "expo-image-manipulator": "~57.0.20",
+    "expo-image-manipulator": "~57.0.21",
     "expo-image-picker": "~57.0.20",
     "expo-linear-gradient": "~57.0.2",
-    "expo-linking": "~57.0.11",
+    "expo-linking": "~57.0.13",
     "expo-local-authentication": "~57.0.3",
     "expo-localization": "~57.0.2",
-    "expo-location": "~57.0.20",
-    "expo-maps": "~57.0.3",
+    "expo-location": "~57.0.21",
+    "expo-maps": "~57.0.4",
     "expo-media-library": "~57.0.5",
-    "expo-notifications": "~57.0.21",
-    "expo-observe": "~57.0.24",
-    "expo-router": "~57.0.23",
-    "expo-sharing": "~57.0.22",
-    "expo-splash-screen": "~57.0.9",
+    "expo-notifications": "~57.0.23",
+    "expo-observe": "~57.0.25",
+    "expo-router": "~57.0.28",
+    "expo-sharing": "~57.0.23",
+    "expo-splash-screen": "~57.0.10",
     "expo-status-bar": "~57.0.1",
     "expo-store-review": "~57.0.3",
     "expo-superwall": "1.2.0",
     "expo-system-ui": "~57.0.4",
     "expo-web-browser": "~57.0.3",
-    "expo-widgets": "~57.0.22",
+    "expo-widgets": "~57.0.26",
     "fast-xml-parser": "^5.10.1",
     "i18n-js": "^4.5.3",
     "lodash": "^4.17.21",
     "lucide-react-native": "^1.48.0",
     "posthog-react-native": "^4.75.0",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "react-native": "0.86.3",
-    "react-native-feather": "^1.1.2",
     "react-native-gesture-handler": "~3.1.0",
     "react-native-get-random-values": "~1.11.0",
     "react-native-markdown-display": "^7.0.2",
     "react-native-modal-datetime-picker": "^18.0.0",
-    "react-native-reanimated": "4.5.5",
+    "react-native-reanimated": "4.5.1",
     "react-native-reanimated-carousel": "^5.0.0",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
     "react-native-sortables": "^1.10.1",
     "react-native-style-utilities": "^1.0.1",
-    "react-native-svg": "15.15.5",
-    "react-native-view-shot": "5.1.1",
+    "react-native-svg": "15.15.4",
+    "react-native-view-shot": "5.1.0",
     "react-native-web": "^0.21.0",
-    "react-native-worklets": "0.10.4",
+    "react-native-worklets": "0.10.1",
     "semver": "^7.5.2",
     "uuid": "^14.0.2",
     "zod": "^4.4.3"
@@ -130,9 +132,10 @@
     "@types/react": "~19.2.10",
     "agent-device": "0.21.14",
     "babel-plugin-module-resolver": "^5.0.3",
+    "expo-device-hub": "^0.17.1",
     "husky": "^9.1.7",
     "jest": "^29.2.1",
-    "jest-expo": "~57.0.5",
+    "jest-expo": "~57.0.6",
     "lint-staged": "^17.5.1",
     "oxfmt": "^0.70.0",
     "oxlint": "^1.85.0",
@@ -149,6 +152,9 @@
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
   "jest": {
+    "moduleNameMapper": {
+      "^lucide-react-native/icons/(.+)$": "<rootDir>/node_modules/lucide-react-native/dist/cjs/icons/$1.js"
+    },
     "preset": "jest-expo",
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"
@@ -160,6 +166,9 @@
       "./__tests__/utils.ts",
       "<rootDir>/scripts/"
     ],
+    "transform": {
+      "\\.txt$": "jest-expo/src/preset/assetFileTransformer.js"
+    },
     "transformIgnorePatterns": [
       "/node_modules/(?!(.pnpm|react-native|@react-native|@react-native-community|expo|@expo|@expo-google-fonts|react-navigation|@react-navigation|@sentry/react-native|native-base|standard-navigation|uuid))",
       "/node_modules/react-native-reanimated/plugin/",
@@ -167,16 +176,26 @@
     ]
   },
   "engines": {
-    "node": ">=22.13 <27"
+    "node": "^22.13 || ^24.3 || ^26"
   },
   "packageManager": "bun@1.3.5",
   "expo": {
     "autolinking": {
+      "exclude": [
+        "expo-device-hub"
+      ],
       "android": {
         "exclude": [
           "expo-maps"
         ]
       }
+    },
+    "install": {
+      "exclude": [
+        "@shopify/flash-list",
+        "react-native-gesture-handler",
+        "typescript"
+      ]
     }
   }
 }

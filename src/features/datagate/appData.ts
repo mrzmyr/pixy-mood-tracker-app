@@ -13,6 +13,7 @@ import {
   writeAvatarFromBase64,
 } from "@/features/people";
 import type { Person } from "@/features/people";
+import { deleteProfilePhotos } from "@/features/profile";
 import {
   STORAGE_KEY as TAGS_KEY,
   useTagsLoad,
@@ -57,7 +58,8 @@ export interface AppData {
   load: Load;
   /**
    * Factory reset: logs, unreferenced photo files, tags, people with their
-   * avatars, settings (new device id), and the analytics identity.
+   * avatars, settings (new device id), the profile photo, and the analytics
+   * identity.
    */
   resetAll: () => void;
   /** Current data as a backup, avatar files read inline. */
@@ -139,6 +141,7 @@ export const useAppData = (): AppData => {
     tagsUpdater.reset();
     peopleUpdater.reset();
     resetSettings();
+    void deleteProfilePhotos();
     analytics.reset();
   };
 

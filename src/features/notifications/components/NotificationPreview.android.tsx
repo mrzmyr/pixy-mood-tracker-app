@@ -1,7 +1,8 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { formatLockScreenTime, formatReminderTime } from "../reminderTime";
@@ -120,7 +121,7 @@ const NotificationPreview = ({
               <Image
                 style={{ width: APP_ICON_SIZE, height: APP_ICON_SIZE }}
                 source={require("../../../../assets/images/icon-notification.png")}
-                resizeMode="contain"
+                contentFit="contain"
               />
             </View>
             <Text
