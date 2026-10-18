@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.100.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.99.1...v1.100.0) (2026-10-18)
+
+
+### Features
+
+* **cli:** add release smoke launch check for iOS release bundles ([#883](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/883)) ([75ca65c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/75ca65c06a0f04aae417b0aa0c11a237176c4fa7))
+* **logger:** native date and time picker with time-of-day presets ([#804](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/804)) ([de949f7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/de949f78aa9c1275ca8865e6b2c52e948d332104))
+* **navigation:** add not found screen for unknown paths ([#871](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/871)) ([553afd7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/553afd7f0c6419a32dde1f5f6b79a2759126da77))
+* **photos:** open day photos in a native Galeria viewer ([#806](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/806)) ([85e18da](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/85e18da029eafb9604c6900775ead128ee8b5b8f))
+* **reminder:** use @expo/ui native time pickers for reminder time ([#837](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/837)) ([3abb3d8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3abb3d8c782a11a651a9a9e7b9e211d8f9ec4477))
+* **settings:** render settings tab with native grouped rows ([#838](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/838)) ([de0a573](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/de0a5737b54733e838e51d6c9d1ca15b3368d93a))
+* **tags:** native header search bar on tags settings ([#851](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/851)) ([fb5ca9e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fb5ca9edb2fbc0ada84de177035baedcbf9a15d4))
+* **ui:** use tabular digits on reminder time, counters and recap period ([#857](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/857)) ([67a39cd](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/67a39cd06c8b03ea274cbb86ff323aa67a111b54))
+
+
+### Bug Fixes
+
+* **observe:** dispatch only from real devices and tag events with the app variant ([#847](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/847)) ([d35ef3a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d35ef3a33165f6f5737ddcdb6e1fbb7b1e73b8ff))
+* read window and screen size reactively ([#877](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/877)) ([ab41322](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ab41322166c0b098cc5c5525f457b4e269d4071a))
+* **statistics:** put Year in Pixels entries on their local day ([#872](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/872)) ([9bbdfd7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9bbdfd74b01fa3eb76eb1a12db514b5c69c6bde7))
+* **statistics:** stop freezing year report title at current year ([#870](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/870)) ([ab37dd9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ab37dd952c5b2fdd7cbcaf74c6f96ece7a1a5a73))
+
+
+### Performance Improvements
+
+* **calendar:** let React Compiler optimize the calendar screen ([#807](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/807)) ([ec106de](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ec106de0e5831596aa8c6f37725463b4fbce1d64))
+* **people:** normalize and sort contacts once for import search ([#793](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/793)) ([58c4ab5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/58c4ab5832b44da7a9c6c6202052131862b0d3a6))
+* **statistics:** derive highlights report and build Year in Pixels in one pass ([#796](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/796)) ([018cd41](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/018cd41fb7e8e64bece393e884766e3d56081aaa))
+
 ## [1.99.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.99.0...v1.99.1) (2026-10-18)
 
 
