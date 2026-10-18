@@ -1,5 +1,6 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import { t } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import { Pressable, Text, useColorScheme, View } from "react-native";
 import type { ViewStyle } from "react-native";
@@ -9,15 +10,20 @@ import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 
-/** Emotion button in the basic emotion grid. */
+/**
+ * Emotion button in the basic emotion grid. With `onLongPress`, a long press
+ * and the "Show Meaning" accessibility action call it.
+ */
 export const EmotionButtonBasic = ({
   emotion,
   onPress,
+  onLongPress,
   selected,
   style = DEFAULT_STYLE,
 }: {
   emotion: Emotion;
   onPress: (emotion: Emotion) => void;
+  onLongPress?: (emotion: Emotion) => void;
   selected: boolean;
   style?: ViewStyle;
 }) => {
@@ -32,10 +38,24 @@ export const EmotionButtonBasic = ({
       accessibilityRole="checkbox"
       accessibilityLabel={emotion.label}
       accessibilityState={{ checked: selected }}
+      accessibilityActions={
+        onLongPress
+          ? [{ name: "longpress", label: t("log_emotions_weather_meaning") }]
+          : undefined
+      }
+      onAccessibilityAction={() => onLongPress?.(emotion)}
       onPress={() => {
         haptics.selection();
         onPress(emotion);
       }}
+      onLongPress={
+        onLongPress
+          ? () => {
+              haptics.selection();
+              onLongPress(emotion);
+            }
+          : undefined
+      }
       style={{
         flex: 1,
         justifyContent: "center",

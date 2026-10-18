@@ -23,6 +23,10 @@ import { Tooltip } from "./Tooltip";
 import { useAnalytics } from "@/state/analytics";
 import { RequestEmotionSheet } from "@/features/feedback";
 import noop from "lodash/noop";
+import FlagHighlight from "@/components/FlagHighlight";
+import { useFeatureFlag } from "@/state/featureFlags";
+import { EmotionWeather } from "./EmotionWeather";
+import { PickerFeedbackButton } from "./PickerFeedbackButton";
 
 type Mode = "basic" | "advanced";
 
@@ -84,6 +88,7 @@ export const SlideEmotions = ({
   const { draft, setEmotions } = useLogDraft();
   const logState = useLogState();
   const analytics = useAnalytics();
+  const isWeather = useFeatureFlag("emotion-weather");
   const [isRequestOpen, setIsRequestOpen] = useState(false);
   const closeRequest = useCallback(() => setIsRequestOpen(false), []);
   const openRequest = () => {
@@ -186,7 +191,9 @@ export const SlideEmotions = ({
           }}
         >
           <SlideHeadline>{t("log_emotions_question")}</SlideHeadline>
-          <ExpandButton expanded={mode === "basic"} onPress={toggleMode} />
+          {!isWeather && (
+            <ExpandButton expanded={mode === "basic"} onPress={toggleMode} />
+          )}
         </View>
         <View
           style={{
@@ -205,30 +212,43 @@ export const SlideEmotions = ({
               width: "100%",
             }}
           />
-          <PullToSearch
-            testID="logger-emotions-search"
-            placeholder={t("log_emotions_search")}
-            query={query}
-            onChangeQuery={setQuery}
-          >
-            {isSearching || mode === "basic" ? (
-              <EmotionBasicSelection
-                emotions={isSearching ? searchResults : basicEmotions}
-                onPress={onPressEmotion}
+          {isWeather ? (
+            <FlagHighlight flag="emotion-weather" pillOnly style={{ flex: 1 }}>
+              <EmotionWeather
                 selectedEmotions={selectedEmotions}
-                onRequestEmotion={openRequest}
+                onPress={onPressEmotion}
               />
+            </FlagHighlight>
+          ) : (
+            <PullToSearch
+              testID="logger-emotions-search"
+              placeholder={t("log_emotions_search")}
+              query={query}
+              onChangeQuery={setQuery}
+            >
+              {isSearching || mode === "basic" ? (
+                <EmotionBasicSelection
+                  emotions={isSearching ? searchResults : basicEmotions}
+                  onPress={onPressEmotion}
+                  selectedEmotions={selectedEmotions}
+                  onRequestEmotion={openRequest}
+                />
+              ) : (
+                <EmotionAdvancedSelection
+                  defaultIndex={defaultIndex}
+                  onPress={onPressEmotion}
+                  selectedEmotions={selectedEmotions}
+                  onRequestEmotion={openRequest}
+                />
+              )}
+            </PullToSearch>
+          )}
+          {!isWeather &&
+            (isSearching || mode === "basic" ? (
+              <EmotionBasicGradients />
             ) : (
-              <EmotionAdvancedSelection
-                defaultIndex={defaultIndex}
-                onPress={onPressEmotion}
-                selectedEmotions={selectedEmotions}
-                onRequestEmotion={openRequest}
-              />
-            )}
-          </PullToSearch>
-          {(isSearching || mode === "basic") && <EmotionBasicGradients />}
-          {!isSearching && mode === "advanced" && <EmotionAdvancedGradients />}
+              <EmotionAdvancedGradients />
+            ))}
           {showTooltip && (
             <Tooltip
               emotion={selectedEmotions.at(-1)}
@@ -260,6 +280,7 @@ export const SlideEmotions = ({
               {t("log_emotions_disable")}
             </LinkButton>
           )}
+          {isWeather && <PickerFeedbackButton source="emotion_weather" />}
         </Footer>
       </View>
     </View>

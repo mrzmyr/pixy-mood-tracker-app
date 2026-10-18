@@ -10,6 +10,7 @@ export const FEATURE_FLAGS = [
   "calendar-timeline",
   "development",
   "emotion-icons",
+  "emotion-weather",
   "feature-flag-overrides",
   "interventions",
   "ios-widget",
@@ -59,6 +60,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   },
   "emotion-icons": {
     description: "Icons instead of dots for chosen emotions",
+    location: "Check-in > Emotions step",
+  },
+  "emotion-weather": {
+    description: "Inner weather picker: weather tiles lead to emotions",
     location: "Check-in > Emotions step",
   },
   "feature-flag-overrides": {
