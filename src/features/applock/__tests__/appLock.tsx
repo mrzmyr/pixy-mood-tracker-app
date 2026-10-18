@@ -7,6 +7,7 @@ import {
   render,
   userEvent,
   waitFor,
+  within,
 } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { AppState } from "react-native";
@@ -355,9 +356,9 @@ describe("App Lock", () => {
 
     await storeSettings(true);
     const locked = await renderApp();
-    expect(await locked.findByTestId("app-lock")).toHaveAccessibilityValue({
-      text: "On",
-    });
+    expect(
+      within(await locked.findByTestId("app-lock")).getByText("On")
+    ).toBeOnTheScreen();
   });
 
   test("switch is off limits without a device passcode", async () => {

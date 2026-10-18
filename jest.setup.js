@@ -117,8 +117,19 @@ jest.mock("@shopify/flash-list", () => ({ FlashList: () => null }));
 
 const mockSlot = ({ children }) => children;
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI and native settings lists; SwiftUI and Compose views have no Jest view. The stand-ins render React Native views: the switch keeps the `Switch` props tests read, a pressable row is a button.
+// Native rows wrap bare strings in a text view; so does the stand-in.
+const mockExpoUiText = (node) => {
+  const { isValidElement } = require("react");
+  const { Text } = require("react-native");
+  if (node === null || node === undefined || isValidElement(node)) {
+    return node ?? null;
+  }
+  return <Text>{node}</Text>;
+};
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI and native settings lists; SwiftUI and Compose views have no Jest view. The stand-ins render React Native views: the switch keeps the `Switch` props tests read, a pressable row or list item is a button.
 jest.mock("@expo/ui", () => {
+  const { isValidElement } = require("react");
   const { Pressable, Switch, Text, View } = require("react-native");
   const FieldGroup = Object.assign(({ children }) => <View>{children}</View>, {
     Section: ({ title, children }) => (
@@ -143,6 +154,19 @@ jest.mock("@expo/ui", () => {
       ) : (
         <View testID={testID}>{children}</View>
       ),
+    ListItem: ({ children, leading, trailing, onPress, testID }) => (
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={isValidElement(children) ? undefined : children}
+        onPress={onPress}
+        testID={testID}
+      >
+        {mockExpoUiText(leading)}
+        {mockExpoUiText(children)}
+        {mockExpoUiText(trailing)}
+      </Pressable>
+    ),
+    Icon: Object.assign(() => null, { select: ({ ios }) => ios }),
     Spacer: () => null,
     Switch: ({ label, value, onValueChange, disabled, testID }) => (
       <Switch
