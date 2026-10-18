@@ -1,4 +1,5 @@
 import { Pressable } from "react-native";
+import { ScrollToTopGuard } from "react-native-screens/experimental";
 import { t } from "@/lib/translation";
 import { useProfile } from "../use-profile";
 import { ProfileAvatar } from "./profile-avatar";
@@ -28,19 +29,25 @@ export const ProfileHeaderButton = ({ onPress }: { onPress: () => void }) => {
     : PROFILE_HEADER_GLYPH_SIZE;
 
   return (
-    <Pressable
-      testID="calendar-settings"
-      accessibilityRole="button"
-      accessibilityLabel={t("settings")}
-      onPress={onPress}
-      hitSlop={6}
-      style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
-    >
-      <ProfileAvatar
-        size={size}
-        photoUri={profile.photoUri}
-        initials={profile.initials}
-      />
-    </Pressable>
+    // iOS 27 (iPadOS 26) scrolls the screen to the top on header taps.
+    // Pressable does not consume the tap, so the calendar jumped to its
+    // oldest month. Remove once react-native fixes it:
+    // https://github.com/react/react-native/issues/56061
+    <ScrollToTopGuard>
+      <Pressable
+        testID="calendar-settings"
+        accessibilityRole="button"
+        accessibilityLabel={t("settings")}
+        onPress={onPress}
+        hitSlop={6}
+        style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
+      >
+        <ProfileAvatar
+          size={size}
+          photoUri={profile.photoUri}
+          initials={profile.initials}
+        />
+      </Pressable>
+    </ScrollToTopGuard>
   );
 };
