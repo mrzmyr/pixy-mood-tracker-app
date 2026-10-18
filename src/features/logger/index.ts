@@ -5,3 +5,5 @@ export {
   SlideSleepButton,
 } from "./slides/slide-sleep-button";
 export { getAvailableStepsForEdit, hasSleepOnDate } from "./steps";
+export { encodeLoggerPrefill } from "./prefill";
+export type { LoggerPrefill } from "./prefill";

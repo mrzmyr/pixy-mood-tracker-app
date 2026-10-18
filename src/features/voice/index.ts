@@ -1,0 +1,1 @@
+export { isVoiceModeSupported } from "./support";

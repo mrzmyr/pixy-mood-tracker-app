@@ -182,6 +182,13 @@
           "contactsPermission": "Pixy lists your contacts so you can add people. Only the people you pick are saved, with name and photo, on your device."
         }
       ],
+      [
+        "expo-speech-transcriber",
+        {
+          "speechRecognitionPermission": "Pixy turns what you say into a check-in note and finds people, tags, and emotions in it. Speech is processed on your device.",
+          "microphonePermission": "Pixy listens while you talk about your day to write your check-in. Audio is never saved."
+        }
+      ],
       "expo-image",
       [
         "expo-image-picker",

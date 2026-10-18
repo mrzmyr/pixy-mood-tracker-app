@@ -160,6 +160,10 @@ const AppLayout = () => {
             options={{ ...modalOptions, gestureEnabled: false }}
           />
           <Stack.Screen
+            name="logs/voice"
+            options={{ ...modalOptions, gestureEnabled: false }}
+          />
+          <Stack.Screen
             name="days/[date]"
             options={{
               // Day view sets its title and close button (see `LogList`).

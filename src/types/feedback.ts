@@ -20,6 +20,7 @@ export const FEEDBACK_SOURCES = [
   "recaps",
   "emotion_dials",
   "emotion_weather",
+  "voice_mode",
 ] as const;
 
 /** One of {@link FEEDBACK_SOURCES}. */

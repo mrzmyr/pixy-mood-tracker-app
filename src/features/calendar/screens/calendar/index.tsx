@@ -20,6 +20,9 @@ import { Body } from "./calendar-bottom-sheet/body";
 import { PromoCards } from "./promo-cards";
 import CalendarHeader from "./calendar-header";
 import { CalendarFloatButton } from "./calendar-float-button";
+import { CalendarVoiceButton } from "./calendar-voice-button";
+import { isVoiceModeSupported } from "@/features/voice";
+import { useFeatureFlag } from "@/state/feature-flags";
 import { useFootNote } from "./foot-note";
 import { Timeline } from "./timeline";
 import { CalendarMap } from "./map";
@@ -39,6 +42,7 @@ const CalendarScreenComponent = () => {
   const isSettingsLoaded = useSettingsLoad().status === "ready";
   const isLogsLoaded = useLogLoad().status === "ready";
   const analytics = useAnalytics();
+  const isVoiceModeEnabled = useFeatureFlag("voice-mode");
   const logState = useLogState();
   const filtersSheet = useCalendarFiltersSheet();
   const { layout } = useCalendarLayout();
@@ -180,6 +184,19 @@ const CalendarScreenComponent = () => {
           }}
         />
       )}
+      {showFloatButton &&
+        isVoiceModeEnabled &&
+        isVoiceModeSupported &&
+        (!isCalendar || !isAwayFromToday) && (
+          <CalendarVoiceButton
+            onPress={() => {
+              analytics.track("calendar:voice_tapped", {
+                has_entries: hasTodayEntry,
+              });
+              router.push("/logs/voice");
+            }}
+          />
+        )}
       {Platform.OS !== "web" && <CalendarBottomSheet />}
       <ObserveInteractiveMarker />
     </View>
