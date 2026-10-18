@@ -9,7 +9,7 @@ import type { StructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { saveAvatar } from "../avatars";
-import { buildContactRows } from "../contactImport";
+import { buildContactIndex, filterContactRows } from "../contactImport";
 import { usePeopleState, usePeopleUpdater } from "../PeopleProvider";
 import { getPeopleLimit } from "../peopleLimit";
 import { getPeopleSources } from "../sources";
@@ -114,9 +114,13 @@ export const useContactImport = () => {
     }
   };
 
+  const contactIndex = useMemo(
+    () => buildContactIndex({ contacts: list?.contacts ?? [], people }),
+    [list, people]
+  );
   const rows = useMemo(
-    () => buildContactRows({ contacts: list?.contacts ?? [], people, query }),
-    [list, people, query]
+    () => filterContactRows(contactIndex, query),
+    [contactIndex, query]
   );
   const { remaining } = getPeopleLimit(people);
   const isAtLimit = selectedIds.length >= remaining;
