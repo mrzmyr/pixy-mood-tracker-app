@@ -97,6 +97,7 @@ const TagNameField = ({
               marginLeft: "auto",
               fontSize: 13,
               color: colors.textSecondary,
+              fontVariant: ["tabular-nums"],
             }}
           >
             {value.length}/{MAX_TAG_LENGTH}
