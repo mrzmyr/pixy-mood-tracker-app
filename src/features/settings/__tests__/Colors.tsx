@@ -6,6 +6,7 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { Pressable, Text } from "react-native";
 import Colors from "@/constants/Colors";
@@ -50,24 +51,31 @@ const SettingsProbe = () => {
   );
 };
 
+const initialMetrics = {
+  frame: { x: 0, y: 0, width: 393, height: 852 },
+  insets: { top: 47, right: 0, bottom: 34, left: 0 },
+};
+
 const renderColors = async () => {
   await render(
-    <ThemeProvider
-      value={{
-        ...DefaultTheme,
-        dark: false,
-        colors: { ...DefaultTheme.colors, ...Colors.light },
-      }}
-    >
-      <SettingsProvider>
-        <AnalyticsProvider options={{ enabled: true }}>
-          <SettingsLoaded>
-            <SettingsProbe />
-            <ColorsScreen />
-          </SettingsLoaded>
-        </AnalyticsProvider>
-      </SettingsProvider>
-    </ThemeProvider>
+    <SafeAreaProvider initialMetrics={initialMetrics}>
+      <ThemeProvider
+        value={{
+          ...DefaultTheme,
+          dark: false,
+          colors: { ...DefaultTheme.colors, ...Colors.light },
+        }}
+      >
+        <SettingsProvider>
+          <AnalyticsProvider options={{ enabled: true }}>
+            <SettingsLoaded>
+              <SettingsProbe />
+              <ColorsScreen />
+            </SettingsLoaded>
+          </AnalyticsProvider>
+        </SettingsProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
   await waitFor(() => {
     expect(screen.getByTestId("color-scale-ColorBrew-RdYG")).toBeTruthy();

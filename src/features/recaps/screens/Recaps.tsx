@@ -26,6 +26,7 @@ import { useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { useWeekLocale } from "@/hooks/useWeekLocale";
 import { getLocale, t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
@@ -115,6 +116,7 @@ const cardKey = (card: RecapCard, period: Period) =>
  */
 const Recaps = () => {
   const colors = useColors();
+  const paddingBottom = useScrollBottomPadding(16);
   const router = useRouter();
   const analytics = useAnalytics();
   const weekLocale = useWeekLocale();
@@ -324,7 +326,8 @@ const Recaps = () => {
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
-      contentContainerStyle={{ padding: 16, gap: 16 }}
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{ padding: 16, paddingBottom, gap: 16 }}
       scrollEventThrottle={100}
       onLayout={(event) => {
         viewport.current = {

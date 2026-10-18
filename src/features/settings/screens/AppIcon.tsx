@@ -21,6 +21,7 @@ import TextInfo from "@/components/TextInfo";
 import { APP_ICONS } from "@/constants/AppIcons";
 import type { AppIcon, AppIconId } from "@/constants/AppIcons";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import useHaptics from "@/hooks/useHaptics";
 import Alert from "@/lib/Alert";
 import { readActiveAppIcon } from "@/lib/appIcon";
@@ -180,6 +181,7 @@ export const AppIconScreen = () => {
   const haptics = useHaptics();
   const analytics = useAnalytics();
   const isAppIconsEnabled = useFeatureFlag("app-icons");
+  const paddingBottom = useScrollBottomPadding(20);
   const [activeId, setActiveId] = useState<AppIconId>(
     () => readActiveAppIcon().id
   );
@@ -226,7 +228,9 @@ export const AppIconScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView
-        style={{ padding: 20, flex: 1 }}
+        style={{ flex: 1 }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 20, paddingBottom }}
         accessibilityRole="radiogroup"
       >
         <MenuList>
