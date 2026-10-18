@@ -161,7 +161,7 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
   - `p2`: smoke check. Run before release.
 - Pick severity from usage in the "Pixy App - Production" PostHog project, then raise it for data risk.
 - Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
-- `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fakeFileTransfer.ts`](../src/dev/fakeFileTransfer.ts)), address book and person photos ([`src/dev/fakePeopleSources.ts`](../src/dev/fakePeopleSources.ts)), entry photo picker and photo library ([`src/dev/fakePhotoSource.ts`](../src/dev/fakePhotoSource.ts)). Fakes end when the app restarts.
+- `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fakeFileTransfer.ts`](../src/dev/fakeFileTransfer.ts)), address book and person photos ([`src/dev/fakePeopleSources.ts`](../src/dev/fakePeopleSources.ts)), entry photo picker and photo library ([`src/dev/fakePhotoSource.ts`](../src/dev/fakePhotoSource.ts)). Fakes end when the app restarts. `?contacts=fail-once` makes the first contact read fail.
 - `<scheme>://dev/fake-contacts?count=<n>` writes `n` fake contacts (company "Pixy Test Contact", every fifth with a photo) into the real device address book. `count=0` deletes exactly those. Synced accounts (iCloud, Google) sync them too, so delete them after testing.
 - Fixtures count as consent, so preview builds load flags from "Pixy App - Preview". Shared flows expect every flag off there. A flow that needs a flag turns it on with [`enable-feature-flag.yaml`](../e2e/subflows/enable-feature-flag.yaml) (not on iPhones)
 - Each flow asserts a result. Opening a screen is not a test.
