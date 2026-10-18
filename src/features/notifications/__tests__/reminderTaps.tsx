@@ -17,7 +17,7 @@ import {
   REMINDER_NOTIFICATION_DATA,
   useReminderTapTracking,
 } from "../reminderTaps";
-import type { NotificationResponseSource } from "../reminderTaps";
+import type { NotificationResponseSource } from "../useNotificationTaps";
 
 const { capture: mockCapture } = getPostHogTestClient();
 const EVENT = "reminders:notification_opened";

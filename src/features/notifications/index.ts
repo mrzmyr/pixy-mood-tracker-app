@@ -3,12 +3,12 @@ export { default as Clock } from "./components/Clock";
 export { useReminder } from "./useReminder";
 export type { ReminderResult } from "./useReminder";
 export { useReminderSync } from "./reminderSync";
-export {
-  defaultNotificationResponseSource,
-  getDeliveryKey,
-  useReminderTapTracking,
-} from "./reminderTaps";
-export type { NotificationResponseSource } from "./reminderTaps";
+export { useReminderTapTracking } from "./reminderTaps";
+export { useNotificationTaps } from "./useNotificationTaps";
+export type {
+  NotificationResponseSource,
+  NotificationTap,
+} from "./useNotificationTaps";
 export {
   defaultRecapScheduler,
   defaultReminderScheduler,

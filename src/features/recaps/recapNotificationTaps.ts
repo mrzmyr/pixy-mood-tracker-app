@@ -1,12 +1,10 @@
 import * as Notifications from "expo-notifications";
 import type { NotificationResponse } from "expo-notifications";
 import { useRootNavigationState, useRouter } from "expo-router";
-import { useEffect, useEffectEvent, useLayoutEffect, useRef } from "react";
 import { z } from "zod";
 import {
-  defaultNotificationResponseSource,
-  getDeliveryKey,
   RECAP_NOTIFICATION_TYPE,
+  useNotificationTaps,
 } from "@/features/notifications";
 import type { NotificationResponseSource } from "@/features/notifications";
 import { useAnalytics } from "@/state/analytics";
@@ -55,64 +53,28 @@ export const getRecapTap = (
  * - Navigates, so a tap on the recap already on screen adds no copy
  */
 export const useRecapNotificationTaps = (
-  source: NotificationResponseSource = defaultNotificationResponseSource
+  source?: NotificationResponseSource
 ) => {
   const router = useRouter();
   const analytics = useAnalytics();
   const isSettingsReady = useSettingsLoad().status === "ready";
   const flag = useFeatureFlagState("recaps");
   const isNavigationReady = Boolean(useRootNavigationState()?.key);
-  const pending = useRef<RecapTap[]>([]);
-  const seen = useRef(new Set<string>());
 
-  const flush = useEffectEvent(() => {
-    if (!isSettingsReady || !isNavigationReady || flag === "loading") {
-      return;
-    }
-    const taps = pending.current;
-    pending.current = [];
-    if (flag === "on") {
-      for (const { kind } of taps) {
-        analytics.track("recaps:notification_tapped", { period: kind });
+  useNotificationTaps({
+    select: getRecapTap,
+    isReady: isSettingsReady && isNavigationReady && flag !== "loading",
+    onTaps: (taps) => {
+      if (flag === "on") {
+        for (const { value } of taps) {
+          analytics.track("recaps:notification_tapped", { period: value.kind });
+        }
       }
-    }
-    const last = taps.at(-1);
-    if (last) {
-      router.navigate(`/recaps/${last.kind}/${last.date}`);
-    }
+      const last = taps.at(-1)?.value;
+      if (last) {
+        router.navigate(`/recaps/${last.kind}/${last.date}`);
+      }
+    },
+    source,
   });
-
-  const enqueue = useEffectEvent((response: NotificationResponse) => {
-    const tap = getRecapTap(response);
-    const key = getDeliveryKey(response);
-    if (!tap || seen.current.has(key)) {
-      return;
-    }
-    seen.current.add(key);
-    pending.current.push(tap);
-    flush();
-  });
-
-  // Layout effect: read the launch response before any listener event.
-  useLayoutEffect(() => {
-    const launchResponse = source.getLastResponse();
-    if (launchResponse && getRecapTap(launchResponse)) {
-      enqueue(launchResponse);
-      // A later remount in this process must not open it again.
-      source.clearLastResponse();
-    }
-
-    const subscription = source.addResponseListener((response) => {
-      enqueue(response);
-    });
-    return () => {
-      subscription.remove();
-    };
-  }, [source]);
-
-  useEffect(() => {
-    if (isSettingsReady && isNavigationReady && flag !== "loading") {
-      flush();
-    }
-  }, [isSettingsReady, isNavigationReady, flag]);
 };

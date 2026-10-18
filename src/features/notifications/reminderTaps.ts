@@ -1,38 +1,13 @@
 import * as Notifications from "expo-notifications";
 import type { NotificationResponse } from "expo-notifications";
-import { useEffect, useEffectEvent, useLayoutEffect, useRef } from "react";
-import { Platform } from "react-native";
 import { useAnalytics } from "@/state/analytics";
 import type { AnalyticsEvents } from "@/state/analytics/events";
 import { useSettingsLoad } from "@/state/settings";
+import { useNotificationTaps } from "./useNotificationTaps";
+import type { NotificationResponseSource } from "./useNotificationTaps";
 
 /** `content.data` of every scheduled reminder. Marks taps as reminder taps. */
 export const REMINDER_NOTIFICATION_DATA = { kind: "reminder" } as const;
-
-/** Notification response API. Tests pass a fake. */
-export interface NotificationResponseSource {
-  getLastResponse: () => NotificationResponse | null;
-  clearLastResponse: () => void;
-  addResponseListener: (listener: (response: NotificationResponse) => void) => {
-    remove: () => void;
-  };
-}
-
-const nativeSource: NotificationResponseSource = {
-  getLastResponse: Notifications.getLastNotificationResponse,
-  clearLastResponse: Notifications.clearLastNotificationResponse,
-  addResponseListener: Notifications.addNotificationResponseReceivedListener,
-};
-
-const webSource: NotificationResponseSource = {
-  getLastResponse: () => null,
-  clearLastResponse: () => null,
-  addResponseListener: () => ({ remove: () => null }),
-};
-
-/** Expo notification responses on native, none on web. */
-export const defaultNotificationResponseSource =
-  Platform.OS === "web" ? webSource : nativeSource;
 
 /**
  * Whether the response is a tap on the reminder body, not a dismiss or
@@ -63,10 +38,6 @@ export const isReminderTap = (response: NotificationResponse): boolean => {
   );
 };
 
-/** One key per delivery: daily repeats share the identifier, not the date. */
-export const getDeliveryKey = (response: NotificationResponse) =>
-  `${response.notification.request.identifier}:${response.notification.date}`;
-
 /** Event properties for one reminder tap. No notification text. */
 export const getReminderTapProperties = (
   response: NotificationResponse,
@@ -87,68 +58,21 @@ export const getReminderTapProperties = (
  * - Waits for stored settings, so a stored analytics opt-out wins
  * - No-op on web
  */
-export const useReminderTapTracking = (
-  source: NotificationResponseSource = defaultNotificationResponseSource
-) => {
+export const useReminderTapTracking = (source?: NotificationResponseSource) => {
   const analytics = useAnalytics();
   const isSettingsReady = useSettingsLoad().status === "ready";
-  const pending = useRef<
-    { response: NotificationResponse; coldStart: boolean }[]
-  >([]);
-  const seen = useRef(new Set<string>());
 
-  const flush = useEffectEvent(() => {
-    if (!isSettingsReady) {
-      return;
-    }
-
-    const taps = pending.current;
-    pending.current = [];
-    for (const { response, coldStart } of taps) {
-      analytics.track(
-        "reminders:notification_opened",
-        getReminderTapProperties(response, { coldStart, now: Date.now() })
-      );
-    }
+  useNotificationTaps({
+    select: (response) => (isReminderTap(response) ? response : null),
+    isReady: isSettingsReady,
+    onTaps: (taps) => {
+      for (const { response, coldStart } of taps) {
+        analytics.track(
+          "reminders:notification_opened",
+          getReminderTapProperties(response, { coldStart, now: Date.now() })
+        );
+      }
+    },
+    source,
   });
-
-  const enqueue = useEffectEvent(
-    (response: NotificationResponse, coldStart: boolean) => {
-      if (!isReminderTap(response)) {
-        return;
-      }
-
-      const key = getDeliveryKey(response);
-      if (seen.current.has(key)) {
-        return;
-      }
-
-      seen.current.add(key);
-      pending.current.push({ response, coldStart });
-      flush();
-    }
-  );
-
-  // Layout effect: read the launch response before any listener event.
-  useLayoutEffect(() => {
-    const launchResponse = source.getLastResponse();
-    if (launchResponse && isReminderTap(launchResponse)) {
-      enqueue(launchResponse, true);
-      // A later remount in this process must not count it again.
-      source.clearLastResponse();
-    }
-
-    const subscription = source.addResponseListener((response) => {
-      enqueue(response, false);
-    });
-    return () => {
-      subscription.remove();
-    };
-  }, [source]);
-
-  useEffect(() => {
-    if (isSettingsReady) {
-      flush();
-    }
-  }, [isSettingsReady]);
 };
