@@ -61,7 +61,6 @@ export default defineConfig({
         "src/components/**",
         "src/hooks/**",
         "src/lib/**",
-        "src/helpers/**",
         "src/constants/**",
         "src/types/**",
       ],

@@ -2,7 +2,7 @@ import { usePreventRemove } from "expo-router/react-navigation";
 import { useNavigation } from "expo-router";
 import type { NavigationAction } from "expo-router/react-navigation";
 import { useRef } from "react";
-import { askToCancel } from "@/helpers/prompts";
+import { askToCancel } from "@/lib/prompts";
 
 /**
  * Ask before a screen with unsaved changes closes by Android back, the back
