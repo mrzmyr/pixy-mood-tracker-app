@@ -1,8 +1,9 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo } from "react";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { readActiveAppIcon } from "@/lib/appIcon";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
