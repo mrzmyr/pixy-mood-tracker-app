@@ -149,6 +149,9 @@
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
   "jest": {
+    "moduleNameMapper": {
+      "^lucide-react-native/icons/(.+)$": "<rootDir>/node_modules/lucide-react-native/dist/cjs/icons/$1.js"
+    },
     "preset": "jest-expo",
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"

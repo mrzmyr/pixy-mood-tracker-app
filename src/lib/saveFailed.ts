@@ -14,5 +14,6 @@ export const showSaveFailed = (onRetry: () => void) => {
     message: t("save_failed_message"),
     action: { label: t("save_failed_retry"), onPress: onRetry },
     durationMs: SAVE_FAILED_MS,
+    tone: "error",
   });
 };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
+import CircleAlert from "lucide-react-native/icons/circle-alert";
 import { Check } from "react-native-feather";
 import {
   GestureDetector,
@@ -112,8 +113,18 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
             },
           ]}
         >
-          {!IS_ANDROID && (
+          {!IS_ANDROID && toast.tone === "error" && (
+            <CircleAlert
+              testID="toast-icon-error"
+              size={18}
+              strokeWidth={2.5}
+              color={colors.danger}
+              style={{ marginTop: toast.message ? 1 : 0 }}
+            />
+          )}
+          {!IS_ANDROID && toast.tone !== "error" && (
             <Check
+              testID="toast-icon-success"
               width={18}
               height={18}
               strokeWidth={2.5}

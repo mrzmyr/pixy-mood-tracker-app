@@ -66,6 +66,33 @@ describe("Toast action", () => {
   });
 });
 
+// Icons are decorative (aria-hidden); query them anyway.
+const HIDDEN = { includeHiddenElements: true };
+
+describe("Toast tone", () => {
+  test("failure toast shows an alert icon, not the success check", async () => {
+    await renderHost();
+
+    await act(() => showToast({ title: "Not saved", tone: "error" }));
+
+    expect(
+      await screen.findByTestId("toast-icon-error", HIDDEN)
+    ).toBeOnTheScreen();
+    expect(screen.queryByTestId("toast-icon-success", HIDDEN)).toBeNull();
+  });
+
+  test("toast without tone shows the success check", async () => {
+    await renderHost();
+
+    await act(() => showToast({ title: "Saved" }));
+
+    expect(
+      await screen.findByTestId("toast-icon-success", HIDDEN)
+    ).toBeOnTheScreen();
+    expect(screen.queryByTestId("toast-icon-error", HIDDEN)).toBeNull();
+  });
+});
+
 describe("getToastDuration", () => {
   test("Android snackbar stays longer than iOS toast, longest with an action", () => {
     const ios = getToastDuration({}, "ios");

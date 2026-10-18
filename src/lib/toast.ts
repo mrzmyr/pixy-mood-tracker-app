@@ -10,7 +10,12 @@ export interface Toast {
   action?: ToastAction;
   /** Milliseconds on screen. Defaults by platform in `ToastHost`. */
   durationMs?: number;
+  /** `error` swaps the success check for an alert icon. Defaults to `success`. */
+  tone?: ToastTone;
 }
+
+/** Outcome a toast reports. */
+export type ToastTone = "success" | "error";
 
 /** Button shown on a toast. `label` is already translated. */
 export interface ToastAction {
@@ -43,14 +48,16 @@ export const showToast = ({
   message,
   action,
   durationMs,
+  tone,
 }: {
   title: string;
   message?: string;
   action?: ToastAction;
   durationMs?: number;
+  tone?: ToastTone;
 }) => {
   nextId += 1;
-  setCurrent({ id: nextId, title, message, action, durationMs });
+  setCurrent({ id: nextId, title, message, action, durationMs, tone });
   AccessibilityInfo.announceForAccessibility(
     message ? `${title} ${message}` : title
   );
