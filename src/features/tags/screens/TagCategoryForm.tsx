@@ -1,9 +1,8 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, Text, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
@@ -86,68 +85,72 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
   };
 
   return (
-    <DismissKeyboard>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.background,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
-        }}
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.background,
+        marginTop: Platform.OS === "android" ? insets.top : 0,
+      }}
+    >
+      <ModalHeader
+        title={category ? t("tag_category_edit") : t("tag_category_create")}
+        left={
+          <LinkButton onPress={() => router.back()} type="primary">
+            {t("cancel")}
+          </LinkButton>
+        }
+        right={
+          <LinkButton
+            onPress={onSave}
+            type="primary"
+            testID="tag-category-save"
+            style={{ fontWeight: "700" }}
+          >
+            {t("save")}
+          </LinkButton>
+        }
+      />
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ padding: 20 }}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
+        automaticallyAdjustKeyboardInsets
       >
-        <ModalHeader
-          title={category ? t("tag_category_edit") : t("tag_category_create")}
-          left={
-            <LinkButton onPress={() => router.back()} type="primary">
-              {t("cancel")}
-            </LinkButton>
-          }
-          right={
-            <LinkButton
-              onPress={onSave}
-              type="primary"
-              testID="tag-category-save"
-              style={{ fontWeight: "700" }}
-            >
-              {t("save")}
-            </LinkButton>
-          }
+        <TagNameField
+          testID="tag-category-name"
+          autoFocus={!category}
+          placeholder={t("tag_category_name_placeholder")}
+          value={title}
+          showError={submitted}
+          onChange={setTitle}
         />
-        <View style={{ flex: 1, padding: 20 }}>
-          <TagNameField
-            testID="tag-category-name"
-            autoFocus={!category}
-            placeholder={t("tag_category_name_placeholder")}
-            value={title}
-            showError={submitted}
-            onChange={setTitle}
-          />
-          {isGeneral && (
-            <TextInfo style={{ paddingHorizontal: 0 }}>
-              {t("tag_category_general_info", { general })}
-            </TextInfo>
-          )}
-          {category && !isGeneral && (
-            <MenuList style={{ marginTop: 16 }}>
-              <MenuListItem
-                testID="tag-category-delete"
-                title={
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      textAlign: "center",
-                      color: colors.dangerButtonText,
-                    }}
-                  >
-                    {t("delete")}
-                  </Text>
-                }
-                onPress={() => confirmDelete(category)}
-              />
-            </MenuList>
-          )}
-        </View>
-      </View>
-    </DismissKeyboard>
+        {isGeneral && (
+          <TextInfo style={{ paddingHorizontal: 0 }}>
+            {t("tag_category_general_info", { general })}
+          </TextInfo>
+        )}
+        {category && !isGeneral && (
+          <MenuList style={{ marginTop: 16 }}>
+            <MenuListItem
+              testID="tag-category-delete"
+              title={
+                <Text
+                  style={{
+                    fontSize: 17,
+                    textAlign: "center",
+                    color: colors.dangerButtonText,
+                  }}
+                >
+                  {t("delete")}
+                </Text>
+              }
+              onPress={() => confirmDelete(category)}
+            />
+          </MenuList>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 
