@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import { RATING_KEYS } from "@/constants/Ratings";
+import { formatNumber } from "@/lib/formatNumber";
 import { Bar } from "./Bar";
 
 /**
@@ -68,9 +69,10 @@ export const Content = ({
                 textAlign: "center",
                 fontSize: 12,
                 fontWeight: "bold",
+                fontVariant: ["tabular-nums"],
               }}
             >
-              {data.values[ratingName]}x
+              {formatNumber(data.values[ratingName])}×
             </Text>
           </View>
         ))}

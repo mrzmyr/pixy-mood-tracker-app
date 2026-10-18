@@ -5,7 +5,7 @@ import { RATING_KEYS } from "@/constants/Ratings";
 import { DATE_FORMAT } from "@/constants/Config";
 import type { LogItem } from "@/features/logs";
 import { getItemDate } from "@/lib/logDates";
-import { getAverageMood } from "@/lib/utils";
+import { getAverageMood } from "@/features/logs";
 import { t } from "@/lib/translation";
 import { PAD_CELL } from "./widgetProps";
 import type {

@@ -126,6 +126,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 
 **Removed events**
 
+- `logger:log_deleted`: the logger lost its trash button. Entries are deleted from the day view entry menu, which sends `day:delete_tapped`
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
 
 **Removed properties** (never sent under the new names)

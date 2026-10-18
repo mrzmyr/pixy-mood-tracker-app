@@ -1,4 +1,5 @@
-import { Circle, CircleCheck } from "lucide-react-native";
+import Circle from "lucide-react-native/icons/circle";
+import CircleCheck from "lucide-react-native/icons/circle-check";
 import useColors from "@/hooks/useColors";
 
 /** Props of the radio mark in a radio menu row. */

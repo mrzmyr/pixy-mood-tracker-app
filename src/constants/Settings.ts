@@ -37,4 +37,6 @@ export const INITIAL_STATE: SettingsState = {
   calendarLayout: "calendar",
   appLockEnabled: false,
   recapNotificationsEnabled: false,
+  profileName: "",
+  profileAvatar: null,
 };

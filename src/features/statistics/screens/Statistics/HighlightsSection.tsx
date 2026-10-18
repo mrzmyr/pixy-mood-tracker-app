@@ -7,7 +7,7 @@ import type { ReactElement } from "react";
 
 import { useContentStableValue } from "@/hooks/useContentStableValue";
 import { Text, View } from "react-native";
-import { Activity } from "react-native-feather";
+import Activity from "lucide-react-native/icons/activity";
 import { useAnalytics } from "@/state/analytics";
 import type { HighlightsProperties } from "@/state/analytics/events";
 import useColors from "@/hooks/useColors";

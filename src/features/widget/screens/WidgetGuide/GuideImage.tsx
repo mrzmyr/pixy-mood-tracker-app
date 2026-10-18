@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Image, View } from "react-native";
+import { Image } from "expo-image";
+import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import useColors from "@/hooks/useColors";
 
@@ -96,7 +97,7 @@ export const GuideImage = ({ step }: { step: number }) => {
       >
         <Image
           source={GUIDE_IMAGES[step - 1]}
-          resizeMode="contain"
+          contentFit="contain"
           style={{ width: "100%", height: "100%" }}
           accessibilityIgnoresInvertColors
         />

@@ -1,4 +1,4 @@
-import { ImagePlus } from "lucide-react-native";
+import ImagePlus from "lucide-react-native/icons/image-plus";
 import { Pressable, Text } from "react-native";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";

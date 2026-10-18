@@ -1,1 +1,1 @@
-export { RecapsScreen as default } from "@/features/recaps";
+export { RecapsScreen as default } from "@/features/recaps/routes";

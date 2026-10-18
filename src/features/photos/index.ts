@@ -4,13 +4,16 @@ export type {
   PickedPhoto,
 } from "./photoSource";
 export { AddPhotoTile } from "./components/AddPhotoTile";
+export {
+  IS_PHOTO_GALLERY_SUPPORTED,
+  PhotoGallery,
+  PhotoGalleryItem,
+} from "./components/PhotoGallery";
 export { PhotoGrid } from "./components/PhotoGrid";
 export { PhotoLimitNotice } from "./components/PhotoLimitNotice";
 export { PhotosPromptCard } from "./components/PhotosPromptCard";
 export { PhotoThumbnail } from "./components/PhotoThumbnail";
 export { PickTile } from "./components/PickTile";
-export { PhotoViewer, PhotoViewerModal } from "./screens/Viewer";
-export type { PhotoViewerContext } from "./screens/Viewer";
 export { getViewerItem } from "./viewerItem";
 export type { PhotoViewerItem } from "./viewerItem";
 export { countPhotosBySource } from "./sources";

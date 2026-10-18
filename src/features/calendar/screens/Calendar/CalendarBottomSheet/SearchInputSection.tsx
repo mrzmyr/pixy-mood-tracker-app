@@ -1,6 +1,7 @@
 import { Pressable, TextInput, View } from "react-native";
 import useColors from "@/hooks/useColors";
-import { Search, XCircle } from "react-native-feather";
+import Search from "lucide-react-native/icons/search";
+import CircleX from "lucide-react-native/icons/circle-x";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
 
@@ -65,7 +66,7 @@ export const SearchInputSection = ({
             }}
             onPress={() => onChange("")}
           >
-            <XCircle color={colors.textInputPlaceholder} width={20} />
+            <CircleX color={colors.textInputPlaceholder} width={20} />
           </Pressable>
         )}
       </View>

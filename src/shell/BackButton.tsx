@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
-import { ArrowLeft } from "react-native-feather";
+import ArrowLeft from "lucide-react-native/icons/arrow-left";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 

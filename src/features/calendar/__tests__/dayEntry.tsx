@@ -8,7 +8,7 @@ import {
 import { renderRouter, screen } from "expo-router/testing-library";
 import { fireEvent, waitFor } from "@testing-library/react-native";
 import { Text } from "react-native";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { LogsProvider } from "@/features/logs";

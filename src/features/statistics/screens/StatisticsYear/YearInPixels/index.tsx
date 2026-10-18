@@ -45,7 +45,7 @@ const YearInPixels = ({ date }: { date: Dayjs }) => {
 
   const dummyItems = range(0, 365).map(
     (i) =>
-      // SAFETY: placeholder items only; Row reads them via optional-chained dateTime, so the missing LogItem fields are never dereferenced.
+      // SAFETY: placeholder items only; getPixelRating skips items without dateTime, so the missing LogItem fields are never dereferenced.
       ({
         id: `${i}`,
         date: date.add(i, "day").format(DATE_FORMAT),

@@ -16,6 +16,7 @@ import Animated, {
 import type { SharedValue } from "react-native-reanimated";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import { SHADOW } from "@/constants/Shadow";
 
 const BAR_LENGTH = 14;
 const BAR_THICKNESS = 2.5;
@@ -183,10 +184,11 @@ export const CalendarFloatButton = ({
         width: SIZE,
         height: SIZE,
         borderRadius: RADIUS,
-        // Android draws elevation from the background and clips the ripple.
+        // Android: background and shadow sit on the pressable, which clips
+        // the ripple to the rounded button.
         ...(IS_ANDROID && {
           backgroundColor: colors.tertiaryButtonBackground,
-          elevation: 6,
+          boxShadow: SHADOW.float,
           overflow: "hidden",
         }),
       }}
@@ -201,10 +203,7 @@ export const CalendarFloatButton = ({
           },
           !HAS_GLASS &&
             !IS_ANDROID && {
-              shadowColor: "#000",
-              shadowOpacity: 0.16,
-              shadowRadius: 8,
-              shadowOffset: { width: 0, height: 4 },
+              boxShadow: SHADOW.float,
             },
           backgroundStyle,
         ]}

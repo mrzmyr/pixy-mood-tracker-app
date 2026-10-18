@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { Lock } from "react-native-feather";
+import Lock from "lucide-react-native/icons/lock";
 import FlagHighlight from "@/components/FlagHighlight";
 import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";

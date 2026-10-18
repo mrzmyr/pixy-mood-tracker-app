@@ -6,7 +6,9 @@ import {
   useCalendarFiltersSheet,
   useCalendarLayout,
 } from "@/features/calendar";
+import { ProfileHeaderButton, useHasProfileAvatar } from "@/features/profile";
 import { t } from "@/lib/translation";
+import { useFeatureFlag } from "@/state/featureFlags";
 
 // Android renders only image icons in the header; iOS uses SF Symbols.
 const ICONS =
@@ -24,7 +26,8 @@ const ICONS =
 
 /**
  * Calendar header buttons: Statistics on the left; Filters and Settings
- * (cog icon) on the right. With the `calendar-timeline` or `calendar-map`
+ * (cog icon) on the right. With the `profile` flag, the user's avatar
+ * replaces the cog: photo, initials, or a gray silhouette. With the `calendar-timeline` or `calendar-map`
  * flag on, Filters is a menu: it opens the filter sheet and holds the layout
  * picker (Calendar, Timeline, Map). With both flags off, Filters opens the
  * sheet.
@@ -42,6 +45,9 @@ export const CalendarHeaderButtons = () => {
   const { filterCount, isFiltering } = calendarFilters.data;
   const filtersSheet = useCalendarFiltersSheet();
   const calendarLayout = useCalendarLayout();
+  const isProfileEnabled = useFeatureFlag("profile");
+  const hasProfileAvatar = useHasProfileAvatar();
+  const openSettings = () => router.navigate("/settings");
 
   return (
     <>
@@ -57,6 +63,7 @@ export const CalendarHeaderButtons = () => {
           <Stack.Toolbar.Menu
             icon={ICONS.filters}
             accessibilityLabel={t("calendar_filters")}
+            separateBackground
           >
             {isFiltering && (
               <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
@@ -86,18 +93,31 @@ export const CalendarHeaderButtons = () => {
             icon={ICONS.filters}
             accessibilityLabel={t("calendar_filters")}
             onPress={() => filtersSheet.open()}
+            separateBackground
           >
             {isFiltering && (
               <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
             )}
           </Stack.Toolbar.Button>
         )}
-        <Stack.Toolbar.Button
-          icon={ICONS.settings}
-          accessibilityLabel={t("settings")}
-          onPress={() => router.navigate("/settings")}
-          separateBackground
-        />
+        {/* Direct child only: Stack.Toolbar drops Fragments. Filters sets
+            `separateBackground`, so the avatar gets its own glass circle. */}
+        {isProfileEnabled ? (
+          // Remount on change: native items ignore later prop updates.
+          <Stack.Toolbar.View
+            key={hasProfileAvatar ? "avatar" : "silhouette"}
+            hidesSharedBackground={hasProfileAvatar}
+          >
+            <ProfileHeaderButton onPress={openSettings} />
+          </Stack.Toolbar.View>
+        ) : (
+          <Stack.Toolbar.Button
+            icon={ICONS.settings}
+            accessibilityLabel={t("settings")}
+            onPress={openSettings}
+            separateBackground
+          />
+        )}
       </Stack.Toolbar>
     </>
   );

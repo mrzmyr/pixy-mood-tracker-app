@@ -4,7 +4,7 @@ import { t, tDynamic } from "@/lib/translation";
 import keyBy from "lodash/keyBy";
 import sortBy from "lodash/sortBy";
 import { ChipRow } from "../Calendar/Timeline/ChipRow";
-import { EmotionItem } from "./EmotionItem";
+import { EmotionItem } from "../../EmotionItem";
 import { INSET } from "./layout";
 
 const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");

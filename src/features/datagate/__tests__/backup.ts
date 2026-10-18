@@ -1,4 +1,4 @@
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { toExportSettings } from "@/state/settings/exportSettings";
 import { decodeBackup, encodeBackup } from "../backup";

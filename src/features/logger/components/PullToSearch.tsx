@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { Pressable, ScrollView, TextInput, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { Search, XCircle } from "react-native-feather";
+import Search from "lucide-react-native/icons/search";
+import CircleX from "lucide-react-native/icons/circle-x";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
@@ -163,7 +164,7 @@ export const PullToSearch = ({
               hitSlop={12}
               onPress={() => onChangeQuery("")}
             >
-              <XCircle color={colors.textInputPlaceholder} width={18} />
+              <CircleX color={colors.textInputPlaceholder} width={18} />
             </Pressable>
           )}
         </View>
