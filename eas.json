@@ -23,9 +23,7 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_APP_VARIANT": "preview",
-        "EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH": "1",
-        "EXPO_UNSTABLE_TREE_SHAKING": "1"
+        "EXPO_PUBLIC_APP_VARIANT": "preview"
       },
       "android": {
         "buildType": "apk"
@@ -33,9 +31,7 @@
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_APP_VARIANT": "production",
-        "EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH": "1",
-        "EXPO_UNSTABLE_TREE_SHAKING": "1"
+        "EXPO_PUBLIC_APP_VARIANT": "production"
       },
       "autoIncrement": true
     }
