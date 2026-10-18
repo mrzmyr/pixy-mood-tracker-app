@@ -119,6 +119,7 @@ const AppLayout = () => {
           <Stack.Screen name="people/create" options={modalOptions} />
           <Stack.Screen name="people/import" options={modalOptions} />
           <Stack.Screen name="people/[id]" options={modalOptions} />
+          <Stack.Screen name="profile" options={modalOptions} />
           <Stack.Screen
             name="statistics/highlights"
             options={{ ...pageOptions, title: t("statistics_highlights") }}

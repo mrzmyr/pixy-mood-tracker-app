@@ -321,6 +321,8 @@ describe("useLogs()", () => {
           "calendarLayout",
           "appLockEnabled",
           "recapNotificationsEnabled",
+          "profileName",
+          "profileAvatar",
         ]),
         tagCategories: testTagCategories,
       } satisfies ExportSettings & { tagCategories: TagCategory[] },
