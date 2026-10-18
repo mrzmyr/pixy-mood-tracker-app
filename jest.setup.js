@@ -115,11 +115,57 @@ jest.mock(
   () => new Proxy({}, { get: () => require("react-native").View })
 );
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI; the native sheet has no Jest view.
-jest.mock("@expo/ui", () => ({
-  BottomSheet: () => null,
-  RNHostView: () => null,
-}));
+const mockExpoUiChildren = ({ children }) => children ?? null;
+// Native rows wrap bare strings in a text view; so does the stand-in.
+const mockExpoUiText = (node) => {
+  const { isValidElement } = require("react");
+  const { Text } = require("react-native");
+  if (node === null || node === undefined || isValidElement(node)) {
+    return node ?? null;
+  }
+  return <Text>{node}</Text>;
+};
+const mockExpoUiSection = ({ title, children }) => {
+  const { Text, View } = require("react-native");
+  return (
+    <View>
+      {title ? <Text accessibilityRole="header">{title}</Text> : null}
+      {children}
+    </View>
+  );
+};
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- universal @expo/ui views have no Jest view; the stand-ins render rows as pressable React Native views.
+jest.mock("@expo/ui", () => {
+  const { isValidElement } = require("react");
+  const { Pressable, Text, View } = require("react-native");
+  return {
+    // The calendar sheet stays closed in Jest.
+    BottomSheet: () => null,
+    Host: mockExpoUiChildren,
+    RNHostView: mockExpoUiChildren,
+    FieldGroup: Object.assign((props) => mockExpoUiChildren(props), {
+      Section: mockExpoUiSection,
+      SectionHeader: mockExpoUiChildren,
+      SectionFooter: mockExpoUiChildren,
+    }),
+    ListItem: ({ children, leading, trailing, onPress, testID }) => (
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={isValidElement(children) ? undefined : children}
+        onPress={onPress}
+        testID={testID}
+      >
+        {mockExpoUiText(leading)}
+        {mockExpoUiText(children)}
+        {mockExpoUiText(trailing)}
+      </Pressable>
+    ),
+    Row: ({ children }) => <View>{children}</View>,
+    Text: ({ children }) => <Text>{children}</Text>,
+    Icon: Object.assign(() => null, { select: ({ ios }) => ios }),
+  };
+});
 
 const mockSwiftUiChildren = ({ children }) => children;
 const mockSwiftUiContextMenu = Object.assign(
