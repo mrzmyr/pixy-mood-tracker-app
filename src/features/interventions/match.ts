@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import type { LogItem } from "@/features/logs";
-import { DATE_FORMAT } from "@/constants/Config";
 import { getItemDate } from "@/lib/logDates";
 import type { InterventionCluster } from "@/state/analytics/events";
 import { CLUSTERS } from "./catalog";
@@ -24,14 +23,13 @@ export const matchCluster = (emotions: string[]): ClusterMatch | null => {
 };
 
 /**
- * Match for the calendar card: the latest entry of today with a matching
- * emotion. Resets at midnight because only today's entries count.
+ * Match for the calendar card: the latest entry of `today` (`DATE_FORMAT`)
+ * with a matching emotion. Pass `useToday()`, so the card resets at midnight.
  */
 export const matchToday = (
   items: LogItem[],
-  now = dayjs()
+  today: string
 ): (ClusterMatch & { item: LogItem }) | null => {
-  const today = now.format(DATE_FORMAT);
   const matches: (ClusterMatch & { item: LogItem })[] = [];
   for (const item of items) {
     const match =
