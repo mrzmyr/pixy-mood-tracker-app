@@ -38,6 +38,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - People ([spec](docs/specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`. Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
 - Location ([development.md](docs/development.md#location)): `settings:location_toggled` (`enabled`). `logger:log_saved` adds `has_location`. Never coordinates or place names
 - Calendar layout menu (Calendar, Timeline, Map): `calendar:layout_changed` with `layout`
+- Day actions: `day:add_tapped`, `day:edit_tapped`, `day:delete_tapped` send `source`: `day` (day view) or `calendar_menu` (iOS long press on a calendar day). Delete fires after the confirm prompt
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](src/features/review))
   - Fires once per install, after the save that reaches 7 entries

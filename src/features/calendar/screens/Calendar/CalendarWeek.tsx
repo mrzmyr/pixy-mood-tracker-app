@@ -9,6 +9,7 @@ import { useCalendarFilters } from "../../filters";
 import type { LogItem } from "@/features/logs";
 import { getAverageMood } from "@/features/logs";
 import CalendarDay from "./CalendarDay";
+import { DayMenu } from "./CalendarDay/DayMenu";
 import { useCalendarNavigation } from "../../navigation";
 
 dayjs.extend(isSameOrBefore);
@@ -95,13 +96,15 @@ const CalendarWeekComponent = ({
     const isFiltered = items.some((item) => filteredItemIds.has(item.id));
 
     return (
-      <CalendarDay
-        dateString={date}
-        rating={averageRating}
-        isFiltered={isFiltered}
-        isFiltering={calendarFilters.data.isFiltering}
-        onPress={() => onPressDay(date)}
-      />
+      <DayMenu date={date} items={items}>
+        <CalendarDay
+          dateString={date}
+          rating={averageRating}
+          isFiltered={isFiltered}
+          isFiltering={calendarFilters.data.isFiltering}
+          onPress={() => onPressDay(date)}
+        />
+      </DayMenu>
     );
   };
 

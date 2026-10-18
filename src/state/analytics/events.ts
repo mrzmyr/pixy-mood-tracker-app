@@ -71,9 +71,11 @@ export interface AnalyticsEvents {
   "widget:guide_dismissed": { step: number };
   "widget:guide_completed": undefined;
 
-  "day:add_tapped": undefined;
-  "day:edit_tapped": undefined;
-  "day:delete_tapped": undefined;
+  /** `source`: day view, or the iOS long-press menu on a calendar day. */
+  "day:add_tapped": { source: "day" | "calendar_menu" };
+  "day:edit_tapped": { source: "day" | "calendar_menu" };
+  /** Sent after the user confirms the delete prompt. */
+  "day:delete_tapped": { source: "day" | "calendar_menu" };
   "day:closed": undefined;
 
   /** `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`. */

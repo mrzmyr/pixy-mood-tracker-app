@@ -2,16 +2,13 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { FloatButton } from "@/components/FloatButton";
 import { PageModalLayout } from "@/components/PageModalLayout";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
-import { isConfirmed } from "@/lib/promptCancel";
-import { askToRemove } from "@/lib/prompts";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
-import { useLogState, useLogUpdater } from "@/features/logs";
+import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 
 import { getDayDateTitle } from "@/lib/utils";
-import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import Plus from "lucide-react-native/icons/plus";
@@ -21,6 +18,7 @@ import { Entry } from "./Entry";
 import { Header } from "./Header";
 import { INSET } from "./layout";
 import { getItemDate, getItemTime } from "@/lib/logDates";
+import { useDayActions } from "../../dayActions";
 
 // Same spot as the calendar float button: 20 from the right and from the
 // bottom safe area.
@@ -67,7 +65,7 @@ export const LogList = () => {
   const logState = useLogState();
   const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
-  const logUpdater = useLogUpdater();
+  const dayActions = useDayActions(date, "day");
 
   const items = logState.items
     .filter((item) => getItemDate(item) === date)
@@ -76,37 +74,6 @@ export const LogList = () => {
   const close = () => {
     analytics.track("day:closed");
     router.back();
-  };
-
-  const add = () => {
-    analytics.track("day:add_tapped");
-    router.push({
-      pathname: "/logs/create/[dateTime]",
-      params: {
-        dateTime: dayjs(date)
-          .hour(dayjs().hour())
-          .minute(dayjs().minute())
-          .toISOString(),
-      },
-    });
-  };
-
-  const edit = (item: LogItem) => {
-    analytics.track("day:edit_tapped");
-    router.push({ pathname: "/logs/[id]/edit", params: { id: item.id } });
-  };
-
-  const remove = (item: LogItem) => {
-    analytics.track("day:delete_tapped");
-    logUpdater.deleteLog(item.id);
-    logUpdater.sweepPhotos();
-    // navigation.goBack();
-  };
-
-  const _delete = async (item: LogItem) => {
-    if (await isConfirmed(askToRemove())) {
-      remove(item);
-    }
   };
 
   const [expandedNotes, setExpandedNotes] = useState<ReadonlySet<string>>(
@@ -187,8 +154,8 @@ export const LogList = () => {
         renderItem={({ item, index }) => (
           <Entry
             item={item}
-            onEdit={edit}
-            onDelete={_delete}
+            onEdit={dayActions.handleEdit}
+            onDelete={dayActions.handleDelete}
             position={{ index, count: items.length }}
             isNoteExpanded={expandedNotes.has(item.id)}
             onToggleNote={toggleNote}
@@ -226,7 +193,7 @@ export const LogList = () => {
         <FloatButton
           testID="log-list-add"
           accessibilityLabel={t("add_entry")}
-          onPress={add}
+          onPress={dayActions.handleAdd}
         >
           <Plus
             color={colors.primaryButtonText}
