@@ -1,1 +1,1 @@
-export { DevFixtureLinkScreen as default } from "@/features/settings";
+export { DevFixtureLinkScreen as default } from "@/features/settings/routes";

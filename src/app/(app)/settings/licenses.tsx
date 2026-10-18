@@ -1,1 +1,1 @@
-export { LicensesScreen as default } from "@/features/settings";
+export { LicensesScreen as default } from "@/features/settings/routes";

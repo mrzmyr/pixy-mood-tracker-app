@@ -1,14 +1,14 @@
 import {
   createMemoryFileTransfer,
   setFileTransferOverride,
-} from "../fileTransfer";
+} from "../file-transfer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import * as FileSystem from "expo-file-system/legacy";
 import { Alert } from "react-native";
 import { AnalyticsProvider } from "@/state/analytics";
-import { useDatagate } from "../DataGate";
-import { useAppData } from "../appData";
+import { useDatagate } from "../data-gate";
+import { useAppData } from "../app-data";
 
 import _ from "lodash";
 import { LogsProvider, useLogState, useLogUpdater } from "@/features/logs";
@@ -16,7 +16,7 @@ import type { LogsState } from "@/features/logs";
 
 import { SettingsProvider, useSettings } from "@/state/settings";
 import type { ExportSettings } from "@/state/settings";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { INITIAL_STATE } from "@/constants/settings";
 
 import { TagsProvider, useTagsState, useTagsUpdater } from "@/features/tags";
 import type { Tag, TagCategory } from "@/features/tags";
@@ -27,7 +27,7 @@ import {
 } from "@/features/people";
 import type { Person } from "@/features/people";
 
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 import { hideToast, useToast } from "@/lib/toast";
 
 import { File } from "expo-file-system";
@@ -320,6 +320,9 @@ describe("useLogs()", () => {
           "locationEnabled",
           "calendarLayout",
           "appLockEnabled",
+          "recapNotificationsEnabled",
+          "profileName",
+          "profileAvatar",
         ]),
         tagCategories: testTagCategories,
       } satisfies ExportSettings & { tagCategories: TagCategory[] },

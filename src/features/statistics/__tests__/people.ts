@@ -1,7 +1,7 @@
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 import type { Person } from "@/features/people";
-import { getPeopleDistributionData } from "../PeopleDistribution";
-import { getPeoplePeaksData } from "../PeoplePeaks";
+import { getPeopleDistributionData } from "../people-distribution";
+import { getPeoplePeaksData } from "../people-peaks";
 
 const person = (id: string, extra: Partial<Person> = {}): Person => ({
   id,

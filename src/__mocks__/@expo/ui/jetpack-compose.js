@@ -34,8 +34,13 @@ const DropdownMenu = ({ expanded, children }) => {
 DropdownMenu.Trigger = Slot;
 DropdownMenu.Items = Items;
 
-const DropdownMenuItem = ({ onClick, children }) => (
-  <Pressable accessibilityRole="menuitem" onPress={onClick}>
+const DropdownMenuItem = ({ onClick, enabled = true, children }) => (
+  <Pressable
+    accessibilityRole="menuitem"
+    accessibilityState={{ disabled: !enabled }}
+    disabled={!enabled}
+    onPress={onClick}
+  >
     {children}
   </Pressable>
 );
@@ -49,5 +54,6 @@ module.exports = {
   RNHostView,
   DropdownMenu,
   DropdownMenuItem,
+  HorizontalDivider: () => null,
   Text: ComposeText,
 };

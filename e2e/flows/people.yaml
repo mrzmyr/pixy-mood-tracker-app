@@ -4,7 +4,7 @@ tags: [p1, people]
 # People behind the `people` flag: import several contacts at once, mark
 # contacts that are already people, archive, delete with the entry count,
 # and keep the rest. The address book and photo library are system data, so the flow swaps
-# them for fakes (src/dev/fakePeopleSources.ts). Check the real pickers by
+# them for fakes (src/dev/fake-people-sources.ts). Check the real pickers by
 # hand before a release.
 - runFlow:
     file: ../subflows/load-fixture.yaml
@@ -64,7 +64,8 @@ tags: [p1, people]
 - inputText: "lee"
 - assertVisible: "Lee Fake"
 - assertNotVisible: "Kim Fake"
-- tapOn: "Cancel"
+- tapOn:
+    id: "contact-import-cancel"
 
 # Manual add with a typed name.
 - tapOn:

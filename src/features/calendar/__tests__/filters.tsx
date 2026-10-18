@@ -1,12 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook } from "@testing-library/react-native";
 import { AnalyticsProvider } from "@/state/analytics";
-import { CalendarFiltersProvider, useCalendarFilters } from "../filters";
+import {
+  CalendarFiltersProvider,
+  useCalendarFilters,
+  useCalendarFiltersSheet,
+} from "../filters";
 import { LogsProvider, STORAGE_KEY, useLogUpdater } from "@/features/logs";
 import type { LogsState } from "@/features/logs";
 
 import { SettingsProvider } from "@/state/settings";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -110,7 +114,7 @@ xdescribe("useCalendarFilters()", () => {
   });
 
   test("should `open`", async () => {
-    const hook = await _renderHook();
+    const hook = await renderHook(() => useCalendarFiltersSheet(), { wrapper });
     await act(async () => {});
 
     const { open } = hook.result.current;
@@ -123,7 +127,7 @@ xdescribe("useCalendarFilters()", () => {
   });
 
   test("should `close`", async () => {
-    const hook = await _renderHook();
+    const hook = await renderHook(() => useCalendarFiltersSheet(), { wrapper });
     await act(async () => {});
 
     const { open, close } = hook.result.current;
@@ -303,11 +307,17 @@ describe("useCalendarFilters() keeps filters", () => {
   });
 
   test("should keep filters on `close`", async () => {
-    const hook = await _renderHook();
+    const hook = await renderHook(
+      () => ({
+        filters: useCalendarFilters(),
+        sheet: useCalendarFiltersSheet(),
+      }),
+      { wrapper }
+    );
     await act(async () => {});
 
     await act(() => {
-      hook.result.current.set({
+      hook.result.current.filters.set({
         text: "",
         ratings: ["good"],
         tagIds: [],
@@ -315,16 +325,16 @@ describe("useCalendarFilters() keeps filters", () => {
       });
     });
     await act(() => {
-      hook.result.current.open();
+      hook.result.current.sheet.open();
     });
     await act(() => {
-      hook.result.current.close();
+      hook.result.current.sheet.close();
     });
 
-    expect(hook.result.current.isOpen).toBe(false);
-    expect(hook.result.current.data.ratings).toEqual(["good"]);
-    expect(hook.result.current.data.isFiltering).toBe(true);
-    expect(hook.result.current.data.filterCount).toBe(1);
+    expect(hook.result.current.sheet.isOpen).toBe(false);
+    expect(hook.result.current.filters.data.ratings).toEqual(["good"]);
+    expect(hook.result.current.filters.data.isFiltering).toBe(true);
+    expect(hook.result.current.filters.data.filterCount).toBe(1);
   });
 
   test("should match entries added while filtering", async () => {
@@ -355,5 +365,55 @@ describe("useCalendarFilters() keeps filters", () => {
     });
 
     expect(hook.result.current.filters.data.filteredItems).toEqual([added]);
+  });
+
+  test("lists the local day of each matching entry", async () => {
+    const hook = await renderHook(
+      () => ({ filters: useCalendarFilters(), logs: useLogUpdater() }),
+      { wrapper }
+    );
+    await act(async () => {});
+    const good = _generateItem({ date: "2022-03-01", rating: "good" });
+    const goodSameDay = _generateItem({ date: "2022-03-01", rating: "good" });
+    const bad = _generateItem({ date: "2022-03-02", rating: "bad" });
+
+    await act(() => {
+      hook.result.current.logs.updateLogs([good, goodSameDay, bad]);
+    });
+    await act(() => {
+      hook.result.current.filters.set({
+        text: "",
+        ratings: ["good"],
+        tagIds: [],
+        personIds: [],
+      });
+    });
+
+    expect([...hook.result.current.filters.data.filteredDates]).toEqual([
+      "2022-03-01",
+    ]);
+  });
+
+  test("keeps `data` when filters are set to equal values or logs change without filters", async () => {
+    const hook = await renderHook(
+      () => ({ filters: useCalendarFilters(), logs: useLogUpdater() }),
+      { wrapper }
+    );
+    await act(async () => {});
+    const initial = hook.result.current.filters.data;
+
+    await act(() => {
+      hook.result.current.filters.set({
+        text: "",
+        ratings: [],
+        tagIds: [],
+        personIds: [],
+      });
+    });
+    await act(() => {
+      hook.result.current.logs.addLog(_generateItem({ date: "2022-03-03" }));
+    });
+
+    expect(hook.result.current.filters.data).toBe(initial);
   });
 });

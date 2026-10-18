@@ -1,10 +1,10 @@
 import dayjs from "dayjs";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 import {
   getCameraCenter,
   getMapEntries,
   getMapPlaces,
-} from "../screens/Calendar/Map/places";
+} from "../screens/calendar/map/places";
 
 const office = { latitude: 52.5297, longitude: 13.4014, name: "Mitte" };
 const today = dayjs("2026-10-06T12:00:00");

@@ -3,18 +3,19 @@ import uniq from "lodash/uniq";
 import { useEffect, useMemo } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import { STEP_OPTIONS } from "@/constants/LoggerSteps";
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import { z } from "zod";
+import { STEP_OPTIONS } from "@/constants/logger-steps";
+import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 
-import { createPersistedStore } from "@/state/persisted/createPersistedStore";
-import type { Load } from "@/state/persisted/createPersistedStore";
+import { createPersistedStore } from "@/state/persisted/create-persisted-store";
+import type { Load } from "@/state/persisted/create-persisted-store";
 
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
-import { INITIAL_STATE } from "@/constants/Settings";
-import { applyColorScheme, ColorSchemeSettingSchema } from "./colorScheme";
-import type { ColorSchemeSetting } from "./colorScheme";
+import { INITIAL_STATE } from "@/constants/settings";
+import { applyColorScheme, ColorSchemeSettingSchema } from "./color-scheme";
+import type { ColorSchemeSetting } from "./color-scheme";
 
 /**
  * AsyncStorage key for settings. Keep the legacy name; changing it resets
@@ -77,6 +78,18 @@ export interface SettingsState {
    * launch and after time away. Device auth belongs to the device.
    */
   appLockEnabled: boolean;
+  /**
+   * Pixy sends a notification on the last day of each week, month, and year.
+   * Needs notification permission, which belongs to the device.
+   */
+  recapNotificationsEnabled: boolean;
+  /** Name the user gave themselves; empty until set. Stays on this device. */
+  profileName: string;
+  /**
+   * Relative path of the profile photo under the documents directory, or
+   * `null`. Stays on this device; backups carry no profile.
+   */
+  profileAvatar: string | null;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -89,8 +102,8 @@ export interface SettingsState {
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
- * location, calendar layout, and app lock to the device, so imports keep the
- * current values.
+ * location, calendar layout, app lock, recap notifications, and the profile
+ * to the device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -102,6 +115,9 @@ export type ExportSettings = Omit<
   | "locationEnabled"
   | "calendarLayout"
   | "appLockEnabled"
+  | "recapNotificationsEnabled"
+  | "profileName"
+  | "profileAvatar"
 >;
 
 interface IAction {
@@ -147,8 +163,8 @@ const reducer = (
       return action.payload(state);
     }
     // Store review prompt state, photo library access, theme, location,
-    // calendar layout, and app lock belong to this device, so imports keep
-    // the current values.
+    // calendar layout, app lock, recap notifications, and the profile belong
+    // to this device, so imports keep the current values.
     case "import": {
       return {
         ...INITIAL_STATE,
@@ -161,6 +177,9 @@ const reducer = (
         locationEnabled: state.locationEnabled,
         calendarLayout: state.calendarLayout,
         appLockEnabled: state.appLockEnabled,
+        recapNotificationsEnabled: state.recapNotificationsEnabled,
+        profileName: state.profileName,
+        profileAvatar: state.profileAvatar,
       };
     }
     case "reset": {
@@ -189,6 +208,9 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
           ? stored.calendarLayout
           : "calendar",
         appLockEnabled: stored.appLockEnabled === true,
+        recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
+        profileName: z.string().safeParse(stored.profileName).data ?? "",
+        profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
       };
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({

@@ -4,13 +4,13 @@ import {
   PostHogProvider,
   usePostHog as getPostHogTestClient,
 } from "posthog-react-native";
-import { _generateItem } from "@/__tests__/utils";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { _generateItem } from "@/testing/log-item";
+import { INITIAL_STATE } from "@/constants/settings";
 import { AnalyticsProvider } from "@/state/analytics";
-import { FeatureFlagsProvider } from "@/state/featureFlags";
+import { FeatureFlagsProvider } from "@/state/feature-flags";
 import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
-import { useCalendarLayout } from "../calendarLayout";
-import { getTimelineRows } from "../screens/Calendar/Timeline/rows";
+import { useCalendarLayout } from "../calendar-layout";
+import { getTimelineRows } from "../screens/calendar/timeline/rows";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
 const mockReload = jest.mocked(getPostHogTestClient().reloadFeatureFlagsAsync);

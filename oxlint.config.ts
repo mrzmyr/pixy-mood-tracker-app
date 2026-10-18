@@ -12,6 +12,51 @@ const reactNavigationImport = {
   message: "Import from expo-router/react-navigation instead.",
 };
 
+// Metro does not tree-shake: one barrel import bundles every Lucide icon.
+const iconImports = [
+  {
+    name: "lucide-react-native",
+    allowTypeImports: true,
+    message:
+      'Import each icon from "lucide-react-native/icons/<kebab-name>" instead.',
+  },
+  {
+    name: "react-native-feather",
+    message: 'Use Lucide: "lucide-react-native/icons/<kebab-name>".',
+  },
+];
+
+const featureImport = {
+  group: ["@/features", "@/features/**"],
+  message: "Lower layer must not import features.",
+};
+
+// Production bundles drop dev tools only behind the `DEV_TOOLS` gate in `src/dev/index.ts`.
+const devImport = {
+  group: ["@/dev", "@/dev/**"],
+  message: "Lower layer must not import dev tools.",
+};
+
+// Features expose `index.ts` (providers, hooks, logic) and `routes.ts` (screens).
+const featureDeepImport = {
+  group: ["@/features/*/**", "!@/features/*/routes"],
+  message: "Import features through their entry file.",
+};
+
+// Startup code imports only feature `index.ts`. `routes.ts` re-exports every screen, so importing it evaluates them all.
+// Regex, not a group: oxlint merges group negations across patterns, so `featureDeepImport` would allow `routes` here.
+const startupFeatureImport = {
+  regex: "^@/features/[^/]+/.+",
+  message:
+    "Startup code imports features through index.ts only. Screens load per route from routes.ts.",
+};
+
+const devDeepImport = {
+  regex: "^@/dev/.+",
+  message:
+    "Import dev tools through `DEV_TOOLS` from `@/dev`; deep imports ship dev code in production bundles.",
+};
+
 /**
  * Oxlint config: Ultracite presets plus the local `pixy-standards` rules
  * from `tools/oxlint/pixy-rules.cjs`.
@@ -23,6 +68,8 @@ export default defineConfig({
     ".agents/**",
     ".claude/**",
     ".codex/**",
+    // Generated store screenshot prototypes (built by build.py), not app code.
+    "docs/store-screenshots/**",
   ],
   jsPlugins: [
     ...jsPlugins.jsPlugins,
@@ -33,8 +80,12 @@ export default defineConfig({
     "pixy-standards/boolean-function-prefix": "error",
     "pixy-standards/require-exported-jsdoc": "error",
     "pixy-standards/structured-thrown-errors": "error",
-    // Expo components follow React Native's PascalCase file convention.
-    "unicorn/filename-case": "off",
+    // File names use kebab-case. `bun scripts/codemods/kebab-case-files.ts` renames old files.
+    // Expo Router params (`[dateTime].tsx`) name the search param, so they keep their case.
+    "unicorn/filename-case": [
+      "error",
+      { case: "kebabCase", ignore: [String.raw`^\[\w+\]\.tsx$`] },
+    ],
     // React Native has no CSS classes; inline style objects are standard.
     "react-doctor/no-inline-exhaustive-style": "off",
     // Alphabetical order hides ordinal data such as rating scales.
@@ -49,17 +100,18 @@ export default defineConfig({
     "unicorn/prefer-set-has": "off",
     // Autofix renames to `error` even when that shadows an outer `error`, changing which value code reads.
     "unicorn/catch-error-name": "off",
-    "no-restricted-imports": ["error", { patterns: [reactNavigationImport] }],
+    "no-restricted-imports": [
+      "error",
+      { paths: iconImports, patterns: [reactNavigationImport] },
+    ],
   },
   overrides: [
     {
-      // Lower layers never import upward into feature screens or logic.
+      // Core layers never import upward into support, features, or dev tools.
       files: [
         "src/state/**",
-        "src/components/**",
         "src/hooks/**",
         "src/lib/**",
-        "src/helpers/**",
         "src/constants/**",
         "src/types/**",
       ],
@@ -67,11 +119,14 @@ export default defineConfig({
         "no-restricted-imports": [
           "error",
           {
+            paths: iconImports,
             patterns: [
               {
-                group: ["@/features/**", "@/screens/**"],
-                message: "Lower layer must not import features or screens.",
+                group: ["@/support", "@/support/**"],
+                message: "Core layer must not import support.",
               },
+              featureImport,
+              devImport,
               reactNavigationImport,
             ],
           },
@@ -79,26 +134,101 @@ export default defineConfig({
       },
     },
     {
-      // Feature consumers use public entry files.
+      // Shared UI and the support layer sit below features and dev tools.
+      files: ["src/components/**", "src/support/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: iconImports,
+            patterns: [featureImport, devImport, reactNavigationImport],
+          },
+        ],
+      },
+    },
+    {
+      // Feature consumers use `index.ts`, or `routes.ts` for screens; dev tools only via the `DEV_TOOLS` gate.
       files: ["src/features/**", "src/shell/**", "src/app/**"],
       rules: {
         "no-restricted-imports": [
           "error",
           {
+            paths: iconImports,
+            patterns: [featureDeepImport, devDeepImport, reactNavigationImport],
+          },
+        ],
+      },
+    },
+    {
+      // Startup code evaluates at launch. Screens load lazily per route, so keep them out.
+      files: [
+        "src/shell/**",
+        "src/app/_layout.tsx",
+        "src/app/**/_layout.tsx",
+        "src/features/**/*-provider.tsx",
+      ],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: iconImports,
             patterns: [
-              {
-                regex: "^@/features/[^/]+/.+",
-                message: "Import features through their entry file.",
-              },
+              startupFeatureImport,
+              devDeepImport,
               reactNavigationImport,
             ],
           },
+        ],
+      },
+    },
+    {
+      // Dev tools may import their own files, but features only through entry files.
+      files: ["src/dev/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: iconImports,
+            patterns: [featureDeepImport, reactNavigationImport],
+          },
+        ],
+      },
+    },
+    {
+      // Tests never ship, so they may reach into features and dev fixtures.
+      files: ["src/**/__tests__/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          { paths: iconImports, patterns: [reactNavigationImport] },
         ],
       },
     },
     {
       // Feature entry files intentionally re-export public symbols.
       files: ["src/features/*/index.ts"],
+      rules: {
+        "oxc/no-barrel-file": "off",
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: iconImports,
+            patterns: [
+              {
+                group: ["./routes", "./screens/**"],
+                message:
+                  "Export screens from routes.ts. index.ts loads at startup through providers and hooks.",
+              },
+              devDeepImport,
+              reactNavigationImport,
+            ],
+          },
+        ],
+      },
+    },
+    {
+      // Feature route entries intentionally re-export screens.
+      files: ["src/features/*/routes.ts"],
       rules: { "oxc/no-barrel-file": "off" },
     },
     {
@@ -108,11 +238,12 @@ export default defineConfig({
         "pixy-standards/no-hermes-missing-array-methods": "error",
         "pixy-standards/no-hermes-missing-intl": "error",
         "pixy-standards/no-layout-animation": "error",
+        "pixy-standards/kebab-case-folders": "error",
       },
     },
     {
       // Append-only lists conflict on every merge; sorted lists do not.
-      files: ["src/state/featureFlags/keys.ts"],
+      files: ["src/state/feature-flags/keys.ts"],
       rules: { "pixy-standards/sorted-string-arrays": "error" },
     },
   ],

@@ -1,1 +1,1 @@
-export { VoiceMode as default } from "@/features/voice";
+export { VoiceMode as default } from "@/features/voice/routes";

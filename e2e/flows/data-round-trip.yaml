@@ -3,7 +3,7 @@ tags: [p1, data]
 ---
 # Export all data, delete all data, then import the export. All 365 entries return.
 # The share sheet and document picker are system screens, so the flow swaps
-# them for a fake that keeps the exported file (src/dev/fakeFileTransfer.ts).
+# them for a fake that keeps the exported file (src/dev/fake-file-transfer.ts).
 # Check the real system screens by hand before a release.
 - runFlow:
     file: ../subflows/load-fixture.yaml
@@ -22,7 +22,7 @@ tags: [p1, data]
     id: "export-json"
 
 # Delete all data leaves an empty calendar. Regression: a stale calendar
-# footer kept "Add another entry for today" after reset (src/screens/Calendar/index.tsx).
+# footer kept "Add another entry for today" after reset (src/features/calendar/screens/calendar/index.tsx).
 - scrollUntilVisible:
     element:
       id: "delete-all-data"

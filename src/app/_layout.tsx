@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react-native";
 import { useLocales } from "expo-localization";
-import { Observe, ObserveRoot } from "expo-observe";
+import { ObserveRoot } from "expo-observe";
 import {
   Stack,
   ThemeProvider,
@@ -14,21 +14,26 @@ import { useEffect, useEffectEvent } from "react";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";
-import Providers from "@/shell/Providers";
-import { ToastHost } from "@/components/Toast";
-import { SENTRY_DSN } from "@/constants/API";
-import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
-import Colors from "@/constants/Colors";
+import Providers from "@/shell/providers";
+import { ToastHost } from "@/components/toast";
+import { SENTRY_DSN } from "@/constants/api";
+import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
+import Colors from "@/constants/colors";
+import { configureObserve } from "@/lib/observe";
 import { applyLocale, getLocale } from "@/lib/translation";
 import { useSettings, useSettingsLoad } from "@/state/settings";
-import { useUsageSummarySync } from "@/shell/usageSummary";
-import { useScreenTracking } from "@/shell/screenTracking";
-import { LaunchSplash } from "@/shell/LaunchSplash";
+import { useUsageSummarySync } from "@/shell/usage-summary";
+import { useScreenTracking } from "@/shell/screen-tracking";
+import { LaunchSplash } from "@/shell/launch-splash";
 import { AppLockScreen } from "@/features/applock";
 import {
   useReminderSync,
   useReminderTapTracking,
 } from "@/features/notifications";
+import {
+  useRecapNotificationSync,
+  useRecapNotificationTaps,
+} from "@/features/recaps";
 
 // Configure before first render; each app variant reports to its own project.
 if (HAS_APP_VARIANT) {
@@ -36,7 +41,7 @@ if (HAS_APP_VARIANT) {
 }
 enableScreens();
 // Drop startup metrics until stored settings confirm analytics consent.
-Observe.configure({ dispatchingEnabled: false });
+configureObserve({ consent: false });
 
 const AppShell = () => {
   const { hasActionDone } = useSettings();
@@ -48,6 +53,8 @@ const AppShell = () => {
   useUsageSummarySync();
   useReminderTapTracking();
   useReminderSync();
+  useRecapNotificationTaps();
+  useRecapNotificationSync();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state, and dev links pick their own route.

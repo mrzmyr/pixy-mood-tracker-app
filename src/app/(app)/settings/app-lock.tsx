@@ -1,1 +1,1 @@
-export { AppLockSettingsScreen as default } from "@/features/applock";
+export { AppLockSettingsScreen as default } from "@/features/applock/routes";

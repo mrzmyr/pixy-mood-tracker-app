@@ -1,6 +1,6 @@
-import type { FeedackType, FeedbackSource } from "@/types/Feedback";
-import type { LoggerStep } from "@/constants/LoggerSteps";
-import type { AppIconId } from "@/constants/AppIcons";
+import type { FeedackType, FeedbackSource } from "@/types/feedback";
+import type { LoggerStep } from "@/constants/logger-steps";
+import type { AppIconId } from "@/constants/app-icons";
 import type { CalendarLayout, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
@@ -55,7 +55,6 @@ export interface AnalyticsEvents {
     /** Never the place itself. */
     has_location: boolean;
   };
-  "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
 
   /** Voice mode. Never the transcript, names, or emotion keys. */
@@ -217,6 +216,31 @@ export interface AnalyticsEvents {
   "tags:category_created": { title_length: number; categories_count: number };
   "tags:category_updated": { title_length: number };
   "tags:category_deleted": { tags_count: number; categories_count: number };
+
+  /** At least half of the card was on screen. Once per card per screen visit. */
+  "recaps:card_shown": RecapCardProperties;
+  /** Nudge card button. `turn_on` also fires the event of the setting. */
+  "recaps:nudge_tapped": RecapCardProperties & {
+    action: "turn_on" | "not_now";
+  };
+  /**
+   * Helpful or Not Helpful below a card. `reasons` are fixed keys. Notes go
+   * to the feedback service, never here: `has_note` only.
+   */
+  "recaps:card_feedback_sent": RecapCardProperties & {
+    helpful: boolean;
+    reasons: (
+      | "not_true"
+      | "knew_already"
+      | "not_relevant"
+      | "too_personal"
+      | "hard_to_understand"
+      | "feels_judgmental"
+    )[];
+    has_note: boolean;
+  };
+  /** Tap on a recap notification body. Ignored while flag `recaps` is off. */
+  "recaps:notification_tapped": { period: "week" | "month" | "year" };
   "tags:categories_reordered": {
     categories_count: number;
     method: "drag" | "accessibility_action";
@@ -237,6 +261,14 @@ export interface AnalyticsEvents {
   "people:person_deleted": { entries_count: number };
   "people:delete_cancelled": undefined;
 
+  /** Name length only; the name itself never leaves the device. */
+  "profile:profile_saved": {
+    has_name: boolean;
+    name_length: number;
+    has_photo: boolean;
+    photo_changed: boolean;
+  };
+
   "settings:rate_app_tapped": undefined;
   "settings:vote_features_tapped": undefined;
   "settings:changelog_tapped": undefined;
@@ -254,6 +286,12 @@ export interface AnalyticsEvents {
     permission_granted: boolean;
   };
   "reminders:time_changed": { time: string };
+  /** Recaps toggle in Settings > Reminder. Denied permission keeps it off. */
+  "reminders:recaps_toggled": {
+    enabled: boolean;
+    /** Only when turning on: turning off never checks permission. */
+    permission_granted?: boolean;
+  };
   "reminders:notification_opened": {
     /** App launched from the tap, not resumed from background. */
     cold_start: boolean;
@@ -448,3 +486,17 @@ export interface SavedEntryProperties {
 /** Properties of the statistics highlight events: shown cards and item counts. */
 export type HighlightsProperties =
   AnalyticsEvents["statistics:highlights_viewed"];
+
+/**
+ * Card a recap event is about. Type, family, and modules only: never tag
+ * names, person names, emotion keys, or ratings from the card.
+ */
+export interface RecapCardProperties {
+  card_type: string;
+  family: "moment" | "summary" | "pattern" | "change" | "nudge";
+  modules: string[];
+  signal: "strong" | "medium";
+  period: "week" | "month" | "quarter" | "year";
+  /** Screen that showed the card. */
+  source: "settings";
+}

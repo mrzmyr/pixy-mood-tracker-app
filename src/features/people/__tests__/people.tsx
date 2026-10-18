@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import * as FileSystem from "expo-file-system/legacy";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 import {
   LogsProvider,
   useLogLoad,
@@ -16,8 +16,8 @@ import {
   usePeopleLoad,
   usePeopleState,
   usePeopleUpdater,
-} from "../PeopleProvider";
-import type { Person } from "../PeopleProvider";
+} from "../people-provider";
+import type { Person } from "../people-provider";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>

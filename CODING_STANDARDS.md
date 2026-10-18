@@ -2,9 +2,9 @@
 
 ## UI Review
 
-- New in-app setting: PR cites platform guideline and 2-3 reference apps ([design](docs/design.md#settings))
-- Component swap: PR shows measured size unchanged ([design](docs/design.md#layout))
-- New sheet or modal: native `pageSheet`, no custom slide-in ([design](docs/design.md#sheets-and-modals))
+- New in-app setting: PR cites platform guideline and 2-3 reference apps ([design](DESIGN.md#settings))
+- Component swap: PR shows measured size unchanged ([design](DESIGN.md#layout))
+- New sheet or modal: native `pageSheet`, no custom slide-in ([design](DESIGN.md#sheets-and-modals))
 
 ## Commits
 

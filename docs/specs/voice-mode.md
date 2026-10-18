@@ -10,7 +10,7 @@ Speak about your day. Pixy transcribes on device, finds known people, tags, and 
 - Behind PostHog flag `voice-mode`. Flag off hides the mic button. Dev override in Settings > Development > Feature flags
 - Platforms: iOS, Android 13+ (API 33). Older Android hides the mic button
 - Transcription: [`expo-speech-transcriber`](https://github.com/DaveyEke/expo-speech-transcriber), patched with `bun patch` (see [Library patch](#library-patch))
-- Transcription stays on device. Locale = app language ([`getSpeechLocales`](../../src/features/voice/speechLocale.ts))
+- Transcription stays on device. Locale = app language ([`getSpeechLocales`](../../src/features/voice/speech-locale.ts))
 - iOS 26+: Apple `SpeechAnalyzer` (`SpeechTranscriber`). Works with Siri off. Downloads the language model from Apple once
 - iOS < 26: `SFSpeechRecognizer` on-device mode. Needs Siri on (`kLSRErrorDomain 201` "Siri and Dictation are disabled", found on device 2026-10-15). Siri off: state "voice mode needs Siri"
 - Matching: on-device keyword match (option a). Swappable matcher for Apple Foundation Models later (option c, out of scope)
@@ -37,11 +37,11 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
   - Bottom: "Listening…" title plus hint "Talk about your day: who you connected with, what you did, how you feel." Paused: "Paused"
   - Bottom row: pause/resume button, live waveform, check button (primary)
 - Close with transcript asks to discard ([`useDiscardGuard`](../../src/hooks/useDiscardGuard.ts))
-- Native module missing (web, Jest, old dev client): screen shows the failed state, never throws on import ([`speechModule.ts`](../../src/features/voice/speechModule.ts))
+- Native module missing (web, Jest, old dev client): screen shows the failed state, never throws on import ([`speech-module.ts`](../../src/features/voice/speech-module.ts))
 
 ## Feedback
 
-- After saving a voice check-in, a sheet asks "How was checking in by voice?" over the saved confirmation ([`VoiceFeedbackSheet`](../../src/features/feedback/components/VoiceFeedbackSheet.tsx))
+- After saving a voice check-in, a sheet asks "How was checking in by voice?" over the saved confirmation ([`VoiceFeedbackSheet`](../../src/features/feedback/components/voice-feedback-sheet.tsx))
 - First 3 voice check-ins only. Each shown sheet adds `voice_feedback_1` to `_3` to `actionsDone`. Skips count
 - Cancelled voice sessions get no sheet
 - 3 faces: Not Great, Okay, Great. One tap sends `voice:feedback_submitted` with rating, counts, and duration
@@ -65,7 +65,7 @@ Calendar mic button
 
 ## Matcher
 
-File: `src/features/voice/matchTranscript.ts`. Pure function, unit tested.
+File: `src/features/voice/match-transcript.ts`. Pure function, unit tested.
 
 - Normalize both sides: lowercase, strip diacritics, collapse punctuation to spaces
 - Whole word match, multi word terms allowed ("left out"). Scripts without spaces (zh, ja, th): substring match

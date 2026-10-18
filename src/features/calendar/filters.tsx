@@ -10,10 +10,11 @@ import { useAnalytics } from "@/state/analytics";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 
-import { useContentStableValue } from "@/hooks/useContentStableValue";
+import { useContentStableValue } from "@/hooks/use-content-stable-value";
 import type { Tag } from "@/features/tags";
 import type { Person } from "@/features/people";
 import { createMissingProviderError } from "@/lib/errors";
+import { getItemDate } from "@/lib/log-dates";
 
 interface FiltersData {
   text: string;
@@ -31,6 +32,8 @@ interface FiltersData {
  */
 export interface CalendarFiltersData extends FiltersData {
   filteredItems: LogItem[];
+  /** Local days (`getItemDate`) with at least one entry in `filteredItems`. */
+  filteredDates: ReadonlySet<string>;
   filterCount: number;
   isFiltering: boolean;
 }
@@ -39,13 +42,21 @@ interface Value {
   data: CalendarFiltersData;
   set: (data: FiltersData) => void;
   reset: () => void;
-  open: () => void;
-  close: () => void;
-  isOpen: boolean;
 }
 
-// SAFETY: every consumer renders inside CalendarFiltersProvider, which supplies the full Value.
-const CalendarFiltersStateContext = createContext({} as Value);
+/** Filter sheet visibility. Apart from `Value`: toggling the sheet must not re-render calendar cells. */
+interface SheetValue {
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
+}
+
+const CalendarFiltersStateContext = createContext<Value | undefined>(undefined);
+const CalendarFiltersSheetContext = createContext<SheetValue | undefined>(
+  undefined
+);
+
+const NO_ITEMS: LogItem[] = [];
 
 const initialFilters: FiltersData = {
   text: "",
@@ -111,26 +122,34 @@ const CalendarFiltersProvider = ({
     [analytics]
   );
 
+  // Compare the small filter input by content, never the matched entries:
+  // serializing every filtered entry on each render was the hot path.
+  const stableFilters = useContentStableValue(filters);
+  const isFiltering =
+    stableFilters.text !== "" ||
+    stableFilters.ratings.length !== 0 ||
+    stableFilters.tagIds.length !== 0 ||
+    stableFilters.personIds.length !== 0;
+  // Without filters, log changes leave `data` untouched.
+  const matchSource = isFiltering ? logState.items : NO_ITEMS;
+
   const data: CalendarFiltersData = useMemo(() => {
-    const isFiltering =
-      filters.text !== "" ||
-      filters.ratings.length !== 0 ||
-      filters.tagIds.length !== 0 ||
-      filters.personIds.length !== 0;
     const filterCount =
-      (filters.text === "" ? 0 : 1) +
-      filters.ratings.length +
-      filters.tagIds.length +
-      filters.personIds.length;
+      (stableFilters.text === "" ? 0 : 1) +
+      stableFilters.ratings.length +
+      stableFilters.tagIds.length +
+      stableFilters.personIds.length;
+    const filteredItems = matchSource.filter((item) =>
+      isMatchingFilters(item, stableFilters)
+    );
     return {
-      ...filters,
+      ...stableFilters,
       isFiltering,
       filterCount,
-      filteredItems: isFiltering
-        ? logState.items.filter((item) => isMatchingFilters(item, filters))
-        : [],
+      filteredItems,
+      filteredDates: new Set(filteredItems.map(getItemDate)),
     };
-  }, [filters, logState.items]);
+  }, [stableFilters, isFiltering, matchSource]);
 
   const reset = useCallback(() => {
     analytics.track("calendar:filters_reset");
@@ -149,28 +168,26 @@ const CalendarFiltersProvider = ({
     setIsOpen(false);
   }, [analytics]);
 
-  // Keep the context value stable when filters are set to equal data.
-  const stableData = useContentStableValue(data);
-
   const value: Value = useMemo(
-    () => ({
-      data: stableData,
-      set,
-      reset,
-      open,
-      close,
-      isOpen,
-    }),
-    [stableData, set, reset, open, close, isOpen]
+    () => ({ data, set, reset }),
+    [data, set, reset]
+  );
+
+  const sheetValue: SheetValue = useMemo(
+    () => ({ isOpen, open, close }),
+    [isOpen, open, close]
   );
 
   return (
     <CalendarFiltersStateContext.Provider value={value}>
-      {children}
+      <CalendarFiltersSheetContext.Provider value={sheetValue}>
+        {children}
+      </CalendarFiltersSheetContext.Provider>
     </CalendarFiltersStateContext.Provider>
   );
 };
 
+/** Active filters and their result, plus `set` and `reset`. */
 const useCalendarFilters = (): Value => {
   const context = useContext(CalendarFiltersStateContext);
   if (context === undefined) {
@@ -182,4 +199,16 @@ const useCalendarFilters = (): Value => {
   return context;
 };
 
-export { CalendarFiltersProvider, useCalendarFilters };
+/** Filter sheet visibility. Closing keeps the filters. */
+const useCalendarFiltersSheet = (): SheetValue => {
+  const context = useContext(CalendarFiltersSheetContext);
+  if (context === undefined) {
+    throw createMissingProviderError(
+      "useCalendarFiltersSheet",
+      "CalendarFiltersProvider"
+    );
+  }
+  return context;
+};
+
+export { CalendarFiltersProvider, useCalendarFilters, useCalendarFiltersSheet };

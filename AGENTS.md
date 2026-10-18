@@ -20,6 +20,7 @@
 
 ## PRs
 
+- When helpful to visualize a change, generate flow diagrams with [Pele](https://pele.run) ([API docs](https://pele.run/api.md)), export as PNG, and include in PR body. Keep generated files outside git.
 - When multiple things have beend worked on in one go you want to create PR, suggest the user to create multiple PRs by topics for easier reviews; If you are sure, just go ahead and create multiple PRs even when the user said "create PR"
 - Visual change: screenshot required, video too when motion
 - Screenshots and videos: upload to PR body with [pr-proof skill](.agents/skills/pr-proof/SKILL.md). Proof files stay outside git
@@ -36,6 +37,13 @@
 - MUST update [`docs/app-facts.json`](docs/app-facts.json) whenever a feature or service changes. Verify against source and live stores first. Bump `verifiedOn`.
 - Keep directory credentials and account recovery details outside this public repository.
 
+## People semantics
+
+- Person on an entry = user connected with them that day: met, called, texted, thought about. Not proof of time together.
+- Connection can feel good, bad, or mixed. Never assume a person is positive.
+- Day mood hints at a connection; it does not prove it. Prefer emotions on those days over mood averages.
+- Copy says "connected" ("3 days connected"). Avoid "together", "spent time with".
+
 ## Tools
 
 - Posthog for product analytics (MCP installed)
@@ -49,7 +57,9 @@
 
 - Record mistakes in [MISTAKES.md](MISTAKES.md), missing capabilities in [DESIRES.md](DESIRES.md), and environment discoveries in [LEARNINGS.md](LEARNINGS.md)
 - Public repo: entries contain no private names, internal context, or user data
+- Never use Expo Device Hub (`bun hub`) as an agent. Humans: never press Shut down or Remove in it ([Device Hub](docs/development.md#device-hub)).
 - Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Fixed values are fine: rating, emotion keys, sleep quality, intervention cluster, feedback answer. Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
+- Call EAS Observe config only through `configureObserve` ([`src/lib/observe.ts`](src/lib/observe.ts)). Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others.
 
 ### Testing
 
@@ -57,6 +67,7 @@
 - Never add tests that only assert static content matches expected values (translation keys, UI copy, enum labels)
 - Type safety and translation tooling catch label collisions at build time
 - Write tests for behavior, logic, and user-facing outcomes, not for checking static data structures
+- Never add meaningless unit tests: no tests that only mirror the implementation (mock called with X), re-check a one-line effect, or cover trivial wiring. Add a test only when it can fail for a real regression
 
 ## Notifications
 
@@ -68,11 +79,12 @@
 ## Releases
 
 - MUST run `app-store-review` skill before App Store release
+- MUST pass `bun release smoke --platform=ios` before App Store release ([workflow](docs/store-release-workflow.md#release))
 
 ## References
 
 - MUST read [CODING_STANDARDS.md](CODING_STANDARDS.md)
 - MUST read [MISTAKES.md](MISTAKES.md) and [LEARNINGS.md](LEARNINGS.md) before code changes
 - MUST read [docs/documentation.md](docs/documentation.md)
-- MUST read [docs/design.md](docs/design.md) for UI, copy, layout, forms, and interaction guidelines
+- MUST read [DESIGN.md](DESIGN.md) for UI, copy, layout, forms, interaction, and marketing asset guidelines
 - Use domain terms from [GLOSSARY.md](GLOSSARY.md) in code, copy, and docs
