@@ -104,6 +104,7 @@
   "colors": "Zabarwienie",
   "colors_info": "Kolory służą do wskazywania nastroju w kalendarzu. Twój poprzedni nastrój zostanie przełączony na wybrany kolor.",
   "colors_reset": "Przywróć ustawienia domyślne",
+  "colors_scale_label": "Skala kolorów %{position} z %{total}",
   "create": "Tworzyć",
   "create_tag": "Utwórz tag",
   "data": "Dane",

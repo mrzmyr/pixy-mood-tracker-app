@@ -104,6 +104,7 @@
   "colors": "颜色",
   "colors_info": "颜色用于指示日历中的情绪。您之前的心情将切换为所选颜色。",
   "colors_reset": "重置为默认",
+  "colors_scale_label": "颜色方案 %{position}/%{total}",
   "create": "创造",
   "create_tag": "创建标签",
   "data": "数据",

@@ -104,6 +104,7 @@
   "colors": "Boje",
   "colors_info": "Boje se koriste za označavanje raspoloženja u kalendaru. Vaše prethodno raspoloženje bit će prebačeno u odabranu boju.",
   "colors_reset": "Vrati na zadano",
+  "colors_scale_label": "Ljestvica boja %{position} od %{total}",
   "create": "Stvoriti",
   "create_tag": "Stvori oznaku",
   "data": "Podaci",

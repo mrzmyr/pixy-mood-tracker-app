@@ -104,6 +104,7 @@
   "colors": "warna",
   "colors_info": "Warna digunakan untuk menunjukkan suasana hati dalam kalender. Suasana hati Anda sebelumnya akan dialihkan ke warna yang dipilih.",
   "colors_reset": "Setel ulang ke default",
+  "colors_scale_label": "Skala warna %{position} dari %{total}",
   "create": "Membuat",
   "create_tag": "Buat Tag",
   "data": "Data",

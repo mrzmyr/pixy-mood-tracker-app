@@ -104,6 +104,7 @@
   "colors": "Farger",
   "colors_info": "Farger brukes for å indikere stemningen i kalenderen. Din forrige stemning vil bli byttet til den valgte fargen.",
   "colors_reset": "Tilbakestill til standard",
+  "colors_scale_label": "Fargeskala %{position} av %{total}",
   "create": "Skape",
   "create_tag": "Opprett tag",
   "data": "Data",

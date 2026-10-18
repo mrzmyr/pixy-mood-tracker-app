@@ -104,6 +104,7 @@
   "colors": "그림 물감",
   "colors_info": "색상은 달력의 분위기를 나타내는 데 사용됩니다. 선택한 색상으로 이전 기분이 전환됩니다.",
   "colors_reset": "기본값으로 재설정",
+  "colors_scale_label": "색상 스케일 %{total}개 중 %{position}번째",
   "create": "만들다",
   "create_tag": "태그 생성",
   "data": "데이터",

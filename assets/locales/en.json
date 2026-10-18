@@ -120,6 +120,7 @@
   "colors": "Colors",
   "colors_info": "Colors indicate the mood in the calendar. Your previously tracked mood will be switched to the selected color palette.",
   "colors_reset": "Reset to default",
+  "colors_scale_label": "Color scale %{position} of %{total}",
   "create": "Create",
   "create_tag": "Create Tag",
   "data": "Data",

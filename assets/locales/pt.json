@@ -104,6 +104,7 @@
   "colors": "Cores",
   "colors_info": "As cores são usadas para indicar o humor no calendário. Seu humor anterior será alterado para a cor selecionada.",
   "colors_reset": "Restaurar ao padrão",
+  "colors_scale_label": "Escala de cores %{position} de %{total}",
   "create": "Crio",
   "create_tag": "Criar etiqueta",
   "data": "Dados",

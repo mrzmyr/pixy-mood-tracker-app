@@ -96,7 +96,7 @@ describe("haptics", () => {
     const onPress = jest.fn();
     const { getByText } = await render(
       withTheme(
-        <Radio onPress={onPress}>
+        <Radio label="Option" onPress={onPress}>
           <Text>Option</Text>
         </Radio>
       )

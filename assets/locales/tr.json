@@ -104,6 +104,7 @@
   "colors": "Renkler",
   "colors_info": "Renkler, takvimdeki ruh halini belirtmek için kullanılır. Önceki ruh haliniz seçilen renge geçecektir.",
   "colors_reset": "Varsayılana sıfırla",
+  "colors_scale_label": "Renk ölçeği %{position}/%{total}",
   "create": "Oluşturmak",
   "create_tag": "Etiket Oluştur",
   "data": "Veri",

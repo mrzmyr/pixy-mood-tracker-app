@@ -104,6 +104,7 @@
   "colors": "Colores",
   "colors_info": "Los colores se utilizan para indicar el estado de ánimo en el calendario. Su estado de ánimo anterior cambiará al color seleccionado.",
   "colors_reset": "Restablecen a los predeterminados",
+  "colors_scale_label": "Escala de colores %{position} de %{total}",
   "create": "Crear",
   "create_tag": "Crear etiqueta",
   "data": "Datos",

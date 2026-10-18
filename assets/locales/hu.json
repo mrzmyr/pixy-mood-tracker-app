@@ -104,6 +104,7 @@
   "colors": "Színek",
   "colors_info": "A színek a hangulat jelzésére szolgálnak a naptárban. Az előző hangulat a kiválasztott színre vált.",
   "colors_reset": "Visszaállítás alapértelmezettre",
+  "colors_scale_label": "%{position}. színskála (összesen %{total})",
   "create": "Létrehozás",
   "create_tag": "Címke létrehozása",
   "data": "Adatok",

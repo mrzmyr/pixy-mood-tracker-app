@@ -1,13 +1,16 @@
 import { FieldGroup, Host, ListItem, RNHostView, Text } from "@expo/ui";
 import { RadioButton } from "@expo/ui/jetpack-compose";
+import { selectable, semantics } from "@expo/ui/jetpack-compose/modifiers";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { Scale, SCALE_ROW_DOT_SIZE } from "./Scale";
+import { scaleLabel } from "./scaleLabel";
 import type { ScaleListProps } from "./types";
 
 /**
  * Scale choice on Android: Material 3 grouped rows, radio button at the end
- * of each row. The scale preview is React Native.
+ * of each row. The scale preview is React Native. The whole row is the
+ * selectable radio target, so TalkBack reads one element per scale.
  */
 export const ScaleList = ({
   scaleIds,
@@ -22,7 +25,7 @@ export const ScaleList = ({
     <Host style={{ flex: 1 }}>
       <FieldGroup style={{ backgroundColor: colors.background }}>
         <FieldGroup.Section>
-          {scaleIds.map((id) => {
+          {scaleIds.map((id, index) => {
             const select = () => {
               haptics.selection();
               onSelect(id);
@@ -31,11 +34,15 @@ export const ScaleList = ({
               <ListItem
                 key={id}
                 testID={`scale-${id}`}
-                onPress={select}
+                modifiers={[
+                  selectable(id === selectedId, select, "radioButton"),
+                  semantics({
+                    contentDescription: scaleLabel(index, scaleIds.length),
+                  }),
+                ]}
                 trailing={
                   <RadioButton
                     selected={id === selectedId}
-                    onClick={select}
                     colors={{
                       selectedColor: colors.tint,
                       unselectedColor: colors.textSecondary,

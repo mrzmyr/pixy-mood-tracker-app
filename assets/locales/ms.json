@@ -104,6 +104,7 @@
   "colors": "Warna",
   "colors_info": "Warna digunakan untuk menunjukkan mood dalam kalendar. Mood anda sebelum ini akan ditukar kepada warna yang dipilih.",
   "colors_reset": "Tetapkan semula kepada lalai",
+  "colors_scale_label": "Skala warna %{position} daripada %{total}",
   "create": "Buat",
   "create_tag": "Cipta Tag",
   "data": "Data",

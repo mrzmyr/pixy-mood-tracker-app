@@ -104,6 +104,7 @@
   "colors": "Färger",
   "colors_info": "Färger används för att indikera stämningen i kalendern. Ditt tidigare humör kommer att ändras till den valda färgen.",
   "colors_reset": "Återställ till standard",
+  "colors_scale_label": "Färgskala %{position} av %{total}",
   "create": "Skapa",
   "create_tag": "Skapa tagg",
   "data": "Data",

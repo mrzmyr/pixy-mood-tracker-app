@@ -104,6 +104,7 @@
   "colors": "色",
   "colors_info": "カレンダーの雰囲気を色で表現。以前の気分が選択した色に切り替わります。",
   "colors_reset": "デフォルトにリセット",
+  "colors_scale_label": "カラースケール %{position}/%{total}",
   "create": "作成",
   "create_tag": "タグを作成",
   "data": "データ",

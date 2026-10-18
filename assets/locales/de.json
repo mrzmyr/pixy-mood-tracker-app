@@ -105,6 +105,7 @@
   "colors": "Farben",
   "colors_info": "Farben werden verwendet, um die Stimmung im Kalender anzuzeigen. Deine vorherige Stimmung wird auf die ausgewählte Farbe umgestellt.",
   "colors_reset": "Zurücksetzen",
+  "colors_scale_label": "Farbskala %{position} von %{total}",
   "create": "Erstellen",
   "create_tag": "Schlagwort erstellen",
   "data": "Daten",

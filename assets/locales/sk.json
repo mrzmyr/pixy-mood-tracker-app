@@ -104,6 +104,7 @@
   "colors": "Farby",
   "colors_info": "Farby sa používajú na označenie nálady v kalendári. Vaša predchádzajúca nálada sa prepne na zvolenú farbu.",
   "colors_reset": "Obnoviť pôvodné nastavenia",
+  "colors_scale_label": "Farebná škála %{position} z %{total}",
   "create": "Vytvorte",
   "create_tag": "Vytvoriť značku",
   "data": "Údaje",

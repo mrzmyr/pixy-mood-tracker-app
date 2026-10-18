@@ -104,6 +104,7 @@
   "colors": "värit",
   "colors_info": "Kalenterin tunnelmaa käytetään väreillä. Edellinen mielialasi vaihtuu valittuun väriin.",
   "colors_reset": "Palauta oletusarvo",
+  "colors_scale_label": "Väriasteikko %{position}/%{total}",
   "create": "Luoda",
   "create_tag": "Luo tunniste",
   "data": "Data",

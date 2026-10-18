@@ -2,6 +2,7 @@ import { ScrollView } from "react-native";
 import TextInfo from "@/components/TextInfo";
 import { Radio } from "./Radio";
 import { Scale } from "./Scale";
+import { scaleLabel } from "./scaleLabel";
 import type { ScaleListProps } from "./types";
 
 /**
@@ -15,9 +16,10 @@ export const ScaleList = ({
   footer,
 }: ScaleListProps) => (
   <ScrollView contentContainerStyle={{ padding: 20 }}>
-    {scaleIds.map((id) => (
+    {scaleIds.map((id, index) => (
       <Radio
         key={id}
+        label={scaleLabel(index, scaleIds.length)}
         isSelected={id === selectedId}
         onPress={() => onSelect(id)}
       >

@@ -104,6 +104,7 @@
   "colors": "Couleurs",
   "colors_info": "Les couleurs sont utilisées pour indiquer l'ambiance dans le calendrier. Votre humeur précédente sera remplacée par la couleur sélectionnée.",
   "colors_reset": "Réinitialiser par défaut",
+  "colors_scale_label": "Échelle de couleurs %{position} sur %{total}",
   "create": "Créer",
   "create_tag": "Créer une balise",
   "data": "Données",

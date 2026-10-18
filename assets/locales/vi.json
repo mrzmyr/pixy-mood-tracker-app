@@ -104,6 +104,7 @@
   "colors": "Màu sắc",
   "colors_info": "Màu sắc được sử dụng để biểu thị tâm trạng trong lịch. Tâm trạng trước đó của bạn sẽ được chuyển sang màu đã chọn.",
   "colors_reset": "Đặt lại về mặc định",
+  "colors_scale_label": "Thang màu %{position} trên %{total}",
   "create": "Tạo ra",
   "create_tag": "Tạo thẻ",
   "data": "Dữ liệu",

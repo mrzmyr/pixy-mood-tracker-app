@@ -21,11 +21,14 @@ const getPressableOpacity = (
  */
 export const Radio = ({
   onPress,
+  label,
   children,
   isSelected = false,
   isDisabled = false,
 }: {
   onPress: () => void;
+  /** Spoken name of the row. */
+  label: string;
   children: React.ReactNode;
   isSelected?: boolean;
   isDisabled?: boolean;
@@ -43,6 +46,9 @@ export const Radio = ({
   return (
     <Pressable
       onPress={_onPress}
+      accessibilityRole="radio"
+      accessibilityLabel={label}
+      accessibilityState={{ checked: isSelected, disabled: isDisabled }}
       style={({ pressed }) => [
         {
           flexDirection: "row",

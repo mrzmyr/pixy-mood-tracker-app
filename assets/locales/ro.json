@@ -104,6 +104,7 @@
   "colors": "Culori",
   "colors_info": "Culorile sunt folosite pentru a indica starea de spirit din calendar. Starea ta anterioară va fi schimbată la culoarea selectată.",
   "colors_reset": "Resetare la valorile implicite",
+  "colors_scale_label": "Scala de culori %{position} din %{total}",
   "create": "Crea",
   "create_tag": "Creați etichetă",
   "data": "Date",

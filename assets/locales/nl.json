@@ -104,6 +104,7 @@
   "colors": "Kleuren",
   "colors_info": "Kleuren worden gebruikt om de stemming in de kalender aan te geven. Je vorige stemming wordt overgeschakeld naar de geselecteerde kleur.",
   "colors_reset": "Reset naar standaard",
+  "colors_scale_label": "Kleurschaal %{position} van %{total}",
   "create": "Creëren",
   "create_tag": "Tag maken",
   "data": "Gegevens",
