@@ -1,11 +1,11 @@
 import * as Sentry from "@sentry/react-native";
-import { useEffect, useEffectEvent } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { Alert, Linking, Platform, ScrollView, Text, View } from "react-native";
 import CircleAlert from "lucide-react-native/icons/circle-alert";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import { exportRawStorage, useAppData } from "@/features/datagate";
-import { useFeedbackModal } from "@/features/feedback";
+import { FeedbackModal } from "@/features/feedback";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { StructuredError } from "@/lib/errors";
@@ -33,7 +33,7 @@ const getSupportMailUrl = (error: StructuredError) => {
 const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { Modal: FeedbackModal, show: showFeedbackModal } = useFeedbackModal();
+  const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
   const analytics = useAnalytics();
 
   // Effect event: reads the latest analytics without re-running the effect.
@@ -53,8 +53,9 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
     try {
       await Linking.openURL(getSupportMailUrl(error));
     } catch {
-      // No mail app: fall back to the feedback form.
-      showFeedbackModal({ type: "issue" });
+      // No mail app: fall back to the feedback form. This screen replaces
+      // the router stack, so it shows the form as a modal, not the route.
+      setIsFeedbackVisible(true);
     }
   };
 
@@ -144,7 +145,11 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
           {t("storage_load_error_code", { status: error.status })}
         </Text>
       </ScrollView>
-      <FeedbackModal />
+      <FeedbackModal
+        visible={isFeedbackVisible}
+        type="issue"
+        onClose={() => setIsFeedbackVisible(false)}
+      />
     </View>
   );
 };

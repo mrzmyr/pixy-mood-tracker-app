@@ -28,7 +28,7 @@ Submission stops at TestFlight and the Play internal track. Public release still
 ## Release
 
 1. Merge product changes into `main` using Conventional Commit messages.
-2. Review the Release Please PR version and changelog.
+2. Review the Release Please PR version and changelog. Run `bun release smoke --platform=ios` on its branch. Merge only on pass. Debug builds and e2e miss release-only bundle crashes (1.99.0, #880).
 3. Merge the Release Please PR.
 4. Release Please creates a GitHub release and reports `release_created=true`.
 5. GitHub Actions checks out the released commit and starts one EAS production build per platform.

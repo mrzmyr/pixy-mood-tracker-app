@@ -10,6 +10,7 @@ import { ScrollView, Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { useLogState } from "@/features/logs";
 import { useSettings } from "@/state/settings";
 import { useTagsState } from "@/features/tags";
@@ -75,6 +76,7 @@ export const DevelopmentTools = () => {
   const { tags } = useTagsState();
   const { settings, setSettings, removeActionDone } = useSettings();
   const posthog = usePostHog();
+  const paddingBottom = useScrollBottomPadding(16);
 
   const words_total = logState.items
     .map((d) => getWordCount(d.message))
@@ -95,10 +97,9 @@ export const DevelopmentTools = () => {
       }}
     >
       <ScrollView
-        style={{
-          padding: 16,
-          backgroundColor: colors.background,
-        }}
+        style={{ backgroundColor: colors.background }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 16, paddingBottom }}
       >
         <View
           style={{

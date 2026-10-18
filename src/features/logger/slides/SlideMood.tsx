@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { getSlideMarginTop } from "./marginTop";
+import { useSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { RATING_KEYS } from "@/constants/Ratings";
@@ -30,7 +30,7 @@ export const SlideMood = ({
   const { draft, setRating } = useLogDraft();
   const insets = useSafeAreaInsets();
 
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
 
   return (
     <View

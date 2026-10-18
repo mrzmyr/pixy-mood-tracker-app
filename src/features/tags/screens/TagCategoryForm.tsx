@@ -1,15 +1,14 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Platform, ScrollView, Text, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
-import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import TextInfo from "@/components/TextInfo";
 import useColors from "@/hooks/useColors";
+import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import useHaptics from "@/hooks/useHaptics";
 import Alert from "@/lib/Alert";
 import { t } from "@/lib/translation";
@@ -27,7 +26,6 @@ import type { TagCategory } from "../TagsProvider";
 const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
   const router = useRouter();
   const colors = useColors();
-  const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const haptics = useHaptics();
   const { tags, categories } = useTagsState();
@@ -36,6 +34,10 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
   const [submitted, setSubmitted] = useState(false);
   const isGeneral = category?.id === GENERAL_CATEGORY_ID;
   const general = getGeneralCategoryTitle(categories);
+  // Back, the swipe-down gesture, and Cancel ask before dropping the name.
+  const { allowLeave } = useDiscardGuard({
+    isDirty: title !== (category?.title ?? ""),
+  });
 
   const onSave = () => {
     setSubmitted(true);
@@ -55,6 +57,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
       });
       updater.createCategory({ id: uuidv4(), title: trimmed });
     }
+    allowLeave();
     router.back();
   };
 
@@ -77,6 +80,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
               categories_count: categories.length - 1,
             });
             updater.deleteCategory(toDelete.id);
+            allowLeave();
             router.back();
           },
         },
@@ -86,68 +90,69 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
   };
 
   return (
-    <DismissKeyboard>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.background,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
-        }}
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.background,
+      }}
+    >
+      <RouteModalHeader
+        title={category ? t("tag_category_edit") : t("tag_category_create")}
+        onClose={() => router.back()}
+        closeTestID="tag-category-cancel"
+        action={
+          <LinkButton
+            onPress={onSave}
+            type="primary"
+            testID="tag-category-save"
+            style={{ fontWeight: "700" }}
+          >
+            {t("save")}
+          </LinkButton>
+        }
+      />
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ padding: 20 }}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
+        automaticallyAdjustKeyboardInsets
       >
-        <ModalHeader
-          title={category ? t("tag_category_edit") : t("tag_category_create")}
-          left={
-            <LinkButton onPress={() => router.back()} type="primary">
-              {t("cancel")}
-            </LinkButton>
-          }
-          right={
-            <LinkButton
-              onPress={onSave}
-              type="primary"
-              testID="tag-category-save"
-              style={{ fontWeight: "700" }}
-            >
-              {t("save")}
-            </LinkButton>
-          }
+        <TagNameField
+          testID="tag-category-name"
+          autoFocus={!category}
+          placeholder={t("tag_category_name_placeholder")}
+          value={title}
+          showError={submitted}
+          onSubmit={onSave}
+          onChange={setTitle}
         />
-        <View style={{ flex: 1, padding: 20 }}>
-          <TagNameField
-            testID="tag-category-name"
-            autoFocus={!category}
-            placeholder={t("tag_category_name_placeholder")}
-            value={title}
-            showError={submitted}
-            onChange={setTitle}
-          />
-          {isGeneral && (
-            <TextInfo style={{ paddingHorizontal: 0 }}>
-              {t("tag_category_general_info", { general })}
-            </TextInfo>
-          )}
-          {category && !isGeneral && (
-            <MenuList style={{ marginTop: 16 }}>
-              <MenuListItem
-                testID="tag-category-delete"
-                title={
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      textAlign: "center",
-                      color: colors.dangerButtonText,
-                    }}
-                  >
-                    {t("delete")}
-                  </Text>
-                }
-                onPress={() => confirmDelete(category)}
-              />
-            </MenuList>
-          )}
-        </View>
-      </View>
-    </DismissKeyboard>
+        {isGeneral && (
+          <TextInfo style={{ paddingHorizontal: 0 }}>
+            {t("tag_category_general_info", { general })}
+          </TextInfo>
+        )}
+        {category && !isGeneral && (
+          <MenuList style={{ marginTop: 16 }}>
+            <MenuListItem
+              testID="tag-category-delete"
+              title={
+                <Text
+                  style={{
+                    fontSize: 17,
+                    textAlign: "center",
+                    color: colors.dangerButtonText,
+                  }}
+                >
+                  {t("delete")}
+                </Text>
+              }
+              onPress={() => confirmDelete(category)}
+            />
+          </MenuList>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

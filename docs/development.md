@@ -109,6 +109,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - `bun app close` ends the session, resets app data, and stops this checkout's Metro. See [Phones](#phones) for phone behavior.
 - `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.
 - `bun e2e run --video` records each flow attempt to `recording.mp4` in its artifacts folder and prints the paths.
+- `bun release smoke --platform=ios` launches the production JS bundle in a copy of the cached iOS Release build. No native compile, about 2 minutes. Catches release-only startup crashes ([`scripts/cli/release-smoke.ts`](../scripts/cli/release-smoke.ts)).
 - `bun builds list` lists cached builds. `bun builds rm --build=<id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
 - Commands take options only, no positional arguments. `bun <noun> <command> --help` lists options, examples, and errors.
 - The CLI selects the preview variant. Metro stays off. `bun app dev` is the exception: development variant with Metro.
@@ -140,6 +141,15 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - iPhone: flows with `openLink` outside [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml) ([agent-device#2998](https://github.com/callstack/agent-device/issues/2998)). For `load-fixture.yaml`, `bun e2e run` loads the fixture with `devicectl` before each flow and runs flows one at a time.
 - iPhone: flows with `clearState`. agent-device clears app state on simulators only.
 
+### Device Hub
+
+- `bun hub` opens [Expo Device Hub](https://github.com/expo/expo-device-hub) on `http://localhost:3400`: live view of every simulator and emulator, tap and type, appearance, Liquid Glass, text size, accessibility toggles.
+- For humans only. Agents drive devices with `bun app drive`.
+- Never press **Shut down** or **Remove**. Simulators belong to checkouts: shut down stops another session, remove deletes its claimed simulator. `--hide-boot-device` hides only boot and create.
+- Plugin stays out of `expo start` (`expo.autolinking.exclude` in [`package.json`](../package.json)). Reason: Metro listens on all interfaces and the plugin API has no token, so anyone on the network could control devices.
+- Other Mac: run `bun hub` there, forward the port over SSH: `ssh -N -L 3400:localhost:3400 <mac>`, then open `http://localhost:3400`.
+- No SSH: `bun hub --host 0.0.0.0 --require-token` on the other Mac. Open the printed link. Treat the token like a password: never paste it into issues, PRs, or logs.
+
 ### Widgets (iOS)
 
 - Code: [`src/features/widget`](../src/features/widget). Extension bundle ID `<appId>.widgets`, app group `group.<appId>` ([`app.config.ts`](../app.config.ts))
@@ -161,7 +171,7 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
   - `p2`: smoke check. Run before release.
 - Pick severity from usage in the "Pixy App - Production" PostHog project, then raise it for data risk.
 - Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
-- `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fakeFileTransfer.ts`](../src/dev/fakeFileTransfer.ts)), address book and person photos ([`src/dev/fakePeopleSources.ts`](../src/dev/fakePeopleSources.ts)), entry photo picker and photo library ([`src/dev/fakePhotoSource.ts`](../src/dev/fakePhotoSource.ts)). Fakes end when the app restarts.
+- `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fakeFileTransfer.ts`](../src/dev/fakeFileTransfer.ts)), address book and person photos ([`src/dev/fakePeopleSources.ts`](../src/dev/fakePeopleSources.ts)), entry photo picker and photo library ([`src/dev/fakePhotoSource.ts`](../src/dev/fakePhotoSource.ts)). Fakes end when the app restarts. `?contacts=fail-once` makes the first contact read fail.
 - `<scheme>://dev/fake-contacts?count=<n>` writes `n` fake contacts (company "Pixy Test Contact", every fifth with a photo) into the real device address book. `count=0` deletes exactly those. Synced accounts (iCloud, Google) sync them too, so delete them after testing.
 - Fixtures count as consent, so preview builds load flags from "Pixy App - Preview". Shared flows expect every flag off there. A flow that needs a flag turns it on with [`enable-feature-flag.yaml`](../e2e/subflows/enable-feature-flag.yaml) (not on iPhones)
 - Each flow asserts a result. Opening a screen is not a test.
@@ -261,15 +271,6 @@ On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails 
 | `preview` | Android | Physical Device | `eas:android:preview` | `.apk` | Install with `adb install` |
 | `production` | iOS | TestFlight | `eas:ios:prod` | `.ipa` | Submit `.ipa` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
 | `production` | Android | Google Play Console | `eas:android:prod` | `.aab` | Submit `.aab` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
-
-### Tree shaking
-
-- `preview` and `production` bundles use [Expo tree shaking](https://docs.expo.dev/guides/tree-shaking/): `EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH=1` and `EXPO_UNSTABLE_TREE_SHAKING=1`
-- EAS profiles set both in [`eas.json`](../eas.json). [`metro.config.js`](../metro.config.js) defaults both to `1` unless variant is `development`, so local release builds match
-- Production-mode bundles only. Metro dev server ignores both variables
-- Reproduce locally: `EXPO_PUBLIC_APP_VARIANT=production bunx expo export --platform ios --dump-sourcemap`
-- Compare: same command with `EXPO_UNSTABLE_TREE_SHAKING=0 EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH=0`. Inspect bundle contents with [Expo Atlas](https://docs.expo.dev/guides/analyzing-bundles/)
-- Tree shaking skips CommonJS modules (`require`, `module.exports`) and modules with side effects
 
 ## Releasing
 

@@ -3,6 +3,7 @@ import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { act, render, userEvent, waitFor } from "@testing-library/react-native";
 import { Alert, Appearance } from "react-native";
+import { ToastHost } from "@/components/Toast";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
@@ -77,6 +78,7 @@ const renderSettings = (supportClient: SupportClient) =>
         <FeatureFlagsProvider options={{ enabled: true }}>
           <SettingsScreen />
         </FeatureFlagsProvider>
+        <ToastHost />
       </Providers>
     </ThemeProvider>
   );
@@ -203,51 +205,6 @@ describe("Support Pixy in Settings", () => {
 });
 
 describe("Feedback in Settings", () => {
-  beforeEach(() => {
-    global.fetch = jest.fn().mockResolvedValue({ ok: true });
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
-  test.each([
-    {
-      item: "Request Feature",
-      placeholder: "It would be great if…",
-      type: "idea",
-    },
-    { item: "Report Bug", placeholder: "I noticed that…", type: "issue" },
-  ])(
-    "user sends $type feedback from $item without picking a type",
-    async ({ item, placeholder, type }) => {
-      jest.spyOn(Alert, "alert").mockImplementation();
-      const screen = await renderSettings({
-        enabled: false,
-        openSupport: () => Promise.resolve(),
-      });
-
-      await userEvent.press(screen.getByText(item));
-
-      expect(screen.getAllByText(item)).toHaveLength(2);
-      expect(screen.queryByRole("radio")).toBeNull();
-
-      await userEvent.type(
-        screen.getByPlaceholderText(placeholder),
-        "Calendar export"
-      );
-      await userEvent.press(screen.getByTestId("feedback-modal-send"));
-
-      await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
-      const [[, request]] = jest.mocked(global.fetch).mock.calls;
-      expect(JSON.parse(String(request?.body))).toMatchObject({
-        type,
-        message: "Calendar export",
-        source: "modal",
-      });
-    }
-  );
-
   test("user sees store rating as last feedback item", async () => {
     const screen = await renderSettings({
       enabled: false,

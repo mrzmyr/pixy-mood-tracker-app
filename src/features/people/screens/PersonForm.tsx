@@ -4,12 +4,11 @@ import Trash from "lucide-react-native/icons/trash";
 import { useRef } from "react";
 import { Platform, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import TextInfo from "@/components/TextInfo";
 import Toggle from "@/components/Toggle";
 import { MAX_TAG_LENGTH } from "@/constants/Config";
@@ -20,8 +19,8 @@ import Alert from "@/lib/Alert";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { PersonAvatar } from "../components/PersonAvatar";
-import { PhotoButton } from "../components/PhotoButton";
-import type { PhotoAction } from "../components/PhotoButton/types";
+import { PhotoButton } from "@/components/PhotoButton";
+import type { PhotoAction } from "@/components/PhotoButton/types";
 import { usePersonDraft } from "../hooks/usePersonDraft";
 import { usePersonEntryCount } from "../hooks/usePersonEntryCount";
 import { usePeopleUpdater } from "../PeopleProvider";
@@ -186,121 +185,116 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
   ];
 
   return (
-    <DismissKeyboard>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.background,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.background,
+      }}
+    >
+      <RouteModalHeader
+        title={mode === "create" ? t("people_add") : t("people_edit")}
+        onClose={() => router.back()}
+        closeTestID="person-cancel"
+        action={
+          <LinkButton
+            onPress={handleSave}
+            type="primary"
+            disabled={draft.isSaving}
+            testID="person-save"
+          >
+            {mode === "create" ? t("add") : t("save")}
+          </LinkButton>
+        }
+      />
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={isIOS ? "interactive" : "on-drag"}
+        automaticallyAdjustKeyboardInsets
+        contentContainerStyle={{
+          padding: 20,
+          paddingBottom: 20 + insets.bottom,
         }}
       >
-        <ModalHeader
-          title={mode === "create" ? t("people_add") : t("people_edit")}
-          left={
-            <LinkButton onPress={() => router.back()} type="primary">
-              {t("cancel")}
-            </LinkButton>
-          }
-          right={
-            <LinkButton
-              onPress={handleSave}
-              type="primary"
-              disabled={draft.isSaving}
-              testID="person-save"
-            >
-              {mode === "create" ? t("add") : t("save")}
-            </LinkButton>
-          }
-        />
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode={isIOS ? "interactive" : "on-drag"}
-          contentContainerStyle={{
-            padding: 20,
-            paddingBottom: 20 + insets.bottom,
-          }}
-        >
-          <View style={{ alignItems: "center", gap: 12 }}>
-            <PersonAvatar
-              person={{ ...draft.person, avatar: draft.previewAvatar }}
-              previewUri={draft.previewUri}
-              size={AVATAR_SIZE}
-            />
-            <PhotoButton
-              hasPhoto={draft.hasPhoto}
-              addLabel={t("people_photo_add")}
-              editLabel={t("people_photo_edit")}
-              testID="person-photo"
-              onAdd={handlePickPhoto}
-              actions={photoActions}
-            />
-          </View>
-          {mode === "create" && (
-            <MenuList style={{ marginTop: SECTION_GAP }}>
-              <MenuListItem
-                title={t("people_add_from_contacts")}
-                iconLeft={<Contact size={22} color={colors.tint} />}
-                onPress={() => router.replace("/people/import")}
-                style={{ color: colors.tint }}
-                testID="person-from-contacts"
-              />
-            </MenuList>
-          )}
-          <MenuListHeadline>{t("people_name")}</MenuListHeadline>
-          <TextInput
-            ref={nameRef}
-            accessibilityLabel={t("people_name")}
-            testID="person-name"
-            autoCorrect={false}
-            autoComplete="name"
-            textContentType="name"
-            clearButtonMode="while-editing"
-            style={{
-              fontSize: isIOS ? 17 : 16,
-              color: colors.textInputText,
-              backgroundColor: isIOS
-                ? colors.menuListItemBackground
-                : colors.textInputBackground,
-              width: "100%",
-              paddingHorizontal: 16,
-              paddingVertical: 14,
-              borderRadius: isIOS ? RADIUS.md : RADIUS.sm,
-            }}
-            placeholder={t("people_name_placeholder")}
-            placeholderTextColor={colors.textInputPlaceholder}
-            maxLength={MAX_TAG_LENGTH}
-            value={draft.person.name}
-            returnKeyType="done"
-            onSubmitEditing={handleSave}
-            onChangeText={handleNameChange}
+        <View style={{ alignItems: "center", gap: 12 }}>
+          <PersonAvatar
+            person={{ ...draft.person, avatar: draft.previewAvatar }}
+            previewUri={draft.previewUri}
+            size={AVATAR_SIZE}
           />
-          {draft.nameError && (
-            <Text
-              accessibilityRole="alert"
-              accessibilityLiveRegion="polite"
-              testID="person-name-error"
-              style={{
-                fontSize: 13,
-                color: colors.dangerButtonText,
-                paddingHorizontal: 16,
-                marginTop: 8,
-              }}
-            >
-              {t("people_name_required")}
-            </Text>
-          )}
-          {mode === "edit" && (
-            <EditActions
-              personId={draft.person.id}
-              name={draft.storedName}
-              isArchived={Boolean(draft.person.isArchived)}
-              onToggleArchived={handleToggleArchived}
-              onLeave={handleAllowLeave}
+          <PhotoButton
+            hasPhoto={draft.hasPhoto}
+            addLabel={t("people_photo_add")}
+            editLabel={t("people_photo_edit")}
+            testID="person-photo"
+            onAdd={handlePickPhoto}
+            actions={photoActions}
+          />
+        </View>
+        {mode === "create" && (
+          <MenuList style={{ marginTop: SECTION_GAP }}>
+            <MenuListItem
+              title={t("people_add_from_contacts")}
+              iconLeft={<Contact size={22} color={colors.tint} />}
+              onPress={() => router.replace("/people/import")}
+              style={{ color: colors.tint }}
+              testID="person-from-contacts"
             />
-          )}
-        </ScrollView>
-      </View>
-    </DismissKeyboard>
+          </MenuList>
+        )}
+        <MenuListHeadline>{t("people_name")}</MenuListHeadline>
+        <TextInput
+          ref={nameRef}
+          accessibilityLabel={t("people_name")}
+          testID="person-name"
+          autoCorrect={false}
+          autoComplete="name"
+          textContentType="name"
+          clearButtonMode="while-editing"
+          style={{
+            fontSize: isIOS ? 17 : 16,
+            color: colors.textInputText,
+            backgroundColor: isIOS
+              ? colors.menuListItemBackground
+              : colors.textInputBackground,
+            width: "100%",
+            paddingHorizontal: 16,
+            paddingVertical: 14,
+            borderRadius: isIOS ? RADIUS.md : RADIUS.sm,
+          }}
+          placeholder={t("people_name_placeholder")}
+          placeholderTextColor={colors.textInputPlaceholder}
+          maxLength={MAX_TAG_LENGTH}
+          value={draft.person.name}
+          returnKeyType="done"
+          onSubmitEditing={handleSave}
+          onChangeText={handleNameChange}
+        />
+        {draft.nameError && (
+          <Text
+            accessibilityRole="alert"
+            accessibilityLiveRegion="polite"
+            testID="person-name-error"
+            style={{
+              fontSize: 13,
+              color: colors.dangerButtonText,
+              paddingHorizontal: 16,
+              marginTop: 8,
+            }}
+          >
+            {t("people_name_required")}
+          </Text>
+        )}
+        {mode === "edit" && (
+          <EditActions
+            personId={draft.person.id}
+            name={draft.storedName}
+            isArchived={Boolean(draft.person.isArchived)}
+            onToggleArchived={handleToggleArchived}
+            onLeave={handleAllowLeave}
+          />
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

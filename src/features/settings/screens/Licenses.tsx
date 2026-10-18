@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View, VirtualizedList } from "react-native";
 import Button from "@/components/Button";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { t } from "@/lib/translation";
 import { loadLicensesText } from "../licensesText";
 
@@ -18,6 +19,7 @@ type LicensesState =
 
 const LicensesContent = ({ onRetry }: { onRetry: () => void }) => {
   const colors = useColors();
+  const paddingBottom = useScrollBottomPadding(16);
   const [state, setState] = useState<LicensesState>({ status: "loading" });
 
   useEffect(() => {
@@ -89,9 +91,8 @@ const LicensesContent = ({ onRetry }: { onRetry: () => void }) => {
       }}
     >
       <VirtualizedList
-        style={{
-          padding: 16,
-        }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 16, paddingBottom }}
         data={state.slices}
         initialNumToRender={4}
         renderItem={({ item }: { item: Item }) => (

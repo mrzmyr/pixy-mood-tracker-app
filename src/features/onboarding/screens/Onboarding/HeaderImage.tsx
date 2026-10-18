@@ -1,5 +1,6 @@
-import { Image, Platform, useColorScheme } from "react-native";
-import type { ImageProps } from "react-native";
+import { Image } from "expo-image";
+import type { ImageProps } from "expo-image";
+import { Platform, useColorScheme } from "react-native";
 
 const HEADER_IMAGES = {
   androidDark: [
@@ -41,16 +42,15 @@ const DECORATIVE = {
 
 /**
  * Onboarding screenshot for the platform and color scheme; `index` must be
- * 0 to 4.
+ * 0 to 4. expo-image has no intrinsic size: `style` must set both width and
+ * height (or `flex`).
  */
 export const HeaderImage = ({
   index,
   style,
-  ...props
 }: {
   index: number;
   style?: ImageProps["style"];
-  props?: ImageProps;
 }) => {
   const isAndroid = Platform.OS === "android";
   const scheme = useColorScheme();
@@ -59,7 +59,6 @@ export const HeaderImage = ({
     return (
       <Image
         style={style}
-        {...props}
         {...DECORATIVE}
         source={
           isAndroid
@@ -72,7 +71,6 @@ export const HeaderImage = ({
   return (
     <Image
       style={style}
-      {...props}
       {...DECORATIVE}
       source={
         isAndroid

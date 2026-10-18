@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
 
-import { Dimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 import { t } from "@/lib/translation";
 import { useLogState } from "@/features/logs";
 import { getRatingDistributionForYear } from "../../RatingDistribution";
@@ -47,7 +47,7 @@ export const MoodChart = ({ date }: { date: Dayjs }) => {
   const data = getRatingDistributionForYear(items);
   const validatedData = data.filter((d) => d.value !== null);
 
-  const width = Dimensions.get("window").width - 80;
+  const width = useWindowDimensions().width - 80;
   const height = width / 2.5;
 
   return (

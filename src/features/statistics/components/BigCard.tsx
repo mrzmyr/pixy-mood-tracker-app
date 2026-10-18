@@ -14,6 +14,11 @@ import { t } from "@/lib/translation";
 import { createStructuredError } from "@/lib/errors";
 import type { StructuredError } from "@/lib/errors";
 
+/**
+ * Logo in the captured share copy. Stays a React Native `Image`, not
+ * expo-image: Android Glide can decode to hardware bitmaps, and
+ * react-native-view-shot draws into a software canvas, which rejects them.
+ */
 const LOGO = require("../../../../assets/images/icon.png");
 
 const Title = ({ children }: { children: string }) => {

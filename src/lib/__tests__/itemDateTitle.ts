@@ -28,7 +28,7 @@ describe("getShortItemDateTitle()", () => {
     const dateTime = dayjs().subtract(8, "day").toISOString();
 
     expect(getShortItemDateTitle(dateTime).length).toBeLessThan(
-      getItemDateTitle(dateTime).length
+      getItemDateTitle(dateTime, 390).length
     );
   });
 });
@@ -38,7 +38,7 @@ describe("item date titles", () => {
     const dateTime = dayjs().hour(9).minute(5).toISOString();
 
     expect(getShortItemDateTitle(dateTime)).toBe(formatItemTime(dateTime));
-    expect(getItemDateTitle(dateTime)).toBe(formatItemTime(dateTime));
+    expect(getItemDateTitle(dateTime, 390)).toBe(formatItemTime(dateTime));
   });
 
   test("keep the day for an entry from yesterday", () => {
@@ -46,6 +46,17 @@ describe("item date titles", () => {
 
     expect(getShortItemDateTitle(dateTime)).not.toBe(formatItemTime(dateTime));
     expect(getShortItemDateTitle(dateTime)).toContain(formatItemTime(dateTime));
+  });
+
+  test("use the short title below 350 pt window width", () => {
+    const dateTime = dayjs().subtract(8, "day").toISOString();
+
+    expect(getItemDateTitle(dateTime, 349)).toBe(
+      getShortItemDateTitle(dateTime)
+    );
+    expect(getItemDateTitle(dateTime, 350)).not.toBe(
+      getShortItemDateTitle(dateTime)
+    );
   });
 });
 

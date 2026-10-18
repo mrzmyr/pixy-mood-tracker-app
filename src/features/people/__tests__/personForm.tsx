@@ -76,7 +76,7 @@ const openEditor = async () => {
   jest.useRealTimers();
   const user = userEvent.setup();
   await user.press(await screen.findByText("Open Sam"));
-  await screen.findByText("Edit Person");
+  await screen.findByTestId("person-name");
   return user;
 };
 
@@ -105,7 +105,7 @@ describe("PersonEdit", () => {
     await user.press(screen.getByTestId("person-save"));
 
     expect(await screen.findByText("Enter a name.")).toBeTruthy();
-    expect(screen.getByText("Edit Person")).toBeTruthy();
+    expect(screen.getByTestId("person-name")).toBeTruthy();
 
     await user.type(screen.getByTestId("person-name"), "Sammy");
     await waitFor(() => expect(screen.queryByText("Enter a name.")).toBeNull());

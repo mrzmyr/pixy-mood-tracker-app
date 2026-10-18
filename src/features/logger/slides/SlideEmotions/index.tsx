@@ -1,4 +1,4 @@
-import { getSlideMarginTop } from "../marginTop";
+import { useSlideMarginTop } from "../marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogState, getMostUsedEmotions } from "@/features/logs";
@@ -11,7 +11,7 @@ import { View } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
 import { PullToSearch } from "../../components/PullToSearch";
-import { matchesSearch } from "../../components/matchesSearch";
+import { matchesSearch } from "@/lib/search";
 import { EMOTIONS } from "../../config";
 import { Footer } from "../Footer";
 import { EmotionAdvancedGradients } from "./EmotionAdvancedGradients";
@@ -80,7 +80,7 @@ export const SlideEmotions = ({
   showDisable: boolean;
 }) => {
   const colors = useColors();
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
   const { draft, setEmotions } = useLogDraft();
   const logState = useLogState();
   const analytics = useAnalytics();

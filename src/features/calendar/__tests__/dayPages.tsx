@@ -13,6 +13,7 @@ import { _generateItem } from "@/testing/logItem";
 import { DATE_FORMAT } from "@/constants/Config";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
+import Alert from "@/lib/Alert";
 import { LogList } from "@/features/calendar/routes";
 import {
   LogsProvider,
@@ -189,5 +190,60 @@ describe("day view list", () => {
     fireEvent.press(await result.findByTestId("log-list-add"));
 
     expect(await result.findByText(`create ${day}`)).toBeTruthy();
+  });
+});
+
+const pressAlertButton = (
+  alertSpy: jest.SpyInstance,
+  style: "cancel" | "destructive"
+) => {
+  const buttons: { style?: string; onPress?: () => void }[] =
+    alertSpy.mock.lastCall?.[2] ?? [];
+  buttons.find((button) => button.style === style)?.onPress?.();
+};
+
+describe("day view delete", () => {
+  beforeEach(async () => {
+    jest.restoreAllMocks();
+    await AsyncStorage.clear();
+    await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(INITIAL_STATE));
+    await seed([
+      _generateItem({ id: "a", message: "entry-a", dateTime: at(8) }),
+      _generateItem({ id: "b", message: "entry-b", dateTime: at(12) }),
+    ]);
+  });
+
+  test("entry menu Delete asks first, then removes the entry", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    const result = await renderDay();
+    await waitFor(() =>
+      expect(shownMessages(result)).toEqual(["entry-a", "entry-b"])
+    );
+
+    const [deleteFirst] = await result.findAllByLabelText("Delete");
+    fireEvent.press(deleteFirst);
+
+    expect(alertSpy).toHaveBeenCalledTimes(1);
+    expect(shownMessages(result)).toEqual(["entry-a", "entry-b"]);
+
+    pressAlertButton(alertSpy, "destructive");
+    await waitFor(() => expect(shownMessages(result)).toEqual(["entry-b"]));
+  });
+
+  test("Cancel keeps the entry", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    const result = await renderDay();
+    await waitFor(() =>
+      expect(shownMessages(result)).toEqual(["entry-a", "entry-b"])
+    );
+
+    const [deleteFirst] = await result.findAllByLabelText("Delete");
+    fireEvent.press(deleteFirst);
+    pressAlertButton(alertSpy, "cancel");
+
+    // Let the rejected prompt settle before checking.
+    await waitFor(() => expect(alertSpy).toHaveBeenCalledTimes(1));
+    await Promise.resolve();
+    expect(shownMessages(result)).toEqual(["entry-a", "entry-b"]);
   });
 });
