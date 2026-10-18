@@ -1,1 +1,1 @@
-export { SettingsTags as default } from "@/features/settings";
+export { SettingsTags as default } from "@/features/settings/routes";

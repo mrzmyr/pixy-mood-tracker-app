@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { render, screen, waitFor } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { LogsProvider } from "@/features/logs";

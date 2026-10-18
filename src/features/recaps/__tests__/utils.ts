@@ -1,4 +1,4 @@
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 import type { LogItem } from "@/features/logs";
 import type { Tag } from "@/features/tags";

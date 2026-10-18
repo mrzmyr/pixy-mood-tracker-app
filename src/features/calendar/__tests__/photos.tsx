@@ -6,7 +6,7 @@ import {
 } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider, router } from "expo-router";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import Colors from "@/constants/Colors";
 import { LogsProvider } from "@/features/logs";
 import { PeopleProvider } from "@/features/people";

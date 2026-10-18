@@ -1,1 +1,1 @@
-export { ReminderScreen as default } from "@/features/notifications";
+export { ReminderScreen as default } from "@/features/notifications/routes";

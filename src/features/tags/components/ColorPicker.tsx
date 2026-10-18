@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
-import { Check } from "react-native-feather";
+import Check from "lucide-react-native/icons/check";
 import MenuList from "@/components/MenuList";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
 import useColors from "@/hooks/useColors";

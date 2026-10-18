@@ -4,7 +4,7 @@ import {
   PostHogProvider,
   usePostHog as getPostHogTestClient,
 } from "posthog-react-native";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";

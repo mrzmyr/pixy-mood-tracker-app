@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Image } from "react-native-feather";
+import Image from "lucide-react-native/icons/image";
 import { Pressable, ScrollView } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import type { LogItem } from "@/features/logs";

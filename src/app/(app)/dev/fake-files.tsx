@@ -1,1 +1,1 @@
-export { DevFakeFilesLinkScreen as default } from "@/features/settings";
+export { DevFakeFilesLinkScreen as default } from "@/features/settings/routes";

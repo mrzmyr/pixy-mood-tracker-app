@@ -40,7 +40,13 @@ const Clock = ({
         ...style,
       }}
     >
-      <Text style={{ color: colors.text, fontSize: 17 }}>
+      <Text
+        style={{
+          color: colors.text,
+          fontSize: 17,
+          fontVariant: ["tabular-nums"],
+        }}
+      >
         {formatReminderTime(timeDate)}
       </Text>
     </Pressable>

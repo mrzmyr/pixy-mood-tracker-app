@@ -2,7 +2,7 @@ import React, { isValidElement, useCallback } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import type { AccessibilityValue, TextStyle, ViewStyle } from "react-native";
 
-import { ChevronRight } from "react-native-feather";
+import ChevronRight from "lucide-react-native/icons/chevron-right";
 import useColors from "@/hooks/useColors";
 import usePressRipple from "@/hooks/usePressRipple";
 

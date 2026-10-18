@@ -25,7 +25,15 @@ export interface LogDraftValue {
   setEmotions: (emotions: LogItem["emotions"]) => void;
   setTags: (tags: LogItem["tags"]) => void;
   setPeople: (people: LogItem["people"]) => void;
-  setMessage: (message: string) => void;
+  /**
+   * Stores typed note text in the latest draft without re-rendering the
+   * logger. Re-renders only when `isDirty` or `hasContent` flips. `commit`
+   * and every other setter include the text; `draft.message` shows it after
+   * `flushMessage`.
+   */
+  typeMessage: (message: string) => void;
+  /** Publishes text from `typeMessage` to `draft`. No-op when in sync. */
+  flushMessage: () => void;
   setPhotos: (photos: LogItem["photos"]) => void;
   /** `null` clears the sleep quality. */
   setSleepQuality: (quality: LogDraft["sleep"]["quality"]) => void;
@@ -64,7 +72,11 @@ export const LogDraftProvider = ({
   children: React.ReactNode;
 }) => {
   const initial = useRef(initialDraft);
-  const [state, setState] = useState({ draft: initialDraft, isDirty: false });
+  const [state, setState] = useState({
+    draft: initialDraft,
+    isDirty: false,
+    hasContent: hasDraftContent(initialDraft),
+  });
   // Latest draft for verbs called in the same event as a setter, before
   // React renders the new state.
   const latest = useRef(initialDraft);
@@ -73,20 +85,40 @@ export const LogDraftProvider = ({
 
   const patch = useCallback((next: Partial<LogDraft>) => {
     latest.current = { ...latest.current, ...next };
-    setState({ draft: latest.current, isDirty: true });
+    setState({
+      draft: latest.current,
+      isDirty: true,
+      hasContent: hasDraftContent(latest.current),
+    });
+  }, []);
+
+  // Stable, so the message slide can flush from an unmount cleanup.
+  const flushMessage = useCallback(() => {
+    setState((current) =>
+      current.draft === latest.current
+        ? current
+        : { ...current, draft: latest.current }
+    );
   }, []);
 
   const value = useMemo<LogDraftValue>(
     () => ({
       draft: state.draft,
       isDirty: state.isDirty,
-      hasContent: hasDraftContent(state.draft),
+      hasContent: state.hasContent,
       setRating: (rating) => patch({ rating }),
       setDateTime: (dateTime) => patch({ dateTime, date: toLogDate(dateTime) }),
       setEmotions: (emotions) => patch({ emotions }),
       setTags: (tags) => patch({ tags }),
       setPeople: (people) => patch({ people }),
-      setMessage: (message) => patch({ message }),
+      typeMessage: (message) => {
+        latest.current = { ...latest.current, message };
+        const hasContent = hasDraftContent(latest.current);
+        if (!state.isDirty || hasContent !== state.hasContent) {
+          setState({ draft: latest.current, isDirty: true, hasContent });
+        }
+      },
+      flushMessage,
       setPhotos: (photos) => patch({ photos }),
       setSleepQuality: (quality) => patch({ sleep: { quality } }),
       setLocation: (location) => {
@@ -111,17 +143,25 @@ export const LogDraftProvider = ({
       },
       commit: (existingItems) => {
         const finalized = finalizeDraft(latest.current, existingItems);
-        setState({ draft: latest.current, isDirty: false });
+        setState({
+          draft: latest.current,
+          isDirty: false,
+          hasContent: hasDraftContent(latest.current),
+        });
         return finalized;
       },
       discard: () => {
         isLocationPicked.current = false;
         isLocationPrefilled.current = false;
         latest.current = initial.current;
-        setState({ draft: initial.current, isDirty: false });
+        setState({
+          draft: initial.current,
+          isDirty: false,
+          hasContent: hasDraftContent(initial.current),
+        });
       },
     }),
-    [state, patch]
+    [state, patch, flushMessage]
   );
 
   return (

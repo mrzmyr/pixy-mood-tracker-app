@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { getPermissionsAsync } from "expo-notifications";
-import { act, render, screen } from "@testing-library/react-native";
+import { fireEvent, render, screen } from "@testing-library/react-native";
 import { Linking } from "react-native";
 import Colors from "@/constants/Colors";
 import { LogsProvider } from "@/features/logs";
@@ -78,9 +78,7 @@ describe("Reminder permission note", () => {
     await renderReminder();
 
     expect(await screen.findByText(new RegExp(NOTE, "u"))).toBeOnTheScreen();
-    act(() => {
-      screen.getByRole("link", { name: "Open Settings" }).props.onPress();
-    });
+    fireEvent.press(screen.getByRole("button", { name: "Open Settings" }));
     expect(openSettings).toHaveBeenCalledTimes(1);
   });
 });

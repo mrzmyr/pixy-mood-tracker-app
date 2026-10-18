@@ -7,10 +7,18 @@ import useColors from "@/hooks/useColors";
 import usePressRipple from "@/hooks/usePressRipple";
 import { useToday } from "@/hooks/useToday";
 import type { LogItem } from "@/features/logs";
-import { useSetting } from "@/state/settings";
+import type { SettingsState } from "@/state/settings";
 import { getRatingLabel } from "@/lib/ratingLabel";
-import { getLocale, t } from "@/lib/translation";
+import { t } from "@/lib/translation";
+import { getFormatter } from "@/lib/utils";
 import { RADIUS } from "@/constants/Radius";
+
+const DAY_LABEL_OPTIONS: Intl.DateTimeFormatOptions = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
 
 /** Diameter of the today circle behind the day number. */
 const DAY_NUMBER_SIZE = 20;
@@ -52,17 +60,19 @@ const styles = StyleSheet.create({
 const CalendarDayComponent = ({
   dateString,
   rating,
+  scaleType,
   isFiltered,
   isFiltering,
   onPress,
 }: {
   dateString: string;
   rating?: LogItem["rating"] | null;
+  scaleType: SettingsState["scaleType"];
   isFiltering: boolean;
   isFiltered: boolean;
-  onPress: () => void;
+  /** Receives `dateString`, so one stable handler can serve every day. */
+  onPress: (dateString: string) => void;
 }) => {
-  const scaleType = useSetting("scaleType");
   const colors = useColors();
   const ripple = usePressRipple({ foreground: true });
 
@@ -169,17 +179,14 @@ const CalendarDayComponent = ({
 
   const _onPress = useCallback(() => {
     if (!isFuture) {
-      onPress();
+      onPress(dateString);
     }
-  }, [isFuture, onPress]);
+  }, [isFuture, onPress, dateString]);
 
   const accessibilityLabel = useMemo(() => {
-    const date = new Intl.DateTimeFormat(getLocale(), {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }).format(dayjs(dateString).toDate());
+    const date = getFormatter("day_label_long", DAY_LABEL_OPTIONS).format(
+      dayjs(dateString).toDate()
+    );
     const parts = [date];
     if (rating) {
       parts.push(t("a11y_mood", { mood: getRatingLabel(rating) }));

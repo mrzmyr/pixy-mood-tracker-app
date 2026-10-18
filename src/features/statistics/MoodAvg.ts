@@ -1,6 +1,6 @@
 import type { LogItem } from "@/features/logs";
 import { RATING_KEYS } from "@/constants/Ratings";
-import { getLogDays } from "@/lib/utils";
+import { getLogDays } from "@/features/logs";
 
 const MOOD_GROUPS = ["negative", "neutral", "positive"] as const;
 

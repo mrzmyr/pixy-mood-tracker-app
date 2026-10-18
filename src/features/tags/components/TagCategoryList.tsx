@@ -15,6 +15,7 @@ import { useAnalytics } from "@/state/analytics";
 import {
   groupTagsByCategory,
   moveTag,
+  searchTagSections,
   toTagArrangement,
   toTagCategoryRows,
 } from "../tagCategories";
@@ -39,12 +40,19 @@ const isCategoryChanged = (tags: Tag[], arrangement: TagArrangement[]) => {
  * handle to reorder it or move it into another category: a tag belongs to
  * the nearest category header above it. Headers open the category editor.
  * Archived tags are hidden and keep their category.
+ *
+ * A non-blank `query` shows only matching tags (see `searchTagSections`),
+ * without `header` and without reordering: a drag across a filtered list
+ * cannot tell where hidden tags go.
  */
 export const TagCategoryList = ({
   header,
+  query = "",
 }: {
   /** Rendered above the first category, inside the scroll view. */
   header?: React.ReactElement;
+  /** Search text from the header search bar. */
+  query?: string;
 }) => {
   const colors = useColors();
   const router = useRouter();
@@ -55,7 +63,9 @@ export const TagCategoryList = ({
   const { arrangeTags } = useTagsUpdater();
 
   const activeTags = tags.filter((tag) => !tag.isArchived);
-  const rows = toTagCategoryRows(groupTagsByCategory(activeTags, categories));
+  const sections = groupTagsByCategory(activeTags, categories);
+  const rows = toTagCategoryRows(sections);
+  const isSearching = query.trim() !== "";
 
   const arrange = (
     arrangement: TagArrangement[],
@@ -87,7 +97,7 @@ export const TagCategoryList = ({
     }
   };
 
-  const renderItem = ({ item }: SortableGridRenderItemInfo<TagCategoryRow>) => {
+  const renderRow = (item: TagCategoryRow) => {
     if (item.type === "category") {
       const headline = (
         <View
@@ -121,7 +131,7 @@ export const TagCategoryList = ({
         </View>
       );
       // Nothing may land above the first header, so it keeps its slot.
-      return item.index === 0 ? (
+      return item.index === 0 && !isSearching ? (
         <Sortable.Handle mode="fixed-order">{headline}</Sortable.Handle>
       ) : (
         headline
@@ -167,11 +177,13 @@ export const TagCategoryList = ({
               })
             }
             dragHandle={
-              <ReorderHandle
-                testID={`tag-drag-handle-${item.tag.id}`}
-                label={t("tags_reorder_handle", { title: item.tag.title })}
-                onMove={(offset) => onMove(item.tag.id, offset)}
-              />
+              isSearching ? undefined : (
+                <ReorderHandle
+                  testID={`tag-drag-handle-${item.tag.id}`}
+                  label={t("tags_reorder_handle", { title: item.tag.title })}
+                  onMove={(offset) => onMove(item.tag.id, offset)}
+                />
+              )
             }
           />
         </View>
@@ -179,30 +191,66 @@ export const TagCategoryList = ({
     );
   };
 
+  const renderItem = ({ item }: SortableGridRenderItemInfo<TagCategoryRow>) =>
+    renderRow(item);
+
+  const searchRows = isSearching
+    ? toTagCategoryRows(searchTagSections(sections, query))
+    : [];
+
   return (
     <Animated.ScrollView
       ref={scrollRef}
       testID="tag-category-list"
+      // Search keeps the keyboard up; one tap still opens a result.
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
+      // iOS starts the content below the header and its search bar. It also
+      // adds the home indicator inset, so only Android adds `insets.bottom`.
+      contentInsetAdjustmentBehavior="automatic"
       style={{ flex: 1, backgroundColor: colors.background }}
-      contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
+      contentContainerStyle={{
+        paddingBottom: 120 + (IS_IOS ? 0 : insets.bottom),
+      }}
     >
-      {header}
+      {!isSearching && header}
       {/* Android lists run full width (Material); iOS groups are inset. */}
       <View style={{ paddingHorizontal: IS_IOS ? 16 : 0 }}>
-        <Sortable.Grid
-          columns={1}
-          data={rows}
-          keyExtractor={(row) => row.key}
-          renderItem={renderItem}
-          onDragEnd={onDragEnd}
-          customHandle
-          // Handles only drag, so the drag starts on touch like iOS reorder controls.
-          dragActivationDelay={0}
-          hapticsEnabled
-          overDrag="vertical"
-          activeItemScale={1.03}
-          scrollableRef={scrollRef}
-        />
+        {isSearching ? (
+          <View testID="tag-search-results">
+            {searchRows.map((row) => (
+              <View key={row.key}>{renderRow(row)}</View>
+            ))}
+            {searchRows.length === 0 && (
+              <Text
+                testID="tag-search-empty"
+                style={{
+                  padding: 32,
+                  textAlign: "center",
+                  fontSize: 15,
+                  color: colors.textSecondary,
+                }}
+              >
+                {t("tags_search_empty")}
+              </Text>
+            )}
+          </View>
+        ) : (
+          <Sortable.Grid
+            columns={1}
+            data={rows}
+            keyExtractor={(row) => row.key}
+            renderItem={renderItem}
+            onDragEnd={onDragEnd}
+            customHandle
+            // Handles only drag, so the drag starts on touch like iOS reorder controls.
+            dragActivationDelay={0}
+            hapticsEnabled
+            overDrag="vertical"
+            activeItemScale={1.03}
+            scrollableRef={scrollRef}
+          />
+        )}
       </View>
     </Animated.ScrollView>
   );
