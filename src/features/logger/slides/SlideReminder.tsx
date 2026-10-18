@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Platform, Text, View } from "react-native";
-import { Bell } from "react-native-feather";
+import Bell from "lucide-react-native/icons/bell";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import {

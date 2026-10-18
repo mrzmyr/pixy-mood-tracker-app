@@ -5,7 +5,8 @@ import { RectButton } from "react-native-gesture-handler";
 import Swipeable, {
   SwipeDirection,
 } from "react-native-gesture-handler/ReanimatedSwipeable";
-import { Archive, Trash2 } from "lucide-react-native";
+import Archive from "lucide-react-native/icons/archive";
+import Trash from "lucide-react-native/icons/trash";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { TagListItem } from "./TagListItem";
@@ -84,7 +85,7 @@ export const TagRow = ({
             gap: 2,
           }}
         >
-          <Trash2 size={18} color={colors.palette.white} />
+          <Trash size={18} color={colors.palette.white} />
           <Text style={{ color: colors.palette.white, fontSize: 12 }}>
             {t("delete")}
           </Text>

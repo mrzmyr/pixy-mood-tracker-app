@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { Check } from "react-native-feather";
+import Check from "lucide-react-native/icons/check";
 import {
   GestureDetector,
   GestureHandlerRootView,

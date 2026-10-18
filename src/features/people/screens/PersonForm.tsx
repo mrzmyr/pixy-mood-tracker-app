@@ -1,5 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Contact, Trash2 } from "lucide-react-native";
+import Contact from "lucide-react-native/icons/contact";
+import Trash from "lucide-react-native/icons/trash";
 import { useRef } from "react";
 import { Platform, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -103,7 +104,7 @@ const EditActions = ({
           testID="person-delete"
           onPress={askToDelete}
           iconLeft={
-            isIOS ? null : <Trash2 size={24} color={colors.dangerButtonText} />
+            isIOS ? null : <Trash size={24} color={colors.dangerButtonText} />
           }
           title={
             <Text

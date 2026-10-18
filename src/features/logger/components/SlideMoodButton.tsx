@@ -6,7 +6,7 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import { Check } from "react-native-feather";
+import Check from "lucide-react-native/icons/check";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";

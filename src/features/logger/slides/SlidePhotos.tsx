@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Images } from "lucide-react-native";
+import Images from "lucide-react-native/icons/images";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

@@ -3,7 +3,8 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import { Pressable, View } from "react-native";
-import { ArrowLeft, Trash } from "react-native-feather";
+import ArrowLeft from "lucide-react-native/icons/arrow-left";
+import Trash from "lucide-react-native/icons/trash";
 import { Stepper } from "./Stepper";
 
 /**

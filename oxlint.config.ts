@@ -12,6 +12,20 @@ const reactNavigationImport = {
   message: "Import from expo-router/react-navigation instead.",
 };
 
+// Metro does not tree-shake: one barrel import bundles every Lucide icon.
+const iconImports = [
+  {
+    name: "lucide-react-native",
+    allowTypeImports: true,
+    message:
+      'Import each icon from "lucide-react-native/icons/<kebab-name>" instead.',
+  },
+  {
+    name: "react-native-feather",
+    message: 'Use Lucide: "lucide-react-native/icons/<kebab-name>".',
+  },
+];
+
 const featureImport = {
   group: ["@/features", "@/features/**"],
   message: "Lower layer must not import features.",
@@ -67,7 +81,10 @@ export default defineConfig({
     "unicorn/prefer-set-has": "off",
     // Autofix renames to `error` even when that shadows an outer `error`, changing which value code reads.
     "unicorn/catch-error-name": "off",
-    "no-restricted-imports": ["error", { patterns: [reactNavigationImport] }],
+    "no-restricted-imports": [
+      "error",
+      { paths: iconImports, patterns: [reactNavigationImport] },
+    ],
   },
   overrides: [
     {
@@ -83,6 +100,7 @@ export default defineConfig({
         "no-restricted-imports": [
           "error",
           {
+            paths: iconImports,
             patterns: [
               {
                 group: ["@/support", "@/support/**"],
@@ -102,7 +120,10 @@ export default defineConfig({
       rules: {
         "no-restricted-imports": [
           "error",
-          { patterns: [featureImport, devImport, reactNavigationImport] },
+          {
+            paths: iconImports,
+            patterns: [featureImport, devImport, reactNavigationImport],
+          },
         ],
       },
     },
@@ -113,6 +134,7 @@ export default defineConfig({
         "no-restricted-imports": [
           "error",
           {
+            paths: iconImports,
             patterns: [
               featureDeepImport,
               {
@@ -132,7 +154,10 @@ export default defineConfig({
       rules: {
         "no-restricted-imports": [
           "error",
-          { patterns: [featureDeepImport, reactNavigationImport] },
+          {
+            paths: iconImports,
+            patterns: [featureDeepImport, reactNavigationImport],
+          },
         ],
       },
     },
@@ -142,7 +167,7 @@ export default defineConfig({
       rules: {
         "no-restricted-imports": [
           "error",
-          { patterns: [reactNavigationImport] },
+          { paths: iconImports, patterns: [reactNavigationImport] },
         ],
       },
     },

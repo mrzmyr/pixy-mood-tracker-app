@@ -16,7 +16,8 @@ import {
 } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import { ChevronLeft, ChevronRight } from "react-native-feather";
+import ChevronLeft from "lucide-react-native/icons/chevron-left";
+import ChevronRight from "lucide-react-native/icons/chevron-right";
 import { Secondary, Section } from "@/components/Type";
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 import { useLocationSetting } from "@/features/location";

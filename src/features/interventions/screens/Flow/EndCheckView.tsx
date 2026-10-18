@@ -1,9 +1,7 @@
-import {
-  ArrowDownRight,
-  ArrowRight,
-  ArrowUpRight,
-  Heart,
-} from "lucide-react-native";
+import ArrowDownRight from "lucide-react-native/icons/arrow-down-right";
+import ArrowRight from "lucide-react-native/icons/arrow-right";
+import ArrowUpRight from "lucide-react-native/icons/arrow-up-right";
+import Heart from "lucide-react-native/icons/heart";
 import type { LucideIcon } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";

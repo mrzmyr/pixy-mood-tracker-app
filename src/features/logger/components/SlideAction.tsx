@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Keyboard, Platform, View } from "react-native";
-import { ArrowRight, Check } from "react-native-feather";
+import ArrowRight from "lucide-react-native/icons/arrow-right";
+import Check from "lucide-react-native/icons/check";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { FloatButton } from "@/components/FloatButton";

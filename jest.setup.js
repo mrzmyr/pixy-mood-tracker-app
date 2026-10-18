@@ -109,12 +109,6 @@ jest.mock("react-native-gesture-handler", () => {
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI; FlashList's ESM build is unavailable to Jest.
 jest.mock("@shopify/flash-list", () => ({ FlashList: () => null }));
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load icon UI; Jest does not transform lucide's ESM build.
-jest.mock(
-  "lucide-react-native",
-  () => new Proxy({}, { get: () => require("react-native").View })
-);
-
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI; the native sheet has no Jest view.
 jest.mock("@expo/ui", () => ({
   BottomSheet: () => null,

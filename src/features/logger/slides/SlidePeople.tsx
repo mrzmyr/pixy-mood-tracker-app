@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
-import { Plus } from "lucide-react-native";
+import Plus from "lucide-react-native/icons/plus";
 import { useEffect, useRef } from "react";
 import {
   Pressable,

@@ -1,5 +1,7 @@
 import { ScrollView, View } from "react-native";
-import { Download, Trash, Upload } from "react-native-feather";
+import Download from "lucide-react-native/icons/download";
+import Trash from "lucide-react-native/icons/trash";
+import Upload from "lucide-react-native/icons/upload";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";

@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Folder } from "lucide-react-native";
+import Folder from "lucide-react-native/icons/folder";
 import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CloseButton } from "@/components/CloseButton";

@@ -1,5 +1,5 @@
 import { ScrollView, Text, View } from "react-native";
-import { Lock } from "react-native-feather";
+import Lock from "lucide-react-native/icons/lock";
 import Animated, { FadeInRight } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";

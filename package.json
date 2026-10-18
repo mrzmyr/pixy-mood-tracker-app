@@ -100,7 +100,6 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-native": "0.86.3",
-    "react-native-feather": "^1.1.2",
     "react-native-gesture-handler": "~3.1.0",
     "react-native-get-random-values": "~1.11.0",
     "react-native-markdown-display": "^7.0.2",
@@ -150,6 +149,9 @@
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
   "jest": {
+    "moduleNameMapper": {
+      "^lucide-react-native/icons/(.+)$": "<rootDir>/node_modules/lucide-react-native/dist/cjs/icons/$1.js"
+    },
     "preset": "jest-expo",
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"
