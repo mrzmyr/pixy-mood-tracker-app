@@ -157,6 +157,21 @@ jest.mock("@expo/ui", () => {
   };
 });
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- Galeria is a native view without a Jest build; the stand-in renders tiles as views that receive the native viewer events.
+jest.mock("@nandorojo/galeria", () => {
+  const { View } = require("react-native");
+  const Image = ({ index = 0, children, onIndexChange, onDismiss }) =>
+    require("react").createElement(
+      View,
+      { testID: `galeria-image-${index}`, onIndexChange, onDismiss },
+      children
+    );
+  return {
+    __esModule: true,
+    Galeria: Object.assign(({ children }) => children, { Image, Item: Image }),
+  };
+});
+
 const mockSwiftUiChildren = ({ children }) => children;
 const mockSwiftUiContextMenu = Object.assign(
   ({ children }) => mockSwiftUiChildren({ children }),
@@ -175,6 +190,7 @@ jest.mock("@expo/ui/swift-ui", () => {
     Host: ({ children }) => children,
     RNHostView: ({ children }) => children,
     ContextMenu: mockSwiftUiContextMenu,
+    DatePicker: () => null,
     Image: () => null,
     Menu: ({ children }) => <View>{children}</View>,
     Button: ({ label, onPress }) => (

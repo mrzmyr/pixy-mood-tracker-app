@@ -12,6 +12,10 @@ import { RADIUS } from "@/constants/Radius";
  * import from another device. Never removes the reference itself.
  *
  * Without `size`, the tile fills the width of its parent.
+ *
+ * Inside a `PhotoGalleryItem` the native viewer handles the tap: pass
+ * `onScreenReaderOpen` instead of `onPress`. A screen reader activation
+ * calls it, not the native tap.
  */
 export const PhotoThumbnail = ({
   photo,
@@ -20,6 +24,7 @@ export const PhotoThumbnail = ({
   size,
   aspectRatio = 1,
   onPress,
+  onScreenReaderOpen,
 }: {
   photo: LogPhoto;
   /** Position in the entry, from 0. Used for accessibility labels. */
@@ -29,16 +34,26 @@ export const PhotoThumbnail = ({
   /** Width divided by height. The image covers the tile and crops. */
   aspectRatio?: number;
   onPress?: () => void;
+  onScreenReaderOpen?: () => void;
 }) => {
   const colors = useColors();
   const position = index + 1;
+  const canOpen = !!onPress || !!onScreenReaderOpen;
 
   return (
     <View style={{ width: size ?? "100%", aspectRatio }}>
       <Pressable
         onPress={onPress}
-        disabled={!onPress}
-        accessibilityRole={onPress ? "imagebutton" : "image"}
+        disabled={!canOpen}
+        accessibilityRole={canOpen ? "imagebutton" : "image"}
+        accessibilityActions={
+          onScreenReaderOpen ? [{ name: "activate" }] : undefined
+        }
+        onAccessibilityAction={(event) => {
+          if (event.nativeEvent.actionName === "activate") {
+            onScreenReaderOpen?.();
+          }
+        }}
         accessibilityLabel={t("photos_thumbnail_label", {
           index: position,
           count,

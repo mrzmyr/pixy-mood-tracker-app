@@ -18,10 +18,12 @@ const RoleText = ({
   role,
   accessibilityRole,
   testID,
-}: RoleProps & { role: TextStyle }) => (
+  numberOfLines,
+}: RoleProps & { role: TextStyle; numberOfLines?: number }) => (
   <Text
     accessibilityRole={accessibilityRole}
     testID={testID}
+    numberOfLines={numberOfLines}
     style={[role, style]}
   >
     {children}
@@ -245,6 +247,33 @@ export const Display = ({
       style={style}
       accessibilityRole={accessibilityRole}
       testID={testID}
+    >
+      {children}
+    </RoleText>
+  );
+};
+
+/**
+ * Button and link label. 17, weight 600, on both platforms. No fixed line
+ * height and no letter spacing: keeps the size of pre-existing buttons.
+ * Use through `ButtonText`, which sets the button's color.
+ */
+export const Label = ({
+  children,
+  style,
+  accessibilityRole,
+  testID,
+  numberOfLines,
+}: RoleProps & { numberOfLines?: number }) => {
+  const colors = useColors();
+
+  return (
+    <RoleText
+      role={{ fontSize: 17, fontWeight: "600", color: colors.text }}
+      style={style}
+      accessibilityRole={accessibilityRole}
+      testID={testID}
+      numberOfLines={numberOfLines}
     >
       {children}
     </RoleText>

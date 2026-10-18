@@ -23,6 +23,7 @@ import useColors from "@/hooks/useColors";
 import { getToastDuration, hideToast, useToast } from "@/lib/toast";
 import type { Toast } from "@/lib/toast";
 import { RADIUS } from "@/constants/Radius";
+import { SHADOW } from "@/constants/Shadow";
 import { getTypeMetrics } from "@/components/typeMetrics";
 
 const IS_ANDROID = Platform.OS === "android";
@@ -104,7 +105,7 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
                     paddingHorizontal: 16,
                     borderRadius: RADIUS.xs,
                     backgroundColor: colors.snackbarBackground,
-                    elevation: 6,
+                    boxShadow: SHADOW.snackbar,
                   }
                 : {
                     borderRadius: RADIUS.md,

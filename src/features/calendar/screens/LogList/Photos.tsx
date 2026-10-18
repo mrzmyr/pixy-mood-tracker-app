@@ -1,10 +1,17 @@
 import { useRouter } from "expo-router";
 import Image from "lucide-react-native/icons/image";
 import { Pressable, ScrollView } from "react-native";
+import { useReducedMotion } from "react-native-reanimated";
 import type { LogItem } from "@/features/logs";
-import { PhotoThumbnail } from "@/features/photos";
+import {
+  IS_PHOTO_GALLERY_SUPPORTED,
+  PhotoGallery,
+  PhotoGalleryItem,
+  PhotoThumbnail,
+} from "@/features/photos";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { RADIUS } from "@/constants/Radius";
 import { INSET } from "./layout";
 
@@ -12,9 +19,11 @@ const THUMBNAIL_SIZE = 96;
 
 /**
  * Photos of an entry card as one scrollable row. Each thumbnail opens the
- * viewer. With `onEdit`, a dashed tile at the end opens the logger at the
- * photos step. Without photos it renders nothing; the add pills offer the
- * step instead.
+ * viewer. With the photos flag on, the native viewer (`PhotoGallery`) opens:
+ * the photo grows from its tile. Web, reduce motion, screen readers, and
+ * flag off open `PhotoViewer` through `/photos/[id]`. With `onEdit`, a
+ * dashed tile at the end opens the logger at the photos step. Without
+ * photos it renders nothing; the add pills offer the step instead.
  */
 export const Photos = ({
   item,
@@ -25,6 +34,12 @@ export const Photos = ({
 }) => {
   const colors = useColors();
   const router = useRouter();
+  const isPhotosEnabled = useFeatureFlag("photos");
+  // Galeria animates the photo out of the tile and has no reduce motion
+  // option. The route viewer fades instead.
+  const isReducedMotion = useReducedMotion();
+  const hasGallery =
+    isPhotosEnabled && IS_PHOTO_GALLERY_SUPPORTED && !isReducedMotion;
   const { photos } = item;
 
   if (photos.length === 0) {
@@ -38,23 +53,35 @@ export const Photos = ({
     });
   };
 
-  return (
+  const row = (
     <ScrollView
       testID="log-list-photos"
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{ gap: 8, paddingHorizontal: INSET }}
     >
-      {photos.map((photo, index) => (
-        <PhotoThumbnail
-          key={photo.id}
-          photo={photo}
-          index={index}
-          count={photos.length}
-          size={THUMBNAIL_SIZE}
-          onPress={() => open(index)}
-        />
-      ))}
+      {photos.map((photo, index) =>
+        hasGallery ? (
+          <PhotoGalleryItem key={photo.id} index={index}>
+            <PhotoThumbnail
+              photo={photo}
+              index={index}
+              count={photos.length}
+              size={THUMBNAIL_SIZE}
+              onScreenReaderOpen={() => open(index)}
+            />
+          </PhotoGalleryItem>
+        ) : (
+          <PhotoThumbnail
+            key={photo.id}
+            photo={photo}
+            index={index}
+            count={photos.length}
+            size={THUMBNAIL_SIZE}
+            onPress={() => open(index)}
+          />
+        )
+      )}
       {onEdit && (
         <Pressable
           testID="log-list-photos-edit"
@@ -79,5 +106,13 @@ export const Photos = ({
         </Pressable>
       )}
     </ScrollView>
+  );
+
+  return hasGallery ? (
+    <PhotoGallery photos={photos} context="day">
+      {row}
+    </PhotoGallery>
+  ) : (
+    row
   );
 };

@@ -7,6 +7,19 @@ export interface ContactRow extends ContactSummary {
   isAdded: boolean;
 }
 
+/** A row with its precomputed search key. */
+interface IndexedContactRow {
+  row: ContactRow;
+  /** Name without accents, lower case; `filterContactRows` matches on it. */
+  searchKey: string;
+}
+
+/** Sorted import rows with search keys. Build once per contacts or people change. */
+export type ContactIndex = IndexedContactRow[];
+
+// Default locale and options: same order as `localeCompare()` without arguments.
+const collator = new Intl.Collator();
+
 const normalize = (text: string) =>
   text
     .normalize("NFD")
@@ -14,25 +27,35 @@ const normalize = (text: string) =>
     .toLowerCase();
 
 /**
- * Rows for the import list: sorted by name, filtered by `query` (case and
- * accent insensitive), and marked when a person already links the contact.
+ * Rows for the import list, sorted by name and marked when a person already
+ * links the contact. Normalizes and sorts once, so typing a query only filters.
  */
-export const buildContactRows = ({
+export const buildContactIndex = ({
   contacts,
   people,
-  query,
 }: {
   contacts: ContactSummary[];
   people: Pick<Person, "contactId">[];
-  query: string;
-}): ContactRow[] => {
+}): ContactIndex => {
   const addedIds = new Set(people.map((person) => person.contactId));
-  const needle = normalize(query.trim());
   return contacts
-    .flatMap((contact) =>
-      normalize(contact.name).includes(needle)
-        ? [{ ...contact, isAdded: addedIds.has(contact.contactId) }]
-        : []
-    )
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .map((contact) => ({
+      row: { ...contact, isAdded: addedIds.has(contact.contactId) },
+      searchKey: normalize(contact.name),
+    }))
+    .sort((a, b) => collator.compare(a.row.name, b.row.name));
+};
+
+/**
+ * Rows whose name contains `query` (case and accent insensitive), in index
+ * order. Returns the same row objects for every query.
+ */
+export const filterContactRows = (
+  index: ContactIndex,
+  query: string
+): ContactRow[] => {
+  const needle = normalize(query.trim());
+  return index.flatMap(({ row, searchKey }) =>
+    searchKey.includes(needle) ? [row] : []
+  );
 };
