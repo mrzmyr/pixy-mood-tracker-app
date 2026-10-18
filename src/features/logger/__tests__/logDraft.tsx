@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react-native";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import type { LogItem } from "@/features/logs";
 import { finalizeDraft } from "../finalizeDraft";
 import type { LogDraft } from "../finalizeDraft";
@@ -118,7 +118,8 @@ describe("useLogDraft()", () => {
     );
 
     await act(() => {
-      hook.result.current.setMessage("After edit");
+      hook.result.current.typeMessage("After edit");
+      hook.result.current.flushMessage();
     });
 
     expect(hook.result.current.draft).toEqual(
@@ -128,6 +129,32 @@ describe("useLogDraft()", () => {
       })
     );
     expect(hook.result.current.isDirty).toBe(true);
+  });
+
+  test("typed note reaches commit before a flush", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.typeMessage("Half");
+      hook.result.current.typeMessage("Half typed");
+    });
+
+    expect(hook.result.current.isDirty).toBe(true);
+    expect(hook.result.current.hasContent).toBe(true);
+    expect(hook.result.current.commit([]).item.message).toBe("Half typed");
+  });
+
+  test("clearing the typed note clears content", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.typeMessage("a");
+    });
+    await act(() => {
+      hook.result.current.typeMessage("");
+    });
+
+    expect(hook.result.current.hasContent).toBe(false);
   });
 
   test("emotions and photos count as content", async () => {

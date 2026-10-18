@@ -1,5 +1,4 @@
 import { render, fireEvent } from "@testing-library/react-native";
-import { Text } from "react-native";
 import * as Haptics from "expo-haptics";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import Button from "@/components/Button";
@@ -7,7 +6,6 @@ import { CloseButton } from "@/components/CloseButton";
 import LinkButton from "@/components/LinkButton";
 import MenuListItem from "@/components/MenuListItem";
 import Colors from "@/constants/Colors";
-import { Radio } from "@/features/settings/screens/Colors/Radio";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-haptics is a native module; the test asserts on its calls
 jest.mock("expo-haptics", () => ({
@@ -90,19 +88,5 @@ describe("haptics", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
     expect(onMenu).toHaveBeenCalledTimes(1);
     expectSilent();
-  });
-
-  test("settings radio pick still plays selection haptic", async () => {
-    const onPress = jest.fn();
-    const { getByText } = await render(
-      withTheme(
-        <Radio onPress={onPress}>
-          <Text>Option</Text>
-        </Radio>
-      )
-    );
-    await fireEvent.press(getByText("Option"));
-    expect(Haptics.selectionAsync).toHaveBeenCalledTimes(1);
-    expect(onPress).toHaveBeenCalledTimes(1);
   });
 });

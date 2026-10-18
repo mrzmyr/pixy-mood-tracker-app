@@ -26,6 +26,22 @@ const iconImports = [
   },
 ];
 
+const featureImport = {
+  group: ["@/features", "@/features/**"],
+  message: "Lower layer must not import features.",
+};
+
+// Production bundles drop dev tools only behind the `DEV_TOOLS` gate in `src/dev/index.ts`.
+const devImport = {
+  group: ["@/dev", "@/dev/**"],
+  message: "Lower layer must not import dev tools.",
+};
+
+const featureDeepImport = {
+  regex: "^@/features/[^/]+/.+",
+  message: "Import features through their entry file.",
+};
+
 /**
  * Oxlint config: Ultracite presets plus the local `pixy-standards` rules
  * from `tools/oxlint/pixy-rules.cjs`.
@@ -72,13 +88,11 @@ export default defineConfig({
   },
   overrides: [
     {
-      // Lower layers never import upward into feature screens or logic.
+      // Core layers never import upward into support, features, or dev tools.
       files: [
         "src/state/**",
-        "src/components/**",
         "src/hooks/**",
         "src/lib/**",
-        "src/helpers/**",
         "src/constants/**",
         "src/types/**",
       ],
@@ -89,8 +103,44 @@ export default defineConfig({
             paths: iconImports,
             patterns: [
               {
-                group: ["@/features/**", "@/screens/**"],
-                message: "Lower layer must not import features or screens.",
+                group: ["@/support", "@/support/**"],
+                message: "Core layer must not import support.",
+              },
+              featureImport,
+              devImport,
+              reactNavigationImport,
+            ],
+          },
+        ],
+      },
+    },
+    {
+      // Shared UI and the support layer sit below features and dev tools.
+      files: ["src/components/**", "src/support/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: iconImports,
+            patterns: [featureImport, devImport, reactNavigationImport],
+          },
+        ],
+      },
+    },
+    {
+      // Feature consumers use public entry files; dev tools only via the `DEV_TOOLS` gate.
+      files: ["src/features/**", "src/shell/**", "src/app/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: iconImports,
+            patterns: [
+              featureDeepImport,
+              {
+                regex: "^@/dev/.+",
+                message:
+                  "Import dev tools through `DEV_TOOLS` from `@/dev`; deep imports ship dev code in production bundles.",
               },
               reactNavigationImport,
             ],
@@ -99,21 +149,25 @@ export default defineConfig({
       },
     },
     {
-      // Feature consumers use public entry files.
-      files: ["src/features/**", "src/shell/**", "src/app/**"],
+      // Dev tools may import their own files, but features only through entry files.
+      files: ["src/dev/**"],
       rules: {
         "no-restricted-imports": [
           "error",
           {
             paths: iconImports,
-            patterns: [
-              {
-                regex: "^@/features/[^/]+/.+",
-                message: "Import features through their entry file.",
-              },
-              reactNavigationImport,
-            ],
+            patterns: [featureDeepImport, reactNavigationImport],
           },
+        ],
+      },
+    },
+    {
+      // Tests never ship, so they may reach into features and dev fixtures.
+      files: ["src/**/__tests__/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          { paths: iconImports, patterns: [reactNavigationImport] },
         ],
       },
     },

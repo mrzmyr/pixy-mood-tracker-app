@@ -3,7 +3,7 @@ import { userEvent } from "@testing-library/react-native";
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
 import { Pressable, Text } from "react-native";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import Colors from "@/constants/Colors";
 import { LogsProvider } from "@/features/logs";
 import {

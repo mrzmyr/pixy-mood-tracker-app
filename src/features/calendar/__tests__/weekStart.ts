@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import * as Localization from "expo-localization";
 import { getWeekLocale } from "@/lib/translation";
-import { getMonths } from "@/features/calendar/screens/Calendar/layout";
+import { getMonths } from "../screens/Calendar/layout";
 
 const getRows = (weekStart: number) =>
   getMonths({

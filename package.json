@@ -15,7 +15,7 @@
     "devices": "bun scripts/cli/index.ts devices",
     "builds": "bun scripts/cli/index.ts builds",
     "worktree": "bun scripts/cli/index.ts worktree",
-    "test:cli": "bun test scripts/cli scripts/check-locales scripts/sort-locales",
+    "test:cli": "bun test scripts/cli scripts/check-locales scripts/sort-locales scripts/generate-licenses",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",
     "test:ci": "jest --env=jsdom",
@@ -31,6 +31,7 @@
     "eas:preview": "bun run eas:ios:preview && bun run eas:android:preview",
     "eas:prod": "bun run eas:ios:prod && bun run eas:android:prod",
     "translate-app": "bun scripts/generate-translations-app.js",
+    "licenses": "bun scripts/generate-licenses.ts",
     "reviews": "node scripts/store-reviews.mjs",
     "type-check": "tsc",
     "lint": "oxlint",
@@ -162,6 +163,9 @@
       "./__tests__/utils.ts",
       "<rootDir>/scripts/"
     ],
+    "transform": {
+      "\\.txt$": "jest-expo/src/preset/assetFileTransformer.js"
+    },
     "transformIgnorePatterns": [
       "/node_modules/(?!(.pnpm|react-native|@react-native|@react-native-community|expo|@expo|@expo-google-fonts|react-navigation|@react-navigation|@sentry/react-native|native-base|standard-navigation|uuid))",
       "/node_modules/react-native-reanimated/plugin/",
