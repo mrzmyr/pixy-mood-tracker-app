@@ -1,0 +1,113 @@
+import { BigCard } from "../../components/big-card";
+import { NotEnoughDataOverlay } from "../../components/not-enough-data-overlay";
+import { DATE_FORMAT } from "@/constants/config";
+import { t } from "@/lib/translation";
+import dayjs from "dayjs";
+import {
+  getMoodPeaksNegativeData,
+  getMoodPeaksPositiveData,
+} from "../../mood-peaks";
+import type { MoodPeaksNegativeData } from "../../mood-peaks";
+
+import { MoodPeaksContent } from "../statistics/mood-peaks-cards";
+
+const MIN_ITEMS = 1;
+
+/**
+ * Month report cards for good and bad peak days. `items` must already be
+ * limited to the month.
+ */
+export const MoodPeaks = ({ date, items }) => {
+  const dataNegative = getMoodPeaksNegativeData(items);
+  const dataPositive = getMoodPeaksPositiveData(items);
+
+  const dataNegativeDummy: MoodPeaksNegativeData = {
+    days: [
+      {
+        date: dayjs().format(DATE_FORMAT),
+        ratingAvg: "bad",
+        sleepQualityAvg: 1,
+        items: [],
+      },
+      {
+        date: dayjs(date).add(4, "day").format(DATE_FORMAT),
+        ratingAvg: "extremely_bad",
+        sleepQualityAvg: 1,
+        items: [],
+      },
+      {
+        date: dayjs(date).add(8, "day").format(DATE_FORMAT),
+        ratingAvg: "bad",
+        sleepQualityAvg: 1,
+        items: [],
+      },
+      {
+        date: dayjs(date).add(12, "day").format(DATE_FORMAT),
+        ratingAvg: "extremely_bad",
+        sleepQualityAvg: 1,
+        items: [],
+      },
+    ],
+  };
+
+  const dataPositiveDummy = {
+    days: dataNegativeDummy.days.map((item) => ({
+      ...item,
+      ratingAvg: "extremely_good" as const,
+    })),
+  };
+
+  const monthStart = dayjs(date).startOf("month").format(DATE_FORMAT);
+  const monthEnd = dayjs(date).endOf("month").format(DATE_FORMAT);
+
+  return (
+    <>
+      <BigCard
+        title={t("statistics_mood_peaks_positive")}
+        subtitle={t("statistics_mood_peaks_positive_description", {
+          date: date.format("MMMM, YYYY"),
+        })}
+        isShareable
+        analyticsId="mood-peaks-positive"
+      >
+        {dataPositive.days.length < MIN_ITEMS && <NotEnoughDataOverlay />}
+        {dataPositive.days.length >= MIN_ITEMS ? (
+          <MoodPeaksContent
+            data={dataPositive}
+            startDate={monthStart}
+            endDate={monthEnd}
+          />
+        ) : (
+          <MoodPeaksContent
+            data={dataPositiveDummy}
+            startDate={monthStart}
+            endDate={monthEnd}
+          />
+        )}
+      </BigCard>
+      <BigCard
+        title={t("statistics_mood_peaks_negative")}
+        subtitle={t("statistics_mood_peaks_negative_description", {
+          date: date.format("MMMM, YYYY"),
+        })}
+        isShareable
+        analyticsId="mood-peaks-negative"
+      >
+        {dataNegative.days.length < MIN_ITEMS && <NotEnoughDataOverlay />}
+        {dataNegative.days.length >= MIN_ITEMS ? (
+          <MoodPeaksContent
+            data={dataNegative}
+            startDate={monthStart}
+            endDate={monthEnd}
+          />
+        ) : (
+          <MoodPeaksContent
+            data={dataNegativeDummy}
+            startDate={monthStart}
+            endDate={monthEnd}
+          />
+        )}
+      </BigCard>
+    </>
+  );
+};

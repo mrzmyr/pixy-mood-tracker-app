@@ -7,11 +7,11 @@ import {
   useLogLoad,
   useLogState,
   useLogUpdater,
-} from "../LogsProvider";
-import type { LogsState } from "../LogsProvider";
+} from "../logs-provider";
+import type { LogsState } from "../logs-provider";
 
 import { SettingsProvider } from "@/state/settings";
-import { _generateItem } from "@/testing/logItem";
+import { _generateItem } from "@/testing/log-item";
 import { File } from "expo-file-system";
 import { getPhotosDirectory } from "@/features/photos";
 import omit from "lodash/omit";

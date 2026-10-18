@@ -1,0 +1,44 @@
+import { Card } from "../../components/card";
+import { getCardChartWidth } from "../../components/card-chart-width";
+import { t } from "@/lib/translation";
+import dayjs from "dayjs";
+import { useWindowDimensions, View } from "react-native";
+import { useLogState } from "@/features/logs";
+
+import { SleepQualityChart } from "../../components/sleep-quality-chart";
+import { getSleepQualityDistributionForXDays } from "../../sleep-quality-distribution";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import { getItemTime } from "@/lib/log-dates";
+
+dayjs.extend(isSameOrAfter);
+
+/** Sleep quality line chart for 15 days from `startDate` (`YYYY-MM-DD`). */
+export const SleepQualityChartCard = ({
+  title,
+  startDate,
+}: {
+  title: string;
+  startDate: string;
+}) => {
+  const logState = useLogState();
+
+  const startTime = dayjs(startDate).valueOf();
+  const items = logState.items.filter((item) => getItemTime(item) >= startTime);
+
+  const data = getSleepQualityDistributionForXDays(items, startDate, 14);
+
+  const width = getCardChartWidth(useWindowDimensions().width);
+  const height = width / 3;
+
+  return (
+    <Card subtitle={t("mood")} title={title}>
+      <View
+        style={{
+          justifyContent: "flex-start",
+        }}
+      >
+        <SleepQualityChart data={data} height={height} width={width} />
+      </View>
+    </Card>
+  );
+};

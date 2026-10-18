@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import type { LogItem } from "@/features/logs";
-import { getItemDate } from "@/lib/logDates";
+import { getItemDate } from "@/lib/log-dates";
 import type { InterventionCluster } from "@/state/analytics/events";
 import { CLUSTERS } from "./catalog";
 

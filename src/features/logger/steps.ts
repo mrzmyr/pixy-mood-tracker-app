@@ -1,8 +1,8 @@
-import type { LoggerStep } from "@/constants/LoggerSteps";
+import type { LoggerStep } from "@/constants/logger-steps";
 import type { LogItem } from "@/features/logs";
 import type { IQuestion } from "@/features/questioner";
 import type { useSettings } from "@/state/settings";
-import { getItemDate } from "@/lib/logDates";
+import { getItemDate } from "@/lib/log-dates";
 
 /**
  * Some entry on `date` (`DATE_FORMAT`) holds a sleep quality. Sleep is asked

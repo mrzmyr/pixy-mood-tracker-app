@@ -2,12 +2,12 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
-import MenuList from "@/components/MenuList";
-import MenuListHeadline from "@/components/MenuListHeadline";
-import MenuListItem from "@/components/MenuListItem";
-import TextInfo from "@/components/TextInfo";
-import { APP_VARIANT } from "@/constants/AppVariant";
-import useColors from "@/hooks/useColors";
+import MenuList from "@/components/menu-list";
+import MenuListHeadline from "@/components/menu-list-headline";
+import MenuListItem from "@/components/menu-list-item";
+import TextInfo from "@/components/text-info";
+import { APP_VARIANT } from "@/constants/app-variant";
+import useColors from "@/hooks/use-colors";
 import pkg from "../../package.json";
 import {
   FIXTURES,
@@ -19,18 +19,18 @@ import type { Fixture } from "@/dev/fixtures";
 
 import { setFileTransferOverride } from "@/features/datagate";
 import { setPhotoSourceOverride } from "@/features/photos";
-import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
+import { fakeFileTransfer } from "@/dev/fake-file-transfer";
 import {
   createFailOnceFakePeopleSources,
   fakePeopleSources,
-} from "@/dev/fakePeopleSources";
-import { addFakeContacts, removeFakeContacts } from "@/dev/fakeContacts";
+} from "@/dev/fake-people-sources";
+import { addFakeContacts, removeFakeContacts } from "@/dev/fake-contacts";
 import { setPeopleSourcesOverride } from "@/features/people";
-import { isOverride, setOverride } from "@/state/featureFlags/overrides";
-import { FEATURE_FLAGS, isFeatureFlag } from "@/state/featureFlags/keys";
+import { isOverride, setOverride } from "@/state/feature-flags/overrides";
+import { FEATURE_FLAGS, isFeatureFlag } from "@/state/feature-flags/keys";
 import { useSettings, useSettingsLoad } from "@/state/settings";
-import { fakePhotoSource } from "@/dev/fakePhotoSource";
-import { useLoadFixture, writeStorageFixture } from "@/dev/useLoadFixture";
+import { fakePhotoSource } from "@/dev/fake-photo-source";
+import { useLoadFixture, writeStorageFixture } from "@/dev/use-load-fixture";
 
 // Drops every screen behind the new state, like a fresh app start.
 const openApp = (router: ReturnType<typeof useRouter>, fixture: Fixture) => {

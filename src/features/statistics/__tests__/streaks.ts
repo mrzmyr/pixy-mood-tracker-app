@@ -1,5 +1,5 @@
-import { getCurrentStreak, getLongestStreak } from "../Streaks";
-import { _generateItem } from "@/testing/logItem";
+import { getCurrentStreak, getLongestStreak } from "../streaks";
+import { _generateItem } from "@/testing/log-item";
 
 const testItems = [
   _generateItem({ date: "2021-01-01" }),

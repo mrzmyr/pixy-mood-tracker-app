@@ -5,19 +5,19 @@ import { userEvent, waitFor } from "@testing-library/react-native";
 import * as FileSystem from "expo-file-system/legacy";
 import * as ImagePicker from "expo-image-picker";
 import { Text } from "react-native";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { INITIAL_STATE } from "@/constants/settings";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
-import * as squareImage from "@/lib/squareImage";
+import * as squareImage from "@/lib/square-image";
 import { AnalyticsProvider } from "@/state/analytics";
 import {
   SettingsProvider,
   STORAGE_KEY as SETTINGS_KEY,
   useSettings,
 } from "@/state/settings";
-import { _generateItem } from "@/testing/logItem";
-import { ProfileRow } from "../components/ProfileRow";
-import { ProfileForm } from "../screens/ProfileForm";
-import { getInitials } from "../useProfile";
+import { _generateItem } from "@/testing/log-item";
+import { ProfileRow } from "../components/profile-row";
+import { ProfileForm } from "../screens/profile-form";
+import { getInitials } from "../use-profile";
 
 /** Settings screen stand-in: the profile row plus the stored photo path. */
 const SettingsScreen = () => {

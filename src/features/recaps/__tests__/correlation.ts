@@ -1,6 +1,6 @@
 import { getEffect } from "../correlation";
 import { getDays } from "../days";
-import { _generateItem } from "@/testing/logItem";
+import { _generateItem } from "@/testing/log-item";
 import type { LogItem } from "@/features/logs";
 
 const days = (ratings: LogItem["rating"][], tagged: number[]) =>

@@ -1,2 +1,2 @@
-export { useRecapNotificationSync } from "./recapNotificationSync";
-export { useRecapNotificationTaps } from "./recapNotificationTaps";
+export { useRecapNotificationSync } from "./recap-notification-sync";
+export { useRecapNotificationTaps } from "./recap-notification-taps";

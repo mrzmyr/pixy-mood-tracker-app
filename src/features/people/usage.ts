@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import type { LogItem } from "@/features/logs";
-import type { Person } from "./PeopleProvider";
+import type { Person } from "./people-provider";
 
 /** Window of recent entries that decides the chip order. */
 export const USAGE_WINDOW_DAYS = 90;

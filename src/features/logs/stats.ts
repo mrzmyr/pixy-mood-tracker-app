@@ -3,9 +3,9 @@ import {
   RATING_KEYS,
   RATING_MAPPING,
   SLEEP_QUALITY_MAPPING,
-} from "@/constants/Ratings";
-import { getItemDate } from "@/lib/logDates";
-import type { LogDay, LogItem } from "./LogsProvider";
+} from "@/constants/ratings";
+import { getItemDate } from "@/lib/log-dates";
+import type { LogDay, LogItem } from "./logs-provider";
 
 /**
  * Rounded mean rating on the {@link RATING_MAPPING} scale, or `null` for

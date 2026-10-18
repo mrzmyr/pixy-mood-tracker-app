@@ -1,3 +1,3 @@
-export { FeedbackModal } from "./components/FeedbackModal";
-export * from "./Feedback";
-export { RequestEmotionSheet } from "./components/RequestEmotionSheet";
+export { FeedbackModal } from "./components/feedback-modal";
+export * from "./feedback";
+export { RequestEmotionSheet } from "./components/request-emotion-sheet";

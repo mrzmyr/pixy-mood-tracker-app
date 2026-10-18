@@ -1,4 +1,4 @@
-import type { IColors } from "@/constants/Colors";
+import type { IColors } from "@/constants/colors";
 
 interface Themes {
   light: IColors;
@@ -10,7 +10,7 @@ const loadColors = (os: "ios" | "android"): Themes => {
   jest.isolateModules(() => {
     const { Platform } = require("react-native");
     Platform.OS = os;
-    themes.push(require("@/constants/Colors").default);
+    themes.push(require("@/constants/colors").default);
   });
   return themes[0];
 };

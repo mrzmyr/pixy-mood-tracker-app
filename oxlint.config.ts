@@ -80,8 +80,12 @@ export default defineConfig({
     "pixy-standards/boolean-function-prefix": "error",
     "pixy-standards/require-exported-jsdoc": "error",
     "pixy-standards/structured-thrown-errors": "error",
-    // Expo components follow React Native's PascalCase file convention.
-    "unicorn/filename-case": "off",
+    // File names use kebab-case. `bun scripts/codemods/kebab-case-files.ts` renames old files.
+    // Expo Router params (`[dateTime].tsx`) name the search param, so they keep their case.
+    "unicorn/filename-case": [
+      "error",
+      { case: "kebabCase", ignore: [String.raw`^\[\w+\]\.tsx$`] },
+    ],
     // React Native has no CSS classes; inline style objects are standard.
     "react-doctor/no-inline-exhaustive-style": "off",
     // Alphabetical order hides ordinal data such as rating scales.
@@ -161,7 +165,7 @@ export default defineConfig({
         "src/shell/**",
         "src/app/_layout.tsx",
         "src/app/**/_layout.tsx",
-        "src/features/**/*Provider.tsx",
+        "src/features/**/*-provider.tsx",
       ],
       rules: {
         "no-restricted-imports": [
@@ -234,11 +238,12 @@ export default defineConfig({
         "pixy-standards/no-hermes-missing-array-methods": "error",
         "pixy-standards/no-hermes-missing-intl": "error",
         "pixy-standards/no-layout-animation": "error",
+        "pixy-standards/kebab-case-folders": "error",
       },
     },
     {
       // Append-only lists conflict on every merge; sorted lists do not.
-      files: ["src/state/featureFlags/keys.ts"],
+      files: ["src/state/feature-flags/keys.ts"],
       rules: { "pixy-standards/sorted-string-arrays": "error" },
     },
   ],

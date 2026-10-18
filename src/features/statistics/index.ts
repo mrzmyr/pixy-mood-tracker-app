@@ -1,2 +1,2 @@
-export type { TagsDistributionData } from "./TagsDistribution";
-export { getCurrentStreak, getLongestStreak } from "./Streaks";
+export type { TagsDistributionData } from "./tags-distribution";
+export { getCurrentStreak, getLongestStreak } from "./streaks";

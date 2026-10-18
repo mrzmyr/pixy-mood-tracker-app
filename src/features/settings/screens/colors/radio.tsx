@@ -1,0 +1,100 @@
+import { useCallback } from "react";
+import { Pressable, View } from "react-native";
+import Circle from "lucide-react-native/icons/circle";
+import useColors from "@/hooks/use-colors";
+import useHaptics from "@/hooks/use-haptics";
+import { RADIUS } from "@/constants/radius";
+
+const getPressableOpacity = (
+  isDisabled: boolean | undefined,
+  isPressed: boolean
+) => {
+  if (isDisabled) {
+    return 0.5;
+  }
+  return isPressed ? 0.8 : 1;
+};
+
+/**
+ * Selectable row on the color scale screen. Disabled rows are dimmed and
+ * ignore presses.
+ */
+export const Radio = ({
+  onPress,
+  children,
+  isSelected = false,
+  isDisabled = false,
+  testID,
+}: {
+  onPress: () => void;
+  testID?: string;
+  children: React.ReactNode;
+  isSelected?: boolean;
+  isDisabled?: boolean;
+}) => {
+  const colors = useColors();
+  const haptics = useHaptics();
+
+  const _onPress = useCallback(() => {
+    if (!isDisabled) {
+      haptics.selection();
+      onPress();
+    }
+  }, [onPress, isDisabled, haptics]);
+
+  return (
+    <Pressable
+      testID={testID}
+      onPress={_onPress}
+      style={({ pressed }) => [
+        {
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 10,
+          backgroundColor: colors.menuListItemBackground,
+          padding: 16,
+          borderRadius: RADIUS.md,
+          opacity: getPressableOpacity(isDisabled, pressed),
+        },
+      ]}
+    >
+      <>
+        <View
+          style={{
+            justifyContent: "center",
+            flexDirection: "row",
+            position: "relative",
+            marginRight: 16,
+            marginLeft: 8,
+          }}
+        >
+          <Circle
+            width={24}
+            color={isDisabled ? colors.textSecondary : colors.text}
+          />
+          {isSelected && (
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                backgroundColor: isDisabled
+                  ? colors.textSecondary
+                  : colors.text,
+                position: "absolute",
+                borderRadius: RADIUS.full,
+                top: 7,
+              }}
+            />
+          )}
+        </View>
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          {children}
+        </View>
+      </>
+    </Pressable>
+  );
+};
