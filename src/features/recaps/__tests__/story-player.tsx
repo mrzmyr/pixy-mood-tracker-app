@@ -77,4 +77,14 @@ describe("story player", () => {
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  test("tap to the next slide keeps a paused story paused", async () => {
+    await renderPlayer();
+
+    await fireEvent.press(screen.getByLabelText("Pause"));
+    await tap(300);
+
+    expect(screen.getByText("Two")).toBeTruthy();
+    expect(screen.getByLabelText("Play")).toBeTruthy();
+  });
 });

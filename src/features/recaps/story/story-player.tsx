@@ -92,11 +92,13 @@ export const StoryPlayer = ({
   const insets = useSafeAreaInsets();
   const [index, setIndex] = useState(0);
   const [isPausedByUser, setIsPausedByUser] = useState(false);
+  // Press and hold pauses only while held; the pause button pauses until tapped again.
+  const [isHolding, setIsHolding] = useState(false);
   const progress = useSharedValue(0);
   const slide = slides[index];
   const theme = slide?.theme ?? "night";
   const palette = STORY_PALETTE[theme];
-  const isPaused = isPausedByUser || isPausedFromParent;
+  const isPaused = isPausedByUser || isHolding || isPausedFromParent;
   const isWaiting = slide?.isWaiting ?? false;
 
   /** Runs the bar from where it stopped to the end of the slide. */
@@ -162,9 +164,9 @@ export const StoryPlayer = ({
       <Pressable
         accessible={false}
         style={StyleSheet.absoluteFill}
-        onLongPress={() => setIsPausedByUser(true)}
+        onLongPress={() => setIsHolding(true)}
         delayLongPress={250}
-        onPressOut={() => setIsPausedByUser(false)}
+        onPressOut={() => setIsHolding(false)}
         onPress={onPress}
         testID="recap-story-tap"
       >
