@@ -77,7 +77,13 @@ export const useRecapNotificationTaps = (
       }
     }
     const last = taps.at(-1);
-    if (last) {
+    if (last?.kind === "month") {
+      // The month story; it falls back to the month's cards without one.
+      router.navigate({
+        pathname: "/recaps/story/[date]",
+        params: { date: last.date, source: "notification" },
+      });
+    } else if (last) {
       router.navigate(`/recaps/${last.kind}/${last.date}`);
     }
   });

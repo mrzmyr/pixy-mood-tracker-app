@@ -43,7 +43,7 @@ const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 const isSource = (value: unknown): value is StorySource =>
   SOURCES.some((source) => source === value);
 
-/** Month story of `date`'s month. Closes when there is no story. */
+/** Month story of `date`'s month. Without a story, the month's cards. */
 const RecapStory = () => {
   const router = useRouter();
   const analytics = useAnalytics();
@@ -110,7 +110,15 @@ const RecapStory = () => {
   }, []);
 
   if (!story) {
-    return <Redirect href="/settings" />;
+    // No story for the month: its cards instead, e.g. from a notification.
+    return (
+      <Redirect
+        href={{
+          pathname: "/recaps/[kind]/[date]",
+          params: { kind: "month", date: period.start },
+        }}
+      />
+    );
   }
 
   const slideOf = (index: number): StorySlide | undefined => story[index];
