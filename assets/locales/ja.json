@@ -573,6 +573,7 @@
   "log_tags_search": "タグを検索…",
   "log_view_changed_body": "上部の [+] ボタンを使用して、複数のエントリを追加できるようになりました。 1 日に複数のエントリがある場合は、リストが表示されます。それ以外の場合は、この詳細ビューに 1 つのエントリのみが表示されます。",
   "log_view_changed_title": "待って、私の昼間はどこ？",
+  "logger_date_choose": "日付と時刻を選択…",
   "logger_date_hint": "この記録の時刻を変更します。",
   "logger_step_emotions": "感情",
   "logger_step_feedback": "製品に関する質問",

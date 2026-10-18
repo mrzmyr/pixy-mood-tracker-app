@@ -573,6 +573,7 @@
   "log_tags_search": "Søk i tagger…",
   "log_view_changed_body": "Du kan nå bruke [+]-knappen på toppen for å legge til flere oppføringer. Hvis du har flere oppføringer per dag, vil en liste vises, ellers vil bare én oppføring vises i denne detaljvisningen.",
   "log_view_changed_title": "Vent, hvor er dagene mine?",
+  "logger_date_choose": "Velg dato og klokkeslett…",
   "logger_date_hint": "Endrer tidspunktet for denne oppføringen.",
   "logger_step_emotions": "Følelser",
   "logger_step_feedback": "Produktspørsmål",

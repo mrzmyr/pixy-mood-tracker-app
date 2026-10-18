@@ -1,26 +1,19 @@
-import Button from "@/components/Button";
-import { ButtonText } from "@/components/ButtonContent";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 import {
   LocationPicker,
   MapPinOff,
   getLocationLabel,
 } from "@/features/location";
-import { getLocale, t } from "@/lib/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { getShortItemDateTitle } from "@/lib/utils";
-import dayjs from "dayjs";
-import type { ReactElement } from "react";
 import { useState } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
-import Clock from "lucide-react-native/icons/clock";
+import { View } from "react-native";
 import MapPin from "lucide-react-native/icons/map-pin";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useEntryTimePicker } from "../hooks/useEntryTimePicker";
 import { useLogDraft } from "../logDraft";
-import { RADIUS } from "@/constants/Radius";
-
-/** Height of a pill. Matches the 44pt minimum hit target. */
-const PILL_HEIGHT = 44;
+import { EntryTimeMenu } from "./EntryTimeMenu";
+import { PILL_HEIGHT, Pill } from "./Pill";
 
 /**
  * Space the floating next/save button takes from the slide content: it
@@ -28,108 +21,6 @@ const PILL_HEIGHT = 44;
  * an 8pt gap to the pill.
  */
 const FLOAT_BUTTON_SPACE = 12 + FLOAT_BUTTON_SIZE + 8;
-
-const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
-  const { draft } = useLogDraft();
-
-  return (
-    <View
-      style={{
-        flexDirection: "column",
-        alignItems: "center",
-        paddingTop: 16,
-        gap: 8,
-      }}
-    >
-      {(
-        [
-          ["morning", 8],
-          ["afternoon", 13],
-          ["evening", 20],
-        ] as const
-      ).map(([label, hour]) => (
-        <Button
-          key={label}
-          type="tertiary"
-          onPress={() => {
-            onChange(dayjs(draft.dateTime).hour(hour).minute(0).toDate());
-          }}
-          style={{
-            width: "100%",
-            maxWidth: 240,
-            padding: 12,
-            borderRadius: RADIUS.sm,
-          }}
-        >
-          <ButtonText weight="400" numberOfLines={0}>
-            {t(label)}
-          </ButtonText>
-        </Button>
-      ))}
-    </View>
-  );
-};
-
-/**
- * Rounded button with an icon and, with `label`, one line of text. Without
- * `label` it is a square icon button named by `accessibilityLabel`.
- */
-const Pill = ({
-  icon,
-  label,
-  accessibilityLabel,
-  accessibilityHint,
-  testID,
-  onPress,
-}: {
-  icon: ReactElement;
-  label?: string;
-  accessibilityLabel: string;
-  accessibilityHint: string;
-  testID: string;
-  onPress: () => void;
-}) => {
-  const colors = useColors();
-
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel}
-      accessibilityHint={accessibilityHint}
-      testID={testID}
-      onPress={onPress}
-      style={({ pressed }) => ({
-        opacity: pressed ? 0.8 : 1,
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 6,
-        minHeight: PILL_HEIGHT,
-        minWidth: PILL_HEIGHT,
-        justifyContent: "center",
-        flexShrink: 0,
-        paddingVertical: 6,
-        paddingHorizontal: 12,
-        backgroundColor: colors.logHeaderHighlight,
-        borderRadius: RADIUS.sm,
-      })}
-    >
-      {icon}
-      {label !== undefined && (
-        <Text
-          numberOfLines={1}
-          style={{
-            fontSize: 17,
-            fontWeight: "600",
-            color: colors.logHeaderText,
-            flexShrink: 1,
-          }}
-        >
-          {label}
-        </Text>
-      )}
-    </Pressable>
-  );
-};
 
 /** Spoken name of the location button. The button itself shows only an icon. */
 const getLocationText = ({
@@ -152,8 +43,9 @@ const getLocationText = ({
  * Bottom row of the rating slide: entry time on the left, location on the
  * right. Must render inside `LogDraftProvider`.
  *
- * - Time: opens the date and time picker. Changing it updates `dateTime`
- *   and `date`.
+ * - Time: menu with Morning, Afternoon, Evening and "Choose Date & Time…",
+ *   which opens the date and time picker. Changing it updates `dateTime`
+ *   and `date`. The entry never moves into the future.
  * - Location: shows with `isLocationVisible` as an icon button. Pin: the
  *   entry has a place. Struck pin: none. Opens the location picker.
  * - `isActionVisible`: the floating next/save button shows. The row leaves
@@ -170,7 +62,10 @@ export const SlideMoodFooter = ({
 }) => {
   const colors = useColors();
   const { draft, setDateTime, setLocation } = useLogDraft();
-  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+  const entryTimePicker = useEntryTimePicker({
+    value: draft.dateTime ? new Date(draft.dateTime) : new Date(),
+    onChange: (date) => setDateTime(date.toISOString()),
+  });
   const [isLocationPickerVisible, setIsLocationPickerVisible] = useState(false);
 
   const dateTimeTitle =
@@ -194,37 +89,14 @@ export const SlideMoodFooter = ({
         marginBottom: 16 + (FLOAT_BUTTON_SIZE - PILL_HEIGHT) / 2 - 20,
       }}
     >
-      {Platform.OS !== "web" && (
-        <DateTimePickerModal
-          // oxlint-disable-next-line react/no-unstable-nested-components -- react-native-modal-datetime-picker renders customHeaderIOS without props, so the header must close over this render's picker state setter.
-          customHeaderIOS={() => (
-            <DatePickerHeader
-              onChange={(date) => {
-                setIsDatePickerVisible(false);
-                setDateTime(date.toISOString());
-              }}
-            />
-          )}
-          isVisible={isDatePickerVisible}
-          locale={getLocale()}
-          date={draft.dateTime ? new Date(draft.dateTime) : new Date()}
-          mode="datetime"
-          minuteInterval={10}
-          onConfirm={(date) => {
-            setIsDatePickerVisible(false);
-            setDateTime(date.toISOString());
-          }}
-          onCancel={() => setIsDatePickerVisible(false)}
-        />
-      )}
-      <Pill
+      <EntryTimeMenu
         testID="logger-date"
-        icon={<Clock {...iconProps} />}
+        dateTime={draft.dateTime ?? new Date().toISOString()}
         label={dateTimeTitle}
-        accessibilityLabel={dateTimeTitle}
-        accessibilityHint={t("logger_date_hint")}
-        onPress={() => setIsDatePickerVisible(true)}
+        onChange={setDateTime}
+        onChoose={() => entryTimePicker.open()}
       />
+      {entryTimePicker.sheet}
       {isLocationVisible && (
         <>
           <Pill

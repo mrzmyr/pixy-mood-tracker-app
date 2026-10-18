@@ -571,6 +571,7 @@
   "log_view_changed_body": "Du kannst jetzt mit dem [+] mehrere Einträge hinzufügen. Öffnest du einen Tag und hast mehrere Einträge so wird eine Liste angezeigt, ansonsten wird diese Detailansicht für nur einen Eintrag angezeigt.",
   "log_view_changed_title": "Warte, wo sind meine Tageszeiten?",
   "logger_back": "Zurück",
+  "logger_date_choose": "Datum und Uhrzeit wählen…",
   "logger_date_hint": "Ändert die Uhrzeit dieses Eintrags.",
   "logger_step_emotions": "Emotionen",
   "logger_step_feedback": "Produktfragen",

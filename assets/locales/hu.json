@@ -573,6 +573,7 @@
   "log_tags_search": "Címkék keresése…",
   "log_view_changed_body": "Most már használhatod a felül található [+] gombot több bejegyzés hozzáadásához. Ha naponta több bejegyzésed van, egy lista jelenik meg, ellenkező esetben csak egy bejegyzés jelenik meg ebben a részletes nézetben.",
   "log_view_changed_title": "Várj, hol vannak a nappalaim?",
+  "logger_date_choose": "Dátum és idő kiválasztása…",
   "logger_date_hint": "Módosítja a bejegyzés időpontját.",
   "logger_step_emotions": "Érzelmek",
   "logger_step_feedback": "Termékkérdések",
