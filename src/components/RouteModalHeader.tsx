@@ -15,9 +15,10 @@ export interface RouteModalHeaderProps {
 }
 
 /**
- * Header of a route screen presented as modal.
- * iOS: form with `action` keeps text Cancel top left; other screens get a
- * close button top right. Android variant: `RouteModalHeader.android.tsx`.
+ * Header of a route screen presented as modal. Web draws it in the screen:
+ * form with `action` keeps text Cancel top left; other screens get a close
+ * button top right. iOS native bar: `RouteModalHeader.ios.tsx`. Android
+ * top app bar: `RouteModalHeader.android.tsx`.
  */
 const RouteModalHeader = ({
   title,
