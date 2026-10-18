@@ -5,6 +5,8 @@ export const MAX_TAG_LENGTH = 30;
 
 /** Tag limit; the tag screens hide the create action once it is reached. */
 export const MAX_TAGS = 50;
+/** Tag limit while flag `more-tags` is on. Replaces {@link MAX_TAGS}. */
+export const MAX_TAGS_MORE = 500;
 /** Maximum note length; the message step input `maxLength`. */
 export const MAX_MESSAGE_LENGTH = 10 * 1000;
 

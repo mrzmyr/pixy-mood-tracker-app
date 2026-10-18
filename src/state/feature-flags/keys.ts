@@ -15,6 +15,7 @@ export const FEATURE_FLAGS = [
   "interventions",
   "ios-widget",
   "location",
+  "more-tags",
   "people",
   "photos",
   "profile",
@@ -82,6 +83,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   location: {
     description: "Place of the check-in",
     location: "Settings > Check-in",
+  },
+  "more-tags": {
+    description: "Tag limit 500 instead of 50",
+    location: "Tags, Settings > Tags",
   },
   people: {
     description: "People step and people on entries",
