@@ -4,7 +4,7 @@ import { Profiler } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Colors from "@/constants/Colors";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import { LogsProvider, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { AnalyticsProvider } from "@/state/analytics";
