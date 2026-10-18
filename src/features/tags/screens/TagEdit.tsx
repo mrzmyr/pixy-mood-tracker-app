@@ -4,7 +4,6 @@ import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../useTagActions";
-import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import { t } from "@/lib/translation";
@@ -67,120 +66,120 @@ export const TagEdit = () => {
   };
 
   return (
-    <DismissKeyboard>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-start",
-          backgroundColor: colors.background,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
-        }}
-      >
-        <ModalHeader
-          title={t("edit_tag")}
-          left={
-            <LinkButton
-              onPress={() => {
-                router.back();
-              }}
-              type="primary"
-            >
-              {t("cancel")}
-            </LinkButton>
-          }
-          right={
-            <LinkButton
-              onPress={() => onSubmit(tag)}
-              type="primary"
-              testID="tag-save"
-              style={{ fontWeight: "700" }}
-            >
-              {t("save")}
-            </LinkButton>
-          }
-        />
-        {/* Scrolls once many categories push the form past the screen. */}
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          <TagNameField
-            value={tag.title}
-            showError={submitted}
-            onChange={(title) => {
-              setTag((currentTag) => ({ ...currentTag, title }));
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "flex-start",
+        backgroundColor: colors.background,
+        marginTop: Platform.OS === "android" ? insets.top : 0,
+      }}
+    >
+      <ModalHeader
+        title={t("edit_tag")}
+        left={
+          <LinkButton
+            onPress={() => {
+              router.back();
             }}
-          />
-          <ColorPicker
-            value={tag.color}
-            onChange={(color) => {
-              setTag((currentTag) => ({ ...currentTag, color }));
-            }}
-          />
-          <TagCategoryPicker
-            value={tag.categoryId ?? GENERAL_CATEGORY_ID}
-            onChange={(categoryId) => {
-              setTag((currentTag) => ({ ...currentTag, categoryId }));
-            }}
-          />
-          <MenuList
-            style={{
-              marginTop: 24,
-            }}
+            type="primary"
           >
+            {t("cancel")}
+          </LinkButton>
+        }
+        right={
+          <LinkButton
+            onPress={() => onSubmit(tag)}
+            type="primary"
+            testID="tag-save"
+            style={{ fontWeight: "700" }}
+          >
+            {t("save")}
+          </LinkButton>
+        }
+      />
+      {/* Scrolls once many categories push the form past the screen. */}
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
+        automaticallyAdjustKeyboardInsets
+      >
+        <TagNameField
+          value={tag.title}
+          showError={submitted}
+          onChange={(title) => {
+            setTag((currentTag) => ({ ...currentTag, title }));
+          }}
+        />
+        <ColorPicker
+          value={tag.color}
+          onChange={(color) => {
+            setTag((currentTag) => ({ ...currentTag, color }));
+          }}
+        />
+        <TagCategoryPicker
+          value={tag.categoryId ?? GENERAL_CATEGORY_ID}
+          onChange={(categoryId) => {
+            setTag((currentTag) => ({ ...currentTag, categoryId }));
+          }}
+        />
+        <MenuList
+          style={{
+            marginTop: 24,
+          }}
+        >
+          <MenuListItem
+            title={t("archive_tag_enabled")}
+            iconRight={
+              <Toggle
+                accessibilityLabel={t("archive_tag_enabled")}
+                testID="tag-archived"
+                onValueChange={() => {
+                  setTag((currentTag) => ({
+                    ...currentTag,
+                    isArchived: !currentTag.isArchived,
+                  }));
+                }}
+                value={tag.isArchived}
+              />
+            }
+          />
+        </MenuList>
+        <TextInfo>{t("archive_tag_description")}</TextInfo>
+
+        {Platform.OS === "ios" ? (
+          <MenuList style={{ marginTop: 8 }}>
             <MenuListItem
-              title={t("archive_tag_enabled")}
-              iconRight={
-                <Toggle
-                  accessibilityLabel={t("archive_tag_enabled")}
-                  testID="tag-archived"
-                  onValueChange={() => {
-                    setTag((currentTag) => ({
-                      ...currentTag,
-                      isArchived: !currentTag.isArchived,
-                    }));
+              testID="tag-delete"
+              title={
+                <Text
+                  style={{
+                    fontSize: 17,
+                    textAlign: "center",
+                    color: colors.dangerButtonText,
                   }}
-                  value={tag.isArchived}
-                />
+                >
+                  {t("delete")}
+                </Text>
               }
+              onPress={() => confirmDelete(tag)}
             />
           </MenuList>
-          <TextInfo>{t("archive_tag_description")}</TextInfo>
-
-          {Platform.OS === "ios" ? (
-            <MenuList style={{ marginTop: 8 }}>
-              <MenuListItem
-                testID="tag-delete"
-                title={
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      textAlign: "center",
-                      color: colors.dangerButtonText,
-                    }}
-                  >
-                    {t("delete")}
-                  </Text>
-                }
-                onPress={() => confirmDelete(tag)}
-              />
-            </MenuList>
-          ) : (
-            <LinkButton
-              testID="tag-delete"
-              onPress={() => confirmDelete(tag)}
-              style={{
-                marginTop: 8,
-                alignSelf: "center",
-                color: colors.dangerButtonText,
-              }}
-            >
-              {t("delete")}
-            </LinkButton>
-          )}
-        </ScrollView>
-      </View>
-    </DismissKeyboard>
+        ) : (
+          <LinkButton
+            testID="tag-delete"
+            onPress={() => confirmDelete(tag)}
+            style={{
+              marginTop: 8,
+              alignSelf: "center",
+              color: colors.dangerButtonText,
+            }}
+          >
+            {t("delete")}
+          </LinkButton>
+        )}
+      </ScrollView>
+    </View>
   );
 };

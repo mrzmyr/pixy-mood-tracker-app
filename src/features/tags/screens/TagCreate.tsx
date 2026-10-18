@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import { t } from "@/lib/translation";
@@ -64,65 +63,65 @@ export const TagCreate = () => {
   };
 
   return (
-    <DismissKeyboard>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-start",
-          backgroundColor: colors.logBackground,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
-        }}
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "flex-start",
+        backgroundColor: colors.logBackground,
+        marginTop: Platform.OS === "android" ? insets.top : 0,
+      }}
+    >
+      <ModalHeader
+        title={t("create_tag")}
+        left={
+          <LinkButton
+            onPress={() => {
+              router.back();
+            }}
+            type="primary"
+          >
+            {t("cancel")}
+          </LinkButton>
+        }
+        right={
+          <LinkButton
+            onPress={onCreate}
+            type="primary"
+            testID="tag-save"
+            style={{ fontWeight: "700" }}
+          >
+            {t("save")}
+          </LinkButton>
+        }
+      />
+      {/* Scrolls once many categories push the form past the screen. */}
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
+        automaticallyAdjustKeyboardInsets
       >
-        <ModalHeader
-          title={t("create_tag")}
-          left={
-            <LinkButton
-              onPress={() => {
-                router.back();
-              }}
-              type="primary"
-            >
-              {t("cancel")}
-            </LinkButton>
-          }
-          right={
-            <LinkButton
-              onPress={onCreate}
-              type="primary"
-              testID="tag-save"
-              style={{ fontWeight: "700" }}
-            >
-              {t("save")}
-            </LinkButton>
-          }
+        <TagNameField
+          value={tempTag.title}
+          showError={submitted}
+          onChange={(title) => {
+            setTempTag((currentTag) => ({ ...currentTag, title }));
+          }}
         />
-        {/* Scrolls once many categories push the form past the screen. */}
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          <TagNameField
-            value={tempTag.title}
-            showError={submitted}
-            onChange={(title) => {
-              setTempTag((currentTag) => ({ ...currentTag, title }));
-            }}
-          />
-          <ColorPicker
-            value={tempTag.color}
-            onChange={(color) => {
-              setTempTag((currentTag) => ({ ...currentTag, color }));
-            }}
-          />
-          <TagCategoryPicker
-            value={tempTag.categoryId ?? GENERAL_CATEGORY_ID}
-            onChange={(categoryId) => {
-              setTempTag((currentTag) => ({ ...currentTag, categoryId }));
-            }}
-          />
-        </ScrollView>
-      </View>
-    </DismissKeyboard>
+        <ColorPicker
+          value={tempTag.color}
+          onChange={(color) => {
+            setTempTag((currentTag) => ({ ...currentTag, color }));
+          }}
+        />
+        <TagCategoryPicker
+          value={tempTag.categoryId ?? GENERAL_CATEGORY_ID}
+          onChange={(categoryId) => {
+            setTempTag((currentTag) => ({ ...currentTag, categoryId }));
+          }}
+        />
+      </ScrollView>
+    </View>
   );
 };
