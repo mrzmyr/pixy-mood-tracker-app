@@ -82,7 +82,7 @@ Canvases (px): App Store `1290×2796`, Play `1080×1920`, Play feature graphic `
 
 Mood pixels:
 
-- Inside phone: app scale from `Scales.ts`.
+- Inside phone: app scale from `scales.ts`.
 - Outside phone on dark canvas: `neutral` `#737373`, `bad` `#FED7AA`, `empty` `#1F1F1F` (Forest `#0B4A3B`). Other ratings as app.
 - Calendar pixel = rounded square, 15% radius. Year pixel = circle.
 - Year grid: portrait canvas = months as columns, landscape = months as rows.

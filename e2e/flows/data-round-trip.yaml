@@ -22,7 +22,7 @@ tags: [p1, data]
     id: "export-json"
 
 # Delete all data leaves an empty calendar. Regression: a stale calendar
-# footer kept "Add another entry for today" after reset (src/screens/Calendar/index.tsx).
+# footer kept "Add another entry for today" after reset (src/features/calendar/screens/calendar/index.tsx).
 - scrollUntilVisible:
     element:
       id: "delete-all-data"
