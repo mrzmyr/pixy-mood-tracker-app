@@ -1,3 +1,4 @@
+import { matchesSearch } from "@/lib/search";
 import { t } from "@/lib/translation";
 import type { Tag, TagCategory } from "./TagsProvider";
 
@@ -80,6 +81,26 @@ export const groupTagsByCategory = (
       (tag) => (tag.categoryId ?? GENERAL_CATEGORY_ID) === category.id
     ),
   }));
+
+/**
+ * Sections that match a search `query`, ignoring case and accents. A tag
+ * matches by its title or by its category title. Sections without a match
+ * drop out. A blank query returns `sections` unchanged. Pure.
+ */
+export const searchTagSections = (
+  sections: TagCategorySection[],
+  query: string
+): TagCategorySection[] => {
+  if (query.trim() === "") {
+    return sections;
+  }
+  return sections.flatMap(({ category, tags }) => {
+    const matches = matchesSearch(category.title, query)
+      ? tags
+      : tags.filter((tag) => matchesSearch(tag.title, query));
+    return matches.length > 0 ? [{ category, tags: matches }] : [];
+  });
+};
 
 /**
  * Applies a list arrangement: listed tags take the category and order of

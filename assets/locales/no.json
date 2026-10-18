@@ -985,6 +985,7 @@
   "tags_reached_max": "Du har nådd det maksimale antallet {{max_count}} tagger. Vennligst slett noen tagger for å legge til nye.",
   "tags_reached_max_archived": "Du har nådd maksimum på {{max_count}} tagger. Arkiverte tagger teller også. Slett en arkivert tagg for å frigjøre en plass.",
   "tags_reorder_handle": "Endre rekkefølge på {{title}}",
+  "tags_search_empty": "Fant ingen tagger.",
   "tags_used": "Tagger brukt",
   "time": "Tid",
   "title": "Tittel",

@@ -985,6 +985,7 @@
   "tags_reached_max": "Osiągnięto maksymalną liczbę {{max_count}} tagów. Usuń niektóre tagi, aby dodać nowe.",
   "tags_reached_max_archived": "Osiągnięto maksimum {{max_count}} tagów. Zarchiwizowane tagi też się liczą. Usuń zarchiwizowany tag, aby zwolnić miejsce.",
   "tags_reorder_handle": "Zmień kolejność: {{title}}",
+  "tags_search_empty": "Nie znaleziono tagów.",
   "tags_used": "Używane tagi",
   "time": "Czas",
   "title": "Tytuł",

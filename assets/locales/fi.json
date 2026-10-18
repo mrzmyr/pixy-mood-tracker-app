@@ -985,6 +985,7 @@
   "tags_reached_max": "Olet saavuttanut enimmäismäärän {{max_count}} tagia. Poista joitakin tunnisteita lisätäksesi uusia.",
   "tags_reached_max_archived": "Olet saavuttanut enimmäismäärän, {{max_count}} tunnistetta. Myös arkistoidut tunnisteet lasketaan. Poista arkistoitu tunniste vapauttaaksesi paikan.",
   "tags_reorder_handle": "Järjestä uudelleen: {{title}}",
+  "tags_search_empty": "Tunnisteita ei löytynyt.",
   "tags_used": "Tunnisteita käytetty",
   "time": "Aika",
   "title": "Otsikko",

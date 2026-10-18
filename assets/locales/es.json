@@ -985,6 +985,7 @@
   "tags_reached_max": "Alcanzaste el máximo de {{max_count}} etiquetas. Elimine algunas etiquetas para agregar otras nuevas.",
   "tags_reached_max_archived": "Has alcanzado el máximo de {{max_count}} etiquetas. Las etiquetas archivadas también cuentan. Elimina una etiqueta archivada para liberar un hueco.",
   "tags_reorder_handle": "Reordenar {{title}}",
+  "tags_search_empty": "No se encontraron etiquetas.",
   "tags_used": "Etiquetas utilizadas",
   "time": "Hora",
   "title": "Título",

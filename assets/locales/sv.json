@@ -985,6 +985,7 @@
   "tags_reached_max": "Du nådde det maximala antalet {{max_count}} taggar. Ta bort några taggar för att lägga till nya.",
   "tags_reached_max_archived": "Du har nått maxgränsen på {{max_count}} taggar. Arkiverade taggar räknas också. Ta bort en arkiverad tagg för att frigöra en plats.",
   "tags_reorder_handle": "Ändra ordning på {{title}}",
+  "tags_search_empty": "Inga taggar hittades.",
   "tags_used": "Taggar används",
   "time": "Tid",
   "title": "Titel",

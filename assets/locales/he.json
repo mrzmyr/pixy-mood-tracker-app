@@ -985,6 +985,7 @@
   "tags_reached_max": "הגעת למקסימום של {{max_count}} תגים. אנא מחק כמה תגים כדי להוסיף חדשים.",
   "tags_reached_max_archived": "הגעת למקסימום של {{max_count}} תגיות. תגיות בארכיון נספרות גם הן. מחק תגית בארכיון כדי לפנות מקום.",
   "tags_reorder_handle": "שינוי סדר {{title}}",
+  "tags_search_empty": "לא נמצאו תגים.",
   "tags_used": "נעשה שימוש בתגים",
   "time": "זְמַן",
   "title": "כותרת",

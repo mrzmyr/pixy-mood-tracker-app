@@ -985,6 +985,7 @@
   "tags_reached_max": "Maksimum {{max_count}} etikete ulaştınız. Yenilerini eklemek için lütfen bazı etiketleri silin.",
   "tags_reached_max_archived": "En fazla {{max_count}} etiket sınırına ulaştın. Arşivlenmiş etiketler de sayılır. Yer açmak için arşivlenmiş bir etiketi sil.",
   "tags_reorder_handle": "Yeniden Sırala: {{title}}",
+  "tags_search_empty": "Etiket bulunamadı.",
   "tags_used": "Kullanılan etiketler",
   "time": "Zaman",
   "title": "Başlık",

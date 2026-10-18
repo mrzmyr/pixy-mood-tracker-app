@@ -988,6 +988,7 @@
   "tags_reached_max": "Je hebt het maximum van {{max_count}} tags bereikt. Verwijder enkele tags om nieuwe toe te voegen.",
   "tags_reached_max_archived": "Je hebt het maximum van {{max_count}} tags bereikt. Gearchiveerde tags tellen ook mee. Verwijder een gearchiveerde tag om ruimte vrij te maken.",
   "tags_reorder_handle": "{{title}} verplaatsen",
+  "tags_search_empty": "Geen tags gevonden.",
   "tags_used": "Labels gebruikt",
   "time": "Tijd",
   "title": "Titel",

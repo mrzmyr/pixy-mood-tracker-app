@@ -985,6 +985,7 @@
   "tags_reached_max": "Elérted a maximális {{max_count}} címkét. Kérlek, törölj néhány címkét újak hozzáadásához.",
   "tags_reached_max_archived": "Elérted a(z) {{max_count}} címke maximumát. Az archivált címkék is számítanak. Törölj egy archivált címkét, hogy helyet szabadíts fel.",
   "tags_reorder_handle": "{{title}} átrendezése",
+  "tags_search_empty": "Nincs találat a címkék között.",
   "tags_used": "Használt címkék",
   "time": "Időpont",
   "title": "Cím",

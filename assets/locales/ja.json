@@ -985,6 +985,7 @@
   "tags_reached_max": "最大 {{max_count}} タグに達しました。新しいタグを追加するには、いくつかのタグを削除してください。",
   "tags_reached_max_archived": "タグの上限 {{max_count}} 個に達しました。アーカイブしたタグも数えられます。アーカイブ済みのタグを削除すると空きができます。",
   "tags_reorder_handle": "{{title}}を並べ替え",
+  "tags_search_empty": "タグが見つかりません。",
   "tags_used": "使用したタグ",
   "time": "時間",
   "title": "題名",

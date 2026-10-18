@@ -985,6 +985,7 @@
   "tags_reached_max": "Bạn đã đạt đến tối đa {{max_count}} thẻ. Vui lòng xóa một số thẻ để thêm thẻ mới.",
   "tags_reached_max_archived": "Bạn đã đạt tối đa {{max_count}} thẻ. Thẻ đã lưu trữ cũng được tính. Hãy xóa một thẻ đã lưu trữ để giải phóng chỗ.",
   "tags_reorder_handle": "Sắp xếp lại {{title}}",
+  "tags_search_empty": "Không tìm thấy thẻ nào.",
   "tags_used": "Thẻ đã sử dụng",
   "time": "Thời gian",
   "title": "Tiêu đề",
