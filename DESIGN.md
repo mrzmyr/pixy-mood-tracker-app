@@ -37,6 +37,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 - Swap keeps size: replacing implementation keeps measured width, height, padding. Measure before and after.
 - Spacing request for one element changes that element only, not shared component or token.
+- Parent owns spacing between children: flex `gap`, not sibling margins. Shared chips (`Tag`, `PersonChip`, `MiniButton`) carry no outer margin. Wrapping chip groups use [`CHIP_FLOW`](src/constants/Chip.ts).
 - Radius from [`RADIUS`](src/constants/Radius.ts), picked by role. Nested radius ≤ parent radius.
 - No sideways scroller inside sideways parent (pager, carousel): Android steals swipe.
 - Lists > ~20 items virtualized. Safe areas from `react-native-safe-area-context`, never hardcoded.

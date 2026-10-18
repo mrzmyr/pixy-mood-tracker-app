@@ -19,7 +19,6 @@ const EmotionBar = ({
     <View
       style={{
         position: "relative",
-        marginBottom: 8,
         flexDirection: "row",
         alignItems: "center",
       }}
@@ -61,6 +60,8 @@ export const EmotionsDistributionContent = ({
   <View
     style={{
       flexDirection: "column",
+      gap: 8,
+      paddingBottom: 8,
     }}
   >
     {data.emotions.slice(0, limit).map((emotion) => (

@@ -22,7 +22,7 @@ export const PeoplePeaksCard = ({ data }: { data: PeoplePeaksData }) => {
         avg: (data.overallAvg ?? 0).toFixed(1),
       })}
     >
-      <View style={{ flexDirection: "column" }}>
+      <View style={{ flexDirection: "column", gap: 8, paddingBottom: 8 }}>
         {data.people.map((entry) => (
           <View
             key={entry.details.id}
@@ -37,10 +37,10 @@ export const PeoplePeaksCard = ({ data }: { data: PeoplePeaksData }) => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              marginBottom: 8,
+              gap: 8,
             }}
           >
-            <PersonChip person={entry.details} style={{ marginBottom: 0 }} />
+            <PersonChip person={entry.details} />
             <Text
               style={{
                 color: colors.text,

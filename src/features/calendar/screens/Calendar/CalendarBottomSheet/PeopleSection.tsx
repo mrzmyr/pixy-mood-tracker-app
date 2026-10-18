@@ -3,6 +3,7 @@ import TextHeadline from "@/components/TextHeadline";
 import { PersonChip } from "@/features/people";
 import type { Person } from "@/features/people";
 import { t } from "@/lib/translation";
+import { CHIP_FLOW } from "@/constants/Chip";
 
 /**
  * People filter chips; `onSelect` receives the tapped person so the parent
@@ -17,15 +18,9 @@ export const PeopleSection = ({
   selectedIds: Set<Person["id"]>;
   onSelect: (person: Person) => void;
 }) => (
-  <View style={{ marginTop: 16 }}>
-    <TextHeadline style={{ marginBottom: 12 }}>{t("people")}</TextHeadline>
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        flexWrap: "wrap",
-      }}
-    >
+  <View style={{ gap: 12 }}>
+    <TextHeadline>{t("people")}</TextHeadline>
+    <View style={{ ...CHIP_FLOW, alignItems: "center" }}>
       {people.map((person) => (
         <PersonChip
           key={person.id}

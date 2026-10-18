@@ -35,7 +35,7 @@ export const PeopleDistributionCard = ({
       subtitle={t("people")}
       title={t("statistics_people_distribution_title")}
     >
-      <View style={{ flexDirection: "column" }}>
+      <View style={{ gap: 12, paddingBottom: 12 }}>
         {data.people.slice(0, LIMIT).map((entry) => (
           <Pressable
             key={entry.id}
@@ -44,7 +44,7 @@ export const PeopleDistributionCard = ({
             accessibilityLabel={`${entry.details.name}, ${entry.count}`}
             testID={`statistics-person-${entry.id}`}
             style={({ pressed }) => ({
-              marginBottom: 12,
+              gap: 6,
               opacity: pressed ? 0.8 : 1,
             })}
           >
@@ -54,12 +54,12 @@ export const PeopleDistributionCard = ({
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                marginBottom: 6,
+                gap: 8,
               }}
             >
               <PersonChip
                 person={entry.details}
-                style={{ marginBottom: 0, flexShrink: 1, minWidth: 0 }}
+                style={{ flexShrink: 1, minWidth: 0 }}
               />
               <Text
                 style={{
@@ -93,14 +93,14 @@ export const PeopleDistributionCard = ({
             </View>
           </Pressable>
         ))}
-        {data.people.length > LIMIT && (
-          <Text
-            style={{ marginTop: 8, fontSize: 14, color: colors.textSecondary }}
-          >
-            {t("statistics_people_more", { count: data.people.length - LIMIT })}
-          </Text>
-        )}
       </View>
+      {data.people.length > LIMIT && (
+        <Text
+          style={{ marginTop: 8, fontSize: 14, color: colors.textSecondary }}
+        >
+          {t("statistics_people_more", { count: data.people.length - LIMIT })}
+        </Text>
+      )}
     </Card>
   );
 };

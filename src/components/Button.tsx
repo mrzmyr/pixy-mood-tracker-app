@@ -78,6 +78,7 @@ const Button = ({
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
+        gap: icon ? 8 : 0,
         borderRadius: RADIUS.full,
         opacity: disabled ? 0.5 : 1,
         backgroundColor: disabled
@@ -99,7 +100,7 @@ const Button = ({
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
     >
-      {icon && <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>}
+      {icon && <View>{icon}</View>}
       {isString(children) ? (
         <Text
           style={{

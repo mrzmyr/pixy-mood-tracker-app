@@ -41,7 +41,6 @@ export const EmotionButtonAdvanced = ({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: 4,
         ...style,
       }}
       activeOpacity={0}

@@ -99,6 +99,7 @@ export const Body = () => {
     <View
       style={{
         padding: 16,
+        gap: 16,
       }}
     >
       <SearchInputSection
@@ -134,7 +135,6 @@ export const Body = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            marginTop: 16,
           }}
         >
           <LinkButton

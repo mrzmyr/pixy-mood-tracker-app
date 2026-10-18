@@ -39,6 +39,8 @@ export const EmotionPage = ({
         width: "100%",
         paddingHorizontal: 4,
         paddingTop: 12,
+        gap: 6,
+        paddingBottom: 6,
       }}
     >
       {chunks.map((chunk) => (
@@ -46,20 +48,18 @@ export const EmotionPage = ({
           key={`emotion-page-${keyOf(chunk[0])}`}
           style={{
             flexDirection: "row",
-            marginBottom: 2,
+            gap: 6,
           }}
         >
-          {chunk.map((cell, index) => {
+          {chunk.map((cell) => {
             if (cell === "empty") {
               return <EmotionButtonEmpty key="advanced-empty" />;
             }
-            const marginRight = index === 0 ? 6 : 0;
             if (cell === "missing") {
               return (
                 <MissingEmotionTile
                   key="advanced-missing"
                   onPress={onRequestEmotion}
-                  style={{ marginRight, marginBottom: 4 }}
                 />
               );
             }
@@ -69,7 +69,6 @@ export const EmotionPage = ({
                 emotion={cell}
                 onPress={onPress}
                 selected={selectedEmotions.map((d) => d.key).includes(cell.key)}
-                style={{ marginRight }}
               />
             );
           })}

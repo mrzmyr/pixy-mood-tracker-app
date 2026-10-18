@@ -26,8 +26,6 @@ export const MiniButton = ({
           borderRadius: RADIUS.full,
           backgroundColor: colors.primaryButtonBackground,
           opacity: pressed ? 0.8 : 1,
-          marginRight: 8,
-          marginBottom: 8,
         },
       ]}
       onPress={onPress}
