@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Скасувати",
   "feedback_modal_description": "Ваш відгук дуже допомагає мені краще зрозуміти, як ви використовуєте програму та як я можу її покращити.",
   "feedback_modal_email_placeholder": "Електронна адреса (необов'язково)",
+  "feedback_modal_error": "Відгук не надіслано. Перевірте з’єднання і спробуйте ще раз.",
   "feedback_modal_help": "Залиште свою контактну інформацію, якщо хочете, щоб я вам відповів.",
   "feedback_modal_message_placeholder": "Я помітив що…",
   "feedback_modal_message_placeholder_idea": "Було б чудово, якби…",

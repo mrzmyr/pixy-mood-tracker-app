@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "取消",
   "feedback_modal_description": "您的反馈有助于我更好地了解您如何使用该应用程序以及如何改进它。",
   "feedback_modal_email_placeholder": "电子邮件（可选）",
+  "feedback_modal_error": "反馈未发送。请检查网络连接后重试。",
   "feedback_modal_help": "如果您希望我回答您，请留下您的联系方式。",
   "feedback_modal_message_placeholder": "我注意到……",
   "feedback_modal_message_placeholder_idea": "如果能……就太好了",

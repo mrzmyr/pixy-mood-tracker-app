@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "zrušení",
   "feedback_modal_description": "Vaše zpětná vazba mi velmi pomáhá lépe porozumět tomu, jak aplikaci používáte a jak ji mohu zlepšit.",
   "feedback_modal_email_placeholder": "E-mail (volitelné)",
+  "feedback_modal_error": "Zpětná vazba nebyla odeslána. Zkontrolujte připojení a zkuste to znovu.",
   "feedback_modal_help": "Zanechte své kontaktní údaje, pokud chcete, abych vám odpověděl.",
   "feedback_modal_message_placeholder": "Všimnul jsem si, že…",
   "feedback_modal_message_placeholder_idea": "Bylo by skvělé, kdyby…",

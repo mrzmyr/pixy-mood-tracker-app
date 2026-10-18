@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Megszünteti",
   "feedback_modal_description": "Visszajelzése sokat segít abban, hogy jobban megértsem, hogyan használja az alkalmazást, és hogyan tudnám javítani.",
   "feedback_modal_email_placeholder": "E-mail (nem kötelező)",
+  "feedback_modal_error": "A visszajelzés nem ment el. Ellenőrizd a kapcsolatot, és próbáld újra.",
   "feedback_modal_help": "Ha szeretnéd, hogy válaszoljak, hagyjd meg elérhetőséged.",
   "feedback_modal_message_placeholder": "Észrevételem...",
   "feedback_modal_message_placeholder_idea": "Jó lenne, ha…",

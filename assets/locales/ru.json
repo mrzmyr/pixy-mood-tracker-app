@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Отмена",
   "feedback_modal_description": "Ваши отзывы очень помогают мне лучше понять, как вы используете приложение и как я могу его улучшить.",
   "feedback_modal_email_placeholder": "Электронная почта (необязательно)",
+  "feedback_modal_error": "Отзыв не отправлен. Проверьте подключение и попробуйте снова.",
   "feedback_modal_help": "Оставьте свои контактные данные, если хотите, чтобы я вам ответил.",
   "feedback_modal_message_placeholder": "Я заметил, что…",
   "feedback_modal_message_placeholder_idea": "Было бы здорово, если бы…",

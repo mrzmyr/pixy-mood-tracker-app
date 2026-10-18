@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "İptal etmek",
   "feedback_modal_description": "Geri bildiriminiz, uygulamayı nasıl kullandığınızı ve onu nasıl iyileştirebileceğimi daha iyi anlamama çok yardımcı oluyor.",
   "feedback_modal_email_placeholder": "E-posta isteğe bağlı)",
+  "feedback_modal_error": "Geri bildirim gönderilemedi. Bağlantını kontrol edip tekrar dene.",
   "feedback_modal_help": "Size cevap vermemi isterseniz iletişim bilgilerinizi bırakın.",
   "feedback_modal_message_placeholder": "Onu farkettim…",
   "feedback_modal_message_placeholder_idea": "Şöyle olsa harika olurdu…",

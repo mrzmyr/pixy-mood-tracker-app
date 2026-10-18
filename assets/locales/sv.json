@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Annullera",
   "feedback_modal_description": "Din feedback hjälper mig mycket att bättre förstå hur du använder appen och hur jag kan förbättra den.",
   "feedback_modal_email_placeholder": "E-post (valfritt)",
+  "feedback_modal_error": "Feedbacken skickades inte. Kontrollera anslutningen och försök igen.",
   "feedback_modal_help": "Lämna dina kontaktuppgifter om du vill att jag ska svara dig.",
   "feedback_modal_message_placeholder": "Jag märkte det…",
   "feedback_modal_message_placeholder_idea": "Det vore toppen om…",

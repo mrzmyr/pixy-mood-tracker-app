@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "キャンセル",
   "feedback_modal_description": "あなたのフィードバックは、あなたがアプリをどのように使用し、どのように改善できるかをよりよく理解するのに大いに役立ちます。",
   "feedback_modal_email_placeholder": "電子メール (オプション)",
+  "feedback_modal_error": "フィードバックを送信できませんでした。接続を確認して、もう一度お試しください。",
   "feedback_modal_help": "回答を希望される場合は、連絡先情報を残してください。",
   "feedback_modal_message_placeholder": "きがついた…",
   "feedback_modal_message_placeholder_idea": "こうなったら嬉しい…",

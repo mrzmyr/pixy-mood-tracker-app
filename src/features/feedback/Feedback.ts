@@ -2,6 +2,8 @@ import * as Localization from "expo-localization";
 import { Alert, Platform } from "react-native";
 import { FEEDBACK_URL } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
+import { createStructuredError } from "@/lib/errors";
+import type { StructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
@@ -15,7 +17,8 @@ export type { FeedackType, FeedbackSource } from "@/types/Feedback";
  * to {@link FEEDBACK_URL}.
  *
  * Without `onOk`/`onCancel`, `send` shows a success or error alert itself.
- * Network and HTTP errors never reject.
+ * Network and HTTP errors never reject: `onCancel` gets them as
+ * {@link StructuredError}.
  */
 export const useFeedback = () => {
   const deviceId = useSetting("deviceId");
@@ -34,7 +37,7 @@ export const useFeedback = () => {
     email?: string;
     message: string;
     onOk?: () => void;
-    onCancel?: () => void;
+    onCancel?: (error: StructuredError) => void;
   }) => {
     const metaData = {
       locale: Localization.getLocales()[0]?.languageTag,
@@ -84,7 +87,14 @@ export const useFeedback = () => {
           http_status: resp.status,
         });
         if (onCancel) {
-          onCancel();
+          onCancel(
+            createStructuredError({
+              status: resp.status,
+              message: "Feedback could not be sent",
+              why: `Feedback endpoint answered HTTP ${resp.status}`,
+              fix: "Check the connection, then send again",
+            })
+          );
         } else {
           Alert.alert(
             t("feedback_error_title"),
@@ -94,10 +104,17 @@ export const useFeedback = () => {
           );
         }
       }
-    } catch {
+    } catch (error) {
       analytics.track("feedback:submit_failed", { http_status: null });
       if (onCancel) {
-        onCancel();
+        onCancel(
+          createStructuredError({
+            status: "feedback_network_error",
+            message: "Feedback could not be sent",
+            why: error instanceof Error ? error.message : String(error),
+            fix: "Check the connection, then send again",
+          })
+        );
       } else {
         Alert.alert(
           t("feedback_error_title"),

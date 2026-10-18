@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "취소",
   "feedback_modal_description": "귀하의 피드백은 귀하가 앱을 사용하는 방법과 개선할 수 있는 방법을 더 잘 이해하는 데 많은 도움이 됩니다.",
   "feedback_modal_email_placeholder": "이메일(선택사항)",
+  "feedback_modal_error": "피드백을 보내지 못했어요. 연결을 확인하고 다시 시도하세요.",
   "feedback_modal_help": "답변을 원하시면 연락처를 남겨주세요.",
   "feedback_modal_message_placeholder": "난 그것을 알아 챘다…",
   "feedback_modal_message_placeholder_idea": "이런 기능이 있으면 좋겠어요…",

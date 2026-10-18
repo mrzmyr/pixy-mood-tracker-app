@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "ยกเลิก",
   "feedback_modal_description": "ความคิดเห็นของคุณช่วยให้ฉันเข้าใจมากขึ้นว่าคุณใช้งานแอปอย่างไรและฉันจะปรับปรุงได้อย่างไร",
   "feedback_modal_email_placeholder": "อีเมล (ไม่บังคับ)",
+  "feedback_modal_error": "ส่งคำติชมไม่สำเร็จ ตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง",
   "feedback_modal_help": "ฝากข้อมูลติดต่อของคุณไว้ถ้าคุณต้องการให้ฉันตอบคุณ",
   "feedback_modal_message_placeholder": "ฉันสังเกตว่า…",
   "feedback_modal_message_placeholder_idea": "จะดีมากถ้า…",

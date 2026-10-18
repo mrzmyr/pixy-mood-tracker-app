@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Otkazati",
   "feedback_modal_description": "Vaše mi povratne informacije puno pomažu da bolje razumijem kako koristite aplikaciju i kako je mogu poboljšati.",
   "feedback_modal_email_placeholder": "E-pošta (nije obavezno)",
+  "feedback_modal_error": "Povratne informacije nisu poslane. Provjeri vezu i pokušaj ponovno.",
   "feedback_modal_help": "Ostavite svoje kontakt podatke ako želite da Vam odgovorim.",
   "feedback_modal_message_placeholder": "Primjetio sam to…",
   "feedback_modal_message_placeholder_idea": "Bilo bi super kad bi…",

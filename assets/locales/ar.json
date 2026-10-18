@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "يلغي",
   "feedback_modal_description": "تساعدني تعليقاتك كثيرًا في فهم كيفية استخدامك للتطبيق بشكل أفضل وكيف يمكنني تحسينه.",
   "feedback_modal_email_placeholder": "البريد الإلكتروني اختياري)",
+  "feedback_modal_error": "لم تُرسل الملاحظات. تحقق من اتصالك وحاول مرة أخرى.",
   "feedback_modal_help": "اترك معلومات الاتصال الخاصة بك إذا كنت تريد مني الرد عليك.",
   "feedback_modal_message_placeholder": "لاحظت ذلك…",
   "feedback_modal_message_placeholder_idea": "سيكون رائعًا لو…",
