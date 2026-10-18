@@ -1,7 +1,5 @@
-import { usePreventRemove } from "expo-router/react-navigation";
-import { useNavigation } from "expo-router";
-import type { NavigationAction } from "expo-router/react-navigation";
-import { useRef } from "react";
+import { usePreventRemove } from "expo-router";
+import { useRef, useState } from "react";
 import { askToCancel } from "@/lib/prompts";
 
 /**
@@ -22,32 +20,36 @@ export const useDiscardGuard = ({
   isDirty: boolean;
   onDiscard?: () => void;
 }) => {
-  const navigation = useNavigation();
-  const isLeaving = useRef(false);
+  // State turns the guard off on the next render. Expo Router 58 warns when
+  // `repeat` runs while the guard condition is still `true`.
+  const [isLeaving, setIsLeaving] = useState(false);
+  // Ref covers navigation blocked before that render commits.
+  const isLeavingRef = useRef(false);
 
-  const confirmDiscard = async (action: NavigationAction) => {
+  const leave = () => {
+    isLeavingRef.current = true;
+    setIsLeaving(true);
+  };
+
+  const confirmDiscard = async (repeat: () => void) => {
     try {
       await askToCancel();
     } catch {
       // Keep editing when the user dismisses the prompt.
       return;
     }
-    isLeaving.current = true;
+    leave();
     onDiscard?.();
-    navigation.dispatch(action);
+    repeat();
   };
 
-  usePreventRemove(isDirty, ({ data }) => {
-    if (isLeaving.current) {
-      navigation.dispatch(data.action);
+  usePreventRemove(isDirty && !isLeaving, ({ repeat }) => {
+    if (isLeavingRef.current) {
+      repeat();
       return;
     }
-    confirmDiscard(data.action);
+    confirmDiscard(repeat);
   });
 
-  return {
-    allowLeave: () => {
-      isLeaving.current = true;
-    },
-  };
+  return { allowLeave: leave };
 };
