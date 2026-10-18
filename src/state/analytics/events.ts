@@ -55,7 +55,6 @@ export interface AnalyticsEvents {
     /** Never the place itself. */
     has_location: boolean;
   };
-  "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
   "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;

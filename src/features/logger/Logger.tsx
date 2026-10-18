@@ -205,7 +205,7 @@ const LoggerSlides = ({
     "basic"
   );
 
-  const { save, remove, cancel } = useLoggerActions({ mode, onCreated });
+  const { save, cancel } = useLoggerActions({ mode, onCreated });
   const { isLocationVisible, isLocating } = usePassiveLocation({ mode });
 
   const _carousel = useRef<CarouselRef>(null);
@@ -422,9 +422,7 @@ const LoggerSlides = ({
           carouselRef={_carousel}
           slideCount={content.length}
           slideIndex={slideIndex}
-          isEditing={isEditing}
           onCancel={cancel}
-          onRemove={remove}
         />
         <View
           onLayout={(event) =>

@@ -14,7 +14,7 @@ import type { LoggerMode } from "../Logger";
 export type SavedEntry = Pick<FinalizedDraft, "item" | "closeTo">;
 
 /**
- * Save, remove and cancel handlers for the logger. Store writes, navigation,
+ * Save and cancel handlers for the logger. Store writes, navigation,
  * analytics, and the photo sweep live here; save rules live in
  * `finalizeDraft`.
  *
@@ -98,16 +98,10 @@ export const useLoggerActions = ({
     close();
   };
 
-  const remove = () => {
-    analytics.track("logger:log_deleted");
-    logUpdater.deleteLog(logDraft.draft.id);
-    close();
-  };
-
   const cancel = () => {
     analytics.track("logger:flow_cancelled", { mode });
     close();
   };
 
-  return { save, remove, cancel };
+  return { save, cancel };
 };

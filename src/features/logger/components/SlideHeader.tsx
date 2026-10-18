@@ -3,29 +3,25 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { Pressable, View } from "react-native";
 import ArrowLeft from "lucide-react-native/icons/arrow-left";
-import Trash from "lucide-react-native/icons/trash";
 import { Stepper } from "./Stepper";
 
 /**
- * Logger header with the back, close, and delete actions. The entry time
- * lives on the rating slide, see `SlideMoodFooter`.
+ * Logger header with the back and close actions. The entry time lives on
+ * the rating slide, see `SlideMoodFooter`. Entries are deleted from the day
+ * view entry menu, not from the logger.
  */
 export const SlideHeader = ({
-  isDeleteable,
   slideCount,
   slideIndex,
   backVisible,
   onBack,
   onClose,
-  onDelete,
 }: {
-  isDeleteable: boolean;
   slideCount: number;
   slideIndex: number;
   backVisible?: boolean;
   onBack?: () => void;
   onClose?: () => void;
-  onDelete?: () => void;
 }) => {
   const colors = useColors();
 
@@ -89,24 +85,6 @@ export const SlideHeader = ({
             flexDirection: "row",
           }}
         >
-          {isDeleteable && (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t("delete")}
-              testID="logger-delete"
-              style={{
-                height: 44,
-                width: 44,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onPress={() => {
-                onDelete?.();
-              }}
-            >
-              <Trash color={colors.logHeaderText} width={24} height={24} />
-            </Pressable>
-          )}
           <CloseButton testID="logger-close" onPress={() => onClose?.()} />
         </View>
       </View>
