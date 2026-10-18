@@ -64,6 +64,8 @@ export const SlideMood = ({
             justifyContent: "center",
             marginTop: 32,
             width: "100%",
+            gap: 8,
+            paddingBottom: 8,
           }}
         >
           {RATING_KEYS.map((key) => (

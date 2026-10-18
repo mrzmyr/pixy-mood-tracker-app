@@ -10,6 +10,7 @@ import { ConfirmationOffer } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { TagComponent, useTagsState } from "@/features/tags";
+import { CHIP_FLOW } from "@/constants/Chip";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
@@ -295,7 +296,7 @@ export const Confirmation = ({
         {dayTags.length > 0 && (
           <Animated.View
             entering={tagsEntering}
-            style={{ flexDirection: "row", flexWrap: "wrap", marginTop: 20 }}
+            style={{ ...CHIP_FLOW, marginTop: 20 }}
           >
             {dayTags.map((tag) => (
               <TagComponent

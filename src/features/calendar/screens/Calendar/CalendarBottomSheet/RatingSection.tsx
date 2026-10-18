@@ -19,12 +19,8 @@ export const RatingSection = ({
   const scaleType = useSetting("scaleType");
 
   return (
-    <View
-      style={{
-        marginBottom: 16,
-      }}
-    >
-      <TextHeadline style={{ marginBottom: 12 }}>{t("mood")}</TextHeadline>
+    <View style={{ gap: 12 }}>
+      <TextHeadline>{t("mood")}</TextHeadline>
       <Scale value={value} onPress={onChange} type={scaleType} />
     </View>
   );

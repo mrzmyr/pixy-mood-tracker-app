@@ -49,8 +49,6 @@ export const People = ({
           key={person.id}
           person={person}
           style={{
-            marginRight: 0,
-            marginBottom: 0,
             backgroundColor: colors.entryBackground,
             borderColor: colors.entryItemBorder,
           }}

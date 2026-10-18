@@ -8,7 +8,8 @@ import { MissingEmotionTile } from "./MissingEmotionTile";
 
 // Shared by grid cells and the spacer after a lone last cell, so every
 // cell keeps the same width.
-const CELL_STYLE = { marginRight: 8, flex: 1 };
+const CELL_STYLE = { flex: 1 };
+const CELL_GAP = 8;
 
 /**
  * Two-column emotion grid, good first, then neutral, then bad.
@@ -49,8 +50,12 @@ export const EmotionBasicSelection = ({
   return (
     <View
       style={{
-        paddingVertical: 12,
-        paddingHorizontal: 20,
+        gap: CELL_GAP,
+        // Right and bottom padding include one extra cell gap.
+        paddingTop: 12,
+        paddingBottom: 12 + CELL_GAP,
+        paddingLeft: 20,
+        paddingRight: 20 + CELL_GAP,
         marginBottom: 120,
       }}
     >
@@ -59,7 +64,7 @@ export const EmotionBasicSelection = ({
           key={`basic-emotion-row-${row[0]?.key ?? "missing"}`}
           style={{
             flexDirection: "row",
-            marginBottom: 8,
+            gap: CELL_GAP,
           }}
         >
           {row.map((emotion) => (

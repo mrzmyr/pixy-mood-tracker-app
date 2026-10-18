@@ -46,8 +46,6 @@ export const Tags = ({
           title={tag.title}
           colorName={tag.color}
           style={{
-            marginRight: 0,
-            marginBottom: 0,
             backgroundColor: colors.entryBackground,
             borderColor: colors.entryItemBorder,
           }}
