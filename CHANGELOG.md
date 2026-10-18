@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.99.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.99.0...v1.99.1) (2026-10-18)
+
+
+### Bug Fixes
+
+* **build:** disable Expo tree shaking to stop startup crash ([#880](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/880)) ([b9f77a5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b9f77a50afa33f0be6cb4b2da2ce49bccc2740b1))
+
 ## [1.99.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.98.0...v1.99.0) (2026-10-18)
 
 
