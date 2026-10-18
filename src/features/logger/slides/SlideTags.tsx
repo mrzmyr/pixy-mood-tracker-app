@@ -17,7 +17,7 @@ import LinkButton from "@/components/LinkButton";
 import { MiniButton } from "@/components/MiniButton";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { PullToSearch } from "../components/PullToSearch";
-import { matchesSearch } from "../components/matchesSearch";
+import { matchesSearch } from "@/lib/search";
 import { Footer } from "./Footer";
 import noop from "lodash/noop";
 

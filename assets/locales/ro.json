@@ -997,6 +997,7 @@
   "tags_reached_max": "Ați atins numărul maxim de {{max_count}} etichete. Vă rugăm să ștergeți câteva etichete pentru a adăuga altele noi.",
   "tags_reached_max_archived": "Ai atins maximul de {{max_count}} etichete. Etichetele arhivate se numără și ele. Șterge o etichetă arhivată pentru a elibera un loc.",
   "tags_reorder_handle": "Reordonați {{title}}",
+  "tags_search_empty": "Nu s-au găsit etichete.",
   "tags_used": "Etichetele folosite",
   "time": "Timp",
   "title": "Titlu",

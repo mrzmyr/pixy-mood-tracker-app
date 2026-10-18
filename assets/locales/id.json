@@ -997,6 +997,7 @@
   "tags_reached_max": "Anda mencapai maksimum {{max_count}} tag. Hapus beberapa tag untuk menambahkan yang baru.",
   "tags_reached_max_archived": "Kamu mencapai batas maksimum {{max_count}} tag. Tag yang diarsipkan juga dihitung. Hapus tag yang diarsipkan untuk mengosongkan satu slot.",
   "tags_reorder_handle": "Ubah Urutan {{title}}",
+  "tags_search_empty": "Tidak ada tag ditemukan.",
   "tags_used": "Tag digunakan",
   "time": "Waktu",
   "title": "Judul",

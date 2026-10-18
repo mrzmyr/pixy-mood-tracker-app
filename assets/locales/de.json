@@ -1000,6 +1000,7 @@
   "tags_reached_max": "Du hast das Maximum von {{max_count}} Schlagwörter erreicht. Bitte lösche einige Schlagwörter, um neue hinzuzufügen.",
   "tags_reached_max_archived": "Du hast das Maximum von {{max_count}} Schlagwörtern erreicht. Archivierte Schlagwörter zählen mit. Lösche ein archiviertes Schlagwort, um einen Platz freizugeben.",
   "tags_reorder_handle": "{{title}} verschieben",
+  "tags_search_empty": "Keine Schlagwörter gefunden.",
   "tags_used": "Schlagwörter verwendet",
   "theme": "Design",
   "theme_dark": "Dunkel",

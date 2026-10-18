@@ -11,7 +11,7 @@ import { View } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
 import { PullToSearch } from "../../components/PullToSearch";
-import { matchesSearch } from "../../components/matchesSearch";
+import { matchesSearch } from "@/lib/search";
 import { EMOTIONS } from "../../config";
 import { Footer } from "../Footer";
 import { EmotionAdvancedGradients } from "./EmotionAdvancedGradients";
