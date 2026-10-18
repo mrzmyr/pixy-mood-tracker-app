@@ -100,7 +100,8 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
   - `--target=<target>`: one connected phone
 - `bun devices list` prints the option to copy for every device, plus state and problem. `--platform=<ios|android>` filters by OS.
 - `bun app dev` installs the cached dev client, starts this checkout's Metro, and opens the app on it. Rerun to reload. Simulator and emulator only.
-  - Hides the dev menu onboarding, launch menu, and floating button ([`scripts/cli/dev-client.ts`](../scripts/cli/dev-client.ts))
+  - Opens the app with an SDK 58 launch URL: `pixy-dev://?__expo_url=<Metro URL>` plus `__expo_disable_onboarding=1`, `__expo_disable_fab=1`, `__expo_disable_auto_launch=1` ([`scripts/cli/dev-client.ts`](../scripts/cli/dev-client.ts))
+  - Dev menu saves only onboarding. Floating button and launch menu stay off until the app process ends. Relaunch with `bun app dev`, not from the home screen
   - `--fixture=<id>` and `--flag=<key>=<on|off>,...` open the dev deep links after launch
 - `bun app build` compiles a preview release with embedded JavaScript into the shared cache.
 - `bun app install` installs the cached preview binary directly, no prebuild. Builds first when cache has no match.
@@ -211,6 +212,7 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - Each worktree gets one iPhone 17 Pro simulator named `pixy-mood-tracker-<hash>`. The CLI boots it with `simctl`.
 - Two worktrees can build, install, open, and run iOS e2e flows at the same time. Device claims keep their sessions separate.
 - Each checkout's Metro runs on its own port (8082-8181, from the checkout hash). 8081 stays free for a manual `bun start`.
+  - Port is fixed. A busy port fails with `metro_port_taken`, never a move to the next free port ([`scripts/cli/metro.ts`](../scripts/cli/metro.ts))
 - Android uses one `pixy-mood-tracker` AVD per machine. Android runs serialize through device claims.
 - Phones are shared by all worktrees. A second command on a busy phone fails with `device_in_use`.
 - Reservations live under `~/.cache/pixy-mood-tracker/reservations/`, one file per phone. See [Phones](#phones).
