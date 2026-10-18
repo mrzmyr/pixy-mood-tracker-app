@@ -1,4 +1,4 @@
-import { Image, Platform, useColorScheme } from "react-native";
+import { Image, useColorScheme } from "react-native";
 import type { ImageProps } from "react-native";
 
 const HEADER_IMAGES = {
@@ -52,7 +52,7 @@ export const HeaderImage = ({
   style?: ImageProps["style"];
   props?: ImageProps;
 }) => {
-  const isAndroid = Platform.OS === "android";
+  const isAndroid = process.env.EXPO_OS === "android";
   const scheme = useColorScheme();
 
   if (scheme === "dark") {

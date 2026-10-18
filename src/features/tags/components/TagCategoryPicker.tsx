@@ -1,4 +1,4 @@
-import { Platform, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import RadioMark from "@/components/RadioMark";
@@ -8,7 +8,7 @@ import { t } from "@/lib/translation";
 import { useTagsState } from "../TagsProvider";
 import type { TagCategory } from "../TagsProvider";
 
-const IS_ANDROID = Platform.OS === "android";
+const IS_ANDROID = process.env.EXPO_OS === "android";
 
 /**
  * Category choice in the tag forms: one radio row per category, in category

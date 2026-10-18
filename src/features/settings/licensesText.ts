@@ -1,6 +1,5 @@
 import { Asset } from "expo-asset";
 import { File } from "expo-file-system";
-import { Platform } from "react-native";
 import { createStructuredError } from "@/lib/errors";
 
 // Text asset, not a JS module: keeps the notices out of the startup bundle.
@@ -17,7 +16,7 @@ const loadFailed = (why: string) =>
 
 const readAssetText = async (asset: Asset) => {
   // expo-file-system has no web implementation; the web asset is a URL.
-  if (Platform.OS === "web") {
+  if (process.env.EXPO_OS === "web") {
     const response = await fetch(asset.uri);
     if (!response.ok) {
       throw loadFailed(`HTTP ${response.status} for ${asset.uri}`);

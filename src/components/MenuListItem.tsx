@@ -1,5 +1,5 @@
 import React, { isValidElement, useCallback } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import type { AccessibilityValue, TextStyle, ViewStyle } from "react-native";
 
 import ChevronRight from "lucide-react-native/icons/chevron-right";
@@ -117,7 +117,7 @@ const MenuListItem = ({
   const ripple = usePressRipple({ foreground: true });
   const titleText = isValidElement(title) ? undefined : title;
 
-  const isAndroid = Platform.OS === "android";
+  const isAndroid = process.env.EXPO_OS === "android";
   const platform = isAndroid ? ANDROID : IOS;
   const rowStyle = getRowStyle(platform, style.flexDirection);
 

@@ -1,6 +1,6 @@
 import isArray from "lodash/isArray";
 import isStringValue from "lodash/isString";
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import type { TextStyle, ViewStyle } from "react-native";
 
 import type { SvgProps } from "react-native-svg";
@@ -39,7 +39,7 @@ const getPressableOpacity = (
     return 0.5;
   }
   // Android shows a ripple instead of the fade.
-  return isPressed && Platform.OS !== "android" ? 0.8 : 1;
+  return isPressed && process.env.EXPO_OS !== "android" ? 0.8 : 1;
 };
 
 const LinkButton = ({
@@ -101,7 +101,9 @@ const LinkButton = ({
           padding: 8,
           opacity: getPressableOpacity(disabled, pressed),
           overflow:
-            Platform.OS === "android" && !isIconOnly ? "hidden" : "visible",
+            process.env.EXPO_OS === "android" && !isIconOnly
+              ? "hidden"
+              : "visible",
           ...style,
         },
       ]}

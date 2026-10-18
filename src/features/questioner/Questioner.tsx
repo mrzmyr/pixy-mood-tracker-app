@@ -2,7 +2,6 @@ import { QUESTIONS_PULL_URL, QUESTION_SUBMIT_URL } from "@/constants/API";
 import { getLanguage, getLocale } from "@/lib/translation";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useState } from "react";
-import { Platform } from "react-native";
 import semver from "semver";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
@@ -130,7 +129,7 @@ export const useQuestioner = () => {
     const metaData = {
       locale: getLocale(),
       version: pkg.version,
-      os: Platform.OS,
+      os: process.env.EXPO_OS,
       deviceId: settings.deviceId,
     };
 

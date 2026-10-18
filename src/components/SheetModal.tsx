@@ -1,4 +1,4 @@
-import { Modal, Platform } from "react-native";
+import { Modal } from "react-native";
 
 import { PageModalLayout } from "@/components/PageModalLayout";
 
@@ -25,7 +25,7 @@ export const SheetModal = ({
 }) => (
   <Modal
     visible={visible}
-    animationType={Platform.OS === "web" ? "none" : "slide"}
+    animationType={process.env.EXPO_OS === "web" ? "none" : "slide"}
     presentationStyle="pageSheet"
     onRequestClose={onClose}
     onShow={onShow}

@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
-  Platform,
   Text,
   TextInput,
   View,
@@ -85,7 +84,7 @@ const FeedbackModalContent = ({
       <DismissKeyboard>
         <KeyboardAvoidingView
           keyboardVerticalOffset={32}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={process.env.EXPO_OS === "ios" ? "padding" : "height"}
           style={{
             flex: 1,
           }}

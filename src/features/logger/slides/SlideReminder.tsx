@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Platform, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import Bell from "lucide-react-native/icons/bell";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
@@ -100,7 +100,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
         </Text>
         <View
           style={{
-            width: Platform.OS === "ios" ? 80 : 65,
+            width: process.env.EXPO_OS === "ios" ? 80 : 65,
             justifyContent: "center",
             paddingTop: 24,
           }}

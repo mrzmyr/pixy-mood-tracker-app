@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import DismissKeyboard from "@/components/DismisKeyboard";
@@ -70,7 +70,7 @@ export const TagCreate = () => {
           flex: 1,
           justifyContent: "flex-start",
           backgroundColor: colors.logBackground,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
+          marginTop: process.env.EXPO_OS === "android" ? insets.top : 0,
         }}
       >
         <ModalHeader

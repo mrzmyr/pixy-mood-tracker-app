@@ -1,5 +1,4 @@
 import * as FileSystem from "expo-file-system/legacy";
-import { Platform } from "react-native";
 import { removeLeftoverExportFiles, shareExportFile } from "../exportFile";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- Jest has no native file system, so the directory constants are undefined; the tests assert on the paths built from them.
@@ -37,7 +36,7 @@ describe("shareExportFile()", () => {
   });
 
   test("deletes the file after the iOS share sheet closes", async () => {
-    jest.replaceProperty(Platform, "OS", "ios");
+    jest.replaceProperty(process.env, "EXPO_OS", "ios");
 
     await shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}", share);
 
@@ -48,7 +47,7 @@ describe("shareExportFile()", () => {
   });
 
   test("keeps the file on Android for apps that read it later", async () => {
-    jest.replaceProperty(Platform, "OS", "android");
+    jest.replaceProperty(process.env, "EXPO_OS", "android");
 
     await shareExportFile("pixy-mood-tracker-2026-10-02.json", "{}", share);
 

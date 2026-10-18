@@ -115,7 +115,7 @@ describe("system photo source", () => {
 });
 
 // The platform is read at module load, so Android needs a fresh module
-// registry with `Platform.OS` set first.
+// registry with `process.env.EXPO_OS` set first.
 const loadAndroid = () => {
   let loaded:
     | {
@@ -123,17 +123,20 @@ const loadAndroid = () => {
         mediaLibrary: typeof ExpoMediaLibrary;
       }
     | undefined;
-  jest.isolateModules(() => {
-    // oxlint-disable-next-line typescript/no-require-imports -- same registry as the module under test.
-    const { Platform } = require("react-native");
-    Platform.OS = "android";
-    loaded = {
-      // oxlint-disable-next-line typescript/no-require-imports -- fresh module instance for Android.
-      source: require("../photoSource").getPhotoSource(),
-      // oxlint-disable-next-line typescript/no-require-imports -- the mock instance the module under test calls.
-      mediaLibrary: require("expo-media-library"),
-    };
-  });
+  const previous = process.env.EXPO_OS;
+  process.env.EXPO_OS = "android";
+  try {
+    jest.isolateModules(() => {
+      loaded = {
+        // oxlint-disable-next-line typescript/no-require-imports -- fresh module instance for Android.
+        source: require("../photoSource").getPhotoSource(),
+        // oxlint-disable-next-line typescript/no-require-imports -- the mock instance the module under test calls.
+        mediaLibrary: require("expo-media-library"),
+      };
+    });
+  } finally {
+    process.env.EXPO_OS = previous;
+  }
   if (!loaded) {
     throw createStructuredError({
       status: "test_setup_failed",

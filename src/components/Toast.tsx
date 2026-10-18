@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import Check from "lucide-react-native/icons/check";
 import {
   GestureDetector,
@@ -24,7 +24,7 @@ import { getToastDuration, hideToast, useToast } from "@/lib/toast";
 import type { Toast } from "@/lib/toast";
 import { RADIUS } from "@/constants/Radius";
 
-const IS_ANDROID = Platform.OS === "android";
+const IS_ANDROID = process.env.EXPO_OS === "android";
 /** Drag distance or speed toward the screen edge that dismisses the toast. */
 const DISMISS_DISTANCE = 40;
 const DISMISS_VELOCITY = 500;
@@ -40,7 +40,10 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
     if (isHeld) {
       return;
     }
-    const timer = setTimeout(hideToast, getToastDuration(toast, Platform.OS));
+    const timer = setTimeout(
+      hideToast,
+      getToastDuration(toast, process.env.EXPO_OS)
+    );
     return () => clearTimeout(timer);
   }, [isHeld, toast]);
 
@@ -200,7 +203,7 @@ export const ToastHost = ({ inline = false }: { inline?: boolean }) => {
       {toast && <ToastCard key={toast.id} toast={toast} />}
     </GestureHandlerRootView>
   );
-  return Platform.OS === "ios" && !inline ? (
+  return process.env.EXPO_OS === "ios" && !inline ? (
     <FullWindowOverlay>{host}</FullWindowOverlay>
   ) : (
     host

@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Platform, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import Animated, { useAnimatedRef } from "react-native-reanimated";
 import Sortable from "react-native-sortables";
 import type {
@@ -25,7 +25,7 @@ import { cardCorners } from "./cardCorners";
 import { ReorderHandle } from "./ReorderHandle";
 import { TagRow } from "./TagRow";
 
-const IS_IOS = Platform.OS === "ios";
+const IS_IOS = process.env.EXPO_OS === "ios";
 
 const isCategoryChanged = (tags: Tag[], arrangement: TagArrangement[]) => {
   const categoryById = new Map(tags.map((tag) => [tag.id, tag.categoryId]));

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Keyboard, Platform, View } from "react-native";
+import { Keyboard, View } from "react-native";
 import ArrowRight from "lucide-react-native/icons/arrow-right";
 import Check from "lucide-react-native/icons/check";
 import useColors from "@/hooks/useColors";
@@ -8,9 +8,9 @@ import { FloatButton } from "@/components/FloatButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ON_EVENT_NAME =
-  Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+  process.env.EXPO_OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
 const OFF_EVENT_NAME =
-  Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+  process.env.EXPO_OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
 
 /**
  * Floating next/save button of the logger. It moves above the keyboard
@@ -47,7 +47,7 @@ export const SlideAction = ({
   }
 
   const bottom = keyboardHeight
-    ? Math.round(keyboardHeight) - (Platform.OS === "ios" ? 20 : 0)
+    ? Math.round(keyboardHeight) - (process.env.EXPO_OS === "ios" ? 20 : 0)
     : 0;
 
   return (

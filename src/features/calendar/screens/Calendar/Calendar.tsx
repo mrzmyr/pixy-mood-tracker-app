@@ -5,7 +5,7 @@ import type { FlashListRef, ListRenderItemInfo } from "@shopify/flash-list";
 import dayjs from "dayjs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
-import { Platform, useWindowDimensions, View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 import type {
   LayoutChangeEvent,
   NativeScrollEvent,
@@ -64,7 +64,11 @@ const CalendarComponent = ({
   );
   const geometry = useMemo(
     () =>
-      getGeometry({ width, fontScale, isAndroid: Platform.OS === "android" }),
+      getGeometry({
+        width,
+        fontScale,
+        isAndroid: process.env.EXPO_OS === "android",
+      }),
     [width, fontScale]
   );
   const itemMap = useMemo(() => {

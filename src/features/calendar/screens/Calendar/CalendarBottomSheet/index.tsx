@@ -1,6 +1,6 @@
 import { BottomSheet, RNHostView } from "@expo/ui";
 import { presentationCornerRadius } from "@expo/ui/swift-ui/modifiers";
-import { Keyboard, Platform, ScrollView } from "react-native";
+import { Keyboard, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCalendarFilters } from "../../../filters";
 import useColors from "@/hooks/useColors";
@@ -8,7 +8,7 @@ import { Body } from "./Body";
 
 // Android keeps Material's corner radius: `ModalBottomSheet` has no shape prop.
 const sheetModifiers =
-  Platform.OS === "ios" ? [presentationCornerRadius(16)] : undefined;
+  process.env.EXPO_OS === "ios" ? [presentationCornerRadius(16)] : undefined;
 
 /**
  * Calendar filter sheet, opened from the calendar header Filters button.

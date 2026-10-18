@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
-import { Platform, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 import { SheetModal } from "../SheetModal";
 
@@ -11,7 +11,7 @@ jest.mock("react-native-safe-area-context", () => ({
 }));
 
 const renderSheet = async (os: "ios" | "android", onClose = jest.fn()) => {
-  jest.replaceProperty(Platform, "OS", os);
+  jest.replaceProperty(process.env, "EXPO_OS", os);
   await render(
     <SheetModal visible onClose={onClose} backgroundColor="white">
       <Text testID="sheet-header">Header</Text>

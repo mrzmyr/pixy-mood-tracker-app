@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import type { LayoutChangeEvent, ViewStyle } from "react-native";
-import { Platform, View, useWindowDimensions } from "react-native";
+import { View, useWindowDimensions } from "react-native";
 
 import useColors from "@/hooks/useColors";
 import { RADIUS } from "@/constants/Radius";
@@ -38,7 +38,7 @@ const MenuList = ({
     [listRef, windowWidth]
   );
 
-  if (Platform.OS === "android") {
+  if (process.env.EXPO_OS === "android") {
     return (
       <View
         ref={setListRef}

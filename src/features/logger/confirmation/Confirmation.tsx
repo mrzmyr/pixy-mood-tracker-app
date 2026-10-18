@@ -1,6 +1,6 @@
 import chroma, { contrast, mix } from "chroma-js";
 import { useEffect, useMemo } from "react";
-import { Platform, Pressable, Text, useColorScheme, View } from "react-native";
+import { Pressable, Text, useColorScheme, View } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useIsFocused } from "expo-router";
@@ -204,7 +204,7 @@ export const Confirmation = ({
         flex: 1,
         backgroundColor: colors.logBackground,
         // The iOS page sheet already sits below the status bar.
-        paddingTop: 24 + (Platform.OS === "android" ? insets.top : 0),
+        paddingTop: 24 + (process.env.EXPO_OS === "android" ? insets.top : 0),
         paddingBottom: insets.bottom + 8,
         paddingHorizontal: 20,
       }}

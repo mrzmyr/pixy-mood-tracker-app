@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import noop from "lodash/noop";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
-import { Platform } from "react-native";
 
 /** Most photos {@link PhotoSource.listPhotosOnDate} returns. */
 export const DAY_PHOTOS_LIMIT = 20;
@@ -105,7 +104,7 @@ export const getDayBounds = ({ date }: { date: string }) => {
 // tracker does not meet, so `app.json` blocks it and Android never queries
 // the library. Android adds photos through the system Photo Picker only.
 // https://support.google.com/googleplay/android-developer/answer/14115180
-const IS_LIBRARY_SUPPORTED = Platform.OS === "ios";
+const IS_LIBRARY_SUPPORTED = process.env.EXPO_OS === "ios";
 
 const toLibraryPermission = (
   response: MediaLibrary.PermissionResponse

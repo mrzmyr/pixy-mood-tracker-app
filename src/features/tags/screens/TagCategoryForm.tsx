@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import DismissKeyboard from "@/components/DismisKeyboard";
@@ -91,7 +91,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
         style={{
           flex: 1,
           backgroundColor: colors.background,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
+          marginTop: process.env.EXPO_OS === "android" ? insets.top : 0,
         }}
       >
         <ModalHeader

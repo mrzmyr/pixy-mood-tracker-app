@@ -1,5 +1,4 @@
 import { Stack, useRouter } from "expo-router";
-import { Platform } from "react-native";
 import {
   getCalendarLayoutLabel,
   useCalendarFilters,
@@ -9,7 +8,7 @@ import { t } from "@/lib/translation";
 
 // Android renders only image icons in the header; iOS uses SF Symbols.
 const ICONS =
-  Platform.OS === "ios"
+  process.env.EXPO_OS === "ios"
     ? ({
         filters: "line.3.horizontal.decrease",
         statistics: "chart.pie",

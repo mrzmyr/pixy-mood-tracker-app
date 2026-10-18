@@ -1,6 +1,6 @@
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import { Alert, Platform } from "react-native";
+import { Alert } from "react-native";
 import { t } from "@/lib/translation";
 import { REMINDER_NOTIFICATION_DATA } from "./reminderTaps";
 
@@ -180,7 +180,7 @@ const webScheduler: ReminderScheduler = {
 
 /** Expo notifications on native, no-op on web. */
 export const defaultReminderScheduler =
-  Platform.OS === "web" ? webScheduler : nativeScheduler;
+  process.env.EXPO_OS === "web" ? webScheduler : nativeScheduler;
 
 const nativeRecapScheduler: RecapNotificationScheduler = {
   replace: (requests) => serialize(() => replaceRecapsNative(requests)),
@@ -194,4 +194,4 @@ const webRecapScheduler: RecapNotificationScheduler = {
 
 /** Expo notifications on native, no-op on web. Shares the reminder queue. */
 export const defaultRecapScheduler =
-  Platform.OS === "web" ? webRecapScheduler : nativeRecapScheduler;
+  process.env.EXPO_OS === "web" ? webRecapScheduler : nativeRecapScheduler;

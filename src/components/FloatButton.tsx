@@ -1,4 +1,4 @@
-import { Platform, Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import Animated, {
   Easing,
@@ -18,9 +18,9 @@ const PRESS_MS = 120;
 const PRESS_SCALE = 0.97;
 
 // iOS 26+: native Liquid Glass with its own shadow and press response.
-const HAS_GLASS = Platform.OS === "ios" && isGlassEffectAPIAvailable();
+const HAS_GLASS = process.env.EXPO_OS === "ios" && isGlassEffectAPIAvailable();
 // Android: Material 3 FAB, 56 dp, 16 dp corners, elevation 6, ripple.
-const IS_ANDROID = Platform.OS === "android";
+const IS_ANDROID = process.env.EXPO_OS === "android";
 const SIZE = FLOAT_BUTTON_SIZE;
 const RADIUS = IS_ANDROID ? 16 : SIZE / 2;
 

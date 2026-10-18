@@ -1,5 +1,4 @@
 import * as FileSystem from "expo-file-system/legacy";
-import { Platform } from "react-native";
 
 const EXPORT_FILE_PATTERN = /^pixy-mood-tracker-.*\.(?:json|csv)$/u;
 
@@ -63,7 +62,7 @@ export const shareExportFile = async (
   try {
     return await openShareSheet(uri);
   } finally {
-    if (Platform.OS === "ios") {
+    if (process.env.EXPO_OS === "ios") {
       await deleteQuietly(uri);
     }
   }

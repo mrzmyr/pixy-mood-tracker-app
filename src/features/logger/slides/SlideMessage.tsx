@@ -2,7 +2,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogDraft } from "../logDraft";
 import { forwardRef, useEffect, useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, View } from "react-native";
 import type { TextInput } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -19,9 +19,9 @@ const SLIDE_MARGIN_TOP = 8;
 const INPUT_BOTTOM_PADDING_TYPING = 72;
 
 const ON_EVENT_NAME =
-  Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+  process.env.EXPO_OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
 const OFF_EVENT_NAME =
-  Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+  process.env.EXPO_OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
 
 // No LayoutAnimation here: configureNext is global, so it also animated the
 // logger teardown on close and crashed Fabric (PIXY-APP-PRODUCTION-QM).
@@ -76,7 +76,7 @@ const SlideMessageComponent = (
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={SLIDE_MARGIN_TOP + insets.top + 16}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={process.env.EXPO_OS === "ios" ? "padding" : "height"}
       style={{
         flex: 1,
       }}

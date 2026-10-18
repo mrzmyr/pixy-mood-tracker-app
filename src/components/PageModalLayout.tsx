@@ -1,4 +1,4 @@
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -22,7 +22,7 @@ export const PageModalLayout = ({
     <View
       style={{
         flex: 1,
-        paddingTop: Platform.OS === "android" ? insets.top : 0,
+        paddingTop: process.env.EXPO_OS === "android" ? insets.top : 0,
         ...style,
       }}
     >

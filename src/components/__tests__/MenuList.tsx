@@ -1,5 +1,4 @@
 import React from "react";
-import { Platform } from "react-native";
 import { render, screen } from "@testing-library/react-native";
 import { ThemeProvider, DefaultTheme } from "expo-router";
 
@@ -27,12 +26,12 @@ const withPlatform = async (
   os: "android" | "ios",
   run: () => Promise<void>
 ) => {
-  const original = Platform.OS;
-  Platform.OS = os;
+  const original = process.env.EXPO_OS;
+  process.env.EXPO_OS = os;
   try {
     await run();
   } finally {
-    Platform.OS = original;
+    process.env.EXPO_OS = original;
   }
 };
 

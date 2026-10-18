@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useContext, useRef, useState } from "react";
-import { ActivityIndicator, Platform, Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
 import type { FlashListRef } from "@shopify/flash-list";
@@ -93,7 +93,7 @@ const CalendarScreenComponent = () => {
   }
 
   const filtersBody =
-    Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null;
+    process.env.EXPO_OS === "web" && calendarFilters.isOpen ? <Body /> : null;
 
   const calendarList = isCalendar ? (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
@@ -188,7 +188,7 @@ const CalendarScreenComponent = () => {
           }}
         />
       )}
-      {Platform.OS !== "web" && <CalendarBottomSheet />}
+      {process.env.EXPO_OS !== "web" && <CalendarBottomSheet />}
       <ObserveInteractiveMarker />
     </View>
   );

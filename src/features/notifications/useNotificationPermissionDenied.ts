@@ -1,10 +1,10 @@
 import * as Notifications from "expo-notifications";
 import { useCallback, useEffect, useState } from "react";
-import { AppState, Platform } from "react-native";
+import { AppState } from "react-native";
 
 /** True when the user denied notifications for Pixy in system settings. */
 export const readPermissionDenied = async () => {
-  if (Platform.OS === "web") {
+  if (process.env.EXPO_OS === "web") {
     return false;
   }
   try {

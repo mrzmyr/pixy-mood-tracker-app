@@ -3,7 +3,7 @@ import { createStructuredError } from "@/lib/errors";
 import { createCsv } from "./csv";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
-import { Alert, Platform } from "react-native";
+import { Alert } from "react-native";
 import { getFileTransfer } from "./fileTransfer";
 import type { ImportData } from "./import";
 import { useAppData } from "./appData";
@@ -136,7 +136,7 @@ export const useDatagate = (): DatagateValue => {
   const openResetDialog = async () => {
     analytics.track("data:reset_requested", { kind: "factory" });
 
-    if (Platform.OS === "web") {
+    if (process.env.EXPO_OS === "web") {
       appData.resetAll();
       // oxlint-disable-next-line eslint/no-alert -- web-only branch: react-native-web's Alert.alert is a no-op, so the browser dialog is the only way to confirm the reset.
       alert(t("delete_all_data_success_message"));
@@ -158,7 +158,7 @@ export const useDatagate = (): DatagateValue => {
 
     analytics.track("data:export_started", { format });
 
-    if (Platform.OS === "web") {
+    if (process.env.EXPO_OS === "web") {
       return Alert.alert(t("export_web_unsupported_title"));
     }
 

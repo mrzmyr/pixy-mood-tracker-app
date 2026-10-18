@@ -1,12 +1,11 @@
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { render } from "@testing-library/react-native";
-import { Platform } from "react-native";
 import { Header } from "../screens/LogList/Header";
 
 const TITLE = "Mon, 5 Oct";
 
 const closeComesFirst = async (os: "android" | "ios") => {
-  jest.replaceProperty(Platform, "OS", os);
+  jest.replaceProperty(process.env, "EXPO_OS", os);
   const { toJSON } = await render(
     <ThemeProvider value={DefaultTheme}>
       <Header title={TITLE} onClose={jest.fn()} />

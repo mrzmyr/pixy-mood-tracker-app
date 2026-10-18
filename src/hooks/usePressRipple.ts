@@ -1,4 +1,3 @@
-import { Platform } from "react-native";
 import type { PressableAndroidRippleConfig } from "react-native";
 
 import useColors from "@/hooks/useColors";
@@ -13,7 +12,7 @@ export default function usePressRipple(
   options: Omit<PressableAndroidRippleConfig, "color"> = {}
 ): PressableAndroidRippleConfig | undefined {
   const colors = useColors();
-  if (Platform.OS !== "android") {
+  if (process.env.EXPO_OS !== "android") {
     return undefined;
   }
   return { color: colors.pressRipple, ...options };

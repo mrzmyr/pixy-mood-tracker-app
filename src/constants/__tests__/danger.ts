@@ -7,11 +7,15 @@ interface Themes {
 
 const loadColors = (os: "ios" | "android"): Themes => {
   const themes: Themes[] = [];
-  jest.isolateModules(() => {
-    const { Platform } = require("react-native");
-    Platform.OS = os;
-    themes.push(require("@/constants/Colors").default);
-  });
+  const previous = process.env.EXPO_OS;
+  process.env.EXPO_OS = os;
+  try {
+    jest.isolateModules(() => {
+      themes.push(require("@/constants/Colors").default);
+    });
+  } finally {
+    process.env.EXPO_OS = previous;
+  }
   return themes[0];
 };
 

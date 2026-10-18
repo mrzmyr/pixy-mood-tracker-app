@@ -1,5 +1,5 @@
 import * as Localization from "expo-localization";
-import { Alert, Platform } from "react-native";
+import { Alert } from "react-native";
 import { FEEDBACK_URL } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import { t } from "@/lib/translation";
@@ -39,7 +39,7 @@ export const useFeedback = () => {
     const metaData = {
       locale: Localization.getLocales()[0]?.languageTag,
       version: pkg.version,
-      os: Platform.OS,
+      os: process.env.EXPO_OS,
       date: new Date().toISOString(),
       source,
       deviceId,

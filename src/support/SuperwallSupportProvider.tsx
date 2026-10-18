@@ -33,7 +33,7 @@ const SuperwallConsumableEvents = () => {
   useSuperwallEvents({
     onSuperwallEvent: ({ event }) => {
       if (
-        Platform.OS !== "android" ||
+        process.env.EXPO_OS !== "android" ||
         event.event !== "transactionComplete" ||
         !SUPPORT_PRODUCT_IDS.some(
           (productId) => productId === event.product.productIdentifier

@@ -175,7 +175,7 @@ export const AppLockScreen = () => {
     </GestureHandlerRootView>
   );
 
-  return Platform.OS === "ios" ? (
+  return process.env.EXPO_OS === "ios" ? (
     <FullWindowOverlay unstable_accessibilityContainerViewIsModal>
       {screen}
     </FullWindowOverlay>

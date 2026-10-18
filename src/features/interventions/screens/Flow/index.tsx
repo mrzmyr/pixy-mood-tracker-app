@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Platform, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import { CloseButton } from "@/components/CloseButton";
@@ -81,7 +81,7 @@ export const InterventionFlow = ({
         flex: 1,
         backgroundColor: colors.logBackground,
         // The iOS page sheet already sits below the status bar.
-        paddingTop: 8 + (Platform.OS === "android" ? insets.top : 0),
+        paddingTop: 8 + (process.env.EXPO_OS === "android" ? insets.top : 0),
         paddingBottom: insets.bottom + 8,
         paddingHorizontal: 20,
       }}

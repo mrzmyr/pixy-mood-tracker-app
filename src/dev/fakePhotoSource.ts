@@ -1,6 +1,5 @@
 import { File, Paths } from "expo-file-system";
 import noop from "lodash/noop";
-import { Platform } from "react-native";
 import type { LibraryPermission, PhotoSource } from "@/features/photos";
 import { createStructuredError } from "@/lib/errors";
 
@@ -49,7 +48,7 @@ const writeImage = ({ name, base64 }: { name: string; base64: string }) => {
 // Like the system source: Android has no photos of a day. iOS access starts
 // `undetermined`, like a fresh install, so the permission card and its
 // Allow flow show. Allow grants it until restart.
-const IS_LIBRARY_SUPPORTED = Platform.OS === "ios";
+const IS_LIBRARY_SUPPORTED = process.env.EXPO_OS === "ios";
 let permission: LibraryPermission = IS_LIBRARY_SUPPORTED
   ? "undetermined"
   : "unavailable";

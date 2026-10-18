@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { Platform } from "react-native";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
@@ -10,7 +9,7 @@ import type { CalendarLayout } from "@/state/settings";
 const CALENDAR_LAYOUTS: CalendarLayout[] = ["calendar", "timeline", "map"];
 
 /** The map needs Apple Maps: `expo-maps` is linked on iOS only. */
-const HAS_MAP = Platform.OS === "ios";
+const HAS_MAP = process.env.EXPO_OS === "ios";
 
 const LABEL_KEYS = {
   calendar: "calendar",

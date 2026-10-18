@@ -14,12 +14,12 @@ import { t } from "@/lib/translation";
 import sortBy from "lodash/sortBy";
 import Archive from "lucide-react-native/icons/archive";
 import Folder from "lucide-react-native/icons/folder";
-import { Platform, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StepSwitch } from "../../components/StepSwitch";
 import { useStepEnabled } from "../../useStepEnabled";
 
-const TagScrollView = Platform.OS === "ios" ? View : ScrollView;
+const TagScrollView = process.env.EXPO_OS === "ios" ? View : ScrollView;
 
 /**
  * Settings > Check-in > Tags: the step switch, links to categories and
@@ -99,7 +99,7 @@ export const SettingsTagsArchive = () => {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <TagScrollView style={{ flex: 1 }}>
         <TagList tags={_tags} emptyMessage={t("tags_archive_empty")} />
-        {Platform.OS !== "ios" && (
+        {process.env.EXPO_OS !== "ios" && (
           <View style={{ height: insets.bottom + 56 }} />
         )}
       </TagScrollView>

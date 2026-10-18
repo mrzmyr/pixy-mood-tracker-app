@@ -4,7 +4,6 @@ import Check from "lucide-react-native/icons/check";
 import {
   ActivityIndicator,
   FlatList,
-  Platform,
   Pressable,
   Text,
   TextInput,
@@ -111,7 +110,7 @@ export const ContactImport = () => {
       style={{
         flex: 1,
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
+        marginTop: process.env.EXPO_OS === "android" ? insets.top : 0,
       }}
     >
       <ModalHeader

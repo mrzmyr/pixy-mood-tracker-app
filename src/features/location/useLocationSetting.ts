@@ -1,4 +1,3 @@
-import { Platform } from "react-native";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { useSettings } from "@/state/settings";
@@ -16,7 +15,7 @@ export const useLocationSetting = () => {
   const isFlagOn = useFeatureFlag("location");
   const { settings, setSettings } = useSettings();
   const analytics = useAnalytics();
-  const isAvailable = isFlagOn && Platform.OS !== "web";
+  const isAvailable = isFlagOn && process.env.EXPO_OS !== "web";
 
   const setEnabled = async (next: boolean) => {
     if (next && !(await ensureLocationAccess())) {

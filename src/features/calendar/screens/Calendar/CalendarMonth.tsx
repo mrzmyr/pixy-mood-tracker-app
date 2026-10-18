@@ -6,7 +6,7 @@ import type { Dayjs } from "dayjs";
 import React, { memo } from "react";
 import { useMappingHelper } from "@shopify/flash-list";
 import type { getGeometry } from "./layout";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
@@ -75,7 +75,7 @@ const CalendarMonthComponent = ({
       testID={`calendar-month-${dateString}`}
       style={{
         height: geometry.titleHeight + weeks * geometry.weekHeight,
-        paddingHorizontal: Platform.OS === "android" ? 1 : 0,
+        paddingHorizontal: process.env.EXPO_OS === "android" ? 1 : 0,
       }}
     >
       <View style={{ height: geometry.titleHeight }}>

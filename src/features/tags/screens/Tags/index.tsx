@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import Folder from "lucide-react-native/icons/folder";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CloseButton } from "@/components/CloseButton";
 import MenuList from "@/components/MenuList";
@@ -29,7 +29,7 @@ export const Tags = () => {
         flex: 1,
         justifyContent: "flex-start",
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
+        marginTop: process.env.EXPO_OS === "android" ? insets.top : 0,
       }}
     >
       <ModalHeader

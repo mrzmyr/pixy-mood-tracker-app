@@ -1,13 +1,13 @@
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { render, screen } from "@testing-library/react-native";
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 import Colors from "@/constants/Colors";
 
 import MenuListHeadline from "../MenuListHeadline";
 
 const renderHeadline = async (os: "ios" | "android") => {
-  jest.replaceProperty(Platform, "OS", os);
+  jest.replaceProperty(process.env, "EXPO_OS", os);
   await render(
     <ThemeProvider
       value={{
@@ -39,7 +39,7 @@ describe("MenuListHeadline", () => {
   });
 
   it("lets callers override style", async () => {
-    jest.replaceProperty(Platform, "OS", "ios");
+    jest.replaceProperty(process.env, "EXPO_OS", "ios");
     await render(
       <ThemeProvider
         value={{

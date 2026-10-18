@@ -1,6 +1,6 @@
 import GripVertical from "lucide-react-native/icons/grip-vertical";
 import Menu from "lucide-react-native/icons/menu";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import Sortable from "react-native-sortables";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
@@ -24,7 +24,7 @@ export const ReorderHandle = ({
   onMove: (offset: -1 | 1) => void;
 }) => {
   const colors = useColors();
-  const Icon = Platform.OS === "ios" ? Menu : GripVertical;
+  const Icon = process.env.EXPO_OS === "ios" ? Menu : GripVertical;
 
   return (
     <Sortable.Handle style={{ flex: 1 }}>

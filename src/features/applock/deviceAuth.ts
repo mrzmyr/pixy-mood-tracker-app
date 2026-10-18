@@ -1,5 +1,4 @@
 import * as LocalAuthentication from "expo-local-authentication";
-import { Platform } from "react-native";
 import { createStructuredError } from "@/lib/errors";
 import type { StructuredError } from "@/lib/errors";
 
@@ -22,7 +21,7 @@ export const getUnlockMethod = async (): Promise<UnlockMethod> => {
     if (level === LocalAuthentication.SecurityLevel.NONE) {
       return "none";
     }
-    if (Platform.OS !== "ios") {
+    if (process.env.EXPO_OS !== "ios") {
       return "device";
     }
     if (level === LocalAuthentication.SecurityLevel.SECRET) {

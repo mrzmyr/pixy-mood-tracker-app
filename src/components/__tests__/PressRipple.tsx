@@ -19,12 +19,15 @@ const renderLight = async (ui: React.ReactElement) =>
     </ThemeProvider>
   );
 
-const setPlatform = (os: string) => {
+// App code reads `process.env.EXPO_OS`; Pressable itself reads `Platform.OS`
+// to pass the ripple to the native view.
+const setPlatform = (os: typeof process.env.EXPO_OS) => {
+  process.env.EXPO_OS = os;
   Object.defineProperty(Platform, "OS", { value: os, configurable: true });
 };
 
 describe("press ripple", () => {
-  const original = Platform.OS;
+  const original = process.env.EXPO_OS;
   afterEach(() => setPlatform(original));
 
   test("Android rows ripple with the theme token", async () => {

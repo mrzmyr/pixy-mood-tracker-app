@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react-native";
 import { useEffect, useEffectEvent } from "react";
-import { Alert, Linking, Platform, ScrollView, Text, View } from "react-native";
+import { Alert, Linking, ScrollView, Text, View } from "react-native";
 import CircleAlert from "lucide-react-native/icons/circle-alert";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
@@ -26,7 +26,7 @@ const exportData = async () => {
 // Holds the error code only: `why` can quote stored user data.
 const getSupportMailUrl = (error: StructuredError) => {
   const subject = "Pixy: stored data could not be loaded";
-  const body = `\n\nError code: ${error.status}\nApp version: ${pkg.version}\nPlatform: ${Platform.OS}`;
+  const body = `\n\nError code: ${error.status}\nApp version: ${pkg.version}\nPlatform: ${process.env.EXPO_OS}`;
   return `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 

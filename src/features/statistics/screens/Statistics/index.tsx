@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 import { useCallback } from "react";
 import {
   ActivityIndicator,
-  Platform,
   RefreshControl,
   ScrollView,
   View,
@@ -63,7 +62,7 @@ export const StatisticsScreen = () => {
   return (
     <ScrollView
       refreshControl={
-        Platform.OS === "web" ? undefined : (
+        process.env.EXPO_OS === "web" ? undefined : (
           <RefreshControl
             // Loading replaces this view with a spinner, so it never shows
             // as refreshing.

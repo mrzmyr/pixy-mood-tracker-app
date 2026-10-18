@@ -1,18 +1,17 @@
-import { Platform } from "react-native";
 import type { TextStyle } from "react-native";
 
 /** Size, line height, and weight of one text role. */
 export type Metrics = Pick<TextStyle, "fontSize" | "lineHeight" | "fontWeight">;
 
 const pick = (android: Metrics, ios: Metrics): Metrics =>
-  Platform.OS === "android" ? android : ios;
+  process.env.EXPO_OS === "android" ? android : ios;
 
 /**
  * Size, line height, and weight per component role.
  * iOS: HIG text styles (Caption1, Footnote, Subheadline, Body, Title3, Title2, LargeTitle).
  * Android: Material 3 type scale (bodySmall, bodyMedium, bodyLarge, titleLarge, headlineSmall, displaySmall).
  * Weights stay on the pre-existing values so hierarchy does not change.
- * Read at render time, so `Platform.OS` is honored.
+ * Read at call time, so tests can switch `process.env.EXPO_OS`.
  */
 export const getTypeMetrics = (): Record<
   | "micro"

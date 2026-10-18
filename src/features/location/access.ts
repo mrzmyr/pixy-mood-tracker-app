@@ -1,5 +1,5 @@
 import * as Location from "expo-location";
-import { Alert, Linking, Platform } from "react-native";
+import { Alert, Linking } from "react-native";
 import { t } from "@/lib/translation";
 
 /**
@@ -47,7 +47,7 @@ export const getLocationAccess = async (): Promise<LocationAccess> => {
  *   names the path
  */
 const openLocationServicesSettings = async () => {
-  if (Platform.OS === "android") {
+  if (process.env.EXPO_OS === "android") {
     try {
       await Linking.sendIntent(ANDROID_LOCATION_SETTINGS);
       return;
@@ -62,7 +62,7 @@ const openLocationServicesSettings = async () => {
 export const showLocationServicesOff = () => {
   Alert.alert(
     t("location_services_off_title"),
-    Platform.OS === "android"
+    process.env.EXPO_OS === "android"
       ? t("location_services_off_message_android")
       : t("location_services_off_message_ios"),
     [

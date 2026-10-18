@@ -1,7 +1,6 @@
 import * as Notifications from "expo-notifications";
 import type { NotificationResponse } from "expo-notifications";
 import { useEffect, useEffectEvent, useLayoutEffect, useRef } from "react";
-import { Platform } from "react-native";
 import { useAnalytics } from "@/state/analytics";
 import type { AnalyticsEvents } from "@/state/analytics/events";
 import { useSettingsLoad } from "@/state/settings";
@@ -32,7 +31,7 @@ const webSource: NotificationResponseSource = {
 
 /** Expo notification responses on native, none on web. */
 export const defaultNotificationResponseSource =
-  Platform.OS === "web" ? webSource : nativeSource;
+  process.env.EXPO_OS === "web" ? webSource : nativeSource;
 
 /**
  * Whether the response is a tap on the reminder body, not a dismiss or

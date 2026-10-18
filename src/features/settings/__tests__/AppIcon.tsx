@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { render, userEvent, waitFor } from "@testing-library/react-native";
-import { Alert, Platform } from "react-native";
+import { Alert } from "react-native";
 import { getAppIconName, setAlternateAppIcon } from "expo-alternate-app-icons";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
@@ -126,7 +126,7 @@ describe("Settings > App Icon", () => {
 
   test("Android user keeps the icon when they cancel the close warning", async () => {
     mockReload.mockResolvedValue({ "app-icons": true });
-    jest.replaceProperty(Platform, "OS", "android");
+    jest.replaceProperty(process.env, "EXPO_OS", "android");
     const alert = jest
       .spyOn(Alert, "alert")
       .mockImplementation((_title, _message, buttons) => {
@@ -150,7 +150,7 @@ describe("Settings > App Icon", () => {
 
   test("Android user changes the icon after confirming the close warning", async () => {
     mockReload.mockResolvedValue({ "app-icons": true });
-    jest.replaceProperty(Platform, "OS", "android");
+    jest.replaceProperty(process.env, "EXPO_OS", "android");
     jest
       .spyOn(Alert, "alert")
       .mockImplementation((_title, _message, buttons) => {

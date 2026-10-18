@@ -1,6 +1,6 @@
 import memoize from "lodash/memoize";
 import { useState } from "react";
-import { Platform, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import type {
   GestureResponderEvent,
   PressableProps,
@@ -49,7 +49,7 @@ export const PressableScale = ({
   const AnimatedPressable = getAnimatedPressable();
   const styles = getStyles();
   const ripple = usePressRipple({ foreground: true });
-  const isAndroid = Platform.OS === "android";
+  const isAndroid = process.env.EXPO_OS === "android";
 
   return (
     // oxlint-disable-next-line react/static-components -- memoized above, same component on every render.

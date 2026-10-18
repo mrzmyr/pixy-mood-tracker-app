@@ -1,5 +1,3 @@
-import { Platform } from "react-native";
-
 import colors from "@/constants/Colors/TailwindColors";
 
 import { TAG_COLOR_NAMES } from "@/constants/Config";
@@ -40,8 +38,8 @@ for (const color of tagColorNames) {
 }
 
 // iOS systemRed, Android Material 3 error
-const dangerLight = Platform.OS === "android" ? "#BA1A1A" : "#FF3B30";
-const dangerDark = Platform.OS === "android" ? "#FFB4AB" : "#FF453A";
+const dangerLight = process.env.EXPO_OS === "android" ? "#BA1A1A" : "#FF3B30";
+const dangerDark = process.env.EXPO_OS === "android" ? "#FFB4AB" : "#FF453A";
 
 const tintColorLight = "#007aff";
 const tintColorDark = "#0a84ff";

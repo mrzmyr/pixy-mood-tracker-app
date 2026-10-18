@@ -1,4 +1,4 @@
-import { Platform, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { CloseButton } from "@/components/CloseButton";
 import useColors from "@/hooks/useColors";
 
@@ -15,7 +15,7 @@ export const Header = ({
   onClose?: () => void;
 }) => {
   const colors = useColors();
-  const closeLeft = Platform.OS === "android";
+  const closeLeft = process.env.EXPO_OS === "android";
 
   const close = (
     <View

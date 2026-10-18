@@ -1,5 +1,5 @@
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { render } from "@testing-library/react-native";
 
 import Colors from "@/constants/Colors";
@@ -10,10 +10,10 @@ import { getTypeMetrics } from "../typeMetrics";
 type OS = "ios" | "android";
 
 const setOS = (os: OS) => {
-  Object.defineProperty(Platform, "OS", { value: os, configurable: true });
+  process.env.EXPO_OS = os;
 };
 
-const originalOS: OS = Platform.OS === "android" ? "android" : "ios";
+const originalOS: OS = process.env.EXPO_OS === "android" ? "android" : "ios";
 
 afterEach(() => setOS(originalOS));
 

@@ -1,5 +1,5 @@
 import * as Location from "expo-location";
-import { Alert, Linking, Platform } from "react-native";
+import { Alert, Linking } from "react-native";
 import { ensureLocationAccess, getLocationAccess } from "../access";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-location is a native module; each test picks the system state.
@@ -45,12 +45,12 @@ const pressSettingsButton = () => {
   buttons.at(-1)?.onPress?.();
 };
 
-const setPlatform = (os: typeof Platform.OS) => {
-  Object.defineProperty(Platform, "OS", { configurable: true, value: os });
+const setPlatform = (os: typeof process.env.EXPO_OS) => {
+  process.env.EXPO_OS = os;
 };
 
 describe("location access", () => {
-  const originalOS = Platform.OS;
+  const originalOS = process.env.EXPO_OS;
 
   beforeEach(() => {
     jest.clearAllMocks();

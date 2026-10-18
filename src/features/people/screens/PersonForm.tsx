@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import Contact from "lucide-react-native/icons/contact";
 import Trash from "lucide-react-native/icons/trash";
 import { useRef } from "react";
-import { Platform, ScrollView, Text, TextInput, View } from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
@@ -51,7 +51,7 @@ const EditActions = ({
   const analytics = useAnalytics();
   const peopleUpdater = usePeopleUpdater();
   const entryCount = usePersonEntryCount(personId);
-  const isIOS = Platform.OS === "ios";
+  const isIOS = process.env.EXPO_OS === "ios";
 
   const askToDelete = () => {
     analytics.track("people:delete_requested", { entries_count: entryCount });
@@ -147,7 +147,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
     toggleArchived: handleToggleArchived,
     allowLeave: handleAllowLeave,
   } = draft;
-  const isIOS = Platform.OS === "ios";
+  const isIOS = process.env.EXPO_OS === "ios";
 
   const handleSave = () => {
     if (!draft.isNameValid) {
@@ -191,7 +191,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
         style={{
           flex: 1,
           backgroundColor: colors.background,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
+          marginTop: process.env.EXPO_OS === "android" ? insets.top : 0,
         }}
       >
         <ModalHeader

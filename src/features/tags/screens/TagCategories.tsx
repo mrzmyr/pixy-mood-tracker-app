@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import { Platform, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import Animated, { useAnimatedRef } from "react-native-reanimated";
 import Sortable from "react-native-sortables";
 import type {
@@ -23,7 +23,7 @@ import { getGeneralCategoryTitle, MAX_TAG_CATEGORIES } from "../tagCategories";
 import { useTagsState, useTagsUpdater } from "../TagsProvider";
 import type { TagCategory } from "../TagsProvider";
 
-const IS_IOS = Platform.OS === "ios";
+const IS_IOS = process.env.EXPO_OS === "ios";
 
 /**
  * Manage tag categories: drag to reorder, tap to rename or delete, and add
@@ -133,7 +133,7 @@ export const TagCategories = () => {
       style={{
         flex: 1,
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
+        marginTop: process.env.EXPO_OS === "android" ? insets.top : 0,
       }}
     >
       <ModalHeader

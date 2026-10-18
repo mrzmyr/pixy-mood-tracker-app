@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { render, within } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import * as Localization from "expo-localization";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import Colors from "@/constants/Colors";
 import CalendarHeader from "@/features/calendar/screens/Calendar/CalendarHeader";
 import { TagPeaksCard } from "@/features/statistics/screens/Statistics/TagPeaksCards";
@@ -101,7 +101,7 @@ test.each([
 ])(
   "web Intl weekday $firstWeekday maps to $expected",
   async ({ firstWeekday, expected }) => {
-    jest.replaceProperty(Platform, "OS", "web");
+    jest.replaceProperty(process.env, "EXPO_OS", "web");
     const calendars = Localization.useCalendars();
     jest
       .mocked(Localization.useCalendars)

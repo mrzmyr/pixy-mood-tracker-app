@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
@@ -15,7 +15,7 @@ const methodLabel = (method: UnlockMethod | null): string => {
   if (method === "fingerprint") {
     return "Touch ID";
   }
-  if (Platform.OS === "android") {
+  if (process.env.EXPO_OS === "android") {
     return t("app_lock_method_android");
   }
   return t("app_lock_method_passcode");

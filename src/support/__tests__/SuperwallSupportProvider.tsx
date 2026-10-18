@@ -1,5 +1,4 @@
 import { render, waitFor } from "@testing-library/react-native";
-import { Platform } from "react-native";
 import { SuperwallExpoModule } from "expo-superwall";
 import {
   ConfiguredSupportProvider,
@@ -130,7 +129,7 @@ describe("Superwall support provider", () => {
   });
 
   test("consumes Android contributions so every amount stays repeatable", async () => {
-    const originalPlatform = Platform.OS;
+    const originalPlatform = process.env.EXPO_OS;
 
     try {
       render(
@@ -146,10 +145,7 @@ describe("Superwall support provider", () => {
 
       await waitFor(() => expect(mockUseSuperwallEvents).toHaveBeenCalled());
       const callbacks = mockUseSuperwallEvents.mock.calls[0]?.[0];
-      Object.defineProperty(Platform, "OS", {
-        configurable: true,
-        value: "android",
-      });
+      process.env.EXPO_OS = "android";
       callbacks?.onSuperwallEvent({
         event: {
           event: "transactionComplete",
@@ -164,10 +160,7 @@ describe("Superwall support provider", () => {
         )
       );
     } finally {
-      Object.defineProperty(Platform, "OS", {
-        configurable: true,
-        value: originalPlatform,
-      });
+      process.env.EXPO_OS = originalPlatform;
     }
   });
 });

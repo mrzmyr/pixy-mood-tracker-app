@@ -11,7 +11,7 @@ import { getShortItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import type { ReactElement } from "react";
 import { useState } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import Clock from "lucide-react-native/icons/clock";
 import MapPin from "lucide-react-native/icons/map-pin";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -194,7 +194,7 @@ export const SlideMoodFooter = ({
         marginBottom: 16 + (FLOAT_BUTTON_SIZE - PILL_HEIGHT) / 2 - 20,
       }}
     >
-      {Platform.OS !== "web" && (
+      {process.env.EXPO_OS !== "web" && (
         <DateTimePickerModal
           // oxlint-disable-next-line react/no-unstable-nested-components -- react-native-modal-datetime-picker renders customHeaderIOS without props, so the header must close over this render's picker state setter.
           customHeaderIOS={() => (

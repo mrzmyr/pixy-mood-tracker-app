@@ -1,5 +1,4 @@
 import Constants from "expo-constants";
-import { Platform } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import type { LogItem } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
@@ -16,7 +15,7 @@ import PixyWeekWidget from "./PixyWeekWidget";
 import PixyYearWidget from "./PixyYearWidget";
 
 /** Home screen widgets exist on iOS only. */
-export const IS_WIDGET_SUPPORTED = Platform.OS === "ios";
+export const IS_WIDGET_SUPPORTED = process.env.EXPO_OS === "ios";
 
 /** Result of the last {@link syncWidgets} call, for Development tools. */
 export interface WidgetSyncStatus {

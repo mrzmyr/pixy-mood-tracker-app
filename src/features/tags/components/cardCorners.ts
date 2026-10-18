@@ -1,4 +1,3 @@
-import { Platform } from "react-native";
 import { RADIUS } from "@/constants/Radius";
 
 /**
@@ -7,7 +6,7 @@ import { RADIUS } from "@/constants/Radius";
  * row; Android lists run flat and full width.
  */
 export const cardCorners = (isFirst: boolean, isLast: boolean) =>
-  Platform.OS === "ios"
+  process.env.EXPO_OS === "ios"
     ? {
         borderTopLeftRadius: isFirst ? RADIUS.md : 0,
         borderTopRightRadius: isFirst ? RADIUS.md : 0,

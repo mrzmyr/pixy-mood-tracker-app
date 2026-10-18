@@ -4,7 +4,7 @@ import * as Linking from "expo-linking";
 import * as StoreReview from "expo-store-review";
 import * as WebBrowser from "expo-web-browser";
 import { useState } from "react";
-import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import CircleArrowUp from "lucide-react-native/icons/circle-arrow-up";
 import Award from "lucide-react-native/icons/award";
 import Bell from "lucide-react-native/icons/bell";
@@ -217,7 +217,7 @@ export const SettingsScreen = () => {
           />
           <MenuListItem
             title={t(
-              Platform.OS === "ios"
+              process.env.EXPO_OS === "ios"
                 ? "rate_pixy_app_store"
                 : "rate_pixy_google_play"
             )}

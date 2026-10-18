@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../useTagActions";
@@ -73,7 +73,7 @@ export const TagEdit = () => {
           flex: 1,
           justifyContent: "flex-start",
           backgroundColor: colors.background,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
+          marginTop: process.env.EXPO_OS === "android" ? insets.top : 0,
         }}
       >
         <ModalHeader
@@ -148,7 +148,7 @@ export const TagEdit = () => {
           </MenuList>
           <TextInfo>{t("archive_tag_description")}</TextInfo>
 
-          {Platform.OS === "ios" ? (
+          {process.env.EXPO_OS === "ios" ? (
             <MenuList style={{ marginTop: 8 }}>
               <MenuListItem
                 testID="tag-delete"

@@ -7,14 +7,7 @@ import Circle from "lucide-react-native/icons/circle";
 import CircleCheck from "lucide-react-native/icons/circle-check";
 import Lock from "lucide-react-native/icons/lock";
 import { Fragment, useState } from "react";
-import {
-  Image,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import FlagHighlight from "@/components/FlagHighlight";
 import MenuList from "@/components/MenuList";
 import TextInfo from "@/components/TextInfo";
@@ -140,7 +133,7 @@ const AppIconRow = ({
           height: PREVIEW_SIZE,
           // iOS icons use a continuous squircle, Pixel launchers a circle.
           borderRadius:
-            Platform.OS === "android"
+            process.env.EXPO_OS === "android"
               ? PREVIEW_SIZE / 2
               : PREVIEW_SIZE * 0.2237,
           borderCurve: "continuous",
@@ -204,7 +197,7 @@ export const AppIconScreen = () => {
       return;
     }
     await haptics.selection();
-    if (Platform.OS !== "android") {
+    if (process.env.EXPO_OS !== "android") {
       await applyIcon(icon);
       return;
     }

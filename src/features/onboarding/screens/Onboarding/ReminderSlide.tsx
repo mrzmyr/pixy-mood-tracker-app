@@ -1,4 +1,4 @@
-import { Platform, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import Button from "@/components/Button";
 import useColors from "@/hooks/useColors";
 import { HeaderImage } from "./HeaderImage";
@@ -129,7 +129,7 @@ export const ReminderSlide = ({
             >
               <View
                 style={{
-                  maxWidth: Platform.OS === "ios" ? 80 : 65,
+                  maxWidth: process.env.EXPO_OS === "ios" ? 80 : 65,
                   justifyContent: "center",
                 }}
               >

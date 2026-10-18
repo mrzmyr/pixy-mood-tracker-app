@@ -61,6 +61,35 @@ describe("no-layout-animation", () => {
   });
 });
 
+describe("no-platform-os", () => {
+  it("reports Platform.OS through a named or aliased import", () => {
+    expect(
+      lint(
+        "no-platform-os",
+        'import { Platform, Platform as P } from "react-native";\nexport const a = Platform.OS === "ios";\nexport const b = P.OS;\n'
+      )
+    ).toBe(2);
+  });
+
+  it("reports Platform.OS through a namespace import", () => {
+    expect(
+      lint(
+        "no-platform-os",
+        'import * as RN from "react-native";\nexport const a = RN.Platform.OS;\n'
+      )
+    ).toBe(1);
+  });
+
+  it("allows Platform.select, Platform.Version, and other modules", () => {
+    expect(
+      lint(
+        "no-platform-os",
+        'import { Platform } from "react-native";\nimport { Platform as Local } from "./local";\nexport const a = Platform.select({ ios: 1, default: 2 });\nexport const b = Platform.Version;\nexport const c = Local.OS;\nexport const d = process.env.EXPO_OS === "ios";\n'
+      )
+    ).toBe(0);
+  });
+});
+
 describe("no-hermes-missing-intl", () => {
   it("reports Intl constructors Hermes lacks", () => {
     expect(

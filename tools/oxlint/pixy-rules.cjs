@@ -285,6 +285,63 @@ const noLayoutAnimation = {
   },
 };
 
+// babel-preset-expo replaces `process.env.EXPO_OS` with a string literal in
+// every build, so branches for other platforms drop out in development too,
+// and the check needs no react-native import.
+const noPlatformOs = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Disallow Platform.OS; check process.env.EXPO_OS",
+    },
+    messages: {
+      banned:
+        "Check the platform with `process.env.EXPO_OS`, not `Platform.OS`. `Platform.select` and `Platform.Version` stay allowed.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const platformNames = new Set();
+    const reactNativeNames = new Set();
+
+    const isPlatform = (node) =>
+      (node.type === "Identifier" && platformNames.has(node.name)) ||
+      (node.type === "MemberExpression" &&
+        !node.computed &&
+        node.object.type === "Identifier" &&
+        reactNativeNames.has(node.object.name) &&
+        node.property.type === "Identifier" &&
+        node.property.name === "Platform");
+
+    return {
+      ImportDeclaration(node) {
+        if (node.source.value !== "react-native") {
+          return;
+        }
+        for (const specifier of node.specifiers) {
+          if (specifier.type !== "ImportSpecifier") {
+            reactNativeNames.add(specifier.local.name);
+          } else if (
+            (specifier.imported.name ?? specifier.imported.value) === "Platform"
+          ) {
+            platformNames.add(specifier.local.name);
+          }
+        }
+      },
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.property.type === "Identifier" &&
+          node.property.name === "OS" &&
+          isPlatform(node.object)
+        ) {
+          context.report({ messageId: "banned", node: node.property });
+        }
+      },
+    };
+  },
+};
+
 // String literals are the only literals whose raw source starts with a quote.
 const getStringValue = (element) =>
   element?.type === "Literal" && /^["']/u.test(element.raw)
@@ -347,6 +404,7 @@ module.exports = {
     "no-hermes-missing-array-methods": noHermesMissingArrayMethods,
     "no-hermes-missing-intl": noHermesMissingIntl,
     "no-layout-animation": noLayoutAnimation,
+    "no-platform-os": noPlatformOs,
     "require-exported-jsdoc": requireExportedJsDoc,
     "boolean-function-prefix": booleanFunctionPrefix,
     "structured-thrown-errors": structuredThrownErrors,

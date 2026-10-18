@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import dayjs from "dayjs";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { BackButton } from "@/shell/BackButton";
 import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { t } from "@/lib/translation";
@@ -35,11 +35,11 @@ const AppLayout = () => {
     headerBackButtonDisplayMode: "minimal" as const,
     headerBackButtonMenuEnabled: false,
     headerStyle: { backgroundColor: colors.background },
-    headerShadowVisible: Platform.OS !== "web",
+    headerShadowVisible: process.env.EXPO_OS !== "web",
   };
   // iOS and Android render the native back button. Web has none.
   const pageOptions =
-    Platform.OS === "web"
+    process.env.EXPO_OS === "web"
       ? { ...defaultOptions, headerLeft: renderHeaderLeft }
       : defaultOptions;
 

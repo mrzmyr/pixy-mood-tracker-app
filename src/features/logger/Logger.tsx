@@ -18,7 +18,7 @@ import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
 import type { ReactElement, RefObject } from "react";
 
-import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
+import { Dimensions, Keyboard, Text, View } from "react-native";
 import type { TextInput } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
@@ -415,7 +415,7 @@ const LoggerSlides = ({
       <View
         style={{
           flex: 1,
-          paddingTop: Platform.OS === "android" ? insets.top : 0,
+          paddingTop: process.env.EXPO_OS === "android" ? insets.top : 0,
         }}
       >
         <LoggerHeader

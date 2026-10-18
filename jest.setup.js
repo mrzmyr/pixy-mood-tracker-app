@@ -1,3 +1,7 @@
+// App code reads `process.env.EXPO_OS` at runtime in Jest (see babel.config.js).
+// Default to iOS, the platform jest-expo bundles for.
+process.env.EXPO_OS = "ios";
+
 globalThis.URL = require("node:url").URL;
 globalThis.URLSearchParams = require("node:url").URLSearchParams;
 

@@ -1,4 +1,4 @@
-import { Appearance, Platform } from "react-native";
+import { Appearance } from "react-native";
 import { z } from "zod";
 
 /** Theme choice. `system` follows the device setting. */
@@ -15,7 +15,7 @@ export const ColorSchemeSettingSchema = z.enum(COLOR_SCHEMES);
  * native views follow it. Web has no override.
  */
 export const applyColorScheme = (colorScheme: ColorSchemeSetting) => {
-  if (Platform.OS === "web") {
+  if (process.env.EXPO_OS === "web") {
     return;
   }
   Appearance.setColorScheme(

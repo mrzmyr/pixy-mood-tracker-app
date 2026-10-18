@@ -1,4 +1,4 @@
-import { Platform, Text } from "react-native";
+import { Text } from "react-native";
 import type { TextStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
@@ -8,7 +8,7 @@ const DEFAULT_STYLE = {};
 // iOS grouped-list header: 13pt Footnote, secondary label, casing as written.
 // Android Material list subheader: 14sp, weight 500, accent color, no uppercase.
 const platformStyle = (): TextStyle =>
-  Platform.OS === "android"
+  process.env.EXPO_OS === "android"
     ? { fontSize: 14, fontWeight: "500" }
     : { fontSize: 13 };
 
@@ -26,7 +26,10 @@ const MenuListHeadline = ({
       accessibilityRole="header"
       style={{
         ...platformStyle(),
-        color: Platform.OS === "android" ? colors.tint : colors.textSecondary,
+        color:
+          process.env.EXPO_OS === "android"
+            ? colors.tint
+            : colors.textSecondary,
         padding: 0,
         width: "100%",
         marginTop: 32,
