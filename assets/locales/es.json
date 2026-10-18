@@ -11,6 +11,8 @@
   "add_today_another_entry": "Añadir otra entrada para hoy",
   "add_today_entry": "Agregar la entrada de hoy",
   "afternoon": "Tarde",
+  "app_error_retry": "Intentar de nuevo",
+  "app_error_title": "Algo salió mal",
   "app_is_open_source": "Pixy es de código abierto",
   "app_lock": "Bloqueo de la app",
   "app_lock_code_copied": "Código copiado",

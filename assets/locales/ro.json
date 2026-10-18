@@ -11,6 +11,8 @@
   "add_today_another_entry": "Adăugați o altă intrare pentru astăzi",
   "add_today_entry": "Adăugați intrarea de astăzi",
   "afternoon": "Dupa amiaza",
+  "app_error_retry": "Încearcă din nou",
+  "app_error_title": "Ceva nu a mers bine",
   "app_is_open_source": "Pixy este open source",
   "app_lock": "Blocare aplicație",
   "app_lock_code_copied": "Cod copiat",

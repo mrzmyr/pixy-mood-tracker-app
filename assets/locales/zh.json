@@ -11,6 +11,8 @@
   "add_today_another_entry": "为今天添加另一个条目",
   "add_today_entry": "添加今天的条目",
   "afternoon": "下午",
+  "app_error_retry": "重试",
+  "app_error_title": "出了点问题",
   "app_is_open_source": "Pixy 是开源的",
   "app_lock": "应用锁",
   "app_lock_code_copied": "代码已复制",

@@ -11,6 +11,8 @@
   "add_today_another_entry": "Add another entry for today",
   "add_today_entry": "Add New Entry",
   "afternoon": "Afternoon",
+  "app_error_retry": "Try again",
+  "app_error_title": "Something went wrong",
   "app_icon": "App Icon",
   "app_icon_android_confirm": "Change Icon",
   "app_icon_android_message": "Pixy closes to change the icon. Open Pixy again from your home screen.",

@@ -11,6 +11,8 @@
   "add_today_another_entry": "Adj hozzá még egy bejegyzést a mai napra",
   "add_today_entry": "A mai bejegyzés hozzáadása",
   "afternoon": "Délután",
+  "app_error_retry": "Próbáld újra",
+  "app_error_title": "Hiba történt",
   "app_is_open_source": "A Pixy nyílt forráskódú",
   "app_lock": "Alkalmazászár",
   "app_lock_code_copied": "Kód másolva",

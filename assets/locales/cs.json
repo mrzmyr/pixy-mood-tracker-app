@@ -11,6 +11,8 @@
   "add_today_another_entry": "Přidejte další záznam pro dnešek",
   "add_today_entry": "Přidejte dnešní příspěvek",
   "afternoon": "Odpoledne",
+  "app_error_retry": "Zkusit znovu",
+  "app_error_title": "Něco se pokazilo",
   "app_is_open_source": "Pixy je open source",
   "app_lock": "Zámek aplikace",
   "app_lock_code_copied": "Kód zkopírován",

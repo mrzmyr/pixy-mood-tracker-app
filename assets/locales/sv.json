@@ -11,6 +11,8 @@
   "add_today_another_entry": "Lägg till ytterligare en post för idag",
   "add_today_entry": "Lägg till dagens inlägg",
   "afternoon": "Eftermiddag",
+  "app_error_retry": "Försök igen",
+  "app_error_title": "Något gick fel",
   "app_is_open_source": "Pixy är öppen källkod",
   "app_lock": "Applås",
   "app_lock_code_copied": "Koden har kopierats",

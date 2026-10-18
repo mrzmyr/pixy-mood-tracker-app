@@ -11,6 +11,8 @@
   "add_today_another_entry": "आज के लिए एक और प्रविष्टि जोड़ें",
   "add_today_entry": "आज की प्रविष्टि जोड़ें",
   "afternoon": "दोपहर बाद",
+  "app_error_retry": "फिर से कोशिश करें",
+  "app_error_title": "कुछ गलत हो गया",
   "app_is_open_source": "पिक्सी ओपन सोर्स है",
   "app_lock": "ऐप लॉक",
   "app_lock_code_copied": "कोड कॉपी हो गया",

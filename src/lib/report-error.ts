@@ -26,3 +26,11 @@ export const reportError = (error: StructuredError) => {
   Sentry.captureException(error);
   Observe.reportError(toObserveError(error));
 };
+
+/**
+ * Sentry only, for render errors the root error boundary caught. Observe's
+ * boundary already records them with the React component stack.
+ */
+export const reportBoundaryError = (error: StructuredError) => {
+  Sentry.captureException(error);
+};

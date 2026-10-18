@@ -11,6 +11,8 @@
   "add_today_another_entry": "Lisää toinen merkintä tälle päivälle",
   "add_today_entry": "Lisää tämän päivän merkintä",
   "afternoon": "Iltapäivällä",
+  "app_error_retry": "Yritä uudelleen",
+  "app_error_title": "Jokin meni pieleen",
   "app_is_open_source": "Pixy on avoin lähdekoodi",
   "app_lock": "Sovelluslukitus",
   "app_lock_code_copied": "Koodi kopioitu",

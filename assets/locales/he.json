@@ -11,6 +11,8 @@
   "add_today_another_entry": "הוסף ערך נוסף להיום",
   "add_today_entry": "הוסף את הערך של היום",
   "afternoon": "אחרי הצהריים",
+  "app_error_retry": "לנסות שוב",
+  "app_error_title": "משהו השתבש",
   "app_is_open_source": "פיקסי הוא קוד פתוח",
   "app_lock": "נעילת אפליקציה",
   "app_lock_code_copied": "הקוד הועתק",

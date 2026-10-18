@@ -11,6 +11,8 @@
   "add_today_another_entry": "Eintrag für heute hinzufügen",
   "add_today_entry": "Heute eintragen",
   "afternoon": "Nachmittag",
+  "app_error_retry": "Erneut versuchen",
+  "app_error_title": "Etwas ist schiefgelaufen",
   "app_is_open_source": "Pixy ist Open-Source",
   "app_lock": "App-Sperre",
   "app_lock_code_copied": "Code kopiert",
