@@ -5,6 +5,13 @@ import type { CalendarLayout, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
+interface LoggerRecoveryProperties {
+  mode: "create" | "edit";
+  age_minutes: number;
+  message_length: number;
+  photos_count: number;
+}
+
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
  *
@@ -56,6 +63,12 @@ export interface AnalyticsEvents {
     has_location: boolean;
   };
   "logger:flow_cancelled": { mode: "create" | "edit" };
+  /**
+   * Launch prompt after the OS killed the app with the logger open.
+   * `age_minutes`: time since the app went to the background.
+   */
+  "logger:recovery_restored": LoggerRecoveryProperties;
+  "logger:recovery_discarded": LoggerRecoveryProperties;
 
   /** Voice mode. Never the transcript, names, or emotion keys. */
   "voice:flow_started": undefined;

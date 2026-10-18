@@ -7,6 +7,7 @@ import useColors from "@/hooks/use-colors";
 import { DEV_TOOLS } from "@/dev";
 import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
 import { WidgetSync } from "@/features/widget";
+import { LoggerRecoveryPrompt } from "@/features/logger";
 import {
   CalendarScreenReaderTitle,
   HAS_FLOATING_HEADER,
@@ -110,6 +111,7 @@ const AppLayout = () => {
   return (
     <StorageLoadGate>
       <WidgetSync />
+      <LoggerRecoveryPrompt />
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />

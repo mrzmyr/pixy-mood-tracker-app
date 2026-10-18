@@ -7,3 +7,4 @@ export {
 export { getAvailableStepsForEdit, hasSleepOnDate } from "./steps";
 export { encodeLoggerPrefill } from "./prefill";
 export type { LoggerPrefill } from "./prefill";
+export { LoggerRecoveryPrompt } from "./recovery/recovery-prompt";
