@@ -10,6 +10,7 @@ import { t } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import { EMOTIONS } from "../../config";
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
+import { WeatherArt } from "./WeatherArt";
 import { toggleWeather, WEATHER } from "./weather";
 import type { Weather } from "./weather";
 
@@ -27,14 +28,16 @@ const CELL_STYLE = { flex: 1 };
 const WeatherTile = ({
   weather,
   selected,
+  dimmed,
   onPress,
 }: {
   weather: Weather;
   selected: boolean;
+  /** Another tile is picked and this one is not. */
+  dimmed: boolean;
   onPress: () => void;
 }) => {
   const colors = useColors();
-  const Icon = weather.icon;
 
   return (
     <Pressable
@@ -46,30 +49,41 @@ const WeatherTile = ({
       onPress={onPress}
       style={({ pressed }) => ({
         flex: 1,
-        aspectRatio: 1.1,
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 8,
-        padding: 8,
-        borderRadius: RADIUS.md,
-        backgroundColor: chroma(weather.hue).alpha(0.14).css(),
-        borderWidth: 2,
-        borderColor: selected ? colors.tint : "transparent",
-        opacity: pressed ? 0.7 : 1,
+        height: 104,
+        borderRadius: RADIUS.lg,
+        overflow: "hidden",
+        opacity: dimmed ? 0.55 : 1,
+        transform: [{ scale: pressed ? 0.96 : 1 }],
       })}
     >
-      <Icon size={30} color={weather.hue} strokeWidth={1.75} />
+      <WeatherArt id={weather.id} gradient={weather.gradient} />
       <Text
         numberOfLines={2}
         style={{
-          color: colors.text,
-          fontSize: 14,
+          position: "absolute",
+          left: 10,
+          right: 8,
+          bottom: 8,
+          color: weather.isDark ? "#ffffff" : "rgba(0,0,0,0.75)",
+          fontSize: 13,
+          lineHeight: 14,
           fontWeight: "600",
-          textAlign: "center",
         }}
       >
         {t(weather.name)}
       </Text>
+      {selected && (
+        <View
+          pointerEvents="none"
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: RADIUS.lg,
+            borderWidth: 3,
+            borderColor: colors.tint,
+          }}
+        />
+      )}
     </Pressable>
   );
 };
@@ -190,6 +204,7 @@ export const EmotionWeather = ({
                 key={weather.id}
                 weather={weather}
                 selected={pickedIds.has(weather.id)}
+                dimmed={pickedIds.size > 0 && !pickedIds.has(weather.id)}
                 onPress={() => {
                   haptics.selection();
                   setPicked((current) => toggleWeather(current, weather.id));

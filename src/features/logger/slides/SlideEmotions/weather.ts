@@ -1,23 +1,28 @@
-import type { LucideIcon } from "lucide-react-native";
-import CloudDrizzle from "lucide-react-native/icons/cloud-drizzle";
-import CloudFog from "lucide-react-native/icons/cloud-fog";
-import CloudLightning from "lucide-react-native/icons/cloud-lightning";
-import Moon from "lucide-react-native/icons/moon";
-import Rainbow from "lucide-react-native/icons/rainbow";
-import Snowflake from "lucide-react-native/icons/snowflake";
-import Sun from "lucide-react-native/icons/sun";
-import ThermometerSun from "lucide-react-native/icons/thermometer-sun";
-import Wind from "lucide-react-native/icons/wind";
 import colors from "@/constants/Colors/TailwindColors";
 import type { TranslationKey } from "@/lib/translation";
 
+/** Weather tile ids; each has its own art in `WeatherArt`. */
+export type WeatherId =
+  | "sunny"
+  | "clear"
+  | "breezy"
+  | "foggy"
+  | "drizzle"
+  | "storm"
+  | "heatwave"
+  | "frost"
+  | "rainbow";
+
 /** One tile of the inner weather picker (flag `emotion-weather`). */
 export interface Weather {
-  id: string;
+  id: WeatherId;
   name: TranslationKey;
   text: TranslationKey;
-  icon: LucideIcon;
-  /** Icon color; the tile background is a faint wash of it. */
+  /** Tile background, top to bottom. */
+  gradient: readonly [string, string];
+  /** Dark tile: the name is white. */
+  isDark?: boolean;
+  /** Tint of the emotion card under the tiles. */
   hue: string;
   /** Emotion keys that feel like this weather, best fit first. */
   emotions: string[];
@@ -32,7 +37,7 @@ export const WEATHER: Weather[] = [
     id: "sunny",
     name: "log_emotions_weather_sunny",
     text: "log_emotions_weather_sunny_text",
-    icon: Sun,
+    gradient: ["#fde68a", "#fbbf24"],
     hue: colors.amber[500],
     emotions: [
       "happy",
@@ -49,7 +54,7 @@ export const WEATHER: Weather[] = [
     id: "clear",
     name: "log_emotions_weather_clear",
     text: "log_emotions_weather_clear_text",
-    icon: Moon,
+    gradient: ["#bae6fd", "#ccfbf1"],
     hue: colors.sky[500],
     emotions: [
       "calm",
@@ -65,7 +70,7 @@ export const WEATHER: Weather[] = [
     id: "breezy",
     name: "log_emotions_weather_breezy",
     text: "log_emotions_weather_breezy_text",
-    icon: Wind,
+    gradient: ["#e0f2fe", "#a7f3d0"],
     hue: colors.teal[500],
     emotions: [
       "hopeful",
@@ -81,7 +86,7 @@ export const WEATHER: Weather[] = [
     id: "foggy",
     name: "log_emotions_weather_foggy",
     text: "log_emotions_weather_foggy_text",
-    icon: CloudFog,
+    gradient: ["#e5e7eb", "#d1d5db"],
     hue: colors.slate[500],
     emotions: [
       "confused",
@@ -99,7 +104,7 @@ export const WEATHER: Weather[] = [
     id: "drizzle",
     name: "log_emotions_weather_drizzle",
     text: "log_emotions_weather_drizzle_text",
-    icon: CloudDrizzle,
+    gradient: ["#cbd5e1", "#94a3b8"],
     hue: colors.blue[500],
     emotions: [
       "sad",
@@ -116,7 +121,8 @@ export const WEATHER: Weather[] = [
     id: "storm",
     name: "log_emotions_weather_storm",
     text: "log_emotions_weather_storm_text",
-    icon: CloudLightning,
+    gradient: ["#334155", "#1e293b"],
+    isDark: true,
     hue: colors.violet[500],
     emotions: [
       "angry",
@@ -133,7 +139,8 @@ export const WEATHER: Weather[] = [
     id: "heatwave",
     name: "log_emotions_weather_heatwave",
     text: "log_emotions_weather_heatwave_text",
-    icon: ThermometerSun,
+    gradient: ["#fb923c", "#f43f5e"],
+    isDark: true,
     hue: colors.orange[500],
     emotions: [
       "hyper",
@@ -150,7 +157,7 @@ export const WEATHER: Weather[] = [
     id: "frost",
     name: "log_emotions_weather_frost",
     text: "log_emotions_weather_frost_text",
-    icon: Snowflake,
+    gradient: ["#e0e7ff", "#c7d2fe"],
     hue: colors.cyan[500],
     emotions: [
       "tired",
@@ -167,7 +174,7 @@ export const WEATHER: Weather[] = [
     id: "rainbow",
     name: "log_emotions_weather_rainbow",
     text: "log_emotions_weather_rainbow_text",
-    icon: Rainbow,
+    gradient: ["#e0f2fe", "#fef3c7"],
     hue: colors.pink[500],
     emotions: [
       "grateful",
