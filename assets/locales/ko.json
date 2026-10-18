@@ -803,6 +803,79 @@
     "one": "이번 주 %{tag} 있었던 날 1일",
     "other": "이번 주 %{tag} 있었던 날 {{count}}일"
   },
+  "recaps_story_banner_title": "%{month} 돌아보기",
+  "recaps_story_city_eyebrow": "첫 방문",
+  "recaps_story_city_km": "%{city} · 집에서 %{km}km",
+  "recaps_story_city_title": "%{city}에서의 첫 픽셀",
+  "recaps_story_coming_eyebrow": "앞으로",
+  "recaps_story_coming_left": {
+    "one": "1일 남음",
+    "other": "{{count}}일 남음"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1일 놓침",
+    "other": "{{count}}일 놓침"
+  },
+  "recaps_story_coming_title": {
+    "one": "%{year}년, 칠할 날 1일 남음",
+    "other": "%{year}년, 칠할 날 {{count}}일 남음"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "사진 있는 날 1일, 픽셀 %{days}개.",
+    "other": "사진 있는 날 {{count}}일, 픽셀 %{days}개."
+  },
+  "recaps_story_cover_pixels_title": "%{month}의 픽셀",
+  "recaps_story_cover_title": "%{month}, 이렇게 채워졌어요",
+  "recaps_story_days": {
+    "one": "1일",
+    "other": "{{count}}일"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "힘들었던 날",
+    "other": "힘들었던 날 {{count}}일"
+  },
+  "recaps_story_hard_eyebrow": "하나의 패턴",
+  "recaps_story_hard_other_label": {
+    "one": "다른 날",
+    "other": "다른 날 {{count}}일"
+  },
+  "recaps_story_hard_text": "힘들었던 날 %{total}일 중 %{hard}일에 있었고, 다른 날 %{otherDays}일 중에는 %{other}일뿐이었어요. 그런 날엔 스스로에게 다정해 주세요.",
+  "recaps_story_hard_text_none": "힘들었던 날 %{total}일 중 %{hard}일에 있었고, 다른 날 %{otherDays}일에는 없었어요. 그런 날엔 스스로에게 다정해 주세요.",
+  "recaps_story_hard_title": "%{tag}, 힘들었던 날과 함께했어요",
+  "recaps_story_lifted_eyebrow": "%{month}을 가볍게 해 준 것",
+  "recaps_story_lifted_text": {
+    "one": "이 태그가 없는 날과 비교했어요. 기록 1개.",
+    "other": "이 태그가 없는 날과 비교했어요. 기록 {{count}}개."
+  },
+  "recaps_story_lifted_title": "%{tag} 있는 날이 가장 가벼웠어요",
+  "recaps_story_made_of_eyebrow": "%{month}의 리듬",
+  "recaps_story_made_of_title": "당신의 하루를 이룬 것들",
+  "recaps_story_moments_eyebrow": "매주 사진 한 장",
+  "recaps_story_moments_title": {
+    "one": "1개의 순간으로 본 %{month}",
+    "other": "{{count}}개의 순간으로 본 %{month}"
+  },
+  "recaps_story_new": "신규",
+  "recaps_story_next": "다음 슬라이드",
+  "recaps_story_pause": "일시정지",
+  "recaps_story_people_days": {
+    "one": "연결된 날 1일",
+    "other": "연결된 날 {{count}}일"
+  },
+  "recaps_story_people_eyebrow": "자주 등장한 사람",
+  "recaps_story_people_text": "연결된 날의 픽셀이에요.",
+  "recaps_story_people_title": "가장 많이 연결된 사람",
+  "recaps_story_play": "재생",
+  "recaps_story_previous": "이전 슬라이드",
+  "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
+  "recaps_story_vs_text": "태그별 일수, %{previous} 대비.",
+  "recaps_story_vs_title": "늘어난 것, 줄어든 것",
+  "recaps_story_watch": "보기",
+  "recaps_story_weekday_eyebrow": "습관이 생겼어요",
+  "recaps_story_weekday_previous": "%{month}: %{total}주 중 %{hits}주.",
+  "recaps_story_weekday_text": "%{total}주 중 %{hits}주.",
+  "recaps_story_weekday_title_every": "%{tag}, 매주 %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, 거의 매주 %{weekday}",
   "recaps_tag_back_text": {
     "one": "%{weeks}주 만에 하루.",
     "other": "%{weeks}주 만에 {{count}}일."

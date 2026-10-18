@@ -19,10 +19,7 @@ import type { LayoutChangeEvent } from "react-native";
 import ChevronLeft from "lucide-react-native/icons/chevron-left";
 import ChevronRight from "lucide-react-native/icons/chevron-right";
 import { Secondary, Section } from "@/components/Type";
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
-import { useLocationSetting } from "@/features/location";
 import { useFeedback } from "@/features/feedback";
-import { useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/useColors";
@@ -32,7 +29,6 @@ import { getLocale, t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
-import { useSettings } from "@/state/settings";
 import { getCardProperties } from "../analytics";
 import { buildCards } from "../buildCards";
 import { FeedbackFooter } from "../components/FeedbackFooter";
@@ -51,10 +47,12 @@ import {
   isPatternCard,
   isSummaryCard,
 } from "../cardTypes";
-import { getDays, getPeriodDays } from "../days";
 import { getPeriod, shiftPeriod } from "../period";
 import type { Period, PeriodKind, RecapCard } from "../types";
 import { useNudgeActions } from "../useNudgeActions";
+import { useRecapInput } from "../useRecapInput";
+import { buildMonthStory } from "../story/deck";
+import { StoryBanner } from "../story/StoryBanner";
 import { isMostlyVisible } from "../visibility";
 import type { Span } from "../visibility";
 
@@ -130,35 +128,15 @@ const Recaps = () => {
   );
   const isCurrent = period.end >= today;
 
-  const { items } = useLogState();
-  const history = getDays(items);
-  const location = useLocationSetting();
+  const input = useRecapInput(period);
+  const { history } = input;
   const { tags, categories } = useTagsState();
-  const { settings } = useSettings();
-  const isPeopleOn = useFeatureFlag("people");
-  const isPhotosOn = useFeatureFlag("photos");
-  const availableSteps = new Set<ConfigurableLoggerStep>(
-    ["emotions", "tags", isPeopleOn && "people", isPhotosOn && "photos"].filter(
-      (step): step is ConfigurableLoggerStep => step !== false
-    )
-  );
-
   const { people } = usePeopleState();
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
-  const cards = buildCards({
-    period,
-    today,
-    firstEntryDate: history[0]?.date ?? null,
-    days: getPeriodDays(history, period),
-    history,
-    locationEnabled: location.isAvailable && location.isEnabled,
-    steps: new Set(settings.steps),
-    availableSteps,
-    reminderEnabled: settings.reminderEnabled,
-    tags,
-    tagCategories: categories,
-    personIds: new Set(people.map((person) => person.id)),
-  }).filter((card) => !hidden.has(cardKey(card, period)));
+  const cards = buildCards(input).filter(
+    (card) => !hidden.has(cardKey(card, period))
+  );
+  const story = period.kind === "month" ? buildMonthStory(input) : null;
 
   const nudge = useNudgeActions(period);
   const feedbackChannel = useFeedback();
@@ -398,7 +376,10 @@ const Recaps = () => {
           trackShown();
         }}
       >
-        {cards.length === 0 && <EmptyRecaps />}
+        {story && (
+          <StoryBanner period={period} days={input.days} source="recaps" />
+        )}
+        {cards.length === 0 && !story && <EmptyRecaps />}
         {cards.map(renderCard)}
       </View>
       <FeedbackSheet

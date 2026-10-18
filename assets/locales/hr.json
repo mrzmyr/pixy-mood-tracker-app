@@ -803,6 +803,79 @@
     "one": "1 dan s %{tag} ovaj tjedan",
     "other": "{{count}} dana s %{tag} ovaj tjedan"
   },
+  "recaps_story_banner_title": "Osvrt: %{month}",
+  "recaps_story_city_eyebrow": "Prvi put",
+  "recaps_story_city_km": "%{city} · %{km} km od kuće",
+  "recaps_story_city_title": "Tvoj prvi piksel u mjestu %{city}",
+  "recaps_story_coming_eyebrow": "Uskoro",
+  "recaps_story_coming_left": {
+    "one": "Preostalo: 1",
+    "other": "Preostalo: {{count}}"
+  },
+  "recaps_story_coming_missed": {
+    "one": "Propušteno: 1",
+    "other": "Propušteno: {{count}}"
+  },
+  "recaps_story_coming_title": {
+    "one": "Još 1 dan za bojanje u godini %{year}",
+    "other": "Dana za bojanje u godini %{year}: {{count}}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 dan s fotkom, piksela: %{days}.",
+    "other": "Dana s fotkom: {{count}}, piksela: %{days}."
+  },
+  "recaps_story_cover_pixels_title": "%{month} u pikselima",
+  "recaps_story_cover_title": "%{month}: što je dobilo oblik",
+  "recaps_story_days": {
+    "one": "1 dan",
+    "other": "Dana: {{count}}"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Tvoj teži dan",
+    "other": "Tvoji teži dani: {{count}}"
+  },
+  "recaps_story_hard_eyebrow": "Obrazac",
+  "recaps_story_hard_other_label": {
+    "one": "Ostali dan",
+    "other": "Ostali dani: {{count}}"
+  },
+  "recaps_story_hard_text": "Prisutan u %{hard} od %{total} težih dana, ali samo u %{other} od ostalih %{otherDays}. Tih dana postupaj sa sobom nježno.",
+  "recaps_story_hard_text_none": "Prisutan u %{hard} od %{total} težih dana, ni u jednom od ostalih %{otherDays}. Tih dana postupaj sa sobom nježno.",
+  "recaps_story_hard_title": "%{tag}: često uz tvoje teže dane",
+  "recaps_story_lifted_eyebrow": "%{month}: što je pomoglo",
+  "recaps_story_lifted_text": {
+    "one": "U usporedbi s danima bez oznake. 1 unos.",
+    "other": "U usporedbi s danima bez oznake. Unosa: {{count}}."
+  },
+  "recaps_story_lifted_title": "Dani s oznakom %{tag} bili su najlakši",
+  "recaps_story_made_of_eyebrow": "Ritam: %{month}",
+  "recaps_story_made_of_title": "Od čega su bili tvoji dani",
+  "recaps_story_moments_eyebrow": "Jedna fotka tjedno",
+  "recaps_story_moments_title": {
+    "one": "%{month} u 1 trenutku",
+    "other": "%{month} u trenucima: {{count}}"
+  },
+  "recaps_story_new": "Novo",
+  "recaps_story_next": "Sljedeći slajd",
+  "recaps_story_pause": "Pauza",
+  "recaps_story_people_days": {
+    "one": "1 dan u kontaktu",
+    "other": "Dana u kontaktu: {{count}}"
+  },
+  "recaps_story_people_eyebrow": "Tko se stalno vraćao",
+  "recaps_story_people_text": "Tvoji pikseli na dane kad ste bili u kontaktu.",
+  "recaps_story_people_title": "S kim si bio najviše u kontaktu",
+  "recaps_story_play": "Reproduciraj",
+  "recaps_story_previous": "Prethodni slajd",
+  "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
+  "recaps_story_vs_text": "Dani sa svakom oznakom, vs. %{previous}.",
+  "recaps_story_vs_title": "Više ovoga, manje onoga",
+  "recaps_story_watch": "Pogledaj",
+  "recaps_story_weekday_eyebrow": "Nastaje navika",
+  "recaps_story_weekday_previous": "%{month}: %{hits} od %{total}.",
+  "recaps_story_weekday_text": "%{hits} od %{total} tjedana.",
+  "recaps_story_weekday_title_every": "%{tag}: %{weekday}, svaki tjedan",
+  "recaps_story_weekday_title_most": "%{tag}: %{weekday}, gotovo svaki tjedan",
   "recaps_tag_back_text": {
     "one": "Jedan dan, nakon %{weeks} tjedana bez.",
     "other": "{{count}} dana, nakon %{weeks} tjedana bez."

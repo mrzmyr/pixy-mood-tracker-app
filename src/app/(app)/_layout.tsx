@@ -240,6 +240,14 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("not_found_title") }}
           />
           <Stack.Screen
+            name="recaps/story/[date]"
+            options={{
+              presentation: "fullScreenModal",
+              headerShown: false,
+              animation: "fade",
+            }}
+          />
+          <Stack.Screen
             name="recaps/[kind]/[date]"
             options={{ ...pageOptions, title: t("recaps") }}
           />

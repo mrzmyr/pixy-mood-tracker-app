@@ -1,0 +1,215 @@
+import type { LogItem } from "@/features/logs";
+import type { LogPhoto } from "@/types";
+import { addDays } from "../days";
+import { buildMonthStory } from "../story/deck";
+import type { StorySlide, StorySlideType } from "../story/types";
+import { makeInput, makeTags } from "./utils";
+
+const SEP = "2026-09-01";
+const TODAY = "2026-10-02";
+const tags = makeTags(4);
+const [swim, walk, handover, work] = tags;
+
+const photo = (id: string): LogPhoto => ({
+  id: `00000000-0000-4000-8000-${id.padStart(12, "0")}`,
+  fileName: `${id}.jpg`,
+  width: 100,
+  height: 100,
+  createdAt: "2026-09-01T10:00:00.000Z",
+  source: "library",
+});
+
+/** 30 September days, neutral, plus `extra` per day index. */
+const month = (
+  extra: (index: number, date: string) => Partial<LogItem> = () => ({})
+) =>
+  Array.from({ length: 30 }, (_, index) => {
+    const date = addDays(SEP, index);
+    return { date, rating: "good" as const, ...extra(index, date) };
+  });
+
+const story = (
+  items: Partial<LogItem>[],
+  input: Parameters<typeof makeInput>[0] = {}
+) =>
+  buildMonthStory(
+    makeInput({ kind: "month", today: TODAY, date: SEP, items, tags, ...input })
+  );
+
+const slide = <T extends StorySlideType>(
+  slides: StorySlide[] | null,
+  type: T
+) =>
+  // SAFETY: `find` matched on `type`, so the slide is that member of the union.
+  slides?.find((item) => item.type === type) as
+    | Extract<StorySlide, { type: T }>
+    | undefined;
+
+describe("month story", () => {
+  test("needs 10 check-in days", () => {
+    expect(story(month().slice(0, 9))).toBeNull();
+    expect(story(month().slice(0, 10))).not.toBeNull();
+  });
+
+  test("waits until the month is over", () => {
+    expect(story(month(), { today: "2026-09-30" })).toBeNull();
+  });
+
+  test("starts with the cover and never pads", () => {
+    const slides = story(month());
+    expect(slides?.map((item) => item.type)).toEqual(["cover", "coming-up"]);
+  });
+});
+
+describe("cover", () => {
+  test("shows a big count without photos", () => {
+    expect(slide(story(month()), "cover")).toMatchObject({
+      variant: "pixels",
+      checkIns: 30,
+    });
+  });
+
+  test("fills the screen with one photo for 1 to 6 photo days", () => {
+    const items = month((index) =>
+      index < 3 ? { photos: [photo(`${index}`)] } : {}
+    );
+    expect(slide(story(items), "cover")?.variant).toBe("photo");
+  });
+
+  test("shows the photo grid from 7 photo days", () => {
+    const items = month((index) =>
+      index < 7 ? { photos: [photo(`${index}`)] } : {}
+    );
+    expect(slide(story(items), "cover")?.variant).toBe("photos");
+  });
+
+  test("never uses photos of harder days", () => {
+    const items = month((index) =>
+      index < 7 ? { rating: "bad", photos: [photo(`${index}`)] } : {}
+    );
+    expect(slide(story(items), "cover")).toMatchObject({
+      variant: "pixels",
+      photos: [],
+    });
+  });
+});
+
+const saturdays = (tagId: string) =>
+  month((_, date) =>
+    new Date(`${date}T12:00:00`).getDay() === 6 ? { tags: [{ id: tagId }] } : {}
+  );
+
+describe("same weekday", () => {
+  test("finds a tag on every Saturday", () => {
+    expect(slide(story(saturdays(swim.id)), "weekday-habit")).toMatchObject({
+      tagId: swim.id,
+      weekday: 6,
+      hits: 4,
+      total: 4,
+    });
+  });
+
+  test("skips a tag that is on most days anyway", () => {
+    const items = month(() => ({ tags: [{ id: walk.id }] }));
+    expect(slide(story(items), "weekday-habit")).toBeUndefined();
+  });
+
+  test("never names a tag whose days feel heavier", () => {
+    const items = month((_, date) =>
+      new Date(`${date}T12:00:00`).getDay() === 6
+        ? { rating: "very_bad", tags: [{ id: swim.id }] }
+        : {}
+    );
+    expect(slide(story(items), "weekday-habit")).toBeUndefined();
+  });
+});
+
+describe("harder days", () => {
+  test("names a tag on 2 of 3 harder days and rare otherwise", () => {
+    const items = month((index) => {
+      if (index === 5 || index === 19) {
+        return { rating: "bad", tags: [{ id: handover.id }] };
+      }
+      if (index === 20) {
+        return { rating: "bad", tags: [{ id: work.id }] };
+      }
+      return index === 26 ? { tags: [{ id: handover.id }] } : {};
+    });
+    expect(slide(story(items), "hard-pattern")).toMatchObject({
+      tagId: handover.id,
+      tagHard: 2,
+      tagOther: 1,
+      otherDays: 27,
+      hardDates: ["2026-09-06", "2026-09-20", "2026-09-21"],
+    });
+  });
+
+  test("skips the slide without a tag pattern", () => {
+    const items = month((index) => (index < 3 ? { rating: "bad" } : {}));
+    expect(slide(story(items), "hard-pattern")).toBeUndefined();
+  });
+});
+
+describe("made of", () => {
+  test("needs 3 tags on 4+ days", () => {
+    const two = month((index) => ({
+      tags: index < 6 ? [{ id: swim.id }, { id: walk.id }] : [],
+    }));
+    expect(slide(story(two), "made-of")).toBeUndefined();
+    const three = month((index) => ({
+      tags:
+        index < 6 ? [{ id: swim.id }, { id: walk.id }, { id: work.id }] : [],
+    }));
+    expect(slide(story(three), "made-of")?.tagIds).toHaveLength(3);
+  });
+});
+
+describe("people", () => {
+  test("needs 2 people with 3+ bright connected days", () => {
+    const items = month((index) => ({
+      rating: "very_good",
+      people: index < 4 ? [{ id: "ada" }, { id: "jen" }] : [{ id: "ada" }],
+    }));
+    expect(slide(story(items), "people")?.people).toEqual([
+      expect.objectContaining({ personId: "ada" }),
+      expect.objectContaining({ personId: "jen" }),
+    ]);
+  });
+
+  test("stays out when people are off", () => {
+    const items = month(() => ({ people: [{ id: "ada" }, { id: "jen" }] }));
+    expect(
+      slide(story(items, { steps: ["rating", "tags"] }), "people")
+    ).toBeUndefined();
+  });
+});
+
+describe("vs last month", () => {
+  test("compares tag days with a month of 10+ check-ins", () => {
+    const august = Array.from({ length: 12 }, (_, index) => ({
+      date: addDays("2026-08-01", index),
+      rating: "good" as const,
+    }));
+    const september = month((index) => ({
+      tags: index < 5 ? [{ id: swim.id }] : [],
+    }));
+    expect(slide(story([...august, ...september]), "vs-last")?.rows).toEqual([
+      { tagId: swim.id, days: 5, change: 5 },
+    ]);
+  });
+});
+
+describe("coming up", () => {
+  test("counts days left and missed days since the first entry", () => {
+    const items = month().slice(0, 20);
+    expect(
+      slide(story(items, { firstEntryDate: SEP }), "coming-up")
+    ).toMatchObject({ year: 2026, left: 90, missed: 12 });
+  });
+
+  test("stays out once the year is over", () => {
+    expect(
+      slide(story(month(), { today: "2027-01-02" }), "coming-up")
+    ).toBeUndefined();
+  });
+});

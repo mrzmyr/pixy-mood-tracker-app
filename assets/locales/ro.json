@@ -803,6 +803,79 @@
     "one": "1 zi cu %{tag} săptămâna aceasta",
     "other": "{{count}} zile cu %{tag} săptămâna aceasta"
   },
+  "recaps_story_banner_title": "Retrospectiva lunii %{month}",
+  "recaps_story_city_eyebrow": "Prima dată",
+  "recaps_story_city_km": "%{city} · la %{km} km de casă",
+  "recaps_story_city_title": "Primul tău pixel din %{city}",
+  "recaps_story_coming_eyebrow": "Urmează",
+  "recaps_story_coming_left": {
+    "one": "Mai e 1",
+    "other": "Mai sunt {{count}}"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1 ratată",
+    "other": "{{count}} ratate"
+  },
+  "recaps_story_coming_title": {
+    "one": "Mai e 1 zi de colorat în %{year}",
+    "other": "Mai sunt {{count}} zile de colorat în %{year}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 zi cu foto, %{days} pixeli.",
+    "other": "{{count}} zile cu foto, %{days} pixeli."
+  },
+  "recaps_story_cover_pixels_title": "pixeli în %{month}",
+  "recaps_story_cover_title": "%{month}, ce a prins contur",
+  "recaps_story_days": {
+    "one": "1 zi",
+    "other": "{{count}} zile"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Ziua ta mai grea",
+    "other": "Cele {{count}} zile mai grele ale tale"
+  },
+  "recaps_story_hard_eyebrow": "Un tipar",
+  "recaps_story_hard_other_label": {
+    "one": "Cealaltă zi",
+    "other": "Celelalte {{count}} zile"
+  },
+  "recaps_story_hard_text": "Prezentă în %{hard} din %{total} zile mai grele, dar doar în %{other} din celelalte %{otherDays}. Ai grijă de tine în acele zile.",
+  "recaps_story_hard_text_none": "Prezentă în %{hard} din %{total} zile mai grele, în niciuna din celelalte %{otherDays}. Ai grijă de tine în acele zile.",
+  "recaps_story_hard_title": "%{tag} a însoțit zilele tale mai grele",
+  "recaps_story_lifted_eyebrow": "Ce ți-a luminat %{month}",
+  "recaps_story_lifted_text": {
+    "one": "Comparat cu zilele fără etichetă. 1 înregistrare.",
+    "other": "Comparat cu zilele fără etichetă. {{count}} înregistrări."
+  },
+  "recaps_story_lifted_title": "Zilele cu %{tag} au fost cele mai ușoare",
+  "recaps_story_made_of_eyebrow": "Ritmul lunii %{month}",
+  "recaps_story_made_of_title": "Din ce au fost făcute zilele tale",
+  "recaps_story_moments_eyebrow": "O fotografie pe săptămână",
+  "recaps_story_moments_title": {
+    "one": "%{month} într-un moment",
+    "other": "%{month} în {{count}} momente"
+  },
+  "recaps_story_new": "Nou",
+  "recaps_story_next": "Slide-ul următor",
+  "recaps_story_pause": "Pauză",
+  "recaps_story_people_days": {
+    "one": "1 zi în legătură",
+    "other": "{{count}} zile în legătură"
+  },
+  "recaps_story_people_eyebrow": "Cine a tot apărut",
+  "recaps_story_people_text": "Pixelii tăi în zilele în care ați fost în legătură.",
+  "recaps_story_people_title": "Persoanele cu care ai fost cel mai mult în legătură",
+  "recaps_story_play": "Redă",
+  "recaps_story_previous": "Slide-ul anterior",
+  "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
+  "recaps_story_vs_text": "Zile cu fiecare etichetă, vs. %{previous}.",
+  "recaps_story_vs_title": "Mai mult din asta, mai puțin din cealaltă",
+  "recaps_story_watch": "Vezi",
+  "recaps_story_weekday_eyebrow": "Se formează un obicei",
+  "recaps_story_weekday_previous": "În %{month}: %{hits} din %{total}.",
+  "recaps_story_weekday_text": "%{hits} din %{total} săptămâni.",
+  "recaps_story_weekday_title_every": "%{tag}, în fiecare %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, aproape în fiecare %{weekday}",
   "recaps_tag_back_text": {
     "one": "Într-o zi, după %{weeks} săptămâni fără.",
     "other": "În {{count}} zile, după %{weeks} săptămâni fără."

@@ -803,6 +803,79 @@
     "one": "1 päivä, jona %{tag}, tällä viikolla",
     "other": "{{count}} päivää, joina %{tag}, tällä viikolla"
   },
+  "recaps_story_banner_title": "Katsaus: %{month}",
+  "recaps_story_city_eyebrow": "Ensimmäistä kertaa",
+  "recaps_story_city_km": "%{city} · %{km} km kotoa",
+  "recaps_story_city_title": "Ensimmäinen pikselisi: %{city}",
+  "recaps_story_coming_eyebrow": "Tulossa",
+  "recaps_story_coming_left": {
+    "one": "1 jäljellä",
+    "other": "{{count}} jäljellä"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1 väliin jäänyt",
+    "other": "{{count}} väliin jäänyttä"
+  },
+  "recaps_story_coming_title": {
+    "one": "Väritettävää vuonna %{year}: 1 päivä",
+    "other": "Väritettävää vuonna %{year}: {{count}} päivää"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 kuvapäivä, %{days} pikseliä.",
+    "other": "{{count}} kuvapäivää, %{days} pikseliä."
+  },
+  "recaps_story_cover_pixels_title": "pikseliä · %{month}",
+  "recaps_story_cover_title": "%{month}: mikä sai muotonsa",
+  "recaps_story_days": {
+    "one": "1 päivä",
+    "other": "{{count}} päivää"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Raskaampi päiväsi",
+    "other": "{{count}} raskaampaa päivääsi"
+  },
+  "recaps_story_hard_eyebrow": "Toistuva kuvio",
+  "recaps_story_hard_other_label": {
+    "one": "Muu päivä",
+    "other": "Muut {{count}} päivää"
+  },
+  "recaps_story_hard_text": "Mukana %{hard} päivänä %{total} raskaammasta, mutta vain %{other} päivänä muista %{otherDays}. Ole lempeä itsellesi niinä päivinä.",
+  "recaps_story_hard_text_none": "Mukana %{hard} päivänä %{total} raskaammasta, ei yhtenäkään muista %{otherDays}. Ole lempeä itsellesi niinä päivinä.",
+  "recaps_story_hard_title": "%{tag} kulki raskaampien päiviesi mukana",
+  "recaps_story_lifted_eyebrow": "%{month}: mikä kevensi",
+  "recaps_story_lifted_text": {
+    "one": "Verrattuna päiviin ilman tunnistetta. 1 kirjaus.",
+    "other": "Verrattuna päiviin ilman tunnistetta. {{count}} kirjausta."
+  },
+  "recaps_story_lifted_title": "Päivät, joina %{tag}, tuntuivat kevyimmiltä",
+  "recaps_story_made_of_eyebrow": "Rytmi: %{month}",
+  "recaps_story_made_of_title": "Mistä päiväsi koostuivat",
+  "recaps_story_moments_eyebrow": "Yksi kuva viikossa",
+  "recaps_story_moments_title": {
+    "one": "%{month} 1 hetkessä",
+    "other": "%{month} {{count}} hetkessä"
+  },
+  "recaps_story_new": "Uusi",
+  "recaps_story_next": "Seuraava dia",
+  "recaps_story_pause": "Tauko",
+  "recaps_story_people_days": {
+    "one": "1 päivä yhteydessä",
+    "other": "{{count}} päivää yhteydessä"
+  },
+  "recaps_story_people_eyebrow": "Kuka palasi yhä uudelleen",
+  "recaps_story_people_text": "Pikselisi päivinä, joina olitte yhteydessä.",
+  "recaps_story_people_title": "Ihmiset, joihin olit eniten yhteydessä",
+  "recaps_story_play": "Toista",
+  "recaps_story_previous": "Edellinen dia",
+  "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
+  "recaps_story_vs_text": "Päivät tunnisteittain, vs. %{previous}.",
+  "recaps_story_vs_title": "Enemmän tätä, vähemmän tuota",
+  "recaps_story_watch": "Katso",
+  "recaps_story_weekday_eyebrow": "Tapa syntyi",
+  "recaps_story_weekday_previous": "%{month}: %{hits}/%{total}.",
+  "recaps_story_weekday_text": "%{hits}/%{total} viikkoa.",
+  "recaps_story_weekday_title_every": "%{tag}, joka %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, lähes joka %{weekday}",
   "recaps_tag_back_text": {
     "one": "Yhtenä päivänä, %{weeks} viikon tauon jälkeen.",
     "other": "{{count}} päivänä, %{weeks} viikon tauon jälkeen."

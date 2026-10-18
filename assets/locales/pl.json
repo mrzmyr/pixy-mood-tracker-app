@@ -803,6 +803,79 @@
     "one": "1 dzień z %{tag} w tym tygodniu",
     "other": "{{count}} dni z %{tag} w tym tygodniu"
   },
+  "recaps_story_banner_title": "Podsumowanie: %{month}",
+  "recaps_story_city_eyebrow": "Pierwszy raz",
+  "recaps_story_city_km": "%{city} · %{km} km od domu",
+  "recaps_story_city_title": "Twój pierwszy piksel w: %{city}",
+  "recaps_story_coming_eyebrow": "Co dalej",
+  "recaps_story_coming_left": {
+    "one": "Zostało: 1",
+    "other": "Zostało: {{count}}"
+  },
+  "recaps_story_coming_missed": {
+    "one": "Pominięte: 1",
+    "other": "Pominięte: {{count}}"
+  },
+  "recaps_story_coming_title": {
+    "one": "Do pokolorowania w %{year}: 1 dzień",
+    "other": "Dni do pokolorowania w %{year}: {{count}}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 dzień ze zdjęciem, pikseli: %{days}.",
+    "other": "Dni ze zdjęciem: {{count}}, pikseli: %{days}."
+  },
+  "recaps_story_cover_pixels_title": "%{month} w pikselach",
+  "recaps_story_cover_title": "%{month}: co nabrało kształtu",
+  "recaps_story_days": {
+    "one": "1 dzień",
+    "other": "Dni: {{count}}"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Twój trudniejszy dzień",
+    "other": "Twoje trudniejsze dni: {{count}}"
+  },
+  "recaps_story_hard_eyebrow": "Pewien wzór",
+  "recaps_story_hard_other_label": {
+    "one": "Pozostały dzień",
+    "other": "Pozostałe dni: {{count}}"
+  },
+  "recaps_story_hard_text": "Obecny w %{hard} z %{total} trudniejszych dni, ale tylko w %{other} z pozostałych %{otherDays}. W takie dni traktuj siebie z czułością.",
+  "recaps_story_hard_text_none": "Obecny w %{hard} z %{total} trudniejszych dni, w żadnym z pozostałych %{otherDays}. W takie dni traktuj siebie z czułością.",
+  "recaps_story_hard_title": "%{tag}: często w Twoje trudniejsze dni",
+  "recaps_story_lifted_eyebrow": "%{month}: co pomogło",
+  "recaps_story_lifted_text": {
+    "one": "W porównaniu z dniami bez tego tagu. 1 wpis.",
+    "other": "W porównaniu z dniami bez tego tagu. Wpisy: {{count}}."
+  },
+  "recaps_story_lifted_title": "Dni z %{tag} były najlżejsze",
+  "recaps_story_made_of_eyebrow": "Rytm: %{month}",
+  "recaps_story_made_of_title": "Z czego składały się Twoje dni",
+  "recaps_story_moments_eyebrow": "Jedno zdjęcie na tydzień",
+  "recaps_story_moments_title": {
+    "one": "%{month} w 1 chwili",
+    "other": "%{month} w chwilach: {{count}}"
+  },
+  "recaps_story_new": "Nowe",
+  "recaps_story_next": "Następny slajd",
+  "recaps_story_pause": "Wstrzymaj",
+  "recaps_story_people_days": {
+    "one": "1 dzień w kontakcie",
+    "other": "Dni w kontakcie: {{count}}"
+  },
+  "recaps_story_people_eyebrow": "Kto ciągle się pojawiał",
+  "recaps_story_people_text": "Twoje piksele w dni, gdy byliście w kontakcie.",
+  "recaps_story_people_title": "Z kim byłeś najczęściej w kontakcie",
+  "recaps_story_play": "Odtwórz",
+  "recaps_story_previous": "Poprzedni slajd",
+  "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
+  "recaps_story_vs_text": "Dni z każdym tagiem, vs %{previous}.",
+  "recaps_story_vs_title": "Więcej tego, mniej tamtego",
+  "recaps_story_watch": "Obejrzyj",
+  "recaps_story_weekday_eyebrow": "Rodzi się nawyk",
+  "recaps_story_weekday_previous": "%{month}: %{hits} z %{total}.",
+  "recaps_story_weekday_text": "%{hits} z %{total} tygodni.",
+  "recaps_story_weekday_title_every": "%{tag}: %{weekday}, co tydzień",
+  "recaps_story_weekday_title_most": "%{tag}: %{weekday}, prawie co tydzień",
   "recaps_tag_back_text": {
     "one": "Jeden dzień, po %{weeks} tygodniach przerwy.",
     "other": "{{count}} dni, po %{weeks} tygodniach przerwy."

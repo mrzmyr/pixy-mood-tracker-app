@@ -803,6 +803,79 @@
     "one": "1 dag med %{tag} den här veckan",
     "other": "{{count}} dagar med %{tag} den här veckan"
   },
+  "recaps_story_banner_title": "Tillbakablick: %{month}",
+  "recaps_story_city_eyebrow": "Första gången",
+  "recaps_story_city_km": "%{city} · %{km} km hemifrån",
+  "recaps_story_city_title": "Din första pixel i %{city}",
+  "recaps_story_coming_eyebrow": "Snart",
+  "recaps_story_coming_left": {
+    "one": "1 kvar",
+    "other": "{{count}} kvar"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1 missad",
+    "other": "{{count}} missade"
+  },
+  "recaps_story_coming_title": {
+    "one": "1 dag kvar att färglägga %{year}",
+    "other": "{{count}} dagar kvar att färglägga %{year}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 fotodag, %{days} pixlar.",
+    "other": "{{count}} fotodagar, %{days} pixlar."
+  },
+  "recaps_story_cover_pixels_title": "pixlar i %{month}",
+  "recaps_story_cover_title": "%{month}, det som tog form",
+  "recaps_story_days": {
+    "one": "1 dag",
+    "other": "{{count}} dagar"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Din tyngre dag",
+    "other": "Dina {{count}} tyngre dagar"
+  },
+  "recaps_story_hard_eyebrow": "Ett mönster",
+  "recaps_story_hard_other_label": {
+    "one": "Den andra dagen",
+    "other": "De andra {{count}} dagarna"
+  },
+  "recaps_story_hard_text": "Med på %{hard} av %{total} tyngre dagar, men bara på %{other} av de andra %{otherDays}. Var snäll mot dig själv de dagarna.",
+  "recaps_story_hard_text_none": "Med på %{hard} av %{total} tyngre dagar, på ingen av de andra %{otherDays}. Var snäll mot dig själv de dagarna.",
+  "recaps_story_hard_title": "%{tag} hörde ihop med dina tyngre dagar",
+  "recaps_story_lifted_eyebrow": "Det som lyfte %{month}",
+  "recaps_story_lifted_text": {
+    "one": "Jämfört med dagar utan taggen. 1 incheckning.",
+    "other": "Jämfört med dagar utan taggen. {{count}} incheckningar."
+  },
+  "recaps_story_lifted_title": "Dagar med %{tag} kändes lättast",
+  "recaps_story_made_of_eyebrow": "Rytmen i %{month}",
+  "recaps_story_made_of_title": "Vad dina dagar bestod av",
+  "recaps_story_moments_eyebrow": "Ett foto per vecka",
+  "recaps_story_moments_title": {
+    "one": "%{month} i 1 ögonblick",
+    "other": "%{month} i {{count}} ögonblick"
+  },
+  "recaps_story_new": "Nytt",
+  "recaps_story_next": "Nästa bild",
+  "recaps_story_pause": "Pausa",
+  "recaps_story_people_days": {
+    "one": "1 dag i kontakt",
+    "other": "{{count}} dagar i kontakt"
+  },
+  "recaps_story_people_eyebrow": "De som återkom",
+  "recaps_story_people_text": "Dina pixlar de dagar ni hade kontakt.",
+  "recaps_story_people_title": "Dem du hade mest kontakt med",
+  "recaps_story_play": "Spela upp",
+  "recaps_story_previous": "Föregående bild",
+  "recaps_story_vs_eyebrow": "%{month} mot %{previous}",
+  "recaps_story_vs_text": "Dagar med varje tagg, mot %{previous}.",
+  "recaps_story_vs_title": "Mer av det här, mindre av det där",
+  "recaps_story_watch": "Titta",
+  "recaps_story_weekday_eyebrow": "En vana tar form",
+  "recaps_story_weekday_previous": "I %{month}: %{hits} av %{total}.",
+  "recaps_story_weekday_text": "%{hits} av %{total} veckor.",
+  "recaps_story_weekday_title_every": "%{tag}, varje %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, nästan varje %{weekday}",
   "recaps_tag_back_text": {
     "one": "En dag, efter %{weeks} veckor utan.",
     "other": "{{count}} dagar, efter %{weeks} veckor utan."

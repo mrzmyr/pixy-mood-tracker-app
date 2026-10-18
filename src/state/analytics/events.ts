@@ -5,6 +5,9 @@ import type { CalendarLayout, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
+/** Where a month story was opened. */
+export type StorySource = "recaps" | "calendar" | "notification";
+
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
  *
@@ -217,6 +220,32 @@ export interface AnalyticsEvents {
   };
   /** Tap on a recap notification body. Ignored while flag `recaps` is off. */
   "recaps:notification_tapped": { period: "week" | "month" | "year" };
+  /** Month story opened. Only with a story: 10+ check-in days. */
+  "recaps:story_opened": {
+    period: "month";
+    source: StorySource;
+    slides_count: number;
+  };
+  /** Slide on screen, once per visit of the slide. Slide type only, never values. */
+  "recaps:story_slide_shown": {
+    slide_type: string;
+    position: number;
+    slides_count: number;
+  };
+  /** Helpful or Not Helpful on a story slide. Same reasons as cards; notes never here. */
+  "recaps:story_feedback_sent": {
+    slide_type: string;
+    position: number;
+    helpful: boolean;
+    reasons: AnalyticsEvents["recaps:card_feedback_sent"]["reasons"];
+    has_note: boolean;
+  };
+  /** Story closed by the user or after the last slide. */
+  "recaps:story_closed": {
+    position: number;
+    slides_count: number;
+    completed: boolean;
+  };
   "tags:categories_reordered": {
     categories_count: number;
     method: "drag" | "accessibility_action";
