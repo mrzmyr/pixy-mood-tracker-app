@@ -205,8 +205,13 @@ export const TagCategoryList = ({
       // Search keeps the keyboard up; one tap still opens a result.
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
+      // iOS starts the content below the header and its search bar. It also
+      // adds the home indicator inset, so only Android adds `insets.bottom`.
+      contentInsetAdjustmentBehavior="automatic"
       style={{ flex: 1, backgroundColor: colors.background }}
-      contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
+      contentContainerStyle={{
+        paddingBottom: 120 + (IS_IOS ? 0 : insets.bottom),
+      }}
     >
       {!isSearching && header}
       {/* Android lists run full width (Material); iOS groups are inset. */}

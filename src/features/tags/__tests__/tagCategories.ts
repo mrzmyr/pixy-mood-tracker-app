@@ -194,6 +194,26 @@ describe("searchTagSections()", () => {
     expect(result("wor")).toEqual([["work", ["3", "4"]]]);
   });
 
+  test("matches a tag title in another category too", () => {
+    const withWorkTag = groupTagsByCategory(
+      [
+        titled("1", "Work", GENERAL_CATEGORY_ID),
+        titled("2", "Reading", GENERAL_CATEGORY_ID),
+        titled("3", "Meetings", "work"),
+      ],
+      [general, work]
+    );
+    expect(
+      searchTagSections(withWorkTag, "work").map((section) => [
+        section.category.id,
+        ids(section.tags),
+      ])
+    ).toEqual([
+      [GENERAL_CATEGORY_ID, ["1"]],
+      ["work", ["3"]],
+    ]);
+  });
+
   test("drops categories without matches and returns nothing on no match", () => {
     expect(result("ing")).toEqual([
       [GENERAL_CATEGORY_ID, ["2"]],
