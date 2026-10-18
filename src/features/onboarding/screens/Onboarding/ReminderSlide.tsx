@@ -133,14 +133,7 @@ export const ReminderSlide = ({
                   justifyContent: "center",
                 }}
               >
-                <Clock
-                  timeDate={time}
-                  onChange={(event, date) => {
-                    if (date) {
-                      setTime(date);
-                    }
-                  }}
-                />
+                <Clock timeDate={time} onChange={setTime} />
               </View>
             </View>
           </Animated.View>

@@ -139,6 +139,7 @@ jest.mock("@expo/ui/swift-ui", () => {
     Host: ({ children }) => children,
     RNHostView: ({ children }) => children,
     ContextMenu: mockSwiftUiContextMenu,
+    DatePicker: () => null,
     Image: () => null,
     Menu: ({ children }) => <View>{children}</View>,
     Button: ({ label, onPress }) => (

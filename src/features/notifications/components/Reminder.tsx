@@ -1,6 +1,4 @@
-import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import * as Sentry from "@sentry/react-native";
-import dayjs from "dayjs";
 import { useEffect, useEffectEvent } from "react";
 import { Linking, Text, View } from "react-native";
 import FlagHighlight from "@/components/FlagHighlight";
@@ -15,7 +13,7 @@ import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
-import { reminderTimeToDate } from "../reminderTime";
+import { reminderTimeToDate, toReminderTime } from "../reminderTime";
 import { useNotificationPermissionDenied } from "../useNotificationPermissionDenied";
 import { useRecapNotificationsSetting } from "../useRecapNotificationsSetting";
 import type { RecapNotificationsSettingResult } from "../useRecapNotificationsSetting";
@@ -86,11 +84,8 @@ const Reminder = () => {
     });
   };
 
-  const onTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    if (event.type !== "set" || !selectedDate) {
-      return;
-    }
-    const time = dayjs(selectedDate).format("HH:mm");
+  const onTimeChange = (selectedDate: Date) => {
+    const time = toReminderTime(selectedDate);
     analytics.track("reminders:time_changed", { time });
     void reminder.setTime(time);
   };

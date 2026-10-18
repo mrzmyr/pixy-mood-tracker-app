@@ -105,14 +105,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
             paddingTop: 24,
           }}
         >
-          <Clock
-            timeDate={time}
-            onChange={(event, date) => {
-              if (date) {
-                setTime(date);
-              }
-            }}
-          />
+          <Clock timeDate={time} onChange={setTime} />
         </View>
       </View>
       <View
