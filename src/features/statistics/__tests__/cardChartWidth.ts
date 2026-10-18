@@ -1,5 +1,5 @@
 import { BEZEL } from "@/constants/Bezel";
-import { getCardChartWidth } from "@/features/statistics/components/cardChartWidth";
+import { getCardChartWidth } from "../components/cardChartWidth";
 
 describe("getCardChartWidth", () => {
   test.each([320, 390, 430])(

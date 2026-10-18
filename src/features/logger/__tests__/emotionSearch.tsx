@@ -6,7 +6,7 @@ import { ToastHost } from "@/components/Toast";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { STORAGE_KEY } from "@/state/settings";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import { LogDraftProvider } from "../logDraft";
 import { SlideEmotions } from "../slides/SlideEmotions";
 

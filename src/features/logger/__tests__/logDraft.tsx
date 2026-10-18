@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react-native";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import type { LogItem } from "@/features/logs";
 import { finalizeDraft } from "../finalizeDraft";
 import type { LogDraft } from "../finalizeDraft";
