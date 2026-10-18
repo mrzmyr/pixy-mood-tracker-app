@@ -897,6 +897,27 @@
   "recaps_story_people_title": "As pessoas com quem você mais se conectou",
   "recaps_story_play": "Reproduzir",
   "recaps_story_previous": "Slide anterior",
+  "recaps_story_quiz_check": "Verificar",
+  "recaps_story_quiz_eyebrow_guess": "Palpite rápido",
+  "recaps_story_quiz_eyebrow_mix": "Seu %{month}",
+  "recaps_story_quiz_eyebrow_people": "Suas pessoas",
+  "recaps_story_quiz_eyebrow_tags": "Seus hábitos",
+  "recaps_story_quiz_made_up": "Inventado",
+  "recaps_story_quiz_reveal_people": {
+    "one": "%{name}, 1 dia conectado. Depois %{runnerUp} com %{days}.",
+    "other": "%{name}, {{count}} dias conectado. Depois %{runnerUp} com %{days}."
+  },
+  "recaps_story_quiz_reveal_tags": {
+    "one": "%{name}, 1 dia. Depois %{runnerUp} com %{days}.",
+    "other": "%{name}, {{count}} dias. Depois %{runnerUp} com %{days}."
+  },
+  "recaps_story_quiz_reveal_truths": "%{name}: na verdade %{actual}, não %{shown}. As outras três são verdadeiras.",
+  "recaps_story_quiz_title_mix": "Quais são verdadeiras?",
+  "recaps_story_quiz_title_people": "Em quem você pensou?",
+  "recaps_story_quiz_title_people_most": "Com quem você mais se conectou?",
+  "recaps_story_quiz_title_tags": "O que preencheu seus dias?",
+  "recaps_story_quiz_title_tags_most": "O que você mais fez este mês?",
+  "recaps_story_quiz_truths_hint": "Toque em todas que são verdadeiras.",
   "recaps_story_ready": "Pronto para assistir",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Dias com cada tag, vs. %{previous}.",

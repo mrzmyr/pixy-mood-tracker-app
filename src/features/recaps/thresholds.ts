@@ -127,4 +127,6 @@ export const THRESHOLDS = {
   vsLastMaxRows: 4,
   /** Moments: weeks with a photo needed. */
   momentsMinWeeks: 3,
+  /** Quiz: days a person or tag needs to be a statement or tile. */
+  quizMinDays: 2,
 } as const;

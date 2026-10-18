@@ -6,6 +6,7 @@ import { firstCity } from "../cards/moments";
 import { getActiveTags } from "../cards/nudges";
 import { getHome, peopleOn } from "../cards/summaries";
 import { distanceKm } from "../places";
+import { buildQuiz } from "./quiz";
 import { THRESHOLDS } from "../thresholds";
 import type { DateKey, RecapDay, RecapInput } from "../types";
 import type {
@@ -434,6 +435,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     cover(input),
     weekdayHabit(input, lightTags),
     madeOf(input),
+    buildQuiz(input, lightTags),
     lifted(input),
     people(input),
     hardPattern(input),

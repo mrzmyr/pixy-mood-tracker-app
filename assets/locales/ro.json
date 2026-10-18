@@ -897,6 +897,27 @@
   "recaps_story_people_title": "Persoanele cu care ai fost cel mai mult în legătură",
   "recaps_story_play": "Redă",
   "recaps_story_previous": "Slide-ul anterior",
+  "recaps_story_quiz_check": "Verifică",
+  "recaps_story_quiz_eyebrow_guess": "Ghicește repede",
+  "recaps_story_quiz_eyebrow_mix": "Luna ta: %{month}",
+  "recaps_story_quiz_eyebrow_people": "Oamenii tăi",
+  "recaps_story_quiz_eyebrow_tags": "Obiceiurile tale",
+  "recaps_story_quiz_made_up": "Inventat",
+  "recaps_story_quiz_reveal_people": {
+    "one": "%{name}, 1 zi în legătură. Apoi %{runnerUp}, cu %{days}.",
+    "other": "%{name}, {{count}} zile în legătură. Apoi %{runnerUp}, cu %{days}."
+  },
+  "recaps_story_quiz_reveal_tags": {
+    "one": "%{name}, 1 zi. Apoi %{runnerUp}, cu %{days}.",
+    "other": "%{name}, {{count}} zile. Apoi %{runnerUp}, cu %{days}."
+  },
+  "recaps_story_quiz_reveal_truths": "%{name}: de fapt %{actual}, nu %{shown}. Celelalte trei sunt adevărate.",
+  "recaps_story_quiz_title_mix": "Care sunt adevărate?",
+  "recaps_story_quiz_title_people": "La cine te-ai gândit?",
+  "recaps_story_quiz_title_people_most": "Cu cine ai fost cel mai mult în legătură?",
+  "recaps_story_quiz_title_tags": "Ce ți-a umplut zilele?",
+  "recaps_story_quiz_title_tags_most": "Ce ai făcut cel mai mult luna asta?",
+  "recaps_story_quiz_truths_hint": "Atinge-le pe toate cele adevărate.",
   "recaps_story_ready": "Gata de vizionat",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Zile cu fiecare etichetă, vs. %{previous}.",

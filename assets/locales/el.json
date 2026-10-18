@@ -897,6 +897,27 @@
   "recaps_story_people_title": "Με ποιους ήσουν περισσότερο σε επαφή",
   "recaps_story_play": "Αναπαραγωγή",
   "recaps_story_previous": "Προηγούμενη διαφάνεια",
+  "recaps_story_quiz_check": "Έλεγχος",
+  "recaps_story_quiz_eyebrow_guess": "Γρήγορη μαντεψιά",
+  "recaps_story_quiz_eyebrow_mix": "Ο %{month} σου",
+  "recaps_story_quiz_eyebrow_people": "Οι άνθρωποί σου",
+  "recaps_story_quiz_eyebrow_tags": "Οι συνήθειές σου",
+  "recaps_story_quiz_made_up": "Επινοημένο",
+  "recaps_story_quiz_reveal_people": {
+    "one": "%{name}, 1 μέρα σε επαφή. Μετά %{runnerUp} με %{days}.",
+    "other": "%{name}, {{count}} μέρες σε επαφή. Μετά %{runnerUp} με %{days}."
+  },
+  "recaps_story_quiz_reveal_tags": {
+    "one": "%{name}, 1 μέρα. Μετά %{runnerUp} με %{days}.",
+    "other": "%{name}, {{count}} μέρες. Μετά %{runnerUp} με %{days}."
+  },
+  "recaps_story_quiz_reveal_truths": "%{name}: στην πραγματικότητα %{actual}, όχι %{shown}. Τα άλλα τρία ισχύουν.",
+  "recaps_story_quiz_title_mix": "Ποια ισχύουν;",
+  "recaps_story_quiz_title_people": "Ποιον σκεφτόσουν;",
+  "recaps_story_quiz_title_people_most": "Με ποιον ήσουν περισσότερο σε επαφή;",
+  "recaps_story_quiz_title_tags": "Με τι γέμισαν οι μέρες σου;",
+  "recaps_story_quiz_title_tags_most": "Τι έκανες περισσότερο αυτόν τον μήνα;",
+  "recaps_story_quiz_truths_hint": "Πάτα όσα ισχύουν.",
   "recaps_story_ready": "Έτοιμο για προβολή",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Μέρες με κάθε ετικέτα, vs %{previous}.",

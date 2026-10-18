@@ -24,6 +24,13 @@ import { StoryPlayer } from "../story/story-player";
 import type { PlayerSlide } from "../story/story-player";
 import type { StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
+import { Celebration } from "../story/celebration";
+import type { CelebrationKind, CelebrationOrigin } from "../story/celebration";
+import { useDayColors } from "../story/parts";
+import { QuizContent } from "../story/quiz-content";
+import type { QuizResult } from "../story/quiz-content";
+import type { QuizSlide } from "../story/quiz";
+import useHaptics from "@/hooks/use-haptics";
 
 const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 
@@ -35,6 +42,7 @@ const RecapStory = () => {
   const router = useRouter();
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
+  const haptics = useHaptics();
   const weekLocale = useWeekLocale();
   const params = useLocalSearchParams<{ date?: string; source?: string }>();
   const date = dayjs(params.date).isValid()
@@ -50,6 +58,15 @@ const RecapStory = () => {
     new Map()
   );
   const [asking, setAsking] = useState<number | null>(null);
+  const [quizResults, setQuizResults] = useState<
+    ReadonlyMap<number, QuizResult>
+  >(new Map());
+  const [celebration, setCelebration] = useState<{
+    kind: CelebrationKind;
+    origin: CelebrationOrigin;
+    id: number;
+  } | null>(null);
+  const dayColors = [...new Set(useDayColors(input.days).values())];
   const lastShown = useRef(0);
 
   const ctx: SlideContext = {
@@ -127,11 +144,47 @@ const RecapStory = () => {
     setAnswers((current) => new Map([...current, [index, helpful]]));
   };
 
+  const answerQuiz = (
+    index: number,
+    slide: QuizSlide,
+    result: QuizResult,
+    origin: CelebrationOrigin
+  ) => {
+    setQuizResults((current) => new Map([...current, [index, result]]));
+    analytics.track("recaps:story_quiz_answered", {
+      quiz: slide.quiz,
+      module: slide.quiz === "truths" ? slide.module : null,
+      is_correct: result.isCorrect,
+    });
+    if (result.isCorrect) {
+      void haptics.success();
+      // CE2 for "Which ones are true?": every card right is the bigger win.
+      setCelebration({
+        kind: slide.quiz === "truths" ? "wave" : "burst",
+        origin,
+        id: (celebration?.id ?? 0) + 1,
+      });
+    }
+  };
+
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getSlideTheme(slide),
     backdrop: <SlideBackdrop slide={slide} />,
-    content: <SlideContent slide={slide} ctx={ctx} />,
+    isWaiting: slide.type === "quiz" && !quizResults.has(index),
+    content:
+      slide.type === "quiz" ? (
+        <QuizContent
+          slide={slide}
+          ctx={ctx}
+          result={quizResults.get(index) ?? null}
+          onAnswer={(result, origin) =>
+            answerQuiz(index, slide, result, origin)
+          }
+        />
+      ) : (
+        <SlideContent slide={slide} ctx={ctx} />
+      ),
   }));
 
   return (
@@ -166,6 +219,14 @@ const RecapStory = () => {
           </View>
         )}
       />
+      {celebration && (
+        <Celebration
+          key={celebration.id}
+          kind={celebration.kind}
+          origin={celebration.origin}
+          colors={dayColors}
+        />
+      )}
       <FeedbackSheet
         visible={asking !== null}
         onCancel={() => setAsking(null)}
