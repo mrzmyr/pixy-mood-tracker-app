@@ -1,4 +1,5 @@
 import { Text, TextInput, View } from "react-native";
+import type { TextInputInstance } from "react-native";
 import { InlineAlert } from "@/components/InlineAlert";
 import TextArea from "@/components/TextArea";
 import { RADIUS } from "@/constants/Radius";
@@ -27,7 +28,7 @@ export const FeedbackFields = ({
   type: FeedackType;
   message: string;
   email: string;
-  messageRef?: React.Ref<TextInput>;
+  messageRef?: React.Ref<TextInputInstance>;
   /** Shows the send error under the inputs. Send retries. */
   hasFailed?: boolean;
   onMessageChange: (message: string) => void;

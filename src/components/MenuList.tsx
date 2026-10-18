@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import type { LayoutChangeEvent, ViewStyle } from "react-native";
+import type { LayoutChangeEvent, ViewInstance, ViewStyle } from "react-native";
 import { Platform, View, useWindowDimensions } from "react-native";
 
 import useColors from "@/hooks/useColors";
@@ -17,7 +17,7 @@ const MenuList = ({
   const colors = useColors();
   const { width: windowWidth } = useWindowDimensions();
   const [bleed, setBleed] = useState({ left: 0, right: 0 });
-  const [listRef, setListRef] = useState<View | null>(null);
+  const [listRef, setListRef] = useState<ViewInstance | null>(null);
 
   // Android lists run edge to edge: grow past the screen padding on both sides.
   // Measured offsets are relative to the current bleed, so add them on top.

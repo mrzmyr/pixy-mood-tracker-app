@@ -3,6 +3,7 @@ import Contact from "lucide-react-native/icons/contact";
 import Trash from "lucide-react-native/icons/trash";
 import { useRef } from "react";
 import { Platform, ScrollView, Text, TextInput, View } from "react-native";
+import type { TextInputInstance } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
@@ -135,7 +136,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const nameRef = useRef<TextInput>(null);
+  const nameRef = useRef<TextInputInstance>(null);
   const draft = usePersonDraft({ mode, id });
   const {
     save,

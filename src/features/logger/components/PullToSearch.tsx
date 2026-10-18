@@ -1,6 +1,11 @@
 import { useRef, useState } from "react";
 import { Pressable, ScrollView, TextInput, View } from "react-native";
-import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import type {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollViewInstance,
+  TextInputInstance,
+} from "react-native";
 import Search from "lucide-react-native/icons/search";
 import CircleX from "lucide-react-native/icons/circle-x";
 import useColors from "@/hooks/useColors";
@@ -34,8 +39,8 @@ export const PullToSearch = ({
   children: React.ReactNode;
 }) => {
   const colors = useColors();
-  const scrollRef = useRef<ScrollView>(null);
-  const inputRef = useRef<TextInput>(null);
+  const scrollRef = useRef<ScrollViewInstance>(null);
+  const inputRef = useRef<TextInputInstance>(null);
   const [viewportHeight, setViewportHeight] = useState(0);
   const contentHeight = useRef(0);
   const isInitiallyHidden = useRef(false);

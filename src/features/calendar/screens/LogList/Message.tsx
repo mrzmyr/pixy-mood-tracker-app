@@ -4,7 +4,7 @@ import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import { t } from "@/lib/translation";
 import { Pressable, Text, View } from "react-native";
-import type { NativeSyntheticEvent, TextLayoutEventData } from "react-native";
+import type { TextLayoutEvent } from "react-native";
 import { INSET } from "./layout";
 
 /** Lines of a note shown before "More". */
@@ -46,7 +46,7 @@ export const Message = ({
     return null;
   }
 
-  const onMeasure = (event: NativeSyntheticEvent<TextLayoutEventData>) => {
+  const onMeasure = (event: TextLayoutEvent) => {
     setIsLong(event.nativeEvent.lines.length > COLLAPSED_LINES);
   };
   const canFold = onToggleExpanded !== undefined;

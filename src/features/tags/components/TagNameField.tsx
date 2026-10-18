@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
+import type { TextInputInstance } from "react-native";
 import MenuList from "@/components/MenuList";
 import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
@@ -31,7 +32,7 @@ const TagNameField = ({
   showError: boolean;
 }) => {
   const colors = useColors();
-  const inputRef = useRef<TextInput>(null);
+  const inputRef = useRef<TextInputInstance>(null);
   const hasError = showError && !isValidTagTitle(value);
   const showCounter = shouldShowCounter(value.length);
 
