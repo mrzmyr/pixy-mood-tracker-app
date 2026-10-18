@@ -146,7 +146,8 @@
     "ultracite": "7.12.0"
   },
   "overrides": {
-    "markdown-it": "^15.0.0"
+    "markdown-it": "^15.0.0",
+    "react-native-screens": "~4.27.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs}": "oxlint --no-error-on-unmatched-pattern",
