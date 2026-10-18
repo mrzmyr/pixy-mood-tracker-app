@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Platform } from "react-native";
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
 import { createStructuredError } from "@/lib/errors";
@@ -80,7 +80,7 @@ const voiceError = (
 /** Report a voice failure. `why` holds the native message, never speech. */
 const reportFailure = (failure: StructuredError<VoiceErrorStatus>) => {
   console.error(failure);
-  Sentry.captureException(failure);
+  reportError(failure);
 };
 
 /**

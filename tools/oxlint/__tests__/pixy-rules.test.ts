@@ -61,6 +61,35 @@ describe("no-layout-animation", () => {
   });
 });
 
+describe("no-direct-error-reporting", () => {
+  it("reports Sentry.captureException through a namespace import", () => {
+    expect(
+      lint(
+        "no-direct-error-reporting",
+        'import * as Sentry from "@sentry/react-native";\nSentry.captureException(new Error("x"));\n'
+      )
+    ).toBe(1);
+  });
+
+  it("reports a named captureException import and Observe.reportError", () => {
+    expect(
+      lint(
+        "no-direct-error-reporting",
+        'import { captureException } from "@sentry/react-native";\nimport { Observe } from "expo-observe";\ncaptureException(1);\nObserve.reportError(1);\n'
+      )
+    ).toBe(2);
+  });
+
+  it("allows other Sentry and Observe calls", () => {
+    expect(
+      lint(
+        "no-direct-error-reporting",
+        'import * as Sentry from "@sentry/react-native";\nimport { Observe } from "expo-observe";\nSentry.init({});\nObserve.logEvent("a");\n'
+      )
+    ).toBe(0);
+  });
+});
+
 describe("no-hermes-missing-intl", () => {
   it("reports Intl constructors Hermes lacks", () => {
     expect(

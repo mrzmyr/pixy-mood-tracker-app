@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { z } from "zod";
 import { createStructuredError } from "@/lib/errors";
 import { load, store } from "@/state/persisted";
@@ -59,7 +59,7 @@ const RecoveryPhotosSchema = z.object({
 const errorMessage = (cause: unknown) =>
   cause instanceof Error ? cause.message : String(cause);
 
-/** Write the snapshot. Never rejects: failures go to Sentry. */
+/** Write the snapshot. Never rejects: failures go to `reportError`. */
 export const saveLoggerRecovery = (recovery: LoggerRecovery) =>
   store(LOGGER_RECOVERY_KEY, recovery);
 
@@ -90,7 +90,7 @@ export const loadLoggerRecovery = async (): Promise<LoggerRecovery | null> => {
   return parsed.data as LoggerRecovery;
 };
 
-/** Remove the snapshot. Never rejects: failures go to Sentry. */
+/** Remove the snapshot. Never rejects: failures go to `reportError`. */
 export const clearLoggerRecovery = async () => {
   try {
     await AsyncStorage.removeItem(LOGGER_RECOVERY_KEY);
@@ -102,7 +102,7 @@ export const clearLoggerRecovery = async () => {
       fix: "No action needed; the next launch may offer the entry again",
     });
     console.error(clearError);
-    Sentry.captureException(clearError);
+    reportError(clearError);
   }
 };
 

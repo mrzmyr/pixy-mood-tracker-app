@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { useEffect, useMemo } from "react";
 import { useLogLoad, useLogState } from "@/features/logs";
 import { useToday } from "@/hooks/use-today";
@@ -64,7 +64,7 @@ export const useReminderSync = (
           fix: "Open Pixy again or turn the reminder off and on in Settings",
         });
         console.error(structuredError);
-        Sentry.captureException(structuredError);
+        reportError(structuredError);
       }
     };
     void sync();

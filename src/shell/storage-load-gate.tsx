@@ -1,4 +1,5 @@
-import * as Sentry from "@sentry/react-native";
+import { createStructuredError } from "@/lib/errors";
+import { reportError } from "@/lib/report-error";
 import { useEffect, useEffectEvent, useState } from "react";
 import { Alert, Linking, Platform, ScrollView, Text, View } from "react-native";
 import CircleAlert from "lucide-react-native/icons/circle-alert";
@@ -18,7 +19,14 @@ const exportData = async () => {
   try {
     await exportRawStorage();
   } catch (error) {
-    Sentry.captureException(error);
+    reportError(
+      createStructuredError({
+        status: "raw_storage_export_failed",
+        message: "Stored data could not be exported",
+        why: `exportRawStorage failed: ${error instanceof Error ? error.message : String(error)}`,
+        fix: "Check free device storage, then tap Export data again",
+      })
+    );
     Alert.alert(t("export_failed_title"));
   }
 };

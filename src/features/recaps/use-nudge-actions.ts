@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Linking } from "react-native";
@@ -24,7 +24,7 @@ const reportReminderError = (cause: unknown) => {
     fix: "Turn the reminder on in Settings > Reminder",
   });
   console.error(error);
-  Sentry.captureException(error);
+  reportError(error);
 };
 
 /**

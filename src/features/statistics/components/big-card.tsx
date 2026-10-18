@@ -7,7 +7,7 @@ import type { ViewStyle } from "react-native";
 
 import Share from "lucide-react-native/icons/share";
 import { captureRef } from "react-native-view-shot";
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { ButtonIcon } from "@/components/button-content";
 import LinkButton from "@/components/link-button";
 import { RADIUS } from "@/constants/radius";
@@ -101,7 +101,7 @@ const describeCause = (cause: unknown) =>
 
 const reportShareError = (error: StructuredError) => {
   console.error(error);
-  Sentry.captureException(error);
+  reportError(error);
 };
 
 /**

@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { useEffect, useEffectEvent } from "react";
 import { Linking, View } from "react-native";
 import {
@@ -27,7 +27,7 @@ const reportRecapsToggleError = (value: boolean, cause: unknown) => {
     fix: "Try the Recaps toggle in Settings > Reminder again",
   });
   console.error(error);
-  Sentry.captureException(error);
+  reportError(error);
 };
 
 /**

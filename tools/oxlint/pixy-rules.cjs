@@ -287,6 +287,67 @@ const noLayoutAnimation = {
   },
 };
 
+// Handled errors go through src/lib/report-error.ts, so Sentry and Observe
+// both see them and Observe never receives `why`.
+const DIRECT_ERROR_REPORTERS = {
+  "@sentry/react-native": { exportName: null, method: "captureException" },
+  "expo-observe": { exportName: "Observe", method: "reportError" },
+};
+
+const noDirectErrorReporting = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Disallow Sentry.captureException and Observe.reportError outside reportError",
+    },
+    messages: {
+      banned:
+        "Call `reportError` from `@/lib/report-error` so Sentry and Observe both get the error.",
+    },
+    schema: [],
+  },
+  create(context) {
+    // Local name of the object that holds the banned method, mapped to it.
+    const reporterNames = new Map();
+
+    return {
+      ImportDeclaration(node) {
+        const reporter = DIRECT_ERROR_REPORTERS[node.source.value];
+        if (!reporter) {
+          return;
+        }
+        for (const specifier of node.specifiers) {
+          const imported =
+            specifier.type === "ImportSpecifier"
+              ? (specifier.imported.name ?? specifier.imported.value)
+              : null;
+          if (reporter.exportName === null && imported === null) {
+            reporterNames.set(specifier.local.name, reporter.method);
+          } else if (imported === reporter.exportName) {
+            reporterNames.set(specifier.local.name, reporter.method);
+          } else if (
+            reporter.exportName === null &&
+            imported === reporter.method
+          ) {
+            context.report({ messageId: "banned", node: specifier });
+          }
+        }
+      },
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.object.type === "Identifier" &&
+          node.property.type === "Identifier" &&
+          reporterNames.get(node.object.name) === node.property.name
+        ) {
+          context.report({ messageId: "banned", node: node.property });
+        }
+      },
+    };
+  },
+};
+
 // String literals are the only literals whose raw source starts with a quote.
 const getStringValue = (element) =>
   element?.type === "Literal" && /^["']/u.test(element.raw)
@@ -391,6 +452,7 @@ module.exports = {
     "no-hermes-missing-array-methods": noHermesMissingArrayMethods,
     "no-hermes-missing-intl": noHermesMissingIntl,
     "no-layout-animation": noLayoutAnimation,
+    "no-direct-error-reporting": noDirectErrorReporting,
     "require-exported-jsdoc": requireExportedJsDoc,
     "boolean-function-prefix": booleanFunctionPrefix,
     "structured-thrown-errors": structuredThrownErrors,

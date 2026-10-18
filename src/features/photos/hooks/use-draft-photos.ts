@@ -1,10 +1,10 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import dayjs from "dayjs";
 import omit from "lodash/omit";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { AccessibilityInfo, Alert } from "react-native";
 import { v4 as uuidv4 } from "uuid";
-import { createStructuredError } from "@/lib/errors";
+import { createStructuredError, isStructuredError } from "@/lib/errors";
 import type { StructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -68,15 +68,12 @@ type PickResult =
   | { status: "picked"; photos: PickedPhoto[] }
   | { status: "failed"; errorStatus: string };
 
-const isStructuredError = (error: unknown): error is StructuredError =>
-  error instanceof Error && "status" in error;
-
 const getCause = (cause: unknown) =>
   cause instanceof Error ? cause.message : String(cause);
 
-const reportError = (cause: unknown) => {
-  console.error(cause);
-  Sentry.captureException(cause);
+const logAndReport = (error: StructuredError) => {
+  console.error(error);
+  reportError(error);
 };
 
 const getPreviewUri = (target: ImportTarget) =>
@@ -93,7 +90,7 @@ const readPermission = async (): Promise<LibraryPermission> => {
   try {
     return await getPhotoSource().getLibraryPermission();
   } catch (error) {
-    reportError(
+    logAndReport(
       createStructuredError({
         status: "photo_library_failed",
         message: "Photo library permission could not be read",
@@ -109,7 +106,7 @@ const requestPermission = async (): Promise<LibraryPermission> => {
   try {
     return await getPhotoSource().requestLibraryPermission();
   } catch (error) {
-    reportError(
+    logAndReport(
       createStructuredError({
         status: "photo_library_failed",
         message: "Photo library permission could not be requested",
@@ -125,7 +122,7 @@ const loadDayPhotos = async ({ date }: { date: string }) => {
   try {
     return await getPhotoSource().listPhotosOnDate({ date });
   } catch (error) {
-    reportError(
+    logAndReport(
       createStructuredError({
         status: "photo_library_failed",
         message: "Photos of the day could not be loaded",
@@ -141,7 +138,7 @@ const manageAccess = async () => {
   try {
     await getPhotoSource().manageLibraryAccess();
   } catch (error) {
-    reportError(
+    logAndReport(
       createStructuredError({
         status: "photo_library_failed",
         message: "Photo access picker could not open",
@@ -169,7 +166,7 @@ const pickPhotos = async ({
       why: `Opening the photo library picker failed: ${getCause(error)}`,
       fix: "Try again. Restart Pixy when it keeps failing",
     });
-    reportError(failure);
+    logAndReport(failure);
     return { status: "failed", errorStatus: failure.status };
   }
 };
@@ -209,7 +206,16 @@ const importTarget = async (target: ImportTarget): Promise<ImportResult> => {
       }),
     };
   } catch (error) {
-    reportError(error);
+    logAndReport(
+      isStructuredError(error)
+        ? error
+        : createStructuredError({
+            status: "photo_import_failed",
+            message: "Photo could not be added",
+            why: `Importing the photo file failed: ${getCause(error)}`,
+            fix: "Try again. Restart Pixy when it keeps failing",
+          })
+    );
     return {
       status: "failed",
       errorStatus: isStructuredError(error) ? String(error.status) : "unknown",
