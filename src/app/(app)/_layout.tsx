@@ -43,6 +43,10 @@ const AppLayout = () => {
       ? { ...defaultOptions, headerLeft: renderHeaderLeft }
       : defaultOptions;
 
+  // Native grouped list screens: the list starts below the bar, so no
+  // divider line.
+  const settingsFormOptions = { ...pageOptions, headerShadowVisible: false };
+
   return (
     <StorageLoadGate>
       <WidgetSync />
@@ -150,7 +154,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/app-lock"
-            options={{ ...pageOptions, title: t("app_lock") }}
+            options={{ ...settingsFormOptions, title: t("app_lock") }}
           />
           <Stack.Screen
             name="settings/app-icon"
@@ -162,7 +166,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/steps/index"
-            options={{ ...pageOptions, title: t("steps") }}
+            options={{ ...settingsFormOptions, title: t("steps") }}
           />
           <Stack.Screen
             name="settings/data"
@@ -170,7 +174,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/reminder"
-            options={{ ...pageOptions, title: t("reminder") }}
+            options={{ ...settingsFormOptions, title: t("reminder") }}
           />
           <Stack.Screen
             name="settings/privacy"
