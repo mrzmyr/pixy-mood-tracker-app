@@ -16,13 +16,7 @@ import { installFile } from "./app-install.ts";
 import { toBuildId } from "./builds.ts";
 import { resolveDevice } from "./device.ts";
 import type { Device } from "./device.ts";
-import {
-  ANDROID_DEV_MENU_PREFS_FILE,
-  devLinks,
-  iosDevMenuCommands,
-  mergeAndroidDevMenuPrefs,
-  parseFlagOverrides,
-} from "./dev-client.ts";
+import { devClientUrl, devLinks, parseFlagOverrides } from "./dev-client.ts";
 import type { FlagValue } from "./dev-client.ts";
 import { assertHostReady } from "./disk.ts";
 import { startMetro } from "./metro.ts";
@@ -46,10 +40,6 @@ const describeError = (error: Error) => {
   const stderr = "stderr" in error ? String(error.stderr) : "";
   return stderr.trim().split("\n")[0] || error.message;
 };
-
-// Deep link that makes the dev client load from this checkout's Metro.
-const devClientUrl = (metro: Metro) =>
-  `${DEV.scheme}://expo-development-client/?url=${encodeURIComponent(metro.url)}`;
 
 // iOS asks "Open in Pixy Dev?" before a link launches the app. Expo CLI
 // pre-approves the scheme in the simulator's Launch Services plist. Same here,
@@ -99,7 +89,7 @@ const openLink = (device: Device, url: string) => {
 };
 
 const openDevClient = (device: Device, metro: Metro) => {
-  const url = devClientUrl(metro);
+  const url = devClientUrl(DEV.scheme, metro.url);
   try {
     if (device.platform === "android") {
       // The emulator reaches the Mac's localhost through adb reverse.
@@ -121,57 +111,6 @@ const openDevClient = (device: Device, metro: Metro) => {
     });
   }
   return url;
-};
-
-// Android: run-as reads and writes app data of debuggable builds, such as the
-// dev client. The app reads shared preferences once, so it stops first.
-const writeAndroidDevMenuPrefs = (id: string) => {
-  const adb = getAdb();
-  let existing: string | undefined;
-  try {
-    existing = run(adb, [
-      "-s",
-      id,
-      "shell",
-      `run-as ${DEV.appId} cat ${ANDROID_DEV_MENU_PREFS_FILE}`,
-    ]);
-  } catch {
-    // First launch: no preferences file yet.
-  }
-  const { changed, xml } = mergeAndroidDevMenuPrefs(existing);
-  if (!changed) {
-    return;
-  }
-  run(adb, ["-s", id, "shell", `am force-stop ${DEV.appId}`]);
-  execFileSync(
-    adb,
-    [
-      "-s",
-      id,
-      "shell",
-      `run-as ${DEV.appId} sh -c 'mkdir -p shared_prefs && cat > ${ANDROID_DEV_MENU_PREFS_FILE}'`,
-    ],
-    { input: xml, stdio: ["pipe", "pipe", "pipe"] }
-  );
-};
-
-// Hides the dev menu onboarding, launch menu, and floating button, so they do
-// not cover the app in screenshots and taps. Best effort: the app still runs
-// without it.
-const hideDevMenu = (device: Device) => {
-  try {
-    if (device.platform === "ios") {
-      for (const args of iosDevMenuCommands(device.id, DEV.appId)) {
-        run("xcrun", args);
-      }
-    } else {
-      writeAndroidDevMenuPrefs(device.id);
-    }
-  } catch (error) {
-    note(
-      `note: could not hide the dev menu: ${error instanceof Error ? describeError(error) : String(error)}. Close it in the app.`
-    );
-  }
 };
 
 const screenshot = (device: Device) => {
@@ -248,7 +187,6 @@ const dev = async (platform: Platform, links: DevLinks) => {
   note(`Dev client ${toBuildId(build.key)}`);
   step("Install");
   installFile(device, build.file, "development");
-  hideDevMenu(device);
   step("Start Metro");
   const metro = await startMetro();
   const logOffset = fs.statSync(metro.log).size;
