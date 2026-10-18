@@ -13,9 +13,11 @@ export type FieldRowKind = "push" | "external" | "action";
 
 const ICON_SIZE = 20;
 /**
- * Fixed icon slot, icon centered. Symbols differ in width; without the slot
- * each title starts at a different x, and iOS draws each row separator from
- * its own title, so separators misalign and add a stray hairline.
+ * Fixed square icon slot, icon centered. SF Symbols differ in width and
+ * height. Width: without the slot each title starts at a different x, and
+ * iOS draws each row separator from its own title. Height: rows take the
+ * glyph height, so some rows end on a fractional point and the grouped
+ * background shows through as a hairline.
  */
 const ICON_FRAME = 28;
 const AFFORDANCE_SIZE = 13;
@@ -73,7 +75,7 @@ const FieldRow = ({
           name={icon}
           size={ICON_SIZE}
           color={colors.menuListItemIcon}
-          style={{ width: ICON_FRAME }}
+          style={{ width: ICON_FRAME, height: ICON_FRAME }}
         />
       }
       trailing={
