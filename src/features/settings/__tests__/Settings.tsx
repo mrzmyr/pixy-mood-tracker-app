@@ -267,6 +267,9 @@ describe("Feedback in Settings", () => {
     await userEvent.press(screen.getByTestId("feedback-modal-send"));
 
     expect(await screen.findByTestId("feedback-modal-error")).toBeOnTheScreen();
+    expect(screen.getByRole("alert")).toHaveAccessibleName(
+      "Feedback not sent. Check your connection and try again."
+    );
     expect(screen.getByTestId("feedback-modal-message")).toHaveDisplayValue(
       "Calendar export"
     );

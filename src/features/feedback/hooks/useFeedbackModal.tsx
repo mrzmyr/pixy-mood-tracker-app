@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import DismissKeyboard from "@/components/DismisKeyboard";
+import { InlineAlert } from "@/components/InlineAlert";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import { SheetModal } from "@/components/SheetModal";
@@ -188,18 +189,11 @@ const FeedbackModalContent = ({
                 placeholder={t("feedback_modal_email_placeholder")}
               />
               {status === "failed" && (
-                <Text
-                  accessibilityLiveRegion="polite"
+                <InlineAlert
                   testID="feedback-modal-error"
-                  style={{
-                    marginTop: 12,
-                    paddingHorizontal: 8,
-                    fontSize: 15,
-                    color: colors.text,
-                  }}
-                >
-                  {t("feedback_modal_error")}
-                </Text>
+                  message={t("feedback_modal_error")}
+                  style={{ marginTop: 12 }}
+                />
               )}
               <Text
                 style={{
