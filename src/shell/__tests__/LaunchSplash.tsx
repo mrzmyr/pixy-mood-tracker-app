@@ -7,6 +7,7 @@ import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { PeopleProvider } from "@/features/people";
 import { TagsProvider } from "@/features/tags";
 import { LaunchSplash } from "@/shell/LaunchSplash";
+import { getExitDelay } from "@/shell/launchSplashTiming";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
 
@@ -75,5 +76,25 @@ describe("<LaunchSplash>", () => {
       { timeout: 3000 }
     );
     expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
+  });
+});
+
+describe("getExitDelay()", () => {
+  test("data ready before the first turn: standby leaves at once", () => {
+    expect(getExitDelay(0, false)).toBe(0);
+    expect(getExitDelay(120, false)).toBe(0);
+  });
+
+  test("data ready mid-turn: standby finishes the turn, then leaves", () => {
+    expect(getExitDelay(300, false)).toBe(220);
+    expect(getExitDelay(520 + 400, false)).toBe(120);
+  });
+
+  test("data ready during a later rest: standby leaves at once", () => {
+    expect(getExitDelay(2 * 520 + 50, false)).toBe(0);
+  });
+
+  test("reduced motion: standby never waits", () => {
+    expect(getExitDelay(300, true)).toBe(0);
   });
 });

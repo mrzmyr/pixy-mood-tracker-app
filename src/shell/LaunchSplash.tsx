@@ -9,6 +9,7 @@ import type { CSSAnimationKeyframes } from "react-native-reanimated";
 import { RATING_KEYS } from "@/constants/Ratings";
 import { useAppData } from "@/features/datagate";
 import useColors from "@/hooks/useColors";
+import { getExitDelay, REST, STEP_MS } from "@/shell/launchSplashTiming";
 import { useSettings } from "@/state/settings";
 
 const SIZE = 48;
@@ -16,14 +17,6 @@ const SIZE = 48;
 const RADIUS = 14;
 /** Corner radius halfway through a turn: rounder, not a circle. */
 const TURN_RADIUS = 20;
-
-/** One step: the square rests, then turns 90° into the next color. */
-const STEP_MS = 520;
-/** Part of each step the square rests before it turns. */
-const REST = 0.35;
-
-/** The standby stays this long at least, so every launch shows two turns. */
-export const LAUNCH_MIN_VISIBLE_MS = 2 * STEP_MS;
 
 const SHRINK_MS = 320;
 const FADE_DELAY_MS = 180;
@@ -130,14 +123,11 @@ export const LaunchSplash = () => {
     if (isLoading || isDone) {
       return;
     }
-    // Unmounting plays the exit animations. A timer keeps a fast load from flashing.
-    const wait = Math.max(
-      0,
-      LAUNCH_MIN_VISIBLE_MS - (Date.now() - mountedAt.current)
-    );
+    // Unmounting plays the exit animations.
+    const wait = getExitDelay(Date.now() - mountedAt.current, isReducedMotion);
     const timer = setTimeout(() => setIsDone(true), wait);
     return () => clearTimeout(timer);
-  }, [isLoading, isDone]);
+  }, [isLoading, isDone, isReducedMotion]);
 
   if (isDone) {
     return null;
