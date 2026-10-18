@@ -1,8 +1,8 @@
 import Reminder from "../components/Reminder";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import useColors from "@/hooks/useColors";
 
-/** Settings > Reminder: daily reminder configuration. */
+/** Settings > Reminder: daily reminder configuration. The list scrolls. */
 export const ReminderScreen = () => {
   const colors = useColors();
 
@@ -13,13 +13,7 @@ export const ReminderScreen = () => {
         backgroundColor: colors.background,
       }}
     >
-      <ScrollView
-        style={{
-          padding: 20,
-        }}
-      >
-        <Reminder />
-      </ScrollView>
+      <Reminder />
     </View>
   );
 };

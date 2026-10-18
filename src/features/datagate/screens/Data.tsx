@@ -8,6 +8,7 @@ import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { useDatagate } from "../DataGate";
 
 /**
@@ -18,6 +19,7 @@ export const DataScreen = () => {
   const colors = useColors();
   const iconProps = { width: 20, height: 20, color: colors.menuListItemIcon };
   const datagate = useDatagate();
+  const paddingBottom = useScrollBottomPadding(20);
 
   return (
     <View
@@ -27,10 +29,9 @@ export const DataScreen = () => {
       }}
     >
       <ScrollView
-        style={{
-          padding: 20,
-          flex: 1,
-        }}
+        style={{ flex: 1 }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 20, paddingBottom }}
       >
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem

@@ -24,8 +24,10 @@ export const Radio = ({
   children,
   isSelected = false,
   isDisabled = false,
+  testID,
 }: {
   onPress: () => void;
+  testID?: string;
   children: React.ReactNode;
   isSelected?: boolean;
   isDisabled?: boolean;
@@ -42,6 +44,7 @@ export const Radio = ({
 
   return (
     <Pressable
+      testID={testID}
       onPress={_onPress}
       style={({ pressed }) => [
         {

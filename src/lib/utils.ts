@@ -1,8 +1,5 @@
-import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import { getLocale, t } from "@/lib/translation";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const SHORT_DAY_OPTIONS: Intl.DateTimeFormatOptions = {
   month: "short",
@@ -20,7 +17,11 @@ const SHORT_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
 
 // Formatters are slow to create. Cache one per locale and options object.
 const formatters = new Map<string, Intl.DateTimeFormat>();
-const getFormatter = (
+/**
+ * Cached `Intl.DateTimeFormat` for the current locale. `name` must be unique
+ * per options object: the cache key is `${locale}:${name}`.
+ */
+export const getFormatter = (
   name: string,
   options: Intl.DateTimeFormatOptions
 ): Intl.DateTimeFormat => {
@@ -96,15 +97,15 @@ export const formatLocalizedDay = (
  * Localized entry title: "14:30" today, "Yesterday, 14:30", or weekday, day
  * and time ("Sat, 2 May, 14:30" in en-GB, "Sat, May 2, 2:30 PM" in en-US).
  *
- * Drops the weekday below 350 pt window width, measured once at module load.
+ * Drops the weekday below 350 pt `windowWidth`.
  */
-export const getItemDateTitle = (dateTime: string) => {
+export const getItemDateTitle = (dateTime: string, windowWidth: number) => {
   const date = dayjs(dateTime);
   const isRecent =
     date.isSame(dayjs(), "day") ||
     date.isSame(dayjs().subtract(1, "day"), "day");
 
-  if (isRecent || SCREEN_WIDTH < 350) {
+  if (isRecent || windowWidth < 350) {
     return getShortItemDateTitle(dateTime);
   }
 

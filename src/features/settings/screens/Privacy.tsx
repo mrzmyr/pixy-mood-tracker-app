@@ -5,6 +5,7 @@ import Shield from "lucide-react-native/icons/shield";
 import Markdown from "react-native-markdown-display";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { useAnalytics } from "@/state/analytics";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/featureFlags";
@@ -21,6 +22,7 @@ export const PrivacyScreen = () => {
   const colors = useColors();
   const analytics = useAnalytics();
   const hasPeople = useFeatureFlag("people");
+  const paddingBottom = useScrollBottomPadding(16);
   const content = hasPeople
     ? `${t("privacy_content")}\n\n${t("privacy_people_content")}`
     : t("privacy_content");
@@ -40,9 +42,8 @@ export const PrivacyScreen = () => {
       }}
     >
       <ScrollView
-        style={{
-          padding: 16,
-        }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 16, paddingBottom }}
       >
         <View
           style={{
@@ -91,6 +92,7 @@ export const PrivacyScreen = () => {
               title={t("behavioral_data")}
               iconRight={
                 <Toggle
+                  accessibilityLabel={t("behavioral_data")}
                   onValueChange={() => {
                     analytics.track("settings:analytics_toggled", {
                       enabled: !analytics.isEnabled,

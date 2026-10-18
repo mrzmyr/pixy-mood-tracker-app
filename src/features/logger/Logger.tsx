@@ -18,7 +18,13 @@ import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
 import type { ReactElement, RefObject } from "react";
 
-import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
+import {
+  Keyboard,
+  Platform,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import type { TextInput } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
@@ -179,6 +185,7 @@ const LoggerSlides = ({
 }: Omit<LoggerProps, "initialItem">) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
+  const { width: windowWidth } = useWindowDimensions();
 
   const logState = useLogState();
 
@@ -205,7 +212,7 @@ const LoggerSlides = ({
     "basic"
   );
 
-  const { save, remove, cancel } = useLoggerActions({ mode, onCreated });
+  const { save, cancel } = useLoggerActions({ mode, onCreated });
   const { isLocationVisible, isLocating } = usePassiveLocation({ mode });
 
   const _carousel = useRef<CarouselRef>(null);
@@ -422,9 +429,7 @@ const LoggerSlides = ({
           carouselRef={_carousel}
           slideCount={content.length}
           slideIndex={slideIndex}
-          isEditing={isEditing}
           onCancel={cancel}
-          onRemove={remove}
         />
         <View
           onLayout={(event) =>
@@ -437,7 +442,7 @@ const LoggerSlides = ({
         >
           <Carousel
             loop={false}
-            itemSize={Dimensions.get("window").width}
+            itemSize={windowWidth}
             style={carouselHeight ? { height: carouselHeight } : undefined}
             ref={_carousel}
             data={reachedContent}

@@ -9,7 +9,11 @@ import { _generateItem } from "@/testing/logItem";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { DATE_FORMAT } from "@/constants/Config";
 import { useCalendarNavigation } from "../navigation";
-import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
+import {
+  LogsProvider,
+  STORAGE_KEY as LOGS_KEY,
+  useLogUpdater,
+} from "@/features/logs";
 import { AnalyticsProvider } from "@/state/analytics";
 import {
   SettingsProvider,
@@ -23,10 +27,27 @@ const twoDaysAgoNoon = dayjs(twoDaysAgo).hour(12).toISOString();
 
 const SECOND_ENTRY_ID = "second-entry";
 
+// Every `openDay` reference the screen rendered with.
+const openDayRefs = new Set<unknown>();
+
 const Days = () => {
   const calendarNavigation = useCalendarNavigation();
+  const logUpdater = useLogUpdater();
+  openDayRefs.add(calendarNavigation.openDay);
   return (
     <>
+      <Pressable
+        onPress={() =>
+          logUpdater.addLog(
+            _generateItem({
+              id: "added-today",
+              dateTime: dayjs().toISOString(),
+            })
+          )
+        }
+      >
+        <Text>Add entry today</Text>
+      </Pressable>
       <Pressable
         onPress={() =>
           calendarNavigation.openDay({ date: today, source: "calendar" })
@@ -94,6 +115,7 @@ const renderDays = async () => {
 describe("useCalendarNavigation()", () => {
   beforeEach(async () => {
     jest.clearAllMocks();
+    openDayRefs.clear();
     await AsyncStorage.clear();
     await AsyncStorage.setItem(
       SETTINGS_KEY,
@@ -150,5 +172,23 @@ describe("useCalendarNavigation()", () => {
       )
     );
     expect(await result.findByText(/^Opened .*T.*Z$/u)).toBeOnTheScreen();
+  });
+
+  test("keeps `openDay` stable across saves and counts the new entry", async () => {
+    const result = await renderDays();
+    await result.findByText("Open today");
+    const refsBeforeSave = openDayRefs.size;
+
+    await userEvent.press(result.getByText("Add entry today"));
+    await userEvent.press(result.getByText("Open today"));
+
+    expect(openDayRefs.size).toBe(refsBeforeSave);
+    await waitFor(() =>
+      expect(mockCapture).toHaveBeenCalledWith(
+        "calendar:day_opened",
+        expect.objectContaining({ source: "calendar", entries_count: 1 })
+      )
+    );
+    expect(await result.findByText(`Opened ${today} none`)).toBeOnTheScreen();
   });
 });

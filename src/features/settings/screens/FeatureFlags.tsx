@@ -8,6 +8,7 @@ import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import {
   useFeatureFlagSource,
   useFeatureFlagState,
@@ -130,10 +131,13 @@ export const FeatureFlagsScreen = () => {
   const colors = useColors();
   const overrides = useSyncExternalStore(subscribe, getOverrides);
   const isHighlighting = useSyncExternalStore(subscribe, isHighlightOn);
+  const paddingBottom = useScrollBottomPadding(16);
 
   return (
     <ScrollView
-      style={{ backgroundColor: colors.background, flex: 1, padding: 16 }}
+      style={{ backgroundColor: colors.background, flex: 1 }}
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{ padding: 16, paddingBottom }}
     >
       <AllFlagsSection shared={getSharedOverride(overrides)} />
       <MenuList>
@@ -141,6 +145,7 @@ export const FeatureFlagsScreen = () => {
           title="Highlight flagged features"
           iconRight={
             <Toggle
+              accessibilityLabel="Highlight flagged features"
               onValueChange={setHighlight}
               value={isHighlighting}
               testID="feature-flag-highlight"

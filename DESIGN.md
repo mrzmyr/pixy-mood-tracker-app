@@ -15,8 +15,9 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 ## Components
 
-- Page close: top right [`CloseButton`](src/components/CloseButton.tsx). Android full-screen dialog: close top left ([Day view `Header`](src/features/calendar/screens/LogList/Header.tsx)). Back arrow is not close. Form modal with Save keeps text Cancel top left.
+- Page close: top right [`CloseButton`](src/components/CloseButton.tsx). Android full-screen dialog: close top left. Modal title and close go in native stack header ([Day view `Header`](src/features/calendar/screens/LogList/Header.tsx)). Back arrow is not close. Form modal with Save keeps text Cancel top left.
 - Toasts: `showToast` ([`src/lib/toast.ts`](src/lib/toast.ts)). iOS top card, Android M3 snackbar. Optional Undo `action`, never only way to do something.
+- Inline errors, warnings, notices: [`InlineAlert`](src/components/InlineAlert.tsx) next to the content they are about. Stays until state changes. Never plain colored text.
 - Menu rows: [`MenuListItem`](src/components/MenuListItem.tsx). Title = short Title Case noun. Status in value slot. One text color per row, except destructive rows (`colors.danger`). Never wrap or shrink: shorten text. Warnings use [`TextInfo`](src/components/TextInfo.tsx) under list.
 - Bezel ([`Bezel`](src/components/Bezel.tsx), radius from `getBezelRadius`): statistics cards and person tiles only. Calendar days, mood buttons, entry cards, list groups have no bezel.
 - Android list groups: M3 full-width list, no chevron, no dividers, 56dp rows ([`MenuList`](src/components/MenuList.tsx)).
@@ -25,8 +26,10 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 ## Sheets and Modals
 
-- `Modal` with `presentationStyle="pageSheet"`, `animationType="slide"` ([`useFeedbackModal`](src/features/feedback/hooks/useFeedbackModal.tsx)).
+- `Modal` with `presentationStyle="pageSheet"`, `animationType="slide"` ([`SheetModal`](src/components/SheetModal.tsx)).
+- Router form with native header: iOS `formSheet`, Android full-screen `modal`, header items via `Stack.Toolbar` ([Feedback](src/features/feedback/screens/FeedbackScreen.tsx)).
 - Never custom slide-in sheet. Never move views from keyboard events. Inputs sit at sheet top.
+- Route modal header: [`RouteModalHeader`](src/components/RouteModalHeader.tsx). iOS native sheet bar, Android Material top app bar.
 
 ## Settings
 

@@ -111,6 +111,13 @@ describe("CLI options", () => {
         2,
         "invalid_goal",
       ],
+      [["release", "smoke"], 2, "missing_option"],
+      [
+        ["release", "smoke", "--platform=ios", "--profile=staging"],
+        2,
+        "invalid_value",
+      ],
+      [["release", "smoke", "--platform=android"], 1, "platform_not_supported"],
       [["worktree", "new"], 2, "missing_argument"],
       [["worktree", "new", "Tag/Swipes"], 2, "invalid_slug"],
       [["worktree", "new", "a", "b"], 2, "unexpected_argument"],
