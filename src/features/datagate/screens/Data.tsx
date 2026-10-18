@@ -1,21 +1,26 @@
+import { useRouter } from "expo-router";
 import { ScrollView, View } from "react-native";
-import { Download, Trash, Upload } from "react-native-feather";
+import { Cloud, Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { useDatagate } from "../DataGate";
 
 /**
- * Settings > Data: import, export, and deletion of all user data via
- * `useDatagate`. The direct AsyncStorage import is development-only.
+ * Settings > Data: the data hub. Backup (opens the Backup page, needs the
+ * `backup` feature flag), import and export, and deletion of all user data
+ * via `useDatagate`. The direct AsyncStorage import is development-only.
  */
 export const DataScreen = () => {
   const colors = useColors();
+  const router = useRouter();
   const iconProps = { width: 20, height: 20, color: colors.menuListItemIcon };
   const datagate = useDatagate();
+  const isBackupOn = useFeatureFlag("backup");
 
   return (
     <View
@@ -30,6 +35,17 @@ export const DataScreen = () => {
           flex: 1,
         }}
       >
+        {isBackupOn && (
+          <MenuList style={{ marginTop: 16 }}>
+            <MenuListItem
+              title={t("backup")}
+              onPress={() => router.push("/settings/data/backup")}
+              iconLeft={<Cloud {...iconProps} />}
+              testID="backup"
+              isLink
+            />
+          </MenuList>
+        )}
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
             title={t("import")}

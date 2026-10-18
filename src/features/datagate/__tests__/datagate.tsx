@@ -209,6 +209,8 @@ describe("useLogs()", () => {
     });
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
+      // Imports keep this phone's identity.
+      deviceId: expect.any(String),
     });
     // Success confirms with a toast; only the confirmation prompt is an alert.
     expect(hook.result.current.toast?.title).toBe("Import successful");
@@ -313,6 +315,8 @@ describe("useLogs()", () => {
       settings: {
         ..._.omit(testSettings, [
           "deviceId",
+          "backupEnabled",
+          "backupWrittenAt",
           "storeReviewPromptedAt",
           "storeReviewPromptedAppVersion",
           "photosDayAccessDismissed",
@@ -532,6 +536,8 @@ describe("useLogs()", () => {
 
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
+      // Imports keep this phone's identity.
+      deviceId: expect.any(String),
     });
   });
 

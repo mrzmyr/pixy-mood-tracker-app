@@ -17,6 +17,9 @@ export const INITIAL_STATE: SettingsState = {
   reminderEnabled: false,
   reminderTime: DEFAULT_REMINDER_TIME,
   analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
+  // Off until the user turns it on: backup uploads every entry to their cloud.
+  backupEnabled: false,
+  backupWrittenAt: null,
   actionsDone: [],
   // `photos` and `sleep` are on for new installs only. Stored settings keep
   // their own step list, so existing users turn them on in Settings > Steps.

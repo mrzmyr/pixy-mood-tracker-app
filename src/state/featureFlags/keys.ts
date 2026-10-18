@@ -6,6 +6,7 @@ export const FEATURE_FLAGS = [
   "app-icons",
   "app-lock",
   "app-lock-bypass",
+  "backup",
   "calendar-map",
   "calendar-timeline",
   "development",
@@ -43,6 +44,10 @@ export const FEATURE_FLAG_DETAILS: Record<
     description:
       "Opens a locked app for a targeted person. PostHog only, local overrides never apply",
     location: "Lock screen",
+  },
+  backup: {
+    description: "Automatic iCloud or Google Drive backup",
+    location: "Settings > Data > Backup",
   },
   "calendar-map": {
     description: "Map layout for the calendar, iOS only",

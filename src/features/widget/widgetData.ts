@@ -84,11 +84,10 @@ export const getSchemeColors = (
     background: colors.widgetBackground,
     text: colors.widgetText,
     textSecondary: colors.widgetTextSecondary,
-    // The scale's empty background is nearly the widget background (dark:
-    // neutral 800 on 900), so past empty days use the scale's border color
-    // and future days a theme color one step off the widget background.
+    // The calendar's empty background is nearly the widget background, so
+    // past empty days use the dotted-border color and future days the lighter one.
     empty: scale.empty.border,
-    future: colors.widgetFutureDay,
+    future: scale.empty.background,
     today: colors.tint,
     ratings,
   };
