@@ -176,6 +176,7 @@ export const EmotionDials = ({
   onPress: (emotion: Emotion) => void;
 }) => {
   const colors = useColors();
+  const colorScheme = useColorScheme();
   const isReducedMotion = useReducedMotion();
   const scale = useScale(useSetting("scaleType"));
   const [dials, setDials] = useState<DialValues>({
@@ -195,7 +196,24 @@ export const EmotionDials = ({
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ paddingHorizontal: 20, paddingTop: 8, gap: 8 }}>
+      {/* Same card surface and border as the emotion rows below. */}
+      <View
+        testID="emotion-dials-card"
+        style={{
+          marginHorizontal: 20,
+          marginTop: 8,
+          paddingHorizontal: 14,
+          paddingVertical: 8,
+          gap: 8,
+          backgroundColor: colors.logCardBackground,
+          borderRadius: RADIUS.sm,
+          borderWidth: 1,
+          borderColor:
+            colorScheme === "light"
+              ? "rgba(0,0,0,0.1)"
+              : "rgba(255,255,255,0.1)",
+        }}
+      >
         <EmotionDial
           testID="emotion-dials-energy"
           label={t("log_emotions_dials_energy")}
