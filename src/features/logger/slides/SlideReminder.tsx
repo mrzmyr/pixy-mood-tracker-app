@@ -15,7 +15,7 @@ import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 
 import { SlideHeadline } from "../components/SlideHeadline";
-import { getSlideMarginTop } from "./marginTop";
+import { useSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
 
@@ -28,7 +28,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const colors = useColors();
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
 
   const reminder = useReminder();
 

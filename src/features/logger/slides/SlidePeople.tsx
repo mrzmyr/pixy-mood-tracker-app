@@ -27,7 +27,7 @@ import {
 import { SlideHeadline } from "../components/SlideHeadline";
 import { useLogDraft } from "../logDraft";
 import { Footer } from "./Footer";
-import { getSlideMarginTop } from "./marginTop";
+import { useSlideMarginTop } from "./marginTop";
 
 const COLUMNS = 3;
 const SLIDE_PADDING = 20;
@@ -130,7 +130,7 @@ export const SlidePeople = ({
     people.filter((person) => !person.isArchived || selectedIds.has(person.id)),
     items
   );
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
 
   const toggle = (id: string) => {
     setPeople(
