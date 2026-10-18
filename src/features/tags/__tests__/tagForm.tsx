@@ -10,6 +10,12 @@ import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/Config";
 import { STORAGE_KEY as STORAGE_KEY_TAGS, TagsProvider } from "../TagsProvider";
 import { TagCreate } from "../screens/TagCreate";
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the discard guard needs a navigator (covered in tagFormDiscard tests); this suite renders the form without one
+jest.mock("@/hooks/useDiscardGuard", () => ({
+  __esModule: true,
+  useDiscardGuard: () => ({ allowLeave: jest.fn() }),
+}));
+
 const theme = {
   ...DefaultTheme,
   dark: false,
@@ -71,6 +77,17 @@ describe("tag form", () => {
       );
     });
     expect(await storedTitles()).not.toContain("");
+  });
+
+  test("user sees the length error after pressing Return on a short name", async () => {
+    const screen = await renderCreate();
+    await act(async () => {});
+
+    await fireEvent(screen.getByTestId("tag-name"), "submitEditing");
+
+    await waitFor(() => {
+      expect(screen.getByTestId("tag-name-error")).toBeOnTheScreen();
+    });
   });
 
   test("user sees the error go away once the name is valid", async () => {
