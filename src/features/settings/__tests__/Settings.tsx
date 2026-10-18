@@ -3,9 +3,11 @@ import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { act, render, userEvent, waitFor } from "@testing-library/react-native";
 import { Alert, Appearance } from "react-native";
+import { ToastHost } from "@/components/Toast";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
+import { hideToast } from "@/lib/toast";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { STORAGE_KEY } from "@/state/settings";
 import type { SupportClient } from "@/support";
@@ -77,6 +79,7 @@ const renderSettings = (supportClient: SupportClient) =>
         <FeatureFlagsProvider options={{ enabled: true }}>
           <SettingsScreen />
         </FeatureFlagsProvider>
+        <ToastHost />
       </Providers>
     </ThemeProvider>
   );
@@ -207,8 +210,29 @@ describe("Feedback in Settings", () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: true });
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     jest.restoreAllMocks();
+    // Module-level toast state would leak into the next test.
+    await act(() => hideToast());
+  });
+
+  test("user sees a toast, not an alert, after feedback is sent", async () => {
+    const showAlert = jest.spyOn(Alert, "alert").mockImplementation();
+    const screen = await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+    });
+
+    await userEvent.press(screen.getByText("Report Bug"));
+    await userEvent.type(
+      screen.getByPlaceholderText("I noticed that…"),
+      "Calendar export"
+    );
+    await userEvent.press(screen.getByTestId("feedback-modal-send"));
+
+    expect(await screen.findByText("Feedback sent")).toBeOnTheScreen();
+    expect(screen.queryByTestId("feedback-modal-send")).toBeNull();
+    expect(showAlert).not.toHaveBeenCalled();
   });
 
   test.each([
