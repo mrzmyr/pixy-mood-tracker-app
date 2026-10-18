@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
+import Icon from "@/components/Icon";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
@@ -76,7 +77,9 @@ const AddPersonTile = ({ size }: { size: number }) => {
             justifyContent: "center",
           }}
         >
-          <Plus
+          <Icon
+            sf="plus"
+            fallback={Plus}
             size={Math.round(size * 0.35)}
             color={quiet}
             strokeWidth={1.5}

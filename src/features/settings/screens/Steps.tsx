@@ -24,6 +24,8 @@ import MessageSquare from "lucide-react-native/icons/message-square";
 import Sun from "lucide-react-native/icons/sun";
 import Tag from "lucide-react-native/icons/tag";
 import Users from "lucide-react-native/icons/users";
+import Icon from "@/components/Icon";
+import type { IconProps } from "@/components/Icon";
 import { useRouter } from "expo-router";
 import useColors from "@/hooks/useColors";
 import { useFeatureFlag } from "@/state/featureFlags";
@@ -88,6 +90,19 @@ const StepRow = ({
   );
 };
 
+/** Leading icon of each step row: SF Symbol on iOS, Lucide elsewhere. */
+const STEP_ICONS: Record<LoggerStep, Pick<IconProps, "sf" | "fallback">> = {
+  rating: { sf: "sun.max", fallback: Sun },
+  message: { sf: "doc.text", fallback: FileText },
+  photos: { sf: "photo", fallback: ImageIcon },
+  tags: { sf: "tag", fallback: Tag },
+  people: { sf: "person.2", fallback: Users },
+  sleep: { sf: "bed.double", fallback: BedDouble },
+  emotions: { sf: "heart", fallback: Heart },
+  feedback: { sf: "message", fallback: MessageSquare },
+  reminder: { sf: "bell", fallback: Bell },
+};
+
 /** Steps that show only behind a feature flag. */
 const STEP_FLAGS: Partial<Record<LoggerStep, FeatureFlag>> = {
   people: "people",
@@ -107,7 +122,14 @@ const LocationRow = () => {
           <MenuList>
             <MenuListItem
               title={t("location_setting")}
-              iconLeft={<MapPin width={20} height={20} color={colors.text} />}
+              iconLeft={
+                <Icon
+                  sf="location"
+                  fallback={MapPin}
+                  size={20}
+                  color={colors.text}
+                />
+              }
               iconRight={
                 <Toggle
                   accessibilityLabel={t("location_setting")}
@@ -142,18 +164,6 @@ export const StepsScreen = () => {
       (option !== "photos" || isPhotosEnabled)
   );
 
-  const ICONS_MAP: Record<LoggerStep, ReactElement> = {
-    rating: <Sun width={20} height={20} stroke={colors.text} />,
-    message: <FileText width={20} height={20} color={colors.text} />,
-    photos: <ImageIcon width={20} height={20} color={colors.text} />,
-    tags: <Tag width={20} height={20} color={colors.text} />,
-    people: <Users width={20} height={20} color={colors.text} />,
-    sleep: <BedDouble size={20} color={colors.text} />,
-    emotions: <Heart width={20} height={20} color={colors.text} />,
-    feedback: <MessageSquare width={20} height={20} color={colors.text} />,
-    reminder: <Bell width={20} height={20} color={colors.text} />,
-  };
-
   return (
     <View
       style={{
@@ -187,7 +197,14 @@ export const StepsScreen = () => {
         <MenuList style={{ marginTop: 16 }}>
           {options.map((option) => {
             const flag = STEP_FLAGS[option];
-            const row = <StepRow step={option} icon={ICONS_MAP[option]} />;
+            const row = (
+              <StepRow
+                step={option}
+                icon={
+                  <Icon {...STEP_ICONS[option]} size={20} color={colors.text} />
+                }
+              />
+            );
             return flag === undefined ? (
               <Fragment key={option}>{row}</Fragment>
             ) : (

@@ -21,6 +21,8 @@ import Shield from "lucide-react-native/icons/shield";
 import Smartphone from "lucide-react-native/icons/smartphone";
 import Star from "lucide-react-native/icons/star";
 import FlagHighlight from "@/components/FlagHighlight";
+import Icon from "@/components/Icon";
+import type { IconProps } from "@/components/Icon";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
@@ -53,6 +55,19 @@ import SunMoon from "lucide-react-native/icons/sun-moon";
 import { useSupport } from "@/support";
 
 const DEVELOPMENT_UNLOCK_TAPS = 20;
+
+/** Leading icon of a settings row: SF Symbol on iOS, Lucide elsewhere. */
+const RowIcon = ({ sf, fallback }: Pick<IconProps, "sf" | "fallback">) => {
+  const colors = useColors();
+  return (
+    <Icon
+      sf={sf}
+      fallback={fallback}
+      size={20}
+      color={colors.menuListItemIcon}
+    />
+  );
+};
 
 /**
  * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
@@ -118,21 +133,23 @@ export const SettingsScreen = () => {
         <MenuList>
           <MenuListItem
             title={t("data")}
-            iconLeft={<Database {...iconProps} />}
+            iconLeft={<RowIcon sf="externaldrive" fallback={Database} />}
             onPress={() => router.push("/settings/data")}
             testID="data"
             isLink
           />
           <MenuListItem
             title={t("reminder")}
-            iconLeft={<Bell {...iconProps} />}
+            iconLeft={<RowIcon sf="bell" fallback={Bell} />}
             onPress={() => router.push("/settings/reminder")}
             testID="reminder"
             isLink
           />
           <MenuListItem
             title={t("steps")}
-            iconLeft={<CircleCheckBig {...iconProps} />}
+            iconLeft={
+              <RowIcon sf="checkmark.circle" fallback={CircleCheckBig} />
+            }
             onPress={() => router.push("/settings/steps")}
             isLink
           />
@@ -141,7 +158,7 @@ export const SettingsScreen = () => {
             <FlagHighlight flag="recaps">
               <MenuListItem
                 title={t("recaps")}
-                iconLeft={<Layers {...iconProps} />}
+                iconLeft={<RowIcon sf="square.3.layers.3d" fallback={Layers} />}
                 onPress={() =>
                   router.push(`/recaps/week/${dayjs().format(DATE_FORMAT)}`)
                 }
@@ -154,7 +171,9 @@ export const SettingsScreen = () => {
             <FlagHighlight flag="ios-widget">
               <MenuListItem
                 title={t("widget")}
-                iconLeft={<PanelsTopLeft {...iconProps} />}
+                iconLeft={
+                  <RowIcon sf="rectangle.3.group" fallback={PanelsTopLeft} />
+                }
                 onPress={() => router.push("/widget")}
                 testID="widget"
                 isLink
@@ -167,7 +186,9 @@ export const SettingsScreen = () => {
         <MenuList>
           <MenuListItem
             title={t("theme")}
-            iconLeft={<SunMoon {...iconProps} />}
+            iconLeft={
+              <RowIcon sf="circle.lefthalf.filled" fallback={SunMoon} />
+            }
             iconRight={
               <Text style={{ fontSize: 17, color: colors.textSecondary }}>
                 {t(`theme_${colorScheme}`)}
@@ -179,14 +200,14 @@ export const SettingsScreen = () => {
           />
           <MenuListItem
             title={t("app_icon")}
-            iconLeft={<Squircle {...iconProps} />}
+            iconLeft={<RowIcon sf="app" fallback={Squircle} />}
             onPress={() => router.push("/settings/app-icon")}
             testID="app-icon"
             isLink
           />
           <MenuListItem
             title={t("colors")}
-            iconLeft={<Droplet {...iconProps} />}
+            iconLeft={<RowIcon sf="drop" fallback={Droplet} />}
             onPress={() => router.push("/settings/colors")}
             isLink
           />
@@ -197,7 +218,7 @@ export const SettingsScreen = () => {
           <MenuListItem
             title={t("request_a_feature")}
             onPress={() => showFeedbackModal({ type: "idea" })}
-            iconLeft={<Lightbulb {...iconProps} />}
+            iconLeft={<RowIcon sf="lightbulb" fallback={Lightbulb} />}
             testID="request_a_feature"
           />
           <MenuListItem
@@ -206,13 +227,13 @@ export const SettingsScreen = () => {
               analytics.track("settings:vote_features_tapped");
               await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
             }}
-            iconLeft={<CircleArrowUp {...iconProps} />}
+            iconLeft={<RowIcon sf="arrow.up.circle" fallback={CircleArrowUp} />}
             testID="vote_features"
           />
           <MenuListItem
             title={t("report_a_bug")}
             onPress={() => showFeedbackModal({ type: "issue" })}
-            iconLeft={<Bug {...iconProps} />}
+            iconLeft={<RowIcon sf="ladybug" fallback={Bug} />}
             testID="report_a_bug"
           />
           <MenuListItem
@@ -222,7 +243,7 @@ export const SettingsScreen = () => {
                 : "rate_pixy_google_play"
             )}
             onPress={() => askToRateApp()}
-            iconLeft={<Star {...iconProps} />}
+            iconLeft={<RowIcon sf="star" fallback={Star} />}
             testID="rate_pixy"
           />
         </MenuList>
@@ -236,18 +257,18 @@ export const SettingsScreen = () => {
               analytics.track("settings:changelog_tapped");
               await WebBrowser.openBrowserAsync(CHANGELOG_URL);
             }}
-            iconLeft={<BookOpen {...iconProps} />}
+            iconLeft={<RowIcon sf="book" fallback={BookOpen} />}
             testID="changelog"
           />
           <MenuListItem
             title={t("privacy")}
             onPress={() => router.push("/settings/privacy")}
-            iconLeft={<Shield {...iconProps} />}
+            iconLeft={<RowIcon sf="shield" fallback={Shield} />}
             isLink
           />
           <MenuListItem
             title={t("licenses")}
-            iconLeft={<Award {...iconProps} />}
+            iconLeft={<RowIcon sf="rosette" fallback={Award} />}
             onPress={() => router.push("/settings/licenses")}
             isLink
           />
@@ -268,13 +289,13 @@ export const SettingsScreen = () => {
             <MenuList style={{}}>
               <MenuListItem
                 title={t("onboarding")}
-                iconLeft={<Smartphone {...iconProps} />}
+                iconLeft={<RowIcon sf="iphone" fallback={Smartphone} />}
                 onPress={() => router.push("/onboarding")}
               />
               {DEV_TOOLS && (
                 <MenuListItem
                   title="Test data"
-                  iconLeft={<Database {...iconProps} />}
+                  iconLeft={<RowIcon sf="externaldrive" fallback={Database} />}
                   onPress={() => router.push("/dev/fixtures")}
                   isLink
                   testID="dev-fixtures"
@@ -283,7 +304,7 @@ export const SettingsScreen = () => {
               {canOverrideFeatureFlags && (
                 <MenuListItem
                   title="Feature flags"
-                  iconLeft={<Flag {...iconProps} />}
+                  iconLeft={<RowIcon sf="flag" fallback={Flag} />}
                   onPress={() => router.push("/settings/feature-flags")}
                   isLink
                   testID="dev-feature-flags"
@@ -291,7 +312,7 @@ export const SettingsScreen = () => {
               )}
               <MenuListItem
                 title={t("settings_development_statistics")}
-                iconLeft={<ChartPie {...iconProps} />}
+                iconLeft={<RowIcon sf="chart.pie" fallback={ChartPie} />}
                 onPress={() => router.push("/settings/development-tools")}
                 isLink
               />

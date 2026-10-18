@@ -1,4 +1,6 @@
 import FlagHighlight from "@/components/FlagHighlight";
+import Icon from "@/components/Icon";
+import type { IconProps } from "@/components/Icon";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
@@ -34,12 +36,15 @@ import { RADIUS } from "@/constants/Radius";
 /** Space below the last block of a card. */
 const CARD_BOTTOM_PADDING = 20;
 
-const TIME_OF_DAY_ICONS: Record<TimeOfDay, typeof Sun> = {
-  morning: Sunrise,
-  midday: Sun,
-  afternoon: SunMedium,
-  evening: Sunset,
-  night: Moon,
+const TIME_OF_DAY_ICONS: Record<
+  TimeOfDay,
+  Pick<IconProps, "sf" | "fallback">
+> = {
+  morning: { sf: "sunrise", fallback: Sunrise },
+  midday: { sf: "sun.max", fallback: Sun },
+  afternoon: { sf: "sun.min", fallback: SunMedium },
+  evening: { sf: "sunset", fallback: Sunset },
+  night: { sf: "moon", fallback: Moon },
 };
 
 /** Edit and Delete for one entry behind one "…" menu with a 44 pt target. */
@@ -84,7 +89,7 @@ const EntryHeader = ({
   const colors = useColors();
   const scaleType = useSetting("scaleType");
   const timeOfDay = getTimeOfDay(item.dateTime);
-  const TimeOfDayIcon = TIME_OF_DAY_ICONS[timeOfDay];
+  const timeOfDayIcon = TIME_OF_DAY_ICONS[timeOfDay];
 
   return (
     <View
@@ -120,7 +125,7 @@ const EntryHeader = ({
         </Text>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-            <TimeOfDayIcon color={colors.textSecondary} size={14} />
+            <Icon {...timeOfDayIcon} size={14} color={colors.textSecondary} />
             <Text style={{ fontSize: 13, color: colors.textSecondary }}>
               {t(timeOfDay)}
             </Text>

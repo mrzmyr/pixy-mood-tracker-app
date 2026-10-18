@@ -3,6 +3,7 @@ import { Pressable, Text, View, useColorScheme } from "react-native";
 import type { PressableProps, ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import Icon from "@/components/Icon";
 import { t } from "@/lib/translation";
 import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
@@ -117,7 +118,13 @@ const PersonTile = ({
             justifyContent: "center",
           }}
         >
-          <Check size={16} color={colors.primaryButtonText} strokeWidth={3} />
+          <Icon
+            sf="checkmark"
+            fallback={Check}
+            size={16}
+            color={colors.primaryButtonText}
+            strokeWidth={3}
+          />
         </View>
       )}
       <Text

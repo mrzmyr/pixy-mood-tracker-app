@@ -3,6 +3,7 @@ import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
+import Icon from "@/components/Icon";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
@@ -260,7 +261,12 @@ export const DevelopmentTools = () => {
                     removeActionDone(action.title);
                   }}
                 >
-                  <Trash size={20} color={colors.tint} />
+                  <Icon
+                    sf="trash"
+                    fallback={Trash}
+                    size={20}
+                    color={colors.tint}
+                  />
                 </LinkButton>
               </View>
             </MenuListItem>

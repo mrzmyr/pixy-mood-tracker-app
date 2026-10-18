@@ -1,5 +1,6 @@
 import { Image } from "expo-image";
 import ImageOff from "lucide-react-native/icons/image-off";
+import Icon from "@/components/Icon";
 import { useState } from "react";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
@@ -37,7 +38,12 @@ export const TileImage = ({
           padding: 4,
         }}
       >
-        <ImageOff color={colors.textSecondary} size={24} />
+        <Icon
+          sf="exclamationmark.triangle"
+          fallback={ImageOff}
+          size={24}
+          color={colors.textSecondary}
+        />
         <Text
           numberOfLines={2}
           style={{

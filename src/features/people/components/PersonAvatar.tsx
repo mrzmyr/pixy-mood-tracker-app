@@ -2,6 +2,7 @@ import { Image } from "expo-image";
 import User from "lucide-react-native/icons/user";
 import { View } from "react-native";
 import useColors from "@/hooks/useColors";
+import Icon from "@/components/Icon";
 import { getAvatarUri } from "../avatars";
 import type { Person } from "../PeopleProvider";
 
@@ -48,7 +49,9 @@ export const PersonAvatar = ({
           contentFit="cover"
         />
       ) : (
-        <User
+        <Icon
+          sf="person"
+          fallback={User}
           size={Math.round(size * 0.6)}
           color={colors.textSecondary}
           strokeWidth={2}

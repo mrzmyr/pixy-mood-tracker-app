@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Contact from "lucide-react-native/icons/contact";
 import Trash from "lucide-react-native/icons/trash";
+import Icon from "@/components/Icon";
 import { useRef } from "react";
 import { Platform, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -239,7 +240,14 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
             <MenuList style={{ marginTop: SECTION_GAP }}>
               <MenuListItem
                 title={t("people_add_from_contacts")}
-                iconLeft={<Contact size={22} color={colors.tint} />}
+                iconLeft={
+                  <Icon
+                    sf="person.crop.circle"
+                    fallback={Contact}
+                    size={22}
+                    color={colors.tint}
+                  />
+                }
                 onPress={() => router.replace("/people/import")}
                 style={{ color: colors.tint }}
                 testID="person-from-contacts"

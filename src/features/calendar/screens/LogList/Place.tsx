@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import type { LogItem } from "@/features/logs";
 import { getLocationLabel, useLocationSetting } from "@/features/location";
 import useColors from "@/hooks/useColors";
+import Icon from "@/components/Icon";
 
 /**
  * Place of an entry in the card header: a gray map pin and the place name on
@@ -29,7 +30,12 @@ export const Place = ({ item }: { item: LogItem }) => {
       accessibilityLabel={label}
       style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
     >
-      <MapPin color={colors.textSecondary} size={14} />
+      <Icon
+        sf="mappin"
+        fallback={MapPin}
+        size={14}
+        color={colors.textSecondary}
+      />
       <Text
         numberOfLines={1}
         style={{ flexShrink: 1, fontSize: 13, color: colors.textSecondary }}

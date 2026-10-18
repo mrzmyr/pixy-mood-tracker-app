@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
+import Icon from "@/components/Icon";
 import ModalHeader from "@/components/ModalHeader";
 import TextInfo from "@/components/TextInfo";
 import { MAX_PEOPLE } from "@/constants/Config";
@@ -82,7 +83,9 @@ const ContactRow = ({
           {t("people_import_added")}
         </Text>
       ) : (
-        isSelected && <Check size={22} color={colors.tint} />
+        isSelected && (
+          <Icon sf="checkmark" fallback={Check} size={22} color={colors.tint} />
+        )
       )}
     </Pressable>
   );

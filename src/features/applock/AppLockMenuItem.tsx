@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import Lock from "lucide-react-native/icons/lock";
 import FlagHighlight from "@/components/FlagHighlight";
+import Icon from "@/components/Icon";
 import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
@@ -54,7 +55,14 @@ export const AppLockMenuItem = () => {
             </Text>
           </View>
         }
-        iconLeft={<Lock width={18} color={colors.menuListItemIcon} />}
+        iconLeft={
+          <Icon
+            sf="lock"
+            fallback={Lock}
+            size={18}
+            color={colors.menuListItemIcon}
+          />
+        }
         accessibilityValue={{ text: status }}
         onPress={() => router.push("/settings/app-lock")}
         testID="app-lock"

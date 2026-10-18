@@ -10,6 +10,7 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
+import Icon from "@/components/Icon";
 import {
   GestureDetector,
   GestureHandlerRootView,
@@ -331,9 +332,11 @@ export const PhotoViewer = ({
                 opacity: pressed ? 0.8 : 1,
               })}
             >
-              <Trash
-                color={FOREGROUND}
+              <Icon
+                sf="trash"
+                fallback={Trash}
                 size={20}
+                color={FOREGROUND}
                 accessibilityElementsHidden
                 importantForAccessibility="no"
               />

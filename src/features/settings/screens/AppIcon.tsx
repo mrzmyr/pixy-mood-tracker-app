@@ -15,6 +15,7 @@ import {
   Text,
   View,
 } from "react-native";
+import Icon from "@/components/Icon";
 import FlagHighlight from "@/components/FlagHighlight";
 import MenuList from "@/components/MenuList";
 import TextInfo from "@/components/TextInfo";
@@ -87,11 +88,21 @@ const AppIconRow = ({
 
   const trailing = () => {
     if (isLocked) {
-      return <Lock size={22} color={colors.textSecondary} aria-hidden />;
+      return (
+        <Icon
+          sf="lock"
+          fallback={Lock}
+          size={22}
+          color={colors.textSecondary}
+          aria-hidden
+        />
+      );
     }
     if (isSelected) {
       return (
-        <CircleCheck
+        <Icon
+          sf="checkmark.circle.fill"
+          fallback={CircleCheck}
           size={26}
           color={colors.background}
           fill={colors.tint}
@@ -100,7 +111,9 @@ const AppIconRow = ({
       );
     }
     return (
-      <Circle
+      <Icon
+        sf="circle"
+        fallback={Circle}
         size={26}
         color={colors.textSecondary}
         strokeWidth={1.5}

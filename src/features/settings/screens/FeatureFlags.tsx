@@ -7,6 +7,7 @@ import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
+import Icon from "@/components/Icon";
 import useColors from "@/hooks/useColors";
 import {
   useFeatureFlagSource,
@@ -70,7 +71,12 @@ const AllFlagsSection = ({
             }
             iconRight={
               shared === option.value ? (
-                <Check size={18} color={colors.tint} />
+                <Icon
+                  sf="checkmark"
+                  fallback={Check}
+                  size={18}
+                  color={colors.tint}
+                />
               ) : null
             }
             testID={`feature-flag-all-${option.value}`}
@@ -106,7 +112,12 @@ const FeatureFlagSection = ({
             onPress={() => setOverride({ key: flag, value: option.value })}
             iconRight={
               (override ?? "remote") === option.value ? (
-                <Check size={18} color={colors.tint} />
+                <Icon
+                  sf="checkmark"
+                  fallback={Check}
+                  size={18}
+                  color={colors.tint}
+                />
               ) : null
             }
             testID={`feature-flag-${flag}-${option.value}`}

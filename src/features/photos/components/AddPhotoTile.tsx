@@ -2,6 +2,7 @@ import ImagePlus from "lucide-react-native/icons/image-plus";
 import { Pressable, Text } from "react-native";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import Icon from "@/components/Icon";
 import { RADIUS } from "@/constants/Radius";
 
 /**
@@ -45,7 +46,12 @@ export const AddPhotoTile = ({
         opacity: disabled || pressed ? 0.4 : 1,
       })}
     >
-      <ImagePlus color={colors.textSecondary} size={24} />
+      <Icon
+        sf="photo.badge.plus"
+        fallback={ImagePlus}
+        size={24}
+        color={colors.textSecondary}
+      />
       <Text
         numberOfLines={2}
         style={{

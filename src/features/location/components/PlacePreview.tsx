@@ -2,6 +2,7 @@ import MapPin from "lucide-react-native/icons/map-pin";
 import { Text, View } from "react-native";
 import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
+import Icon from "@/components/Icon";
 import type { LogLocation } from "@/types";
 import { getLocationLabel } from "../places";
 import { PlacePreviewMap } from "./PlacePreviewMap";
@@ -59,7 +60,7 @@ export const PlacePreview = ({
             backgroundColor: colors.logCardBackground,
           }}
         >
-          <MapPin size={12} color={colors.text} />
+          <Icon sf="mappin" fallback={MapPin} size={12} color={colors.text} />
           <Text
             numberOfLines={1}
             style={{ flexShrink: 1, fontSize: 13, color: colors.text }}

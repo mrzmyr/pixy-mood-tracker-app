@@ -8,6 +8,7 @@ import Swipeable, {
 import Archive from "lucide-react-native/icons/archive";
 import Trash from "lucide-react-native/icons/trash";
 import useColors from "@/hooks/useColors";
+import Icon from "@/components/Icon";
 import { t } from "@/lib/translation";
 import { TagListItem } from "./TagListItem";
 import { useTagActions } from "../useTagActions";
@@ -59,7 +60,12 @@ export const TagRow = ({
                   gap: 2,
                 }}
               >
-                <Archive size={18} color={colors.palette.white} />
+                <Icon
+                  sf="archivebox"
+                  fallback={Archive}
+                  size={18}
+                  color={colors.palette.white}
+                />
                 <Text style={{ color: colors.palette.white, fontSize: 12 }}>
                   {t("archive_tag")}
                 </Text>
@@ -85,7 +91,12 @@ export const TagRow = ({
             gap: 2,
           }}
         >
-          <Trash size={18} color={colors.palette.white} />
+          <Icon
+            sf="trash"
+            fallback={Trash}
+            size={18}
+            color={colors.palette.white}
+          />
           <Text style={{ color: colors.palette.white, fontSize: 12 }}>
             {t("delete")}
           </Text>

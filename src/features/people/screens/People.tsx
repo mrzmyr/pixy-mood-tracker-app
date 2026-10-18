@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
+import Icon from "@/components/Icon";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { getPeopleLimit } from "../peopleLimit";
@@ -95,7 +96,14 @@ export const SettingsPeople = ({
               <MenuList>
                 <MenuListItem
                   title={t("people_archive")}
-                  iconLeft={<Archive size={20} color={colors.text} />}
+                  iconLeft={
+                    <Icon
+                      sf="archivebox"
+                      fallback={Archive}
+                      size={20}
+                      color={colors.text}
+                    />
+                  }
                   isLink
                   onPress={() => router.push("/settings/steps/people/archive")}
                   testID="people-archive"

@@ -7,6 +7,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FullWindowOverlay } from "react-native-screens";
 import Button from "@/components/Button";
+import Icon from "@/components/Icon";
 import { ToastHost } from "@/components/Toast";
 import { SUPPORT_EMAIL } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
@@ -131,7 +132,13 @@ export const AppLockScreen = () => {
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <Lock size={40} color={colors.text} strokeWidth={2} />
+        <Icon
+          sf="lock"
+          fallback={Lock}
+          size={40}
+          color={colors.text}
+          strokeWidth={2}
+        />
       </View>
       {isLocked && (
         <>

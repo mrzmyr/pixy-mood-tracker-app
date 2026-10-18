@@ -5,6 +5,7 @@ import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
+import Icon from "@/components/Icon";
 import {
   AddPhotoTile,
   MAX_PHOTOS_PER_ENTRY,
@@ -187,7 +188,14 @@ export const SlidePhotos = ({
         <Button
           type="secondary"
           testID="photos-library-button"
-          icon={<Images color={colors.secondaryButtonText} size={18} />}
+          icon={
+            <Icon
+              sf="photo.on.rectangle"
+              fallback={Images}
+              size={18}
+              color={colors.secondaryButtonText}
+            />
+          }
           onPress={addFromLibrary}
           disabled={draft.isAddDisabled}
           style={{

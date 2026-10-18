@@ -10,6 +10,7 @@ import useColors from "@/hooks/useColors";
 
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
+import Icon from "@/components/Icon";
 import { t } from "@/lib/translation";
 import sortBy from "lodash/sortBy";
 import Archive from "lucide-react-native/icons/archive";
@@ -56,7 +57,14 @@ export const SettingsTags = () => {
                   <MenuListItem
                     testID="tag-categories-link"
                     title={t("tag_categories")}
-                    iconLeft={<Folder size={20} color={colors.text} />}
+                    iconLeft={
+                      <Icon
+                        sf="folder"
+                        fallback={Folder}
+                        size={20}
+                        color={colors.text}
+                      />
+                    }
                     isLink
                     onPress={() => {
                       router.push("/tags/categories");
@@ -64,7 +72,14 @@ export const SettingsTags = () => {
                   />
                   <MenuListItem
                     title={t("archive_tag")}
-                    iconLeft={<Archive size={20} color={colors.text} />}
+                    iconLeft={
+                      <Icon
+                        sf="archivebox"
+                        fallback={Archive}
+                        size={20}
+                        color={colors.text}
+                      />
+                    }
                     isLink
                     onPress={() => {
                       router.push("/settings/steps/tags/archive");

@@ -3,6 +3,7 @@ import { Pressable, Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import Icon from "@/components/Icon";
 import { t } from "@/lib/translation";
 import { INTERVENTIONS } from "../catalog";
 import type { InterventionId } from "../catalog";
@@ -71,7 +72,15 @@ export const OptionTile = ({
           >
             {title}
           </Text>
-          {isDone && <Check size={16} color={colors.tint} strokeWidth={2.5} />}
+          {isDone && (
+            <Icon
+              sf="checkmark"
+              fallback={Check}
+              size={16}
+              color={colors.tint}
+              strokeWidth={2.5}
+            />
+          )}
         </View>
         <Text
           style={{ fontSize: 13, lineHeight: 17, color: colors.textSecondary }}

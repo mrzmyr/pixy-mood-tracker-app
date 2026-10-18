@@ -6,14 +6,20 @@ import type { LucideIcon } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import Icon from "@/components/Icon";
+import type { IconProps } from "@/components/Icon";
 import { t } from "@/lib/translation";
 import type { InterventionFeedback } from "@/state/analytics/events";
 import { RADIUS } from "@/constants/Radius";
 
-const ANSWERS: { value: InterventionFeedback; Icon: LucideIcon }[] = [
-  { value: "worse", Icon: ArrowDownRight },
-  { value: "same", Icon: ArrowRight },
-  { value: "better", Icon: ArrowUpRight },
+const ANSWERS: {
+  value: InterventionFeedback;
+  sf: IconProps["sf"];
+  fallback: LucideIcon;
+}[] = [
+  { value: "worse", sf: "arrow.down.right", fallback: ArrowDownRight },
+  { value: "same", sf: "arrow.right", fallback: ArrowRight },
+  { value: "better", sf: "arrow.up.right", fallback: ArrowUpRight },
 ];
 
 /** Same three answers as the logger confirmation, asked after a flow. */
@@ -40,7 +46,13 @@ export const EndCheckView = ({
           paddingHorizontal: 12,
         }}
       >
-        <Heart size={40} color={colors.tint} strokeWidth={1.75} />
+        <Icon
+          sf="heart"
+          fallback={Heart}
+          size={40}
+          color={colors.tint}
+          strokeWidth={1.75}
+        />
         <Text
           accessibilityRole="header"
           style={{
@@ -64,7 +76,7 @@ export const EndCheckView = ({
         </Text>
       </View>
       <View style={{ flexDirection: "row", gap: 10 }}>
-        {ANSWERS.map(({ value, Icon }) => {
+        {ANSWERS.map(({ value, sf, fallback }) => {
           const isSelected = selected === value;
           const foreground = isSelected
             ? colors.logCardBackground
@@ -95,7 +107,13 @@ export const EndCheckView = ({
                 opacity: pressed ? 0.8 : 1,
               })}
             >
-              <Icon color={foreground} size={26} strokeWidth={1.75} />
+              <Icon
+                sf={sf}
+                fallback={fallback}
+                size={26}
+                color={foreground}
+                strokeWidth={1.75}
+              />
               <Text
                 style={{ fontSize: 15, fontWeight: "500", color: foreground }}
               >

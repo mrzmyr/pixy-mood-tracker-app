@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CloseButton } from "@/components/CloseButton";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
+import Icon from "@/components/Icon";
 import ModalHeader from "@/components/ModalHeader";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
@@ -46,7 +47,14 @@ export const Tags = () => {
               <MenuListItem
                 testID="tag-categories-link"
                 title={t("tag_categories")}
-                iconLeft={<Folder size={20} color={colors.text} />}
+                iconLeft={
+                  <Icon
+                    sf="folder"
+                    fallback={Folder}
+                    size={20}
+                    color={colors.text}
+                  />
+                }
                 isLink
                 onPress={() => router.push("/tags/categories")}
               />

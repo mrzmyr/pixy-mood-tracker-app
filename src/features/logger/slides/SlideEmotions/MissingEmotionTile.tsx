@@ -4,6 +4,7 @@ import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
+import Icon from "@/components/Icon";
 
 const DEFAULT_STYLE = {};
 
@@ -45,7 +46,7 @@ export const MissingEmotionTile = ({
         ...style,
       })}
     >
-      <Plus size={18} color={colors.textSecondary} />
+      <Icon sf="plus" fallback={Plus} size={18} color={colors.textSecondary} />
       <Text
         numberOfLines={1}
         style={{ fontSize: 17, fontWeight: "500", color: colors.textSecondary }}
