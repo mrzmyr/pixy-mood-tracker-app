@@ -7,16 +7,11 @@ import type { ReactNode } from "react";
 
 import { View } from "react-native";
 import type { LogItem } from "@/features/logs";
-import { getAverageMood } from "@/features/logs";
 import { Day } from "./Day";
+import { getPixelRating } from "./pixelRating";
 import { YAxis } from "./YAxis";
 
-/**
- * One day-of-month row across all 12 months of the year of `date`.
- *
- * Matches entries by the UTC date part of `dateTime`, so entries near
- * midnight can land on a neighboring day outside UTC.
- */
+/** One day-of-month row across all 12 months of the year of `date`. */
 export const Row = ({
   date,
   dayCount,
@@ -35,10 +30,7 @@ export const Row = ({
     const dateString = `${monthString}-${padStart(`${dayCount}`, 2, "0")}`;
     const inThisMonth = dayjs(dateString).month() === i;
 
-    const _items = items.filter(
-      (item) => item.dateTime?.split("T")[0] === dateString
-    );
-    const rating = getAverageMood(_items);
+    const rating = getPixelRating(items, dateString);
 
     months.push(
       <View
