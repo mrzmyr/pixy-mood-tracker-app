@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "לְבַטֵל",
   "feedback_modal_description": "המשוב שלך עוזר לי מאוד להבין טוב יותר איך אתה משתמש באפליקציה וכיצד אני יכול לשפר אותה.",
   "feedback_modal_email_placeholder": "אימייל (אופציונלי)",
+  "feedback_modal_error": "המשוב לא נשלח. בדוק את החיבור ונסה שוב.",
   "feedback_modal_help": "השאר את פרטי הקשר שלך אם תרצה שאענה לך.",
   "feedback_modal_message_placeholder": "שמתי לב לזה…",
   "feedback_modal_message_placeholder_idea": "זה יהיה נהדר אם…",

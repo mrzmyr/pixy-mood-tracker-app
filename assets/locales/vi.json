@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Hủy bỏ",
   "feedback_modal_description": "Phản hồi của bạn giúp tôi rất nhiều để hiểu rõ hơn về cách bạn sử dụng ứng dụng và cách tôi có thể cải thiện nó.",
   "feedback_modal_email_placeholder": "Email (tùy chọn)",
+  "feedback_modal_error": "Chưa gửi được phản hồi. Hãy kiểm tra kết nối rồi thử lại.",
   "feedback_modal_help": "Để lại thông tin liên hệ của bạn nếu bạn muốn tôi trả lời bạn.",
   "feedback_modal_message_placeholder": "Tôi nhận thấy rằng…",
   "feedback_modal_message_placeholder_idea": "Sẽ thật tuyệt nếu…",

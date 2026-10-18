@@ -248,6 +248,43 @@ describe("Feedback in Settings", () => {
     }
   );
 
+  test("user keeps the draft when sending fails and retries", async () => {
+    const alert = jest.spyOn(Alert, "alert").mockImplementation();
+    global.fetch = jest
+      .fn()
+      .mockRejectedValueOnce(new Error("offline"))
+      .mockResolvedValueOnce({ ok: true });
+    const screen = await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+    });
+
+    await userEvent.press(screen.getByText("Report Bug"));
+    await userEvent.type(
+      screen.getByTestId("feedback-modal-message"),
+      "Calendar export"
+    );
+    await userEvent.press(screen.getByTestId("feedback-modal-send"));
+
+    expect(await screen.findByTestId("feedback-modal-error")).toBeOnTheScreen();
+    expect(screen.getByRole("alert")).toHaveAccessibleName(
+      "Feedback not sent. Check your connection and try again."
+    );
+    expect(screen.getByTestId("feedback-modal-message")).toHaveDisplayValue(
+      "Calendar export"
+    );
+    expect(alert).not.toHaveBeenCalled();
+
+    await userEvent.press(screen.getByTestId("feedback-modal-send"));
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("feedback-modal-message")).toBeNull()
+    );
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+    const [, [, retry]] = jest.mocked(global.fetch).mock.calls;
+    expect(JSON.parse(String(retry?.body)).message).toBe("Calendar export");
+  });
+
   test("user sees store rating as last feedback item", async () => {
     const screen = await renderSettings({
       enabled: false,

@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Membatalkan",
   "feedback_modal_description": "Umpan balik Anda sangat membantu saya untuk lebih memahami bagaimana Anda menggunakan aplikasi dan bagaimana saya dapat meningkatkannya.",
   "feedback_modal_email_placeholder": "Email (opsional)",
+  "feedback_modal_error": "Umpan balik tidak terkirim. Periksa koneksi lalu coba lagi.",
   "feedback_modal_help": "Tinggalkan informasi kontak Anda jika Anda ingin saya menjawab Anda.",
   "feedback_modal_message_placeholder": "Aku tahu itu…",
   "feedback_modal_message_placeholder_idea": "Akan bagus jika…",

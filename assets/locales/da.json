@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Afbestille",
   "feedback_modal_description": "Din feedback hjælper mig meget til bedre at forstå, hvordan du bruger appen, og hvordan jeg kan forbedre den.",
   "feedback_modal_email_placeholder": "E-mail (valgfrit)",
+  "feedback_modal_error": "Feedback blev ikke sendt. Tjek din forbindelse, og prøv igen.",
   "feedback_modal_help": "Efterlad dine kontaktoplysninger, hvis du vil have mig til at svare dig.",
   "feedback_modal_message_placeholder": "Det bemærkede jeg…",
   "feedback_modal_message_placeholder_idea": "Det ville være fedt, hvis…",

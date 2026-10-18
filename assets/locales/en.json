@@ -179,6 +179,7 @@
   "feedback_help": "This app is developed by one person. I value your feedback very much. It helps me better understand how you use the app and how I can improve it.",
   "feedback_modal_description": "Your feedback helps me a lot to better understand how you use the app and how I can improve it.",
   "feedback_modal_email_placeholder": "Email (optional)",
+  "feedback_modal_error": "Feedback not sent. Check your connection and try again.",
   "feedback_modal_help": "Leave your contact information if you would like me to answer you.",
   "feedback_modal_message_placeholder": "I noticed that…",
   "feedback_modal_message_placeholder_idea": "It would be great if…",

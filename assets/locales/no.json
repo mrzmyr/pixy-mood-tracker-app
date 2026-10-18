@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Avbryt",
   "feedback_modal_description": "Tilbakemeldingen din hjelper meg mye med å forstå hvordan du bruker appen og hvordan jeg kan forbedre den.",
   "feedback_modal_email_placeholder": "E-post (valgfritt)",
+  "feedback_modal_error": "Tilbakemeldingen ble ikke sendt. Sjekk tilkoblingen og prøv igjen.",
   "feedback_modal_help": "Legg igjen kontaktinformasjonen din hvis du vil at jeg skal svare deg.",
   "feedback_modal_message_placeholder": "Jeg la merke til det…",
   "feedback_modal_message_placeholder_idea": "Det hadde vært flott om…",

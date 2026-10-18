@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Anulare",
   "feedback_modal_description": "Feedbackul tău mă ajută foarte mult să înțeleg mai bine cum folosești aplicația și cum o pot îmbunătăți.",
   "feedback_modal_email_placeholder": "E-mail (opțional)",
+  "feedback_modal_error": "Feedback-ul nu a fost trimis. Verifică conexiunea și încearcă din nou.",
   "feedback_modal_help": "Lăsați-vă informațiile de contact dacă doriți să vă răspund.",
   "feedback_modal_message_placeholder": "Am observat ca…",
   "feedback_modal_message_placeholder_idea": "Ar fi grozav dacă…",

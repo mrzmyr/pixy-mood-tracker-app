@@ -163,6 +163,7 @@
   "feedback_modal_cancel": "Abbrechen",
   "feedback_modal_description": "Dein Feedback hilft mir sehr, besser zu verstehen, wie die App verwendet wird.",
   "feedback_modal_email_placeholder": "E-Mail (optional)",
+  "feedback_modal_error": "Feedback nicht gesendet. Prüfe deine Verbindung und versuche es erneut.",
   "feedback_modal_help": "Schreib mir gerne deine Kontaktdaten, wenn du möchtest, dass ich dir antworte.",
   "feedback_modal_message_placeholder": "Ich habe bemerkt, dass…",
   "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…",

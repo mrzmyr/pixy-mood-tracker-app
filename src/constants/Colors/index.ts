@@ -92,6 +92,20 @@ const light = {
   cardBackground: "#fff",
   cardBorder: colors.neutral[200],
   toastSuccessIcon: colors.green[600],
+
+  // InlineAlert: accent colors the icon. Background = accent at 12% (dark 16%).
+  alert: {
+    error: { accent: dangerLight, background: `${dangerLight}1F` },
+    warning: {
+      accent: colors.amber[600],
+      background: `${colors.amber[600]}1F`,
+    },
+    info: { accent: tintColorLight, background: `${tintColorLight}1F` },
+    success: {
+      accent: colors.green[600],
+      background: `${colors.green[600]}1F`,
+    },
+  },
   snackbarBackground: colors.neutral[800],
   snackbarText: colors.neutral[50],
   snackbarAction: colors.blue[300],
@@ -318,6 +332,19 @@ const dark: IColors & {
   cardBackground: colors.neutral[900],
   cardBorder: colors.neutral[800],
   toastSuccessIcon: colors.green[400],
+
+  alert: {
+    error: { accent: dangerDark, background: `${dangerDark}29` },
+    warning: {
+      accent: colors.amber[400],
+      background: `${colors.amber[400]}29`,
+    },
+    info: { accent: tintColorDark, background: `${tintColorDark}29` },
+    success: {
+      accent: colors.green[400],
+      background: `${colors.green[400]}29`,
+    },
+  },
   snackbarBackground: colors.neutral[200],
   snackbarText: colors.neutral[900],
   snackbarAction: colors.blue[700],

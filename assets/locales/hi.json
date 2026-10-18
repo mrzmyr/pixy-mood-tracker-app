@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "रद्द करें",
   "feedback_modal_description": "आपकी प्रतिक्रिया से मुझे यह समझने में बहुत मदद मिलती है कि आप ऐप का उपयोग कैसे करते हैं और मैं इसे कैसे बेहतर बना सकता हूं।",
   "feedback_modal_email_placeholder": "ईमेल वैकल्पिक)",
+  "feedback_modal_error": "प्रतिक्रिया नहीं भेजी गई। अपना कनेक्शन जाँचें और फिर कोशिश करें।",
   "feedback_modal_help": "अपनी संपर्क जानकारी छोड़ दें यदि आप चाहते हैं कि मैं आपको उत्तर दूं।",
   "feedback_modal_message_placeholder": "मैंने गौर किया…",
   "feedback_modal_message_placeholder_idea": "बहुत अच्छा होगा अगर…",

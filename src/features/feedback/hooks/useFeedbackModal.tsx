@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import DismissKeyboard from "@/components/DismisKeyboard";
+import { InlineAlert } from "@/components/InlineAlert";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import { SheetModal } from "@/components/SheetModal";
@@ -45,32 +46,34 @@ const FeedbackModalContent = ({
 
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "failed">("idle");
   const messageRef = useRef<TextInput>(null);
+  const isLoading = status === "sending";
 
   const setMessageProxy = (nextMessage: string) => {
     setMessage(nextMessage);
   };
 
+  // A failed send keeps the sheet and the draft open with an inline error,
+  // so Send retries it.
   const send = async () => {
-    setIsLoading(true);
-
-    try {
-      await feedback.send({
-        type,
-        message,
-        email,
-        source: "modal",
-        onCancel: () => {
-          close();
-        },
-      });
-      close();
-    } catch (error) {
-      setIsLoading(false);
-      throw error;
+    setStatus("sending");
+    let hasFailed = false;
+    await feedback.send({
+      type,
+      message,
+      email,
+      source: "modal",
+      onCancel: () => {
+        hasFailed = true;
+      },
+    });
+    if (hasFailed) {
+      setStatus("failed");
+      return;
     }
-    setIsLoading(false);
+    setStatus("idle");
+    close();
   };
 
   return (
@@ -196,6 +199,13 @@ const FeedbackModalContent = ({
               >
                 {t("feedback_modal_help")}
               </Text>
+              {status === "failed" && (
+                <InlineAlert
+                  testID="feedback-modal-error"
+                  message={t("feedback_modal_error")}
+                  style={{ marginTop: 8 }}
+                />
+              )}
             </View>
           </View>
         </KeyboardAvoidingView>

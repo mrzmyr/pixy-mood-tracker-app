@@ -160,6 +160,7 @@
   "feedback_modal_cancel": "Ματαίωση",
   "feedback_modal_description": "Τα σχόλιά σας με βοηθούν πολύ να καταλάβω καλύτερα πώς χρησιμοποιείτε την εφαρμογή και πώς μπορώ να τη βελτιώσω.",
   "feedback_modal_email_placeholder": "Email (προαιρετικό)",
+  "feedback_modal_error": "Τα σχόλια δεν στάλθηκαν. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά.",
   "feedback_modal_help": "Αφήστε τα στοιχεία επικοινωνίας σας αν θέλετε να σας απαντήσω.",
   "feedback_modal_message_placeholder": "Παρατήρησα ότι…",
   "feedback_modal_message_placeholder_idea": "Θα ήταν υπέροχο αν…",
