@@ -106,245 +106,243 @@ export const SettingsScreen = () => {
   };
 
   return (
-    <View
+    // ScrollView must be the screen root: the iOS large title tracks the
+    // first ScrollView in the first-child chain, and a wrapper View breaks
+    // the collapse on scroll.
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
       style={{
         flex: 1,
         backgroundColor: colors.background,
       }}
+      contentContainerStyle={{ padding: 20, paddingBottom }}
     >
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ padding: 20, paddingBottom }}
-      >
-        {isProfileEnabled && (
-          <View style={{ marginBottom: 24 }}>
-            <FlagHighlight flag="profile">
-              <ProfileRow />
-            </FlagHighlight>
-          </View>
-        )}
-        <MenuList>
-          <MenuListItem
-            title={t("data")}
-            iconLeft={<Database {...iconProps} />}
-            onPress={() => router.push("/settings/data")}
-            testID="data"
-            isLink
-          />
-          <MenuListItem
-            title={t("reminder")}
-            iconLeft={<Bell {...iconProps} />}
-            onPress={() => router.push("/settings/reminder")}
-            testID="reminder"
-            isLink
-          />
-          <MenuListItem
-            title={t("steps")}
-            iconLeft={<CircleCheckBig {...iconProps} />}
-            onPress={() => router.push("/settings/steps")}
-            isLink
-          />
-          <AppLockMenuItem />
-          {isRecapsEnabled && (
-            <FlagHighlight flag="recaps">
-              <MenuListItem
-                title={t("recaps")}
-                iconLeft={<Layers {...iconProps} />}
-                onPress={() =>
-                  router.push(`/recaps/week/${dayjs().format(DATE_FORMAT)}`)
-                }
-                testID="recaps"
-                isLink
-              />
-            </FlagHighlight>
-          )}
-          {isWidgetEnabled && (
-            <FlagHighlight flag="ios-widget">
-              <MenuListItem
-                title={t("widget")}
-                iconLeft={<PanelsTopLeft {...iconProps} />}
-                onPress={() => router.push("/widget")}
-                testID="widget"
-                isLink
-              />
-            </FlagHighlight>
-          )}
-        </MenuList>
-
-        <MenuListHeadline>{t("settings_appearance")}</MenuListHeadline>
-        <MenuList>
-          <MenuListItem
-            title={t("theme")}
-            iconLeft={<SunMoon {...iconProps} />}
-            iconRight={
-              <Text style={{ fontSize: 17, color: colors.textSecondary }}>
-                {t(`theme_${colorScheme}`)}
-              </Text>
-            }
-            accessibilityValue={{ text: t(`theme_${colorScheme}`) }}
-            onPress={cycleColorScheme}
-            testID="theme"
-          />
-          <MenuListItem
-            title={t("app_icon")}
-            iconLeft={<Squircle {...iconProps} />}
-            onPress={() => router.push("/settings/app-icon")}
-            testID="app-icon"
-            isLink
-          />
-          <MenuListItem
-            title={t("colors")}
-            iconLeft={<Droplet {...iconProps} />}
-            onPress={() => router.push("/settings/colors")}
-            isLink
-          />
-        </MenuList>
-
-        <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>
-        <MenuList style={{}}>
-          <MenuListItem
-            title={t("request_a_feature")}
-            onPress={() =>
-              router.push({ pathname: "/feedback", params: { type: "idea" } })
-            }
-            iconLeft={<Lightbulb {...iconProps} />}
-            testID="request_a_feature"
-          />
-          <MenuListItem
-            title={t("vote_features")}
-            onPress={async () => {
-              analytics.track("settings:vote_features_tapped");
-              await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
-            }}
-            iconLeft={<CircleArrowUp {...iconProps} />}
-            testID="vote_features"
-          />
-          <MenuListItem
-            title={t("report_a_bug")}
-            onPress={() =>
-              router.push({ pathname: "/feedback", params: { type: "issue" } })
-            }
-            iconLeft={<Bug {...iconProps} />}
-            testID="report_a_bug"
-          />
-          <MenuListItem
-            title={t(
-              Platform.OS === "ios"
-                ? "rate_pixy_app_store"
-                : "rate_pixy_google_play"
-            )}
-            onPress={() => askToRateApp()}
-            iconLeft={<Star {...iconProps} />}
-            testID="rate_pixy"
-          />
-        </MenuList>
-        <TextInfo>{t("feedback_help")}</TextInfo>
-
-        <MenuListHeadline>{t("settings_about")}</MenuListHeadline>
-        <MenuList style={{}}>
-          <MenuListItem
-            title={t("changelog")}
-            onPress={async () => {
-              analytics.track("settings:changelog_tapped");
-              await WebBrowser.openBrowserAsync(CHANGELOG_URL);
-            }}
-            iconLeft={<BookOpen {...iconProps} />}
-            testID="changelog"
-          />
-          <MenuListItem
-            title={t("privacy")}
-            onPress={() => router.push("/settings/privacy")}
-            iconLeft={<Shield {...iconProps} />}
-            isLink
-          />
-          <MenuListItem
-            title={t("licenses")}
-            iconLeft={<Award {...iconProps} />}
-            onPress={() => router.push("/settings/licenses")}
-            isLink
-          />
-          <MenuListItem
-            title={t("app_is_open_source")}
-            onPress={() => {
-              Linking.openURL(
-                "https://github.com/mrzmyr/pixy-mood-tracker-app"
-              );
-            }}
-            iconLeft={<GithubIcon {...iconProps} />}
-          />
-        </MenuList>
-
-        {isDevelopmentVisible && (
-          <>
-            <MenuListHeadline>{t("settings_development")}</MenuListHeadline>
-            <MenuList style={{}}>
-              <MenuListItem
-                title={t("onboarding")}
-                iconLeft={<Smartphone {...iconProps} />}
-                onPress={() => router.push("/onboarding")}
-              />
-              {DEV_TOOLS && (
-                <MenuListItem
-                  title="Test data"
-                  iconLeft={<Database {...iconProps} />}
-                  onPress={() => router.push("/dev/fixtures")}
-                  isLink
-                  testID="dev-fixtures"
-                />
-              )}
-              {canOverrideFeatureFlags && (
-                <MenuListItem
-                  title="Feature flags"
-                  iconLeft={<Flag {...iconProps} />}
-                  onPress={() => router.push("/settings/feature-flags")}
-                  isLink
-                  testID="dev-feature-flags"
-                />
-              )}
-              <MenuListItem
-                title={t("settings_development_statistics")}
-                iconLeft={<ChartPie {...iconProps} />}
-                onPress={() => router.push("/settings/development-tools")}
-                isLink
-              />
-            </MenuList>
-          </>
-        )}
-        {isSupportEnabled && support.enabled && (
-          <FlagHighlight flag="support-pixy">
-            <SupportCard />
+      {isProfileEnabled && (
+        <View style={{ marginBottom: 24 }}>
+          <FlagHighlight flag="profile">
+            <ProfileRow />
+          </FlagHighlight>
+        </View>
+      )}
+      <MenuList>
+        <MenuListItem
+          title={t("data")}
+          iconLeft={<Database {...iconProps} />}
+          onPress={() => router.push("/settings/data")}
+          testID="data"
+          isLink
+        />
+        <MenuListItem
+          title={t("reminder")}
+          iconLeft={<Bell {...iconProps} />}
+          onPress={() => router.push("/settings/reminder")}
+          testID="reminder"
+          isLink
+        />
+        <MenuListItem
+          title={t("steps")}
+          iconLeft={<CircleCheckBig {...iconProps} />}
+          onPress={() => router.push("/settings/steps")}
+          isLink
+        />
+        <AppLockMenuItem />
+        {isRecapsEnabled && (
+          <FlagHighlight flag="recaps">
+            <MenuListItem
+              title={t("recaps")}
+              iconLeft={<Layers {...iconProps} />}
+              onPress={() =>
+                router.push(`/recaps/week/${dayjs().format(DATE_FORMAT)}`)
+              }
+              testID="recaps"
+              isLink
+            />
           </FlagHighlight>
         )}
-        <Pressable
-          testID="settings-version"
-          accessible={false}
-          onPress={() => setVersionTaps((taps) => taps + 1)}
-          style={{
-            marginTop: 20,
-            flex: 1,
-            justifyContent: "flex-end",
-            alignItems: "center",
-            marginBottom: 40,
-          }}
-        >
-          <Text
-            style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}
-          >
-            Pixy v{pkg.version}
-          </Text>
-          {HAS_APP_VARIANT && (
-            <Text
-              style={{
-                fontSize: 14,
-                marginTop: 5,
-                color: colors.textSecondary,
-              }}
-            >
-              {APP_VARIANT}
+        {isWidgetEnabled && (
+          <FlagHighlight flag="ios-widget">
+            <MenuListItem
+              title={t("widget")}
+              iconLeft={<PanelsTopLeft {...iconProps} />}
+              onPress={() => router.push("/widget")}
+              testID="widget"
+              isLink
+            />
+          </FlagHighlight>
+        )}
+      </MenuList>
+
+      <MenuListHeadline>{t("settings_appearance")}</MenuListHeadline>
+      <MenuList>
+        <MenuListItem
+          title={t("theme")}
+          iconLeft={<SunMoon {...iconProps} />}
+          iconRight={
+            <Text style={{ fontSize: 17, color: colors.textSecondary }}>
+              {t(`theme_${colorScheme}`)}
             </Text>
+          }
+          accessibilityValue={{ text: t(`theme_${colorScheme}`) }}
+          onPress={cycleColorScheme}
+          testID="theme"
+        />
+        <MenuListItem
+          title={t("app_icon")}
+          iconLeft={<Squircle {...iconProps} />}
+          onPress={() => router.push("/settings/app-icon")}
+          testID="app-icon"
+          isLink
+        />
+        <MenuListItem
+          title={t("colors")}
+          iconLeft={<Droplet {...iconProps} />}
+          onPress={() => router.push("/settings/colors")}
+          isLink
+        />
+      </MenuList>
+
+      <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>
+      <MenuList style={{}}>
+        <MenuListItem
+          title={t("request_a_feature")}
+          onPress={() =>
+            router.push({ pathname: "/feedback", params: { type: "idea" } })
+          }
+          iconLeft={<Lightbulb {...iconProps} />}
+          testID="request_a_feature"
+        />
+        <MenuListItem
+          title={t("vote_features")}
+          onPress={async () => {
+            analytics.track("settings:vote_features_tapped");
+            await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
+          }}
+          iconLeft={<CircleArrowUp {...iconProps} />}
+          testID="vote_features"
+        />
+        <MenuListItem
+          title={t("report_a_bug")}
+          onPress={() =>
+            router.push({ pathname: "/feedback", params: { type: "issue" } })
+          }
+          iconLeft={<Bug {...iconProps} />}
+          testID="report_a_bug"
+        />
+        <MenuListItem
+          title={t(
+            Platform.OS === "ios"
+              ? "rate_pixy_app_store"
+              : "rate_pixy_google_play"
           )}
-        </Pressable>
-      </ScrollView>
-    </View>
+          onPress={() => askToRateApp()}
+          iconLeft={<Star {...iconProps} />}
+          testID="rate_pixy"
+        />
+      </MenuList>
+      <TextInfo>{t("feedback_help")}</TextInfo>
+
+      <MenuListHeadline>{t("settings_about")}</MenuListHeadline>
+      <MenuList style={{}}>
+        <MenuListItem
+          title={t("changelog")}
+          onPress={async () => {
+            analytics.track("settings:changelog_tapped");
+            await WebBrowser.openBrowserAsync(CHANGELOG_URL);
+          }}
+          iconLeft={<BookOpen {...iconProps} />}
+          testID="changelog"
+        />
+        <MenuListItem
+          title={t("privacy")}
+          onPress={() => router.push("/settings/privacy")}
+          iconLeft={<Shield {...iconProps} />}
+          isLink
+        />
+        <MenuListItem
+          title={t("licenses")}
+          iconLeft={<Award {...iconProps} />}
+          onPress={() => router.push("/settings/licenses")}
+          isLink
+        />
+        <MenuListItem
+          title={t("app_is_open_source")}
+          onPress={() => {
+            Linking.openURL("https://github.com/mrzmyr/pixy-mood-tracker-app");
+          }}
+          iconLeft={<GithubIcon {...iconProps} />}
+        />
+      </MenuList>
+
+      {isDevelopmentVisible && (
+        <>
+          <MenuListHeadline>{t("settings_development")}</MenuListHeadline>
+          <MenuList style={{}}>
+            <MenuListItem
+              title={t("onboarding")}
+              iconLeft={<Smartphone {...iconProps} />}
+              onPress={() => router.push("/onboarding")}
+            />
+            {DEV_TOOLS && (
+              <MenuListItem
+                title="Test data"
+                iconLeft={<Database {...iconProps} />}
+                onPress={() => router.push("/dev/fixtures")}
+                isLink
+                testID="dev-fixtures"
+              />
+            )}
+            {canOverrideFeatureFlags && (
+              <MenuListItem
+                title="Feature flags"
+                iconLeft={<Flag {...iconProps} />}
+                onPress={() => router.push("/settings/feature-flags")}
+                isLink
+                testID="dev-feature-flags"
+              />
+            )}
+            <MenuListItem
+              title={t("settings_development_statistics")}
+              iconLeft={<ChartPie {...iconProps} />}
+              onPress={() => router.push("/settings/development-tools")}
+              isLink
+            />
+          </MenuList>
+        </>
+      )}
+      {isSupportEnabled && support.enabled && (
+        <FlagHighlight flag="support-pixy">
+          <SupportCard />
+        </FlagHighlight>
+      )}
+      <Pressable
+        testID="settings-version"
+        accessible={false}
+        onPress={() => setVersionTaps((taps) => taps + 1)}
+        style={{
+          marginTop: 20,
+          flex: 1,
+          justifyContent: "flex-end",
+          alignItems: "center",
+          marginBottom: 40,
+        }}
+      >
+        <Text
+          style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}
+        >
+          Pixy v{pkg.version}
+        </Text>
+        {HAS_APP_VARIANT && (
+          <Text
+            style={{
+              fontSize: 14,
+              marginTop: 5,
+              color: colors.textSecondary,
+            }}
+          >
+            {APP_VARIANT}
+          </Text>
+        )}
+      </Pressable>
+    </ScrollView>
   );
 };
