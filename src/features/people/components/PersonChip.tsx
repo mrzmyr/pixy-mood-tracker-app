@@ -214,6 +214,7 @@ export const PersonChip = ({
         testID={testID}
         style={({ pressed }) => ({
           alignItems: "center",
+          gap: 12,
           opacity: pressed && onPress ? 0.8 : 1,
           ...style,
         })}
@@ -222,7 +223,6 @@ export const PersonChip = ({
         <Text
           numberOfLines={1}
           style={{
-            marginTop: 12,
             fontSize: 20,
             fontWeight: "bold",
             color: colors.text,
@@ -258,9 +258,8 @@ export const PersonChip = ({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
+        gap: chipSize.gap,
         borderRadius: RADIUS.full,
-        marginRight: 8,
-        marginBottom: 8,
         backgroundColor: selected
           ? colors.tagBackgroundActive
           : colors.tagBackground,
@@ -280,7 +279,6 @@ export const PersonChip = ({
       <Text
         numberOfLines={1}
         style={{
-          marginLeft: chipSize.gap,
           flexShrink: 1,
           color: selected ? colors.tagTextActive : colors.tagText,
           fontSize: chipSize.fontSize,

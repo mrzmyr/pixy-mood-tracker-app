@@ -1,58 +1,29 @@
 import type { Dayjs } from "dayjs";
-import range from "lodash/range";
-import sample from "lodash/sample";
 import React from "react";
-import type { ReactNode } from "react";
 
 import { View } from "react-native";
 import { BigCard } from "../../../components/BigCard";
-import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/lib/translation";
-import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
-
-import { RATING_KEYS } from "@/constants/Ratings";
+import { useToday } from "@/hooks/useToday";
 import { NotEnoughDataOverlay } from "../../../components/NotEnoughDataOverlay";
 
 import { Row } from "./Row";
 import { XAxis } from "./XAxis";
+import { buildYearPixels } from "./yearPixels";
 
 const MIN_ITEMS = 30;
 
-const YearDotsContent = ({
-  date,
-  items,
-}: {
-  date: Dayjs;
-  items: LogItem[];
-}) => {
-  const DAY_COUNT = 31;
-
-  const rows: ReactNode[] = [];
-
-  for (let i = 1; i <= DAY_COUNT; i += 1) {
-    rows.push(<Row items={items} date={date} dayCount={i} key={i} />);
-  }
-  return rows;
-};
-
-const YearInPixels = ({ date }: { date: Dayjs }) => {
-  const logState = useLogState();
-
-  const items = logState.items.filter((item) =>
-    date.isSame(item.dateTime, "year")
-  );
-
-  const dummyItems = range(0, 365).map(
-    (i) =>
-      // SAFETY: placeholder items only; getPixelRating skips items without dateTime, so the missing LogItem fields are never dereferenced.
-      ({
-        id: `${i}`,
-        date: date.add(i, "day").format(DATE_FORMAT),
-        rating: sample(RATING_KEYS.slice(0, 6)),
-        message: "I am feeling",
-        createdAt: date.add(i, "day").toISOString(),
-      }) as LogItem
+/**
+ * Year in Pixels card for the year of `date`. `items` are the entries of
+ * that local year. With fewer than {@link MIN_ITEMS} entries the grid stays
+ * empty behind the not-enough-data overlay.
+ */
+const YearInPixels = ({ date, items }: { date: Dayjs; items: LogItem[] }) => {
+  const today = useToday();
+  const rows = buildYearPixels(
+    date.year(),
+    items.length >= MIN_ITEMS ? items : []
   );
 
   return (
@@ -75,11 +46,14 @@ const YearInPixels = ({ date }: { date: Dayjs }) => {
         {items.length < MIN_ITEMS && (
           <NotEnoughDataOverlay limit={MIN_ITEMS - items.length} />
         )}
-        {items.length >= MIN_ITEMS ? (
-          <YearDotsContent date={date} items={items} />
-        ) : (
-          <YearDotsContent date={date} items={dummyItems} />
-        )}
+        {rows.map((pixels, index) => (
+          <Row
+            key={pixels[0].date}
+            dayCount={index + 1}
+            pixels={pixels}
+            today={today}
+          />
+        ))}
       </>
     </BigCard>
   );

@@ -10,7 +10,6 @@ import { CalendarFiltersProvider } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
 import { PeopleProvider } from "@/features/people";
 import { SettingsProvider } from "@/state/settings";
-import { StatisticsProvider } from "@/features/statistics";
 import { TagsProvider } from "@/features/tags";
 import { SupportProvider } from "@/support";
 import type { SupportClient } from "@/support";
@@ -35,9 +34,7 @@ const Providers = ({
       <LogsProvider>
         <TagsProvider>
           <PeopleProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
+            <CalendarFiltersProvider>{children}</CalendarFiltersProvider>
           </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
@@ -47,9 +44,7 @@ const Providers = ({
       <LogsProvider>
         <TagsProvider>
           <PeopleProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
+            <CalendarFiltersProvider>{children}</CalendarFiltersProvider>
           </PeopleProvider>
         </TagsProvider>
       </LogsProvider>

@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { TagComponent as Tag } from "@/features/tags";
 import type { Tag as ITag } from "@/features/tags";
 import TextHeadline from "@/components/TextHeadline";
+import { CHIP_FLOW } from "@/constants/Chip";
 
 /**
  * Tag filter chips; `onSelect` receives the tapped tag so the parent can
@@ -16,15 +17,9 @@ export const TagsSection = ({
   selectedTags: ITag[];
   onSelect: (tag: ITag) => void;
 }) => (
-  <View>
-    <TextHeadline style={{ marginBottom: 12 }}>Tags</TextHeadline>
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        flexWrap: "wrap",
-      }}
-    >
+  <View style={{ gap: 12 }}>
+    <TextHeadline>Tags</TextHeadline>
+    <View style={{ ...CHIP_FLOW, alignItems: "center" }}>
       {tags?.map((tag) => (
         <Tag
           selected={selectedTags.map((d) => d.id).includes(tag.id)}

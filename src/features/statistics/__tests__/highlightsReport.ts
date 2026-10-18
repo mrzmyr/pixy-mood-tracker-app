@@ -3,7 +3,7 @@ import { _generateItem } from "@/testing/logItem";
 import type { LogItem } from "@/features/logs";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
-import { buildHighlightsReport } from "../highlightsReport";
+import { buildHighlightsReport, getHighlightsNow } from "../highlightsReport";
 import type { StatisticId } from "../highlightsReport";
 
 const NOW = new Date(2026, 9, 4, 12, 0, 0);
@@ -283,5 +283,30 @@ describe("buildHighlightsReport()", () => {
       "gym",
       "work",
     ]);
+  });
+});
+
+/** Entry at a local clock time. */
+const localEntry = (...time: [number, number, number, number, number]) =>
+  _generateItem({ dateTime: new Date(...time).toISOString() });
+
+describe("getHighlightsNow()", () => {
+  test("counts all of today and the 13 days before", () => {
+    const report = buildHighlightsReport({
+      items: [
+        // Later today.
+        localEntry(2026, 9, 4, 23, 30),
+        // 13 days ago, just after midnight.
+        localEntry(2026, 8, 21, 0, 5),
+        // 14 days ago.
+        localEntry(2026, 8, 20, 23, 0),
+      ],
+      tags,
+      people,
+      now: getHighlightsNow("2026-10-04"),
+    });
+
+    expect(report.itemsCount).toBe(2);
+    expect(report.window).toEqual({ start: "2026-09-20", end: "2026-10-04" });
   });
 });
