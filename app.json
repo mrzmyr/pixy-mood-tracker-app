@@ -228,6 +228,9 @@
     "experiments": {
       "reactCompiler": true,
       "typedRoutes": true
+    },
+    "web": {
+      "output": "single"
     }
   }
 }
