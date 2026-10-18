@@ -2,7 +2,9 @@
 // PID file, and log, so parallel worktrees never load, read, or stop each
 // other's Metro. The dev client connects by deep link with this port.
 import { spawn } from "node:child_process";
+import { once } from "node:events";
 import fs from "node:fs";
+import net from "node:net";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
@@ -37,6 +39,56 @@ const isMetroRunning = async (port: number) => {
     return false;
   }
 };
+
+// Expo CLI checks a port only on the wildcard address. A server bound to
+// 127.0.0.1 alone passes that check, then answers `localhost` requests in
+// place of Metro. This check binds all three addresses.
+const PROBE_HOSTS = [undefined, "127.0.0.1", "::1"];
+
+const canListen = async (port: number, host: string | undefined) => {
+  const server = net.createServer();
+  server.listen({ exclusive: true, host, port });
+  try {
+    await once(server, "listening");
+  } catch (error) {
+    // EADDRNOTAVAIL: host has no such address, for example no IPv6.
+    return !(
+      error instanceof Error &&
+      "code" in error &&
+      error.code === "EADDRINUSE"
+    );
+  }
+  server.close();
+  await once(server, "close");
+  return true;
+};
+
+/** True when no process listens on `port` on any local address. */
+const isPortFree = async (port: number) => {
+  for (const host of PROBE_HOSTS) {
+    // oxlint-disable-next-line no-await-in-loop -- one probe socket at a time
+    if (!(await canListen(port, host))) {
+      return false;
+    }
+  }
+  return true;
+};
+
+// Expo CLI 58 treats an explicit `--port` as a hard requirement when it runs
+// without a TTY: it exits with PORT_IN_USE and never rolls over to the next
+// free port (`@expo/cli/build/src/utils/port.js`, `choosePortAsync`).
+const PORT_IN_USE = /^CommandError: Port \d+ is unavailable/mu;
+
+/** True when Metro's log says Expo CLI refused the port. */
+const isPortInUseLog = (log: string) => PORT_IN_USE.test(log);
+
+const portTakenError = (port: number, why: string) =>
+  new CliError({
+    fix: `Stop the process on port ${port} (\`lsof -nP -iTCP:${port} -sTCP:LISTEN\`), then retry.`,
+    message: `Port ${port} is taken`,
+    status: "metro_port_taken",
+    why,
+  });
 
 // Stops the Metro process group named in `dir/metro.pid`. A dead PID is
 // skipped. Returns true when a process was signalled.
@@ -108,13 +160,11 @@ const startMetro = async (): Promise<Metro> => {
     note(`Metro already runs on port ${METRO_PORT}`);
     return metro;
   }
-  if (await isMetroRunning(METRO_PORT)) {
-    throw new CliError({
-      fix: `Stop the process on port ${METRO_PORT} (\`lsof -i :${METRO_PORT}\`), then retry.`,
-      message: `Port ${METRO_PORT} is taken`,
-      status: "metro_port_taken",
-      why: `A server answers on port ${METRO_PORT}, but ${METRO_PID} names no running Metro of this checkout.`,
-    });
+  if (!(await isPortFree(METRO_PORT))) {
+    throw portTakenError(
+      METRO_PORT,
+      `A process listens on port ${METRO_PORT}, but ${METRO_PID} names no running Metro of this checkout.`
+    );
   }
   const log = fs.openSync(METRO_LOG, "w");
   // Own process group, so Metro outlives `bun app dev` and `stopMetro` also
@@ -142,6 +192,13 @@ const startMetro = async (): Promise<Metro> => {
     );
   } catch (error) {
     stopMetroIn(CHECKOUT_DIR);
+    // Another process took the port between the check above and Expo's own.
+    if (isPortInUseLog(fs.readFileSync(METRO_LOG, "utf-8"))) {
+      throw portTakenError(
+        METRO_PORT,
+        `Expo CLI reported PORT_IN_USE for port ${METRO_PORT} in ${METRO_LOG}.`
+      );
+    }
     throw error;
   }
   note(`Metro started on port ${METRO_PORT}; log: ${METRO_LOG}`);
@@ -156,6 +213,8 @@ export {
   METRO_LOG,
   METRO_PORT,
   isOwnMetroRunning,
+  isPortFree,
+  isPortInUseLog,
   startMetro,
   stopMetro,
   stopMetroIn,
