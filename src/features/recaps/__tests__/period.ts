@@ -1,6 +1,6 @@
 import { getDays, getPeriodDays } from "../days";
 import { getPeriod, shiftPeriod } from "../period";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import { getWeekLocale } from "@/lib/translation";
 import { WEEK_LOCALE } from "./utils";
 

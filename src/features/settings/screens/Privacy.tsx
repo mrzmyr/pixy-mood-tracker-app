@@ -1,7 +1,7 @@
 import * as WebBrowser from "expo-web-browser";
 import { ScrollView, View } from "react-native";
 import Toggle from "@/components/Toggle";
-import { Shield } from "react-native-feather";
+import Shield from "lucide-react-native/icons/shield";
 import Markdown from "react-native-markdown-display";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";

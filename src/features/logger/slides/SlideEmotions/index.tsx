@@ -1,9 +1,8 @@
 import { getSlideMarginTop } from "../marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import { useLogState } from "@/features/logs";
+import { useLogState, getMostUsedEmotions } from "@/features/logs";
 import { useLogDraft } from "../../logDraft";
-import { getMostUsedEmotions } from "@/lib/utils";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";

@@ -14,7 +14,7 @@ import { useLogState } from "@/features/logs";
 import { useSettings } from "@/state/settings";
 import { useTagsState } from "@/features/tags";
 import { IS_WIDGET_SUPPORTED, getWidgetSyncStatus } from "@/features/widget";
-import { Trash } from "lucide-react-native";
+import Trash from "lucide-react-native/icons/trash";
 import { getWordCount } from "@/lib/utils";
 import { usePostHog } from "posthog-react-native";
 import { RADIUS } from "@/constants/Radius";

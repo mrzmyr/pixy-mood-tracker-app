@@ -1,5 +1,5 @@
 import * as Linking from "expo-linking";
-import { Check } from "lucide-react-native";
+import Check from "lucide-react-native/icons/check";
 import { useSyncExternalStore } from "react";
 import { ScrollView, View } from "react-native";
 import Toggle from "@/components/Toggle";

@@ -1,7 +1,7 @@
 import {
   getReportHeaderOptions,
   isBannerCovered,
-} from "@/features/statistics/components/useReportHeader";
+} from "../components/useReportHeader";
 
 const options = (covered: boolean) =>
   getReportHeaderOptions({

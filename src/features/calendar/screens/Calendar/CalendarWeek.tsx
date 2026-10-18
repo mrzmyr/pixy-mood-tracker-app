@@ -7,7 +7,7 @@ import { DATE_FORMAT } from "@/constants/Config";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useCalendarFilters } from "../../filters";
 import type { LogItem } from "@/features/logs";
-import { getAverageMood } from "@/lib/utils";
+import { getAverageMood } from "@/features/logs";
 import CalendarDay from "./CalendarDay";
 import { useCalendarNavigation } from "../../navigation";
 

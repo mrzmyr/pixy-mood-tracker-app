@@ -11,7 +11,7 @@ import {
 import type { LogsState } from "../LogsProvider";
 
 import { SettingsProvider } from "@/state/settings";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import { File } from "expo-file-system";
 import { getPhotosDirectory } from "@/features/photos";
 import omit from "lodash/omit";

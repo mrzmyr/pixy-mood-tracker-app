@@ -12,6 +12,31 @@ const reactNavigationImport = {
   message: "Import from expo-router/react-navigation instead.",
 };
 
+// Metro does not tree-shake: one barrel import bundles every Lucide icon.
+const iconImports = [
+  {
+    name: "lucide-react-native",
+    allowTypeImports: true,
+    message:
+      'Import each icon from "lucide-react-native/icons/<kebab-name>" instead.',
+  },
+  {
+    name: "react-native-feather",
+    message: 'Use Lucide: "lucide-react-native/icons/<kebab-name>".',
+  },
+];
+
+const featureImport = {
+  group: ["@/features", "@/features/**"],
+  message: "Lower layer must not import features.",
+};
+
+// Production bundles drop dev tools only behind the `DEV_TOOLS` gate in `src/dev/index.ts`.
+const devImport = {
+  group: ["@/dev", "@/dev/**"],
+  message: "Lower layer must not import dev tools.",
+};
+
 // Features expose `index.ts` (providers, hooks, logic) and `routes.ts` (screens).
 const featureDeepImport = {
   group: ["@/features/*/**", "!@/features/*/routes"],
@@ -24,6 +49,12 @@ const startupFeatureImport = {
   regex: "^@/features/[^/]+/.+",
   message:
     "Startup code imports features through index.ts only. Screens load per route from routes.ts.",
+};
+
+const devDeepImport = {
+  regex: "^@/dev/.+",
+  message:
+    "Import dev tools through `DEV_TOOLS` from `@/dev`; deep imports ship dev code in production bundles.",
 };
 
 /**
@@ -65,17 +96,18 @@ export default defineConfig({
     "unicorn/prefer-set-has": "off",
     // Autofix renames to `error` even when that shadows an outer `error`, changing which value code reads.
     "unicorn/catch-error-name": "off",
-    "no-restricted-imports": ["error", { patterns: [reactNavigationImport] }],
+    "no-restricted-imports": [
+      "error",
+      { paths: iconImports, patterns: [reactNavigationImport] },
+    ],
   },
   overrides: [
     {
-      // Lower layers never import upward into feature screens or logic.
+      // Core layers never import upward into support, features, or dev tools.
       files: [
         "src/state/**",
-        "src/components/**",
         "src/hooks/**",
         "src/lib/**",
-        "src/helpers/**",
         "src/constants/**",
         "src/types/**",
       ],
@@ -83,11 +115,14 @@ export default defineConfig({
         "no-restricted-imports": [
           "error",
           {
+            paths: iconImports,
             patterns: [
               {
-                group: ["@/features/**", "@/screens/**"],
-                message: "Lower layer must not import features or screens.",
+                group: ["@/support", "@/support/**"],
+                message: "Core layer must not import support.",
               },
+              featureImport,
+              devImport,
               reactNavigationImport,
             ],
           },
@@ -95,13 +130,27 @@ export default defineConfig({
       },
     },
     {
-      // Feature consumers use public entry files: `index.ts`, or `routes.ts` for screens.
+      // Shared UI and the support layer sit below features and dev tools.
+      files: ["src/components/**", "src/support/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: iconImports,
+            patterns: [featureImport, devImport, reactNavigationImport],
+          },
+        ],
+      },
+    },
+    {
+      // Feature consumers use `index.ts`, or `routes.ts` for screens; dev tools only via the `DEV_TOOLS` gate.
       files: ["src/features/**", "src/shell/**", "src/app/**"],
       rules: {
         "no-restricted-imports": [
           "error",
           {
-            patterns: [featureDeepImport, reactNavigationImport],
+            paths: iconImports,
+            patterns: [featureDeepImport, devDeepImport, reactNavigationImport],
           },
         ],
       },
@@ -118,8 +167,36 @@ export default defineConfig({
         "no-restricted-imports": [
           "error",
           {
-            patterns: [startupFeatureImport, reactNavigationImport],
+            paths: iconImports,
+            patterns: [
+              startupFeatureImport,
+              devDeepImport,
+              reactNavigationImport,
+            ],
           },
+        ],
+      },
+    },
+    {
+      // Dev tools may import their own files, but features only through entry files.
+      files: ["src/dev/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: iconImports,
+            patterns: [featureDeepImport, reactNavigationImport],
+          },
+        ],
+      },
+    },
+    {
+      // Tests never ship, so they may reach into features and dev fixtures.
+      files: ["src/**/__tests__/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          { paths: iconImports, patterns: [reactNavigationImport] },
         ],
       },
     },
@@ -131,12 +208,14 @@ export default defineConfig({
         "no-restricted-imports": [
           "error",
           {
+            paths: iconImports,
             patterns: [
               {
                 group: ["./routes", "./screens/**"],
                 message:
                   "Export screens from routes.ts. index.ts loads at startup through providers and hooks.",
               },
+              devDeepImport,
               reactNavigationImport,
             ],
           },

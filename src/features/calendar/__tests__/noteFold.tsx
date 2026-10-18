@@ -4,7 +4,7 @@ import { renderRouter } from "expo-router/testing-library";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import dayjs from "dayjs";
 import { FlatList } from "react-native";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import { DATE_FORMAT } from "@/constants/Config";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";

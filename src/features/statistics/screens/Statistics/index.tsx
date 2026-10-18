@@ -12,7 +12,8 @@ import {
   ScrollView,
   View,
 } from "react-native";
-import { Moon, Star } from "react-native-feather";
+import Moon from "lucide-react-native/icons/moon";
+import Star from "lucide-react-native/icons/star";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
 import { useStatistics } from "../../StatisticsProvider";

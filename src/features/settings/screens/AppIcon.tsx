@@ -3,7 +3,9 @@ import {
   setAlternateAppIcon,
   supportsAlternateIcons,
 } from "expo-alternate-app-icons";
-import { Circle, CircleCheck, Lock } from "lucide-react-native";
+import Circle from "lucide-react-native/icons/circle";
+import CircleCheck from "lucide-react-native/icons/circle-check";
+import Lock from "lucide-react-native/icons/lock";
 import { Fragment, useState } from "react";
 import {
   Image,

@@ -21,7 +21,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 - Bezel ([`Bezel`](src/components/Bezel.tsx), radius from `getBezelRadius`): statistics cards and person tiles only. Calendar days, mood buttons, entry cards, list groups have no bezel.
 - Android list groups: M3 full-width list, no chevron, no dividers, 56dp rows ([`MenuList`](src/components/MenuList.tsx)).
 - Tag colors: fixed palette inline in grouped card ([`ColorPicker`](src/features/tags/components/ColorPicker.tsx)). 48 × 48 targets, never shrink. Selection shown by check + color name, never hue alone.
-- Core Modules ([GLOSSARY.md](GLOSSARY.md)) use same `react-native-feather` icon everywhere, 20 px: Mood `Sun`, Emotions `Heart`, Tags `Tag`, People `Users`, Photos `Image`, Note `FileText`. Labels are single nouns.
+- Core Modules ([GLOSSARY.md](GLOSSARY.md)) use same Lucide icon everywhere, 20 px: Mood `Sun`, Emotions `Heart`, Tags `Tag`, People `Users`, Photos `Image`, Note `FileText`. Labels are single nouns.
 
 ## Sheets and Modals
 

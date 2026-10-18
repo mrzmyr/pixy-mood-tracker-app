@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
-import { Moon } from "react-native-feather";
+import Moon from "lucide-react-native/icons/moon";
 import useColors from "@/hooks/useColors";
 
 /** Gradient banner under the native header for the month report. */

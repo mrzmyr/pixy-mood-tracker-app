@@ -1,5 +1,5 @@
-import { isConfirmed } from "@/helpers/promptCancel";
-import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
+import { isConfirmed } from "@/lib/promptCancel";
+import { askToDisableFeedbackStep, askToDisableStep } from "@/lib/prompts";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 

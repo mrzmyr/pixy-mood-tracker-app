@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/react-native";
 import { useEffect, useEffectEvent } from "react";
 import { Alert, Linking, Platform, ScrollView, Text, View } from "react-native";
-import { AlertCircle } from "react-native-feather";
+import CircleAlert from "lucide-react-native/icons/circle-alert";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import { exportRawStorage, useAppData } from "@/features/datagate";
@@ -76,7 +76,7 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
         }}
       >
         <View style={{ alignItems: "center", marginBottom: 24 }}>
-          <AlertCircle color={colors.text} width={48} height={48} />
+          <CircleAlert color={colors.text} width={48} height={48} />
         </View>
         <Text
           accessibilityRole="header"

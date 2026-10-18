@@ -1,7 +1,7 @@
 import useColors from "@/hooks/useColors";
 import { useSettings } from "@/state/settings";
 import { Pressable, Text, View } from "react-native";
-import { X } from "react-native-feather";
+import X from "lucide-react-native/icons/x";
 import Indicator from "@/components/Indicator";
 import { PressableScale } from "@/components/PressableScale";
 import { RADIUS } from "@/constants/Radius";

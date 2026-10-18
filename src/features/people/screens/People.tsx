@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import sortBy from "lodash/sortBy";
-import { Archive } from "lucide-react-native";
+import Archive from "lucide-react-native/icons/archive";
 import type { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

@@ -1,4 +1,8 @@
-import { FileText, Heart, Image, Tag, Users } from "react-native-feather";
+import FileText from "lucide-react-native/icons/file-text";
+import Heart from "lucide-react-native/icons/heart";
+import Image from "lucide-react-native/icons/image";
+import Tag from "lucide-react-native/icons/tag";
+import Users from "lucide-react-native/icons/users";
 import { Pressable, Text, View } from "react-native";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import { RADIUS } from "@/constants/Radius";

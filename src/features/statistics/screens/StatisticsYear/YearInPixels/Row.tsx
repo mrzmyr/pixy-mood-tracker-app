@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 
 import { View } from "react-native";
 import type { LogItem } from "@/features/logs";
-import { getAverageMood } from "@/lib/utils";
+import { getAverageMood } from "@/features/logs";
 import { Day } from "./Day";
 import { YAxis } from "./YAxis";
 

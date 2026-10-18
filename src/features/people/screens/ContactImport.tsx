@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { Check } from "lucide-react-native";
+import Check from "lucide-react-native/icons/check";
 import {
   ActivityIndicator,
   FlatList,
