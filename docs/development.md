@@ -109,6 +109,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - `bun app close` ends the session, resets app data, and stops this checkout's Metro. See [Phones](#phones) for phone behavior.
 - `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.
 - `bun e2e run --video` records each flow attempt to `recording.mp4` in its artifacts folder and prints the paths.
+- `bun release smoke --platform=ios` launches the production JS bundle in a copy of the cached iOS Release build. No native compile, about 2 minutes. Catches release-only startup crashes ([`scripts/cli/release-smoke.ts`](../scripts/cli/release-smoke.ts)).
 - `bun builds list` lists cached builds. `bun builds rm --build=<id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
 - Commands take options only, no positional arguments. `bun <noun> <command> --help` lists options, examples, and errors.
 - The CLI selects the preview variant. Metro stays off. `bun app dev` is the exception: development variant with Metro.

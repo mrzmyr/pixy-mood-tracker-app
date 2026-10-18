@@ -78,6 +78,7 @@
 ## Releases
 
 - MUST run `app-store-review` skill before App Store release
+- MUST pass `bun release smoke --platform=ios` before App Store release ([workflow](docs/store-release-workflow.md#release))
 
 ## References
 
