@@ -40,7 +40,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 - `bun ios` and `bun android` build `development`. `bun ios:preview` and `bun android:preview` build a `preview` release. Set `EXPO_PUBLIC_APP_VARIANT` for anything else.
 - Each variant reports to its own PostHog project ("Pixy App - Development", "Pixy App - Preview", "Pixy App - Production") and Sentry project. Sentry events carry the variant as `environment`.
-- Metro's `cacheVersion` includes the variant ([`metro.config.js`](../metro.config.js)), because inlined `EXPO_PUBLIC_*` values are not part of Metro's cache key.
+- Expo CLI records inlined `EXPO_PUBLIC_*` values in Metro's transform cache. A variant switch never reuses another variant's code. `EXPO_NO_CACHE_VARY=1` turns this off.
 - Development and preview icons carry a ribbon with the variant name (a label pill on Android adaptive icons). After changing `icon.png` or `adaptive-icon.png`, regenerate them with `swift scripts/generate-variant-icons.swift`.
 - Development and preview builds add Settings > Development > Test data and `<scheme>://dev/fixture?id=<id>` to load [fixtures](../src/dev/fixtures/index.ts). Production bundles do not contain them: [`src/dev/index.ts`](../src/dev/index.ts) checks the inlined variant at the `require`, so Metro drops the code.
   - `chaos` fixture stress-tests the UI: every limit at max, text in many scripts and emoji, years with gaps, days with up to 100 entries, though the app has no per-day limit ([`chaos.ts`](../src/dev/fixtures/chaos.ts))
@@ -192,6 +192,7 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - Dev client keys include the native fingerprint only (`ios-<fingerprint>-unknown`, `android-<fingerprint>-debug`). JavaScript comes from Metro. One dev client serves every worktree with the same native dependencies.
 - `bun ios` and `bun android` use the same cache through Expo CLI.
 - An exact cache hit skips native compilation and JavaScript bundling.
+- Fingerprint uses the `balanced` preset ([`fingerprint.config.cjs`](../fingerprint.config.cjs)). Native modules hash by package name and version, not files. An edit inside `node_modules` keeps the hash: remove the cached build with `bun builds rm --build=<id>`.
 - `bun builds prune` keeps one build per OS, target, and variant, plus builds used within two days.
 
 The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).
