@@ -42,7 +42,6 @@ import {
 import { useSettings } from "@/state/settings";
 import { COLOR_SCHEMES } from "@/state/settings/colorScheme";
 import useColors from "@/hooks/useColors";
-import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
 import { AppLockMenuItem } from "@/features/applock";
 import { ProfileRow } from "@/features/profile";
@@ -85,8 +84,6 @@ export const SettingsScreen = () => {
   const { settings, setSettings } = useSettings();
   const { colorScheme } = settings;
 
-  const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
-
   /** Cycles System, Light, Dark. */
   const cycleColorScheme = () => {
     const next =
@@ -118,7 +115,6 @@ export const SettingsScreen = () => {
           padding: 20,
         }}
       >
-        <FeedbackModal />
         {isProfileEnabled && (
           <View style={{ marginBottom: 24 }}>
             <FlagHighlight flag="profile">
@@ -207,7 +203,9 @@ export const SettingsScreen = () => {
         <MenuList style={{}}>
           <MenuListItem
             title={t("request_a_feature")}
-            onPress={() => showFeedbackModal({ type: "idea" })}
+            onPress={() =>
+              router.push({ pathname: "/feedback", params: { type: "idea" } })
+            }
             iconLeft={<Lightbulb {...iconProps} />}
             testID="request_a_feature"
           />
@@ -222,7 +220,9 @@ export const SettingsScreen = () => {
           />
           <MenuListItem
             title={t("report_a_bug")}
-            onPress={() => showFeedbackModal({ type: "issue" })}
+            onPress={() =>
+              router.push({ pathname: "/feedback", params: { type: "issue" } })
+            }
             iconLeft={<Bug {...iconProps} />}
             testID="report_a_bug"
           />

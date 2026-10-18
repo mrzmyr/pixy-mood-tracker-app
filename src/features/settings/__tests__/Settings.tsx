@@ -7,7 +7,6 @@ import { ToastHost } from "@/components/Toast";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
-import { hideToast } from "@/lib/toast";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { STORAGE_KEY } from "@/state/settings";
 import type { SupportClient } from "@/support";
@@ -206,109 +205,6 @@ describe("Support Pixy in Settings", () => {
 });
 
 describe("Feedback in Settings", () => {
-  beforeEach(() => {
-    global.fetch = jest.fn().mockResolvedValue({ ok: true });
-  });
-
-  afterEach(async () => {
-    jest.restoreAllMocks();
-    // Module-level toast state would leak into the next test.
-    await act(() => hideToast());
-  });
-
-  test("user sees a toast, not an alert, after feedback is sent", async () => {
-    const showAlert = jest.spyOn(Alert, "alert").mockImplementation();
-    const screen = await renderSettings({
-      enabled: false,
-      openSupport: () => Promise.resolve(),
-    });
-
-    await userEvent.press(screen.getByText("Report Bug"));
-    await userEvent.type(
-      screen.getByPlaceholderText("I noticed that…"),
-      "Calendar export"
-    );
-    await userEvent.press(screen.getByTestId("feedback-modal-send"));
-
-    expect(await screen.findByText("Feedback sent")).toBeOnTheScreen();
-    expect(screen.queryByTestId("feedback-modal-send")).toBeNull();
-    expect(showAlert).not.toHaveBeenCalled();
-  });
-
-  test.each([
-    {
-      item: "Request Feature",
-      placeholder: "It would be great if…",
-      type: "idea",
-    },
-    { item: "Report Bug", placeholder: "I noticed that…", type: "issue" },
-  ])(
-    "user sends $type feedback from $item without picking a type",
-    async ({ item, placeholder, type }) => {
-      jest.spyOn(Alert, "alert").mockImplementation();
-      const screen = await renderSettings({
-        enabled: false,
-        openSupport: () => Promise.resolve(),
-      });
-
-      await userEvent.press(screen.getByText(item));
-
-      expect(screen.getAllByText(item)).toHaveLength(2);
-      expect(screen.queryByRole("radio")).toBeNull();
-
-      await userEvent.type(
-        screen.getByPlaceholderText(placeholder),
-        "Calendar export"
-      );
-      await userEvent.press(screen.getByTestId("feedback-modal-send"));
-
-      await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
-      const [[, request]] = jest.mocked(global.fetch).mock.calls;
-      expect(JSON.parse(String(request?.body))).toMatchObject({
-        type,
-        message: "Calendar export",
-        source: "modal",
-      });
-    }
-  );
-
-  test("user keeps the draft when sending fails and retries", async () => {
-    const alert = jest.spyOn(Alert, "alert").mockImplementation();
-    global.fetch = jest
-      .fn()
-      .mockRejectedValueOnce(new Error("offline"))
-      .mockResolvedValueOnce({ ok: true });
-    const screen = await renderSettings({
-      enabled: false,
-      openSupport: () => Promise.resolve(),
-    });
-
-    await userEvent.press(screen.getByText("Report Bug"));
-    await userEvent.type(
-      screen.getByTestId("feedback-modal-message"),
-      "Calendar export"
-    );
-    await userEvent.press(screen.getByTestId("feedback-modal-send"));
-
-    expect(await screen.findByTestId("feedback-modal-error")).toBeOnTheScreen();
-    expect(screen.getByRole("alert")).toHaveAccessibleName(
-      "Feedback not sent. Check your connection and try again."
-    );
-    expect(screen.getByTestId("feedback-modal-message")).toHaveDisplayValue(
-      "Calendar export"
-    );
-    expect(alert).not.toHaveBeenCalled();
-
-    await userEvent.press(screen.getByTestId("feedback-modal-send"));
-
-    await waitFor(() =>
-      expect(screen.queryByTestId("feedback-modal-message")).toBeNull()
-    );
-    expect(global.fetch).toHaveBeenCalledTimes(2);
-    const [, [, retry]] = jest.mocked(global.fetch).mock.calls;
-    expect(JSON.parse(String(retry?.body)).message).toBe("Calendar export");
-  });
-
   test("user sees store rating as last feedback item", async () => {
     const screen = await renderSettings({
       enabled: false,

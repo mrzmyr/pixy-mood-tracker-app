@@ -37,6 +37,28 @@ const AppLayout = () => {
     headerStyle: { backgroundColor: colors.background },
     headerShadowVisible: Platform.OS !== "web",
   };
+  // Feedback form: iOS form sheet (Liquid Glass header on iOS 26), Android
+  // full-screen dialog with the Material top app bar. Header items live in
+  // the screen (`Stack.Toolbar`).
+  const feedbackOptions =
+    Platform.OS === "ios"
+      ? {
+          presentation: "formSheet" as const,
+          headerTintColor: colors.text,
+          // Always transparent, so the screen offsets content by the header
+          // height on every iOS version. expo-router sets it on iOS 26 only.
+          headerTransparent: true,
+          // Before iOS 26 no Liquid Glass: blur keeps the title readable.
+          ...(!HAS_FLOATING_HEADER && {
+            headerBlurEffect: "systemChromeMaterial" as const,
+          }),
+        }
+      : {
+          ...defaultOptions,
+          presentation: "modal" as const,
+          headerStyle: { backgroundColor: colors.feedbackBackground },
+          headerShadowVisible: false,
+        };
   // iOS and Android render the native back button. Web has none.
   const pageOptions =
     Platform.OS === "web"
@@ -96,6 +118,7 @@ const AppLayout = () => {
           />
           <Stack.Screen name="days/[date]" options={modalOptions} />
           <Stack.Screen name="widget" options={modalOptions} />
+          <Stack.Screen name="feedback" options={feedbackOptions} />
           <Stack.Screen
             name="interventions/[id]"
             options={{ ...modalOptions, gestureEnabled: false }}
