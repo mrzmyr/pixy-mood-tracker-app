@@ -1,7 +1,7 @@
 import random from "lodash/random";
 import range from "lodash/range";
 import { useMemo } from "react";
-import { Dimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 import { BigCard } from "../../components/BigCard";
 import { RatingChart } from "../../components/RatingChart";
 import type { ScaleItem } from "../../components/RatingChart";
@@ -23,7 +23,8 @@ export const MoodChart = ({ date, items }) => {
     date.daysInMonth() - 1
   );
 
-  const width = Dimensions.get("window").width - 80;
+  const { width: windowWidth } = useWindowDimensions();
+  const width = windowWidth - 80;
   const height = width / 2.5;
 
   // Placeholder data is generated once per mount so it does not change on re-render.

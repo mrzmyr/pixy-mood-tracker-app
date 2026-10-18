@@ -1,9 +1,9 @@
 import { useSetting } from "@/state/settings";
 import {
-  Dimensions,
   Platform,
   Pressable,
   useColorScheme,
+  useWindowDimensions,
   View,
 } from "react-native";
 import Check from "lucide-react-native/icons/check";
@@ -13,11 +13,9 @@ import useScale from "@/hooks/useScale";
 import { getRatingLabel } from "@/lib/ratingLabel";
 import { RADIUS } from "@/constants/Radius";
 
-const SCREEN_HEIGHT = Dimensions.get("screen").height;
-
 /**
  * Rating button on the mood slide, colored from the user's scale. Height
- * scales with the screen height measured at module load.
+ * scales with the window height.
  */
 export const SlideMoodButton = ({
   rating,
@@ -32,8 +30,9 @@ export const SlideMoodButton = ({
   const scaleType = useSetting("scaleType");
   const scale = useScale(scaleType);
   const colorScheme = useColorScheme();
+  const { height: windowHeight } = useWindowDimensions();
 
-  const height = Math.max(40, (SCREEN_HEIGHT * 0.48) / 7);
+  const height = Math.max(40, (windowHeight * 0.48) / 7);
   const width = height * 2.4;
 
   return (

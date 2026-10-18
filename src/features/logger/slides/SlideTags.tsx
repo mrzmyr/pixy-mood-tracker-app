@@ -1,4 +1,4 @@
-import { getSlideMarginTop } from "./marginTop";
+import { useSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import {
@@ -59,7 +59,7 @@ export const SlideTags = ({
   );
   const showHeadings = sections.length > 1;
 
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
 
   const renderTag = (tag: ITag) => (
     <Tag

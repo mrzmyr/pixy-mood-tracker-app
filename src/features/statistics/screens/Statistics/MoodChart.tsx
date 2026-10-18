@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Dimensions, View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 import { Card } from "../../components/Card";
 import { getCardChartWidth } from "../../components/cardChartWidth";
 import { t } from "@/lib/translation";
@@ -27,7 +27,8 @@ export const MoodChart = ({
 
   const data = getRatingDistributionForXDays(items, startDate, 14);
 
-  const width = getCardChartWidth(Dimensions.get("window").width);
+  const { width: windowWidth } = useWindowDimensions();
+  const width = getCardChartWidth(windowWidth);
   const height = width / 2.5;
 
   return (

@@ -6,6 +6,8 @@ import {
   getShortItemDateTitle,
 } from "@/lib/utils";
 
+const PHONE_WIDTH = 390;
+
 describe("getShortItemDateTitle()", () => {
   test("shows the year only outside the current year", () => {
     const thisYear = dayjs().year();
@@ -28,7 +30,7 @@ describe("getShortItemDateTitle()", () => {
     const dateTime = dayjs().subtract(8, "day").toISOString();
 
     expect(getShortItemDateTitle(dateTime).length).toBeLessThan(
-      getItemDateTitle(dateTime).length
+      getItemDateTitle(dateTime, PHONE_WIDTH).length
     );
   });
 });
@@ -38,7 +40,9 @@ describe("item date titles", () => {
     const dateTime = dayjs().hour(9).minute(5).toISOString();
 
     expect(getShortItemDateTitle(dateTime)).toBe(formatItemTime(dateTime));
-    expect(getItemDateTitle(dateTime)).toBe(formatItemTime(dateTime));
+    expect(getItemDateTitle(dateTime, PHONE_WIDTH)).toBe(
+      formatItemTime(dateTime)
+    );
   });
 
   test("keep the day for an entry from yesterday", () => {
@@ -46,6 +50,19 @@ describe("item date titles", () => {
 
     expect(getShortItemDateTitle(dateTime)).not.toBe(formatItemTime(dateTime));
     expect(getShortItemDateTitle(dateTime)).toContain(formatItemTime(dateTime));
+  });
+});
+
+describe("getItemDateTitle()", () => {
+  test("drops the weekday in windows narrower than 350 pt", () => {
+    const dateTime = dayjs().subtract(8, "day").toISOString();
+
+    expect(getItemDateTitle(dateTime, 320)).toBe(
+      getShortItemDateTitle(dateTime)
+    );
+    expect(getItemDateTitle(dateTime, PHONE_WIDTH)).not.toBe(
+      getShortItemDateTitle(dateTime)
+    );
   });
 });
 

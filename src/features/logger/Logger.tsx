@@ -18,7 +18,13 @@ import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
 import type { ReactElement, RefObject } from "react";
 
-import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
+import {
+  Keyboard,
+  Platform,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import type { TextInput } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
@@ -209,9 +215,9 @@ const LoggerSlides = ({
   const { isLocationVisible, isLocating } = usePassiveLocation({ mode });
 
   const _carousel = useRef<CarouselRef>(null);
-  // iOS lays the modal out at full window height first, then shrinks it to
-  // the sheet. Without an explicit height the carousel keeps the first,
-  // taller slide height, and slide bottoms end up under the home indicator.
+  const { width: windowWidth } = useWindowDimensions();
+  // iOS lays the modal out at full window height, then shrinks it to the
+  // sheet. A fixed height stops the carousel keeping that first, taller size.
   const [carouselHeight, setCarouselHeight] = useState<number>();
 
   const slideKeys = SLIDE_ORDER.filter(
@@ -437,7 +443,7 @@ const LoggerSlides = ({
         >
           <Carousel
             loop={false}
-            itemSize={Dimensions.get("window").width}
+            itemSize={windowWidth}
             style={carouselHeight ? { height: carouselHeight } : undefined}
             ref={_carousel}
             data={reachedContent}

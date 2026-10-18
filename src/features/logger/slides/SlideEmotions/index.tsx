@@ -1,4 +1,4 @@
-import { getSlideMarginTop } from "../marginTop";
+import { useSlideMarginTop } from "../marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogState, getMostUsedEmotions } from "@/features/logs";
@@ -80,7 +80,7 @@ export const SlideEmotions = ({
   showDisable: boolean;
 }) => {
   const colors = useColors();
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
   const { draft, setEmotions } = useLogDraft();
   const logState = useLogState();
   const analytics = useAnalytics();
