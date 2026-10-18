@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Platform } from "react-native";
 import {
   SuperwallExpoModule,
@@ -71,10 +71,17 @@ const SuperwallConsumableEvents = () => {
   return null;
 };
 
+/**
+ * Delay before Superwall configures on its own. Keeps its network fetch and
+ * native SDK init out of the startup window; Settings can start it sooner
+ * through {@link SupportClient.prepare}.
+ */
+export const SUPERWALL_CONFIGURE_DELAY_MS = 3000;
+
 const SuperwallSupportBridge = ({
-  children,
+  onClientChange,
 }: {
-  children: React.ReactNode;
+  onClientChange: (client: SupportClient) => void;
 }) => {
   const analytics = useAnalytics();
   const isConfigured = useSuperwall((state) => state.isConfigured);
@@ -139,12 +146,12 @@ const SuperwallSupportBridge = ({
     [isConfigured, registerPlacement]
   );
 
-  return (
-    <SupportProvider client={client}>
-      <SuperwallConsumableEvents />
-      {children}
-    </SupportProvider>
-  );
+  useEffect(() => {
+    // oxlint-disable-next-line react-doctor/no-pass-data-to-parent -- the client comes from hooks that only work under SuperwallProvider, which mounts beside children so they never remount
+    onClientChange(client);
+  }, [client, onClientChange]);
+
+  return <SuperwallConsumableEvents />;
 };
 
 /**
@@ -154,6 +161,11 @@ const SuperwallSupportBridge = ({
  * platform. Must render inside the analytics provider: Superwall event
  * tracking is off unless the user enabled analytics. On Android, completed
  * support purchases are consumed so the same amount can be bought again.
+ *
+ * Superwall configures {@link SUPERWALL_CONFIGURE_DELAY_MS} after mount, or
+ * as soon as a consumer calls `prepare`. Until then the client is disabled.
+ * `children` stay mounted at the same position throughout; Superwall mounts
+ * as a sibling that publishes its client.
  */
 export const ConfiguredSupportProvider = ({
   children,
@@ -163,6 +175,10 @@ export const ConfiguredSupportProvider = ({
   apiKeys?: { android?: string; ios?: string };
 }) => {
   const analytics = useAnalytics();
+  const [isRequested, setIsRequested] = useState(false);
+  const [superwallClient, setSuperwallClient] = useState<SupportClient>(
+    disabledSupportClient
+  );
   const apiKeys = configuredApiKeys ?? {
     android: process.env.EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY,
     ios: process.env.EXPO_PUBLIC_SUPERWALL_IOS_API_KEY,
@@ -172,8 +188,27 @@ export const ConfiguredSupportProvider = ({
     default: apiKeys.ios ?? apiKeys.android,
     ios: apiKeys.ios,
   });
+  const hasApiKey = Boolean(platformApiKey);
 
-  if (!platformApiKey) {
+  useEffect(() => {
+    if (!hasApiKey) {
+      return;
+    }
+
+    const timer = setTimeout(
+      () => setIsRequested(true),
+      SUPERWALL_CONFIGURE_DELAY_MS
+    );
+    return () => clearTimeout(timer);
+  }, [hasApiKey]);
+
+  const prepare = useCallback(() => setIsRequested(true), []);
+  const client = useMemo<SupportClient>(
+    () => ({ ...superwallClient, prepare }),
+    [prepare, superwallClient]
+  );
+
+  if (!hasApiKey) {
     return (
       <SupportProvider client={disabledSupportClient}>
         {children}
@@ -182,27 +217,34 @@ export const ConfiguredSupportProvider = ({
   }
 
   return (
-    <SuperwallProvider
-      apiKeys={apiKeys}
-      options={{
-        eventTrackingBehavior: analytics.isEnabled ? "superwallOnly" : "none",
-        paywalls: {
-          automaticallyDismiss: true,
-          shouldShowPurchaseFailureAlert: true,
-        },
-        shouldObservePurchases: false,
-        testModeBehavior: __DEV__ ? "automatic" : "never",
-      }}
-      onConfigurationError={() => {
-        logSupportError({
-          status: "support_configuration_failed",
-          message: "Support could not start",
-          why: "Superwall configuration failed for this platform.",
-          fix: "Restart Pixy and try again later.",
-        });
-      }}
-    >
-      <SuperwallSupportBridge>{children}</SuperwallSupportBridge>
-    </SuperwallProvider>
+    <SupportProvider client={client}>
+      {isRequested && (
+        <SuperwallProvider
+          apiKeys={apiKeys}
+          options={{
+            eventTrackingBehavior: analytics.isEnabled
+              ? "superwallOnly"
+              : "none",
+            paywalls: {
+              automaticallyDismiss: true,
+              shouldShowPurchaseFailureAlert: true,
+            },
+            shouldObservePurchases: false,
+            testModeBehavior: __DEV__ ? "automatic" : "never",
+          }}
+          onConfigurationError={() => {
+            logSupportError({
+              status: "support_configuration_failed",
+              message: "Support could not start",
+              why: "Superwall configuration failed for this platform.",
+              fix: "Restart Pixy and try again later.",
+            });
+          }}
+        >
+          <SuperwallSupportBridge onClientChange={setSuperwallClient} />
+        </SuperwallProvider>
+      )}
+      {children}
+    </SupportProvider>
   );
 };

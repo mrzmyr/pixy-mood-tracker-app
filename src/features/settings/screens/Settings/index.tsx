@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import * as StoreReview from "expo-store-review";
 import * as WebBrowser from "expo-web-browser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, View } from "react-native";
 import CircleArrowUp from "lucide-react-native/icons/circle-arrow-up";
 import Award from "lucide-react-native/icons/award";
@@ -75,6 +75,12 @@ export const SettingsScreen = () => {
   const isProfileEnabled = useFeatureFlag("profile");
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
+  const prepareSupport = support.prepare;
+  useEffect(() => {
+    if (isSupportEnabled) {
+      prepareSupport?.();
+    }
+  }, [isSupportEnabled, prepareSupport]);
   const isDevelopmentFlagOn = useFeatureFlag("development");
   const canOverrideFeatureFlags = useCanOverrideFeatureFlags();
   const [versionTaps, setVersionTaps] = useState(0);

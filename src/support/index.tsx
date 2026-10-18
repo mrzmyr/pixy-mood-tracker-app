@@ -33,6 +33,11 @@ export interface SupportClient {
    * @returns Rejects with a {@link SupportFlowError} when the flow cannot open.
    */
   openSupport: () => Promise<void>;
+  /**
+   * Start the provider's lazy setup now instead of at its default delay.
+   * Call it before the support UI is shown. Absent when nothing is deferred.
+   */
+  prepare?: () => void;
 }
 
 const SupportContext = createContext<SupportClient>(disabledSupportClient);

@@ -244,6 +244,9 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 
 Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Restart Expo after changing configuration. Production builds ignore fake mode.
 
+- Superwall configures 3 s after launch, not at cold start ([`SuperwallSupportProvider.tsx`](../src/support/SuperwallSupportProvider.tsx))
+- Opening Settings with `support-pixy` on configures it at once through `SupportClient.prepare`
+
 **EAS profiles** (`eas.json`) set the variant: `development` and `emulator` build `development`, `preview` builds `preview`, `production` builds `production`.
 
 ## Building

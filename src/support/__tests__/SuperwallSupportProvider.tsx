@@ -1,8 +1,10 @@
-import { render, waitFor } from "@testing-library/react-native";
+import { useEffect } from "react";
+import { act, render, waitFor } from "@testing-library/react-native";
 import { Platform } from "react-native";
 import { SuperwallExpoModule } from "expo-superwall";
 import {
   ConfiguredSupportProvider,
+  SUPERWALL_CONFIGURE_DELAY_MS,
   SUPPORT_PLACEMENT,
 } from "@/support/SuperwallSupportProvider";
 import { useSupport } from "@/support";
@@ -67,6 +69,19 @@ const Probe = ({ onClient }: { onClient: (client: SupportClient) => void }) => {
   return null;
 };
 
+const advancePastConfigureDelay = () =>
+  act(() => {
+    jest.advanceTimersByTime(SUPERWALL_CONFIGURE_DELAY_MS);
+  });
+
+const PrepareOnMount = () => {
+  const { prepare } = useSupport();
+  useEffect(() => {
+    prepare?.();
+  }, [prepare]);
+  return null;
+};
+
 describe("Superwall support provider", () => {
   const originalIosKey = process.env.EXPO_PUBLIC_SUPERWALL_IOS_API_KEY;
   const originalAndroidKey = process.env.EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY;
@@ -79,21 +94,85 @@ describe("Superwall support provider", () => {
     jest.clearAllMocks();
   });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   afterAll(() => {
     process.env.EXPO_PUBLIC_SUPERWALL_IOS_API_KEY = originalIosKey;
     process.env.EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY = originalAndroidKey;
   });
 
+  test("does not configure Superwall at startup", async () => {
+    let supportClient: SupportClient | undefined;
+
+    await render(
+      <ConfiguredSupportProvider apiKeys={{ ios: "test_ios_public_key" }}>
+        <Probe
+          onClient={(client) => {
+            supportClient = client;
+          }}
+        />
+      </ConfiguredSupportProvider>
+    );
+
+    expect(mockProviderProps).toBeUndefined();
+    expect(supportClient?.enabled).toBe(false);
+  });
+
+  test("configures Superwall as soon as a consumer prepares support", async () => {
+    let supportClient: SupportClient | undefined;
+
+    await render(
+      <ConfiguredSupportProvider apiKeys={{ ios: "test_ios_public_key" }}>
+        <Probe
+          onClient={(client) => {
+            supportClient = client;
+          }}
+        />
+      </ConfiguredSupportProvider>
+    );
+
+    await act(() => {
+      supportClient?.prepare?.();
+    });
+
+    expect(mockProviderProps).toBeDefined();
+    expect(supportClient?.enabled).toBe(true);
+  });
+
+  test("keeps children mounted when Superwall starts", async () => {
+    let mounts = 0;
+    const MountCounter = () => {
+      useEffect(() => {
+        mounts += 1;
+      }, []);
+      return null;
+    };
+
+    jest.useFakeTimers();
+    await render(
+      <ConfiguredSupportProvider apiKeys={{ ios: "test_ios_public_key" }}>
+        <MountCounter />
+      </ConfiguredSupportProvider>
+    );
+    await advancePastConfigureDelay();
+
+    expect(mockProviderProps).toBeDefined();
+    expect(mounts).toBe(1);
+  });
+
   test("configures anonymous support with tracking disabled", async () => {
     let supportClient: SupportClient | undefined;
 
-    render(
+    await render(
       <ConfiguredSupportProvider
         apiKeys={{
           android: "test_android_public_key",
           ios: "test_ios_public_key",
         }}
       >
+        <PrepareOnMount />
         <Probe
           onClient={(client) => {
             supportClient = client;
@@ -133,14 +212,14 @@ describe("Superwall support provider", () => {
     const originalPlatform = Platform.OS;
 
     try {
-      render(
+      await render(
         <ConfiguredSupportProvider
           apiKeys={{
             android: "test_android_public_key",
             ios: "test_ios_public_key",
           }}
         >
-          {null}
+          <PrepareOnMount />
         </ConfiguredSupportProvider>
       );
 

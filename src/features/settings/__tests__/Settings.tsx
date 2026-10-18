@@ -114,6 +114,31 @@ describe("Support Pixy in Settings", () => {
     expect(await screen.findByTestId("support-pixy-card")).toBeOnTheScreen();
   });
 
+  test("Settings starts deferred support setup when the flag is on", async () => {
+    const prepare = jest.fn();
+    await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+      prepare,
+    });
+
+    await waitFor(() => expect(prepare).toHaveBeenCalled());
+  });
+
+  test("Settings leaves deferred support setup alone when the flag is off", async () => {
+    mockReload.mockResolvedValue({ "support-pixy": false });
+    const prepare = jest.fn();
+    await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+      prepare,
+    });
+
+    await waitFor(() => expect(mockReload).toHaveBeenCalledTimes(1));
+
+    expect(prepare).not.toHaveBeenCalled();
+  });
+
   test("user cannot open support when the flag is off", async () => {
     mockReload.mockResolvedValue({ "support-pixy": false });
     const supportClient = createFakeSupportClient();
