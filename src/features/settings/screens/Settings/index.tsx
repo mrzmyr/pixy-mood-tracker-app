@@ -45,6 +45,7 @@ import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
 import { AppLockMenuItem } from "@/features/applock";
+import { ProfileRow } from "@/features/profile";
 import pkg from "../../../../../package.json";
 import Bug from "lucide-react-native/icons/bug";
 import Lightbulb from "lucide-react-native/icons/lightbulb";
@@ -55,7 +56,9 @@ import { useSupport } from "@/support";
 const DEVELOPMENT_UNLOCK_TAPS = 20;
 
 /**
- * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
+ * Settings screen, opened from the calendar header. With the `profile` flag,
+ * the user's name and photo row comes first. The support card needs its
+ * feature flag and an enabled client.
  * The App Lock row needs the `app-lock` flag, or the lock being on.
  * The Development section shows in development and preview builds, with the
  * `development` or `feature-flag-overrides` feature flag, or after 20 taps on
@@ -68,6 +71,7 @@ export const SettingsScreen = () => {
   const analytics = useAnalytics();
   const isWidgetEnabled = useIsWidgetEnabled();
   const isRecapsEnabled = useFeatureFlag("recaps");
+  const isProfileEnabled = useFeatureFlag("profile");
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
   const isDevelopmentFlagOn = useFeatureFlag("development");
@@ -115,6 +119,13 @@ export const SettingsScreen = () => {
         }}
       >
         <FeedbackModal />
+        {isProfileEnabled && (
+          <View style={{ marginBottom: 24 }}>
+            <FlagHighlight flag="profile">
+              <ProfileRow />
+            </FlagHighlight>
+          </View>
+        )}
         <MenuList>
           <MenuListItem
             title={t("data")}

@@ -238,6 +238,14 @@ export interface AnalyticsEvents {
   "people:person_deleted": { entries_count: number };
   "people:delete_cancelled": undefined;
 
+  /** Name length only; the name itself never leaves the device. */
+  "profile:profile_saved": {
+    has_name: boolean;
+    name_length: number;
+    has_photo: boolean;
+    photo_changed: boolean;
+  };
+
   "settings:rate_app_tapped": undefined;
   "settings:vote_features_tapped": undefined;
   "settings:changelog_tapped": undefined;
