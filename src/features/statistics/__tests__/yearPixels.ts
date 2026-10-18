@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import padStart from "lodash/padStart";
-import { _generateItem } from "@/__tests__/utils";
 import type { LogItem } from "@/features/logs";
+import { getAverageMood } from "@/features/logs";
 import { getItemDate } from "@/lib/logDates";
-import { getAverageMood } from "@/lib/utils";
 import { buildYearPixels } from "../screens/StatisticsYear/YearInPixels/yearPixels";
 import type { YearPixel } from "../screens/StatisticsYear/YearInPixels/yearPixels";
+import { _generateItem } from "@/testing/logItem";
 
 /**
  * Grid as Year in Pixels built it before the one-pass builder: filter by
@@ -22,7 +22,8 @@ const previousYearPixels = (date: dayjs.Dayjs, allItems: LogItem[]) => {
       const dateString = `${monthString}-${padStart(`${dayCount}`, 2, "0")}`;
       const inThisMonth = dayjs(dateString).month() === i;
       const _items = items.filter(
-        (item) => item.dateTime?.split("T")[0] === dateString
+        (item) =>
+          item.dateTime !== undefined && getItemDate(item) === dateString
       );
       row.push({
         date: dateString,
@@ -46,6 +47,14 @@ const currentYearPixels = (date: dayjs.Dayjs, allItems: LogItem[]) => {
 
 const at = (dateTime: string, rating: LogItem["rating"]) =>
   _generateItem({ dateTime, rating });
+
+// Builds dateTime from local wall-clock time, as the logger does.
+const entryAt = (localTime: string, rating: LogItem["rating"]) =>
+  _generateItem({
+    date: localTime.slice(0, 10),
+    dateTime: dayjs(localTime).toISOString(),
+    rating,
+  });
 
 /** Fresh entry objects: `getItemDate` caches per object and time zone. */
 const fixture = (): LogItem[] => [
@@ -96,16 +105,43 @@ describe("buildYearPixels()", () => {
     }
   });
 
-  test("puts entries near midnight on their UTC day", () => {
+  test("puts entries near midnight on their local day", () => {
     process.env.TZ = "Europe/Berlin";
     const rows = currentYearPixels(dayjs("2024-01-01"), fixture());
 
-    // June is month index 5, rows start at day 1.
-    expect(rows[13][5]).toMatchObject({
-      date: "2024-06-14",
-      rating: "extremely_good",
+    // June is month index 5, rows start at day 1. Berlin is UTC+2 in June.
+    expect(rows[13][5]).toMatchObject({ date: "2024-06-14", rating: null });
+    expect(rows[14][5].rating).toBe(getAverageMood(fixture().slice(3, 5)));
+    expect(rows[15][5]).toMatchObject({ date: "2024-06-16", rating: "good" });
+  });
+
+  test("puts entries logged near local midnight on their local day", () => {
+    const rows = buildYearPixels(2026, [
+      entryAt("2026-03-01T00:30:00", "very_bad"),
+      entryAt("2026-03-01T23:30:00", "very_bad"),
+      entryAt("2026-03-02T00:30:00", "very_good"),
+    ]);
+
+    expect(rows[27][1]).toMatchObject({ date: "2026-02-28", rating: null });
+    expect(rows[0][2]).toMatchObject({
+      date: "2026-03-01",
+      rating: "very_bad",
     });
-    expect(rows[14][5].rating).toBe(getAverageMood(fixture().slice(4, 6)));
+    expect(rows[1][2]).toMatchObject({
+      date: "2026-03-02",
+      rating: "very_good",
+    });
+  });
+
+  test("leaves placeholder items without dateTime off every day", () => {
+    // SAFETY: mirrors the placeholder items of YearInPixels/index.tsx.
+    const placeholder = { id: "1", date: "2026-03-01" } as LogItem;
+
+    const ratings = buildYearPixels(2026, [placeholder]).flatMap((row) =>
+      row.map((pixel) => pixel.rating)
+    );
+
+    expect(ratings.every((rating) => rating === null)).toBe(true);
   });
 
   test("marks cells past the end of the month", () => {

@@ -1,7 +1,7 @@
 import chroma, { contrast } from "chroma-js";
 import dayjs from "dayjs";
 import scales from "@/constants/Colors/Scales";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import {
   WEEK_WIDGET_WEEKS,
   WIDGET_TIMELINE_DAYS,

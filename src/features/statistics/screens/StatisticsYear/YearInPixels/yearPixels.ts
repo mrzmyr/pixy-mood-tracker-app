@@ -1,6 +1,7 @@
 import padStart from "lodash/padStart";
 import type { LogItem } from "@/features/logs";
-import { getAverageMood } from "@/lib/utils";
+import { getAverageMood } from "@/features/logs";
+import { getItemDate } from "@/lib/logDates";
 
 /** One cell of the Year in Pixels grid. */
 export interface YearPixel {
@@ -19,8 +20,9 @@ const DAY_COUNT = 31;
  * Year in Pixels grid for `year`: 31 rows (day of month), 12 cells each
  * (month). One pass over `items`.
  *
- * Matches entries by the UTC date part of `dateTime`, so entries near
- * midnight can land on a neighboring day outside UTC.
+ * Puts entries on their local calendar day, the same day the calendar and
+ * month report use. Placeholder items behind the not-enough-data overlay
+ * have no `dateTime` and match no day.
  */
 export const buildYearPixels = (
   year: number,
@@ -28,10 +30,10 @@ export const buildYearPixels = (
 ): YearPixel[][] => {
   const itemsByDay = new Map<string, LogItem[]>();
   for (const item of items) {
-    const key = item.dateTime?.split("T")[0];
-    if (key === undefined) {
+    if (item.dateTime === undefined) {
       continue;
     }
+    const key = getItemDate(item);
     const dayItems = itemsByDay.get(key);
     if (dayItems) {
       dayItems.push(item);

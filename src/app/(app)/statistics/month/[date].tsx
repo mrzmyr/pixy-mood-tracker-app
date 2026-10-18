@@ -1,1 +1,1 @@
-export { StatisticsMonthScreen as default } from "@/features/statistics";
+export { StatisticsMonthScreen as default } from "@/features/statistics/routes";

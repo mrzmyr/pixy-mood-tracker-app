@@ -4,8 +4,9 @@ import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
-import { ScrollView, View } from "react-native";
-import { Moon, Star } from "react-native-feather";
+import { Platform, ScrollView, View } from "react-native";
+import Moon from "lucide-react-native/icons/moon";
+import Star from "lucide-react-native/icons/star";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
 import { useHighlightsReport } from "../../useHighlightsReport";
@@ -28,6 +29,7 @@ export const StatisticsScreen = () => {
 
   return (
     <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
       style={{
         backgroundColor: colors.statisticsBackground,
       }}
@@ -36,7 +38,9 @@ export const StatisticsScreen = () => {
         style={{
           paddingHorizontal: 20,
           paddingTop: 20,
-          paddingBottom: insets.bottom + 20,
+          // iOS adds the bottom safe area through
+          // `contentInsetAdjustmentBehavior`.
+          paddingBottom: (Platform.OS === "ios" ? 0 : insets.bottom) + 20,
         }}
       >
         {!report.unlocked && <EmptyPlaceholder count={report.missingEntries} />}

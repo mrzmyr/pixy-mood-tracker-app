@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
-import { Star } from "react-native-feather";
+import Star from "lucide-react-native/icons/star";
 import useColors from "@/hooks/useColors";
 
 /** Gradient banner under the native header for the year report. */

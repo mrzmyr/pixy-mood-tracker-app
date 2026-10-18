@@ -11,6 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import useColors from "@/hooks/useColors";
 import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
+import { SHADOW } from "@/constants/Shadow";
 
 // Press feedback: 0.97 scale in 120 ms, strong ease-out. Same as the
 // calendar float button.
@@ -87,10 +88,11 @@ export const FloatButton = ({
         width: SIZE,
         height: SIZE,
         borderRadius: RADIUS,
-        // Android draws elevation from the background and clips the ripple.
+        // Android: background and shadow sit on the pressable, which clips
+        // the ripple to the rounded button.
         ...(IS_ANDROID && {
           backgroundColor: background,
-          elevation: 6,
+          boxShadow: SHADOW.float,
           overflow: "hidden",
         }),
       }}
@@ -106,10 +108,7 @@ export const FloatButton = ({
           !HAS_GLASS &&
             !IS_ANDROID && {
               backgroundColor: background,
-              shadowColor: "#000",
-              shadowOpacity: 0.16,
-              shadowRadius: 8,
-              shadowOffset: { width: 0, height: 4 },
+              boxShadow: SHADOW.float,
             },
           pressStyle,
         ]}

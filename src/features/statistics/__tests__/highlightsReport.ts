@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import type { LogItem } from "@/features/logs";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";

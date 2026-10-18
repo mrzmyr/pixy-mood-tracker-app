@@ -1,6 +1,7 @@
 import { getSleepQualityDistributionForXDays } from "../SleepQualityDistribution";
 import type { LogItem } from "@/features/logs";
-import { getAverageSleepQuality, getWordCount } from "@/lib/utils";
+import { getAverageSleepQuality } from "@/features/logs";
+import { getWordCount } from "@/lib/utils";
 
 const makeItem = (
   dateTime: string,

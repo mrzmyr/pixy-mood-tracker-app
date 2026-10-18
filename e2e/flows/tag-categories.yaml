@@ -76,7 +76,8 @@ tags: [p1, tags]
       - assertVisible:
           text: "Hobbies"
           checked: true
-- tapOn: "Cancel"
+- tapOn:
+    id: "tag-cancel"
 - back
 - back
 

@@ -43,8 +43,16 @@ for (const color of tagColorNames) {
 const dangerLight = Platform.OS === "android" ? "#BA1A1A" : "#FF3B30";
 const dangerDark = Platform.OS === "android" ? "#FFB4AB" : "#FF453A";
 
-const tintColorLight = "#007aff";
-const tintColorDark = "#0a84ff";
+// Plain hex strings: chroma-js, Reanimated, React Navigation, and widget
+// data need strings, so never use PlatformColor here.
+// iOS systemBlue. Android: Material 3 primary (tone 40 light, tone 80
+// dark) of the same blue, fixed brand color, no dynamic color.
+const IS_ANDROID = Platform.OS === "android";
+const tintColorLight = IS_ANDROID ? "#005BC1" : "#007aff";
+const tintColorDark = IS_ANDROID ? "#ADC6FF" : "#0a84ff";
+// Text and icons on a tint background (Material 3 onPrimary).
+const onTintLight = "#FFF";
+const onTintDark = IS_ANDROID ? "#002E69" : "#FFF";
 
 const light = {
   text: "#000",
@@ -92,6 +100,20 @@ const light = {
   cardBackground: "#fff",
   cardBorder: colors.neutral[200],
   toastSuccessIcon: colors.green[600],
+
+  // InlineAlert: accent colors the icon. Background = accent at 12% (dark 16%).
+  alert: {
+    error: { accent: dangerLight, background: `${dangerLight}1F` },
+    warning: {
+      accent: colors.amber[600],
+      background: `${colors.amber[600]}1F`,
+    },
+    info: { accent: tintColorLight, background: `${tintColorLight}1F` },
+    success: {
+      accent: colors.green[600],
+      background: `${colors.green[600]}1F`,
+    },
+  },
   snackbarBackground: colors.neutral[800],
   snackbarText: colors.neutral[50],
   snackbarAction: colors.blue[300],
@@ -126,7 +148,7 @@ const light = {
   linkButtonTextSecondaryDisabled: colors.neutral[400],
 
   primaryButtonBackground: tintColorLight,
-  primaryButtonText: "#FFF",
+  primaryButtonText: onTintLight,
   primaryButtonBorder: tintColorLight,
 
   primaryButtonBackgroundDisabled: colors.neutral[300],
@@ -167,7 +189,7 @@ const light = {
   checkboxBorder: colors.neutral[300],
   checkboxCheckedBackground: tintColorLight,
   checkboxCheckedBorder: tintColorLight,
-  checkboxCheckedText: "#FFF",
+  checkboxCheckedText: onTintLight,
 
   statisticsBackground: colors.neutral[100],
   statisticsCardBackground: "#FFF",
@@ -215,7 +237,7 @@ const light = {
   onboardingListItemText: colors.neutral[800],
 
   onboardingPrivacyBadgeBackground: tintColorLight,
-  onboardingPrivacyBadgeVector: colors.white,
+  onboardingPrivacyBadgeVector: onTintLight,
 
   sharingLogoBackground: colors.white,
   sharingLogoText: colors.neutral[600],
@@ -318,6 +340,19 @@ const dark: IColors & {
   cardBackground: colors.neutral[900],
   cardBorder: colors.neutral[800],
   toastSuccessIcon: colors.green[400],
+
+  alert: {
+    error: { accent: dangerDark, background: `${dangerDark}29` },
+    warning: {
+      accent: colors.amber[400],
+      background: `${colors.amber[400]}29`,
+    },
+    info: { accent: tintColorDark, background: `${tintColorDark}29` },
+    success: {
+      accent: colors.green[400],
+      background: `${colors.green[400]}29`,
+    },
+  },
   snackbarBackground: colors.neutral[200],
   snackbarText: colors.neutral[900],
   snackbarAction: colors.blue[700],
@@ -352,7 +387,7 @@ const dark: IColors & {
   linkButtonTextSecondaryDisabled: colors.neutral[400],
 
   primaryButtonBackground: tintColorDark,
-  primaryButtonText: colors.white,
+  primaryButtonText: onTintDark,
   primaryButtonBorder: tintColorDark,
 
   primaryButtonBackgroundDisabled: colors.neutral[800],
@@ -393,7 +428,7 @@ const dark: IColors & {
   checkboxBorder: colors.neutral[700],
   checkboxCheckedBackground: tintColorDark,
   checkboxCheckedBorder: tintColorDark,
-  checkboxCheckedText: "#FFF",
+  checkboxCheckedText: onTintDark,
 
   statisticsBackground: "#000",
   statisticsCardBackground: colors.neutral[900],
@@ -438,7 +473,7 @@ const dark: IColors & {
   onboardingPaginationDotInactive: colors.neutral[700],
 
   onboardingPrivacyBadgeBackground: tintColorDark,
-  onboardingPrivacyBadgeVector: colors.white,
+  onboardingPrivacyBadgeVector: onTintDark,
   onboardingListItemDot: colors.neutral[700],
   onboardingListItemText: colors.neutral[300],
 

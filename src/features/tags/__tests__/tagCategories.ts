@@ -5,6 +5,7 @@ import {
   moveTag,
   normalizeTagCategories,
   reorderCategories,
+  searchTagSections,
   toTagArrangement,
   toTagCategoryRows,
 } from "../tagCategories";
@@ -161,5 +162,67 @@ describe("reorderCategories()", () => {
         (category) => category.id
       )
     ).toEqual(["fun", "general", "work"]);
+  });
+});
+
+const titled = (id: string, title: string, categoryId: string): Tag => ({
+  ...tag(id, categoryId),
+  title,
+});
+
+describe("searchTagSections()", () => {
+  const sections = groupTagsByCategory(
+    [
+      titled("1", "Café", GENERAL_CATEGORY_ID),
+      titled("2", "Reading", GENERAL_CATEGORY_ID),
+      titled("3", "Meetings", "work"),
+      titled("4", "Emails", "work"),
+    ],
+    [general, work, fun]
+  );
+  const result = (query: string) =>
+    searchTagSections(sections, query).map((section) => [
+      section.category.id,
+      ids(section.tags),
+    ]);
+
+  test("matches tag titles ignoring case and accents", () => {
+    expect(result("  CAFE ")).toEqual([[GENERAL_CATEGORY_ID, ["1"]]]);
+  });
+
+  test("keeps every tag of a category whose title matches", () => {
+    expect(result("wor")).toEqual([["work", ["3", "4"]]]);
+  });
+
+  test("matches a tag title in another category too", () => {
+    const withWorkTag = groupTagsByCategory(
+      [
+        titled("1", "Work", GENERAL_CATEGORY_ID),
+        titled("2", "Reading", GENERAL_CATEGORY_ID),
+        titled("3", "Meetings", "work"),
+      ],
+      [general, work]
+    );
+    expect(
+      searchTagSections(withWorkTag, "work").map((section) => [
+        section.category.id,
+        ids(section.tags),
+      ])
+    ).toEqual([
+      [GENERAL_CATEGORY_ID, ["1"]],
+      ["work", ["3"]],
+    ]);
+  });
+
+  test("drops categories without matches and returns nothing on no match", () => {
+    expect(result("ing")).toEqual([
+      [GENERAL_CATEGORY_ID, ["2"]],
+      ["work", ["3"]],
+    ]);
+    expect(result("xyz")).toEqual([]);
+  });
+
+  test("returns all sections, empty ones included, for a blank query", () => {
+    expect(searchTagSections(sections, "  ")).toBe(sections);
   });
 });

@@ -58,6 +58,7 @@ const getScreenName = (pathname: string): string | null => {
   }
   const settingsRoutes = new Map<string, string>(
     Object.entries({
+      "/profile": "Profile",
       "/settings/colors": "Colors",
       "/settings/licenses": "Licenses",
       "/settings/steps": "Steps",

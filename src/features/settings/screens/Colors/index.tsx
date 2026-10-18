@@ -1,16 +1,12 @@
-import {
-  Fragment,
-  useCallback,
-  useEffect,
-  useEffectEvent,
-  useState,
-} from "react";
+import { Fragment } from "react";
 import { ScrollView, View } from "react-native";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
+import { useScrollBottomPadding } from "@/hooks/useScrollBottomPadding";
 import { useSettings } from "@/state/settings";
+import type { SettingsState } from "@/state/settings";
 import { Radio } from "./Radio";
 import { Scale } from "./Scale";
 
@@ -23,34 +19,25 @@ const typesNames = [
 /**
  * Settings > Colors: pick the mood color scale.
  *
- * A selection is saved to settings immediately. Scale ids are persisted,
+ * A tap on a different scale saves it to settings and tracks
+ * `settings:scale_changed` once. Scale ids are persisted,
  * so they must stay in sync with the keys in `constants/Colors/Scales.ts`.
  */
 export const ColorsScreen = () => {
   const { setSettings, settings } = useSettings();
   const colors = useColors();
   const analytics = useAnalytics();
+  const paddingBottom = useScrollBottomPadding(20);
 
-  const [scaleType, setScaleType] = useState(settings.scaleType);
+  const { scaleType } = settings;
 
-  // Effect event: tracks with the latest analytics instance without re-running
-  // the effect when analytics changes.
-  const trackScaleChange = useEffectEvent(
-    (changedScaleType: typeof scaleType) => {
-      analytics.track("settings:scale_changed", {
-        scale_type: changedScaleType,
-      });
+  const onSelect = (id: SettingsState["scaleType"]) => {
+    if (id === scaleType) {
+      return;
     }
-  );
-
-  useEffect(() => {
-    setSettings((currentSettings) => ({ ...currentSettings, scaleType }));
-    trackScaleChange(scaleType);
-  }, [scaleType, setSettings]);
-
-  const onSelect = useCallback((id) => {
-    setScaleType(id);
-  }, []);
+    setSettings((currentSettings) => ({ ...currentSettings, scaleType: id }));
+    analytics.track("settings:scale_changed", { scale_type: id });
+  };
 
   return (
     <View
@@ -60,13 +47,13 @@ export const ColorsScreen = () => {
       }}
     >
       <ScrollView
-        style={{
-          padding: 20,
-        }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 20, paddingBottom }}
       >
         {typesNames.map((type) => (
           <Fragment key={type.id}>
             <Radio
+              testID={`color-scale-${type.id}`}
               isSelected={type.id === scaleType}
               onPress={() => onSelect(type.id)}
             >

@@ -9,9 +9,8 @@ import type {
 } from "react-native-sortables";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
-import { CloseButton } from "@/components/CloseButton";
 import MenuListItem from "@/components/MenuListItem";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import TextInfo from "@/components/TextInfo";
 import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
@@ -133,17 +132,12 @@ export const TagCategories = () => {
       style={{
         flex: 1,
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
       }}
     >
-      <ModalHeader
+      <RouteModalHeader
         title={t("tag_categories")}
-        right={
-          <CloseButton
-            testID="tag-categories-close"
-            onPress={() => router.back()}
-          />
-        }
+        onClose={() => router.back()}
+        closeTestID="tag-categories-close"
       />
       <Animated.ScrollView
         ref={scrollRef}

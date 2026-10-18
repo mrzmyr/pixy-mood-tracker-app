@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Platform, Text, View } from "react-native";
-import { Bell } from "react-native-feather";
+import Bell from "lucide-react-native/icons/bell";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import {
@@ -15,7 +15,7 @@ import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 
 import { SlideHeadline } from "../components/SlideHeadline";
-import { getSlideMarginTop } from "./marginTop";
+import { useSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
 
@@ -28,7 +28,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const colors = useColors();
-  const marginTop = getSlideMarginTop();
+  const marginTop = useSlideMarginTop();
 
   const reminder = useReminder();
 
@@ -105,14 +105,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
             paddingTop: 24,
           }}
         >
-          <Clock
-            timeDate={time}
-            onChange={(event, date) => {
-              if (date) {
-                setTime(date);
-              }
-            }}
-          />
+          <Clock timeDate={time} onChange={setTime} />
         </View>
       </View>
       <View

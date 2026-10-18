@@ -2,7 +2,7 @@ import type { LogItem } from "@/features/logs";
 import {
   dummyEmotionsDistributionData,
   getEmotionsDistributionData,
-} from "../EmotionsDistributuon";
+} from "../EmotionsDistribution";
 import { EmotionsDistributionContent } from "../screens/Statistics/EmotionsDistributionCard";
 import { BigCard } from "./BigCard";
 import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";

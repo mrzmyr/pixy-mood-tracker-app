@@ -9,7 +9,7 @@ import {
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { Paths } from "expo-file-system";
 import * as ExpoImageManipulator from "expo-image-manipulator";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import Colors from "@/constants/Colors";
 import { setPhotoSourceOverride } from "@/features/photos";
 import type { LibraryPermission, PhotoSource } from "@/features/photos";
