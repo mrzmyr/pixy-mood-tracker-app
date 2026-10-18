@@ -1,11 +1,10 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, ScrollView, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../useTagActions";
 import LinkButton from "@/components/LinkButton";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
@@ -32,7 +31,6 @@ export const TagEdit = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const colors = useColors();
-  const insets = useSafeAreaInsets();
   const tagState = useTagsState();
   const tagsUpdater = useTagsUpdater();
   const analytics = useAnalytics();
@@ -71,22 +69,13 @@ export const TagEdit = () => {
         flex: 1,
         justifyContent: "flex-start",
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
       }}
     >
-      <ModalHeader
+      <RouteModalHeader
         title={t("edit_tag")}
-        left={
-          <LinkButton
-            onPress={() => {
-              router.back();
-            }}
-            type="primary"
-          >
-            {t("cancel")}
-          </LinkButton>
-        }
-        right={
+        onClose={() => router.back()}
+        closeTestID="tag-cancel"
+        action={
           <LinkButton
             onPress={() => onSubmit(tag)}
             type="primary"

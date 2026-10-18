@@ -1,12 +1,11 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, ScrollView, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import TextInfo from "@/components/TextInfo";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
@@ -26,7 +25,6 @@ import type { TagCategory } from "../TagsProvider";
 const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
   const router = useRouter();
   const colors = useColors();
-  const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const haptics = useHaptics();
   const { tags, categories } = useTagsState();
@@ -89,17 +87,13 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
       style={{
         flex: 1,
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
       }}
     >
-      <ModalHeader
+      <RouteModalHeader
         title={category ? t("tag_category_edit") : t("tag_category_create")}
-        left={
-          <LinkButton onPress={() => router.back()} type="primary">
-            {t("cancel")}
-          </LinkButton>
-        }
-        right={
+        onClose={() => router.back()}
+        closeTestID="tag-category-cancel"
+        action={
           <LinkButton
             onPress={onSave}
             type="primary"

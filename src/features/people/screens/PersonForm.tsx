@@ -8,7 +8,7 @@ import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import TextInfo from "@/components/TextInfo";
 import Toggle from "@/components/Toggle";
 import { MAX_TAG_LENGTH } from "@/constants/Config";
@@ -189,17 +189,13 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
       style={{
         flex: 1,
         backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
       }}
     >
-      <ModalHeader
+      <RouteModalHeader
         title={mode === "create" ? t("people_add") : t("people_edit")}
-        left={
-          <LinkButton onPress={() => router.back()} type="primary">
-            {t("cancel")}
-          </LinkButton>
-        }
-        right={
+        onClose={() => router.back()}
+        closeTestID="person-cancel"
+        action={
           <LinkButton
             onPress={handleSave}
             type="primary"

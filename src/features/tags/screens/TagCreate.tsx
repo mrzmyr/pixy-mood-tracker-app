@@ -1,10 +1,9 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import LinkButton from "@/components/LinkButton";
-import ModalHeader from "@/components/ModalHeader";
+import RouteModalHeader from "@/components/RouteModalHeader";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
@@ -26,7 +25,6 @@ const REGEX_EMOJI = /\p{Emoji}/u;
 export const TagCreate = () => {
   const router = useRouter();
   const colors = useColors();
-  const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const tagsUpdater = useTagsUpdater();
 
@@ -68,22 +66,13 @@ export const TagCreate = () => {
         flex: 1,
         justifyContent: "flex-start",
         backgroundColor: colors.logBackground,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
       }}
     >
-      <ModalHeader
+      <RouteModalHeader
         title={t("create_tag")}
-        left={
-          <LinkButton
-            onPress={() => {
-              router.back();
-            }}
-            type="primary"
-          >
-            {t("cancel")}
-          </LinkButton>
-        }
-        right={
+        onClose={() => router.back()}
+        closeTestID="tag-cancel"
+        action={
           <LinkButton
             onPress={onCreate}
             type="primary"
