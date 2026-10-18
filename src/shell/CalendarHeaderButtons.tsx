@@ -3,6 +3,7 @@ import { Platform } from "react-native";
 import {
   getCalendarLayoutLabel,
   useCalendarFilters,
+  useCalendarFiltersSheet,
   useCalendarLayout,
 } from "@/features/calendar";
 import { ProfileHeaderButton, useHasProfileAvatar } from "@/features/profile";
@@ -42,6 +43,7 @@ export const CalendarHeaderButtons = () => {
   const router = useRouter();
   const calendarFilters = useCalendarFilters();
   const { filterCount, isFiltering } = calendarFilters.data;
+  const filtersSheet = useCalendarFiltersSheet();
   const calendarLayout = useCalendarLayout();
   const isProfileEnabled = useFeatureFlag("profile");
   const hasProfileAvatar = useHasProfileAvatar();
@@ -68,7 +70,7 @@ export const CalendarHeaderButtons = () => {
             )}
             <Stack.Toolbar.MenuAction
               icon={ICONS.filters}
-              onPress={() => calendarFilters.open()}
+              onPress={() => filtersSheet.open()}
             >
               {isFiltering
                 ? `${t("calendar_filters_open")} (${filterCount})`
@@ -90,7 +92,7 @@ export const CalendarHeaderButtons = () => {
           <Stack.Toolbar.Button
             icon={ICONS.filters}
             accessibilityLabel={t("calendar_filters")}
-            onPress={() => calendarFilters.open()}
+            onPress={() => filtersSheet.open()}
             separateBackground
           >
             {isFiltering && (
