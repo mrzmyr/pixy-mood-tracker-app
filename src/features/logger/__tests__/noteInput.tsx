@@ -7,7 +7,7 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import { Profiler } from "react";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import Alert from "@/lib/Alert";
