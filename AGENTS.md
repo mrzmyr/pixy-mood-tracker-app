@@ -20,6 +20,7 @@
 
 ## PRs
 
+- When helpful to visualize a change, generate flow diagrams with [Pele](https://pele.run) ([API docs](https://pele.run/api.md)), export as PNG, and include in PR body. Keep generated files outside git.
 - When multiple things have beend worked on in one go you want to create PR, suggest the user to create multiple PRs by topics for easier reviews; If you are sure, just go ahead and create multiple PRs even when the user said "create PR"
 - Visual change: screenshot required, video too when motion
 - Screenshots and videos: upload to PR body with [pr-proof skill](.agents/skills/pr-proof/SKILL.md). Proof files stay outside git
@@ -56,7 +57,9 @@
 
 - Record mistakes in [MISTAKES.md](MISTAKES.md), missing capabilities in [DESIRES.md](DESIRES.md), and environment discoveries in [LEARNINGS.md](LEARNINGS.md)
 - Public repo: entries contain no private names, internal context, or user data
+- Never use Expo Device Hub (`bun hub`) as an agent. Humans: never press Shut down or Remove in it ([Device Hub](docs/development.md#device-hub)).
 - Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Fixed values are fine: rating, emotion keys, sleep quality, intervention cluster, feedback answer. Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
+- Call EAS Observe config only through `configureObserve` ([`src/lib/observe.ts`](src/lib/observe.ts)). Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others.
 
 ### Testing
 
@@ -76,6 +79,7 @@
 ## Releases
 
 - MUST run `app-store-review` skill before App Store release
+- MUST pass `bun release smoke --platform=ios` before App Store release ([workflow](docs/store-release-workflow.md#release))
 
 ## References
 

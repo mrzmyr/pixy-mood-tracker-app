@@ -1,4 +1,4 @@
-import { Check } from "lucide-react-native";
+import Check from "lucide-react-native/icons/check";
 import { Pressable, Text, View, useColorScheme } from "react-native";
 import type { PressableProps, ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";

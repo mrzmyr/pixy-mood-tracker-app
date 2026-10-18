@@ -1,1 +1,1 @@
-export { DevFixturesScreen as default } from "@/features/settings";
+export { DevFixturesScreen as default } from "@/features/settings/routes";

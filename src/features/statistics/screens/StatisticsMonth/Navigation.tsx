@@ -1,6 +1,7 @@
 import type { Dayjs } from "dayjs";
 import { View } from "react-native";
-import { ChevronLeft, ChevronRight } from "react-native-feather";
+import ChevronLeft from "lucide-react-native/icons/chevron-left";
+import ChevronRight from "lucide-react-native/icons/chevron-right";
 import Button from "@/components/Button";
 import { ButtonIcon } from "@/components/ButtonContent";
 import { t } from "@/lib/translation";

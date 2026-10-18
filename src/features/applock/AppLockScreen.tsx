@@ -1,5 +1,5 @@
 import * as Clipboard from "expo-clipboard";
-import { Lock } from "lucide-react-native";
+import Lock from "lucide-react-native/icons/lock";
 import { usePostHog } from "posthog-react-native";
 import { useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";

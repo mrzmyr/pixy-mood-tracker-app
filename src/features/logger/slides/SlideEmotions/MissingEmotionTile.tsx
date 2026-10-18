@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react-native";
+import Plus from "lucide-react-native/icons/plus";
 import { Pressable, Text, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";

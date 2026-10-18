@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import { Image as ImageIcon } from "react-native-feather";
+import ImageIcon from "lucide-react-native/icons/image";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
 import { RADIUS } from "@/constants/Radius";

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
-import { Check } from "react-native-feather";
+import Check from "lucide-react-native/icons/check";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import { SheetModal } from "@/components/SheetModal";

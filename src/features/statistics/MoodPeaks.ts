@@ -1,4 +1,4 @@
-import { getLogDays } from "@/lib/utils";
+import { getLogDays } from "@/features/logs";
 import type { LogDay, LogItem } from "@/features/logs";
 
 /** Days whose average rating is good or better. */

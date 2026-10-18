@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/logItem";
 import {
   getCameraCenter,
   getMapEntries,

@@ -1,4 +1,4 @@
-import { MapPin } from "lucide-react-native";
+import MapPin from "lucide-react-native/icons/map-pin";
 import { Text, View } from "react-native";
 import type { LogItem } from "@/features/logs";
 import { getLocationLabel, useLocationSetting } from "@/features/location";

@@ -1,6 +1,6 @@
 import { Pressable } from "react-native";
 import type { ViewStyle } from "react-native";
-import { X } from "react-native-feather";
+import X from "lucide-react-native/icons/x";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 

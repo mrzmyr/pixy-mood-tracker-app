@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Images } from "lucide-react-native";
+import Images from "lucide-react-native/icons/images";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -12,10 +12,10 @@ import {
   PhotoGrid,
   PhotoLimitNotice,
   PhotosPromptCard,
-  PhotoViewerModal,
   PickTile,
   useDraftPhotos,
 } from "@/features/photos";
+import { PhotoViewerModal } from "@/features/photos/routes";
 import useColors from "@/hooks/useColors";
 import { toLogDate } from "@/lib/logDates";
 import { t } from "@/lib/translation";
@@ -24,7 +24,7 @@ import { SlideHeadline } from "../components/SlideHeadline";
 import { useLogDraft } from "../logDraft";
 import { Footer } from "./Footer";
 import { PhotosDayState } from "./PhotosDayState";
-import { getSlideMarginTop } from "./marginTop";
+import { useSlideMarginTop } from "./marginTop";
 import { RADIUS } from "@/constants/Radius";
 
 /**
@@ -81,6 +81,7 @@ export const SlidePhotos = ({
 }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
+  const marginTop = useSlideMarginTop();
   const { draft: logDraft, setPhotos } = useLogDraft();
   const date = toLogDate(logDraft.dateTime);
   const dayTitle = formatDayLabel({ date, isTitleCase: true });
@@ -233,7 +234,7 @@ export const SlidePhotos = ({
         flex: 1,
         width: "100%",
         paddingBottom: insets.bottom + 20,
-        marginTop: getSlideMarginTop(),
+        marginTop,
       }}
     >
       <View

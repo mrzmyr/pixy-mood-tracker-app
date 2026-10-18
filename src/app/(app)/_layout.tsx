@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import dayjs from "dayjs";
 import { Platform, View } from "react-native";
 import { BackButton } from "@/shell/BackButton";
 import { StorageLoadGate } from "@/shell/StorageLoadGate";
@@ -25,6 +24,33 @@ const reportHeaderOptions = {
 
 const modalOptions = { presentation: "modal" as const, headerShown: false };
 
+/**
+ * iOS top-level screens: 34pt title that collapses into the inline title on
+ * scroll. The screen's first child must be a ScrollView with
+ * `contentInsetAdjustmentBehavior="automatic"`. Android and web keep the
+ * regular header.
+ *
+ * iOS 26+ needs an unset header background: with a background color, the
+ * large title is invisible (expo-router `useHeaderConfigProps`). The bar then
+ * stays transparent and shows the screen background. Older iOS paints both
+ * bar states in the screen background.
+ */
+const largeTitleOptions = (backgroundColor: string) => {
+  if (Platform.OS !== "ios") {
+    return {};
+  }
+  return {
+    headerLargeTitleEnabled: true,
+    headerLargeTitleShadowVisible: false,
+    ...(HAS_FLOATING_HEADER
+      ? { headerStyle: undefined }
+      : {
+          headerStyle: { backgroundColor },
+          headerLargeStyle: { backgroundColor },
+        }),
+  };
+};
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
@@ -37,11 +63,49 @@ const AppLayout = () => {
     headerStyle: { backgroundColor: colors.background },
     headerShadowVisible: Platform.OS !== "web",
   };
+  // Feedback form: iOS form sheet (Liquid Glass header on iOS 26), Android
+  // full-screen dialog with the Material top app bar. Header items live in
+  // the screen (`Stack.Toolbar`).
+  const feedbackOptions =
+    Platform.OS === "ios"
+      ? {
+          presentation: "formSheet" as const,
+          headerTintColor: colors.text,
+          // Always transparent, so the screen offsets content by the header
+          // height on every iOS version. expo-router sets it on iOS 26 only.
+          headerTransparent: true,
+          // Before iOS 26 no Liquid Glass: blur keeps the title readable.
+          ...(!HAS_FLOATING_HEADER && {
+            headerBlurEffect: "systemChromeMaterial" as const,
+          }),
+        }
+      : {
+          ...defaultOptions,
+          presentation: "modal" as const,
+          headerStyle: { backgroundColor: colors.feedbackBackground },
+          headerShadowVisible: false,
+        };
+  // Tag, tag category, and people modals. iOS shows the native sheet bar;
+  // the screen sets title and bar items (`RouteModalHeader`). Android and
+  // web draw their header in the screen.
+  const formModalOptions =
+    Platform.OS === "ios"
+      ? {
+          presentation: "modal" as const,
+          headerShown: true,
+          headerTintColor: colors.text,
+          headerShadowVisible: false,
+        }
+      : modalOptions;
   // iOS and Android render the native back button. Web has none.
   const pageOptions =
     Platform.OS === "web"
       ? { ...defaultOptions, headerLeft: renderHeaderLeft }
       : defaultOptions;
+
+  // Native grouped list screens: the list starts below the bar, so no
+  // divider line.
+  const settingsFormOptions = { ...pageOptions, headerShadowVisible: false };
 
   return (
     <StorageLoadGate>
@@ -76,11 +140,16 @@ const AppLayout = () => {
               ...pageOptions,
               title: t("statistics"),
               headerStyle: { backgroundColor: colors.statisticsBackground },
+              ...largeTitleOptions(colors.statisticsBackground),
             }}
           />
           <Stack.Screen
             name="settings/index"
-            options={{ ...pageOptions, title: t("settings") }}
+            options={{
+              ...pageOptions,
+              title: t("settings"),
+              ...largeTitleOptions(colors.background),
+            }}
           />
           <Stack.Screen
             name="onboarding"
@@ -90,8 +159,25 @@ const AppLayout = () => {
             name="logs/create/[dateTime]"
             options={{ ...modalOptions, gestureEnabled: false }}
           />
-          <Stack.Screen name="days/[date]" options={modalOptions} />
+          <Stack.Screen
+            name="days/[date]"
+            options={{
+              // Day view sets its title and close button (see `LogList`).
+              presentation: "modal",
+              headerShown: true,
+              headerTintColor: colors.text,
+              headerShadowVisible: false,
+              contentStyle: { backgroundColor: colors.logBackground },
+              ...(HAS_FLOATING_HEADER
+                ? {
+                    headerTransparent: true,
+                    scrollEdgeEffects: { top: "soft" as const },
+                  }
+                : { headerStyle: { backgroundColor: colors.logBackground } }),
+            }}
+          />
           <Stack.Screen name="widget" options={modalOptions} />
+          <Stack.Screen name="feedback" options={feedbackOptions} />
           <Stack.Screen
             name="interventions/[id]"
             options={{ ...modalOptions, gestureEnabled: false }}
@@ -110,15 +196,25 @@ const AppLayout = () => {
               headerShown: false,
             }}
           />
-          <Stack.Screen name="tags/index" options={modalOptions} />
-          <Stack.Screen name="tags/create" options={modalOptions} />
-          <Stack.Screen name="tags/[id]" options={modalOptions} />
-          <Stack.Screen name="tags/categories/index" options={modalOptions} />
-          <Stack.Screen name="tags/categories/create" options={modalOptions} />
-          <Stack.Screen name="tags/categories/[id]" options={modalOptions} />
-          <Stack.Screen name="people/create" options={modalOptions} />
-          <Stack.Screen name="people/import" options={modalOptions} />
-          <Stack.Screen name="people/[id]" options={modalOptions} />
+          <Stack.Screen name="tags/index" options={formModalOptions} />
+          <Stack.Screen name="tags/create" options={formModalOptions} />
+          <Stack.Screen name="tags/[id]" options={formModalOptions} />
+          <Stack.Screen
+            name="tags/categories/index"
+            options={formModalOptions}
+          />
+          <Stack.Screen
+            name="tags/categories/create"
+            options={formModalOptions}
+          />
+          <Stack.Screen
+            name="tags/categories/[id]"
+            options={formModalOptions}
+          />
+          <Stack.Screen name="people/create" options={formModalOptions} />
+          <Stack.Screen name="people/import" options={formModalOptions} />
+          <Stack.Screen name="people/[id]" options={formModalOptions} />
+          <Stack.Screen name="profile" options={modalOptions} />
           <Stack.Screen
             name="statistics/highlights"
             options={{ ...pageOptions, title: t("statistics_highlights") }}
@@ -135,9 +231,13 @@ const AppLayout = () => {
             name="statistics/year/[date]"
             options={{
               ...pageOptions,
-              title: dayjs().format("YYYY"),
+              title: t("year_report"),
               ...reportHeaderOptions,
             }}
+          />
+          <Stack.Screen
+            name="+not-found"
+            options={{ ...pageOptions, title: t("not_found_title") }}
           />
           <Stack.Screen
             name="recaps/[kind]/[date]"
@@ -149,7 +249,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/app-lock"
-            options={{ ...pageOptions, title: t("app_lock") }}
+            options={{ ...settingsFormOptions, title: t("app_lock") }}
           />
           <Stack.Screen
             name="settings/app-icon"
@@ -161,7 +261,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/steps/index"
-            options={{ ...pageOptions, title: t("steps") }}
+            options={{ ...settingsFormOptions, title: t("steps") }}
           />
           <Stack.Screen
             name="settings/data"
@@ -169,7 +269,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/reminder"
-            options={{ ...pageOptions, title: t("reminder") }}
+            options={{ ...settingsFormOptions, title: t("reminder") }}
           />
           <Stack.Screen
             name="settings/privacy"
