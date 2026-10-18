@@ -1,24 +1,16 @@
-import {
-  Fragment,
-  useCallback,
-  useEffect,
-  useEffectEvent,
-  useState,
-} from "react";
-import { ScrollView, View } from "react-native";
-import TextInfo from "@/components/TextInfo";
+import { useEffect, useEffectEvent, useState } from "react";
+import { View } from "react-native";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useSettings } from "@/state/settings";
-import { Radio } from "./Radio";
-import { Scale } from "./Scale";
+import { ScaleList } from "./ScaleList";
 
-const typesNames = [
-  { id: `ColorBrew-RdYlGn` },
-  { id: `ColorBrew-RdYG` },
-  { id: `ColorBrew-RdYlGn-old` },
-];
+const SCALE_IDS = [
+  "ColorBrew-RdYlGn",
+  "ColorBrew-RdYG",
+  "ColorBrew-RdYlGn-old",
+] as const;
 
 /**
  * Settings > Colors: pick the mood color scale.
@@ -48,10 +40,6 @@ export const ColorsScreen = () => {
     trackScaleChange(scaleType);
   }, [scaleType, setSettings]);
 
-  const onSelect = useCallback((id) => {
-    setScaleType(id);
-  }, []);
-
   return (
     <View
       style={{
@@ -59,38 +47,12 @@ export const ColorsScreen = () => {
         backgroundColor: colors.background,
       }}
     >
-      <ScrollView
-        style={{
-          padding: 20,
-        }}
-      >
-        {typesNames.map((type) => (
-          <Fragment key={type.id}>
-            <Radio
-              isSelected={type.id === scaleType}
-              onPress={() => onSelect(type.id)}
-            >
-              <Scale type={type.id} />
-            </Radio>
-            {type.id === "ColorBrew-RdYlGn-old" && (
-              <TextInfo
-                style={{
-                  marginTop: 0,
-                }}
-              >
-                {t("colorblind_disclaimer")}
-              </TextInfo>
-            )}
-          </Fragment>
-        ))}
-        <View
-          style={{
-            marginBottom: 8,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        />
-      </ScrollView>
+      <ScaleList
+        scaleIds={SCALE_IDS}
+        selectedId={scaleType}
+        onSelect={setScaleType}
+        footer={t("colorblind_disclaimer")}
+      />
     </View>
   );
 };
