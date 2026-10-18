@@ -1,8 +1,7 @@
 import type { RefObject } from "react";
 import { View } from "react-native";
 import type { CarouselRef } from "react-native-reanimated-carousel";
-import { isConfirmed } from "@/lib/promptCancel";
-import { askToCancel, askToRemove } from "@/lib/prompts";
+import { askToCancel } from "@/lib/prompts";
 import { useLogDraft } from "../logDraft";
 import { SlideHeader } from "./SlideHeader";
 
@@ -18,25 +17,20 @@ export const LOGGER_HEADER_ICON_INSET = LOGGER_HEADER_INSET + 10 + 4;
 
 /**
  * Logger stepper and header controls.
- * Closing a dirty log and deleting a log with content (see `hasDraftContent`)
- * ask for confirmation first.
+ * Closing a dirty log asks for confirmation first.
  */
 export const LoggerHeader = ({
   carouselRef,
   slideCount,
   slideIndex,
-  isEditing,
   onCancel,
-  onRemove,
 }: {
   carouselRef: RefObject<CarouselRef | null>;
   slideCount: number;
   slideIndex: number;
-  isEditing: boolean;
   onCancel: () => void;
-  onRemove: () => void;
 }) => {
-  const { isDirty, hasContent } = useLogDraft();
+  const { isDirty } = useLogDraft();
 
   return (
     <View
@@ -52,7 +46,6 @@ export const LoggerHeader = ({
           carouselRef.current?.prev();
         }}
         backVisible={slideIndex > 0}
-        isDeleteable={isEditing}
         onClose={async () => {
           if (isDirty) {
             try {
@@ -64,12 +57,6 @@ export const LoggerHeader = ({
           } else {
             onCancel();
           }
-        }}
-        onDelete={async () => {
-          if (hasContent && !(await isConfirmed(askToRemove()))) {
-            return;
-          }
-          onRemove();
         }}
       />
     </View>
