@@ -134,7 +134,7 @@ export const mostConnected = (input: RecapInput): SummaryCard[] => {
 };
 
 /** Home: the most common city name and the average point of its places. */
-const getHome = (history: RecapDay[]) => {
+export const getHome = (history: RecapDay[]) => {
   const byCity = new Map<string, { latitude: number; longitude: number }[]>();
   for (const day of history) {
     for (const item of day.items) {

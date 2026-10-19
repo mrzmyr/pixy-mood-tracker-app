@@ -821,6 +821,78 @@
     "one": "1 dag med %{tag} denne uge",
     "other": "{{count}} dage med %{tag} denne uge"
   },
+  "recaps_story_banner_title": "Tilbageblik: %{month}",
+  "recaps_story_city_eyebrow": "Første gang",
+  "recaps_story_city_km": "%{city} · %{km} km hjemmefra",
+  "recaps_story_city_title": "Din første pixel i %{city}",
+  "recaps_story_coming_eyebrow": "Snart",
+  "recaps_story_coming_left": {
+    "one": "1 tilbage",
+    "other": "{{count}} tilbage"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1 misset",
+    "other": "{{count}} misset"
+  },
+  "recaps_story_coming_title": {
+    "one": "1 dag tilbage at farve i %{year}",
+    "other": "{{count}} dage tilbage at farve i %{year}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 fotodag, %{days} pixels.",
+    "other": "{{count}} fotodage, %{days} pixels."
+  },
+  "recaps_story_cover_pixels_title": "pixels i %{month}",
+  "recaps_story_cover_title": "%{month}, det der tog form",
+  "recaps_story_days": {
+    "one": "1 dag",
+    "other": "{{count}} dage"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Din tungere dag",
+    "other": "Dine {{count}} tungere dage"
+  },
+  "recaps_story_hard_eyebrow": "Et mønster",
+  "recaps_story_hard_other_label": {
+    "one": "Den anden dag",
+    "other": "De andre {{count}} dage"
+  },
+  "recaps_story_hard_text": "Med på %{hard} af %{total} tungere dage, men kun på %{other} af de andre %{otherDays}. Vær blid ved dig selv på de dage.",
+  "recaps_story_hard_text_none": "Med på %{hard} af %{total} tungere dage, på ingen af de andre %{otherDays}. Vær blid ved dig selv på de dage.",
+  "recaps_story_hard_title": "%{tag} fulgte med dine tungere dage",
+  "recaps_story_lifted_eyebrow": "Det, der løftede %{month}",
+  "recaps_story_lifted_text": {
+    "one": "Sammenlignet med dage uden tagget. 1 check-in.",
+    "other": "Sammenlignet med dage uden tagget. {{count}} check-ins."
+  },
+  "recaps_story_lifted_title": "Dage med %{tag} føltes lettest",
+  "recaps_story_made_of_eyebrow": "Rytmen i %{month}",
+  "recaps_story_made_of_title": "Hvad dine dage bestod af",
+  "recaps_story_moments_eyebrow": "Ét foto om ugen",
+  "recaps_story_moments_title": {
+    "one": "%{month} i 1 øjeblik",
+    "other": "%{month} i {{count}} øjeblikke"
+  },
+  "recaps_story_next": "Næste slide",
+  "recaps_story_pause": "Pause",
+  "recaps_story_people_days": {
+    "one": "1 dag i kontakt",
+    "other": "{{count}} dage i kontakt"
+  },
+  "recaps_story_people_eyebrow": "Dem, der dukkede op igen og igen",
+  "recaps_story_people_text": "Dine pixels på de dage, I var i kontakt.",
+  "recaps_story_people_title": "Dem, du var mest i kontakt med",
+  "recaps_story_play": "Afspil",
+  "recaps_story_previous": "Forrige slide",
+  "recaps_story_ready": "Klar til at se",
+  "recaps_story_vs_eyebrow": "%{month} mod %{previous}",
+  "recaps_story_vs_text": "Dage med hvert tag, mod %{previous}.",
+  "recaps_story_vs_title": "Mere af det her, mindre af det der",
+  "recaps_story_weekday_eyebrow": "En vane tager form",
+  "recaps_story_weekday_previous": "I %{month}: %{hits} af %{total}.",
+  "recaps_story_weekday_text": "%{hits} af %{total} uger.",
+  "recaps_story_weekday_title_every": "%{tag}, hver %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, næsten hver %{weekday}",
   "recaps_tag_back_text": {
     "one": "Én dag, efter %{weeks} uger uden.",
     "other": "{{count}} dage, efter %{weeks} uger uden."

@@ -821,6 +821,78 @@
     "one": "今週%{tag}があった日：1日",
     "other": "今週%{tag}があった日：{{count}}日"
   },
+  "recaps_story_banner_title": "%{month}の振り返り",
+  "recaps_story_city_eyebrow": "はじめて",
+  "recaps_story_city_km": "%{city}・自宅から%{km} km",
+  "recaps_story_city_title": "%{city}ではじめてのピクセル",
+  "recaps_story_coming_eyebrow": "これから",
+  "recaps_story_coming_left": {
+    "one": "残り1",
+    "other": "残り{{count}}"
+  },
+  "recaps_story_coming_missed": {
+    "one": "記録なし1",
+    "other": "記録なし{{count}}"
+  },
+  "recaps_story_coming_title": {
+    "one": "%{year}年に塗れる日はあと1日",
+    "other": "%{year}年に塗れる日はあと{{count}}日"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "写真のある日1日、%{days}ピクセル。",
+    "other": "写真のある日{{count}}日、%{days}ピクセル。"
+  },
+  "recaps_story_cover_pixels_title": "%{month}のピクセル",
+  "recaps_story_cover_title": "%{month}、かたちになったもの",
+  "recaps_story_days": {
+    "one": "1日",
+    "other": "{{count}}日"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "つらかった日",
+    "other": "つらかった{{count}}日"
+  },
+  "recaps_story_hard_eyebrow": "あるパターン",
+  "recaps_story_hard_other_label": {
+    "one": "ほかの日",
+    "other": "ほかの{{count}}日"
+  },
+  "recaps_story_hard_text": "つらかった%{total}日のうち%{hard}日にあり、ほかの%{otherDays}日では%{other}日だけでした。そんな日は、自分にやさしくしてください。",
+  "recaps_story_hard_text_none": "つらかった%{total}日のうち%{hard}日にあり、ほかの%{otherDays}日には一度もありませんでした。そんな日は、自分にやさしくしてください。",
+  "recaps_story_hard_title": "%{tag}は、つらかった日によく重なっていました",
+  "recaps_story_lifted_eyebrow": "%{month}を軽くしたもの",
+  "recaps_story_lifted_text": {
+    "one": "このタグがない日との比較。記録1件。",
+    "other": "このタグがない日との比較。記録{{count}}件。"
+  },
+  "recaps_story_lifted_title": "%{tag}の日がいちばん軽やかでした",
+  "recaps_story_made_of_eyebrow": "%{month}のリズム",
+  "recaps_story_made_of_title": "あなたの日々をつくったもの",
+  "recaps_story_moments_eyebrow": "1週間に1枚の写真",
+  "recaps_story_moments_title": {
+    "one": "1つの瞬間でたどる%{month}",
+    "other": "{{count}}の瞬間でたどる%{month}"
+  },
+  "recaps_story_next": "次のスライド",
+  "recaps_story_pause": "一時停止",
+  "recaps_story_people_days": {
+    "one": "つながった日：1日",
+    "other": "つながった日：{{count}}日"
+  },
+  "recaps_story_people_eyebrow": "何度も登場した人",
+  "recaps_story_people_text": "つながった日のあなたのピクセル。",
+  "recaps_story_people_title": "いちばんつながった人たち",
+  "recaps_story_play": "再生",
+  "recaps_story_previous": "前のスライド",
+  "recaps_story_ready": "視聴できます",
+  "recaps_story_vs_eyebrow": "%{month}と%{previous}",
+  "recaps_story_vs_text": "タグごとの日数（%{previous}との比較）。",
+  "recaps_story_vs_title": "増えたもの、減ったもの",
+  "recaps_story_weekday_eyebrow": "習慣になりました",
+  "recaps_story_weekday_previous": "%{month}：%{total}週中%{hits}週。",
+  "recaps_story_weekday_text": "%{total}週中%{hits}週。",
+  "recaps_story_weekday_title_every": "%{tag}、毎週%{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}、ほぼ毎週%{weekday}",
   "recaps_tag_back_text": {
     "one": "%{weeks}週間ぶりに1日。",
     "other": "%{weeks}週間ぶりに{{count}}日。"

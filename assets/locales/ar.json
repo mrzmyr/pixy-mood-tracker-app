@@ -821,6 +821,78 @@
     "one": "يوم واحد مع %{tag} هذا الأسبوع",
     "other": "{{count}} أيام مع %{tag} هذا الأسبوع"
   },
+  "recaps_story_banner_title": "ملخص %{month}",
+  "recaps_story_city_eyebrow": "لأول مرة",
+  "recaps_story_city_km": "%{city} · على بعد %{km} كم من المنزل",
+  "recaps_story_city_title": "أول بكسل لك في %{city}",
+  "recaps_story_coming_eyebrow": "القادم",
+  "recaps_story_coming_left": {
+    "one": "متبقٍ: 1",
+    "other": "متبقٍ: {{count}}"
+  },
+  "recaps_story_coming_missed": {
+    "one": "فائت: 1",
+    "other": "فائت: {{count}}"
+  },
+  "recaps_story_coming_title": {
+    "one": "يوم واحد متبقٍ لتلوينه في %{year}",
+    "other": "أيام متبقية لتلوينها في %{year}: {{count}}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "يوم واحد بصورة، و%{days} بكسل.",
+    "other": "أيام بصور: {{count}}، و%{days} بكسل."
+  },
+  "recaps_story_cover_pixels_title": "بكسل في %{month}",
+  "recaps_story_cover_title": "%{month}، ما الذي تشكّل",
+  "recaps_story_days": {
+    "one": "يوم واحد",
+    "other": "الأيام: {{count}}"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "يومك الصعب",
+    "other": "أيامك الصعبة: {{count}}"
+  },
+  "recaps_story_hard_eyebrow": "نمط",
+  "recaps_story_hard_other_label": {
+    "one": "اليوم الآخر",
+    "other": "الأيام الأخرى: {{count}}"
+  },
+  "recaps_story_hard_text": "ظهر في %{hard} من %{total} من الأيام الصعبة، وفي %{other} فقط من %{otherDays} من الأيام الأخرى. ترفّق بنفسك في تلك الأيام.",
+  "recaps_story_hard_text_none": "ظهر في %{hard} من %{total} من الأيام الصعبة، ولم يظهر في أي من %{otherDays} من الأيام الأخرى. ترفّق بنفسك في تلك الأيام.",
+  "recaps_story_hard_title": "%{tag} رافق أيامك الصعبة",
+  "recaps_story_lifted_eyebrow": "ما خفّف %{month}",
+  "recaps_story_lifted_text": {
+    "one": "مقارنةً بالأيام دون هذا الوسم. تسجيل واحد.",
+    "other": "مقارنةً بالأيام دون هذا الوسم. التسجيلات: {{count}}."
+  },
+  "recaps_story_lifted_title": "أيام %{tag} كانت الأخف",
+  "recaps_story_made_of_eyebrow": "إيقاع %{month}",
+  "recaps_story_made_of_title": "مما تكوّنت أيامك",
+  "recaps_story_moments_eyebrow": "صورة واحدة كل أسبوع",
+  "recaps_story_moments_title": {
+    "one": "%{month} في لحظة واحدة",
+    "other": "%{month} في لحظات: {{count}}"
+  },
+  "recaps_story_next": "الشريحة التالية",
+  "recaps_story_pause": "إيقاف مؤقت",
+  "recaps_story_people_days": {
+    "one": "يوم واحد من التواصل",
+    "other": "أيام التواصل: {{count}}"
+  },
+  "recaps_story_people_eyebrow": "من ظل حاضرًا",
+  "recaps_story_people_text": "بكسلاتك في أيام التواصل.",
+  "recaps_story_people_title": "أكثر من تواصلت معهم",
+  "recaps_story_play": "تشغيل",
+  "recaps_story_previous": "الشريحة السابقة",
+  "recaps_story_ready": "جاهز للمشاهدة",
+  "recaps_story_vs_eyebrow": "%{month} مقابل %{previous}",
+  "recaps_story_vs_text": "أيام كل وسم، مقابل %{previous}.",
+  "recaps_story_vs_title": "أكثر من هذا، أقل من ذاك",
+  "recaps_story_weekday_eyebrow": "عادة تتشكّل",
+  "recaps_story_weekday_previous": "في %{month}: %{hits} من %{total}.",
+  "recaps_story_weekday_text": "الأسابيع: %{hits} من %{total}.",
+  "recaps_story_weekday_title_every": "%{tag}، كل يوم %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}، كل يوم %{weekday} تقريبًا",
   "recaps_tag_back_text": {
     "one": "في يوم واحد، بعد %{weeks} أسابيع من دونه.",
     "other": "في {{count}} يومًا، بعد %{weeks} أسابيع من دونه."

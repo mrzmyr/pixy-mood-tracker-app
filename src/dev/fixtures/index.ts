@@ -11,6 +11,7 @@ import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
 import { withRecapMoments } from "@/dev/fixtures/recap-moments";
 import { withRecapNudges } from "@/dev/fixtures/recap-nudges";
+import { withRecapStory } from "@/dev/fixtures/recap-story";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 
@@ -156,6 +157,13 @@ export const FIXTURES: Fixture[] = [
       "91 days ending today with every week moment: person back, new person, 25 days connected with Lena, emotion again and absent, tag back, sleep turnaround, first city (location on).",
     endsToday: true,
     data: withRecapMoments(asExport(empty)),
+  },
+  {
+    id: "recap-story",
+    title: "Recap story",
+    description:
+      "Last month as a full month story: every Saturday swimming, Handover on 2 of 3 harder days, first days at the sea, 10 photo days, Ada and Chuky. Plus 12 check-ins the month before.",
+    data: withRecapStory(asExport(empty)),
   },
 ];
 

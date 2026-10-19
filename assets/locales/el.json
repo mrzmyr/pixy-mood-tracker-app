@@ -821,6 +821,78 @@
     "one": "1 μέρα με %{tag} αυτή την εβδομάδα",
     "other": "{{count}} μέρες με %{tag} αυτή την εβδομάδα"
   },
+  "recaps_story_banner_title": "Ανασκόπηση: %{month}",
+  "recaps_story_city_eyebrow": "Πρώτη φορά",
+  "recaps_story_city_km": "%{city} · %{km} km από το σπίτι",
+  "recaps_story_city_title": "Το πρώτο σου pixel: %{city}",
+  "recaps_story_coming_eyebrow": "Έρχονται",
+  "recaps_story_coming_left": {
+    "one": "Μένει 1",
+    "other": "Μένουν {{count}}"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1 χαμένη",
+    "other": "{{count}} χαμένες"
+  },
+  "recaps_story_coming_title": {
+    "one": "Μένει 1 μέρα για να χρωματίσεις το %{year}",
+    "other": "Μένουν {{count}} μέρες για να χρωματίσεις το %{year}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 μέρα με φωτογραφία, %{days} pixels.",
+    "other": "{{count}} μέρες με φωτογραφία, %{days} pixels."
+  },
+  "recaps_story_cover_pixels_title": "pixels · %{month}",
+  "recaps_story_cover_title": "%{month}: ό,τι πήρε μορφή",
+  "recaps_story_days": {
+    "one": "1 μέρα",
+    "other": "{{count}} μέρες"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Η πιο δύσκολη μέρα σου",
+    "other": "Οι {{count}} πιο δύσκολες μέρες σου"
+  },
+  "recaps_story_hard_eyebrow": "Ένα μοτίβο",
+  "recaps_story_hard_other_label": {
+    "one": "Η άλλη μέρα",
+    "other": "Οι άλλες {{count}} μέρες"
+  },
+  "recaps_story_hard_text": "Υπήρχε σε %{hard} από %{total} πιο δύσκολες μέρες, αλλά μόνο σε %{other} από τις υπόλοιπες %{otherDays}. Φρόντισε τον εαυτό σου εκείνες τις μέρες.",
+  "recaps_story_hard_text_none": "Υπήρχε σε %{hard} από %{total} πιο δύσκολες μέρες, σε καμία από τις υπόλοιπες %{otherDays}. Φρόντισε τον εαυτό σου εκείνες τις μέρες.",
+  "recaps_story_hard_title": "%{tag}: συχνά στις πιο δύσκολες μέρες σου",
+  "recaps_story_lifted_eyebrow": "%{month}: τι σε ανέβασε",
+  "recaps_story_lifted_text": {
+    "one": "Σε σύγκριση με μέρες χωρίς την ετικέτα. 1 καταγραφή.",
+    "other": "Σε σύγκριση με μέρες χωρίς την ετικέτα. {{count}} καταγραφές."
+  },
+  "recaps_story_lifted_title": "Οι μέρες με %{tag} ήταν οι πιο ανάλαφρες",
+  "recaps_story_made_of_eyebrow": "Ρυθμός: %{month}",
+  "recaps_story_made_of_title": "Από τι αποτελούνταν οι μέρες σου",
+  "recaps_story_moments_eyebrow": "Μία φωτογραφία την εβδομάδα",
+  "recaps_story_moments_title": {
+    "one": "%{month} σε 1 στιγμή",
+    "other": "%{month} σε {{count}} στιγμές"
+  },
+  "recaps_story_next": "Επόμενη διαφάνεια",
+  "recaps_story_pause": "Παύση",
+  "recaps_story_people_days": {
+    "one": "1 μέρα σε επαφή",
+    "other": "{{count}} μέρες σε επαφή"
+  },
+  "recaps_story_people_eyebrow": "Ποιοι εμφανίζονταν ξανά και ξανά",
+  "recaps_story_people_text": "Τα pixels σου τις μέρες που ήσασταν σε επαφή.",
+  "recaps_story_people_title": "Με ποιους ήσουν περισσότερο σε επαφή",
+  "recaps_story_play": "Αναπαραγωγή",
+  "recaps_story_previous": "Προηγούμενη διαφάνεια",
+  "recaps_story_ready": "Έτοιμο για προβολή",
+  "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
+  "recaps_story_vs_text": "Μέρες με κάθε ετικέτα, vs %{previous}.",
+  "recaps_story_vs_title": "Περισσότερο αυτό, λιγότερο εκείνο",
+  "recaps_story_weekday_eyebrow": "Μια συνήθεια γεννιέται",
+  "recaps_story_weekday_previous": "%{month}: %{hits} από %{total}.",
+  "recaps_story_weekday_text": "%{hits} από %{total} εβδομάδες.",
+  "recaps_story_weekday_title_every": "%{tag}, κάθε %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, σχεδόν κάθε %{weekday}",
   "recaps_tag_back_text": {
     "one": "Μία μέρα, μετά από %{weeks} εβδομάδες χωρίς.",
     "other": "{{count}} μέρες, μετά από %{weeks} εβδομάδες χωρίς."

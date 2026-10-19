@@ -821,6 +821,78 @@
     "one": "1 день с %{tag} на этой неделе",
     "other": "Дней с %{tag} на этой неделе: {{count}}"
   },
+  "recaps_story_banner_title": "Итоги: %{month}",
+  "recaps_story_city_eyebrow": "Впервые",
+  "recaps_story_city_km": "%{city} · %{km} км от дома",
+  "recaps_story_city_title": "Ваш первый пиксель в городе %{city}",
+  "recaps_story_coming_eyebrow": "Впереди",
+  "recaps_story_coming_left": {
+    "one": "Осталось: 1",
+    "other": "Осталось: {{count}}"
+  },
+  "recaps_story_coming_missed": {
+    "one": "Пропущено: 1",
+    "other": "Пропущено: {{count}}"
+  },
+  "recaps_story_coming_title": {
+    "one": "В %{year} году остался 1 день",
+    "other": "Осталось дней в %{year} году: {{count}}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 день с фото, пикселей: %{days}.",
+    "other": "Дней с фото: {{count}}, пикселей: %{days}."
+  },
+  "recaps_story_cover_pixels_title": "%{month} в пикселях",
+  "recaps_story_cover_title": "%{month}: что сложилось",
+  "recaps_story_days": {
+    "one": "1 день",
+    "other": "Дней: {{count}}"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Ваш непростой день",
+    "other": "Ваши непростые дни: {{count}}"
+  },
+  "recaps_story_hard_eyebrow": "Закономерность",
+  "recaps_story_hard_other_label": {
+    "one": "Другой день",
+    "other": "Другие дни: {{count}}"
+  },
+  "recaps_story_hard_text": "Встречался в %{hard} из %{total} непростых дней и лишь в %{other} из остальных %{otherDays}. Берегите себя в такие дни.",
+  "recaps_story_hard_text_none": "Встречался в %{hard} из %{total} непростых дней и ни в одном из остальных %{otherDays}. Берегите себя в такие дни.",
+  "recaps_story_hard_title": "%{tag}: часто в непростые дни",
+  "recaps_story_lifted_eyebrow": "%{month}: что помогло",
+  "recaps_story_lifted_text": {
+    "one": "По сравнению с днями без тега. 1 отметка.",
+    "other": "По сравнению с днями без тега. Отметок: {{count}}."
+  },
+  "recaps_story_lifted_title": "Дни с %{tag} были самыми лёгкими",
+  "recaps_story_made_of_eyebrow": "Ритм: %{month}",
+  "recaps_story_made_of_title": "Из чего состояли Ваши дни",
+  "recaps_story_moments_eyebrow": "Одно фото в неделю",
+  "recaps_story_moments_title": {
+    "one": "%{month} в 1 моменте",
+    "other": "%{month}, моментов: {{count}}"
+  },
+  "recaps_story_next": "Следующий слайд",
+  "recaps_story_pause": "Пауза",
+  "recaps_story_people_days": {
+    "one": "1 день на связи",
+    "other": "Дней на связи: {{count}}"
+  },
+  "recaps_story_people_eyebrow": "Кто появлялся снова и снова",
+  "recaps_story_people_text": "Ваши пиксели в дни, когда Вы были на связи.",
+  "recaps_story_people_title": "С кем Вы чаще всего были на связи",
+  "recaps_story_play": "Воспроизвести",
+  "recaps_story_previous": "Предыдущий слайд",
+  "recaps_story_ready": "Можно посмотреть",
+  "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
+  "recaps_story_vs_text": "Дни с каждым тегом, vs %{previous}.",
+  "recaps_story_vs_title": "Больше этого, меньше того",
+  "recaps_story_weekday_eyebrow": "Складывается привычка",
+  "recaps_story_weekday_previous": "%{month}: %{hits} из %{total}.",
+  "recaps_story_weekday_text": "Недель: %{hits} из %{total}.",
+  "recaps_story_weekday_title_every": "%{tag}: %{weekday}, каждую неделю",
+  "recaps_story_weekday_title_most": "%{tag}: %{weekday}, почти каждую неделю",
   "recaps_tag_back_text": {
     "one": "Один день, после %{weeks} нед. без.",
     "other": "{{count}} дн., после %{weeks} нед. без."

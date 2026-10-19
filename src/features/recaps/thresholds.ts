@@ -85,4 +85,46 @@ export const THRESHOLDS = {
   trendSteadyBelow: 0.25,
   /** Trends: rows at most. */
   trendMaxRows: 5,
+  /** Month story: check-in days needed for a story. */
+  storyMinCheckIns: 10,
+  /** Month story: months back from the current month that keep a story. */
+  storyMaxMonthsBack: 3,
+  /** Story photos and bright days: rating at least this (good). */
+  storyBrightMinRating: 4,
+  /** Story harder days: rating at most this (bad), as in the day recap. */
+  storyHardMaxRating: 2,
+  /** Cover: photo days for the photo grid. Fewer: one photo. */
+  storyCoverGridPhotoDays: 7,
+  /** Same weekday: tag days on that weekday, at least. */
+  weekdayHabitMinHits: 3,
+  /** Same weekday: share of that weekday with the tag, at least. */
+  weekdayHabitMinShare: 0.75,
+  /** Same weekday: other weekdays' share, at most this part of it. */
+  weekdayHabitMaxOtherRatio: 0.5,
+  /** Made of: tags with enough days needed. */
+  madeOfMinTags: 3,
+  /** Made of: days with the tag, at least. */
+  madeOfMinDays: 4,
+  /** Made of: rows at most. */
+  madeOfMaxRows: 5,
+  /** Lifted: rows at most. Medium or strong lighter effects only. */
+  liftedMaxRows: 3,
+  /** Story people: people with enough bright connected days needed. */
+  storyPeopleMinPeople: 2,
+  /** Story people: bright connected days per person, at least. */
+  storyPeopleMinBrightDays: 3,
+  /** Story people: rows at most. */
+  storyPeopleMaxRows: 2,
+  /** Hard pattern: harder days with the tag, at least. */
+  hardPatternMinDays: 2,
+  /** Hard pattern: share of other days with the tag, below. */
+  hardPatternMaxOtherShare: 0.5,
+  /** Vs last month: check-in days needed in the month before. */
+  vsLastMinCheckIns: 10,
+  /** Vs last month: change in tag days, at least. */
+  vsLastMinChange: 2,
+  /** Vs last month: rows at most. */
+  vsLastMaxRows: 4,
+  /** Moments: weeks with a photo needed. */
+  momentsMinWeeks: 3,
 } as const;

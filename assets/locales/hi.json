@@ -821,6 +821,78 @@
     "one": "इस हफ़्ते %{tag} वाला 1 दिन",
     "other": "इस हफ़्ते %{tag} वाले {{count}} दिन"
   },
+  "recaps_story_banner_title": "%{month} रीकैप",
+  "recaps_story_city_eyebrow": "पहली बार",
+  "recaps_story_city_km": "%{city} · घर से %{km} किमी",
+  "recaps_story_city_title": "%{city} में आपका पहला पिक्सेल",
+  "recaps_story_coming_eyebrow": "आगे क्या है",
+  "recaps_story_coming_left": {
+    "one": "1 बाकी",
+    "other": "{{count}} बाकी"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1 छूटा",
+    "other": "{{count}} छूटे"
+  },
+  "recaps_story_coming_title": {
+    "one": "%{year} में रंगने के लिए 1 दिन बाकी",
+    "other": "%{year} में रंगने के लिए {{count}} दिन बाकी"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "फ़ोटो वाला 1 दिन, %{days} पिक्सेल।",
+    "other": "फ़ोटो वाले {{count}} दिन, %{days} पिक्सेल।"
+  },
+  "recaps_story_cover_pixels_title": "%{month} में पिक्सेल",
+  "recaps_story_cover_title": "%{month}: जो आकार लेता गया",
+  "recaps_story_days": {
+    "one": "1 दिन",
+    "other": "{{count}} दिन"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "आपका मुश्किल दिन",
+    "other": "आपके {{count}} मुश्किल दिन"
+  },
+  "recaps_story_hard_eyebrow": "एक पैटर्न",
+  "recaps_story_hard_other_label": {
+    "one": "दूसरा दिन",
+    "other": "बाकी {{count}} दिन"
+  },
+  "recaps_story_hard_text": "%{total} मुश्किल दिनों में से %{hard} में यह था, लेकिन बाकी %{otherDays} में से सिर्फ़ %{other} में। ऐसे दिनों में खुद के साथ नरमी बरतें।",
+  "recaps_story_hard_text_none": "%{total} मुश्किल दिनों में से %{hard} में यह था, बाकी %{otherDays} में से किसी में नहीं। ऐसे दिनों में खुद के साथ नरमी बरतें।",
+  "recaps_story_hard_title": "%{tag} आपके मुश्किल दिनों के साथ रहा",
+  "recaps_story_lifted_eyebrow": "%{month} को किसने हल्का किया",
+  "recaps_story_lifted_text": {
+    "one": "इस टैग के बिना वाले दिनों से तुलना। 1 चेक-इन।",
+    "other": "इस टैग के बिना वाले दिनों से तुलना। {{count}} चेक-इन।"
+  },
+  "recaps_story_lifted_title": "%{tag} वाले दिन सबसे हल्के लगे",
+  "recaps_story_made_of_eyebrow": "%{month} की लय",
+  "recaps_story_made_of_title": "आपके दिन किन चीज़ों से बने",
+  "recaps_story_moments_eyebrow": "हर हफ़्ते एक फ़ोटो",
+  "recaps_story_moments_title": {
+    "one": "1 पल में %{month}",
+    "other": "{{count}} पलों में %{month}"
+  },
+  "recaps_story_next": "अगली स्लाइड",
+  "recaps_story_pause": "रोकें",
+  "recaps_story_people_days": {
+    "one": "1 दिन जुड़े",
+    "other": "{{count}} दिन जुड़े"
+  },
+  "recaps_story_people_eyebrow": "जो बार-बार आते रहे",
+  "recaps_story_people_text": "जिन दिनों आप जुड़े, उन दिनों के आपके पिक्सेल।",
+  "recaps_story_people_title": "जिनसे आप सबसे ज़्यादा जुड़े",
+  "recaps_story_play": "चलाएँ",
+  "recaps_story_previous": "पिछली स्लाइड",
+  "recaps_story_ready": "देखने के लिए तैयार",
+  "recaps_story_vs_eyebrow": "%{month} बनाम %{previous}",
+  "recaps_story_vs_text": "हर टैग वाले दिन, %{previous} के मुकाबले।",
+  "recaps_story_vs_title": "इसका ज़्यादा, उसका कम",
+  "recaps_story_weekday_eyebrow": "एक आदत बनी",
+  "recaps_story_weekday_previous": "%{month} में: %{total} में से %{hits}।",
+  "recaps_story_weekday_text": "%{total} में से %{hits} हफ़्ते।",
+  "recaps_story_weekday_title_every": "%{tag}, हर %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, लगभग हर %{weekday}",
   "recaps_tag_back_text": {
     "one": "एक दिन, %{weeks} हफ़्तों बाद।",
     "other": "{{count}} दिन, %{weeks} हफ़्तों बाद।"

@@ -822,6 +822,78 @@
     "one": "1 jour avec %{tag} cette semaine",
     "other": "{{count}} jours avec %{tag} cette semaine"
   },
+  "recaps_story_banner_title": "Bilan du mois : %{month}",
+  "recaps_story_city_eyebrow": "Première fois",
+  "recaps_story_city_km": "%{city} · à %{km} km de chez vous",
+  "recaps_story_city_title": "Votre premier pixel à %{city}",
+  "recaps_story_coming_eyebrow": "À venir",
+  "recaps_story_coming_left": {
+    "one": "Encore 1",
+    "other": "Encore {{count}}"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1 manqué",
+    "other": "{{count}} manqués"
+  },
+  "recaps_story_coming_title": {
+    "one": "Encore 1 jour à colorer en %{year}",
+    "other": "Encore {{count}} jours à colorer en %{year}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 jour avec photo, %{days} pixels.",
+    "other": "{{count}} jours avec photo, %{days} pixels."
+  },
+  "recaps_story_cover_pixels_title": "pixels en %{month}",
+  "recaps_story_cover_title": "Ce qui a pris forme en %{month}",
+  "recaps_story_days": {
+    "one": "1 jour",
+    "other": "{{count}} jours"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Votre jour plus difficile",
+    "other": "Vos {{count}} jours plus difficiles"
+  },
+  "recaps_story_hard_eyebrow": "Une tendance",
+  "recaps_story_hard_other_label": {
+    "one": "Le jour restant",
+    "other": "Les {{count}} autres jours"
+  },
+  "recaps_story_hard_text": "Présent lors de %{hard} des %{total} jours plus difficiles, mais seulement %{other} des %{otherDays} autres. Prenez soin de vous ces jours-là.",
+  "recaps_story_hard_text_none": "Présent lors de %{hard} des %{total} jours plus difficiles, aucun des %{otherDays} autres. Prenez soin de vous ces jours-là.",
+  "recaps_story_hard_title": "%{tag} a accompagné vos jours plus difficiles",
+  "recaps_story_lifted_eyebrow": "Ce qui a allégé %{month}",
+  "recaps_story_lifted_text": {
+    "one": "Comparé aux jours sans ce tag. 1 check-in.",
+    "other": "Comparé aux jours sans ce tag. {{count}} check-ins."
+  },
+  "recaps_story_lifted_title": "Les jours avec %{tag} semblaient les plus légers",
+  "recaps_story_made_of_eyebrow": "Votre rythme en %{month}",
+  "recaps_story_made_of_title": "De quoi vos jours étaient faits",
+  "recaps_story_moments_eyebrow": "Une photo par semaine",
+  "recaps_story_moments_title": {
+    "one": "%{month} en 1 moment",
+    "other": "%{month} en {{count}} moments"
+  },
+  "recaps_story_next": "Diapositive suivante",
+  "recaps_story_pause": "Pause",
+  "recaps_story_people_days": {
+    "one": "1 jour en lien",
+    "other": "{{count}} jours en lien"
+  },
+  "recaps_story_people_eyebrow": "Qui revenait souvent",
+  "recaps_story_people_text": "Vos pixels les jours où vous étiez en lien.",
+  "recaps_story_people_title": "Les personnes avec qui vous étiez le plus en lien",
+  "recaps_story_play": "Lecture",
+  "recaps_story_previous": "Diapositive précédente",
+  "recaps_story_ready": "Prêt à regarder",
+  "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
+  "recaps_story_vs_text": "Jours avec chaque tag, vs %{previous}.",
+  "recaps_story_vs_title": "Plus de ceci, moins de cela",
+  "recaps_story_weekday_eyebrow": "Une habitude prend forme",
+  "recaps_story_weekday_previous": "En %{month} : %{hits} sur %{total}.",
+  "recaps_story_weekday_text": "%{hits} semaines sur %{total}.",
+  "recaps_story_weekday_title_every": "%{tag}, chaque %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, presque chaque %{weekday}",
   "recaps_tag_back_text": {
     "one": "Un jour, après %{weeks} semaines sans.",
     "other": "{{count}} jours, après %{weeks} semaines sans."

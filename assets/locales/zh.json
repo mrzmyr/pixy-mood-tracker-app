@@ -821,6 +821,78 @@
     "one": "本周有 %{tag} 的 1 天",
     "other": "本周有 %{tag} 的 {{count}} 天"
   },
+  "recaps_story_banner_title": "%{month}回顾",
+  "recaps_story_city_eyebrow": "第一次",
+  "recaps_story_city_km": "%{city} · 离家 %{km} 公里",
+  "recaps_story_city_title": "你在%{city}的第一个像素",
+  "recaps_story_coming_eyebrow": "即将到来",
+  "recaps_story_coming_left": {
+    "one": "还剩 1 天",
+    "other": "还剩 {{count}} 天"
+  },
+  "recaps_story_coming_missed": {
+    "one": "错过 1 天",
+    "other": "错过 {{count}} 天"
+  },
+  "recaps_story_coming_title": {
+    "one": "%{year} 年还剩 1 天可以涂色",
+    "other": "%{year} 年还剩 {{count}} 天可以涂色"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 天有照片，共 %{days} 个像素。",
+    "other": "{{count}} 天有照片，共 %{days} 个像素。"
+  },
+  "recaps_story_cover_pixels_title": "%{month}的像素",
+  "recaps_story_cover_title": "%{month}，渐渐成形",
+  "recaps_story_days": {
+    "one": "1 天",
+    "other": "{{count}} 天"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "你比较难熬的那天",
+    "other": "你比较难熬的 {{count}} 天"
+  },
+  "recaps_story_hard_eyebrow": "一个规律",
+  "recaps_story_hard_other_label": {
+    "one": "另外一天",
+    "other": "另外 {{count}} 天"
+  },
+  "recaps_story_hard_text": "在 %{total} 个比较难熬的日子里出现了 %{hard} 次，而在另外 %{otherDays} 天里只有 %{other} 次。那些日子里，请温柔对待自己。",
+  "recaps_story_hard_text_none": "在 %{total} 个比较难熬的日子里出现了 %{hard} 次，在另外 %{otherDays} 天里一次也没有。那些日子里，请温柔对待自己。",
+  "recaps_story_hard_title": "%{tag}常伴随你比较难熬的日子",
+  "recaps_story_lifted_eyebrow": "让%{month}更轻松的事",
+  "recaps_story_lifted_text": {
+    "one": "与没有该标签的日子相比。1 次记录。",
+    "other": "与没有该标签的日子相比。{{count}} 次记录。"
+  },
+  "recaps_story_lifted_title": "有%{tag}的日子感觉最轻松",
+  "recaps_story_made_of_eyebrow": "%{month}的节奏",
+  "recaps_story_made_of_title": "你的日子由什么组成",
+  "recaps_story_moments_eyebrow": "每周一张照片",
+  "recaps_story_moments_title": {
+    "one": "%{month}的 1 个瞬间",
+    "other": "%{month}的 {{count}} 个瞬间"
+  },
+  "recaps_story_next": "下一页",
+  "recaps_story_pause": "暂停",
+  "recaps_story_people_days": {
+    "one": "联系了 1 天",
+    "other": "联系了 {{count}} 天"
+  },
+  "recaps_story_people_eyebrow": "一再出现的人",
+  "recaps_story_people_text": "你们有联系那些天的像素。",
+  "recaps_story_people_title": "与你联系最多的人",
+  "recaps_story_play": "播放",
+  "recaps_story_previous": "上一页",
+  "recaps_story_ready": "可以观看了",
+  "recaps_story_vs_eyebrow": "%{month} 对比 %{previous}",
+  "recaps_story_vs_text": "每个标签的天数，对比%{previous}。",
+  "recaps_story_vs_title": "多了这些，少了那些",
+  "recaps_story_weekday_eyebrow": "养成了一个习惯",
+  "recaps_story_weekday_previous": "%{month}：%{total} 周中有 %{hits} 周。",
+  "recaps_story_weekday_text": "%{total} 周中有 %{hits} 周。",
+  "recaps_story_weekday_title_every": "%{tag}，每个%{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}，几乎每个%{weekday}",
   "recaps_tag_back_text": {
     "one": "隔了 %{weeks} 周后出现 1 天。",
     "other": "隔了 %{weeks} 周后出现 {{count}} 天。"

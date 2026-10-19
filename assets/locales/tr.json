@@ -821,6 +821,78 @@
     "one": "Bu hafta %{tag} olan 1 gün",
     "other": "Bu hafta %{tag} olan {{count}} gün"
   },
+  "recaps_story_banner_title": "%{month} Özeti",
+  "recaps_story_city_eyebrow": "İlk kez",
+  "recaps_story_city_km": "%{city} · evden %{km} km",
+  "recaps_story_city_title": "İlk pikselin: %{city}",
+  "recaps_story_coming_eyebrow": "Sırada",
+  "recaps_story_coming_left": {
+    "one": "1 kaldı",
+    "other": "{{count}} kaldı"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1 kaçırıldı",
+    "other": "{{count}} kaçırıldı"
+  },
+  "recaps_story_coming_title": {
+    "one": "%{year} yılında boyanacak 1 gün kaldı",
+    "other": "%{year} yılında boyanacak {{count}} gün kaldı"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "1 fotoğraflı gün, %{days} piksel.",
+    "other": "{{count}} fotoğraflı gün, %{days} piksel."
+  },
+  "recaps_story_cover_pixels_title": "piksel · %{month}",
+  "recaps_story_cover_title": "%{month}: şekillenenler",
+  "recaps_story_days": {
+    "one": "1 gün",
+    "other": "{{count}} gün"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "Daha zor günün",
+    "other": "{{count}} daha zor günün"
+  },
+  "recaps_story_hard_eyebrow": "Bir örüntü",
+  "recaps_story_hard_other_label": {
+    "one": "Diğer gün",
+    "other": "Diğer {{count}} gün"
+  },
+  "recaps_story_hard_text": "%{total} daha zor günün %{hard} tanesinde vardı, diğer %{otherDays} günün ise yalnızca %{other} tanesinde. O günlerde kendine nazik davran.",
+  "recaps_story_hard_text_none": "%{total} daha zor günün %{hard} tanesinde vardı, diğer %{otherDays} günün hiçbirinde yoktu. O günlerde kendine nazik davran.",
+  "recaps_story_hard_title": "%{tag} daha zor günlerine eşlik etti",
+  "recaps_story_lifted_eyebrow": "%{month}: neler iyi geldi",
+  "recaps_story_lifted_text": {
+    "one": "Etiketin olmadığı günlerle karşılaştırıldı. 1 kayıt.",
+    "other": "Etiketin olmadığı günlerle karşılaştırıldı. {{count}} kayıt."
+  },
+  "recaps_story_lifted_title": "%{tag} olan günler en hafif hissettirdi",
+  "recaps_story_made_of_eyebrow": "%{month} ritmi",
+  "recaps_story_made_of_title": "Günlerin nelerden oluştu",
+  "recaps_story_moments_eyebrow": "Haftada bir fotoğraf",
+  "recaps_story_moments_title": {
+    "one": "1 anda %{month}",
+    "other": "{{count}} anda %{month}"
+  },
+  "recaps_story_next": "Sonraki slayt",
+  "recaps_story_pause": "Duraklat",
+  "recaps_story_people_days": {
+    "one": "1 gün bağlantı",
+    "other": "{{count}} gün bağlantı"
+  },
+  "recaps_story_people_eyebrow": "Tekrar tekrar karşına çıkanlar",
+  "recaps_story_people_text": "Bağlantıda olduğun günlerdeki piksellerin.",
+  "recaps_story_people_title": "En çok bağlantıda olduğun kişiler",
+  "recaps_story_play": "Oynat",
+  "recaps_story_previous": "Önceki slayt",
+  "recaps_story_ready": "İzlemeye hazır",
+  "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
+  "recaps_story_vs_text": "Her etiketin gün sayısı, %{previous} ile kıyasla.",
+  "recaps_story_vs_title": "Bundan daha çok, ondan daha az",
+  "recaps_story_weekday_eyebrow": "Bir alışkanlık oluştu",
+  "recaps_story_weekday_previous": "%{month}: %{hits}/%{total}.",
+  "recaps_story_weekday_text": "%{total} haftanın %{hits} tanesi.",
+  "recaps_story_weekday_title_every": "%{tag}, her %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, neredeyse her %{weekday}",
   "recaps_tag_back_text": {
     "one": "Bir gün, %{weeks} haftalık aradan sonra.",
     "other": "{{count}} gün, %{weeks} haftalık aradan sonra."

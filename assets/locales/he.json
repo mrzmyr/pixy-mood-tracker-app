@@ -821,6 +821,78 @@
     "one": "יום אחד עם %{tag} השבוע",
     "other": "{{count}} ימים עם %{tag} השבוע"
   },
+  "recaps_story_banner_title": "סיכום %{month}",
+  "recaps_story_city_eyebrow": "פעם ראשונה",
+  "recaps_story_city_km": "%{city} · %{km} ק״מ מהבית",
+  "recaps_story_city_title": "הפיקסל הראשון שלך ב־%{city}",
+  "recaps_story_coming_eyebrow": "בקרוב",
+  "recaps_story_coming_left": {
+    "one": "עוד 1",
+    "other": "עוד {{count}}"
+  },
+  "recaps_story_coming_missed": {
+    "one": "1 פוספס",
+    "other": "{{count}} פוספסו"
+  },
+  "recaps_story_coming_title": {
+    "one": "נשאר יום 1 לצבוע ב־%{year}",
+    "other": "נשארו {{count}} ימים לצבוע ב־%{year}"
+  },
+  "recaps_story_cover_photos_text": {
+    "one": "יום 1 עם תמונה, %{days} פיקסלים.",
+    "other": "{{count}} ימים עם תמונה, %{days} פיקסלים."
+  },
+  "recaps_story_cover_pixels_title": "פיקסלים ב%{month}",
+  "recaps_story_cover_title": "%{month}: מה שהתגבש",
+  "recaps_story_days": {
+    "one": "יום 1",
+    "other": "{{count}} ימים"
+  },
+  "recaps_story_hard_days_label": {
+    "one": "היום הקשה יותר שלך",
+    "other": "{{count}} הימים הקשים יותר שלך"
+  },
+  "recaps_story_hard_eyebrow": "דפוס",
+  "recaps_story_hard_other_label": {
+    "one": "היום האחר",
+    "other": "{{count}} הימים האחרים"
+  },
+  "recaps_story_hard_text": "הופיעה ב־%{hard} מתוך %{total} הימים הקשים יותר, ורק ב־%{other} מתוך %{otherDays} האחרים. כדאי להיות עדינים עם עצמך בימים כאלה.",
+  "recaps_story_hard_text_none": "הופיעה ב־%{hard} מתוך %{total} הימים הקשים יותר, ולא באף אחד מ־%{otherDays} האחרים. כדאי להיות עדינים עם עצמך בימים כאלה.",
+  "recaps_story_hard_title": "%{tag}: לצד הימים הקשים יותר שלך",
+  "recaps_story_lifted_eyebrow": "מה הקל על %{month}",
+  "recaps_story_lifted_text": {
+    "one": "בהשוואה לימים בלי התגית. תיעוד 1.",
+    "other": "בהשוואה לימים בלי התגית. {{count}} תיעודים."
+  },
+  "recaps_story_lifted_title": "ימים עם %{tag} הרגישו הכי קלים",
+  "recaps_story_made_of_eyebrow": "הקצב של %{month}",
+  "recaps_story_made_of_title": "ממה היו עשויים הימים שלך",
+  "recaps_story_moments_eyebrow": "תמונה אחת בשבוע",
+  "recaps_story_moments_title": {
+    "one": "%{month} ברגע 1",
+    "other": "%{month} ב־{{count}} רגעים"
+  },
+  "recaps_story_next": "השקופית הבאה",
+  "recaps_story_pause": "השהיה",
+  "recaps_story_people_days": {
+    "one": "יום 1 בקשר",
+    "other": "{{count}} ימים בקשר"
+  },
+  "recaps_story_people_eyebrow": "מי שחזרו שוב ושוב",
+  "recaps_story_people_text": "הפיקסלים שלך בימים שהייתם בקשר.",
+  "recaps_story_people_title": "האנשים שהיית איתם הכי הרבה בקשר",
+  "recaps_story_play": "הפעלה",
+  "recaps_story_previous": "השקופית הקודמת",
+  "recaps_story_ready": "מוכן לצפייה",
+  "recaps_story_vs_eyebrow": "%{month} מול %{previous}",
+  "recaps_story_vs_text": "ימים עם כל תגית, מול %{previous}.",
+  "recaps_story_vs_title": "יותר מזה, פחות מזה",
+  "recaps_story_weekday_eyebrow": "נוצר הרגל",
+  "recaps_story_weekday_previous": "ב%{month}: %{hits} מתוך %{total}.",
+  "recaps_story_weekday_text": "%{hits} מתוך %{total} שבועות.",
+  "recaps_story_weekday_title_every": "%{tag}, כל %{weekday}",
+  "recaps_story_weekday_title_most": "%{tag}, כמעט כל %{weekday}",
   "recaps_tag_back_text": {
     "one": "ביום אחד, אחרי %{weeks} שבועות בלי.",
     "other": "ב־{{count}} ימים, אחרי %{weeks} שבועות בלי."
