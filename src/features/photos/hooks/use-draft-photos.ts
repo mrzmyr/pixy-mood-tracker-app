@@ -657,7 +657,7 @@ export const useDraftPhotos = ({
     /** Show the "See your photos from …" row. */
     isDayAccessPromptVisible: isPromptVisible,
     /**
-     * Offer the "Show Photos from …" button: access still undetermined and
+     * Offer the "Allow Photo Access" button: access still undetermined and
      * the row dismissed, so photos of the day stay reachable after "Not
      * Now".
      */
