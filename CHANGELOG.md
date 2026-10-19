@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.101.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.100.0...v1.101.0) (2026-10-19)
+
+
+### Features
+
+* **logger:** offer to continue an entry after the app was killed ([#899](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/899)) ([9b2c93b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9b2c93b06d063b9e0e18c93a8c053adeea38745e))
+* **logger:** two dials emotion picker behind flag ([#887](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/887)) ([4f0ea29](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4f0ea294967805cb4c69cac4cf21b53082103db8))
+* **quick-check-in:** check in from an Android notification ([#874](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/874)) ([2218499](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2218499231ba21cb956d6f71b39f2d0f03e92d9c))
+* **quick-check-in:** Lock Screen quick check-in on iOS, started from Settings ([#873](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/873)) ([3839934](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/38399341f7580cabe98d35d6b465f5adcff6071b))
+* **recaps:** add month recap story ([#889](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/889)) ([25662db](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/25662dbeafcac8ea01a3f1537c89c17799399bff))
+* **tags:** raise tag limit to 500 behind more-tags flag ([#893](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/893)) ([5c2c035](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5c2c0357a0cbc89fc8a9e18de4aff476ec010f72))
+* **voice:** voice check-in with live tagging behind voice-mode flag ([#775](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/775)) ([800a9f1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/800a9f1a7e8bb5be65faa1575b994440bc567738))
+
+
+### Bug Fixes
+
+* **profile:** stop avatar tap from scrolling calendar to top ([#896](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/896)) ([568b7e1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/568b7e17f6726d73c927ea9e50228a45077c1d29))
+
 ## [1.100.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.99.1...v1.100.0) (2026-10-18)
 
 
