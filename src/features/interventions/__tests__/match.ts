@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
-import { _generateItem } from "@/testing/logItem";
+import { _generateItem } from "@/testing/log-item";
 import { matchCluster, matchToday } from "../match";
 
-const now = dayjs("2026-10-04T20:30:00");
+const today = "2026-10-04";
 const at = (time: string, emotions: string[], day = "2026-10-04") =>
   _generateItem({ dateTime: dayjs(`${day}T${time}`).toISOString(), emotions });
 
@@ -31,12 +31,12 @@ describe("matchToday()", () => {
     const late = at("14:10", ["anxious"]);
     const unrelated = at("18:00", ["happy"]);
 
-    expect(matchToday([late, unrelated, early], now)?.item).toBe(late);
+    expect(matchToday([late, unrelated, early], today)?.item).toBe(late);
   });
 
   test("entries of other days never count", () => {
     expect(
-      matchToday([at("23:00", ["anxious"], "2026-10-03")], now)
+      matchToday([at("23:00", ["anxious"], "2026-10-03")], today)
     ).toBeNull();
   });
 });

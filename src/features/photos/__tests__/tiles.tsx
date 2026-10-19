@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import Colors from "@/constants/Colors";
-import { PickTile } from "../components/PickTile";
+import Colors from "@/constants/colors";
+import { PickTile } from "../components/pick-tile";
 
 const Theme = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider

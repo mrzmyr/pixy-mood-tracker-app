@@ -2,7 +2,7 @@ import { GENERAL_CATEGORY_ID } from "@/features/tags";
 import { getEffect } from "../correlation";
 import type { Effect } from "../correlation";
 import { addDays } from "../days";
-import { fits, indexDays } from "../dayIndex";
+import { fits, indexDays } from "../day-index";
 import { THRESHOLDS } from "../thresholds";
 import type { EffectRow, PatternCard, RecapDay, RecapInput } from "../types";
 import { getActiveTags } from "./nudges";

@@ -2,15 +2,15 @@ import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import MapPin from "lucide-react-native/icons/map-pin";
-import { RADIUS } from "@/constants/Radius";
+import { RADIUS } from "@/constants/radius";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
-import useColors from "@/hooks/useColors";
+import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
-import { CHIP } from "../chipMarker";
+import { CHIP } from "../chip-marker";
 import { addDays, daysBetween } from "../days";
-import { RingedAvatar } from "../components/RingedAvatar";
-import { ChipText } from "../components/TitleChip";
+import { RingedAvatar } from "../components/ringed-avatar";
+import { ChipText } from "../components/title-chip";
 import type { DateKey, Period, RecapDay } from "../types";
 import {
   dateOfWeekday,

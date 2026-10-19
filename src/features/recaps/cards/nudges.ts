@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 import { GENERAL_CATEGORY_ID } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import { THRESHOLDS } from "../thresholds";

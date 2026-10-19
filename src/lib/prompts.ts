@@ -1,4 +1,4 @@
-import Alert from "@/lib/Alert";
+import Alert from "@/lib/alert";
 import { createStructuredError } from "@/lib/errors";
 import { showToast } from "@/lib/toast";
 import { t } from "@/lib/translation";

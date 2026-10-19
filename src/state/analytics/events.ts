@@ -1,9 +1,16 @@
-import type { FeedackType, FeedbackSource } from "@/types/Feedback";
-import type { LoggerStep } from "@/constants/LoggerSteps";
-import type { AppIconId } from "@/constants/AppIcons";
+import type { FeedackType, FeedbackSource } from "@/types/feedback";
+import type { LoggerStep } from "@/constants/logger-steps";
+import type { AppIconId } from "@/constants/app-icons";
 import type { CalendarLayout, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
+
+interface LoggerRecoveryProperties {
+  mode: "create" | "edit";
+  age_minutes: number;
+  message_length: number;
+  photos_count: number;
+}
 
 /** Where a month story was opened. */
 export type StorySource = "recaps" | "calendar" | "notification";
@@ -59,7 +66,35 @@ export interface AnalyticsEvents {
     has_location: boolean;
   };
   "logger:flow_cancelled": { mode: "create" | "edit" };
-  "logger:emotions_tooltip_closed": undefined;
+  /**
+   * Launch prompt after the OS killed the app with the logger open.
+   * `age_minutes`: time since the app went to the background.
+   */
+  "logger:recovery_restored": LoggerRecoveryProperties;
+  "logger:recovery_discarded": LoggerRecoveryProperties;
+
+  /** Voice mode. Never the transcript, names, or emotion keys. */
+  "voice:flow_started": undefined;
+  "voice:flow_cancelled": { duration_ms: number; transcript_length: number };
+  "voice:flow_finished": {
+    duration_ms: number;
+    transcript_length: number;
+    tags_count: number;
+    people_count: number;
+    emotions_count: number;
+  };
+  "voice:permission_denied": { kind: "microphone" | "speech" };
+  "voice:failed": { status: string };
+  /** Feedback sheet after saving a voice check-in. `prompt_index` 1 to 3. */
+  "voice:feedback_submitted": {
+    rating: "bad" | "okay" | "great";
+    prompt_index: number;
+    duration_ms: number;
+    tags_count: number;
+    people_count: number;
+    emotions_count: number;
+  };
+  "voice:feedback_skipped": { prompt_index: number };
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
@@ -134,6 +169,7 @@ export interface AnalyticsEvents {
   };
   "calendar:add_today_tapped": { has_entries: boolean };
   "calendar:today_tapped": undefined;
+  "calendar:voice_tapped": { has_entries: boolean };
   "calendar:filters_opened": undefined;
   "calendar:filters_applied": {
     text_length: number;

@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.99.1",
+  "version": "1.100.0",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
@@ -17,7 +17,7 @@
     "hub": "expo-device-hub --hide-boot-device",
     "release": "bun scripts/cli/index.ts release",
     "worktree": "bun scripts/cli/index.ts worktree",
-    "test:cli": "bun test scripts/cli scripts/check-locales scripts/sort-locales scripts/generate-licenses",
+    "test:cli": "bun test scripts/cli scripts/codemods scripts/check-locales scripts/sort-locales scripts/generate-licenses",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",
     "test:ci": "jest --env=jsdom",
@@ -46,6 +46,7 @@
     "i18n:sort:check": "bun scripts/sort-locales.ts --check"
   },
   "dependencies": {
+    "@expo/material-symbols": "^0.1.1",
     "@expo/ui": "~57.0.25",
     "@hugeicons/core-free-icons": "4.3.5",
     "@nandorojo/galeria": "^3.1.0",
@@ -88,6 +89,7 @@
     "expo-observe": "~57.0.25",
     "expo-router": "~57.0.28",
     "expo-sharing": "~57.0.23",
+    "expo-speech-transcriber": "0.1.9",
     "expo-splash-screen": "~57.0.10",
     "expo-status-bar": "~57.0.1",
     "expo-store-review": "~57.0.3",
@@ -106,11 +108,10 @@
     "react-native-gesture-handler": "~3.1.0",
     "react-native-get-random-values": "~1.11.0",
     "react-native-markdown-display": "^7.0.2",
-    "react-native-modal-datetime-picker": "^18.0.0",
     "react-native-reanimated": "4.5.1",
     "react-native-reanimated-carousel": "^5.0.0",
     "react-native-safe-area-context": "~5.7.0",
-    "react-native-screens": "~4.26.0",
+    "react-native-screens": "~4.27.0",
     "react-native-sortables": "^1.10.1",
     "react-native-style-utilities": "^1.0.1",
     "react-native-svg": "15.15.4",
@@ -146,7 +147,8 @@
     "ultracite": "7.12.0"
   },
   "overrides": {
-    "markdown-it": "^15.0.0"
+    "markdown-it": "^15.0.0",
+    "react-native-screens": "~4.27.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs}": "oxlint --no-error-on-unmatched-pattern",
@@ -198,5 +200,8 @@
         "typescript"
       ]
     }
+  },
+  "patchedDependencies": {
+    "expo-speech-transcriber@0.1.9": "patches/expo-speech-transcriber@0.1.9.patch"
   }
 }

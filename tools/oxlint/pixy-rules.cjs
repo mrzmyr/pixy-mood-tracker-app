@@ -1,3 +1,5 @@
+const path = require("node:path");
+
 const getFunctionName = (node) => {
   if (node.id?.type === "Identifier") {
     return node.id.name;
@@ -341,6 +343,48 @@ const sortedStringArrays = {
   },
 };
 
+// unicorn/filename-case checks file names only. This rule checks folders under `src/`.
+// Tool-owned names stay: `__tests__`, `__mocks__`, `(group)`, `[param]`, `@scope`.
+const KEBAB_FOLDER = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
+const TOOL_OWNED_FOLDER = /^[_+[(@]/u;
+
+const kebabCaseFolders = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Require kebab-case folder names under src/",
+    },
+    messages: {
+      folder:
+        "Rename folder `{{name}}` to kebab-case. `bun scripts/codemods/kebab-case-files.ts` renames it and its imports.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const relative = path.relative(
+      context.cwd ?? process.cwd(),
+      context.filename
+    );
+    const [root, ...segments] = relative.split(path.sep);
+    if (root !== "src") {
+      return {};
+    }
+    const folder = segments
+      .slice(0, -1)
+      .find(
+        (name) => !TOOL_OWNED_FOLDER.test(name) && !KEBAB_FOLDER.test(name)
+      );
+    if (folder === undefined) {
+      return {};
+    }
+    return {
+      Program(node) {
+        context.report({ messageId: "folder", node, data: { name: folder } });
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
@@ -351,5 +395,6 @@ module.exports = {
     "boolean-function-prefix": booleanFunctionPrefix,
     "structured-thrown-errors": structuredThrownErrors,
     "sorted-string-arrays": sortedStringArrays,
+    "kebab-case-folders": kebabCaseFolders,
   },
 };

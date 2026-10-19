@@ -2,8 +2,8 @@ import * as Device from "expo-device";
 import { Observe } from "expo-observe";
 import type { ObserveConfig } from "expo-observe";
 
-import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
-import type { AppVariant } from "@/constants/AppVariant";
+import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
+import type { AppVariant } from "@/constants/app-variant";
 
 /** Facts fixed per build and device. */
 interface ObserveBuild {

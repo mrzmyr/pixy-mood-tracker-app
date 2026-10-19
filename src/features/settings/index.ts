@@ -1,1 +1,1 @@
-export { useStepEnabled } from "./useStepEnabled";
+export { useStepEnabled } from "./use-step-enabled";

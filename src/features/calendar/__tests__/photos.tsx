@@ -6,19 +6,19 @@ import {
 } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider, router } from "expo-router";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
-import { _generateItem } from "@/testing/logItem";
-import Colors from "@/constants/Colors";
+import { _generateItem } from "@/testing/log-item";
+import Colors from "@/constants/colors";
 import { LogsProvider } from "@/features/logs";
 import { PeopleProvider } from "@/features/people";
 import { TagsProvider } from "@/features/tags";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider, useSettingsLoad } from "@/state/settings";
 import type { LogPhoto } from "@/types";
-import { Entry } from "../screens/LogList/Entry";
+import { Entry } from "../screens/log-list/entry";
 
 let mockIsPhotosEnabled = true;
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the photos flag comes from PostHog after consent; each test picks on or off.
-jest.mock("@/state/featureFlags", () => ({
+jest.mock("@/state/feature-flags", () => ({
   useFeatureFlag: (flag: string) => flag === "photos" && mockIsPhotosEnabled,
 }));
 

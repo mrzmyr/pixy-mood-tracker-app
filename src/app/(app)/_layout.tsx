@@ -1,12 +1,13 @@
 import { Stack } from "expo-router";
 import { Platform, View } from "react-native";
-import { BackButton } from "@/shell/BackButton";
-import { StorageLoadGate } from "@/shell/StorageLoadGate";
+import { BackButton } from "@/shell/back-button";
+import { StorageLoadGate } from "@/shell/storage-load-gate";
 import { t } from "@/lib/translation";
-import useColors from "@/hooks/useColors";
+import useColors from "@/hooks/use-colors";
 import { DEV_TOOLS } from "@/dev";
-import { useCanOverrideFeatureFlags } from "@/state/featureFlags";
+import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
 import { WidgetSync } from "@/features/widget";
+import { LoggerRecoveryPrompt } from "@/features/logger";
 import {
   CalendarScreenReaderTitle,
   HAS_FLOATING_HEADER,
@@ -110,6 +111,7 @@ const AppLayout = () => {
   return (
     <StorageLoadGate>
       <WidgetSync />
+      <LoggerRecoveryPrompt />
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -157,6 +159,10 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="logs/create/[dateTime]"
+            options={{ ...modalOptions, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="logs/voice"
             options={{ ...modalOptions, gestureEnabled: false }}
           />
           <Stack.Screen

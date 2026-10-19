@@ -1,5 +1,5 @@
 import type { RecapCardProperties } from "@/state/analytics/events";
-import { CARD_TYPES } from "./cardTypes";
+import { CARD_TYPES } from "./card-types";
 import type { Period, RecapCard } from "./types";
 
 /** Event properties of `card`. Card meta only, never values shown on it. */

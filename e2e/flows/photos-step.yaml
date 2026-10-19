@@ -5,7 +5,7 @@ tags: [p1, photos]
 # photos of the day and library picks; Android: Photo Picker picks),
 # uncheck and check again, open the viewer, save through the whole logger,
 # and find the photos in the day view. The photo library is a
-# system screen, so the flow swaps it for src/dev/fakePhotoSource.ts. Shared
+# system screen, so the flow swaps it for src/dev/fake-photo-source.ts. Shared
 # flows run without the flag, so this flow turns it on with the dev
 # override link.
 - runFlow:

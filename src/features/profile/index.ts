@@ -1,8 +1,8 @@
-export { ProfileAvatar } from "./components/ProfileAvatar";
+export { ProfileAvatar } from "./components/profile-avatar";
 export {
   ProfileHeaderButton,
   useHasProfileAvatar,
-} from "./components/ProfileHeaderButton";
-export { ProfileRow } from "./components/ProfileRow";
+} from "./components/profile-header-button";
+export { ProfileRow } from "./components/profile-row";
 export { deleteProfilePhotos } from "./photo";
-export { useProfile } from "./useProfile";
+export { useProfile } from "./use-profile";

@@ -28,7 +28,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 
 - Event catalog: [`src/state/analytics/events.ts`](src/state/analytics/events.ts)
 - Usage summary and behaviour signals: [product-analytics.md](docs/product-analytics.md)
-- Screens: `$screen` with the route name, from [`src/shell/screenTracking.ts`](src/shell/screenTracking.ts)
+- Screens: `$screen` with the route name, from [`src/shell/screen-tracking.ts`](src/shell/screen-tracking.ts)
 - Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](src/state/analytics/index.tsx))
 - Privacy rule: [AGENTS.md footguns](AGENTS.md#footguns)
 - Default: off in consent regions and when region is unknown; on elsewhere. Factory reset restores the device-region default ([`src/state/analytics/consent.ts`](src/state/analytics/consent.ts))
@@ -52,7 +52,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
   - Flow: `intro_viewed`, `flow_started`, `step_viewed`, `step_back`, `flow_paused`, `flow_resumed`, then `flow_completed` or `flow_abandoned` (`how`: `close`, `end_early`)
   - End check: `feedback_answered` or `feedback_skipped`
   - No dismiss control and no cooldown: cards show for every matching entry of today
-- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](src/features/notifications/reminderTaps.ts))
+- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminder-taps.ts`](src/features/notifications/reminder-taps.ts))
   - One event per tap on reminder body. Dismisses and other actions not sent
   - Properties: `cold_start`, `minutes_since_delivered`
   - Cold start taps wait for stored settings, so a stored opt-out wins
@@ -128,6 +128,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Removed events**
 
 - `logger:log_deleted`: the logger lost its trash button. Entries are deleted from the day view entry menu, which sends `day:delete_tapped`
+- `log_emotions_tooltip_close`, `logger:emotions_tooltip_closed`: emotion description tooltip removed from the logger. No replacement
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
 
 **Removed properties** (never sent under the new names)
@@ -171,7 +172,6 @@ Use this section to join old and new events in PostHog, for example with an Acti
 | `log_saved_without_rating` | `logger:log_saved` | `has_rating: false` |
 | `log_deleted` | `logger:log_deleted` |  |
 | `log_cancled` | `logger:flow_cancelled` | New: `mode` |
-| `log_emotions_tooltip_close` | `logger:emotions_tooltip_closed` |  |
 | `log_reminder_enable` | `logger:reminder_enabled` |  |
 | `log_reminder_later` | `logger:reminder_postponed` |  |
 | `log_list_add` | `day:add_tapped` |  |

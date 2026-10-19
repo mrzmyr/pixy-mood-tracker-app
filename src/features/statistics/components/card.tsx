@@ -1,0 +1,82 @@
+import isString from "lodash/isString";
+import type { ReactNode } from "react";
+import { Text, View } from "react-native";
+import Bezel from "@/components/bezel";
+import useColors from "@/hooks/use-colors";
+import { RADIUS } from "@/constants/radius";
+
+/**
+ * Plain statistics card with a title and optional subtitle; unlike
+ * `BigCard` it has no share action.
+ */
+export const Card = ({
+  subtitle,
+  title,
+  children,
+}: {
+  subtitle?: string;
+  title: string | ReactNode;
+  children: ReactNode;
+}) => {
+  const colors = useColors();
+
+  return (
+    <Bezel
+      radius={RADIUS.md}
+      style={{ marginTop: 16 }}
+      innerStyle={{
+        padding: 16,
+        backgroundColor: colors.cardBackground,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 8,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 14,
+            fontWeight: "bold",
+            color: colors.statisticsCardSubtitle,
+          }}
+        >
+          {subtitle}
+        </Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 16,
+        }}
+      >
+        {isString(title) ? (
+          <Text
+            style={{
+              letterSpacing: -0.1,
+              lineHeight: 24,
+              fontSize: 17,
+              fontWeight: "bold",
+              color: colors.text,
+            }}
+          >
+            {title}
+          </Text>
+        ) : (
+          title
+        )}
+      </View>
+      <View
+        style={{
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        {children}
+      </View>
+    </Bezel>
+  );
+};

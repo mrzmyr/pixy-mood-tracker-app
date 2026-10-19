@@ -1,4 +1,4 @@
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 import type { LogItem } from "@/features/logs";
 import type { Tag, TagCategory } from "@/features/tags";
 import type { EffectSignal } from "./correlation";

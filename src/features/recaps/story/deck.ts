@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { getEffect } from "../correlation";
 import { addDays, daysBetween, getDayRating } from "../days";
-import { indexDays } from "../dayIndex";
+import { indexDays } from "../day-index";
 import { firstCity } from "../cards/moments";
 import { getActiveTags } from "../cards/nudges";
 import { getHome, peopleOn } from "../cards/summaries";

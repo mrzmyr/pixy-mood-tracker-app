@@ -18,7 +18,7 @@ export interface ContactList {
 
 /**
  * OS boundary of the people feature: the address book and the photo
- * library. E2E runs swap it for a fake (`src/dev/fakePeopleSources.ts`),
+ * library. E2E runs swap it for a fake (`src/dev/fake-people-sources.ts`),
  * because the system screens are outside the app and tests cannot drive
  * them.
  */

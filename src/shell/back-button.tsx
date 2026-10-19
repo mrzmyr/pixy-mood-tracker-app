@@ -1,0 +1,29 @@
+import { useRouter } from "expo-router";
+import { Pressable } from "react-native";
+import ArrowLeft from "lucide-react-native/icons/arrow-left";
+import useColors from "@/hooks/use-colors";
+import { t } from "@/lib/translation";
+
+/**
+ * Header back button for web stack screens. iOS and Android use the native
+ * back button.
+ */
+export const BackButton = ({ testID }: { testID?: string }) => {
+  const router = useRouter();
+  const colors = useColors();
+
+  return (
+    <Pressable
+      style={{
+        padding: 15,
+        marginLeft: 5,
+      }}
+      onPress={() => router.back()}
+      accessibilityRole="button"
+      accessibilityLabel={t("back")}
+      testID={testID}
+    >
+      <ArrowLeft width={24} color={colors.text} />
+    </Pressable>
+  );
+};
