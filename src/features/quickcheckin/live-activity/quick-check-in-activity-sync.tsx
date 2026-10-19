@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import dayjs from "dayjs";
 import {
   addUserInteractionListener,
@@ -71,7 +71,7 @@ const report = (status: string, message: string, why: string) => {
     fix: "Start the quick check-in again from Settings > Check-in",
   });
   console.error(structuredError);
-  Sentry.captureException(structuredError);
+  reportError(structuredError);
 };
 
 const getTodayRatings = (items: LogItem[], today: string) =>

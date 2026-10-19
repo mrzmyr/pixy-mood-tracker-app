@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { widgetsDirectory } from "expo-widgets";
 import * as FileSystem from "expo-file-system/legacy";
 import { useEffect, useMemo, useRef } from "react";
@@ -113,7 +113,7 @@ export const WidgetSync = () => {
           fix: "Open Pixy again; the year widget keeps its last image",
         });
         console.error(structuredError);
-        Sentry.captureException(structuredError);
+        reportError(structuredError);
       }
       await syncWidgets({ items, scaleType, isAvailable, yearImages });
     };

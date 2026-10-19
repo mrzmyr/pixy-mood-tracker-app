@@ -1,8 +1,9 @@
-import * as Sentry from "@sentry/react-native";
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { useEffect, useEffectEvent, useRef } from "react";
 import Alert from "@/lib/alert";
+import { createStructuredError, isStructuredError } from "@/lib/errors";
+import { reportError } from "@/lib/report-error";
 import { t } from "@/lib/translation";
 import { useAppLock } from "@/features/applock";
 import { useLogLoad, useLogState, useLogUpdater } from "@/features/logs";
@@ -75,8 +76,16 @@ export const LoggerRecoveryPrompt = () => {
       recovery = await loadLoggerRecovery();
     } catch (error) {
       // Keep the stored snapshot: never write after a failed read.
-      console.error(error);
-      Sentry.captureException(error);
+      const failure = isStructuredError(error)
+        ? error
+        : createStructuredError({
+            status: "logger_recovery_load_failed",
+            message: "Logger recovery snapshot could not be read",
+            why: `loadLoggerRecovery failed: ${error instanceof Error ? error.message : String(error)}`,
+            fix: "No action needed; the app skips the resume prompt",
+          });
+      console.error(failure);
+      reportError(failure);
       return;
     }
     if (recovery === null) {

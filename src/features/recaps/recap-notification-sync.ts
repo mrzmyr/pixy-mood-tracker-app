@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { useEffect } from "react";
 import { defaultRecapScheduler } from "@/features/notifications";
 import type {
@@ -52,7 +52,7 @@ const reportScheduleError = (cause: unknown) => {
     fix: "Open Pixy again or turn Recaps off and on in Settings > Reminder",
   });
   console.error(error);
-  Sentry.captureException(error);
+  reportError(error);
 };
 
 /**

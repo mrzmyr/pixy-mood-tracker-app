@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 import { Platform } from "react-native";
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import type { LogItem } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
 import {
@@ -55,7 +55,7 @@ const describeTimelines = async () => {
 /**
  * Pushes a fresh timeline to every widget, then reads the store back so
  * Development tools can show what the widgets will render. Never throws: a
- * widget failure must not break the app, so errors go to Sentry.
+ * widget failure must not break the app, so errors go to `reportError`.
  */
 export const syncWidgets = async ({
   items,
@@ -104,6 +104,6 @@ export const syncWidgets = async ({
       why: structuredError.why,
     };
     console.error(structuredError);
-    Sentry.captureException(structuredError);
+    reportError(structuredError);
   }
 };

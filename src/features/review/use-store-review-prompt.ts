@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import * as StoreReview from "expo-store-review";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
 import { createStructuredError } from "@/lib/errors";
@@ -26,7 +26,7 @@ const reportPromptError = (cause: unknown) => {
     fix: "Rate Pixy from Settings instead",
   });
   console.error(error);
-  Sentry.captureException(error);
+  reportError(error);
 };
 
 /**

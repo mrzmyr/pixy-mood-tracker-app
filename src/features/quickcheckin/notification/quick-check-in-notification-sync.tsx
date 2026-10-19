@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { useEffect, useRef } from "react";
 import { AppState } from "react-native";
 import { EMOTIONS } from "@/features/logger";
@@ -27,7 +27,7 @@ const report = (status: string, message: string, why: string) => {
     fix: "Start the quick check-in again from Settings > Check-in",
   });
   console.error(structuredError);
-  Sentry.captureException(structuredError);
+  reportError(structuredError);
 };
 
 const parseInbox = (raw: string): InboxEntry[] => {

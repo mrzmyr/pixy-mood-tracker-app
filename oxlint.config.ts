@@ -239,7 +239,13 @@ export default defineConfig({
         "pixy-standards/no-hermes-missing-intl": "error",
         "pixy-standards/no-layout-animation": "error",
         "pixy-standards/kebab-case-folders": "error",
+        "pixy-standards/no-direct-error-reporting": "error",
       },
+    },
+    {
+      // The one place that calls both error SDKs; tests assert on the SDK mock.
+      files: ["src/lib/report-error.ts", "src/**/__tests__/**"],
+      rules: { "pixy-standards/no-direct-error-reporting": "off" },
     },
     {
       // Append-only lists conflict on every merge; sorted lists do not.

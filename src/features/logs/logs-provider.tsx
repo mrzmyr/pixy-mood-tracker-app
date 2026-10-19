@@ -18,13 +18,16 @@ import {
   useRef,
   useState,
 } from "react";
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { v4 as uuidv4 } from "uuid";
 import type z from "zod";
 import type { RATING_KEYS } from "@/constants/ratings";
 import { useAnalytics } from "@/state/analytics";
 import { loadRecoveryPhotoFileNames } from "@/state/logger-recovery";
-import { createMissingProviderError } from "@/lib/errors";
+import {
+  createMissingProviderError,
+  createStructuredError,
+} from "@/lib/errors";
 import {
   deleteUnreferencedPhotos,
   getReferencedFileNames,
@@ -276,8 +279,14 @@ const PhotoSweepProvider = ({ children }: { children: React.ReactNode }) => {
         }
         deleteUnreferencedPhotos({ referencedFileNames });
       } catch (error) {
-        console.error(error);
-        Sentry.captureException(error);
+        const failure = createStructuredError({
+          status: "photo_sweep_failed",
+          message: "Unused photo files could not be deleted",
+          why: `deleteUnreferencedPhotos failed: ${error instanceof Error ? error.message : String(error)}`,
+          fix: "Pixy retries on the next sweep; unused files only take space",
+        });
+        console.error(failure);
+        reportError(failure);
       }
     }
   );
@@ -319,7 +328,14 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
       const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
       analytics.track("app:logs_loaded", { size_mb: megaBytes });
     } catch (error) {
-      Sentry.captureException(error);
+      reportError(
+        createStructuredError({
+          status: "logs_size_measure_failed",
+          message: "Stored logs size could not be measured",
+          why: `Encoding stored logs failed: ${error instanceof Error ? error.message : String(error)}`,
+          fix: "No action needed; only the app:logs_loaded event is skipped",
+        })
+      );
     }
   };
 
