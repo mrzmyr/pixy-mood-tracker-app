@@ -919,6 +919,18 @@
   "recaps_story_quiz_title_tags_most": "Vad gjorde du mest den här månaden?",
   "recaps_story_quiz_truths_hint": "Tryck på alla som stämmer.",
   "recaps_story_ready": "Redo att titta",
+  "recaps_story_share": "Dela",
+  "recaps_story_share_check_ins": {
+    "one": "1 dag med incheckning",
+    "other": "{{count}} dagar med incheckning"
+  },
+  "recaps_story_share_city": "Första gången i %{city}",
+  "recaps_story_share_shuffle": "Blanda foton",
+  "recaps_story_share_tag": {
+    "one": "%{tag}, 1 dag",
+    "other": "%{tag}, {{count}} dagar"
+  },
+  "recaps_story_share_title": "Min %{month}",
   "recaps_story_vs_eyebrow": "%{month} mot %{previous}",
   "recaps_story_vs_text": "Dagar med varje tagg, mot %{previous}.",
   "recaps_story_vs_title": "Mer av det här, mindre av det där",

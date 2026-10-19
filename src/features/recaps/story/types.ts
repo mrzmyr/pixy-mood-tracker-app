@@ -101,6 +101,30 @@ export interface ComingUpSlide {
   missed: number;
 }
 
+/** One line of the share card. */
+export type ShareFact =
+  | { kind: "city"; city: string }
+  | {
+      kind: "weekday";
+      tagId: string;
+      weekday: number;
+      hits: number;
+      total: number;
+    }
+  | { kind: "tag"; tagId: string; days: number }
+  | { kind: "check-ins"; days: number };
+
+/**
+ * Last slide: a card to send to someone close. 3 photos when the month has
+ * 3+ bright photo days, else the month grid. `photos` is the shuffle pool,
+ * brightest first.
+ */
+export interface ShareSlide {
+  type: "share";
+  photos: StoryPhoto[];
+  facts: ShareFact[];
+}
+
 /** One page of the month story. Each type has one renderer. */
 export type StorySlide =
   | CoverSlide
@@ -113,7 +137,8 @@ export type StorySlide =
   | VsLastSlide
   | MomentsSlide
   | ComingUpSlide
-  | QuizSlide;
+  | QuizSlide
+  | ShareSlide;
 
 /** Key of a slide type. */
 export type StorySlideType = StorySlide["type"];

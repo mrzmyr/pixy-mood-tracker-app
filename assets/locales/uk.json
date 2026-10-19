@@ -919,6 +919,18 @@
   "recaps_story_quiz_title_tags_most": "Що Ви робили найчастіше цього місяця?",
   "recaps_story_quiz_truths_hint": "Позначте все, що правда.",
   "recaps_story_ready": "Можна переглянути",
+  "recaps_story_share": "Поділитися",
+  "recaps_story_share_check_ins": {
+    "one": "1 день з відміткою",
+    "other": "Днів з відміткою: {{count}}"
+  },
+  "recaps_story_share_city": "Уперше в місті %{city}",
+  "recaps_story_share_shuffle": "Перемішати фото",
+  "recaps_story_share_tag": {
+    "one": "%{tag}, 1 день",
+    "other": "%{tag}, днів: {{count}}"
+  },
+  "recaps_story_share_title": "Мій %{month}",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Дні з кожним тегом, vs %{previous}.",
   "recaps_story_vs_title": "Більше цього, менше того",

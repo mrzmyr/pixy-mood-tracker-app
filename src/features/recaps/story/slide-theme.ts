@@ -9,7 +9,9 @@ export const getSlideTheme = (slide: StorySlide): StoryTheme => {
   if (slide.type === "first-city" && slide.photo) {
     return "photo";
   }
-  return slide.type === "hard-pattern" || slide.type === "quiz"
+  return slide.type === "hard-pattern" ||
+    slide.type === "quiz" ||
+    slide.type === "share"
     ? "paper"
     : "night";
 };

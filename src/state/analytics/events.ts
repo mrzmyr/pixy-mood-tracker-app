@@ -294,6 +294,8 @@ export interface AnalyticsEvents {
     module: "people" | "tags" | "mix" | null;
     is_correct: boolean;
   };
+  /** Share card sent from the share sheet. Never the photos or lines. */
+  "recaps:story_shared": { has_photos: boolean; shuffles: number };
   /** Story closed by the user or after the last slide. */
   "recaps:story_closed": {
     position: number;

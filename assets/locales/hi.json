@@ -919,6 +919,18 @@
   "recaps_story_quiz_title_tags_most": "इस महीने आपने सबसे ज़्यादा क्या किया?",
   "recaps_story_quiz_truths_hint": "जो सच हैं, उन सब पर टैप करें।",
   "recaps_story_ready": "देखने के लिए तैयार",
+  "recaps_story_share": "साझा करें",
+  "recaps_story_share_check_ins": {
+    "one": "1 दिन चेक-इन",
+    "other": "{{count}} दिन चेक-इन"
+  },
+  "recaps_story_share_city": "%{city} में पहली बार",
+  "recaps_story_share_shuffle": "फ़ोटो बदलें",
+  "recaps_story_share_tag": {
+    "one": "%{tag}, 1 दिन",
+    "other": "%{tag}, {{count}} दिन"
+  },
+  "recaps_story_share_title": "मेरा %{month}",
   "recaps_story_vs_eyebrow": "%{month} बनाम %{previous}",
   "recaps_story_vs_text": "हर टैग वाले दिन, %{previous} के मुकाबले।",
   "recaps_story_vs_title": "इसका ज़्यादा, उसका कम",

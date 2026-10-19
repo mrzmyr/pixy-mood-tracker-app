@@ -919,6 +919,18 @@
   "recaps_story_quiz_title_tags_most": "Apa yang paling sering kamu lakukan bulan ini?",
   "recaps_story_quiz_truths_hint": "Ketuk semua yang benar.",
   "recaps_story_ready": "Siap ditonton",
+  "recaps_story_share": "Bagikan",
+  "recaps_story_share_check_ins": {
+    "one": "1 hari tercatat",
+    "other": "{{count}} hari tercatat"
+  },
+  "recaps_story_share_city": "Pertama kali di %{city}",
+  "recaps_story_share_shuffle": "Acak foto",
+  "recaps_story_share_tag": {
+    "one": "%{tag}, 1 hari",
+    "other": "%{tag}, {{count}} hari"
+  },
+  "recaps_story_share_title": "%{month}-ku",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Hari dengan tiap tag, vs %{previous}.",
   "recaps_story_vs_title": "Lebih banyak ini, lebih sedikit itu",

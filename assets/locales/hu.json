@@ -919,6 +919,18 @@
   "recaps_story_quiz_title_tags_most": "Mit csináltál a legtöbbet ebben a hónapban?",
   "recaps_story_quiz_truths_hint": "Koppints mindegyikre, ami igaz.",
   "recaps_story_ready": "Megnézhető",
+  "recaps_story_share": "Megosztás",
+  "recaps_story_share_check_ins": {
+    "one": "1 nap bejegyzéssel",
+    "other": "{{count}} nap bejegyzéssel"
+  },
+  "recaps_story_share_city": "Először itt: %{city}",
+  "recaps_story_share_shuffle": "Fotók keverése",
+  "recaps_story_share_tag": {
+    "one": "%{tag}, 1 nap",
+    "other": "%{tag}, {{count}} nap"
+  },
+  "recaps_story_share_title": "Az én %{month} hónapom",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Napok címkénként, vs. %{previous}.",
   "recaps_story_vs_title": "Ebből több, abból kevesebb",

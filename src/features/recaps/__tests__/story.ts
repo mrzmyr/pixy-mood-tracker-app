@@ -60,7 +60,11 @@ describe("month story", () => {
 
   test("starts with the cover and never pads", () => {
     const slides = story(month());
-    expect(slides?.map((item) => item.type)).toEqual(["cover", "coming-up"]);
+    expect(slides?.map((item) => item.type)).toEqual([
+      "cover",
+      "coming-up",
+      "share",
+    ]);
   });
 });
 
@@ -214,5 +218,42 @@ describe("coming up", () => {
     expect(
       slide(story(month(), { today: "2027-01-02" }), "coming-up")
     ).toBeUndefined();
+  });
+});
+
+describe("share card", () => {
+  test("shows 3 photos from 3 bright photo days", () => {
+    const items = month((index) =>
+      index < 3 ? { photos: [photo(`${index}`)] } : {}
+    );
+    expect(slide(story(items), "share")?.photos).toHaveLength(3);
+  });
+
+  test("shows the grid with fewer photos", () => {
+    const items = month((index) =>
+      index < 2 ? { photos: [photo(`${index}`)] } : {}
+    );
+    expect(slide(story(items), "share")?.photos).toEqual([]);
+  });
+
+  test("names the weekday habit and the next top tag", () => {
+    const items = month((index, date) => ({
+      tags: [
+        ...(index < 20 ? [{ id: walk.id }] : []),
+        ...(new Date(`${date}T12:00:00`).getDay() === 6
+          ? [{ id: swim.id }]
+          : []),
+      ],
+    }));
+    expect(slide(story(items), "share")?.facts).toEqual([
+      { kind: "weekday", tagId: swim.id, weekday: 6, hits: 4, total: 4 },
+      { kind: "tag", tagId: walk.id, days: 20 },
+    ]);
+  });
+
+  test("falls back to check-ins", () => {
+    expect(slide(story(month()), "share")?.facts).toEqual([
+      { kind: "check-ins", days: 30 },
+    ]);
   });
 });
