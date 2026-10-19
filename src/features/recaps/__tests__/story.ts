@@ -51,8 +51,11 @@ describe("month story", () => {
     expect(story(month().slice(0, 10))).not.toBeNull();
   });
 
-  test("waits until the month is over", () => {
-    expect(story(month(), { today: "2026-09-30" })).toBeNull();
+  test("opens during the month and for the 3 months after", () => {
+    expect(story(month(), { today: "2026-09-30" })).not.toBeNull();
+    expect(story(month(), { today: "2026-12-31" })).not.toBeNull();
+    expect(story(month(), { today: "2027-01-01" })).toBeNull();
+    expect(story(month(), { today: "2026-08-31" })).toBeNull();
   });
 
   test("starts with the cover and never pads", () => {

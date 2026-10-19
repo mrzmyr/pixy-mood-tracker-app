@@ -407,14 +407,24 @@ const comingUp = (input: RecapInput): ComingUpSlide | null => {
 };
 
 /**
+ * Months from the story month to today's month: 0 for the current month,
+ * negative for future months.
+ */
+const monthsSince = (start: DateKey, today: DateKey) =>
+  dayjs(today).startOf("month").diff(dayjs(start).startOf("month"), "month");
+
+/**
  * Month story slides in deck order. Each slot skips when its rule fails,
- * so the deck never pads. `null` for other periods, months that are not
- * over yet, and months with fewer than 10 check-in days.
+ * so the deck never pads. `null` for other periods, months outside the
+ * current month and the 3 before it, and months with fewer than 10
+ * check-in days. The current month gets a story from its 10th check-in.
  */
 export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
+  const age = monthsSince(input.period.start, input.today);
   if (
     input.period.kind !== "month" ||
-    input.today <= input.period.end ||
+    age < 0 ||
+    age > THRESHOLDS.storyMaxMonthsBack ||
     input.days.length < THRESHOLDS.storyMinCheckIns
   ) {
     return null;

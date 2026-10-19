@@ -87,6 +87,8 @@ export const THRESHOLDS = {
   trendMaxRows: 5,
   /** Month story: check-in days needed for a story. */
   storyMinCheckIns: 10,
+  /** Month story: months back from the current month that keep a story. */
+  storyMaxMonthsBack: 3,
   /** Story photos and bright days: rating at least this (good). */
   storyBrightMinRating: 4,
   /** Story harder days: rating at most this (bad), as in the day recap. */
