@@ -1,12 +1,30 @@
 import { Platform } from "react-native";
-import { defaultReminderScheduler } from "@/features/notifications";
+import * as Notifications from "expo-notifications";
 import { IS_LIVE_ACTIVITY_SUPPORTED } from "./live-activity/support";
+import { native } from "./notification/native-module";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useSettings } from "@/state/settings";
 
-/** iOS 26 Live Activity. */
-export const IS_QUICK_CHECK_IN_SUPPORTED = IS_LIVE_ACTIVITY_SUPPORTED;
+/** iOS 26 shows a Live Activity, Android an ongoing notification. */
+export const IS_QUICK_CHECK_IN_SUPPORTED =
+  IS_LIVE_ACTIVITY_SUPPORTED || native !== null;
+
+/**
+ * Notification permission for the check-in notification. Local
+ * notifications also work on emulators, so unlike reminders there is no
+ * device check.
+ */
+const notificationPermission = {
+  hasPermission: async () => {
+    const { status } = await Notifications.getPermissionsAsync();
+    return status === "granted";
+  },
+  requestPermission: async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    return status === "granted";
+  },
+};
 
 /**
  * Stored `quickCheckInEnabled` setting.
@@ -21,7 +39,7 @@ export const useQuickCheckInSetting = (
   permission: {
     hasPermission: () => Promise<boolean>;
     requestPermission: () => Promise<boolean>;
-  } = defaultReminderScheduler,
+  } = notificationPermission,
   platform: typeof Platform.OS = Platform.OS
 ) => {
   const { settings, setSettings } = useSettings();
