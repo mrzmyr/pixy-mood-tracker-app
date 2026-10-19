@@ -6,7 +6,7 @@ import {
   useCalendarFiltersSheet,
   useCalendarLayout,
 } from "@/features/calendar";
-import { ProfileHeaderButton, useHasProfileAvatar } from "@/features/profile";
+import { ProfileHeaderButton } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/feature-flags";
 
@@ -27,7 +27,7 @@ const ICONS =
 /**
  * Calendar header buttons: Statistics on the left; Filters and Settings
  * (cog icon) on the right. With the `profile` flag, the user's avatar
- * replaces the cog: photo, initials, or a gray silhouette. With the `calendar-timeline` or `calendar-map`
+ * replaces the cog: photo, initials, or a gray silhouette, inside the glass. With the `calendar-timeline` or `calendar-map`
  * flag on, Filters is a menu: it opens the filter sheet and holds the layout
  * picker (Calendar, Timeline, Map). With both flags off, Filters opens the
  * sheet.
@@ -46,7 +46,6 @@ export const CalendarHeaderButtons = () => {
   const filtersSheet = useCalendarFiltersSheet();
   const calendarLayout = useCalendarLayout();
   const isProfileEnabled = useFeatureFlag("profile");
-  const hasProfileAvatar = useHasProfileAvatar();
   const openSettings = () => router.navigate("/settings");
 
   return (
@@ -103,11 +102,7 @@ export const CalendarHeaderButtons = () => {
         {/* Direct child only: Stack.Toolbar drops Fragments. Filters sets
             `separateBackground`, so the avatar gets its own glass circle. */}
         {isProfileEnabled ? (
-          // Remount on change: native items ignore later prop updates.
-          <Stack.Toolbar.View
-            key={hasProfileAvatar ? "avatar" : "silhouette"}
-            hidesSharedBackground={hasProfileAvatar}
-          >
+          <Stack.Toolbar.View>
             <ProfileHeaderButton onPress={openSettings} />
           </Stack.Toolbar.View>
         ) : (
