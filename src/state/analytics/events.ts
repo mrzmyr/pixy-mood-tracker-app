@@ -131,7 +131,7 @@ export interface AnalyticsEvents {
     entry_days_ago: number;
   };
   "photos:day_access_prompt_dismissed": { mode: "create" | "edit" };
-  /** `source`: the permission card or the "Show Photos from …" button after "Not Now". */
+  /** `source`: the permission card or the "Allow Photo Access" button after "Not Now". */
   "photos:day_access_answered": {
     status: "granted" | "limited" | "denied";
     source: "card" | "button";
