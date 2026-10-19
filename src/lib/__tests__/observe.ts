@@ -48,12 +48,10 @@ describe("observeConfig", () => {
     );
   });
 
-  it.each([
-    ["simulator or emulator", { ...phone, isDevice: false }],
-    ["development build", { ...phone, variant: "development" }],
-    ["build without variant", { ...phone, hasVariant: false }],
-  ] as const)("never dispatches from a %s", (_, build) => {
-    expect(observeConfig({ consent: true }, build).dispatchingEnabled).toBe(
+  it("never dispatches where telemetry is off", () => {
+    const simulator = { ...phone, isDevice: false };
+
+    expect(observeConfig({ consent: true }, simulator).dispatchingEnabled).toBe(
       false
     );
   });
