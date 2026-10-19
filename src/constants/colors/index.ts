@@ -251,10 +251,6 @@ const light = {
   bezelInnerBorder: colors.neutral[200],
   bezelShadow: "0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.035)",
 
-  tooltipBackground: "rgba(0, 0, 0, 0.8)",
-  tooltipText: colors.white,
-  tooltipTextSecondary: colors.neutral[400],
-
   feedbackBoxBackground: colors.amber[50],
 
   promoCardBackground: colors.white,
@@ -490,10 +486,6 @@ const dark: IColors & {
   bezelShadow: "0 1px 2px rgba(0,0,0,0.5)",
 
   feedbackBoxBackground: colors.neutral[900],
-
-  tooltipBackground: "rgba(0, 0, 0, 0.8)",
-  tooltipText: colors.white,
-  tooltipTextSecondary: colors.neutral[400],
 
   promoCardBackground: colors.neutral[900],
   promoCardText: colors.white,

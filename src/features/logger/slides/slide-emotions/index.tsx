@@ -19,7 +19,6 @@ import { EmotionAdvancedSelection } from "./emotion-advanced-selection";
 import { EmotionBasicGradients } from "./emotion-basic-gradients";
 import { EmotionBasicSelection } from "./emotion-basic-selection";
 import { ExpandButton } from "./expand-button";
-import { Tooltip } from "./tooltip";
 import { useAnalytics } from "@/state/analytics";
 import { RequestEmotionSheet } from "@/features/feedback";
 import FlagHighlight from "@/components/flag-highlight";
@@ -104,14 +103,8 @@ export const SlideEmotions = ({
   const [selectedEmotions, setSelectedEmotions] = useState<Emotion[]>(() =>
     EMOTIONS.filter((d) => draft.emotions.includes(d.key))
   );
-  const [showTooltip, setShowTooltip] = useState(false);
 
   const _setSelectedEmotions = (emotions: Emotion[]) => {
-    if (selectedEmotions.length < emotions.length) {
-      setShowTooltip(true);
-    } else {
-      setShowTooltip(false);
-    }
     setSelectedEmotions(emotions);
     setEmotions(emotions.map((emotion) => emotion.key));
   };
@@ -162,7 +155,6 @@ export const SlideEmotions = ({
     setMode(nextMode);
     onModeChange(nextMode);
 
-    setShowTooltip(false);
     setInitialSelectedEmotions(selectedEmotions);
   };
 
@@ -253,15 +245,6 @@ export const SlideEmotions = ({
                 <EmotionAdvancedGradients />
               )}
             </>
-          )}
-          {showTooltip && (
-            <Tooltip
-              emotion={selectedEmotions.at(-1)}
-              onClose={() => {
-                analytics.track("logger:emotions_tooltip_closed");
-                setShowTooltip(false);
-              }}
-            />
           )}
         </View>
         <RequestEmotionSheet
