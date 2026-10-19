@@ -146,18 +146,12 @@ export const SettingsScreen = () => {
               : undefined
           }
         >
+          {isProfileEnabled && (
+            <FieldGroup.Section>
+              <ProfileRow />
+            </FieldGroup.Section>
+          )}
           <FieldGroup.Section>
-            {isProfileEnabled && (
-              <FieldGroup.SectionHeader>
-                <RNHostView matchContents>
-                  <View style={{ width: windowWidth - 2 * SECTION_INSET }}>
-                    <FlagHighlight flag="profile">
-                      <ProfileRow />
-                    </FlagHighlight>
-                  </View>
-                </RNHostView>
-              </FieldGroup.SectionHeader>
-            )}
             <FieldRow
               title={t("data")}
               icon={SETTINGS_ICONS.data}

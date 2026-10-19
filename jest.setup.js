@@ -155,7 +155,14 @@ jest.mock("@expo/ui", () => {
       ) : (
         <View testID={testID}>{children}</View>
       ),
-    ListItem: ({ children, leading, trailing, onPress, testID }) => (
+    ListItem: ({
+      children,
+      leading,
+      trailing,
+      supportingText,
+      onPress,
+      testID,
+    }) => (
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={isValidElement(children) ? undefined : children}
@@ -164,6 +171,7 @@ jest.mock("@expo/ui", () => {
       >
         {mockExpoUiText(leading)}
         {mockExpoUiText(children)}
+        {mockExpoUiText(supportingText)}
         {mockExpoUiText(trailing)}
       </Pressable>
     ),
