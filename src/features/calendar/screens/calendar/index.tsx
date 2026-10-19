@@ -11,6 +11,7 @@ import { useCalendarLayout } from "../../calendar-layout";
 import useColors from "@/hooks/use-colors";
 import { useToday } from "@/hooks/use-today";
 import { ForYouToday } from "@/features/interventions";
+import { CalendarStoryCard } from "@/features/recaps";
 import { useLogLoad, useLogState } from "@/features/logs";
 import { useSettingsLoad } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
@@ -103,6 +104,7 @@ const CalendarScreenComponent = () => {
               footerHeight.current = event.nativeEvent.layout.height;
             }}
           >
+            <CalendarStoryCard />
             <ForYouToday />
             <View style={{ paddingBottom: 32 }}>
               <PromoCards />

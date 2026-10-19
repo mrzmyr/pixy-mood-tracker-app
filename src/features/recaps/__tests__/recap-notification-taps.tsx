@@ -79,6 +79,14 @@ const RecapRoute = () => {
   return <Text testID="recap-route">{`${kind} ${date}`}</Text>;
 };
 
+const StoryRoute = () => {
+  const { date, source } = useLocalSearchParams<{
+    date: string;
+    source: string;
+  }>();
+  return <Text testID="story-route">{`story ${date} ${source}`}</Text>;
+};
+
 const renderApp = async ({
   source,
   recaps,
@@ -103,6 +111,7 @@ const renderApp = async ({
       ),
       index: () => <Text testID="home">Home</Text>,
       "recaps/[kind]/[date]": RecapRoute,
+      "recaps/story/[date]": StoryRoute,
     },
     { initialUrl: "/" }
   );
@@ -123,15 +132,15 @@ describe("useRecapNotificationTaps()", () => {
     );
   });
 
-  test("opens the recap of the tapped period", async () => {
+  test("opens the month story from a month recap", async () => {
     const { source, tap } = createSource();
     const screen = await renderApp({ source, recaps: true });
 
     await tap(createResponse());
 
     await waitFor(() =>
-      expect(screen.getByTestId("recap-route").props.children).toBe(
-        "month 2026-09-30"
+      expect(screen.getByTestId("story-route").props.children).toBe(
+        "story 2026-09-30 notification"
       )
     );
     expect(tappedCalls()).toHaveLength(1);
@@ -162,8 +171,8 @@ describe("useRecapNotificationTaps()", () => {
 
     // The real route redirects to Settings while the flag is off.
     await waitFor(() =>
-      expect(screen.getByTestId("recap-route").props.children).toBe(
-        "month 2026-09-30"
+      expect(screen.getByTestId("story-route").props.children).toBe(
+        "story 2026-09-30 notification"
       )
     );
   });
@@ -173,7 +182,7 @@ describe("useRecapNotificationTaps()", () => {
     const screen = await renderApp({ source, recaps: true });
 
     await tap(createResponse());
-    await waitFor(() => screen.getByTestId("recap-route"));
+    await waitFor(() => screen.getByTestId("story-route"));
     await tap({
       ...createResponse(),
       notification: { ...createResponse().notification, date: Date.now() + 1 },
@@ -194,6 +203,7 @@ describe("useRecapNotificationTaps()", () => {
     await tap(createResponse({ data: { kind: "reminder" } }));
 
     expect(screen.queryByTestId("recap-route")).toBeNull();
+    expect(screen.queryByTestId("story-route")).toBeNull();
     expect(tappedCalls()).toHaveLength(0);
   });
 });
