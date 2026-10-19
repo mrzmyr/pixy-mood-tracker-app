@@ -803,6 +803,7 @@
   "people_photo_use_contact": "Use Contact Photo",
   "people_reached_max": "You reached the maximum of {{max_count}} people. Delete some to add new ones.",
   "people_slide_empty": "Add the people in your life to see how your mood relates to them.",
+  "people_unarchive": "Unarchive",
   "photos_access_off_body": "To see photos from {{day}} here, allow photo access in Settings. You can still pick photos from your library.",
   "photos_access_off_title": "Photo Access Is Off",
   "photos_add": "Add Photo",

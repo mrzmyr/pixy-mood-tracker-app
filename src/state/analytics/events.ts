@@ -321,6 +321,10 @@ export interface AnalyticsEvents {
   "people:delete_requested": { entries_count: number };
   "people:person_deleted": { entries_count: number };
   "people:delete_cancelled": undefined;
+  "people:people_reordered": {
+    people_count: number;
+    method: "drag" | "accessibility_action";
+  };
 
   /** Name length only; the name itself never leaves the device. */
   "profile:profile_saved": {

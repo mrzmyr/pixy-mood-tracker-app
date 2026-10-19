@@ -708,6 +708,7 @@
   "people_photo_use_contact": "استخدام صورة جهة الاتصال",
   "people_reached_max": "وصلت إلى الحد الأقصى وهو {{max_count}} شخصًا. احذف بعضهم لإضافة أشخاص جدد.",
   "people_slide_empty": "أضف الأشخاص في حياتك لترى كيف يرتبط مزاجك بهم.",
+  "people_unarchive": "إلغاء الأرشفة",
   "photos_pick_select": "تحديد",
   "photos_pick_unselect": "إلغاء التحديد",
   "privacy": "خصوصية",
