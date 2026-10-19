@@ -6,7 +6,10 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { DEV_TOOLS } from "@/dev";
 import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
-import { QuickCheckInActivitySync } from "@/features/quickcheckin";
+import {
+  QuickCheckInActivitySync,
+  QuickCheckInNotificationSync,
+} from "@/features/quickcheckin";
 import { WidgetSync } from "@/features/widget";
 import { LoggerRecoveryPrompt } from "@/features/logger";
 import {
@@ -114,6 +117,7 @@ const AppLayout = () => {
       <WidgetSync />
       <LoggerRecoveryPrompt />
       <QuickCheckInActivitySync />
+      <QuickCheckInNotificationSync />
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
