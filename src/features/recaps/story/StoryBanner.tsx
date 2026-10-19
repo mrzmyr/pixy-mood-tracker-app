@@ -1,30 +1,21 @@
-import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import Play from "lucide-react-native/icons/play";
+import { Headline, Secondary } from "@/components/Type";
 import { RADIUS } from "@/constants/Radius";
+import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import { useSettings } from "@/state/settings";
 import type { StorySource } from "@/state/analytics/events";
+import { addDays, daysBetween } from "../days";
 import type { Period, RecapDay } from "../types";
 import { monthName } from "./format";
 import { useDayColors } from "./parts";
-import { STORY_MAX_FONT_SCALE } from "./theme";
-
-/** Gradient stops: the month's day colors in order, at most 4. */
-const sample = (colors: string[], count = 4) => {
-  if (colors.length <= count) {
-    return colors;
-  }
-  return Array.from(
-    { length: count },
-    (_, index) =>
-      colors[Math.round((index * (colors.length - 1)) / (count - 1))] ??
-      colors[0]
-  );
-};
 
 /**
- * "New / September Recap / Watch" on the month's own mood gradient. Opens
- * the month story full screen.
+ * "September Recap / Ready to watch" on the recap card look. Story progress
+ * bars on top, one per day in its mood color. Opens the month story full
+ * screen.
  */
 export const StoryBanner = ({
   period,
@@ -36,21 +27,21 @@ export const StoryBanner = ({
   source: StorySource;
 }) => {
   const router = useRouter();
+  const colors = useColors();
+  const { settings } = useSettings();
   const dayColors = useDayColors(days);
-  const stops = sample([...dayColors.values()]);
-  const [first = "#34D399", second = first] = stops;
-  const gradient: [string, string, ...string[]] = [
-    first,
-    second,
-    ...stops.slice(2),
-  ];
+  const empty = colors.scales[settings.scaleType].empty.background;
+  const dates = Array.from(
+    { length: daysBetween(period.start, period.end) + 1 },
+    (_, index) => addDays(period.start, index)
+  );
   const title = t("recaps_story_banner_title", {
     month: monthName(period.start),
   });
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`${title}, ${t("recaps_story_watch")}`}
+      accessibilityLabel={`${title}, ${t("recaps_story_ready")}`}
       onPress={() =>
         router.push({
           pathname: "/recaps/story/[date]",
@@ -58,63 +49,53 @@ export const StoryBanner = ({
         })
       }
       testID="recap-story-banner"
-      style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
+      style={({ pressed }) => ({
+        padding: 16,
+        gap: 16,
+        borderRadius: RADIUS.md,
+        borderWidth: 1,
+        borderColor: colors.recapCardBorder,
+        backgroundColor: colors.cardBackground,
+        boxShadow: colors.recapCardShadow,
+        opacity: pressed ? 0.7 : 1,
+      })}
     >
-      <LinearGradient
-        colors={gradient}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={{
-          borderRadius: RADIUS.lg,
-          padding: 18,
-          minHeight: 132,
-          justifyContent: "space-between",
-        }}
-      >
-        <View style={{ gap: 2 }}>
-          <Text
-            maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
+      <View style={{ flexDirection: "row", gap: 2, height: 4 }}>
+        {dates.map((date) => (
+          <View
+            key={date}
             style={{
-              fontSize: 12,
-              fontWeight: "700",
-              letterSpacing: 1,
-              textTransform: "uppercase",
-              color: "rgba(10,10,10,0.7)",
+              flex: 1,
+              borderRadius: 2,
+              backgroundColor: dayColors.get(date) ?? empty,
             }}
-          >
-            {t("recaps_story_new")}
-          </Text>
-          <Text
-            maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
-            style={{
-              fontSize: 26,
-              lineHeight: 30,
-              fontWeight: "800",
-              letterSpacing: -0.5,
-              color: "#0A0A0A",
-            }}
-          >
-            {title}
-          </Text>
+          />
+        ))}
+      </View>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+        <View style={{ flex: 1 }}>
+          <Headline>{title}</Headline>
+          <Secondary>{t("recaps_story_ready")}</Secondary>
         </View>
         <View
           style={{
-            alignSelf: "flex-start",
-            marginTop: 12,
-            paddingHorizontal: 16,
-            paddingVertical: 8,
+            width: 36,
+            height: 36,
             borderRadius: RADIUS.full,
-            backgroundColor: "#0A0A0A",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: colors.text,
           }}
         >
-          <Text
-            maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
-            style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 14 }}
-          >
-            {t("recaps_story_watch")}
-          </Text>
+          <Play
+            width={14}
+            height={14}
+            color={colors.cardBackground}
+            fill={colors.cardBackground}
+            style={{ marginLeft: 2 }}
+          />
         </View>
-      </LinearGradient>
+      </View>
     </Pressable>
   );
 };

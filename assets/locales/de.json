@@ -854,7 +854,6 @@
     "one": "%{month} in 1 Moment",
     "other": "%{month} in {{count}} Momenten"
   },
-  "recaps_story_new": "Neu",
   "recaps_story_next": "Nächste Folie",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
@@ -866,10 +865,10 @@
   "recaps_story_people_title": "Mit wem du am meisten in Kontakt warst",
   "recaps_story_play": "Abspielen",
   "recaps_story_previous": "Vorherige Folie",
+  "recaps_story_ready": "Bereit zum Ansehen",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Tage mit den einzelnen Tags, vs. %{previous}.",
   "recaps_story_vs_title": "Mehr hiervon, weniger davon",
-  "recaps_story_watch": "Ansehen",
   "recaps_story_weekday_eyebrow": "Eine Gewohnheit entsteht",
   "recaps_story_weekday_previous": "Im %{month}: %{hits} von %{total}.",
   "recaps_story_weekday_text": "%{hits} von %{total} Wochen.",

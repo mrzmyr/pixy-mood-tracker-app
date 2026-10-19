@@ -855,7 +855,6 @@
     "one": "%{month} trong 1 khoảnh khắc",
     "other": "%{month} trong {{count}} khoảnh khắc"
   },
-  "recaps_story_new": "Mới",
   "recaps_story_next": "Trang tiếp",
   "recaps_story_pause": "Tạm dừng",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "Những người bạn kết nối nhiều nhất",
   "recaps_story_play": "Phát",
   "recaps_story_previous": "Trang trước",
+  "recaps_story_ready": "Sẵn sàng để xem",
   "recaps_story_vs_eyebrow": "%{month} so với %{previous}",
   "recaps_story_vs_text": "Số ngày có mỗi thẻ, so với %{previous}.",
   "recaps_story_vs_title": "Nhiều điều này hơn, ít điều kia hơn",
-  "recaps_story_watch": "Xem",
   "recaps_story_weekday_eyebrow": "Một thói quen hình thành",
   "recaps_story_weekday_previous": "Trong %{month}: %{hits}/%{total}.",
   "recaps_story_weekday_text": "%{hits}/%{total} tuần.",

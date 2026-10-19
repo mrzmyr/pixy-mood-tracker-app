@@ -855,7 +855,6 @@
     "one": "%{month} σε 1 στιγμή",
     "other": "%{month} σε {{count}} στιγμές"
   },
-  "recaps_story_new": "Νέο",
   "recaps_story_next": "Επόμενη διαφάνεια",
   "recaps_story_pause": "Παύση",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "Με ποιους ήσουν περισσότερο σε επαφή",
   "recaps_story_play": "Αναπαραγωγή",
   "recaps_story_previous": "Προηγούμενη διαφάνεια",
+  "recaps_story_ready": "Έτοιμο για προβολή",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Μέρες με κάθε ετικέτα, vs %{previous}.",
   "recaps_story_vs_title": "Περισσότερο αυτό, λιγότερο εκείνο",
-  "recaps_story_watch": "Δες το",
   "recaps_story_weekday_eyebrow": "Μια συνήθεια γεννιέται",
   "recaps_story_weekday_previous": "%{month}: %{hits} από %{total}.",
   "recaps_story_weekday_text": "%{hits} από %{total} εβδομάδες.",

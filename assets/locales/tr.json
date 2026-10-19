@@ -855,7 +855,6 @@
     "one": "1 anda %{month}",
     "other": "{{count}} anda %{month}"
   },
-  "recaps_story_new": "Yeni",
   "recaps_story_next": "Sonraki slayt",
   "recaps_story_pause": "Duraklat",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "En çok bağlantıda olduğun kişiler",
   "recaps_story_play": "Oynat",
   "recaps_story_previous": "Önceki slayt",
+  "recaps_story_ready": "İzlemeye hazır",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Her etiketin gün sayısı, %{previous} ile kıyasla.",
   "recaps_story_vs_title": "Bundan daha çok, ondan daha az",
-  "recaps_story_watch": "İzle",
   "recaps_story_weekday_eyebrow": "Bir alışkanlık oluştu",
   "recaps_story_weekday_previous": "%{month}: %{hits}/%{total}.",
   "recaps_story_weekday_text": "%{total} haftanın %{hits} tanesi.",

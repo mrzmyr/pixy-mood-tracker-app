@@ -855,7 +855,6 @@
     "one": "%{month} i 1 øjeblik",
     "other": "%{month} i {{count}} øjeblikke"
   },
-  "recaps_story_new": "Nyt",
   "recaps_story_next": "Næste slide",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "Dem, du var mest i kontakt med",
   "recaps_story_play": "Afspil",
   "recaps_story_previous": "Forrige slide",
+  "recaps_story_ready": "Klar til at se",
   "recaps_story_vs_eyebrow": "%{month} mod %{previous}",
   "recaps_story_vs_text": "Dage med hvert tag, mod %{previous}.",
   "recaps_story_vs_title": "Mere af det her, mindre af det der",
-  "recaps_story_watch": "Se",
   "recaps_story_weekday_eyebrow": "En vane tager form",
   "recaps_story_weekday_previous": "I %{month}: %{hits} af %{total}.",
   "recaps_story_weekday_text": "%{hits} af %{total} uger.",

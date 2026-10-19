@@ -855,7 +855,6 @@
     "one": "%{month} في لحظة واحدة",
     "other": "%{month} في لحظات: {{count}}"
   },
-  "recaps_story_new": "جديد",
   "recaps_story_next": "الشريحة التالية",
   "recaps_story_pause": "إيقاف مؤقت",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "أكثر من تواصلت معهم",
   "recaps_story_play": "تشغيل",
   "recaps_story_previous": "الشريحة السابقة",
+  "recaps_story_ready": "جاهز للمشاهدة",
   "recaps_story_vs_eyebrow": "%{month} مقابل %{previous}",
   "recaps_story_vs_text": "أيام كل وسم، مقابل %{previous}.",
   "recaps_story_vs_title": "أكثر من هذا، أقل من ذاك",
-  "recaps_story_watch": "شاهد",
   "recaps_story_weekday_eyebrow": "عادة تتشكّل",
   "recaps_story_weekday_previous": "في %{month}: %{hits} من %{total}.",
   "recaps_story_weekday_text": "الأسابيع: %{hits} من %{total}.",

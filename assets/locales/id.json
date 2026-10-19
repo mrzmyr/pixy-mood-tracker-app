@@ -855,7 +855,6 @@
     "one": "%{month} dalam 1 momen",
     "other": "%{month} dalam {{count}} momen"
   },
-  "recaps_story_new": "Baru",
   "recaps_story_next": "Slide berikutnya",
   "recaps_story_pause": "Jeda",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "Orang yang paling sering terhubung denganmu",
   "recaps_story_play": "Putar",
   "recaps_story_previous": "Slide sebelumnya",
+  "recaps_story_ready": "Siap ditonton",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Hari dengan tiap tag, vs %{previous}.",
   "recaps_story_vs_title": "Lebih banyak ini, lebih sedikit itu",
-  "recaps_story_watch": "Tonton",
   "recaps_story_weekday_eyebrow": "Kebiasaan terbentuk",
   "recaps_story_weekday_previous": "Di %{month}: %{hits} dari %{total}.",
   "recaps_story_weekday_text": "%{hits} dari %{total} minggu.",

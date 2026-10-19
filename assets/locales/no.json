@@ -855,7 +855,6 @@
     "one": "%{month} i 1 øyeblikk",
     "other": "%{month} i {{count}} øyeblikk"
   },
-  "recaps_story_new": "Nytt",
   "recaps_story_next": "Neste side",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "De du var mest i kontakt med",
   "recaps_story_play": "Spill av",
   "recaps_story_previous": "Forrige side",
+  "recaps_story_ready": "Klar til å se",
   "recaps_story_vs_eyebrow": "%{month} mot %{previous}",
   "recaps_story_vs_text": "Dager med hver tagg, mot %{previous}.",
   "recaps_story_vs_title": "Mer av dette, mindre av det",
-  "recaps_story_watch": "Se",
   "recaps_story_weekday_eyebrow": "En vane tar form",
   "recaps_story_weekday_previous": "I %{month}: %{hits} av %{total}.",
   "recaps_story_weekday_text": "%{hits} av %{total} uker.",

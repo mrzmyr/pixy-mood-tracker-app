@@ -855,7 +855,6 @@
     "one": "%{month} в 1 моменті",
     "other": "%{month}, моментів: {{count}}"
   },
-  "recaps_story_new": "Нове",
   "recaps_story_next": "Наступний слайд",
   "recaps_story_pause": "Пауза",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "З ким Ви найчастіше були на зв’язку",
   "recaps_story_play": "Відтворити",
   "recaps_story_previous": "Попередній слайд",
+  "recaps_story_ready": "Можна переглянути",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Дні з кожним тегом, vs %{previous}.",
   "recaps_story_vs_title": "Більше цього, менше того",
-  "recaps_story_watch": "Дивитися",
   "recaps_story_weekday_eyebrow": "Формується звичка",
   "recaps_story_weekday_previous": "%{month}: %{hits} з %{total}.",
   "recaps_story_weekday_text": "Тижнів: %{hits} з %{total}.",

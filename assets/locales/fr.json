@@ -856,7 +856,6 @@
     "one": "%{month} en 1 moment",
     "other": "%{month} en {{count}} moments"
   },
-  "recaps_story_new": "Nouveau",
   "recaps_story_next": "Diapositive suivante",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
@@ -868,10 +867,10 @@
   "recaps_story_people_title": "Les personnes avec qui vous étiez le plus en lien",
   "recaps_story_play": "Lecture",
   "recaps_story_previous": "Diapositive précédente",
+  "recaps_story_ready": "Prêt à regarder",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Jours avec chaque tag, vs %{previous}.",
   "recaps_story_vs_title": "Plus de ceci, moins de cela",
-  "recaps_story_watch": "Regarder",
   "recaps_story_weekday_eyebrow": "Une habitude prend forme",
   "recaps_story_weekday_previous": "En %{month} : %{hits} sur %{total}.",
   "recaps_story_weekday_text": "%{hits} semaines sur %{total}.",

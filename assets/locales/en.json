@@ -985,7 +985,6 @@
     "one": "%{month} in 1 moment",
     "other": "%{month} in {{count}} moments"
   },
-  "recaps_story_new": "New",
   "recaps_story_next": "Next slide",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
@@ -997,10 +996,10 @@
   "recaps_story_people_title": "Your most connected people",
   "recaps_story_play": "Play",
   "recaps_story_previous": "Previous slide",
+  "recaps_story_ready": "Ready to watch",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Days with each tag, vs %{previous}.",
   "recaps_story_vs_title": "More of this, less of that",
-  "recaps_story_watch": "Watch",
   "recaps_story_weekday_eyebrow": "A habit formed",
   "recaps_story_weekday_previous": "In %{month}: %{hits} of %{total}.",
   "recaps_story_weekday_text": "%{hits} of %{total} weeks.",

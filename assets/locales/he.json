@@ -855,7 +855,6 @@
     "one": "%{month} ברגע 1",
     "other": "%{month} ב־{{count}} רגעים"
   },
-  "recaps_story_new": "חדש",
   "recaps_story_next": "השקופית הבאה",
   "recaps_story_pause": "השהיה",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "האנשים שהיית איתם הכי הרבה בקשר",
   "recaps_story_play": "הפעלה",
   "recaps_story_previous": "השקופית הקודמת",
+  "recaps_story_ready": "מוכן לצפייה",
   "recaps_story_vs_eyebrow": "%{month} מול %{previous}",
   "recaps_story_vs_text": "ימים עם כל תגית, מול %{previous}.",
   "recaps_story_vs_title": "יותר מזה, פחות מזה",
-  "recaps_story_watch": "לצפייה",
   "recaps_story_weekday_eyebrow": "נוצר הרגל",
   "recaps_story_weekday_previous": "ב%{month}: %{hits} מתוך %{total}.",
   "recaps_story_weekday_text": "%{hits} מתוך %{total} שבועות.",

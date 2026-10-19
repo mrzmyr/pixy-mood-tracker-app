@@ -855,7 +855,6 @@
     "one": "1개의 순간으로 본 %{month}",
     "other": "{{count}}개의 순간으로 본 %{month}"
   },
-  "recaps_story_new": "신규",
   "recaps_story_next": "다음 슬라이드",
   "recaps_story_pause": "일시정지",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "가장 많이 연결된 사람",
   "recaps_story_play": "재생",
   "recaps_story_previous": "이전 슬라이드",
+  "recaps_story_ready": "지금 볼 수 있어요",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "태그별 일수, %{previous} 대비.",
   "recaps_story_vs_title": "늘어난 것, 줄어든 것",
-  "recaps_story_watch": "보기",
   "recaps_story_weekday_eyebrow": "습관이 생겼어요",
   "recaps_story_weekday_previous": "%{month}: %{total}주 중 %{hits}주.",
   "recaps_story_weekday_text": "%{total}주 중 %{hits}주.",

@@ -855,7 +855,6 @@
     "one": "1 पल में %{month}",
     "other": "{{count}} पलों में %{month}"
   },
-  "recaps_story_new": "नया",
   "recaps_story_next": "अगली स्लाइड",
   "recaps_story_pause": "रोकें",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "जिनसे आप सबसे ज़्यादा जुड़े",
   "recaps_story_play": "चलाएँ",
   "recaps_story_previous": "पिछली स्लाइड",
+  "recaps_story_ready": "देखने के लिए तैयार",
   "recaps_story_vs_eyebrow": "%{month} बनाम %{previous}",
   "recaps_story_vs_text": "हर टैग वाले दिन, %{previous} के मुकाबले।",
   "recaps_story_vs_title": "इसका ज़्यादा, उसका कम",
-  "recaps_story_watch": "देखें",
   "recaps_story_weekday_eyebrow": "एक आदत बनी",
   "recaps_story_weekday_previous": "%{month} में: %{total} में से %{hits}।",
   "recaps_story_weekday_text": "%{total} में से %{hits} हफ़्ते।",

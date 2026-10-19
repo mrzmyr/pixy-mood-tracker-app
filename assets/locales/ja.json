@@ -855,7 +855,6 @@
     "one": "1つの瞬間でたどる%{month}",
     "other": "{{count}}の瞬間でたどる%{month}"
   },
-  "recaps_story_new": "新着",
   "recaps_story_next": "次のスライド",
   "recaps_story_pause": "一時停止",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "いちばんつながった人たち",
   "recaps_story_play": "再生",
   "recaps_story_previous": "前のスライド",
+  "recaps_story_ready": "視聴できます",
   "recaps_story_vs_eyebrow": "%{month}と%{previous}",
   "recaps_story_vs_text": "タグごとの日数（%{previous}との比較）。",
   "recaps_story_vs_title": "増えたもの、減ったもの",
-  "recaps_story_watch": "見る",
   "recaps_story_weekday_eyebrow": "習慣になりました",
   "recaps_story_weekday_previous": "%{month}：%{total}週中%{hits}週。",
   "recaps_story_weekday_text": "%{total}週中%{hits}週。",

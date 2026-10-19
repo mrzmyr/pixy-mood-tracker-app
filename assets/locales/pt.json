@@ -855,7 +855,6 @@
     "one": "%{month} em 1 momento",
     "other": "%{month} em {{count}} momentos"
   },
-  "recaps_story_new": "Novo",
   "recaps_story_next": "Próximo slide",
   "recaps_story_pause": "Pausar",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "As pessoas com quem você mais se conectou",
   "recaps_story_play": "Reproduzir",
   "recaps_story_previous": "Slide anterior",
+  "recaps_story_ready": "Pronto para assistir",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Dias com cada tag, vs. %{previous}.",
   "recaps_story_vs_title": "Mais disso, menos daquilo",
-  "recaps_story_watch": "Assistir",
   "recaps_story_weekday_eyebrow": "Um hábito se formou",
   "recaps_story_weekday_previous": "Em %{month}: %{hits} de %{total}.",
   "recaps_story_weekday_text": "%{hits} de %{total} semanas.",

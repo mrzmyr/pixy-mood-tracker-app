@@ -855,7 +855,6 @@
     "one": "%{month}的 1 个瞬间",
     "other": "%{month}的 {{count}} 个瞬间"
   },
-  "recaps_story_new": "新",
   "recaps_story_next": "下一页",
   "recaps_story_pause": "暂停",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "与你联系最多的人",
   "recaps_story_play": "播放",
   "recaps_story_previous": "上一页",
+  "recaps_story_ready": "可以观看了",
   "recaps_story_vs_eyebrow": "%{month} 对比 %{previous}",
   "recaps_story_vs_text": "每个标签的天数，对比%{previous}。",
   "recaps_story_vs_title": "多了这些，少了那些",
-  "recaps_story_watch": "观看",
   "recaps_story_weekday_eyebrow": "养成了一个习惯",
   "recaps_story_weekday_previous": "%{month}：%{total} 周中有 %{hits} 周。",
   "recaps_story_weekday_text": "%{total} 周中有 %{hits} 周。",

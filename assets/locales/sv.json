@@ -855,7 +855,6 @@
     "one": "%{month} i 1 ögonblick",
     "other": "%{month} i {{count}} ögonblick"
   },
-  "recaps_story_new": "Nytt",
   "recaps_story_next": "Nästa bild",
   "recaps_story_pause": "Pausa",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "Dem du hade mest kontakt med",
   "recaps_story_play": "Spela upp",
   "recaps_story_previous": "Föregående bild",
+  "recaps_story_ready": "Redo att titta",
   "recaps_story_vs_eyebrow": "%{month} mot %{previous}",
   "recaps_story_vs_text": "Dagar med varje tagg, mot %{previous}.",
   "recaps_story_vs_title": "Mer av det här, mindre av det där",
-  "recaps_story_watch": "Titta",
   "recaps_story_weekday_eyebrow": "En vana tar form",
   "recaps_story_weekday_previous": "I %{month}: %{hits} av %{total}.",
   "recaps_story_weekday_text": "%{hits} av %{total} veckor.",

@@ -855,7 +855,6 @@
     "one": "%{month} in 1 moment",
     "other": "%{month} in {{count}} momenten"
   },
-  "recaps_story_new": "Nieuw",
   "recaps_story_next": "Volgende dia",
   "recaps_story_pause": "Pauze",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "Met wie je het meest contact had",
   "recaps_story_play": "Afspelen",
   "recaps_story_previous": "Vorige dia",
+  "recaps_story_ready": "Klaar om te bekijken",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Dagen met elke tag, vs %{previous}.",
   "recaps_story_vs_title": "Meer hiervan, minder daarvan",
-  "recaps_story_watch": "Bekijken",
   "recaps_story_weekday_eyebrow": "Een gewoonte ontstaat",
   "recaps_story_weekday_previous": "In %{month}: %{hits} van %{total}.",
   "recaps_story_weekday_text": "%{hits} van %{total} weken.",

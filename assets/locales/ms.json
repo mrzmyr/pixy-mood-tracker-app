@@ -855,7 +855,6 @@
     "one": "%{month} dalam 1 momen",
     "other": "%{month} dalam {{count}} momen"
   },
-  "recaps_story_new": "Baharu",
   "recaps_story_next": "Slaid seterusnya",
   "recaps_story_pause": "Jeda",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "Orang yang paling kerap berhubung dengan anda",
   "recaps_story_play": "Main",
   "recaps_story_previous": "Slaid sebelumnya",
+  "recaps_story_ready": "Sedia untuk ditonton",
   "recaps_story_vs_eyebrow": "%{month} lwn %{previous}",
   "recaps_story_vs_text": "Hari dengan setiap tag, lwn %{previous}.",
   "recaps_story_vs_title": "Lebih ini, kurang itu",
-  "recaps_story_watch": "Tonton",
   "recaps_story_weekday_eyebrow": "Tabiat terbentuk",
   "recaps_story_weekday_previous": "Pada %{month}: %{hits} daripada %{total}.",
   "recaps_story_weekday_text": "%{hits} daripada %{total} minggu.",

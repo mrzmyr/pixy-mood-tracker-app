@@ -855,7 +855,6 @@
     "one": "%{month} v 1 okamžiku",
     "other": "%{month} v okamžicích: {{count}}"
   },
-  "recaps_story_new": "Nové",
   "recaps_story_next": "Další snímek",
   "recaps_story_pause": "Pozastavit",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "S kým jsi byl(a) nejvíc v kontaktu",
   "recaps_story_play": "Přehrát",
   "recaps_story_previous": "Předchozí snímek",
+  "recaps_story_ready": "Připraveno ke shlédnutí",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Dny s každým štítkem, vs. %{previous}.",
   "recaps_story_vs_title": "Víc tohohle, míň tamtoho",
-  "recaps_story_watch": "Podívat se",
   "recaps_story_weekday_eyebrow": "Vzniká zvyk",
   "recaps_story_weekday_previous": "%{month}: %{hits} z %{total}.",
   "recaps_story_weekday_text": "%{hits} z %{total} týdnů.",

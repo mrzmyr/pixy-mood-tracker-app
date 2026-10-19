@@ -855,7 +855,6 @@
     "one": "เดือน%{month}ใน 1 ช่วงเวลา",
     "other": "เดือน%{month}ใน {{count}} ช่วงเวลา"
   },
-  "recaps_story_new": "ใหม่",
   "recaps_story_next": "สไลด์ถัดไป",
   "recaps_story_pause": "หยุดชั่วคราว",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "คนที่คุณติดต่อมากที่สุด",
   "recaps_story_play": "เล่น",
   "recaps_story_previous": "สไลด์ก่อนหน้า",
+  "recaps_story_ready": "พร้อมให้ดูแล้ว",
   "recaps_story_vs_eyebrow": "%{month} เทียบกับ %{previous}",
   "recaps_story_vs_text": "จำนวนวันของแต่ละแท็ก เทียบกับ %{previous}",
   "recaps_story_vs_title": "สิ่งนี้มากขึ้น สิ่งนั้นน้อยลง",
-  "recaps_story_watch": "ดู",
   "recaps_story_weekday_eyebrow": "นิสัยที่ก่อตัว",
   "recaps_story_weekday_previous": "เดือน%{month}: %{hits} จาก %{total}",
   "recaps_story_weekday_text": "%{hits} จาก %{total} สัปดาห์",

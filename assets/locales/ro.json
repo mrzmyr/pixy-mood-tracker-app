@@ -855,7 +855,6 @@
     "one": "%{month} într-un moment",
     "other": "%{month} în {{count}} momente"
   },
-  "recaps_story_new": "Nou",
   "recaps_story_next": "Slide-ul următor",
   "recaps_story_pause": "Pauză",
   "recaps_story_people_days": {
@@ -867,10 +866,10 @@
   "recaps_story_people_title": "Persoanele cu care ai fost cel mai mult în legătură",
   "recaps_story_play": "Redă",
   "recaps_story_previous": "Slide-ul anterior",
+  "recaps_story_ready": "Gata de vizionat",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Zile cu fiecare etichetă, vs. %{previous}.",
   "recaps_story_vs_title": "Mai mult din asta, mai puțin din cealaltă",
-  "recaps_story_watch": "Vezi",
   "recaps_story_weekday_eyebrow": "Se formează un obicei",
   "recaps_story_weekday_previous": "În %{month}: %{hits} din %{total}.",
   "recaps_story_weekday_text": "%{hits} din %{total} săptămâni.",
