@@ -261,6 +261,19 @@ jest.mock("expo-widgets", () => ({
     updateSnapshot: () => null,
     getTimeline: () => Promise.resolve([]),
   }),
+  createLiveActivity: () => ({
+    start: () => ({
+      update: () => Promise.resolve(),
+      end: () => Promise.resolve(),
+    }),
+    schedule: () => ({
+      update: () => Promise.resolve(),
+      end: () => Promise.resolve(),
+    }),
+    getInstances: () => [],
+  }),
+  after: (date) => ({ after: date }),
+  addUserInteractionListener: () => ({ remove: () => null }),
   widgetsDirectory: "",
 }));
 

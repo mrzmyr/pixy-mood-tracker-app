@@ -19,6 +19,7 @@ export const FEATURE_FLAGS = [
   "people",
   "photos",
   "profile",
+  "quick-check-in",
   "recaps",
   "support-pixy",
   "voice-mode",
@@ -101,6 +102,11 @@ export const FEATURE_FLAG_DETAILS: Record<
     description:
       "Name and photo of the user; avatar replaces the Settings icon",
     location: "Calendar header, Settings > Profile",
+  },
+  "quick-check-in": {
+    description:
+      "Check-in from the Lock Screen (iOS Live Activity) or an ongoing notification (Android)",
+    location: "Settings > Check-in, Lock Screen, notification shade",
   },
   recaps: {
     description: "Recap cards for week, month, quarter, and year",

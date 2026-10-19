@@ -202,6 +202,7 @@
     }
   },
   "patchedDependencies": {
-    "expo-speech-transcriber@0.1.9": "patches/expo-speech-transcriber@0.1.9.patch"
+    "expo-speech-transcriber@0.1.9": "patches/expo-speech-transcriber@0.1.9.patch",
+    "expo-widgets@57.0.26": "patches/expo-widgets@57.0.26.patch"
   }
 }

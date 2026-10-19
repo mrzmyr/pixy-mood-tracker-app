@@ -17,6 +17,7 @@ import Bell from "lucide-react-native/icons/bell";
 import FileText from "lucide-react-native/icons/file-text";
 import Heart from "lucide-react-native/icons/heart";
 import ImageIcon from "lucide-react-native/icons/image";
+import LockKeyhole from "lucide-react-native/icons/lock-keyhole";
 import MapPin from "lucide-react-native/icons/map-pin";
 import MessageSquare from "lucide-react-native/icons/message-square";
 import Sun from "lucide-react-native/icons/sun";
@@ -26,6 +27,10 @@ import { useRouter } from "expo-router";
 import useColors from "@/hooks/use-colors";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useLocationSetting } from "@/features/location";
+import {
+  QuickCheckInStartRow,
+  useQuickCheckInSetting,
+} from "@/features/quickcheckin";
 import { useStepEnabled } from "../use-step-enabled";
 
 /** Steps with their own settings page; the list links there instead of a switch. */
@@ -83,8 +88,8 @@ const StepRow = ({
  * Settings > Check-in: the logger steps in order. `rating` cannot be turned
  * off. Tags and People open their own page with the switch and their list.
  * `people` and `photos` show only behind their feature flags. The location
- * switch shows behind the `location` feature flag. Native grouped list on
- * iOS and Android.
+ * switch shows behind the `location` feature flag, the quick check-in
+ * switch behind `quick-check-in`. Native grouped list on iOS and Android.
  */
 export const StepsScreen = () => {
   const colors = useColors();
@@ -95,6 +100,11 @@ export const StepsScreen = () => {
     isEnabled: isLocationEnabled,
     setEnabled: setLocationEnabled,
   } = useLocationSetting();
+  const {
+    isAvailable: isQuickCheckInAvailable,
+    isEnabled: isQuickCheckInEnabled,
+    setEnabled: setQuickCheckInEnabled,
+  } = useQuickCheckInSetting();
   const options = STEP_OPTIONS.filter(
     (option) =>
       (option !== "people" || hasPeople) &&
@@ -132,6 +142,21 @@ export const StepsScreen = () => {
             onValueChange={setLocationEnabled}
             testID="location-enabled"
           />
+        </SettingsSection>
+      )}
+      {isQuickCheckInAvailable && (
+        <SettingsSection
+          flag="quick-check-in"
+          footer={t("quick_check_in_setting_description")}
+        >
+          <SettingsSwitch
+            label={t("quick_check_in_setting")}
+            icon={<LockKeyhole width={20} height={20} color={colors.text} />}
+            value={isQuickCheckInEnabled}
+            onValueChange={setQuickCheckInEnabled}
+            testID="quick-check-in-enabled"
+          />
+          {isQuickCheckInEnabled && <QuickCheckInStartRow />}
         </SettingsSection>
       )}
     </SettingsForm>

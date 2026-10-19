@@ -413,6 +413,17 @@
       "evidence": ["src/app/(app)/onboarding.tsx"]
     },
     {
+      "id": "quick-check-in",
+      "label": "Quick check-in",
+      "status": "flagged",
+      "group": "platforms",
+      "description": "A Live Activity on the iOS 26 Lock Screen, started from Settings for testing, asks for mood, an emotion, and people or tags in a few taps. More opens a one-page check-in with search. Behind the quick-check-in feature flag.",
+      "evidence": [
+        "src/features/quickcheckin",
+        "src/state/featureFlags/keys.ts"
+      ]
+    },
+    {
       "id": "widgets",
       "label": "Home screen widgets",
       "status": "flagged",

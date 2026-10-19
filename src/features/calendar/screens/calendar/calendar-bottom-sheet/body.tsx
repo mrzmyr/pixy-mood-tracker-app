@@ -13,7 +13,7 @@ import { useFeatureFlag } from "@/state/feature-flags";
 import { PeopleSection } from "./people-section";
 import { RatingSection } from "./rating-section";
 import { ResultsSection } from "./results-section";
-import { SearchInputSection } from "./search-input-section";
+import { SearchInput } from "@/components/search-input";
 import { TagsSection } from "./tags-section";
 
 /**
@@ -102,7 +102,8 @@ export const Body = () => {
         gap: 16,
       }}
     >
-      <SearchInputSection
+      <SearchInput
+        testID="calendar-filter-search"
         value={searchText}
         onChange={(text) => {
           setSearchText(text);

@@ -5,13 +5,17 @@ import CircleX from "lucide-react-native/icons/circle-x";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
 
-/** Controlled text input for the calendar filters' message search. */
-export const SearchInputSection = ({
+/** Controlled search field with a clear button. Empty `value` hides the button. */
+export const SearchInput = ({
   value,
   onChange,
+  placeholder = t("calendar_filters_search"),
+  testID,
 }: {
   value: string;
   onChange: (text: string) => void;
+  placeholder?: string;
+  testID?: string;
 }) => {
   const colors = useColors();
 
@@ -35,9 +39,9 @@ export const SearchInputSection = ({
         <Search color={colors.textInputPlaceholder} width={20} />
       </View>
       <TextInput
-        accessibilityLabel={t("calendar_filters_search")}
-        testID="calendar-filter-search"
-        placeholder={t("calendar_filters_search")}
+        accessibilityLabel={placeholder}
+        testID={testID}
+        placeholder={placeholder}
         value={value}
         placeholderTextColor={colors.textInputPlaceholder}
         style={{
