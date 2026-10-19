@@ -26,7 +26,7 @@
       "appStore": "https://apps.apple.com/app/id1605327124",
       "googlePlay": "https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker",
       "switch": "https://pixy-switch.vercel.app",
-    "featureBoard": "https://pixy.hellonext.co",
+      "featureBoard": "https://pixy.hellonext.co",
       "supportEmail": "team@pixy.day",
       "privacyEmail": "care@pixy.day"
     }
@@ -317,7 +317,12 @@
       "status": "available",
       "group": "data",
       "description": "Pixy Switch, a web tool outside the app, converts exports from 21 mood and journal apps into a Pixy import file in the browser. Nothing is uploaded. Takes under 5 minutes; Five Minute Journal and Reflectly email their export, so add the wait. Carries mood, sleep, emotions, tags, people, notes and journal prompts where the source app has them; photos stay in the source app. Merges an existing Pixy backup so import does not erase current entries. Modules per app come from the OWLF adapters, tested against fixtures.",
-      "evidence": ["https://pixy-switch.vercel.app", "https://github.com/mrzmyr/pixy-switch", "https://github.com/mrzmyr/owlf/blob/main/packages/registry/apps.json", "https://pixy.day/switch"]
+      "evidence": [
+        "https://pixy-switch.vercel.app",
+        "https://github.com/mrzmyr/pixy-switch",
+        "https://github.com/mrzmyr/owlf/blob/main/packages/registry/apps.json",
+        "https://pixy.day/switch"
+      ]
     },
     {
       "id": "delete-data",
