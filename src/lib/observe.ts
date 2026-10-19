@@ -65,3 +65,31 @@ export const observeConfig = (
 export const configureObserve = (options: ObserveOptions) => {
   Observe.configure(observeConfig(options));
 };
+
+/**
+ * Every Observe log event and its attributes. Fixed values and numbers only:
+ * never notes, tag names, people names, or other free text.
+ */
+export interface ObserveEvents {
+  /** Gated stores finished loading at startup. */
+  "storage.load": {
+    outcome: "ready" | "error";
+    /** From JS bundle evaluation to the settled load. */
+    duration_ms: number;
+    /** `StructuredError` status when `outcome` is `error`. */
+    error_status?: string | number;
+  };
+}
+
+/**
+ * Only caller of `Observe.logEvent`. Typed names and attributes keep free
+ * text out, like `track` does for PostHog. Dispatch follows consent through
+ * `configureObserve`.
+ */
+export const logObserveEvent = <Name extends keyof ObserveEvents>(
+  name: Name,
+  attributes: ObserveEvents[Name],
+  severity: "info" | "warn" | "error" = "info"
+) => {
+  Observe.logEvent(name, { attributes: { ...attributes }, severity });
+};
