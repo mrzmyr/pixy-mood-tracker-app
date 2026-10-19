@@ -18,6 +18,8 @@ import type {
   MadeOfSlide,
   MomentsSlide,
   PeopleSlide,
+  ShareFact,
+  ShareSlide,
   StoryPhoto,
   StorySlide,
   VsLastSlide,
@@ -407,6 +409,58 @@ const comingUp = (input: RecapInput): ComingUpSlide | null => {
   };
 };
 
+/** Bright photos, one per file, brightest day first. */
+const sharePhotos = (input: RecapInput) => {
+  const seen = new Set<string>();
+  const sorted = [...input.days].sort(
+    (a, b) => getDayRating(b) - getDayRating(a)
+  );
+  return brightPhotos(sorted).filter(({ photo }) => {
+    if (seen.has(photo.fileName)) {
+      return false;
+    }
+    seen.add(photo.fileName);
+    return true;
+  });
+};
+
+/**
+ * Share card: up to 3 lines from the story (first city, same weekday, top
+ * light tag), check-ins when nothing else. Always last.
+ */
+const share = (
+  input: RecapInput,
+  lightTags: ReadonlySet<string>,
+  slides: (StorySlide | null)[]
+): ShareSlide => {
+  const facts: ShareFact[] = [];
+  const habit = slides.find((slide) => slide?.type === "weekday-habit");
+  for (const slide of slides) {
+    if (slide?.type === "first-city") {
+      facts.push({ kind: "city", city: slide.city });
+    }
+    if (slide?.type === "weekday-habit") {
+      const { tagId, weekday, hits, total } = slide;
+      facts.push({ kind: "weekday", tagId, weekday, hits, total });
+    }
+  }
+  const top = tagCounts(input.days, lightTags).find(
+    (row) => habit?.type !== "weekday-habit" || row.tagId !== habit.tagId
+  );
+  if (top) {
+    facts.push({ kind: "tag", tagId: top.tagId, days: top.days });
+  }
+  if (facts.length === 0) {
+    facts.push({ kind: "check-ins", days: input.days.length });
+  }
+  const photos = sharePhotos(input);
+  return {
+    type: "share",
+    photos: photos.length >= THRESHOLDS.sharePhotos ? photos : [],
+    facts: facts.slice(0, THRESHOLDS.shareMaxFacts),
+  };
+};
+
 /**
  * Months from the story month to today's month: 0 for the current month,
  * negative for future months.
@@ -431,7 +485,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     return null;
   }
   const lightTags = lightTagIds(input);
-  return [
+  const slides = [
     cover(input),
     weekdayHabit(input, lightTags),
     madeOf(input),
@@ -443,5 +497,8 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     vsLast(input, lightTags),
     moments(input),
     comingUp(input),
-  ].filter((slide): slide is StorySlide => slide !== null);
+  ];
+  return [...slides, share(input, lightTags, slides)].filter(
+    (slide): slide is StorySlide => slide !== null
+  );
 };

@@ -919,6 +919,18 @@
   "recaps_story_quiz_title_tags_most": "Čega je ovaj mjesec bilo najviše?",
   "recaps_story_quiz_truths_hint": "Dodirni sve točne.",
   "recaps_story_ready": "Spremno za gledanje",
+  "recaps_story_share": "Podijeli",
+  "recaps_story_share_check_ins": {
+    "one": "1 dan s unosom",
+    "other": "Dana s unosom: {{count}}"
+  },
+  "recaps_story_share_city": "Prvi put u mjestu %{city}",
+  "recaps_story_share_shuffle": "Promiješaj fotografije",
+  "recaps_story_share_tag": {
+    "one": "%{tag}, 1 dan",
+    "other": "%{tag}, dana: {{count}}"
+  },
+  "recaps_story_share_title": "Moj %{month}",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Dani sa svakom oznakom, vs. %{previous}.",
   "recaps_story_vs_title": "Više ovoga, manje onoga",

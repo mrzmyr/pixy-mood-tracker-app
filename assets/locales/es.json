@@ -919,6 +919,18 @@
   "recaps_story_quiz_title_tags_most": "¿Qué hiciste más este mes?",
   "recaps_story_quiz_truths_hint": "Toca todas las que sean ciertas.",
   "recaps_story_ready": "Listo para ver",
+  "recaps_story_share": "Compartir",
+  "recaps_story_share_check_ins": {
+    "one": "1 día con registro",
+    "other": "{{count}} días con registro"
+  },
+  "recaps_story_share_city": "Primera vez en %{city}",
+  "recaps_story_share_shuffle": "Mezclar fotos",
+  "recaps_story_share_tag": {
+    "one": "%{tag}, 1 día",
+    "other": "%{tag}, {{count}} días"
+  },
+  "recaps_story_share_title": "Mi %{month}",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Días con cada etiqueta, vs. %{previous}.",
   "recaps_story_vs_title": "Más de esto, menos de aquello",
