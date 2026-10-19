@@ -5,6 +5,7 @@ import { useSharedValue, withTiming } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
 import { createStructuredError } from "@/lib/errors";
 import type { StructuredError } from "@/lib/errors";
+import { t } from "@/lib/translation";
 import {
   applyResult,
   commitPartial,
@@ -55,15 +56,24 @@ const toErrorStatus = (code: string | undefined): VoiceErrorStatus => {
 
 const MAX_EMPTY_RESTARTS = 5;
 
-const FIXES: Record<VoiceErrorStatus, string> = {
-  voice_permission_denied:
-    "Allow microphone and speech recognition in Settings",
-  voice_recognizer_unavailable:
-    "Add the dictation language in iOS Settings > General > Keyboard, or switch the app language",
-  voice_siri_disabled: "Turn on Siri in iOS Settings, or update to iOS 26",
-  voice_on_device_unavailable:
-    "Add the dictation language in iOS Settings > General > Keyboard, or switch the app language",
-  voice_transcription_failed: "Close voice mode and try again",
+const getFix = (status: VoiceErrorStatus): string => {
+  switch (status) {
+    case "voice_permission_denied": {
+      return t("voice_fix_permission_denied");
+    }
+    case "voice_recognizer_unavailable": {
+      return t("voice_fix_recognizer_unavailable");
+    }
+    case "voice_siri_disabled": {
+      return t("voice_fix_siri_disabled");
+    }
+    case "voice_on_device_unavailable": {
+      return t("voice_fix_on_device_unavailable");
+    }
+    case "voice_transcription_failed": {
+      return t("voice_fix_transcription_failed");
+    }
+  }
 };
 
 const voiceError = (
@@ -74,7 +84,7 @@ const voiceError = (
     status,
     message: "Voice transcription failed",
     why,
-    fix: FIXES[status],
+    fix: getFix(status),
   });
 
 /** Report a voice failure. `why` holds the native message, never speech. */
