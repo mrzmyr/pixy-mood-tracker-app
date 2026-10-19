@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.102.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.101.0...v1.102.0) (2026-10-19)
+
+
+### Features
+
+* **observe:** log storage load duration and failures as an Observe event ([#803](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/803)) ([d585fe4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d585fe4336f098a2746504b663f9c0b88b3167d5))
+* **observe:** mark startup TTI once stored data is ready, for every entry ([#792](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/792)) ([ef21d43](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ef21d43dba90823186685c5062a0a8668af8bda1))
+* **observe:** report handled errors to Sentry and Observe through one function ([#850](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/850)) ([b0e61df](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b0e61dfa946027a0a089112493da2e790253350f))
+* **observe:** show a recovery screen when a screen fails to render ([#854](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/854)) ([0de9b5e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0de9b5e2c9d60492b45f07ab34e154ef535149be))
+* **observe:** slice startup TTI by entry count range ([#798](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/798)) ([1bc608f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1bc608fa4dc4c8a1ea74df4e8001f660846ecc82))
+* **recaps:** add quiz slide with celebration to month story ([#890](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/890)) ([c78d946](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c78d946f4e1f351767c157a3415370f94d9bf43b))
+* **recaps:** add share card to month story ([#892](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/892)) ([51eabec](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/51eabec931f6ea26f64a82693bf6258b802427a6))
+* **recaps:** open the month story from Calendar and the month notification ([#894](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/894)) ([fa6fcef](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fa6fcef79e77ce477260cf851000559912740683))
+
+
+### Bug Fixes
+
+* **photos:** frame photo access as ongoing, not today-only ([#903](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/903)) ([eaa60fa](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/eaa60fa1bb1ffba8e8a511d98714b251d587e055))
+* **profile:** render settings profile row as native list row ([#905](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/905)) ([b3b871d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b3b871ddd434a00ef795e71012db9fe2e1311d01))
+* **profile:** shrink header avatar photo when there is no Liquid Glass ([#906](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/906)) ([cba4b0e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/cba4b0eb842d17fbccb0fd615db40fe5b9e412b4))
+* **sentry:** report only from real devices on shipped variants ([#848](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/848)) ([3f680d1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3f680d17ff57618f9954802dd23eedeee966a838))
+
 ## [1.101.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.100.0...v1.101.0) (2026-10-19)
 
 
