@@ -11,6 +11,7 @@ export {
 } from "./components/photo-gallery";
 export { PhotoGrid } from "./components/photo-grid";
 export { PhotoLimitNotice } from "./components/photo-limit-notice";
+export { PhotosEmptyState } from "./components/photos-empty-state";
 export { PhotosPromptCard } from "./components/photos-prompt-card";
 export { PhotoThumbnail } from "./components/photo-thumbnail";
 export { PickTile } from "./components/pick-tile";

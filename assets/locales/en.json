@@ -817,7 +817,7 @@
   "photos_day_access_dismiss": "Not Now",
   "photos_day_access_title": "See Photos from {{day}}",
   "photos_day_empty_body": "Pick photos from any day in your library.",
-  "photos_day_empty_title": "No Photos from {{day}}",
+  "photos_day_empty_title": "No Photos",
   "photos_day_today": "today",
   "photos_day_today_title": "Today",
   "photos_day_yesterday": "yesterday",
