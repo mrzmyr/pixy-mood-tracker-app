@@ -111,7 +111,7 @@
     "react-native-reanimated": "4.5.1",
     "react-native-reanimated-carousel": "^5.0.0",
     "react-native-safe-area-context": "~5.7.0",
-    "react-native-screens": "~4.26.0",
+    "react-native-screens": "~4.27.0",
     "react-native-sortables": "^1.10.1",
     "react-native-style-utilities": "^1.0.1",
     "react-native-svg": "15.15.4",
@@ -147,7 +147,8 @@
     "ultracite": "7.12.0"
   },
   "overrides": {
-    "markdown-it": "^15.0.0"
+    "markdown-it": "^15.0.0",
+    "react-native-screens": "~4.27.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs}": "oxlint --no-error-on-unmatched-pattern",
