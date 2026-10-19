@@ -26,7 +26,6 @@ import { useFeatureFlag } from "@/state/feature-flags";
 import { useFootNote } from "./foot-note";
 import { Timeline } from "./timeline";
 import { CalendarMap } from "./map";
-import { ObserveInteractiveMarker } from "expo-observe";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import dayjs from "dayjs";
@@ -198,7 +197,6 @@ const CalendarScreenComponent = () => {
           />
         )}
       {Platform.OS !== "web" && <CalendarBottomSheet />}
-      <ObserveInteractiveMarker />
     </View>
   );
 };
