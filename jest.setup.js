@@ -51,11 +51,11 @@ jest.mock("react-native-sortables", () => {
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load animated UI during provider tests; native worklets are unavailable in Jest.
 jest.mock("react-native-reanimated", () => {
-  const { ScrollView, View } = require("react-native");
+  const { FlatList, ScrollView, View } = require("react-native");
   const animation = { duration: () => animation, delay: () => animation };
   return {
     __esModule: true,
-    default: { ScrollView, View },
+    default: { FlatList, ScrollView, View },
     useAnimatedRef: () => ({ current: null }),
     createAnimatedComponent: (component) => component,
     css: { create: (styles) => styles },
@@ -66,6 +66,7 @@ jest.mock("react-native-reanimated", () => {
     FadeInUp: animation,
     FadeOut: animation,
     FadeOutUp: animation,
+    LinearTransition: animation,
     Keyframe: class {
       delay() {
         return this;
@@ -117,8 +118,19 @@ jest.mock("@shopify/flash-list", () => ({ FlashList: () => null }));
 
 const mockSlot = ({ children }) => children;
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI and native settings lists; SwiftUI and Compose views have no Jest view. The stand-ins render React Native views: the switch keeps the `Switch` props tests read, a pressable row is a button.
+// Native rows wrap bare strings in a text view; so does the stand-in.
+const mockExpoUiText = (node) => {
+  const { isValidElement } = require("react");
+  const { Text } = require("react-native");
+  if (node === null || node === undefined || isValidElement(node)) {
+    return node ?? null;
+  }
+  return <Text>{node}</Text>;
+};
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI and native settings lists; SwiftUI and Compose views have no Jest view. The stand-ins render React Native views: the switch keeps the `Switch` props tests read, a pressable row or list item is a button.
 jest.mock("@expo/ui", () => {
+  const { isValidElement } = require("react");
   const { Pressable, Switch, Text, View } = require("react-native");
   const FieldGroup = Object.assign(({ children }) => <View>{children}</View>, {
     Section: ({ title, children }) => (
@@ -143,6 +155,27 @@ jest.mock("@expo/ui", () => {
       ) : (
         <View testID={testID}>{children}</View>
       ),
+    ListItem: ({
+      children,
+      leading,
+      trailing,
+      supportingText,
+      onPress,
+      testID,
+    }) => (
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={isValidElement(children) ? undefined : children}
+        onPress={onPress}
+        testID={testID}
+      >
+        {mockExpoUiText(leading)}
+        {mockExpoUiText(children)}
+        {mockExpoUiText(supportingText)}
+        {mockExpoUiText(trailing)}
+      </Pressable>
+    ),
+    Icon: Object.assign(() => null, { select: ({ ios }) => ios }),
     Spacer: () => null,
     Switch: ({ label, value, onValueChange, disabled, testID }) => (
       <Switch
@@ -154,6 +187,21 @@ jest.mock("@expo/ui", () => {
       />
     ),
     Text: ({ children }) => <Text>{children}</Text>,
+  };
+});
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- Galeria is a native view without a Jest build; the stand-in renders tiles as views that receive the native viewer events.
+jest.mock("@nandorojo/galeria", () => {
+  const { View } = require("react-native");
+  const Image = ({ index = 0, children, onIndexChange, onDismiss }) =>
+    require("react").createElement(
+      View,
+      { testID: `galeria-image-${index}`, onIndexChange, onDismiss },
+      children
+    );
+  return {
+    __esModule: true,
+    Galeria: Object.assign(({ children }) => children, { Image, Item: Image }),
   };
 });
 
@@ -171,12 +219,21 @@ const mockSwiftUiContextMenu = Object.assign(
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the SwiftUI menu has no Jest view; the stand-in renders menu items as pressable buttons.
 jest.mock("@expo/ui/swift-ui", () => {
   const { Pressable, View } = require("react-native");
+  const { isValidElement } = require("react");
   return {
     Host: ({ children }) => children,
     RNHostView: ({ children }) => children,
     ContextMenu: mockSwiftUiContextMenu,
+    DatePicker: () => null,
     Image: () => null,
-    Menu: ({ children }) => <View>{children}</View>,
+    // Renders a custom label (for example the logger time pill) and the items.
+    Menu: ({ label, children }) => (
+      <View>
+        {isValidElement(label) ? label : null}
+        {children}
+      </View>
+    ),
+    Divider: () => null,
     Button: ({ label, onPress }) => (
       <Pressable
         accessibilityRole="menuitem"
@@ -212,6 +269,19 @@ jest.mock("expo-widgets", () => ({
     updateSnapshot: () => null,
     getTimeline: () => Promise.resolve([]),
   }),
+  createLiveActivity: () => ({
+    start: () => ({
+      update: () => Promise.resolve(),
+      end: () => Promise.resolve(),
+    }),
+    schedule: () => ({
+      update: () => Promise.resolve(),
+      end: () => Promise.resolve(),
+    }),
+    getInstances: () => [],
+  }),
+  after: (date) => ({ after: date }),
+  addUserInteractionListener: () => ({ remove: () => null }),
   widgetsDirectory: "",
 }));
 

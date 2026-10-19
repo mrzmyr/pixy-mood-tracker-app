@@ -4,7 +4,7 @@ export {
   getLocationLabel,
   searchPlaces,
 } from "./places";
-export { useLocationSetting } from "./useLocationSetting";
-export { LocationPicker } from "./components/LocationPicker";
-export { PlacePreview } from "./components/PlacePreview";
-export { MapPinOff } from "./components/MapPinOff";
+export { useLocationSetting } from "./use-location-setting";
+export { LocationPicker } from "./components/location-picker";
+export { PlacePreview } from "./components/place-preview";
+export { MapPinOff } from "./components/map-pin-off";

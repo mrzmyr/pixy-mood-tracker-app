@@ -1,7 +1,7 @@
-export { TagCategoryList } from "./components/TagCategoryList";
-export { CreateTagAction } from "./components/CreateTagAction";
-export { TagList } from "./components/TagList";
-export { TagListItem } from "./components/TagListItem";
-export { default as TagComponent } from "./components/Tag";
-export * from "./TagsProvider";
-export * from "./tagCategories";
+export { TagCategoryList } from "./components/tag-category-list";
+export { CreateTagAction } from "./components/create-tag-action";
+export { TagList } from "./components/tag-list";
+export { TagListItem } from "./components/tag-list-item";
+export { default as TagComponent } from "./components/tag";
+export * from "./tags-provider";
+export * from "./tag-categories";

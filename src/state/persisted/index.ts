@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { asyncStorage } from "./storage";
 import type { KeyValueStorage } from "./storage";
 
@@ -33,14 +33,14 @@ export const isStorageError = (error: unknown): error is StorageError =>
 const captureStorageError = (error: StorageError, key: string) => {
   console.error(error);
   try {
-    Sentry.captureException(error);
+    reportError(error);
   } catch (captureError) {
     console.error(
       createStorageError(
         "storage_telemetry_failed",
         "Storage error reporting failed",
-        `Sentry failed while reporting storage key "${key}": ${errorMessage(captureError)}`,
-        "Check the Sentry SDK configuration"
+        `reportError failed for storage key "${key}": ${errorMessage(captureError)}`,
+        "Check the Sentry and Observe SDK configuration"
       )
     );
   }
@@ -49,7 +49,7 @@ const captureStorageError = (error: StorageError, key: string) => {
 /**
  * Persist `state` as JSON under `key`.
  *
- * Never rejects: write failures are only reported to Sentry, so callers
+ * Never rejects: write failures are only reported through `reportError`, so callers
  * cannot detect a failed save.
  */
 export const store = async <State>(
@@ -86,14 +86,14 @@ const createInvalidStoredValueError = (
 const reportLoadError = (error: StorageError, key: string) => {
   console.error(error);
   try {
-    Sentry.captureException(error);
+    reportError(error);
   } catch (captureError) {
     console.error(
       createStorageError(
         "storage_telemetry_failed",
         "Storage error reporting failed",
-        `Sentry failed while reporting storage key "${key}": ${errorMessage(captureError)}`,
-        "Check the Sentry SDK configuration"
+        `reportError failed for storage key "${key}": ${errorMessage(captureError)}`,
+        "Check the Sentry and Observe SDK configuration"
       )
     );
   }

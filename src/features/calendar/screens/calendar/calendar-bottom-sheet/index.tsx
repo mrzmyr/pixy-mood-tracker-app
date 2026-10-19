@@ -1,0 +1,49 @@
+import { BottomSheet, RNHostView } from "@expo/ui";
+import { presentationCornerRadius } from "@expo/ui/swift-ui/modifiers";
+import { Keyboard, Platform, ScrollView } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useCalendarFiltersSheet } from "../../../filters";
+import useColors from "@/hooks/use-colors";
+import { Body } from "./body";
+
+// Android keeps Material's corner radius: `ModalBottomSheet` has no shape prop.
+const sheetModifiers =
+  Platform.OS === "ios" ? [presentationCornerRadius(16)] : undefined;
+
+/**
+ * Calendar filter sheet, opened from the calendar header Filters button.
+ *
+ * Native `@expo/ui` sheet: SwiftUI on iOS, Material 3 on Android. Swipe,
+ * outside tap, and Android Back close it and keep the filters. Visibility
+ * follows `useCalendarFiltersSheet().isOpen`.
+ */
+export const CalendarBottomSheet = () => {
+  const colors = useColors();
+  const insets = useSafeAreaInsets();
+  const filtersSheet = useCalendarFiltersSheet();
+
+  const close = () => {
+    Keyboard.dismiss();
+    filtersSheet.close();
+  };
+
+  return (
+    <BottomSheet
+      isPresented={filtersSheet.isOpen}
+      onDismiss={close}
+      snapPoints={["half", "full"]}
+      contentPadding={0}
+      containerColor={colors.bottomSheetBackground}
+      modifiers={sheetModifiers}
+    >
+      <RNHostView>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{ paddingBottom: insets.bottom }}
+        >
+          <Body />
+        </ScrollView>
+      </RNHostView>
+    </BottomSheet>
+  );
+};

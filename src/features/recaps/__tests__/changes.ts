@@ -1,5 +1,5 @@
 import type { LogItem } from "@/features/logs";
-import { buildCards } from "../buildCards";
+import { buildCards } from "../build-cards";
 import { getTrend } from "../cards/changes";
 import { addDays } from "../days";
 import { makeInput, makeTags } from "./utils";

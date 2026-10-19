@@ -1,7 +1,7 @@
 import * as FileSystem from "expo-file-system/legacy";
 import * as ImagePicker from "expo-image-picker";
 import { createStructuredError } from "@/lib/errors";
-import { renderSquareJpeg } from "@/lib/squareImage";
+import { renderSquareJpeg } from "@/lib/square-image";
 
 /**
  * Folder under the documents directory for the profile photo. Separate from

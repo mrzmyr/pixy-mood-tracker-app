@@ -1,19 +1,19 @@
 // Route screens. Import only from src/app route files and other screens, never from startup code.
-export { AppIconScreen } from "./screens/AppIcon";
-export { ColorsScreen } from "./screens/Colors";
-export { DevelopmentTools } from "./screens/DevelopmentTools";
-export { FeatureFlagsScreen } from "./screens/FeatureFlags";
-export { LicensesScreen } from "./screens/Licenses";
-export { PrivacyScreen } from "./screens/Privacy";
-export { SettingsScreen } from "./screens/Settings";
-export { SettingsTags } from "./screens/Settings/Tags";
-export { SettingsTagsArchive } from "./screens/Settings/Tags";
-export { SettingsPeopleScreen } from "./screens/People";
-export { StepsScreen } from "./screens/Steps";
+export { AppIconScreen } from "./screens/app-icon";
+export { ColorsScreen } from "./screens/colors";
+export { DevelopmentTools } from "./screens/development-tools";
+export { FeatureFlagsScreen } from "./screens/feature-flags";
+export { LicensesScreen } from "./screens/licenses";
+export { PrivacyScreen } from "./screens/privacy";
+export { SettingsScreen } from "./screens/settings";
+export { SettingsTags } from "./screens/settings/tags";
+export { SettingsTagsArchive } from "./screens/settings/tags";
+export { SettingsPeopleScreen } from "./screens/people";
+export { StepsScreen } from "./screens/steps";
 export {
   DevFixturesScreen,
   DevFixtureLinkScreen,
   DevFakeContactsLinkScreen,
   DevFakeFilesLinkScreen,
   DevFeatureFlagLinkScreen,
-} from "./DevRoutes";
+} from "./dev-routes";

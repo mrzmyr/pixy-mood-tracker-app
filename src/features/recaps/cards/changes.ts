@@ -1,5 +1,5 @@
 import { getEffect } from "../correlation";
-import { fits, indexDays } from "../dayIndex";
+import { fits, indexDays } from "../day-index";
 import { addDays, daysBetween } from "../days";
 import { THRESHOLDS } from "../thresholds";
 import type {

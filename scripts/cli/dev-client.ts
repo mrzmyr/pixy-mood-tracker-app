@@ -3,7 +3,7 @@
 import {
   FEATURE_FLAGS,
   isFeatureFlag,
-} from "../../src/state/featureFlags/keys.ts";
+} from "../../src/state/feature-flags/keys.ts";
 import { CliError } from "./shared.ts";
 
 // expo-dev-menu shows an onboarding sheet, opens itself at launch, and draws a

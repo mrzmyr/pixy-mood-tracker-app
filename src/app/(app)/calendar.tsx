@@ -1,5 +1,5 @@
 import { CalendarScreen } from "@/features/calendar/routes";
-import { CalendarHeaderButtons } from "@/shell/CalendarHeaderButtons";
+import { CalendarHeaderButtons } from "@/shell/calendar-header-buttons";
 
 /** Buttons render here, not in the layout: `Stack.Toolbar` targets the current route. */
 const CalendarRoute = () => (

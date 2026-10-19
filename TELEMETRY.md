@@ -28,7 +28,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 
 - Event catalog: [`src/state/analytics/events.ts`](src/state/analytics/events.ts)
 - Usage summary and behaviour signals: [product-analytics.md](docs/product-analytics.md)
-- Screens: `$screen` with the route name, from [`src/shell/screenTracking.ts`](src/shell/screenTracking.ts)
+- Screens: `$screen` with the route name, from [`src/shell/screen-tracking.ts`](src/shell/screen-tracking.ts)
 - Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](src/state/analytics/index.tsx))
 - Privacy rule: [AGENTS.md footguns](AGENTS.md#footguns)
 - Default: off in consent regions and when region is unknown; on elsewhere. Factory reset restores the device-region default ([`src/state/analytics/consent.ts`](src/state/analytics/consent.ts))
@@ -44,6 +44,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
 - Widget guide: `widget:guide_*`
+- Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`, `rating`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`), `quick_check_in:setting_changed` (`enabled`). `source`: `live_activity`, `notification`, `app`. Never people or tag names
 - Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](src/features/logger/confirmation))
   - Shown only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
@@ -52,13 +53,14 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
   - Flow: `intro_viewed`, `flow_started`, `step_viewed`, `step_back`, `flow_paused`, `flow_resumed`, then `flow_completed` or `flow_abandoned` (`how`: `close`, `end_early`)
   - End check: `feedback_answered` or `feedback_skipped`
   - No dismiss control and no cooldown: cards show for every matching entry of today
-- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](src/features/notifications/reminderTaps.ts))
+- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminder-taps.ts`](src/features/notifications/reminder-taps.ts))
   - One event per tap on reminder body. Dismisses and other actions not sent
   - Properties: `cold_start`, `minutes_since_delivered`
   - Cold start taps wait for stored settings, so a stored opt-out wins
   - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
 - Tag categories: `tags:category_created` (`title_length`, `categories_count`), `tags:category_updated` (`title_length`), `tags:category_deleted` (`tags_count` without archived tags, `categories_count`), `tags:categories_reordered` (`categories_count`, `method`), `tags:tags_arranged` (`tags_count`, `categories_count`, `category_changed`, `method`). `method` is `drag` or `accessibility_action`. Never category or tag names
 - Recaps (flag `recaps`): `recaps:card_shown` once per card per screen visit, when half of the card is on screen. `recaps:card_feedback_sent` adds `helpful`, `reasons` (fixed keys), `has_note`; the note itself goes to the feedback service like other feedback, never to analytics. `recaps:nudge_tapped` adds `action` (`turn_on`, `not_now`); Turn On also sends the event of the setting it changes (`settings:step_toggled`, `reminders:reminder_toggled`). All send `card_type`, `family`, `modules`, `signal`, `period`, `source`. Never tag, person, or place names, emotion keys, or ratings from the card. `reminders:recaps_toggled` (`enabled`; `permission_granted` only when turning on) from the Recaps toggle in Settings > Reminder. `recaps:notification_tapped` (`period`: `week`, `month`, `year`) once per tap on a recap notification body
+- Recap stories (flag `recaps`): `recaps:story_opened` (`period`, `source`: `recaps`, `calendar`, `notification`; `slides_count`), `recaps:story_slide_shown` (`slide_type`, `position`, `slides_count`) once per slide change, `recaps:story_feedback_sent` (`slide_type`, `position`, `helpful`, `reasons` fixed keys, `has_note`; the note goes to the feedback service, never here), `recaps:story_closed` (`position`, `slides_count`, `completed`). `recaps:story_quiz_answered` (`quiz`: `truths`, `people`, `tags`; `module`: `people`, `tags`, `mix`, or `null`; `is_correct`), never the cards or picks. `recaps:story_shared` (`has_photos`, `shuffles`) after the share sheet finished, never the photos or lines. Slide types only, never tag, person, or place names, counts shown on a slide, or ratings
 
 ## Photos
 
@@ -127,6 +129,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Removed events**
 
 - `logger:log_deleted`: the logger lost its trash button. Entries are deleted from the day view entry menu, which sends `day:delete_tapped`
+- `log_emotions_tooltip_close`, `logger:emotions_tooltip_closed`: emotion description tooltip removed from the logger. No replacement
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
 
 **Removed properties** (never sent under the new names)
@@ -170,7 +173,6 @@ Use this section to join old and new events in PostHog, for example with an Acti
 | `log_saved_without_rating` | `logger:log_saved` | `has_rating: false` |
 | `log_deleted` | `logger:log_deleted` |  |
 | `log_cancled` | `logger:flow_cancelled` | New: `mode` |
-| `log_emotions_tooltip_close` | `logger:emotions_tooltip_closed` |  |
 | `log_reminder_enable` | `logger:reminder_enabled` |  |
 | `log_reminder_later` | `logger:reminder_postponed` |  |
 | `log_list_add` | `day:add_tapped` |  |

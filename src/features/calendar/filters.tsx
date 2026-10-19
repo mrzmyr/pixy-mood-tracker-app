@@ -10,11 +10,11 @@ import { useAnalytics } from "@/state/analytics";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 
-import { useContentStableValue } from "@/hooks/useContentStableValue";
+import { useContentStableValue } from "@/hooks/use-content-stable-value";
 import type { Tag } from "@/features/tags";
 import type { Person } from "@/features/people";
 import { createMissingProviderError } from "@/lib/errors";
-import { getItemDate } from "@/lib/logDates";
+import { getItemDate } from "@/lib/log-dates";
 
 interface FiltersData {
   text: string;

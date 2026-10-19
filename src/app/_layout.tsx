@@ -1,10 +1,10 @@
 import * as Sentry from "@sentry/react-native";
 import { useLocales } from "expo-localization";
 import { ObserveRoot } from "expo-observe";
+import type { ObserveErrorBoundaryFallbackProps } from "expo-observe";
 import {
   Stack,
   ThemeProvider,
-  DefaultTheme,
   useRootNavigationState,
   useRouter,
   usePathname,
@@ -14,17 +14,21 @@ import { useEffect, useEffectEvent } from "react";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";
-import Providers from "@/shell/Providers";
-import { ToastHost } from "@/components/Toast";
-import { SENTRY_DSN } from "@/constants/API";
-import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
-import Colors from "@/constants/Colors";
+import Providers from "@/shell/providers";
+import { ToastHost } from "@/components/toast";
+import { SENTRY_DSN } from "@/constants/api";
+import { APP_VARIANT } from "@/constants/app-variant";
 import { configureObserve } from "@/lib/observe";
+import { CAN_REPORT_TELEMETRY } from "@/lib/telemetry";
 import { applyLocale, getLocale } from "@/lib/translation";
 import { useSettings, useSettingsLoad } from "@/state/settings";
-import { useUsageSummarySync } from "@/shell/usageSummary";
-import { useScreenTracking } from "@/shell/screenTracking";
-import { LaunchSplash } from "@/shell/LaunchSplash";
+import { useStartupInteractive } from "@/shell/startup-interactive";
+import { useStorageLoadEvent } from "@/shell/storage-load-event";
+import { useUsageSummarySync } from "@/shell/usage-summary";
+import { useScreenTracking } from "@/shell/screen-tracking";
+import { LaunchSplash } from "@/shell/launch-splash";
+import { AppErrorScreen } from "@/shell/app-error-screen";
+import { getNavigationTheme } from "@/shell/navigation-theme";
 import { AppLockScreen } from "@/features/applock";
 import {
   useReminderSync,
@@ -36,7 +40,8 @@ import {
 } from "@/features/recaps";
 
 // Configure before first render; each app variant reports to its own project.
-if (HAS_APP_VARIANT) {
+// Same gate as Observe: real devices on shipped variants only.
+if (CAN_REPORT_TELEMETRY) {
   Sentry.init({ dsn: SENTRY_DSN, environment: APP_VARIANT });
 }
 enableScreens();
@@ -49,6 +54,8 @@ const AppShell = () => {
   const router = useRouter();
   const pathname = usePathname();
   const rootState = useRootNavigationState();
+  useStartupInteractive();
+  useStorageLoadEvent();
   useScreenTracking();
   useUsageSummarySync();
   useReminderTapTracking();
@@ -87,19 +94,7 @@ const RootLayout = () => {
   if (getLocale() !== languageTag) {
     applyLocale(languageTag);
   }
-  const colors = scheme === "dark" ? Colors.dark : Colors.light;
-  const theme = {
-    ...DefaultTheme,
-    dark: scheme === "dark",
-    colors: {
-      ...DefaultTheme.colors,
-      ...colors,
-      primary: colors.tint,
-      card: colors.background,
-      border: colors.headerBorder,
-      notification: colors.tint,
-    },
-  };
+  const theme = getNavigationTheme(scheme);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -116,7 +111,21 @@ const RootLayout = () => {
   );
 };
 
-/** Observe wrapper preserves startup metrics policy around the Router shell. */
-const ObservedRootLayout = ObserveRoot.wrap(RootLayout);
+// The boundary calls the fallback as a plain function; render a component so
+// the screen can use hooks.
+const renderAppError = (props: ObserveErrorBoundaryFallbackProps) => (
+  <AppErrorScreen {...props} />
+);
+
+/**
+ * Observe wrapper preserves startup metrics policy around the Router shell.
+ * Its error boundary shows a recovery screen instead of a blank app when any
+ * screen throws while rendering.
+ */
+const ObservedRootLayout = () => (
+  <ObserveRoot errorBoundaryFallback={renderAppError}>
+    <RootLayout />
+  </ObserveRoot>
+);
 
 export default ObservedRootLayout;

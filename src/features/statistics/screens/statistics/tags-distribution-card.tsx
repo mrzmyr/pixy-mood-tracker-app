@@ -1,0 +1,109 @@
+import { useRouter } from "expo-router";
+import _ from "lodash";
+import { Pressable, Text, View } from "react-native";
+import { Card } from "../../components/card";
+import { t } from "@/lib/translation";
+import { useCalendarFilters } from "@/features/calendar";
+import useColors from "@/hooks/use-colors";
+import type { TagsDistributionData } from "../../tags-distribution";
+import type { Tag } from "@/features/tags";
+import { RADIUS } from "@/constants/radius";
+import { getBarFraction, getMaxCount } from "../../bar-fraction";
+
+/**
+ * Tag bars for the top `limit` tags. Tapping a bar filters the calendar to
+ * that tag only and switches to the Calendar tab.
+ */
+export const TagDistributionContent = ({
+  data,
+  limit = 5,
+}: {
+  data: TagsDistributionData;
+  limit?: number;
+}) => {
+  const colors = useColors();
+  const calendarFilters = useCalendarFilters();
+  const router = useRouter();
+  const max = getMaxCount(data.tags);
+
+  const onPress = (tagId: Tag["id"]) => {
+    calendarFilters.set({
+      ...calendarFilters.data,
+      tagIds: [tagId],
+    });
+    router.dismissTo("/calendar");
+  };
+
+  return (
+    <View>
+      <View style={{ gap: 8, paddingBottom: 8 }}>
+        {data.tags.slice(0, limit).map((tag) => (
+          <Pressable
+            key={tag?.details?.id}
+            onPress={() => onPress(tag.id)}
+            style={{
+              position: "relative",
+              height: 32,
+              justifyContent: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: colors.tags[tag?.details?.color]?.background,
+                height: 32,
+                width: `${getBarFraction(tag.count, max) * 100}%` as const,
+                borderRadius: RADIUS.xs,
+                position: "absolute",
+              }}
+            />
+            <Text
+              style={{
+                color: colors.tags[tag?.details?.color]?.text,
+                fontSize: 14,
+                fontWeight: "600",
+                position: "relative",
+                marginLeft: 8,
+                marginRight: 8,
+              }}
+              numberOfLines={1}
+            >
+              {tag.count}x {tag?.details?.title}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+      {data.tags.length > limit && (
+        <View
+          style={{
+            marginTop: 8,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              color: colors.textSecondary,
+            }}
+          >
+            And {data.tags.length - limit} more
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+};
+
+/** Highlight card for tag usage. */
+export const TagsDistributionCard = ({
+  data,
+}: {
+  data: TagsDistributionData;
+}) => (
+  <Card
+    subtitle={t("tags")}
+    title={t("statistics_tags_distribution_title", {
+      count: data.tags.length,
+    })}
+  >
+    <TagDistributionContent data={data} />
+  </Card>
+);

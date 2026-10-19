@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.101.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.100.0...v1.101.0) (2026-10-19)
+
+
+### Features
+
+* **logger:** offer to continue an entry after the app was killed ([#899](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/899)) ([9b2c93b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9b2c93b06d063b9e0e18c93a8c053adeea38745e))
+* **logger:** two dials emotion picker behind flag ([#887](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/887)) ([4f0ea29](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4f0ea294967805cb4c69cac4cf21b53082103db8))
+* **quick-check-in:** check in from an Android notification ([#874](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/874)) ([2218499](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2218499231ba21cb956d6f71b39f2d0f03e92d9c))
+* **quick-check-in:** Lock Screen quick check-in on iOS, started from Settings ([#873](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/873)) ([3839934](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/38399341f7580cabe98d35d6b465f5adcff6071b))
+* **recaps:** add month recap story ([#889](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/889)) ([25662db](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/25662dbeafcac8ea01a3f1537c89c17799399bff))
+* **tags:** raise tag limit to 500 behind more-tags flag ([#893](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/893)) ([5c2c035](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5c2c0357a0cbc89fc8a9e18de4aff476ec010f72))
+* **voice:** voice check-in with live tagging behind voice-mode flag ([#775](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/775)) ([800a9f1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/800a9f1a7e8bb5be65faa1575b994440bc567738))
+
+
+### Bug Fixes
+
+* **profile:** stop avatar tap from scrolling calendar to top ([#896](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/896)) ([568b7e1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/568b7e17f6726d73c927ea9e50228a45077c1d29))
+
+## [1.100.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.99.1...v1.100.0) (2026-10-18)
+
+
+### Features
+
+* **cli:** add release smoke launch check for iOS release bundles ([#883](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/883)) ([75ca65c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/75ca65c06a0f04aae417b0aa0c11a237176c4fa7))
+* **logger:** native date and time picker with time-of-day presets ([#804](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/804)) ([de949f7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/de949f78aa9c1275ca8865e6b2c52e948d332104))
+* **navigation:** add not found screen for unknown paths ([#871](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/871)) ([553afd7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/553afd7f0c6419a32dde1f5f6b79a2759126da77))
+* **photos:** open day photos in a native Galeria viewer ([#806](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/806)) ([85e18da](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/85e18da029eafb9604c6900775ead128ee8b5b8f))
+* **reminder:** use @expo/ui native time pickers for reminder time ([#837](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/837)) ([3abb3d8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3abb3d8c782a11a651a9a9e7b9e211d8f9ec4477))
+* **settings:** render settings tab with native grouped rows ([#838](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/838)) ([de0a573](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/de0a5737b54733e838e51d6c9d1ca15b3368d93a))
+* **tags:** native header search bar on tags settings ([#851](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/851)) ([fb5ca9e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fb5ca9edb2fbc0ada84de177035baedcbf9a15d4))
+* **ui:** use tabular digits on reminder time, counters and recap period ([#857](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/857)) ([67a39cd](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/67a39cd06c8b03ea274cbb86ff323aa67a111b54))
+
+
+### Bug Fixes
+
+* **observe:** dispatch only from real devices and tag events with the app variant ([#847](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/847)) ([d35ef3a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d35ef3a33165f6f5737ddcdb6e1fbb7b1e73b8ff))
+* read window and screen size reactively ([#877](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/877)) ([ab41322](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ab41322166c0b098cc5c5525f457b4e269d4071a))
+* **statistics:** put Year in Pixels entries on their local day ([#872](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/872)) ([9bbdfd7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9bbdfd74b01fa3eb76eb1a12db514b5c69c6bde7))
+* **statistics:** stop freezing year report title at current year ([#870](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/870)) ([ab37dd9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ab37dd952c5b2fdd7cbcaf74c6f96ece7a1a5a73))
+
+
+### Performance Improvements
+
+* **calendar:** let React Compiler optimize the calendar screen ([#807](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/807)) ([ec106de](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ec106de0e5831596aa8c6f37725463b4fbce1d64))
+* **people:** normalize and sort contacts once for import search ([#793](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/793)) ([58c4ab5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/58c4ab5832b44da7a9c6c6202052131862b0d3a6))
+* **statistics:** derive highlights report and build Year in Pixels in one pass ([#796](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/796)) ([018cd41](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/018cd41fb7e8e64bece393e884766e3d56081aaa))
+
 ## [1.99.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.99.0...v1.99.1) (2026-10-18)
 
 

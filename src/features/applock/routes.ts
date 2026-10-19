@@ -1,2 +1,2 @@
 // Route screens. Import only from src/app route files and other screens, never from startup code.
-export { AppLockSettingsScreen } from "./AppLockSettingsScreen";
+export { AppLockSettingsScreen } from "./app-lock-settings-screen";

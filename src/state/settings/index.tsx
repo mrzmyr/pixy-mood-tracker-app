@@ -4,18 +4,18 @@ import { useEffect, useMemo } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
-import { STEP_OPTIONS } from "@/constants/LoggerSteps";
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import { STEP_OPTIONS } from "@/constants/logger-steps";
+import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 
-import { createPersistedStore } from "@/state/persisted/createPersistedStore";
-import type { Load } from "@/state/persisted/createPersistedStore";
+import { createPersistedStore } from "@/state/persisted/create-persisted-store";
+import type { Load } from "@/state/persisted/create-persisted-store";
 
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
-import { INITIAL_STATE } from "@/constants/Settings";
-import { applyColorScheme, ColorSchemeSettingSchema } from "./colorScheme";
-import type { ColorSchemeSetting } from "./colorScheme";
+import { INITIAL_STATE } from "@/constants/settings";
+import { applyColorScheme, ColorSchemeSettingSchema } from "./color-scheme";
+import type { ColorSchemeSetting } from "./color-scheme";
 
 /**
  * AsyncStorage key for settings. Keep the legacy name; changing it resets
@@ -90,6 +90,11 @@ export interface SettingsState {
    * `null`. Stays on this device; backups carry no profile.
    */
   profileAvatar: string | null;
+  /**
+   * Quick check-in on the Lock Screen (iOS Live Activity) or in an ongoing
+   * notification (Android). Needs device permissions, so imports keep it.
+   */
+  quickCheckInEnabled: boolean;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -102,8 +107,8 @@ export interface SettingsState {
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
- * location, calendar layout, app lock, recap notifications, and the profile
- * to the device, so imports keep the current values.
+ * location, calendar layout, app lock, recap notifications, the profile,
+ * and quick check-in to the device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -118,6 +123,7 @@ export type ExportSettings = Omit<
   | "recapNotificationsEnabled"
   | "profileName"
   | "profileAvatar"
+  | "quickCheckInEnabled"
 >;
 
 interface IAction {
@@ -180,6 +186,7 @@ const reducer = (
         recapNotificationsEnabled: state.recapNotificationsEnabled,
         profileName: state.profileName,
         profileAvatar: state.profileAvatar,
+        quickCheckInEnabled: state.quickCheckInEnabled,
       };
     }
     case "reset": {
@@ -211,6 +218,7 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
         recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
         profileName: z.string().safeParse(stored.profileName).data ?? "",
         profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
+        quickCheckInEnabled: stored.quickCheckInEnabled === true,
       };
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({

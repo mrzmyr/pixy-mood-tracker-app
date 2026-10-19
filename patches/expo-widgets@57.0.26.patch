@@ -1,0 +1,320 @@
+diff --git a/build/Widgets.d.ts b/build/Widgets.d.ts
+index d4b5aacee380c056855f68c5ca62c9af24304745..a58f6a63600e20e921c115a9f3c33f918932c620 100644
+--- a/build/Widgets.d.ts
++++ b/build/Widgets.d.ts
+@@ -29,6 +29,8 @@ export declare class Widget<PropsType extends object = object, ConfigurationType
+ /**
+  * Represents a Live Activity instance. Provides methods to update its content and end it.
+  */
++/** ActivityKit state of a Live Activity. */
++export type LiveActivityState = 'pending' | 'active' | 'stale' | 'ended' | 'dismissed';
+ export declare class LiveActivity<T extends object = object> {
+     /** @hidden */
+     private nativeLiveActivity;
+@@ -56,6 +58,10 @@ export declare class LiveActivity<T extends object = object> {
+      * Returns `null` if push notifications are not enabled or the token is not yet available.
+      */
+     getPushToken(): Promise<string | null>;
++    /**
++     * Returns `pending` (scheduled, not started yet), `active`, `stale`, `ended`, or `dismissed`.
++     */
++    getState(): LiveActivityState;
+     /**
+      * Adds a listener for push token update events on this Live Activity instance.
+      * The token can be used to send content updates to this specific activity via APNs.
+@@ -80,7 +86,17 @@ export declare class LiveActivityFactory<T extends object = object> {
+      */
+     start(props: T, url?: string, staleDate?: Date): LiveActivity<T>;
+     /**
+-     * Returns all currently active instances of this Live Activity type.
++     * Schedules a Live Activity that iOS starts at `startDate`, also while the app is not running.
++     * Throws below iOS 26.
++     * @param alert Title and body iOS shows when the Live Activity starts.
++     * @platform iOS 26+
++     */
++    schedule(props: T, startDate: Date, alert: {
++        title: string;
++        body: string;
++    }, url?: string, staleDate?: Date): LiveActivity<T>;
++    /**
++     * Returns all active, stale, and scheduled (pending) instances of this Live Activity type.
+      */
+     getInstances(): LiveActivity<T>[];
+ }
+diff --git a/build/Widgets.js b/build/Widgets.js
+index 9099a1bb3c10eaddc41518ba5b82117284f82135..4b3617de4e79435048007a12354475a63f34c89b 100644
+--- a/build/Widgets.js
++++ b/build/Widgets.js
+@@ -84,6 +84,12 @@ export class LiveActivity {
+     getPushToken() {
+         return this.nativeLiveActivity.getPushToken();
+     }
++    /**
++     * Returns `pending` (scheduled, not started yet), `active`, `stale`, `ended`, or `dismissed`.
++     */
++    getState() {
++        return this.nativeLiveActivity.getState();
++    }
+     /**
+      * Adds a listener for push token update events on this Live Activity instance.
+      * The token can be used to send content updates to this specific activity via APNs.
+@@ -114,7 +120,15 @@ export class LiveActivityFactory {
+         return new LiveActivity(this.nativeLiveActivityFactory.start(JSON.stringify(props), url, staleDate?.getTime()));
+     }
+     /**
+-     * Returns all currently active instances of this Live Activity type.
++     * Schedules a Live Activity that iOS starts at `startDate`, also while the app is not running.
++     * Throws below iOS 26.
++     * @param alert Title and body iOS shows when the Live Activity starts.
++     */
++    schedule(props, startDate, alert, url, staleDate) {
++        return new LiveActivity(this.nativeLiveActivityFactory.schedule(JSON.stringify(props), url, staleDate?.getTime(), startDate.getTime(), alert.title, alert.body));
++    }
++    /**
++     * Returns all active, stale, and scheduled (pending) instances of this Live Activity type.
+      */
+     getInstances() {
+         return this.nativeLiveActivityFactory
+diff --git a/build/Widgets.types.d.ts b/build/Widgets.types.d.ts
+index 15e026868625ce20a3e359e5cc8e5c7e937c4650..9d7e285a51b60441b6929a39d3d95d041265bf29 100644
+--- a/build/Widgets.types.d.ts
++++ b/build/Widgets.types.d.ts
+@@ -262,6 +262,7 @@ export declare class NativeWidgetObject extends SharedObject {
+ export declare class NativeLiveActivityFactory extends SharedObject {
+     constructor(name: string, layout: string);
+     start(props: string, url?: string, staleDate?: number): NativeLiveActivity;
++    schedule(props: string, url: string | undefined, staleDate: number | undefined, startDate: number, alertTitle: string, alertBody: string): NativeLiveActivity;
+     getInstances(): NativeLiveActivity[];
+ }
+ export declare class NativeLiveActivity extends SharedObject<LiveActivityEvents> {
+@@ -269,5 +270,6 @@ export declare class NativeLiveActivity extends SharedObject<LiveActivityEvents>
+     update(props: string, staleDate?: number): Promise<void>;
+     end(dismissalPolicy?: string, afterDate?: number, state?: string, contentDate?: number): Promise<void>;
+     getPushToken(): Promise<string | null>;
++    getState(): 'pending' | 'active' | 'stale' | 'ended' | 'dismissed';
+ }
+ //# sourceMappingURL=Widgets.types.d.ts.map
+\ No newline at end of file
+diff --git a/ios/LiveActivity.swift b/ios/LiveActivity.swift
+index 5f34eb2b67a0c2389c8ad8e09c71aa391a0c65ef..7c6d5669093bb2cdcd03f9f62175cf5186d48804 100644
+--- a/ios/LiveActivity.swift
++++ b/ios/LiveActivity.swift
+@@ -44,6 +44,30 @@ final class LiveActivity: SharedObject {
+     await activity.end(content, dismissalPolicy: dismissalPolicy?.toDismissalPolicy(date: afterDate) ?? .default, timestamp: contentDate)
+   }
+ 
++  /// `pending` (scheduled, not started yet), `active`, `stale`, `ended`, or `dismissed`.
++  func getState() throws -> String {
++    guard #available(iOS 16.2, *) else { throw LiveActivitiesNotSupportedException() }
++
++    guard let activity = Activity<LiveActivityAttributes>.activities.first(where: { $0.id == id }) else {
++      return "dismissed"
++    }
++
++    let state = activity.activityState
++    if #available(iOS 26.0, *), state == .pending {
++      return "pending"
++    }
++    if state == .active {
++      return "active"
++    }
++    if state == .stale {
++      return "stale"
++    }
++    if state == .ended {
++      return "ended"
++    }
++    return "dismissed"
++  }
++
+   func getPushToken() throws -> String? {
+     guard #available(iOS 16.1, *) else { throw LiveActivitiesNotSupportedException() }
+ 
+diff --git a/ios/LiveActivityFactory.swift b/ios/LiveActivityFactory.swift
+index 4b8a632965ddb507aeeb54a4d8944f455e5dffd7..5b1adbfd45b03b87eea93c0693a1806a8cf88569 100644
+--- a/ios/LiveActivityFactory.swift
++++ b/ios/LiveActivityFactory.swift
+@@ -37,6 +37,39 @@ final class LiveActivityFactory: SharedObject {
+     }
+   }
+ 
++  /// Schedules a Live Activity that iOS starts at `startDate`, also while the
++  /// app is not running. iOS alerts the user with `alertTitle` and
++  /// `alertBody` when it starts.
++  func schedule(props: String, url: URL?, staleDate: Date?, startDate: Date, alertTitle: String, alertBody: String) throws -> LiveActivity {
++    guard #available(iOS 26.0, *) else { throw LiveActivitiesNotSupportedException() }
++    guard ActivityAuthorizationInfo().areActivitiesEnabled else {
++      throw LiveActivitiesNotSupportedException()
++    }
++
++    do {
++      let initialState = LiveActivityAttributes.ContentState(name: name, props: props)
++      let activity = try Activity.request(
++        attributes: LiveActivityAttributes(url: url?.absoluteString),
++        content: .init(state: initialState, staleDate: staleDate),
++        pushType: LiveActivityFactory.pushNotificationsEnabled ? .token : nil,
++        style: .standard,
++        alertConfiguration: AlertConfiguration(
++          title: LocalizedStringResource(stringLiteral: alertTitle),
++          body: LocalizedStringResource(stringLiteral: alertBody),
++          sound: .default
++        ),
++        start: startDate
++      )
++
++      let instance = LiveActivity(id: activity.id, name: name)
++      instance.observePushTokenUpdates(for: activity, pushNotificationsEnabled: LiveActivityFactory.pushNotificationsEnabled)
++      instances[activity.id] = instance
++      return instance
++    } catch {
++      throw StartLiveActivityException(error.localizedDescription)
++    }
++  }
++
+   func getInstances() throws -> [LiveActivity] {
+     guard #available(iOS 16.2, *) else { throw LiveActivitiesNotSupportedException() }
+ 
+@@ -44,7 +77,13 @@ final class LiveActivityFactory: SharedObject {
+       // Filter LiveActivity instances for activities that don't match the factory's name.
+       .filter { $0.content.state.name == name }
+       // A stale activity is still visible and updatable; only ended/dismissed ones are gone.
+-      .filter { $0.activityState == .active || $0.activityState == .stale }
++      // A scheduled activity is pending until its start date.
++      .filter { activity in
++        if #available(iOS 26.0, *), activity.activityState == .pending {
++          return true
++        }
++        return activity.activityState == .active || activity.activityState == .stale
++      }
+       
+     let activeIDs = Set(activities.map(\.id))
+     instances = instances.filter { activeIDs.contains($0.key) }
+diff --git a/ios/Widgets/AppIntent.swift b/ios/Widgets/AppIntent.swift
+index 972fa4f190d5da8f961218bcbe2436964ac34acf..15611ad20bed8b10a889b23ec4f24ce6217a1d1e 100644
+--- a/ios/Widgets/AppIntent.swift
++++ b/ios/Widgets/AppIntent.swift
+@@ -125,6 +125,15 @@ struct LiveActivityUserInteraction: LiveActivityIntent {
+       "timestamp": Int(Date().timeIntervalSince1970 * 1000)
+     ])
+ 
++    // The intent runs in the app process. iOS can suspend the app as soon as
++    // perform() returns, so wait for JS to subscribe (cold launch) and give it
++    // time to handle the tap and update the activity.
++    let deadline = Date().addingTimeInterval(10)
++    while WidgetsEvents.shared.hasPending && Date() < deadline {
++      try? await Task.sleep(nanoseconds: 100_000_000)
++    }
++    try? await Task.sleep(nanoseconds: 1_000_000_000)
++
+     return .result()
+   }
+ }
+diff --git a/ios/WidgetsEvents.swift b/ios/WidgetsEvents.swift
+index 0dec3e31bbcc04eb5b4587731199a080dadc4e31..660397e5ac14447e01efe6dffe79e5e3d5a931fe 100644
+--- a/ios/WidgetsEvents.swift
++++ b/ios/WidgetsEvents.swift
+@@ -1,3 +1,5 @@
++import Foundation
++
+ public enum WidgetsEventType: String {
+   case userEvent = "ExpoWidgetsUserInteraction"
+ }
+@@ -5,12 +7,52 @@ public enum WidgetsEventType: String {
+ public class WidgetsEvents {
+   public static let shared = WidgetsEvents()
+ 
++  // Events posted before JS subscribes, for example when iOS launches the app
++  // in the background to run a Live Activity intent. Delivered on subscribe.
++  private let lock = NSLock()
++  private var isObserved = false
++  private var pending: [[String: Any]] = []
++  private let maxPending = 50
++
+   private init() {}
+ 
+   public func sendNotification(type: WidgetsEventType, data: [String: Any]) {
+     var eventData = data
+     eventData["type"] = type.rawValue
++    lock.lock()
++    if !isObserved {
++      pending.append(eventData)
++      if pending.count > maxPending {
++        pending.removeFirst()
++      }
++      lock.unlock()
++      return
++    }
++    lock.unlock()
+     let userInfo = ["eventData": eventData] as [String: Any]
+     NotificationCenter.default.post(name: onUserInteractionNotification, object: nil, userInfo: userInfo)
+   }
++
++  /// Marks JS as subscribed and returns the events that waited for it.
++  func startObserving() -> [[String: Any]] {
++    lock.lock()
++    defer { lock.unlock() }
++    isObserved = true
++    let events = pending
++    pending = []
++    return events
++  }
++
++  func stopObserving() {
++    lock.lock()
++    defer { lock.unlock() }
++    isObserved = false
++  }
++
++  /// True while events wait for a JS subscriber.
++  var hasPending: Bool {
++    lock.lock()
++    defer { lock.unlock() }
++    return !pending.isEmpty
++  }
+ }
+diff --git a/ios/WidgetsModule.swift b/ios/WidgetsModule.swift
+index b1b4295e22726e6fe501aa5e514b56061dea57a1..133780adb82bb1b4d8dfe88f2e85332fbbb0adf7 100644
+--- a/ios/WidgetsModule.swift
++++ b/ios/WidgetsModule.swift
+@@ -24,9 +24,19 @@ public final class WidgetsModule: Module {
+         name: onUserInteractionNotification,
+         object: nil
+       )
++      let pending = WidgetsEvents.shared.startObserving()
++      if !pending.isEmpty {
++        // Deliver after the JS listener that triggered this call is attached.
++        DispatchQueue.main.async { [weak self] in
++          for eventData in pending {
++            self?.sendEvent(onUserInteraction, eventData)
++          }
++        }
++      }
+     }
+ 
+     OnStopObserving(onUserInteraction) {
++      WidgetsEvents.shared.stopObserving()
+       NotificationCenter.default.removeObserver(
+         self,
+         name: onUserInteractionNotification,
+@@ -90,6 +100,10 @@ public final class WidgetsModule: Module {
+         return try liveActivity.start(props: props, url: url, staleDate: staleDate)
+       }
+ 
++      Function("schedule") { (liveActivity: LiveActivityFactory, props: String, url: URL?, staleDate: Date?, startDate: Date, alertTitle: String, alertBody: String) in
++        return try liveActivity.schedule(props: props, url: url, staleDate: staleDate, startDate: startDate, alertTitle: alertTitle, alertBody: alertBody)
++      }
++
+       Function("getInstances") { (liveActivity: LiveActivityFactory) in
+         try liveActivity.getInstances()
+       }
+@@ -108,6 +122,10 @@ public final class WidgetsModule: Module {
+         try await instance.end(dismissalPolicy: dismissalPolicy, afterDate: afterDate, props: props, contentDate: contentDate)
+       }
+ 
++      Function("getState") { (instance: LiveActivity) in
++        try instance.getState()
++      }
++
+       AsyncFunction("getPushToken") { (instance: LiveActivity) in
+         try instance.getPushToken()
+       }

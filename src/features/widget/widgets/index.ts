@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 import { Platform } from "react-native";
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import type { LogItem } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
 import {
@@ -9,11 +9,11 @@ import {
   getWidgetTimeline,
   getYearWidgetProps,
   YEAR_WIDGET_TIMELINE_DAYS,
-} from "../widgetData";
-import type { YearImages } from "../widgetData";
-import PixyMonthWidget from "./PixyMonthWidget";
-import PixyWeekWidget from "./PixyWeekWidget";
-import PixyYearWidget from "./PixyYearWidget";
+} from "../widget-data";
+import type { YearImages } from "../widget-data";
+import PixyMonthWidget from "./pixy-month-widget";
+import PixyWeekWidget from "./pixy-week-widget";
+import PixyYearWidget from "./pixy-year-widget";
 
 /** Home screen widgets exist on iOS only. */
 export const IS_WIDGET_SUPPORTED = Platform.OS === "ios";
@@ -55,7 +55,7 @@ const describeTimelines = async () => {
 /**
  * Pushes a fresh timeline to every widget, then reads the store back so
  * Development tools can show what the widgets will render. Never throws: a
- * widget failure must not break the app, so errors go to Sentry.
+ * widget failure must not break the app, so errors go to `reportError`.
  */
 export const syncWidgets = async ({
   items,
@@ -104,6 +104,6 @@ export const syncWidgets = async ({
       why: structuredError.why,
     };
     console.error(structuredError);
-    Sentry.captureException(structuredError);
+    reportError(structuredError);
   }
 };
