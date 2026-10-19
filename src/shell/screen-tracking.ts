@@ -41,6 +41,9 @@ const getScreenName = (pathname: string): string | null => {
   if (pathname.startsWith("/photos/")) {
     return "PhotoViewer";
   }
+  if (pathname.startsWith("/check-in/")) {
+    return "QuickCheckIn";
+  }
   if (pathname.startsWith("/logs/create/")) {
     return "LogCreate";
   }

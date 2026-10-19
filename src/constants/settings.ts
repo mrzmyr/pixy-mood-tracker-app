@@ -39,4 +39,5 @@ export const INITIAL_STATE: SettingsState = {
   recapNotificationsEnabled: false,
   profileName: "",
   profileAvatar: null,
+  quickCheckInEnabled: false,
 };

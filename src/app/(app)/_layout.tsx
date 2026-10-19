@@ -6,6 +6,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { DEV_TOOLS } from "@/dev";
 import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
+import { QuickCheckInActivitySync } from "@/features/quickcheckin";
 import { WidgetSync } from "@/features/widget";
 import { LoggerRecoveryPrompt } from "@/features/logger";
 import {
@@ -112,6 +113,7 @@ const AppLayout = () => {
     <StorageLoadGate>
       <WidgetSync />
       <LoggerRecoveryPrompt />
+      <QuickCheckInActivitySync />
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -184,6 +186,7 @@ const AppLayout = () => {
           />
           <Stack.Screen name="widget" options={modalOptions} />
           <Stack.Screen name="feedback" options={feedbackOptions} />
+          <Stack.Screen name="check-in/[id]" options={modalOptions} />
           <Stack.Screen
             name="interventions/[id]"
             options={{ ...modalOptions, gestureEnabled: false }}

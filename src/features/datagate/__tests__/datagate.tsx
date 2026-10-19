@@ -323,6 +323,7 @@ describe("useLogs()", () => {
           "recapNotificationsEnabled",
           "profileName",
           "profileAvatar",
+          "quickCheckInEnabled",
         ]),
         tagCategories: testTagCategories,
       } satisfies ExportSettings & { tagCategories: TagCategory[] },

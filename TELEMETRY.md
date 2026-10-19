@@ -44,6 +44,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
 - Widget guide: `widget:guide_*`
+- Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`, `rating`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`), `quick_check_in:setting_changed` (`enabled`). `source`: `live_activity`, `notification`, `app`. Never people or tag names
 - Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](src/features/logger/confirmation))
   - Shown only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`

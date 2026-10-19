@@ -1,0 +1,315 @@
+import dayjs from "dayjs";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useMemo, useState } from "react";
+import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { v4 as uuidv4 } from "uuid";
+import { CloseButton } from "@/components/close-button";
+import ModalHeader from "@/components/modal-header";
+import { SearchInput } from "@/components/search-input";
+import { RATING_KEYS } from "@/constants/ratings";
+import { EMOTIONS } from "@/features/logger";
+import { useLogState, useLogUpdater } from "@/features/logs";
+import type { LogItem } from "@/features/logs";
+import { PersonChip, usePeopleState } from "@/features/people";
+import { TagComponent, useTagsState } from "@/features/tags";
+import useColors from "@/hooks/use-colors";
+import { t } from "@/lib/translation";
+import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/feature-flags";
+import { createQuickEntry } from "../check-in-state";
+import { getSheetSections } from "../sheet-sections";
+import { EmotionChip, MoodPixel } from "./quick-check-in-chips";
+import type { InfluenceOption } from "../ranking";
+
+const NO_PEOPLE: never[] = [];
+
+/** Screen values. `source` tells whether the user changed them yet. */
+interface Draft {
+  rating: LogItem["rating"] | null;
+  emotions: string[];
+  /** Picked people and tags as `kind:id`. */
+  picked: string[];
+  source: "empty" | "entry" | "user";
+}
+
+const toDraft = (entry: LogItem | undefined): Draft =>
+  entry
+    ? {
+        rating: entry.rating,
+        emotions: entry.emotions,
+        picked: [
+          ...entry.people.map((person) => `person:${person.id}`),
+          ...entry.tags.map((tag) => `tag:${tag.id}`),
+        ],
+        source: "entry",
+      }
+    : { rating: null, emotions: [], picked: [], source: "empty" };
+
+const SectionTitle = ({ children }: { children: string }) => {
+  const colors = useColors();
+  return (
+    <Text
+      accessibilityRole="header"
+      style={{
+        color: colors.textSecondary,
+        fontSize: 13,
+        fontWeight: "600",
+        marginTop: 24,
+        marginBottom: 8,
+        textTransform: "uppercase",
+      }}
+    >
+      {children}
+    </Text>
+  );
+};
+
+/**
+ * Quick check-in on one scrolling page: search on top, then mood,
+ * emotions, Suggested, People A to Z, and Tags A to Z. Target of every More
+ * tap on the Lock Screen and in the notification.
+ *
+ * - `id` names an entry saved on the glance surface: the screen edits it.
+ * - `id` `new` or unknown: Save creates an entry. Save needs a mood.
+ */
+export const QuickCheckIn = () => {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
+  const colors = useColors();
+  const insets = useSafeAreaInsets();
+  const analytics = useAnalytics();
+  const { items } = useLogState();
+  const logUpdater = useLogUpdater();
+  const hasPeople = useFeatureFlag("people");
+  const { people } = usePeopleState();
+  const { tags } = useTagsState();
+
+  const entry = items.find((item) => item.id === id);
+  const [draft, setDraft] = useState(() => toDraft(entry));
+  // Android imports notification entries on start, so the entry can land
+  // after the screen opened. Take it until the user changes something.
+  if (entry && draft.source === "empty") {
+    setDraft(toDraft(entry));
+  }
+  const { rating, emotions, picked } = draft;
+  const setRating = (value: LogItem["rating"]) =>
+    setDraft((current) => ({ ...current, rating: value, source: "user" }));
+  const setEmotions = (value: string[]) =>
+    setDraft((current) => ({ ...current, emotions: value, source: "user" }));
+  const setPicked = (update: (current: string[]) => string[]) =>
+    setDraft((current) => ({
+      ...current,
+      picked: update(current.picked),
+      source: "user",
+    }));
+  const [query, setQuery] = useState("");
+  // Ranking time is fixed when the screen opens.
+  const now = useMemo(() => dayjs(), []);
+
+  const visiblePeople = hasPeople ? people : NO_PEOPLE;
+  const sections = useMemo(
+    () =>
+      getSheetSections({
+        query,
+        rating,
+        items,
+        people: visiblePeople,
+        tags,
+        emotions: EMOTIONS,
+        now,
+      }),
+    [query, rating, items, visiblePeople, tags, now]
+  );
+
+  const toggle = (option: InfluenceOption) => {
+    const key = `${option.kind}:${option.id}`;
+    setPicked((current) =>
+      current.includes(key)
+        ? current.filter((value) => value !== key)
+        : [...current, key]
+    );
+  };
+
+  const references = (kind: InfluenceOption["kind"]) => {
+    const prefix = `${kind}:`;
+    const result: { id: string }[] = [];
+    for (const key of picked) {
+      if (key.startsWith(prefix)) {
+        result.push({ id: key.slice(prefix.length) });
+      }
+    }
+    return result;
+  };
+
+  const isSheet = router.canGoBack();
+  // Opened from the Lock Screen with the app closed: nothing to go back to.
+  const close = () => (isSheet ? router.back() : router.replace("/"));
+
+  const save = () => {
+    if (rating === null) {
+      return;
+    }
+    const changes = {
+      rating,
+      emotions,
+      people: references("person"),
+      tags: references("tag"),
+    };
+    if (items.some((item) => item.id === id)) {
+      logUpdater.editLog({ id, ...changes });
+    } else {
+      logUpdater.addLog(createQuickEntry(uuidv4(), dayjs(), changes));
+      analytics.track("quick_check_in:entry_saved", { source: "app", rating });
+    }
+    analytics.track("quick_check_in:completed", {
+      source: "app",
+      has_emotion: emotions.length > 0,
+      influences_count: picked.length,
+    });
+    close();
+  };
+
+  const pickedKeys = new Set(picked);
+  const emotionKeys = new Set(emotions);
+  const tagById = new Map(tags.map((tag) => [tag.id, tag]));
+  const personById = new Map(people.map((person) => [person.id, person]));
+
+  const renderOption = (option: InfluenceOption) => {
+    const selected = pickedKeys.has(`${option.kind}:${option.id}`);
+    const person =
+      option.kind === "person" ? personById.get(option.id) : undefined;
+    if (person) {
+      return (
+        <PersonChip
+          key={`person:${option.id}`}
+          person={person}
+          selected={selected}
+          onPress={() => toggle(option)}
+        />
+      );
+    }
+    const tag = tagById.get(option.id);
+    if (!tag) {
+      return null;
+    }
+    return (
+      <TagComponent
+        key={`tag:${option.id}`}
+        title={tag.title}
+        colorName={tag.color}
+        selected={selected}
+        onPress={() => toggle(option)}
+      />
+    );
+  };
+
+  const chipRow = (options: InfluenceOption[]) => (
+    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+      {options.map(renderOption)}
+    </View>
+  );
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.background,
+        // A cold deep link opens the screen as the root, not as a sheet.
+        marginTop: Platform.OS === "android" || !isSheet ? insets.top : 0,
+      }}
+    >
+      <ModalHeader
+        title={t("quick_check_in_title")}
+        left={<CloseButton testID="quick-check-in-close" onPress={close} />}
+        right={
+          <Pressable
+            testID="quick-check-in-save"
+            accessibilityRole="button"
+            accessibilityState={{ disabled: rating === null }}
+            disabled={rating === null}
+            onPress={save}
+            hitSlop={8}
+          >
+            <Text
+              style={{
+                color: rating === null ? colors.textSecondary : colors.tint,
+                fontSize: 17,
+                fontWeight: "600",
+              }}
+            >
+              {t("save")}
+            </Text>
+          </Pressable>
+        }
+      />
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+          paddingBottom: insets.bottom + 32,
+        }}
+      >
+        <SearchInput
+          testID="quick-check-in-search"
+          value={query}
+          onChange={setQuery}
+        />
+        {query.trim() === "" && (
+          <>
+            <SectionTitle>{t("logger_step_rating")}</SectionTitle>
+            <View style={{ flexDirection: "row", gap: 6 }}>
+              {[...RATING_KEYS].reverse().map((key) => (
+                <MoodPixel
+                  key={key}
+                  rating={key}
+                  selected={rating === key}
+                  onPress={() => setRating(key)}
+                />
+              ))}
+            </View>
+          </>
+        )}
+        {sections.emotions.length > 0 && (
+          <>
+            <SectionTitle>{t("emotions")}</SectionTitle>
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              {sections.emotions.map((emotion) => (
+                <EmotionChip
+                  key={emotion.key}
+                  emotion={emotion}
+                  selected={emotionKeys.has(emotion.key)}
+                  onPress={() =>
+                    setEmotions(
+                      emotionKeys.has(emotion.key)
+                        ? emotions.filter((key) => key !== emotion.key)
+                        : [...emotions, emotion.key]
+                    )
+                  }
+                />
+              ))}
+            </View>
+          </>
+        )}
+        {sections.suggested.length > 0 && (
+          <>
+            <SectionTitle>{t("quick_check_in_suggested")}</SectionTitle>
+            {chipRow(sections.suggested)}
+          </>
+        )}
+        {sections.people.length > 0 && (
+          <>
+            <SectionTitle>{t("people")}</SectionTitle>
+            {chipRow(sections.people)}
+          </>
+        )}
+        {sections.tags.length > 0 && (
+          <>
+            <SectionTitle>{t("tags")}</SectionTitle>
+            {chipRow(sections.tags)}
+          </>
+        )}
+      </ScrollView>
+    </View>
+  );
+};

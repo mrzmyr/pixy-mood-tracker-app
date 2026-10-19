@@ -108,6 +108,18 @@ export interface AnalyticsEvents {
   "widget:guide_dismissed": { step: number };
   "widget:guide_completed": undefined;
 
+  /** `source`: Lock Screen (iOS), notification (Android), or the in-app screen. */
+  "quick_check_in:entry_saved": {
+    source: "live_activity" | "notification" | "app";
+    rating: LogItem["rating"];
+  };
+  "quick_check_in:completed": {
+    source: "live_activity" | "notification" | "app";
+    has_emotion: boolean;
+    influences_count: number;
+  };
+  "quick_check_in:setting_changed": { enabled: boolean };
+
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
   "day:delete_tapped": undefined;
