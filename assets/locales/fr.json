@@ -585,7 +585,7 @@
   "log_summary_title_good": "Youpi, c’est enregistré !",
   "log_summary_title_neutral": "C’est noté, merci !",
   "log_tags_disable": "je n'utilise pas de balises",
-  "log_tags_question": "Ajoutez des balises à votre journée",
+  "log_tags_question": "Ajoutez des balises à votre journée (optional)",
   "log_tags_search": "Rechercher des tags…",
   "log_view_changed_body": "Vous pouvez maintenant utiliser le bouton [+] en haut pour ajouter plusieurs entrées. Si vous avez plusieurs entrées par jour, une liste sera affichée, sinon une seule entrée sera affichée dans cette vue détaillée.",
   "log_view_changed_title": "Attendez, où sont mes journées ?",

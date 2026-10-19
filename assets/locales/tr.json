@@ -584,7 +584,7 @@
   "log_summary_title_good": "Yaşasın, kaydedildi!",
   "log_summary_title_neutral": "Tamamdır, teşekkürler!",
   "log_tags_disable": "etiket kullanmıyorum",
-  "log_tags_question": "Gününüze etiket ekleyin",
+  "log_tags_question": "Gününüze etiket ekleyin (optional)",
   "log_tags_search": "Etiket ara…",
   "log_view_changed_body": "Artık birden fazla giriş eklemek için üst kısımdaki [+] düğmesini kullanabilirsiniz. Günde birden fazla girişiniz varsa, bir liste görüntülenecektir, aksi takdirde bu ayrıntılı görünümde yalnızca bir giriş görüntülenecektir.",
   "log_view_changed_title": "Bekle, gündüzlerim nerede?",

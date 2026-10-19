@@ -584,7 +584,7 @@
   "log_summary_title_good": "יש, נשמר!",
   "log_summary_title_neutral": "קיבלתי, תודה!",
   "log_tags_disable": "אני לא משתמש בתגיות",
-  "log_tags_question": "הוסף תגים ליום שלך",
+  "log_tags_question": "הוסף תגים ליום שלך (optional)",
   "log_tags_search": "חיפוש תגיות…",
   "log_view_changed_body": "כעת תוכל להשתמש בלחצן [+] בחלק העליון כדי להוסיף מספר ערכים. אם יש לך מספר ערכים ביום, רשימה תוצג, אחרת רק ערך אחד יוצג בתצוגת פירוט זו.",
   "log_view_changed_title": "רגע, איפה שעות היום שלי?",

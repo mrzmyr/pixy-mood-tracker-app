@@ -584,7 +584,7 @@
   "log_summary_title_good": "¡Yupi, guardado!",
   "log_summary_title_neutral": "¡Entendido, gracias!",
   "log_tags_disable": "no uso etiquetas",
-  "log_tags_question": "Agrega etiquetas a tu día",
+  "log_tags_question": "Agrega etiquetas a tu día (optional)",
   "log_tags_search": "Buscar etiquetas…",
   "log_view_changed_body": "Ahora puede usar el botón [+] en la parte superior para agregar varias entradas. Si tiene varias entradas por día, se mostrará una lista; de lo contrario, solo se mostrará una entrada en esta vista detallada.",
   "log_view_changed_title": "Espera, ¿dónde están mis días?",

@@ -584,7 +584,7 @@
   "log_summary_title_good": "Oba, registrado!",
   "log_summary_title_neutral": "Anotado, obrigado!",
   "log_tags_disable": "não uso tags",
-  "log_tags_question": "Adicione tags ao seu dia",
+  "log_tags_question": "Adicione tags ao seu dia (optional)",
   "log_tags_search": "Pesquisar tags…",
   "log_view_changed_body": "Agora você pode usar o botão [+] na parte superior para adicionar várias entradas. Se você tiver várias entradas por dia, uma lista será exibida, caso contrário, apenas uma entrada será exibida nesta visualização detalhada.",
   "log_view_changed_title": "Espere, onde estão meus dias?",

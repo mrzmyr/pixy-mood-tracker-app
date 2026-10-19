@@ -584,7 +584,7 @@
   "log_summary_title_good": "Jee, tallennettu!",
   "log_summary_title_neutral": "Selvä, kiitos!",
   "log_tags_disable": "En käytä tageja",
-  "log_tags_question": "Lisää tunnisteita päivääsi",
+  "log_tags_question": "Lisää tunnisteita päivääsi (optional)",
   "log_tags_search": "Hae tunnisteita…",
   "log_view_changed_body": "Voit nyt käyttää yläreunassa olevaa [+]-painiketta lisätäksesi useita merkintöjä. Jos sinulla on useita merkintöjä päivässä, luettelo tulee näkyviin, muuten vain yksi merkintä näytetään tässä yksityiskohtaisessa näkymässä.",
   "log_view_changed_title": "Hetkinen, missä ovat päiväni?",

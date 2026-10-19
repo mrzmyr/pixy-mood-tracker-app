@@ -584,7 +584,7 @@
   "log_summary_title_good": "Hurrá, elmentve!",
   "log_summary_title_neutral": "Rendben, köszi!",
   "log_tags_disable": "Nem használok címkéket",
-  "log_tags_question": "Adj hozzá címkéket a napjához",
+  "log_tags_question": "Adj hozzá címkéket a napjához (optional)",
   "log_tags_search": "Címkék keresése…",
   "log_view_changed_body": "Most már használhatod a felül található [+] gombot több bejegyzés hozzáadásához. Ha naponta több bejegyzésed van, egy lista jelenik meg, ellenkező esetben csak egy bejegyzés jelenik meg ebben a részletes nézetben.",
   "log_view_changed_title": "Várj, hol vannak a nappalaim?",

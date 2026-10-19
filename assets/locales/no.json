@@ -584,7 +584,7 @@
   "log_summary_title_good": "Hurra, lagret!",
   "log_summary_title_neutral": "Notert, takk!",
   "log_tags_disable": "Jeg bruker ikke tagger",
-  "log_tags_question": "Legg til tagger på dagen din",
+  "log_tags_question": "Legg til tagger på dagen din (optional)",
   "log_tags_search": "Søk i tagger…",
   "log_view_changed_body": "Du kan nå bruke [+]-knappen på toppen for å legge til flere oppføringer. Hvis du har flere oppføringer per dag, vil en liste vises, ellers vil bare én oppføring vises i denne detaljvisningen.",
   "log_view_changed_title": "Vent, hvor er dagene mine?",

@@ -584,7 +584,7 @@
   "log_summary_title_good": "やった、保存しました！",
   "log_summary_title_neutral": "了解、ありがとう！",
   "log_tags_disable": "タグは使いません",
-  "log_tags_question": "1 日にタグを追加する",
+  "log_tags_question": "1 日にタグを追加する (optional)",
   "log_tags_search": "タグを検索…",
   "log_view_changed_body": "上部の [+] ボタンを使用して、複数のエントリを追加できるようになりました。 1 日に複数のエントリがある場合は、リストが表示されます。それ以外の場合は、この詳細ビューに 1 つのエントリのみが表示されます。",
   "log_view_changed_title": "待って、私の昼間はどこ？",

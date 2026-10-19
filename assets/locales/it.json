@@ -584,7 +584,7 @@
   "log_summary_title_good": "Evviva, salvato!",
   "log_summary_title_neutral": "Ricevuto, grazie!",
   "log_tags_disable": "Non uso tag",
-  "log_tags_question": "Aggiungi tag alla tua giornata",
+  "log_tags_question": "Aggiungi tag alla tua giornata (optional)",
   "log_tags_search": "Cerca tag…",
   "log_view_changed_body": "Ora puoi utilizzare il pulsante [+] in alto per aggiungere più voci. Se hai più voci al giorno, verrà visualizzato un elenco, altrimenti verrà visualizzata solo una voce in questa visualizzazione dettagliata.",
   "log_view_changed_title": "Aspetta, dove sono i miei giorni diurni?",

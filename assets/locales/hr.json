@@ -584,7 +584,7 @@
   "log_summary_title_good": "Juhu, spremljeno!",
   "log_summary_title_neutral": "Primljeno, hvala!",
   "log_tags_disable": "Ne koristim oznake",
-  "log_tags_question": "Dodajte oznake svom danu",
+  "log_tags_question": "Dodajte oznake svom danu (optional)",
   "log_tags_search": "Pretraži oznake…",
   "log_view_changed_body": "Sada možete koristiti gumb [+] na vrhu za dodavanje više unosa. Ako imate više unosa dnevno, prikazat će se popis, inače će u ovom detaljnom pregledu biti prikazan samo jedan unos.",
   "log_view_changed_title": "Čekaj, gdje su moji dani?",

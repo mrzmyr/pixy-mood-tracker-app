@@ -584,7 +584,7 @@
   "log_summary_title_good": "Tuyệt, đã lưu!",
   "log_summary_title_neutral": "Đã rõ, cảm ơn bạn!",
   "log_tags_disable": "tôi không sử dụng thẻ",
-  "log_tags_question": "Thêm thẻ vào ngày của bạn",
+  "log_tags_question": "Thêm thẻ vào ngày của bạn (optional)",
   "log_tags_search": "Tìm thẻ…",
   "log_view_changed_body": "Bây giờ bạn có thể sử dụng nút [+] ở trên cùng để thêm nhiều mục nhập. Nếu bạn có nhiều mục nhập mỗi ngày, một danh sách sẽ được hiển thị, nếu không, chỉ một mục nhập sẽ được hiển thị trong chế độ xem chi tiết này.",
   "log_view_changed_title": "Đợi đã, ban ngày của tôi ở đâu?",

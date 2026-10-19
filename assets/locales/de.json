@@ -581,7 +581,7 @@
   "log_summary_title_good": "Juhu, gespeichert!",
   "log_summary_title_neutral": "Alles klar, danke!",
   "log_tags_disable": "Ich verwende keine Schlagwörter",
-  "log_tags_question": "Schlagwort hinzufügen",
+  "log_tags_question": "Schlagwort hinzufügen (optional)",
   "log_tags_search": "Tags suchen…",
   "log_view_changed_body": "Du kannst jetzt mit dem [+] mehrere Einträge hinzufügen. Öffnest du einen Tag und hast mehrere Einträge so wird eine Liste angezeigt, ansonsten wird diese Detailansicht für nur einen Eintrag angezeigt.",
   "log_view_changed_title": "Warte, wo sind meine Tageszeiten?",
