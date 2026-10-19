@@ -10,6 +10,7 @@ import { useSettings } from "@/state/settings";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useAnalytics } from "@/state/analytics";
 import { LogDraftProvider, useLogDraft } from "./log-draft";
+import { finalizeDraft } from "./finalize-draft";
 import type { LogDraft } from "./finalize-draft";
 import { getItemDate, toLogDate } from "@/lib/log-dates";
 
@@ -48,6 +49,7 @@ import { SlideTags } from "./slides/slide-tags";
 import { useLoggerActions } from "./hooks/use-logger-actions";
 import { useLoggerTracking } from "./hooks/use-logger-tracking";
 import { usePassiveLocation } from "./hooks/use-passive-location";
+import { useRecoverySnapshot } from "./recovery/use-recovery-snapshot";
 import type { SavedEntry } from "./hooks/use-logger-actions";
 import { Confirmation } from "./confirmation/confirmation";
 import type { LoggerPrefill } from "./prefill";
@@ -402,6 +404,7 @@ const LoggerSlides = ({
   );
 
   useLoggerTracking({ mode, slideKeys, slideIndex });
+  useRecoverySnapshot({ mode, step: slideKeys[slideIndex] });
 
   useEffect(() => {
     if (isMounted.current) {
@@ -502,23 +505,30 @@ export const Logger = ({ initialItem, isPrefilled, ...props }: LoggerProps) => (
 export const LoggerEdit = ({
   id,
   initialStep,
+  restoredDraft,
 }: {
   id: string;
   initialStep?: LoggerStep;
+  /** Unsaved changes from a recovery snapshot; the logger starts dirty. */
+  restoredDraft?: LogDraft | null;
 }) => {
   const logState = useLogState();
   const { hasStep } = useSettings();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
-  const initialItem = logState?.items.find((item) => item.id === id);
+  const storedItem = logState?.items.find((item) => item.id === id);
 
-  if (initialItem === undefined) {
+  if (storedItem === undefined) {
     return (
       <View>
         <Text>Log not found</Text>
       </View>
     );
   }
+
+  const initialItem = restoredDraft
+    ? finalizeDraft(restoredDraft, logState.items).item
+    : storedItem;
 
   const avaliableSteps = getAvailableStepsForEdit({
     item: initialItem,
@@ -531,7 +541,8 @@ export const LoggerEdit = ({
   return (
     <Logger
       mode="edit"
-      initialItem={initialItem}
+      initialItem={restoredDraft ?? initialItem}
+      isPrefilled={!!restoredDraft}
       initialStep={initialStep}
       avaliableSteps={avaliableSteps}
     />
@@ -551,12 +562,18 @@ export const LoggerCreate = ({
   initialStep,
   avaliableSteps,
   prefill,
+  restoredDraft,
 }: {
   dateTime: string;
   initialStep?: LoggerStep;
   avaliableSteps?: LoggerStep[];
   /** Start values, for example from voice mode. */
   prefill?: LoggerPrefill | null;
+  /**
+   * Draft from a recovery snapshot. Replaces the new draft, keeping its id
+   * and `createdAt`; the logger starts dirty.
+   */
+  restoredDraft?: LogDraft | null;
 }) => {
   // Generated once per mount so the new entry keeps a stable id and timestamp.
   const { id, createdAt } = useMemo(
@@ -571,7 +588,7 @@ export const LoggerCreate = ({
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
 
-  const initialItem: LogDraft = {
+  const initialItem: LogDraft = restoredDraft ?? {
     id,
     date: toLogDate(dateTime || dayjs().toISOString()),
     dateTime,
@@ -632,7 +649,7 @@ export const LoggerCreate = ({
       mode="create"
       onCreated={setSaved}
       initialItem={initialItem}
-      isPrefilled={!!prefill}
+      isPrefilled={!!prefill || !!restoredDraft}
       initialStep={initialStep}
       avaliableSteps={steps}
       question={questioner.question}

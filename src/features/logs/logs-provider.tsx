@@ -23,6 +23,7 @@ import { v4 as uuidv4 } from "uuid";
 import type z from "zod";
 import type { RATING_KEYS } from "@/constants/ratings";
 import { useAnalytics } from "@/state/analytics";
+import { loadRecoveryPhotoFileNames } from "@/state/logger-recovery";
 import { createMissingProviderError } from "@/lib/errors";
 import {
   deleteUnreferencedPhotos,
@@ -254,7 +255,8 @@ const logsStore = createPersistedStore<LogsState, LogAction>({
 /**
  * Deletes photo files no stored entry references: once after logs load and
  * once per `sweepPhotos` request. Never after a failed load: unread entries
- * reference photos too.
+ * reference photos too. Keeps the photos of the logger recovery snapshot,
+ * and skips the sweep when that snapshot cannot be read.
  */
 const PhotoSweepProvider = ({ children }: { children: React.ReactNode }) => {
   const { items } = logsStore.useState();
@@ -265,23 +267,33 @@ const PhotoSweepProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Effect event: sweeps against the latest committed items without
   // re-running the effect below on every edit.
-  const sweepUnreferencedPhotos = useEffectEvent(() => {
-    try {
-      deleteUnreferencedPhotos({
-        referencedFileNames: getReferencedFileNames({ items }),
-      });
-    } catch (error) {
-      console.error(error);
-      Sentry.captureException(error);
+  const sweepUnreferencedPhotos = useEffectEvent(
+    (recoveryFileNames: string[]) => {
+      try {
+        const referencedFileNames = getReferencedFileNames({ items });
+        for (const fileName of recoveryFileNames) {
+          referencedFileNames.add(fileName);
+        }
+        deleteUnreferencedPhotos({ referencedFileNames });
+      } catch (error) {
+        console.error(error);
+        Sentry.captureException(error);
+      }
     }
-  });
+  );
 
   useEffect(() => {
     if (status !== "ready" || lastPhotoSweep.current === photoSweepRequest) {
       return;
     }
     lastPhotoSweep.current = photoSweepRequest;
-    sweepUnreferencedPhotos();
+    const sweep = async () => {
+      const recoveryFileNames = await loadRecoveryPhotoFileNames();
+      if (recoveryFileNames !== null) {
+        sweepUnreferencedPhotos(recoveryFileNames);
+      }
+    };
+    void sweep();
   }, [status, photoSweepRequest]);
 
   const sweepPhotos = useCallback(
