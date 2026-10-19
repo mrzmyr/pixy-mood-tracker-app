@@ -27,7 +27,7 @@ import { SlidePeople } from "../slides/slide-people";
 import { SlideTags } from "../slides/slide-tags";
 import { LogDraftProvider } from "../log-draft";
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-router/testing-library swaps in an empty reanimated mock, so the sortable grid cannot render here. `release-<id>` stands in for a tile released without moving.
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-router/testing-library swaps in an empty reanimated mock, so the sortable grid cannot render here. `<action>-<id>` buttons stand in for the tile menu rows.
 jest.mock("../components/people-tile-grid", () => {
   const { Fragment, createElement } = require("react");
   return {
@@ -36,7 +36,8 @@ jest.mock("../components/people-tile-grid", () => {
       people,
       renderTile,
       addTile,
-      onRelease,
+      menuActions,
+      onMenuAction,
     }: {
       people: { id: string }[];
       renderTile: (
@@ -44,11 +45,12 @@ jest.mock("../components/people-tile-grid", () => {
         isPressBlocked: () => boolean
       ) => React.ReactElement;
       addTile: React.ReactElement | null;
-      onRelease: (person: { id: string }) => void;
+      menuActions: (person: { id: string }) => { id: string }[];
+      onMenuAction: (person: { id: string }, actionId: string) => void;
     }) => {
       const {
-        Pressable: ReleaseButton,
-        Text: ReleaseLabel,
+        Pressable: MenuButton,
+        Text: MenuLabel,
       } = require("react-native");
       return createElement(
         Fragment,
@@ -58,13 +60,16 @@ jest.mock("../components/people-tile-grid", () => {
             Fragment,
             { key: person.id },
             renderTile(person, () => false),
-            createElement(
-              ReleaseButton,
-              {
-                testID: `release-${person.id}`,
-                onPress: () => onRelease(person),
-              },
-              createElement(ReleaseLabel, null, "Release")
+            ...menuActions(person).map((action) =>
+              createElement(
+                MenuButton,
+                {
+                  key: action.id,
+                  testID: `${action.id}-${person.id}`,
+                  onPress: () => onMenuAction(person, action.id),
+                },
+                createElement(MenuLabel, null, action.id)
+              )
             )
           )
         ),

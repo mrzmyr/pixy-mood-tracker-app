@@ -16,10 +16,11 @@ import {
   TILE_RING_GAP,
   TILE_RING_WIDTH,
   getPeopleLimit,
+  getPersonMenuActions,
   movePerson,
   usePeopleState,
   usePeopleUpdater,
-  usePersonActionSheet,
+  usePersonMenu,
 } from "@/features/people";
 import type { Person } from "@/features/people";
 import { PeopleTileGrid } from "../components/people-tile-grid";
@@ -104,10 +105,10 @@ const AddPersonTile = ({ size }: { size: number }) => {
  * grid of avatars that ends with an add tile. Without people it offers one
  * way out: add some.
  *
- * Hold a tile to lift it, move it to reorder. Released in place, iOS shows
- * an action sheet: Edit, Archive, Delete. Archive and Delete also take the
- * person off the draft, so the tile goes away at once. Elsewhere release
- * opens the editor.
+ * Tiles reorder by drag and have a menu: Edit, Archive, Delete. iOS: hold
+ * shows the system context menu, moving the finger drags. Elsewhere: hold
+ * lifts the tile, release in place opens the editor. Archive and Delete
+ * also take the person off the draft, so the tile goes away at once.
  */
 export const SlidePeople = ({
   onDisableStep = noop,
@@ -123,7 +124,7 @@ export const SlidePeople = ({
   const analytics = useAnalytics();
   const { people } = usePeopleState();
   const { reorderPeople } = usePeopleUpdater();
-  const showPersonActions = usePersonActionSheet();
+  const runMenuAction = usePersonMenu();
   const { width } = useWindowDimensions();
   const columnWidth =
     (width - 2 * SLIDE_PADDING - (COLUMNS - 1) * COLUMN_GAP) / COLUMNS;
@@ -262,8 +263,9 @@ export const SlidePeople = ({
                 <AddPersonTile size={avatarSize} />
               )
             }
-            onRelease={(person) =>
-              showPersonActions(person, {
+            menuActions={getPersonMenuActions}
+            onMenuAction={(person, actionId) =>
+              runMenuAction(person, actionId, {
                 onEdit: () => editPerson(person.id),
                 onArchived: () => deselect(person.id),
                 onDeleted: () => deselect(person.id),
@@ -280,7 +282,7 @@ export const SlidePeople = ({
                     toggle(person.id);
                   }
                 }}
-                // Hold lifts the tile for dragging; screen readers keep "edit".
+                // Hold opens the menu or lifts the tile; screen readers keep "edit".
                 onLongPress={() => editPerson(person.id)}
                 editOnLongPress={false}
                 onMove={(offset) => move(person.id, offset)}

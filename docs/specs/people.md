@@ -107,8 +107,10 @@ people: Array<
 - Headline: "Who played a part?"
 - 3-column grid of `tile` chips. Tap = toggle select. Bare avatar, no shell, no badge. Selected = 3px tint ring + bold name. Archived hidden unless already on draft (copy `SlideTags` filter)
 - Last cell: "Add Person" tile pushes `/people/create`. Dashed tint circle, tint plus, tint label. Hidden at `MAX_PEOPLE`
-- Order: stored order. Hold tile = lift, move = reorder. "Add Person" stays last. New people go last. VoiceOver/TalkBack get Move Up and Move Down
-- Release lifted tile in place: iOS action sheet with Edit, Archive (Unarchive when archived), Delete (confirm with entry count). Archive acts at once. Archive and Delete drop the person from the draft, so the tile goes away. Android: opens editor
+- Order: stored order. "Add Person" stays last. New people go last. VoiceOver/TalkBack get Move Up and Move Down
+- Tile menu: Edit, Archive (Unarchive when archived), Delete (confirm with entry count). Archive acts at once. Archive and Delete drop the person from the draft, so the tile goes away
+- iOS: hold tile = system context menu ([`modules/pixy-mood-tracker-people-tile`](../../modules/pixy-mood-tracker-people-tile)). Move finger = menu closes, tile drags, others make room. Dev clients without the module fall back to the Android behavior with an action sheet
+- Android: hold tile = lift, move = reorder. Release in place = opens editor
 - Step enabled and `people.length === 0`: simple empty state, one "Add Person" button pushes `/people/create`. No skip
 - Disable link like tags
 

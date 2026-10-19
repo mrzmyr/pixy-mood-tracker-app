@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userEvent, waitFor } from "@testing-library/react-native";
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
-import { ActionSheetIOS, Pressable, Text } from "react-native";
+import { Pressable, Text } from "react-native";
 import { _generateItem } from "@/testing/log-item";
 import Colors from "@/constants/colors";
 import { LogsProvider } from "@/features/logs";
@@ -18,7 +18,7 @@ import { SettingsProvider } from "@/state/settings";
 import { SlidePeople } from "../slides/slide-people";
 import { LogDraftProvider } from "../log-draft";
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-router/testing-library swaps in an empty reanimated mock, so the sortable grid cannot render here. `release-<id>` stands in for a tile released without moving.
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-router/testing-library swaps in an empty reanimated mock, so the sortable grid cannot render here. `<action>-<id>` buttons stand in for the tile menu rows.
 jest.mock("../components/people-tile-grid", () => {
   const { Fragment, createElement } = require("react");
   return {
@@ -27,7 +27,8 @@ jest.mock("../components/people-tile-grid", () => {
       people,
       renderTile,
       addTile,
-      onRelease,
+      menuActions,
+      onMenuAction,
     }: {
       people: { id: string }[];
       renderTile: (
@@ -35,11 +36,12 @@ jest.mock("../components/people-tile-grid", () => {
         isPressBlocked: () => boolean
       ) => React.ReactElement;
       addTile: React.ReactElement | null;
-      onRelease: (person: { id: string }) => void;
+      menuActions: (person: { id: string }) => { id: string }[];
+      onMenuAction: (person: { id: string }, actionId: string) => void;
     }) => {
       const {
-        Pressable: ReleaseButton,
-        Text: ReleaseLabel,
+        Pressable: MenuButton,
+        Text: MenuLabel,
       } = require("react-native");
       return createElement(
         Fragment,
@@ -49,13 +51,16 @@ jest.mock("../components/people-tile-grid", () => {
             Fragment,
             { key: person.id },
             renderTile(person, () => false),
-            createElement(
-              ReleaseButton,
-              {
-                testID: `release-${person.id}`,
-                onPress: () => onRelease(person),
-              },
-              createElement(ReleaseLabel, null, "Release")
+            ...menuActions(person).map((action) =>
+              createElement(
+                MenuButton,
+                {
+                  key: action.id,
+                  testID: `${action.id}-${person.id}`,
+                  onPress: () => onMenuAction(person, action.id),
+                },
+                createElement(MenuLabel, null, action.id)
+              )
             )
           )
         ),
@@ -182,19 +187,13 @@ describe("SlidePeople auto-select", () => {
     expect(result.getByTestId("log-person-person-ada")).not.toBeSelected();
   });
 
-  test("Archive in the release sheet hides a selected person at once", async () => {
-    const showSheet = jest
-      .spyOn(ActionSheetIOS, "showActionSheetWithOptions")
-      .mockImplementation((options, onPick) => {
-        onPick(options.options.indexOf("Archive"));
-      });
+  test("Archive in the tile menu hides a selected person at once", async () => {
     const result = await renderSlide();
     await userEvent.press(await result.findByTestId("log-person-person-ada"));
     expect(result.getByTestId("log-person-person-ada")).toBeSelected();
 
-    await userEvent.press(result.getByTestId("release-person-ada"));
+    await userEvent.press(result.getByTestId("archive-person-ada"));
 
-    expect(showSheet).toHaveBeenCalledTimes(1);
     await waitFor(() =>
       expect(result.queryByTestId("log-person-person-ada")).toBeNull()
     );
