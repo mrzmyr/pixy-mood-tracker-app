@@ -897,6 +897,27 @@
   "recaps_story_people_title": "S kim si bio najviše u kontaktu",
   "recaps_story_play": "Reproduciraj",
   "recaps_story_previous": "Prethodni slajd",
+  "recaps_story_quiz_check": "Provjeri",
+  "recaps_story_quiz_eyebrow_guess": "Brzo pogađanje",
+  "recaps_story_quiz_eyebrow_mix": "Tvoj %{month}",
+  "recaps_story_quiz_eyebrow_people": "Tvoji ljudi",
+  "recaps_story_quiz_eyebrow_tags": "Tvoje navike",
+  "recaps_story_quiz_made_up": "Izmišljeno",
+  "recaps_story_quiz_reveal_people": {
+    "one": "%{name}, 1 dan u kontaktu. Zatim %{runnerUp}: %{days}.",
+    "other": "%{name}, dana u kontaktu: {{count}}. Zatim %{runnerUp}: %{days}."
+  },
+  "recaps_story_quiz_reveal_tags": {
+    "one": "%{name}, 1 dan. Zatim %{runnerUp}: %{days}.",
+    "other": "%{name}, dana: {{count}}. Zatim %{runnerUp}: %{days}."
+  },
+  "recaps_story_quiz_reveal_truths": "%{name}: zapravo %{actual}, ne %{shown}. Ostale tri su točne.",
+  "recaps_story_quiz_title_mix": "Koje su točne?",
+  "recaps_story_quiz_title_people": "Tko ti je bio u mislima?",
+  "recaps_story_quiz_title_people_most": "S kim si bio najviše u kontaktu?",
+  "recaps_story_quiz_title_tags": "Čime su bili ispunjeni tvoji dani?",
+  "recaps_story_quiz_title_tags_most": "Čega je ovaj mjesec bilo najviše?",
+  "recaps_story_quiz_truths_hint": "Dodirni sve točne.",
   "recaps_story_ready": "Spremno za gledanje",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Dani sa svakom oznakom, vs. %{previous}.",

@@ -897,6 +897,27 @@
   "recaps_story_people_title": "いちばんつながった人たち",
   "recaps_story_play": "再生",
   "recaps_story_previous": "前のスライド",
+  "recaps_story_quiz_check": "答え合わせ",
+  "recaps_story_quiz_eyebrow_guess": "ちょっと予想",
+  "recaps_story_quiz_eyebrow_mix": "あなたの%{month}",
+  "recaps_story_quiz_eyebrow_people": "あなたのつながり",
+  "recaps_story_quiz_eyebrow_tags": "あなたの習慣",
+  "recaps_story_quiz_made_up": "作り話",
+  "recaps_story_quiz_reveal_people": {
+    "one": "%{name}、つながった日：1日。次は%{runnerUp}で%{days}日。",
+    "other": "%{name}、つながった日：{{count}}日。次は%{runnerUp}で%{days}日。"
+  },
+  "recaps_story_quiz_reveal_tags": {
+    "one": "%{name}、1日。次は%{runnerUp}で%{days}日。",
+    "other": "%{name}、{{count}}日。次は%{runnerUp}で%{days}日。"
+  },
+  "recaps_story_quiz_reveal_truths": "%{name}：本当は%{actual}、%{shown}ではありません。ほかの3つは本当です。",
+  "recaps_story_quiz_title_mix": "本当なのはどれ？",
+  "recaps_story_quiz_title_people": "心にいたのは誰？",
+  "recaps_story_quiz_title_people_most": "いちばんつながったのは誰？",
+  "recaps_story_quiz_title_tags": "あなたの日々を満たしたものは？",
+  "recaps_story_quiz_title_tags_most": "今月いちばん多かったことは？",
+  "recaps_story_quiz_truths_hint": "本当のものをすべてタップしてください。",
   "recaps_story_ready": "視聴できます",
   "recaps_story_vs_eyebrow": "%{month}と%{previous}",
   "recaps_story_vs_text": "タグごとの日数（%{previous}との比較）。",

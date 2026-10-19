@@ -897,6 +897,27 @@
   "recaps_story_people_title": "คนที่คุณติดต่อมากที่สุด",
   "recaps_story_play": "เล่น",
   "recaps_story_previous": "สไลด์ก่อนหน้า",
+  "recaps_story_quiz_check": "ตรวจคำตอบ",
+  "recaps_story_quiz_eyebrow_guess": "ทายเร็ว",
+  "recaps_story_quiz_eyebrow_mix": "เดือน%{month}ของคุณ",
+  "recaps_story_quiz_eyebrow_people": "คนของคุณ",
+  "recaps_story_quiz_eyebrow_tags": "กิจวัตรของคุณ",
+  "recaps_story_quiz_made_up": "แต่งขึ้น",
+  "recaps_story_quiz_reveal_people": {
+    "one": "%{name} ติดต่อ 1 วัน ถัดมาคือ %{runnerUp} %{days} วัน",
+    "other": "%{name} ติดต่อ {{count}} วัน ถัดมาคือ %{runnerUp} %{days} วัน"
+  },
+  "recaps_story_quiz_reveal_tags": {
+    "one": "%{name} 1 วัน ถัดมาคือ %{runnerUp} %{days} วัน",
+    "other": "%{name} {{count}} วัน ถัดมาคือ %{runnerUp} %{days} วัน"
+  },
+  "recaps_story_quiz_reveal_truths": "%{name}: จริง ๆ คือ %{actual} ไม่ใช่ %{shown} อีกสามข้อเป็นจริง",
+  "recaps_story_quiz_title_mix": "ข้อไหนจริงบ้าง",
+  "recaps_story_quiz_title_people": "คุณคิดถึงใครบ้าง",
+  "recaps_story_quiz_title_people_most": "คุณติดต่อใครมากที่สุด",
+  "recaps_story_quiz_title_tags": "อะไรเติมเต็มวันของคุณ",
+  "recaps_story_quiz_title_tags_most": "เดือนนี้คุณทำอะไรมากที่สุด",
+  "recaps_story_quiz_truths_hint": "แตะทุกข้อที่จริง",
   "recaps_story_ready": "พร้อมให้ดูแล้ว",
   "recaps_story_vs_eyebrow": "%{month} เทียบกับ %{previous}",
   "recaps_story_vs_text": "จำนวนวันของแต่ละแท็ก เทียบกับ %{previous}",

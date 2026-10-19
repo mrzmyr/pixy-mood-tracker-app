@@ -1,5 +1,6 @@
 import type { LogPhoto } from "@/types";
 import type { DateKey } from "../types";
+import type { QuizSlide } from "./quiz";
 
 /** Photo of a story slide and the day it comes from. */
 export interface StoryPhoto {
@@ -111,7 +112,8 @@ export type StorySlide =
   | FirstCitySlide
   | VsLastSlide
   | MomentsSlide
-  | ComingUpSlide;
+  | ComingUpSlide
+  | QuizSlide;
 
 /** Key of a slide type. */
 export type StorySlideType = StorySlide["type"];

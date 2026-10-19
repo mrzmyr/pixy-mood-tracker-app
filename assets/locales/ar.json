@@ -897,6 +897,27 @@
   "recaps_story_people_title": "أكثر من تواصلت معهم",
   "recaps_story_play": "تشغيل",
   "recaps_story_previous": "الشريحة السابقة",
+  "recaps_story_quiz_check": "تحقّق",
+  "recaps_story_quiz_eyebrow_guess": "تخمين سريع",
+  "recaps_story_quiz_eyebrow_mix": "شهرك: %{month}",
+  "recaps_story_quiz_eyebrow_people": "أشخاصك",
+  "recaps_story_quiz_eyebrow_tags": "عاداتك",
+  "recaps_story_quiz_made_up": "مختلَق",
+  "recaps_story_quiz_reveal_people": {
+    "one": "%{name}، يوم واحد من التواصل. يليه %{runnerUp} بـ %{days}.",
+    "other": "%{name}، أيام التواصل: {{count}}. يليه %{runnerUp} بـ %{days}."
+  },
+  "recaps_story_quiz_reveal_tags": {
+    "one": "%{name}، يوم واحد. يليه %{runnerUp} بـ %{days}.",
+    "other": "%{name}، الأيام: {{count}}. يليه %{runnerUp} بـ %{days}."
+  },
+  "recaps_story_quiz_reveal_truths": "%{name}: في الحقيقة %{actual}، وليس %{shown}. الثلاثة الأخرى صحيحة.",
+  "recaps_story_quiz_title_mix": "أيّها صحيح؟",
+  "recaps_story_quiz_title_people": "مَن كان في بالك؟",
+  "recaps_story_quiz_title_people_most": "مع مَن تواصلت أكثر؟",
+  "recaps_story_quiz_title_tags": "ماذا ملأ أيامك؟",
+  "recaps_story_quiz_title_tags_most": "ما أكثر ما فعلته هذا الشهر؟",
+  "recaps_story_quiz_truths_hint": "اضغط على كل ما هو صحيح.",
   "recaps_story_ready": "جاهز للمشاهدة",
   "recaps_story_vs_eyebrow": "%{month} مقابل %{previous}",
   "recaps_story_vs_text": "أيام كل وسم، مقابل %{previous}.",

@@ -897,6 +897,27 @@
   "recaps_story_people_title": "Dem du hade mest kontakt med",
   "recaps_story_play": "Spela upp",
   "recaps_story_previous": "Föregående bild",
+  "recaps_story_quiz_check": "Kolla",
+  "recaps_story_quiz_eyebrow_guess": "Snabb gissning",
+  "recaps_story_quiz_eyebrow_mix": "Din %{month}",
+  "recaps_story_quiz_eyebrow_people": "Dina människor",
+  "recaps_story_quiz_eyebrow_tags": "Dina vanor",
+  "recaps_story_quiz_made_up": "Påhittat",
+  "recaps_story_quiz_reveal_people": {
+    "one": "%{name}, 1 dag i kontakt. Sedan %{runnerUp} med %{days}.",
+    "other": "%{name}, {{count}} dagar i kontakt. Sedan %{runnerUp} med %{days}."
+  },
+  "recaps_story_quiz_reveal_tags": {
+    "one": "%{name}, 1 dag. Sedan %{runnerUp} med %{days}.",
+    "other": "%{name}, {{count}} dagar. Sedan %{runnerUp} med %{days}."
+  },
+  "recaps_story_quiz_reveal_truths": "%{name}: egentligen %{actual}, inte %{shown}. De andra tre stämmer.",
+  "recaps_story_quiz_title_mix": "Vilka stämmer?",
+  "recaps_story_quiz_title_people": "Vem tänkte du på?",
+  "recaps_story_quiz_title_people_most": "Vem hade du mest kontakt med?",
+  "recaps_story_quiz_title_tags": "Vad fyllde dina dagar?",
+  "recaps_story_quiz_title_tags_most": "Vad gjorde du mest den här månaden?",
+  "recaps_story_quiz_truths_hint": "Tryck på alla som stämmer.",
   "recaps_story_ready": "Redo att titta",
   "recaps_story_vs_eyebrow": "%{month} mot %{previous}",
   "recaps_story_vs_text": "Dagar med varje tagg, mot %{previous}.",
