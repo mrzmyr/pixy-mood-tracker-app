@@ -11,6 +11,8 @@
   "add_today_another_entry": "오늘의 다른 항목 추가",
   "add_today_entry": "오늘의 항목 추가",
   "afternoon": "오후",
+  "app_error_retry": "다시 시도",
+  "app_error_title": "문제가 발생했습니다",
   "app_is_open_source": "Pixy는 오픈 소스입니다.",
   "app_lock": "앱 잠금",
   "app_lock_code_copied": "코드를 복사했습니다",

@@ -11,6 +11,8 @@
   "add_today_another_entry": "أضف إدخال آخر لهذا اليوم",
   "add_today_entry": "أضف إدخال اليوم",
   "afternoon": "بعد الظهر",
+  "app_error_retry": "حاول مرة أخرى",
+  "app_error_title": "حدث خطأ ما",
   "app_is_open_source": "Pixy مفتوح المصدر",
   "app_lock": "قفل التطبيق",
   "app_lock_code_copied": "تم نسخ الرمز",

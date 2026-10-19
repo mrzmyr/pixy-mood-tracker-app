@@ -11,6 +11,8 @@
   "add_today_another_entry": "Προσθήκη άλλης καταχώρισης για σήμερα",
   "add_today_entry": "Προσθέστε τη σημερινή καταχώριση",
   "afternoon": "Απόγευμα",
+  "app_error_retry": "Δοκίμασε ξανά",
+  "app_error_title": "Κάτι πήγε στραβά",
   "app_is_open_source": "Το Pixy είναι ανοιχτού κώδικα",
   "app_lock": "Κλείδωμα εφαρμογής",
   "app_lock_code_copied": "Ο κωδικός αντιγράφηκε",

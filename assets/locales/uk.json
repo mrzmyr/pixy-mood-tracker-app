@@ -11,6 +11,8 @@
   "add_today_another_entry": "Додайте ще один запис на сьогодні",
   "add_today_entry": "Додайте сьогоднішній запис",
   "afternoon": "полудень",
+  "app_error_retry": "Спробувати ще раз",
+  "app_error_title": "Щось пішло не так",
   "app_is_open_source": "Pixy є відкритим кодом",
   "app_lock": "Блокування застосунку",
   "app_lock_code_copied": "Код скопійовано",

@@ -11,6 +11,8 @@
   "add_today_another_entry": "Voeg nog een item toe voor vandaag",
   "add_today_entry": "Voeg de invoer van vandaag toe",
   "afternoon": "Middag",
+  "app_error_retry": "Opnieuw proberen",
+  "app_error_title": "Er ging iets mis",
   "app_is_open_source": "Pixy is open source",
   "app_lock": "App-vergrendeling",
   "app_lock_code_copied": "Code gekopieerd",

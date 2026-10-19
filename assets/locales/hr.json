@@ -11,6 +11,8 @@
   "add_today_another_entry": "Dodajte još jedan unos za danas",
   "add_today_entry": "Dodajte današnji unos",
   "afternoon": "Poslijepodne",
+  "app_error_retry": "Pokušaj ponovno",
+  "app_error_title": "Nešto je pošlo po zlu",
   "app_is_open_source": "Pixy je open source",
   "app_lock": "Zaključavanje aplikacije",
   "app_lock_code_copied": "Kod kopiran",

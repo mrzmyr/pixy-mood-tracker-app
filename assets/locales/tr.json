@@ -11,6 +11,8 @@
   "add_today_another_entry": "Bugün için başka bir giriş ekle",
   "add_today_entry": "Bugünün girişini ekle",
   "afternoon": "Öğleden sonra",
+  "app_error_retry": "Tekrar dene",
+  "app_error_title": "Bir şeyler ters gitti",
   "app_is_open_source": "Pixy açık kaynaktır",
   "app_lock": "Uygulama Kilidi",
   "app_lock_code_copied": "Kod Kopyalandı",

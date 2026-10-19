@@ -11,6 +11,8 @@
   "add_today_another_entry": "เพิ่มอีกรายการสำหรับวันนี้",
   "add_today_entry": "เพิ่มรายการของวันนี้",
   "afternoon": "ตอนบ่าย",
+  "app_error_retry": "ลองอีกครั้ง",
+  "app_error_title": "เกิดข้อผิดพลาด",
   "app_is_open_source": "Pixy เป็นโอเพ่นซอร์ส",
   "app_lock": "ล็อกแอป",
   "app_lock_code_copied": "คัดลอกรหัสแล้ว",
