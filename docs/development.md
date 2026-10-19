@@ -53,7 +53,10 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Read a flag with `useFeatureFlag(key)` ([`src/state/featureFlags/index.tsx`](../src/state/featureFlags/index.tsx))
 - Wrap flagged UI in `<FlagHighlight flag="<key>">` ([`src/components/FlagHighlight.tsx`](../src/components/FlagHighlight.tsx)) inside the `useFeatureFlag` condition. It never gates
 - Settings > Development > Feature flags > Highlight flagged features outlines every `<FlagHighlight>` with its key. Same access as overrides. Ends when the app restarts
-- Each key needs a boolean flag with the same key in the PostHog project of every variant
+- Each key needs a flag with the same key in the PostHog project of every variant
+  - Boolean by default: read with `useFeatureFlag(key)`
+  - Multivariate for keys in `FEATURE_FLAG_VARIANTS`: variant keys must match the list. Read with `useFeatureFlagVariant(key)`. Unknown variants read off
+  - `emotion-picker`: variants `cards`, `slider`, `weather`. A user sees one picker
 - New key in `keys.ts`: create the PostHog flag in the same task. Do not ask first
   - Create it in all 3 app projects: Production `7630`, Preview `14574`, Development `628970`
   - Development and Preview: disabled
@@ -62,7 +65,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Never replace or delete existing release conditions or rollout percentages. Add a separate condition group instead
 - Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthogOptions.ts`](../src/shell/posthogOptions.ts))
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
-- Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts
+- Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Multivariate flags take `off`, `remote`, or a variant key as `value`. Overrides work without consent and end when the app restarts
 - Production builds apply overrides only while flag `feature-flag-overrides` is on. That flag also shows Settings > Development > Feature flags. It needs consent, so testers agreed to the privacy policy. It is never overridable itself ([`src/state/featureFlags/overrides.ts`](../src/state/featureFlags/overrides.ts))
 - Settings > Development is hidden in production builds. Flag `development`, flag `feature-flag-overrides`, or 20 taps on the version in Settings show it ([Settings screen](../src/features/settings/screens/Settings/index.tsx)). Taps last until app restart. Development and preview builds always show it
 - Enable `interventions` to show exercises after entries with anxious-type emotions ([`src/features/interventions`](../src/features/interventions))

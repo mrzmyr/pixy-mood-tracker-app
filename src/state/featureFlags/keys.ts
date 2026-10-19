@@ -1,6 +1,7 @@
 /**
- * Feature flag keys. Each key needs a boolean flag with the same key in the
- * PostHog project of every app variant.
+ * Feature flag keys. Each key needs a flag with the same key in the PostHog
+ * project of every app variant: boolean, or multivariate for the keys of
+ * {@link FEATURE_FLAG_VARIANTS}.
  */
 export const FEATURE_FLAGS = [
   "app-icons",
@@ -10,7 +11,7 @@ export const FEATURE_FLAGS = [
   "calendar-timeline",
   "development",
   "emotion-icons",
-  "emotion-weather",
+  "emotion-picker",
   "feature-flag-overrides",
   "interventions",
   "ios-widget",
@@ -24,6 +25,35 @@ export const FEATURE_FLAGS = [
 
 /** One key of {@link FEATURE_FLAGS}. */
 export type FeatureFlag = (typeof FEATURE_FLAGS)[number];
+
+/**
+ * Keys with a multivariate PostHog flag, and the variant keys it returns.
+ * Variants are alternatives of one feature: a user sees at most one.
+ */
+export const FEATURE_FLAG_VARIANTS = {
+  "emotion-picker": ["cards", "slider", "weather"],
+} as const satisfies Partial<Record<FeatureFlag, readonly string[]>>;
+
+/** Key of {@link FEATURE_FLAG_VARIANTS}. */
+export type VariantFlag = keyof typeof FEATURE_FLAG_VARIANTS;
+
+/** One variant of a {@link VariantFlag}. */
+export type FeatureFlagVariant<K extends VariantFlag = VariantFlag> =
+  (typeof FEATURE_FLAG_VARIANTS)[K][number];
+
+/** Whether `key` is multivariate. */
+export const isVariantFlag = (key: FeatureFlag): key is VariantFlag =>
+  key in FEATURE_FLAG_VARIANTS;
+
+/**
+ * `value` as a variant of `key`, or `undefined` when `key` has no variants
+ * or `value` is none of them. PostHog sends `true`, `false`, or a variant key.
+ */
+export const asFeatureFlagVariant = <K extends VariantFlag>(
+  key: K,
+  value: string | boolean | undefined
+): FeatureFlagVariant<K> | undefined =>
+  FEATURE_FLAG_VARIANTS[key].find((variant) => variant === value);
 
 /**
  * What each flag turns on and where it shows, for Settings > Development >
@@ -62,8 +92,9 @@ export const FEATURE_FLAG_DETAILS: Record<
     description: "Icons instead of dots for chosen emotions",
     location: "Check-in > Emotions step",
   },
-  "emotion-weather": {
-    description: "Inner weather picker: weather tiles lead to emotions",
+  "emotion-picker": {
+    description:
+      "Emotion picker variant: weather (tiles lead to emotions), slider, cards",
     location: "Check-in > Emotions step",
   },
   "feature-flag-overrides": {

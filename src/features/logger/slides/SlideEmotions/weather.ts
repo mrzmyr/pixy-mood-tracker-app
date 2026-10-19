@@ -13,7 +13,7 @@ export type WeatherId =
   | "frost"
   | "rainbow";
 
-/** One tile of the inner weather picker (flag `emotion-weather`). */
+/** One tile of the inner weather picker (flag `emotion-picker`, variant `weather`). */
 export interface Weather {
   id: WeatherId;
   name: TranslationKey;

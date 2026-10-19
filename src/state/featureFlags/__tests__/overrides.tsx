@@ -16,9 +16,11 @@ import {
   FeatureFlagsProvider,
   useCanOverrideFeatureFlags,
   useFeatureFlag,
+  useFeatureFlagVariant,
 } from "@/state/featureFlags";
 import { FEATURE_FLAGS } from "@/state/featureFlags/keys";
 import {
+  isOverride,
   setHighlight,
   setOverride,
   setOverrides,
@@ -61,6 +63,8 @@ const renderFlags = async () => {
       isPhotosOn: useFeatureFlag("photos"),
       isPeopleOn: useFeatureFlag("people"),
       isAccessOn: useFeatureFlag("feature-flag-overrides"),
+      pickerVariant: useFeatureFlagVariant("emotion-picker"),
+      isPickerOn: useFeatureFlag("emotion-picker"),
       settings: useSettings(),
       settingsLoad: useSettingsLoad(),
     }),
@@ -146,6 +150,58 @@ describe("feature flag overrides in production builds", () => {
 
     expect(hook.result.current.isPhotosOn).toBe(false);
     expect(hook.result.current.isPeopleOn).toBe(true);
+  });
+
+  test("reads the PostHog variant of a multivariate flag", async () => {
+    mockReload.mockResolvedValue({ "emotion-picker": "slider" });
+    const hook = await renderFlags();
+
+    await waitFor(() => {
+      expect(hook.result.current.pickerVariant).toBe("slider");
+    });
+    expect(hook.result.current.isPickerOn).toBe(true);
+  });
+
+  test("reads an unknown PostHog variant as off", async () => {
+    mockReload.mockResolvedValue({ "emotion-picker": "gauge" });
+    const hook = await renderFlags();
+
+    expect(hook.result.current.pickerVariant).toBeUndefined();
+    expect(hook.result.current.isPickerOn).toBe(false);
+  });
+
+  test("an override picks the variant, off hides it", async () => {
+    mockReload.mockResolvedValue({
+      "feature-flag-overrides": true,
+      "emotion-picker": "cards",
+    });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.pickerVariant).toBe("cards");
+    });
+
+    await act(() => {
+      setOverride({ key: "emotion-picker", value: "weather" });
+    });
+    expect(hook.result.current.pickerVariant).toBe("weather");
+
+    await act(() => {
+      setOverride({ key: "emotion-picker", value: "off" });
+    });
+    expect(hook.result.current.pickerVariant).toBeUndefined();
+    expect(hook.result.current.isPickerOn).toBe(false);
+
+    await act(() => {
+      setOverride({ key: "emotion-picker", value: "remote" });
+    });
+    expect(hook.result.current.pickerVariant).toBe("cards");
+  });
+
+  test("accepts a variant only for its own flag", () => {
+    expect(isOverride("emotion-picker", "slider")).toBe(true);
+    expect(isOverride("emotion-picker", "on")).toBe(false);
+    expect(isOverride("photos", "slider")).toBe(false);
+    expect(isOverride("photos", "on")).toBe(true);
   });
 
   test("never overrides the access flag itself", async () => {

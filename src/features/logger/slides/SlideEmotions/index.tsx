@@ -24,7 +24,7 @@ import { useAnalytics } from "@/state/analytics";
 import { RequestEmotionSheet } from "@/features/feedback";
 import noop from "lodash/noop";
 import FlagHighlight from "@/components/FlagHighlight";
-import { useFeatureFlag } from "@/state/featureFlags";
+import { useFeatureFlagVariant } from "@/state/featureFlags";
 import { EmotionWeather } from "./EmotionWeather";
 import { PickerFeedbackButton } from "./PickerFeedbackButton";
 
@@ -88,7 +88,7 @@ export const SlideEmotions = ({
   const { draft, setEmotions } = useLogDraft();
   const logState = useLogState();
   const analytics = useAnalytics();
-  const isWeather = useFeatureFlag("emotion-weather");
+  const isWeather = useFeatureFlagVariant("emotion-picker") === "weather";
   const [isRequestOpen, setIsRequestOpen] = useState(false);
   const closeRequest = useCallback(() => setIsRequestOpen(false), []);
   const openRequest = () => {
@@ -213,7 +213,7 @@ export const SlideEmotions = ({
             }}
           />
           {isWeather ? (
-            <FlagHighlight flag="emotion-weather" pillOnly style={{ flex: 1 }}>
+            <FlagHighlight flag="emotion-picker" pillOnly style={{ flex: 1 }}>
               <EmotionWeather
                 selectedEmotions={selectedEmotions}
                 onPress={onPressEmotion}

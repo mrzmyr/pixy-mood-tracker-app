@@ -266,8 +266,9 @@ export const DevFakeContactsLinkScreen = () => {
 };
 
 /**
- * Target of `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`.
- * Sets the override until the app restarts, then opens the app.
+ * Target of `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`, or
+ * `value=<variant>` for a multivariate flag. Sets the override until the app
+ * restarts, then opens the app.
  */
 export const DevFeatureFlagLinkScreen = () => {
   const router = useRouter();
@@ -278,12 +279,12 @@ export const DevFeatureFlagLinkScreen = () => {
     key: string;
     value: string;
   }>();
-  const isValid = isFeatureFlag(key) && isOverride(value);
+  const isValid = isFeatureFlag(key) && isOverride(key, value);
   const isOnboarded = hasActionDone("onboarding");
 
   // Waits for settings: a cold start through the link has not read them yet.
   useEffect(() => {
-    if (!isFeatureFlag(key) || !isOverride(value) || !isSettingsReady) {
+    if (!isFeatureFlag(key) || !isOverride(key, value) || !isSettingsReady) {
       return;
     }
     setOverride({ key, value });

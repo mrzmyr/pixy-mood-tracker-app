@@ -2,7 +2,12 @@ import { usePostHog } from "posthog-react-native";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { createStructuredError } from "@/lib/errors";
 import { useSettings, useSettingsLoad } from "@/state/settings";
-import type { FeatureFlag } from "@/state/featureFlags/keys";
+import { asFeatureFlagVariant, isVariantFlag } from "@/state/featureFlags/keys";
+import type {
+  FeatureFlag,
+  FeatureFlagVariant,
+  VariantFlag,
+} from "@/state/featureFlags/keys";
 import {
   FeatureFlagsContext,
   useAppliedOverride,
@@ -111,16 +116,17 @@ export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
   const { flags: remoteFlags, isLoading } = useContext(FeatureFlagsContext);
   const override = useAppliedOverride(key);
 
-  if (override === "on") {
-    return "on";
-  }
-  if (override === "off") {
-    return "off";
+  if (override !== undefined) {
+    return override === "off" ? "off" : "on";
   }
   if (isLoading) {
     return "loading";
   }
-  return remoteFlags?.[key] === true ? "on" : "off";
+  const remote = remoteFlags?.[key];
+  const isOn = isVariantFlag(key)
+    ? asFeatureFlagVariant(key, remote) !== undefined
+    : remote === true;
+  return isOn ? "on" : "off";
 };
 
 /**
@@ -133,6 +139,20 @@ export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
 // oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
 export const useFeatureFlag = (key: FeatureFlag): boolean =>
   useFeatureFlagState(key) === "on";
+
+/**
+ * The variant of a multivariate flag this user sees, or `undefined` when the
+ * flag is off, still loading, or returns an unknown variant. A local override
+ * wins like in {@link useFeatureFlag}. Unknown variants read off, so an old
+ * app ignores a variant that PostHog added later.
+ */
+export const useFeatureFlagVariant = <K extends VariantFlag>(
+  key: K
+): FeatureFlagVariant<K> | undefined => {
+  const { flags: remoteFlags } = useContext(FeatureFlagsContext);
+  const override = useAppliedOverride(key);
+  return asFeatureFlagVariant(key, override ?? remoteFlags?.[key]);
+};
 
 /**
  * Whether the last PostHog flag request failed. Every remote flag then

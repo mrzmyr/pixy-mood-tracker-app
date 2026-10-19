@@ -171,7 +171,7 @@ const WeatherCard = ({
 };
 
 /**
- * Inner weather emotion picker (flag `emotion-weather`). Pick one or two
+ * Inner weather emotion picker (flag `emotion-picker`, variant `weather`). Pick one or two
  * weather tiles; each shows the emotions that feel like it. A third pick
  * drops the oldest. Long press on an emotion shows its meaning.
  */

@@ -1,13 +1,22 @@
-import { FEATURE_FLAGS } from "@/state/featureFlags/keys";
-import type { FeatureFlag } from "@/state/featureFlags/keys";
+import {
+  asFeatureFlagVariant,
+  FEATURE_FLAGS,
+  isVariantFlag,
+} from "@/state/featureFlags/keys";
+import type {
+  FeatureFlag,
+  FeatureFlagVariant,
+} from "@/state/featureFlags/keys";
 
 /**
  * Local override of one feature flag. `remote` removes the override, so the
- * flag follows PostHog again.
+ * flag follows PostHog again. A multivariate flag takes `off` or one of its
+ * variants; a boolean flag takes `on` or `off`.
  */
-export type FeatureFlagOverride = "on" | "off" | "remote";
+export type FeatureFlagOverride = "on" | "off" | "remote" | FeatureFlagVariant;
 
-type Overrides = Partial<Record<FeatureFlag, "on" | "off">>;
+type AppliedOverride = Exclude<FeatureFlagOverride, "remote">;
+type Overrides = Partial<Record<FeatureFlag, AppliedOverride>>;
 
 /**
  * Flag that lets production users override flags in Settings > Development >
@@ -29,10 +38,24 @@ let overrides: Overrides = {};
 const listeners = new Set<() => void>();
 
 /**
- * Check a deep link or UI value before passing it to {@link setOverride}.
+ * Check a deep link or UI value for `key` before passing it to
+ * {@link setOverride}.
  */
-export const isOverride = (value: unknown): value is FeatureFlagOverride =>
-  value === "on" || value === "off" || value === "remote";
+export const isOverride = (
+  key: FeatureFlag,
+  value: unknown
+): value is FeatureFlagOverride => {
+  if (value === "off" || value === "remote") {
+    return true;
+  }
+  if (isVariantFlag(key)) {
+    return (
+      typeof value === "string" &&
+      asFeatureFlagVariant(key, value) !== undefined
+    );
+  }
+  return value === "on";
+};
 
 /**
  * Current overrides. The object changes identity on every change, so it
@@ -60,7 +83,8 @@ export const setOverride = ({
 
 /**
  * Set the same override on many flags in one store update, so subscribers
- * render once. `remote` removes the override of every key.
+ * render once. `remote` removes the override of every key. Every key must
+ * accept `value`, see {@link isOverride}.
  */
 export const setOverrides = ({
   keys,
@@ -73,7 +97,7 @@ export const setOverrides = ({
   for (const key of FEATURE_FLAGS) {
     const isChanged = keys.some((changed) => changed === key);
     const current = isChanged ? value : overrides[key];
-    if (current === "on" || current === "off") {
+    if (current !== undefined && current !== "remote") {
       next[key] = current;
     }
   }

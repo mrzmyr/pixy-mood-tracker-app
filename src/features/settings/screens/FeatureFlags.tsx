@@ -13,7 +13,12 @@ import {
   useFeatureFlagSource,
   useFeatureFlagState,
 } from "@/state/featureFlags";
-import { FEATURE_FLAG_DETAILS, FEATURE_FLAGS } from "@/state/featureFlags/keys";
+import {
+  FEATURE_FLAG_DETAILS,
+  FEATURE_FLAG_VARIANTS,
+  FEATURE_FLAGS,
+  isVariantFlag,
+} from "@/state/featureFlags/keys";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
 import {
   getOverrides,
@@ -33,9 +38,25 @@ const OVERRIDE_OPTIONS: { value: FeatureFlagOverride; title: string }[] = [
   { value: "off", title: "Off" },
 ];
 
+/** Boolean flags take on/off; multivariate flags take off or a variant. */
+const getOverrideOptions = (flag: FeatureFlag) =>
+  isVariantFlag(flag)
+    ? [
+        OVERRIDE_OPTIONS[0],
+        OVERRIDE_OPTIONS[2],
+        ...FEATURE_FLAG_VARIANTS[flag].map((variant) => ({
+          value: variant,
+          title: variant,
+        })),
+      ]
+    : OVERRIDE_OPTIONS;
+
 const OVERRIDABLE_FLAGS = FEATURE_FLAGS.filter(
   (key) => key !== OVERRIDE_ACCESS_FLAG
 );
+
+/** On/off flags. "All Flags" skips the rest: they need a variant. */
+const BOOLEAN_FLAGS = OVERRIDABLE_FLAGS.filter((key) => !isVariantFlag(key));
 
 /**
  * The override every flag shares, or `undefined` when flags differ. Drives
@@ -45,7 +66,7 @@ const getSharedOverride = (
   overrides: ReturnType<typeof getOverrides>
 ): FeatureFlagOverride | undefined => {
   const values = new Set(
-    OVERRIDABLE_FLAGS.map((flag) => overrides[flag] ?? "remote")
+    BOOLEAN_FLAGS.map((flag) => overrides[flag] ?? "remote")
   );
   return values.size === 1 ? [...values][0] : undefined;
 };
@@ -67,7 +88,7 @@ const AllFlagsSection = ({
             key={option.value}
             title={option.title}
             onPress={() =>
-              setOverrides({ keys: OVERRIDABLE_FLAGS, value: option.value })
+              setOverrides({ keys: BOOLEAN_FLAGS, value: option.value })
             }
             iconRight={
               shared === option.value ? (
@@ -78,7 +99,10 @@ const AllFlagsSection = ({
           />
         ))}
       </MenuList>
-      <TextInfo>Sets every flag below. No check mark: flags differ.</TextInfo>
+      <TextInfo>
+        Sets every on/off flag below. Flags with variants need their own choice.
+        No check mark: flags differ.
+      </TextInfo>
     </View>
   );
 };
@@ -89,7 +113,7 @@ const FeatureFlagSection = ({
   override,
 }: {
   flag: FeatureFlag;
-  override: "on" | "off" | undefined;
+  override: FeatureFlagOverride | undefined;
 }) => {
   const colors = useColors();
   const state = useFeatureFlagState(flag);
@@ -100,7 +124,7 @@ const FeatureFlagSection = ({
     <View>
       <MenuListHeadline>{flag}</MenuListHeadline>
       <MenuList>
-        {OVERRIDE_OPTIONS.map((option) => (
+        {getOverrideOptions(flag).map((option) => (
           <MenuListItem
             key={option.value}
             title={option.title}
@@ -162,7 +186,7 @@ export const FeatureFlagsScreen = () => {
       ))}
       <TextInfo>
         {IS_OVERRIDE_BUILD
-          ? `Overrides and highlight end when the app restarts. Tests set an override with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote.`
+          ? `Overrides and highlight end when the app restarts. Tests set an override with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote|<variant>.`
           : "Overrides and highlight end when the app restarts."}
       </TextInfo>
       <View style={{ height: 100 }} />

@@ -44,11 +44,11 @@ jest.mock("react-native-safe-area-context", () => ({
 }));
 
 let mockIsWeatherEnabled = true;
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the emotion-weather flag comes from PostHog after consent; each test picks on or off.
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the emotion-picker variant comes from PostHog after consent; each test picks weather or none.
 jest.mock("@/state/featureFlags", () => ({
   ...jest.requireActual("@/state/featureFlags"),
-  useFeatureFlag: (flag: string) =>
-    flag === "emotion-weather" && mockIsWeatherEnabled,
+  useFeatureFlagVariant: (flag: string) =>
+    flag === "emotion-picker" && mockIsWeatherEnabled ? "weather" : undefined,
 }));
 
 // Shows the draft's emotions, so tests check what the entry stores.
