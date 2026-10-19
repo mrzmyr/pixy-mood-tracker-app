@@ -6,15 +6,20 @@ import {
   EmotionButtonEmpty,
 } from "./emotion-button-advanced";
 import { MissingEmotionTile } from "./missing-emotion-tile";
+import { sortForColumns } from "./sort-for-columns";
 
 type Cell = Emotion | "missing" | "empty";
 
 const keyOf = (cell: Cell) =>
   cell === "missing" || cell === "empty" ? cell : cell.key;
 
+const COLUMNS = 2;
+
 /**
  * One page of advanced emotions in two columns, ending with a "Missing
- * one?" tile; an odd count is padded with a blank cell.
+ * one?" tile; an odd count is padded with a blank cell. Emotions are
+ * arranged to read alphabetically when scanned column-by-column (top to
+ * bottom in left column, then top to bottom in right column).
  */
 export const EmotionPage = ({
   emotions,
@@ -27,8 +32,9 @@ export const EmotionPage = ({
   onRequestEmotion: () => void;
   selectedEmotions: Emotion[];
 }) => {
-  const cells: Cell[] = [...emotions, "missing"];
-  const chunks = chunkArray(cells, 2).map((d): Cell[] =>
+  const sortedForColumns = sortForColumns(emotions, COLUMNS);
+  const cells: Cell[] = [...sortedForColumns, "missing"];
+  const chunks = chunkArray(cells, COLUMNS).map((d): Cell[] =>
     d.length === 1 ? [...d, "empty"] : d
   );
 
