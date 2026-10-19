@@ -62,6 +62,7 @@ export const usePersonDraft = ({
       id: uuidv4(),
       name: "",
       avatar: null,
+      role: undefined,
       createdAt: new Date().toISOString(),
     },
     pendingImageUri: null,
@@ -75,6 +76,7 @@ export const usePersonDraft = ({
     draft.pendingImageUri !== null ||
     draft.removeAvatar ||
     draft.person.name !== (existing?.name ?? "") ||
+    draft.person.role !== existing?.role ||
     Boolean(draft.person.isArchived) !== Boolean(existing?.isArchived);
   // Back, the back gesture, and Cancel ask before dropping edits.
   const { allowLeave } = useDiscardGuard({ isDirty });
@@ -145,6 +147,13 @@ export const usePersonDraft = ({
     }));
   };
 
+  const setRole = (role: string | undefined) => {
+    setDraft((current) => ({
+      ...current,
+      person: { ...current.person, role },
+    }));
+  };
+
   const save = async () => {
     const name = draft.person.name.trim();
     if (isSaving) {
@@ -187,12 +196,14 @@ export const usePersonDraft = ({
       analytics.track("people:person_added", {
         source: "manual",
         has_avatar: avatar !== null,
+        has_role: person.role !== undefined,
       });
       peopleUpdater.createPerson(person);
     } else {
       analytics.track("people:person_updated", {
         name_changed: existing?.name !== name,
         avatar_changed: avatarChanged,
+        role_changed: existing?.role !== person.role,
         is_archived: Boolean(person.isArchived),
       });
       peopleUpdater.updatePerson(person);
@@ -213,6 +224,7 @@ export const usePersonDraft = ({
     nameError,
     allowLeave,
     setName,
+    setRole,
     toggleArchived,
     fromLibrary,
     fromContact,
