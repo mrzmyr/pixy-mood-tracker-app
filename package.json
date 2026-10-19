@@ -124,7 +124,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@google-cloud/translate": "^10.1.0",
+    "@google-cloud/translate": "^10.2.0",
     "@react-native/jest-preset": "0.86.3",
     "@testing-library/react-native": "^14.0.1",
     "@types/i18n-js": "^4.0.1",
