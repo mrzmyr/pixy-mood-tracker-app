@@ -2,8 +2,7 @@
 
 Pixy is the privacy-aware companion for your wellbeing.
 
-It provides privacy aware data layer on-devive and the right visual presentation to enable reflection.
-Potentially it will suggest interventions based on the data, e.g. breathing exercises.
+It provides privacy aware data layer on-devive and the right visual presentation to enable reflection. Potentially it will suggest interventions based on the data, e.g. breathing exercises.
 
 It uses the [Open Wellbeing Log Format (OWLF)](https://github.com/mrzmyr/OWLF).
 
