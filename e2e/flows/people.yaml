@@ -66,15 +66,27 @@ tags: [p1, people]
 - tapOn:
     id: "contact-import-cancel"
 
-# Manual add with a typed name.
+# Manual add with a typed name and role.
 - tapOn: "Add Person"
 - tapOn:
     id: "person-name"
 - inputText: "Jo"
 - runFlow: ../subflows/dismiss-keyboard.yaml
 - tapOn:
+    id: "person-role-friend"
+- tapOn:
     id: "person-save"
 - assertVisible: "Jo"
+
+# Edit Jo to add a custom role
+- tapOn: "Jo"
+- assertVisible: "Edit Person"
+- tapOn:
+    id: "person-role-custom"
+- inputText: "Neighbor"
+- runFlow: ../subflows/dismiss-keyboard.yaml
+- tapOn:
+    id: "person-save"
 
 # Archive Alex: gone from the list, still in the archive.
 - tapOn: "Alex"
