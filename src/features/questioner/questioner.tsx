@@ -1,12 +1,13 @@
 import { QUESTIONS_PULL_URL, QUESTION_SUBMIT_URL } from "@/constants/api";
 import { getLanguage, getLocale } from "@/lib/translation";
-import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useState } from "react";
 import { Platform } from "react-native";
-import semver from "semver";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
 import { useSettings } from "@/state/settings";
+import { pickQuestion } from "./pick-question";
+
+const ACTION_PREFIX = "question_slide_";
 
 /**
  * Remote in-app survey question.
@@ -33,73 +34,44 @@ export interface IQuestion {
 }
 
 /**
- * Fetch the next unanswered question for this app version and language.
+ * Fetch the next question to show, picked by {@link pickQuestion}.
  *
- * At most one question per day: after an answer today, `question` stays
- * `null`. Fetch failures also yield `null`. Development builds do not
- * submit answers but still mark the question as answered.
+ * After an answer, no question shows for `QUESTION_COOLDOWN_DAYS` days.
+ * Fetch failures yield `null`. Development builds do not submit answers but
+ * still mark the question as answered.
  */
 export const useQuestioner = () => {
   const analytics = useAnalytics();
-  const { hasActionDone, addActionDone, settings } = useSettings();
+  const { addActionDone, settings } = useSettings();
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
-
-  const questionsDone = settings.actionsDone.filter((action) =>
-    action?.title?.startsWith("question_slide_")
-  );
 
   // Effect event: only called by the mount effect below, so it reads the
   // settings of that render without making the effect re-run on changes.
   const getQuestion = useEffectEvent(async (): Promise<IQuestion | null> => {
-    const lastQuestionAnsweredToday =
-      questionsDone.length > 0
-        ? dayjs(questionsDone.at(-1)?.date).isSame(dayjs(), "day")
-        : false;
-
-    if (lastQuestionAnsweredToday) {
-      console.log("Not showing question because one was answered today");
-      return null;
-    }
+    const questionsDone = settings.actionsDone.filter((action) =>
+      action?.title?.startsWith(ACTION_PREFIX)
+    );
 
     try {
       const response = await fetch(QUESTIONS_PULL_URL);
-      const data = await response.json();
-      if (!data) {
+      const data: IQuestion[] | null = await response.json();
+      if (!Array.isArray(data)) {
         return null;
       }
 
-      const nextQuestion = data.find((candidate: IQuestion) => {
-        const satisfiesVersion = candidate.appVersion
-          ? semver.satisfies(pkg.version, candidate.appVersion)
-          : true;
-        const hasBeenAnswered = hasActionDone(`question_slide_${candidate.id}`);
-        const isInMyLanguage = candidate.text[getLanguage()] !== undefined;
-
-        if (!satisfiesVersion) {
-          console.log(
-            "Question not shown because version does not match",
-            candidate.appVersion,
-            pkg.version
-          );
-        }
-        if (hasBeenAnswered) {
-          console.log(
-            "Question not shown because it has been answered",
-            candidate.id
-          );
-        }
-        if (!isInMyLanguage) {
-          console.log(
-            "Question not shown because it is not in my language",
-            candidate.text
-          );
-        }
-
-        return satisfiesVersion && !hasBeenAnswered && isInMyLanguage;
+      return pickQuestion({
+        questions: data,
+        answeredIds: new Set(
+          questionsDone.map((action) =>
+            action.title.slice(ACTION_PREFIX.length)
+          )
+        ),
+        answeredDates: questionsDone.map((action) => action.date),
+        appVersion: pkg.version,
+        language: getLanguage(),
+        now: new Date(),
       });
-
-      return nextQuestion || null;
     } catch {
       return null;
     }
@@ -153,7 +125,7 @@ export const useQuestioner = () => {
 
     if (__DEV__) {
       console.log("Not sending Question Feedback in dev mode");
-      addActionDone(`question_slide_${answeredQuestion.id}`);
+      addActionDone(`${ACTION_PREFIX}${answeredQuestion.id}`);
       return;
     }
 
@@ -164,7 +136,7 @@ export const useQuestioner = () => {
       },
       body: JSON.stringify(body),
     });
-    addActionDone(`question_slide_${answeredQuestion.id}`);
+    addActionDone(`${ACTION_PREFIX}${answeredQuestion.id}`);
   };
 
   useEffect(() => {
