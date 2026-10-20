@@ -277,8 +277,11 @@ CREATIVE_CSS = r"""
 .cv h4{position:absolute;left:0;right:0;margin:0;text-align:center;font-weight:600;letter-spacing:-.03em;line-height:1.05}
 .cv .sub{position:absolute;left:0;right:0;text-align:center;color:rgba(10,10,10,.66);font-size:19px}
 .cv.feature{width:1024px;height:500px;background:url(photos/sky.webp) 50% 35%/cover no-repeat,#bcdcff}
-.cv .fk{position:absolute;left:64px;top:132px;font-size:16px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(10,10,10,.66)}
-.cv h4.fh{left:64px;right:auto;top:164px;width:430px;text-align:left;font-size:50px;line-height:1.04}
+.cv .fk{position:absolute;left:52px;top:98px;font-size:24px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(10,10,10,.66)}
+.cv h4.fh{left:52px;right:auto;top:138px;width:500px;text-align:left;font-size:64px;line-height:1.02}
+.cv .brand{position:absolute;z-index:3;left:0;right:0;top:26px;display:flex;justify-content:center;align-items:center;gap:12px}
+.cv .brand svg{width:46px;height:46px;border-radius:11px;box-shadow:0 0 0 1px rgba(10,40,90,.06),0 8px 20px rgba(20,60,120,.2)}
+.cv .brand b{font-size:38px;font-weight:600;letter-spacing:-.03em}
 .px{position:absolute;border-radius:22%;box-shadow:0 10px 24px rgba(20,60,120,.18)}
 """
 def pixels(cells):
@@ -287,28 +290,31 @@ def pixels(cells):
 # Mood colors from appscreens.js default scale, floating like the year grid drifting through the clouds.
 PX = [(70, 70, 34, "#34d399", .9, -8), (150, 210, 22, "#a7f3d0", .85, 6), (40, 270, 26, "#fdba74", .8, 10), (230, 110, 18, "#059669", .7, -4),
       (860, 60, 30, "#059669", .9, 8), (790, 200, 24, "#ffedd5", .85, -6), (890, 280, 20, "#34d399", .8, 4), (720, 90, 16, "#a7f3d0", .7, -10)]
+# App icon: 4 mood dots on white (assets/images/icon.png).
+PIXY_ICON = '<svg viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#fff"/><circle cx="345" cy="345" r="150" fill="#fdba74"/><circle cx="687" cy="345" r="150" fill="#34d399"/><circle cx="345" cy="687" r="150" fill="#ffedd5"/><circle cx="687" cy="687" r="150" fill="#059669"/></svg>'
 FPX = [(40, 40, 26, "#34d399", .85, -8), (470, 60, 18, "#a7f3d0", .8, 6), (60, 420, 22, "#fdba74", .8, 10), (420, 400, 16, "#059669", .75, -4)]
 CREATIVE = f"""
 <div class="cvset">
  <div><div class="cv header" data-cv="header">
   {pixels(PX)}
-  {phone('mood', 78, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
-  {phone('year', 78, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
-  {phone('calendar', 34, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
- </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. No text: app icon, name and Get button sit right below. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
+  <div class="brand">{PIXY_ICON}<b>Pixy</b></div>
+  {phone('mood', 150, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
+  {phone('year', 150, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
+  {phone('calendar', 106, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
+ </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. Pixy icon + name on top, phones pushed down. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
  <div><div class="cv search" data-cv="search">
-  <h4 style="top:38px;font-size:50px">Mood Journal</h4>
-  <div class="sub" style="top:104px">Log how you feel. See what shapes it.</div>
-  {phone('mood', 160, 'left:21%;transform:translateX(-50%) scale(.86);')}
-  {phone('calendar', 160, 'transform:translateX(-50%) scale(.86);')}
-  {phone('emotions', 160, 'left:79%;transform:translateX(-50%) scale(.86);')}
- </div><div class="lab"><b>Search results</b> 3:2, 3840x2560. Replaces the first 3 screenshots in search. "Mood Journal" + one line + real app: mood logger, calendar, emotions.</div></div>
+  <h4 style="top:30px;font-size:68px">Mood Journal</h4>
+  <div class="sub" style="top:112px;font-size:28px;font-weight:500">Log how you feel. See what shapes it.</div>
+  {phone('mood', 214, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
+  {phone('emotions', 214, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
+  {phone('calendar', 176, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
+ </div><div class="lab"><b>Search results</b> 3:2, 3840x2560. Replaces the first 3 screenshots in search, shown small: big type, big phones (calendar front, mood logger and emotions behind).</div></div>
  <div><div class="cv feature android-set" data-cv="feature">
   {pixels(FPX)}
   <div class="fk">Mood Journal</div>
   <h4 class="fh">Understand what makes you feel that way.</h4>
-  {phone('calendar', 40, 'left:auto;right:200px;transform:rotate(-6deg) scale(1.35);z-index:2;')}
-  {phone('year', 96, 'left:auto;right:-150px;transform:rotate(7deg) scale(1.25);z-index:1;')}
+  {phone('calendar', 40, 'left:auto;right:140px;transform:rotate(-6deg) scale(1.35);z-index:2;')}
+  {phone('year', 96, 'left:auto;right:-190px;transform:rotate(7deg) scale(1.25);z-index:1;')}
  </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Mood Journal kicker + proof headline left, calendar and year in pixels right.</div></div>
 </div>"""
 body = body.replace('Google Play User', 'Pixy user')
