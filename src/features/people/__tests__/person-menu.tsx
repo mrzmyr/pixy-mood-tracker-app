@@ -6,12 +6,13 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import * as FileSystem from "expo-file-system/legacy";
-import { ActionSheetIOS, Pressable, Text } from "react-native";
+import { Pressable, Text } from "react-native";
 import { LogsProvider } from "@/features/logs";
 import Alert from "@/lib/alert";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
-import { usePersonActionSheet } from "../hooks/use-person-action-sheet";
+import { usePersonMenu } from "../hooks/use-person-menu";
+import type { PersonMenuActionId } from "../hooks/use-person-menu";
 import {
   PeopleProvider,
   STORAGE_KEY,
@@ -33,11 +34,11 @@ interface Callbacks {
   onDeleted: () => void;
 }
 
-/** The stored Sam with a button that opens the sheet, like a released tile. */
+/** The stored Sam with one button per menu row, like a tile's menu. */
 const Tile = (callbacks: Callbacks) => {
   const load = usePeopleLoad();
   const { people } = usePeopleState();
-  const showActions = usePersonActionSheet();
+  const runAction = usePersonMenu();
   const person = people.find((item) => item.id === sam.id);
   if (load.status !== "ready") {
     return null;
@@ -45,20 +46,21 @@ const Tile = (callbacks: Callbacks) => {
   if (!person) {
     return <Text>No Sam</Text>;
   }
+  const actionIds: PersonMenuActionId[] = ["edit", "archive", "delete"];
   return (
-    <Pressable onPress={() => showActions(person, callbacks)}>
+    <>
       <Text>{person.isArchived ? "Sam archived" : "Sam active"}</Text>
-    </Pressable>
+      {actionIds.map((actionId) => (
+        <Pressable
+          key={actionId}
+          onPress={() => runAction(person, actionId, callbacks)}
+        >
+          <Text>{`pick ${actionId}`}</Text>
+        </Pressable>
+      ))}
+    </>
   );
 };
-
-/** Picks `option` in the next action sheet. */
-const pickInSheet = (option: string) =>
-  jest
-    .spyOn(ActionSheetIOS, "showActionSheetWithOptions")
-    .mockImplementationOnce((options, onPick) => {
-      onPick(options.options.indexOf(option));
-    });
 
 const renderTile = async ({
   onEdit = jest.fn(),
@@ -84,7 +86,7 @@ const renderTile = async ({
   return userEvent.setup();
 };
 
-describe("usePersonActionSheet (iOS)", () => {
+describe("usePersonMenu", () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ people: [sam] }));
@@ -100,8 +102,7 @@ describe("usePersonActionSheet (iOS)", () => {
     const onEdit = jest.fn();
     const user = await renderTile({ onEdit });
 
-    pickInSheet("Edit");
-    await user.press(screen.getByText("Sam active"));
+    await user.press(screen.getByText("pick edit"));
 
     expect(onEdit).toHaveBeenCalledTimes(1);
   });
@@ -110,13 +111,11 @@ describe("usePersonActionSheet (iOS)", () => {
     const onArchived = jest.fn();
     const user = await renderTile({ onArchived });
 
-    pickInSheet("Archive");
-    await user.press(screen.getByText("Sam active"));
+    await user.press(screen.getByText("pick archive"));
     await screen.findByText("Sam archived");
     expect(onArchived).toHaveBeenCalledTimes(1);
 
-    pickInSheet("Unarchive");
-    await user.press(screen.getByText("Sam archived"));
+    await user.press(screen.getByText("pick archive"));
     await screen.findByText("Sam active");
     expect(onArchived).toHaveBeenCalledTimes(1);
   });
@@ -126,8 +125,7 @@ describe("usePersonActionSheet (iOS)", () => {
     const onDeleted = jest.fn();
     const user = await renderTile({ onDeleted });
 
-    pickInSheet("Delete");
-    await user.press(screen.getByText("Sam active"));
+    await user.press(screen.getByText("pick delete"));
 
     expect(screen.getByText("Sam active")).toBeTruthy();
     expect(onDeleted).not.toHaveBeenCalled();
