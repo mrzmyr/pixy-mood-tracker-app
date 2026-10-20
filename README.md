@@ -1,6 +1,6 @@
 > [!IMPORTANT]
 > - **Source development resumed in 2026.** See [latest source release](https://github.com/mrzmyr/pixy-mood-tracker-app/releases/latest).
-> - **Store updates are pending.** App Store and Google Play still offer version 1.68.0 from December 24, 2022. See [app facts](./docs/app-facts.json) for verified release details.
+> - **Stores are up to date again.** App Store and Google Play offer version 1.95.2 since October 18, 2026. See [app facts](./docs/app-facts.json) for verified release details.
 
 <br />
 <p align="center">
