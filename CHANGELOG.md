@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.103.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.102.0...v1.103.0) (2026-10-20)
+
+
+### Features
+
+* **logger:** native iOS context menu and drag for people tiles ([#916](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/916)) ([1f32cf1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1f32cf19dc35f1dbdfa2b87f0eef88964a87d415))
+* **logger:** reorder people tiles and act on them in the check-in ([#915](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/915)) ([fed32cc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fed32ccb2a224958531cf66e9b7dc10b81e79841))
+* **people:** ring-only tiles and tint add tile on people slide ([#917](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/917)) ([7f73da7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7f73da7df27661f33fcaadb492f81b34732cd890))
+* **people:** show initials when a person has no photo ([#920](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/920)) ([582b424](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/582b424fa587296a6b649f4eba1ceb482d6a1989))
+* **questioner:** target questions by entry count ([#919](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/919)) ([edf4b53](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/edf4b536920b87b889299cfa544501ed8dcb5474))
+* **questioner:** wait 3 days between in-app questions ([#913](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/913)) ([bb4d36a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bb4d36a3ca8fd7eaf1c6d62438d144acc5429ea2))
+
 ## [1.102.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.101.0...v1.102.0) (2026-10-19)
 
 
