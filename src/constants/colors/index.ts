@@ -245,7 +245,7 @@ const light = {
   entryBackground: colors.white,
   entryItemBorder: colors.neutral[200],
 
-  // Bezel: outer shell around statistics cards and person tiles.
+  // Bezel: outer shell around statistics cards. `bezelInnerBorder` also edges person tiles.
   bezelBackground: colors.white,
   bezelBorder: colors.neutral[200],
   bezelInnerBorder: colors.neutral[200],

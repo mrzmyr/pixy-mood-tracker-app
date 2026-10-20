@@ -20,7 +20,8 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 - Toasts: `showToast` ([`src/lib/toast.ts`](src/lib/toast.ts)). iOS top card, Android M3 snackbar. Optional Undo `action`, never only way to do something.
 - Inline errors, warnings, notices: [`InlineAlert`](src/components/inline-alert.tsx) next to the content they are about. Stays until state changes. Never plain colored text.
 - Menu rows: [`MenuListItem`](src/components/menu-list-item.tsx). Title = short Title Case noun. Status in value slot. One text color per row, except destructive rows (`colors.danger`). Never wrap or shrink: shorten text. Warnings use [`TextInfo`](src/components/text-info.tsx) under list.
-- Bezel ([`Bezel`](src/components/bezel.tsx), radius from `getBezelRadius`): statistics cards and person tiles only. Calendar days, mood buttons, entry cards, list groups have no bezel.
+- Bezel ([`Bezel`](src/components/bezel.tsx), radius from `getBezelRadius`): statistics cards only. Calendar days, mood buttons, entry cards, list groups, person tiles have no bezel.
+- Add action inside a picker grid: last grid cell, same size as items. Dashed circle, plus icon, and label all in `colors.tint` ([`AddPersonTile`](src/features/logger/slides/slide-people.tsx)). Never gray: gray reads disabled. Target is the whole cell.
 - Android list groups: M3 full-width list, no chevron, no dividers, 56dp rows ([`MenuList`](src/components/menu-list.tsx)).
 - Tag colors: fixed palette inline in grouped card ([`ColorPicker`](src/features/tags/components/color-picker.tsx)). 48 × 48 targets, never shrink. Selection shown by check + color name, never hue alone.
 - Core Modules ([GLOSSARY.md](GLOSSARY.md)) use same Lucide icon everywhere, 20 px: Mood `Sun`, Emotions `Heart`, Tags `Tag`, People `Users`, Photos `Image`, Note `FileText`. Labels are single nouns.

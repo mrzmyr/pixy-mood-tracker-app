@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
+import { RADIUS } from "@/constants/radius";
 import LinkButton from "@/components/link-button";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -35,14 +36,13 @@ const COLUMN_GAP = 12;
 const MAX_AVATAR_SIZE = 96;
 
 /**
- * Last grid cell: opens the person form, hidden at `MAX_PEOPLE`.
- * Border, icon, and label share one placeholder gray so the tile reads as an
- * empty slot, quieter than the people around it.
+ * Last grid cell: opens the person form, hidden at `MAX_PEOPLE`. Dashed
+ * circle, icon, and label use the tint color, so the cell reads as an action
+ * and not as a disabled slot.
  */
 const AddPersonTile = ({ size }: { size: number }) => {
   const router = useRouter();
   const colors = useColors();
-  const quiet = colors.textInputPlaceholder;
   const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
 
   return (
@@ -68,18 +68,18 @@ const AddPersonTile = ({ size }: { size: number }) => {
           style={{
             width: size,
             height: size,
-            borderRadius: size / 2,
+            borderRadius: RADIUS.full,
             borderWidth: 2,
             borderStyle: "dashed",
-            borderColor: quiet,
+            borderColor: colors.tint,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           <Plus
             size={Math.round(size * 0.35)}
-            color={quiet}
-            strokeWidth={1.5}
+            color={colors.tint}
+            strokeWidth={2}
           />
         </View>
       </View>
@@ -89,7 +89,8 @@ const AddPersonTile = ({ size }: { size: number }) => {
           marginTop: 6,
           maxWidth: outer,
           fontSize: 15,
-          color: quiet,
+          fontWeight: "500",
+          color: colors.tint,
         }}
       >
         {t("people_add")}
@@ -219,7 +220,10 @@ export const SlidePeople = ({
             </Button>
           </View>
         ) : (
-          <ScrollView style={{ flex: 1 }}>
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ paddingBottom: insets.bottom + 32 }}
+          >
             <View
               style={{
                 flexDirection: "row",
@@ -227,7 +231,6 @@ export const SlidePeople = ({
                 columnGap: COLUMN_GAP,
                 rowGap: 20,
                 marginTop: 24,
-                paddingBottom: insets.bottom,
               }}
             >
               {visible.map((person) => (
