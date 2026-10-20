@@ -84,6 +84,21 @@ const PersonTile = ({
         }}
       >
         <PersonAvatar person={person} size={size} />
+        {/* Hairline edge: in dark mode the fallback avatar matches the
+            slide background and would vanish without it. */}
+        <View
+          pointerEvents="none"
+          style={{
+            position: "absolute",
+            top: TILE_RING_GAP,
+            left: TILE_RING_GAP,
+            width: size,
+            height: size,
+            borderRadius: RADIUS.full,
+            borderWidth: 1,
+            borderColor: colors.bezelInnerBorder,
+          }}
+        />
       </View>
       <Text
         numberOfLines={1}
