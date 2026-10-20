@@ -282,6 +282,9 @@ CREATIVE_CSS = r"""
 .cv .brand{position:absolute;z-index:3;left:0;right:0;top:26px;display:flex;justify-content:center;align-items:center;gap:12px}
 .cv .brand svg{width:46px;height:46px;border-radius:11px;box-shadow:0 0 0 1px rgba(10,40,90,.06),0 8px 20px rgba(20,60,120,.2)}
 .cv .brand b{font-size:38px;font-weight:600;letter-spacing:-.03em}
+.cv .brand span{font-size:38px;font-weight:500;letter-spacing:-.03em;color:rgba(10,10,10,.6)}
+.cv h4.ih{display:flex;justify-content:center;align-items:center;gap:18px}.cv h4.ih svg{width:66px;height:66px;border-radius:16px;box-shadow:0 0 0 1px rgba(10,40,90,.06),0 8px 20px rgba(20,60,120,.2)}
+.cv .brand.fb{left:52px;right:auto;top:84px;justify-content:flex-start;gap:10px}.cv .brand.fb svg{width:40px;height:40px;border-radius:10px}.cv .brand.fb b,.cv .brand.fb span{font-size:30px}
 .px{position:absolute;border-radius:22%;box-shadow:0 10px 24px rgba(20,60,120,.18)}
 """
 def pixels(cells):
@@ -297,25 +300,25 @@ CREATIVE = f"""
 <div class="cvset">
  <div><div class="cv header" data-cv="header">
   {pixels(PX)}
-  <div class="brand">{PIXY_ICON}<b>Pixy</b></div>
+  <div class="brand">{PIXY_ICON}<b>Pixy</b><span>Mood Journal</span></div>
   {phone('mood', 150, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
   {phone('year', 150, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
   {phone('calendar', 106, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
- </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. Pixy icon + name on top, phones pushed down. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
+ </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. Pixy icon + "Pixy Mood Journal" on top, phones pushed down. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
  <div><div class="cv search" data-cv="search">
-  <h4 style="top:30px;font-size:68px">Mood Journal</h4>
-  <div class="sub" style="top:112px;font-size:28px;font-weight:500">Log how you feel. See what shapes it.</div>
-  {phone('mood', 214, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
-  {phone('emotions', 214, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
-  {phone('calendar', 176, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
+  <h4 class="ih" style="top:30px;font-size:68px">{PIXY_ICON}Mood Journal</h4>
+  <div class="sub" style="top:106px;font-size:28px;font-weight:500">Log how you feel. See what shapes it.</div>
+  {phone('mood', 232, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
+  {phone('emotions', 232, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
+  {phone('calendar', 194, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
  </div><div class="lab"><b>Search results</b> 3:2, 3840x2560. Replaces the first 3 screenshots in search, shown small: big type, big phones (calendar front, mood logger and emotions behind).</div></div>
  <div><div class="cv feature android-set" data-cv="feature">
   {pixels(FPX)}
-  <div class="fk">Mood Journal</div>
+  <div class="brand fb">{PIXY_ICON}<b>Pixy</b><span>Mood Journal</span></div>
   <h4 class="fh">Understand what makes you feel that way.</h4>
   {phone('calendar', 40, 'left:auto;right:140px;transform:rotate(-6deg) scale(1.35);z-index:2;')}
   {phone('year', 96, 'left:auto;right:-190px;transform:rotate(7deg) scale(1.25);z-index:1;')}
- </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Mood Journal kicker + proof headline left, calendar and year in pixels right.</div></div>
+ </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Pixy Mood Journal lockup + proof headline left, calendar and year in pixels right.</div></div>
 </div>"""
 body = body.replace('Google Play User', 'Pixy user')
 
