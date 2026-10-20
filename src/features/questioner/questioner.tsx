@@ -3,6 +3,7 @@ import { getLanguage, getLocale } from "@/lib/translation";
 import { useEffect, useEffectEvent, useState } from "react";
 import { Platform } from "react-native";
 import pkg from "../../../package.json";
+import { useLogState } from "@/features/logs";
 import { useAnalytics } from "@/state/analytics";
 import { useSettings } from "@/state/settings";
 import { pickQuestion } from "./pick-question";
@@ -18,6 +19,8 @@ const ACTION_PREFIX = "question_slide_";
 export interface IQuestion {
   id: string;
   appVersion: string;
+  /** Show only to users with at least this many entries. Missing means any. */
+  minEntries?: number;
   text: {
     en: string;
     de?: string;
@@ -43,6 +46,7 @@ export interface IQuestion {
 export const useQuestioner = () => {
   const analytics = useAnalytics();
   const { addActionDone, settings } = useSettings();
+  const logState = useLogState();
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
 
@@ -70,6 +74,7 @@ export const useQuestioner = () => {
         answeredDates: questionsDone.map((action) => action.date),
         appVersion: pkg.version,
         language: getLanguage(),
+        entriesCount: logState.items.length,
         now: new Date(),
       });
     } catch {
