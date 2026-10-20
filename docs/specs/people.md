@@ -106,7 +106,7 @@ people: Array<
 - Position after tags
 - Headline: "Who played a part?"
 - 3-column grid of `tile` chips. Tap = toggle select. Bare avatar, no shell, no badge. Selected = 3px tint ring + bold name. Archived hidden unless already on draft (copy `SlideTags` filter)
-- Below grid: "Add Person" pill pushes `/people/create`. Hidden at `MAX_PEOPLE`
+- Last cell: "Add Person" tile pushes `/people/create`. Dashed tint circle, tint plus, tint label. Hidden at `MAX_PEOPLE`
 - Order: most used in last 90 days first, then alphabetical
 - Step enabled and `people.length === 0`: simple empty state, one "Add Person" button pushes `/people/create`. No skip
 - Edit and archive live in Settings > Check-in > People

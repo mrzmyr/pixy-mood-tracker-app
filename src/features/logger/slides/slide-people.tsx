@@ -8,7 +8,6 @@ import {
   ScrollView,
   Text,
   View,
-  useColorScheme,
   useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -37,15 +36,14 @@ const COLUMN_GAP = 12;
 const MAX_AVATAR_SIZE = 96;
 
 /**
- * Pill below the grid: opens the person form, hidden at `MAX_PEOPLE`.
- * Outlined like an unselected tag, so it stays quieter than the people.
+ * Last grid cell: opens the person form, hidden at `MAX_PEOPLE`. Dashed
+ * circle, icon, and label use the tint color, so the cell reads as an action
+ * and not as a disabled slot.
  */
-const AddPersonPill = () => {
+const AddPersonTile = ({ size }: { size: number }) => {
   const router = useRouter();
   const colors = useColors();
-  const colorScheme = useColorScheme();
-  const borderColor =
-    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
+  const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
 
   return (
     <Pressable
@@ -54,21 +52,47 @@ const AddPersonPill = () => {
       accessibilityLabel={t("people_add")}
       testID="log-people-add"
       style={({ pressed }) => ({
-        alignSelf: "center",
-        flexDirection: "row",
         alignItems: "center",
-        gap: 6,
-        borderRadius: RADIUS.full,
-        borderWidth: 1,
-        borderColor,
-        paddingLeft: 12,
-        paddingRight: 16,
-        paddingVertical: 8,
         opacity: pressed ? 0.8 : 1,
       })}
     >
-      <Plus size={16} color={colors.textSecondary} strokeWidth={2} />
-      <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+      <View
+        style={{
+          width: outer,
+          height: outer,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <View
+          style={{
+            width: size,
+            height: size,
+            borderRadius: RADIUS.full,
+            borderWidth: 2,
+            borderStyle: "dashed",
+            borderColor: colors.tint,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Plus
+            size={Math.round(size * 0.35)}
+            color={colors.tint}
+            strokeWidth={2}
+          />
+        </View>
+      </View>
+      <Text
+        numberOfLines={1}
+        style={{
+          marginTop: 6,
+          maxWidth: outer,
+          fontSize: 15,
+          fontWeight: "500",
+          color: colors.tint,
+        }}
+      >
         {t("people_add")}
       </Text>
     </Pressable>
@@ -78,7 +102,7 @@ const AddPersonPill = () => {
 /**
  * People picker slide: "Who played a part?". Archived people are hidden
  * unless the draft already has them. Chips show the most used people of the
- * last 90 days first, in a grid of avatars with an add pill below.
+ * last 90 days first, in a grid of avatars that ends with an add tile.
  * Without people it offers one way out: add some.
  */
 export const SlidePeople = ({
@@ -230,12 +254,12 @@ export const SlidePeople = ({
                   />
                 </View>
               ))}
+              {!getPeopleLimit(people).reached && (
+                <View style={{ width: columnWidth, alignItems: "center" }}>
+                  <AddPersonTile size={avatarSize} />
+                </View>
+              )}
             </View>
-            {!getPeopleLimit(people).reached && (
-              <View style={{ marginTop: 24 }}>
-                <AddPersonPill />
-              </View>
-            )}
           </ScrollView>
         )}
       </View>
