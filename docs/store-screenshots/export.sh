@@ -6,7 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 CHROME="${CHROME:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}"
 PORT="${PORT:-8961}"
-NAMES=(proof mood timeline emotions tags people privacy)
+NAMES=(proof mood emotions tags year themes privacy)
 
 python3 build.py
 python3 -m http.server "$PORT" >/dev/null 2>&1 &

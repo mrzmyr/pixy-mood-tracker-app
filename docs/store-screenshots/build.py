@@ -233,24 +233,24 @@ SLOTS = [
  <h4>Mood in<br>Pixels</h4><div class="sub">Your days turn into colors.</div>
  {phone('mood', 186, 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;')}
  {phone('calendar', 150, 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;')}"""),
-    ("<b>3 · Timeline.</b> Day 2 Oma hug + letter, day 1 Munich + puppy; day 2 popped out.", ("flag", "flag: calendar-timeline"), "", f"""
- <h4>Relive your<br>best days</h4><div class="sub">Every moment, photo and feeling.</div>
- {phone('timeline2', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
-    ("<b>4 · Emotions.</b> Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.", None, "", f"""
+    ("<b>3 · Emotions.</b> Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.", None, "", f"""
  <h4>Name what<br>you feel.</h4><div class="sub">161 emotions, each explained.</div>
  {phone('emotions', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
  <div class="zoom" style="left:22px;right:22px;top:500px"><span class="zc on" data-emo="calm"></span><span class="zc on" data-emo="hopeful"></span><span class="zc" data-emo="grateful"></span><span class="zc" data-emo="anxious"></span></div>"""),
-    ("<b>5 · Tags.</b> Check-in tags, flat list (no categories), gray bg; popular tags popped out in gray cards.", None, "", f"""
+    ("<b>4 · Tags.</b> Check-in tags, flat list (no categories), gray bg; popular tags popped out in gray cards.", None, "", f"""
  <h4>Tag what<br>matters</h4><div class="sub">Track what fills your days.</div>
  {phone('tags', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
  <div class="zoom" style="left:22px;right:22px;top:500px"><span class="zc on"><i style="background:#22c55e"></i>Sport</span><span class="zc on"><i style="background:#f59e0b"></i>Hyperfocus</span><span class="zc on"><i style="background:#8b5cf6"></i>Took meds</span><span class="zc on"><i style="background:#3b82f6"></i>Meetings</span></div>"""),
-    ("<b>6 · People.</b> Check-in people step (3-column avatars + add tile); Add Person card popped out.", ("flag", "flag: people"), "", f"""
- <h4>Who makes<br>your day?</h4><div class="sub">Add the people in your life.</div>
- {phone('people', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
- <div class="zoom faces" style="left:22px;right:22px;top:430px"><span class="zf on"><img src="photos/p-ada.jpg" alt=""><b>Ada</b></span><span class="zf on"><img src="photos/p-jonas.jpg" alt=""><b>Jonas</b></span><span class="zf"><img src="photos/p-priya.jpg" alt=""><b>Priya</b></span></div>"""),
+    ("<b>5 · Year.</b> Year Report: Year in Pixels.", None, "", f"""
+ <h4>Your year<br>in pixels</h4><div class="sub">See every day of the year at a glance.</div>
+ {phone('year', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
+    ("<b>6 · Themes.</b> Calendar in PuOr (light) and BrBG (dark).", None, "", f"""
+ <h4>Make it<br>your own</h4><div class="sub">Color scales in light and dark mode.</div>
+ {phone('calendar', 186, 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;', 'puor')}
+ {phone('calendar', 150, 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;', 'brbg,dark')}"""),
     ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
  <h4 style="align-self:flex-start;text-align:left">We care about<br>your privacy.</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
- <div class="plist" style="margin-top:auto;margin-bottom:auto"><div>{FACEID}Face ID Lock</div><div>{CK}Stored on Your Device Only</div><div>{CK}No Account, No Sign-Up</div><div>{CK}No Ads</div><div>{CK}Export Your Data Anytime</div><div>{CK}Open Source</div><div class="soon">{CK}Supporter Plan Coming Soon</div></div>"""),
+ <div class="plist" style="margin-top:auto;margin-bottom:auto"><div>{CK}Stored on Your Device Only</div><div>{CK}No Account, No Sign-Up</div><div>{CK}No Ads</div><div>{CK}Export Your Data Anytime</div><div>{CK}Open Source</div><div class="soon">{CK}Supporter Plan Coming Soon</div></div>"""),
 ]
 
 body = "".join(
