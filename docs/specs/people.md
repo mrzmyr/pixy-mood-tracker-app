@@ -10,7 +10,7 @@ Track who played a part in each entry: met, called, or thought of. Goal: statist
 - Own store and own logger slide, not a tag subtype
 - Behind PostHog flag `people`. Flag off hides settings entry, slide, step toggle. Data stays
 - Step `people` disabled by default. User enables in Settings > Steps. Later: in-app announcement enables it (separate spec)
-- No color per person. Fallback avatar: gray user icon
+- No color per person. Fallback avatar: gray initials (first and last word), gray user icon while name is blank
 - Max 50 people (`MAX_PEOPLE`), name max 30 chars (reuse `MAX_TAG_LENGTH`)
 - Delete mirrors tags: strips references from all entries, confirm shows entry count. Archive hides from slide, stats, filters; history stays
 - Contact photo update: none. Photo changes come from the library. No background sync, no extra permission prompt
@@ -61,7 +61,7 @@ people: z.array(PersonReferenceSchema).default([]),
 - Write on add, replace on edit, unlink on delete
 - Orphan sweep on provider load: file without person gets deleted
 - Render with `expo-image`, cache key `id + updatedAt`
-- No photo: gray user icon
+- No photo: gray initials ([`getInitials`](../../src/features/people/initials.ts)). Blank name: gray user icon
 
 ## Import sources
 
@@ -98,7 +98,7 @@ people: Array<
 - Path `src/features/people/components/person-chip.tsx`
 - One component for slide, log detail, logs list, filters, stats. Consistent everywhere
 - Pill like [`Tag`](../../src/features/tags/components/tag.tsx): 1px border, radius 100, selected = `tagBackgroundActive` + tint border
-- Left: 24px circle avatar or gray user icon. Right: name 17px
+- Left: 24px circle avatar or gray initials. Right: name 17px
 - Variants: `chip` (default), `large` (detail screen), `tile` (logger grid)
 
 ### Logger slide `SlidePeople`
