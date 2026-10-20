@@ -10,7 +10,7 @@
 
   <h3 align="center">Pixy Mood Tracker</h3>
 
-  <p align="center">Minimalistic app to track your mood within one pixel a day.</p>
+  <p align="center">Minimalistic mood journal. One pixel a day.</p>
   <p align="center">
     <a href="https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124">Apple App Store</a>
     ·
@@ -24,7 +24,7 @@
   <img src="./docs/screen-1.png" width="400px">
 </p>
 
-Pixy is a free, open source mood tracker for iPhone and Android. No ads, no account.
+Pixy is a free, open source mood journal for iPhone and Android. No ads, no account.
 
 - Log mood, emotions, tags, and notes. More than one entry per day.
 - Year in Pixels, calendar, filters, and statistics
