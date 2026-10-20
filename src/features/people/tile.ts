@@ -1,12 +1,7 @@
-import { BEZEL } from "@/constants/bezel";
-
+/** Space between avatar and selection ring of the `tile` variant. */
+export const TILE_RING_GAP = 3;
 /**
- * Space between avatar and bezel shell border of the `tile` variant: inner
- * border plus bezel gap.
+ * Selection ring of the `tile` variant, transparent until selected. Avatar
+ * size plus `2 * (TILE_RING_GAP + TILE_RING_WIDTH)` is the tile's outer size.
  */
-export const TILE_RING_GAP = BEZEL.borderWidth + BEZEL.gap;
-/**
- * Bezel shell border of the `tile` variant. Avatar size plus
- * `2 * (TILE_RING_GAP + TILE_RING_WIDTH)` is the tile's outer size.
- */
-export const TILE_RING_WIDTH = BEZEL.borderWidth;
+export const TILE_RING_WIDTH = 3;

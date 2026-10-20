@@ -8,10 +8,12 @@ import {
   ScrollView,
   Text,
   View,
+  useColorScheme,
   useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
+import { RADIUS } from "@/constants/radius";
 import LinkButton from "@/components/link-button";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -35,15 +37,15 @@ const COLUMN_GAP = 12;
 const MAX_AVATAR_SIZE = 96;
 
 /**
- * Last grid cell: opens the person form, hidden at `MAX_PEOPLE`.
- * Border, icon, and label share one placeholder gray so the tile reads as an
- * empty slot, quieter than the people around it.
+ * Pill below the grid: opens the person form, hidden at `MAX_PEOPLE`.
+ * Outlined like an unselected tag, so it stays quieter than the people.
  */
-const AddPersonTile = ({ size }: { size: number }) => {
+const AddPersonPill = () => {
   const router = useRouter();
   const colors = useColors();
-  const quiet = colors.textInputPlaceholder;
-  const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
+  const colorScheme = useColorScheme();
+  const borderColor =
+    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
   return (
     <Pressable
@@ -52,46 +54,21 @@ const AddPersonTile = ({ size }: { size: number }) => {
       accessibilityLabel={t("people_add")}
       testID="log-people-add"
       style={({ pressed }) => ({
+        alignSelf: "center",
+        flexDirection: "row",
         alignItems: "center",
+        gap: 6,
+        borderRadius: RADIUS.full,
+        borderWidth: 1,
+        borderColor,
+        paddingLeft: 12,
+        paddingRight: 16,
+        paddingVertical: 8,
         opacity: pressed ? 0.8 : 1,
       })}
     >
-      <View
-        style={{
-          width: outer,
-          height: outer,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View
-          style={{
-            width: size,
-            height: size,
-            borderRadius: size / 2,
-            borderWidth: 2,
-            borderStyle: "dashed",
-            borderColor: quiet,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Plus
-            size={Math.round(size * 0.35)}
-            color={quiet}
-            strokeWidth={1.5}
-          />
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={{
-          marginTop: 6,
-          maxWidth: outer,
-          fontSize: 15,
-          color: quiet,
-        }}
-      >
+      <Plus size={16} color={colors.textSecondary} strokeWidth={2} />
+      <Text style={{ fontSize: 15, color: colors.textSecondary }}>
         {t("people_add")}
       </Text>
     </Pressable>
@@ -101,7 +78,7 @@ const AddPersonTile = ({ size }: { size: number }) => {
 /**
  * People picker slide: "Who played a part?". Archived people are hidden
  * unless the draft already has them. Chips show the most used people of the
- * last 90 days first, in a grid of avatars that ends with an add tile.
+ * last 90 days first, in a grid of avatars with an add pill below.
  * Without people it offers one way out: add some.
  */
 export const SlidePeople = ({
@@ -219,7 +196,10 @@ export const SlidePeople = ({
             </Button>
           </View>
         ) : (
-          <ScrollView style={{ flex: 1 }}>
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ paddingBottom: insets.bottom + 32 }}
+          >
             <View
               style={{
                 flexDirection: "row",
@@ -227,7 +207,6 @@ export const SlidePeople = ({
                 columnGap: COLUMN_GAP,
                 rowGap: 20,
                 marginTop: 24,
-                paddingBottom: insets.bottom,
               }}
             >
               {visible.map((person) => (
@@ -251,12 +230,12 @@ export const SlidePeople = ({
                   />
                 </View>
               ))}
-              {!getPeopleLimit(people).reached && (
-                <View style={{ width: columnWidth, alignItems: "center" }}>
-                  <AddPersonTile size={avatarSize} />
-                </View>
-              )}
             </View>
+            {!getPeopleLimit(people).reached && (
+              <View style={{ marginTop: 24 }}>
+                <AddPersonPill />
+              </View>
+            )}
           </ScrollView>
         )}
       </View>
