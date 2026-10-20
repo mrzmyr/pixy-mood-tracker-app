@@ -292,9 +292,9 @@ CREATIVE = f"""
 <div class="cvset">
  <div><div class="cv header" data-cv="header">
   {pixels(PX)}
-  {phone('mood', 92, 'left:31%;transform:translateX(-50%) rotate(-7deg) scale(.72);z-index:1;')}
-  {phone('year', 92, 'left:69%;transform:translateX(-50%) rotate(7deg) scale(.72);z-index:1;')}
-  {phone('calendar', 52, 'transform:translateX(-50%) scale(.8);z-index:2;')}
+  {phone('mood', 78, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
+  {phone('year', 78, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
+  {phone('calendar', 34, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
  </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. No text: app icon, name and Get button sit right below. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
  <div><div class="cv search" data-cv="search">
   <h4 style="top:38px;font-size:50px">Mood Journal</h4>
@@ -307,8 +307,8 @@ CREATIVE = f"""
   {pixels(FPX)}
   <div class="fk">Mood Journal</div>
   <h4 class="fh">Understand what makes you feel that way.</h4>
-  {phone('calendar', 70, 'left:auto;right:170px;transform:rotate(-6deg) scale(.86);z-index:2;')}
-  {phone('year', 120, 'left:auto;right:-40px;transform:rotate(6deg) scale(.8);z-index:1;')}
+  {phone('calendar', 40, 'left:auto;right:200px;transform:rotate(-6deg) scale(1.35);z-index:2;')}
+  {phone('year', 96, 'left:auto;right:-150px;transform:rotate(7deg) scale(1.25);z-index:1;')}
  </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Mood Journal kicker + proof headline left, calendar and year in pixels right.</div></div>
 </div>"""
 body = body.replace('Google Play User', 'Pixy user')

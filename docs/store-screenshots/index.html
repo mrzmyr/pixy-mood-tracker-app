@@ -209,9 +209,9 @@ radial-gradient(1.4px 1.4px at 18% 10%,#fff,transparent),radial-gradient(1px 1px
 <div class="cvset">
  <div><div class="cv header" data-cv="header">
   <i class="px" style="left:70px;top:70px;width:34px;height:34px;background:#34d399;opacity:0.9;transform:rotate(-8deg)"></i><i class="px" style="left:150px;top:210px;width:22px;height:22px;background:#a7f3d0;opacity:0.85;transform:rotate(6deg)"></i><i class="px" style="left:40px;top:270px;width:26px;height:26px;background:#fdba74;opacity:0.8;transform:rotate(10deg)"></i><i class="px" style="left:230px;top:110px;width:18px;height:18px;background:#059669;opacity:0.7;transform:rotate(-4deg)"></i><i class="px" style="left:860px;top:60px;width:30px;height:30px;background:#059669;opacity:0.9;transform:rotate(8deg)"></i><i class="px" style="left:790px;top:200px;width:24px;height:24px;background:#ffedd5;opacity:0.85;transform:rotate(-6deg)"></i><i class="px" style="left:890px;top:280px;width:20px;height:20px;background:#34d399;opacity:0.8;transform:rotate(4deg)"></i><i class="px" style="left:720px;top:90px;width:16px;height:16px;background:#a7f3d0;opacity:0.7;transform:rotate(-10deg)"></i>
-  <div class="phA" style="top:92px;left:31%;transform:translateX(-50%) rotate(-7deg) scale(.72);z-index:1;"><div class="bz"><div class="sc" data-app="mood" data-args=''></div></div></div>
-  <div class="phA" style="top:92px;left:69%;transform:translateX(-50%) rotate(7deg) scale(.72);z-index:1;"><div class="bz"><div class="sc" data-app="year" data-args=''></div></div></div>
-  <div class="phA" style="top:52px;transform:translateX(-50%) scale(.8);z-index:2;"><div class="bz"><div class="sc" data-app="calendar" data-args=''></div></div></div>
+  <div class="phA" style="top:78px;left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;"><div class="bz"><div class="sc" data-app="mood" data-args=''></div></div></div>
+  <div class="phA" style="top:78px;left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;"><div class="bz"><div class="sc" data-app="year" data-args=''></div></div></div>
+  <div class="phA" style="top:34px;transform:translateX(-50%) scale(1.5);z-index:2;"><div class="bz"><div class="sc" data-app="calendar" data-args=''></div></div></div>
  </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. No text: app icon, name and Get button sit right below. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
  <div><div class="cv search" data-cv="search">
   <h4 style="top:38px;font-size:50px">Mood Journal</h4>
@@ -224,11 +224,11 @@ radial-gradient(1.4px 1.4px at 18% 10%,#fff,transparent),radial-gradient(1px 1px
   <i class="px" style="left:40px;top:40px;width:26px;height:26px;background:#34d399;opacity:0.85;transform:rotate(-8deg)"></i><i class="px" style="left:470px;top:60px;width:18px;height:18px;background:#a7f3d0;opacity:0.8;transform:rotate(6deg)"></i><i class="px" style="left:60px;top:420px;width:22px;height:22px;background:#fdba74;opacity:0.8;transform:rotate(10deg)"></i><i class="px" style="left:420px;top:400px;width:16px;height:16px;background:#059669;opacity:0.75;transform:rotate(-4deg)"></i>
   <div class="fk">Mood Journal</div>
   <h4 class="fh">Understand what makes you feel that way.</h4>
-  <div class="phA" style="top:70px;left:auto;right:170px;transform:rotate(-6deg) scale(.86);z-index:2;"><div class="bz"><div class="sc" data-app="calendar" data-args=''></div></div></div>
-  <div class="phA" style="top:120px;left:auto;right:-40px;transform:rotate(6deg) scale(.8);z-index:1;"><div class="bz"><div class="sc" data-app="year" data-args=''></div></div></div>
+  <div class="phA" style="top:40px;left:auto;right:200px;transform:rotate(-6deg) scale(1.35);z-index:2;"><div class="bz"><div class="sc" data-app="calendar" data-args=''></div></div></div>
+  <div class="phA" style="top:96px;left:auto;right:-150px;transform:rotate(7deg) scale(1.25);z-index:1;"><div class="bz"><div class="sc" data-app="year" data-args=''></div></div></div>
  </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Mood Journal kicker + proof headline left, calendar and year in pixels right.</div></div>
 </div></main>
-<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script><script src="emotion-icons.js?v=1792505053"></script><script src="appscreens.js?v=1792505053"></script><script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script><script src="emotion-icons.js?v=1792505961"></script><script src="appscreens.js?v=1792505961"></script><script>
 document.head.insertAdjacentHTML('beforeend','<style>'+APP.css+'</style>');
 document.querySelectorAll('[data-app]').forEach(el=>{window.PIXY_OS=el.closest('.android-set')?'android':'ios';const a=(el.dataset.args||'').split(',').filter(Boolean);el.innerHTML=APP.render(el.dataset.app,a[0]||undefined,a[1]==='dark')});window.PIXY_OS='ios';
 document.querySelectorAll('[data-card]').forEach(el=>el.innerHTML='<div class="ps">'+APP.card(el.dataset.card)+'</div>');
