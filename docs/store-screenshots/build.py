@@ -266,12 +266,56 @@ def to_android(html):
 
 
 android_body = to_android(body)
+
+# App Store creative assets (iOS 27+): product page header 21:9 and search results 3:2.
+# CSS px x4 = store px. Header 960x411.5 -> 3840x1646. Search 960x640 -> 3840x2560.
+CREATIVE_CSS = r"""
+.cvset{display:flex;flex-direction:column;gap:22px;padding:10px 0 16px}.cvset .lab{margin-top:6px}
+.cv{position:relative;overflow:hidden;width:960px;background:url(photos/sky.webp) 50% 30%/cover no-repeat,#bcdcff;box-shadow:0 0 0 1px rgba(10,40,90,.08);border-radius:14px;font-family:Geist,system-ui,sans-serif;color:#0a0a0a}
+.cv.header{height:411.5px}.cv.search{height:640px;background:linear-gradient(180deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.7) 100%),url(photos/sky.webp) 50% 20%/cover no-repeat,#bcdcff}
+.cv .phA{transform-origin:50% 0}
+.cv h4{position:absolute;left:0;right:0;margin:0;text-align:center;font-weight:600;letter-spacing:-.03em;line-height:1.05}
+.cv .sub{position:absolute;left:0;right:0;text-align:center;color:rgba(10,10,10,.66);font-size:19px}
+.px{position:absolute;border-radius:22%;box-shadow:0 10px 24px rgba(20,60,120,.18)}
+"""
+def pixels(cells):
+    return "".join(f'<i class="px" style="left:{x}px;top:{y}px;width:{w}px;height:{w}px;background:{c};opacity:{o};transform:rotate({r}deg)"></i>' for x, y, w, c, o, r in cells)
+
+# Mood colors from appscreens.js default scale, floating like the year grid drifting through the clouds.
+PX = [(70, 70, 34, "#34d399", .9, -8), (150, 210, 22, "#a7f3d0", .85, 6), (40, 270, 26, "#fdba74", .8, 10), (230, 110, 18, "#059669", .7, -4),
+      (860, 60, 30, "#059669", .9, 8), (790, 200, 24, "#ffedd5", .85, -6), (890, 280, 20, "#34d399", .8, 4), (720, 90, 16, "#a7f3d0", .7, -10)]
+CREATIVE = f"""
+<div class="cvset">
+ <div><div class="cv header" data-cv="header">
+  {pixels(PX)}
+  {phone('mood', 92, 'left:31%;transform:translateX(-50%) rotate(-7deg) scale(.72);z-index:1;')}
+  {phone('year', 92, 'left:69%;transform:translateX(-50%) rotate(7deg) scale(.72);z-index:1;')}
+  {phone('calendar', 52, 'transform:translateX(-50%) scale(.8);z-index:2;')}
+ </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. No text: app icon, name and Get button sit right below. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
+ <div><div class="cv search" data-cv="search">
+  <h4 style="top:40px;font-size:46px">Your mood in pixels.</h4>
+  <div class="sub" style="top:102px">Log how you feel. See what shapes it.</div>
+  {phone('mood', 160, 'left:21%;transform:translateX(-50%) scale(.86);')}
+  {phone('calendar', 160, 'transform:translateX(-50%) scale(.86);')}
+  {phone('emotions', 160, 'left:79%;transform:translateX(-50%) scale(.86);')}
+ </div><div class="lab"><b>Search results</b> 3:2, 3840x2560. Replaces the first 3 screenshots in search. One line + real app: mood logger, calendar, emotions.</div></div>
+</div>"""
 body = body.replace('Google Play User', 'Pixy user')
 
 # Export mode: index.html?export=ios|android&n=1..7 keeps one screen at 0,0 for headless capture (export.sh).
 EXPORT = """<script>
 (function () {{
   const q = new URLSearchParams(location.search), os = q.get('export'); if (!os) return;
+  if (os === 'creative') {
+    const cv = document.querySelector('[data-cv="' + q.get('n') + '"]');
+    document.querySelectorAll('main > *').forEach((el) => { if (!el.contains(cv)) el.style.display = 'none'; });
+    document.querySelectorAll('.cvset > div').forEach((el) => { if (!el.contains(cv)) el.style.display = 'none'; });
+    document.querySelectorAll('.cvset .lab').forEach((el) => { el.style.display = 'none'; });
+    document.body.style.margin = '0'; document.querySelector('main').style.padding = '0';
+    cv.parentElement.parentElement.style.padding = '0';
+    cv.style.borderRadius = '0'; cv.style.boxShadow = 'none';
+    return;
+  }
   // Hide everything except one slot; keep its set and position so set and slot CSS still apply.
   const set = document.querySelectorAll('.set')[os === 'android' ? 1 : 0], n = +q.get('n') || 1;
   document.querySelectorAll('main > *').forEach((el) => { if (el !== set) el.style.display = 'none'; });
@@ -293,13 +337,14 @@ if (!location.search.includes("export=")) createRoot(document.getElementById("ag
 </script>""".replace("{{", "{").replace("}}", "}")
 
 page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Pixy store screenshots (sky)</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"><style>{CSS}{SKY_CSS}</style></head><body><main>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"><style>{CSS}{SKY_CSS}{CREATIVE_CSS}</style></head><body><main>
 <h1>Pixy store screenshots</h1>
 <p class="muted">7 screens for the App Store and Google Play. Spec: <a href="app-screens.md">app-screens.md</a>. Rebuild: <code>python3 build.py</code>, export PNGs: <code>./export.sh</code>, then serve this folder (<code>python3 -m http.server</code>).</p>
 <div class="platform"><h2>iPhone · App Store</h2></div>
 <div class="set">{body}</div>
 <div class="platform"><h2>Android · Google Play</h2></div>
-<div class="set android-set">{android_body}</div></main>
+<div class="set android-set">{android_body}</div>
+<div class="platform"><h2>App Store · header and search results</h2></div>{CREATIVE}</main>
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script><script src="emotion-icons.js?v={int(time.time())}"></script><script src="appscreens.js?v={int(time.time())}"></script><script>
 document.head.insertAdjacentHTML('beforeend','<style>'+APP.css+'</style>');
 document.querySelectorAll('[data-app]').forEach(el=>{{window.PIXY_OS=el.closest('.android-set')?'android':'ios';const a=(el.dataset.args||'').split(',').filter(Boolean);el.innerHTML=APP.render(el.dataset.app,a[0]||undefined,a[1]==='dark')}});window.PIXY_OS='ios';

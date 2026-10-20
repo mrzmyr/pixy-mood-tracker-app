@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Export store screenshots as PNGs.
 # iOS: 1290x2796 (6.9" iPhone). Android: 1080x2160 (phone, 2:1).
+# App Store header 3840x1646 (21:9), search results 3840x2560 (3:2).
 # Needs Google Chrome. Usage: ./export.sh
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -27,5 +28,15 @@ for n in 1 2 3 4 5 6 7; do
   f=$(shot ios 4.3 300 651 "$n") && sips -c 2796 1290 --cropOffset 0 0 "$f" >/dev/null
   shot android 3.6 300 600 "$n" >/dev/null
 done
+mkdir -p export/app-store
+creative() { # name height
+  local out="export/app-store/$1.png"
+  "$CHROME" --headless=new --hide-scrollbars --force-device-scale-factor=4 \
+    --window-size="960,$(($2 / 4 + 1))" --virtual-time-budget=8000 \
+    --screenshot="$out" "http://localhost:$PORT/index.html?export=creative&n=$1" >/dev/null 2>&1
+  sips -c "$2" 3840 --cropOffset 0 0 "$out" >/dev/null
+}
+creative header 1646
+creative search 2560
 sips -g pixelWidth -g pixelHeight export/*/*.png | grep -c pixel >/dev/null
-echo "done: $(ls export/ios | wc -l | tr -d ' ') iOS, $(ls export/android | wc -l | tr -d ' ') Android"
+echo "done: $(ls export/ios | wc -l | tr -d ' ') iOS, $(ls export/android | wc -l | tr -d ' ') Android, $(ls export/app-store | wc -l | tr -d ' ') App Store creative"
