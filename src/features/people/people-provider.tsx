@@ -4,6 +4,7 @@ import { useLogUpdater } from "@/features/logs";
 import { createPersistedStore } from "@/state/persisted/create-persisted-store";
 import type { Load } from "@/state/persisted/create-persisted-store";
 import { deleteAllAvatars, deleteAvatar, removeOrphanAvatars } from "./avatars";
+import { reorderPeople } from "./people-order";
 
 /** AsyncStorage key for people. Changing it orphans all stored people. */
 export const STORAGE_KEY = "PIXEL_TRACKER_PEOPLE";
@@ -39,12 +40,15 @@ type StateAction =
   | { type: "add"; payload: Person }
   | { type: "edit"; payload: Person }
   | { type: "delete"; payload: Person["id"] }
+  | { type: "reorder"; payload: Person["id"][] }
   | { type: "import"; payload: PeopleState }
   | { type: "reset" };
 
 interface UpdaterValue {
   createPerson: (person: Person) => void;
   updatePerson: (person: Person) => void;
+  /** Puts people in the order of `orderedIds`; the rest follow. Order of the check-in and settings. */
+  reorderPeople: (orderedIds: Person["id"][]) => void;
   /** Removes the person, their avatar file, and their references on entries. */
   deletePerson: (personId: Person["id"]) => void;
   /** Clears every person and the avatar folder. */
@@ -103,6 +107,9 @@ const reducer = (state: PeopleState, action: StateAction): PeopleState => {
         people: state.people.filter((person) => person.id !== action.payload),
       };
     }
+    case "reorder": {
+      return { ...state, people: reorderPeople(state.people, action.payload) };
+    }
     case "reset": {
       return { people: [] };
     }
@@ -146,6 +153,8 @@ const usePeopleUpdater = (): UpdaterValue => {
         dispatch({ type: "add", payload: person }),
       updatePerson: (person: Person) =>
         dispatch({ type: "edit", payload: person }),
+      reorderPeople: (orderedIds: Person["id"][]) =>
+        dispatch({ type: "reorder", payload: orderedIds }),
       deletePerson: (personId: Person["id"]) => {
         const person = people.find((item) => item.id === personId);
         dispatch({ type: "delete", payload: personId });

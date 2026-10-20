@@ -107,9 +107,9 @@ people: Array<
 - Headline: "Who played a part?"
 - 3-column grid of `tile` chips. Tap = toggle select. Bare avatar, no shell, no badge. Selected = 3px tint ring + bold name. Archived hidden unless already on draft (copy `SlideTags` filter)
 - Last cell: "Add Person" tile pushes `/people/create`. Dashed tint circle, tint plus, tint label. Hidden at `MAX_PEOPLE`
-- Order: most used in last 90 days first, then alphabetical
+- Order: stored order. Hold tile = lift, move = reorder. "Add Person" stays last. New people go last. VoiceOver/TalkBack get Move Up and Move Down
+- Release lifted tile in place: iOS action sheet with Edit, Archive (Unarchive when archived), Delete (confirm with entry count). Archive acts at once. Archive and Delete drop the person from the draft, so the tile goes away. Android: opens editor
 - Step enabled and `people.length === 0`: simple empty state, one "Add Person" button pushes `/people/create`. No skip
-- Edit and archive live in Settings > Check-in > People
 - Disable link like tags
 
 ### Settings > Check-in > People (`/settings/steps/people`)
@@ -153,6 +153,7 @@ Names follow the `<area>:<object>_<verb>` convention of [events.ts](../../src/st
 - `people:contacts_imported { count, avatars_count, is_limited }` (import list, one event per import)
 - `people:person_updated { name_changed, avatar_changed, is_archived }` (archive is an update)
 - `people:delete_requested { entries_count }`, `people:person_deleted { entries_count }`, `people:delete_cancelled`
+- `people:people_reordered { people_count, method }` (`drag` or `accessibility_action`)
 - `logger:log_saved` gets `people_count` (like `tags_count`), no separate slide event
 - `calendar:filters_applied` gets `people_count`
 - Usage summary: `people_count`, `archived_people_count`

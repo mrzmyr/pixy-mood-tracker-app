@@ -36,6 +36,56 @@ type LongPressProps = Pick<
   "onLongPress" | "accessibilityActions" | "onAccessibilityAction"
 >;
 
+/**
+ * Long press and the screen reader "edit" action, both running `onLongPress`.
+ * Without `editOnLongPress` only the screen reader action stays. `onMove`
+ * adds Move Up and Move Down for screen readers, the drag stand-in.
+ */
+const getLongPressProps = ({
+  onLongPress,
+  editOnLongPress,
+  onMove,
+  playHaptics,
+}: {
+  onLongPress?: () => void;
+  editOnLongPress: boolean;
+  onMove?: (offset: -1 | 1) => void;
+  playHaptics: () => Promise<void>;
+}): LongPressProps => {
+  if (!onLongPress && !onMove) {
+    return {};
+  }
+  return {
+    onLongPress:
+      onLongPress && editOnLongPress
+        ? async () => {
+            await playHaptics();
+            onLongPress();
+          }
+        : undefined,
+    accessibilityActions: [
+      ...(onLongPress ? [{ name: "edit", label: t("edit") }] : []),
+      ...(onMove
+        ? [
+            { name: "moveUp", label: t("tags_move_up") },
+            { name: "moveDown", label: t("tags_move_down") },
+          ]
+        : []),
+    ],
+    onAccessibilityAction: ({ nativeEvent }) => {
+      if (nativeEvent.actionName === "edit") {
+        onLongPress?.();
+      }
+      if (nativeEvent.actionName === "moveUp") {
+        onMove?.(-1);
+      }
+      if (nativeEvent.actionName === "moveDown") {
+        onMove?.(1);
+      }
+    },
+  };
+};
+
 /** `tile` variant of {@link PersonChip}; `onPress` already plays haptics. */
 const PersonTile = ({
   person,
@@ -126,7 +176,9 @@ const PersonTile = ({
  *   tint ring and a bold name, so it reads without relying on color alone
  *
  * `onLongPress` opens the person editor in `chip` and `tile`; screen readers
- * get it as the "edit" action.
+ * get it as the "edit" action. `editOnLongPress={false}` keeps only the
+ * screen reader action, for tiles whose long press opens a context menu.
+ * `onMove` gives screen readers Move Up and Move Down.
  */
 export const PersonChip = ({
   person,
@@ -134,6 +186,8 @@ export const PersonChip = ({
   variant = "chip",
   onPress,
   onLongPress,
+  editOnLongPress = true,
+  onMove,
   style = DEFAULT_STYLE,
   testID,
   previewUri = null,
@@ -145,6 +199,8 @@ export const PersonChip = ({
   variant?: "chip" | "large" | "tile";
   onPress?: () => void;
   onLongPress?: () => void;
+  editOnLongPress?: boolean;
+  onMove?: (offset: -1 | 1) => void;
   style?: ViewStyle;
   testID?: string;
   /** Picked image not stored yet; only the `large` variant shows it. */
@@ -169,20 +225,12 @@ export const PersonChip = ({
     onPress();
   };
 
-  const longPressProps: LongPressProps = onLongPress
-    ? {
-        onLongPress: async () => {
-          await haptics.impact();
-          onLongPress();
-        },
-        accessibilityActions: [{ name: "edit", label: t("edit") }],
-        onAccessibilityAction: ({ nativeEvent }) => {
-          if (nativeEvent.actionName === "edit") {
-            onLongPress();
-          }
-        },
-      }
-    : {};
+  const longPressProps = getLongPressProps({
+    onLongPress,
+    editOnLongPress,
+    onMove,
+    playHaptics: haptics.impact,
+  });
 
   if (variant === "large") {
     return (
