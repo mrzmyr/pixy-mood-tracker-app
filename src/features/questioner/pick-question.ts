@@ -14,7 +14,8 @@ export const QUESTION_COOLDOWN_DAYS = 3;
  * Skips everything while the last answer is younger than
  * {@link QUESTION_COOLDOWN_DAYS} calendar days. Otherwise returns the first
  * question in `questions` order that is unanswered, matches `appVersion`
- * (a semver range, missing means any version) and has text in `language`.
+ * (a semver range, missing means any version), has text in `language` and
+ * whose `minEntries` (missing means any) is at most `entriesCount`.
  */
 export const pickQuestion = ({
   questions,
@@ -22,6 +23,7 @@ export const pickQuestion = ({
   answeredDates,
   appVersion,
   language,
+  entriesCount,
   now,
 }: {
   questions: IQuestion[];
@@ -30,6 +32,7 @@ export const pickQuestion = ({
   answeredDates: string[];
   appVersion: string;
   language: string;
+  entriesCount: number;
   now: Date;
 }): IQuestion | null => {
   let lastAnsweredAt: dayjs.Dayjs | null = null;
@@ -57,6 +60,7 @@ export const pickQuestion = ({
         (!question.appVersion ||
           semver.satisfies(appVersion, question.appVersion)) &&
         !answeredIds.has(question.id) &&
+        entriesCount >= (question.minEntries ?? 0) &&
         question.text[language] !== undefined
     ) ?? null
   );
