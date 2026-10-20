@@ -45,7 +45,7 @@
     "optionalTip": {
       "available": false,
       "since": "1.87.0",
-      "note": "Optional one-time tip in Settings exists in source since 1.87.0. Not in the store version. Set available to true after the store release."
+      "note": "Optional one-time tip in Settings exists since 1.87.0. Store version 1.95.2 hides it behind flag `support-pixy`. Set available to true after the flag is on for everyone."
     }
   },
   "releases": {
@@ -55,9 +55,9 @@
       "url": "https://github.com/mrzmyr/pixy-mood-tracker-app/releases/tag/v1.95.1"
     },
     "store": {
-      "version": "1.68.0",
-      "date": "2022-12-24",
-      "verifiedOn": "2026-09-30",
+      "version": "1.95.2",
+      "date": "2026-10-18",
+      "verifiedOn": "2026-10-20",
       "note": "Same version on App Store and Google Play. Update after each store release."
     }
   },
