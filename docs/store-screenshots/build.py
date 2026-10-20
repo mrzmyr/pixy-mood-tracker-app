@@ -244,10 +244,10 @@ SLOTS = [
     ("<b>5 · Year.</b> Year Report: Year in Pixels.", None, "", f"""
  <h4>Your year<br>in pixels</h4><div class="sub">See every day of the year at a glance.</div>
  {phone('year', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
-    ("<b>6 · Themes.</b> Calendar in PuOr (light) and BrBG (dark).", None, "", f"""
+    ("<b>6 · Themes.</b> Calendar in RdYG (light) and RdYlGn-old (dark), the non-default scales in Settings > Colors.", None, "", f"""
  <h4>Make it<br>your own</h4><div class="sub">Color scales in light and dark mode.</div>
- {phone('calendar', 186, 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;', 'puor')}
- {phone('calendar', 150, 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;', 'brbg,dark')}"""),
+ {phone('calendar', 186, 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;', 'rdyg')}
+ {phone('calendar', 150, 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;', 'rdylgnOld,dark')}"""),
     ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
  <h4 style="align-self:flex-start;text-align:left">We care about<br>your privacy.</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
  <div class="plist" style="margin-top:auto;margin-bottom:auto"><div>{CK}Stored on Your Device Only</div><div>{CK}No Account, No Sign-Up</div><div>{CK}No Ads</div><div>{CK}Export Your Data Anytime</div><div>{CK}Open Source</div><div class="soon">{CK}Supporter Plan Coming Soon</div></div>"""),

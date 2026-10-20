@@ -126,8 +126,9 @@
   // ---- Round 8 screens (spec: app-screens.md) ----
   const SCALES = {
     default: [C.m1, C.m2, C.m3, C.m4, C.m5, C.m6, C.m7],
-    puor: ['#542788', '#998ec3', '#d8daeb', '#e5e5e5', '#fee0b6', '#f1a340', '#b35806'],
-    brbg: ['#01665e', '#5ab4ac', '#c7eae5', '#e5e5e5', '#f6e8c3', '#d8b365', '#8c510a'],
+    // Scales offered in Settings > Colors (src/constants/colors/scales.ts)
+    rdyg: ['#4d9221', '#a1d76a', '#e6f5d0', '#e5e5e5', '#fddbc7', '#ef8a62', '#b2182b'],
+    rdylgnOld: ['#006837', '#1a9850', '#91cf60', '#ffffbf', '#fee08b', '#fc8d59', '#d73027'],
   };
   const pickMood = (x, sc) => x < 0.08 ? sc[0] : x < 0.34 ? sc[1] : x < 0.58 ? sc[2] : x < 0.76 ? sc[3] : x < 0.88 ? sc[4] : sc[5];
   S.mood = () => `<div style="position:absolute;inset:0;background:#d9d9db"></div><div style="position:relative">${statusbar()}</div>
@@ -140,7 +141,7 @@
     for (let d = 1; d <= len; d++) { const x = r(); const future = d > upto; const miss = false && x; const c = future || miss ? null : pickMood(r(), sc);
       h += `<div style="height:48px;border-radius:10px;${c ? `background:${c}` : future ? '' : `border:1.5px dashed ${dark ? '#444' : '#d4d4d4'}`};display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:13px;color:${future ? (dark ? '#555' : '#c7c7c7') : c && sc.indexOf(c) === 0 && sc !== SCALES.default ? '#fff' : dark && !c ? '#777' : '#444'}">${d}</div>`; }
     return h + '</div>'; };
-  S.calendar = (scale = 'default', dark = false) => { const sc = SCALES[scale]; return `<div style="position:absolute;inset:0;background:${dark ? '#0b0b0c' : C.bg}"></div><div style="position:relative;color:${dark ? '#fff' : '#111'}">${statusbar(dark)}<div class="top">${['stats', 'filter', 'gear'].map((k, i) => `${i === 1 ? '<span class="g">' : ''}<span class="rb" style="${dark ? 'background:#1c1c1e;filter:invert(1)' : ''}">${svg[k]}</span>`).join('')}</span></div>
+  S.calendar = (scale = 'default', dark = false) => { const sc = SCALES[scale]; return `<div style="position:absolute;inset:0;background:${dark ? '#0b0b0c' : C.bg}"></div><div style="position:relative;color:${dark ? '#fff' : '#111'}">${statusbar(dark)}<div class="top">${['stats', 'filter', 'gear'].map((k, i) => `${i === 1 ? '<span class="g">' : ''}<span class="rb" style="${dark ? 'background:#2c2c2e' : ''}">${dark ? svg[k].replace(/#111/g, '#fff') : svg[k]}</span>`).join('')}</span></div>
     <div style="display:grid;grid-template-columns:repeat(7,1fr);padding:14px 16px 0;color:#8a8a8e;font-size:13px;text-align:center">${'Mon Tue Wed Thu Fri Sat Sun'.split(' ').map((d) => `<span>${d}</span>`).join('')}</div>
     ${monthGrid('September 2026', 1, 30, 11 + scale.length, sc, 30, dark)}${monthGrid('October 2026', 3, 31, 5 + scale.length, sc, 11, dark)}</div><div class="fab">${svg.plus}</div>`; };
 
