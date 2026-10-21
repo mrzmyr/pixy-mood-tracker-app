@@ -24,6 +24,8 @@ export interface Person {
   avatar: string | null;
   /** OS contact id from the picker; used only to detect a repeated pick. */
   contactId?: string;
+  /** Relationship type: preset role or custom text. */
+  role?: string;
   isArchived?: boolean;
   /** ISO timestamp of when the person was added. */
   createdAt: string;
@@ -66,6 +68,7 @@ const StoredPersonSchema = z.object({
   // oxlint-disable-next-line promise/prefer-await-to-then -- zod `.catch()` is a schema fallback, not a promise.
   avatar: z.string().nullable().catch(null),
   contactId: z.string().optional(),
+  role: z.string().optional(),
   isArchived: z.boolean().optional(),
   // oxlint-disable-next-line promise/prefer-await-to-then -- zod `.catch()` is a schema fallback, not a promise.
   createdAt: z.string().catch(() => new Date(0).toISOString()),

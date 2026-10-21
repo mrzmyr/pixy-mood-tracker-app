@@ -90,6 +90,7 @@ export const pixySchema = z.strictObject({
         avatar: z
           .object({ base64: z.string(), mime: z.literal("image/jpeg") })
           .nullable(),
+        role: z.string().optional(),
       })
     )
     .optional(),
