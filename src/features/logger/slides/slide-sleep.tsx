@@ -20,10 +20,12 @@ const SLEEP_QUALITIES = [...SLEEP_QUALITY_KEYS].reverse();
 export const SlideSleep = ({
   onSelect,
   onDisableStep,
+  onSkipToday,
   showDisable,
 }: {
   onSelect: () => void;
   onDisableStep: () => void;
+  onSkipToday: () => void;
   showDisable: boolean;
 }) => {
   const colors = useColors();
@@ -102,12 +104,22 @@ export const SlideSleep = ({
         </Text>
       </View>
       <Footer>
+        <LinkButton
+          type="secondary"
+          onPress={onSkipToday}
+          style={{
+            fontWeight: "400",
+          }}
+        >
+          {t("log_sleep_skip_today")}
+        </LinkButton>
         {showDisable && (
           <LinkButton
             type="secondary"
             onPress={onDisableStep}
             style={{
               fontWeight: "400",
+              marginTop: 8,
             }}
           >
             {t("log_sleep_disable")}

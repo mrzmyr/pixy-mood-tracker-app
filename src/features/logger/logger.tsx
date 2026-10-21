@@ -198,7 +198,7 @@ const LoggerSlides = ({
   const { toggleStep } = useSettings();
   const analytics = useAnalytics();
 
-  const { draft } = useLogDraft();
+  const { draft, setSleepQuality } = useLogDraft();
 
   const texAreaRef = useRef<TextInput>(null);
   const isEditing = mode === "edit";
@@ -307,6 +307,10 @@ const LoggerSlides = ({
         <SlideSleep
           onSelect={next}
           onDisableStep={() => disableStep("sleep")}
+          onSkipToday={() => {
+            setSleepQuality(null);
+            requestAnimationFrame(next);
+          }}
           showDisable={showDisable}
         />
       ),
