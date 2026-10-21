@@ -1178,5 +1178,10 @@
   "year_in_pixels_description": "מצב הרוח הממוצע שלי בכל יום ב-{{date}}",
   "year_report": "דוח שנה",
   "yes": "כֵּן! :)",
-  "yesterday": "אתמול"
+  "yesterday": "אתמול",
+  "voice_fix_permission_denied": "Allow microphone and speech recognition in Settings",
+  "voice_fix_recognizer_unavailable": "Add the dictation language in iOS Settings > General > Keyboard, or switch the app language",
+  "voice_fix_siri_disabled": "Turn on Siri in iOS Settings, or update to iOS 26",
+  "voice_fix_on_device_unavailable": "Add the dictation language in iOS Settings > General > Keyboard, or switch the app language",
+  "voice_fix_transcription_failed": "Close voice mode and try again"
 }
