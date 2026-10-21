@@ -257,7 +257,7 @@ export const SlideEmotions = ({
             marginHorizontal: 16,
           }}
         >
-          {showDisable && (
+          {showDisable && selectedEmotions.length === 0 && (
             <LinkButton
               type="secondary"
               onPress={onDisableStep}
