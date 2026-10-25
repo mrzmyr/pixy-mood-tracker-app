@@ -8,6 +8,7 @@ import { useAnalytics } from "@/state/analytics";
 import { deleteAvatar, saveAvatar } from "../avatars";
 import { usePeopleState, usePeopleUpdater } from "../people-provider";
 import type { Person } from "../people-provider";
+import type { RolePreset } from "../role-presets";
 import { getPeopleSources } from "../sources";
 
 /** Shortest accepted name; one character covers initials. */
@@ -147,7 +148,7 @@ export const usePersonDraft = ({
     }));
   };
 
-  const setRole = (role: string | undefined) => {
+  const setRole = (role: RolePreset | undefined) => {
     setDraft((current) => ({
       ...current,
       person: { ...current.person, role },
@@ -196,7 +197,7 @@ export const usePersonDraft = ({
       analytics.track("people:person_added", {
         source: "manual",
         has_avatar: avatar !== null,
-        has_role: person.role !== undefined,
+        role: person.role ?? "none",
       });
       peopleUpdater.createPerson(person);
     } else {

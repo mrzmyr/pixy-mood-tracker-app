@@ -73,20 +73,24 @@ tags: [p1, people]
 - inputText: "Jo"
 - runFlow: ../subflows/dismiss-keyboard.yaml
 - tapOn:
-    id: "person-role-friend"
+    id: "person-role"
+- tapOn: "Friend"
 - tapOn:
     id: "person-save"
 - assertVisible: "Jo"
 
-# Edit Jo to add a custom role
+# Role keeps; a missing role is requested, never typed in.
 - tapOn: "Jo"
 - assertVisible: "Edit Person"
+- assertVisible: "Friend"
 - tapOn:
-    id: "person-role-custom"
-- inputText: "Neighbor"
-- runFlow: ../subflows/dismiss-keyboard.yaml
+    id: "person-role"
+- tapOn: "Request a Role…"
+- assertVisible: "Which role is missing from your list?"
 - tapOn:
-    id: "person-save"
+    id: "request-role-close"
+- tapOn:
+    id: "person-cancel"
 
 # Archive Alex: gone from the list, still in the archive.
 - tapOn: "Alex"

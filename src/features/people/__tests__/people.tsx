@@ -101,6 +101,25 @@ describe("usePeople()", () => {
     ]);
   });
 
+  test("keeps a known role and reads an unknown role as no role", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        people: [
+          { ...sam, role: "friend" },
+          { ...alex, role: "neighbor" },
+        ],
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    expect(hook.result.current.state.people.map((p) => p.role)).toEqual([
+      "friend",
+      undefined,
+    ]);
+    expect(hook.result.current.state.people).toHaveLength(2);
+  });
+
   test("persists after add, edit, and delete", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);

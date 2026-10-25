@@ -12,6 +12,7 @@ import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { showToast } from "@/lib/toast";
 import { t } from "@/lib/translation";
+import type { TranslationKey } from "@/lib/translation";
 import type { FeedbackSource } from "@/types/feedback";
 import { useFeedback } from "../feedback";
 import { RADIUS } from "@/constants/radius";
@@ -23,7 +24,39 @@ const INPUT_STYLE = {
   fontSize: 17,
 } as const;
 
-const SheetHeader = ({ onClose }: { onClose: () => void }) => {
+/** What the user asks for. Each kind sends feedback of the same type. */
+export type RequestKind = "emotion" | "role";
+
+const COPY = {
+  emotion: {
+    title: "request_emotion_title",
+    subtitle: "request_emotion_subtitle",
+    placeholder: "request_emotion_placeholder",
+    why: "request_emotion_why",
+    description: "request_emotion_description",
+  },
+  role: {
+    title: "request_role_title",
+    subtitle: "request_role_subtitle",
+    placeholder: "request_role_placeholder",
+    why: "request_role_why",
+    description: "request_role_description",
+  },
+} as const satisfies Record<
+  RequestKind,
+  Record<
+    "title" | "subtitle" | "placeholder" | "why" | "description",
+    TranslationKey
+  >
+>;
+
+const SheetHeader = ({
+  kind,
+  onClose,
+}: {
+  kind: RequestKind;
+  onClose: () => void;
+}) => {
   const colors = useColors();
 
   return (
@@ -40,16 +73,16 @@ const SheetHeader = ({ onClose }: { onClose: () => void }) => {
           accessibilityRole="header"
           style={{ fontSize: 22, fontWeight: "700", color: colors.text }}
         >
-          {t("request_emotion_title")}
+          {t(COPY[kind].title)}
         </Text>
         <Text
           style={{ marginTop: 4, fontSize: 15, color: colors.textSecondary }}
         >
-          {t("request_emotion_subtitle")}
+          {t(COPY[kind].subtitle)}
         </Text>
       </View>
       <CloseButton
-        testID="request-emotion-close"
+        testID={`request-${kind}-close`}
         onPress={onClose}
         style={{ marginTop: -8, marginRight: -10 }}
       />
@@ -58,11 +91,13 @@ const SheetHeader = ({ onClose }: { onClose: () => void }) => {
 };
 
 const ReplyFields = ({
+  kind,
   wantsReply,
   onWantsReplyChange,
   email,
   onEmailChange,
 }: {
+  kind: RequestKind;
   wantsReply: boolean;
   onWantsReplyChange: (next: boolean) => void;
   email: string;
@@ -76,11 +111,11 @@ const ReplyFields = ({
         style={{ marginTop: 12, backgroundColor: colors.textInputBackground }}
       >
         <MenuListItem
-          title={t("request_emotion_reply")}
+          title={t("request_reply")}
           iconRight={
             <Toggle
-              testID="request-emotion-reply"
-              accessibilityLabel={t("request_emotion_reply")}
+              testID={`request-${kind}-reply`}
+              accessibilityLabel={t("request_reply")}
               value={wantsReply}
               onValueChange={onWantsReplyChange}
             />
@@ -89,7 +124,7 @@ const ReplyFields = ({
       </MenuList>
       {wantsReply && (
         <TextInput
-          testID="request-emotion-email"
+          testID={`request-${kind}-email`}
           accessibilityLabel={t("feedback_modal_email_placeholder")}
           autoComplete="email"
           keyboardType="email-address"
@@ -111,9 +146,11 @@ const ReplyFields = ({
 };
 
 const SheetContent = ({
+  kind,
   source,
   onClose,
 }: {
+  kind: RequestKind;
   source: FeedbackSource;
   onClose: () => void;
 }) => {
@@ -132,7 +169,7 @@ const SheetContent = ({
   const send = async () => {
     setStatus("sending");
     await feedback.send({
-      type: "emotion",
+      type: kind,
       source,
       message: word.trim(),
       email: replyTo,
@@ -140,8 +177,8 @@ const SheetContent = ({
         haptics.success();
         onClose();
         showToast({
-          title: t("request_emotion_sent"),
-          message: replyTo ? t("request_emotion_sent_reply") : undefined,
+          title: t("request_sent"),
+          message: replyTo ? t("request_sent_reply") : undefined,
         });
       },
       onCancel: () => setStatus("failed"),
@@ -156,16 +193,16 @@ const SheetContent = ({
       style={{ flex: 1, backgroundColor: colors.feedbackBackground }}
       contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 24 }}
     >
-      <SheetHeader onClose={onClose} />
+      <SheetHeader kind={kind} onClose={onClose} />
       <TextInput
-        testID="request-emotion-word"
-        accessibilityLabel={t("request_emotion_subtitle")}
+        testID={`request-${kind}-word`}
+        accessibilityLabel={t(COPY[kind].subtitle)}
         autoFocus
         maxLength={40}
         returnKeyType="done"
         value={word}
         onChangeText={setWord}
-        placeholder={t("request_emotion_placeholder")}
+        placeholder={t(COPY[kind].placeholder)}
         placeholderTextColor={colors.textInputPlaceholder}
         style={{
           ...INPUT_STYLE,
@@ -175,7 +212,7 @@ const SheetContent = ({
         }}
       />
       <LinkButton
-        testID="request-emotion-why"
+        testID={`request-${kind}-why`}
         onPress={() => setIsWhyOpen((open) => !open)}
         style={{
           alignSelf: "flex-start",
@@ -185,7 +222,7 @@ const SheetContent = ({
           fontWeight: "400",
         }}
       >
-        {t("request_emotion_why")}
+        {t(COPY[kind].why)}
       </LinkButton>
       {isWhyOpen && (
         <Text
@@ -196,10 +233,11 @@ const SheetContent = ({
             color: colors.textSecondary,
           }}
         >
-          {t("request_emotion_description")}
+          {t(COPY[kind].description)}
         </Text>
       )}
       <ReplyFields
+        kind={kind}
         wantsReply={wantsReply}
         onWantsReplyChange={setWantsReply}
         email={email}
@@ -207,36 +245,36 @@ const SheetContent = ({
       />
       {status === "failed" && (
         <InlineAlert
-          testID="request-emotion-error"
-          message={t("request_emotion_error")}
+          testID={`request-${kind}-error`}
+          message={t("request_error")}
           style={{ marginTop: 12 }}
         />
       )}
       <Button
-        testID="request-emotion-send"
+        testID={`request-${kind}-send`}
         disabled={!canSend}
         onPress={send}
         style={{ marginTop: 20 }}
       >
-        {status === "sending"
-          ? t("request_emotion_sending")
-          : t("request_emotion_send")}
+        {status === "sending" ? t("request_sending") : t("request_send")}
       </Button>
     </ScrollView>
   );
 };
 
 /**
- * Native page sheet to request a missing emotion. Sends `emotion` feedback
- * with the typed word. Nothing is added to the emotion list: the request
- * only reaches the developer. On success the sheet closes and a toast
- * confirms. Every opening starts with an empty form.
+ * Native page sheet to request a missing emotion or person role. Sends
+ * feedback of type `kind` with the typed word. Nothing is added to the list:
+ * the request only reaches the developer. On success the sheet closes and a
+ * toast confirms. Every opening starts with an empty form.
  */
-export const RequestEmotionSheet = ({
+export const RequestSheet = ({
+  kind,
   visible,
   source,
   onClose,
 }: {
+  kind: RequestKind;
   visible: boolean;
   source: FeedbackSource;
   onClose: () => void;
@@ -258,7 +296,12 @@ export const RequestEmotionSheet = ({
       onClose={onClose}
       backgroundColor={colors.feedbackBackground}
     >
-      <SheetContent key={session} source={source} onClose={onClose} />
+      <SheetContent
+        key={session}
+        kind={kind}
+        source={source}
+        onClose={onClose}
+      />
     </SheetModal>
   );
 };

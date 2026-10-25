@@ -159,4 +159,18 @@ describe("PersonEdit", () => {
     expect(screen.getByText("Delete Person")).toBeTruthy();
     expect(screen.getByText("Sam is on no entry yet.")).toBeTruthy();
   });
+
+  test("role: picked role is saved on the person", async () => {
+    const user = await openEditor();
+
+    await user.press(screen.getByRole("menuitem", { name: "Friend" }));
+    await user.press(screen.getByTestId("person-save"));
+
+    await waitFor(async () => {
+      const stored = JSON.parse(
+        String(await AsyncStorage.getItem(STORAGE_KEY))
+      );
+      expect(stored.people[0].role).toBe("friend");
+    });
+  });
 });

@@ -20,7 +20,7 @@ import { EmotionBasicGradients } from "./emotion-basic-gradients";
 import { EmotionBasicSelection } from "./emotion-basic-selection";
 import { ExpandButton } from "./expand-button";
 import { useAnalytics } from "@/state/analytics";
-import { RequestEmotionSheet } from "@/features/feedback";
+import { RequestSheet } from "@/features/feedback";
 import noop from "lodash/noop";
 
 type Mode = "basic" | "advanced";
@@ -222,7 +222,8 @@ export const SlideEmotions = ({
           {(isSearching || mode === "basic") && <EmotionBasicGradients />}
           {!isSearching && mode === "advanced" && <EmotionAdvancedGradients />}
         </View>
-        <RequestEmotionSheet
+        <RequestSheet
+          kind="emotion"
           visible={isRequestOpen}
           source="logger"
           onClose={closeRequest}

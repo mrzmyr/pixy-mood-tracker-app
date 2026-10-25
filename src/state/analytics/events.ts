@@ -315,7 +315,12 @@ export interface AnalyticsEvents {
     method: "drag" | "accessibility_action";
   };
 
-  "people:person_added": { source: "manual"; has_avatar: boolean };
+  "people:person_added": {
+    source: "manual";
+    has_avatar: boolean;
+    /** Role key from `ROLE_PRESETS`, or "none". Fixed values, never free text. */
+    role: string;
+  };
   "people:contacts_imported": {
     count: number;
     avatars_count: number;
@@ -324,6 +329,7 @@ export interface AnalyticsEvents {
   "people:person_updated": {
     name_changed: boolean;
     avatar_changed: boolean;
+    role_changed: boolean;
     is_archived: boolean;
   };
   "people:delete_requested": { entries_count: number };

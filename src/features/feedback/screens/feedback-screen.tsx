@@ -29,6 +29,7 @@ const FEEDBACK_TYPES: Record<FeedackType, true> = {
   emoji: true,
   custom: true,
   emotion: true,
+  role: true,
 };
 
 const isFeedbackType = (value: unknown): value is FeedackType =>
