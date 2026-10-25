@@ -21,7 +21,6 @@ import {
 import {
   getQuickCheckInTimes,
   IntervalPicker,
-  QuickCheckInStartRow,
   useQuickCheckInSetting,
 } from "@/features/quickcheckin";
 import type { QuickCheckInSchedule } from "@/state/settings";
@@ -226,7 +225,6 @@ const Reminder = () => {
                 }
               />
             )}
-            {quickCheckIn.isEnabled && <QuickCheckInStartRow />}
           </SettingsSection>
         )}
         {isRecapsOn && (
