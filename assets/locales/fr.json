@@ -819,10 +819,6 @@
     "one": "1 manqué",
     "other": "{{count}} manqués"
   },
-  "recaps_story_coming_title": {
-    "one": "Encore 1 jour à colorer en %{year}",
-    "other": "Encore {{count}} jours à colorer en %{year}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 jour avec photo, %{days} pixels.",
     "other": "{{count}} jours avec photo, %{days} pixels."
@@ -853,11 +849,6 @@
   "recaps_story_lifted_title": "Les jours avec %{tag} semblaient les plus légers",
   "recaps_story_made_of_eyebrow": "Votre rythme en %{month}",
   "recaps_story_made_of_title": "De quoi vos jours étaient faits",
-  "recaps_story_moments_eyebrow": "Une photo par semaine",
-  "recaps_story_moments_title": {
-    "one": "%{month} en 1 moment",
-    "other": "%{month} en {{count}} moments"
-  },
   "recaps_story_next": "Diapositive suivante",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {

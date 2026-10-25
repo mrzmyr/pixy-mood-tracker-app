@@ -848,8 +848,8 @@
     "other": "{{count}} verpasst"
   },
   "recaps_story_coming_title": {
-    "one": "Noch 1 Tag zum Ausmalen in %{year}",
-    "other": "Noch {{count}} Tage zum Ausmalen in %{year}"
+    "one": "Noch 1 Tag in %{year}",
+    "other": "Noch {{count}} Tage in %{year}"
   },
   "recaps_story_cover_photos_text": {
     "one": "1 Fototag, %{days} Pixel.",
@@ -881,11 +881,6 @@
   "recaps_story_lifted_title": "Tage mit %{tag} fühlten sich am leichtesten an",
   "recaps_story_made_of_eyebrow": "Dein %{month}-Rhythmus",
   "recaps_story_made_of_title": "Woraus deine Tage bestanden",
-  "recaps_story_moments_eyebrow": "Ein Foto pro Woche",
-  "recaps_story_moments_title": {
-    "one": "%{month} in 1 Moment",
-    "other": "%{month} in {{count}} Momenten"
-  },
   "recaps_story_next": "Nächste Folie",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
@@ -939,6 +934,8 @@
   "recaps_story_weekday_text": "%{hits} von %{total} Wochen.",
   "recaps_story_weekday_title_every": "%{tag}, jeden %{weekday}",
   "recaps_story_weekday_title_most": "%{tag}, fast jeden %{weekday}",
+  "recaps_story_weeks_eyebrow": "Woche für Woche",
+  "recaps_story_weeks_title": "%{month}, Woche für Woche",
   "recaps_tag_back_text": {
     "one": "An einem Tag, nach %{weeks} Wochen ohne.",
     "other": "An {{count}} Tagen, nach %{weeks} Wochen ohne."

@@ -818,10 +818,6 @@
     "one": "1 terlewat",
     "other": "{{count}} terlewat"
   },
-  "recaps_story_coming_title": {
-    "one": "1 hari lagi untuk diwarnai di %{year}",
-    "other": "{{count}} hari lagi untuk diwarnai di %{year}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 hari berfoto, %{days} piksel.",
     "other": "{{count}} hari berfoto, %{days} piksel."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
   "recaps_story_made_of_eyebrow": "Ritme %{month}",
   "recaps_story_made_of_title": "Dari apa harimu terbentuk",
-  "recaps_story_moments_eyebrow": "Satu foto per minggu",
-  "recaps_story_moments_title": {
-    "one": "%{month} dalam 1 momen",
-    "other": "%{month} dalam {{count}} momen"
-  },
   "recaps_story_next": "Slide berikutnya",
   "recaps_story_pause": "Jeda",
   "recaps_story_people_days": {

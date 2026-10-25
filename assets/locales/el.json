@@ -818,10 +818,6 @@
     "one": "1 χαμένη",
     "other": "{{count}} χαμένες"
   },
-  "recaps_story_coming_title": {
-    "one": "Μένει 1 μέρα για να χρωματίσεις το %{year}",
-    "other": "Μένουν {{count}} μέρες για να χρωματίσεις το %{year}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 μέρα με φωτογραφία, %{days} pixels.",
     "other": "{{count}} μέρες με φωτογραφία, %{days} pixels."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Οι μέρες με %{tag} ήταν οι πιο ανάλαφρες",
   "recaps_story_made_of_eyebrow": "Ρυθμός: %{month}",
   "recaps_story_made_of_title": "Από τι αποτελούνταν οι μέρες σου",
-  "recaps_story_moments_eyebrow": "Μία φωτογραφία την εβδομάδα",
-  "recaps_story_moments_title": {
-    "one": "%{month} σε 1 στιγμή",
-    "other": "%{month} σε {{count}} στιγμές"
-  },
   "recaps_story_next": "Επόμενη διαφάνεια",
   "recaps_story_pause": "Παύση",
   "recaps_story_people_days": {

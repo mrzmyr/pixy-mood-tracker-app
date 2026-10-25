@@ -818,10 +818,6 @@
     "one": "พลาด 1",
     "other": "พลาด {{count}}"
   },
-  "recaps_story_coming_title": {
-    "one": "เหลืออีก 1 วันให้ระบายสีในปี %{year}",
-    "other": "เหลืออีก {{count}} วันให้ระบายสีในปี %{year}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "มีรูป 1 วัน จาก %{days} พิกเซล",
     "other": "มีรูป {{count}} วัน จาก %{days} พิกเซล"
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "วันที่มี %{tag} รู้สึกเบาที่สุด",
   "recaps_story_made_of_eyebrow": "จังหวะของเดือน%{month}",
   "recaps_story_made_of_title": "วันของคุณประกอบด้วยอะไรบ้าง",
-  "recaps_story_moments_eyebrow": "สัปดาห์ละหนึ่งรูป",
-  "recaps_story_moments_title": {
-    "one": "เดือน%{month}ใน 1 ช่วงเวลา",
-    "other": "เดือน%{month}ใน {{count}} ช่วงเวลา"
-  },
   "recaps_story_next": "สไลด์ถัดไป",
   "recaps_story_pause": "หยุดชั่วคราว",
   "recaps_story_people_days": {

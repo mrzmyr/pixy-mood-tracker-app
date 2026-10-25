@@ -90,7 +90,8 @@ export interface VsLastSlide {
 /** One photo per week of the month. */
 export interface MomentsSlide {
   type: "moments";
-  weeks: { start: DateKey; end: DateKey; photo: StoryPhoto | null }[];
+  /** Weeks of the month with up to 4 bright photos each, brightest first. */
+  weeks: { start: DateKey; end: DateKey; photos: StoryPhoto[] }[];
 }
 
 /** Days still to come in the year, and days without a check-in so far. */

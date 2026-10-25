@@ -818,10 +818,6 @@
     "one": "Bỏ lỡ 1",
     "other": "Bỏ lỡ {{count}}"
   },
-  "recaps_story_coming_title": {
-    "one": "Còn 1 ngày để tô màu năm %{year}",
-    "other": "Còn {{count}} ngày để tô màu năm %{year}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 ngày có ảnh, %{days} pixel.",
     "other": "{{count}} ngày có ảnh, %{days} pixel."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Những ngày có %{tag} nhẹ nhàng nhất",
   "recaps_story_made_of_eyebrow": "Nhịp điệu %{month}",
   "recaps_story_made_of_title": "Những ngày của bạn được tạo nên từ đâu",
-  "recaps_story_moments_eyebrow": "Mỗi tuần một ảnh",
-  "recaps_story_moments_title": {
-    "one": "%{month} trong 1 khoảnh khắc",
-    "other": "%{month} trong {{count}} khoảnh khắc"
-  },
   "recaps_story_next": "Trang tiếp",
   "recaps_story_pause": "Tạm dừng",
   "recaps_story_people_days": {

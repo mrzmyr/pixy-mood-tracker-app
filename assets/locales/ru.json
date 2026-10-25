@@ -818,10 +818,6 @@
     "one": "Пропущено: 1",
     "other": "Пропущено: {{count}}"
   },
-  "recaps_story_coming_title": {
-    "one": "В %{year} году остался 1 день",
-    "other": "Осталось дней в %{year} году: {{count}}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 день с фото, пикселей: %{days}.",
     "other": "Дней с фото: {{count}}, пикселей: %{days}."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Дни с %{tag} были самыми лёгкими",
   "recaps_story_made_of_eyebrow": "Ритм: %{month}",
   "recaps_story_made_of_title": "Из чего состояли Ваши дни",
-  "recaps_story_moments_eyebrow": "Одно фото в неделю",
-  "recaps_story_moments_title": {
-    "one": "%{month} в 1 моменте",
-    "other": "%{month}, моментов: {{count}}"
-  },
   "recaps_story_next": "Следующий слайд",
   "recaps_story_pause": "Пауза",
   "recaps_story_people_days": {

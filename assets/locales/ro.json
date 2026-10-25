@@ -818,10 +818,6 @@
     "one": "1 ratată",
     "other": "{{count}} ratate"
   },
-  "recaps_story_coming_title": {
-    "one": "Mai e 1 zi de colorat în %{year}",
-    "other": "Mai sunt {{count}} zile de colorat în %{year}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 zi cu foto, %{days} pixeli.",
     "other": "{{count}} zile cu foto, %{days} pixeli."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Zilele cu %{tag} au fost cele mai ușoare",
   "recaps_story_made_of_eyebrow": "Ritmul lunii %{month}",
   "recaps_story_made_of_title": "Din ce au fost făcute zilele tale",
-  "recaps_story_moments_eyebrow": "O fotografie pe săptămână",
-  "recaps_story_moments_title": {
-    "one": "%{month} într-un moment",
-    "other": "%{month} în {{count}} momente"
-  },
   "recaps_story_next": "Slide-ul următor",
   "recaps_story_pause": "Pauză",
   "recaps_story_people_days": {

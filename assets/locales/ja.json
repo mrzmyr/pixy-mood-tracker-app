@@ -818,10 +818,6 @@
     "one": "記録なし1",
     "other": "記録なし{{count}}"
   },
-  "recaps_story_coming_title": {
-    "one": "%{year}年に塗れる日はあと1日",
-    "other": "%{year}年に塗れる日はあと{{count}}日"
-  },
   "recaps_story_cover_photos_text": {
     "one": "写真のある日1日、%{days}ピクセル。",
     "other": "写真のある日{{count}}日、%{days}ピクセル。"
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "%{tag}の日がいちばん軽やかでした",
   "recaps_story_made_of_eyebrow": "%{month}のリズム",
   "recaps_story_made_of_title": "あなたの日々をつくったもの",
-  "recaps_story_moments_eyebrow": "1週間に1枚の写真",
-  "recaps_story_moments_title": {
-    "one": "1つの瞬間でたどる%{month}",
-    "other": "{{count}}の瞬間でたどる%{month}"
-  },
   "recaps_story_next": "次のスライド",
   "recaps_story_pause": "一時停止",
   "recaps_story_people_days": {

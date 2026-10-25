@@ -818,10 +818,6 @@
     "one": "1 sem registro",
     "other": "{{count}} sem registro"
   },
-  "recaps_story_coming_title": {
-    "one": "Falta 1 dia para pintar em %{year}",
-    "other": "Faltam {{count}} dias para pintar em %{year}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 dia com foto, %{days} pixels.",
     "other": "{{count}} dias com foto, %{days} pixels."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Dias com %{tag} foram os mais leves",
   "recaps_story_made_of_eyebrow": "Ritmo de %{month}",
   "recaps_story_made_of_title": "Do que seus dias foram feitos",
-  "recaps_story_moments_eyebrow": "Uma foto por semana",
-  "recaps_story_moments_title": {
-    "one": "%{month} em 1 momento",
-    "other": "%{month} em {{count}} momentos"
-  },
   "recaps_story_next": "Próximo slide",
   "recaps_story_pause": "Pausar",
   "recaps_story_people_days": {

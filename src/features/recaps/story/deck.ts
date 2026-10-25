@@ -369,15 +369,34 @@ const monthWeeks = (input: RecapInput) =>
         : addDays(input.period.start, offset + 6),
   }));
 
-/** One bright photo per week, 3+ weeks with one. */
+/** Most photos in one week of the collage. */
+const WEEK_PHOTOS = 4;
+
+/** Bright photos of a week, brightest day first, one per file. */
+const weekPhotos = (days: RecapDay[]) => {
+  const sorted = [...days].sort((a, b) => getDayRating(b) - getDayRating(a));
+  const seen = new Set<string>();
+  return brightPhotos(sorted)
+    .filter(({ photo }) => {
+      if (seen.has(photo.fileName)) {
+        return false;
+      }
+      seen.add(photo.fileName);
+      return true;
+    })
+    .slice(0, WEEK_PHOTOS);
+};
+
+/** Each week of the month as a small collage, 3+ weeks with a photo. */
 const moments = (input: RecapInput): MomentsSlide | null => {
   const weeks = monthWeeks(input).map((week) => ({
     ...week,
-    photo: bestPhoto(
+    photos: weekPhotos(
       input.days.filter((day) => day.date >= week.start && day.date <= week.end)
     ),
   }));
-  return weeks.filter((week) => week.photo).length >= THRESHOLDS.momentsMinWeeks
+  return weeks.filter((week) => week.photos.length > 0).length >=
+    THRESHOLDS.momentsMinWeeks
     ? { type: "moments", weeks }
     : null;
 };
@@ -485,13 +504,17 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     return null;
   }
   const lightTags = lightTagIds(input);
+  const quiz = buildQuiz(input, lightTags);
+  // A people quiz and the people slide make one section: guess, then see.
+  const isPeopleQuiz = quiz?.quiz === "people";
   const slides = [
     cover(input),
     weekdayHabit(input, lightTags),
     madeOf(input),
-    buildQuiz(input, lightTags),
+    quiz,
+    isPeopleQuiz ? people(input) : null,
     lifted(input),
-    people(input),
+    isPeopleQuiz ? null : people(input),
     hardPattern(input),
     firstCitySlide(input),
     vsLast(input, lightTags),

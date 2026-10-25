@@ -39,6 +39,7 @@ import type {
   LiftedSlide,
   MadeOfSlide,
   MomentsSlide,
+  StoryPhoto,
   PeopleSlide,
   StorySlide,
   VsLastSlide,
@@ -611,6 +612,55 @@ const VsLast = ({ slide, ctx }: { slide: VsLastSlide; ctx: SlideContext }) => {
 
 // ---------------------------------------------------------------- moments
 
+/** Space between photos inside one week. */
+const COLLAGE_GAP = 2;
+
+/**
+ * Up to 4 photos of one week in a tile: 1 fills it, 2 split it, 3 put the
+ * brightest left and two stacked right, 4 make a grid.
+ */
+const WeekCollage = ({
+  photos,
+  label,
+}: {
+  photos: StoryPhoto[];
+  label: string;
+}) => {
+  // Screen readers hear the week once, on the first photo.
+  const image = (photo: StoryPhoto) => (
+    <StoryImage
+      key={photo.photo.id}
+      photo={photo.photo}
+      label={photo === photos[0] ? label : undefined}
+      style={{ flex: 1, borderRadius: 0 }}
+    />
+  );
+  const [first, ...rest] = photos;
+  if (!first) {
+    return null;
+  }
+  if (photos.length === 4) {
+    return (
+      <View style={{ flex: 1, gap: COLLAGE_GAP }}>
+        <View style={{ flex: 1, flexDirection: "row", gap: COLLAGE_GAP }}>
+          {photos.slice(0, 2).map(image)}
+        </View>
+        <View style={{ flex: 1, flexDirection: "row", gap: COLLAGE_GAP }}>
+          {photos.slice(2).map(image)}
+        </View>
+      </View>
+    );
+  }
+  return (
+    <View style={{ flex: 1, flexDirection: "row", gap: COLLAGE_GAP }}>
+      {image(first)}
+      {rest.length > 0 && (
+        <View style={{ flex: 1, gap: COLLAGE_GAP }}>{rest.map(image)}</View>
+      )}
+    </View>
+  );
+};
+
 const Moments = ({
   slide,
   ctx,
@@ -622,15 +672,13 @@ const Moments = ({
   const { width } = useWindowDimensions();
   // Two tiles per row inside the 24 pt slide padding, 8 pt apart.
   const tile = (width - 48 - 8) / 2;
-  const count = slide.weeks.filter((week) => week.photo).length;
   return (
     <>
       <SlideHeader
         theme="night"
-        eyebrow={t("recaps_story_moments_eyebrow")}
-        title={t("recaps_story_moments_title", {
+        eyebrow={t("recaps_story_weeks_eyebrow")}
+        title={t("recaps_story_weeks_title", {
           month: monthName(ctx.period.start),
-          count,
         })}
       />
       <View
@@ -654,12 +702,8 @@ const Moments = ({
                 backgroundColor: STORY_PALETTE.night.surface,
               }}
             >
-              {week.photo ? (
-                <StoryImage
-                  photo={week.photo.photo}
-                  label={range}
-                  style={{ ...StyleSheet.absoluteFill, borderRadius: 0 }}
-                />
+              {week.photos.length > 0 ? (
+                <WeekCollage photos={week.photos} label={range} />
               ) : (
                 <View
                   style={{

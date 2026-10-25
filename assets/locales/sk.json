@@ -818,10 +818,6 @@
     "one": "1 vynechaný",
     "other": "Vynechané: {{count}}"
   },
-  "recaps_story_coming_title": {
-    "one": "V roku %{year} zostáva vyfarbiť 1 deň",
-    "other": "Dní na vyfarbenie v roku %{year}: {{count}}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 deň s fotkou, pixelov: %{days}.",
     "other": "Dní s fotkou: {{count}}, pixelov: %{days}."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Dni so štítkom %{tag} boli najľahšie",
   "recaps_story_made_of_eyebrow": "Rytmus: %{month}",
   "recaps_story_made_of_title": "Z čoho sa skladali tvoje dni",
-  "recaps_story_moments_eyebrow": "Jedna fotka týždenne",
-  "recaps_story_moments_title": {
-    "one": "%{month} v 1 okamihu",
-    "other": "%{month} v okamihoch: {{count}}"
-  },
   "recaps_story_next": "Ďalšia snímka",
   "recaps_story_pause": "Pozastaviť",
   "recaps_story_people_days": {
