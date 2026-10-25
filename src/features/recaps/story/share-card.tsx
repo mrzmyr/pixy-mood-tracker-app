@@ -9,6 +9,7 @@ import { dateOfWeekday, monthName, weekdayName } from "./format";
 import { MonthGrid, StoryText, TagDot, useDayColors } from "./parts";
 import type { SlideContext } from "./slides";
 import { STORY_MAX_FONT_SCALE, STORY_PALETTE } from "./theme";
+import type { StoryTheme } from "./theme";
 import type { ShareFact, StoryPhoto } from "./types";
 
 /**
@@ -17,14 +18,31 @@ import type { ShareFact, StoryPhoto } from "./types";
  */
 const LOGO = require("../../../../assets/images/icon.png");
 
-const palette = STORY_PALETTE.paper;
+/** Card colors: white card in light mode, dark card in dark mode. */
+const getCardTheme = (ctx: SlideContext) => {
+  const theme: StoryTheme = ctx.isDark ? "night" : "paper";
+  return {
+    theme,
+    palette: STORY_PALETTE[theme],
+    card: ctx.isDark ? "#161618" : "#FFFFFF",
+    border: ctx.isDark ? "#26262A" : "#EEEEEE",
+  };
+};
 
 /** Photo for the captured card: React Native `Image`, same reason as `LOGO`. */
-const CardPhoto = ({ photo, flex }: { photo: StoryPhoto; flex: number }) => (
+const CardPhoto = ({
+  photo,
+  flex,
+  background,
+}: {
+  photo: StoryPhoto;
+  flex: number;
+  background: string;
+}) => (
   <Image
     source={{ uri: getPhotoFile(photo.photo).uri }}
     resizeMode="cover"
-    style={{ flex, borderRadius: 14, backgroundColor: palette.surface }}
+    style={{ flex, borderRadius: 14, backgroundColor: background }}
   />
 );
 
@@ -58,7 +76,11 @@ const Fact = ({ fact, ctx }: { fact: ShareFact; ctx: SlideContext }) => {
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
       <View style={{ width: 12, alignItems: "center" }}>{marker}</View>
-      <StoryText kind="label" theme="paper" style={{ fontSize: 15, flex: 1 }}>
+      <StoryText
+        kind="label"
+        theme={getCardTheme(ctx).theme}
+        style={{ fontSize: 15, flex: 1 }}
+      >
         {text}
       </StoryText>
     </View>
@@ -84,6 +106,7 @@ export const ShareCard = ({
   onShuffle: (() => void) | null;
 }) => {
   const dayColors = useDayColors(ctx.days);
+  const { theme, palette, card, border } = getCardTheme(ctx);
   const [first, second, third] = photos;
   return (
     <View>
@@ -92,12 +115,12 @@ export const ShareCard = ({
         collapsable={false}
         testID="recap-story-share-card"
         style={{
-          backgroundColor: "#FFFFFF",
+          backgroundColor: card,
           borderRadius: 24,
           padding: 16,
           gap: 14,
           borderWidth: 1,
-          borderColor: "#EEEEEE",
+          borderColor: border,
         }}
       >
         <View
@@ -109,7 +132,7 @@ export const ShareCard = ({
         >
           <StoryText
             kind="label"
-            theme="paper"
+            theme={theme}
             style={{ fontSize: 19, fontWeight: "800" }}
           >
             {t("recaps_story_share_title", {
@@ -131,10 +154,10 @@ export const ShareCard = ({
         </View>
         {first && second && third ? (
           <View style={{ height: 230, flexDirection: "row", gap: 6 }}>
-            <CardPhoto photo={first} flex={1.6} />
+            <CardPhoto photo={first} flex={1.6} background={palette.surface} />
             <View style={{ flex: 1, gap: 6 }}>
-              <CardPhoto photo={second} flex={1} />
-              <CardPhoto photo={third} flex={1} />
+              <CardPhoto photo={second} flex={1} background={palette.surface} />
+              <CardPhoto photo={third} flex={1} background={palette.surface} />
             </View>
           </View>
         ) : (

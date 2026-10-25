@@ -298,7 +298,12 @@ export interface AnalyticsEvents {
     is_correct: boolean;
   };
   /** Share card sent from the share sheet. Never the photos or lines. */
-  "recaps:story_shared": { has_photos: boolean; shuffles: number };
+  /** `slide_type`: the shared slide; `share` is the share card. */
+  "recaps:story_shared": {
+    has_photos: boolean;
+    shuffles: number;
+    slide_type: string;
+  };
   /** Story closed by the user or after the last slide. */
   "recaps:story_closed": {
     position: number;

@@ -2,9 +2,8 @@ import dayjs from "dayjs";
 import noop from "lodash/noop";
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { Pressable, View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import type { View as ViewType } from "react-native";
-import ShareIcon from "lucide-react-native/icons/share";
 import { setStatusBarHidden } from "expo-status-bar";
 import { useFeedback } from "@/features/feedback";
 import { usePeopleState } from "@/features/people";
@@ -26,13 +25,13 @@ import { StoryPlayer } from "../story/story-player";
 import type { PlayerSlide } from "../story/story-player";
 import type { StoryPhoto, StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
-import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 import { ShareCard } from "../story/share-card";
+import { StoryShareButton } from "../story/story-share-button";
 import { shareStoryCard } from "../story/share-image";
 import { Celebration } from "../story/celebration";
 import type { CelebrationKind, CelebrationOrigin } from "../story/celebration";
-import { StoryText, useDayColors } from "../story/parts";
+import { useDayColors } from "../story/parts";
 import { QuizContent } from "../story/quiz-content";
 import type { QuizResult } from "../story/quiz-content";
 import type { QuizSlide } from "../story/quiz";
@@ -45,6 +44,7 @@ const isSource = (value: unknown): value is StorySource =>
 
 /** Month story of `date`'s month. Without a story, the month's cards. */
 const RecapStory = () => {
+  const colorScheme = useColorScheme();
   const router = useRouter();
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
@@ -74,6 +74,7 @@ const RecapStory = () => {
   } | null>(null);
   const dayColors = [...new Set(useDayColors(input.days).values())];
   const shareCard = useRef<ViewType>(null);
+  const slideView = useRef<ViewType>(null);
   const [shuffles, setShuffles] = useState(0);
   const [isCapturing, setIsCapturing] = useState(false);
   const lastShown = useRef(0);
@@ -85,6 +86,7 @@ const RecapStory = () => {
     today: input.today,
     tags: new Map(tags.map((tag) => [tag.id, tag])),
     people: new Map(people.map((person) => [person.id, person])),
+    isDark: colorScheme === "dark",
   };
 
   const count = story?.length ?? 0;
@@ -190,22 +192,28 @@ const RecapStory = () => {
       ? []
       : [0, 1, 2].map((offset) => pool[(shuffles * 3 + offset) % pool.length]);
 
-  const shareSlide = story.find((slide) => slide.type === "share");
-  const share = () => {
-    if (isCapturing || shareSlide?.type !== "share") {
+  /**
+   * Shares the slide at `index` as an image. The share slide sends its card;
+   * every other slide sends itself without bars and buttons.
+   */
+  const share = (index: number) => {
+    const slide = story[index];
+    if (isCapturing || !slide) {
       return;
     }
+    const isShareCard = slide.type === "share";
     setIsCapturing(true);
     void shareStoryCard({
-      view: shareCard.current,
+      view: isShareCard ? shareCard.current : slideView.current,
       dialogTitle: t("recaps_story_share_title", {
         month: monthName(period.start),
       }),
       onCaptured: () => setIsCapturing(false),
       onShared: () =>
         analytics.track("recaps:story_shared", {
-          has_photos: shareSlide.photos.length > 0,
-          shuffles,
+          has_photos: isShareCard && slide.photos.length > 0,
+          shuffles: isShareCard ? shuffles : 0,
+          slide_type: slide.type,
         }),
     });
   };
@@ -245,7 +253,7 @@ const RecapStory = () => {
 
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
-    theme: getSlideTheme(slide),
+    theme: getSlideTheme(slide, ctx.isDark),
     backdrop: <SlideBackdrop slide={slide} />,
     isWaiting: slide.type === "quiz" && !quizResults.has(index),
     content: contentOf(slide, index),
@@ -255,7 +263,7 @@ const RecapStory = () => {
     <View style={{ flex: 1 }}>
       <StoryPlayer
         slides={slides}
-        title={monthName(period.start)}
+        slideRef={slideView}
         onClose={close}
         isPaused={asking !== null}
         onSlideShown={(index) => {
@@ -278,31 +286,11 @@ const RecapStory = () => {
             }}
             pointerEvents="box-none"
           >
-            {story[index]?.type === "share" ? (
-              <Pressable
-                accessibilityRole="button"
-                onPress={share}
-                disabled={isCapturing}
-                testID="recap-story-share"
-                style={({ pressed }) => ({
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 8,
-                  minHeight: 44,
-                  paddingHorizontal: 18,
-                  borderRadius: RADIUS.full,
-                  backgroundColor: "#0A0A0A",
-                  opacity: pressed || isCapturing ? 0.7 : 1,
-                })}
-              >
-                <ShareIcon width={16} height={16} color="#FFFFFF" />
-                <StoryText kind="label" theme="night" style={{ fontSize: 15 }}>
-                  {t("recaps_story_share")}
-                </StoryText>
-              </Pressable>
-            ) : (
-              <View />
-            )}
+            <StoryShareButton
+              theme={theme}
+              disabled={isCapturing}
+              onPress={() => share(index)}
+            />
             <StoryFeedback
               theme={theme}
               isAnswered={answers.has(index)}

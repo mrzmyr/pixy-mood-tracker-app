@@ -63,7 +63,7 @@ export const SlideHeader = ({
   title: React.ReactNode;
 }) => (
   <View style={{ gap: 8 }}>
-    <StoryText kind="eyebrow" theme={theme} tone="accent">
+    <StoryText kind="eyebrow" theme={theme} tone="muted">
       {eyebrow}
     </StoryText>
     <StoryText kind="title" theme={theme}>

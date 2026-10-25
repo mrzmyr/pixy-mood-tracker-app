@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, use, useState } from "react";
 import { Pressable, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
 import Check from "lucide-react-native/icons/check";
@@ -11,6 +11,7 @@ import { SlideHeader, StoryText, TagDot } from "./parts";
 import type { QuizSlide, QuizStatement } from "./quiz";
 import type { SlideContext } from "./slides";
 import { STORY_PALETTE } from "./theme";
+import type { StoryTheme } from "./theme";
 
 /** What the user answered. `picks`: statement indexes or the tapped id. */
 export interface QuizResult {
@@ -19,7 +20,14 @@ export interface QuizResult {
 }
 
 const RIGHT = "#059669";
-const palette = STORY_PALETTE.paper;
+
+/** Theme of the quiz slide: `paper`, or `night` in dark mode. */
+const QuizTheme = createContext<StoryTheme>("paper");
+
+const useQuizTheme = () => {
+  const theme = use(QuizTheme);
+  return { theme, palette: STORY_PALETTE[theme] };
+};
 
 const originOf = (event: GestureResponderEvent): CelebrationOrigin => ({
   x: event.nativeEvent.pageX,
@@ -27,15 +35,23 @@ const originOf = (event: GestureResponderEvent): CelebrationOrigin => ({
 });
 
 /** Card look after the answer: green for right, struck for made up. */
-const cardColors = (state: "idle" | "picked" | "right" | "made-up") => {
+const cardColors = (
+  state: "idle" | "picked" | "right" | "made-up",
+  theme: StoryTheme
+) => {
+  const palette = STORY_PALETTE[theme];
   if (state === "right") {
     return { background: RIGHT, text: "#FFFFFF", border: RIGHT };
   }
   if (state === "made-up") {
-    return { background: "#FFFFFF", text: palette.muted, border: "#D4D4D8" };
+    return {
+      background: palette.background,
+      text: palette.muted,
+      border: theme === "paper" ? "#D4D4D8" : "#3F3F46",
+    };
   }
   return {
-    background: state === "picked" ? "#FFFFFF" : palette.surface,
+    background: state === "picked" ? palette.background : palette.surface,
     text: palette.text,
     border: state === "picked" ? palette.text : palette.surface,
   };
@@ -56,7 +72,8 @@ const QuizCard = ({
   onPress?: (event: GestureResponderEvent) => void;
   testID: string;
 }) => {
-  const colors = cardColors(state);
+  const { theme, palette } = useQuizTheme();
+  const colors = cardColors(state, theme);
   return (
     <Pressable
       accessibilityRole="checkbox"
@@ -87,7 +104,7 @@ const QuizCard = ({
         {state === "made-up" && (
           <StoryText
             kind="eyebrow"
-            theme="paper"
+            theme={theme}
             tone="muted"
             style={{ fontSize: 12 }}
           >
@@ -97,7 +114,7 @@ const QuizCard = ({
       </View>
       <StoryText
         kind="label"
-        theme="paper"
+        theme={theme}
         numberOfLines={2}
         style={{
           fontSize: 17,
@@ -112,7 +129,7 @@ const QuizCard = ({
       {subtitle !== undefined && (
         <StoryText
           kind="label"
-          theme="paper"
+          theme={theme}
           style={{
             fontWeight: "500",
             color: state === "right" ? "rgba(255,255,255,0.85)" : palette.muted,
@@ -125,20 +142,23 @@ const QuizCard = ({
   );
 };
 
-const IconCircle = ({ children }: { children: React.ReactNode }) => (
-  <View
-    style={{
-      width: 40,
-      height: 40,
-      borderRadius: RADIUS.full,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "#FFFFFF",
-    }}
-  >
-    {children}
-  </View>
-);
+const IconCircle = ({ children }: { children: React.ReactNode }) => {
+  const { palette } = useQuizTheme();
+  return (
+    <View
+      style={{
+        width: 40,
+        height: 40,
+        borderRadius: RADIUS.full,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: palette.background,
+      }}
+    >
+      {children}
+    </View>
+  );
+};
 
 const Grid = ({ children }: { children: React.ReactNode }) => (
   <View
@@ -154,11 +174,14 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
   </View>
 );
 
-const Reveal = ({ children }: { children: string }) => (
-  <StoryText kind="body" theme="paper" style={{ marginTop: 16 }}>
-    {children}
-  </StoryText>
-);
+const Reveal = ({ children }: { children: string }) => {
+  const { theme } = useQuizTheme();
+  return (
+    <StoryText kind="body" theme={theme} style={{ marginTop: 16 }}>
+      {children}
+    </StoryText>
+  );
+};
 
 const statementIcon = (statement: QuizStatement, ctx: SlideContext) => {
   if (statement.kind === "person") {
@@ -196,6 +219,7 @@ const Truths = ({
   result: QuizResult | null;
   onAnswer: (result: QuizResult, origin: CelebrationOrigin) => void;
 }) => {
+  const { theme, palette } = useQuizTheme();
   const [picks, setPicks] = useState<ReadonlySet<string>>(new Set());
   const isDone = result !== null;
   const madeUp = slide.statements.find((statement) => !statement.isTrue);
@@ -213,13 +237,13 @@ const Truths = ({
   return (
     <>
       <SlideHeader
-        theme="paper"
+        theme={theme}
         eyebrow={eyebrow}
         title={t(TITLES[slide.module])}
       />
       <StoryText
         kind="body"
-        theme="paper"
+        theme={theme}
         tone="muted"
         style={{ marginTop: 6 }}
       >
@@ -300,8 +324,12 @@ const Truths = ({
             backgroundColor: palette.text,
           }}
         >
-          <Check width={18} height={18} color="#FFFFFF" />
-          <StoryText kind="label" theme="night" style={{ fontSize: 16 }}>
+          <Check width={18} height={18} color={palette.background} />
+          <StoryText
+            kind="label"
+            theme={theme === "paper" ? "night" : "paper"}
+            style={{ fontSize: 16 }}
+          >
             {t("recaps_story_quiz_check")}
           </StoryText>
         </Pressable>
@@ -322,6 +350,7 @@ const Guess = ({
   result: QuizResult | null;
   onAnswer: (result: QuizResult, origin: CelebrationOrigin) => void;
 }) => {
+  const { theme } = useQuizTheme();
   const ids = slide.quiz === "people" ? slide.personIds : slide.tagIds;
   const picked = new Set(result?.picks);
   const nameOf = (id: string) =>
@@ -331,7 +360,7 @@ const Guess = ({
   return (
     <>
       <SlideHeader
-        theme="paper"
+        theme={theme}
         eyebrow={t("recaps_story_quiz_eyebrow_guess")}
         title={t(
           slide.quiz === "people"
@@ -410,9 +439,12 @@ export const QuizContent = ({
   ctx: SlideContext;
   result: QuizResult | null;
   onAnswer: (result: QuizResult, origin: CelebrationOrigin) => void;
-}) =>
-  slide.quiz === "truths" ? (
-    <Truths slide={slide} ctx={ctx} result={result} onAnswer={onAnswer} />
-  ) : (
-    <Guess slide={slide} ctx={ctx} result={result} onAnswer={onAnswer} />
-  );
+}) => (
+  <QuizTheme value={ctx.isDark ? "night" : "paper"}>
+    {slide.quiz === "truths" ? (
+      <Truths slide={slide} ctx={ctx} result={result} onAnswer={onAnswer} />
+    ) : (
+      <Guess slide={slide} ctx={ctx} result={result} onAnswer={onAnswer} />
+    )}
+  </QuizTheme>
+);
