@@ -205,8 +205,43 @@ XFER = ('<div class="xfer" style="top:{z}px">' + "".join(
     for c, ext, r in (("#f97316", ".csv", -7), ("#8b5cf6", ".json", 0), ("#0ea5e9", ".zip", 7)))
     + '<div class="xa"><svg width="12" height="16" viewBox="0 0 14 22" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1v19M1.5 14.5 7 20l5.5-5.5"/></svg><b>Pixy Switch</b></div></div>')
 
+def laurel(flip=False):
+    """Laurel branch: thin curved stem, paired almond leaves shrinking to the tip."""
+    import math
+    def stem(t):  # quadratic bezier from bottom (40,94) via (2,58) to top (24,6)
+        x = (1 - t) ** 2 * 40 + 2 * (1 - t) * t * 2 + t * t * 24
+        y = (1 - t) ** 2 * 94 + 2 * (1 - t) * t * 58 + t * t * 6
+        dx = 2 * (1 - t) * (2 - 40) + 2 * t * (24 - 2)
+        dy = 2 * (1 - t) * (58 - 94) + 2 * t * (6 - 58)
+        return x, y, math.degrees(math.atan2(dy, dx))
+    leaf = "M0 0 C 6.5 -4 6.5 -14 0 -19 C -6.5 -14 -6.5 -4 0 0 Z"
+    parts = ['<path d="M40 94 Q2 58 24 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>']
+    n = 6
+    for i in range(n):
+        t = 0.08 + i * (0.86 / (n - 1))
+        x, y, ang = stem(t)
+        s = 1.0 - i * 0.08
+        for side in (-1, 1):
+            rot = ang + 90 + side * 48
+            parts.append(f'<path d="{leaf}" transform="translate({x:.2f} {y:.2f}) rotate({rot:.1f}) scale({s:.2f})"/>')
+    x, y, ang = stem(1.0)
+    parts.append(f'<path d="{leaf}" transform="translate({x:.2f} {y:.2f}) rotate({ang + 90:.1f}) scale(0.8)"/>')
+    tf = ' transform="scale(-1,1) translate(-48,0)"' if flip else ""
+    return f'<svg width="44" height="82" viewBox="-10 -12 64 116" fill="#fff" shape-rendering="geometricPrecision"><g{tf}>{"".join(parts)}</g></svg>'
+
+# App Store only: Google Play bans ratings, testimonials, and awards in screenshots.
+LISTED = (("moodtrackers-org.png", "moodtrackers.org"), ("alternativeto.svg", "AlternativeTo"), ("medevel.png", "MEDevel"))
+PROOF = (
+    f'<div class="stats"><div class="award">{laurel()}<div class="mid"><div class="rt"><span class="star">★★★★★</span></div><b>4.9 ★ on the App Store</b></div>{laurel(True)}</div></div>'
+    + phone('calendar', '{t}')
+    + '<div class="pfade"></div>'
+    + '<div class="qcard">“No nonsense, clean and easy to use app for tracking mood.<br><b>I use it every day.</b>”<small><span class="star">★★★★★</span>Review by the guy, App Store</small></div>'
+    + '<div class="lbar"><div class="lo2">Listed on</div><div class="logos2">'
+    + "".join(f'<span class="lg lgtxt"><img src="logos/{f}" alt="">{n}</span>' for f, n in LISTED) + '</div></div>')
+
 # Frame library: id -> (label, html with {t} phone top and {z} overlay top)
 FRAMES = {
+    "proof": ("Social proof (App Store only): App Store rating, review card over the calendar, Listed on row.", PROOF),
     "calendar": ("Pixel calendar. Mood logger behind, calendar in front and higher.",
                  phone('mood', '{t2}', TILT_L) + phone('calendar', '{t}', TILT_R)),
     "year": ("Year Report: Year in Pixels.", phone('year', '{t}', FIT)),
@@ -233,6 +268,7 @@ STORES = {
             ("calendar", {"h": "Your days,<br>in pixels.", "sub": "Log a mood in seconds.", "t": 150}),
             ("year", {"h": "Your whole year<br>at a glance", "sub": "One pixel for every day."}),
             ("emotions", {"h": "72 emotions,<br>each explained.", "sub": "Name what you feel."}),
+            ("proof", {"h": "Loved for<br>being simple", "sub": "No ads · No subscription · Open source", "cls": "proof", "t": 234}),
             ("stats", {"h": "See your<br>patterns", "sub": "Mood trends and reports."}),
             ("tags", {"h": "Tag what<br>matters", "sub": "Add tags and a note.", "t": 150}),
             ("sleep", {"h": "Track your<br>sleep", "sub": "Rate each night in a tap.", "z": 430}),
@@ -292,6 +328,7 @@ STORE_CSS = r"""
 .android-set .zoom.checks div,.android-set .zoom.note{font-family:Roboto,system-ui}
 .android-set .scr h4{font-size:29px}
 .scr.dark .plist{margin:auto 0}
+.scr.proof .stats{margin-top:22px}.scr.proof .qcard small .star{font-size:11px;letter-spacing:1px}
 .xfer{position:absolute;z-index:6;left:0;right:0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
 .xf{width:72px;background:#fff;border-radius:16px;padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:7px;box-shadow:var(--sky-shadow)}
 .xt{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
