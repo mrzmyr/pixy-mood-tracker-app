@@ -1,82 +1,50 @@
-import { Text, View } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import { View } from "react-native";
+import Animated, { FadeIn } from "react-native-reanimated";
 import Button from "@/components/button";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
-import { HeaderImage } from "./header-image";
 
-/** First onboarding slide introducing Pixy. */
+/**
+ * First onboarding slide: only the tagline on the sky, then Start. Both fade
+ * in slowly, one after the other.
+ */
 export const IndexSlide = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
 
   return (
-    <Animated.View
-      style={{
-        flex: 1,
-      }}
-      entering={FadeInUp.duration(1200)}
-    >
+    <View style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
           justifyContent: "center",
-          alignItems: "center",
+          paddingHorizontal: 32,
+          // Sits a little above the middle, in the clear part of the sky.
+          paddingBottom: 96,
         }}
       >
-        <HeaderImage
-          index={0}
+        <Animated.Text
+          testID="onboarding-welcome"
+          accessibilityRole="header"
+          entering={FadeIn.delay(400).duration(1600)}
           style={{
-            flex: 1,
-            width: "100%",
-          }}
-        />
-      </View>
-      <View style={{}}>
-        <View
-          style={{
-            paddingVertical: 20,
-            paddingHorizontal: 20,
-            alignItems: "center",
+            color: colors.onboardingTitle,
+            fontSize: 34,
+            lineHeight: 41,
+            fontWeight: "bold",
+            textAlign: "center",
           }}
         >
-          <View
-            style={{
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                color: colors.onboardingTitle,
-                fontSize: 32,
-                fontWeight: "bold",
-                marginBottom: 8,
-                textAlign: "center",
-              }}
-            >
-              {t(`onboarding_step_0_title`)}
-            </Text>
-            <Text
-              style={{
-                color: colors.onboardingBody,
-                textAlign: "center",
-                lineHeight: 24,
-                fontSize: 17,
-                maxWidth: 300,
-              }}
-            >
-              {t(`onboarding_step_0_body`)}
-            </Text>
-          </View>
-          <View
-            style={{
-              width: "100%",
-              marginTop: 32,
-            }}
-          >
-            <Button onPress={onPress}>{t("onboarding_start")}</Button>
-          </View>
-        </View>
+          {t("onboarding_tagline")}
+        </Animated.Text>
       </View>
-    </Animated.View>
+      <Animated.View
+        entering={FadeIn.delay(1600).duration(900)}
+        style={{ padding: 32 }}
+      >
+        <Button testID="onboarding-start" onPress={onPress}>
+          {t("onboarding_start")}
+        </Button>
+      </Animated.View>
+    </View>
   );
 };

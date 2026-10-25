@@ -225,9 +225,8 @@ const light = {
   onboardingTitle: colors.black,
   onboardingBody: colors.neutral[700],
 
-  onboardingTopBackground: colors.neutral[900],
-  onboardingBottomBackground: colors.neutral[100],
-  onboardingBottomBorder: colors.neutral[300],
+  // Sky color under the cloud photo until it loads.
+  onboardingSkyBackground: "#a9d4fd",
   onboardingPaginationText: colors.neutral[500],
   onboardingPaginationDotActive: colors.neutral[500],
   onboardingPaginationDotInactive: colors.neutral[300],
@@ -459,9 +458,7 @@ const dark: IColors & {
   onboardingTitle: colors.white,
   onboardingBody: colors.neutral[300],
 
-  onboardingTopBackground: colors.neutral[900],
-  onboardingBottomBackground: colors.neutral[800],
-  onboardingBottomBorder: colors.neutral[700],
+  onboardingSkyBackground: "#304560",
   onboardingPaginationText: colors.neutral[300],
   onboardingPaginationDotActive: colors.neutral[300],
   onboardingPaginationDotInactive: colors.neutral[700],

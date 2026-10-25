@@ -6,7 +6,8 @@ appId: ${APP_ID}
 - extendedWaitUntil:
     visible: "Add another entry for today"
     timeout: 15000
-- assertNotVisible: "Welcome 👋"
+- assertNotVisible:
+    id: "onboarding-welcome"
 
 # Today's legacy entry keeps note, emotions, and tags. Two entries share today,
 # oldest first.

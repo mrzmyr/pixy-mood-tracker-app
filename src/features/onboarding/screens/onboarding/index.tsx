@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { useEffect, useEffectEvent, useState } from "react";
-import { BackHandler, View } from "react-native";
+import { BackHandler, StyleSheet, View } from "react-native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/use-colors";
 import { useAnalytics } from "@/state/analytics";
@@ -8,6 +9,7 @@ import { DEVICE_REQUIRES_CONSENT } from "@/state/analytics/consent";
 import { useSettings } from "@/state/settings";
 import { ExplainerSlide } from "./explainer-slide";
 import { IndexSlide } from "./index-slide";
+import { OnboardingSky } from "./onboarding-sky";
 import { PrivacySlide } from "./privacy-slide";
 import { ReminderSlide } from "./reminder-slide";
 
@@ -29,8 +31,13 @@ const FiltersSlide = ({ ...props }: SlideProps) => (
 
 const PRIVACY_SLIDE_INDEX = 5;
 
+// The old slide fades out while the clouds speed up, then the next one fades in.
+const SLIDE_ENTERING = FadeIn.delay(250).duration(700);
+const SLIDE_EXITING = FadeOut.duration(300);
+
 /**
  * Onboarding flow, shown on start until the `onboarding` action is done.
+ * Every slide sits on one drifting sky that speeds up between slides.
  * Finishing or skipping records that action and returns to the root. In
  * consent regions, skipping jumps to the privacy slide first, so the user
  * always answers the analytics question.
@@ -113,14 +120,19 @@ export const Onboarding = ({
   ];
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.onboardingBottomBackground,
-        paddingBottom: insets.bottom,
-      }}
-    >
-      {slides[index]}
+    <View style={{ flex: 1, backgroundColor: colors.onboardingSkyBackground }}>
+      <OnboardingSky step={index} />
+      <Animated.View
+        key={index}
+        entering={SLIDE_ENTERING}
+        exiting={SLIDE_EXITING}
+        style={[
+          StyleSheet.absoluteFill,
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
+        ]}
+      >
+        {slides[index]}
+      </Animated.View>
     </View>
   );
 };

@@ -192,7 +192,12 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="onboarding"
-            options={{ ...modalOptions, gestureEnabled: false }}
+            // Full page over the app: the sky fills the screen edge to edge.
+            options={{
+              headerShown: false,
+              animation: "fade",
+              gestureEnabled: false,
+            }}
           />
           <Stack.Screen
             name="logs/create/[dateTime]"
