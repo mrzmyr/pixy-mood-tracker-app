@@ -31,13 +31,18 @@ shot() { # store dir scale css-height width height
 shot apple export/app-store/screenshots 4.4 652 1320 2868
 shot play export/google-play/screenshots 3.6 534 1080 1920
 
-# Google Play: taglines should not cover more than 20% of the image.
-n=1; for name in $(python3 build.py --frames play); do
-  share=$("$CHROME" --headless=new --window-size=300,534 --virtual-time-budget=8000 --dump-dom \
-    "http://localhost:$PORT/index.html?export=play&n=$n&measure=1" 2>/dev/null | grep -o 'caption-share" content="[0-9.]*' | grep -o '[0-9.]*$')
-  echo "play $n-$name caption share: $share"
-  n=$((n + 1))
-done
+# Caption check per frame: text area share (Google Play: taglines max 20% of the image) and overflow.
+check() { # store css-height
+  local n=1 out
+  for name in $(python3 build.py --frames "$1"); do
+    out=$("$CHROME" --headless=new --window-size="300,$2" --virtual-time-budget=8000 --dump-dom \
+      "http://localhost:$PORT/index.html?export=$1&n=$n&measure=1" 2>/dev/null)
+    echo "$1 $n-$name caption share: $(echo "$out" | grep -o 'caption-share" content="[0-9.]*' | grep -o '[0-9.]*$'), overflow: $(echo "$out" | grep -o 'caption-overflow" content="[a-zA-Z]*' | grep -o '[a-zA-Z]*$')"
+    n=$((n + 1))
+  done
+}
+check apple 652
+check play 534
 
 creative() { # name height [dir width scale]
   local out="export/${3:-app-store}/$1.png" w="${4:-3840}" s="${5:-4}"

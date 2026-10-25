@@ -2,7 +2,7 @@ import time
 """Pixy store screenshots, sky identity. Output: index.html.
 App UI from appscreens.js (+ emotion-icons.js, real Hugeicons shapes). Serve folder over http.
 Export one screen at store size: index.html?export=apple&n=1 or ?export=play&n=1 (see export.sh)."""
-import os, sys
+import os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -194,13 +194,12 @@ def pop(key, left, top, rot, on=False):
 # only features with status `available` in docs/app-facts.json; no price or "free",
 # ratings, download counts, testimonials, awards, other app names, or time-sensitive text;
 # never claim zero data collection (anonymous analytics + crash reports exist).
-CHECKS = lambda items: '<div class="zoom checks" style="top:{z}px">' + "".join(f'<div>{CK}{t}</div>' for t in items) + '</div>'
 TILT_L = 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;'
 TILT_R = 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;'
 FIT = 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;'
 DOC = '<svg width="22" height="26" viewBox="0 0 22 26"><path d="M3 1h11l7 7v15a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" fill="#fff"/><path d="M14 1v7h7" fill="rgba(0,0,0,.18)"/><path d="M5 13h12M5 17h12M5 21h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".55"/></svg>'
 # Generic export files from other apps: colored tile + file type, never a name or logo.
-XFER = ('<div class="xfer" style="top:{z}px">' + "".join(
+XFER = ('<div class="xfer" style="top:{t}px">' + "".join(
     f'<div class="xf" style="transform:rotate({r}deg)"><span class="xt" style="background:{c};color:{c}">{DOC}</span><span class="xc">{ext}</span></div>'
     for c, ext, r in (("#f97316", ".csv", -7), ("#8b5cf6", ".json", 0), ("#0ea5e9", ".zip", 7)))
     + '<div class="xa"><svg width="12" height="16" viewBox="0 0 14 22" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1v19M1.5 14.5 7 20l5.5-5.5"/></svg><b>Pixy Switch</b></div></div>')
@@ -241,57 +240,49 @@ PROOF = (
 
 # Frame library: id -> (label, html with {t} phone top and {z} overlay top)
 FRAMES = {
-    "proof": ("Social proof (App Store only): App Store rating, review card over the calendar, Listed on row.", PROOF),
-    "calendar": ("Pixel calendar. Mood logger behind, calendar in front and higher.",
-                 phone('mood', '{t2}', TILT_L) + phone('calendar', '{t}', TILT_R)),
-    "year": ("Year Report: Year in Pixels.", phone('year', '{t}', FIT)),
-    "emotions": ("Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.",
-                 phone('emotions', '{t}', FIT) + '<div class="zoom" style="top:{z}px"><span class="zc on" data-emo="calm"></span><span class="zc on" data-emo="hopeful"></span><span class="zc" data-emo="grateful"></span><span class="zc" data-emo="anxious"></span></div>'),
-    "stats": ("Statistics highlights: mood average, mood chart, most felt emotions.",
-              phone('stats', '{t}', FIT)),
-    "tags": ("Note slide behind, tags slide in front, own tags popped out.",
-             phone('note', '{t2}', TILT_L) + phone('tags', '{t}', TILT_R)
-             + '<div class="zoom" style="top:{z}px"><span class="zc on"><i style="background:#22c55e"></i>Sport</span><span class="zc on"><i style="background:#f59e0b"></i>Hyperfocus</span><span class="zc on"><i style="background:#8b5cf6"></i>Took meds</span><span class="zc on"><i style="background:#3b82f6"></i>Meetings</span></div>'),
-    "sleep": ("Sleep slide, sleep quality chart popped out.",
-              phone('sleep', '{t}', FIT) + '<div class="popcard" data-card="sleepchart" style="left:50%;top:{z}px;transform:translateX(-50%) scale(.7);transform-origin:50% 0"></div>'),
-    "data": ("Settings > Data: import, JSON/CSV export, delete. Checklist card.", phone('data', '{t}', FIT)),
+    "checkin": ("Check-in: sleep step behind, mood slide in front.",
+                phone('sleep', '{t+36}', TILT_L) + phone('mood', '{t}', TILT_R)),
+    "shapedby": ("Note slide behind, tags slide with shaped-by examples in front, tags popped out.",
+                 phone('note', '{t+36}', TILT_L) + phone('shapedby', '{t}', TILT_R)
+                 + '<div class="zoom" style="top:{z}px">' + "".join(f'<span class="zc on"><i style="background:{c}"></i>{n}</span>' for n, c in (("Coffee", "#a16207"), ("Took meds", "#8b5cf6"), ("Guitar", "#f59e0b"), ("Headache", "#ef4444"))) + '</div>'),
     "switch": ("Three unbranded export files (.csv, .json, .zip) flow through Pixy Switch into the calendar. No other app names or logos.",
-               XFER + phone('calendar', '{t}', FIT)),
-    "noaccount": ("Dark checklist frame (night sky), list mid-screen.", '<div class="plist">{checks}</div>'),
+               XFER + phone('calendar', '{t+148}', FIT)),
+    "emotions": ("Logger emotions slide, Hopeful with its description popped out.",
+                 phone('emotions', '{t}', FIT) + '<div class="zoom note" style="top:{z}px"><span class="zc on" data-emo="hopeful"></span><div>You feel optimistic that something good will happen</div></div>'),
+    "proof": ("Social proof (App Store only): App Store rating, review card over the calendar, Listed on row.", PROOF),
+    "stats": ("Statistics highlights: mood chart, tag peaks popped out.",
+              phone('stats', '{t}', FIT) + '<div class="popcard" data-card="tagpeaks" style="left:50%;top:{z}px;transform:translateX(-50%) scale(.7);transform-origin:50% 0"></div>'),
+    "year": ("Year Report: Year in Pixels.", phone('year', '{t}', FIT)),
+    "privacy": ("Dark checklist frame (night sky), list mid-screen. No phone.", '<div class="plist">{checks}</div>'),
 }
 
+PRIVACY = ["No account", "Never shares your notes", "Analytics can be turned off", "Export or delete anytime", "Open source"]
+# Frames and copy follow vision.md: lead with the why, statistics and Year in Pixels as proof.
+COPY = [
+    ("checkin", {"k": "Mood journal", "h": "Understand what<br>makes you feel<br>this way", "sub": "Log your mood and what shaped it."}),
+    ("shapedby", {"k": "Shaped by", "h": "Track what shapes<br>your mood", "hc": "fit", "sub": "Habits, meds, sleep, anything."}),
+    ("switch", {"k": "Switch", "h": "Import from other<br>Mood Trackers", "sub": "21 apps or any CSV, in minutes."}),
+    ("emotions", {"k": "Emotions", "h": "Name what<br>you feel", "sub": "72 emotions, each explained.", "z_play": 414}),
+    ("proof", {"h": "Loved for<br>being simple", "sub": "No ads · No account · Open source", "cls": "proof", "t": 234, "only": "apple"}),
+    ("stats", {"k": "Statistics", "h": "See how your<br>days add up", "sub": "Mood over time, tag peaks,<br>month and year reports.", "z_play": 416}),
+    ("year", {"k": "Year in Pixels", "h": "Look back on<br>your year", "sub": "Every day, one glance."}),
+    ("privacy", {"k": "Privacy", "h": "Your words<br>stay yours", "sub": "Text you write is never shared.", "cls": "dark", "checks": PRIVACY}),
+]
+
 STORES = {
-    # App Store: first 3 frames show in search results (no app preview), so they carry the core value.
-    "apple": {
-        "title": "iPhone · App Store", "cls": "", "t": 156, "z": 500,
-        "frames": [
-            ("calendar", {"h": "Your days,<br>in pixels.", "sub": "Log a mood in seconds.", "t": 150}),
-            ("year", {"h": "Your whole year<br>at a glance", "sub": "One pixel for every day."}),
-            ("emotions", {"h": "72 emotions,<br>each explained.", "sub": "Name what you feel."}),
-            ("proof", {"h": "Loved for<br>being simple", "sub": "No ads · No subscription · Open source", "cls": "proof", "t": 234}),
-            ("stats", {"h": "See your<br>patterns", "sub": "Mood trends and reports."}),
-            ("tags", {"h": "Tag what<br>matters", "sub": "Add tags and a note.", "t": 150}),
-            ("sleep", {"h": "Track your<br>sleep", "sub": "Rate each night in a tap.", "z": 430}),
-            ("data", {"h": "No account.<br>No sign-up.", "sub": "Export or delete your data anytime.", "z": 440,
-                      "extra": CHECKS(["No cloud sync", "Export as JSON or CSV", "Import on a new phone", "No ads", "Open source"])}),
-        ],
-    },
-    # Google Play: kicker + longer sub; captions stay under 20% of the image (Play screenshot guidance).
-    "play": {
-        "title": "Android · Google Play", "cls": "android-set", "t": 184, "z": 400,
-        "frames": [
-            ("calendar", {"k": "Mood journal", "h": "Your days,<br>in pixels.", "sub": "Rate your day in seconds. Each day<br>becomes one colored square.", "t": 178}),
-            ("year", {"k": "Year in Pixels", "h": "Your whole year<br>at a glance", "sub": "One pixel per day, a full year<br>on one screen."}),
-            ("emotions", {"k": "Emotions", "h": "Name what<br>you feel.", "sub": "72 emotions, each with a short<br>explanation."}),
-            ("tags", {"k": "Tags and notes", "h": "Tag what<br>matters", "sub": "Create your own tags. Add a note<br>to any entry.", "t": 178}),
-            ("stats", {"k": "Statistics", "h": "Spot your<br>patterns", "sub": "Mood trends, most felt emotions,<br>month and year reports."}),
-            ("sleep", {"k": "Sleep", "h": "Track how<br>you sleep", "sub": "Rate each night and follow the<br>trend in your statistics.", "z": 360}),
-            ("switch", {"k": "Import and export", "h": "Import from other<br>Mood Trackers", "sub": "Convert exports from 21 mood and<br>journal apps with Pixy Switch.", "z": 176, "t": 324}),
-            ("noaccount", {"k": "No account", "h": "No account.<br>No sign-up.", "sub": "Open Pixy and log your first day.", "cls": "dark",
-                           "checks": ["No account needed", "Export as JSON or CSV", "Import on a new phone", "Delete your data anytime", "Open source"]}),
-        ],
-    },
+    # App Store: first 3 frames show in search results (no app preview). Social proof is App Store only.
+    "apple": {"title": "iPhone · App Store", "cls": "", "z": 500, "lh": 33.9,
+              "frames": [(f, c) for f, c in COPY if c.get("only", "apple") == "apple"]},
+    # Google Play: no ratings, testimonials, or awards; captions stay under 20% of the image.
+    "play": {"title": "Android · Google Play", "cls": "android-set", "z": 392, "lh": 30.7,
+             "frames": [(f, c) for f, c in COPY if c.get("only", "play") == "play"]},
 }
+
+
+def phone_top(s, c):
+    """Phone top in CSS px: right below the caption (padding, label, headline lines, subline lines, gap)."""
+    lines = lambda x: x.count("<br>") + 1
+    return round(34 + (25 if c.get("k") else 0) + s["lh"] * lines(c["h"]) + 10 + 18.2 * lines(c["sub"]) + 16)
 
 
 if sys.argv[1:2] == ["--frames"]:  # export.sh: frame names in upload order
@@ -309,9 +300,10 @@ def store_set(key):
     slots = []
     for n, (fid, c) in enumerate(s["frames"], 1):
         lab, html = FRAMES[fid]
-        t, z = c.get("t", s["t"]), c.get("z", s["z"])
+        t, z = c.get("t", phone_top(s, c)), c.get(f"z_{key}", c.get("z", s["z"]))
         checks = "".join(f'<div>{CK}{x}</div>' for x in c.get("checks", []))
-        html = (html + c.get("extra", "")).replace("{t2}", str(t + 36)).replace("{t}", str(t)).replace("{z}", str(z)).replace("{checks}", checks)
+        html = re.sub(r"\{t\+(\d+)\}", lambda m: str(t + int(m.group(1))), html + c.get("extra", ""))
+        html = html.replace("{t}", str(t)).replace("{z}", str(z)).replace("{checks}", checks)
         slots.append(f'<div class="slot" data-name="{fid}"><div class="scr {c.get("cls", "")}">{caption(c)}{html}</div><div class="lab"><b>{n} · {fid}.</b> {lab}</div></div>')
     return f'<div class="platform"><h2>{s["title"]}</h2></div><div class="set {s["cls"]}" data-store="{key}">{"".join(slots)}</div>'
 
@@ -321,12 +313,10 @@ STORE_CSS = r"""
 .set[data-store="apple"] .scr{height:651.82px}
 .set[data-store="play"] .scr{height:533.33px}
 .set .slot:nth-child(8) .scr{--sx:40%}
-.zoom.checks{display:block !important;padding:12px 16px 6px;width:256px !important;max-width:256px !important}
-.zoom.checks div{display:flex;align-items:center;gap:10px;font:600 15px -apple-system,system-ui;padding:0 0 9px}
-.zoom.checks svg{width:20px;height:20px;flex:0 0 20px}
-.zoom.note{display:block !important;width:256px !important;max-width:256px !important;font:400 15px/1.4 -apple-system,system-ui;padding:14px 16px}
-.android-set .zoom.checks div,.android-set .zoom.note{font-family:Roboto,system-ui}
+.zoom.note{display:block !important;width:256px !important;max-width:256px !important;font:400 15px/1.4 -apple-system,system-ui;padding:14px 16px}.zoom.note .zc{margin-bottom:8px}
+.android-set .zoom.note{font-family:Roboto,system-ui}
 .android-set .scr h4{font-size:29px}
+.scr h4.fit{font-size:29px}
 .scr.dark .plist{margin:auto 0}
 .scr.proof .stats{margin-top:22px}.scr.proof .qcard small .star{font-size:11px;letter-spacing:1px}
 .xfer{position:absolute;z-index:6;left:0;right:0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
@@ -385,7 +375,7 @@ CREATIVE = f"""
  <div><div class="cv feature android-set" data-cv="feature">
   {pixels(FPX)}
   <div class="brand fb">{PIXY_ICON}<b>Pixy</b><span>Mood Journal</span></div>
-  <h4 class="fh">Your days,<br>in pixels.</h4>
+  <h4 class="fh">Understand what<br>makes you feel<br>this way</h4>
   {phone('calendar', 40, 'left:auto;right:140px;transform:rotate(-6deg) scale(1.35);z-index:2;')}
   {phone('year', 96, 'left:auto;right:-190px;transform:rotate(7deg) scale(1.25);z-index:1;')}
  </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Pixy Mood Journal lockup + headline left (no price, rating, or download claims), calendar and year in pixels right.</div></div>
@@ -418,6 +408,9 @@ EXPORT = """<script>
   if (q.get('measure')) addEventListener('load', () => setTimeout(() => {
     let a = 0; scr.querySelectorAll(':scope > .k, :scope > h4, :scope > .sub').forEach((el) => { const r = document.createRange(); r.selectNodeContents(el); for (const b of r.getClientRects()) a += b.width * b.height; });
     const m = document.createElement('meta'); m.name = 'caption-share'; m.content = (a / (scr.offsetWidth * scr.offsetHeight)).toFixed(3); document.head.appendChild(m);
+    // Overflow: caption text wider than the canvas minus padding.
+    const right = scr.getBoundingClientRect().right - 14, cut = [...scr.querySelectorAll(':scope > .k, :scope > h4, :scope > .sub')].filter((el) => { const r = document.createRange(); r.selectNodeContents(el); return [...r.getClientRects()].some((b) => b.right > right); });
+    const o = document.createElement('meta'); o.name = 'caption-overflow'; o.content = cut.length ? 'CUT' : 'ok'; document.head.appendChild(o);
   }, 500));
 }})();
 </script>""".replace("{{", "{").replace("}}", "}")
