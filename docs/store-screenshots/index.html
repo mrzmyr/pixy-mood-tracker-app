@@ -190,11 +190,11 @@ radial-gradient(1.4px 1.4px at 18% 10%,#fff,transparent),radial-gradient(1px 1px
  </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. Pixy icon + "Pixy Mood Journal" on top, phones pushed down. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
  <div><div class="cv search" data-cv="search">
   <h4 class="ih" style="top:30px;font-size:68px"><svg viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#fff"/><circle cx="345" cy="345" r="150" fill="#fdba74"/><circle cx="687" cy="345" r="150" fill="#34d399"/><circle cx="345" cy="687" r="150" fill="#ffedd5"/><circle cx="687" cy="687" r="150" fill="#059669"/></svg>Mood Journal</h4>
-  <div class="sub" style="top:106px;font-size:28px;font-weight:500">Log how you feel. See your year in pixels.</div>
-  <div class="phA" style="top:232px;left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;"><div class="bz"><div class="sc" data-app="mood" data-args=''></div></div></div>
+  <div class="sub" style="top:106px;font-size:28px;font-weight:500">Understand what makes you feel this way.</div>
+  <div class="phA" style="top:232px;left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;"><div class="bz"><div class="sc" data-app="stats" data-args=''></div></div></div>
   <div class="phA" style="top:232px;left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;"><div class="bz"><div class="sc" data-app="emotions" data-args=''></div></div></div>
   <div class="phA" style="top:194px;transform:translateX(-50%) scale(1.5);z-index:2;"><div class="bz"><div class="sc" data-app="calendar" data-args=''></div></div></div>
- </div><div class="lab"><b>Search results</b> 3:2, 3840x2560. Replaces the first 3 screenshots in search, shown small: big type, big phones (calendar front, mood logger and emotions behind).</div></div>
+ </div><div class="lab"><b>Search results</b> 3:2, 3840x2560. Replaces the first 3 screenshots in search, shown small: big type, big phones (calendar front, statistics and emotions behind).</div></div>
  <div><div class="cv feature android-set" data-cv="feature">
   <i class="px" style="left:40px;top:40px;width:26px;height:26px;background:#34d399;opacity:0.85;transform:rotate(-8deg)"></i><i class="px" style="left:470px;top:60px;width:18px;height:18px;background:#a7f3d0;opacity:0.8;transform:rotate(6deg)"></i><i class="px" style="left:60px;top:420px;width:22px;height:22px;background:#fdba74;opacity:0.8;transform:rotate(10deg)"></i><i class="px" style="left:420px;top:400px;width:16px;height:16px;background:#059669;opacity:0.75;transform:rotate(-4deg)"></i>
   <div class="brand fb"><svg viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#fff"/><circle cx="345" cy="345" r="150" fill="#fdba74"/><circle cx="687" cy="345" r="150" fill="#34d399"/><circle cx="345" cy="687" r="150" fill="#ffedd5"/><circle cx="687" cy="687" r="150" fill="#059669"/></svg><b>Pixy</b><span>Mood Journal</span></div>
@@ -203,7 +203,7 @@ radial-gradient(1.4px 1.4px at 18% 10%,#fff,transparent),radial-gradient(1px 1px
   <div class="phA" style="top:96px;left:auto;right:-190px;transform:rotate(7deg) scale(1.25);z-index:1;"><div class="bz"><div class="sc" data-app="year" data-args=''></div></div></div>
  </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Pixy Mood Journal lockup + headline left (no price, rating, or download claims), calendar and year in pixels right.</div></div>
 </div></main>
-<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script><script src="emotion-icons.js?v=1792961119"></script><script src="appscreens.js?v=1792961119"></script><script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script><script src="emotion-icons.js?v=1792965451"></script><script src="appscreens.js?v=1792965451"></script><script>
 document.head.insertAdjacentHTML('beforeend','<style>'+APP.css+'</style>');
 document.querySelectorAll('[data-app]').forEach(el=>{window.PIXY_OS=el.closest('.android-set')?'android':'ios';const a=(el.dataset.args||'').split(',').filter(Boolean);el.innerHTML=APP.render(el.dataset.app,a[0]||undefined,a[1]==='dark')});window.PIXY_OS='ios';
 document.querySelectorAll('[data-card]').forEach(el=>el.innerHTML='<div class="ps">'+APP.card(el.dataset.card)+'</div>');
