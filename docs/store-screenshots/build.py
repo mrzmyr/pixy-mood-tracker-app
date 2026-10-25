@@ -250,7 +250,7 @@ STORES = {
             ("tags", {"k": "Tags and notes", "h": "Tag what<br>matters", "sub": "Create your own tags. Add a note<br>to any entry.", "t": 178}),
             ("stats", {"k": "Statistics", "h": "Spot your<br>patterns", "sub": "Mood trends, most felt emotions,<br>month and year reports."}),
             ("sleep", {"k": "Sleep", "h": "Track how<br>you sleep", "sub": "Rate each night and follow the<br>trend in your statistics.", "z": 360}),
-            ("switch", {"k": "Import and export", "h": "Bring your<br>old entries", "sub": "Convert exports from 21 mood and<br>journal apps with Pixy Switch.", "z": 176, "t": 324}),
+            ("switch", {"k": "Import and export", "h": "Import from other<br>Mood Trackers", "sub": "Convert exports from 21 mood and<br>journal apps with Pixy Switch.", "z": 176, "t": 324}),
             ("noaccount", {"k": "No account", "h": "No account.<br>No sign-up.", "sub": "Open Pixy and log your first day.", "cls": "dark",
                            "checks": ["No account needed", "Export as JSON or CSV", "Import on a new phone", "Delete your data anytime", "Open source"]}),
         ],
