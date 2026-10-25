@@ -98,13 +98,8 @@ export interface AnalyticsEvents {
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
-  /** Fired from logger, year report, and month story; name kept for history. */
   "logger:store_review_requested": {
-    trigger:
-      | "entries_7"
-      | "good_entry_30"
-      | "year_report_end"
-      | "month_story_end";
+    trigger: "entries_7" | "good_entry_30";
     entries_count: number;
   };
 

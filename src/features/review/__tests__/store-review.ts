@@ -36,18 +36,6 @@ const goodSave = (
   ...overrides,
 });
 
-const YEAR_REPORT: StoreReviewMoment = {
-  kind: "year_report_end",
-  yearEntriesCount: 60,
-  averageRating: "good",
-};
-
-const MONTH_STORY: StoreReviewMoment = {
-  kind: "month_story_end",
-  averageRating: "good",
-  hasNotHelpfulAnswer: false,
-};
-
 describe("decideStoreReview()", () => {
   describe("entry saved, first prompt (entries_7)", () => {
     test("should prompt on a good save that reaches 7 entries", () => {
@@ -110,60 +98,6 @@ describe("decideStoreReview()", () => {
     });
   });
 
-  describe("year report end (year_report_end)", () => {
-    test("should prompt at the end of a good year with 60 entries", () => {
-      expect(decideStoreReview(YEAR_REPORT, GATE)).toBe("year_report_end");
-    });
-
-    test("should prompt after an earlier prompt too", () => {
-      expect(decideStoreReview(YEAR_REPORT, PROMPTED_ONCE)).toBe(
-        "year_report_end"
-      );
-    });
-
-    test("should not prompt for a year with fewer than 60 entries", () => {
-      expect(
-        decideStoreReview({ ...YEAR_REPORT, yearEntriesCount: 59 }, GATE)
-      ).toBeNull();
-    });
-
-    test("should not prompt for a neutral or bad year", () => {
-      expect(
-        decideStoreReview({ ...YEAR_REPORT, averageRating: "neutral" }, GATE)
-      ).toBeNull();
-      expect(
-        decideStoreReview({ ...YEAR_REPORT, averageRating: "bad" }, GATE)
-      ).toBeNull();
-    });
-
-    test("should not prompt for a year without entries", () => {
-      expect(
-        decideStoreReview({ ...YEAR_REPORT, averageRating: null }, GATE)
-      ).toBeNull();
-    });
-  });
-
-  describe("month story end (month_story_end)", () => {
-    test("should prompt after a good month story played to the end", () => {
-      expect(decideStoreReview(MONTH_STORY, GATE)).toBe("month_story_end");
-    });
-
-    test("should not prompt for a neutral or bad month", () => {
-      expect(
-        decideStoreReview({ ...MONTH_STORY, averageRating: "neutral" }, GATE)
-      ).toBeNull();
-      expect(
-        decideStoreReview({ ...MONTH_STORY, averageRating: "very_bad" }, GATE)
-      ).toBeNull();
-    });
-
-    test("should not prompt when a slide was marked not helpful", () => {
-      expect(
-        decideStoreReview({ ...MONTH_STORY, hasNotHelpfulAnswer: true }, GATE)
-      ).toBeNull();
-    });
-  });
-
   describe("limits", () => {
     test("should allow a second prompt 120 days after the first", () => {
       expect(
@@ -185,7 +119,7 @@ describe("decideStoreReview()", () => {
 
     test("should use the newest prompt for spacing, in any order", () => {
       expect(
-        decideStoreReview(YEAR_REPORT, {
+        decideStoreReview(goodSave(30), {
           ...PROMPTED_ONCE,
           promptDates: [daysAgo(10), daysAgo(400)],
         })
@@ -194,7 +128,7 @@ describe("decideStoreReview()", () => {
 
     test("should not prompt a fourth time within 365 days", () => {
       expect(
-        decideStoreReview(YEAR_REPORT, {
+        decideStoreReview(goodSave(30), {
           ...PROMPTED_ONCE,
           promptDates: [daysAgo(364), daysAgo(243), daysAgo(122)],
         })
@@ -203,16 +137,16 @@ describe("decideStoreReview()", () => {
 
     test("should prompt again once the oldest of 3 prompts is 365 days old", () => {
       expect(
-        decideStoreReview(YEAR_REPORT, {
+        decideStoreReview(goodSave(30), {
           ...PROMPTED_ONCE,
           promptDates: [daysAgo(365), daysAgo(244), daysAgo(123)],
         })
-      ).toBe("year_report_end");
+      ).toBe("good_entry_30");
     });
 
     test("should not prompt twice in one app version", () => {
       expect(
-        decideStoreReview(YEAR_REPORT, {
+        decideStoreReview(goodSave(30), {
           ...PROMPTED_ONCE,
           lastPromptAppVersion: GATE.appVersion,
         })
@@ -222,7 +156,7 @@ describe("decideStoreReview()", () => {
     test("should not prompt when the last prompt lies in the future", () => {
       // The device clock moved back: wait instead of prompting again.
       expect(
-        decideStoreReview(YEAR_REPORT, {
+        decideStoreReview(goodSave(30), {
           ...PROMPTED_ONCE,
           promptDates: [daysAgo(-30)],
         })
