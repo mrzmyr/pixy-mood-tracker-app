@@ -369,7 +369,7 @@ CREATIVE = f"""
  </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. Pixy icon + "Pixy Mood Journal" on top, phones pushed down. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
  <div><div class="cv search" data-cv="search">
   <h4 class="ih" style="top:30px;font-size:68px">{PIXY_ICON}Mood Journal</h4>
-  <div class="sub" style="top:106px;font-size:28px;font-weight:500">Log how you feel. See your year in pixels.</div>
+  <div class="sub" style="top:106px;font-size:28px;font-weight:500">Understand what makes you feel this way.</div>
   {phone('mood', 232, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
   {phone('emotions', 232, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
   {phone('calendar', 194, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
