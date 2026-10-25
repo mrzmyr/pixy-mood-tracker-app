@@ -63,7 +63,7 @@ describe("getRecapNotifications", () => {
     ]);
   });
 
-  test("ends years on December 31, without quarters", () => {
+  test("ends years on December 31", () => {
     const notifications = getRecapNotifications({
       now,
       weekLocale: WEEK_LOCALE,
@@ -72,7 +72,6 @@ describe("getRecapNotifications", () => {
     });
 
     expect(ends(notifications, "year")).toEqual(["2026-12-31", "2027-12-31"]);
-    expect(notifications.map(({ kind }) => kind)).not.toContain("quarter");
   });
 
   test("sends at the reminder time, sorted by time", () => {

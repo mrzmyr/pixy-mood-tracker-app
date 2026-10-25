@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 weken zonder %{emotion}",
   "recaps_emotion_again_text": "Voor het eerst sinds %{date}.",
   "recaps_emotion_again_title": "Weer %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Op één dag. Daarna:",
-    "other": "Op {{count}} dagen. Daarna:"
-  },
-  "recaps_emotions_quarter_title": "Vooral %{emotion} dit kwartaal",
   "recaps_emotions_title": "Meest gebruikte emoties",
   "recaps_emotions_year_title": "Top 10 emoties",
   "recaps_empty": "Nog geen kaarten voor deze periode. Ze verschijnen naarmate je vaker incheckt.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Voeg een foto toe aan check-ins. Over een jaar kan je terugblik openen met ‘Vandaag een jaar geleden’.",
   "recaps_intro_photos_title": "Bewaar een foto van de dag",
   "recaps_most_connected_title_month": "Meeste contact deze maand",
-  "recaps_most_connected_title_quarter": "Meeste contact dit kwartaal",
   "recaps_most_connected_title_year": "Meeste contact dit jaar",
   "recaps_no_clear_difference": "Geen duidelijk verschil",
   "recaps_notifications_hint": "Wekelijkse, maandelijkse en jaarlijkse terugblikken komen op de laatste dag van elke week, maand en elk jaar, op je herinneringstijd.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Maand",
   "recaps_period_next": "Volgende periode",
   "recaps_period_previous": "Vorige periode",
-  "recaps_period_quarter": "Kwartaal",
-  "recaps_period_quarter_label": "K%{quarter} %{year}",
   "recaps_period_week": "Week",
   "recaps_period_year": "Jaar",
   "recaps_person_back_text": "Eerste contact in %{count} weken. De vorige keer was op %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 reis deze maand",
     "other": "{{count}} reizen deze maand"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 reis dit kwartaal",
-    "other": "{{count}} reizen dit kwartaal"
   },
   "recaps_trips_title_year": {
     "one": "1 reis dit jaar",

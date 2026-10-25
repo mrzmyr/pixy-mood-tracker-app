@@ -748,11 +748,6 @@
   "recaps_emotion_absent_title": "3 Wochen ohne %{emotion}",
   "recaps_emotion_again_text": "Zum ersten Mal seit dem %{date}.",
   "recaps_emotion_again_title": "Wieder %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "An einem Tag. Danach:",
-    "other": "An {{count}} Tagen. Danach:"
-  },
-  "recaps_emotions_quarter_title": "Meist %{emotion} in diesem Quartal",
   "recaps_emotions_title": "Meistgenutzte Gefühle",
   "recaps_emotions_year_title": "Top 10 Gefühle",
   "recaps_empty": "Noch keine Karten für diesen Zeitraum. Sie erscheinen, sobald du öfter eincheckst.",
@@ -784,7 +779,6 @@
   "recaps_intro_photos_text": "Füge deinen Check-ins ein Foto hinzu. In einem Jahr kann dein Rückblick mit „Heute vor einem Jahr“ beginnen.",
   "recaps_intro_photos_title": "Behalte ein Foto des Tages",
   "recaps_most_connected_title_month": "Am meisten in Kontakt diesen Monat",
-  "recaps_most_connected_title_quarter": "Am meisten in Kontakt dieses Quartal",
   "recaps_most_connected_title_year": "Am meisten in Kontakt dieses Jahr",
   "recaps_no_clear_difference": "Kein klarer Unterschied",
   "recaps_notifications_hint": "Wöchentliche, monatliche und jährliche Rückblicke kommen am letzten Tag jeder Woche, jedes Monats und jedes Jahres, zu deiner Erinnerungszeit.",
@@ -799,8 +793,6 @@
   "recaps_period_month": "Monat",
   "recaps_period_next": "Nächster Zeitraum",
   "recaps_period_previous": "Vorheriger Zeitraum",
-  "recaps_period_quarter": "Quartal",
-  "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Woche",
   "recaps_period_year": "Jahr",
   "recaps_person_back_text": "Erster Kontakt seit %{count} Wochen. Zuletzt am %{date}.",
@@ -944,10 +936,6 @@
   "recaps_trips_title_month": {
     "one": "1 Reise diesen Monat",
     "other": "{{count}} Reisen diesen Monat"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 Reise dieses Quartal",
-    "other": "{{count}} Reisen dieses Quartal"
   },
   "recaps_trips_title_year": {
     "one": "1 Reise dieses Jahr",

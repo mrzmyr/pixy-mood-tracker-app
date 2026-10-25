@@ -878,11 +878,6 @@
   "recaps_emotion_absent_title": "3 weeks without feeling %{emotion}",
   "recaps_emotion_again_text": "For the first time since %{date}.",
   "recaps_emotion_again_title": "Feeling %{emotion} again",
-  "recaps_emotions_quarter_text": {
-    "one": "On one day. Then:",
-    "other": "On {{count}} days. Then:"
-  },
-  "recaps_emotions_quarter_title": "Mostly %{emotion} this quarter",
   "recaps_emotions_title": "Most used emotions",
   "recaps_emotions_year_title": "Top 10 emotions",
   "recaps_empty": "No cards for this period yet. They show up as your check-ins add up.",
@@ -914,7 +909,6 @@
   "recaps_intro_photos_text": "Add a photo to check-ins. A year from now, your recap can open with “One year ago today”.",
   "recaps_intro_photos_title": "Keep a photo of the day",
   "recaps_most_connected_title_month": "Most connected this month",
-  "recaps_most_connected_title_quarter": "Most connected this quarter",
   "recaps_most_connected_title_year": "Most connected this year",
   "recaps_no_clear_difference": "No clear difference",
   "recaps_notifications_hint": "Weekly, monthly, and yearly recaps arrive on the last day of each week, month, and year, at your reminder time.",
@@ -929,8 +923,6 @@
   "recaps_period_month": "Month",
   "recaps_period_next": "Next Period",
   "recaps_period_previous": "Previous Period",
-  "recaps_period_quarter": "Quarter",
-  "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Week",
   "recaps_period_year": "Year",
   "recaps_person_back_text": "First connection in %{count} weeks. Last time was %{date}.",
@@ -1074,10 +1066,6 @@
   "recaps_trips_title_month": {
     "one": "1 trip this month",
     "other": "{{count}} trips this month"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 trip this quarter",
-    "other": "{{count}} trips this quarter"
   },
   "recaps_trips_title_year": {
     "one": "1 trip this year",

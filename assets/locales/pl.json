@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 tygodnie bez emocji: %{emotion}",
   "recaps_emotion_again_text": "Pierwszy raz od %{date}.",
   "recaps_emotion_again_title": "Znów %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Jeden dzień. Potem:",
-    "other": "{{count}} dni. Potem:"
-  },
-  "recaps_emotions_quarter_title": "Głównie %{emotion} w tym kwartale",
   "recaps_emotions_title": "Najczęściej używane emocje",
   "recaps_emotions_year_title": "10 głównych emocji",
   "recaps_empty": "Brak kart dla tego okresu. Pojawią się, gdy zapiszesz więcej dni.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Dodawaj zdjęcie do wpisów. Za rok Twoje podsumowanie może zacząć się od „Dziś rok temu”.",
   "recaps_intro_photos_title": "Zachowaj zdjęcie dnia",
   "recaps_most_connected_title_month": "Najwięcej kontaktu w tym miesiącu",
-  "recaps_most_connected_title_quarter": "Najwięcej kontaktu w tym kwartale",
   "recaps_most_connected_title_year": "Najwięcej kontaktu w tym roku",
   "recaps_no_clear_difference": "Brak wyraźnej różnicy",
   "recaps_notifications_hint": "Podsumowania tygodniowe, miesięczne i roczne przychodzą ostatniego dnia każdego tygodnia, miesiąca i roku, o godzinie przypomnienia.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Miesiąc",
   "recaps_period_next": "Następny okres",
   "recaps_period_previous": "Poprzedni okres",
-  "recaps_period_quarter": "Kwartał",
-  "recaps_period_quarter_label": "K%{quarter} %{year}",
   "recaps_period_week": "Tydzień",
   "recaps_period_year": "Rok",
   "recaps_person_back_text": "Pierwszy kontakt od %{count} tygodni. Ostatnio %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 podróż w tym miesiącu",
     "other": "{{count}} podróże w tym miesiącu"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 podróż w tym kwartale",
-    "other": "{{count}} podróże w tym kwartale"
   },
   "recaps_trips_title_year": {
     "one": "1 podróż w tym roku",

@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 viikkoa ilman tunnetta %{emotion}",
   "recaps_emotion_again_text": "Ensimmäistä kertaa sitten %{date}.",
   "recaps_emotion_again_title": "Taas %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Yhtenä päivänä. Sitten:",
-    "other": "{{count}} päivänä. Sitten:"
-  },
-  "recaps_emotions_quarter_title": "Enimmäkseen %{emotion} tällä neljänneksellä",
   "recaps_emotions_title": "Eniten käytetyt tunteet",
   "recaps_emotions_year_title": "10 yleisintä tunnetta",
   "recaps_empty": "Tälle jaksolle ei ole vielä kortteja. Ne ilmestyvät, kun kirjaat useampia päiviä.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Lisää kuva kirjauksiin. Vuoden päästä katsauksesi voi alkaa sanoilla ”Tänään vuosi sitten”.",
   "recaps_intro_photos_title": "Säilytä päivän kuva",
   "recaps_most_connected_title_month": "Eniten yhteydessä tässä kuussa",
-  "recaps_most_connected_title_quarter": "Eniten yhteydessä tällä neljänneksellä",
   "recaps_most_connected_title_year": "Eniten yhteydessä tänä vuonna",
   "recaps_no_clear_difference": "Ei selvää eroa",
   "recaps_notifications_hint": "Viikko-, kuukausi- ja vuosikatsaukset saapuvat jokaisen viikon, kuukauden ja vuoden viimeisenä päivänä muistutusaikaasi.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Kuukausi",
   "recaps_period_next": "Seuraava jakso",
   "recaps_period_previous": "Edellinen jakso",
-  "recaps_period_quarter": "Neljännes",
-  "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Viikko",
   "recaps_period_year": "Vuosi",
   "recaps_person_back_text": "Ensimmäinen yhteys %{count} viikkoon. Edellinen kerta oli %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 matka tässä kuussa",
     "other": "{{count}} matkaa tässä kuussa"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 matka tällä neljänneksellä",
-    "other": "{{count}} matkaa tällä neljänneksellä"
   },
   "recaps_trips_title_year": {
     "one": "1 matka tänä vuonna",

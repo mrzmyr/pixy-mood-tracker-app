@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 тижні без почуття «%{emotion}»",
   "recaps_emotion_again_text": "Уперше з %{date}.",
   "recaps_emotion_again_title": "Знову %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Один день. Далі:",
-    "other": "{{count}} дн. Далі:"
-  },
-  "recaps_emotions_quarter_title": "Найчастіше %{emotion} цього кварталу",
   "recaps_emotions_title": "Найчастіші емоції",
   "recaps_emotions_year_title": "Топ-10 емоцій",
   "recaps_empty": "Для цього періоду ще немає карток. Вони з’являться, коли відміток стане більше.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Додавайте фото до відміток. Через рік ваші підсумки зможуть почати з «Рівно рік тому».",
   "recaps_intro_photos_title": "Зберігайте фото дня",
   "recaps_most_connected_title_month": "Найбільше на зв’язку цього місяця",
-  "recaps_most_connected_title_quarter": "Найбільше на зв’язку цього кварталу",
   "recaps_most_connected_title_year": "Найбільше на зв’язку цього року",
   "recaps_no_clear_difference": "Немає явної різниці",
   "recaps_notifications_hint": "Підсумки тижня, місяця й року надходять в останній день кожного тижня, місяця й року, у час вашого нагадування.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Місяць",
   "recaps_period_next": "Наступний період",
   "recaps_period_previous": "Попередній період",
-  "recaps_period_quarter": "Квартал",
-  "recaps_period_quarter_label": "%{quarter} кв. %{year}",
   "recaps_period_week": "Тиждень",
   "recaps_period_year": "Рік",
   "recaps_person_back_text": "Перший зв’язок за %{count} тиж. Минулого разу — %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 поїздка цього місяця",
     "other": "Поїздок цього місяця: {{count}}"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 поїздка цього кварталу",
-    "other": "Поїздок цього кварталу: {{count}}"
   },
   "recaps_trips_title_year": {
     "one": "1 поїздка цього року",

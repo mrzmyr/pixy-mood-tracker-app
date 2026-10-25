@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 haftadır %{emotion} hissetmedin",
   "recaps_emotion_again_text": "%{date} tarihinden beri ilk kez.",
   "recaps_emotion_again_title": "Yine %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Bir gün. Sonra:",
-    "other": "{{count}} gün. Sonra:"
-  },
-  "recaps_emotions_quarter_title": "Bu çeyrek çoğunlukla %{emotion}",
   "recaps_emotions_title": "En çok kullanılan duygular",
   "recaps_emotions_year_title": "İlk 10 duygu",
   "recaps_empty": "Bu dönem için henüz kart yok. Daha fazla gün kaydettikçe görünürler.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Kayıtlarına fotoğraf ekle. Bir yıl sonra özetin “Bir yıl önce bugün” ile açılabilir.",
   "recaps_intro_photos_title": "Günün bir fotoğrafını sakla",
   "recaps_most_connected_title_month": "Bu ay en çok bağlantı",
-  "recaps_most_connected_title_quarter": "Bu çeyrek en çok bağlantı",
   "recaps_most_connected_title_year": "Bu yıl en çok bağlantı",
   "recaps_no_clear_difference": "Belirgin fark yok",
   "recaps_notifications_hint": "Haftalık, aylık ve yıllık özetler her haftanın, ayın ve yılın son günü, hatırlatıcı saatinizde gelir.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Ay",
   "recaps_period_next": "Sonraki Dönem",
   "recaps_period_previous": "Önceki Dönem",
-  "recaps_period_quarter": "Çeyrek",
-  "recaps_period_quarter_label": "%{year} Ç%{quarter}",
   "recaps_period_week": "Hafta",
   "recaps_period_year": "Yıl",
   "recaps_person_back_text": "%{count} hafta sonra ilk bağlantı. Son kez %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "Bu ay 1 seyahat",
     "other": "Bu ay {{count}} seyahat"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "Bu çeyrek 1 seyahat",
-    "other": "Bu çeyrek {{count}} seyahat"
   },
   "recaps_trips_title_year": {
     "one": "Bu yıl 1 seyahat",

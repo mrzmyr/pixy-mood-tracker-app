@@ -556,7 +556,7 @@ export interface RecapCardProperties {
   family: "moment" | "summary" | "pattern" | "change" | "nudge";
   modules: string[];
   signal: "strong" | "medium";
-  period: "week" | "month" | "quarter" | "year";
+  period: "week" | "month" | "year";
   /** Screen that showed the card. */
   source: "settings";
 }

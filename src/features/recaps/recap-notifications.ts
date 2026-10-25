@@ -4,7 +4,7 @@ import { parseReminderTime } from "@/features/notifications";
 import { getPeriod, shiftPeriod } from "./period";
 import type { DateKey } from "./types";
 
-/** Period kinds with a recap notification. Quarters get none. */
+/** Period kinds with a recap notification. */
 export type RecapNotificationKind = "week" | "month" | "year";
 
 /** One upcoming recap notification. */

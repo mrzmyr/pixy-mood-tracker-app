@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 tuần không thấy %{emotion}",
   "recaps_emotion_again_text": "Lần đầu kể từ %{date}.",
   "recaps_emotion_again_title": "Lại thấy %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Một ngày. Sau đó:",
-    "other": "{{count}} ngày. Sau đó:"
-  },
-  "recaps_emotions_quarter_title": "Chủ yếu là %{emotion} trong quý này",
   "recaps_emotions_title": "Cảm xúc dùng nhiều nhất",
   "recaps_emotions_year_title": "10 cảm xúc hàng đầu",
   "recaps_empty": "Chưa có thẻ nào cho giai đoạn này. Thẻ sẽ xuất hiện khi bạn ghi lại nhiều ngày hơn.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Thêm ảnh vào ghi chép. Một năm nữa, bản tổng kết có thể mở đầu bằng “Một năm trước vào hôm nay”.",
   "recaps_intro_photos_title": "Giữ một bức ảnh của ngày",
   "recaps_most_connected_title_month": "Kết nối nhiều nhất tháng này",
-  "recaps_most_connected_title_quarter": "Kết nối nhiều nhất quý này",
   "recaps_most_connected_title_year": "Kết nối nhiều nhất năm nay",
   "recaps_no_clear_difference": "Không có khác biệt rõ",
   "recaps_notifications_hint": "Tổng kết tuần, tháng và năm sẽ đến vào ngày cuối cùng của mỗi tuần, tháng và năm, vào giờ nhắc nhở của bạn.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Tháng",
   "recaps_period_next": "Giai đoạn sau",
   "recaps_period_previous": "Giai đoạn trước",
-  "recaps_period_quarter": "Quý",
-  "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Tuần",
   "recaps_period_year": "Năm",
   "recaps_person_back_text": "Lần kết nối đầu tiên sau %{count} tuần. Lần trước là %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 chuyến đi tháng này",
     "other": "{{count}} chuyến đi tháng này"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 chuyến đi quý này",
-    "other": "{{count}} chuyến đi quý này"
   },
   "recaps_trips_title_year": {
     "one": "1 chuyến đi năm nay",

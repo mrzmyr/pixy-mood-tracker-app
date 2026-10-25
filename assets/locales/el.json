@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 εβδομάδες χωρίς %{emotion}",
   "recaps_emotion_again_text": "Για πρώτη φορά από %{date}.",
   "recaps_emotion_again_title": "Ξανά %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Μία μέρα. Μετά:",
-    "other": "{{count}} μέρες. Μετά:"
-  },
-  "recaps_emotions_quarter_title": "Κυρίως %{emotion} αυτό το τρίμηνο",
   "recaps_emotions_title": "Τα πιο συχνά συναισθήματα",
   "recaps_emotions_year_title": "Τα 10 κορυφαία συναισθήματα",
   "recaps_empty": "Δεν υπάρχουν ακόμη κάρτες για αυτή την περίοδο. Θα εμφανιστούν όσο καταγράφεις περισσότερες μέρες.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Πρόσθεσε φωτογραφία στις καταγραφές. Σε έναν χρόνο, η ανασκόπησή σου μπορεί να ξεκινά με «Σαν σήμερα πριν από έναν χρόνο».",
   "recaps_intro_photos_title": "Κράτα μια φωτογραφία της μέρας",
   "recaps_most_connected_title_month": "Περισσότερη επαφή αυτόν τον μήνα",
-  "recaps_most_connected_title_quarter": "Περισσότερη επαφή αυτό το τρίμηνο",
   "recaps_most_connected_title_year": "Περισσότερη επαφή φέτος",
   "recaps_no_clear_difference": "Καμία σαφής διαφορά",
   "recaps_notifications_hint": "Οι εβδομαδιαίες, μηνιαίες και ετήσιες ανασκοπήσεις έρχονται την τελευταία ημέρα κάθε εβδομάδας, μήνα και έτους, την ώρα της υπενθύμισής σας.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Μήνας",
   "recaps_period_next": "Επόμενη περίοδος",
   "recaps_period_previous": "Προηγούμενη περίοδος",
-  "recaps_period_quarter": "Τρίμηνο",
-  "recaps_period_quarter_label": "Τ%{quarter} %{year}",
   "recaps_period_week": "Εβδομάδα",
   "recaps_period_year": "Έτος",
   "recaps_person_back_text": "Πρώτη επαφή μετά από %{count} εβδομάδες. Τελευταία φορά: %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 ταξίδι αυτόν τον μήνα",
     "other": "{{count}} ταξίδια αυτόν τον μήνα"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 ταξίδι αυτό το τρίμηνο",
-    "other": "{{count}} ταξίδια αυτό το τρίμηνο"
   },
   "recaps_trips_title_year": {
     "one": "1 ταξίδι φέτος",

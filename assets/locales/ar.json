@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 أسابيع دون شعور %{emotion}",
   "recaps_emotion_again_text": "لأول مرة منذ %{date}.",
   "recaps_emotion_again_title": "%{emotion} من جديد",
-  "recaps_emotions_quarter_text": {
-    "one": "في يوم واحد. ثم:",
-    "other": "في {{count}} يومًا. ثم:"
-  },
-  "recaps_emotions_quarter_title": "غالبًا %{emotion} في هذا الربع",
   "recaps_emotions_title": "أكثر المشاعر استخدامًا",
   "recaps_emotions_year_title": "أهم 10 مشاعر",
   "recaps_empty": "لا توجد بطاقات لهذه الفترة بعد. ستظهر كلما سجّلت أيامًا أكثر.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "أضف صورة إلى تسجيلاتك. بعد عام، يمكن أن يبدأ ملخصك بعبارة «في مثل هذا اليوم قبل عام».",
   "recaps_intro_photos_title": "احتفظ بصورة لليوم",
   "recaps_most_connected_title_month": "الأكثر تواصلًا هذا الشهر",
-  "recaps_most_connected_title_quarter": "الأكثر تواصلًا هذا الربع",
   "recaps_most_connected_title_year": "الأكثر تواصلًا هذا العام",
   "recaps_no_clear_difference": "لا فرق واضح",
   "recaps_notifications_hint": "تصل الملخصات الأسبوعية والشهرية والسنوية في آخر يوم من كل أسبوع وشهر وسنة، في وقت التذكير الخاص بك.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "شهر",
   "recaps_period_next": "الفترة التالية",
   "recaps_period_previous": "الفترة السابقة",
-  "recaps_period_quarter": "ربع سنة",
-  "recaps_period_quarter_label": "الربع %{quarter} %{year}",
   "recaps_period_week": "أسبوع",
   "recaps_period_year": "سنة",
   "recaps_person_back_text": "أول تواصل منذ %{count} أسابيع. آخر مرة كانت في %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "رحلة واحدة هذا الشهر",
     "other": "{{count}} رحلات هذا الشهر"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "رحلة واحدة هذا الربع",
-    "other": "{{count}} رحلات هذا الربع"
   },
   "recaps_trips_title_year": {
     "one": "رحلة واحدة هذا العام",

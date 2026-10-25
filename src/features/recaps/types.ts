@@ -20,7 +20,7 @@ export type CardFamily = "moment" | "summary" | "pattern" | "change" | "nudge";
 export type Signal = "strong" | "medium";
 
 /** Length of a recap. Each kind maps to calendar boundaries. */
-export type PeriodKind = "week" | "month" | "quarter" | "year";
+export type PeriodKind = "week" | "month" | "year";
 
 /** `YYYY-MM-DD`, as in `LogItem.date`. */
 export type DateKey = string;

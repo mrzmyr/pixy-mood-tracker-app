@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 недели без чувства «%{emotion}»",
   "recaps_emotion_again_text": "Впервые с %{date}.",
   "recaps_emotion_again_title": "Снова %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Один день. Дальше:",
-    "other": "{{count}} дн. Дальше:"
-  },
-  "recaps_emotions_quarter_title": "Чаще всего %{emotion} в этом квартале",
   "recaps_emotions_title": "Самые частые эмоции",
   "recaps_emotions_year_title": "Топ-10 эмоций",
   "recaps_empty": "Для этого периода пока нет карточек. Они появятся, когда отметок станет больше.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Добавляйте фото к отметкам. Через год ваши итоги смогут начаться с «Ровно год назад».",
   "recaps_intro_photos_title": "Сохраняйте фото дня",
   "recaps_most_connected_title_month": "Больше всего на связи в этом месяце",
-  "recaps_most_connected_title_quarter": "Больше всего на связи в этом квартале",
   "recaps_most_connected_title_year": "Больше всего на связи в этом году",
   "recaps_no_clear_difference": "Нет явной разницы",
   "recaps_notifications_hint": "Итоги недели, месяца и года приходят в последний день каждой недели, месяца и года, во время вашего напоминания.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Месяц",
   "recaps_period_next": "Следующий период",
   "recaps_period_previous": "Предыдущий период",
-  "recaps_period_quarter": "Квартал",
-  "recaps_period_quarter_label": "%{quarter} кв. %{year}",
   "recaps_period_week": "Неделя",
   "recaps_period_year": "Год",
   "recaps_person_back_text": "Первая связь за %{count} нед. В прошлый раз — %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 поездка в этом месяце",
     "other": "Поездок в этом месяце: {{count}}"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 поездка в этом квартале",
-    "other": "Поездок в этом квартале: {{count}}"
   },
   "recaps_trips_title_year": {
     "one": "1 поездка в этом году",

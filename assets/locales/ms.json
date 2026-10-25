@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 minggu tanpa rasa %{emotion}",
   "recaps_emotion_again_text": "Buat pertama kali sejak %{date}.",
   "recaps_emotion_again_title": "Rasa %{emotion} lagi",
-  "recaps_emotions_quarter_text": {
-    "one": "Pada satu hari. Kemudian:",
-    "other": "Pada {{count}} hari. Kemudian:"
-  },
-  "recaps_emotions_quarter_title": "Kebanyakannya %{emotion} suku tahun ini",
   "recaps_emotions_title": "Emosi paling kerap digunakan",
   "recaps_emotions_year_title": "10 emosi teratas",
   "recaps_empty": "Belum ada kad untuk tempoh ini. Kad akan muncul apabila anda merekod lebih banyak hari.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Tambah foto pada rekod. Setahun dari sekarang, imbasan anda boleh bermula dengan “Setahun lalu hari ini”.",
   "recaps_intro_photos_title": "Simpan foto hari ini",
   "recaps_most_connected_title_month": "Paling berhubung bulan ini",
-  "recaps_most_connected_title_quarter": "Paling berhubung suku tahun ini",
   "recaps_most_connected_title_year": "Paling berhubung tahun ini",
   "recaps_no_clear_difference": "Tiada perbezaan jelas",
   "recaps_notifications_hint": "Imbasan mingguan, bulanan dan tahunan tiba pada hari terakhir setiap minggu, bulan dan tahun, pada waktu peringatan anda.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Bulan",
   "recaps_period_next": "Tempoh Seterusnya",
   "recaps_period_previous": "Tempoh Sebelumnya",
-  "recaps_period_quarter": "Suku Tahun",
-  "recaps_period_quarter_label": "S%{quarter} %{year}",
   "recaps_period_week": "Minggu",
   "recaps_period_year": "Tahun",
   "recaps_person_back_text": "Hubungan pertama dalam %{count} minggu. Kali terakhir pada %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 perjalanan bulan ini",
     "other": "{{count}} perjalanan bulan ini"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 perjalanan suku tahun ini",
-    "other": "{{count}} perjalanan suku tahun ini"
   },
   "recaps_trips_title_year": {
     "one": "1 perjalanan tahun ini",

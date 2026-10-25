@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 周没有感到%{emotion}",
   "recaps_emotion_again_text": "自 %{date} 以来第一次。",
   "recaps_emotion_again_title": "又感到%{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "1 天。其次：",
-    "other": "{{count}} 天。其次："
-  },
-  "recaps_emotions_quarter_title": "本季度大多是%{emotion}",
   "recaps_emotions_title": "最常用的情绪",
   "recaps_emotions_year_title": "前 10 种情绪",
   "recaps_empty": "这个时段还没有卡片。记录越多，卡片越多。",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "在记录中添加照片。一年后，你的回顾可以从“一年前的今天”开始。",
   "recaps_intro_photos_title": "留下一张今天的照片",
   "recaps_most_connected_title_month": "本月联系最多",
-  "recaps_most_connected_title_quarter": "本季度联系最多",
   "recaps_most_connected_title_year": "今年联系最多",
   "recaps_no_clear_difference": "没有明显差异",
   "recaps_notifications_hint": "每周、每月和每年的回顾会在每周、每月和每年的最后一天，按你的提醒时间送达。",
@@ -800,8 +794,6 @@
   "recaps_period_month": "月",
   "recaps_period_next": "下一个时段",
   "recaps_period_previous": "上一个时段",
-  "recaps_period_quarter": "季度",
-  "recaps_period_quarter_label": "%{year} 年第 %{quarter} 季度",
   "recaps_period_week": "周",
   "recaps_period_year": "年",
   "recaps_person_back_text": "%{count} 周来第一次联系。上次是 %{date}。",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "本月 1 次旅行",
     "other": "本月 {{count}} 次旅行"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "本季度 1 次旅行",
-    "other": "本季度 {{count}} 次旅行"
   },
   "recaps_trips_title_year": {
     "one": "今年 1 次旅行",

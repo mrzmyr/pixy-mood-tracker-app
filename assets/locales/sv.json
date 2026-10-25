@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 veckor utan att känna dig %{emotion}",
   "recaps_emotion_again_text": "För första gången sedan %{date}.",
   "recaps_emotion_again_title": "%{emotion} igen",
-  "recaps_emotions_quarter_text": {
-    "one": "En dag. Sedan:",
-    "other": "{{count}} dagar. Sedan:"
-  },
-  "recaps_emotions_quarter_title": "Mest %{emotion} det här kvartalet",
   "recaps_emotions_title": "Mest använda känslor",
   "recaps_emotions_year_title": "Topp 10 känslor",
   "recaps_empty": "Inga kort för den här perioden än. De dyker upp när du checkar in fler dagar.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Lägg till ett foto i incheckningar. Om ett år kan din tillbakablick börja med ”I dag för ett år sedan”.",
   "recaps_intro_photos_title": "Spara ett foto från dagen",
   "recaps_most_connected_title_month": "Mest kontakt den här månaden",
-  "recaps_most_connected_title_quarter": "Mest kontakt det här kvartalet",
   "recaps_most_connected_title_year": "Mest kontakt i år",
   "recaps_no_clear_difference": "Ingen tydlig skillnad",
   "recaps_notifications_hint": "Veckovisa, månatliga och årliga tillbakablickar kommer den sista dagen i varje vecka, månad och år, vid din påminnelsetid.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Månad",
   "recaps_period_next": "Nästa period",
   "recaps_period_previous": "Föregående period",
-  "recaps_period_quarter": "Kvartal",
-  "recaps_period_quarter_label": "K%{quarter} %{year}",
   "recaps_period_week": "Vecka",
   "recaps_period_year": "År",
   "recaps_person_back_text": "Första kontakten på %{count} veckor. Senast var %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 resa den här månaden",
     "other": "{{count}} resor den här månaden"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 resa det här kvartalet",
-    "other": "{{count}} resor det här kvartalet"
   },
   "recaps_trips_title_year": {
     "one": "1 resa i år",

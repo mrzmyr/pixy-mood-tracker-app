@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 uker uten å føle deg %{emotion}",
   "recaps_emotion_again_text": "For første gang siden %{date}.",
   "recaps_emotion_again_title": "%{emotion} igjen",
-  "recaps_emotions_quarter_text": {
-    "one": "Én dag. Deretter:",
-    "other": "{{count}} dager. Deretter:"
-  },
-  "recaps_emotions_quarter_title": "Mest %{emotion} dette kvartalet",
   "recaps_emotions_title": "Mest brukte følelser",
   "recaps_emotions_year_title": "Topp 10 følelser",
   "recaps_empty": "Ingen kort for denne perioden ennå. De dukker opp når du sjekker inn flere dager.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Legg til et bilde i innsjekkinger. Om et år kan tilbakeblikket ditt starte med «I dag for ett år siden».",
   "recaps_intro_photos_title": "Ta vare på et bilde fra dagen",
   "recaps_most_connected_title_month": "Mest i kontakt denne måneden",
-  "recaps_most_connected_title_quarter": "Mest i kontakt dette kvartalet",
   "recaps_most_connected_title_year": "Mest i kontakt i år",
   "recaps_no_clear_difference": "Ingen tydelig forskjell",
   "recaps_notifications_hint": "Ukentlige, månedlige og årlige tilbakeblikk kommer den siste dagen i hver uke, måned og år, på påminnelsestidspunktet ditt.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Måned",
   "recaps_period_next": "Neste periode",
   "recaps_period_previous": "Forrige periode",
-  "recaps_period_quarter": "Kvartal",
-  "recaps_period_quarter_label": "K%{quarter} %{year}",
   "recaps_period_week": "Uke",
   "recaps_period_year": "År",
   "recaps_person_back_text": "Første kontakt på %{count} uker. Sist var %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 reise denne måneden",
     "other": "{{count}} reiser denne måneden"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 reise dette kvartalet",
-    "other": "{{count}} reiser dette kvartalet"
   },
   "recaps_trips_title_year": {
     "one": "1 reise i år",

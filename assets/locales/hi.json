@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 हफ़्ते बिना %{emotion} महसूस किए",
   "recaps_emotion_again_text": "%{date} के बाद पहली बार।",
   "recaps_emotion_again_title": "फिर से %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "एक दिन। फिर:",
-    "other": "{{count}} दिन। फिर:"
-  },
-  "recaps_emotions_quarter_title": "इस तिमाही ज़्यादातर %{emotion}",
   "recaps_emotions_title": "सबसे ज़्यादा इस्तेमाल की गई भावनाएँ",
   "recaps_emotions_year_title": "शीर्ष 10 भावनाएँ",
   "recaps_empty": "इस अवधि के लिए अभी कोई कार्ड नहीं है। जैसे-जैसे आप ज़्यादा दिन दर्ज करेंगे, ये दिखेंगे।",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "चेक-इन में फ़ोटो जोड़ें। एक साल बाद आपका रीकैप “आज से एक साल पहले” से शुरू हो सकता है।",
   "recaps_intro_photos_title": "दिन की एक फ़ोटो रखें",
   "recaps_most_connected_title_month": "इस महीने सबसे ज़्यादा जुड़े",
-  "recaps_most_connected_title_quarter": "इस तिमाही सबसे ज़्यादा जुड़े",
   "recaps_most_connected_title_year": "इस साल सबसे ज़्यादा जुड़े",
   "recaps_no_clear_difference": "कोई साफ़ अंतर नहीं",
   "recaps_notifications_hint": "साप्ताहिक, मासिक और वार्षिक रीकैप हर सप्ताह, महीने और साल के आखिरी दिन, आपके रिमाइंडर समय पर आते हैं।",
@@ -800,8 +794,6 @@
   "recaps_period_month": "महीना",
   "recaps_period_next": "अगली अवधि",
   "recaps_period_previous": "पिछली अवधि",
-  "recaps_period_quarter": "तिमाही",
-  "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "सप्ताह",
   "recaps_period_year": "साल",
   "recaps_person_back_text": "%{count} हफ़्तों में पहला संपर्क। पिछली बार %{date} को।",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "इस महीने 1 यात्रा",
     "other": "इस महीने {{count}} यात्राएँ"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "इस तिमाही 1 यात्रा",
-    "other": "इस तिमाही {{count}} यात्राएँ"
   },
   "recaps_trips_title_year": {
     "one": "इस साल 1 यात्रा",

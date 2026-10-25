@@ -94,7 +94,7 @@ export const FEATURE_FLAG_DETAILS: Record<
     location: "Settings > Check-in, Lock Screen, notification shade",
   },
   recaps: {
-    description: "Recap cards for week, month, quarter, and year",
+    description: "Recap cards for week, month, and year",
     location: "Settings > Recaps",
   },
   "support-pixy": {
