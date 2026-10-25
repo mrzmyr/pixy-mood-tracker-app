@@ -78,7 +78,7 @@ describe("backup codec", () => {
     const { settings } = JSON.parse(encodeBackup(backup, "9.9.9"));
 
     expect(settings).not.toHaveProperty("deviceId");
-    expect(settings).not.toHaveProperty("storeReviewPromptedAt");
+    expect(settings).not.toHaveProperty("storeReviewPromptDates");
     expect(settings).not.toHaveProperty("photosDayAccessDismissed");
   });
 

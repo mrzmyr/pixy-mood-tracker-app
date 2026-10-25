@@ -9,8 +9,7 @@ import type {
 } from "./types";
 
 const WEEK_MONTH: CardMeta["periods"] = ["week", "month"];
-const ALL_PERIODS: CardMeta["periods"] = ["week", "month", "quarter", "year"];
-const QUARTER_YEAR: CardMeta["periods"] = ["quarter", "year"];
+const ALL_PERIODS: CardMeta["periods"] = ["week", "month", "year"];
 
 /** Family, modules, signal, and fitting recaps of every card type. */
 export const CARD_TYPES: Record<CardType, CardMeta> = {
@@ -56,19 +55,8 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "medium",
     periods: ["week"],
   },
-  "person-back": {
-    family: "moment",
-    modules: ["people"],
-    signal: "strong",
-    periods: WEEK_MONTH,
-  },
-  "person-new": {
-    family: "moment",
-    modules: ["people"],
-    signal: "strong",
-    periods: WEEK_MONTH,
-  },
-  "person-milestone": {
+  // One card for every person back, new, or at a milestone in the period.
+  "people-moments": {
     family: "moment",
     modules: ["people"],
     signal: "strong",
@@ -122,13 +110,13 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     family: "summary",
     modules: ["people"],
     signal: "strong",
-    periods: ["month", "quarter", "year"],
+    periods: ["month", "year"],
   },
-  "places-trips": {
+  places: {
     family: "summary",
     modules: ["location"],
     signal: "strong",
-    periods: ["month", "quarter", "year"],
+    periods: ALL_PERIODS,
   },
   "stood-out": {
     family: "pattern",
@@ -140,37 +128,37 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     family: "pattern",
     modules: ["tags", "mood"],
     signal: "strong",
-    periods: QUARTER_YEAR,
+    periods: ["year"],
   },
   "people-mood": {
     family: "pattern",
     modules: ["people", "mood"],
     signal: "medium",
-    periods: QUARTER_YEAR,
+    periods: ["year"],
   },
   "trend-tags": {
     family: "change",
     modules: ["tags", "mood"],
     signal: "strong",
-    periods: QUARTER_YEAR,
+    periods: ["year"],
   },
   "trend-people": {
     family: "change",
     modules: ["people", "mood"],
     signal: "strong",
-    periods: QUARTER_YEAR,
+    periods: ["year"],
   },
   "trend-location": {
     family: "change",
     modules: ["location", "mood"],
     signal: "strong",
-    periods: QUARTER_YEAR,
+    periods: ["year"],
   },
 };
 
 /**
  * Stable id of a card: its type plus the person, tag, or emotion it is
- * about. Two cards of one type can show at once, for two people.
+ * about. Two cards of one type can show at once, for two tags.
  */
 export const getCardId = (card: RecapCard) => {
   const subject =

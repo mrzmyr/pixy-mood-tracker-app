@@ -1,7 +1,7 @@
 import type { LogItem } from "@/features/logs";
 import type { LogPhoto } from "@/types";
 import { addDays } from "../days";
-import { buildMonthStory } from "../story/deck";
+import { buildMonthStory, buildWeekStory } from "../story/deck";
 import type { StorySlide, StorySlideType } from "../story/types";
 import { makeInput, makeTags } from "./utils";
 
@@ -183,6 +183,28 @@ describe("people", () => {
     ]);
   });
 
+  test("follows the people quiz right away, so guess and answer stay together", () => {
+    // October opens with the people quiz (quiz turn by month).
+    const OCT = "2026-10-01";
+    // Swimming lifts the mood, so the deck also has a "lifted" slide that
+    // used to sit between the quiz and the people slide.
+    const items = Array.from({ length: 31 }, (_, index) => ({
+      date: addDays(OCT, index),
+      rating: index < 8 ? ("very_good" as const) : ("neutral" as const),
+      tags: index < 8 ? [{ id: swim.id }] : [],
+      people:
+        index < 6
+          ? [{ id: "ada" }, { id: "jen" }, { id: "kim" }]
+          : [{ id: "ada" }],
+    }));
+    const types = (story(items, { date: OCT, today: "2026-11-02" }) ?? []).map(
+      (item) => item.type
+    );
+
+    expect(types).toContain("lifted");
+    expect(types.indexOf("people")).toBe(types.indexOf("quiz") + 1);
+  });
+
   test("stays out when people are off", () => {
     const items = month(() => ({ people: [{ id: "ada" }, { id: "jen" }] }));
     expect(
@@ -203,6 +225,27 @@ describe("vs last month", () => {
     expect(slide(story([...august, ...september]), "vs-last")?.rows).toEqual([
       { tagId: swim.id, days: 5, change: 5 },
     ]);
+  });
+});
+
+describe("week by week", () => {
+  test("shows each week as a collage of up to 4 bright photos", () => {
+    const items = month((index) =>
+      index < 6 || index === 8 || index === 15
+        ? { photos: [photo(`${index}`)] }
+        : {}
+    );
+    const weeks = slide(story(items), "moments")?.weeks;
+
+    expect(weeks?.map((week) => week.photos.length)).toEqual([4, 1, 1, 0]);
+  });
+
+  test("needs photos in 3 weeks", () => {
+    const items = month((index) =>
+      index < 6 || index === 8 ? { photos: [photo(`${index}`)] } : {}
+    );
+
+    expect(slide(story(items), "moments")).toBeUndefined();
   });
 });
 
@@ -255,5 +298,35 @@ describe("share card", () => {
     expect(slide(story(month()), "share")?.facts).toEqual([
       { kind: "check-ins", days: 30 },
     ]);
+  });
+});
+
+describe("week story", () => {
+  // Monday 2026-09-21 to Sunday 2026-09-27.
+  const WEEK = "2026-09-21";
+  const week = (count: number) =>
+    Array.from({ length: count }, (_, index) => ({
+      date: addDays(WEEK, index),
+      rating: "good" as const,
+    }));
+  const weekStory = (items: Partial<LogItem>[], today = "2026-09-28") =>
+    buildWeekStory(makeInput({ kind: "week", today, date: WEEK, items, tags }));
+
+  test("needs 4 check-in days", () => {
+    expect(weekStory(week(3))).toBeNull();
+    expect(weekStory(week(4))).not.toBeNull();
+  });
+
+  test("opens during the week and for 2 weeks after", () => {
+    expect(weekStory(week(7), "2026-09-25")).not.toBeNull();
+    expect(weekStory(week(7), "2026-10-11")).not.toBeNull();
+    expect(weekStory(week(7), "2026-10-12")).toBeNull();
+  });
+
+  test("starts with the cover and ends with the share card", () => {
+    const types = (weekStory(week(7)) ?? []).map((item) => item.type);
+
+    expect(types[0]).toBe("cover");
+    expect(types.at(-1)).toBe("share");
   });
 });

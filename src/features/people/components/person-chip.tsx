@@ -1,4 +1,3 @@
-import Check from "lucide-react-native/icons/check";
 import { Pressable, Text, View, useColorScheme } from "react-native";
 import type { PressableProps, ViewStyle } from "react-native";
 import useColors from "@/hooks/use-colors";
@@ -8,12 +7,9 @@ import type { Person } from "../people-provider";
 import { PersonAvatar } from "./person-avatar";
 import { RADIUS } from "@/constants/radius";
 import { COMPACT_CHIP } from "@/constants/chip";
-import { BEZEL } from "@/constants/bezel";
 import { TILE_RING_GAP, TILE_RING_WIDTH } from "../tile";
 
 const DEFAULT_STYLE = {};
-/** Selected shell border. Padding shrinks by the same amount, so size holds. */
-const TILE_SELECTED_RING_WIDTH = 2;
 /** Measurements of the `chip` variant, regular and compact. */
 const CHIP_SIZES = {
   regular: {
@@ -40,6 +36,56 @@ type LongPressProps = Pick<
   "onLongPress" | "accessibilityActions" | "onAccessibilityAction"
 >;
 
+/**
+ * Long press and the screen reader "edit" action, both running `onLongPress`.
+ * Without `editOnLongPress` only the screen reader action stays. `onMove`
+ * adds Move Up and Move Down for screen readers, the drag stand-in.
+ */
+const getLongPressProps = ({
+  onLongPress,
+  editOnLongPress,
+  onMove,
+  playHaptics,
+}: {
+  onLongPress?: () => void;
+  editOnLongPress: boolean;
+  onMove?: (offset: -1 | 1) => void;
+  playHaptics: () => Promise<void>;
+}): LongPressProps => {
+  if (!onLongPress && !onMove) {
+    return {};
+  }
+  return {
+    onLongPress:
+      onLongPress && editOnLongPress
+        ? async () => {
+            await playHaptics();
+            onLongPress();
+          }
+        : undefined,
+    accessibilityActions: [
+      ...(onLongPress ? [{ name: "edit", label: t("edit") }] : []),
+      ...(onMove
+        ? [
+            { name: "moveUp", label: t("tags_move_up") },
+            { name: "moveDown", label: t("tags_move_down") },
+          ]
+        : []),
+    ],
+    onAccessibilityAction: ({ nativeEvent }) => {
+      if (nativeEvent.actionName === "edit") {
+        onLongPress?.();
+      }
+      if (nativeEvent.actionName === "moveUp") {
+        onMove?.(-1);
+      }
+      if (nativeEvent.actionName === "moveDown") {
+        onMove?.(1);
+      }
+    },
+  };
+};
+
 /** `tile` variant of {@link PersonChip}; `onPress` already plays haptics. */
 const PersonTile = ({
   person,
@@ -60,7 +106,6 @@ const PersonTile = ({
 }) => {
   const colors = useColors();
   const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
-  const ringWidth = selected ? TILE_SELECTED_RING_WIDTH : TILE_RING_WIDTH;
 
   return (
     <Pressable
@@ -76,50 +121,35 @@ const PersonTile = ({
         ...style,
       })}
     >
-      {/* Bezel shell: hairline border and shadow, gap, then the avatar with
-          its inner border. Both are circles, so they stay concentric. */}
+      {/* Ring only: no shell, no badge. Selected tints the ring and bolds
+          the name, so selection does not rely on color alone. */}
       <View
         style={{
           width: outer,
           height: outer,
-          padding: BEZEL.gap + TILE_RING_WIDTH - ringWidth,
+          padding: TILE_RING_GAP,
           borderRadius: outer / 2,
-          borderWidth: ringWidth,
-          borderColor: selected ? colors.tint : colors.bezelBorder,
-          backgroundColor: colors.bezelBackground,
-          boxShadow: colors.bezelShadow,
+          borderWidth: TILE_RING_WIDTH,
+          borderColor: selected ? colors.tint : "transparent",
         }}
       >
+        <PersonAvatar person={person} size={size} />
+        {/* Hairline edge: in dark mode the fallback avatar matches the
+            slide background and would vanish without it. */}
         <View
-          style={{
-            borderRadius: RADIUS.full,
-            borderWidth: BEZEL.borderWidth,
-            borderColor: colors.bezelInnerBorder,
-            overflow: "hidden",
-          }}
-        >
-          <PersonAvatar person={person} size={size} />
-        </View>
-      </View>
-      {selected && (
-        <View
+          pointerEvents="none"
           style={{
             position: "absolute",
-            top: outer - 28,
-            right: 0,
-            width: 28,
-            height: 28,
+            top: TILE_RING_GAP,
+            left: TILE_RING_GAP,
+            width: size,
+            height: size,
             borderRadius: RADIUS.full,
-            backgroundColor: colors.primaryButtonBackground,
-            borderWidth: 2,
-            borderColor: colors.logBackground,
-            alignItems: "center",
-            justifyContent: "center",
+            borderWidth: 1,
+            borderColor: colors.bezelInnerBorder,
           }}
-        >
-          <Check size={16} color={colors.primaryButtonText} strokeWidth={3} />
-        </View>
-      )}
+        />
+      </View>
       <Text
         numberOfLines={1}
         style={{
@@ -142,12 +172,13 @@ const PersonTile = ({
  *
  * - `chip`: avatar plus name, like a tag pill
  * - `large`: big avatar with the name below, for the person screen
- * - `tile`: grid cell for the logger slide; avatar sits in a bezel.
- *   Selection tints the shell border and adds a check badge, so it reads
- *   without relying on color alone
+ * - `tile`: grid cell for the logger slide; bare avatar. Selection adds a
+ *   tint ring and a bold name, so it reads without relying on color alone
  *
  * `onLongPress` opens the person editor in `chip` and `tile`; screen readers
- * get it as the "edit" action.
+ * get it as the "edit" action. `editOnLongPress={false}` keeps only the
+ * screen reader action, for tiles whose long press opens a context menu.
+ * `onMove` gives screen readers Move Up and Move Down.
  */
 export const PersonChip = ({
   person,
@@ -155,6 +186,8 @@ export const PersonChip = ({
   variant = "chip",
   onPress,
   onLongPress,
+  editOnLongPress = true,
+  onMove,
   style = DEFAULT_STYLE,
   testID,
   previewUri = null,
@@ -166,6 +199,8 @@ export const PersonChip = ({
   variant?: "chip" | "large" | "tile";
   onPress?: () => void;
   onLongPress?: () => void;
+  editOnLongPress?: boolean;
+  onMove?: (offset: -1 | 1) => void;
   style?: ViewStyle;
   testID?: string;
   /** Picked image not stored yet; only the `large` variant shows it. */
@@ -190,20 +225,12 @@ export const PersonChip = ({
     onPress();
   };
 
-  const longPressProps: LongPressProps = onLongPress
-    ? {
-        onLongPress: async () => {
-          await haptics.impact();
-          onLongPress();
-        },
-        accessibilityActions: [{ name: "edit", label: t("edit") }],
-        onAccessibilityAction: ({ nativeEvent }) => {
-          if (nativeEvent.actionName === "edit") {
-            onLongPress();
-          }
-        },
-      }
-    : {};
+  const longPressProps = getLongPressProps({
+    onLongPress,
+    editOnLongPress,
+    onMove,
+    playHaptics: haptics.impact,
+  });
 
   if (variant === "large") {
     return (

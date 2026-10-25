@@ -43,8 +43,6 @@ export interface WidgetDataInput {
   url: string;
   /** Local date the props describe. Defaults to now. */
   now?: dayjs.Dayjs;
-  /** Feature flag state; widgets show "Not available" when `false`. Defaults to `true`. */
-  isAvailable?: boolean;
 }
 
 /** Average rating per local day, for every day with an entry. */
@@ -128,8 +126,6 @@ const getBaseProps = (
   title: string,
   cells: WidgetCell[]
 ): WidgetBaseProps => ({
-  isAvailable: input.isAvailable ?? true,
-  unavailableText: t("widget_not_available"),
   url: input.url,
   title,
   subtitle: countLogged(cells),

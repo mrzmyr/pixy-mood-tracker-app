@@ -35,16 +35,16 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - Onboarding skip: consent regions land on the privacy slide before completion.
 - Off switch: Settings > Privacy > Behavioral Data
 - Feature flags load only with consent ([development.md](docs/development.md#feature-flags))
-- People ([spec](docs/specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`. Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
+- People ([spec](docs/specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`, `people:people_reordered` (`people_count`, `method`: `drag` or `accessibility_action`). Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
 - Location ([development.md](docs/development.md#location)): `settings:location_toggled` (`enabled`). `logger:log_saved` adds `has_location`. Never coordinates or place names
-- Calendar layout menu (Calendar, Timeline, Map): `calendar:layout_changed` with `layout`
+- Calendar layout menu (Calendar, Timeline): `calendar:layout_changed` with `layout`
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](src/features/review))
-  - Fires once per install, after the save that reaches 7 entries
-  - Properties: `trigger`, `entries_count`
+  - Fires when a good moment requests the system prompt. Max 3 per 365 days, 120 days apart, 1 per app version
+  - `trigger`: `entries_7` (first good save from 7 entries), `good_entry_30` (good save from 30 entries)
+  - `entries_count`: all saved entries. Never ratings or averages
   - OS decides whether prompt shows
-- Widget guide: `widget:guide_*`
-- Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`, `rating`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`), `quick_check_in:setting_changed` (`enabled`). `source`: `live_activity`, `notification`, `app`. Never people or tag names
+- Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`, `rating`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`), `quick_check_in:setting_changed` (`enabled`), `quick_check_in:schedule_changed` (`every_hours`, `from`, `until` as picked `HH:mm`, `times_count`), `quick_check_in:notification_tapped` (`cold_start`). `source`: `notification` (Android), `app`. Never people or tag names
 - Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](src/features/logger/confirmation))
   - Shown only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
@@ -60,7 +60,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
   - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
 - Tag categories: `tags:category_created` (`title_length`, `categories_count`), `tags:category_updated` (`title_length`), `tags:category_deleted` (`tags_count` without archived tags, `categories_count`), `tags:categories_reordered` (`categories_count`, `method`), `tags:tags_arranged` (`tags_count`, `categories_count`, `category_changed`, `method`). `method` is `drag` or `accessibility_action`. Never category or tag names
 - Recaps (flag `recaps`): `recaps:card_shown` once per card per screen visit, when half of the card is on screen. `recaps:card_feedback_sent` adds `helpful`, `reasons` (fixed keys), `has_note`; the note itself goes to the feedback service like other feedback, never to analytics. `recaps:nudge_tapped` adds `action` (`turn_on`, `not_now`); Turn On also sends the event of the setting it changes (`settings:step_toggled`, `reminders:reminder_toggled`). All send `card_type`, `family`, `modules`, `signal`, `period`, `source`. Never tag, person, or place names, emotion keys, or ratings from the card. `reminders:recaps_toggled` (`enabled`; `permission_granted` only when turning on) from the Recaps toggle in Settings > Reminder. `recaps:notification_tapped` (`period`: `week`, `month`, `year`) once per tap on a recap notification body
-- Recap stories (flag `recaps`): `recaps:story_opened` (`period`, `source`: `recaps`, `calendar`, `notification`; `slides_count`), `recaps:story_slide_shown` (`slide_type`, `position`, `slides_count`) once per slide change, `recaps:story_feedback_sent` (`slide_type`, `position`, `helpful`, `reasons` fixed keys, `has_note`; the note goes to the feedback service, never here), `recaps:story_closed` (`position`, `slides_count`, `completed`). `recaps:story_quiz_answered` (`quiz`: `truths`, `people`, `tags`; `module`: `people`, `tags`, `mix`, or `null`; `is_correct`), never the cards or picks. `recaps:story_shared` (`has_photos`, `shuffles`) after the share sheet finished, never the photos or lines. Slide types only, never tag, person, or place names, counts shown on a slide, or ratings
+- Recap stories (flag `recaps`): `recaps:story_opened` (`period`: `week` or `month`, `source`: `recaps`, `calendar`, `notification`; `slides_count`), `recaps:story_slide_shown` (`slide_type`, `position`, `slides_count`) once per slide change, `recaps:story_feedback_sent` (`slide_type`, `position`, `helpful`, `reasons` fixed keys, `has_note`; the note goes to the feedback service, never here), `recaps:story_closed` (`position`, `slides_count`, `completed`). `recaps:story_quiz_answered` (`quiz`: `truths`, `people`, `tags`; `module`: `people`, `tags`, `mix`, or `null`; `is_correct`), never the cards or picks. `recaps:story_shared` (`has_photos`, `shuffles`, `slide_type`: every slide has Share) after the share sheet finished, never the photos or lines. Slide types only, never tag, person, or place names, counts shown on a slide, or ratings
 
 ## Photos
 
@@ -125,12 +125,17 @@ Use this section to join old and new events in PostHog, for example with an Acti
 
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
 - `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
+- `calendar:layout_changed` `layout` and `calendar:day_opened` `source`: value `map` no longer sent after `v1.102.0`. Calendar map layout (flag `calendar-map`) removed
+- `recaps:card_shown`, `recaps:card_feedback_sent`, `recaps:nudge_tapped`: `period` no longer sends `quarter`. Recaps lost the quarter period. Only `week`, `month`, `year` remain
+- `recaps:*` `card_type`: `person-back`, `person-new`, `person-milestone` merged into `people-moments` (one card per period, all people in it). Old values no longer sent
+- `recaps:*` `card_type`: `places-trips` renamed to `places`. The card now also lists home areas and nearby towns and runs in week recaps
 
 **Removed events**
 
 - `logger:log_deleted`: the logger lost its trash button. Entries are deleted from the day view entry menu, which sends `day:delete_tapped`
 - `log_emotions_tooltip_close`, `logger:emotions_tooltip_closed`: emotion description tooltip removed from the logger. No replacement
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
+- `widget:guide_opened`, `widget:guide_step_viewed`, `widget:guide_dismissed`, `widget:guide_completed`: widget guide and Settings > Widgets removed. No replacement
 
 **Removed properties** (never sent under the new names)
 

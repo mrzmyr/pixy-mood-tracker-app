@@ -6,7 +6,8 @@ import { RADIUS } from "@/constants/radius";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
-import { t } from "@/lib/translation";
+import { EmotionIndicator, EMOTIONS } from "@/features/logger";
+import { t, tDynamic } from "@/lib/translation";
 import { CHIP } from "../chip-marker";
 import { addDays, daysBetween } from "../days";
 import { RingedAvatar } from "../components/ringed-avatar";
@@ -32,6 +33,7 @@ import {
 } from "./parts";
 import { STORY_PALETTE } from "./theme";
 import type {
+  CameBackSlide,
   ComingUpSlide,
   CoverSlide,
   FirstCitySlide,
@@ -39,6 +41,7 @@ import type {
   LiftedSlide,
   MadeOfSlide,
   MomentsSlide,
+  StoryPhoto,
   PeopleSlide,
   StorySlide,
   VsLastSlide,
@@ -53,6 +56,8 @@ export interface SlideContext {
   today: DateKey;
   tags: ReadonlyMap<string, Tag>;
   people: ReadonlyMap<string, Person>;
+  /** App in dark mode: `paper` slides draw as `night`. */
+  isDark: boolean;
 }
 
 const Gap = ({ size }: { size: number }) => <View style={{ height: size }} />;
@@ -79,15 +84,18 @@ const PhotoBackdrop = ({
 
 const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
   const dayColors = useDayColors(ctx.days);
+  const isWeek = ctx.period.kind === "week";
   const month = monthName(ctx.period.start);
-  const eyebrow = dayjs(ctx.period.start).format("YYYY");
+  const eyebrow = isWeek
+    ? dayRange(ctx.period.start, ctx.period.end)
+    : `${month} ${dayjs(ctx.period.start).format("YYYY")}`;
   const theme = slide.variant === "photo" ? "photo" : "night";
   const byDate = new Map(slide.photos.map((item) => [item.date, item.photo]));
   return (
     <>
       <SlideHeader
         theme={theme}
-        eyebrow={`${month} ${eyebrow}`}
+        eyebrow={eyebrow}
         title={
           slide.variant === "pixels" ? (
             <>
@@ -95,10 +103,17 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
                 {slide.checkIns}
               </StoryText>
               {"\n"}
-              {t("recaps_story_cover_pixels_title", { month })}
+              {isWeek
+                ? t("recaps_story_cover_pixels_title_week")
+                : t("recaps_story_cover_pixels_title", { month })}
             </>
           ) : (
-            t("recaps_story_cover_title", { month })
+            t(
+              isWeek
+                ? "recaps_story_cover_title_week"
+                : "recaps_story_cover_title",
+              { month }
+            )
           )
         }
       />
@@ -242,9 +257,13 @@ const MadeOf = ({ slide, ctx }: { slide: MadeOfSlide; ctx: SlideContext }) => {
     <>
       <SlideHeader
         theme="night"
-        eyebrow={t("recaps_story_made_of_eyebrow", {
-          month: monthName(ctx.period.start),
-        })}
+        eyebrow={
+          ctx.period.kind === "week"
+            ? t("recaps_story_made_of_eyebrow_week")
+            : t("recaps_story_made_of_eyebrow", {
+                month: monthName(ctx.period.start),
+              })
+        }
         title={t("recaps_story_made_of_title")}
       />
       <View style={{ marginTop: 28, gap: 18 }}>
@@ -403,8 +422,8 @@ const HardPattern = ({
   if (!tag) {
     return null;
   }
-  const theme = "paper";
-  const palette = STORY_PALETTE.paper;
+  const theme = ctx.isDark ? "night" : "paper";
+  const palette = STORY_PALETTE[theme];
   const hasTag = (day: RecapDay) =>
     day.items.some((item) => item.tags.some(({ id }) => id === tag.id));
   const hardSet = new Set(slide.hardDates);
@@ -414,7 +433,7 @@ const HardPattern = ({
   return (
     <>
       <View style={{ gap: 8 }}>
-        <StoryText kind="eyebrow" theme={theme} tone="accent">
+        <StoryText kind="eyebrow" theme={theme} tone="muted">
           {t("recaps_story_hard_eyebrow")}
         </StoryText>
         <Text
@@ -607,7 +626,133 @@ const VsLast = ({ slide, ctx }: { slide: VsLastSlide; ctx: SlideContext }) => {
   );
 };
 
+// ---------------------------------------------------------------- came back
+
+/** Emotion category color as a round dot, like the check-in dots. */
+const EmotionDot = ({ emotionKey }: { emotionKey: string }) => {
+  const emotion = EMOTIONS.find((item) => item.key === emotionKey);
+  return emotion ? <EmotionIndicator emotion={emotion} /> : null;
+};
+
+const CameBack = ({
+  slide,
+  ctx,
+}: {
+  slide: CameBackSlide;
+  ctx: SlideContext;
+}) => {
+  const rows = [
+    ...slide.emotions.map((back) => ({
+      key: `emotion-${back.emotion}`,
+      marker: <EmotionDot emotionKey={back.emotion} />,
+      name: tDynamic(`log_emotion_${back.emotion}`),
+      line: t("recaps_came_back_emotion", { date: shortDay(back.lastDate) }),
+    })),
+    ...slide.tags.flatMap((back) => {
+      const tag = ctx.tags.get(back.tagId);
+      return tag
+        ? [
+            {
+              key: `tag-${tag.id}`,
+              marker: <TagDot tag={tag} size={14} />,
+              name: tag.title,
+              line: t("recaps_came_back_tag", {
+                count: back.days,
+                weeks: back.weeks,
+              }),
+            },
+          ]
+        : [];
+    }),
+  ];
+  return (
+    <>
+      <SlideHeader
+        theme="night"
+        eyebrow={t("recaps_came_back_title_week")}
+        title={t("recaps_story_came_back_title")}
+      />
+      <Gap size={24} />
+      <View style={{ gap: 18 }}>
+        {rows.map((row) => (
+          <View
+            key={row.key}
+            accessible
+            accessibilityLabel={`${row.name}, ${row.line}`}
+            style={{ flexDirection: "row", gap: 12, alignItems: "flex-start" }}
+          >
+            <View style={{ width: 18, paddingTop: 6, alignItems: "center" }}>
+              {row.marker}
+            </View>
+            <View style={{ flex: 1, gap: 2 }}>
+              <StoryText
+                kind="title"
+                theme="night"
+                style={{ fontSize: 22, lineHeight: 26 }}
+              >
+                {row.name}
+              </StoryText>
+              <StoryText kind="body" theme="night" tone="muted">
+                {row.line}
+              </StoryText>
+            </View>
+          </View>
+        ))}
+      </View>
+    </>
+  );
+};
+
 // ---------------------------------------------------------------- moments
+
+/** Space between photos inside one week. */
+const COLLAGE_GAP = 2;
+
+/**
+ * Up to 4 photos of one week in a tile: 1 fills it, 2 split it, 3 put the
+ * brightest left and two stacked right, 4 make a grid.
+ */
+const WeekCollage = ({
+  photos,
+  label,
+}: {
+  photos: StoryPhoto[];
+  label: string;
+}) => {
+  // Screen readers hear the week once, on the first photo.
+  const image = (photo: StoryPhoto) => (
+    <StoryImage
+      key={photo.photo.id}
+      photo={photo.photo}
+      label={photo === photos[0] ? label : undefined}
+      style={{ flex: 1, borderRadius: 0 }}
+    />
+  );
+  const [first, ...rest] = photos;
+  if (!first) {
+    return null;
+  }
+  if (photos.length === 4) {
+    return (
+      <View style={{ flex: 1, gap: COLLAGE_GAP }}>
+        <View style={{ flex: 1, flexDirection: "row", gap: COLLAGE_GAP }}>
+          {photos.slice(0, 2).map(image)}
+        </View>
+        <View style={{ flex: 1, flexDirection: "row", gap: COLLAGE_GAP }}>
+          {photos.slice(2).map(image)}
+        </View>
+      </View>
+    );
+  }
+  return (
+    <View style={{ flex: 1, flexDirection: "row", gap: COLLAGE_GAP }}>
+      {image(first)}
+      {rest.length > 0 && (
+        <View style={{ flex: 1, gap: COLLAGE_GAP }}>{rest.map(image)}</View>
+      )}
+    </View>
+  );
+};
 
 const Moments = ({
   slide,
@@ -620,15 +765,13 @@ const Moments = ({
   const { width } = useWindowDimensions();
   // Two tiles per row inside the 24 pt slide padding, 8 pt apart.
   const tile = (width - 48 - 8) / 2;
-  const count = slide.weeks.filter((week) => week.photo).length;
   return (
     <>
       <SlideHeader
         theme="night"
-        eyebrow={t("recaps_story_moments_eyebrow")}
-        title={t("recaps_story_moments_title", {
+        eyebrow={t("recaps_story_weeks_eyebrow")}
+        title={t("recaps_story_weeks_title", {
           month: monthName(ctx.period.start),
-          count,
         })}
       />
       <View
@@ -652,12 +795,8 @@ const Moments = ({
                 backgroundColor: STORY_PALETTE.night.surface,
               }}
             >
-              {week.photo ? (
-                <StoryImage
-                  photo={week.photo.photo}
-                  label={range}
-                  style={{ ...StyleSheet.absoluteFill, borderRadius: 0 }}
-                />
+              {week.photos.length > 0 ? (
+                <WeekCollage photos={week.photos} label={range} />
               ) : (
                 <View
                   style={{
@@ -869,6 +1008,9 @@ export const SlideContent = ({
     }
     case "coming-up": {
       return <ComingUp slide={slide} ctx={ctx} />;
+    }
+    case "came-back": {
+      return <CameBack slide={slide} ctx={ctx} />;
     }
     default: {
       return null;

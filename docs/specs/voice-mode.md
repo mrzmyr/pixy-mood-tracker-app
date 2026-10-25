@@ -70,6 +70,10 @@ File: `src/features/voice/match-transcript.ts`. Pure function, unit tested.
 - Normalize both sides: lowercase, strip diacritics, collapse punctuation to spaces
 - Whole word match, multi word terms allowed ("left out"). Scripts without spaces (zh, ja, th): substring match
 - Longest term wins on overlap
+- People also match by first or last word of the name ("Anna" or "Schmidt" for Anna Schmidt). Card shows full name
+- Name part shared by several people: no match, no guess. Full or other name part resolves it
+- Name part never beats full term on same words: person "Anna" or tag "Anna" wins over "Anna" from Anna Schmidt
+- Name part needs 3 letters, 2 in scripts without spaces. Split on spaces only: "Hans-Peter" stays one name
 - Returns ids and keys in order of first mention, no duplicates
 
 ## Library patch

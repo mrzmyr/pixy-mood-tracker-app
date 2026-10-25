@@ -51,11 +51,11 @@ jest.mock("react-native-sortables", () => {
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load animated UI during provider tests; native worklets are unavailable in Jest.
 jest.mock("react-native-reanimated", () => {
-  const { FlatList, ScrollView, View } = require("react-native");
+  const { ScrollView, View } = require("react-native");
   const animation = { duration: () => animation, delay: () => animation };
   return {
     __esModule: true,
-    default: { FlatList, ScrollView, View },
+    default: { ScrollView, View },
     useAnimatedRef: () => ({ current: null }),
     createAnimatedComponent: (component) => component,
     css: { create: (styles) => styles },

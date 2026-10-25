@@ -38,6 +38,10 @@ import {
   useRecapNotificationSync,
   useRecapNotificationTaps,
 } from "@/features/recaps";
+import {
+  useQuickCheckInNotificationTaps,
+  useQuickCheckInReminderSync,
+} from "@/features/quickcheckin";
 
 // Configure before first render; each app variant reports to its own project.
 // Same gate as Observe: real devices on shipped variants only.
@@ -62,6 +66,8 @@ const AppShell = () => {
   useReminderSync();
   useRecapNotificationTaps();
   useRecapNotificationSync();
+  useQuickCheckInNotificationTaps();
+  useQuickCheckInReminderSync();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state, and dev links pick their own route.

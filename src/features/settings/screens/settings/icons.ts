@@ -21,10 +21,6 @@ export const SETTINGS_ICONS = {
     ios: "square.stack",
     android: import("@expo/material-symbols/layers.xml"),
   }),
-  widget: Icon.select({
-    ios: "square.grid.2x2",
-    android: import("@expo/material-symbols/widgets.xml"),
-  }),
   theme: Icon.select({
     ios: "circle.lefthalf.filled",
     android: import("@expo/material-symbols/contrast.xml"),

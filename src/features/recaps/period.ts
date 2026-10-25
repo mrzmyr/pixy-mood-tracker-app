@@ -5,8 +5,7 @@ const FORMAT = "YYYY-MM-DD";
 
 /**
  * Calendar period of `kind` that holds `date`. Weeks start on the first day
- * of `weekLocale` (`useWeekLocale`); quarters start in January, April, July,
- * and October.
+ * of `weekLocale` (`useWeekLocale`).
  */
 export const getPeriod = (
   kind: PeriodKind,
@@ -14,14 +13,6 @@ export const getPeriod = (
   weekLocale: string
 ): Period => {
   const day = dayjs(date).locale(weekLocale);
-  if (kind === "quarter") {
-    const start = day.startOf("month").subtract(day.month() % 3, "month");
-    return {
-      kind,
-      start: start.format(FORMAT),
-      end: start.add(2, "month").endOf("month").format(FORMAT),
-    };
-  }
   return {
     kind,
     start: day.startOf(kind).format(FORMAT),
@@ -34,15 +25,12 @@ export const shiftPeriod = (
   period: Period,
   offset: number,
   weekLocale: string
-): Period => {
-  const unit = period.kind === "quarter" ? "month" : period.kind;
-  const steps = period.kind === "quarter" ? offset * 3 : offset;
-  return getPeriod(
+): Period =>
+  getPeriod(
     period.kind,
-    dayjs(period.start).add(steps, unit).format(FORMAT),
+    dayjs(period.start).add(offset, period.kind).format(FORMAT),
     weekLocale
   );
-};
 
 /** `date` lies between the first and last day of `period`, both included. */
 export const isInPeriod = (date: DateKey, period: Period) =>

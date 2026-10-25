@@ -1,6 +1,7 @@
 /**
- * Story colors. Stories keep their own look in light and dark mode, like a
- * full-screen photo viewer: `night` slides on black, `paper` slides on white.
+ * Story colors: `night` slides on black, `paper` slides on white, `photo`
+ * over a photo. In dark mode `paper` slides turn `night` (`getSlideTheme`),
+ * so no slide flashes white.
  */
 export type StoryTheme = "night" | "paper" | "photo";
 

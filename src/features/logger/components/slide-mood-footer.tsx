@@ -62,8 +62,9 @@ export const SlideMoodFooter = ({
 }) => {
   const colors = useColors();
   const { draft, setDateTime, setLocation } = useLogDraft();
+  const [fallbackDateTime, setFallbackDateTime] = useState(() => new Date());
   const entryTimePicker = useEntryTimePicker({
-    value: draft.dateTime ? new Date(draft.dateTime) : new Date(),
+    value: draft.dateTime ? new Date(draft.dateTime) : fallbackDateTime,
     onChange: (date) => setDateTime(date.toISOString()),
   });
   const [isLocationPickerVisible, setIsLocationPickerVisible] = useState(false);
@@ -91,10 +92,13 @@ export const SlideMoodFooter = ({
     >
       <EntryTimeMenu
         testID="logger-date"
-        dateTime={draft.dateTime ?? new Date().toISOString()}
+        dateTime={draft.dateTime ?? fallbackDateTime.toISOString()}
         label={dateTimeTitle}
         onChange={setDateTime}
-        onChoose={() => entryTimePicker.open()}
+        onChoose={() => {
+          setFallbackDateTime(new Date());
+          entryTimePicker.open();
+        }}
       />
       {entryTimePicker.sheet}
       {isLocationVisible && (

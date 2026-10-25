@@ -220,7 +220,6 @@ const light = {
   widgetText: colors.neutral[900],
   widgetTextSecondary: colors.neutral[500],
   widgetFutureDay: colors.neutral[100],
-  widgetGuideImageBackground: colors.neutral[200],
   yearPixelsLegendText: colors.neutral[400],
 
   onboardingTitle: colors.black,
@@ -245,7 +244,7 @@ const light = {
   entryBackground: colors.white,
   entryItemBorder: colors.neutral[200],
 
-  // Bezel: outer shell around statistics cards and person tiles.
+  // Bezel: outer shell around statistics cards. `bezelInnerBorder` also edges person tiles.
   bezelBackground: colors.white,
   bezelBorder: colors.neutral[200],
   bezelInnerBorder: colors.neutral[200],
@@ -455,7 +454,6 @@ const dark: IColors & {
   widgetText: colors.white,
   widgetTextSecondary: colors.neutral[400],
   widgetFutureDay: colors.neutral[700],
-  widgetGuideImageBackground: colors.neutral[800],
   yearPixelsLegendText: colors.neutral[500],
 
   onboardingTitle: colors.white,

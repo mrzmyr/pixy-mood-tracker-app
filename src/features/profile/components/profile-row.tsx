@@ -14,7 +14,8 @@ const AFFORDANCE_SIZE = 13;
  * its own `FieldGroup.Section`, so corner radius, insets, and press state match
  * the other rows. Must render inside an `@expo/ui` `Host`. Empty: gray
  * silhouette and "Add Your Name", the only hint that a profile exists. Set:
- * photo or initials, name, and the month of the first entry.
+ * photo or initials, name, and the year of the first entry. Year only, so
+ * the line fits next to the avatar.
  */
 export const ProfileRow = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ export const ProfileRow = () => {
   if (hasProfile) {
     subtitle = profile.loggingSince
       ? t("profile_logging_since", {
-          date: profile.loggingSince.format("MMMM YYYY"),
+          date: profile.loggingSince.format("YYYY"),
         })
       : undefined;
   }
@@ -62,7 +63,16 @@ export const ProfileRow = () => {
           />
         ) : undefined
       }
-      supportingText={subtitle}
+      supportingText={
+        subtitle ? (
+          <Text
+            numberOfLines={1}
+            textStyle={{ fontSize: 15, color: colors.textSecondary }}
+          >
+            {subtitle}
+          </Text>
+        ) : undefined
+      }
     >
       <Text
         numberOfLines={1}

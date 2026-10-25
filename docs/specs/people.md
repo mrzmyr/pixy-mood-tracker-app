@@ -10,7 +10,7 @@ Track who played a part in each entry: met, called, or thought of. Goal: statist
 - Own store and own logger slide, not a tag subtype
 - Behind PostHog flag `people`. Flag off hides settings entry, slide, step toggle. Data stays
 - Step `people` disabled by default. User enables in Settings > Steps. Later: in-app announcement enables it (separate spec)
-- No color per person. Fallback avatar: gray user icon
+- No color per person. Fallback avatar: gray initials (first and last word), gray user icon while name is blank
 - Max 50 people (`MAX_PEOPLE`), name max 30 chars (reuse `MAX_TAG_LENGTH`)
 - Delete mirrors tags: strips references from all entries, confirm shows entry count. Archive hides from slide, stats, filters; history stays
 - Contact photo update: none. Photo changes come from the library. No background sync, no extra permission prompt
@@ -61,7 +61,7 @@ people: z.array(PersonReferenceSchema).default([]),
 - Write on add, replace on edit, unlink on delete
 - Orphan sweep on provider load: file without person gets deleted
 - Render with `expo-image`, cache key `id + updatedAt`
-- No photo: gray user icon
+- No photo: gray initials ([`getInitials`](../../src/features/people/initials.ts)). Blank name: gray user icon
 
 ## Import sources
 
@@ -98,18 +98,20 @@ people: Array<
 - Path `src/features/people/components/person-chip.tsx`
 - One component for slide, log detail, logs list, filters, stats. Consistent everywhere
 - Pill like [`Tag`](../../src/features/tags/components/tag.tsx): 1px border, radius 100, selected = `tagBackgroundActive` + tint border
-- Left: 24px circle avatar or gray user icon. Right: name 17px
+- Left: 24px circle avatar or gray initials. Right: name 17px
 - Variants: `chip` (default), `large` (detail screen), `tile` (logger grid)
 
 ### Logger slide `SlidePeople`
 
 - Position after tags
 - Headline: "Who played a part?"
-- 3-column grid of `tile` chips. Tap = toggle select. Avatar sits in a bezel. Selected = tint shell border + check badge. Archived hidden unless already on draft (copy `SlideTags` filter)
-- Last cell: "Add Person" tile pushes `/people/create`. Hidden at `MAX_PEOPLE`
-- Order: most used in last 90 days first, then alphabetical
+- 3-column grid of `tile` chips. Tap = toggle select. Bare avatar, no shell, no badge. Selected = 3px tint ring + bold name. Archived hidden unless already on draft (copy `SlideTags` filter)
+- Last cell: "Add Person" tile pushes `/people/create`. Dashed tint circle, tint plus, tint label. Hidden at `MAX_PEOPLE`
+- Order: stored order. "Add Person" stays last. New people go last. VoiceOver/TalkBack get Move Up and Move Down
+- Tile menu: Edit, Archive (Unarchive when archived), Delete (confirm with entry count). Archive acts at once. Archive and Delete drop the person from the draft, so the tile goes away
+- iOS: hold tile = system context menu ([`modules/pixy-mood-tracker-people-tile`](../../modules/pixy-mood-tracker-people-tile)). Move finger = menu closes, tile drags, others make room. Dev clients without the module fall back to the Android behavior with an action sheet
+- Android: hold tile = lift, move = reorder. Release in place = opens editor
 - Step enabled and `people.length === 0`: simple empty state, one "Add Person" button pushes `/people/create`. No skip
-- Edit and archive live in Settings > Check-in > People
 - Disable link like tags
 
 ### Settings > Check-in > People (`/settings/steps/people`)
@@ -153,6 +155,7 @@ Names follow the `<area>:<object>_<verb>` convention of [events.ts](../../src/st
 - `people:contacts_imported { count, avatars_count, is_limited }` (import list, one event per import)
 - `people:person_updated { name_changed, avatar_changed, is_archived }` (archive is an update)
 - `people:delete_requested { entries_count }`, `people:person_deleted { entries_count }`, `people:delete_cancelled`
+- `people:people_reordered { people_count, method }` (`drag` or `accessibility_action`)
 - `logger:log_saved` gets `people_count` (like `tags_count`), no separate slide event
 - `calendar:filters_applied` gets `people_count`
 - Usage summary: `people_count`, `archived_people_count`

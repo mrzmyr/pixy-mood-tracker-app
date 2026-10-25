@@ -6,10 +6,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { DEV_TOOLS } from "@/dev";
 import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
-import {
-  QuickCheckInActivitySync,
-  QuickCheckInNotificationSync,
-} from "@/features/quickcheckin";
+import { QuickCheckInNotificationSync } from "@/features/quickcheckin";
 import { WidgetSync } from "@/features/widget";
 import { LoggerRecoveryPrompt } from "@/features/logger";
 import {
@@ -28,6 +25,25 @@ const reportHeaderOptions = {
 };
 
 const modalOptions = { presentation: "modal" as const, headerShown: false };
+
+/**
+ * Quick check-in: iOS page sheet with a transparent native bar (Liquid Glass
+ * close and save on iOS 26, blur before). The screen sets its bar items.
+ * Android and web draw their header in the screen.
+ */
+const getQuickCheckInOptions = (headerTintColor: string) =>
+  Platform.OS === "ios"
+    ? {
+        presentation: "modal" as const,
+        headerShown: true,
+        headerTransparent: true,
+        headerShadowVisible: false,
+        headerTintColor,
+        ...(!HAS_FLOATING_HEADER && {
+          headerBlurEffect: "systemChromeMaterial" as const,
+        }),
+      }
+    : modalOptions;
 
 /**
  * iOS top-level screens: 34pt title that collapses into the inline title on
@@ -56,6 +72,39 @@ const largeTitleOptions = (backgroundColor: string) => {
   };
 };
 
+/**
+ * Feedback form: iOS form sheet (Liquid Glass header on iOS 26), Android
+ * full-screen dialog with the Material top app bar. Header items live in
+ * the screen (`Stack.Toolbar`).
+ */
+const getFeedbackOptions = <T extends object>({
+  defaultOptions,
+  textColor,
+  backgroundColor,
+}: {
+  defaultOptions: T;
+  textColor: string;
+  backgroundColor: string;
+}) =>
+  Platform.OS === "ios"
+    ? {
+        presentation: "formSheet" as const,
+        headerTintColor: textColor,
+        // Always transparent, so the screen offsets content by the header
+        // height on every iOS version. expo-router sets it on iOS 26 only.
+        headerTransparent: true,
+        // Before iOS 26 no Liquid Glass: blur keeps the title readable.
+        ...(!HAS_FLOATING_HEADER && {
+          headerBlurEffect: "systemChromeMaterial" as const,
+        }),
+      }
+    : {
+        ...defaultOptions,
+        presentation: "modal" as const,
+        headerStyle: { backgroundColor },
+        headerShadowVisible: false,
+      };
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
@@ -68,28 +117,11 @@ const AppLayout = () => {
     headerStyle: { backgroundColor: colors.background },
     headerShadowVisible: Platform.OS !== "web",
   };
-  // Feedback form: iOS form sheet (Liquid Glass header on iOS 26), Android
-  // full-screen dialog with the Material top app bar. Header items live in
-  // the screen (`Stack.Toolbar`).
-  const feedbackOptions =
-    Platform.OS === "ios"
-      ? {
-          presentation: "formSheet" as const,
-          headerTintColor: colors.text,
-          // Always transparent, so the screen offsets content by the header
-          // height on every iOS version. expo-router sets it on iOS 26 only.
-          headerTransparent: true,
-          // Before iOS 26 no Liquid Glass: blur keeps the title readable.
-          ...(!HAS_FLOATING_HEADER && {
-            headerBlurEffect: "systemChromeMaterial" as const,
-          }),
-        }
-      : {
-          ...defaultOptions,
-          presentation: "modal" as const,
-          headerStyle: { backgroundColor: colors.feedbackBackground },
-          headerShadowVisible: false,
-        };
+  const feedbackOptions = getFeedbackOptions({
+    defaultOptions,
+    textColor: colors.text,
+    backgroundColor: colors.feedbackBackground,
+  });
   // Tag, tag category, and people modals. iOS shows the native sheet bar;
   // the screen sets title and bar items (`RouteModalHeader`). Android and
   // web draw their header in the screen.
@@ -116,7 +148,6 @@ const AppLayout = () => {
     <StorageLoadGate>
       <WidgetSync />
       <LoggerRecoveryPrompt />
-      <QuickCheckInActivitySync />
       <QuickCheckInNotificationSync />
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
@@ -188,9 +219,11 @@ const AppLayout = () => {
                 : { headerStyle: { backgroundColor: colors.logBackground } }),
             }}
           />
-          <Stack.Screen name="widget" options={modalOptions} />
           <Stack.Screen name="feedback" options={feedbackOptions} />
-          <Stack.Screen name="check-in/[id]" options={modalOptions} />
+          <Stack.Screen
+            name="check-in/[id]"
+            options={getQuickCheckInOptions(colors.text)}
+          />
           <Stack.Screen
             name="interventions/[id]"
             options={{ ...modalOptions, gestureEnabled: false }}
@@ -290,7 +323,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/reminder"
-            options={{ ...settingsFormOptions, title: t("reminder") }}
+            options={{ ...settingsFormOptions, title: t("reminders") }}
           />
           <Stack.Screen
             name="settings/privacy"
@@ -305,7 +338,15 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/steps/tags/index"
-            options={{ ...pageOptions, title: t("tags") }}
+            options={{
+              ...settingsFormOptions,
+              title: t("tags"),
+              ...largeTitleOptions(colors.background),
+            }}
+          />
+          <Stack.Screen
+            name="settings/steps/tags/categories"
+            options={{ ...settingsFormOptions, title: t("tag_categories") }}
           />
           <Stack.Screen
             name="settings/steps/tags/archive"
@@ -313,7 +354,11 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/steps/people/index"
-            options={{ ...pageOptions, title: t("people") }}
+            options={{
+              ...settingsFormOptions,
+              title: t("people"),
+              ...largeTitleOptions(colors.background),
+            }}
           />
           <Stack.Screen
             name="settings/steps/people/archive"

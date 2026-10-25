@@ -15,7 +15,7 @@ import { useDayColors } from "./parts";
 /**
  * "September Recap / Ready to watch" on the recap card look. Story progress
  * bars on top, one per day in its mood color. Opens the month story full
- * screen.
+ * screen. Week recaps open the week story the same way.
  */
 export const StoryBanner = ({
   period,
@@ -35,9 +35,10 @@ export const StoryBanner = ({
     { length: daysBetween(period.start, period.end) + 1 },
     (_, index) => addDays(period.start, index)
   );
-  const title = t("recaps_story_banner_title", {
-    month: monthName(period.start),
-  });
+  const title =
+    period.kind === "week"
+      ? t("recaps_story_banner_title_week")
+      : t("recaps_story_banner_title", { month: monthName(period.start) });
   return (
     <Pressable
       accessibilityRole="button"
@@ -45,7 +46,11 @@ export const StoryBanner = ({
       onPress={() =>
         router.push({
           pathname: "/recaps/story/[date]",
-          params: { date: period.start, source },
+          params: {
+            date: period.start,
+            source,
+            ...(period.kind === "week" && { kind: "week" }),
+          },
         })
       }
       testID="recap-story-banner"

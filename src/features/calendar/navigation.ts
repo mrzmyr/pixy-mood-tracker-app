@@ -32,7 +32,7 @@ export const useCalendarNavigation = () => {
     }: {
       date: string;
       entryId?: string;
-      source: "calendar" | "timeline" | "map" | "mood_peaks" | "tag_peaks";
+      source: "calendar" | "timeline" | "mood_peaks" | "tag_peaks";
     }) => {
       const items = itemsRef.current.filter((log) => getItemDate(log) === date);
 

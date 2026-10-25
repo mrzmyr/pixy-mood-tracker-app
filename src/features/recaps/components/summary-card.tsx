@@ -13,10 +13,9 @@ import type { Person } from "@/features/people";
 import { PhotoThumbnail } from "@/features/photos";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
-import { t, tDynamic } from "@/lib/translation";
+import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { useSettings } from "@/state/settings";
-import { CHIP } from "../chip-marker";
 import { parsePlace } from "../places";
 import type {
   ConnectedPerson,
@@ -26,13 +25,9 @@ import type {
   SummaryCard as SummaryCardData,
 } from "../types";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
+import { getMomentLine } from "./person-moment-line";
 import { RingedAvatar } from "./ringed-avatar";
-import {
-  ChipText,
-  EmotionChip,
-  RowEmotionChip,
-  RowTagChip,
-} from "./title-chip";
+import { RowEmotionChip, RowTagChip } from "./title-chip";
 
 interface Content {
   media?: ReactNode;
@@ -113,33 +108,10 @@ const Ranked = ({ counts }: { counts: EmotionCount[] }) => {
   );
 };
 
-const emotionLabel = (key: string) => tDynamic(`log_emotion_${key}`);
-
 const emotionsContent = (
   counts: EmotionCount[],
   periodKind: PeriodKind
 ): Content => {
-  if (periodKind === "quarter") {
-    const [first, ...rest] = counts;
-    const title = t("recaps_emotions_quarter_title", { emotion: CHIP });
-    return {
-      title: (
-        <ChipText
-          text={title}
-          chip={<EmotionChip emotionKey={first.emotion} />}
-        />
-      ),
-      titleLabel: title.replace(CHIP, emotionLabel(first.emotion)),
-      text: t("recaps_emotions_quarter_text", { count: first.days }),
-      body: (
-        <Row>
-          {rest.slice(0, 2).map((count) => (
-            <RowEmotionChip key={count.emotion} emotionKey={count.emotion} />
-          ))}
-        </Row>
-      ),
-    };
-  }
   if (periodKind === "week") {
     const title = t("recaps_emotions_title");
     return {
@@ -167,6 +139,19 @@ const emotionsContent = (
   };
 };
 
+/**
+ * Days connected, then the moment: "1 day connected · Back after 6 weeks".
+ * A milestone already counts days, so it stands alone.
+ */
+const getConnectedLine = (entry: ConnectedPerson) => {
+  const days = t("recaps_connected_days", { count: entry.days });
+  if (!entry.moment) {
+    return days;
+  }
+  const moment = getMomentLine(entry.moment);
+  return entry.moment.kind === "milestone" ? moment : `${days} · ${moment}`;
+};
+
 const PersonRow = ({
   entry,
   person,
@@ -178,7 +163,7 @@ const PersonRow = ({
     <RingedAvatar person={person} size={40} />
     <View style={{ flex: 1, gap: 4 }}>
       <Body>{person.name}</Body>
-      <Secondary>{t("recaps_connected_days", { count: entry.days })}</Secondary>
+      <Secondary>{getConnectedLine(entry)}</Secondary>
       {entry.emotions.length > 0 && (
         <Row>
           {entry.emotions.map((emotion) => (
@@ -232,7 +217,6 @@ const connectedContent = (
 
 const MOST_CONNECTED_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
   month: "recaps_most_connected_title_month",
-  quarter: "recaps_most_connected_title_quarter",
   year: "recaps_most_connected_title_year",
 };
 
@@ -271,10 +255,10 @@ const Podium = ({
   </View>
 );
 
-const TRIP_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
-  month: "recaps_trips_title_month",
-  quarter: "recaps_trips_title_quarter",
-  year: "recaps_trips_title_year",
+const PLACES_TITLES: Record<PeriodKind, TranslationKey> = {
+  week: "recaps_places_title_week",
+  month: "recaps_places_title_month",
+  year: "recaps_places_title_year",
 };
 
 const formatRange = (start: string, end: string) =>
@@ -283,7 +267,8 @@ const formatRange = (start: string, end: string) =>
     : `${dayjs(start).format("D MMM")} – ${dayjs(end).format("D MMM")}`;
 
 /** Dot centered on the first line of the city name. */
-const TripDot = () => {
+/** Filled dot for a trip, ring for an area of the home city. */
+const TripDot = ({ isTrip }: { isTrip: boolean }) => {
   const colors = useColors();
   const { lineHeight } = getTypeMetrics().body;
   return (
@@ -293,7 +278,9 @@ const TripDot = () => {
           width: 8,
           height: 8,
           borderRadius: RADIUS.full,
-          backgroundColor: colors.moduleLocation,
+          borderWidth: 2,
+          borderColor: colors.moduleLocation,
+          backgroundColor: isTrip ? colors.moduleLocation : "transparent",
         }}
       />
     </View>
@@ -489,30 +476,42 @@ const getContent = (
         body: <Podium entries={card.people} people={context.people} />,
       };
     }
-    case "places-trips": {
-      const key = TRIP_TITLES[context.periodKind];
-      if (!key) {
-        return null;
-      }
-      const title = t(key, {
-        count: card.trips.length,
-      });
+    case "places": {
+      const title = t(PLACES_TITLES[context.periodKind]);
+      const rows = [
+        ...card.trips.map((trip) => ({
+          key: `trip-${trip.city}-${trip.start}`,
+          name: trip.city,
+          isTrip: true,
+          detail: `${formatRange(trip.start, trip.end)} · ${t("recaps_days", { count: trip.days })}`,
+        })),
+        ...card.spots.map((spot) => ({
+          key: `spot-${spot.name}`,
+          name: spot.name,
+          isTrip: false,
+          detail: t("recaps_days", { count: spot.days }),
+        })),
+      ];
       return {
         title,
         titleLabel: title,
+        text:
+          card.trips.length > 0
+            ? t("recaps_places_trips", { count: card.trips.length })
+            : undefined,
         body: (
           <View style={{ gap: 8 }}>
-            {card.trips.map((trip) => (
+            {rows.map((row) => (
               <View
-                key={`${trip.city}-${trip.start}`}
+                key={row.key}
                 style={{
                   flexDirection: "row",
                   alignItems: "flex-start",
                   gap: 8,
                 }}
               >
-                <TripDot />
-                {/* Dates wrap under the city, not under the dot. */}
+                <TripDot isTrip={row.isTrip} />
+                {/* Details wrap under the name, not under the dot. */}
                 <View
                   style={{
                     flex: 1,
@@ -523,10 +522,8 @@ const getContent = (
                     rowGap: 4,
                   }}
                 >
-                  <Body>{trip.city}</Body>
-                  <Secondary>
-                    {`${formatRange(trip.start, trip.end)} · ${t("recaps_days", { count: trip.days })}`}
-                  </Secondary>
+                  <Body>{row.name}</Body>
+                  <Secondary>{row.detail}</Secondary>
                 </View>
               </View>
             ))}

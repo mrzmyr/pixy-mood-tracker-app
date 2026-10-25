@@ -21,11 +21,6 @@ import { EmotionBasicSelection } from "./emotion-basic-selection";
 import { ExpandButton } from "./expand-button";
 import { useAnalytics } from "@/state/analytics";
 import { RequestEmotionSheet } from "@/features/feedback";
-import FlagHighlight from "@/components/flag-highlight";
-import { useFeatureFlag } from "@/state/feature-flags";
-import { EmotionDials } from "./emotion-dials";
-import { RATING_PLEASANTNESS } from "./emotion-affect";
-import { PickerFeedbackButton } from "./picker-feedback-button";
 import noop from "lodash/noop";
 
 type Mode = "basic" | "advanced";
@@ -110,7 +105,6 @@ export const SlideEmotions = ({
   };
 
   const [mode, setMode] = useState<Mode>(initialMode);
-  const isDials = useFeatureFlag("emotion-dials");
 
   const mostUsedEmotionKeys = new Set(
     getMostUsedEmotions(logState.items)
@@ -184,9 +178,7 @@ export const SlideEmotions = ({
           }}
         >
           <SlideHeadline>{t("log_emotions_question")}</SlideHeadline>
-          {!isDials && (
-            <ExpandButton expanded={mode === "basic"} onPress={toggleMode} />
-          )}
+          <ExpandButton expanded={mode === "basic"} onPress={toggleMode} />
         </View>
         <View
           style={{
@@ -194,58 +186,41 @@ export const SlideEmotions = ({
             flex: 1,
           }}
         >
-          {isDials ? (
-            <FlagHighlight flag="emotion-dials" pillOnly style={{ flex: 1 }}>
-              <EmotionDials
-                emotions={EMOTIONS.filter((e) => e.disabled !== true)}
-                initialPleasantness={
-                  draft.rating ? RATING_PLEASANTNESS[draft.rating] : 0
-                }
-                selectedEmotions={selectedEmotions}
+          <LinearGradient
+            pointerEvents="none"
+            colors={[colors.logBackground, colors.logBackgroundTransparent]}
+            style={{
+              position: "absolute",
+              height: 12,
+              top: 0,
+              zIndex: 1,
+              width: "100%",
+            }}
+          />
+          <PullToSearch
+            testID="logger-emotions-search"
+            placeholder={t("log_emotions_search")}
+            query={query}
+            onChangeQuery={setQuery}
+          >
+            {isSearching || mode === "basic" ? (
+              <EmotionBasicSelection
+                emotions={isSearching ? searchResults : basicEmotions}
                 onPress={onPressEmotion}
+                selectedEmotions={selectedEmotions}
+                onRequestEmotion={openRequest}
               />
-            </FlagHighlight>
-          ) : (
-            <>
-              <LinearGradient
-                pointerEvents="none"
-                colors={[colors.logBackground, colors.logBackgroundTransparent]}
-                style={{
-                  position: "absolute",
-                  height: 12,
-                  top: 0,
-                  zIndex: 1,
-                  width: "100%",
-                }}
+            ) : (
+              <EmotionAdvancedSelection
+                defaultIndex={defaultIndex}
+                onPress={onPressEmotion}
+                selectedEmotions={selectedEmotions}
+                onRequestEmotion={openRequest}
               />
-              <PullToSearch
-                testID="logger-emotions-search"
-                placeholder={t("log_emotions_search")}
-                query={query}
-                onChangeQuery={setQuery}
-              >
-                {isSearching || mode === "basic" ? (
-                  <EmotionBasicSelection
-                    emotions={isSearching ? searchResults : basicEmotions}
-                    onPress={onPressEmotion}
-                    selectedEmotions={selectedEmotions}
-                    onRequestEmotion={openRequest}
-                  />
-                ) : (
-                  <EmotionAdvancedSelection
-                    defaultIndex={defaultIndex}
-                    onPress={onPressEmotion}
-                    selectedEmotions={selectedEmotions}
-                    onRequestEmotion={openRequest}
-                  />
-                )}
-              </PullToSearch>
-              {(isSearching || mode === "basic") && <EmotionBasicGradients />}
-              {!isSearching && mode === "advanced" && (
-                <EmotionAdvancedGradients />
-              )}
-            </>
-          )}
+            )}
+          </PullToSearch>
+          {(isSearching || mode === "basic") && <EmotionBasicGradients />}
+          {!isSearching && mode === "advanced" && <EmotionAdvancedGradients />}
         </View>
         <RequestEmotionSheet
           visible={isRequestOpen}
@@ -257,7 +232,7 @@ export const SlideEmotions = ({
             marginHorizontal: 16,
           }}
         >
-          {showDisable && (
+          {showDisable && selectedEmotions.length === 0 && (
             <LinkButton
               type="secondary"
               onPress={onDisableStep}
@@ -268,7 +243,6 @@ export const SlideEmotions = ({
               {t("log_emotions_disable")}
             </LinkButton>
           )}
-          {isDials && <PickerFeedbackButton source="emotion_dials" />}
         </Footer>
       </View>
     </View>

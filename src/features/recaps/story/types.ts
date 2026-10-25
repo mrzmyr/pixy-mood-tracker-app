@@ -90,7 +90,15 @@ export interface VsLastSlide {
 /** One photo per week of the month. */
 export interface MomentsSlide {
   type: "moments";
-  weeks: { start: DateKey; end: DateKey; photo: StoryPhoto | null }[];
+  /** Weeks of the month with up to 4 bright photos each, brightest first. */
+  weeks: { start: DateKey; end: DateKey; photos: StoryPhoto[] }[];
+}
+
+/** Good emotions and tags back after a break, as on the came-back card. */
+export interface CameBackSlide {
+  type: "came-back";
+  emotions: { emotion: string; lastDate: DateKey }[];
+  tags: { tagId: string; days: number; weeks: number }[];
 }
 
 /** Days still to come in the year, and days without a check-in so far. */
@@ -136,6 +144,7 @@ export type StorySlide =
   | FirstCitySlide
   | VsLastSlide
   | MomentsSlide
+  | CameBackSlide
   | ComingUpSlide
   | QuizSlide
   | ShareSlide;

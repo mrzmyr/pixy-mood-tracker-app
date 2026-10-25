@@ -1,4 +1,10 @@
-import { Image, Pressable, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import type { View as ViewType } from "react-native";
 import MapPin from "lucide-react-native/icons/map-pin";
 import Shuffle from "lucide-react-native/icons/shuffle";
@@ -9,6 +15,7 @@ import { dateOfWeekday, monthName, weekdayName } from "./format";
 import { MonthGrid, StoryText, TagDot, useDayColors } from "./parts";
 import type { SlideContext } from "./slides";
 import { STORY_MAX_FONT_SCALE, STORY_PALETTE } from "./theme";
+import type { StoryTheme } from "./theme";
 import type { ShareFact, StoryPhoto } from "./types";
 
 /**
@@ -17,14 +24,34 @@ import type { ShareFact, StoryPhoto } from "./types";
  */
 const LOGO = require("../../../../assets/images/icon.png");
 
-const palette = STORY_PALETTE.paper;
+/** Space between calendar pixels on the card. */
+const CELL_GAP = 6;
+
+/** Card colors: white card in light mode, dark card in dark mode. */
+const getCardTheme = (ctx: SlideContext) => {
+  const theme: StoryTheme = ctx.isDark ? "night" : "paper";
+  return {
+    theme,
+    palette: STORY_PALETTE[theme],
+    card: ctx.isDark ? "#161618" : "#FFFFFF",
+    border: ctx.isDark ? "#26262A" : "#EEEEEE",
+  };
+};
 
 /** Photo for the captured card: React Native `Image`, same reason as `LOGO`. */
-const CardPhoto = ({ photo, flex }: { photo: StoryPhoto; flex: number }) => (
+const CardPhoto = ({
+  photo,
+  flex,
+  background,
+}: {
+  photo: StoryPhoto;
+  flex: number;
+  background: string;
+}) => (
   <Image
     source={{ uri: getPhotoFile(photo.photo).uri }}
     resizeMode="cover"
-    style={{ flex, borderRadius: 14, backgroundColor: palette.surface }}
+    style={{ flex, borderRadius: 14, backgroundColor: background }}
   />
 );
 
@@ -58,7 +85,11 @@ const Fact = ({ fact, ctx }: { fact: ShareFact; ctx: SlideContext }) => {
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
       <View style={{ width: 12, alignItems: "center" }}>{marker}</View>
-      <StoryText kind="label" theme="paper" style={{ fontSize: 15, flex: 1 }}>
+      <StoryText
+        kind="label"
+        theme={getCardTheme(ctx).theme}
+        style={{ fontSize: 15, flex: 1 }}
+      >
         {text}
       </StoryText>
     </View>
@@ -66,9 +97,9 @@ const Fact = ({ fact, ctx }: { fact: ShareFact; ctx: SlideContext }) => {
 };
 
 /**
- * Card to send to someone close: 3 photos or the month grid, then up to 3
- * lines. The shuffle button picks 3 other bright photos. It sits outside
- * the captured view, so it never shows in the shared image.
+ * Card to send to someone close: the whole month as mood pixels, 3 bright
+ * photos when there are enough, then up to 3 lines. The shuffle button
+ * below the card picks 3 other photos; it never shows in the shared image.
  */
 export const ShareCard = ({
   ctx,
@@ -84,6 +115,10 @@ export const ShareCard = ({
   onShuffle: (() => void) | null;
 }) => {
   const dayColors = useDayColors(ctx.days);
+  const { theme, palette, card, border } = getCardTheme(ctx);
+  const { width } = useWindowDimensions();
+  // Calendar fills the card: slide padding 24 and card padding 16 per side.
+  const cell = Math.floor((width - 48 - 32 - CELL_GAP * 6) / 7);
   const [first, second, third] = photos;
   return (
     <View>
@@ -92,12 +127,12 @@ export const ShareCard = ({
         collapsable={false}
         testID="recap-story-share-card"
         style={{
-          backgroundColor: "#FFFFFF",
+          backgroundColor: card,
           borderRadius: 24,
           padding: 16,
           gap: 14,
           borderWidth: 1,
-          borderColor: "#EEEEEE",
+          borderColor: border,
         }}
       >
         <View
@@ -109,12 +144,14 @@ export const ShareCard = ({
         >
           <StoryText
             kind="label"
-            theme="paper"
+            theme={theme}
             style={{ fontSize: 19, fontWeight: "800" }}
           >
-            {t("recaps_story_share_title", {
-              month: monthName(ctx.period.start),
-            })}
+            {ctx.period.kind === "week"
+              ? t("recaps_story_share_title_week")
+              : t("recaps_story_share_title", {
+                  month: monthName(ctx.period.start),
+                })}
           </StoryText>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
             <Image
@@ -129,23 +166,22 @@ export const ShareCard = ({
             </Text>
           </View>
         </View>
-        {first && second && third ? (
-          <View style={{ height: 230, flexDirection: "row", gap: 6 }}>
-            <CardPhoto photo={first} flex={1.6} />
-            <View style={{ flex: 1, gap: 6 }}>
-              <CardPhoto photo={second} flex={1} />
-              <CardPhoto photo={third} flex={1} />
-            </View>
-          </View>
-        ) : (
-          <View style={{ alignItems: "center" }}>
-            <MonthGrid
-              period={ctx.period}
-              dayColors={dayColors}
-              size={34}
-              gap={6}
-              empty={palette.empty}
-            />
+        {/* The whole month at a glance: every day as a mood pixel. */}
+        <View style={{ alignItems: "center" }}>
+          <MonthGrid
+            period={ctx.period}
+            dayColors={dayColors}
+            size={cell}
+            gap={CELL_GAP}
+            empty={palette.empty}
+            weekdayColor={palette.muted}
+          />
+        </View>
+        {first && second && third && (
+          <View style={{ height: 76, flexDirection: "row", gap: 6 }}>
+            <CardPhoto photo={first} flex={1} background={palette.surface} />
+            <CardPhoto photo={second} flex={1} background={palette.surface} />
+            <CardPhoto photo={third} flex={1} background={palette.surface} />
           </View>
         )}
         <View style={{ gap: 9 }}>
@@ -162,18 +198,17 @@ export const ShareCard = ({
           onPress={onShuffle}
           testID="recap-story-share-shuffle"
           style={{
-            position: "absolute",
-            top: 64,
-            right: 24,
-            width: 32,
-            height: 32,
+            alignSelf: "center",
+            marginTop: 12,
+            width: 36,
+            height: 36,
             borderRadius: RADIUS.full,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "rgba(255,255,255,0.92)",
+            backgroundColor: palette.surface,
           }}
         >
-          <Shuffle width={16} height={16} color="#0A0A0A" />
+          <Shuffle width={16} height={16} color={palette.text} />
         </Pressable>
       )}
     </View>

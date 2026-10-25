@@ -20,7 +20,7 @@ export type CardFamily = "moment" | "summary" | "pattern" | "change" | "nudge";
 export type Signal = "strong" | "medium";
 
 /** Length of a recap. Each kind maps to calendar boundaries. */
-export type PeriodKind = "week" | "month" | "quarter" | "year";
+export type PeriodKind = "week" | "month" | "year";
 
 /** `YYYY-MM-DD`, as in `LogItem.date`. */
 export type DateKey = string;
@@ -69,6 +69,12 @@ export type NudgeCard =
   | { type: "intro-photos" }
   | { type: "intro-categories"; tagsCount: number };
 
+/** Why a person shows in the people moment of a period. */
+export type PersonMoment =
+  | { kind: "back"; personId: string; lastDate: DateKey; weeks: number }
+  | { kind: "new"; personId: string; firstDate: DateKey }
+  | { kind: "milestone"; personId: string; days: number; year: number };
+
 /**
  * A fact worth noticing. Cards name people, tags, and emotions by id; the
  * screen looks up names, so rules never read display data.
@@ -76,9 +82,7 @@ export type NudgeCard =
 export type MomentCard =
   | { type: "emotion-again"; emotion: string; lastDate: DateKey }
   | { type: "emotion-absent"; emotion: string; countBefore: number }
-  | { type: "person-back"; personId: string; lastDate: DateKey; weeks: number }
-  | { type: "person-new"; personId: string; firstDate: DateKey }
-  | { type: "person-milestone"; personId: string; days: number; year: number }
+  | { type: "people-moments"; periodKind: PeriodKind; people: PersonMoment[] }
   | { type: "first-city"; city: string; district: string | null; date: DateKey }
   | { type: "tag-back"; tagId: string; days: number; weeks: number }
   | { type: "sleep-turnaround"; nights: DateKey[]; week: SleepNight[] }
@@ -101,6 +105,8 @@ export interface ConnectedPerson {
   personId: string;
   days: number;
   emotions: string[];
+  /** Back, new, or a milestone in this period. Week recaps only. */
+  moment?: PersonMoment;
 }
 
 /** Days away from home in one city, gaps of up to 2 days allowed. */
@@ -111,13 +117,19 @@ export interface Trip {
   days: number;
 }
 
+/** Place that is no trip: a home city district or a nearby town, and its days. */
+export interface Spot {
+  name: string;
+  days: number;
+}
+
 /** Describes the period: a day, emotions, people, places. No causes. */
 export type SummaryCard =
   | { type: "day-recap"; mode: "best" | "ago" | "hard"; date: DateKey }
   | { type: "emotions"; counts: EmotionCount[] }
   | { type: "connected"; people: ConnectedPerson[] }
   | { type: "most-connected"; people: ConnectedPerson[] }
-  | { type: "places-trips"; trips: Trip[] };
+  | { type: "places"; trips: Trip[]; spots: Spot[] };
 
 /** One driver in a pattern list: id, label for places, and its effect. */
 export interface EffectRow {

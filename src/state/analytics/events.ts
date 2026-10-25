@@ -99,26 +99,29 @@ export interface AnalyticsEvents {
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
   "logger:store_review_requested": {
-    trigger: "entries_7";
+    trigger: "entries_7" | "good_entry_30";
     entries_count: number;
   };
 
-  "widget:guide_opened": undefined;
-  "widget:guide_step_viewed": { step: number };
-  "widget:guide_dismissed": { step: number };
-  "widget:guide_completed": undefined;
-
   /** `source`: Lock Screen (iOS), notification (Android), or the in-app screen. */
   "quick_check_in:entry_saved": {
-    source: "live_activity" | "notification" | "app";
+    source: "notification" | "app";
     rating: LogItem["rating"];
   };
   "quick_check_in:completed": {
-    source: "live_activity" | "notification" | "app";
+    source: "notification" | "app";
     has_emotion: boolean;
     influences_count: number;
   };
   "quick_check_in:setting_changed": { enabled: boolean };
+  /** Fixed values only: times are `HH:mm` picks, not free text. */
+  "quick_check_in:schedule_changed": {
+    every_hours: number;
+    from: string;
+    until: string;
+    times_count: number;
+  };
+  "quick_check_in:notification_tapped": { cold_start: boolean };
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
@@ -175,7 +178,7 @@ export interface AnalyticsEvents {
   };
 
   "calendar:day_opened": {
-    source: "calendar" | "timeline" | "map" | "mood_peaks" | "tag_peaks";
+    source: "calendar" | "timeline" | "mood_peaks" | "tag_peaks";
     entries_count: number;
     days_ago: number;
   };
@@ -270,7 +273,7 @@ export interface AnalyticsEvents {
   "recaps:notification_tapped": { period: "week" | "month" | "year" };
   /** Month story opened. Only with a story: 10+ check-in days. */
   "recaps:story_opened": {
-    period: "month";
+    period: "week" | "month";
     source: StorySource;
     slides_count: number;
   };
@@ -295,7 +298,12 @@ export interface AnalyticsEvents {
     is_correct: boolean;
   };
   /** Share card sent from the share sheet. Never the photos or lines. */
-  "recaps:story_shared": { has_photos: boolean; shuffles: number };
+  /** `slide_type`: the shared slide; `share` is the share card. */
+  "recaps:story_shared": {
+    has_photos: boolean;
+    shuffles: number;
+    slide_type: string;
+  };
   /** Story closed by the user or after the last slide. */
   "recaps:story_closed": {
     position: number;
@@ -321,6 +329,10 @@ export interface AnalyticsEvents {
   "people:delete_requested": { entries_count: number };
   "people:person_deleted": { entries_count: number };
   "people:delete_cancelled": undefined;
+  "people:people_reordered": {
+    people_count: number;
+    method: "drag" | "accessibility_action";
+  };
 
   /** Name length only; the name itself never leaves the device. */
   "profile:profile_saved": {
@@ -557,7 +569,7 @@ export interface RecapCardProperties {
   family: "moment" | "summary" | "pattern" | "change" | "nudge";
   modules: string[];
   signal: "strong" | "medium";
-  period: "week" | "month" | "quarter" | "year";
+  period: "week" | "month" | "year";
   /** Screen that showed the card. */
   source: "settings";
 }

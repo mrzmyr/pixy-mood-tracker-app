@@ -22,8 +22,8 @@ import {
 import type { TagArrangement, TagCategoryRow } from "../tag-categories";
 import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { Tag } from "../tags-provider";
-import { cardCorners } from "./card-corners";
-import { ReorderHandle } from "./reorder-handle";
+import { cardCorners } from "@/components/sortable/card-corners";
+import { ReorderHandle } from "@/components/sortable/reorder-handle";
 import { TagRow } from "./tag-row";
 
 const IS_IOS = Platform.OS === "ios";
@@ -48,11 +48,14 @@ const isCategoryChanged = (tags: Tag[], arrangement: TagArrangement[]) => {
 export const TagCategoryList = ({
   header,
   query = "",
+  hasBottomBar = true,
 }: {
   /** Rendered above the first category, inside the scroll view. */
   header?: React.ReactElement;
   /** Search text from the header search bar. */
   query?: string;
+  /** Leave room for a bottom bar, for example `CreateTagAction`. */
+  hasBottomBar?: boolean;
 }) => {
   const colors = useColors();
   const router = useRouter();
@@ -210,7 +213,7 @@ export const TagCategoryList = ({
       contentInsetAdjustmentBehavior="automatic"
       style={{ flex: 1, backgroundColor: colors.background }}
       contentContainerStyle={{
-        paddingBottom: 120 + (IS_IOS ? 0 : insets.bottom),
+        paddingBottom: (hasBottomBar ? 120 : 32) + (IS_IOS ? 0 : insets.bottom),
       }}
     >
       {!isSearching && header}
