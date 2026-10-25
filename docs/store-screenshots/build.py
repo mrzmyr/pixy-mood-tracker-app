@@ -370,10 +370,10 @@ CREATIVE = f"""
  <div><div class="cv search" data-cv="search">
   <h4 class="ih" style="top:30px;font-size:68px">{PIXY_ICON}Mood Journal</h4>
   <div class="sub" style="top:106px;font-size:28px;font-weight:500">Understand what makes you feel this way.</div>
-  {phone('mood', 232, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
+  {phone('stats', 232, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
   {phone('emotions', 232, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
   {phone('calendar', 194, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
- </div><div class="lab"><b>Search results</b> 3:2, 3840x2560. Replaces the first 3 screenshots in search, shown small: big type, big phones (calendar front, mood logger and emotions behind).</div></div>
+ </div><div class="lab"><b>Search results</b> 3:2, 3840x2560. Replaces the first 3 screenshots in search, shown small: big type, big phones (calendar front, statistics and emotions behind).</div></div>
  <div><div class="cv feature android-set" data-cv="feature">
   {pixels(FPX)}
   <div class="brand fb">{PIXY_ICON}<b>Pixy</b><span>Mood Journal</span></div>
