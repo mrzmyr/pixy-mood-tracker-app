@@ -2,11 +2,13 @@ import { useLocalSearchParams } from "expo-router";
 import { MoodCounts } from "../../components/mood-counts";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { ScrollView, View } from "react-native";
+import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/use-colors";
-import { useLogState } from "@/features/logs";
+import { getAverageMood, useLogState } from "@/features/logs";
+import { useStoreReviewPrompt } from "@/features/review";
 import { BestMonth } from "./best-month";
 import { useReportHeader } from "../../components/use-report-header";
 import { Header } from "./header";
@@ -17,7 +19,20 @@ import { TagDistribution } from "../../components/tag-distribution";
 import { EmotionsDistribution } from "../../components/emotions-distribution";
 import { getItemDate } from "@/lib/log-dates";
 
-/** Year report screen. Invalid `date` params fall back to the current year. */
+/** Distance from the bottom that counts as the end of the report. */
+const END_SLACK = 48;
+
+const isAtEnd = ({
+  contentOffset,
+  layoutMeasurement,
+  contentSize,
+}: NativeScrollEvent) =>
+  contentOffset.y + layoutMeasurement.height >= contentSize.height - END_SLACK;
+
+/**
+ * Year report screen. Invalid `date` params fall back to the current year.
+ * Scrolling to the end, past Year in Pixels, is a store review moment.
+ */
 export const StatisticsYearScreen = () => {
   const { date: routeDate } = useLocalSearchParams<{ date: string }>();
   const insets = useSafeAreaInsets();
@@ -44,9 +59,24 @@ export const StatisticsYearScreen = () => {
     getItemDate(item).startsWith(year)
   );
 
+  const requestStoreReviewPrompt = useStoreReviewPrompt();
+  const hasReachedEnd = useRef(false);
+  const onReportScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    onScroll(event);
+    if (hasReachedEnd.current || !isAtEnd(event.nativeEvent)) {
+      return;
+    }
+    hasReachedEnd.current = true;
+    requestStoreReviewPrompt({
+      kind: "year_report_end",
+      yearEntriesCount: items.length,
+      averageRating: getAverageMood(items),
+    });
+  };
+
   return (
     <ScrollView
-      onScroll={onScroll}
+      onScroll={onReportScroll}
       scrollEventThrottle={16}
       style={{
         flex: 1,

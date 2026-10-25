@@ -313,7 +313,7 @@ describe("useLogs()", () => {
       settings: {
         ..._.omit(testSettings, [
           "deviceId",
-          "storeReviewPromptedAt",
+          "storeReviewPromptDates",
           "storeReviewPromptedAppVersion",
           "photosDayAccessDismissed",
           "colorScheme",

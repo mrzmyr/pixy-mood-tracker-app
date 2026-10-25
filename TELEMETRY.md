@@ -40,8 +40,9 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - Calendar layout menu (Calendar, Timeline, Map): `calendar:layout_changed` with `layout`
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](src/features/review))
-  - Fires once per install, after the save that reaches 7 entries
-  - Properties: `trigger`, `entries_count`
+  - Fires when a good moment requests the system prompt. Max 3 per 365 days, 120 days apart, 1 per app version
+  - `trigger`: `entries_7` (first good save from 7 entries), `good_entry_30` (good save from 30 entries), `year_report_end`, `month_story_end`
+  - `entries_count`: all saved entries. Never ratings or averages
   - OS decides whether prompt shows
 - Widget guide: `widget:guide_*`
 - Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`, `rating`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`), `quick_check_in:setting_changed` (`enabled`). `source`: `live_activity`, `notification`, `app`. Never people or tag names

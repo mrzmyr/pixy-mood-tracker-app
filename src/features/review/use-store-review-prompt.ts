@@ -2,20 +2,18 @@ import { reportError } from "@/lib/report-error";
 import * as StoreReview from "expo-store-review";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
 import { createStructuredError } from "@/lib/errors";
+import { useLogState } from "@/features/logs";
 import { useAnalytics } from "@/state/analytics";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import pkg from "../../../package.json";
-import {
-  STORE_REVIEW_DELAY_MS,
-  STORE_REVIEW_TRIGGER,
-  shouldRequestStoreReview,
-} from "./store-review";
-import type { StoreReviewInput } from "./store-review";
+import { STORE_REVIEW_DELAY_MS, decideStoreReview } from "./store-review";
+import type { StoreReviewGate, StoreReviewMoment } from "./store-review";
 
 // Jest and development or preview (e2e, QA) builds never prompt.
 const IS_REVIEW_BUILD = HAS_APP_VARIANT && APP_VARIANT === "production";
 
-// Blocks a second prompt when another save lands inside the delay.
+// Blocks a second prompt when another moment lands inside the delay, and
+// any further prompt in this session after one was requested.
 let isPromptScheduled = false;
 
 const reportPromptError = (cause: unknown) => {
@@ -30,64 +28,82 @@ const reportPromptError = (cause: unknown) => {
 };
 
 /**
- * Returns a callback for the logger save flow. It requests the system store
- * review prompt once, `STORE_REVIEW_DELAY_MS` after the save that reaches
- * `STORE_REVIEW_ENTRIES_THRESHOLD` entries.
+ * Returns a callback for good moments: a saved entry, the end of a year
+ * report, the end of a month story. It requests the system store review
+ * prompt `STORE_REVIEW_DELAY_MS` later when `decideStoreReview` allows it.
  *
- * Never throws and never delays the save. The OS decides whether the prompt
- * shows (iOS: max 3 times per 365 days; Google Play: undisclosed quota).
+ * Never throws and never blocks the moment. The OS decides whether the
+ * prompt shows (iOS: max 3 times per 365 days; Google Play: undisclosed
+ * quota).
  */
 export const useStoreReviewPrompt = () => {
   const { settings, setSettings } = useSettings();
   const settingsLoad = useSettingsLoad();
   const analytics = useAnalytics();
+  const { items } = useLogState();
 
   const requestPrompt = async (
-    input: Omit<StoreReviewInput, "isReviewAvailable">
+    moment: StoreReviewMoment,
+    gate: Omit<StoreReviewGate, "isReviewAvailable">,
+    entriesCount: number
   ) => {
     try {
       const isReviewAvailable = await StoreReview.isAvailableAsync();
-      if (!shouldRequestStoreReview({ ...input, isReviewAvailable })) {
+      const trigger = decideStoreReview(moment, {
+        ...gate,
+        isReviewAvailable,
+      });
+      if (trigger === null) {
         isPromptScheduled = false;
         return;
       }
 
       // Record first: the prompt counts as shown even when the OS hides it.
+      const promptedAt = new Date().toISOString();
       setSettings((currentSettings) => ({
         ...currentSettings,
-        storeReviewPromptedAt: new Date().toISOString(),
+        storeReviewPromptDates: [
+          ...currentSettings.storeReviewPromptDates,
+          promptedAt,
+        ],
         storeReviewPromptedAppVersion: pkg.version,
       }));
       analytics.track("logger:store_review_requested", {
-        trigger: STORE_REVIEW_TRIGGER,
-        entries_count: input.entriesCount,
+        trigger,
+        entries_count: entriesCount,
       });
       await StoreReview.requestReview();
     } catch (error) {
+      isPromptScheduled = false;
       reportPromptError(error);
     }
   };
 
-  return (entriesCount: number) => {
-    const input = {
-      entriesCount,
-      promptedAt: settings.storeReviewPromptedAt,
+  return (moment: StoreReviewMoment) => {
+    const gate = {
+      promptDates: settings.storeReviewPromptDates,
+      lastPromptAppVersion: settings.storeReviewPromptedAppVersion,
+      appVersion: pkg.version,
+      now: new Date(),
       isReviewBuild: IS_REVIEW_BUILD,
       isSettingsReady: settingsLoad.status === "ready",
     };
+    // `items` predates a save in the same event, so saves pass their count.
+    const entriesCount =
+      moment.kind === "entry_saved" ? moment.entriesCount : items.length;
 
     // Availability is async and checked after the delay. Check the rest now
-    // so most saves schedule nothing.
+    // so most moments schedule nothing.
     if (
       isPromptScheduled ||
-      !shouldRequestStoreReview({ ...input, isReviewAvailable: true })
+      decideStoreReview(moment, { ...gate, isReviewAvailable: true }) === null
     ) {
       return;
     }
 
     isPromptScheduled = true;
     setTimeout(() => {
-      void requestPrompt(input);
+      void requestPrompt(moment, gate, entriesCount);
     }, STORE_REVIEW_DELAY_MS);
   };
 };

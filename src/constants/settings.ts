@@ -29,7 +29,7 @@ export const INITIAL_STATE: SettingsState = {
     "message",
     "feedback",
   ],
-  storeReviewPromptedAt: null,
+  storeReviewPromptDates: [],
   storeReviewPromptedAppVersion: null,
   photosDayAccessDismissed: false,
   colorScheme: "system",

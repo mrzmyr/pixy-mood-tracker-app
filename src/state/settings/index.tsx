@@ -15,6 +15,7 @@ import type { Tag } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
 import { INITIAL_STATE } from "@/constants/settings";
 import { applyColorScheme, ColorSchemeSettingSchema } from "./color-scheme";
+import { toStoreReviewPromptDates } from "./store-review-prompt-dates";
 import type { ColorSchemeSetting } from "./color-scheme";
 
 /**
@@ -55,9 +56,12 @@ export interface SettingsState {
   analyticsEnabled: boolean;
   actionsDone: IAction[];
   steps: ConfigurableLoggerStep[];
-  /** ISO date of the automatic store review prompt; `null` until shown once. */
-  storeReviewPromptedAt: string | null;
-  /** App version that showed the automatic store review prompt. */
+  /**
+   * ISO dates of automatic store review prompts, oldest first. Replaces
+   * the single `storeReviewPromptedAt` date of older versions.
+   */
+  storeReviewPromptDates: string[];
+  /** App version that showed the last automatic store review prompt. */
   storeReviewPromptedAppVersion: string | null;
   /**
    * The user dismissed the "See your photos from …" row in the photos step,
@@ -113,7 +117,7 @@ export interface SettingsState {
 export type ExportSettings = Omit<
   SettingsState,
   | "deviceId"
-  | "storeReviewPromptedAt"
+  | "storeReviewPromptDates"
   | "storeReviewPromptedAppVersion"
   | "photosDayAccessDismissed"
   | "colorScheme"
@@ -176,7 +180,7 @@ const reducer = (
         ...INITIAL_STATE,
         ...action.payload,
         steps: sanitizeSteps(action.payload.steps),
-        storeReviewPromptedAt: state.storeReviewPromptedAt,
+        storeReviewPromptDates: state.storeReviewPromptDates,
         storeReviewPromptedAppVersion: state.storeReviewPromptedAppVersion,
         photosDayAccessDismissed: state.photosDayAccessDismissed,
         colorScheme: state.colorScheme,
@@ -198,28 +202,42 @@ const reducer = (
   }
 };
 
-const hydrate = (stored: SettingsState | null): SettingsState =>
+/** Stored settings, possibly written by an older app version. */
+type StoredSettings = SettingsState & {
+  /** Single prompt date before `storeReviewPromptDates`. */
+  storeReviewPromptedAt?: unknown;
+};
+
+const hydrateStored = ({
+  storeReviewPromptedAt,
+  ...stored
+}: StoredSettings): SettingsState => ({
+  ...INITIAL_STATE,
+  ...stored,
+  deviceId: stored.deviceId || uuidv4(),
+  steps: sanitizeSteps(stored.steps),
+  storeReviewPromptDates: toStoreReviewPromptDates({
+    storeReviewPromptDates: stored.storeReviewPromptDates,
+    storeReviewPromptedAt,
+  }),
+  photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
+  locationEnabled: stored.locationEnabled === true,
+  colorScheme:
+    ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ?? "system",
+  calendarLayout: isCalendarLayout(stored.calendarLayout)
+    ? stored.calendarLayout
+    : "calendar",
+  appLockEnabled: stored.appLockEnabled === true,
+  recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
+  profileName: z.string().safeParse(stored.profileName).data ?? "",
+  profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
+  quickCheckInEnabled: stored.quickCheckInEnabled === true,
+});
+
+const hydrate = (stored: StoredSettings | null): SettingsState =>
   stored === null
     ? { ...INITIAL_STATE, deviceId: uuidv4() }
-    : {
-        ...INITIAL_STATE,
-        ...stored,
-        deviceId: stored.deviceId || uuidv4(),
-        steps: sanitizeSteps(stored.steps),
-        photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
-        locationEnabled: stored.locationEnabled === true,
-        colorScheme:
-          ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ??
-          "system",
-        calendarLayout: isCalendarLayout(stored.calendarLayout)
-          ? stored.calendarLayout
-          : "calendar",
-        appLockEnabled: stored.appLockEnabled === true,
-        recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
-        profileName: z.string().safeParse(stored.profileName).data ?? "",
-        profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
-        quickCheckInEnabled: stored.quickCheckInEnabled === true,
-      };
+    : hydrateStored(stored);
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({
   key: STORAGE_KEY,

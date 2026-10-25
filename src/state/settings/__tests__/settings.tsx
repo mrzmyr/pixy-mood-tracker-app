@@ -129,12 +129,34 @@ describe("useSettings()", () => {
     ]);
   });
 
+  test("should move the legacy store review prompt date into the dates list", async () => {
+    const { storeReviewPromptDates: _dates, ...legacy } = INITIAL_STATE;
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...legacy,
+        storeReviewPromptedAt: "2026-09-01T10:00:00.000Z",
+        storeReviewPromptedAppVersion: "1.89.0",
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.settings).toMatchObject({
+      storeReviewPromptDates: ["2026-09-01T10:00:00.000Z"],
+      storeReviewPromptedAppVersion: "1.89.0",
+    });
+    expect(hook.result.current.state.settings).not.toHaveProperty(
+      "storeReviewPromptedAt"
+    );
+  });
+
   test("should keep store review prompt state on import", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         ...INITIAL_STATE,
-        storeReviewPromptedAt: "2026-09-01T10:00:00.000Z",
+        storeReviewPromptDates: ["2026-09-01T10:00:00.000Z"],
         storeReviewPromptedAppVersion: "1.89.0",
       })
     );
@@ -150,7 +172,7 @@ describe("useSettings()", () => {
 
     expect(hook.result.current.state.settings).toMatchObject({
       reminderTime: "12:00",
-      storeReviewPromptedAt: "2026-09-01T10:00:00.000Z",
+      storeReviewPromptDates: ["2026-09-01T10:00:00.000Z"],
       storeReviewPromptedAppVersion: "1.89.0",
     });
   });

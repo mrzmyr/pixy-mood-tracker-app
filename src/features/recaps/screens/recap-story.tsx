@@ -7,7 +7,9 @@ import type { View as ViewType } from "react-native";
 import ShareIcon from "lucide-react-native/icons/share";
 import { setStatusBarHidden } from "expo-status-bar";
 import { useFeedback } from "@/features/feedback";
+import { getAverageMood } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
+import { useStoreReviewPrompt } from "@/features/review";
 import { useTagsState } from "@/features/tags";
 import { useWeekLocale } from "@/hooks/use-week-locale";
 import { useAnalytics } from "@/state/analytics";
@@ -49,6 +51,7 @@ const RecapStory = () => {
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
   const haptics = useHaptics();
+  const requestStoreReviewPrompt = useStoreReviewPrompt();
   const weekLocale = useWeekLocale();
   const params = useLocalSearchParams<{ date?: string; source?: string }>();
   const date = dayjs(params.date).isValid()
@@ -124,12 +127,21 @@ const RecapStory = () => {
   const slideOf = (index: number): StorySlide | undefined => story[index];
 
   const close = () => {
+    const completed = lastShown.current === count - 1;
     analytics.track("recaps:story_closed", {
       position: lastShown.current + 1,
       slides_count: count,
-      completed: lastShown.current === count - 1,
+      completed,
     });
     router.back();
+    // A story played to the end is a store review moment.
+    if (completed) {
+      requestStoreReviewPrompt({
+        kind: "month_story_end",
+        averageRating: getAverageMood(input.days.flatMap((day) => day.items)),
+        hasNotHelpfulAnswer: [...answers.values()].includes(false),
+      });
+    }
   };
 
   const send = (
