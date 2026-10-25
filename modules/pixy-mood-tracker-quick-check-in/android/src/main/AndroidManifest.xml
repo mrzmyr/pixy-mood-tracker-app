@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <application>
+    <!-- Taps on the check-in notification. Not exported: only our PendingIntents reach it. -->
+    <receiver
+      android:name=".QuickCheckInReceiver"
+      android:exported="false" />
+  </application>
+</manifest>

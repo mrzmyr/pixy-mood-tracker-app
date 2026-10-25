@@ -103,7 +103,7 @@ describe("profile", () => {
     );
     await openSettings();
 
-    expect(await screen.findByText("Logging since March 2024")).toBeTruthy();
+    expect(await screen.findByText("Logging since 2024")).toBeTruthy();
   });
 
   test("Add Photo opens the library at once and saves the picked photo", async () => {

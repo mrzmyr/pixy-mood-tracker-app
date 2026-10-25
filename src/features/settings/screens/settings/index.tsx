@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import FlagHighlight from "@/components/flag-highlight";
 import FieldRow from "@/components/field-row";
+import { ScrollEdge } from "@/components/scroll-edge";
 import { SupportCard } from "@/components/support-card";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
 import {
@@ -31,7 +32,6 @@ import {
 import { useSettings } from "@/state/settings";
 import { COLOR_SCHEMES } from "@/state/settings/color-scheme";
 import useColors from "@/hooks/use-colors";
-import { useIsWidgetEnabled } from "@/features/widget";
 import {
   AppLockMenuItem,
   useIsAppLockMenuItemVisible,
@@ -60,7 +60,6 @@ export const SettingsScreen = () => {
   const colors = useColors();
   const { width: windowWidth } = useWindowDimensions();
   const analytics = useAnalytics();
-  const isWidgetEnabled = useIsWidgetEnabled();
   const isAppLockVisible = useIsAppLockMenuItemVisible();
   const isRecapsEnabled = useFeatureFlag("recaps");
   const isProfileEnabled = useFeatureFlag("profile");
@@ -137,7 +136,7 @@ export const SettingsScreen = () => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
+    <ScrollEdge style={{ flex: 1, backgroundColor: colors.background }}>
       <Host style={{ flex: 1 }} seedColor={colors.tint}>
         <FieldGroup
           style={
@@ -146,18 +145,12 @@ export const SettingsScreen = () => {
               : undefined
           }
         >
+          {isProfileEnabled && (
+            <FieldGroup.Section>
+              <ProfileRow />
+            </FieldGroup.Section>
+          )}
           <FieldGroup.Section>
-            {isProfileEnabled && (
-              <FieldGroup.SectionHeader>
-                <RNHostView matchContents>
-                  <View style={{ width: windowWidth - 2 * SECTION_INSET }}>
-                    <FlagHighlight flag="profile">
-                      <ProfileRow />
-                    </FlagHighlight>
-                  </View>
-                </RNHostView>
-              </FieldGroup.SectionHeader>
-            )}
             <FieldRow
               title={t("data")}
               icon={SETTINGS_ICONS.data}
@@ -166,7 +159,7 @@ export const SettingsScreen = () => {
               testID="data"
             />
             <FieldRow
-              title={t("reminder")}
+              title={t("reminders")}
               icon={SETTINGS_ICONS.reminder}
               kind="push"
               onPress={() => router.push("/settings/reminder")}
@@ -188,15 +181,6 @@ export const SettingsScreen = () => {
                   router.push(`/recaps/week/${dayjs().format(DATE_FORMAT)}`)
                 }
                 testID="recaps"
-              />
-            )}
-            {isWidgetEnabled && (
-              <FieldRow
-                title={t("widget")}
-                icon={SETTINGS_ICONS.widget}
-                kind="push"
-                onPress={() => router.push("/widget")}
-                testID="widget"
               />
             )}
           </FieldGroup.Section>
@@ -348,6 +332,6 @@ export const SettingsScreen = () => {
           )}
         </FieldGroup>
       </Host>
-    </View>
+    </ScrollEdge>
   );
 };

@@ -33,6 +33,8 @@
 
 - [`docs/app-facts.json`](docs/app-facts.json) is the only place for app facts: name, ids, links, license, claims, feature list with status, store and source versions.
 - Never create another facts file, feature list, or metadata table. README, store text, directory listings, and the website derive from this file.
+- Positioning and messaging for store text, screenshots, website, and README: [vision.md](vision.md). Check public copy against its main message and messaging rules.
+- Never edit [vision.md](vision.md). It is human-owned. Propose changes in chat or the PR description instead.
 - Public copy may claim a feature only when its `status` is `available`. Check `claims` before stating free, no ads, no account, local storage.
 - MUST update [`docs/app-facts.json`](docs/app-facts.json) whenever a feature or service changes. Verify against source and live stores first. Bump `verifiedOn`.
 - Keep directory credentials and account recovery details outside this public repository.
@@ -59,7 +61,8 @@
 - Public repo: entries contain no private names, internal context, or user data
 - Never use Expo Device Hub (`bun hub`) as an agent. Humans: never press Shut down or Remove in it ([Device Hub](docs/development.md#device-hub)).
 - Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Fixed values are fine: rating, emotion keys, sleep quality, intervention cluster, feedback answer. Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
-- Call EAS Observe config only through `configureObserve` ([`src/lib/observe.ts`](src/lib/observe.ts)). Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others.
+- Call EAS Observe only through [`src/lib/observe.ts`](src/lib/observe.ts): `configureObserve` for config, `logObserveEvent` for events. Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others. Same free-text ban as PostHog.
+- Report caught errors only through `reportError` ([`src/lib/report-error.ts`](src/lib/report-error.ts)). It takes a `StructuredError`, sends it to Sentry, and sends Observe only `status` and `message`. `pixy-standards/no-direct-error-reporting` blocks direct SDK calls.
 
 ### Testing
 

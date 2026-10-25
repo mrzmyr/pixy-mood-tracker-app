@@ -27,6 +27,58 @@ import { SlidePeople } from "../slides/slide-people";
 import { SlideTags } from "../slides/slide-tags";
 import { LogDraftProvider } from "../log-draft";
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-router/testing-library swaps in an empty reanimated mock, so the sortable grid cannot render here. `<action>-<id>` buttons stand in for the tile menu rows.
+jest.mock("../components/people-tile-grid", () => {
+  const { Fragment, createElement } = require("react");
+  return {
+    __esModule: true,
+    PeopleTileGrid: ({
+      people,
+      renderTile,
+      addTile,
+      menuActions,
+      onMenuAction,
+    }: {
+      people: { id: string }[];
+      renderTile: (
+        person: { id: string },
+        isPressBlocked: () => boolean
+      ) => React.ReactElement;
+      addTile: React.ReactElement | null;
+      menuActions: (person: { id: string }) => { id: string }[];
+      onMenuAction: (person: { id: string }, actionId: string) => void;
+    }) => {
+      const {
+        Pressable: MenuButton,
+        Text: MenuLabel,
+      } = require("react-native");
+      return createElement(
+        Fragment,
+        null,
+        ...people.map((person) =>
+          createElement(
+            Fragment,
+            { key: person.id },
+            renderTile(person, () => false),
+            ...menuActions(person).map((action) =>
+              createElement(
+                MenuButton,
+                {
+                  key: action.id,
+                  testID: `${action.id}-${person.id}`,
+                  onPress: () => onMenuAction(person, action.id),
+                },
+                createElement(MenuLabel, null, action.id)
+              )
+            )
+          )
+        ),
+        addTile
+      );
+    },
+  };
+});
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
 jest.mock("react-native-safe-area-context", () => {
   const { View } = jest.requireActual("react-native");
@@ -123,16 +175,6 @@ describe("Logger tag and people slides", () => {
     const result = await renderLogger();
     await userEvent.longPress(await result.findByText("Work"));
     expect(await result.findByText("Editing tag tag-work")).toBeOnTheScreen();
-  });
-
-  test("long press on a person opens their editor", async () => {
-    const result = await renderLogger();
-    await userEvent.longPress(
-      await result.findByTestId("log-person-person-ada")
-    );
-    expect(
-      await result.findByText("Editing person person-ada")
-    ).toBeOnTheScreen();
   });
 
   test("screen reader edit action on a person opens their editor", async () => {

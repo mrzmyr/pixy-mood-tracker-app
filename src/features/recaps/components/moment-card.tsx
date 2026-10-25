@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import type { ReactNode } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import MapPin from "lucide-react-native/icons/map-pin";
 import { Secondary } from "@/components/type";
@@ -12,6 +12,7 @@ import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
 import type { MomentCard as MomentCardData, SleepNight } from "../types";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
+import { getMomentLine } from "./person-moment-line";
 import { RingedAvatar } from "./ringed-avatar";
 import { CHIP } from "../chip-marker";
 import { ChipText, EmotionChip, TagChip } from "./title-chip";
@@ -23,7 +24,8 @@ interface Content {
   art?: ReactNode;
   title: ReactNode;
   titleLabel: string;
-  text: string;
+  text?: string;
+  body?: ReactNode;
 }
 
 interface Lookup {
@@ -31,11 +33,42 @@ interface Lookup {
   tags: Tag[];
 }
 
-const PersonArt = ({ person }: { person: Person }) => (
-  <View style={{ alignItems: "flex-start" }}>
-    <RingedAvatar person={person} size={72} />
-  </View>
-);
+/** One row per person: ringed avatar, name, and why they show. */
+const PeopleMomentsList = ({
+  rows,
+}: {
+  rows: { person: Person; line: string }[];
+}) => {
+  const colors = useColors();
+  return (
+    <View style={{ gap: 12 }}>
+      {rows.map(({ person, line }) => (
+        <View
+          key={person.id}
+          accessible
+          accessibilityLabel={`${person.name}, ${line}`}
+          style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
+        >
+          <RingedAvatar person={person} size={44} />
+          <View style={{ flex: 1, minWidth: 0 }}>
+            <Text
+              numberOfLines={1}
+              style={{ fontSize: 17, fontWeight: "600", color: colors.text }}
+            >
+              {person.name}
+            </Text>
+            <Text
+              numberOfLines={1}
+              style={{ fontSize: 15, color: colors.textSecondary }}
+            >
+              {line}
+            </Text>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+};
 
 /** Night box: the sleep slide's meter at half size. */
 const NIGHT_BOX = 32;
@@ -126,10 +159,6 @@ const getContent = (
   card: MomentCardData,
   { people, tags }: Lookup
 ): Content | null => {
-  const person =
-    "personId" in card
-      ? people.find((item) => item.id === card.personId)
-      : undefined;
   switch (card.type) {
     case "emotion-again": {
       const title = t("recaps_emotion_again_title", { emotion: CHIP });
@@ -159,49 +188,23 @@ const getContent = (
         text: t("recaps_emotion_absent_text", { count: card.countBefore }),
       };
     }
-    case "person-back": {
-      if (!person) {
-        return null;
-      }
-      const title = t("recaps_person_back_title", { name: person.name });
-      return {
-        art: <PersonArt person={person} />,
-        title,
-        titleLabel: title,
-        text: t("recaps_person_back_text", {
-          count: card.weeks,
-          date: formatDay(card.lastDate),
-        }),
-      };
-    }
-    case "person-new": {
-      if (!person) {
-        return null;
-      }
-      const title = t("recaps_person_new_title", { name: person.name });
-      return {
-        art: <PersonArt person={person} />,
-        title,
-        titleLabel: title,
-        text: t("recaps_person_new_text", {
-          date: dayjs(card.firstDate).format("dddd, D MMMM"),
-        }),
-      };
-    }
-    case "person-milestone": {
-      if (!person) {
-        return null;
-      }
-      const title = t("recaps_person_milestone_title", {
-        count: card.days,
-        name: person.name,
-        year: card.year,
+    case "people-moments": {
+      const rows = card.people.flatMap((moment) => {
+        const person = people.find((item) => item.id === moment.personId);
+        return person ? [{ person, line: getMomentLine(moment) }] : [];
       });
+      if (rows.length === 0) {
+        return null;
+      }
+      const title = t(
+        card.periodKind === "month"
+          ? "recaps_people_moments_title_month"
+          : "recaps_people_moments_title_week"
+      );
       return {
-        art: <PersonArt person={person} />,
+        body: <PeopleMomentsList rows={rows} />,
         title,
         titleLabel: title,
-        text: t("recaps_person_milestone_text"),
       };
     }
     case "first-city": {
@@ -287,6 +290,7 @@ export const MomentCard = ({
       title={content.title}
       titleLabel={content.titleLabel}
       text={content.text}
+      body={content.body}
       footer={footer}
     />
   );

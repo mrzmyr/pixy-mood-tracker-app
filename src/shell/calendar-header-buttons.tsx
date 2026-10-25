@@ -27,10 +27,10 @@ const ICONS =
 /**
  * Calendar header buttons: Statistics on the left; Filters and Settings
  * (cog icon) on the right. With the `profile` flag, the user's avatar
- * replaces the cog: photo, initials, or a gray silhouette. With the `calendar-timeline` or `calendar-map`
- * flag on, Filters is a menu: it opens the filter sheet and holds the layout
- * picker (Calendar, Timeline, Map). With both flags off, Filters opens the
- * sheet.
+ * replaces the cog: photo, initials, or a gray silhouette. With the
+ * `calendar-timeline` flag on, Filters is a menu: it opens the filter sheet
+ * and holds the layout picker (Calendar, Timeline). With the flag off,
+ * Filters opens the sheet.
  *
  * Native header items: Liquid Glass buttons on iOS 26 (floating over the
  * calendar, see `HAS_FLOATING_HEADER`), Material icon buttons on Android.

@@ -8,7 +8,7 @@ import { t } from "@/lib/translation";
 /**
  * Below the photos step grid on iOS: why photos of the entry's day are
  * missing, and the way to get them. Not asked: a card with a preview row,
- * "Show Photos from …" and "Not Now". After "Not Now": a button. Access
+ * "Allow Photo Access" and "Not Now". After "Not Now": a button. Access
  * off: a card with "Open Settings". Access on, no photos that day: a card
  * that points to the library. Renders nothing while photos of the day show.
  */

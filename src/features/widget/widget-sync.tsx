@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { widgetsDirectory } from "expo-widgets";
 import * as FileSystem from "expo-file-system/legacy";
 import { useEffect, useMemo, useRef } from "react";
@@ -6,7 +6,6 @@ import { AppState, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
 import { useLogLoad, useLogState } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
-import { useFeatureFlagState } from "@/state/feature-flags";
 import { useSetting } from "@/state/settings";
 import { getSchemeColors, getYearGrid } from "./widget-data";
 import type { YearImages } from "./widget-data";
@@ -40,8 +39,7 @@ const captureYearImage = async (view: View, name: string) => {
 };
 
 /**
- * Keeps the home screen widgets in sync with entries, the color scale, and
- * the `ios-widget` flag (off: widgets show "Not available").
+ * Keeps the home screen widgets in sync with entries and the color scale.
  * Renders the year grid off screen, captures it as an image for the year
  * widget, then pushes every timeline. Also resyncs when the app returns to
  * the foreground, so the timeline never runs out while the app stays
@@ -51,7 +49,6 @@ export const WidgetSync = () => {
   const { items } = useLogState();
   const loaded = useLogLoad().status === "ready";
   const scaleType = useSetting("scaleType") ?? DEFAULT_SCALE;
-  const flagState = useFeatureFlagState("ios-widget");
   // One view per captured row: [scheme][layout][row].
   const rowRefs = useRef<Record<string, View | null>>({});
 
@@ -64,11 +61,9 @@ export const WidgetSync = () => {
   );
 
   useEffect(() => {
-    // Wait for the flag: a `loading` state must not flash "Not available".
-    if (!IS_WIDGET_SUPPORTED || !loaded || flagState === "loading") {
+    if (!IS_WIDGET_SUPPORTED || !loaded) {
       return;
     }
-    const isAvailable = flagState === "on";
     const captureRows = (
       scheme: "light" | "dark",
       layout: "band" | "months",
@@ -96,7 +91,7 @@ export const WidgetSync = () => {
     const sync = async () => {
       let yearImages: YearImages | undefined;
       try {
-        if (isAvailable && widgetsDirectory) {
+        if (widgetsDirectory) {
           yearImages = {
             light: await captureRows("light", "band", YEAR_BAND_ROWS),
             dark: await captureRows("dark", "band", YEAR_BAND_ROWS),
@@ -113,9 +108,9 @@ export const WidgetSync = () => {
           fix: "Open Pixy again; the year widget keeps its last image",
         });
         console.error(structuredError);
-        Sentry.captureException(structuredError);
+        reportError(structuredError);
       }
-      await syncWidgets({ items, scaleType, isAvailable, yearImages });
+      await syncWidgets({ items, scaleType, yearImages });
     };
     const timeout = setTimeout(() => {
       void sync();
@@ -129,7 +124,7 @@ export const WidgetSync = () => {
       clearTimeout(timeout);
       subscription.remove();
     };
-  }, [items, loaded, scaleType, flagState]);
+  }, [items, loaded, scaleType]);
 
   if (grid === null) {
     return null;

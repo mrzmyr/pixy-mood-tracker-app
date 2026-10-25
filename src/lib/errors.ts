@@ -31,6 +31,13 @@ export const createStructuredError = <Status extends string | number>({
     fix,
   });
 
+/** True for errors made by `createStructuredError`, ready for `reportError`. */
+export const isStructuredError = (error: unknown): error is StructuredError =>
+  error instanceof Error &&
+  "status" in error &&
+  "why" in error &&
+  "fix" in error;
+
 /**
  * Error thrown when a context hook is used outside of its provider.
  * The message format `<hook> must be used within a <Provider>` is kept stable.

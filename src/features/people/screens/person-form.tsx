@@ -14,16 +14,13 @@ import Toggle from "@/components/toggle";
 import { MAX_TAG_LENGTH } from "@/constants/config";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
-import useHaptics from "@/hooks/use-haptics";
-import Alert from "@/lib/alert";
 import { t } from "@/lib/translation";
-import { useAnalytics } from "@/state/analytics";
 import { PersonAvatar } from "../components/person-avatar";
 import { PhotoButton } from "@/components/photo-button";
 import type { PhotoAction } from "@/components/photo-button/types";
 import { usePersonDraft } from "../hooks/use-person-draft";
 import { usePersonEntryCount } from "../hooks/use-person-entry-count";
-import { usePeopleUpdater } from "../people-provider";
+import { usePersonActions } from "../hooks/use-person-actions";
 
 const AVATAR_SIZE = 112;
 const SECTION_GAP = 32;
@@ -46,39 +43,17 @@ const EditActions = ({
 }) => {
   const router = useRouter();
   const colors = useColors();
-  const haptics = useHaptics();
-  const analytics = useAnalytics();
-  const peopleUpdater = usePeopleUpdater();
+  const { confirmDelete } = usePersonActions();
   const entryCount = usePersonEntryCount(personId);
   const isIOS = Platform.OS === "ios";
 
   const askToDelete = () => {
-    analytics.track("people:delete_requested", { entries_count: entryCount });
-    Alert.alert(
-      t("people_delete_confirm_title"),
-      t("people_delete_confirm_message", { count: entryCount }),
-      [
-        {
-          text: t("cancel"),
-          style: "cancel",
-          onPress: () => analytics.track("people:delete_cancelled"),
-        },
-        {
-          text: t("delete"),
-          style: "destructive",
-          onPress: () => {
-            void haptics.impact();
-            analytics.track("people:person_deleted", {
-              entries_count: entryCount,
-            });
-            peopleUpdater.deletePerson(personId);
-            onLeave();
-            router.back();
-          },
-        },
-      ],
-      { cancelable: true }
-    );
+    confirmDelete(personId, {
+      onDeleted: () => {
+        onLeave();
+        router.back();
+      },
+    });
   };
 
   return (

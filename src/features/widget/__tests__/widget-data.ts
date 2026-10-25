@@ -122,14 +122,6 @@ describe("getYearWidgetProps()", () => {
   });
 });
 
-describe("availability", () => {
-  test("widgets are available unless the flag says otherwise", () => {
-    expect(getWeekWidgetProps(INPUT).isAvailable).toBe(true);
-    const off = getMonthWidgetProps({ ...INPUT, isAvailable: false });
-    expect(off.isAvailable).toBe(false);
-  });
-});
-
 const luminance = (color: string) => chroma(color).luminance();
 
 describe("getSchemeColors()", () => {

@@ -23,6 +23,12 @@ describe("observeConfig", () => {
     expect(configKeys(true)).toEqual(configKeys(false));
   });
 
+  it("keeps the router integration on whatever the consent", () => {
+    expect(observeConfig({ consent: false }, phone).integrations).toEqual(
+      observeConfig({ consent: true }, phone).integrations
+    );
+  });
+
   it("dispatches from preview builds on real devices", () => {
     const build = { ...phone, variant: "preview" } as const;
 
@@ -42,12 +48,10 @@ describe("observeConfig", () => {
     );
   });
 
-  it.each([
-    ["simulator or emulator", { ...phone, isDevice: false }],
-    ["development build", { ...phone, variant: "development" }],
-    ["build without variant", { ...phone, hasVariant: false }],
-  ] as const)("never dispatches from a %s", (_, build) => {
-    expect(observeConfig({ consent: true }, build).dispatchingEnabled).toBe(
+  it("never dispatches where telemetry is off", () => {
+    const simulator = { ...phone, isDevice: false };
+
+    expect(observeConfig({ consent: true }, simulator).dispatchingEnabled).toBe(
       false
     );
   });

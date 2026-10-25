@@ -107,7 +107,7 @@ describe("turn on nudges", () => {
     ).toEqual(["intro-emotions"]);
   });
 
-  test("fit week and month, not quarter or year", () => {
+  test("fit week and month, not year", () => {
     const input = { items: fullWeek, steps: ["rating" as const] };
 
     expect(types(makeInput({ ...input, kind: "month" }))).toEqual([
@@ -115,7 +115,6 @@ describe("turn on nudges", () => {
       "intro-people",
       "intro-photos",
     ]);
-    expect(types(makeInput({ ...input, kind: "quarter" }))).toEqual([]);
     expect(types(makeInput({ ...input, kind: "year" }))).toEqual([]);
   });
 });

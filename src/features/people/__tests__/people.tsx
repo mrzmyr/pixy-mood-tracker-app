@@ -119,6 +119,25 @@ describe("usePeople()", () => {
     expect(hook.result.current.state.people).toEqual([]);
   });
 
+  test("persists a new order", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.updater.createPerson(sam);
+      hook.result.current.updater.createPerson(alex);
+    });
+    await act(() =>
+      hook.result.current.updater.reorderPeople([alex.id, sam.id])
+    );
+
+    await waitFor(async () => {
+      expect(await AsyncStorage.getItem(STORAGE_KEY)).toEqual(
+        JSON.stringify({ people: [alex, sam] })
+      );
+    });
+  });
+
   test("delete strips the person from entries and removes the avatar file", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);

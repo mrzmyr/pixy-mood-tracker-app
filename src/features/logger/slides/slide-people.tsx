@@ -3,27 +3,27 @@ import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
 import Plus from "lucide-react-native/icons/plus";
 import { useEffect, useRef } from "react";
-import {
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-  useWindowDimensions,
-} from "react-native";
+import { Pressable, Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
+import { RADIUS } from "@/constants/radius";
 import LinkButton from "@/components/link-button";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
-import { useLogState } from "@/features/logs";
+import { useAnalytics } from "@/state/analytics";
 import {
   PersonChip,
   TILE_RING_GAP,
   TILE_RING_WIDTH,
   getPeopleLimit,
-  sortPeopleByUsage,
+  getPersonMenuActions,
+  movePerson,
   usePeopleState,
+  usePeopleUpdater,
+  usePersonMenu,
 } from "@/features/people";
+import type { Person } from "@/features/people";
+import { PeopleTileGrid } from "../components/people-tile-grid";
 import { SlideHeadline } from "../components/slide-headline";
 import { useLogDraft } from "../log-draft";
 import { Footer } from "./footer";
@@ -33,16 +33,16 @@ const COLUMNS = 3;
 const SLIDE_PADDING = 20;
 const COLUMN_GAP = 12;
 const MAX_AVATAR_SIZE = 96;
+const ROW_GAP = 20;
 
 /**
- * Last grid cell: opens the person form, hidden at `MAX_PEOPLE`.
- * Border, icon, and label share one placeholder gray so the tile reads as an
- * empty slot, quieter than the people around it.
+ * Last grid cell: opens the person form, hidden at `MAX_PEOPLE`. Dashed
+ * circle, icon, and label use the tint color, so the cell reads as an action
+ * and not as a disabled slot.
  */
 const AddPersonTile = ({ size }: { size: number }) => {
   const router = useRouter();
   const colors = useColors();
-  const quiet = colors.textInputPlaceholder;
   const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
 
   return (
@@ -68,18 +68,18 @@ const AddPersonTile = ({ size }: { size: number }) => {
           style={{
             width: size,
             height: size,
-            borderRadius: size / 2,
+            borderRadius: RADIUS.full,
             borderWidth: 2,
             borderStyle: "dashed",
-            borderColor: quiet,
+            borderColor: colors.tint,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           <Plus
             size={Math.round(size * 0.35)}
-            color={quiet}
-            strokeWidth={1.5}
+            color={colors.tint}
+            strokeWidth={2}
           />
         </View>
       </View>
@@ -89,7 +89,8 @@ const AddPersonTile = ({ size }: { size: number }) => {
           marginTop: 6,
           maxWidth: outer,
           fontSize: 15,
-          color: quiet,
+          fontWeight: "500",
+          color: colors.tint,
         }}
       >
         {t("people_add")}
@@ -100,9 +101,14 @@ const AddPersonTile = ({ size }: { size: number }) => {
 
 /**
  * People picker slide: "Who played a part?". Archived people are hidden
- * unless the draft already has them. Chips show the most used people of the
- * last 90 days first, in a grid of avatars that ends with an add tile.
- * Without people it offers one way out: add some.
+ * unless the draft already has them. Chips follow the stored order, in a
+ * grid of avatars that ends with an add tile. Without people it offers one
+ * way out: add some.
+ *
+ * Tiles reorder by drag and have a menu: Edit, Archive, Delete. iOS: hold
+ * shows the system context menu, moving the finger drags. Elsewhere: hold
+ * lifts the tile, release in place opens the editor. Archive and Delete
+ * also take the person off the draft, so the tile goes away at once.
  */
 export const SlidePeople = ({
   onDisableStep = noop,
@@ -115,8 +121,10 @@ export const SlidePeople = ({
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const colors = useColors();
+  const analytics = useAnalytics();
   const { people } = usePeopleState();
-  const { items } = useLogState();
+  const { reorderPeople } = usePeopleUpdater();
+  const runMenuAction = usePersonMenu();
   const { width } = useWindowDimensions();
   const columnWidth =
     (width - 2 * SLIDE_PADDING - (COLUMNS - 1) * COLUMN_GAP) / COLUMNS;
@@ -126,11 +134,34 @@ export const SlidePeople = ({
   );
 
   const selectedIds = new Set(draft.people.map((person) => person.id));
-  const visible = sortPeopleByUsage(
-    people.filter((person) => !person.isArchived || selectedIds.has(person.id)),
-    items
+  const visible = people.filter(
+    (person) => !person.isArchived || selectedIds.has(person.id)
   );
   const marginTop = useSlideMarginTop();
+
+  const reorder = (
+    orderedIds: Person["id"][],
+    method: "drag" | "accessibility_action"
+  ) => {
+    analytics.track("people:people_reordered", {
+      people_count: orderedIds.length,
+      method,
+    });
+    reorderPeople(orderedIds);
+  };
+
+  const move = (id: string, offset: -1 | 1) => {
+    const orderedIds = movePerson(visible, id, offset);
+    if (orderedIds) {
+      reorder(orderedIds, "accessibility_action");
+    }
+  };
+
+  const deselect = (id: string) =>
+    setPeople(draft.people.filter((person) => person.id !== id));
+
+  const editPerson = (id: string) =>
+    router.push({ pathname: "/people/[id]", params: { id } });
 
   const toggle = (id: string) => {
     setPeople(
@@ -192,7 +223,7 @@ export const SlidePeople = ({
           }}
           pointerEvents="none"
         />
-        {people.length === 0 ? (
+        {people.length === 0 && (
           <View
             style={{
               flex: 1,
@@ -218,46 +249,47 @@ export const SlidePeople = ({
               {t("people_add")}
             </Button>
           </View>
-        ) : (
-          <ScrollView style={{ flex: 1 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                columnGap: COLUMN_GAP,
-                rowGap: 20,
-                marginTop: 24,
-                paddingBottom: insets.bottom,
-              }}
-            >
-              {visible.map((person) => (
-                <View
-                  key={person.id}
-                  style={{ width: columnWidth, alignItems: "center" }}
-                >
-                  <PersonChip
-                    variant="tile"
-                    size={avatarSize}
-                    person={person}
-                    selected={selectedIds.has(person.id)}
-                    onPress={() => toggle(person.id)}
-                    onLongPress={() =>
-                      router.push({
-                        pathname: "/people/[id]",
-                        params: { id: person.id },
-                      })
-                    }
-                    testID={`log-person-${person.id}`}
-                  />
-                </View>
-              ))}
-              {!getPeopleLimit(people).reached && (
-                <View style={{ width: columnWidth, alignItems: "center" }}>
-                  <AddPersonTile size={avatarSize} />
-                </View>
-              )}
-            </View>
-          </ScrollView>
+        )}
+        {people.length > 0 && (
+          <PeopleTileGrid
+            people={visible}
+            columns={COLUMNS}
+            columnGap={COLUMN_GAP}
+            rowGap={ROW_GAP}
+            paddingBottom={insets.bottom + 32}
+            onReorder={(orderedIds) => reorder(orderedIds, "drag")}
+            addTile={
+              getPeopleLimit(people).reached ? null : (
+                <AddPersonTile size={avatarSize} />
+              )
+            }
+            menuActions={getPersonMenuActions}
+            onMenuAction={(person, actionId) =>
+              runMenuAction(person, actionId, {
+                onEdit: () => editPerson(person.id),
+                onArchived: () => deselect(person.id),
+                onDeleted: () => deselect(person.id),
+              })
+            }
+            renderTile={(person, isPressBlocked) => (
+              <PersonChip
+                variant="tile"
+                size={avatarSize}
+                person={person}
+                selected={selectedIds.has(person.id)}
+                onPress={() => {
+                  if (!isPressBlocked()) {
+                    toggle(person.id);
+                  }
+                }}
+                // Hold opens the menu or lifts the tile; screen readers keep "edit".
+                onLongPress={() => editPerson(person.id)}
+                editOnLongPress={false}
+                onMove={(offset) => move(person.id, offset)}
+                testID={`log-person-${person.id}`}
+              />
+            )}
+          />
         )}
       </View>
       <Footer>

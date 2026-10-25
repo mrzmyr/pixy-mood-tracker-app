@@ -17,6 +17,7 @@ const Clock = ({
   timeDate,
   onChange,
   style,
+  testID = "reminder-time",
 }: ClockProps & { style?: ViewStyle }) => {
   const colors = useColors();
   const [open, setOpen] = useState(false);
@@ -24,7 +25,7 @@ const Clock = ({
   return (
     <>
       <Pressable
-        testID="reminder-time"
+        testID={testID}
         accessibilityRole="button"
         onPress={() => setOpen(true)}
         style={{

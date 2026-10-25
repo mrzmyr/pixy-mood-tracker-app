@@ -47,6 +47,10 @@ export const THRESHOLDS = {
   tripMinKm: 25,
   /** Trips: days in one city merge across gaps up to this many days. */
   tripMaxGapDays: 2,
+  /** Places: home areas needed without a trip, so one area never fills a card. */
+  placesMinSpots: 2,
+  /** Places: rows at most, trips first. */
+  placesMaxRows: 5,
   /** Effects: days with the driver needed for any signal. */
   effectMinDays: 5,
   /** Effects: difference over standard error for a strong signal. */
@@ -71,10 +75,10 @@ export const THRESHOLDS = {
   peopleMoodMinPeople: 4,
   /** People and mood: rows at most. */
   peopleMoodMaxRows: 8,
-  /** Trends: rolling window in days, per recap. */
-  trendWindowDays: { quarter: 30, year: 60 },
-  /** Trends: days between window ends, per recap. */
-  trendStepDays: { quarter: 7, year: 14 },
+  /** Trends: rolling window in days. */
+  trendWindowDays: 60,
+  /** Trends: days between window ends. */
+  trendStepDays: 14,
   /** Trends: days with and days without the driver per window. */
   trendMinDays: 5,
   /** Trends: window ends needed for a line. */
@@ -85,4 +89,56 @@ export const THRESHOLDS = {
   trendSteadyBelow: 0.25,
   /** Trends: rows at most. */
   trendMaxRows: 5,
+  /** Month story: check-in days needed for a story. */
+  storyMinCheckIns: 10,
+  /** Month story: months back from the current month that keep a story. */
+  storyMaxMonthsBack: 3,
+  /** Week story: check-in days needed. */
+  weekStoryMinCheckIns: 4,
+  /** Week story: weeks before the current one that still get a story. */
+  weekStoryMaxWeeksBack: 2,
+  /** Story photos and bright days: rating at least this (good). */
+  storyBrightMinRating: 4,
+  /** Story harder days: rating at most this (bad), as in the day recap. */
+  storyHardMaxRating: 2,
+  /** Cover: photo days for the photo grid. Fewer: one photo. */
+  storyCoverGridPhotoDays: 7,
+  /** Same weekday: tag days on that weekday, at least. */
+  weekdayHabitMinHits: 3,
+  /** Same weekday: share of that weekday with the tag, at least. */
+  weekdayHabitMinShare: 0.75,
+  /** Same weekday: other weekdays' share, at most this part of it. */
+  weekdayHabitMaxOtherRatio: 0.5,
+  /** Made of: tags with enough days needed. */
+  madeOfMinTags: 3,
+  /** Made of: days with the tag, at least. */
+  madeOfMinDays: 4,
+  /** Made of: rows at most. */
+  madeOfMaxRows: 5,
+  /** Lifted: rows at most. Medium or strong lighter effects only. */
+  liftedMaxRows: 3,
+  /** Story people: people with enough bright connected days needed. */
+  storyPeopleMinPeople: 2,
+  /** Story people: bright connected days per person, at least. */
+  storyPeopleMinBrightDays: 3,
+  /** Story people: rows at most. */
+  storyPeopleMaxRows: 2,
+  /** Hard pattern: harder days with the tag, at least. */
+  hardPatternMinDays: 2,
+  /** Hard pattern: share of other days with the tag, below. */
+  hardPatternMaxOtherShare: 0.5,
+  /** Vs last month: check-in days needed in the month before. */
+  vsLastMinCheckIns: 10,
+  /** Vs last month: change in tag days, at least. */
+  vsLastMinChange: 2,
+  /** Vs last month: rows at most. */
+  vsLastMaxRows: 4,
+  /** Moments: weeks with a photo needed. */
+  momentsMinWeeks: 3,
+  /** Share card: photos on the card; fewer bright photo days show the grid. */
+  sharePhotos: 3,
+  /** Share card: lines at most. */
+  shareMaxFacts: 3,
+  /** Quiz: days a person or tag needs to be a statement or tile. */
+  quizMinDays: 2,
 } as const;

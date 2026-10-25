@@ -1,6 +1,7 @@
-import * as Sentry from "@sentry/react-native";
+import { createStructuredError } from "@/lib/errors";
+import { reportError } from "@/lib/report-error";
 import { useEffect, useEffectEvent, useState } from "react";
-import { Alert, Linking, Platform, ScrollView, Text, View } from "react-native";
+import { Alert, Linking, ScrollView, Text, View } from "react-native";
 import CircleAlert from "lucide-react-native/icons/circle-alert";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
@@ -10,24 +11,22 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import type { StructuredError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
-import pkg from "../../package.json";
-
-const SUPPORT_EMAIL = "care@pixy.day";
+import { getSupportMailUrl } from "@/shell/support-mail";
 
 const exportData = async () => {
   try {
     await exportRawStorage();
   } catch (error) {
-    Sentry.captureException(error);
+    reportError(
+      createStructuredError({
+        status: "raw_storage_export_failed",
+        message: "Stored data could not be exported",
+        why: `exportRawStorage failed: ${error instanceof Error ? error.message : String(error)}`,
+        fix: "Check free device storage, then tap Export data again",
+      })
+    );
     Alert.alert(t("export_failed_title"));
   }
-};
-
-// Holds the error code only: `why` can quote stored user data.
-const getSupportMailUrl = (error: StructuredError) => {
-  const subject = "Pixy: stored data could not be loaded";
-  const body = `\n\nError code: ${error.status}\nApp version: ${pkg.version}\nPlatform: ${Platform.OS}`;
-  return `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 
 const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
@@ -51,7 +50,9 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
   const contactSupport = async () => {
     analytics.track("app:storage_recovery_tapped", { action: "contact" });
     try {
-      await Linking.openURL(getSupportMailUrl(error));
+      await Linking.openURL(
+        getSupportMailUrl("Pixy: stored data could not be loaded", error.status)
+      );
     } catch {
       // No mail app: fall back to the feedback form. This screen replaces
       // the router stack, so it shows the form as a modal, not the route.

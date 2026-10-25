@@ -51,11 +51,11 @@ jest.mock("react-native-sortables", () => {
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load animated UI during provider tests; native worklets are unavailable in Jest.
 jest.mock("react-native-reanimated", () => {
-  const { FlatList, ScrollView, View } = require("react-native");
+  const { ScrollView, View } = require("react-native");
   const animation = { duration: () => animation, delay: () => animation };
   return {
     __esModule: true,
-    default: { FlatList, ScrollView, View },
+    default: { ScrollView, View },
     useAnimatedRef: () => ({ current: null }),
     createAnimatedComponent: (component) => component,
     css: { create: (styles) => styles },
@@ -155,7 +155,14 @@ jest.mock("@expo/ui", () => {
       ) : (
         <View testID={testID}>{children}</View>
       ),
-    ListItem: ({ children, leading, trailing, onPress, testID }) => (
+    ListItem: ({
+      children,
+      leading,
+      trailing,
+      supportingText,
+      onPress,
+      testID,
+    }) => (
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={isValidElement(children) ? undefined : children}
@@ -164,6 +171,7 @@ jest.mock("@expo/ui", () => {
       >
         {mockExpoUiText(leading)}
         {mockExpoUiText(children)}
+        {mockExpoUiText(supportingText)}
         {mockExpoUiText(trailing)}
       </Pressable>
     ),
@@ -261,6 +269,19 @@ jest.mock("expo-widgets", () => ({
     updateSnapshot: () => null,
     getTimeline: () => Promise.resolve([]),
   }),
+  createLiveActivity: () => ({
+    start: () => ({
+      update: () => Promise.resolve(),
+      end: () => Promise.resolve(),
+    }),
+    schedule: () => ({
+      update: () => Promise.resolve(),
+      end: () => Promise.resolve(),
+    }),
+    getInstances: () => [],
+  }),
+  after: (date) => ({ after: date }),
+  addUserInteractionListener: () => ({ remove: () => null }),
   widgetsDirectory: "",
 }));
 

@@ -6,19 +6,17 @@ export const FEATURE_FLAGS = [
   "app-icons",
   "app-lock",
   "app-lock-bypass",
-  "calendar-map",
   "calendar-timeline",
   "development",
-  "emotion-dials",
   "emotion-icons",
   "feature-flag-overrides",
   "interventions",
-  "ios-widget",
   "location",
   "more-tags",
   "people",
   "photos",
   "profile",
+  "quick-check-in",
   "recaps",
   "support-pixy",
   "voice-mode",
@@ -48,10 +46,6 @@ export const FEATURE_FLAG_DETAILS: Record<
       "Opens a locked app for a targeted person. PostHog only, local overrides never apply",
     location: "Lock screen",
   },
-  "calendar-map": {
-    description: "Map layout for the calendar, iOS only",
-    location: "Calendar > Filters menu",
-  },
   "calendar-timeline": {
     description: "Timeline layout for the calendar",
     location: "Calendar > Filters menu",
@@ -59,10 +53,6 @@ export const FEATURE_FLAG_DETAILS: Record<
   development: {
     description: "Development section in production builds",
     location: "Settings > Development",
-  },
-  "emotion-dials": {
-    description: "Two dials picker: energy and pleasantness sort all emotions",
-    location: "Check-in > Emotions step",
   },
   "emotion-icons": {
     description: "Icons instead of dots for chosen emotions",
@@ -75,10 +65,6 @@ export const FEATURE_FLAG_DETAILS: Record<
   interventions: {
     description: "Exercises for matching emotions",
     location: "Check-in confirmation, Calendar footer",
-  },
-  "ios-widget": {
-    description: "iOS home screen widget",
-    location: "Settings > Widgets",
   },
   location: {
     description: "Place of the check-in",
@@ -102,8 +88,13 @@ export const FEATURE_FLAG_DETAILS: Record<
       "Name and photo of the user; avatar replaces the Settings icon",
     location: "Calendar header, Settings > Profile",
   },
+  "quick-check-in": {
+    description:
+      "Quick check-in screen (iOS) or an ongoing notification (Android)",
+    location: "Settings > Check-in, notification shade",
+  },
   recaps: {
-    description: "Recap cards for week, month, quarter, and year",
+    description: "Recap cards for week, month, and year",
     location: "Settings > Recaps",
   },
   "support-pixy": {

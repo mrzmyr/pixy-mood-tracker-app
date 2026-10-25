@@ -3,9 +3,13 @@ import { useState } from "react";
 import {
   CreateTagAction,
   TagCategoryList,
+  TagLimitNotice,
   TagList,
+  useCanCreateTag,
   useTagsState,
 } from "@/features/tags";
+import { SFIcon } from "@/components/sf-icon";
+import { TagCategories } from "@/features/tags/routes";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 
@@ -20,30 +24,89 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StepSwitch } from "../../components/step-switch";
 import { useStepEnabled } from "../../use-step-enabled";
 
-const TagScrollView = Platform.OS === "ios" ? View : ScrollView;
+const IS_IOS = Platform.OS === "ios";
+
+const TagScrollView = IS_IOS ? View : ScrollView;
 
 /**
  * Active tags grouped by category, with a native header search bar. Own
  * component so the query resets when the tags step turns off.
+ *
+ * iOS: the search bar hides until the list is pulled down, and Create Tag
+ * is a plus button in the bar. Android and web keep the bottom button.
  */
 const SearchableTagList = () => {
   const router = useRouter();
   const colors = useColors();
   const { tags } = useTagsState();
   const [query, setQuery] = useState("");
+  const canCreate = useCanCreateTag(tags);
 
   return (
     <>
+      <TagCategoryList
+        query={query}
+        hasBottomBar={!IS_IOS}
+        header={
+          <>
+            <StepSwitch step="tags" />
+            {IS_IOS && !canCreate && (
+              <View style={{ marginTop: 16, marginHorizontal: 16 }}>
+                <TagLimitNotice tags={tags} />
+              </View>
+            )}
+            <View
+              style={{
+                marginTop: 16,
+                marginHorizontal: 16,
+              }}
+            >
+              <MenuList>
+                <MenuListItem
+                  testID="tag-categories-link"
+                  title={t("tag_categories")}
+                  iconLeft={
+                    <SFIcon
+                      name="folder"
+                      color={colors.text}
+                      fallback={<Folder size={20} color={colors.text} />}
+                    />
+                  }
+                  isLink
+                  onPress={() => {
+                    router.push("/settings/steps/tags/categories");
+                  }}
+                />
+                <MenuListItem
+                  title={t("archive_tag")}
+                  iconLeft={
+                    <SFIcon
+                      name="archivebox"
+                      color={colors.text}
+                      fallback={<Archive size={20} color={colors.text} />}
+                    />
+                  }
+                  isLink
+                  onPress={() => {
+                    router.push("/settings/steps/tags/archive");
+                  }}
+                />
+              </MenuList>
+            </View>
+          </>
+        }
+      />
+      {/* Header items after the list: iOS tracks the first subview for the
+          large title and search bar, so the list must come first. */}
       <Stack.Screen
         options={{
           headerSearchBarOptions: {
             placeholder: t("log_tags_search"),
             autoCapitalize: "none",
-            // Always visible: no scroll tracking needed to reveal it.
-            hideWhenScrolling: false,
+            // Hidden until the list is pulled down, like iOS Settings.
+            hideWhenScrolling: true,
             // Filters in place; results stay tappable while typing.
             obscureBackground: false,
-            // iOS 26: keep it under the title, off the bottom Create button.
             placement: "stacked",
             tintColor: colors.tint,
             textColor: colors.text,
@@ -55,41 +118,22 @@ const SearchableTagList = () => {
           },
         }}
       />
-      <CreateTagAction tags={tags} />
-      <TagCategoryList
-        query={query}
-        header={
-          <>
-            <StepSwitch step="tags" />
-            <View
-              style={{
-                marginTop: 16,
-                marginHorizontal: 16,
-              }}
-            >
-              <MenuList>
-                <MenuListItem
-                  testID="tag-categories-link"
-                  title={t("tag_categories")}
-                  iconLeft={<Folder size={20} color={colors.text} />}
-                  isLink
-                  onPress={() => {
-                    router.push("/tags/categories");
-                  }}
-                />
-                <MenuListItem
-                  title={t("archive_tag")}
-                  iconLeft={<Archive size={20} color={colors.text} />}
-                  isLink
-                  onPress={() => {
-                    router.push("/settings/steps/tags/archive");
-                  }}
-                />
-              </MenuList>
-            </View>
-          </>
-        }
-      />
+      {IS_IOS ? (
+        // Title doubles as label: expo-router drops `accessibilityLabel` on
+        // iOS bar items. With an icon, iOS shows only the icon.
+        <Stack.Toolbar placement="right">
+          <Stack.Toolbar.Button
+            icon="plus"
+            accessibilityLabel={t("create_tag")}
+            disabled={!canCreate}
+            onPress={() => router.push("/tags/create")}
+          >
+            {t("create_tag")}
+          </Stack.Toolbar.Button>
+        </Stack.Toolbar>
+      ) : (
+        <CreateTagAction tags={tags} />
+      )}
     </>
   );
 };
@@ -104,26 +148,25 @@ export const SettingsTags = () => {
   const colors = useColors();
   const { enabled } = useStepEnabled("tags");
 
-  return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.background,
-      }}
-    >
-      {enabled ? (
-        <SearchableTagList />
-      ) : (
-        <>
-          <Stack.Screen options={{ headerSearchBarOptions: undefined }} />
-          <ScrollView>
-            <StepSwitch step="tags" />
-          </ScrollView>
-        </>
-      )}
-    </View>
+  // No wrapper view: the list must be the screen's first child, else iOS
+  // does not collapse the large title and the search bar on scroll.
+  return enabled ? (
+    <SearchableTagList />
+  ) : (
+    <>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={{ flex: 1, backgroundColor: colors.background }}
+      >
+        <StepSwitch step="tags" />
+      </ScrollView>
+      <Stack.Screen options={{ headerSearchBarOptions: undefined }} />
+    </>
   );
 };
+
+/** Settings > Check-in > Tags > Categories: pushed page, not a sheet. */
+export const SettingsTagCategories = () => <TagCategories variant="page" />;
 
 /** Archived tags, sorted by title; rows open the tag editor to unarchive. */
 export const SettingsTagsArchive = () => {

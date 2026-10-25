@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { userEvent } from "@testing-library/react-native";
+import { userEvent, waitFor } from "@testing-library/react-native";
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
 import { Pressable, Text } from "react-native";
@@ -17,6 +17,58 @@ import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
 import { SlidePeople } from "../slides/slide-people";
 import { LogDraftProvider } from "../log-draft";
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-router/testing-library swaps in an empty reanimated mock, so the sortable grid cannot render here. `<action>-<id>` buttons stand in for the tile menu rows.
+jest.mock("../components/people-tile-grid", () => {
+  const { Fragment, createElement } = require("react");
+  return {
+    __esModule: true,
+    PeopleTileGrid: ({
+      people,
+      renderTile,
+      addTile,
+      menuActions,
+      onMenuAction,
+    }: {
+      people: { id: string }[];
+      renderTile: (
+        person: { id: string },
+        isPressBlocked: () => boolean
+      ) => React.ReactElement;
+      addTile: React.ReactElement | null;
+      menuActions: (person: { id: string }) => { id: string }[];
+      onMenuAction: (person: { id: string }, actionId: string) => void;
+    }) => {
+      const {
+        Pressable: MenuButton,
+        Text: MenuLabel,
+      } = require("react-native");
+      return createElement(
+        Fragment,
+        null,
+        ...people.map((person) =>
+          createElement(
+            Fragment,
+            { key: person.id },
+            renderTile(person, () => false),
+            ...menuActions(person).map((action) =>
+              createElement(
+                MenuButton,
+                {
+                  key: action.id,
+                  testID: `${action.id}-${person.id}`,
+                  onPress: () => onMenuAction(person, action.id),
+                },
+                createElement(MenuLabel, null, action.id)
+              )
+            )
+          )
+        ),
+        addTile
+      );
+    },
+  };
+});
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
 jest.mock("react-native-safe-area-context", () => {
@@ -100,6 +152,10 @@ const renderSlide = async () => {
 };
 
 describe("SlidePeople auto-select", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   beforeEach(async () => {
     await AsyncStorage.clear();
     await AsyncStorage.setItem(
@@ -129,6 +185,18 @@ describe("SlidePeople auto-select", () => {
     await userEvent.press(await result.findByTestId("create-person"));
     await result.findByTestId("log-person-person-new");
     expect(result.getByTestId("log-person-person-ada")).not.toBeSelected();
+  });
+
+  test("Archive in the tile menu hides a selected person at once", async () => {
+    const result = await renderSlide();
+    await userEvent.press(await result.findByTestId("log-person-person-ada"));
+    expect(result.getByTestId("log-person-person-ada")).toBeSelected();
+
+    await userEvent.press(result.getByTestId("archive-person-ada"));
+
+    await waitFor(() =>
+      expect(result.queryByTestId("log-person-person-ada")).toBeNull()
+    );
   });
 
   test("selects nobody when the slide opens", async () => {

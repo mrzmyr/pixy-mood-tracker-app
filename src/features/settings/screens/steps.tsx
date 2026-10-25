@@ -83,8 +83,8 @@ const StepRow = ({
  * Settings > Check-in: the logger steps in order. `rating` cannot be turned
  * off. Tags and People open their own page with the switch and their list.
  * `people` and `photos` show only behind their feature flags. The location
- * switch shows behind the `location` feature flag. Native grouped list on
- * iOS and Android.
+ * switch shows behind the `location` feature flag. Quick check-ins live in
+ * Settings > Reminders. Native grouped list on iOS and Android.
  */
 export const StepsScreen = () => {
   const colors = useColors();

@@ -1,18 +1,8 @@
-import * as Device from "expo-device";
 import { Observe } from "expo-observe";
 import type { ObserveConfig } from "expo-observe";
 
-import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
-import type { AppVariant } from "@/constants/app-variant";
-
-/** Facts fixed per build and device. */
-interface ObserveBuild {
-  /** `false` in Jest or when `EXPO_PUBLIC_APP_VARIANT` is missing. */
-  hasVariant: boolean;
-  variant: AppVariant;
-  /** `false` on simulators and emulators, where E2E and local builds run. */
-  isDevice: boolean;
-}
+import { canReportTelemetry, currentBuild } from "@/lib/telemetry";
+import type { TelemetryBuild } from "@/lib/telemetry";
 
 /** Options the app derives at runtime. Everything else is fixed per build. */
 interface ObserveOptions {
@@ -20,27 +10,28 @@ interface ObserveOptions {
   consent: boolean;
 }
 
-const currentBuild: ObserveBuild = {
-  hasVariant: HAS_APP_VARIANT,
-  variant: APP_VARIANT,
-  isDevice: Device.isDevice,
-};
-
 /**
- * Only real devices on shipped variants report. Simulator, emulator, E2E, and
- * development runs would otherwise skew startup numbers.
+ * Route params that point at one user's data: entry dates and log, tag, and
+ * person ids. Observe drops them and hides the URL; `routeName` keeps the
+ * pattern, for example `/logs/[id]`.
  */
-const canDispatch = ({ hasVariant, variant, isDevice }: ObserveBuild) =>
-  hasVariant && variant !== "development" && isDevice;
+const FILTERED_ROUTE_PARAMS = ["date", "dateTime", "id"];
 
 /** Full Observe config. Every field is set, so no call resets another. */
 export const observeConfig = (
   { consent }: ObserveOptions,
-  build: ObserveBuild = currentBuild
-): Required<Pick<ObserveConfig, "dispatchingEnabled" | "environment">> => ({
-  dispatchingEnabled: consent && canDispatch(build),
+  build: TelemetryBuild = currentBuild
+): Required<
+  Pick<ObserveConfig, "dispatchingEnabled" | "environment" | "integrations">
+> => ({
+  dispatchingEnabled: consent && canReportTelemetry(build),
   // Default is NODE_ENV, which reads `production` for preview builds too.
   environment: build.variant,
+  // Must stay the same on every call: Observe throws when the router
+  // integration toggles after the app mounted.
+  integrations: {
+    "expo-router": { filteredParams: FILTERED_ROUTE_PARAMS },
+  },
 });
 
 /**
@@ -50,4 +41,32 @@ export const observeConfig = (
  */
 export const configureObserve = (options: ObserveOptions) => {
   Observe.configure(observeConfig(options));
+};
+
+/**
+ * Every Observe log event and its attributes. Fixed values and numbers only:
+ * never notes, tag names, people names, or other free text.
+ */
+export interface ObserveEvents {
+  /** Gated stores finished loading at startup. */
+  "storage.load": {
+    outcome: "ready" | "error";
+    /** From JS bundle evaluation to the settled load. */
+    duration_ms: number;
+    /** `StructuredError` status when `outcome` is `error`. */
+    error_status?: string | number;
+  };
+}
+
+/**
+ * Only caller of `Observe.logEvent`. Typed names and attributes keep free
+ * text out, like `track` does for PostHog. Dispatch follows consent through
+ * `configureObserve`.
+ */
+export const logObserveEvent = <Name extends keyof ObserveEvents>(
+  name: Name,
+  attributes: ObserveEvents[Name],
+  severity: "info" | "warn" | "error" = "info"
+) => {
+  Observe.logEvent(name, { attributes: { ...attributes }, severity });
 };

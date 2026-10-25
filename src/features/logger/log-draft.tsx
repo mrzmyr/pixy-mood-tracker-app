@@ -54,6 +54,8 @@ export interface LogDraftValue {
    * See `finalizeDraft`.
    */
   commit: (existingItems: LogItem[]) => FinalizedDraft;
+  /** Latest draft, including note text `typeMessage` has not flushed yet. */
+  getLatestDraft: () => LogDraft;
   /** Restore the initial draft and clear `isDirty`. */
   discard: () => void;
 }
@@ -155,6 +157,7 @@ export const LogDraftProvider = ({
         });
         return finalized;
       },
+      getLatestDraft: () => latest.current,
       discard: () => {
         isLocationPicked.current = false;
         isLocationPrefilled.current = false;

@@ -5,6 +5,16 @@ import type { CalendarLayout, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
+interface LoggerRecoveryProperties {
+  mode: "create" | "edit";
+  age_minutes: number;
+  message_length: number;
+  photos_count: number;
+}
+
+/** Where a month story was opened. */
+export type StorySource = "recaps" | "calendar" | "notification";
+
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
  *
@@ -56,6 +66,12 @@ export interface AnalyticsEvents {
     has_location: boolean;
   };
   "logger:flow_cancelled": { mode: "create" | "edit" };
+  /**
+   * Launch prompt after the OS killed the app with the logger open.
+   * `age_minutes`: time since the app went to the background.
+   */
+  "logger:recovery_restored": LoggerRecoveryProperties;
+  "logger:recovery_discarded": LoggerRecoveryProperties;
 
   /** Voice mode. Never the transcript, names, or emotion keys. */
   "voice:flow_started": undefined;
@@ -79,19 +95,33 @@ export interface AnalyticsEvents {
     emotions_count: number;
   };
   "voice:feedback_skipped": { prompt_index: number };
-  "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
   "logger:store_review_requested": {
-    trigger: "entries_7";
+    trigger: "entries_7" | "good_entry_30";
     entries_count: number;
   };
 
-  "widget:guide_opened": undefined;
-  "widget:guide_step_viewed": { step: number };
-  "widget:guide_dismissed": { step: number };
-  "widget:guide_completed": undefined;
+  /** `source`: Lock Screen (iOS), notification (Android), or the in-app screen. */
+  "quick_check_in:entry_saved": {
+    source: "notification" | "app";
+    rating: LogItem["rating"];
+  };
+  "quick_check_in:completed": {
+    source: "notification" | "app";
+    has_emotion: boolean;
+    influences_count: number;
+  };
+  "quick_check_in:setting_changed": { enabled: boolean };
+  /** Fixed values only: times are `HH:mm` picks, not free text. */
+  "quick_check_in:schedule_changed": {
+    every_hours: number;
+    from: string;
+    until: string;
+    times_count: number;
+  };
+  "quick_check_in:notification_tapped": { cold_start: boolean };
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
@@ -104,7 +134,7 @@ export interface AnalyticsEvents {
     entry_days_ago: number;
   };
   "photos:day_access_prompt_dismissed": { mode: "create" | "edit" };
-  /** `source`: the permission card or the "Show Photos from …" button after "Not Now". */
+  /** `source`: the permission card or the "Allow Photo Access" button after "Not Now". */
   "photos:day_access_answered": {
     status: "granted" | "limited" | "denied";
     source: "card" | "button";
@@ -148,7 +178,7 @@ export interface AnalyticsEvents {
   };
 
   "calendar:day_opened": {
-    source: "calendar" | "timeline" | "map" | "mood_peaks" | "tag_peaks";
+    source: "calendar" | "timeline" | "mood_peaks" | "tag_peaks";
     entries_count: number;
     days_ago: number;
   };
@@ -241,6 +271,45 @@ export interface AnalyticsEvents {
   };
   /** Tap on a recap notification body. Ignored while flag `recaps` is off. */
   "recaps:notification_tapped": { period: "week" | "month" | "year" };
+  /** Month story opened. Only with a story: 10+ check-in days. */
+  "recaps:story_opened": {
+    period: "week" | "month";
+    source: StorySource;
+    slides_count: number;
+  };
+  /** Slide on screen, once per visit of the slide. Slide type only, never values. */
+  "recaps:story_slide_shown": {
+    slide_type: string;
+    position: number;
+    slides_count: number;
+  };
+  /** Helpful or Not Helpful on a story slide. Same reasons as cards; notes never here. */
+  "recaps:story_feedback_sent": {
+    slide_type: string;
+    position: number;
+    helpful: boolean;
+    reasons: AnalyticsEvents["recaps:card_feedback_sent"]["reasons"];
+    has_note: boolean;
+  };
+  /** Quiz slide answered. Quiz kind and result only, never the cards. */
+  "recaps:story_quiz_answered": {
+    quiz: "truths" | "people" | "tags";
+    module: "people" | "tags" | "mix" | null;
+    is_correct: boolean;
+  };
+  /** Share card sent from the share sheet. Never the photos or lines. */
+  /** `slide_type`: the shared slide; `share` is the share card. */
+  "recaps:story_shared": {
+    has_photos: boolean;
+    shuffles: number;
+    slide_type: string;
+  };
+  /** Story closed by the user or after the last slide. */
+  "recaps:story_closed": {
+    position: number;
+    slides_count: number;
+    completed: boolean;
+  };
   "tags:categories_reordered": {
     categories_count: number;
     method: "drag" | "accessibility_action";
@@ -260,6 +329,10 @@ export interface AnalyticsEvents {
   "people:delete_requested": { entries_count: number };
   "people:person_deleted": { entries_count: number };
   "people:delete_cancelled": undefined;
+  "people:people_reordered": {
+    people_count: number;
+    method: "drag" | "accessibility_action";
+  };
 
   /** Name length only; the name itself never leaves the device. */
   "profile:profile_saved": {
@@ -496,7 +569,7 @@ export interface RecapCardProperties {
   family: "moment" | "summary" | "pattern" | "change" | "nudge";
   modules: string[];
   signal: "strong" | "medium";
-  period: "week" | "month" | "quarter" | "year";
+  period: "week" | "month" | "year";
   /** Screen that showed the card. */
   source: "settings";
 }

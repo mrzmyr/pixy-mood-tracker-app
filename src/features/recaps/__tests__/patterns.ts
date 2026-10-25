@@ -115,15 +115,15 @@ describe("stood out", () => {
 });
 
 describe("what moves your mood", () => {
-  const quarter = {
-    kind: "quarter" as const,
+  const year = {
+    kind: "year" as const,
     date: "2026-07-01",
     today: "2026-10-01",
   };
 
   test("lists tags with a clear effect, never the General category", () => {
     const [card] = cards("what-moves", {
-      ...quarter,
+      ...year,
       items: days("2026-07-01", 42, 3, { ...sport, rating: "very_good" }),
     });
 
@@ -140,7 +140,7 @@ describe("what moves your mood", () => {
   test("needs 40 check-in days in the period", () => {
     expect(
       cards("what-moves", {
-        ...quarter,
+        ...year,
         items: days("2026-07-01", 39, 3, { ...sport, rating: "very_good" }),
       })
     ).toEqual([]);
@@ -149,7 +149,7 @@ describe("what moves your mood", () => {
   test("stays hidden without any strong row", () => {
     expect(
       cards("what-moves", {
-        ...quarter,
+        ...year,
         items: days("2026-07-01", 42, 3, sport),
       })
     ).toEqual([]);
@@ -157,19 +157,19 @@ describe("what moves your mood", () => {
 });
 
 describe("people and mood", () => {
-  const quarter = {
-    kind: "quarter" as const,
+  const year = {
+    kind: "year" as const,
     date: "2026-07-01",
     today: "2026-10-01",
   };
 
   test("needs 4 people with 5+ connected days each", () => {
     const four = cards("people-mood", {
-      ...quarter,
+      ...year,
       items: withPeople(["a", "b", "c", "d"]),
     });
     const three = cards("people-mood", {
-      ...quarter,
+      ...year,
       items: withPeople(["a", "b", "c"]),
     });
 
@@ -190,13 +190,13 @@ describe("people and mood", () => {
       rating: "neutral" as const,
     }));
 
-    expect(cards("people-mood", { ...quarter, items: flat })).toEqual([]);
+    expect(cards("people-mood", { ...year, items: flat })).toEqual([]);
   });
 
   test("skips the card with the People step off", () => {
     expect(
       cards("people-mood", {
-        ...quarter,
+        ...year,
         steps: ["rating", "tags"],
         items: withPeople(["a", "b", "c", "d"]),
       })

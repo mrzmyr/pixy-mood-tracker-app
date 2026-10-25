@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import {
   setAlternateAppIcon,
   supportsAlternateIcons,
@@ -65,7 +65,7 @@ const reportAppIconError = ({
     fix: "Try again. If it fails again, restart Pixy and choose the icon again",
   });
   console.error(error);
-  Sentry.captureException(error);
+  reportError(error);
 };
 
 const AppIconRow = ({

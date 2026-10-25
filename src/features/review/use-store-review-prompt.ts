@@ -1,21 +1,18 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import * as StoreReview from "expo-store-review";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
 import { createStructuredError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import pkg from "../../../package.json";
-import {
-  STORE_REVIEW_DELAY_MS,
-  STORE_REVIEW_TRIGGER,
-  shouldRequestStoreReview,
-} from "./store-review";
-import type { StoreReviewInput } from "./store-review";
+import { STORE_REVIEW_DELAY_MS, decideStoreReview } from "./store-review";
+import type { StoreReviewGate, StoreReviewMoment } from "./store-review";
 
 // Jest and development or preview (e2e, QA) builds never prompt.
 const IS_REVIEW_BUILD = HAS_APP_VARIANT && APP_VARIANT === "production";
 
-// Blocks a second prompt when another save lands inside the delay.
+// Blocks a second prompt when another moment lands inside the delay, and
+// any further prompt in this session after one was requested.
 let isPromptScheduled = false;
 
 const reportPromptError = (cause: unknown) => {
@@ -26,16 +23,17 @@ const reportPromptError = (cause: unknown) => {
     fix: "Rate Pixy from Settings instead",
   });
   console.error(error);
-  Sentry.captureException(error);
+  reportError(error);
 };
 
 /**
  * Returns a callback for the logger save flow. It requests the system store
- * review prompt once, `STORE_REVIEW_DELAY_MS` after the save that reaches
- * `STORE_REVIEW_ENTRIES_THRESHOLD` entries.
+ * review prompt `STORE_REVIEW_DELAY_MS` after a good save when
+ * `decideStoreReview` allows it.
  *
- * Never throws and never delays the save. The OS decides whether the prompt
- * shows (iOS: max 3 times per 365 days; Google Play: undisclosed quota).
+ * Never throws and never blocks the moment. The OS decides whether the
+ * prompt shows (iOS: max 3 times per 365 days; Google Play: undisclosed
+ * quota).
  */
 export const useStoreReviewPrompt = () => {
   const { settings, setSettings } = useSettings();
@@ -43,51 +41,63 @@ export const useStoreReviewPrompt = () => {
   const analytics = useAnalytics();
 
   const requestPrompt = async (
-    input: Omit<StoreReviewInput, "isReviewAvailable">
+    moment: StoreReviewMoment,
+    gate: Omit<StoreReviewGate, "isReviewAvailable">
   ) => {
     try {
       const isReviewAvailable = await StoreReview.isAvailableAsync();
-      if (!shouldRequestStoreReview({ ...input, isReviewAvailable })) {
+      const trigger = decideStoreReview(moment, {
+        ...gate,
+        isReviewAvailable,
+      });
+      if (trigger === null) {
         isPromptScheduled = false;
         return;
       }
 
       // Record first: the prompt counts as shown even when the OS hides it.
+      const promptedAt = new Date().toISOString();
       setSettings((currentSettings) => ({
         ...currentSettings,
-        storeReviewPromptedAt: new Date().toISOString(),
+        storeReviewPromptDates: [
+          ...currentSettings.storeReviewPromptDates,
+          promptedAt,
+        ],
         storeReviewPromptedAppVersion: pkg.version,
       }));
       analytics.track("logger:store_review_requested", {
-        trigger: STORE_REVIEW_TRIGGER,
-        entries_count: input.entriesCount,
+        trigger,
+        entries_count: moment.entriesCount,
       });
       await StoreReview.requestReview();
     } catch (error) {
+      isPromptScheduled = false;
       reportPromptError(error);
     }
   };
 
-  return (entriesCount: number) => {
-    const input = {
-      entriesCount,
-      promptedAt: settings.storeReviewPromptedAt,
+  return (moment: StoreReviewMoment) => {
+    const gate = {
+      promptDates: settings.storeReviewPromptDates,
+      lastPromptAppVersion: settings.storeReviewPromptedAppVersion,
+      appVersion: pkg.version,
+      now: new Date(),
       isReviewBuild: IS_REVIEW_BUILD,
       isSettingsReady: settingsLoad.status === "ready",
     };
 
     // Availability is async and checked after the delay. Check the rest now
-    // so most saves schedule nothing.
+    // so most moments schedule nothing.
     if (
       isPromptScheduled ||
-      !shouldRequestStoreReview({ ...input, isReviewAvailable: true })
+      decideStoreReview(moment, { ...gate, isReviewAvailable: true }) === null
     ) {
       return;
     }
 
     isPromptScheduled = true;
     setTimeout(() => {
-      void requestPrompt(input);
+      void requestPrompt(moment, gate);
     }, STORE_REVIEW_DELAY_MS);
   };
 };

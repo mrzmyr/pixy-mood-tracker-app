@@ -20,6 +20,8 @@ export default defineConfig({
     "README.md",
     // release-please rewrites these on every release without formatting.
     "CHANGELOG.md",
+    // Human-owned (AGENTS.md). Keep the author's line breaks.
+    "vision.md",
     "app.json",
   ],
 });

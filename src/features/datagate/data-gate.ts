@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import { createStructuredError } from "@/lib/errors";
 import { createCsv } from "./csv";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -171,7 +171,7 @@ export const useDatagate = (): DatagateValue => {
           : encodeBackup(backup, pkg.version);
       isShared = await getFileTransfer().share(filename, contents);
     } catch {
-      Sentry.captureException(
+      reportError(
         createStructuredError({
           status: "data_export_failed",
           message: "Data could not be exported",

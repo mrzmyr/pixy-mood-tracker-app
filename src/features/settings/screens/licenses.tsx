@@ -1,4 +1,5 @@
-import * as Sentry from "@sentry/react-native";
+import { createStructuredError, isStructuredError } from "@/lib/errors";
+import { reportError } from "@/lib/report-error";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View, VirtualizedList } from "react-native";
 import Button from "@/components/button";
@@ -31,8 +32,16 @@ const LicensesContent = ({ onRetry }: { onRetry: () => void }) => {
           setState({ status: "loaded", slices: text.split("-----") });
         }
       } catch (error) {
-        console.error(error);
-        Sentry.captureException(error);
+        const failure = isStructuredError(error)
+          ? error
+          : createStructuredError({
+              status: "licenses_load_failed",
+              message: "Licenses could not be loaded",
+              why: `Reading the license notices asset failed: ${error instanceof Error ? error.message : String(error)}`,
+              fix: "Tap Try again, or restart Pixy",
+            });
+        console.error(failure);
+        reportError(failure);
         if (isCurrent) {
           setState({ status: "failed" });
         }

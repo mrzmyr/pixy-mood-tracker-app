@@ -81,7 +81,7 @@ const rows = (days: RecapDay[], drivers: Driver[]): EffectRow[] => {
 };
 
 /**
- * Quarter and year, 40+ check-in days. Active tags, categories (never
+ * Year, 40+ check-in days. Active tags, categories (never
  * General), and places on days with vs. without. Places compare only days
  * that have a place. Shows when any row is strong.
  */
@@ -142,7 +142,7 @@ const byClarity = (a: EffectRow, b: EffectRow) =>
   b.delta - a.delta;
 
 /**
- * Quarter and year, 4+ people with 5+ connected days, and at least one
+ * Year, 4+ people with 5+ connected days, and at least one
  * medium or strong row. Mood on connected days is a hint only: a
  * connection can feel good, bad, or mixed. Weak rows read as no clear
  * difference. 8 rows at most.

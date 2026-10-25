@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 import { Platform } from "react-native";
-import * as Sentry from "@sentry/react-native";
+import { reportError } from "@/lib/report-error";
 import type { LogItem } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
 import {
@@ -55,18 +55,15 @@ const describeTimelines = async () => {
 /**
  * Pushes a fresh timeline to every widget, then reads the store back so
  * Development tools can show what the widgets will render. Never throws: a
- * widget failure must not break the app, so errors go to Sentry.
+ * widget failure must not break the app, so errors go to `reportError`.
  */
 export const syncWidgets = async ({
   items,
   scaleType,
-  isAvailable,
   yearImages,
 }: {
   items: LogItem[];
   scaleType: string;
-  /** Feature flag on. `false` makes every widget show "Not available". */
-  isAvailable: boolean;
   /** Captured year images; omitted when the capture failed. */
   yearImages?: YearImages;
 }) => {
@@ -74,7 +71,7 @@ export const syncWidgets = async ({
     return;
   }
   try {
-    const input = { items, scaleType, url: getWidgetUrl(), isAvailable };
+    const input = { items, scaleType, url: getWidgetUrl() };
     PixyWeekWidget.updateTimeline(getWidgetTimeline(input, getWeekWidgetProps));
     PixyMonthWidget.updateTimeline(
       getWidgetTimeline(input, getMonthWidgetProps)
@@ -104,6 +101,6 @@ export const syncWidgets = async ({
       why: structuredError.why,
     };
     console.error(structuredError);
-    Sentry.captureException(structuredError);
+    reportError(structuredError);
   }
 };

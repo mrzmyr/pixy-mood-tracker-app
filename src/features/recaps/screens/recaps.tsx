@@ -19,10 +19,7 @@ import type { LayoutChangeEvent } from "react-native";
 import ChevronLeft from "lucide-react-native/icons/chevron-left";
 import ChevronRight from "lucide-react-native/icons/chevron-right";
 import { Secondary, Section } from "@/components/type";
-import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
-import { useLocationSetting } from "@/features/location";
 import { useFeedback } from "@/features/feedback";
-import { useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
@@ -32,7 +29,6 @@ import { getLocale, t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
-import { useSettings } from "@/state/settings";
 import { getCardProperties } from "../analytics";
 import { buildCards } from "../build-cards";
 import { FeedbackFooter } from "../components/feedback-footer";
@@ -51,17 +47,19 @@ import {
   isPatternCard,
   isSummaryCard,
 } from "../card-types";
-import { getDays, getPeriodDays } from "../days";
 import { getPeriod, shiftPeriod } from "../period";
 import type { Period, PeriodKind, RecapCard } from "../types";
 import { useNudgeActions } from "../use-nudge-actions";
+import { useRecapInput } from "../use-recap-input";
+import { buildMonthStory, buildWeekStory } from "../story/deck";
+import type { StorySlide } from "../story/types";
+import { StoryBanner } from "../story/story-banner";
 import { isMostlyVisible } from "../visibility";
 import type { Span } from "../visibility";
 
 const KINDS: { kind: PeriodKind; label: TranslationKey }[] = [
   { kind: "week", label: "recaps_period_week" },
   { kind: "month", label: "recaps_period_month" },
-  { kind: "quarter", label: "recaps_period_quarter" },
   { kind: "year", label: "recaps_period_year" },
 ];
 
@@ -85,11 +83,6 @@ const PERIOD_LABELS: Record<PeriodKind, (period: Period) => string> = {
   week: ({ start, end }) =>
     `${formatRangeDay(start, false)} – ${formatRangeDay(end, true)}`,
   month: ({ start }) => dayjs(start).format("MMMM YYYY"),
-  quarter: ({ start }) =>
-    t("recaps_period_quarter_label", {
-      quarter: Math.floor(dayjs(start).month() / 3) + 1,
-      year: dayjs(start).year(),
-    }),
   year: ({ start }) => dayjs(start).format("YYYY"),
 };
 
@@ -110,7 +103,7 @@ const cardKey = (card: RecapCard, period: Period) =>
   `${period.kind}:${period.start}:${getCardId(card)}`;
 
 /**
- * Recap cards of one week, month, quarter, or year. Period kind and date
+ * Recap cards of one week, month, or year. Period kind and date
  * live in route params. Each card counts as shown once per screen visit,
  * when half of it is on screen.
  */
@@ -130,35 +123,20 @@ const Recaps = () => {
   );
   const isCurrent = period.end >= today;
 
-  const { items } = useLogState();
-  const history = getDays(items);
-  const location = useLocationSetting();
+  const input = useRecapInput(period);
+  const { history } = input;
   const { tags, categories } = useTagsState();
-  const { settings } = useSettings();
-  const isPeopleOn = useFeatureFlag("people");
-  const isPhotosOn = useFeatureFlag("photos");
-  const availableSteps = new Set<ConfigurableLoggerStep>(
-    ["emotions", "tags", isPeopleOn && "people", isPhotosOn && "photos"].filter(
-      (step): step is ConfigurableLoggerStep => step !== false
-    )
-  );
-
   const { people } = usePeopleState();
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
-  const cards = buildCards({
-    period,
-    today,
-    firstEntryDate: history[0]?.date ?? null,
-    days: getPeriodDays(history, period),
-    history,
-    locationEnabled: location.isAvailable && location.isEnabled,
-    steps: new Set(settings.steps),
-    availableSteps,
-    reminderEnabled: settings.reminderEnabled,
-    tags,
-    tagCategories: categories,
-    personIds: new Set(people.map((person) => person.id)),
-  }).filter((card) => !hidden.has(cardKey(card, period)));
+  const cards = buildCards(input).filter(
+    (card) => !hidden.has(cardKey(card, period))
+  );
+  let story: StorySlide[] | null = null;
+  if (period.kind === "month") {
+    story = buildMonthStory(input);
+  } else if (period.kind === "week") {
+    story = buildWeekStory(input);
+  }
 
   const nudge = useNudgeActions(period);
   const feedbackChannel = useFeedback();
@@ -398,7 +376,10 @@ const Recaps = () => {
           trackShown();
         }}
       >
-        {cards.length === 0 && <EmptyRecaps />}
+        {story && (
+          <StoryBanner period={period} days={input.days} source="recaps" />
+        )}
+        {cards.length === 0 && !story && <EmptyRecaps />}
         {cards.map(renderCard)}
       </View>
       <FeedbackSheet

@@ -61,7 +61,7 @@ jobs:
       - name: Set up Expo and EAS
         uses: expo/expo-github-action@eab7a230208c952974db8c3245cfd78402c7b385 # 9.0.0
         with:
-          eas-version: 21.4.0
+          eas-version: 25.1.1
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
