@@ -198,6 +198,12 @@ CHECKS = lambda items: '<div class="zoom checks" style="top:{z}px">' + "".join(f
 TILT_L = 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;'
 TILT_R = 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;'
 FIT = 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;'
+DOC = '<svg width="22" height="26" viewBox="0 0 22 26"><path d="M3 1h11l7 7v15a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" fill="#fff"/><path d="M14 1v7h7" fill="rgba(0,0,0,.18)"/><path d="M5 13h12M5 17h12M5 21h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".55"/></svg>'
+# Generic export files from other apps: colored tile + file type, never a name or logo.
+XFER = ('<div class="xfer" style="top:{z}px">' + "".join(
+    f'<div class="xf" style="transform:rotate({r}deg)"><span class="xt" style="background:{c};color:{c}">{DOC}</span><span class="xc">{ext}</span></div>'
+    for c, ext, r in (("#f97316", ".csv", -7), ("#8b5cf6", ".json", 0), ("#0ea5e9", ".zip", 7)))
+    + '<div class="xa"><svg width="12" height="16" viewBox="0 0 14 22" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1v19M1.5 14.5 7 20l5.5-5.5"/></svg><b>Pixy Switch</b></div></div>')
 
 # Frame library: id -> (label, html with {t} phone top and {z} overlay top)
 FRAMES = {
@@ -214,8 +220,9 @@ FRAMES = {
     "sleep": ("Sleep slide, sleep quality chart popped out.",
               phone('sleep', '{t}', FIT) + '<div class="popcard" data-card="sleepchart" style="left:50%;top:{z}px;transform:translateX(-50%) scale(.7);transform-origin:50% 0"></div>'),
     "data": ("Settings > Data: import, JSON/CSV export, delete. Checklist card.", phone('data', '{t}', FIT)),
-    "switch": ("Settings > Data with a Pixy Switch card.", phone('data', '{t}', FIT)),
-    "noaccount": ("Mood logger right after opening the app. Checklist card.", phone('mood', '{t}', FIT)),
+    "switch": ("Three unbranded export files (.csv, .json, .zip) flow through Pixy Switch into the calendar. No other app names or logos.",
+               XFER + phone('calendar', '{t}', FIT)),
+    "noaccount": ("Dark checklist frame (night sky), list mid-screen.", '<div class="plist">{checks}</div>'),
 }
 
 STORES = {
@@ -229,8 +236,8 @@ STORES = {
             ("stats", {"h": "See your<br>patterns", "sub": "Mood trends and reports."}),
             ("tags", {"h": "Tag what<br>matters", "sub": "Add tags and a note.", "t": 150}),
             ("sleep", {"h": "Track your<br>sleep", "sub": "Rate each night in a tap.", "z": 430}),
-            ("data", {"h": "Entries stay<br>on your phone.", "sub": "No account. Export anytime.", "z": 440,
-                      "extra": CHECKS(["No account, no sign-up", "Export as JSON or CSV", "Delete your data anytime", "No ads", "Open source"])}),
+            ("data", {"h": "No account.<br>No sign-up.", "sub": "Export or delete your data anytime.", "z": 440,
+                      "extra": CHECKS(["No cloud sync", "Export as JSON or CSV", "Import on a new phone", "No ads", "Open source"])}),
         ],
     },
     # Google Play: kicker + longer sub; captions stay under 20% of the image (Play screenshot guidance).
@@ -243,10 +250,9 @@ STORES = {
             ("tags", {"k": "Tags and notes", "h": "Tag what<br>matters", "sub": "Create your own tags. Add a note<br>to any entry.", "t": 178}),
             ("stats", {"k": "Statistics", "h": "Spot your<br>patterns", "sub": "Mood trends, most felt emotions,<br>month and year reports."}),
             ("sleep", {"k": "Sleep", "h": "Track how<br>you sleep", "sub": "Rate each night and follow the<br>trend in your statistics.", "z": 360}),
-            ("switch", {"k": "Import and export", "h": "Bring your<br>old entries", "sub": "Pixy Switch converts exports from<br>21 mood and journal apps.", "z": 346,
-                        "extra": '<div class="zoom note" style="top:{z}px"><div class="zl">Pixy Switch</div>Convert the export from your old app in the browser. Then tap <b>Import</b> in Pixy.</div>'}),
-            ("noaccount", {"k": "No account", "h": "No account.<br>No sign-up.", "sub": "Open Pixy and log your first day.<br>Entries stay on your phone.", "z": 372,
-                           "extra": CHECKS(["Export as JSON or CSV", "Import on a new phone", "Delete your data anytime", "Open source"])}),
+            ("switch", {"k": "Import and export", "h": "Bring your<br>old entries", "sub": "Convert exports from 21 mood and<br>journal apps with Pixy Switch.", "z": 176, "t": 324}),
+            ("noaccount", {"k": "No account", "h": "No account.<br>No sign-up.", "sub": "Open Pixy and log your first day.", "cls": "dark",
+                           "checks": ["No account needed", "Export as JSON or CSV", "Import on a new phone", "Delete your data anytime", "Open source"]}),
         ],
     },
 }
@@ -268,8 +274,9 @@ def store_set(key):
     for n, (fid, c) in enumerate(s["frames"], 1):
         lab, html = FRAMES[fid]
         t, z = c.get("t", s["t"]), c.get("z", s["z"])
-        html = (html + c.get("extra", "")).replace("{t2}", str(t + 36)).replace("{t}", str(t)).replace("{z}", str(z))
-        slots.append(f'<div class="slot" data-name="{fid}"><div class="scr">{caption(c)}{html}</div><div class="lab"><b>{n} · {fid}.</b> {lab}</div></div>')
+        checks = "".join(f'<div>{CK}{x}</div>' for x in c.get("checks", []))
+        html = (html + c.get("extra", "")).replace("{t2}", str(t + 36)).replace("{t}", str(t)).replace("{z}", str(z)).replace("{checks}", checks)
+        slots.append(f'<div class="slot" data-name="{fid}"><div class="scr {c.get("cls", "")}">{caption(c)}{html}</div><div class="lab"><b>{n} · {fid}.</b> {lab}</div></div>')
     return f'<div class="platform"><h2>{s["title"]}</h2></div><div class="set {s["cls"]}" data-store="{key}">{"".join(slots)}</div>'
 
 
@@ -284,6 +291,13 @@ STORE_CSS = r"""
 .zoom.note{display:block !important;width:256px !important;max-width:256px !important;font:400 15px/1.4 -apple-system,system-ui;padding:14px 16px}
 .android-set .zoom.checks div,.android-set .zoom.note{font-family:Roboto,system-ui}
 .android-set .scr h4{font-size:29px}
+.scr.dark .plist{margin:auto 0}
+.xfer{position:absolute;z-index:6;left:0;right:0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.xf{width:72px;background:#fff;border-radius:16px;padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:7px;box-shadow:var(--sky-shadow)}
+.xt{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.xc{font:600 12px ui-monospace,SFMono-Regular,Menlo,monospace;color:#0a0a0a;background:#f0f0f2;border-radius:6px;padding:2px 7px}
+.xa{flex-basis:100%;display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:-4px}
+.xa b{order:-1;font:600 11px Geist,system-ui;letter-spacing:.07em;text-transform:uppercase;color:#0a0a0a;background:#fff;border-radius:999px;padding:4px 10px;box-shadow:var(--sky-shadow)}
 """
 
 # App Store creative assets (iOS 27+): product page header 21:9 and search results 3:2.
