@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 สัปดาห์ที่ไม่รู้สึก%{emotion}",
   "recaps_emotion_again_text": "ครั้งแรกนับตั้งแต่ %{date}",
   "recaps_emotion_again_title": "รู้สึก%{emotion}อีกครั้ง",
-  "recaps_emotions_quarter_text": {
-    "one": "1 วัน จากนั้น:",
-    "other": "{{count}} วัน จากนั้น:"
-  },
-  "recaps_emotions_quarter_title": "ไตรมาสนี้ส่วนใหญ่รู้สึก%{emotion}",
   "recaps_emotions_title": "อารมณ์ที่ใช้บ่อยที่สุด",
   "recaps_emotions_year_title": "10 อารมณ์อันดับต้น",
   "recaps_empty": "ยังไม่มีการ์ดสำหรับช่วงนี้ การ์ดจะปรากฏเมื่อคุณบันทึกมากขึ้น",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "เพิ่มรูปในการบันทึก อีกหนึ่งปี สรุปของคุณอาจเริ่มด้วย “เมื่อปีที่แล้ววันนี้”",
   "recaps_intro_photos_title": "เก็บรูปถ่ายของวันนี้",
   "recaps_most_connected_title_month": "ติดต่อมากที่สุดเดือนนี้",
-  "recaps_most_connected_title_quarter": "ติดต่อมากที่สุดไตรมาสนี้",
   "recaps_most_connected_title_year": "ติดต่อมากที่สุดปีนี้",
   "recaps_no_clear_difference": "ไม่มีความต่างที่ชัดเจน",
   "recaps_notifications_hint": "สรุปย้อนหลังรายสัปดาห์ รายเดือน และรายปีจะมาถึงในวันสุดท้ายของแต่ละสัปดาห์ เดือน และปี ตามเวลาแจ้งเตือนของคุณ",
@@ -800,8 +794,6 @@
   "recaps_period_month": "เดือน",
   "recaps_period_next": "ช่วงถัดไป",
   "recaps_period_previous": "ช่วงก่อนหน้า",
-  "recaps_period_quarter": "ไตรมาส",
-  "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "สัปดาห์",
   "recaps_period_year": "ปี",
   "recaps_person_back_text": "ติดต่อครั้งแรกในรอบ %{count} สัปดาห์ ครั้งล่าสุดคือ %{date}",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 ทริปเดือนนี้",
     "other": "{{count}} ทริปเดือนนี้"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 ทริปไตรมาสนี้",
-    "other": "{{count}} ทริปไตรมาสนี้"
   },
   "recaps_trips_title_year": {
     "one": "1 ทริปปีนี้",

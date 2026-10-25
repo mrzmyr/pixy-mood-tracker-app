@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 týždne bez emócie: %{emotion}",
   "recaps_emotion_again_text": "Prvýkrát od %{date}.",
   "recaps_emotion_again_title": "Zase %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Jeden deň. Potom:",
-    "other": "{{count}} dní. Potom:"
-  },
-  "recaps_emotions_quarter_title": "Hlavne %{emotion} tento štvrťrok",
   "recaps_emotions_title": "Najčastejšie používané emócie",
   "recaps_emotions_year_title": "10 hlavných emócií",
   "recaps_empty": "Pre toto obdobie zatiaľ nie sú žiadne karty. Objavia sa, keď zapíšeš viac dní.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Pridávaj fotku k záznamom. O rok môže tvoje ohliadnutie začať slovami „Dnes pred rokom“.",
   "recaps_intro_photos_title": "Uchovaj si fotku dňa",
   "recaps_most_connected_title_month": "Najviac v kontakte tento mesiac",
-  "recaps_most_connected_title_quarter": "Najviac v kontakte tento štvrťrok",
   "recaps_most_connected_title_year": "Najviac v kontakte tento rok",
   "recaps_no_clear_difference": "Žiadny jasný rozdiel",
   "recaps_notifications_hint": "Týždenné, mesačné a ročné ohliadnutia prídu posledný deň každého týždňa, mesiaca a roka, v čase vašej pripomienky.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Mesiac",
   "recaps_period_next": "Ďalšie obdobie",
   "recaps_period_previous": "Predchádzajúce obdobie",
-  "recaps_period_quarter": "Štvrťrok",
-  "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Týždeň",
   "recaps_period_year": "Rok",
   "recaps_person_back_text": "Prvý kontakt po %{count} týždňoch. Naposledy %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 cesta tento mesiac",
     "other": "{{count}} ciest tento mesiac"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 cesta tento štvrťrok",
-    "other": "{{count}} ciest tento štvrťrok"
   },
   "recaps_trips_title_year": {
     "one": "1 cesta tento rok",

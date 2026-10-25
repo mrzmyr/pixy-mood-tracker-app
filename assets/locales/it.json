@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 settimane senza sentirti %{emotion}",
   "recaps_emotion_again_text": "Per la prima volta dal %{date}.",
   "recaps_emotion_again_title": "Di nuovo %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Un giorno. Poi:",
-    "other": "{{count}} giorni. Poi:"
-  },
-  "recaps_emotions_quarter_title": "Soprattutto %{emotion} questo trimestre",
   "recaps_emotions_title": "Emozioni più usate",
   "recaps_emotions_year_title": "Le 10 emozioni principali",
   "recaps_empty": "Ancora nessuna scheda per questo periodo. Appariranno man mano che registri altri giorni.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Aggiungi una foto ai check-in. Tra un anno, il tuo riepilogo potrà aprirsi con «Un anno fa oggi».",
   "recaps_intro_photos_title": "Conserva una foto del giorno",
   "recaps_most_connected_title_month": "Più in contatto questo mese",
-  "recaps_most_connected_title_quarter": "Più in contatto questo trimestre",
   "recaps_most_connected_title_year": "Più in contatto quest’anno",
   "recaps_no_clear_difference": "Nessuna differenza chiara",
   "recaps_notifications_hint": "I riepiloghi settimanali, mensili e annuali arrivano l'ultimo giorno di ogni settimana, mese e anno, all'ora del tuo promemoria.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Mese",
   "recaps_period_next": "Periodo successivo",
   "recaps_period_previous": "Periodo precedente",
-  "recaps_period_quarter": "Trimestre",
-  "recaps_period_quarter_label": "T%{quarter} %{year}",
   "recaps_period_week": "Settimana",
   "recaps_period_year": "Anno",
   "recaps_person_back_text": "Primo contatto dopo %{count} settimane. L’ultima volta era il %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 viaggio questo mese",
     "other": "{{count}} viaggi questo mese"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 viaggio questo trimestre",
-    "other": "{{count}} viaggi questo trimestre"
   },
   "recaps_trips_title_year": {
     "one": "1 viaggio quest’anno",

@@ -71,10 +71,10 @@ export const THRESHOLDS = {
   peopleMoodMinPeople: 4,
   /** People and mood: rows at most. */
   peopleMoodMaxRows: 8,
-  /** Trends: rolling window in days, per recap. */
-  trendWindowDays: { quarter: 30, year: 60 },
-  /** Trends: days between window ends, per recap. */
-  trendStepDays: { quarter: 7, year: 14 },
+  /** Trends: rolling window in days. */
+  trendWindowDays: 60,
+  /** Trends: days between window ends. */
+  trendStepDays: 14,
   /** Trends: days with and days without the driver per window. */
   trendMinDays: 5,
   /** Trends: window ends needed for a line. */

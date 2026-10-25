@@ -67,7 +67,8 @@ const GRATEFUL = new Set([3, 6]);
 const ROUGH_NIGHTS = new Set([9, 10]);
 const GOOD_NIGHTS = new Set([0, 1, 2]);
 const BEST_DAY = 5;
-// Q3 people for "People and mood": 4+ people with 5+ connected days.
+// People for "People and mood" in the year recap: 4+ people with 5+
+// connected days.
 const KAI = new Set([20, 25, 30, 35, 40, 45, 50, 55, 60]);
 const MIRA = new Set([15, 22, 29, 36, 43, 50, 57, 64]);
 const LISBON_TRIP = new Set([7, 8]);
@@ -87,8 +88,7 @@ const sleepOf = (ago: number): LogItem["sleep"]["quality"] => {
   return ROUGH_NIGHTS.has(ago) ? "bad" : "neutral";
 };
 
-// Lena: neutral days early in the quarter before, very good days later.
-// "People over time" shows a growing lift.
+// Lena: neutral days early in the fixture, very good days later.
 const LENA_LIFT_FROM = 40;
 
 const ratingOf = (ago: number): LogItem["rating"] => {
@@ -168,8 +168,8 @@ const items = [...days, yearAgo];
  * Sport back, 3 good nights after rough ones, first check-in in Potsdam
  * (needs the location setting on). Summaries: a best day, a year ago in
  * Lisbon with Sam, emotions, people, and a Lisbon trip this month.
- * Patterns: Sport stood out this week; the quarter before has what moves
- * your mood and people and mood. All steps and the reminder are on, so no
+ * Patterns: Sport stood out this week; the year recap has what moves your
+ * mood and people and mood. All steps and the reminder are on, so no
  * nudges show.
  */
 export const withRecapMoments = (data: ImportData): ImportData => ({

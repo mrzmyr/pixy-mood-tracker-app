@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 hét %{emotion} érzés nélkül",
   "recaps_emotion_again_text": "Először %{date} óta.",
   "recaps_emotion_again_title": "Újra %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Egy napon. Aztán:",
-    "other": "{{count}} napon. Aztán:"
-  },
-  "recaps_emotions_quarter_title": "Főleg %{emotion} ebben a negyedévben",
   "recaps_emotions_title": "Leggyakrabban használt érzelmek",
   "recaps_emotions_year_title": "Top 10 érzelem",
   "recaps_empty": "Erre az időszakra még nincs kártya. Megjelennek, ahogy több napot rögzítesz.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Adj fotót a bejegyzéseidhez. Egy év múlva a visszatekintésed így kezdődhet: „Ma egy éve”.",
   "recaps_intro_photos_title": "Őrizz meg egy fotót a napról",
   "recaps_most_connected_title_month": "Legtöbb kapcsolat ebben a hónapban",
-  "recaps_most_connected_title_quarter": "Legtöbb kapcsolat ebben a negyedévben",
   "recaps_most_connected_title_year": "Legtöbb kapcsolat idén",
   "recaps_no_clear_difference": "Nincs egyértelmű különbség",
   "recaps_notifications_hint": "A heti, havi és éves visszatekintések minden hét, hónap és év utolsó napján érkeznek, az emlékeztetőd időpontjában.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Hónap",
   "recaps_period_next": "Következő időszak",
   "recaps_period_previous": "Előző időszak",
-  "recaps_period_quarter": "Negyedév",
-  "recaps_period_quarter_label": "%{year}. Q%{quarter}",
   "recaps_period_week": "Hét",
   "recaps_period_year": "Év",
   "recaps_person_back_text": "Első kapcsolat %{count} hét után. Legutóbb: %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 utazás ebben a hónapban",
     "other": "{{count}} utazás ebben a hónapban"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 utazás ebben a negyedévben",
-    "other": "{{count}} utazás ebben a negyedévben"
   },
   "recaps_trips_title_year": {
     "one": "1 utazás idén",

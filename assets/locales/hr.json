@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 tjedna bez osjećaja: %{emotion}",
   "recaps_emotion_again_text": "Prvi put od %{date}.",
   "recaps_emotion_again_title": "Opet %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Jedan dan. Zatim:",
-    "other": "{{count}} dana. Zatim:"
-  },
-  "recaps_emotions_quarter_title": "Uglavnom %{emotion} ovo tromjesečje",
   "recaps_emotions_title": "Najčešće korištene emocije",
   "recaps_emotions_year_title": "10 glavnih emocija",
   "recaps_empty": "Za ovo razdoblje još nema kartica. Pojavit će se kako budeš bilježio više dana.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Dodaj fotografiju u unose. Za godinu dana tvoj osvrt može početi s „Danas prije godinu dana”.",
   "recaps_intro_photos_title": "Sačuvaj fotografiju dana",
   "recaps_most_connected_title_month": "Najviše u kontaktu ovaj mjesec",
-  "recaps_most_connected_title_quarter": "Najviše u kontaktu ovo tromjesečje",
   "recaps_most_connected_title_year": "Najviše u kontaktu ove godine",
   "recaps_no_clear_difference": "Nema jasne razlike",
   "recaps_notifications_hint": "Tjedni, mjesečni i godišnji osvrti stižu zadnjeg dana svakog tjedna, mjeseca i godine, u vrijeme vašeg podsjetnika.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Mjesec",
   "recaps_period_next": "Sljedeće razdoblje",
   "recaps_period_previous": "Prethodno razdoblje",
-  "recaps_period_quarter": "Tromjesečje",
-  "recaps_period_quarter_label": "Q%{quarter} %{year}",
   "recaps_period_week": "Tjedan",
   "recaps_period_year": "Godina",
   "recaps_person_back_text": "Prvi kontakt nakon %{count} tjedana. Zadnji put %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 putovanje ovaj mjesec",
     "other": "{{count}} putovanja ovaj mjesec"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 putovanje ovo tromjesečje",
-    "other": "{{count}} putovanja ovo tromjesečje"
   },
   "recaps_trips_title_year": {
     "one": "1 putovanje ove godine",

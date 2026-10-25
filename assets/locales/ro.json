@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 săptămâni fără să te simți %{emotion}",
   "recaps_emotion_again_text": "Pentru prima dată din %{date}.",
   "recaps_emotion_again_title": "Din nou %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Într-o zi. Apoi:",
-    "other": "În {{count}} zile. Apoi:"
-  },
-  "recaps_emotions_quarter_title": "Mai ales %{emotion} în acest trimestru",
   "recaps_emotions_title": "Emoțiile cele mai folosite",
   "recaps_emotions_year_title": "Primele 10 emoții",
   "recaps_empty": "Încă nu există carduri pentru această perioadă. Apar pe măsură ce înregistrezi mai multe zile.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Adaugă o fotografie în înregistrări. Peste un an, retrospectiva ta poate începe cu „Acum un an, azi”.",
   "recaps_intro_photos_title": "Păstrează o fotografie a zilei",
   "recaps_most_connected_title_month": "Cel mai mult în legătură luna aceasta",
-  "recaps_most_connected_title_quarter": "Cel mai mult în legătură în acest trimestru",
   "recaps_most_connected_title_year": "Cel mai mult în legătură anul acesta",
   "recaps_no_clear_difference": "Nicio diferență clară",
   "recaps_notifications_hint": "Retrospectivele săptămânale, lunare și anuale sosesc în ultima zi a fiecărei săptămâni, luni și an, la ora mementoului tău.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Lună",
   "recaps_period_next": "Perioada următoare",
   "recaps_period_previous": "Perioada anterioară",
-  "recaps_period_quarter": "Trimestru",
-  "recaps_period_quarter_label": "T%{quarter} %{year}",
   "recaps_period_week": "Săptămână",
   "recaps_period_year": "An",
   "recaps_person_back_text": "Prima legătură după %{count} săptămâni. Ultima dată a fost pe %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 călătorie luna aceasta",
     "other": "{{count}} călătorii luna aceasta"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 călătorie în acest trimestru",
-    "other": "{{count}} călătorii în acest trimestru"
   },
   "recaps_trips_title_year": {
     "one": "1 călătorie anul acesta",

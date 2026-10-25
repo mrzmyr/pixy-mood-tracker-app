@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "%{emotion} 없이 3주",
   "recaps_emotion_again_text": "%{date} 이후 처음입니다.",
   "recaps_emotion_again_title": "다시 %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "하루. 그다음:",
-    "other": "{{count}}일. 그다음:"
-  },
-  "recaps_emotions_quarter_title": "이번 분기는 주로 %{emotion}",
   "recaps_emotions_title": "가장 많이 쓴 감정",
   "recaps_emotions_year_title": "감정 톱 10",
   "recaps_empty": "이 기간의 카드가 아직 없습니다. 기록이 쌓이면 나타납니다.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "기록에 사진을 추가하세요. 1년 뒤 돌아보기가 “1년 전 오늘”로 시작할 수 있습니다.",
   "recaps_intro_photos_title": "오늘의 사진 남기기",
   "recaps_most_connected_title_month": "이번 달 가장 많이 연결된 사람",
-  "recaps_most_connected_title_quarter": "이번 분기 가장 많이 연결된 사람",
   "recaps_most_connected_title_year": "올해 가장 많이 연결된 사람",
   "recaps_no_clear_difference": "뚜렷한 차이 없음",
   "recaps_notifications_hint": "주간, 월간, 연간 돌아보기는 매주, 매월, 매년 마지막 날 알림 시간에 도착합니다.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "월",
   "recaps_period_next": "다음 기간",
   "recaps_period_previous": "이전 기간",
-  "recaps_period_quarter": "분기",
-  "recaps_period_quarter_label": "%{year}년 %{quarter}분기",
   "recaps_period_week": "주",
   "recaps_period_year": "연도",
   "recaps_person_back_text": "%{count}주 만의 연결이에요. 지난번은 %{date}였어요.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "이번 달 여행 1회",
     "other": "이번 달 여행 {{count}}회"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "이번 분기 여행 1회",
-    "other": "이번 분기 여행 {{count}}회"
   },
   "recaps_trips_title_year": {
     "one": "올해 여행 1회",

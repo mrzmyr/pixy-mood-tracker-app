@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "%{emotion}がない3週間",
   "recaps_emotion_again_text": "%{date}以来はじめて。",
   "recaps_emotion_again_title": "また%{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "1日。その次は：",
-    "other": "{{count}}日。その次は："
-  },
-  "recaps_emotions_quarter_title": "この四半期はほとんど%{emotion}",
   "recaps_emotions_title": "よく使った感情",
   "recaps_emotions_year_title": "感情トップ10",
   "recaps_empty": "この期間のカードはまだありません。記録が増えると表示されます。",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "記録に写真を追加しましょう。1年後、振り返りが「1年前の今日」から始まるかもしれません。",
   "recaps_intro_photos_title": "その日の写真を残す",
   "recaps_most_connected_title_month": "今月いちばんつながった人",
-  "recaps_most_connected_title_quarter": "この四半期いちばんつながった人",
   "recaps_most_connected_title_year": "今年いちばんつながった人",
   "recaps_no_clear_difference": "はっきりした差はありません",
   "recaps_notifications_hint": "週・月・年の振り返りは、毎週・毎月・毎年の最終日のリマインダー時刻に届きます。",
@@ -800,8 +794,6 @@
   "recaps_period_month": "月",
   "recaps_period_next": "次の期間",
   "recaps_period_previous": "前の期間",
-  "recaps_period_quarter": "四半期",
-  "recaps_period_quarter_label": "%{year}年 第%{quarter}四半期",
   "recaps_period_week": "週",
   "recaps_period_year": "年",
   "recaps_person_back_text": "%{count}週間ぶりのつながり。前回は%{date}でした。",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "今月の旅：1回",
     "other": "今月の旅：{{count}}回"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "この四半期の旅：1回",
-    "other": "この四半期の旅：{{count}}回"
   },
   "recaps_trips_title_year": {
     "one": "今年の旅：1回",

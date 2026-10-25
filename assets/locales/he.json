@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 שבועות בלי %{emotion}",
   "recaps_emotion_again_text": "לראשונה מאז %{date}.",
   "recaps_emotion_again_title": "שוב %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "ביום אחד. אחר כך:",
-    "other": "ב־{{count}} ימים. אחר כך:"
-  },
-  "recaps_emotions_quarter_title": "בעיקר %{emotion} ברבעון הזה",
   "recaps_emotions_title": "הרגשות הנפוצים ביותר",
   "recaps_emotions_year_title": "10 הרגשות המובילים",
   "recaps_empty": "עדיין אין כרטיסים לתקופה הזו. הם יופיעו ככל שתתעד יותר ימים.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "הוסף תמונה לתיעודים. בעוד שנה, הסיכום שלך יוכל להיפתח ב„היום לפני שנה”.",
   "recaps_intro_photos_title": "שמור תמונה של היום",
   "recaps_most_connected_title_month": "הכי הרבה בקשר החודש",
-  "recaps_most_connected_title_quarter": "הכי הרבה בקשר ברבעון",
   "recaps_most_connected_title_year": "הכי הרבה בקשר השנה",
   "recaps_no_clear_difference": "אין הבדל ברור",
   "recaps_notifications_hint": "סיכומים שבועיים, חודשיים ושנתיים מגיעים ביום האחרון של כל שבוע, חודש ושנה, בשעת התזכורת שלך.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "חודש",
   "recaps_period_next": "התקופה הבאה",
   "recaps_period_previous": "התקופה הקודמת",
-  "recaps_period_quarter": "רבעון",
-  "recaps_period_quarter_label": "רבעון %{quarter} %{year}",
   "recaps_period_week": "שבוע",
   "recaps_period_year": "שנה",
   "recaps_person_back_text": "קשר ראשון אחרי %{count} שבועות. הפעם האחרונה הייתה ב־%{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "נסיעה אחת החודש",
     "other": "{{count}} נסיעות החודש"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "נסיעה אחת ברבעון",
-    "other": "{{count}} נסיעות ברבעון"
   },
   "recaps_trips_title_year": {
     "one": "נסיעה אחת השנה",

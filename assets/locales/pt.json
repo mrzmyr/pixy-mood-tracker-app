@@ -749,11 +749,6 @@
   "recaps_emotion_absent_title": "3 semanas sem sentir %{emotion}",
   "recaps_emotion_again_text": "Pela primeira vez desde %{date}.",
   "recaps_emotion_again_title": "De novo %{emotion}",
-  "recaps_emotions_quarter_text": {
-    "one": "Em um dia. Depois:",
-    "other": "Em {{count}} dias. Depois:"
-  },
-  "recaps_emotions_quarter_title": "Principalmente %{emotion} neste trimestre",
   "recaps_emotions_title": "Emoções mais usadas",
   "recaps_emotions_year_title": "As 10 emoções principais",
   "recaps_empty": "Ainda não há cartões para este período. Eles aparecem à medida que você registra mais dias.",
@@ -785,7 +780,6 @@
   "recaps_intro_photos_text": "Adicione uma foto aos registros. Daqui a um ano, seu resumo pode começar com “Há um ano, hoje”.",
   "recaps_intro_photos_title": "Guarde uma foto do dia",
   "recaps_most_connected_title_month": "Mais conectado neste mês",
-  "recaps_most_connected_title_quarter": "Mais conectado neste trimestre",
   "recaps_most_connected_title_year": "Mais conectado neste ano",
   "recaps_no_clear_difference": "Sem diferença clara",
   "recaps_notifications_hint": "Resumos semanais, mensais e anuais chegam no último dia de cada semana, mês e ano, no horário do seu lembrete.",
@@ -800,8 +794,6 @@
   "recaps_period_month": "Mês",
   "recaps_period_next": "Próximo período",
   "recaps_period_previous": "Período anterior",
-  "recaps_period_quarter": "Trimestre",
-  "recaps_period_quarter_label": "T%{quarter} %{year}",
   "recaps_period_week": "Semana",
   "recaps_period_year": "Ano",
   "recaps_person_back_text": "Primeira conexão em %{count} semanas. A última vez foi em %{date}.",
@@ -945,10 +937,6 @@
   "recaps_trips_title_month": {
     "one": "1 viagem neste mês",
     "other": "{{count}} viagens neste mês"
-  },
-  "recaps_trips_title_quarter": {
-    "one": "1 viagem neste trimestre",
-    "other": "{{count}} viagens neste trimestre"
   },
   "recaps_trips_title_year": {
     "one": "1 viagem neste ano",

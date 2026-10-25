@@ -13,10 +13,9 @@ import type { Person } from "@/features/people";
 import { PhotoThumbnail } from "@/features/photos";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
-import { t, tDynamic } from "@/lib/translation";
+import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { useSettings } from "@/state/settings";
-import { CHIP } from "../chip-marker";
 import { parsePlace } from "../places";
 import type {
   ConnectedPerson,
@@ -27,12 +26,7 @@ import type {
 } from "../types";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
 import { RingedAvatar } from "./ringed-avatar";
-import {
-  ChipText,
-  EmotionChip,
-  RowEmotionChip,
-  RowTagChip,
-} from "./title-chip";
+import { RowEmotionChip, RowTagChip } from "./title-chip";
 
 interface Content {
   media?: ReactNode;
@@ -113,33 +107,10 @@ const Ranked = ({ counts }: { counts: EmotionCount[] }) => {
   );
 };
 
-const emotionLabel = (key: string) => tDynamic(`log_emotion_${key}`);
-
 const emotionsContent = (
   counts: EmotionCount[],
   periodKind: PeriodKind
 ): Content => {
-  if (periodKind === "quarter") {
-    const [first, ...rest] = counts;
-    const title = t("recaps_emotions_quarter_title", { emotion: CHIP });
-    return {
-      title: (
-        <ChipText
-          text={title}
-          chip={<EmotionChip emotionKey={first.emotion} />}
-        />
-      ),
-      titleLabel: title.replace(CHIP, emotionLabel(first.emotion)),
-      text: t("recaps_emotions_quarter_text", { count: first.days }),
-      body: (
-        <Row>
-          {rest.slice(0, 2).map((count) => (
-            <RowEmotionChip key={count.emotion} emotionKey={count.emotion} />
-          ))}
-        </Row>
-      ),
-    };
-  }
   if (periodKind === "week") {
     const title = t("recaps_emotions_title");
     return {
@@ -232,7 +203,6 @@ const connectedContent = (
 
 const MOST_CONNECTED_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
   month: "recaps_most_connected_title_month",
-  quarter: "recaps_most_connected_title_quarter",
   year: "recaps_most_connected_title_year",
 };
 
@@ -273,7 +243,6 @@ const Podium = ({
 
 const TRIP_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
   month: "recaps_trips_title_month",
-  quarter: "recaps_trips_title_quarter",
   year: "recaps_trips_title_year",
 };
 

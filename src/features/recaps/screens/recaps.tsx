@@ -59,7 +59,6 @@ import type { Span } from "../visibility";
 const KINDS: { kind: PeriodKind; label: TranslationKey }[] = [
   { kind: "week", label: "recaps_period_week" },
   { kind: "month", label: "recaps_period_month" },
-  { kind: "quarter", label: "recaps_period_quarter" },
   { kind: "year", label: "recaps_period_year" },
 ];
 
@@ -83,11 +82,6 @@ const PERIOD_LABELS: Record<PeriodKind, (period: Period) => string> = {
   week: ({ start, end }) =>
     `${formatRangeDay(start, false)} – ${formatRangeDay(end, true)}`,
   month: ({ start }) => dayjs(start).format("MMMM YYYY"),
-  quarter: ({ start }) =>
-    t("recaps_period_quarter_label", {
-      quarter: Math.floor(dayjs(start).month() / 3) + 1,
-      year: dayjs(start).year(),
-    }),
   year: ({ start }) => dayjs(start).format("YYYY"),
 };
 
@@ -108,7 +102,7 @@ const cardKey = (card: RecapCard, period: Period) =>
   `${period.kind}:${period.start}:${getCardId(card)}`;
 
 /**
- * Recap cards of one week, month, quarter, or year. Period kind and date
+ * Recap cards of one week, month, or year. Period kind and date
  * live in route params. Each card counts as shown once per screen visit,
  * when half of it is on screen.
  */
