@@ -323,7 +323,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/reminder"
-            options={{ ...settingsFormOptions, title: t("reminder") }}
+            options={{ ...settingsFormOptions, title: t("reminders") }}
           />
           <Stack.Screen
             name="settings/privacy"

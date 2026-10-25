@@ -13,7 +13,7 @@ import type { Load } from "@/state/persisted/create-persisted-store";
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
-import { INITIAL_STATE } from "@/constants/settings";
+import { INITIAL_STATE, QUICK_CHECK_IN_INTERVALS } from "@/constants/settings";
 import { applyColorScheme, ColorSchemeSettingSchema } from "./color-scheme";
 import { toStoreReviewPromptDates } from "./store-review-prompt-dates";
 import type { ColorSchemeSetting } from "./color-scheme";
@@ -41,6 +41,24 @@ export type CalendarLayout = "calendar" | "timeline";
 
 const isCalendarLayout = (value: unknown): value is CalendarLayout =>
   value === "calendar" || value === "timeline";
+
+/** Times of the quick check-in notifications. */
+export interface QuickCheckInSchedule {
+  /** First check-in of the day, `HH:mm`. */
+  from: string;
+  /** Last possible check-in of the day, `HH:mm`. */
+  until: string;
+  /** Hours between check-ins. */
+  everyHours: number;
+}
+
+const QuickCheckInScheduleSchema = z.object({
+  from: z.string().regex(/^\d{2}:\d{2}$/u),
+  until: z.string().regex(/^\d{2}:\d{2}$/u),
+  everyHours: z
+    .number()
+    .refine((hours) => QUICK_CHECK_IN_INTERVALS.some((step) => step === hours)),
+});
 
 /**
  * Persisted user settings.
@@ -96,10 +114,16 @@ export interface SettingsState {
    */
   profileAvatar: string | null;
   /**
-   * Quick check-in on the Lock Screen (iOS Live Activity) or in an ongoing
-   * notification (Android). Needs device permissions, so imports keep it.
+   * Quick check-in notifications during the day, on the
+   * `quickCheckInSchedule`. Needs notification permission, so imports keep
+   * it.
    */
   quickCheckInEnabled: boolean;
+  /**
+   * Quick check-in times: every `everyHours` hours from `from` to `until`
+   * (`HH:mm`), both included. Belongs to the device like the switch.
+   */
+  quickCheckInSchedule: QuickCheckInSchedule;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -113,7 +137,7 @@ export interface SettingsState {
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
  * location, calendar layout, app lock, recap notifications, the profile,
- * and quick check-in to the device, so imports keep the current values.
+ * and quick check-ins to the device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -129,6 +153,7 @@ export type ExportSettings = Omit<
   | "profileName"
   | "profileAvatar"
   | "quickCheckInEnabled"
+  | "quickCheckInSchedule"
 >;
 
 interface IAction {
@@ -192,6 +217,7 @@ const reducer = (
         profileName: state.profileName,
         profileAvatar: state.profileAvatar,
         quickCheckInEnabled: state.quickCheckInEnabled,
+        quickCheckInSchedule: state.quickCheckInSchedule,
       };
     }
     case "reset": {
@@ -233,6 +259,9 @@ const hydrateStored = ({
   profileName: z.string().safeParse(stored.profileName).data ?? "",
   profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
   quickCheckInEnabled: stored.quickCheckInEnabled === true,
+  quickCheckInSchedule:
+    QuickCheckInScheduleSchema.safeParse(stored.quickCheckInSchedule).data ??
+    INITIAL_STATE.quickCheckInSchedule,
 });
 
 const hydrate = (stored: StoredSettings | null): SettingsState =>

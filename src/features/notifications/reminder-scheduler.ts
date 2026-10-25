@@ -48,6 +48,27 @@ export interface RecapNotificationScheduler {
   cancelAll: () => Promise<void>;
 }
 
+/**
+ * `content.data.type` of quick check-in notifications. Reminder and recap
+ * changes keep them.
+ */
+export const QUICK_CHECK_IN_NOTIFICATION_TYPE = "quick_check_in";
+
+/** One quick check-in notification. */
+export interface QuickCheckInNotificationRequest {
+  at: Date;
+  title: string;
+  body: string;
+}
+
+/** Quick check-in notification API. Tests pass an in-memory fake. */
+export interface QuickCheckInNotificationScheduler {
+  /** Replace all scheduled quick check-ins. Reminders and recaps stay. */
+  replace: (requests: QuickCheckInNotificationRequest[]) => Promise<void>;
+  /** Cancel all scheduled quick check-ins. Reminders and recaps stay. */
+  cancelAll: () => Promise<void>;
+}
+
 const alertNoDevice = () => {
   Alert.alert(
     t("reminder_device_required_title"),
@@ -106,12 +127,28 @@ const scheduleRecap = ({ at, title, body, data }: RecapNotificationRequest) =>
     },
   });
 
+const scheduleQuickCheckIn = ({
+  at,
+  title,
+  body,
+}: QuickCheckInNotificationRequest) =>
+  Notifications.scheduleNotificationAsync({
+    content: { title, body, data: { type: QUICK_CHECK_IN_NOTIFICATION_TYPE } },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: at,
+    },
+  });
+
 const isRecapRequest = (request: Notifications.NotificationRequest) =>
   request.content.data?.type === RECAP_NOTIFICATION_TYPE;
 
+const isQuickCheckInRequest = (request: Notifications.NotificationRequest) =>
+  request.content.data?.type === QUICK_CHECK_IN_NOTIFICATION_TYPE;
+
 /**
- * Cancel each scheduled notification that matches. Reminders and recaps
- * share the schedule, so neither may cancel all. Older app versions
+ * Cancel each scheduled notification that matches. Reminders, recaps, and
+ * quick check-ins share the schedule, so none may cancel all. Older app versions
  * scheduled a repeating reminder without data; it counts as a reminder.
  */
 const cancelWhere = async (
@@ -130,7 +167,7 @@ const cancelWhere = async (
 };
 
 const isReminderRequest = (request: Notifications.NotificationRequest) =>
-  !isRecapRequest(request);
+  !isRecapRequest(request) && !isQuickCheckInRequest(request);
 
 const replaceNative = async (dates: Date[]) => {
   await cancelWhere(isReminderRequest);
@@ -142,7 +179,14 @@ const replaceRecapsNative = async (requests: RecapNotificationRequest[]) => {
   await Promise.all(requests.map(scheduleRecap));
 };
 
-// Runs one change at a time, reminders and recaps alike: overlapping changes
+const replaceQuickCheckInsNative = async (
+  requests: QuickCheckInNotificationRequest[]
+) => {
+  await cancelWhere(isQuickCheckInRequest);
+  await Promise.all(requests.map(scheduleQuickCheckIn));
+};
+
+// Runs one change at a time, reminders, recaps, and quick check-ins alike: overlapping changes
 // would interleave cancel and schedule, and leave duplicates.
 let pending: Promise<void> = Promise.resolve();
 
@@ -195,3 +239,19 @@ const webRecapScheduler: RecapNotificationScheduler = {
 /** Expo notifications on native, no-op on web. Shares the reminder queue. */
 export const defaultRecapScheduler =
   Platform.OS === "web" ? webRecapScheduler : nativeRecapScheduler;
+
+const nativeQuickCheckInScheduler: QuickCheckInNotificationScheduler = {
+  replace: (requests) => serialize(() => replaceQuickCheckInsNative(requests)),
+  cancelAll: () => serialize(() => cancelWhere(isQuickCheckInRequest)),
+};
+
+const webQuickCheckInScheduler: QuickCheckInNotificationScheduler = {
+  replace: () => Promise.resolve(),
+  cancelAll: () => Promise.resolve(),
+};
+
+/** Expo notifications on native, no-op on web. Shares the reminder queue. */
+export const defaultQuickCheckInScheduler =
+  Platform.OS === "web"
+    ? webQuickCheckInScheduler
+    : nativeQuickCheckInScheduler;

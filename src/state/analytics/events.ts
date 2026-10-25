@@ -114,6 +114,14 @@ export interface AnalyticsEvents {
     influences_count: number;
   };
   "quick_check_in:setting_changed": { enabled: boolean };
+  /** Fixed values only: times are `HH:mm` picks, not free text. */
+  "quick_check_in:schedule_changed": {
+    every_hours: number;
+    from: string;
+    until: string;
+    times_count: number;
+  };
+  "quick_check_in:notification_tapped": { cold_start: boolean };
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;

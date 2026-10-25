@@ -19,10 +19,11 @@ const Clock = ({
   timeDate,
   onChange,
   style,
+  testID = "reminder-time",
 }: ClockProps & { style?: ViewStyle }) => (
   <Host matchContents style={style}>
     <DatePicker
-      testID="reminder-time"
+      testID={testID}
       selection={timeDate}
       displayedComponents={["hourAndMinute"]}
       onDateChange={onChange}

@@ -7,6 +7,19 @@ import type { SettingsState } from "@/state/settings";
  */
 export const DEFAULT_REMINDER_TIME = "20:00";
 
+/** Hours between quick check-ins the settings offer. */
+export const QUICK_CHECK_IN_INTERVALS = [2, 3, 4, 6] as const;
+
+/**
+ * Default quick check-in schedule: 10:00, 14:00, and 18:00, done before the
+ * evening reflection at {@link DEFAULT_REMINDER_TIME}.
+ */
+export const DEFAULT_QUICK_CHECK_IN_SCHEDULE = {
+  from: "10:00",
+  until: "18:00",
+  everyHours: 4,
+};
+
 /**
  * Settings used before storage loads and for fresh installs. The settings
  * store never writes them before stored settings are read.
@@ -40,4 +53,5 @@ export const INITIAL_STATE: SettingsState = {
   profileName: "",
   profileAvatar: null,
   quickCheckInEnabled: false,
+  quickCheckInSchedule: DEFAULT_QUICK_CHECK_IN_SCHEDULE,
 };
