@@ -259,11 +259,11 @@ FRAMES = {
 PRIVACY = ["No account", "Never shares your notes", "Analytics can be turned off", "Export or delete anytime", "Open source"]
 # Frames and copy follow vision.md: lead with the why, statistics and Year in Pixels as proof.
 COPY = [
+    ("proof", {"h": "Loved for<br>being simple", "sub": "No ads · No account · Open source", "cls": "proof", "t": 234, "only": "apple"}),
     ("checkin", {"k": "Mood journal", "h": "Understand what<br>makes you feel<br>this way", "sub": "Log your mood and what shaped it."}),
     ("shapedby", {"k": "Shaped by", "h": "Track what shapes<br>your mood", "hc": "fit", "sub": "Habits, meds, sleep, anything."}),
     ("switch", {"k": "Switch", "h": "Import from other<br>Mood Trackers", "sub": "21 apps or any CSV, in minutes."}),
     ("emotions", {"k": "Emotions", "h": "Name what<br>you feel", "sub": "72 emotions, each explained.", "z_play": 414}),
-    ("proof", {"h": "Loved for<br>being simple", "sub": "No ads · No account · Open source", "cls": "proof", "t": 234, "only": "apple"}),
     ("stats", {"k": "Statistics", "h": "See how your<br>days add up", "sub": "Mood over time, tag peaks,<br>month and year reports.", "z_play": 416}),
     ("year", {"k": "Year in Pixels", "h": "Look back on<br>your year", "sub": "Every day, one glance."}),
     ("privacy", {"k": "Privacy", "h": "Your words<br>stay yours", "sub": "Text you write is never shared.", "cls": "dark", "checks": PRIVACY}),
