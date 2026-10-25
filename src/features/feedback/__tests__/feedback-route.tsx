@@ -11,7 +11,6 @@ import Providers from "@/shell/providers";
 import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/feature-flags";
 import { SettingsProvider, STORAGE_KEY } from "@/state/settings";
-import type { FeedackType, FeedbackSource } from "../feedback";
 import { useFeedbackForm } from "../hooks/use-feedback-form";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
@@ -120,8 +119,8 @@ describe("Feedback route", () => {
   );
 });
 
-const renderForm = (type: FeedackType = "idea", source?: FeedbackSource) =>
-  renderHook(() => useFeedbackForm(type, source), {
+const renderForm = () =>
+  renderHook(() => useFeedbackForm("idea"), {
     wrapper: ({ children }) => (
       <SettingsProvider>
         <AnalyticsProvider>{children}</AnalyticsProvider>
@@ -159,21 +158,6 @@ describe("Feedback form", () => {
     expect(result.current.isSending).toBe(false);
     // Success shows a toast, not an alert.
     expect(Alert.alert).not.toHaveBeenCalled();
-  });
-
-  test("feedback from an emotion picker experiment names the picker", async () => {
-    const { result } = await renderForm("other", "emotion_dials");
-
-    await act(() => result.current.handleMessageChange("Dials feel slow"));
-    await act(async () => {
-      expect(await result.current.send()).toBe(true);
-    });
-
-    const [[, request]] = jest.mocked(global.fetch).mock.calls;
-    expect(JSON.parse(String(request?.body))).toMatchObject({
-      type: "other",
-      source: "emotion_dials",
-    });
   });
 
   test("user keeps the draft when sending fails", async () => {

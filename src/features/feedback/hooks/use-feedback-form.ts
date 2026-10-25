@@ -1,7 +1,7 @@
 import noop from "lodash/noop";
 import { useState } from "react";
 import { useFeedback } from "../feedback";
-import type { FeedackType, FeedbackSource } from "../feedback";
+import type { FeedackType } from "../feedback";
 
 /**
  * Draft and send state of the feedback form. Shared by the feedback route
@@ -11,10 +11,7 @@ import type { FeedackType, FeedbackSource } from "../feedback";
  * the success toast. On failure, `status` turns `failed` for an inline
  * error, no alert shows, and the draft stays, so Send retries it.
  */
-export const useFeedbackForm = (
-  type: FeedackType,
-  source: FeedbackSource = "modal"
-) => {
+export const useFeedbackForm = (type: FeedackType) => {
   const feedback = useFeedback();
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
@@ -33,7 +30,7 @@ export const useFeedbackForm = (
       type,
       message,
       email,
-      source,
+      source: "modal",
       // Replaces the error alert: the form shows the error inline.
       onCancel: noop,
     });
