@@ -551,6 +551,7 @@
   "log_reminder_question": "Denní připomenutí",
   "log_sleep_disable": "Spánek nesleduji",
   "log_sleep_question": "Jak jsi se vyspal?",
+  "log_sleep_skip": "Přeskočit",
   "log_summary_and": " a ",
   "log_summary_check_in": "Dnešní záznam č. {{count}}. Krátce a jednoduše.",
   "log_summary_felt": "Tvoje pocity: {{emotions}}.",

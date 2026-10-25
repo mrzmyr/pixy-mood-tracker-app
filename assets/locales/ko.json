@@ -551,6 +551,7 @@
   "log_reminder_question": "일일 알림",
   "log_sleep_disable": "수면을 추적하지 않음",
   "log_sleep_question": "어떻게 잤어?",
+  "log_sleep_skip": "건너뛰기",
   "log_summary_and": " 그리고 ",
   "log_summary_check_in": "오늘 {{count}}번째 기록이에요. 짧고 간단하게!",
   "log_summary_felt": "느낀 감정: {{emotions}}.",

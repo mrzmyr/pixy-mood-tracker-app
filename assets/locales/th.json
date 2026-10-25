@@ -551,6 +551,7 @@
   "log_reminder_question": "เตือนความจำรายวัน",
   "log_sleep_disable": "ฉันไม่ติดตามการนอนหลับของฉัน",
   "log_sleep_question": "นอนหลับเป็นอย่างไรบ้าง?",
+  "log_sleep_skip": "ข้าม",
   "log_summary_and": "และ",
   "log_summary_check_in": "เช็กอินครั้งที่ {{count}} ของวันนี้ สั้นๆ ง่ายๆ",
   "log_summary_felt": "ความรู้สึกของคุณ: {{emotions}}",

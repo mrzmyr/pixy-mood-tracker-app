@@ -551,6 +551,7 @@
   "log_reminder_question": "Recordatorio diario",
   "log_sleep_disable": "No controlo mi sueño",
   "log_sleep_question": "¿Cómo has dormido?",
+  "log_sleep_skip": "Omitir",
   "log_summary_and": " y ",
   "log_summary_check_in": "Registro n.º {{count}} de hoy. Breve y sencillo.",
   "log_summary_felt": "Tus emociones: {{emotions}}.",

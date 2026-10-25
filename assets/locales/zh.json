@@ -551,6 +551,7 @@
   "log_reminder_question": "每日提醒",
   "log_sleep_disable": "我不跟踪我的睡眠",
   "log_sleep_question": "你睡得好么？",
+  "log_sleep_skip": "跳过",
   "log_summary_and": "和",
   "log_summary_check_in": "今天第 {{count}} 次记录。简短又轻松。",
   "log_summary_felt": "你的感受：{{emotions}}。",

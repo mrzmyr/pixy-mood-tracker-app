@@ -551,6 +551,7 @@
   "log_reminder_question": "Dagelijkse herinnering",
   "log_sleep_disable": "Ik hou mijn slaap niet bij",
   "log_sleep_question": "Hoe heb je geslapen?",
+  "log_sleep_skip": "Overslaan",
   "log_summary_and": " en ",
   "log_summary_check_in": "Check-in #{{count}} vandaag. Kort en krachtig.",
   "log_summary_felt": "Je gevoelens: {{emotions}}.",

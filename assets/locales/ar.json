@@ -551,6 +551,7 @@
   "log_reminder_question": "مذكر يومي",
   "log_sleep_disable": "أنا لا أتتبع نومي",
   "log_sleep_question": "كيف نمت؟",
+  "log_sleep_skip": "تخطٍّ",
   "log_summary_and": " و",
   "log_summary_check_in": "تسجيل رقم {{count}} اليوم. قصير ولطيف.",
   "log_summary_felt": "مشاعرك: {{emotions}}.",

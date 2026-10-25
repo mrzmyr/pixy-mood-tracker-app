@@ -551,6 +551,7 @@
   "log_reminder_question": "毎日のリマインダー",
   "log_sleep_disable": "睡眠を記録しない",
   "log_sleep_question": "どうやって寝たの？",
+  "log_sleep_skip": "スキップ",
   "log_summary_and": "と",
   "log_summary_check_in": "今日{{count}}回目の記録。サクッと完了！",
   "log_summary_felt": "感じたこと：{{emotions}}。",

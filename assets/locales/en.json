@@ -644,7 +644,7 @@
   "log_reminder_question": "Daily Reminder",
   "log_sleep_disable": "I don't track my sleep",
   "log_sleep_question": "How did you sleep?",
-  "log_sleep_skip_today": "Skip for today",
+  "log_sleep_skip": "Skip",
   "log_summary_and": " and ",
   "log_summary_check_in": "Check-in #{{count}} today. Short and sweet.",
   "log_summary_felt": "You felt {{emotions}}.",

@@ -551,6 +551,7 @@
   "log_reminder_question": "Promemoria giornaliero",
   "log_sleep_disable": "Non tengo traccia del mio sonno",
   "log_sleep_question": "Come hai dormito?",
+  "log_sleep_skip": "Salta",
   "log_summary_and": " e ",
   "log_summary_check_in": "Check-in n. {{count}} di oggi. Breve e semplice.",
   "log_summary_felt": "Le tue emozioni: {{emotions}}.",

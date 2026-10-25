@@ -552,6 +552,7 @@
   "log_reminder_question": "Rappel quotidien",
   "log_sleep_disable": "Je ne surveille pas mon sommeil",
   "log_sleep_question": "As-tu bien dormi?",
+  "log_sleep_skip": "Passer",
   "log_summary_and": " et ",
   "log_summary_check_in": "Check-in nº {{count}} aujourd’hui. Court et sympa.",
   "log_summary_felt": "Tes émotions : {{emotions}}.",

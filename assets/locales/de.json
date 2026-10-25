@@ -550,6 +550,7 @@
   "log_reminder_question": "Tägliche Erinnerung",
   "log_sleep_disable": "Ich tracke meinen Schlaf nicht",
   "log_sleep_question": "Wie hast du geschlafen?",
+  "log_sleep_skip": "Überspringen",
   "log_summary_and": " und ",
   "log_summary_check_in": "Check-in #{{count}} heute. Kurz und knackig.",
   "log_summary_felt": "Deine Gefühle: {{emotions}}.",

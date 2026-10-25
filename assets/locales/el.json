@@ -551,6 +551,7 @@
   "log_reminder_question": "Καθημερινή Υπενθύμιση",
   "log_sleep_disable": "Δεν παρακολουθώ τον ύπνο μου",
   "log_sleep_question": "Πως κοιμήθηκες?",
+  "log_sleep_skip": "Παράλειψη",
   "log_summary_and": " και ",
   "log_summary_check_in": "Καταγραφή #{{count}} σήμερα. Σύντομα και απλά.",
   "log_summary_felt": "Τα συναισθήματά σου: {{emotions}}.",

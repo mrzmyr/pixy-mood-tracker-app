@@ -551,6 +551,7 @@
   "log_reminder_question": "Napi emlékeztető",
   "log_sleep_disable": "Nem követem nyomon az alvásomat",
   "log_sleep_question": "Hogy aludtál?",
+  "log_sleep_skip": "Kihagyás",
   "log_summary_and": " és ",
   "log_summary_check_in": "A mai {{count}}. bejegyzésed. Rövid és velős.",
   "log_summary_felt": "Az érzéseid: {{emotions}}.",

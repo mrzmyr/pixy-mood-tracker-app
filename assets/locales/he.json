@@ -551,6 +551,7 @@
   "log_reminder_question": "תזכורת יומית",
   "log_sleep_disable": "אני לא עוקב אחר השינה שלי",
   "log_sleep_question": "איך ישנת?",
+  "log_sleep_skip": "דילוג",
   "log_summary_and": " וגם ",
   "log_summary_check_in": "צ׳ק־אין מס׳ {{count}} היום. קצר ולעניין.",
   "log_summary_felt": "הרגשות שלך: {{emotions}}.",
