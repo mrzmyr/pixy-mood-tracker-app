@@ -10,6 +10,39 @@ import { getTagLimit, useMaxTags } from "../tag-limit";
 import type { Tag } from "../tags-provider";
 
 /**
+ * Notice that replaces Create Tag once {@link useMaxTags} is reached. Pass
+ * all tags, archived included.
+ */
+export const TagLimitNotice = ({ tags }: { tags: readonly Tag[] }) => {
+  const colors = useColors();
+  const maxTags = useMaxTags();
+  const { archivedCount } = getTagLimit(tags, maxTags);
+
+  return (
+    <View
+      testID="tags-limit-notice"
+      accessibilityRole="alert"
+      style={{
+        flex: 1,
+        backgroundColor: colors.cardBackground,
+        padding: 16,
+        borderRadius: RADIUS.md,
+      }}
+    >
+      <Text style={{ color: colors.text, fontSize: 15 }}>
+        {archivedCount > 0
+          ? t("tags_reached_max_archived", { max_count: maxTags })
+          : t("tags_reached_max", { max_count: maxTags })}
+      </Text>
+    </View>
+  );
+};
+
+/** `true` while one more tag fits under {@link useMaxTags}. */
+export const useCanCreateTag = (tags: readonly Tag[]) =>
+  !getTagLimit(tags, useMaxTags()).reached;
+
+/**
  * Bottom bar of the tag screens: the Create Tag button, or a notice in its
  * place once {@link useMaxTags} is reached. Pass all tags, archived included;
  * both states read the same {@link getTagLimit}.
@@ -19,7 +52,7 @@ export const CreateTagAction = ({ tags }: { tags: readonly Tag[] }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const maxTags = useMaxTags();
-  const { reached, archivedCount } = getTagLimit(tags, maxTags);
+  const { reached } = getTagLimit(tags, maxTags);
 
   return (
     <>
@@ -51,22 +84,7 @@ export const CreateTagAction = ({ tags }: { tags: readonly Tag[] }) => {
         }}
       >
         {reached ? (
-          <View
-            testID="tags-limit-notice"
-            accessibilityRole="alert"
-            style={{
-              flex: 1,
-              backgroundColor: colors.cardBackground,
-              padding: 16,
-              borderRadius: RADIUS.md,
-            }}
-          >
-            <Text style={{ color: colors.text, fontSize: 15 }}>
-              {archivedCount > 0
-                ? t("tags_reached_max_archived", { max_count: maxTags })
-                : t("tags_reached_max", { max_count: maxTags })}
-            </Text>
-          </View>
+          <TagLimitNotice tags={tags} />
         ) : (
           <Button
             style={{ marginTop: 16, width: "100%" }}
