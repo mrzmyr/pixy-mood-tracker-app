@@ -26,9 +26,13 @@ export const useEntryTimePicker = ({
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const [isOpen, setIsOpen] = useState(false);
+  const [maximumDate, setMaximumDate] = useState(() => new Date());
 
   return {
-    open: () => setIsOpen(true),
+    open: () => {
+      setMaximumDate(new Date());
+      setIsOpen(true);
+    },
     sheet: (
       <BottomSheet
         isPresented={isOpen}
@@ -52,7 +56,7 @@ export const useEntryTimePicker = ({
               display="inline"
               locale={getLocale()}
               minuteInterval={ENTRY_TIME_MINUTE_INTERVAL}
-              maximumDate={new Date()}
+              maximumDate={maximumDate}
               onChange={(event, date) => {
                 if (event.type === "set" && date !== undefined) {
                   onChange(clampToNow(date));
