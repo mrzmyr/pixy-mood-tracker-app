@@ -928,14 +928,6 @@
   "recaps_trend_text": "हर बिंदु पर पिछले %{days} दिनों का औसत। रेखा के ऊपर: हल्के दिन।",
   "recaps_trend_weighs_less": "कम भारी",
   "recaps_trend_weighs_more": "ज़्यादा भारी",
-  "recaps_trips_title_month": {
-    "one": "इस महीने 1 यात्रा",
-    "other": "इस महीने {{count}} यात्राएँ"
-  },
-  "recaps_trips_title_year": {
-    "one": "इस साल 1 यात्रा",
-    "other": "इस साल {{count}} यात्राएँ"
-  },
   "recaps_what_moves_places": "जगहें",
   "recaps_what_moves_text": "उसके साथ वाले दिनों का मूड, उसके बिना वाले दिनों की तुलना में, मूड के स्तरों में।",
   "recaps_what_moves_title": "आपके मूड को क्या प्रभावित करता है",

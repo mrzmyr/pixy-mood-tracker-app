@@ -928,14 +928,6 @@
   "recaps_trend_text": "Media ultimelor %{days} zile în fiecare punct. Deasupra liniei: zile mai ușoare.",
   "recaps_trend_weighs_less": "Apasă mai puțin",
   "recaps_trend_weighs_more": "Apasă mai mult",
-  "recaps_trips_title_month": {
-    "one": "1 călătorie luna aceasta",
-    "other": "{{count}} călătorii luna aceasta"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 călătorie anul acesta",
-    "other": "{{count}} călătorii anul acesta"
-  },
   "recaps_what_moves_places": "Locuri",
   "recaps_what_moves_text": "Starea în zilele cu asta comparativ cu zilele fără, în trepte de stare.",
   "recaps_what_moves_title": "Ce îți influențează starea",

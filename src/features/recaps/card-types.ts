@@ -112,11 +112,11 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "strong",
     periods: ["month", "year"],
   },
-  "places-trips": {
+  places: {
     family: "summary",
     modules: ["location"],
     signal: "strong",
-    periods: ["month", "year"],
+    periods: ALL_PERIODS,
   },
   "stood-out": {
     family: "pattern",

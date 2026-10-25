@@ -928,14 +928,6 @@
   "recaps_trend_text": "ค่าเฉลี่ย %{days} วันล่าสุดในแต่ละจุด เหนือเส้น: วันที่เบากว่า",
   "recaps_trend_weighs_less": "เบาลง",
   "recaps_trend_weighs_more": "หนักขึ้น",
-  "recaps_trips_title_month": {
-    "one": "1 ทริปเดือนนี้",
-    "other": "{{count}} ทริปเดือนนี้"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 ทริปปีนี้",
-    "other": "{{count}} ทริปปีนี้"
-  },
   "recaps_what_moves_places": "สถานที่",
   "recaps_what_moves_text": "อารมณ์ในวันที่มี เทียบกับวันที่ไม่มี เป็นระดับอารมณ์",
   "recaps_what_moves_title": "อะไรส่งผลต่ออารมณ์ของคุณ",

@@ -928,14 +928,6 @@
   "recaps_trend_text": "متوسط آخر %{days} يومًا عند كل نقطة. فوق الخط: أيام أخف.",
   "recaps_trend_weighs_less": "يثقل أقل",
   "recaps_trend_weighs_more": "يثقل أكثر",
-  "recaps_trips_title_month": {
-    "one": "رحلة واحدة هذا الشهر",
-    "other": "{{count}} رحلات هذا الشهر"
-  },
-  "recaps_trips_title_year": {
-    "one": "رحلة واحدة هذا العام",
-    "other": "{{count}} رحلات هذا العام"
-  },
   "recaps_what_moves_places": "الأماكن",
   "recaps_what_moves_text": "المزاج في الأيام التي يوجد فيها مقارنةً بالأيام التي لا يوجد فيها، بدرجات المزاج.",
   "recaps_what_moves_title": "ما الذي يحرّك مزاجك",

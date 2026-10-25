@@ -803,6 +803,13 @@
   },
   "recaps_person_moment_milestone": "%{count} Tage verbunden in %{year}",
   "recaps_person_moment_new": "Erste Verbindung",
+  "recaps_places_title_month": "Orte diesen Monat",
+  "recaps_places_title_week": "Orte diese Woche",
+  "recaps_places_title_year": "Orte dieses Jahr",
+  "recaps_places_trips": {
+    "one": "1 Reise weg von zu Hause.",
+    "other": "%{count} Reisen weg von zu Hause."
+  },
   "recaps_reminder_failed": "Erinnerung nicht eingestellt. Benachrichtigungen konnten nicht geplant werden. Versuche es erneut unter Einstellungen > Erinnerung.",
   "recaps_reminder_set": "Erinnerung um %{time} eingestellt",
   "recaps_sleep_rough_text": "%{count} unruhige Nächte in Folge. Ruh dich aus, wenn du kannst.",
@@ -935,14 +942,6 @@
   "recaps_trend_text": "Durchschnitt der letzten %{days} Tage an jedem Punkt. Über der Linie: leichtere Tage.",
   "recaps_trend_weighs_less": "Wiegt leichter",
   "recaps_trend_weighs_more": "Wiegt schwerer",
-  "recaps_trips_title_month": {
-    "one": "1 Reise diesen Monat",
-    "other": "{{count}} Reisen diesen Monat"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 Reise dieses Jahr",
-    "other": "{{count}} Reisen dieses Jahr"
-  },
   "recaps_what_moves_places": "Orte",
   "recaps_what_moves_text": "Stimmung an Tagen damit im Vergleich zu Tagen ohne, in Stimmungsstufen.",
   "recaps_what_moves_title": "Was deine Stimmung bewegt",

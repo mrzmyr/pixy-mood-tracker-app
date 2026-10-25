@@ -928,14 +928,6 @@
   "recaps_trend_text": "Viimeisten %{days} päivän keskiarvo kussakin pisteessä. Viivan yllä: kevyemmät päivät.",
   "recaps_trend_weighs_less": "Painaa vähemmän",
   "recaps_trend_weighs_more": "Painaa enemmän",
-  "recaps_trips_title_month": {
-    "one": "1 matka tässä kuussa",
-    "other": "{{count}} matkaa tässä kuussa"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 matka tänä vuonna",
-    "other": "{{count}} matkaa tänä vuonna"
-  },
   "recaps_what_moves_places": "Paikat",
   "recaps_what_moves_text": "Mieliala päivinä sen kanssa verrattuna päiviin ilman sitä, mielialan askelina.",
   "recaps_what_moves_title": "Mikä liikuttaa mielialaasi",

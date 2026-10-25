@@ -928,14 +928,6 @@
   "recaps_trend_text": "Media degli ultimi %{days} giorni in ogni punto. Sopra la linea: giorni più leggeri.",
   "recaps_trend_weighs_less": "Pesa di meno",
   "recaps_trend_weighs_more": "Pesa di più",
-  "recaps_trips_title_month": {
-    "one": "1 viaggio questo mese",
-    "other": "{{count}} viaggi questo mese"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 viaggio quest’anno",
-    "other": "{{count}} viaggi quest’anno"
-  },
   "recaps_what_moves_places": "Luoghi",
   "recaps_what_moves_text": "Umore nei giorni con, rispetto ai giorni senza, in livelli di umore.",
   "recaps_what_moves_title": "Cosa muove il tuo umore",

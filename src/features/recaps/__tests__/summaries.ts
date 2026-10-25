@@ -268,7 +268,7 @@ describe("people", () => {
   });
 });
 
-describe("places and trips", () => {
+describe("places", () => {
   const month = {
     kind: "month" as const,
     date: "2026-10-01",
@@ -286,7 +286,7 @@ describe("places and trips", () => {
 
   test("joins days away in one city across gaps up to 2 days", () => {
     expect(
-      summaries("places-trips", {
+      summaries("places", {
         ...month,
         items: [
           ...home,
@@ -298,19 +298,20 @@ describe("places and trips", () => {
       })
     ).toEqual([
       {
-        type: "places-trips",
+        type: "places",
         trips: [
           { city: "Lisbon", start: "2026-10-03", end: "2026-10-06", days: 2 },
           { city: "Lisbon", start: "2026-10-10", end: "2026-10-10", days: 1 },
           { city: "Potsdam", start: "2026-10-20", end: "2026-10-20", days: 1 },
         ],
+        spots: [],
       },
     ]);
   });
 
   test("ends a trip on a day checked in at home", () => {
     expect(
-      summaries("places-trips", {
+      summaries("places", {
         ...month,
         items: [
           ...home,
@@ -321,11 +322,12 @@ describe("places and trips", () => {
       })
     ).toEqual([
       {
-        type: "places-trips",
+        type: "places",
         trips: [
           { city: "Lisbon", start: "2026-10-03", end: "2026-10-03", days: 1 },
           { city: "Lisbon", start: "2026-10-05", end: "2026-10-05", days: 1 },
         ],
+        spots: [{ name: "Mitte", days: 1 }],
       },
     ]);
   });
@@ -345,7 +347,7 @@ describe("places and trips", () => {
     ];
 
     expect(
-      summaries("places-trips", {
+      summaries("places", {
         ...month,
         items: [
           ...spread,
@@ -362,7 +364,46 @@ describe("places and trips", () => {
     ).toEqual([]);
   });
 
-  test("ignores places near home and needs location on", () => {
+  test("lists areas of home and nearby towns by days, from 2 places", () => {
+    const kreuzberg = {
+      latitude: 52.49,
+      longitude: 13.42,
+      name: "Kreuzberg, Berlin",
+    };
+    const nearby = {
+      latitude: 52.39,
+      longitude: 13.1,
+      name: "Babelsberg, Potsdam",
+    };
+
+    expect(
+      summaries("places", {
+        ...month,
+        kind: "week",
+        date: "2026-10-05",
+        today: "2026-10-12",
+        items: [
+          ...home,
+          { date: "2026-10-05", location: berlin },
+          { date: "2026-10-06", location: kreuzberg },
+          { date: "2026-10-07", location: berlin },
+          { date: "2026-10-08", location: nearby },
+        ],
+      })
+    ).toEqual([
+      {
+        type: "places",
+        trips: [],
+        spots: [
+          { name: "Mitte", days: 2 },
+          { name: "Kreuzberg", days: 1 },
+          { name: "Potsdam", days: 1 },
+        ],
+      },
+    ]);
+  });
+
+  test("shows no card for one place without a trip, and needs location on", () => {
     const kreuzberg = {
       latitude: 52.49,
       longitude: 13.42,
@@ -370,13 +411,13 @@ describe("places and trips", () => {
     };
 
     expect(
-      summaries("places-trips", {
+      summaries("places", {
         ...month,
         items: [...home, { date: "2026-10-03", location: kreuzberg }],
       })
     ).toEqual([]);
     expect(
-      summaries("places-trips", {
+      summaries("places", {
         ...month,
         locationEnabled: false,
         items: [...home, { date: "2026-10-03", location: lisbon }],

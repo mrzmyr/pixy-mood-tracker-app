@@ -928,14 +928,6 @@
   "recaps_trend_text": "Média dos últimos %{days} dias em cada ponto. Acima da linha: dias mais leves.",
   "recaps_trend_weighs_less": "Pesa menos",
   "recaps_trend_weighs_more": "Pesa mais",
-  "recaps_trips_title_month": {
-    "one": "1 viagem neste mês",
-    "other": "{{count}} viagens neste mês"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 viagem neste ano",
-    "other": "{{count}} viagens neste ano"
-  },
   "recaps_what_moves_places": "Lugares",
   "recaps_what_moves_text": "Humor nos dias com isso comparado aos dias sem, em níveis de humor.",
   "recaps_what_moves_title": "O que move seu humor",

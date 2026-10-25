@@ -928,14 +928,6 @@
   "recaps_trend_text": "Prosjek zadnjih %{days} dana u svakoj točki. Iznad linije: lakši dani.",
   "recaps_trend_weighs_less": "Teži manje",
   "recaps_trend_weighs_more": "Teži više",
-  "recaps_trips_title_month": {
-    "one": "1 putovanje ovaj mjesec",
-    "other": "{{count}} putovanja ovaj mjesec"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 putovanje ove godine",
-    "other": "{{count}} putovanja ove godine"
-  },
   "recaps_what_moves_places": "Mjesta",
   "recaps_what_moves_text": "Raspoloženje danima s tim u usporedbi s danima bez toga, u stupnjevima raspoloženja.",
   "recaps_what_moves_title": "Što pokreće tvoje raspoloženje",

@@ -929,14 +929,6 @@
   "recaps_trend_text": "Moyenne des %{days} derniers jours à chaque point. Au-dessus de la ligne : jours plus légers.",
   "recaps_trend_weighs_less": "Pèse moins",
   "recaps_trend_weighs_more": "Pèse plus",
-  "recaps_trips_title_month": {
-    "one": "1 voyage ce mois-ci",
-    "other": "{{count}} voyages ce mois-ci"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 voyage cette année",
-    "other": "{{count}} voyages cette année"
-  },
   "recaps_what_moves_places": "Lieux",
   "recaps_what_moves_text": "Humeur les jours avec, comparée aux jours sans, en niveaux d’humeur.",
   "recaps_what_moves_title": "Ce qui influence votre humeur",

@@ -928,14 +928,6 @@
   "recaps_trend_text": "Среднее за последние %{days} дн. в каждой точке. Выше линии: дни легче.",
   "recaps_trend_weighs_less": "Давит меньше",
   "recaps_trend_weighs_more": "Давит сильнее",
-  "recaps_trips_title_month": {
-    "one": "1 поездка в этом месяце",
-    "other": "Поездок в этом месяце: {{count}}"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 поездка в этом году",
-    "other": "Поездок в этом году: {{count}}"
-  },
   "recaps_what_moves_places": "Места",
   "recaps_what_moves_text": "Настроение в дни с этим по сравнению с днями без этого, в шагах настроения.",
   "recaps_what_moves_title": "Что влияет на ваше настроение",

@@ -928,14 +928,6 @@
   "recaps_trend_text": "Gemiddelde van de laatste %{days} dagen op elk punt. Boven de lijn: lichtere dagen.",
   "recaps_trend_weighs_less": "Weegt lichter",
   "recaps_trend_weighs_more": "Weegt zwaarder",
-  "recaps_trips_title_month": {
-    "one": "1 reis deze maand",
-    "other": "{{count}} reizen deze maand"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 reis dit jaar",
-    "other": "{{count}} reizen dit jaar"
-  },
   "recaps_what_moves_places": "Plaatsen",
   "recaps_what_moves_text": "Stemming op dagen met, vergeleken met dagen zonder, in stemmingsstappen.",
   "recaps_what_moves_title": "Wat je stemming beweegt",

@@ -928,14 +928,6 @@
   "recaps_trend_text": "Середнє за останні %{days} дн. у кожній точці. Вище лінії: легші дні.",
   "recaps_trend_weighs_less": "Тисне менше",
   "recaps_trend_weighs_more": "Тисне сильніше",
-  "recaps_trips_title_month": {
-    "one": "1 поїздка цього місяця",
-    "other": "Поїздок цього місяця: {{count}}"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 поїздка цього року",
-    "other": "Поїздок цього року: {{count}}"
-  },
   "recaps_what_moves_places": "Місця",
   "recaps_what_moves_text": "Настрій у дні з цим порівняно з днями без цього, у кроках настрою.",
   "recaps_what_moves_title": "Що впливає на ваш настрій",

@@ -47,6 +47,10 @@ export const THRESHOLDS = {
   tripMinKm: 25,
   /** Trips: days in one city merge across gaps up to this many days. */
   tripMaxGapDays: 2,
+  /** Places: home areas needed without a trip, so one area never fills a card. */
+  placesMinSpots: 2,
+  /** Places: rows at most, trips first. */
+  placesMaxRows: 5,
   /** Effects: days with the driver needed for any signal. */
   effectMinDays: 5,
   /** Effects: difference over standard error for a strong signal. */

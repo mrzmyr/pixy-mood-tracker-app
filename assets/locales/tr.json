@@ -928,14 +928,6 @@
   "recaps_trend_text": "Her noktada son %{days} günün ortalaması. Çizginin üstü: daha hafif günler.",
   "recaps_trend_weighs_less": "Daha hafif geliyor",
   "recaps_trend_weighs_more": "Daha ağır geliyor",
-  "recaps_trips_title_month": {
-    "one": "Bu ay 1 seyahat",
-    "other": "Bu ay {{count}} seyahat"
-  },
-  "recaps_trips_title_year": {
-    "one": "Bu yıl 1 seyahat",
-    "other": "Bu yıl {{count}} seyahat"
-  },
   "recaps_what_moves_places": "Yerler",
   "recaps_what_moves_text": "Olduğu günlerdeki ruh hali, olmadığı günlerle karşılaştırmalı, ruh hali adımlarıyla.",
   "recaps_what_moves_title": "Ruh halini ne etkiliyor",
