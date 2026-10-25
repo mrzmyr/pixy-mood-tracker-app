@@ -273,7 +273,7 @@ export interface AnalyticsEvents {
   "recaps:notification_tapped": { period: "week" | "month" | "year" };
   /** Month story opened. Only with a story: 10+ check-in days. */
   "recaps:story_opened": {
-    period: "month";
+    period: "week" | "month";
     source: StorySource;
     slides_count: number;
   };

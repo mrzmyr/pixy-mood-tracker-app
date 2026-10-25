@@ -147,9 +147,11 @@ export const ShareCard = ({
             theme={theme}
             style={{ fontSize: 19, fontWeight: "800" }}
           >
-            {t("recaps_story_share_title", {
-              month: monthName(ctx.period.start),
-            })}
+            {ctx.period.kind === "week"
+              ? t("recaps_story_share_title_week")
+              : t("recaps_story_share_title", {
+                  month: monthName(ctx.period.start),
+                })}
           </StoryText>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
             <Image

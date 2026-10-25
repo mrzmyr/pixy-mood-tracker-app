@@ -1,7 +1,7 @@
 import type { LogItem } from "@/features/logs";
 import type { LogPhoto } from "@/types";
 import { addDays } from "../days";
-import { buildMonthStory } from "../story/deck";
+import { buildMonthStory, buildWeekStory } from "../story/deck";
 import type { StorySlide, StorySlideType } from "../story/types";
 import { makeInput, makeTags } from "./utils";
 
@@ -298,5 +298,35 @@ describe("share card", () => {
     expect(slide(story(month()), "share")?.facts).toEqual([
       { kind: "check-ins", days: 30 },
     ]);
+  });
+});
+
+describe("week story", () => {
+  // Monday 2026-09-21 to Sunday 2026-09-27.
+  const WEEK = "2026-09-21";
+  const week = (count: number) =>
+    Array.from({ length: count }, (_, index) => ({
+      date: addDays(WEEK, index),
+      rating: "good" as const,
+    }));
+  const weekStory = (items: Partial<LogItem>[], today = "2026-09-28") =>
+    buildWeekStory(makeInput({ kind: "week", today, date: WEEK, items, tags }));
+
+  test("needs 4 check-in days", () => {
+    expect(weekStory(week(3))).toBeNull();
+    expect(weekStory(week(4))).not.toBeNull();
+  });
+
+  test("opens during the week and for 2 weeks after", () => {
+    expect(weekStory(week(7), "2026-09-25")).not.toBeNull();
+    expect(weekStory(week(7), "2026-10-11")).not.toBeNull();
+    expect(weekStory(week(7), "2026-10-12")).toBeNull();
+  });
+
+  test("starts with the cover and ends with the share card", () => {
+    const types = (weekStory(week(7)) ?? []).map((item) => item.type);
+
+    expect(types[0]).toBe("cover");
+    expect(types.at(-1)).toBe("share");
   });
 });
