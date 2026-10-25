@@ -240,6 +240,7 @@ PROOF = (
 
 # Frame library: id -> (label, html with {t} phone top and {z} overlay top)
 FRAMES = {
+    "calendar": ("Pixel calendar: a month of moods, one pixel per day.", phone('calendar', '{t}', FIT)),
     "checkin": ("Check-in: sleep step behind, mood slide in front.",
                 phone('sleep', '{t+36}', TILT_L) + phone('mood', '{t}', TILT_R)),
     "shapedby": ("Note slide behind, tags slide with shaped-by examples in front, tags popped out.",
@@ -258,9 +259,10 @@ FRAMES = {
 
 PRIVACY = ["No account", "Never shares your notes", "Analytics can be turned off", "Export or delete anytime", "Open source"]
 # Frames and copy follow vision.md: lead with the why, statistics and Year in Pixels as proof.
+# "f_<store>" swaps the frame for one store and keeps the copy.
 COPY = [
     ("proof", {"h": "Loved for<br>being simple", "sub": "No ads · No account · Open source", "cls": "proof", "t": 234, "only": "apple"}),
-    ("checkin", {"k": "Mood journal", "h": "Understand what<br>makes you feel<br>this way", "sub": "Log your mood and what shaped it."}),
+    ("checkin", {"k": "Mood journal", "h": "Understand what<br>makes you feel<br>this way", "sub": "Log your mood and what shaped it.", "f_play": "calendar"}),
     ("shapedby", {"k": "Shaped by", "h": "Track what shapes<br>your mood", "hc": "fit", "sub": "Habits, meds, sleep, anything."}),
     ("switch", {"k": "Switch", "h": "Import from other<br>Mood Trackers", "sub": "21 apps or any CSV, in minutes."}),
     ("emotions", {"k": "Emotions", "h": "Name what<br>you feel", "sub": "72 emotions, each explained.", "z_play": 414}),
@@ -272,10 +274,10 @@ COPY = [
 STORES = {
     # App Store: first 3 frames show in search results (no app preview). Social proof is App Store only.
     "apple": {"title": "iPhone · App Store", "cls": "", "z": 500, "lh": 33.9,
-              "frames": [(f, c) for f, c in COPY if c.get("only", "apple") == "apple"]},
+              "frames": [(c.get("f_apple", f), c) for f, c in COPY if c.get("only", "apple") == "apple"]},
     # Google Play: no ratings, testimonials, or awards; captions stay under 20% of the image.
     "play": {"title": "Android · Google Play", "cls": "android-set", "z": 392, "lh": 30.7,
-             "frames": [(f, c) for f, c in COPY if c.get("only", "play") == "play"]},
+             "frames": [(c.get("f_play", f), c) for f, c in COPY if c.get("only", "play") == "play"]},
 }
 
 
