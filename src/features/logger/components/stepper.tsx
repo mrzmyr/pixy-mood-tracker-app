@@ -36,7 +36,7 @@ const StepDot = ({ active }: { active: boolean }) => {
   );
 };
 
-/** Progress dots match the widget guide: active step expands into a pill. */
+/** Progress dots: active step expands into a pill. */
 export const Stepper = ({ count, index }: { count: number; index: number }) => (
   <View
     accessible

@@ -188,7 +188,6 @@ const AppLayout = () => {
                 : { headerStyle: { backgroundColor: colors.logBackground } }),
             }}
           />
-          <Stack.Screen name="widget" options={modalOptions} />
           <Stack.Screen name="feedback" options={feedbackOptions} />
           <Stack.Screen name="check-in/[id]" options={modalOptions} />
           <Stack.Screen

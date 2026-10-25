@@ -103,11 +103,6 @@ export interface AnalyticsEvents {
     entries_count: number;
   };
 
-  "widget:guide_opened": undefined;
-  "widget:guide_step_viewed": { step: number };
-  "widget:guide_dismissed": { step: number };
-  "widget:guide_completed": undefined;
-
   /** `source`: Lock Screen (iOS), notification (Android), or the in-app screen. */
   "quick_check_in:entry_saved": {
     source: "live_activity" | "notification" | "app";

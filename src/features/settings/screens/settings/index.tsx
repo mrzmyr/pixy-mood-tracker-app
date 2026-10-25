@@ -31,7 +31,6 @@ import {
 import { useSettings } from "@/state/settings";
 import { COLOR_SCHEMES } from "@/state/settings/color-scheme";
 import useColors from "@/hooks/use-colors";
-import { useIsWidgetEnabled } from "@/features/widget";
 import {
   AppLockMenuItem,
   useIsAppLockMenuItemVisible,
@@ -60,7 +59,6 @@ export const SettingsScreen = () => {
   const colors = useColors();
   const { width: windowWidth } = useWindowDimensions();
   const analytics = useAnalytics();
-  const isWidgetEnabled = useIsWidgetEnabled();
   const isAppLockVisible = useIsAppLockMenuItemVisible();
   const isRecapsEnabled = useFeatureFlag("recaps");
   const isProfileEnabled = useFeatureFlag("profile");
@@ -182,15 +180,6 @@ export const SettingsScreen = () => {
                   router.push(`/recaps/week/${dayjs().format(DATE_FORMAT)}`)
                 }
                 testID="recaps"
-              />
-            )}
-            {isWidgetEnabled && (
-              <FieldRow
-                title={t("widget")}
-                icon={SETTINGS_ICONS.widget}
-                kind="push"
-                onPress={() => router.push("/widget")}
-                testID="widget"
               />
             )}
           </FieldGroup.Section>

@@ -44,7 +44,6 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
   - `trigger`: `entries_7` (first good save from 7 entries), `good_entry_30` (good save from 30 entries)
   - `entries_count`: all saved entries. Never ratings or averages
   - OS decides whether prompt shows
-- Widget guide: `widget:guide_*`
 - Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`, `rating`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`), `quick_check_in:setting_changed` (`enabled`). `source`: `live_activity`, `notification`, `app`. Never people or tag names
 - Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](src/features/logger/confirmation))
   - Shown only after create, not edit
@@ -132,6 +131,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `logger:log_deleted`: the logger lost its trash button. Entries are deleted from the day view entry menu, which sends `day:delete_tapped`
 - `log_emotions_tooltip_close`, `logger:emotions_tooltip_closed`: emotion description tooltip removed from the logger. No replacement
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
+- `widget:guide_opened`, `widget:guide_step_viewed`, `widget:guide_dismissed`, `widget:guide_completed`: widget guide and Settings > Widgets removed. No replacement
 
 **Removed properties** (never sent under the new names)
 
