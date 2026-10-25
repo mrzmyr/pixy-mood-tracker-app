@@ -3,6 +3,7 @@ import { Platform, Pressable, Text, View } from "react-native";
 import type { AccessibilityValue, TextStyle, ViewStyle } from "react-native";
 
 import ChevronRight from "lucide-react-native/icons/chevron-right";
+import { SFIcon } from "@/components/sf-icon";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
 
@@ -71,7 +72,18 @@ const getRightIcon = ({
   showChevron: boolean;
   iconRight: React.ReactElement | null;
   color: string;
-}) => (showChevron ? <ChevronRight width={18} color={color} /> : iconRight);
+}) =>
+  showChevron ? (
+    // Same chevron as native Settings rows (`FieldRow`).
+    <SFIcon
+      name="chevron.right"
+      size={13}
+      color={color}
+      fallback={<ChevronRight width={18} color={color} />}
+    />
+  ) : (
+    iconRight
+  );
 
 const getAccessibilityRole = (hasPress: boolean, checked?: boolean) => {
   if (checked !== undefined) {

@@ -305,7 +305,11 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/steps/tags/index"
-            options={{ ...pageOptions, title: t("tags") }}
+            options={{
+              ...settingsFormOptions,
+              title: t("tags"),
+              ...largeTitleOptions(colors.background),
+            }}
           />
           <Stack.Screen
             name="settings/steps/tags/archive"
