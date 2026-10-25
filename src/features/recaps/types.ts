@@ -69,6 +69,12 @@ export type NudgeCard =
   | { type: "intro-photos" }
   | { type: "intro-categories"; tagsCount: number };
 
+/** Why a person shows in the people moment of a period. */
+export type PersonMoment =
+  | { kind: "back"; personId: string; lastDate: DateKey; weeks: number }
+  | { kind: "new"; personId: string; firstDate: DateKey }
+  | { kind: "milestone"; personId: string; days: number; year: number };
+
 /**
  * A fact worth noticing. Cards name people, tags, and emotions by id; the
  * screen looks up names, so rules never read display data.
@@ -76,9 +82,7 @@ export type NudgeCard =
 export type MomentCard =
   | { type: "emotion-again"; emotion: string; lastDate: DateKey }
   | { type: "emotion-absent"; emotion: string; countBefore: number }
-  | { type: "person-back"; personId: string; lastDate: DateKey; weeks: number }
-  | { type: "person-new"; personId: string; firstDate: DateKey }
-  | { type: "person-milestone"; personId: string; days: number; year: number }
+  | { type: "people-moments"; periodKind: PeriodKind; people: PersonMoment[] }
   | { type: "first-city"; city: string; district: string | null; date: DateKey }
   | { type: "tag-back"; tagId: string; days: number; weeks: number }
   | { type: "sleep-turnaround"; nights: DateKey[]; week: SleepNight[] }

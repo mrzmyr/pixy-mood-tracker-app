@@ -55,19 +55,8 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "medium",
     periods: ["week"],
   },
-  "person-back": {
-    family: "moment",
-    modules: ["people"],
-    signal: "strong",
-    periods: WEEK_MONTH,
-  },
-  "person-new": {
-    family: "moment",
-    modules: ["people"],
-    signal: "strong",
-    periods: WEEK_MONTH,
-  },
-  "person-milestone": {
+  // One card for every person back, new, or at a milestone in the period.
+  "people-moments": {
     family: "moment",
     modules: ["people"],
     signal: "strong",
@@ -169,7 +158,7 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
 
 /**
  * Stable id of a card: its type plus the person, tag, or emotion it is
- * about. Two cards of one type can show at once, for two people.
+ * about. Two cards of one type can show at once, for two tags.
  */
 export const getCardId = (card: RecapCard) => {
   const subject =

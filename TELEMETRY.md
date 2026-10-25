@@ -127,6 +127,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
 - `calendar:layout_changed` `layout` and `calendar:day_opened` `source`: value `map` no longer sent after `v1.102.0`. Calendar map layout (flag `calendar-map`) removed
 - `recaps:card_shown`, `recaps:card_feedback_sent`, `recaps:nudge_tapped`: `period` no longer sends `quarter`. Recaps lost the quarter period. Only `week`, `month`, `year` remain
+- `recaps:*` `card_type`: `person-back`, `person-new`, `person-milestone` merged into `people-moments` (one card per period, all people in it). Old values no longer sent
 
 **Removed events**
 

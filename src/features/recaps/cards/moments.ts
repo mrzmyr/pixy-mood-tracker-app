@@ -9,7 +9,13 @@ import {
 } from "../days";
 import { distanceKm, parsePlace } from "../places";
 import { THRESHOLDS } from "../thresholds";
-import type { MomentCard, RecapDay, RecapInput, SleepNight } from "../types";
+import type {
+  MomentCard,
+  PersonMoment,
+  RecapDay,
+  RecapInput,
+  SleepNight,
+} from "../types";
 
 const CATEGORY = new Map(
   EMOTIONS.map((emotion) => [emotion.key, emotion.category])
@@ -137,9 +143,10 @@ const connectedDaysIn = (days: RecapDay[], personId: string) =>
   );
 
 /**
- * One card per person connected in the period: back after 28+ days, first
- * entry ever, or a milestone of connected days in the calendar year. Back
- * wins over a milestone, a milestone over new.
+ * One card for every person connected in the period who is back after 28+
+ * days, connected for the first time, or at a milestone of connected days
+ * in the calendar year. Back wins over a milestone, a milestone over new.
+ * People keep the order of their first connection in the period.
  */
 export const personMoments = (input: RecapInput): MomentCard[] => {
   if (!input.steps.has("people") || !input.availableSteps.has("people")) {
@@ -157,7 +164,7 @@ export const personMoments = (input: RecapInput): MomentCard[] => {
   );
   const year = Number(input.period.end.slice(0, 4));
   const yearStart = `${year}-01-01`;
-  const cards: MomentCard[] = [];
+  const people: PersonMoment[] = [];
   for (const personId of ids) {
     const [first] = connectedDaysIn(input.days, personId);
     const lastBefore = connectedDaysIn(earlier, personId).at(-1);
@@ -176,19 +183,21 @@ export const personMoments = (input: RecapInput): MomentCard[] => {
       (count) => inYearBefore < count && inYear >= count
     );
     if (lastBefore && gap >= THRESHOLDS.personBackMinGapDays) {
-      cards.push({
-        type: "person-back",
+      people.push({
+        kind: "back",
         personId,
         lastDate: lastBefore.date,
         weeks: weeks(gap),
       });
     } else if (milestone !== undefined) {
-      cards.push({ type: "person-milestone", personId, days: milestone, year });
+      people.push({ kind: "milestone", personId, days: milestone, year });
     } else if (!lastBefore && earlier.length >= THRESHOLDS.newMinHistoryDays) {
-      cards.push({ type: "person-new", personId, firstDate: first.date });
+      people.push({ kind: "new", personId, firstDate: first.date });
     }
   }
-  return cards;
+  return people.length > 0
+    ? [{ type: "people-moments", periodKind: input.period.kind, people }]
+    : [];
 };
 
 /**

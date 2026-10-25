@@ -171,6 +171,11 @@ describe("emotion absent", () => {
   });
 });
 
+/** The single people card of the week with these rows. */
+const peopleCard = (...people: object[]) => [
+  { type: "people-moments", periodKind: "week", people },
+];
+
 describe("people", () => {
   const sam = { people: [{ id: "sam" }] };
   const history = run("2026-08-01", 15);
@@ -183,14 +188,14 @@ describe("people", () => {
           { date: mon, ...sam },
         ],
       })
-    ).toEqual([
-      {
-        type: "person-back",
+    ).toEqual(
+      peopleCard({
+        kind: "back",
         personId: "sam",
         lastDate: "2026-09-07",
         weeks: 4,
-      },
-    ]);
+      })
+    );
     expect(
       moments({
         items: [
@@ -202,9 +207,9 @@ describe("people", () => {
   });
 
   test("welcomes a new person only with 15 earlier check-in days", () => {
-    expect(moments({ items: [...history, { date: mon, ...sam }] })).toEqual([
-      { type: "person-new", personId: "sam", firstDate: mon },
-    ]);
+    expect(moments({ items: [...history, { date: mon, ...sam }] })).toEqual(
+      peopleCard({ kind: "new", personId: "sam", firstDate: mon })
+    );
     expect(
       moments({ items: [...history.slice(1), { date: mon, ...sam }] })
     ).toEqual([]);
@@ -213,9 +218,9 @@ describe("people", () => {
   test("celebrates crossing 10 connected days in the calendar year", () => {
     const nine = run("2026-09-01", 9, sam);
 
-    expect(moments({ items: [...nine, { date: mon, ...sam }] })).toEqual([
-      { type: "person-milestone", personId: "sam", days: 10, year: 2026 },
-    ]);
+    expect(moments({ items: [...nine, { date: mon, ...sam }] })).toEqual(
+      peopleCard({ kind: "milestone", personId: "sam", days: 10, year: 2026 })
+    );
     expect(
       moments({ items: [...nine.slice(1), { date: mon, ...sam }] })
     ).toEqual([]);
@@ -224,14 +229,35 @@ describe("people", () => {
   test("counts milestones per calendar year", () => {
     const lastYear = run("2025-12-20", 9, sam);
 
-    expect(moments({ items: [...lastYear, { date: mon, ...sam }] })).toEqual([
-      {
-        type: "person-back",
+    expect(moments({ items: [...lastYear, { date: mon, ...sam }] })).toEqual(
+      peopleCard({
+        kind: "back",
         personId: "sam",
         lastDate: "2025-12-28",
         weeks: 40,
-      },
-    ]);
+      })
+    );
+  });
+
+  test("puts everyone into one card, in order of their first connection", () => {
+    const rosa = { people: [{ id: "rosa" }] };
+
+    expect(
+      moments({
+        items: [
+          { date: "2026-09-01", ...sam },
+          { date: "2026-09-01", ...rosa },
+          { date: mon, ...rosa },
+          { date: "2026-10-07", ...sam },
+        ],
+        personIds: ["sam", "rosa"],
+      })
+    ).toEqual(
+      peopleCard(
+        { kind: "back", personId: "rosa", lastDate: "2026-09-01", weeks: 5 },
+        { kind: "back", personId: "sam", lastDate: "2026-09-01", weeks: 5 }
+      )
+    );
   });
 
   test("never names a deleted person", () => {
@@ -241,14 +267,14 @@ describe("people", () => {
     ];
 
     expect(moments({ items, personIds: [] })).toEqual([]);
-    expect(moments({ items, personIds: ["sam"] })).toEqual([
-      {
-        type: "person-back",
+    expect(moments({ items, personIds: ["sam"] })).toEqual(
+      peopleCard({
+        kind: "back",
         personId: "sam",
         lastDate: "2026-09-01",
         weeks: 5,
-      },
-    ]);
+      })
+    );
   });
 
   test("shows nothing with the People step off", () => {
