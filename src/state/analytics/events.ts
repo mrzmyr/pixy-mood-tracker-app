@@ -99,7 +99,7 @@ export interface AnalyticsEvents {
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
   "logger:store_review_requested": {
-    trigger: "entries_7";
+    trigger: "entries_7" | "good_entry_30";
     entries_count: number;
   };
 
