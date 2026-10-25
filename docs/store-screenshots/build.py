@@ -1,40 +1,10 @@
 import time
 """Pixy store screenshots, sky identity. Output: index.html.
 App UI from appscreens.js (+ emotion-icons.js, real Hugeicons shapes). Serve folder over http.
-Export one screen at store size: index.html?export=ios&n=1 (see export.sh)."""
-import json, math, os
+Export one screen at store size: index.html?export=apple&n=1 or ?export=play&n=1 (see export.sh)."""
+import os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-listings = json.load(open(os.path.join(HERE, "logos", "listings.json")))
-NAMES = {"alternativeto.svg": "AlternativeTo", "github.svg": "GitHub", "apkpure.webp": "APKPure", "moodtrackers-org.png": "moodtrackers.org", "medevel.png": "MEDevel"}
-ok = {l["logo"] for l in listings if l.get("confirmed") and l.get("logo")}
-LOGOS = "".join(f'<span class="lg lgtxt"><img src="logos/{f}" alt="">{n}</span>' for f, n in NAMES.items() if f in ok and f in ("alternativeto.svg", "moodtrackers-org.png", "medevel.png"))
-
-
-def laurel(flip=False):
-    """Laurel branch: thin curved stem, paired almond leaves shrinking to the tip."""
-    import math
-    def stem(t):  # quadratic bezier from bottom (40,94) via (2,58) to top (24,6)
-        x = (1 - t) ** 2 * 40 + 2 * (1 - t) * t * 2 + t * t * 24
-        y = (1 - t) ** 2 * 94 + 2 * (1 - t) * t * 58 + t * t * 6
-        dx = 2 * (1 - t) * (2 - 40) + 2 * t * (24 - 2)
-        dy = 2 * (1 - t) * (58 - 94) + 2 * t * (6 - 58)
-        return x, y, math.degrees(math.atan2(dy, dx))
-    leaf = "M0 0 C 6.5 -4 6.5 -14 0 -19 C -6.5 -14 -6.5 -4 0 0 Z"
-    parts = ['<path d="M40 94 Q2 58 24 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>']
-    n = 6
-    for i in range(n):
-        t = 0.08 + i * (0.86 / (n - 1))
-        x, y, ang = stem(t)
-        s = 1.0 - i * 0.08
-        for side in (-1, 1):
-            rot = ang + 90 + side * 48
-            parts.append(f'<path d="{leaf}" transform="translate({x:.2f} {y:.2f}) rotate({rot:.1f}) scale({s:.2f})"/>')
-    x, y, ang = stem(1.0)
-    parts.append(f'<path d="{leaf}" transform="translate({x:.2f} {y:.2f}) rotate({ang + 90:.1f}) scale(0.8)"/>')
-    tf = ' transform="scale(-1,1) translate(-48,0)"' if flip else ""
-    return f'<svg width="44" height="82" viewBox="-10 -12 64 116" fill="#fff" shape-rendering="geometricPrecision"><g{tf}>{"".join(parts)}</g></svg>'
-
 
 
 CSS = r"""
@@ -138,7 +108,6 @@ radial-gradient(1.4px 1.4px at 18% 10%,#fff,transparent),radial-gradient(1px 1px
 .zf img{width:58px;height:58px;border-radius:50%;object-fit:cover;padding:3px;border:2.5px solid #dedede;box-sizing:content-box}
 .zf.on img{border-color:#0a7aff}.zf.on b{font-weight:600}.zf b{font-weight:500}
 .android-set .zf{font-family:Roboto,system-ui}
-.android-set .zoom:not(.faces){top:466px !important}
 
 /* scrawl feedback round 2 */
 .ps .fab{display:none !important}
@@ -220,52 +189,145 @@ def pop(key, left, top, rot, on=False):
     return f'<div class="pop{" on" if on else ""}" data-emo="{key}" style="{_x(left)};top:{top}px;transform:rotate({rot}deg)"></div>'
 
 
-SLOTS = [
-    ("<b>1 · Proof.</b> Left-aligned headline, downloads + rating row, calendar phone, review card over the phone, listed on at the bottom.", None, "proof", f"""
- <div class="k" style="align-self:flex-start">mood journal</div>
- <h4 style="text-align:left;align-self:flex-start;white-space:normal">Understand what makes you feel that way.</h4>
- <div class="stats"><div class="award">{laurel()}<div class="mid"><div class="rt"><span class="star">★★★★★</span></div><b>10,000+ downloads</b></div>{laurel(True)}</div></div>
- {phone('calendar', 280)}
- <div class="pfade"></div>
- <div class="qcard">“I am a mental health counselor and<br><b>I love suggesting to my clients to use this for reflection.</b>”<small><img src="photos/p-jenna-gray.svg" width="20" height="20" style="border-radius:50%">Google Play User</small></div>
- <div class="lbar"><div class="lo2">Listed on</div><div class="logos2">{LOGOS}</div></div>"""),
-    ("<b>2 · Mood.</b> Logger mood slide behind, calendar in front and higher.", None, "", f"""
- <h4>Mood in<br>Pixels</h4><div class="sub">Your days turn into colors.</div>
- {phone('mood', 186, 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;')}
- {phone('calendar', 150, 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;')}"""),
-    ("<b>3 · Emotions.</b> Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.", None, "", f"""
- <h4>Name what<br>you feel.</h4><div class="sub">161 emotions, each explained.</div>
- {phone('emotions', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
- <div class="zoom" style="left:22px;right:22px;top:500px"><span class="zc on" data-emo="calm"></span><span class="zc on" data-emo="hopeful"></span><span class="zc" data-emo="grateful"></span><span class="zc" data-emo="anxious"></span></div>"""),
-    ("<b>4 · Tags.</b> Check-in tags, flat list (no categories), gray bg; popular tags popped out in gray cards.", None, "", f"""
- <h4>Tag what<br>matters</h4><div class="sub">Track what fills your days.</div>
- {phone('tags', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
- <div class="zoom" style="left:22px;right:22px;top:500px"><span class="zc on"><i style="background:#22c55e"></i>Sport</span><span class="zc on"><i style="background:#f59e0b"></i>Hyperfocus</span><span class="zc on"><i style="background:#8b5cf6"></i>Took meds</span><span class="zc on"><i style="background:#3b82f6"></i>Meetings</span></div>"""),
-    ("<b>5 · Year.</b> Year Report: Year in Pixels.", None, "", f"""
- <h4>Your year<br>in pixels</h4><div class="sub">See every day of the year at a glance.</div>
- {phone('year', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
-    ("<b>6 · Themes.</b> Calendar in RdYG (light) and RdYlGn-old (dark), the non-default scales in Settings > Colors.", None, "", f"""
- <h4>Make it<br>your own</h4><div class="sub">Color scales in light and dark mode.</div>
- {phone('calendar', 186, 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;', 'rdyg')}
- {phone('calendar', 150, 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;', 'rdylgnOld,dark')}"""),
-    ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
- <h4 style="align-self:flex-start;text-align:left">We care about<br>your privacy.</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
- <div class="plist" style="margin-top:auto;margin-bottom:auto"><div>{CK}Stored on Your Device Only</div><div>{CK}No Account, No Sign-Up</div><div>{CK}No Ads</div><div>{CK}Export Your Data Anytime</div><div>{CK}Open Source</div><div class="soon">{CK}Supporter Plan Coming Soon</div></div>"""),
+# ---- Per-store sets ----
+# One frame library, separate copy and order per store. Rules for both sets:
+# only features with status `available` in docs/app-facts.json; no price or "free",
+# ratings, download counts, testimonials, awards, other app names, or time-sensitive text;
+# never claim zero data collection (anonymous analytics + crash reports exist).
+TILT_L = 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;'
+TILT_R = 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;'
+FIT = 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;'
+DOC = '<svg width="22" height="26" viewBox="0 0 22 26"><path d="M3 1h11l7 7v15a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" fill="#fff"/><path d="M14 1v7h7" fill="rgba(0,0,0,.18)"/><path d="M5 13h12M5 17h12M5 21h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".55"/></svg>'
+# Generic export files from other apps: colored tile + file type, never a name or logo.
+XFER = ('<div class="xfer" style="top:{t}px">' + "".join(
+    f'<div class="xf" style="transform:rotate({r}deg)"><span class="xt" style="background:{c};color:{c}">{DOC}</span><span class="xc">{ext}</span></div>'
+    for c, ext, r in (("#f97316", ".csv", -7), ("#8b5cf6", ".json", 0), ("#0ea5e9", ".zip", 7)))
+    + '<div class="xa"><svg width="12" height="16" viewBox="0 0 14 22" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1v19M1.5 14.5 7 20l5.5-5.5"/></svg><b>Pixy Switch</b></div></div>')
+
+def laurel(flip=False):
+    """Laurel branch: thin curved stem, paired almond leaves shrinking to the tip."""
+    import math
+    def stem(t):  # quadratic bezier from bottom (40,94) via (2,58) to top (24,6)
+        x = (1 - t) ** 2 * 40 + 2 * (1 - t) * t * 2 + t * t * 24
+        y = (1 - t) ** 2 * 94 + 2 * (1 - t) * t * 58 + t * t * 6
+        dx = 2 * (1 - t) * (2 - 40) + 2 * t * (24 - 2)
+        dy = 2 * (1 - t) * (58 - 94) + 2 * t * (6 - 58)
+        return x, y, math.degrees(math.atan2(dy, dx))
+    leaf = "M0 0 C 6.5 -4 6.5 -14 0 -19 C -6.5 -14 -6.5 -4 0 0 Z"
+    parts = ['<path d="M40 94 Q2 58 24 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>']
+    n = 6
+    for i in range(n):
+        t = 0.08 + i * (0.86 / (n - 1))
+        x, y, ang = stem(t)
+        s = 1.0 - i * 0.08
+        for side in (-1, 1):
+            rot = ang + 90 + side * 48
+            parts.append(f'<path d="{leaf}" transform="translate({x:.2f} {y:.2f}) rotate({rot:.1f}) scale({s:.2f})"/>')
+    x, y, ang = stem(1.0)
+    parts.append(f'<path d="{leaf}" transform="translate({x:.2f} {y:.2f}) rotate({ang + 90:.1f}) scale(0.8)"/>')
+    tf = ' transform="scale(-1,1) translate(-48,0)"' if flip else ""
+    return f'<svg width="44" height="82" viewBox="-10 -12 64 116" fill="#fff" shape-rendering="geometricPrecision"><g{tf}>{"".join(parts)}</g></svg>'
+
+# App Store only: Google Play bans ratings, testimonials, and awards in screenshots.
+LISTED = (("moodtrackers-org.png", "moodtrackers.org"), ("alternativeto.svg", "AlternativeTo"), ("medevel.png", "MEDevel"))
+PROOF = (
+    f'<div class="stats"><div class="award">{laurel()}<div class="mid"><div class="rt"><span class="star">★★★★★</span></div><b>4.9 on the App Store</b></div>{laurel(True)}</div></div>'
+    + phone('calendar', '{t}')
+    + '<div class="pfade"></div>'
+    + '<div class="qcard">“No nonsense, clean and easy to use app for tracking mood.<br><b>I use it every day.</b>”<small><span class="star">★★★★★</span>Review by the guy, App Store</small></div>'
+    + '<div class="lbar"><div class="lo2">Listed on</div><div class="logos2">'
+    + "".join(f'<span class="lg lgtxt"><img src="logos/{f}" alt="">{n}</span>' for f, n in LISTED) + '</div></div>')
+
+# Frame library: id -> (label, html with {t} phone top and {z} overlay top)
+FRAMES = {
+    "calendar": ("Pixel calendar: a month of moods, one pixel per day.", phone('calendar', '{t}', FIT)),
+    "checkin": ("Check-in: sleep step behind, mood slide in front.",
+                phone('sleep', '{t+36}', TILT_L) + phone('mood', '{t}', TILT_R)),
+    "shapedby": ("Note slide behind, tags slide with shaped-by examples in front, tags popped out.",
+                 phone('note', '{t+36}', TILT_L) + phone('shapedby', '{t}', TILT_R)
+                 + '<div class="zoom" style="top:{z}px">' + "".join(f'<span class="zc on"><i style="background:{c}"></i>{n}</span>' for n, c in (("Coffee", "#a16207"), ("Took meds", "#8b5cf6"), ("Guitar", "#f59e0b"), ("Headache", "#ef4444"))) + '</div>'),
+    "switch": ("Three unbranded export files (.csv, .json, .zip) flow through Pixy Switch into the calendar. No other app names or logos.",
+               XFER + phone('calendar', '{t+148}', FIT)),
+    "emotions": ("Logger emotions slide, Hopeful with its description popped out.",
+                 phone('emotions', '{t}', FIT) + '<div class="zoom note" style="top:{z}px"><span class="zc on" data-emo="hopeful"></span><div>You feel optimistic that something good will happen</div></div>'),
+    "proof": ("Social proof (App Store only): App Store rating, review card over the calendar, Listed on row.", PROOF),
+    "stats": ("Statistics highlights: mood chart, tag peaks popped out.",
+              phone('stats', '{t}', FIT) + '<div class="popcard" data-card="tagpeaks" style="left:50%;top:{z}px;transform:translateX(-50%) scale(.7);transform-origin:50% 0"></div>'),
+    "year": ("Year Report: Year in Pixels.", phone('year', '{t}', FIT)),
+    "privacy": ("Dark checklist frame (night sky), list mid-screen. No phone.", '<div class="plist">{checks}</div>'),
+}
+
+PRIVACY = ["No account", "Never shares your notes", "Analytics can be turned off", "Export or delete anytime", "Open source"]
+# Frames and copy follow vision.md: lead with the why, statistics and Year in Pixels as proof.
+# "f_<store>" swaps the frame for one store and keeps the copy.
+COPY = [
+    ("proof", {"h": "Loved for<br>being simple", "sub": "No ads · No account · Open source", "cls": "proof", "t": 234, "only": "apple"}),
+    ("checkin", {"k": "Mood journal", "h": "Understand what<br>makes you feel<br>this way", "sub": "Log your mood and what shaped it.", "f_play": "calendar"}),
+    ("shapedby", {"k": "Shaped by", "h": "Track what shapes<br>your mood", "hc": "fit", "sub": "Habits, meds, sleep, anything."}),
+    ("switch", {"k": "Switch", "h": "Import from other<br>Mood Trackers", "sub": "21 apps or any CSV, in minutes."}),
+    ("emotions", {"k": "Emotions", "h": "Name what<br>you feel", "sub": "72 emotions, each explained.", "z_play": 414}),
+    ("stats", {"k": "Statistics", "h": "See how your<br>days add up", "sub": "Mood over time, tag peaks,<br>month and year reports.", "z_play": 416}),
+    ("year", {"k": "Year in Pixels", "h": "Look back on<br>your year", "sub": "Every day, one glance."}),
+    ("privacy", {"k": "Privacy", "h": "Your words<br>stay yours", "sub": "Text you write is never shared.", "cls": "dark", "checks": PRIVACY}),
 ]
 
-body = "".join(
-    f'<div class="slot"><div class="scr {cls}">{h}</div><div class="lab">{lab.split("</b>")[0]}</b></div></div>'
-    for lab, t, cls, h in SLOTS)
+STORES = {
+    # App Store: first 3 frames show in search results (no app preview). Social proof is App Store only.
+    "apple": {"title": "iPhone · App Store", "cls": "", "z": 500, "lh": 33.9,
+              "frames": [(c.get("f_apple", f), c) for f, c in COPY if c.get("only", "apple") == "apple"]},
+    # Google Play: no ratings, testimonials, or awards; captions stay under 20% of the image.
+    "play": {"title": "Android · Google Play", "cls": "android-set", "z": 392, "lh": 30.7,
+             "frames": [(c.get("f_play", f), c) for f, c in COPY if c.get("only", "play") == "play"]},
+}
 
 
-def to_android(html):
-    """Android variant of the set: Play rating, biometric lock, no iOS widget."""
-    out = html
-    out = out.replace('Face ID Lock', 'Fingerprint &amp; Face Unlock').replace('Face ID: flag app-lock', 'Biometric lock: flag app-lock')
-    return out
+def phone_top(s, c):
+    """Phone top in CSS px: right below the caption (padding, label, headline lines, subline lines, gap)."""
+    lines = lambda x: x.count("<br>") + 1
+    return round(34 + (25 if c.get("k") else 0) + s["lh"] * lines(c["h"]) + 10 + 18.2 * lines(c["sub"]) + 16)
 
 
-android_body = to_android(body)
+if sys.argv[1:2] == ["--frames"]:  # export.sh: frame names in upload order
+    print(" ".join(f for f, _ in STORES[sys.argv[2]]["frames"]))
+    sys.exit()
+
+
+def caption(c):
+    k = f'<div class="k">{c["k"]}</div>' if c.get("k") else ""
+    return f'{k}<h4 class="{c.get("hc", "")}">{c["h"]}</h4><div class="sub">{c["sub"]}</div>'
+
+
+def store_set(key):
+    s = STORES[key]
+    slots = []
+    for n, (fid, c) in enumerate(s["frames"], 1):
+        lab, html = FRAMES[fid]
+        t, z = c.get("t", phone_top(s, c)), c.get(f"z_{key}", c.get("z", s["z"]))
+        checks = "".join(f'<div>{CK}{x}</div>' for x in c.get("checks", []))
+        html = re.sub(r"\{t\+(\d+)\}", lambda m: str(t + int(m.group(1))), html + c.get("extra", ""))
+        html = html.replace("{t}", str(t)).replace("{z}", str(z)).replace("{checks}", checks)
+        slots.append(f'<div class="slot" data-name="{fid}"><div class="scr {c.get("cls", "")}">{caption(c)}{html}</div><div class="lab"><b>{n} · {fid}.</b> {lab}</div></div>')
+    return f'<div class="platform"><h2>{s["title"]}</h2></div><div class="set {s["cls"]}" data-store="{key}">{"".join(slots)}</div>'
+
+
+STORE_CSS = r"""
+/* Per-store sets: 6.9" iPhone (1320x2868) and Play phone 9:16 (1080x1920) */
+.set[data-store="apple"] .scr{height:651.82px}
+.set[data-store="play"] .scr{height:533.33px}
+.set .slot:nth-child(8) .scr{--sx:40%}
+.zoom.note{display:block !important;width:256px !important;max-width:256px !important;font:400 15px/1.4 -apple-system,system-ui;padding:14px 16px}.zoom.note .zc{margin-bottom:8px}
+.android-set .zoom.note{font-family:Roboto,system-ui}
+.android-set .scr h4{font-size:29px}
+.scr h4.fit{font-size:29px}
+.scr.dark .plist{margin:auto 0}
+.scr.proof .stats{margin-top:22px}.scr.proof .qcard small .star{font-size:11px;letter-spacing:1px}
+.xfer{position:absolute;z-index:6;left:0;right:0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.xf{width:72px;background:#fff;border-radius:16px;padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:7px;box-shadow:var(--sky-shadow)}
+.xt{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.xc{font:600 12px ui-monospace,SFMono-Regular,Menlo,monospace;color:#0a0a0a;background:#f0f0f2;border-radius:6px;padding:2px 7px}
+.xa{flex-basis:100%;display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:-4px}
+.xa b{order:-1;font:600 11px Geist,system-ui;letter-spacing:.07em;text-transform:uppercase;color:#0a0a0a;background:#fff;border-radius:999px;padding:4px 10px;box-shadow:var(--sky-shadow)}
+"""
 
 # App Store creative assets (iOS 27+): product page header 21:9 and search results 3:2.
 # CSS px x4 = store px. Header 960x411.5 -> 3840x1646. Search 960x640 -> 3840x2560.
@@ -307,7 +369,7 @@ CREATIVE = f"""
  </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. Pixy icon + "Pixy Mood Journal" on top, phones pushed down. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
  <div><div class="cv search" data-cv="search">
   <h4 class="ih" style="top:30px;font-size:68px">{PIXY_ICON}Mood Journal</h4>
-  <div class="sub" style="top:106px;font-size:28px;font-weight:500">Log how you feel. See what shapes it.</div>
+  <div class="sub" style="top:106px;font-size:28px;font-weight:500">Log how you feel. See your year in pixels.</div>
   {phone('mood', 232, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
   {phone('emotions', 232, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
   {phone('calendar', 194, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
@@ -315,14 +377,13 @@ CREATIVE = f"""
  <div><div class="cv feature android-set" data-cv="feature">
   {pixels(FPX)}
   <div class="brand fb">{PIXY_ICON}<b>Pixy</b><span>Mood Journal</span></div>
-  <h4 class="fh">Understand what makes you feel that way.</h4>
+  <h4 class="fh">Understand what<br>makes you feel<br>this way</h4>
   {phone('calendar', 40, 'left:auto;right:140px;transform:rotate(-6deg) scale(1.35);z-index:2;')}
   {phone('year', 96, 'left:auto;right:-190px;transform:rotate(7deg) scale(1.25);z-index:1;')}
- </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Pixy Mood Journal lockup + proof headline left, calendar and year in pixels right.</div></div>
+ </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Pixy Mood Journal lockup + headline left (no price, rating, or download claims), calendar and year in pixels right.</div></div>
 </div>"""
-body = body.replace('Google Play User', 'Pixy user')
 
-# Export mode: index.html?export=ios|android&n=1..7 keeps one screen at 0,0 for headless capture (export.sh).
+# Export mode: index.html?export=apple|play&n=1..8 keeps one screen at 0,0 for headless capture (export.sh).
 EXPORT = """<script>
 (function () {{
   const q = new URLSearchParams(location.search), os = q.get('export'); if (!os) return;
@@ -337,14 +398,22 @@ EXPORT = """<script>
     return;
   }
   // Hide everything except one slot; keep its set and position so set and slot CSS still apply.
-  const set = document.querySelectorAll('.set')[os === 'android' ? 1 : 0], n = +q.get('n') || 1;
+  const set = document.querySelector('.set[data-store="' + os + '"]'), n = +q.get('n') || 1;
   document.querySelectorAll('main > *').forEach((el) => { if (el !== set) el.style.display = 'none'; });
   set.querySelectorAll('.slot').forEach((el, i) => { if (i !== n - 1) el.style.display = 'none'; });
   set.querySelectorAll('.lab').forEach((el) => { el.style.display = 'none'; });
   const scr = set.querySelectorAll('.slot')[n - 1].querySelector('.scr');
   document.body.style.margin = '0'; document.querySelector('main').style.padding = '0';
   set.style.padding = '0'; set.style.overflow = 'visible';
-  scr.style.borderRadius = '0'; scr.style.boxShadow = 'none'; if (os === 'ios') scr.style.height = '650.24px';
+  scr.style.borderRadius = '0'; scr.style.boxShadow = 'none';
+  // ?measure=1: caption text area as share of the image (Play: taglines max 20%), read by export.sh.
+  if (q.get('measure')) addEventListener('load', () => setTimeout(() => {
+    let a = 0; scr.querySelectorAll(':scope > .k, :scope > h4, :scope > .sub').forEach((el) => { const r = document.createRange(); r.selectNodeContents(el); for (const b of r.getClientRects()) a += b.width * b.height; });
+    const m = document.createElement('meta'); m.name = 'caption-share'; m.content = (a / (scr.offsetWidth * scr.offsetHeight)).toFixed(3); document.head.appendChild(m);
+    // Overflow: caption text wider than the canvas minus padding.
+    const right = scr.getBoundingClientRect().right - 14, cut = [...scr.querySelectorAll(':scope > .k, :scope > h4, :scope > .sub')].filter((el) => { const r = document.createRange(); r.selectNodeContents(el); return [...r.getClientRects()].some((b) => b.right > right); });
+    const o = document.createElement('meta'); o.name = 'caption-overflow'; o.content = cut.length ? 'CUT' : 'ok'; document.head.appendChild(o);
+  }, 500));
 }})();
 </script>""".replace("{{", "{").replace("}}", "}")
 
@@ -357,13 +426,11 @@ if (!location.search.includes("export=")) createRoot(document.getElementById("ag
 </script>""".replace("{{", "{").replace("}}", "}")
 
 page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Pixy store screenshots (sky)</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"><style>{CSS}{SKY_CSS}{CREATIVE_CSS}</style></head><body><main>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"><style>{CSS}{SKY_CSS}{CREATIVE_CSS}{STORE_CSS}</style></head><body><main>
 <h1>Pixy store screenshots</h1>
-<p class="muted">7 screens for the App Store and Google Play. Spec: <a href="app-screens.md">app-screens.md</a>. Rebuild: <code>python3 build.py</code>, export PNGs: <code>./export.sh</code>, then serve this folder (<code>python3 -m http.server</code>).</p>
-<div class="platform"><h2>iPhone · App Store</h2></div>
-<div class="set">{body}</div>
-<div class="platform"><h2>Android · Google Play</h2></div>
-<div class="set android-set">{android_body}</div>
+<p class="muted">Separate sets for the App Store and Google Play (copy and order in <code>STORES</code> in build.py). Spec: <a href="app-screens.md">app-screens.md</a>. Rebuild: <code>python3 build.py</code>, export PNGs: <code>./export.sh</code>, then serve this folder (<code>python3 -m http.server</code>).</p>
+{store_set("apple")}
+{store_set("play")}
 <div class="platform"><h2>App Store · header and search results</h2></div>{CREATIVE}</main>
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script><script src="emotion-icons.js?v={int(time.time())}"></script><script src="appscreens.js?v={int(time.time())}"></script><script>
 document.head.insertAdjacentHTML('beforeend','<style>'+APP.css+'</style>');
@@ -372,5 +439,4 @@ document.querySelectorAll('[data-card]').forEach(el=>el.innerHTML='<div class="p
 document.querySelectorAll('[data-emo]').forEach(el=>el.innerHTML=APP.emo(el.dataset.emo,24)+APP.label(el.dataset.emo));APP.icons();
 </script>{EXPORT}{AGENTATION}</body></html>"""
 open(os.path.join(HERE, "index.html"), "w").write(page)
-open(os.path.join(HERE, "photos", "p-jenna-gray.svg"), "w").write('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="20" fill="#e4e4e7"/><text x="20" y="26" font-family="system-ui" font-size="17" font-weight="700" text-anchor="middle" fill="#52525b">J</text></svg>')
 print("wrote index.html")

@@ -204,5 +204,45 @@
   CARDS.addperson = () => `<div class="card" style="padding:18px 16px;width:330px"><b style="font-size:20px;display:block;margin-bottom:14px">Add Person</b>
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">${av('p-ada.jpg', 64)}<div style="flex:1;border:1px solid #e3e3e3;border-radius:12px;padding:12px 14px;font-size:17px">Ada</div></div>
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;background:#f0f0f2;border-radius:12px;padding:12px;font-size:16px;font-weight:600;color:${C.blue}">Pick From Contacts…</div></div>`;
+  // ---- Per-store sets: sleep, note, statistics, data (all `available` in docs/app-facts.json) ----
+  const stepDots = (n, active) => `<span style="display:flex;gap:5px">${Array.from({ length: n }, (_, i) => `<i style="width:${i === active ? 18 : 6}px;height:6px;border-radius:3px;background:${i === active ? '#444' : '#ccc'}"></i>`).join('')}</span>`;
+  const loggerHead = (active) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:20px 20px 0">${svg.back}${stepDots(5, active)}${svg.x}</div>`;
+  const loggerBg = () => `<div style="position:absolute;inset:0;background:#d9d9db"></div><div style="position:relative">${statusbar()}</div>`;
+  // Sleep meter: SleepQualityMeter (indigo 100 empty, indigo 500 full), value 0..4
+  const sleepMeter = (v, h = 32) => `<span style="width:${h / 2}px;height:${h}px;border-radius:6px;background:#e0e7ff;overflow:hidden;display:flex;align-items:flex-end"><i style="width:100%;height:${(v / 4) * h}px;background:#6366f1"></i></span>`;
+  S.sleep = () => `${loggerBg()}<div class="sheet">${loggerHead(1)}
+    <div style="padding:22px 20px 0"><b style="font-size:20px">How did you sleep?</b></div>
+    <div style="display:flex;justify-content:center;gap:8px;padding:30px 20px 0">${[0, 1, 2, 3, 4].map((v) => `<span style="flex:1;aspect-ratio:1;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;border:${v === 3 ? `2px solid ${C.blue}` : '1px solid rgba(0,0,0,.1)'}">${sleepMeter(v)}</span>`).join('')}</div>
+    <div style="display:flex;justify-content:space-between;padding:10px 26px 0;font-size:14px;color:${C.muted}"><span>Not at all</span><span>Great</span></div></div>`;
+  S.note = () => `${loggerBg()}<div class="sheet">${loggerHead(4)}
+    <div style="padding:22px 20px 0;font-size:18px;line-height:1.45">Long walk with Sam after work. First evening in weeks without checking email.<span style="display:inline-block;width:2px;height:22px;background:${C.blue};vertical-align:middle;margin-left:1px"></span></div>
+    <div style="position:absolute;left:20px;right:20px;top:250px;font-size:15px;color:${C.muted}">Write about your day…</div></div>`;
+  // Statistics overview (src/features/statistics/screens/statistics): highlights of the last two weeks
+  const lineChart = (seed, color, lo, hi, pts = 14) => { const r = rnd(seed); let y = (lo + hi) / 2; const p = []; for (let i = 0; i < pts; i++) { y = Math.max(lo, Math.min(hi, y + (r() - 0.45) * 22)); p.push(`${(i * 300 / (pts - 1)).toFixed(1)},${y.toFixed(1)}`); } return `<svg width="100%" height="110" viewBox="0 0 300 110" preserveAspectRatio="none"><line x1="0" y1="55" x2="300" y2="55" stroke="#e5e5e5" stroke-dasharray="3 4"/><polyline points="${p.join(' ')}" fill="none" stroke="${color}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>${p.map((q) => `<circle cx="${q.split(',')[0]}" cy="${q.split(',')[1]}" r="3.5" fill="${color}"/>`).join('')}</svg>`; };
+  const moodAvg = () => { const parts = [[C.m1, 10], [C.m2, 26], [C.m3, 28], [C.m4, 18], [C.m5, 10], [C.m6, 8]]; return `<div class="card" style="padding:16px"><b style="font-size:19px;line-height:1.25;display:block">Your mood appears with 64% to be mostly positive.</b><div style="display:flex;gap:3px;margin-top:14px">${parts.map(([c, w]) => `<i style="flex:${w};height:24px;border-radius:6px;background:${c}"></i>`).join('')}</div></div>`; };
+  CARDS.moodchart = () => `<div class="card" style="padding:16px;width:358px"><b style="font-size:19px;line-height:1.25;display:block;margin-bottom:10px">Your mood over the last 14 days.</b>${lineChart(5, C.m2, 18, 92)}</div>`;
+  CARDS.sleepchart = () => `<div class="card" style="padding:16px;width:358px"><b style="font-size:19px;line-height:1.25;display:block;margin-bottom:12px">Your sleep quality over the last 14 days.</b><div style="display:flex;justify-content:space-between;align-items:flex-end">${[3, 2, 4, 3, 1, 2, 3, 4, 4, 3, 2, 3, 4, 3].map((v) => sleepMeter(v, 38)).join('')}</div></div>`;
+  CARDS.emotionsdist = () => `<div class="card" style="padding:16px"><b style="font-size:19px;line-height:1.25;display:block;margin-bottom:12px">Your most felt emotions.</b><div>${['calm', 'grateful', 'happy', 'tired', 'hopeful', 'anxious'].map(echip).join('')}</div></div>`;
+  // Tag peaks card (tag-peaks-cards.tsx): "<tag> was tagged on N days." + last two weeks as day dots
+  CARDS.tagpeaks = () => { const on = [1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1]; let d = 28; return `<div class="card" style="padding:16px;width:358px"><div style="font-size:19px;font-weight:700;line-height:1.35"><span class="chip" style="font-size:17px;margin:0 6px 0 0;vertical-align:1px"><i class="dot" style="background:#22c55e"></i>Sport</span>was tagged on ${on.filter(Boolean).length} days.</div>
+    ${[0, 1].map((w) => `<div style="display:flex;justify-content:space-between;margin-top:14px">${on.slice(w * 7, w * 7 + 7).map((x) => { const day = String(d > 30 ? d - 30 : d).padStart(2, '0'); d++; return `<span style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;background:${x ? '#dcfce7' : '#f2f2f3'};color:${x ? '#15803d' : '#a1a1a6'}">${day}</span>`; }).join('')}</div>`).join('')}</div>`; };
+  S.stats = () => `${statusbar()}<div style="display:flex;align-items:center;padding:0 16px"><span class="rb">${svg.back}</span><b style="flex:1;text-align:center;font-size:17px;margin-right:42px">Statistics</b></div>
+    <div style="padding:6px 20px 0"><b style="font-size:24px;display:block;margin-top:14px">Highlights</b><div class="mut" style="font-size:17px;margin:4px 0 14px">Your highlights from the last two weeks</div>
+    <div style="display:flex;flex-direction:column;gap:12px"><div class="card" style="padding:16px"><b style="font-size:19px;line-height:1.25;display:block;margin-bottom:10px">Your mood over the last 14 days.</b>${lineChart(5, C.m2, 18, 92)}</div>${moodAvg()}${CARDS.emotionsdist()}</div></div>`;
+  // Check-in tags with "shaped by" examples (vision.md): habits, meds, body, hobbies
+  const SHAPED = [['Coffee', '#a16207', 1], ['Took meds', '#8b5cf6', 1], ['Guitar', '#f59e0b', 1], ['Headache', '#ef4444', 1], ['Sport', '#22c55e', 0], ['Long walk', '#22c55e', 0], ['Meditation', '#14b8a6', 0], ['Reading', '#14b8a6', 0], ['Therapy', '#8b5cf6', 0], ['Alcohol', '#f43f5e', 0], ['Deep work', '#3b82f6', 0], ['Meetings', '#3b82f6', 0], ['Social media', '#a3a3a3', 0]];
+  S.shapedby = () => `${loggerBg()}<div class="sheet">${loggerHead(3)}
+    <div style="padding:22px 20px 0"><b style="font-size:20px">Add tags</b><div style="margin-top:16px">${SHAPED.map(tagChip).join('')}</div></div></div>`;
+  // Settings > Data (src/features/datagate/screens/data.tsx)
+  const mrow = (t, o = {}) => `<div style="display:flex;align-items:center;justify-content:space-between;height:50px;padding:0 16px;font-size:17px;${o.top ? 'border-top:1px solid #eee;' : ''}color:${o.red ? '#ef4444' : '#111'}"><span>${t}</span>${o.link ? '<svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="#c4c4c7" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l6 6-6 6"/></svg>' : ''}</div>`;
+  const mlist = (rows) => `<div style="background:#fff;border-radius:14px;overflow:hidden;margin:0 16px">${rows}</div>`;
+  const mhead = (t) => `<div style="font-size:13px;color:${C.muted};text-transform:uppercase;letter-spacing:.02em;padding:22px 32px 7px">${t}</div>`;
+  const minfo = (t) => `<div style="font-size:13px;color:${C.muted};line-height:1.4;padding:8px 32px 0">${t}</div>`;
+  S.data = () => `${statusbar()}<div style="display:flex;align-items:center;padding:0 16px"><span class="rb">${svg.back}</span><b style="flex:1;text-align:center;font-size:17px;margin-right:42px">Data</b></div>
+    <div style="height:18px"></div>${mlist(mrow('Import', { link: 1 }))}
+    ${mhead('Export')}${mlist(mrow('JSON', { link: 1 }) + mrow('CSV', { link: 1, top: 1 }))}
+    ${minfo('Export all data as a JSON file<br>Export entries for spreadsheets. CSV files cannot be imported into Pixy.')}
+    <div style="height:18px"></div>${mlist(mrow('Delete all my data', { red: 1 }))}
+    ${minfo('Deletes all entries, tags, and settings. Export your data first to keep a copy.')}`;
   window.APP = { emo, label, css, render: (id, ...a) => `<div class="ps">${S[id](...a)}</div>`, card: (k) => CARDS[k](), ids: Object.keys(S), icons: () => window.lucide && window.lucide.createIcons() };
 })();
