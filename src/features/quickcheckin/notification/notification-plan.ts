@@ -1,3 +1,4 @@
+import Constants from "expo-constants";
 import dayjs from "dayjs";
 import { RATING_KEYS } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
@@ -11,8 +12,14 @@ import {
   GLANCE_SLOTS,
 } from "../check-in-state";
 import type { EntryChange } from "../check-in-state";
-import { getAppUrl } from "../live-activity/activity-props";
 import { getGlanceLabels, rankEmotions, rankInfluences } from "../ranking";
+
+/** Deep link into the app with the variant's scheme, for example `pixy://check-in/`. */
+const getAppUrl = (path: string) => {
+  const { scheme } = Constants.expoConfig ?? {};
+  const first = Array.isArray(scheme) ? scheme[0] : scheme;
+  return `${first ?? "pixy"}://${path}`;
+};
 
 interface Slot {
   target: string;

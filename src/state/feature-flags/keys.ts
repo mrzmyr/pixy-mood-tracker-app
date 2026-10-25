@@ -90,8 +90,8 @@ export const FEATURE_FLAG_DETAILS: Record<
   },
   "quick-check-in": {
     description:
-      "Check-in from the Lock Screen (iOS Live Activity) or an ongoing notification (Android)",
-    location: "Settings > Check-in, Lock Screen, notification shade",
+      "Quick check-in screen (iOS) or an ongoing notification (Android)",
+    location: "Settings > Check-in, notification shade",
   },
   recaps: {
     description: "Recap cards for week, month, and year",
