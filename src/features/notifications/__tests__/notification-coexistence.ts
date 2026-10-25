@@ -1,5 +1,6 @@
 import type { NotificationRequest } from "expo-notifications";
 import {
+  defaultQuickCheckInScheduler,
   defaultRecapScheduler,
   defaultReminderScheduler,
 } from "../reminder-scheduler";
@@ -44,6 +45,12 @@ const recap = (day: number) => ({
   title: "Title",
   body: "Body",
   data: { kind: "week", date: `2026-10-${day}` },
+});
+
+const quickCheckIn = (hour: number) => ({
+  at: new Date(2026, 9, 8, hour),
+  title: "Title",
+  body: "Body",
 });
 
 describe("reminder and recap notifications", () => {
@@ -104,6 +111,31 @@ describe("reminder and recap notifications", () => {
       "legacy"
     );
     expect(types()).toEqual(["recap", "reminder"]);
+  });
+
+  test("reminders, recaps, and quick check-ins keep each other", async () => {
+    await defaultRecapScheduler.replace([recap(11)]);
+    await defaultQuickCheckInScheduler.replace([
+      quickCheckIn(10),
+      quickCheckIn(14),
+    ]);
+    await defaultReminderScheduler.replace([new Date(2026, 9, 8, 20)]);
+
+    expect(types()).toEqual([
+      "recap",
+      "quick_check_in",
+      "quick_check_in",
+      "reminder",
+    ]);
+
+    await defaultReminderScheduler.cancelAll();
+    await defaultQuickCheckInScheduler.replace([quickCheckIn(18)]);
+
+    expect(types()).toEqual(["recap", "quick_check_in"]);
+
+    await defaultQuickCheckInScheduler.cancelAll();
+
+    expect(types()).toEqual(["recap"]);
   });
 
   test("overlapping changes run one at a time", async () => {

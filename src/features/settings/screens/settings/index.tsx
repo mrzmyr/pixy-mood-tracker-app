@@ -159,7 +159,7 @@ export const SettingsScreen = () => {
               testID="data"
             />
             <FieldRow
-              title={t("reminder")}
+              title={t("reminders")}
               icon={SETTINGS_ICONS.reminder}
               kind="push"
               onPress={() => router.push("/settings/reminder")}

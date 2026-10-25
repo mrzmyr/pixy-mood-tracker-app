@@ -1,13 +1,13 @@
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
-import { native } from "./notification/native-module";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useSettings } from "@/state/settings";
+import type { QuickCheckInSchedule } from "@/state/settings";
+import { getQuickCheckInTimes } from "./quick-check-in-schedule";
 
-/** iOS opens the quick check-in screen, Android an ongoing notification. */
-export const IS_QUICK_CHECK_IN_SUPPORTED =
-  Platform.OS === "ios" || native !== null;
+/** Quick check-ins arrive as notifications: every native platform. */
+export const IS_QUICK_CHECK_IN_SUPPORTED = Platform.OS !== "web";
 
 /**
  * Notification permission for the check-in notification. Local
@@ -29,9 +29,10 @@ const notificationPermission = {
  * Stored `quickCheckInEnabled` setting.
  *
  * - `isAvailable`: platform supports it and the `quick-check-in` flag is on
- * - `setEnabled(true)` on Android: ask notification permission first.
- *   Denied permission keeps it off. iOS opens a screen and needs none.
+ * - `setEnabled(true)`: ask notification permission first; the check-ins
+ *   arrive as notifications. Denied permission keeps it off
  * - `setEnabled(false)`: save off, never touches permission
+ * - `setSchedule`: save new times; `QuickCheckInReminders` reschedules
  */
 export const useQuickCheckInSetting = (
   permission: {
@@ -50,7 +51,7 @@ export const useQuickCheckInSetting = (
   };
 
   const setEnabled = async (value: boolean) => {
-    if (!value || platform !== "android") {
+    if (!value || platform === "web") {
       save(value);
       return { permissionGranted: true };
     }
@@ -63,9 +64,21 @@ export const useQuickCheckInSetting = (
     return { permissionGranted };
   };
 
+  const setSchedule = (schedule: QuickCheckInSchedule) => {
+    setSettings((current) => ({ ...current, quickCheckInSchedule: schedule }));
+    analytics.track("quick_check_in:schedule_changed", {
+      every_hours: schedule.everyHours,
+      from: schedule.from,
+      until: schedule.until,
+      times_count: getQuickCheckInTimes(schedule).length,
+    });
+  };
+
   return {
     isAvailable: IS_QUICK_CHECK_IN_SUPPORTED && isFlagOn,
     isEnabled: settings.quickCheckInEnabled,
     setEnabled,
+    schedule: settings.quickCheckInSchedule,
+    setSchedule,
   };
 };
