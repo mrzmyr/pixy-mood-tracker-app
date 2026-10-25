@@ -27,7 +27,7 @@ export const getFirstEntryDate = (items: LogItem[]) => {
 };
 
 /**
- * The user's profile from settings: name, photo, initials, and the month of
+ * The user's profile from settings: name, photo, initials, and the date of
  * the first entry for the "Logging since" line.
  */
 export const useProfile = () => {
