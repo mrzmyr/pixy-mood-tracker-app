@@ -77,4 +77,117 @@ describe("matchTranscript", () => {
       []
     );
   });
+
+  describe("people by first or last name", () => {
+    const annaSchmidt: VoiceTerm = {
+      kind: "person",
+      id: "p-anna-schmidt",
+      text: "Anna Schmidt",
+    };
+    const annaMeyer: VoiceTerm = {
+      kind: "person",
+      id: "p-anna-meyer",
+      text: "Anna Meyer",
+    };
+
+    it("matches a person by full, first, or last name", () => {
+      expect(ids("Called Anna Schmidt", [annaSchmidt])).toEqual([
+        "p-anna-schmidt",
+      ]);
+      expect(ids("Called Anna", [annaSchmidt])).toEqual(["p-anna-schmidt"]);
+      expect(ids("Schmidt texted me", [annaSchmidt])).toEqual([
+        "p-anna-schmidt",
+      ]);
+    });
+
+    it("shows the full name for a match by first name", () => {
+      expect(matchTranscript("met anna", [annaSchmidt])).toEqual([
+        { kind: "person", id: "p-anna-schmidt", text: "Anna Schmidt" },
+      ]);
+    });
+
+    it("ignores case and accents in name parts", () => {
+      const muller: VoiceTerm = {
+        kind: "person",
+        id: "p-muller",
+        text: "Jürgen Müller",
+      };
+      expect(ids("talked to MULLER", [muller])).toEqual(["p-muller"]);
+      expect(ids("talked to jurgen", [muller])).toEqual(["p-muller"]);
+    });
+
+    it("matches name parts as whole words only", () => {
+      expect(ids("Annabelle and the Schmidtke family", [annaSchmidt])).toEqual(
+        []
+      );
+    });
+
+    it("does not guess when a first name fits several people", () => {
+      expect(ids("Called Anna", [annaSchmidt, annaMeyer])).toEqual([]);
+    });
+
+    it("resolves a shared first name with the full or last name", () => {
+      expect(ids("Called Anna Meyer", [annaSchmidt, annaMeyer])).toEqual([
+        "p-anna-meyer",
+      ]);
+      expect(ids("Meyer called", [annaSchmidt, annaMeyer])).toEqual([
+        "p-anna-meyer",
+      ]);
+    });
+
+    it("prefers a person whose full name is the spoken word", () => {
+      expect(ids("Called Anna", [annaSchmidt, anna])).toEqual(["p-anna"]);
+    });
+
+    it("lets a full tag or emotion win over a name part", () => {
+      const joyMiller: VoiceTerm = {
+        kind: "person",
+        id: "p-joy-miller",
+        text: "Joy Miller",
+      };
+      const joy: VoiceTerm = { kind: "emotion", id: "joy", text: "Joy" };
+      expect(ids("felt joy", [joyMiller, joy])).toEqual(["joy"]);
+      expect(ids("Miller brought joy", [joyMiller, joy])).toEqual([
+        "p-joy-miller",
+        "joy",
+      ]);
+    });
+
+    it("ignores name parts shorter than three letters", () => {
+      const initial: VoiceTerm = {
+        kind: "person",
+        id: "p-anna-s",
+        text: "Anna S.",
+      };
+      const li: VoiceTerm = { kind: "person", id: "p-li-wei", text: "Li Wei" };
+      expect(ids("it's a good day", [initial, li])).toEqual([]);
+      expect(ids("li said hi", [li])).toEqual([]);
+      expect(ids("Li Wei said hi", [li])).toEqual(["p-li-wei"]);
+    });
+
+    it("keeps a hyphenated first name together", () => {
+      const hansPeter: VoiceTerm = {
+        kind: "person",
+        id: "p-hans-peter",
+        text: "Hans-Peter Weber",
+      };
+      expect(ids("met Hans-Peter", [hansPeter])).toEqual(["p-hans-peter"]);
+      expect(ids("met Hans", [hansPeter])).toEqual([]);
+    });
+
+    it("matches name parts inside scripts without spaces", () => {
+      const yamada: VoiceTerm = {
+        kind: "person",
+        id: "p-yamada",
+        text: "山田 太郎",
+      };
+      const wang: VoiceTerm = { kind: "person", id: "p-wang", text: "王 小明" };
+      expect(ids("今日は山田さんと話した", [yamada])).toEqual(["p-yamada"]);
+      expect(ids("国王の話", [wang])).toEqual([]);
+    });
+
+    it("does not split names of tags or emotions", () => {
+      expect(ids("felt left", [leftOut])).toEqual([]);
+    });
+  });
 });
