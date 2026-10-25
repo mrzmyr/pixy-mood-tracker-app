@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { daysBetween, getDayRating } from "../days";
 import { distanceKm, parsePlace } from "../places";
+import { getPersonMoments } from "./moments";
 import { THRESHOLDS } from "../thresholds";
 import type {
   ConnectedPerson,
@@ -119,9 +120,21 @@ const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
 export const peopleOn = (input: RecapInput) =>
   input.steps.has("people") && input.availableSteps.has("people");
 
-/** Everyone connected in the period, most connected first. */
+/**
+ * Everyone connected in the period, most connected first. Each row carries
+ * the person's moment (back, new, milestone), if any.
+ */
 export const connected = (input: RecapInput): SummaryCard[] => {
-  const people = peopleOn(input) ? connectedPeople(input) : [];
+  if (!peopleOn(input)) {
+    return [];
+  }
+  const moments = new Map(
+    getPersonMoments(input).map((moment) => [moment.personId, moment])
+  );
+  const people = connectedPeople(input).map((person) => {
+    const moment = moments.get(person.personId);
+    return moment ? { ...person, moment } : person;
+  });
   return people.length > 0 ? [{ type: "connected", people }] : [];
 };
 

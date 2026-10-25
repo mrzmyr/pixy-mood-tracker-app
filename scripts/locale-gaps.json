@@ -155,7 +155,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -325,7 +330,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -495,7 +505,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -818,7 +833,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -988,7 +1008,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_cancel",
@@ -1158,7 +1183,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1328,7 +1358,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1499,7 +1534,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1669,7 +1709,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1839,7 +1884,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2009,7 +2059,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2179,7 +2234,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2349,7 +2409,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2519,7 +2584,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2689,7 +2759,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2859,7 +2934,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3029,7 +3109,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3199,7 +3284,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3369,7 +3459,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3539,7 +3634,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3709,7 +3809,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3879,7 +3984,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4049,7 +4159,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4219,7 +4334,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4389,7 +4509,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4559,7 +4684,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4729,7 +4859,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4899,7 +5034,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5069,7 +5209,12 @@
       "theme",
       "theme_system",
       "theme_light",
-      "theme_dark"
+      "theme_dark",
+      "recaps_people_moments_title_week",
+      "recaps_people_moments_title_month",
+      "recaps_person_moment_back",
+      "recaps_person_moment_new",
+      "recaps_person_moment_milestone"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",

@@ -154,6 +154,35 @@ describe("people", () => {
     ]);
   });
 
+  test("tells in the row who is back, so the week has one people card", () => {
+    const cards = summaries("connected", {
+      items: [
+        { date: "2026-09-01", people: [sam] },
+        { date: mon, people: [lena, sam] },
+      ],
+    });
+
+    expect(cards).toEqual([
+      {
+        type: "connected",
+        people: [
+          { personId: "lena", days: 1, emotions: [] },
+          {
+            personId: "sam",
+            days: 1,
+            emotions: [],
+            moment: {
+              kind: "back",
+              personId: "sam",
+              lastDate: "2026-09-01",
+              weeks: 5,
+            },
+          },
+        ],
+      },
+    ]);
+  });
+
   test("shows no people card with the People step off or nobody", () => {
     expect(
       summaries("connected", {
