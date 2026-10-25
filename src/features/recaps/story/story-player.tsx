@@ -4,8 +4,10 @@ import type { GestureResponderEvent } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
+  FadeInDown,
   useAnimatedReaction,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
@@ -62,6 +64,47 @@ const ProgressBar = ({
     >
       <Animated.View style={[{ height: 3, backgroundColor: color }, fill]} />
     </View>
+  );
+};
+
+/** Content of a new slide rises in, like Instagram stories. */
+const ENTERING = FadeInDown.duration(380);
+
+/** Photo backdrops zoom in slowly while the slide runs (Ken Burns). */
+const PHOTO_ZOOM = 1.08;
+
+const KenBurns = ({
+  isPaused,
+  children,
+}: {
+  isPaused: boolean;
+  children: React.ReactNode;
+}) => {
+  const isReduced = useReducedMotion();
+  const scale = useSharedValue(1);
+  useEffect(() => {
+    if (isReduced) {
+      return;
+    }
+    if (isPaused) {
+      cancelAnimation(scale);
+      return;
+    }
+    const left = (PHOTO_ZOOM - scale.get()) / (PHOTO_ZOOM - 1);
+    scale.set(
+      withTiming(PHOTO_ZOOM, {
+        duration: left * STORY_SLIDE_MS,
+        easing: Easing.linear,
+      })
+    );
+  }, [isPaused, isReduced, scale]);
+  const style = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.get() }],
+  }));
+  return (
+    <Animated.View style={[StyleSheet.absoluteFill, style]}>
+      {children}
+    </Animated.View>
   );
 };
 
@@ -173,7 +216,13 @@ export const StoryPlayer = ({
           { backgroundColor: palette.background },
         ]}
       >
-        {slide.backdrop}
+        {slide.theme === "photo" ? (
+          <KenBurns key={slide.key} isPaused={isPaused}>
+            {slide.backdrop}
+          </KenBurns>
+        ) : (
+          slide.backdrop
+        )}
         <Pressable
           accessible={false}
           style={StyleSheet.absoluteFill}
@@ -183,8 +232,9 @@ export const StoryPlayer = ({
           onPress={onPress}
           testID="recap-story-tap"
         >
-          <View
+          <Animated.View
             key={slide.key}
+            entering={ENTERING}
             pointerEvents="box-none"
             style={{
               flex: 1,
@@ -195,7 +245,7 @@ export const StoryPlayer = ({
             testID={`recap-story-slide-${slide.key}`}
           >
             {slide.content}
-          </View>
+          </Animated.View>
         </Pressable>
       </View>
 
