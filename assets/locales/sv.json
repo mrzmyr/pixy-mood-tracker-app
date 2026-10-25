@@ -692,6 +692,8 @@
   "people_photo_remove": "Ta bort foto",
   "people_photo_use_contact": "Använd kontaktbild",
   "people_reached_max": "Du har nått maxgränsen på {{max_count}} personer. Ta bort några för att lägga till nya.",
+  "people_search": "Sök personer…",
+  "people_search_empty": "Inga personer hittades.",
   "people_slide_empty": "Lägg till personerna i ditt liv för att se hur ditt mående hänger ihop med dem.",
   "people_unarchive": "Avarkivera",
   "photos_pick_select": "Välj",

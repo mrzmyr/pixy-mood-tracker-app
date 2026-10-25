@@ -8,6 +8,7 @@ export { PrivacyScreen } from "./screens/privacy";
 export { SettingsScreen } from "./screens/settings";
 export { SettingsTags } from "./screens/settings/tags";
 export { SettingsTagsArchive } from "./screens/settings/tags";
+export { SettingsTagCategories } from "./screens/settings/tags";
 export { SettingsPeopleScreen } from "./screens/people";
 export { StepsScreen } from "./screens/steps";
 export {

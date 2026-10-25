@@ -692,6 +692,8 @@
   "people_photo_remove": "फ़ोटो हटाएँ",
   "people_photo_use_contact": "संपर्क फ़ोटो का उपयोग करें",
   "people_reached_max": "आप {{max_count}} लोगों की अधिकतम सीमा तक पहुँच गए हैं। नए जोड़ने के लिए कुछ हटाएँ।",
+  "people_search": "लोग खोजें…",
+  "people_search_empty": "कोई व्यक्ति नहीं मिला।",
   "people_slide_empty": "अपने जीवन के लोगों को जोड़ें और देखें कि आपका मूड उनसे कैसे जुड़ा है।",
   "people_unarchive": "संग्रह से निकालें",
   "photos_pick_select": "चुनें",

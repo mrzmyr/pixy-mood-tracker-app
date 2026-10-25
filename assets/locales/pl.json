@@ -692,6 +692,8 @@
   "people_photo_remove": "Usuń zdjęcie",
   "people_photo_use_contact": "Użyj zdjęcia kontaktu",
   "people_reached_max": "Osiągnięto maksimum {{max_count}} osób. Usuń kilka, aby dodać nowe.",
+  "people_search": "Szukaj osób…",
+  "people_search_empty": "Nie znaleziono osób.",
   "people_slide_empty": "Dodaj osoby ze swojego życia, aby zobaczyć, jak wiąże się z nimi twój nastrój.",
   "people_unarchive": "Przywróć z archiwum",
   "photos_pick_select": "Zaznacz",

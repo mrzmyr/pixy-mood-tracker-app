@@ -5,13 +5,19 @@ import useColors from "@/hooks/use-colors";
 import type { Person } from "../people-provider";
 import { PersonAvatar } from "./person-avatar";
 
-/** Row for one person in {@link PeopleList}, showing avatar and name. */
+/**
+ * Row for one person in {@link PeopleList}, showing avatar and name. A
+ * sortable list passes `hasTrailingControl`: the pen gives way to the
+ * reorder handle drawn over the trailing edge.
+ */
 export const PersonListItem = ({
   person,
   onPress,
+  hasTrailingControl = false,
 }: {
   person: Person;
   onPress: () => void;
+  hasTrailingControl?: boolean;
 }) => {
   const colors = useColors();
 
@@ -36,7 +42,11 @@ export const PersonListItem = ({
         >
           {person.name}
         </Text>
-        <Pen width={20} color={colors.tint} />
+        {hasTrailingControl ? (
+          <View style={{ width: 44 }} />
+        ) : (
+          <Pen width={20} color={colors.tint} />
+        )}
       </View>
     </MenuListItem>
   );

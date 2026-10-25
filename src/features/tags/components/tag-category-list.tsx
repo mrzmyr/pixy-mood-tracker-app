@@ -22,8 +22,8 @@ import {
 import type { TagArrangement, TagCategoryRow } from "../tag-categories";
 import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { Tag } from "../tags-provider";
-import { cardCorners } from "./card-corners";
-import { ReorderHandle } from "./reorder-handle";
+import { cardCorners } from "@/components/sortable/card-corners";
+import { ReorderHandle } from "@/components/sortable/reorder-handle";
 import { TagRow } from "./tag-row";
 
 const IS_IOS = Platform.OS === "ios";

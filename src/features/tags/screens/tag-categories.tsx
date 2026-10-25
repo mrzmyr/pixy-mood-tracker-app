@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Platform, Text, View } from "react-native";
 import Animated, { useAnimatedRef } from "react-native-reanimated";
@@ -16,8 +16,8 @@ import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import { cardCorners } from "../components/card-corners";
-import { ReorderHandle } from "../components/reorder-handle";
+import { cardCorners } from "@/components/sortable/card-corners";
+import { ReorderHandle } from "@/components/sortable/reorder-handle";
 import { getGeneralCategoryTitle, MAX_TAG_CATEGORIES } from "../tag-categories";
 import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { TagCategory } from "../tags-provider";
@@ -28,8 +28,16 @@ const IS_IOS = Platform.OS === "ios";
  * Manage tag categories: drag to reorder, tap to rename or delete, and add
  * new ones up to {@link MAX_TAG_CATEGORIES}. The order is the order of the
  * check-in and the tag settings.
+ *
+ * - `modal` (default): sheet from the check-in and recaps, own close header
+ * - `page`: pushed from Settings > Tags. iOS shows back and a Liquid Glass
+ *   plus in the bar instead of the bottom button
  */
-export const TagCategories = () => {
+export const TagCategories = ({
+  variant = "modal",
+}: {
+  variant?: "modal" | "page";
+}) => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -39,6 +47,7 @@ export const TagCategories = () => {
   const { reorderCategories } = useTagsUpdater();
   const general = getGeneralCategoryTitle(categories);
   const reachedMax = categories.length >= MAX_TAG_CATEGORIES;
+  const isNativePage = variant === "page" && IS_IOS;
 
   const reorder = (
     ids: TagCategory["id"][],
@@ -127,6 +136,83 @@ export const TagCategories = () => {
     );
   };
 
+  const limitNotice = (
+    <View
+      testID="tag-categories-limit-notice"
+      accessibilityRole="alert"
+      style={{
+        backgroundColor: colors.cardBackground,
+        padding: 16,
+        borderRadius: RADIUS.md,
+      }}
+    >
+      <Text style={{ color: colors.text, fontSize: 15 }}>
+        {t("tag_categories_reached_max", {
+          max_count: MAX_TAG_CATEGORIES,
+        })}
+      </Text>
+    </View>
+  );
+
+  const list = (
+    <Animated.ScrollView
+      ref={scrollRef}
+      // A page lets iOS inset the content below the bar.
+      contentInsetAdjustmentBehavior={isNativePage ? "automatic" : "never"}
+      style={{ flex: 1, backgroundColor: colors.background }}
+      contentContainerStyle={{
+        paddingTop: 16,
+        paddingBottom: isNativePage ? 32 : insets.bottom + 120,
+      }}
+    >
+      {isNativePage && reachedMax && (
+        <View style={{ marginHorizontal: 16, marginBottom: 16 }}>
+          {limitNotice}
+        </View>
+      )}
+      <View style={{ paddingHorizontal: IS_IOS ? 16 : 0 }}>
+        <Sortable.Grid
+          columns={1}
+          data={categories}
+          keyExtractor={(category) => category.id}
+          renderItem={renderItem}
+          onDragEnd={onDragEnd}
+          customHandle
+          // Handles only drag, so the drag starts on touch like iOS reorder controls.
+          dragActivationDelay={0}
+          hapticsEnabled
+          overDrag="vertical"
+          activeItemScale={1.03}
+          scrollableRef={scrollRef}
+        />
+      </View>
+      <TextInfo style={{ marginHorizontal: 16 }}>
+        {t("tag_categories_info", { general })}
+      </TextInfo>
+    </Animated.ScrollView>
+  );
+
+  if (isNativePage) {
+    // List first: iOS tracks the screen's first child for the bar.
+    return (
+      <>
+        {list}
+        {/* Title doubles as label: expo-router drops `accessibilityLabel`
+            on iOS bar items. With an icon, iOS shows only the icon. */}
+        <Stack.Toolbar placement="right">
+          <Stack.Toolbar.Button
+            icon="plus"
+            accessibilityLabel={t("tag_category_create")}
+            disabled={reachedMax}
+            onPress={() => router.push("/tags/categories/create")}
+          >
+            {t("tag_category_create")}
+          </Stack.Toolbar.Button>
+        </Stack.Toolbar>
+      </>
+    );
+  }
+
   return (
     <View
       style={{
@@ -134,39 +220,14 @@ export const TagCategories = () => {
         backgroundColor: colors.background,
       }}
     >
-      <RouteModalHeader
-        title={t("tag_categories")}
-        onClose={() => router.back()}
-        closeTestID="tag-categories-close"
-      />
-      <Animated.ScrollView
-        ref={scrollRef}
-        style={{ flex: 1 }}
-        contentContainerStyle={{
-          paddingTop: 16,
-          paddingBottom: insets.bottom + 120,
-        }}
-      >
-        <View style={{ paddingHorizontal: IS_IOS ? 16 : 0 }}>
-          <Sortable.Grid
-            columns={1}
-            data={categories}
-            keyExtractor={(category) => category.id}
-            renderItem={renderItem}
-            onDragEnd={onDragEnd}
-            customHandle
-            // Handles only drag, so the drag starts on touch like iOS reorder controls.
-            dragActivationDelay={0}
-            hapticsEnabled
-            overDrag="vertical"
-            activeItemScale={1.03}
-            scrollableRef={scrollRef}
-          />
-        </View>
-        <TextInfo style={{ marginHorizontal: 16 }}>
-          {t("tag_categories_info", { general })}
-        </TextInfo>
-      </Animated.ScrollView>
+      {variant === "modal" && (
+        <RouteModalHeader
+          title={t("tag_categories")}
+          onClose={() => router.back()}
+          closeTestID="tag-categories-close"
+        />
+      )}
+      {list}
       <LinearGradient
         pointerEvents="none"
         colors={[colors.logBackgroundTransparent, colors.background]}
@@ -186,21 +247,7 @@ export const TagCategories = () => {
         }}
       >
         {reachedMax ? (
-          <View
-            testID="tag-categories-limit-notice"
-            accessibilityRole="alert"
-            style={{
-              backgroundColor: colors.cardBackground,
-              padding: 16,
-              borderRadius: RADIUS.md,
-            }}
-          >
-            <Text style={{ color: colors.text, fontSize: 15 }}>
-              {t("tag_categories_reached_max", {
-                max_count: MAX_TAG_CATEGORIES,
-              })}
-            </Text>
-          </View>
+          limitNotice
         ) : (
           <Button
             testID="tag-category-create"

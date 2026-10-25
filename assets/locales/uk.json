@@ -692,6 +692,8 @@
   "people_photo_remove": "Видалити фото",
   "people_photo_use_contact": "Використати фото контакту",
   "people_reached_max": "Досягнуто максимум у {{max_count}} людей. Видали декого, щоб додати нових.",
+  "people_search": "Пошук людей…",
+  "people_search_empty": "Людей не знайдено.",
   "people_slide_empty": "Додай людей зі свого життя, щоб бачити, як із ними пов’язаний твій настрій.",
   "people_unarchive": "Розархівувати",
   "photos_pick_select": "Вибрати",

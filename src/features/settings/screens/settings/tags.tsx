@@ -9,6 +9,7 @@ import {
   useTagsState,
 } from "@/features/tags";
 import { SFIcon } from "@/components/sf-icon";
+import { TagCategories } from "@/features/tags/routes";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 
@@ -73,7 +74,7 @@ const SearchableTagList = () => {
                   }
                   isLink
                   onPress={() => {
-                    router.push("/tags/categories");
+                    router.push("/settings/steps/tags/categories");
                   }}
                 />
                 <MenuListItem
@@ -163,6 +164,9 @@ export const SettingsTags = () => {
     </>
   );
 };
+
+/** Settings > Check-in > Tags > Categories: pushed page, not a sheet. */
+export const SettingsTagCategories = () => <TagCategories variant="page" />;
 
 /** Archived tags, sorted by title; rows open the tag editor to unarchive. */
 export const SettingsTagsArchive = () => {

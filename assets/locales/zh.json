@@ -692,6 +692,8 @@
   "people_photo_remove": "移除照片",
   "people_photo_use_contact": "使用联系人照片",
   "people_reached_max": "已达到 {{max_count}} 人的上限。删除一些后才能添加新的人物。",
+  "people_search": "搜索人员…",
+  "people_search_empty": "未找到人员。",
   "people_slide_empty": "添加你生活中的人，看看你的心情与他们有什么关联。",
   "people_unarchive": "取消归档",
   "photos_pick_select": "选择",
