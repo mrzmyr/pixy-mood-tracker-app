@@ -21,8 +21,9 @@ import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 
 const SLIDE_MARGIN_TOP = 8;
 
-// Keeps the last lines above the floating next/save button while typing.
-const INPUT_BOTTOM_PADDING_TYPING = 72;
+// Keeps the last lines above the floating next/save button. The "I don't
+// track" footer (16 margin + 54 height) gives the same space when it shows.
+const INPUT_BOTTOM_PADDING_CLEAR_OF_BUTTON = 72;
 
 // Reads the native keyboard state, the same source as the floating
 // next/save button, so the footer and the button switch together. Flips when
@@ -116,9 +117,11 @@ const SlideMessageComponent = (
                 backgroundColor: "transparent",
                 paddingHorizontal: 0,
                 paddingTop: 8,
-                paddingBottom: keyboardVisible
-                  ? INPUT_BOTTOM_PADDING_TYPING
-                  : 16,
+                // Without the footer, the floating button sits over the text
+                // area, so reserve the same space as while typing.
+                paddingBottom: footerVisible
+                  ? 16
+                  : INPUT_BOTTOM_PADDING_CLEAR_OF_BUTTON,
                 fontSize: 18,
                 lineHeight: 26,
               }}
