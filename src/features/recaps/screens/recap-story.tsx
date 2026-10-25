@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import noop from "lodash/noop";
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { useColorScheme, View } from "react-native";
+import { useColorScheme, useWindowDimensions, View } from "react-native";
 import type { View as ViewType } from "react-native";
 import { setStatusBarHidden } from "expo-status-bar";
 import { useFeedback } from "@/features/feedback";
@@ -31,7 +31,7 @@ import { StoryShareButton } from "../story/story-share-button";
 import { shareStoryCard } from "../story/share-image";
 import { Celebration } from "../story/celebration";
 import type { CelebrationKind, CelebrationOrigin } from "../story/celebration";
-import { useDayColors } from "../story/parts";
+import { SlideHeader, useDayColors } from "../story/parts";
 import { QuizContent } from "../story/quiz-content";
 import type { QuizResult } from "../story/quiz-content";
 import type { QuizSlide } from "../story/quiz";
@@ -45,6 +45,7 @@ const isSource = (value: unknown): value is StorySource =>
 /** Month story of `date`'s month. Without a story, the month's cards. */
 const RecapStory = () => {
   const colorScheme = useColorScheme();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const router = useRouter();
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
@@ -232,8 +233,16 @@ const RecapStory = () => {
       );
     }
     if (slide.type === "share") {
+      const theme = ctx.isDark ? "night" : "paper";
       return (
-        <View style={{ flex: 1, justifyContent: "center" }}>
+        <View style={{ flex: 1, justifyContent: "center", gap: 20 }}>
+          <SlideHeader
+            theme={theme}
+            eyebrow={t("recaps_story_finale_eyebrow", {
+              month: monthName(period.start),
+            })}
+            title={t("recaps_story_finale_title")}
+          />
           <ShareCard
             ctx={ctx}
             photos={pickPhotos(slide.photos)}
@@ -269,6 +278,14 @@ const RecapStory = () => {
         onSlideShown={(index) => {
           lastShown.current = index;
           const slide = slideOf(index);
+          // The last slide celebrates that the user took the time to look back.
+          if (slide?.type === "share") {
+            setCelebration({
+              kind: "burst",
+              origin: { x: windowWidth / 2, y: windowHeight * 0.3 },
+              id: (celebration?.id ?? 0) + 1,
+            });
+          }
           if (slide) {
             analytics.track("recaps:story_slide_shown", {
               slide_type: slide.type,

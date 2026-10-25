@@ -180,7 +180,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -375,7 +377,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -570,7 +574,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -918,7 +924,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1113,7 +1121,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_cancel",
@@ -1308,7 +1318,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1503,7 +1515,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1699,7 +1713,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1894,7 +1910,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2089,7 +2107,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2284,7 +2304,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2479,7 +2501,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2674,7 +2698,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2869,7 +2895,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3064,7 +3092,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3259,7 +3289,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3454,7 +3486,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3649,7 +3683,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3844,7 +3880,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4039,7 +4077,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4234,7 +4274,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4429,7 +4471,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4624,7 +4668,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4819,7 +4865,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5014,7 +5062,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5209,7 +5259,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5404,7 +5456,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5599,7 +5653,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5794,7 +5850,9 @@
       "notification_quick_check_in_body",
       "recaps_story_weeks_eyebrow",
       "recaps_story_weeks_title",
-      "recaps_story_coming_title"
+      "recaps_story_coming_title",
+      "recaps_story_finale_eyebrow",
+      "recaps_story_finale_title"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
