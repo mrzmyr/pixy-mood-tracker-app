@@ -991,6 +991,8 @@
     "one": "1 day",
     "other": "{{count}} days"
   },
+  "recaps_story_finale_eyebrow": "That was %{month}",
+  "recaps_story_finale_title": "Thanks for taking a moment to look back",
   "recaps_story_hard_days_label": {
     "one": "Your harder day",
     "other": "Your {{count}} harder days"

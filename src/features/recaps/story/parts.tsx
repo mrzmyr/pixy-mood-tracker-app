@@ -136,6 +136,7 @@ export const MonthGrid = ({
   gap = 4,
   empty,
   render,
+  weekdayColor,
 }: {
   period: Period;
   dayColors: ReadonlyMap<DateKey, string>;
@@ -143,6 +144,8 @@ export const MonthGrid = ({
   gap?: number;
   empty: string;
   render?: (date: DateKey) => React.ReactNode | null;
+  /** Shows weekday initials above the grid in this color. */
+  weekdayColor?: string;
 }) => {
   const lead = useMonthLead(period.start);
   const count = daysBetween(period.start, period.end) + 1;
@@ -159,6 +162,23 @@ export const MonthGrid = ({
         gap,
       }}
     >
+      {weekdayColor !== undefined &&
+        cells.slice(0, 7).map((date) => (
+          <Text
+            key={`weekday-${date}`}
+            maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
+            accessible={false}
+            style={{
+              width: size,
+              textAlign: "center",
+              fontSize: 12,
+              fontWeight: "600",
+              color: weekdayColor,
+            }}
+          >
+            {dayjs(date).format("dd").slice(0, 1)}
+          </Text>
+        ))}
       {cells.map((date) =>
         date < period.start ? (
           <View key={date} style={{ width: size, height: size }} />
