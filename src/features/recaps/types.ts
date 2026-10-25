@@ -105,6 +105,8 @@ export interface ConnectedPerson {
   personId: string;
   days: number;
   emotions: string[];
+  /** Back, new, or a milestone in this period. Week recaps only. */
+  moment?: PersonMoment;
 }
 
 /** Days away from home in one city, gaps of up to 2 days allowed. */

@@ -10,12 +10,9 @@ import type { Tag } from "@/features/tags";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
-import type {
-  MomentCard as MomentCardData,
-  PersonMoment,
-  SleepNight,
-} from "../types";
+import type { MomentCard as MomentCardData, SleepNight } from "../types";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
+import { getMomentLine } from "./person-moment-line";
 import { RingedAvatar } from "./ringed-avatar";
 import { CHIP } from "../chip-marker";
 import { ChipText, EmotionChip, TagChip } from "./title-chip";
@@ -35,28 +32,6 @@ interface Lookup {
   people: Person[];
   tags: Tag[];
 }
-
-/** Second line of a person row: why the person shows this period. */
-const getMomentLine = (moment: PersonMoment) => {
-  switch (moment.kind) {
-    case "back": {
-      return t("recaps_person_moment_back", { count: moment.weeks });
-    }
-    case "new": {
-      return t("recaps_person_moment_new");
-    }
-    case "milestone": {
-      return t("recaps_person_moment_milestone", {
-        count: moment.days,
-        year: moment.year,
-      });
-    }
-    default: {
-      const unknown: never = moment;
-      return unknown;
-    }
-  }
-};
 
 /** One row per person: ringed avatar, name, and why they show. */
 const PeopleMomentsList = ({

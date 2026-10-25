@@ -143,12 +143,12 @@ const connectedDaysIn = (days: RecapDay[], personId: string) =>
   );
 
 /**
- * One card for every person connected in the period who is back after 28+
- * days, connected for the first time, or at a milestone of connected days
- * in the calendar year. Back wins over a milestone, a milestone over new.
- * People keep the order of their first connection in the period.
+ * People connected in the period who are back after 28+ days, connected for
+ * the first time, or at a milestone of connected days in the calendar year.
+ * Back wins over a milestone, a milestone over new. People keep the order of
+ * their first connection in the period.
  */
-export const personMoments = (input: RecapInput): MomentCard[] => {
+export const getPersonMoments = (input: RecapInput): PersonMoment[] => {
   if (!input.steps.has("people") || !input.availableSteps.has("people")) {
     return [];
   }
@@ -195,6 +195,18 @@ export const personMoments = (input: RecapInput): MomentCard[] => {
       people.push({ kind: "new", personId, firstDate: first.date });
     }
   }
+  return people;
+};
+
+/**
+ * One card for all person moments of a month. Week recaps show them in the
+ * rows of the `connected` card instead, so people never appear twice.
+ */
+export const personMoments = (input: RecapInput): MomentCard[] => {
+  if (input.period.kind === "week") {
+    return [];
+  }
+  const people = getPersonMoments(input);
   return people.length > 0
     ? [{ type: "people-moments", periodKind: input.period.kind, people }]
     : [];

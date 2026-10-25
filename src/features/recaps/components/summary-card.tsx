@@ -25,6 +25,7 @@ import type {
   SummaryCard as SummaryCardData,
 } from "../types";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
+import { getMomentLine } from "./person-moment-line";
 import { RingedAvatar } from "./ringed-avatar";
 import { RowEmotionChip, RowTagChip } from "./title-chip";
 
@@ -138,6 +139,19 @@ const emotionsContent = (
   };
 };
 
+/**
+ * Days connected, then the moment: "1 day connected · Back after 6 weeks".
+ * A milestone already counts days, so it stands alone.
+ */
+const getConnectedLine = (entry: ConnectedPerson) => {
+  const days = t("recaps_connected_days", { count: entry.days });
+  if (!entry.moment) {
+    return days;
+  }
+  const moment = getMomentLine(entry.moment);
+  return entry.moment.kind === "milestone" ? moment : `${days} · ${moment}`;
+};
+
 const PersonRow = ({
   entry,
   person,
@@ -149,7 +163,7 @@ const PersonRow = ({
     <RingedAvatar person={person} size={40} />
     <View style={{ flex: 1, gap: 4 }}>
       <Body>{person.name}</Body>
-      <Secondary>{t("recaps_connected_days", { count: entry.days })}</Secondary>
+      <Secondary>{getConnectedLine(entry)}</Secondary>
       {entry.emotions.length > 0 && (
         <Row>
           {entry.emotions.map((emotion) => (
