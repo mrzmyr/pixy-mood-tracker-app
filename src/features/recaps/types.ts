@@ -75,16 +75,39 @@ export type PersonMoment =
   | { kind: "new"; personId: string; firstDate: DateKey }
   | { kind: "milestone"; personId: string; days: number; year: number };
 
+/** Good emotion felt again after a long break, and when it was last felt. */
+export interface EmotionBack {
+  emotion: string;
+  lastDate: DateKey;
+}
+
+/** Tag back after a break: days in the period, weeks without it before. */
+export interface TagBack {
+  tagId: string;
+  days: number;
+  weeks: number;
+}
+
 /**
  * A fact worth noticing. Cards name people, tags, and emotions by id; the
  * screen looks up names, so rules never read display data.
  */
 export type MomentCard =
-  | { type: "emotion-again"; emotion: string; lastDate: DateKey }
+  | {
+      type: "emotion-again";
+      periodKind: PeriodKind;
+      /** Longest break first. One emotion shows as its own title. */
+      emotions: EmotionBack[];
+    }
   | { type: "emotion-absent"; emotion: string; countBefore: number }
   | { type: "people-moments"; periodKind: PeriodKind; people: PersonMoment[] }
   | { type: "first-city"; city: string; district: string | null; date: DateKey }
-  | { type: "tag-back"; tagId: string; days: number; weeks: number }
+  | {
+      type: "tag-back";
+      periodKind: PeriodKind;
+      /** One tag shows as its own title. */
+      tags: TagBack[];
+    }
   | { type: "sleep-turnaround"; nights: DateKey[]; week: SleepNight[] }
   | { type: "sleep-rough"; nights: DateKey[]; week: SleepNight[] };
 
