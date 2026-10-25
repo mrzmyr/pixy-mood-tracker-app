@@ -16,7 +16,6 @@ import Play from "lucide-react-native/icons/play";
 import X from "lucide-react-native/icons/x";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
-import { StoryText } from "./parts";
 import { STORY_PALETTE, STORY_SLIDE_MS } from "./theme";
 import type { StoryTheme } from "./theme";
 
@@ -68,20 +67,22 @@ const ProgressBar = ({
 
 /**
  * Full-screen story. Tap the right two thirds for the next slide, the left
- * third for the previous one; press and hold to pause. Each slide moves on
+ * third for the previous one; press and hold to pause and see the slide
+ * alone: bars, buttons, and feedback fade out until you let go. Each slide moves on
  * after 7 seconds, except waiting slides. `renderBottom` draws per slide below
  * the content (Share, Helpful, Not Helpful).
  */
 export const StoryPlayer = ({
   slides,
-  title,
+  slideRef,
   onClose,
   onSlideShown,
   renderBottom,
   isPaused: isPausedFromParent = false,
 }: {
   slides: PlayerSlide[];
-  title: string;
+  /** Slide without bars and buttons, for sharing it as an image. */
+  slideRef?: React.Ref<View>;
   onClose: () => void;
   /** Every slide change. The first slide counts on open, in the parent. */
   onSlideShown: (index: number) => void;
@@ -99,6 +100,10 @@ export const StoryPlayer = ({
   const theme = slide?.theme ?? "night";
   const palette = STORY_PALETTE[theme];
   const isPaused = isPausedByUser || isHolding || isPausedFromParent;
+  // Holding hides bars, buttons, and feedback, like Instagram stories.
+  const chrome = useAnimatedStyle(() => ({
+    opacity: withTiming(isHolding ? 0 : 1, { duration: 180 }),
+  }));
   const isWaiting = slide?.isWaiting ?? false;
 
   /** Runs the bar from where it stopped to the end of the slide. */
@@ -160,40 +165,52 @@ export const StoryPlayer = ({
 
   return (
     <View style={{ flex: 1, backgroundColor: palette.background }}>
-      {slide.backdrop}
-      <Pressable
-        accessible={false}
-        style={StyleSheet.absoluteFill}
-        onLongPress={() => setIsHolding(true)}
-        delayLongPress={250}
-        onPressOut={() => setIsHolding(false)}
-        onPress={onPress}
-        testID="recap-story-tap"
-      >
-        <View
-          key={slide.key}
-          pointerEvents="box-none"
-          style={{
-            flex: 1,
-            paddingTop: insets.top + 76,
-            paddingBottom: insets.bottom + 84,
-            paddingHorizontal: 24,
-          }}
-          testID={`recap-story-slide-${slide.key}`}
-        >
-          {slide.content}
-        </View>
-      </Pressable>
-
       <View
-        pointerEvents="box-none"
-        style={{
-          position: "absolute",
-          top: insets.top + 8,
-          left: 12,
-          right: 12,
-          gap: 12,
-        }}
+        ref={slideRef}
+        collapsable={false}
+        style={[
+          StyleSheet.absoluteFill,
+          { backgroundColor: palette.background },
+        ]}
+      >
+        {slide.backdrop}
+        <Pressable
+          accessible={false}
+          style={StyleSheet.absoluteFill}
+          onLongPress={() => setIsHolding(true)}
+          delayLongPress={250}
+          onPressOut={() => setIsHolding(false)}
+          onPress={onPress}
+          testID="recap-story-tap"
+        >
+          <View
+            key={slide.key}
+            pointerEvents="box-none"
+            style={{
+              flex: 1,
+              paddingTop: insets.top + 76,
+              paddingBottom: insets.bottom + 84,
+              paddingHorizontal: 24,
+            }}
+            testID={`recap-story-slide-${slide.key}`}
+          >
+            {slide.content}
+          </View>
+        </Pressable>
+      </View>
+
+      <Animated.View
+        pointerEvents={isHolding ? "none" : "box-none"}
+        style={[
+          {
+            position: "absolute",
+            top: insets.top + 8,
+            left: 12,
+            right: 12,
+            gap: 12,
+          },
+          chrome,
+        ]}
       >
         <View style={{ flexDirection: "row", gap: 4 }}>
           {slides.map((item, position) => (
@@ -209,16 +226,8 @@ export const StoryPlayer = ({
           style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
           pointerEvents="box-none"
         >
-          <StoryText
-            kind="label"
-            theme={theme}
-            style={{ fontSize: 15, flex: 1 }}
-          >
-            {title}
-            <StoryText kind="label" theme={theme} tone="muted">
-              {`  ${index + 1}/${slides.length}`}
-            </StoryText>
-          </StoryText>
+          {/* No title or counter: the bars already show where the story is. */}
+          <View style={{ flex: 1 }} />
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={t(
@@ -246,19 +255,22 @@ export const StoryPlayer = ({
             <X width={22} height={22} color={palette.text} />
           </Pressable>
         </View>
-      </View>
+      </Animated.View>
 
-      <View
-        pointerEvents="box-none"
-        style={{
-          position: "absolute",
-          left: 16,
-          right: 16,
-          bottom: insets.bottom + 16,
-        }}
+      <Animated.View
+        pointerEvents={isHolding ? "none" : "box-none"}
+        style={[
+          {
+            position: "absolute",
+            left: 16,
+            right: 16,
+            bottom: insets.bottom + 16,
+          },
+          chrome,
+        ]}
       >
         {renderBottom(index, theme)}
-      </View>
+      </Animated.View>
 
       {/* Screen readers move by button, not by tap zones. */}
       <View

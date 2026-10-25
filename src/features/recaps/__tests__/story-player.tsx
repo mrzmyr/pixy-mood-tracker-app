@@ -22,7 +22,6 @@ const renderPlayer = async () => {
     <SafeAreaProvider initialMetrics={METRICS}>
       <StoryPlayer
         slides={SLIDES}
-        title="September"
         onClose={onClose}
         onSlideShown={onSlideShown}
         renderBottom={(index) => <Text>{`bottom ${index}`}</Text>}

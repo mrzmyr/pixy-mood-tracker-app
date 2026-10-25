@@ -53,6 +53,8 @@ export interface SlideContext {
   today: DateKey;
   tags: ReadonlyMap<string, Tag>;
   people: ReadonlyMap<string, Person>;
+  /** App in dark mode: `paper` slides draw as `night`. */
+  isDark: boolean;
 }
 
 const Gap = ({ size }: { size: number }) => <View style={{ height: size }} />;
@@ -403,8 +405,8 @@ const HardPattern = ({
   if (!tag) {
     return null;
   }
-  const theme = "paper";
-  const palette = STORY_PALETTE.paper;
+  const theme = ctx.isDark ? "night" : "paper";
+  const palette = STORY_PALETTE[theme];
   const hasTag = (day: RecapDay) =>
     day.items.some((item) => item.tags.some(({ id }) => id === tag.id));
   const hardSet = new Set(slide.hardDates);
@@ -414,7 +416,7 @@ const HardPattern = ({
   return (
     <>
       <View style={{ gap: 8 }}>
-        <StoryText kind="eyebrow" theme={theme} tone="accent">
+        <StoryText kind="eyebrow" theme={theme} tone="muted">
           {t("recaps_story_hard_eyebrow")}
         </StoryText>
         <Text
