@@ -928,14 +928,6 @@
   "recaps_trend_text": "Az utolsó %{days} nap átlaga minden pontban. A vonal felett: könnyebb napok.",
   "recaps_trend_weighs_less": "Kevésbé nyom",
   "recaps_trend_weighs_more": "Jobban nyom",
-  "recaps_trips_title_month": {
-    "one": "1 utazás ebben a hónapban",
-    "other": "{{count}} utazás ebben a hónapban"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 utazás idén",
-    "other": "{{count}} utazás idén"
-  },
   "recaps_what_moves_places": "Helyek",
   "recaps_what_moves_text": "Hangulat azokon a napokon, amikor jelen volt, azokhoz képest, amikor nem, hangulatszintekben.",
   "recaps_what_moves_title": "Mi mozgatja a hangulatodat",

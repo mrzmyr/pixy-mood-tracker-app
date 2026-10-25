@@ -19,7 +19,7 @@ import {
   dayRecap,
   emotions,
   mostConnected,
-  placesTrips,
+  places,
 } from "./cards/summaries";
 import { peopleMood, stoodOut, whatMoves } from "./cards/patterns";
 import { trendLocation, trendPeople, trendTags } from "./cards/changes";
@@ -39,7 +39,7 @@ const RULES: Rule[] = [
   emotions,
   mostConnected,
   connected,
-  placesTrips,
+  places,
   stoodOut,
   whatMoves,
   peopleMood,

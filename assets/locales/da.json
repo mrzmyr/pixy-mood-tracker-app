@@ -928,14 +928,6 @@
   "recaps_trend_text": "Gennemsnit af de seneste %{days} dage i hvert punkt. Over linjen: lettere dage.",
   "recaps_trend_weighs_less": "Vejer mindre",
   "recaps_trend_weighs_more": "Vejer mere",
-  "recaps_trips_title_month": {
-    "one": "1 rejse denne måned",
-    "other": "{{count}} rejser denne måned"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 rejse i år",
-    "other": "{{count}} rejser i år"
-  },
   "recaps_what_moves_places": "Steder",
   "recaps_what_moves_text": "Humør på dage med det sammenlignet med dage uden, i humørtrin.",
   "recaps_what_moves_title": "Hvad der påvirker dit humør",

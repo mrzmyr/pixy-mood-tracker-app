@@ -933,6 +933,13 @@
   },
   "recaps_person_moment_milestone": "%{count} days connected in %{year}",
   "recaps_person_moment_new": "First connection",
+  "recaps_places_title_month": "Places this month",
+  "recaps_places_title_week": "Places this week",
+  "recaps_places_title_year": "Places this year",
+  "recaps_places_trips": {
+    "one": "1 trip away from home.",
+    "other": "%{count} trips away from home."
+  },
   "recaps_reminder_failed": "Reminder not set. Notifications could not be scheduled. Try again in Settings > Reminder.",
   "recaps_reminder_set": "Reminder set for %{time}",
   "recaps_sleep_rough_text": "%{count} rough nights in a row. Rest when you can.",
@@ -1065,14 +1072,6 @@
   "recaps_trend_text": "Average of the last %{days} days at each point. Above the line: lighter days.",
   "recaps_trend_weighs_less": "Weighs less",
   "recaps_trend_weighs_more": "Weighs more",
-  "recaps_trips_title_month": {
-    "one": "1 trip this month",
-    "other": "{{count}} trips this month"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 trip this year",
-    "other": "{{count}} trips this year"
-  },
   "recaps_what_moves_places": "Places",
   "recaps_what_moves_text": "Mood on days with it compared with days without it, in mood steps.",
   "recaps_what_moves_title": "What moves your mood",

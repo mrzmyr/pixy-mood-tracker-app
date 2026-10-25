@@ -928,14 +928,6 @@
   "recaps_trend_text": "Średnia z ostatnich %{days} dni w każdym punkcie. Nad linią: lżejsze dni.",
   "recaps_trend_weighs_less": "Ciąży mniej",
   "recaps_trend_weighs_more": "Ciąży bardziej",
-  "recaps_trips_title_month": {
-    "one": "1 podróż w tym miesiącu",
-    "other": "{{count}} podróże w tym miesiącu"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 podróż w tym roku",
-    "other": "{{count}} podróże w tym roku"
-  },
   "recaps_what_moves_places": "Miejsca",
   "recaps_what_moves_text": "Nastrój w dni z tym w porównaniu z dniami bez tego, w stopniach nastroju.",
   "recaps_what_moves_title": "Co wpływa na Twój nastrój",

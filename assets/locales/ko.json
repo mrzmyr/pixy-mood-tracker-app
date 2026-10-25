@@ -928,14 +928,6 @@
   "recaps_trend_text": "각 지점에서 최근 %{days}일의 평균. 선 위: 더 가벼운 날.",
   "recaps_trend_weighs_less": "덜 무거워짐",
   "recaps_trend_weighs_more": "더 무거워짐",
-  "recaps_trips_title_month": {
-    "one": "이번 달 여행 1회",
-    "other": "이번 달 여행 {{count}}회"
-  },
-  "recaps_trips_title_year": {
-    "one": "올해 여행 1회",
-    "other": "올해 여행 {{count}}회"
-  },
   "recaps_what_moves_places": "장소",
   "recaps_what_moves_text": "있던 날과 없던 날의 기분 비교(기분 단계).",
   "recaps_what_moves_title": "기분을 움직이는 것",

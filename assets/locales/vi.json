@@ -928,14 +928,6 @@
   "recaps_trend_text": "Trung bình %{days} ngày gần nhất tại mỗi điểm. Trên đường kẻ: ngày nhẹ nhàng hơn.",
   "recaps_trend_weighs_less": "Bớt nặng nề",
   "recaps_trend_weighs_more": "Nặng nề hơn",
-  "recaps_trips_title_month": {
-    "one": "1 chuyến đi tháng này",
-    "other": "{{count}} chuyến đi tháng này"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 chuyến đi năm nay",
-    "other": "{{count}} chuyến đi năm nay"
-  },
   "recaps_what_moves_places": "Địa điểm",
   "recaps_what_moves_text": "Tâm trạng vào ngày có so với ngày không có, theo bậc tâm trạng.",
   "recaps_what_moves_title": "Điều gì tác động đến tâm trạng",

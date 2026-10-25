@@ -928,14 +928,6 @@
   "recaps_trend_text": "Rata-rata %{days} hari terakhir di setiap titik. Di atas garis: hari lebih ringan.",
   "recaps_trend_weighs_less": "Kurang membebani",
   "recaps_trend_weighs_more": "Lebih membebani",
-  "recaps_trips_title_month": {
-    "one": "1 perjalanan bulan ini",
-    "other": "{{count}} perjalanan bulan ini"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 perjalanan tahun ini",
-    "other": "{{count}} perjalanan tahun ini"
-  },
   "recaps_what_moves_places": "Tempat",
   "recaps_what_moves_text": "Suasana hati di hari dengan itu dibandingkan hari tanpa itu, dalam tingkat suasana hati.",
   "recaps_what_moves_title": "Apa yang menggerakkan suasana hatimu",

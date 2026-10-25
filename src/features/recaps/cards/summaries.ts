@@ -179,25 +179,31 @@ export const getHome = (history: RecapDay[]) => {
 };
 
 /**
- * Trips of the period: days with a place 25+ km from home, outside the
- * home city, merged per city across gaps of up to 2 days. A day checked
- * in at home ends a trip. Location on.
+ * Places of the period. Location on.
+ *
+ * - Trips: days with a place 25+ km from home, outside the home city,
+ *   merged per city across gaps of up to 2 days. A day checked in at home
+ *   ends a trip
+ * - Spots: every other place by days, most first. Home city areas by
+ *   district, nearby towns by name
+ * - Shows with a trip or 2+ spots; at most 5 rows, trips first
  */
-export const placesTrips = (input: RecapInput): SummaryCard[] => {
+export const places = (input: RecapInput): SummaryCard[] => {
   const home = input.locationEnabled ? getHome(input.history) : null;
   if (!home) {
     return [];
   }
   const trips: Trip[] = [];
+  const spotDays = new Map<string, Set<string>>();
   let open: Trip | null = null;
   for (const day of input.days) {
-    const places = day.items.flatMap((item) => {
+    const dayPlaces = day.items.flatMap((item) => {
       const place = parsePlace(item.location?.name);
       return item.location && place
         ? [{ ...place, location: item.location }]
         : [];
     });
-    const away = places.find(
+    const away = dayPlaces.find(
       (place) =>
         place.city !== home.city &&
         distanceKm(home, place.location) > THRESHOLDS.tripMinKm
@@ -214,9 +220,32 @@ export const placesTrips = (input: RecapInput): SummaryCard[] => {
         open = { city: away.city, start: day.date, end: day.date, days: 1 };
         trips.push(open);
       }
-    } else if (places.length > 0) {
+    } else if (dayPlaces.length > 0) {
       open = null;
     }
+    for (const place of dayPlaces) {
+      if (place !== away) {
+        // Home city by district, nearby towns by name.
+        const name =
+          place.city === home.city
+            ? (place.district ?? place.city)
+            : place.city;
+        const days = spotDays.get(name) ?? new Set<string>();
+        days.add(day.date);
+        spotDays.set(name, days);
+      }
+    }
   }
-  return trips.length > 0 ? [{ type: "places-trips", trips }] : [];
+  const allSpots = [...spotDays.entries()]
+    .map(([name, days]) => ({ name, days: days.size }))
+    .sort((a, b) => b.days - a.days || a.name.localeCompare(b.name));
+  if (trips.length === 0 && allSpots.length < THRESHOLDS.placesMinSpots) {
+    return [];
+  }
+  const shownTrips = trips.slice(0, THRESHOLDS.placesMaxRows);
+  const spots = allSpots.slice(
+    0,
+    Math.max(0, THRESHOLDS.placesMaxRows - shownTrips.length)
+  );
+  return [{ type: "places", trips: shownTrips, spots }];
 };

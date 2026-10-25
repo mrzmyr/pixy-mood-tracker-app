@@ -928,14 +928,6 @@
   "recaps_trend_text": "每个点为最近 %{days} 天的平均值。线以上：更轻松的日子。",
   "recaps_trend_weighs_less": "没那么沉重",
   "recaps_trend_weighs_more": "更沉重",
-  "recaps_trips_title_month": {
-    "one": "本月 1 次旅行",
-    "other": "本月 {{count}} 次旅行"
-  },
-  "recaps_trips_title_year": {
-    "one": "今年 1 次旅行",
-    "other": "今年 {{count}} 次旅行"
-  },
   "recaps_what_moves_places": "地点",
   "recaps_what_moves_text": "有它的日子与没有它的日子的心情对比，以心情等级计。",
   "recaps_what_moves_title": "什么影响了你的心情",

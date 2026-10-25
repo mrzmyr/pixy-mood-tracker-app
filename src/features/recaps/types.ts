@@ -117,13 +117,19 @@ export interface Trip {
   days: number;
 }
 
+/** Place that is no trip: a home city district or a nearby town, and its days. */
+export interface Spot {
+  name: string;
+  days: number;
+}
+
 /** Describes the period: a day, emotions, people, places. No causes. */
 export type SummaryCard =
   | { type: "day-recap"; mode: "best" | "ago" | "hard"; date: DateKey }
   | { type: "emotions"; counts: EmotionCount[] }
   | { type: "connected"; people: ConnectedPerson[] }
   | { type: "most-connected"; people: ConnectedPerson[] }
-  | { type: "places-trips"; trips: Trip[] };
+  | { type: "places"; trips: Trip[]; spots: Spot[] };
 
 /** One driver in a pattern list: id, label for places, and its effect. */
 export interface EffectRow {

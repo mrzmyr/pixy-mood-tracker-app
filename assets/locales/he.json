@@ -928,14 +928,6 @@
   "recaps_trend_text": "ממוצע של %{days} הימים האחרונים בכל נקודה. מעל הקו: ימים קלים יותר.",
   "recaps_trend_weighs_less": "מכביד פחות",
   "recaps_trend_weighs_more": "מכביד יותר",
-  "recaps_trips_title_month": {
-    "one": "נסיעה אחת החודש",
-    "other": "{{count}} נסיעות החודש"
-  },
-  "recaps_trips_title_year": {
-    "one": "נסיעה אחת השנה",
-    "other": "{{count}} נסיעות השנה"
-  },
   "recaps_what_moves_places": "מקומות",
   "recaps_what_moves_text": "מצב רוח בימים שבהם זה היה בהשוואה לימים בלי, בדרגות מצב רוח.",
   "recaps_what_moves_title": "מה מזיז את מצב הרוח שלך",

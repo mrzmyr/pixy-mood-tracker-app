@@ -160,7 +160,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -335,7 +339,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -510,7 +518,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -838,7 +850,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1013,7 +1029,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_cancel",
@@ -1188,7 +1208,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1363,7 +1387,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1539,7 +1567,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1714,7 +1746,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1889,7 +1925,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2064,7 +2104,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2239,7 +2283,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2414,7 +2462,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2589,7 +2641,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2764,7 +2820,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2939,7 +2999,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3114,7 +3178,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3289,7 +3357,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3464,7 +3536,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3639,7 +3715,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3814,7 +3894,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3989,7 +4073,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4164,7 +4252,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4339,7 +4431,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4514,7 +4610,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4689,7 +4789,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4864,7 +4968,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5039,7 +5147,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5214,7 +5326,11 @@
       "recaps_people_moments_title_month",
       "recaps_person_moment_back",
       "recaps_person_moment_new",
-      "recaps_person_moment_milestone"
+      "recaps_person_moment_milestone",
+      "recaps_places_title_week",
+      "recaps_places_title_month",
+      "recaps_places_title_year",
+      "recaps_places_trips"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",

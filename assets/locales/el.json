@@ -928,14 +928,6 @@
   "recaps_trend_text": "Μέσος όρος των τελευταίων %{days} ημερών σε κάθε σημείο. Πάνω από τη γραμμή: πιο ανάλαφρες μέρες.",
   "recaps_trend_weighs_less": "Βαραίνει λιγότερο",
   "recaps_trend_weighs_more": "Βαραίνει περισσότερο",
-  "recaps_trips_title_month": {
-    "one": "1 ταξίδι αυτόν τον μήνα",
-    "other": "{{count}} ταξίδια αυτόν τον μήνα"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 ταξίδι φέτος",
-    "other": "{{count}} ταξίδια φέτος"
-  },
   "recaps_what_moves_places": "Μέρη",
   "recaps_what_moves_text": "Διάθεση σε μέρες με αυτό σε σύγκριση με μέρες χωρίς αυτό, σε βήματα διάθεσης.",
   "recaps_what_moves_title": "Τι επηρεάζει τη διάθεσή σου",

@@ -928,14 +928,6 @@
   "recaps_trend_text": "各時点での直近%{days}日間の平均。線より上：軽い日。",
   "recaps_trend_weighs_less": "重さが減少",
   "recaps_trend_weighs_more": "重さが増加",
-  "recaps_trips_title_month": {
-    "one": "今月の旅：1回",
-    "other": "今月の旅：{{count}}回"
-  },
-  "recaps_trips_title_year": {
-    "one": "今年の旅：1回",
-    "other": "今年の旅：{{count}}回"
-  },
   "recaps_what_moves_places": "場所",
   "recaps_what_moves_text": "あった日となかった日の気分の比較（気分の段階）。",
   "recaps_what_moves_title": "気分を動かすもの",

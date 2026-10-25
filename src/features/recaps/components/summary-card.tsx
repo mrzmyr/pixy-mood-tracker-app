@@ -255,9 +255,10 @@ const Podium = ({
   </View>
 );
 
-const TRIP_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
-  month: "recaps_trips_title_month",
-  year: "recaps_trips_title_year",
+const PLACES_TITLES: Record<PeriodKind, TranslationKey> = {
+  week: "recaps_places_title_week",
+  month: "recaps_places_title_month",
+  year: "recaps_places_title_year",
 };
 
 const formatRange = (start: string, end: string) =>
@@ -266,7 +267,8 @@ const formatRange = (start: string, end: string) =>
     : `${dayjs(start).format("D MMM")} – ${dayjs(end).format("D MMM")}`;
 
 /** Dot centered on the first line of the city name. */
-const TripDot = () => {
+/** Filled dot for a trip, ring for an area of the home city. */
+const TripDot = ({ isTrip }: { isTrip: boolean }) => {
   const colors = useColors();
   const { lineHeight } = getTypeMetrics().body;
   return (
@@ -276,7 +278,9 @@ const TripDot = () => {
           width: 8,
           height: 8,
           borderRadius: RADIUS.full,
-          backgroundColor: colors.moduleLocation,
+          borderWidth: 2,
+          borderColor: colors.moduleLocation,
+          backgroundColor: isTrip ? colors.moduleLocation : "transparent",
         }}
       />
     </View>
@@ -472,30 +476,42 @@ const getContent = (
         body: <Podium entries={card.people} people={context.people} />,
       };
     }
-    case "places-trips": {
-      const key = TRIP_TITLES[context.periodKind];
-      if (!key) {
-        return null;
-      }
-      const title = t(key, {
-        count: card.trips.length,
-      });
+    case "places": {
+      const title = t(PLACES_TITLES[context.periodKind]);
+      const rows = [
+        ...card.trips.map((trip) => ({
+          key: `trip-${trip.city}-${trip.start}`,
+          name: trip.city,
+          isTrip: true,
+          detail: `${formatRange(trip.start, trip.end)} · ${t("recaps_days", { count: trip.days })}`,
+        })),
+        ...card.spots.map((spot) => ({
+          key: `spot-${spot.name}`,
+          name: spot.name,
+          isTrip: false,
+          detail: t("recaps_days", { count: spot.days }),
+        })),
+      ];
       return {
         title,
         titleLabel: title,
+        text:
+          card.trips.length > 0
+            ? t("recaps_places_trips", { count: card.trips.length })
+            : undefined,
         body: (
           <View style={{ gap: 8 }}>
-            {card.trips.map((trip) => (
+            {rows.map((row) => (
               <View
-                key={`${trip.city}-${trip.start}`}
+                key={row.key}
                 style={{
                   flexDirection: "row",
                   alignItems: "flex-start",
                   gap: 8,
                 }}
               >
-                <TripDot />
-                {/* Dates wrap under the city, not under the dot. */}
+                <TripDot isTrip={row.isTrip} />
+                {/* Details wrap under the name, not under the dot. */}
                 <View
                   style={{
                     flex: 1,
@@ -506,10 +522,8 @@ const getContent = (
                     rowGap: 4,
                   }}
                 >
-                  <Body>{trip.city}</Body>
-                  <Secondary>
-                    {`${formatRange(trip.start, trip.end)} · ${t("recaps_days", { count: trip.days })}`}
-                  </Secondary>
+                  <Body>{row.name}</Body>
+                  <Secondary>{row.detail}</Secondary>
                 </View>
               </View>
             ))}

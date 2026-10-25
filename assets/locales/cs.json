@@ -928,14 +928,6 @@
   "recaps_trend_text": "Průměr posledních %{days} dní v každém bodě. Nad čarou: lehčí dny.",
   "recaps_trend_weighs_less": "Tíží méně",
   "recaps_trend_weighs_more": "Tíží víc",
-  "recaps_trips_title_month": {
-    "one": "1 cesta tento měsíc",
-    "other": "{{count}} cest tento měsíc"
-  },
-  "recaps_trips_title_year": {
-    "one": "1 cesta letos",
-    "other": "{{count}} cest letos"
-  },
   "recaps_what_moves_places": "Místa",
   "recaps_what_moves_text": "Nálada ve dnech s tím ve srovnání se dny bez toho, ve stupních nálady.",
   "recaps_what_moves_title": "Co hýbe tvou náladou",
