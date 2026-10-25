@@ -818,10 +818,6 @@
     "one": "1 väliin jäänyt",
     "other": "{{count}} väliin jäänyttä"
   },
-  "recaps_story_coming_title": {
-    "one": "Väritettävää vuonna %{year}: 1 päivä",
-    "other": "Väritettävää vuonna %{year}: {{count}} päivää"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 kuvapäivä, %{days} pikseliä.",
     "other": "{{count}} kuvapäivää, %{days} pikseliä."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Päivät, joina %{tag}, tuntuivat kevyimmiltä",
   "recaps_story_made_of_eyebrow": "Rytmi: %{month}",
   "recaps_story_made_of_title": "Mistä päiväsi koostuivat",
-  "recaps_story_moments_eyebrow": "Yksi kuva viikossa",
-  "recaps_story_moments_title": {
-    "one": "%{month} 1 hetkessä",
-    "other": "%{month} {{count}} hetkessä"
-  },
   "recaps_story_next": "Seuraava dia",
   "recaps_story_pause": "Tauko",
   "recaps_story_people_days": {

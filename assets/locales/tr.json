@@ -818,10 +818,6 @@
     "one": "1 kaçırıldı",
     "other": "{{count}} kaçırıldı"
   },
-  "recaps_story_coming_title": {
-    "one": "%{year} yılında boyanacak 1 gün kaldı",
-    "other": "%{year} yılında boyanacak {{count}} gün kaldı"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 fotoğraflı gün, %{days} piksel.",
     "other": "{{count}} fotoğraflı gün, %{days} piksel."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "%{tag} olan günler en hafif hissettirdi",
   "recaps_story_made_of_eyebrow": "%{month} ritmi",
   "recaps_story_made_of_title": "Günlerin nelerden oluştu",
-  "recaps_story_moments_eyebrow": "Haftada bir fotoğraf",
-  "recaps_story_moments_title": {
-    "one": "1 anda %{month}",
-    "other": "{{count}} anda %{month}"
-  },
   "recaps_story_next": "Sonraki slayt",
   "recaps_story_pause": "Duraklat",
   "recaps_story_people_days": {

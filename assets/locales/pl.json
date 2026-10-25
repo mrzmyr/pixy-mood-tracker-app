@@ -818,10 +818,6 @@
     "one": "Pominięte: 1",
     "other": "Pominięte: {{count}}"
   },
-  "recaps_story_coming_title": {
-    "one": "Do pokolorowania w %{year}: 1 dzień",
-    "other": "Dni do pokolorowania w %{year}: {{count}}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 dzień ze zdjęciem, pikseli: %{days}.",
     "other": "Dni ze zdjęciem: {{count}}, pikseli: %{days}."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Dni z %{tag} były najlżejsze",
   "recaps_story_made_of_eyebrow": "Rytm: %{month}",
   "recaps_story_made_of_title": "Z czego składały się Twoje dni",
-  "recaps_story_moments_eyebrow": "Jedno zdjęcie na tydzień",
-  "recaps_story_moments_title": {
-    "one": "%{month} w 1 chwili",
-    "other": "%{month} w chwilach: {{count}}"
-  },
   "recaps_story_next": "Następny slajd",
   "recaps_story_pause": "Wstrzymaj",
   "recaps_story_people_days": {

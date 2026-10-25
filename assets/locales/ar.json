@@ -818,10 +818,6 @@
     "one": "فائت: 1",
     "other": "فائت: {{count}}"
   },
-  "recaps_story_coming_title": {
-    "one": "يوم واحد متبقٍ لتلوينه في %{year}",
-    "other": "أيام متبقية لتلوينها في %{year}: {{count}}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "يوم واحد بصورة، و%{days} بكسل.",
     "other": "أيام بصور: {{count}}، و%{days} بكسل."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "أيام %{tag} كانت الأخف",
   "recaps_story_made_of_eyebrow": "إيقاع %{month}",
   "recaps_story_made_of_title": "مما تكوّنت أيامك",
-  "recaps_story_moments_eyebrow": "صورة واحدة كل أسبوع",
-  "recaps_story_moments_title": {
-    "one": "%{month} في لحظة واحدة",
-    "other": "%{month} في لحظات: {{count}}"
-  },
   "recaps_story_next": "الشريحة التالية",
   "recaps_story_pause": "إيقاف مؤقت",
   "recaps_story_people_days": {

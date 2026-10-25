@@ -978,8 +978,8 @@
     "other": "{{count}} missed"
   },
   "recaps_story_coming_title": {
-    "one": "1 day left to paint in %{year}",
-    "other": "{{count}} days left to paint in %{year}"
+    "one": "1 day of %{year} still ahead",
+    "other": "{{count}} days of %{year} still ahead"
   },
   "recaps_story_cover_photos_text": {
     "one": "1 photo day, %{days} pixels.",
@@ -1011,11 +1011,6 @@
   "recaps_story_lifted_title": "%{tag} days felt lightest",
   "recaps_story_made_of_eyebrow": "%{month} rhythm",
   "recaps_story_made_of_title": "What your days were made of",
-  "recaps_story_moments_eyebrow": "One photo per week",
-  "recaps_story_moments_title": {
-    "one": "%{month} in 1 moment",
-    "other": "%{month} in {{count}} moments"
-  },
   "recaps_story_next": "Next slide",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
@@ -1069,6 +1064,8 @@
   "recaps_story_weekday_text": "%{hits} of %{total} weeks.",
   "recaps_story_weekday_title_every": "%{tag}, every %{weekday}",
   "recaps_story_weekday_title_most": "%{tag}, almost every %{weekday}",
+  "recaps_story_weeks_eyebrow": "Week by week",
+  "recaps_story_weeks_title": "%{month}, week by week",
   "recaps_tag_back_text": {
     "one": "On one day, after %{weeks} weeks without.",
     "other": "On {{count}} days, after %{weeks} weeks without."

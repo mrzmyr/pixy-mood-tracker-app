@@ -818,10 +818,6 @@
     "one": "1 פוספס",
     "other": "{{count}} פוספסו"
   },
-  "recaps_story_coming_title": {
-    "one": "נשאר יום 1 לצבוע ב־%{year}",
-    "other": "נשארו {{count}} ימים לצבוע ב־%{year}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "יום 1 עם תמונה, %{days} פיקסלים.",
     "other": "{{count}} ימים עם תמונה, %{days} פיקסלים."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "ימים עם %{tag} הרגישו הכי קלים",
   "recaps_story_made_of_eyebrow": "הקצב של %{month}",
   "recaps_story_made_of_title": "ממה היו עשויים הימים שלך",
-  "recaps_story_moments_eyebrow": "תמונה אחת בשבוע",
-  "recaps_story_moments_title": {
-    "one": "%{month} ברגע 1",
-    "other": "%{month} ב־{{count}} רגעים"
-  },
   "recaps_story_next": "השקופית הבאה",
   "recaps_story_pause": "השהיה",
   "recaps_story_people_days": {

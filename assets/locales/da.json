@@ -818,10 +818,6 @@
     "one": "1 misset",
     "other": "{{count}} misset"
   },
-  "recaps_story_coming_title": {
-    "one": "1 dag tilbage at farve i %{year}",
-    "other": "{{count}} dage tilbage at farve i %{year}"
-  },
   "recaps_story_cover_photos_text": {
     "one": "1 fotodag, %{days} pixels.",
     "other": "{{count}} fotodage, %{days} pixels."
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "Dage med %{tag} føltes lettest",
   "recaps_story_made_of_eyebrow": "Rytmen i %{month}",
   "recaps_story_made_of_title": "Hvad dine dage bestod af",
-  "recaps_story_moments_eyebrow": "Ét foto om ugen",
-  "recaps_story_moments_title": {
-    "one": "%{month} i 1 øjeblik",
-    "other": "%{month} i {{count}} øjeblikke"
-  },
   "recaps_story_next": "Næste slide",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {

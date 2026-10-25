@@ -818,10 +818,6 @@
     "one": "1 छूटा",
     "other": "{{count}} छूटे"
   },
-  "recaps_story_coming_title": {
-    "one": "%{year} में रंगने के लिए 1 दिन बाकी",
-    "other": "%{year} में रंगने के लिए {{count}} दिन बाकी"
-  },
   "recaps_story_cover_photos_text": {
     "one": "फ़ोटो वाला 1 दिन, %{days} पिक्सेल।",
     "other": "फ़ोटो वाले {{count}} दिन, %{days} पिक्सेल।"
@@ -852,11 +848,6 @@
   "recaps_story_lifted_title": "%{tag} वाले दिन सबसे हल्के लगे",
   "recaps_story_made_of_eyebrow": "%{month} की लय",
   "recaps_story_made_of_title": "आपके दिन किन चीज़ों से बने",
-  "recaps_story_moments_eyebrow": "हर हफ़्ते एक फ़ोटो",
-  "recaps_story_moments_title": {
-    "one": "1 पल में %{month}",
-    "other": "{{count}} पलों में %{month}"
-  },
   "recaps_story_next": "अगली स्लाइड",
   "recaps_story_pause": "रोकें",
   "recaps_story_people_days": {
