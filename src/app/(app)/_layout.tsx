@@ -75,6 +75,39 @@ const largeTitleOptions = (backgroundColor: string) => {
   };
 };
 
+/**
+ * Feedback form: iOS form sheet (Liquid Glass header on iOS 26), Android
+ * full-screen dialog with the Material top app bar. Header items live in
+ * the screen (`Stack.Toolbar`).
+ */
+const getFeedbackOptions = <T extends object>({
+  defaultOptions,
+  textColor,
+  backgroundColor,
+}: {
+  defaultOptions: T;
+  textColor: string;
+  backgroundColor: string;
+}) =>
+  Platform.OS === "ios"
+    ? {
+        presentation: "formSheet" as const,
+        headerTintColor: textColor,
+        // Always transparent, so the screen offsets content by the header
+        // height on every iOS version. expo-router sets it on iOS 26 only.
+        headerTransparent: true,
+        // Before iOS 26 no Liquid Glass: blur keeps the title readable.
+        ...(!HAS_FLOATING_HEADER && {
+          headerBlurEffect: "systemChromeMaterial" as const,
+        }),
+      }
+    : {
+        ...defaultOptions,
+        presentation: "modal" as const,
+        headerStyle: { backgroundColor },
+        headerShadowVisible: false,
+      };
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
@@ -87,28 +120,11 @@ const AppLayout = () => {
     headerStyle: { backgroundColor: colors.background },
     headerShadowVisible: Platform.OS !== "web",
   };
-  // Feedback form: iOS form sheet (Liquid Glass header on iOS 26), Android
-  // full-screen dialog with the Material top app bar. Header items live in
-  // the screen (`Stack.Toolbar`).
-  const feedbackOptions =
-    Platform.OS === "ios"
-      ? {
-          presentation: "formSheet" as const,
-          headerTintColor: colors.text,
-          // Always transparent, so the screen offsets content by the header
-          // height on every iOS version. expo-router sets it on iOS 26 only.
-          headerTransparent: true,
-          // Before iOS 26 no Liquid Glass: blur keeps the title readable.
-          ...(!HAS_FLOATING_HEADER && {
-            headerBlurEffect: "systemChromeMaterial" as const,
-          }),
-        }
-      : {
-          ...defaultOptions,
-          presentation: "modal" as const,
-          headerStyle: { backgroundColor: colors.feedbackBackground },
-          headerShadowVisible: false,
-        };
+  const feedbackOptions = getFeedbackOptions({
+    defaultOptions,
+    textColor: colors.text,
+    backgroundColor: colors.feedbackBackground,
+  });
   // Tag, tag category, and people modals. iOS shows the native sheet bar;
   // the screen sets title and bar items (`RouteModalHeader`). Android and
   // web draw their header in the screen.
@@ -333,12 +349,20 @@ const AppLayout = () => {
             }}
           />
           <Stack.Screen
+            name="settings/steps/tags/categories"
+            options={{ ...settingsFormOptions, title: t("tag_categories") }}
+          />
+          <Stack.Screen
             name="settings/steps/tags/archive"
             options={{ ...pageOptions, title: t("archive_tag") }}
           />
           <Stack.Screen
             name="settings/steps/people/index"
-            options={{ ...pageOptions, title: t("people") }}
+            options={{
+              ...settingsFormOptions,
+              title: t("people"),
+              ...largeTitleOptions(colors.background),
+            }}
           />
           <Stack.Screen
             name="settings/steps/people/archive"

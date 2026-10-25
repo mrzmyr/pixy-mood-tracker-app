@@ -693,6 +693,8 @@
   "people_photo_remove": "Supprimer la photo",
   "people_photo_use_contact": "Utiliser la photo du contact",
   "people_reached_max": "Tu as atteint le maximum de {{max_count}} personnes. Supprime-en pour en ajouter de nouvelles.",
+  "people_search": "Rechercher des personnes…",
+  "people_search_empty": "Aucune personne trouvée.",
   "people_slide_empty": "Ajoute les personnes de ta vie pour voir comment ton humeur est liée à elles.",
   "people_unarchive": "Désarchiver",
   "photos_pick_select": "Sélectionner",

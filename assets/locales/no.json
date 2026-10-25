@@ -692,6 +692,8 @@
   "people_photo_remove": "Fjern bilde",
   "people_photo_use_contact": "Bruk kontaktbilde",
   "people_reached_max": "Du har nådd maksimum på {{max_count}} personer. Slett noen for å legge til nye.",
+  "people_search": "Søk etter personer…",
+  "people_search_empty": "Fant ingen personer.",
   "people_slide_empty": "Legg til personene i livet ditt for å se hvordan humøret ditt henger sammen med dem.",
   "people_unarchive": "Fjern fra arkiv",
   "photos_pick_select": "Velg",

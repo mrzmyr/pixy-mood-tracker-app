@@ -692,6 +692,8 @@
   "people_photo_remove": "Odebrat fotku",
   "people_photo_use_contact": "Použít fotku kontaktu",
   "people_reached_max": "Dosáhl(a) jsi maxima {{max_count}} osob. Smaž některé, abys mohl(a) přidat nové.",
+  "people_search": "Hledat lidi…",
+  "people_search_empty": "Žádní lidé nenalezeni.",
   "people_slide_empty": "Přidej lidi ze svého života a uvidíš, jak s nimi souvisí tvoje nálada.",
   "people_unarchive": "Zrušit archivaci",
   "photos_pick_select": "Vybrat",

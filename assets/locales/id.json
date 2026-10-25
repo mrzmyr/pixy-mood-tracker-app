@@ -692,6 +692,8 @@
   "people_photo_remove": "Hapus foto",
   "people_photo_use_contact": "Gunakan Foto Kontak",
   "people_reached_max": "Kamu telah mencapai batas maksimum {{max_count}} orang. Hapus beberapa untuk menambah yang baru.",
+  "people_search": "Cari orang…",
+  "people_search_empty": "Tidak ada orang ditemukan.",
   "people_slide_empty": "Tambahkan orang-orang dalam hidupmu untuk melihat bagaimana suasana hatimu berkaitan dengan mereka.",
   "people_unarchive": "Batalkan Arsip",
   "photos_pick_select": "Pilih",

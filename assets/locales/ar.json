@@ -692,6 +692,8 @@
   "people_photo_remove": "إزالة الصورة",
   "people_photo_use_contact": "استخدام صورة جهة الاتصال",
   "people_reached_max": "وصلت إلى الحد الأقصى وهو {{max_count}} شخصًا. احذف بعضهم لإضافة أشخاص جدد.",
+  "people_search": "البحث عن أشخاص…",
+  "people_search_empty": "لم يتم العثور على أشخاص.",
   "people_slide_empty": "أضف الأشخاص في حياتك لترى كيف يرتبط مزاجك بهم.",
   "people_unarchive": "إلغاء الأرشفة",
   "photos_pick_select": "تحديد",
