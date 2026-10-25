@@ -105,11 +105,11 @@ export interface AnalyticsEvents {
 
   /** `source`: Lock Screen (iOS), notification (Android), or the in-app screen. */
   "quick_check_in:entry_saved": {
-    source: "live_activity" | "notification" | "app";
+    source: "notification" | "app";
     rating: LogItem["rating"];
   };
   "quick_check_in:completed": {
-    source: "live_activity" | "notification" | "app";
+    source: "notification" | "app";
     has_emotion: boolean;
     influences_count: number;
   };

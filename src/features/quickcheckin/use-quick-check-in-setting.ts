@@ -1,14 +1,13 @@
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
-import { IS_LIVE_ACTIVITY_SUPPORTED } from "./live-activity/support";
 import { native } from "./notification/native-module";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useSettings } from "@/state/settings";
 
-/** iOS 26 shows a Live Activity, Android an ongoing notification. */
+/** iOS opens the quick check-in screen, Android an ongoing notification. */
 export const IS_QUICK_CHECK_IN_SUPPORTED =
-  IS_LIVE_ACTIVITY_SUPPORTED || native !== null;
+  Platform.OS === "ios" || native !== null;
 
 /**
  * Notification permission for the check-in notification. Local
@@ -31,8 +30,7 @@ const notificationPermission = {
  *
  * - `isAvailable`: platform supports it and the `quick-check-in` flag is on
  * - `setEnabled(true)` on Android: ask notification permission first.
- *   Denied permission keeps it off. iOS needs no permission for Live
- *   Activities.
+ *   Denied permission keeps it off. iOS opens a screen and needs none.
  * - `setEnabled(false)`: save off, never touches permission
  */
 export const useQuickCheckInSetting = (

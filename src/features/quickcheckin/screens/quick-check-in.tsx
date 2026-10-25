@@ -71,10 +71,10 @@ const SectionTitle = ({ children }: { children: string }) => {
 
 /**
  * Quick check-in on one scrolling page: search on top, then mood,
- * emotions, Suggested, People A to Z, and Tags A to Z. Target of every More
- * tap on the Lock Screen and in the notification.
+ * emotions, Suggested, People A to Z, and Tags A to Z. Opens from Settings
+ * and from More in the Android notification.
  *
- * - `id` names an entry saved on the glance surface: the screen edits it.
+ * - `id` names an entry saved in the notification: the screen edits it.
  * - `id` `new` or unknown: Save creates an entry. Save needs a mood.
  */
 export const QuickCheckIn = () => {
@@ -148,7 +148,7 @@ export const QuickCheckIn = () => {
   };
 
   const isSheet = router.canGoBack();
-  // Opened from the Lock Screen with the app closed: nothing to go back to.
+  // Opened from a notification with the app closed: nothing to go back to.
   const close = () => (isSheet ? router.back() : router.replace("/"));
 
   const save = () => {
