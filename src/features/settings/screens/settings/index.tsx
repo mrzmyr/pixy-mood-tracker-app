@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import FlagHighlight from "@/components/flag-highlight";
 import FieldRow from "@/components/field-row";
+import { ScrollEdge } from "@/components/scroll-edge";
 import { SupportCard } from "@/components/support-card";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
 import {
@@ -135,7 +136,7 @@ export const SettingsScreen = () => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
+    <ScrollEdge style={{ flex: 1, backgroundColor: colors.background }}>
       <Host style={{ flex: 1 }} seedColor={colors.tint}>
         <FieldGroup
           style={
@@ -331,6 +332,6 @@ export const SettingsScreen = () => {
           )}
         </FieldGroup>
       </Host>
-    </View>
+    </ScrollEdge>
   );
 };
