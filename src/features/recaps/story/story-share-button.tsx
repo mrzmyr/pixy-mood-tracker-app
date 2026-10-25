@@ -3,11 +3,12 @@ import { Pressable } from "react-native";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 import { StoryText } from "./parts";
+import { STORY_PALETTE } from "./theme";
 import type { StoryTheme } from "./theme";
 
 /**
- * Share pill under every story slide. Inverted against the slide: black on
- * `paper`, white on `night` and photos.
+ * Share pill under every story slide. Secondary: a light tint of the slide
+ * color, so it sits next to Helpful / Not Helpful instead of shouting.
  */
 export const StoryShareButton = ({
   theme,
@@ -18,7 +19,7 @@ export const StoryShareButton = ({
   disabled: boolean;
   onPress: () => void;
 }) => {
-  const isPaper = theme === "paper";
+  const palette = STORY_PALETTE[theme];
   return (
     <Pressable
       accessibilityRole="button"
@@ -30,22 +31,15 @@ export const StoryShareButton = ({
         alignItems: "center",
         gap: 8,
         minHeight: 44,
-        paddingHorizontal: 18,
+        paddingHorizontal: 16,
         borderRadius: RADIUS.full,
-        backgroundColor: isPaper ? "#0A0A0A" : "#FFFFFF",
-        opacity: pressed || disabled ? 0.7 : 1,
+        backgroundColor:
+          theme === "paper" ? "rgba(10,10,10,0.06)" : "rgba(255,255,255,0.14)",
+        opacity: pressed || disabled ? 0.6 : 1,
       })}
     >
-      <ShareIcon
-        width={16}
-        height={16}
-        color={isPaper ? "#FFFFFF" : "#0A0A0A"}
-      />
-      <StoryText
-        kind="label"
-        theme={isPaper ? "night" : "paper"}
-        style={{ fontSize: 15 }}
-      >
+      <ShareIcon width={16} height={16} color={palette.text} />
+      <StoryText kind="label" theme={theme} style={{ fontSize: 15 }}>
         {t("recaps_story_share")}
       </StoryText>
     </Pressable>
