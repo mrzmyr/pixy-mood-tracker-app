@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useHeaderHeight } from "expo-router/react-navigation";
 import { useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -23,6 +24,9 @@ import { EmotionChip, MoodPixel } from "./quick-check-in-chips";
 import type { InfluenceOption } from "../ranking";
 
 const NO_PEOPLE: never[] = [];
+
+/** Space between chips, same as emotion chips. */
+const CHIP_GAP = 8;
 
 /** Screen values. `source` tells whether the user changed them yet. */
 interface Draft {
@@ -78,6 +82,7 @@ export const QuickCheckIn = () => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
+  const headerHeight = useHeaderHeight();
   const analytics = useAnalytics();
   const { items } = useLogState();
   const logUpdater = useLogUpdater();
@@ -205,10 +210,12 @@ export const QuickCheckIn = () => {
   };
 
   const chipRow = (options: InfluenceOption[]) => (
-    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: CHIP_GAP }}>
       {options.map(renderOption)}
     </View>
   );
+
+  const isIOS = Platform.OS === "ios";
 
   return (
     <View
@@ -216,36 +223,70 @@ export const QuickCheckIn = () => {
         flex: 1,
         backgroundColor: colors.background,
         // A cold deep link opens the screen as the root, not as a sheet.
-        marginTop: Platform.OS === "android" || !isSheet ? insets.top : 0,
+        marginTop:
+          !isIOS && (Platform.OS === "android" || !isSheet) ? insets.top : 0,
       }}
     >
-      <ModalHeader
-        title={t("quick_check_in_title")}
-        left={<CloseButton testID="quick-check-in-close" onPress={close} />}
-        right={
-          <Pressable
-            testID="quick-check-in-save"
-            accessibilityRole="button"
-            accessibilityState={{ disabled: rating === null }}
-            disabled={rating === null}
-            onPress={save}
-            hitSlop={8}
-          >
-            <Text
-              style={{
-                color: rating === null ? colors.textSecondary : colors.tint,
-                fontSize: 17,
-                fontWeight: "600",
-              }}
+      {isIOS ? (
+        <>
+          <Stack.Screen options={{ title: t("quick_check_in_title") }} />
+          {/* Title doubles as label: expo-router drops `accessibilityLabel`
+              on iOS bar items. With an icon, iOS shows only the icon. */}
+          <Stack.Toolbar placement="left">
+            <Stack.Toolbar.Button
+              icon="xmark"
+              accessibilityLabel={t("close")}
+              onPress={close}
+            >
+              {t("close")}
+            </Stack.Toolbar.Button>
+          </Stack.Toolbar>
+          <Stack.Toolbar placement="right">
+            <Stack.Toolbar.Button
+              icon="checkmark"
+              accessibilityLabel={t("save")}
+              variant="prominent"
+              disabled={rating === null}
+              onPress={save}
             >
               {t("save")}
-            </Text>
-          </Pressable>
-        }
-      />
+            </Stack.Toolbar.Button>
+          </Stack.Toolbar>
+        </>
+      ) : (
+        <ModalHeader
+          title={t("quick_check_in_title")}
+          left={<CloseButton testID="quick-check-in-close" onPress={close} />}
+          right={
+            <Pressable
+              testID="quick-check-in-save"
+              accessibilityRole="button"
+              accessibilityState={{ disabled: rating === null }}
+              disabled={rating === null}
+              onPress={save}
+              hitSlop={8}
+            >
+              <Text
+                style={{
+                  color: rating === null ? colors.textSecondary : colors.tint,
+                  fontSize: 17,
+                  fontWeight: "600",
+                }}
+              >
+                {t("save")}
+              </Text>
+            </Pressable>
+          }
+        />
+      )}
       <ScrollView
         keyboardShouldPersistTaps="handled"
+        // iOS: the sheet bar is transparent (app layout) and the automatic
+        // inset does not reach a ScrollView in a sheet. Offset by its height.
+        contentInsetAdjustmentBehavior="never"
+        scrollIndicatorInsets={{ top: isIOS ? headerHeight : 0 }}
         contentContainerStyle={{
+          paddingTop: isIOS ? headerHeight : 0,
           paddingHorizontal: 16,
           paddingBottom: insets.bottom + 32,
         }}
