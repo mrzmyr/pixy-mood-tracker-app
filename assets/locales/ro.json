@@ -551,6 +551,7 @@
   "log_reminder_question": "Memento zilnic",
   "log_sleep_disable": "Nu îmi urmăresc somnul",
   "log_sleep_question": "Cum ai dormit?",
+  "log_sleep_skip": "Omite",
   "log_summary_and": " și ",
   "log_summary_check_in": "Înregistrarea nr. {{count}} de azi. Scurt și simplu.",
   "log_summary_felt": "Emoțiile tale: {{emotions}}.",

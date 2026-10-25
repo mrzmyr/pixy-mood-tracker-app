@@ -551,6 +551,7 @@
   "log_reminder_question": "Codzienne przypomnienie",
   "log_sleep_disable": "Nie śledzę swojego snu",
   "log_sleep_question": "Jak ci się spało?",
+  "log_sleep_skip": "Pomiń",
   "log_summary_and": " i ",
   "log_summary_check_in": "Wpis nr {{count}} dzisiaj. Krótko i na temat.",
   "log_summary_felt": "Twoje emocje: {{emotions}}.",

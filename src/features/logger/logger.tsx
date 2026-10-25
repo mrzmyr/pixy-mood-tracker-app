@@ -305,7 +305,7 @@ const LoggerSlides = ({
       key: "sleep",
       slide: (
         <SlideSleep
-          onSelect={next}
+          onNext={next}
           onDisableStep={() => disableStep("sleep")}
           showDisable={showDisable}
         />

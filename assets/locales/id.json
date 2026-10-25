@@ -551,6 +551,7 @@
   "log_reminder_question": "Pengingat Harian",
   "log_sleep_disable": "Saya tidak melacak tidur saya",
   "log_sleep_question": "Bagaimana tidurmu?",
+  "log_sleep_skip": "Lewati",
   "log_summary_and": " dan ",
   "log_summary_check_in": "Check-in ke-{{count}} hari ini. Singkat dan manis.",
   "log_summary_felt": "Perasaanmu: {{emotions}}.",

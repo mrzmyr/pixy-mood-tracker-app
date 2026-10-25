@@ -551,6 +551,7 @@
   "log_reminder_question": "Ежедневное напоминание",
   "log_sleep_disable": "я не отслеживаю свой сон",
   "log_sleep_question": "Как спалось?",
+  "log_sleep_skip": "Пропустить",
   "log_summary_and": " и ",
   "log_summary_check_in": "Запись № {{count}} за сегодня. Коротко и ясно.",
   "log_summary_felt": "Ваши чувства: {{emotions}}.",

@@ -551,6 +551,7 @@
   "log_reminder_question": "Günlük hatırlatma",
   "log_sleep_disable": "uykumu takip etmiyorum",
   "log_sleep_question": "Nasıl uyudun?",
+  "log_sleep_skip": "Atla",
   "log_summary_and": " ve ",
   "log_summary_check_in": "Bugünkü {{count}}. kaydın. Kısa ve öz.",
   "log_summary_felt": "Duyguların: {{emotions}}.",

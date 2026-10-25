@@ -551,6 +551,7 @@
   "log_reminder_question": "Nhắc nhở hàng ngày",
   "log_sleep_disable": "Tôi không theo dõi giấc ngủ của mình",
   "log_sleep_question": "Bạn đã ngủ như thế nào?",
+  "log_sleep_skip": "Bỏ qua",
   "log_summary_and": " và ",
   "log_summary_check_in": "Lần ghi thứ {{count}} hôm nay. Ngắn gọn và dễ thương.",
   "log_summary_felt": "Cảm xúc của bạn: {{emotions}}.",

@@ -551,6 +551,7 @@
   "log_reminder_question": "Daglig påminnelse",
   "log_sleep_disable": "Jag spårar inte min sömn",
   "log_sleep_question": "Hur sov du?",
+  "log_sleep_skip": "Hoppa över",
   "log_summary_and": " och ",
   "log_summary_check_in": "Incheckning nr {{count}} i dag. Kort och gott.",
   "log_summary_felt": "Dina känslor: {{emotions}}.",

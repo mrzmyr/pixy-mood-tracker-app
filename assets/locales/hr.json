@@ -551,6 +551,7 @@
   "log_reminder_question": "Dnevni podsjetnik",
   "log_sleep_disable": "Ne pratim svoje spavanje",
   "log_sleep_question": "Kako si spavao?",
+  "log_sleep_skip": "Preskoči",
   "log_summary_and": " i ",
   "log_summary_check_in": "Današnji unos br. {{count}}. Kratko i jasno.",
   "log_summary_felt": "Tvoji osjećaji: {{emotions}}.",

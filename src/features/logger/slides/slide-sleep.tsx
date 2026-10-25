@@ -14,15 +14,16 @@ import { SlideSleepButton } from "./slide-sleep-button";
 const SLEEP_QUALITIES = [...SLEEP_QUALITY_KEYS].reverse();
 
 /**
- * Sleep quality slide. Picking a quality calls `onSelect`; picking the
- * selected quality again clears it and stays on the slide.
+ * Sleep quality slide. Picking a quality calls `onNext`; picking the
+ * selected quality again clears it and stays on the slide. Skip clears the
+ * quality for this entry only and calls `onNext`; the step stays on.
  */
 export const SlideSleep = ({
-  onSelect,
+  onNext,
   onDisableStep,
   showDisable,
 }: {
-  onSelect: () => void;
+  onNext: () => void;
   onDisableStep: () => void;
   showDisable: boolean;
 }) => {
@@ -65,7 +66,7 @@ export const SlideSleep = ({
               setSleepQuality(key);
               // Moving the carousel in the same press as the draft update
               // leaves it on this slide. Advance on the next frame.
-              requestAnimationFrame(onSelect);
+              requestAnimationFrame(onNext);
             }}
           />
         ))}
@@ -102,6 +103,17 @@ export const SlideSleep = ({
         </Text>
       </View>
       <Footer>
+        <LinkButton
+          type="secondary"
+          onPress={() => {
+            setSleepQuality(null);
+            requestAnimationFrame(onNext);
+          }}
+          style={{ fontWeight: "400", minHeight: 44 }}
+          testID="sleep-skip"
+        >
+          {t("log_sleep_skip")}
+        </LinkButton>
         {showDisable && (
           <LinkButton
             type="secondary"
