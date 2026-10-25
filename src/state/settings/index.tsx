@@ -33,13 +33,14 @@ const SCALE_TYPES = [
 
 /**
  * Calendar screen layout: `calendar` shows month grids, `timeline` a list of
- * entry cards, `map` the places of entries. Read through `useCalendarLayout`,
- * which applies the `calendar-timeline` and `calendar-map` flags.
+ * entry cards. Read through `useCalendarLayout`, which applies the
+ * `calendar-timeline` flag. Unknown stored values, like `map` from older
+ * versions, read as `calendar`.
  */
-export type CalendarLayout = "calendar" | "timeline" | "map";
+export type CalendarLayout = "calendar" | "timeline";
 
 const isCalendarLayout = (value: unknown): value is CalendarLayout =>
-  value === "calendar" || value === "timeline" || value === "map";
+  value === "calendar" || value === "timeline";
 
 /**
  * Persisted user settings.

@@ -37,7 +37,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - Feature flags load only with consent ([development.md](docs/development.md#feature-flags))
 - People ([spec](docs/specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`, `people:people_reordered` (`people_count`, `method`: `drag` or `accessibility_action`). Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
 - Location ([development.md](docs/development.md#location)): `settings:location_toggled` (`enabled`). `logger:log_saved` adds `has_location`. Never coordinates or place names
-- Calendar layout menu (Calendar, Timeline, Map): `calendar:layout_changed` with `layout`
+- Calendar layout menu (Calendar, Timeline): `calendar:layout_changed` with `layout`
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](src/features/review))
   - Fires when a good moment requests the system prompt. Max 3 per 365 days, 120 days apart, 1 per app version
@@ -125,6 +125,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
 - `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
+- `calendar:layout_changed` `layout` and `calendar:day_opened` `source`: value `map` no longer sent after `v1.102.0`. Calendar map layout (flag `calendar-map`) removed
 
 **Removed events**
 

@@ -161,7 +161,7 @@
   S.impact = () => `${statusbar()}<div style="display:flex;align-items:center;padding:0 16px"><span class="rb">${svg.back}</span><b style="flex:1;text-align:center;font-size:17px;margin-right:42px">Insights</b></div>
     <div style="padding:16px 16px 0;display:flex;flex-direction:column;gap:14px">${CARDS.combos()}</div>`;
 
-  // Entry card like the real timeline / map card
+  // Entry card like the real timeline card
   const entryCard = (o) => `<div class="card" style="padding:12px 12px 10px">${o.photos ? `<div style="display:flex;gap:6px;margin-bottom:10px;overflow:hidden">${o.photos.map((p) => o.keepAspect ? `<img src="photos/${p}" style="height:${o.ph || 112}px;width:auto;flex:0 0 auto;border-radius:12px;display:block">` : `<div style="flex:1;height:${o.ph || 112}px;border-radius:12px;background:url(photos/${p}) center/cover"></div>`).join('')}</div>` : ''}
     ${o.note ? `<div style="font-size:17px;margin:0 2px 10px">${o.note}</div>` : ''}<div>${o.emotions.map(echip).join('')}${(o.tags || []).map(([t, c]) => `<span class="chip"><i class="dot" style="background:${c}"></i>${t}</span>`).join('')}${(o.people || []).map(([n, img]) => person(n, img)).join('')}</div>
     ${o.place ? `<div style="display:flex;gap:6px;align-items:center;font-size:13px;color:#555;margin:2px 2px 8px">${svg.pinS}${o.place}</div>` : ''}</div>`;
