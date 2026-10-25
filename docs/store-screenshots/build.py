@@ -1,40 +1,10 @@
 import time
 """Pixy store screenshots, sky identity. Output: index.html.
 App UI from appscreens.js (+ emotion-icons.js, real Hugeicons shapes). Serve folder over http.
-Export one screen at store size: index.html?export=ios&n=1 (see export.sh)."""
-import json, math, os
+Export one screen at store size: index.html?export=apple&n=1 or ?export=play&n=1 (see export.sh)."""
+import os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-listings = json.load(open(os.path.join(HERE, "logos", "listings.json")))
-NAMES = {"alternativeto.svg": "AlternativeTo", "github.svg": "GitHub", "apkpure.webp": "APKPure", "moodtrackers-org.png": "moodtrackers.org", "medevel.png": "MEDevel"}
-ok = {l["logo"] for l in listings if l.get("confirmed") and l.get("logo")}
-LOGOS = "".join(f'<span class="lg lgtxt"><img src="logos/{f}" alt="">{n}</span>' for f, n in NAMES.items() if f in ok and f in ("alternativeto.svg", "moodtrackers-org.png", "medevel.png"))
-
-
-def laurel(flip=False):
-    """Laurel branch: thin curved stem, paired almond leaves shrinking to the tip."""
-    import math
-    def stem(t):  # quadratic bezier from bottom (40,94) via (2,58) to top (24,6)
-        x = (1 - t) ** 2 * 40 + 2 * (1 - t) * t * 2 + t * t * 24
-        y = (1 - t) ** 2 * 94 + 2 * (1 - t) * t * 58 + t * t * 6
-        dx = 2 * (1 - t) * (2 - 40) + 2 * t * (24 - 2)
-        dy = 2 * (1 - t) * (58 - 94) + 2 * t * (6 - 58)
-        return x, y, math.degrees(math.atan2(dy, dx))
-    leaf = "M0 0 C 6.5 -4 6.5 -14 0 -19 C -6.5 -14 -6.5 -4 0 0 Z"
-    parts = ['<path d="M40 94 Q2 58 24 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>']
-    n = 6
-    for i in range(n):
-        t = 0.08 + i * (0.86 / (n - 1))
-        x, y, ang = stem(t)
-        s = 1.0 - i * 0.08
-        for side in (-1, 1):
-            rot = ang + 90 + side * 48
-            parts.append(f'<path d="{leaf}" transform="translate({x:.2f} {y:.2f}) rotate({rot:.1f}) scale({s:.2f})"/>')
-    x, y, ang = stem(1.0)
-    parts.append(f'<path d="{leaf}" transform="translate({x:.2f} {y:.2f}) rotate({ang + 90:.1f}) scale(0.8)"/>')
-    tf = ' transform="scale(-1,1) translate(-48,0)"' if flip else ""
-    return f'<svg width="44" height="82" viewBox="-10 -12 64 116" fill="#fff" shape-rendering="geometricPrecision"><g{tf}>{"".join(parts)}</g></svg>'
-
 
 
 CSS = r"""
@@ -138,7 +108,6 @@ radial-gradient(1.4px 1.4px at 18% 10%,#fff,transparent),radial-gradient(1px 1px
 .zf img{width:58px;height:58px;border-radius:50%;object-fit:cover;padding:3px;border:2.5px solid #dedede;box-sizing:content-box}
 .zf.on img{border-color:#0a7aff}.zf.on b{font-weight:600}.zf b{font-weight:500}
 .android-set .zf{font-family:Roboto,system-ui}
-.android-set .zoom:not(.faces){top:466px !important}
 
 /* scrawl feedback round 2 */
 .ps .fab{display:none !important}
@@ -220,52 +189,102 @@ def pop(key, left, top, rot, on=False):
     return f'<div class="pop{" on" if on else ""}" data-emo="{key}" style="{_x(left)};top:{top}px;transform:rotate({rot}deg)"></div>'
 
 
-SLOTS = [
-    ("<b>1 · Proof.</b> Left-aligned headline, downloads + rating row, calendar phone, review card over the phone, listed on at the bottom.", None, "proof", f"""
- <div class="k" style="align-self:flex-start">mood journal</div>
- <h4 style="text-align:left;align-self:flex-start;white-space:normal">Understand what makes you feel that way.</h4>
- <div class="stats"><div class="award">{laurel()}<div class="mid"><div class="rt"><span class="star">★★★★★</span></div><b>10,000+ downloads</b></div>{laurel(True)}</div></div>
- {phone('calendar', 280)}
- <div class="pfade"></div>
- <div class="qcard">“I am a mental health counselor and<br><b>I love suggesting to my clients to use this for reflection.</b>”<small><img src="photos/p-jenna-gray.svg" width="20" height="20" style="border-radius:50%">Google Play User</small></div>
- <div class="lbar"><div class="lo2">Listed on</div><div class="logos2">{LOGOS}</div></div>"""),
-    ("<b>2 · Mood.</b> Logger mood slide behind, calendar in front and higher.", None, "", f"""
- <h4>Mood in<br>Pixels</h4><div class="sub">Your days turn into colors.</div>
- {phone('mood', 186, 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;')}
- {phone('calendar', 150, 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;')}"""),
-    ("<b>3 · Emotions.</b> Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.", None, "", f"""
- <h4>Name what<br>you feel.</h4><div class="sub">161 emotions, each explained.</div>
- {phone('emotions', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
- <div class="zoom" style="left:22px;right:22px;top:500px"><span class="zc on" data-emo="calm"></span><span class="zc on" data-emo="hopeful"></span><span class="zc" data-emo="grateful"></span><span class="zc" data-emo="anxious"></span></div>"""),
-    ("<b>4 · Tags.</b> Check-in tags, flat list (no categories), gray bg; popular tags popped out in gray cards.", None, "", f"""
- <h4>Tag what<br>matters</h4><div class="sub">Track what fills your days.</div>
- {phone('tags', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}
- <div class="zoom" style="left:22px;right:22px;top:500px"><span class="zc on"><i style="background:#22c55e"></i>Sport</span><span class="zc on"><i style="background:#f59e0b"></i>Hyperfocus</span><span class="zc on"><i style="background:#8b5cf6"></i>Took meds</span><span class="zc on"><i style="background:#3b82f6"></i>Meetings</span></div>"""),
-    ("<b>5 · Year.</b> Year Report: Year in Pixels.", None, "", f"""
- <h4>Your year<br>in pixels</h4><div class="sub">See every day of the year at a glance.</div>
- {phone('year', 156, 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;')}"""),
-    ("<b>6 · Themes.</b> Calendar in RdYG (light) and RdYlGn-old (dark), the non-default scales in Settings > Colors.", None, "", f"""
- <h4>Make it<br>your own</h4><div class="sub">Color scales in light and dark mode.</div>
- {phone('calendar', 186, 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;', 'rdyg')}
- {phone('calendar', 150, 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;', 'rdylgnOld,dark')}"""),
-    ("<b>7 · Privacy.</b> Black, no lock icon, list mid-screen, on-device box at the bottom.", ("flag", "Face ID: flag app-lock"), "dark", f"""
- <h4 style="align-self:flex-start;text-align:left">We care about<br>your privacy.</h4><div class="sub" style="align-self:flex-start;text-align:left;color:#fff">We know it's hard to trust, but we truly care about your privacy.</div>
- <div class="plist" style="margin-top:auto;margin-bottom:auto"><div>{CK}Stored on Your Device Only</div><div>{CK}No Account, No Sign-Up</div><div>{CK}No Ads</div><div>{CK}Export Your Data Anytime</div><div>{CK}Open Source</div><div class="soon">{CK}Supporter Plan Coming Soon</div></div>"""),
-]
+# ---- Per-store sets ----
+# One frame library, separate copy and order per store. Rules for both sets:
+# only features with status `available` in docs/app-facts.json; no price or "free",
+# ratings, download counts, testimonials, awards, other app names, or time-sensitive text;
+# never claim zero data collection (anonymous analytics + crash reports exist).
+CHECKS = lambda items: '<div class="zoom checks" style="top:{z}px">' + "".join(f'<div>{CK}{t}</div>' for t in items) + '</div>'
+TILT_L = 'left:24%;transform:translateX(-50%) rotate(-5deg) scale(.85);transform-origin:50% 0;'
+TILT_R = 'left:76%;transform:translateX(-50%) rotate(5deg) scale(.85);transform-origin:50% 0;z-index:2;'
+FIT = 'transform:translateX(-50%) scale(var(--fit));transform-origin:50% 0;'
 
-body = "".join(
-    f'<div class="slot"><div class="scr {cls}">{h}</div><div class="lab">{lab.split("</b>")[0]}</b></div></div>'
-    for lab, t, cls, h in SLOTS)
+# Frame library: id -> (label, html with {t} phone top and {z} overlay top)
+FRAMES = {
+    "calendar": ("Pixel calendar. Mood logger behind, calendar in front and higher.",
+                 phone('mood', '{t2}', TILT_L) + phone('calendar', '{t}', TILT_R)),
+    "year": ("Year Report: Year in Pixels.", phone('year', '{t}', FIT)),
+    "emotions": ("Logger emotions slide, Calm, Hopeful, Grateful, Anxious popped out.",
+                 phone('emotions', '{t}', FIT) + '<div class="zoom" style="top:{z}px"><span class="zc on" data-emo="calm"></span><span class="zc on" data-emo="hopeful"></span><span class="zc" data-emo="grateful"></span><span class="zc" data-emo="anxious"></span></div>'),
+    "stats": ("Statistics highlights: mood average, mood chart, most felt emotions.",
+              phone('stats', '{t}', FIT)),
+    "tags": ("Note slide behind, tags slide in front, own tags popped out.",
+             phone('note', '{t2}', TILT_L) + phone('tags', '{t}', TILT_R)
+             + '<div class="zoom" style="top:{z}px"><span class="zc on"><i style="background:#22c55e"></i>Sport</span><span class="zc on"><i style="background:#f59e0b"></i>Hyperfocus</span><span class="zc on"><i style="background:#8b5cf6"></i>Took meds</span><span class="zc on"><i style="background:#3b82f6"></i>Meetings</span></div>'),
+    "sleep": ("Sleep slide, sleep quality chart popped out.",
+              phone('sleep', '{t}', FIT) + '<div class="popcard" data-card="sleepchart" style="left:50%;top:{z}px;transform:translateX(-50%) scale(.7);transform-origin:50% 0"></div>'),
+    "data": ("Settings > Data: import, JSON/CSV export, delete. Checklist card.", phone('data', '{t}', FIT)),
+    "switch": ("Settings > Data with a Pixy Switch card.", phone('data', '{t}', FIT)),
+    "noaccount": ("Mood logger right after opening the app. Checklist card.", phone('mood', '{t}', FIT)),
+}
+
+STORES = {
+    # App Store: first 3 frames show in search results (no app preview), so they carry the core value.
+    "apple": {
+        "title": "iPhone · App Store", "cls": "", "t": 156, "z": 500,
+        "frames": [
+            ("calendar", {"h": "Your days,<br>in pixels.", "sub": "Log a mood in seconds.", "t": 150}),
+            ("year", {"h": "Your whole year<br>at a glance", "sub": "One pixel for every day."}),
+            ("emotions", {"h": "72 emotions,<br>each explained.", "sub": "Name what you feel."}),
+            ("stats", {"h": "See your<br>patterns", "sub": "Mood trends and reports."}),
+            ("tags", {"h": "Tag what<br>matters", "sub": "Add tags and a note.", "t": 150}),
+            ("sleep", {"h": "Track your<br>sleep", "sub": "Rate each night in a tap.", "z": 430}),
+            ("data", {"h": "Entries stay<br>on your phone.", "sub": "No account. Export anytime.", "z": 440,
+                      "extra": CHECKS(["No account, no sign-up", "Export as JSON or CSV", "Delete your data anytime", "No ads", "Open source"])}),
+        ],
+    },
+    # Google Play: kicker + longer sub; captions stay under 20% of the image (Play screenshot guidance).
+    "play": {
+        "title": "Android · Google Play", "cls": "android-set", "t": 184, "z": 400,
+        "frames": [
+            ("calendar", {"k": "Mood journal", "h": "Your days,<br>in pixels.", "sub": "Rate your day in seconds. Each day<br>becomes one colored square.", "t": 178}),
+            ("year", {"k": "Year in Pixels", "h": "Your whole year<br>at a glance", "sub": "One pixel per day, a full year<br>on one screen."}),
+            ("emotions", {"k": "Emotions", "h": "Name what<br>you feel.", "sub": "72 emotions, each with a short<br>explanation."}),
+            ("tags", {"k": "Tags and notes", "h": "Tag what<br>matters", "sub": "Create your own tags. Add a note<br>to any entry.", "t": 178}),
+            ("stats", {"k": "Statistics", "h": "Spot your<br>patterns", "sub": "Mood trends, most felt emotions,<br>month and year reports."}),
+            ("sleep", {"k": "Sleep", "h": "Track how<br>you sleep", "sub": "Rate each night and follow the<br>trend in your statistics.", "z": 360}),
+            ("switch", {"k": "Import and export", "h": "Bring your<br>old entries", "sub": "Pixy Switch converts exports from<br>21 mood and journal apps.", "z": 346,
+                        "extra": '<div class="zoom note" style="top:{z}px"><div class="zl">Pixy Switch</div>Convert the export from your old app in the browser. Then tap <b>Import</b> in Pixy.</div>'}),
+            ("noaccount", {"k": "No account", "h": "No account.<br>No sign-up.", "sub": "Open Pixy and log your first day.<br>Entries stay on your phone.", "z": 372,
+                           "extra": CHECKS(["Export as JSON or CSV", "Import on a new phone", "Delete your data anytime", "Open source"])}),
+        ],
+    },
+}
 
 
-def to_android(html):
-    """Android variant of the set: Play rating, biometric lock, no iOS widget."""
-    out = html
-    out = out.replace('Face ID Lock', 'Fingerprint &amp; Face Unlock').replace('Face ID: flag app-lock', 'Biometric lock: flag app-lock')
-    return out
+if sys.argv[1:2] == ["--frames"]:  # export.sh: frame names in upload order
+    print(" ".join(f for f, _ in STORES[sys.argv[2]]["frames"]))
+    sys.exit()
 
 
-android_body = to_android(body)
+def caption(c):
+    k = f'<div class="k">{c["k"]}</div>' if c.get("k") else ""
+    return f'{k}<h4 class="{c.get("hc", "")}">{c["h"]}</h4><div class="sub">{c["sub"]}</div>'
+
+
+def store_set(key):
+    s = STORES[key]
+    slots = []
+    for n, (fid, c) in enumerate(s["frames"], 1):
+        lab, html = FRAMES[fid]
+        t, z = c.get("t", s["t"]), c.get("z", s["z"])
+        html = (html + c.get("extra", "")).replace("{t2}", str(t + 36)).replace("{t}", str(t)).replace("{z}", str(z))
+        slots.append(f'<div class="slot" data-name="{fid}"><div class="scr">{caption(c)}{html}</div><div class="lab"><b>{n} · {fid}.</b> {lab}</div></div>')
+    return f'<div class="platform"><h2>{s["title"]}</h2></div><div class="set {s["cls"]}" data-store="{key}">{"".join(slots)}</div>'
+
+
+STORE_CSS = r"""
+/* Per-store sets: 6.9" iPhone (1320x2868) and Play phone 9:16 (1080x1920) */
+.set[data-store="apple"] .scr{height:651.82px}
+.set[data-store="play"] .scr{height:533.33px}
+.set .slot:nth-child(8) .scr{--sx:40%}
+.zoom.checks{display:block !important;padding:12px 16px 6px;width:256px !important;max-width:256px !important}
+.zoom.checks div{display:flex;align-items:center;gap:10px;font:600 15px -apple-system,system-ui;padding:0 0 9px}
+.zoom.checks svg{width:20px;height:20px;flex:0 0 20px}
+.zoom.note{display:block !important;width:256px !important;max-width:256px !important;font:400 15px/1.4 -apple-system,system-ui;padding:14px 16px}
+.android-set .zoom.checks div,.android-set .zoom.note{font-family:Roboto,system-ui}
+.android-set .scr h4{font-size:29px}
+"""
 
 # App Store creative assets (iOS 27+): product page header 21:9 and search results 3:2.
 # CSS px x4 = store px. Header 960x411.5 -> 3840x1646. Search 960x640 -> 3840x2560.
@@ -307,7 +326,7 @@ CREATIVE = f"""
  </div><div class="lab"><b>Product page header</b> 21:9, 3840x1646. Pixy icon + "Pixy Mood Journal" on top, phones pushed down. Calendar in front, mood logger and year in pixels behind, phones run off the bottom edge.</div></div>
  <div><div class="cv search" data-cv="search">
   <h4 class="ih" style="top:30px;font-size:68px">{PIXY_ICON}Mood Journal</h4>
-  <div class="sub" style="top:106px;font-size:28px;font-weight:500">Log how you feel. See what shapes it.</div>
+  <div class="sub" style="top:106px;font-size:28px;font-weight:500">Log how you feel. See your year in pixels.</div>
   {phone('mood', 232, 'left:17%;transform:translateX(-50%) rotate(-8deg) scale(1.3);z-index:1;')}
   {phone('emotions', 232, 'left:83%;transform:translateX(-50%) rotate(8deg) scale(1.3);z-index:1;')}
   {phone('calendar', 194, 'transform:translateX(-50%) scale(1.5);z-index:2;')}
@@ -315,14 +334,13 @@ CREATIVE = f"""
  <div><div class="cv feature android-set" data-cv="feature">
   {pixels(FPX)}
   <div class="brand fb">{PIXY_ICON}<b>Pixy</b><span>Mood Journal</span></div>
-  <h4 class="fh">Understand what makes you feel that way.</h4>
+  <h4 class="fh">Your days,<br>in pixels.</h4>
   {phone('calendar', 40, 'left:auto;right:140px;transform:rotate(-6deg) scale(1.35);z-index:2;')}
   {phone('year', 96, 'left:auto;right:-190px;transform:rotate(7deg) scale(1.25);z-index:1;')}
- </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Pixy Mood Journal lockup + proof headline left, calendar and year in pixels right.</div></div>
+ </div><div class="lab"><b>Google Play feature graphic</b> 1024x500 (rendered 2x, downsampled). Pixy Mood Journal lockup + headline left (no price, rating, or download claims), calendar and year in pixels right.</div></div>
 </div>"""
-body = body.replace('Google Play User', 'Pixy user')
 
-# Export mode: index.html?export=ios|android&n=1..7 keeps one screen at 0,0 for headless capture (export.sh).
+# Export mode: index.html?export=apple|play&n=1..8 keeps one screen at 0,0 for headless capture (export.sh).
 EXPORT = """<script>
 (function () {{
   const q = new URLSearchParams(location.search), os = q.get('export'); if (!os) return;
@@ -337,14 +355,19 @@ EXPORT = """<script>
     return;
   }
   // Hide everything except one slot; keep its set and position so set and slot CSS still apply.
-  const set = document.querySelectorAll('.set')[os === 'android' ? 1 : 0], n = +q.get('n') || 1;
+  const set = document.querySelector('.set[data-store="' + os + '"]'), n = +q.get('n') || 1;
   document.querySelectorAll('main > *').forEach((el) => { if (el !== set) el.style.display = 'none'; });
   set.querySelectorAll('.slot').forEach((el, i) => { if (i !== n - 1) el.style.display = 'none'; });
   set.querySelectorAll('.lab').forEach((el) => { el.style.display = 'none'; });
   const scr = set.querySelectorAll('.slot')[n - 1].querySelector('.scr');
   document.body.style.margin = '0'; document.querySelector('main').style.padding = '0';
   set.style.padding = '0'; set.style.overflow = 'visible';
-  scr.style.borderRadius = '0'; scr.style.boxShadow = 'none'; if (os === 'ios') scr.style.height = '650.24px';
+  scr.style.borderRadius = '0'; scr.style.boxShadow = 'none';
+  // ?measure=1: caption text area as share of the image (Play: taglines max 20%), read by export.sh.
+  if (q.get('measure')) addEventListener('load', () => setTimeout(() => {
+    let a = 0; scr.querySelectorAll(':scope > .k, :scope > h4, :scope > .sub').forEach((el) => { const r = document.createRange(); r.selectNodeContents(el); for (const b of r.getClientRects()) a += b.width * b.height; });
+    const m = document.createElement('meta'); m.name = 'caption-share'; m.content = (a / (scr.offsetWidth * scr.offsetHeight)).toFixed(3); document.head.appendChild(m);
+  }, 500));
 }})();
 </script>""".replace("{{", "{").replace("}}", "}")
 
@@ -357,13 +380,11 @@ if (!location.search.includes("export=")) createRoot(document.getElementById("ag
 </script>""".replace("{{", "{").replace("}}", "}")
 
 page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Pixy store screenshots (sky)</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"><style>{CSS}{SKY_CSS}{CREATIVE_CSS}</style></head><body><main>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"><style>{CSS}{SKY_CSS}{CREATIVE_CSS}{STORE_CSS}</style></head><body><main>
 <h1>Pixy store screenshots</h1>
-<p class="muted">7 screens for the App Store and Google Play. Spec: <a href="app-screens.md">app-screens.md</a>. Rebuild: <code>python3 build.py</code>, export PNGs: <code>./export.sh</code>, then serve this folder (<code>python3 -m http.server</code>).</p>
-<div class="platform"><h2>iPhone · App Store</h2></div>
-<div class="set">{body}</div>
-<div class="platform"><h2>Android · Google Play</h2></div>
-<div class="set android-set">{android_body}</div>
+<p class="muted">Separate sets for the App Store and Google Play (copy and order in <code>STORES</code> in build.py). Spec: <a href="app-screens.md">app-screens.md</a>. Rebuild: <code>python3 build.py</code>, export PNGs: <code>./export.sh</code>, then serve this folder (<code>python3 -m http.server</code>).</p>
+{store_set("apple")}
+{store_set("play")}
 <div class="platform"><h2>App Store · header and search results</h2></div>{CREATIVE}</main>
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script><script src="emotion-icons.js?v={int(time.time())}"></script><script src="appscreens.js?v={int(time.time())}"></script><script>
 document.head.insertAdjacentHTML('beforeend','<style>'+APP.css+'</style>');
@@ -372,5 +393,4 @@ document.querySelectorAll('[data-card]').forEach(el=>el.innerHTML='<div class="p
 document.querySelectorAll('[data-emo]').forEach(el=>el.innerHTML=APP.emo(el.dataset.emo,24)+APP.label(el.dataset.emo));APP.icons();
 </script>{EXPORT}{AGENTATION}</body></html>"""
 open(os.path.join(HERE, "index.html"), "w").write(page)
-open(os.path.join(HERE, "photos", "p-jenna-gray.svg"), "w").write('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="20" fill="#e4e4e7"/><text x="20" y="26" font-family="system-ui" font-size="17" font-weight="700" text-anchor="middle" fill="#52525b">J</text></svg>')
 print("wrote index.html")
