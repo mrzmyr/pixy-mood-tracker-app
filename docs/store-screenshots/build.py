@@ -232,7 +232,7 @@ def laurel(flip=False):
 # App Store only: Google Play bans ratings, testimonials, and awards in screenshots.
 LISTED = (("moodtrackers-org.png", "moodtrackers.org"), ("alternativeto.svg", "AlternativeTo"), ("medevel.png", "MEDevel"))
 PROOF = (
-    f'<div class="stats"><div class="award">{laurel()}<div class="mid"><div class="rt"><span class="star">★★★★★</span></div><b>4.9 ★ on the App Store</b></div>{laurel(True)}</div></div>'
+    f'<div class="stats"><div class="award">{laurel()}<div class="mid"><div class="rt"><span class="star">★★★★★</span></div><b>4.9 on the App Store</b></div>{laurel(True)}</div></div>'
     + phone('calendar', '{t}')
     + '<div class="pfade"></div>'
     + '<div class="qcard">“No nonsense, clean and easy to use app for tracking mood.<br><b>I use it every day.</b>”<small><span class="star">★★★★★</span>Review by the guy, App Store</small></div>'
