@@ -30,6 +30,25 @@ const reportHeaderOptions = {
 const modalOptions = { presentation: "modal" as const, headerShown: false };
 
 /**
+ * Quick check-in: iOS page sheet with a transparent native bar (Liquid Glass
+ * close and save on iOS 26, blur before). The screen sets its bar items.
+ * Android and web draw their header in the screen.
+ */
+const getQuickCheckInOptions = (headerTintColor: string) =>
+  Platform.OS === "ios"
+    ? {
+        presentation: "modal" as const,
+        headerShown: true,
+        headerTransparent: true,
+        headerShadowVisible: false,
+        headerTintColor,
+        ...(!HAS_FLOATING_HEADER && {
+          headerBlurEffect: "systemChromeMaterial" as const,
+        }),
+      }
+    : modalOptions;
+
+/**
  * iOS top-level screens: 34pt title that collapses into the inline title on
  * scroll. The screen's first child must be a ScrollView with
  * `contentInsetAdjustmentBehavior="automatic"`. Android and web keep the
@@ -189,7 +208,10 @@ const AppLayout = () => {
             }}
           />
           <Stack.Screen name="feedback" options={feedbackOptions} />
-          <Stack.Screen name="check-in/[id]" options={modalOptions} />
+          <Stack.Screen
+            name="check-in/[id]"
+            options={getQuickCheckInOptions(colors.text)}
+          />
           <Stack.Screen
             name="interventions/[id]"
             options={{ ...modalOptions, gestureEnabled: false }}
