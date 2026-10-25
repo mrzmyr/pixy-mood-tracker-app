@@ -30,6 +30,7 @@ const getCreateSteps = ({ isPhotosEnabled }: { isPhotosEnabled: boolean }) =>
     question: null,
     hasStep,
     hasSleepOnDay: false,
+    isSleepAutoFilled: false,
     reminderEnabled: true,
     itemsCount: 5,
     hasPeople: false,
@@ -101,6 +102,7 @@ describe("logger steps and the people flag", () => {
         question: null,
         hasStep: () => true,
         hasSleepOnDay: false,
+        isSleepAutoFilled: false,
         reminderEnabled: true,
         itemsCount: 5,
         hasPeople: false,
@@ -126,8 +128,10 @@ describe("logger steps and the people flag", () => {
 
 const getCreateStepsWithSleep = ({
   hasSleepOnDay,
+  isSleepAutoFilled = false,
 }: {
   hasSleepOnDay: boolean;
+  isSleepAutoFilled?: boolean;
 }) =>
   getAvailableStepsForCreate({
     question: null,
@@ -135,6 +139,7 @@ const getCreateStepsWithSleep = ({
     reminderEnabled: true,
     itemsCount: 5,
     hasSleepOnDay,
+    isSleepAutoFilled,
     hasPeople: false,
     isPhotosEnabled: false,
   });
@@ -153,6 +158,12 @@ describe("logger steps and sleep", () => {
       "rating",
       "emotions",
     ]);
+  });
+
+  test("create skips sleep while Apple Health fills it", () => {
+    expect(
+      getCreateStepsWithSleep({ hasSleepOnDay: false, isSleepAutoFilled: true })
+    ).toEqual(["rating", "emotions"]);
   });
 
   test("edit keeps the sleep step for an entry with sleep, also with the step off", () => {

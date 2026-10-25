@@ -6,9 +6,12 @@ import { SettingsProvider } from "@/state/settings";
 import { StepsScreen } from "../screens/steps";
 
 let mockIsPhotosEnabled = true;
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the photos flag comes from PostHog after consent; each test picks on or off.
+let mockIsHealthFlagOn = false;
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the photos and apple-health flags come from PostHog after consent; each test picks on or off.
 jest.mock("@/state/feature-flags", () => ({
-  useFeatureFlag: (flag: string) => flag === "photos" && mockIsPhotosEnabled,
+  useFeatureFlag: (flag: string) =>
+    (flag === "photos" && mockIsPhotosEnabled) ||
+    (flag === "apple-health" && mockIsHealthFlagOn),
 }));
 
 const renderSteps = () =>
@@ -31,6 +34,7 @@ const renderSteps = () =>
 describe("Settings > Check-in", () => {
   afterEach(() => {
     mockIsPhotosEnabled = true;
+    mockIsHealthFlagOn = false;
   });
 
   test("flag on: shows the Photos toggle, on for new installs", async () => {
@@ -59,4 +63,15 @@ describe("Settings > Check-in", () => {
     });
     expect(within(row).getByText("Tags")).toBeTruthy();
   });
+
+  test.each([true, false])(
+    "apple-health flag %s: Sleep opens its page instead of a switch",
+    async (isFlagOn) => {
+      mockIsHealthFlagOn = isFlagOn;
+      await renderSteps();
+
+      expect(screen.getByTestId("step-sleep")).toBeTruthy();
+      expect(screen.queryByTestId("step-sleep-enabled")).toBeNull();
+    }
+  );
 });
