@@ -26,7 +26,6 @@ import { isVoiceModeSupported } from "@/features/voice";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useFootNote } from "./foot-note";
 import { Timeline } from "./timeline";
-import { CalendarMap } from "./map";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import dayjs from "dayjs";
@@ -46,7 +45,7 @@ const CalendarScreenComponent = () => {
   const logState = useLogState();
   const filtersSheet = useCalendarFiltersSheet();
   const { layout } = useCalendarLayout();
-  // Timeline and map: no weekday row, no scroll to today.
+  // Timeline: no weekday row, no scroll to today.
   const isCalendar = layout === "calendar";
   const { text: footNote, onOverscroll: onFootNoteOverscroll } = useFootNote();
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
@@ -57,7 +56,7 @@ const CalendarScreenComponent = () => {
   const headerHeight = useContext(HeaderHeightContext) ?? 0;
   const [weekdayHeight, setWeekdayHeight] = useState(0);
   // A floating header overlaps the list, so the list starts below it. The
-  // timeline and the map have no weekday row.
+  // timeline has no weekday row.
   const topInset = HAS_FLOATING_HEADER
     ? headerHeight + (isCalendar ? weekdayHeight : 0)
     : 0;
@@ -132,12 +131,7 @@ const CalendarScreenComponent = () => {
     </View>
   ) : (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
-      {/* The map fills the screen, under the floating header. */}
-      {layout === "map" ? (
-        <CalendarMap />
-      ) : (
-        <Timeline header={filtersBody} topInset={topInset} />
-      )}
+      <Timeline header={filtersBody} topInset={topInset} />
     </View>
   );
 
@@ -166,8 +160,7 @@ const CalendarScreenComponent = () => {
       {content}
       {showFloatButton && (
         <CalendarFloatButton
-          // Newest entries sit at the timeline top, and the map does not
-          // scroll: both always show add.
+          // Newest entries sit at the timeline top: it always shows add.
           isAtBottom={!isCalendar || !isAwayFromToday}
           hasTodayEntry={hasTodayEntry}
           onScrollToBottom={() => {

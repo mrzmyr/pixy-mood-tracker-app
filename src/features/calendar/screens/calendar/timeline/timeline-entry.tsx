@@ -67,23 +67,19 @@ const withMore = (chips: ReactElement[]) =>
 const TimelineEntryComponent = ({
   item,
   onPress,
-  showPlace = true,
 }: {
   item: LogItem;
   onPress: (item: LogItem) => void;
-  /** Place preview tile. Off on the calendar map, which already shows it. */
-  showPlace?: boolean;
 }) => {
   const colors = useColors();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
   const { location } = item;
-  const placeTile = showPlace ? location : undefined;
   const photos = item.photos.slice(
     0,
-    placeTile === undefined ? MAX_TILES : MAX_TILES - 1
+    location === undefined ? MAX_TILES : MAX_TILES - 1
   );
-  const tileCount = photos.length + (placeTile === undefined ? 0 : 1);
+  const tileCount = photos.length + (location === undefined ? 0 : 1);
   const tileAspectRatio = tileCount === 1 ? SINGLE_TILE_ASPECT_RATIO : 1;
   // Only rendered chips are built; unknown keys and ids come from newer app
   // versions, broken imports, or deleted tags and people; skip them.
@@ -166,12 +162,9 @@ const TimelineEntryComponent = ({
               />
             </View>
           ))}
-          {placeTile !== undefined && (
+          {location !== undefined && (
             <View style={{ flex: 1 }}>
-              <PlacePreview
-                location={placeTile}
-                aspectRatio={tileAspectRatio}
-              />
+              <PlacePreview location={location} aspectRatio={tileAspectRatio} />
             </View>
           )}
         </View>
