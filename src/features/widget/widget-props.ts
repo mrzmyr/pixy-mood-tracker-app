@@ -44,9 +44,6 @@ export interface WidgetSchemeColors {
 
 /** Props every Pixy widget receives. */
 export interface WidgetBaseProps {
-  /** `false` when the feature flag is off: the widget shows `unavailableText`. */
-  isAvailable: boolean;
-  unavailableText: string;
   /** Deep link the whole widget opens, for example `pixy://calendar`. */
   url: string;
   title: string;

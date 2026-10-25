@@ -12,7 +12,6 @@ export const FEATURE_FLAGS = [
   "emotion-icons",
   "feature-flag-overrides",
   "interventions",
-  "ios-widget",
   "location",
   "more-tags",
   "people",
@@ -71,10 +70,6 @@ export const FEATURE_FLAG_DETAILS: Record<
   interventions: {
     description: "Exercises for matching emotions",
     location: "Check-in confirmation, Calendar footer",
-  },
-  "ios-widget": {
-    description: "iOS home screen widget",
-    location: "Settings > Widgets",
   },
   location: {
     description: "Place of the check-in",

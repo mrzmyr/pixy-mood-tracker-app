@@ -174,7 +174,7 @@ const renderState = async (analyticsEnabled: boolean) => {
       actionsDone: ONBOARDED,
     })
   );
-  return renderHook(() => useFeatureFlagState("ios-widget"), {
+  return renderHook(() => useFeatureFlagState("recaps"), {
     wrapper,
   });
 };
@@ -208,7 +208,7 @@ describe("feature flag state", () => {
     expect(hook.result.current).toBe("loading");
 
     await act(() => {
-      pending.resolve({ "ios-widget": true });
+      pending.resolve({ recaps: true });
     });
     expect(hook.result.current).toBe("on");
   });
@@ -238,7 +238,7 @@ describe("feature flag state", () => {
       expect(failed.result.current).toBe(true);
     });
 
-    mockReload.mockResolvedValue({ "ios-widget": false });
+    mockReload.mockResolvedValue({ recaps: false });
     const off = await renderLoadFailed();
     await waitFor(() => {
       expect(mockReload).toHaveBeenCalledTimes(2);

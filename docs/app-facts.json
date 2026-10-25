@@ -427,14 +427,14 @@
     {
       "id": "widgets",
       "label": "Home screen widgets",
-      "status": "flagged",
+      "status": "available",
       "group": "platforms",
-      "description": "iOS Home Screen widgets show the week, month, or year in pixels. Behind the ios-widget feature flag.",
+      "description": "iOS Home Screen widgets show the week, month, or year in pixels.",
+      "note": "Store version 1.95.2 hides widgets behind flag `ios-widget`. Source shows them to every iOS user from the first release after 1.95.2.",
       "competitorKey": "widgets",
       "since": "1.0.0",
       "evidence": [
-        "src/features/widget/use-is-widget-enabled.ts",
-        "src/state/feature-flags/keys.ts",
+        "src/features/widget/widget-sync.tsx",
         "src/features/widget/widgets"
       ]
     },
