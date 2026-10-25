@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { getEffect } from "../correlation";
 import { addDays, daysBetween, getDayRating } from "../days";
 import { indexDays } from "../day-index";
-import { firstCity } from "../cards/moments";
+import { emotionAgain, firstCity, tagBack } from "../cards/moments";
 import { getActiveTags } from "../cards/nudges";
 import { getHome, peopleOn } from "../cards/summaries";
 import { distanceKm } from "../places";
@@ -10,6 +10,7 @@ import { buildQuiz } from "./quiz";
 import { THRESHOLDS } from "../thresholds";
 import type { DateKey, RecapDay, RecapInput } from "../types";
 import type {
+  CameBackSlide,
   ComingUpSlide,
   CoverSlide,
   FirstCitySlide,
@@ -507,7 +508,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
   const quiz = buildQuiz(input, lightTags);
   // A people quiz and the people slide make one section: guess, then see.
   const isPeopleQuiz = quiz?.quiz === "people";
-  const slides = [
+  const slides: (StorySlide | null)[] = [
     cover(input),
     weekdayHabit(input, lightTags),
     madeOf(input),
@@ -520,6 +521,58 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     vsLast(input, lightTags),
     moments(input),
     comingUp(input),
+  ];
+  return [...slides, share(input, lightTags, slides)].filter(
+    (slide): slide is StorySlide => slide !== null
+  );
+};
+
+/** Emotions and tags back after a break, from the came-back card rules. */
+const cameBack = (input: RecapInput): CameBackSlide | null => {
+  const emotions = emotionAgain(input).flatMap((card) =>
+    card.type === "emotion-again"
+      ? [{ emotion: card.emotion, lastDate: card.lastDate }]
+      : []
+  );
+  const tags = tagBack(input).flatMap((card) =>
+    card.type === "tag-back"
+      ? [{ tagId: card.tagId, days: card.days, weeks: card.weeks }]
+      : []
+  );
+  return emotions.length + tags.length > 0
+    ? { type: "came-back", emotions, tags }
+    : null;
+};
+
+/** Weeks from the story week to today's week: 0 for the current week. */
+const weeksSince = (start: DateKey, today: DateKey) =>
+  Math.floor(daysBetween(start, today) / 7);
+
+/**
+ * Week story slides in deck order: cover, rhythm, quiz, people, what came
+ * back, a first city, and the closing card with the week. Each slot skips
+ * when its rule fails. `null` for other periods, weeks more than 2 weeks
+ * back or ahead, and weeks with fewer than 4 check-in days.
+ */
+export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
+  const age = weeksSince(input.period.start, input.today);
+  if (
+    input.period.kind !== "week" ||
+    age < 0 ||
+    age > THRESHOLDS.weekStoryMaxWeeksBack ||
+    input.days.length < THRESHOLDS.weekStoryMinCheckIns
+  ) {
+    return null;
+  }
+  const lightTags = lightTagIds(input);
+  const quiz = buildQuiz(input, lightTags);
+  const slides: (StorySlide | null)[] = [
+    cover(input),
+    madeOf(input),
+    quiz,
+    people(input),
+    cameBack(input),
+    firstCitySlide(input),
   ];
   return [...slides, share(input, lightTags, slides)].filter(
     (slide): slide is StorySlide => slide !== null

@@ -15,7 +15,7 @@ import { useFeatureFlag } from "@/state/feature-flags";
 import { FeedbackSheet } from "../components/feedback-sheet";
 import type { FeedbackReason } from "../feedback-reasons";
 import { getPeriod } from "../period";
-import { buildMonthStory } from "../story/deck";
+import { buildMonthStory, buildWeekStory } from "../story/deck";
 import { monthName } from "../story/format";
 import { SlideBackdrop, SlideContent } from "../story/slides";
 import { getSlideTheme } from "../story/slide-theme";
@@ -26,12 +26,12 @@ import type { PlayerSlide } from "../story/story-player";
 import type { StoryPhoto, StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
 import { t } from "@/lib/translation";
-import { ShareCard } from "../story/share-card";
+import { StoryFinale } from "../story/story-finale";
 import { StoryShareButton } from "../story/story-share-button";
 import { shareStoryCard } from "../story/share-image";
 import { Celebration } from "../story/celebration";
 import type { CelebrationKind, CelebrationOrigin } from "../story/celebration";
-import { SlideHeader, useDayColors } from "../story/parts";
+import { useDayColors } from "../story/parts";
 import { QuizContent } from "../story/quiz-content";
 import type { QuizResult } from "../story/quiz-content";
 import type { QuizSlide } from "../story/quiz";
@@ -51,16 +51,27 @@ const RecapStory = () => {
   const feedbackChannel = useFeedback();
   const haptics = useHaptics();
   const weekLocale = useWeekLocale();
-  const params = useLocalSearchParams<{ date?: string; source?: string }>();
+  const params = useLocalSearchParams<{
+    date?: string;
+    source?: string;
+    kind?: string;
+  }>();
+  const kind = params.kind === "week" ? "week" : "month";
   const date = dayjs(params.date).isValid()
     ? dayjs(params.date).format("YYYY-MM-DD")
-    : dayjs().subtract(1, "month").format("YYYY-MM-DD");
+    : dayjs().subtract(1, kind).format("YYYY-MM-DD");
   const source = isSource(params.source) ? params.source : "recaps";
-  const period = getPeriod("month", date, weekLocale);
+  const period = getPeriod(kind, date, weekLocale);
   const input = useRecapInput(period);
   const { tags } = useTagsState();
   const { people } = usePeopleState();
-  const story = buildMonthStory(input);
+  const story =
+    kind === "week" ? buildWeekStory(input) : buildMonthStory(input);
+  // "My September", or "My week" for a week story.
+  const shareTitle =
+    kind === "week"
+      ? t("recaps_story_share_title_week")
+      : t("recaps_story_share_title", { month: monthName(period.start) });
   const [answers, setAnswers] = useState<ReadonlyMap<number, boolean>>(
     new Map()
   );
@@ -94,7 +105,7 @@ const RecapStory = () => {
   const onOpen = useEffectEvent(() => {
     if (story) {
       analytics.track("recaps:story_opened", {
-        period: "month",
+        period: kind,
         source,
         slides_count: count,
       });
@@ -118,7 +129,7 @@ const RecapStory = () => {
       <Redirect
         href={{
           pathname: "/recaps/[kind]/[date]",
-          params: { kind: "month", date: period.start },
+          params: { kind, date: period.start },
         }}
       />
     );
@@ -206,9 +217,7 @@ const RecapStory = () => {
     setIsCapturing(true);
     void shareStoryCard({
       view: isShareCard ? shareCard.current : slideView.current,
-      dialogTitle: t("recaps_story_share_title", {
-        month: monthName(period.start),
-      }),
+      dialogTitle: shareTitle,
       onCaptured: () => setIsCapturing(false),
       onShared: () =>
         analytics.track("recaps:story_shared", {
@@ -233,28 +242,18 @@ const RecapStory = () => {
       );
     }
     if (slide.type === "share") {
-      const theme = ctx.isDark ? "night" : "paper";
       return (
-        <View style={{ flex: 1, justifyContent: "center", gap: 20 }}>
-          <SlideHeader
-            theme={theme}
-            eyebrow={t("recaps_story_finale_eyebrow", {
-              month: monthName(period.start),
-            })}
-            title={t("recaps_story_finale_title")}
-          />
-          <ShareCard
-            ctx={ctx}
-            photos={pickPhotos(slide.photos)}
-            facts={slide.facts}
-            cardRef={shareCard}
-            onShuffle={
-              slide.photos.length > 3
-                ? () => setShuffles((current) => current + 1)
-                : null
-            }
-          />
-        </View>
+        <StoryFinale
+          ctx={ctx}
+          photos={pickPhotos(slide.photos)}
+          facts={slide.facts}
+          cardRef={shareCard}
+          onShuffle={
+            slide.photos.length > 3
+              ? () => setShuffles((current) => current + 1)
+              : null
+          }
+        />
       );
     }
     return <SlideContent slide={slide} ctx={ctx} />;

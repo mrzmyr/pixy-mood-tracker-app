@@ -51,7 +51,8 @@ import { getPeriod, shiftPeriod } from "../period";
 import type { Period, PeriodKind, RecapCard } from "../types";
 import { useNudgeActions } from "../use-nudge-actions";
 import { useRecapInput } from "../use-recap-input";
-import { buildMonthStory } from "../story/deck";
+import { buildMonthStory, buildWeekStory } from "../story/deck";
+import type { StorySlide } from "../story/types";
 import { StoryBanner } from "../story/story-banner";
 import { isMostlyVisible } from "../visibility";
 import type { Span } from "../visibility";
@@ -130,7 +131,12 @@ const Recaps = () => {
   const cards = buildCards(input).filter(
     (card) => !hidden.has(cardKey(card, period))
   );
-  const story = period.kind === "month" ? buildMonthStory(input) : null;
+  let story: StorySlide[] | null = null;
+  if (period.kind === "month") {
+    story = buildMonthStory(input);
+  } else if (period.kind === "week") {
+    story = buildWeekStory(input);
+  }
 
   const nudge = useNudgeActions(period);
   const feedbackChannel = useFeedback();

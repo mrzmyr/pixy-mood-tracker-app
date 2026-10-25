@@ -8,7 +8,7 @@ import { RingedAvatar } from "../components/ringed-avatar";
 import type { CelebrationOrigin } from "./celebration";
 import { monthName } from "./format";
 import { SlideHeader, StoryText, TagDot } from "./parts";
-import type { QuizSlide, QuizStatement } from "./quiz";
+import type { QuizModule, QuizSlide, QuizStatement } from "./quiz";
 import type { SlideContext } from "./slides";
 import { STORY_PALETTE } from "./theme";
 import type { StoryTheme } from "./theme";
@@ -208,6 +208,21 @@ const TITLES = {
 } as const;
 
 /** "Which ones are true?": tap all true cards, then Check. */
+/** "Your September" or "Your week" for a mixed quiz, else people or tags. */
+const getQuizEyebrow = (slide: { module: QuizModule }, ctx: SlideContext) => {
+  if (slide.module === "people") {
+    return t("recaps_story_quiz_eyebrow_people");
+  }
+  if (slide.module === "tags") {
+    return t("recaps_story_quiz_eyebrow_tags");
+  }
+  return ctx.period.kind === "week"
+    ? t("recaps_story_quiz_eyebrow_mix_week")
+    : t("recaps_story_quiz_eyebrow_mix", {
+        month: monthName(ctx.period.start),
+      });
+};
+
 const Truths = ({
   slide,
   ctx,
@@ -223,16 +238,7 @@ const Truths = ({
   const [picks, setPicks] = useState<ReadonlySet<string>>(new Set());
   const isDone = result !== null;
   const madeUp = slide.statements.find((statement) => !statement.isTrue);
-  const eyebrow =
-    slide.module === "mix"
-      ? t("recaps_story_quiz_eyebrow_mix", {
-          month: monthName(ctx.period.start),
-        })
-      : t(
-          slide.module === "people"
-            ? "recaps_story_quiz_eyebrow_people"
-            : "recaps_story_quiz_eyebrow_tags"
-        );
+  const eyebrow = getQuizEyebrow(slide, ctx);
   const shownPicks = result ? new Set(result.picks) : picks;
   return (
     <>

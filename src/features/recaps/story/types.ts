@@ -94,6 +94,13 @@ export interface MomentsSlide {
   weeks: { start: DateKey; end: DateKey; photos: StoryPhoto[] }[];
 }
 
+/** Good emotions and tags back after a break, as on the came-back card. */
+export interface CameBackSlide {
+  type: "came-back";
+  emotions: { emotion: string; lastDate: DateKey }[];
+  tags: { tagId: string; days: number; weeks: number }[];
+}
+
 /** Days still to come in the year, and days without a check-in so far. */
 export interface ComingUpSlide {
   type: "coming-up";
@@ -137,6 +144,7 @@ export type StorySlide =
   | FirstCitySlide
   | VsLastSlide
   | MomentsSlide
+  | CameBackSlide
   | ComingUpSlide
   | QuizSlide
   | ShareSlide;
