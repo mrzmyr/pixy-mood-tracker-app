@@ -1,10 +1,7 @@
 import type { Emotion } from "@/types";
 import chunkArray from "lodash/chunk";
 import { View } from "react-native";
-import {
-  EmotionButtonAdvanced,
-  EmotionButtonEmpty,
-} from "./emotion-button-advanced";
+import { EmotionButtonAdvanced } from "./emotion-button-advanced";
 import { MissingEmotionTile } from "./missing-emotion-tile";
 import { sortForColumns } from "./sort-for-columns";
 
@@ -15,11 +12,19 @@ const keyOf = (cell: Cell) =>
 
 const COLUMNS = 2;
 
+// Plain views split each row evenly. Without them a `RectButton` emotion next
+// to the `Pressable` "Missing one?" tile gets a narrower share of the row.
+const CELL_STYLE = { flex: 1 };
+// Content keeps its own height. With `flex: 1` it collapses in the
+// fixed-height carousel.
+const CELL_CONTENT_STYLE = { flex: 0 };
+
 /**
  * One page of advanced emotions in two columns, ending with a "Missing
- * one?" tile; an odd count is padded with a blank cell. Emotions are
- * arranged to read alphabetically when scanned column-by-column (top to
- * bottom in left column, then top to bottom in right column).
+ * one?" tile; an odd count is padded with a blank cell. Every cell gets the
+ * same width. Emotions are arranged to read alphabetically when scanned
+ * column-by-column (top to bottom in left column, then top to bottom in
+ * right column).
  */
 export const EmotionPage = ({
   emotions,
@@ -57,27 +62,26 @@ export const EmotionPage = ({
             gap: 6,
           }}
         >
-          {chunk.map((cell) => {
-            if (cell === "empty") {
-              return <EmotionButtonEmpty key="advanced-empty" />;
-            }
-            if (cell === "missing") {
-              return (
+          {chunk.map((cell) => (
+            <View key={`advanced-cell-${keyOf(cell)}`} style={CELL_STYLE}>
+              {cell === "missing" && (
                 <MissingEmotionTile
-                  key="advanced-missing"
                   onPress={onRequestEmotion}
+                  style={CELL_CONTENT_STYLE}
                 />
-              );
-            }
-            return (
-              <EmotionButtonAdvanced
-                key={`advanced-${cell.key}`}
-                emotion={cell}
-                onPress={onPress}
-                selected={selectedEmotions.map((d) => d.key).includes(cell.key)}
-              />
-            );
-          })}
+              )}
+              {cell !== "missing" && cell !== "empty" && (
+                <EmotionButtonAdvanced
+                  emotion={cell}
+                  onPress={onPress}
+                  selected={selectedEmotions
+                    .map((d) => d.key)
+                    .includes(cell.key)}
+                  style={CELL_CONTENT_STYLE}
+                />
+              )}
+            </View>
+          ))}
         </View>
       ))}
     </View>
