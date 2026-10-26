@@ -43,12 +43,19 @@ for (const color of tagColorNames) {
 const dangerLight = Platform.OS === "android" ? "#BA1A1A" : "#FF3B30";
 const dangerDark = Platform.OS === "android" ? "#FFB4AB" : "#FF453A";
 
+/**
+ * Android: seed for every `@expo/ui` `Host`. Compose derives one Material 3
+ * palette from it (surfaces, switches, menus), so controls never follow the
+ * wallpaper while the tint stays fixed.
+ */
+export const MATERIAL_SEED_COLOR = "#005BC1";
+
 // Plain hex strings: chroma-js, Reanimated, React Navigation, and widget
 // data need strings, so never use PlatformColor here.
 // iOS systemBlue. Android: Material 3 primary (tone 40 light, tone 80
 // dark) of the same blue, fixed brand color, no dynamic color.
 const IS_ANDROID = Platform.OS === "android";
-const tintColorLight = IS_ANDROID ? "#005BC1" : "#007aff";
+const tintColorLight = IS_ANDROID ? MATERIAL_SEED_COLOR : "#007aff";
 const tintColorDark = IS_ANDROID ? "#ADC6FF" : "#0a84ff";
 // Text and icons on a tint background (Material 3 onPrimary).
 const onTintLight = "#FFF";
@@ -129,6 +136,8 @@ const light = {
   tabsTextInactive: colors.neutral[400],
 
   menuListItemBackground: "#FFF",
+  // Hairline around Apple's white Health tile on white rows.
+  healthIconBorder: colors.neutral[300],
   menuListItemText: "#000",
   menuListItemIcon: "#000",
   menuListItemBorder: colors.neutral[100],
@@ -362,6 +371,7 @@ const dark: IColors & {
   tabsTextInactive: colors.neutral[600],
 
   menuListItemBackground: colors.neutral[900],
+  healthIconBorder: colors.neutral[700],
   menuListItemText: colors.neutral[50],
   menuListItemIcon: colors.neutral[200],
   menuListItemBorder: colors.neutral[800],

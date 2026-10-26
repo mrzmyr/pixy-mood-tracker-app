@@ -22,6 +22,16 @@ import {
   places,
 } from "./cards/summaries";
 import { peopleMood, stoodOut, whatMoves } from "./cards/patterns";
+import {
+  bestMonth,
+  moodChart,
+  moodCount,
+  moodDays,
+  sleepChart,
+  tagDays,
+  tags,
+  yearPixels,
+} from "./cards/stats";
 import { trendLocation, trendPeople, trendTags } from "./cards/changes";
 import type { CardFamily, RecapCard, RecapInput } from "./types";
 
@@ -36,7 +46,15 @@ const RULES: Rule[] = [
   tagBack,
   sleepMoments,
   dayRecap,
+  yearPixels,
+  bestMonth,
+  moodChart,
+  moodCount,
+  moodDays,
   emotions,
+  tags,
+  tagDays,
+  sleepChart,
   mostConnected,
   connected,
   places,

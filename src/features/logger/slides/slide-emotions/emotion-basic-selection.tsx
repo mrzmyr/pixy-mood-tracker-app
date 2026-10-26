@@ -1,18 +1,23 @@
+import { getLocale } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import chunk from "lodash/chunk";
-import orderBy from "lodash/orderBy";
 import { View } from "react-native";
 
 import { EmotionButtonBasic } from "./emotion-button-basic";
 import { MissingEmotionTile } from "./missing-emotion-tile";
+import { sortForColumns } from "./sort-for-columns";
 
 // Shared by grid cells and the spacer after a lone last cell, so every
 // cell keeps the same width.
 const CELL_STYLE = { flex: 1 };
 const CELL_GAP = 8;
+const COLUMNS = 2;
 
 /**
- * Two-column emotion grid, good first, then neutral, then bad.
+ * Two-column emotion grid, good first, then neutral, then bad, sorted
+ * alphabetically within each category. Emotions are arranged to read
+ * alphabetically when scanned column-by-column (top to bottom in left
+ * column, then top to bottom in right column).
  *
  * Expects categories already reduced to `good`, `neutral`, and `bad`;
  * `very_good` and `very_bad` have no sort rank. A "Missing one?" tile ends
@@ -29,23 +34,33 @@ export const EmotionBasicSelection = ({
   onPress: (emotion: Emotion) => void;
   onRequestEmotion: () => void;
 }) => {
+  const locale = getLocale();
+
+  // Sort by category (good first, then neutral, then bad),
+  // then alphabetically within each category with locale-aware comparison
+  const sortedByCategory = [...emotions].sort((a, b) => {
+    // First compare by category
+    const categoryRank = {
+      good: 1,
+      neutral: 0,
+      bad: -1,
+    };
+    const categoryA = categoryRank[a.category] ?? 0;
+    const categoryB = categoryRank[b.category] ?? 0;
+
+    if (categoryA !== categoryB) {
+      return categoryB - categoryA;
+    }
+
+    // Then compare alphabetically with locale awareness
+    return a.label.localeCompare(b.label, locale);
+  });
+
+  // Rearrange for column-by-column reading
+  const sortedForColumns = sortForColumns(sortedByCategory, COLUMNS);
+
   // `null` marks the "Missing one?" tile after the last emotion.
-  const rows = chunk<Emotion | null>(
-    [
-      ...orderBy(
-        emotions,
-        (e) =>
-          ({
-            good: 1,
-            neutral: 0,
-            bad: -1,
-          })[e.category],
-        ["desc"]
-      ),
-      null,
-    ],
-    2
-  );
+  const rows = chunk<Emotion | null>([...sortedForColumns, null], COLUMNS);
 
   return (
     <View

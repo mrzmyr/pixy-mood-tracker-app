@@ -19,10 +19,10 @@ import type {
   MadeOfSlide,
   MomentsSlide,
   PeopleSlide,
-  ShareFact,
   ShareSlide,
   StoryPhoto,
   StorySlide,
+  ThanksSlide,
   VsLastSlide,
   WeekdayHabitSlide,
 } from "./types";
@@ -111,21 +111,45 @@ const previousDays = (input: RecapInput) => {
   };
 };
 
+/** Bright photos, one per file, brightest day first. */
+const uniqueBrightPhotos = (days: RecapDay[]) => {
+  const seen = new Set<string>();
+  const sorted = [...days].sort((a, b) => getDayRating(b) - getDayRating(a));
+  return brightPhotos(sorted).filter(({ photo }) => {
+    if (seen.has(photo.fileName)) {
+      return false;
+    }
+    seen.add(photo.fileName);
+    return true;
+  });
+};
+
+/**
+ * Month: the photo grid from 7 photo days. Fewer photo days, and every week
+ * with photos: up to 5 full-screen photos, brightest first.
+ */
 const cover = (input: RecapInput): CoverSlide => {
   const photos = brightPhotos(input.days);
   let variant: CoverSlide["variant"] = "pixels";
-  if (photos.length >= THRESHOLDS.storyCoverGridPhotoDays) {
+  if (
+    input.period.kind === "month" &&
+    photos.length >= THRESHOLDS.storyCoverGridPhotoDays
+  ) {
     variant = "photos";
   } else if (photos.length > 0) {
     variant = "photo";
   }
-  const best = bestPhoto(input.days);
   return {
     type: "cover",
     variant,
     checkIns: input.days.length,
-    // One photo: the brightest day's, so it fills the screen first.
-    photos: variant === "photo" && best ? [best] : photos,
+    photos:
+      variant === "photo"
+        ? uniqueBrightPhotos(input.days).slice(
+            0,
+            THRESHOLDS.storyCoverMaxPhotos
+          )
+        : photos,
   };
 };
 
@@ -374,19 +398,8 @@ const monthWeeks = (input: RecapInput) =>
 const WEEK_PHOTOS = 4;
 
 /** Bright photos of a week, brightest day first, one per file. */
-const weekPhotos = (days: RecapDay[]) => {
-  const sorted = [...days].sort((a, b) => getDayRating(b) - getDayRating(a));
-  const seen = new Set<string>();
-  return brightPhotos(sorted)
-    .filter(({ photo }) => {
-      if (seen.has(photo.fileName)) {
-        return false;
-      }
-      seen.add(photo.fileName);
-      return true;
-    })
-    .slice(0, WEEK_PHOTOS);
-};
+const weekPhotos = (days: RecapDay[]) =>
+  uniqueBrightPhotos(days).slice(0, WEEK_PHOTOS);
 
 /** Each week of the month as a small collage, 3+ weeks with a photo. */
 const moments = (input: RecapInput): MomentsSlide | null => {
@@ -429,55 +442,14 @@ const comingUp = (input: RecapInput): ComingUpSlide | null => {
   };
 };
 
-/** Bright photos, one per file, brightest day first. */
-const sharePhotos = (input: RecapInput) => {
-  const seen = new Set<string>();
-  const sorted = [...input.days].sort(
-    (a, b) => getDayRating(b) - getDayRating(a)
-  );
-  return brightPhotos(sorted).filter(({ photo }) => {
-    if (seen.has(photo.fileName)) {
-      return false;
-    }
-    seen.add(photo.fileName);
-    return true;
-  });
-};
+const thanks: ThanksSlide = { type: "thanks" };
 
-/**
- * Share card: up to 3 lines from the story (first city, same weekday, top
- * light tag), check-ins when nothing else. Always last.
- */
-const share = (
-  input: RecapInput,
-  lightTags: ReadonlySet<string>,
-  slides: (StorySlide | null)[]
-): ShareSlide => {
-  const facts: ShareFact[] = [];
-  const habit = slides.find((slide) => slide?.type === "weekday-habit");
-  for (const slide of slides) {
-    if (slide?.type === "first-city") {
-      facts.push({ kind: "city", city: slide.city });
-    }
-    if (slide?.type === "weekday-habit") {
-      const { tagId, weekday, hits, total } = slide;
-      facts.push({ kind: "weekday", tagId, weekday, hits, total });
-    }
-  }
-  const top = tagCounts(input.days, lightTags).find(
-    (row) => habit?.type !== "weekday-habit" || row.tagId !== habit.tagId
-  );
-  if (top) {
-    facts.push({ kind: "tag", tagId: top.tagId, days: top.days });
-  }
-  if (facts.length === 0) {
-    facts.push({ kind: "check-ins", days: input.days.length });
-  }
-  const photos = sharePhotos(input);
+/** Share card with 3+ bright photo days' photos, else none. Always last. */
+const share = (input: RecapInput): ShareSlide => {
+  const photos = uniqueBrightPhotos(input.days);
   return {
     type: "share",
     photos: photos.length >= THRESHOLDS.sharePhotos ? photos : [],
-    facts: facts.slice(0, THRESHOLDS.shareMaxFacts),
   };
 };
 
@@ -522,7 +494,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     moments(input),
     comingUp(input),
   ];
-  return [...slides, share(input, lightTags, slides)].filter(
+  return [...slides, thanks, share(input)].filter(
     (slide): slide is StorySlide => slide !== null
   );
 };
@@ -546,8 +518,8 @@ const weeksSince = (start: DateKey, today: DateKey) =>
 
 /**
  * Week story slides in deck order: cover, rhythm, quiz, people, what came
- * back, a first city, and the closing card with the week. Each slot skips
- * when its rule fails. `null` for other periods, weeks more than 2 weeks
+ * back, a first city, thanks, and the closing card with the week. Each slot
+ * skips when its rule fails. `null` for other periods, weeks more than 2 weeks
  * back or ahead, and weeks with fewer than 4 check-in days.
  */
 export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
@@ -570,7 +542,7 @@ export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
     cameBack(input),
     firstCitySlide(input),
   ];
-  return [...slides, share(input, lightTags, slides)].filter(
+  return [...slides, thanks, share(input)].filter(
     (slide): slide is StorySlide => slide !== null
   );
 };

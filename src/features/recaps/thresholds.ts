@@ -101,8 +101,10 @@ export const THRESHOLDS = {
   storyBrightMinRating: 4,
   /** Story harder days: rating at most this (bad), as in the day recap. */
   storyHardMaxRating: 2,
-  /** Cover: photo days for the photo grid. Fewer: one photo. */
+  /** Month cover: photo days for the photo grid. Fewer: full-screen photos. */
   storyCoverGridPhotoDays: 7,
+  /** Cover: full-screen photos at most, one after another. */
+  storyCoverMaxPhotos: 5,
   /** Same weekday: tag days on that weekday, at least. */
   weekdayHabitMinHits: 3,
   /** Same weekday: share of that weekday with the tag, at least. */
@@ -137,8 +139,34 @@ export const THRESHOLDS = {
   momentsMinWeeks: 3,
   /** Share card: photos on the card; fewer bright photo days show the grid. */
   sharePhotos: 3,
-  /** Share card: lines at most. */
-  shareMaxFacts: 3,
   /** Quiz: days a person or tag needs to be a statement or tile. */
   quizMinDays: 2,
+  /** Mood chart: check-in days needed. */
+  moodChartMinDays: 4,
+  /** Mood count: check-in days needed. */
+  moodCountMinDays: 10,
+  /** Good and harder days: days of the kind needed. */
+  moodDaysMin: 2,
+  /** Good days: day rating at least this (good). */
+  moodDaysGoodMinRating: 4,
+  /** Harder days: day rating at most this (bad). */
+  moodDaysHardMaxRating: 2,
+  /** Sleep chart: nights with sleep needed in a week. */
+  sleepChartMinNightsWeek: 3,
+  /** Sleep chart: nights with sleep needed in a month. */
+  sleepChartMinNightsMonth: 7,
+  /** Most used tags: different tags needed. */
+  tagsMinDifferent: 3,
+  /** Most used tags: rows at most. */
+  tagsMaxRows: 5,
+  /** Tag days: days with the tag in a week, at least. */
+  tagDaysMinWeek: 3,
+  /** Tag days: days with the tag in a month, at least. */
+  tagDaysMinMonth: 6,
+  /** Tag days: cards per period, at most. */
+  tagDaysMaxCards: 2,
+  /** Year in pixels: check-in days in the year needed. */
+  yearPixelsMinDays: 30,
+  /** Best month: check-in days a month needs to rank. */
+  bestMonthMinDays: 7,
 } as const;

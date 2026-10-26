@@ -4,6 +4,7 @@ import { BackButton } from "@/shell/back-button";
 import { StorageLoadGate } from "@/shell/storage-load-gate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
+import useFormBackground from "@/hooks/use-form-background";
 import { DEV_TOOLS } from "@/dev";
 import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
 import { QuickCheckInNotificationSync } from "@/features/quickcheckin";
@@ -105,22 +106,63 @@ const getFeedbackOptions = <T extends object>({
         headerShadowVisible: false,
       };
 
+/**
+ * Native grouped list screens: the list starts below the bar, so no divider
+ * line. Bar and list share one background (Android: Material surface).
+ */
+const formHeaderOptions = <T extends object>(
+  pageOptions: T,
+  backgroundColor: string
+) => ({
+  ...pageOptions,
+  headerStyle: { backgroundColor },
+  headerShadowVisible: false,
+});
+
+/** Native back button without title, bar in the screen background. */
+const getDefaultOptions = (textColor: string, backgroundColor: string) => ({
+  headerTintColor: textColor,
+  headerBackTitle: "",
+  headerBackButtonDisplayMode: "minimal" as const,
+  headerBackButtonMenuEnabled: false,
+  headerStyle: { backgroundColor },
+  headerShadowVisible: Platform.OS !== "web",
+});
+
+/**
+ * Calendar page options. Title stays the iOS back button label; the header
+ * shows none but exposes the screen name to screen readers. Onboarding hands
+ * off to the calendar with a cross-fade.
+ */
+const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
+  title: t("calendar"),
+  animation: "fade" as const,
+  headerTitle: CalendarScreenReaderTitle,
+  headerTintColor: textColor,
+  headerShadowVisible: false,
+  ...(HAS_FLOATING_HEADER
+    ? {
+        headerTransparent: true,
+        scrollEdgeEffects: { top: "soft" as const },
+      }
+    : { headerStyle: { backgroundColor } }),
+});
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
+  const formBackground = useFormBackground();
   const canOverrideFeatureFlags = useCanOverrideFeatureFlags();
-  const defaultOptions = {
-    headerTintColor: colors.text,
-    headerBackTitle: "",
-    headerBackButtonDisplayMode: "minimal" as const,
-    headerBackButtonMenuEnabled: false,
-    headerStyle: { backgroundColor: colors.background },
-    headerShadowVisible: Platform.OS !== "web",
-  };
+  const defaultOptions = getDefaultOptions(colors.text, colors.background);
   const feedbackOptions = getFeedbackOptions({
     defaultOptions,
     textColor: colors.text,
     backgroundColor: colors.feedbackBackground,
+  });
+  const requestOptions = getFeedbackOptions({
+    defaultOptions,
+    textColor: colors.text,
+    backgroundColor: formBackground,
   });
   // Tag, tag category, and people modals. iOS shows the native sheet bar;
   // the screen sets title and bar items (`RouteModalHeader`). Android and
@@ -140,9 +182,7 @@ const AppLayout = () => {
       ? { ...defaultOptions, headerLeft: renderHeaderLeft }
       : defaultOptions;
 
-  // Native grouped list screens: the list starts below the bar, so no
-  // divider line.
-  const settingsFormOptions = { ...pageOptions, headerShadowVisible: false };
+  const settingsFormOptions = formHeaderOptions(pageOptions, formBackground);
 
   return (
     <StorageLoadGate>
@@ -154,26 +194,7 @@ const AppLayout = () => {
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen
             name="calendar"
-            options={{
-              // Title stays the iOS back button label. The header shows none
-              // but exposes the screen name to screen readers.
-              title: t("calendar"),
-              // Onboarding hands off to the calendar with a cross-fade.
-              animation: "fade",
-              headerTitle: CalendarScreenReaderTitle,
-              headerTintColor: colors.text,
-              headerShadowVisible: false,
-              ...(HAS_FLOATING_HEADER
-                ? {
-                    headerTransparent: true,
-                    scrollEdgeEffects: { top: "soft" as const },
-                  }
-                : {
-                    headerStyle: {
-                      backgroundColor: colors.calendarBackground,
-                    },
-                  }),
-            }}
+            options={getCalendarOptions(colors.text, colors.calendarBackground)}
           />
           <Stack.Screen
             name="statistics/index"
@@ -187,9 +208,12 @@ const AppLayout = () => {
           <Stack.Screen
             name="settings/index"
             options={{
-              ...pageOptions,
+              // iOS keeps the hairline under the large title bar.
+              ...(Platform.OS === "android"
+                ? settingsFormOptions
+                : pageOptions),
               title: t("settings"),
-              ...largeTitleOptions(colors.background),
+              ...largeTitleOptions(formBackground),
             }}
           />
           <Stack.Screen
@@ -227,7 +251,7 @@ const AppLayout = () => {
             }}
           />
           <Stack.Screen name="feedback" options={feedbackOptions} />
-          <Stack.Screen name="request" options={feedbackOptions} />
+          <Stack.Screen name="request" options={requestOptions} />
           <Stack.Screen
             name="check-in/[id]"
             options={getQuickCheckInOptions(colors.text)}
@@ -367,6 +391,10 @@ const AppLayout = () => {
               title: t("people"),
               ...largeTitleOptions(colors.background),
             }}
+          />
+          <Stack.Screen
+            name="settings/steps/sleep/index"
+            options={{ ...pageOptions, title: t("logger_step_sleep") }}
           />
           <Stack.Screen
             name="settings/steps/people/archive"

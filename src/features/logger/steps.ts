@@ -16,7 +16,8 @@ export const hasSleepOnDate = (items: LogItem[], date: string) =>
  * slide on the first entry while reminders are off, and the feedback slide
  * from the third entry when a question is available. `people` needs the
  * `people` feature flag, `photos` the `photos` feature flag. `sleep` shows
- * only while no entry of the day holds a sleep quality.
+ * only while no entry of the day holds a sleep quality, and never while
+ * Apple Health fills it.
  */
 export const getAvailableStepsForCreate = ({
   question,
@@ -24,6 +25,7 @@ export const getAvailableStepsForCreate = ({
   reminderEnabled,
   itemsCount,
   hasSleepOnDay,
+  isSleepAutoFilled,
   hasPeople,
   isPhotosEnabled,
 }: {
@@ -33,6 +35,8 @@ export const getAvailableStepsForCreate = ({
   itemsCount: number;
   /** See `hasSleepOnDate`. */
   hasSleepOnDay: boolean;
+  /** Apple Health "Auto Fill" is on; see `useHealthSleepFill`. */
+  isSleepAutoFilled: boolean;
   /** The `people` feature flag; off hides the slide even with the step on. */
   hasPeople: boolean;
   /** Value of the `photos` feature flag. */
@@ -40,7 +44,7 @@ export const getAvailableStepsForCreate = ({
 }) => {
   const slides: LoggerStep[] = ["rating"];
 
-  if (hasStep("sleep") && !hasSleepOnDay) {
+  if (hasStep("sleep") && !hasSleepOnDay && !isSleepAutoFilled) {
     slides.push("sleep");
   }
   if (hasStep("emotions")) {

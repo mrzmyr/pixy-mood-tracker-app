@@ -92,6 +92,56 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "strong",
     periods: WEEK_MONTH,
   },
+  "mood-chart": {
+    family: "summary",
+    modules: ["mood"],
+    signal: "strong",
+    periods: WEEK_MONTH,
+  },
+  // Month only: a week has 7 days, the mood chart shows each one.
+  "mood-count": {
+    family: "summary",
+    modules: ["mood"],
+    signal: "strong",
+    periods: ["month"],
+  },
+  // Month only: week recaps tell the best or hardest day instead.
+  "mood-days": {
+    family: "summary",
+    modules: ["mood"],
+    signal: "strong",
+    periods: ["month"],
+  },
+  "sleep-chart": {
+    family: "summary",
+    modules: ["sleep"],
+    signal: "strong",
+    periods: WEEK_MONTH,
+  },
+  tags: {
+    family: "summary",
+    modules: ["tags"],
+    signal: "strong",
+    periods: ["month"],
+  },
+  "tag-days": {
+    family: "summary",
+    modules: ["tags"],
+    signal: "strong",
+    periods: WEEK_MONTH,
+  },
+  "year-pixels": {
+    family: "summary",
+    modules: ["mood"],
+    signal: "strong",
+    periods: ["year"],
+  },
+  "best-month": {
+    family: "summary",
+    modules: ["mood"],
+    signal: "strong",
+    periods: ["year"],
+  },
   emotions: {
     family: "summary",
     modules: ["emotions"],

@@ -217,6 +217,64 @@ describe("useLogDraft()", () => {
     expect(hook.result.current.commit([]).item.location).toEqual(BERLIN);
   });
 
+  test("Apple Health sleep fills an empty quality and keeps the draft clean", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.prefillSleepQuality("good");
+    });
+
+    expect(hook.result.current.draft.sleep.quality).toBe("good");
+    expect(hook.result.current.isDirty).toBe(false);
+    expect(hook.result.current.commit([]).item.sleep.quality).toBe("good");
+  });
+
+  test("Apple Health sleep never replaces a picked quality", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.setSleepQuality("bad");
+      hook.result.current.prefillSleepQuality("good");
+    });
+
+    expect(hook.result.current.draft.sleep.quality).toBe("bad");
+  });
+
+  test("Apple Health sleep replaces an earlier prefill and drops without making the draft dirty", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.prefillSleepQuality("good");
+      hook.result.current.prefillSleepQuality("bad");
+    });
+    expect(hook.result.current.draft.sleep.quality).toBe("bad");
+
+    await act(() => {
+      hook.result.current.dropPrefilledSleepQuality();
+    });
+    expect(hook.result.current.draft.sleep.quality).toBeNull();
+    expect(hook.result.current.isDirty).toBe(false);
+  });
+
+  test("dropping Apple Health sleep keeps a picked or stored quality", async () => {
+    const stored = await renderDraft(
+      createDraft({ sleep: { quality: "bad" } })
+    );
+    await act(() => {
+      stored.result.current.prefillSleepQuality("good");
+      stored.result.current.dropPrefilledSleepQuality();
+    });
+    expect(stored.result.current.draft.sleep.quality).toBe("bad");
+
+    const picked = await renderDraft(createDraft());
+    await act(() => {
+      picked.result.current.prefillSleepQuality("good");
+      picked.result.current.setSleepQuality("very_good");
+      picked.result.current.dropPrefilledSleepQuality();
+    });
+    expect(picked.result.current.draft.sleep.quality).toBe("very_good");
+  });
+
   test("a passive location never replaces the user's pick", async () => {
     const hook = await renderDraft(createDraft());
 

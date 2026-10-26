@@ -2,6 +2,7 @@ import { Host, Switch } from "@expo/ui/jetpack-compose";
 import { View } from "react-native";
 import type { GestureResponderHandlers } from "react-native";
 import type { ToggleProps } from "./toggle";
+import { MATERIAL_SEED_COLOR } from "@/constants/colors";
 
 /**
  * Makes the Compose host the JS touch responder, as React Native's `Switch`
@@ -36,7 +37,7 @@ const Toggle = ({
     }}
     testID={testID}
   >
-    <Host matchContents {...claimTouch}>
+    <Host matchContents seedColor={MATERIAL_SEED_COLOR} {...claimTouch}>
       <Switch
         value={value}
         enabled={!disabled}

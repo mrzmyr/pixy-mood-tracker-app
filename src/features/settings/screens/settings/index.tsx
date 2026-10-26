@@ -17,6 +17,7 @@ import FieldRow from "@/components/field-row";
 import { ScrollEdge } from "@/components/scroll-edge";
 import { SupportCard } from "@/components/support-card";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
+import { MATERIAL_SEED_COLOR } from "@/constants/colors";
 import {
   CHANGELOG_URL,
   DATE_FORMAT,
@@ -32,6 +33,7 @@ import {
 import { useSettings } from "@/state/settings";
 import { COLOR_SCHEMES } from "@/state/settings/color-scheme";
 import useColors from "@/hooks/use-colors";
+import useFormBackground from "@/hooks/use-form-background";
 import {
   AppLockMenuItem,
   useIsAppLockMenuItemVisible,
@@ -58,6 +60,7 @@ const SECTION_INSET = Platform.select({ ios: 20, android: 32, default: 16 });
 export const SettingsScreen = () => {
   const router = useRouter();
   const colors = useColors();
+  const formBackground = useFormBackground();
   const { width: windowWidth } = useWindowDimensions();
   const analytics = useAnalytics();
   const isAppLockVisible = useIsAppLockMenuItemVisible();
@@ -136,8 +139,14 @@ export const SettingsScreen = () => {
   );
 
   return (
-    <ScrollEdge style={{ flex: 1, backgroundColor: colors.background }}>
-      <Host style={{ flex: 1 }} seedColor={colors.tint}>
+    <ScrollEdge style={{ flex: 1, backgroundColor: formBackground }}>
+      <Host
+        style={{ flex: 1 }}
+        // Web derives its accent scale from the seed: keep the web tint.
+        seedColor={
+          Platform.OS === "android" ? MATERIAL_SEED_COLOR : colors.tint
+        }
+      >
         <FieldGroup
           style={
             Platform.OS === "web"
