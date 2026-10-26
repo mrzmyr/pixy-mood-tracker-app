@@ -31,6 +31,7 @@ export const INITIAL_STATE: SettingsState = {
   reminderEnabled: false,
   reminderTime: DEFAULT_REMINDER_TIME,
   analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
+  analyticsConsentAt: null,
   actionsDone: [],
   // `photos` and `sleep` are on for new installs only. Stored settings keep
   // their own step list, so existing users turn them on in Settings > Steps.

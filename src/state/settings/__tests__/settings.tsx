@@ -198,6 +198,31 @@ describe("useSettings()", () => {
     );
   });
 
+  test("keeps the analytics choice of this device on import", async () => {
+    const consentAt = "2026-10-26T10:00:00.000Z";
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        analyticsEnabled: false,
+        analyticsConsentAt: consentAt,
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    // Old backups still carry `analyticsEnabled`.
+    const backup = { ...INITIAL_STATE, analyticsEnabled: true };
+    await act(() => {
+      hook.result.current.state.importSettings(backup);
+    });
+
+    expect(hook.result.current.state.settings.analyticsEnabled).toBe(false);
+    expect(hook.result.current.state.settings.analyticsConsentAt).toBe(
+      consentAt
+    );
+  });
+
   test("keeps the app lock of this device on import", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,
