@@ -9,25 +9,28 @@ const triggers: MoodTrigger[] = [
   { rating: "very_good", text: "very good" },
   { rating: "good", text: "good" },
   { rating: "neutral", text: "so-so" },
-  { rating: "bad", text: "bad" },
-  { rating: "very_bad", text: "very bad" },
-  { rating: "extremely_bad", text: "terrible" },
+  { rating: "bad", text: "not good" },
+  { rating: "very_bad", text: "bad" },
+  { rating: "extremely_bad", text: "very bad" },
 ];
 
 describe("matchMood", () => {
   it("sets the mood from a trigger after a feeling verb", () => {
-    expect(matchMood("Today I felt bad", triggers)).toBe("bad");
+    expect(matchMood("Today I felt bad", triggers)).toBe("very_bad");
     expect(matchMood("I feel amazing", triggers)).toBe("extremely_good");
   });
 
   it("prefers the longest trigger", () => {
-    expect(matchMood("I felt very bad after work", triggers)).toBe("very_bad");
+    expect(matchMood("I felt very bad after work", triggers)).toBe(
+      "extremely_bad"
+    );
     expect(matchMood("honestly very good", triggers)).toBe("very_good");
+    expect(matchMood("I felt not good today", triggers)).toBe("bad");
   });
 
   it("keeps the first mentioned mood", () => {
     expect(
-      matchMood("I felt good in the morning, terrible at night", triggers)
+      matchMood("I felt good in the morning, very bad at night", triggers)
     ).toBe("good");
   });
 

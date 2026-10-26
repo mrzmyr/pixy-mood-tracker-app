@@ -81,11 +81,11 @@ File: `src/features/voice/match-transcript.ts`. Pure function, unit tested.
 
 File: [`mood-triggers.ts`](../../src/features/voice/mood-triggers.ts). Keys `voice_mood_<rating>` in every locale.
 
-- One trigger word per rating. English: amazing, very good, good, so-so, bad, very bad, terrible
-- Same matching as people, tags, and emotions. Longest trigger wins: "I felt very bad" sets `very_bad`
+- One trigger word per rating. English: amazing, very good, good, so-so, not good, bad, very bad
+- Same matching as people, tags, and emotions. Longest trigger wins: "I felt not good" sets `bad`, not `good`
 - First spoken trigger sets the mood of the whole entry. Later triggers never change it
 - No trigger: rating stays empty, user picks it in the logger
-- Known limits: negation ("not bad") still matches "bad". Common words ("good morning") match. Inflected forms (Finnish "hyvältä", Japanese "良かった") do not match
+- Known limits: negation outside triggers ("not bad") still matches "bad". Common words ("good morning") match. Inflected forms (Finnish "hyvältä", Japanese "良かった") do not match
 - Locale test: each trigger alone sets its own rating in every language. Catches collisions after accent stripping (Thai, Vietnamese)
 
 ## Library patch
