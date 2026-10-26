@@ -49,7 +49,8 @@
 ## Tools
 
 - Posthog for product analytics (MCP installed)
-  - Project IDs: App Production `7630`, App Preview `14574`, App Development `628970`, Website `12793`
+  - EU Cloud (`eu.posthog.com`). Project IDs: App Production `321829`, App Preview `321849`, App Development `321850`, Website `321851`
+  - US Cloud projects `7630`, `14574`, `628970`, `12793` only receive data from app versions before the EU switch
   - MCP keeps the last active project, often not the one you need. Run `switch-project` first
 - CodeRabbit for PR reviews (MCP installed)
 - Sentry for error logging (MCP installed)

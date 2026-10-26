@@ -369,8 +369,13 @@
       "label": "Usage analytics and crash reports",
       "status": "available",
       "group": "data",
-      "description": "Usage data (PostHog, opt-in in the EU, linked to a random install ID) and crash reports (Sentry) help find errors. Never entry content or health values: no mood, emotions, sleep, notes, tags, or people. Do not call it anonymous. Disclosure, not a selling point.",
-      "evidence": ["package.json", "assets/locales/en.json"]
+      "description": "Usage data (PostHog EU Cloud, opt-in in the EU, linked to a random install ID) and crash reports (Sentry EU region) help find errors. Both store data in Frankfurt from the first release after 1.104.0. Never entry content or health values: no mood, emotions, sleep, notes, tags, or people. Do not call it anonymous. Disclosure, not a selling point.",
+      "evidence": [
+        "package.json",
+        "assets/locales/en.json",
+        "src/constants/api.ts",
+        "src/shell/posthog-options.ts"
+      ]
     },
     {
       "id": "no-ads",
