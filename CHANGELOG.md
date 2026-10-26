@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.105.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.104.0...v1.105.0) (2026-10-26)
+
+
+### Features
+
+* **onboarding:** full-page sky, then pixels assemble into the calendar ([#952](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/952)) ([850cb44](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/850cb44f43598f97d0897d9bd26ac745c0e4bd9d))
+
+
+### Bug Fixes
+
+* **analytics:** start PostHog only after the onboarding privacy slide ([#966](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/966)) ([bf83ce4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bf83ce4beea58c084cd6bf2de2f229cbad835104))
+* **analytics:** store when the user chose, keep the choice on import ([#965](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/965)) ([d7d8df9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d7d8df95d8893e1dc02850ec397915ce3eea3cc3))
+* **analytics:** update product analytics ([#961](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/961)) ([3f378b1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3f378b1b552a36dc4d55286f204fcc2ac7693fda))
+* **feedback:** send own random id with feedback ([#964](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/964)) ([9a540f1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9a540f1d30e2b04b92bc9b9357c54d2fb740776a))
+* **telemetry:** scrub user data from Sentry reports ([#963](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/963)) ([ba34255](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ba3425541d5f4efa525a9d58008be16d7a19f335))
+
 ## [1.104.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.103.0...v1.104.0) (2026-10-26)
 
 
