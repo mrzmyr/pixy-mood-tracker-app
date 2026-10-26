@@ -5,3 +5,4 @@ export { useCalendarNavigation } from "./navigation";
 export { HAS_FLOATING_HEADER } from "./floating-header";
 export { getCalendarLayoutLabel, useCalendarLayout } from "./calendar-layout";
 export { CalendarScreenReaderTitle } from "./screen-reader-title";
+export { queueCalendarIntro, useIsCalendarIntroActive } from "./intro";

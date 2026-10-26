@@ -5,6 +5,7 @@ import {
   useCalendarFilters,
   useCalendarFiltersSheet,
   useCalendarLayout,
+  useIsCalendarIntroActive,
 } from "@/features/calendar";
 import { ProfileHeaderButton } from "@/features/profile";
 import { t } from "@/lib/translation";
@@ -47,6 +48,12 @@ export const CalendarHeaderButtons = () => {
   const calendarLayout = useCalendarLayout();
   const isProfileEnabled = useFeatureFlag("profile");
   const openSettings = () => router.navigate("/settings");
+  // The calendar intro shows the buttons after the pixels.
+  const isIntroActive = useIsCalendarIntroActive();
+
+  if (isIntroActive) {
+    return null;
+  }
 
   return (
     <>

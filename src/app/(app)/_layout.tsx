@@ -158,6 +158,8 @@ const AppLayout = () => {
               // Title stays the iOS back button label. The header shows none
               // but exposes the screen name to screen readers.
               title: t("calendar"),
+              // Onboarding hands off to the calendar with a cross-fade.
+              animation: "fade",
               headerTitle: CalendarScreenReaderTitle,
               headerTintColor: colors.text,
               headerShadowVisible: false,

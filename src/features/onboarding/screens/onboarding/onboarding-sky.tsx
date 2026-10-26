@@ -15,6 +15,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
+import useColors from "@/hooks/use-colors";
 
 // Same CC0 cloud photo as the pixy.day hero. Edges only match their mirror,
 // so the strip runs photo, mirror, photo and loops after two widths.
@@ -30,16 +31,25 @@ const DRIFT_SPEED = 8;
 const STEP_SPEED = 220;
 const STEP_RAMP_UP_MS = 250;
 const STEP_RAMP_DOWN_MS = 1600;
+const SKY_FADE_MS = 600;
 
 /**
  * Full-screen sky behind the onboarding slides. The clouds drift slowly
  * and speed up for a moment each time `step` changes. Reduced motion keeps
  * the sky still. Dark mode dims it to dusk, like the website.
  */
-export const OnboardingSky = ({ step }: { step: number }) => {
+export const OnboardingSky = ({
+  step,
+  isVisible = true,
+}: {
+  step: number;
+  /** False fades the sky out, for the hand-off to the calendar. */
+  isVisible?: boolean;
+}) => {
   const { height } = useWindowDimensions();
   const scheme = useColorScheme();
   const isReducedMotion = useReducedMotion();
+  const colors = useColors();
 
   const copyWidth = Math.ceil(height * SKY_ASPECT_RATIO);
   const period = useSharedValue(copyWidth * 2);
@@ -80,13 +90,23 @@ export const OnboardingSky = ({ step }: { step: number }) => {
     );
   }, [step, speed]);
 
+  const opacity = useSharedValue(1);
+  useEffect(() => {
+    opacity.set(withTiming(isVisible ? 1 : 0, { duration: SKY_FADE_MS }));
+  }, [isVisible, opacity]);
+  const fadeStyle = useAnimatedStyle(() => ({ opacity: opacity.get() }));
+
   const panStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: -offset.get() }],
   }));
 
   return (
-    <View
-      style={StyleSheet.absoluteFill}
+    <Animated.View
+      style={[
+        StyleSheet.absoluteFill,
+        { backgroundColor: colors.onboardingSkyBackground },
+        fadeStyle,
+      ]}
       pointerEvents="none"
       accessible={false}
       accessibilityElementsHidden
@@ -114,6 +134,6 @@ export const OnboardingSky = ({ step }: { step: number }) => {
           ]}
         />
       ) : null}
-    </View>
+    </Animated.View>
   );
 };
