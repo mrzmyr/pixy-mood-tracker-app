@@ -129,6 +129,8 @@ const light = {
   tabsTextInactive: colors.neutral[400],
 
   menuListItemBackground: "#FFF",
+  // Hairline around Apple's white Health tile on white rows.
+  healthIconBorder: colors.neutral[300],
   menuListItemText: "#000",
   menuListItemIcon: "#000",
   menuListItemBorder: colors.neutral[100],
@@ -363,6 +365,7 @@ const dark: IColors & {
   tabsTextInactive: colors.neutral[600],
 
   menuListItemBackground: colors.neutral[900],
+  healthIconBorder: colors.neutral[700],
   menuListItemText: colors.neutral[50],
   menuListItemIcon: colors.neutral[200],
   menuListItemBorder: colors.neutral[800],

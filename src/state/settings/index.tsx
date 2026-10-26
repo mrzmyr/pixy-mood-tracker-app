@@ -94,6 +94,11 @@ export interface SettingsState {
    * belongs to the device.
    */
   locationEnabled: boolean;
+  /**
+   * The sleep step starts with a quality scored from Apple Health. Health
+   * access belongs to the device.
+   */
+  healthSleepEnabled: boolean;
   /** Calendar screen layout for this device. */
   calendarLayout: CalendarLayout;
   /**
@@ -137,7 +142,8 @@ export interface SettingsState {
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
  * location, calendar layout, app lock, recap notifications, the profile,
- * and quick check-ins to the device, so imports keep the current values.
+ * quick check-ins, and Apple Health to the device, so imports keep the
+ * current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -147,6 +153,7 @@ export type ExportSettings = Omit<
   | "photosDayAccessDismissed"
   | "colorScheme"
   | "locationEnabled"
+  | "healthSleepEnabled"
   | "calendarLayout"
   | "appLockEnabled"
   | "recapNotificationsEnabled"
@@ -199,8 +206,8 @@ const reducer = (
       return action.payload(state);
     }
     // Store review prompt state, photo library access, theme, location,
-    // calendar layout, app lock, recap notifications, and the profile belong
-    // to this device, so imports keep the current values.
+    // calendar layout, app lock, recap notifications, the profile, and Apple
+    // Health belong to this device, so imports keep the current values.
     case "import": {
       return {
         ...INITIAL_STATE,
@@ -211,6 +218,7 @@ const reducer = (
         photosDayAccessDismissed: state.photosDayAccessDismissed,
         colorScheme: state.colorScheme,
         locationEnabled: state.locationEnabled,
+        healthSleepEnabled: state.healthSleepEnabled,
         calendarLayout: state.calendarLayout,
         appLockEnabled: state.appLockEnabled,
         recapNotificationsEnabled: state.recapNotificationsEnabled,
@@ -249,6 +257,7 @@ const hydrateStored = ({
   }),
   photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
   locationEnabled: stored.locationEnabled === true,
+  healthSleepEnabled: stored.healthSleepEnabled === true,
   colorScheme:
     ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ?? "system",
   calendarLayout: isCalendarLayout(stored.calendarLayout)

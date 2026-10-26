@@ -6,6 +6,7 @@ export const FEATURE_FLAGS = [
   "app-icons",
   "app-lock",
   "app-lock-bypass",
+  "apple-health",
   "calendar-timeline",
   "development",
   "emotion-icons",
@@ -45,6 +46,10 @@ export const FEATURE_FLAG_DETAILS: Record<
     description:
       "Opens a locked app for a targeted person. PostHog only, local overrides never apply",
     location: "Lock screen",
+  },
+  "apple-health": {
+    description: "Sleep quality filled from Apple Health",
+    location: "Settings > Check-in > Sleep, new entries, Edit entry > Sleep",
   },
   "calendar-timeline": {
     description: "Timeline layout for the calendar",

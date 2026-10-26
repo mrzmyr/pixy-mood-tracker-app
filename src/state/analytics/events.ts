@@ -65,6 +65,12 @@ export interface AnalyticsEvents {
     /** Never the place itself. */
     has_location: boolean;
   };
+  /** New entry got its sleep quality from Apple Health, without the sleep step. */
+  "logger:health_sleep_filled": {
+    quality: LogItem["sleep"]["quality"];
+    has_bedtime: boolean;
+    has_interruptions: boolean;
+  };
   "logger:flow_cancelled": { mode: "create" | "edit" };
   /**
    * Launch prompt after the OS killed the app with the logger open.
@@ -354,6 +360,7 @@ export interface AnalyticsEvents {
   "settings:scale_changed": { scale_type: SettingsState["scaleType"] };
   "settings:step_toggled": { step: LoggerStep; enabled: boolean };
   "settings:location_toggled": { enabled: boolean };
+  "settings:health_sleep_toggled": { enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
   "settings:app_lock_toggled": { enabled: boolean };

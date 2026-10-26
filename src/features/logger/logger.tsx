@@ -9,6 +9,7 @@ import type { IQuestion } from "@/features/questioner";
 import { useSettings } from "@/state/settings";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useAnalytics } from "@/state/analytics";
+import { useHealthSleepSetting } from "@/features/health";
 import { LogDraftProvider, useLogDraft } from "./log-draft";
 import { finalizeDraft } from "./finalize-draft";
 import type { LogDraft } from "./finalize-draft";
@@ -242,7 +243,7 @@ const LoggerSlides = ({
     }
 
     if (slideIndex + 1 === slideKeys.length) {
-      save();
+      void save();
     } else if (slideIndex + 1 > furthestIndex) {
       pendingIndex.current = slideIndex + 1;
       setFurthestIndex(slideIndex + 1);
@@ -290,7 +291,7 @@ const LoggerSlides = ({
         isActionVisible={ratingActionType !== "hidden"}
         onRatingChanged={() => {
           if (slideKeys.length === 1) {
-            save();
+            void save();
             return;
           }
           next();
@@ -584,6 +585,7 @@ export const LoggerCreate = ({
   const { hasStep, settings } = useSettings();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
+  const { isEnabled: isSleepAutoFilled } = useHealthSleepSetting();
   const logState = useLogState();
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
@@ -613,6 +615,7 @@ export const LoggerCreate = ({
       reminderEnabled: settings.reminderEnabled,
       itemsCount: logState.items.length,
       hasSleepOnDay: hasSleepOnDate(logState.items, initialItem.date),
+      isSleepAutoFilled,
       isPhotosEnabled,
     });
 
