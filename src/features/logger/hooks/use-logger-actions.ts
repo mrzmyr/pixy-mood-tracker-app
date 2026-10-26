@@ -10,6 +10,7 @@ import { EMOTIONS } from "../config";
 import { useLogDraft } from "../log-draft";
 import type { FinalizedDraft } from "../finalize-draft";
 import type { LoggerMode } from "../logger";
+import { useSaveAfterSleepFill } from "./use-health-sleep-fill";
 
 /** Emotions that make a save a bad moment for a store review prompt. */
 const NEGATIVE_EMOTION_KEYS = new Set<string>();
@@ -30,7 +31,8 @@ export type SavedEntry = Pick<FinalizedDraft, "item" | "closeTo">;
  * Every handler except a create save closes the logger and sweeps photo
  * files no stored entry references (draft photos after cancel, removed
  * photos after save). A create save hands the entry to `onCreated` for the
- * confirmation; without `onCreated` it closes the logger.
+ * confirmation; without `onCreated` it closes the logger. Save first waits
+ * for the Apple Health sleep fill, see `useSaveAfterSleepFill`.
  */
 export const useLoggerActions = ({
   mode,
@@ -119,5 +121,7 @@ export const useLoggerActions = ({
     close();
   };
 
-  return { save, cancel };
+  const saveAfterSleepFill = useSaveAfterSleepFill({ mode, save });
+
+  return { save: saveAfterSleepFill, cancel };
 };

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
-import { Text } from "react-native";
+import { Pressable, Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StoryPlayer } from "../story/story-player";
 import type { PlayerSlide } from "../story/story-player";
@@ -24,7 +24,14 @@ const renderPlayer = async () => {
         slides={SLIDES}
         onClose={onClose}
         onSlideShown={onSlideShown}
-        renderBottom={(index) => <Text>{`bottom ${index}`}</Text>}
+        renderBottom={(index, _theme, controls) => (
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => controls.pause()}
+          >
+            <Text>{`bottom ${index}`}</Text>
+          </Pressable>
+        )}
       />
     </SafeAreaProvider>
   );
@@ -77,13 +84,36 @@ describe("story player", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  test("tap to the next slide keeps a paused story paused", async () => {
+  test("tap to the next slide plays a paused story again", async () => {
     await renderPlayer();
 
     await fireEvent.press(screen.getByLabelText("Pause"));
     await tap(300);
 
     expect(screen.getByText("Two")).toBeTruthy();
+    expect(screen.getByLabelText("Pause")).toBeTruthy();
+  });
+
+  test("tap back plays a paused story again", async () => {
+    await renderPlayer();
+
+    await tap(300);
+    await fireEvent.press(screen.getByLabelText("Pause"));
+    await tap(40);
+
+    expect(screen.getByText("One")).toBeTruthy();
+    expect(screen.getByLabelText("Pause")).toBeTruthy();
+  });
+
+  test("a bottom action pauses the story until play", async () => {
+    await renderPlayer();
+
+    await fireEvent.press(screen.getByText("bottom 0"));
+
     expect(screen.getByLabelText("Play")).toBeTruthy();
+
+    await fireEvent.press(screen.getByLabelText("Play"));
+
+    expect(screen.getByLabelText("Pause")).toBeTruthy();
   });
 });

@@ -475,7 +475,7 @@
       "label": "Voice check-in",
       "status": "flagged",
       "group": "logging",
-      "description": "Talk about your day. Pixy transcribes on device, finds your people, tags, and emotions, and opens a prefilled check-in. Behind the voice-mode feature flag.",
+      "description": "Talk about your day. Pixy transcribes on device, finds your people, tags, emotions, and the mood you name, and opens a prefilled check-in. Behind the voice-mode feature flag.",
       "evidence": [
         "src/features/voice/",
         "src/state/feature-flags/keys.ts",

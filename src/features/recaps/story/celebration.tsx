@@ -5,11 +5,11 @@ import Animated, {
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
-  withDelay,
   withTiming,
 } from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 
-/** CE1: pixels burst from a point. CE2: a pixel wave fills the screen. */
+/** CE1: confetti bursts from a point. CE2: confetti rains over the screen. */
 export type CelebrationKind = "burst" | "wave";
 
 /** Where a celebration starts, in screen points. */
@@ -18,97 +18,126 @@ export interface CelebrationOrigin {
   y: number;
 }
 
-const BURST_PIXELS = 42;
-const WAVE_CELL = 26;
+/**
+ * Party confetti colors, Tailwind red-500, orange-500, amber-400,
+ * yellow-300, green-500, teal-400, blue-500, violet-500, pink-500. Never
+ * the mood or Pixy colors: confetti should look like real paper, not data.
+ */
+const CONFETTI_COLORS = [
+  "#EF4444",
+  "#F97316",
+  "#FBBF24",
+  "#FDE047",
+  "#22C55E",
+  "#2DD4BF",
+  "#3B82F6",
+  "#8B5CF6",
+  "#EC4899",
+];
 
-/** Stable pseudo-random value 0 to 1 per particle, so renders match. */
+const PIECES = { burst: 70, wave: 120 } as const;
+/** Seconds until the last piece is gone. */
+const SECONDS = { burst: 3.2, wave: 4.2 } as const;
+/** Pull down, in points per second squared. */
+const GRAVITY = 1100;
+/** Air drag per second: paper slows fast and falls at about 300 pt/s. */
+const DRAG = 3.4;
+
+/** Stable pseudo-random value 0 to 1 per piece, so renders match. */
 const noise = (seed: number) => {
   const value = Math.sin(seed * 12.9898) * 43_758.5453;
   return value - Math.floor(value);
 };
 
-const BurstPixel = ({
-  index,
-  origin,
-  color,
-}: {
-  index: number;
-  origin: CelebrationOrigin;
-  color: string;
-}) => {
-  const progress = useSharedValue(0);
-  const angle = noise(index + 1) * Math.PI * 2;
-  const distance = 70 + noise(index + 7) * 150;
-  const size = 6 + noise(index + 13) * 8;
-  const spin = noise(index + 19) * 540;
-  const duration = 1100 + noise(index + 23) * 500;
-  useEffect(() => {
-    progress.set(
-      withTiming(1, { duration, easing: Easing.inOut(Easing.quad) })
-    );
-  }, [progress, duration]);
-  const style = useAnimatedStyle(() => {
-    const value = progress.get();
-    // Out fast, then gravity pulls the pixel down while it fades.
-    const fall = value > 0.55 ? (value - 0.55) * 300 : 0;
-    return {
-      opacity: value > 0.55 ? 1 - (value - 0.55) / 0.45 : 1,
-      transform: [
-        { translateX: Math.cos(angle) * distance * Math.min(1, value / 0.55) },
-        {
-          translateY:
-            Math.sin(angle) * distance * Math.min(1, value / 0.55) -
-            40 * Math.min(1, value / 0.55) +
-            fall,
-        },
-        { rotate: `${spin * value}deg` },
-        { scale: 0.4 + 0.6 * Math.min(1, value / 0.3) },
-      ],
-    };
-  });
-  return (
-    <Animated.View
-      style={[
-        {
-          position: "absolute",
-          left: origin.x - size / 2,
-          top: origin.y - size / 2,
-          width: size,
-          height: size,
-          borderRadius: 3,
-          backgroundColor: color,
-        },
-        style,
-      ]}
-    />
-  );
-};
-
-const WavePixel = ({
-  x,
-  y,
-  delay,
-  color,
-}: {
+/** Start state of one piece, all random but stable per index. */
+interface Piece {
+  id: string;
   x: number;
   y: number;
+  vx: number;
+  vy: number;
   delay: number;
+  width: number;
+  height: number;
+  isRound: boolean;
   color: string;
-}) => {
-  const progress = useSharedValue(0);
-  useEffect(() => {
-    progress.set(withDelay(delay, withTiming(1, { duration: 1100 })));
-  }, [progress, delay]);
-  const style = useAnimatedStyle(() => {
-    const value = progress.get();
+  spin: number;
+  flip: number;
+  sway: number;
+  phase: number;
+}
+
+const makePiece = (
+  index: number,
+  kind: CelebrationKind,
+  origin: CelebrationOrigin,
+  screenWidth: number
+): Piece => {
+  const r = (salt: number) => noise(index * 31 + salt);
+  const isRound = r(1) < 0.18;
+  const base = {
+    id: `${kind}-${index}`,
+    width: isRound ? 7 : 6 + r(2) * 4,
+    height: isRound ? 7 : 10 + r(3) * 7,
+    isRound,
+    color: CONFETTI_COLORS[index % CONFETTI_COLORS.length] ?? "#EF4444",
+    spin: (r(4) - 0.5) * 720,
+    flip: 6 + r(5) * 8,
+    sway: 10 + r(6) * 22,
+    phase: r(7) * Math.PI * 2,
+  };
+  if (kind === "burst") {
+    // A cone that opens upward, like a party popper.
+    const angle = -Math.PI / 2 + (r(8) - 0.5) * 2.6;
+    const speed = 650 + r(9) * 900;
     return {
-      opacity:
-        value < 0.3 ? (value / 0.3) * 0.9 : 0.9 * (1 - (value - 0.3) / 0.7),
+      ...base,
+      x: origin.x,
+      y: origin.y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      delay: r(10) * 0.08,
+    };
+  }
+  // Rain: pieces start above the screen and drift down in waves.
+  return {
+    ...base,
+    x: r(8) * screenWidth,
+    y: -20 - r(9) * 80,
+    vx: (r(10) - 0.5) * 160,
+    vy: 40 + r(11) * 160,
+    delay: r(12) * 1.4,
+  };
+};
+
+const ConfettiPiece = ({
+  piece,
+  clock,
+  seconds,
+}: {
+  piece: Piece;
+  clock: SharedValue<number>;
+  seconds: number;
+}) => {
+  const style = useAnimatedStyle(() => {
+    const time = Math.max(0, clock.get() * seconds - piece.delay);
+    const slow = 1 - Math.exp(-DRAG * time);
+    const terminal = GRAVITY / DRAG;
+    // Drag eats the throw, gravity wins until paper falls at a steady pace.
+    const x =
+      piece.x +
+      (piece.vx / DRAG) * slow +
+      Math.sin(time * 3 + piece.phase) * piece.sway * slow;
+    const y = piece.y + terminal * time + ((piece.vy - terminal) / DRAG) * slow;
+    const left = seconds - piece.delay - time;
+    return {
+      opacity: time === 0 ? 0 : Math.min(1, left / 0.6),
       transform: [
-        {
-          scale:
-            value < 0.3 ? 0.2 + (value / 0.3) * 0.8 : 1 - (value - 0.3) * 0.5,
-        },
+        { translateX: x - piece.width / 2 },
+        { translateY: y - piece.height / 2 },
+        { rotate: `${piece.spin * time}deg` },
+        // Paper tumbles: its height flips through 0 as it turns.
+        { scaleY: Math.cos(time * piece.flip + piece.phase) },
       ],
     };
   });
@@ -117,12 +146,12 @@ const WavePixel = ({
       style={[
         {
           position: "absolute",
-          left: x + 2,
-          top: y + 2,
-          width: WAVE_CELL - 4,
-          height: WAVE_CELL - 4,
-          borderRadius: 4,
-          backgroundColor: color,
+          left: 0,
+          top: 0,
+          width: piece.width,
+          height: piece.height,
+          borderRadius: piece.isRound ? piece.width / 2 : 1.5,
+          backgroundColor: piece.color,
         },
         style,
       ]}
@@ -131,67 +160,40 @@ const WavePixel = ({
 };
 
 /**
- * Pixel celebration for a right quiz answer, in the month's colors. Draws
- * nothing with Reduce Motion on. Remount with a new `key` to play again.
+ * Paper confetti for a right quiz answer and the thanks slide. `burst`
+ * pops from `origin`, `wave` rains over the whole screen. Drag, gravity,
+ * sway, and tumble make each piece fall like paper. Draws nothing with
+ * Reduce Motion on. Remount with a new `key` to play again.
  */
 export const Celebration = ({
   kind,
   origin,
-  colors,
 }: {
   kind: CelebrationKind;
   origin: CelebrationOrigin;
-  colors: string[];
 }) => {
-  const { width, height } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const isReducedMotion = useReducedMotion();
-  if (isReducedMotion || colors.length === 0) {
-    return null;
-  }
-  const colorAt = (index: number) => colors[index % colors.length] ?? "#34D399";
-  if (kind === "burst") {
-    return (
-      <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-        {Array.from({ length: BURST_PIXELS }, (_, index) => (
-          <BurstPixel
-            // Particles never reorder; the index is their identity.
-            key={`burst-${index}`}
-            index={index}
-            origin={origin}
-            color={colorAt(index)}
-          />
-        ))}
-      </View>
+  const clock = useSharedValue(0);
+  const seconds = SECONDS[kind];
+  useEffect(() => {
+    clock.set(
+      withTiming(1, { duration: seconds * 1000, easing: Easing.linear })
     );
-  }
-  const cells: { x: number; y: number; delay: number; index: number }[] = [];
-  const columns = Math.ceil(width / WAVE_CELL);
-  const rows = Math.ceil(height / WAVE_CELL);
-  for (let row = 0; row < rows; row += 1) {
-    for (let column = 0; column < columns; column += 1) {
-      const index = row * columns + column;
-      // About half the cells light up, so the wave reads as pixels.
-      if (noise(index + 31) < 0.5) {
-        const x = column * WAVE_CELL;
-        const y = row * WAVE_CELL;
-        cells.push({
-          x,
-          y,
-          index,
-          delay: Math.hypot(x - origin.x, y - origin.y) * 1.2,
-        });
-      }
-    }
+  }, [clock, seconds]);
+  if (isReducedMotion) {
+    return null;
   }
   return (
     <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-      {cells.map((cell) => (
-        <WavePixel
-          key={`wave-${cell.index}`}
-          x={cell.x}
-          y={cell.y}
-          delay={cell.delay}
-          color={colorAt(cell.index * 7)}
+      {Array.from({ length: PIECES[kind] }, (_, index) =>
+        makePiece(index, kind, origin, width)
+      ).map((piece) => (
+        <ConfettiPiece
+          key={piece.id}
+          piece={piece}
+          clock={clock}
+          seconds={seconds}
         />
       ))}
     </View>

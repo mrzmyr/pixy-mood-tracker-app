@@ -3,7 +3,8 @@ import type { StorySlide } from "./types";
 
 /**
  * Slide background. Photo slides draw their own photo. Dark mode never shows
- * a white `paper` slide: it turns `night`.
+ * a white `paper` slide: it turns `night`. The share slide is always
+ * `night`, so its card stands out in both modes.
  */
 export const getSlideTheme = (
   slide: StorySlide,
@@ -18,6 +19,6 @@ export const getSlideTheme = (
   const isPaper =
     slide.type === "hard-pattern" ||
     slide.type === "quiz" ||
-    slide.type === "share";
+    slide.type === "thanks";
   return isPaper && !isDark ? "paper" : "night";
 };

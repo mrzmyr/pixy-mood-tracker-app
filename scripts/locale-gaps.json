@@ -196,7 +196,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -407,7 +409,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -618,7 +622,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -982,7 +988,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1193,7 +1201,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_cancel",
@@ -1404,7 +1414,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1615,7 +1627,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -1827,7 +1841,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2038,7 +2054,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2249,7 +2267,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2460,7 +2480,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2671,7 +2693,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -2882,7 +2906,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3093,7 +3119,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3304,7 +3332,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3515,7 +3545,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3726,7 +3758,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -3937,7 +3971,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4148,7 +4184,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4359,7 +4397,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4570,7 +4610,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4781,7 +4823,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -4992,7 +5036,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5203,7 +5249,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5414,7 +5462,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5625,7 +5675,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -5836,7 +5888,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -6047,7 +6101,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",
@@ -6258,7 +6314,9 @@
       "recaps_came_back_tag",
       "recaps_emotions_back_title_week",
       "recaps_emotions_back_title_month",
-      "recaps_tags_back_title"
+      "recaps_tags_back_title",
+      "recaps_story_thanks_kind",
+      "recaps_story_thanks_why"
     ],
     "extra": [
       "feedback_modal_textarea_placeholder",

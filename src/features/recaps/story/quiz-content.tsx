@@ -61,6 +61,7 @@ const QuizCard = ({
   icon,
   title,
   subtitle,
+  count,
   state,
   onPress,
   testID,
@@ -68,6 +69,8 @@ const QuizCard = ({
   icon: React.ReactNode;
   title: string;
   subtitle?: string;
+  /** Days, top right in place of `subtitle`, which screen readers still hear. */
+  count?: number;
   state: "idle" | "picked" | "right" | "made-up";
   onPress?: (event: GestureResponderEvent) => void;
   testID: string;
@@ -101,6 +104,22 @@ const QuizCard = ({
         }}
       >
         {icon}
+        {count !== undefined && (
+          <StoryText
+            kind="title"
+            theme={theme}
+            testID={`${testID}-count`}
+            style={{
+              fontSize: 24,
+              lineHeight: 28,
+              fontWeight: "600",
+              fontVariant: ["tabular-nums"],
+              color: colors.text,
+            }}
+          >
+            {count}
+          </StoryText>
+        )}
         {state === "made-up" && (
           <StoryText
             kind="eyebrow"
@@ -126,7 +145,7 @@ const QuizCard = ({
       >
         {title}
       </StoryText>
-      {subtitle !== undefined && (
+      {subtitle !== undefined && count === undefined && (
         <StoryText
           kind="label"
           theme={theme}
@@ -400,6 +419,17 @@ const Guess = ({
                 )
               }
               title={nameOf(id)}
+              subtitle={
+                result
+                  ? t(
+                      slide.quiz === "people"
+                        ? "recaps_story_people_days"
+                        : "recaps_story_days",
+                      { count: slide.days[id] ?? 0 }
+                    )
+                  : undefined
+              }
+              count={result ? (slide.days[id] ?? 0) : undefined}
               state={state}
               testID={`recap-story-quiz-tile-${id}`}
               onPress={
@@ -415,21 +445,6 @@ const Guess = ({
           );
         })}
       </Grid>
-      {result && (
-        <Reveal>
-          {t(
-            slide.quiz === "people"
-              ? "recaps_story_quiz_reveal_people"
-              : "recaps_story_quiz_reveal_tags",
-            {
-              name: nameOf(slide.answer),
-              count: slide.days,
-              runnerUp: nameOf(slide.runnerUp.id),
-              days: slide.runnerUp.days,
-            }
-          )}
-        </Reveal>
-      )}
     </>
   );
 };

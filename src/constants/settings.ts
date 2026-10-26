@@ -47,6 +47,7 @@ export const INITIAL_STATE: SettingsState = {
   photosDayAccessDismissed: false,
   colorScheme: "system",
   locationEnabled: false,
+  healthSleepEnabled: false,
   calendarLayout: "calendar",
   appLockEnabled: false,
   recapNotificationsEnabled: false,
