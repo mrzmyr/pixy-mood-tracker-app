@@ -1,10 +1,11 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import LinkButton from "@/components/link-button";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
+import Trash from "lucide-react-native/icons/trash";
 import RouteModalHeader from "@/components/route-modal-header";
 import TextInfo from "@/components/text-info";
 import useColors from "@/hooks/use-colors";
@@ -139,17 +140,9 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
           <MenuList style={{ marginTop: 16 }}>
             <MenuListItem
               testID="tag-category-delete"
-              title={
-                <Text
-                  style={{
-                    fontSize: 17,
-                    textAlign: "center",
-                    color: colors.dangerButtonText,
-                  }}
-                >
-                  {t("delete")}
-                </Text>
-              }
+              title={t("delete")}
+              tone="destructive"
+              iconLeft={<Trash size={24} color={colors.danger} />}
               onPress={() => confirmDelete(category)}
             />
           </MenuList>

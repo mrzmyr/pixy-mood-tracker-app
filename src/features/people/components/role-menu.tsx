@@ -1,7 +1,6 @@
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
-import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { RoleMenuProps } from "./role-menu-types";
 import { getRoleOptions } from "./role-menu-types";
@@ -16,29 +15,25 @@ export const RoleMenu = ({
   onChange,
   onRequest,
   testID,
-}: RoleMenuProps) => {
-  const colors = useColors();
-
-  return (
-    <>
-      <MenuListHeadline>{t("people_role")}</MenuListHeadline>
-      <MenuList>
-        {getRoleOptions().map((option) => (
-          <MenuListItem
-            key={option.value ?? "none"}
-            testID={`${testID}-${option.value ?? "none"}`}
-            title={option.label}
-            checked={option.value === value}
-            onPress={() => onChange(option.value)}
-          />
-        ))}
+}: RoleMenuProps) => (
+  <>
+    <MenuListHeadline>{t("people_role")}</MenuListHeadline>
+    <MenuList>
+      {getRoleOptions().map((option) => (
         <MenuListItem
-          testID={`${testID}-request`}
-          title={t("people_role_request")}
-          onPress={onRequest}
-          style={{ color: colors.tint }}
+          key={option.value ?? "none"}
+          testID={`${testID}-${option.value ?? "none"}`}
+          title={option.label}
+          checked={option.value === value}
+          onPress={() => onChange(option.value)}
         />
-      </MenuList>
-    </>
-  );
-};
+      ))}
+      <MenuListItem
+        testID={`${testID}-request`}
+        title={t("people_role_request")}
+        onPress={onRequest}
+        tone="action"
+      />
+    </MenuList>
+  </>
+);
