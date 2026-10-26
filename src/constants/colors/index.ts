@@ -227,6 +227,9 @@ const light = {
 
   // Sky color under the cloud photo until it loads.
   onboardingSkyBackground: "#a9d4fd",
+  // Frosted cards and fields on the sky.
+  onboardingCardBackground: "rgba(255,255,255,0.78)",
+  onboardingCardBorder: "rgba(255,255,255,0.95)",
   onboardingPaginationText: colors.neutral[500],
   onboardingPaginationDotActive: colors.neutral[500],
   onboardingPaginationDotInactive: colors.neutral[300],
@@ -459,9 +462,12 @@ const dark: IColors & {
   onboardingBody: colors.neutral[300],
 
   onboardingSkyBackground: "#304560",
+  onboardingCardBackground: "rgba(14,24,38,0.62)",
+  onboardingCardBorder: "rgba(255,255,255,0.14)",
   onboardingPaginationText: colors.neutral[300],
-  onboardingPaginationDotActive: colors.neutral[300],
-  onboardingPaginationDotInactive: colors.neutral[700],
+  onboardingPaginationDotActive: colors.white,
+  // Brighter than the dusk sky behind it.
+  onboardingPaginationDotInactive: colors.neutral[500],
 
   onboardingPrivacyBadgeBackground: tintColorDark,
   onboardingPrivacyBadgeVector: onTintDark,

@@ -24,10 +24,18 @@ const HeaderPaginationDot = ({ active }: { active: boolean }) => {
 
 /** First onboarding slide that shows the header; it gets the first dot. */
 const FIRST_HEADER_SLIDE = 1;
-const HEADER_SLIDE_COUNT = 4;
 
-/** Four pagination dots for header slides 1 to 4; `index` is the slide index. */
-export const HeaderPagination = ({ index }: { index: number }) => (
+/**
+ * One dot per header slide, from slide 1 on; `index` is the slide index and
+ * `count` the number of header slides.
+ */
+export const HeaderPagination = ({
+  index,
+  count,
+}: {
+  index: number;
+  count: number;
+}) => (
   <View
     style={{
       flexDirection: "row",
@@ -35,7 +43,7 @@ export const HeaderPagination = ({ index }: { index: number }) => (
       alignItems: "center",
     }}
   >
-    {Array.from({ length: HEADER_SLIDE_COUNT }, (_, dot) => (
+    {Array.from({ length: count }, (_, dot) => (
       <HeaderPaginationDot
         key={dot}
         active={index - FIRST_HEADER_SLIDE === dot}

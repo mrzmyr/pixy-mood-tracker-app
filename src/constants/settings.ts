@@ -1,4 +1,5 @@
 import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
+import { EMPTY_PERSONALIZATION } from "@/constants/personalization";
 import type { SettingsState } from "@/state/settings";
 
 /**
@@ -51,6 +52,7 @@ export const INITIAL_STATE: SettingsState = {
   appLockEnabled: false,
   recapNotificationsEnabled: false,
   profileName: "",
+  personalization: EMPTY_PERSONALIZATION,
   profileAvatar: null,
   quickCheckInEnabled: false,
   quickCheckInSchedule: DEFAULT_QUICK_CHECK_IN_SCHEDULE,

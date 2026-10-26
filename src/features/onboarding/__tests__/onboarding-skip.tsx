@@ -4,6 +4,8 @@ import { render, userEvent } from "@testing-library/react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { Onboarding } from "@/features/onboarding/routes";
+import { LogsProvider } from "@/features/logs";
+import { TagsProvider } from "@/features/tags";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
 
@@ -23,7 +25,11 @@ const renderOnboarding = () =>
       >
         <SettingsProvider>
           <AnalyticsProvider options={{ enabled: true }}>
-            <Onboarding needsConsent />
+            <LogsProvider>
+              <TagsProvider>
+                <Onboarding needsConsent />
+              </TagsProvider>
+            </LogsProvider>
           </AnalyticsProvider>
         </SettingsProvider>
       </ThemeProvider>

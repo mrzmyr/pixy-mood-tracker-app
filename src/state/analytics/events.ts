@@ -41,6 +41,16 @@ export interface AnalyticsEvents {
   "onboarding:reminder_postponed": undefined;
   "onboarding:flow_completed": undefined;
   "onboarding:flow_skipped": { index: number };
+  /**
+   * Onboarding answers applied on leave. Never the name, the goal, or the
+   * struggles: they can reveal health (GDPR Art. 9) and stay on the device.
+   */
+  "onboarding:personalized": {
+    has_name: boolean;
+    category_count: number;
+    tag_count: number;
+    removed_tag_count: number;
+  };
 
   "logger:flow_started": { mode: "create" | "edit"; steps_count: number };
   "logger:step_viewed": {

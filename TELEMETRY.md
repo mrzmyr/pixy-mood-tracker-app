@@ -118,6 +118,9 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `photos:import_failed`: `source`, `status`
   - `photos:viewer_closed`: `context` (`logger`, `day`), `photos_count`, `viewed_count`
   - `logger:log_saved`: new `photos_count`, `photos_day_count`, `photos_library_count`
+- Personalized onboarding, first release with the question slides ([`src/features/onboarding`](src/features/onboarding))
+  - `onboarding:personalized`: `has_name`, `category_count`, `tag_count`, `removed_tag_count`. Never the name, the goal, or the struggles: they can reveal health and stay on the device
+  - `onboarding:slide_viewed` and `onboarding:flow_skipped`: `index` now counts the new slides (0 welcome, 1 name, 2 goal, 3 struggles, 4 check-in steps, 5 summary, 6 reminder, 7 privacy). Before: 0 welcome, 1 to 3 feature slides, 4 reminder, 5 privacy
   - Counts and enums only. Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
 - Never shipped in a release, replaced before the first photos release: `logger:library_permission_answered` (now `photos:day_access_answered`), `logger:photo_added` (now `photos:photo_added`), `logger:photo_removed` (now `photos:photo_removed`), `photos:photo_selected` (now `photos:photo_added`), `photos:photo_deselected` (now `photos:photo_removed`), `logger:photo_limit_reached` (now `photos:limit_reached`), `logger:camera_permission_denied` (dropped: no camera), `day:photo_opened` (now `photos:viewer_closed` with `context: "day"`)
 

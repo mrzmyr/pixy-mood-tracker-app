@@ -3,8 +3,8 @@ import type { ExportSettings, SettingsState } from "@/state/settings";
 /**
  * Projects settings onto the fields a backup carries. Device-bound fields
  * (device id, store review prompt, photo library access, theme, location,
- * app lock, recap notifications, profile, quick check-in) stay on the
- * device.
+ * app lock, recap notifications, profile, onboarding answers, quick
+ * check-in) stay on the device.
  */
 export const toExportSettings = (settings: SettingsState): ExportSettings => ({
   scaleType: settings.scaleType,

@@ -323,6 +323,7 @@ describe("useLogs()", () => {
           "recapNotificationsEnabled",
           "profileName",
           "profileAvatar",
+          "personalization",
           "quickCheckInEnabled",
           "quickCheckInSchedule",
         ]),

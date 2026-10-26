@@ -7,12 +7,17 @@ appId: ${APP_ID}
     timeout: 10000
 - tapOn:
     id: "onboarding-start"
+# No answers: every question keeps its default.
 - tapOn:
-    text: "Next"
+    id: "onboarding-name-next"
 - tapOn:
-    text: "Next"
+    id: "onboarding-goal-next"
 - tapOn:
-    text: "Next"
+    id: "onboarding-struggles-next"
+- tapOn:
+    id: "onboarding-capture-next"
+- tapOn:
+    id: "onboarding-summary-next"
 - tapOn:
     text: "Maybe later"
 - runFlow: finish-privacy-slide.yaml

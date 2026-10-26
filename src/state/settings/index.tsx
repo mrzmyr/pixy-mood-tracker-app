@@ -4,6 +4,11 @@ import { useEffect, useMemo } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
+import {
+  EMPTY_PERSONALIZATION,
+  PersonalizationAnswersSchema,
+} from "@/constants/personalization";
+import type { PersonalizationAnswers } from "@/constants/personalization";
 import { STEP_OPTIONS } from "@/constants/logger-steps";
 import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 
@@ -109,6 +114,11 @@ export interface SettingsState {
   /** Name the user gave themselves; empty until set. Stays on this device. */
   profileName: string;
   /**
+   * Onboarding answers: why the user is here and what they deal with. Can
+   * hold health data, so it stays on this device and backups skip it.
+   */
+  personalization: PersonalizationAnswers;
+  /**
    * Relative path of the profile photo under the documents directory, or
    * `null`. Stays on this device; backups carry no profile.
    */
@@ -152,6 +162,7 @@ export type ExportSettings = Omit<
   | "recapNotificationsEnabled"
   | "profileName"
   | "profileAvatar"
+  | "personalization"
   | "quickCheckInEnabled"
   | "quickCheckInSchedule"
 >;
@@ -216,6 +227,7 @@ const reducer = (
         recapNotificationsEnabled: state.recapNotificationsEnabled,
         profileName: state.profileName,
         profileAvatar: state.profileAvatar,
+        personalization: state.personalization,
         quickCheckInEnabled: state.quickCheckInEnabled,
         quickCheckInSchedule: state.quickCheckInSchedule,
       };
@@ -258,6 +270,9 @@ const hydrateStored = ({
   recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
   profileName: z.string().safeParse(stored.profileName).data ?? "",
   profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
+  personalization:
+    PersonalizationAnswersSchema.safeParse(stored.personalization).data ??
+    EMPTY_PERSONALIZATION,
   quickCheckInEnabled: stored.quickCheckInEnabled === true,
   quickCheckInSchedule:
     QuickCheckInScheduleSchema.safeParse(stored.quickCheckInSchedule).data ??

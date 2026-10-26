@@ -7,10 +7,13 @@ import { HeaderPagination } from "./header-pagination";
 /** Back, pagination, and skip controls above onboarding slides. */
 export const HeaderNavigation = ({
   index,
+  count,
   setIndex,
   onSkip,
 }: {
   index: number;
+  /** Number of slides with this header, so the number of dots. */
+  count: number;
   setIndex: (index: number) => void;
   onSkip: () => void;
 }) => {
@@ -22,7 +25,7 @@ export const HeaderNavigation = ({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 32,
+        paddingHorizontal: 24,
       }}
     >
       <Pressable
@@ -46,7 +49,7 @@ export const HeaderNavigation = ({
           color={colors.onboardingPaginationText}
         />
       </Pressable>
-      <HeaderPagination index={index} />
+      <HeaderPagination index={index} count={count} />
       <Pressable
         testID="onboarding-skip"
         accessibilityRole="button"

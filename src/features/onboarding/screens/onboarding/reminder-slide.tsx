@@ -1,8 +1,5 @@
-import { Platform, Text, View } from "react-native";
+import { Platform, View } from "react-native";
 import Button from "@/components/button";
-import useColors from "@/hooks/use-colors";
-import { HeaderImage } from "./header-image";
-import { HeaderNavigation } from "./header-navigation";
 import {
   Clock,
   reminderTimeToDate,
@@ -14,40 +11,9 @@ import { useState } from "react";
 
 import { useAnalytics } from "@/state/analytics";
 import LinkButton from "@/components/link-button";
-import { t, tDynamic } from "@/lib/translation";
-
-const Body = ({ index }: { index: number }) => {
-  const colors = useColors();
-
-  return (
-    <View
-      style={{
-        paddingVertical: 16,
-        paddingHorizontal: 32,
-      }}
-    >
-      <Text
-        style={{
-          color: colors.onboardingTitle,
-          fontSize: 20,
-          fontWeight: "bold",
-          marginBottom: 8,
-        }}
-      >
-        {tDynamic(`onboarding_step_${index}_title`)}
-      </Text>
-      <Text
-        style={{
-          color: colors.onboardingBody,
-          fontSize: 17,
-          lineHeight: 24,
-        }}
-      >
-        {tDynamic(`onboarding_step_${index}_body`)}
-      </Text>
-    </View>
-  );
-};
+import { t } from "@/lib/translation";
+import { QuestionLayout } from "./question-layout";
+import type { QuestionNavigation } from "./question-layout";
 
 /**
  * Onboarding reminder opt-in. Enabling replaces all scheduled
@@ -55,13 +21,11 @@ const Body = ({ index }: { index: number }) => {
  * permission is denied.
  */
 export const ReminderSlide = ({
-  index,
-  setIndex,
-  onSkip,
+  navigation,
+  onNext,
 }: {
-  index: number;
-  setIndex: (index: number) => void;
-  onSkip: () => void;
+  navigation: QuestionNavigation;
+  onNext: () => void;
 }) => {
   const analytics = useAnalytics();
 
@@ -73,86 +37,46 @@ export const ReminderSlide = ({
 
   const onLater = () => {
     analytics.track("onboarding:reminder_postponed");
-    setIndex(index + 1);
+    onNext();
   };
 
   const onEnable = async () => {
     analytics.track("onboarding:reminder_enabled");
     await reminder.enable(time);
-    setIndex(index + 1);
+    onNext();
   };
 
   return (
-    <>
-      <View
-        style={{
-          width: "100%",
-          alignItems: "center",
-          flex: 1,
-        }}
-      >
-        <HeaderImage
-          index={index}
-          // Same size as the old RN Image: asset height (1030), capped at 100%.
-          style={{
-            width: "95%",
-            height: "100%",
-            maxWidth: 360,
-          }}
-        />
-      </View>
-      <View
-        style={{
-          flex: 1,
-        }}
-      >
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <HeaderNavigation onSkip={onSkip} index={index} setIndex={setIndex} />
-          <View
-            style={{
-              flex: 1,
-            }}
-          >
-            <Body index={index} />
-            <View
-              style={{
-                paddingHorizontal: 32,
-              }}
-            >
-              <View
-                style={{
-                  maxWidth: Platform.OS === "ios" ? 80 : 65,
-                  justifyContent: "center",
-                }}
-              >
-                <Clock timeDate={time} onChange={setTime} />
-              </View>
-            </View>
-          </View>
-        </View>
-        <View
-          style={{
-            paddingHorizontal: 32,
-            paddingVertical: 16,
-          }}
-        >
-          <Button onPress={onEnable}>{t("onboarding_step_4_button_1")}</Button>
+    <QuestionLayout
+      navigation={navigation}
+      title={t("onboarding_step_4_title")}
+      subtitle={t("onboarding_step_4_body")}
+      footer={
+        <>
+          <Button testID="onboarding-reminder-enable" onPress={onEnable}>
+            {t("onboarding_step_4_button_1")}
+          </Button>
           <LinkButton
             type="secondary"
             onPress={onLater}
             style={{
               paddingTop: 16,
-              paddingBottom: 16,
+              paddingBottom: 8,
             }}
           >
             {t("onboarding_step_4_button_2")}
           </LinkButton>
-        </View>
+        </>
+      }
+    >
+      <View
+        style={{
+          maxWidth: Platform.OS === "ios" ? 80 : 65,
+          justifyContent: "center",
+        }}
+      >
+        <Clock timeDate={time} onChange={setTime} />
       </View>
-    </>
+    </QuestionLayout>
   );
 };

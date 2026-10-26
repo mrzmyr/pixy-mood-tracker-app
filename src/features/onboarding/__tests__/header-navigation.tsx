@@ -13,7 +13,12 @@ const renderHeader = async (index: number) => {
         colors: { ...DefaultTheme.colors, ...Colors.light },
       }}
     >
-      <HeaderNavigation index={index} setIndex={setIndex} onSkip={onSkip} />
+      <HeaderNavigation
+        index={index}
+        count={4}
+        setIndex={setIndex}
+        onSkip={onSkip}
+      />
     </ThemeProvider>
   );
   return { ...result, onSkip, setIndex };
