@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../use-tag-actions";
 import LinkButton from "@/components/link-button";
@@ -19,6 +19,7 @@ import type { Tag as ITag } from "../tags-provider";
 
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
+import Trash from "lucide-react-native/icons/trash";
 import Toggle from "@/components/toggle";
 import TextInfo from "@/components/text-info";
 
@@ -154,37 +155,15 @@ export const TagEdit = () => {
         </MenuList>
         <TextInfo>{t("archive_tag_description")}</TextInfo>
 
-        {Platform.OS === "ios" ? (
-          <MenuList style={{ marginTop: 8 }}>
-            <MenuListItem
-              testID="tag-delete"
-              title={
-                <Text
-                  style={{
-                    fontSize: 17,
-                    textAlign: "center",
-                    color: colors.dangerButtonText,
-                  }}
-                >
-                  {t("delete")}
-                </Text>
-              }
-              onPress={() => confirmDelete(tag)}
-            />
-          </MenuList>
-        ) : (
-          <LinkButton
+        <MenuList style={{ marginTop: 8 }}>
+          <MenuListItem
             testID="tag-delete"
+            title={t("delete")}
+            tone="destructive"
+            iconLeft={<Trash size={24} color={colors.danger} />}
             onPress={() => confirmDelete(tag)}
-            style={{
-              marginTop: 8,
-              alignSelf: "center",
-              color: colors.dangerButtonText,
-            }}
-          >
-            {t("delete")}
-          </LinkButton>
-        )}
+          />
+        </MenuList>
       </ScrollView>
     </View>
   );

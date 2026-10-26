@@ -46,7 +46,6 @@ const EditActions = ({
   const colors = useColors();
   const { confirmDelete } = usePersonActions();
   const entryCount = usePersonEntryCount(personId);
-  const isIOS = Platform.OS === "ios";
 
   const askToDelete = () => {
     confirmDelete(personId, {
@@ -78,20 +77,9 @@ const EditActions = ({
         <MenuListItem
           testID="person-delete"
           onPress={askToDelete}
-          iconLeft={
-            isIOS ? null : <Trash size={24} color={colors.dangerButtonText} />
-          }
-          title={
-            <Text
-              style={{
-                fontSize: isIOS ? 17 : 16,
-                color: colors.dangerButtonText,
-                textAlign: isIOS ? "center" : "left",
-              }}
-            >
-              {t("people_delete")}
-            </Text>
-          }
+          iconLeft={<Trash size={24} color={colors.danger} />}
+          title={t("people_delete")}
+          tone="destructive"
         />
       </MenuList>
       <TextInfo>
@@ -213,7 +201,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
               title={t("people_add_from_contacts")}
               iconLeft={<Contact size={22} color={colors.tint} />}
               onPress={() => router.replace("/people/import")}
-              style={{ color: colors.tint }}
+              tone="action"
               testID="person-from-contacts"
             />
           </MenuList>

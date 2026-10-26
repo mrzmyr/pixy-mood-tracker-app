@@ -80,9 +80,7 @@ export const DataScreen = () => {
               }
             }}
             iconLeft={<Trash width={20} height={20} color={colors.danger} />}
-            style={{
-              color: colors.danger,
-            }}
+            tone="destructive"
           />
         </MenuList>
         <TextInfo>{t("delete_all_data_description")}</TextInfo>
