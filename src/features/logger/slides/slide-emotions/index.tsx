@@ -6,7 +6,8 @@ import { useLogDraft } from "../../log-draft";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";
-import { useCallback, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "expo-router";
 import { View } from "react-native";
 import LinkButton from "@/components/link-button";
 import { SlideHeadline } from "../../components/slide-headline";
@@ -19,8 +20,6 @@ import { EmotionAdvancedSelection } from "./emotion-advanced-selection";
 import { EmotionBasicGradients } from "./emotion-basic-gradients";
 import { EmotionBasicSelection } from "./emotion-basic-selection";
 import { ExpandButton } from "./expand-button";
-import { useAnalytics } from "@/state/analytics";
-import { RequestSheet } from "@/features/feedback";
 import noop from "lodash/noop";
 
 type Mode = "basic" | "advanced";
@@ -82,13 +81,9 @@ export const SlideEmotions = ({
   const marginTop = useSlideMarginTop();
   const { draft, setEmotions } = useLogDraft();
   const logState = useLogState();
-  const analytics = useAnalytics();
-  const [isRequestOpen, setIsRequestOpen] = useState(false);
-  const closeRequest = useCallback(() => setIsRequestOpen(false), []);
-  const openRequest = () => {
-    analytics.track("feedback:modal_opened", { type: "emotion" });
-    setIsRequestOpen(true);
-  };
+  const router = useRouter();
+  const openRequest = () =>
+    router.push({ pathname: "/request", params: { kind: "emotion" } });
 
   const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
 
@@ -222,12 +217,6 @@ export const SlideEmotions = ({
           {(isSearching || mode === "basic") && <EmotionBasicGradients />}
           {!isSearching && mode === "advanced" && <EmotionAdvancedGradients />}
         </View>
-        <RequestSheet
-          kind="emotion"
-          visible={isRequestOpen}
-          source="logger"
-          onClose={closeRequest}
-        />
         <Footer
           style={{
             marginHorizontal: 16,

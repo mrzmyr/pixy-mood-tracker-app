@@ -87,8 +87,10 @@ tags: [p1, people]
     id: "person-role"
 - tapOn: "Request a Role…"
 - assertVisible: "Which role is missing from your list?"
-- tapOn:
-    id: "request-role-close"
+# Close the empty request sheet by swiping it down.
+- swipe:
+    start: 50%, 15%
+    end: 50%, 90%
 - tapOn:
     id: "person-cancel"
 

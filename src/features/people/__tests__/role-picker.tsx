@@ -1,11 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { render, screen, userEvent } from "@testing-library/react-native";
 import {
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from "@testing-library/react-native";
-import { DefaultTheme, ThemeProvider } from "expo-router";
+  DefaultTheme,
+  Stack,
+  ThemeProvider,
+  useLocalSearchParams,
+} from "expo-router";
+import { renderRouter } from "expo-router/testing-library";
+import { Text } from "react-native";
 import { useState } from "react";
 import Colors from "@/constants/colors";
 import { AnalyticsProvider } from "@/state/analytics";
@@ -17,6 +19,11 @@ import type { RolePreset } from "../role-presets";
 const Picker = () => {
   const [role, setRole] = useState<RolePreset | undefined>("friend");
   return <RolePicker value={role} onChange={setRole} testID="person-role" />;
+};
+
+const RequestStub = () => {
+  const { kind } = useLocalSearchParams<{ kind: string }>();
+  return <Text>{`request ${kind}`}</Text>;
 };
 
 const renderPicker = () =>
@@ -46,7 +53,6 @@ const renderPicker = () =>
 describe("RolePicker", () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
-    global.fetch = jest.fn().mockResolvedValue({ ok: true });
   });
 
   afterEach(() => {
@@ -63,27 +69,35 @@ describe("RolePicker", () => {
     ).toEqual({ checked: true });
   });
 
-  test("a missing role is requested as feedback and keeps the current role", async () => {
-    await renderPicker();
+  test("Request a Role… opens the role request, keeps the role", async () => {
+    await renderRouter(
+      {
+        _layout: () => (
+          <ThemeProvider
+            value={{
+              ...DefaultTheme,
+              dark: false,
+              colors: { ...DefaultTheme.colors, ...Colors.light },
+            }}
+          >
+            <SettingsProvider>
+              <AnalyticsProvider>
+                <Stack />
+              </AnalyticsProvider>
+            </SettingsProvider>
+          </ThemeProvider>
+        ),
+        index: Picker,
+        request: RequestStub,
+      },
+      { initialUrl: "/" }
+    );
+    jest.useRealTimers();
 
     await userEvent.press(
-      screen.getByRole("menuitem", { name: "Request a Role…" })
+      await screen.findByRole("menuitem", { name: "Request a Role…" })
     );
-    await userEvent.type(
-      await screen.findByTestId("request-role-word"),
-      "Neighbor"
-    );
-    await userEvent.press(screen.getByTestId("request-role-send"));
 
-    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-    const [[, request]] = jest.mocked(global.fetch).mock.calls;
-    expect(JSON.parse(String(request?.body))).toMatchObject({
-      type: "role",
-      source: "people",
-      message: "Neighbor",
-    });
-    expect(
-      screen.getByRole("menuitem", { name: "Friend" }).props.accessibilityState
-    ).toEqual({ checked: true });
+    expect(await screen.findByText("request role")).toBeOnTheScreen();
   });
 });

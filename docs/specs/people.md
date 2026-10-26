@@ -133,7 +133,7 @@ people: Array<
 - Role: one row "Role" with the current role. Optional, default "None"
   - Tap opens native menu: iOS SwiftUI `Menu`, Android Material dropdown
   - Options: None, Partner, Parent, Child, Sibling, Friend, Colleague, Other. Checkmark on current
-  - No custom roles. "Request a Role…" opens request sheet, sends `role` feedback, like "Missing one?" for emotions
+  - No custom roles. "Request a Role…" opens `/request?kind=role` (native form sheet like Feedback), sends `role` feedback, like "Missing one?" for emotions
   - Unknown stored or imported role reads as no role
 - Bottom: Archive (primary), Delete (secondary, confirm with entry count)
 
