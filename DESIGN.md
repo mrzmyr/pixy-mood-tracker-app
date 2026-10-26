@@ -35,20 +35,20 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 ## Modal Headers
 
-Every sheet and route modal. Native bar on iOS, Material top app bar on Android.
+Every sheet and route modal. Sources: [HIG Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets), [HIG Toolbars](https://developer.apple.com/design/human-interface-guidelines/toolbars), [M3 full-screen dialogs](https://m3.material.io/components/dialogs/guidelines).
 
 - Close or cancel: leading, always. Never trailing.
-- Confirm: trailing, one only. Check saves or finishes. Arrow up sends. Disabled until valid.
+- Confirm: trailing, one only. Check saves or finishes. Arrow up sends. Label names the action (`Save`, `Send`, `Add`), never `Done` or `OK`.
 - Nothing to confirm (day view, pickers): close only, no trailing item.
-- No divider. No header background: bar shows the content surface.
-- iOS 26: Liquid Glass circles with SF Symbols `xmark`, `checkmark`, `arrow.up`. Confirm is prominent, close is not.
+- No divider. No header background: bar shows the content surface. iOS 26 scroll edge effect separates bar from content.
+- iOS 26: Liquid Glass circles, 44 pt, SF Symbols `xmark`, `checkmark`, `arrow.up`. Confirm is prominent, close is not. Never text `Close`.
 - iOS before 26: text `Cancel` leading, bold `Save` or `Send` trailing.
-- Android: close icon leading, left-aligned title, trailing confirm as text, or send icon in a native app bar (M3 full-screen dialog).
+- Android: close icon leading, start-aligned title, text confirm trailing, 56dp header.
 - Spoken label: `Cancel` when closing drops edits, `Close` when nothing is lost. Dirty form asks before it discards ([`useDiscardGuard`](src/hooks/use-discard-guard.ts)).
-- Use [`HeaderButton`](src/components/header-button.tsx) in JS bars. Native `Stack.Toolbar` takes no test id: use it only on screens no e2e flow taps.
+- Buttons: [`HeaderButton`](src/components/header-button.tsx). Native bar items: [`getModalBarOptions`](src/components/modal-bar-options.tsx). Native `Stack.Toolbar` takes no test id: use it only on screens no e2e flow taps.
 - Test ids: `<feature>-cancel`, `<feature>-save`, `<feature>-close`.
-- Multi-step flow with back arrow (logger): back leads, close trails. Open decision.
 - Own overlay close, white on media: photo viewer, recap stories.
+- Open: logger shows back and close together; HIG wants back to replace close after step 1. Android confirm is disabled until valid; M3 says never disable it in full-screen dialogs. Android feedback sends with an icon; M3 wants a text button.
 
 ## Settings
 

@@ -9,7 +9,7 @@ import Mic from "lucide-react-native/icons/mic";
 import Pause from "lucide-react-native/icons/pause";
 import dayjs from "dayjs";
 import Button from "@/components/button";
-import { CloseButton } from "@/components/close-button";
+import { HeaderButton } from "@/components/header-button";
 import { Body, Headline, Secondary } from "@/components/type";
 import { RADIUS } from "@/constants/radius";
 import { encodeLoggerPrefill } from "@/features/logger";
@@ -186,7 +186,12 @@ export const VoiceMode = () => {
           paddingTop: 12,
         }}
       >
-        <CloseButton onPress={close} testID="voice-close" />
+        <HeaderButton
+          kind="cancel"
+          label={t("close")}
+          onPress={close}
+          testID="voice-close"
+        />
       </View>
 
       <ScrollView

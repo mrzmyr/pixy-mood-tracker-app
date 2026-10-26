@@ -5,8 +5,8 @@ import { getCloseLabel } from "@/components/close-label";
 import useColors from "@/hooks/use-colors";
 import type { RouteModalHeaderProps } from "./route-modal-header";
 
-/** Material 3 small top app bar height. */
-const BAR_HEIGHT = 64;
+/** Material 3 full-screen dialog header height. */
+const BAR_HEIGHT = 56;
 
 /**
  * Material 3 full-screen dialog bar: close icon top left, left-aligned

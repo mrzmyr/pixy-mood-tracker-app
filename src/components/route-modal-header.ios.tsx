@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
-import { HeaderButton } from "@/components/header-button";
 import { getCloseLabel } from "@/components/close-label";
+import { HeaderButton } from "@/components/header-button";
+import { getModalBarOptions } from "@/components/modal-bar-options";
 import type { RouteModalHeaderProps } from "./route-modal-header";
 
 /**
@@ -8,7 +9,7 @@ import type { RouteModalHeaderProps } from "./route-modal-header";
  * route (`formModalOptions` in the app layout); this sets title and bar items.
  * Renders nothing in the screen body.
  *
- * Bar items are JS header items, not `Stack.Toolbar` buttons: toolbar items
+ * Bar items are `HeaderButton`s, not `Stack.Toolbar` buttons: toolbar items
  * take no test ID, and e2e flows tap `tag-save`, `tag-cancel`, and others.
  */
 const RouteModalHeader = ({
@@ -16,28 +17,25 @@ const RouteModalHeader = ({
   onClose,
   closeTestID,
   confirm,
-}: RouteModalHeaderProps) => {
-  const renderClose = () => (
-    <HeaderButton
-      kind="cancel"
-      label={getCloseLabel(Boolean(confirm))}
-      onPress={onClose}
-      testID={closeTestID}
+}: RouteModalHeaderProps) => (
+  <>
+    <Stack.Title>{title}</Stack.Title>
+    <Stack.Screen
+      options={getModalBarOptions({
+        left: (
+          <HeaderButton
+            kind="cancel"
+            label={getCloseLabel(Boolean(confirm))}
+            onPress={onClose}
+            testID={closeTestID}
+          />
+        ),
+        right: confirm ? (
+          <HeaderButton {...confirm} kind={confirm.kind ?? "confirm"} />
+        ) : null,
+      })}
     />
-  );
-  const renderConfirm = () =>
-    confirm ? (
-      <HeaderButton {...confirm} kind={confirm.kind ?? "confirm"} />
-    ) : null;
-
-  return (
-    <>
-      <Stack.Title>{title}</Stack.Title>
-      <Stack.Screen
-        options={{ headerLeft: renderClose, headerRight: renderConfirm }}
-      />
-    </>
-  );
-};
+  </>
+);
 
 export default RouteModalHeader;

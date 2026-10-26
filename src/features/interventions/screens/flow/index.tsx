@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
-import { CloseButton } from "@/components/close-button";
+import { HeaderButton } from "@/components/header-button";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type {
@@ -94,7 +94,9 @@ export const InterventionFlow = ({
           marginHorizontal: -12,
         }}
       >
-        <CloseButton
+        <HeaderButton
+          kind="cancel"
+          label={t("close")}
           testID="intervention-close"
           onPress={() => close("close")}
         />
