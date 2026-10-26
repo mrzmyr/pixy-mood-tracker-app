@@ -19,7 +19,8 @@ export const toObserveError = (error: StructuredError) => {
  * Only caller of `Sentry.captureException` and `Observe.reportError`. Use it
  * for every error the app catches and recovers from. Wrap raw caught values
  * in `createStructuredError` first. Sentry gets the full
- * `StructuredError`; Observe dispatch follows analytics consent through
+ * `StructuredError`, minus `why` ([`scrubEvent`](./sentry-scrub.ts)).
+ * Observe dispatch follows analytics consent through
  * `configureObserve`.
  */
 export const reportError = (error: StructuredError) => {

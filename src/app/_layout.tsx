@@ -19,6 +19,7 @@ import { ToastHost } from "@/components/toast";
 import { SENTRY_DSN } from "@/constants/api";
 import { APP_VARIANT } from "@/constants/app-variant";
 import { configureObserve } from "@/lib/observe";
+import { scrubBreadcrumb, scrubEvent } from "@/lib/sentry-scrub";
 import { CAN_REPORT_TELEMETRY } from "@/lib/telemetry";
 import { applyLocale, getLocale } from "@/lib/translation";
 import { useSettings, useSettingsLoad } from "@/state/settings";
@@ -45,8 +46,14 @@ import {
 
 // Configure before first render; each app variant reports to its own project.
 // Same gate as Observe: real devices on shipped variants only.
+// Scrubbers keep user data out of reports (TELEMETRY.md).
 if (CAN_REPORT_TELEMETRY) {
-  Sentry.init({ dsn: SENTRY_DSN, environment: APP_VARIANT });
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    environment: APP_VARIANT,
+    beforeBreadcrumb: scrubBreadcrumb,
+    beforeSend: scrubEvent,
+  });
 }
 enableScreens();
 // Drop startup metrics until stored settings confirm analytics consent.
