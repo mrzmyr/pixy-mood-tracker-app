@@ -96,7 +96,7 @@ export const FEATURE_FLAG_DETAILS: Record<
   "quick-check-in": {
     description:
       "Quick check-in screen (iOS) or an ongoing notification (Android)",
-    location: "Settings > Check-in, notification shade",
+    location: "Calendar, Settings > Check-in, notification shade",
   },
   recaps: {
     description: "Recap cards for week, month, and year",
