@@ -366,10 +366,10 @@
     },
     {
       "id": "anonymous-analytics",
-      "label": "Anonymous usage analytics and crash reports",
+      "label": "Usage analytics and crash reports",
       "status": "available",
       "group": "data",
-      "description": "Anonymous usage data (PostHog) and crash reports (Sentry) help find errors. Disclosure, not a selling point.",
+      "description": "Usage data (PostHog, opt-in in the EU, linked to a random install ID) and crash reports (Sentry) help find errors. Never entry content or health values: no mood, emotions, sleep, notes, tags, or people. Do not call it anonymous. Disclosure, not a selling point.",
       "evidence": ["package.json", "assets/locales/en.json"]
     },
     {
