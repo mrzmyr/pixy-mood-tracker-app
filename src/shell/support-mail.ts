@@ -12,3 +12,12 @@ export const getSupportMailUrl = (subject: string, status: string | number) => {
   const body = `\n\nError code: ${status}\nApp version: ${pkg.version}\nPlatform: ${Platform.OS}`;
   return `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
+
+/**
+ * Mail draft that asks to delete the usage data linked to `installId`, the
+ * random install ID that analytics events carry.
+ */
+export const getDataDeletionMailUrl = (installId: string) => {
+  const body = `Install ID: ${installId}\n\nPlease delete the usage data linked to this install ID.`;
+  return `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("Data deletion request")}&body=${encodeURIComponent(body)}`;
+};

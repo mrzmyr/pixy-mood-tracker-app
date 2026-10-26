@@ -1,5 +1,14 @@
+import * as Clipboard from "expo-clipboard";
 import * as WebBrowser from "expo-web-browser";
-import { ScrollView, View } from "react-native";
+import {
+  Alert,
+  Linking,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import Toggle from "@/components/toggle";
 import Shield from "lucide-react-native/icons/shield";
 import Markdown from "react-native-markdown-display";
@@ -12,15 +21,37 @@ import { useFeatureFlag } from "@/state/feature-flags";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import TextInfo from "@/components/text-info";
+import { showToast } from "@/lib/toast";
+import { getDataDeletionMailUrl } from "@/shell/support-mail";
+import { useSettings } from "@/state/settings";
+
+const MONO_FONT = Platform.select({ ios: "Menlo", default: "monospace" });
+
+const copyInstallId = async (id: string) => {
+  await Clipboard.setStringAsync(id);
+  showToast({ title: t("privacy_install_id_copied") });
+};
+
+const requestDataDeletion = async (id: string) => {
+  try {
+    await Linking.openURL(getDataDeletionMailUrl(id));
+  } catch {
+    Alert.alert(t("storage_load_error_contact"), "care@pixy.day");
+  }
+};
 
 /**
  * Settings > Privacy: privacy summary, link to the full policy, and the
- * analytics opt-in switch. The people section shows only behind the
+ * analytics opt-in switch. Under the switch: the install ID that analytics
+ * events carry (tap copies it) and a mail draft to request deletion of the
+ * usage data linked to it. The people section shows only behind the
  * `people` feature flag.
  */
 export const PrivacyScreen = () => {
   const colors = useColors();
   const analytics = useAnalytics();
+  const { settings } = useSettings();
+  const installId = settings.deviceId;
   const hasPeople = useFeatureFlag("people");
   const paddingBottom = useScrollBottomPadding(16);
   const content = hasPeople
@@ -110,6 +141,40 @@ export const PrivacyScreen = () => {
             />
           </MenuList>
           <TextInfo>{t("behavioral_data_help")}</TextInfo>
+          {installId && (
+            <>
+              <Pressable
+                testID="privacy-install-id"
+                accessibilityRole="button"
+                accessibilityHint={t("privacy_install_id_copy_hint")}
+                onPress={() => copyInstallId(installId)}
+                hitSlop={8}
+                style={({ pressed }) => ({
+                  paddingHorizontal: 16,
+                  opacity: pressed ? 0.5 : 1,
+                })}
+              >
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontFamily: MONO_FONT,
+                    color: colors.textSecondary,
+                  }}
+                >
+                  {t("privacy_install_id", { id: installId })}
+                </Text>
+              </Pressable>
+              <LinkButton
+                testID="privacy-request-deletion"
+                style={{
+                  marginTop: 16,
+                }}
+                onPress={() => requestDataDeletion(installId)}
+              >
+                {t("privacy_request_deletion")}
+              </LinkButton>
+            </>
+          )}
 
           <LinkButton
             style={{
