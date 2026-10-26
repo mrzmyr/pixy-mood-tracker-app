@@ -2,17 +2,17 @@
 export type VoiceMatchKind = "person" | "tag" | "emotion";
 
 /** One word or phrase that selects an item when spoken. */
-export interface VoiceTerm {
-  kind: VoiceMatchKind;
-  /** Person id, tag id, or emotion key. */
+export interface VoiceTerm<Kind extends string = VoiceMatchKind> {
+  kind: Kind;
+  /** Person id, tag id, emotion key, or rating. */
   id: string;
-  /** Name, tag title, or translated emotion label. */
+  /** Name, tag title, translated emotion label, or mood trigger word. */
   text: string;
 }
 
 /** One item found in a transcript. */
-export interface VoiceMatch {
-  kind: VoiceMatchKind;
+export interface VoiceMatch<Kind extends string = VoiceMatchKind> {
+  kind: Kind;
   id: string;
   /** The term as the user named it, for display. */
   text: string;
@@ -42,17 +42,17 @@ const MIN_NAME_PART_LENGTH = 3;
 // matches inside other words.
 const MIN_NO_SPACE_NAME_PART_LENGTH = 2;
 
-interface Needle {
+interface Needle<Kind extends string> {
   text: string;
-  term: VoiceTerm;
+  term: VoiceTerm<Kind>;
   /** First or last name of a person, not the full term. */
   isNamePart: boolean;
 }
 
-interface Hit {
+interface Hit<Kind extends string> {
   start: number;
   end: number;
-  term: VoiceTerm;
+  term: VoiceTerm<Kind>;
   isNamePart: boolean;
 }
 
@@ -84,10 +84,12 @@ const getNameParts = (name: string): string[] => {
  * two or more people ("Anna" for Anna Schmidt and Anna Meyer) is left out:
  * voice mode does not guess.
  */
-const getNeedles = (terms: VoiceTerm[]): Needle[] => {
-  const needles: Needle[] = [];
+const getNeedles = <Kind extends string>(
+  terms: VoiceTerm<Kind>[]
+): Needle<Kind>[] => {
+  const needles: Needle<Kind>[] = [];
   const partOwners = new Map<string, Set<string>>();
-  const partNeedles: Needle[] = [];
+  const partNeedles: Needle<Kind>[] = [];
   for (const term of terms) {
     const text = normalize(term.text).trim();
     if (text === "") {
@@ -127,16 +129,16 @@ const getNeedles = (terms: VoiceTerm[]): Needle[] => {
  * Swap this function for a smarter matcher later. Callers only rely on the
  * signature.
  */
-export const matchTranscript = (
+export const matchTranscript = <Kind extends string = VoiceMatchKind>(
   transcript: string,
-  terms: VoiceTerm[]
-): VoiceMatch[] => {
+  terms: VoiceTerm<Kind>[]
+): VoiceMatch<Kind>[] => {
   const haystack = normalize(transcript);
   if (haystack.trim() === "") {
     return [];
   }
 
-  const hits: Hit[] = [];
+  const hits: Hit<Kind>[] = [];
   for (const { text, term, isNamePart } of getNeedles(terms)) {
     const isNoSpace = NO_SPACE_SCRIPT.test(text);
     const pattern = isNoSpace ? text : ` ${text} `;
@@ -156,7 +158,7 @@ export const matchTranscript = (
       Number(a.isNamePart) - Number(b.isNamePart) ||
       a.start - b.start
   );
-  const kept: Hit[] = [];
+  const kept: Hit<Kind>[] = [];
   for (const hit of hits) {
     const overlaps = kept.some(
       (other) => hit.start < other.end && other.start < hit.end
@@ -173,7 +175,7 @@ export const matchTranscript = (
 
   kept.sort((a, b) => a.start - b.start);
   const seen = new Set<string>();
-  const matches: VoiceMatch[] = [];
+  const matches: VoiceMatch<Kind>[] = [];
   for (const { term } of kept) {
     const key = `${term.kind}:${term.id}`;
     if (seen.has(key)) {
