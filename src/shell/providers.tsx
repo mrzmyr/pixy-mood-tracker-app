@@ -1,8 +1,6 @@
-import { PostHogProvider } from "posthog-react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { POSTHOG_API_KEY } from "@/constants/api";
 import { TRACKING_ENABLED } from "@/constants/config";
-import { POSTHOG_OPTIONS } from "@/shell/posthog-options";
+import { ConsentPostHogProvider } from "@/shell/consent-posthog-provider";
 import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/feature-flags";
 import { AppLockProvider } from "@/features/applock";
@@ -54,17 +52,13 @@ const Providers = ({
   return (
     <SafeAreaProvider>
       <SettingsProvider>
-        <PostHogProvider
-          apiKey={POSTHOG_API_KEY}
-          options={POSTHOG_OPTIONS}
-          autocapture={false}
-        >
+        <ConsentPostHogProvider>
           <AnalyticsProvider options={{ enabled: TRACKING_ENABLED }}>
             <FeatureFlagsProvider options={{ enabled: TRACKING_ENABLED }}>
               <AppLockProvider>{supportContent}</AppLockProvider>
             </FeatureFlagsProvider>
           </AnalyticsProvider>
-        </PostHogProvider>
+        </ConsentPostHogProvider>
       </SettingsProvider>
     </SafeAreaProvider>
   );
