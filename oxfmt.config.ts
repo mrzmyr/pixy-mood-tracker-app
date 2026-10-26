@@ -14,10 +14,14 @@ export default defineConfig({
     ".agents/**",
     ".claude/**",
     ".codex/**",
+    // Generated store screenshot prototypes (built by build.py), not app code.
+    "docs/store-screenshots/**",
     // Oxfmt joins the GitHub alert marker with its body in this file.
     "README.md",
     // release-please rewrites these on every release without formatting.
     "CHANGELOG.md",
+    // Human-owned (AGENTS.md). Keep the author's line breaks.
+    "vision.md",
     "app.json",
   ],
 });

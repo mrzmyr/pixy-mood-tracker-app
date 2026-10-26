@@ -1,6 +1,6 @@
-import { _generateItem } from "@/__tests__/utils";
-import { INITIAL_STATE } from "@/constants/Settings";
-import { toExportSettings } from "@/state/settings/exportSettings";
+import { _generateItem } from "@/testing/log-item";
+import { INITIAL_STATE } from "@/constants/settings";
+import { toExportSettings } from "@/state/settings/export-settings";
 import { decodeBackup, encodeBackup } from "../backup";
 import type { Backup } from "../backup";
 
@@ -78,7 +78,7 @@ describe("backup codec", () => {
     const { settings } = JSON.parse(encodeBackup(backup, "9.9.9"));
 
     expect(settings).not.toHaveProperty("deviceId");
-    expect(settings).not.toHaveProperty("storeReviewPromptedAt");
+    expect(settings).not.toHaveProperty("storeReviewPromptDates");
     expect(settings).not.toHaveProperty("photosDayAccessDismissed");
   });
 

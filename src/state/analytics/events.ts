@@ -1,9 +1,19 @@
-import type { FeedackType, FeedbackSource } from "@/types/Feedback";
-import type { LoggerStep } from "@/constants/LoggerSteps";
-import type { AppIconId } from "@/constants/AppIcons";
+import type { FeedackType, FeedbackSource } from "@/types/feedback";
+import type { LoggerStep } from "@/constants/logger-steps";
+import type { AppIconId } from "@/constants/app-icons";
 import type { CalendarLayout, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
+
+interface LoggerRecoveryProperties {
+  mode: "create" | "edit";
+  age_minutes: number;
+  message_length: number;
+  photos_count: number;
+}
+
+/** Where a month story was opened. */
+export type StorySource = "recaps" | "calendar" | "notification";
 
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
@@ -56,21 +66,63 @@ export interface AnalyticsEvents {
     /** Never the place itself. */
     has_location: boolean;
   };
-  "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
-  "logger:emotions_tooltip_closed": undefined;
+  /**
+   * Launch prompt after the OS killed the app with the logger open.
+   * `age_minutes`: time since the app went to the background.
+   */
+  "logger:recovery_restored": LoggerRecoveryProperties;
+  "logger:recovery_discarded": LoggerRecoveryProperties;
+
+  /** Voice mode. Never the transcript, names, or emotion keys. */
+  "voice:flow_started": undefined;
+  "voice:flow_cancelled": { duration_ms: number; transcript_length: number };
+  "voice:flow_finished": {
+    duration_ms: number;
+    transcript_length: number;
+    tags_count: number;
+    people_count: number;
+    emotions_count: number;
+  };
+  "voice:permission_denied": { kind: "microphone" | "speech" };
+  "voice:failed": { status: string };
+  /** Feedback sheet after saving a voice check-in. `prompt_index` 1 to 3. */
+  "voice:feedback_submitted": {
+    rating: "bad" | "okay" | "great";
+    prompt_index: number;
+    duration_ms: number;
+    tags_count: number;
+    people_count: number;
+    emotions_count: number;
+  };
+  "voice:feedback_skipped": { prompt_index: number };
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
   "logger:store_review_requested": {
-    trigger: "entries_7";
+    trigger: "entries_7" | "good_entry_30";
     entries_count: number;
   };
 
-  "widget:guide_opened": undefined;
-  "widget:guide_step_viewed": { step: number };
-  "widget:guide_dismissed": { step: number };
-  "widget:guide_completed": undefined;
+  /** `source`: Lock Screen (iOS), notification (Android), or the in-app screen. */
+  "quick_check_in:entry_saved": {
+    source: "notification" | "app";
+    rating: LogItem["rating"];
+  };
+  "quick_check_in:completed": {
+    source: "notification" | "app";
+    has_emotion: boolean;
+    influences_count: number;
+  };
+  "quick_check_in:setting_changed": { enabled: boolean };
+  /** Fixed values only: times are `HH:mm` picks, not free text. */
+  "quick_check_in:schedule_changed": {
+    every_hours: number;
+    from: string;
+    until: string;
+    times_count: number;
+  };
+  "quick_check_in:notification_tapped": { cold_start: boolean };
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
@@ -83,7 +135,7 @@ export interface AnalyticsEvents {
     entry_days_ago: number;
   };
   "photos:day_access_prompt_dismissed": { mode: "create" | "edit" };
-  /** `source`: the permission card or the "Show Photos from …" button after "Not Now". */
+  /** `source`: the permission card or the "Allow Photo Access" button after "Not Now". */
   "photos:day_access_answered": {
     status: "granted" | "limited" | "denied";
     source: "card" | "button";
@@ -127,12 +179,13 @@ export interface AnalyticsEvents {
   };
 
   "calendar:day_opened": {
-    source: "calendar" | "timeline" | "map" | "mood_peaks" | "tag_peaks";
+    source: "calendar" | "timeline" | "mood_peaks" | "tag_peaks";
     entries_count: number;
     days_ago: number;
   };
   "calendar:add_today_tapped": { has_entries: boolean };
   "calendar:today_tapped": undefined;
+  "calendar:voice_tapped": { has_entries: boolean };
   "calendar:filters_opened": undefined;
   "calendar:filters_applied": {
     text_length: number;
@@ -194,12 +247,81 @@ export interface AnalyticsEvents {
   "tags:category_created": { title_length: number; categories_count: number };
   "tags:category_updated": { title_length: number };
   "tags:category_deleted": { tags_count: number; categories_count: number };
+
+  /** At least half of the card was on screen. Once per card per screen visit. */
+  "recaps:card_shown": RecapCardProperties;
+  /** Nudge card button. `turn_on` also fires the event of the setting. */
+  "recaps:nudge_tapped": RecapCardProperties & {
+    action: "turn_on" | "not_now";
+  };
+  /**
+   * Helpful or Not Helpful below a card. `reasons` are fixed keys. Notes go
+   * to the feedback service, never here: `has_note` only.
+   */
+  "recaps:card_feedback_sent": RecapCardProperties & {
+    helpful: boolean;
+    reasons: (
+      | "not_true"
+      | "knew_already"
+      | "not_relevant"
+      | "too_personal"
+      | "hard_to_understand"
+      | "feels_judgmental"
+    )[];
+    has_note: boolean;
+  };
+  /** Tap on a recap notification body. Ignored while flag `recaps` is off. */
+  "recaps:notification_tapped": { period: "week" | "month" | "year" };
+  /** Month story opened. Only with a story: 10+ check-in days. */
+  "recaps:story_opened": {
+    period: "week" | "month";
+    source: StorySource;
+    slides_count: number;
+  };
+  /** Slide on screen, once per visit of the slide. Slide type only, never values. */
+  "recaps:story_slide_shown": {
+    slide_type: string;
+    position: number;
+    slides_count: number;
+  };
+  /** Helpful or Not Helpful on a story slide. Same reasons as cards; notes never here. */
+  "recaps:story_feedback_sent": {
+    slide_type: string;
+    position: number;
+    helpful: boolean;
+    reasons: AnalyticsEvents["recaps:card_feedback_sent"]["reasons"];
+    has_note: boolean;
+  };
+  /** Quiz slide answered. Quiz kind and result only, never the cards. */
+  "recaps:story_quiz_answered": {
+    quiz: "truths" | "people" | "tags";
+    module: "people" | "tags" | "mix" | null;
+    is_correct: boolean;
+  };
+  /** Share card sent from the share sheet. Never the photos or lines. */
+  /** `slide_type`: the shared slide; `share` is the share card. */
+  "recaps:story_shared": {
+    has_photos: boolean;
+    shuffles: number;
+    slide_type: string;
+  };
+  /** Story closed by the user or after the last slide. */
+  "recaps:story_closed": {
+    position: number;
+    slides_count: number;
+    completed: boolean;
+  };
   "tags:categories_reordered": {
     categories_count: number;
     method: "drag" | "accessibility_action";
   };
 
-  "people:person_added": { source: "manual"; has_avatar: boolean };
+  "people:person_added": {
+    source: "manual";
+    has_avatar: boolean;
+    /** Role key from `ROLE_PRESETS`, or "none". Fixed values, never free text. */
+    role: string;
+  };
   "people:contacts_imported": {
     count: number;
     avatars_count: number;
@@ -208,11 +330,24 @@ export interface AnalyticsEvents {
   "people:person_updated": {
     name_changed: boolean;
     avatar_changed: boolean;
+    role_changed: boolean;
     is_archived: boolean;
   };
   "people:delete_requested": { entries_count: number };
   "people:person_deleted": { entries_count: number };
   "people:delete_cancelled": undefined;
+  "people:people_reordered": {
+    people_count: number;
+    method: "drag" | "accessibility_action";
+  };
+
+  /** Name length only; the name itself never leaves the device. */
+  "profile:profile_saved": {
+    has_name: boolean;
+    name_length: number;
+    has_photo: boolean;
+    photo_changed: boolean;
+  };
 
   "settings:rate_app_tapped": undefined;
   "settings:vote_features_tapped": undefined;
@@ -231,6 +366,12 @@ export interface AnalyticsEvents {
     permission_granted: boolean;
   };
   "reminders:time_changed": { time: string };
+  /** Recaps toggle in Settings > Reminder. Denied permission keeps it off. */
+  "reminders:recaps_toggled": {
+    enabled: boolean;
+    /** Only when turning on: turning off never checks permission. */
+    permission_granted?: boolean;
+  };
   "reminders:notification_opened": {
     /** App launched from the tap, not resumed from background. */
     cold_start: boolean;
@@ -425,3 +566,17 @@ export interface SavedEntryProperties {
 /** Properties of the statistics highlight events: shown cards and item counts. */
 export type HighlightsProperties =
   AnalyticsEvents["statistics:highlights_viewed"];
+
+/**
+ * Card a recap event is about. Type, family, and modules only: never tag
+ * names, person names, emotion keys, or ratings from the card.
+ */
+export interface RecapCardProperties {
+  card_type: string;
+  family: "moment" | "summary" | "pattern" | "change" | "nudge";
+  modules: string[];
+  signal: "strong" | "medium";
+  period: "week" | "month" | "year";
+  /** Screen that showed the card. */
+  source: "settings";
+}

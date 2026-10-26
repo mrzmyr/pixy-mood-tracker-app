@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pixy",
     "slug": "pixy-mood-tracker",
-    "version": "1.96.0",
+    "version": "1.102.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
@@ -140,7 +140,9 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 24
+            "minSdkVersion": 24,
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
           },
           "ios": {
             "deploymentTarget": "16.4"
@@ -178,6 +180,13 @@
         "expo-contacts",
         {
           "contactsPermission": "Pixy lists your contacts so you can add people. Only the people you pick are saved, with name and photo, on your device."
+        }
+      ],
+      [
+        "expo-speech-transcriber",
+        {
+          "speechRecognitionPermission": "Pixy turns what you say into a check-in note and finds people, tags, and emotions in it. Speech is processed on your device.",
+          "microphonePermission": "Pixy listens while you talk about your day to write your check-in. Audio is never saved."
         }
       ],
       "expo-image",
@@ -226,6 +235,9 @@
     "experiments": {
       "reactCompiler": true,
       "typedRoutes": true
+    },
+    "web": {
+      "output": "single"
     }
   }
 }

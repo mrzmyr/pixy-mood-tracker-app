@@ -1,0 +1,128 @@
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { MoodCounts } from "../../components/mood-counts";
+import { TagDistribution } from "../../components/tag-distribution";
+import { DATE_FORMAT } from "@/constants/config";
+import { t } from "@/lib/translation";
+import dayjs from "dayjs";
+import { useState } from "react";
+import { ScrollView, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import useColors from "@/hooks/use-colors";
+import { useLogState } from "@/features/logs";
+import { useReportHeader } from "../../components/use-report-header";
+import { Header } from "./header";
+import { MoodChart } from "./mood-chart";
+import { MoodPeaks } from "./mood-peaks";
+import { Navigation } from "./navigation";
+import { Stats } from "./stats";
+import { EmotionsDistribution } from "../../components/emotions-distribution";
+import { getItemDate } from "@/lib/log-dates";
+
+/**
+ * Month report screen.
+ *
+ * Invalid `date` params fall back to the current month. Navigating months
+ * updates the route param so deep links and back navigation stay in sync.
+ */
+export const StatisticsMonthScreen = () => {
+  const router = useRouter();
+  const { date: routeDate } = useLocalSearchParams<{ date: string }>();
+  const colors = useColors();
+  const inset = useSafeAreaInsets();
+
+  const [date, setDate] = useState(
+    dayjs(routeDate).isValid() ? dayjs(routeDate) : dayjs()
+  );
+
+  const _setDate = (nextDate: dayjs.Dayjs) => {
+    router.setParams({
+      date: nextDate.format(DATE_FORMAT),
+    });
+    setDate(nextDate);
+  };
+
+  const gradientColors: [string, string, string] = [
+    colors.palette.indigo[900],
+    colors.palette.indigo[600],
+    colors.palette.indigo[500],
+  ];
+  const { bannerHeight, headerHeight, onScroll } = useReportHeader({
+    title: date.format("MMMM YYYY"),
+    headerColor: gradientColors[0],
+  });
+
+  const prevMonth = date.subtract(1, "month");
+  const nextMonth = date.add(1, "month");
+
+  const logState = useLogState();
+
+  const itemsInMonth = (month: dayjs.Dayjs) => {
+    const prefix = month.format("YYYY-MM");
+    return logState.items.filter((item) =>
+      getItemDate(item).startsWith(prefix)
+    );
+  };
+  const prevItems = itemsInMonth(prevMonth);
+  const nextItems = itemsInMonth(nextMonth);
+  const items = itemsInMonth(date);
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.statisticsBackground,
+      }}
+    >
+      <ScrollView onScroll={onScroll} scrollEventThrottle={16}>
+        <Header
+          title={date.format("MMMM YYYY")}
+          subtitle={t("month_report")}
+          gradientColors={gradientColors}
+          bannerHeight={bannerHeight}
+          headerHeight={headerHeight}
+        />
+        <View
+          style={{
+            paddingHorizontal: 20,
+            paddingTop: 20,
+            paddingBottom: inset.bottom + 16,
+          }}
+        >
+          <Navigation
+            nextMonth={nextMonth}
+            prevMonth={prevMonth}
+            onNext={() => _setDate(nextMonth)}
+            onPrev={() => _setDate(prevMonth)}
+            nextMonthDisabled={nextItems.length === 0}
+            prevMonthDisabled={prevItems.length === 0}
+          />
+          <Stats items={items} prevItems={prevItems} date={date} />
+          <MoodChart date={date} items={items} />
+          <MoodCounts
+            title={t("mood_count")}
+            subtitle={t("mood_count_description", {
+              date: dayjs(date).format("MMMM, YYYY"),
+            })}
+            items={items}
+            date={date}
+          />
+          <TagDistribution
+            title={t("statistics_most_used_tags")}
+            subtitle={t("statistics_most_used_tags_description", {
+              date: date.format("MMMM, YYYY"),
+            })}
+            items={items}
+          />
+          <EmotionsDistribution
+            title={t("statistics_most_used_emotions")}
+            subtitle={t("statistics_most_used_emotions_description", {
+              date: date.format("MMMM, YYYY"),
+            })}
+            items={items}
+          />
+          <MoodPeaks items={items} date={date} />
+        </View>
+      </ScrollView>
+    </View>
+  );
+};

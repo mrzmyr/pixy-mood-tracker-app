@@ -1,11 +1,11 @@
 import { act, renderHook } from "@testing-library/react-native";
-import { _generateItem } from "@/__tests__/utils";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { _generateItem } from "@/testing/log-item";
+import { INITIAL_STATE } from "@/constants/settings";
 import { decodeBackup, encodeBackup } from "@/features/datagate";
 import { createCsv } from "../../datagate/csv";
 import { MenstruationFlowSchema } from "@/types";
-import { finalizeDraft, getMenstruationConflict } from "../finalizeDraft";
-import { LogDraftProvider, useLogDraft } from "../logDraft";
+import { finalizeDraft, getMenstruationConflict } from "../finalize-draft";
+import { LogDraftProvider, useLogDraft } from "../log-draft";
 import {
   getAvailableStepsForCreate,
   getAvailableStepsForEdit,

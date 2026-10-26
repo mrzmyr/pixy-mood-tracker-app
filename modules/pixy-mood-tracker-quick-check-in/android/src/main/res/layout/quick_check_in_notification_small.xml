@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Collapsed check-in notification: only the tap row. The system header already names the app. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:visibility="gone">
+
+    <TextView
+      android:id="@+id/title"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:maxLines="1"
+      android:ellipsize="end"
+      android:textAppearance="@android:style/TextAppearance.Material.Notification.Title" />
+
+    <TextView
+      android:id="@+id/more"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:gravity="center"
+      android:paddingStart="12dp"
+      android:paddingEnd="4dp"
+      android:textAppearance="@android:style/TextAppearance.Material.Notification.Info" />
+  </LinearLayout>
+
+  <LinearLayout
+    android:id="@+id/moods"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:orientation="horizontal">
+    <ImageView
+      android:id="@+id/mood_0"
+      android:layout_width="0dp"
+      android:layout_height="28dp"
+      android:layout_weight="1"
+      android:layout_marginEnd="6dp"
+      android:src="@drawable/quick_check_in_pixel"
+      android:scaleType="fitXY" />
+    <ImageView
+      android:id="@+id/mood_1"
+      android:layout_width="0dp"
+      android:layout_height="28dp"
+      android:layout_weight="1"
+      android:layout_marginEnd="6dp"
+      android:src="@drawable/quick_check_in_pixel"
+      android:scaleType="fitXY" />
+    <ImageView
+      android:id="@+id/mood_2"
+      android:layout_width="0dp"
+      android:layout_height="28dp"
+      android:layout_weight="1"
+      android:layout_marginEnd="6dp"
+      android:src="@drawable/quick_check_in_pixel"
+      android:scaleType="fitXY" />
+    <ImageView
+      android:id="@+id/mood_3"
+      android:layout_width="0dp"
+      android:layout_height="28dp"
+      android:layout_weight="1"
+      android:layout_marginEnd="6dp"
+      android:src="@drawable/quick_check_in_pixel"
+      android:scaleType="fitXY" />
+    <ImageView
+      android:id="@+id/mood_4"
+      android:layout_width="0dp"
+      android:layout_height="28dp"
+      android:layout_weight="1"
+      android:layout_marginEnd="6dp"
+      android:src="@drawable/quick_check_in_pixel"
+      android:scaleType="fitXY" />
+    <ImageView
+      android:id="@+id/mood_5"
+      android:layout_width="0dp"
+      android:layout_height="28dp"
+      android:layout_weight="1"
+      android:layout_marginEnd="6dp"
+      android:src="@drawable/quick_check_in_pixel"
+      android:scaleType="fitXY" />
+    <ImageView
+      android:id="@+id/mood_6"
+      android:layout_width="0dp"
+      android:layout_height="28dp"
+      android:layout_weight="1"
+      android:layout_marginEnd="0dp"
+      android:src="@drawable/quick_check_in_pixel"
+      android:scaleType="fitXY" />
+  </LinearLayout>
+
+  <LinearLayout
+    android:id="@+id/chips"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:orientation="horizontal">
+    <TextView
+      android:id="@+id/chip_0"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:ellipsize="end"
+      android:layout_height="28dp"
+      android:layout_marginEnd="4dp"
+      android:background="@drawable/quick_check_in_chip"
+      android:gravity="center"
+      android:maxLines="1"
+      android:paddingStart="6dp"
+      android:paddingEnd="6dp"
+      android:textAppearance="@android:style/TextAppearance.Material.Notification"
+      android:visibility="gone" />
+    <TextView
+      android:id="@+id/chip_1"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:ellipsize="end"
+      android:layout_height="28dp"
+      android:layout_marginEnd="4dp"
+      android:background="@drawable/quick_check_in_chip"
+      android:gravity="center"
+      android:maxLines="1"
+      android:paddingStart="6dp"
+      android:paddingEnd="6dp"
+      android:textAppearance="@android:style/TextAppearance.Material.Notification"
+      android:visibility="gone" />
+    <TextView
+      android:id="@+id/chip_2"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:ellipsize="end"
+      android:layout_height="28dp"
+      android:layout_marginEnd="4dp"
+      android:background="@drawable/quick_check_in_chip"
+      android:gravity="center"
+      android:maxLines="1"
+      android:paddingStart="6dp"
+      android:paddingEnd="6dp"
+      android:textAppearance="@android:style/TextAppearance.Material.Notification"
+      android:visibility="gone" />
+    <TextView
+      android:id="@+id/chip_3"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:ellipsize="end"
+      android:layout_height="28dp"
+      android:layout_marginEnd="0dp"
+      android:background="@drawable/quick_check_in_chip"
+      android:gravity="center"
+      android:maxLines="1"
+      android:paddingStart="6dp"
+      android:paddingEnd="6dp"
+      android:textAppearance="@android:style/TextAppearance.Material.Notification"
+      android:visibility="gone" />
+  </LinearLayout>
+</LinearLayout>

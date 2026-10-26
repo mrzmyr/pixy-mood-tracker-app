@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import _ from "lodash";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { INITIAL_STATE } from "@/constants/settings";
 import {
   SettingsProvider,
   STORAGE_KEY,
@@ -129,12 +129,34 @@ describe("useSettings()", () => {
     ]);
   });
 
+  test("should move the legacy store review prompt date into the dates list", async () => {
+    const { storeReviewPromptDates: _dates, ...legacy } = INITIAL_STATE;
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...legacy,
+        storeReviewPromptedAt: "2026-09-01T10:00:00.000Z",
+        storeReviewPromptedAppVersion: "1.89.0",
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.settings).toMatchObject({
+      storeReviewPromptDates: ["2026-09-01T10:00:00.000Z"],
+      storeReviewPromptedAppVersion: "1.89.0",
+    });
+    expect(hook.result.current.state.settings).not.toHaveProperty(
+      "storeReviewPromptedAt"
+    );
+  });
+
   test("should keep store review prompt state on import", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         ...INITIAL_STATE,
-        storeReviewPromptedAt: "2026-09-01T10:00:00.000Z",
+        storeReviewPromptDates: ["2026-09-01T10:00:00.000Z"],
         storeReviewPromptedAppVersion: "1.89.0",
       })
     );
@@ -150,7 +172,7 @@ describe("useSettings()", () => {
 
     expect(hook.result.current.state.settings).toMatchObject({
       reminderTime: "12:00",
-      storeReviewPromptedAt: "2026-09-01T10:00:00.000Z",
+      storeReviewPromptDates: ["2026-09-01T10:00:00.000Z"],
       storeReviewPromptedAppVersion: "1.89.0",
     });
   });
@@ -190,6 +212,61 @@ describe("useSettings()", () => {
     });
 
     expect(hook.result.current.state.settings.appLockEnabled).toBe(true);
+  });
+
+  test("keeps recap notifications of this device on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, recapNotificationsEnabled: true })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    // Backups never carry the setting; an old or edited file still must not change it.
+    const backup = { ...INITIAL_STATE, recapNotificationsEnabled: false };
+    await act(() => {
+      hook.result.current.state.importSettings(backup);
+    });
+
+    expect(hook.result.current.state.settings.recapNotificationsEnabled).toBe(
+      true
+    );
+  });
+
+  test("keeps the profile of this device on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        profileName: "Klara",
+        profileAvatar: "profile/photo-1.jpg",
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    // Backups never carry the profile; an edited file still must not change it.
+    const backup = { ...INITIAL_STATE, profileName: "Someone else" };
+    await act(() => {
+      hook.result.current.state.importSettings(backup);
+    });
+
+    expect(hook.result.current.state.settings.profileName).toBe("Klara");
+    expect(hook.result.current.state.settings.profileAvatar).toBe(
+      "profile/photo-1.jpg"
+    );
+  });
+
+  test("reads an invalid stored profile as empty", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, profileName: 42, profileAvatar: {} })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.settings.profileName).toBe("");
+    expect(hook.result.current.state.settings.profileAvatar).toBeNull();
   });
 
   test("reads a missing or invalid photo access dismissal as false", async () => {

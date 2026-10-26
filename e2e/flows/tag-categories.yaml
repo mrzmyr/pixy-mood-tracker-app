@@ -18,8 +18,8 @@ tags: [p1, tags]
 - tapOn:
     id: "tag-categories-link"
 - assertVisible: "General"
-- tapOn:
-    id: "tag-category-create"
+# iOS: plus in the bar, Android: bottom button. Both read "New Category".
+- tapOn: "New Category"
 - tapOn:
     id: "tag-category-name"
 - inputText: "Hobbies"
@@ -35,8 +35,7 @@ tags: [p1, tags]
     direction: UP
     duration: 1500
 - waitForAnimationToEnd
-- tapOn:
-    id: "tag-categories-close"
+- back
 
 # The new, empty category offers a drop target.
 - scrollUntilVisible:
@@ -76,7 +75,8 @@ tags: [p1, tags]
       - assertVisible:
           text: "Hobbies"
           checked: true
-- tapOn: "Cancel"
+- tapOn:
+    id: "tag-cancel"
 - back
 - back
 
@@ -112,7 +112,6 @@ tags: [p1, tags]
     text: "Delete"
     index: 0
 - assertNotVisible: "Hobbies"
-- tapOn:
-    id: "tag-categories-close"
+- back
 - assertVisible: "Sport"
 - assertNotVisible: "Drag tags here"

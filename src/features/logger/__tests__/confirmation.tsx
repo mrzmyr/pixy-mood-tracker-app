@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 import { t } from "@/lib/translation";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { INITIAL_STATE } from "@/constants/settings";
 import { AnalyticsProvider } from "@/state/analytics";
 import {
   SettingsProvider,
@@ -13,14 +13,14 @@ import {
 import {
   countWords,
   getEntryProperties,
-} from "../confirmation/entryProperties";
+} from "../confirmation/entry-properties";
 import {
   getDaySummary,
   getSummarySentence,
   getSummaryTitle,
-} from "../confirmation/daySummary";
-import type { DaySummary } from "../confirmation/daySummary";
-import { useConfirmation } from "../confirmation/useConfirmation";
+} from "../confirmation/day-summary";
+import type { DaySummary } from "../confirmation/day-summary";
+import { useConfirmation } from "../confirmation/use-confirmation";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
 const { capture: mockCapture } = getPostHogTestClient();
@@ -218,6 +218,20 @@ describe("getSummarySentence()", () => {
         })
       )
     ).toBe("Today was very good. You felt grateful, calm, proud and 2 more.");
+  });
+
+  test("tones each emotion by its own category, not the day's mood", () => {
+    const tones = sentence(
+      summaryOf({ emotions: ["grateful", "weak", "uneasy"] })
+    )
+      .filter((segment) => segment.mark === "emotion")
+      .map((segment) => [segment.text, segment.tone]);
+
+    expect(tones).toEqual([
+      ["grateful", "good"],
+      ["weak", "bad"],
+      ["uneasy", "bad"],
+    ]);
   });
 
   test("counts tags only when there are more than 3", () => {

@@ -1,11 +1,14 @@
 export type { ContactList, ContactSummary, PeopleSources } from "./sources";
-export { PeopleList } from "./components/PeopleList";
-export { SettingsPeople, SettingsPeopleArchive } from "./screens/People";
-export { PersonAvatar } from "./components/PersonAvatar";
-export { PersonChip } from "./components/PersonChip";
+export { PeopleList } from "./components/people-list";
+export { PersonAvatar } from "./components/person-avatar";
+export { PersonChip } from "./components/person-chip";
+export { getPersonMenuActions, usePersonMenu } from "./hooks/use-person-menu";
+export type {
+  PersonMenuAction,
+  PersonMenuActionId,
+} from "./hooks/use-person-menu";
+export { movePerson } from "./people-order";
 export { TILE_RING_GAP, TILE_RING_WIDTH } from "./tile";
-export { ContactImport } from "./screens/ContactImport";
-export { PersonCreate, PersonEdit } from "./screens/PersonForm";
 export {
   deleteAllAvatars,
   getAvatarUri,
@@ -13,6 +16,6 @@ export {
   writeAvatarFromBase64,
 } from "./avatars";
 export { setPeopleSourcesOverride } from "./sources";
-export { getPeopleLimit } from "./peopleLimit";
-export { sortPeopleByUsage } from "./usage";
-export * from "./PeopleProvider";
+export { getPeopleLimit } from "./people-limit";
+export { ROLE_PRESETS, RoleSchema, type RolePreset } from "./role-presets";
+export * from "./people-provider";

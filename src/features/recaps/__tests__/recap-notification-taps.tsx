@@ -1,0 +1,209 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router, Stack, useLocalSearchParams } from "expo-router";
+import { renderRouter } from "expo-router/testing-library";
+import { act, waitFor } from "@testing-library/react-native";
+import { DEFAULT_ACTION_IDENTIFIER } from "expo-notifications";
+import type {
+  NotificationContent,
+  NotificationResponse,
+} from "expo-notifications";
+import { usePostHog as getPostHogTestClient } from "posthog-react-native";
+import { Text } from "react-native";
+import { INITIAL_STATE } from "@/constants/settings";
+import type { NotificationResponseSource } from "@/features/notifications";
+import { AnalyticsProvider } from "@/state/analytics";
+import { FeatureFlagsContext } from "@/state/feature-flags/context";
+import { SettingsProvider, STORAGE_KEY } from "@/state/settings";
+import { useRecapNotificationTaps } from "../recap-notification-taps";
+
+const { capture: mockCapture } = getPostHogTestClient();
+const EVENT = "recaps:notification_tapped";
+
+const createResponse = ({
+  actionIdentifier = DEFAULT_ACTION_IDENTIFIER,
+  data = { type: "recap", kind: "month", date: "2026-09-30" },
+}: {
+  actionIdentifier?: string;
+  data?: NotificationContent["data"];
+} = {}): NotificationResponse => ({
+  actionIdentifier,
+  notification: {
+    date: Date.now(),
+    request: {
+      identifier: "recap-id",
+      content: {
+        title: "Title",
+        subtitle: null,
+        body: "Body",
+        data,
+        categoryIdentifier: null,
+        sound: null,
+      },
+      trigger: null,
+    },
+  },
+});
+
+const createSource = (launchResponse: NotificationResponse | null = null) => {
+  let last = launchResponse;
+  let listener: ((response: NotificationResponse) => void) | null = null;
+  const source: NotificationResponseSource = {
+    getLastResponse: () => last,
+    clearLastResponse: () => {
+      last = null;
+    },
+    addResponseListener: (handler) => {
+      listener = handler;
+      return {
+        remove: () => {
+          listener = null;
+        },
+      };
+    },
+  };
+  const tap = async (response: NotificationResponse) => {
+    await act(() => {
+      listener?.(response);
+    });
+  };
+  return { source, tap };
+};
+
+const FLAGS = {
+  on: { flags: { recaps: true }, isLoading: false },
+  off: { flags: { recaps: false }, isLoading: false },
+};
+
+const RecapRoute = () => {
+  const { kind, date } = useLocalSearchParams<{ kind: string; date: string }>();
+  return <Text testID="recap-route">{`${kind} ${date}`}</Text>;
+};
+
+const StoryRoute = () => {
+  const { date, source } = useLocalSearchParams<{
+    date: string;
+    source: string;
+  }>();
+  return <Text testID="story-route">{`story ${date} ${source}`}</Text>;
+};
+
+const renderApp = async ({
+  source,
+  recaps,
+}: {
+  source: NotificationResponseSource;
+  recaps: boolean;
+}) => {
+  const Shell = () => {
+    useRecapNotificationTaps(source);
+    return <Stack />;
+  };
+  const result = await renderRouter(
+    {
+      _layout: () => (
+        <SettingsProvider>
+          <AnalyticsProvider options={{ enabled: true }}>
+            <FeatureFlagsContext.Provider value={recaps ? FLAGS.on : FLAGS.off}>
+              <Shell />
+            </FeatureFlagsContext.Provider>
+          </AnalyticsProvider>
+        </SettingsProvider>
+      ),
+      index: () => <Text testID="home">Home</Text>,
+      "recaps/[kind]/[date]": RecapRoute,
+      "recaps/story/[date]": StoryRoute,
+    },
+    { initialUrl: "/" }
+  );
+  jest.useRealTimers();
+  return result;
+};
+
+const tappedCalls = () =>
+  jest.mocked(mockCapture).mock.calls.filter(([event]) => event === EVENT);
+
+describe("useRecapNotificationTaps()", () => {
+  beforeEach(async () => {
+    jest.clearAllMocks();
+    await AsyncStorage.clear();
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, analyticsEnabled: true })
+    );
+  });
+
+  test("opens the month story from a month recap", async () => {
+    const { source, tap } = createSource();
+    const screen = await renderApp({ source, recaps: true });
+
+    await tap(createResponse());
+
+    await waitFor(() =>
+      expect(screen.getByTestId("story-route").props.children).toBe(
+        "story 2026-09-30 notification"
+      )
+    );
+    expect(tappedCalls()).toHaveLength(1);
+    expect(tappedCalls()[0]?.[1]).toMatchObject({ period: "month" });
+  });
+
+  test("opens the recap from the tap that launched the app, once", async () => {
+    const launch = createResponse({
+      data: { type: "recap", kind: "week", date: "2026-10-11" },
+    });
+    const { source } = createSource(launch);
+    const screen = await renderApp({ source, recaps: true });
+
+    await waitFor(() =>
+      expect(screen.getByTestId("recap-route").props.children).toBe(
+        "week 2026-10-11"
+      )
+    );
+    expect(source.getLastResponse()).toBeNull();
+    expect(tappedCalls()).toHaveLength(1);
+  });
+
+  test("opens the recap route also while flag recaps is off", async () => {
+    const { source, tap } = createSource();
+    const screen = await renderApp({ source, recaps: false });
+
+    await tap(createResponse());
+
+    // The real route redirects to Settings while the flag is off.
+    await waitFor(() =>
+      expect(screen.getByTestId("story-route").props.children).toBe(
+        "story 2026-09-30 notification"
+      )
+    );
+  });
+
+  test("a second tap on the recap on screen adds no copy to history", async () => {
+    const { source, tap } = createSource();
+    const screen = await renderApp({ source, recaps: true });
+
+    await tap(createResponse());
+    await waitFor(() => screen.getByTestId("story-route"));
+    await tap({
+      ...createResponse(),
+      notification: { ...createResponse().notification, date: Date.now() + 1 },
+    });
+
+    await waitFor(() => expect(tappedCalls()).toHaveLength(2));
+    await act(() => {
+      router.back();
+    });
+    expect(screen.getByTestId("home")).toBeTruthy();
+  });
+
+  test("ignores dismisses and reminder taps", async () => {
+    const { source, tap } = createSource();
+    const screen = await renderApp({ source, recaps: true });
+
+    await tap(createResponse({ actionIdentifier: "dismiss" }));
+    await tap(createResponse({ data: { kind: "reminder" } }));
+
+    expect(screen.queryByTestId("recap-route")).toBeNull();
+    expect(screen.queryByTestId("story-route")).toBeNull();
+    expect(tappedCalls()).toHaveLength(0);
+  });
+});

@@ -10,6 +10,9 @@ import { withMenstruation } from "@/dev/fixtures/menstruation";
 import { withTimeline } from "@/dev/fixtures/timeline";
 import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
+import { withRecapMoments } from "@/dev/fixtures/recap-moments";
+import { withRecapNudges } from "@/dev/fixtures/recap-nudges";
+import { withRecapStory } from "@/dev/fixtures/recap-story";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 
@@ -146,6 +149,29 @@ export const FIXTURES: Fixture[] = [
       "Stress test ending today: every limit at max (50 tags, 50 people, 6 photos, 10,000-character note, all emotions), many scripts and emoji, years with gaps, 24 entries on the newest day, and past days with up to 100 entries.",
     endsToday: true,
     data: withChaos(asExport(empty)),
+  },
+  {
+    id: "recap-nudges",
+    title: "Recap nudges",
+    description:
+      "3 check-in days ending today, reminder off, Emotions, People, and Photos steps off, 34 tags in General. Shows every nudge in the week recap.",
+    endsToday: true,
+    data: withRecapNudges(asExport(empty)),
+  },
+  {
+    id: "recap-moments",
+    title: "Recap moments",
+    description:
+      "91 days ending today with every week moment: person back, new person, 25 days connected with Lena, emotion again and absent, tag back, sleep turnaround, first city (location on).",
+    endsToday: true,
+    data: withRecapMoments(asExport(empty)),
+  },
+  {
+    id: "recap-story",
+    title: "Recap story",
+    description:
+      "Last month as a full month story: every Saturday swimming, Handover on 2 of 3 harder days, first days at the sea, 10 photo days, Ada and Chuky. Plus 12 check-ins the month before.",
+    data: withRecapStory(asExport(empty)),
   },
 ];
 

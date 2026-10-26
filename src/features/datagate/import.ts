@@ -1,10 +1,11 @@
 import { z } from "zod";
 import { MenstruationFlowSchema } from "@/types";
-import { TAG_COLOR_NAMES } from "@/constants/Config";
+import { TAG_COLOR_NAMES } from "@/constants/config";
 import type { Tag, TagCategory } from "@/features/tags";
 import type { LogItem, LogsState } from "@/features/logs";
+import { RoleSchema } from "@/features/people";
 import type { Person } from "@/features/people";
-import { RATING_KEYS } from "@/constants/Ratings";
+import { RATING_KEYS } from "@/constants/ratings";
 import type { ExportSettings } from "@/state/settings";
 
 /**
@@ -92,6 +93,7 @@ export const pixySchema = z.strictObject({
         avatar: z
           .object({ base64: z.string(), mime: z.literal("image/jpeg") })
           .nullable(),
+        role: RoleSchema,
       })
     )
     .optional(),

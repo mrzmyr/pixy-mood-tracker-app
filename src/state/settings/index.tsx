@@ -3,18 +3,20 @@ import uniq from "lodash/uniq";
 import { useEffect, useMemo } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import { STEP_OPTIONS } from "@/constants/LoggerSteps";
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import { z } from "zod";
+import { STEP_OPTIONS } from "@/constants/logger-steps";
+import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 
-import { createPersistedStore } from "@/state/persisted/createPersistedStore";
-import type { Load } from "@/state/persisted/createPersistedStore";
+import { createPersistedStore } from "@/state/persisted/create-persisted-store";
+import type { Load } from "@/state/persisted/create-persisted-store";
 
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
-import { INITIAL_STATE } from "@/constants/Settings";
-import { applyColorScheme, ColorSchemeSettingSchema } from "./colorScheme";
-import type { ColorSchemeSetting } from "./colorScheme";
+import { INITIAL_STATE, QUICK_CHECK_IN_INTERVALS } from "@/constants/settings";
+import { applyColorScheme, ColorSchemeSettingSchema } from "./color-scheme";
+import { toStoreReviewPromptDates } from "./store-review-prompt-dates";
+import type { ColorSchemeSetting } from "./color-scheme";
 
 /**
  * AsyncStorage key for settings. Keep the legacy name; changing it resets
@@ -31,13 +33,32 @@ const SCALE_TYPES = [
 
 /**
  * Calendar screen layout: `calendar` shows month grids, `timeline` a list of
- * entry cards, `map` the places of entries. Read through `useCalendarLayout`,
- * which applies the `calendar-timeline` and `calendar-map` flags.
+ * entry cards. Read through `useCalendarLayout`, which applies the
+ * `calendar-timeline` flag. Unknown stored values, like `map` from older
+ * versions, read as `calendar`.
  */
-export type CalendarLayout = "calendar" | "timeline" | "map";
+export type CalendarLayout = "calendar" | "timeline";
 
 const isCalendarLayout = (value: unknown): value is CalendarLayout =>
-  value === "calendar" || value === "timeline" || value === "map";
+  value === "calendar" || value === "timeline";
+
+/** Times of the quick check-in notifications. */
+export interface QuickCheckInSchedule {
+  /** First check-in of the day, `HH:mm`. */
+  from: string;
+  /** Last possible check-in of the day, `HH:mm`. */
+  until: string;
+  /** Hours between check-ins. */
+  everyHours: number;
+}
+
+const QuickCheckInScheduleSchema = z.object({
+  from: z.string().regex(/^\d{2}:\d{2}$/u),
+  until: z.string().regex(/^\d{2}:\d{2}$/u),
+  everyHours: z
+    .number()
+    .refine((hours) => QUICK_CHECK_IN_INTERVALS.some((step) => step === hours)),
+});
 
 /**
  * Persisted user settings.
@@ -54,9 +75,12 @@ export interface SettingsState {
   analyticsEnabled: boolean;
   actionsDone: IAction[];
   steps: ConfigurableLoggerStep[];
-  /** ISO date of the automatic store review prompt; `null` until shown once. */
-  storeReviewPromptedAt: string | null;
-  /** App version that showed the automatic store review prompt. */
+  /**
+   * ISO dates of automatic store review prompts, oldest first. Replaces
+   * the single `storeReviewPromptedAt` date of older versions.
+   */
+  storeReviewPromptDates: string[];
+  /** App version that showed the last automatic store review prompt. */
   storeReviewPromptedAppVersion: string | null;
   /**
    * The user dismissed the "See your photos from …" row in the photos step,
@@ -77,6 +101,29 @@ export interface SettingsState {
    * launch and after time away. Device auth belongs to the device.
    */
   appLockEnabled: boolean;
+  /**
+   * Pixy sends a notification on the last day of each week, month, and year.
+   * Needs notification permission, which belongs to the device.
+   */
+  recapNotificationsEnabled: boolean;
+  /** Name the user gave themselves; empty until set. Stays on this device. */
+  profileName: string;
+  /**
+   * Relative path of the profile photo under the documents directory, or
+   * `null`. Stays on this device; backups carry no profile.
+   */
+  profileAvatar: string | null;
+  /**
+   * Quick check-in notifications during the day, on the
+   * `quickCheckInSchedule`. Needs notification permission, so imports keep
+   * it.
+   */
+  quickCheckInEnabled: boolean;
+  /**
+   * Quick check-in times: every `everyHours` hours from `from` to `until`
+   * (`HH:mm`), both included. Belongs to the device like the switch.
+   */
+  quickCheckInSchedule: QuickCheckInSchedule;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -89,19 +136,24 @@ export interface SettingsState {
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
- * location, calendar layout, and app lock to the device, so imports keep the
- * current values.
+ * location, calendar layout, app lock, recap notifications, the profile,
+ * and quick check-ins to the device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
   | "deviceId"
-  | "storeReviewPromptedAt"
+  | "storeReviewPromptDates"
   | "storeReviewPromptedAppVersion"
   | "photosDayAccessDismissed"
   | "colorScheme"
   | "locationEnabled"
   | "calendarLayout"
   | "appLockEnabled"
+  | "recapNotificationsEnabled"
+  | "profileName"
+  | "profileAvatar"
+  | "quickCheckInEnabled"
+  | "quickCheckInSchedule"
 >;
 
 interface IAction {
@@ -147,20 +199,25 @@ const reducer = (
       return action.payload(state);
     }
     // Store review prompt state, photo library access, theme, location,
-    // calendar layout, and app lock belong to this device, so imports keep
-    // the current values.
+    // calendar layout, app lock, recap notifications, and the profile belong
+    // to this device, so imports keep the current values.
     case "import": {
       return {
         ...INITIAL_STATE,
         ...action.payload,
         steps: sanitizeSteps(action.payload.steps),
-        storeReviewPromptedAt: state.storeReviewPromptedAt,
+        storeReviewPromptDates: state.storeReviewPromptDates,
         storeReviewPromptedAppVersion: state.storeReviewPromptedAppVersion,
         photosDayAccessDismissed: state.photosDayAccessDismissed,
         colorScheme: state.colorScheme,
         locationEnabled: state.locationEnabled,
         calendarLayout: state.calendarLayout,
         appLockEnabled: state.appLockEnabled,
+        recapNotificationsEnabled: state.recapNotificationsEnabled,
+        profileName: state.profileName,
+        profileAvatar: state.profileAvatar,
+        quickCheckInEnabled: state.quickCheckInEnabled,
+        quickCheckInSchedule: state.quickCheckInSchedule,
       };
     }
     case "reset": {
@@ -172,24 +229,45 @@ const reducer = (
   }
 };
 
-const hydrate = (stored: SettingsState | null): SettingsState =>
+/** Stored settings, possibly written by an older app version. */
+type StoredSettings = SettingsState & {
+  /** Single prompt date before `storeReviewPromptDates`. */
+  storeReviewPromptedAt?: unknown;
+};
+
+const hydrateStored = ({
+  storeReviewPromptedAt,
+  ...stored
+}: StoredSettings): SettingsState => ({
+  ...INITIAL_STATE,
+  ...stored,
+  deviceId: stored.deviceId || uuidv4(),
+  steps: sanitizeSteps(stored.steps),
+  storeReviewPromptDates: toStoreReviewPromptDates({
+    storeReviewPromptDates: stored.storeReviewPromptDates,
+    storeReviewPromptedAt,
+  }),
+  photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
+  locationEnabled: stored.locationEnabled === true,
+  colorScheme:
+    ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ?? "system",
+  calendarLayout: isCalendarLayout(stored.calendarLayout)
+    ? stored.calendarLayout
+    : "calendar",
+  appLockEnabled: stored.appLockEnabled === true,
+  recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
+  profileName: z.string().safeParse(stored.profileName).data ?? "",
+  profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
+  quickCheckInEnabled: stored.quickCheckInEnabled === true,
+  quickCheckInSchedule:
+    QuickCheckInScheduleSchema.safeParse(stored.quickCheckInSchedule).data ??
+    INITIAL_STATE.quickCheckInSchedule,
+});
+
+const hydrate = (stored: StoredSettings | null): SettingsState =>
   stored === null
     ? { ...INITIAL_STATE, deviceId: uuidv4() }
-    : {
-        ...INITIAL_STATE,
-        ...stored,
-        deviceId: stored.deviceId || uuidv4(),
-        steps: sanitizeSteps(stored.steps),
-        photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
-        locationEnabled: stored.locationEnabled === true,
-        colorScheme:
-          ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ??
-          "system",
-        calendarLayout: isCalendarLayout(stored.calendarLayout)
-          ? stored.calendarLayout
-          : "calendar",
-        appLockEnabled: stored.appLockEnabled === true,
-      };
+    : hydrateStored(stored);
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({
   key: STORAGE_KEY,
