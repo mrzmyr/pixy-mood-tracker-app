@@ -9,3 +9,5 @@ export { TagListItem } from "./components/tag-list-item";
 export { default as TagComponent } from "./components/tag";
 export * from "./tags-provider";
 export * from "./tag-categories";
+export * from "./catalog";
+export { useMaxTags } from "./tag-limit";

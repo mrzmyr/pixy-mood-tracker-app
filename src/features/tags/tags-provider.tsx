@@ -14,6 +14,7 @@ import {
   reorderCategories,
 } from "./tag-categories";
 import type { TagArrangement, TagCategoryData } from "./tag-categories";
+import type { TagCategoryKind } from "./catalog";
 
 /**
  * AsyncStorage key for tags. Keep the legacy name; changing it orphans all
@@ -34,6 +35,11 @@ export interface Tag {
   isArchived?: boolean;
   /** {@link TagCategory} id. Missing on data from before tag categories; read as General. */
   categoryId?: TagCategory["id"];
+  /**
+   * Key of the catalog tag this tag came from (see `TAG_CATALOG`). Keeps its
+   * meaning when the user renames it. Missing on the user's own tags.
+   */
+  catalogKey?: string;
 }
 
 /**
@@ -43,6 +49,11 @@ export interface Tag {
 export interface TagCategory {
   id: string;
   title: string;
+  /**
+   * Catalog meaning of the category (see `TAG_CATALOG`), for recaps. Kept
+   * when the user renames it. Missing on the user's own categories.
+   */
+  kind?: TagCategoryKind;
 }
 
 type State = TagCategoryData;
@@ -59,6 +70,7 @@ type StateAction =
   | { type: "delete"; payload: Tag["id"] }
   | { type: "arrange"; payload: TagArrangement[] }
   | { type: "add_category"; payload: TagCategory }
+  | { type: "add_selection"; payload: TagCategoryData }
   | { type: "edit_category"; payload: TagCategory }
   | { type: "delete_category"; payload: TagCategory["id"] }
   | { type: "reorder_categories"; payload: TagCategory["id"][] }
@@ -72,6 +84,11 @@ interface UpdaterValue {
   /** Moves listed tags into the given categories and order. */
   arrangeTags: (arrangement: TagArrangement[]) => void;
   createCategory: (category: TagCategory) => void;
+  /**
+   * Adds categories and their tags in one step, for example the onboarding
+   * suggestions. Skips categories past the limit and their tags.
+   */
+  addSelection: (selection: TagCategoryData) => void;
   updateCategory: (category: TagCategory) => void;
   /** Deletes a category and moves its tags to General. General stays. */
   deleteCategory: (categoryId: TagCategory["id"]) => void;
@@ -151,6 +168,23 @@ const reducer = (state: State, action: StateAction): State => {
         return state;
       }
       return { ...state, categories: [...state.categories, action.payload] };
+    }
+    case "add_selection": {
+      const room = MAX_TAG_CATEGORIES - state.categories.length;
+      const added = action.payload.categories
+        .filter(
+          (category) =>
+            !state.categories.some((known) => known.id === category.id)
+        )
+        .slice(0, Math.max(0, room));
+      const addedIds = new Set(added.map((category) => category.id));
+      const tags = action.payload.tags.filter(
+        (item) => item.categoryId !== undefined && addedIds.has(item.categoryId)
+      );
+      return normalize(
+        [...state.tags, ...tags],
+        [...state.categories, ...added]
+      );
     }
     case "edit_category": {
       return {
@@ -243,6 +277,8 @@ const useTagsUpdater = (): UpdaterValue => {
         dispatch({ type: "arrange", payload: arrangement }),
       createCategory: (category: TagCategory) =>
         dispatch({ type: "add_category", payload: category }),
+      addSelection: (selection: TagCategoryData) =>
+        dispatch({ type: "add_selection", payload: selection }),
       updateCategory: (category: TagCategory) =>
         dispatch({ type: "edit_category", payload: category }),
       deleteCategory: (categoryId: TagCategory["id"]) =>
