@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.106.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.105.1...v1.106.0) (2026-10-26)
+
+
+### Features
+
+* **calendar:** add quick check-in button next to voice and add ([#972](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/972)) ([b8c3607](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b8c36075c3e00fdaea42a516bd71e7c70196a86e))
+* **ui:** menu rows get a tone instead of hand-set colors ([#974](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/974)) ([d7c5eff](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d7c5eff651079d9d5ab62d45250dad12e12dcd6b))
+* **ui:** one modal header pattern, close leads and confirm trails ([#973](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/973)) ([94d01da](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/94d01da45b8e8e8b6731018d0e241c08b2817190))
+
+
+### Bug Fixes
+
+* **logger:** stay calm on good days with mostly hard emotions ([#970](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/970)) ([df166e5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/df166e5f82b4ab9f9bd4b58e068596184368f49f))
+
 ## [1.105.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.105.0...v1.105.1) (2026-10-26)
 
 
