@@ -1,22 +1,23 @@
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { CloseButton } from "@/components/close-button";
+import { HeaderButton } from "@/components/header-button";
+import { getCloseLabel } from "@/components/close-label";
 import useColors from "@/hooks/use-colors";
 import type { RouteModalHeaderProps } from "./route-modal-header";
 
-/** Material 3 small top app bar height. */
-const BAR_HEIGHT = 64;
+/** Material 3 full-screen dialog header height. */
+const BAR_HEIGHT = 56;
 
 /**
  * Material 3 full-screen dialog bar: close icon top left, left-aligned
- * title, optional text action right. No divider. Draws under the status
+ * title, optional text action right (`confirm`). No divider. Draws under the status
  * bar, so the screen needs no top inset of its own.
  */
 const RouteModalHeader = ({
   title,
   onClose,
   closeTestID,
-  action,
+  confirm,
 }: RouteModalHeaderProps) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -33,7 +34,12 @@ const RouteModalHeader = ({
         paddingRight: 8,
       }}
     >
-      <CloseButton testID={closeTestID} onPress={onClose} />
+      <HeaderButton
+        kind="cancel"
+        label={getCloseLabel(Boolean(confirm))}
+        onPress={onClose}
+        testID={closeTestID}
+      />
       <Text
         accessibilityRole="header"
         numberOfLines={1}
@@ -46,7 +52,9 @@ const RouteModalHeader = ({
       >
         {title}
       </Text>
-      {action ?? null}
+      {confirm ? (
+        <HeaderButton {...confirm} kind={confirm.kind ?? "confirm"} />
+      ) : null}
     </View>
   );
 };

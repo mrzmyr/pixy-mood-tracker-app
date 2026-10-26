@@ -9,6 +9,13 @@ const SIZE = 44;
 const ICON_SIZE = 24;
 const HIT_SLOP = 8;
 
+const getOpacity = (disabled: boolean | undefined, pressed: boolean) => {
+  if (disabled) {
+    return 0.4;
+  }
+  return pressed ? 0.7 : 1;
+};
+
 /**
  * Close button for modal and full-screen pages. Place it top right.
  * Uses the theme text color unless `color` is set, for example white on a
@@ -19,20 +26,27 @@ export const CloseButton = ({
   testID,
   color,
   style,
+  accessibilityLabel = t("close"),
+  disabled,
 }: {
   onPress: () => void;
   testID?: string;
+  /** Spoken name. `Cancel` when closing drops edits. */
+  accessibilityLabel?: string;
   /** Icon color override for media backgrounds. */
   color?: string;
   style?: ViewStyle;
+  disabled?: boolean;
 }) => {
   const colors = useColors();
 
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={t("close")}
+      accessibilityLabel={accessibilityLabel}
       testID={testID}
+      accessibilityState={{ disabled: Boolean(disabled) }}
+      disabled={disabled}
       hitSlop={HIT_SLOP}
       onPress={onPress}
       style={({ pressed }) => [
@@ -41,7 +55,7 @@ export const CloseButton = ({
           height: SIZE,
           alignItems: "center",
           justifyContent: "center",
-          opacity: pressed ? 0.7 : 1,
+          opacity: getOpacity(disabled, pressed),
         },
         style,
       ]}

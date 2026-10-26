@@ -2,7 +2,6 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
-import LinkButton from "@/components/link-button";
 import RouteModalHeader from "@/components/route-modal-header";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -82,16 +81,7 @@ export const TagCreate = () => {
         title={t("create_tag")}
         onClose={() => router.back()}
         closeTestID="tag-cancel"
-        action={
-          <LinkButton
-            onPress={onCreate}
-            type="primary"
-            testID="tag-save"
-            style={{ fontWeight: "700" }}
-          >
-            {t("save")}
-          </LinkButton>
-        }
+        confirm={{ label: t("save"), onPress: onCreate, testID: "tag-save" }}
       />
       {/* Scrolls once many categories push the form past the screen. */}
       <ScrollView

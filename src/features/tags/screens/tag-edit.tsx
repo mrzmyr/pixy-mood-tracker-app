@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../use-tag-actions";
-import LinkButton from "@/components/link-button";
 import RouteModalHeader from "@/components/route-modal-header";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -92,16 +91,11 @@ export const TagEdit = () => {
         title={t("edit_tag")}
         onClose={() => router.back()}
         closeTestID="tag-cancel"
-        action={
-          <LinkButton
-            onPress={() => onSubmit(tag)}
-            type="primary"
-            testID="tag-save"
-            style={{ fontWeight: "700" }}
-          >
-            {t("save")}
-          </LinkButton>
-        }
+        confirm={{
+          label: t("save"),
+          onPress: () => onSubmit(tag),
+          testID: "tag-save",
+        }}
       />
       {/* Scrolls once many categories push the form past the screen. */}
       <ScrollView

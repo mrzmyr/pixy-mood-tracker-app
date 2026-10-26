@@ -29,9 +29,6 @@ const ModalHeader = ({
           paddingLeft: 8,
           paddingRight: 8,
           paddingBottom: 8,
-          backgroundColor: colors.logHeaderBackground,
-          borderBottomColor: colors.logHeaderBorder,
-          borderBottomWidth: 1,
         },
         style,
       ]}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import Check from "lucide-react-native/icons/check";
-import LinkButton from "@/components/link-button";
+import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import { SheetModal } from "@/components/sheet-modal";
 import TextArea from "@/components/text-area";
@@ -108,22 +108,20 @@ export const FeedbackSheet = ({
         <ModalHeader
           title={t("recaps_feedback_sheet_title")}
           left={
-            <LinkButton
-              type="primary"
-              hitSlop={8}
+            <HeaderButton
+              kind="cancel"
+              label={t("cancel")}
               onPress={() => {
                 reset();
                 onCancel();
               }}
               testID="recap-feedback-cancel"
-            >
-              {t("cancel")}
-            </LinkButton>
+            />
           }
           right={
-            <LinkButton
-              type="primary"
-              hitSlop={8}
+            <HeaderButton
+              kind="send"
+              label={t("send")}
               onPress={() => {
                 onSend(
                   FEEDBACK_REASONS.filter((reason) => reasons.has(reason)),
@@ -132,9 +130,7 @@ export const FeedbackSheet = ({
                 reset();
               }}
               testID="recap-feedback-send"
-            >
-              {t("send")}
-            </LinkButton>
+            />
           }
         />
         <ScrollView

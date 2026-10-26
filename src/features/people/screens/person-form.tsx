@@ -4,7 +4,6 @@ import Trash from "lucide-react-native/icons/trash";
 import { useRef } from "react";
 import { Platform, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import LinkButton from "@/components/link-button";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
@@ -160,16 +159,12 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
         title={mode === "create" ? t("people_add") : t("people_edit")}
         onClose={() => router.back()}
         closeTestID="person-cancel"
-        action={
-          <LinkButton
-            onPress={handleSave}
-            type="primary"
-            disabled={draft.isSaving}
-            testID="person-save"
-          >
-            {mode === "create" ? t("add") : t("save")}
-          </LinkButton>
-        }
+        confirm={{
+          label: mode === "create" ? t("add") : t("save"),
+          onPress: handleSave,
+          disabled: draft.isSaving,
+          testID: "person-save",
+        }}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"

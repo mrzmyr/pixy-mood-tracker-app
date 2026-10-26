@@ -2,10 +2,10 @@ import dayjs from "dayjs";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useMemo, useState } from "react";
-import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import { CloseButton } from "@/components/close-button";
+import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import { SearchInput } from "@/components/search-input";
 import { RATING_KEYS } from "@/constants/ratings";
@@ -256,26 +256,22 @@ export const QuickCheckIn = () => {
       ) : (
         <ModalHeader
           title={t("quick_check_in_title")}
-          left={<CloseButton testID="quick-check-in-close" onPress={close} />}
+          left={
+            <HeaderButton
+              kind="cancel"
+              label={t("close")}
+              testID="quick-check-in-close"
+              onPress={close}
+            />
+          }
           right={
-            <Pressable
+            <HeaderButton
+              kind="confirm"
+              label={t("save")}
               testID="quick-check-in-save"
-              accessibilityRole="button"
-              accessibilityState={{ disabled: rating === null }}
               disabled={rating === null}
               onPress={save}
-              hitSlop={8}
-            >
-              <Text
-                style={{
-                  color: rating === null ? colors.textSecondary : colors.tint,
-                  fontSize: 17,
-                  fontWeight: "600",
-                }}
-              >
-                {t("save")}
-              </Text>
-            </Pressable>
+            />
           }
         />
       )}

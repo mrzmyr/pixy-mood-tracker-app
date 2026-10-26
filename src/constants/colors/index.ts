@@ -71,8 +71,6 @@ const light = {
 
   loadingIndicator: colors.neutral[500],
 
-  logHeaderBackground: colors.neutral[50],
-  logHeaderBorder: colors.neutral[200],
   logHeaderText: colors.neutral[600],
   logHeaderHighlight: colors.neutral[200],
 
@@ -307,8 +305,6 @@ const dark: IColors & {
 
   loadingIndicator: "#fff",
 
-  logHeaderBackground: colors.neutral[900],
-  logHeaderBorder: colors.neutral[800],
   logHeaderText: colors.neutral[300],
   logHeaderHighlight: colors.neutral[800],
 

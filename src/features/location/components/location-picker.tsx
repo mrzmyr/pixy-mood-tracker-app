@@ -3,7 +3,8 @@ import { ScrollView, Text, TextInput, View } from "react-native";
 import MapPin from "lucide-react-native/icons/map-pin";
 import Navigation from "lucide-react-native/icons/navigation";
 import CircleX from "lucide-react-native/icons/circle-x";
-import { CloseButton } from "@/components/close-button";
+import { HeaderButton } from "@/components/header-button";
+import ModalHeader from "@/components/modal-header";
 import { SheetModal } from "@/components/sheet-modal";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
@@ -151,129 +152,125 @@ const SheetContent = ({
   const iconProps = { width: 20, height: 20, color: colors.text };
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      style={{ flex: 1, backgroundColor: colors.background }}
-      contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 24 }}
-    >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Text
-          accessibilityRole="header"
-          style={{ fontSize: 22, fontWeight: "700", color: colors.text }}
-        >
-          {t("location_picker_title")}
-        </Text>
-        <CloseButton
-          testID="location-picker-close"
-          onPress={onClose}
-          style={{ marginRight: -10 }}
-        />
-      </View>
-      <TextInput
-        testID="location-search"
-        accessibilityLabel={t("location_search_placeholder")}
-        autoComplete="off"
-        autoCorrect={false}
-        textContentType="none"
-        returnKeyType="search"
-        value={query}
-        onChangeText={setQuery}
-        placeholder={t("location_search_placeholder")}
-        placeholderTextColor={colors.textInputPlaceholder}
-        style={{
-          marginTop: 20,
-          borderRadius: RADIUS.sm,
-          paddingHorizontal: 14,
-          paddingVertical: 12,
-          fontSize: 17,
-          backgroundColor: colors.textInputBackground,
-          color: colors.text,
-        }}
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <ModalHeader
+        title={t("location_picker_title")}
+        left={
+          <HeaderButton
+            kind="cancel"
+            label={t("close")}
+            testID="location-picker-close"
+            onPress={onClose}
+          />
+        }
       />
-      {search.status === "idle" && (
-        <View style={{ marginTop: 16 }}>
-          <PlaceMap
-            // The map stays put on taps; only the pin moves.
-            center={value ?? here}
-            pin={pinned?.coordinates ?? value ?? null}
-            onPick={pinAt}
-          />
-        </View>
-      )}
-      {search.status === "idle" && (
-        <MenuList style={{ marginTop: 16 }}>
-          {pinned !== null && (
-            <MenuListItem
-              testID="location-pinned"
-              title={
-                pinned.place === null
-                  ? t("location_locating")
-                  : t("location_use_place", {
-                      place: getLocationLabel(pinned.place),
-                    })
-              }
-              iconLeft={<MapPin {...iconProps} />}
-              deactivated={pinned.place === null}
-              onPress={() => {
-                if (pinned.place !== null) {
-                  pick(pinned.place);
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        style={{ flex: 1 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 24 }}
+      >
+        <TextInput
+          testID="location-search"
+          accessibilityLabel={t("location_search_placeholder")}
+          autoComplete="off"
+          autoCorrect={false}
+          textContentType="none"
+          returnKeyType="search"
+          value={query}
+          onChangeText={setQuery}
+          placeholder={t("location_search_placeholder")}
+          placeholderTextColor={colors.textInputPlaceholder}
+          style={{
+            marginTop: 4,
+            borderRadius: RADIUS.sm,
+            paddingHorizontal: 14,
+            paddingVertical: 12,
+            fontSize: 17,
+            backgroundColor: colors.textInputBackground,
+            color: colors.text,
+          }}
+        />
+        {search.status === "idle" && (
+          <View style={{ marginTop: 16 }}>
+            <PlaceMap
+              // The map stays put on taps; only the pin moves.
+              center={value ?? here}
+              pin={pinned?.coordinates ?? value ?? null}
+              onPick={pinAt}
+            />
+          </View>
+        )}
+        {search.status === "idle" && (
+          <MenuList style={{ marginTop: 16 }}>
+            {pinned !== null && (
+              <MenuListItem
+                testID="location-pinned"
+                title={
+                  pinned.place === null
+                    ? t("location_locating")
+                    : t("location_use_place", {
+                        place: getLocationLabel(pinned.place),
+                      })
                 }
-              }}
-            />
-          )}
-          <MenuListItem
-            testID="location-current"
-            title={isLocating ? t("location_locating") : t("location_current")}
-            iconLeft={<Navigation {...iconProps} />}
-            deactivated={isLocating}
-            onPress={useCurrentLocation}
-          />
-          {value !== undefined && (
+                iconLeft={<MapPin {...iconProps} />}
+                deactivated={pinned.place === null}
+                onPress={() => {
+                  if (pinned.place !== null) {
+                    pick(pinned.place);
+                  }
+                }}
+              />
+            )}
             <MenuListItem
-              testID="location-remove"
-              title={t("location_remove")}
-              iconLeft={<CircleX {...iconProps} />}
-              onPress={() => pick()}
+              testID="location-current"
+              title={
+                isLocating ? t("location_locating") : t("location_current")
+              }
+              iconLeft={<Navigation {...iconProps} />}
+              deactivated={isLocating}
+              onPress={useCurrentLocation}
             />
-          )}
-        </MenuList>
-      )}
-      {search.status === "searching" && (
-        <Text
-          accessibilityLiveRegion="polite"
-          style={{ marginTop: 16, fontSize: 15, color: colors.textSecondary }}
-        >
-          {t("location_searching")}
-        </Text>
-      )}
-      {search.status === "done" && search.results.length === 0 && (
-        <Text
-          accessibilityLiveRegion="polite"
-          style={{ marginTop: 16, fontSize: 15, color: colors.textSecondary }}
-        >
-          {t("location_no_results")}
-        </Text>
-      )}
-      {search.status === "done" && search.results.length > 0 && (
-        <MenuList style={{ marginTop: 16 }}>
-          {search.results.map((place, index) => (
-            <MenuListItem
-              key={`${place.latitude},${place.longitude}`}
-              testID={`location-result-${index}`}
-              title={getLocationLabel(place)}
-              iconLeft={<MapPin {...iconProps} />}
-              onPress={() => pick(place)}
-            />
-          ))}
-        </MenuList>
-      )}
-    </ScrollView>
+            {value !== undefined && (
+              <MenuListItem
+                testID="location-remove"
+                title={t("location_remove")}
+                iconLeft={<CircleX {...iconProps} />}
+                onPress={() => pick()}
+              />
+            )}
+          </MenuList>
+        )}
+        {search.status === "searching" && (
+          <Text
+            accessibilityLiveRegion="polite"
+            style={{ marginTop: 16, fontSize: 15, color: colors.textSecondary }}
+          >
+            {t("location_searching")}
+          </Text>
+        )}
+        {search.status === "done" && search.results.length === 0 && (
+          <Text
+            accessibilityLiveRegion="polite"
+            style={{ marginTop: 16, fontSize: 15, color: colors.textSecondary }}
+          >
+            {t("location_no_results")}
+          </Text>
+        )}
+        {search.status === "done" && search.results.length > 0 && (
+          <MenuList style={{ marginTop: 16 }}>
+            {search.results.map((place, index) => (
+              <MenuListItem
+                key={`${place.latitude},${place.longitude}`}
+                testID={`location-result-${index}`}
+                title={getLocationLabel(place)}
+                iconLeft={<MapPin {...iconProps} />}
+                onPress={() => pick(place)}
+              />
+            ))}
+          </MenuList>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

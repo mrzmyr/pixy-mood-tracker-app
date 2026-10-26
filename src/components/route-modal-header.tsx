@@ -1,7 +1,7 @@
-import { CloseButton } from "@/components/close-button";
-import LinkButton from "@/components/link-button";
+import { HeaderButton } from "@/components/header-button";
+import { getCloseLabel } from "@/components/close-label";
+import type { HeaderButtonKind } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
-import { t } from "@/lib/translation";
 
 /** Props shared by the iOS and Android headers. Same props on both platforms. */
 export interface RouteModalHeaderProps {
@@ -10,42 +10,44 @@ export interface RouteModalHeaderProps {
   onClose: () => void;
   /** Test id of the cancel or close button. */
   closeTestID?: string;
-  /** Primary text action, for example Save. Marks the screen as a form. */
-  action?: React.ReactNode;
+  /** The one trailing action, for example Save. Marks the screen as a form. */
+  confirm?: {
+    label: string;
+    onPress: () => void;
+    /** `confirm` saves (default). `send` sends. */
+    kind?: Exclude<HeaderButtonKind, "cancel">;
+    disabled?: boolean;
+    testID?: string;
+  };
 }
 
 /**
- * Header of a route screen presented as modal. Web draws it in the screen:
- * form with `action` keeps text Cancel top left; other screens get a close
- * button top right. iOS native bar: `RouteModalHeader.ios.tsx`. Android
- * top app bar: `RouteModalHeader.android.tsx`.
+ * Header of a route screen presented as modal ([Modal Headers](../../DESIGN.md#modal-headers)).
+ * Web draws it in the screen. iOS native bar: `route-modal-header.ios.tsx`.
+ * Android top app bar: `route-modal-header.android.tsx`.
  */
 const RouteModalHeader = ({
   title,
   onClose,
   closeTestID,
-  action,
-}: RouteModalHeaderProps) => {
-  if (action) {
-    return (
-      <ModalHeader
-        title={title}
-        left={
-          <LinkButton onPress={onClose} type="primary" testID={closeTestID}>
-            {t("cancel")}
-          </LinkButton>
-        }
-        right={action}
+  confirm,
+}: RouteModalHeaderProps) => (
+  <ModalHeader
+    title={title}
+    left={
+      <HeaderButton
+        kind="cancel"
+        label={getCloseLabel(Boolean(confirm))}
+        onPress={onClose}
+        testID={closeTestID}
       />
-    );
-  }
-
-  return (
-    <ModalHeader
-      title={title}
-      right={<CloseButton testID={closeTestID} onPress={onClose} />}
-    />
-  );
-};
+    }
+    right={
+      confirm ? (
+        <HeaderButton {...confirm} kind={confirm.kind ?? "confirm"} />
+      ) : undefined
+    }
+  />
+);
 
 export default RouteModalHeader;
