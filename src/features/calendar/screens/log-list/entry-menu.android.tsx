@@ -11,6 +11,7 @@ import { Pressable } from "react-native";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
 import type { EntryMenuProps } from "./entry-menu-types";
+import { MATERIAL_SEED_COLOR } from "@/constants/colors";
 
 /** Material 3 icon button: 24 dp icon in a 48 dp touch target. */
 const SIZE = 48;
@@ -43,7 +44,11 @@ export const EntryMenu = ({
   };
 
   return (
-    <Host matchContents style={{ marginRight: -12 }}>
+    <Host
+      matchContents
+      seedColor={MATERIAL_SEED_COLOR}
+      style={{ marginRight: -12 }}
+    >
       <DropdownMenu
         expanded={expanded}
         onDismissRequest={() => setExpanded(false)}

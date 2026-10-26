@@ -28,6 +28,17 @@ const IOS_AFFORDANCE = {
   action: null,
 } as const;
 
+/** Props shared with the Android row ([field-row.android.tsx](./field-row.android.tsx)). */
+export interface FieldRowProps {
+  title: string;
+  icon: IconName;
+  kind: FieldRowKind;
+  /** Current value, shown before the affordance, for example "On". */
+  value?: string;
+  onPress: () => void;
+  testID?: string;
+}
+
 /**
  * Native settings row for `FieldGroup.Section`: icon, title, optional value
  * and affordance. Must render inside an `@expo/ui` `Host`. Render it only
@@ -41,15 +52,7 @@ const FieldRow = ({
   value,
   onPress,
   testID,
-}: {
-  title: string;
-  icon: IconName;
-  kind: FieldRowKind;
-  /** Current value, shown before the affordance, for example "On". */
-  value?: string;
-  onPress: () => void;
-  testID?: string;
-}) => {
+}: FieldRowProps) => {
   const colors = useColors();
   const affordance = Platform.OS === "ios" ? IOS_AFFORDANCE[kind] : null;
 

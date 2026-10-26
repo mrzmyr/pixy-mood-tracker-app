@@ -1,6 +1,8 @@
 import { Host, Picker } from "@expo/ui";
+import { Platform } from "react-native";
 import { t } from "@/lib/translation";
 import { QUICK_CHECK_IN_INTERVALS } from "@/constants/settings";
+import { MATERIAL_SEED_COLOR } from "@/constants/colors";
 
 /**
  * Hours between quick check-ins as a native menu picker: SwiftUI menu on
@@ -14,7 +16,10 @@ export const IntervalPicker = ({
   value: number;
   onChange: (hours: number) => void;
 }) => (
-  <Host matchContents>
+  <Host
+    matchContents
+    seedColor={Platform.OS === "android" ? MATERIAL_SEED_COLOR : undefined}
+  >
     <Picker
       testID="quick-check-in-every"
       selectedValue={value}

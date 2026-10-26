@@ -13,6 +13,7 @@ import { t } from "@/lib/translation";
 import { Pill } from "./pill";
 import type { EntryTimeMenuProps } from "./entry-time-menu-types";
 import { getEntryTimeMenuPresets } from "./entry-time-menu-types";
+import { MATERIAL_SEED_COLOR } from "@/constants/colors";
 
 /**
  * Entry time menu on Android: Material 3 dropdown anchored to the time pill.
@@ -38,7 +39,7 @@ export const EntryTimeMenu = ({
   };
 
   return (
-    <Host matchContents>
+    <Host matchContents seedColor={MATERIAL_SEED_COLOR}>
       <DropdownMenu
         expanded={expanded}
         onDismissRequest={() => setExpanded(false)}
