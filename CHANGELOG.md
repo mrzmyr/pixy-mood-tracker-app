@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.104.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.103.0...v1.104.0) (2026-10-26)
+
+
+### Features
+
+* **recaps:** carry statistics cards in recaps behind the recaps flag ([#955](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/955)) ([ac31561](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ac31561508e234f767a7ec26f13737b6fe381a14))
+* **sleep:** fill sleep quality from Apple Health ([#652](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/652)) ([a4d5bd5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a4d5bd5c8fc5f53bbe702e34a17673acde85d338))
+* **voice:** set mood from spoken trigger words ([#957](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/957)) ([5bf1c20](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5bf1c2049aa877e3af238af9de03e0e762bf5527))
+
+
+### Bug Fixes
+
+* **android:** use one Material surface for settings lists and headers ([#959](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/959)) ([cdd1bf5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/cdd1bf5fe9cc047adaca0d2bb1dbd59dcb939687))
+* **recaps:** steady story timer, photo cover, thanks slide, new share card ([#958](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/958)) ([0cbc68f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0cbc68f9019acb073c3cbdaed23bdd2cc1cc5c3c))
+
 ## [1.103.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.102.0...v1.103.0) (2026-10-26)
 
 
