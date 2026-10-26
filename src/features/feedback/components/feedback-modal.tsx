@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { ActivityIndicator, ScrollView } from "react-native";
 import type { TextInput } from "react-native";
-import LinkButton from "@/components/link-button";
+import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import { SheetModal } from "@/components/sheet-modal";
 import useColors from "@/hooks/use-colors";
@@ -53,19 +53,18 @@ export const FeedbackModal = ({
         analytics.track("feedback:modal_opened", { type });
         messageRef.current?.focus();
       }}
-      backgroundColor={colors.logHeaderBackground}
+      backgroundColor={colors.feedbackBackground}
     >
       <ModalHeader
         title={getFeedbackTitle(type)}
         left={
-          <LinkButton
+          <HeaderButton
+            kind="cancel"
+            label={t("cancel")}
             testID="feedback-modal-cancel"
             onPress={cancel}
-            type="primary"
             disabled={form.isSending}
-          >
-            {t("cancel")}
-          </LinkButton>
+          />
         }
         right={
           form.isSending ? (
@@ -74,14 +73,13 @@ export const FeedbackModal = ({
               color={colors.loadingIndicator}
             />
           ) : (
-            <LinkButton
+            <HeaderButton
+              kind="send"
+              label={t("send")}
               testID="feedback-modal-send"
               onPress={send}
-              type="primary"
               disabled={!form.canSend}
-            >
-              {t("send")}
-            </LinkButton>
+            />
           )
         }
       />

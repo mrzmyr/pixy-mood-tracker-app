@@ -94,7 +94,10 @@ export const InterventionFlow = ({
           marginHorizontal: -12,
         }}
       >
-        <View style={{ width: 44 }} />
+        <CloseButton
+          testID="intervention-close"
+          onPress={() => close("close")}
+        />
         <Text
           numberOfLines={1}
           style={{
@@ -107,10 +110,7 @@ export const InterventionFlow = ({
         >
           {stage.kind === "step" ? t(`interventions_${id}_title`) : ""}
         </Text>
-        <CloseButton
-          testID="intervention-close"
-          onPress={() => close("close")}
-        />
+        <View style={{ width: 44 }} />
       </View>
 
       {stage.kind === "intro" && (

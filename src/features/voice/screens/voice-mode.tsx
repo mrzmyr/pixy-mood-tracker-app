@@ -181,7 +181,7 @@ export const VoiceMode = () => {
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "flex-end",
+          justifyContent: "flex-start",
           paddingHorizontal: 12,
           paddingTop: 12,
         }}

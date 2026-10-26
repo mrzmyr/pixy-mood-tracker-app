@@ -20,7 +20,7 @@ import type { FlashListRef } from "@shopify/flash-list";
 import { HeaderHeightContext } from "expo-router/react-navigation";
 import type { Month } from "./layout";
 import { useCalendarFiltersSheet } from "../../filters";
-import { HAS_FLOATING_HEADER } from "../../floating-header";
+import { HAS_FLOATING_HEADER } from "@/constants/floating-header";
 import { useCalendarLayout } from "../../calendar-layout";
 import useColors from "@/hooks/use-colors";
 import { useToday } from "@/hooks/use-today";

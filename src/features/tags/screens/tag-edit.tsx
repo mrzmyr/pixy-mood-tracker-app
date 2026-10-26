@@ -92,16 +92,11 @@ export const TagEdit = () => {
         title={t("edit_tag")}
         onClose={() => router.back()}
         closeTestID="tag-cancel"
-        action={
-          <LinkButton
-            onPress={() => onSubmit(tag)}
-            type="primary"
-            testID="tag-save"
-            style={{ fontWeight: "700" }}
-          >
-            {t("save")}
-          </LinkButton>
-        }
+        confirm={{
+          label: t("save"),
+          onPress: () => onSubmit(tag),
+          testID: "tag-save",
+        }}
       />
       {/* Scrolls once many categories push the form past the screen. */}
       <ScrollView

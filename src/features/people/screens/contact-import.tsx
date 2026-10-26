@@ -158,18 +158,14 @@ export const ContactImport = () => {
         title={t("people_import_title")}
         onClose={() => router.back()}
         closeTestID="contact-import-cancel"
-        action={
-          <LinkButton
-            onPress={handleImport}
-            type="primary"
-            disabled={count === 0 || contactImport.isImporting}
-            testID="contact-import-save"
-          >
-            {contactImport.isImporting
-              ? t("people_import_importing")
-              : t("people_import_action", { count })}
-          </LinkButton>
-        }
+        confirm={{
+          label: contactImport.isImporting
+            ? t("people_import_importing")
+            : t("people_import_action", { count }),
+          onPress: handleImport,
+          disabled: count === 0 || contactImport.isImporting,
+          testID: "contact-import-save",
+        }}
       />
       <View style={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12 }}>
         <TextInput

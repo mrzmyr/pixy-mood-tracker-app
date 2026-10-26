@@ -10,10 +10,8 @@ import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
 import { QuickCheckInNotificationSync } from "@/features/quickcheckin";
 import { WidgetSync } from "@/features/widget";
 import { LoggerRecoveryPrompt } from "@/features/logger";
-import {
-  CalendarScreenReaderTitle,
-  HAS_FLOATING_HEADER,
-} from "@/features/calendar";
+import { CalendarScreenReaderTitle } from "@/features/calendar";
+import { HAS_FLOATING_HEADER } from "@/constants/floating-header";
 
 const renderHeaderLeft = () => <BackButton testID="settings-back-button" />;
 

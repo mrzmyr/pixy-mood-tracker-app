@@ -2,7 +2,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
-import LinkButton from "@/components/link-button";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import Trash from "lucide-react-native/icons/trash";
@@ -104,16 +103,11 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
         title={category ? t("tag_category_edit") : t("tag_category_create")}
         onClose={() => router.back()}
         closeTestID="tag-category-cancel"
-        action={
-          <LinkButton
-            onPress={onSave}
-            type="primary"
-            testID="tag-category-save"
-            style={{ fontWeight: "700" }}
-          >
-            {t("save")}
-          </LinkButton>
-        }
+        confirm={{
+          label: t("save"),
+          onPress: onSave,
+          testID: "tag-category-save",
+        }}
       />
       <ScrollView
         style={{ flex: 1 }}

@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 
 import RouteModalHeader from "@/components/route-modal-header.android";
 import Colors from "@/constants/colors";
@@ -36,11 +36,7 @@ describe("Android RouteModalHeader", () => {
         title="Create Tag"
         onClose={onClose}
         closeTestID="tag-cancel"
-        action={
-          <Text testID="tag-save" onPress={onSave}>
-            Save
-          </Text>
-        }
+        confirm={{ label: "Save", onPress: onSave, testID: "tag-save" }}
       />
     );
 

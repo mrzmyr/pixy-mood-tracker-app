@@ -15,7 +15,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 ## Components
 
-- Page close: top right [`CloseButton`](src/components/close-button.tsx). Android full-screen dialog: close top left. Modal title and close go in native stack header ([Day view `Header`](src/features/calendar/screens/log-list/header.tsx)). Back arrow is not close. Form modal with Save keeps text Cancel top left.
+- Page close: [`CloseButton`](src/components/close-button.tsx), top left. Back arrow is not close. Modal headers: [Modal Headers](#modal-headers).
 - Buttons: [`Button`](src/components/button.tsx) (filled), [`LinkButton`](src/components/link-button.tsx) (text). Label is plain string, or compose `ButtonIcon` + `ButtonText` ([`ButtonContent`](src/components/button-content.tsx)). Never own `Text` or icon color inside button: disabled color comes from button.
 - Toasts: `showToast` ([`src/lib/toast.ts`](src/lib/toast.ts)). iOS top card, Android M3 snackbar. Optional Undo `action`, never only way to do something.
 - Inline errors, warnings, notices: [`InlineAlert`](src/components/inline-alert.tsx) next to the content they are about. Stays until state changes. Never plain colored text.
@@ -29,9 +29,26 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 ## Sheets and Modals
 
 - `Modal` with `presentationStyle="pageSheet"`, `animationType="slide"` ([`SheetModal`](src/components/sheet-modal.tsx)).
-- Router form with native header: iOS `formSheet`, Android full-screen `modal`, header items via `Stack.Toolbar` ([Feedback](src/features/feedback/screens/feedback-screen.tsx)).
+- Router form with native header: iOS `formSheet`, Android full-screen `modal`, header items via `Stack.Toolbar` or [`HeaderButton`](src/components/header-button.tsx) ([Feedback](src/features/feedback/screens/feedback-screen.tsx)).
 - Never custom slide-in sheet. Never move views from keyboard events. Inputs sit at sheet top.
-- Route modal header: [`RouteModalHeader`](src/components/route-modal-header.tsx). iOS native sheet bar, Android Material top app bar.
+- Route modal header: [`RouteModalHeader`](src/components/route-modal-header.tsx). Sheet header: [`ModalHeader`](src/components/modal-header.tsx).
+
+## Modal Headers
+
+Every sheet and route modal. Native bar on iOS, Material top app bar on Android.
+
+- Close or cancel: leading, always. Never trailing.
+- Confirm: trailing, one only. Check saves or finishes. Arrow up sends. Disabled until valid.
+- Nothing to confirm (day view, pickers): close only, no trailing item.
+- No divider. No header background: bar shows the content surface.
+- iOS 26: Liquid Glass circles with SF Symbols `xmark`, `checkmark`, `arrow.up`. Confirm is prominent, close is not.
+- iOS before 26: text `Cancel` leading, bold `Save` or `Send` trailing.
+- Android: close icon leading, left-aligned title, trailing confirm as text, or send icon in a native app bar (M3 full-screen dialog).
+- Spoken label: `Cancel` when closing drops edits, `Close` when nothing is lost. Dirty form asks before it discards ([`useDiscardGuard`](src/hooks/use-discard-guard.ts)).
+- Use [`HeaderButton`](src/components/header-button.tsx) in JS bars. Native `Stack.Toolbar` takes no test id: use it only on screens no e2e flow taps.
+- Test ids: `<feature>-cancel`, `<feature>-save`, `<feature>-close`.
+- Multi-step flow with back arrow (logger): back leads, close trails. Open decision.
+- Own overlay close, white on media: photo viewer, recap stories.
 
 ## Settings
 

@@ -1,11 +1,11 @@
 import { Stack } from "expo-router";
-import { Platform } from "react-native";
-import { CloseButton } from "@/components/close-button";
-import { getCloseSlot } from "./close-slot";
+import { HeaderButton } from "@/components/header-button";
+import { getCloseLabel } from "@/components/close-label";
 
 /**
  * Native stack header of the day entry list: the day as title and a close
- * button. The root stack shows the header for `days/[date]`.
+ * button ([Modal Headers](../../../../../DESIGN.md#modal-headers)). The root
+ * stack shows the header for `days/[date]`.
  *
  * Close is a JS header item, not a `Stack.Toolbar` button: toolbar items take
  * no test ID, and e2e flows tap `log-list-close`.
@@ -18,13 +18,18 @@ export const Header = ({
   onClose: () => void;
 }) => {
   const renderClose = () => (
-    <CloseButton testID="log-list-close" onPress={onClose} />
+    <HeaderButton
+      kind="cancel"
+      label={getCloseLabel(false)}
+      testID="log-list-close"
+      onPress={onClose}
+    />
   );
 
   return (
     <>
       <Stack.Title>{title}</Stack.Title>
-      <Stack.Screen options={{ [getCloseSlot(Platform.OS)]: renderClose }} />
+      <Stack.Screen options={{ headerLeft: renderClose }} />
     </>
   );
 };
