@@ -100,7 +100,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Auto Fill on: new entries skip the sleep slide. Logger fills quality in background ([`useHealthSleepFill`](../src/features/logger/hooks/use-health-sleep-fill.ts)), same rule as sleep step: step on, first entry of day with sleep. Save waits up to 1 second for Apple Health. No sleep data: entry saves without quality
 - Edits keep stored quality. Sleep slide in edit shows card above scale: total sleep and stacked bar of stages (awake, REM, core, deep), colors close to Apple Health. Without a watch: one "In Bed" bar
 - Apple Health icon: Apple's artwork license forbids redistribution, so the repository never holds it. Config plugin [`with-apple-health-icon.cjs`](../tools/expo-plugins/with-apple-health-icon.cjs) adds it to the iOS asset catalog at prebuild from gitignored `assets/third-party/apple-health/`, or downloads Apple's disk image on macOS. Missing icon: build continues, rows show no icon
-- Icon rules ([HIG HealthKit](https://developer.apple.com/design/human-interface-guidelines/healthkit)): "Apple Health" close to the icon, never a button, never altered
+- Icon rules ([HIG HealthKit](https://developer.apple.com/design/human-interface-guidelines/healthkit)): "Apple Health" close to the icon, never a button, never altered: no border, shadow, or backing graphic. Icon is a white tile, so its row uses `healthRowBackground` (grey in light mode) for contrast
 - Entries store quality only. No Health values in entries, exports, or analytics
 - Setting is device-bound, not in exports
 - Simulator holds no watch sleep. Preview builds: `<scheme>://dev/fake-files` swaps Apple Health for [`fakeHealthSource`](../src/dev/fake-health-source.ts)

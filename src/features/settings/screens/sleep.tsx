@@ -31,7 +31,7 @@ export const SettingsSleepScreen = () => {
             {t("health_section")}
           </MenuListHeadline>
           <FlagHighlight flag="apple-health">
-            <MenuList>
+            <MenuList style={{ backgroundColor: colors.healthRowBackground }}>
               <MenuListItem
                 title={t("health_sleep_setting")}
                 // Apple's rules: "Apple Health" sits close to the icon,

@@ -129,6 +129,9 @@ const light = {
   tabsTextInactive: colors.neutral[400],
 
   menuListItemBackground: "#FFF",
+  // Apple's Health icon is a white tile and may not get a border, so its
+  // row needs a fill the tile stands out from.
+  healthRowBackground: colors.neutral[200],
   menuListItemText: "#000",
   menuListItemIcon: "#000",
   menuListItemBorder: colors.neutral[100],
@@ -363,6 +366,7 @@ const dark: IColors & {
   tabsTextInactive: colors.neutral[600],
 
   menuListItemBackground: colors.neutral[900],
+  healthRowBackground: colors.neutral[900],
   menuListItemText: colors.neutral[50],
   menuListItemIcon: colors.neutral[200],
   menuListItemBorder: colors.neutral[800],
