@@ -34,6 +34,7 @@ const STATIC_DEVICE_ID = "test-device-id";
 const LOADED_STATE = {
   ...INITIAL_STATE,
   deviceId: STATIC_DEVICE_ID,
+  feedbackId: STATIC_DEVICE_ID,
 };
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- useSettings generates the device ID with uuid directly; the test needs a deterministic ID
