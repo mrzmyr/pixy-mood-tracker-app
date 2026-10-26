@@ -56,7 +56,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Settings > Development > Feature flags > Highlight flagged features outlines every `<FlagHighlight>` with its key. Same access as overrides. Ends when the app restarts
 - Each key needs a boolean flag with the same key in the PostHog project of every variant
 - New key in `keys.ts`: create the PostHog flag in the same task. Do not ask first
-  - Create it in all 3 app projects: Production `7630`, Preview `14574`, Development `628970`
+  - Create it in all 3 EU app projects: Production `321829`, Preview `321849`, Development `321850`
   - Development and Preview: disabled
   - Production: disabled, or release condition limited to internal testers. Never roll out to users without request
   - Run `switch-project` before each create. The MCP keeps the last active project

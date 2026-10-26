@@ -10,7 +10,7 @@ import { TRACKING_ENABLED } from "@/constants/config";
  * See https://posthog.com/docs/libraries/react-native#configuration-options
  */
 export const POSTHOG_OPTIONS: PostHogOptions = {
-  host: "https://app.posthog.com",
+  host: "https://eu.i.posthog.com",
   disabled: !TRACKING_ENABLED,
   defaultOptIn: false,
   captureAppLifecycleEvents: true,
