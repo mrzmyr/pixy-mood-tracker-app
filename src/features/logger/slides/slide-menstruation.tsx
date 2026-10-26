@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
+import MenuList from "@/components/menu-list";
+import MenuListItem from "@/components/menu-list-item";
 import { MenstruationIcon } from "@/components/menstruation-icon";
-import { RADIUS } from "@/constants/radius";
+import RadioMark from "@/components/radio-mark";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
-import usePressRipple from "@/hooks/use-press-ripple";
 import { t } from "@/lib/translation";
 import { MenstruationFlowSchema } from "@/types";
 import type { MenstruationFlow } from "@/types";
@@ -15,7 +15,13 @@ import { useLogDraft } from "../log-draft";
 import { Footer } from "./footer";
 import { useSlideMarginTop } from "./margin-top";
 
-const FlowOption = ({
+const IS_ANDROID = Platform.OS === "android";
+
+/**
+ * One flow choice as a platform radio row. iOS: grouped row, droplet leads,
+ * check trails. Android: Material list row, radio leads, droplet trails.
+ */
+const FlowRow = ({
   flow,
   selected,
   onPress,
@@ -25,36 +31,18 @@ const FlowOption = ({
   onPress: () => void;
 }) => {
   const colors = useColors();
-  const [isFocused, setIsFocused] = useState(false);
-  const ripple = usePressRipple();
+  const mark = <RadioMark selected={selected} onSelect={onPress} />;
+  const icon = <MenstruationIcon flow={flow} />;
   return (
-    <Pressable
+    <MenuListItem
       testID={`menstruation-flow-${flow}`}
-      accessibilityRole="button"
-      accessibilityLabel={t(`menstruation_flow_${flow}`)}
-      accessibilityState={{ selected }}
+      title={t(`menstruation_flow_${flow}`)}
+      checked={selected}
       onPress={onPress}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-      android_ripple={ripple}
-      style={({ pressed }) => ({
-        minHeight: 52,
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 12,
-        gap: 12,
-        borderRadius: RADIUS.sm,
-        borderWidth: 2,
-        borderColor: selected || isFocused ? colors.tint : colors.logCardBorder,
-        backgroundColor: colors.logCardBackground,
-        opacity: pressed ? 0.7 : 1,
-      })}
-    >
-      <MenstruationIcon flow={flow} />
-      <Text style={{ flex: 1, fontSize: 17, color: colors.text }}>
-        {t(`menstruation_flow_${flow}`)}
-      </Text>
-    </Pressable>
+      iconLeft={IS_ANDROID ? mark : icon}
+      iconRight={IS_ANDROID ? icon : mark}
+      dividerColor={colors.logCardBorder}
+    />
   );
 };
 
@@ -68,6 +56,7 @@ export const SlideMenstruation = ({
   onDisableStep: () => void;
   showDisable: boolean;
 }) => {
+  const colors = useColors();
   const insets = useSafeAreaInsets();
   const haptics = useHaptics();
   const { draft, setMenstruationFlow } = useLogDraft();
@@ -84,26 +73,40 @@ export const SlideMenstruation = ({
         marginTop,
       }}
     >
-      <ScrollView contentContainerStyle={{ gap: 8, paddingBottom: 80 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
         <SlideHeadline>{t("log_menstruation_question")}</SlideHeadline>
-        <View style={{ gap: 8, marginTop: 24 }}>
-          {MenstruationFlowSchema.options.map((flow) => (
-            <FlowOption
-              key={flow}
-              flow={flow}
-              selected={selected === flow}
-              onPress={() => {
-                haptics.selection();
-                if (selected === flow) {
-                  setMenstruationFlow(null);
-                  return;
-                }
-                setMenstruationFlow(flow);
-                // Same deferred advance as Sleep: draft updates before the carousel moves.
-                requestAnimationFrame(onSelect);
-              }}
-            />
-          ))}
+        <View
+          accessibilityRole="radiogroup"
+          accessibilityLabel={t("log_menstruation_question")}
+          style={{ marginTop: 24 }}
+        >
+          {/* iOS card sits on the logger background like entry cards;
+              Android rows sit on the surface, as Material lists do. */}
+          <MenuList
+            style={{
+              backgroundColor: IS_ANDROID
+                ? "transparent"
+                : colors.logCardBackground,
+            }}
+          >
+            {MenstruationFlowSchema.options.map((flow) => (
+              <FlowRow
+                key={flow}
+                flow={flow}
+                selected={selected === flow}
+                onPress={() => {
+                  void haptics.selection();
+                  if (selected === flow) {
+                    setMenstruationFlow(null);
+                    return;
+                  }
+                  setMenstruationFlow(flow);
+                  // Same deferred advance as Sleep: draft updates before the carousel moves.
+                  requestAnimationFrame(onSelect);
+                }}
+              />
+            ))}
+          </MenuList>
         </View>
       </ScrollView>
       <Footer>
@@ -112,6 +115,7 @@ export const SlideMenstruation = ({
             testID="menstruation-disable"
             type="secondary"
             onPress={onDisableStep}
+            style={{ fontWeight: "400" }}
           >
             {t("log_menstruation_disable")}
           </LinkButton>

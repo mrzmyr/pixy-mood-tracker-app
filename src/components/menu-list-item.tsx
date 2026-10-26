@@ -113,6 +113,7 @@ const MenuListItem = ({
   testID,
   accessibilityValue,
   checked,
+  dividerColor,
 }: {
   title?: string | React.ReactElement;
   onPress?: (() => void) | null;
@@ -127,6 +128,8 @@ const MenuListItem = ({
   accessibilityValue?: AccessibilityValue;
   /** Makes the row a radio button with this checked state. */
   checked?: boolean;
+  /** iOS divider color for lists on other backgrounds, e.g. logger cards. */
+  dividerColor?: string;
 }) => {
   const colors = useColors();
   const ripple = usePressRipple({ foreground: true });
@@ -152,7 +155,7 @@ const MenuListItem = ({
     <View
       style={{
         ...platform.frame,
-        borderTopColor: colors.menuListItemBorder,
+        borderTopColor: dividerColor ?? colors.menuListItemBorder,
         opacity: deactivated ? 0.5 : 1,
         justifyContent: "center",
         alignItems: "center",

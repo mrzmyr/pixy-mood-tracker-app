@@ -52,6 +52,7 @@ test("select advances with latest flow; tapping selected flow clears and stays",
       </SafeAreaProvider>
     </ThemeProvider>
   );
+  expect(screen.getAllByRole("radio")).toHaveLength(5);
   await fireEvent.press(screen.getByTestId("menstruation-flow-none"));
   await waitFor(() => expect(advancedFlows).toEqual(["none"]));
   expect(
