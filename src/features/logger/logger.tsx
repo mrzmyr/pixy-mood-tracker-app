@@ -10,6 +10,7 @@ import type { IQuestion } from "@/features/questioner";
 import { useSettings } from "@/state/settings";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useAnalytics } from "@/state/analytics";
+import { useHealthSleepSetting } from "@/features/health";
 import { LogDraftProvider, useLogDraft } from "./log-draft";
 import { finalizeDraft } from "./finalize-draft";
 import type { LogDraft } from "./finalize-draft";
@@ -344,7 +345,7 @@ const LoggerSlides = ({
     }
 
     if (nextIndex === slideKeys.length) {
-      save();
+      void save();
     } else if (nextIndex > furthestIndex) {
       pendingIndex.current = nextIndex;
       setFurthestIndex(nextIndex);
@@ -392,7 +393,7 @@ const LoggerSlides = ({
         isActionVisible={ratingActionType !== "hidden"}
         onRatingChanged={() => {
           if (slideKeys.length === 1) {
-            save();
+            void save();
             return;
           }
           next();
@@ -682,6 +683,7 @@ export const LoggerCreate = ({
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
+  const { isEnabled: isSleepAutoFilled } = useHealthSleepSetting();
   const logState = useLogState();
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
@@ -690,7 +692,7 @@ export const LoggerCreate = ({
     id,
     date: toLogDate(dateTime || dayjs().toISOString()),
     dateTime,
-    rating: null,
+    rating: prefill?.rating ?? null,
     message: prefill?.message ?? "",
     emotions: prefill?.emotions ?? [],
     tags: prefill?.tags.map((tagId) => ({ id: tagId })) ?? [],
@@ -711,6 +713,7 @@ export const LoggerCreate = ({
       reminderEnabled: settings.reminderEnabled,
       itemsCount: logState.items.length,
       hasSleepOnDay: hasSleepOnDate(logState.items, initialItem.date),
+      isSleepAutoFilled,
       isPhotosEnabled,
       isMenstruationEnabled,
       hasMenstruationOnDay: hasMenstruationOnDate(

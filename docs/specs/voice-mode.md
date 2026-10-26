@@ -16,7 +16,7 @@ Speak about your day. Pixy transcribes on device, finds known people, tags, and 
 - Matching: on-device keyword match (option a). Swappable matcher for Apple Foundation Models later (option c, out of scope)
 - Match only existing, non-archived tags, people, and enabled emotions. Unknown names are ignored. Nothing is auto-created
 - People match only when flag `people` is on
-- Rating is never inferred. User picks rating in the logger ([hard days](../design.md))
+- Rating is never inferred from tone. Only a spoken mood trigger word sets it ([Mood triggers](#mood-triggers)). User reviews it on the rating slide
 - Transcript goes into the entry note, editable
 - Check button opens the normal logger at the rating slide, prefilled. Never saves directly
 - Empty transcript: check button disabled. No matches: logger opens with note only
@@ -33,8 +33,10 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
 - Voice screen: modal, route `/logs/voice`
   - Top right: [`CloseButton`](../../src/components/CloseButton.tsx). Video shows top left; [design rule](../design.md#close-button) wins
   - Top: detected items as cards, in order of first mention. Card shows person avatar, tag color dot, or emotion dot plus label and kind
+  - Spoken mood: first card, dot in the user's scale color, trigger word, kind "Mood" ([`VoiceMoodCard`](../../src/features/voice/components/voice-match-card.tsx))
   - Background: soft blob tinted with `primaryButtonBackground`, pulses with input level. Reduced motion: static
-  - Bottom: "Listening…" title plus hint "Talk about your day: who you connected with, what you did, how you feel." Paused: "Paused"
+  - Bottom: "Listening…" title plus hint "Pixy picks up people, tags, emotions, and your mood." Paused: "Paused"
+  - Help button next to the hint opens a sheet ([`VoiceHelpSheet`](../../src/features/voice/components/voice-help-sheet.tsx)): name rules for people, tags, emotions, first mood wins, all 7 mood trigger words with scale color dots, review before save
   - Bottom row: pause/resume button, live waveform, check button (primary)
 - Close with transcript asks to discard ([`useDiscardGuard`](../../src/hooks/useDiscardGuard.ts))
 - Native module missing (web, Jest, old dev client): screen shows the failed state, never throws on import ([`speech-module.ts`](../../src/features/voice/speech-module.ts))
@@ -60,7 +62,7 @@ Calendar mic button
      LogDraftProvider starts dirty: close asks to discard
 ```
 
-- `prefill` param: `{ message: string; tags: string[]; people: string[]; emotions: string[] }` as JSON. Invalid JSON or schema: ignored, empty logger
+- `prefill` param: `{ message: string; tags: string[]; people: string[]; emotions: string[]; rating?: Rating }` as JSON. Invalid JSON or schema: ignored, empty logger
 - Prefill ids are filtered against current stores again on create
 
 ## Matcher
@@ -75,6 +77,17 @@ File: `src/features/voice/match-transcript.ts`. Pure function, unit tested.
 - Name part never beats full term on same words: person "Anna" or tag "Anna" wins over "Anna" from Anna Schmidt
 - Name part needs 3 letters, 2 in scripts without spaces. Split on spaces only: "Hans-Peter" stays one name
 - Returns ids and keys in order of first mention, no duplicates
+
+## Mood triggers
+
+File: [`mood-triggers.ts`](../../src/features/voice/mood-triggers.ts). Keys `voice_mood_<rating>` in every locale.
+
+- One trigger word per rating. English: amazing, very good, good, so-so, not good, bad, very bad
+- Same matching as people, tags, and emotions. Longest trigger wins: "I felt not good" sets `bad`, not `good`
+- First spoken trigger sets the mood of the whole entry. Later triggers never change it
+- No trigger: rating stays empty, user picks it in the logger
+- Known limits: negation outside triggers ("not bad") still matches "bad". Common words ("good morning") match. Inflected forms (Finnish "hyvältä", Japanese "良かった") do not match
+- Locale test: each trigger alone sets its own rating in every language. Catches collisions after accent stripping (Thai, Vietnamese)
 
 ## Library patch
 
@@ -102,7 +115,7 @@ Every error has `status`, `message`, `why`, `fix` ([AGENTS.md](../../AGENTS.md#e
 
 - `voice:flow_started`
 - `voice:flow_cancelled` `{ duration_ms, transcript_length }`
-- `voice:flow_finished` `{ duration_ms, transcript_length, tags_count, people_count, emotions_count }`
+- `voice:flow_finished` `{ duration_ms, transcript_length, tags_count, people_count, emotions_count, has_rating }`
 - `voice:permission_denied` `{ kind: "microphone" | "speech" }`
 - `voice:failed` `{ status }`
 - `voice:feedback_submitted` `{ rating, prompt_index, duration_ms, tags_count, people_count, emotions_count }`
@@ -111,7 +124,7 @@ Every error has `status`, `message`, `why`, `fix` ([AGENTS.md](../../AGENTS.md#e
 ## Out of scope
 
 - Apple Foundation Models matcher (option c)
-- Rating inference, multi day split, auto-create people or tags
+- Rating inference from tone or sentiment, multi day split, auto-create people or tags
 - Storing audio
 
 ## Verification

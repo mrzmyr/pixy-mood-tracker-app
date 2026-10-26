@@ -1,9 +1,13 @@
 import { buildCards } from "../build-cards";
+import { isNudgeCard } from "../card-types";
 import { makeInput, makeTags } from "./utils";
 
 const days = (dates: string[]) => dates.map((date) => ({ date }));
+/** Nudge cards only: stat cards like the mood chart show for any data. */
 const types = (input: Parameters<typeof buildCards>[0]) =>
-  buildCards(input).map((card) => card.type);
+  buildCards(input)
+    .filter(isNudgeCard)
+    .map((card) => card.type);
 
 // Week of Monday 2026-10-05 to Sunday 2026-10-11.
 const mon = "2026-10-05";

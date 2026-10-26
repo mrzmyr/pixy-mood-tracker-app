@@ -10,6 +10,7 @@ export { SettingsTags } from "./screens/settings/tags";
 export { SettingsTagsArchive } from "./screens/settings/tags";
 export { SettingsTagCategories } from "./screens/settings/tags";
 export { SettingsPeopleScreen } from "./screens/people";
+export { SettingsSleepScreen } from "./screens/sleep";
 export { StepsScreen } from "./screens/steps";
 export {
   DevFixturesScreen,

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pixy",
     "slug": "pixy-mood-tracker",
-    "version": "1.102.0",
+    "version": "1.103.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
@@ -222,7 +222,16 @@
         {
           "faceIDPermission": "Pixy uses Face ID to unlock the app when App Lock is on."
         }
-      ]
+      ],
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "Pixy reads your sleep to suggest how well you slept when you check in. Your sleep data stays on your iPhone.",
+          "NSHealthUpdateUsageDescription": false,
+          "background": false
+        }
+      ],
+      "./tools/expo-plugins/with-apple-health-icon.cjs"
     ],
     "buildCacheProvider": {
       "plugin": "./scripts/build-cache-provider.cjs"

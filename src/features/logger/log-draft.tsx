@@ -45,6 +45,17 @@ export interface LogDraftValue {
   setMenstruationFlow: (
     flow: NonNullable<LogItem["menstruation"]>["flow"] | null
   ) => void;
+  /**
+   * Quality from Apple Health: fills the sleep quality without making the
+   * draft dirty. Replaces an earlier prefill. No-op after the user picked a
+   * quality.
+   */
+  prefillSleepQuality: (quality: LogItem["sleep"]["quality"]) => void;
+  /**
+   * Removes a prefilled quality without making the draft dirty, for example
+   * after the time moved to another day. Keeps a quality the user picked.
+   */
+  dropPrefilledSleepQuality: () => void;
   /** User pick: sets or removes (`undefined`) the location. */
   setLocation: (location: LogItem["location"]) => void;
   /**
@@ -101,6 +112,8 @@ export const LogDraftProvider = ({
   const latest = useRef(initialDraft);
   const isLocationPicked = useRef(false);
   const isLocationPrefilled = useRef(false);
+  const isSleepPicked = useRef(false);
+  const isSleepPrefilled = useRef(false);
 
   const patch = useCallback((next: Partial<LogDraft>) => {
     latest.current = { ...latest.current, ...next };
@@ -139,7 +152,29 @@ export const LogDraftProvider = ({
       },
       flushMessage,
       setPhotos: (photos) => patch({ photos }),
-      setSleepQuality: (quality) => patch({ sleep: { quality } }),
+      setSleepQuality: (quality) => {
+        isSleepPicked.current = true;
+        patch({ sleep: { quality } });
+      },
+      prefillSleepQuality: (quality) => {
+        if (
+          isSleepPicked.current ||
+          (latest.current.sleep?.quality && !isSleepPrefilled.current)
+        ) {
+          return;
+        }
+        isSleepPrefilled.current = true;
+        latest.current = { ...latest.current, sleep: { quality } };
+        setState((current) => ({ ...current, draft: latest.current }));
+      },
+      dropPrefilledSleepQuality: () => {
+        if (isSleepPicked.current || !isSleepPrefilled.current) {
+          return;
+        }
+        isSleepPrefilled.current = false;
+        latest.current = { ...latest.current, sleep: { quality: null } };
+        setState((current) => ({ ...current, draft: latest.current }));
+      },
       setMenstruationFlow: (flow) =>
         patch({ menstruation: flow === null ? undefined : { flow } }),
       setLocation: (location) => {
@@ -177,6 +212,8 @@ export const LogDraftProvider = ({
       discard: () => {
         isLocationPicked.current = false;
         isLocationPrefilled.current = false;
+        isSleepPicked.current = false;
+        isSleepPrefilled.current = false;
         latest.current = initial.current;
         setState({
           draft: initial.current,

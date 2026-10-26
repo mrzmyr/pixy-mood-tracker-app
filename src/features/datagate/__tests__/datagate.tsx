@@ -318,6 +318,7 @@ describe("useLogs()", () => {
           "photosDayAccessDismissed",
           "colorScheme",
           "locationEnabled",
+          "healthSleepEnabled",
           "calendarLayout",
           "appLockEnabled",
           "recapNotificationsEnabled",

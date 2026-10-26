@@ -1,6 +1,11 @@
 import { useSlideMarginTop } from "./margin-top";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
+import {
+  SleepStagesCard,
+  useHealthSleep,
+  useHealthSleepSetting,
+} from "@/features/health";
 import { SLEEP_QUALITY_KEYS } from "@/constants/ratings";
 import { useLogDraft } from "../log-draft";
 import { Text, View } from "react-native";
@@ -17,6 +22,10 @@ const SLEEP_QUALITIES = [...SLEEP_QUALITY_KEYS].reverse();
  * Sleep quality slide. Picking a quality calls `onNext`; picking the
  * selected quality again clears it and stays on the slide. Skip clears the
  * quality for this entry only and calls `onNext`; the step stays on.
+ *
+ * With the Apple Health setting on, last night's sleep stages show above
+ * the scale. Only edits get here then: new entries skip this slide, and
+ * `useHealthSleepFill` fills the quality.
  */
 export const SlideSleep = ({
   onNext,
@@ -31,6 +40,8 @@ export const SlideSleep = ({
   const insets = useSafeAreaInsets();
   const { draft, setSleepQuality } = useLogDraft();
   const selected = draft.sleep?.quality ?? null;
+  const { isEnabled: isHealthEnabled } = useHealthSleepSetting();
+  const health = useHealthSleep(draft.date, isHealthEnabled);
 
   const marginTop = useSlideMarginTop();
 
@@ -45,12 +56,18 @@ export const SlideSleep = ({
       }}
     >
       <SlideHeadline>{t("log_sleep_question")}</SlideHeadline>
+      {health !== null && (
+        // Buttons carry a 4 pt margin; the card lines up with their edges.
+        <View style={{ marginTop: 20, marginHorizontal: 4 }}>
+          <SleepStagesCard sleep={health} />
+        </View>
+      )}
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: 32,
+          marginTop: health === null ? 32 : 16,
         }}
       >
         {SLEEP_QUALITIES.map((key) => (
@@ -73,7 +90,6 @@ export const SlideSleep = ({
       </View>
       <View
         style={{
-          flex: 1,
           marginTop: 8,
           flexDirection: "row",
           alignItems: "flex-start",
@@ -102,6 +118,7 @@ export const SlideSleep = ({
           {t("logger_step_sleep_high")}
         </Text>
       </View>
+      <View style={{ flex: 1 }} />
       <Footer>
         <LinkButton
           type="secondary"
