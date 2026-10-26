@@ -82,6 +82,8 @@ export interface AnalyticsEvents {
     tags_count: number;
     people_count: number;
     emotions_count: number;
+    /** A mood trigger word was spoken, so the logger opens with a rating. */
+    has_rating: boolean;
   };
   "voice:permission_denied": { kind: "microphone" | "speech" };
   "voice:failed": { status: string };

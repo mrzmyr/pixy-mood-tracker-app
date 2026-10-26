@@ -20,8 +20,10 @@ import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { VoiceBlob } from "../components/voice-blob";
 import { VoiceMatchCard } from "../components/voice-match-card";
+import { VoiceMoodRow } from "../components/voice-mood-row";
 import { VoiceWaveform } from "../components/voice-waveform";
 import { matchTranscript } from "../match-transcript";
+import { getMoodTriggers, matchMood } from "../mood-triggers";
 import { useVoiceTerms } from "../use-voice-terms";
 import { useVoiceTranscription } from "../use-voice-transcription";
 import type { VoiceErrorStatus, VoiceStatus } from "../use-voice-transcription";
@@ -60,8 +62,8 @@ const blockedCopy = (
 };
 
 /**
- * Voice mode: listen, show detected people, tags, and emotions live, then
- * open the logger prefilled. Nothing is saved here.
+ * Voice mode: listen, show detected people, tags, emotions, and the first
+ * spoken mood live, then open the logger prefilled. Nothing is saved here.
  */
 export const VoiceMode = () => {
   const colors = useColors();
@@ -70,6 +72,7 @@ export const VoiceMode = () => {
   const analytics = useAnalytics();
   const haptics = useHaptics();
   const terms = useVoiceTerms();
+  const moodTriggers = getMoodTriggers();
   const hasStarted = useRef(false);
   const cardsRef = useRef<ScrollView>(null);
   // Set when listening starts, in the start effect.
@@ -85,6 +88,7 @@ export const VoiceMode = () => {
     () => matchTranscript(voice.text, terms),
     [voice.text, terms]
   );
+  const rating = matchMood(voice.text, moodTriggers);
   const hasText = voice.text.trim() !== "";
 
   const { allowLeave } = useDiscardGuard({
@@ -132,6 +136,7 @@ export const VoiceMode = () => {
       tags: [],
       people: [],
       emotions: [],
+      rating: matchMood(message, moodTriggers) ?? undefined,
       source: "voice",
       durationMs: Date.now() - startedAt.current,
     };
@@ -144,6 +149,7 @@ export const VoiceMode = () => {
       tags_count: prefill.tags.length,
       people_count: prefill.people.length,
       emotions_count: prefill.emotions.length,
+      has_rating: prefill.rating !== undefined,
     });
     haptics.selection();
     allowLeave();
@@ -237,6 +243,7 @@ export const VoiceMode = () => {
               {t("voice_hint")}
             </Secondary>
           </View>
+          <VoiceMoodRow triggers={moodTriggers} rating={rating} />
           <View
             style={{
               flexDirection: "row",

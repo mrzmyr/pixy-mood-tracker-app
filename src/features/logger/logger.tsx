@@ -592,7 +592,7 @@ export const LoggerCreate = ({
     id,
     date: toLogDate(dateTime || dayjs().toISOString()),
     dateTime,
-    rating: null,
+    rating: prefill?.rating ?? null,
     message: prefill?.message ?? "",
     emotions: prefill?.emotions ?? [],
     tags: prefill?.tags.map((tagId) => ({ id: tagId })) ?? [],

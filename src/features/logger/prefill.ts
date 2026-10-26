@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { LogItemSchema } from "@/types";
 
 /**
  * Values a new entry starts with, passed to the create route as the JSON
@@ -9,6 +10,8 @@ const LoggerPrefillSchema = z.object({
   tags: z.array(z.string()).default([]),
   people: z.array(z.string()).default([]),
   emotions: z.array(z.string()).default([]),
+  /** Mood the user named in voice mode. */
+  rating: LogItemSchema.shape.rating.optional(),
   /** `voice`: values come from voice mode, which asks for feedback after saving. */
   source: z.literal("voice").optional(),
   /** Voice mode listening time, for the feedback event. */

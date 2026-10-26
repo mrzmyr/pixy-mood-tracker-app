@@ -1,6 +1,7 @@
 import { encodeLoggerPrefill, parseLoggerPrefill } from "../prefill";
 
 const known = { tags: ["t1", "t2"], people: ["p1"], emotions: ["calm"] };
+const empty = { message: "", tags: [], people: [], emotions: [] };
 
 describe("parseLoggerPrefill", () => {
   it("round trips a prefill", () => {
@@ -28,6 +29,14 @@ describe("parseLoggerPrefill", () => {
       people: [],
       emotions: ["calm"],
     });
+  });
+
+  it("keeps a rating and rejects an unknown one", () => {
+    const param = encodeLoggerPrefill({ ...empty, rating: "very_bad" });
+    expect(parseLoggerPrefill(param, known)?.rating).toBe("very_bad");
+    expect(
+      parseLoggerPrefill(JSON.stringify({ ...empty, rating: "sad" }), known)
+    ).toBeNull();
   });
 
   it("returns null for a missing or invalid param", () => {
