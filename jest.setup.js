@@ -17,6 +17,7 @@ jest.mock("posthog-react-native", () => {
   };
 
   return {
+    PostHog: jest.fn(() => client),
     PostHogProvider: ({ children }) => children,
     usePostHog: () => client,
   };
