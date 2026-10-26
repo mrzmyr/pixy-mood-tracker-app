@@ -6,10 +6,11 @@ import { POSTHOG_OPTIONS } from "@/shell/posthog-options";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 
 /**
- * PostHog with a client that makes no requests until stored settings load
- * with analytics consent on. An opted-out client still fetches remote config
- * at start; only `disabled` stops that, and it is fixed at creation. So the
- * client is created again when consent changes.
+ * PostHog with a client that makes no requests until the user finished
+ * onboarding (privacy slide included) and analytics consent is on. An
+ * opted-out client still fetches remote config at start; only `disabled`
+ * stops that, and it is fixed at creation. So the client is created again
+ * when the gate opens or closes.
  */
 export const ConsentPostHogProvider = ({
   children,
@@ -17,8 +18,12 @@ export const ConsentPostHogProvider = ({
   children: React.ReactNode;
 }) => {
   const isReady = useSettingsLoad().status === "ready";
-  const { settings } = useSettings();
-  const isAllowed = TRACKING_ENABLED && isReady && settings.analyticsEnabled;
+  const { settings, hasActionDone } = useSettings();
+  const isAllowed =
+    TRACKING_ENABLED &&
+    isReady &&
+    hasActionDone("onboarding") &&
+    settings.analyticsEnabled;
   const client = useMemo(
     () =>
       new PostHog(POSTHOG_API_KEY, {

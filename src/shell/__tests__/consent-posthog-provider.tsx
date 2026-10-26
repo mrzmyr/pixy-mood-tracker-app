@@ -23,10 +23,15 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
   </SettingsProvider>
 );
 
-const renderWithSettings = async (analyticsEnabled: boolean) => {
+const ONBOARDED = [{ title: "onboarding", date: "2026-10-01T10:00:00.000Z" }];
+
+const renderWithSettings = async (
+  analyticsEnabled: boolean,
+  actionsDone = ONBOARDED
+) => {
   await AsyncStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify({ ...INITIAL_STATE, analyticsEnabled })
+    JSON.stringify({ ...INITIAL_STATE, analyticsEnabled, actionsDone })
   );
   const hook = await renderHook(
     () => ({ settings: useSettings(), load: useSettingsLoad() }),
@@ -49,6 +54,12 @@ describe("ConsentPostHogProvider", () => {
 
   test("creates only a disabled client while consent is off", async () => {
     await renderWithSettings(false);
+
+    expect(disabledValues()).not.toContain(false);
+  });
+
+  test("creates only a disabled client before onboarding is done", async () => {
+    await renderWithSettings(true, []);
 
     expect(disabledValues()).not.toContain(false);
   });

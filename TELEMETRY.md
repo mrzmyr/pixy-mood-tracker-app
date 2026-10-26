@@ -20,7 +20,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 
 - Default off in the EU, EEA, UK, Switzerland, and when the region is unknown. Default on elsewhere ([`consent.ts`](src/state/analytics/consent.ts))
 - Off switch: Settings > Privacy > Behavioral Data
-- Off means no PostHog requests at all (no events, flags, or remote config) and no startup metrics. The PostHog client starts disabled until settings load with consent on ([`consent-posthog-provider.tsx`](src/shell/consent-posthog-provider.tsx))
+- Off means no PostHog requests at all (no events, flags, or remote config) and no startup metrics. The PostHog client starts disabled until onboarding is done (privacy slide included) and consent is on. `onboarding:*` events are therefore not sent ([`consent-posthog-provider.tsx`](src/shell/consent-posthog-provider.tsx))
 - "Delete all my data" restores the regional default and clears `analyticsConsentAt`
 - Each choice stores its time in `analyticsConsentAt`. Backups never carry the switch or the time; import keeps the values of this device
 - Crash reports go to Sentry. The Behavioral Data switch does not cover them
