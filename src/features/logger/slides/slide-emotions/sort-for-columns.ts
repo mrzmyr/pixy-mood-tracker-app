@@ -18,8 +18,8 @@ export const sortForColumns = <T>(items: T[], columns: number): T[] => {
   const result: T[] = [];
 
   // Fill the grid column by column, then read row by row
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < columns; col++) {
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < columns; col += 1) {
       const index = col * rows + row;
       if (index < items.length) {
         result.push(items[index]);
