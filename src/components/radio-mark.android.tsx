@@ -3,6 +3,7 @@ import { View } from "react-native";
 import type { GestureResponderHandlers } from "react-native";
 import useColors from "@/hooks/use-colors";
 import type { RadioMarkProps } from "./radio-mark";
+import { MATERIAL_SEED_COLOR } from "@/constants/colors";
 
 /**
  * Makes the Compose host the JS touch responder, as in `Toggle.android.tsx`.
@@ -26,7 +27,7 @@ const RadioMark = ({ selected, onSelect }: RadioMarkProps) => {
       importantForAccessibility="no-hide-descendants"
       accessibilityElementsHidden
     >
-      <Host matchContents {...claimTouch}>
+      <Host matchContents seedColor={MATERIAL_SEED_COLOR} {...claimTouch}>
         <RadioButton
           selected={selected}
           onClick={onSelect}

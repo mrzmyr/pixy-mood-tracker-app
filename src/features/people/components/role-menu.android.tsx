@@ -15,6 +15,7 @@ import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { RoleMenuProps } from "./role-menu-types";
 import { getRoleLabel, getRoleOptions } from "./role-menu-types";
+import { MATERIAL_SEED_COLOR } from "@/constants/colors";
 
 /**
  * Role row on Android: a list row with the current role. A tap opens a
@@ -41,7 +42,7 @@ export const RoleMenu = ({
 
   return (
     <MenuList>
-      <Host matchContents={{ vertical: true }}>
+      <Host matchContents={{ vertical: true }} seedColor={MATERIAL_SEED_COLOR}>
         <DropdownMenu
           expanded={expanded}
           onDismissRequest={() => setExpanded(false)}
