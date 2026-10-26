@@ -14,7 +14,8 @@ export type QuizModule = "people" | "tags" | "mix";
 
 /**
  * Quiz slide. `truths`: 4 statements, one made up, tap all true ones.
- * `people` and `tags`: pick the most connected person or the most used tag.
+ * `people` and `tags`: pick the most connected person or the most used tag;
+ * `days` holds each tile's days, shown on the tiles after the answer.
  */
 export type QuizSlide =
   | {
@@ -30,16 +31,14 @@ export type QuizSlide =
       quiz: "people";
       personIds: string[];
       answer: string;
-      runnerUp: { id: string; days: number };
-      days: number;
+      days: Record<string, number>;
     }
   | {
       type: "quiz";
       quiz: "tags";
       tagIds: string[];
       answer: string;
-      runnerUp: { id: string; days: number };
-      days: number;
+      days: Record<string, number>;
     };
 
 /** Stable pseudo-random number from a string, 0 to 1. */
@@ -191,8 +190,7 @@ const peopleQuiz = (input: RecapInput): QuizSlide | null => {
       (row) => row.id
     ),
     answer: first.id,
-    days: first.days,
-    runnerUp: second,
+    days: Object.fromEntries(rows.map((row) => [row.id, row.days])),
   };
 };
 
@@ -213,8 +211,7 @@ const tagsQuiz = (
       (row) => row.id
     ),
     answer: first.id,
-    days: first.days,
-    runnerUp: second,
+    days: Object.fromEntries(rows.map((row) => [row.id, row.days])),
   };
 };
 

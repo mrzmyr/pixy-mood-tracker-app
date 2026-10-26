@@ -63,6 +63,7 @@ describe("month story", () => {
     expect(slides?.map((item) => item.type)).toEqual([
       "cover",
       "coming-up",
+      "thanks",
       "share",
     ]);
   });
@@ -76,11 +77,30 @@ describe("cover", () => {
     });
   });
 
-  test("fills the screen with one photo for 1 to 6 photo days", () => {
+  test("fills the screen with each photo for 1 to 6 photo days", () => {
     const items = month((index) =>
       index < 3 ? { photos: [photo(`${index}`)] } : {}
     );
-    expect(slide(story(items), "cover")?.variant).toBe("photo");
+    expect(slide(story(items), "cover")).toMatchObject({
+      variant: "photo",
+      photos: [
+        { date: SEP },
+        { date: addDays(SEP, 1) },
+        { date: addDays(SEP, 2) },
+      ],
+    });
+  });
+
+  test("shows the brightest photos first", () => {
+    const items = month((index) =>
+      index < 3
+        ? {
+            rating: index === 2 ? "extremely_good" : "good",
+            photos: [photo(`${index}`)],
+          }
+        : {}
+    );
+    expect(slide(story(items), "cover")?.photos[0]?.date).toBe(addDays(SEP, 2));
   });
 
   test("shows the photo grid from 7 photo days", () => {
@@ -278,27 +298,6 @@ describe("share card", () => {
     );
     expect(slide(story(items), "share")?.photos).toEqual([]);
   });
-
-  test("names the weekday habit and the next top tag", () => {
-    const items = month((index, date) => ({
-      tags: [
-        ...(index < 20 ? [{ id: walk.id }] : []),
-        ...(new Date(`${date}T12:00:00`).getDay() === 6
-          ? [{ id: swim.id }]
-          : []),
-      ],
-    }));
-    expect(slide(story(items), "share")?.facts).toEqual([
-      { kind: "weekday", tagId: swim.id, weekday: 6, hits: 4, total: 4 },
-      { kind: "tag", tagId: walk.id, days: 20 },
-    ]);
-  });
-
-  test("falls back to check-ins", () => {
-    expect(slide(story(month()), "share")?.facts).toEqual([
-      { kind: "check-ins", days: 30 },
-    ]);
-  });
 });
 
 describe("week story", () => {
@@ -323,10 +322,21 @@ describe("week story", () => {
     expect(weekStory(week(7), "2026-10-12")).toBeNull();
   });
 
-  test("starts with the cover and ends with the share card", () => {
+  test("starts with the cover and ends with thanks, then the share card", () => {
     const types = (weekStory(week(7)) ?? []).map((item) => item.type);
 
     expect(types[0]).toBe("cover");
-    expect(types.at(-1)).toBe("share");
+    expect(types.slice(-2)).toEqual(["thanks", "share"]);
+  });
+
+  test("shows up to 5 photos one after another, never the grid", () => {
+    const items = week(7).map((item, index) => ({
+      ...item,
+      photos: [photo(`${index}`)],
+    }));
+    const cover = slide(weekStory(items), "cover");
+
+    expect(cover?.variant).toBe("photo");
+    expect(cover?.photos).toHaveLength(5);
   });
 });

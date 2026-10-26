@@ -959,14 +959,6 @@
   "recaps_story_quiz_eyebrow_people": "Deine Menschen",
   "recaps_story_quiz_eyebrow_tags": "Deine Gewohnheiten",
   "recaps_story_quiz_made_up": "Erfunden",
-  "recaps_story_quiz_reveal_people": {
-    "one": "%{name}, 1 Tag in Kontakt. Danach %{runnerUp} mit %{days}.",
-    "other": "%{name}, {{count}} Tage in Kontakt. Danach %{runnerUp} mit %{days}."
-  },
-  "recaps_story_quiz_reveal_tags": {
-    "one": "%{name}, 1 Tag. Danach %{runnerUp} mit %{days}.",
-    "other": "%{name}, {{count}} Tage. Danach %{runnerUp} mit %{days}."
-  },
   "recaps_story_quiz_reveal_truths": "%{name}: wirklich %{actual}, nicht %{shown}. Die anderen drei stimmen.",
   "recaps_story_quiz_title_mix": "Was davon stimmt?",
   "recaps_story_quiz_title_people": "Wer ging dir durch den Kopf?",
@@ -976,18 +968,11 @@
   "recaps_story_quiz_truths_hint": "Tippe alle an, die stimmen.",
   "recaps_story_ready": "Bereit zum Ansehen",
   "recaps_story_share": "Teilen",
-  "recaps_story_share_check_ins": {
-    "one": "1 Tag mit Check-in",
-    "other": "{{count}} Tage mit Check-in"
-  },
-  "recaps_story_share_city": "Zum ersten Mal in %{city}",
   "recaps_story_share_shuffle": "Fotos mischen",
-  "recaps_story_share_tag": {
-    "one": "%{tag}, 1 Tag",
-    "other": "%{tag}, {{count}} Tage"
-  },
   "recaps_story_share_title": "Mein %{month}",
   "recaps_story_share_title_week": "Meine Woche",
+  "recaps_story_thanks_kind": "Jeder Check-in ist ein kleiner Moment der Fürsorge für dich selbst.",
+  "recaps_story_thanks_why": "Der Blick zurück hilft dir, Muster zu erkennen und zu sehen, wie sie sich verändern.",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Tage mit den einzelnen Tags, vs. %{previous}.",
   "recaps_story_vs_title": "Mehr hiervon, weniger davon",

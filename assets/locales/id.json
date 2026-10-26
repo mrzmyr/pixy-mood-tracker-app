@@ -909,14 +909,6 @@
   "recaps_story_quiz_eyebrow_people": "Orang-orangmu",
   "recaps_story_quiz_eyebrow_tags": "Kebiasaanmu",
   "recaps_story_quiz_made_up": "Karangan",
-  "recaps_story_quiz_reveal_people": {
-    "one": "%{name}, 1 hari terhubung. Lalu %{runnerUp} dengan %{days}.",
-    "other": "%{name}, {{count}} hari terhubung. Lalu %{runnerUp} dengan %{days}."
-  },
-  "recaps_story_quiz_reveal_tags": {
-    "one": "%{name}, 1 hari. Lalu %{runnerUp} dengan %{days}.",
-    "other": "%{name}, {{count}} hari. Lalu %{runnerUp} dengan %{days}."
-  },
   "recaps_story_quiz_reveal_truths": "%{name}: sebenarnya %{actual}, bukan %{shown}. Tiga lainnya benar.",
   "recaps_story_quiz_title_mix": "Mana yang benar?",
   "recaps_story_quiz_title_people": "Siapa yang ada di pikiranmu?",
@@ -926,16 +918,7 @@
   "recaps_story_quiz_truths_hint": "Ketuk semua yang benar.",
   "recaps_story_ready": "Siap ditonton",
   "recaps_story_share": "Bagikan",
-  "recaps_story_share_check_ins": {
-    "one": "1 hari tercatat",
-    "other": "{{count}} hari tercatat"
-  },
-  "recaps_story_share_city": "Pertama kali di %{city}",
   "recaps_story_share_shuffle": "Acak foto",
-  "recaps_story_share_tag": {
-    "one": "%{tag}, 1 hari",
-    "other": "%{tag}, {{count}} hari"
-  },
   "recaps_story_share_title": "%{month}-ku",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Hari dengan tiap tag, vs %{previous}.",

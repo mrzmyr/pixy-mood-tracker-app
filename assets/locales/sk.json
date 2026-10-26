@@ -909,14 +909,6 @@
   "recaps_story_quiz_eyebrow_people": "Tvoji ľudia",
   "recaps_story_quiz_eyebrow_tags": "Tvoje zvyky",
   "recaps_story_quiz_made_up": "Vymyslené",
-  "recaps_story_quiz_reveal_people": {
-    "one": "%{name}, 1 deň v kontakte. Ďalej %{runnerUp}: %{days}.",
-    "other": "%{name}, dní v kontakte: {{count}}. Ďalej %{runnerUp}: %{days}."
-  },
-  "recaps_story_quiz_reveal_tags": {
-    "one": "%{name}, 1 deň. Ďalej %{runnerUp}: %{days}.",
-    "other": "%{name}, dní: {{count}}. Ďalej %{runnerUp}: %{days}."
-  },
   "recaps_story_quiz_reveal_truths": "%{name}: v skutočnosti %{actual}, nie %{shown}. Ostatné tri sú pravdivé.",
   "recaps_story_quiz_title_mix": "Ktoré sú pravdivé?",
   "recaps_story_quiz_title_people": "Na koho si myslel(a)?",
@@ -926,16 +918,7 @@
   "recaps_story_quiz_truths_hint": "Ťukni na všetky pravdivé.",
   "recaps_story_ready": "Pripravené na pozretie",
   "recaps_story_share": "Zdieľať",
-  "recaps_story_share_check_ins": {
-    "one": "1 deň so záznamom",
-    "other": "Dní so záznamom: {{count}}"
-  },
-  "recaps_story_share_city": "Prvýkrát v meste %{city}",
   "recaps_story_share_shuffle": "Zamiešať fotky",
-  "recaps_story_share_tag": {
-    "one": "%{tag}, 1 deň",
-    "other": "%{tag}, dní: {{count}}"
-  },
   "recaps_story_share_title": "Môj %{month}",
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Dni s každým štítkom, vs. %{previous}.",

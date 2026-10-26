@@ -11,15 +11,25 @@ interface ThemeFields {
 const slide = (fields: ThemeFields) => fields as StorySlide;
 
 describe("story slide theme", () => {
-  test("light mode keeps white slides for quizzes, patterns, and sharing", () => {
+  test("light mode keeps white slides for quizzes, patterns, and thanks", () => {
     expect(getSlideTheme(slide({ type: "quiz" }))).toBe("paper");
-    expect(getSlideTheme(slide({ type: "share" }))).toBe("paper");
+    expect(getSlideTheme(slide({ type: "thanks" }))).toBe("paper");
     expect(getSlideTheme(slide({ type: "hard-pattern" }))).toBe("paper");
     expect(getSlideTheme(slide({ type: "coming-up" }))).toBe("night");
   });
 
+  test("share card sits on a dark slide, so the card stands out", () => {
+    expect(getSlideTheme(slide({ type: "share" }))).toBe("night");
+  });
+
   test("dark mode never shows a white slide", () => {
-    for (const type of ["quiz", "share", "hard-pattern", "coming-up"]) {
+    for (const type of [
+      "quiz",
+      "thanks",
+      "share",
+      "hard-pattern",
+      "coming-up",
+    ]) {
       expect(getSlideTheme(slide({ type }), true)).toBe("night");
     }
   });
