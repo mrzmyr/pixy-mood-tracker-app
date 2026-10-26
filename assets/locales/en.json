@@ -907,6 +907,8 @@
   "recaps_emotion_absent_title": "3 weeks without feeling %{emotion}",
   "recaps_emotion_again_text": "For the first time since %{date}.",
   "recaps_emotion_again_title": "Feeling %{emotion} again",
+  "recaps_emotions_back_title_month": "Emotions back this month",
+  "recaps_emotions_back_title_week": "Emotions back this week",
   "recaps_emotions_title": "Most used emotions",
   "recaps_emotions_year_title": "Top 10 emotions",
   "recaps_empty": "No cards for this period yet. They show up as your check-ins add up.",
@@ -1098,6 +1100,7 @@
     "other": "On {{count}} days, after %{weeks} weeks without."
   },
   "recaps_tag_back_title": "%{tag} is back",
+  "recaps_tags_back_title": "These tags are back",
   "recaps_trend_fading_lift": "Fading lift",
   "recaps_trend_growing_lift": "Growing lift",
   "recaps_trend_location_title": "Places over time",

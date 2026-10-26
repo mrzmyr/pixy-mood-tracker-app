@@ -34,6 +34,16 @@ const moments = (input: Parameters<typeof makeInput>[0]) =>
     makeInput({ ...week, reminderEnabled: true, steps: ALL_STEPS, ...input })
   ).filter((card) => CARD_TYPES[card.type].family === "moment");
 
+/** The emotions-back card of the week. */
+const emotionsBack = (...emotions: { emotion: string; lastDate: string }[]) => [
+  { type: "emotion-again", periodKind: "week", emotions },
+];
+
+/** The tags-back card of the week. */
+const tagsBack = (
+  ...tags: { tagId: string; days: number; weeks: number }[]
+) => [{ type: "tag-back", periodKind: "week", tags }];
+
 describe("emotion again", () => {
   test("shows a good emotion back after 30 days, not after 29", () => {
     expect(
@@ -43,9 +53,7 @@ describe("emotion again", () => {
           { date: mon, emotions: ["proud"] },
         ],
       })
-    ).toEqual([
-      { type: "emotion-again", emotion: "proud", lastDate: "2026-09-05" },
-    ]);
+    ).toEqual(emotionsBack({ emotion: "proud", lastDate: "2026-09-05" }));
     expect(
       moments({
         items: [
@@ -67,7 +75,7 @@ describe("emotion again", () => {
     ).toEqual([]);
   });
 
-  test("picks the emotion with the longest gap", () => {
+  test("puts every emotion back into one card, longest break first", () => {
     expect(
       moments({
         items: [
@@ -76,9 +84,12 @@ describe("emotion again", () => {
           { date: mon, emotions: ["calm", "proud"] },
         ],
       })
-    ).toEqual([
-      { type: "emotion-again", emotion: "proud", lastDate: "2026-06-01" },
-    ]);
+    ).toEqual(
+      emotionsBack(
+        { emotion: "proud", lastDate: "2026-06-01" },
+        { emotion: "calm", lastDate: "2026-08-01" }
+      )
+    );
   });
 });
 
@@ -378,7 +389,7 @@ describe("tag back", () => {
   test("shows a tag back after 21 days with 8 uses before", () => {
     expect(
       moments({ items: [...plain, ...before, { date: mon, ...sport }], tags })
-    ).toEqual([{ type: "tag-back", tagId: "tag-0", days: 1, weeks: 8 }]);
+    ).toEqual(tagsBack({ tagId: "tag-0", days: 1, weeks: 8 }));
   });
 
   test("needs 8 uses before", () => {

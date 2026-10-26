@@ -530,14 +530,10 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
 /** Emotions and tags back after a break, from the came-back card rules. */
 const cameBack = (input: RecapInput): CameBackSlide | null => {
   const emotions = emotionAgain(input).flatMap((card) =>
-    card.type === "emotion-again"
-      ? [{ emotion: card.emotion, lastDate: card.lastDate }]
-      : []
+    card.type === "emotion-again" ? card.emotions : []
   );
   const tags = tagBack(input).flatMap((card) =>
-    card.type === "tag-back"
-      ? [{ tagId: card.tagId, days: card.days, weeks: card.weeks }]
-      : []
+    card.type === "tag-back" ? card.tags : []
   );
   return emotions.length + tags.length > 0
     ? { type: "came-back", emotions, tags }

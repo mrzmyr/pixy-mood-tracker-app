@@ -777,6 +777,8 @@
   "recaps_emotion_absent_title": "3 Wochen ohne %{emotion}",
   "recaps_emotion_again_text": "Zum ersten Mal seit dem %{date}.",
   "recaps_emotion_again_title": "Wieder %{emotion}",
+  "recaps_emotions_back_title_month": "Wieder gefühlt diesen Monat",
+  "recaps_emotions_back_title_week": "Wieder gefühlt diese Woche",
   "recaps_emotions_title": "Meistgenutzte Gefühle",
   "recaps_emotions_year_title": "Top 10 Gefühle",
   "recaps_empty": "Noch keine Karten für diesen Zeitraum. Sie erscheinen, sobald du öfter eincheckst.",
@@ -968,6 +970,7 @@
     "other": "An {{count}} Tagen, nach %{weeks} Wochen ohne."
   },
   "recaps_tag_back_title": "%{tag} ist zurück",
+  "recaps_tags_back_title": "Diese Schlagwörter sind zurück",
   "recaps_trend_fading_lift": "Hebt weniger",
   "recaps_trend_growing_lift": "Hebt mehr",
   "recaps_trend_location_title": "Orte im Verlauf",

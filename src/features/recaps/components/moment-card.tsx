@@ -15,7 +15,13 @@ import { MediaPanel, RecapCardShell } from "./recap-card-shell";
 import { getMomentLine } from "./person-moment-line";
 import { RingedAvatar } from "./ringed-avatar";
 import { CHIP } from "../chip-marker";
-import { ChipText, EmotionChip, TagChip } from "./title-chip";
+import {
+  ChipText,
+  EmotionChip,
+  RowEmotionChip,
+  RowTagChip,
+  TagChip,
+} from "./title-chip";
 
 const formatDay = (date: string) => dayjs(date).format("D MMMM");
 
@@ -154,6 +160,32 @@ const CityArt = () => {
 
 const emotionLabel = (key: string) => tDynamic(`log_emotion_${key}`);
 
+/** Several emotions or tags back: chip, then since when or how long. */
+const BackList = ({
+  rows,
+}: {
+  rows: { key: string; chip: ReactNode; label: string; line: string }[];
+}) => {
+  const colors = useColors();
+  return (
+    <View style={{ gap: 12 }}>
+      {rows.map((row) => (
+        <View
+          key={row.key}
+          accessible
+          accessibilityLabel={`${row.label}, ${row.line}`}
+          style={{ alignItems: "flex-start", gap: 4 }}
+        >
+          {row.chip}
+          <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+            {row.line}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+};
+
 /** Title, text, and art of each moment, or `null` when its subject is gone. */
 const getContent = (
   card: MomentCardData,
@@ -161,18 +193,45 @@ const getContent = (
 ): Content | null => {
   switch (card.type) {
     case "emotion-again": {
-      const title = t("recaps_emotion_again_title", { emotion: CHIP });
+      const [only, ...more] = card.emotions;
+      if (!only) {
+        return null;
+      }
+      if (more.length === 0) {
+        const title = t("recaps_emotion_again_title", { emotion: CHIP });
+        return {
+          title: (
+            <ChipText
+              text={title}
+              chip={<EmotionChip emotionKey={only.emotion} />}
+            />
+          ),
+          titleLabel: title.replace(CHIP, emotionLabel(only.emotion)),
+          text: t("recaps_emotion_again_text", {
+            date: formatDay(only.lastDate),
+          }),
+        };
+      }
+      const title = t(
+        card.periodKind === "month"
+          ? "recaps_emotions_back_title_month"
+          : "recaps_emotions_back_title_week"
+      );
       return {
-        title: (
-          <ChipText
-            text={title}
-            chip={<EmotionChip emotionKey={card.emotion} />}
+        title,
+        titleLabel: title,
+        body: (
+          <BackList
+            rows={card.emotions.map((back) => ({
+              key: back.emotion,
+              chip: <RowEmotionChip emotionKey={back.emotion} />,
+              label: emotionLabel(back.emotion),
+              line: t("recaps_emotion_again_text", {
+                date: formatDay(back.lastDate),
+              }),
+            }))}
           />
         ),
-        titleLabel: title.replace(CHIP, emotionLabel(card.emotion)),
-        text: t("recaps_emotion_again_text", {
-          date: formatDay(card.lastDate),
-        }),
       };
     }
     case "emotion-absent": {
@@ -222,18 +281,42 @@ const getContent = (
       };
     }
     case "tag-back": {
-      const tag = tags.find((item) => item.id === card.tagId);
-      if (!tag) {
+      const known = card.tags.flatMap((back) => {
+        const tag = tags.find((item) => item.id === back.tagId);
+        return tag ? [{ back, tag }] : [];
+      });
+      const [only, ...more] = known;
+      if (!only) {
         return null;
       }
-      const title = t("recaps_tag_back_title", { tag: CHIP });
+      if (more.length === 0) {
+        const title = t("recaps_tag_back_title", { tag: CHIP });
+        return {
+          title: <ChipText text={title} chip={<TagChip tag={only.tag} />} />,
+          titleLabel: title.replace(CHIP, only.tag.title),
+          text: t("recaps_tag_back_text", {
+            count: only.back.days,
+            weeks: only.back.weeks,
+          }),
+        };
+      }
+      const title = t("recaps_tags_back_title");
       return {
-        title: <ChipText text={title} chip={<TagChip tag={tag} />} />,
-        titleLabel: title.replace(CHIP, tag.title),
-        text: t("recaps_tag_back_text", {
-          count: card.days,
-          weeks: card.weeks,
-        }),
+        title,
+        titleLabel: title,
+        body: (
+          <BackList
+            rows={known.map(({ back, tag }) => ({
+              key: tag.id,
+              chip: <RowTagChip tag={tag} />,
+              label: tag.title,
+              line: t("recaps_tag_back_text", {
+                count: back.days,
+                weeks: back.weeks,
+              }),
+            }))}
+          />
+        ),
       };
     }
     case "sleep-turnaround": {
