@@ -5,6 +5,8 @@ import { createPersistedStore } from "@/state/persisted/create-persisted-store";
 import type { Load } from "@/state/persisted/create-persisted-store";
 import { deleteAllAvatars, deleteAvatar, removeOrphanAvatars } from "./avatars";
 import { reorderPeople } from "./people-order";
+import { RoleSchema } from "./role-presets";
+import type { RolePreset } from "./role-presets";
 
 /** AsyncStorage key for people. Changing it orphans all stored people. */
 export const STORAGE_KEY = "PIXEL_TRACKER_PEOPLE";
@@ -24,6 +26,8 @@ export interface Person {
   avatar: string | null;
   /** OS contact id from the picker; used only to detect a repeated pick. */
   contactId?: string;
+  /** Relationship to the user, one of `ROLE_PRESETS`. */
+  role?: RolePreset;
   isArchived?: boolean;
   /** ISO timestamp of when the person was added. */
   createdAt: string;
@@ -66,6 +70,7 @@ const StoredPersonSchema = z.object({
   // oxlint-disable-next-line promise/prefer-await-to-then -- zod `.catch()` is a schema fallback, not a promise.
   avatar: z.string().nullable().catch(null),
   contactId: z.string().optional(),
+  role: RoleSchema,
   isArchived: z.boolean().optional(),
   // oxlint-disable-next-line promise/prefer-await-to-then -- zod `.catch()` is a schema fallback, not a promise.
   createdAt: z.string().catch(() => new Date(0).toISOString()),

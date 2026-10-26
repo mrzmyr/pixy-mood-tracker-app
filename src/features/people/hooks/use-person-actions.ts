@@ -58,6 +58,7 @@ export const usePersonActions = () => {
     analytics.track("people:person_updated", {
       name_changed: false,
       avatar_changed: false,
+      role_changed: false,
       is_archived: isArchived,
     });
     peopleUpdater.updatePerson({ ...person, isArchived });

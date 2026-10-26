@@ -31,6 +31,7 @@ export interface Person {
   name: string; // user editable, max MAX_TAG_LENGTH
   avatar: string | null; // relative path "people/<id>.jpg", never absolute
   contactId?: string; // OS contact id, used only for duplicate check
+  role?: RolePreset; // one of ROLE_PRESETS, no custom text
   isArchived?: boolean;
   createdAt: string; // ISO
 }
@@ -129,6 +130,11 @@ people: Array<
 - Tap avatar or Change Photo: photo library directly. Nobody takes a camera photo of a person while adding them
 - Remove Photo: link below, only when a photo is set
 - Name inline editable
+- Role: one row "Role" with the current role. Optional, default "None"
+  - Tap opens native menu: iOS SwiftUI `Menu`, Android Material dropdown
+  - Options: None, Partner, Parent, Child, Sibling, Friend, Colleague, Other. Checkmark on current
+  - No custom roles. "Request a Role…" opens `/request?kind=role` (native form sheet like Feedback), sends `role` feedback, like "Missing one?" for emotions
+  - Unknown stored or imported role reads as no role
 - Bottom: Archive (primary), Delete (secondary, confirm with entry count)
 
 ### Elsewhere
@@ -151,9 +157,9 @@ Counts and booleans only. Never names, never images ([footguns](../../AGENTS.md#
 
 Names follow the `<area>:<object>_<verb>` convention of [events.ts](../../src/state/analytics/events.ts).
 
-- `people:person_added { source: "manual", has_avatar }` (person form)
+- `people:person_added { source: "manual", has_avatar, role }` (person form)
 - `people:contacts_imported { count, avatars_count, is_limited }` (import list, one event per import)
-- `people:person_updated { name_changed, avatar_changed, is_archived }` (archive is an update)
+- `people:person_updated { name_changed, avatar_changed, role_changed, is_archived }` (archive is an update)
 - `people:delete_requested { entries_count }`, `people:person_deleted { entries_count }`, `people:delete_cancelled`
 - `people:people_reordered { people_count, method }` (`drag` or `accessibility_action`)
 - `logger:log_saved` gets `people_count` (like `tags_count`), no separate slide event

@@ -220,6 +220,7 @@ const AppLayout = () => {
             }}
           />
           <Stack.Screen name="feedback" options={feedbackOptions} />
+          <Stack.Screen name="request" options={feedbackOptions} />
           <Stack.Screen
             name="check-in/[id]"
             options={getQuickCheckInOptions(colors.text)}

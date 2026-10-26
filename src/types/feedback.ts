@@ -5,7 +5,8 @@ export type FeedackType =
   | "other"
   | "emoji"
   | "custom"
-  | "emotion";
+  | "emotion"
+  | "role";
 
 /** Where feedback was sent from. */
 export type FeedbackSource =
@@ -15,4 +16,5 @@ export type FeedbackSource =
   | "error"
   | "logger"
   | "recaps"
-  | "voice_mode";
+  | "voice_mode"
+  | "people";

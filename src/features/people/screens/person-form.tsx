@@ -18,6 +18,7 @@ import { t } from "@/lib/translation";
 import { PersonAvatar } from "../components/person-avatar";
 import { PhotoButton } from "@/components/photo-button";
 import type { PhotoAction } from "@/components/photo-button/types";
+import { RolePicker } from "../components/role-picker";
 import { usePersonDraft } from "../hooks/use-person-draft";
 import { usePersonEntryCount } from "../hooks/use-person-entry-count";
 import { usePersonActions } from "../hooks/use-person-actions";
@@ -117,6 +118,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
     fromLibrary,
     fromContact,
     setName: handleNameChange,
+    setRole: handleRoleChange,
     removePhoto: handleRemovePhoto,
     toggleArchived: handleToggleArchived,
     allowLeave: handleAllowLeave,
@@ -259,6 +261,13 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
             {t("people_name_required")}
           </Text>
         )}
+        <View style={{ marginTop: SECTION_GAP }}>
+          <RolePicker
+            value={draft.person.role}
+            onChange={handleRoleChange}
+            testID="person-role"
+          />
+        </View>
         {mode === "edit" && (
           <EditActions
             personId={draft.person.id}

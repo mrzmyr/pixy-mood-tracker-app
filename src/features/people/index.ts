@@ -17,4 +17,5 @@ export {
 } from "./avatars";
 export { setPeopleSourcesOverride } from "./sources";
 export { getPeopleLimit } from "./people-limit";
+export { ROLE_PRESETS, RoleSchema, type RolePreset } from "./role-presets";
 export * from "./people-provider";

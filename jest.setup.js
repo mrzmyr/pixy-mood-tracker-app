@@ -131,7 +131,7 @@ const mockExpoUiText = (node) => {
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI and native settings lists; SwiftUI and Compose views have no Jest view. The stand-ins render React Native views: the switch keeps the `Switch` props tests read, a pressable row or list item is a button.
 jest.mock("@expo/ui", () => {
   const { isValidElement } = require("react");
-  const { Pressable, Switch, Text, View } = require("react-native");
+  const { Pressable, Switch, Text, TextInput, View } = require("react-native");
   const FieldGroup = Object.assign(({ children }) => <View>{children}</View>, {
     Section: ({ title, children }) => (
       <View>
@@ -187,6 +187,14 @@ jest.mock("@expo/ui", () => {
       />
     ),
     Text: ({ children }) => <Text>{children}</Text>,
+    TextInput: ({ defaultValue, placeholder, onChangeText, testID }) => (
+      <TextInput
+        defaultValue={defaultValue}
+        placeholder={placeholder}
+        onChangeText={onChangeText}
+        testID={testID}
+      />
+    ),
   };
 });
 
@@ -218,8 +226,8 @@ const mockSwiftUiContextMenu = Object.assign(
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the SwiftUI menu has no Jest view; the stand-in renders menu items as pressable buttons.
 jest.mock("@expo/ui/swift-ui", () => {
-  const { Pressable, View } = require("react-native");
-  const { isValidElement } = require("react");
+  const { Pressable, Text: RNText, View } = require("react-native");
+  const { Children, isValidElement } = require("react");
   return {
     Host: ({ children }) => children,
     RNHostView: ({ children }) => children,
@@ -234,6 +242,27 @@ jest.mock("@expo/ui/swift-ui", () => {
       </View>
     ),
     Divider: () => null,
+    HStack: ({ children }) => <View>{children}</View>,
+    Spacer: () => null,
+    Text: ({ children }) => <RNText>{children}</RNText>,
+    // Each option is a `Text` with a `tag` modifier: render it as a menu item.
+    Picker: ({ children, selection, onSelectionChange }) => (
+      <View>
+        {Children.map(children, (option) => {
+          const tag = option.props.modifiers?.find(
+            (modifier) => modifier.tag !== undefined
+          )?.tag;
+          return (
+            <Pressable
+              accessibilityRole="menuitem"
+              accessibilityLabel={option.props.children}
+              accessibilityState={{ checked: tag === selection }}
+              onPress={() => onSelectionChange?.(tag)}
+            />
+          );
+        })}
+      </View>
+    ),
     Button: ({ label, onPress }) => (
       <Pressable
         accessibilityRole="menuitem"
@@ -246,6 +275,12 @@ jest.mock("@expo/ui/swift-ui", () => {
 
 const mockSwiftUiModifier = () => ({});
 const mockSwiftUiOutlines = new Proxy({}, { get: () => mockSwiftUiModifier });
+// `tag` keeps its value: the `Picker` stand-in reads it.
+const mockSwiftUiModifiers = {
+  // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- export name of @expo/ui.
+  shapes: mockSwiftUiOutlines,
+  tag: (value) => ({ tag: value }),
+};
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- SwiftUI modifiers build native view config; Jest ignores them.
 jest.mock(
@@ -255,8 +290,7 @@ jest.mock(
       {},
       {
         get: (_target, name) =>
-          // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- export name of @expo/ui.
-          name === "shapes" ? mockSwiftUiOutlines : mockSwiftUiModifier,
+          mockSwiftUiModifiers[name] ?? mockSwiftUiModifier,
       }
     )
 );
