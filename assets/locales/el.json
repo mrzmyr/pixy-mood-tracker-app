@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Βαθμολόγησε το Pixy στο App Store",
   "rate_pixy_google_play": "Βαθμολόγησε το Pixy στο Google Play",
   "recaps": "Ανασκοπήσεις",
+  "recaps_best_month_label": "Καλύτερος μήνας",
+  "recaps_best_month_title": "Ο {{month}} ήταν ο καλύτερος μήνας σου",
   "recaps_connected_days": {
     "one": "1 μέρα σε επαφή",
     "other": "{{count}} μέρες σε επαφή"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Πρώτη καταγραφή εκεί: %{day}.",
   "recaps_first_city_text_district": "Πρώτη καταγραφή εκεί: %{day}, %{district}.",
   "recaps_first_city_title": "Πρώτη φορά: %{city}",
+  "recaps_good_days_title": {
+    "one": "1 καλή μέρα αυτόν τον μήνα",
+    "other": "{{count}} καλές μέρες αυτόν τον μήνα"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 πιο δύσκολη μέρα αυτόν τον μήνα",
+    "other": "{{count}} πιο δύσκολες μέρες αυτόν τον μήνα"
+  },
+  "recaps_hardest_month_label": "Πιο δύσκολος μήνας",
   "recaps_intro_categories_action": "Δημιουργία κατηγοριών",
   "recaps_intro_categories_text": "Κατηγορίες όπως Υγεία ή Χρόνος για μένα ενώνουν τις μέρες σου, έτσι τα μοτίβα φαίνονται εβδομάδες νωρίτερα.",
   "recaps_intro_categories_title": "Ομαδοποίησε τις %{count} ετικέτες σου",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Ενεργοποίηση φωτογραφιών",
   "recaps_intro_photos_text": "Πρόσθεσε φωτογραφία στις καταγραφές. Σε έναν χρόνο, η ανασκόπησή σου μπορεί να ξεκινά με «Σαν σήμερα πριν από έναν χρόνο».",
   "recaps_intro_photos_title": "Κράτα μια φωτογραφία της μέρας",
+  "recaps_mood_chart_title_month": "Διάθεση αυτόν τον μήνα",
+  "recaps_mood_chart_title_week": "Διάθεση αυτή την εβδομάδα",
+  "recaps_mood_count_title": "Το {{percent}}% των ημερών σου ήταν καλό",
+  "recaps_mood_count_title_mixed": "Οι μέρες σου κατά διάθεση",
   "recaps_most_connected_title_month": "Περισσότερη επαφή αυτόν τον μήνα",
   "recaps_most_connected_title_year": "Περισσότερη επαφή φέτος",
   "recaps_no_clear_difference": "Καμία σαφής διαφορά",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Έτος",
   "recaps_reminder_failed": "Η υπενθύμιση δεν ρυθμίστηκε. Δεν ήταν δυνατός ο προγραμματισμός ειδοποιήσεων. Δοκίμασε ξανά στις Ρυθμίσεις > Υπενθύμιση.",
   "recaps_reminder_set": "Υπενθύμιση στις %{time}",
+  "recaps_sleep_chart_title_month": "Ύπνος αυτόν τον μήνα",
+  "recaps_sleep_chart_title_week": "Ύπνος αυτή την εβδομάδα",
   "recaps_sleep_rough_text": "%{count} δύσκολες νύχτες στη σειρά. Ξεκουράσου όποτε μπορείς.",
   "recaps_sleep_rough_title": "Μερικές δύσκολες νύχτες",
   "recaps_sleep_turnaround_text": "Μετά από μερικές δύσκολες νύχτες την προηγούμενη εβδομάδα.",
@@ -917,6 +934,11 @@
     "other": "{{count}} μέρες, μετά από %{weeks} εβδομάδες χωρίς."
   },
   "recaps_tag_back_title": "%{tag}: ξανά εδώ",
+  "recaps_tag_days_title": {
+    "one": "%{tag}: 1 μέρα",
+    "other": "%{tag}: {{count}} μέρες"
+  },
+  "recaps_tags_title": "Πιο συχνές ετικέτες",
   "recaps_trend_fading_lift": "Μειούμενη ώθηση",
   "recaps_trend_growing_lift": "Αυξανόμενη ώθηση",
   "recaps_trend_location_title": "Μέρη με τον χρόνο",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Μέρη",
   "recaps_what_moves_text": "Διάθεση σε μέρες με αυτό σε σύγκριση με μέρες χωρίς αυτό, σε βήματα διάθεσης.",
   "recaps_what_moves_title": "Τι επηρεάζει τη διάθεσή σου",
+  "recaps_year_pixels_text": {
+    "one": "1 μέρα με καταγραφή",
+    "other": "{{count}} μέρες με καταγραφή"
+  },
+  "recaps_year_pixels_title": "Η χρονιά σου σε pixel",
   "reminder": "Υπενθύμιση",
   "reminder_device_required_message": "Οι ειδοποιήσεις δεν λειτουργούν σε προσομοιωτές. Δοκίμασε σε πραγματική συσκευή.",
   "reminder_device_required_title": "Οι υπενθυμίσεις θέλουν τηλέφωνο",

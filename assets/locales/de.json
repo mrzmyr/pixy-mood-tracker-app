@@ -743,6 +743,8 @@
   "rate_pixy_app_store": "Pixy im App Store bewerten",
   "rate_pixy_google_play": "Pixy bei Google Play bewerten",
   "recaps": "Rückblicke",
+  "recaps_best_month_label": "Bester Monat",
+  "recaps_best_month_title": "{{month}} war dein bester Monat",
   "recaps_came_back_emotion": "Zum ersten Mal seit %{date}",
   "recaps_came_back_tag": {
     "one": "An einem Tag, nach %{weeks} Wochen ohne",
@@ -797,6 +799,15 @@
   "recaps_first_city_text": "Erster Check-in dort am %{day}.",
   "recaps_first_city_text_district": "Erster Check-in dort, %{day} in %{district}.",
   "recaps_first_city_title": "Zum ersten Mal in %{city}",
+  "recaps_good_days_title": {
+    "one": "1 guter Tag diesen Monat",
+    "other": "{{count}} gute Tage diesen Monat"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 schwerer Tag diesen Monat",
+    "other": "{{count}} schwerere Tage diesen Monat"
+  },
+  "recaps_hardest_month_label": "Schwerster Monat",
   "recaps_intro_categories_action": "Kategorien erstellen",
   "recaps_intro_categories_text": "Kategorien wie Gesundheit oder Zeit für mich fassen deine Tage zusammen, so zeigen sich Muster Wochen früher.",
   "recaps_intro_categories_title": "Gruppiere deine %{count} Tags",
@@ -809,6 +820,10 @@
   "recaps_intro_photos_action": "Fotos einschalten",
   "recaps_intro_photos_text": "Füge deinen Check-ins ein Foto hinzu. In einem Jahr kann dein Rückblick mit „Heute vor einem Jahr“ beginnen.",
   "recaps_intro_photos_title": "Behalte ein Foto des Tages",
+  "recaps_mood_chart_title_month": "Stimmung diesen Monat",
+  "recaps_mood_chart_title_week": "Stimmung diese Woche",
+  "recaps_mood_count_title": "{{percent}} % deiner Tage fühlten sich gut an",
+  "recaps_mood_count_title_mixed": "Deine Tage nach Stimmung",
   "recaps_most_connected_title_month": "Am meisten in Kontakt diesen Monat",
   "recaps_most_connected_title_year": "Am meisten in Kontakt dieses Jahr",
   "recaps_no_clear_difference": "Kein klarer Unterschied",
@@ -843,6 +858,8 @@
   },
   "recaps_reminder_failed": "Erinnerung nicht eingestellt. Benachrichtigungen konnten nicht geplant werden. Versuche es erneut unter Einstellungen > Erinnerung.",
   "recaps_reminder_set": "Erinnerung um %{time} eingestellt",
+  "recaps_sleep_chart_title_month": "Schlaf diesen Monat",
+  "recaps_sleep_chart_title_week": "Schlaf diese Woche",
   "recaps_sleep_rough_text": "%{count} unruhige Nächte in Folge. Ruh dich aus, wenn du kannst.",
   "recaps_sleep_rough_title": "Ein paar unruhige Nächte",
   "recaps_sleep_turnaround_text": "Nach ein paar unruhigen Nächten in der Woche davor.",
@@ -970,7 +987,12 @@
     "other": "An {{count}} Tagen, nach %{weeks} Wochen ohne."
   },
   "recaps_tag_back_title": "%{tag} ist zurück",
+  "recaps_tag_days_title": {
+    "one": "%{tag} an 1 Tag",
+    "other": "%{tag} an {{count}} Tagen"
+  },
   "recaps_tags_back_title": "Diese Schlagwörter sind zurück",
+  "recaps_tags_title": "Meistgenutzte Tags",
   "recaps_trend_fading_lift": "Hebt weniger",
   "recaps_trend_growing_lift": "Hebt mehr",
   "recaps_trend_location_title": "Orte im Verlauf",
@@ -984,6 +1006,11 @@
   "recaps_what_moves_places": "Orte",
   "recaps_what_moves_text": "Stimmung an Tagen damit im Vergleich zu Tagen ohne, in Stimmungsstufen.",
   "recaps_what_moves_title": "Was deine Stimmung bewegt",
+  "recaps_year_pixels_text": {
+    "one": "1 Tag eingecheckt",
+    "other": "{{count}} Tage eingecheckt"
+  },
+  "recaps_year_pixels_title": "Dein Jahr in Pixeln",
   "reminder": "Erinnerung",
   "reminder_device_required_message": "Auf Simulatoren funktionieren keine Benachrichtigungen. Probiere es auf einem echten Gerät.",
   "reminder_device_required_title": "Erinnerungen brauchen ein Handy",

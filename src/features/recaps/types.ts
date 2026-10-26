@@ -3,7 +3,7 @@ import type { LogItem } from "@/features/logs";
 import type { Tag, TagCategory } from "@/features/tags";
 import type { EffectSignal } from "./correlation";
 
-/** Part of the app a card reads from. Shown above the card title. */
+/** Part of the app a card reads from. */
 export type RecapModule =
   | "mood"
   | "emotions"
@@ -146,9 +146,38 @@ export interface Spot {
   days: number;
 }
 
-/** Describes the period: a day, emotions, people, places. No causes. */
+/** Day of the period up to today: mean rating 0 (worst) to 6, or `null`. */
+export interface MoodDay {
+  date: DateKey;
+  rating: number | null;
+}
+
+/** Days whose rounded mean mood is `rating`. */
+export interface RatingCount {
+  rating: LogItem["rating"];
+  days: number;
+}
+
+/** Tag and the number of days it was on. */
+export interface TagCount {
+  tagId: string;
+  days: number;
+}
+
+/** Describes the period: a day, mood, emotions, tags, people, places. No causes. */
 export type SummaryCard =
   | { type: "day-recap"; mode: "best" | "ago" | "hard"; date: DateKey }
+  | { type: "mood-chart"; days: MoodDay[] }
+  /** Worst to best. `goodShare`: days at good or better, 0 to 1. */
+  | { type: "mood-count"; counts: RatingCount[]; goodShare: number }
+  /** Good days (good or better), or harder days (bad or worse). */
+  | { type: "mood-days"; mode: "good" | "hard"; dates: DateKey[] }
+  | { type: "sleep-chart"; nights: SleepNight[] }
+  | { type: "tags"; counts: TagCount[] }
+  | { type: "tag-days"; tagId: string; dates: DateKey[] }
+  | { type: "year-pixels"; days: number }
+  /** First days of the months. `hardest` is `null` with one month only. */
+  | { type: "best-month"; best: DateKey; hardest: DateKey | null }
   | { type: "emotions"; counts: EmotionCount[] }
   | { type: "connected"; people: ConnectedPerson[] }
   | { type: "most-connected"; people: ConnectedPerson[] }

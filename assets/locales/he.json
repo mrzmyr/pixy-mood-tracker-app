@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "דרגו את Pixy ב-App Store",
   "rate_pixy_google_play": "דרגו את Pixy ב-Google Play",
   "recaps": "סיכומים",
+  "recaps_best_month_label": "החודש הטוב ביותר",
+  "recaps_best_month_title": "{{month}} היה החודש הטוב ביותר שלך",
   "recaps_connected_days": {
     "one": "יום אחד בקשר",
     "other": "{{count}} ימים בקשר"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "תיעוד ראשון שם ביום %{day}.",
   "recaps_first_city_text_district": "תיעוד ראשון שם, יום %{day} ב־%{district}.",
   "recaps_first_city_title": "פעם ראשונה ב־%{city}",
+  "recaps_good_days_title": {
+    "one": "יום טוב אחד החודש",
+    "other": "{{count}} ימים טובים החודש"
+  },
+  "recaps_hard_days_title": {
+    "one": "יום קשה יותר אחד החודש",
+    "other": "{{count}} ימים קשים יותר החודש"
+  },
+  "recaps_hardest_month_label": "החודש הקשה ביותר",
   "recaps_intro_categories_action": "יצירת קטגוריות",
   "recaps_intro_categories_text": "קטגוריות כמו בריאות או זמן לעצמי מאגדות את הימים שלך, כך שדפוסים מופיעים שבועות מוקדם יותר.",
   "recaps_intro_categories_title": "קבץ את %{count} התגיות שלך",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "הפעלת תמונות",
   "recaps_intro_photos_text": "הוסף תמונה לתיעודים. בעוד שנה, הסיכום שלך יוכל להיפתח ב„היום לפני שנה”.",
   "recaps_intro_photos_title": "שמור תמונה של היום",
+  "recaps_mood_chart_title_month": "מצב רוח החודש",
+  "recaps_mood_chart_title_week": "מצב רוח השבוע",
+  "recaps_mood_count_title": "{{percent}}% מהימים שלך הרגישו טוב",
+  "recaps_mood_count_title_mixed": "הימים שלך לפי מצב רוח",
   "recaps_most_connected_title_month": "הכי הרבה בקשר החודש",
   "recaps_most_connected_title_year": "הכי הרבה בקשר השנה",
   "recaps_no_clear_difference": "אין הבדל ברור",
@@ -806,6 +821,8 @@
   "recaps_period_year": "שנה",
   "recaps_reminder_failed": "התזכורת לא הוגדרה. לא ניתן היה לתזמן התראות. נסה שוב בהגדרות > תזכורת.",
   "recaps_reminder_set": "תזכורת נקבעה ל־%{time}",
+  "recaps_sleep_chart_title_month": "שינה החודש",
+  "recaps_sleep_chart_title_week": "שינה השבוע",
   "recaps_sleep_rough_text": "%{count} לילות קשים ברצף. תנוח כשאפשר.",
   "recaps_sleep_rough_title": "כמה לילות קשים",
   "recaps_sleep_turnaround_text": "אחרי כמה לילות קשים בשבוע הקודם.",
@@ -917,6 +934,11 @@
     "other": "ב־{{count}} ימים, אחרי %{weeks} שבועות בלי."
   },
   "recaps_tag_back_title": "%{tag} חזר",
+  "recaps_tag_days_title": {
+    "one": "%{tag} ביום אחד",
+    "other": "%{tag} ב־{{count}} ימים"
+  },
+  "recaps_tags_title": "התגיות הנפוצות ביותר",
   "recaps_trend_fading_lift": "השפעה חיובית דועכת",
   "recaps_trend_growing_lift": "השפעה חיובית גוברת",
   "recaps_trend_location_title": "מקומות לאורך זמן",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "מקומות",
   "recaps_what_moves_text": "מצב רוח בימים שבהם זה היה בהשוואה לימים בלי, בדרגות מצב רוח.",
   "recaps_what_moves_title": "מה מזיז את מצב הרוח שלך",
+  "recaps_year_pixels_text": {
+    "one": "יום אחד עם רישום",
+    "other": "{{count}} ימים עם רישום"
+  },
+  "recaps_year_pixels_title": "השנה שלך בפיקסלים",
   "reminder": "תִזכּוֹרֶת",
   "reminder_device_required_message": "התראות לא פועלות בסימולטורים. נסו במכשיר אמיתי.",
   "reminder_device_required_title": "תזכורות דורשות טלפון",

@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "ให้คะแนน Pixy ใน App Store",
   "rate_pixy_google_play": "ให้คะแนน Pixy ใน Google Play",
   "recaps": "สรุปย้อนหลัง",
+  "recaps_best_month_label": "เดือนที่ดีที่สุด",
+  "recaps_best_month_title": "{{month}} เป็นเดือนที่ดีที่สุดของคุณ",
   "recaps_connected_days": {
     "one": "ติดต่อ 1 วัน",
     "other": "ติดต่อ {{count}} วัน"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "บันทึกครั้งแรกที่นั่นวัน%{day}",
   "recaps_first_city_text_district": "บันทึกครั้งแรกที่นั่น วัน%{day} ที่ %{district}",
   "recaps_first_city_title": "ครั้งแรกที่ %{city}",
+  "recaps_good_days_title": {
+    "one": "วันที่ดี 1 วันในเดือนนี้",
+    "other": "วันที่ดี {{count}} วันในเดือนนี้"
+  },
+  "recaps_hard_days_title": {
+    "one": "วันที่หนักกว่า 1 วันในเดือนนี้",
+    "other": "วันที่หนักกว่า {{count}} วันในเดือนนี้"
+  },
+  "recaps_hardest_month_label": "เดือนที่หนักที่สุด",
   "recaps_intro_categories_action": "สร้างหมวดหมู่",
   "recaps_intro_categories_text": "หมวดหมู่อย่างสุขภาพหรือเวลาของฉันจะรวมวันของคุณไว้ด้วยกัน จึงเห็นรูปแบบได้เร็วขึ้นหลายสัปดาห์",
   "recaps_intro_categories_title": "จัดกลุ่มแท็ก %{count} รายการของคุณ",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "เปิดรูปภาพ",
   "recaps_intro_photos_text": "เพิ่มรูปในการบันทึก อีกหนึ่งปี สรุปของคุณอาจเริ่มด้วย “เมื่อปีที่แล้ววันนี้”",
   "recaps_intro_photos_title": "เก็บรูปถ่ายของวันนี้",
+  "recaps_mood_chart_title_month": "อารมณ์เดือนนี้",
+  "recaps_mood_chart_title_week": "อารมณ์สัปดาห์นี้",
+  "recaps_mood_count_title": "{{percent}}% ของวันของคุณรู้สึกดี",
+  "recaps_mood_count_title_mixed": "วันของคุณตามอารมณ์",
   "recaps_most_connected_title_month": "ติดต่อมากที่สุดเดือนนี้",
   "recaps_most_connected_title_year": "ติดต่อมากที่สุดปีนี้",
   "recaps_no_clear_difference": "ไม่มีความต่างที่ชัดเจน",
@@ -806,6 +821,8 @@
   "recaps_period_year": "ปี",
   "recaps_reminder_failed": "ยังไม่ได้ตั้งการเตือน ไม่สามารถตั้งเวลาการแจ้งเตือนได้ ลองอีกครั้งที่ การตั้งค่า > การเตือน",
   "recaps_reminder_set": "ตั้งการเตือนเวลา %{time} แล้ว",
+  "recaps_sleep_chart_title_month": "การนอนเดือนนี้",
+  "recaps_sleep_chart_title_week": "การนอนสัปดาห์นี้",
   "recaps_sleep_rough_text": "นอนไม่ดี %{count} คืนติดกัน พักผ่อนเมื่อทำได้",
   "recaps_sleep_rough_title": "หลายคืนที่นอนไม่ดี",
   "recaps_sleep_turnaround_text": "หลังจากหลายคืนที่นอนไม่ดีในสัปดาห์ก่อน",
@@ -917,6 +934,11 @@
     "other": "{{count}} วัน หลังจากหายไป %{weeks} สัปดาห์"
   },
   "recaps_tag_back_title": "%{tag} กลับมาแล้ว",
+  "recaps_tag_days_title": {
+    "one": "%{tag} 1 วัน",
+    "other": "%{tag} {{count}} วัน"
+  },
+  "recaps_tags_title": "แท็กที่ใช้บ่อยที่สุด",
   "recaps_trend_fading_lift": "ผลดีลดลง",
   "recaps_trend_growing_lift": "ผลดีเพิ่มขึ้น",
   "recaps_trend_location_title": "สถานที่ตามเวลา",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "สถานที่",
   "recaps_what_moves_text": "อารมณ์ในวันที่มี เทียบกับวันที่ไม่มี เป็นระดับอารมณ์",
   "recaps_what_moves_title": "อะไรส่งผลต่ออารมณ์ของคุณ",
+  "recaps_year_pixels_text": {
+    "one": "บันทึก 1 วัน",
+    "other": "บันทึก {{count}} วัน"
+  },
+  "recaps_year_pixels_title": "ปีของคุณเป็นพิกเซล",
   "reminder": "เตือนความจำ",
   "reminder_device_required_message": "การแจ้งเตือนใช้งานบนซิมูเลเตอร์ไม่ได้ ลองบนอุปกรณ์จริง",
   "reminder_device_required_title": "การเตือนต้องใช้โทรศัพท์",

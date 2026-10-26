@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "قيّم Pixy في App Store",
   "rate_pixy_google_play": "قيّم Pixy على Google Play",
   "recaps": "الملخصات",
+  "recaps_best_month_label": "أفضل شهر",
+  "recaps_best_month_title": "كان {{month}} أفضل شهر لك",
   "recaps_connected_days": {
     "one": "يوم واحد من التواصل",
     "other": "{{count}} يومًا من التواصل"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "أول تسجيل هناك يوم %{day}.",
   "recaps_first_city_text_district": "أول تسجيل هناك يوم %{day} في %{district}.",
   "recaps_first_city_title": "لأول مرة في %{city}",
+  "recaps_good_days_title": {
+    "one": "يوم جيد واحد هذا الشهر",
+    "other": "{{count}} أيام جيدة هذا الشهر"
+  },
+  "recaps_hard_days_title": {
+    "one": "يوم أصعب واحد هذا الشهر",
+    "other": "{{count}} أيام أصعب هذا الشهر"
+  },
+  "recaps_hardest_month_label": "أصعب شهر",
   "recaps_intro_categories_action": "إنشاء فئات",
   "recaps_intro_categories_text": "فئات مثل الصحة أو وقت لنفسي تجمع أيامك، فتظهر الأنماط قبل أسابيع.",
   "recaps_intro_categories_title": "جمّع وسومك الـ %{count}",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "تفعيل الصور",
   "recaps_intro_photos_text": "أضف صورة إلى تسجيلاتك. بعد عام، يمكن أن يبدأ ملخصك بعبارة «في مثل هذا اليوم قبل عام».",
   "recaps_intro_photos_title": "احتفظ بصورة لليوم",
+  "recaps_mood_chart_title_month": "المزاج هذا الشهر",
+  "recaps_mood_chart_title_week": "المزاج هذا الأسبوع",
+  "recaps_mood_count_title": "{{percent}}٪ من أيامك كانت جيدة",
+  "recaps_mood_count_title_mixed": "أيامك حسب المزاج",
   "recaps_most_connected_title_month": "الأكثر تواصلًا هذا الشهر",
   "recaps_most_connected_title_year": "الأكثر تواصلًا هذا العام",
   "recaps_no_clear_difference": "لا فرق واضح",
@@ -806,6 +821,8 @@
   "recaps_period_year": "سنة",
   "recaps_reminder_failed": "لم يُضبط التذكير. تعذّرت جدولة الإشعارات. حاول مجددًا من الإعدادات > التذكير.",
   "recaps_reminder_set": "تم ضبط التذكير على %{time}",
+  "recaps_sleep_chart_title_month": "النوم هذا الشهر",
+  "recaps_sleep_chart_title_week": "النوم هذا الأسبوع",
   "recaps_sleep_rough_text": "%{count} ليالٍ صعبة متتالية. استرح متى استطعت.",
   "recaps_sleep_rough_title": "بضع ليالٍ صعبة",
   "recaps_sleep_turnaround_text": "بعد بضع ليالٍ صعبة في الأسبوع السابق.",
@@ -917,6 +934,11 @@
     "other": "في {{count}} يومًا، بعد %{weeks} أسابيع من دونه."
   },
   "recaps_tag_back_title": "%{tag} عاد",
+  "recaps_tag_days_title": {
+    "one": "%{tag} في يوم واحد",
+    "other": "%{tag} في {{count}} أيام"
+  },
+  "recaps_tags_title": "الوسوم الأكثر استخدامًا",
   "recaps_trend_fading_lift": "أثر إيجابي يتراجع",
   "recaps_trend_growing_lift": "أثر إيجابي يزداد",
   "recaps_trend_location_title": "الأماكن عبر الوقت",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "الأماكن",
   "recaps_what_moves_text": "المزاج في الأيام التي يوجد فيها مقارنةً بالأيام التي لا يوجد فيها، بدرجات المزاج.",
   "recaps_what_moves_title": "ما الذي يحرّك مزاجك",
+  "recaps_year_pixels_text": {
+    "one": "يوم واحد مسجّل",
+    "other": "{{count}} أيام مسجّلة"
+  },
+  "recaps_year_pixels_title": "عامك بالبكسلات",
   "reminder": "تذكير",
   "reminder_device_required_message": "الإشعارات لا تعمل على المحاكيات. جرّب على جهاز حقيقي.",
   "reminder_device_required_title": "التذكيرات تحتاج إلى هاتف",

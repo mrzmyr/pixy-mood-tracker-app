@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Ohodnoťte Pixy v App Store",
   "rate_pixy_google_play": "Ohodnoťte Pixy na Google Play",
   "recaps": "Ohlédnutí",
+  "recaps_best_month_label": "Nejlepší měsíc",
+  "recaps_best_month_title": "{{month}} byl tvůj nejlepší měsíc",
   "recaps_connected_days": {
     "one": "1 den v kontaktu",
     "other": "{{count}} dní v kontaktu"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "První záznam tam: %{day}.",
   "recaps_first_city_text_district": "První záznam tam: %{day}, %{district}.",
   "recaps_first_city_title": "Poprvé v místě %{city}",
+  "recaps_good_days_title": {
+    "one": "1 dobrý den tento měsíc",
+    "other": "Dobré dny tento měsíc: {{count}}"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 těžší den tento měsíc",
+    "other": "Těžší dny tento měsíc: {{count}}"
+  },
+  "recaps_hardest_month_label": "Nejtěžší měsíc",
   "recaps_intro_categories_action": "Vytvořit kategorie",
   "recaps_intro_categories_text": "Kategorie jako Zdraví nebo Čas pro sebe spojí tvé dny, takže vzorce uvidíš o týdny dřív.",
   "recaps_intro_categories_title": "Seskup své štítky (%{count})",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Zapnout fotky",
   "recaps_intro_photos_text": "Přidávej fotku k záznamům. Za rok může tvé ohlédnutí začít slovy „Dnes před rokem“.",
   "recaps_intro_photos_title": "Uchovej si fotku dne",
+  "recaps_mood_chart_title_month": "Nálada tento měsíc",
+  "recaps_mood_chart_title_week": "Nálada tento týden",
+  "recaps_mood_count_title": "{{percent}} % tvých dní bylo dobrých",
+  "recaps_mood_count_title_mixed": "Tvoje dny podle nálady",
   "recaps_most_connected_title_month": "Nejvíc v kontaktu tento měsíc",
   "recaps_most_connected_title_year": "Nejvíc v kontaktu letos",
   "recaps_no_clear_difference": "Žádný jasný rozdíl",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Rok",
   "recaps_reminder_failed": "Připomenutí není nastavené. Oznámení se nepodařilo naplánovat. Zkus to znovu v Nastavení > Připomenutí.",
   "recaps_reminder_set": "Připomenutí v %{time}",
+  "recaps_sleep_chart_title_month": "Spánek tento měsíc",
+  "recaps_sleep_chart_title_week": "Spánek tento týden",
   "recaps_sleep_rough_text": "%{count} těžké noci za sebou. Odpočiň si, když můžeš.",
   "recaps_sleep_rough_title": "Pár těžkých nocí",
   "recaps_sleep_turnaround_text": "Po pár těžkých nocích týden předtím.",
@@ -917,6 +934,11 @@
     "other": "{{count}} dní, po %{weeks} týdnech bez."
   },
   "recaps_tag_back_title": "%{tag} je zpět",
+  "recaps_tag_days_title": {
+    "one": "%{tag}: 1 den",
+    "other": "%{tag}: {{count}} dní"
+  },
+  "recaps_tags_title": "Nejpoužívanější štítky",
   "recaps_trend_fading_lift": "Slábnoucí vliv",
   "recaps_trend_growing_lift": "Rostoucí vliv",
   "recaps_trend_location_title": "Místa v čase",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Místa",
   "recaps_what_moves_text": "Nálada ve dnech s tím ve srovnání se dny bez toho, ve stupních nálady.",
   "recaps_what_moves_title": "Co hýbe tvou náladou",
+  "recaps_year_pixels_text": {
+    "one": "1 den se záznamem",
+    "other": "Dny se záznamem: {{count}}"
+  },
+  "recaps_year_pixels_title": "Tvůj rok v pixelech",
   "reminder": "Připomínka",
   "reminder_device_required_message": "Na simulátorech oznámení nefungují. Zkus to na skutečném zařízení.",
   "reminder_device_required_title": "Připomínky potřebují telefon",

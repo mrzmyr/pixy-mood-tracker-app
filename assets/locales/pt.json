@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Avalie o Pixy na App Store",
   "rate_pixy_google_play": "Avalie o Pixy no Google Play",
   "recaps": "Resumos",
+  "recaps_best_month_label": "Melhor mês",
+  "recaps_best_month_title": "{{month}} foi o seu melhor mês",
   "recaps_connected_days": {
     "one": "1 dia conectado",
     "other": "{{count}} dias conectado"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Primeiro registro lá na %{day}.",
   "recaps_first_city_text_district": "Primeiro registro lá, %{day} em %{district}.",
   "recaps_first_city_title": "Primeira vez em %{city}",
+  "recaps_good_days_title": {
+    "one": "1 dia bom este mês",
+    "other": "{{count}} dias bons este mês"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 dia mais difícil este mês",
+    "other": "{{count}} dias mais difíceis este mês"
+  },
+  "recaps_hardest_month_label": "Mês mais difícil",
   "recaps_intro_categories_action": "Criar categorias",
   "recaps_intro_categories_text": "Categorias como Saúde ou Tempo para mim agrupam seus dias, e os padrões aparecem semanas antes.",
   "recaps_intro_categories_title": "Agrupe suas %{count} tags",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Ativar fotos",
   "recaps_intro_photos_text": "Adicione uma foto aos registros. Daqui a um ano, seu resumo pode começar com “Há um ano, hoje”.",
   "recaps_intro_photos_title": "Guarde uma foto do dia",
+  "recaps_mood_chart_title_month": "Humor este mês",
+  "recaps_mood_chart_title_week": "Humor esta semana",
+  "recaps_mood_count_title": "{{percent}}% dos seus dias foram bons",
+  "recaps_mood_count_title_mixed": "Seus dias por humor",
   "recaps_most_connected_title_month": "Mais conectado neste mês",
   "recaps_most_connected_title_year": "Mais conectado neste ano",
   "recaps_no_clear_difference": "Sem diferença clara",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Ano",
   "recaps_reminder_failed": "Lembrete não definido. Não foi possível agendar as notificações. Tente novamente em Ajustes > Lembrete.",
   "recaps_reminder_set": "Lembrete às %{time}",
+  "recaps_sleep_chart_title_month": "Sono este mês",
+  "recaps_sleep_chart_title_week": "Sono esta semana",
   "recaps_sleep_rough_text": "%{count} noites difíceis seguidas. Descanse quando puder.",
   "recaps_sleep_rough_title": "Algumas noites difíceis",
   "recaps_sleep_turnaround_text": "Depois de algumas noites difíceis na semana anterior.",
@@ -917,6 +934,11 @@
     "other": "Em {{count}} dias, após %{weeks} semanas sem."
   },
   "recaps_tag_back_title": "%{tag} voltou",
+  "recaps_tag_days_title": {
+    "one": "%{tag} em 1 dia",
+    "other": "%{tag} em {{count}} dias"
+  },
+  "recaps_tags_title": "Tags mais usadas",
   "recaps_trend_fading_lift": "Impulso diminuindo",
   "recaps_trend_growing_lift": "Impulso crescente",
   "recaps_trend_location_title": "Lugares ao longo do tempo",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Lugares",
   "recaps_what_moves_text": "Humor nos dias com isso comparado aos dias sem, em níveis de humor.",
   "recaps_what_moves_title": "O que move seu humor",
+  "recaps_year_pixels_text": {
+    "one": "1 dia registrado",
+    "other": "{{count}} dias registrados"
+  },
+  "recaps_year_pixels_title": "Seu ano em pixels",
   "reminder": "Lembrete",
   "reminder_device_required_message": "As notificações não funcionam em simuladores. Experimenta num dispositivo real.",
   "reminder_device_required_title": "Os lembretes precisam de um telemóvel",

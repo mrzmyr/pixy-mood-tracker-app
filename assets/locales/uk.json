@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Оцініть Pixy в App Store",
   "rate_pixy_google_play": "Оцініть Pixy в Google Play",
   "recaps": "Підсумки",
+  "recaps_best_month_label": "Найкращий місяць",
+  "recaps_best_month_title": "{{month}}: ваш найкращий місяць",
   "recaps_connected_days": {
     "one": "1 день на зв’язку",
     "other": "{{count}} дн. на зв’язку"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Перша відмітка там: %{day}.",
   "recaps_first_city_text_district": "Перша відмітка там: %{day}, %{district}.",
   "recaps_first_city_title": "Уперше в місті %{city}",
+  "recaps_good_days_title": {
+    "one": "1 добрий день цього місяця",
+    "other": "Добрих днів цього місяця: {{count}}"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 важчий день цього місяця",
+    "other": "Важчих днів цього місяця: {{count}}"
+  },
+  "recaps_hardest_month_label": "Найважчий місяць",
   "recaps_intro_categories_action": "Створити категорії",
   "recaps_intro_categories_text": "Категорії на кшталт «Здоров’я» чи «Час для себе» об’єднують дні, і закономірності видно на тижні раніше.",
   "recaps_intro_categories_title": "Згрупуйте теги: %{count}",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Увімкнути фото",
   "recaps_intro_photos_text": "Додавайте фото до відміток. Через рік ваші підсумки зможуть почати з «Рівно рік тому».",
   "recaps_intro_photos_title": "Зберігайте фото дня",
+  "recaps_mood_chart_title_month": "Настрій цього місяця",
+  "recaps_mood_chart_title_week": "Настрій цього тижня",
+  "recaps_mood_count_title": "{{percent}}% ваших днів були добрими",
+  "recaps_mood_count_title_mixed": "Ваші дні за настроєм",
   "recaps_most_connected_title_month": "Найбільше на зв’язку цього місяця",
   "recaps_most_connected_title_year": "Найбільше на зв’язку цього року",
   "recaps_no_clear_difference": "Немає явної різниці",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Рік",
   "recaps_reminder_failed": "Нагадування не ввімкнено. Не вдалося запланувати сповіщення. Спробуйте ще раз у Налаштування > Нагадування.",
   "recaps_reminder_set": "Нагадування о %{time}",
+  "recaps_sleep_chart_title_month": "Сон цього місяця",
+  "recaps_sleep_chart_title_week": "Сон цього тижня",
   "recaps_sleep_rough_text": "%{count} важкі ночі поспіль. Відпочивайте, коли можете.",
   "recaps_sleep_rough_title": "Кілька важких ночей",
   "recaps_sleep_turnaround_text": "Після кількох важких ночей минулого тижня.",
@@ -917,6 +934,11 @@
     "other": "{{count}} дн., після %{weeks} тиж. без."
   },
   "recaps_tag_back_title": "%{tag} знову тут",
+  "recaps_tag_days_title": {
+    "one": "%{tag}: 1 день",
+    "other": "%{tag}: {{count}} дн."
+  },
+  "recaps_tags_title": "Найчастіші теги",
   "recaps_trend_fading_lift": "Підйом слабшає",
   "recaps_trend_growing_lift": "Підйом зростає",
   "recaps_trend_location_title": "Місця з часом",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Місця",
   "recaps_what_moves_text": "Настрій у дні з цим порівняно з днями без цього, у кроках настрою.",
   "recaps_what_moves_title": "Що впливає на ваш настрій",
+  "recaps_year_pixels_text": {
+    "one": "1 день із записом",
+    "other": "Днів із записом: {{count}}"
+  },
+  "recaps_year_pixels_title": "Ваш рік у пікселях",
   "reminder": "Нагадування",
   "reminder_device_required_message": "Сповіщення не працюють на симуляторах. Спробуй на справжньому пристрої.",
   "reminder_device_required_title": "Для нагадувань потрібен телефон",

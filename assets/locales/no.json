@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Vurder Pixy i App Store",
   "rate_pixy_google_play": "Vurder Pixy på Google Play",
   "recaps": "Tilbakeblikk",
+  "recaps_best_month_label": "Beste måned",
+  "recaps_best_month_title": "{{month}} var din beste måned",
   "recaps_connected_days": {
     "one": "1 dag i kontakt",
     "other": "{{count}} dager i kontakt"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Første innsjekking der på %{day}.",
   "recaps_first_city_text_district": "Første innsjekking der, %{day} i %{district}.",
   "recaps_first_city_title": "Første gang i %{city}",
+  "recaps_good_days_title": {
+    "one": "1 god dag denne måneden",
+    "other": "{{count}} gode dager denne måneden"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 tyngre dag denne måneden",
+    "other": "{{count}} tyngre dager denne måneden"
+  },
+  "recaps_hardest_month_label": "Tyngste måned",
   "recaps_intro_categories_action": "Opprett kategorier",
   "recaps_intro_categories_text": "Kategorier som Helse eller Egentid samler dagene dine, så mønstre vises uker tidligere.",
   "recaps_intro_categories_title": "Grupper de %{count} taggene dine",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Slå på bilder",
   "recaps_intro_photos_text": "Legg til et bilde i innsjekkinger. Om et år kan tilbakeblikket ditt starte med «I dag for ett år siden».",
   "recaps_intro_photos_title": "Ta vare på et bilde fra dagen",
+  "recaps_mood_chart_title_month": "Humør denne måneden",
+  "recaps_mood_chart_title_week": "Humør denne uken",
+  "recaps_mood_count_title": "{{percent}} % av dagene dine føltes gode",
+  "recaps_mood_count_title_mixed": "Dagene dine etter humør",
   "recaps_most_connected_title_month": "Mest i kontakt denne måneden",
   "recaps_most_connected_title_year": "Mest i kontakt i år",
   "recaps_no_clear_difference": "Ingen tydelig forskjell",
@@ -806,6 +821,8 @@
   "recaps_period_year": "År",
   "recaps_reminder_failed": "Påminnelsen er ikke stilt inn. Varsler kunne ikke planlegges. Prøv igjen under Innstillinger > Påminnelse.",
   "recaps_reminder_set": "Påminnelse kl. %{time}",
+  "recaps_sleep_chart_title_month": "Søvn denne måneden",
+  "recaps_sleep_chart_title_week": "Søvn denne uken",
   "recaps_sleep_rough_text": "%{count} tunge netter på rad. Hvil når du kan.",
   "recaps_sleep_rough_title": "Noen tunge netter",
   "recaps_sleep_turnaround_text": "Etter noen tunge netter uken før.",
@@ -917,6 +934,11 @@
     "other": "{{count}} dager, etter %{weeks} uker uten."
   },
   "recaps_tag_back_title": "%{tag} er tilbake",
+  "recaps_tag_days_title": {
+    "one": "%{tag} på 1 dag",
+    "other": "%{tag} på {{count}} dager"
+  },
+  "recaps_tags_title": "Mest brukte tagger",
   "recaps_trend_fading_lift": "Avtagende løft",
   "recaps_trend_growing_lift": "Voksende løft",
   "recaps_trend_location_title": "Steder over tid",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Steder",
   "recaps_what_moves_text": "Humør på dager med det sammenlignet med dager uten, i humørtrinn.",
   "recaps_what_moves_title": "Hva som påvirker humøret ditt",
+  "recaps_year_pixels_text": {
+    "one": "1 dag sjekket inn",
+    "other": "{{count}} dager sjekket inn"
+  },
+  "recaps_year_pixels_title": "Året ditt i piksler",
   "reminder": "Påminnelse",
   "reminder_device_required_message": "Varsler fungerer ikke på simulatorer. Prøv på en ekte enhet.",
   "reminder_device_required_title": "Påminnelser trenger en telefon",

@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "App Store에서 Pixy 평가하기",
   "rate_pixy_google_play": "Google Play에서 Pixy 평가하기",
   "recaps": "돌아보기",
+  "recaps_best_month_label": "최고의 달",
+  "recaps_best_month_title": "{{month}}이 최고의 달이었어요",
   "recaps_connected_days": {
     "one": "1일 연결",
     "other": "{{count}}일 연결"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "그곳의 첫 기록은 %{day}이에요.",
   "recaps_first_city_text_district": "그곳의 첫 기록은 %{day}, %{district}이에요.",
   "recaps_first_city_title": "%{city} 첫 방문",
+  "recaps_good_days_title": {
+    "one": "이번 달 좋은 날 1일",
+    "other": "이번 달 좋은 날 {{count}}일"
+  },
+  "recaps_hard_days_title": {
+    "one": "이번 달 힘들었던 날 1일",
+    "other": "이번 달 힘들었던 날 {{count}}일"
+  },
+  "recaps_hardest_month_label": "가장 힘들었던 달",
   "recaps_intro_categories_action": "카테고리 만들기",
   "recaps_intro_categories_text": "건강이나 나만의 시간 같은 카테고리로 날들을 묶으면 패턴이 몇 주 더 빨리 보입니다.",
   "recaps_intro_categories_title": "태그 %{count}개를 그룹으로 묶기",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "사진 켜기",
   "recaps_intro_photos_text": "기록에 사진을 추가하세요. 1년 뒤 돌아보기가 “1년 전 오늘”로 시작할 수 있습니다.",
   "recaps_intro_photos_title": "오늘의 사진 남기기",
+  "recaps_mood_chart_title_month": "이번 달 기분",
+  "recaps_mood_chart_title_week": "이번 주 기분",
+  "recaps_mood_count_title": "{{percent}}%의 날이 좋았어요",
+  "recaps_mood_count_title_mixed": "기분별 하루",
   "recaps_most_connected_title_month": "이번 달 가장 많이 연결된 사람",
   "recaps_most_connected_title_year": "올해 가장 많이 연결된 사람",
   "recaps_no_clear_difference": "뚜렷한 차이 없음",
@@ -806,6 +821,8 @@
   "recaps_period_year": "연도",
   "recaps_reminder_failed": "알림이 설정되지 않았습니다. 시스템 알림을 예약할 수 없었습니다. 설정 > 알림에서 다시 시도해 주세요.",
   "recaps_reminder_set": "%{time}에 알림이 설정되었습니다",
+  "recaps_sleep_chart_title_month": "이번 달 수면",
+  "recaps_sleep_chart_title_week": "이번 주 수면",
   "recaps_sleep_rough_text": "%{count}일 연속 힘든 밤이에요. 쉴 수 있을 때 쉬세요.",
   "recaps_sleep_rough_title": "힘든 밤이 이어졌어요",
   "recaps_sleep_turnaround_text": "지난주 힘든 밤들이 지난 뒤예요.",
@@ -917,6 +934,11 @@
     "other": "%{weeks}주 만에 {{count}}일."
   },
   "recaps_tag_back_title": "%{tag}이(가) 돌아왔어요",
+  "recaps_tag_days_title": {
+    "one": "%{tag} 1일",
+    "other": "%{tag} {{count}}일"
+  },
+  "recaps_tags_title": "가장 많이 쓴 태그",
   "recaps_trend_fading_lift": "긍정 효과 감소",
   "recaps_trend_growing_lift": "긍정 효과 증가",
   "recaps_trend_location_title": "시간에 따른 장소",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "장소",
   "recaps_what_moves_text": "있던 날과 없던 날의 기분 비교(기분 단계).",
   "recaps_what_moves_title": "기분을 움직이는 것",
+  "recaps_year_pixels_text": {
+    "one": "기록한 날 1일",
+    "other": "기록한 날 {{count}}일"
+  },
+  "recaps_year_pixels_title": "픽셀로 보는 한 해",
   "reminder": "알림",
   "reminder_device_required_message": "시뮬레이터에서는 알림이 작동하지 않아요. 실제 기기에서 시도해 보세요.",
   "reminder_device_required_title": "미리 알림에는 휴대폰이 필요해요",

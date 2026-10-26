@@ -873,6 +873,8 @@
   "rate_pixy_app_store": "Rate Pixy in the App Store",
   "rate_pixy_google_play": "Rate Pixy on Google Play",
   "recaps": "Recaps",
+  "recaps_best_month_label": "Best month",
+  "recaps_best_month_title": "{{month}} was your best month",
   "recaps_came_back_emotion": "First time since %{date}",
   "recaps_came_back_tag": {
     "one": "On one day, after %{weeks} weeks without",
@@ -927,6 +929,15 @@
   "recaps_first_city_text": "First check-in there on %{day}.",
   "recaps_first_city_text_district": "First check-in there, %{day} in %{district}.",
   "recaps_first_city_title": "First time in %{city}",
+  "recaps_good_days_title": {
+    "one": "1 good day this month",
+    "other": "{{count}} good days this month"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 harder day this month",
+    "other": "{{count}} harder days this month"
+  },
+  "recaps_hardest_month_label": "Hardest month",
   "recaps_intro_categories_action": "Create Categories",
   "recaps_intro_categories_text": "Categories like Health or Me Time pool your days, so patterns show up weeks earlier.",
   "recaps_intro_categories_title": "Group your %{count} tags",
@@ -939,6 +950,10 @@
   "recaps_intro_photos_action": "Turn On Photos",
   "recaps_intro_photos_text": "Add a photo to check-ins. A year from now, your recap can open with “One year ago today”.",
   "recaps_intro_photos_title": "Keep a photo of the day",
+  "recaps_mood_chart_title_month": "Mood this month",
+  "recaps_mood_chart_title_week": "Mood this week",
+  "recaps_mood_count_title": "{{percent}}% of your days felt good",
+  "recaps_mood_count_title_mixed": "Your days by mood",
   "recaps_most_connected_title_month": "Most connected this month",
   "recaps_most_connected_title_year": "Most connected this year",
   "recaps_no_clear_difference": "No clear difference",
@@ -973,6 +988,8 @@
   },
   "recaps_reminder_failed": "Reminder not set. Notifications could not be scheduled. Try again in Settings > Reminder.",
   "recaps_reminder_set": "Reminder set for %{time}",
+  "recaps_sleep_chart_title_month": "Sleep this month",
+  "recaps_sleep_chart_title_week": "Sleep this week",
   "recaps_sleep_rough_text": "%{count} rough nights in a row. Rest when you can.",
   "recaps_sleep_rough_title": "A few rough nights",
   "recaps_sleep_turnaround_text": "After a few rough nights the week before.",
@@ -1100,7 +1117,12 @@
     "other": "On {{count}} days, after %{weeks} weeks without."
   },
   "recaps_tag_back_title": "%{tag} is back",
+  "recaps_tag_days_title": {
+    "one": "%{tag} on 1 day",
+    "other": "%{tag} on {{count}} days"
+  },
   "recaps_tags_back_title": "These tags are back",
+  "recaps_tags_title": "Most used tags",
   "recaps_trend_fading_lift": "Fading lift",
   "recaps_trend_growing_lift": "Growing lift",
   "recaps_trend_location_title": "Places over time",
@@ -1114,6 +1136,11 @@
   "recaps_what_moves_places": "Places",
   "recaps_what_moves_text": "Mood on days with it compared with days without it, in mood steps.",
   "recaps_what_moves_title": "What moves your mood",
+  "recaps_year_pixels_text": {
+    "one": "1 day checked in",
+    "other": "{{count}} days checked in"
+  },
+  "recaps_year_pixels_title": "Your year in pixels",
   "reminder": "Reminder",
   "reminder_device_required_message": "Notifications don't work on simulators. Try on a real device.",
   "reminder_device_required_title": "Reminders Need a Phone",
