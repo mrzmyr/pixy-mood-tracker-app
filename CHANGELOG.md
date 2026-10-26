@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.105.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.105.0...v1.105.1) (2026-10-26)
+
+
+### Bug Fixes
+
+* **ios:** declare feedback email and messages in privacy manifest ([#968](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/968)) ([2242d99](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2242d99c71b9518ccb2a3202048701af68a369ec))
+
 ## [1.105.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.104.0...v1.105.0) (2026-10-26)
 
 
