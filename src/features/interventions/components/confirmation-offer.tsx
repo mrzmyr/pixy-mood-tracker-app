@@ -25,17 +25,11 @@ export const ConfirmationOffer = ({ item }: { item: LogItem }) => {
   const match = isEnabled ? matchCluster(item.emotions) : null;
   const options = match ? OPTIONS[match.cluster].confirmation : [];
 
-  useCardShown(
-    match
-      ? {
-          surface: "confirmation",
-          cluster: match.cluster,
-          matched_emotions: match.emotions,
-          options_shown: options,
-          completed_today_count: completedToday.length,
-        }
-      : null
-  );
+  useCardShown(match?.cluster ?? null, {
+    surface: "confirmation",
+    options_shown: options,
+    completed_today_count: completedToday.length,
+  });
 
   if (!match) {
     return null;

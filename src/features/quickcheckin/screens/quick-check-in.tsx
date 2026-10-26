@@ -165,7 +165,7 @@ export const QuickCheckIn = () => {
       logUpdater.editLog({ id, ...changes });
     } else {
       logUpdater.addLog(createQuickEntry(uuidv4(), dayjs(), changes));
-      analytics.track("quick_check_in:entry_saved", { source: "app", rating });
+      analytics.track("quick_check_in:entry_saved", { source: "app" });
     }
     analytics.track("quick_check_in:completed", {
       source: "app",

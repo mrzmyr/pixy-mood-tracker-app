@@ -108,7 +108,7 @@ describe("useFlowTracking()", () => {
     expect(sent("interventions:feedback_answered")).toEqual([
       [
         "interventions:feedback_answered",
-        expect.objectContaining({ answer: "better" }),
+        expect.not.objectContaining({ answer: expect.anything() }),
       ],
     ]);
     expect(sent("interventions:feedback_skipped")).toHaveLength(0);
