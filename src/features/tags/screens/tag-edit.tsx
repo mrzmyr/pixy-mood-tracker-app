@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../use-tag-actions";
-import LinkButton from "@/components/link-button";
 import RouteModalHeader from "@/components/route-modal-header";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
