@@ -6,7 +6,7 @@ import {
   useCalendarFiltersSheet,
   useCalendarLayout,
 } from "@/features/calendar";
-import { ProfileHeaderButton, useHasProfileAvatar } from "@/features/profile";
+import { ProfileHeaderButton } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/feature-flags";
 
@@ -46,7 +46,6 @@ export const CalendarHeaderButtons = () => {
   const filtersSheet = useCalendarFiltersSheet();
   const calendarLayout = useCalendarLayout();
   const isProfileEnabled = useFeatureFlag("profile");
-  const hasProfileAvatar = useHasProfileAvatar();
   const openSettings = () => router.navigate("/settings");
 
   return (
@@ -103,11 +102,7 @@ export const CalendarHeaderButtons = () => {
         {/* Direct child only: Stack.Toolbar drops Fragments. Filters sets
             `separateBackground`, so the avatar gets its own glass circle. */}
         {isProfileEnabled ? (
-          // Remount on change: native items ignore later prop updates.
-          <Stack.Toolbar.View
-            key={hasProfileAvatar ? "avatar" : "silhouette"}
-            hidesSharedBackground={hasProfileAvatar}
-          >
+          <Stack.Toolbar.View>
             <ProfileHeaderButton onPress={openSettings} />
           </Stack.Toolbar.View>
         ) : (
