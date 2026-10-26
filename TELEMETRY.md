@@ -95,7 +95,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - Drops `rating`, `emotions`, `sleep_quality`, `matched_emotions`, `cluster`, `answer_texts`, `answer_ids`, `question_text`, `question`, `mood_peaks_positive_count`, `mood_peaks_negative_count`, `mood_avg_percentage`, `mood_avg_type`, and their flattened keys (`emotions__0`)
 - Also drops `quality` on `logger:health_sleep_filled` and `answer` on `interventions:feedback_answered`
 - Keeps `rating` on `voice:feedback_submitted`: it rates voice mode, not mood
-- Covers old app versions that still send these values, for example `v1.68.0`
+- Applies to every app version, including old ones
 
 ## Event history
 
@@ -147,7 +147,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
 - `widget:guide_opened`, `widget:guide_step_viewed`, `widget:guide_dismissed`, `widget:guide_completed`: widget guide and Settings > Widgets removed. No replacement
 
-**Removed health values** (first release after `v1.104.0`)
+**Changed properties** (first release after `v1.104.0`)
 
 - `logger:confirmation_viewed`: `rating`, `emotions`, `sleep_quality`. New: `has_rating`, `has_sleep`
 - `logger:health_sleep_filled`: `quality`, `has_bedtime`, `has_interruptions`. No properties left
