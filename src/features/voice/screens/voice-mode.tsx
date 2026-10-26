@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, View } from "react-native";
 import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Check from "lucide-react-native/icons/check";
+import CircleQuestionMark from "lucide-react-native/icons/circle-question-mark";
 import Mic from "lucide-react-native/icons/mic";
 import Pause from "lucide-react-native/icons/pause";
 import dayjs from "dayjs";
@@ -19,8 +20,8 @@ import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { VoiceBlob } from "../components/voice-blob";
-import { VoiceMatchCard } from "../components/voice-match-card";
-import { VoiceMoodRow } from "../components/voice-mood-row";
+import { VoiceHelpSheet } from "../components/voice-help-sheet";
+import { VoiceMatchCard, VoiceMoodCard } from "../components/voice-match-card";
 import { VoiceWaveform } from "../components/voice-waveform";
 import { matchTranscript } from "../match-transcript";
 import { getMoodTriggers, matchMood } from "../mood-triggers";
@@ -73,6 +74,7 @@ export const VoiceMode = () => {
   const haptics = useHaptics();
   const terms = useVoiceTerms();
   const moodTriggers = getMoodTriggers();
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const hasStarted = useRef(false);
   const cardsRef = useRef<ScrollView>(null);
   // Set when listening starts, in the start effect.
@@ -88,7 +90,7 @@ export const VoiceMode = () => {
     () => matchTranscript(voice.text, terms),
     [voice.text, terms]
   );
-  const rating = matchMood(voice.text, moodTriggers);
+  const mood = matchMood(voice.text, moodTriggers);
   const hasText = voice.text.trim() !== "";
 
   const { allowLeave } = useDiscardGuard({
@@ -136,7 +138,7 @@ export const VoiceMode = () => {
       tags: [],
       people: [],
       emotions: [],
-      rating: matchMood(message, moodTriggers) ?? undefined,
+      rating: matchMood(message, moodTriggers)?.rating,
       source: "voice",
       durationMs: Date.now() - startedAt.current,
     };
@@ -194,6 +196,7 @@ export const VoiceMode = () => {
         style={{ flex: 1 }}
         contentContainerStyle={{ paddingHorizontal: 20, gap: 8 }}
       >
+        {mood && <VoiceMoodCard mood={mood} />}
         {matches.map((match) => (
           <VoiceMatchCard key={`${match.kind}:${match.id}`} match={match} />
         ))}
@@ -233,17 +236,37 @@ export const VoiceMode = () => {
             gap: 20,
           }}
         >
-          <View style={{ alignItems: "center", gap: 4 }}>
+          <View style={{ gap: 4 }}>
             {(isListening || voice.status === "paused") && (
               <Headline accessibilityRole="header" testID="voice-status">
                 {isListening ? t("voice_listening") : t("voice_paused")}
               </Headline>
             )}
-            <Secondary style={{ textAlign: "center" }}>
-              {t("voice_hint")}
-            </Secondary>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
+            >
+              <View style={{ flex: 1 }}>
+                <Secondary>{t("voice_detects")}</Secondary>
+              </View>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t("voice_help_title")}
+                testID="voice-help-open"
+                hitSlop={16}
+                onPress={() => setIsHelpOpen(true)}
+                style={({ pressed }) => ({
+                  padding: 0,
+                  opacity: pressed ? 0.5 : 1,
+                })}
+              >
+                <CircleQuestionMark
+                  width={18}
+                  height={18}
+                  color={colors.textSecondary}
+                />
+              </Pressable>
+            </View>
           </View>
-          <VoiceMoodRow triggers={moodTriggers} rating={rating} />
           <View
             style={{
               flexDirection: "row",
@@ -310,6 +333,11 @@ export const VoiceMode = () => {
           </View>
         </View>
       )}
+      <VoiceHelpSheet
+        isOpen={isHelpOpen}
+        onClose={() => setIsHelpOpen(false)}
+        triggers={moodTriggers}
+      />
     </View>
   );
 };

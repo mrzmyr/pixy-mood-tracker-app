@@ -26,17 +26,17 @@ export const getMoodTriggers = (): MoodTrigger[] =>
   RATING_KEYS.map((rating) => ({ rating, text: t(TRIGGER_KEYS[rating]) }));
 
 /**
- * Rating of the first trigger in `transcript`, or `null` when none is
- * spoken. Matches like `matchTranscript`: whole words, longest trigger wins,
- * so "very bad" sets `very_bad`, not `bad`. Later triggers never change it.
+ * First trigger spoken in `transcript`, or `null` when none is. Matches like
+ * `matchTranscript`: whole words, longest trigger wins, so "not good" sets
+ * `bad`, not `good`. Later triggers never change it.
  */
 export const matchMood = (
   transcript: string,
   triggers: MoodTrigger[]
-): Rating | null => {
+): MoodTrigger | null => {
   const [first] = matchTranscript(
     transcript,
     triggers.map(({ rating, text }) => ({ kind: "mood", id: rating, text }))
   );
-  return triggers.find(({ rating }) => rating === first?.id)?.rating ?? null;
+  return triggers.find(({ rating }) => rating === first?.id) ?? null;
 };

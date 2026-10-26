@@ -33,9 +33,10 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
 - Voice screen: modal, route `/logs/voice`
   - Top right: [`CloseButton`](../../src/components/CloseButton.tsx). Video shows top left; [design rule](../design.md#close-button) wins
   - Top: detected items as cards, in order of first mention. Card shows person avatar, tag color dot, or emotion dot plus label and kind
+  - Spoken mood: first card, dot in the user's scale color, trigger word, kind "Mood" ([`VoiceMoodCard`](../../src/features/voice/components/voice-match-card.tsx))
   - Background: soft blob tinted with `primaryButtonBackground`, pulses with input level. Reduced motion: static
-  - Bottom: "Listening…" title plus hint "Talk about your day: who you connected with, what you did, how you feel." Paused: "Paused"
-  - Below the hint: "Say how you feel" plus 7 mood trigger chips in the user's scale colors ([`VoiceMoodRow`](../../src/features/voice/components/voice-mood-row.tsx)). Spoken mood shows filled
+  - Bottom: "Listening…" title plus hint "Pixy picks up people, tags, emotions, and your mood." Paused: "Paused"
+  - Help button next to the hint opens a sheet ([`VoiceHelpSheet`](../../src/features/voice/components/voice-help-sheet.tsx)): name rules for people, tags, emotions, first mood wins, all 7 mood trigger words with scale color dots, review before save
   - Bottom row: pause/resume button, live waveform, check button (primary)
 - Close with transcript asks to discard ([`useDiscardGuard`](../../src/hooks/useDiscardGuard.ts))
 - Native module missing (web, Jest, old dev client): screen shows the failed state, never throws on import ([`speech-module.ts`](../../src/features/voice/speech-module.ts))
