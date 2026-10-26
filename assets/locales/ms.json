@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Nilaikan Pixy di App Store",
   "rate_pixy_google_play": "Nilaikan Pixy di Google Play",
   "recaps": "Imbasan",
+  "recaps_best_month_label": "Bulan terbaik",
+  "recaps_best_month_title": "{{month}} ialah bulan terbaik anda",
   "recaps_connected_days": {
     "one": "1 hari berhubung",
     "other": "{{count}} hari berhubung"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Rekod pertama di sana pada %{day}.",
   "recaps_first_city_text_district": "Rekod pertama di sana, %{day} di %{district}.",
   "recaps_first_city_title": "Kali pertama di %{city}",
+  "recaps_good_days_title": {
+    "one": "1 hari baik bulan ini",
+    "other": "{{count}} hari baik bulan ini"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 hari yang lebih sukar bulan ini",
+    "other": "{{count}} hari yang lebih sukar bulan ini"
+  },
+  "recaps_hardest_month_label": "Bulan paling sukar",
   "recaps_intro_categories_action": "Cipta Kategori",
   "recaps_intro_categories_text": "Kategori seperti Kesihatan atau Masa Untuk Diri menghimpunkan hari anda, jadi corak kelihatan beberapa minggu lebih awal.",
   "recaps_intro_categories_title": "Kumpulkan %{count} tag anda",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Hidupkan Foto",
   "recaps_intro_photos_text": "Tambah foto pada rekod. Setahun dari sekarang, imbasan anda boleh bermula dengan “Setahun lalu hari ini”.",
   "recaps_intro_photos_title": "Simpan foto hari ini",
+  "recaps_mood_chart_title_month": "Mood bulan ini",
+  "recaps_mood_chart_title_week": "Mood minggu ini",
+  "recaps_mood_count_title": "{{percent}}% hari anda terasa baik",
+  "recaps_mood_count_title_mixed": "Hari anda mengikut mood",
   "recaps_most_connected_title_month": "Paling berhubung bulan ini",
   "recaps_most_connected_title_year": "Paling berhubung tahun ini",
   "recaps_no_clear_difference": "Tiada perbezaan jelas",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Tahun",
   "recaps_reminder_failed": "Peringatan tidak ditetapkan. Pemberitahuan tidak dapat dijadualkan. Cuba lagi dalam Tetapan > Peringatan.",
   "recaps_reminder_set": "Peringatan pada %{time}",
+  "recaps_sleep_chart_title_month": "Tidur bulan ini",
+  "recaps_sleep_chart_title_week": "Tidur minggu ini",
   "recaps_sleep_rough_text": "%{count} malam yang sukar berturut-turut. Berehatlah bila boleh.",
   "recaps_sleep_rough_title": "Beberapa malam yang sukar",
   "recaps_sleep_turnaround_text": "Selepas beberapa malam yang sukar minggu sebelumnya.",
@@ -917,6 +934,11 @@
     "other": "Pada {{count}} hari, selepas %{weeks} minggu tanpanya."
   },
   "recaps_tag_back_title": "%{tag} kembali",
+  "recaps_tag_days_title": {
+    "one": "%{tag} pada 1 hari",
+    "other": "%{tag} pada {{count}} hari"
+  },
+  "recaps_tags_title": "Tag paling kerap digunakan",
   "recaps_trend_fading_lift": "Dorongan menurun",
   "recaps_trend_growing_lift": "Dorongan meningkat",
   "recaps_trend_location_title": "Tempat dari masa ke masa",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Tempat",
   "recaps_what_moves_text": "Mood pada hari dengannya berbanding hari tanpanya, dalam tahap mood.",
   "recaps_what_moves_title": "Apa yang menggerakkan mood anda",
+  "recaps_year_pixels_text": {
+    "one": "1 hari direkodkan",
+    "other": "{{count}} hari direkodkan"
+  },
+  "recaps_year_pixels_title": "Tahun anda dalam piksel",
   "reminder": "Peringatan",
   "reminder_device_required_message": "Pemberitahuan tidak berfungsi pada simulator. Cuba pada peranti sebenar.",
   "reminder_device_required_title": "Peringatan Perlukan Telefon",

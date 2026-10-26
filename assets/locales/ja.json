@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "App StoreでPixyを評価",
   "rate_pixy_google_play": "Google PlayでPixyを評価",
   "recaps": "振り返り",
+  "recaps_best_month_label": "いちばんの月",
+  "recaps_best_month_title": "{{month}}がいちばんの月でした",
   "recaps_connected_days": {
     "one": "つながった日：1日",
     "other": "つながった日：{{count}}日"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "そこでの最初の記録は%{day}。",
   "recaps_first_city_text_district": "そこでの最初の記録は%{day}、%{district}。",
   "recaps_first_city_title": "%{city}ははじめて",
+  "recaps_good_days_title": {
+    "one": "今月のいい日：1日",
+    "other": "今月のいい日：{{count}}日"
+  },
+  "recaps_hard_days_title": {
+    "one": "今月のつらめの日：1日",
+    "other": "今月のつらめの日：{{count}}日"
+  },
+  "recaps_hardest_month_label": "いちばんつらかった月",
   "recaps_intro_categories_action": "カテゴリを作成",
   "recaps_intro_categories_text": "「健康」や「自分の時間」などのカテゴリで日々をまとめると、パターンが数週間早く見えてきます。",
   "recaps_intro_categories_title": "%{count}個のタグをグループにまとめる",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "写真をオンにする",
   "recaps_intro_photos_text": "記録に写真を追加しましょう。1年後、振り返りが「1年前の今日」から始まるかもしれません。",
   "recaps_intro_photos_title": "その日の写真を残す",
+  "recaps_mood_chart_title_month": "今月の気分",
+  "recaps_mood_chart_title_week": "今週の気分",
+  "recaps_mood_count_title": "{{percent}}%の日がいい気分でした",
+  "recaps_mood_count_title_mixed": "気分ごとの日数",
   "recaps_most_connected_title_month": "今月いちばんつながった人",
   "recaps_most_connected_title_year": "今年いちばんつながった人",
   "recaps_no_clear_difference": "はっきりした差はありません",
@@ -806,6 +821,8 @@
   "recaps_period_year": "年",
   "recaps_reminder_failed": "リマインダーが設定されていません。通知をスケジュールできませんでした。設定 > リマインダーでもう一度お試しください。",
   "recaps_reminder_set": "%{time}にリマインダーを設定しました",
+  "recaps_sleep_chart_title_month": "今月の睡眠",
+  "recaps_sleep_chart_title_week": "今週の睡眠",
   "recaps_sleep_rough_text": "%{count}日連続でつらい夜。休めるときに休んでください。",
   "recaps_sleep_rough_title": "つらい夜が続きました",
   "recaps_sleep_turnaround_text": "前の週のつらい夜のあとで。",
@@ -917,6 +934,11 @@
     "other": "%{weeks}週間ぶりに{{count}}日。"
   },
   "recaps_tag_back_title": "%{tag}が戻ってきました",
+  "recaps_tag_days_title": {
+    "one": "%{tag}：1日",
+    "other": "%{tag}：{{count}}日"
+  },
+  "recaps_tags_title": "よく使ったタグ",
   "recaps_trend_fading_lift": "よい影響が縮小",
   "recaps_trend_growing_lift": "よい影響が拡大",
   "recaps_trend_location_title": "場所の推移",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "場所",
   "recaps_what_moves_text": "あった日となかった日の気分の比較（気分の段階）。",
   "recaps_what_moves_title": "気分を動かすもの",
+  "recaps_year_pixels_text": {
+    "one": "記録した日：1日",
+    "other": "記録した日：{{count}}日"
+  },
+  "recaps_year_pixels_title": "ピクセルで見る1年",
   "reminder": "リマインダー",
   "reminder_device_required_message": "シミュレーターでは通知が動作しません。実機でお試しください。",
   "reminder_device_required_title": "リマインダーには実機が必要です",

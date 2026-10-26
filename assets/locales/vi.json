@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Đánh giá Pixy trên App Store",
   "rate_pixy_google_play": "Đánh giá Pixy trên Google Play",
   "recaps": "Tổng kết",
+  "recaps_best_month_label": "Tháng tốt nhất",
+  "recaps_best_month_title": "{{month}} là tháng tốt nhất của bạn",
   "recaps_connected_days": {
     "one": "1 ngày kết nối",
     "other": "{{count}} ngày kết nối"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Lần ghi đầu tiên ở đó vào %{day}.",
   "recaps_first_city_text_district": "Lần ghi đầu tiên ở đó, %{day} tại %{district}.",
   "recaps_first_city_title": "Lần đầu ở %{city}",
+  "recaps_good_days_title": {
+    "one": "1 ngày tốt trong tháng này",
+    "other": "{{count}} ngày tốt trong tháng này"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 ngày khó khăn hơn trong tháng này",
+    "other": "{{count}} ngày khó khăn hơn trong tháng này"
+  },
+  "recaps_hardest_month_label": "Tháng khó khăn nhất",
   "recaps_intro_categories_action": "Tạo danh mục",
   "recaps_intro_categories_text": "Các danh mục như Sức khỏe hay Thời gian cho mình gom các ngày của bạn lại, nên quy luật hiện ra sớm hơn vài tuần.",
   "recaps_intro_categories_title": "Nhóm %{count} thẻ của bạn",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Bật ảnh",
   "recaps_intro_photos_text": "Thêm ảnh vào ghi chép. Một năm nữa, bản tổng kết có thể mở đầu bằng “Một năm trước vào hôm nay”.",
   "recaps_intro_photos_title": "Giữ một bức ảnh của ngày",
+  "recaps_mood_chart_title_month": "Tâm trạng tháng này",
+  "recaps_mood_chart_title_week": "Tâm trạng tuần này",
+  "recaps_mood_count_title": "{{percent}}% số ngày của bạn cảm thấy tốt",
+  "recaps_mood_count_title_mixed": "Các ngày của bạn theo tâm trạng",
   "recaps_most_connected_title_month": "Kết nối nhiều nhất tháng này",
   "recaps_most_connected_title_year": "Kết nối nhiều nhất năm nay",
   "recaps_no_clear_difference": "Không có khác biệt rõ",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Năm",
   "recaps_reminder_failed": "Chưa đặt lời nhắc. Không thể lên lịch thông báo. Hãy thử lại trong Cài đặt > Lời nhắc.",
   "recaps_reminder_set": "Đã đặt nhắc lúc %{time}",
+  "recaps_sleep_chart_title_month": "Giấc ngủ tháng này",
+  "recaps_sleep_chart_title_week": "Giấc ngủ tuần này",
   "recaps_sleep_rough_text": "%{count} đêm khó ngủ liên tiếp. Hãy nghỉ ngơi khi có thể.",
   "recaps_sleep_rough_title": "Vài đêm khó ngủ",
   "recaps_sleep_turnaround_text": "Sau vài đêm khó ngủ tuần trước.",
@@ -917,6 +934,11 @@
     "other": "{{count}} ngày, sau %{weeks} tuần vắng."
   },
   "recaps_tag_back_title": "%{tag} đã trở lại",
+  "recaps_tag_days_title": {
+    "one": "%{tag} trong 1 ngày",
+    "other": "%{tag} trong {{count}} ngày"
+  },
+  "recaps_tags_title": "Thẻ dùng nhiều nhất",
   "recaps_trend_fading_lift": "Tác động tốt giảm",
   "recaps_trend_growing_lift": "Tác động tốt tăng",
   "recaps_trend_location_title": "Địa điểm theo thời gian",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Địa điểm",
   "recaps_what_moves_text": "Tâm trạng vào ngày có so với ngày không có, theo bậc tâm trạng.",
   "recaps_what_moves_title": "Điều gì tác động đến tâm trạng",
+  "recaps_year_pixels_text": {
+    "one": "1 ngày đã ghi",
+    "other": "{{count}} ngày đã ghi"
+  },
+  "recaps_year_pixels_title": "Năm của bạn qua từng pixel",
   "reminder": "Lời nhắc nhở",
   "reminder_device_required_message": "Thông báo không hoạt động trên trình giả lập. Hãy thử trên thiết bị thật.",
   "reminder_device_required_title": "Lời nhắc cần có điện thoại",

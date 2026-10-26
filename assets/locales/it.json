@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Valuta Pixy sull'App Store",
   "rate_pixy_google_play": "Valuta Pixy su Google Play",
   "recaps": "Riepiloghi",
+  "recaps_best_month_label": "Mese migliore",
+  "recaps_best_month_title": "{{month}} è stato il tuo mese migliore",
   "recaps_connected_days": {
     "one": "1 giorno in contatto",
     "other": "{{count}} giorni in contatto"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Primo check-in lì %{day}.",
   "recaps_first_city_text_district": "Primo check-in lì, %{day} a %{district}.",
   "recaps_first_city_title": "Prima volta a %{city}",
+  "recaps_good_days_title": {
+    "one": "1 giorno buono questo mese",
+    "other": "{{count}} giorni buoni questo mese"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 giorno più difficile questo mese",
+    "other": "{{count}} giorni più difficili questo mese"
+  },
+  "recaps_hardest_month_label": "Mese più difficile",
   "recaps_intro_categories_action": "Crea categorie",
   "recaps_intro_categories_text": "Categorie come Salute o Tempo per me raggruppano i tuoi giorni, così gli schemi emergono settimane prima.",
   "recaps_intro_categories_title": "Raggruppa i tuoi %{count} tag",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Attiva foto",
   "recaps_intro_photos_text": "Aggiungi una foto ai check-in. Tra un anno, il tuo riepilogo potrà aprirsi con «Un anno fa oggi».",
   "recaps_intro_photos_title": "Conserva una foto del giorno",
+  "recaps_mood_chart_title_month": "Umore questo mese",
+  "recaps_mood_chart_title_week": "Umore questa settimana",
+  "recaps_mood_count_title": "Il {{percent}}% dei tuoi giorni è andato bene",
+  "recaps_mood_count_title_mixed": "I tuoi giorni per umore",
   "recaps_most_connected_title_month": "Più in contatto questo mese",
   "recaps_most_connected_title_year": "Più in contatto quest’anno",
   "recaps_no_clear_difference": "Nessuna differenza chiara",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Anno",
   "recaps_reminder_failed": "Promemoria non impostato. Non è stato possibile programmare le notifiche. Riprova in Impostazioni > Promemoria.",
   "recaps_reminder_set": "Promemoria alle %{time}",
+  "recaps_sleep_chart_title_month": "Sonno questo mese",
+  "recaps_sleep_chart_title_week": "Sonno questa settimana",
   "recaps_sleep_rough_text": "%{count} notti difficili di fila. Riposa quando puoi.",
   "recaps_sleep_rough_title": "Alcune notti difficili",
   "recaps_sleep_turnaround_text": "Dopo alcune notti difficili la settimana prima.",
@@ -917,6 +934,11 @@
     "other": "{{count}} giorni, dopo %{weeks} settimane senza."
   },
   "recaps_tag_back_title": "%{tag} è tornato",
+  "recaps_tag_days_title": {
+    "one": "%{tag} in 1 giorno",
+    "other": "%{tag} in {{count}} giorni"
+  },
+  "recaps_tags_title": "Tag più usati",
   "recaps_trend_fading_lift": "Spinta in calo",
   "recaps_trend_growing_lift": "Spinta in crescita",
   "recaps_trend_location_title": "Luoghi nel tempo",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Luoghi",
   "recaps_what_moves_text": "Umore nei giorni con, rispetto ai giorni senza, in livelli di umore.",
   "recaps_what_moves_title": "Cosa muove il tuo umore",
+  "recaps_year_pixels_text": {
+    "one": "1 giorno registrato",
+    "other": "{{count}} giorni registrati"
+  },
+  "recaps_year_pixels_title": "Il tuo anno in pixel",
   "reminder": "Promemoria",
   "reminder_device_required_message": "Le notifiche non funzionano sui simulatori. Prova su un dispositivo reale.",
   "reminder_device_required_title": "I promemoria richiedono un telefono",

@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "App Store पर Pixy को रेट करें",
   "rate_pixy_google_play": "Google Play पर Pixy को रेट करें",
   "recaps": "रीकैप",
+  "recaps_best_month_label": "सबसे अच्छा महीना",
+  "recaps_best_month_title": "{{month}} आपका सबसे अच्छा महीना रहा",
   "recaps_connected_days": {
     "one": "1 दिन जुड़े",
     "other": "{{count}} दिन जुड़े"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "वहाँ पहला चेक-इन %{day} को।",
   "recaps_first_city_text_district": "वहाँ पहला चेक-इन, %{day} को %{district} में।",
   "recaps_first_city_title": "%{city} में पहली बार",
+  "recaps_good_days_title": {
+    "one": "इस महीने 1 अच्छा दिन",
+    "other": "इस महीने {{count}} अच्छे दिन"
+  },
+  "recaps_hard_days_title": {
+    "one": "इस महीने 1 मुश्किल दिन",
+    "other": "इस महीने {{count}} मुश्किल दिन"
+  },
+  "recaps_hardest_month_label": "सबसे मुश्किल महीना",
   "recaps_intro_categories_action": "श्रेणियाँ बनाएँ",
   "recaps_intro_categories_text": "सेहत या मेरा समय जैसी श्रेणियाँ आपके दिनों को साथ लाती हैं, जिससे पैटर्न हफ़्तों पहले दिखते हैं।",
   "recaps_intro_categories_title": "अपने %{count} टैग समूह में रखें",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "फ़ोटो चालू करें",
   "recaps_intro_photos_text": "चेक-इन में फ़ोटो जोड़ें। एक साल बाद आपका रीकैप “आज से एक साल पहले” से शुरू हो सकता है।",
   "recaps_intro_photos_title": "दिन की एक फ़ोटो रखें",
+  "recaps_mood_chart_title_month": "इस महीने का मूड",
+  "recaps_mood_chart_title_week": "इस हफ़्ते का मूड",
+  "recaps_mood_count_title": "आपके {{percent}}% दिन अच्छे रहे",
+  "recaps_mood_count_title_mixed": "मूड के अनुसार आपके दिन",
   "recaps_most_connected_title_month": "इस महीने सबसे ज़्यादा जुड़े",
   "recaps_most_connected_title_year": "इस साल सबसे ज़्यादा जुड़े",
   "recaps_no_clear_difference": "कोई साफ़ अंतर नहीं",
@@ -806,6 +821,8 @@
   "recaps_period_year": "साल",
   "recaps_reminder_failed": "रिमाइंडर सेट नहीं हुआ। सूचनाएँ शेड्यूल नहीं हो सकीं। सेटिंग्स > रिमाइंडर में फिर से कोशिश करें।",
   "recaps_reminder_set": "रिमाइंडर %{time} पर सेट है",
+  "recaps_sleep_chart_title_month": "इस महीने की नींद",
+  "recaps_sleep_chart_title_week": "इस हफ़्ते की नींद",
   "recaps_sleep_rough_text": "लगातार %{count} मुश्किल रातें। जब हो सके, आराम करें।",
   "recaps_sleep_rough_title": "कुछ मुश्किल रातें",
   "recaps_sleep_turnaround_text": "पिछले हफ़्ते कुछ मुश्किल रातों के बाद।",
@@ -917,6 +934,11 @@
     "other": "{{count}} दिन, %{weeks} हफ़्तों बाद।"
   },
   "recaps_tag_back_title": "%{tag} वापस आया",
+  "recaps_tag_days_title": {
+    "one": "%{tag}: 1 दिन",
+    "other": "%{tag}: {{count}} दिन"
+  },
+  "recaps_tags_title": "सबसे ज़्यादा इस्तेमाल किए गए टैग",
   "recaps_trend_fading_lift": "घटता असर",
   "recaps_trend_growing_lift": "बढ़ता असर",
   "recaps_trend_location_title": "समय के साथ जगहें",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "जगहें",
   "recaps_what_moves_text": "उसके साथ वाले दिनों का मूड, उसके बिना वाले दिनों की तुलना में, मूड के स्तरों में।",
   "recaps_what_moves_title": "आपके मूड को क्या प्रभावित करता है",
+  "recaps_year_pixels_text": {
+    "one": "1 दिन चेक-इन",
+    "other": "{{count}} दिन चेक-इन"
+  },
+  "recaps_year_pixels_title": "पिक्सल में आपका साल",
   "reminder": "अनुस्मारक",
   "reminder_device_required_message": "सिम्युलेटर पर नोटिफ़िकेशन काम नहीं करते। असली डिवाइस पर आज़माएँ।",
   "reminder_device_required_title": "रिमाइंडर के लिए फ़ोन चाहिए",

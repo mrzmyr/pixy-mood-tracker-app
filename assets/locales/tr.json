@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Pixy'yi App Store'da değerlendir",
   "rate_pixy_google_play": "Pixy'yi Google Play'de değerlendir",
   "recaps": "Özetler",
+  "recaps_best_month_label": "En iyi ay",
+  "recaps_best_month_title": "En iyi ayın {{month}} oldu",
   "recaps_connected_days": {
     "one": "1 gün bağlantı",
     "other": "{{count}} gün bağlantı"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Oradaki ilk kayıt: %{day}.",
   "recaps_first_city_text_district": "Oradaki ilk kayıt: %{day}, %{district}.",
   "recaps_first_city_title": "%{city} için ilk kez",
+  "recaps_good_days_title": {
+    "one": "Bu ay 1 iyi gün",
+    "other": "Bu ay {{count}} iyi gün"
+  },
+  "recaps_hard_days_title": {
+    "one": "Bu ay 1 daha zor gün",
+    "other": "Bu ay {{count}} daha zor gün"
+  },
+  "recaps_hardest_month_label": "En zor ay",
   "recaps_intro_categories_action": "Kategori Oluştur",
   "recaps_intro_categories_text": "Sağlık veya Kendime Zaman gibi kategoriler günlerini bir araya getirir, böylece örüntüler haftalar önce görünür.",
   "recaps_intro_categories_title": "%{count} etiketini grupla",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Fotoğrafları Aç",
   "recaps_intro_photos_text": "Kayıtlarına fotoğraf ekle. Bir yıl sonra özetin “Bir yıl önce bugün” ile açılabilir.",
   "recaps_intro_photos_title": "Günün bir fotoğrafını sakla",
+  "recaps_mood_chart_title_month": "Bu ayki ruh hali",
+  "recaps_mood_chart_title_week": "Bu haftaki ruh hali",
+  "recaps_mood_count_title": "Günlerinin yüzde {{percent}} kadarı iyi geçti",
+  "recaps_mood_count_title_mixed": "Ruh haline göre günlerin",
   "recaps_most_connected_title_month": "Bu ay en çok bağlantı",
   "recaps_most_connected_title_year": "Bu yıl en çok bağlantı",
   "recaps_no_clear_difference": "Belirgin fark yok",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Yıl",
   "recaps_reminder_failed": "Hatırlatıcı ayarlanmadı. Bildirimler planlanamadı. Ayarlar > Hatırlatıcı bölümünden tekrar dene.",
   "recaps_reminder_set": "Hatırlatıcı %{time} için ayarlandı",
+  "recaps_sleep_chart_title_month": "Bu ayki uyku",
+  "recaps_sleep_chart_title_week": "Bu haftaki uyku",
   "recaps_sleep_rough_text": "Arka arkaya %{count} zor gece. Fırsat buldukça dinlen.",
   "recaps_sleep_rough_title": "Birkaç zor gece",
   "recaps_sleep_turnaround_text": "Önceki hafta birkaç zor geceden sonra.",
@@ -917,6 +934,11 @@
     "other": "{{count}} gün, %{weeks} haftalık aradan sonra."
   },
   "recaps_tag_back_title": "%{tag} geri döndü",
+  "recaps_tag_days_title": {
+    "one": "%{tag}: 1 gün",
+    "other": "%{tag}: {{count}} gün"
+  },
+  "recaps_tags_title": "En çok kullanılan etiketler",
   "recaps_trend_fading_lift": "Azalan etki",
   "recaps_trend_growing_lift": "Artan etki",
   "recaps_trend_location_title": "Zaman içinde yerler",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Yerler",
   "recaps_what_moves_text": "Olduğu günlerdeki ruh hali, olmadığı günlerle karşılaştırmalı, ruh hali adımlarıyla.",
   "recaps_what_moves_title": "Ruh halini ne etkiliyor",
+  "recaps_year_pixels_text": {
+    "one": "1 gün kayıt",
+    "other": "{{count}} gün kayıt"
+  },
+  "recaps_year_pixels_title": "Piksellerle yılın",
   "reminder": "Hatırlatma",
   "reminder_device_required_message": "Bildirimler simülatörlerde çalışmaz. Gerçek bir cihazda dene.",
   "reminder_device_required_title": "Hatırlatıcılar Telefon Gerektirir",

@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Arvostele Pixy App Storessa",
   "rate_pixy_google_play": "Arvostele Pixy Google Playssa",
   "recaps": "Katsaukset",
+  "recaps_best_month_label": "Paras kuukausi",
+  "recaps_best_month_title": "{{month}} oli paras kuukautesi",
   "recaps_connected_days": {
     "one": "1 päivä yhteydessä",
     "other": "{{count}} päivää yhteydessä"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Ensimmäinen kirjaus siellä: %{day}.",
   "recaps_first_city_text_district": "Ensimmäinen kirjaus siellä: %{day}, %{district}.",
   "recaps_first_city_title": "Ensimmäistä kertaa: %{city}",
+  "recaps_good_days_title": {
+    "one": "1 hyvä päivä tässä kuussa",
+    "other": "{{count}} hyvää päivää tässä kuussa"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 raskaampi päivä tässä kuussa",
+    "other": "{{count}} raskaampaa päivää tässä kuussa"
+  },
+  "recaps_hardest_month_label": "Raskain kuukausi",
   "recaps_intro_categories_action": "Luo luokkia",
   "recaps_intro_categories_text": "Luokat kuten Terveys tai Omaa aikaa kokoavat päiväsi, joten kaavat näkyvät viikkoja aiemmin.",
   "recaps_intro_categories_title": "Ryhmittele %{count} tunnistettasi",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Ota kuvat käyttöön",
   "recaps_intro_photos_text": "Lisää kuva kirjauksiin. Vuoden päästä katsauksesi voi alkaa sanoilla ”Tänään vuosi sitten”.",
   "recaps_intro_photos_title": "Säilytä päivän kuva",
+  "recaps_mood_chart_title_month": "Mieliala tässä kuussa",
+  "recaps_mood_chart_title_week": "Mieliala tällä viikolla",
+  "recaps_mood_count_title": "{{percent}} % päivistäsi tuntui hyviltä",
+  "recaps_mood_count_title_mixed": "Päiväsi mielialan mukaan",
   "recaps_most_connected_title_month": "Eniten yhteydessä tässä kuussa",
   "recaps_most_connected_title_year": "Eniten yhteydessä tänä vuonna",
   "recaps_no_clear_difference": "Ei selvää eroa",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Vuosi",
   "recaps_reminder_failed": "Muistutusta ei asetettu. Ilmoituksia ei voitu ajoittaa. Yritä uudelleen kohdassa Asetukset > Muistutus.",
   "recaps_reminder_set": "Muistutus klo %{time}",
+  "recaps_sleep_chart_title_month": "Uni tässä kuussa",
+  "recaps_sleep_chart_title_week": "Uni tällä viikolla",
   "recaps_sleep_rough_text": "%{count} raskasta yötä peräkkäin. Lepää, kun voit.",
   "recaps_sleep_rough_title": "Muutama raskas yö",
   "recaps_sleep_turnaround_text": "Muutaman raskaan yön jälkeen edellisellä viikolla.",
@@ -917,6 +934,11 @@
     "other": "{{count}} päivänä, %{weeks} viikon tauon jälkeen."
   },
   "recaps_tag_back_title": "%{tag} on taas mukana",
+  "recaps_tag_days_title": {
+    "one": "%{tag} 1 päivänä",
+    "other": "%{tag} {{count}} päivänä"
+  },
+  "recaps_tags_title": "Käytetyimmät tunnisteet",
   "recaps_trend_fading_lift": "Hiipuva nosto",
   "recaps_trend_growing_lift": "Kasvava nosto",
   "recaps_trend_location_title": "Paikat ajan myötä",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Paikat",
   "recaps_what_moves_text": "Mieliala päivinä sen kanssa verrattuna päiviin ilman sitä, mielialan askelina.",
   "recaps_what_moves_title": "Mikä liikuttaa mielialaasi",
+  "recaps_year_pixels_text": {
+    "one": "1 kirjattu päivä",
+    "other": "{{count}} kirjattua päivää"
+  },
+  "recaps_year_pixels_title": "Vuotesi pikseleinä",
   "reminder": "Muistutus",
   "reminder_device_required_message": "Ilmoitukset eivät toimi simulaattoreissa. Kokeile oikealla laitteella.",
   "reminder_device_required_title": "Muistutukset tarvitsevat puhelimen",

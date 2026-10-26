@@ -730,6 +730,8 @@
   "rate_pixy_app_store": "Noter Pixy sur l'App Store",
   "rate_pixy_google_play": "Noter Pixy sur Google Play",
   "recaps": "Bilans",
+  "recaps_best_month_label": "Meilleur mois",
+  "recaps_best_month_title": "{{month}} a été votre meilleur mois",
   "recaps_connected_days": {
     "one": "1 jour en lien",
     "other": "{{count}} jours en lien"
@@ -776,6 +778,15 @@
   "recaps_first_city_text": "Premier check-in là-bas %{day}.",
   "recaps_first_city_text_district": "Premier check-in là-bas, %{day} à %{district}.",
   "recaps_first_city_title": "Première fois à %{city}",
+  "recaps_good_days_title": {
+    "one": "1 bon jour ce mois-ci",
+    "other": "{{count}} bons jours ce mois-ci"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 jour plus difficile ce mois-ci",
+    "other": "{{count}} jours plus difficiles ce mois-ci"
+  },
+  "recaps_hardest_month_label": "Mois le plus difficile",
   "recaps_intro_categories_action": "Créer des catégories",
   "recaps_intro_categories_text": "Des catégories comme Santé ou Temps pour moi regroupent vos journées, pour voir les tendances des semaines plus tôt.",
   "recaps_intro_categories_title": "Regroupez vos %{count} tags",
@@ -788,6 +799,10 @@
   "recaps_intro_photos_action": "Activer les photos",
   "recaps_intro_photos_text": "Ajoutez une photo à vos check-ins. Dans un an, votre bilan pourra s’ouvrir sur « Il y a un an aujourd’hui ».",
   "recaps_intro_photos_title": "Gardez une photo du jour",
+  "recaps_mood_chart_title_month": "Humeur ce mois-ci",
+  "recaps_mood_chart_title_week": "Humeur cette semaine",
+  "recaps_mood_count_title": "{{percent}} % de vos jours étaient bons",
+  "recaps_mood_count_title_mixed": "Vos jours par humeur",
   "recaps_most_connected_title_month": "Le plus en lien ce mois-ci",
   "recaps_most_connected_title_year": "Le plus en lien cette année",
   "recaps_no_clear_difference": "Pas de différence nette",
@@ -807,6 +822,8 @@
   "recaps_period_year": "Année",
   "recaps_reminder_failed": "Rappel non réglé. Les notifications n’ont pas pu être programmées. Réessayez dans Réglages > Rappel.",
   "recaps_reminder_set": "Rappel réglé à %{time}",
+  "recaps_sleep_chart_title_month": "Sommeil ce mois-ci",
+  "recaps_sleep_chart_title_week": "Sommeil cette semaine",
   "recaps_sleep_rough_text": "%{count} nuits difficiles d’affilée. Reposez-vous quand vous pouvez.",
   "recaps_sleep_rough_title": "Quelques nuits difficiles",
   "recaps_sleep_turnaround_text": "Après quelques nuits difficiles la semaine d’avant.",
@@ -918,6 +935,11 @@
     "other": "{{count}} jours, après %{weeks} semaines sans."
   },
   "recaps_tag_back_title": "%{tag} est de retour",
+  "recaps_tag_days_title": {
+    "one": "%{tag} sur 1 jour",
+    "other": "%{tag} sur {{count}} jours"
+  },
+  "recaps_tags_title": "Tags les plus utilisés",
   "recaps_trend_fading_lift": "Effet positif en baisse",
   "recaps_trend_growing_lift": "Effet positif en hausse",
   "recaps_trend_location_title": "Lieux au fil du temps",
@@ -931,6 +953,11 @@
   "recaps_what_moves_places": "Lieux",
   "recaps_what_moves_text": "Humeur les jours avec, comparée aux jours sans, en niveaux d’humeur.",
   "recaps_what_moves_title": "Ce qui influence votre humeur",
+  "recaps_year_pixels_text": {
+    "one": "1 jour enregistré",
+    "other": "{{count}} jours enregistrés"
+  },
+  "recaps_year_pixels_title": "Votre année en pixels",
   "reminder": "Rappel",
   "reminder_device_required_message": "Les notifications ne fonctionnent pas sur les simulateurs. Essaie sur un vrai appareil.",
   "reminder_device_required_title": "Les rappels nécessitent un téléphone",

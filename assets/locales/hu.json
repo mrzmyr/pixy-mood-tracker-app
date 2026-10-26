@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Értékeld a Pixyt az App Store-ban",
   "rate_pixy_google_play": "Értékeld a Pixyt a Google Playen",
   "recaps": "Visszatekintések",
+  "recaps_best_month_label": "Legjobb hónap",
+  "recaps_best_month_title": "{{month}} volt a legjobb hónapod",
   "recaps_connected_days": {
     "one": "1 nap kapcsolat",
     "other": "{{count}} nap kapcsolat"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Első bejegyzés ott: %{day}.",
   "recaps_first_city_text_district": "Első bejegyzés ott: %{day}, %{district}.",
   "recaps_first_city_title": "Először itt: %{city}",
+  "recaps_good_days_title": {
+    "one": "1 jó nap ebben a hónapban",
+    "other": "{{count}} jó nap ebben a hónapban"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 nehezebb nap ebben a hónapban",
+    "other": "{{count}} nehezebb nap ebben a hónapban"
+  },
+  "recaps_hardest_month_label": "Legnehezebb hónap",
   "recaps_intro_categories_action": "Kategóriák létrehozása",
   "recaps_intro_categories_text": "Az olyan kategóriák, mint az Egészség vagy az Énidő, összefogják a napjaidat, így a minták hetekkel korábban látszanak.",
   "recaps_intro_categories_title": "Csoportosítsd a(z) %{count} címkédet",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Fotók bekapcsolása",
   "recaps_intro_photos_text": "Adj fotót a bejegyzéseidhez. Egy év múlva a visszatekintésed így kezdődhet: „Ma egy éve”.",
   "recaps_intro_photos_title": "Őrizz meg egy fotót a napról",
+  "recaps_mood_chart_title_month": "Hangulat ebben a hónapban",
+  "recaps_mood_chart_title_week": "Hangulat ezen a héten",
+  "recaps_mood_count_title": "A napjaid {{percent}}%-a volt jó",
+  "recaps_mood_count_title_mixed": "Napjaid hangulat szerint",
   "recaps_most_connected_title_month": "Legtöbb kapcsolat ebben a hónapban",
   "recaps_most_connected_title_year": "Legtöbb kapcsolat idén",
   "recaps_no_clear_difference": "Nincs egyértelmű különbség",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Év",
   "recaps_reminder_failed": "Az emlékeztető nincs beállítva. Az értesítéseket nem sikerült ütemezni. Próbáld újra a Beállítások > Emlékeztető menüben.",
   "recaps_reminder_set": "Emlékeztető: %{time}",
+  "recaps_sleep_chart_title_month": "Alvás ebben a hónapban",
+  "recaps_sleep_chart_title_week": "Alvás ezen a héten",
   "recaps_sleep_rough_text": "%{count} nehéz éjszaka egymás után. Pihenj, amikor tudsz.",
   "recaps_sleep_rough_title": "Néhány nehéz éjszaka",
   "recaps_sleep_turnaround_text": "Néhány nehéz éjszaka után az előző héten.",
@@ -917,6 +934,11 @@
     "other": "{{count}} napon, %{weeks} hét szünet után."
   },
   "recaps_tag_back_title": "%{tag} újra itt van",
+  "recaps_tag_days_title": {
+    "one": "%{tag}: 1 nap",
+    "other": "%{tag}: {{count}} nap"
+  },
+  "recaps_tags_title": "Leggyakoribb címkék",
   "recaps_trend_fading_lift": "Csökkenő emelés",
   "recaps_trend_growing_lift": "Növekvő emelés",
   "recaps_trend_location_title": "Helyek az időben",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Helyek",
   "recaps_what_moves_text": "Hangulat azokon a napokon, amikor jelen volt, azokhoz képest, amikor nem, hangulatszintekben.",
   "recaps_what_moves_title": "Mi mozgatja a hangulatodat",
+  "recaps_year_pixels_text": {
+    "one": "1 rögzített nap",
+    "other": "{{count}} rögzített nap"
+  },
+  "recaps_year_pixels_title": "Az éved pixelekben",
   "reminder": "Emlékeztetők",
   "reminder_device_required_message": "Az értesítések nem működnek szimulátoron. Próbáld valódi eszközön.",
   "reminder_device_required_title": "Az emlékeztetőkhöz telefon kell",

@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Oceń Pixy w App Store",
   "rate_pixy_google_play": "Oceń Pixy w Google Play",
   "recaps": "Podsumowania",
+  "recaps_best_month_label": "Najlepszy miesiąc",
+  "recaps_best_month_title": "{{month}} był Twoim najlepszym miesiącem",
   "recaps_connected_days": {
     "one": "1 dzień w kontakcie",
     "other": "{{count}} dni w kontakcie"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Pierwszy wpis tam: %{day}.",
   "recaps_first_city_text_district": "Pierwszy wpis tam: %{day}, %{district}.",
   "recaps_first_city_title": "Pierwszy raz w: %{city}",
+  "recaps_good_days_title": {
+    "one": "1 dobry dzień w tym miesiącu",
+    "other": "{{count}} dobrych dni w tym miesiącu"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 trudniejszy dzień w tym miesiącu",
+    "other": "{{count}} trudniejszych dni w tym miesiącu"
+  },
+  "recaps_hardest_month_label": "Najtrudniejszy miesiąc",
   "recaps_intro_categories_action": "Utwórz kategorie",
   "recaps_intro_categories_text": "Kategorie, takie jak Zdrowie czy Czas dla siebie, łączą Twoje dni, więc wzorce widać kilka tygodni wcześniej.",
   "recaps_intro_categories_title": "Pogrupuj swoje tagi (%{count})",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Włącz zdjęcia",
   "recaps_intro_photos_text": "Dodawaj zdjęcie do wpisów. Za rok Twoje podsumowanie może zacząć się od „Dziś rok temu”.",
   "recaps_intro_photos_title": "Zachowaj zdjęcie dnia",
+  "recaps_mood_chart_title_month": "Nastrój w tym miesiącu",
+  "recaps_mood_chart_title_week": "Nastrój w tym tygodniu",
+  "recaps_mood_count_title": "{{percent}}% Twoich dni było dobrych",
+  "recaps_mood_count_title_mixed": "Twoje dni według nastroju",
   "recaps_most_connected_title_month": "Najwięcej kontaktu w tym miesiącu",
   "recaps_most_connected_title_year": "Najwięcej kontaktu w tym roku",
   "recaps_no_clear_difference": "Brak wyraźnej różnicy",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Rok",
   "recaps_reminder_failed": "Przypomnienie nie jest ustawione. Nie udało się zaplanować powiadomień. Spróbuj ponownie w Ustawienia > Przypomnienie.",
   "recaps_reminder_set": "Przypomnienie o %{time}",
+  "recaps_sleep_chart_title_month": "Sen w tym miesiącu",
+  "recaps_sleep_chart_title_week": "Sen w tym tygodniu",
   "recaps_sleep_rough_text": "%{count} ciężkie noce z rzędu. Odpocznij, kiedy możesz.",
   "recaps_sleep_rough_title": "Kilka ciężkich nocy",
   "recaps_sleep_turnaround_text": "Po kilku ciężkich nocach w poprzednim tygodniu.",
@@ -917,6 +934,11 @@
     "other": "{{count}} dni, po %{weeks} tygodniach przerwy."
   },
   "recaps_tag_back_title": "%{tag} wraca",
+  "recaps_tag_days_title": {
+    "one": "%{tag}: 1 dzień",
+    "other": "%{tag}: {{count}} dni"
+  },
+  "recaps_tags_title": "Najczęściej używane tagi",
   "recaps_trend_fading_lift": "Słabnący wpływ",
   "recaps_trend_growing_lift": "Rosnący wpływ",
   "recaps_trend_location_title": "Miejsca w czasie",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Miejsca",
   "recaps_what_moves_text": "Nastrój w dni z tym w porównaniu z dniami bez tego, w stopniach nastroju.",
   "recaps_what_moves_title": "Co wpływa na Twój nastrój",
+  "recaps_year_pixels_text": {
+    "one": "1 dzień z wpisem",
+    "other": "Dni z wpisem: {{count}}"
+  },
+  "recaps_year_pixels_title": "Twój rok w pikselach",
   "reminder": "Przypomnienie",
   "reminder_device_required_message": "Powiadomienia nie działają na symulatorach. Spróbuj na prawdziwym urządzeniu.",
   "reminder_device_required_title": "Przypomnienia wymagają telefonu",

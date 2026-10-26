@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Evaluează Pixy în App Store",
   "rate_pixy_google_play": "Evaluează Pixy pe Google Play",
   "recaps": "Retrospective",
+  "recaps_best_month_label": "Cea mai bună lună",
+  "recaps_best_month_title": "{{month}} a fost cea mai bună lună a ta",
   "recaps_connected_days": {
     "one": "1 zi în legătură",
     "other": "{{count}} zile în legătură"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Prima înregistrare acolo: %{day}.",
   "recaps_first_city_text_district": "Prima înregistrare acolo: %{day}, în %{district}.",
   "recaps_first_city_title": "Prima dată în %{city}",
+  "recaps_good_days_title": {
+    "one": "1 zi bună luna aceasta",
+    "other": "Zile bune luna aceasta: {{count}}"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 zi mai grea luna aceasta",
+    "other": "Zile mai grele luna aceasta: {{count}}"
+  },
+  "recaps_hardest_month_label": "Cea mai grea lună",
   "recaps_intro_categories_action": "Creează categorii",
   "recaps_intro_categories_text": "Categoriile precum Sănătate sau Timp pentru mine îți adună zilele, iar tiparele apar cu săptămâni mai devreme.",
   "recaps_intro_categories_title": "Grupează-ți cele %{count} etichete",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Activează fotografiile",
   "recaps_intro_photos_text": "Adaugă o fotografie în înregistrări. Peste un an, retrospectiva ta poate începe cu „Acum un an, azi”.",
   "recaps_intro_photos_title": "Păstrează o fotografie a zilei",
+  "recaps_mood_chart_title_month": "Starea luna aceasta",
+  "recaps_mood_chart_title_week": "Starea săptămâna aceasta",
+  "recaps_mood_count_title": "{{percent}}% din zilele tale au fost bune",
+  "recaps_mood_count_title_mixed": "Zilele tale după stare",
   "recaps_most_connected_title_month": "Cel mai mult în legătură luna aceasta",
   "recaps_most_connected_title_year": "Cel mai mult în legătură anul acesta",
   "recaps_no_clear_difference": "Nicio diferență clară",
@@ -806,6 +821,8 @@
   "recaps_period_year": "An",
   "recaps_reminder_failed": "Mementoul nu a fost setat. Notificările nu au putut fi programate. Încearcă din nou din Setări > Memento.",
   "recaps_reminder_set": "Memento la %{time}",
+  "recaps_sleep_chart_title_month": "Somnul luna aceasta",
+  "recaps_sleep_chart_title_week": "Somnul săptămâna aceasta",
   "recaps_sleep_rough_text": "%{count} nopți grele la rând. Odihnește-te când poți.",
   "recaps_sleep_rough_title": "Câteva nopți grele",
   "recaps_sleep_turnaround_text": "După câteva nopți grele săptămâna dinainte.",
@@ -917,6 +934,11 @@
     "other": "În {{count}} zile, după %{weeks} săptămâni fără."
   },
   "recaps_tag_back_title": "%{tag} s-a întors",
+  "recaps_tag_days_title": {
+    "one": "%{tag}: 1 zi",
+    "other": "%{tag}: {{count}} zile"
+  },
+  "recaps_tags_title": "Cele mai folosite etichete",
   "recaps_trend_fading_lift": "Impuls în scădere",
   "recaps_trend_growing_lift": "Impuls în creștere",
   "recaps_trend_location_title": "Locuri în timp",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Locuri",
   "recaps_what_moves_text": "Starea în zilele cu asta comparativ cu zilele fără, în trepte de stare.",
   "recaps_what_moves_title": "Ce îți influențează starea",
+  "recaps_year_pixels_text": {
+    "one": "1 zi cu înregistrare",
+    "other": "Zile cu înregistrare: {{count}}"
+  },
+  "recaps_year_pixels_title": "Anul tău în pixeli",
   "reminder": "Aducere aminte",
   "reminder_device_required_message": "Notificările nu funcționează pe simulatoare. Încearcă pe un dispozitiv real.",
   "reminder_device_required_title": "Mementourile au nevoie de un telefon",

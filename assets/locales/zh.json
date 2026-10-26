@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "在 App Store 为 Pixy 评分",
   "rate_pixy_google_play": "在 Google Play 为 Pixy 评分",
   "recaps": "回顾",
+  "recaps_best_month_label": "最佳月份",
+  "recaps_best_month_title": "{{month}}是你最好的一个月",
   "recaps_connected_days": {
     "one": "联系 1 天",
     "other": "联系 {{count}} 天"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "在那里的第一次记录是%{day}。",
   "recaps_first_city_text_district": "在那里的第一次记录：%{day}，%{district}。",
   "recaps_first_city_title": "第一次到%{city}",
+  "recaps_good_days_title": {
+    "one": "本月好日子 1 天",
+    "other": "本月好日子 {{count}} 天"
+  },
+  "recaps_hard_days_title": {
+    "one": "本月较难的日子 1 天",
+    "other": "本月较难的日子 {{count}} 天"
+  },
+  "recaps_hardest_month_label": "最难的月份",
   "recaps_intro_categories_action": "创建类别",
   "recaps_intro_categories_text": "“健康”或“我的时间”等类别能把日子归在一起，让规律提前几周显现。",
   "recaps_intro_categories_title": "为你的 %{count} 个标签分组",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "开启照片",
   "recaps_intro_photos_text": "在记录中添加照片。一年后，你的回顾可以从“一年前的今天”开始。",
   "recaps_intro_photos_title": "留下一张今天的照片",
+  "recaps_mood_chart_title_month": "本月心情",
+  "recaps_mood_chart_title_week": "本周心情",
+  "recaps_mood_count_title": "{{percent}}% 的日子感觉不错",
+  "recaps_mood_count_title_mixed": "按心情看你的日子",
   "recaps_most_connected_title_month": "本月联系最多",
   "recaps_most_connected_title_year": "今年联系最多",
   "recaps_no_clear_difference": "没有明显差异",
@@ -806,6 +821,8 @@
   "recaps_period_year": "年",
   "recaps_reminder_failed": "未设置提醒。无法安排通知。请在“设置 > 提醒”中重试。",
   "recaps_reminder_set": "已设置 %{time} 提醒",
+  "recaps_sleep_chart_title_month": "本月睡眠",
+  "recaps_sleep_chart_title_week": "本周睡眠",
   "recaps_sleep_rough_text": "连续 %{count} 个难眠之夜。能休息时就好好休息。",
   "recaps_sleep_rough_title": "几个难眠之夜",
   "recaps_sleep_turnaround_text": "在前一周几个难眠之夜之后。",
@@ -917,6 +934,11 @@
     "other": "隔了 %{weeks} 周后出现 {{count}} 天。"
   },
   "recaps_tag_back_title": "%{tag} 回来了",
+  "recaps_tag_days_title": {
+    "one": "%{tag}：1 天",
+    "other": "%{tag}：{{count}} 天"
+  },
+  "recaps_tags_title": "最常用的标签",
   "recaps_trend_fading_lift": "正面影响减弱",
   "recaps_trend_growing_lift": "正面影响增强",
   "recaps_trend_location_title": "地点的变化",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "地点",
   "recaps_what_moves_text": "有它的日子与没有它的日子的心情对比，以心情等级计。",
   "recaps_what_moves_title": "什么影响了你的心情",
+  "recaps_year_pixels_text": {
+    "one": "记录了 1 天",
+    "other": "记录了 {{count}} 天"
+  },
+  "recaps_year_pixels_title": "像素里的一年",
   "reminder": "提醒",
   "reminder_device_required_message": "模拟器无法显示通知。请在真机上试试。",
   "reminder_device_required_title": "提醒需要手机",

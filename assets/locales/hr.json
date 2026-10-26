@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Ocijeni Pixy u App Storeu",
   "rate_pixy_google_play": "Ocijeni Pixy na Google Playu",
   "recaps": "Osvrti",
+  "recaps_best_month_label": "Najbolji mjesec",
+  "recaps_best_month_title": "{{month}} bio je tvoj najbolji mjesec",
   "recaps_connected_days": {
     "one": "1 dan u kontaktu",
     "other": "{{count}} dana u kontaktu"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Prvi unos ondje: %{day}.",
   "recaps_first_city_text_district": "Prvi unos ondje: %{day}, %{district}.",
   "recaps_first_city_title": "Prvi put u mjestu %{city}",
+  "recaps_good_days_title": {
+    "one": "1 dobar dan ovaj mjesec",
+    "other": "Dobri dani ovaj mjesec: {{count}}"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 teži dan ovaj mjesec",
+    "other": "Teži dani ovaj mjesec: {{count}}"
+  },
+  "recaps_hardest_month_label": "Najteži mjesec",
   "recaps_intro_categories_action": "Izradi kategorije",
   "recaps_intro_categories_text": "Kategorije poput Zdravlje ili Vrijeme za sebe spajaju tvoje dane, pa se obrasci vide tjednima ranije.",
   "recaps_intro_categories_title": "Grupiraj svoje oznake (%{count})",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Uključi fotografije",
   "recaps_intro_photos_text": "Dodaj fotografiju u unose. Za godinu dana tvoj osvrt može početi s „Danas prije godinu dana”.",
   "recaps_intro_photos_title": "Sačuvaj fotografiju dana",
+  "recaps_mood_chart_title_month": "Raspoloženje ovaj mjesec",
+  "recaps_mood_chart_title_week": "Raspoloženje ovaj tjedan",
+  "recaps_mood_count_title": "{{percent}} % tvojih dana bilo je dobro",
+  "recaps_mood_count_title_mixed": "Tvoji dani po raspoloženju",
   "recaps_most_connected_title_month": "Najviše u kontaktu ovaj mjesec",
   "recaps_most_connected_title_year": "Najviše u kontaktu ove godine",
   "recaps_no_clear_difference": "Nema jasne razlike",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Godina",
   "recaps_reminder_failed": "Podsjetnik nije postavljen. Obavijesti nije bilo moguće zakazati. Pokušaj ponovno u Postavke > Podsjetnik.",
   "recaps_reminder_set": "Podsjetnik u %{time}",
+  "recaps_sleep_chart_title_month": "San ovaj mjesec",
+  "recaps_sleep_chart_title_week": "San ovaj tjedan",
   "recaps_sleep_rough_text": "%{count} teške noći zaredom. Odmori kad možeš.",
   "recaps_sleep_rough_title": "Nekoliko teških noći",
   "recaps_sleep_turnaround_text": "Nakon nekoliko teških noći tjedan prije.",
@@ -917,6 +934,11 @@
     "other": "{{count}} dana, nakon %{weeks} tjedana bez."
   },
   "recaps_tag_back_title": "%{tag} se vraća",
+  "recaps_tag_days_title": {
+    "one": "%{tag}: 1 dan",
+    "other": "%{tag}: {{count}} dana"
+  },
+  "recaps_tags_title": "Najkorištenije oznake",
   "recaps_trend_fading_lift": "Slabljenje utjecaja",
   "recaps_trend_growing_lift": "Rastući utjecaj",
   "recaps_trend_location_title": "Mjesta kroz vrijeme",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Mjesta",
   "recaps_what_moves_text": "Raspoloženje danima s tim u usporedbi s danima bez toga, u stupnjevima raspoloženja.",
   "recaps_what_moves_title": "Što pokreće tvoje raspoloženje",
+  "recaps_year_pixels_text": {
+    "one": "1 dan s unosom",
+    "other": "Dani s unosom: {{count}}"
+  },
+  "recaps_year_pixels_title": "Tvoja godina u pikselima",
   "reminder": "Podsjetnik",
   "reminder_device_required_message": "Obavijesti ne rade na simulatorima. Isprobaj na pravom uređaju.",
   "reminder_device_required_title": "Podsjetnici trebaju telefon",

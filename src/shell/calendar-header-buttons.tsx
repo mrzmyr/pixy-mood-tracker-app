@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { Stack, useRouter } from "expo-router";
 import { Platform } from "react-native";
 import {
@@ -6,6 +7,7 @@ import {
   useCalendarFiltersSheet,
   useCalendarLayout,
 } from "@/features/calendar";
+import { DATE_FORMAT } from "@/constants/config";
 import { ProfileHeaderButton } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/feature-flags";
@@ -26,7 +28,8 @@ const ICONS =
 
 /**
  * Calendar header buttons: Statistics on the left; Filters and Settings
- * (cog icon) on the right. With the `profile` flag, the user's avatar
+ * (cog icon) on the right. With the `recaps` flag, the left button opens
+ * this week's Recaps, which carry every statistics card. With the `profile` flag, the user's avatar
  * replaces the cog: photo, initials, or a gray silhouette. With the
  * `calendar-timeline` flag on, Filters is a menu: it opens the filter sheet
  * and holds the layout picker (Calendar, Timeline). With the flag off,
@@ -46,15 +49,23 @@ export const CalendarHeaderButtons = () => {
   const filtersSheet = useCalendarFiltersSheet();
   const calendarLayout = useCalendarLayout();
   const isProfileEnabled = useFeatureFlag("profile");
+  const isRecapsEnabled = useFeatureFlag("recaps");
   const openSettings = () => router.navigate("/settings");
+  const openStatistics = () =>
+    isRecapsEnabled
+      ? router.navigate({
+          pathname: "/recaps/[kind]/[date]",
+          params: { kind: "week", date: dayjs().format(DATE_FORMAT) },
+        })
+      : router.navigate("/statistics");
 
   return (
     <>
       <Stack.Toolbar placement="left">
         <Stack.Toolbar.Button
           icon={ICONS.statistics}
-          accessibilityLabel={t("statistics")}
-          onPress={() => router.navigate("/statistics")}
+          accessibilityLabel={isRecapsEnabled ? t("recaps") : t("statistics")}
+          onPress={openStatistics}
         />
       </Stack.Toolbar>
       <Stack.Toolbar placement="right">

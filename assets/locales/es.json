@@ -729,6 +729,8 @@
   "rate_pixy_app_store": "Valora Pixy en la App Store",
   "rate_pixy_google_play": "Valora Pixy en Google Play",
   "recaps": "Resúmenes",
+  "recaps_best_month_label": "Mejor mes",
+  "recaps_best_month_title": "{{month}} fue tu mejor mes",
   "recaps_connected_days": {
     "one": "1 día conectado",
     "other": "{{count}} días conectado"
@@ -775,6 +777,15 @@
   "recaps_first_city_text": "Primer registro allí el %{day}.",
   "recaps_first_city_text_district": "Primer registro allí, el %{day} en %{district}.",
   "recaps_first_city_title": "Primera vez en %{city}",
+  "recaps_good_days_title": {
+    "one": "1 buen día este mes",
+    "other": "{{count}} buenos días este mes"
+  },
+  "recaps_hard_days_title": {
+    "one": "1 día más difícil este mes",
+    "other": "{{count}} días más difíciles este mes"
+  },
+  "recaps_hardest_month_label": "Mes más difícil",
   "recaps_intro_categories_action": "Crear categorías",
   "recaps_intro_categories_text": "Categorías como Salud o Tiempo para mí agrupan tus días, así los patrones aparecen semanas antes.",
   "recaps_intro_categories_title": "Agrupa tus %{count} etiquetas",
@@ -787,6 +798,10 @@
   "recaps_intro_photos_action": "Activar fotos",
   "recaps_intro_photos_text": "Añade una foto a tus registros. Dentro de un año, tu resumen podrá empezar con «Hoy hace un año».",
   "recaps_intro_photos_title": "Guarda una foto del día",
+  "recaps_mood_chart_title_month": "Ánimo este mes",
+  "recaps_mood_chart_title_week": "Ánimo esta semana",
+  "recaps_mood_count_title": "El {{percent}} % de tus días se sintieron bien",
+  "recaps_mood_count_title_mixed": "Tus días según el ánimo",
   "recaps_most_connected_title_month": "Más conectado este mes",
   "recaps_most_connected_title_year": "Más conectado este año",
   "recaps_no_clear_difference": "Sin diferencia clara",
@@ -806,6 +821,8 @@
   "recaps_period_year": "Año",
   "recaps_reminder_failed": "Recordatorio no activado. No se pudieron programar las notificaciones. Inténtalo de nuevo en Ajustes > Recordatorio.",
   "recaps_reminder_set": "Recordatorio a las %{time}",
+  "recaps_sleep_chart_title_month": "Sueño este mes",
+  "recaps_sleep_chart_title_week": "Sueño esta semana",
   "recaps_sleep_rough_text": "%{count} noches difíciles seguidas. Descansa cuando puedas.",
   "recaps_sleep_rough_title": "Algunas noches difíciles",
   "recaps_sleep_turnaround_text": "Tras algunas noches difíciles la semana anterior.",
@@ -917,6 +934,11 @@
     "other": "{{count}} días, tras %{weeks} semanas sin."
   },
   "recaps_tag_back_title": "%{tag} ha vuelto",
+  "recaps_tag_days_title": {
+    "one": "%{tag} en 1 día",
+    "other": "%{tag} en {{count}} días"
+  },
+  "recaps_tags_title": "Etiquetas más usadas",
   "recaps_trend_fading_lift": "Impulso menguante",
   "recaps_trend_growing_lift": "Impulso creciente",
   "recaps_trend_location_title": "Lugares en el tiempo",
@@ -930,6 +952,11 @@
   "recaps_what_moves_places": "Lugares",
   "recaps_what_moves_text": "Ánimo en días con ello comparado con días sin ello, en niveles de ánimo.",
   "recaps_what_moves_title": "Qué mueve tu estado de ánimo",
+  "recaps_year_pixels_text": {
+    "one": "1 día registrado",
+    "other": "{{count}} días registrados"
+  },
+  "recaps_year_pixels_title": "Tu año en píxeles",
   "reminder": "Recordatorio",
   "reminder_device_required_message": "Las notificaciones no funcionan en simuladores. Prueba en un dispositivo real.",
   "reminder_device_required_title": "Los recordatorios necesitan un móvil",

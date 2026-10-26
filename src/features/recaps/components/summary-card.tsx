@@ -11,7 +11,6 @@ import { RATING_MAPPING } from "@/constants/ratings";
 import { EMOTIONS } from "@/features/logger";
 import type { Person } from "@/features/people";
 import { PhotoThumbnail } from "@/features/photos";
-import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
@@ -24,25 +23,12 @@ import type {
   RecapDay,
   SummaryCard as SummaryCardData,
 } from "../types";
+import type { Content, Context } from "./card-content";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
+import { getStatContent } from "./stat-content";
 import { getMomentLine } from "./person-moment-line";
 import { RingedAvatar } from "./ringed-avatar";
 import { RowEmotionChip, RowTagChip } from "./title-chip";
-
-interface Content {
-  media?: ReactNode;
-  title: ReactNode;
-  titleLabel: string;
-  text?: string;
-  body?: ReactNode;
-}
-
-interface Context {
-  history: RecapDay[];
-  people: Person[];
-  tags: Tag[];
-  periodKind: PeriodKind;
-}
 
 const EMOTION_BY_KEY = new Map(
   EMOTIONS.map((emotion) => [emotion.key, emotion])
@@ -361,8 +347,9 @@ const SeeThisDay = ({ date }: { date: string }) => {
 
 const dayContent = (
   card: Extract<SummaryCardData, { type: "day-recap" }>,
-  { history, people, tags, periodKind }: Context
+  { history, people, tags, period }: Context
 ): Content | null => {
+  const periodKind = period.kind;
   const day = history.find((item) => item.date === card.date);
   if (!day) {
     return null;
@@ -458,14 +445,24 @@ const getContent = (
     case "day-recap": {
       return dayContent(card, context);
     }
+    case "mood-chart":
+    case "mood-count":
+    case "mood-days":
+    case "sleep-chart":
+    case "tags":
+    case "tag-days":
+    case "year-pixels":
+    case "best-month": {
+      return getStatContent(card, context);
+    }
     case "emotions": {
-      return emotionsContent(card.counts, context.periodKind);
+      return emotionsContent(card.counts, context.period.kind);
     }
     case "connected": {
       return connectedContent(card.people, context.people);
     }
     case "most-connected": {
-      const key = MOST_CONNECTED_TITLES[context.periodKind];
+      const key = MOST_CONNECTED_TITLES[context.period.kind];
       if (!key) {
         return null;
       }
@@ -477,7 +474,7 @@ const getContent = (
       };
     }
     case "places": {
-      const title = t(PLACES_TITLES[context.periodKind]);
+      const title = t(PLACES_TITLES[context.period.kind]);
       const rows = [
         ...card.trips.map((trip) => ({
           key: `trip-${trip.city}-${trip.start}`,

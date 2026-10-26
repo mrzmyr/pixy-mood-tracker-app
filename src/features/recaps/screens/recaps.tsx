@@ -255,7 +255,8 @@ const Recaps = () => {
           history={history}
           people={people}
           tags={tags}
-          periodKind={period.kind}
+          period={period}
+          today={today}
           onLayout={onCardLayout(key)}
           footer={footerFor(card, key)}
         />
