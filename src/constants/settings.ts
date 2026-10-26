@@ -26,6 +26,7 @@ export const DEFAULT_QUICK_CHECK_IN_SCHEDULE = {
  */
 export const INITIAL_STATE: SettingsState = {
   deviceId: null,
+  feedbackId: null,
   scaleType: "ColorBrew-RdYlGn",
   reminderEnabled: false,
   reminderTime: DEFAULT_REMINDER_TIME,

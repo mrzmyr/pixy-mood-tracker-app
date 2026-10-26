@@ -34,6 +34,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - Screens: `$screen` with the route name, from [`src/shell/screen-tracking.ts`](src/shell/screen-tracking.ts)
 - Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](src/state/analytics/index.tsx))
 - Privacy rule: [AGENTS.md footguns](AGENTS.md#footguns)
+- Feedback and question answers to pixy.day carry a separate random `feedbackId`, never the analytics install id. JSON key stays `deviceId` for the server. Backups never carry it. "Delete all my data" renews it ([`src/state/settings/index.tsx`](src/state/settings/index.tsx))
 - Default: off in consent regions and when region is unknown; on elsewhere. Factory reset restores the device-region default ([`src/state/analytics/consent.ts`](src/state/analytics/consent.ts))
 - Onboarding skip: consent regions land on the privacy slide before completion.
 - Off switch: Settings > Privacy > Behavioral Data

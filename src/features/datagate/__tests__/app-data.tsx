@@ -135,6 +135,7 @@ describe("useAppData()", () => {
     expect(second.result.current.settings).toEqual({
       ...INITIAL_STATE,
       deviceId: expect.any(String),
+      feedbackId: expect.any(String),
     });
     expect(second.result.current.settings.deviceId).not.toBe("old-device");
   });

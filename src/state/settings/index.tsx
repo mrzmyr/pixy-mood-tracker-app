@@ -68,7 +68,14 @@ const QuickCheckInScheduleSchema = z.object({
  * store on load. `trackBehaviour` is legacy and unused.
  */
 export interface SettingsState {
+  /** Random install id. Analytics identifies the install with it. */
   deviceId: string | null;
+  /**
+   * Random id sent only with feedback and question answers, never with
+   * analytics, so feedback cannot be joined to analytics. Stays on this
+   * device; renewed on reset.
+   */
+  feedbackId: string | null;
   scaleType: (typeof SCALE_TYPES)[number];
   reminderEnabled: boolean;
   reminderTime: string;
@@ -138,16 +145,17 @@ export interface SettingsState {
 }
 
 /**
- * Settings included in data exports. The device id is excluded so an import
- * never clones another device's identity. Store review prompt state belongs
- * to the device and store account, and photo library access, theme,
- * location, calendar layout, app lock, recap notifications, the profile,
- * quick check-ins, and Apple Health to the device, so imports keep the
- * current values.
+ * Settings included in data exports. The device id and feedback id are
+ * excluded so an import never clones another device's identity. Store
+ * review prompt state belongs to the device and store account, and photo
+ * library access, theme, location, calendar layout, app lock, recap
+ * notifications, the profile, quick check-ins, and Apple Health to the
+ * device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
   | "deviceId"
+  | "feedbackId"
   | "storeReviewPromptDates"
   | "storeReviewPromptedAppVersion"
   | "photosDayAccessDismissed"
@@ -197,6 +205,13 @@ type SettingsAction =
   | { type: "import"; payload: ExportSettings }
   | { type: "reset" };
 
+/** Settings of a fresh install: defaults plus new random ids. */
+const createFreshSettings = (): SettingsState => ({
+  ...INITIAL_STATE,
+  deviceId: uuidv4(),
+  feedbackId: uuidv4(),
+});
+
 const reducer = (
   state: SettingsState,
   action: SettingsAction
@@ -205,14 +220,16 @@ const reducer = (
     case "set": {
       return action.payload(state);
     }
-    // Store review prompt state, photo library access, theme, location,
-    // calendar layout, app lock, recap notifications, the profile, and Apple
-    // Health belong to this device, so imports keep the current values.
+    // The feedback id, store review prompt state, photo library access,
+    // theme, location, calendar layout, app lock, recap notifications, the
+    // profile, and Apple Health belong to this device, so imports keep the
+    // current values.
     case "import": {
       return {
         ...INITIAL_STATE,
         ...action.payload,
         steps: sanitizeSteps(action.payload.steps),
+        feedbackId: state.feedbackId,
         storeReviewPromptDates: state.storeReviewPromptDates,
         storeReviewPromptedAppVersion: state.storeReviewPromptedAppVersion,
         photosDayAccessDismissed: state.photosDayAccessDismissed,
@@ -229,7 +246,7 @@ const reducer = (
       };
     }
     case "reset": {
-      return { ...INITIAL_STATE, deviceId: uuidv4() };
+      return createFreshSettings();
     }
     default: {
       return state;
@@ -250,6 +267,7 @@ const hydrateStored = ({
   ...INITIAL_STATE,
   ...stored,
   deviceId: stored.deviceId || uuidv4(),
+  feedbackId: z.string().min(1).safeParse(stored.feedbackId).data ?? uuidv4(),
   steps: sanitizeSteps(stored.steps),
   storeReviewPromptDates: toStoreReviewPromptDates({
     storeReviewPromptDates: stored.storeReviewPromptDates,
@@ -274,9 +292,7 @@ const hydrateStored = ({
 });
 
 const hydrate = (stored: StoredSettings | null): SettingsState =>
-  stored === null
-    ? { ...INITIAL_STATE, deviceId: uuidv4() }
-    : hydrateStored(stored);
+  stored === null ? createFreshSettings() : hydrateStored(stored);
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({
   key: STORAGE_KEY,
