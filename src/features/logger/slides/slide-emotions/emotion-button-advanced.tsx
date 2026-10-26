@@ -76,14 +76,3 @@ export const EmotionButtonAdvanced = ({
     </RectButton>
   );
 };
-
-/** Blank cell that fills an odd last row in an emotion page. */
-export const EmotionButtonEmpty = () => (
-  <View
-    style={{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  />
-);
