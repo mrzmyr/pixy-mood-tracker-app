@@ -155,6 +155,26 @@ describe("getDaySummary()", () => {
     });
   });
 
+  test("stays calm on a good day with mostly bad emotions", () => {
+    const saved = at(`${TODAY}T20:00:00`, {
+      rating: "good",
+      emotions: ["overwhelmed", "anxious", "stressed", "grateful"],
+    });
+    const summary = getDaySummary({ items: [saved], item: saved });
+
+    expect(summary.tone).toBe("neutral");
+    expect(getSummaryTitle(summary)).not.toBe(t("log_summary_title_good"));
+  });
+
+  test("keeps celebrating a good day with mostly good emotions", () => {
+    const saved = at(`${TODAY}T20:00:00`, {
+      rating: "good",
+      emotions: ["anxious", "grateful", "calm"],
+    });
+
+    expect(getDaySummary({ items: [saved], item: saved }).tone).toBe("good");
+  });
+
   test("counts the saved entry once, also before it is in the list", () => {
     const saved = at(`${TODAY}T20:00:00`);
 
