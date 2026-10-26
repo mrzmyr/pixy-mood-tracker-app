@@ -316,6 +316,8 @@ describe("useLogs()", () => {
         ..._.omit(testSettings, [
           "deviceId",
           "feedbackId",
+          "analyticsEnabled",
+          "analyticsConsentAt",
           "storeReviewPromptDates",
           "storeReviewPromptedAppVersion",
           "photosDayAccessDismissed",

@@ -80,6 +80,11 @@ export interface SettingsState {
   reminderEnabled: boolean;
   reminderTime: string;
   analyticsEnabled: boolean;
+  /**
+   * When the user last turned analytics on or off (ISO date). `null` until
+   * the first choice on this install.
+   */
+  analyticsConsentAt: string | null;
   actionsDone: IAction[];
   steps: ConfigurableLoggerStep[];
   /**
@@ -156,6 +161,8 @@ export type ExportSettings = Omit<
   SettingsState,
   | "deviceId"
   | "feedbackId"
+  | "analyticsEnabled"
+  | "analyticsConsentAt"
   | "storeReviewPromptDates"
   | "storeReviewPromptedAppVersion"
   | "photosDayAccessDismissed"
@@ -220,7 +227,7 @@ const reducer = (
     case "set": {
       return action.payload(state);
     }
-    // The feedback id, store review prompt state, photo library access,
+    // Analytics consent, the feedback id, store review prompt state, photo library access,
     // theme, location, calendar layout, app lock, recap notifications, the
     // profile, and Apple Health belong to this device, so imports keep the
     // current values.
@@ -230,6 +237,8 @@ const reducer = (
         ...action.payload,
         steps: sanitizeSteps(action.payload.steps),
         feedbackId: state.feedbackId,
+        analyticsEnabled: state.analyticsEnabled,
+        analyticsConsentAt: state.analyticsConsentAt,
         storeReviewPromptDates: state.storeReviewPromptDates,
         storeReviewPromptedAppVersion: state.storeReviewPromptedAppVersion,
         photosDayAccessDismissed: state.photosDayAccessDismissed,

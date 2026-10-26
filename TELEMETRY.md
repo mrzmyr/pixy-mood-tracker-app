@@ -21,7 +21,8 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - Default off in the EU, EEA, UK, Switzerland, and when the region is unknown. Default on elsewhere ([`consent.ts`](src/state/analytics/consent.ts))
 - Off switch: Settings > Privacy > Behavioral Data
 - Off means no events, no feature flags, no startup metrics
-- "Delete all my data" restores the regional default
+- "Delete all my data" restores the regional default and clears `analyticsConsentAt`
+- Each choice stores its time in `analyticsConsentAt`. Backups never carry the switch or the time; import keeps the values of this device
 - Crash reports go to Sentry. The Behavioral Data switch does not cover them
   - Sentry gets: error status, message, fix, stack trace, device and OS model, app version, breadcrumbs other than console
   - Removed before send ([`sentry-scrub.ts`](src/lib/sentry-scrub.ts)): error `why`, user and install id, console breadcrumbs, URL query strings and fragments

@@ -116,6 +116,7 @@ const AnalyticsProvider = ({
         setSettings((currentSettings) => ({
           ...currentSettings,
           analyticsEnabled: true,
+          analyticsConsentAt: new Date().toISOString(),
         }));
       },
       disable: () => {
@@ -123,6 +124,7 @@ const AnalyticsProvider = ({
         setSettings((currentSettings) => ({
           ...currentSettings,
           analyticsEnabled: false,
+          analyticsConsentAt: new Date().toISOString(),
         }));
       },
       // New anonymous id, then the regional default, like a fresh install.
@@ -136,6 +138,7 @@ const AnalyticsProvider = ({
         setSettings((currentSettings) => ({
           ...currentSettings,
           analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
+          analyticsConsentAt: null,
         }));
       },
       track: (...[eventName, properties]) => {
