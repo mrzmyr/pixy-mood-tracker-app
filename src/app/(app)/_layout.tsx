@@ -119,19 +119,22 @@ const formHeaderOptions = <T extends object>(
   headerShadowVisible: false,
 });
 
+/** Native back button without title, bar in the screen background. */
+const getDefaultOptions = (textColor: string, backgroundColor: string) => ({
+  headerTintColor: textColor,
+  headerBackTitle: "",
+  headerBackButtonDisplayMode: "minimal" as const,
+  headerBackButtonMenuEnabled: false,
+  headerStyle: { backgroundColor },
+  headerShadowVisible: Platform.OS !== "web",
+});
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
   const formBackground = useFormBackground();
   const canOverrideFeatureFlags = useCanOverrideFeatureFlags();
-  const defaultOptions = {
-    headerTintColor: colors.text,
-    headerBackTitle: "",
-    headerBackButtonDisplayMode: "minimal" as const,
-    headerBackButtonMenuEnabled: false,
-    headerStyle: { backgroundColor: colors.background },
-    headerShadowVisible: Platform.OS !== "web",
-  };
+  const defaultOptions = getDefaultOptions(colors.text, colors.background);
   const feedbackOptions = getFeedbackOptions({
     defaultOptions,
     textColor: colors.text,
