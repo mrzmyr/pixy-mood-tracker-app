@@ -68,12 +68,15 @@ export const SlideMenstruation = ({
       style={{
         flex: 1,
         width: "100%",
-        paddingHorizontal: 20,
         paddingBottom: insets.bottom + 20,
         marginTop,
       }}
     >
-      <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+      {/* Padding sits inside the ScrollView: Android lists bleed to the
+          screen edges, and a padded ScrollView would clip them. */}
+      <ScrollView
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 80 }}
+      >
         <SlideHeadline>{t("log_menstruation_question")}</SlideHeadline>
         <View
           accessibilityRole="radiogroup"
@@ -109,7 +112,7 @@ export const SlideMenstruation = ({
           </MenuList>
         </View>
       </ScrollView>
-      <Footer>
+      <Footer style={{ paddingHorizontal: 20 }}>
         {showDisable && (
           <LinkButton
             testID="menstruation-disable"
