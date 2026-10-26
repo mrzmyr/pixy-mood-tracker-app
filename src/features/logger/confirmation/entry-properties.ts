@@ -17,7 +17,10 @@ export const countWords = (text: string) => {
   return trimmed.split(/\s+/u).length;
 };
 
-/** Analytics metadata for a saved entry. Free text is sent as counts only. */
+/**
+ * Analytics metadata for a saved entry. Free text and emotions are sent as
+ * counts, rating and sleep as booleans: health values stay on the device.
+ */
 export const getEntryProperties = ({
   item,
   entriesCount,
@@ -25,13 +28,12 @@ export const getEntryProperties = ({
   item: LogItem;
   entriesCount: number;
 }): SavedEntryProperties => ({
-  rating: item.rating,
-  emotions: item.emotions,
+  has_rating: item.rating !== null,
   emotions_count: item.emotions.length,
   tags_count: item.tags.length,
   people_count: item.people.length,
   message_length: item.message.length,
   message_word_count: countWords(item.message),
-  sleep_quality: item.sleep?.quality ?? null,
+  has_sleep: (item.sleep?.quality ?? null) !== null,
   entries_count: entriesCount,
 });

@@ -58,11 +58,7 @@ export const useHealthSleepFill = ({ mode }: { mode: LoggerMode }) => {
       return;
     }
     hasTracked.current = true;
-    analytics.track("logger:health_sleep_filled", {
-      quality: sleep.score.quality,
-      has_bedtime: sleep.score.bedtime !== null,
-      has_interruptions: sleep.score.interruptions !== null,
-    });
+    analytics.track("logger:health_sleep_filled");
   });
 
   // The quality belongs to the night before the previous date.

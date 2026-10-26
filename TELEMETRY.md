@@ -12,7 +12,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 | Settings on every event | Yes | `scale_type`, `reminder_enabled`, `steps` |
 | Install id | Yes | Random. New id after "Delete all my data" |
 | Entry content | Never | Photos, photo metadata, coordinates, place names |
-| Mood values | Yes | Fixed keys only: rating, emotion keys, sleep quality, intervention feedback answer |
+| Health values | Never | Rating, emotion keys, sleep quality, Apple Health data, intervention cluster and feedback answer, mood-derived counts. Sent as `has_*` booleans and counts only |
 | Free text | Never | Notes, tag names, people names, filter text, feedback messages. Sent as counts and lengths only |
 | Identity | Never | No account, no `identify()`. The install stays anonymous |
 
@@ -38,21 +38,22 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - People ([spec](docs/specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`, `people:people_reordered` (`people_count`, `method`: `drag` or `accessibility_action`). Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
 - Location ([development.md](docs/development.md#location)): `settings:location_toggled` (`enabled`). `logger:log_saved` adds `has_location`. Never coordinates or place names
 - Calendar layout menu (Calendar, Timeline): `calendar:layout_changed` with `layout`
-- Apple Health ([development.md](docs/development.md#apple-health)): `settings:health_sleep_toggled` (`enabled`), `logger:health_sleep_filled` (`quality`, `has_bedtime`, `has_interruptions`). Never durations, times, or wake-up counts
+- Apple Health ([development.md](docs/development.md#apple-health)): `settings:health_sleep_toggled` (`enabled`), `logger:health_sleep_filled` (no properties). Never Apple Health values
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](src/features/review))
   - Fires when a good moment requests the system prompt. Max 3 per 365 days, 120 days apart, 1 per app version
-  - `trigger`: `entries_7` (first good save from 7 entries), `good_entry_30` (good save from 30 entries)
+  - `trigger`: `first` (first prompt, from 7 entries), `later` (later prompt, from 30 entries). Never the mood behind it
   - `entries_count`: all saved entries. Never ratings or averages
   - OS decides whether prompt shows
-- Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`, `rating`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`), `quick_check_in:setting_changed` (`enabled`), `quick_check_in:schedule_changed` (`every_hours`, `from`, `until` as picked `HH:mm`, `times_count`), `quick_check_in:notification_tapped` (`cold_start`). `source`: `notification` (Android), `app`. Never people or tag names
+- Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`), `quick_check_in:setting_changed` (`enabled`), `quick_check_in:schedule_changed` (`every_hours`, `from`, `until` as picked `HH:mm`, `times_count`), `quick_check_in:notification_tapped` (`cold_start`). `source`: `notification` (Android), `app`. Never people or tag names
 - Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](src/features/logger/confirmation))
   - Shown only after create, not edit
-  - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
+  - Entry metadata: `has_rating`, `has_sleep`, counts, `message_word_count`, `entries_count`
 - Interventions: `interventions:*` ([`src/features/interventions`](src/features/interventions)), flag `interventions`
   - Card on confirmation and calendar: `card_shown`, then `option_selected` with a new `intervention_session_id`
   - Flow: `intro_viewed`, `flow_started`, `step_viewed`, `step_back`, `flow_paused`, `flow_resumed`, then `flow_completed` or `flow_abandoned` (`how`: `close`, `end_early`)
-  - End check: `feedback_answered` or `feedback_skipped`
+  - End check: `feedback_answered` or `feedback_skipped`. Never the answer
+  - Never the emotion cluster or matched emotions
   - No dismiss control and no cooldown: cards show for every matching entry of today
 - Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminder-taps.ts`](src/features/notifications/reminder-taps.ts))
   - One event per tap on reminder body. Dismisses and other actions not sent
@@ -87,6 +88,14 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 | `logger:log_saved` | Save | `photos_count`, `photos_day_count`, `photos_library_count` |
 | `settings:step_toggled` | Check-in toggle | `step: "photos"` |
 | `logger:step_disabled` | "I Don’t Add Photos" | `step: "photos"` |
+
+## Server-side filter
+
+- PostHog transformation "Drop health properties" runs in every app project
+- Drops `rating`, `emotions`, `sleep_quality`, `matched_emotions`, `cluster`, `answer_texts`, `answer_ids`, `question_text`, `question`, `mood_peaks_positive_count`, `mood_peaks_negative_count`, `mood_avg_percentage`, `mood_avg_type`, and their flattened keys (`emotions__0`)
+- Also drops `quality` on `logger:health_sleep_filled` and `answer` on `interventions:feedback_answered`
+- Keeps `rating` on `voice:feedback_submitted`: it rates voice mode, not mood
+- Applies to every app version, including old ones
 
 ## Event history
 
@@ -137,6 +146,17 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `log_emotions_tooltip_close`, `logger:emotions_tooltip_closed`: emotion description tooltip removed from the logger. No replacement
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
 - `widget:guide_opened`, `widget:guide_step_viewed`, `widget:guide_dismissed`, `widget:guide_completed`: widget guide and Settings > Widgets removed. No replacement
+
+**Changed properties** (first release after `v1.104.0`)
+
+- `logger:confirmation_viewed`: `rating`, `emotions`, `sleep_quality`. New: `has_rating`, `has_sleep`
+- `logger:health_sleep_filled`: `quality`, `has_bedtime`, `has_interruptions`. No properties left
+- `quick_check_in:entry_saved`: `rating`
+- `interventions:card_shown`: `cluster`, `matched_emotions`
+- `interventions:option_selected`: `cluster`
+- `interventions:feedback_answered`: `answer`
+- `statistics:highlights_viewed`, `statistics:all_highlights_viewed`: `mood_peaks_positive_count`, `mood_peaks_negative_count`
+- `logger:store_review_requested` `trigger`: `entries_7` became `first`, `good_entry_30` became `later`
 
 **Removed properties** (never sent under the new names)
 

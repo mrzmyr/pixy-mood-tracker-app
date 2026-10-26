@@ -34,17 +34,11 @@ export const ForYouToday = () => {
   const match = isEnabled ? matchToday(logState.items, today) : null;
   const options = match ? OPTIONS[match.cluster].calendar : [];
 
-  useCardShown(
-    match
-      ? {
-          surface: "calendar",
-          cluster: match.cluster,
-          matched_emotions: match.emotions,
-          options_shown: options,
-          completed_today_count: completedToday.length,
-        }
-      : null
-  );
+  useCardShown(match?.cluster ?? null, {
+    surface: "calendar",
+    options_shown: options,
+    completed_today_count: completedToday.length,
+  });
 
   if (!match) {
     return null;
