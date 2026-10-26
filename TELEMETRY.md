@@ -23,6 +23,9 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - Off means no events, no feature flags, no startup metrics
 - "Delete all my data" restores the regional default
 - Crash reports go to Sentry. The Behavioral Data switch does not cover them
+  - Sentry gets: error status, message, fix, stack trace, device and OS model, app version, breadcrumbs other than console
+  - Removed before send ([`sentry-scrub.ts`](src/lib/sentry-scrub.ts)): error `why`, user and install id, console breadcrumbs, URL query strings and fragments
+  - Scrub covers JavaScript errors. Native crashes use the native Sentry SDK defaults
 
 ## Developer reference
 
