@@ -194,6 +194,7 @@ export interface AnalyticsEvents {
   "calendar:add_today_tapped": { has_entries: boolean };
   "calendar:today_tapped": undefined;
   "calendar:voice_tapped": { has_entries: boolean };
+  "calendar:check_in_tapped": { has_entries: boolean };
   "calendar:filters_opened": undefined;
   "calendar:filters_applied": {
     text_length: number;
