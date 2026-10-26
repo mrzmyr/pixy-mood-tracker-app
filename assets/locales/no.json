@@ -1177,10 +1177,5 @@
   "year_in_pixels_description": "Mitt gjennomsnittlige humør for hver dag i {{date}}",
   "year_report": "Årsrapport",
   "yes": "Ja! :)",
-  "yesterday": "I går",
-  "voice_fix_permission_denied": "Allow microphone and speech recognition in Settings",
-  "voice_fix_recognizer_unavailable": "Add the dictation language in iOS Settings > General > Keyboard, or switch the app language",
-  "voice_fix_siri_disabled": "Turn on Siri in iOS Settings, or update to iOS 26",
-  "voice_fix_on_device_unavailable": "Add the dictation language in iOS Settings > General > Keyboard, or switch the app language",
-  "voice_fix_transcription_failed": "Close voice mode and try again"
+  "yesterday": "I går"
 }
