@@ -893,14 +893,6 @@
   "recaps_story_quiz_eyebrow_people": "Những người của bạn",
   "recaps_story_quiz_eyebrow_tags": "Thói quen của bạn",
   "recaps_story_quiz_made_up": "Bịa ra",
-  "recaps_story_quiz_reveal_people": {
-    "one": "%{name}, 1 ngày kết nối. Tiếp theo là %{runnerUp} với %{days}.",
-    "other": "%{name}, {{count}} ngày kết nối. Tiếp theo là %{runnerUp} với %{days}."
-  },
-  "recaps_story_quiz_reveal_tags": {
-    "one": "%{name}, 1 ngày. Tiếp theo là %{runnerUp} với %{days}.",
-    "other": "%{name}, {{count}} ngày. Tiếp theo là %{runnerUp} với %{days}."
-  },
   "recaps_story_quiz_reveal_truths": "%{name}: thực ra là %{actual}, không phải %{shown}. Ba thẻ còn lại là đúng.",
   "recaps_story_quiz_title_mix": "Điều nào là đúng?",
   "recaps_story_quiz_title_people": "Bạn đã nghĩ về ai?",
@@ -910,16 +902,7 @@
   "recaps_story_quiz_truths_hint": "Chạm vào tất cả những điều đúng.",
   "recaps_story_ready": "Sẵn sàng để xem",
   "recaps_story_share": "Chia sẻ",
-  "recaps_story_share_check_ins": {
-    "one": "Đã ghi lại 1 ngày",
-    "other": "Đã ghi lại {{count}} ngày"
-  },
-  "recaps_story_share_city": "Lần đầu ở %{city}",
   "recaps_story_share_shuffle": "Xáo trộn ảnh",
-  "recaps_story_share_tag": {
-    "one": "%{tag}, 1 ngày",
-    "other": "%{tag}, {{count}} ngày"
-  },
   "recaps_story_share_title": "%{month} của tôi",
   "recaps_story_vs_eyebrow": "%{month} so với %{previous}",
   "recaps_story_vs_text": "Số ngày có mỗi thẻ, so với %{previous}.",

@@ -893,14 +893,6 @@
   "recaps_story_quiz_eyebrow_people": "Ваши люди",
   "recaps_story_quiz_eyebrow_tags": "Ваши привычки",
   "recaps_story_quiz_made_up": "Выдумано",
-  "recaps_story_quiz_reveal_people": {
-    "one": "%{name}, 1 день на связи. Далее %{runnerUp}: %{days}.",
-    "other": "%{name}, дней на связи: {{count}}. Далее %{runnerUp}: %{days}."
-  },
-  "recaps_story_quiz_reveal_tags": {
-    "one": "%{name}, 1 день. Далее %{runnerUp}: %{days}.",
-    "other": "%{name}, дней: {{count}}. Далее %{runnerUp}: %{days}."
-  },
   "recaps_story_quiz_reveal_truths": "%{name}: на самом деле %{actual}, а не %{shown}. Остальные три верны.",
   "recaps_story_quiz_title_mix": "Что из этого правда?",
   "recaps_story_quiz_title_people": "О ком Вы думали?",
@@ -910,16 +902,7 @@
   "recaps_story_quiz_truths_hint": "Отметьте всё, что правда.",
   "recaps_story_ready": "Можно посмотреть",
   "recaps_story_share": "Поделиться",
-  "recaps_story_share_check_ins": {
-    "one": "1 день с отметкой",
-    "other": "Дней с отметкой: {{count}}"
-  },
-  "recaps_story_share_city": "Впервые в городе %{city}",
   "recaps_story_share_shuffle": "Перемешать фото",
-  "recaps_story_share_tag": {
-    "one": "%{tag}, 1 день",
-    "other": "%{tag}, дней: {{count}}"
-  },
   "recaps_story_share_title": "Мой %{month}",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Дни с каждым тегом, vs %{previous}.",

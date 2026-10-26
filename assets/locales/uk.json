@@ -893,14 +893,6 @@
   "recaps_story_quiz_eyebrow_people": "Ваші люди",
   "recaps_story_quiz_eyebrow_tags": "Ваші звички",
   "recaps_story_quiz_made_up": "Вигадано",
-  "recaps_story_quiz_reveal_people": {
-    "one": "%{name}, 1 день на зв’язку. Далі %{runnerUp}: %{days}.",
-    "other": "%{name}, днів на зв’язку: {{count}}. Далі %{runnerUp}: %{days}."
-  },
-  "recaps_story_quiz_reveal_tags": {
-    "one": "%{name}, 1 день. Далі %{runnerUp}: %{days}.",
-    "other": "%{name}, днів: {{count}}. Далі %{runnerUp}: %{days}."
-  },
   "recaps_story_quiz_reveal_truths": "%{name}: насправді %{actual}, а не %{shown}. Інші три правдиві.",
   "recaps_story_quiz_title_mix": "Що з цього правда?",
   "recaps_story_quiz_title_people": "Про кого Ви думали?",
@@ -910,16 +902,7 @@
   "recaps_story_quiz_truths_hint": "Позначте все, що правда.",
   "recaps_story_ready": "Можна переглянути",
   "recaps_story_share": "Поділитися",
-  "recaps_story_share_check_ins": {
-    "one": "1 день з відміткою",
-    "other": "Днів з відміткою: {{count}}"
-  },
-  "recaps_story_share_city": "Уперше в місті %{city}",
   "recaps_story_share_shuffle": "Перемішати фото",
-  "recaps_story_share_tag": {
-    "one": "%{tag}, 1 день",
-    "other": "%{tag}, днів: {{count}}"
-  },
   "recaps_story_share_title": "Мій %{month}",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Дні з кожним тегом, vs %{previous}.",

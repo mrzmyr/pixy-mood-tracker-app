@@ -18,23 +18,24 @@ const report = (error: StructuredError) => {
 };
 
 /**
- * Captures the share card and opens the share sheet. `onCaptured` runs once
- * the capture settles, `onShared` when the sheet finished without error.
- * Module level: a `try` inside a component stops React Compiler.
+ * Captures the share card and opens the share sheet. `onDone` runs once
+ * everything settled: share sheet closed, or capture or sheet failed.
+ * `onShared` runs when the sheet finished without error. Module level: a
+ * `try` inside a component stops React Compiler.
  */
 export const shareStoryCard = async ({
   view,
   dialogTitle,
-  onCaptured,
+  onDone,
   onShared,
 }: {
   view: View | null;
   dialogTitle: string;
-  onCaptured: () => void;
+  onDone: () => void;
   onShared: () => void;
 }) => {
   if (!view) {
-    onCaptured();
+    onDone();
     report(
       createStructuredError({
         status: "recap_story_share_card_missing",
@@ -49,6 +50,7 @@ export const shareStoryCard = async ({
   try {
     uri = toFileUri(await captureRef(view));
   } catch (cause) {
+    onDone();
     report(
       createStructuredError({
         status: "recap_story_capture_failed",
@@ -58,12 +60,11 @@ export const shareStoryCard = async ({
       })
     );
     return;
-  } finally {
-    onCaptured();
   }
   try {
     await Sharing.shareAsync(uri, { dialogTitle });
   } catch (cause) {
+    onDone();
     report(
       createStructuredError({
         status: "recap_story_share_failed",
@@ -74,5 +75,6 @@ export const shareStoryCard = async ({
     );
     return;
   }
+  onDone();
   onShared();
 };

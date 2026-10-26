@@ -893,14 +893,6 @@
   "recaps_story_quiz_eyebrow_people": "Dina människor",
   "recaps_story_quiz_eyebrow_tags": "Dina vanor",
   "recaps_story_quiz_made_up": "Påhittat",
-  "recaps_story_quiz_reveal_people": {
-    "one": "%{name}, 1 dag i kontakt. Sedan %{runnerUp} med %{days}.",
-    "other": "%{name}, {{count}} dagar i kontakt. Sedan %{runnerUp} med %{days}."
-  },
-  "recaps_story_quiz_reveal_tags": {
-    "one": "%{name}, 1 dag. Sedan %{runnerUp} med %{days}.",
-    "other": "%{name}, {{count}} dagar. Sedan %{runnerUp} med %{days}."
-  },
   "recaps_story_quiz_reveal_truths": "%{name}: egentligen %{actual}, inte %{shown}. De andra tre stämmer.",
   "recaps_story_quiz_title_mix": "Vilka stämmer?",
   "recaps_story_quiz_title_people": "Vem tänkte du på?",
@@ -910,16 +902,7 @@
   "recaps_story_quiz_truths_hint": "Tryck på alla som stämmer.",
   "recaps_story_ready": "Redo att titta",
   "recaps_story_share": "Dela",
-  "recaps_story_share_check_ins": {
-    "one": "1 dag med incheckning",
-    "other": "{{count}} dagar med incheckning"
-  },
-  "recaps_story_share_city": "Första gången i %{city}",
   "recaps_story_share_shuffle": "Blanda foton",
-  "recaps_story_share_tag": {
-    "one": "%{tag}, 1 dag",
-    "other": "%{tag}, {{count}} dagar"
-  },
   "recaps_story_share_title": "Min %{month}",
   "recaps_story_vs_eyebrow": "%{month} mot %{previous}",
   "recaps_story_vs_text": "Dagar med varje tagg, mot %{previous}.",

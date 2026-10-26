@@ -893,14 +893,6 @@
   "recaps_story_quiz_eyebrow_people": "나의 사람들",
   "recaps_story_quiz_eyebrow_tags": "나의 습관",
   "recaps_story_quiz_made_up": "지어낸 것",
-  "recaps_story_quiz_reveal_people": {
-    "one": "%{name}, 연결된 날 1일. 다음은 %{runnerUp}, %{days}일.",
-    "other": "%{name}, 연결된 날 {{count}}일. 다음은 %{runnerUp}, %{days}일."
-  },
-  "recaps_story_quiz_reveal_tags": {
-    "one": "%{name}, 1일. 다음은 %{runnerUp}, %{days}일.",
-    "other": "%{name}, {{count}}일. 다음은 %{runnerUp}, %{days}일."
-  },
   "recaps_story_quiz_reveal_truths": "%{name}: 실제는 %{actual}, 보여준 숫자는 %{shown}. 나머지 셋은 사실이에요.",
   "recaps_story_quiz_title_mix": "어떤 게 사실일까요?",
   "recaps_story_quiz_title_people": "누가 마음에 있었나요?",
@@ -910,16 +902,7 @@
   "recaps_story_quiz_truths_hint": "사실인 것을 모두 탭하세요.",
   "recaps_story_ready": "지금 볼 수 있어요",
   "recaps_story_share": "공유",
-  "recaps_story_share_check_ins": {
-    "one": "기록한 날 1일",
-    "other": "기록한 날 {{count}}일"
-  },
-  "recaps_story_share_city": "%{city} 첫 방문",
   "recaps_story_share_shuffle": "사진 섞기",
-  "recaps_story_share_tag": {
-    "one": "%{tag}, 1일",
-    "other": "%{tag}, {{count}}일"
-  },
   "recaps_story_share_title": "나의 %{month}",
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "태그별 일수, %{previous} 대비.",

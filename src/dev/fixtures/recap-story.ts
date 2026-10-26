@@ -175,3 +175,68 @@ export const withRecapStory = (
     },
   };
 };
+
+const weekRating = (index: number): LogItem["rating"] => {
+  if (index === 3) {
+    return "neutral";
+  }
+  return index % 2 === 1 ? "very_good" : "extremely_good";
+};
+
+const MAX: ExportPerson = {
+  id: "5a0e1c2d-0004-4b3e-9f6e-1a0000000004",
+  name: "Max",
+  avatar: null,
+  createdAt: "2026-01-01T09:00:00.000Z",
+};
+
+/**
+ * Week story data: the 7 days before `today` as a full week story (5 photo
+ * days, Ada on 6 days, Chuky 4, Jen 3, Max 2, Walk, Work, and Reading on
+ * 4+ days), plus 3 quieter weeks before it. Open with
+ * `recaps/story/<first day>?kind=week`.
+ */
+export const withRecapWeekStory = (
+  data: ImportData,
+  today = dayjs()
+): ImportData => {
+  const start = today.subtract(7, "day").startOf("day");
+  const week = Array.from({ length: 7 }, (_, index) => {
+    const date = start.add(index, "day");
+    return entry(date, index, {
+      rating: weekRating(index),
+      tags: [
+        ...(index === 3 ? [] : [{ id: TAGS.walk.id }]),
+        ...(index < 5 ? [{ id: TAGS.work.id }] : []),
+        ...(index % 2 === 0 ? [{ id: TAGS.reading.id }] : []),
+      ],
+      people: [
+        ...(index === 3 ? [] : [{ id: ADA }]),
+        ...(index % 2 === 1 || index === 6 ? [{ id: CHUKY }] : []),
+        ...(index === 0 || index === 4 || index === 6 ? [{ id: JEN }] : []),
+        ...(index === 2 || index === 5 ? [{ id: MAX.id }] : []),
+      ],
+      photos: index === 3 || index === 1 ? [] : [photo(date, index)],
+    });
+  });
+  const earlier = earlierMonth(start.subtract(21, "day"), 10);
+  return {
+    ...data,
+    items: [...earlier, ...week],
+    tags: Object.values(TAGS),
+    people: [...PEOPLE, MAX],
+    settings: {
+      ...data.settings,
+      reminderEnabled: true,
+      steps: [
+        "rating",
+        "emotions",
+        "tags",
+        "people",
+        "sleep",
+        "photos",
+        "message",
+      ],
+    },
+  };
+};

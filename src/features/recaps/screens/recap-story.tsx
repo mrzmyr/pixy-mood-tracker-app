@@ -23,15 +23,17 @@ import type { SlideContext } from "../story/slides";
 import { StoryFeedback } from "../story/story-feedback";
 import { StoryPlayer } from "../story/story-player";
 import type { PlayerSlide } from "../story/story-player";
+import type { StoryTheme } from "../story/theme";
 import type { StoryPhoto, StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
 import { t } from "@/lib/translation";
 import { StoryFinale } from "../story/story-finale";
+import { StoryThanks } from "../story/story-thanks";
+import { getSlideDuration } from "../story/timing";
 import { StoryShareButton } from "../story/story-share-button";
 import { shareStoryCard } from "../story/share-image";
 import { Celebration } from "../story/celebration";
 import type { CelebrationKind, CelebrationOrigin } from "../story/celebration";
-import { useDayColors } from "../story/parts";
 import { QuizContent } from "../story/quiz-content";
 import type { QuizResult } from "../story/quiz-content";
 import type { QuizSlide } from "../story/quiz";
@@ -42,10 +44,56 @@ const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 const isSource = (value: unknown): value is StorySource =>
   SOURCES.some((source) => source === value);
 
+/** Share, Helpful, Not Helpful. Every action pauses the story first. */
+const StoryActions = ({
+  theme,
+  isSharing,
+  isAnswered,
+  pause,
+  onShare,
+  onHelpful,
+  onNotHelpful,
+}: {
+  theme: StoryTheme;
+  isSharing: boolean;
+  isAnswered: boolean;
+  pause: () => void;
+  onShare: () => void;
+  onHelpful: () => void;
+  onNotHelpful: () => void;
+}) => {
+  const paused = (action: () => void) => () => {
+    pause();
+    action();
+  };
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+      pointerEvents="box-none"
+    >
+      <StoryShareButton
+        theme={theme}
+        disabled={isSharing}
+        onPress={paused(onShare)}
+      />
+      <StoryFeedback
+        theme={theme}
+        isAnswered={isAnswered}
+        onHelpful={paused(onHelpful)}
+        onNotHelpful={paused(onNotHelpful)}
+      />
+    </View>
+  );
+};
+
 /** Month story of `date`'s month. Without a story, the month's cards. */
 const RecapStory = () => {
   const colorScheme = useColorScheme();
-  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const { width: windowWidth } = useWindowDimensions();
   const router = useRouter();
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
@@ -84,11 +132,11 @@ const RecapStory = () => {
     origin: CelebrationOrigin;
     id: number;
   } | null>(null);
-  const dayColors = [...new Set(useDayColors(input.days).values())];
   const shareCard = useRef<ViewType>(null);
   const slideView = useRef<ViewType>(null);
   const [shuffles, setShuffles] = useState(0);
-  const [isCapturing, setIsCapturing] = useState(false);
+  // From the Share tap until the share sheet closes.
+  const [isSharing, setIsSharing] = useState(false);
   const lastShown = useRef(0);
 
   const ctx: SlideContext = {
@@ -210,15 +258,15 @@ const RecapStory = () => {
    */
   const share = (index: number) => {
     const slide = story[index];
-    if (isCapturing || !slide) {
+    if (isSharing || !slide) {
       return;
     }
     const isShareCard = slide.type === "share";
-    setIsCapturing(true);
+    setIsSharing(true);
     void shareStoryCard({
       view: isShareCard ? shareCard.current : slideView.current,
       dialogTitle: shareTitle,
-      onCaptured: () => setIsCapturing(false),
+      onDone: () => setIsSharing(false),
       onShared: () =>
         analytics.track("recaps:story_shared", {
           has_photos: isShareCard && slide.photos.length > 0,
@@ -241,12 +289,14 @@ const RecapStory = () => {
         />
       );
     }
+    if (slide.type === "thanks") {
+      return <StoryThanks ctx={ctx} />;
+    }
     if (slide.type === "share") {
       return (
         <StoryFinale
           ctx={ctx}
           photos={pickPhotos(slide.photos)}
-          facts={slide.facts}
           cardRef={shareCard}
           onShuffle={
             slide.photos.length > 3
@@ -262,8 +312,11 @@ const RecapStory = () => {
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getSlideTheme(slide, ctx.isDark),
-    backdrop: <SlideBackdrop slide={slide} />,
+    renderBackdrop: (progress) => (
+      <SlideBackdrop slide={slide} progress={progress} />
+    ),
     isWaiting: slide.type === "quiz" && !quizResults.has(index),
+    durationMs: getSlideDuration(slide),
     content: contentOf(slide, index),
   }));
 
@@ -273,15 +326,15 @@ const RecapStory = () => {
         slides={slides}
         slideRef={slideView}
         onClose={close}
-        isPaused={asking !== null}
+        isPaused={asking !== null || isSharing}
         onSlideShown={(index) => {
           lastShown.current = index;
           const slide = slideOf(index);
-          // The last slide celebrates that the user took the time to look back.
-          if (slide?.type === "share") {
+          // Thanks celebrates that the user took the time to look back.
+          if (slide?.type === "thanks") {
             setCelebration({
-              kind: "burst",
-              origin: { x: windowWidth / 2, y: windowHeight * 0.3 },
+              kind: "wave",
+              origin: { x: windowWidth / 2, y: 0 },
               id: (celebration?.id ?? 0) + 1,
             });
           }
@@ -293,27 +346,16 @@ const RecapStory = () => {
             });
           }
         }}
-        renderBottom={(index, theme) => (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            pointerEvents="box-none"
-          >
-            <StoryShareButton
-              theme={theme}
-              disabled={isCapturing}
-              onPress={() => share(index)}
-            />
-            <StoryFeedback
-              theme={theme}
-              isAnswered={answers.has(index)}
-              onHelpful={() => send(index, true, [], "")}
-              onNotHelpful={() => setAsking(index)}
-            />
-          </View>
+        renderBottom={(index, theme, controls) => (
+          <StoryActions
+            theme={theme}
+            isSharing={isSharing}
+            isAnswered={answers.has(index)}
+            pause={controls.pause}
+            onShare={() => share(index)}
+            onHelpful={() => send(index, true, [], "")}
+            onNotHelpful={() => setAsking(index)}
+          />
         )}
       />
       {celebration && (
@@ -321,7 +363,6 @@ const RecapStory = () => {
           key={celebration.id}
           kind={celebration.kind}
           origin={celebration.origin}
-          colors={dayColors}
         />
       )}
       <FeedbackSheet

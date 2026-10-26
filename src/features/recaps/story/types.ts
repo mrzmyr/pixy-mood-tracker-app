@@ -9,16 +9,20 @@ export interface StoryPhoto {
 }
 
 /**
- * Cover of the month story. `photos`: 7+ photo days, the grid shows them.
- * `photo`: 1 to 6 photo days, one photo fills the screen. `pixels`: no
- * photos, a big check-in count over the grid.
+ * Cover of the story. `photos`: a month with 7+ photo days, the grid shows
+ * them. `photo`: fewer photo days, or any week with photos: up to 5 photos
+ * fill the screen one after another. `pixels`: no photos, a big check-in
+ * count over the grid.
  */
 export interface CoverSlide {
   type: "cover";
   variant: "photos" | "photo" | "pixels";
   /** Days with a check-in. */
   checkIns: number;
-  /** Good days with a photo, for the grid. Empty without photos. */
+  /**
+   * Good days with a photo: every one for the grid, the brightest first for
+   * the full-screen photos. Empty without photos.
+   */
   photos: StoryPhoto[];
 }
 
@@ -109,28 +113,22 @@ export interface ComingUpSlide {
   missed: number;
 }
 
-/** One line of the share card. */
-export type ShareFact =
-  | { kind: "city"; city: string }
-  | {
-      kind: "weekday";
-      tagId: string;
-      weekday: number;
-      hits: number;
-      total: number;
-    }
-  | { kind: "tag"; tagId: string; days: number }
-  | { kind: "check-ins"; days: number };
+/**
+ * Second to last slide: Pixy thanks the user for looking back and says why
+ * it helps. The story screen sends confetti when it shows.
+ */
+export interface ThanksSlide {
+  type: "thanks";
+}
 
 /**
- * Last slide: a card to send to someone close. 3 photos when the month has
- * 3+ bright photo days, else the month grid. `photos` is the shuffle pool,
+ * Last slide: a card to send to someone close, with the period's days and 3
+ * photos when it has 3+ bright photo days. `photos` is the shuffle pool,
  * brightest first.
  */
 export interface ShareSlide {
   type: "share";
   photos: StoryPhoto[];
-  facts: ShareFact[];
 }
 
 /** One page of the month story. Each type has one renderer. */
@@ -147,6 +145,7 @@ export type StorySlide =
   | CameBackSlide
   | ComingUpSlide
   | QuizSlide
+  | ThanksSlide
   | ShareSlide;
 
 /** Key of a slide type. */

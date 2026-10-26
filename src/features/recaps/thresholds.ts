@@ -101,8 +101,10 @@ export const THRESHOLDS = {
   storyBrightMinRating: 4,
   /** Story harder days: rating at most this (bad), as in the day recap. */
   storyHardMaxRating: 2,
-  /** Cover: photo days for the photo grid. Fewer: one photo. */
+  /** Month cover: photo days for the photo grid. Fewer: full-screen photos. */
   storyCoverGridPhotoDays: 7,
+  /** Cover: full-screen photos at most, one after another. */
+  storyCoverMaxPhotos: 5,
   /** Same weekday: tag days on that weekday, at least. */
   weekdayHabitMinHits: 3,
   /** Same weekday: share of that weekday with the tag, at least. */
@@ -137,8 +139,6 @@ export const THRESHOLDS = {
   momentsMinWeeks: 3,
   /** Share card: photos on the card; fewer bright photo days show the grid. */
   sharePhotos: 3,
-  /** Share card: lines at most. */
-  shareMaxFacts: 3,
   /** Quiz: days a person or tag needs to be a statement or tile. */
   quizMinDays: 2,
   /** Mood chart: check-in days needed. */
