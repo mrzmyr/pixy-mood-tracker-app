@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { useMappingHelper } from "@shopify/flash-list";
 import { memo, useCallback, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
+import Animated from "react-native-reanimated";
 import { DATE_FORMAT } from "@/constants/config";
 
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
@@ -11,6 +12,7 @@ import { getAverageMood } from "@/features/logs";
 import CalendarDay from "./calendar-day";
 import { useCalendarNavigation } from "../../navigation";
 import { useSetting } from "@/state/settings";
+import { getPixelIntroStyle, useCalendarIntro } from "../../intro";
 
 dayjs.extend(isSameOrBefore);
 
@@ -23,9 +25,19 @@ const styles = StyleSheet.create({
 
 const CalendarDayContainerComponent = ({
   children,
+  introStyle,
 }: {
   children?: React.ReactNode;
-}) => <View style={styles.dayContainer}>{children}</View>;
+  /** Set only while the calendar intro plays. */
+  introStyle: ReturnType<typeof getPixelIntroStyle>;
+}) =>
+  introStyle ? (
+    <Animated.View style={[styles.dayContainer, introStyle]}>
+      {children}
+    </Animated.View>
+  ) : (
+    <View style={styles.dayContainer}>{children}</View>
+  );
 
 const CalendarDayContainer = memo(CalendarDayContainerComponent);
 
@@ -52,6 +64,7 @@ const CalendarWeekComponent = ({
   const { openDay } = useCalendarNavigation();
   const { data: filters } = useCalendarFilters();
   const scaleType = useSetting("scaleType");
+  const intro = useCalendarIntro();
 
   const days = useMemo(() => {
     const weekDays: string[] = [];
@@ -113,15 +126,24 @@ const CalendarWeekComponent = ({
         marginRight: -4,
       }}
     >
-      {!isLast && emptyDays.map((slot) => <CalendarDayContainer key={slot} />)}
+      {!isLast &&
+        emptyDays.map((slot) => (
+          <CalendarDayContainer key={slot} introStyle={null} />
+        ))}
 
       {daysMap.map((day, index) => (
-        <CalendarDayContainer key={getMappingKey(day.dateString, index)}>
+        <CalendarDayContainer
+          key={getMappingKey(day.dateString, index)}
+          introStyle={getPixelIntroStyle(intro, day.dateString)}
+        >
           {renderDay({ date: day.dateString })}
         </CalendarDayContainer>
       ))}
 
-      {isLast && emptyDays.map((slot) => <CalendarDayContainer key={slot} />)}
+      {isLast &&
+        emptyDays.map((slot) => (
+          <CalendarDayContainer key={slot} introStyle={null} />
+        ))}
     </View>
   );
 };

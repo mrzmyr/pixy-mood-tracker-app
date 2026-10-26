@@ -129,6 +129,25 @@ const getDefaultOptions = (textColor: string, backgroundColor: string) => ({
   headerShadowVisible: Platform.OS !== "web",
 });
 
+/**
+ * Calendar page options. Title stays the iOS back button label; the header
+ * shows none but exposes the screen name to screen readers. Onboarding hands
+ * off to the calendar with a cross-fade.
+ */
+const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
+  title: t("calendar"),
+  animation: "fade" as const,
+  headerTitle: CalendarScreenReaderTitle,
+  headerTintColor: textColor,
+  headerShadowVisible: false,
+  ...(HAS_FLOATING_HEADER
+    ? {
+        headerTransparent: true,
+        scrollEdgeEffects: { top: "soft" as const },
+      }
+    : { headerStyle: { backgroundColor } }),
+});
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
@@ -175,24 +194,7 @@ const AppLayout = () => {
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen
             name="calendar"
-            options={{
-              // Title stays the iOS back button label. The header shows none
-              // but exposes the screen name to screen readers.
-              title: t("calendar"),
-              headerTitle: CalendarScreenReaderTitle,
-              headerTintColor: colors.text,
-              headerShadowVisible: false,
-              ...(HAS_FLOATING_HEADER
-                ? {
-                    headerTransparent: true,
-                    scrollEdgeEffects: { top: "soft" as const },
-                  }
-                : {
-                    headerStyle: {
-                      backgroundColor: colors.calendarBackground,
-                    },
-                  }),
-            }}
+            options={getCalendarOptions(colors.text, colors.calendarBackground)}
           />
           <Stack.Screen
             name="statistics/index"
@@ -216,7 +218,12 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="onboarding"
-            options={{ ...modalOptions, gestureEnabled: false }}
+            // Full page over the app: the sky fills the screen edge to edge.
+            options={{
+              headerShown: false,
+              animation: "fade",
+              gestureEnabled: false,
+            }}
           />
           <Stack.Screen
             name="logs/create/[dateTime]"

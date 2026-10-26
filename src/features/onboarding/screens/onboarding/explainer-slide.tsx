@@ -3,7 +3,6 @@ import Button from "@/components/button";
 import useColors from "@/hooks/use-colors";
 import { HeaderImage } from "./header-image";
 import { HeaderNavigation } from "./header-navigation";
-import Animated, { FadeIn } from "react-native-reanimated";
 import { t, tDynamic } from "@/lib/translation";
 
 const Body = ({ index }: { index: number }) => {
@@ -52,75 +51,62 @@ export const ExplainerSlide = ({
   index: number;
   setIndex: (index: number) => void;
   onSkip: () => void;
-}) => {
-  const colors = useColors();
-
-  return (
-    <>
+}) => (
+  <>
+    <View
+      style={{
+        width: "100%",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        flex: 1,
+      }}
+    >
       <View
         style={{
           width: "100%",
-          backgroundColor: colors.onboardingTopBackground,
-          justifyContent: "flex-end",
           alignItems: "center",
           flex: 1,
         }}
       >
-        <Animated.View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            flex: 1,
-          }}
-          entering={FadeIn.duration(800)}
-        >
-          <HeaderImage
-            index={index}
-            style={
-              index === 3
-                ? {
-                    width: "90%",
-                    maxWidth: 340,
-                    flex: 1,
-                  }
-                : {
-                    width: "90%",
-                    flex: 1,
-                  }
-            }
-          />
-        </Animated.View>
+        <HeaderImage
+          index={index}
+          style={
+            index === 3
+              ? {
+                  width: "90%",
+                  maxWidth: 340,
+                  flex: 1,
+                }
+              : {
+                  width: "90%",
+                  flex: 1,
+                }
+          }
+        />
       </View>
+    </View>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       <View
         style={{
           flex: 1,
         }}
       >
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <HeaderNavigation onSkip={onSkip} index={index} setIndex={setIndex} />
-          <Animated.View
-            style={{
-              flex: 1,
-            }}
-            entering={FadeIn.duration(800)}
-          >
-            <Body index={index} />
-          </Animated.View>
-        </View>
-        <View
-          style={{
-            padding: 32,
-          }}
-        >
-          <Button onPress={() => setIndex(index + 1)}>
-            {t("onboarding_next")}
-          </Button>
-        </View>
+        <HeaderNavigation onSkip={onSkip} index={index} setIndex={setIndex} />
+        <Body index={index} />
       </View>
-    </>
-  );
-};
+      <View
+        style={{
+          padding: 32,
+        }}
+      >
+        <Button onPress={() => setIndex(index + 1)}>
+          {t("onboarding_next")}
+        </Button>
+      </View>
+    </View>
+  </>
+);

@@ -6,6 +6,7 @@ import {
   useCalendarFilters,
   useCalendarFiltersSheet,
   useCalendarLayout,
+  useIsCalendarIntroActive,
 } from "@/features/calendar";
 import { DATE_FORMAT } from "@/constants/config";
 import { ProfileHeaderButton } from "@/features/profile";
@@ -58,6 +59,12 @@ export const CalendarHeaderButtons = () => {
           params: { kind: "week", date: dayjs().format(DATE_FORMAT) },
         })
       : router.navigate("/statistics");
+  // The calendar intro shows the buttons after the pixels.
+  const isIntroActive = useIsCalendarIntroActive();
+
+  if (isIntroActive) {
+    return null;
+  }
 
   return (
     <>

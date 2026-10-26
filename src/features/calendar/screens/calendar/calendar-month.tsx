@@ -6,11 +6,13 @@ import type { Dayjs } from "dayjs";
 import React, { memo } from "react";
 import { useMappingHelper } from "@shopify/flash-list";
 import type { getGeometry } from "./layout";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
+import Animated from "react-native-reanimated";
 import { useStyle } from "react-native-style-utilities";
 import useColors from "@/hooks/use-colors";
 import type { LogItem } from "@/features/logs";
 import CalendarWeek from "./calendar-week";
+import { getChromeIntroStyle, useCalendarIntro } from "../../intro";
 
 const styles = StyleSheet.create({
   textStyles: {
@@ -37,6 +39,7 @@ const CalendarMonthComponent = ({
   geometry: ReturnType<typeof getGeometry>;
 }) => {
   const colors = useColors();
+  const introStyle = getChromeIntroStyle(useCalendarIntro());
   const { getMappingKey } = useMappingHelper();
   const locale = useWeekLocale();
   const date = dayjs(dateString).locale(locale);
@@ -79,9 +82,13 @@ const CalendarMonthComponent = ({
       }}
     >
       <View style={{ height: geometry.titleHeight }}>
-        <Text accessibilityRole="header" numberOfLines={1} style={textStyles}>
+        <Animated.Text
+          accessibilityRole="header"
+          numberOfLines={1}
+          style={[textStyles, introStyle]}
+        >
           {date.format("MMMM YYYY")}
-        </Text>
+        </Animated.Text>
       </View>
       {weekDates.map((week, index) => (
         <CalendarWeek
