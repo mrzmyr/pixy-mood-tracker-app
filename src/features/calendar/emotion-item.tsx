@@ -34,6 +34,7 @@ export const EmotionItem = ({
                 paddingVertical: 8,
                 paddingHorizontal: 16,
                 borderRadius: RADIUS.sm,
+                borderCurve: "continuous",
                 backgroundColor: colors.logCardBackground,
                 borderColor: colors.logCardBorder,
               }),

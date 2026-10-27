@@ -179,6 +179,7 @@ export const ContactImport = () => {
             backgroundColor: colors.textInputBackground,
             padding: 12,
             borderRadius: RADIUS.sm,
+            borderCurve: "continuous",
           }}
           placeholder={t("people_import_search")}
           placeholderTextColor={colors.textInputPlaceholder}

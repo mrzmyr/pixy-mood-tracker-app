@@ -105,6 +105,7 @@ const PhotosArt = () => {
             width: 72,
             height: 72,
             borderRadius: RADIUS.md,
+            borderCurve: "continuous",
             // Card white on the gray media panel, in both modes.
             backgroundColor: colors.cardBackground,
             alignItems: "center",
@@ -209,6 +210,7 @@ export const NudgeCard = ({
             testID={`recap-nudge-turn-on-${card.type}`}
             style={{
               borderRadius: RADIUS.sm,
+              borderCurve: "continuous",
               minHeight: 44,
               paddingVertical: 10,
               paddingHorizontal: 20,

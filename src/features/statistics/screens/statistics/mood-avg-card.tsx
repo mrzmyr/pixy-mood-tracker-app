@@ -29,6 +29,7 @@ export const MoodAvgCard = ({ data }: { data: MoodAvgData }) => {
           marginBottom: 8,
           overflow: "hidden",
           borderRadius: RADIUS.xs,
+          borderCurve: "continuous",
         }}
       >
         {data.distribution.map((item) => (

@@ -93,6 +93,7 @@ export const SlideSleepButton = ({
           borderColor: selected ? colors.tint : idleBorderColor,
           borderWidth: selected ? 2 : 1,
           borderRadius: RADIUS.sm,
+          borderCurve: "continuous",
           // Keeps the content in place when the border grows.
           paddingHorizontal: selected ? 7 : 8,
           paddingVertical: 16,

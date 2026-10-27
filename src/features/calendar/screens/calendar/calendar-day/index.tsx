@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 4,
     borderRadius: RADIUS.sm,
+    borderCurve: "continuous",
     width: "100%",
     aspectRatio: 1,
     // Clips the Android ripple to the rounded day.

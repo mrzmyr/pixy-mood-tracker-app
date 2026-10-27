@@ -58,6 +58,7 @@ export const WorstMonth = ({ date }: { date: Dayjs }) => {
         flex: 1,
         backgroundColor: colors.cardBackground,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         padding: 16,
         marginTop: 16,
         minHeight: 80,

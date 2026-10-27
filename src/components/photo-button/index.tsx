@@ -39,6 +39,7 @@ export const PhotoButton = ({
             minWidth: 200,
             padding: 4,
             borderRadius: RADIUS.md,
+            borderCurve: "continuous",
             backgroundColor: colors.bottomSheetBackground,
           }}
         >

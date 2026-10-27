@@ -21,6 +21,7 @@ const usePillStyle = (): ViewStyle => {
     paddingHorizontal: 12,
     backgroundColor: colors.logHeaderHighlight,
     borderRadius: RADIUS.sm,
+    borderCurve: "continuous",
   };
 };
 

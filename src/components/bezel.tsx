@@ -52,6 +52,7 @@ const Bezel = ({
         style={[
           {
             borderRadius: radius,
+            borderCurve: "continuous",
             borderWidth: BEZEL.borderWidth,
             borderColor: colors.bezelInnerBorder,
             overflow: "hidden",

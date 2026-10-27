@@ -96,6 +96,7 @@ export const PickTile = ({
           width: size,
           height: size,
           borderRadius: RADIUS.md,
+          borderCurve: "continuous",
           overflow: "hidden",
           backgroundColor: colors.backgroundSecondary,
           opacity:
@@ -131,6 +132,7 @@ export const PickTile = ({
               bottom: 0,
               left: 0,
               borderRadius: RADIUS.md,
+              borderCurve: "continuous",
               borderWidth: SELECTED_BORDER,
               borderColor: colors.tint,
             }}
@@ -149,6 +151,7 @@ export const PickTile = ({
               paddingHorizontal: 6,
               paddingVertical: 2,
               borderRadius: RADIUS.sm,
+              borderCurve: "continuous",
               overflow: "hidden",
               backgroundColor: TAG_BACKGROUND,
               color: ON_PHOTO,

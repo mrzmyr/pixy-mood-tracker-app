@@ -112,6 +112,7 @@ const NightsArt = ({
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: RADIUS.sm,
+                  borderCurve: "continuous",
                   borderWidth: 1,
                   borderColor: inRun ? colors.recapCardBorder : "transparent",
                   backgroundColor: inRun ? colors.cardBackground : undefined,

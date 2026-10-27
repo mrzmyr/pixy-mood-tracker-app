@@ -187,6 +187,7 @@ export const VoiceFeedbackSheet = ({
                   gap: 6,
                   paddingVertical: 16,
                   borderRadius: RADIUS.md,
+                  borderCurve: "continuous",
                   borderWidth: 2,
                   borderColor: isSelected
                     ? colors.primaryButtonBackground
@@ -232,6 +233,7 @@ export const VoiceFeedbackSheet = ({
                 marginTop: 8,
                 minHeight: 96,
                 borderRadius: RADIUS.sm,
+                borderCurve: "continuous",
                 paddingHorizontal: 14,
                 paddingVertical: 12,
                 fontSize: 17,

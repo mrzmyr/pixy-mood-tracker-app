@@ -33,6 +33,7 @@ const AnswerSelector = ({
       style={({ pressed }) => ({
         opacity: pressed ? 0.8 : 1,
         borderRadius: RADIUS.sm,
+        borderCurve: "continuous",
         backgroundColor: colors.logActionBackground,
         alignItems: "center",
         justifyContent: "center",

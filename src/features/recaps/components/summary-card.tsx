@@ -333,6 +333,7 @@ const SeeThisDay = ({ date }: { date: string }) => {
       testID={`recap-see-day-${date}`}
       style={{
         borderRadius: RADIUS.sm,
+        borderCurve: "continuous",
         borderWidth: 1,
         borderColor: colors.recapCardBorder,
         backgroundColor: colors.cardBackground,

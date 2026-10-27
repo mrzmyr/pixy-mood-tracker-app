@@ -65,6 +65,7 @@ const TextAreaComponent = (
         height: "100%",
         width: "100%",
         borderRadius: RADIUS.sm,
+        borderCurve: "continuous",
         ...style,
       }}
     />

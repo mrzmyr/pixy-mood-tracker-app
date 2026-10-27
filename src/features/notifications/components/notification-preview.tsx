@@ -45,6 +45,7 @@ const NotificationPreview = ({
           borderWidth: BEZEL_WIDTH,
           borderColor: colors.backgroundSecondary,
           borderRadius: SCREEN_RADIUS + BEZEL_WIDTH,
+          borderCurve: "continuous",
           backgroundColor: colors.menuListItemBackground,
           alignItems: "center",
           paddingTop: 12,
@@ -91,6 +92,7 @@ const NotificationPreview = ({
             marginTop: 12,
             padding: 10,
             borderRadius: 20,
+            borderCurve: "continuous",
             backgroundColor: colors.background,
           }}
         >
@@ -100,6 +102,7 @@ const NotificationPreview = ({
               width: 38,
               height: 38,
               borderRadius: 9,
+              borderCurve: "continuous",
               overflow: "hidden",
             }}
           >

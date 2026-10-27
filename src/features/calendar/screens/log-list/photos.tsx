@@ -94,6 +94,7 @@ export const Photos = ({
             width: THUMBNAIL_SIZE,
             height: THUMBNAIL_SIZE,
             borderRadius: RADIUS.sm,
+            borderCurve: "continuous",
             borderWidth: 1.5,
             borderStyle: "dashed",
             borderColor: colors.logCardBorder,

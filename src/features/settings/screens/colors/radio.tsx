@@ -54,6 +54,7 @@ export const Radio = ({
           backgroundColor: colors.menuListItemBackground,
           padding: 16,
           borderRadius: RADIUS.md,
+          borderCurve: "continuous",
           opacity: getPressableOpacity(isDisabled, pressed),
         },
       ]}

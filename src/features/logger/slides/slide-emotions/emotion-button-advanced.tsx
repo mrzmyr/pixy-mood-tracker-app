@@ -51,6 +51,7 @@ export const EmotionButtonAdvanced = ({
           // backgroundColor: colors.cardBackground,
           backgroundColor: colors.logCardBackground,
           borderRadius: RADIUS.sm,
+          borderCurve: "continuous",
           borderWidth: selected ? 2 : 1,
           borderColor: selected ? colors.tint : unselectedBorderColor,
           flexDirection: "row",

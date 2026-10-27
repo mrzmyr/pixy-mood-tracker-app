@@ -146,6 +146,7 @@ export const PrivacySlide = ({
               marginTop: 16,
               padding: 16,
               borderRadius: RADIUS.md,
+              borderCurve: "continuous",
               borderWidth: 1,
               borderColor: colors.cardBorder,
               backgroundColor: colors.cardBackground,

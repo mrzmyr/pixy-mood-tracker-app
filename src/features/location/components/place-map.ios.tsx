@@ -36,6 +36,7 @@ export const PlaceMap = ({ center, pin, onPick }: PlaceMapProps) => {
       style={{
         height: HEIGHT,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         overflow: "hidden",
         backgroundColor: colors.textInputBackground,
       }}

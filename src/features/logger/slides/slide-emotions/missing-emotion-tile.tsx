@@ -36,6 +36,7 @@ export const MissingEmotionTile = ({
         justifyContent: "center",
         gap: 6,
         borderRadius: RADIUS.sm,
+        borderCurve: "continuous",
         borderWidth: 1.5,
         borderStyle: "dashed",
         borderColor,

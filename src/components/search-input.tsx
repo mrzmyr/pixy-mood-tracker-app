@@ -28,6 +28,7 @@ export const SearchInput = ({
         borderColor: colors.textInputBorder,
         backgroundColor: colors.textInputBackground,
         borderRadius: RADIUS.sm,
+        borderCurve: "continuous",
         padding: 8,
       }}
     >
@@ -51,6 +52,7 @@ export const SearchInput = ({
           fontSize: 17,
           width: "100%",
           borderRadius: RADIUS.sm,
+          borderCurve: "continuous",
         }}
         onChangeText={onChange}
       />

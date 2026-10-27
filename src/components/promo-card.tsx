@@ -45,6 +45,7 @@ export const PromoCard = ({
       style={{
         backgroundColor: colors.promoCardBackground,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         overflow: "hidden",
         paddingVertical: 16,
         paddingHorizontal: 16,

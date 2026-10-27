@@ -35,6 +35,7 @@ export const PeopleList = ({
             marginTop: 16,
             marginHorizontal: 16,
             borderRadius: RADIUS.md,
+            borderCurve: "continuous",
           }}
         >
           <Text style={{ color: colors.text, fontSize: 17 }}>
