@@ -1,4 +1,4 @@
-import { render, waitFor } from "@testing-library/react-native";
+import { act, render, waitFor } from "@testing-library/react-native";
 import { Platform } from "react-native";
 import { SuperwallExpoModule } from "expo-superwall";
 import {
@@ -67,6 +67,16 @@ const Probe = ({ onClient }: { onClient: (client: SupportClient) => void }) => {
   return null;
 };
 
+// Starts support in its own act so the Superwall provider mounts, then
+// waits for the support flow to finish.
+const openSupport = async (client: SupportClient | undefined) => {
+  let opening: Promise<void> | undefined;
+  await act(() => {
+    opening = client?.openSupport();
+  });
+  await act(() => opening);
+};
+
 describe("Superwall support provider", () => {
   const originalIosKey = process.env.EXPO_PUBLIC_SUPERWALL_IOS_API_KEY;
   const originalAndroidKey = process.env.EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY;
@@ -84,7 +94,7 @@ describe("Superwall support provider", () => {
     process.env.EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY = originalAndroidKey;
   });
 
-  test("configures anonymous support with tracking disabled", async () => {
+  test("configures anonymous support only after support opens", async () => {
     let supportClient: SupportClient | undefined;
 
     render(
@@ -104,6 +114,10 @@ describe("Superwall support provider", () => {
 
     expect(SUPPORT_PLACEMENT).toBe("support_pixy");
     await waitFor(() => expect(supportClient?.enabled).toBe(true));
+    expect(mockProviderProps).toBeUndefined();
+
+    await openSupport(supportClient);
+
     await waitFor(() =>
       expect(mockProviderProps).toEqual(
         expect.objectContaining({
@@ -121,9 +135,6 @@ describe("Superwall support provider", () => {
     await waitFor(() =>
       expect(mockSetEventTrackingBehavior).toHaveBeenCalledWith("none")
     );
-
-    await supportClient?.openSupport();
-
     expect(mockRegisterPlacement).toHaveBeenCalledWith({
       placement: SUPPORT_PLACEMENT,
     });
@@ -133,6 +144,8 @@ describe("Superwall support provider", () => {
     const originalPlatform = Platform.OS;
 
     try {
+      let supportClient: SupportClient | undefined;
+
       render(
         <ConfiguredSupportProvider
           apiKeys={{
@@ -140,9 +153,15 @@ describe("Superwall support provider", () => {
             ios: "test_ios_public_key",
           }}
         >
-          {null}
+          <Probe
+            onClient={(client) => {
+              supportClient = client;
+            }}
+          />
         </ConfiguredSupportProvider>
       );
+      await waitFor(() => expect(supportClient?.enabled).toBe(true));
+      await openSupport(supportClient);
 
       await waitFor(() => expect(mockUseSuperwallEvents).toHaveBeenCalled());
       const callbacks = mockUseSuperwallEvents.mock.calls[0]?.[0];
