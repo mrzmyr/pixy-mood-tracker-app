@@ -1169,6 +1169,7 @@
   "voice_paused": "일시정지됨",
   "voice_permission_body": "Pixy가 체크인을 작성하려면 마이크 및 음성 인식 접근 권한이 필요합니다. 음성은 기기에서 처리됩니다. 오디오는 저장되지 않습니다.",
   "voice_permission_title": "마이크 및 음성 허용",
+  "voice_preparing": "준비 중…",
   "voice_resume": "재개",
   "voice_try_again": "다시 시도",
   "vote_features": "투표 기능",

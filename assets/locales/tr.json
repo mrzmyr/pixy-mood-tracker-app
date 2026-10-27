@@ -1169,6 +1169,7 @@
   "voice_paused": "Duraklatıldı",
   "voice_permission_body": "Pixy'nin kaydını yazmak için mikrofon ve konuşma tanıma erişimine ihtiyacı var. Konuşma cihazında işlenir. Ses asla kaydedilmez.",
   "voice_permission_title": "Mikrofona ve konuşmaya izin ver",
+  "voice_preparing": "Hazırlanıyor…",
   "voice_resume": "Devam et",
   "voice_try_again": "Tekrar dene",
   "vote_features": "Oy Özellikleri",

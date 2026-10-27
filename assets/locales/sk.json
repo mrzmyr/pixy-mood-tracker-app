@@ -1169,6 +1169,7 @@
   "voice_paused": "Pozastavené",
   "voice_permission_body": "Pixy potrebuje prístup k mikrofónu a rozpoznávaniu reči, aby mohol napísať tvoj záznam. Reč sa spracúva v tvojom zariadení. Zvuk sa nikdy neukladá.",
   "voice_permission_title": "Povoliť mikrofón a reč",
+  "voice_preparing": "Pripravujem…",
   "voice_resume": "Pokračovať",
   "voice_try_again": "Skúsiť znova",
   "vote_features": "Funkcie hlasovania",

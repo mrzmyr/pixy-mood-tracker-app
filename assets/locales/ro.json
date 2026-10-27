@@ -1169,6 +1169,7 @@
   "voice_paused": "În pauză",
   "voice_permission_body": "Pixy are nevoie de acces la microfon și la recunoașterea vorbirii pentru a scrie înregistrarea ta. Vorbirea este procesată pe dispozitivul tău. Sunetul nu este salvat niciodată.",
   "voice_permission_title": "Permite microfonul și vorbirea",
+  "voice_preparing": "Se pregătește…",
   "voice_resume": "Reia",
   "voice_try_again": "Încearcă din nou",
   "vote_features": "Caracteristici de vot",

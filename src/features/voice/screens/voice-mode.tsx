@@ -31,6 +31,12 @@ import type { VoiceErrorStatus, VoiceStatus } from "../use-voice-transcription";
 
 const CONTROL_SIZE = 56;
 
+const STATUS_LABEL: Partial<Record<VoiceStatus, () => string>> = {
+  preparing: () => t("voice_preparing"),
+  listening: () => t("voice_listening"),
+  paused: () => t("voice_paused"),
+};
+
 // Prefill list each match kind goes to.
 const PREFILL_LIST = {
   person: (prefill: LoggerPrefill) => prefill.people,
@@ -165,6 +171,8 @@ export const VoiceMode = () => {
   };
 
   const isListening = voice.status === "listening";
+  // Pause also cancels setup, so it counts as running.
+  const isRunning = isListening || voice.status === "preparing";
   const isBlocked = voice.status === "denied" || voice.status === "failed";
   const blocked = blockedCopy(voice.status, voice.error?.status);
 
@@ -242,9 +250,9 @@ export const VoiceMode = () => {
           }}
         >
           <View style={{ gap: 4 }}>
-            {(isListening || voice.status === "paused") && (
+            {(isRunning || voice.status === "paused") && (
               <Headline accessibilityRole="header" testID="voice-status">
-                {isListening ? t("voice_listening") : t("voice_paused")}
+                {STATUS_LABEL[voice.status]?.()}
               </Headline>
             )}
             <View
@@ -282,13 +290,11 @@ export const VoiceMode = () => {
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={
-                isListening ? t("voice_pause") : t("voice_resume")
+                isRunning ? t("voice_pause") : t("voice_resume")
               }
               testID="voice-pause"
-              disabled={
-                voice.status !== "listening" && voice.status !== "paused"
-              }
-              onPress={isListening ? voice.pause : voice.resume}
+              disabled={!isRunning && voice.status !== "paused"}
+              onPress={isRunning ? voice.pause : voice.resume}
               style={({ pressed }) => ({
                 width: CONTROL_SIZE,
                 height: CONTROL_SIZE,
@@ -299,7 +305,7 @@ export const VoiceMode = () => {
                 opacity: pressed ? 0.7 : 1,
               })}
             >
-              {isListening ? (
+              {isRunning ? (
                 <Pause
                   width={22}
                   height={22}

@@ -1375,6 +1375,7 @@
   "voice_paused": "Paused",
   "voice_permission_body": "Pixy needs microphone and speech recognition access to write your check-in. Speech is processed on your device. Audio is never saved.",
   "voice_permission_title": "Allow Microphone and Speech",
+  "voice_preparing": "Getting Ready…",
   "voice_resume": "Resume",
   "voice_try_again": "Try Again",
   "vote_features": "Vote Features",

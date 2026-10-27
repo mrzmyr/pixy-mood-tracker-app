@@ -1170,6 +1170,7 @@
   "voice_paused": "En pause",
   "voice_permission_body": "Pixy a besoin d’accéder au micro et à la reconnaissance vocale pour rédiger ton check-in. La parole est traitée sur ton appareil. L’audio n’est jamais enregistré.",
   "voice_permission_title": "Autoriser le micro et la parole",
+  "voice_preparing": "Préparation…",
   "voice_resume": "Reprendre",
   "voice_try_again": "Réessayer",
   "vote_features": "Fonctionnalités de vote",

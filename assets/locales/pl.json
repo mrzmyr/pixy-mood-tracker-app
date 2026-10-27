@@ -1169,6 +1169,7 @@
   "voice_paused": "Wstrzymano",
   "voice_permission_body": "Pixy potrzebuje dostępu do mikrofonu i rozpoznawania mowy, aby napisać Twój wpis. Mowa jest przetwarzana na Twoim urządzeniu. Dźwięk nigdy nie jest zapisywany.",
   "voice_permission_title": "Zezwól na mikrofon i mowę",
+  "voice_preparing": "Przygotowywanie…",
   "voice_resume": "Wznów",
   "voice_try_again": "Spróbuj ponownie",
   "vote_features": "Funkcje głosowania",
