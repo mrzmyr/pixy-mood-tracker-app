@@ -21,7 +21,7 @@ export const TagListContent = ({
   ItemComponent?: React.ComponentType<React.ComponentProps<typeof TagListItem>>;
 }) => {
   const colors = useColors();
-  const message = emptyMessage ?? `${t("tags_empty")}. 👻`;
+  const message = emptyMessage ?? t("tags_empty");
   const router = useRouter();
 
   const onEdit = (tag: Tag) => {
