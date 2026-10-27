@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, View } from "react-native";
+import { useKeepAwake } from "expo-keep-awake";
 import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -79,6 +80,8 @@ export const VoiceMode = () => {
   const cardsRef = useRef<ScrollView>(null);
   // Set when listening starts, in the start effect.
   const startedAt = useRef(0);
+  // Screen lock would cut the recording mid-sentence.
+  useKeepAwake();
 
   const voice = useVoiceTranscription({
     onPermissionDenied: (kind) =>
