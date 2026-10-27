@@ -47,22 +47,12 @@ export const NotEnoughDataOverlay = ({
     >
       <Text
         style={{
-          fontSize: 24,
-          textAlign: "center",
-          paddingHorizontal: 20,
-        }}
-      >
-        🧟‍♀️
-      </Text>
-      <Text
-        style={{
           color: colors.statisticsNotEnoughDataTitle,
           fontSize: 17,
           fontWeight: "bold",
           textAlign: "center",
           paddingHorizontal: 20,
           lineHeight: 20,
-          marginTop: 8,
           marginBottom: 2,
         }}
       >
