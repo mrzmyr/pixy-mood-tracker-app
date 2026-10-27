@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.106.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.106.0...v1.106.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* **ui:** drop emoji from empty states ([#976](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/976)) ([1ea3607](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1ea3607b008971c604c9d14c5d011b6af0217f00))
+* **voice:** keep the screen on during voice mode ([#979](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/979)) ([1565182](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1565182e731193b25f3ed978178ad669ca3435fd))
+* **voice:** make waveform and glow react to normal speech ([#980](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/980)) ([b2b3ded](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b2b3dedf153c1cd90d99edc89723429cdb7fcb0c))
+* **voice:** show setup state and let pause cancel it ([#981](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/981)) ([5d411c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5d411c4a6bea375423d732cadb04a5defc18fb68))
+
 ## [1.106.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.105.1...v1.106.0) (2026-10-26)
 
 
