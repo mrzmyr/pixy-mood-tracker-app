@@ -1169,6 +1169,7 @@
   "voice_paused": "Em pausa",
   "voice_permission_body": "O Pixy precisa de acesso ao microfone e ao reconhecimento de voz para escrever o teu check-in. A voz é processada no teu dispositivo. O áudio nunca é guardado.",
   "voice_permission_title": "Permitir microfone e voz",
+  "voice_preparing": "A preparar…",
   "voice_resume": "Retomar",
   "voice_try_again": "Tentar de novo",
   "vote_features": "Recursos de votação",

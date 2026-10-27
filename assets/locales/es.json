@@ -1169,6 +1169,7 @@
   "voice_paused": "En pausa",
   "voice_permission_body": "Pixy necesita acceso al micrófono y al reconocimiento de voz para escribir tu registro. La voz se procesa en tu dispositivo. El audio nunca se guarda.",
   "voice_permission_title": "Permitir micrófono y voz",
+  "voice_preparing": "Preparando…",
   "voice_resume": "Reanudar",
   "voice_try_again": "Reintentar",
   "vote_features": "Funciones de votación",

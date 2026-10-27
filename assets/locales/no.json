@@ -1169,6 +1169,7 @@
   "voice_paused": "Satt på pause",
   "voice_permission_body": "Pixy trenger tilgang til mikrofon og talegjenkjenning for å skrive innsjekkingen din. Tale behandles på enheten din. Lyd lagres aldri.",
   "voice_permission_title": "Tillat mikrofon og tale",
+  "voice_preparing": "Gjør klar…",
   "voice_resume": "Fortsett",
   "voice_try_again": "Prøv igjen",
   "vote_features": "Stemmefunksjoner",

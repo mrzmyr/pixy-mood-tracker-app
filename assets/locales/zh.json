@@ -1169,6 +1169,7 @@
   "voice_paused": "已暂停",
   "voice_permission_body": "Pixy 需要麦克风和语音识别权限来撰写你的记录。语音在你的设备上处理。音频绝不会被保存。",
   "voice_permission_title": "允许麦克风和语音",
+  "voice_preparing": "正在准备…",
   "voice_resume": "继续",
   "voice_try_again": "重试",
   "vote_features": "投票功能",

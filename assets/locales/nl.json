@@ -1172,6 +1172,7 @@
   "voice_paused": "Gepauzeerd",
   "voice_permission_body": "Pixy heeft toegang tot de microfoon en spraakherkenning nodig om je check-in te schrijven. Spraak wordt op je apparaat verwerkt. Audio wordt nooit bewaard.",
   "voice_permission_title": "Sta microfoon en spraak toe",
+  "voice_preparing": "Voorbereiden…",
   "voice_resume": "Ga verder",
   "voice_try_again": "Probeer opnieuw",
   "vote_features": "Stemfuncties",

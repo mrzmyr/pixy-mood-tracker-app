@@ -1169,6 +1169,7 @@
   "voice_paused": "מושהה",
   "voice_permission_body": "Pixy צריך גישה למיקרופון ולזיהוי דיבור כדי לכתוב את הרישום שלך. הדיבור מעובד במכשיר שלך. האודיו אף פעם לא נשמר.",
   "voice_permission_title": "התרת מיקרופון ודיבור",
+  "voice_preparing": "מתכונן…",
   "voice_resume": "המשך",
   "voice_try_again": "ניסיון חוזר",
   "vote_features": "תכונות הצבעה",

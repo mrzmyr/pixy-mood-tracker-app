@@ -1234,6 +1234,7 @@
   "voice_paused": "Pausiert",
   "voice_permission_body": "Pixy braucht Zugriff auf Mikrofon und Spracherkennung, um deinen Check-in zu schreiben. Die Sprache wird auf deinem Gerät verarbeitet. Audio wird nie gespeichert.",
   "voice_permission_title": "Mikrofon und Sprache erlauben",
+  "voice_preparing": "Wird vorbereitet…",
   "voice_resume": "Fortsetzen",
   "voice_try_again": "Erneut versuchen",
   "vote_features": "Features abstimmen",

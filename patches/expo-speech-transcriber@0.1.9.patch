@@ -1,6 +1,9 @@
 diff --git a/node_modules/expo-speech-transcriber/.bun-tag-36e3a87a5d079281 b/.bun-tag-36e3a87a5d079281
 new file mode 100644
 index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/expo-speech-transcriber/.bun-tag-4f883e5ad551a336 b/.bun-tag-4f883e5ad551a336
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/node_modules/expo-speech-transcriber/.bun-tag-601bb8b6d7e303fd b/.bun-tag-601bb8b6d7e303fd
 new file mode 100644
 index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
@@ -145,7 +148,7 @@ index 3f06123dc313287da6eafb4271dd576809a8bd2a..2a15ad623f277f6b49be07155ac6e972
          const interval = setInterval(() => {
              const newIsRecording = ExpoSpeechTranscriberModule.isRecording();
 diff --git a/ios/ExpoSpeechTranscriberModule.swift b/ios/ExpoSpeechTranscriberModule.swift
-index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..105260174268a1ee1a667c31b71c59d4a50d73d1 100644
+index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..e323851187131abcc247c466332c79a5f1f69983 100644
 --- a/ios/ExpoSpeechTranscriberModule.swift
 +++ b/ios/ExpoSpeechTranscriberModule.swift
 @@ -9,15 +9,17 @@ public class ExpoSpeechTranscriberModule: Module {
@@ -253,7 +256,7 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..105260174268a1ee1a667c31b71c59d4
          }
          
          audioEngine.prepare()
-@@ -170,40 +228,55 @@ public class ExpoSpeechTranscriberModule: Module {
+@@ -170,40 +228,56 @@ public class ExpoSpeechTranscriberModule: Module {
              try audioEngine.start()
              startedListening = true
          } catch {
@@ -310,6 +313,7 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..105260174268a1ee1a667c31b71c59d4
      private func stopListening() {
 -        audioEngine.stop()
 +        if #available(iOS 26.0, *), let analyzer = liveAnalyzer as? LiveAnalyzer {
++            analyzer.invalidate()
 +            Task { await analyzer.stop() }
 +        }
 +        if audioEngine.isRunning {
@@ -330,10 +334,10 @@ index e333bc56a7e3de1e25b44eb078b2d0298fbe66b5..105260174268a1ee1a667c31b71c59d4
      
 diff --git a/node_modules/expo-speech-transcriber/ios/LiveAnalyzer.swift b/ios/LiveAnalyzer.swift
 new file mode 100644
-index 0000000000000000000000000000000000000000..2ea22febae898c2472102a538c998dbce7e11045
+index 0000000000000000000000000000000000000000..46d691dc81bf7607b81dc29de2514e610b75ac76
 --- /dev/null
 +++ b/ios/LiveAnalyzer.swift
-@@ -0,0 +1,150 @@
+@@ -0,0 +1,167 @@
 +import AVFoundation
 +import Foundation
 +import Speech
@@ -352,6 +356,9 @@ index 0000000000000000000000000000000000000000..2ea22febae898c2472102a538c998dbc
 +  private var inputContinuation: AsyncStream<AnalyzerInput>.Continuation?
 +  private var resultsTask: Task<Void, Never>?
 +  private var isRunning = false
++  // Bumped by each start and by invalidate. A start that waited on a model
++  // download while a newer start or a stop ran must not turn on the mic.
++  private var generation = 0
 +
 +  static var isSupported: Bool { SpeechTranscriber.isAvailable }
 +
@@ -362,11 +369,16 @@ index 0000000000000000000000000000000000000000..2ea22febae898c2472102a538c998dbc
 +    onError: @escaping ErrorHandler
 +  ) async {
 +    await stop()
++    generation += 1
++    let current = generation
++    let isCurrent = { [weak self] in self?.generation == current }
 +    let requested = localeIdentifier.map { Locale(identifier: $0) } ?? Locale.current
 +    guard let locale = await SpeechTranscriber.supportedLocale(equivalentTo: requested) else {
++      guard isCurrent() else { return }
 +      onError("SpeechTranscriber has no model for locale \(requested.identifier)", "recognizer_unavailable")
 +      return
 +    }
++    guard isCurrent() else { return }
 +    let transcriber = SpeechTranscriber(
 +      locale: locale,
 +      transcriptionOptions: [],
@@ -380,6 +392,7 @@ index 0000000000000000000000000000000000000000..2ea22febae898c2472102a538c998dbc
 +        try await request.downloadAndInstall()
 +      }
 +    } catch {
++      guard isCurrent() else { return }
 +      onError("Speech model download failed: \(error.localizedDescription) locale=\(locale.identifier)", "on_device_unavailable")
 +      return
 +    }
@@ -387,6 +400,7 @@ index 0000000000000000000000000000000000000000..2ea22febae898c2472102a538c998dbc
 +      onError("No audio format for SpeechTranscriber", "transcription_failed")
 +      return
 +    }
++    guard isCurrent() else { return }
 +
 +    do {
 +      let session = AVAudioSession.sharedInstance()
@@ -455,13 +469,20 @@ index 0000000000000000000000000000000000000000..2ea22febae898c2472102a538c998dbc
 +      // Loads the model before audio flows, so the first words are not delayed.
 +      try await analyzer.prepareToAnalyze(in: analyzerFormat)
 +      try await analyzer.start(inputSequence: stream)
++      guard isCurrent() else { return }
 +      engine.prepare()
 +      try engine.start()
 +      isRunning = true
 +    } catch {
++      guard isCurrent() else { return }
 +      onError("\(error.localizedDescription) locale=\(locale.identifier)", "transcription_failed")
 +      await stop()
 +    }
++  }
++
++  /// Makes a start still in setup give up before it turns on the mic.
++  func invalidate() {
++    generation += 1
 +  }
 +
 +  func stop() async {

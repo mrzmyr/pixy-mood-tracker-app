@@ -1169,6 +1169,7 @@
   "voice_paused": "Keskeytetty",
   "voice_permission_body": "Pixy tarvitsee mikrofonin ja puheentunnistuksen käyttöoikeuden kirjauksesi kirjoittamiseen. Puhe käsitellään laitteellasi. Ääntä ei koskaan tallenneta.",
   "voice_permission_title": "Salli mikrofoni ja puhe",
+  "voice_preparing": "Valmistellaan…",
   "voice_resume": "Jatka",
   "voice_try_again": "Yritä uudelleen",
   "vote_features": "Äänestysominaisuudet",

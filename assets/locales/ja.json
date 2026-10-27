@@ -1169,6 +1169,7 @@
   "voice_paused": "一時停止中",
   "voice_permission_body": "チェックインを書くために、Pixyにはマイクと音声認識へのアクセスが必要です。音声はデバイス上で処理されます。音声データは保存されません。",
   "voice_permission_title": "マイクと音声認識を許可",
+  "voice_preparing": "準備中…",
   "voice_resume": "再開",
   "voice_try_again": "もう一度試す",
   "vote_features": "投票機能",

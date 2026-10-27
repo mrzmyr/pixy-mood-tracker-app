@@ -1169,6 +1169,7 @@
   "voice_paused": "Đã tạm dừng",
   "voice_permission_body": "Pixy cần quyền truy cập micrô và nhận dạng giọng nói để viết lần ghi của bạn. Giọng nói được xử lý trên thiết bị của bạn. Âm thanh không bao giờ được lưu.",
   "voice_permission_title": "Cho phép micrô và giọng nói",
+  "voice_preparing": "Đang chuẩn bị…",
   "voice_resume": "Tiếp tục",
   "voice_try_again": "Thử lại",
   "vote_features": "Tính năng bình chọn",
