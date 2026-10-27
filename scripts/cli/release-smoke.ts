@@ -306,7 +306,8 @@ const smokeIos = async (profile: ReleaseProfile) => {
     const exported = await exportBundle(profile, workDir);
     const patched = patchApp(build.file, exported, workDir);
     step("Install");
-    const device = await ensureDevice("ios");
+    // Stock simulator: missing daemons must not change the verdict.
+    const device = await ensureDevice("ios", { slim: false });
     uninstall(device, patched.bundleId);
     installFile(device, patched.app, "preview");
     try {
