@@ -8,7 +8,7 @@ import type { SharedValue } from "react-native-reanimated";
 import Svg, { Defs, Ellipse, RadialGradient, Stop } from "react-native-svg";
 
 /**
- * Soft color glow behind voice mode. Grows a little with the input level.
+ * Soft color glow behind voice mode. Grows and brightens with the input level.
  * Reduced motion: static.
  */
 export const VoiceBlob = ({
@@ -25,8 +25,8 @@ export const VoiceBlob = ({
   const style = useAnimatedStyle(() => {
     const value = isReducedMotion ? 0 : level.get();
     return {
-      opacity: interpolate(value, [0, 1], [0.55, 0.9]),
-      transform: [{ scale: interpolate(value, [0, 1], [1, 1.12]) }],
+      opacity: interpolate(value, [0, 1], [0.5, 1]),
+      transform: [{ scale: interpolate(value, [0, 1], [1, 1.3]) }],
     };
   });
 
