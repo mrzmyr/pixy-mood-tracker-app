@@ -37,6 +37,16 @@ export type VoiceErrorStatus =
   | "voice_siri_disabled"
   | "voice_transcription_failed";
 
+// Native level is linear over -50..0 dB (iOS) or -2..10 dB (Android). Speech
+// near the mic sits in the lower half, so room noise maps to 0 and normal
+// speech fills most of the range.
+const LEVEL_FLOOR = 0.15;
+const LEVEL_CEILING = 0.6;
+const toDisplayLevel = (raw: number) => {
+  const value = (raw - LEVEL_FLOOR) / (LEVEL_CEILING - LEVEL_FLOOR);
+  return Math.sqrt(Math.min(1, Math.max(0, value)));
+};
+
 // Maps native error codes of the patched library.
 const toErrorStatus = (code: string | undefined): VoiceErrorStatus => {
   switch (code) {
@@ -181,11 +191,12 @@ export const useVoiceTranscription = ({
         }
       }
     );
-    const levels = speech.addListener("onAudioLevel", ({ level: next }) => {
+    const levels = speech.addListener("onAudioLevel", ({ level: raw }) => {
       // The first level means the microphone runs.
       if (statusRef.current === "preparing") {
         setStatusBoth("listening");
       }
+      const next = toDisplayLevel(raw);
       latestLevel.current = next;
       level.set(withTiming(next, { duration: 80 }));
     });
