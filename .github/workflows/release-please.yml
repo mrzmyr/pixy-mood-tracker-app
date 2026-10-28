@@ -2,12 +2,33 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform to rebuild and auto-submit (after credential changes such as HealthKit)
+        type: choice
+        options:
+          - ios
+          - android
+          - both
+        default: ios
+
+
+
+
+
+
+
+
+
+
 name: release-please
 
 permissions: {}
 
 jobs:
   release-please:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -28,9 +49,31 @@ jobs:
   store-release:
     name: Build and submit ${{ matrix.platform }}
     needs: release-please
-    if: needs.release-please.outputs.release_created == 'true'
+    # Push: only when release-please cut a release. Dispatch: manual rebuild (e.g. after HealthKit profile sync).
+    if: |
+      always() && (
+        (github.event_name == 'push' && needs.release-please.result == 'success' && needs.release-please.outputs.release_created == 'true')
+        || (
+          github.event_name == 'workflow_dispatch' && (
+            github.event.inputs.platform == 'both'
+            || github.event.inputs.platform == matrix.platform
+          )
+        )
+      )
+
+
+
+
+
+
+
+
+
+
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Wait for EAS so a failed build fails CI instead of going green on queue.
+    timeout-minutes: 90
+
     strategy:
       fail-fast: false
       matrix:
@@ -45,7 +88,9 @@ jobs:
       - name: Checkout released commit
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ needs.release-please.outputs.release_sha }}
+          # On release: the tag commit. On dispatch: the commit this workflow ran against.
+          ref: ${{ needs.release-please.outputs.release_sha || github.sha }}
+
           persist-credentials: false
 
       - name: Set up Node.js
@@ -71,5 +116,7 @@ jobs:
         env:
           EXPO_PUBLIC_APP_VARIANT: production
           PLATFORM: ${{ matrix.platform }}
+        # No --freeze-credentials: EAS must refresh the App Store profile when entitlements change (e.g. HealthKit).
+        # No --no-wait: job fails if the EAS build or auto-submit fails.
         run: >-
-          eas build --platform "$PLATFORM" --profile production --auto-submit --non-interactive --no-wait --freeze-credentials
+          eas build --platform "$PLATFORM" --profile production --auto-submit --non-interactive
