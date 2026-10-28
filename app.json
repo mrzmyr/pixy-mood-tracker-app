@@ -189,6 +189,14 @@
               "foregroundImage": "./assets/images/app-icons/tangerine-inverse-foreground.png",
               "backgroundColor": "#FFFFFF"
             }
+          },
+          {
+            "name": "Sky",
+            "ios": "./assets/images/app-icons/sky.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sky-foreground.png",
+              "backgroundImage": "./assets/images/app-icons/sky-background.png"
+            }
           }
         ]
       ],

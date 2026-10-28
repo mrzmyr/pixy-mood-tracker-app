@@ -13,6 +13,8 @@
   "afternoon": "После полудня",
   "app_error_retry": "Повторить",
   "app_error_title": "Что-то пошло не так",
+  "app_icon_sky": "Небо",
+  "app_icon_sky_description": "Белые точки на облачном небе",
   "app_is_open_source": "Пикси с открытым исходным кодом",
   "app_lock": "Блокировка приложения",
   "app_lock_code_copied": "Код скопирован",

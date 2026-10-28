@@ -13,6 +13,8 @@
   "afternoon": "Iltapäivällä",
   "app_error_retry": "Yritä uudelleen",
   "app_error_title": "Jokin meni pieleen",
+  "app_icon_sky": "Taivas",
+  "app_icon_sky_description": "Valkoiset pisteet pilvisellä taivaalla",
   "app_is_open_source": "Pixy on avoin lähdekoodi",
   "app_lock": "Sovelluslukitus",
   "app_lock_code_copied": "Koodi kopioitu",

@@ -13,6 +13,8 @@
   "afternoon": "Öğleden sonra",
   "app_error_retry": "Tekrar dene",
   "app_error_title": "Bir şeyler ters gitti",
+  "app_icon_sky": "Gökyüzü",
+  "app_icon_sky_description": "Bulutlu gökyüzünde beyaz noktalar",
   "app_is_open_source": "Pixy açık kaynaktır",
   "app_lock": "Uygulama Kilidi",
   "app_lock_code_copied": "Kod Kopyalandı",

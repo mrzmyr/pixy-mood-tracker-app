@@ -13,6 +13,8 @@
   "afternoon": "Nachmittag",
   "app_error_retry": "Erneut versuchen",
   "app_error_title": "Etwas ist schiefgelaufen",
+  "app_icon_sky": "Himmel",
+  "app_icon_sky_description": "Weiße Punkte auf bewölktem Himmel",
   "app_is_open_source": "Pixy ist Open-Source",
   "app_lock": "App-Sperre",
   "app_lock_code_copied": "Code kopiert",

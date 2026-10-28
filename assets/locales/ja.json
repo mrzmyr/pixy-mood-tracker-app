@@ -13,6 +13,8 @@
   "afternoon": "午後",
   "app_error_retry": "もう一度試す",
   "app_error_title": "問題が発生しました",
+  "app_icon_sky": "空",
+  "app_icon_sky_description": "曇り空に白いドット",
   "app_is_open_source": "ピクシーはオープンソースです",
   "app_lock": "アプリロック",
   "app_lock_code_copied": "コードをコピーしました",

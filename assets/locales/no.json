@@ -13,6 +13,8 @@
   "afternoon": "Ettermiddag",
   "app_error_retry": "Prøv igjen",
   "app_error_title": "Noe gikk galt",
+  "app_icon_sky": "Himmel",
+  "app_icon_sky_description": "Hvite prikker på skyet himmel",
   "app_is_open_source": "Pixy er åpen kildekode",
   "app_lock": "Applås",
   "app_lock_code_copied": "Koden er kopiert",

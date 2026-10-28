@@ -13,6 +13,8 @@
   "afternoon": "오후",
   "app_error_retry": "다시 시도",
   "app_error_title": "문제가 발생했습니다",
+  "app_icon_sky": "하늘",
+  "app_icon_sky_description": "구름 낀 하늘 위 흰 점",
   "app_is_open_source": "Pixy는 오픈 소스입니다.",
   "app_lock": "앱 잠금",
   "app_lock_code_copied": "코드를 복사했습니다",
