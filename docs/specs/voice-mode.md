@@ -19,6 +19,7 @@ Speak about your day. Pixy transcribes on device, finds known people, tags, and 
 - Rating is never inferred from tone. Only a spoken mood trigger word sets it ([Mood triggers](#mood-triggers)). User reviews it on the rating slide
 - Transcript goes into the entry note, editable
 - Check button opens the normal logger at the rating slide, prefilled. Never saves directly
+- Quick check-in: mic button right of search opens voice mode with `returnTo`. Check goes back to quick check-in and adds the values ([`applyVoicePrefill`](../../src/features/quickcheckin/draft.ts)). Transcript goes into the quick check-in note. No feedback sheet
 - Empty transcript: check button disabled. No matches: logger opens with note only
 - Permission denied: explanation plus "Open Settings" button
 - Pause stops listening. Resume appends new text to the transcript

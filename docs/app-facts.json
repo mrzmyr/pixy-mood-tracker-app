@@ -422,7 +422,7 @@
       "label": "Quick check-in",
       "status": "flagged",
       "group": "platforms",
-      "description": "A Live Activity on the iOS 26 Lock Screen or an Android notification, started from Settings for testing, asks for mood, an emotion, and people or tags in a few taps. More opens a one-page check-in with search. Behind the quick-check-in feature flag.",
+      "description": "A Live Activity on the iOS 26 Lock Screen or an Android notification, started from Settings for testing, asks for mood, an emotion, and people or tags in a few taps. More opens a one-page check-in with search, a note, and voice input. Behind the quick-check-in feature flag.",
       "evidence": [
         "src/features/quickcheckin",
         "modules/pixy-mood-tracker-quick-check-in",
