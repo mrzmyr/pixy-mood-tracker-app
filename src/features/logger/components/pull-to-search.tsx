@@ -128,6 +128,7 @@ export const PullToSearch = ({
             height: INPUT_HEIGHT,
             backgroundColor: colors.textInputBackground,
             borderRadius: RADIUS.sm,
+            borderCurve: "continuous",
             paddingHorizontal: 10,
           }}
         >

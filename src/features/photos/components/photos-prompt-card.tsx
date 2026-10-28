@@ -42,6 +42,7 @@ export const PhotosPromptCard = ({
         gap: 8,
         padding: 16,
         borderRadius: RADIUS.lg,
+        borderCurve: "continuous",
         borderWidth: 1,
         borderColor: colors.cardBorder,
         backgroundColor: colors.cardBackground,
@@ -65,6 +66,7 @@ export const PhotosPromptCard = ({
                 flex: 1,
                 aspectRatio: 1,
                 borderRadius: RADIUS.md,
+                borderCurve: "continuous",
                 backgroundColor: colors.backgroundSecondary,
               }}
             />

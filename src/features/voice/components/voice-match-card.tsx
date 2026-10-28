@@ -83,6 +83,7 @@ const Card = ({
         paddingHorizontal: 16,
         paddingVertical: 12,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         backgroundColor: colors.cardBackground,
         borderWidth: 1,
         borderColor: colors.cardBorder,

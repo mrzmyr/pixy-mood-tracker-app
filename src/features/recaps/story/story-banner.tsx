@@ -58,6 +58,7 @@ export const StoryBanner = ({
         padding: 16,
         gap: 16,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         borderWidth: 1,
         borderColor: colors.recapCardBorder,
         backgroundColor: colors.cardBackground,

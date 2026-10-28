@@ -183,6 +183,7 @@ const SheetContent = ({
           style={{
             marginTop: 4,
             borderRadius: RADIUS.sm,
+            borderCurve: "continuous",
             paddingHorizontal: 14,
             paddingVertical: 12,
             fontSize: 17,

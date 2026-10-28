@@ -222,6 +222,7 @@ export const Entry = ({
     <View
       style={{
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         borderWidth: 1,
         borderColor: colors.logCardBorder,
         backgroundColor: colors.logCardBackground,

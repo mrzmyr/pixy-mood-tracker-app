@@ -30,6 +30,7 @@ export const EmptyPlaceholder = ({ count }: { count: number }) => {
           borderStyle: "dashed",
           padding: 16,
           borderRadius: RADIUS.md,
+          borderCurve: "continuous",
           minHeight: 120,
           marginTop: 16,
         }}

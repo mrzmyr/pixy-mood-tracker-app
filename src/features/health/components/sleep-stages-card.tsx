@@ -60,6 +60,7 @@ export const SleepStagesCard = ({ sleep }: { sleep: HealthSleep }) => {
       style={{
         backgroundColor: colors.cardBackground,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         paddingHorizontal: 14,
         paddingVertical: 12,
       }}

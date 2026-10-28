@@ -61,6 +61,7 @@ const MenuList = ({
         {
           backgroundColor: colors.menuListItemBackground,
           borderRadius: RADIUS.md,
+          borderCurve: "continuous",
           overflow: "hidden",
         },
         style,

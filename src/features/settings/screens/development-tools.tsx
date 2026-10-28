@@ -37,6 +37,7 @@ const Card = ({
       style={{
         backgroundColor: colors.cardBackground,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         padding: 16,
         flex: 1,
         height: "100%",

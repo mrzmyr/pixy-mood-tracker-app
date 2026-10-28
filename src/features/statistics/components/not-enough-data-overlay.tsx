@@ -42,6 +42,7 @@ export const NotEnoughDataOverlay = ({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         zIndex: 999,
       }}
     >

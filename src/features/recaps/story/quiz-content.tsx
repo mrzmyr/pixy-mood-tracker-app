@@ -90,6 +90,7 @@ const QuizCard = ({
         minHeight: 124,
         padding: 14,
         borderRadius: 18,
+        borderCurve: "continuous",
         borderWidth: 2,
         borderColor: colors.border,
         backgroundColor: colors.background,

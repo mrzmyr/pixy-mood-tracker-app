@@ -121,6 +121,7 @@ export const RowChip = ({
         paddingHorizontal: 8,
         paddingVertical: 2,
         borderRadius: RADIUS.sm,
+        borderCurve: "continuous",
         backgroundColor: colors.recapMutedBackground,
       }}
     >

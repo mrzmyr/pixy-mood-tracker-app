@@ -25,6 +25,7 @@ export const RatingDot = ({
         alignItems: "center",
         padding: 4,
         borderRadius: RADIUS.sm,
+        borderCurve: "continuous",
         backgroundColor,
         width: size,
         aspectRatio: 1,

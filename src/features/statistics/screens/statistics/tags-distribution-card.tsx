@@ -53,6 +53,7 @@ export const TagDistributionContent = ({
                 height: 32,
                 width: `${getBarFraction(tag.count, max) * 100}%` as const,
                 borderRadius: RADIUS.xs,
+                borderCurve: "continuous",
                 position: "absolute",
               }}
             />

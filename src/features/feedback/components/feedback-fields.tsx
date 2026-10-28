@@ -66,6 +66,7 @@ export const FeedbackFields = ({
           marginTop: 8,
           backgroundColor: colors.textInputBackground,
           borderRadius: RADIUS.sm,
+          borderCurve: "continuous",
           padding: 16,
           color: colors.text,
           fontSize: 17,

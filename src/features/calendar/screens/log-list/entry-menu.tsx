@@ -49,6 +49,7 @@ export const EntryMenu = ({
             minWidth: 140,
             padding: 4,
             borderRadius: 12,
+            borderCurve: "continuous",
             backgroundColor: colors.bottomSheetBackground,
           }}
         >

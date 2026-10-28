@@ -532,6 +532,7 @@ const HardPattern = ({
                 minHeight: 84,
                 padding: 10,
                 borderRadius: 14,
+                borderCurve: "continuous",
                 backgroundColor: palette.surface,
               }}
             >
@@ -668,6 +669,7 @@ const VsLast = ({ slide, ctx }: { slide: VsLastSlide; ctx: SlideContext }) => {
                 paddingHorizontal: 14,
                 paddingVertical: 12,
                 borderRadius: RADIUS.md,
+                borderCurve: "continuous",
                 backgroundColor: STORY_PALETTE.night.surface,
               }}
             >
@@ -862,6 +864,7 @@ const Moments = ({
                 width: tile,
                 height: tile,
                 borderRadius: RADIUS.md,
+                borderCurve: "continuous",
                 overflow: "hidden",
                 backgroundColor: STORY_PALETTE.night.surface,
               }}

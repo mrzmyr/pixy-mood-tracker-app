@@ -43,6 +43,7 @@ export const PromptView = ({
         style={{
           backgroundColor: colors.logCardBackground,
           borderRadius: RADIUS.md,
+          borderCurve: "continuous",
           padding: 14,
           gap: 4,
         }}

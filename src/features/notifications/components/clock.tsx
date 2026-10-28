@@ -18,6 +18,7 @@ const Clock = ({ timeDate }: ClockProps & { style?: ViewStyle }) => {
         alignItems: "center",
         backgroundColor: colors.backgroundSecondary,
         borderRadius: RADIUS.sm,
+        borderCurve: "continuous",
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 5,

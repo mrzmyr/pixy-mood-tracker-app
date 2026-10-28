@@ -71,6 +71,7 @@ const Container = ({
         width: "100%",
         backgroundColor: colors.cardBackground,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         paddingHorizontal: 20,
         paddingVertical: 16,
         marginTop: 16,
@@ -298,6 +299,7 @@ export const BigCard = ({
             <View
               style={{
                 borderRadius: RADIUS.sm,
+                borderCurve: "continuous",
                 backgroundColor: colors.sharingLogoBackground,
                 marginRight: 8,
                 padding: 2,

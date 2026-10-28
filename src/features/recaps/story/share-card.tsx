@@ -99,6 +99,7 @@ export const ShareCard = ({
         style={{
           backgroundColor: card,
           borderRadius: 28,
+          borderCurve: "continuous",
           padding: PADDING,
           gap: 20,
           borderWidth: 1,

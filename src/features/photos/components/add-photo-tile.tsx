@@ -36,6 +36,7 @@ export const AddPhotoTile = ({
         height: size,
         aspectRatio: 1,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         borderWidth: 1.5,
         borderStyle: "dashed",
         borderColor: colors.textSecondary,

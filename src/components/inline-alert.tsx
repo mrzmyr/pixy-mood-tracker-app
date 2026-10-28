@@ -68,6 +68,7 @@ export const InlineAlert = ({
           paddingVertical: 12,
           paddingHorizontal: 14,
           borderRadius: RADIUS.md,
+          borderCurve: "continuous",
           backgroundColor: background,
         },
         style,

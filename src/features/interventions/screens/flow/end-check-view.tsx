@@ -86,6 +86,7 @@ export const EndCheckView = ({
                 flex: 1,
                 height: 96,
                 borderRadius: RADIUS.md,
+                borderCurve: "continuous",
                 backgroundColor: isSelected
                   ? colors.text
                   : colors.logCardBackground,

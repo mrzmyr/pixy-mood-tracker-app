@@ -106,6 +106,7 @@ export const SupportCard = () => {
         marginBottom: 20,
         padding: 20,
         borderRadius: RADIUS.lg,
+        borderCurve: "continuous",
         backgroundColor: cardColor,
       }}
     >
@@ -153,6 +154,7 @@ export const SupportCard = () => {
           paddingHorizontal: 16,
           paddingVertical: 14,
           borderRadius: RADIUS.md,
+          borderCurve: "continuous",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: contentColor,

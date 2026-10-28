@@ -9,6 +9,7 @@ export const ColorDot = ({ color }: { color: string }) => (
       backgroundColor: color,
       flex: 1,
       borderRadius: RADIUS.xs,
+      borderCurve: "continuous",
       width: "100%",
       aspectRatio: 1,
       margin: 4,

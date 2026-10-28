@@ -59,6 +59,7 @@ export const PhotoLimitNotice = ({
         paddingRight: 4,
         paddingVertical: 4,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         backgroundColor: BACKGROUND,
       }}
     >

@@ -33,6 +33,7 @@ export const PlacePreview = ({
         width: "100%",
         aspectRatio,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         overflow: "hidden",
         backgroundColor: colors.backgroundSecondary,
       }}

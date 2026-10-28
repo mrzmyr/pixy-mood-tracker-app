@@ -51,6 +51,7 @@ export const EntryTimeMenu = ({
             minWidth: 220,
             padding: 4,
             borderRadius: RADIUS.md,
+            borderCurve: "continuous",
             backgroundColor: colors.bottomSheetBackground,
           }}
         >
