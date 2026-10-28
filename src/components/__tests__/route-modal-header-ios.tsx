@@ -24,11 +24,7 @@ const Form = () => {
         title="Create Tag"
         onClose={() => router.back()}
         closeTestID="tag-cancel"
-        action={
-          <Pressable testID="tag-save" onPress={onSave}>
-            <Text>Save</Text>
-          </Pressable>
-        }
+        confirm={{ label: "Save", onPress: onSave, testID: "tag-save" }}
       />
       <Text>Form body</Text>
     </>

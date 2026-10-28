@@ -42,18 +42,10 @@ export const NotEnoughDataOverlay = ({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         zIndex: 999,
       }}
     >
-      <Text
-        style={{
-          fontSize: 24,
-          textAlign: "center",
-          paddingHorizontal: 20,
-        }}
-      >
-        🧟‍♀️
-      </Text>
       <Text
         style={{
           color: colors.statisticsNotEnoughDataTitle,
@@ -62,7 +54,6 @@ export const NotEnoughDataOverlay = ({
           textAlign: "center",
           paddingHorizontal: 20,
           lineHeight: 20,
-          marginTop: 8,
           marginBottom: 2,
         }}
       >

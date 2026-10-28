@@ -51,6 +51,7 @@ export const EmotionButtonAdvanced = ({
           // backgroundColor: colors.cardBackground,
           backgroundColor: colors.logCardBackground,
           borderRadius: RADIUS.sm,
+          borderCurve: "continuous",
           borderWidth: selected ? 2 : 1,
           borderColor: selected ? colors.tint : unselectedBorderColor,
           flexDirection: "row",
@@ -76,14 +77,3 @@ export const EmotionButtonAdvanced = ({
     </RectButton>
   );
 };
-
-/** Blank cell that fills an odd last row in an emotion page. */
-export const EmotionButtonEmpty = () => (
-  <View
-    style={{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  />
-);

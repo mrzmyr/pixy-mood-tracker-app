@@ -29,6 +29,7 @@ export const StatsCard = ({
       style={{
         backgroundColor: colors.cardBackground,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         padding: 16,
         ...style,
       }}

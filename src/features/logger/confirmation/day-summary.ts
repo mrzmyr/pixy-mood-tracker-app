@@ -38,6 +38,21 @@ export const getEmotionTone = (key: string): MoodTone => {
   return emotion ? EMOTION_TONES[emotion.category] : "neutral";
 };
 
+/**
+ * Tone of the day: the rating's tone, but a good rating with more bad than
+ * good emotions stays calm instead of celebrating. Hard days stay hard.
+ */
+const getDayTone = (
+  rating: LogItem["rating"],
+  emotions: string[]
+): MoodTone => {
+  const tone = getMoodTone(rating);
+  const tones = emotions.map(getEmotionTone);
+  const count = (value: MoodTone) =>
+    tones.filter((candidate) => candidate === value).length;
+  return tone === "good" && count("bad") > count("good") ? "neutral" : tone;
+};
+
 /** Emotions named in the sentence; the rest collapse into "N more". */
 export const SUMMARY_EMOTIONS_MAX = 3;
 
@@ -81,14 +96,15 @@ export const getDaySummary = ({
   const dayItems = [item, ...others];
   const otherDays = items.filter((entry) => entry.id !== item.id).length;
   const rating = getAverageMood(dayItems) ?? item.rating;
+  const emotions = unique(dayItems.flatMap((entry) => entry.emotions));
 
   return {
     date,
     rating,
-    tone: getMoodTone(rating),
+    tone: getDayTone(rating, emotions),
     entriesCount: dayItems.length,
     isFirstEntry: otherDays === 0,
-    emotions: unique(dayItems.flatMap((entry) => entry.emotions)),
+    emotions,
     tagIds: unique(
       dayItems.flatMap((entry) => entry.tags.map((tag) => tag.id))
     ),

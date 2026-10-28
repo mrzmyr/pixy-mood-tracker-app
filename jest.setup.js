@@ -17,6 +17,7 @@ jest.mock("posthog-react-native", () => {
   };
 
   return {
+    PostHog: jest.fn(() => client),
     PostHogProvider: ({ children }) => children,
     usePostHog: () => client,
   };
@@ -51,11 +52,11 @@ jest.mock("react-native-sortables", () => {
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load animated UI during provider tests; native worklets are unavailable in Jest.
 jest.mock("react-native-reanimated", () => {
-  const { ScrollView, View } = require("react-native");
+  const { ScrollView, Text, View } = require("react-native");
   const animation = { duration: () => animation, delay: () => animation };
   return {
     __esModule: true,
-    default: { ScrollView, View },
+    default: { ScrollView, Text, View },
     useAnimatedRef: () => ({ current: null }),
     createAnimatedComponent: (component) => component,
     css: { create: (styles) => styles },
@@ -77,7 +78,13 @@ jest.mock("react-native-reanimated", () => {
     },
     Extrapolation: { CLAMP: "clamp" },
     ReduceMotion: { System: "system", Always: "always", Never: "never" },
-    Easing: { cubic: (t) => t, quad: (t) => t, in: (f) => f, inOut: (f) => f },
+    Easing: {
+      cubic: (t) => t,
+      quad: (t) => t,
+      in: (f) => f,
+      out: (f) => f,
+      inOut: (f) => f,
+    },
     cancelAnimation: jest.fn(),
     interpolate: () => 0,
     useReducedMotion: () => false,
@@ -92,9 +99,15 @@ jest.mock("react-native-reanimated", () => {
       state: { get: () => 4 },
     }),
     useAnimatedReaction: jest.fn(),
+    useFrameCallback: () => ({
+      setActive: jest.fn(),
+      isActive: false,
+      callbackId: -1,
+    }),
     withSpring: (value) => value,
     withTiming: (value) => value,
     withDelay: (_delay, value) => value,
+    withSequence: (...values) => values.at(-1),
   };
 });
 

@@ -1,7 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
-import { act, renderHook, userEvent } from "@testing-library/react-native";
+import {
+  act,
+  renderHook,
+  userEvent,
+  waitFor,
+} from "@testing-library/react-native";
 import { Alert } from "react-native";
 import Colors from "@/constants/colors";
 import { INITIAL_STATE } from "@/constants/settings";
@@ -10,7 +15,11 @@ import { SettingsScreen } from "@/features/settings/routes";
 import Providers from "@/shell/providers";
 import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/feature-flags";
-import { SettingsProvider, STORAGE_KEY } from "@/state/settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettingsLoad,
+} from "@/state/settings";
 import { useFeedbackForm } from "../hooks/use-feedback-form";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
@@ -158,6 +167,41 @@ describe("Feedback form", () => {
     expect(result.current.isSending).toBe(false);
     // Success shows a toast, not an alert.
     expect(Alert.alert).not.toHaveBeenCalled();
+  });
+
+  test("feedback carries the feedback id, never the install id", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        deviceId: "install-id",
+        feedbackId: "feedback-id",
+      })
+    );
+    const { result } = await renderHook(
+      () => ({ form: useFeedbackForm("idea"), load: useSettingsLoad() }),
+      {
+        wrapper: ({ children }) => (
+          <SettingsProvider>
+            <AnalyticsProvider>{children}</AnalyticsProvider>
+          </SettingsProvider>
+        ),
+      }
+    );
+    await waitFor(() => {
+      expect(result.current.load.status).toBe("ready");
+    });
+
+    await act(() => result.current.form.handleMessageChange("Calendar export"));
+    await act(async () => {
+      expect(await result.current.form.send()).toBe(true);
+    });
+
+    const [[, request]] = jest.mocked(global.fetch).mock.calls;
+    const body = String(request?.body);
+    // The server reads the id from `deviceId`.
+    expect(JSON.parse(body)).toMatchObject({ deviceId: "feedback-id" });
+    expect(body).not.toContain("install-id");
   });
 
   test("user keeps the draft when sending fails", async () => {

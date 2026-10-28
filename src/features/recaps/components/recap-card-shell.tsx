@@ -46,6 +46,7 @@ export const RecapCardShell = ({
       testID={`recap-card-${type}`}
       style={{
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
         borderWidth: 1,
         borderColor: colors.recapCardBorder,
         backgroundColor: colors.cardBackground,

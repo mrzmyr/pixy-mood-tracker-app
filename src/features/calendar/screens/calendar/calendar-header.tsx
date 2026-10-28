@@ -4,8 +4,10 @@ import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Animated from "react-native-reanimated";
 import useColors from "@/hooks/use-colors";
 import { SHADOW } from "@/constants/shadow";
+import { getChromeIntroStyle, useCalendarIntro } from "../../intro";
 
 // Height of the fade below the floating weekday row.
 const FADE_HEIGHT = 24;
@@ -43,16 +45,20 @@ const HeaderDay = ({
 
 const WeekdayRow = () => {
   const locale = useWeekLocale();
+  const introStyle = getChromeIntroStyle(useCalendarIntro());
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-around",
-        marginLeft: -3,
-        marginRight: -3,
-        paddingTop: 8,
-        paddingBottom: 8,
-      }}
+    <Animated.View
+      style={[
+        {
+          flexDirection: "row",
+          justifyContent: "space-around",
+          marginLeft: -3,
+          marginRight: -3,
+          paddingTop: 8,
+          paddingBottom: 8,
+        },
+        introStyle,
+      ]}
     >
       {[0, 1, 2, 3, 4, 5, 6].map((index) => (
         <HeaderDay key={index} index={index}>
@@ -63,7 +69,7 @@ const WeekdayRow = () => {
             .format("ddd")}
         </HeaderDay>
       ))}
-    </View>
+    </Animated.View>
   );
 };
 

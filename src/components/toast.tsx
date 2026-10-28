@@ -104,11 +104,13 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
                     paddingVertical: 8,
                     paddingHorizontal: 16,
                     borderRadius: RADIUS.xs,
+                    borderCurve: "continuous",
                     backgroundColor: colors.snackbarBackground,
                     boxShadow: SHADOW.snackbar,
                   }
                 : {
                     borderRadius: RADIUS.md,
+                    borderCurve: "continuous",
                     borderWidth: 1,
                     borderColor: colors.cardBorder,
                     backgroundColor: colors.cardBackground,

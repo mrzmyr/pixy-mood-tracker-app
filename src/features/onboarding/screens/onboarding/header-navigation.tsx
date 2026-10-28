@@ -23,8 +23,6 @@ export const HeaderNavigation = ({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 32,
-        borderBottomColor: colors.onboardingBottomBorder,
-        borderBottomWidth: 1,
       }}
     >
       <Pressable

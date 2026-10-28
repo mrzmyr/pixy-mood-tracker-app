@@ -18,10 +18,16 @@ import { useToday } from "@/hooks/use-today";
 import CalendarMonth from "./calendar-month";
 import { getGeometry, getMonths } from "./layout";
 import type { Month } from "./layout";
+import {
+  getIntroOrigin,
+  isCalendarIntroHidden,
+  playCalendarIntro,
+} from "../../intro";
 
 import { getItemDate } from "@/lib/log-dates";
 
 const positionConfig = { startRenderingFromBottom: true };
+const INTRO_MEASURE_DELAY_MS = 100;
 const getKey = (item: Month) => item.date;
 const getType = (item: Month) => item.weeks;
 
@@ -98,7 +104,36 @@ const CalendarComponent = ({
   }, []);
   const onLoad = useCallback(() => {
     isLoaded.current = true;
-  }, []);
+    if (!isCalendarIntroHidden()) {
+      return;
+    }
+    // The intro starts at the top row on screen. The list settles its
+    // bottom anchor after the footer lays out, so measure a bit later.
+    setTimeout(() => {
+      const list = listRef.current;
+      const index = list?.getFirstVisibleIndex() ?? -1;
+      const layout = index >= 0 ? list?.getLayout(index) : undefined;
+      const month = months[index];
+      const offset = list?.getAbsoluteLastScrollOffset() ?? 0;
+      const lastDate = dayjs(currentMonth).endOf("month").format(DATE_FORMAT);
+      playCalendarIntro({
+        origin:
+          layout && month
+            ? getIntroOrigin({
+                monthDate: month.date,
+                weeks: month.weeks,
+                // Layout positions skip the list's top padding. Rows
+                // behind a floating header count as on screen.
+                hiddenHeight: offset - topInset - layout.y,
+                titleHeight: geometry.titleHeight,
+                weekHeight: geometry.weekHeight,
+                locale,
+              })
+            : currentMonth,
+        lastDate,
+      });
+    }, INTRO_MEASURE_DELAY_MS);
+  }, [listRef, months, currentMonth, topInset, geometry, locale]);
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     setWidth(event.nativeEvent.layout.width);
   }, []);

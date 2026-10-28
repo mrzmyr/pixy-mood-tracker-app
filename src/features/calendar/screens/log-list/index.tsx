@@ -21,7 +21,7 @@ import { Entry } from "./entry";
 import { Header } from "./header";
 import { INSET } from "./layout";
 import { getItemDate, getItemTime } from "@/lib/log-dates";
-import { HAS_FLOATING_HEADER } from "../../floating-header";
+import { HAS_FLOATING_HEADER } from "@/constants/floating-header";
 
 // Same spot as the calendar float button: 20 from the right and from the
 // bottom safe area.

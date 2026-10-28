@@ -56,7 +56,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Settings > Development > Feature flags > Highlight flagged features outlines every `<FlagHighlight>` with its key. Same access as overrides. Ends when the app restarts
 - Each key needs a boolean flag with the same key in the PostHog project of every variant
 - New key in `keys.ts`: create the PostHog flag in the same task. Do not ask first
-  - Create it in all 3 app projects: Production `7630`, Preview `14574`, Development `628970`
+  - Create it in all 3 EU app projects: Production `321829`, Preview `321849`, Development `321850`
   - Development and Preview: disabled
   - Production: disabled, or release condition limited to internal testers. Never roll out to users without request
   - Run `switch-project` before each create. The MCP keeps the last active project
@@ -233,6 +233,9 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 ### Parallel runs
 
 - Each worktree gets one iPhone 17 Pro simulator named `pixy-mood-tracker-<hash>`. The CLI boots it with `simctl`.
+- Optional: `brew install mobai-app/tap/simslim`. The CLI then boots the simulator slim with [`simslim.json`](../scripts/cli/simslim.json): background daemons Pixy does not use stay off, about 1.9 GB instead of 4.6 GB per simulator.
+- Slim keeps widgets, HealthKit, contacts, and the photo picker. Off: Siri and speech, iCloud, StoreKit, remote push. For voice, iCloud backup, or store review work, run with `SIMSLIM=0`. It reboots the simulator stock.
+- `bun release smoke` always uses a stock simulator.
 - Two worktrees can build, install, open, and run iOS e2e flows at the same time. Device claims keep their sessions separate.
 - Each checkout's Metro runs on its own port (8082-8181, from the checkout hash). 8081 stays free for a manual `bun start`.
 - Android uses one `pixy-mood-tracker` AVD per machine. Android runs serialize through device claims.

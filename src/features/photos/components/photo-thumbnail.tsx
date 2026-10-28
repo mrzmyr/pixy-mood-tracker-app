@@ -62,6 +62,7 @@ export const PhotoThumbnail = ({
         style={{
           flex: 1,
           borderRadius: RADIUS.md,
+          borderCurve: "continuous",
           overflow: "hidden",
           backgroundColor: colors.backgroundSecondary,
         }}

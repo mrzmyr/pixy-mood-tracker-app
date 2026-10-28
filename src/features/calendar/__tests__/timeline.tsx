@@ -107,7 +107,6 @@ describe("useCalendarLayout", () => {
         scaleType: settings.scaleType,
         reminderEnabled: settings.reminderEnabled,
         reminderTime: settings.reminderTime,
-        analyticsEnabled: settings.analyticsEnabled,
         actionsDone: settings.actionsDone,
         steps: settings.steps,
       })

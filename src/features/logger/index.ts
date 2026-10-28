@@ -1,4 +1,5 @@
 export { EMOTIONS } from "./config";
+export { Pixy } from "./confirmation/pixy";
 export { EmotionIndicator } from "./slides/slide-emotions/emotions-indicator";
 export {
   SleepQualityMeter,
@@ -9,6 +10,6 @@ export {
   hasMenstruationOnDate,
   hasSleepOnDate,
 } from "./steps";
-export { encodeLoggerPrefill } from "./prefill";
+export { encodeLoggerPrefill, parseLoggerPrefill } from "./prefill";
 export type { LoggerPrefill } from "./prefill";
 export { LoggerRecoveryPrompt } from "./recovery/recovery-prompt";

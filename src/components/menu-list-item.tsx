@@ -101,12 +101,60 @@ const getAccessibilityState = (isAndroid: boolean, checked?: boolean) => {
   return isAndroid ? { checked } : { selected: checked };
 };
 
+/**
+ * Role of a row. `destructive` removes or resets: danger color, centered with
+ * no icon on iOS (native delete row), left with its icon on Android. `action`
+ * starts something instead of opening or toggling: tint color.
+ */
+export type MenuListItemTone = "default" | "destructive" | "action";
+
+const getToneStyle = ({
+  tone,
+  colors,
+  isAndroid,
+  iconLeft,
+}: {
+  tone: MenuListItemTone;
+  colors: ReturnType<typeof useColors>;
+  isAndroid: boolean;
+  iconLeft: React.ReactElement | null;
+}) => {
+  // iOS delete rows are centered and show no icon.
+  const isCentered = tone === "destructive" && !isAndroid;
+  return {
+    color: {
+      default: colors.menuListItemText,
+      destructive: colors.danger,
+      action: colors.tint,
+    }[tone],
+    isCentered,
+    leftIcon: isCentered ? null : iconLeft,
+  };
+};
+
+const getFrameStyle = ({
+  frame,
+  borderTopColor,
+  deactivated,
+}: {
+  frame: ViewStyle;
+  borderTopColor: string;
+  deactivated?: boolean;
+}): ViewStyle => ({
+  ...frame,
+  borderTopColor,
+  opacity: deactivated ? 0.5 : 1,
+  justifyContent: "center",
+  alignItems: "center",
+});
+
 const MenuListItem = ({
   title,
   onPress = null,
   iconLeft = null,
   iconRight = null,
   isLink,
+  tone = "default",
   deactivated,
   style = DEFAULT_STYLE,
   children,
@@ -121,6 +169,7 @@ const MenuListItem = ({
   iconRight?: React.ReactElement | null;
   children?: React.ReactNode;
   isLink?: boolean | null;
+  tone?: MenuListItemTone;
   deactivated?: boolean;
   style?: ViewStyle & TextStyle;
   testID?: string;
@@ -138,6 +187,11 @@ const MenuListItem = ({
   const isAndroid = Platform.OS === "android";
   const platform = isAndroid ? ANDROID : IOS;
   const rowStyle = getRowStyle(platform, style.flexDirection);
+  const {
+    color: titleColor,
+    isCentered,
+    leftIcon,
+  } = getToneStyle({ tone, colors, isAndroid, iconLeft });
 
   const rightIcon = getRightIcon({
     showChevron: Boolean(isLink) && !isAndroid,
@@ -153,13 +207,11 @@ const MenuListItem = ({
 
   return (
     <View
-      style={{
-        ...platform.frame,
+      style={getFrameStyle({
+        frame: platform.frame,
         borderTopColor: dividerColor ?? colors.menuListItemBorder,
-        opacity: deactivated ? 0.5 : 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+        deactivated,
+      })}
     >
       <Pressable
         onPress={onPress ? _onPress : undefined}
@@ -187,7 +239,7 @@ const MenuListItem = ({
         accessibilityValue={accessibilityValue}
         testID={testID}
       >
-        {(iconLeft || title) && (
+        {(leftIcon || title) && (
           <View
             style={{
               flex: 1,
@@ -197,7 +249,7 @@ const MenuListItem = ({
               gap: platform.iconGap,
             }}
           >
-            {iconLeft && <View style={platform.icon}>{iconLeft}</View>}
+            {leftIcon && <View style={platform.icon}>{leftIcon}</View>}
             {titleText === undefined ? (
               <View style={{ flex: 1, minWidth: 0 }}>{title}</View>
             ) : (
@@ -206,7 +258,8 @@ const MenuListItem = ({
                   flex: 1,
                   minWidth: 0,
                   fontSize: platform.titleSize,
-                  color: style.color || colors.menuListItemText,
+                  color: titleColor,
+                  textAlign: isCentered ? "center" : undefined,
                 }}
                 numberOfLines={1}
               >

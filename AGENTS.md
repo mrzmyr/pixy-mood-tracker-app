@@ -49,7 +49,8 @@
 ## Tools
 
 - Posthog for product analytics (MCP installed)
-  - Project IDs: App Production `7630`, App Preview `14574`, App Development `628970`, Website `12793`
+  - EU Cloud (`eu.posthog.com`). Project IDs: App Production `321829`, App Preview `321849`, App Development `321850`, Website `321851`
+  - US Cloud projects `7630`, `14574`, `628970`, `12793` only receive data from app versions before the EU switch
   - MCP keeps the last active project, often not the one you need. Run `switch-project` first
 - CodeRabbit for PR reviews (MCP installed)
 - Sentry for error logging (MCP installed)
@@ -60,7 +61,7 @@
 - Record mistakes in [MISTAKES.md](MISTAKES.md), missing capabilities in [DESIRES.md](DESIRES.md), and environment discoveries in [LEARNINGS.md](LEARNINGS.md)
 - Public repo: entries contain no private names, internal context, or user data
 - Never use Expo Device Hub (`bun hub`) as an agent. Humans: never press Shut down or Remove in it ([Device Hub](docs/development.md#device-hub)).
-- Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Fixed values are fine: rating, emotion keys, sleep quality, intervention cluster, feedback answer. Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
+- Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Never send health values either: rating, emotion keys, sleep quality, Apple Health data, intervention cluster, feedback answer, mood-derived counts. Send `has_*` booleans and counts. A PostHog transformation also drops them server-side ([TELEMETRY.md](TELEMETRY.md#server-side-filter)). Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
 - Call EAS Observe only through [`src/lib/observe.ts`](src/lib/observe.ts): `configureObserve` for config, `logObserveEvent` for events. Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others. Same free-text ban as PostHog.
 - Report caught errors only through `reportError` ([`src/lib/report-error.ts`](src/lib/report-error.ts)). It takes a `StructuredError`, sends it to Sentry, and sends Observe only `status` and `message`. `pixy-standards/no-direct-error-reporting` blocks direct SDK calls.
 

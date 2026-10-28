@@ -15,8 +15,12 @@ import type { FeedackType, FeedbackSource } from "@/types/feedback";
 export type { FeedackType, FeedbackSource } from "@/types/feedback";
 
 /**
- * Send feedback with device metadata (locale, app version, OS, device id)
+ * Send feedback with device metadata (locale, app version, OS, feedback id)
  * to {@link FEEDBACK_URL}.
+ *
+ * The body carries the feedback id, never the analytics install id, so
+ * feedback cannot be joined to analytics. The key stays `deviceId`: the
+ * server reads that field.
  *
  * Without `onOk`, success plays a haptic and shows a toast. Without
  * `onCancel`, failure shows an error alert.
@@ -25,7 +29,7 @@ export type { FeedackType, FeedbackSource } from "@/types/feedback";
  * accepted the feedback.
  */
 export const useFeedback = () => {
-  const deviceId = useSetting("deviceId");
+  const feedbackId = useSetting("feedbackId");
   const analytics = useAnalytics();
   const haptics = useHaptics();
 
@@ -50,7 +54,7 @@ export const useFeedback = () => {
       os: Platform.OS,
       date: new Date().toISOString(),
       source,
-      deviceId,
+      deviceId: feedbackId,
       environment: HAS_APP_VARIANT ? APP_VARIANT : undefined,
     };
 

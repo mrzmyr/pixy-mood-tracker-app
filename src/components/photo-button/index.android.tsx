@@ -10,6 +10,7 @@ import { useState } from "react";
 import useColors from "@/hooks/use-colors";
 import { Trigger } from "./trigger";
 import type { PhotoButtonProps } from "./types";
+import { MATERIAL_SEED_COLOR } from "@/constants/colors";
 
 /**
  * Photo button on Android: Material 3 tonal button. With a photo it anchors
@@ -34,7 +35,7 @@ export const PhotoButton = ({
   }
 
   return (
-    <Host matchContents>
+    <Host matchContents seedColor={MATERIAL_SEED_COLOR}>
       <DropdownMenu
         expanded={expanded}
         onDismissRequest={() => setExpanded(false)}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Platform } from "react-native";
 import {
   SuperwallExpoModule,
@@ -72,9 +72,9 @@ const SuperwallConsumableEvents = () => {
 };
 
 const SuperwallSupportBridge = ({
-  children,
+  onReady,
 }: {
-  children: React.ReactNode;
+  onReady: (client: SupportClient) => void;
 }) => {
   const analytics = useAnalytics();
   const isConfigured = useSuperwall((state) => state.isConfigured);
@@ -139,19 +139,22 @@ const SuperwallSupportBridge = ({
     [isConfigured, registerPlacement]
   );
 
-  return (
-    <SupportProvider client={client}>
-      <SuperwallConsumableEvents />
-      {children}
-    </SupportProvider>
-  );
+  useEffect(() => {
+    // oxlint-disable-next-line react-doctor/no-pass-data-to-parent -- `onReady` stores the client in refs only, so the parent never re-renders.
+    onReady(client);
+  }, [client, onReady]);
+
+  return <SuperwallConsumableEvents />;
 };
 
 /**
  * Superwall-backed support provider for iOS and Android.
  *
  * Falls back to the disabled client when no API key exists for the
- * platform. Must render inside the analytics provider: Superwall event
+ * platform. Superwall configures on the first `openSupport` call, so it
+ * makes no network request before the user opens support. The provider
+ * mounts next to `children`, never around them, so starting it keeps the
+ * app tree mounted. Must render inside the analytics provider: Superwall event
  * tracking is off unless the user enabled analytics. On Android, completed
  * support purchases are consumed so the same amount can be bought again.
  */
@@ -163,6 +166,32 @@ export const ConfiguredSupportProvider = ({
   apiKeys?: { android?: string; ios?: string };
 }) => {
   const analytics = useAnalytics();
+  const [isStarted, setIsStarted] = useState(false);
+  const superwallClientRef = useRef<SupportClient | null>(null);
+  const superwallWaitersRef = useRef<(() => void)[]>([]);
+  const handleSuperwallReady = useCallback((client: SupportClient) => {
+    superwallClientRef.current = client;
+    for (const resolve of superwallWaitersRef.current.splice(0)) {
+      resolve();
+    }
+  }, []);
+  const client = useMemo<SupportClient>(
+    () => ({
+      enabled: true,
+      openSupport: async () => {
+        if (!superwallClientRef.current) {
+          setIsStarted(true);
+          // oxlint-disable-next-line promise/avoid-new -- the Superwall bridge reports its mount only through `onReady`, so a Promise adapter is required
+          await new Promise<void>((resolve) => {
+            superwallWaitersRef.current.push(resolve);
+          });
+        }
+
+        await superwallClientRef.current?.openSupport();
+      },
+    }),
+    []
+  );
   const apiKeys = configuredApiKeys ?? {
     android: process.env.EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY,
     ios: process.env.EXPO_PUBLIC_SUPERWALL_IOS_API_KEY,
@@ -182,27 +211,34 @@ export const ConfiguredSupportProvider = ({
   }
 
   return (
-    <SuperwallProvider
-      apiKeys={apiKeys}
-      options={{
-        eventTrackingBehavior: analytics.isEnabled ? "superwallOnly" : "none",
-        paywalls: {
-          automaticallyDismiss: true,
-          shouldShowPurchaseFailureAlert: true,
-        },
-        shouldObservePurchases: false,
-        testModeBehavior: __DEV__ ? "automatic" : "never",
-      }}
-      onConfigurationError={() => {
-        logSupportError({
-          status: "support_configuration_failed",
-          message: "Support could not start",
-          why: "Superwall configuration failed for this platform.",
-          fix: "Restart Pixy and try again later.",
-        });
-      }}
-    >
-      <SuperwallSupportBridge>{children}</SuperwallSupportBridge>
-    </SuperwallProvider>
+    <SupportProvider client={client}>
+      {children}
+      {isStarted && (
+        <SuperwallProvider
+          apiKeys={apiKeys}
+          options={{
+            eventTrackingBehavior: analytics.isEnabled
+              ? "superwallOnly"
+              : "none",
+            paywalls: {
+              automaticallyDismiss: true,
+              shouldShowPurchaseFailureAlert: true,
+            },
+            shouldObservePurchases: false,
+            testModeBehavior: __DEV__ ? "automatic" : "never",
+          }}
+          onConfigurationError={() => {
+            logSupportError({
+              status: "support_configuration_failed",
+              message: "Support could not start",
+              why: "Superwall configuration failed for this platform.",
+              fix: "Restart Pixy and try again later.",
+            });
+          }}
+        >
+          <SuperwallSupportBridge onReady={handleSuperwallReady} />
+        </SuperwallProvider>
+      )}
+    </SupportProvider>
   );
 };

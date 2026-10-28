@@ -159,6 +159,7 @@ const PeriodCalendar = ({
                     alignItems: "center",
                     justifyContent: "center",
                     borderRadius: RADIUS.sm,
+                    borderCurve: "continuous",
                     backgroundColor:
                       colorsOfDay?.background ??
                       (hasEntry ? colors.recapMutedBackground : "transparent"),

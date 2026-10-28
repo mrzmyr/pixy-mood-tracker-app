@@ -23,14 +23,14 @@ interface SleepDraft {
 const SKIPPED_SLEEP: SleepDraft = { quality: null };
 
 /**
- * New entry at `now` with no note, photos, or sleep. The notification and the
+ * New entry at `now` with no photos or sleep. The notification and the
  * quick check-in screen create entries only through here.
  */
 export const createQuickEntry = (
   id: string,
   now: dayjs.Dayjs,
   fields: Pick<LogItem, "rating"> &
-    Partial<Pick<LogItem, "emotions" | "people" | "tags">>
+    Partial<Pick<LogItem, "emotions" | "people" | "tags" | "message">>
 ): LogItem => {
   const dateTime = now.toISOString();
   return {

@@ -27,6 +27,7 @@ export const TagLimitNotice = ({ tags }: { tags: readonly Tag[] }) => {
         backgroundColor: colors.cardBackground,
         padding: 16,
         borderRadius: RADIUS.md,
+        borderCurve: "continuous",
       }}
     >
       <Text style={{ color: colors.text, fontSize: 15 }}>

@@ -2,8 +2,7 @@ import type { FeedackType, FeedbackSource } from "@/types/feedback";
 import type { LoggerStep } from "@/constants/logger-steps";
 import type { AppIconId } from "@/constants/app-icons";
 import type { CalendarLayout, SettingsState } from "@/state/settings";
-import type { z } from "zod";
-import type { LogItemSchema, PhotoSourceKind } from "@/types";
+import type { PhotoSourceKind } from "@/types";
 
 interface LoggerRecoveryProperties {
   mode: "create" | "edit";
@@ -22,7 +21,10 @@ export type StorySource = "recaps" | "calendar" | "notification";
  * - Properties: snake_case, JSON values only
  * - Never send free text (notes, tag names, people names, filter text,
  *   feedback messages), not even hashed or truncated. Send counts and lengths
- *   instead. Fixed values (rating, emotion keys, sleep quality) are fine.
+ *   instead.
+ * - Never send health-revealing values: rating, emotion keys, sleep quality,
+ *   Apple Health data, intervention cluster or feedback answer, mood-derived
+ *   counts. Send `has_*` booleans and counts instead (GDPR Art. 9).
  * - Photo events never carry file names, URIs, dimensions, EXIF, location,
  *   photo timestamps, or library ids.
  * - `undefined`: the event has no properties
@@ -66,12 +68,11 @@ export interface AnalyticsEvents {
     /** Never the place itself. */
     has_location: boolean;
   };
-  /** New entry got its sleep quality from Apple Health, without the sleep step. */
-  "logger:health_sleep_filled": {
-    quality: LogItem["sleep"]["quality"];
-    has_bedtime: boolean;
-    has_interruptions: boolean;
-  };
+  /**
+   * New entry got its sleep quality from Apple Health, without the sleep step.
+   * No properties: Apple Health data never goes to analytics.
+   */
+  "logger:health_sleep_filled": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
   /**
    * Launch prompt after the OS killed the app with the logger open.
@@ -108,19 +109,21 @@ export interface AnalyticsEvents {
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
   "logger:store_review_requested": {
-    trigger: "entries_7" | "good_entry_30";
+    /** `first`: first prompt, `later`: a later one. Never the mood behind it. */
+    trigger: "first" | "later";
     entries_count: number;
   };
 
   /** `source`: Lock Screen (iOS), notification (Android), or the in-app screen. */
   "quick_check_in:entry_saved": {
     source: "notification" | "app";
-    rating: LogItem["rating"];
   };
   "quick_check_in:completed": {
     source: "notification" | "app";
     has_emotion: boolean;
     influences_count: number;
+    /** App screen only. The notification has no note. */
+    has_note?: boolean;
   };
   "quick_check_in:setting_changed": { enabled: boolean };
   /** Fixed values only: times are `HH:mm` picks, not free text. */
@@ -194,6 +197,7 @@ export interface AnalyticsEvents {
   "calendar:add_today_tapped": { has_entries: boolean };
   "calendar:today_tapped": undefined;
   "calendar:voice_tapped": { has_entries: boolean };
+  "calendar:check_in_tapped": { has_entries: boolean };
   "calendar:filters_opened": undefined;
   "calendar:filters_applied": {
     text_length: number;
@@ -210,9 +214,7 @@ export interface AnalyticsEvents {
     items_count: number;
     mood_avg_show: boolean;
     mood_peaks_positive_show: boolean;
-    mood_peaks_positive_count?: number;
     mood_peaks_negative_show: boolean;
-    mood_peaks_negative_count?: number;
     tags_peaks_show: boolean;
     tags_peaks_count?: number;
     tags_distribution_show: boolean;
@@ -413,13 +415,10 @@ export interface AnalyticsEvents {
 
   "interventions:card_shown": {
     surface: InterventionSurface;
-    cluster: InterventionCluster;
-    matched_emotions: string[];
     options_shown: string[];
     completed_today_count: number;
   };
   "interventions:option_selected": InterventionSessionProperties & {
-    cluster: InterventionCluster;
     length: InterventionLength;
     surface: InterventionSurface;
     option_position: number;
@@ -459,9 +458,8 @@ export interface AnalyticsEvents {
     expected_ms: number;
     pauses: number;
   };
-  "interventions:feedback_answered": InterventionSessionProperties & {
-    answer: InterventionFeedback;
-  };
+  /** Never the answer itself: it tells how the user feels. */
+  "interventions:feedback_answered": InterventionSessionProperties;
   "interventions:feedback_skipped": InterventionSessionProperties;
 }
 
@@ -531,8 +529,6 @@ export type UsageSummaryOnce = {
   first_app_version: string;
 };
 
-type LogItem = z.infer<typeof LogItemSchema>;
-
 /** Where an intervention card shows. */
 export type InterventionSurface = "confirmation" | "calendar";
 
@@ -556,18 +552,18 @@ export type InterventionFeedback = "worse" | "same" | "better";
 
 /**
  * Saved entry metadata sent with the confirmation events. Holds no free
- * text: notes and tag names are sent as counts only.
+ * text and no health values: notes, tags, and emotions are sent as counts,
+ * rating and sleep as booleans.
  */
 export interface SavedEntryProperties {
-  rating: LogItem["rating"];
-  emotions: LogItem["emotions"];
+  has_rating: boolean;
   emotions_count: number;
   tags_count: number;
   people_count: number;
   message_length: number;
   /** Whitespace-separated words; Chinese, Japanese, and Thai notes count as 1. */
   message_word_count: number;
-  sleep_quality: LogItem["sleep"]["quality"] | null;
+  has_sleep: boolean;
   /** All entries, including the saved one. */
   entries_count: number;
 }

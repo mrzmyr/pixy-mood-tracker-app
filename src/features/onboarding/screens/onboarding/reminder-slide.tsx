@@ -3,7 +3,6 @@ import Button from "@/components/button";
 import useColors from "@/hooks/use-colors";
 import { HeaderImage } from "./header-image";
 import { HeaderNavigation } from "./header-navigation";
-import Animated, { FadeIn } from "react-native-reanimated";
 import {
   Clock,
   reminderTimeToDate,
@@ -64,7 +63,6 @@ export const ReminderSlide = ({
   setIndex: (index: number) => void;
   onSkip: () => void;
 }) => {
-  const colors = useColors();
   const analytics = useAnalytics();
 
   const reminder = useReminder();
@@ -86,14 +84,12 @@ export const ReminderSlide = ({
 
   return (
     <>
-      <Animated.View
+      <View
         style={{
           width: "100%",
-          backgroundColor: colors.onboardingTopBackground,
           alignItems: "center",
           flex: 1,
         }}
-        entering={FadeIn.duration(800)}
       >
         <HeaderImage
           index={index}
@@ -104,7 +100,7 @@ export const ReminderSlide = ({
             maxWidth: 360,
           }}
         />
-      </Animated.View>
+      </View>
       <View
         style={{
           flex: 1,
@@ -116,11 +112,10 @@ export const ReminderSlide = ({
           }}
         >
           <HeaderNavigation onSkip={onSkip} index={index} setIndex={setIndex} />
-          <Animated.View
+          <View
             style={{
               flex: 1,
             }}
-            entering={FadeIn.duration(800)}
           >
             <Body index={index} />
             <View
@@ -137,7 +132,7 @@ export const ReminderSlide = ({
                 <Clock timeDate={time} onChange={setTime} />
               </View>
             </View>
-          </Animated.View>
+          </View>
         </View>
         <View
           style={{

@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, View } from "react-native";
+import { useKeepAwake } from "expo-keep-awake";
 import * as Linking from "expo-linking";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Check from "lucide-react-native/icons/check";
 import CircleQuestionMark from "lucide-react-native/icons/circle-question-mark";
@@ -9,7 +10,7 @@ import Mic from "lucide-react-native/icons/mic";
 import Pause from "lucide-react-native/icons/pause";
 import dayjs from "dayjs";
 import Button from "@/components/button";
-import { CloseButton } from "@/components/close-button";
+import { HeaderButton } from "@/components/header-button";
 import { Body, Headline, Secondary } from "@/components/type";
 import { RADIUS } from "@/constants/radius";
 import { encodeLoggerPrefill } from "@/features/logger";
@@ -30,6 +31,12 @@ import { useVoiceTranscription } from "../use-voice-transcription";
 import type { VoiceErrorStatus, VoiceStatus } from "../use-voice-transcription";
 
 const CONTROL_SIZE = 56;
+
+const STATUS_LABEL: Partial<Record<VoiceStatus, () => string>> = {
+  preparing: () => t("voice_preparing"),
+  listening: () => t("voice_listening"),
+  paused: () => t("voice_paused"),
+};
 
 // Prefill list each match kind goes to.
 const PREFILL_LIST = {
@@ -65,8 +72,12 @@ const blockedCopy = (
 /**
  * Voice mode: listen, show detected people, tags, emotions, and the first
  * spoken mood live, then open the logger prefilled. Nothing is saved here.
+ *
+ * - `returnTo` names a quick check-in (entry id or `new`): Check goes back to
+ *   it with the prefill instead of opening the logger.
  */
 export const VoiceMode = () => {
+  const { returnTo } = useLocalSearchParams<{ returnTo?: string }>();
   const colors = useColors();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -79,6 +90,8 @@ export const VoiceMode = () => {
   const cardsRef = useRef<ScrollView>(null);
   // Set when listening starts, in the start effect.
   const startedAt = useRef(0);
+  // Screen lock would cut the recording mid-sentence.
+  useKeepAwake();
 
   const voice = useVoiceTranscription({
     onPermissionDenied: (kind) =>
@@ -155,6 +168,13 @@ export const VoiceMode = () => {
     });
     haptics.selection();
     allowLeave();
+    if (returnTo) {
+      router.dismissTo({
+        pathname: "/check-in/[id]",
+        params: { id: returnTo, prefill: encodeLoggerPrefill(prefill) },
+      });
+      return;
+    }
     router.replace({
       pathname: "/logs/create/[dateTime]",
       params: {
@@ -165,6 +185,8 @@ export const VoiceMode = () => {
   };
 
   const isListening = voice.status === "listening";
+  // Pause also cancels setup, so it counts as running.
+  const isRunning = isListening || voice.status === "preparing";
   const isBlocked = voice.status === "denied" || voice.status === "failed";
   const blocked = blockedCopy(voice.status, voice.error?.status);
 
@@ -181,12 +203,17 @@ export const VoiceMode = () => {
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "flex-end",
+          justifyContent: "flex-start",
           paddingHorizontal: 12,
           paddingTop: 12,
         }}
       >
-        <CloseButton onPress={close} testID="voice-close" />
+        <HeaderButton
+          kind="cancel"
+          label={t("close")}
+          onPress={close}
+          testID="voice-close"
+        />
       </View>
 
       <ScrollView
@@ -237,9 +264,9 @@ export const VoiceMode = () => {
           }}
         >
           <View style={{ gap: 4 }}>
-            {(isListening || voice.status === "paused") && (
+            {(isRunning || voice.status === "paused") && (
               <Headline accessibilityRole="header" testID="voice-status">
-                {isListening ? t("voice_listening") : t("voice_paused")}
+                {STATUS_LABEL[voice.status]?.()}
               </Headline>
             )}
             <View
@@ -277,13 +304,11 @@ export const VoiceMode = () => {
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={
-                isListening ? t("voice_pause") : t("voice_resume")
+                isRunning ? t("voice_pause") : t("voice_resume")
               }
               testID="voice-pause"
-              disabled={
-                voice.status !== "listening" && voice.status !== "paused"
-              }
-              onPress={isListening ? voice.pause : voice.resume}
+              disabled={!isRunning && voice.status !== "paused"}
+              onPress={isRunning ? voice.pause : voice.resume}
               style={({ pressed }) => ({
                 width: CONTROL_SIZE,
                 height: CONTROL_SIZE,
@@ -294,7 +319,7 @@ export const VoiceMode = () => {
                 opacity: pressed ? 0.7 : 1,
               })}
             >
-              {isListening ? (
+              {isRunning ? (
                 <Pause
                   width={22}
                   height={22}

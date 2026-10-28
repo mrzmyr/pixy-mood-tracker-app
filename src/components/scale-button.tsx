@@ -31,6 +31,7 @@ const ScaleButton = ({
           opacity: pressed ? 0.8 : 1,
           flex: 7,
           borderRadius: RADIUS.sm,
+          borderCurve: "continuous",
           width: "100%",
           aspectRatio: 1,
           justifyContent: "center",

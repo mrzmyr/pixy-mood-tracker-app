@@ -15,11 +15,11 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 ## Components
 
-- Page close: top right [`CloseButton`](src/components/close-button.tsx). Android full-screen dialog: close top left. Modal title and close go in native stack header ([Day view `Header`](src/features/calendar/screens/log-list/header.tsx)). Back arrow is not close. Form modal with Save keeps text Cancel top left.
+- Page close: [`CloseButton`](src/components/close-button.tsx), top left. Back arrow is not close. Modal headers: [Modal Headers](#modal-headers).
 - Buttons: [`Button`](src/components/button.tsx) (filled), [`LinkButton`](src/components/link-button.tsx) (text). Label is plain string, or compose `ButtonIcon` + `ButtonText` ([`ButtonContent`](src/components/button-content.tsx)). Never own `Text` or icon color inside button: disabled color comes from button.
 - Toasts: `showToast` ([`src/lib/toast.ts`](src/lib/toast.ts)). iOS top card, Android M3 snackbar. Optional Undo `action`, never only way to do something.
 - Inline errors, warnings, notices: [`InlineAlert`](src/components/inline-alert.tsx) next to the content they are about. Stays until state changes. Never plain colored text.
-- Menu rows: [`MenuListItem`](src/components/menu-list-item.tsx). Title = short Title Case noun. Status in value slot. One text color per row, except destructive rows (`colors.danger`). Never wrap or shrink: shorten text. Warnings use [`TextInfo`](src/components/text-info.tsx) under list.
+- Menu rows: [`MenuListItem`](src/components/menu-list-item.tsx). Title = short Title Case noun. Status in value slot. Role by `tone`: `default`, `action` (starts something: tint), `destructive` (removes or resets: `colors.danger`, centered with no icon on iOS, left with icon on Android). Never set row text color by hand. Never wrap or shrink: shorten text. Warnings use [`TextInfo`](src/components/text-info.tsx) under list.
 - Bezel ([`Bezel`](src/components/bezel.tsx), radius from `getBezelRadius`): statistics cards only. Calendar days, mood buttons, entry cards, list groups, person tiles have no bezel.
 - Add action inside a picker grid: last grid cell, same size as items. Dashed circle, plus icon, and label all in `colors.tint` ([`AddPersonTile`](src/features/logger/slides/slide-people.tsx)). Never gray: gray reads disabled. Target is the whole cell.
 - Android list groups: M3 full-width list, no chevron, no dividers, 56dp rows ([`MenuList`](src/components/menu-list.tsx)).
@@ -31,9 +31,26 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 ## Sheets and Modals
 
 - `Modal` with `presentationStyle="pageSheet"`, `animationType="slide"` ([`SheetModal`](src/components/sheet-modal.tsx)).
-- Router form with native header: iOS `formSheet`, Android full-screen `modal`, header items via `Stack.Toolbar` ([Feedback](src/features/feedback/screens/feedback-screen.tsx)).
+- Router form with native header: iOS `formSheet`, Android full-screen `modal`, header items via `Stack.Toolbar` or [`HeaderButton`](src/components/header-button.tsx) ([Feedback](src/features/feedback/screens/feedback-screen.tsx)).
 - Never custom slide-in sheet. Never move views from keyboard events. Inputs sit at sheet top.
-- Route modal header: [`RouteModalHeader`](src/components/route-modal-header.tsx). iOS native sheet bar, Android Material top app bar.
+- Route modal header: [`RouteModalHeader`](src/components/route-modal-header.tsx). Sheet header: [`ModalHeader`](src/components/modal-header.tsx).
+
+## Modal Headers
+
+Every sheet and route modal. Sources: [HIG Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets), [HIG Toolbars](https://developer.apple.com/design/human-interface-guidelines/toolbars), [M3 full-screen dialogs](https://m3.material.io/components/dialogs/guidelines).
+
+- Close or cancel: leading, always. Never trailing.
+- Confirm: trailing, one only. Check saves or finishes. Arrow up sends. Label names the action (`Save`, `Send`, `Add`), never `Done` or `OK`.
+- Nothing to confirm (day view, pickers): close only, no trailing item.
+- No divider. No header background: bar shows the content surface. iOS 26 scroll edge effect separates bar from content.
+- iOS 26: Liquid Glass circles, 44 pt, SF Symbols `xmark`, `checkmark`, `arrow.up`. Confirm is prominent, close is not. Never text `Close`.
+- iOS before 26: text `Cancel` leading, bold `Save` or `Send` trailing.
+- Android: close icon leading, start-aligned title, text confirm trailing, 56dp header.
+- Spoken label: `Cancel` when closing drops edits, `Close` when nothing is lost. Dirty form asks before it discards ([`useDiscardGuard`](src/hooks/use-discard-guard.ts)).
+- Buttons: [`HeaderButton`](src/components/header-button.tsx). Native bar items: [`getModalBarOptions`](src/components/modal-bar-options.tsx). Native `Stack.Toolbar` takes no test id: use it only on screens no e2e flow taps.
+- Test ids: `<feature>-cancel`, `<feature>-save`, `<feature>-close`.
+- Own overlay close, white on media: photo viewer, recap stories.
+- Open: logger shows back and close together; HIG wants back to replace close after step 1. Android confirm is disabled until valid; M3 says never disable it in full-screen dialogs. Android feedback sends with an icon; M3 wants a text button.
 
 ## Settings
 

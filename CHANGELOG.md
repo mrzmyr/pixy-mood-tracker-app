@@ -2,6 +2,68 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.106.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.106.0...v1.106.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* **ui:** drop emoji from empty states ([#976](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/976)) ([1ea3607](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1ea3607b008971c604c9d14c5d011b6af0217f00))
+* **voice:** keep the screen on during voice mode ([#979](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/979)) ([1565182](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1565182e731193b25f3ed978178ad669ca3435fd))
+* **voice:** make waveform and glow react to normal speech ([#980](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/980)) ([b2b3ded](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b2b3dedf153c1cd90d99edc89723429cdb7fcb0c))
+* **voice:** show setup state and let pause cancel it ([#981](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/981)) ([5d411c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5d411c4a6bea375423d732cadb04a5defc18fb68))
+
+## [1.106.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.105.1...v1.106.0) (2026-10-26)
+
+
+### Features
+
+* **calendar:** add quick check-in button next to voice and add ([#972](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/972)) ([b8c3607](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b8c36075c3e00fdaea42a516bd71e7c70196a86e))
+* **ui:** menu rows get a tone instead of hand-set colors ([#974](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/974)) ([d7c5eff](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d7c5eff651079d9d5ab62d45250dad12e12dcd6b))
+* **ui:** one modal header pattern, close leads and confirm trails ([#973](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/973)) ([94d01da](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/94d01da45b8e8e8b6731018d0e241c08b2817190))
+
+
+### Bug Fixes
+
+* **logger:** stay calm on good days with mostly hard emotions ([#970](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/970)) ([df166e5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/df166e5f82b4ab9f9bd4b58e068596184368f49f))
+
+## [1.105.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.105.0...v1.105.1) (2026-10-26)
+
+
+### Bug Fixes
+
+* **ios:** declare feedback email and messages in privacy manifest ([#968](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/968)) ([2242d99](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2242d99c71b9518ccb2a3202048701af68a369ec))
+
+## [1.105.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.104.0...v1.105.0) (2026-10-26)
+
+
+### Features
+
+* **onboarding:** full-page sky, then pixels assemble into the calendar ([#952](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/952)) ([850cb44](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/850cb44f43598f97d0897d9bd26ac745c0e4bd9d))
+
+
+### Bug Fixes
+
+* **analytics:** start PostHog only after the onboarding privacy slide ([#966](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/966)) ([bf83ce4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bf83ce4beea58c084cd6bf2de2f229cbad835104))
+* **analytics:** store when the user chose, keep the choice on import ([#965](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/965)) ([d7d8df9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d7d8df95d8893e1dc02850ec397915ce3eea3cc3))
+* **analytics:** update product analytics ([#961](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/961)) ([3f378b1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3f378b1b552a36dc4d55286f204fcc2ac7693fda))
+* **feedback:** send own random id with feedback ([#964](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/964)) ([9a540f1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9a540f1d30e2b04b92bc9b9357c54d2fb740776a))
+* **telemetry:** scrub user data from Sentry reports ([#963](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/963)) ([ba34255](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ba3425541d5f4efa525a9d58008be16d7a19f335))
+
+## [1.104.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.103.0...v1.104.0) (2026-10-26)
+
+
+### Features
+
+* **recaps:** carry statistics cards in recaps behind the recaps flag ([#955](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/955)) ([ac31561](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ac31561508e234f767a7ec26f13737b6fe381a14))
+* **sleep:** fill sleep quality from Apple Health ([#652](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/652)) ([a4d5bd5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a4d5bd5c8fc5f53bbe702e34a17673acde85d338))
+* **voice:** set mood from spoken trigger words ([#957](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/957)) ([5bf1c20](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5bf1c2049aa877e3af238af9de03e0e762bf5527))
+
+
+### Bug Fixes
+
+* **android:** use one Material surface for settings lists and headers ([#959](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/959)) ([cdd1bf5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/cdd1bf5fe9cc047adaca0d2bb1dbd59dcb939687))
+* **recaps:** steady story timer, photo cover, thanks slide, new share card ([#958](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/958)) ([0cbc68f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0cbc68f9019acb073c3cbdaed23bdd2cc1cc5c3c))
+
 ## [1.103.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.102.0...v1.103.0) (2026-10-26)
 
 

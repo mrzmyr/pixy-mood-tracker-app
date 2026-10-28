@@ -46,14 +46,13 @@ const item = _generateItem({
 });
 
 const properties = {
-  rating: "very_bad",
-  emotions: ["tired", "worried"],
+  has_rating: true,
   emotions_count: 2,
   tags_count: 1,
   people_count: 0,
   message_length: 20,
   message_word_count: 4,
-  sleep_quality: "bad",
+  has_sleep: true,
   entries_count: 3,
 };
 
@@ -154,6 +153,26 @@ describe("getDaySummary()", () => {
       emotions: ["proud", "calm"],
       tagIds: ["gym", "coffee"],
     });
+  });
+
+  test("stays calm on a good day with mostly bad emotions", () => {
+    const saved = at(`${TODAY}T20:00:00`, {
+      rating: "good",
+      emotions: ["overwhelmed", "anxious", "stressed", "grateful"],
+    });
+    const summary = getDaySummary({ items: [saved], item: saved });
+
+    expect(summary.tone).toBe("neutral");
+    expect(getSummaryTitle(summary)).not.toBe(t("log_summary_title_good"));
+  });
+
+  test("keeps celebrating a good day with mostly good emotions", () => {
+    const saved = at(`${TODAY}T20:00:00`, {
+      rating: "good",
+      emotions: ["anxious", "grateful", "calm"],
+    });
+
+    expect(getDaySummary({ items: [saved], item: saved }).tone).toBe("good");
   });
 
   test("counts the saved entry once, also before it is in the list", () => {

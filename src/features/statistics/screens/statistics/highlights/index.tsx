@@ -123,14 +123,6 @@ export const StatisticsHighlights = () => {
         cards.sleep_quality_distribution.available,
     };
 
-    if (cards.mood_peaks_positive.available) {
-      highlights.mood_peaks_positive_count =
-        data.moodPeaksPositiveData.days.length;
-    }
-    if (cards.mood_peaks_negative.available) {
-      highlights.mood_peaks_negative_count =
-        data.moodPeaksNegativeData.days.length;
-    }
     if (cards.tags_peaks.available) {
       highlights.tags_peaks_count = data.tagsPeaksData.tags.length;
     }

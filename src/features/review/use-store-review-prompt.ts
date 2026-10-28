@@ -66,7 +66,7 @@ export const useStoreReviewPrompt = () => {
         storeReviewPromptedAppVersion: pkg.version,
       }));
       analytics.track("logger:store_review_requested", {
-        trigger,
+        trigger: trigger === "entries_7" ? "first" : "later",
         entries_count: moment.entriesCount,
       });
       await StoreReview.requestReview();

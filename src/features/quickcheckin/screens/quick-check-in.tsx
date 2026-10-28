@@ -2,12 +2,13 @@ import dayjs from "dayjs";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useMemo, useState } from "react";
-import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import { CloseButton } from "@/components/close-button";
+import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
-import { SearchInput } from "@/components/search-input";
+import TextArea from "@/components/text-area";
+import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 import { RATING_KEYS } from "@/constants/ratings";
 import { EMOTIONS } from "@/features/logger";
 import { useLogState, useLogUpdater } from "@/features/logs";
@@ -19,8 +20,11 @@ import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { createQuickEntry } from "../check-in-state";
+import { applyVoicePrefill, toDraft } from "../draft";
+import { useVoicePrefill } from "../use-voice-prefill";
 import { getSheetSections } from "../sheet-sections";
 import { EmotionChip, MoodPixel } from "./quick-check-in-chips";
+import { QuickCheckInSearchBar } from "./quick-check-in-search-bar";
 import type { InfluenceOption } from "../ranking";
 
 const NO_PEOPLE: never[] = [];
@@ -28,27 +32,8 @@ const NO_PEOPLE: never[] = [];
 /** Space between chips, same as emotion chips. */
 const CHIP_GAP = 8;
 
-/** Screen values. `source` tells whether the user changed them yet. */
-interface Draft {
-  rating: LogItem["rating"] | null;
-  emotions: string[];
-  /** Picked people and tags as `kind:id`. */
-  picked: string[];
-  source: "empty" | "entry" | "user";
-}
-
-const toDraft = (entry: LogItem | undefined): Draft =>
-  entry
-    ? {
-        rating: entry.rating,
-        emotions: entry.emotions,
-        picked: [
-          ...entry.people.map((person) => `person:${person.id}`),
-          ...entry.tags.map((tag) => `tag:${tag.id}`),
-        ],
-        source: "entry",
-      }
-    : { rating: null, emotions: [], picked: [], source: "empty" };
+/** Note field height, about four lines. */
+const NOTE_HEIGHT = 120;
 
 const SectionTitle = ({ children }: { children: string }) => {
   const colors = useColors();
@@ -70,15 +55,19 @@ const SectionTitle = ({ children }: { children: string }) => {
 };
 
 /**
- * Quick check-in on one scrolling page: search on top, then mood,
- * emotions, Suggested, People A to Z, and Tags A to Z. Opens from Settings
- * and from More in the Android notification.
+ * Quick check-in on one scrolling page: search and voice on top, then mood,
+ * note, emotions, Suggested, People A to Z, and Tags A to Z. Opens from
+ * Settings and from More in the Android notification.
  *
  * - `id` names an entry saved in the notification: the screen edits it.
  * - `id` `new` or unknown: Save creates an entry. Save needs a mood.
+ * - `prefill`: set by voice mode on return, added to the draft once.
  */
 export const QuickCheckIn = () => {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, prefill } = useLocalSearchParams<{
+    id: string;
+    prefill?: string;
+  }>();
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -97,7 +86,10 @@ export const QuickCheckIn = () => {
   if (entry && draft.source === "empty") {
     setDraft(toDraft(entry));
   }
-  const { rating, emotions, picked } = draft;
+  useVoicePrefill(prefill, (parsed) =>
+    setDraft((current) => applyVoicePrefill(current, parsed))
+  );
+  const { rating, emotions, picked, message } = draft;
   const setRating = (value: LogItem["rating"]) =>
     setDraft((current) => ({ ...current, rating: value, source: "user" }));
   const setEmotions = (value: string[]) =>
@@ -108,6 +100,8 @@ export const QuickCheckIn = () => {
       picked: update(current.picked),
       source: "user",
     }));
+  const setMessage = (value: string) =>
+    setDraft((current) => ({ ...current, message: value, source: "user" }));
   const [query, setQuery] = useState("");
   // Ranking time is fixed when the screen opens.
   const now = useMemo(() => dayjs(), []);
@@ -160,17 +154,19 @@ export const QuickCheckIn = () => {
       emotions,
       people: references("person"),
       tags: references("tag"),
+      message,
     };
     if (items.some((item) => item.id === id)) {
       logUpdater.editLog({ id, ...changes });
     } else {
       logUpdater.addLog(createQuickEntry(uuidv4(), dayjs(), changes));
-      analytics.track("quick_check_in:entry_saved", { source: "app", rating });
+      analytics.track("quick_check_in:entry_saved", { source: "app" });
     }
     analytics.track("quick_check_in:completed", {
       source: "app",
       has_emotion: emotions.length > 0,
       influences_count: picked.length,
+      has_note: message.trim() !== "",
     });
     close();
   };
@@ -215,6 +211,9 @@ export const QuickCheckIn = () => {
     </View>
   );
 
+  const openVoice = () =>
+    router.push({ pathname: "/logs/voice", params: { returnTo: id } });
+
   const isIOS = Platform.OS === "ios";
 
   return (
@@ -256,31 +255,28 @@ export const QuickCheckIn = () => {
       ) : (
         <ModalHeader
           title={t("quick_check_in_title")}
-          left={<CloseButton testID="quick-check-in-close" onPress={close} />}
+          left={
+            <HeaderButton
+              kind="cancel"
+              label={t("close")}
+              testID="quick-check-in-close"
+              onPress={close}
+            />
+          }
           right={
-            <Pressable
+            <HeaderButton
+              kind="confirm"
+              label={t("save")}
               testID="quick-check-in-save"
-              accessibilityRole="button"
-              accessibilityState={{ disabled: rating === null }}
               disabled={rating === null}
               onPress={save}
-              hitSlop={8}
-            >
-              <Text
-                style={{
-                  color: rating === null ? colors.textSecondary : colors.tint,
-                  fontSize: 17,
-                  fontWeight: "600",
-                }}
-              >
-                {t("save")}
-              </Text>
-            </Pressable>
+            />
           }
         />
       )}
       <ScrollView
         keyboardShouldPersistTaps="handled"
+        automaticallyAdjustKeyboardInsets
         // iOS: the sheet bar is transparent (app layout) and the automatic
         // inset does not reach a ScrollView in a sheet. Offset by its height.
         contentInsetAdjustmentBehavior="never"
@@ -291,10 +287,10 @@ export const QuickCheckIn = () => {
           paddingBottom: insets.bottom + 32,
         }}
       >
-        <SearchInput
-          testID="quick-check-in-search"
-          value={query}
+        <QuickCheckInSearchBar
+          query={query}
           onChange={setQuery}
+          onVoice={openVoice}
         />
         {query.trim() === "" && (
           <>
@@ -309,6 +305,16 @@ export const QuickCheckIn = () => {
                 />
               ))}
             </View>
+            <SectionTitle>{t("logger_step_message")}</SectionTitle>
+            <TextArea
+              testID="quick-check-in-note"
+              accessibilityLabel={t("logger_step_message")}
+              placeholder={t("log_note_question")}
+              value={message}
+              onChange={setMessage}
+              maxLength={MAX_MESSAGE_LENGTH}
+              style={{ height: NOTE_HEIGHT }}
+            />
           </>
         )}
         {sections.emotions.length > 0 && (

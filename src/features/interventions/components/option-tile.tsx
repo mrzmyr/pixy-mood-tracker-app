@@ -43,6 +43,7 @@ export const OptionTile = ({
         {
           backgroundColor,
           borderRadius: RADIUS.md,
+          borderCurve: "continuous",
           padding: 14,
           minHeight: 104,
           justifyContent: "space-between",

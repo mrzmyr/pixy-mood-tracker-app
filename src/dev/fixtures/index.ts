@@ -12,7 +12,7 @@ import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
 import { withRecapMoments } from "@/dev/fixtures/recap-moments";
 import { withRecapNudges } from "@/dev/fixtures/recap-nudges";
-import { withRecapStory } from "@/dev/fixtures/recap-story";
+import { withRecapStory, withRecapWeekStory } from "@/dev/fixtures/recap-story";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 
@@ -172,6 +172,13 @@ export const FIXTURES: Fixture[] = [
     description:
       "Last month as a full month story: every Saturday swimming, Handover on 2 of 3 harder days, first days at the sea, 10 photo days, Ada and Chuky. Plus 12 check-ins the month before.",
     data: withRecapStory(asExport(empty)),
+  },
+  {
+    id: "recap-week-story",
+    title: "Recap week story",
+    description:
+      "Last 7 days as a full week story: 5 photo days for the cover, people quiz with Ada, Chuky, Jen, and Max, Walk, Work, and Reading on 4+ days.",
+    data: withRecapWeekStory(asExport(empty)),
   },
 ];
 

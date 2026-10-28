@@ -49,6 +49,10 @@ const LABELS: Record<
     title: "app_icon_tangerine_inverse",
     description: "app_icon_tangerine_inverse_description",
   },
+  sky: {
+    title: "app_icon_sky",
+    description: "app_icon_sky_description",
+  },
 };
 
 const reportAppIconError = ({

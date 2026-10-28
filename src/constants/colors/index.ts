@@ -43,12 +43,19 @@ for (const color of tagColorNames) {
 const dangerLight = Platform.OS === "android" ? "#BA1A1A" : "#FF3B30";
 const dangerDark = Platform.OS === "android" ? "#FFB4AB" : "#FF453A";
 
+/**
+ * Android: seed for every `@expo/ui` `Host`. Compose derives one Material 3
+ * palette from it (surfaces, switches, menus), so controls never follow the
+ * wallpaper while the tint stays fixed.
+ */
+export const MATERIAL_SEED_COLOR = "#005BC1";
+
 // Plain hex strings: chroma-js, Reanimated, React Navigation, and widget
 // data need strings, so never use PlatformColor here.
 // iOS systemBlue. Android: Material 3 primary (tone 40 light, tone 80
 // dark) of the same blue, fixed brand color, no dynamic color.
 const IS_ANDROID = Platform.OS === "android";
-const tintColorLight = IS_ANDROID ? "#005BC1" : "#007aff";
+const tintColorLight = IS_ANDROID ? MATERIAL_SEED_COLOR : "#007aff";
 const tintColorDark = IS_ANDROID ? "#ADC6FF" : "#0a84ff";
 // Text and icons on a tint background (Material 3 onPrimary).
 const onTintLight = "#FFF";
@@ -64,8 +71,6 @@ const light = {
 
   loadingIndicator: colors.neutral[500],
 
-  logHeaderBackground: colors.neutral[50],
-  logHeaderBorder: colors.neutral[200],
   logHeaderText: colors.neutral[600],
   logHeaderHighlight: colors.neutral[200],
 
@@ -227,9 +232,8 @@ const light = {
   onboardingTitle: colors.black,
   onboardingBody: colors.neutral[700],
 
-  onboardingTopBackground: colors.neutral[900],
-  onboardingBottomBackground: colors.neutral[100],
-  onboardingBottomBorder: colors.neutral[300],
+  // Sky color under the cloud photo until it loads.
+  onboardingSkyBackground: "#a9d4fd",
   onboardingPaginationText: colors.neutral[500],
   onboardingPaginationDotActive: colors.neutral[500],
   onboardingPaginationDotInactive: colors.neutral[300],
@@ -303,8 +307,6 @@ const dark: IColors & {
 
   loadingIndicator: "#fff",
 
-  logHeaderBackground: colors.neutral[900],
-  logHeaderBorder: colors.neutral[800],
   logHeaderText: colors.neutral[300],
   logHeaderHighlight: colors.neutral[800],
 
@@ -464,9 +466,7 @@ const dark: IColors & {
   onboardingTitle: colors.white,
   onboardingBody: colors.neutral[300],
 
-  onboardingTopBackground: colors.neutral[900],
-  onboardingBottomBackground: colors.neutral[800],
-  onboardingBottomBorder: colors.neutral[700],
+  onboardingSkyBackground: "#304560",
   onboardingPaginationText: colors.neutral[300],
   onboardingPaginationDotActive: colors.neutral[300],
   onboardingPaginationDotInactive: colors.neutral[700],

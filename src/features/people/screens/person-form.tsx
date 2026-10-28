@@ -4,7 +4,6 @@ import Trash from "lucide-react-native/icons/trash";
 import { useRef } from "react";
 import { Platform, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import LinkButton from "@/components/link-button";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
@@ -46,7 +45,6 @@ const EditActions = ({
   const colors = useColors();
   const { confirmDelete } = usePersonActions();
   const entryCount = usePersonEntryCount(personId);
-  const isIOS = Platform.OS === "ios";
 
   const askToDelete = () => {
     confirmDelete(personId, {
@@ -78,20 +76,9 @@ const EditActions = ({
         <MenuListItem
           testID="person-delete"
           onPress={askToDelete}
-          iconLeft={
-            isIOS ? null : <Trash size={24} color={colors.dangerButtonText} />
-          }
-          title={
-            <Text
-              style={{
-                fontSize: isIOS ? 17 : 16,
-                color: colors.dangerButtonText,
-                textAlign: isIOS ? "center" : "left",
-              }}
-            >
-              {t("people_delete")}
-            </Text>
-          }
+          iconLeft={<Trash size={24} color={colors.danger} />}
+          title={t("people_delete")}
+          tone="destructive"
         />
       </MenuList>
       <TextInfo>
@@ -172,16 +159,12 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
         title={mode === "create" ? t("people_add") : t("people_edit")}
         onClose={() => router.back()}
         closeTestID="person-cancel"
-        action={
-          <LinkButton
-            onPress={handleSave}
-            type="primary"
-            disabled={draft.isSaving}
-            testID="person-save"
-          >
-            {mode === "create" ? t("add") : t("save")}
-          </LinkButton>
-        }
+        confirm={{
+          label: mode === "create" ? t("add") : t("save"),
+          onPress: handleSave,
+          disabled: draft.isSaving,
+          testID: "person-save",
+        }}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -213,7 +196,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
               title={t("people_add_from_contacts")}
               iconLeft={<Contact size={22} color={colors.tint} />}
               onPress={() => router.replace("/people/import")}
-              style={{ color: colors.tint }}
+              tone="action"
               testID="person-from-contacts"
             />
           </MenuList>
@@ -237,6 +220,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
             paddingHorizontal: 16,
             paddingVertical: 14,
             borderRadius: isIOS ? RADIUS.md : RADIUS.sm,
+            borderCurve: "continuous",
           }}
           placeholder={t("people_name_placeholder")}
           placeholderTextColor={colors.textInputPlaceholder}

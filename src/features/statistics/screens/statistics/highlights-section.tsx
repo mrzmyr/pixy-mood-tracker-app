@@ -99,14 +99,6 @@ export const HighlightsSection = ({ report }: { report: HighlightsReport }) => {
       sleep_quality_distribution_show: showSleepQualityChart,
     };
 
-    if (showMoodPeaksPositve) {
-      highlights.mood_peaks_positive_count =
-        data.moodPeaksPositiveData.days.length;
-    }
-    if (showMoodPeaksNegative) {
-      highlights.mood_peaks_negative_count =
-        data.moodPeaksNegativeData.days.length;
-    }
     if (showTagPeaks) {
       highlights.tags_peaks_count = data.tagsPeaksData.tags.length;
     }

@@ -1,3 +1,4 @@
+import { getLocale } from "@/lib/translation";
 import { EMOTION_CATEGORIES } from "@/types";
 import type { Emotion } from "@/types";
 
@@ -12,9 +13,10 @@ import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./emotion-page";
 
 /**
- * Swipeable emotion pages, one per category from worst to best, sorted by
- * label. `defaultIndex` picks the first page shown. Disabled emotions are
- * hidden. Every page ends with a "Missing one?" tile.
+ * Swipeable emotion pages, one per category from worst to best, sorted
+ * alphabetically by label with locale-aware comparison. `defaultIndex` picks
+ * the first page shown. Disabled emotions are hidden. Every page ends with a
+ * "Missing one?" tile.
  */
 export const EmotionAdvancedSelection = ({
   defaultIndex = 0,
@@ -29,11 +31,12 @@ export const EmotionAdvancedSelection = ({
 }) => {
   const _carousel = useRef<CarouselRef>(null);
   const { width: windowWidth } = useWindowDimensions();
+  const locale = getLocale();
 
   const pages = EMOTION_CATEGORIES.map((category) => {
     const filteredEmotions = EMOTIONS.filter(
       (e) => e.category === category && e.disabled !== true
-    ).sort((a, b) => a.label.localeCompare(b.label));
+    ).sort((a, b) => a.label.localeCompare(b.label, locale));
 
     return (
       <EmotionPage

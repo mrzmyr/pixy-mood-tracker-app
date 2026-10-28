@@ -1,7 +1,6 @@
 import { ScrollView, Text, View } from "react-native";
 import Lock from "lucide-react-native/icons/lock";
 import Animated, { FadeInRight } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
 import Button from "@/components/button";
 import { t } from "@/lib/translation";
@@ -91,7 +90,6 @@ export const PrivacySlide = ({
 }) => {
   const colors = useColors();
   const analytics = useAnalytics();
-  const insets = useSafeAreaInsets();
 
   const choose = (share: boolean) => {
     if (share) {
@@ -106,7 +104,6 @@ export const PrivacySlide = ({
     <View
       style={{
         flex: 1,
-        paddingTop: insets.top,
       }}
     >
       <View
@@ -149,6 +146,7 @@ export const PrivacySlide = ({
               marginTop: 16,
               padding: 16,
               borderRadius: RADIUS.md,
+              borderCurve: "continuous",
               borderWidth: 1,
               borderColor: colors.cardBorder,
               backgroundColor: colors.cardBackground,

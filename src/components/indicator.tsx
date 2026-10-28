@@ -24,6 +24,7 @@ const Indicator = ({
         paddingLeft: 8,
         paddingRight: 8,
         borderRadius: RADIUS.sm,
+        borderCurve: "continuous",
         ...style,
       }}
     >

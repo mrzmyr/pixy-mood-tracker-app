@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import Button from "@/components/button";
-import { CloseButton } from "@/components/close-button";
+import { HeaderButton } from "@/components/header-button";
+import ModalHeader from "@/components/modal-header";
 import LinkButton from "@/components/link-button";
 import { SheetModal } from "@/components/sheet-modal";
 import { RADIUS } from "@/constants/radius";
@@ -144,37 +145,28 @@ export const VoiceFeedbackSheet = ({
       onClose={close}
       backgroundColor={colors.feedbackBackground}
     >
+      <ModalHeader
+        left={
+          <HeaderButton
+            kind="cancel"
+            label={t("close")}
+            testID="voice-feedback-close"
+            onPress={close}
+          />
+        }
+      />
       <ScrollView
         keyboardShouldPersistTaps="handled"
         testID="voice-feedback"
         style={{ flex: 1, backgroundColor: colors.feedbackBackground }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 24 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 24 }}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "flex-start",
-            justifyContent: "space-between",
-            gap: 16,
-          }}
+        <Text
+          accessibilityRole="header"
+          style={{ fontSize: 22, fontWeight: "700", color: colors.text }}
         >
-          <Text
-            accessibilityRole="header"
-            style={{
-              flexShrink: 1,
-              fontSize: 22,
-              fontWeight: "700",
-              color: colors.text,
-            }}
-          >
-            {t("voice_feedback_title")}
-          </Text>
-          <CloseButton
-            testID="voice-feedback-close"
-            onPress={close}
-            style={{ marginTop: -8, marginRight: -10 }}
-          />
-        </View>
+          {t("voice_feedback_title")}
+        </Text>
         <View
           accessibilityRole="radiogroup"
           style={{ flexDirection: "row", gap: 8, marginTop: 20 }}
@@ -195,6 +187,7 @@ export const VoiceFeedbackSheet = ({
                   gap: 6,
                   paddingVertical: 16,
                   borderRadius: RADIUS.md,
+                  borderCurve: "continuous",
                   borderWidth: 2,
                   borderColor: isSelected
                     ? colors.primaryButtonBackground
@@ -240,6 +233,7 @@ export const VoiceFeedbackSheet = ({
                 marginTop: 8,
                 minHeight: 96,
                 borderRadius: RADIUS.sm,
+                borderCurve: "continuous",
                 paddingHorizontal: 14,
                 paddingVertical: 12,
                 fontSize: 17,

@@ -1,16 +1,15 @@
-import { useEffect, useEffectEvent, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
   FadeInDown,
-  useAnimatedReaction,
   useAnimatedStyle,
-  useReducedMotion,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { scheduleOnRN } from "react-native-worklets";
 import Pause from "lucide-react-native/icons/pause";
@@ -25,10 +24,18 @@ import type { StoryTheme } from "./theme";
 export interface PlayerSlide {
   key: string;
   theme: StoryTheme;
-  backdrop?: React.ReactNode;
+  /** Full-screen layer under the content. `progress` runs 0 to 1. */
+  renderBackdrop?: (progress: SharedValue<number>) => React.ReactNode;
   content: React.ReactNode;
   /** Waits for the user instead of moving on, for example a quiz. */
   isWaiting?: boolean;
+  /** Time on screen. Default `STORY_SLIDE_MS`. */
+  durationMs?: number;
+}
+
+/** Bottom buttons pause the story through this, like the pause button. */
+export interface PlayerControls {
+  pause: () => void;
 }
 
 const barState = (position: number, index: number) => {
@@ -44,7 +51,7 @@ const ProgressBar = ({
   theme,
 }: {
   state: "done" | "current" | "next";
-  progress: ReturnType<typeof useSharedValue<number>>;
+  progress: SharedValue<number>;
   theme: StoryTheme;
 }) => {
   const fill = useAnimatedStyle(() => ({
@@ -68,52 +75,32 @@ const ProgressBar = ({
 };
 
 /** Content of a new slide rises in, like Instagram stories. */
-const ENTERING = FadeInDown.duration(380);
+const ENTERING = FadeInDown.duration(240);
 
-/** Photo backdrops zoom in slowly while the slide runs (Ken Burns). */
-const PHOTO_ZOOM = 1.08;
+/** Holding hides bars and buttons this fast, so the slide shows at once. */
+const CHROME_FADE_MS = 80;
 
-const KenBurns = ({
-  isPaused,
-  children,
-}: {
-  isPaused: boolean;
-  children: React.ReactNode;
-}) => {
-  const isReduced = useReducedMotion();
-  const scale = useSharedValue(1);
-  useEffect(() => {
-    if (isReduced) {
-      return;
-    }
-    if (isPaused) {
-      cancelAnimation(scale);
-      return;
-    }
-    const left = (PHOTO_ZOOM - scale.get()) / (PHOTO_ZOOM - 1);
-    scale.set(
-      withTiming(PHOTO_ZOOM, {
-        duration: left * STORY_SLIDE_MS,
-        easing: Easing.linear,
-      })
-    );
-  }, [isPaused, isReduced, scale]);
-  const style = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.get() }],
-  }));
-  return (
-    <Animated.View style={[StyleSheet.absoluteFill, style]}>
-      {children}
-    </Animated.View>
-  );
-};
+/** Wall clock in ms. Only event handlers and effects call it. */
+const now = () => Date.now();
+
+/** Play state of the current slide, kept on the JS thread. */
+interface Clock {
+  /** Slide time already played before the current run, in ms. */
+  played: number;
+  /** When the current run started, `null` while stopped. */
+  startedAt: number | null;
+  /** Bumps on every slide change, so a stale run never moves on. */
+  run: number;
+}
 
 /**
  * Full-screen story. Tap the right two thirds for the next slide, the left
  * third for the previous one; press and hold to pause and see the slide
- * alone: bars, buttons, and feedback fade out until you let go. Each slide moves on
- * after 7 seconds, except waiting slides. `renderBottom` draws per slide below
- * the content (Share, Helpful, Not Helpful).
+ * alone: bars, buttons, and feedback fade out until you let go. Each slide
+ * moves on after its time, except waiting slides. The last slide stays
+ * until the user closes it. Going to another slide plays the story again.
+ * `renderBottom` draws per slide below the content (Share, Helpful, Not
+ * Helpful); its `controls.pause` stops the story while the user acts.
  */
 export const StoryPlayer = ({
   slides,
@@ -129,7 +116,11 @@ export const StoryPlayer = ({
   onClose: () => void;
   /** Every slide change. The first slide counts on open, in the parent. */
   onSlideShown: (index: number) => void;
-  renderBottom: (index: number, theme: StoryTheme) => React.ReactNode;
+  renderBottom: (
+    index: number,
+    theme: StoryTheme,
+    controls: PlayerControls
+  ) => React.ReactNode;
   /** A sheet on top: the slide holds still until it closes. */
   isPaused?: boolean;
 }) => {
@@ -145,16 +136,64 @@ export const StoryPlayer = ({
   const isPaused = isPausedByUser || isHolding || isPausedFromParent;
   // Holding hides bars, buttons, and feedback, like Instagram stories.
   const chrome = useAnimatedStyle(() => ({
-    opacity: withTiming(isHolding ? 0 : 1, { duration: 180 }),
+    opacity: withTiming(isHolding ? 0 : 1, { duration: CHROME_FADE_MS }),
   }));
   const isWaiting = slide?.isWaiting ?? false;
 
-  /** Runs the bar from where it stopped to the end of the slide. */
-  const start = () => {
-    const remaining = (1 - progress.get()) * STORY_SLIDE_MS;
-    progress.set(withTiming(1, { duration: remaining, easing: Easing.linear }));
+  // The clock lives on the JS thread. Reading `progress` right after setting
+  // it returns the old value, which made slides run short or stick.
+  const clock = useRef<Clock>({ played: 0, startedAt: null, run: 0 });
+
+  const durationOf = (position: number) =>
+    slides[position]?.durationMs ?? STORY_SLIDE_MS;
+
+  const stop = () => {
+    const { startedAt } = clock.current;
+    if (startedAt !== null) {
+      clock.current.played += now() - startedAt;
+      clock.current.startedAt = null;
+    }
+    cancelAnimation(progress);
   };
 
+  /**
+   * A full bar moves on; the last slide stays until the user closes it.
+   * `position` comes with the run: this closure can be older than `index`.
+   */
+  const onRunEnd = (run: number, position: number) => {
+    if (run !== clock.current.run) {
+      return;
+    }
+    clock.current = {
+      ...clock.current,
+      played: durationOf(position),
+      startedAt: null,
+    };
+    if (position < slides.length - 1) {
+      // oxlint-disable-next-line no-use-before-define -- mutual recursion: a run ends, the next slide starts the next run. Called only after render.
+      goTo(position + 1);
+    }
+  };
+
+  /** Runs the bar of slide `position` from where it stopped to the end. */
+  const play = (position: number) => {
+    if (clock.current.startedAt !== null) {
+      return;
+    }
+    const duration = durationOf(position);
+    const left = Math.max(0, duration - clock.current.played);
+    const { run } = clock.current;
+    clock.current.startedAt = now();
+    progress.set(
+      withTiming(1, { duration: left, easing: Easing.linear }, (finished) => {
+        if (finished) {
+          scheduleOnRN(onRunEnd, run, position);
+        }
+      })
+    );
+  };
+
+  /** Shows slide `next` from its start and plays the story. */
   const goTo = (next: number) => {
     if (next >= slides.length) {
       onClose();
@@ -162,34 +201,24 @@ export const StoryPlayer = ({
     }
     const target = Math.max(0, next);
     cancelAnimation(progress);
+    clock.current = { played: 0, startedAt: null, run: clock.current.run + 1 };
     progress.set(0);
     setIndex(target);
+    setIsPausedByUser(false);
     if (target !== index) {
       onSlideShown(target);
     }
-    if (!isPaused && !slides[target]?.isWaiting) {
-      start();
+    if (!isHolding && !isPausedFromParent && !slides[target]?.isWaiting) {
+      play(target);
     }
   };
-
-  const onBarFull = () => goTo(index + 1);
-  // A full bar moves on. Reset to 0 happens before the next run starts.
-  useAnimatedReaction(
-    () => progress.get() >= 1,
-    (isFull, wasFull) => {
-      if (isFull && !wasFull) {
-        scheduleOnRN(onBarFull);
-      }
-    },
-    [index]
-  );
 
   // Pausing keeps the bar where it is; resuming runs it on.
   const onPauseChange = useEffectEvent((isHeld: boolean) => {
     if (isHeld) {
-      cancelAnimation(progress);
+      stop();
     } else {
-      start();
+      play(index);
     }
   });
   useEffect(() => {
@@ -200,6 +229,10 @@ export const StoryPlayer = ({
   const onPress = (event: GestureResponderEvent) => {
     const { locationX } = event.nativeEvent;
     goTo(locationX < 120 ? index - 1 : index + 1);
+  };
+
+  const controls: PlayerControls = {
+    pause: () => setIsPausedByUser(true),
   };
 
   if (!slide) {
@@ -216,18 +249,14 @@ export const StoryPlayer = ({
           { backgroundColor: palette.background },
         ]}
       >
-        {slide.theme === "photo" ? (
-          <KenBurns key={slide.key} isPaused={isPaused}>
-            {slide.backdrop}
-          </KenBurns>
-        ) : (
-          slide.backdrop
-        )}
+        <View key={slide.key} style={StyleSheet.absoluteFill}>
+          {slide.renderBackdrop?.(progress)}
+        </View>
         <Pressable
           accessible={false}
           style={StyleSheet.absoluteFill}
           onLongPress={() => setIsHolding(true)}
-          delayLongPress={250}
+          delayLongPress={200}
           onPressOut={() => setIsHolding(false)}
           onPress={onPress}
           testID="recap-story-tap"
@@ -319,7 +348,7 @@ export const StoryPlayer = ({
           chrome,
         ]}
       >
-        {renderBottom(index, theme)}
+        {renderBottom(index, theme, controls)}
       </Animated.View>
 
       {/* Screen readers move by button, not by tap zones. */}

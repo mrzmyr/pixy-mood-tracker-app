@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useReducedMotion,
+} from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 import MapPin from "lucide-react-native/icons/map-pin";
 import { RADIUS } from "@/constants/radius";
 import type { Person } from "@/features/people";
@@ -32,6 +37,7 @@ import {
   useDayColors,
 } from "./parts";
 import { STORY_PALETTE } from "./theme";
+import { getSlideDuration } from "./timing";
 import type {
   CameBackSlide,
   ComingUpSlide,
@@ -62,16 +68,81 @@ export interface SlideContext {
 
 const Gap = ({ size }: { size: number }) => <View style={{ height: size }} />;
 
-const PhotoBackdrop = ({
+/** Photos zoom in this much while they show (Ken Burns). */
+const PHOTO_ZOOM = 0.08;
+/** Photos drift sideways this far while they zoom, in points. */
+const PHOTO_DRIFT = 10;
+/** Crossfade from one photo to the next, in milliseconds. */
+const PHOTO_FADE_MS = 600;
+
+const clamp = (value: number, min: number, max: number) => {
+  "worklet";
+  return Math.min(max, Math.max(min, value));
+};
+
+/**
+ * One photo of the backdrop. Each photo owns an equal part of the slide's
+ * `progress`: it fades in over the one before, then zooms and drifts.
+ * Paused slides hold still, because `progress` does.
+ */
+const BackdropPhoto = ({
   photo,
+  position,
+  count,
+  fade,
+  progress,
 }: {
-  photo: NonNullable<FirstCitySlide["photo"]>;
+  photo: StoryPhoto;
+  position: number;
+  count: number;
+  /** Crossfade as a share of one photo's time. */
+  fade: number;
+  progress: SharedValue<number>;
+}) => {
+  const isReduced = useReducedMotion();
+  const style = useAnimatedStyle(() => {
+    // Below 0 before its turn, 0 to 1 during it.
+    const local = progress.get() * count - position;
+    const motion = isReduced ? 0 : clamp((local + fade) / (1 + fade), 0, 1);
+    return {
+      opacity: position === 0 ? 1 : clamp((local + fade) / fade, 0, 1),
+      transform: [
+        { scale: 1 + PHOTO_ZOOM * motion },
+        { translateX: (position % 2 === 0 ? -1 : 1) * PHOTO_DRIFT * motion },
+      ],
+    };
+  });
+  return (
+    <Animated.View style={[StyleSheet.absoluteFill, style]}>
+      <StoryImage
+        photo={photo.photo}
+        style={{ ...StyleSheet.absoluteFill, borderRadius: 0 }}
+      />
+    </Animated.View>
+  );
+};
+
+/** Full-screen photos one after another, darkened at top and bottom for text. */
+const PhotoBackdrop = ({
+  photos,
+  progress,
+  durationMs,
+}: {
+  photos: StoryPhoto[];
+  progress: SharedValue<number>;
+  durationMs: number;
 }) => (
   <>
-    <StoryImage
-      photo={photo.photo}
-      style={{ ...StyleSheet.absoluteFill, borderRadius: 0 }}
-    />
+    {photos.map((photo, position) => (
+      <BackdropPhoto
+        key={photo.photo.id}
+        photo={photo}
+        position={position}
+        count={photos.length}
+        fade={(PHOTO_FADE_MS * photos.length) / durationMs}
+        progress={progress}
+      />
+    ))}
     <LinearGradient
       colors={["rgba(0,0,0,0.55)", "rgba(0,0,0,0)", "rgba(0,0,0,0.6)"]}
       locations={[0, 0.45, 1]}
@@ -461,6 +532,7 @@ const HardPattern = ({
                 minHeight: 84,
                 padding: 10,
                 borderRadius: 14,
+                borderCurve: "continuous",
                 backgroundColor: palette.surface,
               }}
             >
@@ -597,6 +669,7 @@ const VsLast = ({ slide, ctx }: { slide: VsLastSlide; ctx: SlideContext }) => {
                 paddingHorizontal: 14,
                 paddingVertical: 12,
                 borderRadius: RADIUS.md,
+                borderCurve: "continuous",
                 backgroundColor: STORY_PALETTE.night.surface,
               }}
             >
@@ -791,6 +864,7 @@ const Moments = ({
                 width: tile,
                 height: tile,
                 borderRadius: RADIUS.md,
+                borderCurve: "continuous",
                 overflow: "hidden",
                 backgroundColor: STORY_PALETTE.night.surface,
               }}
@@ -959,13 +1033,32 @@ const ComingUp = ({
   );
 };
 
-/** Full-screen photo behind photo slides, under the padded content. */
-export const SlideBackdrop = ({ slide }: { slide: StorySlide }) => {
-  if (slide.type === "cover" && slide.variant === "photo" && slide.photos[0]) {
-    return <PhotoBackdrop photo={slide.photos[0]} />;
+/** Full-screen photos behind photo slides, under the padded content. */
+export const SlideBackdrop = ({
+  slide,
+  progress,
+}: {
+  slide: StorySlide;
+  progress: SharedValue<number>;
+}) => {
+  const durationMs = getSlideDuration(slide);
+  if (slide.type === "cover" && slide.variant === "photo") {
+    return (
+      <PhotoBackdrop
+        photos={slide.photos}
+        progress={progress}
+        durationMs={durationMs}
+      />
+    );
   }
   if (slide.type === "first-city" && slide.photo) {
-    return <PhotoBackdrop photo={slide.photo} />;
+    return (
+      <PhotoBackdrop
+        photos={[slide.photo]}
+        progress={progress}
+        durationMs={durationMs}
+      />
+    );
   }
   return null;
 };

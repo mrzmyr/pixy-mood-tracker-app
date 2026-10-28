@@ -203,6 +203,7 @@ export const ProfileForm = () => {
               paddingHorizontal: 16,
               paddingVertical: 14,
               borderRadius: isIOS ? RADIUS.md : RADIUS.sm,
+              borderCurve: "continuous",
             }}
             placeholder={t("people_name_placeholder")}
             placeholderTextColor={colors.textInputPlaceholder}

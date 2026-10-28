@@ -15,10 +15,15 @@ import type { TranscriptState } from "./transcript";
 import { getSpeechLocales } from "./speech-locale";
 import { getSpeechModule } from "./speech-module";
 
-/** Lifecycle of voice mode listening. `denied` and `failed` need user action. */
+/**
+ * Lifecycle of voice mode listening. `preparing` lasts until the microphone
+ * runs, which can include a speech model download. `denied` and `failed` need
+ * user action.
+ */
 export type VoiceStatus =
   | "idle"
   | "requesting"
+  | "preparing"
   | "listening"
   | "paused"
   | "denied"
@@ -31,6 +36,16 @@ export type VoiceErrorStatus =
   | "voice_on_device_unavailable"
   | "voice_siri_disabled"
   | "voice_transcription_failed";
+
+// Native level is linear over -50..0 dB (iOS) or -2..10 dB (Android). Speech
+// near the mic sits in the lower half, so room noise maps to 0 and normal
+// speech fills most of the range.
+const LEVEL_FLOOR = 0.15;
+const LEVEL_CEILING = 0.6;
+const toDisplayLevel = (raw: number) => {
+  const value = (raw - LEVEL_FLOOR) / (LEVEL_CEILING - LEVEL_FLOOR);
+  return Math.sqrt(Math.min(1, Math.max(0, value)));
+};
 
 // Maps native error codes of the patched library.
 const toErrorStatus = (code: string | undefined): VoiceErrorStatus => {
@@ -54,6 +69,16 @@ const toErrorStatus = (code: string | undefined): VoiceErrorStatus => {
 };
 
 const MAX_EMPTY_RESTARTS = 5;
+
+/**
+ * Setup longer than this fails with "Try again". A model download keeps
+ * running in the background, so a retry usually starts fast.
+ */
+export const PREPARE_TIMEOUT_MS = 60_000;
+
+// Native events count while voice mode waits for or uses the recognizer.
+const isActive = (status: VoiceStatus) =>
+  status === "preparing" || status === "listening";
 
 const FIXES: Record<VoiceErrorStatus, string> = {
   voice_permission_denied:
@@ -153,7 +178,7 @@ export const useVoiceTranscription = ({
     const progress = speech.addListener(
       "onTranscriptionProgress",
       (payload) => {
-        if (statusRef.current !== "listening") {
+        if (!isActive(statusRef.current)) {
           return;
         }
         emptyRestarts.current = 0;
@@ -166,14 +191,19 @@ export const useVoiceTranscription = ({
         }
       }
     );
-    const levels = speech.addListener("onAudioLevel", ({ level: next }) => {
+    const levels = speech.addListener("onAudioLevel", ({ level: raw }) => {
+      // The first level means the microphone runs.
+      if (statusRef.current === "preparing") {
+        setStatusBoth("listening");
+      }
+      const next = toDisplayLevel(raw);
       latestLevel.current = next;
       level.set(withTiming(next, { duration: 80 }));
     });
     const errors = speech.addListener(
       "onTranscriptionError",
       ({ message, code }) => {
-        if (statusRef.current !== "listening") {
+        if (!isActive(statusRef.current)) {
           return;
         }
         // Android: silence ends a segment with "no speech". Keep listening.
@@ -216,6 +246,24 @@ export const useVoiceTranscription = ({
     };
   }, [level, setStatusBoth, startSegment, updateTranscript]);
 
+  useEffect(() => {
+    if (status !== "preparing") {
+      return;
+    }
+    const timeout = setTimeout(() => {
+      getSpeechModule()?.stopListening();
+      const failure = voiceError(
+        "voice_transcription_failed",
+        `Microphone did not start within ${PREPARE_TIMEOUT_MS} ms`
+      );
+      setError(failure);
+      setStatusBoth("failed");
+      reportFailure(failure);
+      callbacks.current.onFailed?.(failure);
+    }, PREPARE_TIMEOUT_MS);
+    return () => clearTimeout(timeout);
+  }, [status, setStatusBoth]);
+
   /** Ask for permissions, then listen. */
   const start = useCallback(async () => {
     const speech = getSpeechModule();
@@ -247,7 +295,7 @@ export const useVoiceTranscription = ({
     }
     setError(undefined);
     emptyRestarts.current = 0;
-    setStatusBoth("listening");
+    setStatusBoth("preparing");
     startSegment();
   }, [setStatusBoth, startSegment]);
 
@@ -260,7 +308,7 @@ export const useVoiceTranscription = ({
 
   const resume = useCallback(() => {
     emptyRestarts.current = 0;
-    setStatusBoth("listening");
+    setStatusBoth("preparing");
     startSegment();
   }, [setStatusBoth, startSegment]);
 

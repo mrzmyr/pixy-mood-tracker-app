@@ -56,6 +56,7 @@ const FlagHighlight = ({
             borderStyle: "dashed",
             borderColor: colors.violet[500],
             borderRadius: RADIUS.md,
+            borderCurve: "continuous",
           }}
         />
       )}

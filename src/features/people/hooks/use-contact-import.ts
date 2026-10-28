@@ -122,6 +122,13 @@ export const useContactImport = () => {
     () => filterContactRows(contactIndex, query),
     [contactIndex, query]
   );
+  const selectedRows = useMemo(() => {
+    const byId = new Map(contactIndex.map(({ row }) => [row.contactId, row]));
+    return selectedIds.flatMap((id) => {
+      const row = byId.get(id);
+      return row === undefined ? [] : [row];
+    });
+  }, [contactIndex, selectedIds]);
   const { remaining } = getPeopleLimit(people);
   const isAtLimit = selectedIds.length >= remaining;
 
@@ -202,6 +209,8 @@ export const useContactImport = () => {
     query,
     setQuery,
     selectedIds,
+    /** Picked rows in pick order, for the strip above the list. */
+    selectedRows,
     isAtLimit,
     isImporting,
     toggle,

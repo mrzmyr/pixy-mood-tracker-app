@@ -34,6 +34,7 @@ const STATIC_DEVICE_ID = "test-device-id";
 const LOADED_STATE = {
   ...INITIAL_STATE,
   deviceId: STATIC_DEVICE_ID,
+  feedbackId: STATIC_DEVICE_ID,
 };
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- useSettings generates the device ID with uuid directly; the test needs a deterministic ID
@@ -194,6 +195,31 @@ describe("useSettings()", () => {
 
     expect(hook.result.current.state.settings.photosDayAccessDismissed).toBe(
       true
+    );
+  });
+
+  test("keeps the analytics choice of this device on import", async () => {
+    const consentAt = "2026-10-26T10:00:00.000Z";
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        analyticsEnabled: false,
+        analyticsConsentAt: consentAt,
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    // Old backups still carry `analyticsEnabled`.
+    const backup = { ...INITIAL_STATE, analyticsEnabled: true };
+    await act(() => {
+      hook.result.current.state.importSettings(backup);
+    });
+
+    expect(hook.result.current.state.settings.analyticsEnabled).toBe(false);
+    expect(hook.result.current.state.settings.analyticsConsentAt).toBe(
+      consentAt
     );
   });
 

@@ -1,0 +1,5 @@
+{
+  "name": "pixy-mood-tracker",
+  "description": "Keeps services Pixy uses: widgets, HealthKit, contacts, photo picker",
+  "except": ["widgets", "health", "pim", "photos"]
+}

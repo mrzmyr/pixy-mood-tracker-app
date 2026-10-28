@@ -1,12 +1,26 @@
-import React, { memo, useCallback, useContext, useRef, useState } from "react";
-import { ActivityIndicator, Platform, Text, View } from "react-native";
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import {
+  ActivityIndicator,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import Animated from "react-native-reanimated";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
 import type { FlashListRef } from "@shopify/flash-list";
 import { HeaderHeightContext } from "expo-router/react-navigation";
 import type { Month } from "./layout";
 import { useCalendarFiltersSheet } from "../../filters";
-import { HAS_FLOATING_HEADER } from "../../floating-header";
+import { HAS_FLOATING_HEADER } from "@/constants/floating-header";
 import { useCalendarLayout } from "../../calendar-layout";
 import useColors from "@/hooks/use-colors";
 import { useToday } from "@/hooks/use-today";
@@ -21,15 +35,18 @@ import { Body } from "./calendar-bottom-sheet/body";
 import { PromoCards } from "./promo-cards";
 import CalendarHeader from "./calendar-header";
 import { CalendarFloatButton } from "./calendar-float-button";
-import { CalendarVoiceButton } from "./calendar-voice-button";
-import { isVoiceModeSupported } from "@/features/voice";
-import { useFeatureFlag } from "@/state/feature-flags";
+import { CalendarSecondaryButtons } from "./calendar-secondary-button";
 import { useFootNote } from "./foot-note";
 import { Timeline } from "./timeline";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import dayjs from "dayjs";
 import { getItemDate } from "@/lib/log-dates";
+import {
+  getChromeIntroStyle,
+  playCalendarIntro,
+  useCalendarIntro,
+} from "../../intro";
 
 // Space between the list end and the foot note, revealed on overscroll.
 const FOOT_NOTE_GAP = 20;
@@ -41,10 +58,11 @@ const CalendarScreenComponent = () => {
   const isSettingsLoaded = useSettingsLoad().status === "ready";
   const isLogsLoaded = useLogLoad().status === "ready";
   const analytics = useAnalytics();
-  const isVoiceModeEnabled = useFeatureFlag("voice-mode");
   const logState = useLogState();
   const filtersSheet = useCalendarFiltersSheet();
   const { layout } = useCalendarLayout();
+  const intro = useCalendarIntro();
+  const introStyle = getChromeIntroStyle(intro);
   // Timeline: no weekday row, no scroll to today.
   const isCalendar = layout === "calendar";
   const { text: footNote, onOverscroll: onFootNoteOverscroll } = useFootNote();
@@ -62,6 +80,13 @@ const CalendarScreenComponent = () => {
     : 0;
   const showFloatButton = !filtersSheet.isOpen;
   const today = useToday();
+  // The timeline has no pixels: its intro only fades in the chrome. The
+  // calendar starts its intro once the list knows the top row.
+  useEffect(() => {
+    if (!isCalendar) {
+      playCalendarIntro({ origin: today, lastDate: today });
+    }
+  }, [isCalendar, today]);
   const hasTodayEntry = logState.items.some(
     (item) => getItemDate(item) === today
   );
@@ -98,7 +123,8 @@ const CalendarScreenComponent = () => {
         topInset={topInset}
         header={filtersBody}
         footer={
-          <View
+          <Animated.View
+            style={introStyle}
             onLayout={(event) => {
               footerHeight.current = event.nativeEvent.layout.height;
             }}
@@ -125,7 +151,7 @@ const CalendarScreenComponent = () => {
                 {footNote}
               </Text>
             </View>
-          </View>
+          </Animated.View>
         }
       />
     </View>
@@ -158,39 +184,34 @@ const CalendarScreenComponent = () => {
   return (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
       {content}
-      {showFloatButton && (
-        <CalendarFloatButton
-          // Newest entries sit at the timeline top: it always shows add.
-          isAtBottom={!isCalendar || !isAwayFromToday}
-          hasTodayEntry={hasTodayEntry}
-          onScrollToBottom={() => {
-            analytics.track("calendar:today_tapped");
-            scrollRef.current?.scrollToEnd({ animated: true });
-          }}
-          onAdd={() => {
-            analytics.track("calendar:add_today_tapped", {
-              has_entries: hasTodayEntry,
-            });
-            router.push({
-              pathname: "/logs/create/[dateTime]",
-              params: { dateTime: dayjs().toISOString() },
-            });
-          }}
-        />
-      )}
-      {showFloatButton &&
-        isVoiceModeEnabled &&
-        isVoiceModeSupported &&
-        (!isCalendar || !isAwayFromToday) && (
-          <CalendarVoiceButton
-            onPress={() => {
-              analytics.track("calendar:voice_tapped", {
+      <Animated.View
+        pointerEvents="box-none"
+        style={[StyleSheet.absoluteFill, introStyle]}
+      >
+        {showFloatButton && (
+          <CalendarFloatButton
+            // Newest entries sit at the timeline top: it always shows add.
+            isAtBottom={!isCalendar || !isAwayFromToday}
+            hasTodayEntry={hasTodayEntry}
+            onScrollToBottom={() => {
+              analytics.track("calendar:today_tapped");
+              scrollRef.current?.scrollToEnd({ animated: true });
+            }}
+            onAdd={() => {
+              analytics.track("calendar:add_today_tapped", {
                 has_entries: hasTodayEntry,
               });
-              router.push("/logs/voice");
+              router.push({
+                pathname: "/logs/create/[dateTime]",
+                params: { dateTime: dayjs().toISOString() },
+              });
             }}
           />
         )}
+        {showFloatButton && (!isCalendar || !isAwayFromToday) && (
+          <CalendarSecondaryButtons hasTodayEntry={hasTodayEntry} />
+        )}
+      </Animated.View>
       {Platform.OS !== "web" && <CalendarBottomSheet />}
     </View>
   );

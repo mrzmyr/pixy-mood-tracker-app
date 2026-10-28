@@ -120,7 +120,6 @@ export const QuickCheckInNotificationSync = () => {
             context.logUpdater.addLog(change.item);
             context.analytics.track("quick_check_in:entry_saved", {
               source: "notification",
-              rating: change.item.rating,
             });
           } else {
             context.logUpdater.editLog(change.item);

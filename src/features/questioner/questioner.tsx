@@ -104,11 +104,13 @@ export const useQuestioner = () => {
       })
       .join(", ");
 
+    // Feedback id, never the analytics install id. The key stays `deviceId`:
+    // the server reads that field.
     const metaData = {
       locale: getLocale(),
       version: pkg.version,
       os: Platform.OS,
-      deviceId: settings.deviceId,
+      deviceId: settings.feedbackId,
     };
 
     const body = {
@@ -125,8 +127,6 @@ export const useQuestioner = () => {
       question_id: answeredQuestion.id,
       answer_ids: answers.map((answer) => answer.id),
     });
-
-    console.log("Sending Question Feedback", body);
 
     if (__DEV__) {
       console.log("Not sending Question Feedback in dev mode");

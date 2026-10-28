@@ -26,10 +26,12 @@ export const DEFAULT_QUICK_CHECK_IN_SCHEDULE = {
  */
 export const INITIAL_STATE: SettingsState = {
   deviceId: null,
+  feedbackId: null,
   scaleType: "ColorBrew-RdYlGn",
   reminderEnabled: false,
   reminderTime: DEFAULT_REMINDER_TIME,
   analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
+  analyticsConsentAt: null,
   actionsDone: [],
   // `photos` and `sleep` are on for new installs only. Stored settings keep
   // their own step list, so existing users turn them on in Settings > Steps.

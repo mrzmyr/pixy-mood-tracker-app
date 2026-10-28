@@ -9,7 +9,8 @@ import {
 } from "@expo/ui";
 import { Children, isValidElement } from "react";
 import type { ReactNode } from "react";
-import useColors from "@/hooks/use-colors";
+import { MATERIAL_SEED_COLOR } from "@/constants/colors";
+import useFormBackground from "@/hooks/use-form-background";
 import NavigationChevron from "./navigation-chevron";
 import {
   formModifiers,
@@ -61,14 +62,11 @@ export const SettingsSection = (_props: SettingsSectionProps) => null;
  * [index.web.tsx](./index.web.tsx).
  */
 export const SettingsForm = ({ children }: { children: ReactNode }) => {
-  const colors = useColors();
+  const backgroundColor = useFormBackground();
 
   return (
-    <Host style={{ flex: 1 }}>
-      <FieldGroup
-        style={{ backgroundColor: colors.background }}
-        modifiers={formModifiers}
-      >
+    <Host style={{ flex: 1 }} seedColor={MATERIAL_SEED_COLOR}>
+      <FieldGroup style={{ backgroundColor }} modifiers={formModifiers}>
         {/* Android groups rows by element type: a wrapper component would
             land inside an implicit section, so render sections here. */}
         {/* oxlint-disable-next-line react/no-react-children -- @expo/ui FieldGroup reads its direct children the same way. */}

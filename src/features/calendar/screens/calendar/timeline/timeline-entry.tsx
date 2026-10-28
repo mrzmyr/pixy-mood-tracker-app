@@ -143,6 +143,7 @@ const TimelineEntryComponent = ({
       style={({ pressed }) => ({
         marginBottom: 16,
         borderRadius: 16,
+        borderCurve: "continuous",
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: colors.logCardBorder,
         backgroundColor: colors.logCardBackground,

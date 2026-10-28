@@ -4,7 +4,6 @@
 
 ```
 - Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`
-- Wwitch Superwall off: `EXPO_PUBLIC_SUPERWALL_ENABLED=false`
 - E2E builds (`bun ios:e2e`, `bun android:e2e`) turn it off through [service mocks](../e2e/README.md#service-mocks)
 - Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`
 ```
@@ -12,7 +11,7 @@
 ❌ Bad
 
 ```
-Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. Set `EXPO_PUBLIC_SUPERWALL_ENABLED=false` to switch Superwall off: the app never configures or calls it, and Settings hides Support Pixy. Unset, Superwall stays on. E2E builds (`bun ios:e2e`, `bun android:e2e`) turn it off through [service mocks](e2e/README.md#service-mocks). Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Restart Expo after changing configuration. Production builds ignore fake mode.
+Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. E2E builds (`bun ios:e2e`, `bun android:e2e`) turn it off through [service mocks](e2e/README.md#service-mocks). Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Restart Expo after changing configuration. Production builds ignore fake mode.
 ```
 
 **Prefer referencing over index tables**
