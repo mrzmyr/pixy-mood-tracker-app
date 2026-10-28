@@ -689,6 +689,7 @@
   "people_import_importing": "מייבא…",
   "people_import_limited": "Pixy רואה רק את אנשי הקשר ששיתפת. שתף עוד כדי לייבא אותם.",
   "people_import_no_match": "אין אנשי קשר שתואמים לחיפוש שלך.",
+  "people_import_remove": "הסרת {{name}}",
   "people_import_retry": "נסה שוב",
   "people_import_search": "חיפוש אנשי קשר",
   "people_import_share_more": "שיתוף אנשי קשר נוספים…",

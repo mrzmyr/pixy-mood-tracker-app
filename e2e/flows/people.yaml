@@ -58,8 +58,18 @@ tags: [p1, people]
 - tapOn:
     id: "person-from-contacts"
 - assertVisible: "Added"
-- tapOn:
-    id: "contact-import-search"
+# iOS: native search bar in the sheet header. Android: field in the screen.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "Search Contacts"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          id: "contact-import-search"
 - inputText: "lee"
 - assertVisible: "Lee Fake"
 - assertNotVisible: "Kim Fake"

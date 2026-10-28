@@ -689,6 +689,7 @@
   "people_import_importing": "جارٍ الاستيراد…",
   "people_import_limited": "يرى Pixy فقط جهات الاتصال التي شاركتها. شارك المزيد لاستيرادها.",
   "people_import_no_match": "لا توجد جهات اتصال تطابق بحثك.",
+  "people_import_remove": "إزالة {{name}}",
   "people_import_retry": "حاول مرة أخرى",
   "people_import_search": "البحث في جهات الاتصال",
   "people_import_share_more": "مشاركة المزيد من جهات الاتصال…",

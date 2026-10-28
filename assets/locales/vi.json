@@ -689,6 +689,7 @@
   "people_import_importing": "Đang nhập…",
   "people_import_limited": "Pixy chỉ thấy các liên hệ bạn đã chia sẻ. Chia sẻ thêm để nhập chúng.",
   "people_import_no_match": "Không có liên hệ nào khớp với tìm kiếm của bạn.",
+  "people_import_remove": "Xóa {{name}}",
   "people_import_retry": "Thử lại",
   "people_import_search": "Tìm danh bạ",
   "people_import_share_more": "Chia sẻ thêm liên hệ…",

@@ -692,6 +692,7 @@
   "people_import_importing": "Importiere…",
   "people_import_limited": "Pixy sieht nur die Kontakte, die du freigegeben hast. Gib weitere frei, um sie zu importieren.",
   "people_import_no_match": "Keine Kontakte passen zu deiner Suche.",
+  "people_import_remove": "{{name}} entfernen",
   "people_import_retry": "Erneut versuchen",
   "people_import_search": "Kontakte suchen",
   "people_import_share_more": "Weitere Kontakte freigeben…",

@@ -689,6 +689,7 @@
   "people_import_importing": "Імпорт…",
   "people_import_limited": "Pixy бачить лише контакти, якими ви поділилися. Поділіться іншими, щоб імпортувати їх.",
   "people_import_no_match": "Немає контактів, що відповідають вашому пошуку.",
+  "people_import_remove": "Прибрати {{name}}",
   "people_import_retry": "Спробувати ще раз",
   "people_import_search": "Пошук контактів",
   "people_import_share_more": "Поділитися іншими контактами…",

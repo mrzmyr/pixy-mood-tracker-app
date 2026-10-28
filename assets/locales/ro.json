@@ -689,6 +689,7 @@
   "people_import_importing": "Se importă…",
   "people_import_limited": "Pixy vede doar contactele pe care le-ai partajat. Partajează mai multe pentru a le importa.",
   "people_import_no_match": "Niciun contact nu se potrivește căutării tale.",
+  "people_import_remove": "Elimină {{name}}",
   "people_import_retry": "Încearcă din nou",
   "people_import_search": "Caută contacte",
   "people_import_share_more": "Partajează mai multe contacte…",

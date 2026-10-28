@@ -689,6 +689,7 @@
   "people_import_importing": "Uvozim…",
   "people_import_limited": "Pixy vidi samo kontakte koje si podijelio/la. Podijeli još da ih uvezeš.",
   "people_import_no_match": "Nijedan kontakt ne odgovara tvojoj pretrazi.",
+  "people_import_remove": "Ukloni {{name}}",
   "people_import_retry": "Pokušaj ponovno",
   "people_import_search": "Pretraži kontakte",
   "people_import_share_more": "Podijeli još kontakata…",

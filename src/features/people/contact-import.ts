@@ -59,3 +59,42 @@ export const filterContactRows = (
     searchKey.includes(needle) ? [row] : []
   );
 };
+
+/** Rows that share a first letter, for the list's letter headers. */
+export interface ContactSection {
+  /** `A`–`Z`, or `#` for names that start with a digit, symbol, or emoji. */
+  title: string;
+  data: ContactRow[];
+}
+
+const OTHER_SECTION = "#";
+
+const sectionTitle = (name: string) => {
+  const first = normalize(name.trim()).charAt(0).toUpperCase();
+  return /^[A-Z]$/u.test(first) ? first : OTHER_SECTION;
+};
+
+/**
+ * Groups sorted rows by first letter, accents folded (`Émile` under `E`).
+ * Names without a leading Latin letter go to `#`, last, like iOS Contacts.
+ */
+export const groupContactRows = (rows: ContactRow[]): ContactSection[] => {
+  const sections: ContactSection[] = [];
+  const other: ContactRow[] = [];
+  for (const row of rows) {
+    const title = sectionTitle(row.name);
+    if (title === OTHER_SECTION) {
+      other.push(row);
+      continue;
+    }
+    const last = sections.at(-1);
+    if (last?.title === title) {
+      last.data.push(row);
+    } else {
+      sections.push({ title, data: [row] });
+    }
+  }
+  return other.length > 0
+    ? [...sections, { title: OTHER_SECTION, data: other }]
+    : sections;
+};

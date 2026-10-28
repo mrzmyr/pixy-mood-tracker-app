@@ -689,6 +689,7 @@
   "people_import_importing": "Εισαγωγή…",
   "people_import_limited": "Το Pixy βλέπει μόνο τις επαφές που κοινοποίησες. Κοινοποίησε περισσότερες για να τις εισαγάγεις.",
   "people_import_no_match": "Καμία επαφή δεν ταιριάζει με την αναζήτησή σου.",
+  "people_import_remove": "Αφαίρεση {{name}}",
   "people_import_retry": "Δοκίμασε ξανά",
   "people_import_search": "Αναζήτηση επαφών",
   "people_import_share_more": "Κοινοποίηση περισσότερων επαφών…",

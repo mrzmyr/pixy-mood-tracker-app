@@ -689,6 +689,7 @@
   "people_import_importing": "आयात हो रहा है…",
   "people_import_limited": "Pixy केवल वही संपर्क देख सकता है जो आपने साझा किए हैं। उन्हें आयात करने के लिए और साझा करें।",
   "people_import_no_match": "आपकी खोज से कोई संपर्क मेल नहीं खाता।",
+  "people_import_remove": "{{name}} को हटाएं",
   "people_import_retry": "फिर से कोशिश करें",
   "people_import_search": "संपर्क खोजें",
   "people_import_share_more": "और संपर्क साझा करें…",

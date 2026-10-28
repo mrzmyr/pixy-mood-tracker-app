@@ -787,6 +787,7 @@
   "people_import_importing": "Importing…",
   "people_import_limited": "Pixy can only see the contacts you shared. Share more to import them.",
   "people_import_no_match": "No contacts match your search.",
+  "people_import_remove": "Remove {{name}}",
   "people_import_retry": "Try Again",
   "people_import_search": "Search Contacts",
   "people_import_share_more": "Share More Contacts…",

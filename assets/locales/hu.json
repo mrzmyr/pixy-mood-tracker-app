@@ -689,6 +689,7 @@
   "people_import_importing": "Importálás…",
   "people_import_limited": "A Pixy csak a megosztott névjegyeidet látja. Ossz meg többet az importáláshoz.",
   "people_import_no_match": "Egy névjegy sem felel meg a keresésnek.",
+  "people_import_remove": "{{name}} eltávolítása",
   "people_import_retry": "Újra",
   "people_import_search": "Névjegyek keresése",
   "people_import_share_more": "További névjegyek megosztása…",

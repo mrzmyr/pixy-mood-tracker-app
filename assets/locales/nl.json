@@ -689,6 +689,7 @@
   "people_import_importing": "Importeren…",
   "people_import_limited": "Pixy ziet alleen de contacten die je hebt gedeeld. Deel er meer om ze te importeren.",
   "people_import_no_match": "Geen contacten komen overeen met je zoekopdracht.",
+  "people_import_remove": "{{name}} verwijderen",
   "people_import_retry": "Opnieuw proberen",
   "people_import_search": "Contacten zoeken",
   "people_import_share_more": "Meer contacten delen…",

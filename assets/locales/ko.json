@@ -689,6 +689,7 @@
   "people_import_importing": "가져오는 중…",
   "people_import_limited": "Pixy는 공유한 연락처만 볼 수 있습니다. 가져오려면 연락처를 더 공유하세요.",
   "people_import_no_match": "검색과 일치하는 연락처가 없습니다.",
+  "people_import_remove": "{{name}} 제거",
   "people_import_retry": "다시 시도",
   "people_import_search": "연락처 검색",
   "people_import_share_more": "연락처 더 공유하기…",

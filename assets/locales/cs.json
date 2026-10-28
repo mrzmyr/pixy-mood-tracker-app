@@ -689,6 +689,7 @@
   "people_import_importing": "Importuji…",
   "people_import_limited": "Pixy vidí jen kontakty, které jsi sdílel(a). Sdílej další, abys je mohl(a) importovat.",
   "people_import_no_match": "Vašemu hledání neodpovídají žádné kontakty.",
+  "people_import_remove": "Odebrat {{name}}",
   "people_import_retry": "Zkusit znovu",
   "people_import_search": "Hledat kontakty",
   "people_import_share_more": "Sdílet další kontakty…",
