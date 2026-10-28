@@ -13,6 +13,8 @@
   "afternoon": "Pomeriggio",
   "app_error_retry": "Riprova",
   "app_error_title": "Qualcosa è andato storto",
+  "app_icon_sky": "Cielo",
+  "app_icon_sky_description": "Punti bianchi su cielo nuvoloso",
   "app_is_open_source": "Pixy è open source",
   "app_lock": "Blocco app",
   "app_lock_code_copied": "Codice copiato",

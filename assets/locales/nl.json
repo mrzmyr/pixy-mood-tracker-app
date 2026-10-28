@@ -13,6 +13,8 @@
   "afternoon": "Middag",
   "app_error_retry": "Opnieuw proberen",
   "app_error_title": "Er ging iets mis",
+  "app_icon_sky": "Lucht",
+  "app_icon_sky_description": "Witte stippen op bewolkte lucht",
   "app_is_open_source": "Pixy is open source",
   "app_lock": "App-vergrendeling",
   "app_lock_code_copied": "Code gekopieerd",

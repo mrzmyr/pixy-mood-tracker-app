@@ -1,7 +1,7 @@
 import type { ImageSourcePropType } from "react-native";
 
 /** Stable app icon ids. Analytics sends them, so do not rename them. */
-export type AppIconId = "default" | "tangerine" | "tangerine-inverse";
+export type AppIconId = "default" | "tangerine" | "tangerine-inverse" | "sky";
 
 /** One selectable app icon in Settings > App Icon. */
 export interface AppIcon {
@@ -38,5 +38,11 @@ export const APP_ICONS: readonly AppIcon[] = [
     nativeName: "TangerineInverse",
     isFlagged: true,
     preview: require("../../assets/images/app-icons/preview-tangerine-inverse.png"),
+  },
+  {
+    id: "sky",
+    nativeName: "Sky",
+    isFlagged: true,
+    preview: require("../../assets/images/app-icons/preview-sky.png"),
   },
 ];
