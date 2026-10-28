@@ -63,12 +63,6 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Skip platform not selected for dispatch
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.platform != 'both' && github.event.inputs.platform != matrix.platform
-        run: |
-          echo "Skipping ${{ matrix.platform }} (dispatch platform=${{ github.event.inputs.platform }})"
-          exit 0
-
       - name: Checkout released commit
         if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'both' || github.event.inputs.platform == matrix.platform
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
