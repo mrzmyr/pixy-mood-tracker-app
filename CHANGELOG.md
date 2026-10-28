@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.107.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.106.1...v1.107.0) (2026-10-28)
+
+
+### Features
+
+* menstruation tracking ([#743](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/743)) ([316a9b1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/316a9b13a3d5eb357b6ee09615d6da5a8acd19e4))
+* **people:** native contact picker with letter sections and picked strip ([#986](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/986)) ([a519285](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a519285daf598f453afbb31f98639893a6e90051))
+* **quick-check-in:** add note field and voice input ([#985](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/985)) ([3e4177f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3e4177f9a1c55481929f6c61965520c7109a3a9d))
+* **settings:** add Sky app icon ([#984](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/984)) ([bb75a6b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bb75a6ba9f0387032a6aef255ef50aaf2dc0c3ef))
+
+
+### Bug Fixes
+
+* **ui:** use continuous corners on rounded surfaces ([#977](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/977)) ([3a64a23](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3a64a23d14344e9244e33c85996c3f09bce885cc))
+
 ## [1.106.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.106.0...v1.106.1) (2026-10-27)
 
 
