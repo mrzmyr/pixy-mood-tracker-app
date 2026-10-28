@@ -691,6 +691,7 @@
   "people_import_importing": "Importerar…",
   "people_import_limited": "Pixy ser bara kontakterna du har delat. Dela fler för att importera dem.",
   "people_import_no_match": "Inga kontakter matchar din sökning.",
+  "people_import_remove": "Ta bort {{name}}",
   "people_import_retry": "Försök igen",
   "people_import_search": "Sök kontakter",
   "people_import_share_more": "Dela fler kontakter…",

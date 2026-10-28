@@ -691,6 +691,7 @@
   "people_import_importing": "正在导入…",
   "people_import_limited": "Pixy 只能看到你共享的联系人。共享更多联系人即可导入。",
   "people_import_no_match": "没有与搜索匹配的联系人。",
+  "people_import_remove": "移除{{name}}",
   "people_import_retry": "重试",
   "people_import_search": "搜索联系人",
   "people_import_share_more": "共享更多联系人…",

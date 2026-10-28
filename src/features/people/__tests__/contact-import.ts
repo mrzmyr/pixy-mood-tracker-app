@@ -1,4 +1,8 @@
-import { buildContactIndex, filterContactRows } from "../contact-import";
+import {
+  buildContactIndex,
+  filterContactRows,
+  groupContactRows,
+} from "../contact-import";
 
 describe("contact import search", () => {
   const contacts = [
@@ -59,5 +63,34 @@ describe("contact import search", () => {
     const filtered = filterContactRows(index, "zo");
 
     expect(filtered[0]).toBe(all.find((row) => row.contactId === "c-ben"));
+  });
+});
+
+const sectionsOf = (names: string[]) =>
+  groupContactRows(
+    filterContactRows(
+      buildContactIndex({
+        contacts: names.map((name) => ({ contactId: name, name })),
+        people: [],
+      }),
+      ""
+    )
+  ).map((section) => [section.title, section.data.map((row) => row.name)]);
+
+describe("contact import sections", () => {
+  test("groups by first letter, accents under their base letter", () => {
+    expect(sectionsOf(["Émile", "Ada", "eve", "Ben"])).toEqual([
+      ["A", ["Ada"]],
+      ["B", ["Ben"]],
+      ["E", ["Émile", "eve"]],
+    ]);
+  });
+
+  test("puts names without a leading letter in # at the end", () => {
+    expect(sectionsOf(["2nd Phone", "Zoe", "🙂 Sam", "Ann"])).toEqual([
+      ["A", ["Ann"]],
+      ["Z", ["Zoe"]],
+      ["#", ["🙂 Sam", "2nd Phone"]],
+    ]);
   });
 });

@@ -691,6 +691,7 @@
   "people_import_importing": "Tuodaan…",
   "people_import_limited": "Pixy näkee vain jakamasi yhteystiedot. Jaa lisää tuodaksesi ne.",
   "people_import_no_match": "Hakuasi vastaavia yhteystietoja ei ole.",
+  "people_import_remove": "Poista {{name}}",
   "people_import_retry": "Yritä uudelleen",
   "people_import_search": "Hae yhteystietoja",
   "people_import_share_more": "Jaa lisää yhteystietoja…",

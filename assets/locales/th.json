@@ -691,6 +691,7 @@
   "people_import_importing": "กำลังนำเข้า…",
   "people_import_limited": "Pixy มองเห็นเฉพาะรายชื่อที่คุณแชร์ แชร์เพิ่มเพื่อนำเข้า",
   "people_import_no_match": "ไม่มีรายชื่อที่ตรงกับการค้นหาของคุณ",
+  "people_import_remove": "นำ {{name}} ออก",
   "people_import_retry": "ลองอีกครั้ง",
   "people_import_search": "ค้นหารายชื่อ",
   "people_import_share_more": "แชร์รายชื่อเพิ่ม…",

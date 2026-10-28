@@ -691,6 +691,7 @@
   "people_import_importing": "読み込み中…",
   "people_import_limited": "Pixy は共有した連絡先のみ表示できます。読み込むには連絡先を追加で共有してください。",
   "people_import_no_match": "検索に一致する連絡先はありません。",
+  "people_import_remove": "{{name}}を削除",
   "people_import_retry": "再試行",
   "people_import_search": "連絡先を検索",
   "people_import_share_more": "連絡先をさらに共有…",
