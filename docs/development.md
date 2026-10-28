@@ -94,7 +94,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 ### Apple Health
 
 - Code: [`src/features/health`](../src/features/health). Flag `apple-health`, iOS only. Settings > Check-in > Sleep is a page for everyone; flag on adds switch "Auto Fill" under "Apple Health"
-- Library: [`@kingstinct/react-native-healthkit`](https://github.com/kingstinct/react-native-healthkit). Read sleep only. Plugin drops `NSHealthUpdateUsageDescription` and background delivery
+- Library: [`@kingstinct/react-native-healthkit`](https://github.com/kingstinct/react-native-healthkit). Read sleep only. Keep `NSHealthUpdateUsageDescription` set (Apple rejects the binary without it when HealthKit is enabled) and drop background delivery
 - Apple Sleep Score has no API. Pixy computes own score from sleep samples ([`sleep-score.ts`](../src/features/health/sleep-score.ts)). Score bands map to the 5 sleep qualities
 - Switch on shows the Health access sheet. HealthKit hides read denial: switch stays on, entries get no sleep quality. Settings text points to Health app > Apps > Pixy
 - Auto Fill on: new entries skip the sleep slide. Logger fills quality in background ([`useHealthSleepFill`](../src/features/logger/hooks/use-health-sleep-fill.ts)), same rule as sleep step: step on, first entry of day with sleep. Save waits up to 1 second for Apple Health. No sleep data: entry saves without quality
