@@ -121,6 +121,8 @@ export interface AnalyticsEvents {
     source: "notification" | "app";
     has_emotion: boolean;
     influences_count: number;
+    /** App screen only. The notification has no note. */
+    has_note?: boolean;
   };
   "quick_check_in:setting_changed": { enabled: boolean };
   /** Fixed values only: times are `HH:mm` picks, not free text. */
