@@ -2,6 +2,7 @@ import type { Emotion } from "@/types";
 import chunkArray from "lodash/chunk";
 import { View } from "react-native";
 import { EmotionButtonAdvanced } from "./emotion-button-advanced";
+import { EmotionContextMenu } from "./emotion-context-menu";
 import { MissingEmotionTile } from "./missing-emotion-tile";
 import { sortForColumns } from "./sort-for-columns";
 
@@ -38,6 +39,8 @@ export const EmotionPage = ({
   selectedEmotions: Emotion[];
 }) => {
   const sortedForColumns = sortForColumns(emotions, COLUMNS);
+  const isSelected = (emotion: Emotion) =>
+    selectedEmotions.some((d) => d.key === emotion.key);
   const cells: Cell[] = [...sortedForColumns, "missing"];
   const chunks = chunkArray(cells, COLUMNS).map((d): Cell[] =>
     d.length === 1 ? [...d, "empty"] : d
@@ -71,14 +74,18 @@ export const EmotionPage = ({
                 />
               )}
               {cell !== "missing" && cell !== "empty" && (
-                <EmotionButtonAdvanced
+                <EmotionContextMenu
                   emotion={cell}
                   onPress={onPress}
-                  selected={selectedEmotions
-                    .map((d) => d.key)
-                    .includes(cell.key)}
-                  style={CELL_CONTENT_STYLE}
-                />
+                  selected={isSelected(cell)}
+                >
+                  <EmotionButtonAdvanced
+                    emotion={cell}
+                    onPress={onPress}
+                    selected={isSelected(cell)}
+                    style={CELL_CONTENT_STYLE}
+                  />
+                </EmotionContextMenu>
               )}
             </View>
           ))}
