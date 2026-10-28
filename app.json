@@ -251,7 +251,7 @@
         "@kingstinct/react-native-healthkit",
         {
           "NSHealthShareUsageDescription": "Pixy reads your sleep to suggest how well you slept when you check in. Your sleep data stays on your iPhone.",
-          "NSHealthUpdateUsageDescription": false,
+          "NSHealthUpdateUsageDescription": "Pixy does not save data to Apple Health. Apple requires this notice when HealthKit is on. Pixy only reads sleep to suggest sleep quality, and that data stays on your iPhone.",
           "background": false
         }
       ],
