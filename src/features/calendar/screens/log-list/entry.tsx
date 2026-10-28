@@ -25,6 +25,7 @@ import { Message } from "./message";
 import { People, useKnownPeople } from "./people";
 import { Photos } from "./photos";
 import { Place } from "./place";
+import { Menstruation } from "./menstruation";
 import { Sleep } from "./sleep";
 import { Tags } from "./tags";
 import { getTimeOfDay } from "./time-of-day";
@@ -73,12 +74,14 @@ const EntryHeader = ({
   onEdit,
   onDelete,
   onEditSleep,
+  onEditMenstruation,
   position,
 }: {
   item: LogItem;
   onEdit: (item: LogItem) => void;
   onDelete: (item: LogItem) => void;
   onEditSleep?: () => void;
+  onEditMenstruation?: () => void;
   position?: EntryPosition;
 }) => {
   const colors = useColors();
@@ -118,14 +121,36 @@ const EntryHeader = ({
         >
           {formatItemTime(item.dateTime)}
         </Text>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            alignItems: "center",
+            columnGap: 12,
+            rowGap: 4,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              flexShrink: 1,
+              gap: 5,
+            }}
+          >
             <TimeOfDayIcon color={colors.textSecondary} size={14} />
-            <Text style={{ fontSize: 13, color: colors.textSecondary }}>
+            <Text
+              style={{
+                flexShrink: 1,
+                fontSize: 13,
+                color: colors.textSecondary,
+              }}
+            >
               {t(timeOfDay)}
             </Text>
           </View>
           <Sleep item={item} onEdit={onEditSleep} />
+          <Menstruation item={item} onEdit={onEditMenstruation} />
         </View>
         <Place item={item} />
       </View>
@@ -148,8 +173,8 @@ const EntryHeader = ({
 
 /**
  * Full-width card for one entry in the day list. The header shows time, time
- * of day, sleep, the place with the `location` flag on, and with `position`
- * the place of the entry in its day ("2/5"). No section titles: white space
+ * of day, sleep, menstruation, the place with the `location` flag on, and
+ * with `position` the place of the entry in its day ("2/5"). No section titles: white space
  * divides the blocks. Short blocks come first (emotions, people, tags,
  * photos), the note last, so a long note never hides the rest. Empty steps
  * show as dashed add pills at the end.
@@ -185,6 +210,7 @@ export const Entry = ({
   const hasPeople = useFeatureFlag("people");
   const { hasStep } = useSettings();
   const isPhotosEnabled = useFeatureFlag("photos");
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const logState = useLogState();
   const knownPeople = useKnownPeople(item);
   // Same steps as the edit logger. A link to a missing step would open the
@@ -195,6 +221,7 @@ export const Entry = ({
     hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(item)),
     hasPeople,
     isPhotosEnabled,
+    isMenstruationEnabled,
   });
   const editStep = (step: LoggerStep) =>
     editSteps.includes(step)
@@ -234,6 +261,7 @@ export const Entry = ({
         onEdit={onEdit}
         onDelete={onDelete}
         onEditSleep={editStep("sleep")}
+        onEditMenstruation={editStep("menstruation")}
         position={position}
       />
       <View

@@ -29,9 +29,10 @@ export const SETTINGS_ICONS = {
     ios: "app",
     android: import("@expo/material-symbols/apps.xml"),
   }),
+  // Droplet means Menstruation; color themes use a palette.
   colors: Icon.select({
-    ios: "drop",
-    android: import("@expo/material-symbols/water_drop.xml"),
+    ios: "paintpalette",
+    android: import("@expo/material-symbols/palette.xml"),
   }),
   requestFeature: Icon.select({
     ios: "lightbulb",

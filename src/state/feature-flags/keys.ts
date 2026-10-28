@@ -13,6 +13,7 @@ export const FEATURE_FLAGS = [
   "feature-flag-overrides",
   "interventions",
   "location",
+  "menstruation",
   "more-tags",
   "people",
   "photos",
@@ -74,6 +75,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   location: {
     description: "Place of the check-in",
     location: "Settings > Check-in",
+  },
+  menstruation: {
+    description: "Daily menstruation flow check-in",
+    location: "Check-in, Settings > Check-in",
   },
   "more-tags": {
     description: "Tag limit 500 instead of 50",

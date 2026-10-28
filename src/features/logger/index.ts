@@ -5,7 +5,11 @@ export {
   SleepQualityMeter,
   SlideSleepButton,
 } from "./slides/slide-sleep-button";
-export { getAvailableStepsForEdit, hasSleepOnDate } from "./steps";
+export {
+  getAvailableStepsForEdit,
+  hasMenstruationOnDate,
+  hasSleepOnDate,
+} from "./steps";
 export { encodeLoggerPrefill, parseLoggerPrefill } from "./prefill";
 export type { LoggerPrefill } from "./prefill";
 export { LoggerRecoveryPrompt } from "./recovery/recovery-prompt";

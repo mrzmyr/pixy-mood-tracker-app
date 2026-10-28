@@ -264,6 +264,8 @@ const light = {
 
   sleepQualityEmpty: colors.indigo[100],
   sleepQualityFull: colors.indigo[500],
+  menstruationEmpty: colors.rose[100],
+  menstruationFull: colors.rose[500],
 
   // Recap chart and marker accents.
   moduleMood: colors.emerald[700],
@@ -494,6 +496,8 @@ const dark: IColors & {
 
   sleepQualityEmpty: colors.indigo[800],
   sleepQualityFull: colors.indigo[400],
+  menstruationEmpty: colors.rose[900],
+  menstruationFull: colors.rose[400],
 
   moduleMood: colors.emerald[400],
   moduleEmotions: colors.rose[400],

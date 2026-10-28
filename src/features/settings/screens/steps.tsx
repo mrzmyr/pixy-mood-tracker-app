@@ -14,6 +14,7 @@ import { t } from "@/lib/translation";
 import type { ReactElement } from "react";
 import BedDouble from "lucide-react-native/icons/bed-double";
 import Bell from "lucide-react-native/icons/bell";
+import Droplet from "lucide-react-native/icons/droplet";
 import FileText from "lucide-react-native/icons/file-text";
 import Heart from "lucide-react-native/icons/heart";
 import ImageIcon from "lucide-react-native/icons/image";
@@ -85,14 +86,15 @@ const StepRow = ({
  * off. Tags and People open their own page with the switch and their list.
  * Sleep opens its page too; the Apple Health switch there sits behind the
  * `apple-health` feature flag.
- * `people` and `photos` show only behind their feature flags. The location
- * switch shows behind the `location` feature flag. Quick check-ins live in
- * Settings > Reminders. Native grouped list on iOS and Android.
+ * `people`, `photos`, and `menstruation` show only behind their feature
+ * flags. The location switch shows behind the `location` feature flag.
+ * Quick check-ins live in Settings > Reminders. Native grouped list on iOS and Android.
  */
 export const StepsScreen = () => {
   const colors = useColors();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
+  const isMenstruationEnabled = useFeatureFlag("menstruation");
   const {
     isAvailable: isLocationAvailable,
     isEnabled: isLocationEnabled,
@@ -101,7 +103,8 @@ export const StepsScreen = () => {
   const options = STEP_OPTIONS.filter(
     (option) =>
       (option !== "people" || hasPeople) &&
-      (option !== "photos" || isPhotosEnabled)
+      (option !== "photos" || isPhotosEnabled) &&
+      (option !== "menstruation" || isMenstruationEnabled)
   );
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {
@@ -111,6 +114,7 @@ export const StepsScreen = () => {
     tags: <Tag width={20} height={20} color={colors.text} />,
     people: <Users width={20} height={20} color={colors.text} />,
     sleep: <BedDouble size={20} color={colors.text} />,
+    menstruation: <Droplet size={20} color={colors.text} />,
     emotions: <Heart width={20} height={20} color={colors.text} />,
     feedback: <MessageSquare width={20} height={20} color={colors.text} />,
     reminder: <Bell width={20} height={20} color={colors.text} />,

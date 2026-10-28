@@ -3,6 +3,7 @@ import { Directory, File, Paths } from "expo-file-system";
 import { Image } from "expo-image";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { v4 as uuidv4 } from "uuid";
+import { Platform } from "react-native";
 import { createStructuredError } from "@/lib/errors";
 import type { LogPhoto, PhotoSourceKind } from "@/types";
 
@@ -175,8 +176,12 @@ export const deleteUnreferencedPhotos = ({
 }: {
   referencedFileNames: Set<string>;
 }): number => {
-  const directory = getPhotosDirectory();
+  // Browser storage has no native photo files to sweep.
+  if (Platform.OS === "web") {
+    return 0;
+  }
   try {
+    const directory = getPhotosDirectory();
     if (!directory.exists) {
       return 0;
     }

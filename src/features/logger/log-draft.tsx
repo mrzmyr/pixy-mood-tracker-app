@@ -9,7 +9,11 @@ import {
 import type { LogItem } from "@/features/logs";
 import { createMissingProviderError } from "@/lib/errors";
 import { toLogDate } from "@/lib/log-dates";
-import { finalizeDraft, hasDraftContent } from "./finalize-draft";
+import {
+  finalizeDraft,
+  getMenstruationConflict,
+  hasDraftContent,
+} from "./finalize-draft";
 import type { FinalizedDraft, LogDraft } from "./finalize-draft";
 
 /** Draft and its verbs, shared by the logger slides. */
@@ -37,6 +41,10 @@ export interface LogDraftValue {
   setPhotos: (photos: LogItem["photos"]) => void;
   /** `null` clears the sleep quality. */
   setSleepQuality: (quality: LogDraft["sleep"]["quality"]) => void;
+  /** `null` removes the daily menstruation value. */
+  setMenstruationFlow: (
+    flow: NonNullable<LogItem["menstruation"]>["flow"] | null
+  ) => void;
   /**
    * Quality from Apple Health: fills the sleep quality without making the
    * draft dirty. Replaces an earlier prefill. No-op after the user picked a
@@ -65,6 +73,10 @@ export interface LogDraftValue {
    * See `finalizeDraft`.
    */
   commit: (existingItems: LogItem[]) => FinalizedDraft;
+  /** Validate the latest draft, including setters from the same event. */
+  getMenstruationConflict: (
+    items: LogItem[]
+  ) => ReturnType<typeof getMenstruationConflict>;
   /** Latest draft, including note text `typeMessage` has not flushed yet. */
   getLatestDraft: () => LogDraft;
   /** Restore the initial draft and clear `isDirty`. */
@@ -163,6 +175,8 @@ export const LogDraftProvider = ({
         latest.current = { ...latest.current, sleep: { quality: null } };
         setState((current) => ({ ...current, draft: latest.current }));
       },
+      setMenstruationFlow: (flow) =>
+        patch({ menstruation: flow === null ? undefined : { flow } }),
       setLocation: (location) => {
         isLocationPicked.current = true;
         patch({ location });
@@ -192,6 +206,8 @@ export const LogDraftProvider = ({
         });
         return finalized;
       },
+      getMenstruationConflict: (items) =>
+        getMenstruationConflict({ draft: latest.current, items }),
       getLatestDraft: () => latest.current,
       discard: () => {
         isLocationPicked.current = false;
