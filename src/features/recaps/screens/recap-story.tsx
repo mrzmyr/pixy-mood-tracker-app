@@ -44,6 +44,16 @@ const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 const isSource = (value: unknown): value is StorySource =>
   SOURCES.some((source) => source === value);
 
+/**
+ * Slides drawn over the whole screen: photo backdrops, content pushed to the
+ * bottom, or centered. Every other slide stacks from the top.
+ */
+const fillsScreen = (slide: StorySlide) =>
+  slide.type === "thanks" ||
+  slide.type === "share" ||
+  slide.type === "first-city" ||
+  (slide.type === "cover" && slide.variant === "photo");
+
 /** Share, Helpful, Not Helpful. Every action pauses the story first. */
 const StoryActions = ({
   theme,
@@ -134,9 +144,12 @@ const RecapStory = () => {
   } | null>(null);
   const shareCard = useRef<ViewType>(null);
   const slideView = useRef<ViewType>(null);
+  const contentView = useRef<ViewType>(null);
   const [shuffles, setShuffles] = useState(0);
   // From the Share tap until the share sheet closes.
   const [isSharing, setIsSharing] = useState(false);
+  // A plain slide shows the app icon and name while it is captured.
+  const [isCapturingSlide, setIsCapturingSlide] = useState(false);
   const lastShown = useRef(0);
 
   const ctx: SlideContext = {
@@ -254,7 +267,8 @@ const RecapStory = () => {
 
   /**
    * Shares the slide at `index` as an image. The share slide sends its card;
-   * every other slide sends itself without bars and buttons.
+   * a full-screen slide sends itself without bars and buttons; every other
+   * slide sends only its content.
    */
   const share = (index: number) => {
     const slide = story[index];
@@ -263,9 +277,12 @@ const RecapStory = () => {
     }
     const isShareCard = slide.type === "share";
     setIsSharing(true);
+    setIsCapturingSlide(!isShareCard);
+    const slideRoot = fillsScreen(slide) ? slideView : contentView;
     void shareStoryCard({
-      view: isShareCard ? shareCard.current : slideView.current,
+      view: isShareCard ? shareCard.current : slideRoot.current,
       dialogTitle: shareTitle,
+      onCaptured: () => setIsCapturingSlide(false),
       onDone: () => setIsSharing(false),
       onShared: () =>
         analytics.track("recaps:story_shared", {
@@ -317,6 +334,7 @@ const RecapStory = () => {
     ),
     isWaiting: slide.type === "quiz" && !quizResults.has(index),
     durationMs: getSlideDuration(slide),
+    fillsScreen: fillsScreen(slide),
     content: contentOf(slide, index),
   }));
 
@@ -325,8 +343,10 @@ const RecapStory = () => {
       <StoryPlayer
         slides={slides}
         slideRef={slideView}
+        contentRef={contentView}
         onClose={close}
         isPaused={asking !== null || isSharing}
+        isCapturing={isCapturingSlide}
         onSlideShown={(index) => {
           lastShown.current = index;
           const slide = slideOf(index);
