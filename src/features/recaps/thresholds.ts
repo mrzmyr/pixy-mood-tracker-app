@@ -125,6 +125,12 @@ export const THRESHOLDS = {
   storyPeopleMinBrightDays: 3,
   /** Story people: rows at most. */
   storyPeopleMaxRows: 2,
+  /** Story orbit: people with enough connected days needed. */
+  storyOrbitMinPeople: 3,
+  /** Story orbit: connected days per person, at least. */
+  storyOrbitMinDays: 2,
+  /** Story orbit: people at most. */
+  storyOrbitMaxPeople: 8,
   /** Hard pattern: harder days with the tag, at least. */
   hardPatternMinDays: 2,
   /** Hard pattern: share of other days with the tag, below. */

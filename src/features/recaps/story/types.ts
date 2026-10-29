@@ -59,6 +59,16 @@ export interface PeopleSlide {
   people: { personId: string; days: DateKey[] }[];
 }
 
+/**
+ * The user in the middle, people around like planets. Closer and bigger:
+ * more connected days. Counts only, never how the days felt.
+ */
+export interface OrbitSlide {
+  type: "orbit";
+  /** Most connected days first. */
+  people: { personId: string; days: number }[];
+}
+
 /** A tag that came up on harder days far more than on other days. */
 export interface HardPatternSlide {
   type: "hard-pattern";
@@ -138,6 +148,7 @@ export type StorySlide =
   | MadeOfSlide
   | LiftedSlide
   | PeopleSlide
+  | OrbitSlide
   | HardPatternSlide
   | FirstCitySlide
   | VsLastSlide
