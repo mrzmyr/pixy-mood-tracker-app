@@ -137,6 +137,8 @@ const RecapStory = () => {
   const [shuffles, setShuffles] = useState(0);
   // From the Share tap until the share sheet closes.
   const [isSharing, setIsSharing] = useState(false);
+  // A plain slide shows the app icon and name while it is captured.
+  const [isCapturingSlide, setIsCapturingSlide] = useState(false);
   const lastShown = useRef(0);
 
   const ctx: SlideContext = {
@@ -263,9 +265,11 @@ const RecapStory = () => {
     }
     const isShareCard = slide.type === "share";
     setIsSharing(true);
+    setIsCapturingSlide(!isShareCard);
     void shareStoryCard({
       view: isShareCard ? shareCard.current : slideView.current,
       dialogTitle: shareTitle,
+      onCaptured: () => setIsCapturingSlide(false),
       onDone: () => setIsSharing(false),
       onShared: () =>
         analytics.track("recaps:story_shared", {
@@ -327,6 +331,7 @@ const RecapStory = () => {
         slideRef={slideView}
         onClose={close}
         isPaused={asking !== null || isSharing}
+        isCapturing={isCapturingSlide}
         onSlideShown={(index) => {
           lastShown.current = index;
           const slide = slideOf(index);

@@ -17,6 +17,7 @@ import Play from "lucide-react-native/icons/play";
 import X from "lucide-react-native/icons/x";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
+import { StoryBrand } from "./story-brand";
 import { STORY_PALETTE, STORY_SLIDE_MS } from "./theme";
 import type { StoryTheme } from "./theme";
 
@@ -101,6 +102,8 @@ interface Clock {
  * until the user closes it. Going to another slide plays the story again.
  * `renderBottom` draws per slide below the content (Share, Helpful, Not
  * Helpful); its `controls.pause` stops the story while the user acts.
+ * `isCapturing` swaps bars and buttons for the app icon and name, so the
+ * shared image carries the brand in the bottom left corner.
  */
 export const StoryPlayer = ({
   slides,
@@ -109,6 +112,7 @@ export const StoryPlayer = ({
   onSlideShown,
   renderBottom,
   isPaused: isPausedFromParent = false,
+  isCapturing = false,
 }: {
   slides: PlayerSlide[];
   /** Slide without bars and buttons, for sharing it as an image. */
@@ -123,6 +127,8 @@ export const StoryPlayer = ({
   ) => React.ReactNode;
   /** A sheet on top: the slide holds still until it closes. */
   isPaused?: boolean;
+  /** The slide is being captured as an image. */
+  isCapturing?: boolean;
 }) => {
   const insets = useSafeAreaInsets();
   const [index, setIndex] = useState(0);
@@ -135,8 +141,9 @@ export const StoryPlayer = ({
   const palette = STORY_PALETTE[theme];
   const isPaused = isPausedByUser || isHolding || isPausedFromParent;
   // Holding hides bars, buttons, and feedback, like Instagram stories.
+  const isChromeHidden = isHolding || isCapturing;
   const chrome = useAnimatedStyle(() => ({
-    opacity: withTiming(isHolding ? 0 : 1, { duration: CHROME_FADE_MS }),
+    opacity: withTiming(isChromeHidden ? 0 : 1, { duration: CHROME_FADE_MS }),
   }));
   const isWaiting = slide?.isWaiting ?? false;
 
@@ -276,10 +283,24 @@ export const StoryPlayer = ({
             {slide.content}
           </Animated.View>
         </Pressable>
+        {isCapturing && (
+          <View
+            pointerEvents="none"
+            style={{
+              position: "absolute",
+              left: 24,
+              bottom: insets.bottom + 16,
+              height: 44,
+              justifyContent: "center",
+            }}
+          >
+            <StoryBrand color={palette.text} />
+          </View>
+        )}
       </View>
 
       <Animated.View
-        pointerEvents={isHolding ? "none" : "box-none"}
+        pointerEvents={isChromeHidden ? "none" : "box-none"}
         style={[
           {
             position: "absolute",
@@ -337,7 +358,7 @@ export const StoryPlayer = ({
       </Animated.View>
 
       <Animated.View
-        pointerEvents={isHolding ? "none" : "box-none"}
+        pointerEvents={isChromeHidden ? "none" : "box-none"}
         style={[
           {
             position: "absolute",

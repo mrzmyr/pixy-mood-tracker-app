@@ -14,15 +14,10 @@ import { t } from "@/lib/translation";
 import { dayRange, monthName } from "./format";
 import { MonthGrid, useDayColors } from "./parts";
 import type { SlideContext } from "./slides";
+import { StoryBrand } from "./story-brand";
 import { STORY_MAX_FONT_SCALE, STORY_PALETTE } from "./theme";
 import type { StoryTheme } from "./theme";
 import type { StoryPhoto } from "./types";
-
-/**
- * Logo on the shared image. React Native `Image`, not expo-image: Android
- * Glide can decode to hardware bitmaps, which react-native-view-shot rejects.
- */
-const LOGO = require("../../../../assets/images/icon.png");
 
 /** Card padding per side. */
 const PADDING = 20;
@@ -42,7 +37,7 @@ const getCardTheme = (ctx: SlideContext) => {
   };
 };
 
-/** Square photo for the captured card: React Native `Image`, as `LOGO`. */
+/** Square photo for the captured card: React Native `Image`, as the logo. */
 const CardPhoto = ({
   photo,
   size,
@@ -106,53 +101,39 @@ export const ShareCard = ({
           borderColor: border,
         }}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "flex-start",
-            justifyContent: "space-between",
-            gap: 12,
-          }}
-        >
-          <View style={{ flexShrink: 1, gap: 2 }}>
-            <Text
-              maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
-              style={{
-                fontSize: 13,
-                lineHeight: 18,
-                fontWeight: "500",
-                color: palette.muted,
-                fontVariant: ["tabular-nums"],
-              }}
-            >
-              {isWeek
-                ? dayRange(ctx.period.start, ctx.period.end)
-                : dayjs(ctx.period.start).format("YYYY")}
-            </Text>
-            {/* Big and light: weight 500 with tight tracking reads calm. */}
-            <Text
-              maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
-              accessibilityRole="header"
-              style={{
-                fontSize: 30,
-                lineHeight: 36,
-                fontWeight: "500",
-                letterSpacing: -0.8,
-                color: palette.text,
-              }}
-            >
-              {isWeek
-                ? t("recaps_story_share_title_week")
-                : t("recaps_story_share_title", {
-                    month: monthName(ctx.period.start),
-                  })}
-            </Text>
-          </View>
-          <Image
-            source={LOGO}
-            accessibilityLabel="Pixy"
-            style={{ width: 28, height: 28, borderRadius: 7 }}
-          />
+        <View style={{ gap: 2 }}>
+          <Text
+            maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
+            style={{
+              fontSize: 13,
+              lineHeight: 18,
+              fontWeight: "500",
+              color: palette.muted,
+              fontVariant: ["tabular-nums"],
+            }}
+          >
+            {isWeek
+              ? dayRange(ctx.period.start, ctx.period.end)
+              : dayjs(ctx.period.start).format("YYYY")}
+          </Text>
+          {/* Big and light: weight 500 with tight tracking reads calm. */}
+          <Text
+            maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
+            accessibilityRole="header"
+            style={{
+              fontSize: 30,
+              lineHeight: 36,
+              fontWeight: "500",
+              letterSpacing: -0.8,
+              color: palette.text,
+            }}
+          >
+            {isWeek
+              ? t("recaps_story_share_title_week")
+              : t("recaps_story_share_title", {
+                  month: monthName(ctx.period.start),
+                })}
+          </Text>
         </View>
         <MonthGrid
           period={ctx.period}
@@ -174,6 +155,7 @@ export const ShareCard = ({
             ))}
           </View>
         )}
+        <StoryBrand color={palette.text} />
       </View>
       {onShuffle && shown.length > 0 && (
         <Pressable
