@@ -61,6 +61,8 @@ const CalendarComponent = ({
   const [width, setWidth] = useState(0);
   const [monthCount, setMonthCount] = useState(13);
   const isLoaded = useRef(false);
+  const isUserScrolling = useRef(false);
+  const hasPendingLoad = useRef(false);
   const today = useToday();
   const currentMonth = dayjs(today).startOf("month").format(DATE_FORMAT);
   const locale = useWeekLocale();
@@ -98,9 +100,31 @@ const CalendarComponent = ({
   const loadEarlierMonths = useCallback(() => {
     // onStartReached can run while FlashList is still positioning its initial viewport.
     // https://shopify.github.io/flash-list/docs/usage/#onload
-    if (isLoaded.current) {
+    if (!isLoaded.current) {
+      return;
+    }
+    // A status bar tap on iOS scrolls to the top without a drag. Months
+    // added during that animation leave FlashList with a stale offset and
+    // a blank list, so they load once the scroll ends.
+    if (Platform.OS === "ios" && !isUserScrolling.current) {
+      hasPendingLoad.current = true;
+      return;
+    }
+    hasPendingLoad.current = false;
+    setMonthCount((count) => count + 12);
+  }, []);
+  const loadPendingMonths = useCallback(() => {
+    if (hasPendingLoad.current) {
+      hasPendingLoad.current = false;
       setMonthCount((count) => count + 12);
     }
+  }, []);
+  const onUserScrollStart = useCallback(() => {
+    isUserScrolling.current = true;
+    loadPendingMonths();
+  }, [loadPendingMonths]);
+  const onUserScrollEnd = useCallback(() => {
+    isUserScrolling.current = false;
   }, []);
   const onLoad = useCallback(() => {
     isLoaded.current = true;
@@ -155,6 +179,14 @@ const CalendarComponent = ({
           onStartReachedThreshold={1}
           onLoad={onLoad}
           onScroll={onScroll}
+          onScrollBeginDrag={onUserScrollStart}
+          onScrollEndDrag={onUserScrollEnd}
+          onMomentumScrollBegin={onUserScrollStart}
+          onMomentumScrollEnd={onUserScrollEnd}
+          onScrollToTop={loadPendingMonths}
+          // Renders months ahead of the viewport, so a fast scroll (status
+          // bar tap) shows days instead of blank space.
+          drawDistance={1000}
           scrollEventThrottle={32}
           ListHeaderComponent={header}
           ListFooterComponent={footer}
