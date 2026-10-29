@@ -32,6 +32,8 @@ export interface PlayerSlide {
   isWaiting?: boolean;
   /** Time on screen. Default `STORY_SLIDE_MS`. */
   durationMs?: number;
+  /** Content uses the whole screen, so a share captures the whole slide. */
+  fillsScreen?: boolean;
 }
 
 /** Bottom buttons pause the story through this, like the pause button. */
@@ -81,6 +83,65 @@ const ENTERING = FadeInDown.duration(240);
 /** Holding hides bars and buttons this fast, so the slide shows at once. */
 const CHROME_FADE_MS = 80;
 
+/** Space around the content in a shared image of a slide. */
+const CAPTURE_PADDING = 24;
+
+/**
+ * Content of a slide that stacks from the top. A share captures only this
+ * frame, with the brand below the content. Negative margins keep the
+ * layout; the padding frames the image.
+ */
+const SlideFrame = ({
+  frameRef,
+  theme,
+  isCapturing,
+  children,
+}: {
+  frameRef?: React.Ref<View>;
+  theme: StoryTheme;
+  isCapturing: boolean;
+  children: React.ReactNode;
+}) => {
+  const palette = STORY_PALETTE[theme];
+  return (
+    <View
+      ref={frameRef}
+      collapsable={false}
+      style={{
+        margin: -CAPTURE_PADDING,
+        padding: CAPTURE_PADDING,
+        backgroundColor: palette.background,
+      }}
+    >
+      {children}
+      {isCapturing && (
+        <View style={{ marginTop: 28 }}>
+          <StoryBrand color={palette.text} />
+        </View>
+      )}
+    </View>
+  );
+};
+
+/** Brand of a full-screen slide: bottom left, where Share sits. */
+const ScreenBrand = ({ theme }: { theme: StoryTheme }) => {
+  const insets = useSafeAreaInsets();
+  return (
+    <View
+      pointerEvents="none"
+      style={{
+        position: "absolute",
+        left: 24,
+        bottom: insets.bottom + 16,
+        height: 44,
+        justifyContent: "center",
+      }}
+    >
+      <StoryBrand color={STORY_PALETTE[theme].text} />
+    </View>
+  );
+};
+
 /** Wall clock in ms. Only event handlers and effects call it. */
 const now = () => Date.now();
 
@@ -103,11 +164,13 @@ interface Clock {
  * `renderBottom` draws per slide below the content (Share, Helpful, Not
  * Helpful); its `controls.pause` stops the story while the user acts.
  * `isCapturing` swaps bars and buttons for the app icon and name, so the
- * shared image carries the brand in the bottom left corner.
+ * shared image carries the brand in the bottom left corner. A slide that
+ * does not fill the screen shares only its content, with the brand below.
  */
 export const StoryPlayer = ({
   slides,
   slideRef,
+  contentRef,
   onClose,
   onSlideShown,
   renderBottom,
@@ -117,6 +180,8 @@ export const StoryPlayer = ({
   slides: PlayerSlide[];
   /** Slide without bars and buttons, for sharing it as an image. */
   slideRef?: React.Ref<View>;
+  /** Content of a slide that does not fill the screen, for sharing it. */
+  contentRef?: React.Ref<View>;
   onClose: () => void;
   /** Every slide change. The first slide counts on open, in the parent. */
   onSlideShown: (index: number) => void;
@@ -280,23 +345,20 @@ export const StoryPlayer = ({
             }}
             testID={`recap-story-slide-${slide.key}`}
           >
-            {slide.content}
+            {slide.fillsScreen ? (
+              slide.content
+            ) : (
+              <SlideFrame
+                frameRef={contentRef}
+                theme={theme}
+                isCapturing={isCapturing}
+              >
+                {slide.content}
+              </SlideFrame>
+            )}
           </Animated.View>
         </Pressable>
-        {isCapturing && (
-          <View
-            pointerEvents="none"
-            style={{
-              position: "absolute",
-              left: 24,
-              bottom: insets.bottom + 16,
-              height: 44,
-              justifyContent: "center",
-            }}
-          >
-            <StoryBrand color={palette.text} />
-          </View>
-        )}
+        {isCapturing && slide.fillsScreen && <ScreenBrand theme={theme} />}
       </View>
 
       <Animated.View
