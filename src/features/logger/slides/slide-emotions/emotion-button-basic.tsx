@@ -31,6 +31,7 @@ export const EmotionButtonBasic = ({
     <Pressable
       accessibilityRole="checkbox"
       accessibilityLabel={emotion.label}
+      accessibilityHint={emotion.description}
       accessibilityState={{ checked: selected }}
       onPress={() => {
         haptics.selection();

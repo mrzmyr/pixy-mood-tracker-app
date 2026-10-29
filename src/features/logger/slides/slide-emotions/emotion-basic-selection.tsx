@@ -4,6 +4,7 @@ import chunk from "lodash/chunk";
 import { View } from "react-native";
 
 import { EmotionButtonBasic } from "./emotion-button-basic";
+import { EmotionContextMenu } from "./emotion-context-menu";
 import { MissingEmotionTile } from "./missing-emotion-tile";
 import { sortForColumns } from "./sort-for-columns";
 
@@ -35,6 +36,8 @@ export const EmotionBasicSelection = ({
   onRequestEmotion: () => void;
 }) => {
   const locale = getLocale();
+  const isSelected = (emotion: Emotion) =>
+    selectedEmotions.some((d) => d.key === emotion.key);
 
   // Sort by category (good first, then neutral, then bad),
   // then alphabetically within each category with locale-aware comparison
@@ -90,13 +93,17 @@ export const EmotionBasicSelection = ({
               {emotion === null ? (
                 <MissingEmotionTile onPress={onRequestEmotion} />
               ) : (
-                <EmotionButtonBasic
+                <EmotionContextMenu
                   emotion={emotion}
                   onPress={onPress}
-                  selected={selectedEmotions
-                    .map((d) => d.key)
-                    .includes(emotion.key)}
-                />
+                  selected={isSelected(emotion)}
+                >
+                  <EmotionButtonBasic
+                    emotion={emotion}
+                    onPress={onPress}
+                    selected={isSelected(emotion)}
+                  />
+                </EmotionContextMenu>
               )}
             </View>
           ))}

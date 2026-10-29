@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-10-19",
+  "verifiedOn": "2026-10-28",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -109,7 +109,7 @@
       "label": "Emotions with descriptions",
       "status": "available",
       "group": "logging",
-      "description": "Pick one or more of 72 emotions. Each emotion has a short description.",
+      "description": "Pick one or more of 72 emotions. Each emotion has a short description. On iOS, long-press an emotion to read it.",
       "note": "161 emotions defined, 89 disabled. 30 in the basic view, 42 more expanded.",
       "evidence": [
         "src/features/logger/config.ts",
