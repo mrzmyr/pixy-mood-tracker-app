@@ -10,6 +10,7 @@
 - remove worktree when branch merged
 - Start code changes with `bun worktree new <slug>`. Never edit the main checkout. Never use `--no-verify`.
 - Do not document anything that an agent can easily find with code search
+- **Minimal diff:** Use the fewest files that solve it. Keep existing signatures and reuse SDK props. Add no new abstractions unless asked. You are free to suggest them, but must find consensus with the user.
 
 ## Feature Flags
 
@@ -24,10 +25,12 @@
 - When multiple things have beend worked on in one go you want to create PR, suggest the user to create multiple PRs by topics for easier reviews; If you are sure, just go ahead and create multiple PRs even when the user said "create PR"
 - Visual change: screenshot required, video too when motion
 - Screenshots and videos: upload to PR body with [pr-proof skill](.agents/skills/pr-proof/SKILL.md). Proof files stay outside git
+- Prefer small unstacked PRs. If you stack, point the child at `main` once the parent merges.
 
 ## Public repository security
 
 - This project is public open source, so never include credentials or secret values in code, configuration, documentation, commits, pull requests, issues, comments, logs, or artifacts; reference secret names only and store values in approved secret managers.
+- **Public text:** Describe privacy changes forward ("keep X on device"). Never say the app was non-compliant before.
 
 ## App facts
 
@@ -61,6 +64,9 @@
 - Record mistakes in [MISTAKES.md](MISTAKES.md), missing capabilities in [DESIRES.md](DESIRES.md), and environment discoveries in [LEARNINGS.md](LEARNINGS.md)
 - Public repo: entries contain no private names, internal context, or user data
 - Never use Expo Device Hub (`bun hub`) as an agent. Humans: never press Shut down or Remove in it ([Device Hub](docs/development.md#device-hub)).
+- **Disk:** Before a cold native build, run `bun builds list` and `df`. On a cache miss with less than 20 GiB free, stop and free space first.
+- **Android:** Build cold with `ORG_GRADLE_PROJECT_reactNativeArchitectures=arm64-v8a`. Four ABIs fill the disk.
+- **RAM:** Run one heavy job at a time (native build, `tsc`, full jest, `bun install`). Never fan out subagents that run checks.
 - Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Never send health values either: rating, emotion keys, sleep quality, Apple Health data, intervention cluster, feedback answer, mood-derived counts. Send `has_*` booleans and counts. A PostHog transformation also drops them server-side ([TELEMETRY.md](TELEMETRY.md#server-side-filter)). Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
 - Call EAS Observe only through [`src/lib/observe.ts`](src/lib/observe.ts): `configureObserve` for config, `logObserveEvent` for events. Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others. Same free-text ban as PostHog.
 - Report caught errors only through `reportError` ([`src/lib/report-error.ts`](src/lib/report-error.ts)). It takes a `StructuredError`, sends it to Sentry, and sends Observe only `status` and `message`. `pixy-standards/no-direct-error-reporting` blocks direct SDK calls.
