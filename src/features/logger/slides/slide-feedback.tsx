@@ -103,7 +103,7 @@ export const SlideFeedback = ({
   const questioner = useQuestioner();
   const insets = useSafeAreaInsets();
 
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [selectedIds, setSelectedIds] = useState<(string | number)[]>([]);
 
   const onAnswer = (answer: IQuestion["answers"][0]) => {
     setSelectedIds([answer.id]);

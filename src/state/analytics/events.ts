@@ -411,7 +411,16 @@ export interface AnalyticsEvents {
   };
   "feedback:submit_failed": { http_status: number | null };
   "feedback:modal_closed": undefined;
-  "feedback:question_answered": { question_id: string; answer_ids: string[] };
+  "feedback:question_answered": {
+    question_id: string;
+    /**
+     * Option ids from the questions feed, not the answer text.
+     *
+     * The live feed sends numbers (`1`..`n`). The PostHog filter keeps this
+     * property. See TELEMETRY.md.
+     */
+    answer_ids: (string | number)[];
+  };
 
   "interventions:card_shown": {
     surface: InterventionSurface;

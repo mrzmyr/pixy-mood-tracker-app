@@ -97,9 +97,11 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 ## Server-side filter
 
 - PostHog transformation "Drop health properties" runs in every app project
-- Drops `rating`, `emotions`, `sleep_quality`, `matched_emotions`, `cluster`, `answer_texts`, `answer_ids`, `question_text`, `question`, `mood_peaks_positive_count`, `mood_peaks_negative_count`, `mood_avg_percentage`, `mood_avg_type`, and their flattened keys (`emotions__0`)
+- Drops `rating`, `emotions`, `sleep_quality`, `matched_emotions`, `cluster`, `answer_texts`, `question_text`, `question`, `mood_peaks_positive_count`, `mood_peaks_negative_count`, `mood_avg_percentage`, `mood_avg_type`, and their flattened keys (`emotions__0`)
 - Also drops `quality` on `logger:health_sleep_filled` and `answer` on `interventions:feedback_answered`
 - Keeps `rating` on `voice:feedback_submitted`: it rates voice mode, not mood
+- Keeps `answer_ids` on `feedback:question_answered` and `questioner_submit`. Option ids from the questions feed (numbers `1`..`n` on the new event, a comma string on `questioner_submit`), not the answer text
+- From 2026-10-26 19:18 UTC until 2026-10-29 the filter also dropped `answer_ids`. Events in that window have `question_id` and no answer ids
 - Applies to every app version, including old ones
 
 ## Event history
@@ -241,4 +243,4 @@ Use this section to join old and new events in PostHog, for example with an Acti
 | `feedback_type_change` | `feedback:type_changed` |  |
 | `feedback_send` | `feedback:feedback_submitted` | New: `message_length`, `has_email` |
 | `feedback_close` | `feedback:modal_closed` |  |
-| `questioner_submit` | `feedback:question_answered` | `answer_ids` (comma string) to `answer_ids` (array). New: `question_id` |
+| `questioner_submit` | `feedback:question_answered` | `answer_ids` (comma string) to `answer_ids` (array of option ids). New: `question_id` |

@@ -27,7 +27,12 @@ export interface IQuestion {
   };
   type: "single" | "multiple";
   answers: {
-    id: string;
+    /**
+     * Option id from the questions feed.
+     *
+     * The live feed sends a number (`1`..`n`). Older payloads may use a string.
+     */
+    id: string | number;
     emoji: string;
     text: {
       en: string;
@@ -123,6 +128,9 @@ export const useQuestioner = () => {
       ...metaData,
     };
 
+    // Option ids only. The questions feed uses numbers. Answer text stays on
+    // the feedback webhook and off this event. The PostHog filter keeps
+    // `answer_ids`. See TELEMETRY.md.
     analytics.track("feedback:question_answered", {
       question_id: answeredQuestion.id,
       answer_ids: answers.map((answer) => answer.id),
