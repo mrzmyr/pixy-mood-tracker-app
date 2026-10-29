@@ -548,8 +548,8 @@ const weeksSince = (start: DateKey, today: DateKey) =>
   Math.floor(daysBetween(start, today) / 7);
 
 /**
- * Week story slides in deck order: cover, rhythm, quiz, people, what came
- * back, a first city, thanks, and the closing card with the week. Each slot
+ * Week story slides in deck order: cover, rhythm, quiz, people, orbit, what
+ * came back, a first city, thanks, and the closing card with the week. Each slot
  * skips when its rule fails. `null` for other periods, weeks more than 2 weeks
  * back or ahead, and weeks with fewer than 4 check-in days.
  */
@@ -570,6 +570,7 @@ export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
     madeOf(input),
     quiz,
     people(input),
+    orbit(input),
     cameBack(input),
     firstCitySlide(input),
   ];

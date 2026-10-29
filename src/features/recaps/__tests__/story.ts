@@ -378,4 +378,18 @@ describe("week story", () => {
     expect(cover?.variant).toBe("photo");
     expect(cover?.photos).toHaveLength(5);
   });
+
+  test("shows the orbit after the people slide", () => {
+    const items = week(7).map((item, index) => ({
+      ...item,
+      rating: "very_good" as const,
+      people:
+        index < 3
+          ? [{ id: "ada" }, { id: "jen" }, { id: "kim" }]
+          : [{ id: "ada" }],
+    }));
+    const types = (weekStory(items) ?? []).map((item) => item.type);
+
+    expect(types.indexOf("orbit")).toBe(types.indexOf("people") + 1);
+  });
 });
