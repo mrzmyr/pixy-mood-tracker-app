@@ -36,6 +36,7 @@ import {
   TitleTag,
   useDayColors,
 } from "./parts";
+import { Orbit } from "./orbit";
 import { STORY_PALETTE } from "./theme";
 import { getSlideDuration } from "./timing";
 import type {
@@ -1086,6 +1087,9 @@ export const SlideContent = ({
     }
     case "people": {
       return <People slide={slide} ctx={ctx} />;
+    }
+    case "orbit": {
+      return <Orbit slide={slide} ctx={ctx} />;
     }
     case "hard-pattern": {
       return <HardPattern slide={slide} ctx={ctx} />;

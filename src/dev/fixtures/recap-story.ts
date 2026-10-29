@@ -7,12 +7,14 @@ const PEOPLE: ExportPerson[] = [
   { id: "5a0e1c2d-0001-4b3e-9f6e-1a0000000001", name: "Ada" },
   { id: "5a0e1c2d-0002-4b3e-9f6e-1a0000000002", name: "Chuky" },
   { id: "5a0e1c2d-0003-4b3e-9f6e-1a0000000003", name: "Jen" },
+  { id: "5a0e1c2d-0005-4b3e-9f6e-1a0000000005", name: "Oma Hilde" },
+  { id: "5a0e1c2d-0006-4b3e-9f6e-1a0000000006", name: "Tobi" },
 ].map((person) => ({
   ...person,
   avatar: null,
   createdAt: "2026-01-01T09:00:00.000Z",
 }));
-const [ADA, CHUKY, JEN] = PEOPLE.map((person) => person.id);
+const [ADA, CHUKY, JEN, HILDE, TOBI] = PEOPLE.map((person) => person.id);
 
 const tag = (id: number, title: string, color: string): Tag => ({
   id: `5a0e1c2d-0${id}00-4b3e-9f6e-2b0000000000`,
@@ -96,7 +98,8 @@ const placeOf = (date: dayjs.Dayjs, day: number) => {
 /**
  * The story month, like Klara's September: every Saturday swimming, a walk
  * most days, 2 of 3 harder days with Handover, 3 days at the sea (first
- * time there), 10 photo days, Ada and Chuky on most days.
+ * time there), 10 photo days, Ada and Chuky on most days, Tobi on the
+ * Handover days, Oma Hilde every 9 days.
  */
 const storyMonth = (start: dayjs.Dayjs): LogItem[] =>
   Array.from({ length: start.daysInMonth() }, (_, index) => {
@@ -111,6 +114,8 @@ const storyMonth = (start: dayjs.Dayjs): LogItem[] =>
         { id: CHUKY },
         ...(day % 4 === 0 ? [] : [{ id: ADA }]),
         ...(day === 8 || day === 15 ? [{ id: JEN }] : []),
+        ...(day % 9 === 4 ? [{ id: HILDE }] : []),
+        ...(day === 6 || day === 20 || day === 27 ? [{ id: TOBI }] : []),
       ],
       photos: hasPhoto ? [photo(date, day)] : [],
       location: placeOf(date, day),

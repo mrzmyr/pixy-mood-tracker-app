@@ -233,6 +233,45 @@ describe("people", () => {
   });
 });
 
+describe("orbit", () => {
+  test("needs 3 people with 2+ connected days, most days first", () => {
+    const items = month((index) => ({
+      people: [
+        { id: "ada" },
+        ...(index < 5 ? [{ id: "jen" }] : []),
+        ...(index < 2 ? [{ id: "kim" }] : []),
+        ...(index < 1 ? [{ id: "max" }] : []),
+      ],
+    }));
+    expect(slide(story(items), "orbit")?.people).toEqual([
+      { personId: "ada", days: 30 },
+      { personId: "jen", days: 5 },
+      { personId: "kim", days: 2 },
+    ]);
+    const fewer = month((index) => ({
+      people: index < 1 ? [{ id: "ada" }, { id: "jen" }, { id: "kim" }] : [],
+    }));
+    expect(slide(story(fewer), "orbit")).toBeUndefined();
+  });
+
+  test("counts hard days too: a connection can feel any way", () => {
+    const items = month(() => ({
+      rating: "very_bad",
+      people: [{ id: "ada" }, { id: "jen" }, { id: "kim" }],
+    }));
+    expect(slide(story(items), "orbit")?.people).toHaveLength(3);
+  });
+
+  test("stays out when people are off", () => {
+    const items = month(() => ({
+      people: [{ id: "ada" }, { id: "jen" }, { id: "kim" }],
+    }));
+    expect(
+      slide(story(items, { steps: ["rating", "tags"] }), "orbit")
+    ).toBeUndefined();
+  });
+});
+
 describe("vs last month", () => {
   test("compares tag days with a month of 10+ check-ins", () => {
     const august = Array.from({ length: 12 }, (_, index) => ({

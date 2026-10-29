@@ -18,6 +18,7 @@ import type {
   LiftedSlide,
   MadeOfSlide,
   MomentsSlide,
+  OrbitSlide,
   PeopleSlide,
   ShareSlide,
   StoryPhoto,
@@ -287,6 +288,35 @@ const people = (input: RecapInput): PeopleSlide | null => {
 };
 
 /**
+ * 3+ people connected on 2+ days each, most days first. Any connection
+ * counts: the slide shows how often, never how it felt.
+ */
+const orbit = (input: RecapInput): OrbitSlide | null => {
+  if (!peopleOn(input)) {
+    return null;
+  }
+  const at = indexDays(input.days);
+  const counts = new Map<string, number>();
+  for (const day of input.days) {
+    for (const id of at(day).people) {
+      if (input.personIds.has(id)) {
+        counts.set(id, (counts.get(id) ?? 0) + 1);
+      }
+    }
+  }
+  const rows = [...counts.entries()]
+    .filter(([, days]) => days >= THRESHOLDS.storyOrbitMinDays)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, THRESHOLDS.storyOrbitMaxPeople);
+  return rows.length >= THRESHOLDS.storyOrbitMinPeople
+    ? {
+        type: "orbit",
+        people: rows.map(([personId, days]) => ({ personId, days })),
+      }
+    : null;
+};
+
+/**
  * A tag on 2+ harder days and on under half of the other days. Any active
  * tag: the slide only says they went together. Most harder days first,
  * then the rarest on other days.
@@ -488,6 +518,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     isPeopleQuiz ? people(input) : null,
     lifted(input),
     isPeopleQuiz ? null : people(input),
+    orbit(input),
     hardPattern(input),
     firstCitySlide(input),
     vsLast(input, lightTags),
