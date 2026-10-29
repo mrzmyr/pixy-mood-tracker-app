@@ -151,6 +151,9 @@ const CalendarComponent = ({
           contentContainerStyle={contentStyle}
           scrollIndicatorInsets={indicatorInsets}
           maintainVisibleContentPosition={positionConfig}
+          // A status bar tap on iOS scrolls to the top. Each top hit loads
+          // earlier months, so the list races through years of blank cells.
+          scrollsToTop={false}
           onStartReached={loadEarlierMonths}
           onStartReachedThreshold={1}
           onLoad={onLoad}
