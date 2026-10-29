@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.108.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.107.0...v1.108.0) (2026-10-29)
+
+
+### Features
+
+* **recaps:** add orbit slide to month story ([#995](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/995)) ([fb1eba1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fb1eba185bb37e67fd7c1745aa6362b3ca22ba1e))
+* **recaps:** show app icon and name on every shared story image ([#994](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/994)) ([106d761](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/106d76112689544bacbb3f94c020c0d9ebd0b610))
+* **recaps:** show orbit slide in week story ([#996](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/996)) ([aebccd3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/aebccd3c7df812623c7edb69077644ccc2606545))
+
+
+### Bug Fixes
+
+* **calendar:** keep days visible after iOS status bar tap ([#992](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/992)) ([7ab2319](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7ab2319dbdf16fcd62b58c83d2727e48fbfe9f7e))
+* **ci:** allow release-please workflow to start without matrix in job if ([#988](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/988)) ([516beb0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/516beb00d6fd270828db0123c65764f49eb57b04))
+* **ios:** keep NSHealthUpdateUsageDescription for App Store (ITMS 90683) ([#990](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/990)) ([250df53](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/250df53543fa6af46823d9df9482c443bda4e9cd))
+
 ## [1.107.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.106.1...v1.107.0) (2026-10-28)
 
 
