@@ -89,7 +89,10 @@ export const HeaderButton = ({
           modifiers={[
             // Matches native bar symbols in size and weight.
             font({ size: GLYPH_SIZE, weight: "regular" }),
-            ...(isProminent ? [foregroundStyle(colors.primaryButtonText)] : []),
+            // Disabled: system gray glyph, else white on gray hides it.
+            ...(isProminent && !disabled
+              ? [foregroundStyle(colors.primaryButtonText)]
+              : []),
             frame({ width: LABEL_SIZE, height: LABEL_SIZE }),
           ]}
         />

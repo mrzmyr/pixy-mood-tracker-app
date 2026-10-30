@@ -489,10 +489,15 @@ const LoggerSlides = ({
       return;
     }
     pendingIndex.current = null;
-    _carousel.current?.scrollTo({
-      index: Math.min(target, reachedIndex),
-      animated: true,
+    // Wait one frame: a scroll in the same commit as the new slide can run
+    // before the carousel takes the slide, and then it does nothing.
+    const frame = requestAnimationFrame(() => {
+      _carousel.current?.scrollTo({
+        index: Math.min(target, reachedIndex),
+        animated: true,
+      });
     });
+    return () => cancelAnimationFrame(frame);
     // The refs are stable; listed because the lint rule cannot tell.
   }, [reachedIndex, _carousel, pendingIndex]);
 
