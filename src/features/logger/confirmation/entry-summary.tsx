@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Platform, ScrollView, View, useColorScheme } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
+import MaskedView from "@react-native-masked-view/masked-view";
+import { LinearGradient } from "expo-linear-gradient";
 import { NightSky } from "@/components/night-sky";
 import { Sky } from "@/components/sky";
 import { ConfirmationOffer } from "@/features/interventions";
@@ -30,11 +32,24 @@ import {
 import { useConfirmation } from "./use-confirmation";
 
 const GAP = 10;
+const FADE_HEIGHT = 48;
+
 const SINGLE_PHOTO_HEIGHT: Record<PhotoTileSize, number> = {
   band: 150,
   half: 120,
   tall: 200,
 };
+
+/** Mask over the tiles: opaque, then fading out above the Done button. */
+const BottomFadeMask = () => (
+  <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#000" }} />
+    <LinearGradient
+      colors={["#000", "transparent"]}
+      style={{ height: FADE_HEIGHT }}
+    />
+  </View>
+);
 
 /**
  * A single photo, sleep, and people share rows: the photo left, the others
@@ -137,30 +152,39 @@ export const EntrySummary = ({
       }}
     >
       {scheme === "dark" ? <NightSky /> : <Sky />}
-      <ScrollView
-        contentContainerStyle={{
-          // The iOS page sheet already sits below the status bar.
-          paddingTop: 24 + (Platform.OS === "android" ? insets.top : 0),
-          paddingHorizontal: 16,
-          paddingBottom: 16,
-          gap: GAP,
+      <MaskedView style={{ flex: 1 }} maskElement={<BottomFadeMask />}>
+        <ScrollView
+          contentContainerStyle={{
+            // The iOS page sheet already sits below the status bar.
+            paddingTop: 24 + (Platform.OS === "android" ? insets.top : 0),
+            paddingHorizontal: 16,
+            // Last tile scrolls clear of the fade.
+            paddingBottom: FADE_HEIGHT,
+            gap: GAP,
+          }}
+        >
+          <MoodTile summary={summary} />
+          {item.photos.length > 1 && (
+            <PhotosTile
+              photos={item.photos}
+              rows={getPhotoBento(item.photos.length)}
+              row={2}
+            />
+          )}
+          {emotions.length > 0 && <EmotionsTile emotions={emotions} />}
+          <MiddleRows item={item} people={entryPeople} />
+          {entryTags.length > 0 && <TagsTile tags={entryTags} />}
+          {note !== "" && <NoteTile note={note} />}
+        </ScrollView>
+      </MaskedView>
+
+      <View
+        style={{
+          paddingTop: 8,
+          paddingHorizontal: 20,
+          paddingBottom: insets.bottom + 8,
         }}
       >
-        <MoodTile summary={summary} />
-        {item.photos.length > 1 && (
-          <PhotosTile
-            photos={item.photos}
-            rows={getPhotoBento(item.photos.length)}
-            row={2}
-          />
-        )}
-        {emotions.length > 0 && <EmotionsTile emotions={emotions} />}
-        <MiddleRows item={item} people={entryPeople} />
-        {entryTags.length > 0 && <TagsTile tags={entryTags} />}
-        {note !== "" && <NoteTile note={note} />}
-      </ScrollView>
-
-      <View style={{ paddingHorizontal: 20, paddingBottom: insets.bottom + 8 }}>
         <ConfirmationOffer item={item} />
         <Button testID="confirmation-done" onPress={onClose}>
           {t("done")}
