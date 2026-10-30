@@ -10,6 +10,7 @@ import { withMenstruation } from "@/dev/fixtures/menstruation";
 import { withTimeline } from "@/dev/fixtures/timeline";
 import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
+import { withPersona } from "@/dev/fixtures/personas";
 import { withRecapMoments } from "@/dev/fixtures/recap-moments";
 import { withRecapNudges } from "@/dev/fixtures/recap-nudges";
 import { withRecapStory, withRecapWeekStory } from "@/dev/fixtures/recap-story";
@@ -149,6 +150,62 @@ export const FIXTURES: Fixture[] = [
       "Stress test ending today: every limit at max (50 tags, 50 people, 6 photos, 10,000-character note, all emotions), many scripts and emoji, years with gaps, 24 entries on the newest day, and past days with up to 100 entries.",
     endsToday: true,
     data: withChaos(asExport(empty)),
+  },
+  {
+    id: "persona-lea",
+    title: "Persona: Lea, Quick Tapper",
+    description:
+      "4 weeks ending today, mood only, often 2 entries a day. Steps: Mood.",
+    endsToday: true,
+    data: withPersona("lea")(asExport(empty)),
+  },
+  {
+    id: "persona-jonas",
+    title: "Persona: Jonas, Journaler",
+    description:
+      "4 weeks ending today, notes from 1 line to 5 paragraphs. Steps: Mood, Note.",
+    endsToday: true,
+    data: withPersona("jonas")(asExport(empty)),
+  },
+  {
+    id: "persona-sara",
+    title: "Persona: Sara, Emotion Labeler",
+    description:
+      "4 weeks ending today, 3 to 6 emotions per entry. Steps: Mood, Emotions.",
+    endsToday: true,
+    data: withPersona("sara")(asExport(empty)),
+  },
+  {
+    id: "persona-ben",
+    title: "Persona: Ben, Tag Tracker",
+    description:
+      "4 weeks ending today, 3 to 6 tags per entry from 8. Steps: Mood, Tags.",
+    endsToday: true,
+    data: withPersona("ben")(asExport(empty)),
+  },
+  {
+    id: "persona-mia",
+    title: "Persona: Mia, Tryout",
+    description:
+      "3 entries in her first days, newest one a hard day. Default steps.",
+    endsToday: true,
+    data: withPersona("mia")(asExport(empty)),
+  },
+  {
+    id: "persona-paul",
+    title: "Persona: Paul, Multi-Logger",
+    description:
+      "4 weeks ending today, every step, people and photos on some days.",
+    endsToday: true,
+    data: withPersona("paul")(asExport(empty)),
+  },
+  {
+    id: "persona-nina",
+    title: "Persona: Nina, Max Load",
+    description:
+      "4 weeks ending today, every step filled heavily: 8+ emotions and tags, 3+ people, 4+ photos, long notes.",
+    endsToday: true,
+    data: withPersona("nina")(asExport(empty)),
   },
   {
     id: "recap-nudges",

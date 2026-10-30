@@ -12,6 +12,11 @@
 - Do not document anything that an agent can easily find with code search
 - **Minimal diff:** Use the fewest files that solve it. Keep existing signatures and reuse SDK props. Add no new abstractions unless asked. You are free to suggest them, but must find consensus with the user.
 
+## Personas
+
+- Ideas, concepts, prototypes, and UI changes: check every one from all 7 personas in [docs/personas.md](docs/personas.md). Show each persona, not only the full-data case
+- Test data per persona: `persona-<name>` fixtures
+
 ## Feature Flags
 
 - We use Posthog for feature flags
