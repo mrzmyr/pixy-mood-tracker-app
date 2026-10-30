@@ -20,7 +20,7 @@ import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import { VoiceBlob } from "../components/voice-blob";
+import { VoiceBackground } from "../components/voice-background";
 import { VoiceHelpSheet } from "../components/voice-help-sheet";
 import { VoiceMatchCard, VoiceMoodCard } from "../components/voice-match-card";
 import { VoiceTrySaying } from "../components/voice-try-saying";
@@ -201,7 +201,7 @@ export const VoiceMode = () => {
       }}
       testID="voice-mode"
     >
-      <VoiceBlob level={voice.level} color={colors.primaryButtonBackground} />
+      <VoiceBackground level={voice.level} />
       <RouteModalHeader title="" onClose={close} closeTestID="voice-close" />
 
       <ScrollView
