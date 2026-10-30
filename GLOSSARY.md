@@ -16,6 +16,8 @@ Personal mood journal on one device. Person records how they feel, then sees pat
 
 **Emotion**: Named feeling from fixed catalog of 72, each with short description. Entry holds zero or more. _Avoid_: Feeling, mood word
 
+**Need**: One of 6 basic needs (Rest & Body, Safety & Calm, Connection, Autonomy, Competence, Joy) rated met, partly, or unmet in Emotions Step. Ratings suggest Emotions. Not stored on Entry. _Avoid_: Value, want
+
 **Tag**: Person-defined label (activity, person, place) with title and color. Entry holds zero or more. _Avoid_: Label, category, factor
 
 **Tag Category**: Person-named group of Tags, for example Work or Hobbies. Orders Tags in Check-in and Settings. Every Tag sits in one. General always exists and takes Tags of deleted categories. _Avoid_: Group, folder, tag type
