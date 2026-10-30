@@ -12,6 +12,14 @@ export const QUESTIONS_PULL_URL = __DEV__
   ? `http://127.0.0.1:3000/api/questions`
   : `https://pixy.day/api/questions`;
 
+/**
+ * Source of the calendar announcement card. Development builds expect the
+ * website dev server on port 3000.
+ */
+export const ANNOUNCEMENTS_URL = __DEV__
+  ? `http://127.0.0.1:3000/api/announcements`
+  : `https://pixy.day/api/announcements`;
+
 /** Public PostHog project key per variant. EU Cloud (Frankfurt). */
 export const POSTHOG_API_KEY = {
   development: `phc_zVpVKHXWr5m2y96cey6YgDmZvn6f5bYS5t4rtbEj8xgL`,
