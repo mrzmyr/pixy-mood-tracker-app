@@ -1,6 +1,9 @@
-import { Platform, Text, View } from "react-native";
+import { Platform, View } from "react-native";
 import Button from "@/components/button";
 import useColors from "@/hooks/use-colors";
+import { TextReveal } from "@/components/text-reveal";
+import { getTextRevealDuration } from "@/components/text-reveal-parts";
+import { SLIDE_TEXT_DELAY_MS } from "./slide-timing";
 import { HeaderImage } from "./header-image";
 import { HeaderNavigation } from "./header-navigation";
 import {
@@ -18,6 +21,7 @@ import { t, tDynamic } from "@/lib/translation";
 
 const Body = ({ index }: { index: number }) => {
   const colors = useColors();
+  const title = tDynamic(`onboarding_step_${index}_title`);
 
   return (
     <View
@@ -26,17 +30,20 @@ const Body = ({ index }: { index: number }) => {
         paddingHorizontal: 32,
       }}
     >
-      <Text
+      <TextReveal
+        accessibilityRole="header"
+        delay={SLIDE_TEXT_DELAY_MS}
+        containerStyle={{ marginBottom: 8 }}
         style={{
           color: colors.onboardingTitle,
           fontSize: 20,
           fontWeight: "bold",
-          marginBottom: 8,
         }}
       >
-        {tDynamic(`onboarding_step_${index}_title`)}
-      </Text>
-      <Text
+        {title}
+      </TextReveal>
+      <TextReveal
+        delay={SLIDE_TEXT_DELAY_MS + getTextRevealDuration(title) * 0.5}
         style={{
           color: colors.onboardingBody,
           fontSize: 17,
@@ -44,7 +51,7 @@ const Body = ({ index }: { index: number }) => {
         }}
       >
         {tDynamic(`onboarding_step_${index}_body`)}
-      </Text>
+      </TextReveal>
     </View>
   );
 };

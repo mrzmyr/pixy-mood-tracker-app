@@ -17,6 +17,7 @@ import { IndexSlide } from "./index-slide";
 import { OnboardingSky } from "./onboarding-sky";
 import { PrivacySlide } from "./privacy-slide";
 import { ReminderSlide } from "./reminder-slide";
+import { SLIDE_TEXT_DELAY_MS } from "./slide-timing";
 
 interface SlideProps {
   index: number;
@@ -37,7 +38,7 @@ const FiltersSlide = ({ ...props }: SlideProps) => (
 const PRIVACY_SLIDE_INDEX = 5;
 
 // The old slide fades out while the clouds speed up, then the next one fades in.
-const SLIDE_ENTERING = FadeIn.delay(250).duration(700);
+const SLIDE_ENTERING = FadeIn.delay(SLIDE_TEXT_DELAY_MS).duration(700);
 const SLIDE_EXITING = FadeOut.duration(300);
 /** Time for the last slide and the sky to fade into the calendar color. */
 const OUTRO_MS = 450;
