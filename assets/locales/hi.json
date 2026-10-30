@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "पहली बार",
   "recaps_story_city_km": "%{city} · घर से %{km} किमी",
   "recaps_story_city_title": "%{city} में आपका पहला पिक्सेल",
-  "recaps_story_close_text_few": "कुछ जगहों ने आपका हफ़्ता बनाया",
-  "recaps_story_close_text_many": "आप लगातार घूमते रहे",
-  "recaps_story_close_title": "सबसे ज़्यादा: %{place}",
-  "recaps_story_close_title_single": "पूरा हफ़्ता: %{place}",
+  "recaps_story_close_text_few": "कुछ जगहों ने आपका हफ़्ता संभाला",
+  "recaps_story_close_text_many": "आप खूब घूमते रहे",
+  "recaps_story_close_title": "आप सबसे ज़्यादा %{place} में थे",
+  "recaps_story_close_title_single": "आपने पूरा हफ़्ता %{place} के आस-पास बिताया",
   "recaps_story_coming_eyebrow": "आगे क्या है",
   "recaps_story_coming_left": {
     "one": "1 बाकी",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "%{month} में पिक्सेल",
   "recaps_story_cover_title": "%{month}: जो आकार लेता गया",
+  "recaps_story_cover_title_week": "एक पल रुकिए। यह आपका हफ़्ता था।",
   "recaps_story_days": {
     "one": "1 दिन",
     "other": "{{count}} दिन"
   },
   "recaps_story_emotions_eyebrow": "सबसे ज़्यादा महसूस",
-  "recaps_story_emotions_title": "सबसे ज़्यादा: %{emotion}",
-  "recaps_story_far_title_many": "%{city} और भी",
-  "recaps_story_far_title_single": "सफ़र पर: %{city}",
+  "recaps_story_emotions_title": "आपने सबसे ज़्यादा महसूस किया: %{emotion}",
+  "recaps_story_far_title_many": "आप %{city} और उससे आगे गए",
+  "recaps_story_far_title_single": "आप %{city} तक गए",
   "recaps_story_hard_days_label": {
     "one": "आपका मुश्किल दिन",
     "other": "आपके {{count}} मुश्किल दिन"
@@ -968,7 +969,7 @@
   "recaps_story_vs_text": "हर टैग वाले दिन, %{previous} के मुकाबले।",
   "recaps_story_vs_title": "इसका ज़्यादा, उसका कम",
   "recaps_story_week_mood_eyebrow": "आपका हफ़्ता",
-  "recaps_story_week_mood_good": "%{total} में से %{count} दिन अच्छे रहे",
+  "recaps_story_week_mood_good": "आपके %{total} में से %{count} दिन अच्छे रहे",
   "recaps_story_week_mood_title": "आपका हफ़्ता, दिन-ब-दिन",
   "recaps_story_weekday_eyebrow": "एक आदत बनी",
   "recaps_story_weekday_previous": "%{month} में: %{total} में से %{hits}।",

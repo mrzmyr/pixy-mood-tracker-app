@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "Prvi put",
   "recaps_story_city_km": "%{city} · %{km} km od kuće",
   "recaps_story_city_title": "Tvoj prvi piksel u mjestu %{city}",
-  "recaps_story_close_text_few": "Nekoliko mjesta obilježilo je tvoj tjedan",
-  "recaps_story_close_text_many": "Bio si u pokretu",
-  "recaps_story_close_title": "Najčešće: %{place}",
-  "recaps_story_close_title_single": "Cijeli tjedan: %{place}",
+  "recaps_story_close_text_few": "Nekoliko mjesta nosilo je tvoj tjedan",
+  "recaps_story_close_text_many": "Puno si se kretao",
+  "recaps_story_close_title": "Najčešće si bio ovdje: %{place}",
+  "recaps_story_close_title_single": "Cijeli tjedan bio si oko: %{place}",
   "recaps_story_coming_eyebrow": "Uskoro",
   "recaps_story_coming_left": {
     "one": "Preostalo: 1",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "%{month} u pikselima",
   "recaps_story_cover_title": "%{month}: što je dobilo oblik",
+  "recaps_story_cover_title_week": "Zastani na trenutak. Ovo je bio tvoj tjedan.",
   "recaps_story_days": {
     "one": "1 dan",
     "other": "Dana: {{count}}"
   },
   "recaps_story_emotions_eyebrow": "Najviše osjećano",
-  "recaps_story_emotions_title": "Najčešće: %{emotion}",
-  "recaps_story_far_title_many": "%{city} i više",
-  "recaps_story_far_title_single": "Na putu: %{city}",
+  "recaps_story_emotions_title": "Najčešće si se osjećao: %{emotion}",
+  "recaps_story_far_title_many": "Putovao si: %{city} i dalje",
+  "recaps_story_far_title_single": "Otputovao si sve do: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Tvoj teži dan",
     "other": "Tvoji teži dani: {{count}}"

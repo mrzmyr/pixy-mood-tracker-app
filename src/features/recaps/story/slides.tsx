@@ -39,10 +39,9 @@ import {
 import { Orbit } from "./orbit";
 import {
   BestDay,
-  BestDaySky,
   Places,
   PlacesBackdrop,
-  StorySky,
+  SkyBackdrop,
   TopEmotions,
   WeekMood,
 } from "./week-slides";
@@ -1046,9 +1045,12 @@ const ComingUp = ({
 /** Full-screen photos behind photo slides, under the padded content. */
 export const SlideBackdrop = ({
   slide,
+  previous,
   progress,
 }: {
   slide: StorySlide;
+  /** Slide before, so a sky can carry on from it. */
+  previous?: StorySlide;
   progress: SharedValue<number>;
 }) => {
   const durationMs = getSlideDuration(slide);
@@ -1069,11 +1071,13 @@ export const SlideBackdrop = ({
         durationMs={durationMs}
       />
     ) : (
-      <BestDaySky />
+      <SkyBackdrop sun="in" />
     );
   }
   if (slide.type === "week-mood" || slide.type === "top-emotions") {
-    return <StorySky />;
+    // The sun of a sky best day sets while the sky stays.
+    const hadSun = previous?.type === "best-day" && !previous.photo;
+    return <SkyBackdrop sun={hadSun ? "out" : null} />;
   }
   if (slide.type === "close-by" || slide.type === "far-out") {
     return <PlacesBackdrop slide={slide} />;

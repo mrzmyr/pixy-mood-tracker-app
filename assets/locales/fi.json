@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "Ensimmäistä kertaa",
   "recaps_story_city_km": "%{city} · %{km} km kotoa",
   "recaps_story_city_title": "Ensimmäinen pikselisi: %{city}",
-  "recaps_story_close_text_few": "Muutama paikka teki viikostasi",
-  "recaps_story_close_text_many": "Olit liikkeellä",
-  "recaps_story_close_title": "Useimmiten paikassa %{place}",
-  "recaps_story_close_title_single": "Koko viikon paikassa %{place}",
+  "recaps_story_close_text_few": "Muutama paikka kantoi viikkoasi",
+  "recaps_story_close_text_many": "Olit paljon liikkeellä",
+  "recaps_story_close_title": "Olit useimmiten paikassa %{place}",
+  "recaps_story_close_title_single": "Vietit koko viikon paikassa %{place}",
   "recaps_story_coming_eyebrow": "Tulossa",
   "recaps_story_coming_left": {
     "one": "1 jäljellä",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "pikseliä · %{month}",
   "recaps_story_cover_title": "%{month}: mikä sai muotonsa",
+  "recaps_story_cover_title_week": "Pysähdy hetkeksi. Tämä on viikkosi.",
   "recaps_story_days": {
     "one": "1 päivä",
     "other": "{{count}} päivää"
   },
   "recaps_story_emotions_eyebrow": "Eniten tunnettu",
-  "recaps_story_emotions_title": "Eniten tunnettu: %{emotion}",
-  "recaps_story_far_title_many": "%{city} ja muuta",
-  "recaps_story_far_title_single": "Matkalla: %{city}",
+  "recaps_story_emotions_title": "Tunsit itsesi useimmiten: %{emotion}",
+  "recaps_story_far_title_many": "Matkustit paikkaan %{city} ja kauemmas",
+  "recaps_story_far_title_single": "Matkustit aina paikkaan %{city} asti",
   "recaps_story_hard_days_label": {
     "one": "Raskaampi päiväsi",
     "other": "{{count}} raskaampaa päivääsi"
@@ -968,7 +969,7 @@
   "recaps_story_vs_text": "Päivät tunnisteittain, vs. %{previous}.",
   "recaps_story_vs_title": "Enemmän tätä, vähemmän tuota",
   "recaps_story_week_mood_eyebrow": "Viikkosi",
-  "recaps_story_week_mood_good": "%{count}/%{total} päivää tuntui hyvältä",
+  "recaps_story_week_mood_good": "%{count}/%{total} päivästäsi tuntui hyvältä",
   "recaps_story_week_mood_title": "Viikkosi päivä päivältä",
   "recaps_story_weekday_eyebrow": "Tapa syntyi",
   "recaps_story_weekday_previous": "%{month}: %{hits}/%{total}.",

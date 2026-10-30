@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "لأول مرة",
   "recaps_story_city_km": "%{city} · على بعد %{km} كم من المنزل",
   "recaps_story_city_title": "أول بكسل لك في %{city}",
-  "recaps_story_close_text_few": "بضعة أماكن صنعت أسبوعك",
-  "recaps_story_close_text_many": "كنت في حركة دائمة",
-  "recaps_story_close_title": "غالبًا: %{place}",
-  "recaps_story_close_title_single": "طوال الأسبوع: %{place}",
+  "recaps_story_close_text_few": "بضعة أماكن حملت أسبوعك",
+  "recaps_story_close_text_many": "تنقلت كثيرًا",
+  "recaps_story_close_title": "كنت غالبًا في %{place}",
+  "recaps_story_close_title_single": "قضيت الأسبوع كله حول %{place}",
   "recaps_story_coming_eyebrow": "القادم",
   "recaps_story_coming_left": {
     "one": "متبقٍ: 1",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "بكسل في %{month}",
   "recaps_story_cover_title": "%{month}، ما الذي تشكّل",
+  "recaps_story_cover_title_week": "خذ لحظة. هذا كان أسبوعك.",
   "recaps_story_days": {
     "one": "يوم واحد",
     "other": "الأيام: {{count}}"
   },
   "recaps_story_emotions_eyebrow": "الأكثر شعورًا",
-  "recaps_story_emotions_title": "الأكثر شعورًا: %{emotion}",
-  "recaps_story_far_title_many": "%{city} وأكثر",
-  "recaps_story_far_title_single": "في رحلة: %{city}",
+  "recaps_story_emotions_title": "أكثر ما شعرت به: %{emotion}",
+  "recaps_story_far_title_many": "سافرت إلى %{city} وأبعد",
+  "recaps_story_far_title_single": "سافرت حتى %{city}",
   "recaps_story_hard_days_label": {
     "one": "يومك الصعب",
     "other": "أيامك الصعبة: {{count}}"

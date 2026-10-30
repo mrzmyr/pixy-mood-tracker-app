@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "Впервые",
   "recaps_story_city_km": "%{city} · %{km} км от дома",
   "recaps_story_city_title": "Ваш первый пиксель в городе %{city}",
-  "recaps_story_close_text_few": "Несколько мест наполнили вашу неделю",
-  "recaps_story_close_text_many": "Вы были в движении",
-  "recaps_story_close_title": "Чаще всего: %{place}",
-  "recaps_story_close_title_single": "Вся неделя: %{place}",
+  "recaps_story_close_text_few": "Несколько мест держали вашу неделю",
+  "recaps_story_close_text_many": "Вы много перемещались",
+  "recaps_story_close_title": "Чаще всего вы были здесь: %{place}",
+  "recaps_story_close_title_single": "Всю неделю вы были рядом: %{place}",
   "recaps_story_coming_eyebrow": "Впереди",
   "recaps_story_coming_left": {
     "one": "Осталось: 1",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "%{month} в пикселях",
   "recaps_story_cover_title": "%{month}: что сложилось",
+  "recaps_story_cover_title_week": "Остановитесь на минуту. Это была ваша неделя.",
   "recaps_story_days": {
     "one": "1 день",
     "other": "Дней: {{count}}"
   },
   "recaps_story_emotions_eyebrow": "Чаще всего",
-  "recaps_story_emotions_title": "Чаще всего: %{emotion}",
-  "recaps_story_far_title_many": "%{city} и другие",
-  "recaps_story_far_title_single": "В поездке: %{city}",
+  "recaps_story_emotions_title": "Чаще всего вы чувствовали: %{emotion}",
+  "recaps_story_far_title_many": "Вы съездили: %{city} и дальше",
+  "recaps_story_far_title_single": "Вы добрались до места: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Ваш непростой день",
     "other": "Ваши непростые дни: {{count}}"

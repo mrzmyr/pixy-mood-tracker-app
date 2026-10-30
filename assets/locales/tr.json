@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "İlk kez",
   "recaps_story_city_km": "%{city} · evden %{km} km",
   "recaps_story_city_title": "İlk pikselin: %{city}",
-  "recaps_story_close_text_few": "Birkaç yer haftanı şekillendirdi",
-  "recaps_story_close_text_many": "Hep hareket halindeydin",
-  "recaps_story_close_title": "En sık: %{place}",
-  "recaps_story_close_title_single": "Tüm hafta: %{place}",
+  "recaps_story_close_text_few": "Birkaç yer haftanı taşıdı",
+  "recaps_story_close_text_many": "Çok hareket ettin",
+  "recaps_story_close_title": "En çok %{place} konumundaydın",
+  "recaps_story_close_title_single": "Bütün haftayı %{place} civarında geçirdin",
   "recaps_story_coming_eyebrow": "Sırada",
   "recaps_story_coming_left": {
     "one": "1 kaldı",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "piksel · %{month}",
   "recaps_story_cover_title": "%{month}: şekillenenler",
+  "recaps_story_cover_title_week": "Bir an dur. Bu senin haftandı.",
   "recaps_story_days": {
     "one": "1 gün",
     "other": "{{count}} gün"
   },
   "recaps_story_emotions_eyebrow": "En çok hissedilen",
-  "recaps_story_emotions_title": "En çok: %{emotion}",
-  "recaps_story_far_title_many": "%{city} ve fazlası",
-  "recaps_story_far_title_single": "Yolculuk: %{city}",
+  "recaps_story_emotions_title": "En çok %{emotion} hissettin",
+  "recaps_story_far_title_many": "%{city} ve ötesine gittin",
+  "recaps_story_far_title_single": "Ta %{city} şehrine kadar gittin",
   "recaps_story_hard_days_label": {
     "one": "Daha zor günün",
     "other": "{{count}} daha zor günün"

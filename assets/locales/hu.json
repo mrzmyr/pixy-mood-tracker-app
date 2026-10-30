@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "Először",
   "recaps_story_city_km": "%{city} · %{km} km-re otthonról",
   "recaps_story_city_title": "Az első pixeled innen: %{city}",
-  "recaps_story_close_text_few": "Néhány hely adta a hetedet",
+  "recaps_story_close_text_few": "Néhány hely tartotta a hetedet",
   "recaps_story_close_text_many": "Sokat jártál-keltél",
-  "recaps_story_close_title": "Legtöbbször: %{place}",
-  "recaps_story_close_title_single": "Egész héten: %{place}",
+  "recaps_story_close_title": "Legtöbbször itt voltál: %{place}",
+  "recaps_story_close_title_single": "Az egész hetet itt töltötted: %{place}",
   "recaps_story_coming_eyebrow": "Hamarosan",
   "recaps_story_coming_left": {
     "one": "Még 1",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "pixel · %{month}",
   "recaps_story_cover_title": "%{month}: ami formát öltött",
+  "recaps_story_cover_title_week": "Szánj rá egy pillanatot. Ez volt a heted.",
   "recaps_story_days": {
     "one": "1 nap",
     "other": "{{count}} nap"
   },
   "recaps_story_emotions_eyebrow": "Leginkább érzett",
-  "recaps_story_emotions_title": "Leginkább: %{emotion}",
-  "recaps_story_far_title_many": "%{city} és még több",
-  "recaps_story_far_title_single": "Úton: %{city}",
+  "recaps_story_emotions_title": "Leggyakrabban ezt érezted: %{emotion}",
+  "recaps_story_far_title_many": "Eljutottál ide és tovább: %{city}",
+  "recaps_story_far_title_single": "Egészen eljutottál ide: %{city}",
   "recaps_story_hard_days_label": {
     "one": "A nehezebb napod",
     "other": "Nehezebb napjaid: {{count}}"
@@ -968,7 +969,7 @@
   "recaps_story_vs_text": "Napok címkénként, vs. %{previous}.",
   "recaps_story_vs_title": "Ebből több, abból kevesebb",
   "recaps_story_week_mood_eyebrow": "A heted",
-  "recaps_story_week_mood_good": "%{total} napból %{count} volt jó",
+  "recaps_story_week_mood_good": "%{total} napodból %{count} volt jó",
   "recaps_story_week_mood_title": "A heted napról napra",
   "recaps_story_weekday_eyebrow": "Kialakult egy szokás",
   "recaps_story_weekday_previous": "%{month}: %{hits}/%{total}.",

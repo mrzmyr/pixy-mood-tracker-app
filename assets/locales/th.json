@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "ครั้งแรก",
   "recaps_story_city_km": "%{city} · ห่างจากบ้าน %{km} กม.",
   "recaps_story_city_title": "พิกเซลแรกของคุณที่ %{city}",
-  "recaps_story_close_text_few": "ไม่กี่ที่ทำให้สัปดาห์ของคุณ",
-  "recaps_story_close_text_many": "คุณเดินทางไปมาตลอด",
-  "recaps_story_close_title": "บ่อยที่สุดที่ %{place}",
-  "recaps_story_close_title_single": "ทั้งสัปดาห์ที่ %{place}",
+  "recaps_story_close_text_few": "ไม่กี่ที่ช่วยประคองสัปดาห์ของคุณ",
+  "recaps_story_close_text_many": "คุณเดินทางไปมาเยอะ",
+  "recaps_story_close_title": "คุณอยู่ที่ %{place} บ่อยที่สุด",
+  "recaps_story_close_title_single": "คุณใช้เวลาทั้งสัปดาห์แถว %{place}",
   "recaps_story_coming_eyebrow": "กำลังจะมา",
   "recaps_story_coming_left": {
     "one": "เหลืออีก 1",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "พิกเซลในเดือน%{month}",
   "recaps_story_cover_title": "เดือน%{month} สิ่งที่ก่อตัวขึ้น",
+  "recaps_story_cover_title_week": "ให้เวลากับตัวเองสักครู่ นี่คือสัปดาห์ของคุณ",
   "recaps_story_days": {
     "one": "1 วัน",
     "other": "{{count}} วัน"
   },
   "recaps_story_emotions_eyebrow": "รู้สึกมากที่สุด",
-  "recaps_story_emotions_title": "รู้สึกมากที่สุด: %{emotion}",
-  "recaps_story_far_title_many": "%{city} และที่อื่น",
-  "recaps_story_far_title_single": "ไปเที่ยว %{city}",
+  "recaps_story_emotions_title": "คุณรู้สึก%{emotion}บ่อยที่สุด",
+  "recaps_story_far_title_many": "คุณเดินทางไป %{city} และไกลกว่านั้น",
+  "recaps_story_far_title_single": "คุณเดินทางไกลถึง %{city}",
   "recaps_story_hard_days_label": {
     "one": "วันที่หนักกว่าของคุณ",
     "other": "{{count}} วันที่หนักกว่าของคุณ"
@@ -968,7 +969,7 @@
   "recaps_story_vs_text": "จำนวนวันของแต่ละแท็ก เทียบกับ %{previous}",
   "recaps_story_vs_title": "สิ่งนี้มากขึ้น สิ่งนั้นน้อยลง",
   "recaps_story_week_mood_eyebrow": "สัปดาห์ของคุณ",
-  "recaps_story_week_mood_good": "วันที่ดี %{count} จาก %{total} วัน",
+  "recaps_story_week_mood_good": "วันที่ดี %{count} จาก %{total} วันของคุณ",
   "recaps_story_week_mood_title": "สัปดาห์ของคุณ ทีละวัน",
   "recaps_story_weekday_eyebrow": "นิสัยที่ก่อตัว",
   "recaps_story_weekday_previous": "เดือน%{month}: %{hits} จาก %{total}",

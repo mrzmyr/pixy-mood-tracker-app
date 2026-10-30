@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "Prvýkrát",
   "recaps_story_city_km": "%{city} · %{km} km od domova",
   "recaps_story_city_title": "Tvoj prvý pixel v meste %{city}",
-  "recaps_story_close_text_few": "Pár miest formovalo tvoj týždeň",
-  "recaps_story_close_text_many": "Bol si stále v pohybe",
-  "recaps_story_close_title": "Najčastejšie: %{place}",
-  "recaps_story_close_title_single": "Celý týždeň: %{place}",
+  "recaps_story_close_text_few": "Pár miest nieslo tvoj týždeň",
+  "recaps_story_close_text_many": "Veľa si sa pohyboval",
+  "recaps_story_close_title": "Najčastejšie si bol tu: %{place}",
+  "recaps_story_close_title_single": "Celý týždeň si bol v okolí: %{place}",
   "recaps_story_coming_eyebrow": "Čo príde",
   "recaps_story_coming_left": {
     "one": "Zostáva 1",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "%{month} v pixeloch",
   "recaps_story_cover_title": "%{month}: čo dostalo tvar",
+  "recaps_story_cover_title_week": "Zastav sa na chvíľu. Toto bol tvoj týždeň.",
   "recaps_story_days": {
     "one": "1 deň",
     "other": "Dní: {{count}}"
   },
   "recaps_story_emotions_eyebrow": "Najviac cítené",
-  "recaps_story_emotions_title": "Najčastejšie: %{emotion}",
-  "recaps_story_far_title_many": "%{city} a ďalšie",
-  "recaps_story_far_title_single": "Na cestách: %{city}",
+  "recaps_story_emotions_title": "Najčastejšie si cítil: %{emotion}",
+  "recaps_story_far_title_many": "Cestoval si: %{city} a ďalej",
+  "recaps_story_far_title_single": "Dostal si sa až do: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Tvoj ťažší deň",
     "other": "Tvoje ťažšie dni: {{count}}"

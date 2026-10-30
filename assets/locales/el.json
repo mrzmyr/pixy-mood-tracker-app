@@ -887,10 +887,10 @@
   "recaps_story_city_eyebrow": "Πρώτη φορά",
   "recaps_story_city_km": "%{city} · %{km} km από το σπίτι",
   "recaps_story_city_title": "Το πρώτο σου pixel: %{city}",
-  "recaps_story_close_text_few": "Λίγα μέρη σημάδεψαν την εβδομάδα σου",
-  "recaps_story_close_text_many": "Ήσουν συνέχεια σε κίνηση",
-  "recaps_story_close_title": "Πιο συχνά: %{place}",
-  "recaps_story_close_title_single": "Όλη την εβδομάδα: %{place}",
+  "recaps_story_close_text_few": "Λίγα μέρη κράτησαν την εβδομάδα σου",
+  "recaps_story_close_text_many": "Κινήθηκες πολύ",
+  "recaps_story_close_title": "Ήσουν πιο συχνά εδώ: %{place}",
+  "recaps_story_close_title_single": "Πέρασες όλη την εβδομάδα γύρω από: %{place}",
   "recaps_story_coming_eyebrow": "Έρχονται",
   "recaps_story_coming_left": {
     "one": "Μένει 1",
@@ -906,14 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "pixels · %{month}",
   "recaps_story_cover_title": "%{month}: ό,τι πήρε μορφή",
+  "recaps_story_cover_title_week": "Πάρε μια στιγμή. Αυτή ήταν η εβδομάδα σου.",
   "recaps_story_days": {
     "one": "1 μέρα",
     "other": "{{count}} μέρες"
   },
   "recaps_story_emotions_eyebrow": "Πιο έντονα",
-  "recaps_story_emotions_title": "Πιο έντονα: %{emotion}",
-  "recaps_story_far_title_many": "%{city} και άλλα",
-  "recaps_story_far_title_single": "Ταξίδι: %{city}",
+  "recaps_story_emotions_title": "Ένιωσες πιο συχνά: %{emotion}",
+  "recaps_story_far_title_many": "Ταξίδεψες: %{city} και πιο πέρα",
+  "recaps_story_far_title_single": "Ταξίδεψες μέχρι: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Η πιο δύσκολη μέρα σου",
     "other": "Οι {{count}} πιο δύσκολες μέρες σου"

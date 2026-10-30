@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import noop from "lodash/noop";
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
+import type { SharedValue } from "react-native-reanimated";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useColorScheme, useWindowDimensions, View } from "react-native";
 import type { View as ViewType } from "react-native";
@@ -43,6 +44,22 @@ const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 
 const isSource = (value: unknown): value is StorySource =>
   SOURCES.some((source) => source === value);
+
+/** Backdrop of the slide at `index`; it can carry on from the slide before. */
+const slideBackdrop = (
+  story: StorySlide[],
+  index: number,
+  progress: SharedValue<number>
+) => {
+  const slide = story[index];
+  return slide ? (
+    <SlideBackdrop
+      slide={slide}
+      previous={story[index - 1]}
+      progress={progress}
+    />
+  ) : null;
+};
 
 /** Slides that lay out the whole screen, over a photo, map, or sky. */
 const FULL_SCREEN_SLIDES: ReadonlySet<StorySlide["type"]> = new Set([
@@ -339,9 +356,7 @@ const RecapStory = () => {
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getSlideTheme(slide, ctx.isDark),
-    renderBackdrop: (progress) => (
-      <SlideBackdrop slide={slide} progress={progress} />
-    ),
+    renderBackdrop: (progress) => slideBackdrop(story, index, progress),
     isWaiting: slide.type === "quiz" && !quizResults.has(index),
     durationMs: getSlideDuration(slide),
     fillsScreen: fillsScreen(slide),
