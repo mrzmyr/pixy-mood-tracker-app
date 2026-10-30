@@ -1,10 +1,12 @@
 import dayjs from "dayjs";
+import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
 import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
+import Svg, { Path } from "react-native-svg";
 import chroma from "chroma-js";
 import { SkyTile } from "@/components/sky-tile";
 import { CHIP_FLOW, COMPACT_CHIP } from "@/constants/chip";
@@ -27,9 +29,12 @@ import type { CheckIn, DaySummary } from "./day-summary";
 import { FACES_MAX, joinNames, takeVisible } from "./entry-summary-layout";
 import { createFadeIn } from "./motion";
 
-const FACE_SIZE = 44;
+const FACE_SIZE = 38;
+/** How far each face slides under the one before it. */
+const FACE_OVERLAP = 10;
+/** See-through gap between overlapping faces. */
+const FACE_GAP = 2;
 const PIXEL_SIZE = 36;
-const TRANSPARENT = { backgroundColor: "transparent" };
 const DAY_MINUTES = 24 * 60;
 const STRIP_HOURS = [0, 6, 12, 18, 24];
 
@@ -237,7 +242,7 @@ export const EmotionsTile = ({
               paddingHorizontal: COMPACT_CHIP.paddingHorizontal,
               borderRadius: COMPACT_CHIP.borderRadius,
               borderWidth: 1,
-              borderColor: colors.entryItemBorder,
+              borderColor: colors.glassBorder,
               flexDirection: "row",
               alignItems: "center",
             }}
@@ -256,22 +261,28 @@ export const EmotionsTile = ({
 };
 
 /** All tag chips. */
-export const TagsTile = ({ tags }: { tags: Tag[] }) => (
-  <Tile row={4}>
-    <View style={chipFlow}>
-      {tags.map((tag) => (
-        <TagComponent
-          key={tag.id}
-          title={tag.title}
-          colorName={tag.color}
-          compact
-          // Glass shows through, like the emotion chips.
-          style={TRANSPARENT}
-        />
-      ))}
-    </View>
-  </Tile>
-);
+export const TagsTile = ({ tags }: { tags: Tag[] }) => {
+  const colors = useColors();
+  return (
+    <Tile row={4}>
+      <View style={chipFlow}>
+        {tags.map((tag) => (
+          <TagComponent
+            key={tag.id}
+            title={tag.title}
+            colorName={tag.color}
+            compact
+            // Glass shows through, like the emotion chips.
+            style={{
+              backgroundColor: "transparent",
+              borderColor: colors.glassBorder,
+            }}
+          />
+        ))}
+      </View>
+    </Tile>
+  );
+};
 
 /** The word and the sleep quality meter, never a rating word: "Bad" judges. */
 export const SleepTile = ({
@@ -299,6 +310,26 @@ export const SleepTile = ({
   );
 };
 
+/**
+ * Mask for a face with the next face overlapping it: a circle with a bite
+ * out of its right side, so a see-through gap separates the faces on glass.
+ */
+const FaceCutout = () => {
+  const radius = FACE_SIZE / 2;
+  const next = FACE_SIZE - FACE_OVERLAP + radius;
+  const circle = (cx: number, r: number) =>
+    `M ${cx - r} ${radius} a ${r} ${r} 0 1 0 ${r * 2} 0 a ${r} ${r} 0 1 0 ${-r * 2} 0 Z`;
+  return (
+    <Svg width={FACE_SIZE} height={FACE_SIZE}>
+      <Path
+        fill="#000"
+        fillRule="evenodd"
+        d={`${circle(radius, radius)} ${circle(next, radius + FACE_GAP)}`}
+      />
+    </Svg>
+  );
+};
+
 /** Up to 3 overlapping faces and the names. */
 export const PeopleTile = ({
   people,
@@ -323,11 +354,15 @@ export const PeopleTile = ({
         {shown.map((person, index) => (
           <View
             key={person.id}
-            style={{
-              marginLeft: index === 0 ? 0 : -8,
-            }}
+            style={{ marginLeft: index === 0 ? 0 : -FACE_OVERLAP }}
           >
-            <PersonAvatar person={person} size={FACE_SIZE - 6} />
+            {index < shown.length - 1 ? (
+              <MaskedView maskElement={<FaceCutout />}>
+                <PersonAvatar person={person} size={FACE_SIZE} />
+              </MaskedView>
+            ) : (
+              <PersonAvatar person={person} size={FACE_SIZE} />
+            )}
           </View>
         ))}
       </View>
