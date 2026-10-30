@@ -66,8 +66,7 @@ export type NudgeCard =
   | { type: "nudge-reminder" }
   | { type: "intro-emotions" }
   | { type: "intro-people" }
-  | { type: "intro-photos" }
-  | { type: "intro-categories"; tagsCount: number };
+  | { type: "intro-photos" };
 
 /** Why a person shows in the people moment of a period. */
 export type PersonMoment =

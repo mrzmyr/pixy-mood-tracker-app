@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
-import { GENERAL_CATEGORY_ID } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import { THRESHOLDS } from "../thresholds";
 import type { RecapCard, RecapInput } from "../types";
@@ -51,17 +50,3 @@ export const introPhotos = (input: RecapInput): RecapCard | null =>
 /** Tags the check-in offers: archived tags stay out. */
 export const getActiveTags = (tags: Tag[]) =>
   tags.filter((tag) => !tag.isArchived);
-
-/** Many tags, none of them in a category of the user's own. */
-export const introCategories = (input: RecapInput): RecapCard | null => {
-  if (!input.steps.has("tags")) {
-    return null;
-  }
-  const activeTags = getActiveTags(input.tags);
-  const allGeneral = activeTags.every(
-    (tag) => (tag.categoryId ?? GENERAL_CATEGORY_ID) === GENERAL_CATEGORY_ID
-  );
-  return allGeneral && activeTags.length >= THRESHOLDS.categoriesMinTags
-    ? { type: "intro-categories", tagsCount: activeTags.length }
-    : null;
-};

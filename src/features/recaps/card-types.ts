@@ -37,12 +37,6 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "strong",
     periods: WEEK_MONTH,
   },
-  "intro-categories": {
-    family: "nudge",
-    modules: ["tags"],
-    signal: "strong",
-    periods: WEEK_MONTH,
-  },
   "emotion-again": {
     family: "moment",
     modules: ["emotions"],

@@ -256,7 +256,6 @@ export interface AnalyticsEvents {
     category_changed: boolean;
     method: "drag" | "accessibility_action";
   };
-  "tags:category_created": { title_length: number; categories_count: number };
   "tags:category_updated": { title_length: number };
   "tags:category_deleted": { tags_count: number; categories_count: number };
 

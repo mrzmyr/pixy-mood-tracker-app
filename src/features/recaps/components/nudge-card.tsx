@@ -13,12 +13,9 @@ import {
   NotificationPreview,
   reminderTimeToDate,
 } from "@/features/notifications";
-import { TagComponent } from "@/features/tags";
-import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
-import { getActiveTags } from "../cards/nudges";
 import type { NudgeCard as NudgeCardData } from "../types";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
 import { RingedAvatar } from "./ringed-avatar";
@@ -50,15 +47,9 @@ const COPY: Record<
     text: "recaps_intro_photos_text",
     action: "recaps_intro_photos_action",
   },
-  "intro-categories": {
-    title: "recaps_intro_categories_title",
-    text: "recaps_intro_categories_text",
-    action: "recaps_intro_categories_action",
-  },
 };
 
 interface ArtProps {
-  tags: Tag[];
   /** Saved reminder time, `HH:mm`. */
   reminderTime: string;
 }
@@ -120,42 +111,22 @@ const PhotosArt = () => {
   );
 };
 
-/** First 6 active tags of the user, as they look in the check-in. */
-const CategoriesArt = ({ tags }: ArtProps) => {
-  const shownTags = getActiveTags(tags).slice(0, 6);
-  return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-      {shownTags.map((tag) => (
-        <TagComponent
-          key={tag.id}
-          title={tag.title}
-          colorName={tag.color}
-          compact
-        />
-      ))}
-    </View>
-  );
-};
-
 const ART: Record<NudgeType, (props: ArtProps) => ReactNode> = {
   "nudge-reminder": ReminderArt,
   "intro-emotions": EmotionsArt,
   "intro-people": PeopleArt,
   "intro-photos": PhotosArt,
-  "intro-categories": CategoriesArt,
 };
 
 /** Card that offers to turn a feature on: art, benefit, action, Not Now. */
 export const NudgeCard = ({
   card,
-  tags,
   reminderTime,
   onTurnOn,
   onNotNow,
   onLayout,
 }: {
   card: NudgeCardData;
-  tags: Tag[];
   reminderTime: string;
   onTurnOn: () => Promise<void>;
   onNotNow: () => void;
@@ -165,10 +136,9 @@ export const NudgeCard = ({
   const [isBusy, setIsBusy] = useState(false);
   const copy = COPY[card.type];
   const Art = ART[card.type];
-  const options =
-    card.type === "intro-categories"
-      ? { count: card.tagsCount }
-      : { time: dayjs(reminderTimeToDate(reminderTime)).format("LT") };
+  const options = {
+    time: dayjs(reminderTimeToDate(reminderTime)).format("LT"),
+  };
 
   // `onTurnOn` reports its own failures and never rejects.
   const turnOn = async () => {
@@ -183,7 +153,7 @@ export const NudgeCard = ({
       onLayout={onLayout}
       media={
         <MediaPanel>
-          <Art tags={tags} reminderTime={reminderTime} />
+          <Art reminderTime={reminderTime} />
         </MediaPanel>
       }
       title={t(copy.title, options)}

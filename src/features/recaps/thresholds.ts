@@ -5,8 +5,6 @@
 export const THRESHOLDS = {
   /** Reminder nudge: a week that cannot reach this many check-in days. */
   reminderMaxCheckInDays: 5,
-  /** Group your tags: at least this many active tags, all in General. */
-  categoriesMinTags: 30,
   /** Emotion again: good emotion, first time in at least this many days. */
   emotionAgainMinGapDays: 30,
   /** Emotion absent: days with no hard emotion, counted back from period end. */

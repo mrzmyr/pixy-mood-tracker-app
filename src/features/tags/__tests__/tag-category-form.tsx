@@ -6,16 +6,24 @@ import { Pressable, Text } from "react-native";
 import { LogsProvider } from "@/features/logs";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
-import { TagCategoryCreate } from "../screens/tag-category-form";
+import { TagCategoryEdit } from "../screens/tag-category-form";
+import { GENERAL_CATEGORY_ID } from "../tag-categories";
 import { STORAGE_KEY, TagsProvider, useTagsState } from "../tags-provider";
 
-/** Lists category titles and opens the create form, like the categories list. */
+/** Lists category titles and opens the General form, like the categories list. */
 const CategoriesScreen = () => {
   const router = useRouter();
   const { categories } = useTagsState();
   return (
     <>
-      <Pressable onPress={() => router.push("/tags/categories/create")}>
+      <Pressable
+        onPress={() =>
+          router.push({
+            pathname: "/tags/categories/[id]",
+            params: { id: GENERAL_CATEGORY_ID },
+          })
+        }
+      >
         <Text>Open form</Text>
       </Pressable>
       <Text testID="category-titles">
@@ -25,7 +33,7 @@ const CategoriesScreen = () => {
   );
 };
 
-const openCreateForm = async () => {
+const openEditForm = async () => {
   await renderRouter(
     {
       _layout: () => (
@@ -40,7 +48,7 @@ const openCreateForm = async () => {
         </SettingsProvider>
       ),
       "tags/categories/index": CategoriesScreen,
-      "tags/categories/create": TagCategoryCreate,
+      "tags/categories/[id]": TagCategoryEdit,
     },
     { initialUrl: "/tags/categories" }
   );
@@ -56,23 +64,23 @@ beforeEach(async () => {
 });
 
 describe("tag category form", () => {
-  test("user saves a new category with one Save tap while typing", async () => {
-    const user = await openCreateForm();
+  test("user renames a category with one Save tap while typing", async () => {
+    const user = await openEditForm();
     const input = screen.getByTestId("tag-category-name");
 
     // `user.type` focuses the input first, as with an open keyboard.
+    await user.clear(input);
     await user.type(input, "Work");
     await user.press(screen.getByTestId("tag-category-save"));
 
     expect(await screen.findByTestId("category-titles")).toHaveTextContent(
-      "Work",
-      { exact: false }
+      "Work"
     );
     const stored = JSON.parse(
       (await AsyncStorage.getItem(STORAGE_KEY)) ?? "{}"
     );
     expect(
       stored.categories.map((category: { title: string }) => category.title)
-    ).toContain("Work");
+    ).toEqual(["Work"]);
   });
 });
