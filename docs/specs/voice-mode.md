@@ -34,6 +34,8 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
 - Voice screen: modal, route `/logs/voice`
   - Top right: [`CloseButton`](../../src/components/CloseButton.tsx). Video shows top left; [design rule](../design.md#close-button) wins
   - Top: detected items as cards, in order of first mention. Card shows person avatar, tag color dot, or emotion dot plus label and kind
+  - Cards pop in from small, then drift: slow bob and slight tilt, own direction and delay per card. Reduced motion: fade in, still
+  - No cards yet: "Try saying" plus an example from the user's own words: "good" trigger, first tag, first person ([`buildVoiceExample`](../../src/features/voice/voice-example.ts)). Saying it fills every card in every language
   - Spoken mood: first card, dot in the user's scale color, trigger word, kind "Mood" ([`VoiceMoodCard`](../../src/features/voice/components/voice-match-card.tsx))
   - Background: soft blob tinted with `primaryButtonBackground`, pulses with input level. Reduced motion: static
   - Bottom: "Listening…" title plus hint "Pixy picks up people, tags, emotions, and your mood." Paused: "Paused"
