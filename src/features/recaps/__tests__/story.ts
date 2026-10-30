@@ -383,10 +383,10 @@ describe("week story", () => {
     expect(weekStory(week(7), "2026-10-12")).toBeNull();
   });
 
-  test("starts with the cover and ends with the share card", () => {
+  test("starts with the intro and the cover, ends with the share card", () => {
     const types = (weekStory(week(7)) ?? []).map((item) => item.type);
 
-    expect(types[0]).toBe("cover");
+    expect(types.slice(0, 2)).toEqual(["intro", "cover"]);
     expect(types.at(-1)).toBe("share");
   });
 
@@ -427,7 +427,8 @@ describe("week story", () => {
       }));
       const types = (placesStory(items) ?? []).map((item) => item.type);
 
-      expect(types.slice(0, 5)).toEqual([
+      expect(types.slice(0, 6)).toEqual([
+        "intro",
         "cover",
         "best-day",
         "week-mood",

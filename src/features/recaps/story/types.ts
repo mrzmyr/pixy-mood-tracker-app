@@ -26,6 +26,11 @@ export interface CoverSlide {
   photos: StoryPhoto[];
 }
 
+/** First slide of the week story: the sky, cloud Pixy, and a kind welcome. */
+export interface IntroSlide {
+  type: "intro";
+}
+
 /** One tag on the same weekday, week after week. */
 export interface WeekdayHabitSlide {
   type: "weekday-habit";
@@ -190,6 +195,7 @@ export interface ShareSlide {
 
 /** One page of the month story. Each type has one renderer. */
 export type StorySlide =
+  | IntroSlide
   | CoverSlide
   | BestDaySlide
   | WeekMoodSlide

@@ -62,6 +62,7 @@ const slideBackdrop = (
 const FULL_SCREEN_SLIDES: ReadonlySet<StorySlide["type"]> = new Set([
   "share",
   "first-city",
+  "intro",
   "best-day",
   "week-mood",
   "top-emotions",

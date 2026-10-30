@@ -688,7 +688,7 @@ const weeksSince = (start: DateKey, today: DateKey) =>
   Math.floor(daysBetween(start, today) / 7);
 
 /**
- * Week story slides in deck order: cover, best day, mood of each day, most
+ * Week story slides in deck order: intro on the sky, cover, best day, mood of each day, most
  * felt emotions, places close by and far out, rhythm, quiz, people, orbit,
  * what came back, a first city without far out, and the closing card
  * with the week. Each slot skips when its rule fails. `null` for other
@@ -709,6 +709,7 @@ export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
   const quiz = buildQuiz(input, lightTags);
   const far = farOut(input);
   const slides: (StorySlide | null)[] = [
+    { type: "intro" },
     cover(input),
     bestDay(input),
     weekMood(input),

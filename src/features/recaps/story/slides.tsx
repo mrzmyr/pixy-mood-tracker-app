@@ -37,6 +37,7 @@ import {
   useDayColors,
 } from "./parts";
 import { Orbit } from "./orbit";
+import { StoryIntro } from "./story-intro";
 import {
   BestDay,
   Places,
@@ -171,6 +172,14 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
     : `${month} ${dayjs(ctx.period.start).format("YYYY")}`;
   const theme = slide.variant === "photo" ? "photo" : "night";
   const byDate = new Map(slide.photos.map((item) => [item.date, item.photo]));
+  // The week intro already welcomed the user: photos speak on their own.
+  if (isWeek && slide.variant === "photo") {
+    return (
+      <StoryText kind="eyebrow" theme={theme} tone="muted">
+        {eyebrow}
+      </StoryText>
+    );
+  }
   return (
     <>
       <SlideHeader
@@ -1079,7 +1088,7 @@ export const SlideBackdrop = ({
     const hadSun = previous?.type === "best-day" && !previous.photo;
     return <SkyBackdrop sun={hadSun ? "out" : null} />;
   }
-  if (slide.type === "share") {
+  if (slide.type === "share" || slide.type === "intro") {
     return <SkyBackdrop sun={null} />;
   }
   if (slide.type === "close-by" || slide.type === "far-out") {
@@ -1141,6 +1150,9 @@ export const SlideContent = ({
     }
     case "came-back": {
       return <CameBack slide={slide} ctx={ctx} />;
+    }
+    case "intro": {
+      return <StoryIntro ctx={ctx} />;
     }
     case "best-day": {
       return <BestDay slide={slide} ctx={ctx} />;
