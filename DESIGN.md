@@ -11,6 +11,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 - Use existing components. Need new component: ask, or build it and flag it in PR.
 - Accessibility is required: every control has role, label, state. Whole row is pressable. Every gesture has button or accessibility action.
+- Text size: one base size, `FONT_SIZE.base` ([`src/constants/typography.ts`](src/constants/typography.ts)), for all body text: chips, names, notes, list rows, labels. Other size only with a reason in a comment next to it (headline, mood word, axis ticks). Same kind of text on one screen: same size.
 - `…` not `...`. Curly quotes. Menu items that open follow-up end with `…`.
 
 ## Components

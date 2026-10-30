@@ -8,6 +8,7 @@ import Animated, { useReducedMotion } from "react-native-reanimated";
 import chroma from "chroma-js";
 import { CHIP_FLOW, COMPACT_CHIP } from "@/constants/chip";
 import { RADIUS } from "@/constants/radius";
+import { FONT_SIZE } from "@/constants/typography";
 import { SLEEP_QUALITY_MAPPING } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
 import { PersonAvatar } from "@/features/people";
@@ -151,6 +152,7 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
           <Text
             key={hour}
             style={{
+              // Axis ticks: smaller so the strip stays the focus.
               fontSize: 12,
               color: colors.textSecondary,
               fontVariant: ["tabular-nums"],
@@ -189,6 +191,7 @@ export const MoodTile = ({ summary }: { summary: DaySummary }) => {
           style={{
             flex: 1,
             color: colors.text,
+            // Mood word: the headline of the summary.
             fontSize: 24,
             fontWeight: "700",
             letterSpacing: -0.5,
@@ -317,6 +320,7 @@ export const PhotosTile = ({
               backgroundColor: "rgba(0,0,0,0.55)",
             }}
           >
+            {/* Badge on a photo: small so it covers little of it. */}
             <Text style={{ color: "#fff", fontSize: 13, fontWeight: "700" }}>
               +{rest}
             </Text>
@@ -344,7 +348,7 @@ export const SleepTile = ({
         accessibilityLabel={`${t("logger_step_sleep")} ${value + 1}/5`}
         style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
       >
-        <Text style={{ fontSize: 16, color: colors.text }}>
+        <Text style={{ fontSize: FONT_SIZE.base, color: colors.text }}>
           {t("logger_step_sleep")}
         </Text>
         <SleepQualityMeter value={value} height={20} />
@@ -391,7 +395,7 @@ export const PeopleTile = ({
       <Text
         style={{
           flex: isRow ? 1 : 0,
-          fontSize: 15,
+          fontSize: FONT_SIZE.base,
           color: colors.text,
         }}
       >
@@ -410,9 +414,8 @@ export const NoteTile = ({ note }: { note: string }) => {
         testID="entry-summary-note"
         style={{
           color: colors.text,
-          ...(note.length < 80
-            ? { fontSize: 17, fontWeight: "500" }
-            : { fontSize: 15, lineHeight: 22 }),
+          fontSize: FONT_SIZE.base,
+          lineHeight: 22,
         }}
       >
         {note}
