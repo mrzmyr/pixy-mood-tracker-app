@@ -882,9 +882,17 @@
     "other": "{{count}} أيام مع %{tag} هذا الأسبوع"
   },
   "recaps_story_banner_title": "ملخص %{month}",
+  "recaps_story_best_day_eyebrow": "أفضل يوم",
+  "recaps_story_best_day_title": "كان %{day} أكثر أيامك إشراقًا",
   "recaps_story_city_eyebrow": "لأول مرة",
   "recaps_story_city_km": "%{city} · على بعد %{km} كم من المنزل",
   "recaps_story_city_title": "أول بكسل لك في %{city}",
+  "recaps_story_close_eyebrow": "قريب",
+  "recaps_story_close_text": "غالبًا في %{place}",
+  "recaps_story_close_text_single": "كل تسجيل من %{place}",
+  "recaps_story_close_title_few": "بضعة أماكن صنعت أسبوعك",
+  "recaps_story_close_title_many": "كنت في حركة دائمة",
+  "recaps_story_close_title_single": "بقيت قريبًا هذا الأسبوع",
   "recaps_story_coming_eyebrow": "القادم",
   "recaps_story_coming_left": {
     "one": "متبقٍ: 1",
@@ -904,6 +912,12 @@
     "one": "يوم واحد",
     "other": "الأيام: {{count}}"
   },
+  "recaps_story_emotions_eyebrow": "الأكثر شعورًا",
+  "recaps_story_emotions_title": "ما شعرت به أكثر",
+  "recaps_story_far_eyebrow": "بعيد",
+  "recaps_story_far_km": "%{km} كم",
+  "recaps_story_far_title_many": "تنقلت كثيرًا هذا الأسبوع",
+  "recaps_story_far_title_single": "ابتعدت هذا الأسبوع",
   "recaps_story_hard_days_label": {
     "one": "يومك الصعب",
     "other": "أيامك الصعبة: {{count}}"
@@ -916,6 +930,7 @@
   "recaps_story_hard_text": "ظهر في %{hard} من %{total} من الأيام الصعبة، وفي %{other} فقط من %{otherDays} من الأيام الأخرى. ترفّق بنفسك في تلك الأيام.",
   "recaps_story_hard_text_none": "ظهر في %{hard} من %{total} من الأيام الصعبة، ولم يظهر في أي من %{otherDays} من الأيام الأخرى. ترفّق بنفسك في تلك الأيام.",
   "recaps_story_hard_title": "%{tag} رافق أيامك الصعبة",
+  "recaps_story_home": "المنزل",
   "recaps_story_lifted_eyebrow": "ما خفّف %{month}",
   "recaps_story_lifted_text": {
     "one": "مقارنةً بالأيام دون هذا الوسم. تسجيل واحد.",
@@ -957,6 +972,8 @@
   "recaps_story_vs_eyebrow": "%{month} مقابل %{previous}",
   "recaps_story_vs_text": "أيام كل وسم، مقابل %{previous}.",
   "recaps_story_vs_title": "أكثر من هذا، أقل من ذاك",
+  "recaps_story_week_mood_eyebrow": "أسبوعك",
+  "recaps_story_week_mood_title": "أسبوعك يومًا بيوم",
   "recaps_story_weekday_eyebrow": "عادة تتشكّل",
   "recaps_story_weekday_previous": "في %{month}: %{hits} من %{total}.",
   "recaps_story_weekday_text": "الأسابيع: %{hits} من %{total}.",

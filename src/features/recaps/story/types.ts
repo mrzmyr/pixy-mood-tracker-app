@@ -1,5 +1,5 @@
 import type { LogPhoto } from "@/types";
-import type { DateKey } from "../types";
+import type { DateKey, EmotionCount, MoodDay } from "../types";
 import type { QuizSlide } from "./quiz";
 
 /** Photo of a story slide and the day it comes from. */
@@ -115,6 +115,54 @@ export interface CameBackSlide {
   tags: { tagId: string; days: number; weeks: number }[];
 }
 
+/** The week's best day: an extremely good day, as on the day recap card. */
+export interface BestDaySlide {
+  type: "best-day";
+  date: DateKey;
+  /** Emotions of the day, at most 3. */
+  emotions: string[];
+  /** First photo of the day, `null` without one: the slide shows the sky. */
+  photo: StoryPhoto | null;
+}
+
+/** Mood of each day of the week, as on the mood chart card. */
+export interface WeekMoodSlide {
+  type: "week-mood";
+  days: MoodDay[];
+}
+
+/** The week's most felt emotions, as on the emotions card. */
+export interface TopEmotionsSlide {
+  type: "top-emotions";
+  /** Most days first, at most 6. */
+  counts: EmotionCount[];
+}
+
+/** Map point of a place on a places slide. */
+export interface StoryPlace {
+  name: string;
+  latitude: number;
+  longitude: number;
+  days: number;
+  /** Mean rating of the days there, 0 (worst) to 6. */
+  rating: number;
+  /** Photo of a bright day there, `null` without one. */
+  photo: StoryPhoto | null;
+}
+
+/** Places under 25 km from home or in the home city, most days first. */
+export interface CloseBySlide {
+  type: "close-by";
+  places: StoryPlace[];
+}
+
+/** Trips: 25+ km from home, outside the home city. Most days first. */
+export interface FarOutSlide {
+  type: "far-out";
+  home: { latitude: number; longitude: number };
+  trips: (StoryPlace & { km: number })[];
+}
+
 /** Days still to come in the year, and days without a check-in so far. */
 export interface ComingUpSlide {
   type: "coming-up";
@@ -144,6 +192,11 @@ export interface ShareSlide {
 /** One page of the month story. Each type has one renderer. */
 export type StorySlide =
   | CoverSlide
+  | BestDaySlide
+  | WeekMoodSlide
+  | TopEmotionsSlide
+  | CloseBySlide
+  | FarOutSlide
   | WeekdayHabitSlide
   | MadeOfSlide
   | LiftedSlide

@@ -93,6 +93,16 @@ export const THRESHOLDS = {
   storyMaxMonthsBack: 3,
   /** Week story: check-in days needed. */
   weekStoryMinCheckIns: 4,
+  /** Week story best day: emotions of the day shown, at most. */
+  storyBestDayEmotions: 3,
+  /** Week story emotions: emotions shown, at most. */
+  storyEmotionsMax: 6,
+  /** Week story places: pins on a map, at most. */
+  storyPlacesMax: 6,
+  /** Close by: days with a nearby place needed. */
+  storyCloseByMinDays: 2,
+  /** Close by: up to this many places reads as "a few". */
+  storyCloseByFewMax: 3,
   /** Week story: weeks before the current one that still get a story. */
   weekStoryMaxWeeksBack: 2,
   /** Story photos and bright days: rating at least this (good). */

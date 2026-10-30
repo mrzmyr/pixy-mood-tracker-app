@@ -882,9 +882,17 @@
     "other": "本周有 %{tag} 的 {{count}} 天"
   },
   "recaps_story_banner_title": "%{month}回顾",
+  "recaps_story_best_day_eyebrow": "最好的一天",
+  "recaps_story_best_day_title": "%{day}是你最明亮的一天",
   "recaps_story_city_eyebrow": "第一次",
   "recaps_story_city_km": "%{city} · 离家 %{km} 公里",
   "recaps_story_city_title": "你在%{city}的第一个像素",
+  "recaps_story_close_eyebrow": "附近",
+  "recaps_story_close_text": "最常在%{place}",
+  "recaps_story_close_text_single": "每次记录都在%{place}",
+  "recaps_story_close_title_few": "几个地方组成了你的一周",
+  "recaps_story_close_title_many": "这周你一直在奔波",
+  "recaps_story_close_title_single": "这周你一直在附近",
   "recaps_story_coming_eyebrow": "即将到来",
   "recaps_story_coming_left": {
     "one": "还剩 1 天",
@@ -904,6 +912,12 @@
     "one": "1 天",
     "other": "{{count}} 天"
   },
+  "recaps_story_emotions_eyebrow": "最常感受",
+  "recaps_story_emotions_title": "你最常有的感受",
+  "recaps_story_far_eyebrow": "远方",
+  "recaps_story_far_km": "%{km} 公里",
+  "recaps_story_far_title_many": "这周你去了好几个地方",
+  "recaps_story_far_title_single": "这周你出去走走了",
   "recaps_story_hard_days_label": {
     "one": "你比较难熬的那天",
     "other": "你比较难熬的 {{count}} 天"
@@ -916,6 +930,7 @@
   "recaps_story_hard_text": "在 %{total} 个比较难熬的日子里出现了 %{hard} 次，而在另外 %{otherDays} 天里只有 %{other} 次。那些日子里，请温柔对待自己。",
   "recaps_story_hard_text_none": "在 %{total} 个比较难熬的日子里出现了 %{hard} 次，在另外 %{otherDays} 天里一次也没有。那些日子里，请温柔对待自己。",
   "recaps_story_hard_title": "%{tag}常伴随你比较难熬的日子",
+  "recaps_story_home": "家",
   "recaps_story_lifted_eyebrow": "让%{month}更轻松的事",
   "recaps_story_lifted_text": {
     "one": "与没有该标签的日子相比。1 次记录。",
@@ -957,6 +972,8 @@
   "recaps_story_vs_eyebrow": "%{month} 对比 %{previous}",
   "recaps_story_vs_text": "每个标签的天数，对比%{previous}。",
   "recaps_story_vs_title": "多了这些，少了那些",
+  "recaps_story_week_mood_eyebrow": "你的一周",
+  "recaps_story_week_mood_title": "你的一周，一天一天",
   "recaps_story_weekday_eyebrow": "养成了一个习惯",
   "recaps_story_weekday_previous": "%{month}：%{total} 周中有 %{hits} 周。",
   "recaps_story_weekday_text": "%{total} 周中有 %{hits} 周。",

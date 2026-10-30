@@ -882,9 +882,17 @@
     "other": "Дней с %{tag} на этой неделе: {{count}}"
   },
   "recaps_story_banner_title": "Итоги: %{month}",
+  "recaps_story_best_day_eyebrow": "Лучший день",
+  "recaps_story_best_day_title": "%{day} — ваш самый светлый день",
   "recaps_story_city_eyebrow": "Впервые",
   "recaps_story_city_km": "%{city} · %{km} км от дома",
   "recaps_story_city_title": "Ваш первый пиксель в городе %{city}",
+  "recaps_story_close_eyebrow": "Рядом",
+  "recaps_story_close_text": "Чаще всего: %{place}",
+  "recaps_story_close_text_single": "Все записи: %{place}",
+  "recaps_story_close_title_few": "Несколько мест наполнили вашу неделю",
+  "recaps_story_close_title_many": "Вы были в движении",
+  "recaps_story_close_title_single": "На этой неделе вы были рядом с домом",
   "recaps_story_coming_eyebrow": "Впереди",
   "recaps_story_coming_left": {
     "one": "Осталось: 1",
@@ -904,6 +912,12 @@
     "one": "1 день",
     "other": "Дней: {{count}}"
   },
+  "recaps_story_emotions_eyebrow": "Чаще всего",
+  "recaps_story_emotions_title": "Что вы чувствовали чаще всего",
+  "recaps_story_far_eyebrow": "Далеко",
+  "recaps_story_far_km": "%{km} км",
+  "recaps_story_far_title_many": "На этой неделе вы путешествовали",
+  "recaps_story_far_title_single": "На этой неделе вы выбрались",
   "recaps_story_hard_days_label": {
     "one": "Ваш непростой день",
     "other": "Ваши непростые дни: {{count}}"
@@ -916,6 +930,7 @@
   "recaps_story_hard_text": "Встречался в %{hard} из %{total} непростых дней и лишь в %{other} из остальных %{otherDays}. Берегите себя в такие дни.",
   "recaps_story_hard_text_none": "Встречался в %{hard} из %{total} непростых дней и ни в одном из остальных %{otherDays}. Берегите себя в такие дни.",
   "recaps_story_hard_title": "%{tag}: часто в непростые дни",
+  "recaps_story_home": "Дом",
   "recaps_story_lifted_eyebrow": "%{month}: что помогло",
   "recaps_story_lifted_text": {
     "one": "По сравнению с днями без тега. 1 отметка.",
@@ -957,6 +972,8 @@
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Дни с каждым тегом, vs %{previous}.",
   "recaps_story_vs_title": "Больше этого, меньше того",
+  "recaps_story_week_mood_eyebrow": "Ваша неделя",
+  "recaps_story_week_mood_title": "Ваша неделя день за днём",
   "recaps_story_weekday_eyebrow": "Складывается привычка",
   "recaps_story_weekday_previous": "%{month}: %{hits} из %{total}.",
   "recaps_story_weekday_text": "Недель: %{hits} из %{total}.",

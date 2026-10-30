@@ -882,9 +882,17 @@
     "other": "{{count}} dagen met %{tag} deze week"
   },
   "recaps_story_banner_title": "Terugblik op %{month}",
+  "recaps_story_best_day_eyebrow": "Beste dag",
+  "recaps_story_best_day_title": "%{day} was je zonnigste dag",
   "recaps_story_city_eyebrow": "Voor het eerst",
   "recaps_story_city_km": "%{city} · %{km} km van huis",
   "recaps_story_city_title": "Je eerste pixel in %{city}",
+  "recaps_story_close_eyebrow": "Dichtbij",
+  "recaps_story_close_text": "Het vaakst in %{place}",
+  "recaps_story_close_text_single": "Elke check-in vanuit %{place}",
+  "recaps_story_close_title_few": "Een paar plekken maakten je week",
+  "recaps_story_close_title_many": "Je was veel onderweg",
+  "recaps_story_close_title_single": "Je bleef deze week dichtbij",
   "recaps_story_coming_eyebrow": "Wat nog komt",
   "recaps_story_coming_left": {
     "one": "Nog 1",
@@ -904,6 +912,12 @@
     "one": "1 dag",
     "other": "{{count}} dagen"
   },
+  "recaps_story_emotions_eyebrow": "Meest gevoeld",
+  "recaps_story_emotions_title": "Wat je het meest voelde",
+  "recaps_story_far_eyebrow": "Ver weg",
+  "recaps_story_far_km": "%{km} km",
+  "recaps_story_far_title_many": "Je kwam deze week rond",
+  "recaps_story_far_title_single": "Je ging er deze week tussenuit",
   "recaps_story_hard_days_label": {
     "one": "Je zwaardere dag",
     "other": "Je {{count}} zwaardere dagen"
@@ -916,6 +930,7 @@
   "recaps_story_hard_text": "Erbij op %{hard} van %{total} zwaardere dagen, maar slechts op %{other} van de andere %{otherDays}. Wees mild voor jezelf op die dagen.",
   "recaps_story_hard_text_none": "Erbij op %{hard} van %{total} zwaardere dagen, op geen van de andere %{otherDays}. Wees mild voor jezelf op die dagen.",
   "recaps_story_hard_title": "%{tag} hoorde bij je zwaardere dagen",
+  "recaps_story_home": "Thuis",
   "recaps_story_lifted_eyebrow": "Wat %{month} lichter maakte",
   "recaps_story_lifted_text": {
     "one": "Vergeleken met dagen zonder de tag. 1 check-in.",
@@ -957,6 +972,8 @@
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Dagen met elke tag, vs %{previous}.",
   "recaps_story_vs_title": "Meer hiervan, minder daarvan",
+  "recaps_story_week_mood_eyebrow": "Jouw week",
+  "recaps_story_week_mood_title": "Jouw week, dag voor dag",
   "recaps_story_weekday_eyebrow": "Een gewoonte ontstaat",
   "recaps_story_weekday_previous": "In %{month}: %{hits} van %{total}.",
   "recaps_story_weekday_text": "%{hits} van %{total} weken.",

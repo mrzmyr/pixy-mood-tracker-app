@@ -882,9 +882,17 @@
     "other": "今週%{tag}があった日：{{count}}日"
   },
   "recaps_story_banner_title": "%{month}の振り返り",
+  "recaps_story_best_day_eyebrow": "いちばんの日",
+  "recaps_story_best_day_title": "%{day}はいちばん輝いた日",
   "recaps_story_city_eyebrow": "はじめて",
   "recaps_story_city_km": "%{city}・自宅から%{km} km",
   "recaps_story_city_title": "%{city}ではじめてのピクセル",
+  "recaps_story_close_eyebrow": "近く",
+  "recaps_story_close_text": "%{place}がいちばん多め",
+  "recaps_story_close_text_single": "すべての記録は%{place}から",
+  "recaps_story_close_title_few": "いくつかの場所が今週をつくりました",
+  "recaps_story_close_title_many": "今週はあちこち動きました",
+  "recaps_story_close_title_single": "今週は近くで過ごしました",
   "recaps_story_coming_eyebrow": "これから",
   "recaps_story_coming_left": {
     "one": "残り1",
@@ -904,6 +912,12 @@
     "one": "1日",
     "other": "{{count}}日"
   },
+  "recaps_story_emotions_eyebrow": "よく感じたこと",
+  "recaps_story_emotions_title": "いちばん感じたこと",
+  "recaps_story_far_eyebrow": "遠く",
+  "recaps_story_far_km": "%{km} km",
+  "recaps_story_far_title_many": "今週はあちこち旅しました",
+  "recaps_story_far_title_single": "今週は遠くへ出かけました",
   "recaps_story_hard_days_label": {
     "one": "つらかった日",
     "other": "つらかった{{count}}日"
@@ -916,6 +930,7 @@
   "recaps_story_hard_text": "つらかった%{total}日のうち%{hard}日にあり、ほかの%{otherDays}日では%{other}日だけでした。そんな日は、自分にやさしくしてください。",
   "recaps_story_hard_text_none": "つらかった%{total}日のうち%{hard}日にあり、ほかの%{otherDays}日には一度もありませんでした。そんな日は、自分にやさしくしてください。",
   "recaps_story_hard_title": "%{tag}は、つらかった日によく重なっていました",
+  "recaps_story_home": "自宅",
   "recaps_story_lifted_eyebrow": "%{month}を軽くしたもの",
   "recaps_story_lifted_text": {
     "one": "このタグがない日との比較。記録1件。",
@@ -957,6 +972,8 @@
   "recaps_story_vs_eyebrow": "%{month}と%{previous}",
   "recaps_story_vs_text": "タグごとの日数（%{previous}との比較）。",
   "recaps_story_vs_title": "増えたもの、減ったもの",
+  "recaps_story_week_mood_eyebrow": "あなたの一週間",
+  "recaps_story_week_mood_title": "あなたの一週間、一日ずつ",
   "recaps_story_weekday_eyebrow": "習慣になりました",
   "recaps_story_weekday_previous": "%{month}：%{total}週中%{hits}週。",
   "recaps_story_weekday_text": "%{total}週中%{hits}週。",

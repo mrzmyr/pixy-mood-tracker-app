@@ -254,7 +254,7 @@ export const FIXTURES: Fixture[] = [
     id: "recap-week-story",
     title: "Recap week story",
     description:
-      "Last 7 days as a full week story: 5 photo days for the cover, people quiz with Ada, Chuky, Jen, and Max, Walk, Work, and Reading on 4+ days.",
+      "Last 7 days as a full week story: 4 photo days for the cover, a best day without a photo, emotions every day, 4 Hamburg districts and 2 days in Copenhagen (location on), people quiz with Ada, Chuky, Jen, and Max, Walk, Work, and Reading on 4+ days.",
     data: withRecapWeekStory(asExport(empty)),
   },
 ];

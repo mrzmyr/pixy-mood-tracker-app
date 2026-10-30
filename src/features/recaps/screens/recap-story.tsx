@@ -44,14 +44,24 @@ const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 const isSource = (value: unknown): value is StorySource =>
   SOURCES.some((source) => source === value);
 
+/** Slides that lay out the whole screen, over a photo, map, or sky. */
+const FULL_SCREEN_SLIDES: ReadonlySet<StorySlide["type"]> = new Set([
+  "thanks",
+  "share",
+  "first-city",
+  "best-day",
+  "week-mood",
+  "top-emotions",
+  "close-by",
+  "far-out",
+]);
+
 /**
  * Slides drawn over the whole screen: photo backdrops, content pushed to the
  * bottom, or centered. Every other slide stacks from the top.
  */
 const fillsScreen = (slide: StorySlide) =>
-  slide.type === "thanks" ||
-  slide.type === "share" ||
-  slide.type === "first-city" ||
+  FULL_SCREEN_SLIDES.has(slide.type) ||
   (slide.type === "cover" && slide.variant === "photo");
 
 /** Share, Helpful, Not Helpful. Every action pauses the story first. */

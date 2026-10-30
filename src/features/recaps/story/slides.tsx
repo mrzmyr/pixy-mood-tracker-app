@@ -37,6 +37,14 @@ import {
   useDayColors,
 } from "./parts";
 import { Orbit } from "./orbit";
+import {
+  BestDay,
+  Places,
+  PlacesBackdrop,
+  StorySky,
+  TopEmotions,
+  WeekMood,
+} from "./week-slides";
 import { STORY_PALETTE } from "./theme";
 import { getSlideDuration } from "./timing";
 import type {
@@ -1052,6 +1060,20 @@ export const SlideBackdrop = ({
       />
     );
   }
+  if (slide.type === "best-day") {
+    return slide.photo ? (
+      <PhotoBackdrop
+        photos={[slide.photo]}
+        progress={progress}
+        durationMs={durationMs}
+      />
+    ) : (
+      <StorySky />
+    );
+  }
+  if (slide.type === "close-by" || slide.type === "far-out") {
+    return <PlacesBackdrop slide={slide} />;
+  }
   if (slide.type === "first-city" && slide.photo) {
     return (
       <PhotoBackdrop
@@ -1108,6 +1130,19 @@ export const SlideContent = ({
     }
     case "came-back": {
       return <CameBack slide={slide} ctx={ctx} />;
+    }
+    case "best-day": {
+      return <BestDay slide={slide} ctx={ctx} />;
+    }
+    case "week-mood": {
+      return <WeekMood slide={slide} ctx={ctx} />;
+    }
+    case "top-emotions": {
+      return <TopEmotions slide={slide} />;
+    }
+    case "close-by":
+    case "far-out": {
+      return <Places slide={slide} ctx={ctx} />;
     }
     default: {
       return null;

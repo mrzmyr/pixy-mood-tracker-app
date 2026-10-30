@@ -882,9 +882,17 @@
     "other": "{{count}} giorni con %{tag} questa settimana"
   },
   "recaps_story_banner_title": "Riepilogo di %{month}",
+  "recaps_story_best_day_eyebrow": "Giorno migliore",
+  "recaps_story_best_day_title": "%{day} è stato il tuo giorno più luminoso",
   "recaps_story_city_eyebrow": "Prima volta",
   "recaps_story_city_km": "%{city} · a %{km} km da casa",
   "recaps_story_city_title": "Il tuo primo pixel a %{city}",
+  "recaps_story_close_eyebrow": "Vicino",
+  "recaps_story_close_text": "Più spesso a %{place}",
+  "recaps_story_close_text_single": "Ogni check-in da %{place}",
+  "recaps_story_close_title_few": "Pochi luoghi hanno segnato la tua settimana",
+  "recaps_story_close_title_many": "Sei stato sempre in movimento",
+  "recaps_story_close_title_single": "Questa settimana sei rimasto vicino",
   "recaps_story_coming_eyebrow": "In arrivo",
   "recaps_story_coming_left": {
     "one": "Ne manca 1",
@@ -904,6 +912,12 @@
     "one": "1 giorno",
     "other": "{{count}} giorni"
   },
+  "recaps_story_emotions_eyebrow": "Più sentite",
+  "recaps_story_emotions_title": "Cosa hai sentito di più",
+  "recaps_story_far_eyebrow": "Lontano",
+  "recaps_story_far_km": "%{km} km",
+  "recaps_story_far_title_many": "Questa settimana hai girato",
+  "recaps_story_far_title_single": "Questa settimana sei partito",
   "recaps_story_hard_days_label": {
     "one": "Il tuo giorno difficile",
     "other": "I tuoi {{count}} giorni difficili"
@@ -916,6 +930,7 @@
   "recaps_story_hard_text": "Presente in %{hard} giorni difficili su %{total}, ma solo in %{other} degli altri %{otherDays}. Sii gentile con te in quei giorni.",
   "recaps_story_hard_text_none": "Presente in %{hard} giorni difficili su %{total}, in nessuno degli altri %{otherDays}. Sii gentile con te in quei giorni.",
   "recaps_story_hard_title": "%{tag} ha accompagnato i tuoi giorni difficili",
+  "recaps_story_home": "Casa",
   "recaps_story_lifted_eyebrow": "Cosa ha alleggerito %{month}",
   "recaps_story_lifted_text": {
     "one": "Rispetto ai giorni senza il tag. 1 check-in.",
@@ -957,6 +972,8 @@
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Giorni con ogni tag, vs %{previous}.",
   "recaps_story_vs_title": "Più di questo, meno di quello",
+  "recaps_story_week_mood_eyebrow": "La tua settimana",
+  "recaps_story_week_mood_title": "La tua settimana, giorno per giorno",
   "recaps_story_weekday_eyebrow": "Nasce un’abitudine",
   "recaps_story_weekday_previous": "%{month}: %{hits} su %{total}.",
   "recaps_story_weekday_text": "%{hits} settimane su %{total}.",

@@ -882,9 +882,17 @@
     "other": "{{count}} วันที่มี %{tag} สัปดาห์นี้"
   },
   "recaps_story_banner_title": "สรุปย้อนหลังเดือน%{month}",
+  "recaps_story_best_day_eyebrow": "วันที่ดีที่สุด",
+  "recaps_story_best_day_title": "%{day} คือวันที่สดใสที่สุดของคุณ",
   "recaps_story_city_eyebrow": "ครั้งแรก",
   "recaps_story_city_km": "%{city} · ห่างจากบ้าน %{km} กม.",
   "recaps_story_city_title": "พิกเซลแรกของคุณที่ %{city}",
+  "recaps_story_close_eyebrow": "ใกล้ๆ",
+  "recaps_story_close_text": "บ่อยที่สุดที่ %{place}",
+  "recaps_story_close_text_single": "ทุกการบันทึกจาก %{place}",
+  "recaps_story_close_title_few": "ไม่กี่ที่ทำให้สัปดาห์ของคุณ",
+  "recaps_story_close_title_many": "คุณเดินทางไปมาตลอด",
+  "recaps_story_close_title_single": "สัปดาห์นี้คุณอยู่ใกล้ๆ",
   "recaps_story_coming_eyebrow": "กำลังจะมา",
   "recaps_story_coming_left": {
     "one": "เหลืออีก 1",
@@ -904,6 +912,12 @@
     "one": "1 วัน",
     "other": "{{count}} วัน"
   },
+  "recaps_story_emotions_eyebrow": "รู้สึกมากที่สุด",
+  "recaps_story_emotions_title": "สิ่งที่คุณรู้สึกมากที่สุด",
+  "recaps_story_far_eyebrow": "ไกล",
+  "recaps_story_far_km": "%{km} กม.",
+  "recaps_story_far_title_many": "สัปดาห์นี้คุณเที่ยวหลายที่",
+  "recaps_story_far_title_single": "สัปดาห์นี้คุณได้ออกไปไกล",
   "recaps_story_hard_days_label": {
     "one": "วันที่หนักกว่าของคุณ",
     "other": "{{count}} วันที่หนักกว่าของคุณ"
@@ -916,6 +930,7 @@
   "recaps_story_hard_text": "มีใน %{hard} จาก %{total} วันที่หนักกว่า แต่มีเพียง %{other} จาก %{otherDays} วันอื่น อ่อนโยนกับตัวเองในวันเหล่านั้นนะ",
   "recaps_story_hard_text_none": "มีใน %{hard} จาก %{total} วันที่หนักกว่า ไม่มีเลยใน %{otherDays} วันอื่น อ่อนโยนกับตัวเองในวันเหล่านั้นนะ",
   "recaps_story_hard_title": "%{tag} มักมาพร้อมวันที่หนักกว่าของคุณ",
+  "recaps_story_home": "บ้าน",
   "recaps_story_lifted_eyebrow": "สิ่งที่ทำให้เดือน%{month}เบาขึ้น",
   "recaps_story_lifted_text": {
     "one": "เทียบกับวันที่ไม่มีแท็กนี้ 1 บันทึก",
@@ -957,6 +972,8 @@
   "recaps_story_vs_eyebrow": "%{month} เทียบกับ %{previous}",
   "recaps_story_vs_text": "จำนวนวันของแต่ละแท็ก เทียบกับ %{previous}",
   "recaps_story_vs_title": "สิ่งนี้มากขึ้น สิ่งนั้นน้อยลง",
+  "recaps_story_week_mood_eyebrow": "สัปดาห์ของคุณ",
+  "recaps_story_week_mood_title": "สัปดาห์ของคุณ ทีละวัน",
   "recaps_story_weekday_eyebrow": "นิสัยที่ก่อตัว",
   "recaps_story_weekday_previous": "เดือน%{month}: %{hits} จาก %{total}",
   "recaps_story_weekday_text": "%{hits} จาก %{total} สัปดาห์",

@@ -882,9 +882,17 @@
     "other": "{{count}} dias com %{tag} nesta semana"
   },
   "recaps_story_banner_title": "Resumo de %{month}",
+  "recaps_story_best_day_eyebrow": "Melhor dia",
+  "recaps_story_best_day_title": "%{day} foi o seu dia mais luminoso",
   "recaps_story_city_eyebrow": "Primeira vez",
   "recaps_story_city_km": "%{city} · a %{km} km de casa",
   "recaps_story_city_title": "Seu primeiro pixel em %{city}",
+  "recaps_story_close_eyebrow": "Por perto",
+  "recaps_story_close_text": "Mais vezes em %{place}",
+  "recaps_story_close_text_single": "Cada registro em %{place}",
+  "recaps_story_close_title_few": "Alguns lugares marcaram sua semana",
+  "recaps_story_close_title_many": "Você esteve em movimento",
+  "recaps_story_close_title_single": "Você ficou por perto esta semana",
   "recaps_story_coming_eyebrow": "Vem aí",
   "recaps_story_coming_left": {
     "one": "Falta 1",
@@ -904,6 +912,12 @@
     "one": "1 dia",
     "other": "{{count}} dias"
   },
+  "recaps_story_emotions_eyebrow": "Mais sentido",
+  "recaps_story_emotions_title": "O que você mais sentiu",
+  "recaps_story_far_eyebrow": "Longe",
+  "recaps_story_far_km": "%{km} km",
+  "recaps_story_far_title_many": "Você viajou esta semana",
+  "recaps_story_far_title_single": "Você escapou esta semana",
   "recaps_story_hard_days_label": {
     "one": "Seu dia difícil",
     "other": "Seus {{count}} dias difíceis"
@@ -916,6 +930,7 @@
   "recaps_story_hard_text": "Presente em %{hard} de %{total} dias difíceis, mas só em %{other} dos outros %{otherDays}. Pegue leve com você nesses dias.",
   "recaps_story_hard_text_none": "Presente em %{hard} de %{total} dias difíceis, em nenhum dos outros %{otherDays}. Pegue leve com você nesses dias.",
   "recaps_story_hard_title": "%{tag} acompanhou seus dias difíceis",
+  "recaps_story_home": "Casa",
   "recaps_story_lifted_eyebrow": "O que deixou %{month} mais leve",
   "recaps_story_lifted_text": {
     "one": "Comparado com dias sem a tag. 1 registro.",
@@ -957,6 +972,8 @@
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Dias com cada tag, vs. %{previous}.",
   "recaps_story_vs_title": "Mais disso, menos daquilo",
+  "recaps_story_week_mood_eyebrow": "Sua semana",
+  "recaps_story_week_mood_title": "Sua semana, dia a dia",
   "recaps_story_weekday_eyebrow": "Um hábito se formou",
   "recaps_story_weekday_previous": "Em %{month}: %{hits} de %{total}.",
   "recaps_story_weekday_text": "%{hits} de %{total} semanas.",

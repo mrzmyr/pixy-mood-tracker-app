@@ -4,13 +4,26 @@ import { addDays, daysBetween, getDayRating } from "../days";
 import { indexDays } from "../day-index";
 import { emotionAgain, firstCity, tagBack } from "../cards/moments";
 import { getActiveTags } from "../cards/nudges";
-import { getHome, peopleOn } from "../cards/summaries";
+import { moodChart } from "../cards/stats";
+import {
+  dayRecap,
+  emotions as emotionsCard,
+  getHome,
+  getPlaceVisits,
+  peopleOn,
+} from "../cards/summaries";
 import { distanceKm } from "../places";
 import { buildQuiz } from "./quiz";
 import { THRESHOLDS } from "../thresholds";
 import type { DateKey, RecapDay, RecapInput } from "../types";
 import type {
+  BestDaySlide,
   CameBackSlide,
+  CloseBySlide,
+  FarOutSlide,
+  StoryPlace,
+  TopEmotionsSlide,
+  WeekMoodSlide,
   ComingUpSlide,
   CoverSlide,
   FirstCitySlide,
@@ -472,6 +485,130 @@ const comingUp = (input: RecapInput): ComingUpSlide | null => {
   };
 };
 
+/**
+ * Best day of the day recap card, with its emotions and first photo. The
+ * story leaves out the hard-day and year-ago modes.
+ */
+const bestDay = (input: RecapInput): BestDaySlide | null => {
+  const card = dayRecap(input).find(
+    (item) => item.type === "day-recap" && item.mode === "best"
+  );
+  const day =
+    card?.type === "day-recap"
+      ? input.days.find((item) => item.date === card.date)
+      : undefined;
+  if (!day) {
+    return null;
+  }
+  const [photo] = day.items.flatMap((item) => item.photos);
+  return {
+    type: "best-day",
+    date: day.date,
+    emotions: [...new Set(day.items.flatMap((item) => item.emotions))].slice(
+      0,
+      THRESHOLDS.storyBestDayEmotions
+    ),
+    photo: photo ? { date: day.date, photo } : null,
+  };
+};
+
+/** Mood of each day, from the mood chart card. */
+const weekMood = (input: RecapInput): WeekMoodSlide | null => {
+  const [card] = moodChart(input);
+  return card?.type === "mood-chart"
+    ? { type: "week-mood", days: card.days }
+    : null;
+};
+
+/** Most felt emotions, from the emotions card. */
+const topEmotions = (input: RecapInput): TopEmotionsSlide | null => {
+  const [card] = emotionsCard(input);
+  return card?.type === "emotions"
+    ? {
+        type: "top-emotions",
+        counts: card.counts.slice(0, THRESHOLDS.storyEmotionsMax),
+      }
+    : null;
+};
+
+/** Mean of map points. */
+const center = (points: { latitude: number; longitude: number }[]) => ({
+  latitude:
+    points.reduce((sum, point) => sum + point.latitude, 0) / points.length,
+  longitude:
+    points.reduce((sum, point) => sum + point.longitude, 0) / points.length,
+});
+
+/** A place as a pin: its days, their mean mood, and a bright photo there. */
+const storyPlace = (
+  input: RecapInput,
+  name: string,
+  dates: DateKey[],
+  points: { latitude: number; longitude: number }[]
+): StoryPlace => {
+  const dateSet = new Set(dates);
+  const days = input.days.filter((day) => dateSet.has(day.date));
+  return {
+    name,
+    ...center(points),
+    days: dates.length,
+    rating: days.reduce((sum, day) => sum + getDayRating(day), 0) / days.length,
+    photo: bestPhoto(days),
+  };
+};
+
+/** Days of a trip: from its first to its last check-in day. */
+const tripDates = (input: RecapInput, start: DateKey, end: DateKey) =>
+  input.days.flatMap((day) =>
+    day.date >= start && day.date <= end ? [day.date] : []
+  );
+
+/** Places close to home on a city map: 2+ days with a place. */
+const closeBy = (input: RecapInput): CloseBySlide | null => {
+  const visits = getPlaceVisits(input);
+  const days = new Set(visits?.spots.flatMap((spot) => spot.dates));
+  return visits && days.size >= THRESHOLDS.storyCloseByMinDays
+    ? {
+        type: "close-by",
+        places: visits.spots
+          .slice(0, THRESHOLDS.storyPlacesMax)
+          .map((spot) => storyPlace(input, spot.name, spot.dates, spot.points)),
+      }
+    : null;
+};
+
+/** Trips on a zoomed-out map with home: 1+ trip. */
+const farOut = (input: RecapInput): FarOutSlide | null => {
+  const visits = getPlaceVisits(input);
+  if (!visits || visits.trips.length === 0) {
+    return null;
+  }
+  const home = {
+    latitude: visits.home.latitude,
+    longitude: visits.home.longitude,
+  };
+  return {
+    type: "far-out",
+    home,
+    trips: [...visits.trips]
+      .sort((a, b) => b.days - a.days)
+      .slice(0, THRESHOLDS.storyPlacesMax)
+      .map((trip) => {
+        const place = storyPlace(
+          input,
+          trip.city,
+          tripDates(input, trip.start, trip.end),
+          trip.points
+        );
+        return {
+          ...place,
+          days: trip.days,
+          km: Math.round(distanceKm(home, place) / 5) * 5,
+        };
+      }),
+  };
+};
+
 const thanks: ThanksSlide = { type: "thanks" };
 
 /** Share card with 3+ bright photo days' photos, else none. Always last. */
@@ -548,10 +685,12 @@ const weeksSince = (start: DateKey, today: DateKey) =>
   Math.floor(daysBetween(start, today) / 7);
 
 /**
- * Week story slides in deck order: cover, rhythm, quiz, people, orbit, what
- * came back, a first city, thanks, and the closing card with the week. Each slot
- * skips when its rule fails. `null` for other periods, weeks more than 2 weeks
- * back or ahead, and weeks with fewer than 4 check-in days.
+ * Week story slides in deck order: cover, best day, mood of each day, most
+ * felt emotions, places close by and far out, rhythm, quiz, people, orbit,
+ * what came back, a first city without far out, thanks, and the closing card
+ * with the week. Each slot skips when its rule fails. `null` for other
+ * periods, weeks more than 2 weeks back or ahead, and weeks with fewer than 4
+ * check-in days.
  */
 export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
   const age = weeksSince(input.period.start, input.today);
@@ -565,14 +704,21 @@ export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
   }
   const lightTags = lightTagIds(input);
   const quiz = buildQuiz(input, lightTags);
+  const far = farOut(input);
   const slides: (StorySlide | null)[] = [
     cover(input),
+    bestDay(input),
+    weekMood(input),
+    topEmotions(input),
+    closeBy(input),
+    far,
     madeOf(input),
     quiz,
     people(input),
     orbit(input),
     cameBack(input),
-    firstCitySlide(input),
+    // Far out already shows the trip city.
+    far ? null : firstCitySlide(input),
   ];
   return [...slides, thanks, share(input)].filter(
     (slide): slide is StorySlide => slide !== null

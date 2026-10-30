@@ -20,10 +20,13 @@ import { COMPACT_CHIP } from "@/constants/chip";
 export const EmotionIndicator = ({
   emotion,
   compact = false,
+  size,
 }: {
   emotion: Pick<Emotion, "key" | "category">;
   /** Smaller icon or dot for compact chips. */
   compact?: boolean;
+  /** Icon size on its own, without the gap to a label. */
+  size?: number;
 }) => {
   const scaleType = useSetting("scaleType");
   const scale = useScale(scaleType);
@@ -38,17 +41,20 @@ export const EmotionIndicator = ({
   };
 
   const color = colorMapping[emotion.category];
+  const gap = compact ? COMPACT_CHIP.gap : 8;
+  const dot = compact ? 7 : 8;
+  const dotGap = compact ? COMPACT_CHIP.gap : 10;
   const icon = EMOTION_ICONS[emotion.key];
 
   if (isIconsEnabled && icon) {
     return (
       <View
         testID={`emotion-icon-${emotion.key}`}
-        style={{ marginRight: compact ? COMPACT_CHIP.gap : 8 }}
+        style={{ marginRight: size === undefined ? gap : 0 }}
       >
         <EmotionIcon
           icon={icon}
-          size={compact ? 16 : 20}
+          size={size ?? (compact ? 16 : 20)}
           tint={color.background}
           stroke={
             // Light category colors are too pale for a thin outline on white.
@@ -64,12 +70,12 @@ export const EmotionIndicator = ({
   return (
     <View
       style={{
-        width: compact ? 7 : 8,
-        height: compact ? 7 : 8,
+        width: size === undefined ? dot : size / 2,
+        height: size === undefined ? dot : size / 2,
         backgroundColor: color.background,
         borderRadius: RADIUS.full,
-        marginRight: compact ? COMPACT_CHIP.gap : 10,
-        paddingRight: 8,
+        marginRight: size === undefined ? dotGap : 0,
+        paddingRight: size === undefined ? 8 : 0,
       }}
     />
   );
