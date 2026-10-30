@@ -59,7 +59,8 @@ export const StoryBanner = ({
         borderRadius: RADIUS.md,
         borderCurve: "continuous",
         borderWidth: 1,
-        borderColor: colors.recapCardBorder,
+        // A gray line looks dull on the sky: a light edge of the sky by day.
+        borderColor: isDark ? colors.recapCardBorder : "rgba(255,255,255,0.7)",
         boxShadow: colors.recapCardShadow,
         overflow: "hidden",
         opacity: pressed ? 0.7 : 1,
