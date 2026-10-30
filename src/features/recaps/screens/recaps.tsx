@@ -236,7 +236,6 @@ const Recaps = () => {
         <NudgeCard
           key={key}
           card={card}
-          tags={tags}
           reminderTime={nudge.reminderTime}
           onLayout={onCardLayout(key)}
           onTurnOn={() => nudge.turnOn(card)}

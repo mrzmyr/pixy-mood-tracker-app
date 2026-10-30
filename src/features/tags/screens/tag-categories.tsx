@@ -1,5 +1,4 @@
-import { Stack, useRouter } from "expo-router";
-import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { Platform, Text, View } from "react-native";
 import Animated, { useAnimatedRef } from "react-native-reanimated";
 import Sortable from "react-native-sortables";
@@ -8,30 +7,27 @@ import type {
   SortableGridRenderItemInfo,
 } from "react-native-sortables";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Button from "@/components/button";
 import MenuListItem from "@/components/menu-list-item";
 import RouteModalHeader from "@/components/route-modal-header";
 import TextInfo from "@/components/text-info";
-import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { cardCorners } from "@/components/sortable/card-corners";
 import { ReorderHandle } from "@/components/sortable/reorder-handle";
-import { getGeneralCategoryTitle, MAX_TAG_CATEGORIES } from "../tag-categories";
+import { getGeneralCategoryTitle } from "../tag-categories";
 import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { TagCategory } from "../tags-provider";
 
 const IS_IOS = Platform.OS === "ios";
 
 /**
- * Manage tag categories: drag to reorder, tap to rename or delete, and add
- * new ones up to {@link MAX_TAG_CATEGORIES}. The order is the order of the
- * check-in and the tag settings.
+ * Manage tag categories: drag to reorder, tap to rename or delete. Users
+ * can't add categories. The order is the order of the check-in and the tag
+ * settings.
  *
- * - `modal` (default): sheet from the check-in and recaps, own close header
- * - `page`: pushed from Settings > Tags. iOS shows back and a Liquid Glass
- *   plus in the bar instead of the bottom button
+ * - `modal` (default): sheet from the check-in, own close header
+ * - `page`: pushed from Settings > Tags. iOS shows back in the bar
  */
 export const TagCategories = ({
   variant = "modal",
@@ -46,7 +42,6 @@ export const TagCategories = ({
   const { tags, categories } = useTagsState();
   const { reorderCategories } = useTagsUpdater();
   const general = getGeneralCategoryTitle(categories);
-  const reachedMax = categories.length >= MAX_TAG_CATEGORIES;
   const isNativePage = variant === "page" && IS_IOS;
 
   const reorder = (
@@ -136,25 +131,6 @@ export const TagCategories = ({
     );
   };
 
-  const limitNotice = (
-    <View
-      testID="tag-categories-limit-notice"
-      accessibilityRole="alert"
-      style={{
-        backgroundColor: colors.cardBackground,
-        padding: 16,
-        borderRadius: RADIUS.md,
-        borderCurve: "continuous",
-      }}
-    >
-      <Text style={{ color: colors.text, fontSize: 15 }}>
-        {t("tag_categories_reached_max", {
-          max_count: MAX_TAG_CATEGORIES,
-        })}
-      </Text>
-    </View>
-  );
-
   const list = (
     <Animated.ScrollView
       ref={scrollRef}
@@ -163,14 +139,9 @@ export const TagCategories = ({
       style={{ flex: 1, backgroundColor: colors.background }}
       contentContainerStyle={{
         paddingTop: 16,
-        paddingBottom: isNativePage ? 32 : insets.bottom + 120,
+        paddingBottom: isNativePage ? 32 : insets.bottom + 32,
       }}
     >
-      {isNativePage && reachedMax && (
-        <View style={{ marginHorizontal: 16, marginBottom: 16 }}>
-          {limitNotice}
-        </View>
-      )}
       <View style={{ paddingHorizontal: IS_IOS ? 16 : 0 }}>
         <Sortable.Grid
           columns={1}
@@ -194,24 +165,7 @@ export const TagCategories = ({
   );
 
   if (isNativePage) {
-    // List first: iOS tracks the screen's first child for the bar.
-    return (
-      <>
-        {list}
-        {/* Title doubles as label: expo-router drops `accessibilityLabel`
-            on iOS bar items. With an icon, iOS shows only the icon. */}
-        <Stack.Toolbar placement="right">
-          <Stack.Toolbar.Button
-            icon="plus"
-            accessibilityLabel={t("tag_category_create")}
-            disabled={reachedMax}
-            onPress={() => router.push("/tags/categories/create")}
-          >
-            {t("tag_category_create")}
-          </Stack.Toolbar.Button>
-        </Stack.Toolbar>
-      </>
-    );
+    return list;
   }
 
   return (
@@ -229,35 +183,6 @@ export const TagCategories = ({
         />
       )}
       {list}
-      <LinearGradient
-        pointerEvents="none"
-        colors={[colors.logBackgroundTransparent, colors.background]}
-        style={{
-          position: "absolute",
-          height: 120 + insets.bottom,
-          bottom: 0,
-          width: "100%",
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: insets.bottom + 16,
-          width: "100%",
-          paddingHorizontal: 16,
-        }}
-      >
-        {reachedMax ? (
-          limitNotice
-        ) : (
-          <Button
-            testID="tag-category-create"
-            onPress={() => router.push("/tags/categories/create")}
-          >
-            {t("tag_category_create")}
-          </Button>
-        )}
-      </View>
     </View>
   );
 };

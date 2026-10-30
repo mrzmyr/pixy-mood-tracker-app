@@ -1,6 +1,5 @@
 import { reportError } from "@/lib/report-error";
 import dayjs from "dayjs";
-import { useRouter } from "expo-router";
 import { Linking } from "react-native";
 import { reminderTimeToDate, useReminder } from "@/features/notifications";
 import { useStepEnabled } from "@/features/settings";
@@ -34,7 +33,6 @@ const reportReminderError = (cause: unknown) => {
  */
 export const useNudgeActions = (period: Period) => {
   const analytics = useAnalytics();
-  const router = useRouter();
   const reminder = useReminder();
   const emotions = useStepEnabled("emotions");
   const people = useStepEnabled("people");
@@ -84,7 +82,6 @@ export const useNudgeActions = (period: Period) => {
     "intro-emotions": () => turnOnStep(emotions.setEnabled),
     "intro-people": () => turnOnStep(people.setEnabled),
     "intro-photos": () => turnOnStep(photos.setEnabled),
-    "intro-categories": () => router.push("/tags/categories"),
   };
 
   return {

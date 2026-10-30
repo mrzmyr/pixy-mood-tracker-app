@@ -76,6 +76,18 @@ const withPeople = (data: ImportData): ImportData => {
 };
 
 /**
+ * Adds an empty Hobbies category next to General, like a person who made
+ * one before category creation was removed.
+ */
+const withTagCategory = (data: ImportData): ImportData => ({
+  ...data,
+  settings: {
+    ...data.settings,
+    tagCategories: [{ id: "fixture-hobbies", title: "Hobbies" }],
+  },
+});
+
+/**
  * Named test data set in the Pixy export format. To add one, export data
  * from Settings > Data, save the file here, and register it below.
  */
@@ -134,6 +146,14 @@ export const FIXTURES: Fixture[] = [
       "The `year` fixture plus 3 people (one with photo, one archived) on a fixed share of entries.",
     endsToday: true,
     data: withPeople(asExport(year)),
+  },
+  {
+    id: "tag-categories",
+    title: "One year with a tag category",
+    description:
+      "The `year` fixture plus an empty Hobbies category next to General.",
+    endsToday: true,
+    data: withTagCategory(asExport(year)),
   },
   {
     id: "timeline",

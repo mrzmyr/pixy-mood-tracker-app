@@ -1,6 +1,5 @@
 import { CARD_TYPES } from "./card-types";
 import {
-  introCategories,
   introEmotions,
   introPeople,
   introPhotos,
@@ -68,7 +67,6 @@ const RULES: Rule[] = [
   introEmotions,
   introPeople,
   introPhotos,
-  introCategories,
 ];
 
 const FAMILY_ORDER: CardFamily[] = [

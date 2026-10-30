@@ -1,7 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
-import { v4 as uuidv4 } from "uuid";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import Trash from "lucide-react-native/icons/trash";
@@ -23,23 +22,24 @@ import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { TagCategory } from "../tags-provider";
 
 /**
- * Name form for a tag category. Edit mode adds Delete, except for General,
- * which always exists. Names follow the tag name length limits.
+ * Rename form for a tag category, with Delete except for General, which
+ * always exists. Names follow the tag name length limits.
  */
-const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
+const TagCategoryForm = ({ category }: { category: TagCategory }) => {
   const router = useRouter();
   const colors = useColors();
   const analytics = useAnalytics();
   const haptics = useHaptics();
   const { tags, categories } = useTagsState();
   const updater = useTagsUpdater();
-  const [title, setTitle] = useState(category?.title ?? "");
+  // Seeded once: `TagCategoryEdit` keys the form by category id.
+  const [title, setTitle] = useState(() => category.title);
   const [submitted, setSubmitted] = useState(false);
-  const isGeneral = category?.id === GENERAL_CATEGORY_ID;
+  const isGeneral = category.id === GENERAL_CATEGORY_ID;
   const general = getGeneralCategoryTitle(categories);
   // Back, the swipe-down gesture, and Cancel ask before dropping the name.
   const { allowLeave } = useDiscardGuard({
-    isDirty: title !== (category?.title ?? ""),
+    isDirty: title !== category.title,
   });
 
   const onSave = () => {
@@ -48,18 +48,10 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
     if (!isValidTagTitle(trimmed)) {
       return;
     }
-    if (category) {
-      analytics.track("tags:category_updated", {
-        title_length: trimmed.length,
-      });
-      updater.updateCategory({ ...category, title: trimmed });
-    } else {
-      analytics.track("tags:category_created", {
-        title_length: trimmed.length,
-        categories_count: categories.length + 1,
-      });
-      updater.createCategory({ id: uuidv4(), title: trimmed });
-    }
+    analytics.track("tags:category_updated", {
+      title_length: trimmed.length,
+    });
+    updater.updateCategory({ ...category, title: trimmed });
     allowLeave();
     router.back();
   };
@@ -100,7 +92,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
       }}
     >
       <RouteModalHeader
-        title={category ? t("tag_category_edit") : t("tag_category_create")}
+        title={t("tag_category_edit")}
         onClose={() => router.back()}
         closeTestID="tag-category-cancel"
         confirm={{
@@ -118,7 +110,6 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
       >
         <TagNameField
           testID="tag-category-name"
-          autoFocus={!category}
           placeholder={t("tag_category_name_placeholder")}
           value={title}
           showError={submitted}
@@ -130,7 +121,7 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
             {t("tag_category_general_info", { general })}
           </TextInfo>
         )}
-        {category && !isGeneral && (
+        {!isGeneral && (
           <MenuList style={{ marginTop: 16 }}>
             <MenuListItem
               testID="tag-category-delete"
@@ -145,9 +136,6 @@ const TagCategoryForm = ({ category }: { category?: TagCategory }) => {
     </View>
   );
 };
-
-/** New tag category form. */
-export const TagCategoryCreate = () => <TagCategoryForm />;
 
 /**
  * Rename or delete a tag category. Renders nothing for an unknown `id`, for

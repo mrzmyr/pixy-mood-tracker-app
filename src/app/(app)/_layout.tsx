@@ -270,10 +270,6 @@ const AppLayout = () => {
             options={modalRouteOptions}
           />
           <Stack.Screen
-            name="tags/categories/create"
-            options={modalRouteOptions}
-          />
-          <Stack.Screen
             name="tags/categories/[id]"
             options={modalRouteOptions}
           />

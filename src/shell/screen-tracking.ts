@@ -7,7 +7,6 @@ const TAG_ROUTES = new Map<string, string>(
     "/tags": "Tags",
     "/tags/create": "TagCreate",
     "/tags/categories": "TagCategories",
-    "/tags/categories/create": "TagCategoryCreate",
   })
 );
 
