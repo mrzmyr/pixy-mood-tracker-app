@@ -61,6 +61,11 @@ jest.mock("react-native-reanimated-carousel", () => ({
   }) => data.map((_, index) => renderItem({ index })),
 }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the iOS header writes to the native bar, which needs a navigator; this suite renders the logger without one, so it uses the in-screen bar
+jest.mock("@/components/route-modal-header", () =>
+  jest.requireActual("@/components/route-modal-header.android")
+);
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the discard guard needs a navigator (covered in useDiscardGuard tests); this suite renders the logger without one
 jest.mock("@/hooks/use-discard-guard", () => ({
   __esModule: true,

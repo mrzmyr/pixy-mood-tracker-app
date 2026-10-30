@@ -17,7 +17,8 @@ const getOpacity = (disabled: boolean | undefined, pressed: boolean) => {
 };
 
 /**
- * Close button for modal and full-screen pages. Place it top right.
+ * Icon button of a modal header on Android and web (`HeaderButton`), and the
+ * close button over media (photo viewer). Feature code uses `HeaderButton`.
  * Uses the theme text color unless `color` is set, for example white on a
  * photo.
  */

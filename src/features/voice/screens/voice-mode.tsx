@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Platform, Pressable, ScrollView, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { useKeepAwake } from "expo-keep-awake";
 import * as Linking from "expo-linking";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -10,7 +10,7 @@ import Mic from "lucide-react-native/icons/mic";
 import Pause from "lucide-react-native/icons/pause";
 import dayjs from "dayjs";
 import Button from "@/components/button";
-import { HeaderButton } from "@/components/header-button";
+import RouteModalHeader from "@/components/route-modal-header";
 import { Body, Headline, Secondary } from "@/components/type";
 import { RADIUS } from "@/constants/radius";
 import { encodeLoggerPrefill } from "@/features/logger";
@@ -195,26 +195,11 @@ export const VoiceMode = () => {
       style={{
         flex: 1,
         backgroundColor: colors.background,
-        paddingTop: Platform.OS === "android" ? insets.top : 0,
       }}
       testID="voice-mode"
     >
       <VoiceBlob level={voice.level} color={colors.primaryButtonBackground} />
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          paddingHorizontal: 12,
-          paddingTop: 12,
-        }}
-      >
-        <HeaderButton
-          kind="cancel"
-          label={t("close")}
-          onPress={close}
-          testID="voice-close"
-        />
-      </View>
+      <RouteModalHeader title="" onClose={close} closeTestID="voice-close" />
 
       <ScrollView
         ref={cardsRef}

@@ -15,7 +15,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 ## Components
 
-- Page close: [`CloseButton`](src/components/close-button.tsx), top left. Back arrow is not close. Modal headers: [Modal Headers](#modal-headers).
+- Modal close: [Sheets and Modals](#sheets-and-modals). Back arrow is not close.
 - Buttons: [`Button`](src/components/button.tsx) (filled), [`LinkButton`](src/components/link-button.tsx) (text). Label is plain string, or compose `ButtonIcon` + `ButtonText` ([`ButtonContent`](src/components/button-content.tsx)). Never own `Text` or icon color inside button: disabled color comes from button.
 - Toasts: `showToast` ([`src/lib/toast.ts`](src/lib/toast.ts)). iOS top card, Android M3 snackbar. Optional Undo `action`, never only way to do something.
 - Inline errors, warnings, notices: [`InlineAlert`](src/components/inline-alert.tsx) next to the content they are about. Stays until state changes. Never plain colored text.
@@ -30,10 +30,15 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 ## Sheets and Modals
 
-- `Modal` with `presentationStyle="pageSheet"`, `animationType="slide"` ([`SheetModal`](src/components/sheet-modal.tsx)).
-- Router form with native header: iOS `formSheet`, Android full-screen `modal`, header items via `Stack.Toolbar` or [`HeaderButton`](src/components/header-button.tsx) ([Feedback](src/features/feedback/screens/feedback-screen.tsx)).
+Two kinds. Pick one, never build own header.
+
+- Route modal (screen in `src/app`): options from [`getModalRouteOptions`](src/components/modal-route-options.ts), header [`RouteModalHeader`](src/components/route-modal-header.tsx) (`title`, `onClose`, optional `titleView`, `confirm`). iOS: native sheet bar. Android: Material 3 full-screen dialog bar. Example: [profile](src/features/profile/screens/profile-form.tsx).
+- Sheet (form or picker over current screen, no route): [`SheetModal`](src/components/sheet-modal.tsx) with [`ModalHeader`](src/components/modal-header.tsx) and `HeaderButton`.
+- Header buttons: `HeaderButton` only. Never `LinkButton`, `CloseButton`, or own `Pressable` in a header.
+- Native bar variants keep native bar: form sheet ([feedback](src/features/feedback/screens/feedback-screen.tsx)), transparent bar (check-in, day view). Items via `Stack.Toolbar` only when no e2e flow taps them.
+- Only exception: media overlays (photo viewer, recap stories) hide bar and draw white close.
+- Lint enforces: `pixy-standards/modal-route-shows-header` blocks hidden bar on modal routes. `CloseButton` import blocked outside `src/components`.
 - Never custom slide-in sheet. Never move views from keyboard events. Inputs sit at sheet top.
-- Route modal header: [`RouteModalHeader`](src/components/route-modal-header.tsx). Sheet header: [`ModalHeader`](src/components/modal-header.tsx).
 
 ## Modal Headers
 
@@ -50,7 +55,8 @@ Every sheet and route modal. Sources: [HIG Sheets](https://developer.apple.com/d
 - Buttons: [`HeaderButton`](src/components/header-button.tsx). Native bar items: [`getModalBarOptions`](src/components/modal-bar-options.tsx). Native `Stack.Toolbar` takes no test id: use it only on screens no e2e flow taps.
 - Test ids: `<feature>-cancel`, `<feature>-save`, `<feature>-close`.
 - Own overlay close, white on media: photo viewer, recap stories.
-- Open: logger shows back and close together; HIG wants back to replace close after step 1. Android confirm is disabled until valid; M3 says never disable it in full-screen dialogs. Android feedback sends with an icon; M3 wants a text button.
+- Multi-step flow (logger): no back button. Swipe goes back; step dots carry a `Back` accessibility action.
+- Open: Android confirm is disabled until valid; M3 says never disable it in full-screen dialogs. Android feedback sends with an icon; M3 wants a text button.
 
 ## Settings
 

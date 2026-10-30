@@ -26,6 +26,13 @@ const iconImports = [
   },
 ];
 
+// Modal headers come from `RouteModalHeader`, sheets, or `HeaderButton` (DESIGN.md Modal Headers).
+const closeButtonImport = {
+  name: "@/components/close-button",
+  message:
+    "Use `RouteModalHeader` or `HeaderButton`. CloseButton is for media overlays only.",
+};
+
 const featureImport = {
   group: ["@/features", "@/features/**"],
   message: "Lower layer must not import features.",
@@ -153,7 +160,7 @@ export default defineConfig({
         "no-restricted-imports": [
           "error",
           {
-            paths: iconImports,
+            paths: [...iconImports, closeButtonImport],
             patterns: [featureDeepImport, devDeepImport, reactNavigationImport],
           },
         ],
@@ -241,6 +248,11 @@ export default defineConfig({
         "pixy-standards/kebab-case-folders": "error",
         "pixy-standards/no-direct-error-reporting": "error",
       },
+    },
+    {
+      // Modal routes keep the native bar (DESIGN.md Sheets and Modals).
+      files: ["src/app/**"],
+      rules: { "pixy-standards/modal-route-shows-header": "error" },
     },
     {
       // The one place that calls both error SDKs; tests assert on the SDK mock.

@@ -21,13 +21,7 @@ import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
 import type { ReactElement, RefObject } from "react";
 
-import {
-  Keyboard,
-  Platform,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { Keyboard, Text, useWindowDimensions, View } from "react-native";
 import type { TextInput } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
@@ -495,10 +489,15 @@ const LoggerSlides = ({
       return;
     }
     pendingIndex.current = null;
-    _carousel.current?.scrollTo({
-      index: Math.min(target, reachedIndex),
-      animated: true,
+    // Wait one frame: a scroll in the same commit as the new slide can run
+    // before the carousel takes the slide, and then it does nothing.
+    const frame = requestAnimationFrame(() => {
+      _carousel.current?.scrollTo({
+        index: Math.min(target, reachedIndex),
+        animated: true,
+      });
     });
+    return () => cancelAnimationFrame(frame);
     // The refs are stable; listed because the lint rule cannot tell.
   }, [reachedIndex, _carousel, pendingIndex]);
 
@@ -522,12 +521,7 @@ const LoggerSlides = ({
         position: "relative",
       }}
     >
-      <View
-        style={{
-          flex: 1,
-          paddingTop: Platform.OS === "android" ? insets.top : 0,
-        }}
-      >
+      <View style={{ flex: 1 }}>
         <LoggerHeader
           carouselRef={_carousel}
           slideCount={content.length}
