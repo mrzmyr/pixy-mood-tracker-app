@@ -10,6 +10,7 @@ import { RATING_KEYS } from "@/constants/ratings";
 import { useAppData } from "@/features/datagate";
 import useColors from "@/hooks/use-colors";
 import { useSettings } from "@/state/settings";
+import { markLaunchSplashGone } from "./launch-splash-state";
 
 const SIZE = 48;
 /** Corner radius at rest. Matches `assets/images/splash-standby.png`. */
@@ -135,7 +136,10 @@ export const LaunchSplash = () => {
       0,
       LAUNCH_MIN_VISIBLE_MS - (Date.now() - mountedAt.current)
     );
-    const timer = setTimeout(() => setIsDone(true), wait);
+    const timer = setTimeout(() => {
+      setIsDone(true);
+      markLaunchSplashGone();
+    }, wait);
     return () => clearTimeout(timer);
   }, [isLoading, isDone]);
 
