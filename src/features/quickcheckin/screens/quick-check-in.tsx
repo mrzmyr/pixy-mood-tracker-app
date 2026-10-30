@@ -24,6 +24,10 @@ import { applyVoicePrefill, toDraft } from "../draft";
 import { useVoicePrefill } from "../use-voice-prefill";
 import { getSheetSections } from "../sheet-sections";
 import { EmotionChip, MoodPixel } from "./quick-check-in-chips";
+import {
+  QuickCheckInPhotos,
+  useQuickCheckInPhotos,
+} from "./quick-check-in-photos";
 import { QuickCheckInSearchBar } from "./quick-check-in-search-bar";
 import type { InfluenceOption } from "../ranking";
 
@@ -54,10 +58,69 @@ const SectionTitle = ({ children }: { children: string }) => {
   );
 };
 
+/** Close and Save: iOS sheet bar items, Android Material top app bar. */
+const QuickCheckInHeader = ({
+  canSave,
+  onClose,
+  onSave,
+}: {
+  canSave: boolean;
+  onClose: () => void;
+  onSave: () => void;
+}) =>
+  Platform.OS === "ios" ? (
+    <>
+      <Stack.Screen options={{ title: t("quick_check_in_title") }} />
+      {/* Title doubles as label: expo-router drops `accessibilityLabel`
+          on iOS bar items. With an icon, iOS shows only the icon. */}
+      <Stack.Toolbar placement="left">
+        <Stack.Toolbar.Button
+          icon="xmark"
+          accessibilityLabel={t("close")}
+          onPress={onClose}
+        >
+          {t("close")}
+        </Stack.Toolbar.Button>
+      </Stack.Toolbar>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Button
+          icon="checkmark"
+          accessibilityLabel={t("save")}
+          variant="prominent"
+          disabled={!canSave}
+          onPress={onSave}
+        >
+          {t("save")}
+        </Stack.Toolbar.Button>
+      </Stack.Toolbar>
+    </>
+  ) : (
+    <ModalHeader
+      title={t("quick_check_in_title")}
+      left={
+        <HeaderButton
+          kind="cancel"
+          label={t("close")}
+          testID="quick-check-in-close"
+          onPress={onClose}
+        />
+      }
+      right={
+        <HeaderButton
+          kind="confirm"
+          label={t("save")}
+          testID="quick-check-in-save"
+          disabled={!canSave}
+          onPress={onSave}
+        />
+      }
+    />
+  );
+
 /**
  * Quick check-in on one scrolling page: search and voice on top, then mood,
- * note, emotions, Suggested, People A to Z, and Tags A to Z. Opens from
- * Settings and from More in the Android notification.
+ * note, photos, emotions, Suggested, People A to Z, and Tags A to Z. Opens
+ * from Settings and from More in the Android notification.
  *
  * - `id` names an entry saved in the notification: the screen edits it.
  * - `id` `new` or unknown: Save creates an entry. Save needs a mood.
@@ -76,6 +139,7 @@ export const QuickCheckIn = () => {
   const { items } = useLogState();
   const logUpdater = useLogUpdater();
   const hasPeople = useFeatureFlag("people");
+  const hasPhotos = useFeatureFlag("photos");
   const { people } = usePeopleState();
   const { tags } = useTagsState();
 
@@ -89,7 +153,7 @@ export const QuickCheckIn = () => {
   useVoicePrefill(prefill, (parsed) =>
     setDraft((current) => applyVoicePrefill(current, parsed))
   );
-  const { rating, emotions, picked, message } = draft;
+  const { rating, emotions, picked, message, photos } = draft;
   const setRating = (value: LogItem["rating"]) =>
     setDraft((current) => ({ ...current, rating: value, source: "user" }));
   const setEmotions = (value: string[]) =>
@@ -102,6 +166,12 @@ export const QuickCheckIn = () => {
     }));
   const setMessage = (value: string) =>
     setDraft((current) => ({ ...current, message: value, source: "user" }));
+  const draftPhotos = useQuickCheckInPhotos({
+    entry,
+    photos,
+    onChange: (value) =>
+      setDraft((current) => ({ ...current, photos: value, source: "user" })),
+  });
   const [query, setQuery] = useState("");
   // Ranking time is fixed when the screen opens.
   const now = useMemo(() => dayjs(), []);
@@ -155,6 +225,7 @@ export const QuickCheckIn = () => {
       people: references("person"),
       tags: references("tag"),
       message,
+      photos,
     };
     if (items.some((item) => item.id === id)) {
       logUpdater.editLog({ id, ...changes });
@@ -167,6 +238,7 @@ export const QuickCheckIn = () => {
       has_emotion: emotions.length > 0,
       influences_count: picked.length,
       has_note: message.trim() !== "",
+      photos_count: photos.length,
     });
     close();
   };
@@ -226,54 +298,11 @@ export const QuickCheckIn = () => {
           !isIOS && (Platform.OS === "android" || !isSheet) ? insets.top : 0,
       }}
     >
-      {isIOS ? (
-        <>
-          <Stack.Screen options={{ title: t("quick_check_in_title") }} />
-          {/* Title doubles as label: expo-router drops `accessibilityLabel`
-              on iOS bar items. With an icon, iOS shows only the icon. */}
-          <Stack.Toolbar placement="left">
-            <Stack.Toolbar.Button
-              icon="xmark"
-              accessibilityLabel={t("close")}
-              onPress={close}
-            >
-              {t("close")}
-            </Stack.Toolbar.Button>
-          </Stack.Toolbar>
-          <Stack.Toolbar placement="right">
-            <Stack.Toolbar.Button
-              icon="checkmark"
-              accessibilityLabel={t("save")}
-              variant="prominent"
-              disabled={rating === null}
-              onPress={save}
-            >
-              {t("save")}
-            </Stack.Toolbar.Button>
-          </Stack.Toolbar>
-        </>
-      ) : (
-        <ModalHeader
-          title={t("quick_check_in_title")}
-          left={
-            <HeaderButton
-              kind="cancel"
-              label={t("close")}
-              testID="quick-check-in-close"
-              onPress={close}
-            />
-          }
-          right={
-            <HeaderButton
-              kind="confirm"
-              label={t("save")}
-              testID="quick-check-in-save"
-              disabled={rating === null}
-              onPress={save}
-            />
-          }
-        />
-      )}
+      <QuickCheckInHeader
+        canSave={rating !== null}
+        onClose={close}
+        onSave={save}
+      />
       <ScrollView
         keyboardShouldPersistTaps="handled"
         automaticallyAdjustKeyboardInsets
@@ -315,6 +344,12 @@ export const QuickCheckIn = () => {
               maxLength={MAX_MESSAGE_LENGTH}
               style={{ height: NOTE_HEIGHT }}
             />
+            {hasPhotos && (
+              <>
+                <SectionTitle>{t("logger_step_photos")}</SectionTitle>
+                <QuickCheckInPhotos draft={draftPhotos} />
+              </>
+            )}
           </>
         )}
         {sections.emotions.length > 0 && (
