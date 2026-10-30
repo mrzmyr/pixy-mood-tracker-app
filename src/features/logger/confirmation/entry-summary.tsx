@@ -1,11 +1,9 @@
 import { useEffect, useEffectEvent, useMemo } from "react";
-import { Platform, ScrollView, View, useColorScheme } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-import { NightSky } from "@/components/night-sky";
-import { Sky } from "@/components/sky";
 import { ConfirmationOffer } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
@@ -18,7 +16,6 @@ import { t } from "@/lib/translation";
 import { EMOTIONS } from "../config";
 import { getDaySummary } from "./day-summary";
 import { SummaryHero } from "./entry-summary-hero";
-import { hasHero } from "./entry-summary-layout";
 import {
   EmotionsTile,
   MoodHeader,
@@ -78,11 +75,8 @@ export const EntrySummary = ({
   onClose: () => void;
 }) => {
   const colors = useColors();
-  const scheme = useColorScheme();
   const haptics = useHaptics();
   const insets = useSafeAreaInsets();
-  // The iOS page sheet already sits below the status bar.
-  const topInset = Platform.OS === "android" ? insets.top : 0;
   const logState = useLogState();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
@@ -120,7 +114,6 @@ export const EntrySummary = ({
         backgroundColor: colors.logBackground,
       }}
     >
-      {scheme === "dark" ? <NightSky /> : <Sky />}
       <MaskedView style={{ flex: 1 }} maskElement={<BottomFadeMask />}>
         <ScrollView
           contentContainerStyle={{
@@ -128,11 +121,15 @@ export const EntrySummary = ({
             paddingBottom: FADE_HEIGHT,
           }}
         >
-          <SummaryHero item={item} extraHeight={topInset} />
+          <SummaryHero
+            item={item}
+            // The iOS page sheet already sits below the status bar.
+            extraHeight={Platform.OS === "android" ? insets.top : 0}
+          />
           <View
             style={{
-              // With a hero, the header rises into its faded bottom.
-              marginTop: hasHero(item) ? -HEADER_OVERLAP : topInset + 24,
+              // The header rises into the faded bottom of the hero.
+              marginTop: -HEADER_OVERLAP,
               paddingHorizontal: 16,
               gap: GAP,
             }}

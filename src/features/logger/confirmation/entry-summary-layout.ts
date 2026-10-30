@@ -1,9 +1,4 @@
-import type { LogItem } from "@/features/logs";
 import { t } from "@/lib/translation";
-
-/** Whether the summary gets a hero: the entry has photos or a place. */
-export const hasHero = (item: LogItem) =>
-  item.photos.length > 0 || item.location !== undefined;
 
 /** Photos in the bento before "+N". */
 export const BENTO_PHOTOS_MAX = 5;

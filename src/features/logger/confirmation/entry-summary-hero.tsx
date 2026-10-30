@@ -1,16 +1,18 @@
+import chroma from "chroma-js";
 import { Image } from "expo-image";
-import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, View } from "react-native";
+import { Text, View, useColorScheme, useWindowDimensions } from "react-native";
+import { NightSky } from "@/components/night-sky";
+import { Sky } from "@/components/sky";
 import { RADIUS } from "@/constants/radius";
 import { PlacePreviewMap } from "@/features/location";
 import type { LogItem } from "@/features/logs";
 import { getPhotoFile } from "@/features/photos";
+import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import {
   BENTO_PHOTOS_MAX,
   getPhotoBento,
-  hasHero,
   takeVisible,
 } from "./entry-summary-layout";
 
@@ -77,21 +79,27 @@ const PhotoMosaic = ({ photos }: { photos: LogItem["photos"] }) => {
   );
 };
 
-/** Mask over the hero: opaque, then fading to see-through at the bottom. */
-const HeroFadeMask = () => (
-  <View style={{ flex: 1 }}>
-    <View style={{ flex: 1, backgroundColor: "#000" }} />
-    <LinearGradient
-      colors={["#000", "transparent"]}
-      style={{ height: HERO_FADE }}
-    />
-  </View>
-);
+/** Sky for entries without photos or place: clouds by day, stars at night. */
+const SkyHero = () => {
+  const { height } = useWindowDimensions();
+  const scheme = useColorScheme();
+
+  if (scheme === "dark") {
+    return <NightSky />;
+  }
+  // The clouds sit low in the photo: pin the full-height sky to the bottom.
+  return (
+    <View
+      style={{ position: "absolute", left: 0, right: 0, bottom: 0, height }}
+    >
+      <Sky />
+    </View>
+  );
+};
 
 /**
- * Full-width picture at the top of the summary: the entry's photos, else
- * its place on a map. Fades out at the bottom so the sky behind the screen
- * shows through. Nothing without either; see {@link hasHero}.
+ * Full-width picture at the top of the summary, fading into the page: the
+ * entry's photos, else its place on a map, else the sky.
  */
 export const SummaryHero = ({
   item,
@@ -101,24 +109,37 @@ export const SummaryHero = ({
   /** Space under the status bar where the sheet does not cover it. */
   extraHeight: number;
 }) => {
-  if (!hasHero(item)) {
-    return null;
-  }
+  const colors = useColors();
+  const background = colors.logBackground;
+
+  const picture = (() => {
+    if (item.photos.length > 0) {
+      return <PhotoMosaic photos={item.photos} />;
+    }
+    if (item.location) {
+      return (
+        <View style={{ flex: 1 }} pointerEvents="none">
+          <PlacePreviewMap location={item.location} />
+        </View>
+      );
+    }
+    return <SkyHero />;
+  })();
 
   return (
-    <MaskedView
-      style={{ height: HERO_HEIGHT + extraHeight }}
-      maskElement={<HeroFadeMask />}
-    >
-      {item.photos.length > 0 ? (
-        <PhotoMosaic photos={item.photos} />
-      ) : (
-        item.location && (
-          <View style={{ flex: 1 }} pointerEvents="none">
-            <PlacePreviewMap location={item.location} />
-          </View>
-        )
-      )}
-    </MaskedView>
+    <View style={{ height: HERO_HEIGHT + extraHeight, overflow: "hidden" }}>
+      {picture}
+      <LinearGradient
+        pointerEvents="none"
+        colors={[chroma(background).alpha(0).css(), background]}
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: HERO_FADE,
+        }}
+      />
+    </View>
   );
 };
