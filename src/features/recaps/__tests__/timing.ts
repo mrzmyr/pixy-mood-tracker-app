@@ -14,20 +14,31 @@ const photos = (count: number) =>
     },
   }));
 
-const cover = (count: number): StorySlide => ({
+const cover = (
+  count: number,
+  variant: "photo" | "photos" | "pixels" = "photo"
+): StorySlide => ({
   type: "cover",
-  variant: "photo",
+  variant,
   checkIns: 7,
   photos: photos(count),
 });
 
 describe("slide duration", () => {
   test("gives each cover photo its own moment", () => {
-    expect(getSlideDuration(cover(5))).toBe(14_000);
+    expect(getSlideDuration(cover(5))).toBe(17_500);
   });
 
-  test("never runs a cover shorter than other slides", () => {
-    expect(getSlideDuration(cover(1))).toBe(7000);
+  test("keeps a cover with one photo longer than other slides", () => {
+    expect(getSlideDuration(cover(1))).toBe(10_000);
+  });
+
+  test("keeps the photo grid cover longer than other slides", () => {
+    expect(getSlideDuration(cover(9, "photos"))).toBe(10_000);
+  });
+
+  test("keeps a cover without photos at 7 seconds", () => {
+    expect(getSlideDuration(cover(0, "pixels"))).toBe(7000);
   });
 
   test("keeps other slides at 7 seconds", () => {
