@@ -12,13 +12,14 @@ import Animated, {
   FadeInDown,
   useAnimatedStyle,
   useReducedMotion,
+  Keyframe,
+  useFrameCallback,
   useSharedValue,
   withDelay,
   withRepeat,
-  withSpring,
   withTiming,
-  ZoomIn,
 } from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, {
   Defs,
@@ -42,6 +43,19 @@ import { THRESHOLDS } from "../thresholds";
 import type { DateKey, RecapDay } from "../types";
 import { weekdayName, weekdayShort } from "./format";
 import { fitCamera } from "./map-camera";
+import {
+  createBubbleWorld,
+  createPipeWorld,
+  settle,
+  stepBubbles,
+  stepPipes,
+} from "./physics";
+import type {
+  BubbleConfig,
+  BubbleWorld,
+  PipeConfig,
+  PipeWorld,
+} from "./physics";
 import type { MapPoint } from "./map-camera";
 import { HAS_PLACES_MAP, PlacesMap } from "./places-map";
 import { StoryImage, StoryText } from "./parts";
@@ -446,43 +460,169 @@ export const BestDay = ({
 /** Most pixels in one column: the best rating step plus one. */
 const TOWER_MAX = RATING_MAPPING.extremely_good + 1;
 const TOWER_GAP = 6;
+/** Pixels drop in invisible pipes: a little give, a little bounce. */
+const PIPE_PHYSICS = {
+  gap: TOWER_GAP,
+  play: 3,
+  gravity: 2200,
+  restitution: 0.3,
+};
+
+/** Pipe world that starts at `startAt` ms, or already at rest. */
+const startPipes = (
+  counts: number[],
+  startAt: number,
+  config: PipeConfig,
+  isSettled: boolean
+) => {
+  const world = createPipeWorld(
+    counts,
+    { start: startAt / 1000, pipe: 0.22, pixel: 0.11 },
+    config
+  );
+  if (isSettled) {
+    settle((seconds) => stepPipes(world, seconds, config));
+  }
+  return world;
+};
+
+/** Bubble world that starts at `startAt` ms, or already at rest. */
+const startBubbles = (
+  radii: number[],
+  startAt: number,
+  config: BubbleConfig,
+  isSettled: boolean
+) => {
+  const world = createBubbleWorld(
+    radii,
+    { start: startAt / 1000, each: 0.45 },
+    config
+  );
+  if (isSettled) {
+    settle((seconds) => stepBubbles(world, seconds, config));
+  }
+  return world;
+};
 
 /**
- * Pixel that falls from the sky and bounces into its place. Reduced motion
- * shows it in place.
+ * Runs `step` every frame on the UI thread until it reports rest. Reduced
+ * motion: the caller settles the world before the first frame.
  */
-const FallingPixel = ({
-  size,
-  shade,
-  delay,
-  fall,
-}: {
-  size: number;
-  shade: PixelShade;
-  delay: number;
-  /** Distance above its place where the pixel starts. */
-  fall: number;
-}) => {
-  const isReducedMotion = useReducedMotion();
-  const offset = useSharedValue(isReducedMotion ? 0 : -fall);
-  const opacity = useSharedValue(isReducedMotion ? 1 : 0);
-  useEffect(() => {
-    if (isReducedMotion) {
+const useSimulation = <World extends object>(
+  world: SharedValue<World>,
+  step: (state: World, seconds: number) => boolean,
+  isActive: boolean
+) => {
+  const running = useSharedValue(isActive);
+  useFrameCallback(({ timeSincePreviousFrame }) => {
+    if (!running.get() || timeSincePreviousFrame === null) {
       return;
     }
-    opacity.set(withDelay(delay, withTiming(1, { duration: 120 })));
-    offset.set(
-      withDelay(delay, withSpring(0, { damping: 9, stiffness: 140, mass: 0.8 }))
-    );
-  }, [delay, isReducedMotion, offset, opacity]);
-  const style = useAnimatedStyle(() => ({
-    opacity: opacity.get(),
-    transform: [{ translateY: offset.get() }],
-  }));
+    world.modify((state) => {
+      "worklet";
+      running.set(step(state, timeSincePreviousFrame / 1000));
+      return state;
+    });
+  }, isActive);
+};
+
+/** Pixel that rides its pipe in the simulation. Hidden until it drops. */
+const PipePixel = ({
+  world,
+  index,
+  size,
+  shade,
+}: {
+  world: SharedValue<PipeWorld>;
+  index: number;
+  size: number;
+  shade: PixelShade;
+}) => {
+  const style = useAnimatedStyle(() => {
+    const state = world.get();
+    return {
+      opacity: state.live[index] ? 1 : 0,
+      transform: [
+        { translateX: state.x[index] ?? 0 },
+        { translateY: -(state.y[index] ?? 0) },
+      ],
+    };
+  });
   return (
-    <Animated.View style={style}>
+    <Animated.View style={[{ position: "absolute", bottom: 0 }, style]}>
       <ShadedPixel size={size} shade={shade} />
     </Animated.View>
+  );
+};
+
+/**
+ * Columns of pixels that fall from the sky through invisible pipes, land on
+ * the floor, bounce a little, and stack.
+ */
+const PixelPipes = ({
+  columns,
+  size,
+  height,
+  startAt,
+}: {
+  columns: PixelShade[][];
+  size: number;
+  height: number;
+  /** Milliseconds until the first pixel drops. */
+  startAt: number;
+}) => {
+  const isReducedMotion = useReducedMotion();
+  const config = { ...PIPE_PHYSICS, size, dropHeight: height + size };
+  // Reduced motion starts with the settled world: pixels already stacked.
+  const world = useSharedValue(
+    startPipes(
+      columns.map((column) => column.length),
+      startAt,
+      config,
+      isReducedMotion
+    )
+  );
+  useSimulation(
+    world,
+    (state, seconds) => {
+      "worklet";
+      return stepPipes(state, seconds, config);
+    },
+    !isReducedMotion
+  );
+  // First pixel of each column in the world's flat list.
+  const firstOf = columns.map((_, pipe) =>
+    columns.slice(0, pipe).reduce((sum, column) => sum + column.length, 0)
+  );
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        gap: TOWER_GAP,
+        justifyContent: "center",
+        height,
+        // Pixels come out of the sky below the headline, not over it.
+        overflow: "hidden",
+      }}
+    >
+      {columns.map((column, pipe) => (
+        // Columns never reorder; the index is their identity.
+        // oxlint-disable-next-line react/no-array-index-key -- see comment above.
+        <View key={pipe} style={{ width: size, height }}>
+          {column.map((shade, level) => (
+            <PipePixel
+              // Pixels never reorder; the index is their identity.
+              // oxlint-disable-next-line react/no-array-index-key -- see comment above.
+              key={level}
+              world={world}
+              index={(firstOf[pipe] ?? 0) + level}
+              size={size}
+              shade={shade}
+            />
+          ))}
+        </View>
+      ))}
+    </View>
   );
 };
 
@@ -505,14 +645,22 @@ export const WeekMood = ({
     good > 0
       ? t("recaps_story_week_mood_good", { count: good, total: rated.length })
       : t("recaps_story_week_mood_title");
-  const fallAt = good > 0 ? afterTitle(title) : TITLE_DELAY_MS;
-  const columns = slide.days.length;
+  const dropAt = good > 0 ? afterTitle(title) : TITLE_DELAY_MS;
+  const count = slide.days.length;
+  const labelHeight = 28;
   const size = Math.floor(
     Math.min(
-      (area.width - TOWER_GAP * (columns - 1)) / columns,
-      (area.height - 24 - TOWER_GAP * (TOWER_MAX - 1)) / TOWER_MAX
+      (area.width - TOWER_GAP * (count - 1)) / count,
+      (area.height - labelHeight - TOWER_GAP * (TOWER_MAX - 1)) / TOWER_MAX
     )
   );
+  const columns = slide.days.map((day) => {
+    const pixels = day.rating === null ? 0 : Math.round(day.rating) + 1;
+    const shade = shades.map.get(day.date) ?? shades.empty;
+    return pixels === 0
+      ? [shades.empty]
+      : Array.from({ length: pixels }, () => shade);
+  });
   return (
     <>
       <View style={{ gap: 8 }}>
@@ -533,53 +681,38 @@ export const WeekMood = ({
         onLayout={(event) => setArea(event.nativeEvent.layout)}
       >
         {size > 0 && (
-          <View
-            style={{
-              flexDirection: "row",
-              gap: TOWER_GAP,
-              justifyContent: "center",
-              alignItems: "flex-end",
-            }}
-          >
-            {slide.days.map((day, column) => {
-              const count =
-                day.rating === null ? 0 : Math.round(day.rating) + 1;
-              const shade = shades.map.get(day.date) ?? shades.empty;
-              const pixels: PixelShade[] =
-                count === 0
-                  ? [shades.empty]
-                  : Array.from({ length: count }, () => shade);
-              return (
-                <View key={day.date} style={{ alignItems: "center", gap: 8 }}>
-                  <View style={{ gap: TOWER_GAP }}>
-                    {pixels.map((pixelShade, pixel) => (
-                      <FallingPixel
-                        // Pixels never reorder; the index is their identity.
-                        // oxlint-disable-next-line react/no-array-index-key -- see comment above.
-                        key={pixel}
-                        size={size}
-                        shade={pixelShade}
-                        fall={area.height + 120}
-                        // Bottom pixel first, then up the column.
-                        delay={
-                          fallAt +
-                          column * 260 +
-                          (pixels.length - 1 - pixel) * 90
-                        }
-                      />
-                    ))}
-                  </View>
-                  <StoryText
-                    kind="label"
-                    theme={theme}
-                    style={{ color: skyMuted(ctx.isDark) }}
-                  >
-                    {weekdayShort(day.date)}
-                  </StoryText>
-                </View>
-              );
-            })}
-          </View>
+          <>
+            <PixelPipes
+              columns={columns}
+              size={size}
+              height={area.height - labelHeight}
+              startAt={dropAt}
+            />
+            <View
+              style={{
+                flexDirection: "row",
+                gap: TOWER_GAP,
+                justifyContent: "center",
+                height: labelHeight,
+                alignItems: "flex-end",
+              }}
+            >
+              {slide.days.map((day) => (
+                <StoryText
+                  key={day.date}
+                  kind="label"
+                  theme={theme}
+                  style={{
+                    width: size,
+                    textAlign: "center",
+                    color: skyMuted(ctx.isDark),
+                  }}
+                >
+                  {weekdayShort(day.date)}
+                </StoryText>
+              ))}
+            </View>
+          </>
         )}
       </View>
     </>
@@ -588,54 +721,141 @@ export const WeekMood = ({
 
 // ---------------------------------------------------------------- emotions
 
-/** Bubble spots by rank: center and size as shares of the area width. */
-const BUBBLES = [
-  { x: 0.5, y: 0.2, size: 0.46 },
-  { x: 0.22, y: 0.5, size: 0.36 },
-  { x: 0.78, y: 0.48, size: 0.32 },
-  { x: 0.48, y: 0.74, size: 0.32 },
-  { x: 0.84, y: 0.8, size: 0.25 },
-  { x: 0.16, y: 0.84, size: 0.24 },
-];
+/** Bubble sizes by rank, as shares of the area width. */
+const BUBBLE_SIZES = [0.44, 0.36, 0.32, 0.32, 0.26, 0.24];
+/** Light, floaty bubbles: low gravity, thick air, soft bumps. */
+const BUBBLE_PHYSICS = { gravity: 520, restitution: 0.3, drag: 1.1 };
 
-/**
- * Bubble that flies in from the side, overshoots a little like a bump into
- * its neighbors, settles, then drifts in place. Reduced motion: still.
- */
-const FlyingBubble = ({
+/** Bubble that moves with the simulation. Hidden until it drops in. */
+const SimBubble = ({
+  world,
   index,
-  from,
-  delay,
+  radius,
   children,
 }: {
+  world: SharedValue<BubbleWorld>;
   index: number;
-  /** Start offset: off screen to the left or right. */
-  from: number;
-  delay: number;
+  radius: number;
   children: React.ReactNode;
 }) => {
-  const isReducedMotion = useReducedMotion();
-  const x = useSharedValue(isReducedMotion ? 0 : from);
-  const drift = useBreathing(3200 + index * 600);
-  useEffect(() => {
-    if (isReducedMotion) {
-      return;
-    }
-    x.set(withDelay(delay, withSpring(0, { damping: 11, stiffness: 90 })));
-  }, [delay, isReducedMotion, x]);
-  const style = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateX:
-          x.get() + (index % 2 === 0 ? 4 : -4) * (drift.get() * 2 - 1),
-      },
-      { translateY: (index % 3 === 0 ? -6 : 6) * (drift.get() * 2 - 1) },
-    ],
-  }));
-  return <Animated.View style={style}>{children}</Animated.View>;
+  const style = useAnimatedStyle(() => {
+    const state = world.get();
+    return {
+      opacity: state.live[index] ? 1 : 0,
+      transform: [
+        { translateX: (state.x[index] ?? 0) - radius },
+        { translateY: (state.y[index] ?? 0) - radius },
+      ],
+    };
+  });
+  return (
+    <Animated.View style={[{ position: "absolute", left: 0, top: 0 }, style]}>
+      {children}
+    </Animated.View>
+  );
 };
 
-/** Emotions as bubbles that fly in one by one and settle on the sky. */
+/** The open box the emotion bubbles fall into. */
+const BubbleBox = ({
+  slide,
+  ctx,
+  width,
+  height,
+  startAt,
+}: {
+  slide: TopEmotionsSlide;
+  ctx: SlideContext;
+  width: number;
+  height: number;
+  startAt: number;
+}) => {
+  const theme = skyTheme(ctx.isDark);
+  const tile = useSkyTile();
+  const isReducedMotion = useReducedMotion();
+  const counts = slide.counts.slice(0, BUBBLE_SIZES.length);
+  const radii = counts.map(
+    (_, index) => (width * (BUBBLE_SIZES[index] ?? 0.24)) / 2
+  );
+  const config = { ...BUBBLE_PHYSICS, width, height };
+  // Reduced motion starts with the settled world: bubbles already at rest.
+  const world = useSharedValue(
+    startBubbles(radii, startAt, config, isReducedMotion)
+  );
+  useSimulation(
+    world,
+    (state, seconds) => {
+      "worklet";
+      return stepBubbles(state, seconds, config);
+    },
+    !isReducedMotion
+  );
+  return (
+    <>
+      {counts.map((count, index) => {
+        const emotion = EMOTIONS.find((item) => item.key === count.emotion);
+        const radius = radii[index] ?? 0;
+        if (!emotion) {
+          return null;
+        }
+        const name = tDynamic(`log_emotion_${emotion.key}`);
+        const days = t("recaps_story_days", { count: count.days });
+        return (
+          <SimBubble
+            key={count.emotion}
+            world={world}
+            index={index}
+            radius={radius}
+          >
+            <View
+              accessible
+              accessibilityLabel={`${name}, ${days}`}
+              style={[
+                tile,
+                {
+                  width: radius * 2,
+                  height: radius * 2,
+                  borderRadius: radius,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 4,
+                },
+              ]}
+            >
+              <EmotionIndicator
+                emotion={emotion}
+                size={Math.round(radius * 0.6)}
+              />
+              <StoryText
+                kind="label"
+                theme={theme}
+                numberOfLines={1}
+                style={{ fontSize: index < 2 ? 14 : 12 }}
+              >
+                {name}
+              </StoryText>
+              <StoryText
+                kind="label"
+                theme={theme}
+                style={{
+                  fontSize: 12,
+                  lineHeight: 14,
+                  color: skyMuted(ctx.isDark),
+                }}
+              >
+                {days}
+              </StoryText>
+            </View>
+          </SimBubble>
+        );
+      })}
+    </>
+  );
+};
+
+/**
+ * Emotions as bubbles that drop in one by one, bump into each other, and
+ * come to rest on the floor of the sky, biggest first.
+ */
 export const TopEmotions = ({
   slide,
   ctx,
@@ -644,8 +864,6 @@ export const TopEmotions = ({
   ctx: SlideContext;
 }) => {
   const theme = skyTheme(ctx.isDark);
-  const tile = useSkyTile();
-  const { width } = useWindowDimensions();
   const [area, setArea] = useState({ width: 0, height: 0 });
   const [top] = slide.counts;
   const title = top
@@ -653,7 +871,6 @@ export const TopEmotions = ({
         emotion: emotionInSentence(top.emotion),
       })
     : "";
-  const flyAt = afterTitle(title);
   return (
     <>
       <View style={{ gap: 8 }}>
@@ -666,78 +883,15 @@ export const TopEmotions = ({
         style={{ flex: 1, marginTop: 16 }}
         onLayout={(event) => setArea(event.nativeEvent.layout)}
       >
-        {area.width > 0 &&
-          slide.counts.map((count, index) => {
-            const spot = BUBBLES[index];
-            const emotion = EMOTIONS.find((item) => item.key === count.emotion);
-            if (!spot || !emotion) {
-              return null;
-            }
-            const size = Math.min(area.width * spot.size, area.height * 0.4);
-            const name = tDynamic(`log_emotion_${emotion.key}`);
-            const days = t("recaps_story_days", { count: count.days });
-            const left = area.width * spot.x - size / 2;
-            const delay = flyAt + index * STAGGER_MS * 2;
-            return (
-              <Animated.View
-                key={count.emotion}
-                entering={FadeIn.delay(delay)}
-                accessible
-                accessibilityLabel={`${name}, ${days}`}
-                style={{
-                  position: "absolute",
-                  left,
-                  top: area.height * spot.y - size / 2,
-                }}
-              >
-                <FlyingBubble
-                  index={index}
-                  from={
-                    index % 2 === 1 ? -(left + size + 24) : width - left + 24
-                  }
-                  delay={delay}
-                >
-                  <View
-                    style={[
-                      tile,
-                      {
-                        width: size,
-                        height: size,
-                        borderRadius: size / 2,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 4,
-                      },
-                    ]}
-                  >
-                    <EmotionIndicator
-                      emotion={emotion}
-                      size={Math.round(size * 0.3)}
-                    />
-                    <StoryText
-                      kind="label"
-                      theme={theme}
-                      numberOfLines={1}
-                      style={{ fontSize: index < 2 ? 14 : 12 }}
-                    >
-                      {name}
-                    </StoryText>
-                    <StoryText
-                      kind="label"
-                      theme={theme}
-                      style={{
-                        fontSize: 12,
-                        lineHeight: 14,
-                        color: skyMuted(ctx.isDark),
-                      }}
-                    >
-                      {days}
-                    </StoryText>
-                  </View>
-                </FlyingBubble>
-              </Animated.View>
-            );
-          })}
+        {area.width > 0 && (
+          <BubbleBox
+            slide={slide}
+            ctx={ctx}
+            width={area.width}
+            height={area.height}
+            startAt={afterTitle(title)}
+          />
+        )}
       </View>
     </>
   );
@@ -771,9 +925,62 @@ const FADE_SHARE = 0.36;
 /** Lift, so pins stand out on a busy map. */
 const PIN_SHADOW = "0 4px 14px rgba(0,0,0,0.35)";
 /** Time between two pins dropping onto the map. */
-const PIN_STAGGER_MS = 650;
+const PIN_STAGGER_MS = 700;
 /** First pin drops after the map settled. */
 const PIN_START_MS = 500;
+
+/** Pins settle in softly: fade in while they sink a few points into place. */
+const PIN_ARRIVE = new Keyframe({
+  0: { opacity: 0, transform: [{ translateY: -10 }] },
+  100: {
+    opacity: 1,
+    transform: [{ translateY: 0 }],
+    easing: Easing.out(Easing.cubic),
+  },
+}).duration(1100);
+
+/**
+ * One soft ring that spreads from a pin as it arrives, like a drop on still
+ * water. Reduced motion: none.
+ */
+const Ripple = ({ delay, size }: { delay: number; size: number }) => {
+  const isReducedMotion = useReducedMotion();
+  const spread = useSharedValue(0);
+  useEffect(() => {
+    if (!isReducedMotion) {
+      spread.set(
+        withDelay(
+          delay + 300,
+          withTiming(1, { duration: 1800, easing: Easing.out(Easing.quad) })
+        )
+      );
+    }
+  }, [delay, isReducedMotion, spread]);
+  const style = useAnimatedStyle(() => ({
+    opacity: spread.get() === 0 ? 0 : 0.5 * (1 - spread.get()),
+    transform: [{ scale: 1 + spread.get() * 1.6 }],
+  }));
+  if (isReducedMotion) {
+    return null;
+  }
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        {
+          position: "absolute",
+          top: 0,
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          borderWidth: 2,
+          borderColor: "#FFFFFF",
+        },
+        style,
+      ]}
+    />
+  );
+};
 
 /** When the places headline starts: after the last pin. */
 const placesTitleDelay = (count: number) =>
@@ -795,9 +1002,7 @@ const Pin = ({
   const isDark = useColorScheme() === "dark";
   return (
     <Animated.View
-      entering={ZoomIn.delay(PIN_START_MS + index * PIN_STAGGER_MS)
-        .springify()
-        .damping(12)}
+      entering={PIN_ARRIVE.delay(PIN_START_MS + index * PIN_STAGGER_MS)}
       style={{
         position: "absolute",
         left: point.x - 70,
@@ -806,6 +1011,10 @@ const Pin = ({
         alignItems: "center",
       }}
     >
+      <Ripple
+        delay={PIN_START_MS + index * PIN_STAGGER_MS}
+        size={place.photo ? PIN_PHOTO : PIN_PIXEL}
+      />
       {place.photo ? (
         <View
           style={{
