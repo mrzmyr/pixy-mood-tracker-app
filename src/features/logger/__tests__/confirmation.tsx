@@ -20,6 +20,11 @@ import {
   getSummaryTitle,
 } from "../confirmation/day-summary";
 import type { DaySummary } from "../confirmation/day-summary";
+import {
+  getBentoRows,
+  getPhotoBento,
+  joinNames,
+} from "../confirmation/entry-summary-layout";
 import { useConfirmation } from "../confirmation/use-confirmation";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
@@ -68,6 +73,7 @@ const summaryOf = (overrides: Partial<DaySummary>): DaySummary => ({
   isFirstEntry: false,
   emotions: [],
   tagIds: [],
+  checkIns: [],
   ...overrides,
 });
 
@@ -152,6 +158,11 @@ describe("getDaySummary()", () => {
       isFirstEntry: false,
       emotions: ["proud", "calm"],
       tagIds: ["gym", "coffee"],
+      // Day strip: oldest first, at the minute of the day.
+      checkIns: [
+        { minute: 8 * 60, rating: "good" },
+        { minute: 20 * 60, rating: "extremely_good" },
+      ],
     });
   });
 
@@ -269,5 +280,46 @@ describe("getSummarySentence()", () => {
     expect(
       text(summaryOf({ entriesCount: 2, rating: "very_bad", tone: "bad" }))
     ).toBe("Thank you for checking in.");
+  });
+});
+
+/** Photo indexes the bento shows for `count` photos, sorted. */
+const bentoIndexes = (count: number) =>
+  getPhotoBento(count)
+    .flatMap((row) => row.columns.flat())
+    .sort((a, b) => a - b);
+
+/** Tile indexes per bento row for tiles of these spans. */
+const bentoKeys = (spans: ("half" | "full")[]) =>
+  getBentoRows(spans.map((span, index) => ({ span, key: index }))).map((row) =>
+    row.map((tile) => tile.key)
+  );
+
+describe("entry summary", () => {
+  test("shows each photo once in the hero, up to 5", () => {
+    expect(bentoIndexes(0)).toEqual([]);
+    expect(bentoIndexes(1)).toEqual([0]);
+    expect(bentoIndexes(2)).toEqual([0, 1]);
+    expect(bentoIndexes(3)).toEqual([0, 1, 2]);
+    expect(bentoIndexes(4)).toEqual([0, 1, 2, 3]);
+    expect(bentoIndexes(9)).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  test("pairs half tiles into rows, a lone half takes the row alone", () => {
+    expect(bentoKeys(["half", "half", "full"])).toEqual([[0, 1], [2]]);
+    expect(bentoKeys(["half", "full", "half", "full"])).toEqual([
+      [0, 2],
+      [1],
+      [3],
+    ]);
+    expect(bentoKeys(["half", "full"])).toEqual([[0], [1]]);
+    expect(bentoKeys(["half", "half", "half"])).toEqual([[0, 1], [2]]);
+  });
+
+  test("names up to 3 people, then counts the rest", () => {
+    expect(joinNames(["Lena", "Sam"])).toBe("Lena and Sam");
+    expect(joinNames(["Lena", "Sam", "Max", "Hilde", "Tobi"])).toBe(
+      "Lena, Sam, Max and 2 more"
+    );
   });
 });

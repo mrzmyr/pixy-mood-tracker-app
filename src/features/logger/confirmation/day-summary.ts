@@ -74,6 +74,15 @@ export interface DaySummary {
   emotions: string[];
   /** Unique tag ids in the same order. */
   tagIds: string[];
+  /** Entries of the day, oldest first, at their minute of the day. */
+  checkIns: CheckIn[];
+}
+
+/** One entry of the day on the day strip. */
+export interface CheckIn {
+  /** Minutes since local midnight, 0 to 1439. */
+  minute: number;
+  rating: LogItem["rating"];
 }
 
 const unique = <T>(values: T[]) => [...new Set(values)];
@@ -108,6 +117,15 @@ export const getDaySummary = ({
     tagIds: unique(
       dayItems.flatMap((entry) => entry.tags.map((tag) => tag.id))
     ),
+    checkIns: dayItems
+      .map((entry) => {
+        const time = dayjs(getItemTime(entry));
+        return {
+          minute: time.hour() * 60 + time.minute(),
+          rating: entry.rating,
+        };
+      })
+      .sort((a, b) => a.minute - b.minute),
   };
 };
 

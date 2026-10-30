@@ -251,6 +251,11 @@ const light = {
 
   entryBackground: colors.white,
   entryItemBorder: colors.neutral[200],
+  // See-through hairline for chips on glass tiles; blends with any backdrop.
+  glassBorder: "rgba(0, 0, 0, 0.1)",
+  // Entry summary: page under the hero, and the tiles on it.
+  summaryBackground: colors.white,
+  summaryTile: colors.white,
 
   // Bezel: outer shell around statistics cards. `bezelInnerBorder` also edges person tiles.
   bezelBackground: colors.white,
@@ -264,7 +269,8 @@ const light = {
   promoCardText: colors.neutral[800],
   promoCardBorder: colors.neutral[200],
 
-  sleepQualityEmpty: colors.indigo[100],
+  // See-through, so the meter works on glass tiles too.
+  sleepQualityEmpty: "rgba(99, 102, 241, 0.18)",
   sleepQualityFull: colors.indigo[500],
   menstruationEmpty: colors.rose[100],
   menstruationFull: colors.rose[500],
@@ -485,6 +491,9 @@ const dark: IColors & {
 
   entryBackground: colors.neutral[800],
   entryItemBorder: colors.neutral[700],
+  glassBorder: "rgba(255, 255, 255, 0.16)",
+  summaryBackground: colors.black,
+  summaryTile: colors.neutral[900],
 
   // Darker than the inner surfaces, lighter than the black background.
   bezelBackground: "#0f0f0f",
@@ -498,7 +507,7 @@ const dark: IColors & {
   promoCardText: colors.white,
   promoCardBorder: colors.neutral[800],
 
-  sleepQualityEmpty: colors.indigo[800],
+  sleepQualityEmpty: "rgba(99, 102, 241, 0.4)",
   sleepQualityFull: colors.indigo[400],
   menstruationEmpty: colors.rose[900],
   menstruationFull: colors.rose[400],

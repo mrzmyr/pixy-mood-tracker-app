@@ -5,6 +5,8 @@ interface IScaleMood {
   background: string;
   text: string;
   textSecondary: string;
+  /** Outline for marks and pixels in this color: same hue, a step apart. */
+  border: string;
 }
 
 /** Colors for every mood rating plus the empty (no entry) state. */
@@ -27,6 +29,24 @@ export interface IScaleColors {
   [key: string]: IScale;
 }
 
+/** Below this LCH chroma a color is gray: saturating it would tint it. */
+const GRAY_CHROMA = 5;
+
+/**
+ * Outline shade of a mood color: a step darker on light colors, a step
+ * lighter on dark ones, never near black. Saturation goes up with the step
+ * so the shade stays colorful instead of dull ("Refactoring UI": don't let
+ * lightness kill your saturation).
+ */
+const getBorder = (color: string) => {
+  const isGray = chroma(color).lch()[1] < GRAY_CHROMA;
+  const shade =
+    chroma(color).luminance() > 0.35
+      ? chroma(color).darken(0.8)
+      : chroma(color).brighten(1);
+  return (isGray ? shade : shade.saturate(0.6)).hex();
+};
+
 const getScaleMood = (color: string): IScaleMood => ({
   background: color,
   text:
@@ -37,6 +57,7 @@ const getScaleMood = (color: string): IScaleMood => ({
     chroma(color).luminance() > 0.45
       ? chroma(color).darken(2.5).hex()
       : chroma(color).brighten(4).hex(),
+  border: getBorder(color),
 });
 
 const getScale = (scale: string[]): IScale => {

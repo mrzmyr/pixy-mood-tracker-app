@@ -11,6 +11,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 - Use existing components. Need new component: ask, or build it and flag it in PR.
 - Accessibility is required: every control has role, label, state. Whole row is pressable. Every gesture has button or accessibility action.
+- Text size: one base size, `FONT_SIZE.base` ([`src/constants/typography.ts`](src/constants/typography.ts)), for all body text: chips, names, notes, list rows, labels. Other size only with a reason in a comment next to it (headline, mood word, axis ticks). Same kind of text on one screen: same size.
 - `…` not `...`. Curly quotes. Menu items that open follow-up end with `…`.
 
 ## Components
@@ -25,8 +26,22 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 - Android list groups: M3 full-width list, no chevron, no dividers, 56dp rows ([`MenuList`](src/components/menu-list.tsx)).
 - Tag colors: fixed palette inline in grouped card ([`ColorPicker`](src/features/tags/components/color-picker.tsx)). 48 × 48 targets, never shrink. Selection shown by check + color name, never hue alone.
 - Core Modules ([GLOSSARY.md](GLOSSARY.md)) use same Lucide icon everywhere, 20 px: Mood `Sun`, Emotions `Heart`, Tags `Tag`, People `Users`, Photos `Image`, Note `FileText`. Labels are single nouns.
+- Sleep quality: always [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx), vertical bar filled `colors.sleepQualityFull` on `colors.sleepQualityEmpty`. Never own segments, dots, or colors. Never a rating word next to it.
 - Icons never conflict: one icon, one meaning. Color themes use `Palette`; Menstruation uses `Droplet`.
 - State icons: one glyph per state, same size. Change fill or detail, never icon count or size. Selection and Day view use same state icon.
+
+## Summary tiles
+
+Tile lists like the entry summary: a hero picture on top, then cards on a plain page (`colors.summaryBackground`: white, black in dark mode).
+
+- Tile: `colors.summaryTile` (white, dark gray in dark mode), `RADIUS.lg`, at least 96 pt tall, 1 pt `colors.glassBorder` outline plus a soft shadow.
+- Grid of two columns: a few chips, sleep, and people take half; many chips and the note take the full width. A half without partner takes its row alone.
+- Mood pixel over a photo or map: outlined in its own color, a bit darker.
+- Chips inside: border `colors.glassBorder`, no fill. Overlapping avatars: see-through gap, no card-colored ring.
+- Bottom of a scrolling tile list fades out above the action button (mask, not a color overlay).
+- Text on tiles: `colors.text`, `FONT_SIZE.base`.
+- Marks on a colored surface (day strip): solid in `scale[rating].border`. Pixels: filled with the mood color, 1 pt outline in `scale[rating].border`: one step darker on light colors, one step lighter on dark ones, saturation up so it stays colorful. Shades come from the scale, never darkened on the spot. Never near-black on light colors. A fixed white or black at low opacity does not adapt to every color.
+- Colored bands (day strip): 1 pt outline that follows the colors, in their `scale[rating].border` shades.
 
 ## Sheets and Modals
 
@@ -75,7 +90,7 @@ Every sheet and route modal. Sources: [HIG Sheets](https://developer.apple.com/d
 
 ## Sky
 
-Onboarding background ([`OnboardingSky`](src/features/onboarding/screens/onboarding/onboarding-sky.tsx)).
+Onboarding, voice mode, and the entry summary hero without photos or place ([`Sky`](src/components/sky.tsx); onboarding wraps it in [`OnboardingSky`](src/features/onboarding/screens/onboarding/onboarding-sky.tsx); cloud Pixy: [`CloudPixy`](src/components/cloud-pixy.tsx)).
 
 - Light mode: day sky, drifting cloud photo.
 - Dark mode: night sky. Deep navy, faint clouds, subtle stars: small, sparse, dim, slow twinkle. Never the day sky dimmed.

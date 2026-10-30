@@ -18,7 +18,7 @@ import { getItemDate, toLogDate } from "@/lib/log-dates";
 
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import type { ReactElement, RefObject } from "react";
 
 import { Keyboard, Text, useWindowDimensions, View } from "react-native";
@@ -49,6 +49,7 @@ import { usePassiveLocation } from "./hooks/use-passive-location";
 import { useRecoverySnapshot } from "./recovery/use-recovery-snapshot";
 import type { SavedEntry } from "./hooks/use-logger-actions";
 import { Confirmation } from "./confirmation/confirmation";
+import { EntrySummary } from "./confirmation/entry-summary";
 import type { LoggerPrefill } from "./prefill";
 import { VoiceFeedbackSheet } from "@/features/feedback";
 import {
@@ -642,6 +643,22 @@ export const LoggerEdit = ({
 };
 
 /**
+ * Sheet bar after saving: see-through and empty, so the summary reaches the
+ * top. Clears the slides' close button and stepper. Hiding the bar instead
+ * would remount the modal and lose the saved state (react-native-screens).
+ */
+const SAVED_BAR_OPTIONS = {
+  title: "",
+  headerTitle: () => null,
+  headerTransparent: true,
+  headerStyle: { backgroundColor: "transparent" },
+  headerLeft: () => null,
+  headerRight: () => null,
+  unstable_headerLeftItems: () => [],
+  unstable_headerRightItems: () => [],
+};
+
+/**
  * Logger for a new entry at `dateTime` (ISO).
  *
  * Without `avaliableSteps`, the slides follow the user's enabled steps. The
@@ -677,6 +694,7 @@ export const LoggerCreate = ({
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
+  const isEntrySummary = useFeatureFlag("entry-summary");
   const { isEnabled: isSleepAutoFilled } = useHealthSleepSetting();
   const logState = useLogState();
   const router = useRouter();
@@ -717,19 +735,27 @@ export const LoggerCreate = ({
     });
 
   if (saved !== null) {
+    const confirmation = {
+      item: saved.item,
+      entriesCount: logState.items.length,
+      onClose: () => {
+        if (saved.closeTo === "calendar") {
+          router.dismissTo("/calendar");
+          return;
+        }
+        router.back();
+      },
+    };
     return (
       <>
-        <Confirmation
-          item={saved.item}
-          entriesCount={logState.items.length}
-          onClose={() => {
-            if (saved.closeTo === "calendar") {
-              router.dismissTo("/calendar");
-              return;
-            }
-            router.back();
-          }}
-        />
+        <Stack.Screen options={SAVED_BAR_OPTIONS} />
+        {isEntrySummary ? (
+          <FlagHighlight flag="entry-summary" pillOnly style={{ flex: 1 }}>
+            <EntrySummary {...confirmation} />
+          </FlagHighlight>
+        ) : (
+          <Confirmation {...confirmation} />
+        )}
         {prefill?.source === "voice" && (
           <VoiceFeedbackSheet
             context={{
