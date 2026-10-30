@@ -3,9 +3,8 @@ import type { LogItem } from "@/features/logs";
 import { t, tDynamic } from "@/lib/translation";
 import keyBy from "lodash/keyBy";
 import sortBy from "lodash/sortBy";
-import { ChipRow } from "../calendar/timeline/chip-row";
+import { ChipWrap } from "./chip-wrap";
 import { EmotionItem } from "../../emotion-item";
-import { INSET } from "./layout";
 
 const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
 const EMOTIONS_CATEGORY_ORDER = {
@@ -17,7 +16,7 @@ const EMOTIONS_CATEGORY_ORDER = {
 };
 
 /**
- * Emotions of an entry card as one scrollable chip row, positive first.
+ * Emotions of an entry card as wrapped chips, positive first.
  * Chips match the logger. A tap opens the logger at the
  * emotions step when `onEdit` is given. Unknown keys from newer app versions
  * are skipped; without emotions it renders nothing.
@@ -46,8 +45,7 @@ export const Emotions = ({
   );
 
   return (
-    <ChipRow
-      inset={INSET}
+    <ChipWrap
       onPress={onEdit}
       accessibilityLabel={
         onEdit ? `${moduleName}: ${names.join(", ")}` : undefined
@@ -60,6 +58,6 @@ export const Emotions = ({
       {emotions.map((emotion) => (
         <EmotionItem key={emotion.key} emotion={emotion} />
       ))}
-    </ChipRow>
+    </ChipWrap>
   );
 };
