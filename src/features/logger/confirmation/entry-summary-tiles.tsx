@@ -7,7 +7,6 @@ import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
-import chroma from "chroma-js";
 import { CHIP_FLOW, COMPACT_CHIP } from "@/constants/chip";
 import { RADIUS } from "@/constants/radius";
 import { FONT_SIZE } from "@/constants/typography";
@@ -43,9 +42,6 @@ const toStripOffset = (minute: number) => minute / DAY_MINUTES;
 /** First letter upper case: English "bad" is "not so good". */
 const capitalize = (text: string) =>
   text.charAt(0).toLocaleUpperCase() + text.slice(1);
-
-/** `color` fully transparent: a fade to it stays in the same hue. */
-const clear = (color: string) => chroma(color).alpha(0).css();
 
 /** Gradient stops: `middle` between `start` and `end`. */
 const fade = <T,>(start: T, middle: T[], end: T = start) => {
@@ -94,7 +90,7 @@ const chipFlow = { ...CHIP_FLOW, paddingRight: 0, paddingBottom: 0 };
 
 /**
  * Day strip under the mood: 24 hours, one mark per check-in at its time,
- * the newest outlined. Hours without check-ins fade to transparent.
+ * the newest outlined. The first and last check-in colors run to the edges.
  */
 const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
   const colors = useColors();
@@ -113,7 +109,7 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
     >
       <View style={{ height: 30, borderRadius: RADIUS.sm, overflow: "hidden" }}>
         <LinearGradient
-          colors={fade(clear(stops[0]), stops, clear(stops.at(-1) ?? ""))}
+          colors={fade(stops[0], stops, stops.at(-1))}
           locations={fade(
             0,
             checkIns.map((checkIn) => toStripOffset(checkIn.minute)),
