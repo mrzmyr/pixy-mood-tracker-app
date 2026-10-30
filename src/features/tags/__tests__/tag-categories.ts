@@ -2,6 +2,7 @@ import {
   arrangeTags,
   GENERAL_CATEGORY_ID,
   groupTagsByCategory,
+  moveRows,
   moveTag,
   normalizeTagCategories,
   reorderCategories,
@@ -125,6 +126,22 @@ describe("toTagArrangement()", () => {
       { categoryId: GENERAL_CATEGORY_ID, tagIds: ["1"] },
       { categoryId: "work", tagIds: [] },
     ]);
+  });
+});
+
+describe("moveRows()", () => {
+  const rows = ["a", "b", "c", "d"];
+
+  it("moves a row down: destination counts the row itself", () => {
+    expect(moveRows(rows, [0], 3)).toEqual(["b", "c", "a", "d"]);
+  });
+
+  it("moves a row up", () => {
+    expect(moveRows(rows, [3], 1)).toEqual(["a", "d", "b", "c"]);
+  });
+
+  it("moves a row to the end", () => {
+    expect(moveRows(rows, [1], 4)).toEqual(["a", "c", "d", "b"]);
   });
 });
 

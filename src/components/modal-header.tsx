@@ -10,8 +10,11 @@ const ModalHeader = ({
   right = null,
   left = null,
   style = DEFAULT_STYLE,
+  titleView,
 }: {
   title?: string;
+  /** Shown instead of the title text. */
+  titleView?: React.ReactNode;
   right?: React.ReactNode;
   left?: React.ReactNode;
   style?: ViewStyle;
@@ -49,19 +52,21 @@ const ModalHeader = ({
           width: "40%",
         }}
       >
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="middle"
-          style={{
-            fontSize: 17,
-            color: colors.text,
-            fontWeight: "600",
-            width: "100%",
-            textAlign: "center",
-          }}
-        >
-          {title}
-        </Text>
+        {titleView ?? (
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="middle"
+            style={{
+              fontSize: 17,
+              color: colors.text,
+              fontWeight: "600",
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            {title}
+          </Text>
+        )}
       </View>
       <View
         style={{

@@ -1,13 +1,23 @@
 import chroma from "chroma-js";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, View, useColorScheme, useWindowDimensions } from "react-native";
-import { NightSky } from "@/components/night-sky";
+import { useEffect } from "react";
+import { Text, View, useWindowDimensions } from "react-native";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
+import { CloudPixy } from "@/components/cloud-pixy";
 import { Sky } from "@/components/sky";
 import { RADIUS } from "@/constants/radius";
 import { PlacePreviewMap } from "@/features/location";
 import type { LogItem } from "@/features/logs";
 import { getPhotoFile } from "@/features/photos";
+import { usePixyIdle } from "./use-pixy-idle";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import {
@@ -19,6 +29,9 @@ import {
 /** Hero height; the mood header overlaps its faded bottom. */
 export const HERO_HEIGHT = 340;
 const HERO_FADE = 140;
+/** Pixy sits in the upper sky, clear of the headline. */
+const PIXY_TOP = 70;
+const PIXY_BOB = 4;
 
 const MosaicImage = ({ photo }: { photo: LogItem["photos"][number] }) => (
   <Image
@@ -79,20 +92,60 @@ const PhotoMosaic = ({ photos }: { photos: LogItem["photos"] }) => {
   );
 };
 
-/** Sky for entries without photos or place: clouds by day, stars at night. */
+/** Cloud Pixy bobbing gently in the free sky above the headline. */
+const FloatingPixy = () => {
+  const bob = useSharedValue(0);
+  const idle = usePixyIdle({ isEnabled: true, isReducedMotion: false });
+
+  useEffect(() => {
+    bob.set(
+      withRepeat(
+        withTiming(1, { duration: 2400, easing: Easing.inOut(Easing.sin) }),
+        -1,
+        true
+      )
+    );
+  }, [bob]);
+
+  const style = useAnimatedStyle(() => ({
+    transform: [{ translateY: (bob.get() - 0.5) * PIXY_BOB * 2 }],
+  }));
+
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        {
+          position: "absolute",
+          top: PIXY_TOP,
+          alignSelf: "center",
+          // Same as onboarding: Pixy floats in free sky, never over text.
+        },
+        style,
+      ]}
+    >
+      <CloudPixy isBlinking={idle.isBlinking} />
+    </Animated.View>
+  );
+};
+
+/**
+ * Sky for entries without photos or place: clouds by day, stars at night,
+ * and cloud Pixy. Reduced motion: still sky, no Pixy (DESIGN.md, Sky).
+ */
 const SkyHero = () => {
   const { height } = useWindowDimensions();
-  const scheme = useColorScheme();
+  const isReducedMotion = useReducedMotion();
 
-  if (scheme === "dark") {
-    return <NightSky />;
-  }
   // The clouds sit low in the photo: pin the full-height sky to the bottom.
   return (
-    <View
-      style={{ position: "absolute", left: 0, right: 0, bottom: 0, height }}
-    >
-      <Sky />
+    <View style={{ flex: 1 }}>
+      <View
+        style={{ position: "absolute", left: 0, right: 0, bottom: 0, height }}
+      >
+        <Sky />
+      </View>
+      {!isReducedMotion && <FloatingPixy />}
     </View>
   );
 };

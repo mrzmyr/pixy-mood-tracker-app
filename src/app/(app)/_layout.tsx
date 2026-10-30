@@ -12,6 +12,7 @@ import { WidgetSync } from "@/features/widget";
 import { LoggerRecoveryPrompt } from "@/features/logger";
 import { CalendarScreenReaderTitle } from "@/features/calendar";
 import { HAS_FLOATING_HEADER } from "@/constants/floating-header";
+import { getModalRouteOptions } from "@/components/modal-route-options";
 
 const renderHeaderLeft = () => <BackButton testID="settings-back-button" />;
 
@@ -23,14 +24,15 @@ const reportHeaderOptions = {
   headerShadowVisible: false,
 };
 
-const modalOptions = { presentation: "modal" as const, headerShown: false };
-
 /**
  * Quick check-in: iOS page sheet with a transparent native bar (Liquid Glass
  * close and save on iOS 26, blur before). The screen sets its bar items.
  * Android and web draw their header in the screen.
  */
-const getQuickCheckInOptions = (headerTintColor: string) =>
+const getQuickCheckInOptions = (
+  headerTintColor: string,
+  backgroundColor: string
+) =>
   Platform.OS === "ios"
     ? {
         presentation: "modal" as const,
@@ -42,7 +44,7 @@ const getQuickCheckInOptions = (headerTintColor: string) =>
           headerBlurEffect: "systemChromeMaterial" as const,
         }),
       }
-    : modalOptions;
+    : getModalRouteOptions({ textColor: headerTintColor, backgroundColor });
 
 /**
  * iOS top-level screens: 34pt title that collapses into the inline title on
@@ -162,18 +164,19 @@ const AppLayout = () => {
     textColor: colors.text,
     backgroundColor: formBackground,
   });
-  // Tag, tag category, and people modals. iOS shows the native sheet bar;
-  // the screen sets title and bar items (`RouteModalHeader`). Android and
-  // web draw their header in the screen.
-  const formModalOptions =
-    Platform.OS === "ios"
-      ? {
-          presentation: "modal" as const,
-          headerShown: true,
-          headerTintColor: colors.text,
-          headerShadowVisible: false,
-        }
-      : modalOptions;
+  const modalRouteOptions = getModalRouteOptions({
+    textColor: colors.text,
+    backgroundColor: colors.background,
+  });
+  // Logger and interventions: no swipe down, so a half-done flow only
+  // closes through the close button.
+  const flowModalOptions = {
+    ...getModalRouteOptions({
+      textColor: colors.text,
+      backgroundColor: colors.logBackground,
+    }),
+    gestureEnabled: false,
+  };
   // iOS and Android render the native back button. Web has none.
   const pageOptions =
     Platform.OS === "web"
@@ -225,11 +228,11 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="logs/create/[dateTime]"
-            options={{ ...modalOptions, gestureEnabled: false }}
+            options={flowModalOptions}
           />
           <Stack.Screen
             name="logs/voice"
-            options={{ ...modalOptions, gestureEnabled: false }}
+            options={{ ...modalRouteOptions, gestureEnabled: false }}
           />
           <Stack.Screen
             name="days/[date]"
@@ -252,16 +255,10 @@ const AppLayout = () => {
           <Stack.Screen name="request" options={requestOptions} />
           <Stack.Screen
             name="check-in/[id]"
-            options={getQuickCheckInOptions(colors.text)}
+            options={getQuickCheckInOptions(colors.text, colors.background)}
           />
-          <Stack.Screen
-            name="interventions/[id]"
-            options={{ ...modalOptions, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="logs/[id]/edit"
-            options={{ ...modalOptions, gestureEnabled: false }}
-          />
+          <Stack.Screen name="interventions/[id]" options={flowModalOptions} />
+          <Stack.Screen name="logs/[id]/edit" options={flowModalOptions} />
           <Stack.Screen
             name="photos/[id]"
             options={{
@@ -272,25 +269,25 @@ const AppLayout = () => {
               headerShown: false,
             }}
           />
-          <Stack.Screen name="tags/index" options={formModalOptions} />
-          <Stack.Screen name="tags/create" options={formModalOptions} />
-          <Stack.Screen name="tags/[id]" options={formModalOptions} />
+          <Stack.Screen name="tags/index" options={modalRouteOptions} />
+          <Stack.Screen name="tags/create" options={modalRouteOptions} />
+          <Stack.Screen name="tags/[id]" options={modalRouteOptions} />
           <Stack.Screen
             name="tags/categories/index"
-            options={formModalOptions}
+            options={modalRouteOptions}
           />
           <Stack.Screen
             name="tags/categories/create"
-            options={formModalOptions}
+            options={modalRouteOptions}
           />
           <Stack.Screen
             name="tags/categories/[id]"
-            options={formModalOptions}
+            options={modalRouteOptions}
           />
-          <Stack.Screen name="people/create" options={formModalOptions} />
-          <Stack.Screen name="people/import" options={formModalOptions} />
-          <Stack.Screen name="people/[id]" options={formModalOptions} />
-          <Stack.Screen name="profile" options={modalOptions} />
+          <Stack.Screen name="people/create" options={modalRouteOptions} />
+          <Stack.Screen name="people/import" options={modalRouteOptions} />
+          <Stack.Screen name="people/[id]" options={modalRouteOptions} />
+          <Stack.Screen name="profile" options={modalRouteOptions} />
           <Stack.Screen
             name="statistics/highlights"
             options={{ ...pageOptions, title: t("statistics_highlights") }}
@@ -317,6 +314,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="recaps/story/[date]"
+            // oxlint-disable-next-line pixy-standards/modal-route-shows-header -- media overlay: stories draw their own close.
             options={{
               presentation: "fullScreenModal",
               headerShown: false,

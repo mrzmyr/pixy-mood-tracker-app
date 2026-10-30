@@ -51,32 +51,25 @@ tags: [p1, tags]
     id: "tag-save"
 - assertNotVisible: "Drag tags here"
 
-# Drag Work by its handle above the General header: it joins Hobbies, the
-# first category.
-- swipe:
-    from:
-      id: "tag-drag-handle-ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
-    direction: UP
-    duration: 2000
-- waitForAnimationToEnd
-- tapOn: "Work"
-# Category rows expose selected on iOS and checked on Android.
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - assertVisible:
-          text: "Hobbies"
-          selected: true
+# Android: drag Work by its handle above the General header: it joins
+# Hobbies, the first category. iOS reorders with the native SwiftUI
+# long-press drag, which Maestro cannot drive.
 - runFlow:
     when:
       platform: Android
     commands:
+      - swipe:
+          from:
+            id: "tag-drag-handle-ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+          direction: UP
+          duration: 2000
+      - waitForAnimationToEnd
+      - tapOn: "Work"
       - assertVisible:
           text: "Hobbies"
           checked: true
-- tapOn:
-    id: "tag-cancel"
+      - tapOn:
+          id: "tag-cancel"
 - back
 - back
 

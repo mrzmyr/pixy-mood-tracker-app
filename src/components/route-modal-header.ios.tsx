@@ -16,24 +16,29 @@ const RouteModalHeader = ({
   title,
   onClose,
   closeTestID,
+  titleView,
   confirm,
 }: RouteModalHeaderProps) => (
   <>
     <Stack.Title>{title}</Stack.Title>
     <Stack.Screen
-      options={getModalBarOptions({
-        left: (
-          <HeaderButton
-            kind="cancel"
-            label={getCloseLabel(Boolean(confirm))}
-            onPress={onClose}
-            testID={closeTestID}
-          />
-        ),
-        right: confirm ? (
-          <HeaderButton {...confirm} kind={confirm.kind ?? "confirm"} />
-        ) : null,
-      })}
+      options={{
+        // Undefined keeps the `Stack.Title` text.
+        headerTitle: titleView ? () => titleView : undefined,
+        ...getModalBarOptions({
+          left: (
+            <HeaderButton
+              kind="cancel"
+              label={getCloseLabel(Boolean(confirm))}
+              onPress={onClose}
+              testID={closeTestID}
+            />
+          ),
+          right: confirm ? (
+            <HeaderButton {...confirm} kind={confirm.kind ?? "confirm"} />
+          ) : null,
+        }),
+      }}
     />
   </>
 );

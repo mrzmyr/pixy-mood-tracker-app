@@ -3,10 +3,9 @@ import { useState } from "react";
 import { Platform, ScrollView, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "@/components/dismis-keyboard";
-import LinkButton from "@/components/link-button";
 import MenuListHeadline from "@/components/menu-list-headline";
-import ModalHeader from "@/components/modal-header";
 import { PhotoButton } from "@/components/photo-button";
+import RouteModalHeader from "@/components/route-modal-header";
 import type { PhotoAction } from "@/components/photo-button/types";
 import TextInfo from "@/components/text-info";
 import { RADIUS } from "@/constants/radius";
@@ -132,32 +131,19 @@ export const ProfileForm = () => {
 
   return (
     <DismissKeyboard>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.background,
-          marginTop: Platform.OS === "android" ? insets.top : 0,
-        }}
-      >
-        <ModalHeader
+      <View style={{ flex: 1, backgroundColor: colors.background }}>
+        <RouteModalHeader
           title={t("profile")}
-          left={
-            <LinkButton onPress={() => router.back()} type="primary">
-              {t("cancel")}
-            </LinkButton>
-          }
-          right={
-            <LinkButton
-              onPress={() => {
-                void handleSave();
-              }}
-              type="primary"
-              disabled={!isDirty || isSaving}
-              testID="profile-save"
-            >
-              {t("save")}
-            </LinkButton>
-          }
+          onClose={() => router.back()}
+          closeTestID="profile-cancel"
+          confirm={{
+            label: t("save"),
+            onPress: () => {
+              void handleSave();
+            },
+            disabled: !isDirty || isSaving,
+            testID: "profile-save",
+          }}
         />
         <ScrollView
           keyboardShouldPersistTaps="handled"

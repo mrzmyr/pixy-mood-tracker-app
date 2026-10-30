@@ -17,6 +17,7 @@ const RouteModalHeader = ({
   title,
   onClose,
   closeTestID,
+  titleView,
   confirm,
 }: RouteModalHeaderProps) => {
   const colors = useColors();
@@ -40,18 +41,24 @@ const RouteModalHeader = ({
         onPress={onClose}
         testID={closeTestID}
       />
-      <Text
-        accessibilityRole="header"
-        numberOfLines={1}
-        style={{
-          flex: 1,
-          marginLeft: 10,
-          fontSize: 22,
-          color: colors.text,
-        }}
-      >
-        {title}
-      </Text>
+      {titleView ? (
+        <View style={{ flex: 1, alignItems: "center", marginRight: 44 }}>
+          {titleView}
+        </View>
+      ) : (
+        <Text
+          accessibilityRole="header"
+          numberOfLines={1}
+          style={{
+            flex: 1,
+            marginLeft: 10,
+            fontSize: 22,
+            color: colors.text,
+          }}
+        >
+          {title}
+        </Text>
+      )}
       {confirm ? (
         <HeaderButton {...confirm} kind={confirm.kind ?? "confirm"} />
       ) : null}

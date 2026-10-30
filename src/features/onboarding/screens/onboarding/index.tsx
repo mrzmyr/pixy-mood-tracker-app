@@ -5,6 +5,7 @@ import Animated, {
   FadeIn,
   FadeOut,
   useReducedMotion,
+  useSharedValue,
 } from "react-native-reanimated";
 import { queueCalendarIntro } from "@/features/calendar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,8 +16,12 @@ import { useSettings } from "@/state/settings";
 import { ExplainerSlide } from "./explainer-slide";
 import { IndexSlide } from "./index-slide";
 import { Sky } from "@/components/sky";
+import { SkyPixy } from "./sky-pixy";
 import { PrivacySlide } from "./privacy-slide";
+import { FlightZoneContext } from "./flight-zone-context";
+import type { FlightZone } from "./flight-zone-context";
 import { ReminderSlide } from "./reminder-slide";
+import { SLIDE_TEXT_DELAY_MS } from "./slide-timing";
 
 interface SlideProps {
   index: number;
@@ -37,7 +42,7 @@ const FiltersSlide = ({ ...props }: SlideProps) => (
 const PRIVACY_SLIDE_INDEX = 5;
 
 // The old slide fades out while the clouds speed up, then the next one fades in.
-const SLIDE_ENTERING = FadeIn.delay(250).duration(700);
+const SLIDE_ENTERING = FadeIn.delay(SLIDE_TEXT_DELAY_MS).duration(700);
 const SLIDE_EXITING = FadeOut.duration(300);
 /** Time for the last slide and the sky to fade into the calendar color. */
 const OUTRO_MS = 450;
@@ -62,8 +67,10 @@ export const Onboarding = ({
 
   const [index, setIndex] = useState(0);
   const [isLeaving, setIsLeaving] = useState(false);
+  const [flightZone, setFlightZone] = useState<FlightZone | null>(null);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isReducedMotion = useReducedMotion();
+  const skyBoost = useSharedValue(0);
 
   useEffect(
     () => () => {
@@ -156,7 +163,7 @@ export const Onboarding = ({
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
-      <Sky step={index} isVisible={!isLeaving} />
+      <Sky step={index} isVisible={!isLeaving} boost={skyBoost} />
       {isLeaving ? null : (
         <Animated.View
           key={index}
@@ -167,8 +174,15 @@ export const Onboarding = ({
             { paddingTop: insets.top, paddingBottom: insets.bottom },
           ]}
         >
-          {slides[index]}
+          <FlightZoneContext.Provider value={setFlightZone}>
+            {slides[index]}
+          </FlightZoneContext.Provider>
         </Animated.View>
+      )}
+      {/* Above the slides so it takes taps. Its zones keep it off text and
+          controls. */}
+      {isReducedMotion ? null : (
+        <SkyPixy boost={skyBoost} zone={isLeaving ? null : flightZone} />
       )}
     </View>
   );

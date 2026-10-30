@@ -10,12 +10,12 @@ import type { ParamListBase } from "expo-router/react-navigation";
 import { useEffect, useEffectEvent, useRef } from "react";
 import { ActivityIndicator, Platform, ScrollView } from "react-native";
 import type { TextInput } from "react-native";
-import LinkButton from "@/components/link-button";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import type { FeedackType } from "../feedback";
+import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import { FeedbackFields } from "../components/feedback-fields";
 import { getFeedbackTitle } from "../feedback-title";
@@ -152,14 +152,13 @@ export const FeedbackScreen = () => {
         <ModalHeader
           title={getFeedbackTitle(type)}
           left={
-            <LinkButton
+            <HeaderButton
+              kind="cancel"
+              label={t("cancel")}
               testID="feedback-modal-cancel"
-              type="primary"
               onPress={() => router.back()}
               disabled={form.isSending}
-            >
-              {t("cancel")}
-            </LinkButton>
+            />
           }
           right={
             form.isSending ? (
@@ -168,14 +167,13 @@ export const FeedbackScreen = () => {
                 color={colors.loadingIndicator}
               />
             ) : (
-              <LinkButton
+              <HeaderButton
+                kind="send"
+                label={t("send")}
                 testID="feedback-modal-send"
-                type="primary"
                 onPress={send}
                 disabled={!form.canSend}
-              >
-                {t("send")}
-              </LinkButton>
+              />
             )
           }
         />

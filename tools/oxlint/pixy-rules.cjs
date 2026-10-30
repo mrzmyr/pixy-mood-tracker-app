@@ -446,6 +446,51 @@ const kebabCaseFolders = {
   },
 };
 
+// Modal routes show the native sheet bar on iOS (DESIGN.md "Sheets and Modals").
+// `transparentModal` is left out: media overlays such as the photo viewer.
+const MODAL_PRESENTATIONS = new Set([
+  "modal",
+  "formSheet",
+  "pageSheet",
+  "fullScreenModal",
+  "containedModal",
+]);
+
+const getLiteralProperty = (node, name) =>
+  node.properties.find(
+    (property) =>
+      property.type === "Property" &&
+      property.key.type === "Identifier" &&
+      property.key.name === name &&
+      property.value.type === "Literal"
+  )?.value.value;
+
+const modalRouteShowsHeader = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Forbid hidden headers on modal routes",
+    },
+    messages: {
+      hidden:
+        "Modal route hides the native bar. Use `getModalRouteOptions` and `RouteModalHeader` (DESIGN.md Sheets and Modals).",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      ObjectExpression(node) {
+        if (
+          MODAL_PRESENTATIONS.has(getLiteralProperty(node, "presentation")) &&
+          getLiteralProperty(node, "headerShown") === false
+        ) {
+          context.report({ messageId: "hidden", node });
+        }
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
@@ -458,5 +503,6 @@ module.exports = {
     "structured-thrown-errors": structuredThrownErrors,
     "sorted-string-arrays": sortedStringArrays,
     "kebab-case-folders": kebabCaseFolders,
+    "modal-route-shows-header": modalRouteShowsHeader,
   },
 };

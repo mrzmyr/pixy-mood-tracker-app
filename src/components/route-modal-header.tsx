@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { HeaderButton } from "@/components/header-button";
 import { getCloseLabel } from "@/components/close-label";
 import type { HeaderButtonKind } from "@/components/header-button";
@@ -10,6 +11,8 @@ export interface RouteModalHeaderProps {
   onClose: () => void;
   /** Test id of the cancel or close button. */
   closeTestID?: string;
+  /** Replaces the title text, for example step dots. Keep `title` for screen readers. */
+  titleView?: ReactNode;
   /** The one trailing action, for example Save. Marks the screen as a form. */
   confirm?: {
     label: string;
@@ -30,10 +33,12 @@ const RouteModalHeader = ({
   title,
   onClose,
   closeTestID,
+  titleView,
   confirm,
 }: RouteModalHeaderProps) => (
   <ModalHeader
     title={title}
+    titleView={titleView}
     left={
       <HeaderButton
         kind="cancel"

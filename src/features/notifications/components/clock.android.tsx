@@ -15,6 +15,7 @@ import type { ClockProps } from "./clock-types";
  */
 const Clock = ({
   timeDate,
+  background,
   onChange,
   style,
   testID = "reminder-time",
@@ -31,7 +32,7 @@ const Clock = ({
         style={{
           flexDirection: "row",
           alignItems: "center",
-          backgroundColor: colors.backgroundSecondary,
+          backgroundColor: background ?? colors.backgroundSecondary,
           borderRadius: RADIUS.sm,
           paddingLeft: 10,
           paddingRight: 10,

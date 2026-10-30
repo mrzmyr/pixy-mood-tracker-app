@@ -234,9 +234,11 @@ const light = {
 
   // Sky color under the cloud photo until it loads.
   onboardingSkyBackground: "#a9d4fd",
-  onboardingPaginationText: colors.neutral[500],
-  onboardingPaginationDotActive: colors.neutral[500],
-  onboardingPaginationDotInactive: colors.neutral[300],
+  // Controls over the sky are see-through, so they take its color.
+  onboardingPaginationText: "rgba(0, 0, 0, 0.45)",
+  onboardingPaginationDotActive: "rgba(0, 0, 0, 0.45)",
+  onboardingPaginationDotInactive: "rgba(0, 0, 0, 0.12)",
+  onboardingControlBackground: "rgba(255, 255, 255, 0.4)",
 
   onboardingListItemDot: colors.neutral[500],
   onboardingListItemText: colors.neutral[800],
@@ -469,10 +471,12 @@ const dark: IColors & {
   onboardingTitle: colors.white,
   onboardingBody: colors.neutral[300],
 
-  onboardingSkyBackground: "#304560",
-  onboardingPaginationText: colors.neutral[300],
-  onboardingPaginationDotActive: colors.neutral[300],
-  onboardingPaginationDotInactive: colors.neutral[700],
+  // Night sky behind faint clouds and stars.
+  onboardingSkyBackground: "#0a1124",
+  onboardingPaginationText: "rgba(255, 255, 255, 0.6)",
+  onboardingPaginationDotActive: "rgba(255, 255, 255, 0.6)",
+  onboardingPaginationDotInactive: "rgba(255, 255, 255, 0.2)",
+  onboardingControlBackground: "rgba(255, 255, 255, 0.12)",
 
   onboardingPrivacyBadgeBackground: tintColorDark,
   onboardingPrivacyBadgeVector: onTintDark,

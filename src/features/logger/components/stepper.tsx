@@ -36,11 +36,30 @@ const StepDot = ({ active }: { active: boolean }) => {
   );
 };
 
-/** Progress dots: active step expands into a pill. */
-export const Stepper = ({ count, index }: { count: number; index: number }) => (
+/**
+ * Progress dots: active step expands into a pill. `onBack` adds a `Back`
+ * accessibility action, the screen reader way to undo the swipe.
+ */
+export const Stepper = ({
+  count,
+  index,
+  onBack,
+}: {
+  count: number;
+  index: number;
+  onBack?: () => void;
+}) => (
   <View
     accessible
     accessibilityRole="progressbar"
+    accessibilityActions={
+      onBack ? [{ name: "back", label: t("logger_back") }] : undefined
+    }
+    onAccessibilityAction={(event) => {
+      if (event.nativeEvent.actionName === "back") {
+        onBack?.();
+      }
+    }}
     accessibilityLabel={t("logger_step_progress", {
       step: index + 1,
       total: count,
