@@ -5,6 +5,8 @@ import Svg, { Path } from "react-native-svg";
 import Button from "@/components/button";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
+import { TextReveal } from "@/components/text-reveal";
+import { SLIDE_TEXT_DELAY_MS } from "./slide-timing";
 import { useAnalytics } from "@/state/analytics";
 import { DEVICE_REQUIRES_CONSENT } from "@/state/analytics/consent";
 import { RADIUS } from "@/constants/radius";
@@ -123,18 +125,20 @@ export const PrivacySlide = ({
           }}
         >
           <PrivacyBadge />
-          <Text
+          <TextReveal
+            accessibilityRole="header"
+            delay={SLIDE_TEXT_DELAY_MS}
+            containerStyle={{ marginBottom: 20 }}
             style={{
               color: colors.onboardingTitle,
               fontSize: 24,
               lineHeight: 32,
               fontWeight: "bold",
-              marginBottom: 20,
               textAlign: "left",
             }}
           >
             {t(`onboarding_step_5_title`)}
-          </Text>
+          </TextReveal>
           <ListItem delay={100}>{t(`onboarding_step_5_body_2`)}</ListItem>
           <ListItem delay={200}>{t(`onboarding_step_5_body_3`)}</ListItem>
           <ListItem delay={300}>{t(`onboarding_step_5_body_4`)}</ListItem>
