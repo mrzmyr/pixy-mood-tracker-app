@@ -15,6 +15,7 @@ export const FEATURE_FLAGS = [
   "location",
   "menstruation",
   "more-tags",
+  "needs",
   "people",
   "photos",
   "profile",
@@ -83,6 +84,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   "more-tags": {
     description: "Tag limit 500 instead of 50",
     location: "Tags, Settings > Tags",
+  },
+  needs: {
+    description: "Rate six needs, then get matching emotions",
+    location: "Check-in > Emotions step",
   },
   people: {
     description: "People step and people on entries",
