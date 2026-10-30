@@ -476,6 +476,17 @@
       ]
     },
     {
+      "id": "entry-summary",
+      "label": "Entry summary",
+      "status": "flagged",
+      "group": "logging",
+      "description": "After saving, everything in the entry shows as tiles on a sky: mood with a day strip for several check-ins, emotions, photos, sleep, people, tags, and the full note. Behind the entry-summary feature flag.",
+      "evidence": [
+        "src/features/logger/confirmation/entry-summary.tsx",
+        "src/state/feature-flags/keys.ts"
+      ]
+    },
+    {
       "id": "voice-mode",
       "label": "Voice check-in",
       "status": "flagged",

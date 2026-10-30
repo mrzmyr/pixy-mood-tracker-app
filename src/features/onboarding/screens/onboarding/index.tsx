@@ -14,7 +14,7 @@ import { DEVICE_REQUIRES_CONSENT } from "@/state/analytics/consent";
 import { useSettings } from "@/state/settings";
 import { ExplainerSlide } from "./explainer-slide";
 import { IndexSlide } from "./index-slide";
-import { OnboardingSky } from "./onboarding-sky";
+import { Sky } from "@/components/sky";
 import { PrivacySlide } from "./privacy-slide";
 import { ReminderSlide } from "./reminder-slide";
 
@@ -156,7 +156,7 @@ export const Onboarding = ({
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
-      <OnboardingSky step={index} isVisible={!isLeaving} />
+      <Sky step={index} isVisible={!isLeaving} />
       {isLeaving ? null : (
         <Animated.View
           key={index}

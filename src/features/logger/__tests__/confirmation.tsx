@@ -20,6 +20,11 @@ import {
   getSummaryTitle,
 } from "../confirmation/day-summary";
 import type { DaySummary } from "../confirmation/day-summary";
+import {
+  getMoodText,
+  getPhotoTileSize,
+  joinNames,
+} from "../confirmation/entry-summary-layout";
 import { useConfirmation } from "../confirmation/use-confirmation";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
@@ -68,6 +73,7 @@ const summaryOf = (overrides: Partial<DaySummary>): DaySummary => ({
   isFirstEntry: false,
   emotions: [],
   tagIds: [],
+  checkIns: [],
   ...overrides,
 });
 
@@ -152,6 +158,11 @@ describe("getDaySummary()", () => {
       isFirstEntry: false,
       emotions: ["proud", "calm"],
       tagIds: ["gym", "coffee"],
+      // Day strip: oldest first, at the minute of the day.
+      checkIns: [
+        { minute: 8 * 60, rating: "good" },
+        { minute: 20 * 60, rating: "extremely_good" },
+      ],
     });
   });
 
@@ -269,5 +280,39 @@ describe("getSummarySentence()", () => {
     expect(
       text(summaryOf({ entriesCount: 2, rating: "very_bad", tone: "bad" }))
     ).toBe("Thank you for checking in.");
+  });
+});
+
+describe("entry summary", () => {
+  test("never repeats the rating back on hard days", () => {
+    expect(getMoodText(summaryOf({ rating: "very_good" }))).toEqual({
+      text: "Very Good",
+      isRating: true,
+    });
+    expect(getMoodText(summaryOf({ rating: "very_bad", tone: "bad" }))).toEqual(
+      { text: "Thank you for checking in.", isRating: false }
+    );
+  });
+
+  test("sizes photos by the tiles beside them", () => {
+    const sizes = [
+      [false, false],
+      [true, false],
+      [true, true],
+    ].map(([hasSleep, hasPeople]) =>
+      getPhotoTileSize({ hasPhotos: true, hasSleep, hasPeople })
+    );
+
+    expect(sizes).toEqual(["band", "half", "tall"]);
+    expect(
+      getPhotoTileSize({ hasPhotos: false, hasSleep: true, hasPeople: true })
+    ).toBeNull();
+  });
+
+  test("names up to 3 people, then counts the rest", () => {
+    expect(joinNames(["Lena", "Sam"])).toBe("Lena and Sam");
+    expect(joinNames(["Lena", "Sam", "Max", "Hilde", "Tobi"])).toBe(
+      "Lena, Sam, Max and 2 more"
+    );
   });
 });

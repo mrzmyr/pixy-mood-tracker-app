@@ -19,10 +19,8 @@ import useColors from "@/hooks/use-colors";
 
 // Same CC0 cloud photo as the pixy.day hero. Edges only match their mirror,
 // so the strip runs photo, mirror, photo and loops after two widths.
-const SKY = require(`../../../../../assets/images/onboarding/sky.webp`);
-const SKY_FLIPPED = require(
-  `../../../../../assets/images/onboarding/sky-flipped.webp`
-);
+const SKY = require(`../../assets/images/onboarding/sky.webp`);
+const SKY_FLIPPED = require(`../../assets/images/onboarding/sky-flipped.webp`);
 const SKY_ASPECT_RATIO = 2560 / 762;
 
 /** Drift speed in points per second at rest. */
@@ -34,15 +32,16 @@ const STEP_RAMP_DOWN_MS = 1600;
 const SKY_FADE_MS = 600;
 
 /**
- * Full-screen sky behind the onboarding slides. The clouds drift slowly
- * and speed up for a moment each time `step` changes. Reduced motion keeps
- * the sky still. Dark mode dims it to dusk, like the website.
+ * Full-screen sky behind the onboarding slides and the entry summary. The
+ * clouds drift slowly and speed up for a moment each time `step` changes.
+ * Reduced motion keeps the sky still. Dark mode dims it to dusk, like the
+ * website.
  */
-export const OnboardingSky = ({
-  step,
+export const Sky = ({
+  step = 0,
   isVisible = true,
 }: {
-  step: number;
+  step?: number;
   /** False fades the sky out, for the hand-off to the calendar. */
   isVisible?: boolean;
 }) => {
