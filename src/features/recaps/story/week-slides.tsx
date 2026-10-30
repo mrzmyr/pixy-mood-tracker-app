@@ -34,7 +34,9 @@ import { TextReveal } from "@/components/text-reveal";
 import { getTextRevealDuration } from "@/components/text-reveal-parts";
 import { RADIUS } from "@/constants/radius";
 import { RATING_KEYS, RATING_MAPPING } from "@/constants/ratings";
+import MapPin from "lucide-react-native/icons/map-pin";
 import { EmotionIndicator, EMOTIONS } from "@/features/logger";
+import type { Tag } from "@/features/tags";
 import { getAverageMood } from "@/features/logs";
 import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
@@ -58,7 +60,7 @@ import type {
 } from "./physics";
 import type { MapPoint } from "./map-camera";
 import { HAS_PLACES_MAP, PlacesMap } from "./places-map";
-import { StoryImage, StoryText } from "./parts";
+import { StoryImage, StoryText, TagDot } from "./parts";
 import { STORY_PALETTE, STORY_TYPE } from "./theme";
 import type { StoryTheme } from "./theme";
 import type {
@@ -401,6 +403,37 @@ const EmotionChip = ({
   );
 };
 
+/** Tag with its color dot, as an outlined chip on a photo or the sky. */
+const TagChip = ({ tag, theme }: { tag: Tag; theme: StoryTheme }) => {
+  const tile = useSkyTile();
+  return (
+    <View
+      style={[
+        {
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 6,
+          paddingHorizontal: 12,
+          paddingVertical: 7,
+          borderRadius: RADIUS.full,
+        },
+        theme === "photo"
+          ? {
+              backgroundColor: STORY_PALETTE.photo.surface,
+              borderWidth: 1,
+              borderColor: "rgba(255,255,255,0.22)",
+            }
+          : tile,
+      ]}
+    >
+      <TagDot tag={tag} />
+      <StoryText kind="label" theme={theme}>
+        {tag.title}
+      </StoryText>
+    </View>
+  );
+};
+
 // ---------------------------------------------------------------- best day
 
 /** Best day: over its photo, or over the sunlit sky without one. */
@@ -416,16 +449,47 @@ export const BestDay = ({
     day: weekdayName(slide.date),
   });
   const chipsAt = afterTitle(title);
-  const chips = (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6 }}>
-      {slide.emotions.map((key, index) => (
+  const tags = slide.tagIds.flatMap((id) => {
+    const tag = ctx.tags.get(id);
+    return tag ? [tag] : [];
+  });
+  const chips = [
+    ...slide.emotions.map((key) => (
+      <EmotionChip key={key} emotionKey={key} theme={theme} />
+    )),
+    ...tags.map((tag) => <TagChip key={tag.id} tag={tag} theme={theme} />),
+  ];
+  const details = (
+    <View style={{ gap: 12 }}>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6 }}>
+        {chips.map((chip, index) => (
+          <Animated.View
+            key={chip.key}
+            entering={FadeInDown.delay(chipsAt + index * STAGGER_MS * 2)}
+          >
+            {chip}
+          </Animated.View>
+        ))}
+      </View>
+      {slide.location && (
         <Animated.View
-          key={key}
-          entering={FadeInDown.delay(chipsAt + index * STAGGER_MS * 2)}
+          entering={FadeIn.delay(chipsAt + chips.length * STAGGER_MS * 2)}
+          style={{ flexDirection: "row", alignItems: "center", gap: 6 }}
         >
-          <EmotionChip emotionKey={key} theme={theme} />
+          <MapPin
+            width={15}
+            height={15}
+            color={slide.photo ? "#FFFFFF" : skyMuted(ctx.isDark)}
+          />
+          <StoryText
+            kind="label"
+            theme={theme}
+            style={slide.photo ? undefined : { color: skyMuted(ctx.isDark) }}
+          >
+            {slide.location}
+          </StoryText>
         </Animated.View>
-      ))}
+      )}
     </View>
   );
   const header = (
@@ -444,13 +508,13 @@ export const BestDay = ({
       <View style={{ flex: 1 }} />
       {header}
       <View style={{ height: 16 }} />
-      {chips}
+      {details}
     </>
   ) : (
     <>
       {header}
       <View style={{ flex: 1 }} />
-      {chips}
+      {details}
     </>
   );
 };

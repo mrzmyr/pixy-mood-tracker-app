@@ -499,10 +499,24 @@ const bestDay = (input: RecapInput): BestDaySlide | null => {
   if (!day) {
     return null;
   }
-  const [photo] = day.items.flatMap((item) => item.photos);
+  const photos = day.items.flatMap((item) => item.photos);
+  const [photo] = photos;
+  const activeTags = allTagIds(input);
+  const location = input.locationEnabled
+    ? (day.items.find((item) => item.location?.name)?.location?.name ?? null)
+    : null;
   return {
     type: "best-day",
     date: day.date,
+    photos: photos
+      .slice(0, THRESHOLDS.storyCoverMaxPhotos)
+      .map((item) => ({ date: day.date, photo: item })),
+    tagIds: [
+      ...new Set(day.items.flatMap((item) => item.tags.map((tag) => tag.id))),
+    ]
+      .filter((id) => activeTags.has(id))
+      .slice(0, THRESHOLDS.storyBestDayEmotions),
+    location,
     emotions: [...new Set(day.items.flatMap((item) => item.emotions))].slice(
       0,
       THRESHOLDS.storyBestDayEmotions

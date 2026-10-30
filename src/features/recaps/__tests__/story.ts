@@ -330,11 +330,15 @@ describe("share card", () => {
     expect(slide(story(items), "share")?.photos).toHaveLength(3);
   });
 
-  test("shows the grid with fewer photos", () => {
+  test("shows photos from 1 or 2 bright photo days too", () => {
     const items = month((index) =>
       index < 2 ? { photos: [photo(`${index}`)] } : {}
     );
-    expect(slide(story(items), "share")?.photos).toEqual([]);
+    expect(slide(story(items), "share")?.photos).toHaveLength(2);
+  });
+
+  test("shows only the grid without bright photo days", () => {
+    expect(slide(story(month()), "share")?.photos).toEqual([]);
   });
 });
 

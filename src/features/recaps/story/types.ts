@@ -123,6 +123,12 @@ export interface BestDaySlide {
   emotions: string[];
   /** First photo of the day, `null` without one: the slide shows the sky. */
   photo: StoryPhoto | null;
+  /** Every photo of the day, one after another behind the slide. */
+  photos: StoryPhoto[];
+  /** Tags of the day, at most 3. */
+  tagIds: string[];
+  /** Place of the day, "District, City"; `null` with location off. */
+  location: string | null;
 }
 
 /** Mood of each day of the week, as on the mood chart card. */

@@ -961,7 +961,6 @@
   "recaps_story_far_title_single": "Du bist bis nach %{city} gereist",
   "recaps_story_finale_eyebrow": "Das war dein %{month}",
   "recaps_story_finale_eyebrow_week": "Das war deine Woche",
-  "recaps_story_finale_title": "Danke, dass du dir einen Moment für den Rückblick genommen hast",
   "recaps_story_hard_days_label": {
     "one": "Dein schwererer Tag",
     "other": "Deine {{count}} schwereren Tage"

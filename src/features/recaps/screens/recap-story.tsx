@@ -91,7 +91,8 @@ const StoryActions = ({
   isSharing: boolean;
   isAnswered: boolean;
   pause: () => void;
-  onShare: () => void;
+  /** `null` on the last slide: it has its own wide share button. */
+  onShare: (() => void) | null;
   onHelpful: () => void;
   onNotHelpful: () => void;
 }) => {
@@ -108,11 +109,15 @@ const StoryActions = ({
       }}
       pointerEvents="box-none"
     >
-      <StoryShareButton
-        theme={theme}
-        disabled={isSharing}
-        onPress={paused(onShare)}
-      />
+      {onShare ? (
+        <StoryShareButton
+          theme={theme}
+          disabled={isSharing}
+          onPress={paused(onShare)}
+        />
+      ) : (
+        <View />
+      )}
       <StoryFeedback
         theme={theme}
         isAnswered={isAnswered}
@@ -267,8 +272,8 @@ const RecapStory = () => {
 
   /** 3 photos of the pool; each shuffle moves on by 3, wrapping around. */
   const pickPhotos = (pool: StoryPhoto[]) =>
-    pool.length === 0
-      ? []
+    pool.length <= 3
+      ? pool
       : [0, 1, 2].map((offset) => pool[(shuffles * 3 + offset) % pool.length]);
 
   /**
@@ -316,6 +321,8 @@ const RecapStory = () => {
           ctx={ctx}
           photos={pickPhotos(slide.photos)}
           cardRef={shareCard}
+          isSharing={isSharing}
+          onShare={() => share(index)}
           onShuffle={
             slide.photos.length > 3
               ? () => setShuffles((current) => current + 1)
@@ -363,7 +370,7 @@ const RecapStory = () => {
             isSharing={isSharing}
             isAnswered={answers.has(index)}
             pause={controls.pause}
-            onShare={() => share(index)}
+            onShare={story[index]?.type === "share" ? null : () => share(index)}
             onHelpful={() => send(index, true, [], "")}
             onNotHelpful={() => setAsking(index)}
           />

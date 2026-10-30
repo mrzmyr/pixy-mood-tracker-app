@@ -1066,7 +1066,7 @@ export const SlideBackdrop = ({
   if (slide.type === "best-day") {
     return slide.photo ? (
       <PhotoBackdrop
-        photos={[slide.photo]}
+        photos={slide.photos}
         progress={progress}
         durationMs={durationMs}
       />

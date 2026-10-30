@@ -1091,7 +1091,6 @@
   "recaps_story_far_title_single": "You traveled all the way to %{city}",
   "recaps_story_finale_eyebrow": "That was %{month}",
   "recaps_story_finale_eyebrow_week": "That was your week",
-  "recaps_story_finale_title": "Thanks for taking a moment to look back",
   "recaps_story_hard_days_label": {
     "one": "Your harder day",
     "other": "Your {{count}} harder days"

@@ -16,6 +16,7 @@ import { t } from "@/lib/translation";
 import { monthName } from "./format";
 import { StoryText } from "./parts";
 import { ShareCard } from "./share-card";
+import { StoryShareButton } from "./story-share-button";
 import type { SlideContext } from "./slides";
 import type { StoryPhoto } from "./types";
 
@@ -24,9 +25,9 @@ const ARRIVAL_DELAY_MS = 400;
 const ARRIVAL_MS = 2400;
 
 /**
- * Last slide, on the sky: thanks for looking back, then the card to send
- * on. Cloud Pixy flies in the free sky between them and never crosses
- * text or the card. It glides in from beyond the screen edge. Reduced
+ * Last slide, on the sky: a quiet "That was your week", the card to send
+ * on, and a wide share button. Cloud Pixy flies in the free sky above and
+ * never crosses the card. It glides in from beyond the screen edge. Reduced
  * motion: no Pixy.
  */
 export const StoryFinale = ({
@@ -34,11 +35,15 @@ export const StoryFinale = ({
   photos,
   cardRef,
   onShuffle,
+  isSharing,
+  onShare,
 }: {
   ctx: SlideContext;
   photos: StoryPhoto[];
   cardRef: React.Ref<ViewType>;
   onShuffle: (() => void) | null;
+  isSharing: boolean;
+  onShare: () => void;
 }) => {
   const theme = ctx.isDark ? "night" : "paper";
   const isReducedMotion = useReducedMotion();
@@ -76,25 +81,34 @@ export const StoryFinale = ({
 
   return (
     <View ref={root} style={{ flex: 1 }} onLayout={measure}>
-      <View style={{ alignItems: "center", gap: 8, paddingHorizontal: 8 }}>
-        <StoryText kind="eyebrow" theme={theme} tone="muted">
+      <View ref={sky} style={{ flex: 1 }} onLayout={measure} />
+      <View style={{ gap: 12 }}>
+        <StoryText
+          kind="eyebrow"
+          theme={theme}
+          tone="muted"
+          style={{ textAlign: "center" }}
+        >
           {ctx.period.kind === "week"
             ? t("recaps_story_finale_eyebrow_week")
             : t("recaps_story_finale_eyebrow", {
                 month: monthName(ctx.period.start),
               })}
         </StoryText>
-        <StoryText kind="title" theme={theme} style={{ textAlign: "center" }}>
-          {t("recaps_story_finale_title")}
-        </StoryText>
+        <ShareCard
+          ctx={ctx}
+          photos={photos}
+          cardRef={cardRef}
+          onShuffle={onShuffle}
+        />
+        <StoryShareButton
+          theme={theme}
+          disabled={isSharing}
+          onPress={onShare}
+          isWide
+        />
       </View>
-      <View ref={sky} style={{ flex: 1 }} onLayout={measure} />
-      <ShareCard
-        ctx={ctx}
-        photos={photos}
-        cardRef={cardRef}
-        onShuffle={onShuffle}
-      />
+      <View style={{ height: 8 }} />
       {!isReducedMotion && (
         <Animated.View
           pointerEvents="box-none"

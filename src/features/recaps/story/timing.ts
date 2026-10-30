@@ -22,6 +22,9 @@ export const getSlideDuration = (slide: StorySlide) => {
   if (SLOW_SLIDES.has(slide.type)) {
     return STORY_SLOW_SLIDE_MS;
   }
+  if (slide.type === "best-day" && slide.photos.length > 1) {
+    return Math.max(STORY_COVER_PHOTO_MS, slide.photos.length * STORY_PHOTO_MS);
+  }
   if (slide.type !== "cover" || slide.variant === "pixels") {
     return STORY_SLIDE_MS;
   }

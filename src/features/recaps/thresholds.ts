@@ -151,8 +151,8 @@ export const THRESHOLDS = {
   vsLastMaxRows: 4,
   /** Moments: weeks with a photo needed. */
   momentsMinWeeks: 3,
-  /** Share card: photos on the card; fewer bright photo days show the grid. */
-  sharePhotos: 3,
+  /** Share card: bright photo days needed for photos on the card. */
+  sharePhotos: 1,
   /** Quiz: days a person or tag needs to be a statement or tile. */
   quizMinDays: 2,
   /** Mood chart: check-in days needed. */
