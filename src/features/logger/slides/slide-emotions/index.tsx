@@ -21,6 +21,13 @@ import { EmotionBasicGradients } from "./emotion-basic-gradients";
 import { EmotionBasicSelection } from "./emotion-basic-selection";
 import { ExpandButton } from "./expand-button";
 import noop from "lodash/noop";
+import FlagHighlight from "@/components/flag-highlight";
+import { Headline } from "@/components/type";
+import { useFeatureFlag } from "@/state/feature-flags";
+import { NeedsCheck } from "./needs-check";
+import { suggestEmotionsForNeeds } from "./needs";
+import type { NeedStates } from "./needs";
+import { SuggestedEmotions } from "./suggested-emotions";
 
 type Mode = "basic" | "advanced";
 
@@ -100,6 +107,8 @@ export const SlideEmotions = ({
   };
 
   const [mode, setMode] = useState<Mode>(initialMode);
+  const hasNeeds = useFeatureFlag("needs");
+  const [needStates, setNeedStates] = useState<NeedStates>({});
 
   const mostUsedEmotionKeys = new Set(
     getMostUsedEmotions(logState.items)
@@ -146,6 +155,57 @@ export const SlideEmotions = ({
 
     setInitialSelectedEmotions(selectedEmotions);
   };
+
+  let content: React.ReactNode;
+  if (hasNeeds && !isSearching && mode === "basic") {
+    content = (
+      <View>
+        <FlagHighlight flag="needs">
+          <NeedsCheck
+            states={needStates}
+            onChange={(key, state) =>
+              setNeedStates((current) => ({ ...current, [key]: state }))
+            }
+          />
+          <SuggestedEmotions
+            emotions={suggestEmotionsForNeeds(needStates, EMOTIONS)}
+            onPress={onPressEmotion}
+            selectedEmotions={selectedEmotions}
+          />
+        </FlagHighlight>
+        <Headline
+          accessibilityRole="header"
+          style={{ paddingHorizontal: 20, paddingTop: 24 }}
+        >
+          {t("log_needs_all")}
+        </Headline>
+        <EmotionBasicSelection
+          emotions={basicEmotions}
+          onPress={onPressEmotion}
+          selectedEmotions={selectedEmotions}
+          onRequestEmotion={openRequest}
+        />
+      </View>
+    );
+  } else if (isSearching || mode === "basic") {
+    content = (
+      <EmotionBasicSelection
+        emotions={isSearching ? searchResults : basicEmotions}
+        onPress={onPressEmotion}
+        selectedEmotions={selectedEmotions}
+        onRequestEmotion={openRequest}
+      />
+    );
+  } else {
+    content = (
+      <EmotionAdvancedSelection
+        defaultIndex={defaultIndex}
+        onPress={onPressEmotion}
+        selectedEmotions={selectedEmotions}
+        onRequestEmotion={openRequest}
+      />
+    );
+  }
 
   return (
     <View
@@ -198,21 +258,7 @@ export const SlideEmotions = ({
             query={query}
             onChangeQuery={setQuery}
           >
-            {isSearching || mode === "basic" ? (
-              <EmotionBasicSelection
-                emotions={isSearching ? searchResults : basicEmotions}
-                onPress={onPressEmotion}
-                selectedEmotions={selectedEmotions}
-                onRequestEmotion={openRequest}
-              />
-            ) : (
-              <EmotionAdvancedSelection
-                defaultIndex={defaultIndex}
-                onPress={onPressEmotion}
-                selectedEmotions={selectedEmotions}
-                onRequestEmotion={openRequest}
-              />
-            )}
+            {content}
           </PullToSearch>
           {(isSearching || mode === "basic") && <EmotionBasicGradients />}
           {!isSearching && mode === "advanced" && <EmotionAdvancedGradients />}
