@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import MaskedView from "@react-native-masked-view/masked-view";
-import chroma from "chroma-js";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
@@ -45,18 +44,6 @@ const toStripOffset = (minute: number) => minute / DAY_MINUTES;
 /** First letter upper case: English "bad" is "not so good". */
 const capitalize = (text: string) =>
   text.charAt(0).toLocaleUpperCase() + text.slice(1);
-
-/**
- * Outline of a see-through mark on `color`: the same color, a bit darker on
- * light moods and lighter on dark ones, so it reads without turning black.
- * `isStrong` marks the newest check-in.
- */
-const getMarkColor = (color: string, isStrong: boolean) => {
-  const amount = isStrong ? 1.6 : 1;
-  return chroma(color).luminance() > 0.4
-    ? chroma(color).darken(amount).hex()
-    : chroma(color).brighten(amount).hex();
-};
 
 /** Gradient stops: `middle` between `start` and `end`. */
 const fade = <T,>(start: T, middle: T[], end: T = start) => {
@@ -163,11 +150,8 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
             left: `${toStripOffset(checkIn.minute) * 100}%`,
             borderRadius: 3,
             backgroundColor: scale[checkIn.rating].background,
-            borderWidth: checkIn.minute === newest ? 2 : 1.5,
-            borderColor: getMarkColor(
-              scale[checkIn.rating].background,
-              checkIn.minute === newest
-            ),
+            borderWidth: checkIn.minute === newest ? 1.5 : 1,
+            borderColor: scale[checkIn.rating].border,
           }}
         />
       ))}
@@ -210,8 +194,8 @@ export const MoodHeader = ({
   const colors = useColors();
   const { settings } = useSettings();
   const place = item.location?.name ?? null;
-  const pixelColor =
-    colors.scales[settings.scaleType][summary.rating].background;
+  const scale = colors.scales[settings.scaleType][summary.rating];
+  const pixelColor = scale.background;
 
   return (
     <View style={{ paddingHorizontal: 4, paddingBottom: 6 }}>
@@ -223,8 +207,8 @@ export const MoodHeader = ({
           borderRadius: PIXEL_SIZE * 0.15,
           backgroundColor: pixelColor,
           // Outlined in its own color, so it holds up on photos and maps.
-          borderWidth: 1.5,
-          borderColor: getMarkColor(pixelColor, false),
+          borderWidth: 1,
+          borderColor: scale.border,
         }}
       />
       <Text
