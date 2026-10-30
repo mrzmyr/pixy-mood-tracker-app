@@ -16,6 +16,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { RADIUS } from "@/constants/radius";
+import { SHADOW } from "@/constants/shadow";
 import { EMOTIONS, EmotionIndicator } from "@/features/logger";
 import { PersonAvatar, usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
@@ -183,6 +184,7 @@ const Card = ({
             backgroundColor: colors.cardBackground,
             borderWidth: 1,
             borderColor: colors.cardBorder,
+            boxShadow: SHADOW.photoCard,
           },
           floatStyle,
         ]}
