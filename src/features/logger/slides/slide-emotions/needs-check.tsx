@@ -73,7 +73,7 @@ export const NeedsCheck = ({
                 }
               }}
               testID={`needs-${need.key}-control`}
-              style={{ flex: 1.3 }}
+              style={{ flex: 1.1 }}
             />
           </View>
         );

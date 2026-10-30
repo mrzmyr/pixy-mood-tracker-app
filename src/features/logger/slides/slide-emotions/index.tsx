@@ -107,7 +107,8 @@ const EmotionsHeader = ({
           onPress={onToggleNeedsMode}
           style={{
             alignSelf: "flex-start",
-            marginHorizontal: 20,
+            // LinkButton pads 8: text lines up with the headline at 20.
+            marginHorizontal: 12,
             marginBottom: 4,
             fontWeight: "400",
           }}
