@@ -25,6 +25,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 - Android list groups: M3 full-width list, no chevron, no dividers, 56dp rows ([`MenuList`](src/components/menu-list.tsx)).
 - Tag colors: fixed palette inline in grouped card ([`ColorPicker`](src/features/tags/components/color-picker.tsx)). 48 × 48 targets, never shrink. Selection shown by check + color name, never hue alone.
 - Core Modules ([GLOSSARY.md](GLOSSARY.md)) use same Lucide icon everywhere, 20 px: Mood `Sun`, Emotions `Heart`, Tags `Tag`, People `Users`, Photos `Image`, Note `FileText`. Labels are single nouns.
+- Sleep quality: always [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx), vertical bar filled `colors.sleepQualityFull` on `colors.sleepQualityEmpty`. Sleep icon `Moon` in `colors.sleepQualityFull`. Never own segments, dots, or colors. Never a rating word next to it.
 - Icons never conflict: one icon, one meaning. Color themes use `Palette`; Menstruation uses `Droplet`.
 - State icons: one glyph per state, same size. Change fill or detail, never icon count or size. Selection and Day view use same state icon.
 

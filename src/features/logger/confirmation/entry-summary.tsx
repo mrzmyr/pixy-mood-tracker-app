@@ -1,8 +1,6 @@
-import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useMemo } from "react";
 import type { ReactNode } from "react";
-import { Platform, ScrollView, Text, View } from "react-native";
-import Animated, { useReducedMotion } from "react-native-reanimated";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
 import { Sky } from "@/components/sky";
@@ -16,7 +14,7 @@ import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { EMOTIONS } from "../config";
-import { getDaySummary, getSummaryTitle } from "./day-summary";
+import { getDaySummary } from "./day-summary";
 import { getPhotoTileSize } from "./entry-summary-layout";
 import {
   EmotionsTile,
@@ -27,7 +25,6 @@ import {
   SleepTile,
   TagsTile,
 } from "./entry-summary-tiles";
-import { createFadeIn } from "./motion";
 import { useConfirmation } from "./use-confirmation";
 
 const GAP = 10;
@@ -73,7 +70,7 @@ const MiddleRows = ({ item, people }: { item: LogItem; people: Person[] }) => {
  * faces, the moon, and the note explain themselves.
  *
  * Mood shows the day average like the calendar pixel; 2+ entries that day
- * add a day strip. Hard days never repeat the rating back.
+ * add a day strip. No title: the tiles start right away.
  *
  * Calls `onClose` on Done.
  */
@@ -92,7 +89,6 @@ export const EntrySummary = ({
   const logState = useLogState();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
-  const isReducedMotion = useReducedMotion();
   useConfirmation({ item, entriesCount });
 
   const summary = useMemo(
@@ -110,11 +106,6 @@ export const EntrySummary = ({
     people.filter((person) => person.id === id)
   );
   const note = item.message.trim();
-
-  const headerEntering = useMemo(
-    () => createFadeIn({ delay: 150, isReducedMotion }),
-    [isReducedMotion]
-  );
 
   const success = useEffectEvent(() => {
     void haptics.success();
@@ -142,32 +133,6 @@ export const EntrySummary = ({
           gap: GAP,
         }}
       >
-        <Animated.View
-          entering={headerEntering}
-          style={{ padding: 4, paddingBottom: 10 }}
-        >
-          <Text
-            accessibilityRole="header"
-            style={{
-              fontSize: 22,
-              fontWeight: "700",
-              letterSpacing: -0.4,
-              color: colors.text,
-            }}
-          >
-            {getSummaryTitle(summary)}
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              marginTop: 2,
-              color: colors.text,
-              opacity: 0.65,
-            }}
-          >
-            {dayjs(summary.date).format("dddd, LL")}
-          </Text>
-        </Animated.View>
         <MoodTile summary={summary} />
         {emotions.length > 0 && <EmotionsTile emotions={emotions} />}
         <MiddleRows item={item} people={entryPeople} />

@@ -1,10 +1,5 @@
 import { t } from "@/lib/translation";
-import type { DaySummary } from "./day-summary";
 
-/** Emotion chips before "+N". */
-export const EMOTION_CHIPS_MAX = 6;
-/** Tag chips before "+N". */
-export const TAG_CHIPS_MAX = 8;
 /** Photos in the mosaic before "+N". */
 export const PHOTOS_MAX = 4;
 /** Faces before "+N". */
@@ -38,24 +33,6 @@ export const getPhotoTileSize = ({
   hasPeople: boolean;
 }) =>
   hasPhotos ? PHOTO_TILE_SIZES[Number(hasSleep) + Number(hasPeople)] : null;
-
-/**
- * Text next to the mood pixel. Hard days never repeat the rating back: they
- * thank instead.
- */
-export const getMoodText = (summary: DaySummary) => {
-  if (summary.tone !== "bad") {
-    return { text: t(summary.rating), isRating: true };
-  }
-  return {
-    text: t(
-      summary.isFirstEntry
-        ? "log_summary_hard_day_first"
-        : "log_summary_hard_day"
-    ),
-    isRating: false,
-  };
-};
 
 /** "Lena", "Lena and Sam", "Lena, Sam and Max", "Lena, Sam, Max and 2 more". */
 export const joinNames = (names: string[]) => {

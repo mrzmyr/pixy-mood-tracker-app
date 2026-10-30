@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
+import chroma from "chroma-js";
 import { CHIP_FLOW, COMPACT_CHIP } from "@/constants/chip";
 import { RADIUS } from "@/constants/radius";
 import { SLEEP_QUALITY_MAPPING } from "@/constants/ratings";
@@ -20,14 +21,12 @@ import { t, tDynamic } from "@/lib/translation";
 import { useSettings } from "@/state/settings";
 import type { Emotion } from "@/types";
 import { EmotionIndicator } from "../slides/slide-emotions/emotions-indicator";
+import { SleepQualityMeter } from "../slides/slide-sleep-button";
 import type { CheckIn, DaySummary } from "./day-summary";
 import {
-  EMOTION_CHIPS_MAX,
   FACES_MAX,
-  getMoodText,
   joinNames,
   PHOTOS_MAX,
-  TAG_CHIPS_MAX,
   takeVisible,
 } from "./entry-summary-layout";
 import type { PhotoTileSize } from "./entry-summary-layout";
@@ -41,10 +40,16 @@ const PHOTO_HEIGHT: Record<PhotoTileSize, number> = {
 };
 const DAY_MINUTES = 24 * 60;
 const STRIP_HOURS = [0, 6, 12, 18, 24];
-const SLEEP_STEPS = [1, 2, 3, 4, 5];
 
 /** Position on the day strip, 0 at midnight to 1 at the next midnight. */
 const toStripOffset = (minute: number) => minute / DAY_MINUTES;
+
+/** First letter upper case: English "bad" is "not so good". */
+const capitalize = (text: string) =>
+  text.charAt(0).toLocaleUpperCase() + text.slice(1);
+
+/** `color` fully transparent: a fade to it stays in the same hue. */
+const clear = (color: string) => chroma(color).alpha(0).css();
 
 /** Gradient stops: `middle` between `start` and `end`. */
 const fade = <T,>(start: T, middle: T[], end: T = start) => {
@@ -81,7 +86,6 @@ export const Tile = ({
         borderCurve: "continuous",
         padding: 14,
         overflow: "hidden",
-        boxShadow: "0 8px 24px -16px rgba(15, 40, 70, 0.35)",
         ...style,
       }}
     >
@@ -90,41 +94,18 @@ export const Tile = ({
   );
 };
 
-/** Dashed "+N" chip after the last shown chip. */
-const MoreChip = ({ count }: { count: number }) => {
-  const colors = useColors();
-  return (
-    <View
-      style={{
-        height: COMPACT_CHIP.height,
-        paddingHorizontal: COMPACT_CHIP.paddingHorizontal,
-        borderRadius: COMPACT_CHIP.borderRadius,
-        borderWidth: 1.5,
-        borderStyle: "dashed",
-        borderColor: colors.logCardBorder,
-        justifyContent: "center",
-      }}
-    >
-      <Text
-        style={{ fontSize: COMPACT_CHIP.fontSize, color: colors.textSecondary }}
-      >
-        +{count}
-      </Text>
-    </View>
-  );
-};
-
 const chipFlow = { ...CHIP_FLOW, paddingRight: 0, paddingBottom: 0 };
 
 /**
  * Day strip under the mood: 24 hours, one mark per check-in at its time,
- * the newest outlined. Colors only, no words, also on hard days.
+ * the newest outlined. Hours without check-ins fade to transparent.
  */
 const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
   const colors = useColors();
   const { settings } = useSettings();
   const scale = colors.scales[settings.scaleType];
   const newest = Math.max(...checkIns.map((checkIn) => checkIn.minute));
+  const stops = checkIns.map((checkIn) => scale[checkIn.rating].background);
 
   return (
     <View
@@ -136,10 +117,7 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
     >
       <View style={{ height: 30, borderRadius: RADIUS.sm, overflow: "hidden" }}>
         <LinearGradient
-          colors={fade(
-            colors.logBackground,
-            checkIns.map((checkIn) => scale[checkIn.rating].background)
-          )}
+          colors={fade(clear(stops[0]), stops, clear(stops.at(-1) ?? ""))}
           locations={fade(
             0,
             checkIns.map((checkIn) => toStripOffset(checkIn.minute)),
@@ -192,14 +170,10 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
   );
 };
 
-/**
- * Day pixel and rating word. Hard days get a thank-you instead of the
- * rating. 2+ check-ins add the day strip.
- */
+/** Day pixel and rating word. 2+ check-ins add the day strip. */
 export const MoodTile = ({ summary }: { summary: DaySummary }) => {
   const colors = useColors();
   const { settings } = useSettings();
-  const mood = getMoodText(summary);
   const isMulti = summary.checkIns.length > 1;
   const pixelSize = isMulti ? 24 : 40;
 
@@ -221,12 +195,12 @@ export const MoodTile = ({ summary }: { summary: DaySummary }) => {
           style={{
             flex: 1,
             color: colors.text,
-            ...(mood.isRating
-              ? { fontSize: 24, fontWeight: "700", letterSpacing: -0.5 }
-              : { fontSize: 17, fontWeight: "600", lineHeight: 22 }),
+            fontSize: 24,
+            fontWeight: "700",
+            letterSpacing: -0.5,
           }}
         >
-          {mood.text}
+          {capitalize(t(summary.rating))}
         </Text>
       </View>
       {isMulti && <DayStrip checkIns={summary.checkIns} />}
@@ -234,19 +208,18 @@ export const MoodTile = ({ summary }: { summary: DaySummary }) => {
   );
 };
 
-/** Emotion chips, like the day view, then "+N". */
+/** All emotion chips, like the day view. */
 export const EmotionsTile = ({
   emotions,
 }: {
   emotions: Pick<Emotion, "key" | "category">[];
 }) => {
   const colors = useColors();
-  const { shown, rest } = takeVisible(emotions, EMOTION_CHIPS_MAX);
 
   return (
     <Tile row={2}>
       <View style={chipFlow}>
-        {shown.map((emotion) => (
+        {emotions.map((emotion) => (
           <View
             key={emotion.key}
             style={{
@@ -268,32 +241,26 @@ export const EmotionsTile = ({
             </Text>
           </View>
         ))}
-        {rest > 0 && <MoreChip count={rest} />}
       </View>
     </Tile>
   );
 };
 
-/** Tag chips, then "+N". */
-export const TagsTile = ({ tags }: { tags: Tag[] }) => {
-  const { shown, rest } = takeVisible(tags, TAG_CHIPS_MAX);
-
-  return (
-    <Tile row={4}>
-      <View style={chipFlow}>
-        {shown.map((tag) => (
-          <TagComponent
-            key={tag.id}
-            title={tag.title}
-            colorName={tag.color}
-            compact
-          />
-        ))}
-        {rest > 0 && <MoreChip count={rest} />}
-      </View>
-    </Tile>
-  );
-};
+/** All tag chips. */
+export const TagsTile = ({ tags }: { tags: Tag[] }) => (
+  <Tile row={4}>
+    <View style={chipFlow}>
+      {tags.map((tag) => (
+        <TagComponent
+          key={tag.id}
+          title={tag.title}
+          colorName={tag.color}
+          compact
+        />
+      ))}
+    </View>
+  </Tile>
+);
 
 const MosaicImage = ({ photo }: { photo: LogItem["photos"][number] }) => (
   <Image
@@ -356,8 +323,9 @@ export const PhotosTile = ({
 };
 
 /**
- * Moon and a 5-step meter, never a word: "Bad" next to the moon judges.
- * `isRow` lays it out in one line for a full-width tile.
+ * Moon, the word, and the sleep quality meter, never a rating word: "Bad"
+ * next to the moon judges. `isRow` lays it out in one line for a
+ * full-width tile.
  */
 export const SleepTile = ({
   quality,
@@ -367,7 +335,8 @@ export const SleepTile = ({
   isRow: boolean;
 }) => {
   const colors = useColors();
-  const value = SLEEP_QUALITY_MAPPING[quality] + 1;
+  // Mapping runs 0 to 4; screen readers read 1 to 5.
+  const value = SLEEP_QUALITY_MAPPING[quality];
 
   return (
     <Tile
@@ -378,29 +347,16 @@ export const SleepTile = ({
           : { flex: 1, gap: 8, justifyContent: "space-between" }
       }
     >
-      <Moon size={20} color={colors.tint} />
+      <Moon size={20} color={colors.sleepQualityFull} />
       <View
         accessible
-        accessibilityLabel={`${t("logger_step_sleep")} ${value}/5`}
+        accessibilityLabel={`${t("logger_step_sleep")} ${value + 1}/5`}
         style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
       >
         <Text style={{ fontSize: 16, fontWeight: "700", color: colors.text }}>
           {t("logger_step_sleep")}
         </Text>
-        <View style={{ flexDirection: "row", gap: 3 }}>
-          {SLEEP_STEPS.map((step) => (
-            <View
-              key={step}
-              style={{
-                width: 6,
-                height: 14,
-                borderRadius: RADIUS.full,
-                backgroundColor:
-                  step <= value ? colors.tint : colors.logCardBorder,
-              }}
-            />
-          ))}
-        </View>
+        <SleepQualityMeter value={value} height={20} />
       </View>
     </Tile>
   );

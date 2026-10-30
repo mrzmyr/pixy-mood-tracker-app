@@ -21,7 +21,6 @@ import {
 } from "../confirmation/day-summary";
 import type { DaySummary } from "../confirmation/day-summary";
 import {
-  getMoodText,
   getPhotoTileSize,
   joinNames,
 } from "../confirmation/entry-summary-layout";
@@ -284,16 +283,6 @@ describe("getSummarySentence()", () => {
 });
 
 describe("entry summary", () => {
-  test("never repeats the rating back on hard days", () => {
-    expect(getMoodText(summaryOf({ rating: "very_good" }))).toEqual({
-      text: "Very Good",
-      isRating: true,
-    });
-    expect(getMoodText(summaryOf({ rating: "very_bad", tone: "bad" }))).toEqual(
-      { text: "Thank you for checking in.", isRating: false }
-    );
-  });
-
   test("sizes photos by the tiles beside them", () => {
     const sizes = [
       [false, false],
