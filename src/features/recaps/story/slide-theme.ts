@@ -3,9 +3,8 @@ import type { StorySlide } from "./types";
 
 /**
  * Slide background. Photo slides draw their own photo. Dark mode never shows
- * a white `paper` slide: it turns `night`. The share slide is always
- * `night`, so its card stands out in both modes. Map and sky slides follow
- * the app's light or dark mode.
+ * a white `paper` slide: it turns `night`. Map and sky slides, the share
+ * slide too, follow the app's light or dark mode.
  */
 export const getSlideTheme = (
   slide: StorySlide,
@@ -25,12 +24,10 @@ export const getSlideTheme = (
     slide.type === "best-day" ||
     slide.type === "week-mood" ||
     slide.type === "top-emotions" ||
+    slide.type === "share" ||
     slide.type === "close-by" ||
     slide.type === "far-out";
   const isPaper =
-    isMapOrSky ||
-    slide.type === "hard-pattern" ||
-    slide.type === "quiz" ||
-    slide.type === "thanks";
+    isMapOrSky || slide.type === "hard-pattern" || slide.type === "quiz";
   return isPaper && !isDark ? "paper" : "night";
 };

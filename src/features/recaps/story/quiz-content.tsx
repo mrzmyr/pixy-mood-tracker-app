@@ -5,7 +5,6 @@ import Check from "lucide-react-native/icons/check";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
-import type { CelebrationOrigin } from "./celebration";
 import { monthName } from "./format";
 import { SlideHeader, StoryText, TagDot } from "./parts";
 import type { QuizModule, QuizSlide, QuizStatement } from "./quiz";
@@ -28,11 +27,6 @@ const useQuizTheme = () => {
   const theme = use(QuizTheme);
   return { theme, palette: STORY_PALETTE[theme] };
 };
-
-const originOf = (event: GestureResponderEvent): CelebrationOrigin => ({
-  x: event.nativeEvent.pageX,
-  y: event.nativeEvent.pageY,
-});
 
 /** Card look after the answer: green for right, struck for made up. */
 const cardColors = (
@@ -252,7 +246,7 @@ const Truths = ({
   slide: Extract<QuizSlide, { quiz: "truths" }>;
   ctx: SlideContext;
   result: QuizResult | null;
-  onAnswer: (result: QuizResult, origin: CelebrationOrigin) => void;
+  onAnswer: (result: QuizResult) => void;
 }) => {
   const { theme, palette } = useQuizTheme();
   const [picks, setPicks] = useState<ReadonlySet<string>>(new Set());
@@ -331,13 +325,13 @@ const Truths = ({
         <Pressable
           accessibilityRole="button"
           testID="recap-story-quiz-check"
-          onPress={(event) => {
+          onPress={() => {
             const chosen = [...picks];
             const isCorrect = slide.statements.every(
               (statement, index) =>
                 statement.isTrue === picks.has(String(index))
             );
-            onAnswer({ isCorrect, picks: chosen }, originOf(event));
+            onAnswer({ isCorrect, picks: chosen });
           }}
           style={{
             marginTop: 16,
@@ -374,7 +368,7 @@ const Guess = ({
   slide: Exclude<QuizSlide, { quiz: "truths" }>;
   ctx: SlideContext;
   result: QuizResult | null;
-  onAnswer: (result: QuizResult, origin: CelebrationOrigin) => void;
+  onAnswer: (result: QuizResult) => void;
 }) => {
   const { theme } = useQuizTheme();
   const ids = slide.quiz === "people" ? slide.personIds : slide.tagIds;
@@ -436,11 +430,8 @@ const Guess = ({
               onPress={
                 result
                   ? undefined
-                  : (event) =>
-                      onAnswer(
-                        { isCorrect: id === slide.answer, picks: [id] },
-                        originOf(event)
-                      )
+                  : () =>
+                      onAnswer({ isCorrect: id === slide.answer, picks: [id] })
               }
             />
           );
@@ -460,7 +451,7 @@ export const QuizContent = ({
   slide: QuizSlide;
   ctx: SlideContext;
   result: QuizResult | null;
-  onAnswer: (result: QuizResult, origin: CelebrationOrigin) => void;
+  onAnswer: (result: QuizResult) => void;
 }) => (
   <QuizTheme value={ctx.isDark ? "night" : "paper"}>
     {slide.quiz === "truths" ? (

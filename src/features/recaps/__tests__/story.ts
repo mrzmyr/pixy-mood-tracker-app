@@ -63,7 +63,6 @@ describe("month story", () => {
     expect(slides?.map((item) => item.type)).toEqual([
       "cover",
       "coming-up",
-      "thanks",
       "share",
     ]);
   });
@@ -380,11 +379,11 @@ describe("week story", () => {
     expect(weekStory(week(7), "2026-10-12")).toBeNull();
   });
 
-  test("starts with the cover and ends with thanks, then the share card", () => {
+  test("starts with the cover and ends with the share card", () => {
     const types = (weekStory(week(7)) ?? []).map((item) => item.type);
 
     expect(types[0]).toBe("cover");
-    expect(types.slice(-2)).toEqual(["thanks", "share"]);
+    expect(types.at(-1)).toBe("share");
   });
 
   test("shows up to 5 photos one after another, never the grid", () => {

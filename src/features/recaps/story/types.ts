@@ -173,17 +173,9 @@ export interface ComingUpSlide {
 }
 
 /**
- * Second to last slide: Pixy thanks the user for looking back and says why
- * it helps. The story screen sends confetti when it shows.
- */
-export interface ThanksSlide {
-  type: "thanks";
-}
-
-/**
- * Last slide: a card to send to someone close, with the period's days and 3
- * photos when it has 3+ bright photo days. `photos` is the shuffle pool,
- * brightest first.
+ * Last slide, on the sky: thanks for looking back, and a card to send to
+ * someone close, with the period's days and 3 photos when it has 3+ bright
+ * photo days. `photos` is the shuffle pool, brightest first.
  */
 export interface ShareSlide {
   type: "share";
@@ -210,7 +202,6 @@ export type StorySlide =
   | CameBackSlide
   | ComingUpSlide
   | QuizSlide
-  | ThanksSlide
   | ShareSlide;
 
 /** Key of a slide type. */

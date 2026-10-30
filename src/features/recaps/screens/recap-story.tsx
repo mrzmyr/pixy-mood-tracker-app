@@ -3,7 +3,7 @@ import noop from "lodash/noop";
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import type { SharedValue } from "react-native-reanimated";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { useColorScheme, useWindowDimensions, View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import type { View as ViewType } from "react-native";
 import { setStatusBarHidden } from "expo-status-bar";
 import { useFeedback } from "@/features/feedback";
@@ -29,12 +29,9 @@ import type { StoryPhoto, StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
 import { t } from "@/lib/translation";
 import { StoryFinale } from "../story/story-finale";
-import { StoryThanks } from "../story/story-thanks";
 import { getSlideDuration } from "../story/timing";
 import { StoryShareButton } from "../story/story-share-button";
 import { shareStoryCard } from "../story/share-image";
-import { Celebration } from "../story/celebration";
-import type { CelebrationKind, CelebrationOrigin } from "../story/celebration";
 import { QuizContent } from "../story/quiz-content";
 import type { QuizResult } from "../story/quiz-content";
 import type { QuizSlide } from "../story/quiz";
@@ -63,7 +60,6 @@ const slideBackdrop = (
 
 /** Slides that lay out the whole screen, over a photo, map, or sky. */
 const FULL_SCREEN_SLIDES: ReadonlySet<StorySlide["type"]> = new Set([
-  "thanks",
   "share",
   "first-city",
   "best-day",
@@ -130,7 +126,6 @@ const StoryActions = ({
 /** Month story of `date`'s month. Without a story, the month's cards. */
 const RecapStory = () => {
   const colorScheme = useColorScheme();
-  const { width: windowWidth } = useWindowDimensions();
   const router = useRouter();
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
@@ -164,11 +159,6 @@ const RecapStory = () => {
   const [quizResults, setQuizResults] = useState<
     ReadonlyMap<number, QuizResult>
   >(new Map());
-  const [celebration, setCelebration] = useState<{
-    kind: CelebrationKind;
-    origin: CelebrationOrigin;
-    id: number;
-  } | null>(null);
   const shareCard = useRef<ViewType>(null);
   const slideView = useRef<ViewType>(null);
   const contentView = useRef<ViewType>(null);
@@ -263,12 +253,7 @@ const RecapStory = () => {
     setAnswers((current) => new Map([...current, [index, helpful]]));
   };
 
-  const answerQuiz = (
-    index: number,
-    slide: QuizSlide,
-    result: QuizResult,
-    origin: CelebrationOrigin
-  ) => {
+  const answerQuiz = (index: number, slide: QuizSlide, result: QuizResult) => {
     setQuizResults((current) => new Map([...current, [index, result]]));
     analytics.track("recaps:story_quiz_answered", {
       quiz: slide.quiz,
@@ -277,12 +262,6 @@ const RecapStory = () => {
     });
     if (result.isCorrect) {
       void haptics.success();
-      // CE2 for "Which ones are true?": every card right is the bigger win.
-      setCelebration({
-        kind: slide.quiz === "truths" ? "wave" : "burst",
-        origin,
-        id: (celebration?.id ?? 0) + 1,
-      });
     }
   };
 
@@ -327,14 +306,9 @@ const RecapStory = () => {
           slide={slide}
           ctx={ctx}
           result={quizResults.get(index) ?? null}
-          onAnswer={(result, origin) =>
-            answerQuiz(index, slide, result, origin)
-          }
+          onAnswer={(result) => answerQuiz(index, slide, result)}
         />
       );
-    }
-    if (slide.type === "thanks") {
-      return <StoryThanks ctx={ctx} />;
     }
     if (slide.type === "share") {
       return (
@@ -375,14 +349,6 @@ const RecapStory = () => {
         onSlideShown={(index) => {
           lastShown.current = index;
           const slide = slideOf(index);
-          // Thanks celebrates that the user took the time to look back.
-          if (slide?.type === "thanks") {
-            setCelebration({
-              kind: "wave",
-              origin: { x: windowWidth / 2, y: 0 },
-              id: (celebration?.id ?? 0) + 1,
-            });
-          }
           if (slide) {
             analytics.track("recaps:story_slide_shown", {
               slide_type: slide.type,
@@ -403,13 +369,6 @@ const RecapStory = () => {
           />
         )}
       />
-      {celebration && (
-        <Celebration
-          key={celebration.id}
-          kind={celebration.kind}
-          origin={celebration.origin}
-        />
-      )}
       <FeedbackSheet
         visible={asking !== null}
         onCancel={() => setAsking(null)}

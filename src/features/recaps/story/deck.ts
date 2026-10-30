@@ -36,7 +36,6 @@ import type {
   ShareSlide,
   StoryPhoto,
   StorySlide,
-  ThanksSlide,
   VsLastSlide,
   WeekdayHabitSlide,
 } from "./types";
@@ -601,8 +600,6 @@ const farOut = (input: RecapInput): FarOutSlide | null => {
   };
 };
 
-const thanks: ThanksSlide = { type: "thanks" };
-
 /** Share card with 3+ bright photo days' photos, else none. Always last. */
 const share = (input: RecapInput): ShareSlide => {
   const photos = uniqueBrightPhotos(input.days);
@@ -654,7 +651,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     moments(input),
     comingUp(input),
   ];
-  return [...slides, thanks, share(input)].filter(
+  return [...slides, share(input)].filter(
     (slide): slide is StorySlide => slide !== null
   );
 };
@@ -679,7 +676,7 @@ const weeksSince = (start: DateKey, today: DateKey) =>
 /**
  * Week story slides in deck order: cover, best day, mood of each day, most
  * felt emotions, places close by and far out, rhythm, quiz, people, orbit,
- * what came back, a first city without far out, thanks, and the closing card
+ * what came back, a first city without far out, and the closing card
  * with the week. Each slot skips when its rule fails. `null` for other
  * periods, weeks more than 2 weeks back or ahead, and weeks with fewer than 4
  * check-in days.
@@ -712,7 +709,7 @@ export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
     // Far out already shows the trip city.
     far ? null : firstCitySlide(input),
   ];
-  return [...slides, thanks, share(input)].filter(
+  return [...slides, share(input)].filter(
     (slide): slide is StorySlide => slide !== null
   );
 };

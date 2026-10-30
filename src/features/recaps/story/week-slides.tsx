@@ -922,6 +922,8 @@ const PIN_BELOW = 34;
 const PIN_INSET = 24;
 /** Share of the screen the bottom fade covers, for the title and line. */
 const FADE_SHARE = 0.36;
+/** Share of the fade, from its top, where it turns solid. */
+const FADE_SOLID_FROM = 0.42;
 /** Lift, so pins stand out on a busy map. */
 const PIN_SHADOW = "0 4px 14px rgba(0,0,0,0.35)";
 /** Time between two pins dropping onto the map. */
@@ -1175,10 +1177,21 @@ const placesCopy = (slide: CloseBySlide | FarOutSlide) => {
  * the screen, so headline, line, and the story actions read on a calm
  * ground. Drawn with the content: the native map hides views behind it.
  */
-const MapFade = ({ theme }: { theme: StoryTheme }) => {
+const MapFade = ({
+  theme,
+  textHeight,
+}: {
+  theme: StoryTheme;
+  /** Headline and line: a two-line headline needs a taller fade. */
+  textHeight: number;
+}) => {
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
-  const fade = height * FADE_SHARE + 80;
+  // Solid ground under the text and actions, plus the soft part above it.
+  const fade = Math.max(
+    height * FADE_SHARE + 80,
+    (textHeight + insets.bottom + 84 + 24) / FADE_SOLID_FROM
+  );
   const color = STORY_PALETTE[theme].background;
   return (
     <View
@@ -1195,8 +1208,12 @@ const MapFade = ({ theme }: { theme: StoryTheme }) => {
         <Defs>
           <LinearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
             <Stop offset="0" stopColor={color} stopOpacity="0" />
-            <Stop offset="0.3" stopColor={color} stopOpacity="0.9" />
-            <Stop offset="0.42" stopColor={color} stopOpacity="1" />
+            <Stop
+              offset={FADE_SOLID_FROM - 0.12}
+              stopColor={color}
+              stopOpacity="0.9"
+            />
+            <Stop offset={FADE_SOLID_FROM} stopColor={color} stopOpacity="1" />
             <Stop offset="1" stopColor={color} stopOpacity="1" />
           </LinearGradient>
         </Defs>
@@ -1219,6 +1236,7 @@ export const Places = ({
 }) => {
   const placeShade = usePlaceShade();
   const tile = useSkyTile();
+  const [textHeight, setTextHeight] = useState(0);
   const copy = placesCopy(slide);
   const theme = skyTheme(ctx.isDark);
   const places = slide.type === "close-by" ? slide.places : slide.trips;
@@ -1245,9 +1263,12 @@ export const Places = ({
   if (HAS_PLACES_MAP) {
     return (
       <>
-        <MapFade theme={theme} />
+        <MapFade theme={theme} textHeight={textHeight} />
         <View style={{ flex: 1 }} />
-        <View style={{ gap: 6, marginBottom: 8 }}>
+        <View
+          style={{ gap: 6, marginBottom: 8 }}
+          onLayout={(event) => setTextHeight(event.nativeEvent.layout.height)}
+        >
           {title}
           {text()}
         </View>

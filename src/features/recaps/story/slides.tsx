@@ -1079,6 +1079,9 @@ export const SlideBackdrop = ({
     const hadSun = previous?.type === "best-day" && !previous.photo;
     return <SkyBackdrop sun={hadSun ? "out" : null} />;
   }
+  if (slide.type === "share") {
+    return <SkyBackdrop sun={null} />;
+  }
   if (slide.type === "close-by" || slide.type === "far-out") {
     return <PlacesBackdrop slide={slide} />;
   }

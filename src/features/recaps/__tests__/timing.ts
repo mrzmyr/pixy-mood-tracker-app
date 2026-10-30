@@ -42,6 +42,6 @@ describe("slide duration", () => {
   });
 
   test("keeps other slides at 7 seconds", () => {
-    expect(getSlideDuration({ type: "thanks" })).toBe(7000);
+    expect(getSlideDuration({ type: "share", photos: [] })).toBe(7000);
   });
 });
