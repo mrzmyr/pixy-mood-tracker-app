@@ -10,8 +10,9 @@ Framing: "Understand what makes you feel this way"
 
 ## Privacy
 
-Pixy tracks anonymized product data to improve the app.
-It never shares text written in the app with anyone and also will never do it.
+Pixy collects product usage data to improve the app. It is linked to a random ID, never to a name, email, or account.
+Usage data never contains what users log: no moods, emotions, sleep, notes, tags, or people. Only counts and yes/no values.
+Pixy never shares text written in the app with anyone, including AI services, and never will.
 If users prefer to not share, they can disable it in the settings or fork the project.
 
 ## Concept
