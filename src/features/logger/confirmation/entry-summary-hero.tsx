@@ -12,7 +12,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { CloudPixy } from "@/components/cloud-pixy";
-import { Sky } from "@/components/sky";
+import { SKY_DRIFT_SPEED, Sky } from "@/components/sky";
 import { RADIUS } from "@/constants/radius";
 import { PlacePreviewMap } from "@/features/location";
 import type { LogItem } from "@/features/logs";
@@ -136,6 +136,7 @@ const FloatingPixy = () => {
 const SkyHero = () => {
   const { height } = useWindowDimensions();
   const isReducedMotion = useReducedMotion();
+  const speed = useSharedValue(SKY_DRIFT_SPEED);
 
   // The clouds sit low in the photo: pin the full-height sky to the bottom.
   return (
@@ -143,7 +144,7 @@ const SkyHero = () => {
       <View
         style={{ position: "absolute", left: 0, right: 0, bottom: 0, height }}
       >
-        <Sky />
+        <Sky speed={speed} />
       </View>
       {!isReducedMotion && <FloatingPixy />}
     </View>

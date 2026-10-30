@@ -90,7 +90,7 @@ Every sheet and route modal. Sources: [HIG Sheets](https://developer.apple.com/d
 
 ## Sky
 
-Onboarding background and the entry summary hero without photos or place ([`Sky`](src/components/sky.tsx), cloud Pixy: [`CloudPixy`](src/components/cloud-pixy.tsx)).
+Onboarding, voice mode, and the entry summary hero without photos or place ([`Sky`](src/components/sky.tsx); onboarding wraps it in [`OnboardingSky`](src/features/onboarding/screens/onboarding/onboarding-sky.tsx); cloud Pixy: [`CloudPixy`](src/components/cloud-pixy.tsx)).
 
 - Light mode: day sky, drifting cloud photo.
 - Dark mode: night sky. Deep navy, faint clouds, subtle stars: small, sparse, dim, slow twinkle. Never the day sky dimmed.

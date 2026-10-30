@@ -1,18 +1,16 @@
 import { Image } from "expo-image";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { StyleSheet, useColorScheme, useWindowDimensions } from "react-native";
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useFrameCallback,
   useReducedMotion,
   useSharedValue,
-  withSequence,
   withTiming,
 } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
 import useColors from "@/hooks/use-colors";
-import { NightStars } from "@/components/night-stars";
+import { NightStars } from "./night-stars";
 
 // Same CC0 cloud photo as the pixy.day hero. Edges only match their mirror,
 // so the strip runs photo, mirror, photo and loops after two widths.
@@ -21,31 +19,24 @@ const SKY_FLIPPED = require(`../../assets/images/onboarding/sky-flipped.webp`);
 const SKY_ASPECT_RATIO = 2560 / 762;
 
 /** Drift speed in points per second at rest. */
-const DRIFT_SPEED = 8;
-/** Peak speed while the flow moves to the next step. */
-const STEP_SPEED = 220;
-const STEP_RAMP_UP_MS = 250;
-const STEP_RAMP_DOWN_MS = 1600;
+export const SKY_DRIFT_SPEED = 8;
 const SKY_FADE_MS = 600;
 /** Night: the clouds show only faintly against the dark sky. */
 const NIGHT_CLOUD_OPACITY = 0.07;
 
 /**
- * Full-screen sky behind the onboarding slides and the entry summary. The clouds drift slowly
- * and speed up for a moment each time `step` changes; `boost` reports how
- * fast, so cloud Pixy can keep pace. Reduced motion keeps the sky still.
- * Dark mode shows a night sky: faint clouds and subtle twinkling stars.
+ * Full-screen sky with drifting clouds, behind onboarding and voice mode.
+ * `speed` is the drift in points per second; the owner animates it. Reduced
+ * motion keeps the sky still. Dark mode shows a night sky: faint clouds and
+ * subtle twinkling stars.
  */
 export const Sky = ({
-  step = 0,
+  speed,
   isVisible = true,
-  boost,
 }: {
-  step?: number;
-  /** False fades the sky out, for the hand-off to the calendar. */
+  speed: SharedValue<number>;
+  /** False fades the sky out. */
   isVisible?: boolean;
-  /** Set each frame: 0 at drift speed, 1 at the peak of a step change. */
-  boost?: SharedValue<number>;
 }) => {
   const { height } = useWindowDimensions();
   const scheme = useColorScheme();
@@ -55,7 +46,6 @@ export const Sky = ({
   const copyWidth = Math.ceil(height * SKY_ASPECT_RATIO);
   const period = useSharedValue(copyWidth * 2);
   const offset = useSharedValue(0);
-  const speed = useSharedValue(DRIFT_SPEED);
   /** Seconds since start. Drives the star twinkle. */
   const clock = useSharedValue(0);
 
@@ -71,29 +61,8 @@ export const Sky = ({
       (offset.get() + (speed.get() * timeSincePreviousFrame) / 1000) %
         period.get()
     );
-    boost?.set((speed.get() - DRIFT_SPEED) / (STEP_SPEED - DRIFT_SPEED));
     clock.set(clock.get() + timeSincePreviousFrame / 1000);
   }, !isReducedMotion);
-
-  const previousStep = useRef(step);
-  useEffect(() => {
-    if (previousStep.current === step) {
-      return;
-    }
-    previousStep.current = step;
-    speed.set(
-      withSequence(
-        withTiming(STEP_SPEED, {
-          duration: STEP_RAMP_UP_MS,
-          easing: Easing.in(Easing.quad),
-        }),
-        withTiming(DRIFT_SPEED, {
-          duration: STEP_RAMP_DOWN_MS,
-          easing: Easing.out(Easing.cubic),
-        })
-      )
-    );
-  }, [step, speed]);
 
   const opacity = useSharedValue(1);
   useEffect(() => {
