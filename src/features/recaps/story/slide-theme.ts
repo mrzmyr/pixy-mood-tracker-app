@@ -23,6 +23,8 @@ export const getSlideTheme = (
   // The map and the sky follow the app: light by day, dark at night.
   const isMapOrSky =
     slide.type === "best-day" ||
+    slide.type === "week-mood" ||
+    slide.type === "top-emotions" ||
     slide.type === "close-by" ||
     slide.type === "far-out";
   const isPaper =

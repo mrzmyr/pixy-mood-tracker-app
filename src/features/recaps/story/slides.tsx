@@ -39,6 +39,7 @@ import {
 import { Orbit } from "./orbit";
 import {
   BestDay,
+  BestDaySky,
   Places,
   PlacesBackdrop,
   StorySky,
@@ -1068,8 +1069,11 @@ export const SlideBackdrop = ({
         durationMs={durationMs}
       />
     ) : (
-      <StorySky />
+      <BestDaySky />
     );
+  }
+  if (slide.type === "week-mood" || slide.type === "top-emotions") {
+    return <StorySky />;
   }
   if (slide.type === "close-by" || slide.type === "far-out") {
     return <PlacesBackdrop slide={slide} />;
@@ -1138,7 +1142,7 @@ export const SlideContent = ({
       return <WeekMood slide={slide} ctx={ctx} />;
     }
     case "top-emotions": {
-      return <TopEmotions slide={slide} />;
+      return <TopEmotions slide={slide} ctx={ctx} />;
     }
     case "close-by":
     case "far-out": {

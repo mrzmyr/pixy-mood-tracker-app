@@ -577,35 +577,27 @@ const closeBy = (input: RecapInput): CloseBySlide | null => {
     : null;
 };
 
-/** Trips on a zoomed-out map with home: 1+ trip. */
+/** Trips on a zoomed-out map, framed by the week's other places: 1+ trip. */
 const farOut = (input: RecapInput): FarOutSlide | null => {
   const visits = getPlaceVisits(input);
   if (!visits || visits.trips.length === 0) {
     return null;
   }
-  const home = {
-    latitude: visits.home.latitude,
-    longitude: visits.home.longitude,
-  };
   return {
     type: "far-out",
-    home,
     trips: [...visits.trips]
       .sort((a, b) => b.days - a.days)
       .slice(0, THRESHOLDS.storyPlacesMax)
-      .map((trip) => {
-        const place = storyPlace(
+      .map((trip) => ({
+        ...storyPlace(
           input,
           trip.city,
           tripDates(input, trip.start, trip.end),
           trip.points
-        );
-        return {
-          ...place,
-          days: trip.days,
-          km: Math.round(distanceKm(home, place) / 5) * 5,
-        };
-      }),
+        ),
+        days: trip.days,
+      })),
+    around: visits.spots.map((spot) => center(spot.points)),
   };
 };
 

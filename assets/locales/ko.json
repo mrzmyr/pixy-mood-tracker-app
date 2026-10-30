@@ -887,12 +887,10 @@
   "recaps_story_city_eyebrow": "첫 방문",
   "recaps_story_city_km": "%{city} · 집에서 %{km}km",
   "recaps_story_city_title": "%{city}에서의 첫 픽셀",
-  "recaps_story_close_eyebrow": "가까운 곳",
-  "recaps_story_close_text": "%{place}에서 가장 자주",
-  "recaps_story_close_text_single": "모든 기록이 %{place}에서",
-  "recaps_story_close_title_few": "몇몇 장소가 한 주를 채웠어요",
-  "recaps_story_close_title_many": "이번 주는 바쁘게 움직였어요",
-  "recaps_story_close_title_single": "이번 주는 가까운 곳에 머물렀어요",
+  "recaps_story_close_text_few": "몇몇 장소가 한 주를 채웠어요",
+  "recaps_story_close_text_many": "이번 주는 바쁘게 움직였어요",
+  "recaps_story_close_title": "가장 자주: %{place}",
+  "recaps_story_close_title_single": "한 주 내내 %{place}",
   "recaps_story_coming_eyebrow": "앞으로",
   "recaps_story_coming_left": {
     "one": "1일 남음",
@@ -913,11 +911,9 @@
     "other": "{{count}}일"
   },
   "recaps_story_emotions_eyebrow": "가장 많이 느낀 감정",
-  "recaps_story_emotions_title": "가장 많이 느낀 것",
-  "recaps_story_far_eyebrow": "먼 곳",
-  "recaps_story_far_km": "%{km}km",
-  "recaps_story_far_title_many": "이번 주는 여러 곳을 다녔어요",
-  "recaps_story_far_title_single": "이번 주는 멀리 떠났어요",
+  "recaps_story_emotions_title": "가장 많이 느낀 감정: %{emotion}",
+  "recaps_story_far_title_many": "%{city} 외",
+  "recaps_story_far_title_single": "%{city}에 다녀왔어요",
   "recaps_story_hard_days_label": {
     "one": "힘들었던 날",
     "other": "힘들었던 날 {{count}}일"
@@ -930,7 +926,6 @@
   "recaps_story_hard_text": "힘들었던 날 %{total}일 중 %{hard}일에 있었고, 다른 날 %{otherDays}일 중에는 %{other}일뿐이었어요. 그런 날엔 스스로에게 다정해 주세요.",
   "recaps_story_hard_text_none": "힘들었던 날 %{total}일 중 %{hard}일에 있었고, 다른 날 %{otherDays}일에는 없었어요. 그런 날엔 스스로에게 다정해 주세요.",
   "recaps_story_hard_title": "%{tag}, 힘들었던 날과 함께했어요",
-  "recaps_story_home": "집",
   "recaps_story_lifted_eyebrow": "%{month}을 가볍게 해 준 것",
   "recaps_story_lifted_text": {
     "one": "이 태그가 없는 날과 비교했어요. 기록 1개.",
@@ -973,6 +968,7 @@
   "recaps_story_vs_text": "태그별 일수, %{previous} 대비.",
   "recaps_story_vs_title": "늘어난 것, 줄어든 것",
   "recaps_story_week_mood_eyebrow": "나의 한 주",
+  "recaps_story_week_mood_good": "%{total}일 중 %{count}일이 좋았어요",
   "recaps_story_week_mood_title": "하루하루 나의 한 주",
   "recaps_story_weekday_eyebrow": "습관이 생겼어요",
   "recaps_story_weekday_previous": "%{month}: %{total}주 중 %{hits}주.",

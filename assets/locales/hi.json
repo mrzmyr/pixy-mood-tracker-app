@@ -887,12 +887,10 @@
   "recaps_story_city_eyebrow": "पहली बार",
   "recaps_story_city_km": "%{city} · घर से %{km} किमी",
   "recaps_story_city_title": "%{city} में आपका पहला पिक्सेल",
-  "recaps_story_close_eyebrow": "आस-पास",
-  "recaps_story_close_text": "सबसे ज़्यादा %{place} में",
-  "recaps_story_close_text_single": "हर चेक-इन %{place} से",
-  "recaps_story_close_title_few": "कुछ जगहों ने आपका हफ़्ता बनाया",
-  "recaps_story_close_title_many": "आप लगातार घूमते रहे",
-  "recaps_story_close_title_single": "इस हफ़्ते आप आस-पास रहे",
+  "recaps_story_close_text_few": "कुछ जगहों ने आपका हफ़्ता बनाया",
+  "recaps_story_close_text_many": "आप लगातार घूमते रहे",
+  "recaps_story_close_title": "सबसे ज़्यादा: %{place}",
+  "recaps_story_close_title_single": "पूरा हफ़्ता: %{place}",
   "recaps_story_coming_eyebrow": "आगे क्या है",
   "recaps_story_coming_left": {
     "one": "1 बाकी",
@@ -913,11 +911,9 @@
     "other": "{{count}} दिन"
   },
   "recaps_story_emotions_eyebrow": "सबसे ज़्यादा महसूस",
-  "recaps_story_emotions_title": "आपने सबसे ज़्यादा क्या महसूस किया",
-  "recaps_story_far_eyebrow": "दूर",
-  "recaps_story_far_km": "%{km} कि.मी.",
-  "recaps_story_far_title_many": "इस हफ़्ते आप खूब घूमे",
-  "recaps_story_far_title_single": "इस हफ़्ते आप बाहर गए",
+  "recaps_story_emotions_title": "सबसे ज़्यादा: %{emotion}",
+  "recaps_story_far_title_many": "%{city} और भी",
+  "recaps_story_far_title_single": "सफ़र पर: %{city}",
   "recaps_story_hard_days_label": {
     "one": "आपका मुश्किल दिन",
     "other": "आपके {{count}} मुश्किल दिन"
@@ -930,7 +926,6 @@
   "recaps_story_hard_text": "%{total} मुश्किल दिनों में से %{hard} में यह था, लेकिन बाकी %{otherDays} में से सिर्फ़ %{other} में। ऐसे दिनों में खुद के साथ नरमी बरतें।",
   "recaps_story_hard_text_none": "%{total} मुश्किल दिनों में से %{hard} में यह था, बाकी %{otherDays} में से किसी में नहीं। ऐसे दिनों में खुद के साथ नरमी बरतें।",
   "recaps_story_hard_title": "%{tag} आपके मुश्किल दिनों के साथ रहा",
-  "recaps_story_home": "घर",
   "recaps_story_lifted_eyebrow": "%{month} को किसने हल्का किया",
   "recaps_story_lifted_text": {
     "one": "इस टैग के बिना वाले दिनों से तुलना। 1 चेक-इन।",
@@ -973,6 +968,7 @@
   "recaps_story_vs_text": "हर टैग वाले दिन, %{previous} के मुकाबले।",
   "recaps_story_vs_title": "इसका ज़्यादा, उसका कम",
   "recaps_story_week_mood_eyebrow": "आपका हफ़्ता",
+  "recaps_story_week_mood_good": "%{total} में से %{count} दिन अच्छे रहे",
   "recaps_story_week_mood_title": "आपका हफ़्ता, दिन-ब-दिन",
   "recaps_story_weekday_eyebrow": "एक आदत बनी",
   "recaps_story_weekday_previous": "%{month} में: %{total} में से %{hits}।",

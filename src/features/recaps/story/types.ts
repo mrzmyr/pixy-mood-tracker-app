@@ -156,11 +156,12 @@ export interface CloseBySlide {
   places: StoryPlace[];
 }
 
-/** Trips: 25+ km from home, outside the home city. Most days first. */
+/** Trips: 25+ km away, outside the usual city. Most days first. */
 export interface FarOutSlide {
   type: "far-out";
-  home: { latitude: number; longitude: number };
-  trips: (StoryPlace & { km: number })[];
+  trips: StoryPlace[];
+  /** The week's other places: they frame the map, without a pin. */
+  around: { latitude: number; longitude: number }[];
 }
 
 /** Days still to come in the year, and days without a check-in so far. */

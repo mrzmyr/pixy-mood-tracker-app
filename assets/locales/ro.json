@@ -887,12 +887,10 @@
   "recaps_story_city_eyebrow": "Prima dată",
   "recaps_story_city_km": "%{city} · la %{km} km de casă",
   "recaps_story_city_title": "Primul tău pixel din %{city}",
-  "recaps_story_close_eyebrow": "Aproape",
-  "recaps_story_close_text": "Cel mai des în %{place}",
-  "recaps_story_close_text_single": "Fiecare înregistrare din %{place}",
-  "recaps_story_close_title_few": "Câteva locuri ți-au marcat săptămâna",
-  "recaps_story_close_title_many": "Ai fost mereu în mișcare",
-  "recaps_story_close_title_single": "Săptămâna aceasta ai rămas aproape",
+  "recaps_story_close_text_few": "Câteva locuri ți-au marcat săptămâna",
+  "recaps_story_close_text_many": "Ai fost mereu în mișcare",
+  "recaps_story_close_title": "Cel mai des în %{place}",
+  "recaps_story_close_title_single": "Toată săptămâna în %{place}",
   "recaps_story_coming_eyebrow": "Urmează",
   "recaps_story_coming_left": {
     "one": "Mai e 1",
@@ -913,11 +911,9 @@
     "other": "{{count}} zile"
   },
   "recaps_story_emotions_eyebrow": "Cel mai simțit",
-  "recaps_story_emotions_title": "Ce ai simțit cel mai mult",
-  "recaps_story_far_eyebrow": "Departe",
-  "recaps_story_far_km": "%{km} km",
-  "recaps_story_far_title_many": "Săptămâna aceasta ai călătorit",
-  "recaps_story_far_title_single": "Săptămâna aceasta ai evadat",
+  "recaps_story_emotions_title": "Cel mai simțit: %{emotion}",
+  "recaps_story_far_title_many": "%{city} și altele",
+  "recaps_story_far_title_single": "Plecat în %{city}",
   "recaps_story_hard_days_label": {
     "one": "Ziua ta mai grea",
     "other": "Cele {{count}} zile mai grele ale tale"
@@ -930,7 +926,6 @@
   "recaps_story_hard_text": "Prezentă în %{hard} din %{total} zile mai grele, dar doar în %{other} din celelalte %{otherDays}. Ai grijă de tine în acele zile.",
   "recaps_story_hard_text_none": "Prezentă în %{hard} din %{total} zile mai grele, în niciuna din celelalte %{otherDays}. Ai grijă de tine în acele zile.",
   "recaps_story_hard_title": "%{tag} a însoțit zilele tale mai grele",
-  "recaps_story_home": "Acasă",
   "recaps_story_lifted_eyebrow": "Ce ți-a luminat %{month}",
   "recaps_story_lifted_text": {
     "one": "Comparat cu zilele fără etichetă. 1 înregistrare.",
@@ -973,6 +968,7 @@
   "recaps_story_vs_text": "Zile cu fiecare etichetă, vs. %{previous}.",
   "recaps_story_vs_title": "Mai mult din asta, mai puțin din cealaltă",
   "recaps_story_week_mood_eyebrow": "Săptămâna ta",
+  "recaps_story_week_mood_good": "Zile bune: %{count} din %{total}",
   "recaps_story_week_mood_title": "Săptămâna ta, zi de zi",
   "recaps_story_weekday_eyebrow": "Se formează un obicei",
   "recaps_story_weekday_previous": "În %{month}: %{hits} din %{total}.",

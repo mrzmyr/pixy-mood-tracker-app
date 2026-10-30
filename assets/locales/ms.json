@@ -887,12 +887,10 @@
   "recaps_story_city_eyebrow": "Kali pertama",
   "recaps_story_city_km": "%{city} · %{km} km dari rumah",
   "recaps_story_city_title": "Piksel pertama anda di %{city}",
-  "recaps_story_close_eyebrow": "Berdekatan",
-  "recaps_story_close_text": "Paling kerap di %{place}",
-  "recaps_story_close_text_single": "Setiap daftar masuk dari %{place}",
-  "recaps_story_close_title_few": "Beberapa tempat mengisi minggu anda",
-  "recaps_story_close_title_many": "Anda sentiasa bergerak",
-  "recaps_story_close_title_single": "Minggu ini anda kekal berdekatan",
+  "recaps_story_close_text_few": "Beberapa tempat mengisi minggu anda",
+  "recaps_story_close_text_many": "Anda sentiasa bergerak",
+  "recaps_story_close_title": "Paling kerap di %{place}",
+  "recaps_story_close_title_single": "Sepanjang minggu di %{place}",
   "recaps_story_coming_eyebrow": "Akan datang",
   "recaps_story_coming_left": {
     "one": "1 lagi",
@@ -913,11 +911,9 @@
     "other": "{{count}} hari"
   },
   "recaps_story_emotions_eyebrow": "Paling dirasai",
-  "recaps_story_emotions_title": "Apa yang paling anda rasai",
-  "recaps_story_far_eyebrow": "Jauh",
-  "recaps_story_far_km": "%{km} km",
-  "recaps_story_far_title_many": "Minggu ini anda berjalan-jalan",
-  "recaps_story_far_title_single": "Minggu ini anda keluar jauh",
+  "recaps_story_emotions_title": "Paling dirasai: %{emotion}",
+  "recaps_story_far_title_many": "%{city} dan lagi",
+  "recaps_story_far_title_single": "Pergi ke %{city}",
   "recaps_story_hard_days_label": {
     "one": "Hari sukar anda",
     "other": "{{count}} hari sukar anda"
@@ -930,7 +926,6 @@
   "recaps_story_hard_text": "Ada pada %{hard} daripada %{total} hari sukar, tetapi hanya %{other} daripada %{otherDays} hari lain. Berlembutlah dengan diri anda pada hari-hari itu.",
   "recaps_story_hard_text_none": "Ada pada %{hard} daripada %{total} hari sukar, tiada pada %{otherDays} hari lain. Berlembutlah dengan diri anda pada hari-hari itu.",
   "recaps_story_hard_title": "%{tag} mengiringi hari-hari sukar anda",
-  "recaps_story_home": "Rumah",
   "recaps_story_lifted_eyebrow": "Yang menceriakan %{month}",
   "recaps_story_lifted_text": {
     "one": "Berbanding hari tanpa tag ini. 1 rekod.",
@@ -973,6 +968,7 @@
   "recaps_story_vs_text": "Hari dengan setiap tag, lwn %{previous}.",
   "recaps_story_vs_title": "Lebih ini, kurang itu",
   "recaps_story_week_mood_eyebrow": "Minggu anda",
+  "recaps_story_week_mood_good": "%{count} daripada %{total} hari terasa baik",
   "recaps_story_week_mood_title": "Minggu anda, hari demi hari",
   "recaps_story_weekday_eyebrow": "Tabiat terbentuk",
   "recaps_story_weekday_previous": "Pada %{month}: %{hits} daripada %{total}.",

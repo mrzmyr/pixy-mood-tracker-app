@@ -499,7 +499,6 @@ describe("week story", () => {
       expect(far?.trips.map((trip) => [trip.name, trip.days])).toEqual([
         ["Copenhagen", 3],
       ]);
-      expect(far?.trips[0]?.km).toBeGreaterThan(250);
       expect(slide(slides, "first-city")).toBeUndefined();
     });
 

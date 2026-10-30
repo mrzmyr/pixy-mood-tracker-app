@@ -887,12 +887,10 @@
   "recaps_story_city_eyebrow": "Ensimmäistä kertaa",
   "recaps_story_city_km": "%{city} · %{km} km kotoa",
   "recaps_story_city_title": "Ensimmäinen pikselisi: %{city}",
-  "recaps_story_close_eyebrow": "Lähellä",
-  "recaps_story_close_text": "Useimmiten paikassa %{place}",
-  "recaps_story_close_text_single": "Jokainen kirjaus paikasta %{place}",
-  "recaps_story_close_title_few": "Muutama paikka teki viikostasi",
-  "recaps_story_close_title_many": "Olit liikkeellä",
-  "recaps_story_close_title_single": "Pysyit lähellä tällä viikolla",
+  "recaps_story_close_text_few": "Muutama paikka teki viikostasi",
+  "recaps_story_close_text_many": "Olit liikkeellä",
+  "recaps_story_close_title": "Useimmiten paikassa %{place}",
+  "recaps_story_close_title_single": "Koko viikon paikassa %{place}",
   "recaps_story_coming_eyebrow": "Tulossa",
   "recaps_story_coming_left": {
     "one": "1 jäljellä",
@@ -913,11 +911,9 @@
     "other": "{{count}} päivää"
   },
   "recaps_story_emotions_eyebrow": "Eniten tunnettu",
-  "recaps_story_emotions_title": "Mitä tunsit eniten",
-  "recaps_story_far_eyebrow": "Kaukana",
-  "recaps_story_far_km": "%{km} km",
-  "recaps_story_far_title_many": "Kiersit tällä viikolla",
-  "recaps_story_far_title_single": "Pääsit irti tällä viikolla",
+  "recaps_story_emotions_title": "Eniten tunnettu: %{emotion}",
+  "recaps_story_far_title_many": "%{city} ja muuta",
+  "recaps_story_far_title_single": "Matkalla: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Raskaampi päiväsi",
     "other": "{{count}} raskaampaa päivääsi"
@@ -930,7 +926,6 @@
   "recaps_story_hard_text": "Mukana %{hard} päivänä %{total} raskaammasta, mutta vain %{other} päivänä muista %{otherDays}. Ole lempeä itsellesi niinä päivinä.",
   "recaps_story_hard_text_none": "Mukana %{hard} päivänä %{total} raskaammasta, ei yhtenäkään muista %{otherDays}. Ole lempeä itsellesi niinä päivinä.",
   "recaps_story_hard_title": "%{tag} kulki raskaampien päiviesi mukana",
-  "recaps_story_home": "Koti",
   "recaps_story_lifted_eyebrow": "%{month}: mikä kevensi",
   "recaps_story_lifted_text": {
     "one": "Verrattuna päiviin ilman tunnistetta. 1 kirjaus.",
@@ -973,6 +968,7 @@
   "recaps_story_vs_text": "Päivät tunnisteittain, vs. %{previous}.",
   "recaps_story_vs_title": "Enemmän tätä, vähemmän tuota",
   "recaps_story_week_mood_eyebrow": "Viikkosi",
+  "recaps_story_week_mood_good": "%{count}/%{total} päivää tuntui hyvältä",
   "recaps_story_week_mood_title": "Viikkosi päivä päivältä",
   "recaps_story_weekday_eyebrow": "Tapa syntyi",
   "recaps_story_weekday_previous": "%{month}: %{hits}/%{total}.",

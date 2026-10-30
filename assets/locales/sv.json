@@ -887,12 +887,10 @@
   "recaps_story_city_eyebrow": "Första gången",
   "recaps_story_city_km": "%{city} · %{km} km hemifrån",
   "recaps_story_city_title": "Din första pixel i %{city}",
-  "recaps_story_close_eyebrow": "Nära",
-  "recaps_story_close_text": "Oftast i %{place}",
-  "recaps_story_close_text_single": "Varje incheckning från %{place}",
-  "recaps_story_close_title_few": "Några platser präglade din vecka",
-  "recaps_story_close_title_many": "Du var på språng",
-  "recaps_story_close_title_single": "Du höll dig nära den här veckan",
+  "recaps_story_close_text_few": "Några platser präglade din vecka",
+  "recaps_story_close_text_many": "Du var på språng",
+  "recaps_story_close_title": "Oftast i %{place}",
+  "recaps_story_close_title_single": "Hela veckan i %{place}",
   "recaps_story_coming_eyebrow": "Snart",
   "recaps_story_coming_left": {
     "one": "1 kvar",
@@ -913,11 +911,9 @@
     "other": "{{count}} dagar"
   },
   "recaps_story_emotions_eyebrow": "Mest känt",
-  "recaps_story_emotions_title": "Det du kände mest",
-  "recaps_story_far_eyebrow": "Långt bort",
-  "recaps_story_far_km": "%{km} km",
-  "recaps_story_far_title_many": "Du kom runt den här veckan",
-  "recaps_story_far_title_single": "Du kom bort den här veckan",
+  "recaps_story_emotions_title": "Mest känt: %{emotion}",
+  "recaps_story_far_title_many": "%{city} och mer",
+  "recaps_story_far_title_single": "Borta i %{city}",
   "recaps_story_hard_days_label": {
     "one": "Din tyngre dag",
     "other": "Dina {{count}} tyngre dagar"
@@ -930,7 +926,6 @@
   "recaps_story_hard_text": "Med på %{hard} av %{total} tyngre dagar, men bara på %{other} av de andra %{otherDays}. Var snäll mot dig själv de dagarna.",
   "recaps_story_hard_text_none": "Med på %{hard} av %{total} tyngre dagar, på ingen av de andra %{otherDays}. Var snäll mot dig själv de dagarna.",
   "recaps_story_hard_title": "%{tag} hörde ihop med dina tyngre dagar",
-  "recaps_story_home": "Hem",
   "recaps_story_lifted_eyebrow": "Det som lyfte %{month}",
   "recaps_story_lifted_text": {
     "one": "Jämfört med dagar utan taggen. 1 incheckning.",
@@ -973,6 +968,7 @@
   "recaps_story_vs_text": "Dagar med varje tagg, mot %{previous}.",
   "recaps_story_vs_title": "Mer av det här, mindre av det där",
   "recaps_story_week_mood_eyebrow": "Din vecka",
+  "recaps_story_week_mood_good": "%{count} av %{total} dagar kändes bra",
   "recaps_story_week_mood_title": "Din vecka, dag för dag",
   "recaps_story_weekday_eyebrow": "En vana tar form",
   "recaps_story_weekday_previous": "I %{month}: %{hits} av %{total}.",

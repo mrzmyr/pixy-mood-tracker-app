@@ -887,12 +887,10 @@
   "recaps_story_city_eyebrow": "Første gang",
   "recaps_story_city_km": "%{city} · %{km} km hjemmefra",
   "recaps_story_city_title": "Din første piksel i %{city}",
-  "recaps_story_close_eyebrow": "I nærheten",
-  "recaps_story_close_text": "Oftest i %{place}",
-  "recaps_story_close_text_single": "Hver innsjekking fra %{place}",
-  "recaps_story_close_title_few": "Noen få steder preget uken din",
-  "recaps_story_close_title_many": "Du var på farten",
-  "recaps_story_close_title_single": "Du holdt deg i nærheten denne uken",
+  "recaps_story_close_text_few": "Noen få steder preget uken din",
+  "recaps_story_close_text_many": "Du var på farten",
+  "recaps_story_close_title": "Oftest i %{place}",
+  "recaps_story_close_title_single": "Hele uken i %{place}",
   "recaps_story_coming_eyebrow": "Snart",
   "recaps_story_coming_left": {
     "one": "1 igjen",
@@ -913,11 +911,9 @@
     "other": "{{count}} dager"
   },
   "recaps_story_emotions_eyebrow": "Mest følt",
-  "recaps_story_emotions_title": "Det du følte mest",
-  "recaps_story_far_eyebrow": "Langt unna",
-  "recaps_story_far_km": "%{km} km",
-  "recaps_story_far_title_many": "Du kom deg rundt denne uken",
-  "recaps_story_far_title_single": "Du kom deg bort denne uken",
+  "recaps_story_emotions_title": "Mest følt: %{emotion}",
+  "recaps_story_far_title_many": "%{city} og mer",
+  "recaps_story_far_title_single": "Borte i %{city}",
   "recaps_story_hard_days_label": {
     "one": "Din tyngre dag",
     "other": "Dine {{count}} tyngre dager"
@@ -930,7 +926,6 @@
   "recaps_story_hard_text": "Med på %{hard} av %{total} tyngre dager, men bare på %{other} av de andre %{otherDays}. Vær god mot deg selv på de dagene.",
   "recaps_story_hard_text_none": "Med på %{hard} av %{total} tyngre dager, på ingen av de andre %{otherDays}. Vær god mot deg selv på de dagene.",
   "recaps_story_hard_title": "%{tag} fulgte dine tyngre dager",
-  "recaps_story_home": "Hjem",
   "recaps_story_lifted_eyebrow": "Det som løftet %{month}",
   "recaps_story_lifted_text": {
     "one": "Sammenlignet med dager uten taggen. 1 innsjekking.",
@@ -973,6 +968,7 @@
   "recaps_story_vs_text": "Dager med hver tagg, mot %{previous}.",
   "recaps_story_vs_title": "Mer av dette, mindre av det",
   "recaps_story_week_mood_eyebrow": "Uken din",
+  "recaps_story_week_mood_good": "%{count} av %{total} dager føltes gode",
   "recaps_story_week_mood_title": "Uken din, dag for dag",
   "recaps_story_weekday_eyebrow": "En vane tar form",
   "recaps_story_weekday_previous": "I %{month}: %{hits} av %{total}.",

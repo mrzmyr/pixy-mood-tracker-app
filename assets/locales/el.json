@@ -887,12 +887,10 @@
   "recaps_story_city_eyebrow": "Πρώτη φορά",
   "recaps_story_city_km": "%{city} · %{km} km από το σπίτι",
   "recaps_story_city_title": "Το πρώτο σου pixel: %{city}",
-  "recaps_story_close_eyebrow": "Κοντά",
-  "recaps_story_close_text": "Πιο συχνά σε %{place}",
-  "recaps_story_close_text_single": "Κάθε καταγραφή από %{place}",
-  "recaps_story_close_title_few": "Λίγα μέρη σημάδεψαν την εβδομάδα σου",
-  "recaps_story_close_title_many": "Ήσουν συνέχεια σε κίνηση",
-  "recaps_story_close_title_single": "Έμεινες κοντά αυτή την εβδομάδα",
+  "recaps_story_close_text_few": "Λίγα μέρη σημάδεψαν την εβδομάδα σου",
+  "recaps_story_close_text_many": "Ήσουν συνέχεια σε κίνηση",
+  "recaps_story_close_title": "Πιο συχνά: %{place}",
+  "recaps_story_close_title_single": "Όλη την εβδομάδα: %{place}",
   "recaps_story_coming_eyebrow": "Έρχονται",
   "recaps_story_coming_left": {
     "one": "Μένει 1",
@@ -913,11 +911,9 @@
     "other": "{{count}} μέρες"
   },
   "recaps_story_emotions_eyebrow": "Πιο έντονα",
-  "recaps_story_emotions_title": "Τι ένιωσες περισσότερο",
-  "recaps_story_far_eyebrow": "Μακριά",
-  "recaps_story_far_km": "%{km} χλμ.",
-  "recaps_story_far_title_many": "Ταξίδεψες αυτή την εβδομάδα",
-  "recaps_story_far_title_single": "Ξέφυγες αυτή την εβδομάδα",
+  "recaps_story_emotions_title": "Πιο έντονα: %{emotion}",
+  "recaps_story_far_title_many": "%{city} και άλλα",
+  "recaps_story_far_title_single": "Ταξίδι: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Η πιο δύσκολη μέρα σου",
     "other": "Οι {{count}} πιο δύσκολες μέρες σου"
@@ -930,7 +926,6 @@
   "recaps_story_hard_text": "Υπήρχε σε %{hard} από %{total} πιο δύσκολες μέρες, αλλά μόνο σε %{other} από τις υπόλοιπες %{otherDays}. Φρόντισε τον εαυτό σου εκείνες τις μέρες.",
   "recaps_story_hard_text_none": "Υπήρχε σε %{hard} από %{total} πιο δύσκολες μέρες, σε καμία από τις υπόλοιπες %{otherDays}. Φρόντισε τον εαυτό σου εκείνες τις μέρες.",
   "recaps_story_hard_title": "%{tag}: συχνά στις πιο δύσκολες μέρες σου",
-  "recaps_story_home": "Σπίτι",
   "recaps_story_lifted_eyebrow": "%{month}: τι σε ανέβασε",
   "recaps_story_lifted_text": {
     "one": "Σε σύγκριση με μέρες χωρίς την ετικέτα. 1 καταγραφή.",
@@ -973,6 +968,7 @@
   "recaps_story_vs_text": "Μέρες με κάθε ετικέτα, vs %{previous}.",
   "recaps_story_vs_title": "Περισσότερο αυτό, λιγότερο εκείνο",
   "recaps_story_week_mood_eyebrow": "Η εβδομάδα σου",
+  "recaps_story_week_mood_good": "Καλές μέρες: %{count} από %{total}",
   "recaps_story_week_mood_title": "Η εβδομάδα σου, μέρα με τη μέρα",
   "recaps_story_weekday_eyebrow": "Μια συνήθεια γεννιέται",
   "recaps_story_weekday_previous": "%{month}: %{hits} από %{total}.",

@@ -887,12 +887,10 @@
   "recaps_story_city_eyebrow": "Prvi put",
   "recaps_story_city_km": "%{city} · %{km} km od kuće",
   "recaps_story_city_title": "Tvoj prvi piksel u mjestu %{city}",
-  "recaps_story_close_eyebrow": "U blizini",
-  "recaps_story_close_text": "Najčešće u mjestu %{place}",
-  "recaps_story_close_text_single": "Svaka prijava iz mjesta %{place}",
-  "recaps_story_close_title_few": "Nekoliko mjesta obilježilo je tvoj tjedan",
-  "recaps_story_close_title_many": "Bio si u pokretu",
-  "recaps_story_close_title_single": "Ovaj tjedan ostao si u blizini",
+  "recaps_story_close_text_few": "Nekoliko mjesta obilježilo je tvoj tjedan",
+  "recaps_story_close_text_many": "Bio si u pokretu",
+  "recaps_story_close_title": "Najčešće: %{place}",
+  "recaps_story_close_title_single": "Cijeli tjedan: %{place}",
   "recaps_story_coming_eyebrow": "Uskoro",
   "recaps_story_coming_left": {
     "one": "Preostalo: 1",
@@ -913,11 +911,9 @@
     "other": "Dana: {{count}}"
   },
   "recaps_story_emotions_eyebrow": "Najviše osjećano",
-  "recaps_story_emotions_title": "Što si najviše osjećao",
-  "recaps_story_far_eyebrow": "Daleko",
-  "recaps_story_far_km": "%{km} km",
-  "recaps_story_far_title_many": "Ovaj tjedan si putovao",
-  "recaps_story_far_title_single": "Ovaj tjedan si otišao",
+  "recaps_story_emotions_title": "Najčešće: %{emotion}",
+  "recaps_story_far_title_many": "%{city} i više",
+  "recaps_story_far_title_single": "Na putu: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Tvoj teži dan",
     "other": "Tvoji teži dani: {{count}}"
@@ -930,7 +926,6 @@
   "recaps_story_hard_text": "Prisutan u %{hard} od %{total} težih dana, ali samo u %{other} od ostalih %{otherDays}. Tih dana postupaj sa sobom nježno.",
   "recaps_story_hard_text_none": "Prisutan u %{hard} od %{total} težih dana, ni u jednom od ostalih %{otherDays}. Tih dana postupaj sa sobom nježno.",
   "recaps_story_hard_title": "%{tag}: često uz tvoje teže dane",
-  "recaps_story_home": "Dom",
   "recaps_story_lifted_eyebrow": "%{month}: što je pomoglo",
   "recaps_story_lifted_text": {
     "one": "U usporedbi s danima bez oznake. 1 unos.",
@@ -973,6 +968,7 @@
   "recaps_story_vs_text": "Dani sa svakom oznakom, vs. %{previous}.",
   "recaps_story_vs_title": "Više ovoga, manje onoga",
   "recaps_story_week_mood_eyebrow": "Tvoj tjedan",
+  "recaps_story_week_mood_good": "Dobri dani: %{count} od %{total}",
   "recaps_story_week_mood_title": "Tvoj tjedan, dan po dan",
   "recaps_story_weekday_eyebrow": "Nastaje navika",
   "recaps_story_weekday_previous": "%{month}: %{hits} od %{total}.",
