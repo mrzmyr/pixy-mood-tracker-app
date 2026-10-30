@@ -985,11 +985,9 @@ const PIN_BELOW = 34;
 /** Space between pins and the screen edges, so names fit. */
 const PIN_INSET = 24;
 /** Share of the screen the bottom fade covers, for the title and line. */
-const FADE_SHARE = 0.36;
-/** Solid color the fade adds below the screen edge. */
-const FADE_OVERSCAN = 200;
+const FADE_SHARE = 0.52;
 /** Share of the fade, from its top, where it turns solid. */
-const FADE_SOLID_FROM = 0.42;
+const FADE_SOLID_FROM = 0.4;
 /** Lift, so pins stand out on a busy map. */
 const PIN_SHADOW = "0 4px 14px rgba(0,0,0,0.35)";
 /** Time between two pins dropping onto the map. */
@@ -1140,6 +1138,47 @@ const Pin = ({
   );
 };
 
+/**
+ * Map fades into the slide color at the bottom, so headline, line, and the
+ * story actions read on a calm ground. Lives with the map, not the content:
+ * the content slides in from below on every slide change, and a fade there
+ * would leave the map bare under the actions while it moves. Tall enough
+ * for a two-line headline, its line, and the actions.
+ */
+const MapFade = ({ isDark }: { isDark: boolean }) => {
+  const { height } = useWindowDimensions();
+  const fade = height * FADE_SHARE;
+  const color = STORY_PALETTE[isDark ? "night" : "paper"].background;
+  return (
+    <View
+      pointerEvents="none"
+      style={{
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: 0,
+        height: fade,
+      }}
+    >
+      <Svg width="100%" height="100%">
+        <Defs>
+          <LinearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="0" stopColor={color} stopOpacity="0" />
+            <Stop
+              offset={FADE_SOLID_FROM - 0.15}
+              stopColor={color}
+              stopOpacity="0.9"
+            />
+            <Stop offset={FADE_SOLID_FROM} stopColor={color} stopOpacity="1" />
+            <Stop offset="1" stopColor={color} stopOpacity="1" />
+          </LinearGradient>
+        </Defs>
+        <Rect width="100%" height="100%" fill="url(#fade)" />
+      </Svg>
+    </View>
+  );
+};
+
 /** Full-screen map that fits every place above the bottom fade. */
 const PlacesMapBackdrop = ({
   places,
@@ -1153,6 +1192,7 @@ const PlacesMapBackdrop = ({
 }) => {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
+  const isDark = useColorScheme() === "dark";
   const placeShade = usePlaceShade();
   const camera = fitCamera(
     [...context, ...places],
@@ -1160,7 +1200,8 @@ const PlacesMapBackdrop = ({
       width,
       height,
       top: insets.top + 76 + PIN_ABOVE + PIN_INSET,
-      bottom: height * FADE_SHARE + PIN_BELOW,
+      // Pins stay above the solid part of the fade.
+      bottom: height * FADE_SHARE * (1 - FADE_SOLID_FROM) + PIN_BELOW + 40,
       left: PIN_INSET * 3,
       right: PIN_INSET * 3,
     },
@@ -1169,6 +1210,7 @@ const PlacesMapBackdrop = ({
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
       <PlacesMap center={camera.center} zoom={camera.zoom} />
+      <MapFade isDark={isDark} />
       {places.map((place, index) => (
         <Pin
           key={place.name}
@@ -1239,59 +1281,6 @@ const placesCopy = (slide: CloseBySlide | FarOutSlide) => {
 };
 
 /**
- * Map fades into the slide color at the bottom, over at least a third of
- * the screen, so headline, line, and the story actions read on a calm
- * ground. Drawn with the content: the native map hides views behind it.
- */
-const MapFade = ({
-  theme,
-  textHeight,
-}: {
-  theme: StoryTheme;
-  /** Headline and line: a two-line headline needs a taller fade. */
-  textHeight: number;
-}) => {
-  const { height } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
-  // Solid ground under the text and actions, plus the soft part above it.
-  const fade = Math.max(
-    height * FADE_SHARE + 80,
-    (textHeight + insets.bottom + 84 + 24) / FADE_SOLID_FROM
-  );
-  const color = STORY_PALETTE[theme].background;
-  return (
-    <View
-      pointerEvents="none"
-      style={{
-        position: "absolute",
-        left: -24,
-        right: -24,
-        // Runs past the screen edge, so no map shows under the actions.
-        bottom: -(insets.bottom + 84) - FADE_OVERSCAN,
-        height: fade + FADE_OVERSCAN,
-      }}
-    >
-      <Svg width="100%" height={fade}>
-        <Defs>
-          <LinearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={color} stopOpacity="0" />
-            <Stop
-              offset={FADE_SOLID_FROM - 0.12}
-              stopColor={color}
-              stopOpacity="0.9"
-            />
-            <Stop offset={FADE_SOLID_FROM} stopColor={color} stopOpacity="1" />
-            <Stop offset="1" stopColor={color} stopOpacity="1" />
-          </LinearGradient>
-        </Defs>
-        <Rect width="100%" height="100%" fill="url(#fade)" />
-      </Svg>
-      <View style={{ height: FADE_OVERSCAN, backgroundColor: color }} />
-    </View>
-  );
-};
-
-/**
  * Pins drop one after another, then the headline writes itself. Map slide:
  * headline over the bottom fade. Sky slide: headline and a place list.
  */
@@ -1304,7 +1293,6 @@ export const Places = ({
 }) => {
   const placeShade = usePlaceShade();
   const tile = useSkyTile();
-  const [textHeight, setTextHeight] = useState(0);
   const copy = placesCopy(slide);
   const theme = skyTheme(ctx.isDark);
   const places = slide.type === "close-by" ? slide.places : slide.trips;
@@ -1331,12 +1319,8 @@ export const Places = ({
   if (HAS_PLACES_MAP) {
     return (
       <>
-        <MapFade theme={theme} textHeight={textHeight} />
         <View style={{ flex: 1 }} />
-        <View
-          style={{ gap: 6, marginBottom: 8 }}
-          onLayout={(event) => setTextHeight(event.nativeEvent.layout.height)}
-        >
+        <View style={{ gap: 6, marginBottom: 8 }}>
           {title}
           {text()}
         </View>

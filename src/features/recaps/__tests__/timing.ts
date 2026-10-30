@@ -25,6 +25,10 @@ const cover = (
 });
 
 describe("slide duration", () => {
+  test("keeps the last slide twice as long as other slides", () => {
+    expect(getSlideDuration({ type: "share", photos: [] })).toBe(14_000);
+  });
+
   test("gives each cover photo its own moment", () => {
     expect(getSlideDuration(cover(5))).toBe(17_500);
   });
@@ -42,6 +46,6 @@ describe("slide duration", () => {
   });
 
   test("keeps other slides at 7 seconds", () => {
-    expect(getSlideDuration({ type: "share", photos: [] })).toBe(7000);
+    expect(getSlideDuration({ type: "made-of", tagIds: [] })).toBe(7000);
   });
 });

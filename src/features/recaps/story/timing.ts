@@ -19,6 +19,10 @@ const SLOW_SLIDES: ReadonlySet<StorySlide["type"]> = new Set([
  * items come in one by one stay longer too.
  */
 export const getSlideDuration = (slide: StorySlide) => {
+  // The last slide is the one to keep: twice the time of a normal slide.
+  if (slide.type === "share") {
+    return STORY_SLIDE_MS * 2;
+  }
   if (SLOW_SLIDES.has(slide.type)) {
     return STORY_SLOW_SLIDE_MS;
   }
