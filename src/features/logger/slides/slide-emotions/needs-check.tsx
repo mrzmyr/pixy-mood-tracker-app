@@ -1,10 +1,12 @@
 import { SegmentedControl } from "@expo/ui/community/segmented-control";
 import { View } from "react-native";
-import { Body, Headline } from "@/components/type";
+import { Body } from "@/components/type";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
-import { NEED_STATES, NEEDS } from "./needs";
+import { EMOTIONS } from "../../config";
+import { NeedInfo } from "./need-info";
+import { getNeedExamples, NEED_STATES, NEEDS } from "./needs";
 import type { NeedKey, NeedState, NeedStates } from "./needs";
 
 const STATE_LABELS = {
@@ -14,8 +16,9 @@ const STATE_LABELS = {
 } as const satisfies Record<NeedState, string>;
 
 /**
- * Needs check above the emotion grid: one native segmented control per need
- * (met, partly, unmet). Unrated needs show no selected segment.
+ * Needs mode of the emotions step: one native segmented control per need
+ * (met, partly, unmet) and an info button with what the need means. Unrated
+ * needs show no selected segment.
  */
 export const NeedsCheck = ({
   states,
@@ -30,7 +33,6 @@ export const NeedsCheck = ({
 
   return (
     <View style={{ paddingHorizontal: 20, paddingTop: 12, gap: 12 }}>
-      <Headline accessibilityRole="header">{t("log_needs_title")}</Headline>
       {NEEDS.map((need) => {
         const Icon = need.icon;
         const state = states[need.key];
@@ -51,6 +53,12 @@ export const NeedsCheck = ({
             >
               <Icon size={20} color={colors.textSecondary} />
               <Body style={{ flexShrink: 1 }}>{t(need.label)}</Body>
+              <NeedInfo
+                title={t(need.label)}
+                description={t(need.description)}
+                {...getNeedExamples(need, EMOTIONS)}
+                testID={`needs-${need.key}-info`}
+              />
             </View>
             <SegmentedControl
               values={values}

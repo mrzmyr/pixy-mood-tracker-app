@@ -1,5 +1,5 @@
 import type { Emotion } from "@/types";
-import { suggestEmotionsForNeeds } from "../needs";
+import { getNeedExamples, suggestEmotionsForNeeds } from "../needs";
 
 const emotion = (key: string, disabled = false): Emotion => ({
   key,
@@ -95,5 +95,28 @@ describe("suggestEmotionsForNeeds", () => {
 
     expect(keys).toHaveLength(10);
     expect(new Set(keys).size).toBe(keys.length);
+  });
+});
+
+describe("getNeedExamples", () => {
+  it("takes the first three enabled labels per side", () => {
+    const emotions = [
+      { ...emotion("tired"), label: "Tired" },
+      { ...emotion("exhausted", true), label: "Exhausted" },
+      { ...emotion("weak"), label: "Weak" },
+      { ...emotion("restless"), label: "Restless" },
+      { ...emotion("irritated"), label: "Irritated" },
+      { ...emotion("energized"), label: "Energized" },
+    ];
+
+    expect(
+      getNeedExamples(
+        {
+          met: ["energized", "missing"],
+          unmet: ["tired", "exhausted", "weak", "restless", "irritated"],
+        },
+        emotions
+      )
+    ).toEqual({ met: ["Energized"], unmet: ["Tired", "Weak", "Restless"] });
   });
 });
