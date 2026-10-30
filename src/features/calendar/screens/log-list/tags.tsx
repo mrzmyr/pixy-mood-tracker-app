@@ -2,11 +2,10 @@ import useColors from "@/hooks/use-colors";
 import type { LogItem } from "@/features/logs";
 import { TagComponent, useTagsState } from "@/features/tags";
 import { t } from "@/lib/translation";
-import { ChipRow } from "../calendar/timeline/chip-row";
-import { INSET } from "./layout";
+import { ChipWrap } from "./chip-wrap";
 
 /**
- * Tags of an entry card as one scrollable chip row. A tap opens the logger
+ * Tags of an entry card as wrapped chips. A tap opens the logger
  * at the tags step when `onEdit` is given. Tag references without a
  * matching tag are skipped; without known tags it renders nothing.
  */
@@ -30,8 +29,7 @@ export const Tags = ({
   }
 
   return (
-    <ChipRow
-      inset={INSET}
+    <ChipWrap
       onPress={onEdit}
       accessibilityLabel={
         onEdit
@@ -51,6 +49,6 @@ export const Tags = ({
           }}
         />
       ))}
-    </ChipRow>
+    </ChipWrap>
   );
 };
