@@ -11,6 +11,7 @@ import {
   Platform,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from "react-native";
 import Animated from "react-native-reanimated";
@@ -18,6 +19,7 @@ import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
 import type { FlashListRef } from "@shopify/flash-list";
 import { HeaderHeightContext } from "expo-router/react-navigation";
+import { getGeometry } from "./layout";
 import type { Month } from "./layout";
 import { useCalendarFiltersSheet } from "../../filters";
 import { HAS_FLOATING_HEADER } from "@/constants/floating-header";
@@ -55,6 +57,14 @@ const CalendarScreenComponent = () => {
   const colors = useColors();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { width, fontScale } = useWindowDimensions();
+  // One empty calendar row at the list end keeps the float buttons off the
+  // last week. The list spans the window, so its rows match this height.
+  const { weekHeight } = getGeometry({
+    width,
+    fontScale,
+    isAndroid: Platform.OS === "android",
+  });
   const isSettingsLoaded = useSettingsLoad().status === "ready";
   const isLogsLoaded = useLogLoad().status === "ready";
   const analytics = useAnalytics();
@@ -134,6 +144,7 @@ const CalendarScreenComponent = () => {
             <View style={{ paddingBottom: 32 }}>
               <PromoCards />
             </View>
+            <View style={{ height: weekHeight }} />
             {/* Zero height: the note sits below the list end, under the
                 bottom safe area padding, and shows only on overscroll. */}
             <View style={{ height: 0 }}>
