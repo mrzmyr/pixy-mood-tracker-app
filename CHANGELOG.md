@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.109.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.108.0...v1.109.0) (2026-10-30)
+
+
+### Features
+
+* **dev:** add persona docs and test data fixtures ([#1001](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1001)) ([dcfccef](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/dcfccef36ddf5f8af56170911068f0786e1d299b))
+* **emotions:** long-press an emotion on iOS to read its description ([#997](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/997)) ([b455db7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b455db7045e7042c256295eeeabf5e49e8cdf2f7))
+* **quick-check-in:** add photos from the library ([#1003](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1003)) ([2319274](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2319274817034d30370950f4137bd42a8c50a331))
+
+
+### Bug Fixes
+
+* **calendar:** keep float buttons off the last calendar row ([#999](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/999)) ([4af2473](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4af2473c6b2f16fc190b7f8b91ae68fa62bf9729))
+
 ## [1.108.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.107.0...v1.108.0) (2026-10-29)
 
 
