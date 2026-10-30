@@ -86,8 +86,11 @@ export const StoryFinale = ({
         <StoryText
           kind="eyebrow"
           theme={theme}
-          tone="muted"
-          style={{ textAlign: "center" }}
+          // Gray reads washed out on the sky: a deep blue of its hue instead.
+          style={{
+            textAlign: "center",
+            color: ctx.isDark ? "rgba(255,255,255,0.7)" : "#2A4A6B",
+          }}
         >
           {ctx.period.kind === "week"
             ? t("recaps_story_finale_eyebrow_week")

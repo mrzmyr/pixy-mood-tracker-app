@@ -60,26 +60,41 @@ describe("pixels in pipes", () => {
   });
 });
 
-describe("bubbles in a box", () => {
-  const BOX = {
+describe("balloons on tethers", () => {
+  const AREA = {
     width: 350,
     height: 420,
-    gravity: 700,
-    restitution: 0.25,
-    drag: 0.8,
+    tether: 9,
+    restitution: 0.45,
+    drag: 2.4,
   };
+  const radii = [77, 63, 56, 56, 46, 42];
+  const homes = [
+    { x: 175, y: 126 },
+    { x: 84, y: 218 },
+    { x: 266, y: 210 },
+    { x: 175, y: 294 },
+    { x: 287, y: 328 },
+    { x: 63, y: 336 },
+  ];
 
-  test("settle inside the box without overlapping", () => {
-    const radii = [80, 63, 56, 56, 44, 42];
-    const world = createBubbleWorld(radii, { start: 0, each: 0.3 }, BOX);
+  test("float in from both sides and settle near their spots without overlapping", () => {
+    const world = createBubbleWorld(
+      radii,
+      homes,
+      { start: 0, each: 0.3 },
+      AREA
+    );
 
-    expect(settle((seconds) => stepBubbles(world, seconds, BOX))).toBe(true);
+    expect(world.x[0]).toBeGreaterThan(AREA.width);
+    expect(world.x[1]).toBeLessThan(0);
+    expect(settle((seconds) => stepBubbles(world, seconds, AREA))).toBe(true);
     for (const [a, ra] of radii.entries()) {
       const x = world.x[a] ?? 0;
       const y = world.y[a] ?? 0;
-      expect(x).toBeGreaterThanOrEqual(ra - 0.5);
-      expect(x).toBeLessThanOrEqual(BOX.width - ra + 0.5);
-      expect(y).toBeLessThanOrEqual(BOX.height - ra + 0.5);
+      expect(
+        Math.hypot(x - (homes[a]?.x ?? 0), y - (homes[a]?.y ?? 0))
+      ).toBeLessThan(ra);
       for (const [b, rb] of radii.entries()) {
         if (b > a) {
           const distance = Math.hypot(

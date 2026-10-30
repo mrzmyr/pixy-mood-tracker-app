@@ -208,11 +208,15 @@ export const stepPipes = (
 // ---------------------------------------------------------------- bubbles
 
 /**
- * Round bodies in an open box: walls left and right, a floor, no lid.
- * Positions are centers, in points from the box's top left corner.
+ * Balloons on soft tethers: no gravity, each pulled to its resting spot,
+ * bumping into the others. Positions are centers, in points from the
+ * area's top left corner.
  */
 export interface BubbleWorld {
   radius: number[];
+  /** Resting spot each balloon floats back to. */
+  homeX: number[];
+  homeY: number[];
   dropAt: number[];
   x: number[];
   y: number[];
@@ -222,37 +226,38 @@ export interface BubbleWorld {
   time: number;
 }
 
-/** Box size and the feel of the bubbles. */
+/** Area size and the feel of the balloons. */
 export interface BubbleConfig {
   width: number;
   height: number;
-  gravity: number;
+  /** Pull back to the resting spot, per second squared: a soft tether. */
+  tether: number;
   restitution: number;
-  /** Air drag per second, 0 to 1: a calm, slowed fall. */
+  /** Air drag per second: how fast a balloon calms down. */
   drag: number;
 }
 
 /**
- * Bubbles that drop in one after another from above the box, each at its
- * own spot and with a little sideways speed, so they meet at random.
+ * Balloons that float in one after another from the left and right edges,
+ * each toward its resting spot. Spots are centers, in points.
  */
 export const createBubbleWorld = (
   radii: number[],
+  homes: { x: number; y: number }[],
   delay: { start: number; each: number },
   config: BubbleConfig
 ): BubbleWorld => ({
   radius: radii,
+  homeX: homes.map((home) => home.x),
+  homeY: homes.map((home) => home.y),
   dropAt: radii.map((_, index) => delay.start + index * delay.each),
-  // Spread drop spots over the width with a fixed shuffle, inside the walls.
-  x: radii.map((radius, index) => {
-    const spot = [0.5, 0.25, 0.72, 0.4, 0.85, 0.15][index % 6] ?? 0.5;
-    return Math.min(
-      Math.max(spot * config.width, radius),
-      config.width - radius
-    );
-  }),
-  y: radii.map((radius) => -radius - 8),
-  vx: radii.map((_, index) => (index % 2 === 0 ? 1 : -1) * (30 + index * 12)),
+  // Odd balloons come from the left, even ones from the right.
+  x: radii.map((radius, index) =>
+    index % 2 === 1 ? -radius - 8 : config.width + radius + 8
+  ),
+  // A little below their spot, so they drift up as they come in.
+  y: homes.map((home) => home.y + 40),
+  vx: radii.map(() => 0),
   vy: radii.map(() => 0),
   live: radii.map(() => false),
   time: 0,
@@ -270,7 +275,7 @@ const isBubbleIn = (world: BubbleWorld, index: number) => {
   return world.live[index] ?? false;
 };
 
-/** Gravity and air drag, then motion. */
+/** Tether pull and air drag, then motion. */
 const moveBubble = (
   world: BubbleWorld,
   index: number,
@@ -279,34 +284,14 @@ const moveBubble = (
 ) => {
   "worklet";
   const keep = 1 - config.drag * dt;
-  world.vy[index] = ((world.vy[index] ?? 0) + config.gravity * dt) * keep;
-  world.vx[index] = (world.vx[index] ?? 0) * keep;
+  const pullX =
+    ((world.homeX[index] ?? 0) - (world.x[index] ?? 0)) * config.tether;
+  const pullY =
+    ((world.homeY[index] ?? 0) - (world.y[index] ?? 0)) * config.tether;
+  world.vx[index] = ((world.vx[index] ?? 0) + pullX * dt) * keep;
+  world.vy[index] = ((world.vy[index] ?? 0) + pullY * dt) * keep;
   world.x[index] = (world.x[index] ?? 0) + (world.vx[index] ?? 0) * dt;
   world.y[index] = (world.y[index] ?? 0) + (world.vy[index] ?? 0) * dt;
-};
-
-/** Bounces a bubble off the side walls and the floor. */
-const hitWalls = (
-  world: BubbleWorld,
-  index: number,
-  dt: number,
-  config: BubbleConfig
-) => {
-  "worklet";
-  const radius = world.radius[index] ?? 0;
-  const x = world.x[index] ?? 0;
-  if (x < radius || x > config.width - radius) {
-    const isLeft = x < radius;
-    world.x[index] = isLeft ? radius : config.width - radius;
-    const away = Math.abs(world.vx[index] ?? 0) * config.restitution;
-    world.vx[index] = isLeft ? away : -away;
-  }
-  if ((world.y[index] ?? 0) > config.height - radius) {
-    world.y[index] = config.height - radius;
-    world.vy[index] = -Math.max(world.vy[index] ?? 0, 0) * config.restitution;
-    // Rolling on the floor slows down.
-    world.vx[index] = (world.vx[index] ?? 0) * (1 - 4 * dt);
-  }
 };
 
 /** Pushes two touching bubbles apart and lets them bump. */
@@ -355,11 +340,7 @@ const hitPair = (
 };
 
 /** Resolves every contact a few times, so piles stay steady. */
-const solveContacts = (
-  world: BubbleWorld,
-  dt: number,
-  config: BubbleConfig
-) => {
+const solveContacts = (world: BubbleWorld, config: BubbleConfig) => {
   "worklet";
   const count = world.radius.length;
   for (let pass = 0; pass < SOLVER_PASSES; pass += 1) {
@@ -367,7 +348,6 @@ const solveContacts = (
       if (!world.live[a]) {
         continue;
       }
-      hitWalls(world, a, dt, config);
       for (let b = a + 1; b < count; b += 1) {
         if (world.live[b]) {
           hitPair(world, a, b, config);
@@ -399,7 +379,7 @@ export const stepBubbles = (
         moving = true;
       }
     }
-    solveContacts(world, dt, config);
+    solveContacts(world, config);
     for (let index = 0; index < count; index += 1) {
       const speed = Math.hypot(world.vx[index] ?? 0, world.vy[index] ?? 0);
       if (world.live[index] && speed > SLEEP_SPEED) {

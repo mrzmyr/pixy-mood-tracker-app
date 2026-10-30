@@ -553,12 +553,14 @@ const startPipes = (
 /** Bubble world that starts at `startAt` ms, or already at rest. */
 const startBubbles = (
   radii: number[],
+  homes: { x: number; y: number }[],
   startAt: number,
   config: BubbleConfig,
   isSettled: boolean
 ) => {
   const world = createBubbleWorld(
     radii,
+    homes,
     { start: startAt / 1000, each: 0.45 },
     config
   );
@@ -787,8 +789,17 @@ export const WeekMood = ({
 
 /** Bubble sizes by rank, as shares of the area width. */
 const BUBBLE_SIZES = [0.44, 0.36, 0.32, 0.32, 0.26, 0.24];
-/** Light, floaty bubbles: low gravity, thick air, soft bumps. */
-const BUBBLE_PHYSICS = { gravity: 520, restitution: 0.3, drag: 1.1 };
+/** Resting spots by rank, as shares of the area: a loose cluster. */
+const BUBBLE_HOMES = [
+  { x: 0.5, y: 0.3 },
+  { x: 0.24, y: 0.52 },
+  { x: 0.76, y: 0.5 },
+  { x: 0.5, y: 0.7 },
+  { x: 0.82, y: 0.78 },
+  { x: 0.18, y: 0.8 },
+];
+/** Light balloons: a soft tether, thick air, gentle bumps. */
+const BUBBLE_PHYSICS = { tether: 9, restitution: 0.45, drag: 2.4 };
 
 /** Bubble that moves with the simulation. Hidden until it drops in. */
 const SimBubble = ({
@@ -819,7 +830,7 @@ const SimBubble = ({
   );
 };
 
-/** The open box the emotion bubbles fall into. */
+/** The sky area the emotion balloons float into. */
 const BubbleBox = ({
   slide,
   ctx,
@@ -843,7 +854,16 @@ const BubbleBox = ({
   const config = { ...BUBBLE_PHYSICS, width, height };
   // Reduced motion starts with the settled world: bubbles already at rest.
   const world = useSharedValue(
-    startBubbles(radii, startAt, config, isReducedMotion)
+    startBubbles(
+      radii,
+      radii.map((_, index) => {
+        const home = BUBBLE_HOMES[index] ?? { x: 0.5, y: 0.5 };
+        return { x: home.x * width, y: home.y * height };
+      }),
+      startAt,
+      config,
+      isReducedMotion
+    )
   );
   useSimulation(
     world,
@@ -917,8 +937,8 @@ const BubbleBox = ({
 };
 
 /**
- * Emotions as bubbles that drop in one by one, bump into each other, and
- * come to rest on the floor of the sky, biggest first.
+ * Emotions as balloons that float in one by one from the left and right,
+ * bump into each other, and settle in a loose cluster, biggest first.
  */
 export const TopEmotions = ({
   slide,
