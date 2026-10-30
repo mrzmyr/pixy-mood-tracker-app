@@ -28,6 +28,8 @@ import type { CheckIn, DaySummary } from "./day-summary";
 import { FACES_MAX, joinNames, takeVisible } from "./entry-summary-layout";
 import { createFadeIn } from "./motion";
 
+/** Every tile is at least this tall, so the grid reads as a bento. */
+const TILE_MIN_HEIGHT = 96;
 const FACE_SIZE = 38;
 /** How far each face slides under the one before it. */
 const FACE_OVERLAP = 10;
@@ -90,7 +92,13 @@ export const Tile = ({
         borderRadius: RADIUS.lg,
         borderCurve: "continuous",
         padding: 14,
-        overflow: "hidden",
+        minHeight: TILE_MIN_HEIGHT,
+        // Subtle lift off the gray page: see-through hairline plus a soft
+        // shadow.
+        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: colors.glassBorder,
+        boxShadow:
+          "0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04)",
         ...style,
       }}
     >
@@ -154,6 +162,7 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
             marginLeft: -3,
             left: `${toStripOffset(checkIn.minute) * 100}%`,
             borderRadius: 3,
+            backgroundColor: scale[checkIn.rating].background,
             borderWidth: checkIn.minute === newest ? 2 : 1.5,
             borderColor: getMarkColor(
               scale[checkIn.rating].background,
@@ -201,6 +210,8 @@ export const MoodHeader = ({
   const colors = useColors();
   const { settings } = useSettings();
   const place = item.location?.name ?? null;
+  const pixelColor =
+    colors.scales[settings.scaleType][summary.rating].background;
 
   return (
     <View style={{ paddingHorizontal: 4, paddingBottom: 6 }}>
@@ -210,8 +221,10 @@ export const MoodHeader = ({
           height: PIXEL_SIZE,
           // Calendar pixel: rounded square, 15% radius.
           borderRadius: PIXEL_SIZE * 0.15,
-          backgroundColor:
-            colors.scales[settings.scaleType][summary.rating].background,
+          backgroundColor: pixelColor,
+          // Outlined in its own color, so it holds up on photos and maps.
+          borderWidth: 1.5,
+          borderColor: getMarkColor(pixelColor, false),
         }}
       />
       <Text
@@ -325,7 +338,7 @@ export const SleepTile = ({
   const value = SLEEP_QUALITY_MAPPING[quality];
 
   return (
-    <Tile row={3} style={{ flex: 1, justifyContent: "center" }}>
+    <Tile row={3} style={{ flex: 1, justifyContent: "flex-end" }}>
       <View
         accessible
         accessibilityLabel={`${t("logger_step_sleep")} ${value + 1}/5`}
@@ -361,25 +374,12 @@ const FaceCutout = () => {
 };
 
 /** Up to 3 overlapping faces and the names. */
-export const PeopleTile = ({
-  people,
-  isRow,
-}: {
-  people: Person[];
-  isRow: boolean;
-}) => {
+export const PeopleTile = ({ people }: { people: Person[] }) => {
   const colors = useColors();
   const { shown } = takeVisible(people, FACES_MAX);
 
   return (
-    <Tile
-      row={3}
-      style={
-        isRow
-          ? { flex: 1, flexDirection: "row", alignItems: "center", gap: 12 }
-          : { flex: 1, gap: 10, justifyContent: "space-between" }
-      }
-    >
+    <Tile row={3} style={{ flex: 1, gap: 10, justifyContent: "space-between" }}>
       <View style={{ flexDirection: "row" }}>
         {shown.map((person, index) => (
           <View
@@ -398,7 +398,6 @@ export const PeopleTile = ({
       </View>
       <Text
         style={{
-          flex: isRow ? 1 : 0,
           fontSize: FONT_SIZE.base,
           color: colors.text,
         }}

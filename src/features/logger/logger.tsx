@@ -18,7 +18,7 @@ import { getItemDate, toLogDate } from "@/lib/log-dates";
 
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import type { ReactElement, RefObject } from "react";
 
 import { Keyboard, Text, useWindowDimensions, View } from "react-native";
@@ -643,6 +643,22 @@ export const LoggerEdit = ({
 };
 
 /**
+ * Sheet bar after saving: see-through and empty, so the summary reaches the
+ * top. Clears the slides' close button and stepper. Hiding the bar instead
+ * would remount the modal and lose the saved state (react-native-screens).
+ */
+const SAVED_BAR_OPTIONS = {
+  title: "",
+  headerTitle: () => null,
+  headerTransparent: true,
+  headerStyle: { backgroundColor: "transparent" },
+  headerLeft: () => null,
+  headerRight: () => null,
+  unstable_headerLeftItems: () => [],
+  unstable_headerRightItems: () => [],
+};
+
+/**
  * Logger for a new entry at `dateTime` (ISO).
  *
  * Without `avaliableSteps`, the slides follow the user's enabled steps. The
@@ -732,6 +748,7 @@ export const LoggerCreate = ({
     };
     return (
       <>
+        <Stack.Screen options={SAVED_BAR_OPTIONS} />
         {isEntrySummary ? (
           <FlagHighlight flag="entry-summary" pillOnly style={{ flex: 1 }}>
             <EntrySummary {...confirmation} />

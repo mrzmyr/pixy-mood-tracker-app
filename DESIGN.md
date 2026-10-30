@@ -34,11 +34,13 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 Tile lists like the entry summary: a hero picture on top, then white cards on the page.
 
-- Tile: `colors.cardBackground`, `RADIUS.lg`, no shadow.
+- Tile: `colors.cardBackground`, `RADIUS.lg`, at least 96 pt tall. Subtle lift off the gray page: `colors.glassBorder` hairline plus a soft shadow.
+- Grid of two columns: a few chips, sleep, and people take half; many chips and the note take the full width. A half without partner takes its row alone.
+- Mood pixel over a photo or map: outlined in its own color, a bit darker.
 - Chips inside: border `colors.glassBorder`, no fill. Overlapping avatars: see-through gap, no card-colored ring.
 - Bottom of a scrolling tile list fades out above the action button (mask, not a color overlay).
 - Text on tiles: `colors.text`, `FONT_SIZE.base`.
-- Marks on a colored surface (day strip, pixels): outline is the color behind it, a bit darker on light colors and lighter on dark ones; inside see-through. Never near-black on light colors. A fixed white or black at low opacity does not adapt to every color.
+- Marks on a colored surface (day strip, pixels): filled with that color, outlined in it a bit darker on light colors and lighter on dark ones. Never near-black on light colors. A fixed white or black at low opacity does not adapt to every color.
 - Colored bars on a card: see-through hairline outline, `colors.glassBorder`.
 
 ## Sheets and Modals

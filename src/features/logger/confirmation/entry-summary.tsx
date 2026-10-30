@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo } from "react";
+import type { ReactNode } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
@@ -8,7 +9,6 @@ import { ConfirmationOffer } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
-import type { Person } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -16,6 +16,8 @@ import { t } from "@/lib/translation";
 import { EMOTIONS } from "../config";
 import { getDaySummary } from "./day-summary";
 import { SummaryHero } from "./entry-summary-hero";
+import { HALF_TILE_CHIPS_MAX, getBentoRows } from "./entry-summary-layout";
+import type { TileSpan } from "./entry-summary-layout";
 import {
   EmotionsTile,
   MoodHeader,
@@ -41,18 +43,31 @@ const BottomFadeMask = () => (
   </View>
 );
 
-/** Sleep and people side by side, or one of them at full width. */
-const MiddleRows = ({ item, people }: { item: LogItem; people: Person[] }) => {
-  const quality = item.sleep?.quality ?? null;
-  const hasPeople = people.length > 0;
+/** One summary tile and how wide it is in the grid. */
+interface SummaryTile {
+  key: string;
+  span: TileSpan;
+  node: ReactNode;
+}
 
-  return (
-    <View style={{ flexDirection: "row", gap: GAP }}>
-      {quality !== null && <SleepTile quality={quality} />}
-      {hasPeople && <PeopleTile people={people} isRow={quality === null} />}
+/** Tiles in two columns: halves pair up, the rest takes the full width. */
+const BentoGrid = ({ tiles }: { tiles: SummaryTile[] }) =>
+  getBentoRows(tiles).map((row) => (
+    <View
+      key={row.map((tile) => tile.key).join(",")}
+      style={{ flexDirection: "row", gap: GAP }}
+    >
+      {row.map((tile) => (
+        <View key={tile.key} style={{ flex: 1 }}>
+          {tile.node}
+        </View>
+      ))}
     </View>
-  );
-};
+  ));
+
+/** Half width for a few chips, full width for more. */
+const chipSpan = (count: number): TileSpan =>
+  count > HALF_TILE_CHIPS_MAX ? "full" : "half";
 
 /**
  * Last logger step after a new entry, flag `entry-summary`. A full-width
@@ -97,6 +112,39 @@ export const EntrySummary = ({
     people.filter((person) => person.id === id)
   );
   const note = item.message.trim();
+  const quality = item.sleep?.quality ?? null;
+
+  // Order of the grid; the note always comes last at full width.
+  const candidates: (SummaryTile | false)[] = [
+    emotions.length > 0 && {
+      key: "emotions",
+      span: chipSpan(emotions.length),
+      node: <EmotionsTile emotions={emotions} />,
+    },
+    quality !== null && {
+      key: "sleep",
+      span: "half",
+      node: <SleepTile quality={quality} />,
+    },
+    entryPeople.length > 0 && {
+      key: "people",
+      span: "half",
+      node: <PeopleTile people={entryPeople} />,
+    },
+    entryTags.length > 0 && {
+      key: "tags",
+      span: chipSpan(entryTags.length),
+      node: <TagsTile tags={entryTags} />,
+    },
+    note !== "" && {
+      key: "note",
+      span: "full",
+      node: <NoteTile note={note} />,
+    },
+  ];
+  const tiles = candidates.filter(
+    (tile): tile is SummaryTile => tile !== false
+  );
 
   const success = useEffectEvent(() => {
     void haptics.success();
@@ -135,10 +183,7 @@ export const EntrySummary = ({
             }}
           >
             <MoodHeader summary={summary} item={item} />
-            {emotions.length > 0 && <EmotionsTile emotions={emotions} />}
-            <MiddleRows item={item} people={entryPeople} />
-            {entryTags.length > 0 && <TagsTile tags={entryTags} />}
-            {note !== "" && <NoteTile note={note} />}
+            <BentoGrid tiles={tiles} />
           </View>
         </ScrollView>
       </MaskedView>

@@ -1,5 +1,34 @@
 import { t } from "@/lib/translation";
 
+/** Chips that still fit a half-width tile; more take the full width. */
+export const HALF_TILE_CHIPS_MAX = 3;
+
+/** Width of a summary tile: one column of two, or both. */
+export type TileSpan = "half" | "full";
+
+/**
+ * Rows of the two-column tile grid. Half tiles pair up in order. A half
+ * waiting for a partner keeps its place: the next half joins it, past any
+ * full tiles in between. A half left without partner takes its row alone,
+ * at full width.
+ */
+export const getBentoRows = <T extends { span: TileSpan }>(tiles: T[]) => {
+  const rows: T[][] = [];
+  let waiting: T[] | null = null;
+  for (const tile of tiles) {
+    if (tile.span === "full") {
+      rows.push([tile]);
+    } else if (waiting) {
+      waiting.push(tile);
+      waiting = null;
+    } else {
+      waiting = [tile];
+      rows.push(waiting);
+    }
+  }
+  return rows;
+};
+
 /** Photos in the bento before "+N". */
 export const BENTO_PHOTOS_MAX = 5;
 /** Faces before "+N". */

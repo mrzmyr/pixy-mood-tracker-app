@@ -20,7 +20,11 @@ import {
   getSummaryTitle,
 } from "../confirmation/day-summary";
 import type { DaySummary } from "../confirmation/day-summary";
-import { getPhotoBento, joinNames } from "../confirmation/entry-summary-layout";
+import {
+  getBentoRows,
+  getPhotoBento,
+  joinNames,
+} from "../confirmation/entry-summary-layout";
 import { useConfirmation } from "../confirmation/use-confirmation";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
@@ -285,6 +289,12 @@ const bentoIndexes = (count: number) =>
     .flatMap((row) => row.columns.flat())
     .sort((a, b) => a - b);
 
+/** Tile indexes per bento row for tiles of these spans. */
+const bentoKeys = (spans: ("half" | "full")[]) =>
+  getBentoRows(spans.map((span, index) => ({ span, key: index }))).map((row) =>
+    row.map((tile) => tile.key)
+  );
+
 describe("entry summary", () => {
   test("shows each photo once in the hero, up to 5", () => {
     expect(bentoIndexes(0)).toEqual([]);
@@ -293,6 +303,17 @@ describe("entry summary", () => {
     expect(bentoIndexes(3)).toEqual([0, 1, 2]);
     expect(bentoIndexes(4)).toEqual([0, 1, 2, 3]);
     expect(bentoIndexes(9)).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  test("pairs half tiles into rows, a lone half takes the row alone", () => {
+    expect(bentoKeys(["half", "half", "full"])).toEqual([[0, 1], [2]]);
+    expect(bentoKeys(["half", "full", "half", "full"])).toEqual([
+      [0, 2],
+      [1],
+      [3],
+    ]);
+    expect(bentoKeys(["half", "full"])).toEqual([[0], [1]]);
+    expect(bentoKeys(["half", "half", "half"])).toEqual([[0, 1], [2]]);
   });
 
   test("names up to 3 people, then counts the rest", () => {
