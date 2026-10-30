@@ -38,7 +38,7 @@ Tile lists like the entry summary: a hero picture on top, then white cards on th
 - Chips inside: border `colors.glassBorder`, no fill. Overlapping avatars: see-through gap, no card-colored ring.
 - Bottom of a scrolling tile list fades out above the action button (mask, not a color overlay).
 - Text on tiles: `colors.text`, `FONT_SIZE.base`.
-- Marks on a colored surface (day strip, pixels): outline from the color behind it (`scale[rating].text` / `textSecondary`), inside see-through. A fixed white or black at low opacity does not adapt to every color.
+- Marks on a colored surface (day strip, pixels): outline is the color behind it, a bit darker on light colors and lighter on dark ones; inside see-through. Never near-black on light colors. A fixed white or black at low opacity does not adapt to every color.
 - Colored bars on a card: see-through hairline outline, `colors.glassBorder`.
 
 ## Sheets and Modals
