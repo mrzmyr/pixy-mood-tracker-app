@@ -1,22 +1,16 @@
 import type { RefObject } from "react";
-import { View } from "react-native";
 import type { CarouselRef } from "react-native-reanimated-carousel";
+import RouteModalHeader from "@/components/route-modal-header";
 import { askToCancel } from "@/lib/prompts";
+import { t } from "@/lib/translation";
 import { useLogDraft } from "../log-draft";
-import { SlideHeader } from "./slide-header";
+import { Stepper } from "./stepper";
 
-/** Header padding. Keeps the 44pt header buttons near the screen edge. */
-export const LOGGER_HEADER_INSET = 12;
-
-/**
- * Visible edge of the back and close icons: half the gap between the 44pt
- * button and the 24pt icon, plus the icon's 4pt inner margin. Text without a
- * box of its own lines up with this edge.
- */
-export const LOGGER_HEADER_ICON_INSET = LOGGER_HEADER_INSET + 10 + 4;
+/** Side inset of slide text that lines up with the header icons. */
+export const LOGGER_HEADER_ICON_INSET = 26;
 
 /**
- * Logger stepper and header controls.
+ * Logger bar: close leads, back follows from step 2, step dots as title.
  * Closing a dirty log asks for confirmation first.
  */
 export const LoggerHeader = ({
@@ -32,33 +26,40 @@ export const LoggerHeader = ({
 }) => {
   const { isDirty } = useLogDraft();
 
+  const close = async () => {
+    if (!isDirty) {
+      onCancel();
+      return;
+    }
+    try {
+      await askToCancel();
+      onCancel();
+    } catch {
+      // Keep editing when the user dismisses the prompt.
+    }
+  };
+
   return (
-    <View
-      style={{
-        paddingHorizontal: LOGGER_HEADER_INSET,
-        paddingTop: 12,
+    <RouteModalHeader
+      title=""
+      onClose={() => {
+        void close();
       }}
-    >
-      <SlideHeader
-        slideCount={slideCount}
-        slideIndex={slideIndex}
-        onBack={() => {
-          carouselRef.current?.prev();
-        }}
-        backVisible={slideIndex > 0}
-        onClose={async () => {
-          if (isDirty) {
-            try {
-              await askToCancel();
-              onCancel();
-            } catch {
-              // Keep editing when the user dismisses the prompt.
+      closeTestID="logger-close"
+      back={
+        slideIndex > 0
+          ? {
+              label: t("logger_back"),
+              onPress: () => carouselRef.current?.prev(),
+              testID: "logger-back",
             }
-          } else {
-            onCancel();
-          }
-        }}
-      />
-    </View>
+          : undefined
+      }
+      titleView={
+        slideCount > 1 ? (
+          <Stepper count={slideCount} index={slideIndex} />
+        ) : undefined
+      }
+    />
   );
 };

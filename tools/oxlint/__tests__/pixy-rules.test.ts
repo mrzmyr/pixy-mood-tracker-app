@@ -140,3 +140,32 @@ describe("kebab-case-folders", () => {
     expect(lintAt("src/app/(app)/logs/[id]/edit.tsx")).toBe(0);
   });
 });
+
+describe("modal-route-shows-header", () => {
+  it("reports a modal route that hides the header", () => {
+    expect(
+      lint(
+        "modal-route-shows-header",
+        'const options = { presentation: "modal", headerShown: false };\n'
+      )
+    ).toBe(1);
+  });
+
+  it("allows a modal route with the native bar", () => {
+    expect(
+      lint(
+        "modal-route-shows-header",
+        'const options = { presentation: "formSheet", headerShown: true };\n'
+      )
+    ).toBe(0);
+  });
+
+  it("allows a transparent media overlay", () => {
+    expect(
+      lint(
+        "modal-route-shows-header",
+        'const options = { presentation: "transparentModal", headerShown: false };\n'
+      )
+    ).toBe(0);
+  });
+});

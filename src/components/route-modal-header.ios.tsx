@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { View } from "react-native";
 import { getCloseLabel } from "@/components/close-label";
 import { HeaderButton } from "@/components/header-button";
 import { getModalBarOptions } from "@/components/modal-bar-options";
@@ -16,24 +17,33 @@ const RouteModalHeader = ({
   title,
   onClose,
   closeTestID,
+  back,
+  titleView,
   confirm,
 }: RouteModalHeaderProps) => (
   <>
     <Stack.Title>{title}</Stack.Title>
     <Stack.Screen
-      options={getModalBarOptions({
-        left: (
-          <HeaderButton
-            kind="cancel"
-            label={getCloseLabel(Boolean(confirm))}
-            onPress={onClose}
-            testID={closeTestID}
-          />
-        ),
-        right: confirm ? (
-          <HeaderButton {...confirm} kind={confirm.kind ?? "confirm"} />
-        ) : null,
-      })}
+      options={{
+        // Undefined keeps the `Stack.Title` text.
+        headerTitle: titleView ? () => titleView : undefined,
+        ...getModalBarOptions({
+          left: (
+            <View style={{ flexDirection: "row", gap: 8 }}>
+              <HeaderButton
+                kind="cancel"
+                label={getCloseLabel(Boolean(confirm))}
+                onPress={onClose}
+                testID={closeTestID}
+              />
+              {back ? <HeaderButton {...back} kind="back" /> : null}
+            </View>
+          ),
+          right: confirm ? (
+            <HeaderButton {...confirm} kind={confirm.kind ?? "confirm"} />
+          ) : null,
+        }),
+      }}
     />
   </>
 );

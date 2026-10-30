@@ -21,13 +21,7 @@ import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
 import type { ReactElement, RefObject } from "react";
 
-import {
-  Keyboard,
-  Platform,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { Keyboard, Text, useWindowDimensions, View } from "react-native";
 import type { TextInput } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
@@ -522,12 +516,7 @@ const LoggerSlides = ({
         position: "relative",
       }}
     >
-      <View
-        style={{
-          flex: 1,
-          paddingTop: Platform.OS === "android" ? insets.top : 0,
-        }}
-      >
+      <View style={{ flex: 1 }}>
         <LoggerHeader
           carouselRef={_carousel}
           slideCount={content.length}

@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+import { View } from "react-native";
 import { HeaderButton } from "@/components/header-button";
 import { getCloseLabel } from "@/components/close-label";
 import type { HeaderButtonKind } from "@/components/header-button";
@@ -10,6 +12,10 @@ export interface RouteModalHeaderProps {
   onClose: () => void;
   /** Test id of the cancel or close button. */
   closeTestID?: string;
+  /** Step back inside a multi-step flow. Sits after close. */
+  back?: { label: string; onPress: () => void; testID?: string };
+  /** Replaces the title text, for example step dots. Keep `title` for screen readers. */
+  titleView?: ReactNode;
   /** The one trailing action, for example Save. Marks the screen as a form. */
   confirm?: {
     label: string;
@@ -30,17 +36,23 @@ const RouteModalHeader = ({
   title,
   onClose,
   closeTestID,
+  back,
+  titleView,
   confirm,
 }: RouteModalHeaderProps) => (
   <ModalHeader
     title={title}
+    titleView={titleView}
     left={
-      <HeaderButton
-        kind="cancel"
-        label={getCloseLabel(Boolean(confirm))}
-        onPress={onClose}
-        testID={closeTestID}
-      />
+      <View style={{ flexDirection: "row" }}>
+        <HeaderButton
+          kind="cancel"
+          label={getCloseLabel(Boolean(confirm))}
+          onPress={onClose}
+          testID={closeTestID}
+        />
+        {back ? <HeaderButton {...back} kind="back" /> : null}
+      </View>
     }
     right={
       confirm ? (

@@ -21,6 +21,7 @@ import type {
   CarouselRef,
 } from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+// oxlint-disable-next-line no-restricted-imports -- media overlay: white close on the photo.
 import { CloseButton } from "@/components/close-button";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";

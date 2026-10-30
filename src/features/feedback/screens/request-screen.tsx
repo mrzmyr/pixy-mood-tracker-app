@@ -2,7 +2,7 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useEffect, useEffectEvent, useRef } from "react";
 import { ActivityIndicator, Platform, View } from "react-native";
-import LinkButton from "@/components/link-button";
+import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import {
   SettingsForm,
@@ -150,24 +150,22 @@ export const RequestScreen = () => {
         <ModalHeader
           title={t(copy.title)}
           left={
-            <LinkButton
+            <HeaderButton
+              kind="cancel"
+              label={t("cancel")}
               testID={`request-${kind}-close`}
-              type="primary"
               onPress={() => router.back()}
               disabled={form.isSending}
-            >
-              {t("cancel")}
-            </LinkButton>
+            />
           }
           right={
-            <LinkButton
+            <HeaderButton
+              kind="send"
+              label={t("request_send")}
               testID={`request-${kind}-send`}
-              type="primary"
               onPress={send}
               disabled={!form.canSend}
-            >
-              {t("request_send")}
-            </LinkButton>
+            />
           }
         />
       )}

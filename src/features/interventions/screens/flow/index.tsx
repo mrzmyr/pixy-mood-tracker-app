@@ -1,9 +1,9 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Platform, ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
-import { HeaderButton } from "@/components/header-button";
+import RouteModalHeader from "@/components/route-modal-header";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type {
@@ -77,96 +77,74 @@ export const InterventionFlow = ({
   return (
     <View
       testID="intervention-flow"
-      style={{
-        flex: 1,
-        backgroundColor: colors.logBackground,
-        // The iOS page sheet already sits below the status bar.
-        paddingTop: 8 + (Platform.OS === "android" ? insets.top : 0),
-        paddingBottom: insets.bottom + 8,
-        paddingHorizontal: 20,
-      }}
+      style={{ flex: 1, backgroundColor: colors.logBackground }}
     >
+      <RouteModalHeader
+        title={stage.kind === "step" ? t(`interventions_${id}_title`) : ""}
+        onClose={() => close("close")}
+        closeTestID="intervention-close"
+      />
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          minHeight: 44,
-          marginHorizontal: -12,
+          flex: 1,
+          paddingTop: 8,
+          paddingBottom: insets.bottom + 8,
+          paddingHorizontal: 20,
         }}
       >
-        <HeaderButton
-          kind="cancel"
-          label={t("close")}
-          testID="intervention-close"
-          onPress={() => close("close")}
-        />
-        <Text
-          numberOfLines={1}
-          style={{
-            flex: 1,
-            textAlign: "center",
-            fontSize: 16,
-            fontWeight: "600",
-            color: colors.text,
-          }}
-        >
-          {stage.kind === "step" ? t(`interventions_${id}_title`) : ""}
-        </Text>
-        <View style={{ width: 44 }} />
-      </View>
+        {stage.kind === "intro" && (
+          <>
+            <ScrollView
+              style={{ flex: 1 }}
+              contentContainerStyle={{ paddingVertical: 16 }}
+            >
+              <IntroView intervention={INTERVENTIONS[id]} />
+            </ScrollView>
+            <Button
+              testID="intervention-start"
+              onPress={() => {
+                tracking.started();
+                goStep(0);
+              }}
+            >
+              {t("interventions_start")}
+            </Button>
+          </>
+        )}
 
-      {stage.kind === "intro" && (
-        <>
-          <ScrollView
-            style={{ flex: 1 }}
-            contentContainerStyle={{ paddingVertical: 16 }}
-          >
-            <IntroView intervention={INTERVENTIONS[id]} />
-          </ScrollView>
-          <Button
-            testID="intervention-start"
-            onPress={() => {
-              tracking.started();
-              goStep(0);
+        {stage.kind === "step" && (
+          <StepStage
+            key={stage.index}
+            id={id}
+            index={stage.index}
+            isPaused={isPaused}
+            onPauseChange={(value) => {
+              setIsPaused(value);
+              tracking.pauseChanged(value, stage.index);
             }}
-          >
-            {t("interventions_start")}
-          </Button>
-        </>
-      )}
+            onNext={() => goStep(stage.index + 1)}
+            onBack={() => {
+              tracking.stepBack(stage.index);
+              goStep(stage.index - 1);
+            }}
+            onEndEarly={() => close("end_early")}
+          />
+        )}
 
-      {stage.kind === "step" && (
-        <StepStage
-          key={stage.index}
-          id={id}
-          index={stage.index}
-          isPaused={isPaused}
-          onPauseChange={(value) => {
-            setIsPaused(value);
-            tracking.pauseChanged(value, stage.index);
-          }}
-          onNext={() => goStep(stage.index + 1)}
-          onBack={() => {
-            tracking.stepBack(stage.index);
-            goStep(stage.index - 1);
-          }}
-          onEndEarly={() => close("end_early")}
-        />
-      )}
-
-      {stage.kind === "done" && (
-        <EndCheckView
-          selected={feedback}
-          onAnswer={(answer) => {
-            tracking.feedback(answer);
-            setFeedback(answer);
-          }}
-          onSkip={() => {
-            tracking.feedback(null);
-            router.back();
-          }}
-        />
-      )}
+        {stage.kind === "done" && (
+          <EndCheckView
+            selected={feedback}
+            onAnswer={(answer) => {
+              tracking.feedback(answer);
+              setFeedback(answer);
+            }}
+            onSkip={() => {
+              tracking.feedback(null);
+              router.back();
+            }}
+          />
+        )}
+      </View>
     </View>
   );
 };

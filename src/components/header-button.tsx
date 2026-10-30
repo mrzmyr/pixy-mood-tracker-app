@@ -9,7 +9,7 @@ export type {
 
 /**
  * Button of a modal header ([Modal Headers](../../DESIGN.md#modal-headers)).
- * Android and web: close icon for cancel, text for confirm and send, like
+ * Android and web: icon for cancel and back, text for confirm and send, like
  * the Material 3 full-screen dialog. iOS: `header-button.ios.tsx`.
  */
 export const HeaderButton = ({
@@ -19,8 +19,9 @@ export const HeaderButton = ({
   disabled,
   testID,
 }: HeaderButtonProps) =>
-  kind === "cancel" ? (
+  kind === "cancel" || kind === "back" ? (
     <CloseButton
+      icon={kind === "back" ? "back" : "close"}
       testID={testID}
       onPress={onPress}
       accessibilityLabel={label}

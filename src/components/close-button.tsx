@@ -1,5 +1,6 @@
 import { Pressable } from "react-native";
 import type { ViewStyle } from "react-native";
+import ArrowLeft from "lucide-react-native/icons/arrow-left";
 import X from "lucide-react-native/icons/x";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -17,7 +18,8 @@ const getOpacity = (disabled: boolean | undefined, pressed: boolean) => {
 };
 
 /**
- * Close button for modal and full-screen pages. Place it top right.
+ * Icon button of a modal header on Android and web (`HeaderButton`), and the
+ * close button over media (photo viewer). Feature code uses `HeaderButton`.
  * Uses the theme text color unless `color` is set, for example white on a
  * photo.
  */
@@ -28,6 +30,7 @@ export const CloseButton = ({
   style,
   accessibilityLabel = t("close"),
   disabled,
+  icon = "close",
 }: {
   onPress: () => void;
   testID?: string;
@@ -37,8 +40,11 @@ export const CloseButton = ({
   color?: string;
   style?: ViewStyle;
   disabled?: boolean;
+  /** `back` shows an arrow, for a back step inside a modal flow. */
+  icon?: "close" | "back";
 }) => {
   const colors = useColors();
+  const Icon = icon === "back" ? ArrowLeft : X;
 
   return (
     <Pressable
@@ -60,7 +66,7 @@ export const CloseButton = ({
         style,
       ]}
     >
-      <X
+      <Icon
         width={ICON_SIZE}
         height={ICON_SIZE}
         color={color ?? colors.text}
