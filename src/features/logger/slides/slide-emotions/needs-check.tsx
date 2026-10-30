@@ -29,19 +29,28 @@ export const NeedsCheck = ({
   const values = NEED_STATES.map((state) => t(STATE_LABELS[state]));
 
   return (
-    <View style={{ paddingHorizontal: 20, paddingTop: 12, gap: 16 }}>
+    <View style={{ paddingHorizontal: 20, paddingTop: 12, gap: 12 }}>
       <Headline accessibilityRole="header">{t("log_needs_title")}</Headline>
       {NEEDS.map((need) => {
         const Icon = need.icon;
         const state = states[need.key];
 
         return (
-          <View key={need.key} style={{ gap: 8 }} testID={`needs-${need.key}`}>
+          <View
+            key={need.key}
+            style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
+            testID={`needs-${need.key}`}
+          >
             <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 8,
+              }}
             >
               <Icon size={20} color={colors.textSecondary} />
-              <Body>{t(need.label)}</Body>
+              <Body style={{ flexShrink: 1 }}>{t(need.label)}</Body>
             </View>
             <SegmentedControl
               values={values}
@@ -56,6 +65,7 @@ export const NeedsCheck = ({
                 }
               }}
               testID={`needs-${need.key}-control`}
+              style={{ flex: 1.3 }}
             />
           </View>
         );
