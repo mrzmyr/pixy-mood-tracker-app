@@ -1,129 +1,51 @@
 import { PromoCard } from "@/components/promo-card";
-import { t } from "@/lib/translation";
+import { ANNOUNCEMENTS_URL } from "@/constants/api";
+import { getLanguage, t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/feature-flags";
+import { isFeatureFlag } from "@/state/feature-flags/keys";
 import { useSettings } from "@/state/settings";
-import dayjs from "dayjs";
-import { XMLParser } from "fast-xml-parser";
-import React, { useEffect, useState } from "react";
-import type { ReactElement } from "react";
+import React, { useEffect, useEffectEvent, useState } from "react";
 
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import useColors from "@/hooks/use-colors";
 import * as WebBrowser from "expo-web-browser";
-
-interface RssItem {
-  title: string;
-  id: string;
-  published: string;
-  slug: string;
-}
-
-interface ParsedRssItem {
-  title: string;
-  link: string;
-  guid?: string;
-  pubDate: string;
-}
-
-const isParsedRssItem = (
-  item: Partial<ParsedRssItem> | undefined
-): item is ParsedRssItem => !!item?.title && !!item?.link && !!item?.pubDate;
-
-const rssParser = new XMLParser({
-  ignoreAttributes: false,
-  processEntities: false,
-  trimValues: true,
-});
-
-// Parses changelog entries published after the changelog card was introduced.
-const parseChangelogItems = (str: string): RssItem[] => {
-  const parsed = rssParser.parse(str);
-  const rawItems = parsed?.rss?.channel?.item;
-  const items: RssItem[] = (
-    Array.isArray(rawItems) ? rawItems : [rawItems]
-  ).flatMap((item) =>
-    isParsedRssItem(item) && dayjs(item.pubDate).isAfter("2023-01-09")
-      ? [
-          {
-            title: item.title,
-            id: item.guid || item.link,
-            published: item.pubDate,
-            // Explicit ASCII ranges instead of `i`: with `u`, `i` would also
-            // fold non-ASCII letters and change existing slugs.
-            slug: (item.guid || item.link)
-              .replaceAll(/[^a-zA-Z0-9]/gu, "_")
-              .toLowerCase(),
-          },
-        ]
-      : []
-  );
-
-  return items;
-};
+import pkg from "../../../../../package.json";
+import {
+  localize,
+  AnnouncementsSchema,
+  pickAnnouncements,
+} from "./announcements";
+import type { Announcement } from "./announcements";
 
 /**
- * Promo card under the calendar for the latest changelog post, hidden once
- * dismissed. The changelog feed is fetched once per mount; offline it is
- * skipped silently.
+ * Shows `announcements[index]` when its flag is on, else tries the next one.
+ * One component per item, so each flag check is its own hook call.
  */
-export const PromoCards = () => {
+const AnnouncementCard = ({
+  announcements,
+  index,
+}: {
+  announcements: Announcement[];
+  index: number;
+}) => {
   const analytics = useAnalytics();
   const colors = useColors();
-  const { hasActionDone } = useSettings();
-
-  const [mostRecentRssItem, setMostRecentRssItem] = useState<RssItem | null>(
-    null
+  const announcement = announcements[index];
+  const flag = announcement?.flag;
+  // Unknown keys check "development", then count as off below.
+  const isFlagOn = useFeatureFlag(
+    flag && isFeatureFlag(flag) ? flag : "development"
   );
 
-  const hasMostRecentRssItem =
-    !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    void (async () => {
-      try {
-        const response = await fetch(
-          "https://pixy.featureos.app/rss/changelog.xml",
-          { signal: controller.signal }
-        );
-        const items = parseChangelogItems(await response.text());
-
-        if (items.length !== 0) {
-          setMostRecentRssItem(items[0]);
-        }
-      } catch {
-        // The changelog card is optional; the calendar remains usable offline.
-      }
-    })();
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
-  const promoCards: ReactElement[] = [];
-
-  if (hasMostRecentRssItem) {
-    promoCards.push(
-      <PromoCard
-        key="changelog"
-        colorName="pink"
-        slug={mostRecentRssItem.slug}
-        subtitle={t("new_release")}
-        title={mostRecentRssItem.title}
-        onPress={() => {
-          analytics.track("calendar:promo_tapped", { card: "changelog" });
-          WebBrowser.openBrowserAsync(mostRecentRssItem.id);
-        }}
-      />
-    );
-  }
-
-  if (promoCards.length === 0) {
+  if (!announcement) {
     return null;
   }
+  if (flag !== undefined && (!isFeatureFlag(flag) || !isFlagOn)) {
+    return <AnnouncementCard announcements={announcements} index={index + 1} />;
+  }
 
+  const language = getLanguage();
   return (
     <View
       style={{
@@ -133,16 +55,66 @@ export const PromoCards = () => {
         paddingTop: 24,
       }}
     >
-      {promoCards.map((promoCard, index) => (
-        <View
-          key={`promo-card-${promoCard.key}`}
-          style={{
-            marginTop: index === 0 ? 0 : 16,
-          }}
-        >
-          {promoCard}
-        </View>
-      ))}
+      <PromoCard
+        colorName="pink"
+        slug={announcement.id}
+        subtitle={
+          announcement.subtitle
+            ? localize(announcement.subtitle, language)
+            : t("new_release")
+        }
+        title={localize(announcement.title, language)}
+        onPress={() => {
+          analytics.track("calendar:promo_tapped", { card: "changelog" });
+          void WebBrowser.openBrowserAsync(announcement.url);
+        }}
+      />
     </View>
   );
+};
+
+/**
+ * Promo card under the calendar for the newest announcement from
+ * {@link ANNOUNCEMENTS_URL}, hidden once dismissed. Fetched once per mount;
+ * offline it is skipped silently.
+ */
+export const PromoCards = () => {
+  const { settings } = useSettings();
+
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+
+  // Effect event: reads dismissed ids at fetch time without re-fetching on
+  // settings changes. A card dismissed later hides itself in `PromoCard`.
+  const pick = useEffectEvent((fetched: Announcement[]) =>
+    pickAnnouncements({
+      announcements: fetched,
+      dismissedIds: new Set(settings.actionsDone.map((action) => action.title)),
+      appVersion: pkg.version,
+      platform: Platform.OS,
+      now: new Date(),
+    })
+  );
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    void (async () => {
+      try {
+        const response = await fetch(ANNOUNCEMENTS_URL, {
+          signal: controller.signal,
+        });
+        setAnnouncements(
+          pick(AnnouncementsSchema.parse(await response.json()))
+        );
+      } catch {
+        // Announcements are optional; offline or malformed, the calendar shows none.
+      }
+    })();
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  return <AnnouncementCard announcements={announcements} index={0} />;
 };

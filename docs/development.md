@@ -68,6 +68,15 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Settings > Development is hidden in production builds. Flag `development`, flag `feature-flag-overrides`, or 20 taps on the version in Settings show it ([Settings screen](../src/features/settings/screens/settings/index.tsx)). Taps last until app restart. Development and preview builds always show it
 - Enable `interventions` to show exercises after entries with anxious-type emotions ([`src/features/interventions`](../src/features/interventions))
 
+### Announcements
+
+- Calendar card from `https://pixy.day/api/announcements`. App picks the newest one matching version, platform, dates, and flag that the user has not dismissed ([`announcements.ts`](../src/features/calendar/screens/calendar/announcements.ts))
+- Show a FeatureOS changelog post: add label `In-app` to it. Remove the label to hide the card. Website refreshes every 5 minutes
+- Target by app version, platform, end date, or PostHog flag: add an entry to the manual list in the website repo (`src/lib/announcements.ts`)
+- `flag` cards reach only users with analytics consent ([feature flags](#feature-flags))
+- Never reuse an id: users who dismissed it skip the new card
+- Builds before the announcements endpoint show the newest FeatureOS RSS post. Unpublish it in FeatureOS to hide it there
+
 ### Photos
 
 - Code: [`src/features/photos`](../src/features/photos). Files: `Documents/photos/<id>.jpg`, 1600 px longest edge, JPEG 0.75
