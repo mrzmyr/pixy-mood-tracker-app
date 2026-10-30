@@ -7,6 +7,7 @@ const draft = (overrides: Partial<Draft> = {}): Draft => ({
   emotions: [],
   picked: [],
   message: "",
+  photos: [],
   source: "empty",
   ...overrides,
 });
@@ -54,6 +55,21 @@ describe("applyVoicePrefill", () => {
         prefill({ message: "Long day" })
       ).message
     ).toBe("Morning run\nLong day");
+  });
+
+  it("keeps picked photos", () => {
+    const photos: Draft["photos"] = [
+      {
+        id: "a",
+        fileName: "a.jpg",
+        width: 1,
+        height: 1,
+        createdAt: "2026-10-30T09:00:00.000Z",
+        source: "library",
+      },
+    ];
+
+    expect(applyVoicePrefill(draft({ photos }), prefill()).photos).toBe(photos);
   });
 
   it("marks the draft as changed, so a late entry does not replace it", () => {

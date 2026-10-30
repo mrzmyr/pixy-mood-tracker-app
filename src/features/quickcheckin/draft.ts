@@ -9,6 +9,7 @@ export interface Draft {
   /** Picked people and tags as `kind:id`. */
   picked: string[];
   message: string;
+  photos: LogItem["photos"];
   source: "empty" | "entry" | "user";
 }
 
@@ -23,9 +24,17 @@ export const toDraft = (entry: LogItem | undefined): Draft =>
           ...entry.tags.map((tag) => `tag:${tag.id}`),
         ],
         message: entry.message,
+        photos: entry.photos,
         source: "entry",
       }
-    : { rating: null, emotions: [], picked: [], message: "", source: "empty" };
+    : {
+        rating: null,
+        emotions: [],
+        picked: [],
+        message: "",
+        photos: [],
+        source: "empty",
+      };
 
 const union = (current: string[], added: string[]) => [
   ...new Set([...current, ...added]),
@@ -55,6 +64,7 @@ export const applyVoicePrefill = (
       ...prefill.tags.map((id) => `tag:${id}`),
     ]),
     message: message.slice(0, MAX_MESSAGE_LENGTH),
+    photos: draft.photos,
     source: "user",
   };
 };
