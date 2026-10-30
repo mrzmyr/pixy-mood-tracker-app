@@ -73,8 +73,13 @@ const getScale = (scale: string[]): IScale => {
   };
 };
 
-const light = {
-  "ColorBrew-RdYlGn": getScale([
+/**
+ * Mood colors per scale, `extremely_good` to `extremely_bad`. The light
+ * theme uses them as is; the dark theme translates them with
+ * {@link toDarkMood}.
+ */
+const MOODS = {
+  "ColorBrew-RdYlGn": [
     colors.emerald[600],
     colors.emerald[400],
     colors.emerald[200],
@@ -82,9 +87,8 @@ const light = {
     colors.orange[100],
     colors.orange[300],
     colors.red[500],
-    colors.neutral[100],
-  ]),
-  "ColorBrew-RdYlGn-old": getScale([
+  ],
+  "ColorBrew-RdYlGn-old": [
     "#006837",
     "#1a9850",
     "#91cf60",
@@ -92,9 +96,8 @@ const light = {
     "#fee08b",
     "#fc8d59",
     "#d73027",
-    colors.neutral[100],
-  ]),
-  "ColorBrew-PuOr": getScale([
+  ],
+  "ColorBrew-PuOr": [
     "#542788",
     "#998ec3",
     "#d8daeb",
@@ -102,9 +105,8 @@ const light = {
     "#fee0b6",
     "#f1a340",
     "#b35806",
-    colors.neutral[100],
-  ]),
-  "ColorBrew-BrBG": getScale([
+  ],
+  "ColorBrew-BrBG": [
     "#01665e",
     "#5ab4ac",
     "#c7eae5",
@@ -112,9 +114,8 @@ const light = {
     "#f6e8c3",
     "#d8b365",
     "#8c510a",
-    colors.neutral[100],
-  ]),
-  "ColorBrew-RdYG": getScale([
+  ],
+  "ColorBrew-RdYG": [
     "#4d9221",
     "#a1d76a",
     "#e6f5d0",
@@ -122,62 +123,51 @@ const light = {
     "#fddbc7",
     "#ef8a62",
     "#b2182b",
-    colors.neutral[100],
-  ]),
-} satisfies IScaleColors;
+  ],
+};
 
-const dark = {
-  "ColorBrew-RdYlGn": getScale([
-    colors.emerald[600],
-    colors.emerald[400],
-    colors.emerald[200],
-    colors.neutral[100],
-    colors.orange[100],
-    colors.orange[300],
-    colors.red[500],
-    colors.neutral[800],
-  ]),
-  "ColorBrew-RdYlGn-old": getScale([
-    "#006837",
-    "#1a9850",
-    "#91cf60",
-    "#ffffbf",
-    "#fee08b",
-    "#fc8d59",
-    "#d73027",
-    colors.neutral[800],
-  ]),
-  "ColorBrew-PuOr": getScale([
-    "#542788",
-    "#998ec3",
-    "#d8daeb",
-    colors.neutral[200],
-    "#fee0b6",
-    "#f1a340",
-    "#b35806",
-    colors.neutral[800],
-  ]),
-  "ColorBrew-BrBG": getScale([
-    "#01665e",
-    "#5ab4ac",
-    "#c7eae5",
-    colors.neutral[200],
-    "#f6e8c3",
-    "#d8b365",
-    "#8c510a",
-    colors.neutral[800],
-  ]),
-  "ColorBrew-RdYG": getScale([
-    "#4d9221",
-    "#a1d76a",
-    "#e6f5d0",
-    colors.neutral[200],
-    "#fddbc7",
-    "#ef8a62",
-    "#b2182b",
-    colors.neutral[800],
-  ]),
-} satisfies IScaleColors;
+/** Dark mood colors stay between these LCH lightness values. */
+const DARK_LIGHTNESS_MIN = 30;
+const DARK_LIGHTNESS_MAX = 78;
+/** Below this LCH chroma a color counts as gray and stays gray. */
+const GRAY_CHROMA = 8;
+/** Chroma floor for colored dark moods, so dim moods keep their hue. */
+const DARK_CHROMA_MIN = 32;
+
+/**
+ * Mood color for dark mode: same hue, lightness flipped. In light mode a
+ * mild mood is pale, close to the white background, and a strong mood is
+ * deep. In dark mode a mild mood is dim, close to the black background, and
+ * a strong mood glows. Rule: DESIGN.md, Mood colors.
+ */
+export const toDarkMood = (color: string) => {
+  const [lightness, chromaValue, hue] = chroma(color).lch();
+  const isGray = chromaValue < GRAY_CHROMA;
+  return chroma
+    .lch(
+      Math.min(
+        DARK_LIGHTNESS_MAX,
+        Math.max(DARK_LIGHTNESS_MIN, 125 - lightness)
+      ),
+      isGray ? chromaValue : Math.max(chromaValue, DARK_CHROMA_MIN),
+      Number.isNaN(hue) ? 0 : hue
+    )
+    .hex();
+};
+
+const mapScales = (
+  toColor: (color: string) => string,
+  empty: string
+): IScaleColors =>
+  Object.fromEntries(
+    Object.entries(MOODS).map(([key, moods]) => [
+      key,
+      getScale([...moods.map(toColor), empty]),
+    ])
+  );
+
+const light = mapScales((color) => color, colors.neutral[100]);
+const dark = mapScales(toDarkMood, colors.neutral[800]);
 
 interface ThemeScales {
   dark: IScaleColors;
