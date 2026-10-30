@@ -37,6 +37,8 @@ const FACE_GAP = 2;
 const PIXEL_SIZE = 36;
 const DAY_MINUTES = 24 * 60;
 const STRIP_HOURS = [0, 6, 12, 18, 24];
+/** Width of the day strip outline. */
+const STRIP_OUTLINE = 1;
 
 /** Position on the day strip, 0 at midnight to 1 at the next midnight. */
 const toStripOffset = (minute: number) => minute / DAY_MINUTES;
@@ -106,6 +108,12 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
   const scale = colors.scales[settings.scaleType];
   const newest = Math.max(...checkIns.map((checkIn) => checkIn.minute));
   const stops = checkIns.map((checkIn) => scale[checkIn.rating].background);
+  const borders = checkIns.map((checkIn) => scale[checkIn.rating].border);
+  const locations = fade(
+    0,
+    checkIns.map((checkIn) => toStripOffset(checkIn.minute)),
+    1
+  );
 
   return (
     <View
@@ -115,26 +123,27 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
       })}
       style={{ marginTop: 14 }}
     >
+      {/*
+       * Outline that follows the colors: the border shades underneath, the
+       * mood colors inset by 1 pt on top.
+       */}
       <View style={{ height: 30, borderRadius: RADIUS.sm, overflow: "hidden" }}>
         <LinearGradient
-          colors={fade(stops[0], stops, stops.at(-1))}
-          locations={fade(
-            0,
-            checkIns.map((checkIn) => toStripOffset(checkIn.minute)),
-            1
-          )}
+          colors={fade(borders[0], borders, borders.at(-1))}
+          locations={locations}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          style={{ flex: 1 }}
+          style={StyleSheet.absoluteFill}
         />
-        {/* See-through outline: sets the strip off from the card. */}
-        <View
-          pointerEvents="none"
+        <LinearGradient
+          colors={fade(stops[0], stops, stops.at(-1))}
+          locations={locations}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
           style={{
             ...StyleSheet.absoluteFill,
-            borderRadius: RADIUS.sm,
-            borderWidth: StyleSheet.hairlineWidth,
-            borderColor: colors.glassBorder,
+            margin: STRIP_OUTLINE,
+            borderRadius: RADIUS.sm - STRIP_OUTLINE,
           }}
         />
       </View>
