@@ -1,8 +1,9 @@
 import { useEffect, useEffectEvent, useMemo } from "react";
 import type { ReactNode } from "react";
-import { Platform, ScrollView, View } from "react-native";
+import { Platform, ScrollView, View, useColorScheme } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
+import { NightSky } from "@/components/night-sky";
 import { Sky } from "@/components/sky";
 import { ConfirmationOffer } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
@@ -15,7 +16,8 @@ import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { EMOTIONS } from "../config";
 import { getDaySummary } from "./day-summary";
-import { getPhotoTileSize } from "./entry-summary-layout";
+import { getPhotoBento, getPhotoTileSize } from "./entry-summary-layout";
+import type { PhotoTileSize } from "./entry-summary-layout";
 import {
   EmotionsTile,
   MoodTile,
@@ -28,46 +30,56 @@ import {
 import { useConfirmation } from "./use-confirmation";
 
 const GAP = 10;
+const SINGLE_PHOTO_HEIGHT: Record<PhotoTileSize, number> = {
+  band: 150,
+  half: 120,
+  tall: 200,
+};
 
 /**
- * Photos, sleep, and people share rows: photos left, the others stacked
- * beside them. Without photos, sleep and people sit side by side or take
- * the full width alone.
+ * A single photo, sleep, and people share rows: the photo left, the others
+ * stacked beside it. Without it, sleep and people sit side by side or take
+ * the full width alone. 2 or more photos get their own bento under the mood.
  */
 const MiddleRows = ({ item, people }: { item: LogItem; people: Person[] }) => {
   const quality = item.sleep?.quality ?? null;
   const hasPeople = people.length > 0;
   const size = getPhotoTileSize({
-    hasPhotos: item.photos.length > 0,
+    hasPhoto: item.photos.length === 1,
     hasSleep: quality !== null,
     hasPeople,
   });
   const isRow = size === null && (quality === null || !hasPeople);
   const besides: ReactNode[] = [
-    quality !== null && (
-      <SleepTile key="sleep" quality={quality} isRow={isRow} />
-    ),
+    quality !== null && <SleepTile key="sleep" quality={quality} />,
     hasPeople && <PeopleTile key="people" people={people} isRow={isRow} />,
   ];
 
+  if (size === null) {
+    return <View style={{ flexDirection: "row", gap: GAP }}>{besides}</View>;
+  }
+  const photo = (
+    <PhotosTile
+      photos={item.photos}
+      rows={[{ height: SINGLE_PHOTO_HEIGHT[size], columns: [[0]] }]}
+      row={3}
+    />
+  );
   if (size === "band") {
-    return <PhotosTile photos={item.photos} size={size} />;
+    return photo;
   }
-  if (size !== null) {
-    return (
-      <View style={{ flexDirection: "row", gap: GAP }}>
-        <PhotosTile photos={item.photos} size={size} />
-        <View style={{ flex: 1, gap: GAP }}>{besides}</View>
-      </View>
-    );
-  }
-  return <View style={{ flexDirection: "row", gap: GAP }}>{besides}</View>;
+  return (
+    <View style={{ flexDirection: "row", gap: GAP }}>
+      {photo}
+      <View style={{ flex: 1, gap: GAP }}>{besides}</View>
+    </View>
+  );
 };
 
 /**
  * Last logger step after a new entry, flag `entry-summary`: everything the
- * entry holds as tiles on the onboarding sky. No module labels: chips,
- * faces, the moon, and the note explain themselves.
+ * entry holds as tiles on the sky: clouds by day, stars in dark mode. No
+ * module labels: chips, faces, the meter, and the note explain themselves.
  *
  * Mood shows the day average like the calendar pixel; 2+ entries that day
  * add a day strip. No title: the tiles start right away.
@@ -84,6 +96,7 @@ export const EntrySummary = ({
   onClose: () => void;
 }) => {
   const colors = useColors();
+  const scheme = useColorScheme();
   const haptics = useHaptics();
   const insets = useSafeAreaInsets();
   const logState = useLogState();
@@ -123,7 +136,7 @@ export const EntrySummary = ({
         backgroundColor: colors.logBackground,
       }}
     >
-      <Sky />
+      {scheme === "dark" ? <NightSky /> : <Sky />}
       <ScrollView
         contentContainerStyle={{
           // The iOS page sheet already sits below the status bar.
@@ -134,6 +147,13 @@ export const EntrySummary = ({
         }}
       >
         <MoodTile summary={summary} />
+        {item.photos.length > 1 && (
+          <PhotosTile
+            photos={item.photos}
+            rows={getPhotoBento(item.photos.length)}
+            row={2}
+          />
+        )}
         {emotions.length > 0 && <EmotionsTile emotions={emotions} />}
         <MiddleRows item={item} people={entryPeople} />
         {entryTags.length > 0 && <TagsTile tags={entryTags} />}

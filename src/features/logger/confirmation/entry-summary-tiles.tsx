@@ -1,6 +1,5 @@
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import Moon from "lucide-react-native/icons/moon";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
 import { Text, View } from "react-native";
@@ -24,20 +23,15 @@ import { EmotionIndicator } from "../slides/slide-emotions/emotions-indicator";
 import { SleepQualityMeter } from "../slides/slide-sleep-button";
 import type { CheckIn, DaySummary } from "./day-summary";
 import {
+  BENTO_PHOTOS_MAX,
   FACES_MAX,
   joinNames,
-  PHOTOS_MAX,
   takeVisible,
 } from "./entry-summary-layout";
-import type { PhotoTileSize } from "./entry-summary-layout";
+import type { PhotoRow } from "./entry-summary-layout";
 import { createFadeIn } from "./motion";
 
 const FACE_SIZE = 44;
-const PHOTO_HEIGHT: Record<PhotoTileSize, number> = {
-  band: 150,
-  half: 120,
-  tall: 200,
-};
 const DAY_MINUTES = 24 * 60;
 const STRIP_HOURS = [0, 6, 12, 18, 24];
 
@@ -273,33 +267,44 @@ const MosaicImage = ({ photo }: { photo: LogItem["photos"][number] }) => (
   />
 );
 
-/** Photos as a full-bleed mosaic of up to 4, then "+N". */
+/**
+ * Photos in `rows`, full bleed. Above {@link BENTO_PHOTOS_MAX} the last
+ * photo carries "+N".
+ */
 export const PhotosTile = ({
   photos,
-  size,
+  rows,
+  row,
 }: {
   photos: LogItem["photos"];
-  size: PhotoTileSize;
+  rows: PhotoRow[];
+  /** Fade-in order, see {@link Tile}. */
+  row: number;
 }) => {
-  const { shown, rest } = takeVisible(photos, PHOTOS_MAX);
-  const [first, ...others] = shown;
+  const { rest } = takeVisible(photos, BENTO_PHOTOS_MAX);
 
   return (
-    <Tile row={3} style={{ padding: 0, flex: 1 }}>
+    <Tile row={row} style={{ padding: 0, flex: 1 }}>
       <View
         accessible
         accessibilityRole="image"
         accessibilityLabel={t("logger_step_photos")}
-        style={{ height: PHOTO_HEIGHT[size], flexDirection: "row", gap: 2 }}
+        style={{ gap: 2 }}
       >
-        <MosaicImage photo={first} />
-        {others.length > 0 && (
-          <View style={{ flex: 1, gap: 2 }}>
-            {others.map((photo) => (
-              <MosaicImage key={photo.fileName} photo={photo} />
+        {rows.map(({ height, columns }) => (
+          <View
+            key={columns.flat().join(",")}
+            style={{ height, flexDirection: "row", gap: 2 }}
+          >
+            {columns.map((column) => (
+              <View key={column.join(",")} style={{ flex: 1, gap: 2 }}>
+                {column.map((index) => (
+                  <MosaicImage key={index} photo={photos[index]} />
+                ))}
+              </View>
             ))}
           </View>
-        )}
+        ))}
         {rest > 0 && (
           <View
             style={{
@@ -322,38 +327,24 @@ export const PhotosTile = ({
   );
 };
 
-/**
- * Moon, the word, and the sleep quality meter, never a rating word: "Bad"
- * next to the moon judges. `isRow` lays it out in one line for a
- * full-width tile.
- */
+/** The word and the sleep quality meter, never a rating word: "Bad" judges. */
 export const SleepTile = ({
   quality,
-  isRow,
 }: {
   quality: keyof typeof SLEEP_QUALITY_MAPPING;
-  isRow: boolean;
 }) => {
   const colors = useColors();
   // Mapping runs 0 to 4; screen readers read 1 to 5.
   const value = SLEEP_QUALITY_MAPPING[quality];
 
   return (
-    <Tile
-      row={3}
-      style={
-        isRow
-          ? { flex: 1, flexDirection: "row", alignItems: "center", gap: 10 }
-          : { flex: 1, gap: 8, justifyContent: "space-between" }
-      }
-    >
-      <Moon size={20} color={colors.sleepQualityFull} />
+    <Tile row={3} style={{ flex: 1, justifyContent: "center" }}>
       <View
         accessible
         accessibilityLabel={`${t("logger_step_sleep")} ${value + 1}/5`}
         style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
       >
-        <Text style={{ fontSize: 16, fontWeight: "700", color: colors.text }}>
+        <Text style={{ fontSize: 16, color: colors.text }}>
           {t("logger_step_sleep")}
         </Text>
         <SleepQualityMeter value={value} height={20} />
@@ -401,7 +392,6 @@ export const PeopleTile = ({
         style={{
           flex: isRow ? 1 : 0,
           fontSize: 15,
-          fontWeight: "600",
           color: colors.text,
         }}
       >

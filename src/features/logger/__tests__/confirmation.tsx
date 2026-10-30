@@ -21,6 +21,7 @@ import {
 } from "../confirmation/day-summary";
 import type { DaySummary } from "../confirmation/day-summary";
 import {
+  getPhotoBento,
   getPhotoTileSize,
   joinNames,
 } from "../confirmation/entry-summary-layout";
@@ -282,19 +283,33 @@ describe("getSummarySentence()", () => {
   });
 });
 
+/** Photo indexes the bento shows for `count` photos, sorted. */
+const bentoIndexes = (count: number) =>
+  getPhotoBento(count)
+    .flatMap((row) => row.columns.flat())
+    .sort((a, b) => a - b);
+
 describe("entry summary", () => {
+  test("shows each photo once in the bento, up to 5", () => {
+    expect(bentoIndexes(1)).toEqual([]);
+    expect(bentoIndexes(2)).toEqual([0, 1]);
+    expect(bentoIndexes(3)).toEqual([0, 1, 2]);
+    expect(bentoIndexes(4)).toEqual([0, 1, 2, 3]);
+    expect(bentoIndexes(9)).toEqual([0, 1, 2, 3, 4]);
+  });
+
   test("sizes photos by the tiles beside them", () => {
     const sizes = [
       [false, false],
       [true, false],
       [true, true],
     ].map(([hasSleep, hasPeople]) =>
-      getPhotoTileSize({ hasPhotos: true, hasSleep, hasPeople })
+      getPhotoTileSize({ hasPhoto: true, hasSleep, hasPeople })
     );
 
     expect(sizes).toEqual(["band", "half", "tall"]);
     expect(
-      getPhotoTileSize({ hasPhotos: false, hasSleep: true, hasPeople: true })
+      getPhotoTileSize({ hasPhoto: false, hasSleep: true, hasPeople: true })
     ).toBeNull();
   });
 
