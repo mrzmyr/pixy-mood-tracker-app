@@ -149,7 +149,8 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
             marginLeft: -3,
             left: `${toStripOffset(checkIn.minute) * 100}%`,
             borderRadius: 3,
-            backgroundColor: scale[checkIn.rating].background,
+            // Solid in the mood's border shade, so it stands out on the strip.
+            backgroundColor: scale[checkIn.rating].border,
             borderWidth: checkIn.minute === newest ? 1.5 : 1,
             borderColor: scale[checkIn.rating].border,
           }}
