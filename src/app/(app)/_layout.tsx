@@ -208,14 +208,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="settings/index"
-            options={{
-              // iOS keeps the hairline under the large title bar.
-              ...(Platform.OS === "android"
-                ? settingsFormOptions
-                : pageOptions),
-              title: t("settings"),
-              ...largeTitleOptions(formBackground),
-            }}
+            options={{ ...settingsFormOptions, title: t("settings") }}
           />
           <Stack.Screen
             name="onboarding"
