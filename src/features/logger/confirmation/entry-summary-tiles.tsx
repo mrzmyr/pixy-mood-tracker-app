@@ -82,9 +82,11 @@ export const Tile = ({
         borderCurve: "continuous",
         padding: 14,
         minHeight: TILE_MIN_HEIGHT,
-        // Set off from the page by a see-through hairline; no shadow.
-        borderWidth: StyleSheet.hairlineWidth,
+        // Set off from the page: see-through 1 pt outline and a soft shadow.
+        borderWidth: 1,
         borderColor: colors.glassBorder,
+        boxShadow:
+          "0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.05)",
         ...style,
       }}
     >

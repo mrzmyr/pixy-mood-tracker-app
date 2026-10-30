@@ -255,7 +255,7 @@ const light = {
   glassBorder: "rgba(0, 0, 0, 0.1)",
   // Entry summary: page under the hero, and the tiles on it.
   summaryBackground: colors.white,
-  summaryTile: colors.neutral[100],
+  summaryTile: colors.white,
 
   // Bezel: outer shell around statistics cards. `bezelInnerBorder` also edges person tiles.
   bezelBackground: colors.white,
