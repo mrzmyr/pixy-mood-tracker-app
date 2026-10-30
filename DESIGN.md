@@ -33,7 +33,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 Distance from the background shows how strong a mood is.
 
 - Light mode: mild moods are pale, close to the white background. Strong moods are deep.
-- Dark mode: same hue, lightness flipped. Mild moods are dim, close to the black background. Strong moods glow.
+- Dark mode: same hue, lightness reversed in [OKLCH](https://oklch.fyi) (same number, same perceived brightness). Mild moods are dim, close to the black background. Strong moods glow. Vividness stays: chroma keeps its share of what the hue can show at that lightness.
 - Only define light colors, in [`scales.ts`](src/constants/colors/scales.ts). `toDarkMood` makes the dark ones. Never pick dark mood colors by hand.
 - Mood colors come from `colors.scales[settings.scaleType]`. Never hard-code a mood color.
 

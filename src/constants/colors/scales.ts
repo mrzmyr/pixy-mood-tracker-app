@@ -126,32 +126,50 @@ const MOODS = {
   ],
 };
 
-/** Dark mood colors stay between these LCH lightness values. */
-const DARK_LIGHTNESS_MIN = 30;
-const DARK_LIGHTNESS_MAX = 78;
-/** Below this LCH chroma a color counts as gray and stays gray. */
-const GRAY_CHROMA = 8;
-/** Chroma floor for colored dark moods, so dim moods keep their hue. */
-const DARK_CHROMA_MIN = 32;
+/** Dark mood colors stay between these OKLCH lightness values. */
+const DARK_LIGHTNESS_MIN = 0.4;
+const DARK_LIGHTNESS_MAX = 0.8;
 
 /**
- * Mood color for dark mode: same hue, lightness flipped. In light mode a
- * mild mood is pale, close to the white background, and a strong mood is
- * deep. In dark mode a mild mood is dim, close to the black background, and
- * a strong mood glows. Rule: DESIGN.md, Mood colors.
+ * Highest OKLCH chroma that still shows in sRGB at this lightness and hue.
+ * Binary search: chroma-js flags colors outside sRGB as clipped.
+ */
+const getMaxChroma = (lightness: number, hue: number) => {
+  let low = 0;
+  let high = 0.4;
+  for (let step = 0; step < 20; step += 1) {
+    const middle = (low + high) / 2;
+    if (chroma.oklch(lightness, middle, hue).clipped()) {
+      high = middle;
+    } else {
+      low = middle;
+    }
+  }
+  return low;
+};
+
+/**
+ * Mood color for dark mode, in OKLCH: same hue, lightness reversed. In light
+ * mode a mild mood is pale, close to the white background, and a strong mood
+ * is deep. In dark mode a mild mood is dim, close to the black background,
+ * and a strong mood glows. Chroma keeps its share of the most the hue can
+ * show at each lightness, so colors stay as vivid and inside sRGB. Rule:
+ * DESIGN.md, Mood colors.
  */
 export const toDarkMood = (color: string) => {
-  const [lightness, chromaValue, hue] = chroma(color).lch();
-  const isGray = chromaValue < GRAY_CHROMA;
+  const [lightness, chromaValue, rawHue] = chroma(color).oklch();
+  const hue = Number.isNaN(rawHue) ? 0 : rawHue;
+  const vividness = Math.min(
+    1,
+    chromaValue / Math.max(getMaxChroma(lightness, hue), 0.001)
+  );
+  // Reversed: pale (L 0.95) lands at 0.4, deep (L 0.56) at 0.8.
+  const darkLightness = Math.min(
+    DARK_LIGHTNESS_MAX,
+    Math.max(DARK_LIGHTNESS_MIN, 1.37 - 1.02 * lightness)
+  );
   return chroma
-    .lch(
-      Math.min(
-        DARK_LIGHTNESS_MAX,
-        Math.max(DARK_LIGHTNESS_MIN, 125 - lightness)
-      ),
-      isGray ? chromaValue : Math.max(chromaValue, DARK_CHROMA_MIN),
-      Number.isNaN(hue) ? 0 : hue
-    )
+    .oklch(darkLightness, vividness * getMaxChroma(darkLightness, hue), hue)
     .hex();
 };
 

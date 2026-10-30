@@ -24,7 +24,7 @@ describe("dark mood colors", () => {
   });
 
   test("keeps grays gray", () => {
-    const [, saturation] = chroma(toDarkMood("#e5e5e5")).lch();
-    expect(saturation).toBeLessThan(8);
+    const [, colorfulness] = chroma(toDarkMood("#e5e5e5")).oklch();
+    expect(colorfulness).toBeLessThan(0.01);
   });
 });
