@@ -1,12 +1,9 @@
 import { useEffect, useEffectEvent, useMemo } from "react";
-import type { ReactNode } from "react";
-import { Platform, ScrollView, View, useColorScheme } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-import { NightSky } from "@/components/night-sky";
-import { Sky } from "@/components/sky";
 import { ConfirmationOffer } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
@@ -18,14 +15,12 @@ import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { EMOTIONS } from "../config";
 import { getDaySummary } from "./day-summary";
-import { getPhotoBento, getPhotoTileSize } from "./entry-summary-layout";
-import type { PhotoTileSize } from "./entry-summary-layout";
+import { SummaryHero } from "./entry-summary-hero";
 import {
   EmotionsTile,
-  MoodTile,
+  MoodHeader,
   NoteTile,
   PeopleTile,
-  PhotosTile,
   SleepTile,
   TagsTile,
 } from "./entry-summary-tiles";
@@ -33,12 +28,7 @@ import { useConfirmation } from "./use-confirmation";
 
 const GAP = 10;
 const FADE_HEIGHT = 48;
-
-const SINGLE_PHOTO_HEIGHT: Record<PhotoTileSize, number> = {
-  band: 150,
-  half: 120,
-  tall: 200,
-};
+const HEADER_OVERLAP = 72;
 
 /** Mask over the tiles: opaque, then fading out above the Done button. */
 const BottomFadeMask = () => (
@@ -51,53 +41,27 @@ const BottomFadeMask = () => (
   </View>
 );
 
-/**
- * A single photo, sleep, and people share rows: the photo left, the others
- * stacked beside it. Without it, sleep and people sit side by side or take
- * the full width alone. 2 or more photos get their own bento under the mood.
- */
+/** Sleep and people side by side, or one of them at full width. */
 const MiddleRows = ({ item, people }: { item: LogItem; people: Person[] }) => {
   const quality = item.sleep?.quality ?? null;
   const hasPeople = people.length > 0;
-  const size = getPhotoTileSize({
-    hasPhoto: item.photos.length === 1,
-    hasSleep: quality !== null,
-    hasPeople,
-  });
-  const isRow = size === null && (quality === null || !hasPeople);
-  const besides: ReactNode[] = [
-    quality !== null && <SleepTile key="sleep" quality={quality} />,
-    hasPeople && <PeopleTile key="people" people={people} isRow={isRow} />,
-  ];
 
-  if (size === null) {
-    return <View style={{ flexDirection: "row", gap: GAP }}>{besides}</View>;
-  }
-  const photo = (
-    <PhotosTile
-      photos={item.photos}
-      rows={[{ height: SINGLE_PHOTO_HEIGHT[size], columns: [[0]] }]}
-      row={3}
-    />
-  );
-  if (size === "band") {
-    return photo;
-  }
   return (
     <View style={{ flexDirection: "row", gap: GAP }}>
-      {photo}
-      <View style={{ flex: 1, gap: GAP }}>{besides}</View>
+      {quality !== null && <SleepTile quality={quality} />}
+      {hasPeople && <PeopleTile people={people} isRow={quality === null} />}
     </View>
   );
 };
 
 /**
- * Last logger step after a new entry, flag `entry-summary`: everything the
- * entry holds as tiles on the sky: clouds by day, stars in dark mode. No
- * module labels: chips, faces, the meter, and the note explain themselves.
+ * Last logger step after a new entry, flag `entry-summary`. A full-width
+ * hero leads (photos, else the place on a map, else the sky), then the mood
+ * as headline, then the rest of the entry as tiles. No module labels: chips,
+ * faces, the meter, and the note explain themselves.
  *
  * Mood shows the day average like the calendar pixel; 2+ entries that day
- * add a day strip. No title: the tiles start right away.
+ * add a day strip.
  *
  * Calls `onClose` on Done.
  */
@@ -111,7 +75,6 @@ export const EntrySummary = ({
   onClose: () => void;
 }) => {
   const colors = useColors();
-  const scheme = useColorScheme();
   const haptics = useHaptics();
   const insets = useSafeAreaInsets();
   const logState = useLogState();
@@ -151,30 +114,32 @@ export const EntrySummary = ({
         backgroundColor: colors.logBackground,
       }}
     >
-      {scheme === "dark" ? <NightSky /> : <Sky />}
       <MaskedView style={{ flex: 1 }} maskElement={<BottomFadeMask />}>
         <ScrollView
           contentContainerStyle={{
-            // The iOS page sheet already sits below the status bar.
-            paddingTop: 24 + (Platform.OS === "android" ? insets.top : 0),
-            paddingHorizontal: 16,
             // Last tile scrolls clear of the fade.
             paddingBottom: FADE_HEIGHT,
-            gap: GAP,
           }}
         >
-          <MoodTile summary={summary} />
-          {item.photos.length > 1 && (
-            <PhotosTile
-              photos={item.photos}
-              rows={getPhotoBento(item.photos.length)}
-              row={2}
-            />
-          )}
-          {emotions.length > 0 && <EmotionsTile emotions={emotions} />}
-          <MiddleRows item={item} people={entryPeople} />
-          {entryTags.length > 0 && <TagsTile tags={entryTags} />}
-          {note !== "" && <NoteTile note={note} />}
+          <SummaryHero
+            item={item}
+            // The iOS page sheet already sits below the status bar.
+            extraHeight={Platform.OS === "android" ? insets.top : 0}
+          />
+          <View
+            style={{
+              // The header rises into the faded bottom of the hero.
+              marginTop: -HEADER_OVERLAP,
+              paddingHorizontal: 16,
+              gap: GAP,
+            }}
+          >
+            <MoodHeader summary={summary} item={item} />
+            {emotions.length > 0 && <EmotionsTile emotions={emotions} />}
+            <MiddleRows item={item} people={entryPeople} />
+            {entryTags.length > 0 && <TagsTile tags={entryTags} />}
+            {note !== "" && <NoteTile note={note} />}
+          </View>
         </ScrollView>
       </MaskedView>
 

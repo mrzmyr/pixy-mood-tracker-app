@@ -1,4 +1,4 @@
-import { Image } from "expo-image";
+import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
@@ -14,26 +14,21 @@ import { SLEEP_QUALITY_MAPPING } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
 import { PersonAvatar } from "@/features/people";
 import type { Person } from "@/features/people";
-import { getPhotoFile } from "@/features/photos";
 import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
+import { getItemTime } from "@/lib/log-dates";
 import { t, tDynamic } from "@/lib/translation";
 import { useSettings } from "@/state/settings";
 import type { Emotion } from "@/types";
 import { EmotionIndicator } from "../slides/slide-emotions/emotions-indicator";
 import { SleepQualityMeter } from "../slides/slide-sleep-button";
 import type { CheckIn, DaySummary } from "./day-summary";
-import {
-  BENTO_PHOTOS_MAX,
-  FACES_MAX,
-  joinNames,
-  takeVisible,
-} from "./entry-summary-layout";
-import type { PhotoRow } from "./entry-summary-layout";
+import { FACES_MAX, joinNames, takeVisible } from "./entry-summary-layout";
 import { createFadeIn } from "./motion";
 
 const FACE_SIZE = 44;
+const PIXEL_SIZE = 36;
 const TRANSPARENT = { backgroundColor: "transparent" };
 const DAY_MINUTES = 24 * 60;
 const STRIP_HOURS = [0, 6, 12, 18, 24];
@@ -157,42 +152,69 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
   );
 };
 
-/** Day pixel and rating word. 2+ check-ins add the day strip. */
-export const MoodTile = ({ summary }: { summary: DaySummary }) => {
+/**
+ * Lead of the summary: day pixel, mood name, when, and where. 2+ check-ins
+ * add the day strip. No card: it sits on the page under the hero.
+ */
+export const MoodHeader = ({
+  summary,
+  item,
+}: {
+  summary: DaySummary;
+  item: LogItem;
+}) => {
   const colors = useColors();
   const { settings } = useSettings();
-  const isMulti = summary.checkIns.length > 1;
-  const pixelSize = isMulti ? 24 : 40;
+  const place = item.location?.name ?? null;
 
   return (
-    <Tile row={1} style={{ padding: 16 }}>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-        <View
-          style={{
-            width: pixelSize,
-            height: pixelSize,
-            // Calendar pixel: rounded square, 15% radius.
-            borderRadius: pixelSize * 0.15,
-            backgroundColor:
-              colors.scales[settings.scaleType][summary.rating].background,
-          }}
-        />
+    <View style={{ paddingHorizontal: 4, paddingBottom: 6 }}>
+      <View
+        style={{
+          width: PIXEL_SIZE,
+          height: PIXEL_SIZE,
+          // Calendar pixel: rounded square, 15% radius.
+          borderRadius: PIXEL_SIZE * 0.15,
+          backgroundColor:
+            colors.scales[settings.scaleType][summary.rating].background,
+        }}
+      />
+      <Text
+        testID="entry-summary-mood"
+        accessibilityRole="header"
+        style={{
+          marginTop: 12,
+          color: colors.text,
+          // Mood name: the headline of the screen.
+          fontSize: 34,
+          fontWeight: "700",
+          letterSpacing: -0.8,
+        }}
+      >
+        {capitalize(t(summary.rating))}
+      </Text>
+      <Text
+        style={{
+          marginTop: 6,
+          fontSize: FONT_SIZE.base,
+          color: colors.textSecondary,
+        }}
+      >
+        {dayjs(getItemTime(item)).format("LLLL")}
+      </Text>
+      {place !== null && (
         <Text
-          testID="entry-summary-mood"
           style={{
-            flex: 1,
-            color: colors.text,
-            // Mood word: the headline of the summary.
-            fontSize: 24,
-            fontWeight: "700",
-            letterSpacing: -0.5,
+            marginTop: 2,
+            fontSize: FONT_SIZE.base,
+            color: colors.textSecondary,
           }}
         >
-          {capitalize(t(summary.rating))}
+          {place}
         </Text>
-      </View>
-      {isMulti && <DayStrip checkIns={summary.checkIns} />}
-    </Tile>
+      )}
+      {summary.checkIns.length > 1 && <DayStrip checkIns={summary.checkIns} />}
+    </View>
   );
 };
 
@@ -250,78 +272,6 @@ export const TagsTile = ({ tags }: { tags: Tag[] }) => (
     </View>
   </Tile>
 );
-
-const MosaicImage = ({ photo }: { photo: LogItem["photos"][number] }) => (
-  <Image
-    source={getPhotoFile(photo).uri}
-    style={{ flex: 1 }}
-    contentFit="cover"
-    // Files are local already; a disk cache would only copy them.
-    cachePolicy="memory"
-    accessibilityIgnoresInvertColors
-  />
-);
-
-/**
- * Photos in `rows`, full bleed. Above {@link BENTO_PHOTOS_MAX} the last
- * photo carries "+N".
- */
-export const PhotosTile = ({
-  photos,
-  rows,
-  row,
-}: {
-  photos: LogItem["photos"];
-  rows: PhotoRow[];
-  /** Fade-in order, see {@link Tile}. */
-  row: number;
-}) => {
-  const { rest } = takeVisible(photos, BENTO_PHOTOS_MAX);
-
-  return (
-    <Tile row={row} style={{ padding: 0, flex: 1 }}>
-      <View
-        accessible
-        accessibilityRole="image"
-        accessibilityLabel={t("logger_step_photos")}
-        style={{ gap: 2 }}
-      >
-        {rows.map(({ height, columns }) => (
-          <View
-            key={columns.flat().join(",")}
-            style={{ height, flexDirection: "row", gap: 2 }}
-          >
-            {columns.map((column) => (
-              <View key={column.join(",")} style={{ flex: 1, gap: 2 }}>
-                {column.map((index) => (
-                  <MosaicImage key={index} photo={photos[index]} />
-                ))}
-              </View>
-            ))}
-          </View>
-        ))}
-        {rest > 0 && (
-          <View
-            style={{
-              position: "absolute",
-              right: 8,
-              bottom: 8,
-              paddingHorizontal: 9,
-              paddingVertical: 3,
-              borderRadius: RADIUS.full,
-              backgroundColor: "rgba(0,0,0,0.55)",
-            }}
-          >
-            {/* Badge on a photo: small so it covers little of it. */}
-            <Text style={{ color: "#fff", fontSize: 13, fontWeight: "700" }}>
-              +{rest}
-            </Text>
-          </View>
-        )}
-      </View>
-    </Tile>
-  );
-};
 
 /** The word and the sleep quality meter, never a rating word: "Bad" judges. */
 export const SleepTile = ({

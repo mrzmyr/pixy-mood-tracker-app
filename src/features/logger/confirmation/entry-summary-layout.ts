@@ -12,61 +12,39 @@ export const takeVisible = <T>(items: T[], max: number) => ({
 });
 
 /**
- * One row of photos: columns of photo indexes, stacked top to bottom in each
- * column.
+ * One row of the photo hero: `flex` share of the hero height, and columns of
+ * photo indexes, stacked top to bottom in each column.
  */
 export interface PhotoRow {
-  height: number;
+  flex: number;
   columns: number[][];
 }
 
 const BENTOS = {
-  2: [{ height: 200, columns: [[0], [1]] }],
-  3: [{ height: 240, columns: [[0], [1, 2]] }],
+  1: [{ flex: 1, columns: [[0]] }],
+  2: [{ flex: 1, columns: [[0], [1]] }],
+  3: [{ flex: 1, columns: [[0], [1, 2]] }],
   4: [
-    { height: 150, columns: [[0], [1]] },
-    { height: 150, columns: [[2], [3]] },
+    { flex: 1, columns: [[0], [1]] },
+    { flex: 1, columns: [[2], [3]] },
   ],
   5: [
-    { height: 190, columns: [[0]] },
-    { height: 90, columns: [[1], [2], [3], [4]] },
+    { flex: 2, columns: [[0]] },
+    { flex: 1, columns: [[1], [2], [3], [4]] },
   ],
-} satisfies Record<2 | 3 | 4 | 5, PhotoRow[]>;
+} satisfies Record<1 | 2 | 3 | 4 | 5, PhotoRow[]>;
 
 /**
- * Rows of the full-width photo bento for 2 or more photos. Above
- * {@link BENTO_PHOTOS_MAX} the last photo carries "+N".
+ * Rows of the photo hero. Above {@link BENTO_PHOTOS_MAX} the last photo
+ * carries "+N". Empty without photos.
  */
 export const getPhotoBento = (count: number): PhotoRow[] => {
-  if (count < 2) {
+  if (count < 1) {
     return [];
   }
-  // SAFETY: count is 2 or more and capped at BENTO_PHOTOS_MAX (5).
+  // SAFETY: count is 1 or more and capped at BENTO_PHOTOS_MAX (5).
   return BENTOS[Math.min(count, BENTO_PHOTOS_MAX) as keyof typeof BENTOS];
 };
-
-/**
- * Size of the single photo tile. `band`: full width, nothing beside it. `half`:
- * one tile beside it. `tall`: sleep and people stacked beside it.
- */
-export type PhotoTileSize = "band" | "half" | "tall";
-
-const PHOTO_TILE_SIZES: PhotoTileSize[] = ["band", "half", "tall"];
-
-/**
- * Size of the single photo tile from the tiles beside it: sleep and
- * people. `null` without exactly one photo: 2 or more get the bento.
- */
-export const getPhotoTileSize = ({
-  hasPhoto,
-  hasSleep,
-  hasPeople,
-}: {
-  hasPhoto: boolean;
-  hasSleep: boolean;
-  hasPeople: boolean;
-}) =>
-  hasPhoto ? PHOTO_TILE_SIZES[Number(hasSleep) + Number(hasPeople)] : null;
 
 /** "Lena", "Lena and Sam", "Lena, Sam and Max", "Lena, Sam, Max and 2 more". */
 export const joinNames = (names: string[]) => {

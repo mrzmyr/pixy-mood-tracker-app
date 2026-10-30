@@ -20,11 +20,7 @@ import {
   getSummaryTitle,
 } from "../confirmation/day-summary";
 import type { DaySummary } from "../confirmation/day-summary";
-import {
-  getPhotoBento,
-  getPhotoTileSize,
-  joinNames,
-} from "../confirmation/entry-summary-layout";
+import { getPhotoBento, joinNames } from "../confirmation/entry-summary-layout";
 import { useConfirmation } from "../confirmation/use-confirmation";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
@@ -290,27 +286,13 @@ const bentoIndexes = (count: number) =>
     .sort((a, b) => a - b);
 
 describe("entry summary", () => {
-  test("shows each photo once in the bento, up to 5", () => {
-    expect(bentoIndexes(1)).toEqual([]);
+  test("shows each photo once in the hero, up to 5", () => {
+    expect(bentoIndexes(0)).toEqual([]);
+    expect(bentoIndexes(1)).toEqual([0]);
     expect(bentoIndexes(2)).toEqual([0, 1]);
     expect(bentoIndexes(3)).toEqual([0, 1, 2]);
     expect(bentoIndexes(4)).toEqual([0, 1, 2, 3]);
     expect(bentoIndexes(9)).toEqual([0, 1, 2, 3, 4]);
-  });
-
-  test("sizes photos by the tiles beside them", () => {
-    const sizes = [
-      [false, false],
-      [true, false],
-      [true, true],
-    ].map(([hasSleep, hasPeople]) =>
-      getPhotoTileSize({ hasPhoto: true, hasSleep, hasPeople })
-    );
-
-    expect(sizes).toEqual(["band", "half", "tall"]);
-    expect(
-      getPhotoTileSize({ hasPhoto: false, hasSleep: true, hasPeople: true })
-    ).toBeNull();
   });
 
   test("names up to 3 people, then counts the rest", () => {
