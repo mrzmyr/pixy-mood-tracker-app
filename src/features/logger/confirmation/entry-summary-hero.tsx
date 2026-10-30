@@ -163,8 +163,7 @@ export const SummaryHero = ({
   extraHeight: number;
 }) => {
   const colors = useColors();
-  // Page color: cards (`cardBackground`) stand out from it in both themes.
-  const { background } = colors;
+  const background = colors.summaryBackground;
 
   const picture = (() => {
     if (item.photos.length > 0) {

@@ -32,9 +32,9 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 ## Summary tiles
 
-Tile lists like the entry summary: a hero picture on top, then white cards on the page.
+Tile lists like the entry summary: a hero picture on top, then cards on a plain page (`colors.summaryBackground`: white, black in dark mode).
 
-- Tile: `colors.cardBackground`, `RADIUS.lg`, at least 96 pt tall. Subtle lift off the gray page: `colors.glassBorder` hairline plus a soft shadow.
+- Tile: `colors.summaryTile` (light gray, dark gray in dark mode), `RADIUS.lg`, at least 96 pt tall, `colors.glassBorder` hairline, no shadow.
 - Grid of two columns: a few chips, sleep, and people take half; many chips and the note take the full width. A half without partner takes its row alone.
 - Mood pixel over a photo or map: outlined in its own color, a bit darker.
 - Chips inside: border `colors.glassBorder`, no fill. Overlapping avatars: see-through gap, no card-colored ring.

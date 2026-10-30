@@ -159,7 +159,7 @@ export const EntrySummary = ({
       style={{
         flex: 1,
         overflow: "hidden",
-        backgroundColor: colors.background,
+        backgroundColor: colors.summaryBackground,
       }}
     >
       <MaskedView style={{ flex: 1 }} maskElement={<BottomFadeMask />}>

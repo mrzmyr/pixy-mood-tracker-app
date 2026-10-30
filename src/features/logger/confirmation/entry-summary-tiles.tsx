@@ -77,17 +77,14 @@ export const Tile = ({
     <Animated.View
       entering={entering}
       style={{
-        backgroundColor: colors.cardBackground,
+        backgroundColor: colors.summaryTile,
         borderRadius: RADIUS.lg,
         borderCurve: "continuous",
         padding: 14,
         minHeight: TILE_MIN_HEIGHT,
-        // Subtle lift off the gray page: see-through hairline plus a soft
-        // shadow.
+        // Set off from the page by a see-through hairline; no shadow.
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: colors.glassBorder,
-        boxShadow:
-          "0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04)",
         ...style,
       }}
     >
