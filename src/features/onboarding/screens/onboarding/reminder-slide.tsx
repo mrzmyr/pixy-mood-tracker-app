@@ -64,6 +64,7 @@ export const ReminderSlide = ({
   onSkip: () => void;
 }) => {
   const analytics = useAnalytics();
+  const colors = useColors();
 
   const reminder = useReminder();
 
@@ -129,7 +130,11 @@ export const ReminderSlide = ({
                   justifyContent: "center",
                 }}
               >
-                <Clock timeDate={time} onChange={setTime} />
+                <Clock
+                  timeDate={time}
+                  onChange={setTime}
+                  background={colors.onboardingControlBackground}
+                />
               </View>
             </View>
           </View>
