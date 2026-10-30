@@ -64,7 +64,11 @@
 - Record mistakes in [MISTAKES.md](MISTAKES.md), missing capabilities in [DESIRES.md](DESIRES.md), and environment discoveries in [LEARNINGS.md](LEARNINGS.md)
 - Public repo: entries contain no private names, internal context, or user data
 - Never use Expo Device Hub (`bun hub`) as an agent. Humans: never press Shut down or Remove in it ([Device Hub](docs/development.md#device-hub)).
-- **Disk:** Before a cold native build, run `bun builds list` and `df`. On a cache miss with less than 20 GiB free, stop and free space first.
+- **Disk:** Before a cold native build, run `bun builds list` and `df`. On a cache miss with less than 20 GiB free, free space first. Never ask before freeing safe places:
+  - `disk_low` fix steps ([`scripts/cli/disk.ts`](scripts/cli/disk.ts))
+  - `bun worktree rm` for worktrees whose PR is merged or closed, with no changes, no unpushed commits, and no running process (`lsof +D <path>`)
+  - Xcode DerivedData of your own checkout (`WorkspacePath` in its `info.plist`) when no `xcodebuild` runs
+  - Still under 20 GiB: stop and ask. Never delete anything else.
 - **Android:** Build cold with `ORG_GRADLE_PROJECT_reactNativeArchitectures=arm64-v8a`. Four ABIs fill the disk.
 - **RAM:** Run one heavy job at a time (native build, `tsc`, full jest, `bun install`). Never fan out subagents that run checks.
 - Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send free text to PostHog: notes, tag names, people names, filter text, feedback messages. Not hashed, sampled, or truncated either. Send counts and lengths instead. Never send health values either: rating, emotion keys, sleep quality, Apple Health data, intervention cluster, feedback answer, mood-derived counts. Send `has_*` booleans and counts. A PostHog transformation also drops them server-side ([TELEMETRY.md](TELEMETRY.md#server-side-filter)). Record every event rename in [TELEMETRY.md](TELEMETRY.md#event-history).
