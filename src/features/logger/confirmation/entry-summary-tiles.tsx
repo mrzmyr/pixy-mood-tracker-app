@@ -6,6 +6,7 @@ import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import chroma from "chroma-js";
+import { SkyTile } from "@/components/sky-tile";
 import { CHIP_FLOW, COMPACT_CHIP } from "@/constants/chip";
 import { RADIUS } from "@/constants/radius";
 import { FONT_SIZE } from "@/constants/typography";
@@ -33,6 +34,7 @@ import type { PhotoRow } from "./entry-summary-layout";
 import { createFadeIn } from "./motion";
 
 const FACE_SIZE = 44;
+const TRANSPARENT = { backgroundColor: "transparent" };
 const DAY_MINUTES = 24 * 60;
 const STRIP_HOURS = [0, 6, 12, 18, 24];
 
@@ -65,7 +67,6 @@ export const Tile = ({
   style?: ViewStyle;
   children: ReactNode;
 }) => {
-  const colors = useColors();
   const isReducedMotion = useReducedMotion();
   const entering = useMemo(
     () => createFadeIn({ delay: 150 + row * 90, isReducedMotion }),
@@ -73,18 +74,8 @@ export const Tile = ({
   );
 
   return (
-    <Animated.View
-      entering={entering}
-      style={{
-        backgroundColor: colors.cardBackground,
-        borderRadius: RADIUS.lg,
-        borderCurve: "continuous",
-        padding: 14,
-        overflow: "hidden",
-        ...style,
-      }}
-    >
-      {children}
+    <Animated.View entering={entering} style={{ flex: style?.flex }}>
+      <SkyTile style={{ padding: 14, ...style }}>{children}</SkyTile>
     </Animated.View>
   );
 };
@@ -224,7 +215,6 @@ export const EmotionsTile = ({
               paddingHorizontal: COMPACT_CHIP.paddingHorizontal,
               borderRadius: COMPACT_CHIP.borderRadius,
               borderWidth: 1,
-              backgroundColor: colors.entryBackground,
               borderColor: colors.entryItemBorder,
               flexDirection: "row",
               alignItems: "center",
@@ -253,6 +243,8 @@ export const TagsTile = ({ tags }: { tags: Tag[] }) => (
           title={tag.title}
           colorName={tag.color}
           compact
+          // Glass shows through, like the emotion chips.
+          style={TRANSPARENT}
         />
       ))}
     </View>
@@ -382,10 +374,7 @@ export const PeopleTile = ({
           <View
             key={person.id}
             style={{
-              marginLeft: index === 0 ? 0 : -12,
-              borderRadius: FACE_SIZE,
-              borderWidth: 3,
-              borderColor: colors.cardBackground,
+              marginLeft: index === 0 ? 0 : -8,
             }}
           >
             <PersonAvatar person={person} size={FACE_SIZE - 6} />

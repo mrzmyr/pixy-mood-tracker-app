@@ -30,6 +30,15 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 - Icons never conflict: one icon, one meaning. Color themes use `Palette`; Menstruation uses `Droplet`.
 - State icons: one glyph per state, same size. Change fill or detail, never icon count or size. Selection and Day view use same state icon.
 
+## Tiles on skies
+
+Screens on a sky ([`Sky`](src/components/sky.tsx) by day, [`NightSky`](src/components/night-sky.tsx) in dark mode) show content as transparent tiles, so the sky stays visible.
+
+- Tile: always [`SkyTile`](src/components/sky-tile.tsx). Liquid Glass on iOS 26, frosted fill elsewhere. Never `colors.cardBackground`, never a shadow.
+- Inside a tile: no solid fills. Chips keep their border, background transparent. No card-colored rings around avatars.
+- Bottom of a scrolling tile list fades to transparent above the action button (mask, not a color overlay).
+- Text on tiles: `colors.text`, `FONT_SIZE.base`.
+
 ## Sheets and Modals
 
 - `Modal` with `presentationStyle="pageSheet"`, `animationType="slide"` ([`SheetModal`](src/components/sheet-modal.tsx)).
