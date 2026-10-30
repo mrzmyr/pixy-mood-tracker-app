@@ -1,7 +1,14 @@
-import { useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
 import type { View as ViewType } from "react-native";
-import { useReducedMotion, useSharedValue } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
 import { SkyPixy } from "@/components/sky-pixy";
 import type { FlightZone } from "@/components/sky-pixy";
 import { usePixyIdle } from "@/features/logger";
@@ -12,10 +19,15 @@ import { ShareCard } from "./share-card";
 import type { SlideContext } from "./slides";
 import type { StoryPhoto } from "./types";
 
+/** Pixy waits for the slide to settle, then glides in this long. */
+const ARRIVAL_DELAY_MS = 400;
+const ARRIVAL_MS = 2400;
+
 /**
  * Last slide, on the sky: thanks for looking back, then the card to send
  * on. Cloud Pixy flies in the free sky between them and never crosses
- * text or the card. Reduced motion: no Pixy.
+ * text or the card. It glides in from beyond the screen edge. Reduced
+ * motion: no Pixy.
  */
 export const StoryFinale = ({
   ctx,
@@ -35,6 +47,23 @@ export const StoryFinale = ({
   const root = useRef<View>(null);
   const sky = useRef<View>(null);
   const [zone, setZone] = useState<FlightZone | null>(null);
+  const { width: screenWidth } = useWindowDimensions();
+  // Pixy glides in from beyond the right edge, then flies its loop.
+  const arrival = useSharedValue(1);
+  useEffect(() => {
+    arrival.set(
+      withDelay(
+        ARRIVAL_DELAY_MS,
+        withTiming(0, {
+          duration: ARRIVAL_MS,
+          easing: Easing.out(Easing.cubic),
+        })
+      )
+    );
+  }, [arrival]);
+  const arrivalStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: arrival.get() * screenWidth }],
+  }));
 
   // Pixy's zone is in the root's coordinates, where its layer sits.
   const measure = () => {
@@ -67,9 +96,12 @@ export const StoryFinale = ({
         onShuffle={onShuffle}
       />
       {!isReducedMotion && (
-        <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
+        <Animated.View
+          pointerEvents="box-none"
+          style={[StyleSheet.absoluteFill, arrivalStyle]}
+        >
           <SkyPixy boost={boost} zone={zone} isBlinking={idle.isBlinking} />
-        </View>
+        </Animated.View>
       )}
     </View>
   );

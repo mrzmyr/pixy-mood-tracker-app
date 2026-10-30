@@ -922,6 +922,8 @@ const PIN_BELOW = 34;
 const PIN_INSET = 24;
 /** Share of the screen the bottom fade covers, for the title and line. */
 const FADE_SHARE = 0.36;
+/** Solid color the fade adds below the screen edge. */
+const FADE_OVERSCAN = 200;
 /** Share of the fade, from its top, where it turns solid. */
 const FADE_SOLID_FROM = 0.42;
 /** Lift, so pins stand out on a busy map. */
@@ -1200,11 +1202,12 @@ const MapFade = ({
         position: "absolute",
         left: -24,
         right: -24,
-        bottom: -(insets.bottom + 84),
-        height: fade,
+        // Runs past the screen edge, so no map shows under the actions.
+        bottom: -(insets.bottom + 84) - FADE_OVERSCAN,
+        height: fade + FADE_OVERSCAN,
       }}
     >
-      <Svg width="100%" height="100%">
+      <Svg width="100%" height={fade}>
         <Defs>
           <LinearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
             <Stop offset="0" stopColor={color} stopOpacity="0" />
@@ -1219,6 +1222,7 @@ const MapFade = ({
         </Defs>
         <Rect width="100%" height="100%" fill="url(#fade)" />
       </Svg>
+      <View style={{ height: FADE_OVERSCAN, backgroundColor: color }} />
     </View>
   );
 };
