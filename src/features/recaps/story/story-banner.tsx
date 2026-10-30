@@ -11,8 +11,10 @@ import type { StorySource } from "@/state/analytics/events";
 import type { Period } from "../types";
 import { monthName } from "./format";
 
-/** Cloud photo height in the card: the clouds read at card size. */
-const CARD_SKY_HEIGHT = 180;
+/** Cloud photo height in the card: zoomed in, so big soft clouds fill it. */
+const CARD_SKY_HEIGHT = 560;
+/** The card shows this band of the photo, from its bottom: the cloud tops. */
+const CARD_SKY_OFFSET = 150;
 
 /**
  * "September Recap / Ready to watch" on a drifting sky, with the recap card
@@ -59,8 +61,9 @@ export const StoryBanner = ({
         borderRadius: RADIUS.md,
         borderCurve: "continuous",
         borderWidth: 1,
-        // A gray line looks dull on the sky: a light edge of the sky by day.
-        borderColor: isDark ? colors.recapCardBorder : "rgba(255,255,255,0.7)",
+        // Outer line a little darker, inner line white: the edge reads on
+        // light clouds and on blue sky alike.
+        borderColor: isDark ? colors.recapCardBorder : "rgba(10,40,80,0.16)",
         boxShadow: colors.recapCardShadow,
         overflow: "hidden",
         opacity: pressed ? 0.7 : 1,
@@ -73,12 +76,25 @@ export const StoryBanner = ({
           position: "absolute",
           left: 0,
           right: 0,
-          bottom: 0,
+          bottom: -CARD_SKY_OFFSET,
           height: CARD_SKY_HEIGHT,
         }}
       >
         <Sky speed={speed} height={CARD_SKY_HEIGHT} />
       </View>
+      <View
+        pointerEvents="none"
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: RADIUS.md - 1,
+          borderCurve: "continuous",
+          borderWidth: 1,
+          borderColor: isDark
+            ? "rgba(255,255,255,0.08)"
+            : "rgba(255,255,255,0.75)",
+        }}
+      />
       <View style={{ flex: 1 }}>
         <Headline style={{ color: isDark ? "#FFFFFF" : "#0A0A0A" }}>
           {title}
