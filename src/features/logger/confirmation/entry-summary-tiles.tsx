@@ -3,7 +3,7 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
@@ -119,6 +119,16 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
           end={{ x: 1, y: 0 }}
           style={{ flex: 1 }}
         />
+        {/* See-through outline: sets the strip off from the card. */}
+        <View
+          pointerEvents="none"
+          style={{
+            ...StyleSheet.absoluteFill,
+            borderRadius: RADIUS.sm,
+            borderWidth: StyleSheet.hairlineWidth,
+            borderColor: colors.glassBorder,
+          }}
+        />
       </View>
       {checkIns.map((checkIn) => (
         <View
@@ -131,10 +141,13 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
             marginLeft: -3,
             left: `${toStripOffset(checkIn.minute) * 100}%`,
             borderRadius: 3,
-            backgroundColor: scale[checkIn.rating].background,
-            borderWidth: 1.5,
+            // See-through, outlined in the scale's text color for the mood
+            // behind it: dark on light moods, light on dark ones.
+            borderWidth: checkIn.minute === newest ? 2 : 1.5,
             borderColor:
-              checkIn.minute === newest ? colors.text : colors.cardBackground,
+              checkIn.minute === newest
+                ? scale[checkIn.rating].text
+                : scale[checkIn.rating].textSecondary,
           }}
         />
       ))}
