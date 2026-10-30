@@ -207,6 +207,10 @@ export const PrivacySlide = ({
               <View style={{ flex: 1 }}>
                 <Button
                   type="tertiary"
+                  style={{
+                    backgroundColor: colors.onboardingControlBackground,
+                    borderColor: "transparent",
+                  }}
                   onPress={() => choose(false)}
                   testID="analytics-consent-deny"
                 >

@@ -7,7 +7,10 @@ import noop from "lodash/noop";
 import { RADIUS } from "@/constants/radius";
 import type { ClockProps } from "./clock-types";
 
-const Clock = ({ timeDate }: ClockProps & { style?: ViewStyle }) => {
+const Clock = ({
+  timeDate,
+  background,
+}: ClockProps & { style?: ViewStyle }) => {
   const colors = useColors();
 
   return (
@@ -16,7 +19,7 @@ const Clock = ({ timeDate }: ClockProps & { style?: ViewStyle }) => {
       style={{
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: colors.backgroundSecondary,
+        backgroundColor: background ?? colors.backgroundSecondary,
         borderRadius: RADIUS.sm,
         borderCurve: "continuous",
         paddingLeft: 10,
