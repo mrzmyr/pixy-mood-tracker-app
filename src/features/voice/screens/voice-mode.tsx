@@ -23,10 +23,12 @@ import { useAnalytics } from "@/state/analytics";
 import { VoiceBlob } from "../components/voice-blob";
 import { VoiceHelpSheet } from "../components/voice-help-sheet";
 import { VoiceMatchCard, VoiceMoodCard } from "../components/voice-match-card";
+import { VoiceTrySaying } from "../components/voice-try-saying";
 import { VoiceWaveform } from "../components/voice-waveform";
 import { matchTranscript } from "../match-transcript";
 import { getMoodTriggers, matchMood } from "../mood-triggers";
 import { useVoiceTerms } from "../use-voice-terms";
+import { buildVoiceExample } from "../voice-example";
 import { useVoiceTranscription } from "../use-voice-transcription";
 import type { VoiceErrorStatus, VoiceStatus } from "../use-voice-transcription";
 
@@ -105,6 +107,7 @@ export const VoiceMode = () => {
   );
   const mood = matchMood(voice.text, moodTriggers);
   const hasText = voice.text.trim() !== "";
+  const example = buildVoiceExample(terms, moodTriggers);
 
   const { allowLeave } = useDiscardGuard({
     isDirty: hasText,
@@ -208,6 +211,9 @@ export const VoiceMode = () => {
         style={{ flex: 1 }}
         contentContainerStyle={{ paddingHorizontal: 20, gap: 8 }}
       >
+        {!mood && matches.length === 0 && !isBlocked && (
+          <VoiceTrySaying example={example} />
+        )}
         {mood && <VoiceMoodCard mood={mood} />}
         {matches.map((match) => (
           <VoiceMatchCard key={`${match.kind}:${match.id}`} match={match} />
