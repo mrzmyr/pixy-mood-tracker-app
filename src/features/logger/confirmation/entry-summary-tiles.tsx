@@ -8,7 +8,6 @@ import type { ViewStyle } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 import chroma from "chroma-js";
-import { SkyTile } from "@/components/sky-tile";
 import { CHIP_FLOW, COMPACT_CHIP } from "@/constants/chip";
 import { RADIUS } from "@/constants/radius";
 import { FONT_SIZE } from "@/constants/typography";
@@ -67,6 +66,7 @@ export const Tile = ({
   style?: ViewStyle;
   children: ReactNode;
 }) => {
+  const colors = useColors();
   const isReducedMotion = useReducedMotion();
   const entering = useMemo(
     () => createFadeIn({ delay: 150 + row * 90, isReducedMotion }),
@@ -74,8 +74,18 @@ export const Tile = ({
   );
 
   return (
-    <Animated.View entering={entering} style={{ flex: style?.flex }}>
-      <SkyTile style={{ padding: 14, ...style }}>{children}</SkyTile>
+    <Animated.View
+      entering={entering}
+      style={{
+        backgroundColor: colors.cardBackground,
+        borderRadius: RADIUS.lg,
+        borderCurve: "continuous",
+        padding: 14,
+        overflow: "hidden",
+        ...style,
+      }}
+    >
+      {children}
     </Animated.View>
   );
 };
