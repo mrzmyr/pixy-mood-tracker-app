@@ -186,6 +186,23 @@ export const toTagCategoryRows = (
   ]);
 
 /**
+ * Applies a SwiftUI `onMove` to the rows: moves the rows at `sourceIndices`
+ * to `destination`, an index in the list before the move. Pure.
+ */
+export const moveRows = <T>(
+  rows: T[],
+  sourceIndices: number[],
+  destination: number
+): T[] => {
+  const sources = new Set(sourceIndices);
+  const moved = sourceIndices.map((index) => rows[index]);
+  const rest = rows.filter((_, index) => !sources.has(index));
+  const insertAt =
+    destination - sourceIndices.filter((index) => index < destination).length;
+  return [...rest.slice(0, insertAt), ...moved, ...rest.slice(insertAt)];
+};
+
+/**
  * Reads the arrangement from rows after a drag: each tag belongs to the
  * nearest category header above it. Tags above the first header join the
  * first category. Pure.
