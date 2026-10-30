@@ -6,6 +6,7 @@ import { getTextRevealDuration } from "@/components/text-reveal-parts";
 import { SLIDE_TEXT_DELAY_MS } from "./slide-timing";
 import { HeaderImage } from "./header-image";
 import { HeaderNavigation } from "./header-navigation";
+import { SkyFlightZone } from "./sky-flight-zone";
 import {
   Clock,
   reminderTimeToDate,
@@ -144,6 +145,7 @@ export const ReminderSlide = ({
                 />
               </View>
             </View>
+            <SkyFlightZone style={{ flex: 1, marginBottom: -12 }} />
           </View>
         </View>
         <View

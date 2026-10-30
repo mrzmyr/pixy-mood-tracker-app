@@ -5,6 +5,7 @@ import { TextReveal } from "@/components/text-reveal";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useIsLaunchSplashVisible } from "@/shell/launch-splash-state";
+import { SkyFlightZone } from "./sky-flight-zone";
 
 /**
  * First onboarding slide: only the tagline on the sky, then Start. The tagline
@@ -21,15 +22,8 @@ export const IndexSlide = ({ onPress }: { onPress: () => void }) => {
       key={isSplashVisible ? "waiting" : "shown"}
       style={{ flex: 1, opacity: isSplashVisible ? 0 : 1 }}
     >
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          paddingHorizontal: 32,
-          // Sits a little above the middle, in the clear part of the sky.
-          paddingBottom: 96,
-        }}
-      >
+      <View style={{ flex: 1, paddingHorizontal: 32 }}>
+        <SkyFlightZone style={{ flex: 1 }} />
         <TextReveal
           testID="onboarding-welcome"
           accessibilityRole="header"
@@ -44,6 +38,8 @@ export const IndexSlide = ({ onPress }: { onPress: () => void }) => {
         >
           {t("onboarding_tagline")}
         </TextReveal>
+        {/* Keeps the tagline a little above the middle, in the clear sky. */}
+        <View style={{ flex: 1, paddingBottom: 96 }} />
       </View>
       <Animated.View
         entering={FadeIn.delay(1600).duration(900)}

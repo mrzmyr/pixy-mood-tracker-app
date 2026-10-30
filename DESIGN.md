@@ -67,6 +67,15 @@ Every sheet and route modal. Sources: [HIG Sheets](https://developer.apple.com/d
 - Lists > ~20 items virtualized. Safe areas from `react-native-safe-area-context`, never hardcoded.
 - No `LayoutAnimation` ([#610](https://github.com/mrzmyr/pixy-mood-tracker-app/pull/610)). Use Reanimated `entering`/`exiting`/`layout`. Honor reduce motion.
 
+## Sky
+
+Onboarding background ([`OnboardingSky`](src/features/onboarding/screens/onboarding/onboarding-sky.tsx)).
+
+- Light mode: day sky, drifting cloud photo.
+- Dark mode: night sky. Deep navy, faint clouds, subtle stars: small, sparse, dim, slow twinkle. Never the day sky dimmed.
+- Cloud Pixy flies in both, only in free sky: never over text, controls, or screenshots. Slides mark free sky with [`SkyFlightZone`](src/features/onboarding/screens/onboarding/sky-flight-zone.tsx). No zone: no Pixy.
+- Reduce motion: no Pixy, still sky.
+
 ## Copywriting
 
 - App headings and buttons: Title Case (Chicago). Labels specific: "Save Tag", not "Continue".
