@@ -25,7 +25,8 @@ const SKY_FADE_MS = 600;
 const NIGHT_CLOUD_OPACITY = 0.07;
 
 /**
- * Full-screen sky with drifting clouds, behind onboarding and voice mode.
+ * Sky with drifting clouds: full screen behind onboarding and voice mode,
+ * or inside a card with a smaller `height`.
  * `speed` is the drift in points per second; the owner animates it. Reduced
  * motion keeps the sky still. Dark mode shows a night sky: faint clouds and
  * subtle twinkling stars.
@@ -33,12 +34,16 @@ const NIGHT_CLOUD_OPACITY = 0.07;
 export const Sky = ({
   speed,
   isVisible = true,
+  height: skyHeight,
 }: {
   speed: SharedValue<number>;
   /** False fades the sky out. */
   isVisible?: boolean;
+  /** Height of the cloud photo. Default: the window, for full screens. */
+  height?: number;
 }) => {
-  const { height } = useWindowDimensions();
+  const { height: windowHeight } = useWindowDimensions();
+  const height = skyHeight ?? windowHeight;
   const scheme = useColorScheme();
   const isReducedMotion = useReducedMotion();
   const colors = useColors();

@@ -17,8 +17,10 @@ const Card = ({ month }: { month: DateKey }) => {
     return null;
   }
   return (
-    <View style={{ paddingHorizontal: 16, paddingTop: 24 }}>
-      <StoryBanner period={period} days={input.days} source="calendar" />
+    // The calendar list already insets its content: the card lines up with
+    // the day grid.
+    <View style={{ paddingTop: 24 }}>
+      <StoryBanner period={period} source="calendar" />
     </View>
   );
 };
