@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "piksel · %{month}",
   "recaps_story_cover_title": "%{month}: şekillenenler",
-  "recaps_story_cover_title_week": "Bir an dur. Bu senin haftandı.",
+  "recaps_story_cover_title_week": "Bir an dur.\nBu senin haftandı.",
   "recaps_story_days": {
     "one": "1 gün",
     "other": "{{count}} gün"

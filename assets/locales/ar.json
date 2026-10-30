@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "بكسل في %{month}",
   "recaps_story_cover_title": "%{month}، ما الذي تشكّل",
-  "recaps_story_cover_title_week": "خذ لحظة. هذا كان أسبوعك.",
+  "recaps_story_cover_title_week": "خذ لحظة.\nهذا كان أسبوعك.",
   "recaps_story_days": {
     "one": "يوم واحد",
     "other": "الأيام: {{count}}"

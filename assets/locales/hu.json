@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "pixel · %{month}",
   "recaps_story_cover_title": "%{month}: ami formát öltött",
-  "recaps_story_cover_title_week": "Szánj rá egy pillanatot. Ez volt a heted.",
+  "recaps_story_cover_title_week": "Szánj rá egy pillanatot.\nEz volt a heted.",
   "recaps_story_days": {
     "one": "1 nap",
     "other": "{{count}} nap"

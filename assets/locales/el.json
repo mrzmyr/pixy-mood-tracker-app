@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "pixels · %{month}",
   "recaps_story_cover_title": "%{month}: ό,τι πήρε μορφή",
-  "recaps_story_cover_title_week": "Πάρε μια στιγμή. Αυτή ήταν η εβδομάδα σου.",
+  "recaps_story_cover_title_week": "Πάρε μια στιγμή.\nΑυτή ήταν η εβδομάδα σου.",
   "recaps_story_days": {
     "one": "1 μέρα",
     "other": "{{count}} μέρες"

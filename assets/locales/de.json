@@ -950,7 +950,7 @@
   "recaps_story_cover_pixels_title": "Pixel im %{month}",
   "recaps_story_cover_pixels_title_week": "Pixel diese Woche",
   "recaps_story_cover_title": "%{month}: Das ist entstanden",
-  "recaps_story_cover_title_week": "Nimm dir einen Moment. Das war deine Woche.",
+  "recaps_story_cover_title_week": "Nimm dir einen Moment.\nDas war deine Woche.",
   "recaps_story_days": {
     "one": "1 Tag",
     "other": "{{count}} Tage"

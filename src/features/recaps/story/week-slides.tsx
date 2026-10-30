@@ -434,6 +434,19 @@ const TagChip = ({ tag, theme }: { tag: Tag; theme: StoryTheme }) => {
   );
 };
 
+/**
+ * Chips rise into place with a little lift past the line, then settle: more
+ * alive than a linear fade, calmer than a spring.
+ */
+const CHIP_ARRIVE = new Keyframe({
+  0: { opacity: 0, transform: [{ translateY: 18 }, { scale: 0.92 }] },
+  100: {
+    opacity: 1,
+    transform: [{ translateY: 0 }, { scale: 1 }],
+    easing: Easing.out(Easing.back(1.6)),
+  },
+}).duration(650);
+
 // ---------------------------------------------------------------- best day
 
 /** Best day: over its photo, or over the sunlit sky without one. */
@@ -465,7 +478,7 @@ export const BestDay = ({
         {chips.map((chip, index) => (
           <Animated.View
             key={chip.key}
-            entering={FadeInDown.delay(chipsAt + index * STAGGER_MS * 2)}
+            entering={CHIP_ARRIVE.delay(chipsAt + index * STAGGER_MS * 2)}
           >
             {chip}
           </Animated.View>
@@ -528,8 +541,8 @@ const TOWER_GAP = 6;
 const PIPE_PHYSICS = {
   gap: TOWER_GAP,
   play: 3,
-  gravity: 2200,
-  restitution: 0.3,
+  gravity: 3400,
+  restitution: 0.22,
 };
 
 /** Pipe world that starts at `startAt` ms, or already at rest. */
@@ -1012,8 +1025,8 @@ const FADE_SOLID_FROM = 0.4;
 const PIN_SHADOW = "0 4px 14px rgba(0,0,0,0.35)";
 /** Time between two pins dropping onto the map. */
 const PIN_STAGGER_MS = 700;
-/** First pin drops after the map settled. */
-const PIN_START_MS = 500;
+/** First pin arrives once the map zoomed in on the places. */
+const PIN_START_MS = 1500;
 
 /** Pins settle in softly: fade in while they sink a few points into place. */
 const PIN_ARRIVE = new Keyframe({

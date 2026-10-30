@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "%{month} w pikselach",
   "recaps_story_cover_title": "%{month}: co nabrało kształtu",
-  "recaps_story_cover_title_week": "Zatrzymaj się na chwilę. To był twój tydzień.",
+  "recaps_story_cover_title_week": "Zatrzymaj się na chwilę.\nTo był twój tydzień.",
   "recaps_story_days": {
     "one": "1 dzień",
     "other": "Dni: {{count}}"

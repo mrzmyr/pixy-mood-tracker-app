@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "pikseliä · %{month}",
   "recaps_story_cover_title": "%{month}: mikä sai muotonsa",
-  "recaps_story_cover_title_week": "Pysähdy hetkeksi. Tämä on viikkosi.",
+  "recaps_story_cover_title_week": "Pysähdy hetkeksi.\nTämä on viikkosi.",
   "recaps_story_days": {
     "one": "1 päivä",
     "other": "{{count}} päivää"

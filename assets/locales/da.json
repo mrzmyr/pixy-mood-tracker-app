@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "pixels i %{month}",
   "recaps_story_cover_title": "%{month}, det der tog form",
-  "recaps_story_cover_title_week": "Tag et øjeblik. Det her er din uge.",
+  "recaps_story_cover_title_week": "Tag et øjeblik.\nDet her er din uge.",
   "recaps_story_days": {
     "one": "1 dag",
     "other": "{{count}} dage"

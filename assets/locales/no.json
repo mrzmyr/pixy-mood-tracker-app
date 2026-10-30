@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "piksler i %{month}",
   "recaps_story_cover_title": "%{month}, det som tok form",
-  "recaps_story_cover_title_week": "Ta deg et øyeblikk. Dette er uken din.",
+  "recaps_story_cover_title_week": "Ta deg et øyeblikk.\nDette er uken din.",
   "recaps_story_days": {
     "one": "1 dag",
     "other": "{{count}} dager"

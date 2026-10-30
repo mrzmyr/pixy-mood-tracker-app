@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "פיקסלים ב%{month}",
   "recaps_story_cover_title": "%{month}: מה שהתגבש",
-  "recaps_story_cover_title_week": "קח רגע. זה היה השבוע שלך.",
+  "recaps_story_cover_title_week": "קח רגע.\nזה היה השבוע שלך.",
   "recaps_story_days": {
     "one": "יום 1",
     "other": "{{count}} ימים"

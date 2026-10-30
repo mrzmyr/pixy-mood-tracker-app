@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "%{month} में पिक्सेल",
   "recaps_story_cover_title": "%{month}: जो आकार लेता गया",
-  "recaps_story_cover_title_week": "एक पल रुकिए। यह आपका हफ़्ता था।",
+  "recaps_story_cover_title_week": "एक पल रुकिए।\nयह आपका हफ़्ता था।",
   "recaps_story_days": {
     "one": "1 दिन",
     "other": "{{count}} दिन"

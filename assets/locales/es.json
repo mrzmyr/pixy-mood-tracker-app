@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "píxeles en %{month}",
   "recaps_story_cover_title": "%{month}, lo que tomó forma",
-  "recaps_story_cover_title_week": "Tómate un momento. Esta fue tu semana.",
+  "recaps_story_cover_title_week": "Tómate un momento.\nEsta fue tu semana.",
   "recaps_story_days": {
     "one": "1 día",
     "other": "{{count}} días"

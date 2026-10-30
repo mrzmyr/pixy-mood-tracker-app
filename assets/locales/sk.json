@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "%{month} v pixeloch",
   "recaps_story_cover_title": "%{month}: čo dostalo tvar",
-  "recaps_story_cover_title_week": "Zastav sa na chvíľu. Toto bol tvoj týždeň.",
+  "recaps_story_cover_title_week": "Zastav sa na chvíľu.\nToto bol tvoj týždeň.",
   "recaps_story_days": {
     "one": "1 deň",
     "other": "Dní: {{count}}"

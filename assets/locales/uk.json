@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "%{month} у пікселях",
   "recaps_story_cover_title": "%{month}: що склалося",
-  "recaps_story_cover_title_week": "Зупиніться на мить. Це був ваш тиждень.",
+  "recaps_story_cover_title_week": "Зупиніться на мить.\nЦе був ваш тиждень.",
   "recaps_story_days": {
     "one": "1 день",
     "other": "Днів: {{count}}"

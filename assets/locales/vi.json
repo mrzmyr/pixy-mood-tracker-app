@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "pixel trong %{month}",
   "recaps_story_cover_title": "%{month}, những gì đã thành hình",
-  "recaps_story_cover_title_week": "Dành một chút thời gian. Đây là tuần của bạn.",
+  "recaps_story_cover_title_week": "Dành một chút thời gian.\nĐây là tuần của bạn.",
   "recaps_story_days": {
     "one": "1 ngày",
     "other": "{{count}} ngày"

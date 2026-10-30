@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "piksel di %{month}",
   "recaps_story_cover_title": "%{month}, yang terbentuk",
-  "recaps_story_cover_title_week": "Luangkan waktu sejenak. Inilah minggumu.",
+  "recaps_story_cover_title_week": "Luangkan waktu sejenak.\nInilah minggumu.",
   "recaps_story_days": {
     "one": "1 hari",
     "other": "{{count}} hari"

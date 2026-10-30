@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { TextReveal } from "@/components/text-reveal";
+import { getTextRevealDuration } from "@/components/text-reveal-parts";
 import { t } from "@/lib/translation";
 import { dayRange } from "./format";
 import { StoryText } from "./parts";
@@ -13,6 +14,7 @@ import { STORY_PALETTE, STORY_TYPE } from "./theme";
  */
 export const StoryIntro = ({ ctx }: { ctx: SlideContext }) => {
   const theme = ctx.isDark ? "night" : "paper";
+  const lines = t("recaps_story_cover_title_week").split("\n");
   return (
     <View style={{ flex: 1 }}>
       <View style={{ gap: 8 }}>
@@ -24,13 +26,24 @@ export const StoryIntro = ({ ctx }: { ctx: SlideContext }) => {
         >
           {dayRange(ctx.period.start, ctx.period.end)}
         </StoryText>
-        <TextReveal
-          accessibilityRole="header"
-          delay={500}
-          style={[STORY_TYPE.title, { color: STORY_PALETTE[theme].text }]}
-        >
-          {t("recaps_story_cover_title_week")}
-        </TextReveal>
+        {/* One sentence per line, the second after the first. */}
+        <View>
+          {lines.map((line, index) => (
+            <TextReveal
+              key={line}
+              accessibilityRole={index === 0 ? "header" : "text"}
+              delay={
+                500 +
+                lines
+                  .slice(0, index)
+                  .reduce((sum, done) => sum + getTextRevealDuration(done), 0)
+              }
+              style={[STORY_TYPE.title, { color: STORY_PALETTE[theme].text }]}
+            >
+              {line}
+            </TextReveal>
+          ))}
+        </View>
       </View>
       <PixyFlightArea style={{ flex: 1, marginTop: 24 }} />
     </View>

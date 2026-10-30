@@ -1080,7 +1080,7 @@
   "recaps_story_cover_pixels_title": "pixels in %{month}",
   "recaps_story_cover_pixels_title_week": "pixels this week",
   "recaps_story_cover_title": "%{month}, what took shape",
-  "recaps_story_cover_title_week": "Take a moment. This is your week.",
+  "recaps_story_cover_title_week": "Take a moment.\nThis is your week.",
   "recaps_story_days": {
     "one": "1 day",
     "other": "{{count}} days"

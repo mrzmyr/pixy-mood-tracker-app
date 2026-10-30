@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "pixel di %{month}",
   "recaps_story_cover_title": "%{month}, ciò che ha preso forma",
-  "recaps_story_cover_title_week": "Prenditi un momento. Questa è la tua settimana.",
+  "recaps_story_cover_title_week": "Prenditi un momento.\nQuesta è la tua settimana.",
   "recaps_story_days": {
     "one": "1 giorno",
     "other": "{{count}} giorni"

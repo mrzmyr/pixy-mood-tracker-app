@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "%{month}의 픽셀",
   "recaps_story_cover_title": "%{month}, 이렇게 채워졌어요",
-  "recaps_story_cover_title_week": "잠시 멈춰 보세요. 이번 주의 당신이에요.",
+  "recaps_story_cover_title_week": "잠시 멈춰 보세요.\n이번 주의 당신이에요.",
   "recaps_story_days": {
     "one": "1일",
     "other": "{{count}}일"

@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "%{month} u pikselima",
   "recaps_story_cover_title": "%{month}: što je dobilo oblik",
-  "recaps_story_cover_title_week": "Zastani na trenutak. Ovo je bio tvoj tjedan.",
+  "recaps_story_cover_title_week": "Zastani na trenutak.\nOvo je bio tvoj tjedan.",
   "recaps_story_days": {
     "one": "1 dan",
     "other": "Dana: {{count}}"

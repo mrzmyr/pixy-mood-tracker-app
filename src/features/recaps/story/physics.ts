@@ -134,11 +134,8 @@ const bounce = (
     // Resting contact: it rides on what holds it, no bounce.
     world.vy[index] = Math.abs(under) < SLEEP_SPEED ? 0 : under;
   } else if (below >= 0) {
-    // Equal masses: the two pixels trade speed, minus the loss.
-    const mean = (own + under) / 2;
-    const half = ((under - own) * config.restitution) / 2;
-    world.vy[index] = mean + half;
-    world.vy[below] = mean - half;
+    // The stack below stands on the floor: it holds, the pixel bounces off.
+    world.vy[index] = under + (under - own) * config.restitution;
   } else {
     world.vy[index] = -own * config.restitution;
   }

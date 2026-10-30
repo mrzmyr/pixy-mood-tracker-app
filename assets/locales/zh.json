@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "%{month}的像素",
   "recaps_story_cover_title": "%{month}，渐渐成形",
-  "recaps_story_cover_title_week": "停下来片刻。这是你的一周。",
+  "recaps_story_cover_title_week": "停下来片刻。\n这是你的一周。",
   "recaps_story_days": {
     "one": "1 天",
     "other": "{{count}} 天"

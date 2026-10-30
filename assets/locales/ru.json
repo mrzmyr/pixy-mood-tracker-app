@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "%{month} в пикселях",
   "recaps_story_cover_title": "%{month}: что сложилось",
-  "recaps_story_cover_title_week": "Остановитесь на минуту. Это была ваша неделя.",
+  "recaps_story_cover_title_week": "Остановитесь на минуту.\nЭто была ваша неделя.",
   "recaps_story_days": {
     "one": "1 день",
     "other": "Дней: {{count}}"

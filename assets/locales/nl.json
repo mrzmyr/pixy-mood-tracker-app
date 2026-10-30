@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "pixels in %{month}",
   "recaps_story_cover_title": "%{month}, wat vorm kreeg",
-  "recaps_story_cover_title_week": "Neem even de tijd. Dit was je week.",
+  "recaps_story_cover_title_week": "Neem even de tijd.\nDit was je week.",
   "recaps_story_days": {
     "one": "1 dag",
     "other": "{{count}} dagen"

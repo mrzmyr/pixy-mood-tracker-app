@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "pixeli în %{month}",
   "recaps_story_cover_title": "%{month}, ce a prins contur",
-  "recaps_story_cover_title_week": "Ia-ți un moment. Aceasta a fost săptămâna ta.",
+  "recaps_story_cover_title_week": "Ia-ți un moment.\nAceasta a fost săptămâna ta.",
   "recaps_story_days": {
     "one": "1 zi",
     "other": "{{count}} zile"

@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "pixlar i %{month}",
   "recaps_story_cover_title": "%{month}, det som tog form",
-  "recaps_story_cover_title_week": "Ta en stund. Det här är din vecka.",
+  "recaps_story_cover_title_week": "Ta en stund.\nDet här är din vecka.",
   "recaps_story_days": {
     "one": "1 dag",
     "other": "{{count}} dagar"

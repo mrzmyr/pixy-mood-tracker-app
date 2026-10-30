@@ -906,7 +906,7 @@
   },
   "recaps_story_cover_pixels_title": "%{month}のピクセル",
   "recaps_story_cover_title": "%{month}、かたちになったもの",
-  "recaps_story_cover_title_week": "少しだけ立ち止まって。これがあなたの一週間です。",
+  "recaps_story_cover_title_week": "少しだけ立ち止まって。\nこれがあなたの一週間です。",
   "recaps_story_days": {
     "one": "1日",
     "other": "{{count}}日"
