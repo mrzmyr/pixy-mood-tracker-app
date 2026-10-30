@@ -32,7 +32,7 @@ Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCA
 
 Two kinds. Pick one, never build own header.
 
-- Route modal (screen in `src/app`): options from [`getModalRouteOptions`](src/components/modal-route-options.ts), header [`RouteModalHeader`](src/components/route-modal-header.tsx) (`title`, `onClose`, optional `back`, `titleView`, `confirm`). iOS: native sheet bar. Android: Material 3 full-screen dialog bar. Example: [profile](src/features/profile/screens/profile-form.tsx).
+- Route modal (screen in `src/app`): options from [`getModalRouteOptions`](src/components/modal-route-options.ts), header [`RouteModalHeader`](src/components/route-modal-header.tsx) (`title`, `onClose`, optional `titleView`, `confirm`). iOS: native sheet bar. Android: Material 3 full-screen dialog bar. Example: [profile](src/features/profile/screens/profile-form.tsx).
 - Sheet (form or picker over current screen, no route): [`SheetModal`](src/components/sheet-modal.tsx) with [`ModalHeader`](src/components/modal-header.tsx) and `HeaderButton`.
 - Header buttons: `HeaderButton` only. Never `LinkButton`, `CloseButton`, or own `Pressable` in a header.
 - Native bar variants keep native bar: form sheet ([feedback](src/features/feedback/screens/feedback-screen.tsx)), transparent bar (check-in, day view). Items via `Stack.Toolbar` only when no e2e flow taps them.
@@ -44,18 +44,19 @@ Two kinds. Pick one, never build own header.
 
 Every sheet and route modal. Sources: [HIG Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets), [HIG Toolbars](https://developer.apple.com/design/human-interface-guidelines/toolbars), [M3 full-screen dialogs](https://m3.material.io/components/dialogs/guidelines).
 
-- Close or cancel: leading, always. Never trailing. Back in multi-step flow: right after close.
+- Close or cancel: leading, always. Never trailing.
 - Confirm: trailing, one only. Check saves or finishes. Arrow up sends. Label names the action (`Save`, `Send`, `Add`), never `Done` or `OK`.
 - Nothing to confirm (day view, pickers): close only, no trailing item.
 - No divider. No header background: bar shows the content surface. iOS 26 scroll edge effect separates bar from content.
-- iOS 26: Liquid Glass circles, 44 pt, SF Symbols `xmark`, `chevron.left`, `checkmark`, `arrow.up`. Confirm is prominent, close is not. Never text `Close`.
+- iOS 26: Liquid Glass circles, 44 pt, SF Symbols `xmark`, `checkmark`, `arrow.up`. Confirm is prominent, close is not. Never text `Close`.
 - iOS before 26: text `Cancel` leading, bold `Save` or `Send` trailing.
 - Android: close icon leading, start-aligned title, text confirm trailing, 56dp header.
 - Spoken label: `Cancel` when closing drops edits, `Close` when nothing is lost. Dirty form asks before it discards ([`useDiscardGuard`](src/hooks/use-discard-guard.ts)).
 - Buttons: [`HeaderButton`](src/components/header-button.tsx). Native bar items: [`getModalBarOptions`](src/components/modal-bar-options.tsx). Native `Stack.Toolbar` takes no test id: use it only on screens no e2e flow taps.
 - Test ids: `<feature>-cancel`, `<feature>-save`, `<feature>-close`.
 - Own overlay close, white on media: photo viewer, recap stories.
-- Open: logger shows back and close together; HIG wants back to replace close after step 1. Android confirm is disabled until valid; M3 says never disable it in full-screen dialogs. Android feedback sends with an icon; M3 wants a text button.
+- Multi-step flow (logger): no back button. Swipe goes back; step dots carry a `Back` accessibility action.
+- Open: Android confirm is disabled until valid; M3 says never disable it in full-screen dialogs. Android feedback sends with an icon; M3 wants a text button.
 
 ## Settings
 

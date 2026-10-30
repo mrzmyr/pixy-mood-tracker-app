@@ -1,6 +1,5 @@
 import { Pressable } from "react-native";
 import type { ViewStyle } from "react-native";
-import ArrowLeft from "lucide-react-native/icons/arrow-left";
 import X from "lucide-react-native/icons/x";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -30,7 +29,6 @@ export const CloseButton = ({
   style,
   accessibilityLabel = t("close"),
   disabled,
-  icon = "close",
 }: {
   onPress: () => void;
   testID?: string;
@@ -40,11 +38,8 @@ export const CloseButton = ({
   color?: string;
   style?: ViewStyle;
   disabled?: boolean;
-  /** `back` shows an arrow, for a back step inside a modal flow. */
-  icon?: "close" | "back";
 }) => {
   const colors = useColors();
-  const Icon = icon === "back" ? ArrowLeft : X;
 
   return (
     <Pressable
@@ -66,7 +61,7 @@ export const CloseButton = ({
         style,
       ]}
     >
-      <Icon
+      <X
         width={ICON_SIZE}
         height={ICON_SIZE}
         color={color ?? colors.text}

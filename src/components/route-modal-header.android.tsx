@@ -17,7 +17,6 @@ const RouteModalHeader = ({
   title,
   onClose,
   closeTestID,
-  back,
   titleView,
   confirm,
 }: RouteModalHeaderProps) => {
@@ -42,7 +41,6 @@ const RouteModalHeader = ({
         onPress={onClose}
         testID={closeTestID}
       />
-      {back ? <HeaderButton {...back} kind="back" /> : null}
       {titleView ? (
         <View style={{ flex: 1, alignItems: "center", marginRight: 44 }}>
           {titleView}

@@ -25,7 +25,6 @@ export type {
 // Same symbols as native bar items (`Stack.Toolbar`, feedback screen).
 const SYMBOLS = {
   cancel: "xmark",
-  back: "chevron.left",
   confirm: "checkmark",
   send: "arrow.up",
 } as const;
@@ -54,7 +53,6 @@ export const HeaderButton = ({
   testID,
 }: HeaderButtonProps) => {
   const colors = useColors();
-  const isProminent = kind === "confirm" || kind === "send";
 
   if (!HAS_FLOATING_HEADER) {
     return (
@@ -63,13 +61,14 @@ export const HeaderButton = ({
         type="primary"
         disabled={disabled}
         testID={testID}
-        style={isProminent ? { fontWeight: "600" } : undefined}
+        style={kind === "cancel" ? undefined : { fontWeight: "600" }}
       >
         {label}
       </LinkButton>
     );
   }
 
+  const isProminent = kind !== "cancel";
   return (
     <Host matchContents style={{ minWidth: SIZE, minHeight: SIZE }}>
       <Button
