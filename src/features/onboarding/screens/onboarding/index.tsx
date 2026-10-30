@@ -5,6 +5,7 @@ import Animated, {
   FadeIn,
   FadeOut,
   useReducedMotion,
+  useSharedValue,
 } from "react-native-reanimated";
 import { queueCalendarIntro } from "@/features/calendar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,7 +16,10 @@ import { useSettings } from "@/state/settings";
 import { ExplainerSlide } from "./explainer-slide";
 import { IndexSlide } from "./index-slide";
 import { OnboardingSky } from "./onboarding-sky";
+import { SkyPixy } from "./sky-pixy";
 import { PrivacySlide } from "./privacy-slide";
+import { FlightZoneContext } from "./flight-zone-context";
+import type { FlightZone } from "./flight-zone-context";
 import { ReminderSlide } from "./reminder-slide";
 
 interface SlideProps {
@@ -62,8 +66,10 @@ export const Onboarding = ({
 
   const [index, setIndex] = useState(0);
   const [isLeaving, setIsLeaving] = useState(false);
+  const [flightZone, setFlightZone] = useState<FlightZone | null>(null);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isReducedMotion = useReducedMotion();
+  const skyBoost = useSharedValue(0);
 
   useEffect(
     () => () => {
@@ -156,7 +162,7 @@ export const Onboarding = ({
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
-      <OnboardingSky step={index} isVisible={!isLeaving} />
+      <OnboardingSky step={index} isVisible={!isLeaving} boost={skyBoost} />
       {isLeaving ? null : (
         <Animated.View
           key={index}
@@ -167,8 +173,15 @@ export const Onboarding = ({
             { paddingTop: insets.top, paddingBottom: insets.bottom },
           ]}
         >
-          {slides[index]}
+          <FlightZoneContext.Provider value={setFlightZone}>
+            {slides[index]}
+          </FlightZoneContext.Provider>
         </Animated.View>
+      )}
+      {/* Above the slides so it takes taps. Its zones keep it off text and
+          controls. */}
+      {isReducedMotion ? null : (
+        <SkyPixy boost={skyBoost} zone={isLeaving ? null : flightZone} />
       )}
     </View>
   );

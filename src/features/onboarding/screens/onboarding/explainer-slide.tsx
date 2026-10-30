@@ -3,6 +3,7 @@ import Button from "@/components/button";
 import useColors from "@/hooks/use-colors";
 import { HeaderImage } from "./header-image";
 import { HeaderNavigation } from "./header-navigation";
+import { SkyFlightZone } from "./sky-flight-zone";
 import { t, tDynamic } from "@/lib/translation";
 
 const Body = ({ index }: { index: number }) => {
@@ -11,7 +12,6 @@ const Body = ({ index }: { index: number }) => {
   return (
     <View
       style={{
-        flex: 1,
         paddingVertical: 32,
         paddingHorizontal: 32,
       }}
@@ -97,6 +97,8 @@ export const ExplainerSlide = ({
       >
         <HeaderNavigation onSkip={onSkip} index={index} setIndex={setIndex} />
         <Body index={index} />
+        {/* Reaches into the empty padding of the text and the button. */}
+        <SkyFlightZone style={{ flex: 1, marginVertical: -24 }} />
       </View>
       <View
         style={{

@@ -1,5 +1,6 @@
 export { EMOTIONS } from "./config";
 export { Pixy } from "./confirmation/pixy";
+export { usePixyIdle } from "./confirmation/use-pixy-idle";
 export { EmotionIndicator } from "./slides/slide-emotions/emotions-indicator";
 export {
   SleepQualityMeter,

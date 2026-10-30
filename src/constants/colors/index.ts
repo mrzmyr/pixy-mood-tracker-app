@@ -466,7 +466,8 @@ const dark: IColors & {
   onboardingTitle: colors.white,
   onboardingBody: colors.neutral[300],
 
-  onboardingSkyBackground: "#304560",
+  // Night sky behind faint clouds and stars.
+  onboardingSkyBackground: "#0a1124",
   onboardingPaginationText: colors.neutral[300],
   onboardingPaginationDotActive: colors.neutral[300],
   onboardingPaginationDotInactive: colors.neutral[700],
