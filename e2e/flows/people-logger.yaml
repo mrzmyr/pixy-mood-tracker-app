@@ -37,22 +37,22 @@ tags: [p1, people]
 - tapOn:
     id: "logger-next"
 - assertVisible: "Who played a part?"
-- tapOn: "Alex"
+- tapOn: "Jen"
 - tapOn:
     id: "logger-next"
 - tapOn:
     id: "logger-save"
 - runFlow: ../subflows/close-confirmation.yaml
 
-# The entry card lists Alex under People.
+# The entry card lists Jen under People.
 - runScript: ../scripts/set-output-date.js
 - tapOn:
     id: "calendar-day-${output.today}"
 - assertVisible: "People"
-- assertVisible: "Alex"
+- assertVisible: "Jen"
 - back
 
-# Filter by Alex: every 4th of 365 fixture entries plus the new one.
+# Filter by Jen: every 4th of 365 fixture entries plus the new one.
 - runFlow: ../subflows/open-filters.yaml
 - scrollUntilVisible:
     element:

@@ -19,9 +19,9 @@ tags: [p1, people]
     element:
       text: "Most seen people in the last 14 days."
     direction: DOWN
-- assertVisible: "Sam"
+- assertVisible: "Ada"
 
-# Tapping Sam filters the calendar to entries with Sam.
+# Tapping Ada filters the calendar to entries with Ada.
 - tapOn:
     id: "statistics-person-7f1d6a3e-0001-4a3e-8f6e-0f0000000001"
 - extendedWaitUntil:

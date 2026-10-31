@@ -57,7 +57,7 @@ const LONG_NOTE = [
   "The meeting at 11 went better than expected. We agreed to ship the smaller version first and see how people use it.",
   "",
   "Afternoon dip around 3. A walk around the block helped more than another coffee.",
-  "Dinner with Sam, talked about the trip in spring.",
+  "Dinner with Jen, talked about the trip in spring.",
 ].join("\n");
 
 interface TimelineEntry {

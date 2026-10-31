@@ -21,7 +21,7 @@ tags: [p1, people]
       id: "calendar-list"
     timeout: 10000
 
-# Check-in > People lists active people; archived Mia sits behind the Archive link.
+# Check-in > People lists active people; archived Tobi sits behind the Archive link.
 - runFlow: ../subflows/open-settings.yaml
 - tapOn: "Check-in"
 - tapOn:
@@ -29,12 +29,12 @@ tags: [p1, people]
 # The list shows only while the step is on; it is off by default.
 - tapOn:
     id: "step-people-enabled"
-- assertVisible: "Sam"
-- assertVisible: "Alex"
-- assertNotVisible: "Mia"
+- assertVisible: "Ada"
+- assertVisible: "Jen"
+- assertNotVisible: "Tobi"
 - tapOn:
     id: "people-archive"
-- assertVisible: "Mia"
+- assertVisible: "Tobi"
 - back
 
 # Import from contacts: the fake address book holds Sam, Kim, and Lee Fake.
@@ -104,27 +104,27 @@ tags: [p1, people]
 - tapOn:
     id: "person-cancel"
 
-# Archive Alex: gone from the list, still in the archive.
-- tapOn: "Alex"
+# Archive Jen: gone from the list, still in the archive.
+- tapOn: "Jen"
 - assertVisible: "Edit Person"
 - tapOn:
     id: "person-archived"
 - tapOn:
     id: "person-save"
-- assertNotVisible: "Alex"
+- assertNotVisible: "Jen"
 - tapOn:
     id: "people-archive"
-- assertVisible: "Alex"
+- assertVisible: "Jen"
 - back
 
-# Delete Sam: the confirm names the entry count (every 3rd of 365 entries).
-- tapOn: "Sam"
+# Delete Ada: the confirm names the entry count (every 3rd of 365 entries).
+- tapOn: "Ada"
 - tapOn:
     id: "person-delete"
 - assertVisible: "The person will be removed from 122 entries.*"
 - tapOn:
     text: "Delete"
     below: "The person will be removed from 122 entries.*"
-- assertNotVisible: "Sam"
+- assertNotVisible: "Ada"
 - assertVisible: "Jo"
 - assertVisible: "Sam Fake"

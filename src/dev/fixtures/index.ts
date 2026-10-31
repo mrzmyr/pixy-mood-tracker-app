@@ -29,27 +29,27 @@ export const FIXTURE_PROFILE_NAME = "Klara";
 
 /** Fixed ids so e2e flows and tests can reference fixture people. */
 export const FIXTURE_PEOPLE_IDS = {
-  sam: "7f1d6a3e-0001-4a3e-8f6e-0f0000000001",
-  alex: "7f1d6a3e-0002-4a3e-8f6e-0f0000000002",
-  mia: "7f1d6a3e-0003-4a3e-8f6e-0f0000000003",
+  ada: "7f1d6a3e-0001-4a3e-8f6e-0f0000000001",
+  jen: "7f1d6a3e-0002-4a3e-8f6e-0f0000000002",
+  tobi: "7f1d6a3e-0003-4a3e-8f6e-0f0000000003",
 } as const;
 
 const FIXTURE_PEOPLE: ExportPerson[] = [
   {
-    id: FIXTURE_PEOPLE_IDS.sam,
-    name: "Sam",
+    id: FIXTURE_PEOPLE_IDS.ada,
+    name: "Ada",
     avatar: { base64: FIXTURE_AVATAR_BASE64, mime: "image/jpeg" },
     createdAt: "2026-01-01T00:00:00.000Z",
   },
   {
-    id: FIXTURE_PEOPLE_IDS.alex,
-    name: "Alex",
+    id: FIXTURE_PEOPLE_IDS.jen,
+    name: "Jen",
     avatar: null,
     createdAt: "2026-01-02T00:00:00.000Z",
   },
   {
-    id: FIXTURE_PEOPLE_IDS.mia,
-    name: "Mia",
+    id: FIXTURE_PEOPLE_IDS.tobi,
+    name: "Tobi",
     avatar: null,
     isArchived: true,
     createdAt: "2026-01-03T00:00:00.000Z",
@@ -57,8 +57,9 @@ const FIXTURE_PEOPLE: ExportPerson[] = [
 ];
 
 /**
- * Adds three people to an export and references them on a fixed share of
- * entries: Sam on every 3rd, Alex on every 4th, Mia (archived) on every 7th.
+ * Adds three people from Klara's circle to an export and references them on
+ * a fixed share of entries: Ada on every 3rd, Jen on every 4th, Tobi
+ * (archived) on every 7th.
  */
 const withPeople = (data: ImportData): ImportData => {
   const items = Array.isArray(data.items)
@@ -70,9 +71,9 @@ const withPeople = (data: ImportData): ImportData => {
     items: items.map((item, index) => ({
       ...item,
       people: [
-        ...(index % 3 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.sam }] : []),
-        ...(index % 4 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.alex }] : []),
-        ...(index % 7 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.mia }] : []),
+        ...(index % 3 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.ada }] : []),
+        ...(index % 4 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.jen }] : []),
+        ...(index % 7 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.tobi }] : []),
       ],
     })),
   };
