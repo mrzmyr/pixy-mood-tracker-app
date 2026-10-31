@@ -298,9 +298,11 @@ export const StoryPlayer = ({
   }, [isPaused, isWaiting]);
 
   // Pressable skips `onPress` after a long press, so letting go only resumes.
+  // `pageX`, not `locationX`: `locationX` counts from the touched child,
+  // so a tap on the right half over a small tile went back.
   const onPress = (event: GestureResponderEvent) => {
-    const { locationX } = event.nativeEvent;
-    goTo(locationX < 120 ? index - 1 : index + 1);
+    const { pageX } = event.nativeEvent;
+    goTo(pageX < 120 ? index - 1 : index + 1);
   };
 
   const controls: PlayerControls = {
