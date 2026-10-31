@@ -446,7 +446,7 @@ const kebabCaseFolders = {
   },
 };
 
-// Modal routes show the native sheet bar on iOS (DESIGN.md "Sheets and Modals").
+// Modal routes show the native sheet bar on iOS (DESIGN.md "Components").
 // `transparentModal` is left out: media overlays such as the photo viewer.
 const MODAL_PRESENTATIONS = new Set([
   "modal",
@@ -473,7 +473,7 @@ const modalRouteShowsHeader = {
     },
     messages: {
       hidden:
-        "Modal route hides the native bar. Use `getModalRouteOptions` and `RouteModalHeader` (DESIGN.md Sheets and Modals).",
+        "Modal route hides the native bar. Use `getModalRouteOptions` and `RouteModalHeader` (DESIGN.md Components).",
     },
     schema: [],
   },

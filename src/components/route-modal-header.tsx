@@ -25,7 +25,7 @@ export interface RouteModalHeaderProps {
 }
 
 /**
- * Header of a route screen presented as modal ([Modal Headers](../../DESIGN.md#modal-headers)).
+ * Header of a route screen presented as modal ([Modals](../../DESIGN.md#components)).
  * Web draws it in the screen. iOS native bar: `route-modal-header.ios.tsx`.
  * Android top app bar: `route-modal-header.android.tsx`.
  */

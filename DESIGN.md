@@ -47,30 +47,20 @@ Each component documents its rules in its JSDoc. Lint enforces what it can.
 - A state icon has one glyph per state, at one size.
   - Show a different state with a different fill or detail. Do not change the icon count or size.
   - Selection and Day view use the same state icon.
+- Modals ([HIG Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets), [M3 full-screen dialogs](https://m3.material.io/components/dialogs/guidelines))
+  - Use a route modal for a screen in `src/app`: [`getModalRouteOptions`](src/components/modal-route-options.ts) with [`RouteModalHeader`](src/components/route-modal-header.tsx). Example: [profile form](src/features/profile/screens/profile-form.tsx).
+  - Use [`SheetModal`](src/components/sheet-modal.tsx) with [`ModalHeader`](src/components/modal-header.tsx) for a form or picker over the current screen.
+  - Use [`getModalBarOptions`](src/components/modal-bar-options.tsx) when a screen keeps the native bar: form sheets ([feedback](src/features/feedback/screens/feedback-screen.tsx)), transparent bars (check-in, day view).
+  - Use [`HeaderButton`](src/components/header-button.tsx) for every header button. Its `kind` sets the side, icon, and style.
+  - A form with unsaved edits asks before it closes ([`useDiscardGuard`](src/hooks/use-discard-guard.ts)).
+  - Media overlays (photo viewer, recap stories) have no header bar. They show a white close button.
+  - A multi-step flow (logger) has no back button. A swipe goes back, and the step dots have a "Back" accessibility action.
 
 ## Summary tiles
 
 - Use [`Tile`](src/features/logger/confirmation/entry-summary-tiles.tsx) for summary cards and [`getBentoRows`](src/features/logger/confirmation/entry-summary-layout.ts) for their grid.
 - Use `scale[rating].border` ([`scales.ts`](src/constants/colors/scales.ts)) to outline mood pixels, marks, and bands. Lint blocks shading colors outside `src/constants/colors`.
 - Fade the bottom of a scrolling tile list with a mask, not a color overlay.
-
-## Sheets and Modals
-
-- Use a route modal for a screen in `src/app`: [`getModalRouteOptions`](src/components/modal-route-options.ts) with [`RouteModalHeader`](src/components/route-modal-header.tsx). Example: [profile form](src/features/profile/screens/profile-form.tsx).
-- Use [`SheetModal`](src/components/sheet-modal.tsx) with [`ModalHeader`](src/components/modal-header.tsx) for a form or picker over the current screen.
-- Use [`getModalBarOptions`](src/components/modal-bar-options.tsx) when a screen keeps the native bar: form sheets ([feedback](src/features/feedback/screens/feedback-screen.tsx)), transparent bars (check-in, day view).
-- Media overlays (photo viewer, recap stories) are the only screens without a header bar. They show a white close button.
-- Do not build a custom slide-in sheet. Lint allows React Native `Modal` only in `SheetModal` and the photo viewer.
-- Put inputs at the top of a sheet. Lint blocks keyboard-driven layout in sheet files.
-
-## Modal Headers
-
-Sources: [HIG Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets), [HIG Toolbars](https://developer.apple.com/design/human-interface-guidelines/toolbars), [M3 full-screen dialogs](https://m3.material.io/components/dialogs/guidelines).
-
-- Use [`HeaderButton`](src/components/header-button.tsx) for every header button. Its `kind` sets the side, icon, and style on each platform. Lint enforces it in `ModalHeader`.
-- A form with unsaved edits asks before it closes ([`useDiscardGuard`](src/hooks/use-discard-guard.ts)).
-- A header has no divider and no background.
-- A multi-step flow (logger) has no back button. A swipe goes back, and the step dots have a "Back" accessibility action.
 
 ## Sky
 

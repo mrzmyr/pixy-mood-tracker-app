@@ -5,7 +5,7 @@ import { getModalBarOptions } from "@/components/modal-bar-options";
 
 /**
  * Native stack header of the day entry list: the day as title and a close
- * button ([Modal Headers](../../../../../DESIGN.md#modal-headers)). The root
+ * button ([Modals](../../../../../DESIGN.md#components)). The root
  * stack shows the header for `days/[date]`.
  *
  * Close is a `HeaderButton`, not a `Stack.Toolbar` button: toolbar items take

@@ -36,7 +36,7 @@ const GLYPH_SIZE = 21;
 const LABEL_SIZE = 30;
 
 /**
- * iOS button of a modal header ([Modal Headers](../../DESIGN.md#modal-headers)).
+ * iOS button of a modal header ([Modals](../../DESIGN.md#components)).
  * iOS 26: SwiftUI Liquid Glass circle with an SF Symbol, the way native bar
  * items look. Cancel is plain glass, confirm and send are prominent in the
  * tint color. `testID` becomes the accessibility identifier, so e2e flows can

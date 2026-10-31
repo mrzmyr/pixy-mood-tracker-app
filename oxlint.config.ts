@@ -26,7 +26,7 @@ const iconImports = [
   },
 ];
 
-// Modal headers come from `RouteModalHeader`, sheets, or `HeaderButton` (DESIGN.md Modal Headers).
+// Modal headers come from `RouteModalHeader`, sheets, or `HeaderButton` (DESIGN.md Components).
 const closeButtonImport = {
   name: "@/components/close-button",
   message:
@@ -297,7 +297,7 @@ export default defineConfig({
       rules: { "pixy-standards/no-color-shading": "off" },
     },
     {
-      // Modal routes keep the native bar (DESIGN.md Sheets and Modals).
+      // Modal routes keep the native bar (DESIGN.md Components).
       files: ["src/app/**"],
       rules: { "pixy-standards/modal-route-shows-header": "error" },
     },
