@@ -71,8 +71,14 @@ export const SlideHeader = ({
   </View>
 );
 
-/** Mood color per day: the rounded mean rating, as in the calendar. */
-export const useDayColors = (days: RecapDay[]) => {
+/**
+ * Mood color per day: the rounded mean rating, as in the calendar.
+ * `border`: the scale's outline shade, so pixels hold on the sky.
+ */
+export const useDayColors = (
+  days: RecapDay[],
+  shade: "background" | "border" = "background"
+) => {
   const colors = useColors();
   const { settings } = useSettings();
   const scale = colors.scales[settings.scaleType];
@@ -80,7 +86,7 @@ export const useDayColors = (days: RecapDay[]) => {
   for (const day of days) {
     const rating = getAverageMood(day.items);
     if (rating) {
-      map.set(day.date, scale[rating].background);
+      map.set(day.date, scale[rating][shade]);
     }
   }
   return map;
@@ -90,10 +96,13 @@ export const useDayColors = (days: RecapDay[]) => {
 export const Pixel = ({
   size,
   color,
+  outline,
   style,
 }: {
   size: number;
   color: string;
+  /** 1 pt outline, for pixels on a colored surface like the sky. */
+  outline?: string;
   style?: ViewStyle;
 }) => (
   <View
@@ -104,6 +113,7 @@ export const Pixel = ({
         borderRadius: Math.max(3, size * 0.22),
         backgroundColor: color,
       },
+      outline !== undefined && { borderWidth: 1, borderColor: outline },
       style,
     ]}
   />
@@ -128,9 +138,12 @@ export const MonthGrid = ({
   empty,
   render,
   weekdayColor,
+  dayOutlines,
 }: {
   period: Period;
   dayColors: ReadonlyMap<DateKey, string>;
+  /** Outline per day with a check-in, from `useDayColors(days, "border")`. */
+  dayOutlines?: ReadonlyMap<DateKey, string>;
   size: number;
   gap?: number;
   empty: string;
@@ -176,7 +189,11 @@ export const MonthGrid = ({
         ) : (
           <View key={date}>
             {render?.(date) ?? (
-              <Pixel size={size} color={dayColors.get(date) ?? empty} />
+              <Pixel
+                size={size}
+                color={dayColors.get(date) ?? empty}
+                outline={dayOutlines?.get(date)}
+              />
             )}
           </View>
         )

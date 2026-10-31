@@ -17,13 +17,13 @@ import type { FeedbackReason } from "../feedback-reasons";
 import { getPeriod } from "../period";
 import { buildMonthStory, buildWeekStory } from "../story/deck";
 import { monthName } from "../story/format";
-import { SlideBackdrop, SlideContent } from "../story/slides";
-import { fillsScreen } from "../story/slide-layout";
-import { getSlideTheme } from "../story/slide-theme";
+import { SkyBackdrop } from "../story/sky-backdrop";
+import { SlideContent } from "../story/slides";
 import type { SlideContext } from "../story/slides";
 import { StoryFeedback } from "../story/story-feedback";
 import { StoryPlayer } from "../story/story-player";
 import type { PlayerSlide } from "../story/story-player";
+import { getStoryTheme } from "../story/theme";
 import type { StoryTheme } from "../story/theme";
 import type { StoryPhoto, StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
@@ -123,7 +123,6 @@ const RecapStory = () => {
   const [asking, setAsking] = useState<number | null>(null);
   const shareCard = useRef<ViewType>(null);
   const slideView = useRef<ViewType>(null);
-  const contentView = useRef<ViewType>(null);
   const [shuffles, setShuffles] = useState(0);
   // From the Share tap until the share sheet closes.
   const [isSharing, setIsSharing] = useState(false);
@@ -223,8 +222,7 @@ const RecapStory = () => {
 
   /**
    * Shares the slide at `index` as an image. The share slide sends its card;
-   * a full-screen slide sends itself without bars and buttons; every other
-   * slide sends only its content.
+   * every other slide sends itself on the sky, without bars and buttons.
    */
   const share = (index: number) => {
     const slide = story[index];
@@ -234,9 +232,8 @@ const RecapStory = () => {
     const isShareCard = slide.type === "share";
     setIsSharing(true);
     setIsCapturingSlide(!isShareCard);
-    const slideRoot = fillsScreen(slide) ? slideView : contentView;
     void shareStoryCard({
-      view: isShareCard ? shareCard.current : slideRoot.current,
+      view: isShareCard ? shareCard.current : slideView.current,
       dialogTitle: shareTitle,
       onCaptured: () => setIsCapturingSlide(false),
       onDone: () => setIsSharing(false),
@@ -271,10 +268,9 @@ const RecapStory = () => {
 
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
-    theme: getSlideTheme(slide, ctx.isDark),
-    renderBackdrop: () => <SlideBackdrop slide={slide} />,
+    theme: getStoryTheme(ctx.isDark),
+    renderBackdrop: () => <SkyBackdrop />,
     durationMs: getSlideDuration(slide),
-    fillsScreen: fillsScreen(slide),
     content: contentOf(slide, index),
   }));
 
@@ -283,7 +279,6 @@ const RecapStory = () => {
       <StoryPlayer
         slides={slides}
         slideRef={slideView}
-        contentRef={contentView}
         onClose={close}
         isPaused={asking !== null || isSharing}
         isCapturing={isCapturingSlide}

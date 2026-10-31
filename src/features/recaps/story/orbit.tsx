@@ -17,7 +17,8 @@ import { ProfileAvatar, useProfile } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
 import { SlideHeader, StoryText } from "./parts";
-import { STORY_PALETTE } from "./theme";
+import { getStoryTheme, STORY_PALETTE, STORY_SCREEN_PADDING } from "./theme";
+import type { StoryTheme } from "./theme";
 import type { OrbitSlide } from "./types";
 import type { SlideContext } from "./slides";
 
@@ -127,6 +128,7 @@ const PlanetView = ({
   turn,
   settle,
   float,
+  theme,
 }: {
   planet: Planet;
   index: number;
@@ -134,6 +136,7 @@ const PlanetView = ({
   turn: SharedValue<number>;
   settle: SharedValue<number>;
   float: SharedValue<number>;
+  theme: StoryTheme;
 }) => {
   const style = useAnimatedStyle(() => {
     const angle =
@@ -162,7 +165,7 @@ const PlanetView = ({
         <View style={{ position: "absolute", top: planet.size + NAME_GAP }}>
           <StoryText
             kind="label"
-            theme="night"
+            theme={theme}
             tone="muted"
             numberOfLines={1}
             style={{ maxWidth: width, textAlign: "center" }}
@@ -179,9 +182,11 @@ const PlanetView = ({
 const OrbitRings = ({
   planets,
   width,
+  theme,
 }: {
   planets: Planet[];
   width: number;
+  theme: StoryTheme;
 }) => {
   const radii = [
     ...new Set(planets.map((planet) => Math.round(planet.radius))),
@@ -194,7 +199,7 @@ const OrbitRings = ({
           cx={width / 2}
           cy={width / 2}
           r={radius}
-          stroke={STORY_PALETTE.night.text}
+          stroke={STORY_PALETTE[theme].text}
           strokeOpacity={0.1}
           strokeWidth={1}
           fill="none"
@@ -219,7 +224,8 @@ export const Orbit = ({
   const { width: screen } = useWindowDimensions();
   const profile = useProfile();
   const { turn, settle, float } = useOrbitMotion();
-  const width = screen - 48;
+  const theme = getStoryTheme(ctx.isDark);
+  const width = screen - 2 * STORY_SCREEN_PADDING;
   const planets = placePlanets(slide, ctx.people, width);
   const self = Math.round(width * SIZE.self);
   const label = planets
@@ -231,7 +237,7 @@ export const Orbit = ({
   return (
     <>
       <SlideHeader
-        theme="night"
+        theme={theme}
         eyebrow={t("recaps_story_orbit_eyebrow")}
         title={t("recaps_story_orbit_title")}
       />
@@ -241,7 +247,7 @@ export const Orbit = ({
         accessibilityLabel={label}
         style={{ width, height: width, marginTop: 24 }}
       >
-        <OrbitRings planets={planets} width={width} />
+        <OrbitRings planets={planets} width={width} theme={theme} />
         <View
           style={{
             position: "absolute",
@@ -250,7 +256,7 @@ export const Orbit = ({
             padding: 1,
             borderRadius: RADIUS.full,
             borderWidth: 2,
-            borderColor: STORY_PALETTE.night.accent,
+            borderColor: STORY_PALETTE[theme].accent,
           }}
         >
           <ProfileAvatar
@@ -268,6 +274,7 @@ export const Orbit = ({
             turn={turn}
             settle={settle}
             float={float}
+            theme={theme}
           />
         ))}
       </View>

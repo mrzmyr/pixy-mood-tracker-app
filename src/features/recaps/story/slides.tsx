@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 import { RADIUS } from "@/constants/radius";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
@@ -17,9 +17,8 @@ import {
   useDayColors,
 } from "./parts";
 import { Orbit } from "./orbit";
-import { SkyBackdrop } from "./sky-backdrop";
 import { StoryIntro } from "./story-intro";
-import { STORY_PALETTE } from "./theme";
+import { getStoryTheme, STORY_PALETTE, STORY_SCREEN_PADDING } from "./theme";
 import type {
   ComingUpSlide,
   CoverSlide,
@@ -44,22 +43,30 @@ const Gap = ({ size }: { size: number }) => <View style={{ height: size }} />;
 
 // ---------------------------------------------------------------- cover
 
+const GRID_GAP = 6;
+
 const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
+  const theme = getStoryTheme(ctx.isDark);
   const dayColors = useDayColors(ctx.days);
+  const dayOutlines = useDayColors(ctx.days, "border");
   const isWeek = ctx.period.kind === "week";
   const month = monthName(ctx.period.start);
   const eyebrow = isWeek
     ? dayRange(ctx.period.start, ctx.period.end)
     : `${month} ${dayjs(ctx.period.start).format("YYYY")}`;
   const byDate = new Map(slide.photos.map((item) => [item.date, item.photo]));
+  // 7 pixels a row fill the width, at most 40 points each.
+  const { width: screen } = useWindowDimensions();
+  const inner = screen - 2 * STORY_SCREEN_PADDING;
+  const size = Math.min(40, Math.floor((inner - 6 * GRID_GAP) / 7));
   return (
     <>
       <SlideHeader
-        theme="night"
+        theme={theme}
         eyebrow={eyebrow}
         title={
           <>
-            <StoryText kind="number" theme="night">
+            <StoryText kind="number" theme={theme}>
               {slide.checkIns}
             </StoryText>
             {"\n"}
@@ -73,15 +80,16 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
         <MonthGrid
           period={ctx.period}
           dayColors={dayColors}
-          size={40}
-          gap={6}
-          empty={STORY_PALETTE.night.empty}
+          dayOutlines={dayOutlines}
+          size={size}
+          gap={GRID_GAP}
+          empty={STORY_PALETTE[theme].empty}
           render={(date) => {
             const photo = byDate.get(date);
             return photo ? (
               <StoryImage
                 photo={photo}
-                style={{ width: 40, height: 40, borderRadius: 9 }}
+                style={{ width: size, height: size, borderRadius: 9 }}
               />
             ) : null;
           }}
@@ -104,6 +112,7 @@ const TagEffects = ({
   slide: PositiveTagsSlide | NegativeTagsSlide;
   ctx: SlideContext;
 }) => {
+  const theme = getStoryTheme(ctx.isDark);
   const colors = useColors();
   const [top] = slide.rows;
   const topTag = top && ctx.tags.get(top.tagId);
@@ -115,7 +124,7 @@ const TagEffects = ({
   return (
     <>
       <SlideHeader
-        theme="night"
+        theme={theme}
         eyebrow={
           isPositive
             ? t("recaps_story_lifted_eyebrow", {
@@ -140,8 +149,8 @@ const TagEffects = ({
                   justifyContent: "space-between",
                 }}
               >
-                <TagLabel tag={tag} theme="night" />
-                <StoryText kind="label" theme="night" tone="muted">
+                <TagLabel tag={tag} theme={theme} />
+                <StoryText kind="label" theme={theme} tone="muted">
                   {t("recaps_story_days", { count: row.days })}
                 </StoryText>
               </View>
@@ -149,7 +158,7 @@ const TagEffects = ({
                 style={{
                   height: 12,
                   borderRadius: RADIUS.full,
-                  backgroundColor: STORY_PALETTE.night.surface,
+                  backgroundColor: STORY_PALETTE[theme].surface,
                 }}
               >
                 <View
@@ -166,7 +175,7 @@ const TagEffects = ({
         })}
       </View>
       <Gap size={20} />
-      <StoryText kind="body" theme="night" tone="muted">
+      <StoryText kind="body" theme={theme} tone="muted">
         {t("recaps_story_lifted_text", { count: ctx.days.length })}
       </StoryText>
     </>
@@ -184,9 +193,11 @@ const ComingUp = ({
   slide: ComingUpSlide;
   ctx: SlideContext;
 }) => {
+  const theme = getStoryTheme(ctx.isDark);
   const { year } = slide;
   const yearDays = ctx.history.filter((day) => day.date.startsWith(`${year}-`));
   const dayColors = useDayColors(yearDays);
+  const dayOutlines = useDayColors(yearDays, "border");
   const size = 9;
   const pending = (date: DateKey) =>
     date > ctx.today ? (
@@ -203,7 +214,8 @@ const ComingUp = ({
             width: 3,
             height: 3,
             borderRadius: 2,
-            backgroundColor: "rgba(255,255,255,0.35)",
+            backgroundColor: STORY_PALETTE[theme].muted,
+            opacity: 0.6,
           }}
         />
       </View>
@@ -211,7 +223,7 @@ const ComingUp = ({
   return (
     <>
       <SlideHeader
-        theme="night"
+        theme={theme}
         eyebrow={t("recaps_story_coming_eyebrow")}
         title={t("recaps_story_coming_title", { count: slide.left, year })}
       />
@@ -235,7 +247,7 @@ const ComingUp = ({
             <View key={month} style={{ gap: 4 }}>
               <StoryText
                 kind="label"
-                theme="night"
+                theme={theme}
                 tone="muted"
                 style={{ fontSize: 12 }}
               >
@@ -244,9 +256,10 @@ const ComingUp = ({
               <MonthGrid
                 period={period}
                 dayColors={dayColors}
+                dayOutlines={dayOutlines}
                 size={size}
                 gap={2}
-                empty="#262626"
+                empty={STORY_PALETTE[theme].empty}
                 render={pending}
               />
             </View>
@@ -255,10 +268,10 @@ const ComingUp = ({
       </View>
       <View style={{ flexDirection: "row", gap: 16, marginTop: 16 }}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-          <Pixel size={10} color="#262626" />
+          <Pixel size={10} color={STORY_PALETTE[theme].empty} />
           <StoryText
             kind="label"
-            theme="night"
+            theme={theme}
             tone="muted"
             style={{ fontSize: 12 }}
           >
@@ -271,12 +284,12 @@ const ComingUp = ({
               width: 3,
               height: 3,
               borderRadius: 2,
-              backgroundColor: "rgba(255,255,255,0.5)",
+              backgroundColor: STORY_PALETTE[theme].muted,
             }}
           />
           <StoryText
             kind="label"
-            theme="night"
+            theme={theme}
             tone="muted"
             style={{ fontSize: 12 }}
           >
@@ -287,10 +300,6 @@ const ComingUp = ({
     </>
   );
 };
-
-/** Full-screen layer behind sky slides, under the padded content. */
-export const SlideBackdrop = ({ slide }: { slide: StorySlide }) =>
-  slide.type === "share" || slide.type === "intro" ? <SkyBackdrop /> : null;
 
 /** Content of one slide. The player draws background and chrome. */
 export const SlideContent = ({

@@ -32,8 +32,6 @@ export interface PlayerSlide {
   isWaiting?: boolean;
   /** Time on screen. Default `STORY_SLIDE_MS`. */
   durationMs?: number;
-  /** Content uses the whole screen, so a share captures the whole slide. */
-  fillsScreen?: boolean;
 }
 
 /** Bottom buttons pause the story through this, like the pause button. */
@@ -83,47 +81,7 @@ const ENTERING = FadeInDown.duration(240);
 /** Holding hides bars and buttons this fast, so the slide shows at once. */
 const CHROME_FADE_MS = 80;
 
-/** Space around the content in a shared image of a slide. */
-const CAPTURE_PADDING = 24;
-
-/**
- * Content of a slide that stacks from the top. A share captures only this
- * frame, with the brand below the content. Negative margins keep the
- * layout; the padding frames the image.
- */
-const SlideFrame = ({
-  frameRef,
-  theme,
-  isCapturing,
-  children,
-}: {
-  frameRef?: React.Ref<View>;
-  theme: StoryTheme;
-  isCapturing: boolean;
-  children: React.ReactNode;
-}) => {
-  const palette = STORY_PALETTE[theme];
-  return (
-    <View
-      ref={frameRef}
-      collapsable={false}
-      style={{
-        margin: -CAPTURE_PADDING,
-        padding: CAPTURE_PADDING,
-        backgroundColor: palette.background,
-      }}
-    >
-      {children}
-      {isCapturing && (
-        <View style={{ marginTop: 28 }}>
-          <StoryBrand color={palette.text} />
-        </View>
-      )}
-    </View>
-  );
-};
-
-/** Brand of a full-screen slide: bottom left, where Share sits. */
+/** Brand of a shared slide: bottom left, where Share sits. */
 const ScreenBrand = ({ theme }: { theme: StoryTheme }) => {
   const insets = useSafeAreaInsets();
   return (
@@ -170,7 +128,6 @@ interface Clock {
 export const StoryPlayer = ({
   slides,
   slideRef,
-  contentRef,
   onClose,
   onSlideShown,
   renderBottom,
@@ -180,8 +137,6 @@ export const StoryPlayer = ({
   slides: PlayerSlide[];
   /** Slide without bars and buttons, for sharing it as an image. */
   slideRef?: React.Ref<View>;
-  /** Content of a slide that does not fill the screen, for sharing it. */
-  contentRef?: React.Ref<View>;
   onClose: () => void;
   /** Every slide change. The first slide counts on open, in the parent. */
   onSlideShown: (index: number) => void;
@@ -347,20 +302,10 @@ export const StoryPlayer = ({
             }}
             testID={`recap-story-slide-${slide.key}`}
           >
-            {slide.fillsScreen ? (
-              slide.content
-            ) : (
-              <SlideFrame
-                frameRef={contentRef}
-                theme={theme}
-                isCapturing={isCapturing}
-              >
-                {slide.content}
-              </SlideFrame>
-            )}
+            {slide.content}
           </Animated.View>
         </Pressable>
-        {isCapturing && slide.fillsScreen && <ScreenBrand theme={theme} />}
+        {isCapturing && <ScreenBrand theme={theme} />}
       </View>
 
       <Animated.View

@@ -1,7 +1,6 @@
 /**
- * Story colors: `night` slides on black, `paper` slides on white, `photo`
- * over a photo. In dark mode `paper` slides turn `night` (`getSlideTheme`),
- * so no slide flashes white.
+ * Story colors: `paper` text on the day sky, `night` on the night sky
+ * (`getStoryTheme`). `photo` over a photo.
  */
 export type StoryTheme = "night" | "paper" | "photo";
 
@@ -16,6 +15,13 @@ interface StoryPalette {
   /** Pixel of a day without check-in. */
   empty: string;
 }
+
+/** Space between the screen edge and slide content. */
+export const STORY_SCREEN_PADDING = 24;
+
+/** Theme of every slide: text on the sky follows the app's light or dark mode. */
+export const getStoryTheme = (isDark: boolean): StoryTheme =>
+  isDark ? "night" : "paper";
 
 /** Colors per slide theme. Fixed hex values: slides ignore the app theme. */
 export const STORY_PALETTE: Record<StoryTheme, StoryPalette> = {
@@ -32,8 +38,9 @@ export const STORY_PALETTE: Record<StoryTheme, StoryPalette> = {
     text: "#0A0A0A",
     muted: "#71717A",
     accent: "#059669",
-    surface: "#F4F4F5",
-    empty: "#EEEEEE",
+    // See-through, so tracks and empty pixels hold on the sky and on white.
+    surface: "rgba(10,10,10,0.08)",
+    empty: "rgba(10,10,10,0.08)",
   },
   photo: {
     background: "#000000",
