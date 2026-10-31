@@ -5,6 +5,7 @@ import X from "lucide-react-native/icons/x";
 import Indicator from "@/components/indicator";
 import { PressableScale } from "@/components/pressable-scale";
 import { RADIUS } from "@/constants/radius";
+import { t } from "@/lib/translation";
 
 /**
  * Dismissible promo card on the calendar screen.
@@ -54,6 +55,14 @@ export const PromoCard = ({
         borderWidth: 1,
       }}
       onPress={_onPress}
+      accessibilityRole="button"
+      // iOS groups the card into one element, which hides the close button.
+      accessibilityActions={[{ name: "close", label: t("close") }]}
+      onAccessibilityAction={({ nativeEvent }) => {
+        if (nativeEvent.actionName === "close") {
+          onClose();
+        }
+      }}
     >
       <Indicator
         style={{
@@ -77,6 +86,8 @@ export const PromoCard = ({
           zIndex: 1,
         }}
         onPress={onClose}
+        accessibilityRole="button"
+        accessibilityLabel={t("close")}
       >
         <X stroke={colors.promoCardText} width={24} height={24} />
       </Pressable>
