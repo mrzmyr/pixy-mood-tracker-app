@@ -24,6 +24,9 @@ const asExport = (file: FixtureFile) =>
   // oxlint-disable-next-line anti-slop/no-chained-type-assertions -- see comment above.
   file as unknown as ImportData;
 
+/** Profile name set on every loaded fixture except `fresh`: the Klara demo persona. */
+export const FIXTURE_PROFILE_NAME = "Klara";
+
 /** Fixed ids so e2e flows and tests can reference fixture people. */
 export const FIXTURE_PEOPLE_IDS = {
   sam: "7f1d6a3e-0001-4a3e-8f6e-0f0000000001",

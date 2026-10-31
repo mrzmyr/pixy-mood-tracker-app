@@ -4,7 +4,12 @@ import { useAppData, useDatagate } from "@/features/datagate";
 import type { ImportData } from "@/features/datagate";
 import { importPhoto } from "@/features/photos";
 import type { LogPhoto } from "@/types";
-import { getFixtureData, getStorageFixtureEntries } from "@/dev/fixtures";
+import { useSettings } from "@/state/settings";
+import {
+  FIXTURE_PROFILE_NAME,
+  getFixtureData,
+  getStorageFixtureEntries,
+} from "@/dev/fixtures";
 import { FIXTURE_PHOTO_ASSETS } from "@/dev/fixtures/photo-assets";
 import type { Fixture, StorageFixture } from "@/dev/fixtures";
 
@@ -74,12 +79,14 @@ const withPhotoFiles = async (data: ImportData): Promise<ImportData> => {
 
 /**
  * Replaces all logs, tags, people, and settings with a fixture through the
- * regular import. `isReady` stays false until every store has read storage,
- * because a store that loads after the import would overwrite the fixture.
+ * regular import, then sets the profile name. `isReady` stays false until
+ * every store has read storage, because a store that loads after the import
+ * would overwrite the fixture.
  */
 export const useLoadFixture = () => {
   const { load: appLoad } = useAppData();
   const datagate = useDatagate();
+  const { setSettings } = useSettings();
 
   const isReady = appLoad.status === "ready";
 
@@ -87,6 +94,13 @@ export const useLoadFixture = () => {
     await datagate.import(await withPhotoFiles(getFixtureData(fixture)), {
       muted: true,
     });
+    // Imports keep the device's profile, so the fixture sets the name itself.
+    if (!fixture.isFresh) {
+      setSettings((current) => ({
+        ...current,
+        profileName: FIXTURE_PROFILE_NAME,
+      }));
+    }
   };
 
   return { isReady, load };
