@@ -124,7 +124,10 @@ export const DevRecapPlaygroundScreen = () => {
       deck={deck}
       data={data}
       isDark={theme ? theme === "dark" : colorScheme === "dark"}
-      onClose={() => router.back()}
+      onClose={() =>
+        // A deep link opens the player with nothing behind it.
+        router.canGoBack() ? router.back() : router.replace("/dev/playground")
+      }
     />
   );
 };
