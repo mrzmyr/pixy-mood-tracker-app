@@ -10,7 +10,7 @@ appId: ${APP_ID}
     commands:
       - tapOn:
           id: "logger-next"
-      - tapOn: "I don't want to give feedback"
+      - tapOn: "I don’t want to give feedback"
       - assertVisible: "Disable Product Questions?"
       - tapOn: "Disable"
 - runFlow:

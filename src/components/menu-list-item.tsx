@@ -149,7 +149,8 @@ const getFrameStyle = ({
 });
 
 /**
- * Row of a menu list. Title: short Title Case noun. Status: `children`, in the
+ * Row of a menu list. Title: short Title Case noun, ending in `…` when the
+ * row opens a follow-up step. Status: `children`, in the
  * value slot. Role: `tone`. Text never wraps or shrinks: shorten it instead.
  * Warnings about the list go below it as `TextInfo`.
  */

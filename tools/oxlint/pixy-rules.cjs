@@ -1,3 +1,4 @@
+const { readFileSync } = require("node:fs");
 const path = require("node:path");
 
 const getFunctionName = (node) => {
@@ -918,6 +919,130 @@ const noReduceMotionNever = {
   },
 };
 
+/** Chicago style keeps these lower case inside a title. */
+const TITLE_SMALL_WORDS = new Set(
+  "a an the and but or nor for so yet as at by in of off on per to up via vs".split(
+    " "
+  )
+);
+
+/** A full sentence (ends in . ? ! or starts with "I ") keeps sentence case. */
+const isSentence = (text) => /[.?!]$/u.test(text) || text.startsWith("I ");
+
+const isTitleCase = (text) => {
+  const words = text
+    .replaceAll(/\{\{[^}]+\}\}/gu, "X")
+    .match(/[A-Za-z][A-Za-z'’-]*/gu);
+  if (!words) {
+    return true;
+  }
+  return words.every(
+    (word, index) =>
+      (index > 0 &&
+        index < words.length - 1 &&
+        TITLE_SMALL_WORDS.has(word.toLowerCase())) ||
+      word[0] === word[0].toUpperCase()
+  );
+};
+
+/** Elements whose text child is a label. */
+const LABEL_CHILD_ELEMENTS = new Set(["Button", "LinkButton"]);
+/** Element and attribute pairs that hold a label or title. */
+const LABEL_ATTRIBUTES = new Map([
+  ["HeaderButton", "label"],
+  ["MenuListItem", "title"],
+  ["RouteModalHeader", "title"],
+  ["ModalHeader", "title"],
+]);
+
+const localeCache = new Map();
+const readLocale = (file) => {
+  if (!localeCache.has(file)) {
+    localeCache.set(file, JSON.parse(readFileSync(file, "utf-8")));
+  }
+  return localeCache.get(file);
+};
+
+/** Key of `t("key")`, or `undefined`. */
+const getTranslationKey = (node) =>
+  node?.type === "CallExpression" &&
+  node.callee.type === "Identifier" &&
+  node.callee.name === "t" &&
+  node.arguments[0]?.type === "Literal"
+    ? node.arguments[0].value
+    : undefined;
+
+const titleCaseLabels = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description:
+        "Require Title Case (Chicago) in English for headings, buttons, and modal titles",
+    },
+    messages: {
+      title:
+        'English `{{key}}` is a label: use Title Case ("{{text}}"). Full sentences ending in . ? ! keep sentence case.',
+    },
+    schema: [
+      {
+        type: "object",
+        properties: { localeFile: { type: "string" } },
+      },
+    ],
+  },
+  create(context) {
+    const localeFile = path.resolve(
+      context.cwd ?? process.cwd(),
+      context.options[0]?.localeFile ?? "assets/locales/en.json"
+    );
+    const locale = readLocale(localeFile);
+    const check = (expression) => {
+      const key = getTranslationKey(expression);
+      const text = locale[key];
+      if (text === undefined || isSentence(text) || isTitleCase(text)) {
+        return;
+      }
+      context.report({
+        messageId: "title",
+        node: expression,
+        data: { key, text },
+      });
+    };
+
+    return {
+      JSXElement(node) {
+        const opening = node.openingElement;
+        if (opening.name.type !== "JSXIdentifier") {
+          return;
+        }
+        const isHeading = opening.attributes.some(
+          (attribute) =>
+            attribute.type === "JSXAttribute" &&
+            attribute.name.name === "accessibilityRole" &&
+            attribute.value?.value === "header"
+        );
+        if (isHeading || LABEL_CHILD_ELEMENTS.has(opening.name.name)) {
+          for (const child of node.children) {
+            if (child.type === "JSXExpressionContainer") {
+              check(child.expression);
+            }
+          }
+        }
+        const attributeName = LABEL_ATTRIBUTES.get(opening.name.name);
+        for (const attribute of opening.attributes) {
+          if (
+            attribute.type === "JSXAttribute" &&
+            attribute.name.name === attributeName &&
+            attribute.value?.type === "JSXExpressionContainer"
+          ) {
+            check(attribute.value.expression);
+          }
+        }
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
@@ -938,5 +1063,6 @@ module.exports = {
     "no-color-shading": noColorShading,
     "radius-token": radiusToken,
     "no-reduce-motion-never": noReduceMotionNever,
+    "title-case-labels": titleCaseLabels,
   },
 };

@@ -11,7 +11,7 @@ tags: [p0, storage]
     visible:
       id: "storage-load-error"
     timeout: 10000
-- assertVisible: "Your entries could not be loaded"
+- assertVisible: "Your Entries Could Not Be Loaded"
 - assertVisible: "Error code: storage_invalid_value"
 - assertNotVisible:
     id: "calendar-list"

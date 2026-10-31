@@ -38,7 +38,7 @@ const LicensesContent = ({ onRetry }: { onRetry: () => void }) => {
               status: "licenses_load_failed",
               message: "Licenses could not be loaded",
               why: `Reading the license notices asset failed: ${error instanceof Error ? error.message : String(error)}`,
-              fix: "Tap Try again, or restart Pixy",
+              fix: "Tap Try Again, or restart Pixy",
             });
         console.error(failure);
         reportError(failure);

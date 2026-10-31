@@ -33,7 +33,7 @@ const toRenderError = (error: ObserveErrorBoundaryFallbackProps["error"]) => {
       error instanceof Error
         ? `${error.name}: ${error.message}`
         : `Non-Error thrown: ${String(error)}`,
-    fix: "Tap Try again. If it keeps happening, restart Pixy and contact support",
+    fix: "Tap Try Again. If it keeps happening, restart Pixy and contact support",
   });
   // Keep the thrower's stack, so Sentry points at the broken component.
   if (error instanceof Error && error.stack) {
@@ -173,7 +173,7 @@ const AppErrorContent = ({
 /**
  * Root error boundary fallback. Renders outside every app provider, so it
  * brings its own theme and safe area, and uses no stores. Entries stay on
- * disk; Try again remounts the app from a clean state.
+ * disk; Try Again remounts the app from a clean state.
  */
 export const AppErrorScreen = (props: ObserveErrorBoundaryFallbackProps) => {
   const scheme = useColorScheme();

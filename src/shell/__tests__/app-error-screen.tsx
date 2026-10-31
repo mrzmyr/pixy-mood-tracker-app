@@ -71,7 +71,7 @@ describe("AppErrorScreen", () => {
     );
   });
 
-  it("remounts the app on Try again", async () => {
+  it("remounts the app on Try Again", async () => {
     const user = userEvent.setup();
     await renderApp();
     await screen.findByTestId("app-error");

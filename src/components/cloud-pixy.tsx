@@ -60,7 +60,9 @@ const Eye = ({ cx, isBlinking }: { cx: number; isBlinking: boolean }) => {
 /**
  * Cloud Pixy: a bright white puff with sparkling eyes. Two shadows follow
  * the cloud outline, a tight one close under it and a wide soft one, so it
- * floats in front of the sky.
+ * floats in front of the sky. Flies in light and dark mode, only in free sky
+ * (`SkyFlightZone`): never over text, controls, or screenshots. Hidden with
+ * reduced motion.
  */
 export const CloudPixy = ({ isBlinking }: { isBlinking: boolean }) => {
   const id = useId().replaceAll(":", "");

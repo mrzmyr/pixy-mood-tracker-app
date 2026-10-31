@@ -86,7 +86,7 @@ describe("StorageLoadGate", () => {
     await renderApp();
 
     expect(
-      await screen.findByText("Your entries could not be loaded")
+      await screen.findByText("Your Entries Could Not Be Loaded")
     ).toBeOnTheScreen();
     expect(
       screen.getByText(
@@ -96,7 +96,7 @@ describe("StorageLoadGate", () => {
     expect(
       screen.getByText("Error code: storage_invalid_value")
     ).toBeOnTheScreen();
-    expect(screen.getByText("Contact support")).toBeOnTheScreen();
+    expect(screen.getByText("Contact Support")).toBeOnTheScreen();
     expect(screen.queryByText("Calendar")).toBeNull();
     expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
   }, 15_000);
@@ -147,7 +147,7 @@ describe("StorageLoadGate", () => {
     const user = userEvent.setup();
 
     await renderApp();
-    await user.press(await screen.findByText("Export data"));
+    await user.press(await screen.findByText("Export Data"));
 
     await waitFor(() => expect(fileTransfer.shared).toHaveLength(1));
     expect(JSON.parse(fileTransfer.shared[0].contents).storage[LOGS_KEY]).toBe(
@@ -165,7 +165,7 @@ describe("StorageLoadGate", () => {
     const user = userEvent.setup();
 
     await renderApp();
-    await user.press(await screen.findByText("Contact support"));
+    await user.press(await screen.findByText("Contact Support"));
 
     const url = decodeURIComponent(openURLSpy.mock.calls[0][0]);
     expect(url).toContain("mailto:care@pixy.day");
@@ -184,7 +184,7 @@ describe("StorageLoadGate", () => {
     const user = userEvent.setup();
 
     await renderApp();
-    await user.press(await screen.findByText("Contact support"));
+    await user.press(await screen.findByText("Contact Support"));
 
     expect(await screen.findByText("Report Bug")).toBeOnTheScreen();
 
@@ -201,7 +201,7 @@ describe("StorageLoadGate", () => {
     const user = userEvent.setup();
 
     await renderApp();
-    await user.press(await screen.findByText("Contact support"));
+    await user.press(await screen.findByText("Contact Support"));
     expect(screen.getByTestId("feedback-modal-send")).toBeDisabled();
 
     await user.type(
@@ -232,7 +232,7 @@ describe("StorageLoadGate", () => {
     const user = userEvent.setup();
 
     await renderApp();
-    await user.press(await screen.findByText("Contact support"));
+    await user.press(await screen.findByText("Contact Support"));
     await user.type(
       screen.getByTestId("feedback-modal-message"),
       "Data is gone"

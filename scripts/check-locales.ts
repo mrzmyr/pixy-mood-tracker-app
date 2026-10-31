@@ -1,3 +1,4 @@
+import { z } from "zod";
 /**
  * Locale key parity check. Fails when a locale in `assets/locales` lacks a key
  * from `en.json` or has a key `en.json` does not have.
@@ -140,6 +141,49 @@ export const pruneBaseline = (current: GapBaseline, baseline: GapBaseline) =>
     )
   );
 
+/** English strings: plain values, or plural forms such as `{ one, other }`. */
+const SourceStrings = z.record(
+  z.string(),
+  z.union([z.string(), z.record(z.string(), z.string())])
+);
+
+/** Every English string with its key path, plural forms included. */
+const flattenStrings = (strings: z.infer<typeof SourceStrings>) =>
+  Object.entries(strings).flatMap(([key, value]) =>
+    Object.entries(
+      z.string().safeParse(value).success ? { "": value } : value
+    ).map(
+      ([form, text]) => [form ? `${key}.${form}` : key, String(text)] as const
+    )
+  );
+
+/** English typography: `…` not `...`, curly quotes not straight ones. */
+export const findTypographyProblems = (
+  strings: (readonly [string, string])[]
+): LocaleProblem[] =>
+  strings.flatMap(([key, value]) => [
+    ...(value.includes("...")
+      ? [
+          {
+            status: "locale_ellipsis",
+            message: `en.json \`${key}\` uses "..."`,
+            why: "Pixy copy uses the single ellipsis character",
+            fix: "Replace ... with …",
+          },
+        ]
+      : []),
+    ...(/["']/u.test(value)
+      ? [
+          {
+            status: "locale_straight_quote",
+            message: `en.json \`${key}\` uses a straight quote`,
+            why: "Pixy copy uses curly quotes and apostrophes",
+            fix: "Use ’ for apostrophes and “ ” for quotes",
+          },
+        ]
+      : []),
+  ]);
+
 const report = (problem: LocaleProblem) =>
   console.error(
     `error [${problem.status}]: ${problem.message}\n  why: ${problem.why}\n  fix: ${problem.fix}`
@@ -182,7 +226,21 @@ const main = () => {
     console.log("pruned scripts/locale-gaps.json");
   }
 
-  const problems = compareGaps(current, baseline);
+  const problems = [
+    ...compareGaps(current, baseline),
+    ...findTypographyProblems(
+      flattenStrings(
+        SourceStrings.parse(
+          JSON.parse(
+            fs.readFileSync(
+              path.join(LOCALES_DIR, `${SOURCE_LOCALE}.json`),
+              "utf-8"
+            )
+          )
+        )
+      )
+    ),
+  ];
   for (const problem of problems) {
     report(problem);
   }

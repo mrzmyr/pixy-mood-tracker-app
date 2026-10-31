@@ -397,3 +397,52 @@ describe("no-reduce-motion-never", () => {
     ).toBe(0);
   });
 });
+
+/** Lint one fixture with `title-case-labels` against a fixture English locale. */
+const lintTitles = (source: string) => {
+  const config = path.join(dir, ".oxlintrc.json");
+  const locale = path.join(dir, "en.json");
+  writeFileSync(
+    locale,
+    JSON.stringify({
+      save_tag: "Save Tag",
+      try_again: "Try again",
+      skip_step: "I don't track emotions",
+      tagline: "See what shapes how you feel.",
+      show_all: "Show All of Them",
+    })
+  );
+  writeFileSync(
+    config,
+    JSON.stringify({
+      jsPlugins: [{ name: "pixy-standards", specifier: PLUGIN }],
+      rules: {
+        "pixy-standards/title-case-labels": ["error", { localeFile: locale }],
+      },
+    })
+  );
+  writeFileSync(path.join(dir, "fixture.tsx"), source);
+  const result = spawnSync(OXLINT, ["-c", config, "fixture.tsx"], {
+    cwd: dir,
+    encoding: "utf-8",
+  });
+  return result.stdout.split("pixy-standards(title-case-labels)").length - 1;
+};
+
+describe("title-case-labels", () => {
+  it("reports sentence case in a button, header button, and heading", () => {
+    expect(
+      lintTitles(
+        'export const A = () => (\n  <>\n    <Button>{t("try_again")}</Button>\n    <HeaderButton kind="confirm" label={t("try_again")} />\n    <Text accessibilityRole="header">{t("try_again")}</Text>\n  </>\n);\n'
+      )
+    ).toBe(3);
+  });
+
+  it("allows Title Case, small words, and full sentences", () => {
+    expect(
+      lintTitles(
+        'export const A = () => (\n  <>\n    <Button>{t("save_tag")}</Button>\n    <LinkButton>{t("skip_step")}</LinkButton>\n    <Text accessibilityRole="header">{t("tagline")}</Text>\n    <MenuListItem title={t("show_all")} />\n    <Text>{t("try_again")}</Text>\n  </>\n);\n'
+      )
+    ).toBe(0);
+  });
+});

@@ -9,27 +9,18 @@ This file has the design rules that are specific to Pixy. For all other topics, 
 
 ## Basics
 
-- When code can enforce a rule, code enforces it: a lint rule, a token, or a component prop.
+- When code can enforce a rule, code enforces it: a lint rule, a type, a token, or a check script. The component describes itself in its JSDoc. This file is the quick reference.
   - To allow a component or icon only in some folders, add it to `componentScopes` in [`oxlint.config.ts`](oxlint.config.ts).
-- Use the components that exist.
-  - If you need a new component, ask first.
-  - Or build it and name it in the PR description.
-- Make every control accessible.
-  - Each control has a role, a label, and a state.
-  - The full row is pressable, not only its text.
-  - Each gesture also has a button or an accessibility action.
-- Use one text size for all body text: `FONT_SIZE.base` ([`typography.ts`](src/constants/typography.ts)).
-  - Body text includes chips, names, notes, list rows, and labels.
-  - A different size needs a comment next to it that gives the reason. Examples: a headline, a mood word, axis ticks.
-  - Text of the same kind on one screen has the same size.
-- Use `…`, not `...`. Use curly quotes.
-- A menu item that opens a follow-up step ends with `…`.
+- Use the components that exist. If you need a new one, ask first, or build it and name it in the PR description.
+- Make every control accessible: role, label, and state. The full row is pressable. Each gesture also has a button or an accessibility action.
+- Use `FONT_SIZE.base` ([`typography.ts`](src/constants/typography.ts)) for body text.
 
 ## Copywriting
 
-- Use Title Case (Chicago style) for app headings and buttons.
+- English headings, buttons, and modal titles use Title Case (Chicago). Full sentences keep sentence case. Lint enforces it (`title-case-labels`).
+- English copy uses `…` and curly quotes. `bun run check:locales` enforces it.
 - A label tells what happens: "Save Tag", not "Continue".
-- An error message tells the user how to fix the problem.
+- An error tells the user how to fix the problem.
 
 ## Components
 
@@ -64,18 +55,8 @@ Each component documents its rules in its JSDoc. Lint enforces what it can.
 
 ## Sky
 
-The sky shows in onboarding, in voice mode, and in the entry summary hero when the entry has no photos or place.
-
-- Components: [`Sky`](src/components/sky.tsx), [`OnboardingSky`](src/features/onboarding/screens/onboarding/onboarding-sky.tsx), [`CloudPixy`](src/components/cloud-pixy.tsx).
-- Light mode: a day sky with a drifting cloud photo.
-- Dark mode: a night sky.
-  - Deep navy, faint clouds.
-  - Stars are small, sparse, and dim. They twinkle slowly.
-  - Do not use a darker version of the day sky.
-- Cloudy flies in both modes, but only in free sky.
-  - Cloudy never flies over text, controls, or screenshots.
-  - Slides mark free sky with [`SkyFlightZone`](src/features/onboarding/screens/onboarding/sky-flight-zone.tsx). If a slide has no zone, it shows no Pixy.
-- With reduce motion on: no Pixy, and the sky does not move.
+- Use [`Sky`](src/components/sky.tsx) for the day and night sky, and [`OnboardingSky`](src/features/onboarding/screens/onboarding/onboarding-sky.tsx) in onboarding.
+- Use [`CloudPixy`](src/components/cloud-pixy.tsx) for Cloudy, and [`SkyFlightZone`](src/features/onboarding/screens/onboarding/sky-flight-zone.tsx) to mark where it may fly.
 
 ## Layout
 

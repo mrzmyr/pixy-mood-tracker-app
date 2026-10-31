@@ -11,5 +11,5 @@ appId: ${APP_ID}
 - tapOn:
     id: "logger-next"
 - tapOn:
-    text: "Maybe later"
+    text: "Maybe Later"
 - runFlow: close-confirmation.yaml
