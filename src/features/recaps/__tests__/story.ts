@@ -8,7 +8,7 @@ import { makeInput, makeTags } from "./utils";
 const SEP = "2026-09-01";
 const TODAY = "2026-10-02";
 const tags = makeTags(4);
-const [swim, walk, handover, work] = tags;
+const [swim, walk, , work] = tags;
 
 const photo = (id: string): LogPhoto => ({
   id: `00000000-0000-4000-8000-${id.padStart(12, "0")}`,
@@ -69,166 +69,74 @@ describe("month story", () => {
 });
 
 describe("cover", () => {
-  test("shows a big count without photos", () => {
-    expect(slide(story(month()), "cover")).toMatchObject({
-      variant: "pixels",
+  test("counts check-in days", () => {
+    expect(slide(story(month()), "cover")).toEqual({
+      type: "cover",
       checkIns: 30,
+      photos: [],
     });
   });
 
-  test("fills the screen with each photo for 1 to 6 photo days", () => {
+  test("shows the photos of bright days in their pixels", () => {
     const items = month((index) =>
-      index < 3 ? { photos: [photo(`${index}`)] } : {}
+      index < 9 ? { photos: [photo(`${index}`)] } : {}
     );
-    expect(slide(story(items), "cover")).toMatchObject({
-      variant: "photo",
-      photos: [
-        { date: SEP },
-        { date: addDays(SEP, 1) },
-        { date: addDays(SEP, 2) },
-      ],
-    });
-  });
-
-  test("shows the brightest photos first", () => {
-    const items = month((index) =>
-      index < 3
-        ? {
-            rating: index === 2 ? "extremely_good" : "good",
-            photos: [photo(`${index}`)],
-          }
-        : {}
-    );
-    expect(slide(story(items), "cover")?.photos[0]?.date).toBe(addDays(SEP, 2));
-  });
-
-  test("shows the photo grid from 7 photo days", () => {
-    const items = month((index) =>
-      index < 7 ? { photos: [photo(`${index}`)] } : {}
-    );
-    expect(slide(story(items), "cover")?.variant).toBe("photos");
+    expect(slide(story(items), "cover")?.photos).toHaveLength(9);
   });
 
   test("never uses photos of harder days", () => {
     const items = month((index) =>
       index < 7 ? { rating: "bad", photos: [photo(`${index}`)] } : {}
     );
-    expect(slide(story(items), "cover")).toMatchObject({
-      variant: "pixels",
-      photos: [],
-    });
+    expect(slide(story(items), "cover")?.photos).toEqual([]);
   });
 });
 
-const saturdays = (tagId: string) =>
-  month((_, date) =>
-    new Date(`${date}T12:00:00`).getDay() === 6 ? { tags: [{ id: tagId }] } : {}
-  );
-
-describe("same weekday", () => {
-  test("finds a tag on every Saturday", () => {
-    expect(slide(story(saturdays(swim.id)), "weekday-habit")).toMatchObject({
-      tagId: swim.id,
-      weekday: 6,
-      hits: 4,
-      total: 4,
-    });
+/** Swim on 10 bright days, work on 10 harder days, walk every day. */
+const moodTags = () =>
+  month((index) => {
+    if (index < 10) {
+      return {
+        rating: "very_good",
+        tags: [{ id: swim.id }, { id: walk.id }],
+      };
+    }
+    if (index < 20) {
+      return { rating: "bad", tags: [{ id: work.id }, { id: walk.id }] };
+    }
+    return { tags: [{ id: walk.id }] };
   });
 
-  test("skips a tag that is on most days anyway", () => {
-    const items = month(() => ({ tags: [{ id: walk.id }] }));
-    expect(slide(story(items), "weekday-habit")).toBeUndefined();
+describe("tags that felt lighter or heavier", () => {
+  test("name tags whose days felt lighter", () => {
+    const rows = slide(story(moodTags()), "positive-tags")?.rows;
+
+    expect(rows?.map((row) => row.tagId)).toEqual([swim.id]);
+    expect(rows?.[0]?.days).toBe(10);
   });
 
-  test("never names a tag whose days feel heavier", () => {
-    const items = month((_, date) =>
-      new Date(`${date}T12:00:00`).getDay() === 6
-        ? { rating: "very_bad", tags: [{ id: swim.id }] }
-        : {}
-    );
-    expect(slide(story(items), "weekday-habit")).toBeUndefined();
-  });
-});
+  test("name tags whose days felt heavier", () => {
+    const rows = slide(story(moodTags()), "negative-tags")?.rows;
 
-describe("harder days", () => {
-  test("names a tag on 2 of 3 harder days and rare otherwise", () => {
-    const items = month((index) => {
-      if (index === 5 || index === 19) {
-        return { rating: "bad", tags: [{ id: handover.id }] };
-      }
-      if (index === 20) {
-        return { rating: "bad", tags: [{ id: work.id }] };
-      }
-      return index === 26 ? { tags: [{ id: handover.id }] } : {};
-    });
-    expect(slide(story(items), "hard-pattern")).toMatchObject({
-      tagId: handover.id,
-      tagHard: 2,
-      tagOther: 1,
-      otherDays: 27,
-      hardDates: ["2026-09-06", "2026-09-20", "2026-09-21"],
-    });
+    expect(rows?.map((row) => row.tagId)).toEqual([work.id]);
+    expect(rows?.[0]?.delta).toBeLessThan(0);
   });
 
-  test("skips the slide without a tag pattern", () => {
-    const items = month((index) => (index < 3 ? { rating: "bad" } : {}));
-    expect(slide(story(items), "hard-pattern")).toBeUndefined();
-  });
-});
+  test("follow the cover: lighter first, then heavier", () => {
+    const types = (story(moodTags()) ?? []).map((item) => item.type);
 
-describe("made of", () => {
-  test("needs 3 tags on 4+ days", () => {
-    const two = month((index) => ({
-      tags: index < 6 ? [{ id: swim.id }, { id: walk.id }] : [],
-    }));
-    expect(slide(story(two), "made-of")).toBeUndefined();
-    const three = month((index) => ({
-      tags:
-        index < 6 ? [{ id: swim.id }, { id: walk.id }, { id: work.id }] : [],
-    }));
-    expect(slide(story(three), "made-of")?.tagIds).toHaveLength(3);
-  });
-});
-
-describe("people", () => {
-  test("needs 2 people with 3+ bright connected days", () => {
-    const items = month((index) => ({
-      rating: "very_good",
-      people: index < 4 ? [{ id: "ada" }, { id: "jen" }] : [{ id: "ada" }],
-    }));
-    expect(slide(story(items), "people")?.people).toEqual([
-      expect.objectContaining({ personId: "ada" }),
-      expect.objectContaining({ personId: "jen" }),
+    expect(types.slice(0, 3)).toEqual([
+      "cover",
+      "positive-tags",
+      "negative-tags",
     ]);
   });
 
-  test("follows the people quiz right away, so guess and answer stay together", () => {
-    // October opens with the people quiz (quiz turn by month).
-    const OCT = "2026-10-01";
-    // Swimming lifts the mood, so the deck also has a "lifted" slide that
-    // used to sit between the quiz and the people slide.
-    const items = Array.from({ length: 31 }, (_, index) => ({
-      date: addDays(OCT, index),
-      rating: index < 8 ? ("very_good" as const) : ("neutral" as const),
-      tags: index < 8 ? [{ id: swim.id }] : [],
-      people:
-        index < 6
-          ? [{ id: "ada" }, { id: "jen" }, { id: "kim" }]
-          : [{ id: "ada" }],
-    }));
-    const types = (story(items, { date: OCT, today: "2026-11-02" }) ?? []).map(
-      (item) => item.type
-    );
+  test("stay out when tags are off", () => {
+    const slides = story(moodTags(), { steps: ["rating"] });
 
-    expect(types).toContain("lifted");
-    expect(types.indexOf("people")).toBe(types.indexOf("quiz") + 1);
-  });
-
-  test("stays out when people are off", () => {
-    const items = month(() => ({ people: [{ id: "ada" }, { id: "jen" }] }));
-    expect(
-      slide(story(items, { steps: ["rating", "tags"] }), "people")
-    ).toBeUndefined();
+    expect(slide(slides, "positive-tags")).toBeUndefined();
+    expect(slide(slides, "negative-tags")).toBeUndefined();
   });
 });
 
@@ -271,42 +179,6 @@ describe("orbit", () => {
   });
 });
 
-describe("vs last month", () => {
-  test("compares tag days with a month of 10+ check-ins", () => {
-    const august = Array.from({ length: 12 }, (_, index) => ({
-      date: addDays("2026-08-01", index),
-      rating: "good" as const,
-    }));
-    const september = month((index) => ({
-      tags: index < 5 ? [{ id: swim.id }] : [],
-    }));
-    expect(slide(story([...august, ...september]), "vs-last")?.rows).toEqual([
-      { tagId: swim.id, days: 5, change: 5 },
-    ]);
-  });
-});
-
-describe("week by week", () => {
-  test("shows each week as a collage of up to 4 bright photos", () => {
-    const items = month((index) =>
-      index < 6 || index === 8 || index === 15
-        ? { photos: [photo(`${index}`)] }
-        : {}
-    );
-    const weeks = slide(story(items), "moments")?.weeks;
-
-    expect(weeks?.map((week) => week.photos.length)).toEqual([4, 1, 1, 0]);
-  });
-
-  test("needs photos in 3 weeks", () => {
-    const items = month((index) =>
-      index < 6 || index === 8 ? { photos: [photo(`${index}`)] } : {}
-    );
-
-    expect(slide(story(items), "moments")).toBeUndefined();
-  });
-});
-
 describe("coming up", () => {
   test("counts days left and missed days since the first entry", () => {
     const items = month().slice(0, 20);
@@ -342,25 +214,6 @@ describe("share card", () => {
   });
 });
 
-/** Check-in at a named place. */
-const at = (name: string, latitude: number, longitude: number) => ({
-  location: { latitude, longitude, name },
-});
-
-/** Week story of Sep 21 with location on. */
-const PLACES_WEEK = "2026-09-21";
-const placesStory = (items: Partial<LogItem>[]) =>
-  buildWeekStory(
-    makeInput({
-      kind: "week",
-      today: "2026-09-28",
-      date: PLACES_WEEK,
-      items,
-      tags,
-      locationEnabled: true,
-    })
-  );
-
 describe("week story", () => {
   // Monday 2026-09-21 to Sunday 2026-09-27.
   const WEEK = "2026-09-21";
@@ -388,130 +241,5 @@ describe("week story", () => {
 
     expect(types.slice(0, 2)).toEqual(["intro", "cover"]);
     expect(types.at(-1)).toBe("share");
-  });
-
-  test("shows up to 5 photos one after another, never the grid", () => {
-    const items = week(7).map((item, index) => ({
-      ...item,
-      photos: [photo(`${index}`)],
-    }));
-    const cover = slide(weekStory(items), "cover");
-
-    expect(cover?.variant).toBe("photo");
-    expect(cover?.photos).toHaveLength(5);
-  });
-
-  test("shows the orbit after the people slide", () => {
-    const items = week(7).map((item, index) => ({
-      ...item,
-      rating: "very_good" as const,
-      people:
-        index < 3
-          ? [{ id: "ada" }, { id: "jen" }, { id: "kim" }]
-          : [{ id: "ada" }],
-    }));
-    const types = (weekStory(items) ?? []).map((item) => item.type);
-
-    expect(types.indexOf("orbit")).toBe(types.indexOf("people") + 1);
-  });
-  describe("recap cards", () => {
-    const eimsbuettel = at("Eimsbüttel, Hamburg", 53.57, 9.95);
-    const ottensen = at("Ottensen, Hamburg", 53.55, 9.93);
-    const copenhagen = at("Indre By, Copenhagen", 55.68, 12.57);
-    test("open the story after the cover: best day, mood, emotions, places", () => {
-      const items = week(7).map((item, index) => ({
-        ...item,
-        ...(index < 4 ? eimsbuettel : ottensen),
-        rating: index === 5 ? ("extremely_good" as const) : item.rating,
-        emotions: [["calm", "loved", "excited"][index % 3] ?? "calm"],
-      }));
-      const types = (placesStory(items) ?? []).map((item) => item.type);
-
-      expect(types.slice(0, 6)).toEqual([
-        "intro",
-        "cover",
-        "best-day",
-        "week-mood",
-        "top-emotions",
-        "close-by",
-      ]);
-    });
-
-    test("tell the extremely good day with its emotions and photo", () => {
-      const items = week(7).map((item, index) =>
-        index === 2
-          ? {
-              ...item,
-              rating: "extremely_good" as const,
-              emotions: ["excited", "loved", "calm", "grateful"],
-              photos: [photo("best")],
-            }
-          : item
-      );
-      const best = slide(weekStory(items), "best-day");
-
-      expect(best?.date).toBe(addDays(WEEK, 2));
-      expect(best?.emotions).toEqual(["excited", "loved", "calm"]);
-      expect(best?.photo?.photo.fileName).toBe("best.jpg");
-    });
-
-    test("skip the best day without an extremely good day", () => {
-      expect(slide(weekStory(week(7)), "best-day")).toBeUndefined();
-    });
-
-    test("show home city districts close by, most days first", () => {
-      const items = week(7).map((item, index) => ({
-        ...item,
-        ...(index < 5 ? eimsbuettel : ottensen),
-      }));
-      const close = slide(placesStory(items), "close-by");
-
-      expect(close?.places.map((place) => [place.name, place.days])).toEqual([
-        ["Eimsbüttel", 5],
-        ["Ottensen", 2],
-      ]);
-    });
-
-    test("never show a photo from a harder day on a place", () => {
-      const items = week(7).map((item, index) => ({
-        ...item,
-        ...eimsbuettel,
-        rating: index === 0 ? ("bad" as const) : item.rating,
-        photos: index === 0 ? [photo("hard")] : [],
-      }));
-      const [place] = slide(placesStory(items), "close-by")?.places ?? [];
-
-      expect(place?.photo).toBeNull();
-    });
-
-    test("show trips far out instead of the first city slide", () => {
-      const history = Array.from({ length: 10 }, (_, index) => ({
-        date: addDays(WEEK, -20 + index),
-        rating: "good" as const,
-        ...eimsbuettel,
-      }));
-      const items = [
-        ...history,
-        ...week(7).map((item, index) => ({
-          ...item,
-          ...(index >= 4 ? copenhagen : eimsbuettel),
-        })),
-      ];
-      const slides = placesStory(items);
-      const far = slide(slides, "far-out");
-
-      expect(far?.trips.map((trip) => [trip.name, trip.days])).toEqual([
-        ["Copenhagen", 3],
-      ]);
-      expect(slide(slides, "first-city")).toBeUndefined();
-    });
-
-    test("skip places with location off", () => {
-      const items = week(7).map((item) => ({ ...item, ...eimsbuettel }));
-      const types = (weekStory(items) ?? []).map((item) => item.type);
-
-      expect(types).not.toContain("close-by");
-      expect(types).not.toContain("far-out");
-    });
   });
 });

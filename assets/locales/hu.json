@@ -882,15 +882,6 @@
     "other": "{{count}} nap ezzel: %{tag} ezen a héten"
   },
   "recaps_story_banner_title": "Visszatekintés: %{month}",
-  "recaps_story_best_day_eyebrow": "Legjobb nap",
-  "recaps_story_best_day_title": "%{day} volt a legfényesebb napod",
-  "recaps_story_city_eyebrow": "Először",
-  "recaps_story_city_km": "%{city} · %{km} km-re otthonról",
-  "recaps_story_city_title": "Az első pixeled innen: %{city}",
-  "recaps_story_close_text_few": "Néhány hely tartotta a hetedet",
-  "recaps_story_close_text_many": "Sokat jártál-keltél",
-  "recaps_story_close_title": "Legtöbbször itt voltál: %{place}",
-  "recaps_story_close_title_single": "Az egész hetet itt töltötted: %{place}",
   "recaps_story_coming_eyebrow": "Hamarosan",
   "recaps_story_coming_left": {
     "one": "Még 1",
@@ -900,32 +891,13 @@
     "one": "1 kimaradt",
     "other": "{{count}} kimaradt"
   },
-  "recaps_story_cover_photos_text": {
-    "one": "1 fotós nap, %{days} pixel.",
-    "other": "{{count}} fotós nap, %{days} pixel."
-  },
   "recaps_story_cover_pixels_title": "pixel · %{month}",
-  "recaps_story_cover_title": "%{month}: ami formát öltött",
   "recaps_story_cover_title_week": "Szánj rá egy pillanatot.\nEz volt a heted.",
   "recaps_story_days": {
     "one": "1 nap",
     "other": "{{count}} nap"
   },
-  "recaps_story_emotions_eyebrow": "Leginkább érzett",
-  "recaps_story_emotions_title": "Leggyakrabban ezt érezted: %{emotion}",
-  "recaps_story_far_title_many": "Eljutottál ide és tovább: %{city}",
-  "recaps_story_far_title_single": "Egészen eljutottál ide: %{city}",
-  "recaps_story_hard_days_label": {
-    "one": "A nehezebb napod",
-    "other": "Nehezebb napjaid: {{count}}"
-  },
   "recaps_story_hard_eyebrow": "Egy minta",
-  "recaps_story_hard_other_label": {
-    "one": "A másik nap",
-    "other": "A többi nap: {{count}}"
-  },
-  "recaps_story_hard_text": "Jelen volt %{total} nehezebb napból %{hard} napon, de a többi %{otherDays} napból csak %{other} napon. Légy kedves magadhoz ezeken a napokon.",
-  "recaps_story_hard_text_none": "Jelen volt %{total} nehezebb napból %{hard} napon, a többi %{otherDays} napból egyen sem. Légy kedves magadhoz ezeken a napokon.",
   "recaps_story_hard_title": "%{tag} a nehezebb napjaiddal járt együtt",
   "recaps_story_lifted_eyebrow": "%{month}: ami könnyebbé tette",
   "recaps_story_lifted_text": {
@@ -933,8 +905,6 @@
     "other": "A címke nélküli napokhoz képest. {{count}} bejegyzés."
   },
   "recaps_story_lifted_title": "%{tag}: a legkönnyebb napok",
-  "recaps_story_made_of_eyebrow": "Ritmus: %{month}",
-  "recaps_story_made_of_title": "Miből álltak a napjaid",
   "recaps_story_next": "Következő dia",
   "recaps_story_orbit_eyebrow": "A te univerzumod",
   "recaps_story_orbit_title": "Ki volt a pályádon",
@@ -943,39 +913,12 @@
     "one": "1 nap kapcsolat",
     "other": "{{count}} nap kapcsolat"
   },
-  "recaps_story_people_eyebrow": "Akik újra és újra ott voltak",
-  "recaps_story_people_text": "A pixeleid azokon a napokon, amikor kapcsolatban voltatok.",
-  "recaps_story_people_title": "Akikkel a legtöbbet voltál kapcsolatban",
   "recaps_story_play": "Lejátszás",
   "recaps_story_previous": "Előző dia",
-  "recaps_story_quiz_check": "Ellenőrzés",
-  "recaps_story_quiz_eyebrow_guess": "Gyors tipp",
-  "recaps_story_quiz_eyebrow_mix": "A te %{month} hónapod",
-  "recaps_story_quiz_eyebrow_people": "A te embereid",
-  "recaps_story_quiz_eyebrow_tags": "A te szokásaid",
-  "recaps_story_quiz_made_up": "Kitalált",
-  "recaps_story_quiz_reveal_truths": "%{name}: valójában %{actual}, nem %{shown}. A másik három igaz.",
-  "recaps_story_quiz_title_mix": "Melyek igazak?",
-  "recaps_story_quiz_title_people": "Ki járt a fejedben?",
-  "recaps_story_quiz_title_people_most": "Kivel voltál a legtöbbet kapcsolatban?",
-  "recaps_story_quiz_title_tags": "Mivel teltek a napjaid?",
-  "recaps_story_quiz_title_tags_most": "Mit csináltál a legtöbbet ebben a hónapban?",
-  "recaps_story_quiz_truths_hint": "Koppints mindegyikre, ami igaz.",
   "recaps_story_ready": "Megnézhető",
   "recaps_story_share": "Megosztás",
   "recaps_story_share_shuffle": "Fotók keverése",
   "recaps_story_share_title": "Az én %{month} hónapom",
-  "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
-  "recaps_story_vs_text": "Napok címkénként, vs. %{previous}.",
-  "recaps_story_vs_title": "Ebből több, abból kevesebb",
-  "recaps_story_week_mood_eyebrow": "A heted",
-  "recaps_story_week_mood_good": "%{total} napodból %{count} volt jó",
-  "recaps_story_week_mood_title": "A heted napról napra",
-  "recaps_story_weekday_eyebrow": "Kialakult egy szokás",
-  "recaps_story_weekday_previous": "%{month}: %{hits}/%{total}.",
-  "recaps_story_weekday_text": "%{hits}/%{total} hét.",
-  "recaps_story_weekday_title_every": "%{tag}: %{weekday}, minden héten",
-  "recaps_story_weekday_title_most": "%{tag}: %{weekday}, szinte minden héten",
   "recaps_tag_back_text": {
     "one": "Egy napon, %{weeks} hét szünet után.",
     "other": "{{count}} napon, %{weeks} hét szünet után."

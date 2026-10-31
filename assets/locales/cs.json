@@ -882,15 +882,6 @@
     "other": "{{count}} dní s %{tag} tento týden"
   },
   "recaps_story_banner_title": "Ohlédnutí: %{month}",
-  "recaps_story_best_day_eyebrow": "Nejlepší den",
-  "recaps_story_best_day_title": "%{day} byl tvůj nejzářivější den",
-  "recaps_story_city_eyebrow": "Poprvé",
-  "recaps_story_city_km": "%{city} · %{km} km od domova",
-  "recaps_story_city_title": "Tvůj první pixel v místě %{city}",
-  "recaps_story_close_text_few": "Pár míst neslo tvůj týden",
-  "recaps_story_close_text_many": "Hodně ses pohyboval",
-  "recaps_story_close_title": "Nejčastěji jsi byl tady: %{place}",
-  "recaps_story_close_title_single": "Celý týden jsi byl v okolí: %{place}",
   "recaps_story_coming_eyebrow": "Co přijde",
   "recaps_story_coming_left": {
     "one": "Zbývá 1",
@@ -900,32 +891,13 @@
     "one": "1 vynechaný",
     "other": "Vynecháno: {{count}}"
   },
-  "recaps_story_cover_photos_text": {
-    "one": "1 den s fotkou, pixelů: %{days}.",
-    "other": "Dní s fotkou: {{count}}, pixelů: %{days}."
-  },
   "recaps_story_cover_pixels_title": "%{month} v pixelech",
-  "recaps_story_cover_title": "%{month}: co dostalo tvar",
   "recaps_story_cover_title_week": "Zastav se na chvíli.\nTohle byl tvůj týden.",
   "recaps_story_days": {
     "one": "1 den",
     "other": "Dní: {{count}}"
   },
-  "recaps_story_emotions_eyebrow": "Nejvíc cítěné",
-  "recaps_story_emotions_title": "Nejčastěji jsi cítil: %{emotion}",
-  "recaps_story_far_title_many": "Cestoval jsi: %{city} a dál",
-  "recaps_story_far_title_single": "Dostal ses až do: %{city}",
-  "recaps_story_hard_days_label": {
-    "one": "Tvůj těžší den",
-    "other": "Tvé těžší dny: {{count}}"
-  },
   "recaps_story_hard_eyebrow": "Vzorec",
-  "recaps_story_hard_other_label": {
-    "one": "Ostatní den",
-    "other": "Ostatní dny: {{count}}"
-  },
-  "recaps_story_hard_text": "Objevil se v %{hard} z %{total} těžších dnů, ale jen v %{other} z ostatních %{otherDays}. Dopřej si v takové dny víc laskavosti.",
-  "recaps_story_hard_text_none": "Objevil se v %{hard} z %{total} těžších dnů, v žádném z ostatních %{otherDays}. Dopřej si v takové dny víc laskavosti.",
   "recaps_story_hard_title": "%{tag}: často v tvých těžších dnech",
   "recaps_story_lifted_eyebrow": "%{month}: co pomohlo",
   "recaps_story_lifted_text": {
@@ -933,8 +905,6 @@
     "other": "Ve srovnání s dny bez štítku. Záznamů: {{count}}."
   },
   "recaps_story_lifted_title": "Dny se štítkem %{tag} byly nejlehčí",
-  "recaps_story_made_of_eyebrow": "Rytmus: %{month}",
-  "recaps_story_made_of_title": "Z čeho se skládaly tvé dny",
   "recaps_story_next": "Další snímek",
   "recaps_story_orbit_eyebrow": "Tvůj vesmír",
   "recaps_story_orbit_title": "Kdo byl na tvé oběžné dráze",
@@ -943,39 +913,12 @@
     "one": "1 den v kontaktu",
     "other": "Dní v kontaktu: {{count}}"
   },
-  "recaps_story_people_eyebrow": "Kdo se stále vracel",
-  "recaps_story_people_text": "Tvé pixely ve dnech, kdy jste byli v kontaktu.",
-  "recaps_story_people_title": "S kým jsi byl(a) nejvíc v kontaktu",
   "recaps_story_play": "Přehrát",
   "recaps_story_previous": "Předchozí snímek",
-  "recaps_story_quiz_check": "Zkontrolovat",
-  "recaps_story_quiz_eyebrow_guess": "Rychlý tip",
-  "recaps_story_quiz_eyebrow_mix": "Tvůj %{month}",
-  "recaps_story_quiz_eyebrow_people": "Tví lidé",
-  "recaps_story_quiz_eyebrow_tags": "Tvé zvyky",
-  "recaps_story_quiz_made_up": "Vymyšlené",
-  "recaps_story_quiz_reveal_truths": "%{name}: ve skutečnosti %{actual}, ne %{shown}. Ostatní tři jsou pravdivé.",
-  "recaps_story_quiz_title_mix": "Které jsou pravdivé?",
-  "recaps_story_quiz_title_people": "Na koho jsi myslel(a)?",
-  "recaps_story_quiz_title_people_most": "S kým jsi byl(a) nejvíc v kontaktu?",
-  "recaps_story_quiz_title_tags": "Co plnilo tvé dny?",
-  "recaps_story_quiz_title_tags_most": "Co jsi tento měsíc dělal(a) nejvíc?",
-  "recaps_story_quiz_truths_hint": "Klepni na všechny pravdivé.",
   "recaps_story_ready": "Připraveno ke shlédnutí",
   "recaps_story_share": "Sdílet",
   "recaps_story_share_shuffle": "Zamíchat fotky",
   "recaps_story_share_title": "Můj %{month}",
-  "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
-  "recaps_story_vs_text": "Dny s každým štítkem, vs. %{previous}.",
-  "recaps_story_vs_title": "Víc tohohle, míň tamtoho",
-  "recaps_story_week_mood_eyebrow": "Tvůj týden",
-  "recaps_story_week_mood_good": "Dobré dny: %{count} z %{total}",
-  "recaps_story_week_mood_title": "Tvůj týden den po dni",
-  "recaps_story_weekday_eyebrow": "Vzniká zvyk",
-  "recaps_story_weekday_previous": "%{month}: %{hits} z %{total}.",
-  "recaps_story_weekday_text": "%{hits} z %{total} týdnů.",
-  "recaps_story_weekday_title_every": "%{tag}: %{weekday}, každý týden",
-  "recaps_story_weekday_title_most": "%{tag}: %{weekday}, skoro každý týden",
   "recaps_tag_back_text": {
     "one": "Jeden den, po %{weeks} týdnech bez.",
     "other": "{{count}} dní, po %{weeks} týdnech bez."

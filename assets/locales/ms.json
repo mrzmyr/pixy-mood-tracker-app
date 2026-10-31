@@ -882,15 +882,6 @@
     "other": "{{count}} hari dengan %{tag} minggu ini"
   },
   "recaps_story_banner_title": "Imbasan %{month}",
-  "recaps_story_best_day_eyebrow": "Hari terbaik",
-  "recaps_story_best_day_title": "%{day} hari paling cerah anda",
-  "recaps_story_city_eyebrow": "Kali pertama",
-  "recaps_story_city_km": "%{city} · %{km} km dari rumah",
-  "recaps_story_city_title": "Piksel pertama anda di %{city}",
-  "recaps_story_close_text_few": "Beberapa tempat menyokong minggu anda",
-  "recaps_story_close_text_many": "Anda banyak bergerak",
-  "recaps_story_close_title": "Anda paling kerap di %{place}",
-  "recaps_story_close_title_single": "Anda menghabiskan seminggu di sekitar %{place}",
   "recaps_story_coming_eyebrow": "Akan datang",
   "recaps_story_coming_left": {
     "one": "1 lagi",
@@ -900,32 +891,13 @@
     "one": "1 terlepas",
     "other": "{{count}} terlepas"
   },
-  "recaps_story_cover_photos_text": {
-    "one": "1 hari bergambar, %{days} piksel.",
-    "other": "{{count}} hari bergambar, %{days} piksel."
-  },
   "recaps_story_cover_pixels_title": "piksel pada %{month}",
-  "recaps_story_cover_title": "%{month}, apa yang terbentuk",
   "recaps_story_cover_title_week": "Luangkan sedikit masa.\nInilah minggu anda.",
   "recaps_story_days": {
     "one": "1 hari",
     "other": "{{count}} hari"
   },
-  "recaps_story_emotions_eyebrow": "Paling dirasai",
-  "recaps_story_emotions_title": "Anda paling kerap berasa %{emotion}",
-  "recaps_story_far_title_many": "Anda mengembara ke %{city} dan lebih jauh",
-  "recaps_story_far_title_single": "Anda mengembara hingga ke %{city}",
-  "recaps_story_hard_days_label": {
-    "one": "Hari sukar anda",
-    "other": "{{count}} hari sukar anda"
-  },
   "recaps_story_hard_eyebrow": "Satu corak",
-  "recaps_story_hard_other_label": {
-    "one": "Hari lain",
-    "other": "{{count}} hari lain"
-  },
-  "recaps_story_hard_text": "Ada pada %{hard} daripada %{total} hari sukar, tetapi hanya %{other} daripada %{otherDays} hari lain. Berlembutlah dengan diri anda pada hari-hari itu.",
-  "recaps_story_hard_text_none": "Ada pada %{hard} daripada %{total} hari sukar, tiada pada %{otherDays} hari lain. Berlembutlah dengan diri anda pada hari-hari itu.",
   "recaps_story_hard_title": "%{tag} mengiringi hari-hari sukar anda",
   "recaps_story_lifted_eyebrow": "Yang menceriakan %{month}",
   "recaps_story_lifted_text": {
@@ -933,8 +905,6 @@
     "other": "Berbanding hari tanpa tag ini. {{count}} rekod."
   },
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
-  "recaps_story_made_of_eyebrow": "Rentak %{month}",
-  "recaps_story_made_of_title": "Apa yang membentuk hari-hari anda",
   "recaps_story_next": "Slaid seterusnya",
   "recaps_story_orbit_eyebrow": "Alam semesta anda",
   "recaps_story_orbit_title": "Siapa dalam orbit anda",
@@ -943,39 +913,12 @@
     "one": "1 hari berhubung",
     "other": "{{count}} hari berhubung"
   },
-  "recaps_story_people_eyebrow": "Yang sentiasa hadir",
-  "recaps_story_people_text": "Piksel anda pada hari anda berhubung.",
-  "recaps_story_people_title": "Orang yang paling kerap berhubung dengan anda",
   "recaps_story_play": "Main",
   "recaps_story_previous": "Slaid sebelumnya",
-  "recaps_story_quiz_check": "Semak",
-  "recaps_story_quiz_eyebrow_guess": "Teka pantas",
-  "recaps_story_quiz_eyebrow_mix": "%{month} anda",
-  "recaps_story_quiz_eyebrow_people": "Orang-orang anda",
-  "recaps_story_quiz_eyebrow_tags": "Tabiat anda",
-  "recaps_story_quiz_made_up": "Rekaan",
-  "recaps_story_quiz_reveal_truths": "%{name}: sebenarnya %{actual}, bukan %{shown}. Tiga yang lain benar.",
-  "recaps_story_quiz_title_mix": "Yang mana benar?",
-  "recaps_story_quiz_title_people": "Siapa dalam fikiran anda?",
-  "recaps_story_quiz_title_people_most": "Dengan siapa anda paling kerap berhubung?",
-  "recaps_story_quiz_title_tags": "Apa yang mengisi hari-hari anda?",
-  "recaps_story_quiz_title_tags_most": "Apa yang paling kerap anda lakukan bulan ini?",
-  "recaps_story_quiz_truths_hint": "Ketik semua yang benar.",
   "recaps_story_ready": "Sedia untuk ditonton",
   "recaps_story_share": "Kongsi",
   "recaps_story_share_shuffle": "Kocok foto",
   "recaps_story_share_title": "%{month} saya",
-  "recaps_story_vs_eyebrow": "%{month} lwn %{previous}",
-  "recaps_story_vs_text": "Hari dengan setiap tag, lwn %{previous}.",
-  "recaps_story_vs_title": "Lebih ini, kurang itu",
-  "recaps_story_week_mood_eyebrow": "Minggu anda",
-  "recaps_story_week_mood_good": "%{count} daripada %{total} hari anda terasa baik",
-  "recaps_story_week_mood_title": "Minggu anda, hari demi hari",
-  "recaps_story_weekday_eyebrow": "Tabiat terbentuk",
-  "recaps_story_weekday_previous": "Pada %{month}: %{hits} daripada %{total}.",
-  "recaps_story_weekday_text": "%{hits} daripada %{total} minggu.",
-  "recaps_story_weekday_title_every": "%{tag}, setiap %{weekday}",
-  "recaps_story_weekday_title_most": "%{tag}, hampir setiap %{weekday}",
   "recaps_tag_back_text": {
     "one": "Pada satu hari, selepas %{weeks} minggu tanpanya.",
     "other": "Pada {{count}} hari, selepas %{weeks} minggu tanpanya."

@@ -67,7 +67,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
   - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
 - Tag categories: `tags:category_updated` (`title_length`), `tags:category_deleted` (`tags_count` without archived tags, `categories_count`), `tags:categories_reordered` (`categories_count`, `method`), `tags:tags_arranged` (`tags_count`, `categories_count`, `category_changed`, `method`). `method` is `drag` or `accessibility_action`. Never category or tag names
 - Recaps (flag `recaps`): `recaps:card_shown` once per card per screen visit, when half of the card is on screen. `recaps:card_feedback_sent` adds `helpful`, `reasons` (fixed keys), `has_note`; the note itself goes to the feedback service like other feedback, never to analytics. `recaps:nudge_tapped` adds `action` (`turn_on`, `not_now`); Turn On also sends the event of the setting it changes (`settings:step_toggled`, `reminders:reminder_toggled`). All send `card_type`, `family`, `modules`, `signal`, `period`, `source`. Never tag, person, or place names, emotion keys, or ratings from the card. `reminders:recaps_toggled` (`enabled`; `permission_granted` only when turning on) from the Recaps toggle in Settings > Reminder. `recaps:notification_tapped` (`period`: `week`, `month`, `year`) once per tap on a recap notification body
-- Recap stories (flag `recaps`): `recaps:story_opened` (`period`: `week` or `month`, `source`: `recaps`, `calendar`, `notification`; `slides_count`), `recaps:story_slide_shown` (`slide_type`, `position`, `slides_count`) once per slide change, `recaps:story_feedback_sent` (`slide_type`, `position`, `helpful`, `reasons` fixed keys, `has_note`; the note goes to the feedback service, never here), `recaps:story_closed` (`position`, `slides_count`, `completed`). `recaps:story_quiz_answered` (`quiz`: `truths`, `people`, `tags`; `module`: `people`, `tags`, `mix`, or `null`; `is_correct`), never the cards or picks. `recaps:story_shared` (`has_photos`, `shuffles`, `slide_type`: every slide has Share) after the share sheet finished, never the photos or lines. Slide types only, never tag, person, or place names, counts shown on a slide, or ratings
+- Recap stories (flag `recaps`): `recaps:story_opened` (`period`: `week` or `month`, `source`: `recaps`, `calendar`, `notification`; `slides_count`), `recaps:story_slide_shown` (`slide_type`, `position`, `slides_count`) once per slide change, `recaps:story_feedback_sent` (`slide_type`, `position`, `helpful`, `reasons` fixed keys, `has_note`; the note goes to the feedback service, never here), `recaps:story_closed` (`position`, `slides_count`, `completed`). `recaps:story_shared` (`has_photos`, `shuffles`, `slide_type`: every slide has Share) after the share sheet finished, never the photos or lines. Slide types only, never tag, person, or place names, counts shown on a slide, or ratings
 
 ## Photos
 
@@ -145,6 +145,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `recaps:*` `card_type`: `person-back`, `person-new`, `person-milestone` merged into `people-moments` (one card per period, all people in it). Old values no longer sent
 - `recaps:*` `card_type`: `places-trips` renamed to `places`. The card now also lists home areas and nearby towns and runs in week recaps
 - `recaps:*` `card_type`: `intro-categories` no longer sent. The "Group your tags" nudge card was removed with category creation
+- `recaps:story_*` `slide_type`: `lifted` renamed to `positive-tags`. New `negative-tags`. No longer sent: `best-day`, `week-mood`, `top-emotions`, `close-by`, `far-out`, `weekday-habit`, `made-of`, `people`, `hard-pattern`, `first-city`, `vs-last`, `moments`, `came-back`, `quiz`. Stories keep intro, cover, positive and negative tags, orbit, coming up, share
 
 **Removed events**
 
@@ -153,6 +154,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
 - `widget:guide_opened`, `widget:guide_step_viewed`, `widget:guide_dismissed`, `widget:guide_completed`: widget guide and Settings > Widgets removed. No replacement
 - `tags:category_created`: users can no longer create tag categories. Existing categories stay; rename, delete, and reorder still send their events. No replacement
+- `recaps:story_quiz_answered`: quiz slide removed from recap stories. No replacement
 
 **Changed properties** (first release after `v1.104.0`)
 

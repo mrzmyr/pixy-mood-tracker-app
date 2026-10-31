@@ -4,7 +4,6 @@ import { Text, View } from "react-native";
 import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
 import { RADIUS } from "@/constants/radius";
 import { getAverageMood } from "@/features/logs";
-import type { LogItem } from "@/features/logs";
 import { getPhotoFile } from "@/features/photos";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
@@ -85,14 +84,6 @@ export const useDayColors = (days: RecapDay[]) => {
     }
   }
   return map;
-};
-
-/** Mood color of the rating key on the user's scale. */
-export const useRatingColor = () => {
-  const colors = useColors();
-  const { settings } = useSettings();
-  return (rating: LogItem["rating"]) =>
-    colors.scales[settings.scaleType][rating].background;
 };
 
 /** Square day pixel: mood color, or the empty color without a check-in. */
@@ -234,31 +225,6 @@ export const TagLabel = ({
       numberOfLines={1}
       style={{ flexShrink: 1 }}
     >
-      {tag.title}
-    </StoryText>
-  </View>
-);
-
-/**
- * Tag inside a title: dot and name on a muted pill, same look as recap card
- * titles (`TitleChip`). Sits inline, so the title wraps around it.
- */
-export const TitleTag = ({ tag, theme }: { tag: Tag; theme: StoryTheme }) => (
-  <View
-    style={{
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 8,
-      paddingHorizontal: 10,
-      borderRadius: RADIUS.full,
-      backgroundColor: STORY_PALETTE[theme].surface,
-      // Inline views sit on the line bottom; this moves the text onto the
-      // title baseline.
-      transform: [{ translateY: 5 }],
-    }}
-  >
-    <TagDot tag={tag} size={12} />
-    <StoryText kind="title" theme={theme}>
       {tag.title}
     </StoryText>
   </View>

@@ -303,12 +303,6 @@ export interface AnalyticsEvents {
     reasons: AnalyticsEvents["recaps:card_feedback_sent"]["reasons"];
     has_note: boolean;
   };
-  /** Quiz slide answered. Quiz kind and result only, never the cards. */
-  "recaps:story_quiz_answered": {
-    quiz: "truths" | "people" | "tags";
-    module: "people" | "tags" | "mix" | null;
-    is_correct: boolean;
-  };
   /** Share card sent from the share sheet. Never the photos or lines. */
   /** `slide_type`: the shared slide; `share` is the share card. */
   "recaps:story_shared": {
