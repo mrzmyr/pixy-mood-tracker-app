@@ -1,76 +1,55 @@
 # Pixy Design
 
-This file has the design rules that are specific to Pixy. For all other topics, follow the [Apple HIG](https://developer.apple.com/design/human-interface-guidelines), [Material 3](https://m3.material.io), and [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/).
+Pixy-specific design decisions that a model cannot read from the code. For everything else, follow the [Apple HIG](https://developer.apple.com/design/human-interface-guidelines), [Material 3](https://m3.material.io), and [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/).
 
 - Marketing assets (store screenshots, website, social cards): [docs/marketing-design.md](docs/marketing-design.md)
 - Demo characters for assets and fixtures: [docs/demo-characters/](docs/demo-characters/README.md)
-- Colors: [`src/constants/colors`](src/constants/colors/index.ts). Mood colors: [`scales.ts`](src/constants/colors/scales.ts).
 - App facts and claims: [docs/app-facts.json](docs/app-facts.json)
+
+## What goes where
+
+- A rule that code can check goes into code: a lint rule, a type, a token, or a check script. Its error message teaches the rule.
+  - To allow a component or icon only in some folders, add it to `componentScopes` in [`oxlint.config.ts`](oxlint.config.ts).
+- How a component behaves goes into its JSDoc.
+- This file keeps only what a model reading the code gets wrong:
+  - a choice between similar options,
+  - a rule that existing code breaks, so copying it spreads the mistake,
+  - taste that no file states,
+  - a process step outside the code.
 
 ## Basics
 
-- When code can enforce a rule, code enforces it: a lint rule, a type, a token, or a check script. The component describes itself in its JSDoc. This file is the quick reference.
-  - To allow a component or icon only in some folders, add it to `componentScopes` in [`oxlint.config.ts`](oxlint.config.ts).
 - Use the components that exist. If you need a new one, ask first, or build it and name it in the PR description.
 - Make every control accessible: role, label, and state. The full row is pressable. Each gesture also has a button or an accessibility action.
-- Use `FONT_SIZE.base` ([`typography.ts`](src/constants/typography.ts)) for body text.
+- Use `FONT_SIZE.base` ([`typography.ts`](src/constants/typography.ts)) for body text. Many screens still set sizes by hand: do not copy them.
 
 ## Copywriting
 
-- English headings, buttons, and modal titles use Title Case (Chicago). Full sentences keep sentence case. Lint enforces it (`title-case-labels`).
-- English copy uses `…` and curly quotes. `bun run check:locales` enforces it.
 - A label tells what happens: "Save Tag", not "Continue".
 - An error tells the user how to fix the problem.
 
 ## Components
 
-Each component documents its rules in its JSDoc. Lint enforces what it can.
-
-- Use [`Button`](src/components/button.tsx) for filled buttons and [`LinkButton`](src/components/link-button.tsx) for text buttons.
-- Use `showToast` ([`toast.ts`](src/lib/toast.ts)) for toasts.
-- Use [`InlineAlert`](src/components/inline-alert.tsx) for errors, warnings, and notices.
-- Use [`MenuListItem`](src/components/menu-list-item.tsx) in a [`MenuList`](src/components/menu-list.tsx) for menu rows.
-- Use [`Bezel`](src/components/bezel.tsx) for statistics cards only.
-- Use [`AddPersonTile`](src/features/logger/slides/slide-people.tsx) as the model for add actions in picker grids.
-- Use [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx) for the sleep quality of one night.
-- Use [`ModuleIcon`](src/components/module-icon.tsx) for Core Module icons ([GLOSSARY.md](GLOSSARY.md)).
-- One icon has one meaning. For example, color themes use `Palette` and menstruation uses `Droplet`.
-- A state icon has one glyph per state, at one size.
-  - Show a different state with a different fill or detail. Do not change the icon count or size.
-  - Selection and Day view use the same state icon.
-- Modals ([HIG Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets), [M3 full-screen dialogs](https://m3.material.io/components/dialogs/guidelines))
-  - Use a route modal for a screen in `src/app`: [`getModalRouteOptions`](src/components/modal-route-options.ts) with [`RouteModalHeader`](src/components/route-modal-header.tsx). Example: [profile form](src/features/profile/screens/profile-form.tsx).
-  - Use [`SheetModal`](src/components/sheet-modal.tsx) with [`ModalHeader`](src/components/modal-header.tsx) for a form or picker over the current screen.
-  - Use [`getModalBarOptions`](src/components/modal-bar-options.tsx) when a screen keeps the native bar: form sheets ([feedback](src/features/feedback/screens/feedback-screen.tsx)), transparent bars (check-in, day view).
-  - Use [`HeaderButton`](src/components/header-button.tsx) for every header button. Its `kind` sets the side, icon, and style.
-  - A form with unsaved edits asks before it closes ([`useDiscardGuard`](src/hooks/use-discard-guard.ts)).
-  - Media overlays (photo viewer, recap stories) have no header bar. They show a white close button.
-  - A multi-step flow (logger) has no back button. A swipe goes back, and the step dots have a "Back" accessibility action.
-
-## Summary tiles
-
-- Use [`Tile`](src/features/logger/confirmation/entry-summary-tiles.tsx) for summary cards and [`getBentoRows`](src/features/logger/confirmation/entry-summary-layout.ts) for their grid.
-- Use `scale[rating].border` ([`scales.ts`](src/constants/colors/scales.ts)) to outline mood pixels, marks, and bands. Lint blocks shading colors outside `src/constants/colors`.
-- Fade the bottom of a scrolling tile list with a mask, not a color overlay.
-
-## Sky
-
-- Use [`Sky`](src/components/sky.tsx) for the day and night sky, and [`OnboardingSky`](src/features/onboarding/screens/onboarding/onboarding-sky.tsx) in onboarding.
-- Use [`CloudPixy`](src/components/cloud-pixy.tsx) for Cloudy, and [`SkyFlightZone`](src/features/onboarding/screens/onboarding/sky-flight-zone.tsx) to mark where it may fly.
+- Errors, warnings, and notices: [`InlineAlert`](src/components/inline-alert.tsx), not colored text or `TextInfo`.
+- Add action in a picker grid: copy [`AddPersonTile`](src/features/logger/slides/slide-people.tsx).
+- Sleep quality of one night: [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx), never own bars or dots.
+- One icon has one meaning. Color themes use `Palette`, menstruation uses `Droplet`.
+- A state icon has one glyph per state, at one size. A different state changes the fill or detail, not the icon count or size. Selection and Day view use the same state icon.
+- Modals
+  - Screen in `src/app`: route modal, [`getModalRouteOptions`](src/components/modal-route-options.ts) + [`RouteModalHeader`](src/components/route-modal-header.tsx).
+  - Form or picker over the current screen: [`SheetModal`](src/components/sheet-modal.tsx) + [`ModalHeader`](src/components/modal-header.tsx).
+  - Screen that keeps the native bar: [`getModalBarOptions`](src/components/modal-bar-options.tsx).
+  - A form with unsaved edits uses [`useDiscardGuard`](src/hooks/use-discard-guard.ts).
+- Mood outlines (pixels, marks, bands): `scale[rating].border` ([`scales.ts`](src/constants/colors/scales.ts)), never a fixed white or black.
 
 ## Layout
 
-- Use [`RADIUS`](src/constants/radius.ts) for corner radii, picked by role.
-- Use flex `gap` in the parent for space between children. Shared chips take `ChipStyle`, which has no margin. Wrapping chip groups use [`CHIP_FLOW`](src/constants/chip.ts).
-- Use `react-native-safe-area-context` for safe areas. Do not hardcode them.
-- Use Reanimated `entering`, `exiting`, and `layout` for layout motion. Animations follow the reduce motion setting.
+- The parent sets space between children with flex `gap`, not margins on siblings.
 - Do not put a horizontal scroller in a horizontal parent (pager, carousel). Android takes the swipe.
-- Virtualize lists with more than approximately 20 items.
 - A swap keeps the size. Measure width, height, and padding before and after.
 - A spacing request for one element changes that element only, not a shared component or token.
 
 ## Settings
 
 - Use system settings when possible: notifications, language, appearance.
-- Before you add an in-app setting, read the Apple HIG and Material guidance. Also look at 2 or 3 reference apps.
-  - Cite this research in the PR.
+- Before you add an in-app setting, read the Apple HIG and Material guidance and look at 2 or 3 reference apps. Cite this research in the PR.

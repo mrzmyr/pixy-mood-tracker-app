@@ -18,7 +18,8 @@ const getOpacity = (disabled: boolean | undefined, pressed: boolean) => {
 
 /**
  * Icon button of a modal header on Android and web (`HeaderButton`), and the
- * close button over media (photo viewer). Feature code uses `HeaderButton`.
+ * white close button of media overlays (photo viewer, recap stories), which
+ * have no header bar. Feature code uses `HeaderButton`.
  * Uses the theme text color unless `color` is set, for example white on a
  * photo.
  */

@@ -32,7 +32,10 @@ const GAP = 10;
 const FADE_HEIGHT = 48;
 const HEADER_OVERLAP = 72;
 
-/** Mask over the tiles: opaque, then fading out above the Done button. */
+/**
+ * Mask over the tiles: opaque, then fading out above the Done button. A mask,
+ * not a color overlay, so the fade works on every background.
+ */
 const BottomFadeMask = () => (
   <View style={{ flex: 1 }}>
     <View style={{ flex: 1, backgroundColor: "#000" }} />

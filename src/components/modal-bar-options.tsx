@@ -30,7 +30,9 @@ const toItems = (element: ReactElement | null, side: "left" | "right") =>
     : [];
 
 /**
- * Native stack options that put modal header buttons in the bar. iOS 26:
+ * Native stack options that put modal header buttons in the bar, for modal
+ * screens that keep the native bar: form sheets (feedback) and transparent
+ * bars (check-in, day view). iOS 26:
  * custom items without the shared glass background, because `HeaderButton`
  * draws its own glass circle. Without this the bar wraps it in a second
  * capsule and clips it. Other platforms: plain `headerLeft` and `headerRight`.
