@@ -11,10 +11,10 @@ import type { StorySource } from "@/state/analytics/events";
 import type { Period } from "../types";
 import { monthName } from "./format";
 
-/** Cloud photo height in the card: zoomed in, so big soft clouds fill it. */
-const CARD_SKY_HEIGHT = 560;
+/** Cloud photo height in the card: a little zoomed in, clouds keep their shape. */
+const CARD_SKY_HEIGHT = 320;
 /** The card shows this band of the photo, from its bottom: the cloud tops. */
-const CARD_SKY_OFFSET = 150;
+const CARD_SKY_OFFSET = 70;
 
 /**
  * "September Recap / Ready to watch" on a drifting sky, with the recap card
