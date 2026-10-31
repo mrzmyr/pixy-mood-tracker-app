@@ -1,15 +1,13 @@
 import noop from "lodash/noop";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import type { View as ViewType } from "react-native";
 import { StoryText } from "./parts";
 import { useWeekLocale } from "@/hooks/use-week-locale";
 import { getPlaygroundPages } from "./playground-pages";
 import type { PlaygroundData, PlaygroundPage } from "./playground-pages";
-import { QuizContent } from "./quiz-content";
-import type { QuizResult } from "./quiz-content";
-import { fillsScreen, slideBackdrop } from "./slide-layout";
+import { fillsScreen } from "./slide-layout";
 import { getSlideTheme } from "./slide-theme";
-import { SlideContent } from "./slides";
+import { SlideBackdrop, SlideContent } from "./slides";
 import { StoryFinale } from "./story-finale";
 import { StoryPlayer } from "./story-player";
 import type { PlayerSlide } from "./story-player";
@@ -22,7 +20,7 @@ export const RecapStoryPlayground = ({
   isDark,
   onClose,
 }: {
-  /** Id from `PLAYGROUND_DECKS`. */
+  /** Deck id from `PLAYGROUND_SECTIONS`. */
   deck: string;
   data: Record<"week" | "month", PlaygroundData>;
   isDark: boolean;
@@ -30,25 +28,9 @@ export const RecapStoryPlayground = ({
 }) => {
   const weekLocale = useWeekLocale();
   const pages = getPlaygroundPages(deck, data, isDark, weekLocale);
-  const story = pages.map((page) => page.slide);
-  const [quizResults, setQuizResults] = useState<
-    ReadonlyMap<number, QuizResult>
-  >(new Map());
   const shareCard = useRef<ViewType>(null);
 
-  const contentOf = ({ slide, ctx }: PlaygroundPage, index: number) => {
-    if (slide.type === "quiz") {
-      return (
-        <QuizContent
-          slide={slide}
-          ctx={ctx}
-          result={quizResults.get(index) ?? null}
-          onAnswer={(result) =>
-            setQuizResults((current) => new Map([...current, [index, result]]))
-          }
-        />
-      );
-    }
+  const contentOf = ({ slide, ctx }: PlaygroundPage) => {
     if (slide.type === "share") {
       return (
         <StoryFinale
@@ -67,11 +49,10 @@ export const RecapStoryPlayground = ({
   const slides: PlayerSlide[] = pages.map((page, index) => ({
     key: `${index}-${page.label}`,
     theme: getSlideTheme(page.slide, isDark),
-    renderBackdrop: (progress) => slideBackdrop(story, index, progress),
-    isWaiting: page.slide.type === "quiz" && !quizResults.has(index),
+    renderBackdrop: () => <SlideBackdrop slide={page.slide} />,
     durationMs: getSlideDuration(page.slide),
     fillsScreen: fillsScreen(page.slide),
-    content: contentOf(page, index),
+    content: contentOf(page),
   }));
 
   if (slides.length === 0) {

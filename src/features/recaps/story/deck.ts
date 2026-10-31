@@ -2,49 +2,24 @@ import dayjs from "dayjs";
 import { getEffect } from "../correlation";
 import { addDays, daysBetween, getDayRating } from "../days";
 import { indexDays } from "../day-index";
-import { emotionAgain, firstCity, tagBack } from "../cards/moments";
 import { getActiveTags } from "../cards/nudges";
-import { moodChart } from "../cards/stats";
-import {
-  dayRecap,
-  emotions as emotionsCard,
-  getHome,
-  getPlaceVisits,
-  peopleOn,
-} from "../cards/summaries";
-import { distanceKm } from "../places";
-import { buildQuiz } from "./quiz";
+import { peopleOn } from "../cards/summaries";
 import { THRESHOLDS } from "../thresholds";
 import type { DateKey, RecapDay, RecapInput } from "../types";
 import type {
-  BestDaySlide,
-  CameBackSlide,
-  CloseBySlide,
-  FarOutSlide,
-  StoryPlace,
-  TopEmotionsSlide,
-  WeekMoodSlide,
   ComingUpSlide,
   CoverSlide,
-  FirstCitySlide,
-  HardPatternSlide,
-  LiftedSlide,
-  MadeOfSlide,
-  MomentsSlide,
+  NegativeTagsSlide,
   OrbitSlide,
-  PeopleSlide,
+  PositiveTagsSlide,
   ShareSlide,
   StoryPhoto,
   StorySlide,
-  VsLastSlide,
-  WeekdayHabitSlide,
+  TagEffectRow,
 } from "./types";
 
 const isBright = (day: RecapDay) =>
   getDayRating(day) >= THRESHOLDS.storyBrightMinRating;
-
-const isHard = (day: RecapDay) =>
-  getDayRating(day) <= THRESHOLDS.storyHardMaxRating;
 
 /** First photo of each bright day. Harder days never show a photo. */
 const brightPhotos = (days: RecapDay[]): StoryPhoto[] =>
@@ -54,75 +29,6 @@ const brightPhotos = (days: RecapDay[]): StoryPhoto[] =>
       : undefined;
     return photo ? [{ date: day.date, photo }] : [];
   });
-
-/** Photo of the brightest day, latest on a tie. */
-const bestPhoto = (days: RecapDay[]): StoryPhoto | null => {
-  const sorted = days
-    .filter((day) => isBright(day))
-    .sort((a, b) => getDayRating(b) - getDayRating(a));
-  return brightPhotos(sorted)[0] ?? null;
-};
-
-/** Tag ids counted per check-in day, most days first. */
-const tagCounts = (days: RecapDay[], tagIds: ReadonlySet<string>) => {
-  const at = indexDays(days);
-  const counts = new Map<string, number>();
-  for (const day of days) {
-    for (const id of at(day).tags) {
-      if (tagIds.has(id)) {
-        counts.set(id, (counts.get(id) ?? 0) + 1);
-      }
-    }
-  }
-  return [...counts.entries()]
-    .map(([tagId, count]) => ({ tagId, days: count }))
-    .sort((a, b) => b.days - a.days);
-};
-
-/**
- * Active tags whose days do not feel heavier: the month and the 90 days
- * before it, at most 0.25 mood steps below other days. Any signal counts:
- * a few heavy days are enough to stay quiet. Celebrating slides and the
- * quiz only name these.
- */
-const lightTagIds = (input: RecapInput) => {
-  const from = addDays(input.period.start, -THRESHOLDS.stoodOutHistoryDays);
-  const days = input.history.filter(
-    (day) => day.date >= from && day.date <= input.period.end
-  );
-  const at = indexDays(days);
-  const ids = new Set<string>();
-  for (const tag of getActiveTags(input.tags)) {
-    const effect = getEffect(days, (day) => at(day).tags.has(tag.id));
-    if (effect.delta > -THRESHOLDS.stoodOutMinDelta) {
-      ids.add(tag.id);
-    }
-  }
-  return ids;
-};
-
-const allTagIds = (input: RecapInput) =>
-  new Set(getActiveTags(input.tags).map((tag) => tag.id));
-
-/** Every calendar day of the month, check-in or not. */
-const monthDates = (input: RecapInput) =>
-  Array.from(
-    { length: daysBetween(input.period.start, input.period.end) + 1 },
-    (_, index) => addDays(input.period.start, index)
-  );
-
-/** Days of the month before, with check-ins. */
-const previousDays = (input: RecapInput) => {
-  const start = dayjs(input.period.start)
-    .subtract(1, "month")
-    .format("YYYY-MM-DD");
-  const end = addDays(input.period.start, -1);
-  return {
-    start,
-    end,
-    days: input.history.filter((day) => day.date >= start && day.date <= end),
-  };
-};
 
 /** Bright photos, one per file, brightest day first. */
 const uniqueBrightPhotos = (days: RecapDay[]) => {
@@ -137,166 +43,46 @@ const uniqueBrightPhotos = (days: RecapDay[]) => {
   });
 };
 
-/**
- * Month: the photo grid from 7 photo days. Fewer photo days, and every week
- * with photos: up to 5 full-screen photos, brightest first.
- */
-const cover = (input: RecapInput): CoverSlide => {
-  const photos = brightPhotos(input.days);
-  let variant: CoverSlide["variant"] = "pixels";
-  if (
-    input.period.kind === "month" &&
-    photos.length >= THRESHOLDS.storyCoverGridPhotoDays
-  ) {
-    variant = "photos";
-  } else if (photos.length > 0) {
-    variant = "photo";
-  }
-  return {
-    type: "cover",
-    variant,
-    checkIns: input.days.length,
-    photos:
-      variant === "photo"
-        ? uniqueBrightPhotos(input.days).slice(
-            0,
-            THRESHOLDS.storyCoverMaxPhotos
-          )
-        : photos,
-  };
-};
-
-const weekdayCount = (dates: DateKey[], weekday: number) =>
-  dates.filter((date) => dayjs(date).day() === weekday).length;
+/** Check-ins over the pixel grid. Bright days with a photo show it. */
+const cover = (input: RecapInput): CoverSlide => ({
+  type: "cover",
+  checkIns: input.days.length,
+  photos: brightPhotos(input.days),
+});
 
 /**
- * A light tag on 3+ of one weekday, on 75%+ of that weekday, and on at
- * most half that share of the other days. Most hits first.
+ * Active tags with a medium or strong mood effect in the period, biggest
+ * first: lighter days for `positive`, heavier days for `negative`.
  */
-const weekdayHabit = (
+const tagEffects = (
   input: RecapInput,
-  lightTags: ReadonlySet<string>
-): WeekdayHabitSlide | null => {
+  direction: "positive" | "negative"
+): TagEffectRow[] => {
   if (!input.steps.has("tags")) {
-    return null;
+    return [];
   }
+  const sign = direction === "positive" ? 1 : -1;
   const at = indexDays(input.days);
-  const dates = monthDates(input);
-  const previous = previousDays(input);
-  const previousAt = indexDays(previous.days);
-  let best: WeekdayHabitSlide | null = null;
-  for (const tagId of lightTags) {
-    const tagDays = input.days.filter((day) => at(day).tags.has(tagId));
-    for (let weekday = 0; weekday < 7; weekday += 1) {
-      const hits = tagDays.filter(
-        (day) => dayjs(day.date).day() === weekday
-      ).length;
-      const total = weekdayCount(dates, weekday);
-      const otherShare = (tagDays.length - hits) / (dates.length - total);
-      if (
-        hits >= THRESHOLDS.weekdayHabitMinHits &&
-        hits / total >= THRESHOLDS.weekdayHabitMinShare &&
-        otherShare <= (hits / total) * THRESHOLDS.weekdayHabitMaxOtherRatio &&
-        (!best || hits / total > best.hits / best.total)
-      ) {
-        const previousDates = Array.from(
-          { length: daysBetween(previous.start, previous.end) + 1 },
-          (_, index) => addDays(previous.start, index)
-        );
-        best = {
-          type: "weekday-habit",
-          tagId,
-          weekday,
-          hits,
-          total,
-          previous:
-            previous.days.length > 0
-              ? {
-                  hits: previous.days.filter(
-                    (day) =>
-                      dayjs(day.date).day() === weekday &&
-                      previousAt(day).tags.has(tagId)
-                  ).length,
-                  total: weekdayCount(previousDates, weekday),
-                }
-              : null,
-        };
-      }
-    }
-  }
-  return best;
-};
-
-/** 3+ tags on 4+ days each. Archived tags stay out. */
-const madeOf = (input: RecapInput): MadeOfSlide | null => {
-  if (!input.steps.has("tags")) {
-    return null;
-  }
-  const rows = tagCounts(input.days, allTagIds(input)).filter(
-    (row) => row.days >= THRESHOLDS.madeOfMinDays
-  );
-  return rows.length >= THRESHOLDS.madeOfMinTags
-    ? {
-        type: "made-of",
-        tagIds: rows.slice(0, THRESHOLDS.madeOfMaxRows).map((row) => row.tagId),
-      }
-    : null;
-};
-
-/** Tags with a medium or strong lighter effect this month, biggest first. */
-const lifted = (input: RecapInput): LiftedSlide | null => {
-  if (!input.steps.has("tags")) {
-    return null;
-  }
-  const at = indexDays(input.days);
-  const found: LiftedSlide["rows"] = [];
+  const found: TagEffectRow[] = [];
   for (const tag of getActiveTags(input.tags)) {
     const effect = getEffect(input.days, (day) => at(day).tags.has(tag.id));
-    if (effect.signal !== "weak" && effect.delta > 0) {
+    if (effect.signal !== "weak" && effect.delta * sign > 0) {
       found.push({ tagId: tag.id, days: effect.days, delta: effect.delta });
     }
   }
-  const rows = found
-    .sort((a, b) => b.delta - a.delta)
-    .slice(0, THRESHOLDS.liftedMaxRows);
-  return rows.length > 0 ? { type: "lifted", rows } : null;
+  return found
+    .sort((a, b) => (b.delta - a.delta) * sign)
+    .slice(0, THRESHOLDS.storyTagEffectMaxRows);
 };
 
-/**
- * 2+ people with 3+ bright connected days. Shows their connected days,
- * most first. Says nothing about the person: the pixels tell the days.
- */
-const people = (input: RecapInput): PeopleSlide | null => {
-  if (!peopleOn(input)) {
-    return null;
-  }
-  const at = indexDays(input.days);
-  const byPerson = new Map<string, RecapDay[]>();
-  for (const day of input.days) {
-    for (const id of at(day).people) {
-      if (input.personIds.has(id)) {
-        byPerson.set(id, [...(byPerson.get(id) ?? []), day]);
-      }
-    }
-  }
-  const rows = [...byPerson.entries()]
-    .filter(
-      ([, days]) =>
-        days.filter((day) => isBright(day)).length >=
-        THRESHOLDS.storyPeopleMinBrightDays
-    )
-    .sort(([, a], [, b]) => b.length - a.length);
-  return rows.length >= THRESHOLDS.storyPeopleMinPeople
-    ? {
-        type: "people",
-        people: rows
-          .slice(0, THRESHOLDS.storyPeopleMaxRows)
-          .map(([personId, days]) => ({
-            personId,
-            days: days.map((day) => day.date),
-          })),
-      }
-    : null;
+const positiveTags = (input: RecapInput): PositiveTagsSlide | null => {
+  const rows = tagEffects(input, "positive");
+  return rows.length > 0 ? { type: "positive-tags", rows } : null;
+};
+
+const negativeTags = (input: RecapInput): NegativeTagsSlide | null => {
+  const rows = tagEffects(input, "negative");
+  return rows.length > 0 ? { type: "negative-tags", rows } : null;
 };
 
 /**
@@ -329,135 +115,6 @@ const orbit = (input: RecapInput): OrbitSlide | null => {
 };
 
 /**
- * A tag on 2+ harder days and on under half of the other days. Any active
- * tag: the slide only says they went together. Most harder days first,
- * then the rarest on other days.
- */
-const hardPattern = (input: RecapInput): HardPatternSlide | null => {
-  if (!input.steps.has("tags")) {
-    return null;
-  }
-  const hard = input.days.filter((day) => isHard(day));
-  const other = input.days.filter((day) => !isHard(day));
-  if (hard.length === 0 || other.length === 0) {
-    return null;
-  }
-  const at = indexDays(input.days);
-  const found: { tagId: string; tagHard: number; tagOther: number }[] = [];
-  for (const tagId of allTagIds(input)) {
-    const tagHard = hard.filter((day) => at(day).tags.has(tagId)).length;
-    const tagOther = other.filter((day) => at(day).tags.has(tagId)).length;
-    if (
-      tagHard >= THRESHOLDS.hardPatternMinDays &&
-      tagOther / other.length < THRESHOLDS.hardPatternMaxOtherShare
-    ) {
-      found.push({ tagId, tagHard, tagOther });
-    }
-  }
-  const [best] = found.sort(
-    (a, b) => b.tagHard - a.tagHard || a.tagOther - b.tagOther
-  );
-  return best
-    ? {
-        type: "hard-pattern",
-        ...best,
-        hardDates: hard.map((day) => day.date),
-        otherDays: other.length,
-      }
-    : null;
-};
-
-/** First city of the month, with km from home and a photo from there. */
-const firstCitySlide = (input: RecapInput): FirstCitySlide | null => {
-  const [card] = firstCity(input);
-  if (!card || card.type !== "first-city") {
-    return null;
-  }
-  const home = getHome(input.history.filter((day) => day.date < card.date));
-  const location = input.days
-    .find((day) => day.date === card.date)
-    ?.items.find((item) => item.location)?.location;
-  const there = input.days.filter(
-    (day) =>
-      day.date >= card.date &&
-      day.items.some((item) => item.location?.name?.endsWith(card.city))
-  );
-  return {
-    type: "first-city",
-    city: card.city,
-    date: card.date,
-    km:
-      home && location ? Math.round(distanceKm(home, location) / 5) * 5 : null,
-    photo: bestPhoto(there),
-  };
-};
-
-/** Light tags with the biggest change in days vs. the month before. */
-const vsLast = (
-  input: RecapInput,
-  lightTags: ReadonlySet<string>
-): VsLastSlide | null => {
-  const previous = previousDays(input);
-  if (
-    !input.steps.has("tags") ||
-    previous.days.length < THRESHOLDS.vsLastMinCheckIns
-  ) {
-    return null;
-  }
-  const before = new Map(
-    tagCounts(previous.days, lightTags).map((row) => [row.tagId, row.days])
-  );
-  const now = new Map(
-    tagCounts(input.days, lightTags).map((row) => [row.tagId, row.days])
-  );
-  const found: VsLastSlide["rows"] = [];
-  for (const tagId of lightTags) {
-    const days = now.get(tagId) ?? 0;
-    const change = days - (before.get(tagId) ?? 0);
-    if (Math.abs(change) >= THRESHOLDS.vsLastMinChange) {
-      found.push({ tagId, days, change });
-    }
-  }
-  const rows = found
-    .sort((a, b) => b.change - a.change)
-    .slice(0, THRESHOLDS.vsLastMaxRows);
-  return rows.length > 0
-    ? { type: "vs-last", previousStart: previous.start, rows }
-    : null;
-};
-
-/** Weeks of the month: 1-7, 8-14, 15-21, 22 to the end. */
-const monthWeeks = (input: RecapInput) =>
-  [0, 7, 14, 21].map((offset) => ({
-    start: addDays(input.period.start, offset),
-    end:
-      offset === 21
-        ? input.period.end
-        : addDays(input.period.start, offset + 6),
-  }));
-
-/** Most photos in one week of the collage. */
-const WEEK_PHOTOS = 4;
-
-/** Bright photos of a week, brightest day first, one per file. */
-const weekPhotos = (days: RecapDay[]) =>
-  uniqueBrightPhotos(days).slice(0, WEEK_PHOTOS);
-
-/** Each week of the month as a small collage, 3+ weeks with a photo. */
-const moments = (input: RecapInput): MomentsSlide | null => {
-  const weeks = monthWeeks(input).map((week) => ({
-    ...week,
-    photos: weekPhotos(
-      input.days.filter((day) => day.date >= week.start && day.date <= week.end)
-    ),
-  }));
-  return weeks.filter((week) => week.photos.length > 0).length >=
-    THRESHOLDS.momentsMinWeeks
-    ? { type: "moments", weeks }
-    : null;
-};
-
-/**
  * Days left in the year after today, and days without a check-in since
  * January 1 or the first entry. Only while the month's year is still on.
  */
@@ -481,136 +138,6 @@ const comingUp = (input: RecapInput): ComingUpSlide | null => {
     year,
     left: daysBetween(input.today, yearEnd),
     missed,
-  };
-};
-
-/**
- * Best day of the day recap card, with its emotions and first photo. The
- * story leaves out the hard-day and year-ago modes.
- */
-const bestDay = (input: RecapInput): BestDaySlide | null => {
-  const card = dayRecap(input).find(
-    (item) => item.type === "day-recap" && item.mode === "best"
-  );
-  const day =
-    card?.type === "day-recap"
-      ? input.days.find((item) => item.date === card.date)
-      : undefined;
-  if (!day) {
-    return null;
-  }
-  const photos = day.items.flatMap((item) => item.photos);
-  const [photo] = photos;
-  const activeTags = allTagIds(input);
-  const location = input.locationEnabled
-    ? (day.items.find((item) => item.location?.name)?.location?.name ?? null)
-    : null;
-  return {
-    type: "best-day",
-    date: day.date,
-    photos: photos
-      .slice(0, THRESHOLDS.storyCoverMaxPhotos)
-      .map((item) => ({ date: day.date, photo: item })),
-    tagIds: [
-      ...new Set(day.items.flatMap((item) => item.tags.map((tag) => tag.id))),
-    ]
-      .filter((id) => activeTags.has(id))
-      .slice(0, THRESHOLDS.storyBestDayEmotions),
-    location,
-    emotions: [...new Set(day.items.flatMap((item) => item.emotions))].slice(
-      0,
-      THRESHOLDS.storyBestDayEmotions
-    ),
-    photo: photo ? { date: day.date, photo } : null,
-  };
-};
-
-/** Mood of each day, from the mood chart card. */
-const weekMood = (input: RecapInput): WeekMoodSlide | null => {
-  const [card] = moodChart(input);
-  return card?.type === "mood-chart"
-    ? { type: "week-mood", days: card.days }
-    : null;
-};
-
-/** Most felt emotions, from the emotions card. */
-const topEmotions = (input: RecapInput): TopEmotionsSlide | null => {
-  const [card] = emotionsCard(input);
-  return card?.type === "emotions"
-    ? {
-        type: "top-emotions",
-        counts: card.counts.slice(0, THRESHOLDS.storyEmotionsMax),
-      }
-    : null;
-};
-
-/** Mean of map points. */
-const center = (points: { latitude: number; longitude: number }[]) => ({
-  latitude:
-    points.reduce((sum, point) => sum + point.latitude, 0) / points.length,
-  longitude:
-    points.reduce((sum, point) => sum + point.longitude, 0) / points.length,
-});
-
-/** A place as a pin: its days, their mean mood, and a bright photo there. */
-const storyPlace = (
-  input: RecapInput,
-  name: string,
-  dates: DateKey[],
-  points: { latitude: number; longitude: number }[]
-): StoryPlace => {
-  const dateSet = new Set(dates);
-  const days = input.days.filter((day) => dateSet.has(day.date));
-  return {
-    name,
-    ...center(points),
-    days: dates.length,
-    rating: days.reduce((sum, day) => sum + getDayRating(day), 0) / days.length,
-    photo: bestPhoto(days),
-  };
-};
-
-/** Days of a trip: from its first to its last check-in day. */
-const tripDates = (input: RecapInput, start: DateKey, end: DateKey) =>
-  input.days.flatMap((day) =>
-    day.date >= start && day.date <= end ? [day.date] : []
-  );
-
-/** Places close to home on a city map: 2+ days with a place. */
-const closeBy = (input: RecapInput): CloseBySlide | null => {
-  const visits = getPlaceVisits(input);
-  const days = new Set(visits?.spots.flatMap((spot) => spot.dates));
-  return visits && days.size >= THRESHOLDS.storyCloseByMinDays
-    ? {
-        type: "close-by",
-        places: visits.spots
-          .slice(0, THRESHOLDS.storyPlacesMax)
-          .map((spot) => storyPlace(input, spot.name, spot.dates, spot.points)),
-      }
-    : null;
-};
-
-/** Trips on a zoomed-out map, framed by the week's other places: 1+ trip. */
-const farOut = (input: RecapInput): FarOutSlide | null => {
-  const visits = getPlaceVisits(input);
-  if (!visits || visits.trips.length === 0) {
-    return null;
-  }
-  return {
-    type: "far-out",
-    trips: [...visits.trips]
-      .sort((a, b) => b.days - a.days)
-      .slice(0, THRESHOLDS.storyPlacesMax)
-      .map((trip) => ({
-        ...storyPlace(
-          input,
-          trip.city,
-          tripDates(input, trip.start, trip.end),
-          trip.points
-        ),
-        days: trip.days,
-      })),
-    around: visits.spots.map((spot) => center(spot.points)),
   };
 };
 
@@ -646,23 +173,11 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
   ) {
     return null;
   }
-  const lightTags = lightTagIds(input);
-  const quiz = buildQuiz(input, lightTags);
-  // A people quiz and the people slide make one section: guess, then see.
-  const isPeopleQuiz = quiz?.quiz === "people";
   const slides: (StorySlide | null)[] = [
     cover(input),
-    weekdayHabit(input, lightTags),
-    madeOf(input),
-    quiz,
-    isPeopleQuiz ? people(input) : null,
-    lifted(input),
-    isPeopleQuiz ? null : people(input),
+    positiveTags(input),
+    negativeTags(input),
     orbit(input),
-    hardPattern(input),
-    firstCitySlide(input),
-    vsLast(input, lightTags),
-    moments(input),
     comingUp(input),
   ];
   return [...slides, share(input)].filter(
@@ -670,30 +185,15 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
   );
 };
 
-/** Emotions and tags back after a break, from the came-back card rules. */
-const cameBack = (input: RecapInput): CameBackSlide | null => {
-  const emotions = emotionAgain(input).flatMap((card) =>
-    card.type === "emotion-again" ? card.emotions : []
-  );
-  const tags = tagBack(input).flatMap((card) =>
-    card.type === "tag-back" ? card.tags : []
-  );
-  return emotions.length + tags.length > 0
-    ? { type: "came-back", emotions, tags }
-    : null;
-};
-
 /** Weeks from the story week to today's week: 0 for the current week. */
 const weeksSince = (start: DateKey, today: DateKey) =>
   Math.floor(daysBetween(start, today) / 7);
 
 /**
- * Week story slides in deck order: intro on the sky, cover, best day, mood of each day, most
- * felt emotions, places close by and far out, rhythm, quiz, people, orbit,
- * what came back, a first city without far out, and the closing card
- * with the week. Each slot skips when its rule fails. `null` for other
- * periods, weeks more than 2 weeks back or ahead, and weeks with fewer than 4
- * check-in days.
+ * Week story slides in deck order: intro on the sky, cover, tags that felt
+ * lighter and heavier, orbit, and the closing card. Each slot skips when
+ * its rule fails. `null` for other periods, weeks more than 2 weeks back
+ * or ahead, and weeks with fewer than 4 check-in days.
  */
 export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
   const age = weeksSince(input.period.start, input.today);
@@ -705,24 +205,12 @@ export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
   ) {
     return null;
   }
-  const lightTags = lightTagIds(input);
-  const quiz = buildQuiz(input, lightTags);
-  const far = farOut(input);
   const slides: (StorySlide | null)[] = [
     { type: "intro" },
     cover(input),
-    bestDay(input),
-    weekMood(input),
-    topEmotions(input),
-    closeBy(input),
-    far,
-    madeOf(input),
-    quiz,
-    people(input),
+    positiveTags(input),
+    negativeTags(input),
     orbit(input),
-    cameBack(input),
-    // Far out already shows the trip city.
-    far ? null : firstCitySlide(input),
   ];
   return [...slides, share(input)].filter(
     (slide): slide is StorySlide => slide !== null

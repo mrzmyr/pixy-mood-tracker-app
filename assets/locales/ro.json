@@ -882,15 +882,6 @@
     "other": "{{count}} zile cu %{tag} săptămâna aceasta"
   },
   "recaps_story_banner_title": "Retrospectiva lunii %{month}",
-  "recaps_story_best_day_eyebrow": "Cea mai bună zi",
-  "recaps_story_best_day_title": "%{day} a fost ziua ta cea mai luminoasă",
-  "recaps_story_city_eyebrow": "Prima dată",
-  "recaps_story_city_km": "%{city} · la %{km} km de casă",
-  "recaps_story_city_title": "Primul tău pixel din %{city}",
-  "recaps_story_close_text_few": "Câteva locuri ți-au purtat săptămâna",
-  "recaps_story_close_text_many": "Ai fost mult în mișcare",
-  "recaps_story_close_title": "Ai fost cel mai des în %{place}",
-  "recaps_story_close_title_single": "Ai petrecut toată săptămâna în jurul %{place}",
   "recaps_story_coming_eyebrow": "Urmează",
   "recaps_story_coming_left": {
     "one": "Mai e 1",
@@ -900,32 +891,13 @@
     "one": "1 ratată",
     "other": "{{count}} ratate"
   },
-  "recaps_story_cover_photos_text": {
-    "one": "1 zi cu foto, %{days} pixeli.",
-    "other": "{{count}} zile cu foto, %{days} pixeli."
-  },
   "recaps_story_cover_pixels_title": "pixeli în %{month}",
-  "recaps_story_cover_title": "%{month}, ce a prins contur",
   "recaps_story_cover_title_week": "Ia-ți un moment.\nAceasta a fost săptămâna ta.",
   "recaps_story_days": {
     "one": "1 zi",
     "other": "{{count}} zile"
   },
-  "recaps_story_emotions_eyebrow": "Cel mai simțit",
-  "recaps_story_emotions_title": "Cel mai des te-ai simțit %{emotion}",
-  "recaps_story_far_title_many": "Ai călătorit la %{city} și mai departe",
-  "recaps_story_far_title_single": "Ai călătorit până la %{city}",
-  "recaps_story_hard_days_label": {
-    "one": "Ziua ta mai grea",
-    "other": "Cele {{count}} zile mai grele ale tale"
-  },
   "recaps_story_hard_eyebrow": "Un tipar",
-  "recaps_story_hard_other_label": {
-    "one": "Cealaltă zi",
-    "other": "Celelalte {{count}} zile"
-  },
-  "recaps_story_hard_text": "Prezentă în %{hard} din %{total} zile mai grele, dar doar în %{other} din celelalte %{otherDays}. Ai grijă de tine în acele zile.",
-  "recaps_story_hard_text_none": "Prezentă în %{hard} din %{total} zile mai grele, în niciuna din celelalte %{otherDays}. Ai grijă de tine în acele zile.",
   "recaps_story_hard_title": "%{tag} a însoțit zilele tale mai grele",
   "recaps_story_lifted_eyebrow": "Ce ți-a luminat %{month}",
   "recaps_story_lifted_text": {
@@ -933,8 +905,6 @@
     "other": "Comparat cu zilele fără etichetă. {{count}} înregistrări."
   },
   "recaps_story_lifted_title": "Zilele cu %{tag} au fost cele mai ușoare",
-  "recaps_story_made_of_eyebrow": "Ritmul lunii %{month}",
-  "recaps_story_made_of_title": "Din ce au fost făcute zilele tale",
   "recaps_story_next": "Slide-ul următor",
   "recaps_story_orbit_eyebrow": "Universul tău",
   "recaps_story_orbit_title": "Cine a fost pe orbita ta",
@@ -943,39 +913,12 @@
     "one": "1 zi în legătură",
     "other": "{{count}} zile în legătură"
   },
-  "recaps_story_people_eyebrow": "Cine a tot apărut",
-  "recaps_story_people_text": "Pixelii tăi în zilele în care ați fost în legătură.",
-  "recaps_story_people_title": "Persoanele cu care ai fost cel mai mult în legătură",
   "recaps_story_play": "Redă",
   "recaps_story_previous": "Slide-ul anterior",
-  "recaps_story_quiz_check": "Verifică",
-  "recaps_story_quiz_eyebrow_guess": "Ghicește repede",
-  "recaps_story_quiz_eyebrow_mix": "Luna ta: %{month}",
-  "recaps_story_quiz_eyebrow_people": "Oamenii tăi",
-  "recaps_story_quiz_eyebrow_tags": "Obiceiurile tale",
-  "recaps_story_quiz_made_up": "Inventat",
-  "recaps_story_quiz_reveal_truths": "%{name}: de fapt %{actual}, nu %{shown}. Celelalte trei sunt adevărate.",
-  "recaps_story_quiz_title_mix": "Care sunt adevărate?",
-  "recaps_story_quiz_title_people": "La cine te-ai gândit?",
-  "recaps_story_quiz_title_people_most": "Cu cine ai fost cel mai mult în legătură?",
-  "recaps_story_quiz_title_tags": "Ce ți-a umplut zilele?",
-  "recaps_story_quiz_title_tags_most": "Ce ai făcut cel mai mult luna asta?",
-  "recaps_story_quiz_truths_hint": "Atinge-le pe toate cele adevărate.",
   "recaps_story_ready": "Gata de vizionat",
   "recaps_story_share": "Distribuie",
   "recaps_story_share_shuffle": "Amestecă fotografiile",
   "recaps_story_share_title": "Luna mea: %{month}",
-  "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
-  "recaps_story_vs_text": "Zile cu fiecare etichetă, vs. %{previous}.",
-  "recaps_story_vs_title": "Mai mult din asta, mai puțin din cealaltă",
-  "recaps_story_week_mood_eyebrow": "Săptămâna ta",
-  "recaps_story_week_mood_good": "%{count} din cele %{total} zile ale tale au fost bune",
-  "recaps_story_week_mood_title": "Săptămâna ta, zi de zi",
-  "recaps_story_weekday_eyebrow": "Se formează un obicei",
-  "recaps_story_weekday_previous": "În %{month}: %{hits} din %{total}.",
-  "recaps_story_weekday_text": "%{hits} din %{total} săptămâni.",
-  "recaps_story_weekday_title_every": "%{tag}, în fiecare %{weekday}",
-  "recaps_story_weekday_title_most": "%{tag}, aproape în fiecare %{weekday}",
   "recaps_tag_back_text": {
     "one": "Într-o zi, după %{weeks} săptămâni fără.",
     "other": "În {{count}} zile, după %{weeks} săptămâni fără."
