@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
+import { FieldError } from "@/components/field-error";
 import MenuList from "@/components/menu-list";
 import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/config";
 import useColors from "@/hooks/use-colors";
@@ -87,15 +88,12 @@ const TagNameField = ({
         }}
       >
         {hasError && (
-          <Text
-            testID={`${testID}-error`}
-            style={{ flex: 1, fontSize: 13, color: colors.dangerButtonText }}
-          >
+          <FieldError testID={`${testID}-error`} style={{ flex: 1 }}>
             {t("tags_name_error", {
               min: MIN_TAG_LENGTH,
               max: MAX_TAG_LENGTH,
             })}
-          </Text>
+          </FieldError>
         )}
         {showCounter && (
           <Text

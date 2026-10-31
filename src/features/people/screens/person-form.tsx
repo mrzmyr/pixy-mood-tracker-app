@@ -2,8 +2,9 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import Contact from "lucide-react-native/icons/contact";
 import Trash from "lucide-react-native/icons/trash";
 import { useRef } from "react";
-import { Platform, ScrollView, Text, TextInput, View } from "react-native";
+import { Platform, ScrollView, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { FieldError } from "@/components/field-error";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
@@ -231,19 +232,12 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
           onChangeText={handleNameChange}
         />
         {draft.nameError && (
-          <Text
-            accessibilityRole="alert"
-            accessibilityLiveRegion="polite"
+          <FieldError
             testID="person-name-error"
-            style={{
-              fontSize: 13,
-              color: colors.dangerButtonText,
-              paddingHorizontal: 16,
-              marginTop: 8,
-            }}
+            style={{ paddingHorizontal: 16, marginTop: 8 }}
           >
             {t("people_name_required")}
-          </Text>
+          </FieldError>
         )}
         <View style={{ marginTop: SECTION_GAP }}>
           <RolePicker
