@@ -17,8 +17,8 @@ import type { FeedbackReason } from "../feedback-reasons";
 import { getPeriod } from "../period";
 import { buildMonthStory, buildWeekStory } from "../story/deck";
 import { monthName } from "../story/format";
-import { SlideContent } from "../story/slides";
-import { fillsScreen, slideBackdrop } from "../story/slide-layout";
+import { SlideBackdrop, SlideContent } from "../story/slides";
+import { fillsScreen } from "../story/slide-layout";
 import { getSlideTheme } from "../story/slide-theme";
 import type { SlideContext } from "../story/slides";
 import { StoryFeedback } from "../story/story-feedback";
@@ -32,10 +32,6 @@ import { StoryFinale } from "../story/story-finale";
 import { getSlideDuration } from "../story/timing";
 import { StoryShareButton } from "../story/story-share-button";
 import { shareStoryCard } from "../story/share-image";
-import { QuizContent } from "../story/quiz-content";
-import type { QuizResult } from "../story/quiz-content";
-import type { QuizSlide } from "../story/quiz";
-import useHaptics from "@/hooks/use-haptics";
 
 const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 
@@ -99,7 +95,6 @@ const RecapStory = () => {
   const router = useRouter();
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
-  const haptics = useHaptics();
   const weekLocale = useWeekLocale();
   const params = useLocalSearchParams<{
     date?: string;
@@ -126,9 +121,6 @@ const RecapStory = () => {
     new Map()
   );
   const [asking, setAsking] = useState<number | null>(null);
-  const [quizResults, setQuizResults] = useState<
-    ReadonlyMap<number, QuizResult>
-  >(new Map());
   const shareCard = useRef<ViewType>(null);
   const slideView = useRef<ViewType>(null);
   const contentView = useRef<ViewType>(null);
@@ -223,18 +215,6 @@ const RecapStory = () => {
     setAnswers((current) => new Map([...current, [index, helpful]]));
   };
 
-  const answerQuiz = (index: number, slide: QuizSlide, result: QuizResult) => {
-    setQuizResults((current) => new Map([...current, [index, result]]));
-    analytics.track("recaps:story_quiz_answered", {
-      quiz: slide.quiz,
-      module: slide.quiz === "truths" ? slide.module : null,
-      is_correct: result.isCorrect,
-    });
-    if (result.isCorrect) {
-      void haptics.success();
-    }
-  };
-
   /** 3 photos of the pool; each shuffle moves on by 3, wrapping around. */
   const pickPhotos = (pool: StoryPhoto[]) =>
     pool.length <= 3
@@ -270,16 +250,6 @@ const RecapStory = () => {
   };
 
   const contentOf = (slide: StorySlide, index: number) => {
-    if (slide.type === "quiz") {
-      return (
-        <QuizContent
-          slide={slide}
-          ctx={ctx}
-          result={quizResults.get(index) ?? null}
-          onAnswer={(result) => answerQuiz(index, slide, result)}
-        />
-      );
-    }
     if (slide.type === "share") {
       return (
         <StoryFinale
@@ -302,8 +272,7 @@ const RecapStory = () => {
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getSlideTheme(slide, ctx.isDark),
-    renderBackdrop: (progress) => slideBackdrop(story, index, progress),
-    isWaiting: slide.type === "quiz" && !quizResults.has(index),
+    renderBackdrop: () => <SlideBackdrop slide={slide} />,
     durationMs: getSlideDuration(slide),
     fillsScreen: fillsScreen(slide),
     content: contentOf(slide, index),

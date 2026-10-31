@@ -882,15 +882,6 @@
     "other": "{{count}} ngày có %{tag} tuần này"
   },
   "recaps_story_banner_title": "Tổng kết %{month}",
-  "recaps_story_best_day_eyebrow": "Ngày đẹp nhất",
-  "recaps_story_best_day_title": "%{day} là ngày tươi sáng nhất của bạn",
-  "recaps_story_city_eyebrow": "Lần đầu",
-  "recaps_story_city_km": "%{city} · cách nhà %{km} km",
-  "recaps_story_city_title": "Pixel đầu tiên của bạn ở %{city}",
-  "recaps_story_close_text_few": "Vài nơi đã nâng đỡ tuần của bạn",
-  "recaps_story_close_text_many": "Bạn đã di chuyển rất nhiều",
-  "recaps_story_close_title": "Bạn thường ở %{place} nhất",
-  "recaps_story_close_title_single": "Bạn ở quanh %{place} cả tuần",
   "recaps_story_coming_eyebrow": "Sắp tới",
   "recaps_story_coming_left": {
     "one": "Còn 1",
@@ -900,32 +891,13 @@
     "one": "Bỏ lỡ 1",
     "other": "Bỏ lỡ {{count}}"
   },
-  "recaps_story_cover_photos_text": {
-    "one": "1 ngày có ảnh, %{days} pixel.",
-    "other": "{{count}} ngày có ảnh, %{days} pixel."
-  },
   "recaps_story_cover_pixels_title": "pixel trong %{month}",
-  "recaps_story_cover_title": "%{month}, những gì đã thành hình",
   "recaps_story_cover_title_week": "Dành một chút thời gian.\nĐây là tuần của bạn.",
   "recaps_story_days": {
     "one": "1 ngày",
     "other": "{{count}} ngày"
   },
-  "recaps_story_emotions_eyebrow": "Cảm nhận nhiều nhất",
-  "recaps_story_emotions_title": "Bạn thường cảm thấy %{emotion} nhất",
-  "recaps_story_far_title_many": "Bạn đã đi %{city} và xa hơn",
-  "recaps_story_far_title_single": "Bạn đã đi đến tận %{city}",
-  "recaps_story_hard_days_label": {
-    "one": "Ngày khó khăn hơn của bạn",
-    "other": "{{count}} ngày khó khăn hơn của bạn"
-  },
   "recaps_story_hard_eyebrow": "Một quy luật",
-  "recaps_story_hard_other_label": {
-    "one": "Ngày còn lại",
-    "other": "{{count}} ngày còn lại"
-  },
-  "recaps_story_hard_text": "Có mặt ở %{hard}/%{total} ngày khó khăn hơn, nhưng chỉ %{other}/%{otherDays} ngày còn lại. Hãy dịu dàng với bản thân vào những ngày ấy.",
-  "recaps_story_hard_text_none": "Có mặt ở %{hard}/%{total} ngày khó khăn hơn, không có ở ngày nào trong %{otherDays} ngày còn lại. Hãy dịu dàng với bản thân vào những ngày ấy.",
   "recaps_story_hard_title": "%{tag} đi cùng những ngày khó khăn hơn của bạn",
   "recaps_story_lifted_eyebrow": "Điều làm %{month} nhẹ nhàng hơn",
   "recaps_story_lifted_text": {
@@ -933,8 +905,6 @@
     "other": "So với những ngày không có thẻ này. {{count}} lần ghi lại."
   },
   "recaps_story_lifted_title": "Những ngày có %{tag} nhẹ nhàng nhất",
-  "recaps_story_made_of_eyebrow": "Nhịp điệu %{month}",
-  "recaps_story_made_of_title": "Những ngày của bạn được tạo nên từ đâu",
   "recaps_story_next": "Trang tiếp",
   "recaps_story_orbit_eyebrow": "Vũ trụ của bạn",
   "recaps_story_orbit_title": "Ai ở trong quỹ đạo của bạn",
@@ -943,39 +913,12 @@
     "one": "1 ngày kết nối",
     "other": "{{count}} ngày kết nối"
   },
-  "recaps_story_people_eyebrow": "Những người luôn xuất hiện",
-  "recaps_story_people_text": "Pixel của bạn vào những ngày bạn kết nối.",
-  "recaps_story_people_title": "Những người bạn kết nối nhiều nhất",
   "recaps_story_play": "Phát",
   "recaps_story_previous": "Trang trước",
-  "recaps_story_quiz_check": "Kiểm tra",
-  "recaps_story_quiz_eyebrow_guess": "Đoán nhanh",
-  "recaps_story_quiz_eyebrow_mix": "%{month} của bạn",
-  "recaps_story_quiz_eyebrow_people": "Những người của bạn",
-  "recaps_story_quiz_eyebrow_tags": "Thói quen của bạn",
-  "recaps_story_quiz_made_up": "Bịa ra",
-  "recaps_story_quiz_reveal_truths": "%{name}: thực ra là %{actual}, không phải %{shown}. Ba thẻ còn lại là đúng.",
-  "recaps_story_quiz_title_mix": "Điều nào là đúng?",
-  "recaps_story_quiz_title_people": "Bạn đã nghĩ về ai?",
-  "recaps_story_quiz_title_people_most": "Bạn kết nối với ai nhiều nhất?",
-  "recaps_story_quiz_title_tags": "Điều gì lấp đầy ngày của bạn?",
-  "recaps_story_quiz_title_tags_most": "Tháng này bạn làm gì nhiều nhất?",
-  "recaps_story_quiz_truths_hint": "Chạm vào tất cả những điều đúng.",
   "recaps_story_ready": "Sẵn sàng để xem",
   "recaps_story_share": "Chia sẻ",
   "recaps_story_share_shuffle": "Xáo trộn ảnh",
   "recaps_story_share_title": "%{month} của tôi",
-  "recaps_story_vs_eyebrow": "%{month} so với %{previous}",
-  "recaps_story_vs_text": "Số ngày có mỗi thẻ, so với %{previous}.",
-  "recaps_story_vs_title": "Nhiều điều này hơn, ít điều kia hơn",
-  "recaps_story_week_mood_eyebrow": "Tuần của bạn",
-  "recaps_story_week_mood_good": "%{count}/%{total} ngày của bạn thấy ổn",
-  "recaps_story_week_mood_title": "Tuần của bạn, từng ngày",
-  "recaps_story_weekday_eyebrow": "Một thói quen hình thành",
-  "recaps_story_weekday_previous": "Trong %{month}: %{hits}/%{total}.",
-  "recaps_story_weekday_text": "%{hits}/%{total} tuần.",
-  "recaps_story_weekday_title_every": "%{tag}, mỗi %{weekday}",
-  "recaps_story_weekday_title_most": "%{tag}, gần như mỗi %{weekday}",
   "recaps_tag_back_text": {
     "one": "Một ngày, sau %{weeks} tuần vắng.",
     "other": "{{count}} ngày, sau %{weeks} tuần vắng."

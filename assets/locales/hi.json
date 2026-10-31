@@ -882,15 +882,6 @@
     "other": "इस हफ़्ते %{tag} वाले {{count}} दिन"
   },
   "recaps_story_banner_title": "%{month} रीकैप",
-  "recaps_story_best_day_eyebrow": "सबसे अच्छा दिन",
-  "recaps_story_best_day_title": "%{day} आपका सबसे उजला दिन था",
-  "recaps_story_city_eyebrow": "पहली बार",
-  "recaps_story_city_km": "%{city} · घर से %{km} किमी",
-  "recaps_story_city_title": "%{city} में आपका पहला पिक्सेल",
-  "recaps_story_close_text_few": "कुछ जगहों ने आपका हफ़्ता संभाला",
-  "recaps_story_close_text_many": "आप खूब घूमते रहे",
-  "recaps_story_close_title": "आप सबसे ज़्यादा %{place} में थे",
-  "recaps_story_close_title_single": "आपने पूरा हफ़्ता %{place} के आस-पास बिताया",
   "recaps_story_coming_eyebrow": "आगे क्या है",
   "recaps_story_coming_left": {
     "one": "1 बाकी",
@@ -900,32 +891,13 @@
     "one": "1 छूटा",
     "other": "{{count}} छूटे"
   },
-  "recaps_story_cover_photos_text": {
-    "one": "फ़ोटो वाला 1 दिन, %{days} पिक्सेल।",
-    "other": "फ़ोटो वाले {{count}} दिन, %{days} पिक्सेल।"
-  },
   "recaps_story_cover_pixels_title": "%{month} में पिक्सेल",
-  "recaps_story_cover_title": "%{month}: जो आकार लेता गया",
   "recaps_story_cover_title_week": "एक पल रुकिए।\nयह आपका हफ़्ता था।",
   "recaps_story_days": {
     "one": "1 दिन",
     "other": "{{count}} दिन"
   },
-  "recaps_story_emotions_eyebrow": "सबसे ज़्यादा महसूस",
-  "recaps_story_emotions_title": "आपने सबसे ज़्यादा महसूस किया: %{emotion}",
-  "recaps_story_far_title_many": "आप %{city} और उससे आगे गए",
-  "recaps_story_far_title_single": "आप %{city} तक गए",
-  "recaps_story_hard_days_label": {
-    "one": "आपका मुश्किल दिन",
-    "other": "आपके {{count}} मुश्किल दिन"
-  },
   "recaps_story_hard_eyebrow": "एक पैटर्न",
-  "recaps_story_hard_other_label": {
-    "one": "दूसरा दिन",
-    "other": "बाकी {{count}} दिन"
-  },
-  "recaps_story_hard_text": "%{total} मुश्किल दिनों में से %{hard} में यह था, लेकिन बाकी %{otherDays} में से सिर्फ़ %{other} में। ऐसे दिनों में खुद के साथ नरमी बरतें।",
-  "recaps_story_hard_text_none": "%{total} मुश्किल दिनों में से %{hard} में यह था, बाकी %{otherDays} में से किसी में नहीं। ऐसे दिनों में खुद के साथ नरमी बरतें।",
   "recaps_story_hard_title": "%{tag} आपके मुश्किल दिनों के साथ रहा",
   "recaps_story_lifted_eyebrow": "%{month} को किसने हल्का किया",
   "recaps_story_lifted_text": {
@@ -933,8 +905,6 @@
     "other": "इस टैग के बिना वाले दिनों से तुलना। {{count}} चेक-इन।"
   },
   "recaps_story_lifted_title": "%{tag} वाले दिन सबसे हल्के लगे",
-  "recaps_story_made_of_eyebrow": "%{month} की लय",
-  "recaps_story_made_of_title": "आपके दिन किन चीज़ों से बने",
   "recaps_story_next": "अगली स्लाइड",
   "recaps_story_orbit_eyebrow": "आपका ब्रह्मांड",
   "recaps_story_orbit_title": "आपकी कक्षा में कौन था",
@@ -943,39 +913,12 @@
     "one": "1 दिन जुड़े",
     "other": "{{count}} दिन जुड़े"
   },
-  "recaps_story_people_eyebrow": "जो बार-बार आते रहे",
-  "recaps_story_people_text": "जिन दिनों आप जुड़े, उन दिनों के आपके पिक्सेल।",
-  "recaps_story_people_title": "जिनसे आप सबसे ज़्यादा जुड़े",
   "recaps_story_play": "चलाएँ",
   "recaps_story_previous": "पिछली स्लाइड",
-  "recaps_story_quiz_check": "जाँचें",
-  "recaps_story_quiz_eyebrow_guess": "झटपट अंदाज़ा",
-  "recaps_story_quiz_eyebrow_mix": "आपका %{month}",
-  "recaps_story_quiz_eyebrow_people": "आपके लोग",
-  "recaps_story_quiz_eyebrow_tags": "आपकी आदतें",
-  "recaps_story_quiz_made_up": "मनगढ़ंत",
-  "recaps_story_quiz_reveal_truths": "%{name}: असल में %{actual}, %{shown} नहीं। बाकी तीन सच हैं।",
-  "recaps_story_quiz_title_mix": "कौन-से सच हैं?",
-  "recaps_story_quiz_title_people": "आपके मन में कौन था?",
-  "recaps_story_quiz_title_people_most": "आप सबसे ज़्यादा किससे जुड़े?",
-  "recaps_story_quiz_title_tags": "आपके दिन किन चीज़ों से भरे रहे?",
-  "recaps_story_quiz_title_tags_most": "इस महीने आपने सबसे ज़्यादा क्या किया?",
-  "recaps_story_quiz_truths_hint": "जो सच हैं, उन सब पर टैप करें।",
   "recaps_story_ready": "देखने के लिए तैयार",
   "recaps_story_share": "साझा करें",
   "recaps_story_share_shuffle": "फ़ोटो बदलें",
   "recaps_story_share_title": "मेरा %{month}",
-  "recaps_story_vs_eyebrow": "%{month} बनाम %{previous}",
-  "recaps_story_vs_text": "हर टैग वाले दिन, %{previous} के मुकाबले।",
-  "recaps_story_vs_title": "इसका ज़्यादा, उसका कम",
-  "recaps_story_week_mood_eyebrow": "आपका हफ़्ता",
-  "recaps_story_week_mood_good": "आपके %{total} में से %{count} दिन अच्छे रहे",
-  "recaps_story_week_mood_title": "आपका हफ़्ता, दिन-ब-दिन",
-  "recaps_story_weekday_eyebrow": "एक आदत बनी",
-  "recaps_story_weekday_previous": "%{month} में: %{total} में से %{hits}।",
-  "recaps_story_weekday_text": "%{total} में से %{hits} हफ़्ते।",
-  "recaps_story_weekday_title_every": "%{tag}, हर %{weekday}",
-  "recaps_story_weekday_title_most": "%{tag}, लगभग हर %{weekday}",
   "recaps_tag_back_text": {
     "one": "एक दिन, %{weeks} हफ़्तों बाद।",
     "other": "{{count}} दिन, %{weeks} हफ़्तों बाद।"

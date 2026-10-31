@@ -93,68 +93,20 @@ export const THRESHOLDS = {
   storyMaxMonthsBack: 3,
   /** Week story: check-in days needed. */
   weekStoryMinCheckIns: 4,
-  /** Week story best day: emotions of the day shown, at most. */
-  storyBestDayEmotions: 3,
-  /** Week story emotions: emotions shown, at most. */
-  storyEmotionsMax: 6,
-  /** Week story places: pins on a map, at most. */
-  storyPlacesMax: 6,
-  /** Close by: days with a nearby place needed. */
-  storyCloseByMinDays: 2,
-  /** Close by: up to this many places reads as "a few". */
-  storyCloseByFewMax: 3,
   /** Week story: weeks before the current one that still get a story. */
   weekStoryMaxWeeksBack: 2,
   /** Story photos and bright days: rating at least this (good). */
   storyBrightMinRating: 4,
-  /** Story harder days: rating at most this (bad), as in the day recap. */
-  storyHardMaxRating: 2,
-  /** Month cover: photo days for the photo grid. Fewer: full-screen photos. */
-  storyCoverGridPhotoDays: 7,
-  /** Cover: full-screen photos at most, one after another. */
-  storyCoverMaxPhotos: 5,
-  /** Same weekday: tag days on that weekday, at least. */
-  weekdayHabitMinHits: 3,
-  /** Same weekday: share of that weekday with the tag, at least. */
-  weekdayHabitMinShare: 0.75,
-  /** Same weekday: other weekdays' share, at most this part of it. */
-  weekdayHabitMaxOtherRatio: 0.5,
-  /** Made of: tags with enough days needed. */
-  madeOfMinTags: 3,
-  /** Made of: days with the tag, at least. */
-  madeOfMinDays: 4,
-  /** Made of: rows at most. */
-  madeOfMaxRows: 5,
-  /** Lifted: rows at most. Medium or strong lighter effects only. */
-  liftedMaxRows: 3,
-  /** Story people: people with enough bright connected days needed. */
-  storyPeopleMinPeople: 2,
-  /** Story people: bright connected days per person, at least. */
-  storyPeopleMinBrightDays: 3,
-  /** Story people: rows at most. */
-  storyPeopleMaxRows: 2,
+  /** Story tags that felt lighter or heavier: rows at most. Medium or strong effects only. */
+  storyTagEffectMaxRows: 3,
   /** Story orbit: people with enough connected days needed. */
   storyOrbitMinPeople: 3,
   /** Story orbit: connected days per person, at least. */
   storyOrbitMinDays: 2,
   /** Story orbit: people at most. */
   storyOrbitMaxPeople: 8,
-  /** Hard pattern: harder days with the tag, at least. */
-  hardPatternMinDays: 2,
-  /** Hard pattern: share of other days with the tag, below. */
-  hardPatternMaxOtherShare: 0.5,
-  /** Vs last month: check-in days needed in the month before. */
-  vsLastMinCheckIns: 10,
-  /** Vs last month: change in tag days, at least. */
-  vsLastMinChange: 2,
-  /** Vs last month: rows at most. */
-  vsLastMaxRows: 4,
-  /** Moments: weeks with a photo needed. */
-  momentsMinWeeks: 3,
   /** Share card: bright photo days needed for photos on the card. */
   sharePhotos: 1,
-  /** Quiz: days a person or tag needs to be a statement or tile. */
-  quizMinDays: 2,
   /** Mood chart: check-in days needed. */
   moodChartMinDays: 4,
   /** Mood count: check-in days needed. */
