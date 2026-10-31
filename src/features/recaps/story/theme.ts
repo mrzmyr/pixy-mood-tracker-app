@@ -79,7 +79,7 @@ export const STORY_TYPE = {
   },
   title: {
     fontSize: 30,
-    lineHeight: 34,
+    lineHeight: 40,
     fontWeight: "500",
     letterSpacing: -0.6,
   },

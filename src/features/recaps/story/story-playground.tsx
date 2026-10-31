@@ -1,5 +1,5 @@
 import noop from "lodash/noop";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { View as ViewType } from "react-native";
 import { StoryText } from "./parts";
 import { useWeekLocale } from "@/hooks/use-week-locale";
@@ -28,17 +28,31 @@ export const RecapStoryPlayground = ({
   const weekLocale = useWeekLocale();
   const pages = getPlaygroundPages(deck, data, isDark, weekLocale);
   const shareCard = useRef<ViewType>(null);
+  const [shuffles, setShuffles] = useState(0);
 
   const contentOf = ({ slide, ctx }: PlaygroundPage) => {
     if (slide.type === "share") {
       return (
         <StoryFinale
           ctx={ctx}
-          photos={slide.photos.slice(0, 3)}
+          // 3 photos of the pool; each shuffle moves on by 3, as in the app.
+          photos={
+            slide.photos.length <= 3
+              ? slide.photos
+              : [0, 1, 2].flatMap((offset) => {
+                  const photo =
+                    slide.photos[(shuffles * 3 + offset) % slide.photos.length];
+                  return photo ? [photo] : [];
+                })
+          }
           cardRef={shareCard}
           isSharing={false}
           onShare={noop}
-          onShuffle={null}
+          onShuffle={
+            slide.photos.length > 3
+              ? () => setShuffles((current) => current + 1)
+              : null
+          }
         />
       );
     }

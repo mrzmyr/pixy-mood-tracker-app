@@ -20,7 +20,7 @@ export const StoryShareButton = ({
   theme: StoryTheme;
   disabled: boolean;
   onPress: () => void;
-  /** Full width and solid, for the last slide where sharing is the point. */
+  /** Big and solid, for the last slide where sharing is the point. */
   isWide?: boolean;
 }) => {
   const palette = STORY_PALETTE[theme];
@@ -39,9 +39,8 @@ export const StoryShareButton = ({
         justifyContent: "center",
         gap: 8,
         minHeight: isWide ? 52 : 44,
-        paddingHorizontal: 16,
+        paddingHorizontal: isWide ? 24 : 16,
         borderRadius: RADIUS.full,
-        alignSelf: isWide ? "stretch" : "auto",
         backgroundColor: isWide ? palette.text : tint,
         opacity: pressed || disabled ? 0.6 : 1,
       })}

@@ -36,7 +36,27 @@ const PUFFS = Array.from({ length: 7 }, (_, index) => {
 const sparkle = (x: number, y: number, r: number) =>
   `M${x} ${y - r} Q${x + r * 0.18} ${y - r * 0.18} ${x + r} ${y} Q${x + r * 0.18} ${y + r * 0.18} ${x} ${y + r} Q${x - r * 0.18} ${y + r * 0.18} ${x - r} ${y} Q${x - r * 0.18} ${y - r * 0.18} ${x} ${y - r} Z`;
 
-const Eye = ({ cx, isBlinking }: { cx: number; isBlinking: boolean }) => {
+const Eye = ({
+  cx,
+  isBlinking,
+  isHappy,
+}: {
+  cx: number;
+  isBlinking: boolean;
+  isHappy: boolean;
+}) => {
+  // Happy: closed upward arcs, like anime "^^" eyes.
+  if (isHappy) {
+    return (
+      <Path
+        d={`M${cx - EYE_RX} ${EYE_Y + 3} Q${cx} ${EYE_Y - 7} ${cx + EYE_RX} ${EYE_Y + 3}`}
+        stroke={INK}
+        strokeWidth={2.8}
+        strokeLinecap="round"
+        fill="none"
+      />
+    );
+  }
   if (isBlinking) {
     return (
       <Path
@@ -58,11 +78,18 @@ const Eye = ({ cx, isBlinking }: { cx: number; isBlinking: boolean }) => {
 };
 
 /**
- * Cloud Pixy: a bright white puff with sparkling eyes. Two shadows follow
+ * Cloud Pixy: a bright white puff with sparkling eyes, or happy "^^" eyes. Two shadows follow
  * the cloud outline, a tight one close under it and a wide soft one, so it
  * floats in front of the sky.
  */
-export const CloudPixy = ({ isBlinking }: { isBlinking: boolean }) => {
+export const CloudPixy = ({
+  isBlinking,
+  isHappy = false,
+}: {
+  isBlinking: boolean;
+  /** Happy "^^" eyes. Wins over a blink. */
+  isHappy?: boolean;
+}) => {
   const id = useId().replaceAll(":", "");
   const fill = `url(#${id}body)`;
 
@@ -121,7 +148,7 @@ export const CloudPixy = ({ isBlinking }: { isBlinking: boolean }) => {
         ))}
       </G>
       {EYES_X.map((cx) => (
-        <Eye key={cx} cx={cx} isBlinking={isBlinking} />
+        <Eye key={cx} cx={cx} isBlinking={isBlinking} isHappy={isHappy} />
       ))}
     </Svg>
   );

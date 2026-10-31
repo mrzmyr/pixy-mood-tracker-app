@@ -939,8 +939,6 @@
     "one": "1 Tag",
     "other": "{{count}} Tage"
   },
-  "recaps_story_finale_eyebrow": "Das war dein %{month}",
-  "recaps_story_finale_eyebrow_week": "Das war deine Woche",
   "recaps_story_hard_title": "%{tag} ging mit deinen schwereren Tagen einher",
   "recaps_story_lifted_text": {
     "one": "Im Vergleich zu Tagen ohne. 1 Check-in.",

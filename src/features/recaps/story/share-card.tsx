@@ -1,14 +1,6 @@
 import dayjs from "dayjs";
-import {
-  Image,
-  Pressable,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { Image, Text, useWindowDimensions, View } from "react-native";
 import type { View as ViewType } from "react-native";
-import Shuffle from "lucide-react-native/icons/shuffle";
-import { RADIUS } from "@/constants/radius";
 import { getPhotoFile } from "@/features/photos";
 import { t } from "@/lib/translation";
 import { dayRange, monthName } from "./format";
@@ -69,12 +61,10 @@ export const ShareCard = ({
   ctx,
   photos,
   cardRef,
-  onShuffle,
 }: {
   ctx: SlideContext;
   photos: StoryPhoto[];
   cardRef: React.Ref<ViewType>;
-  onShuffle: (() => void) | null;
 }) => {
   const dayColors = useDayColors(ctx.days);
   const { palette, card, border } = getCardTheme(ctx);
@@ -160,27 +150,6 @@ export const ShareCard = ({
         )}
         <StoryBrand color={palette.text} />
       </View>
-      {onShuffle && shown.length > 0 && (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t("recaps_story_share_shuffle")}
-          hitSlop={8}
-          onPress={onShuffle}
-          testID="recap-story-share-shuffle"
-          style={{
-            alignSelf: "center",
-            marginTop: 16,
-            width: 40,
-            height: 40,
-            borderRadius: RADIUS.full,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: palette.surface,
-          }}
-        >
-          <Shuffle width={16} height={16} color={palette.text} />
-        </Pressable>
-      )}
     </View>
   );
 };
