@@ -376,9 +376,7 @@ const Recaps = () => {
           trackShown();
         }}
       >
-        {story && (
-          <StoryBanner period={period} days={input.days} source="recaps" />
-        )}
+        {story && <StoryBanner period={period} source="recaps" />}
         {cards.length === 0 && !story && <EmptyRecaps />}
         {cards.map(renderCard)}
       </View>
