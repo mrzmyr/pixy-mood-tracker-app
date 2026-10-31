@@ -45,7 +45,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Development and preview icons carry a ribbon with the variant name (a label pill on Android adaptive icons). After changing `icon.png` or `adaptive-icon.png`, regenerate them with `swift scripts/generate-variant-icons.swift`.
 - Development and preview builds add Settings > Development > Test data and `<scheme>://dev/fixture?id=<id>` to load [fixtures](../src/dev/fixtures/index.ts). Production bundles do not contain them: [`src/dev/index.ts`](../src/dev/index.ts) checks the inlined variant at the `require`, so Metro drops the code.
   - `chaos` fixture stress-tests the UI: every limit at max, text in many scripts and emoji, years with gaps, days with up to 100 entries, though the app has no per-day limit ([`chaos.ts`](../src/dev/fixtures/chaos.ts))
-- Same builds add Settings > Development > Playground: components in every state, without touching user data. Deep link: `<scheme>://dev/playground/recap-story?deck=<id>&theme=light|dark`.
+- Same builds add Settings > Development > Playground: components in every state, without touching user data. Deep link: `<scheme>://dev/playground/recap-story?deck=<id>&theme=light|dark`. Deck IDs: `all`, `week`, `month`, `<type>` (every case), `<type>/<index>` (one case).
   - Recap story slide states: [`slide-cases.ts`](../src/features/recaps/story/slide-cases.ts). New slide type without a case fails `tsc`.
   - Feature `playground.ts` entry: only `src/dev` may import it, so production bundles never reach it ([`oxlint.config.ts`](../oxlint.config.ts)).
 - TestFlight builds are production builds. Apple promotes the tested TestFlight binary to the App Store.

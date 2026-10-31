@@ -25,14 +25,30 @@ const SLIDE_TYPES = Object.keys(SLIDE_CASES).filter(
   (key): key is StorySlideType => key in SLIDE_CASES
 );
 
-/** Decks to open: every case, each story, and the cases of one slide type. */
-export const PLAYGROUND_DECKS = [
-  { id: "all", title: "All slide states" },
-  { id: "week", title: "Week story" },
-  { id: "month", title: "Month story" },
+/**
+ * Decks to open, in list sections: every case and each story first, then
+ * per slide type all its cases, and each case alone as `<type>/<index>`.
+ */
+export const PLAYGROUND_SECTIONS = [
+  {
+    title: "Recap story",
+    decks: [
+      { id: "all", title: "All slide states" },
+      { id: "week", title: "Week story" },
+      { id: "month", title: "Month story" },
+    ],
+  },
   ...SLIDE_TYPES.map((type) => ({
-    id: type,
-    title: `${type} (${SLIDE_CASES[type].length})`,
+    title: type,
+    decks: [
+      ...(SLIDE_CASES[type].length > 1
+        ? [{ id: type, title: `All (${SLIDE_CASES[type].length})` }]
+        : []),
+      ...SLIDE_CASES[type].map((slideCase, index) => ({
+        id: `${type}/${index}`,
+        title: slideCase.name,
+      })),
+    ],
   })),
 ];
 
@@ -139,14 +155,24 @@ export const getPlaygroundPages = (
     const ctx = ctxOf(deck);
     return (story ?? []).map((slide) => ({ slide, ctx, label: slide.type }));
   }
-  const types = SLIDE_TYPES.filter((type) => deck === "all" || deck === type);
+  // `<type>` plays every case of the type, `<type>/<index>` one case.
+  const [deckType, caseIndex] = deck.split("/");
+  const types = SLIDE_TYPES.filter(
+    (type) => deck === "all" || deckType === type
+  );
   return types.flatMap((type) =>
-    SLIDE_CASES[type].map((slideCase) => ({
-      slide: slideCase.build(
-        toKit(data[slideCase.period], periods[slideCase.period])
-      ),
-      ctx: ctxOf(slideCase.period),
-      label: `${type}: ${slideCase.name}`,
-    }))
+    SLIDE_CASES[type].flatMap((slideCase, index) =>
+      caseIndex === undefined || String(index) === caseIndex
+        ? [
+            {
+              slide: slideCase.build(
+                toKit(data[slideCase.period], periods[slideCase.period])
+              ),
+              ctx: ctxOf(slideCase.period),
+              label: `${type}: ${slideCase.name}`,
+            },
+          ]
+        : []
+    )
   );
 };

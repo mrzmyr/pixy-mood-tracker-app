@@ -12,7 +12,7 @@ import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
 import TextInfo from "@/components/text-info";
 import {
-  PLAYGROUND_DECKS,
+  PLAYGROUND_SECTIONS,
   RecapStoryPlayground,
 } from "@/features/recaps/playground";
 import useColors from "@/hooks/use-colors";
@@ -29,24 +29,28 @@ export const DevPlaygroundScreen = () => {
     <ScrollView
       style={{ backgroundColor: colors.background, flex: 1, padding: 16 }}
     >
-      <MenuListHeadline>Recap story</MenuListHeadline>
-      <MenuList>
-        {PLAYGROUND_DECKS.map((deck) => (
-          <MenuListItem
-            key={deck.id}
-            title={deck.title}
-            onPress={() =>
-              router.push({
-                pathname: "/dev/playground/recap-story",
-                params: { deck: deck.id },
-              })
-            }
-            testID={`playground-${deck.id}`}
-          />
-        ))}
-      </MenuList>
+      {PLAYGROUND_SECTIONS.map((section) => (
+        <View key={section.title}>
+          <MenuListHeadline>{section.title}</MenuListHeadline>
+          <MenuList>
+            {section.decks.map((deck) => (
+              <MenuListItem
+                key={deck.id}
+                title={deck.title}
+                onPress={() =>
+                  router.push({
+                    pathname: "/dev/playground/recap-story",
+                    params: { deck: deck.id },
+                  })
+                }
+                testID={`playground-${deck.id}`}
+              />
+            ))}
+          </MenuList>
+        </View>
+      ))}
       <TextInfo>
-        {`Slides use the recap story fixtures and never change your data. Link: ${Linking.createURL("dev/playground/recap-story")}?deck=<id>&theme=light|dark`}
+        {`Slides use the recap story fixtures and never change your data. Link: ${Linking.createURL("dev/playground/recap-story")}?deck=<id>&theme=light|dark. Deck IDs: all, week, month, <type>, <type>/<index>.`}
       </TextInfo>
     </ScrollView>
   );
