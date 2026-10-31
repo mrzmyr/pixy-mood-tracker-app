@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
-import Moon from "lucide-react-native/icons/moon";
+import CalendarDays from "lucide-react-native/icons/calendar-days";
 import useColors from "@/hooks/use-colors";
 
 /** Gradient banner under the native header for the month report. */
@@ -52,10 +52,11 @@ export const Header = ({
           top: "-80%",
         }}
       >
-        <Moon
+        <CalendarDays
           width={600}
           height={600}
-          fill={gradientColors[0]}
+          // Stroke icon: a fill in the stroke color hides its grid.
+          fill="none"
           color={gradientColors[0]}
         />
       </View>
