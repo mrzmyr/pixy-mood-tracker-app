@@ -38,10 +38,13 @@ const renderPlayer = async () => {
   return { onClose, onSlideShown };
 };
 
-/** Short tap at `x` points from the left edge. */
+/**
+ * Short tap at `x` points from the screen's left edge. `locationX` counts
+ * from the touched view, here a child that starts 10 points left of the tap.
+ */
 const tap = async (x: number) =>
   await fireEvent.press(screen.getByTestId("recap-story-tap"), {
-    nativeEvent: { locationX: x },
+    nativeEvent: { pageX: x, locationX: 10 },
   });
 
 describe("story player", () => {
