@@ -18,4 +18,6 @@ export {
   DevFakeContactsLinkScreen,
   DevFakeFilesLinkScreen,
   DevFeatureFlagLinkScreen,
+  DevPlaygroundScreen,
+  DevRecapPlaygroundScreen,
 } from "./dev-routes";

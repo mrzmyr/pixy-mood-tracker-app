@@ -78,4 +78,8 @@ export const SETTINGS_ICONS = {
     ios: "chart.pie",
     android: import("@expo/material-symbols/pie_chart.xml"),
   }),
+  playground: Icon.select({
+    ios: "square.grid.2x2",
+    android: import("@expo/material-symbols/widgets.xml"),
+  }),
 };

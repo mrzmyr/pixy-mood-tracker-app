@@ -34,6 +34,11 @@ import { useSettings, useSettingsLoad } from "@/state/settings";
 import { fakePhotoSource } from "@/dev/fake-photo-source";
 import { useLoadFixture, writeStorageFixture } from "@/dev/use-load-fixture";
 
+export {
+  DevPlaygroundScreen,
+  DevRecapPlaygroundScreen,
+} from "@/dev/playground";
+
 // Drops every screen behind the new state, like a fresh app start.
 const openApp = (router: ReturnType<typeof useRouter>, fixture: Fixture) => {
   router.dismissAll();
