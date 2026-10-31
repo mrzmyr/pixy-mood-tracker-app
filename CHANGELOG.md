@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.110.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.109.0...v1.110.0) (2026-10-31)
+
+
+### Features
+
+* **calendar:** steer the calendar card remotely ([#1016](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1016)) ([699a8cc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/699a8cc2ca4559fa793201dc9ba2577218b69439))
+* **logger:** entry summary tiles on the sky behind flag entry-summary ([#1007](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1007)) ([5ccc0c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5ccc0c41fa7cccbbb503207c3b6934852258befb))
+* **logger:** rate needs to get suggested emotions ([#1002](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1002)) ([80d5979](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/80d59796895e7cdb5bfd1384834efd65ba3c255a))
+* **onboarding:** cloud Pixy flies through the sky, night sky in dark mode ([#1015](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1015)) ([710d4c9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/710d4c9be887a9c8eeb24c24e804ee0806110146))
+* **onboarding:** letters write in, after the launch splash ([#1008](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1008)) ([40885d0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/40885d056f9bb18de56408790626a670ac876352))
+* **recaps:** best day, week mood, emotions, and places in the week story ([#1022](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1022)) ([1a1d754](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1a1d754f4572cba5d4901787c922965bc8da90f3))
+* **recaps:** keep story cover with photos on screen longer ([#1019](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1019)) ([5e2b441](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5e2b4419d2f0c3a2b5c14eb7525dde2e0c771ea6))
+* **recaps:** recap card on a drifting sky, aligned with the calendar ([#1023](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1023)) ([27501cc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/27501cc625a1ec0713451c5c55f8bb90a76a9e90))
+* **tags:** stop creating tag categories ([#1021](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1021)) ([08732e1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/08732e1689361456dc07f50c3457ca1831132b7f))
+* **voice:** floating cards and a "Try saying" example ([#1017](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1017)) ([d554208](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d5542080eea5a527214a74d2b203fe9099e2ee6e))
+* **voice:** sky background that drifts faster while you talk ([#1018](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1018)) ([f8397df](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f8397df4ea0c85aa84202eca295f676e04d434e8))
+
+
+### Bug Fixes
+
+* **day-view:** wrap tags and emotions instead of scrolling sideways ([#1012](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1012)) ([8e2b3e1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8e2b3e16a160be079004cbc08bb1dcfac43f8fd7))
+* **onboarding:** see-through controls over the sky ([#1009](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1009)) ([0ef4298](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0ef4298dc81888ab71d89987792703923f3c0d5f))
+* **settings:** drop iOS large title on settings screen ([#1020](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1020)) ([fdf37d9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fdf37d92e6e82a45d88a2cd837c4d0fd07875bc5))
+* **ui:** one native header pattern for every modal route ([#1014](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1014)) ([6a92996](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6a9299642461b9f283720d9a143d9366ce8a2491))
+
+
+### Performance Improvements
+
+* **tags:** native SwiftUI list for iOS tag settings ([#1005](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1005)) ([b9f23be](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b9f23be69550b06f42f166d23574b26d268d0b0d))
+
 ## [1.109.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.108.0...v1.109.0) (2026-10-30)
 
 
