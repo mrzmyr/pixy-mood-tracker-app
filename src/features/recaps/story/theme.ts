@@ -1,3 +1,5 @@
+import { getTextRevealDuration } from "@/components/text-reveal-parts";
+
 /**
  * Story colors: `paper` text on the day sky, `night` on the night sky
  * (`getStoryTheme`). `photo` over a photo.
@@ -63,7 +65,7 @@ export const STORY_TYPE = {
   title: {
     fontSize: 30,
     lineHeight: 34,
-    fontWeight: "800",
+    fontWeight: "500",
     letterSpacing: -0.6,
   },
   number: {
@@ -81,3 +83,10 @@ export const STORY_MAX_FONT_SCALE = 1.3;
 
 /** Time per slide before it moves on, in milliseconds. */
 export const STORY_SLIDE_MS = 7000;
+
+/** Pause before a slide title starts to write itself, as on the intro. */
+export const TITLE_DELAY_MS = 500;
+
+/** Time from slide start until `title` has written itself. */
+export const titleRevealEnd = (title: string) =>
+  TITLE_DELAY_MS + getTextRevealDuration(title);

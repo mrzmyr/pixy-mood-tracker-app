@@ -882,7 +882,6 @@
     "other": "{{count}} dage med %{tag} denne uge"
   },
   "recaps_story_banner_title": "Tilbageblik: %{month}",
-  "recaps_story_coming_eyebrow": "Snart",
   "recaps_story_coming_left": {
     "one": "1 tilbage",
     "other": "{{count}} tilbage"
@@ -897,16 +896,13 @@
     "one": "1 dag",
     "other": "{{count}} dage"
   },
-  "recaps_story_hard_eyebrow": "Et mønster",
   "recaps_story_hard_title": "%{tag} fulgte med dine tungere dage",
-  "recaps_story_lifted_eyebrow": "Det, der løftede %{month}",
   "recaps_story_lifted_text": {
     "one": "Sammenlignet med dage uden tagget. 1 check-in.",
     "other": "Sammenlignet med dage uden tagget. {{count}} check-ins."
   },
   "recaps_story_lifted_title": "Dage med %{tag} føltes lettest",
   "recaps_story_next": "Næste slide",
-  "recaps_story_orbit_eyebrow": "Dit univers",
   "recaps_story_orbit_title": "Hvem var i din bane",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {

@@ -883,7 +883,6 @@
     "other": "{{count}} jours avec %{tag} cette semaine"
   },
   "recaps_story_banner_title": "Bilan du mois : %{month}",
-  "recaps_story_coming_eyebrow": "À venir",
   "recaps_story_coming_left": {
     "one": "Encore 1",
     "other": "Encore {{count}}"
@@ -898,16 +897,13 @@
     "one": "1 jour",
     "other": "{{count}} jours"
   },
-  "recaps_story_hard_eyebrow": "Une tendance",
   "recaps_story_hard_title": "%{tag} a accompagné vos jours plus difficiles",
-  "recaps_story_lifted_eyebrow": "Ce qui a allégé %{month}",
   "recaps_story_lifted_text": {
     "one": "Comparé aux jours sans ce tag. 1 check-in.",
     "other": "Comparé aux jours sans ce tag. {{count}} check-ins."
   },
   "recaps_story_lifted_title": "Les jours avec %{tag} semblaient les plus légers",
   "recaps_story_next": "Diapositive suivante",
-  "recaps_story_orbit_eyebrow": "Votre univers",
   "recaps_story_orbit_title": "Qui était dans votre orbite",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {

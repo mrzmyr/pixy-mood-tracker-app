@@ -1,7 +1,9 @@
 import dayjs from "dayjs";
 import { Image } from "expo-image";
 import { Text, View } from "react-native";
+import Animated, { Easing, FadeInDown } from "react-native-reanimated";
 import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
+import { TextReveal } from "@/components/text-reveal";
 import { RADIUS } from "@/constants/radius";
 import { getAverageMood } from "@/features/logs";
 import { getPhotoFile } from "@/features/photos";
@@ -12,7 +14,13 @@ import { useSettings } from "@/state/settings";
 import type { LogPhoto } from "@/types";
 import { addDays, daysBetween } from "../days";
 import type { DateKey, Period, RecapDay } from "../types";
-import { STORY_MAX_FONT_SCALE, STORY_PALETTE, STORY_TYPE } from "./theme";
+import {
+  STORY_MAX_FONT_SCALE,
+  STORY_PALETTE,
+  STORY_TYPE,
+  TITLE_DELAY_MS,
+  titleRevealEnd,
+} from "./theme";
 import type { StoryTheme } from "./theme";
 
 type TypeRole = keyof typeof STORY_TYPE;
@@ -51,23 +59,28 @@ export const StoryText = ({
   </Text>
 );
 
-/** Eyebrow and title at the top of a slide. */
+/**
+ * Title at the top of a slide. It writes itself like the intro headline.
+ * `lead`: a big number above it, shown at once.
+ */
 export const SlideHeader = ({
   theme,
-  eyebrow,
   title,
+  lead,
 }: {
   theme: StoryTheme;
-  eyebrow: string;
-  title: React.ReactNode;
+  title: string;
+  lead?: React.ReactNode;
 }) => (
-  <View style={{ gap: 8 }}>
-    <StoryText kind="eyebrow" theme={theme} tone="muted">
-      {eyebrow}
-    </StoryText>
-    <StoryText kind="title" theme={theme}>
+  <View>
+    {lead}
+    <TextReveal
+      accessibilityRole="header"
+      delay={TITLE_DELAY_MS}
+      style={[STORY_TYPE.title, { color: STORY_PALETTE[theme].text }]}
+    >
       {title}
-    </StoryText>
+    </TextReveal>
   </View>
 );
 
@@ -91,6 +104,34 @@ export const useDayColors = (
   }
   return map;
 };
+
+/** Gap between blocks that build up after a title, in milliseconds. */
+const BUILD_STAGGER_MS = 250;
+
+/**
+ * Content that builds up after the slide title has written itself: block
+ * `step` fades in and rises a little, one after another.
+ */
+export const AfterTitle = ({
+  title,
+  step = 0,
+  style,
+  children,
+}: {
+  title: string;
+  step?: number;
+  style?: ViewStyle;
+  children: React.ReactNode;
+}) => (
+  <Animated.View
+    entering={FadeInDown.delay(titleRevealEnd(title) + step * BUILD_STAGGER_MS)
+      .duration(700)
+      .easing(Easing.out(Easing.cubic))}
+    style={style}
+  >
+    {children}
+  </Animated.View>
+);
 
 /** Square day pixel: mood color, or the empty color without a check-in. */
 export const Pixel = ({

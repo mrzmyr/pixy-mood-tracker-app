@@ -882,7 +882,6 @@
     "other": "{{count}} hari dengan %{tag} minggu ini"
   },
   "recaps_story_banner_title": "Imbasan %{month}",
-  "recaps_story_coming_eyebrow": "Akan datang",
   "recaps_story_coming_left": {
     "one": "1 lagi",
     "other": "{{count}} lagi"
@@ -897,16 +896,13 @@
     "one": "1 hari",
     "other": "{{count}} hari"
   },
-  "recaps_story_hard_eyebrow": "Satu corak",
   "recaps_story_hard_title": "%{tag} mengiringi hari-hari sukar anda",
-  "recaps_story_lifted_eyebrow": "Yang menceriakan %{month}",
   "recaps_story_lifted_text": {
     "one": "Berbanding hari tanpa tag ini. 1 rekod.",
     "other": "Berbanding hari tanpa tag ini. {{count}} rekod."
   },
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
   "recaps_story_next": "Slaid seterusnya",
-  "recaps_story_orbit_eyebrow": "Alam semesta anda",
   "recaps_story_orbit_title": "Siapa dalam orbit anda",
   "recaps_story_pause": "Jeda",
   "recaps_story_people_days": {

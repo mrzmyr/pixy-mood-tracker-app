@@ -882,7 +882,6 @@
     "other": "{{count}} วันที่มี %{tag} สัปดาห์นี้"
   },
   "recaps_story_banner_title": "สรุปย้อนหลังเดือน%{month}",
-  "recaps_story_coming_eyebrow": "กำลังจะมา",
   "recaps_story_coming_left": {
     "one": "เหลืออีก 1",
     "other": "เหลืออีก {{count}}"
@@ -897,16 +896,13 @@
     "one": "1 วัน",
     "other": "{{count}} วัน"
   },
-  "recaps_story_hard_eyebrow": "รูปแบบหนึ่ง",
   "recaps_story_hard_title": "%{tag} มักมาพร้อมวันที่หนักกว่าของคุณ",
-  "recaps_story_lifted_eyebrow": "สิ่งที่ทำให้เดือน%{month}เบาขึ้น",
   "recaps_story_lifted_text": {
     "one": "เทียบกับวันที่ไม่มีแท็กนี้ 1 บันทึก",
     "other": "เทียบกับวันที่ไม่มีแท็กนี้ {{count}} บันทึก"
   },
   "recaps_story_lifted_title": "วันที่มี %{tag} รู้สึกเบาที่สุด",
   "recaps_story_next": "สไลด์ถัดไป",
-  "recaps_story_orbit_eyebrow": "จักรวาลของคุณ",
   "recaps_story_orbit_title": "ใครอยู่ในวงโคจรของคุณ",
   "recaps_story_pause": "หยุดชั่วคราว",
   "recaps_story_people_days": {

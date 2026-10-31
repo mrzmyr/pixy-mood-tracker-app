@@ -1,12 +1,14 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
   FadeInDown,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
+  withDelay,
   withTiming,
 } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
@@ -15,7 +17,12 @@ import { scheduleOnRN } from "react-native-worklets";
 import Pause from "lucide-react-native/icons/pause";
 import Play from "lucide-react-native/icons/play";
 import X from "lucide-react-native/icons/x";
+import { FlightZoneContext } from "@/components/flight-zone-context";
+import { SkyPixy } from "@/components/sky-pixy";
+import type { FlightZone } from "@/components/sky-pixy";
+import { SteppedSky } from "@/components/stepped-sky";
 import { RADIUS } from "@/constants/radius";
+import { usePixyIdle } from "@/features/logger";
 import { t } from "@/lib/translation";
 import { StoryBrand } from "./story-brand";
 import { STORY_PALETTE, STORY_SLIDE_MS } from "./theme";
@@ -25,14 +32,51 @@ import type { StoryTheme } from "./theme";
 export interface PlayerSlide {
   key: string;
   theme: StoryTheme;
-  /** Full-screen layer under the content. `progress` runs 0 to 1. */
-  renderBackdrop?: (progress: SharedValue<number>) => React.ReactNode;
   content: React.ReactNode;
   /** Waits for the user instead of moving on, for example a quiz. */
   isWaiting?: boolean;
   /** Time on screen. Default `STORY_SLIDE_MS`. */
   durationMs?: number;
 }
+
+/** Pixy waits for the first slide to settle, then glides in this long. */
+const PIXY_ARRIVAL_DELAY_MS = 400;
+const PIXY_ARRIVAL_MS = 2400;
+
+/**
+ * Cloud Pixy with the blink of the confirmation Pixy. Glides in from beyond
+ * the right screen edge once, when the story opens.
+ */
+const BlinkingSkyPixy = (props: {
+  boost: SharedValue<number>;
+  zone: FlightZone | null;
+}) => {
+  const idle = usePixyIdle({ isEnabled: true, isReducedMotion: false });
+  const { width } = useWindowDimensions();
+  const arrival = useSharedValue(1);
+  useEffect(() => {
+    arrival.set(
+      withDelay(
+        PIXY_ARRIVAL_DELAY_MS,
+        withTiming(0, {
+          duration: PIXY_ARRIVAL_MS,
+          easing: Easing.out(Easing.cubic),
+        })
+      )
+    );
+  }, [arrival]);
+  const arrivalStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: arrival.get() * width }],
+  }));
+  return (
+    <Animated.View
+      pointerEvents="box-none"
+      style={[StyleSheet.absoluteFill, arrivalStyle]}
+    >
+      <SkyPixy {...props} isBlinking={idle.isBlinking} />
+    </Animated.View>
+  );
+};
 
 /** Bottom buttons pause the story through this, like the pause button. */
 export interface PlayerControls {
@@ -151,6 +195,10 @@ export const StoryPlayer = ({
   isCapturing?: boolean;
 }) => {
   const insets = useSafeAreaInsets();
+  const isReducedMotion = useReducedMotion();
+  // One sky and one cloud Pixy across every slide, as in onboarding.
+  const skyBoost = useSharedValue(0);
+  const [flightZone, setFlightZone] = useState<FlightZone | null>(null);
   const [index, setIndex] = useState(0);
   const [isPausedByUser, setIsPausedByUser] = useState(false);
   // Press and hold pauses only while held; the pause button pauses until tapped again.
@@ -278,9 +326,7 @@ export const StoryPlayer = ({
           { backgroundColor: palette.background },
         ]}
       >
-        <View key={slide.key} style={StyleSheet.absoluteFill}>
-          {slide.renderBackdrop?.(progress)}
-        </View>
+        <SteppedSky step={index} boost={skyBoost} />
         <Pressable
           accessible={false}
           style={StyleSheet.absoluteFill}
@@ -302,9 +348,15 @@ export const StoryPlayer = ({
             }}
             testID={`recap-story-slide-${slide.key}`}
           >
-            {slide.content}
+            <FlightZoneContext.Provider value={setFlightZone}>
+              {slide.content}
+            </FlightZoneContext.Provider>
           </Animated.View>
         </Pressable>
+        {/* Above the slides so it takes taps. Never in a shared image. */}
+        {!isReducedMotion && !isCapturing && (
+          <BlinkingSkyPixy boost={skyBoost} zone={flightZone} />
+        )}
         {isCapturing && <ScreenBrand theme={theme} />}
       </View>
 

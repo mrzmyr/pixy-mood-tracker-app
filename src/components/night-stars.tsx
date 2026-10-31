@@ -44,7 +44,9 @@ const StarLayer = ({
   clock: SharedValue<number>;
   phase: number;
 }) => {
-  const { width, height } = useWindowDimensions();
+  const { width: screenWidth, height } = useWindowDimensions();
+  // Two screens wide: the stars repeat, so a pan never shows a gap.
+  const width = screenWidth * 2;
   const twinkleStyle = useAnimatedStyle(() => ({
     opacity:
       0.75 +
@@ -54,7 +56,10 @@ const StarLayer = ({
   return (
     <Animated.View style={[StyleSheet.absoluteFill, twinkleStyle]}>
       <Svg width={width} height={height}>
-        {stars.map((star) => (
+        {[
+          ...stars,
+          ...stars.map((star) => ({ ...star, x: star.x + screenWidth })),
+        ].map((star) => (
           <Circle
             key={`${star.x}-${star.y}`}
             cx={star.x}
@@ -72,19 +77,34 @@ const StarLayer = ({
 /**
  * Subtle stars for the night sky: small, sparse, dim. Two groups twinkle
  * slowly against each other. `clock` counts seconds; a still clock keeps
- * the stars still.
+ * the stars still. `offset` pans them, 0 to one screen width: the sky moves
+ * them only while the clouds rush, and slower, for depth.
  */
-export const NightStars = ({ clock }: { clock: SharedValue<number> }) => {
+export const NightStars = ({
+  clock,
+  offset,
+}: {
+  clock: SharedValue<number>;
+  offset: SharedValue<number>;
+}) => {
   const { width, height } = useWindowDimensions();
+  const panStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: -offset.get() }],
+  }));
 
   return (
-    <>
+    <Animated.View
+      style={[
+        { position: "absolute", top: 0, left: 0, width: width * 2, height },
+        panStyle,
+      ]}
+    >
       <StarLayer stars={makeStars(width, height, 7)} clock={clock} phase={0} />
       <StarLayer
         stars={makeStars(width, height, 19)}
         clock={clock}
         phase={Math.PI}
       />
-    </>
+    </Animated.View>
   );
 };

@@ -882,7 +882,6 @@
     "other": "{{count}} dana s %{tag} ovaj tjedan"
   },
   "recaps_story_banner_title": "Osvrt: %{month}",
-  "recaps_story_coming_eyebrow": "Uskoro",
   "recaps_story_coming_left": {
     "one": "Preostalo: 1",
     "other": "Preostalo: {{count}}"
@@ -897,16 +896,13 @@
     "one": "1 dan",
     "other": "Dana: {{count}}"
   },
-  "recaps_story_hard_eyebrow": "Obrazac",
   "recaps_story_hard_title": "%{tag}: često uz tvoje teže dane",
-  "recaps_story_lifted_eyebrow": "%{month}: što je pomoglo",
   "recaps_story_lifted_text": {
     "one": "U usporedbi s danima bez oznake. 1 unos.",
     "other": "U usporedbi s danima bez oznake. Unosa: {{count}}."
   },
   "recaps_story_lifted_title": "Dani s oznakom %{tag} bili su najlakši",
   "recaps_story_next": "Sljedeći slajd",
-  "recaps_story_orbit_eyebrow": "Tvoj svemir",
   "recaps_story_orbit_title": "Tko je bio u tvojoj orbiti",
   "recaps_story_pause": "Pauza",
   "recaps_story_people_days": {

@@ -5,7 +5,6 @@ import { StoryText } from "./parts";
 import { useWeekLocale } from "@/hooks/use-week-locale";
 import { getPlaygroundPages } from "./playground-pages";
 import type { PlaygroundData, PlaygroundPage } from "./playground-pages";
-import { SkyBackdrop } from "./sky-backdrop";
 import { SlideContent } from "./slides";
 import { getStoryTheme } from "./theme";
 import { StoryFinale } from "./story-finale";
@@ -49,7 +48,6 @@ export const RecapStoryPlayground = ({
   const slides: PlayerSlide[] = pages.map((page, index) => ({
     key: `${index}-${page.label}`,
     theme: getStoryTheme(isDark),
-    renderBackdrop: () => <SkyBackdrop />,
     durationMs: getSlideDuration(page.slide),
     content: contentOf(page),
   }));

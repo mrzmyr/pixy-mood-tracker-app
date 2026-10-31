@@ -882,7 +882,6 @@
     "other": "{{count}} dias com %{tag} nesta semana"
   },
   "recaps_story_banner_title": "Resumo de %{month}",
-  "recaps_story_coming_eyebrow": "Vem aí",
   "recaps_story_coming_left": {
     "one": "Falta 1",
     "other": "Faltam {{count}}"
@@ -897,16 +896,13 @@
     "one": "1 dia",
     "other": "{{count}} dias"
   },
-  "recaps_story_hard_eyebrow": "Um padrão",
   "recaps_story_hard_title": "%{tag} acompanhou seus dias difíceis",
-  "recaps_story_lifted_eyebrow": "O que deixou %{month} mais leve",
   "recaps_story_lifted_text": {
     "one": "Comparado com dias sem a tag. 1 registro.",
     "other": "Comparado com dias sem a tag. {{count}} registros."
   },
   "recaps_story_lifted_title": "Dias com %{tag} foram os mais leves",
   "recaps_story_next": "Próximo slide",
-  "recaps_story_orbit_eyebrow": "O seu universo",
   "recaps_story_orbit_title": "Quem esteve na sua órbita",
   "recaps_story_pause": "Pausar",
   "recaps_story_people_days": {

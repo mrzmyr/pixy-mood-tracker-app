@@ -882,7 +882,6 @@
     "other": "{{count}} nap ezzel: %{tag} ezen a héten"
   },
   "recaps_story_banner_title": "Visszatekintés: %{month}",
-  "recaps_story_coming_eyebrow": "Hamarosan",
   "recaps_story_coming_left": {
     "one": "Még 1",
     "other": "Még {{count}}"
@@ -897,16 +896,13 @@
     "one": "1 nap",
     "other": "{{count}} nap"
   },
-  "recaps_story_hard_eyebrow": "Egy minta",
   "recaps_story_hard_title": "%{tag} a nehezebb napjaiddal járt együtt",
-  "recaps_story_lifted_eyebrow": "%{month}: ami könnyebbé tette",
   "recaps_story_lifted_text": {
     "one": "A címke nélküli napokhoz képest. 1 bejegyzés.",
     "other": "A címke nélküli napokhoz képest. {{count}} bejegyzés."
   },
   "recaps_story_lifted_title": "%{tag}: a legkönnyebb napok",
   "recaps_story_next": "Következő dia",
-  "recaps_story_orbit_eyebrow": "A te univerzumod",
   "recaps_story_orbit_title": "Ki volt a pályádon",
   "recaps_story_pause": "Szünet",
   "recaps_story_people_days": {

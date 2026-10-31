@@ -3,7 +3,7 @@ import type { View as ViewType } from "react-native";
 import { t } from "@/lib/translation";
 import { monthName } from "./format";
 import { StoryText } from "./parts";
-import { PixyFlightArea } from "./pixy-flight-area";
+import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { ShareCard } from "./share-card";
 import { StoryShareButton } from "./story-share-button";
 import type { SlideContext } from "./slides";
@@ -12,7 +12,7 @@ import type { StoryPhoto } from "./types";
 /**
  * Last slide, on the sky: a quiet "That was your week", the card to send
  * on, and a wide share button. Cloud Pixy flies in the free sky above and
- * never crosses the card. It glides in from beyond the screen edge. Reduced
+ * never crosses the card. Reduced
  * motion: no Pixy.
  */
 export const StoryFinale = ({
@@ -33,7 +33,7 @@ export const StoryFinale = ({
   const theme = ctx.isDark ? "night" : "paper";
   return (
     <View style={{ flex: 1 }}>
-      <PixyFlightArea style={{ flex: 1 }} />
+      <SkyFlightZone style={{ flex: 1 }} />
       <View style={{ gap: 12 }}>
         <StoryText
           kind="eyebrow"

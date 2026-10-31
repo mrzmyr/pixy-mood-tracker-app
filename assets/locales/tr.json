@@ -882,7 +882,6 @@
     "other": "Bu hafta %{tag} olan {{count}} gün"
   },
   "recaps_story_banner_title": "%{month} Özeti",
-  "recaps_story_coming_eyebrow": "Sırada",
   "recaps_story_coming_left": {
     "one": "1 kaldı",
     "other": "{{count}} kaldı"
@@ -897,16 +896,13 @@
     "one": "1 gün",
     "other": "{{count}} gün"
   },
-  "recaps_story_hard_eyebrow": "Bir örüntü",
   "recaps_story_hard_title": "%{tag} daha zor günlerine eşlik etti",
-  "recaps_story_lifted_eyebrow": "%{month}: neler iyi geldi",
   "recaps_story_lifted_text": {
     "one": "Etiketin olmadığı günlerle karşılaştırıldı. 1 kayıt.",
     "other": "Etiketin olmadığı günlerle karşılaştırıldı. {{count}} kayıt."
   },
   "recaps_story_lifted_title": "%{tag} olan günler en hafif hissettirdi",
   "recaps_story_next": "Sonraki slayt",
-  "recaps_story_orbit_eyebrow": "Senin evrenin",
   "recaps_story_orbit_title": "Yörüngende kimler vardı",
   "recaps_story_pause": "Duraklat",
   "recaps_story_people_days": {

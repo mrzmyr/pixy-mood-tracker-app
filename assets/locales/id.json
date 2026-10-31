@@ -882,7 +882,6 @@
     "other": "{{count}} hari dengan %{tag} minggu ini"
   },
   "recaps_story_banner_title": "Rekap %{month}",
-  "recaps_story_coming_eyebrow": "Segera",
   "recaps_story_coming_left": {
     "one": "1 lagi",
     "other": "{{count}} lagi"
@@ -897,16 +896,13 @@
     "one": "1 hari",
     "other": "{{count}} hari"
   },
-  "recaps_story_hard_eyebrow": "Sebuah pola",
   "recaps_story_hard_title": "%{tag} menyertai hari-hari beratmu",
-  "recaps_story_lifted_eyebrow": "Yang mencerahkan %{month}",
   "recaps_story_lifted_text": {
     "one": "Dibandingkan hari tanpa tag ini. 1 catatan.",
     "other": "Dibandingkan hari tanpa tag ini. {{count}} catatan."
   },
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
   "recaps_story_next": "Slide berikutnya",
-  "recaps_story_orbit_eyebrow": "Semestamu",
   "recaps_story_orbit_title": "Siapa saja di orbitmu",
   "recaps_story_pause": "Jeda",
   "recaps_story_people_days": {

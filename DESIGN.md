@@ -90,11 +90,11 @@ Every sheet and route modal. Sources: [HIG Sheets](https://developer.apple.com/d
 
 ## Sky
 
-Onboarding, voice mode, and the entry summary hero without photos or place ([`Sky`](src/components/sky.tsx); onboarding wraps it in [`OnboardingSky`](src/features/onboarding/screens/onboarding/onboarding-sky.tsx); cloud Pixy: [`CloudPixy`](src/components/cloud-pixy.tsx)).
+Onboarding, recap stories, voice mode, and the entry summary hero without photos or place ([`Sky`](src/components/sky.tsx); onboarding and recap stories wrap it in [`SteppedSky`](src/components/stepped-sky.tsx): clouds speed up on each step; cloud Pixy: [`CloudPixy`](src/components/cloud-pixy.tsx)).
 
 - Light mode: day sky, drifting cloud photo.
 - Dark mode: night sky. Deep navy, faint clouds, subtle stars: small, sparse, dim, slow twinkle. Never the day sky dimmed.
-- Cloud Pixy flies in both, only in free sky: never over text, controls, or screenshots. Slides mark free sky with [`SkyFlightZone`](src/features/onboarding/screens/onboarding/sky-flight-zone.tsx). No zone: no Pixy.
+- Cloud Pixy flies in both, only in free sky: never over text, controls, or screenshots. Slides mark free sky with [`SkyFlightZone`](src/components/sky-flight-zone.tsx). No zone: no Pixy.
 - Reduce motion: no Pixy, still sky.
 
 ## Copywriting

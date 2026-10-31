@@ -1050,7 +1050,6 @@
   },
   "recaps_story_banner_title": "%{month} Recap",
   "recaps_story_banner_title_week": "Week Recap",
-  "recaps_story_coming_eyebrow": "Coming up",
   "recaps_story_coming_left": {
     "one": "1 to go",
     "other": "{{count}} to go"
@@ -1072,16 +1071,13 @@
   },
   "recaps_story_finale_eyebrow": "That was %{month}",
   "recaps_story_finale_eyebrow_week": "That was your week",
-  "recaps_story_hard_eyebrow": "A pattern",
   "recaps_story_hard_title": "%{tag} went with your harder days",
-  "recaps_story_lifted_eyebrow": "What lifted %{month}",
   "recaps_story_lifted_text": {
     "one": "Compared with days without the tag. 1 check-in.",
     "other": "Compared with days without the tag. {{count}} check-ins."
   },
   "recaps_story_lifted_title": "%{tag} days felt lightest",
   "recaps_story_next": "Next slide",
-  "recaps_story_orbit_eyebrow": "Your universe",
   "recaps_story_orbit_title": "Who was in your orbit",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {

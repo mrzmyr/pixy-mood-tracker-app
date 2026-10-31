@@ -6,10 +6,11 @@ import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { DateKey, Period, RecapDay } from "../types";
-import { dayRange, monthName } from "./format";
+import { monthName } from "./format";
 import {
   MonthGrid,
   Pixel,
+  AfterTitle,
   SlideHeader,
   StoryImage,
   StoryText,
@@ -17,7 +18,7 @@ import {
   useDayColors,
 } from "./parts";
 import { Orbit } from "./orbit";
-import { PixyFlightArea } from "./pixy-flight-area";
+import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { StoryIntro } from "./story-intro";
 import { getStoryTheme, STORY_PALETTE, STORY_SCREEN_PADDING } from "./theme";
 import type {
@@ -40,8 +41,6 @@ export interface SlideContext {
   isDark: boolean;
 }
 
-const Gap = ({ size }: { size: number }) => <View style={{ height: size }} />;
-
 // ---------------------------------------------------------------- cover
 
 const GRID_GAP = 6;
@@ -52,32 +51,26 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
   const dayOutlines = useDayColors(ctx.days, "border");
   const isWeek = ctx.period.kind === "week";
   const month = monthName(ctx.period.start);
-  const eyebrow = isWeek
-    ? dayRange(ctx.period.start, ctx.period.end)
-    : `${month} ${dayjs(ctx.period.start).format("YYYY")}`;
   const byDate = new Map(slide.photos.map((item) => [item.date, item.photo]));
   // 7 pixels a row fill the width, at most 40 points each.
   const { width: screen } = useWindowDimensions();
   const inner = screen - 2 * STORY_SCREEN_PADDING;
   const size = Math.min(40, Math.floor((inner - 6 * GRID_GAP) / 7));
+  const title = isWeek
+    ? t("recaps_story_cover_pixels_title_week")
+    : t("recaps_story_cover_pixels_title", { month });
   return (
     <>
       <SlideHeader
         theme={theme}
-        eyebrow={eyebrow}
-        title={
-          <>
-            <StoryText kind="number" theme={theme}>
-              {slide.checkIns}
-            </StoryText>
-            {"\n"}
-            {isWeek
-              ? t("recaps_story_cover_pixels_title_week")
-              : t("recaps_story_cover_pixels_title", { month })}
-          </>
+        lead={
+          <StoryText kind="number" theme={theme}>
+            {slide.checkIns}
+          </StoryText>
         }
+        title={title}
       />
-      <View style={{ marginTop: 28 }}>
+      <AfterTitle title={title} style={{ marginTop: 28 }}>
         <MonthGrid
           period={ctx.period}
           dayColors={dayColors}
@@ -95,7 +88,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
             ) : null;
           }}
         />
-      </View>
+      </AfterTitle>
     </>
   );
 };
@@ -122,28 +115,22 @@ const TagEffects = ({
   }
   const isPositive = slide.type === "positive-tags";
   const max = Math.max(...slide.rows.map((row) => Math.abs(row.delta)));
+  const title = isPositive
+    ? t("recaps_story_lifted_title", { tag: topTag.title })
+    : t("recaps_story_hard_title", { tag: topTag.title });
   return (
     <>
-      <SlideHeader
-        theme={theme}
-        eyebrow={
-          isPositive
-            ? t("recaps_story_lifted_eyebrow", {
-                month: monthName(ctx.period.start),
-              })
-            : t("recaps_story_hard_eyebrow")
-        }
-        title={
-          isPositive
-            ? t("recaps_story_lifted_title", { tag: topTag.title })
-            : t("recaps_story_hard_title", { tag: topTag.title })
-        }
-      />
+      <SlideHeader theme={theme} title={title} />
       <View style={{ marginTop: 28, gap: 16 }}>
-        {slide.rows.map((row) => {
+        {slide.rows.map((row, index) => {
           const tag = ctx.tags.get(row.tagId);
           return tag ? (
-            <View key={row.tagId} style={{ gap: 8 }}>
+            <AfterTitle
+              key={row.tagId}
+              title={title}
+              step={index}
+              style={{ gap: 8 }}
+            >
               <View
                 style={{
                   flexDirection: "row",
@@ -171,14 +158,19 @@ const TagEffects = ({
                   }}
                 />
               </View>
-            </View>
+            </AfterTitle>
           ) : null;
         })}
       </View>
-      <Gap size={20} />
-      <StoryText kind="body" theme={theme} tone="muted">
-        {t("recaps_story_lifted_text", { count: ctx.days.length })}
-      </StoryText>
+      <AfterTitle
+        title={title}
+        step={slide.rows.length}
+        style={{ marginTop: 20 }}
+      >
+        <StoryText kind="body" theme={theme} tone="muted">
+          {t("recaps_story_lifted_text", { count: ctx.days.length })}
+        </StoryText>
+      </AfterTitle>
     </>
   );
 };
@@ -221,14 +213,12 @@ const ComingUp = ({
         />
       </View>
     ) : null;
+  const title = t("recaps_story_coming_title", { count: slide.left, year });
   return (
     <>
-      <SlideHeader
-        theme={theme}
-        eyebrow={t("recaps_story_coming_eyebrow")}
-        title={t("recaps_story_coming_title", { count: slide.left, year })}
-      />
-      <View
+      <SlideHeader theme={theme} title={title} />
+      <AfterTitle
+        title={title}
         style={{
           marginTop: 24,
           flexDirection: "row",
@@ -266,8 +256,12 @@ const ComingUp = ({
             </View>
           );
         })}
-      </View>
-      <View style={{ flexDirection: "row", gap: 16, marginTop: 16 }}>
+      </AfterTitle>
+      <AfterTitle
+        title={title}
+        step={1}
+        style={{ flexDirection: "row", gap: 16, marginTop: 16 }}
+      >
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
           <Pixel size={10} color={STORY_PALETTE[theme].empty} />
           <StoryText
@@ -297,7 +291,7 @@ const ComingUp = ({
             {t("recaps_story_coming_left", { count: slide.left })}
           </StoryText>
         </View>
-      </View>
+      </AfterTitle>
     </>
   );
 };
@@ -345,6 +339,6 @@ export const SlideContent = ({
   ) : (
     <View style={{ flex: 1 }}>
       <SlideBody slide={slide} ctx={ctx} />
-      <PixyFlightArea isGliding={false} style={{ flex: 1, marginTop: 24 }} />
+      <SkyFlightZone style={{ flex: 1, marginTop: 24 }} />
     </View>
   );

@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import { Pressable, Text } from "react-native";
+import { DefaultTheme, ThemeProvider } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import Colors from "@/constants/colors";
 import { StoryPlayer } from "../story/story-player";
 import type { PlayerSlide } from "../story/story-player";
 
@@ -19,21 +21,29 @@ const renderPlayer = async () => {
   const onClose = jest.fn();
   const onSlideShown = jest.fn();
   await render(
-    <SafeAreaProvider initialMetrics={METRICS}>
-      <StoryPlayer
-        slides={SLIDES}
-        onClose={onClose}
-        onSlideShown={onSlideShown}
-        renderBottom={(index, _theme, controls) => (
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => controls.pause()}
-          >
-            <Text>{`bottom ${index}`}</Text>
-          </Pressable>
-        )}
-      />
-    </SafeAreaProvider>
+    <ThemeProvider
+      value={{
+        ...DefaultTheme,
+        dark: false,
+        colors: { ...DefaultTheme.colors, ...Colors.light },
+      }}
+    >
+      <SafeAreaProvider initialMetrics={METRICS}>
+        <StoryPlayer
+          slides={SLIDES}
+          onClose={onClose}
+          onSlideShown={onSlideShown}
+          renderBottom={(index, _theme, controls) => (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => controls.pause()}
+            >
+              <Text>{`bottom ${index}`}</Text>
+            </Pressable>
+          )}
+        />
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
   return { onClose, onSlideShown };
 };

@@ -17,7 +17,6 @@ import type { FeedbackReason } from "../feedback-reasons";
 import { getPeriod } from "../period";
 import { buildMonthStory, buildWeekStory } from "../story/deck";
 import { monthName } from "../story/format";
-import { SkyBackdrop } from "../story/sky-backdrop";
 import { SlideContent } from "../story/slides";
 import type { SlideContext } from "../story/slides";
 import { StoryFeedback } from "../story/story-feedback";
@@ -269,7 +268,6 @@ const RecapStory = () => {
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getStoryTheme(ctx.isDark),
-    renderBackdrop: () => <SkyBackdrop />,
     durationMs: getSlideDuration(slide),
     content: contentOf(slide, index),
   }));

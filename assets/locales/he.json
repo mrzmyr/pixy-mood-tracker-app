@@ -882,7 +882,6 @@
     "other": "{{count}} ימים עם %{tag} השבוע"
   },
   "recaps_story_banner_title": "סיכום %{month}",
-  "recaps_story_coming_eyebrow": "בקרוב",
   "recaps_story_coming_left": {
     "one": "עוד 1",
     "other": "עוד {{count}}"
@@ -897,16 +896,13 @@
     "one": "יום 1",
     "other": "{{count}} ימים"
   },
-  "recaps_story_hard_eyebrow": "דפוס",
   "recaps_story_hard_title": "%{tag}: לצד הימים הקשים יותר שלך",
-  "recaps_story_lifted_eyebrow": "מה הקל על %{month}",
   "recaps_story_lifted_text": {
     "one": "בהשוואה לימים בלי התגית. תיעוד 1.",
     "other": "בהשוואה לימים בלי התגית. {{count}} תיעודים."
   },
   "recaps_story_lifted_title": "ימים עם %{tag} הרגישו הכי קלים",
   "recaps_story_next": "השקופית הבאה",
-  "recaps_story_orbit_eyebrow": "היקום שלך",
   "recaps_story_orbit_title": "מי היה במסלול שלך",
   "recaps_story_pause": "השהיה",
   "recaps_story_people_days": {

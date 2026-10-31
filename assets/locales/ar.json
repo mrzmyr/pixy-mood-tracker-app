@@ -882,7 +882,6 @@
     "other": "{{count}} أيام مع %{tag} هذا الأسبوع"
   },
   "recaps_story_banner_title": "ملخص %{month}",
-  "recaps_story_coming_eyebrow": "القادم",
   "recaps_story_coming_left": {
     "one": "متبقٍ: 1",
     "other": "متبقٍ: {{count}}"
@@ -897,16 +896,13 @@
     "one": "يوم واحد",
     "other": "الأيام: {{count}}"
   },
-  "recaps_story_hard_eyebrow": "نمط",
   "recaps_story_hard_title": "%{tag} رافق أيامك الصعبة",
-  "recaps_story_lifted_eyebrow": "ما خفّف %{month}",
   "recaps_story_lifted_text": {
     "one": "مقارنةً بالأيام دون هذا الوسم. تسجيل واحد.",
     "other": "مقارنةً بالأيام دون هذا الوسم. التسجيلات: {{count}}."
   },
   "recaps_story_lifted_title": "أيام %{tag} كانت الأخف",
   "recaps_story_next": "الشريحة التالية",
-  "recaps_story_orbit_eyebrow": "عالمك",
   "recaps_story_orbit_title": "من كان في مدارك",
   "recaps_story_pause": "إيقاف مؤقت",
   "recaps_story_people_days": {
