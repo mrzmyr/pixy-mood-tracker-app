@@ -219,6 +219,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
               return photo ? (
                 <StoryImage
                   photo={photo}
+                  // oxlint-disable-next-line pixy-standards/radius-token -- story artwork, drawn at story scale
                   style={{ width: 40, height: 40, borderRadius: 9 }}
                 />
               ) : null;
@@ -549,6 +550,7 @@ const HardPattern = ({
                 width: "31%",
                 minHeight: 84,
                 padding: 10,
+                // oxlint-disable-next-line pixy-standards/radius-token -- story artwork, drawn at story scale
                 borderRadius: 14,
                 borderCurve: "continuous",
                 backgroundColor: palette.surface,

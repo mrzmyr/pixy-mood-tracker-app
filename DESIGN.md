@@ -79,21 +79,14 @@ The sky shows in onboarding, in voice mode, and in the entry summary hero when t
 
 ## Layout
 
-- A swap keeps the size.
-  - When you replace an implementation, keep the measured width, height, and padding.
-  - Measure before and after the change.
-- A spacing request for one element changes that element only. Do not change a shared component or token.
-- The parent sets the spacing between children. Use flex `gap`, not margins on siblings.
-  - Shared chips (`Tag`, `PersonChip`, `MiniButton`) have no outer margin.
-  - Wrapping chip groups use [`CHIP_FLOW`](src/constants/chip.ts).
-- Get radius values from [`RADIUS`](src/constants/radius.ts). Pick the value by role.
-  - A nested radius is equal to or smaller than its parent radius.
+- Use [`RADIUS`](src/constants/radius.ts) for corner radii, picked by role.
+- Use flex `gap` in the parent for space between children. Shared chips take `ChipStyle`, which has no margin. Wrapping chip groups use [`CHIP_FLOW`](src/constants/chip.ts).
+- Use `react-native-safe-area-context` for safe areas. Do not hardcode them.
+- Use Reanimated `entering`, `exiting`, and `layout` for layout motion. Animations follow the reduce motion setting.
 - Do not put a horizontal scroller in a horizontal parent (pager, carousel). Android takes the swipe.
 - Virtualize lists with more than approximately 20 items.
-- Get safe areas from `react-native-safe-area-context`. Do not hardcode them.
-- Do not use `LayoutAnimation` ([#610](https://github.com/mrzmyr/pixy-mood-tracker-app/pull/610)).
-  - Use Reanimated `entering`, `exiting`, and `layout`.
-  - Obey the reduce motion setting.
+- A swap keeps the size. Measure width, height, and padding before and after.
+- A spacing request for one element changes that element only, not a shared component or token.
 
 ## Settings
 

@@ -65,6 +65,13 @@ const componentScopes = [
     ],
     message: "Use `SheetModal` or a route modal. No custom slide-in sheets.",
   },
+  {
+    name: "react-native",
+    importNames: ["SafeAreaView"],
+    allow: [],
+    message:
+      "Get safe areas from `react-native-safe-area-context`. The React Native SafeAreaView ignores Android.",
+  },
 ];
 
 const featureImport = {
@@ -285,11 +292,20 @@ export default defineConfig({
         "pixy-standards/sheet-keyboard-layout": "error",
         "pixy-standards/header-button-only": "error",
         "pixy-standards/no-color-shading": "error",
+        "pixy-standards/radius-token": "error",
+        "pixy-standards/no-reduce-motion-never": "error",
         "pixy-standards/component-scope": [
           "error",
           { modules: componentScopes },
         ],
       },
+    },
+    {
+      // Platform mimics copy the system radii, not the RADIUS scale.
+      files: [
+        "src/features/notifications/components/notification-preview*.tsx",
+      ],
+      rules: { "pixy-standards/radius-token": "off" },
     },
     {
       // The color scale derives its shades here; everything else reads them.

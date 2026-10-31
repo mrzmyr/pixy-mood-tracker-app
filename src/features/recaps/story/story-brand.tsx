@@ -13,6 +13,7 @@ export const StoryBrand = ({ color }: { color: string }) => (
     testID="recap-story-brand"
     style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
   >
+    {/* oxlint-disable-next-line pixy-standards/radius-token -- story artwork, drawn at story scale */}
     <Image source={LOGO} style={{ width: 22, height: 22, borderRadius: 6 }} />
     <Text
       maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}

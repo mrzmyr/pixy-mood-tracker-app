@@ -83,6 +83,7 @@ const QuizCard = ({
         width: "48%",
         minHeight: 124,
         padding: 14,
+        // oxlint-disable-next-line pixy-standards/radius-token -- story artwork, drawn at story scale
         borderRadius: 18,
         borderCurve: "continuous",
         borderWidth: 2,

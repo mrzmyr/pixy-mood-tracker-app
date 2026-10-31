@@ -855,6 +855,69 @@ const noColorShading = {
   },
 };
 
+const RADIUS_KEY = /^border(?:\w*)Radius$/u;
+/** Below `RADIUS.xs`: hairline rounding of small marks, no token. */
+const RADIUS_LITERAL_MIN = 4;
+
+const radiusToken = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Require RADIUS tokens for corner radii of 4 and more",
+    },
+    messages: {
+      literal:
+        "Use a `RADIUS` step from `@/constants/radius`, picked by role. Circles use `size / 2`.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      Property(node) {
+        const key = node.key.name ?? node.key.value;
+        if (
+          RADIUS_KEY.test(String(key)) &&
+          node.value.type === "Literal" &&
+          Number.isFinite(node.value.value) &&
+          node.value.value >= RADIUS_LITERAL_MIN
+        ) {
+          context.report({ messageId: "literal", node: node.value });
+        }
+      },
+    };
+  },
+};
+
+const noReduceMotionNever = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Disallow ReduceMotion.Never, which ignores the reduce motion setting",
+    },
+    messages: {
+      never:
+        "Animations follow the reduce motion setting. Use the default (`ReduceMotion.System`).",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.object.type === "Identifier" &&
+          node.object.name === "ReduceMotion" &&
+          node.property.type === "Identifier" &&
+          node.property.name === "Never"
+        ) {
+          context.report({ messageId: "never", node });
+        }
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
@@ -873,5 +936,7 @@ module.exports = {
     "sheet-keyboard-layout": sheetKeyboardLayout,
     "header-button-only": headerButtonOnly,
     "no-color-shading": noColorShading,
+    "radius-token": radiusToken,
+    "no-reduce-motion-never": noReduceMotionNever,
   },
 };

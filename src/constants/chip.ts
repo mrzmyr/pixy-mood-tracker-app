@@ -1,4 +1,8 @@
+import type { ViewStyle } from "react-native";
 import { RADIUS } from "./radius";
+
+/** Chip style without outer margin: the parent sets spacing with `gap`. */
+export type ChipStyle = Omit<ViewStyle, "margin" | `margin${string}`>;
 
 /**
  * Compact chip shared by emotion, tag, and person chips in dense rows, like

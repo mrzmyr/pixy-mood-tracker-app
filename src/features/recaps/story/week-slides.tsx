@@ -1134,6 +1134,7 @@ const Pin = ({
         <View
           style={{
             padding: 3,
+            // oxlint-disable-next-line pixy-standards/radius-token -- story artwork, drawn at story scale
             borderRadius: 11,
             backgroundColor: "#FFFFFF",
             boxShadow: PIN_SHADOW,
@@ -1387,6 +1388,7 @@ export const Places = ({
             {place.photo ? (
               <StoryImage
                 photo={place.photo.photo}
+                // oxlint-disable-next-line pixy-standards/radius-token -- story artwork, drawn at story scale
                 style={{ width: 40, height: 40, borderRadius: 10 }}
               />
             ) : (

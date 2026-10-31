@@ -107,6 +107,7 @@ export const CalendarFloatButton = ({
       withTiming(colorTarget, {
         duration: COLOR_MS,
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+        // oxlint-disable-next-line pixy-standards/no-reduce-motion-never -- color fade, nothing moves
         reduceMotion: ReduceMotion.Never,
       })
     );
@@ -117,6 +118,7 @@ export const CalendarFloatButton = ({
       withTiming(value, {
         duration: PRESS_MS,
         easing: Easing.bezier(0.23, 1, 0.32, 1),
+        // oxlint-disable-next-line pixy-standards/no-reduce-motion-never -- press feedback; reduced motion dims it instead
         reduceMotion: ReduceMotion.Never,
       })
     );

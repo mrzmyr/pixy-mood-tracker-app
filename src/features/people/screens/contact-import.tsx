@@ -191,7 +191,7 @@ const SelectedContact = ({
             position: "absolute",
             top: -4,
             right: -4,
-            borderRadius: 12,
+            borderRadius: RADIUS.md,
             backgroundColor: colors.menuListItemBackground,
           }}
         >

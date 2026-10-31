@@ -7,6 +7,7 @@ import type { Person } from "../people-provider";
 import { PersonAvatar } from "./person-avatar";
 import { RADIUS } from "@/constants/radius";
 import { COMPACT_CHIP } from "@/constants/chip";
+import type { ChipStyle } from "@/constants/chip";
 import { TILE_RING_GAP, TILE_RING_WIDTH } from "../tile";
 
 const DEFAULT_STYLE = {};
@@ -201,7 +202,7 @@ export const PersonChip = ({
   onLongPress?: () => void;
   editOnLongPress?: boolean;
   onMove?: (offset: -1 | 1) => void;
-  style?: ViewStyle;
+  style?: ChipStyle;
   testID?: string;
   /** Picked image not stored yet; only the `large` variant shows it. */
   previewUri?: string | null;

@@ -53,7 +53,7 @@ const CardPhoto = ({
     style={{
       width: size,
       height: size,
-      borderRadius: 12,
+      borderRadius: RADIUS.md,
       backgroundColor: background,
     }}
   />
@@ -96,6 +96,7 @@ export const ShareCard = ({
         testID="recap-story-share-card"
         style={{
           backgroundColor: card,
+          // oxlint-disable-next-line pixy-standards/radius-token -- share image artwork, drawn at image scale
           borderRadius: 28,
           borderCurve: "continuous",
           padding: PADDING,

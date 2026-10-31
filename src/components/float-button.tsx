@@ -56,6 +56,7 @@ export const FloatButton = ({
       withTiming(value, {
         duration: PRESS_MS,
         easing: Easing.bezier(0.23, 1, 0.32, 1),
+        // oxlint-disable-next-line pixy-standards/no-reduce-motion-never -- press feedback; reduced motion dims it instead
         reduceMotion: ReduceMotion.Never,
       })
     );

@@ -357,3 +357,43 @@ describe("no-color-shading", () => {
     ).toBe(0);
   });
 });
+
+describe("radius-token", () => {
+  it("reports a radius literal of 4 or more", () => {
+    expect(
+      lint(
+        "radius-token",
+        "export const a = { borderRadius: 12, borderTopLeftRadius: 4 };\n"
+      )
+    ).toBe(2);
+  });
+
+  it("allows tokens, circles, and hairline rounding below 4", () => {
+    expect(
+      lint(
+        "radius-token",
+        "const RADIUS = { md: 12 };\nconst size = 40;\nexport const a = { borderRadius: RADIUS.md, borderBottomRightRadius: size / 2, borderTopRightRadius: 2 };\n"
+      )
+    ).toBe(0);
+  });
+});
+
+describe("no-reduce-motion-never", () => {
+  it("reports ReduceMotion.Never", () => {
+    expect(
+      lint(
+        "no-reduce-motion-never",
+        'import { ReduceMotion } from "react-native-reanimated";\nexport const a = { reduceMotion: ReduceMotion.Never };\n'
+      )
+    ).toBe(1);
+  });
+
+  it("allows ReduceMotion.System", () => {
+    expect(
+      lint(
+        "no-reduce-motion-never",
+        'import { ReduceMotion } from "react-native-reanimated";\nexport const a = { reduceMotion: ReduceMotion.System };\n'
+      )
+    ).toBe(0);
+  });
+});
