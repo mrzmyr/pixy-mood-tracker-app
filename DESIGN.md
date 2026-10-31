@@ -9,7 +9,7 @@ This file has the design rules that are specific to Pixy. For all other topics, 
 
 ## Basics
 
-- When code can enforce a rule, code enforces it: a lint rule, a token, or a component prop. This file then names the component in one sentence.
+- When code can enforce a rule, code enforces it: a lint rule, a token, or a component prop.
   - To allow a component or icon only in some folders, add it to `componentScopes` in [`oxlint.config.ts`](oxlint.config.ts).
 - Use the components that exist.
   - If you need a new component, ask first.
@@ -82,8 +82,8 @@ The sky shows in onboarding, in voice mode, and in the entry summary hero when t
   - Deep navy, faint clouds.
   - Stars are small, sparse, and dim. They twinkle slowly.
   - Do not use a darker version of the day sky.
-- Cloud Pixy flies in both modes, but only in free sky.
-  - Cloud Pixy never flies over text, controls, or screenshots.
+- Cloudy flies in both modes, but only in free sky.
+  - Cloudy never flies over text, controls, or screenshots.
   - Slides mark free sky with [`SkyFlightZone`](src/features/onboarding/screens/onboarding/sky-flight-zone.tsx). If a slide has no zone, it shows no Pixy.
 - With reduce motion on: no Pixy, and the sky does not move.
 
