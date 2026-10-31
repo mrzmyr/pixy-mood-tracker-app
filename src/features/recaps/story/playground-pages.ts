@@ -115,7 +115,6 @@ const toContext = (
 
 const toKit = (data: PlaygroundData, input: RecapInput): CaseKit => ({
   period: input.period,
-  dates: input.days.map((day) => day.date),
   tagIds: data.tags.map((tag) => tag.id),
   personIds: data.people.map((person) => person.id),
   photos: input.days.flatMap((day) =>

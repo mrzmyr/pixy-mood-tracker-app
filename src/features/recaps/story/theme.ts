@@ -74,12 +74,3 @@ export const STORY_MAX_FONT_SCALE = 1.3;
 
 /** Time per slide before it moves on, in milliseconds. */
 export const STORY_SLIDE_MS = 7000;
-
-/** Time on slides whose items come in one by one, in milliseconds. */
-export const STORY_SLOW_SLIDE_MS = 9500;
-
-/** Time on a cover with photos, at least, in milliseconds. */
-export const STORY_COVER_PHOTO_MS = 10_000;
-
-/** Time per photo on a cover with several photos, in milliseconds. */
-export const STORY_PHOTO_MS = 3500;
