@@ -31,7 +31,9 @@ export const DevPlaygroundScreen = () => {
     >
       {PLAYGROUND_SECTIONS.map((section) => (
         <View key={section.title}>
-          <MenuListHeadline>{section.title}</MenuListHeadline>
+          <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+            {section.title}
+          </MenuListHeadline>
           <MenuList>
             {section.decks.map((deck) => (
               <MenuListItem
@@ -49,7 +51,7 @@ export const DevPlaygroundScreen = () => {
           </MenuList>
         </View>
       ))}
-      <TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
         {`Slides use the recap story fixtures and never change your data. Link: ${Linking.createURL("dev/playground/recap-story")}?deck=<id>&theme=light|dark. Deck IDs: all, week, month, <type>, <type>/<index>.`}
       </TextInfo>
     </ScrollView>
@@ -109,7 +111,7 @@ export const DevRecapPlaygroundScreen = () => {
     return (
       <View style={{ alignItems: "center", flex: 1, justifyContent: "center" }}>
         {data === null ? (
-          <TextInfo>
+          <TextInfo style={{ marginTop: 8 }}>
             {[
               "playground_fixture_missing: Recap story fixtures not found",
               "why: No fixture has the ID recap-story.",

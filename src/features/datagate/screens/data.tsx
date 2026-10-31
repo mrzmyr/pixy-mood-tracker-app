@@ -49,7 +49,9 @@ export const DataScreen = () => {
             />
           )}
         </MenuList>
-        <MenuListHeadline>{t("export")}</MenuListHeadline>
+        <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+          {t("export")}
+        </MenuListHeadline>
         <MenuList>
           <MenuListItem
             testID="export-json"
@@ -64,8 +66,10 @@ export const DataScreen = () => {
             iconLeft={<Upload {...iconProps} />}
           />
         </MenuList>
-        <TextInfo>{`${t("export_help")}\n${t("export_csv_help")}`}</TextInfo>
-        <TextInfo style={{ paddingTop: 0 }}>
+        <TextInfo
+          style={{ marginTop: 8 }}
+        >{`${t("export_help")}\n${t("export_csv_help")}`}</TextInfo>
+        <TextInfo style={{ paddingTop: 0, marginTop: 8 }}>
           {t("data_export_photos_note")}
         </TextInfo>
         <MenuList style={{ marginTop: 16 }}>
@@ -83,7 +87,9 @@ export const DataScreen = () => {
             tone="destructive"
           />
         </MenuList>
-        <TextInfo>{t("delete_all_data_description")}</TextInfo>
+        <TextInfo style={{ marginTop: 8 }}>
+          {t("delete_all_data_description")}
+        </TextInfo>
       </ScrollView>
     </View>
   );

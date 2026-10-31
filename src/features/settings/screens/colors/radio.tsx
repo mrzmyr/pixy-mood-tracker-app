@@ -50,7 +50,6 @@ export const Radio = ({
         {
           flexDirection: "row",
           alignItems: "center",
-          marginBottom: 10,
           backgroundColor: colors.menuListItemBackground,
           padding: 16,
           borderRadius: RADIUS.md,

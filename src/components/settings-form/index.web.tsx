@@ -46,9 +46,13 @@ export const SettingsSection = ({
 }: SettingsSectionProps) => {
   const section = (
     <View>
-      {title ? <MenuListHeadline>{title}</MenuListHeadline> : null}
+      {title ? (
+        <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+          {title}
+        </MenuListHeadline>
+      ) : null}
       <MenuList>{children}</MenuList>
-      {footer ? <TextInfo>{footer}</TextInfo> : null}
+      {footer ? <TextInfo style={{ marginTop: 8 }}>{footer}</TextInfo> : null}
     </View>
   );
 

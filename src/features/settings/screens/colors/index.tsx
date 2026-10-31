@@ -50,26 +50,22 @@ export const ColorsScreen = () => {
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ padding: 20, paddingBottom }}
       >
-        {typesNames.map((type) => (
-          <Fragment key={type.id}>
-            <Radio
-              testID={`color-scale-${type.id}`}
-              isSelected={type.id === scaleType}
-              onPress={() => onSelect(type.id)}
-            >
-              <Scale type={type.id} />
-            </Radio>
-            {type.id === "ColorBrew-RdYlGn-old" && (
-              <TextInfo
-                style={{
-                  marginTop: 0,
-                }}
+        <View style={{ gap: 10 }}>
+          {typesNames.map((type) => (
+            <Fragment key={type.id}>
+              <Radio
+                testID={`color-scale-${type.id}`}
+                isSelected={type.id === scaleType}
+                onPress={() => onSelect(type.id)}
               >
-                {t("colorblind_disclaimer")}
-              </TextInfo>
-            )}
-          </Fragment>
-        ))}
+                <Scale type={type.id} />
+              </Radio>
+              {type.id === "ColorBrew-RdYlGn-old" && (
+                <TextInfo>{t("colorblind_disclaimer")}</TextInfo>
+              )}
+            </Fragment>
+          ))}
+        </View>
         <View
           style={{
             marginBottom: 8,

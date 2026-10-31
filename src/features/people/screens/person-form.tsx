@@ -72,7 +72,9 @@ const EditActions = ({
           }
         />
       </MenuList>
-      <TextInfo>{t("people_archive_description")}</TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
+        {t("people_archive_description")}
+      </TextInfo>
       <MenuList style={{ marginTop: SECTION_GAP - 16 }}>
         <MenuListItem
           testID="person-delete"
@@ -82,7 +84,7 @@ const EditActions = ({
           tone="destructive"
         />
       </MenuList>
-      <TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
         {t("people_delete_footer", { count: entryCount, name })}
       </TextInfo>
     </>
@@ -202,7 +204,9 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
             />
           </MenuList>
         )}
-        <MenuListHeadline>{t("people_name")}</MenuListHeadline>
+        <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+          {t("people_name")}
+        </MenuListHeadline>
         <TextInput
           ref={nameRef}
           accessibilityLabel={t("people_name")}

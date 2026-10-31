@@ -17,7 +17,9 @@ export const RoleMenu = ({
   testID,
 }: RoleMenuProps) => (
   <>
-    <MenuListHeadline>{t("people_role")}</MenuListHeadline>
+    <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+      {t("people_role")}
+    </MenuListHeadline>
     <MenuList>
       {getRoleOptions().map((option) => (
         <MenuListItem

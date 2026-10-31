@@ -49,7 +49,9 @@ export const StatisticsScreen = () => {
 
         {report.unlocked && (
           <>
-            <MenuListHeadline>{t("more_statistics")}</MenuListHeadline>
+            <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+              {t("more_statistics")}
+            </MenuListHeadline>
             <MenuList style={{}}>
               <MenuListItem
                 title={t("month_report")}

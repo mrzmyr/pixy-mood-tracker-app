@@ -73,7 +73,9 @@ export const DevFixturesScreen = () => {
     <ScrollView
       style={{ backgroundColor: colors.background, flex: 1, padding: 16 }}
     >
-      <MenuListHeadline>Fixtures</MenuListHeadline>
+      <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+        Fixtures
+      </MenuListHeadline>
       <MenuList>
         {FIXTURES.map((fixture) => (
           <MenuListItem
@@ -85,16 +87,16 @@ export const DevFixturesScreen = () => {
         ))}
       </MenuList>
       {FIXTURES.map((fixture) => (
-        <TextInfo key={fixture.id}>
+        <TextInfo key={fixture.id} style={{ marginTop: 8 }}>
           {`${fixture.title} (${fixture.id}): ${fixture.description}`}
         </TextInfo>
       ))}
       {STORAGE_FIXTURES.map((fixture) => (
-        <TextInfo key={fixture.id}>
+        <TextInfo key={fixture.id} style={{ marginTop: 8 }}>
           {`${fixture.id} (link only, restart after): ${fixture.description}`}
         </TextInfo>
       ))}
-      <TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
         {`Tests load a fixture with ${Linking.createURL("dev/fixture")}?id=<id>. Variant ${APP_VARIANT}, version ${pkg.version}.`}
       </TextInfo>
       <View style={{ height: 100 }} />

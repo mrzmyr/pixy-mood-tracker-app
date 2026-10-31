@@ -27,7 +27,7 @@ export const SettingsSleepScreen = () => {
       <StepSwitch step="sleep" />
       {enabled && isAvailable && (
         <View style={{ marginHorizontal: 16 }}>
-          <MenuListHeadline style={{ marginTop: 16 }}>
+          <MenuListHeadline style={{ marginTop: 16, marginBottom: 8 }}>
             {t("health_section")}
           </MenuListHeadline>
           <FlagHighlight flag="apple-health">
@@ -50,8 +50,14 @@ export const SettingsSleepScreen = () => {
               />
             </MenuList>
           </FlagHighlight>
-          <TextInfo>{t("health_sleep_setting_description")}</TextInfo>
-          {isEnabled && <TextInfo>{t("health_sleep_access_hint")}</TextInfo>}
+          <TextInfo style={{ marginTop: 8 }}>
+            {t("health_sleep_setting_description")}
+          </TextInfo>
+          {isEnabled && (
+            <TextInfo style={{ marginTop: 8 }}>
+              {t("health_sleep_access_hint")}
+            </TextInfo>
+          )}
         </View>
       )}
     </ScrollView>

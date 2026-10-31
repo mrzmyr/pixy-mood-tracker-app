@@ -28,7 +28,9 @@ export const StepSwitch = ({ step }: { step: "tags" | "people" | "sleep" }) => {
           }
         />
       </MenuList>
-      <TextInfo>{t("step_track_description")}</TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
+        {t("step_track_description")}
+      </TextInfo>
     </View>
   );
 };

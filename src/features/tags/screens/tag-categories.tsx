@@ -158,7 +158,7 @@ export const TagCategories = ({
           scrollableRef={scrollRef}
         />
       </View>
-      <TextInfo style={{ marginHorizontal: 16 }}>
+      <TextInfo style={{ marginHorizontal: 16, marginTop: 8 }}>
         {t("tag_categories_info", { general })}
       </TextInfo>
     </Animated.ScrollView>

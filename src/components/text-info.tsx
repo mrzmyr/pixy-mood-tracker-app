@@ -20,7 +20,6 @@ const TextInfo = ({
           color: colors.textSecondary,
           padding: 16,
           paddingTop: 0,
-          marginTop: 8,
         },
         style,
       ]}

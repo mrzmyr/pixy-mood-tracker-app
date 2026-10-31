@@ -29,9 +29,7 @@ const MenuListHeadline = ({
         color: Platform.OS === "android" ? colors.tint : colors.textSecondary,
         padding: 0,
         width: "100%",
-        marginTop: 32,
         paddingLeft: 16,
-        marginBottom: 8,
         ...style,
       }}
     >
