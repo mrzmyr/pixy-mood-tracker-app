@@ -882,9 +882,15 @@
     "other": "{{count}} zile cu %{tag} săptămâna aceasta"
   },
   "recaps_story_banner_title": "Retrospectiva lunii %{month}",
+  "recaps_story_best_day_eyebrow": "Cea mai bună zi",
+  "recaps_story_best_day_title": "%{day} a fost ziua ta cea mai luminoasă",
   "recaps_story_city_eyebrow": "Prima dată",
   "recaps_story_city_km": "%{city} · la %{km} km de casă",
   "recaps_story_city_title": "Primul tău pixel din %{city}",
+  "recaps_story_close_text_few": "Câteva locuri ți-au purtat săptămâna",
+  "recaps_story_close_text_many": "Ai fost mult în mișcare",
+  "recaps_story_close_title": "Ai fost cel mai des în %{place}",
+  "recaps_story_close_title_single": "Ai petrecut toată săptămâna în jurul %{place}",
   "recaps_story_coming_eyebrow": "Urmează",
   "recaps_story_coming_left": {
     "one": "Mai e 1",
@@ -900,10 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "pixeli în %{month}",
   "recaps_story_cover_title": "%{month}, ce a prins contur",
+  "recaps_story_cover_title_week": "Ia-ți un moment.\nAceasta a fost săptămâna ta.",
   "recaps_story_days": {
     "one": "1 zi",
     "other": "{{count}} zile"
   },
+  "recaps_story_emotions_eyebrow": "Cel mai simțit",
+  "recaps_story_emotions_title": "Cel mai des te-ai simțit %{emotion}",
+  "recaps_story_far_title_many": "Ai călătorit la %{city} și mai departe",
+  "recaps_story_far_title_single": "Ai călătorit până la %{city}",
   "recaps_story_hard_days_label": {
     "one": "Ziua ta mai grea",
     "other": "Cele {{count}} zile mai grele ale tale"
@@ -957,6 +968,9 @@
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Zile cu fiecare etichetă, vs. %{previous}.",
   "recaps_story_vs_title": "Mai mult din asta, mai puțin din cealaltă",
+  "recaps_story_week_mood_eyebrow": "Săptămâna ta",
+  "recaps_story_week_mood_good": "%{count} din cele %{total} zile ale tale au fost bune",
+  "recaps_story_week_mood_title": "Săptămâna ta, zi de zi",
   "recaps_story_weekday_eyebrow": "Se formează un obicei",
   "recaps_story_weekday_previous": "În %{month}: %{hits} din %{total}.",
   "recaps_story_weekday_text": "%{hits} din %{total} săptămâni.",

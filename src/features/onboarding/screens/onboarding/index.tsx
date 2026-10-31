@@ -7,7 +7,9 @@ import Animated, {
   useReducedMotion,
   useSharedValue,
 } from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 import { queueCalendarIntro } from "@/features/calendar";
+import { usePixyIdle } from "@/features/logger";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/use-colors";
 import { useAnalytics } from "@/state/analytics";
@@ -16,10 +18,10 @@ import { useSettings } from "@/state/settings";
 import { ExplainerSlide } from "./explainer-slide";
 import { IndexSlide } from "./index-slide";
 import { OnboardingSky } from "./onboarding-sky";
-import { SkyPixy } from "./sky-pixy";
+import { SkyPixy } from "@/components/sky-pixy";
 import { PrivacySlide } from "./privacy-slide";
 import { FlightZoneContext } from "./flight-zone-context";
-import type { FlightZone } from "./flight-zone-context";
+import type { FlightZone } from "@/components/sky-pixy";
 import { ReminderSlide } from "./reminder-slide";
 import { SLIDE_TEXT_DELAY_MS } from "./slide-timing";
 
@@ -44,6 +46,16 @@ const PRIVACY_SLIDE_INDEX = 5;
 // The old slide fades out while the clouds speed up, then the next one fades in.
 const SLIDE_ENTERING = FadeIn.delay(SLIDE_TEXT_DELAY_MS).duration(700);
 const SLIDE_EXITING = FadeOut.duration(300);
+
+/** Cloud Pixy with the blink of the confirmation Pixy. */
+const BlinkingSkyPixy = (props: {
+  boost: SharedValue<number>;
+  zone: FlightZone | null;
+}) => {
+  const idle = usePixyIdle({ isEnabled: true, isReducedMotion: false });
+  return <SkyPixy {...props} isBlinking={idle.isBlinking} />;
+};
+
 /** Time for the last slide and the sky to fade into the calendar color. */
 const OUTRO_MS = 450;
 
@@ -182,7 +194,10 @@ export const Onboarding = ({
       {/* Above the slides so it takes taps. Its zones keep it off text and
           controls. */}
       {isReducedMotion ? null : (
-        <SkyPixy boost={skyBoost} zone={isLeaving ? null : flightZone} />
+        <BlinkingSkyPixy
+          boost={skyBoost}
+          zone={isLeaving ? null : flightZone}
+        />
       )}
     </View>
   );

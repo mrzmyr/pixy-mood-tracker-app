@@ -37,6 +37,15 @@ import {
   useDayColors,
 } from "./parts";
 import { Orbit } from "./orbit";
+import { StoryIntro } from "./story-intro";
+import {
+  BestDay,
+  Places,
+  PlacesBackdrop,
+  SkyBackdrop,
+  TopEmotions,
+  WeekMood,
+} from "./week-slides";
 import { STORY_PALETTE } from "./theme";
 import { getSlideDuration } from "./timing";
 import type {
@@ -163,6 +172,14 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
     : `${month} ${dayjs(ctx.period.start).format("YYYY")}`;
   const theme = slide.variant === "photo" ? "photo" : "night";
   const byDate = new Map(slide.photos.map((item) => [item.date, item.photo]));
+  // The week intro already welcomed the user: photos speak on their own.
+  if (isWeek && slide.variant === "photo") {
+    return (
+      <StoryText kind="eyebrow" theme={theme} tone="muted">
+        {eyebrow}
+      </StoryText>
+    );
+  }
   return (
     <>
       <SlideHeader
@@ -1037,9 +1054,12 @@ const ComingUp = ({
 /** Full-screen photos behind photo slides, under the padded content. */
 export const SlideBackdrop = ({
   slide,
+  previous,
   progress,
 }: {
   slide: StorySlide;
+  /** Slide before, so a sky can carry on from it. */
+  previous?: StorySlide;
   progress: SharedValue<number>;
 }) => {
   const durationMs = getSlideDuration(slide);
@@ -1051,6 +1071,28 @@ export const SlideBackdrop = ({
         durationMs={durationMs}
       />
     );
+  }
+  if (slide.type === "best-day") {
+    return slide.photo ? (
+      <PhotoBackdrop
+        photos={slide.photos}
+        progress={progress}
+        durationMs={durationMs}
+      />
+    ) : (
+      <SkyBackdrop sun="in" />
+    );
+  }
+  if (slide.type === "week-mood" || slide.type === "top-emotions") {
+    // The sun of a sky best day sets while the sky stays.
+    const hadSun = previous?.type === "best-day" && !previous.photo;
+    return <SkyBackdrop sun={hadSun ? "out" : null} />;
+  }
+  if (slide.type === "share" || slide.type === "intro") {
+    return <SkyBackdrop sun={null} />;
+  }
+  if (slide.type === "close-by" || slide.type === "far-out") {
+    return <PlacesBackdrop slide={slide} />;
   }
   if (slide.type === "first-city" && slide.photo) {
     return (
@@ -1108,6 +1150,22 @@ export const SlideContent = ({
     }
     case "came-back": {
       return <CameBack slide={slide} ctx={ctx} />;
+    }
+    case "intro": {
+      return <StoryIntro ctx={ctx} />;
+    }
+    case "best-day": {
+      return <BestDay slide={slide} ctx={ctx} />;
+    }
+    case "week-mood": {
+      return <WeekMood slide={slide} ctx={ctx} />;
+    }
+    case "top-emotions": {
+      return <TopEmotions slide={slide} ctx={ctx} />;
+    }
+    case "close-by":
+    case "far-out": {
+      return <Places slide={slide} ctx={ctx} />;
     }
     default: {
       return null;

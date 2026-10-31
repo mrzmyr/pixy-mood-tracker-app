@@ -11,8 +11,14 @@ import Animated, {
 } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
 import { CLOUD_PIXY_SIZE, CloudPixy } from "@/components/cloud-pixy";
-import { usePixyIdle } from "@/features/logger";
-import type { FlightZone } from "./flight-zone-context";
+
+/** Free sky in window coordinates, or in the coordinates of Pixy's layer. */
+export interface FlightZone {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
 /** Box size of `CloudPixy`. */
 const SIZE = CLOUD_PIXY_SIZE;
@@ -34,7 +40,7 @@ const CALM_DOWN_MS = 2600;
 
 /**
  * Cloud Pixy flies a slow, looping path inside `zone`, the free sky the
- * current slide marks with `SkyFlightZone`, and leans into its turns. It
+ * current screen marks (onboarding: `SkyFlightZone`), and leans into its turns. It
  * never crosses text: on a new zone it fades out, moves, and fades back in.
  * Pixy shrinks to fit a small zone. No zone, or one too small, hides it. `boost` (0 to 1) speeds the flight
  * up while the clouds rush to the next step. A tap excites Pixy: it zips
@@ -44,12 +50,13 @@ const CALM_DOWN_MS = 2600;
 export const SkyPixy = ({
   boost,
   zone,
+  isBlinking,
 }: {
   boost: SharedValue<number>;
   zone: FlightZone | null;
+  /** Eyes closed for a blink, from the caller's `usePixyIdle`. */
+  isBlinking: boolean;
 }) => {
-  const idle = usePixyIdle({ isEnabled: true, isReducedMotion: false });
-
   const excitement = useSharedValue(0);
   const time = useSharedValue(0);
   useFrameCallback(({ timeSincePreviousFrame }) => {
@@ -170,7 +177,7 @@ export const SkyPixy = ({
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <CloudPixy isBlinking={idle.isBlinking} />
+        <CloudPixy isBlinking={isBlinking} />
       </Pressable>
     </Animated.View>
   );

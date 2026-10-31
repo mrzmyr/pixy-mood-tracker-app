@@ -882,9 +882,15 @@
     "other": "{{count}} ngày có %{tag} tuần này"
   },
   "recaps_story_banner_title": "Tổng kết %{month}",
+  "recaps_story_best_day_eyebrow": "Ngày đẹp nhất",
+  "recaps_story_best_day_title": "%{day} là ngày tươi sáng nhất của bạn",
   "recaps_story_city_eyebrow": "Lần đầu",
   "recaps_story_city_km": "%{city} · cách nhà %{km} km",
   "recaps_story_city_title": "Pixel đầu tiên của bạn ở %{city}",
+  "recaps_story_close_text_few": "Vài nơi đã nâng đỡ tuần của bạn",
+  "recaps_story_close_text_many": "Bạn đã di chuyển rất nhiều",
+  "recaps_story_close_title": "Bạn thường ở %{place} nhất",
+  "recaps_story_close_title_single": "Bạn ở quanh %{place} cả tuần",
   "recaps_story_coming_eyebrow": "Sắp tới",
   "recaps_story_coming_left": {
     "one": "Còn 1",
@@ -900,10 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "pixel trong %{month}",
   "recaps_story_cover_title": "%{month}, những gì đã thành hình",
+  "recaps_story_cover_title_week": "Dành một chút thời gian.\nĐây là tuần của bạn.",
   "recaps_story_days": {
     "one": "1 ngày",
     "other": "{{count}} ngày"
   },
+  "recaps_story_emotions_eyebrow": "Cảm nhận nhiều nhất",
+  "recaps_story_emotions_title": "Bạn thường cảm thấy %{emotion} nhất",
+  "recaps_story_far_title_many": "Bạn đã đi %{city} và xa hơn",
+  "recaps_story_far_title_single": "Bạn đã đi đến tận %{city}",
   "recaps_story_hard_days_label": {
     "one": "Ngày khó khăn hơn của bạn",
     "other": "{{count}} ngày khó khăn hơn của bạn"
@@ -957,6 +968,9 @@
   "recaps_story_vs_eyebrow": "%{month} so với %{previous}",
   "recaps_story_vs_text": "Số ngày có mỗi thẻ, so với %{previous}.",
   "recaps_story_vs_title": "Nhiều điều này hơn, ít điều kia hơn",
+  "recaps_story_week_mood_eyebrow": "Tuần của bạn",
+  "recaps_story_week_mood_good": "%{count}/%{total} ngày của bạn thấy ổn",
+  "recaps_story_week_mood_title": "Tuần của bạn, từng ngày",
   "recaps_story_weekday_eyebrow": "Một thói quen hình thành",
   "recaps_story_weekday_previous": "Trong %{month}: %{hits}/%{total}.",
   "recaps_story_weekday_text": "%{hits}/%{total} tuần.",

@@ -24,6 +24,9 @@ const SKY_FADE_MS = 600;
 /** Night: the clouds show only faintly against the dark sky. */
 const NIGHT_CLOUD_OPACITY = 0.07;
 
+/** Last drift offset per `resumeKey`, so a sky that mounts again resumes. */
+const lastOffsets = new Map<string, number>();
+
 /**
  * Sky with drifting clouds: full screen behind onboarding and voice mode,
  * or inside a card with a smaller `height`.
@@ -35,12 +38,18 @@ export const Sky = ({
   speed,
   isVisible = true,
   height: skyHeight,
+  resumeKey,
 }: {
   speed: SharedValue<number>;
   /** False fades the sky out. */
   isVisible?: boolean;
   /** Height of the cloud photo. Default: the window, for full screens. */
   height?: number;
+  /**
+   * Skies with the same key continue where the last one stopped, so two
+   * screens in a row show one sky instead of a jump.
+   */
+  resumeKey?: string;
 }) => {
   const { height: windowHeight } = useWindowDimensions();
   const height = skyHeight ?? windowHeight;
@@ -50,7 +59,17 @@ export const Sky = ({
 
   const copyWidth = Math.ceil(height * SKY_ASPECT_RATIO);
   const period = useSharedValue(copyWidth * 2);
-  const offset = useSharedValue(0);
+  const offset = useSharedValue(
+    resumeKey === undefined ? 0 : (lastOffsets.get(resumeKey) ?? 0)
+  );
+  useEffect(
+    () => () => {
+      if (resumeKey !== undefined) {
+        lastOffsets.set(resumeKey, offset.get());
+      }
+    },
+    [offset, resumeKey]
+  );
   /** Seconds since start. Drives the star twinkle. */
   const clock = useSharedValue(0);
 

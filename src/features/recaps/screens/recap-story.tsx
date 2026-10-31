@@ -1,8 +1,9 @@
 import dayjs from "dayjs";
 import noop from "lodash/noop";
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
+import type { SharedValue } from "react-native-reanimated";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { useColorScheme, useWindowDimensions, View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import type { View as ViewType } from "react-native";
 import { setStatusBarHidden } from "expo-status-bar";
 import { useFeedback } from "@/features/feedback";
@@ -28,12 +29,9 @@ import type { StoryPhoto, StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
 import { t } from "@/lib/translation";
 import { StoryFinale } from "../story/story-finale";
-import { StoryThanks } from "../story/story-thanks";
 import { getSlideDuration } from "../story/timing";
 import { StoryShareButton } from "../story/story-share-button";
 import { shareStoryCard } from "../story/share-image";
-import { Celebration } from "../story/celebration";
-import type { CelebrationKind, CelebrationOrigin } from "../story/celebration";
 import { QuizContent } from "../story/quiz-content";
 import type { QuizResult } from "../story/quiz-content";
 import type { QuizSlide } from "../story/quiz";
@@ -44,14 +42,40 @@ const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 const isSource = (value: unknown): value is StorySource =>
   SOURCES.some((source) => source === value);
 
+/** Backdrop of the slide at `index`; it can carry on from the slide before. */
+const slideBackdrop = (
+  story: StorySlide[],
+  index: number,
+  progress: SharedValue<number>
+) => {
+  const slide = story[index];
+  return slide ? (
+    <SlideBackdrop
+      slide={slide}
+      previous={story[index - 1]}
+      progress={progress}
+    />
+  ) : null;
+};
+
+/** Slides that lay out the whole screen, over a photo, map, or sky. */
+const FULL_SCREEN_SLIDES: ReadonlySet<StorySlide["type"]> = new Set([
+  "share",
+  "first-city",
+  "intro",
+  "best-day",
+  "week-mood",
+  "top-emotions",
+  "close-by",
+  "far-out",
+]);
+
 /**
  * Slides drawn over the whole screen: photo backdrops, content pushed to the
  * bottom, or centered. Every other slide stacks from the top.
  */
 const fillsScreen = (slide: StorySlide) =>
-  slide.type === "thanks" ||
-  slide.type === "share" ||
-  slide.type === "first-city" ||
+  FULL_SCREEN_SLIDES.has(slide.type) ||
   (slide.type === "cover" && slide.variant === "photo");
 
 /** Share, Helpful, Not Helpful. Every action pauses the story first. */
@@ -68,7 +92,8 @@ const StoryActions = ({
   isSharing: boolean;
   isAnswered: boolean;
   pause: () => void;
-  onShare: () => void;
+  /** `null` on the last slide: it has its own wide share button. */
+  onShare: (() => void) | null;
   onHelpful: () => void;
   onNotHelpful: () => void;
 }) => {
@@ -85,11 +110,15 @@ const StoryActions = ({
       }}
       pointerEvents="box-none"
     >
-      <StoryShareButton
-        theme={theme}
-        disabled={isSharing}
-        onPress={paused(onShare)}
-      />
+      {onShare ? (
+        <StoryShareButton
+          theme={theme}
+          disabled={isSharing}
+          onPress={paused(onShare)}
+        />
+      ) : (
+        <View />
+      )}
       <StoryFeedback
         theme={theme}
         isAnswered={isAnswered}
@@ -103,7 +132,6 @@ const StoryActions = ({
 /** Month story of `date`'s month. Without a story, the month's cards. */
 const RecapStory = () => {
   const colorScheme = useColorScheme();
-  const { width: windowWidth } = useWindowDimensions();
   const router = useRouter();
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
@@ -137,11 +165,6 @@ const RecapStory = () => {
   const [quizResults, setQuizResults] = useState<
     ReadonlyMap<number, QuizResult>
   >(new Map());
-  const [celebration, setCelebration] = useState<{
-    kind: CelebrationKind;
-    origin: CelebrationOrigin;
-    id: number;
-  } | null>(null);
   const shareCard = useRef<ViewType>(null);
   const slideView = useRef<ViewType>(null);
   const contentView = useRef<ViewType>(null);
@@ -236,12 +259,7 @@ const RecapStory = () => {
     setAnswers((current) => new Map([...current, [index, helpful]]));
   };
 
-  const answerQuiz = (
-    index: number,
-    slide: QuizSlide,
-    result: QuizResult,
-    origin: CelebrationOrigin
-  ) => {
+  const answerQuiz = (index: number, slide: QuizSlide, result: QuizResult) => {
     setQuizResults((current) => new Map([...current, [index, result]]));
     analytics.track("recaps:story_quiz_answered", {
       quiz: slide.quiz,
@@ -250,19 +268,13 @@ const RecapStory = () => {
     });
     if (result.isCorrect) {
       void haptics.success();
-      // CE2 for "Which ones are true?": every card right is the bigger win.
-      setCelebration({
-        kind: slide.quiz === "truths" ? "wave" : "burst",
-        origin,
-        id: (celebration?.id ?? 0) + 1,
-      });
     }
   };
 
   /** 3 photos of the pool; each shuffle moves on by 3, wrapping around. */
   const pickPhotos = (pool: StoryPhoto[]) =>
-    pool.length === 0
-      ? []
+    pool.length <= 3
+      ? pool
       : [0, 1, 2].map((offset) => pool[(shuffles * 3 + offset) % pool.length]);
 
   /**
@@ -300,14 +312,9 @@ const RecapStory = () => {
           slide={slide}
           ctx={ctx}
           result={quizResults.get(index) ?? null}
-          onAnswer={(result, origin) =>
-            answerQuiz(index, slide, result, origin)
-          }
+          onAnswer={(result) => answerQuiz(index, slide, result)}
         />
       );
-    }
-    if (slide.type === "thanks") {
-      return <StoryThanks ctx={ctx} />;
     }
     if (slide.type === "share") {
       return (
@@ -315,6 +322,8 @@ const RecapStory = () => {
           ctx={ctx}
           photos={pickPhotos(slide.photos)}
           cardRef={shareCard}
+          isSharing={isSharing}
+          onShare={() => share(index)}
           onShuffle={
             slide.photos.length > 3
               ? () => setShuffles((current) => current + 1)
@@ -329,9 +338,7 @@ const RecapStory = () => {
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getSlideTheme(slide, ctx.isDark),
-    renderBackdrop: (progress) => (
-      <SlideBackdrop slide={slide} progress={progress} />
-    ),
+    renderBackdrop: (progress) => slideBackdrop(story, index, progress),
     isWaiting: slide.type === "quiz" && !quizResults.has(index),
     durationMs: getSlideDuration(slide),
     fillsScreen: fillsScreen(slide),
@@ -350,14 +357,6 @@ const RecapStory = () => {
         onSlideShown={(index) => {
           lastShown.current = index;
           const slide = slideOf(index);
-          // Thanks celebrates that the user took the time to look back.
-          if (slide?.type === "thanks") {
-            setCelebration({
-              kind: "wave",
-              origin: { x: windowWidth / 2, y: 0 },
-              id: (celebration?.id ?? 0) + 1,
-            });
-          }
           if (slide) {
             analytics.track("recaps:story_slide_shown", {
               slide_type: slide.type,
@@ -372,19 +371,12 @@ const RecapStory = () => {
             isSharing={isSharing}
             isAnswered={answers.has(index)}
             pause={controls.pause}
-            onShare={() => share(index)}
+            onShare={story[index]?.type === "share" ? null : () => share(index)}
             onHelpful={() => send(index, true, [], "")}
             onNotHelpful={() => setAsking(index)}
           />
         )}
       />
-      {celebration && (
-        <Celebration
-          key={celebration.id}
-          kind={celebration.kind}
-          origin={celebration.origin}
-        />
-      )}
       <FeedbackSheet
         visible={asking !== null}
         onCancel={() => setAsking(null)}

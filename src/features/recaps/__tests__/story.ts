@@ -63,7 +63,6 @@ describe("month story", () => {
     expect(slides?.map((item) => item.type)).toEqual([
       "cover",
       "coming-up",
-      "thanks",
       "share",
     ]);
   });
@@ -331,13 +330,36 @@ describe("share card", () => {
     expect(slide(story(items), "share")?.photos).toHaveLength(3);
   });
 
-  test("shows the grid with fewer photos", () => {
+  test("shows photos from 1 or 2 bright photo days too", () => {
     const items = month((index) =>
       index < 2 ? { photos: [photo(`${index}`)] } : {}
     );
-    expect(slide(story(items), "share")?.photos).toEqual([]);
+    expect(slide(story(items), "share")?.photos).toHaveLength(2);
+  });
+
+  test("shows only the grid without bright photo days", () => {
+    expect(slide(story(month()), "share")?.photos).toEqual([]);
   });
 });
+
+/** Check-in at a named place. */
+const at = (name: string, latitude: number, longitude: number) => ({
+  location: { latitude, longitude, name },
+});
+
+/** Week story of Sep 21 with location on. */
+const PLACES_WEEK = "2026-09-21";
+const placesStory = (items: Partial<LogItem>[]) =>
+  buildWeekStory(
+    makeInput({
+      kind: "week",
+      today: "2026-09-28",
+      date: PLACES_WEEK,
+      items,
+      tags,
+      locationEnabled: true,
+    })
+  );
 
 describe("week story", () => {
   // Monday 2026-09-21 to Sunday 2026-09-27.
@@ -361,11 +383,11 @@ describe("week story", () => {
     expect(weekStory(week(7), "2026-10-12")).toBeNull();
   });
 
-  test("starts with the cover and ends with thanks, then the share card", () => {
+  test("starts with the intro and the cover, ends with the share card", () => {
     const types = (weekStory(week(7)) ?? []).map((item) => item.type);
 
-    expect(types[0]).toBe("cover");
-    expect(types.slice(-2)).toEqual(["thanks", "share"]);
+    expect(types.slice(0, 2)).toEqual(["intro", "cover"]);
+    expect(types.at(-1)).toBe("share");
   });
 
   test("shows up to 5 photos one after another, never the grid", () => {
@@ -391,5 +413,105 @@ describe("week story", () => {
     const types = (weekStory(items) ?? []).map((item) => item.type);
 
     expect(types.indexOf("orbit")).toBe(types.indexOf("people") + 1);
+  });
+  describe("recap cards", () => {
+    const eimsbuettel = at("Eimsbüttel, Hamburg", 53.57, 9.95);
+    const ottensen = at("Ottensen, Hamburg", 53.55, 9.93);
+    const copenhagen = at("Indre By, Copenhagen", 55.68, 12.57);
+    test("open the story after the cover: best day, mood, emotions, places", () => {
+      const items = week(7).map((item, index) => ({
+        ...item,
+        ...(index < 4 ? eimsbuettel : ottensen),
+        rating: index === 5 ? ("extremely_good" as const) : item.rating,
+        emotions: [["calm", "loved", "excited"][index % 3] ?? "calm"],
+      }));
+      const types = (placesStory(items) ?? []).map((item) => item.type);
+
+      expect(types.slice(0, 6)).toEqual([
+        "intro",
+        "cover",
+        "best-day",
+        "week-mood",
+        "top-emotions",
+        "close-by",
+      ]);
+    });
+
+    test("tell the extremely good day with its emotions and photo", () => {
+      const items = week(7).map((item, index) =>
+        index === 2
+          ? {
+              ...item,
+              rating: "extremely_good" as const,
+              emotions: ["excited", "loved", "calm", "grateful"],
+              photos: [photo("best")],
+            }
+          : item
+      );
+      const best = slide(weekStory(items), "best-day");
+
+      expect(best?.date).toBe(addDays(WEEK, 2));
+      expect(best?.emotions).toEqual(["excited", "loved", "calm"]);
+      expect(best?.photo?.photo.fileName).toBe("best.jpg");
+    });
+
+    test("skip the best day without an extremely good day", () => {
+      expect(slide(weekStory(week(7)), "best-day")).toBeUndefined();
+    });
+
+    test("show home city districts close by, most days first", () => {
+      const items = week(7).map((item, index) => ({
+        ...item,
+        ...(index < 5 ? eimsbuettel : ottensen),
+      }));
+      const close = slide(placesStory(items), "close-by");
+
+      expect(close?.places.map((place) => [place.name, place.days])).toEqual([
+        ["Eimsbüttel", 5],
+        ["Ottensen", 2],
+      ]);
+    });
+
+    test("never show a photo from a harder day on a place", () => {
+      const items = week(7).map((item, index) => ({
+        ...item,
+        ...eimsbuettel,
+        rating: index === 0 ? ("bad" as const) : item.rating,
+        photos: index === 0 ? [photo("hard")] : [],
+      }));
+      const [place] = slide(placesStory(items), "close-by")?.places ?? [];
+
+      expect(place?.photo).toBeNull();
+    });
+
+    test("show trips far out instead of the first city slide", () => {
+      const history = Array.from({ length: 10 }, (_, index) => ({
+        date: addDays(WEEK, -20 + index),
+        rating: "good" as const,
+        ...eimsbuettel,
+      }));
+      const items = [
+        ...history,
+        ...week(7).map((item, index) => ({
+          ...item,
+          ...(index >= 4 ? copenhagen : eimsbuettel),
+        })),
+      ];
+      const slides = placesStory(items);
+      const far = slide(slides, "far-out");
+
+      expect(far?.trips.map((trip) => [trip.name, trip.days])).toEqual([
+        ["Copenhagen", 3],
+      ]);
+      expect(slide(slides, "first-city")).toBeUndefined();
+    });
+
+    test("skip places with location off", () => {
+      const items = week(7).map((item) => ({ ...item, ...eimsbuettel }));
+      const types = (weekStory(items) ?? []).map((item) => item.type);
+
+      expect(types).not.toContain("close-by");
+      expect(types).not.toContain("far-out");
+    });
   });
 });

@@ -882,9 +882,15 @@
     "other": "{{count}} ימים עם %{tag} השבוע"
   },
   "recaps_story_banner_title": "סיכום %{month}",
+  "recaps_story_best_day_eyebrow": "היום הטוב ביותר",
+  "recaps_story_best_day_title": "%{day} היה היום הכי מואר שלך",
   "recaps_story_city_eyebrow": "פעם ראשונה",
   "recaps_story_city_km": "%{city} · %{km} ק״מ מהבית",
   "recaps_story_city_title": "הפיקסל הראשון שלך ב־%{city}",
+  "recaps_story_close_text_few": "כמה מקומות נשאו את השבוע שלך",
+  "recaps_story_close_text_many": "היית הרבה בתנועה",
+  "recaps_story_close_title": "היית בעיקר ב%{place}",
+  "recaps_story_close_title_single": "בילית את כל השבוע באזור %{place}",
   "recaps_story_coming_eyebrow": "בקרוב",
   "recaps_story_coming_left": {
     "one": "עוד 1",
@@ -900,10 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "פיקסלים ב%{month}",
   "recaps_story_cover_title": "%{month}: מה שהתגבש",
+  "recaps_story_cover_title_week": "קח רגע.\nזה היה השבוע שלך.",
   "recaps_story_days": {
     "one": "יום 1",
     "other": "{{count}} ימים"
   },
+  "recaps_story_emotions_eyebrow": "הכי מורגש",
+  "recaps_story_emotions_title": "הכי הרבה הרגשת: %{emotion}",
+  "recaps_story_far_title_many": "נסעת ל%{city} והלאה",
+  "recaps_story_far_title_single": "נסעת עד %{city}",
   "recaps_story_hard_days_label": {
     "one": "היום הקשה יותר שלך",
     "other": "{{count}} הימים הקשים יותר שלך"
@@ -957,6 +968,9 @@
   "recaps_story_vs_eyebrow": "%{month} מול %{previous}",
   "recaps_story_vs_text": "ימים עם כל תגית, מול %{previous}.",
   "recaps_story_vs_title": "יותר מזה, פחות מזה",
+  "recaps_story_week_mood_eyebrow": "השבוע שלך",
+  "recaps_story_week_mood_good": "ימים טובים: %{count} מתוך %{total}",
+  "recaps_story_week_mood_title": "השבוע שלך, יום אחר יום",
   "recaps_story_weekday_eyebrow": "נוצר הרגל",
   "recaps_story_weekday_previous": "ב%{month}: %{hits} מתוך %{total}.",
   "recaps_story_weekday_text": "%{hits} מתוך %{total} שבועות.",

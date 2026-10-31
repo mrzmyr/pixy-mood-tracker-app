@@ -882,9 +882,15 @@
     "other": "本周有 %{tag} 的 {{count}} 天"
   },
   "recaps_story_banner_title": "%{month}回顾",
+  "recaps_story_best_day_eyebrow": "最好的一天",
+  "recaps_story_best_day_title": "%{day}是你最明亮的一天",
   "recaps_story_city_eyebrow": "第一次",
   "recaps_story_city_km": "%{city} · 离家 %{km} 公里",
   "recaps_story_city_title": "你在%{city}的第一个像素",
+  "recaps_story_close_text_few": "几个地方撑起了你的一周",
+  "recaps_story_close_text_many": "这周你走动很多",
+  "recaps_story_close_title": "你最常在%{place}",
+  "recaps_story_close_title_single": "你整周都在%{place}附近",
   "recaps_story_coming_eyebrow": "即将到来",
   "recaps_story_coming_left": {
     "one": "还剩 1 天",
@@ -900,10 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "%{month}的像素",
   "recaps_story_cover_title": "%{month}，渐渐成形",
+  "recaps_story_cover_title_week": "停下来片刻。\n这是你的一周。",
   "recaps_story_days": {
     "one": "1 天",
     "other": "{{count}} 天"
   },
+  "recaps_story_emotions_eyebrow": "最常感受",
+  "recaps_story_emotions_title": "你最常感到%{emotion}",
+  "recaps_story_far_title_many": "你去了%{city}，还走得更远",
+  "recaps_story_far_title_single": "你一路去到了%{city}",
   "recaps_story_hard_days_label": {
     "one": "你比较难熬的那天",
     "other": "你比较难熬的 {{count}} 天"
@@ -957,6 +968,9 @@
   "recaps_story_vs_eyebrow": "%{month} 对比 %{previous}",
   "recaps_story_vs_text": "每个标签的天数，对比%{previous}。",
   "recaps_story_vs_title": "多了这些，少了那些",
+  "recaps_story_week_mood_eyebrow": "你的一周",
+  "recaps_story_week_mood_good": "你的%{total}天里有%{count}天感觉不错",
+  "recaps_story_week_mood_title": "你的一周，一天一天",
   "recaps_story_weekday_eyebrow": "养成了一个习惯",
   "recaps_story_weekday_previous": "%{month}：%{total} 周中有 %{hits} 周。",
   "recaps_story_weekday_text": "%{total} 周中有 %{hits} 周。",

@@ -882,9 +882,15 @@
     "other": "Днів з %{tag} цього тижня: {{count}}"
   },
   "recaps_story_banner_title": "Підсумки: %{month}",
+  "recaps_story_best_day_eyebrow": "Найкращий день",
+  "recaps_story_best_day_title": "%{day} — ваш найсвітліший день",
   "recaps_story_city_eyebrow": "Уперше",
   "recaps_story_city_km": "%{city} · %{km} км від дому",
   "recaps_story_city_title": "Ваш перший піксель у місті %{city}",
+  "recaps_story_close_text_few": "Кілька місць тримали ваш тиждень",
+  "recaps_story_close_text_many": "Ви багато переміщувалися",
+  "recaps_story_close_title": "Найчастіше ви були тут: %{place}",
+  "recaps_story_close_title_single": "Увесь тиждень ви були поруч: %{place}",
   "recaps_story_coming_eyebrow": "Попереду",
   "recaps_story_coming_left": {
     "one": "Залишилося: 1",
@@ -900,10 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "%{month} у пікселях",
   "recaps_story_cover_title": "%{month}: що склалося",
+  "recaps_story_cover_title_week": "Зупиніться на мить.\nЦе був ваш тиждень.",
   "recaps_story_days": {
     "one": "1 день",
     "other": "Днів: {{count}}"
   },
+  "recaps_story_emotions_eyebrow": "Найчастіше",
+  "recaps_story_emotions_title": "Найчастіше ви відчували: %{emotion}",
+  "recaps_story_far_title_many": "Ви з'їздили: %{city} і далі",
+  "recaps_story_far_title_single": "Ви дісталися аж до: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Ваш непростий день",
     "other": "Ваші непрості дні: {{count}}"
@@ -957,6 +968,9 @@
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Дні з кожним тегом, vs %{previous}.",
   "recaps_story_vs_title": "Більше цього, менше того",
+  "recaps_story_week_mood_eyebrow": "Ваш тиждень",
+  "recaps_story_week_mood_good": "Добрих днів: %{count} з %{total}",
+  "recaps_story_week_mood_title": "Ваш тиждень день за днем",
   "recaps_story_weekday_eyebrow": "Формується звичка",
   "recaps_story_weekday_previous": "%{month}: %{hits} з %{total}.",
   "recaps_story_weekday_text": "Тижнів: %{hits} з %{total}.",

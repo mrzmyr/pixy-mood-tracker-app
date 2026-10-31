@@ -33,6 +33,25 @@ const TAGS = {
 const HOME = { latitude: 53.57, longitude: 9.95, name: "Eimsbüttel, Hamburg" };
 const POOL = { latitude: 53.57, longitude: 9.96, name: "Kaifu-Bad, Hamburg" };
 const SEA = { latitude: 53.96, longitude: 10.87, name: "Strand, Travemünde" };
+/** Week story places: Hamburg districts, then a trip to Copenhagen. */
+const WEEK_PLACES = [
+  HOME,
+  { latitude: 53.588, longitude: 9.986, name: "Eppendorf, Hamburg" },
+  HOME,
+  { latitude: 53.552, longitude: 9.929, name: "Ottensen, Hamburg" },
+  { latitude: 53.583, longitude: 10.012, name: "Winterhude, Hamburg" },
+  { latitude: 55.679, longitude: 12.577, name: "Indre By, Copenhagen" },
+  { latitude: 55.676, longitude: 12.568, name: "Indre By, Copenhagen" },
+];
+const WEEK_EMOTIONS = [
+  ["calm", "loved", "grateful"],
+  ["calm", "excited"],
+  ["loved", "calm", "relieved"],
+  ["stressed", "calm"],
+  ["excited", "loved", "calm"],
+  ["excited", "grateful"],
+  ["loved", "relieved"],
+];
 
 const entry = (
   date: dayjs.Dayjs,
@@ -196,9 +215,10 @@ const MAX: ExportPerson = {
 };
 
 /**
- * Week story data: the 7 days before `today` as a full week story (5 photo
+ * Week story data: the 7 days before `today` as a full week story (4 photo
  * days, Ada on 6 days, Chuky 4, Jen 3, Max 2, Walk, Work, and Reading on
- * 4+ days), plus 3 quieter weeks before it. Open with
+ * 4+ days, emotions every day, 4 Hamburg districts and 2 days in
+ * Copenhagen), plus 3 quieter weeks before it. Open with
  * `recaps/story/<first day>?kind=week`.
  */
 export const withRecapWeekStory = (
@@ -221,7 +241,10 @@ export const withRecapWeekStory = (
         ...(index === 0 || index === 4 || index === 6 ? [{ id: JEN }] : []),
         ...(index === 2 || index === 5 ? [{ id: MAX.id }] : []),
       ],
-      photos: index === 3 || index === 1 ? [] : [photo(date, index)],
+      photos:
+        index === 1 || index === 3 || index === 4 ? [] : [photo(date, index)],
+      emotions: WEEK_EMOTIONS[index] ?? [],
+      location: WEEK_PLACES[index] ?? HOME,
     });
   });
   const earlier = earlierMonth(start.subtract(21, "day"), 10);

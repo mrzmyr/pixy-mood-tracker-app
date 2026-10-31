@@ -1,5 +1,5 @@
 import type { LogPhoto } from "@/types";
-import type { DateKey } from "../types";
+import type { DateKey, EmotionCount, MoodDay } from "../types";
 import type { QuizSlide } from "./quiz";
 
 /** Photo of a story slide and the day it comes from. */
@@ -24,6 +24,11 @@ export interface CoverSlide {
    * the full-screen photos. Empty without photos.
    */
   photos: StoryPhoto[];
+}
+
+/** First slide of the week story: the sky, cloud Pixy, and a kind welcome. */
+export interface IntroSlide {
+  type: "intro";
 }
 
 /** One tag on the same weekday, week after week. */
@@ -115,6 +120,61 @@ export interface CameBackSlide {
   tags: { tagId: string; days: number; weeks: number }[];
 }
 
+/** The week's best day: an extremely good day, as on the day recap card. */
+export interface BestDaySlide {
+  type: "best-day";
+  date: DateKey;
+  /** Emotions of the day, at most 3. */
+  emotions: string[];
+  /** First photo of the day, `null` without one: the slide shows the sky. */
+  photo: StoryPhoto | null;
+  /** Every photo of the day, one after another behind the slide. */
+  photos: StoryPhoto[];
+  /** Tags of the day, at most 3. */
+  tagIds: string[];
+  /** Place of the day, "District, City"; `null` with location off. */
+  location: string | null;
+}
+
+/** Mood of each day of the week, as on the mood chart card. */
+export interface WeekMoodSlide {
+  type: "week-mood";
+  days: MoodDay[];
+}
+
+/** The week's most felt emotions, as on the emotions card. */
+export interface TopEmotionsSlide {
+  type: "top-emotions";
+  /** Most days first, at most 6. */
+  counts: EmotionCount[];
+}
+
+/** Map point of a place on a places slide. */
+export interface StoryPlace {
+  name: string;
+  latitude: number;
+  longitude: number;
+  days: number;
+  /** Mean rating of the days there, 0 (worst) to 6. */
+  rating: number;
+  /** Photo of a bright day there, `null` without one. */
+  photo: StoryPhoto | null;
+}
+
+/** Places under 25 km from home or in the home city, most days first. */
+export interface CloseBySlide {
+  type: "close-by";
+  places: StoryPlace[];
+}
+
+/** Trips: 25+ km away, outside the usual city. Most days first. */
+export interface FarOutSlide {
+  type: "far-out";
+  trips: StoryPlace[];
+  /** The week's other places: they frame the map, without a pin. */
+  around: { latitude: number; longitude: number }[];
+}
+
 /** Days still to come in the year, and days without a check-in so far. */
 export interface ComingUpSlide {
   type: "coming-up";
@@ -124,17 +184,9 @@ export interface ComingUpSlide {
 }
 
 /**
- * Second to last slide: Pixy thanks the user for looking back and says why
- * it helps. The story screen sends confetti when it shows.
- */
-export interface ThanksSlide {
-  type: "thanks";
-}
-
-/**
- * Last slide: a card to send to someone close, with the period's days and 3
- * photos when it has 3+ bright photo days. `photos` is the shuffle pool,
- * brightest first.
+ * Last slide, on the sky: thanks for looking back, and a card to send to
+ * someone close, with the period's days and 3 photos when it has 3+ bright
+ * photo days. `photos` is the shuffle pool, brightest first.
  */
 export interface ShareSlide {
   type: "share";
@@ -143,7 +195,13 @@ export interface ShareSlide {
 
 /** One page of the month story. Each type has one renderer. */
 export type StorySlide =
+  | IntroSlide
   | CoverSlide
+  | BestDaySlide
+  | WeekMoodSlide
+  | TopEmotionsSlide
+  | CloseBySlide
+  | FarOutSlide
   | WeekdayHabitSlide
   | MadeOfSlide
   | LiftedSlide
@@ -156,7 +214,6 @@ export type StorySlide =
   | CameBackSlide
   | ComingUpSlide
   | QuizSlide
-  | ThanksSlide
   | ShareSlide;
 
 /** Key of a slide type. */

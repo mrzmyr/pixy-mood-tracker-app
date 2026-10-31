@@ -883,9 +883,15 @@
     "other": "{{count}} jours avec %{tag} cette semaine"
   },
   "recaps_story_banner_title": "Bilan du mois : %{month}",
+  "recaps_story_best_day_eyebrow": "Meilleur jour",
+  "recaps_story_best_day_title": "%{day} a été votre plus beau jour",
   "recaps_story_city_eyebrow": "Première fois",
   "recaps_story_city_km": "%{city} · à %{km} km de chez vous",
   "recaps_story_city_title": "Votre premier pixel à %{city}",
+  "recaps_story_close_text_few": "Quelques lieux ont porté votre semaine",
+  "recaps_story_close_text_many": "Vous avez beaucoup bougé",
+  "recaps_story_close_title": "Vous étiez le plus souvent à %{place}",
+  "recaps_story_close_title_single": "Vous avez passé toute la semaine autour de %{place}",
   "recaps_story_coming_eyebrow": "À venir",
   "recaps_story_coming_left": {
     "one": "Encore 1",
@@ -901,10 +907,15 @@
   },
   "recaps_story_cover_pixels_title": "pixels en %{month}",
   "recaps_story_cover_title": "Ce qui a pris forme en %{month}",
+  "recaps_story_cover_title_week": "Prenez un moment.\nVoici votre semaine.",
   "recaps_story_days": {
     "one": "1 jour",
     "other": "{{count}} jours"
   },
+  "recaps_story_emotions_eyebrow": "Le plus ressenti",
+  "recaps_story_emotions_title": "Vous vous êtes senti le plus souvent %{emotion}",
+  "recaps_story_far_title_many": "Vous êtes allé à %{city} et au-delà",
+  "recaps_story_far_title_single": "Vous êtes allé jusqu'à %{city}",
   "recaps_story_hard_days_label": {
     "one": "Votre jour plus difficile",
     "other": "Vos {{count}} jours plus difficiles"
@@ -958,6 +969,9 @@
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Jours avec chaque tag, vs %{previous}.",
   "recaps_story_vs_title": "Plus de ceci, moins de cela",
+  "recaps_story_week_mood_eyebrow": "Votre semaine",
+  "recaps_story_week_mood_good": "%{count} de vos %{total} jours ont été bons",
+  "recaps_story_week_mood_title": "Votre semaine, jour après jour",
   "recaps_story_weekday_eyebrow": "Une habitude prend forme",
   "recaps_story_weekday_previous": "En %{month} : %{hits} sur %{total}.",
   "recaps_story_weekday_text": "%{hits} semaines sur %{total}.",

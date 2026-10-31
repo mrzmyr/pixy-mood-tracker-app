@@ -1,12 +1,6 @@
 import { createContext } from "react";
 
-/** Free sky in window coordinates. */
-export interface FlightZone {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
+import type { FlightZone } from "@/components/sky-pixy";
 
 /**
  * Lets the current slide report its free sky to the onboarding screen.

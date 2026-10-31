@@ -882,9 +882,15 @@
     "other": "{{count}} dagar med %{tag} den här veckan"
   },
   "recaps_story_banner_title": "Tillbakablick: %{month}",
+  "recaps_story_best_day_eyebrow": "Bästa dagen",
+  "recaps_story_best_day_title": "%{day} var din ljusaste dag",
   "recaps_story_city_eyebrow": "Första gången",
   "recaps_story_city_km": "%{city} · %{km} km hemifrån",
   "recaps_story_city_title": "Din första pixel i %{city}",
+  "recaps_story_close_text_few": "Några platser bar din vecka",
+  "recaps_story_close_text_many": "Du var mycket på språng",
+  "recaps_story_close_title": "Du var oftast i %{place}",
+  "recaps_story_close_title_single": "Du var hela veckan kring %{place}",
   "recaps_story_coming_eyebrow": "Snart",
   "recaps_story_coming_left": {
     "one": "1 kvar",
@@ -900,10 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "pixlar i %{month}",
   "recaps_story_cover_title": "%{month}, det som tog form",
+  "recaps_story_cover_title_week": "Ta en stund.\nDet här är din vecka.",
   "recaps_story_days": {
     "one": "1 dag",
     "other": "{{count}} dagar"
   },
+  "recaps_story_emotions_eyebrow": "Mest känt",
+  "recaps_story_emotions_title": "Du kände dig oftast %{emotion}",
+  "recaps_story_far_title_many": "Du reste till %{city} och vidare",
+  "recaps_story_far_title_single": "Du reste ända till %{city}",
   "recaps_story_hard_days_label": {
     "one": "Din tyngre dag",
     "other": "Dina {{count}} tyngre dagar"
@@ -957,6 +968,9 @@
   "recaps_story_vs_eyebrow": "%{month} mot %{previous}",
   "recaps_story_vs_text": "Dagar med varje tagg, mot %{previous}.",
   "recaps_story_vs_title": "Mer av det här, mindre av det där",
+  "recaps_story_week_mood_eyebrow": "Din vecka",
+  "recaps_story_week_mood_good": "%{count} av dina %{total} dagar kändes bra",
+  "recaps_story_week_mood_title": "Din vecka, dag för dag",
   "recaps_story_weekday_eyebrow": "En vana tar form",
   "recaps_story_weekday_previous": "I %{month}: %{hits} av %{total}.",
   "recaps_story_weekday_text": "%{hits} av %{total} veckor.",

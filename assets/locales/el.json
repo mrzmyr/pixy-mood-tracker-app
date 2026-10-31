@@ -882,9 +882,15 @@
     "other": "{{count}} μέρες με %{tag} αυτή την εβδομάδα"
   },
   "recaps_story_banner_title": "Ανασκόπηση: %{month}",
+  "recaps_story_best_day_eyebrow": "Καλύτερη μέρα",
+  "recaps_story_best_day_title": "Η %{day} ήταν η πιο φωτεινή σου μέρα",
   "recaps_story_city_eyebrow": "Πρώτη φορά",
   "recaps_story_city_km": "%{city} · %{km} km από το σπίτι",
   "recaps_story_city_title": "Το πρώτο σου pixel: %{city}",
+  "recaps_story_close_text_few": "Λίγα μέρη κράτησαν την εβδομάδα σου",
+  "recaps_story_close_text_many": "Κινήθηκες πολύ",
+  "recaps_story_close_title": "Ήσουν πιο συχνά εδώ: %{place}",
+  "recaps_story_close_title_single": "Πέρασες όλη την εβδομάδα γύρω από: %{place}",
   "recaps_story_coming_eyebrow": "Έρχονται",
   "recaps_story_coming_left": {
     "one": "Μένει 1",
@@ -900,10 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "pixels · %{month}",
   "recaps_story_cover_title": "%{month}: ό,τι πήρε μορφή",
+  "recaps_story_cover_title_week": "Πάρε μια στιγμή.\nΑυτή ήταν η εβδομάδα σου.",
   "recaps_story_days": {
     "one": "1 μέρα",
     "other": "{{count}} μέρες"
   },
+  "recaps_story_emotions_eyebrow": "Πιο έντονα",
+  "recaps_story_emotions_title": "Ένιωσες πιο συχνά: %{emotion}",
+  "recaps_story_far_title_many": "Ταξίδεψες: %{city} και πιο πέρα",
+  "recaps_story_far_title_single": "Ταξίδεψες μέχρι: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Η πιο δύσκολη μέρα σου",
     "other": "Οι {{count}} πιο δύσκολες μέρες σου"
@@ -957,6 +968,9 @@
   "recaps_story_vs_eyebrow": "%{month} vs %{previous}",
   "recaps_story_vs_text": "Μέρες με κάθε ετικέτα, vs %{previous}.",
   "recaps_story_vs_title": "Περισσότερο αυτό, λιγότερο εκείνο",
+  "recaps_story_week_mood_eyebrow": "Η εβδομάδα σου",
+  "recaps_story_week_mood_good": "Καλές μέρες: %{count} από %{total}",
+  "recaps_story_week_mood_title": "Η εβδομάδα σου, μέρα με τη μέρα",
   "recaps_story_weekday_eyebrow": "Μια συνήθεια γεννιέται",
   "recaps_story_weekday_previous": "%{month}: %{hits} από %{total}.",
   "recaps_story_weekday_text": "%{hits} από %{total} εβδομάδες.",

@@ -5,6 +5,7 @@ import { getPersonMoments } from "./moments";
 import { THRESHOLDS } from "../thresholds";
 import type {
   ConnectedPerson,
+  DateKey,
   EmotionCount,
   RecapDay,
   RecapInput,
@@ -178,24 +179,42 @@ export const getHome = (history: RecapDay[]) => {
   };
 };
 
+/** A point on the map. */
+interface Point {
+  latitude: number;
+  longitude: number;
+}
+
+/** Trip of the period with the points checked in there. */
+export interface TripVisit extends Trip {
+  points: Point[];
+}
+
+/** Spot of the period with its days and the points checked in there. */
+export interface SpotVisit {
+  name: string;
+  dates: DateKey[];
+  points: Point[];
+}
+
 /**
- * Places of the period. Location on.
+ * Trips and spots of the period with their points, `null` with location off
+ * or without a home city.
  *
  * - Trips: days with a place 25+ km from home, outside the home city,
  *   merged per city across gaps of up to 2 days. A day checked in at home
  *   ends a trip
- * - Spots: every other place by days, most first. Home city areas by
+ * - Spots: every other place, most days first. Home city areas by
  *   district, nearby towns by name
- * - Shows with a trip or 2+ spots; at most 5 rows, trips first
  */
-export const places = (input: RecapInput): SummaryCard[] => {
+export const getPlaceVisits = (input: RecapInput) => {
   const home = input.locationEnabled ? getHome(input.history) : null;
   if (!home) {
-    return [];
+    return null;
   }
-  const trips: Trip[] = [];
-  const spotDays = new Map<string, Set<string>>();
-  let open: Trip | null = null;
+  const trips: TripVisit[] = [];
+  const spots = new Map<string, { dates: Set<DateKey>; points: Point[] }>();
+  let open: TripVisit | null = null;
   for (const day of input.days) {
     const dayPlaces = day.items.flatMap((item) => {
       const place = parsePlace(item.location?.name);
@@ -216,8 +235,15 @@ export const places = (input: RecapInput): SummaryCard[] => {
       ) {
         open.end = day.date;
         open.days += 1;
+        open.points.push(away.location);
       } else {
-        open = { city: away.city, start: day.date, end: day.date, days: 1 };
+        open = {
+          city: away.city,
+          start: day.date,
+          end: day.date,
+          days: 1,
+          points: [away.location],
+        };
         trips.push(open);
       }
     } else if (dayPlaces.length > 0) {
@@ -230,22 +256,47 @@ export const places = (input: RecapInput): SummaryCard[] => {
           place.city === home.city
             ? (place.district ?? place.city)
             : place.city;
-        const days = spotDays.get(name) ?? new Set<string>();
-        days.add(day.date);
-        spotDays.set(name, days);
+        const spot = spots.get(name) ?? { dates: new Set(), points: [] };
+        spot.dates.add(day.date);
+        spot.points.push(place.location);
+        spots.set(name, spot);
       }
     }
   }
-  const allSpots = [...spotDays.entries()]
-    .map(([name, days]) => ({ name, days: days.size }))
-    .sort((a, b) => b.days - a.days || a.name.localeCompare(b.name));
-  if (trips.length === 0 && allSpots.length < THRESHOLDS.placesMinSpots) {
+  return {
+    home,
+    trips,
+    spots: [...spots.entries()]
+      .map(([name, spot]) => ({
+        name,
+        dates: [...spot.dates],
+        points: spot.points,
+      }))
+      .sort(
+        (a, b) =>
+          b.dates.length - a.dates.length || a.name.localeCompare(b.name)
+      ),
+  };
+};
+
+/**
+ * Places of the period. Location on. Shows with a trip or 2+ spots; at most
+ * 5 rows, trips first.
+ */
+export const places = (input: RecapInput): SummaryCard[] => {
+  const visits = getPlaceVisits(input);
+  if (
+    !visits ||
+    (visits.trips.length === 0 &&
+      visits.spots.length < THRESHOLDS.placesMinSpots)
+  ) {
     return [];
   }
-  const shownTrips = trips.slice(0, THRESHOLDS.placesMaxRows);
-  const spots = allSpots.slice(
-    0,
-    Math.max(0, THRESHOLDS.placesMaxRows - shownTrips.length)
-  );
-  return [{ type: "places", trips: shownTrips, spots }];
+  const trips = visits.trips
+    .slice(0, THRESHOLDS.placesMaxRows)
+    .map(({ points: _points, ...trip }) => trip);
+  const spots = visits.spots
+    .slice(0, Math.max(0, THRESHOLDS.placesMaxRows - trips.length))
+    .map((spot) => ({ name: spot.name, days: spot.dates.length }));
+  return [{ type: "places", trips, spots }];
 };

@@ -82,8 +82,11 @@ export const ShareCard = ({
   // Days fill the card: slide padding 24 and card padding per side.
   const inner = width - 48 - PADDING * 2;
   const cell = Math.floor((inner - GAP * 6) / 7);
-  const photoSize = Math.floor((inner - GAP * (PHOTOS - 1)) / PHOTOS);
-  const shown = photos.length >= PHOTOS ? photos.slice(0, PHOTOS) : [];
+  const shown = photos.slice(0, PHOTOS);
+  // Fewer photos share the row, each at most half of it.
+  const photoSize = Math.floor(
+    (inner - GAP * (Math.max(shown.length, 2) - 1)) / Math.max(shown.length, 2)
+  );
   const isWeek = ctx.period.kind === "week";
   return (
     <View>

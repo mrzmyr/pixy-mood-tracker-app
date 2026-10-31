@@ -882,9 +882,15 @@
     "other": "{{count}} dní s %{tag} tento týden"
   },
   "recaps_story_banner_title": "Ohlédnutí: %{month}",
+  "recaps_story_best_day_eyebrow": "Nejlepší den",
+  "recaps_story_best_day_title": "%{day} byl tvůj nejzářivější den",
   "recaps_story_city_eyebrow": "Poprvé",
   "recaps_story_city_km": "%{city} · %{km} km od domova",
   "recaps_story_city_title": "Tvůj první pixel v místě %{city}",
+  "recaps_story_close_text_few": "Pár míst neslo tvůj týden",
+  "recaps_story_close_text_many": "Hodně ses pohyboval",
+  "recaps_story_close_title": "Nejčastěji jsi byl tady: %{place}",
+  "recaps_story_close_title_single": "Celý týden jsi byl v okolí: %{place}",
   "recaps_story_coming_eyebrow": "Co přijde",
   "recaps_story_coming_left": {
     "one": "Zbývá 1",
@@ -900,10 +906,15 @@
   },
   "recaps_story_cover_pixels_title": "%{month} v pixelech",
   "recaps_story_cover_title": "%{month}: co dostalo tvar",
+  "recaps_story_cover_title_week": "Zastav se na chvíli.\nTohle byl tvůj týden.",
   "recaps_story_days": {
     "one": "1 den",
     "other": "Dní: {{count}}"
   },
+  "recaps_story_emotions_eyebrow": "Nejvíc cítěné",
+  "recaps_story_emotions_title": "Nejčastěji jsi cítil: %{emotion}",
+  "recaps_story_far_title_many": "Cestoval jsi: %{city} a dál",
+  "recaps_story_far_title_single": "Dostal ses až do: %{city}",
   "recaps_story_hard_days_label": {
     "one": "Tvůj těžší den",
     "other": "Tvé těžší dny: {{count}}"
@@ -957,6 +968,9 @@
   "recaps_story_vs_eyebrow": "%{month} vs. %{previous}",
   "recaps_story_vs_text": "Dny s každým štítkem, vs. %{previous}.",
   "recaps_story_vs_title": "Víc tohohle, míň tamtoho",
+  "recaps_story_week_mood_eyebrow": "Tvůj týden",
+  "recaps_story_week_mood_good": "Dobré dny: %{count} z %{total}",
+  "recaps_story_week_mood_title": "Tvůj týden den po dni",
   "recaps_story_weekday_eyebrow": "Vzniká zvyk",
   "recaps_story_weekday_previous": "%{month}: %{hits} z %{total}.",
   "recaps_story_weekday_text": "%{hits} z %{total} týdnů.",
