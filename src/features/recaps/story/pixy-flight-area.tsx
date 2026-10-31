@@ -20,16 +20,26 @@ const ARRIVAL_MS = 2400;
 /**
  * Free sky where cloud Pixy flies its loop, sized by `style`. Pixy glides
  * in from beyond the right screen edge, then stays inside the area, so it
- * never crosses text next to it. Reduced motion: an empty area.
+ * never crosses text next to it. `isGliding` false: Pixy is already there,
+ * as on slides after the first. Reduced motion: an empty area.
  */
-export const PixyFlightArea = ({ style }: { style?: ViewStyle }) => {
+export const PixyFlightArea = ({
+  style,
+  isGliding = true,
+}: {
+  style?: ViewStyle;
+  isGliding?: boolean;
+}) => {
   const isReducedMotion = useReducedMotion();
   const boost = useSharedValue(0);
   const idle = usePixyIdle({ isEnabled: true, isReducedMotion });
   const [zone, setZone] = useState<FlightZone | null>(null);
   const { width: screenWidth } = useWindowDimensions();
-  const arrival = useSharedValue(1);
+  const arrival = useSharedValue(isGliding ? 1 : 0);
   useEffect(() => {
+    if (!isGliding) {
+      return;
+    }
     arrival.set(
       withDelay(
         ARRIVAL_DELAY_MS,
@@ -39,7 +49,7 @@ export const PixyFlightArea = ({ style }: { style?: ViewStyle }) => {
         })
       )
     );
-  }, [arrival]);
+  }, [arrival, isGliding]);
   const arrivalStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: arrival.get() * screenWidth }],
   }));

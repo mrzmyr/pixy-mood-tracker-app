@@ -17,6 +17,7 @@ import {
   useDayColors,
 } from "./parts";
 import { Orbit } from "./orbit";
+import { PixyFlightArea } from "./pixy-flight-area";
 import { StoryIntro } from "./story-intro";
 import { getStoryTheme, STORY_PALETTE, STORY_SCREEN_PADDING } from "./theme";
 import type {
@@ -301,8 +302,7 @@ const ComingUp = ({
   );
 };
 
-/** Content of one slide. The player draws background and chrome. */
-export const SlideContent = ({
+const SlideBody = ({
   slide,
   ctx,
 }: {
@@ -323,11 +323,28 @@ export const SlideContent = ({
     case "coming-up": {
       return <ComingUp slide={slide} ctx={ctx} />;
     }
-    case "intro": {
-      return <StoryIntro ctx={ctx} />;
-    }
     default: {
       return null;
     }
   }
 };
+
+/**
+ * Content of one slide. The player draws background and chrome. Cloud Pixy
+ * stays around: it flies in the free sky below the content.
+ */
+export const SlideContent = ({
+  slide,
+  ctx,
+}: {
+  slide: StorySlide;
+  ctx: SlideContext;
+}) =>
+  slide.type === "intro" ? (
+    <StoryIntro ctx={ctx} />
+  ) : (
+    <View style={{ flex: 1 }}>
+      <SlideBody slide={slide} ctx={ctx} />
+      <PixyFlightArea isGliding={false} style={{ flex: 1, marginTop: 24 }} />
+    </View>
+  );
