@@ -321,6 +321,15 @@ export const SettingsScreen = () => {
                   testID="dev-fixtures"
                 />
               )}
+              {DEV_TOOLS && (
+                <FieldRow
+                  title="Playground"
+                  icon={SETTINGS_ICONS.playground}
+                  kind="push"
+                  onPress={() => router.push("/dev/playground")}
+                  testID="dev-playground"
+                />
+              )}
               {canOverrideFeatureFlags && (
                 <FieldRow
                   title="Feature flags"

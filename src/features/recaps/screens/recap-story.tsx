@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import noop from "lodash/noop";
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
-import type { SharedValue } from "react-native-reanimated";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useColorScheme, View } from "react-native";
 import type { View as ViewType } from "react-native";
@@ -18,7 +17,8 @@ import type { FeedbackReason } from "../feedback-reasons";
 import { getPeriod } from "../period";
 import { buildMonthStory, buildWeekStory } from "../story/deck";
 import { monthName } from "../story/format";
-import { SlideBackdrop, SlideContent } from "../story/slides";
+import { SlideContent } from "../story/slides";
+import { fillsScreen, slideBackdrop } from "../story/slide-layout";
 import { getSlideTheme } from "../story/slide-theme";
 import type { SlideContext } from "../story/slides";
 import { StoryFeedback } from "../story/story-feedback";
@@ -41,42 +41,6 @@ const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 
 const isSource = (value: unknown): value is StorySource =>
   SOURCES.some((source) => source === value);
-
-/** Backdrop of the slide at `index`; it can carry on from the slide before. */
-const slideBackdrop = (
-  story: StorySlide[],
-  index: number,
-  progress: SharedValue<number>
-) => {
-  const slide = story[index];
-  return slide ? (
-    <SlideBackdrop
-      slide={slide}
-      previous={story[index - 1]}
-      progress={progress}
-    />
-  ) : null;
-};
-
-/** Slides that lay out the whole screen, over a photo, map, or sky. */
-const FULL_SCREEN_SLIDES: ReadonlySet<StorySlide["type"]> = new Set([
-  "share",
-  "first-city",
-  "intro",
-  "best-day",
-  "week-mood",
-  "top-emotions",
-  "close-by",
-  "far-out",
-]);
-
-/**
- * Slides drawn over the whole screen: photo backdrops, content pushed to the
- * bottom, or centered. Every other slide stacks from the top.
- */
-const fillsScreen = (slide: StorySlide) =>
-  FULL_SCREEN_SLIDES.has(slide.type) ||
-  (slide.type === "cover" && slide.variant === "photo");
 
 /** Share, Helpful, Not Helpful. Every action pauses the story first. */
 const StoryActions = ({

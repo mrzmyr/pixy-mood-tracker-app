@@ -58,6 +58,16 @@ const startupFeatureImport = {
     "Startup code imports features through index.ts only. Screens load per route from routes.ts.",
 };
 
+// Dev tools may also import a feature's `playground` entry, which only dev tools reach.
+const devFeatureDeepImport = {
+  group: [
+    "@/features/*/**",
+    "!@/features/*/routes",
+    "!@/features/*/playground",
+  ],
+  message: "Import features through their entry file.",
+};
+
 const devDeepImport = {
   regex: "^@/dev/.+",
   message:
@@ -196,7 +206,7 @@ export default defineConfig({
           "error",
           {
             paths: iconImports,
-            patterns: [featureDeepImport, reactNavigationImport],
+            patterns: [devFeatureDeepImport, reactNavigationImport],
           },
         ],
       },

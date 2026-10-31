@@ -25,7 +25,7 @@ export const writeStorageFixture = (fixture: StorageFixture) =>
  * photos, and points entries at the stored copies. A file that fails to
  * import keeps its placeholder name; the card shows an empty tile.
  */
-const withPhotoFiles = async (data: ImportData): Promise<ImportData> => {
+export const withPhotoFiles = async (data: ImportData): Promise<ImportData> => {
   const items = Array.isArray(data.items) ? data.items : [];
   const fileNames = new Set(
     items.flatMap((item) => (item.photos ?? []).map((photo) => photo.fileName))
