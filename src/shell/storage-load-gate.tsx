@@ -22,10 +22,10 @@ const exportData = async () => {
         status: "raw_storage_export_failed",
         message: "Stored data could not be exported",
         why: `exportRawStorage failed: ${error instanceof Error ? error.message : String(error)}`,
-        fix: "Check free device storage, then tap Export data again",
+        fix: "Check free device storage, then tap Export Data again",
       })
     );
-    Alert.alert(t("export_failed_title"));
+    Alert.alert(t("export_failed_title"), t("export_failed_message"));
   }
 };
 

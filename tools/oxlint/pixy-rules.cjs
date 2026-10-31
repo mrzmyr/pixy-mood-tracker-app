@@ -1010,6 +1010,27 @@ const titleCaseLabels = {
     };
 
     return {
+      // Alert.alert(title, message, buttons): the title and button texts are labels.
+      CallExpression(node) {
+        const { callee } = node;
+        if (
+          callee.type !== "MemberExpression" ||
+          callee.object.type !== "Identifier" ||
+          callee.object.name !== "Alert" ||
+          callee.property.type !== "Identifier" ||
+          callee.property.name !== "alert"
+        ) {
+          return;
+        }
+        check(node.arguments[0]);
+        for (const button of node.arguments[2]?.elements ?? []) {
+          for (const property of button?.properties ?? []) {
+            if (property.key?.name === "text") {
+              check(property.value);
+            }
+          }
+        }
+      },
       JSXElement(node) {
         const opening = node.openingElement;
         if (opening.name.type !== "JSXIdentifier") {

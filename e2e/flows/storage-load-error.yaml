@@ -19,7 +19,7 @@ tags: [p0, storage]
 # Export shares the stored data and keeps the error screen.
 - tapOn:
     id: "storage-load-error-export"
-- assertNotVisible: "Export failed"
+- assertNotVisible: "Export Failed"
 - assertVisible:
     id: "storage-load-error"
 

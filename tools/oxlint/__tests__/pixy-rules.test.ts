@@ -438,6 +438,14 @@ describe("title-case-labels", () => {
     ).toBe(3);
   });
 
+  it("reports sentence case in an alert title and alert button", () => {
+    expect(
+      lintTitles(
+        'Alert.alert(t("try_again"), t("tagline"), [{ text: t("try_again") }, { text: t("save_tag") }]);\n'
+      )
+    ).toBe(2);
+  });
+
   it("allows Title Case, small words, and full sentences", () => {
     expect(
       lintTitles(
