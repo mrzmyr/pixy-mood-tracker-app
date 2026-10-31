@@ -1,6 +1,6 @@
 import React, { isValidElement, useCallback } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import type { AccessibilityValue, TextStyle, ViewStyle } from "react-native";
+import type { AccessibilityValue, ViewStyle } from "react-native";
 
 import ChevronRight from "lucide-react-native/icons/chevron-right";
 import { SFIcon } from "@/components/sf-icon";
@@ -148,6 +148,11 @@ const getFrameStyle = ({
   alignItems: "center",
 });
 
+/**
+ * Row of a menu list. Title: short Title Case noun. Status: `children`, in the
+ * value slot. Role: `tone`. Text never wraps or shrinks: shorten it instead.
+ * Warnings about the list go below it as `TextInfo`.
+ */
 const MenuListItem = ({
   title,
   onPress = null,
@@ -171,7 +176,8 @@ const MenuListItem = ({
   isLink?: boolean | null;
   tone?: MenuListItemTone;
   deactivated?: boolean;
-  style?: ViewStyle & TextStyle;
+  /** Row layout only. `tone` sets the text color. */
+  style?: ViewStyle;
   testID?: string;
   /** Current value, read after the title, for example a selected option. */
   accessibilityValue?: AccessibilityValue;

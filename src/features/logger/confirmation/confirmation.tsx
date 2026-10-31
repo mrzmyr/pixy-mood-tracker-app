@@ -49,6 +49,7 @@ const readableOn = (color: string, background: string) => {
     step < 8 && contrast(readable, background) < MIN_CONTRAST;
     step += 1
   ) {
+    // oxlint-disable-next-line pixy-standards/no-color-shading -- steps text color up until it meets the contrast minimum
     readable = readable.brighten(0.5);
   }
   return readable.hex();

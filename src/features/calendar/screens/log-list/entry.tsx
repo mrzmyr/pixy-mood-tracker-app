@@ -4,7 +4,7 @@ import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { useRouter } from "expo-router";
 import Moon from "lucide-react-native/icons/moon";
-import Sun from "lucide-react-native/icons/sun";
+import Clock12 from "lucide-react-native/icons/clock-12";
 import SunMedium from "lucide-react-native/icons/sun-medium";
 import Sunrise from "lucide-react-native/icons/sunrise";
 import Sunset from "lucide-react-native/icons/sunset";
@@ -35,9 +35,9 @@ import { RADIUS } from "@/constants/radius";
 /** Space below the last block of a card. */
 const CARD_BOTTOM_PADDING = 20;
 
-const TIME_OF_DAY_ICONS: Record<TimeOfDay, typeof Sun> = {
+const TIME_OF_DAY_ICONS: Record<TimeOfDay, typeof Clock12> = {
   morning: Sunrise,
-  midday: Sun,
+  midday: Clock12,
   afternoon: SunMedium,
   evening: Sunset,
   night: Moon,

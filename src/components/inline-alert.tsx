@@ -25,6 +25,7 @@ const GAP = 10;
 /**
  * Inline message inside a screen or sheet, next to the content it is about.
  * Stays until the state changes; use `showToast` for short confirmations.
+ * Use it instead of plain colored text.
  *
  * Screen readers announce it when it appears: VoiceOver through
  * `announceForAccessibility`, TalkBack through the live region.

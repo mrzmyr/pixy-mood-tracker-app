@@ -1,22 +1,18 @@
-import FileText from "lucide-react-native/icons/file-text";
-import Heart from "lucide-react-native/icons/heart";
-import Image from "lucide-react-native/icons/image";
-import Tag from "lucide-react-native/icons/tag";
-import Users from "lucide-react-native/icons/users";
 import { Pressable, Text, View } from "react-native";
+import { ModuleIcon } from "@/components/module-icon";
 import type { LoggerStep } from "@/constants/logger-steps";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { INSET } from "./layout";
 
-/** Steps the day view can add to, in card order, with label and icon. */
+/** Steps the day view can add to, in card order, with label. */
 const ADDABLE_STEPS = [
-  { step: "emotions", label: "logger_step_emotions", Icon: Heart },
-  { step: "people", label: "logger_step_people", Icon: Users },
-  { step: "tags", label: "logger_step_tags", Icon: Tag },
-  { step: "photos", label: "logger_step_photos", Icon: Image },
-  { step: "message", label: "logger_step_message", Icon: FileText },
+  { step: "emotions", label: "logger_step_emotions" },
+  { step: "people", label: "logger_step_people" },
+  { step: "tags", label: "logger_step_tags" },
+  { step: "photos", label: "logger_step_photos" },
+  { step: "message", label: "logger_step_message" },
 ] as const;
 
 /** A step the add pills can offer. */
@@ -50,7 +46,7 @@ export const AddPills = ({
         paddingHorizontal: INSET,
       }}
     >
-      {pills.map(({ step, label, Icon }) => (
+      {pills.map(({ step, label }) => (
         <Pressable
           key={step}
           testID={`log-list-${step}-edit`}
@@ -71,7 +67,7 @@ export const AddPills = ({
             opacity: pressed ? 0.6 : 1,
           })}
         >
-          <Icon width={17} height={17} color={colors.textSecondary} />
+          <ModuleIcon module={step} size={17} color={colors.textSecondary} />
           <Text
             style={{
               fontSize: 17,

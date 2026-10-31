@@ -15,16 +15,11 @@ import type { ReactElement } from "react";
 import BedDouble from "lucide-react-native/icons/bed-double";
 import Bell from "lucide-react-native/icons/bell";
 import Droplet from "lucide-react-native/icons/droplet";
-import FileText from "lucide-react-native/icons/file-text";
-import Heart from "lucide-react-native/icons/heart";
-import ImageIcon from "lucide-react-native/icons/image";
 import MapPin from "lucide-react-native/icons/map-pin";
 import MessageSquare from "lucide-react-native/icons/message-square";
-import Sun from "lucide-react-native/icons/sun";
-import Tag from "lucide-react-native/icons/tag";
-import Users from "lucide-react-native/icons/users";
 import { useRouter } from "expo-router";
 import useColors from "@/hooks/use-colors";
+import { ModuleIcon } from "@/components/module-icon";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useLocationSetting } from "@/features/location";
 import { useStepEnabled } from "../use-step-enabled";
@@ -108,14 +103,14 @@ export const StepsScreen = () => {
   );
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {
-    rating: <Sun width={20} height={20} stroke={colors.text} />,
-    message: <FileText width={20} height={20} color={colors.text} />,
-    photos: <ImageIcon width={20} height={20} color={colors.text} />,
-    tags: <Tag width={20} height={20} color={colors.text} />,
-    people: <Users width={20} height={20} color={colors.text} />,
+    rating: <ModuleIcon module="rating" color={colors.text} />,
+    message: <ModuleIcon module="message" color={colors.text} />,
+    photos: <ModuleIcon module="photos" color={colors.text} />,
+    tags: <ModuleIcon module="tags" color={colors.text} />,
+    people: <ModuleIcon module="people" color={colors.text} />,
     sleep: <BedDouble size={20} color={colors.text} />,
     menstruation: <Droplet size={20} color={colors.text} />,
-    emotions: <Heart width={20} height={20} color={colors.text} />,
+    emotions: <ModuleIcon module="emotions" color={colors.text} />,
     feedback: <MessageSquare width={20} height={20} color={colors.text} />,
     reminder: <Bell width={20} height={20} color={colors.text} />,
   };

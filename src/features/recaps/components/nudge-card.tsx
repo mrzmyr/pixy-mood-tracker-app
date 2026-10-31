@@ -3,7 +3,6 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import ImageIcon from "lucide-react-native/icons/image";
 import Button from "@/components/button";
 import LinkButton from "@/components/link-button";
 import { RADIUS } from "@/constants/radius";
@@ -19,6 +18,7 @@ import type { TranslationKey } from "@/lib/translation";
 import type { NudgeCard as NudgeCardData } from "../types";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
 import { RingedAvatar } from "./ringed-avatar";
+import { ModuleIcon } from "@/components/module-icon";
 import { CARD_PADDING } from "./layout";
 
 type NudgeType = NudgeCardData["type"];
@@ -104,7 +104,7 @@ const PhotosArt = () => {
             transform: [{ rotate: `${rotation}deg` }],
           }}
         >
-          <ImageIcon width={32} height={32} color={colors.textSecondary} />
+          <ModuleIcon module="photos" size={32} color={colors.textSecondary} />
         </View>
       ))}
     </View>

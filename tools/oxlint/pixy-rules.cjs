@@ -491,6 +491,370 @@ const modalRouteShowsHeader = {
   },
 };
 
+/** Import source as a repo path: `@/x` and `./x` become `src/...`, packages stay as they are. */
+const toRepoPath = (source, fileDir) => {
+  if (source.startsWith("@/")) {
+    return `src/${source.slice(2)}`;
+  }
+  if (source.startsWith(".")) {
+    return path.posix.join(fileDir, source);
+  }
+  return source;
+};
+
+const componentScope = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Allow a module, or some of its named exports, only in listed folders, so one component or icon keeps one use",
+    },
+    messages: {
+      scope: "{{message}}",
+    },
+    schema: [
+      {
+        type: "object",
+        properties: {
+          modules: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                name: { type: "string" },
+                importNames: { type: "array", items: { type: "string" } },
+                allow: { type: "array", items: { type: "string" } },
+                message: { type: "string" },
+              },
+              required: ["name", "allow", "message"],
+            },
+          },
+        },
+      },
+    ],
+  },
+  create(context) {
+    const modules = context.options[0]?.modules ?? [];
+    const relative = path
+      .relative(context.cwd ?? process.cwd(), context.filename)
+      .split(path.sep)
+      .join("/");
+    const scoped = modules.filter(
+      ({ allow }) => !allow.some((prefix) => relative.startsWith(prefix))
+    );
+    if (scoped.length === 0) {
+      return {};
+    }
+    const fileDir = path.posix.dirname(relative);
+
+    return {
+      ImportDeclaration(node) {
+        if (node.importKind === "type") {
+          return;
+        }
+        const target = toRepoPath(node.source.value, fileDir);
+        for (const { name, importNames, message } of scoped) {
+          if (toRepoPath(name, fileDir) !== target) {
+            continue;
+          }
+          if (!importNames) {
+            context.report({
+              messageId: "scope",
+              data: { message },
+              node: node.source,
+            });
+            continue;
+          }
+          for (const specifier of node.specifiers) {
+            if (
+              specifier.type === "ImportSpecifier" &&
+              specifier.importKind !== "type" &&
+              importNames.includes(
+                specifier.imported.name ?? specifier.imported.value
+              )
+            ) {
+              context.report({
+                messageId: "scope",
+                data: { message },
+                node: specifier,
+              });
+            }
+          }
+        }
+      },
+    };
+  },
+};
+
+const BUTTON_MODULES = new Set([
+  "src/components/button",
+  "src/components/link-button",
+]);
+
+const buttonLabelChildren = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Disallow a raw Text child in Button and LinkButton, which set the label and disabled color",
+    },
+    messages: {
+      text: "Pass a label string, or `ButtonIcon` + `ButtonText` from `@/components/button-content`. A raw `Text` keeps its own color when the button is disabled.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const fileDir = path.posix.dirname(
+      path
+        .relative(context.cwd ?? process.cwd(), context.filename)
+        .split(path.sep)
+        .join("/")
+    );
+    const buttonNames = new Set();
+    const textNames = new Set();
+
+    return {
+      ImportDeclaration(node) {
+        const source = node.source.value;
+        for (const specifier of node.specifiers) {
+          if (
+            BUTTON_MODULES.has(toRepoPath(source, fileDir)) &&
+            specifier.type === "ImportDefaultSpecifier"
+          ) {
+            buttonNames.add(specifier.local.name);
+          }
+          if (
+            source === "react-native" &&
+            specifier.type === "ImportSpecifier" &&
+            (specifier.imported.name ?? specifier.imported.value) === "Text"
+          ) {
+            textNames.add(specifier.local.name);
+          }
+        }
+      },
+      JSXElement(node) {
+        const { name } = node.openingElement;
+        if (name.type !== "JSXIdentifier" || !buttonNames.has(name.name)) {
+          return;
+        }
+        for (const child of node.children) {
+          if (
+            child.type === "JSXElement" &&
+            child.openingElement.name.type === "JSXIdentifier" &&
+            textNames.has(child.openingElement.name.name)
+          ) {
+            context.report({ messageId: "text", node: child });
+          }
+        }
+      },
+    };
+  },
+};
+
+/** Files that render a sheet or its header import one of these. */
+const SHEET_MODULES = new Set([
+  "src/components/sheet-modal",
+  "src/components/modal-header",
+]);
+
+const KEYBOARD_LAYOUT_NAMES = new Set([
+  "KeyboardAvoidingView",
+  "useAnimatedKeyboard",
+]);
+
+const sheetKeyboardLayout = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Disallow keyboard-driven layout in files that render a sheet",
+    },
+    messages: {
+      keyboard:
+        "Sheets do not move views on keyboard events. Put inputs at the top of the sheet.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const fileDir = path.posix.dirname(
+      path
+        .relative(context.cwd ?? process.cwd(), context.filename)
+        .split(path.sep)
+        .join("/")
+    );
+    const program = context.sourceCode.ast;
+    const isSheet = program.body.some(
+      (node) =>
+        node.type === "ImportDeclaration" &&
+        SHEET_MODULES.has(toRepoPath(node.source.value, fileDir))
+    );
+    if (!isSheet) {
+      return {};
+    }
+    const keyboardNames = new Set();
+
+    return {
+      ImportDeclaration(node) {
+        for (const specifier of node.specifiers) {
+          if (specifier.type !== "ImportSpecifier") {
+            continue;
+          }
+          const imported = specifier.imported.name ?? specifier.imported.value;
+          if (KEYBOARD_LAYOUT_NAMES.has(imported)) {
+            context.report({ messageId: "keyboard", node: specifier });
+          }
+          if (node.source.value === "react-native" && imported === "Keyboard") {
+            keyboardNames.add(specifier.local.name);
+          }
+        }
+      },
+      CallExpression(node) {
+        const { callee } = node;
+        if (
+          callee.type === "MemberExpression" &&
+          callee.object.type === "Identifier" &&
+          keyboardNames.has(callee.object.name) &&
+          callee.property.type === "Identifier" &&
+          callee.property.name === "addListener"
+        ) {
+          context.report({ messageId: "keyboard", node: callee });
+        }
+      },
+    };
+  },
+};
+
+/** JSX elements in an attribute value, through `cond ? a : b` and `cond && a`. */
+const getJsxValues = (expression) => {
+  if (!expression) {
+    return [];
+  }
+  if (expression.type === "JSXElement") {
+    return [expression];
+  }
+  if (expression.type === "ConditionalExpression") {
+    return [
+      ...getJsxValues(expression.consequent),
+      ...getJsxValues(expression.alternate),
+    ];
+  }
+  if (expression.type === "LogicalExpression") {
+    return getJsxValues(expression.right);
+  }
+  return [];
+};
+
+/** A spinner may replace a header button while its action runs. */
+const HEADER_SLOT_NAMES = new Set(["HeaderButton", "ActivityIndicator"]);
+
+const headerButtonOnly = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Require HeaderButton in the left and right slots of ModalHeader",
+    },
+    messages: {
+      slot: "Modal header buttons are `HeaderButton`. Its `kind` sets side, icon, and style.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const fileDir = path.posix.dirname(
+      path
+        .relative(context.cwd ?? process.cwd(), context.filename)
+        .split(path.sep)
+        .join("/")
+    );
+    const headerNames = new Set();
+
+    return {
+      ImportDeclaration(node) {
+        if (
+          toRepoPath(node.source.value, fileDir) !==
+          "src/components/modal-header"
+        ) {
+          return;
+        }
+        for (const specifier of node.specifiers) {
+          if (specifier.type === "ImportDefaultSpecifier") {
+            headerNames.add(specifier.local.name);
+          }
+        }
+      },
+      JSXOpeningElement(node) {
+        if (
+          node.name.type !== "JSXIdentifier" ||
+          !headerNames.has(node.name.name)
+        ) {
+          return;
+        }
+        for (const attribute of node.attributes) {
+          if (
+            attribute.type !== "JSXAttribute" ||
+            !["left", "right"].includes(attribute.name.name) ||
+            attribute.value?.type !== "JSXExpressionContainer"
+          ) {
+            continue;
+          }
+          for (const element of getJsxValues(attribute.value.expression)) {
+            const { name } = element.openingElement;
+            if (
+              name.type !== "JSXIdentifier" ||
+              !HEADER_SLOT_NAMES.has(name.name)
+            ) {
+              context.report({ messageId: "slot", node: element });
+            }
+          }
+        }
+      },
+    };
+  },
+};
+
+const SHADING_METHODS = new Set([
+  "darken",
+  "brighten",
+  "saturate",
+  "desaturate",
+]);
+
+const noColorShading = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Disallow chroma shading outside the color constants",
+    },
+    messages: {
+      shade:
+        "Get shades from the color scale (`scale[rating].border`) or add a token in `src/constants/colors`. Shading here drifts from the scale.",
+    },
+    schema: [],
+  },
+  create(context) {
+    let hasChroma = false;
+
+    return {
+      ImportDeclaration(node) {
+        if (node.source.value === "chroma-js") {
+          hasChroma = true;
+        }
+      },
+      CallExpression(node) {
+        const { callee } = node;
+        if (
+          hasChroma &&
+          callee.type === "MemberExpression" &&
+          callee.property.type === "Identifier" &&
+          SHADING_METHODS.has(callee.property.name)
+        ) {
+          context.report({ messageId: "shade", node: callee.property });
+        }
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
@@ -504,5 +868,10 @@ module.exports = {
     "sorted-string-arrays": sortedStringArrays,
     "kebab-case-folders": kebabCaseFolders,
     "modal-route-shows-header": modalRouteShowsHeader,
+    "component-scope": componentScope,
+    "button-label-children": buttonLabelChildren,
+    "sheet-keyboard-layout": sheetKeyboardLayout,
+    "header-button-only": headerButtonOnly,
+    "no-color-shading": noColorShading,
   },
 };

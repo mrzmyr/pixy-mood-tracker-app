@@ -54,8 +54,10 @@ const fade = <T,>(start: T, middle: T[], end: T = start) => {
 };
 
 /**
- * Card of the summary. `row` orders the fade-in: tiles in the same row
- * appear together.
+ * Card of the summary, on the plain `colors.summaryBackground` page.
+ * `colors.summaryTile`, `RADIUS.lg`, at least 96 pt, outline and soft shadow.
+ * Text inside: `colors.text` at `FONT_SIZE.base`. Chips: outline, no fill.
+ * `row` orders the fade-in: tiles in the same row appear together.
  */
 export const Tile = ({
   row,

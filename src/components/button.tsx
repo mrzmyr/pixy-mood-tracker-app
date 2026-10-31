@@ -19,7 +19,9 @@ interface Palette {
 
 /**
  * Filled button. Children: a label string, or `ButtonIcon` and `ButtonText`
- * from `@/components/button-content`, which take the button's color.
+ * from `@/components/button-content`, which take the button's color,
+ * including the disabled color. `pixy-standards/button-label-children` blocks
+ * a raw `Text` child.
  */
 const Button = ({
   type = "primary",

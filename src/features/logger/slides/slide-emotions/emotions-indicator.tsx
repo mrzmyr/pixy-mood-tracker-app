@@ -59,7 +59,8 @@ export const EmotionIndicator = ({
           stroke={
             // Light category colors are too pale for a thin outline on white.
             colorScheme === "light"
-              ? chroma(color.background).darken(1.5).hex()
+              ? // oxlint-disable-next-line pixy-standards/no-color-shading -- emotion category colors have no border token yet
+                chroma(color.background).darken(1.5).hex()
               : color.background
           }
         />

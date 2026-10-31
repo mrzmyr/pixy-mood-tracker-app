@@ -33,6 +33,40 @@ const closeButtonImport = {
     "Use `RouteModalHeader` or `HeaderButton`. CloseButton is for media overlays only.",
 };
 
+// Core Module glyphs keep one meaning: only `ModuleIcon` imports them.
+const moduleIconScope = [
+  "sun",
+  "heart",
+  "tag",
+  "users",
+  "image",
+  "file-text",
+].map((icon) => ({
+  name: `lucide-react-native/icons/${icon}`,
+  allow: ["src/components/module-icon.tsx"],
+  message: "This icon means a Core Module. Use `ModuleIcon`.",
+}));
+
+// One component, one use. DESIGN.md names each component in one sentence.
+const componentScopes = [
+  ...moduleIconScope,
+  {
+    name: "@/components/bezel",
+    allow: ["src/components/", "src/features/statistics/"],
+    message: "Bezel is for statistics cards only.",
+  },
+  {
+    name: "react-native",
+    importNames: ["Modal"],
+    // The photo viewer is a media overlay: full screen, its own close.
+    allow: [
+      "src/components/sheet-modal.tsx",
+      "src/features/photos/screens/viewer.tsx",
+    ],
+    message: "Use `SheetModal` or a route modal. No custom slide-in sheets.",
+  },
+];
+
 const featureImport = {
   group: ["@/features", "@/features/**"],
   message: "Lower layer must not import features.",
@@ -247,7 +281,20 @@ export default defineConfig({
         "pixy-standards/no-layout-animation": "error",
         "pixy-standards/kebab-case-folders": "error",
         "pixy-standards/no-direct-error-reporting": "error",
+        "pixy-standards/button-label-children": "error",
+        "pixy-standards/sheet-keyboard-layout": "error",
+        "pixy-standards/header-button-only": "error",
+        "pixy-standards/no-color-shading": "error",
+        "pixy-standards/component-scope": [
+          "error",
+          { modules: componentScopes },
+        ],
       },
+    },
+    {
+      // The color scale derives its shades here; everything else reads them.
+      files: ["src/constants/colors/**"],
+      rules: { "pixy-standards/no-color-shading": "off" },
     },
     {
       // Modal routes keep the native bar (DESIGN.md Sheets and Modals).

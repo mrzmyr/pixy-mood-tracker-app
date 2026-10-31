@@ -38,7 +38,8 @@ const ROW_GAP = 20;
 /**
  * Last grid cell: opens the person form, hidden at `MAX_PEOPLE`. Dashed
  * circle, icon, and label use the tint color, so the cell reads as an action
- * and not as a disabled slot.
+ * and not as a disabled slot. Same size as the person cells; the whole cell
+ * is the target. Copy it for add actions in other picker grids.
  */
 const AddPersonTile = ({ size }: { size: number }) => {
   const router = useRouter();
