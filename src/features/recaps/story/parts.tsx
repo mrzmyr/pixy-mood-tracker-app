@@ -1,7 +1,16 @@
 import dayjs from "dayjs";
 import { Image } from "expo-image";
 import { Text, View } from "react-native";
-import Animated, { Easing, FadeInDown } from "react-native-reanimated";
+import { useEffect } from "react";
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeInDown,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
 import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
 import { TextReveal } from "@/components/text-reveal";
 import { RADIUS } from "@/constants/radius";
@@ -19,7 +28,6 @@ import {
   STORY_PALETTE,
   STORY_TYPE,
   TITLE_DELAY_MS,
-  titleRevealEnd,
 } from "./theme";
 import type { StoryTheme } from "./theme";
 
@@ -105,33 +113,107 @@ export const useDayColors = (
   return map;
 };
 
-/** Gap between blocks that build up after a title, in milliseconds. */
-const BUILD_STAGGER_MS = 250;
+/** Soft rise for content that builds up: eased, never a spring. */
+const REVEAL_MS = 600;
+const REVEAL_EASING = Easing.out(Easing.cubic);
 
 /**
- * Content that builds up after the slide title has written itself: block
- * `step` fades in and rises a little, one after another.
+ * Block of slide content that fades in and rises a little at `at`
+ * milliseconds after the slide opens. Slides build top to bottom, left to
+ * right, after the title.
  */
-export const AfterTitle = ({
-  title,
-  step = 0,
+export const Reveal = ({
+  at,
   style,
   children,
 }: {
-  title: string;
-  step?: number;
+  at: number;
   style?: ViewStyle;
   children: React.ReactNode;
 }) => (
   <Animated.View
-    entering={FadeInDown.delay(titleRevealEnd(title) + step * BUILD_STAGGER_MS)
-      .duration(700)
-      .easing(Easing.out(Easing.cubic))}
+    entering={FadeInDown.delay(at).duration(REVEAL_MS).easing(REVEAL_EASING)}
     style={style}
   >
     {children}
   </Animated.View>
 );
+
+/**
+ * Secondary slide text that writes itself word by word from `at`, like the
+ * title. Words keep the view count low on long lines.
+ */
+export const RevealText = ({
+  text,
+  at,
+  kind,
+  theme,
+  tone = "text",
+  style,
+}: {
+  text: string;
+  at: number;
+  kind: TypeRole;
+  theme: StoryTheme;
+  tone?: "text" | "muted" | "accent";
+  style?: TextStyle;
+}) => (
+  <TextReveal
+    by="word"
+    delay={at}
+    style={[STORY_TYPE[kind], { color: STORY_PALETTE[theme][tone] }, style]}
+  >
+    {text}
+  </TextReveal>
+);
+
+/**
+ * Bar on a see-through track that fills to `share` (0 to 1) from `at`
+ * milliseconds after the slide opens.
+ */
+export const RevealBar = ({
+  share,
+  color,
+  theme,
+  at,
+}: {
+  share: number;
+  color: string | undefined;
+  theme: StoryTheme;
+  at: number;
+}) => {
+  const fill = useSharedValue(0);
+  useEffect(() => {
+    fill.set(
+      withDelay(at, withTiming(share, { duration: 900, easing: REVEAL_EASING }))
+    );
+  }, [fill, at, share]);
+  const fillStyle = useAnimatedStyle(() => ({
+    width: `${fill.get() * 100}%`,
+  }));
+  const palette = STORY_PALETTE[theme];
+  return (
+    <Animated.View
+      // The track shows with its row, just before the bar fills.
+      entering={FadeIn.delay(Math.max(0, at - 150)).duration(400)}
+      style={{
+        height: 12,
+        borderRadius: RADIUS.full,
+        backgroundColor: palette.glass,
+        borderWidth: 1,
+        borderColor: palette.glassBorder,
+        overflow: "hidden",
+      }}
+    >
+      <Animated.View
+        style={[
+          { height: "100%", borderRadius: RADIUS.full, backgroundColor: color },
+          fillStyle,
+        ]}
+      />
+    </Animated.View>
+  );
+};
 
 /** Square day pixel: mood color, or the empty color without a check-in. */
 export const Pixel = ({
@@ -180,11 +262,20 @@ export const MonthGrid = ({
   render,
   weekdayColor,
   dayOutlines,
+  emptyOutline,
+  revealAt,
+  revealStepMs = 30,
 }: {
   period: Period;
   dayColors: ReadonlyMap<DateKey, string>;
   /** Outline per day with a check-in, from `useDayColors(days, "border")`. */
   dayOutlines?: ReadonlyMap<DateKey, string>;
+  /** Outline of days without a check-in, for `glass` pixels on the sky. */
+  emptyOutline?: string;
+  /** Days fade in one after another from here, in milliseconds. */
+  revealAt?: number;
+  /** Time between two days of the reveal. */
+  revealStepMs?: number;
   size: number;
   gap?: number;
   empty: string;
@@ -228,15 +319,24 @@ export const MonthGrid = ({
         date < period.start ? (
           <View key={date} style={{ width: size, height: size }} />
         ) : (
-          <View key={date}>
+          <Animated.View
+            key={date}
+            entering={
+              revealAt === undefined
+                ? undefined
+                : FadeIn.delay(
+                    revealAt + daysBetween(period.start, date) * revealStepMs
+                  ).duration(350)
+            }
+          >
             {render?.(date) ?? (
               <Pixel
                 size={size}
                 color={dayColors.get(date) ?? empty}
-                outline={dayOutlines?.get(date)}
+                outline={dayOutlines?.get(date) ?? emptyOutline}
               />
             )}
-          </View>
+          </Animated.View>
         )
       )}
     </View>

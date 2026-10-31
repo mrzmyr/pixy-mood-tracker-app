@@ -16,10 +16,20 @@ interface StoryPalette {
   surface: string;
   /** Pixel of a day without check-in. */
   empty: string;
+  /** See-through fill on the sky: tracks, empty pixels. Adapts to the sky behind. */
+  glass: string;
+  /** 1 pt outline of `glass`, so it holds on bright clouds. */
+  glassBorder: string;
 }
 
 /** Space between the screen edge and slide content. */
 export const STORY_SCREEN_PADDING = 24;
+
+/** Space between a slide title and its content. */
+export const STORY_TITLE_GAP = 40;
+
+/** Space between blocks of slide content. */
+export const STORY_BLOCK_GAP = 28;
 
 /** Theme of every slide: text on the sky follows the app's light or dark mode. */
 export const getStoryTheme = (isDark: boolean): StoryTheme =>
@@ -34,15 +44,18 @@ export const STORY_PALETTE: Record<StoryTheme, StoryPalette> = {
     accent: "#34D399",
     surface: "#1C1C1E",
     empty: "#262626",
+    glass: "rgba(255,255,255,0.1)",
+    glassBorder: "rgba(255,255,255,0.18)",
   },
   paper: {
     background: "#FFFFFF",
     text: "#0A0A0A",
     muted: "#71717A",
     accent: "#059669",
-    // See-through, so tracks and empty pixels hold on the sky and on white.
-    surface: "rgba(10,10,10,0.08)",
-    empty: "rgba(10,10,10,0.08)",
+    surface: "#F4F4F5",
+    empty: "#EEEEEE",
+    glass: "rgba(255,255,255,0.35)",
+    glassBorder: "rgba(255,255,255,0.75)",
   },
   photo: {
     background: "#000000",
@@ -51,6 +64,8 @@ export const STORY_PALETTE: Record<StoryTheme, StoryPalette> = {
     accent: "#34D399",
     surface: "rgba(0,0,0,0.45)",
     empty: "rgba(255,255,255,0.25)",
+    glass: "rgba(255,255,255,0.15)",
+    glassBorder: "rgba(255,255,255,0.3)",
   },
 };
 
@@ -90,3 +105,7 @@ export const TITLE_DELAY_MS = 500;
 /** Time from slide start until `title` has written itself. */
 export const titleRevealEnd = (title: string) =>
   TITLE_DELAY_MS + getTextRevealDuration(title);
+
+/** Time `text` takes to write itself word by word. */
+export const revealTextMs = (text: string) =>
+  getTextRevealDuration(text, "word");

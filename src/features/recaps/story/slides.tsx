@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import { useWindowDimensions, View } from "react-native";
-import { RADIUS } from "@/constants/radius";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
@@ -10,17 +9,27 @@ import { monthName } from "./format";
 import {
   MonthGrid,
   Pixel,
-  AfterTitle,
+  Reveal,
+  RevealBar,
+  RevealText,
   SlideHeader,
   StoryImage,
   StoryText,
-  TagLabel,
+  TagDot,
   useDayColors,
 } from "./parts";
 import { Orbit } from "./orbit";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { StoryIntro } from "./story-intro";
-import { getStoryTheme, STORY_PALETTE, STORY_SCREEN_PADDING } from "./theme";
+import {
+  getStoryTheme,
+  STORY_BLOCK_GAP,
+  STORY_PALETTE,
+  STORY_SCREEN_PADDING,
+  STORY_TITLE_GAP,
+  revealTextMs,
+  titleRevealEnd,
+} from "./theme";
 import type {
   ComingUpSlide,
   CoverSlide,
@@ -43,10 +52,11 @@ export interface SlideContext {
 
 // ---------------------------------------------------------------- cover
 
-const GRID_GAP = 6;
+const GRID_GAP = 8;
 
 const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
   const theme = getStoryTheme(ctx.isDark);
+  const palette = STORY_PALETTE[theme];
   const dayColors = useDayColors(ctx.days);
   const dayOutlines = useDayColors(ctx.days, "border");
   const isWeek = ctx.period.kind === "week";
@@ -70,14 +80,17 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
         }
         title={title}
       />
-      <AfterTitle title={title} style={{ marginTop: 28 }}>
+      <View style={{ marginTop: STORY_TITLE_GAP }}>
         <MonthGrid
           period={ctx.period}
           dayColors={dayColors}
           dayOutlines={dayOutlines}
           size={size}
           gap={GRID_GAP}
-          empty={STORY_PALETTE[theme].empty}
+          empty={palette.glass}
+          emptyOutline={palette.glassBorder}
+          revealAt={titleRevealEnd(title)}
+          revealStepMs={isWeek ? 90 : 30}
           render={(date) => {
             const photo = byDate.get(date);
             return photo ? (
@@ -88,16 +101,20 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
             ) : null;
           }}
         />
-      </AfterTitle>
+      </View>
     </>
   );
 };
 
 // ---------------------------------------------------------------- tags
 
+/** Time between two tag rows of the build-up. */
+const ROW_STEP_MS = 450;
+
 /**
  * Tags that felt lighter (`positive-tags`) or heavier (`negative-tags`)
- * than days without them. Bars show the size of the effect.
+ * than days without them. Bars show the size of the effect. Each row
+ * builds left to right: dot, name and days, then the bar fills.
  */
 const TagEffects = ({
   slide,
@@ -118,59 +135,74 @@ const TagEffects = ({
   const title = isPositive
     ? t("recaps_story_lifted_title", { tag: topTag.title })
     : t("recaps_story_hard_title", { tag: topTag.title });
+  const start = titleRevealEnd(title);
+  const rowAt = (index: number) => start + index * ROW_STEP_MS;
+  const note = t("recaps_story_lifted_text", { count: ctx.days.length });
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <View style={{ marginTop: 28, gap: 16 }}>
+      <View style={{ marginTop: STORY_TITLE_GAP, gap: STORY_BLOCK_GAP }}>
         {slide.rows.map((row, index) => {
           const tag = ctx.tags.get(row.tagId);
-          return tag ? (
-            <AfterTitle
-              key={row.tagId}
-              title={title}
-              step={index}
-              style={{ gap: 8 }}
-            >
+          if (!tag) {
+            return null;
+          }
+          const days = t("recaps_story_days", { count: row.days });
+          return (
+            <View key={row.tagId} style={{ gap: 10 }}>
               <View
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
-                }}
-              >
-                <TagLabel tag={tag} theme={theme} />
-                <StoryText kind="label" theme={theme} tone="muted">
-                  {t("recaps_story_days", { count: row.days })}
-                </StoryText>
-              </View>
-              <View
-                style={{
-                  height: 12,
-                  borderRadius: RADIUS.full,
-                  backgroundColor: STORY_PALETTE[theme].surface,
+                  alignItems: "center",
+                  gap: 12,
                 }}
               >
                 <View
                   style={{
-                    width: `${Math.max(12, (Math.abs(row.delta) / max) * 100)}%`,
-                    height: 12,
-                    borderRadius: RADIUS.full,
-                    backgroundColor: colors.tags[tag.color]?.dot,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 8,
+                    flexShrink: 1,
                   }}
+                >
+                  <Reveal at={rowAt(index)}>
+                    <TagDot tag={tag} />
+                  </Reveal>
+                  <RevealText
+                    text={tag.title}
+                    at={rowAt(index)}
+                    kind="label"
+                    theme={theme}
+                  />
+                </View>
+                <RevealText
+                  text={days}
+                  at={rowAt(index) + revealTextMs(tag.title)}
+                  kind="label"
+                  theme={theme}
+                  tone="muted"
                 />
               </View>
-            </AfterTitle>
-          ) : null;
+              <RevealBar
+                share={Math.max(0.08, Math.abs(row.delta) / max)}
+                color={colors.tags[tag.color]?.dot}
+                theme={theme}
+                at={rowAt(index) + 150}
+              />
+            </View>
+          );
         })}
       </View>
-      <AfterTitle
-        title={title}
-        step={slide.rows.length}
-        style={{ marginTop: 20 }}
-      >
-        <StoryText kind="body" theme={theme} tone="muted">
-          {t("recaps_story_lifted_text", { count: ctx.days.length })}
-        </StoryText>
-      </AfterTitle>
+      <View style={{ marginTop: STORY_BLOCK_GAP }}>
+        <RevealText
+          text={note}
+          at={rowAt(slide.rows.length)}
+          kind="body"
+          theme={theme}
+          tone="muted"
+        />
+      </View>
     </>
   );
 };
@@ -178,6 +210,9 @@ const TagEffects = ({
 // ---------------------------------------------------------------- coming up
 
 const MONTHS = Array.from({ length: 12 }, (_, index) => index);
+
+/** Time between two months of the build-up. */
+const MONTH_STEP_MS = 90;
 
 const ComingUp = ({
   slide,
@@ -187,6 +222,7 @@ const ComingUp = ({
   ctx: SlideContext;
 }) => {
   const theme = getStoryTheme(ctx.isDark);
+  const palette = STORY_PALETTE[theme];
   const { year } = slide;
   const yearDays = ctx.history.filter((day) => day.date.startsWith(`${year}-`));
   const dayColors = useDayColors(yearDays);
@@ -207,42 +243,49 @@ const ComingUp = ({
             width: 3,
             height: 3,
             borderRadius: 2,
-            backgroundColor: STORY_PALETTE[theme].muted,
+            backgroundColor: palette.muted,
             opacity: 0.6,
           }}
         />
       </View>
     ) : null;
   const title = t("recaps_story_coming_title", { count: slide.left, year });
+  const start = titleRevealEnd(title);
+  const legendAt = start + MONTHS.length * MONTH_STEP_MS + 200;
+  const missed = t("recaps_story_coming_missed", { count: slide.missed });
+  const left = t("recaps_story_coming_left", { count: slide.left });
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <AfterTitle
-        title={title}
+      <View
         style={{
-          marginTop: 24,
+          marginTop: STORY_TITLE_GAP,
           flexDirection: "row",
           flexWrap: "wrap",
           justifyContent: "space-between",
-          rowGap: 14,
+          rowGap: 22,
         }}
       >
         {MONTHS.map((month) => {
-          const start = dayjs(`${year}-01-01`).add(month, "month");
+          const monthStart = dayjs(`${year}-01-01`).add(month, "month");
           const period: Period = {
             kind: "month",
-            start: start.format("YYYY-MM-DD"),
-            end: start.endOf("month").format("YYYY-MM-DD"),
+            start: monthStart.format("YYYY-MM-DD"),
+            end: monthStart.endOf("month").format("YYYY-MM-DD"),
           };
           return (
-            <View key={month} style={{ gap: 4 }}>
+            <Reveal
+              key={month}
+              at={start + month * MONTH_STEP_MS}
+              style={{ gap: 6 }}
+            >
               <StoryText
                 kind="label"
                 theme={theme}
                 tone="muted"
                 style={{ fontSize: 12 }}
               >
-                {start.format("MMM")}
+                {monthStart.format("MMM")}
               </StoryText>
               <MonthGrid
                 period={period}
@@ -250,48 +293,55 @@ const ComingUp = ({
                 dayOutlines={dayOutlines}
                 size={size}
                 gap={2}
-                empty={STORY_PALETTE[theme].empty}
+                empty={palette.glass}
+                emptyOutline={palette.glassBorder}
                 render={pending}
               />
-            </View>
+            </Reveal>
           );
         })}
-      </AfterTitle>
-      <AfterTitle
-        title={title}
-        step={1}
-        style={{ flexDirection: "row", gap: 16, marginTop: 16 }}
+      </View>
+      <View
+        style={{ flexDirection: "row", gap: 20, marginTop: STORY_BLOCK_GAP }}
       >
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-          <Pixel size={10} color={STORY_PALETTE[theme].empty} />
-          <StoryText
+          <Reveal at={legendAt}>
+            <Pixel
+              size={10}
+              color={palette.glass}
+              outline={palette.glassBorder}
+            />
+          </Reveal>
+          <RevealText
+            text={missed}
+            at={legendAt}
             kind="label"
             theme={theme}
             tone="muted"
             style={{ fontSize: 12 }}
-          >
-            {t("recaps_story_coming_missed", { count: slide.missed })}
-          </StoryText>
+          />
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-          <View
-            style={{
-              width: 3,
-              height: 3,
-              borderRadius: 2,
-              backgroundColor: STORY_PALETTE[theme].muted,
-            }}
-          />
-          <StoryText
+          <Reveal at={legendAt + revealTextMs(missed)}>
+            <View
+              style={{
+                width: 3,
+                height: 3,
+                borderRadius: 2,
+                backgroundColor: palette.muted,
+              }}
+            />
+          </Reveal>
+          <RevealText
+            text={left}
+            at={legendAt + revealTextMs(missed)}
             kind="label"
             theme={theme}
             tone="muted"
             style={{ fontSize: 12 }}
-          >
-            {t("recaps_story_coming_left", { count: slide.left })}
-          </StoryText>
+          />
         </View>
-      </AfterTitle>
+      </View>
     </>
   );
 };
@@ -339,6 +389,6 @@ export const SlideContent = ({
   ) : (
     <View style={{ flex: 1 }}>
       <SlideBody slide={slide} ctx={ctx} />
-      <SkyFlightZone style={{ flex: 1, marginTop: 24 }} />
+      <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
     </View>
   );

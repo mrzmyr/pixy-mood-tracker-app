@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
@@ -45,7 +46,7 @@ const StarLayer = ({
   phase: number;
 }) => {
   const { width: screenWidth, height } = useWindowDimensions();
-  // Two screens wide: the stars repeat, so a pan never shows a gap.
+  // Two screens wide: the stars repeat one screen apart.
   const width = screenWidth * 2;
   const twinkleStyle = useAnimatedStyle(() => ({
     opacity:
@@ -56,10 +57,7 @@ const StarLayer = ({
   return (
     <Animated.View style={[StyleSheet.absoluteFill, twinkleStyle]}>
       <Svg width={width} height={height}>
-        {[
-          ...stars,
-          ...stars.map((star) => ({ ...star, x: star.x + screenWidth })),
-        ].map((star) => (
+        {stars.map((star) => (
           <Circle
             key={`${star.x}-${star.y}`}
             cx={star.x}
@@ -88,6 +86,18 @@ export const NightStars = ({
   offset: SharedValue<number>;
 }) => {
   const { width, height } = useWindowDimensions();
+  const [near, far] = useMemo(
+    // Each group twice, one screen apart, so a pan never shows a gap.
+    () =>
+      [7, 19].map((seed) => {
+        const stars = makeStars(width, height, seed);
+        return [
+          ...stars,
+          ...stars.map((star) => ({ ...star, x: star.x + width })),
+        ];
+      }),
+    [width, height]
+  );
   const panStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: -offset.get() }],
   }));
@@ -99,12 +109,8 @@ export const NightStars = ({
         panStyle,
       ]}
     >
-      <StarLayer stars={makeStars(width, height, 7)} clock={clock} phase={0} />
-      <StarLayer
-        stars={makeStars(width, height, 19)}
-        clock={clock}
-        phase={Math.PI}
-      />
+      <StarLayer stars={near} clock={clock} phase={0} />
+      <StarLayer stars={far} clock={clock} phase={Math.PI} />
     </Animated.View>
   );
 };

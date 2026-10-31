@@ -47,7 +47,10 @@ const PIXY_ARRIVAL_MS = 2400;
  * Cloud Pixy with the blink of the confirmation Pixy. Glides in from beyond
  * the right screen edge once, when the story opens.
  */
-const BlinkingSkyPixy = (props: {
+const BlinkingSkyPixy = ({
+  boost,
+  zone,
+}: {
   boost: SharedValue<number>;
   zone: FlightZone | null;
 }) => {
@@ -73,8 +76,33 @@ const BlinkingSkyPixy = (props: {
       pointerEvents="box-none"
       style={[StyleSheet.absoluteFill, arrivalStyle]}
     >
-      <SkyPixy {...props} isBlinking={idle.isBlinking} />
+      <SkyPixy boost={boost} zone={zone} isBlinking={idle.isBlinking} />
     </Animated.View>
+  );
+};
+
+/**
+ * Slides with cloud Pixy above them. Holds the zone the slide reports, so a
+ * new zone re-renders only Pixy: `children` keep their identity.
+ */
+const CloudPixyLayer = ({
+  boost,
+  isShown,
+  children,
+}: {
+  boost: SharedValue<number>;
+  isShown: boolean;
+  children: React.ReactNode;
+}) => {
+  const [zone, setZone] = useState<FlightZone | null>(null);
+  return (
+    <>
+      <FlightZoneContext.Provider value={setZone}>
+        {children}
+      </FlightZoneContext.Provider>
+      {/* Above the slides so it takes taps. */}
+      {isShown && <BlinkingSkyPixy boost={boost} zone={zone} />}
+    </>
   );
 };
 
@@ -198,7 +226,6 @@ export const StoryPlayer = ({
   const isReducedMotion = useReducedMotion();
   // One sky and one cloud Pixy across every slide, as in onboarding.
   const skyBoost = useSharedValue(0);
-  const [flightZone, setFlightZone] = useState<FlightZone | null>(null);
   const [index, setIndex] = useState(0);
   const [isPausedByUser, setIsPausedByUser] = useState(false);
   // Press and hold pauses only while held; the pause button pauses until tapped again.
@@ -327,36 +354,36 @@ export const StoryPlayer = ({
         ]}
       >
         <SteppedSky step={index} boost={skyBoost} />
-        <Pressable
-          accessible={false}
-          style={StyleSheet.absoluteFill}
-          onLongPress={() => setIsHolding(true)}
-          delayLongPress={200}
-          onPressOut={() => setIsHolding(false)}
-          onPress={onPress}
-          testID="recap-story-tap"
+        {/* Never in a shared image. */}
+        <CloudPixyLayer
+          boost={skyBoost}
+          isShown={!isReducedMotion && !isCapturing}
         >
-          <Animated.View
-            key={slide.key}
-            entering={ENTERING}
-            pointerEvents="box-none"
-            style={{
-              flex: 1,
-              paddingTop: insets.top + 76,
-              paddingBottom: insets.bottom + 84,
-              paddingHorizontal: 24,
-            }}
-            testID={`recap-story-slide-${slide.key}`}
+          <Pressable
+            accessible={false}
+            style={StyleSheet.absoluteFill}
+            onLongPress={() => setIsHolding(true)}
+            delayLongPress={200}
+            onPressOut={() => setIsHolding(false)}
+            onPress={onPress}
+            testID="recap-story-tap"
           >
-            <FlightZoneContext.Provider value={setFlightZone}>
+            <Animated.View
+              key={slide.key}
+              entering={ENTERING}
+              pointerEvents="box-none"
+              style={{
+                flex: 1,
+                paddingTop: insets.top + 76,
+                paddingBottom: insets.bottom + 84,
+                paddingHorizontal: 24,
+              }}
+              testID={`recap-story-slide-${slide.key}`}
+            >
               {slide.content}
-            </FlightZoneContext.Provider>
-          </Animated.View>
-        </Pressable>
-        {/* Above the slides so it takes taps. Never in a shared image. */}
-        {!isReducedMotion && !isCapturing && (
-          <BlinkingSkyPixy boost={skyBoost} zone={flightZone} />
-        )}
+            </Animated.View>
+          </Pressable>
+        </CloudPixyLayer>
         {isCapturing && <ScreenBrand theme={theme} />}
       </View>
 
