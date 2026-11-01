@@ -1,6 +1,6 @@
-import { Text } from "react-native";
 import type { TextStyle } from "react-native";
 
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 
 const DEFAULT_STYLE = {};
@@ -14,10 +14,10 @@ const TextHeadline = ({
 }) => {
   const colors = useColors();
   return (
-    <Text
+    <Label
+      size={16}
       style={[
         {
-          fontSize: 17,
           fontWeight: "bold",
           color: colors.text,
         },
@@ -25,7 +25,7 @@ const TextHeadline = ({
       ]}
     >
       {children}
-    </Text>
+    </Label>
   );
 };
 

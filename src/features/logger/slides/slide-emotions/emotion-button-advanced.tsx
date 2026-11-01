@@ -1,7 +1,8 @@
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import type { Emotion } from "@/types";
-import { Text, View, useColorScheme } from "react-native";
+import { View, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import { RectButton } from "react-native-gesture-handler";
@@ -63,17 +64,17 @@ export const EmotionButtonAdvanced = ({
         }}
       >
         <EmotionIndicator emotion={emotion} />
-        <Text
+        <Label
+          size={16}
           style={{
             color: colors.text,
             fontWeight: "500",
-            fontSize: 17,
             flex: 1,
           }}
           numberOfLines={1}
         >
           {emotion.label}
-        </Text>
+        </Label>
       </View>
     </RectButton>
   );

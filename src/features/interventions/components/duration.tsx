@@ -1,4 +1,5 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { InterventionLength } from "@/state/analytics/events";
@@ -38,15 +39,15 @@ export const Duration = ({
           />
         ))}
       </View>
-      <Text
+      <Label
+        size={13}
         style={{
-          fontSize: 13,
           color: colors.textSecondary,
           fontVariant: ["tabular-nums"],
         }}
       >
         {t("interventions_minutes", { count: minutes })}
-      </Text>
+      </Label>
     </View>
   );
 };

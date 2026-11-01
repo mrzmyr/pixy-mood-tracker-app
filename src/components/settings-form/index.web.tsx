@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import ChevronRight from "lucide-react-native/icons/chevron-right";
 import FlagHighlight from "@/components/flag-highlight";
 import MenuList from "@/components/menu-list";
@@ -7,6 +7,7 @@ import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
 import TextInfo from "@/components/text-info";
 import Toggle from "@/components/toggle";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import type {
   SettingsRowProps,
@@ -98,7 +99,9 @@ export const SettingsRow = ({
   const hasChevron = onPress !== undefined && kind === "navigation";
   const status =
     value === undefined ? null : (
-      <Text style={{ fontSize: 17, color: colors.textSecondary }}>{value}</Text>
+      <Label size={16} style={{ color: colors.textSecondary }}>
+        {value}
+      </Label>
     );
 
   return (

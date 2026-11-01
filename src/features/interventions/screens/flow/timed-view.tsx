@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
+import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
 import type { InterventionId, TimedStep } from "../../catalog";
@@ -90,16 +91,16 @@ export const TimedView = ({
         >
           {tDynamic(`interventions_${id}_${step.key}_part`)}
         </Text>
-        <Text
+        <Copy
+          size={16}
           style={{
-            fontSize: 17,
             lineHeight: 25,
             color: colors.textSecondary,
             textAlign: "center",
           }}
         >
           {tDynamic(`interventions_${id}_${step.key}_text`)}
-        </Text>
+        </Copy>
       </View>
     </View>
   );

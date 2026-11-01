@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Platform, Text, View } from "react-native";
+import { Platform, View } from "react-native";
 import Animated, { useAnimatedRef } from "react-native-reanimated";
 import Sortable from "react-native-sortables";
 import type {
@@ -25,6 +25,7 @@ import type { Tag } from "../tags-provider";
 import { cardCorners } from "@/components/sortable/card-corners";
 import { ReorderHandle } from "@/components/sortable/reorder-handle";
 import { TagRow } from "./tag-row";
+import { Copy } from "@/components/typography";
 
 const IS_IOS = Platform.OS === "ios";
 
@@ -127,7 +128,9 @@ export const TagCategoryList = ({
                 params: { id: item.category.id },
               })
             }
-            style={{ fontSize: 15, marginRight: IS_IOS ? 0 : 8 }}
+            style={{
+              marginRight: IS_IOS ? 0 : 8,
+            }}
           >
             {t("edit")}
           </LinkButton>
@@ -153,9 +156,9 @@ export const TagCategoryList = ({
             ...cardCorners(true, true),
           }}
         >
-          <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+          <Copy size={14} style={{ color: colors.textSecondary }}>
             {t("tag_category_empty")}
-          </Text>
+          </Copy>
         </View>
       );
     }
@@ -225,17 +228,17 @@ export const TagCategoryList = ({
               <View key={row.key}>{renderRow(row)}</View>
             ))}
             {searchRows.length === 0 && (
-              <Text
+              <Copy
+                size={14}
                 testID="tag-search-empty"
                 style={{
                   padding: 32,
                   textAlign: "center",
-                  fontSize: 15,
                   color: colors.textSecondary,
                 }}
               >
                 {t("tags_search_empty")}
-              </Text>
+              </Copy>
             )}
           </View>
         ) : (

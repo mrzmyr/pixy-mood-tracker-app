@@ -8,8 +8,8 @@ import type { ViewStyle } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 import { CHIP_FLOW, COMPACT_CHIP } from "@/constants/chip";
+import { Copy, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
-import { FONT_SIZE } from "@/constants/typography";
 import { SLEEP_QUALITY_MAPPING } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
 import { PersonAvatar } from "@/features/people";
@@ -56,7 +56,7 @@ const fade = <T,>(start: T, middle: T[], end: T = start) => {
 /**
  * Card of the summary, on the plain `colors.summaryBackground` page.
  * `colors.summaryTile`, `RADIUS.lg`, at least 96 pt, outline and soft shadow.
- * Text inside: `colors.text` at `FONT_SIZE.base`. Chips: outline, no fill.
+ * Text inside: `colors.text`, Label or Copy 14. Chips: outline, no fill.
  * `row` orders the fade-in: tiles in the same row appear together.
  */
 export const Tile = ({
@@ -236,25 +236,25 @@ export const MoodHeader = ({
       >
         {capitalize(t(summary.rating))}
       </Text>
-      <Text
+      <Label
+        size={14}
         style={{
           marginTop: 6,
-          fontSize: FONT_SIZE.base,
           color: colors.textSecondary,
         }}
       >
         {dayjs(getItemTime(item)).format("LLLL")}
-      </Text>
+      </Label>
       {place !== null && (
-        <Text
+        <Label
+          size={14}
           style={{
             marginTop: 2,
-            fontSize: FONT_SIZE.base,
             color: colors.textSecondary,
           }}
         >
           {place}
-        </Text>
+        </Label>
       )}
       {summary.checkIns.length > 1 && <DayStrip checkIns={summary.checkIns} />}
     </View>
@@ -339,9 +339,9 @@ export const SleepTile = ({
         accessibilityLabel={`${t("logger_step_sleep")} ${value + 1}/5`}
         style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
       >
-        <Text style={{ fontSize: FONT_SIZE.base, color: colors.text }}>
+        <Label size={14} style={{ color: colors.text }}>
           {t("logger_step_sleep")}
-        </Text>
+        </Label>
         <SleepQualityMeter value={value} height={20} />
       </View>
     </Tile>
@@ -391,14 +391,9 @@ export const PeopleTile = ({ people }: { people: Person[] }) => {
           </View>
         ))}
       </View>
-      <Text
-        style={{
-          fontSize: FONT_SIZE.base,
-          color: colors.text,
-        }}
-      >
+      <Copy size={14} style={{ color: colors.text }}>
         {joinNames(people.map((person) => person.name))}
-      </Text>
+      </Copy>
     </Tile>
   );
 };
@@ -408,16 +403,16 @@ export const NoteTile = ({ note }: { note: string }) => {
   const colors = useColors();
   return (
     <Tile row={5}>
-      <Text
+      <Copy
+        size={14}
         testID="entry-summary-note"
         style={{
           color: colors.text,
-          fontSize: FONT_SIZE.base,
           lineHeight: 22,
         }}
       >
         {note}
-      </Text>
+      </Copy>
     </Tile>
   );
 };

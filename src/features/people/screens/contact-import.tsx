@@ -18,6 +18,7 @@ import LinkButton from "@/components/link-button";
 import RouteModalHeader from "@/components/route-modal-header";
 import { SFIcon } from "@/components/sf-icon";
 import TextInfo from "@/components/text-info";
+import { Copy, Label, getInputTextStyle } from "@/components/typography";
 import { MAX_PEOPLE } from "@/constants/config";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
@@ -123,16 +124,17 @@ const ContactRow = ({
           size={AVATAR_SIZE}
           previewUri={thumbnailUri}
         />
-        <Text
+        <Label
+          size={16}
           numberOfLines={1}
-          style={{ flex: 1, fontSize: 17, color: colors.text }}
+          style={{ flex: 1, color: colors.text }}
         >
           {row.name}
-        </Text>
+        </Label>
         {row.isAdded ? (
-          <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+          <Label size={14} style={{ color: colors.textSecondary }}>
             {t("people_import_added")}
-          </Text>
+          </Label>
         ) : (
           <SelectionMark isSelected={isSelected} />
         )}
@@ -203,12 +205,13 @@ const SelectedContact = ({
           />
         </View>
       </View>
-      <Text
+      <Label
+        size={13}
         numberOfLines={1}
-        style={{ fontSize: 13, color: colors.text, textAlign: "center" }}
+        style={{ color: colors.text, textAlign: "center" }}
       >
         {row.name.split(" ")[0]}
-      </Text>
+      </Label>
     </Pressable>
   );
 };
@@ -253,28 +256,25 @@ const ContactImportError = ({ onRetry }: { onRetry: () => void }) => {
       testID="contact-import-error"
       style={{ alignItems: "center", paddingHorizontal: 32, paddingTop: 48 }}
     >
-      <Text
+      <Label
+        size={16}
+        strong
         accessibilityRole="header"
-        style={{
-          fontSize: 17,
-          fontWeight: "600",
-          textAlign: "center",
-          color: colors.text,
-        }}
+        style={{ textAlign: "center", color: colors.text }}
       >
         {t("people_import_error_title")}
-      </Text>
-      <Text
+      </Label>
+      <Copy
+        size={14}
         style={{
           marginTop: 8,
           marginBottom: 12,
-          fontSize: 15,
           textAlign: "center",
           color: colors.textSecondary,
         }}
       >
         {t("people_import_error_message")}
-      </Text>
+      </Copy>
       <LinkButton
         onPress={onRetry}
         type="primary"
@@ -374,7 +374,7 @@ export const ContactImport = () => {
             testID="contact-import-search"
             autoCorrect={false}
             style={{
-              fontSize: 17,
+              ...getInputTextStyle(16),
               color: colors.textInputText,
               backgroundColor: colors.textInputBackground,
               padding: 12,

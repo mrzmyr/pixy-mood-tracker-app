@@ -5,9 +5,10 @@ import {
   labelsHidden,
   opacity,
 } from "@expo/ui/swift-ui/modifiers";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { getLocale } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
@@ -68,15 +69,12 @@ const Clock = ({
           paddingVertical: 7,
         }}
       >
-        <Text
-          style={{
-            color: colors.text,
-            fontSize: 17,
-            fontVariant: ["tabular-nums"],
-          }}
+        <Label
+          size={16}
+          style={{ color: colors.text, fontVariant: ["tabular-nums"] }}
         >
           {formatReminderTime(timeDate)}
-        </Text>
+        </Label>
       </View>
       <Host style={StyleSheet.absoluteFill}>{picker}</Host>
     </View>

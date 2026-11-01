@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { TextInput } from "react-native";
 import type { TextStyle } from "react-native";
 
+import { getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import noop from "lodash/noop";
 import { RADIUS } from "@/constants/radius";
@@ -61,7 +62,7 @@ const TextAreaComponent = (
         color: colors.textInputText,
         paddingTop: 16,
         padding: 16,
-        fontSize: 17,
+        ...getTextStyle("copy", 16),
         height: "100%",
         width: "100%",
         borderRadius: RADIUS.sm,

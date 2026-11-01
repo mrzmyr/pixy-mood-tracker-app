@@ -12,6 +12,7 @@ import useColors from "@/hooks/use-colors";
 import type { StructuredError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
 import { getSupportMailUrl } from "@/shell/support-mail";
+import { Copy } from "@/components/typography";
 
 const exportData = async () => {
   try {
@@ -92,28 +93,28 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
         >
           {t("storage_load_error_title")}
         </Text>
-        <Text
+        <Copy
+          size={16}
           style={{
             color: colors.text,
-            fontSize: 17,
             lineHeight: 24,
             textAlign: "center",
             marginBottom: 12,
           }}
         >
           {t("storage_load_error_body")}
-        </Text>
-        <Text
+        </Copy>
+        <Copy
+          size={14}
           style={{
             color: colors.textSecondary,
-            fontSize: 15,
             lineHeight: 22,
             textAlign: "center",
             marginBottom: 32,
           }}
         >
           {t("storage_load_error_advice")}
-        </Text>
+        </Copy>
         <Button
           onPress={() => {
             analytics.track("app:storage_recovery_tapped", {

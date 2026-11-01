@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { Headline } from "@/components/type";
+import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import type { LogItem } from "@/features/logs";
 import { t } from "@/lib/translation";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import type { NativeSyntheticEvent, TextLayoutEventData } from "react-native";
 import { INSET } from "./layout";
 
 /** Lines of a note shown before "More". */
 export const COLLAPSED_LINES = 6;
-
-const NOTE_STYLE = { fontSize: 17, lineHeight: 24 } as const;
 
 /**
  * Note of an entry card. It comes last: notes can run to thousands of
@@ -51,7 +50,7 @@ export const Message = ({
   };
   const canFold = onToggleExpanded !== undefined;
   const isFolded = canFold && !expanded;
-  const style = { ...NOTE_STYLE, color: colors.text };
+  const style = { color: colors.text };
 
   return (
     <View style={{ gap: 8 }}>
@@ -70,15 +69,17 @@ export const Message = ({
           opacity: pressed ? 0.6 : 1,
         })}
       >
-        <Text
+        <Copy
+          size={16}
           testID="log-list-message-text"
           numberOfLines={isFolded ? COLLAPSED_LINES : undefined}
           style={style}
         >
           {message}
-        </Text>
+        </Copy>
         {canFold && (
-          <Text
+          <Copy
+            size={16}
             testID="log-list-message-measure"
             onTextLayout={onMeasure}
             accessibilityElementsHidden
@@ -95,7 +96,7 @@ export const Message = ({
             ]}
           >
             {message}
-          </Text>
+          </Copy>
         )}
       </Pressable>
       {canFold && isLong && (

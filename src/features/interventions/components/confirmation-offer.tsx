@@ -1,5 +1,6 @@
 import FlagHighlight from "@/components/flag-highlight";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import type { LogItem } from "@/features/logs";
 import { t } from "@/lib/translation";
@@ -38,9 +39,9 @@ export const ConfirmationOffer = ({ item }: { item: LogItem }) => {
   return (
     <FlagHighlight flag="interventions">
       <View testID="intervention-offer" style={{ gap: 12, marginBottom: 16 }}>
-        <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+        <Copy size={14} style={{ color: colors.textSecondary }}>
           {t(`interventions_offer_${match.cluster}`)}
-        </Text>
+        </Copy>
         <View style={{ flexDirection: "row", gap: 10 }}>
           {options.map((id, position) => (
             <OptionTile

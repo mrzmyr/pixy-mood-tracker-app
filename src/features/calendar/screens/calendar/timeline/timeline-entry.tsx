@@ -3,6 +3,7 @@ import keyBy from "lodash/keyBy";
 import { memo } from "react";
 import type { ReactElement } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Label } from "@/components/typography";
 import { COMPACT_CHIP } from "@/constants/chip";
 import { getLocationLabel, PlacePreview } from "@/features/location";
 import { EMOTIONS } from "@/features/logger";
@@ -220,16 +221,16 @@ const TimelineEntryComponent = ({
         }}
       >
         <RatingDot rating={item.rating} size={20} />
-        <Text
+        <Label
+          size={13}
           style={{
             flex: 1,
-            fontSize: 13,
             color: colors.textSecondary,
             fontVariant: ["tabular-nums"],
           }}
         >
           {dateLabel}
-        </Text>
+        </Label>
       </View>
     </Pressable>
   );

@@ -2,6 +2,7 @@ import { Platform, View } from "react-native";
 import Button from "@/components/button";
 import useColors from "@/hooks/use-colors";
 import { TextReveal } from "@/components/text-reveal";
+import { getTextStyle } from "@/components/typography";
 import { getTextRevealDuration } from "@/components/text-reveal-parts";
 import { SLIDE_TEXT_DELAY_MS } from "./slide-timing";
 import { HeaderImage } from "./header-image";
@@ -47,7 +48,7 @@ const Body = ({ index }: { index: number }) => {
         delay={SLIDE_TEXT_DELAY_MS + getTextRevealDuration(title) * 0.5}
         style={{
           color: colors.onboardingBody,
-          fontSize: 17,
+          ...getTextStyle("copy", 16),
           lineHeight: 24,
         }}
       >

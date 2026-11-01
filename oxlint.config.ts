@@ -160,6 +160,8 @@ export default defineConfig({
     "unicorn/catch-error-name": "off",
     // Blank line before most statements: 4,800 errors across 670 files. Rewriting them conflicts with every open branch.
     "anti-slop/require-readable-spacing": "off",
+    // HTML form rule. React Native has no <label> or htmlFor; it flags the typography `Label`.
+    "jsx-a11y/label-has-associated-control": "off",
     "no-restricted-imports": [
       "error",
       { paths: iconImports, patterns: [reactNavigationImport] },

@@ -21,7 +21,7 @@ Pixy-specific design decisions that a model cannot read from the code. For every
 
 - Use the components that exist. If you need a new one, ask first, or build it and name it in the PR description.
 - Make every control accessible: role, label, and state. The full row is pressable. Each gesture also has a button or an accessibility action.
-- Use `FONT_SIZE.base` ([`typography.ts`](src/constants/typography.ts)) for body text. Many screens still set sizes by hand: do not copy them.
+- Render text with `Heading`, `Label`, or `Copy` ([`typography.tsx`](src/components/typography.tsx)), the [Geist type scale](https://vercel.com/geist/typography). Label is one line, Copy can wrap. Only Geist sizes: never set `fontSize` by hand. Many screens still do: do not copy them.
 
 ## Copywriting
 

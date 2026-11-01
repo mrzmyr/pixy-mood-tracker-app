@@ -1,5 +1,6 @@
 import Check from "lucide-react-native/icons/check";
-import { Pressable, Text, useColorScheme } from "react-native";
+import { Pressable, useColorScheme } from "react-native";
+import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { EmotionIndicator } from "@/features/logger";
 import type { LogItem } from "@/features/logs";
@@ -101,14 +102,12 @@ export const EmotionChip = ({
       })}
     >
       <EmotionIndicator emotion={emotion} />
-      <Text
-        style={{
-          color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: 17,
-        }}
+      <Label
+        size={16}
+        style={{ color: selected ? colors.tagTextActive : colors.tagText }}
       >
         {emotion.label}
-      </Text>
+      </Label>
     </Pressable>
   );
 };

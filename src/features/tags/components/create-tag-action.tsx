@@ -1,8 +1,9 @@
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
+import { Copy } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -30,11 +31,11 @@ export const TagLimitNotice = ({ tags }: { tags: readonly Tag[] }) => {
         borderCurve: "continuous",
       }}
     >
-      <Text style={{ color: colors.text, fontSize: 15 }}>
+      <Copy size={14} style={{ color: colors.text }}>
         {archivedCount > 0
           ? t("tags_reached_max_archived", { max_count: maxTags })
           : t("tags_reached_max", { max_count: maxTags })}
-      </Text>
+      </Copy>
     </View>
   );
 };

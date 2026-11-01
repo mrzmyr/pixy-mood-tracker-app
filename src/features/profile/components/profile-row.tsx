@@ -1,6 +1,7 @@
 import { Icon, ListItem, RNHostView, Text } from "@expo/ui";
 import { useRouter } from "expo-router";
 import { Platform } from "react-native";
+import { getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { useProfile } from "../use-profile";
@@ -8,6 +9,8 @@ import { ProfileAvatar } from "./profile-avatar";
 
 const AVATAR_SIZE = 56;
 const AFFORDANCE_SIZE = 13;
+/** Label 14; `@expo/ui` text takes size and line height only. */
+const SUBTITLE_TEXT = getTextStyle("label", 14);
 
 /**
  * First row of Settings, like the account row of iOS Settings. Native row in
@@ -67,7 +70,11 @@ export const ProfileRow = () => {
         subtitle ? (
           <Text
             numberOfLines={1}
-            textStyle={{ fontSize: 15, color: colors.textSecondary }}
+            textStyle={{
+              fontSize: SUBTITLE_TEXT.fontSize,
+              lineHeight: SUBTITLE_TEXT.lineHeight,
+              color: colors.textSecondary,
+            }}
           >
             {subtitle}
           </Text>

@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import React, { memo, useCallback, useMemo } from "react";
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Copy } from "@/components/typography";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import useColors from "@/hooks/use-colors";
@@ -95,9 +96,9 @@ const TimelineComponent = ({
       ListHeaderComponent={header}
       ListEmptyComponent={
         <View style={{ paddingVertical: 48, alignItems: "center" }}>
-          <Text style={{ fontSize: 17, color: colors.textSecondary }}>
+          <Copy size={16} style={{ color: colors.textSecondary }}>
             {t("calendar_timeline_empty")}
-          </Text>
+          </Copy>
         </View>
       }
     />

@@ -1,6 +1,7 @@
 import Plus from "lucide-react-native/icons/plus";
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
 import type { ViewStyle } from "react-native";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
@@ -44,12 +45,13 @@ export const MissingEmotionTile = ({
       })}
     >
       <Plus size={18} color={colors.tint} />
-      <Text
+      <Label
+        size={16}
         numberOfLines={1}
-        style={{ fontSize: 17, fontWeight: "500", color: colors.tint }}
+        style={{ fontWeight: "500", color: colors.tint }}
       >
         {t("request_emotion_tile")}
-      </Text>
+      </Label>
     </Pressable>
   );
 };

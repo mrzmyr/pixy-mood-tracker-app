@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Platform, Text, View } from "react-native";
+import { Platform, View } from "react-native";
 import Animated, { useAnimatedRef } from "react-native-reanimated";
 import Sortable from "react-native-sortables";
 import type {
@@ -18,6 +18,7 @@ import { ReorderHandle } from "@/components/sortable/reorder-handle";
 import { getGeneralCategoryTitle } from "../tag-categories";
 import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { TagCategory } from "../tags-provider";
+import { Label } from "@/components/typography";
 
 const IS_IOS = Platform.OS === "ios";
 
@@ -107,16 +108,16 @@ export const TagCategories = ({
               })
             }
             iconRight={
-              <Text
+              <Label
+                size={16}
                 style={{
-                  fontSize: 17,
                   color: colors.textSecondary,
                   fontVariant: ["tabular-nums"],
                   marginRight: 36,
                 }}
               >
                 {count}
-              </Text>
+              </Label>
             }
           />
           <View style={{ position: "absolute", top: 0, right: 0, bottom: 0 }}>

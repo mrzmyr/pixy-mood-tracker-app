@@ -1,5 +1,6 @@
 import MapPin from "lucide-react-native/icons/map-pin";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Label } from "@/components/typography";
 import type { LogItem } from "@/features/logs";
 import { getLocationLabel, useLocationSetting } from "@/features/location";
 import useColors from "@/hooks/use-colors";
@@ -30,12 +31,13 @@ export const Place = ({ item }: { item: LogItem }) => {
       style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
     >
       <MapPin color={colors.textSecondary} size={14} />
-      <Text
+      <Label
+        size={13}
         numberOfLines={1}
-        style={{ flexShrink: 1, fontSize: 13, color: colors.textSecondary }}
+        style={{ flexShrink: 1, color: colors.textSecondary }}
       >
         {label}
-      </Text>
+      </Label>
     </View>
   );
 };

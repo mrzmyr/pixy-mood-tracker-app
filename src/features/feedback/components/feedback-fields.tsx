@@ -1,6 +1,7 @@
 import { Text, TextInput, View } from "react-native";
 import { InlineAlert } from "@/components/inline-alert";
 import TextArea from "@/components/text-area";
+import { Copy, getInputTextStyle } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -37,18 +38,18 @@ export const FeedbackFields = ({
 
   return (
     <View style={{ padding: 16 }}>
-      <Text
+      <Copy
+        size={14}
         style={{
           marginTop: 4,
           marginBottom: 24,
           color: colors.textSecondary,
-          fontSize: 15,
           lineHeight: 20,
           textAlign: "center",
         }}
       >
         {t("feedback_modal_description")}
-      </Text>
+      </Copy>
       <TextArea
         ref={messageRef}
         testID="feedback-modal-message"
@@ -69,7 +70,7 @@ export const FeedbackFields = ({
           borderCurve: "continuous",
           padding: 16,
           color: colors.text,
-          fontSize: 17,
+          ...getInputTextStyle(16),
         }}
         autoComplete="email"
         keyboardType="email-address"

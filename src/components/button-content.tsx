@@ -2,7 +2,7 @@ import { Fragment, createContext, useContext } from "react";
 import type { ComponentType, ReactNode } from "react";
 import type { ColorValue, TextStyle } from "react-native";
 
-import { Label } from "@/components/type";
+import { ButtonLabel } from "@/components/type";
 
 interface ButtonContextValue {
   /** Label and icon color. Already the disabled color when disabled. */
@@ -28,7 +28,7 @@ export const ButtonProvider = ({
 }) => <ButtonContext.Provider value={value}>{children}</ButtonContext.Provider>;
 
 /**
- * Button label on the `Label` type role, in the button's color.
+ * Button label on the `ButtonLabel` type role, in the button's color.
  * One line by default.
  */
 export const ButtonText = ({
@@ -47,7 +47,7 @@ export const ButtonText = ({
   const { color, textStyle } = useContext(ButtonContext);
 
   return (
-    <Label
+    <ButtonLabel
       numberOfLines={numberOfLines === 0 ? undefined : numberOfLines}
       style={{
         ...textStyle,
@@ -57,7 +57,7 @@ export const ButtonText = ({
       }}
     >
       {children}
-    </Label>
+    </ButtonLabel>
   );
 };
 

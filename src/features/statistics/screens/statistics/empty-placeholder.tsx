@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { Subtitle } from "./subtitle";
 import { Title } from "./title";
 import { RADIUS } from "@/constants/radius";
+import { Copy } from "@/components/typography";
 
 /**
  * Locked highlights placeholder; `count` is the number of entries still
@@ -35,16 +36,16 @@ export const EmptyPlaceholder = ({ count }: { count: number }) => {
           marginTop: 16,
         }}
       >
-        <Text
+        <Copy
+          size={16}
           style={{
-            fontSize: 17,
             color: colors.statisticsNoDataText,
             textAlign: "center",
             lineHeight: 24,
           }}
         >
           {t("statistics_no_data", { count })}
-        </Text>
+        </Copy>
       </View>
     </View>
   );

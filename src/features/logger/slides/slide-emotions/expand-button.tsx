@@ -1,6 +1,7 @@
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { Label } from "@/components/typography";
 import Minus from "lucide-react-native/icons/minus";
 import Plus from "lucide-react-native/icons/plus";
 
@@ -32,16 +33,16 @@ export const ExpandButton = ({
         ) : (
           <Minus width={24} height={24} color={colors.textSecondary} />
         )}
-        <Text
+        <Label
+          size={16}
           style={{
             marginLeft: 4,
             color: colors.textSecondary,
-            fontSize: 17,
             fontWeight: "500",
           }}
         >
           {expanded ? t("more") : t("less")}
-        </Text>
+        </Label>
       </View>
     </Pressable>
   );

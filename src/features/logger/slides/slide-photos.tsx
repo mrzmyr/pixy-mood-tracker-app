@@ -1,11 +1,12 @@
 import dayjs from "dayjs";
 import Images from "lucide-react-native/icons/images";
 import { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
 import { ButtonIcon, ButtonText } from "@/components/button-content";
 import LinkButton from "@/components/link-button";
+import { Copy, Label } from "@/components/typography";
 import {
   AddPhotoTile,
   MAX_PHOTOS_PER_ENTRY,
@@ -180,12 +181,14 @@ export const SlidePhotos = ({
           gap: 12,
         }}
       >
-        <Text
+        <Label
+          size={16}
+          strong
           accessibilityRole="header"
-          style={{ color: colors.text, fontSize: 17, fontWeight: "600" }}
+          style={{ color: colors.text }}
         >
           {t("photos_from_day", { day: dayTitle })}
-        </Text>
+        </Label>
         <Button
           type="secondary"
           testID="photos-library-button"
@@ -246,13 +249,13 @@ export const SlidePhotos = ({
         }}
       >
         <SlideHeadline>{t("log_photos_question")}</SlideHeadline>
-        <Text
+        <Label
+          size={14}
+          strong={draft.isFull}
           testID="photos-count"
           accessibilityLiveRegion="polite"
           style={{
             color: draft.isFull ? colors.text : colors.textSecondary,
-            fontSize: 15,
-            fontWeight: draft.isFull ? "600" : "400",
             fontVariant: ["tabular-nums"],
           }}
         >
@@ -260,7 +263,7 @@ export const SlidePhotos = ({
             count: draft.count,
             max: MAX_PHOTOS_PER_ENTRY,
           })}
-        </Text>
+        </Label>
       </View>
       <View style={{ flex: 1 }}>
         <ScrollView
@@ -276,12 +279,13 @@ export const SlidePhotos = ({
           {permission !== null && (
             <>
               {isAndroid ? renderAndroid() : renderIos()}
-              <Text
+              <Copy
+                size={13}
                 testID="photos-helper"
-                style={{ color: colors.textSecondary, fontSize: 13 }}
+                style={{ color: colors.textSecondary }}
               >
                 {t(isAndroid ? "photos_choose_helper" : "photos_step_helper")}
-              </Text>
+              </Copy>
             </>
           )}
         </ScrollView>

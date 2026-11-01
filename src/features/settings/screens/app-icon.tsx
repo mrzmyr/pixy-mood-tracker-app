@@ -7,14 +7,7 @@ import Circle from "lucide-react-native/icons/circle";
 import CircleCheck from "lucide-react-native/icons/circle-check";
 import Lock from "lucide-react-native/icons/lock";
 import { Fragment, useState } from "react";
-import {
-  Image,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Image, Platform, Pressable, ScrollView, View } from "react-native";
 import FlagHighlight from "@/components/flag-highlight";
 import MenuList from "@/components/menu-list";
 import TextInfo from "@/components/text-info";
@@ -30,6 +23,7 @@ import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
+import { Copy, Label } from "@/components/typography";
 
 const PREVIEW_SIZE = 56;
 
@@ -162,14 +156,12 @@ const AppIconRow = ({
         />
       </View>
       <View style={{ flex: 1, minWidth: 0 }}>
-        <Text style={{ fontSize: 17, fontWeight: "600", color: colors.text }}>
+        <Label size={16} strong style={{ color: colors.text }}>
           {title}
-        </Text>
-        <Text
-          style={{ fontSize: 15, color: colors.textSecondary, marginTop: 2 }}
-        >
+        </Label>
+        <Copy size={14} style={{ color: colors.textSecondary, marginTop: 2 }}>
           {description}
-        </Text>
+        </Copy>
       </View>
       <View style={{ width: 28, alignItems: "center" }}>{trailing()}</View>
     </Pressable>

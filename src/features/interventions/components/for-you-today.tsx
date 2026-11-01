@@ -1,6 +1,7 @@
 import FlagHighlight from "@/components/flag-highlight";
 import dayjs from "dayjs";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import { Copy, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { useToday } from "@/hooks/use-today";
 import { useLogState } from "@/features/logs";
@@ -51,17 +52,19 @@ export const ForYouToday = () => {
         style={{ marginTop: 24, gap: 10, marginHorizontal: -LIST_PADDING }}
       >
         <View style={{ paddingHorizontal: LIST_PADDING, gap: 2 }}>
-          <Text
+          <Label
+            size={14}
+            strong
             accessibilityRole="header"
-            style={{ fontSize: 15, fontWeight: "600", color: colors.text }}
+            style={{ color: colors.text }}
           >
             {t("interventions_for_you_today")}
-          </Text>
-          <Text style={{ fontSize: 13, color: colors.textSecondary }}>
+          </Label>
+          <Copy size={13} style={{ color: colors.textSecondary }}>
             {t(`interventions_because_${match.cluster}`, {
               time: dayjs(match.item.dateTime).format("LT"),
             })}
-          </Text>
+          </Copy>
         </View>
         <ScrollView
           horizontal

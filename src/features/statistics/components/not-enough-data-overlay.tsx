@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { RADIUS } from "@/constants/radius";
+import { Label } from "@/components/typography";
 
 const getSubtitleKey = (limit: number | undefined) => {
   if (!limit) {
@@ -46,10 +47,10 @@ export const NotEnoughDataOverlay = ({
         zIndex: 999,
       }}
     >
-      <Text
+      <Label
+        size={16}
         style={{
           color: colors.statisticsNotEnoughDataTitle,
-          fontSize: 17,
           fontWeight: "bold",
           textAlign: "center",
           paddingHorizontal: 20,
@@ -58,7 +59,7 @@ export const NotEnoughDataOverlay = ({
         }}
       >
         {t("statistics_not_enough_data_title")}
-      </Text>
+      </Label>
       {showSubtitle && (
         <Text
           style={{

@@ -1,6 +1,7 @@
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
 import type { ViewStyle } from "react-native";
 
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { formatReminderTime } from "../reminder-time";
 import noop from "lodash/noop";
@@ -28,15 +29,12 @@ const Clock = ({
         paddingBottom: 5,
       }}
     >
-      <Text
-        style={{
-          color: colors.text,
-          fontSize: 17,
-          fontVariant: ["tabular-nums"],
-        }}
+      <Label
+        size={16}
+        style={{ color: colors.text, fontVariant: ["tabular-nums"] }}
       >
         {formatReminderTime(timeDate)}
-      </Text>
+      </Label>
     </Pressable>
   );
 };

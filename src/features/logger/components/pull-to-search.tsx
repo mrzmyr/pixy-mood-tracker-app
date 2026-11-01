@@ -3,6 +3,7 @@ import { Pressable, ScrollView, TextInput, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import Search from "lucide-react-native/icons/search";
 import CircleX from "lucide-react-native/icons/circle-x";
+import { getInputTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
@@ -154,7 +155,7 @@ export const PullToSearch = ({
               flex: 1,
               height: INPUT_HEIGHT,
               marginLeft: 8,
-              fontSize: 17,
+              ...getInputTextStyle(16),
               color: colors.textInputText,
             }}
           />

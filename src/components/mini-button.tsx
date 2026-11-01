@@ -1,5 +1,6 @@
 import useColors from "@/hooks/use-colors";
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
+import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 
 /** Small pill button that calls `onPress`. */
@@ -32,15 +33,15 @@ export const MiniButton = ({
       testID="log-tags-edit"
       accessibilityRole="button"
     >
-      <Text
+      <Label
+        size={16}
         style={{
           color: colors.primaryButtonText,
-          fontSize: 17,
           fontWeight: "500",
         }}
       >
         {children}
-      </Text>
+      </Label>
     </Pressable>
   );
 };

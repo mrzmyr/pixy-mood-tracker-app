@@ -8,6 +8,7 @@ import { useQuestioner } from "@/features/questioner";
 import type { IQuestion } from "@/features/questioner";
 
 import LinkButton from "@/components/link-button";
+import { Label } from "@/components/typography";
 import { SlideHeadline } from "../components/slide-headline";
 import { Footer } from "./footer";
 import { RADIUS } from "@/constants/radius";
@@ -74,15 +75,15 @@ const AnswerSelector = ({
             marginTop: 8,
           }}
         >
-          <Text
+          <Label
+            size={16}
             style={{
-              fontSize: 17,
               color: colors.logActionText,
               textAlign: "center",
             }}
           >
             {answerText}
-          </Text>
+          </Label>
         </View>
       )}
     </Pressable>

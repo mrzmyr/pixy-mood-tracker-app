@@ -1,6 +1,7 @@
 import { Text } from "react-native";
 import type { TextProps, TextStyle } from "react-native";
 
+import { getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 
 import { getTypeMetrics } from "./type-metrics";
@@ -254,11 +255,11 @@ export const Display = ({
 };
 
 /**
- * Button and link label. 17, weight 600, on both platforms. No fixed line
- * height and no letter spacing: keeps the size of pre-existing buttons.
+ * Button and link label. Geist Button 16, weight 600, on both platforms. No
+ * letter spacing.
  * Use through `ButtonText`, which sets the button's color.
  */
-export const Label = ({
+export const ButtonLabel = ({
   children,
   style,
   accessibilityRole,
@@ -269,7 +270,10 @@ export const Label = ({
 
   return (
     <RoleText
-      role={{ fontSize: 17, fontWeight: "600", color: colors.text }}
+      role={{
+        ...getTextStyle("label", 16, { strong: true }),
+        color: colors.text,
+      }}
       style={style}
       accessibilityRole={accessibilityRole}
       testID={testID}

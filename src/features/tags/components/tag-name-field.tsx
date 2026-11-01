@@ -1,7 +1,8 @@
 import { useRef } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, TextInput, View } from "react-native";
 import { FieldError } from "@/components/field-error";
 import MenuList from "@/components/menu-list";
+import { Label, getInputTextStyle } from "@/components/typography";
 import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/config";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -43,16 +44,16 @@ const TagNameField = ({
         onPress={() => inputRef.current?.focus()}
         style={{ paddingBottom: 8 }}
       >
-        <Text
+        <Label
+          size={13}
+          strong
           nativeID="tag-name-label"
           style={{
-            fontSize: 13,
-            fontWeight: "600",
             color: colors.textSecondary,
           }}
         >
           {t("tags_name_label")}
-        </Text>
+        </Label>
       </Pressable>
       <MenuList>
         <TextInput
@@ -63,7 +64,7 @@ const TagNameField = ({
           autoFocus={autoFocus}
           autoCorrect={false}
           style={{
-            fontSize: 17,
+            ...getInputTextStyle(16),
             color: colors.textInputText,
             width: "100%",
             padding: 16,
@@ -96,17 +97,17 @@ const TagNameField = ({
           </FieldError>
         )}
         {showCounter && (
-          <Text
+          <Label
+            size={13}
             testID={`${testID}-counter`}
             style={{
               marginLeft: "auto",
-              fontSize: 13,
               color: colors.textSecondary,
               fontVariant: ["tabular-nums"],
             }}
           >
             {value.length}/{MAX_TAG_LENGTH}
-          </Text>
+          </Label>
         )}
       </View>
     </View>

@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { Body, Secondary } from "@/components/type";
+import { Label, getTextStyle } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { RATING_KEYS, RATING_MAPPING } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
@@ -129,7 +130,9 @@ const PeriodCalendar = ({
       <View style={{ flexDirection: "row" }}>
         {cells.slice(0, 7).map((date) => (
           <View key={`weekday-${date}`} style={[CELL, { paddingBottom: 4 }]}>
-            <Secondary style={{ textAlign: "center", fontSize: 13 }}>
+            <Secondary
+              style={{ textAlign: "center", ...getTextStyle("label", 13) }}
+            >
               {dayjs(date).format("dd").slice(0, 2)}
             </Secondary>
           </View>
@@ -168,16 +171,16 @@ const PeriodCalendar = ({
                     opacity: (date > today ? 0.4 : 1) * (pressed ? 0.7 : 1),
                   })}
                 >
-                  <Text
+                  <Label
+                    size={13}
+                    strong
                     style={{
-                      fontSize: 13,
-                      fontWeight: "600",
                       fontVariant: ["tabular-nums"],
                       color: colorsOfDay?.text ?? colors.textSecondary,
                     }}
                   >
                     {dayjs(date).format("D")}
-                  </Text>
+                  </Label>
                 </Pressable>
               </View>
             );

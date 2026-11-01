@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Platform, Text, View } from "react-native";
+import { Platform, View } from "react-native";
 import Bell from "lucide-react-native/icons/bell";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
+import { Copy } from "@/components/typography";
 import {
   Clock,
   reminderTimeToDate,
@@ -86,10 +87,10 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
         >
           {t("log_reminder_question")}
         </SlideHeadline>
-        <Text
+        <Copy
+          size={16}
           style={{
             color: colors.textSecondary,
-            fontSize: 17,
             textAlign: "center",
             marginTop: 8,
             maxWidth: 300,
@@ -97,7 +98,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
           }}
         >
           {t("log_reminder_descprition")}
-        </Text>
+        </Copy>
         <View
           style={{
             width: Platform.OS === "ios" ? 80 : 65,

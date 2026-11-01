@@ -4,6 +4,7 @@ import { Text, View } from "react-native";
 import Bezel from "@/components/bezel";
 import useColors from "@/hooks/use-colors";
 import { RADIUS } from "@/constants/radius";
+import { Label } from "@/components/typography";
 
 /**
  * Plain statistics card with a title and optional subtitle; unlike
@@ -54,17 +55,17 @@ export const Card = ({
         }}
       >
         {isString(title) ? (
-          <Text
+          <Label
+            size={16}
             style={{
               letterSpacing: -0.1,
               lineHeight: 24,
-              fontSize: 17,
               fontWeight: "bold",
               color: colors.text,
             }}
           >
             {title}
-          </Text>
+          </Label>
         ) : (
           title
         )}

@@ -1,4 +1,5 @@
 import { TextInput } from "react-native";
+import { getInputTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import type { RequestTextFieldProps } from "./request-text-field-types";
 
@@ -28,7 +29,7 @@ export const RequestTextField = ({
       keyboardType={keyboardType}
       autoCapitalize={keyboardType === "email-address" ? "none" : "sentences"}
       style={{
-        fontSize: 17,
+        ...getInputTextStyle(16),
         color: colors.text,
         paddingHorizontal: 16,
         paddingVertical: 14,

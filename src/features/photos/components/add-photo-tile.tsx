@@ -1,5 +1,6 @@
 import ImagePlus from "lucide-react-native/icons/image-plus";
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
+import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
@@ -47,17 +48,17 @@ export const AddPhotoTile = ({
       })}
     >
       <ImagePlus color={colors.textSecondary} size={24} />
-      <Text
+      <Copy
+        size={13}
         numberOfLines={2}
         style={{
           color: colors.textSecondary,
-          fontSize: 13,
           marginTop: 4,
           textAlign: "center",
         }}
       >
         {label}
-      </Text>
+      </Copy>
     </Pressable>
   );
 };

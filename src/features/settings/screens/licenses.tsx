@@ -7,6 +7,7 @@ import useColors from "@/hooks/use-colors";
 import { useScrollBottomPadding } from "@/hooks/use-scroll-bottom-padding";
 import { t } from "@/lib/translation";
 import { loadLicensesText } from "../licenses-text";
+import { Copy } from "@/components/typography";
 
 interface Item {
   key: string;
@@ -71,10 +72,10 @@ const LicensesContent = ({ onRetry }: { onRetry: () => void }) => {
           />
         ) : (
           <>
-            <Text
+            <Copy
+              size={16}
               style={{
                 color: colors.text,
-                fontSize: 17,
                 lineHeight: 24,
                 textAlign: "center",
                 marginBottom: 24,
@@ -82,7 +83,7 @@ const LicensesContent = ({ onRetry }: { onRetry: () => void }) => {
               testID="licenses-error"
             >
               {t("licenses_load_failed")}
-            </Text>
+            </Copy>
             <Button type="secondary" onPress={onRetry} testID="licenses-retry">
               {t("licenses_retry")}
             </Button>

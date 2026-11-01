@@ -1,5 +1,6 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { ModuleIcon } from "@/components/module-icon";
+import { Label } from "@/components/typography";
 import type { LoggerStep } from "@/constants/logger-steps";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
@@ -68,14 +69,9 @@ export const AddPills = ({
           })}
         >
           <ModuleIcon module={step} size={17} color={colors.textSecondary} />
-          <Text
-            style={{
-              fontSize: 17,
-              color: colors.textSecondary,
-            }}
-          >
+          <Label size={16} style={{ color: colors.textSecondary }}>
             {t(label)}
-          </Text>
+          </Label>
         </Pressable>
       ))}
     </View>

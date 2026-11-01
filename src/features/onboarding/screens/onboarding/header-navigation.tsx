@@ -1,5 +1,6 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import ArrowLeft from "lucide-react-native/icons/arrow-left";
+import { Label } from "@/components/typography";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { HeaderPagination } from "./header-pagination";
@@ -62,15 +63,13 @@ export const HeaderNavigation = ({
           justifyContent: "center",
         }}
       >
-        <Text
-          style={{
-            color: colors.onboardingPaginationText,
-            fontSize: 17,
-            fontWeight: "600",
-          }}
+        <Label
+          size={16}
+          strong
+          style={{ color: colors.onboardingPaginationText }}
         >
           {t("onboarding_skip")}
-        </Text>
+        </Label>
       </Pressable>
     </View>
   );

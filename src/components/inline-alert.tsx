@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { AccessibilityInfo, Platform, Text, View } from "react-native";
+import { AccessibilityInfo, Platform, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import AlertCircle from "lucide-react-native/icons/circle-alert";
 import CheckCircle from "lucide-react-native/icons/circle-check";
 import Info from "lucide-react-native/icons/info";
 import AlertTriangle from "lucide-react-native/icons/triangle-alert";
 import LinkButton from "@/components/link-button";
+import { Copy, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 
@@ -90,20 +91,17 @@ export const InlineAlert = ({
         />
         <View style={{ flex: 1, gap: 2 }}>
           {title && (
-            <Text
-              style={{
-                fontSize: 15,
-                lineHeight: 20,
-                fontWeight: "600",
-                color: colors.text,
-              }}
+            <Label
+              size={14}
+              strong
+              style={{ lineHeight: 20, color: colors.text }}
             >
               {title}
-            </Text>
+            </Label>
           )}
-          <Text style={{ fontSize: 15, lineHeight: 20, color: colors.text }}>
+          <Copy size={14} style={{ lineHeight: 20, color: colors.text }}>
             {message}
-          </Text>
+          </Copy>
         </View>
       </View>
       {action && (
