@@ -1,5 +1,6 @@
 import type { LoggerPrefill } from "@/features/logger";
-import { applyVoicePrefill } from "../draft";
+import { _generateItem } from "@/testing/log-item";
+import { applyVoicePrefill, hasDraftChanges, toDraft } from "../draft";
 import type { Draft } from "../draft";
 
 const draft = (overrides: Partial<Draft> = {}): Draft => ({
@@ -74,5 +75,28 @@ describe("applyVoicePrefill", () => {
 
   it("marks the draft as changed, so a late entry does not replace it", () => {
     expect(applyVoicePrefill(draft(), prefill()).source).toBe("user");
+  });
+});
+
+describe("hasDraftChanges", () => {
+  const entry = _generateItem({ rating: "good", emotions: ["calm", "tired"] });
+
+  it("is false when the user picks and unpicks back to the start", () => {
+    expect(
+      hasDraftChanges(
+        { ...toDraft(entry), emotions: ["tired", "calm"], source: "user" },
+        entry
+      )
+    ).toBe(false);
+    expect(hasDraftChanges(draft({ source: "user" }))).toBe(false);
+  });
+
+  it("is true when the user changes the rating of an edited entry", () => {
+    expect(
+      hasDraftChanges(
+        { ...toDraft(entry), rating: "bad", source: "user" },
+        entry
+      )
+    ).toBe(true);
   });
 });

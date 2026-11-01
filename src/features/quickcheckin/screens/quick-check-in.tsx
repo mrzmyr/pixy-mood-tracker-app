@@ -16,11 +16,12 @@ import type { LogItem } from "@/features/logs";
 import { PersonChip, usePeopleState } from "@/features/people";
 import { TagComponent, useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
+import { useDiscardGuard } from "@/hooks/use-discard-guard";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { createQuickEntry } from "../check-in-state";
-import { applyVoicePrefill, toDraft } from "../draft";
+import { applyVoicePrefill, hasDraftChanges, toDraft } from "../draft";
 import { useVoicePrefill } from "../use-voice-prefill";
 import { getSheetSections } from "../sheet-sections";
 import { EmotionChip, MoodPixel } from "./quick-check-in-chips";
@@ -211,6 +212,11 @@ export const QuickCheckIn = () => {
     return result;
   };
 
+  // Close, Android back, and the swipe down ask before dropping input.
+  const { allowLeave } = useDiscardGuard({
+    isDirty: hasDraftChanges(draft, entry),
+  });
+
   const isSheet = router.canGoBack();
   // Opened from a notification with the app closed: nothing to go back to.
   const close = () => (isSheet ? router.back() : router.replace("/"));
@@ -240,6 +246,7 @@ export const QuickCheckIn = () => {
       has_note: message.trim() !== "",
       photos_count: photos.length,
     });
+    allowLeave();
     close();
   };
 

@@ -36,6 +36,36 @@ export const toDraft = (entry: LogItem | undefined): Draft =>
         source: "empty",
       };
 
+const sameItems = (current: string[], initial: string[]) => {
+  const initialSet = new Set(initial);
+  return (
+    current.length === initialSet.size &&
+    current.every((value) => initialSet.has(value))
+  );
+};
+
+/**
+ * Whether the user changed the draft from what the screen opened with: the
+ * saved `entry`, or an empty draft. Picking a chip and unpicking it again is
+ * no change.
+ */
+export const hasDraftChanges = (draft: Draft, entry?: LogItem): boolean => {
+  if (draft.source !== "user") {
+    return false;
+  }
+  const initial = toDraft(entry);
+  return (
+    draft.rating !== initial.rating ||
+    draft.message !== initial.message ||
+    !sameItems(draft.emotions, initial.emotions) ||
+    !sameItems(draft.picked, initial.picked) ||
+    !sameItems(
+      draft.photos.map((photo) => photo.id),
+      initial.photos.map((photo) => photo.id)
+    )
+  );
+};
+
 const union = (current: string[], added: string[]) => [
   ...new Set([...current, ...added]),
 ];
