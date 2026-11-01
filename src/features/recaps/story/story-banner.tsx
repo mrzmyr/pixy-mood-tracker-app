@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import Play from "lucide-react-native/icons/play";
+import X from "lucide-react-native/icons/x";
 import { Pressable, StyleSheet, useColorScheme, View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { Sky, SKY_DRIFT_SPEED } from "@/components/sky";
@@ -78,9 +79,12 @@ const MilkWash = ({ isDark }: { isDark: boolean }) => (
 export const StoryBanner = ({
   period,
   source,
+  onClose,
 }: {
   period: Period;
   source: StorySource;
+  /** Shows a close button top right. Without it the card cannot be closed. */
+  onClose?: () => void;
 }) => {
   const router = useRouter();
   const colors = useColors();
@@ -176,19 +180,12 @@ export const StoryBanner = ({
           {dayjs(period.start).format("YY")}
         </Heading>
       </View>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-        <Label
-          size={14}
-          strong
-          numberOfLines={1}
-          style={{ flex: 1, color: ink }}
-        >
-          {label}
-        </Label>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        {/* Same height as the label line: the button reads as its icon. */}
         <View
           style={{
-            width: 32,
-            height: 32,
+            width: 20,
+            height: 20,
             borderRadius: RADIUS.full,
             alignItems: "center",
             justifyContent: "center",
@@ -203,13 +200,39 @@ export const StoryBanner = ({
           }}
         >
           <Play
-            width={12}
-            height={12}
+            width={9}
+            height={9}
             color={ink}
             fill={ink}
-            style={{ marginLeft: 2 }}
+            style={{ marginLeft: 1 }}
           />
         </View>
+        <Label
+          size={14}
+          strong
+          numberOfLines={1}
+          style={{ flex: 1, color: ink }}
+        >
+          {label}
+        </Label>
+        {onClose && (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t("close")}
+            hitSlop={12}
+            onPress={onClose}
+            testID="recap-story-banner-close"
+            style={({ pressed }) => ({
+              width: 20,
+              height: 20,
+              alignItems: "center",
+              justifyContent: "center",
+              opacity: pressed ? 0.5 : 1,
+            })}
+          >
+            <X width={18} height={18} color={ink} strokeWidth={2.25} />
+          </Pressable>
+        )}
       </View>
       <Heading
         size={isWeek ? 24 : 40}

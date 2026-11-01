@@ -55,6 +55,7 @@ export const INITIAL_STATE: SettingsState = {
   recapNotificationsEnabled: false,
   profileName: "",
   profileAvatar: null,
+  recapStoryDismissedMonth: null,
   quickCheckInEnabled: false,
   quickCheckInSchedule: DEFAULT_QUICK_CHECK_IN_SCHEDULE,
 };
