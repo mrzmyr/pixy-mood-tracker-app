@@ -18,15 +18,24 @@ const getAnimatedPath = memoize(() => createAnimatedComponent(Path));
 /** Speed along the edge in points per second. Slow: the light creeps. */
 const SPEED = 70;
 
+/** Length of the light, head to the end of its tail, in points. */
+const TRAIL = 140;
+/** Stroke width: a fine line, no glow. */
+const WIDTH = 1.5;
 /**
- * Stacked strokes share one head. Longer strokes are fainter and wider, so
- * the light has a soft glow and a tail that fades out behind it.
+ * The trail is many faint dashes that all start at the head and reach back
+ * further and further. Where more of them overlap, the line is brighter:
+ * full at the head, fading to nothing at the tail, with no seams between
+ * pieces. One color per dash: a gradient stroke does not follow a dash
+ * that moves.
  */
-const LAYERS = [
-  { length: 180, width: 10, opacity: 0.18 },
-  { length: 120, width: 5, opacity: 0.35 },
-  { length: 60, width: 2, opacity: 1 },
-] as const;
+const PIECES = 24;
+/** Opacity of one dash: all of them together give 0.95 at the head. */
+const PIECE_OPACITY = 1 - 0.05 ** (1 / PIECES);
+const SEGMENTS = Array.from({ length: PIECES }, (_, index) => ({
+  index,
+  length: (TRAIL * (index + 1)) / PIECES,
+}));
 
 /**
  * Rounded rectangle outline, clockwise from the middle of the top edge.
@@ -54,14 +63,14 @@ const outline = (w: number, h: number, r: number) => {
   return { path, length };
 };
 
-const Layer = ({
-  layer,
+const Segment = ({
+  segment,
   d,
   perimeter,
   distance,
   color,
 }: {
-  layer: (typeof LAYERS)[number];
+  segment: (typeof SEGMENTS)[number];
   d: string;
   perimeter: number;
   distance: SharedValue<number>;
@@ -69,11 +78,11 @@ const Layer = ({
 }) => {
   const animatedProps = useAnimatedProps(() => {
     const head = distance.get() % perimeter;
-    // The dash covers [head - length, head] along the outline. Kept in
-    // [0, perimeter): same picture, no negative dash phase.
+    // The dash covers [head - length, head]. Kept in [0, perimeter): same
+    // picture, no negative dash phase.
     return {
       strokeDashoffset:
-        (((layer.length - head) % perimeter) + perimeter) % perimeter,
+        (((segment.length - head) % perimeter) + perimeter) % perimeter,
     };
   });
   const AnimatedPath = getAnimatedPath();
@@ -83,11 +92,11 @@ const Layer = ({
       d={d}
       fill="none"
       stroke={color}
-      strokeOpacity={layer.opacity}
-      strokeWidth={layer.width}
+      strokeOpacity={PIECE_OPACITY}
+      strokeWidth={WIDTH}
       // Butt caps: a dash split where the outline closes shows no seam.
       strokeLinecap="butt"
-      strokeDasharray={[layer.length, perimeter - layer.length]}
+      strokeDasharray={[segment.length, perimeter - segment.length]}
       animatedProps={animatedProps}
     />
   );
@@ -96,7 +105,7 @@ const Layer = ({
 /**
  * A short band of light that creeps around the inside of a rounded card.
  * Place it as the last child of a card with `overflow: "hidden"`: the card
- * clips the outer half of the glow. Hidden under reduced motion.
+ * clips the outer half of the line. Hidden under reduced motion.
  */
 export const RunningBorder = ({
   radius,
@@ -136,10 +145,10 @@ export const RunningBorder = ({
     >
       {width > 0 && (
         <Svg width={width} height={height}>
-          {LAYERS.map((layer) => (
-            <Layer
-              key={layer.length}
-              layer={layer}
+          {SEGMENTS.map((segment) => (
+            <Segment
+              key={segment.index}
+              segment={segment}
               d={path}
               perimeter={length}
               distance={distance}
