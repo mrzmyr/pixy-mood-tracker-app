@@ -13,6 +13,7 @@ import { t } from "@/lib/translation";
 import type { StorySource } from "@/state/analytics/events";
 import type { Period } from "../types";
 import { dayRange, monthName } from "./format";
+import { NightSparkle } from "./night-sparkle";
 import { RunningBorder } from "./running-border";
 
 /** Card height: label and play button on top, the big title below. */
@@ -61,7 +62,7 @@ const MilkWash = ({ isDark }: { isDark: boolean }) => (
     pointerEvents="none"
     colors={[
       "rgba(255,255,255,0)",
-      isDark ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.6)",
+      isDark ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.45)",
     ]}
     locations={[0.2, 1]}
     style={StyleSheet.absoluteFill}
@@ -92,8 +93,9 @@ export const StoryBanner = ({
   const title = isWeek
     ? dayRange(period.start, period.end)
     : monthName(period.start);
-  // Soft ink: deep sky navy by day, not black; white by night.
-  const ink = isDark ? "rgba(255,255,255,0.92)" : "rgba(16,42,72,0.82)";
+  // Deep sky navy by day, not black; white by night. Solid: AA contrast
+  // on the lightest cloud.
+  const ink = isDark ? "rgba(255,255,255,0.92)" : "#0F2A4A";
   return (
     <Pressable
       accessibilityRole="button"
@@ -139,6 +141,18 @@ export const StoryBanner = ({
       </View>
       <BottomBlur speed={speed} />
       <MilkWash isDark={isDark} />
+      {isDark ? (
+        <NightSparkle />
+      ) : (
+        // A touch deeper sky by day: more contrast for the title.
+        <View
+          pointerEvents="none"
+          style={[
+            StyleSheet.absoluteFill,
+            { backgroundColor: "rgba(20,70,140,0.08)" },
+          ]}
+        />
+      )}
       <View
         pointerEvents="none"
         style={{
@@ -146,7 +160,9 @@ export const StoryBanner = ({
           right: 0,
           bottom: 0,
           transformOrigin: "right bottom",
-          transform: [{ scale: YEAR_SCALE }, { translateY: 22 }],
+          // Pushed down: the digits start below the play button row and
+          // run off the bottom edge.
+          transform: [{ scale: YEAR_SCALE }, { translateY: 30 }],
         }}
       >
         <Heading
