@@ -869,7 +869,6 @@
     "other": "{{count}} ngày có %{tag} tuần này"
   },
   "recaps_story_banner_title": "Tổng kết %{month}",
-  "recaps_story_coming_eyebrow": "Sắp tới",
   "recaps_story_coming_left": {
     "one": "Còn 1",
     "other": "Còn {{count}}"
@@ -884,16 +883,13 @@
     "one": "1 ngày",
     "other": "{{count}} ngày"
   },
-  "recaps_story_hard_eyebrow": "Một quy luật",
   "recaps_story_hard_title": "%{tag} đi cùng những ngày khó khăn hơn của bạn",
-  "recaps_story_lifted_eyebrow": "Điều làm %{month} nhẹ nhàng hơn",
   "recaps_story_lifted_text": {
     "one": "So với những ngày không có thẻ này. 1 lần ghi lại.",
     "other": "So với những ngày không có thẻ này. {{count}} lần ghi lại."
   },
   "recaps_story_lifted_title": "Những ngày có %{tag} nhẹ nhàng nhất",
   "recaps_story_next": "Trang tiếp",
-  "recaps_story_orbit_eyebrow": "Vũ trụ của bạn",
   "recaps_story_orbit_title": "Ai ở trong quỹ đạo của bạn",
   "recaps_story_pause": "Tạm dừng",
   "recaps_story_people_days": {

@@ -869,7 +869,6 @@
     "other": "{{count}} päivää, joina %{tag}, tällä viikolla"
   },
   "recaps_story_banner_title": "Katsaus: %{month}",
-  "recaps_story_coming_eyebrow": "Tulossa",
   "recaps_story_coming_left": {
     "one": "1 jäljellä",
     "other": "{{count}} jäljellä"
@@ -884,16 +883,13 @@
     "one": "1 päivä",
     "other": "{{count}} päivää"
   },
-  "recaps_story_hard_eyebrow": "Toistuva kuvio",
   "recaps_story_hard_title": "%{tag} kulki raskaampien päiviesi mukana",
-  "recaps_story_lifted_eyebrow": "%{month}: mikä kevensi",
   "recaps_story_lifted_text": {
     "one": "Verrattuna päiviin ilman tunnistetta. 1 kirjaus.",
     "other": "Verrattuna päiviin ilman tunnistetta. {{count}} kirjausta."
   },
   "recaps_story_lifted_title": "Päivät, joina %{tag}, tuntuivat kevyimmiltä",
   "recaps_story_next": "Seuraava dia",
-  "recaps_story_orbit_eyebrow": "Sinun universumisi",
   "recaps_story_orbit_title": "Ketkä olivat kiertoradallasi",
   "recaps_story_pause": "Tauko",
   "recaps_story_people_days": {

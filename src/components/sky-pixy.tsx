@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { Pressable } from "react-native";
 import Animated, {
   Easing,
@@ -30,6 +30,10 @@ const MIN_SCALE = 0.6;
 const FADE_OUT_MS = 250;
 const FADE_IN_DELAY_MS = 150;
 const FADE_IN_MS = 700;
+/** Happy eyes on their own: this long, every 8 to 16 seconds. */
+const HAPPY_IDLE_MS = 1400;
+const HAPPY_EVERY_MIN_MS = 8000;
+const HAPPY_EVERY_SPREAD_MS = 8000;
 /** Extra flight speed at the peak of a step change. */
 const MAX_BOOST = 3;
 /** Extra flight speed right after a tap. */
@@ -44,7 +48,8 @@ const CALM_DOWN_MS = 2600;
  * never crosses text: on a new zone it fades out, moves, and fades back in.
  * Pixy shrinks to fit a small zone. No zone, or one too small, hides it. `boost` (0 to 1) speeds the flight
  * up while the clouds rush to the next step. A tap excites Pixy: it zips
- * around its zone with a happy hop, then calms down. Render only when
+ * around its zone with a happy hop and "^^" eyes, then calms down. Now and
+ * then it smiles on its own. Render only when
  * motion is allowed.
  */
 export const SkyPixy = ({
@@ -68,7 +73,39 @@ export const SkyPixy = ({
     time.set(time.get() + (timeSincePreviousFrame / 1000) * speed);
   });
 
+  // Happy "^^" eyes: while excited, and now and then on their own.
+  const [isHappy, setIsHappy] = useState(false);
+  const calm = useRef<ReturnType<typeof setTimeout>>(null);
+  const smile = (durationMs: number) => {
+    setIsHappy(true);
+    if (calm.current) {
+      clearTimeout(calm.current);
+    }
+    calm.current = setTimeout(() => setIsHappy(false), durationMs);
+  };
+  const smileNow = useEffectEvent(() => smile(HAPPY_IDLE_MS));
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    const next = () => {
+      timer = setTimeout(
+        () => {
+          smileNow();
+          next();
+        },
+        HAPPY_EVERY_MIN_MS + Math.random() * HAPPY_EVERY_SPREAD_MS
+      );
+    };
+    next();
+    return () => {
+      clearTimeout(timer);
+      if (calm.current) {
+        clearTimeout(calm.current);
+      }
+    };
+  }, []);
+
   const excite = () => {
+    smile(EXCITE_IN_MS + CALM_DOWN_MS);
     excitement.set(
       withSequence(
         withTiming(1, { duration: EXCITE_IN_MS }),
@@ -177,7 +214,7 @@ export const SkyPixy = ({
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <CloudPixy isBlinking={isBlinking} />
+        <CloudPixy isBlinking={isBlinking} isHappy={isHappy} />
       </Pressable>
     </Animated.View>
   );

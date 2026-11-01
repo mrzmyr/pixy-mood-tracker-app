@@ -869,7 +869,6 @@
     "other": "今週%{tag}があった日：{{count}}日"
   },
   "recaps_story_banner_title": "%{month}の振り返り",
-  "recaps_story_coming_eyebrow": "これから",
   "recaps_story_coming_left": {
     "one": "残り1",
     "other": "残り{{count}}"
@@ -884,16 +883,13 @@
     "one": "1日",
     "other": "{{count}}日"
   },
-  "recaps_story_hard_eyebrow": "あるパターン",
   "recaps_story_hard_title": "%{tag}は、つらかった日によく重なっていました",
-  "recaps_story_lifted_eyebrow": "%{month}を軽くしたもの",
   "recaps_story_lifted_text": {
     "one": "このタグがない日との比較。記録1件。",
     "other": "このタグがない日との比較。記録{{count}}件。"
   },
   "recaps_story_lifted_title": "%{tag}の日がいちばん軽やかでした",
   "recaps_story_next": "次のスライド",
-  "recaps_story_orbit_eyebrow": "あなたの宇宙",
   "recaps_story_orbit_title": "あなたの軌道にいた人",
   "recaps_story_pause": "一時停止",
   "recaps_story_people_days": {

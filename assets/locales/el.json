@@ -869,7 +869,6 @@
     "other": "{{count}} μέρες με %{tag} αυτή την εβδομάδα"
   },
   "recaps_story_banner_title": "Ανασκόπηση: %{month}",
-  "recaps_story_coming_eyebrow": "Έρχονται",
   "recaps_story_coming_left": {
     "one": "Μένει 1",
     "other": "Μένουν {{count}}"
@@ -884,16 +883,13 @@
     "one": "1 μέρα",
     "other": "{{count}} μέρες"
   },
-  "recaps_story_hard_eyebrow": "Ένα μοτίβο",
   "recaps_story_hard_title": "%{tag}: συχνά στις πιο δύσκολες μέρες σου",
-  "recaps_story_lifted_eyebrow": "%{month}: τι σε ανέβασε",
   "recaps_story_lifted_text": {
     "one": "Σε σύγκριση με μέρες χωρίς την ετικέτα. 1 καταγραφή.",
     "other": "Σε σύγκριση με μέρες χωρίς την ετικέτα. {{count}} καταγραφές."
   },
   "recaps_story_lifted_title": "Οι μέρες με %{tag} ήταν οι πιο ανάλαφρες",
   "recaps_story_next": "Επόμενη διαφάνεια",
-  "recaps_story_orbit_eyebrow": "Το σύμπαν σου",
   "recaps_story_orbit_title": "Ποιοι ήταν στην τροχιά σου",
   "recaps_story_pause": "Παύση",
   "recaps_story_people_days": {

@@ -16,11 +16,11 @@ const STEP_RAMP_UP_MS = 250;
 const STEP_RAMP_DOWN_MS = 1600;
 
 /**
- * Full-screen sky behind the onboarding slides. The clouds drift slowly
- * and speed up for a moment each time `step` changes; `boost` reports how
+ * Full-screen sky behind stepped flows: onboarding, recap stories. The
+ * clouds drift slowly and speed up for a moment each time `step` changes; `boost` reports how
  * fast, so cloud Pixy can keep pace.
  */
-export const OnboardingSky = ({
+export const SteppedSky = ({
   step,
   isVisible = true,
   boost,

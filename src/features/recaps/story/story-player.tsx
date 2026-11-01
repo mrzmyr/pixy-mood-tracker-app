@@ -1,12 +1,14 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
   FadeInDown,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
+  withDelay,
   withTiming,
 } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
@@ -15,8 +17,14 @@ import { scheduleOnRN } from "react-native-worklets";
 import Pause from "lucide-react-native/icons/pause";
 import Play from "lucide-react-native/icons/play";
 import X from "lucide-react-native/icons/x";
+import { FlightZoneContext } from "@/components/flight-zone-context";
+import { SkyPixy } from "@/components/sky-pixy";
+import type { FlightZone } from "@/components/sky-pixy";
+import { SteppedSky } from "@/components/stepped-sky";
 import { RADIUS } from "@/constants/radius";
+import { usePixyIdle } from "@/features/logger";
 import { t } from "@/lib/translation";
+import { StoryCaptureContext } from "./capture-context";
 import { StoryBrand } from "./story-brand";
 import { STORY_PALETTE, STORY_SLIDE_MS } from "./theme";
 import type { StoryTheme } from "./theme";
@@ -25,16 +33,79 @@ import type { StoryTheme } from "./theme";
 export interface PlayerSlide {
   key: string;
   theme: StoryTheme;
-  /** Full-screen layer under the content. `progress` runs 0 to 1. */
-  renderBackdrop?: (progress: SharedValue<number>) => React.ReactNode;
   content: React.ReactNode;
   /** Waits for the user instead of moving on, for example a quiz. */
   isWaiting?: boolean;
   /** Time on screen. Default `STORY_SLIDE_MS`. */
   durationMs?: number;
-  /** Content uses the whole screen, so a share captures the whole slide. */
-  fillsScreen?: boolean;
 }
+
+/** Pixy waits for the first slide to settle, then glides in this long. */
+const PIXY_ARRIVAL_DELAY_MS = 400;
+const PIXY_ARRIVAL_MS = 2400;
+
+/**
+ * Cloud Pixy with the blink of the confirmation Pixy. Glides in from beyond
+ * the right screen edge once, when the story opens.
+ */
+const BlinkingSkyPixy = ({
+  boost,
+  zone,
+}: {
+  boost: SharedValue<number>;
+  zone: FlightZone | null;
+}) => {
+  const idle = usePixyIdle({ isEnabled: true, isReducedMotion: false });
+  const { width } = useWindowDimensions();
+  const arrival = useSharedValue(1);
+  useEffect(() => {
+    arrival.set(
+      withDelay(
+        PIXY_ARRIVAL_DELAY_MS,
+        withTiming(0, {
+          duration: PIXY_ARRIVAL_MS,
+          easing: Easing.out(Easing.cubic),
+        })
+      )
+    );
+  }, [arrival]);
+  const arrivalStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: arrival.get() * width }],
+  }));
+  return (
+    <Animated.View
+      pointerEvents="box-none"
+      style={[StyleSheet.absoluteFill, arrivalStyle]}
+    >
+      <SkyPixy boost={boost} zone={zone} isBlinking={idle.isBlinking} />
+    </Animated.View>
+  );
+};
+
+/**
+ * Slides with cloud Pixy above them. Holds the zone the slide reports, so a
+ * new zone re-renders only Pixy: `children` keep their identity.
+ */
+const CloudPixyLayer = ({
+  boost,
+  isShown,
+  children,
+}: {
+  boost: SharedValue<number>;
+  isShown: boolean;
+  children: React.ReactNode;
+}) => {
+  const [zone, setZone] = useState<FlightZone | null>(null);
+  return (
+    <>
+      <FlightZoneContext.Provider value={setZone}>
+        {children}
+      </FlightZoneContext.Provider>
+      {/* Above the slides so it takes taps. */}
+      {isShown && <BlinkingSkyPixy boost={boost} zone={zone} />}
+    </>
+  );
+};
 
 /** Bottom buttons pause the story through this, like the pause button. */
 export interface PlayerControls {
@@ -83,47 +154,7 @@ const ENTERING = FadeInDown.duration(240);
 /** Holding hides bars and buttons this fast, so the slide shows at once. */
 const CHROME_FADE_MS = 80;
 
-/** Space around the content in a shared image of a slide. */
-const CAPTURE_PADDING = 24;
-
-/**
- * Content of a slide that stacks from the top. A share captures only this
- * frame, with the brand below the content. Negative margins keep the
- * layout; the padding frames the image.
- */
-const SlideFrame = ({
-  frameRef,
-  theme,
-  isCapturing,
-  children,
-}: {
-  frameRef?: React.Ref<View>;
-  theme: StoryTheme;
-  isCapturing: boolean;
-  children: React.ReactNode;
-}) => {
-  const palette = STORY_PALETTE[theme];
-  return (
-    <View
-      ref={frameRef}
-      collapsable={false}
-      style={{
-        margin: -CAPTURE_PADDING,
-        padding: CAPTURE_PADDING,
-        backgroundColor: palette.background,
-      }}
-    >
-      {children}
-      {isCapturing && (
-        <View style={{ marginTop: 28 }}>
-          <StoryBrand color={palette.text} />
-        </View>
-      )}
-    </View>
-  );
-};
-
-/** Brand of a full-screen slide: bottom left, where Share sits. */
+/** Brand of a shared slide: bottom left, where Share sits. */
 const ScreenBrand = ({ theme }: { theme: StoryTheme }) => {
   const insets = useSafeAreaInsets();
   return (
@@ -164,13 +195,12 @@ interface Clock {
  * `renderBottom` draws per slide below the content (Share, Helpful, Not
  * Helpful); its `controls.pause` stops the story while the user acts.
  * `isCapturing` swaps bars and buttons for the app icon and name, so the
- * shared image carries the brand in the bottom left corner. A slide that
- * does not fill the screen shares only its content, with the brand below.
+ * shared image carries the brand in the bottom left corner, and puts slide
+ * content on a see-through card (`SlideCard`).
  */
 export const StoryPlayer = ({
   slides,
   slideRef,
-  contentRef,
   onClose,
   onSlideShown,
   renderBottom,
@@ -180,8 +210,6 @@ export const StoryPlayer = ({
   slides: PlayerSlide[];
   /** Slide without bars and buttons, for sharing it as an image. */
   slideRef?: React.Ref<View>;
-  /** Content of a slide that does not fill the screen, for sharing it. */
-  contentRef?: React.Ref<View>;
   onClose: () => void;
   /** Every slide change. The first slide counts on open, in the parent. */
   onSlideShown: (index: number) => void;
@@ -196,6 +224,9 @@ export const StoryPlayer = ({
   isCapturing?: boolean;
 }) => {
   const insets = useSafeAreaInsets();
+  const isReducedMotion = useReducedMotion();
+  // One sky and one cloud Pixy across every slide, as in onboarding.
+  const skyBoost = useSharedValue(0);
   const [index, setIndex] = useState(0);
   const [isPausedByUser, setIsPausedByUser] = useState(false);
   // Press and hold pauses only while held; the pause button pauses until tapped again.
@@ -323,44 +354,40 @@ export const StoryPlayer = ({
           { backgroundColor: palette.background },
         ]}
       >
-        <View key={slide.key} style={StyleSheet.absoluteFill}>
-          {slide.renderBackdrop?.(progress)}
-        </View>
-        <Pressable
-          accessible={false}
-          style={StyleSheet.absoluteFill}
-          onLongPress={() => setIsHolding(true)}
-          delayLongPress={200}
-          onPressOut={() => setIsHolding(false)}
-          onPress={onPress}
-          testID="recap-story-tap"
+        <SteppedSky step={index} boost={skyBoost} />
+        {/* Never in a shared image. */}
+        <CloudPixyLayer
+          boost={skyBoost}
+          isShown={!isReducedMotion && !isCapturing}
         >
-          <Animated.View
-            key={slide.key}
-            entering={ENTERING}
-            pointerEvents="box-none"
-            style={{
-              flex: 1,
-              paddingTop: insets.top + 76,
-              paddingBottom: insets.bottom + 84,
-              paddingHorizontal: 24,
-            }}
-            testID={`recap-story-slide-${slide.key}`}
+          <Pressable
+            accessible={false}
+            style={StyleSheet.absoluteFill}
+            onLongPress={() => setIsHolding(true)}
+            delayLongPress={200}
+            onPressOut={() => setIsHolding(false)}
+            onPress={onPress}
+            testID="recap-story-tap"
           >
-            {slide.fillsScreen ? (
-              slide.content
-            ) : (
-              <SlideFrame
-                frameRef={contentRef}
-                theme={theme}
-                isCapturing={isCapturing}
-              >
+            <Animated.View
+              key={slide.key}
+              entering={ENTERING}
+              pointerEvents="box-none"
+              style={{
+                flex: 1,
+                paddingTop: insets.top + 76,
+                paddingBottom: insets.bottom + 84,
+                paddingHorizontal: 24,
+              }}
+              testID={`recap-story-slide-${slide.key}`}
+            >
+              <StoryCaptureContext value={isCapturing}>
                 {slide.content}
-              </SlideFrame>
-            )}
-          </Animated.View>
-        </Pressable>
-        {isCapturing && slide.fillsScreen && <ScreenBrand theme={theme} />}
+              </StoryCaptureContext>
+            </Animated.View>
+          </Pressable>
+        </CloudPixyLayer>
+        {isCapturing && <ScreenBrand theme={theme} />}
       </View>
 
       <Animated.View

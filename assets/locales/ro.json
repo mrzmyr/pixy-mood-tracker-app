@@ -869,7 +869,6 @@
     "other": "{{count}} zile cu %{tag} săptămâna aceasta"
   },
   "recaps_story_banner_title": "Retrospectiva lunii %{month}",
-  "recaps_story_coming_eyebrow": "Urmează",
   "recaps_story_coming_left": {
     "one": "Mai e 1",
     "other": "Mai sunt {{count}}"
@@ -884,16 +883,13 @@
     "one": "1 zi",
     "other": "{{count}} zile"
   },
-  "recaps_story_hard_eyebrow": "Un tipar",
   "recaps_story_hard_title": "%{tag} a însoțit zilele tale mai grele",
-  "recaps_story_lifted_eyebrow": "Ce ți-a luminat %{month}",
   "recaps_story_lifted_text": {
     "one": "Comparat cu zilele fără etichetă. 1 înregistrare.",
     "other": "Comparat cu zilele fără etichetă. {{count}} înregistrări."
   },
   "recaps_story_lifted_title": "Zilele cu %{tag} au fost cele mai ușoare",
   "recaps_story_next": "Slide-ul următor",
-  "recaps_story_orbit_eyebrow": "Universul tău",
   "recaps_story_orbit_title": "Cine a fost pe orbita ta",
   "recaps_story_pause": "Pauză",
   "recaps_story_people_days": {

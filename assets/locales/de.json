@@ -907,7 +907,6 @@
   },
   "recaps_story_banner_title": "%{month}-Rückblick",
   "recaps_story_banner_title_week": "Wochenrückblick",
-  "recaps_story_coming_eyebrow": "Was noch kommt",
   "recaps_story_coming_left": {
     "one": "Noch 1",
     "other": "Noch {{count}}"
@@ -927,18 +926,13 @@
     "one": "1 Tag",
     "other": "{{count}} Tage"
   },
-  "recaps_story_finale_eyebrow": "Das war dein %{month}",
-  "recaps_story_finale_eyebrow_week": "Das war deine Woche",
-  "recaps_story_hard_eyebrow": "Ein Muster",
   "recaps_story_hard_title": "%{tag} ging mit deinen schwereren Tagen einher",
-  "recaps_story_lifted_eyebrow": "Was deinen %{month} leichter machte",
   "recaps_story_lifted_text": {
     "one": "Im Vergleich zu Tagen ohne. 1 Check-in.",
     "other": "Im Vergleich zu Tagen ohne. {{count}} Check-ins."
   },
   "recaps_story_lifted_title": "Tage mit %{tag} fühlten sich am leichtesten an",
   "recaps_story_next": "Nächste Folie",
-  "recaps_story_orbit_eyebrow": "Dein Universum",
   "recaps_story_orbit_title": "Wer in deinem Orbit war",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {

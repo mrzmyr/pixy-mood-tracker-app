@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useWindowDimensions, View } from "react-native";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
 import Animated, {
   Easing,
   FadeIn,
@@ -8,16 +8,22 @@ import Animated, {
   useSharedValue,
   withRepeat,
   withTiming,
+  withDelay,
 } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
-import { RADIUS } from "@/constants/radius";
 import type { Person } from "@/features/people";
 import { ProfileAvatar, useProfile } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
-import { SlideHeader, StoryText } from "./parts";
-import { STORY_PALETTE } from "./theme";
+import { SlideCard, SlideHeader, StoryText } from "./parts";
+import {
+  getStoryTheme,
+  STORY_PALETTE,
+  STORY_SCREEN_PADDING,
+  titleRevealEnd,
+} from "./theme";
+import type { StoryTheme } from "./theme";
 import type { OrbitSlide } from "./types";
 import type { SlideContext } from "./slides";
 
@@ -38,6 +44,8 @@ const SIZE = {
 const TURN_MS = 60_000;
 /** Extra turn the system eases out of when the slide opens, radians (30°). */
 const SETTLE = Math.PI / 6;
+/** Rings and the user's avatar fade in this long, after the title. */
+const RINGS_MS = 600;
 /** Time to ease out of `SETTLE`, in milliseconds. */
 const SETTLE_MS = 2500;
 /** One bob up and down, in milliseconds. */
@@ -49,6 +57,9 @@ const FLOAT = 3;
 const NAME_GAP = 4;
 /** Extra width a name may use beyond its planet, in points. */
 const NAME_OVERHANG = 24;
+
+/** First word of a name: full names crowd the orbit. */
+const firstName = (name: string) => name.trim().split(/\s+/u)[0] ?? name;
 
 const lerp = (from: number, to: number, share: number) =>
   from + (to - from) * share;
@@ -91,11 +102,11 @@ const placePlanets = (
 
 /**
  * `turn` runs 0 to 1 once per `TURN_MS`, forever: a slow, steady spin.
- * `settle` eases from 1 to 0 as the slide opens, so the system swings in
+ * `settle` eases from 1 to 0 after `delay`, so the people swing in
  * and slows into the spin. `float` runs 0 to 1 per bob. All hold still
  * with reduce motion on.
  */
-const useOrbitMotion = () => {
+const useOrbitMotion = (delay: number) => {
   const isReduced = useReducedMotion();
   const turn = useSharedValue(0);
   const settle = useSharedValue(isReduced ? 0 : 1);
@@ -110,9 +121,12 @@ const useOrbitMotion = () => {
     turn.set(forever(TURN_MS));
     float.set(forever(FLOAT_MS));
     settle.set(
-      withTiming(0, { duration: SETTLE_MS, easing: Easing.out(Easing.cubic) })
+      withDelay(
+        delay,
+        withTiming(0, { duration: SETTLE_MS, easing: Easing.out(Easing.cubic) })
+      )
     );
-  }, [isReduced, turn, settle, float]);
+  }, [isReduced, turn, settle, float, delay]);
   return { turn, settle, float };
 };
 
@@ -127,6 +141,8 @@ const PlanetView = ({
   turn,
   settle,
   float,
+  theme,
+  delay,
 }: {
   planet: Planet;
   index: number;
@@ -134,6 +150,9 @@ const PlanetView = ({
   turn: SharedValue<number>;
   settle: SharedValue<number>;
   float: SharedValue<number>;
+  theme: StoryTheme;
+  /** When people start to swing in, in milliseconds. */
+  delay: number;
 }) => {
   const style = useAnimatedStyle(() => {
     const angle =
@@ -149,7 +168,7 @@ const PlanetView = ({
   const width = planet.size + NAME_OVERHANG * 2;
   return (
     <Animated.View
-      entering={FadeIn.delay(250 + index * 90).duration(500)}
+      entering={FadeIn.delay(delay + index * 90).duration(500)}
       style={{
         position: "absolute",
         left: center - width / 2,
@@ -162,12 +181,12 @@ const PlanetView = ({
         <View style={{ position: "absolute", top: planet.size + NAME_GAP }}>
           <StoryText
             kind="label"
-            theme="night"
+            theme={theme}
             tone="muted"
             numberOfLines={1}
             style={{ maxWidth: width, textAlign: "center" }}
           >
-            {planet.person.name}
+            {firstName(planet.person.name)}
           </StoryText>
         </View>
       </Animated.View>
@@ -179,9 +198,11 @@ const PlanetView = ({
 const OrbitRings = ({
   planets,
   width,
+  theme,
 }: {
   planets: Planet[];
   width: number;
+  theme: StoryTheme;
 }) => {
   const radii = [
     ...new Set(planets.map((planet) => Math.round(planet.radius))),
@@ -194,7 +215,7 @@ const OrbitRings = ({
           cx={width / 2}
           cy={width / 2}
           r={radius}
-          stroke={STORY_PALETTE.night.text}
+          stroke={STORY_PALETTE[theme].text}
           strokeOpacity={0.1}
           strokeWidth={1}
           fill="none"
@@ -218,8 +239,13 @@ export const Orbit = ({
 }) => {
   const { width: screen } = useWindowDimensions();
   const profile = useProfile();
-  const { turn, settle, float } = useOrbitMotion();
-  const width = screen - 48;
+  const title = t("recaps_story_orbit_title");
+  // Title first, then you and the rings, then people swing in.
+  const ringsAt = titleRevealEnd(title);
+  const peopleAt = ringsAt + RINGS_MS;
+  const { turn, settle, float } = useOrbitMotion(peopleAt);
+  const theme = getStoryTheme(ctx.isDark);
+  const width = screen - 2 * STORY_SCREEN_PADDING;
   const planets = placePlanets(slide, ctx.people, width);
   const self = Math.round(width * SIZE.self);
   const label = planets
@@ -230,47 +256,49 @@ export const Orbit = ({
     .join(". ");
   return (
     <>
-      <SlideHeader
-        theme="night"
-        eyebrow={t("recaps_story_orbit_eyebrow")}
-        title={t("recaps_story_orbit_title")}
-      />
-      <View
-        accessible
-        accessibilityRole="image"
-        accessibilityLabel={label}
-        style={{ width, height: width, marginTop: 24 }}
-      >
-        <OrbitRings planets={planets} width={width} />
+      <SlideHeader theme={theme} title={title} />
+      <SlideCard theme={theme}>
         <View
-          style={{
-            position: "absolute",
-            left: (width - self) / 2 - 3,
-            top: (width - self) / 2 - 3,
-            padding: 1,
-            borderRadius: RADIUS.full,
-            borderWidth: 2,
-            borderColor: STORY_PALETTE.night.accent,
-          }}
+          accessible
+          accessibilityRole="image"
+          accessibilityLabel={label}
+          style={{ width, height: width }}
         >
-          <ProfileAvatar
-            size={self}
-            photoUri={profile.photoUri}
-            initials={profile.initials}
-          />
+          <Animated.View
+            entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
+            style={StyleSheet.absoluteFill}
+          >
+            <OrbitRings planets={planets} width={width} theme={theme} />
+          </Animated.View>
+          <Animated.View
+            entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
+            style={{
+              position: "absolute",
+              left: (width - self) / 2,
+              top: (width - self) / 2,
+            }}
+          >
+            <ProfileAvatar
+              size={self}
+              photoUri={profile.photoUri}
+              initials={profile.initials}
+            />
+          </Animated.View>
+          {planets.map((planet, index) => (
+            <PlanetView
+              key={planet.person.id}
+              planet={planet}
+              index={index}
+              center={width / 2}
+              turn={turn}
+              settle={settle}
+              float={float}
+              theme={theme}
+              delay={peopleAt}
+            />
+          ))}
         </View>
-        {planets.map((planet, index) => (
-          <PlanetView
-            key={planet.person.id}
-            planet={planet}
-            index={index}
-            center={width / 2}
-            turn={turn}
-            settle={settle}
-            float={float}
-          />
-        ))}
-      </View>
+      </SlideCard>
     </>
   );
 };

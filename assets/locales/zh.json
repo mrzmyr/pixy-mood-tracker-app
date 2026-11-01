@@ -869,7 +869,6 @@
     "other": "本周有 %{tag} 的 {{count}} 天"
   },
   "recaps_story_banner_title": "%{month}回顾",
-  "recaps_story_coming_eyebrow": "即将到来",
   "recaps_story_coming_left": {
     "one": "还剩 1 天",
     "other": "还剩 {{count}} 天"
@@ -884,16 +883,13 @@
     "one": "1 天",
     "other": "{{count}} 天"
   },
-  "recaps_story_hard_eyebrow": "一个规律",
   "recaps_story_hard_title": "%{tag}常伴随你比较难熬的日子",
-  "recaps_story_lifted_eyebrow": "让%{month}更轻松的事",
   "recaps_story_lifted_text": {
     "one": "与没有该标签的日子相比。1 次记录。",
     "other": "与没有该标签的日子相比。{{count}} 次记录。"
   },
   "recaps_story_lifted_title": "有%{tag}的日子感觉最轻松",
   "recaps_story_next": "下一页",
-  "recaps_story_orbit_eyebrow": "你的宇宙",
   "recaps_story_orbit_title": "谁在你的轨道上",
   "recaps_story_pause": "暂停",
   "recaps_story_people_days": {

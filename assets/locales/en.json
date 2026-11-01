@@ -1037,7 +1037,6 @@
   },
   "recaps_story_banner_title": "%{month} Recap",
   "recaps_story_banner_title_week": "Week Recap",
-  "recaps_story_coming_eyebrow": "Coming up",
   "recaps_story_coming_left": {
     "one": "1 to go",
     "other": "{{count}} to go"
@@ -1047,29 +1046,24 @@
     "other": "{{count}} missed"
   },
   "recaps_story_coming_title": {
-    "one": "1 day of %{year} still ahead",
-    "other": "{{count}} days of %{year} still ahead"
+    "one": "1 Day of %{year} Still Ahead",
+    "other": "{{count}} Days of %{year} Still Ahead"
   },
-  "recaps_story_cover_pixels_title": "pixels in %{month}",
-  "recaps_story_cover_pixels_title_week": "pixels this week",
-  "recaps_story_cover_title_week": "Take a moment.\nThis is your week.",
+  "recaps_story_cover_pixels_title": "Pixels in %{month}",
+  "recaps_story_cover_pixels_title_week": "Pixels This Week",
+  "recaps_story_cover_title_week": "Take a Moment.\nThis Is Your Week.",
   "recaps_story_days": {
     "one": "1 day",
     "other": "{{count}} days"
   },
-  "recaps_story_finale_eyebrow": "That was %{month}",
-  "recaps_story_finale_eyebrow_week": "That was your week",
-  "recaps_story_hard_eyebrow": "A pattern",
-  "recaps_story_hard_title": "%{tag} went with your harder days",
-  "recaps_story_lifted_eyebrow": "What lifted %{month}",
+  "recaps_story_hard_title": "%{tag} Went with Your Harder Days",
   "recaps_story_lifted_text": {
     "one": "Compared with days without the tag. 1 check-in.",
     "other": "Compared with days without the tag. {{count}} check-ins."
   },
-  "recaps_story_lifted_title": "%{tag} days felt lightest",
+  "recaps_story_lifted_title": "%{tag} Days Felt Lightest",
   "recaps_story_next": "Next slide",
-  "recaps_story_orbit_eyebrow": "Your universe",
-  "recaps_story_orbit_title": "Who was in your orbit",
+  "recaps_story_orbit_title": "Who Was in Your Orbit",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
     "one": "1 day connected",
@@ -1081,7 +1075,7 @@
   "recaps_story_share": "Share",
   "recaps_story_share_shuffle": "Shuffle photos",
   "recaps_story_share_title": "My %{month}",
-  "recaps_story_share_title_week": "My week",
+  "recaps_story_share_title_week": "My Week",
   "recaps_tag_back_text": {
     "one": "On one day, after %{weeks} weeks without.",
     "other": "On {{count}} days, after %{weeks} weeks without."

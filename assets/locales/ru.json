@@ -869,7 +869,6 @@
     "other": "Дней с %{tag} на этой неделе: {{count}}"
   },
   "recaps_story_banner_title": "Итоги: %{month}",
-  "recaps_story_coming_eyebrow": "Впереди",
   "recaps_story_coming_left": {
     "one": "Осталось: 1",
     "other": "Осталось: {{count}}"
@@ -884,16 +883,13 @@
     "one": "1 день",
     "other": "Дней: {{count}}"
   },
-  "recaps_story_hard_eyebrow": "Закономерность",
   "recaps_story_hard_title": "%{tag}: часто в непростые дни",
-  "recaps_story_lifted_eyebrow": "%{month}: что помогло",
   "recaps_story_lifted_text": {
     "one": "По сравнению с днями без тега. 1 отметка.",
     "other": "По сравнению с днями без тега. Отметок: {{count}}."
   },
   "recaps_story_lifted_title": "Дни с %{tag} были самыми лёгкими",
   "recaps_story_next": "Следующий слайд",
-  "recaps_story_orbit_eyebrow": "Ваша вселенная",
   "recaps_story_orbit_title": "Кто был на Вашей орбите",
   "recaps_story_pause": "Пауза",
   "recaps_story_people_days": {

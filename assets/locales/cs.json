@@ -869,7 +869,6 @@
     "other": "{{count}} dní s %{tag} tento týden"
   },
   "recaps_story_banner_title": "Ohlédnutí: %{month}",
-  "recaps_story_coming_eyebrow": "Co přijde",
   "recaps_story_coming_left": {
     "one": "Zbývá 1",
     "other": "Zbývá: {{count}}"
@@ -884,16 +883,13 @@
     "one": "1 den",
     "other": "Dní: {{count}}"
   },
-  "recaps_story_hard_eyebrow": "Vzorec",
   "recaps_story_hard_title": "%{tag}: často v tvých těžších dnech",
-  "recaps_story_lifted_eyebrow": "%{month}: co pomohlo",
   "recaps_story_lifted_text": {
     "one": "Ve srovnání s dny bez štítku. 1 záznam.",
     "other": "Ve srovnání s dny bez štítku. Záznamů: {{count}}."
   },
   "recaps_story_lifted_title": "Dny se štítkem %{tag} byly nejlehčí",
   "recaps_story_next": "Další snímek",
-  "recaps_story_orbit_eyebrow": "Tvůj vesmír",
   "recaps_story_orbit_title": "Kdo byl na tvé oběžné dráze",
   "recaps_story_pause": "Pozastavit",
   "recaps_story_people_days": {

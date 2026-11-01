@@ -869,7 +869,6 @@
     "other": "이번 주 %{tag} 있었던 날 {{count}}일"
   },
   "recaps_story_banner_title": "%{month} 돌아보기",
-  "recaps_story_coming_eyebrow": "앞으로",
   "recaps_story_coming_left": {
     "one": "1일 남음",
     "other": "{{count}}일 남음"
@@ -884,16 +883,13 @@
     "one": "1일",
     "other": "{{count}}일"
   },
-  "recaps_story_hard_eyebrow": "하나의 패턴",
   "recaps_story_hard_title": "%{tag}, 힘들었던 날과 함께했어요",
-  "recaps_story_lifted_eyebrow": "%{month}을 가볍게 해 준 것",
   "recaps_story_lifted_text": {
     "one": "이 태그가 없는 날과 비교했어요. 기록 1개.",
     "other": "이 태그가 없는 날과 비교했어요. 기록 {{count}}개."
   },
   "recaps_story_lifted_title": "%{tag} 있는 날이 가장 가벼웠어요",
   "recaps_story_next": "다음 슬라이드",
-  "recaps_story_orbit_eyebrow": "나의 우주",
   "recaps_story_orbit_title": "내 궤도에 있던 사람들",
   "recaps_story_pause": "일시정지",
   "recaps_story_people_days": {

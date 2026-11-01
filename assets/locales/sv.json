@@ -869,7 +869,6 @@
     "other": "{{count}} dagar med %{tag} den här veckan"
   },
   "recaps_story_banner_title": "Tillbakablick: %{month}",
-  "recaps_story_coming_eyebrow": "Snart",
   "recaps_story_coming_left": {
     "one": "1 kvar",
     "other": "{{count}} kvar"
@@ -884,16 +883,13 @@
     "one": "1 dag",
     "other": "{{count}} dagar"
   },
-  "recaps_story_hard_eyebrow": "Ett mönster",
   "recaps_story_hard_title": "%{tag} hörde ihop med dina tyngre dagar",
-  "recaps_story_lifted_eyebrow": "Det som lyfte %{month}",
   "recaps_story_lifted_text": {
     "one": "Jämfört med dagar utan taggen. 1 incheckning.",
     "other": "Jämfört med dagar utan taggen. {{count}} incheckningar."
   },
   "recaps_story_lifted_title": "Dagar med %{tag} kändes lättast",
   "recaps_story_next": "Nästa bild",
-  "recaps_story_orbit_eyebrow": "Ditt universum",
   "recaps_story_orbit_title": "Vem som fanns i din omloppsbana",
   "recaps_story_pause": "Pausa",
   "recaps_story_people_days": {
