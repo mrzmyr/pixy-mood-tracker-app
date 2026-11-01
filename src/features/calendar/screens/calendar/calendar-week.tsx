@@ -20,6 +20,7 @@ import {
   usePhotoPeekSeed,
 } from "../../photo-peek";
 import useHaptics from "@/hooks/use-haptics";
+import { useFeatureFlag } from "@/state/feature-flags";
 
 dayjs.extend(isSameOrBefore);
 
@@ -96,6 +97,7 @@ const CalendarWeekComponent = ({
   const scaleType = useSetting("scaleType");
   const intro = useCalendarIntro();
   const peekSeed = usePhotoPeekSeed();
+  const canPeek = useFeatureFlag("photo-peek");
 
   const days = useMemo(() => {
     const weekDays: string[] = [];
@@ -150,6 +152,7 @@ const CalendarWeekComponent = ({
         scaleType={scaleType}
         isFiltered={filters.filteredDates.has(date)}
         isFiltering={filters.isFiltering}
+        canPeek={canPeek}
         peekPhoto={peekPhoto}
         onPress={onPressDay}
       />
@@ -169,7 +172,7 @@ const CalendarWeekComponent = ({
       {!isLast &&
         emptyDays.map((slot) => (
           <CalendarDayContainer key={slot} introStyle={null}>
-            <EmptySlot />
+            {canPeek ? <EmptySlot /> : null}
           </CalendarDayContainer>
         ))}
 
@@ -185,7 +188,7 @@ const CalendarWeekComponent = ({
       {isLast &&
         emptyDays.map((slot) => (
           <CalendarDayContainer key={slot} introStyle={null}>
-            <EmptySlot />
+            {canPeek ? <EmptySlot /> : null}
           </CalendarDayContainer>
         ))}
     </View>

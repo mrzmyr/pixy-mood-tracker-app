@@ -73,6 +73,7 @@ const CalendarDayComponent = ({
   scaleType,
   isFiltered,
   isFiltering,
+  canPeek = false,
   peekPhoto,
   onPress,
 }: {
@@ -81,6 +82,8 @@ const CalendarDayComponent = ({
   scaleType: SettingsState["scaleType"];
   isFiltering: boolean;
   isFiltered: boolean;
+  /** Flag `photo-peek`: spots without a pixel start the photo peek on long press. */
+  canPeek?: boolean;
   /** Photo of the day while a photo peek runs. Replaces the pixel color. */
   peekPhoto?: LogPhoto | null;
   /** Receives `dateString`, so one stable handler can serve every day. */
@@ -198,7 +201,7 @@ const CalendarDayComponent = ({
   }, [isFuture, onPress, dateString]);
 
   // Spots without a pixel start the photo peek on long press.
-  const hasPixel = !!rating && !isFuture;
+  const canStartPeek = canPeek && !(!!rating && !isFuture);
 
   const onLongPress = useCallback(() => {
     void haptics.selection();
@@ -225,10 +228,12 @@ const CalendarDayComponent = ({
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
       accessibilityState={{ disabled: isFuture, selected: isToday }}
-      // Future days stay pressable for the photo peek; `_onPress` ignores them.
+      // With the photo peek, future days stay pressable for the long press;
+      // `_onPress` ignores them.
+      disabled={isFuture && !canPeek}
       onPress={_onPress}
-      onLongPress={hasPixel ? undefined : onLongPress}
-      onPressOut={hasPixel ? undefined : stopPhotoPeek}
+      onLongPress={canStartPeek ? onLongPress : undefined}
+      onPressOut={canStartPeek ? stopPhotoPeek : undefined}
       android_ripple={isFuture ? undefined : ripple}
       style={containerStyles}
     >
