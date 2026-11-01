@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["TextWrapModule"]
+  },
+  "android": {
+    "modules": ["com.devmood.pixymoodtracker.textwrap.TextWrapModule"]
+  }
+}
