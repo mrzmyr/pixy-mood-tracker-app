@@ -148,7 +148,9 @@ const light = {
 
   calendarBackground: "#FFF",
   calendarItemBackgroundFuture: "#FFF",
-  calendarWeekNameColor: colors.neutral[400],
+  // AA on white: 600 is 7.8:1, 500 is 4.7:1. Weekends read quieter.
+  calendarWeekNameColor: colors.neutral[600],
+  calendarWeekendNameColor: colors.neutral[500],
   calendarMonthNameColor: colors.neutral[400],
 
   linkButtonTextPrimary: tintColorLight,
@@ -390,7 +392,9 @@ const dark: IColors & {
 
   calendarBackground: "#000",
   calendarItemBackgroundFuture: "#000",
-  calendarWeekNameColor: colors.neutral[500],
+  // AA on black: 300 is 14:1, 400 is 8.4:1. Weekends read quieter.
+  calendarWeekNameColor: colors.neutral[300],
+  calendarWeekendNameColor: colors.neutral[400],
   calendarMonthNameColor: colors.neutral[500],
 
   linkButtonTextPrimary: tintColorDark,
