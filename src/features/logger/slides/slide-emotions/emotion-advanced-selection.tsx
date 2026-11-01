@@ -3,7 +3,7 @@ import { EMOTION_CATEGORIES } from "@/types";
 import type { Emotion } from "@/types";
 
 import { useRef } from "react";
-import { useWindowDimensions } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
 import type { CarouselRef } from "react-native-reanimated-carousel";
@@ -31,6 +31,10 @@ export const EmotionAdvancedSelection = ({
 }) => {
   const _carousel = useRef<CarouselRef>(null);
   const { width: windowWidth } = useWindowDimensions();
+  // Slides span the full carousel width. The carousel puts each slide at the
+  // left edge, so a narrower slide hangs left. The page keeps its narrower
+  // width and sits centered inside the slide.
+  const pageWidth = windowWidth / 1.2;
   const locale = getLocale();
 
   const pages = EMOTION_CATEGORIES.map((category) => {
@@ -55,9 +59,13 @@ export const EmotionAdvancedSelection = ({
       ref={_carousel}
       data={pages}
       defaultIndex={defaultIndex}
-      renderItem={({ index }) => pages[index]}
+      renderItem={({ index }) => (
+        <View style={{ width: pageWidth, alignSelf: "center" }}>
+          {pages[index]}
+        </View>
+      )}
       onConfigurePanGesture={(gesture) => gesture.activeOffsetX([-10, 10])}
-      itemSize={windowWidth / 1.2}
+      itemSize={windowWidth}
       style={{
         height: EMOTION_BUTTON_HEIGHT * 9 + 16 * 8,
         width: windowWidth,
