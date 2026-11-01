@@ -46,6 +46,8 @@ export const Radio = ({
     <Pressable
       testID={testID}
       onPress={_onPress}
+      accessibilityRole="radio"
+      accessibilityState={{ checked: isSelected, disabled: isDisabled }}
       style={({ pressed }) => [
         {
           flexDirection: "row",

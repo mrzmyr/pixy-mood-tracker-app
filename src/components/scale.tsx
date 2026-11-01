@@ -41,6 +41,7 @@ const Scale = ({
             accessibilityLabel={_labels[index]}
             key={key}
             isSelected={isSelected}
+            multiSelect={selectedValues !== null}
             onPress={async () => {
               if (onPress) {
                 await haptics.selection();

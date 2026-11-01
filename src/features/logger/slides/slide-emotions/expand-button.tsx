@@ -18,7 +18,7 @@ export const ExpandButton = ({
   const colors = useColors();
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} accessibilityRole="button">
       <View
         style={{
           marginRight: 8,

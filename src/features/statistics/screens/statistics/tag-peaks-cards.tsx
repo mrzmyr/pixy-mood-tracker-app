@@ -42,6 +42,8 @@ const DayDot = ({
 
   return (
     <Pressable
+      accessibilityRole="button"
+      accessibilityState={{ disabled: !item }}
       style={({ pressed }) => ({
         width: "100%",
         aspectRatio: 1,
