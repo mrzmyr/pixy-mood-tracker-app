@@ -1,4 +1,5 @@
 import { useRouter } from "expo-router";
+import { useEffect, useRef } from "react";
 import { Pressable, useColorScheme, View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import Play from "lucide-react-native/icons/play";
@@ -10,6 +11,12 @@ import { t } from "@/lib/translation";
 import type { StorySource } from "@/state/analytics/events";
 import type { Period } from "../types";
 import { monthName } from "./format";
+import {
+  formatStoryOrigin,
+  getStoryCardKey,
+  measureView,
+  registerStoryCard,
+} from "./story-motion";
 
 /** Cloud photo height in the card: a little zoomed in, clouds keep their shape. */
 const CARD_SKY_HEIGHT = 320;
@@ -19,7 +26,8 @@ const CARD_SKY_OFFSET = 70;
 /**
  * "September Recap / Ready to watch" on a drifting sky, with the recap card
  * border and shadow. Opens the month story full screen. Week recaps open
- * the week story the same way.
+ * the week story the same way. The story grows out of this card and
+ * shrinks back into it.
  */
 export const StoryBanner = ({
   period,
@@ -32,6 +40,13 @@ export const StoryBanner = ({
   const colors = useColors();
   const isDark = useColorScheme() === "dark";
   const speed = useSharedValue(SKY_DRIFT_SPEED);
+  const card = useRef<View>(null);
+  const cardKey = getStoryCardKey({
+    source,
+    kind: period.kind === "week" ? "week" : "month",
+    date: period.start,
+  });
+  useEffect(() => registerStoryCard(cardKey, card.current), [cardKey]);
   // Gray reads washed out on blue: by day a deep blue of the sky's hue.
   const quiet = isDark ? "rgba(255,255,255,0.7)" : "#2A4A6B";
   const title =
@@ -40,18 +55,21 @@ export const StoryBanner = ({
       : t("recaps_story_banner_title", { month: monthName(period.start) });
   return (
     <Pressable
+      ref={card}
       accessibilityRole="button"
       accessibilityLabel={`${title}, ${t("recaps_story_ready")}`}
-      onPress={() =>
+      onPress={async () => {
+        const origin = await measureView(card.current);
         router.push({
           pathname: "/recaps/story/[date]",
           params: {
             date: period.start,
             source,
             ...(period.kind === "week" && { kind: "week" }),
+            ...(origin && { origin: formatStoryOrigin(origin) }),
           },
-        })
-      }
+        });
+      }}
       testID="recap-story-banner"
       style={({ pressed }) => ({
         flexDirection: "row",

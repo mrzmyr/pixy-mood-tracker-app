@@ -305,9 +305,13 @@ const AppLayout = () => {
             name="recaps/story/[date]"
             // oxlint-disable-next-line pixy-standards/modal-route-shows-header -- media overlay: stories draw their own close.
             options={{
-              presentation: "fullScreenModal",
+              // Transparent: the screen below stays visible while the story
+              // grows out of its card and shrinks back. The story animates
+              // itself (`useStoryTransition`).
+              presentation: "transparentModal",
               headerShown: false,
-              animation: "fade",
+              animation: "none",
+              gestureEnabled: false,
             }}
           />
           <Stack.Screen
