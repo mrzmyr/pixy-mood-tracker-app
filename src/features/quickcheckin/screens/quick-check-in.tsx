@@ -2,12 +2,13 @@ import dayjs from "dayjs";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useMemo, useState } from "react";
-import { Platform, ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import TextArea from "@/components/text-area";
+import { Label } from "@/components/typography";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 import { RATING_KEYS } from "@/constants/ratings";
 import { EMOTIONS } from "@/features/logger";
@@ -43,19 +44,19 @@ const NOTE_HEIGHT = 120;
 const SectionTitle = ({ children }: { children: string }) => {
   const colors = useColors();
   return (
-    <Text
+    <Label
+      size={13}
+      strong
       accessibilityRole="header"
       style={{
         color: colors.textSecondary,
-        fontSize: 13,
-        fontWeight: "600",
         marginTop: 24,
         marginBottom: 8,
         textTransform: "uppercase",
       }}
     >
       {children}
-    </Text>
+    </Label>
   );
 };
 

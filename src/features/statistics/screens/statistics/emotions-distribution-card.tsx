@@ -3,8 +3,9 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import type { EmotionsDistributionData } from "../../emotions-distribution";
 import type { Emotion } from "@/types";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { EmotionItem } from "@/features/calendar";
+import { Label } from "@/components/typography";
 
 const EmotionBar = ({
   emotion,
@@ -23,10 +24,10 @@ const EmotionBar = ({
         alignItems: "center",
       }}
     >
-      <Text
+      <Label
+        size={16}
         style={{
           color: colors.textSecondary,
-          fontSize: 17,
           fontWeight: "500",
           position: "relative",
           marginRight: 16,
@@ -35,7 +36,7 @@ const EmotionBar = ({
         }}
       >
         {count}x
-      </Text>
+      </Label>
       <View
         style={{
           flex: 1,

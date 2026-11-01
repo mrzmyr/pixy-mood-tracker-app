@@ -20,6 +20,7 @@ import Trash from "lucide-react-native/icons/trash";
 import { getWordCount } from "@/lib/utils";
 import { usePostHog } from "posthog-react-native";
 import { RADIUS } from "@/constants/radius";
+import { Label } from "@/components/typography";
 
 const Card = ({
   title,
@@ -146,15 +147,15 @@ export const DevelopmentTools = () => {
         <MenuList>
           <MenuListItem>
             <View>
-              <Text
+              <Label
+                size={16}
                 style={{
                   color: colors.text,
-                  fontSize: 17,
                   marginTop: 4,
                 }}
               >
                 Device ID
-              </Text>
+              </Label>
               <Text
                 selectable
                 style={{
@@ -169,15 +170,15 @@ export const DevelopmentTools = () => {
           </MenuListItem>
           <MenuListItem>
             <View>
-              <Text
+              <Label
+                size={16}
                 style={{
                   color: colors.text,
-                  fontSize: 17,
                   marginTop: 4,
                 }}
               >
                 PostHog Distinct ID
-              </Text>
+              </Label>
               <Text
                 selectable
                 style={{
@@ -199,15 +200,15 @@ export const DevelopmentTools = () => {
             <MenuList>
               <MenuListItem>
                 <View>
-                  <Text
+                  <Label
+                    size={16}
                     style={{
                       color: colors.text,
-                      fontSize: 17,
                       marginTop: 4,
                     }}
                   >
                     Last sync
-                  </Text>
+                  </Label>
                   <Text
                     testID="widget-sync-status"
                     style={{
@@ -245,15 +246,15 @@ export const DevelopmentTools = () => {
                     maxWidth: "85%",
                   }}
                 >
-                  <Text
+                  <Label
+                    size={16}
                     style={{
                       color: colors.text,
-                      fontSize: 17,
                       marginTop: 4,
                     }}
                   >
                     {action.title}
-                  </Text>
+                  </Label>
                   <Text
                     style={{
                       color: colors.textSecondary,

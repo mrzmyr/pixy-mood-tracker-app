@@ -1,9 +1,10 @@
+import { Label } from "@/components/typography";
 import type { LogItem } from "@/features/logs";
 import { SLEEP_QUALITY_MAPPING } from "@/constants/ratings";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 const METER_HEIGHT = 12;
 
@@ -68,9 +69,9 @@ export const Sleep = ({
           }}
         />
       </View>
-      <Text style={{ fontSize: 13, color: colors.textSecondary }}>
+      <Label size={13} style={{ color: colors.textSecondary }}>
         {t("logger_step_sleep")}
-      </Text>
+      </Label>
     </Pressable>
   );
 };

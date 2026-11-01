@@ -6,7 +6,6 @@ import {
   Modal,
   Pressable,
   StyleSheet,
-  Text,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -23,6 +22,7 @@ import type {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 // oxlint-disable-next-line no-restricted-imports -- media overlay: white close on the photo.
 import { CloseButton } from "@/components/close-button";
+import { Label } from "@/components/typography";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { usePhotoZoom } from "../hooks/use-photo-zoom";
@@ -68,9 +68,9 @@ const ViewerPhoto = ({
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <ImageOff color={FOREGROUND_MUTED} size={48} />
-        <Text style={{ color: FOREGROUND_MUTED, fontSize: 17, marginTop: 8 }}>
+        <Label size={16} style={{ color: FOREGROUND_MUTED, marginTop: 8 }}>
           {t("photos_missing")}
-        </Text>
+        </Label>
       </View>
     );
   }
@@ -260,23 +260,20 @@ export const PhotoViewer = ({
             style={{ position: "absolute", right: 8 }}
           />
           {items.length > 1 && (
-            <Text
+            <Label
+              size={16}
+              strong
               accessibilityLabel={t("photos_thumbnail_label", {
                 index: index + 1,
                 count: items.length,
               })}
-              style={{
-                color: FOREGROUND,
-                fontSize: 17,
-                fontWeight: "600",
-                fontVariant: ["tabular-nums"],
-              }}
+              style={{ color: FOREGROUND, fontVariant: ["tabular-nums"] }}
             >
               {t("photos_viewer_counter", {
                 index: index + 1,
                 count: items.length,
               })}
-            </Text>
+            </Label>
           )}
         </View>
         {items.length > 1 && (
@@ -341,11 +338,9 @@ export const PhotoViewer = ({
                 accessibilityElementsHidden
                 importantForAccessibility="no"
               />
-              <Text
-                style={{ color: FOREGROUND, fontSize: 17, fontWeight: "600" }}
-              >
+              <Label size={16} strong style={{ color: FOREGROUND }}>
                 {t("photos_viewer_remove")}
-              </Text>
+              </Label>
             </Pressable>
           </View>
         )}

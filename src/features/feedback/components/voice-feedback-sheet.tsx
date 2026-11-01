@@ -5,6 +5,7 @@ import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import LinkButton from "@/components/link-button";
 import { SheetModal } from "@/components/sheet-modal";
+import { getTextStyle, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -197,26 +198,26 @@ export const VoiceFeedbackSheet = ({
                 })}
               >
                 <Text style={{ fontSize: 32 }}>{option.emoji}</Text>
-                <Text style={{ fontSize: 15, color: colors.text }}>
+                <Label size={14} style={{ color: colors.text }}>
                   {t(option.label)}
-                </Text>
+                </Label>
               </Pressable>
             );
           })}
         </View>
         {rating !== null && (
           <>
-            <Text
+            <Label
+              size={14}
+              strong
               nativeID="voice-feedback-comment-label"
               style={{
                 marginTop: 24,
-                fontSize: 15,
-                fontWeight: "600",
                 color: colors.text,
               }}
             >
               {t("voice_feedback_comment_label")}
-            </Text>
+            </Label>
             <TextInput
               // Mounts after the face tap, so focus here, not in `pick`.
               autoFocus
@@ -236,7 +237,7 @@ export const VoiceFeedbackSheet = ({
                 borderCurve: "continuous",
                 paddingHorizontal: 14,
                 paddingVertical: 12,
-                fontSize: 17,
+                ...getTextStyle("copy", 16),
                 textAlignVertical: "top",
                 backgroundColor: colors.textInputBackground,
                 color: colors.text,

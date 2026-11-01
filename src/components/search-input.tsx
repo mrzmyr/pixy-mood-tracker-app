@@ -1,4 +1,5 @@
 import { Pressable, TextInput, View } from "react-native";
+import { getInputTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import Search from "lucide-react-native/icons/search";
 import CircleX from "lucide-react-native/icons/circle-x";
@@ -49,7 +50,7 @@ export const SearchInput = ({
           flex: 1,
           color: colors.textInputText,
           marginLeft: 12,
-          fontSize: 17,
+          ...getInputTextStyle(16),
           width: "100%",
           borderRadius: RADIUS.sm,
           borderCurve: "continuous",

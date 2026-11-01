@@ -1,5 +1,6 @@
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
 import { MenstruationIcon } from "@/components/menstruation-icon";
+import { Label } from "@/components/typography";
 import type { LogItem } from "@/features/logs";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
@@ -44,11 +45,9 @@ export const Menstruation = ({
       })}
     >
       <MenstruationIcon flow={flow} color={colors.textSecondary} />
-      <Text
-        style={{ flexShrink: 1, fontSize: 13, color: colors.textSecondary }}
-      >
+      <Label size={13} style={{ flexShrink: 1, color: colors.textSecondary }}>
         {t(`menstruation_flow_${flow}`)}
-      </Text>
+      </Label>
     </Pressable>
   );
 };

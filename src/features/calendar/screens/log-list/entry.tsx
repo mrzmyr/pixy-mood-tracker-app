@@ -1,4 +1,5 @@
 import FlagHighlight from "@/components/flag-highlight";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
@@ -139,15 +140,15 @@ const EntryHeader = ({
             }}
           >
             <TimeOfDayIcon color={colors.textSecondary} size={14} />
-            <Text
+            <Label
+              size={13}
               style={{
                 flexShrink: 1,
-                fontSize: 13,
                 color: colors.textSecondary,
               }}
             >
               {t(timeOfDay)}
-            </Text>
+            </Label>
           </View>
           <Sleep item={item} onEdit={onEditSleep} />
           <Menstruation item={item} onEdit={onEditMenstruation} />
@@ -155,16 +156,16 @@ const EntryHeader = ({
         <Place item={item} />
       </View>
       {position && position.count > 1 && (
-        <Text
+        <Label
+          size={13}
           testID="log-list-position"
           style={{
-            fontSize: 13,
             color: colors.textSecondary,
             fontVariant: ["tabular-nums"],
           }}
         >
           {`${position.index + 1}/${position.count}`}
-        </Text>
+        </Label>
       )}
       <EntryActions item={item} onEdit={onEdit} onDelete={onDelete} />
     </View>

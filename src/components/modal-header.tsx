@@ -1,6 +1,7 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import type { ViewStyle } from "react-native";
 
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 
 const DEFAULT_STYLE = {};
@@ -57,19 +58,19 @@ const ModalHeader = ({
         }}
       >
         {titleView ?? (
-          <Text
+          <Label
+            size={16}
+            strong
             numberOfLines={1}
             ellipsizeMode="middle"
             style={{
-              fontSize: 17,
               color: colors.text,
-              fontWeight: "600",
               width: "100%",
               textAlign: "center",
             }}
           >
             {title}
-          </Text>
+          </Label>
         )}
       </View>
       <View

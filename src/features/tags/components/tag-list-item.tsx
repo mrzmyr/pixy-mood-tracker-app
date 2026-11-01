@@ -1,8 +1,9 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import MenuListItem from "@/components/menu-list-item";
 import useColors from "@/hooks/use-colors";
 import type { Tag } from "../tags-provider";
 import { RADIUS } from "@/constants/radius";
+import { Label } from "@/components/typography";
 
 /** Row for one tag in {@link TagList}, showing its color dot and title. */
 export const TagListItem = ({
@@ -41,16 +42,16 @@ export const TagListItem = ({
               marginLeft: 4,
             }}
           />
-          <Text
+          <Label
+            size={16}
             numberOfLines={1}
             style={{
-              fontSize: 17,
               color: colors.text,
               maxWidth: "80%",
             }}
           >
             {tag.title}
-          </Text>
+          </Label>
         </View>
       </View>
     </MenuListItem>

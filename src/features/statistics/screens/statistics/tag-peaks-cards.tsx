@@ -17,6 +17,7 @@ import range from "lodash/range";
 import { useCalendarNavigation } from "@/features/calendar";
 import { getItemDate } from "@/lib/log-dates";
 import { RADIUS } from "@/constants/radius";
+import { Copy } from "@/components/typography";
 
 const DayDot = ({
   date,
@@ -154,16 +155,15 @@ export const TagPeaksCard = ({
     <Card
       subtitle={t("tags")}
       title={
-        <Text
+        <Copy
+          size={16}
           style={{
-            fontSize: 17,
             color: colors.text,
             fontWeight: "bold",
           }}
         >
           <Text
             style={{
-              fontSize: 17,
               color: colors.tags[tag?.color]?.text,
             }}
           >
@@ -173,7 +173,7 @@ export const TagPeaksCard = ({
             title: tag?.title,
             count: daysCount,
           })}
-        </Text>
+        </Copy>
       }
     >
       <View

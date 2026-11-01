@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import { Copy, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
 import type { Intervention } from "../../catalog";
@@ -31,9 +32,9 @@ export const IntroView = ({ intervention }: { intervention: Intervention }) => {
         </Text>
         <Duration length={intervention.length} minutes={intervention.minutes} />
       </View>
-      <Text style={{ fontSize: 17, lineHeight: 25, color: colors.text }}>
+      <Copy size={16} style={{ lineHeight: 25, color: colors.text }}>
         {t(`interventions_${id}_lead`)}
-      </Text>
+      </Copy>
       <View style={{ gap: 12 }}>
         {what.map((key, index) => (
           <View key={key} style={{ flexDirection: "row", gap: 12 }}>
@@ -47,11 +48,9 @@ export const IntroView = ({ intervention }: { intervention: Intervention }) => {
                 justifyContent: "center",
               }}
             >
-              <Text
-                style={{ fontSize: 13, fontWeight: "600", color: colors.text }}
-              >
+              <Label size={13} strong style={{ color: colors.text }}>
                 {index + 1}
-              </Text>
+              </Label>
             </View>
             <Text
               style={{
@@ -66,11 +65,9 @@ export const IntroView = ({ intervention }: { intervention: Intervention }) => {
           </View>
         ))}
       </View>
-      <Text
-        style={{ fontSize: 15, lineHeight: 21, color: colors.textSecondary }}
-      >
+      <Copy size={14} style={{ lineHeight: 21, color: colors.textSecondary }}>
         {t(`interventions_${id}_science`)}
-      </Text>
+      </Copy>
     </View>
   );
 };

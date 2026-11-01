@@ -22,6 +22,7 @@ import { reportBoundaryError, reportError } from "@/lib/report-error";
 import { t } from "@/lib/translation";
 import { getNavigationTheme } from "@/shell/navigation-theme";
 import { getSupportMailUrl } from "@/shell/support-mail";
+import { Copy } from "@/components/typography";
 
 const RENDER_FAILED = "render_failed";
 
@@ -120,17 +121,17 @@ const AppErrorContent = ({
         >
           {t("app_error_title")}
         </Text>
-        <Text
+        <Copy
+          size={16}
           style={{
             color: colors.text,
-            fontSize: 17,
             lineHeight: 24,
             textAlign: "center",
             marginBottom: 32,
           }}
         >
           {t("storage_load_error_body")}
-        </Text>
+        </Copy>
         <Button onPress={resetError} testID="app-error-retry">
           {t("app_error_retry")}
         </Button>

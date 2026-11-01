@@ -2,6 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
 import Star from "lucide-react-native/icons/star";
 import useColors from "@/hooks/use-colors";
+import { Label } from "@/components/typography";
 
 /** Gradient banner under the native header for the year report. */
 export const Header = ({
@@ -66,15 +67,15 @@ export const Header = ({
           flex: 1,
         }}
       >
-        <Text
+        <Label
+          size={16}
           style={{
             color: colors.palette.white,
             opacity: 0.5,
-            fontSize: 17,
           }}
         >
           {subtitle}
-        </Text>
+        </Label>
         <Text
           accessibilityRole="header"
           style={{

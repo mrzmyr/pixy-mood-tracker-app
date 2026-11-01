@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import MenuList from "@/components/menu-list";
+import { Copy } from "@/components/typography";
 import { MAX_PEOPLE } from "@/constants/config";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -38,9 +39,9 @@ export const PeopleList = ({
             borderCurve: "continuous",
           }}
         >
-          <Text style={{ color: colors.text, fontSize: 17 }}>
+          <Copy size={16} style={{ color: colors.text }}>
             {t("people_reached_max", { max_count: MAX_PEOPLE })}
-          </Text>
+          </Copy>
         </View>
       )}
       <View style={{ paddingTop: 16, paddingHorizontal: 16 }}>

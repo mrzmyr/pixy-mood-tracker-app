@@ -9,6 +9,7 @@ import Share from "lucide-react-native/icons/share";
 import { captureRef } from "react-native-view-shot";
 import { reportError } from "@/lib/report-error";
 import { ButtonIcon } from "@/components/button-content";
+import { Copy, Label } from "@/components/typography";
 import LinkButton from "@/components/link-button";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
@@ -43,16 +44,16 @@ const SubTitle = ({ children }: { children: string }) => {
   const colors = useColors();
 
   return (
-    <Text
+    <Copy
+      size={16}
       style={{
-        fontSize: 17,
         color: colors.textSecondary,
         marginTop: 4,
         marginBottom: 16,
       }}
     >
       {children}
-    </Text>
+    </Copy>
   );
 };
 
@@ -313,15 +314,15 @@ export const BigCard = ({
                 }}
               />
             </View>
-            <Text
+            <Label
+              size={16}
               style={{
-                fontSize: 17,
                 fontWeight: "bold",
                 color: colors.sharingLogoText,
               }}
             >
               Pixy Mood Tracker
-            </Text>
+            </Label>
           </View>
         </View>
       )}

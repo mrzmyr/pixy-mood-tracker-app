@@ -1,4 +1,5 @@
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
 import { RADIUS } from "@/constants/radius";
@@ -36,15 +37,9 @@ export const Trigger = ({
         opacity: pressed ? 0.8 : 1,
       })}
     >
-      <Text
-        style={{
-          fontSize: 15,
-          fontWeight: "600",
-          color: colors.secondaryButtonText,
-        }}
-      >
+      <Label size={14} strong style={{ color: colors.secondaryButtonText }}>
         {label}
-      </Text>
+      </Label>
     </Pressable>
   );
 };

@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 import Button from "@/components/button";
 import LinkButton from "@/components/link-button";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { RADIUS } from "@/constants/radius";
 
@@ -73,17 +74,14 @@ export const PhotosPromptCard = ({
           ))}
         </View>
       )}
-      <Text
+      <Label
+        size={16}
+        strong
         accessibilityRole="header"
-        style={{
-          color: colors.text,
-          fontSize: 17,
-          fontWeight: "600",
-          textAlign: "center",
-        }}
+        style={{ color: colors.text, textAlign: "center" }}
       >
         {title}
-      </Text>
+      </Label>
       <Text
         style={{
           color: colors.textSecondary,

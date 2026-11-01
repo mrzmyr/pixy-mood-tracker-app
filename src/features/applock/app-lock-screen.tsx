@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FullWindowOverlay } from "react-native-screens";
 import Button from "@/components/button";
 import { ToastHost } from "@/components/toast";
+import { Copy, Label } from "@/components/typography";
 import { SUPPORT_EMAIL } from "@/constants/config";
 import useColors from "@/hooks/use-colors";
 import { showToast } from "@/lib/toast";
@@ -43,15 +44,15 @@ const LockHelp = ({ code }: { code: string }) => {
     >
       {isOpen ? (
         <>
-          <Text
+          <Copy
+            size={13}
             style={{
-              fontSize: 13,
               color: colors.textSecondary,
               textAlign: "center",
             }}
           >
             {t("app_lock_support", { email: SUPPORT_EMAIL })}
-          </Text>
+          </Copy>
           <Pressable
             testID="app-lock-support-code"
             accessibilityRole="button"
@@ -83,9 +84,9 @@ const LockHelp = ({ code }: { code: string }) => {
           hitSlop={16}
           style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
         >
-          <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+          <Label size={14} style={{ color: colors.textSecondary }}>
             {t("app_lock_help_link")}
-          </Text>
+          </Label>
         </Pressable>
       )}
     </View>
@@ -155,17 +156,17 @@ export const AppLockScreen = () => {
             {t("app_lock_unlock")}
           </Button>
           {hasFailed && (
-            <Text
+            <Copy
+              size={14}
               accessibilityLiveRegion="polite"
               style={{
                 marginTop: 16,
-                fontSize: 15,
                 color: colors.textSecondary,
                 textAlign: "center",
               }}
             >
               {t("app_lock_failed")}
-            </Text>
+            </Copy>
           )}
           {supportCode ? <LockHelp code={supportCode} /> : null}
         </>

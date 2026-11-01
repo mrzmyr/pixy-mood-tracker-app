@@ -1,5 +1,6 @@
 import { Pressable, Text, View, useColorScheme } from "react-native";
 import type { PressableProps, ViewStyle } from "react-native";
+import { Label, getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
@@ -19,7 +20,7 @@ const CHIP_SIZES = {
     paddingVertical: 6,
     avatar: 24,
     gap: 8,
-    fontSize: 17,
+    ...getTextStyle("label", 16),
   },
   compact: {
     paddingLeft: COMPACT_CHIP.paddingLeftAvatar,
@@ -29,6 +30,7 @@ const CHIP_SIZES = {
     avatar: COMPACT_CHIP.avatarSize,
     gap: COMPACT_CHIP.gap,
     fontSize: COMPACT_CHIP.fontSize,
+    lineHeight: COMPACT_CHIP.lineHeight,
   },
 };
 
@@ -151,18 +153,18 @@ const PersonTile = ({
           }}
         />
       </View>
-      <Text
+      <Label
+        size={14}
+        strong={selected}
         numberOfLines={1}
         style={{
           marginTop: 6,
           maxWidth: outer,
-          fontSize: 15,
-          fontWeight: selected ? "600" : "400",
           color: colors.text,
         }}
       >
         {person.name}
-      </Text>
+      </Label>
     </Pressable>
   );
 };
@@ -310,6 +312,7 @@ export const PersonChip = ({
           flexShrink: 1,
           color: selected ? colors.tagTextActive : colors.tagText,
           fontSize: chipSize.fontSize,
+          lineHeight: chipSize.lineHeight,
         }}
       >
         {person.name}

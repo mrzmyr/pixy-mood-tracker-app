@@ -1,6 +1,7 @@
 import { useEffect, useEffectEvent } from "react";
 import { Pressable, Text } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { Label } from "@/components/typography";
 import { t } from "@/lib/translation";
 import { MAX_PHOTOS_PER_ENTRY } from "../storage";
 import { RADIUS } from "@/constants/radius";
@@ -87,9 +88,9 @@ export const PhotoLimitNotice = ({
           opacity: pressed ? 0.7 : 1,
         })}
       >
-        <Text style={{ color: ACTION, fontSize: 15, fontWeight: "600" }}>
+        <Label size={14} strong style={{ color: ACTION }}>
           {t("photos_limit_ok")}
-        </Text>
+        </Label>
       </Pressable>
     </Animated.View>
   );

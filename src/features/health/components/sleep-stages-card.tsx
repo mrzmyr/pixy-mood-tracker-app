@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { Text, View } from "react-native";
+import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -65,9 +66,9 @@ export const SleepStagesCard = ({ sleep }: { sleep: HealthSleep }) => {
         paddingVertical: 12,
       }}
     >
-      <Text style={{ fontSize: 15, fontWeight: "600", color: colors.text }}>
+      <Label size={14} strong style={{ color: colors.text }}>
         {total}
-      </Text>
+      </Label>
       <View
         style={{
           height: BAR_HEIGHT,

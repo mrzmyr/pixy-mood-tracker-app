@@ -1,6 +1,7 @@
 import { useEffect, useEffectEvent } from "react";
-import { AppState, Pressable, Text, View } from "react-native";
+import { AppState, Pressable, View } from "react-native";
 import Button from "@/components/button";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { INTERVENTIONS } from "../../catalog";
@@ -191,9 +192,9 @@ export const StepStage = ({
               onPress={onEndEarly}
               style={{ alignSelf: "center", padding: 12 }}
             >
-              <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+              <Label size={14} style={{ color: colors.textSecondary }}>
                 {t("interventions_end_early")}
-              </Text>
+              </Label>
             </Pressable>
           )}
         </View>

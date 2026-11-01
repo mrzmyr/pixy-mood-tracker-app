@@ -1,16 +1,17 @@
 import { Platform, Text } from "react-native";
 import type { TextStyle } from "react-native";
 
+import { getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 
 const DEFAULT_STYLE = {};
 
-// iOS grouped-list header: 13pt Footnote, secondary label, casing as written.
+// iOS grouped-list header: Label 13 (Footnote), secondary label, casing as written.
 // Android Material list subheader: 14sp, weight 500, accent color, no uppercase.
 const platformStyle = (): TextStyle =>
   Platform.OS === "android"
     ? { fontSize: 14, fontWeight: "500" }
-    : { fontSize: 13 };
+    : getTextStyle("label", 13);
 
 const MenuListHeadline = ({
   children,

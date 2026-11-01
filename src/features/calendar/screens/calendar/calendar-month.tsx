@@ -9,6 +9,7 @@ import type { getGeometry } from "./layout";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { useStyle } from "react-native-style-utilities";
+import { getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import type { LogItem } from "@/features/logs";
 import CalendarWeek from "./calendar-week";
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     margin: 12,
     marginTop: 16,
     textAlign: "center",
-    fontSize: 17,
+    ...getTextStyle("label", 16),
     lineHeight: 22,
     includeFontPadding: false,
   },

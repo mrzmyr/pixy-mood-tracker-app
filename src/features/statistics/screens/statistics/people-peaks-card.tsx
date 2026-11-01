@@ -4,6 +4,7 @@ import { t } from "@/lib/translation";
 import { PersonChip } from "@/features/people";
 import useColors from "@/hooks/use-colors";
 import type { PeoplePeaksData } from "../../people-peaks";
+import { Label } from "@/components/typography";
 
 const formatDelta = (delta: number) =>
   `${delta > 0 ? "+" : ""}${delta.toFixed(1)}`;
@@ -41,11 +42,11 @@ export const PeoplePeaksCard = ({ data }: { data: PeoplePeaksData }) => {
             }}
           >
             <PersonChip person={entry.details} />
-            <Text
+            <Label
+              size={16}
+              strong
               style={{
                 color: colors.text,
-                fontSize: 17,
-                fontWeight: "600",
                 fontVariant: ["tabular-nums"],
               }}
             >
@@ -53,7 +54,7 @@ export const PeoplePeaksCard = ({ data }: { data: PeoplePeaksData }) => {
               <Text style={{ color: colors.textSecondary, fontWeight: "400" }}>
                 ({formatDelta(entry.delta)})
               </Text>
-            </Text>
+            </Label>
           </View>
         ))}
       </View>

@@ -11,9 +11,10 @@ import { useLogDraft } from "../log-draft";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
+import { Label } from "@/components/typography";
 import { MiniButton } from "@/components/mini-button";
 import { CHIP_FLOW, CHIP_GAP } from "@/constants/chip";
 import { SlideHeadline } from "../components/slide-headline";
@@ -144,16 +145,14 @@ export const SlideTags = ({
                 style={{ gap: 8 }}
               >
                 {showHeadings && (
-                  <Text
+                  <Label
+                    size={14}
+                    strong
                     accessibilityRole="header"
-                    style={{
-                      fontSize: 15,
-                      fontWeight: "600",
-                      color: colors.textSecondary,
-                    }}
+                    style={{ color: colors.textSecondary }}
                   >
                     {category.title}
-                  </Text>
+                  </Label>
                 )}
                 <View
                   style={{

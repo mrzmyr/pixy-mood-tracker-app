@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import { Copy, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
 import type { InterventionId, PromptStep } from "../../catalog";
@@ -36,9 +37,9 @@ export const PromptView = ({
       >
         {tDynamic(`${prefix}_title`)}
       </Text>
-      <Text style={{ fontSize: 17, lineHeight: 25, color: colors.text }}>
+      <Copy size={16} style={{ lineHeight: 25, color: colors.text }}>
         {tDynamic(`${prefix}_body`)}
-      </Text>
+      </Copy>
       <View
         style={{
           backgroundColor: colors.logCardBackground,
@@ -48,18 +49,12 @@ export const PromptView = ({
           gap: 4,
         }}
       >
-        <Text
-          style={{
-            fontSize: 13,
-            fontWeight: "600",
-            color: colors.textSecondary,
-          }}
-        >
+        <Label size={13} strong style={{ color: colors.textSecondary }}>
           {t("interventions_for_example")}
-        </Text>
-        <Text style={{ fontSize: 15, lineHeight: 21, color: colors.text }}>
+        </Label>
+        <Copy size={14} style={{ lineHeight: 21, color: colors.text }}>
           {tDynamic(`${prefix}_example`)}
-        </Text>
+        </Copy>
       </View>
       <Text style={{ fontSize: 14, color: colors.textSecondary }}>
         {t("interventions_prompt_hint")}

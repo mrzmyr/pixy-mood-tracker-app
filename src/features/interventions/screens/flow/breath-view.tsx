@@ -8,6 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { Copy, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { BreathStep } from "../../catalog";
@@ -66,9 +67,9 @@ export const BreathView = ({
   return (
     <View style={{ alignItems: "center", gap: 28 }}>
       {step.isClosing && (
-        <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+        <Copy size={14} style={{ color: colors.textSecondary }}>
           {t("interventions_closing_breaths")}
-        </Text>
+        </Copy>
       )}
       <View
         style={{
@@ -110,9 +111,9 @@ export const BreathView = ({
           >
             {label}
           </Text>
-          <Text
+          <Label
+            size={16}
             style={{
-              fontSize: 17,
               color: colors.primaryButtonText,
               fontVariant: ["tabular-nums"],
               minHeight: 22,
@@ -121,18 +122,18 @@ export const BreathView = ({
             {phase === "ready"
               ? ""
               : Math.max(1, Math.ceil(phaseLeftMs / 1000))}
-          </Text>
+          </Label>
         </View>
       </View>
-      <Text
+      <Label
+        size={14}
         style={{
-          fontSize: 15,
           color: colors.textSecondary,
           fontVariant: ["tabular-nums"],
         }}
       >
         {t("interventions_round", { current: cycle + 1, total: step.cycles })}
-      </Text>
+      </Label>
     </View>
   );
 };

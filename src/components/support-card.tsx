@@ -5,6 +5,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useSupport } from "@/support";
 import { PressableScale } from "@/components/pressable-scale";
+import { Copy, Label } from "@/components/typography";
 import type { SupportFlowError } from "@/support";
 import { RADIUS } from "@/constants/radius";
 
@@ -130,16 +131,16 @@ export const SupportCard = () => {
       >
         {t("support_pixy_heading")}
       </Text>
-      <Text
+      <Copy
+        size={16}
         style={{
           marginTop: 12,
           color: contentColor,
-          fontSize: 17,
           lineHeight: 24,
         }}
       >
         {t("support_pixy_body")}
-      </Text>
+      </Copy>
       <PressableScale
         accessibilityRole="button"
         accessibilityLabel={t("support_pixy_button")}
@@ -163,16 +164,16 @@ export const SupportCard = () => {
         {isOpening ? (
           <ActivityIndicator color={cardColor} size="small" />
         ) : (
-          <Text
+          <Label
+            size={16}
             style={{
               color: cardColor,
-              fontSize: 17,
               lineHeight: 22,
               fontWeight: "700",
             }}
           >
             {t("support_pixy_button")}
-          </Text>
+          </Label>
         )}
       </PressableScale>
     </View>

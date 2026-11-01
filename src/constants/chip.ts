@@ -1,4 +1,5 @@
 import type { ViewStyle } from "react-native";
+import { getTextStyle } from "@/components/typography";
 import { RADIUS } from "./radius";
 
 /** Chip style without outer margin: the parent sets spacing with `gap`. */
@@ -14,7 +15,7 @@ export const COMPACT_CHIP = {
   paddingHorizontal: 12,
   /** Left padding before a person's avatar; centers it in the pill end. */
   paddingLeftAvatar: 5,
-  fontSize: 15,
+  ...getTextStyle("label", 14),
   /** Space between marker (dot, icon, avatar) and label. */
   gap: 6,
   avatarSize: 20,

@@ -2,7 +2,7 @@ import chroma from "chroma-js";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect } from "react";
-import { Text, View, useWindowDimensions } from "react-native";
+import { View, useWindowDimensions } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -13,6 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { CloudPixy } from "@/components/cloud-pixy";
 import { SKY_DRIFT_SPEED, Sky } from "@/components/sky";
+import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { PlacePreviewMap } from "@/features/location";
 import type { LogItem } from "@/features/logs";
@@ -83,9 +84,9 @@ const PhotoMosaic = ({ photos }: { photos: LogItem["photos"] }) => {
           }}
         >
           {/* Badge on a photo: small so it covers little of it. */}
-          <Text style={{ color: "#fff", fontSize: 13, fontWeight: "700" }}>
+          <Label size={13} style={{ color: "#fff", fontWeight: "700" }}>
             +{rest}
-          </Text>
+          </Label>
         </View>
       )}
     </View>

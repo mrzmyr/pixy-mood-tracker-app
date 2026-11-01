@@ -1,6 +1,7 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Pen from "lucide-react-native/icons/pen";
 import MenuListItem from "@/components/menu-list-item";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import type { Person } from "../people-provider";
 import { PersonAvatar } from "./person-avatar";
@@ -31,17 +32,17 @@ export const PersonListItem = ({
         }}
       >
         <PersonAvatar person={person} size={32} />
-        <Text
+        <Label
+          size={16}
           numberOfLines={1}
           style={{
             flex: 1,
             marginLeft: 12,
-            fontSize: 17,
             color: colors.text,
           }}
         >
           {person.name}
-        </Text>
+        </Label>
         {hasTrailingControl ? (
           <View style={{ width: 44 }} />
         ) : (

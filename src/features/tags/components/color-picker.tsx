@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, View } from "react-native";
 import Check from "lucide-react-native/icons/check";
 import MenuList from "@/components/menu-list";
+import { Label } from "@/components/typography";
 import { TAG_COLOR_NAMES } from "@/constants/config";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -16,7 +17,7 @@ const GAP = 8;
 
 const styles = StyleSheet.create({
   // Matches the Name label in TagNameField.
-  label: { fontSize: 13, fontWeight: "600", paddingBottom: 8 },
+  label: { paddingBottom: 8 },
   // Android lists run edge to edge, so swatches keep Material's 16dp inset.
   card: Platform.select({
     android: { paddingHorizontal: 16, paddingVertical: 12 },
@@ -75,12 +76,14 @@ export const ColorPicker = ({
 
   return (
     <View>
-      <Text
+      <Label
+        size={13}
+        strong
         accessibilityRole="header"
         style={[styles.label, { color: colors.textSecondary }]}
       >
         {t("color")}: {tDynamic(`tag_color_${value}`)}
-      </Text>
+      </Label>
       <MenuList style={styles.card}>
         <View
           accessibilityRole="radiogroup"

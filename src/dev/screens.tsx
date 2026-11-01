@@ -1,11 +1,12 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Alert, ScrollView, View } from "react-native";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
 import TextInfo from "@/components/text-info";
+import { Copy } from "@/components/typography";
 import { APP_VARIANT } from "@/constants/app-variant";
 import useColors from "@/hooks/use-colors";
 import pkg from "../../package.json";
@@ -169,7 +170,9 @@ export const DevFixtureLinkScreen = () => {
       testID="dev-fixture-link"
     >
       {text ? (
-        <Text style={{ color: colors.text, fontSize: 15 }}>{text}</Text>
+        <Copy size={14} style={{ color: colors.text }}>
+          {text}
+        </Copy>
       ) : (
         <ActivityIndicator />
       )}
@@ -268,7 +271,9 @@ export const DevFakeContactsLinkScreen = () => {
       testID="dev-fake-contacts-link"
     >
       {text ? (
-        <Text style={{ color: colors.text, fontSize: 15 }}>{text}</Text>
+        <Copy size={14} style={{ color: colors.text }}>
+          {text}
+        </Copy>
       ) : (
         <ActivityIndicator />
       )}
@@ -317,13 +322,13 @@ export const DevFeatureFlagLinkScreen = () => {
       }}
       testID="dev-feature-flag-link"
     >
-      <Text style={{ color: colors.text, fontSize: 15 }}>
+      <Copy size={14} style={{ color: colors.text }}>
         {[
           `feature_flag_override_invalid: Cannot override "${key}" with "${value}"`,
           `why: Keys are ${FEATURE_FLAGS.join(", ")}. Values are on, off, remote.`,
           "fix: Open the link with a listed key and value.",
         ].join("\n")}
-      </Text>
+      </Copy>
     </View>
   );
 };

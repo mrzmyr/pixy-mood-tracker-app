@@ -1,8 +1,9 @@
 import { DateTimePicker } from "@expo/ui/community/datetime-picker";
 import { useState } from "react";
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
 import type { ViewStyle } from "react-native";
 
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { formatReminderTime } from "../reminder-time";
 import { RADIUS } from "@/constants/radius";
@@ -41,15 +42,12 @@ const Clock = ({
           ...style,
         }}
       >
-        <Text
-          style={{
-            color: colors.text,
-            fontSize: 17,
-            fontVariant: ["tabular-nums"],
-          }}
+        <Label
+          size={16}
+          style={{ color: colors.text, fontVariant: ["tabular-nums"] }}
         >
           {formatReminderTime(timeDate)}
-        </Text>
+        </Label>
       </Pressable>
       {open && (
         <DateTimePicker

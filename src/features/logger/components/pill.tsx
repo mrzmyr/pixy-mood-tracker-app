@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import type { ViewStyle } from "react-native";
+import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 
@@ -28,17 +29,17 @@ const usePillStyle = (): ViewStyle => {
 const PillText = ({ label }: { label: string }) => {
   const colors = useColors();
   return (
-    <Text
+    <Label
+      size={16}
+      strong
       numberOfLines={1}
       style={{
-        fontSize: 17,
-        fontWeight: "600",
         color: colors.logHeaderText,
         flexShrink: 1,
       }}
     >
       {label}
-    </Text>
+    </Label>
   );
 };
 

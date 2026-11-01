@@ -12,6 +12,7 @@ import sumBy from "lodash/sumBy";
 import { Text, View } from "react-native";
 import { getItemDate } from "@/lib/log-dates";
 import { RADIUS } from "@/constants/radius";
+import { Label } from "@/components/typography";
 
 /**
  * Worst month of the year of `date`.
@@ -65,16 +66,16 @@ export const WorstMonth = ({ date }: { date: Dayjs }) => {
       }}
     >
       {!month && <NotEnoughDataOverlay showSubtitle={false} />}
-      <Text
+      <Label
+        size={16}
+        strong
         style={{
-          fontSize: 17,
           color: colors.textSecondary,
-          fontWeight: "600",
           marginBottom: 8,
         }}
       >
         {t("statistics_worst_month")}
-      </Text>
+      </Label>
       <Text
         style={{
           fontSize: 24,

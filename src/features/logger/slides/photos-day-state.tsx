@@ -1,6 +1,7 @@
 import { Linking } from "react-native";
 import { ButtonText } from "@/components/button-content";
 import LinkButton from "@/components/link-button";
+import { getTextStyle } from "@/components/typography";
 import { PhotosPromptCard } from "@/features/photos";
 import type { useDraftPhotos } from "@/features/photos";
 import { t } from "@/lib/translation";
@@ -55,7 +56,7 @@ export const PhotosDayState = ({
         <ButtonText
           weight="400"
           numberOfLines={0}
-          style={{ fontSize: 15, textAlign: "auto" }}
+          style={{ ...getTextStyle("copy", 14), textAlign: "auto" }}
         >
           {t("photos_day_access_button", { day: dayTitle })}
         </ButtonText>

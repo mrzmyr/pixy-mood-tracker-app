@@ -7,6 +7,7 @@ import { t } from "@/lib/translation";
 import { INTERVENTIONS } from "../catalog";
 import type { InterventionId } from "../catalog";
 import { Duration } from "./duration";
+import { Copy, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { SHADOW } from "@/constants/shadow";
 
@@ -71,16 +72,14 @@ export const OptionTile = ({
           </Text>
           {isDone && <Check size={16} color={colors.tint} strokeWidth={2.5} />}
         </View>
-        <Text
-          style={{ fontSize: 13, lineHeight: 17, color: colors.textSecondary }}
-        >
+        <Copy size={13} style={{ lineHeight: 17, color: colors.textSecondary }}>
           {t(`interventions_${id}_short`)}
-        </Text>
+        </Copy>
       </View>
       {isDone ? (
-        <Text style={{ fontSize: 13, color: colors.tint, fontWeight: "500" }}>
+        <Label size={13} style={{ color: colors.tint, fontWeight: "500" }}>
           {t("interventions_done_today")}
-        </Text>
+        </Label>
       ) : (
         <Duration length={intervention.length} minutes={intervention.minutes} />
       )}

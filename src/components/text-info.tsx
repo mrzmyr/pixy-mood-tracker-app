@@ -1,6 +1,6 @@
-import { Text } from "react-native";
 import type { TextStyle } from "react-native";
 
+import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 
 /** Secondary note under a list, for example a warning about its rows. */
@@ -14,10 +14,10 @@ const TextInfo = ({
   const colors = useColors();
 
   return (
-    <Text
+    <Copy
+      size={13}
       style={[
         {
-          fontSize: 13,
           color: colors.textSecondary,
           padding: 16,
           paddingTop: 0,
@@ -26,7 +26,7 @@ const TextInfo = ({
       ]}
     >
       {children}
-    </Text>
+    </Copy>
   );
 };
 

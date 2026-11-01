@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { AccessibilityInfo, Platform, Text } from "react-native";
+import { AccessibilityInfo, Platform } from "react-native";
+import { Copy } from "@/components/typography";
 import type { FlexStyle } from "react-native";
 import useColors from "@/hooks/use-colors";
 
@@ -45,13 +46,14 @@ export const FieldError = ({
   }, [children]);
 
   return (
-    <Text
+    <Copy
+      size={13}
       accessibilityRole="alert"
       accessibilityLiveRegion="polite"
       testID={testID}
-      style={[{ fontSize: 13, color: colors.dangerButtonText }, style]}
+      style={[{ color: colors.dangerButtonText }, style]}
     >
       {children}
-    </Text>
+    </Copy>
   );
 };

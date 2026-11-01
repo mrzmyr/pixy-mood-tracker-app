@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { ScrollView, TextInput, View } from "react-native";
 import MapPin from "lucide-react-native/icons/map-pin";
 import Navigation from "lucide-react-native/icons/navigation";
 import CircleX from "lucide-react-native/icons/circle-x";
 import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import { SheetModal } from "@/components/sheet-modal";
+import { Copy, getInputTextStyle } from "@/components/typography";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import useColors from "@/hooks/use-colors";
@@ -186,7 +187,7 @@ const SheetContent = ({
             borderCurve: "continuous",
             paddingHorizontal: 14,
             paddingVertical: 12,
-            fontSize: 17,
+            ...getInputTextStyle(16),
             backgroundColor: colors.textInputBackground,
             color: colors.text,
           }}
@@ -242,20 +243,22 @@ const SheetContent = ({
           </MenuList>
         )}
         {search.status === "searching" && (
-          <Text
+          <Copy
+            size={14}
             accessibilityLiveRegion="polite"
-            style={{ marginTop: 16, fontSize: 15, color: colors.textSecondary }}
+            style={{ marginTop: 16, color: colors.textSecondary }}
           >
             {t("location_searching")}
-          </Text>
+          </Copy>
         )}
         {search.status === "done" && search.results.length === 0 && (
-          <Text
+          <Copy
+            size={14}
             accessibilityLiveRegion="polite"
-            style={{ marginTop: 16, fontSize: 15, color: colors.textSecondary }}
+            style={{ marginTop: 16, color: colors.textSecondary }}
           >
             {t("location_no_results")}
-          </Text>
+          </Copy>
         )}
         {search.status === "done" && search.results.length > 0 && (
           <MenuList style={{ marginTop: 16 }}>

@@ -4,6 +4,7 @@ import ArrowUpRight from "lucide-react-native/icons/arrow-up-right";
 import Sparkles from "lucide-react-native/icons/sparkles";
 import type { LucideIcon } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
+import { Copy, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
@@ -52,16 +53,16 @@ export const EndCheckView = ({
         >
           {t("interventions_done_title")}
         </Text>
-        <Text
+        <Copy
+          size={16}
           style={{
-            fontSize: 17,
             lineHeight: 25,
             color: colors.textSecondary,
             textAlign: "center",
           }}
         >
           {t("interventions_done_body")}
-        </Text>
+        </Copy>
       </View>
       <View style={{ flexDirection: "row", gap: 10 }}>
         {ANSWERS.map(({ value, Icon }) => {
@@ -97,11 +98,9 @@ export const EndCheckView = ({
               })}
             >
               <Icon color={foreground} size={26} strokeWidth={1.75} />
-              <Text
-                style={{ fontSize: 15, fontWeight: "500", color: foreground }}
-              >
+              <Label size={14} style={{ fontWeight: "500", color: foreground }}>
                 {label}
-              </Text>
+              </Label>
             </Pressable>
           );
         })}
@@ -114,9 +113,9 @@ export const EndCheckView = ({
         onPress={onSkip}
         style={{ alignSelf: "center", marginTop: 8, padding: 12 }}
       >
-        <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+        <Label size={14} style={{ color: colors.textSecondary }}>
           {t("interventions_feedback_skip")}
-        </Text>
+        </Label>
       </Pressable>
     </View>
   );

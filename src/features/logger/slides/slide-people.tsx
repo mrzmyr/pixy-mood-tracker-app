@@ -3,9 +3,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
 import Plus from "lucide-react-native/icons/plus";
 import { useEffect, useRef } from "react";
-import { Pressable, Text, View, useWindowDimensions } from "react-native";
+import { Pressable, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
+import { Copy, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import LinkButton from "@/components/link-button";
 import useColors from "@/hooks/use-colors";
@@ -84,18 +85,18 @@ const AddPersonTile = ({ size }: { size: number }) => {
           />
         </View>
       </View>
-      <Text
+      <Label
+        size={14}
         numberOfLines={1}
         style={{
           marginTop: 6,
           maxWidth: outer,
-          fontSize: 15,
           fontWeight: "500",
           color: colors.tint,
         }}
       >
         {t("people_add")}
-      </Text>
+      </Label>
     </Pressable>
   );
 };
@@ -233,16 +234,16 @@ export const SlidePeople = ({
               paddingHorizontal: 16,
             }}
           >
-            <Text
+            <Copy
+              size={16}
               style={{
                 color: colors.textSecondary,
-                fontSize: 17,
                 textAlign: "center",
                 marginBottom: 24,
               }}
             >
               {t("people_slide_empty")}
-            </Text>
+            </Copy>
             <Button
               onPress={() => router.push("/people/create")}
               testID="log-people-add"

@@ -6,7 +6,7 @@ import { useEffect, useEffectEvent } from "react";
 import type { ReactElement } from "react";
 
 import { useContentStableValue } from "@/hooks/use-content-stable-value";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Activity from "lucide-react-native/icons/activity";
 import { useAnalytics } from "@/state/analytics";
 import type { HighlightsProperties } from "@/state/analytics/events";
@@ -29,6 +29,7 @@ import {
   getPeopleHighlightProperties,
   getPeopleHighlightsState,
 } from "./people-highlights-state";
+import { Copy } from "@/components/typography";
 
 const EmptryState = () => {
   const colors = useColors();
@@ -47,15 +48,15 @@ const EmptryState = () => {
         borderStyle: "dashed",
       }}
     >
-      <Text
+      <Copy
+        size={16}
         style={{
           color: colors.textSecondary,
-          fontSize: 17,
           textAlign: "center",
         }}
       >
         {t("statistics_no_highlights")}
-      </Text>
+      </Copy>
     </View>
   );
 };

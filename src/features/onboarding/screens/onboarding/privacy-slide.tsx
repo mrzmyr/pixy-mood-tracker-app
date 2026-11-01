@@ -1,8 +1,9 @@
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import Lock from "lucide-react-native/icons/lock";
 import Animated, { FadeInRight } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 import Button from "@/components/button";
+import { Copy, Label } from "@/components/typography";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { TextReveal } from "@/components/text-reveal";
@@ -34,16 +35,16 @@ const ListItem = ({ children, delay }) => {
           marginTop: 9,
         }}
       />
-      <Text
+      <Copy
+        size={16}
         style={{
           color: colors.onboardingListItemText,
           lineHeight: 24,
-          fontSize: 17,
           flex: 1,
         }}
       >
         {children}
-      </Text>
+      </Copy>
     </Animated.View>
   );
 };
@@ -156,47 +157,47 @@ export const PrivacySlide = ({
               backgroundColor: colors.cardBackground,
             }}
           >
-            <Text
+            <Label
+              size={16}
               style={{
                 color: colors.onboardingTitle,
-                fontSize: 17,
                 lineHeight: 24,
                 fontWeight: "bold",
                 marginBottom: 4,
               }}
             >
               {t("onboarding_step_5_personal_title")}
-            </Text>
-            <Text
+            </Label>
+            <Copy
+              size={14}
               style={{
                 color: colors.onboardingListItemText,
-                fontSize: 15,
                 lineHeight: 22,
               }}
             >
               {t("onboarding_step_5_personal_body")}
-            </Text>
-            <Text
+            </Copy>
+            <Copy
+              size={14}
               style={{
                 color: colors.onboardingListItemText,
-                fontSize: 15,
                 lineHeight: 22,
                 marginTop: 8,
               }}
             >
               {t("onboarding_step_5_personal_reason")}
-            </Text>
+            </Copy>
             {needsConsent ? null : (
-              <Text
+              <Copy
+                size={14}
                 style={{
                   color: colors.onboardingTitle,
-                  fontSize: 15,
                   lineHeight: 22,
                   marginTop: 8,
                 }}
               >
                 {t("onboarding_step_5_analytics_info")}
-              </Text>
+              </Copy>
             )}
           </Animated.View>
         </ScrollView>
@@ -230,17 +231,17 @@ export const PrivacySlide = ({
           ) : (
             <Button onPress={onPress}>{t("onboarding_step_5_button")}</Button>
           )}
-          <Text
+          <Copy
+            size={13}
             style={{
               marginTop: 12,
               color: colors.onboardingPaginationText,
-              fontSize: 13,
               lineHeight: 18,
               textAlign: "center",
             }}
           >
             {t("onboarding_step_5_settings_hint")}
-          </Text>
+          </Copy>
         </View>
       </View>
     </View>

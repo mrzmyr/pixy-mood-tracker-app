@@ -1,9 +1,10 @@
 import dayjs from "dayjs";
 import type { ReactNode } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import MapPin from "lucide-react-native/icons/map-pin";
 import { Secondary } from "@/components/type";
+import { Copy, Label } from "@/components/typography";
 import { SleepQualityMeter } from "@/features/logger";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
@@ -57,18 +58,21 @@ const PeopleMomentsList = ({
         >
           <RingedAvatar person={person} size={44} />
           <View style={{ flex: 1, minWidth: 0 }}>
-            <Text
+            <Label
+              size={16}
+              strong
               numberOfLines={1}
-              style={{ fontSize: 17, fontWeight: "600", color: colors.text }}
+              style={{ color: colors.text }}
             >
               {person.name}
-            </Text>
-            <Text
+            </Label>
+            <Label
+              size={14}
               numberOfLines={1}
-              style={{ fontSize: 15, color: colors.textSecondary }}
+              style={{ color: colors.textSecondary }}
             >
               {line}
-            </Text>
+            </Label>
           </View>
         </View>
       ))}
@@ -178,9 +182,9 @@ const BackList = ({
           style={{ alignItems: "flex-start", gap: 4 }}
         >
           {row.chip}
-          <Text style={{ fontSize: 15, color: colors.textSecondary }}>
+          <Copy size={14} style={{ color: colors.textSecondary }}>
             {row.line}
-          </Text>
+          </Copy>
         </View>
       ))}
     </View>
