@@ -4,7 +4,6 @@ import { BackButton } from "@/shell/back-button";
 import { StorageLoadGate } from "@/shell/storage-load-gate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
-import useFormBackground from "@/hooks/use-form-background";
 import { DEV_TOOLS } from "@/dev";
 import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
 import { QuickCheckInNotificationSync } from "@/features/quickcheckin";
@@ -108,7 +107,7 @@ const getFeedbackOptions = <T extends object>({
 
 /**
  * Native grouped list screens: the list starts below the bar, so no divider
- * line. Bar and list share one background (Android: Material surface).
+ * line. Bar and list share `background`.
  */
 const formHeaderOptions = <T extends object>(
   pageOptions: T,
@@ -151,7 +150,6 @@ const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
-  const formBackground = useFormBackground();
   const canOverrideFeatureFlags = useCanOverrideFeatureFlags();
   const defaultOptions = getDefaultOptions(colors.text, colors.background);
   const feedbackOptions = getFeedbackOptions({
@@ -162,7 +160,7 @@ const AppLayout = () => {
   const requestOptions = getFeedbackOptions({
     defaultOptions,
     textColor: colors.text,
-    backgroundColor: formBackground,
+    backgroundColor: colors.background,
   });
   const modalRouteOptions = getModalRouteOptions({
     textColor: colors.text,
@@ -183,7 +181,7 @@ const AppLayout = () => {
       ? { ...defaultOptions, headerLeft: renderHeaderLeft }
       : defaultOptions;
 
-  const settingsFormOptions = formHeaderOptions(pageOptions, formBackground);
+  const settingsFormOptions = formHeaderOptions(pageOptions, colors.background);
 
   return (
     <StorageLoadGate>

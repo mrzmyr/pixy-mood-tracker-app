@@ -4,6 +4,7 @@ import colors from "@/constants/colors/tailwind-colors";
 
 import { TAG_COLOR_NAMES } from "@/constants/config";
 import scales from "@/constants/colors/scales";
+import { groupedColors } from "@/constants/colors/grouped";
 
 type TagColorKey = (typeof TAG_COLOR_NAMES)[number];
 
@@ -64,7 +65,8 @@ const onTintDark = IS_ANDROID ? "#002E69" : "#FFF";
 const light = {
   text: "#000",
   textSecondary: colors.neutral[500],
-  background: colors.neutral[100],
+  // Page and header gray, rows use `menuListItemBackground` (`grouped.ts`).
+  background: groupedColors.light.page,
   backgroundSecondary: colors.neutral[300],
   link: tintColorLight,
   tint: tintColorLight,
@@ -133,7 +135,7 @@ const light = {
   tabsTextActive: tintColorLight,
   tabsTextInactive: colors.neutral[400],
 
-  menuListItemBackground: "#FFF",
+  menuListItemBackground: groupedColors.light.row,
   // Hairline around Apple's white Health tile on white rows.
   healthIconBorder: colors.neutral[300],
   menuListItemText: "#000",
@@ -308,7 +310,7 @@ const dark: IColors & {
 } = {
   text: "#fff",
   textSecondary: colors.neutral[400],
-  background: "#000",
+  background: groupedColors.dark.page,
   backgroundSecondary: colors.neutral[900],
   link: tintColorDark,
   tint: tintColorDark,
@@ -376,7 +378,7 @@ const dark: IColors & {
   tabsTextActive: tintColorDark,
   tabsTextInactive: colors.neutral[600],
 
-  menuListItemBackground: colors.neutral[900],
+  menuListItemBackground: groupedColors.dark.row,
   healthIconBorder: colors.neutral[700],
   menuListItemText: colors.neutral[50],
   menuListItemIcon: colors.neutral[200],

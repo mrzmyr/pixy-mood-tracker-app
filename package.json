@@ -127,6 +127,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@google-cloud/translate": "^10.3.0",
+    "@material/material-color-utilities": "^0.4.0",
     "@react-native/jest-preset": "0.86.3",
     "@testing-library/react-native": "^14.0.1",
     "@types/i18n-js": "^4.0.1",
@@ -175,7 +176,7 @@
       "\\.txt$": "jest-expo/src/preset/assetFileTransformer.js"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!(.pnpm|react-native|@react-native|@react-native-community|expo|@expo|@expo-google-fonts|react-navigation|@react-navigation|@sentry/react-native|native-base|standard-navigation|uuid))",
+      "/node_modules/(?!(.pnpm|react-native|@react-native|@react-native-community|expo|@expo|@expo-google-fonts|react-navigation|@react-navigation|@sentry/react-native|native-base|standard-navigation|uuid|@material))",
       "/node_modules/react-native-reanimated/plugin/",
       "/node_modules/@react-native/babel-preset/"
     ]
