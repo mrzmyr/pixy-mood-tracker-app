@@ -146,8 +146,8 @@ const light = {
 
   notificationBackground: "#FFF",
 
-  calendarBackground: colors.neutral[50],
-  calendarItemBackgroundFuture: colors.neutral[50],
+  calendarBackground: "#FFF",
+  calendarItemBackgroundFuture: "#FFF",
   calendarWeekNameColor: colors.neutral[400],
   calendarMonthNameColor: colors.neutral[400],
 
