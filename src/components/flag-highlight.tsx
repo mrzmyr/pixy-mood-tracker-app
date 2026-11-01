@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react";
-import { Platform, Text, View } from "react-native";
+import { Platform, View } from "react-native";
 import type { ViewStyle } from "react-native";
+import { Label } from "@/components/typography";
 import colors from "@/constants/colors/tailwind-colors";
 import { RADIUS } from "@/constants/radius";
 import {
@@ -91,16 +92,16 @@ const FlagHighlight = ({
                 source === "override" ? colors.amber[400] : colors.sky[400],
             }}
           />
-          <Text
+          <Label
+            size={12}
+            strong
             style={{
               color: colors.white,
               fontFamily: MONO_FONT,
-              fontSize: 12,
-              fontWeight: "600",
             }}
           >
             {flag}
-          </Text>
+          </Label>
         </View>
       </View>
     </View>

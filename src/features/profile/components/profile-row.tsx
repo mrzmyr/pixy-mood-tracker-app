@@ -1,5 +1,6 @@
 import { Icon, ListItem, RNHostView, Text } from "@expo/ui";
 import { useRouter } from "expo-router";
+import type { ComponentProps } from "react";
 import { Platform } from "react-native";
 import { getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
@@ -9,8 +10,13 @@ import { ProfileAvatar } from "./profile-avatar";
 
 const AVATAR_SIZE = 56;
 const AFFORDANCE_SIZE = 13;
-/** Label 14; `@expo/ui` text takes size and line height only. */
-const SUBTITLE_TEXT = getTextStyle("label", 14);
+type NativeTextStyle = NonNullable<ComponentProps<typeof Text>["textStyle"]>;
+
+/** Geist styles for `@expo/ui` text. */
+// SAFETY: `getTextStyle` sets only fontSize, lineHeight, and fontWeight "600", all valid `@expo/ui` text style values.
+const SUBTITLE_TEXT = getTextStyle("label", 14) as NativeTextStyle;
+// SAFETY: same as above.
+const NAME_TEXT = getTextStyle("heading", 20) as NativeTextStyle;
 
 /**
  * First row of Settings, like the account row of iOS Settings. Native row in
@@ -71,8 +77,7 @@ export const ProfileRow = () => {
           <Text
             numberOfLines={1}
             textStyle={{
-              fontSize: SUBTITLE_TEXT.fontSize,
-              lineHeight: SUBTITLE_TEXT.lineHeight,
+              ...SUBTITLE_TEXT,
               color: colors.textSecondary,
             }}
           >
@@ -84,7 +89,7 @@ export const ProfileRow = () => {
       <Text
         numberOfLines={1}
         textStyle={{
-          fontSize: 20,
+          ...NAME_TEXT,
           fontWeight: profile.name ? "600" : "500",
           color: colors.menuListItemText,
         }}

@@ -1,7 +1,7 @@
 import { createStructuredError } from "@/lib/errors";
 import { reportError } from "@/lib/report-error";
 import { useEffect, useEffectEvent, useState } from "react";
-import { Alert, Linking, ScrollView, Text, View } from "react-native";
+import { Alert, Linking, ScrollView, View } from "react-native";
 import CircleAlert from "lucide-react-native/icons/circle-alert";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
@@ -12,7 +12,7 @@ import useColors from "@/hooks/use-colors";
 import type { StructuredError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
 import { getSupportMailUrl } from "@/shell/support-mail";
-import { Copy } from "@/components/typography";
+import { Copy, Heading, Label } from "@/components/typography";
 
 const exportData = async () => {
   try {
@@ -81,18 +81,18 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
         <View style={{ alignItems: "center", marginBottom: 24 }}>
           <CircleAlert color={colors.text} width={48} height={48} />
         </View>
-        <Text
+        <Heading
+          size={20}
           accessibilityRole="header"
           style={{
             color: colors.text,
-            fontSize: 22,
             fontWeight: "bold",
             textAlign: "center",
             marginBottom: 12,
           }}
         >
           {t("storage_load_error_title")}
-        </Text>
+        </Heading>
         <Copy
           size={16}
           style={{
@@ -134,18 +134,18 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
         >
           {t("storage_load_error_contact")}
         </Button>
-        <Text
+        <Label
+          size={12}
           selectable
           style={{
             color: colors.textSecondary,
-            fontSize: 12,
             textAlign: "center",
             marginTop: 24,
           }}
           testID="storage-load-error-status"
         >
           {t("storage_load_error_code", { status: error.status })}
-        </Text>
+        </Label>
       </ScrollView>
       <FeedbackModal
         visible={isFeedbackVisible}

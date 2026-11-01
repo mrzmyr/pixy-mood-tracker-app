@@ -9,10 +9,10 @@ import type { Dayjs } from "dayjs";
 import groupBy from "lodash/groupBy";
 import orderBy from "lodash/orderBy";
 import sumBy from "lodash/sumBy";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { getItemDate } from "@/lib/log-dates";
 import { RADIUS } from "@/constants/radius";
-import { Label } from "@/components/typography";
+import { Heading, Label } from "@/components/typography";
 
 /**
  * Best month of the year of `date`.
@@ -76,15 +76,15 @@ export const BestMonth = ({ date }: { date: Dayjs }) => {
       >
         {t("statistics_best_month")}
       </Label>
-      <Text
+      <Heading
+        size={24}
         style={{
-          fontSize: 24,
           color: colors.text,
           fontWeight: "bold",
         }}
       >
         {month}
-      </Text>
+      </Heading>
     </View>
   );
 };

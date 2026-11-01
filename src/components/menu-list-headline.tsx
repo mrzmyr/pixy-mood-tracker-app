@@ -10,7 +10,7 @@ const DEFAULT_STYLE = {};
 // Android Material list subheader: 14sp, weight 500, accent color, no uppercase.
 const platformStyle = (): TextStyle =>
   Platform.OS === "android"
-    ? { fontSize: 14, fontWeight: "500" }
+    ? { ...getTextStyle("label", 14), fontWeight: "500" }
     : getTextStyle("label", 13);
 
 const MenuListHeadline = ({

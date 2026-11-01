@@ -1,4 +1,4 @@
-import { Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import { InlineAlert } from "@/components/inline-alert";
 import TextArea from "@/components/text-area";
 import { Copy, getInputTextStyle } from "@/components/typography";
@@ -79,9 +79,9 @@ export const FeedbackFields = ({
         onChangeText={onEmailChange}
         placeholder={t("feedback_modal_email_placeholder")}
       />
-      <Text
+      <Copy
+        size={14}
         style={{
-          fontSize: 14,
           color: colors.textSecondary,
           padding: 8,
           paddingTop: 0,
@@ -89,7 +89,7 @@ export const FeedbackFields = ({
         }}
       >
         {t("feedback_modal_help")}
-      </Text>
+      </Copy>
       {hasFailed && (
         <InlineAlert
           testID="feedback-modal-error"

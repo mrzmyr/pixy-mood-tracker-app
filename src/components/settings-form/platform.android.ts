@@ -2,6 +2,7 @@ import { useMaterialColors } from "@expo/ui/jetpack-compose";
 import { semantics } from "@expo/ui/jetpack-compose/modifiers";
 import type { ModifierConfig } from "@expo/ui/jetpack-compose/modifiers";
 import type { UniversalTextStyle } from "@expo/ui";
+import { getTextStyle } from "@/components/typography";
 import type {
   SecondaryText,
   SettingsRowProps,
@@ -41,5 +42,10 @@ export const useSecondaryText = (): SecondaryText => {
 /** Section footer: Material supporting text. */
 export const useFooterTextStyle = (): UniversalTextStyle | undefined => {
   const colors = useMaterialColors();
-  return { color: colors.onSurfaceVariant, fontSize: 14 };
+  return {
+    // SAFETY: a non-strong copy style holds only numeric fontSize and
+    // lineHeight, both valid UniversalTextStyle fields.
+    ...(getTextStyle("copy", 14) as UniversalTextStyle),
+    color: colors.onSurfaceVariant,
+  };
 };

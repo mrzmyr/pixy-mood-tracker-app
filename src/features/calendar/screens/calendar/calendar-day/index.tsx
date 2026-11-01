@@ -1,8 +1,9 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { memo, useCallback, useMemo } from "react";
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
 import { useToday } from "@/hooks/use-today";
@@ -160,7 +161,6 @@ const CalendarDayComponent = ({
 
     return [
       {
-        fontSize: 12,
         opacity:
           !isToday && (isFuture || _isFiltered || (!rating && isFiltering))
             ? 0.3
@@ -211,7 +211,9 @@ const CalendarDayComponent = ({
     >
       <View style={styles.dayNumberParent1}>
         <View style={dayNumberParent2Styles}>
-          <Text style={dayNumberTextStyles}>{day}</Text>
+          <Label size={12} style={dayNumberTextStyles}>
+            {day}
+          </Label>
         </View>
       </View>
     </Pressable>

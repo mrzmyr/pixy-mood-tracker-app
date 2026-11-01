@@ -5,7 +5,7 @@ import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import LinkButton from "@/components/link-button";
 import { SheetModal } from "@/components/sheet-modal";
-import { getTextStyle, Label } from "@/components/typography";
+import { getTextStyle, Heading, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -162,12 +162,13 @@ export const VoiceFeedbackSheet = ({
         style={{ flex: 1, backgroundColor: colors.feedbackBackground }}
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 24 }}
       >
-        <Text
+        <Heading
+          size={20}
           accessibilityRole="header"
-          style={{ fontSize: 22, fontWeight: "700", color: colors.text }}
+          style={{ fontWeight: "700", color: colors.text }}
         >
           {t("voice_feedback_title")}
-        </Text>
+        </Heading>
         <View
           accessibilityRole="radiogroup"
           style={{ flexDirection: "row", gap: 8, marginTop: 20 }}
@@ -197,7 +198,14 @@ export const VoiceFeedbackSheet = ({
                   opacity: pressed ? 0.7 : 1,
                 })}
               >
-                <Text style={{ fontSize: 32 }}>{option.emoji}</Text>
+                <Text
+                  style={{
+                    // oxlint-disable-next-line pixy-standards/typography-components -- emoji glyph size, not text typography
+                    fontSize: 32,
+                  }}
+                >
+                  {option.emoji}
+                </Text>
                 <Label size={14} style={{ color: colors.text }}>
                   {t(option.label)}
                 </Label>

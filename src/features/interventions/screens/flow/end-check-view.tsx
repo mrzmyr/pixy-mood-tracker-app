@@ -3,8 +3,8 @@ import ArrowRight from "lucide-react-native/icons/arrow-right";
 import ArrowUpRight from "lucide-react-native/icons/arrow-up-right";
 import Sparkles from "lucide-react-native/icons/sparkles";
 import type { LucideIcon } from "lucide-react-native";
-import { Pressable, Text, View } from "react-native";
-import { Copy, Label } from "@/components/typography";
+import { Pressable, View } from "react-native";
+import { Copy, Heading, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
@@ -42,17 +42,16 @@ export const EndCheckView = ({
         }}
       >
         <Sparkles size={40} color={colors.tint} strokeWidth={1.75} />
-        <Text
+        <Heading
+          size={24}
           accessibilityRole="header"
           style={{
-            fontSize: 26,
-            fontWeight: "600",
             color: colors.text,
             textAlign: "center",
           }}
         >
           {t("interventions_done_title")}
-        </Text>
+        </Heading>
         <Copy
           size={16}
           style={{

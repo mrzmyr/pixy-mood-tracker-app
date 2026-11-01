@@ -1,5 +1,5 @@
-import { Text, View } from "react-native";
-import { Copy, Label } from "@/components/typography";
+import { View } from "react-native";
+import { Copy, Heading, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
 import type { Intervention } from "../../catalog";
@@ -18,10 +18,10 @@ export const IntroView = ({ intervention }: { intervention: Intervention }) => {
   return (
     <View style={{ gap: 18 }}>
       <View style={{ gap: 8 }}>
-        <Text
+        <Heading
+          size={32}
           accessibilityRole="header"
           style={{
-            fontSize: 30,
             lineHeight: 36,
             letterSpacing: -0.5,
             fontWeight: "700",
@@ -29,7 +29,7 @@ export const IntroView = ({ intervention }: { intervention: Intervention }) => {
           }}
         >
           {t(`interventions_${id}_title`)}
-        </Text>
+        </Heading>
         <Duration length={intervention.length} minutes={intervention.minutes} />
       </View>
       <Copy size={16} style={{ lineHeight: 25, color: colors.text }}>
@@ -52,16 +52,16 @@ export const IntroView = ({ intervention }: { intervention: Intervention }) => {
                 {index + 1}
               </Label>
             </View>
-            <Text
+            <Copy
+              size={16}
               style={{
                 flex: 1,
-                fontSize: 16,
                 lineHeight: 23,
                 color: colors.text,
               }}
             >
               {tDynamic(key)}
-            </Text>
+            </Copy>
           </View>
         ))}
       </View>

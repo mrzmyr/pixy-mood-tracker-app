@@ -1,5 +1,5 @@
 import Check from "lucide-react-native/icons/check";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -59,17 +59,17 @@ export const OptionTile = ({
         <View
           style={{ flexDirection: "row", gap: 6, alignItems: "flex-start" }}
         >
-          <Text
+          <Label
+            size={16}
+            strong
             style={{
               flex: 1,
-              fontSize: 16,
               lineHeight: 20,
-              fontWeight: "600",
               color: colors.text,
             }}
           >
             {title}
-          </Text>
+          </Label>
           {isDone && <Check size={16} color={colors.tint} strokeWidth={2.5} />}
         </View>
         <Copy size={13} style={{ lineHeight: 17, color: colors.textSecondary }}>

@@ -27,7 +27,7 @@ const Body = ({ index }: { index: number }) => {
         containerStyle={{ marginBottom: 8 }}
         style={{
           color: colors.onboardingTitle,
-          fontSize: 20,
+          ...getTextStyle("heading", 20),
           fontWeight: "bold",
         }}
       >

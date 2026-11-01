@@ -1,7 +1,7 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Button from "@/components/button";
 import LinkButton from "@/components/link-button";
-import { Label } from "@/components/typography";
+import { Copy, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { RADIUS } from "@/constants/radius";
 
@@ -82,16 +82,16 @@ export const PhotosPromptCard = ({
       >
         {title}
       </Label>
-      <Text
+      <Copy
+        size={14}
         style={{
           color: colors.textSecondary,
-          fontSize: 14,
           lineHeight: 20,
           textAlign: "center",
         }}
       >
         {body}
-      </Text>
+      </Copy>
       {actionLabel !== undefined && onAction && (
         <Button
           testID={`${testID}-action`}

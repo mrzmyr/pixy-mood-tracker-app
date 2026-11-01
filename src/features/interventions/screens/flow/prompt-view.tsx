@@ -1,5 +1,5 @@
-import { Text, View } from "react-native";
-import { Copy, Label } from "@/components/typography";
+import { View } from "react-native";
+import { Copy, Heading, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
 import type { InterventionId, PromptStep } from "../../catalog";
@@ -22,21 +22,20 @@ export const PromptView = ({
 
   return (
     <View style={{ gap: 14 }}>
-      <Text style={{ fontSize: 14, color: colors.textSecondary }}>
+      <Label size={14} style={{ color: colors.textSecondary }}>
         {t("interventions_step_progress", { current: index + 1, total: count })}
-      </Text>
-      <Text
+      </Label>
+      <Heading
+        size={24}
         accessibilityRole="header"
         style={{
-          fontSize: 26,
           lineHeight: 31,
           letterSpacing: -0.4,
-          fontWeight: "600",
           color: colors.text,
         }}
       >
         {tDynamic(`${prefix}_title`)}
-      </Text>
+      </Heading>
       <Copy size={16} style={{ lineHeight: 25, color: colors.text }}>
         {tDynamic(`${prefix}_body`)}
       </Copy>
@@ -56,9 +55,9 @@ export const PromptView = ({
           {tDynamic(`${prefix}_example`)}
         </Copy>
       </View>
-      <Text style={{ fontSize: 14, color: colors.textSecondary }}>
+      <Copy size={14} style={{ color: colors.textSecondary }}>
         {t("interventions_prompt_hint")}
-      </Text>
+      </Copy>
     </View>
   );
 };

@@ -1,4 +1,5 @@
-import { ActivityIndicator, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, View } from "react-native";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { HAS_NATIVE_PREVIEW, PickTileMenu } from "./pick-tile-menu";
@@ -139,10 +140,12 @@ export const PickTile = ({
           />
         )}
         {tag !== undefined && (
-          <Text
+          <Label
             pointerEvents="none"
             testID={`photo-pick-${position}-tag`}
             numberOfLines={1}
+            size={12}
+            strong
             style={{
               position: "absolute",
               left: BADGE_INSET,
@@ -155,12 +158,10 @@ export const PickTile = ({
               overflow: "hidden",
               backgroundColor: TAG_BACKGROUND,
               color: ON_PHOTO,
-              fontSize: 11,
-              fontWeight: "600",
             }}
           >
             {tag}
-          </Text>
+          </Label>
         )}
         <View
           pointerEvents="none"
@@ -180,16 +181,16 @@ export const PickTile = ({
           }}
         >
           {isChecked && (
-            <Text
+            <Label
+              size={12}
               style={{
                 color: colors.primaryButtonText,
-                fontSize: 12,
                 fontWeight: "700",
                 fontVariant: ["tabular-nums"],
               }}
             >
               {order}
-            </Text>
+            </Label>
           )}
         </View>
       </Pressable>

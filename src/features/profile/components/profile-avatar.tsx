@@ -28,6 +28,7 @@ const AvatarContent = ({
       <Text
         numberOfLines={1}
         style={{
+          // oxlint-disable-next-line pixy-standards/typography-components -- initials scale with avatar size prop
           fontSize: Math.round(size * 0.4),
           fontWeight: "600",
           color: colors.textSecondary,

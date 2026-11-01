@@ -1,6 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 
 const LINE_HEIGHT = 23;
@@ -24,17 +25,18 @@ export const FadingNote = ({ message }: { message: string }) => {
 
   return (
     <View style={{ maxHeight: LINE_HEIGHT * MAX_LINES, overflow: "hidden" }}>
-      <Text
+      <Copy
+        size={16}
         onTextLayout={(event) => {
           setIsClipped(
             event.nativeEvent.lines.length > MAX_LINES ||
               visible.length < message.length
           );
         }}
-        style={{ fontSize: 16, lineHeight: LINE_HEIGHT, color: colors.text }}
+        style={{ lineHeight: LINE_HEIGHT, color: colors.text }}
       >
         {visible}
-      </Text>
+      </Copy>
       {isClipped && (
         <LinearGradient
           pointerEvents="none"

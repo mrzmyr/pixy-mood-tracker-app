@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { Text, View } from "react-native";
 import useColors from "@/hooks/use-colors";
+import { Label } from "@/components/typography";
 
 /** Month initials above the year grid. */
 export const XAxis = () => {
@@ -20,15 +21,15 @@ export const XAxis = () => {
           marginBottom: 6,
         }}
       >
-        <Text
+        <Label
+          size={12}
           style={{
-            fontSize: 12,
             fontWeight: "bold",
             color: colors.yearPixelsLegendText,
           }}
         >
           {dayjs().month(i).format("MMM")[0]}
-        </Text>
+        </Label>
       </View>
     );
   }

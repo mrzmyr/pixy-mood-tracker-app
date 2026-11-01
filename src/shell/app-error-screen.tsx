@@ -1,12 +1,5 @@
 import { useEffect, useRef } from "react";
-import {
-  Alert,
-  Linking,
-  ScrollView,
-  Text,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Alert, Linking, ScrollView, useColorScheme, View } from "react-native";
 import CircleAlert from "lucide-react-native/icons/circle-alert";
 import {
   SafeAreaProvider,
@@ -22,7 +15,7 @@ import { reportBoundaryError, reportError } from "@/lib/report-error";
 import { t } from "@/lib/translation";
 import { getNavigationTheme } from "@/shell/navigation-theme";
 import { getSupportMailUrl } from "@/shell/support-mail";
-import { Copy } from "@/components/typography";
+import { Copy, Heading, Label } from "@/components/typography";
 
 const RENDER_FAILED = "render_failed";
 
@@ -109,18 +102,18 @@ const AppErrorContent = ({
         <View style={{ alignItems: "center", marginBottom: 24 }}>
           <CircleAlert color={colors.text} width={48} height={48} />
         </View>
-        <Text
+        <Heading
+          size={20}
           accessibilityRole="header"
           style={{
             color: colors.text,
-            fontSize: 22,
             fontWeight: "bold",
             textAlign: "center",
             marginBottom: 12,
           }}
         >
           {t("app_error_title")}
-        </Text>
+        </Heading>
         <Copy
           size={16}
           style={{
@@ -155,17 +148,17 @@ const AppErrorContent = ({
         >
           {t("storage_load_error_contact")}
         </Button>
-        <Text
+        <Label
+          size={12}
           selectable
           style={{
             color: colors.textSecondary,
-            fontSize: 12,
             textAlign: "center",
             marginTop: 24,
           }}
         >
           {t("storage_load_error_code", { status: RENDER_FAILED })}
-        </Text>
+        </Label>
       </ScrollView>
     </View>
   );

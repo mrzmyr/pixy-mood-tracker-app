@@ -1,6 +1,6 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
-import { Copy } from "@/components/typography";
+import { Copy, Heading, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
 import type { InterventionId, TimedStep } from "../../catalog";
@@ -61,36 +61,34 @@ export const TimedView = ({
           />
         </Svg>
         <View style={{ alignItems: "center" }}>
-          <Text
+          <Heading
+            size={32}
             style={{
-              fontSize: 34,
-              fontWeight: "600",
               color: colors.text,
               fontVariant: ["tabular-nums"],
             }}
           >
             {formatTime(remainingMs)}
-          </Text>
-          <Text style={{ fontSize: 14, color: colors.textSecondary }}>
+          </Heading>
+          <Label size={14} style={{ color: colors.textSecondary }}>
             {t("interventions_part_progress", {
               current: index + 1,
               total: count,
             })}
-          </Text>
+          </Label>
         </View>
       </View>
       <View style={{ gap: 8, paddingHorizontal: 8 }}>
-        <Text
+        <Heading
+          size={24}
           accessibilityRole="header"
           style={{
-            fontSize: 24,
-            fontWeight: "600",
             color: colors.text,
             textAlign: "center",
           }}
         >
           {tDynamic(`interventions_${id}_${step.key}_part`)}
-        </Text>
+        </Heading>
         <Copy
           size={16}
           style={{

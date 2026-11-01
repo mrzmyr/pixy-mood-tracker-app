@@ -3,7 +3,6 @@ import antiSlop from "ultracite/oxlint/anti-slop";
 import core from "ultracite/oxlint/core";
 import { jsPluginSettings, selectJsPlugins } from "ultracite/oxlint/js-plugins";
 import react from "ultracite/oxlint/react";
-import { fontSizeLegacyFiles } from "./tools/oxlint/font-size-legacy.ts";
 
 const jsPlugins = selectJsPlugins(["react-doctor"]);
 
@@ -334,11 +333,6 @@ export default defineConfig({
         "src/features/recaps/story/**",
         "src/**/__tests__/**",
       ],
-      rules: { "pixy-standards/typography-components": "off" },
-    },
-    {
-      // Hand-set sizes from before the typography components. Shrink only.
-      files: fontSizeLegacyFiles,
       rules: { "pixy-standards/typography-components": "off" },
     },
     {

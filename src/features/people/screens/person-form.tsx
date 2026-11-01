@@ -13,6 +13,7 @@ import TextInfo from "@/components/text-info";
 import Toggle from "@/components/toggle";
 import { MAX_TAG_LENGTH } from "@/constants/config";
 import { RADIUS } from "@/constants/radius";
+import { getInputTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { PersonAvatar } from "../components/person-avatar";
@@ -216,7 +217,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
           textContentType="name"
           clearButtonMode="while-editing"
           style={{
-            fontSize: isIOS ? 17 : 16,
+            ...getInputTextStyle(16),
             color: colors.textInputText,
             backgroundColor: isIOS
               ? colors.menuListItemBackground

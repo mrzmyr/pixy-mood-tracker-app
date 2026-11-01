@@ -25,6 +25,7 @@ import type { Toast } from "@/lib/toast";
 import { RADIUS } from "@/constants/radius";
 import { SHADOW } from "@/constants/shadow";
 import { getTypeMetrics } from "@/components/type-metrics";
+import { Label } from "@/components/typography";
 
 const IS_ANDROID = Platform.OS === "android";
 /** Drag distance or speed toward the screen edge that dismisses the toast. */
@@ -162,15 +163,15 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
               }}
               style={{ paddingHorizontal: 8, paddingVertical: 8 }}
             >
-              <Text
+              <Label
+                size={14}
+                strong
                 style={{
-                  fontSize: 14,
-                  fontWeight: "600",
                   color: IS_ANDROID ? colors.snackbarAction : colors.tint,
                 }}
               >
                 {toast.action.label}
-              </Text>
+              </Label>
             </Pressable>
           )}
         </Animated.View>

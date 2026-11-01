@@ -1,9 +1,10 @@
 import useColors from "@/hooks/use-colors";
 import { useSettings } from "@/state/settings";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import X from "lucide-react-native/icons/x";
 import Indicator from "@/components/indicator";
 import { PressableScale } from "@/components/pressable-scale";
+import { Heading } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 
@@ -98,9 +99,9 @@ export const PromoCard = ({
           justifyContent: "flex-end",
         }}
       >
-        <Text
+        <Heading
+          size={20}
           style={{
-            fontSize: 20,
             fontWeight: "bold",
             color: colors.promoCardText,
             marginTop: 8,
@@ -108,7 +109,7 @@ export const PromoCard = ({
           }}
         >
           {title}
-        </Text>
+        </Heading>
       </View>
     </PressableScale>
   );

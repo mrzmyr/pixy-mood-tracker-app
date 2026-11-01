@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import Swipeable, {
   SwipeDirection,
@@ -9,6 +9,7 @@ import Archive from "lucide-react-native/icons/archive";
 import Trash from "lucide-react-native/icons/trash";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
+import { Label } from "@/components/typography";
 import { TagListItem } from "./tag-list-item";
 import { useTagActions } from "../use-tag-actions";
 
@@ -60,9 +61,9 @@ export const TagRow = ({
                 }}
               >
                 <Archive size={18} color={colors.palette.white} />
-                <Text style={{ color: colors.palette.white, fontSize: 12 }}>
+                <Label size={12} style={{ color: colors.palette.white }}>
                   {t("archive_tag")}
-                </Text>
+                </Label>
               </RectButton>
             )
       }
@@ -86,9 +87,9 @@ export const TagRow = ({
           }}
         >
           <Trash size={18} color={colors.palette.white} />
-          <Text style={{ color: colors.palette.white, fontSize: 12 }}>
+          <Label size={12} style={{ color: colors.palette.white }}>
             {t("delete")}
-          </Text>
+          </Label>
         </RectButton>
       )}
     >

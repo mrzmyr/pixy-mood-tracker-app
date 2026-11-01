@@ -7,7 +7,7 @@ import MenuListItem from "@/components/menu-list-item";
 import TextInfo from "@/components/text-info";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/use-colors";
@@ -20,7 +20,7 @@ import Trash from "lucide-react-native/icons/trash";
 import { getWordCount } from "@/lib/utils";
 import { usePostHog } from "posthog-react-native";
 import { RADIUS } from "@/constants/radius";
-import { Label } from "@/components/typography";
+import { Heading, Label } from "@/components/typography";
 
 const Card = ({
   title,
@@ -45,25 +45,25 @@ const Card = ({
         ...style,
       }}
     >
-      <Text
+      <Heading
+        size={20}
         style={{
-          fontSize: 20,
           fontWeight: "bold",
           color: colors.text,
           marginBottom: 8,
         }}
       >
         {children}
-      </Text>
-      <Text
+      </Heading>
+      <Label
+        size={14}
         style={{
-          fontSize: 14,
           fontWeight: "bold",
           color: colors.textSecondary,
         }}
       >
         {title}
-      </Text>
+      </Label>
     </View>
   );
 };
@@ -156,16 +156,16 @@ export const DevelopmentTools = () => {
               >
                 Device ID
               </Label>
-              <Text
+              <Label
                 selectable
+                size={14}
                 style={{
                   color: colors.textSecondary,
-                  fontSize: 14,
                   marginTop: 4,
                 }}
               >
                 {settings.deviceId}
-              </Text>
+              </Label>
             </View>
           </MenuListItem>
           <MenuListItem>
@@ -179,16 +179,16 @@ export const DevelopmentTools = () => {
               >
                 PostHog Distinct ID
               </Label>
-              <Text
+              <Label
                 selectable
+                size={14}
                 style={{
                   color: colors.textSecondary,
-                  fontSize: 14,
                   marginTop: 4,
                 }}
               >
                 {posthog?.getDistinctId() ?? "-"}
-              </Text>
+              </Label>
             </View>
           </MenuListItem>
         </MenuList>
@@ -209,16 +209,16 @@ export const DevelopmentTools = () => {
                   >
                     Last sync
                   </Label>
-                  <Text
+                  <Label
                     testID="widget-sync-status"
+                    size={14}
                     style={{
                       color: colors.textSecondary,
-                      fontSize: 14,
                       marginTop: 4,
                     }}
                   >
                     {widgetSyncText}
-                  </Text>
+                  </Label>
                 </View>
               </MenuListItem>
             </MenuList>
@@ -255,15 +255,15 @@ export const DevelopmentTools = () => {
                   >
                     {action.title}
                   </Label>
-                  <Text
+                  <Label
+                    size={14}
                     style={{
                       color: colors.textSecondary,
-                      fontSize: 14,
                       marginTop: 4,
                     }}
                   >
                     {dayjs(action.date).format("L - LT")}
-                  </Text>
+                  </Label>
                 </View>
                 <LinkButton
                   onPress={() => {

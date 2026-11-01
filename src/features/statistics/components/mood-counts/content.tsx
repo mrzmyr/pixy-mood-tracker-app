@@ -1,4 +1,5 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { RATING_KEYS } from "@/constants/ratings";
 import { formatNumber } from "@/lib/format-number";
@@ -59,21 +60,21 @@ export const Content = ({
             }}
             key={`rating-count-${ratingName}`}
           >
-            <Text
+            <Label
               key={`text-${ratingName}`}
+              size={12}
               style={{
                 width: "100%",
                 marginTop: 8,
                 color: colors.text,
                 opacity: data.values[ratingName] === 0 ? 0.3 : 1,
                 textAlign: "center",
-                fontSize: 12,
                 fontWeight: "bold",
                 fontVariant: ["tabular-nums"],
               }}
             >
               {formatNumber(data.values[ratingName])}×
-            </Text>
+            </Label>
           </View>
         ))}
       </View>

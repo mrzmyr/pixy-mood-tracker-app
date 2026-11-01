@@ -12,6 +12,7 @@ import { useFeatureFlag } from "@/state/feature-flags";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import TextInfo from "@/components/text-info";
+import { getTextStyle } from "@/components/typography";
 
 /**
  * Settings > Privacy: privacy summary, link to the full policy, and the
@@ -61,10 +62,10 @@ export const PrivacyScreen = () => {
           </View>
           <Markdown
             style={{
-              body: { color: colors.text, fontSize: 16, lineHeight: 24 },
+              body: { ...getTextStyle("copy", 16), color: colors.text },
               heading3: {
+                ...getTextStyle("heading", 20),
                 fontWeight: "bold",
-                fontSize: 21,
                 lineHeight: 28,
                 marginBottom: 0,
                 marginTop: 20,

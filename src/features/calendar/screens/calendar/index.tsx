@@ -10,7 +10,6 @@ import {
   ActivityIndicator,
   Platform,
   StyleSheet,
-  Text,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -24,6 +23,7 @@ import type { Month } from "./layout";
 import { useCalendarFiltersSheet } from "../../filters";
 import { HAS_FLOATING_HEADER } from "@/constants/floating-header";
 import { useCalendarLayout } from "../../calendar-layout";
+import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { useToday } from "@/hooks/use-today";
 import { ForYouToday } from "@/features/interventions";
@@ -148,19 +148,19 @@ const CalendarScreenComponent = () => {
             {/* Zero height: the note sits below the list end, under the
                 bottom safe area padding, and shows only on overscroll. */}
             <View style={{ height: 0 }}>
-              <Text
+              <Copy
+                size={14}
                 style={{
                   position: "absolute",
                   top: insets.bottom + FOOT_NOTE_GAP,
                   left: 0,
                   right: 0,
-                  fontSize: 14,
                   color: colors.textSecondary,
                   textAlign: "center",
                 }}
               >
                 {footNote}
-              </Text>
+              </Copy>
             </View>
           </Animated.View>
         }

@@ -1,6 +1,6 @@
 import isString from "lodash/isString";
 import type { ReactNode } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Bezel from "@/components/bezel";
 import useColors from "@/hooks/use-colors";
 import { RADIUS } from "@/constants/radius";
@@ -37,15 +37,15 @@ export const Card = ({
           marginBottom: 8,
         }}
       >
-        <Text
+        <Label
+          size={14}
           style={{
-            fontSize: 14,
             fontWeight: "bold",
             color: colors.statisticsCardSubtitle,
           }}
         >
           {subtitle}
-        </Text>
+        </Label>
       </View>
       <View
         style={{

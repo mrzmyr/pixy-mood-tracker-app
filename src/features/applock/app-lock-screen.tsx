@@ -2,13 +2,13 @@ import * as Clipboard from "expo-clipboard";
 import Lock from "lucide-react-native/icons/lock";
 import { usePostHog } from "posthog-react-native";
 import { useState } from "react";
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FullWindowOverlay } from "react-native-screens";
 import Button from "@/components/button";
 import { ToastHost } from "@/components/toast";
-import { Copy, Label } from "@/components/typography";
+import { Copy, Heading, Label } from "@/components/typography";
 import { SUPPORT_EMAIL } from "@/constants/config";
 import useColors from "@/hooks/use-colors";
 import { showToast } from "@/lib/toast";
@@ -64,16 +64,16 @@ const LockHelp = ({ code }: { code: string }) => {
               opacity: pressed ? 0.5 : 1,
             })}
           >
-            <Text
+            <Label
+              size={12}
               style={{
-                fontSize: 12,
                 fontFamily: MONO_FONT,
                 color: colors.textSecondary,
                 textAlign: "center",
               }}
             >
               {code}
-            </Text>
+            </Label>
           </Pressable>
         </>
       ) : (
@@ -136,18 +136,17 @@ export const AppLockScreen = () => {
       </View>
       {isLocked && (
         <>
-          <Text
+          <Heading
+            size={20}
             accessibilityRole="header"
             style={{
               marginTop: 24,
-              fontSize: 22,
-              fontWeight: "600",
               color: colors.text,
               textAlign: "center",
             }}
           >
             {t("app_lock_locked")}
-          </Text>
+          </Heading>
           <Button
             testID="app-lock-unlock"
             onPress={unlock}

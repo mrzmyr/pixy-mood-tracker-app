@@ -1,5 +1,5 @@
 import { useEffect, useEffectEvent } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
@@ -102,15 +102,15 @@ export const BreathView = ({
           ]}
         />
         <View accessibilityLiveRegion="polite" style={{ alignItems: "center" }}>
-          <Text
+          <Label
+            size={18}
+            strong
             style={{
-              fontSize: 18,
-              fontWeight: "600",
               color: colors.primaryButtonText,
             }}
           >
             {label}
-          </Text>
+          </Label>
           <Label
             size={16}
             style={{

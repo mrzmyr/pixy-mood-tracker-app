@@ -3,8 +3,9 @@ import { useWeekLocale } from "@/hooks/use-week-locale";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { SHADOW } from "@/constants/shadow";
 import { getChromeIntroStyle, useCalendarIntro } from "../../intro";
@@ -28,17 +29,17 @@ const HeaderDay = ({
         marginRight: 3,
       }}
     >
-      <Text
+      <Label
+        size={12}
         testID={`calendar-weekday-${index}`}
         style={{
-          fontSize: 12,
           fontWeight: "bold",
           color: colors.calendarWeekNameColor,
           textAlign: "center",
         }}
       >
         {children}
-      </Text>
+      </Label>
     </View>
   );
 };
