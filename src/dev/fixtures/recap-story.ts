@@ -76,17 +76,49 @@ const entry = (
   };
 };
 
-const photo = (date: dayjs.Dayjs, n: number) => ({
+/** Klara's photo of a day: `klara-<name>.jpg` in `photo-assets.ts`. */
+const photo = (date: dayjs.Dayjs, name: string) => ({
   id: `5a0e1c2d-0000-4b3e-9f6e-3c${date.format("MMDD")}000000`,
-  fileName: `fixture-photo-${(n % 6) + 1}.jpg`,
-  width: 1200,
-  height: 900,
+  fileName: `klara-${name}.jpg`,
+  width: 640,
+  height: 640,
   createdAt: date.hour(18).toISOString(),
   source: "day" as const,
 });
 
 const isHardDay = (day: number) => day === 6 || day === 20 || day === 21;
 const isSeaDay = (day: number) => day >= 11 && day <= 13;
+
+/** Saturdays: Kaifu-Bad with Ada, then breakfast at home. */
+const SATURDAY_PHOTOS = ["kaifu-bad", "swimming", "underwater", "breakfast"];
+/** Days at the sea, from the 11th. */
+const SEA_PHOTOS = ["sea-sandcastle", "sea-dunes", "sea-fishbun"];
+/** Other photo days: walks with Chuky, the playground, Oma Hilde's letter. */
+const DAY_PHOTOS = new Map([
+  [3, "chuky-park"],
+  [10, "playground-swing"],
+  [17, "reading-sofa"],
+  [24, "rain-walk"],
+  [31, "letter"],
+]);
+
+const photoNameOf = (date: dayjs.Dayjs, day: number) => {
+  if (isSeaDay(day)) {
+    return SEA_PHOTOS[day - 11] ?? "sea-dunes";
+  }
+  if (date.day() === 6) {
+    return SATURDAY_PHOTOS[Math.floor((day - 1) / 7) % 4] ?? "kaifu-bad";
+  }
+  return DAY_PHOTOS.get(day) ?? "chuky-park";
+};
+
+/** Week story photos by day: Jen's call, the playground, Copenhagen. */
+const WEEK_PHOTOS = new Map([
+  [0, "jen-call"],
+  [2, "playground-swing"],
+  [5, "copenhagen-bikes"],
+  [6, "breakfast"],
+]);
 
 const tagsOf = (date: dayjs.Dayjs, day: number) => [
   ...(day % 6 === 0 && !isHardDay(day) ? [] : [TAGS.walk]),
@@ -136,7 +168,7 @@ const storyMonth = (start: dayjs.Dayjs): LogItem[] =>
         ...(day % 9 === 4 ? [{ id: HILDE }] : []),
         ...(day === 6 || day === 20 || day === 27 ? [{ id: TOBI }] : []),
       ],
-      photos: hasPhoto ? [photo(date, day)] : [],
+      photos: hasPhoto ? [photo(date, photoNameOf(date, day))] : [],
       location: placeOf(date, day),
     });
   });
@@ -241,8 +273,9 @@ export const withRecapWeekStory = (
         ...(index === 0 || index === 4 || index === 6 ? [{ id: JEN }] : []),
         ...(index === 2 || index === 5 ? [{ id: MAX.id }] : []),
       ],
-      photos:
-        index === 1 || index === 3 || index === 4 ? [] : [photo(date, index)],
+      photos: WEEK_PHOTOS.has(index)
+        ? [photo(date, WEEK_PHOTOS.get(index) ?? "breakfast")]
+        : [],
       emotions: WEEK_EMOTIONS[index] ?? [],
       location: WEEK_PLACES[index] ?? HOME,
     });
