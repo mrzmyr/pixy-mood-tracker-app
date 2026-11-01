@@ -1,7 +1,7 @@
 import { usePreventRemove } from "expo-router/react-navigation";
 import { useNavigation } from "expo-router";
 import type { NavigationAction } from "expo-router/react-navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { askToCancel } from "@/lib/prompts";
 
 /**
@@ -11,6 +11,10 @@ import { askToCancel } from "@/lib/prompts";
  * Keep editing on cancel. On confirm, call `onDiscard`, then let the
  * navigation continue.
  *
+ * `swipeDownWhenClean`: the route blocks the swipe-down gesture
+ * (`gestureEnabled: false`). While the form is clean, allow it, because
+ * closing loses nothing. A changed form blocks the swipe again.
+ *
  * @returns `allowLeave`: call it right before the screen closes itself (save,
  *   delete, or a confirmed cancel), so the guard does not ask a second time.
  *   The `isDirty` flag cannot do this, because it updates only after render.
@@ -18,12 +22,20 @@ import { askToCancel } from "@/lib/prompts";
 export const useDiscardGuard = ({
   isDirty,
   onDiscard,
+  swipeDownWhenClean = false,
 }: {
   isDirty: boolean;
   onDiscard?: () => void;
+  swipeDownWhenClean?: boolean;
 }) => {
   const navigation = useNavigation();
   const isLeaving = useRef(false);
+
+  useEffect(() => {
+    if (swipeDownWhenClean) {
+      navigation.setOptions({ gestureEnabled: !isDirty });
+    }
+  }, [navigation, swipeDownWhenClean, isDirty]);
 
   const confirmDiscard = async (action: NavigationAction) => {
     try {

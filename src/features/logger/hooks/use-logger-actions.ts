@@ -63,10 +63,12 @@ export const useLoggerActions = ({
   };
 
   // Android back and the back gesture take this path; the close button and
-  // save paths set `allowLeave` first.
+  // save paths set `allowLeave` first. An untouched new entry can be swiped
+  // down; edit keeps the block.
   const { allowLeave } = useDiscardGuard({
     isDirty: logDraft.isDirty,
     onDiscard: sweepDiscarded,
+    swipeDownWhenClean: mode === "create",
   });
 
   const close = () => {
