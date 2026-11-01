@@ -109,7 +109,9 @@ export const PrivacyScreen = () => {
               }
             />
           </MenuList>
-          <TextInfo>{t("behavioral_data_help")}</TextInfo>
+          <TextInfo style={{ marginTop: 8 }}>
+            {t("behavioral_data_help")}
+          </TextInfo>
 
           <LinkButton
             style={{

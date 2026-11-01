@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react-native";
+import Battery from "lucide-react-native/icons/battery";
 import Compass from "lucide-react-native/icons/compass";
 import Handshake from "lucide-react-native/icons/handshake";
-import Moon from "lucide-react-native/icons/moon";
 import Shield from "lucide-react-native/icons/shield";
 import Sparkles from "lucide-react-native/icons/sparkles";
 import Wrench from "lucide-react-native/icons/wrench";
@@ -37,7 +37,7 @@ export const NEEDS = [
     key: "body",
     label: "log_needs_body",
     description: "log_needs_body_about",
-    icon: Moon,
+    icon: Battery,
     met: ["energized", "balanced", "comfortable", "good"],
     unmet: ["tired", "exhausted", "weak", "restless", "irritated"],
   },

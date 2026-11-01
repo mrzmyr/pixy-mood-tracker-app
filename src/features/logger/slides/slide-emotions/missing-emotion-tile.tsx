@@ -1,5 +1,5 @@
 import Plus from "lucide-react-native/icons/plus";
-import { Pressable, Text, useColorScheme } from "react-native";
+import { Pressable, Text } from "react-native";
 import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -19,9 +19,6 @@ export const MissingEmotionTile = ({
   style?: ViewStyle;
 }) => {
   const colors = useColors();
-  const colorScheme = useColorScheme();
-  const borderColor =
-    colorScheme === "light" ? "rgba(0,0,0,0.25)" : "rgba(255,255,255,0.25)";
 
   return (
     <Pressable
@@ -39,17 +36,17 @@ export const MissingEmotionTile = ({
         borderCurve: "continuous",
         borderWidth: 1.5,
         borderStyle: "dashed",
-        borderColor,
+        borderColor: colors.tint,
         paddingVertical: 11.5,
         paddingHorizontal: 14,
         opacity: pressed ? 0.6 : 1,
         ...style,
       })}
     >
-      <Plus size={18} color={colors.textSecondary} />
+      <Plus size={18} color={colors.tint} />
       <Text
         numberOfLines={1}
-        style={{ fontSize: 17, fontWeight: "500", color: colors.textSecondary }}
+        style={{ fontSize: 17, fontWeight: "500", color: colors.tint }}
       >
         {t("request_emotion_tile")}
       </Text>

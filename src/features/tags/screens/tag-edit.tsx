@@ -147,7 +147,9 @@ export const TagEdit = () => {
             }
           />
         </MenuList>
-        <TextInfo>{t("archive_tag_description")}</TextInfo>
+        <TextInfo style={{ marginTop: 8 }}>
+          {t("archive_tag_description")}
+        </TextInfo>
 
         <MenuList style={{ marginTop: 8 }}>
           <MenuListItem

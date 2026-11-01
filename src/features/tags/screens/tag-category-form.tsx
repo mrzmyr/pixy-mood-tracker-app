@@ -117,7 +117,7 @@ const TagCategoryForm = ({ category }: { category: TagCategory }) => {
           onChange={setTitle}
         />
         {isGeneral && (
-          <TextInfo style={{ paddingHorizontal: 0 }}>
+          <TextInfo style={{ paddingHorizontal: 0, marginTop: 8 }}>
             {t("tag_category_general_info", { general })}
           </TextInfo>
         )}

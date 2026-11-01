@@ -140,7 +140,9 @@ export const DevelopmentTools = () => {
             {logState.items.filter((d) => d.tags.length > 0).length}
           </Card>
         </View>
-        <MenuListHeadline>Device Information</MenuListHeadline>
+        <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+          Device Information
+        </MenuListHeadline>
         <MenuList>
           <MenuListItem>
             <View>
@@ -191,7 +193,9 @@ export const DevelopmentTools = () => {
         </MenuList>
         {IS_WIDGET_SUPPORTED && (
           <>
-            <MenuListHeadline>Widgets</MenuListHeadline>
+            <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+              Widgets
+            </MenuListHeadline>
             <MenuList>
               <MenuListItem>
                 <View>
@@ -219,7 +223,9 @@ export const DevelopmentTools = () => {
             </MenuList>
           </>
         )}
-        <MenuListHeadline>Actions Done</MenuListHeadline>
+        <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+          Actions Done
+        </MenuListHeadline>
         <MenuList style={{}}>
           {settings.actionsDone.map((action) => (
             <MenuListItem
@@ -299,7 +305,7 @@ export const DevelopmentTools = () => {
         >
           {t("development_statistics_reset_actions")}
         </Button>
-        <TextInfo>
+        <TextInfo style={{ marginTop: 8 }}>
           {t("development_statistics_reset_questions_description")}
         </TextInfo>
         <View

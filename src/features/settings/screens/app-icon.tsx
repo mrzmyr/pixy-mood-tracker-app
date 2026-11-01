@@ -261,7 +261,7 @@ export const AppIconScreen = () => {
         </MenuList>
         {hasLockedIcons && (
           <View testID="app-icon-locked-info">
-            <TextInfo>
+            <TextInfo style={{ marginTop: 8 }}>
               {supportsAlternateIcons
                 ? t("app_icon_locked_info")
                 : t("app_icon_unsupported")}

@@ -171,7 +171,9 @@ export const ProfileForm = () => {
             />
           </View>
           <View style={{ height: SECTION_GAP - 8 }} />
-          <MenuListHeadline>{t("people_name")}</MenuListHeadline>
+          <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+            {t("people_name")}
+          </MenuListHeadline>
           <TextInput
             accessibilityLabel={t("people_name")}
             testID="profile-name"
@@ -201,7 +203,9 @@ export const ProfileForm = () => {
             }}
             onChangeText={setName}
           />
-          <TextInfo>{t("profile_private_note")}</TextInfo>
+          <TextInfo style={{ marginTop: 8 }}>
+            {t("profile_private_note")}
+          </TextInfo>
         </ScrollView>
       </View>
     </DismissKeyboard>

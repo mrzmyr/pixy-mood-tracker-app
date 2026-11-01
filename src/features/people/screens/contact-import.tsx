@@ -315,14 +315,16 @@ export const ContactImport = () => {
     <>
       {contactImport.isLimited && (
         <View>
-          <TextInfo>{t("people_import_limited")}</TextInfo>
+          <TextInfo style={{ marginTop: 8 }}>
+            {t("people_import_limited")}
+          </TextInfo>
           <LinkButton onPress={handleShareMore} type="primary">
             {t("people_import_share_more")}
           </LinkButton>
         </View>
       )}
       {contactImport.isAtLimit && (
-        <TextInfo>
+        <TextInfo style={{ marginTop: 8 }}>
           {t("people_reached_max", { max_count: MAX_PEOPLE })}
         </TextInfo>
       )}

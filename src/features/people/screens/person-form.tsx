@@ -2,8 +2,9 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import Contact from "lucide-react-native/icons/contact";
 import Trash from "lucide-react-native/icons/trash";
 import { useRef } from "react";
-import { Platform, ScrollView, Text, TextInput, View } from "react-native";
+import { Platform, ScrollView, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { FieldError } from "@/components/field-error";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
@@ -71,7 +72,9 @@ const EditActions = ({
           }
         />
       </MenuList>
-      <TextInfo>{t("people_archive_description")}</TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
+        {t("people_archive_description")}
+      </TextInfo>
       <MenuList style={{ marginTop: SECTION_GAP - 16 }}>
         <MenuListItem
           testID="person-delete"
@@ -81,7 +84,7 @@ const EditActions = ({
           tone="destructive"
         />
       </MenuList>
-      <TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
         {t("people_delete_footer", { count: entryCount, name })}
       </TextInfo>
     </>
@@ -201,7 +204,9 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
             />
           </MenuList>
         )}
-        <MenuListHeadline>{t("people_name")}</MenuListHeadline>
+        <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+          {t("people_name")}
+        </MenuListHeadline>
         <TextInput
           ref={nameRef}
           accessibilityLabel={t("people_name")}
@@ -231,19 +236,12 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
           onChangeText={handleNameChange}
         />
         {draft.nameError && (
-          <Text
-            accessibilityRole="alert"
-            accessibilityLiveRegion="polite"
+          <FieldError
             testID="person-name-error"
-            style={{
-              fontSize: 13,
-              color: colors.dangerButtonText,
-              paddingHorizontal: 16,
-              marginTop: 8,
-            }}
+            style={{ paddingHorizontal: 16, marginTop: 8 }}
           >
             {t("people_name_required")}
-          </Text>
+          </FieldError>
         )}
         <View style={{ marginTop: SECTION_GAP }}>
           <RolePicker

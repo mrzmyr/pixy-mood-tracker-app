@@ -63,7 +63,9 @@ const AllFlagsSection = ({
 
   return (
     <View>
-      <MenuListHeadline style={{ marginTop: 8 }}>All Flags</MenuListHeadline>
+      <MenuListHeadline style={{ marginTop: 8, marginBottom: 8 }}>
+        All Flags
+      </MenuListHeadline>
       <MenuList>
         {OVERRIDE_OPTIONS.map((option) => (
           <MenuListItem
@@ -81,7 +83,9 @@ const AllFlagsSection = ({
           />
         ))}
       </MenuList>
-      <TextInfo>Sets every flag below. No check mark: flags differ.</TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
+        Sets every flag below. No check mark: flags differ.
+      </TextInfo>
     </View>
   );
 };
@@ -101,7 +105,9 @@ const FeatureFlagSection = ({
 
   return (
     <View>
-      <MenuListHeadline>{flag}</MenuListHeadline>
+      <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+        {flag}
+      </MenuListHeadline>
       <MenuList>
         {OVERRIDE_OPTIONS.map((option) => (
           <MenuListItem
@@ -117,7 +123,7 @@ const FeatureFlagSection = ({
           />
         ))}
       </MenuList>
-      <TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
         {`${description}. Shows in: ${location}. Now ${state} (${source === "override" ? "override" : "PostHog"}).`}
       </TextInfo>
     </View>
@@ -156,14 +162,14 @@ export const FeatureFlagsScreen = () => {
           }
         />
       </MenuList>
-      <TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
         Outlines UI behind a flag with its key. Amber dot: override. Blue dot:
         PostHog.
       </TextInfo>
       {OVERRIDABLE_FLAGS.map((flag) => (
         <FeatureFlagSection key={flag} flag={flag} override={overrides[flag]} />
       ))}
-      <TextInfo>
+      <TextInfo style={{ marginTop: 8 }}>
         {IS_OVERRIDE_BUILD
           ? `Overrides and highlight end when the app restarts. Tests set an override with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote.`
           : "Overrides and highlight end when the app restarts."}
