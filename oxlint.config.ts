@@ -117,6 +117,8 @@ export default defineConfig({
     "unicorn/prefer-set-has": "off",
     // Autofix renames to `error` even when that shadows an outer `error`, changing which value code reads.
     "unicorn/catch-error-name": "off",
+    // Blank line before most statements: 4,800 errors across 670 files. Rewriting them conflicts with every open branch.
+    "anti-slop/require-readable-spacing": "off",
     "no-restricted-imports": [
       "error",
       { paths: iconImports, patterns: [reactNavigationImport] },

@@ -224,7 +224,10 @@ const Podium = ({
       gap: 16,
     }}
   >
-    {PODIUM_ORDER.filter((index) => index < entries.length).map((index) => {
+    {PODIUM_ORDER.map((index) => {
+      if (index >= entries.length) {
+        return null;
+      }
       const entry = entries[index];
       const person = findPerson(people, entry.personId);
       return person ? (

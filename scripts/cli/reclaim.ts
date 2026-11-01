@@ -143,9 +143,11 @@ export const selectIdleBuildFolders = (
 ) =>
   state.hasUnknown
     ? []
-    : checkouts
-        .filter((checkout) => !state.busy.has(checkout))
-        .map((checkout) => path.join(checkout, "ios", "build", "Build"));
+    : checkouts.flatMap((checkout) =>
+        state.busy.has(checkout)
+          ? []
+          : [path.join(checkout, "ios", "build", "Build")]
+      );
 
 /** Shut-down simulators this CLI created for checkouts that no longer exist. */
 export const selectSimulators = (
@@ -216,9 +218,9 @@ const listLiveCheckouts = () => {
   const records = readCheckoutRecords().map(({ checkout }) => checkout);
   return [
     ...new Set(
-      [REPO_ROOT, ...worktrees, ...records]
-        .filter((checkout) => fs.existsSync(checkout))
-        .map(realpathOrSelf)
+      [REPO_ROOT, ...worktrees, ...records].flatMap((checkout) =>
+        fs.existsSync(checkout) ? [realpathOrSelf(checkout)] : []
+      )
     ),
   ];
 };

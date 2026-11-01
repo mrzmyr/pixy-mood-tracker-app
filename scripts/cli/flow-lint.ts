@@ -190,15 +190,19 @@ export const lintFlows = (
         why: `${path.relative(root, path.resolve(path.dirname(file), ref))} does not exist. Paths resolve from the folder of the referencing file.`,
         fix: "Point the step at an existing file, or restore the file.",
       }));
-    const unknownIds = [...new Set(refs.ids)]
-      .filter((id) => !Object.hasOwn(ALLOWED_IDS, id))
-      .filter((id) => !patterns.some((pattern) => pattern.test(toSampleId(id))))
-      .map((id): FlowLintIssue => ({
-        status: "flow_test_id_unknown",
-        message: `${flow} selects id "${id}", which no testID in ${srcDir}/ sets`,
-        why: "The testID was renamed or removed, or the component builds it at runtime.",
-        fix: `Use a testID that exists in ${srcDir}/. For an ID built at runtime, add it with a reason to ALLOWED_IDS in scripts/cli/flow-lint.ts.`,
-      }));
+    const unknownIds = [...new Set(refs.ids)].flatMap((id): FlowLintIssue[] =>
+      Object.hasOwn(ALLOWED_IDS, id) ||
+      patterns.some((pattern) => pattern.test(toSampleId(id)))
+        ? []
+        : [
+            {
+              status: "flow_test_id_unknown",
+              message: `${flow} selects id "${id}", which no testID in ${srcDir}/ sets`,
+              why: "The testID was renamed or removed, or the component builds it at runtime.",
+              fix: `Use a testID that exists in ${srcDir}/. For an ID built at runtime, add it with a reason to ALLOWED_IDS in scripts/cli/flow-lint.ts.`,
+            },
+          ]
+    );
     return [...missingFiles, ...unknownIds];
   });
 };
