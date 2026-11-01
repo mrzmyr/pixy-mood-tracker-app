@@ -1,6 +1,5 @@
-> [!IMPORTANT]
-> - **Source development resumed in 2026.** See [latest source release](https://github.com/mrzmyr/pixy-mood-tracker-app/releases/latest).
-> - **Store updates are pending.** App Store and Google Play still offer version 1.68.0 from December 24, 2022. See [app facts](./docs/app-facts.json) for verified release details.
+> [!NOTE]
+> **Actively developed.** Latest source release: [releases/latest](https://github.com/mrzmyr/pixy-mood-tracker-app/releases/latest). Store versions are listed in [app facts](./docs/app-facts.json).
 
 <br />
 <p align="center">
@@ -10,7 +9,7 @@
 
   <h3 align="center">Pixy Mood Tracker</h3>
 
-  <p align="center">Minimalistic app to track your mood within one pixel a day.</p>
+  <p align="center">Understand what makes you feel this way.</p>
   <p align="center">
     <a href="https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124">Apple App Store</a>
     ·
@@ -24,11 +23,12 @@
   <img src="./docs/screen-1.png" width="400px">
 </p>
 
-Pixy is a free, open source mood tracker for iPhone and Android. No ads, no account.
+Pixy Mood Tracker helps you understand what makes you feel the way you do. Log your mood, name your emotions, add tags and sleep, and see your year in pixels. Free on iPhone and Android, with no ads, no account, and no AI. Your entries stay on your phone.
 
-- Log mood, emotions, tags, and notes. More than one entry per day.
-- Year in Pixels, calendar, filters, and statistics
-- Entries stored on device. Optional iCloud or Google Drive backup. Export and import files.
+- Log mood, 72 emotions with descriptions, tags, sleep, and notes. More than one entry per day.
+- See what shapes your days: filters, tag peaks, monthly and yearly reports, and your year in pixels
+- Entries stored on device. Export and import backups.
+- Bring your history from 21 other apps in under 5 minutes with [Pixy Switch](https://pixy.day/switch)
 - 31 languages ([docs/i18n.md](./docs/i18n.md))
 
 Full list with status: [docs/app-facts.json](./docs/app-facts.json).

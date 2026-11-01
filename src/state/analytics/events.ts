@@ -1,9 +1,18 @@
-import type { FeedackType, FeedbackSource } from "@/types/Feedback";
-import type { LoggerStep } from "@/constants/LoggerSteps";
-import type { AppIconId } from "@/constants/AppIcons";
+import type { FeedackType, FeedbackSource } from "@/types/feedback";
+import type { LoggerStep } from "@/constants/logger-steps";
+import type { AppIconId } from "@/constants/app-icons";
 import type { CalendarLayout, SettingsState } from "@/state/settings";
-import type { z } from "zod";
-import type { LogItemSchema, PhotoSourceKind } from "@/types";
+import type { PhotoSourceKind } from "@/types";
+
+interface LoggerRecoveryProperties {
+  mode: "create" | "edit";
+  age_minutes: number;
+  message_length: number;
+  photos_count: number;
+}
+
+/** Where a month story was opened. */
+export type StorySource = "recaps" | "calendar" | "notification";
 
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
@@ -12,7 +21,10 @@ import type { LogItemSchema, PhotoSourceKind } from "@/types";
  * - Properties: snake_case, JSON values only
  * - Never send free text (notes, tag names, people names, filter text,
  *   feedback messages), not even hashed or truncated. Send counts and lengths
- *   instead. Fixed values (rating, emotion keys, sleep quality) are fine.
+ *   instead.
+ * - Never send health-revealing values: rating, emotion keys, sleep quality,
+ *   Apple Health data, intervention cluster or feedback answer, mood-derived
+ *   counts. Send `has_*` booleans and counts instead (GDPR Art. 9).
  * - Photo events never carry file names, URIs, dimensions, EXIF, location,
  *   photo timestamps, or library ids.
  * - `undefined`: the event has no properties
@@ -44,6 +56,7 @@ export interface AnalyticsEvents {
     mode: "create" | "edit";
     duration_ms: number;
     has_rating: boolean;
+    has_menstruation: boolean;
     message_length: number;
     tags_count: number;
     people_count: number;
@@ -55,21 +68,74 @@ export interface AnalyticsEvents {
     /** Never the place itself. */
     has_location: boolean;
   };
-  "logger:log_deleted": undefined;
+  /**
+   * New entry got its sleep quality from Apple Health, without the sleep step.
+   * No properties: Apple Health data never goes to analytics.
+   */
+  "logger:health_sleep_filled": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
-  "logger:emotions_tooltip_closed": undefined;
+  /**
+   * Launch prompt after the OS killed the app with the logger open.
+   * `age_minutes`: time since the app went to the background.
+   */
+  "logger:recovery_restored": LoggerRecoveryProperties;
+  "logger:recovery_discarded": LoggerRecoveryProperties;
+
+  /** Voice mode. Never the transcript, names, or emotion keys. */
+  "voice:flow_started": undefined;
+  "voice:flow_cancelled": { duration_ms: number; transcript_length: number };
+  "voice:flow_finished": {
+    duration_ms: number;
+    transcript_length: number;
+    tags_count: number;
+    people_count: number;
+    emotions_count: number;
+    /** A mood trigger word was spoken, so the logger opens with a rating. */
+    has_rating: boolean;
+  };
+  "voice:permission_denied": { kind: "microphone" | "speech" };
+  "voice:failed": { status: string };
+  /** Feedback sheet after saving a voice check-in. `prompt_index` 1 to 3. */
+  "voice:feedback_submitted": {
+    rating: "bad" | "okay" | "great";
+    prompt_index: number;
+    duration_ms: number;
+    tags_count: number;
+    people_count: number;
+    emotions_count: number;
+  };
+  "voice:feedback_skipped": { prompt_index: number };
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
   "logger:store_review_requested": {
-    trigger: "entries_7";
+    /** `first`: first prompt, `later`: a later one. Never the mood behind it. */
+    trigger: "first" | "later";
     entries_count: number;
   };
 
-  "widget:guide_opened": undefined;
-  "widget:guide_step_viewed": { step: number };
-  "widget:guide_dismissed": { step: number };
-  "widget:guide_completed": undefined;
+  /** `source`: Lock Screen (iOS), notification (Android), or the in-app screen. */
+  "quick_check_in:entry_saved": {
+    source: "notification" | "app";
+  };
+  "quick_check_in:completed": {
+    source: "notification" | "app";
+    has_emotion: boolean;
+    influences_count: number;
+    /** App screen only. The notification has no note. */
+    has_note?: boolean;
+    /** App screen only. The notification has no photos. */
+    photos_count?: number;
+  };
+  "quick_check_in:setting_changed": { enabled: boolean };
+  /** Fixed values only: times are `HH:mm` picks, not free text. */
+  "quick_check_in:schedule_changed": {
+    every_hours: number;
+    from: string;
+    until: string;
+    times_count: number;
+  };
+  "quick_check_in:notification_tapped": { cold_start: boolean };
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
@@ -82,7 +148,7 @@ export interface AnalyticsEvents {
     entry_days_ago: number;
   };
   "photos:day_access_prompt_dismissed": { mode: "create" | "edit" };
-  /** `source`: the permission card or the "Show Photos from …" button after "Not Now". */
+  /** `source`: the permission card or the "Allow Photo Access" button after "Not Now". */
   "photos:day_access_answered": {
     status: "granted" | "limited" | "denied";
     source: "card" | "button";
@@ -126,12 +192,14 @@ export interface AnalyticsEvents {
   };
 
   "calendar:day_opened": {
-    source: "calendar" | "timeline" | "map" | "mood_peaks" | "tag_peaks";
+    source: "calendar" | "timeline" | "mood_peaks" | "tag_peaks";
     entries_count: number;
     days_ago: number;
   };
   "calendar:add_today_tapped": { has_entries: boolean };
   "calendar:today_tapped": undefined;
+  "calendar:voice_tapped": { has_entries: boolean };
+  "calendar:check_in_tapped": { has_entries: boolean };
   "calendar:filters_opened": undefined;
   "calendar:filters_applied": {
     text_length: number;
@@ -148,9 +216,7 @@ export interface AnalyticsEvents {
     items_count: number;
     mood_avg_show: boolean;
     mood_peaks_positive_show: boolean;
-    mood_peaks_positive_count?: number;
     mood_peaks_negative_show: boolean;
-    mood_peaks_negative_count?: number;
     tags_peaks_show: boolean;
     tags_peaks_count?: number;
     tags_distribution_show: boolean;
@@ -190,7 +256,6 @@ export interface AnalyticsEvents {
     category_changed: boolean;
     method: "drag" | "accessibility_action";
   };
-  "tags:category_created": { title_length: number; categories_count: number };
   "tags:category_updated": { title_length: number };
   "tags:category_deleted": { tags_count: number; categories_count: number };
 
@@ -218,12 +283,50 @@ export interface AnalyticsEvents {
   };
   /** Tap on a recap notification body. Ignored while flag `recaps` is off. */
   "recaps:notification_tapped": { period: "week" | "month" | "year" };
+  /** Month story opened. Only with a story: 10+ check-in days. */
+  "recaps:story_opened": {
+    period: "week" | "month";
+    source: StorySource;
+    slides_count: number;
+  };
+  /** Slide on screen, once per visit of the slide. Slide type only, never values. */
+  "recaps:story_slide_shown": {
+    slide_type: string;
+    position: number;
+    slides_count: number;
+  };
+  /** Helpful or Not Helpful on a story slide. Same reasons as cards; notes never here. */
+  "recaps:story_feedback_sent": {
+    slide_type: string;
+    position: number;
+    helpful: boolean;
+    reasons: AnalyticsEvents["recaps:card_feedback_sent"]["reasons"];
+    has_note: boolean;
+  };
+  /** Share card sent from the share sheet. Never the photos or lines. */
+  /** `slide_type`: the shared slide; `share` is the share card. */
+  "recaps:story_shared": {
+    has_photos: boolean;
+    shuffles: number;
+    slide_type: string;
+  };
+  /** Story closed by the user or after the last slide. */
+  "recaps:story_closed": {
+    position: number;
+    slides_count: number;
+    completed: boolean;
+  };
   "tags:categories_reordered": {
     categories_count: number;
     method: "drag" | "accessibility_action";
   };
 
-  "people:person_added": { source: "manual"; has_avatar: boolean };
+  "people:person_added": {
+    source: "manual";
+    has_avatar: boolean;
+    /** Role key from `ROLE_PRESETS`, or "none". Fixed values, never free text. */
+    role: string;
+  };
   "people:contacts_imported": {
     count: number;
     avatars_count: number;
@@ -232,11 +335,24 @@ export interface AnalyticsEvents {
   "people:person_updated": {
     name_changed: boolean;
     avatar_changed: boolean;
+    role_changed: boolean;
     is_archived: boolean;
   };
   "people:delete_requested": { entries_count: number };
   "people:person_deleted": { entries_count: number };
   "people:delete_cancelled": undefined;
+  "people:people_reordered": {
+    people_count: number;
+    method: "drag" | "accessibility_action";
+  };
+
+  /** Name length only; the name itself never leaves the device. */
+  "profile:profile_saved": {
+    has_name: boolean;
+    name_length: number;
+    has_photo: boolean;
+    photo_changed: boolean;
+  };
 
   "settings:rate_app_tapped": undefined;
   "settings:vote_features_tapped": undefined;
@@ -244,9 +360,13 @@ export interface AnalyticsEvents {
   "settings:scale_changed": { scale_type: SettingsState["scaleType"] };
   "settings:step_toggled": { step: LoggerStep; enabled: boolean };
   "settings:location_toggled": { enabled: boolean };
+  "settings:health_sleep_toggled": { enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
-  "settings:backup_toggled": { enabled: boolean };
+  "settings:backup_toggled": {
+    enabled: boolean;
+    provider: NonNullable<SettingsState["backupProvider"]>;
+  };
   "settings:app_lock_toggled": { enabled: boolean };
   "settings:app_icon_changed": { icon: AppIconId };
   "settings:theme_changed": { color_scheme: SettingsState["colorScheme"] };
@@ -297,13 +417,10 @@ export interface AnalyticsEvents {
 
   "interventions:card_shown": {
     surface: InterventionSurface;
-    cluster: InterventionCluster;
-    matched_emotions: string[];
     options_shown: string[];
     completed_today_count: number;
   };
   "interventions:option_selected": InterventionSessionProperties & {
-    cluster: InterventionCluster;
     length: InterventionLength;
     surface: InterventionSurface;
     option_position: number;
@@ -343,9 +460,8 @@ export interface AnalyticsEvents {
     expected_ms: number;
     pauses: number;
   };
-  "interventions:feedback_answered": InterventionSessionProperties & {
-    answer: InterventionFeedback;
-  };
+  /** Never the answer itself: it tells how the user feels. */
+  "interventions:feedback_answered": InterventionSessionProperties;
   "interventions:feedback_skipped": InterventionSessionProperties;
 }
 
@@ -415,8 +531,6 @@ export type UsageSummaryOnce = {
   first_app_version: string;
 };
 
-type LogItem = z.infer<typeof LogItemSchema>;
-
 /** Where an intervention card shows. */
 export type InterventionSurface = "confirmation" | "calendar";
 
@@ -440,18 +554,18 @@ export type InterventionFeedback = "worse" | "same" | "better";
 
 /**
  * Saved entry metadata sent with the confirmation events. Holds no free
- * text: notes and tag names are sent as counts only.
+ * text and no health values: notes, tags, and emotions are sent as counts,
+ * rating and sleep as booleans.
  */
 export interface SavedEntryProperties {
-  rating: LogItem["rating"];
-  emotions: LogItem["emotions"];
+  has_rating: boolean;
   emotions_count: number;
   tags_count: number;
   people_count: number;
   message_length: number;
   /** Whitespace-separated words; Chinese, Japanese, and Thai notes count as 1. */
   message_word_count: number;
-  sleep_quality: LogItem["sleep"]["quality"] | null;
+  has_sleep: boolean;
   /** All entries, including the saved one. */
   entries_count: number;
 }
@@ -469,7 +583,7 @@ export interface RecapCardProperties {
   family: "moment" | "summary" | "pattern" | "change" | "nudge";
   modules: string[];
   signal: "strong" | "medium";
-  period: "week" | "month" | "quarter" | "year";
+  period: "week" | "month" | "year";
   /** Screen that showed the card. */
   source: "settings";
 }

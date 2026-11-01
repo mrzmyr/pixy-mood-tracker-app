@@ -1,9 +1,11 @@
 import dayjs from "dayjs";
 import { daysBetween, getDayRating } from "../days";
 import { distanceKm, parsePlace } from "../places";
+import { getPersonMoments } from "./moments";
 import { THRESHOLDS } from "../thresholds";
 import type {
   ConnectedPerson,
+  DateKey,
   EmotionCount,
   RecapDay,
   RecapInput,
@@ -119,9 +121,21 @@ const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
 export const peopleOn = (input: RecapInput) =>
   input.steps.has("people") && input.availableSteps.has("people");
 
-/** Everyone connected in the period, most connected first. */
+/**
+ * Everyone connected in the period, most connected first. Each row carries
+ * the person's moment (back, new, milestone), if any.
+ */
 export const connected = (input: RecapInput): SummaryCard[] => {
-  const people = peopleOn(input) ? connectedPeople(input) : [];
+  if (!peopleOn(input)) {
+    return [];
+  }
+  const moments = new Map(
+    getPersonMoments(input).map((moment) => [moment.personId, moment])
+  );
+  const people = connectedPeople(input).map((person) => {
+    const moment = moments.get(person.personId);
+    return moment ? { ...person, moment } : person;
+  });
   return people.length > 0 ? [{ type: "connected", people }] : [];
 };
 
@@ -134,7 +148,7 @@ export const mostConnected = (input: RecapInput): SummaryCard[] => {
 };
 
 /** Home: the most common city name and the average point of its places. */
-const getHome = (history: RecapDay[]) => {
+export const getHome = (history: RecapDay[]) => {
   const byCity = new Map<string, { latitude: number; longitude: number }[]>();
   for (const day of history) {
     for (const item of day.items) {
@@ -165,26 +179,50 @@ const getHome = (history: RecapDay[]) => {
   };
 };
 
+/** A point on the map. */
+interface Point {
+  latitude: number;
+  longitude: number;
+}
+
+/** Trip of the period with the points checked in there. */
+export interface TripVisit extends Trip {
+  points: Point[];
+}
+
+/** Spot of the period with its days and the points checked in there. */
+export interface SpotVisit {
+  name: string;
+  dates: DateKey[];
+  points: Point[];
+}
+
 /**
- * Trips of the period: days with a place 25+ km from home, outside the
- * home city, merged per city across gaps of up to 2 days. A day checked
- * in at home ends a trip. Location on.
+ * Trips and spots of the period with their points, `null` with location off
+ * or without a home city.
+ *
+ * - Trips: days with a place 25+ km from home, outside the home city,
+ *   merged per city across gaps of up to 2 days. A day checked in at home
+ *   ends a trip
+ * - Spots: every other place, most days first. Home city areas by
+ *   district, nearby towns by name
  */
-export const placesTrips = (input: RecapInput): SummaryCard[] => {
+export const getPlaceVisits = (input: RecapInput) => {
   const home = input.locationEnabled ? getHome(input.history) : null;
   if (!home) {
-    return [];
+    return null;
   }
-  const trips: Trip[] = [];
-  let open: Trip | null = null;
+  const trips: TripVisit[] = [];
+  const spots = new Map<string, { dates: Set<DateKey>; points: Point[] }>();
+  let open: TripVisit | null = null;
   for (const day of input.days) {
-    const places = day.items.flatMap((item) => {
+    const dayPlaces = day.items.flatMap((item) => {
       const place = parsePlace(item.location?.name);
       return item.location && place
         ? [{ ...place, location: item.location }]
         : [];
     });
-    const away = places.find(
+    const away = dayPlaces.find(
       (place) =>
         place.city !== home.city &&
         distanceKm(home, place.location) > THRESHOLDS.tripMinKm
@@ -197,13 +235,68 @@ export const placesTrips = (input: RecapInput): SummaryCard[] => {
       ) {
         open.end = day.date;
         open.days += 1;
+        open.points.push(away.location);
       } else {
-        open = { city: away.city, start: day.date, end: day.date, days: 1 };
+        open = {
+          city: away.city,
+          start: day.date,
+          end: day.date,
+          days: 1,
+          points: [away.location],
+        };
         trips.push(open);
       }
-    } else if (places.length > 0) {
+    } else if (dayPlaces.length > 0) {
       open = null;
     }
+    for (const place of dayPlaces) {
+      if (place !== away) {
+        // Home city by district, nearby towns by name.
+        const name =
+          place.city === home.city
+            ? (place.district ?? place.city)
+            : place.city;
+        const spot = spots.get(name) ?? { dates: new Set(), points: [] };
+        spot.dates.add(day.date);
+        spot.points.push(place.location);
+        spots.set(name, spot);
+      }
+    }
   }
-  return trips.length > 0 ? [{ type: "places-trips", trips }] : [];
+  return {
+    home,
+    trips,
+    spots: [...spots.entries()]
+      .map(([name, spot]) => ({
+        name,
+        dates: [...spot.dates],
+        points: spot.points,
+      }))
+      .sort(
+        (a, b) =>
+          b.dates.length - a.dates.length || a.name.localeCompare(b.name)
+      ),
+  };
+};
+
+/**
+ * Places of the period. Location on. Shows with a trip or 2+ spots; at most
+ * 5 rows, trips first.
+ */
+export const places = (input: RecapInput): SummaryCard[] => {
+  const visits = getPlaceVisits(input);
+  if (
+    !visits ||
+    (visits.trips.length === 0 &&
+      visits.spots.length < THRESHOLDS.placesMinSpots)
+  ) {
+    return [];
+  }
+  const trips = visits.trips
+    .slice(0, THRESHOLDS.placesMaxRows)
+    .map(({ points: _points, ...trip }) => trip);
+  const spots = visits.spots
+    .slice(0, Math.max(0, THRESHOLDS.placesMaxRows - trips.length))
+    .map((spot) => ({ name: spot.name, days: spot.dates.length }));
+  return [{ type: "places", trips, spots }];
 };

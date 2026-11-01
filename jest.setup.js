@@ -17,6 +17,7 @@ jest.mock("posthog-react-native", () => {
   };
 
   return {
+    PostHog: jest.fn(() => client),
     PostHogProvider: ({ children }) => children,
     usePostHog: () => client,
   };
@@ -51,11 +52,11 @@ jest.mock("react-native-sortables", () => {
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load animated UI during provider tests; native worklets are unavailable in Jest.
 jest.mock("react-native-reanimated", () => {
-  const { ScrollView, View } = require("react-native");
+  const { ScrollView, Text, View } = require("react-native");
   const animation = { duration: () => animation, delay: () => animation };
   return {
     __esModule: true,
-    default: { ScrollView, View },
+    default: { ScrollView, Text, View },
     useAnimatedRef: () => ({ current: null }),
     createAnimatedComponent: (component) => component,
     css: { create: (styles) => styles },
@@ -66,6 +67,7 @@ jest.mock("react-native-reanimated", () => {
     FadeInUp: animation,
     FadeOut: animation,
     FadeOutUp: animation,
+    LinearTransition: animation,
     Keyframe: class {
       delay() {
         return this;
@@ -76,7 +78,13 @@ jest.mock("react-native-reanimated", () => {
     },
     Extrapolation: { CLAMP: "clamp" },
     ReduceMotion: { System: "system", Always: "always", Never: "never" },
-    Easing: { cubic: (t) => t, quad: (t) => t, in: (f) => f, inOut: (f) => f },
+    Easing: {
+      cubic: (t) => t,
+      quad: (t) => t,
+      in: (f) => f,
+      out: (f) => f,
+      inOut: (f) => f,
+    },
     cancelAnimation: jest.fn(),
     interpolate: () => 0,
     useReducedMotion: () => false,
@@ -85,9 +93,21 @@ jest.mock("react-native-reanimated", () => {
       return { get: () => current, set: (next) => (current = next) };
     },
     useAnimatedStyle: (worklet) => worklet(),
+    KeyboardState: { UNKNOWN: 0, OPENING: 1, OPEN: 2, CLOSING: 3, CLOSED: 4 },
+    useAnimatedKeyboard: () => ({
+      height: { get: () => 0 },
+      state: { get: () => 4 },
+    }),
+    useAnimatedReaction: jest.fn(),
+    useFrameCallback: () => ({
+      setActive: jest.fn(),
+      isActive: false,
+      callbackId: -1,
+    }),
     withSpring: (value) => value,
     withTiming: (value) => value,
     withDelay: (_delay, value) => value,
+    withSequence: (...values) => values.at(-1),
   };
 });
 
@@ -109,17 +129,102 @@ jest.mock("react-native-gesture-handler", () => {
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI; FlashList's ESM build is unavailable to Jest.
 jest.mock("@shopify/flash-list", () => ({ FlashList: () => null }));
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load icon UI; Jest does not transform lucide's ESM build.
-jest.mock(
-  "lucide-react-native",
-  () => new Proxy({}, { get: () => require("react-native").View })
-);
+const mockSlot = ({ children }) => children;
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI; the native sheet has no Jest view.
-jest.mock("@expo/ui", () => ({
-  BottomSheet: () => null,
-  RNHostView: () => null,
-}));
+// Native rows wrap bare strings in a text view; so does the stand-in.
+const mockExpoUiText = (node) => {
+  const { isValidElement } = require("react");
+  const { Text } = require("react-native");
+  if (node === null || node === undefined || isValidElement(node)) {
+    return node ?? null;
+  }
+  return <Text>{node}</Text>;
+};
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI and native settings lists; SwiftUI and Compose views have no Jest view. The stand-ins render React Native views: the switch keeps the `Switch` props tests read, a pressable row or list item is a button.
+jest.mock("@expo/ui", () => {
+  const { isValidElement } = require("react");
+  const { Pressable, Switch, Text, TextInput, View } = require("react-native");
+  const FieldGroup = Object.assign(({ children }) => <View>{children}</View>, {
+    Section: ({ title, children }) => (
+      <View>
+        {title ? <Text>{title}</Text> : null}
+        {children}
+      </View>
+    ),
+    SectionHeader: mockSlot,
+    SectionFooter: mockSlot,
+  });
+  return {
+    BottomSheet: () => null,
+    RNHostView: mockSlot,
+    Host: mockSlot,
+    FieldGroup,
+    Row: ({ children, onPress, testID }) =>
+      onPress ? (
+        <Pressable accessibilityRole="button" onPress={onPress} testID={testID}>
+          {children}
+        </Pressable>
+      ) : (
+        <View testID={testID}>{children}</View>
+      ),
+    ListItem: ({
+      children,
+      leading,
+      trailing,
+      supportingText,
+      onPress,
+      testID,
+    }) => (
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={isValidElement(children) ? undefined : children}
+        onPress={onPress}
+        testID={testID}
+      >
+        {mockExpoUiText(leading)}
+        {mockExpoUiText(children)}
+        {mockExpoUiText(supportingText)}
+        {mockExpoUiText(trailing)}
+      </Pressable>
+    ),
+    Icon: Object.assign(() => null, { select: ({ ios }) => ios }),
+    Spacer: () => null,
+    Switch: ({ label, value, onValueChange, disabled, testID }) => (
+      <Switch
+        accessibilityLabel={label}
+        value={value}
+        onValueChange={onValueChange}
+        disabled={disabled}
+        testID={testID}
+      />
+    ),
+    Text: ({ children }) => <Text>{children}</Text>,
+    TextInput: ({ defaultValue, placeholder, onChangeText, testID }) => (
+      <TextInput
+        defaultValue={defaultValue}
+        placeholder={placeholder}
+        onChangeText={onChangeText}
+        testID={testID}
+      />
+    ),
+  };
+});
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- Galeria is a native view without a Jest build; the stand-in renders tiles as views that receive the native viewer events.
+jest.mock("@nandorojo/galeria", () => {
+  const { View } = require("react-native");
+  const Image = ({ index = 0, children, onIndexChange, onDismiss }) =>
+    require("react").createElement(
+      View,
+      { testID: `galeria-image-${index}`, onIndexChange, onDismiss },
+      children
+    );
+  return {
+    __esModule: true,
+    Galeria: Object.assign(({ children }) => children, { Image, Item: Image }),
+  };
+});
 
 const mockSwiftUiChildren = ({ children }) => children;
 const mockSwiftUiContextMenu = Object.assign(
@@ -134,13 +239,43 @@ const mockSwiftUiContextMenu = Object.assign(
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the SwiftUI menu has no Jest view; the stand-in renders menu items as pressable buttons.
 jest.mock("@expo/ui/swift-ui", () => {
-  const { Pressable, View } = require("react-native");
+  const { Pressable, Text: RNText, View } = require("react-native");
+  const { Children, isValidElement } = require("react");
   return {
     Host: ({ children }) => children,
     RNHostView: ({ children }) => children,
     ContextMenu: mockSwiftUiContextMenu,
+    DatePicker: () => null,
     Image: () => null,
-    Menu: ({ children }) => <View>{children}</View>,
+    // Renders a custom label (for example the logger time pill) and the items.
+    Menu: ({ label, children }) => (
+      <View>
+        {isValidElement(label) ? label : null}
+        {children}
+      </View>
+    ),
+    Divider: () => null,
+    HStack: ({ children }) => <View>{children}</View>,
+    Spacer: () => null,
+    Text: ({ children }) => <RNText>{children}</RNText>,
+    // Each option is a `Text` with a `tag` modifier: render it as a menu item.
+    Picker: ({ children, selection, onSelectionChange }) => (
+      <View>
+        {Children.map(children, (option) => {
+          const tag = option.props.modifiers?.find(
+            (modifier) => modifier.tag !== undefined
+          )?.tag;
+          return (
+            <Pressable
+              accessibilityRole="menuitem"
+              accessibilityLabel={option.props.children}
+              accessibilityState={{ checked: tag === selection }}
+              onPress={() => onSelectionChange?.(tag)}
+            />
+          );
+        })}
+      </View>
+    ),
     Button: ({ label, onPress }) => (
       <Pressable
         accessibilityRole="menuitem"
@@ -153,6 +288,12 @@ jest.mock("@expo/ui/swift-ui", () => {
 
 const mockSwiftUiModifier = () => ({});
 const mockSwiftUiOutlines = new Proxy({}, { get: () => mockSwiftUiModifier });
+// `tag` keeps its value: the `Picker` stand-in reads it.
+const mockSwiftUiModifiers = {
+  // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- export name of @expo/ui.
+  shapes: mockSwiftUiOutlines,
+  tag: (value) => ({ tag: value }),
+};
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- SwiftUI modifiers build native view config; Jest ignores them.
 jest.mock(
@@ -162,8 +303,7 @@ jest.mock(
       {},
       {
         get: (_target, name) =>
-          // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- export name of @expo/ui.
-          name === "shapes" ? mockSwiftUiOutlines : mockSwiftUiModifier,
+          mockSwiftUiModifiers[name] ?? mockSwiftUiModifier,
       }
     )
 );
@@ -176,6 +316,19 @@ jest.mock("expo-widgets", () => ({
     updateSnapshot: () => null,
     getTimeline: () => Promise.resolve([]),
   }),
+  createLiveActivity: () => ({
+    start: () => ({
+      update: () => Promise.resolve(),
+      end: () => Promise.resolve(),
+    }),
+    schedule: () => ({
+      update: () => Promise.resolve(),
+      end: () => Promise.resolve(),
+    }),
+    getInstances: () => [],
+  }),
+  after: (date) => ({ after: date }),
+  addUserInteractionListener: () => ({ remove: () => null }),
   widgetsDirectory: "",
 }));
 
@@ -188,6 +341,21 @@ jest.mock("react-native-view-shot", () => ({
 jest.mock("expo-contacts", () => ({
   Contact: { presentPicker: jest.fn() },
   requestPermissionsAsync: jest.fn(),
+}));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- HealthKit loads a Nitro native module at import time, which is unavailable in Jest; health tests use the source override.
+jest.mock("@kingstinct/react-native-healthkit", () => ({
+  CategoryValueSleepAnalysis: {
+    inBed: 0,
+    asleep: 1,
+    awake: 2,
+    asleepCore: 3,
+    asleepDeep: 4,
+    asleepREM: 5,
+  },
+  isHealthDataAvailable: () => false,
+  queryCategorySamples: () => Promise.resolve([]),
+  requestAuthorization: () => Promise.resolve(true),
 }));
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the native module reports no directories in Jest; avatar paths and export files need stable roots.

@@ -1,9 +1,9 @@
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 import type { LogItem } from "@/features/logs";
 import type { Tag, TagCategory } from "@/features/tags";
 import type { EffectSignal } from "./correlation";
 
-/** Part of the app a card reads from. Shown above the card title. */
+/** Part of the app a card reads from. */
 export type RecapModule =
   | "mood"
   | "emotions"
@@ -20,7 +20,7 @@ export type CardFamily = "moment" | "summary" | "pattern" | "change" | "nudge";
 export type Signal = "strong" | "medium";
 
 /** Length of a recap. Each kind maps to calendar boundaries. */
-export type PeriodKind = "week" | "month" | "quarter" | "year";
+export type PeriodKind = "week" | "month" | "year";
 
 /** `YYYY-MM-DD`, as in `LogItem.date`. */
 export type DateKey = string;
@@ -66,21 +66,47 @@ export type NudgeCard =
   | { type: "nudge-reminder" }
   | { type: "intro-emotions" }
   | { type: "intro-people" }
-  | { type: "intro-photos" }
-  | { type: "intro-categories"; tagsCount: number };
+  | { type: "intro-photos" };
+
+/** Why a person shows in the people moment of a period. */
+export type PersonMoment =
+  | { kind: "back"; personId: string; lastDate: DateKey; weeks: number }
+  | { kind: "new"; personId: string; firstDate: DateKey }
+  | { kind: "milestone"; personId: string; days: number; year: number };
+
+/** Good emotion felt again after a long break, and when it was last felt. */
+export interface EmotionBack {
+  emotion: string;
+  lastDate: DateKey;
+}
+
+/** Tag back after a break: days in the period, weeks without it before. */
+export interface TagBack {
+  tagId: string;
+  days: number;
+  weeks: number;
+}
 
 /**
  * A fact worth noticing. Cards name people, tags, and emotions by id; the
  * screen looks up names, so rules never read display data.
  */
 export type MomentCard =
-  | { type: "emotion-again"; emotion: string; lastDate: DateKey }
+  | {
+      type: "emotion-again";
+      periodKind: PeriodKind;
+      /** Longest break first. One emotion shows as its own title. */
+      emotions: EmotionBack[];
+    }
   | { type: "emotion-absent"; emotion: string; countBefore: number }
-  | { type: "person-back"; personId: string; lastDate: DateKey; weeks: number }
-  | { type: "person-new"; personId: string; firstDate: DateKey }
-  | { type: "person-milestone"; personId: string; days: number; year: number }
+  | { type: "people-moments"; periodKind: PeriodKind; people: PersonMoment[] }
   | { type: "first-city"; city: string; district: string | null; date: DateKey }
-  | { type: "tag-back"; tagId: string; days: number; weeks: number }
+  | {
+      type: "tag-back";
+      periodKind: PeriodKind;
+      /** One tag shows as its own title. */
+      tags: TagBack[];
+    }
   | { type: "sleep-turnaround"; nights: DateKey[]; week: SleepNight[] }
   | { type: "sleep-rough"; nights: DateKey[]; week: SleepNight[] };
 
@@ -101,6 +127,8 @@ export interface ConnectedPerson {
   personId: string;
   days: number;
   emotions: string[];
+  /** Back, new, or a milestone in this period. Week recaps only. */
+  moment?: PersonMoment;
 }
 
 /** Days away from home in one city, gaps of up to 2 days allowed. */
@@ -111,13 +139,48 @@ export interface Trip {
   days: number;
 }
 
-/** Describes the period: a day, emotions, people, places. No causes. */
+/** Place that is no trip: a home city district or a nearby town, and its days. */
+export interface Spot {
+  name: string;
+  days: number;
+}
+
+/** Day of the period up to today: mean rating 0 (worst) to 6, or `null`. */
+export interface MoodDay {
+  date: DateKey;
+  rating: number | null;
+}
+
+/** Days whose rounded mean mood is `rating`. */
+export interface RatingCount {
+  rating: LogItem["rating"];
+  days: number;
+}
+
+/** Tag and the number of days it was on. */
+export interface TagCount {
+  tagId: string;
+  days: number;
+}
+
+/** Describes the period: a day, mood, emotions, tags, people, places. No causes. */
 export type SummaryCard =
   | { type: "day-recap"; mode: "best" | "ago" | "hard"; date: DateKey }
+  | { type: "mood-chart"; days: MoodDay[] }
+  /** Worst to best. `goodShare`: days at good or better, 0 to 1. */
+  | { type: "mood-count"; counts: RatingCount[]; goodShare: number }
+  /** Good days (good or better), or harder days (bad or worse). */
+  | { type: "mood-days"; mode: "good" | "hard"; dates: DateKey[] }
+  | { type: "sleep-chart"; nights: SleepNight[] }
+  | { type: "tags"; counts: TagCount[] }
+  | { type: "tag-days"; tagId: string; dates: DateKey[] }
+  | { type: "year-pixels"; days: number }
+  /** First days of the months. `hardest` is `null` with one month only. */
+  | { type: "best-month"; best: DateKey; hardest: DateKey | null }
   | { type: "emotions"; counts: EmotionCount[] }
   | { type: "connected"; people: ConnectedPerson[] }
   | { type: "most-connected"; people: ConnectedPerson[] }
-  | { type: "places-trips"; trips: Trip[] };
+  | { type: "places"; trips: Trip[]; spots: Spot[] };
 
 /** One driver in a pattern list: id, label for places, and its effect. */
 export interface EffectRow {

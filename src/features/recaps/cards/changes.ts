@@ -1,5 +1,5 @@
 import { getEffect } from "../correlation";
-import { fits, indexDays } from "../dayIndex";
+import { fits, indexDays } from "../day-index";
 import { addDays, daysBetween } from "../days";
 import { THRESHOLDS } from "../thresholds";
 import type {
@@ -12,8 +12,6 @@ import type {
 } from "../types";
 import { getActiveTags } from "./nudges";
 import { peopleOn } from "./summaries";
-
-type TrendKind = "quarter" | "year";
 
 interface Driver {
   id: string;
@@ -48,14 +46,14 @@ export const getTrend = (first: number, last: number): Trend => {
  * always the last day, so the newest days count. A last day close to the
  * previous end replaces it, so two windows never nearly overlap.
  */
-const windowEnds = (days: RecapDay[], start: string, kind: TrendKind) => {
+const windowEnds = (days: RecapDay[], start: string) => {
   const last = days.at(-1)?.date;
   const ends: string[] = [];
   if (!last) {
     return ends;
   }
-  const window = THRESHOLDS.trendWindowDays[kind];
-  const step = THRESHOLDS.trendStepDays[kind];
+  const window = THRESHOLDS.trendWindowDays;
+  const step = THRESHOLDS.trendStepDays;
   for (
     let end = addDays(start, window - 1);
     daysBetween(end, last) >= 0;
@@ -90,12 +88,11 @@ const trends = (
   days: RecapDay[],
   drivers: Driver[]
 ): { window: number; ends: DateKey[]; series: TrendSeries[] } | null => {
-  const { kind } = input.period;
-  if (kind !== "quarter" && kind !== "year") {
+  if (input.period.kind !== "year") {
     return null;
   }
-  const window = THRESHOLDS.trendWindowDays[kind];
-  const ends = windowEnds(days, input.period.start, kind);
+  const window = THRESHOLDS.trendWindowDays;
+  const ends = windowEnds(days, input.period.start);
   if (ends.length < THRESHOLDS.trendMinPoints) {
     return null;
   }

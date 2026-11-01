@@ -3,18 +3,20 @@ import uniq from "lodash/uniq";
 import { useEffect, useMemo } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import { STEP_OPTIONS } from "@/constants/LoggerSteps";
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import { z } from "zod";
+import { STEP_OPTIONS } from "@/constants/logger-steps";
+import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 
-import { createPersistedStore } from "@/state/persisted/createPersistedStore";
-import type { Load } from "@/state/persisted/createPersistedStore";
+import { createPersistedStore } from "@/state/persisted/create-persisted-store";
+import type { Load } from "@/state/persisted/create-persisted-store";
 
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
-import { INITIAL_STATE } from "@/constants/Settings";
-import { applyColorScheme, ColorSchemeSettingSchema } from "./colorScheme";
-import type { ColorSchemeSetting } from "./colorScheme";
+import { INITIAL_STATE, QUICK_CHECK_IN_INTERVALS } from "@/constants/settings";
+import { applyColorScheme, ColorSchemeSettingSchema } from "./color-scheme";
+import { toStoreReviewPromptDates } from "./store-review-prompt-dates";
+import type { ColorSchemeSetting } from "./color-scheme";
 
 /**
  * AsyncStorage key for settings. Keep the legacy name; changing it resets
@@ -31,13 +33,36 @@ const SCALE_TYPES = [
 
 /**
  * Calendar screen layout: `calendar` shows month grids, `timeline` a list of
- * entry cards, `map` the places of entries. Read through `useCalendarLayout`,
- * which applies the `calendar-timeline` and `calendar-map` flags.
+ * entry cards. Read through `useCalendarLayout`, which applies the
+ * `calendar-timeline` flag. Unknown stored values, like `map` from older
+ * versions, read as `calendar`.
  */
-export type CalendarLayout = "calendar" | "timeline" | "map";
+export type CalendarLayout = "calendar" | "timeline";
 
 const isCalendarLayout = (value: unknown): value is CalendarLayout =>
-  value === "calendar" || value === "timeline" || value === "map";
+  value === "calendar" || value === "timeline";
+
+/** Times of the quick check-in notifications. */
+export interface QuickCheckInSchedule {
+  /** First check-in of the day, `HH:mm`. */
+  from: string;
+  /** Last possible check-in of the day, `HH:mm`. */
+  until: string;
+  /** Hours between check-ins. */
+  everyHours: number;
+}
+
+const BackupProviderSettingSchema = z.enum(["icloud", "googledrive"]);
+/** Cloud that keeps the backup file. iCloud exists on iOS only. */
+export type BackupProviderSetting = z.infer<typeof BackupProviderSettingSchema>;
+
+const QuickCheckInScheduleSchema = z.object({
+  from: z.string().regex(/^\d{2}:\d{2}$/u),
+  until: z.string().regex(/^\d{2}:\d{2}$/u),
+  everyHours: z
+    .number()
+    .refine((hours) => QUICK_CHECK_IN_INTERVALS.some((step) => step === hours)),
+});
 
 /**
  * Persisted user settings.
@@ -47,13 +72,28 @@ const isCalendarLayout = (value: unknown): value is CalendarLayout =>
  * store on load. `trackBehaviour` is legacy and unused.
  */
 export interface SettingsState {
+  /** Random install id. Analytics identifies the install with it. */
   deviceId: string | null;
+  /**
+   * Random id sent only with feedback and question answers, never with
+   * analytics, so feedback cannot be joined to analytics. Stays on this
+   * device; renewed on reset.
+   */
+  feedbackId: string | null;
   scaleType: (typeof SCALE_TYPES)[number];
   reminderEnabled: boolean;
   reminderTime: string;
   analyticsEnabled: boolean;
-  /** Keep a backup file in iCloud (iOS) or Google Drive (Android). Device setting. */
-  backupEnabled: boolean;
+  /**
+   * When the user last turned analytics on or off (ISO date). `null` until
+   * the first choice on this install.
+   */
+  analyticsConsentAt: string | null;
+  /**
+   * Cloud that keeps the backup file, or `null` while backup is off.
+   * Device setting.
+   */
+  backupProvider: BackupProviderSetting | null;
   /**
    * `createdAt` of the last backup this phone wrote, or `null` before the
    * first write. A backup from another phone that is newer than this pauses
@@ -62,9 +102,12 @@ export interface SettingsState {
   backupWrittenAt: string | null;
   actionsDone: IAction[];
   steps: ConfigurableLoggerStep[];
-  /** ISO date of the automatic store review prompt; `null` until shown once. */
-  storeReviewPromptedAt: string | null;
-  /** App version that showed the automatic store review prompt. */
+  /**
+   * ISO dates of automatic store review prompts, oldest first. Replaces
+   * the single `storeReviewPromptedAt` date of older versions.
+   */
+  storeReviewPromptDates: string[];
+  /** App version that showed the last automatic store review prompt. */
   storeReviewPromptedAppVersion: string | null;
   /**
    * The user dismissed the "See your photos from …" row in the photos step,
@@ -78,6 +121,11 @@ export interface SettingsState {
    * belongs to the device.
    */
   locationEnabled: boolean;
+  /**
+   * The sleep step starts with a quality scored from Apple Health. Health
+   * access belongs to the device.
+   */
+  healthSleepEnabled: boolean;
   /** Calendar screen layout for this device. */
   calendarLayout: CalendarLayout;
   /**
@@ -90,6 +138,24 @@ export interface SettingsState {
    * Needs notification permission, which belongs to the device.
    */
   recapNotificationsEnabled: boolean;
+  /** Name the user gave themselves; empty until set. Stays on this device. */
+  profileName: string;
+  /**
+   * Relative path of the profile photo under the documents directory, or
+   * `null`. Stays on this device; backups carry no profile.
+   */
+  profileAvatar: string | null;
+  /**
+   * Quick check-in notifications during the day, on the
+   * `quickCheckInSchedule`. Needs notification permission, so imports keep
+   * it.
+   */
+  quickCheckInEnabled: boolean;
+  /**
+   * Quick check-in times: every `everyHours` hours from `from` to `until`
+   * (`HH:mm`), both included. Belongs to the device like the switch.
+   */
+  quickCheckInSchedule: QuickCheckInSchedule;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -99,25 +165,34 @@ export interface SettingsState {
 }
 
 /**
- * Settings included in data exports. The device id is excluded so an import
- * never clones another device's identity. Store review prompt state belongs
- * to the device and store account, and photo library access, theme,
- * location, calendar layout, app lock, recap notifications, and the backup
- * switch to the device, so imports keep the current values.
+ * Settings included in data exports. The device id and feedback id are
+ * excluded so an import never clones another device's identity. Store
+ * review prompt state belongs to the device and store account, and photo
+ * library access, theme, location, calendar layout, app lock, recap
+ * notifications, the profile, quick check-ins, Apple Health, and the backup
+ * choice to the device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
   | "deviceId"
-  | "backupEnabled"
+  | "feedbackId"
+  | "backupProvider"
   | "backupWrittenAt"
-  | "storeReviewPromptedAt"
+  | "analyticsEnabled"
+  | "analyticsConsentAt"
+  | "storeReviewPromptDates"
   | "storeReviewPromptedAppVersion"
   | "photosDayAccessDismissed"
   | "colorScheme"
   | "locationEnabled"
+  | "healthSleepEnabled"
   | "calendarLayout"
   | "appLockEnabled"
   | "recapNotificationsEnabled"
+  | "profileName"
+  | "profileAvatar"
+  | "quickCheckInEnabled"
+  | "quickCheckInSchedule"
 >;
 
 interface IAction {
@@ -154,6 +229,13 @@ type SettingsAction =
   | { type: "import"; payload: ExportSettings }
   | { type: "reset" };
 
+/** Settings of a fresh install: defaults plus new random ids. */
+const createFreshSettings = (): SettingsState => ({
+  ...INITIAL_STATE,
+  deviceId: uuidv4(),
+  feedbackId: uuidv4(),
+});
+
 const reducer = (
   state: SettingsState,
   action: SettingsAction
@@ -162,29 +244,38 @@ const reducer = (
     case "set": {
       return action.payload(state);
     }
-    // Store review prompt state, photo library access, theme, location,
-    // calendar layout, app lock, recap notifications, and the backup switch
-    // belong to this device, so imports keep the current values.
+    // The device id, analytics consent, the feedback id, store review prompt
+    // state, photo library access, theme, location, calendar layout, app
+    // lock, recap notifications, the profile, Apple Health, and the backup
+    // choice belong to this device, so imports keep the current values.
     case "import": {
       return {
         ...INITIAL_STATE,
         ...action.payload,
         steps: sanitizeSteps(action.payload.steps),
         deviceId: state.deviceId,
-        backupEnabled: state.backupEnabled,
+        feedbackId: state.feedbackId,
+        backupProvider: state.backupProvider,
         backupWrittenAt: state.backupWrittenAt,
-        storeReviewPromptedAt: state.storeReviewPromptedAt,
+        analyticsEnabled: state.analyticsEnabled,
+        analyticsConsentAt: state.analyticsConsentAt,
+        storeReviewPromptDates: state.storeReviewPromptDates,
         storeReviewPromptedAppVersion: state.storeReviewPromptedAppVersion,
         photosDayAccessDismissed: state.photosDayAccessDismissed,
         colorScheme: state.colorScheme,
         locationEnabled: state.locationEnabled,
+        healthSleepEnabled: state.healthSleepEnabled,
         calendarLayout: state.calendarLayout,
         appLockEnabled: state.appLockEnabled,
         recapNotificationsEnabled: state.recapNotificationsEnabled,
+        profileName: state.profileName,
+        profileAvatar: state.profileAvatar,
+        quickCheckInEnabled: state.quickCheckInEnabled,
+        quickCheckInSchedule: state.quickCheckInSchedule,
       };
     }
     case "reset": {
-      return { ...INITIAL_STATE, deviceId: uuidv4() };
+      return createFreshSettings();
     }
     default: {
       return state;
@@ -192,25 +283,48 @@ const reducer = (
   }
 };
 
-const hydrate = (stored: SettingsState | null): SettingsState =>
-  stored === null
-    ? { ...INITIAL_STATE, deviceId: uuidv4() }
-    : {
-        ...INITIAL_STATE,
-        ...stored,
-        deviceId: stored.deviceId || uuidv4(),
-        steps: sanitizeSteps(stored.steps),
-        photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
-        locationEnabled: stored.locationEnabled === true,
-        colorScheme:
-          ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ??
-          "system",
-        calendarLayout: isCalendarLayout(stored.calendarLayout)
-          ? stored.calendarLayout
-          : "calendar",
-        appLockEnabled: stored.appLockEnabled === true,
-        recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
-      };
+/** Stored settings, possibly written by an older app version. */
+type StoredSettings = SettingsState & {
+  /** Single prompt date before `storeReviewPromptDates`. */
+  storeReviewPromptedAt?: unknown;
+};
+
+const hydrateStored = ({
+  storeReviewPromptedAt,
+  ...stored
+}: StoredSettings): SettingsState => ({
+  ...INITIAL_STATE,
+  ...stored,
+  deviceId: stored.deviceId || uuidv4(),
+  feedbackId: z.string().min(1).safeParse(stored.feedbackId).data ?? uuidv4(),
+  steps: sanitizeSteps(stored.steps),
+  storeReviewPromptDates: toStoreReviewPromptDates({
+    storeReviewPromptDates: stored.storeReviewPromptDates,
+    storeReviewPromptedAt,
+  }),
+  photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
+  locationEnabled: stored.locationEnabled === true,
+  healthSleepEnabled: stored.healthSleepEnabled === true,
+  colorScheme:
+    ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ?? "system",
+  calendarLayout: isCalendarLayout(stored.calendarLayout)
+    ? stored.calendarLayout
+    : "calendar",
+  appLockEnabled: stored.appLockEnabled === true,
+  recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
+  profileName: z.string().safeParse(stored.profileName).data ?? "",
+  profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
+  quickCheckInEnabled: stored.quickCheckInEnabled === true,
+  quickCheckInSchedule:
+    QuickCheckInScheduleSchema.safeParse(stored.quickCheckInSchedule).data ??
+    INITIAL_STATE.quickCheckInSchedule,
+  backupProvider:
+    BackupProviderSettingSchema.safeParse(stored.backupProvider).data ?? null,
+  backupWrittenAt: z.string().safeParse(stored.backupWrittenAt).data ?? null,
+});
+
+const hydrate = (stored: StoredSettings | null): SettingsState =>
+  stored === null ? createFreshSettings() : hydrateStored(stored);
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({
   key: STORAGE_KEY,

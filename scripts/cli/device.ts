@@ -7,7 +7,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 import { getAndroidBuildEnv } from "../run-native.ts";
 import { getAdb } from "./adb.ts";
 import { setPhoneSession } from "./agent-device.ts";
-import { CliError, getCheckoutDir, note } from "./shared.ts";
+import { CliError, getCheckoutDir, note, tryRun } from "./shared.ts";
 import { preflightPhone, readPhones } from "./phone.ts";
 import { assertNotReserved } from "./reservation.ts";
 import { buildRows, findPhone, toToken } from "./target.ts";
@@ -17,6 +17,8 @@ const REPO_ROOT = path.resolve(import.meta.dir, "../..");
 const IOS_NAME = `pixy-mood-tracker-${path.basename(getCheckoutDir(REPO_ROOT))}`;
 const ANDROID_NAME = "pixy-mood-tracker";
 const BOOT_TIMEOUT_MS = 180_000;
+const SIMSLIM_PROFILE = path.join(import.meta.dir, "simslim.json");
+const SIMSLIM_TIMEOUT_MS = 600_000;
 const EMULATOR_BOOT_TIMEOUT_MS = 300_000;
 const EMULATOR_LOG = path.join(
   getCheckoutDir(REPO_ROOT),
@@ -49,7 +51,31 @@ const findIosSimulator = (): SimctlDevice | null => {
   );
 };
 
-const ensureIosDevice = () => {
+// simslim (optional) turns off simulator daemons Pixy does not use, about
+// 4.6 GB to 1.9 GB per simulator. Its overrides survive reboots.
+// `on` and `off` reconfigure a shut-down simulator offline, then boot it.
+const setSlim = (id: string, mode: "on" | "off") => {
+  try {
+    execFileSync(
+      "simslim",
+      mode === "on" ? ["on", id, "--profile", SIMSLIM_PROFILE] : ["off", id],
+      { stdio: ["ignore", "pipe", "pipe"], timeout: SIMSLIM_TIMEOUT_MS }
+    );
+    note(
+      mode === "on"
+        ? `Simulator ${IOS_NAME} runs slim. SIMSLIM=0 boots it stock.`
+        : `Simulator ${IOS_NAME} runs stock.`
+    );
+    return true;
+  } catch (error) {
+    note(
+      `warning [simslim_failed]: Could not turn simslim ${mode} for ${IOS_NAME}\n  why: ${error instanceof Error ? error.message : String(error)}\n  fix: Run \`simslim ${mode} ${id}\` to see the cause.`
+    );
+    return false;
+  }
+};
+
+const ensureIosDevice = ({ slim = true } = {}) => {
   let device = findIosSimulator();
   let id = device?.udid;
   if (!id) {
@@ -66,7 +92,14 @@ const ensureIosDevice = () => {
     }
     device = findIosSimulator();
   }
-  if (device?.state !== "Booted") {
+  const booted = device?.state === "Booted";
+  const wantSlim = slim && process.env.SIMSLIM !== "0";
+  const hasSimslim = tryRun("simslim", ["--version"]) !== null;
+  // Never reboot a running simulator to slim it: that cuts another command.
+  const bootedBySimslim =
+    hasSimslim &&
+    (wantSlim ? !booted && setSlim(id, "on") : setSlim(id, "off"));
+  if (!booted && !bootedBySimslim) {
     try {
       simctl(["boot", id]);
     } catch (error) {
@@ -283,9 +316,12 @@ export const isDeviceBooted = (platform: Platform) =>
     : Boolean(findEmulatorSerial(getAndroidBuildEnv().ANDROID_HOME));
 
 /** Creates and boots the device assigned to this checkout. */
-export const ensureDevice = async (platform: Platform): Promise<Device> => {
+export const ensureDevice = async (
+  platform: Platform,
+  options?: { slim?: boolean }
+): Promise<Device> => {
   const managed =
-    platform === "ios" ? ensureIosDevice() : await ensureAndroidDevice();
+    platform === "ios" ? ensureIosDevice(options) : await ensureAndroidDevice();
   return {
     ...managed,
     platform,

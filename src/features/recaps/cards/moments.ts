@@ -9,7 +9,15 @@ import {
 } from "../days";
 import { distanceKm, parsePlace } from "../places";
 import { THRESHOLDS } from "../thresholds";
-import type { MomentCard, RecapDay, RecapInput, SleepNight } from "../types";
+import type {
+  EmotionBack,
+  MomentCard,
+  PersonMoment,
+  RecapDay,
+  RecapInput,
+  SleepNight,
+  TagBack,
+} from "../types";
 
 const CATEGORY = new Map(
   EMOTIONS.map((emotion) => [emotion.key, emotion.category])
@@ -31,7 +39,13 @@ const firstWith = (days: RecapDay[], test: (item: LogItem) => boolean) =>
 
 const weeks = (days: number) => Math.round(days / 7);
 
-/** Good emotion, first time in 30+ days. The longest gap wins. */
+/** Most emotions in one emotions-back card. */
+const MAX_EMOTIONS_BACK = 3;
+
+/**
+ * Good emotions, first time in 30+ days, in one card: longest break first,
+ * up to 3.
+ */
 export const emotionAgain = (input: RecapInput): MomentCard[] => {
   if (!input.steps.has("emotions")) {
     return [];
@@ -42,29 +56,24 @@ export const emotionAgain = (input: RecapInput): MomentCard[] => {
       day.items.flatMap((item) => item.emotions.filter(isGoodEmotion))
     )
   );
-  let best: { emotion: string; lastDate: string; gap: number } | null = null;
+  const found: (EmotionBack & { gap: number })[] = [];
   for (const emotion of keys) {
     const has = (item: LogItem) => item.emotions.some((key) => key === emotion);
     const first = firstWith(input.days, has);
     const last = lastWith(earlier, has);
     if (first && last) {
       const gap = daysBetween(last.date, first.date);
-      if (
-        gap >= THRESHOLDS.emotionAgainMinGapDays &&
-        (!best || gap > best.gap)
-      ) {
-        best = { emotion, lastDate: last.date, gap };
+      if (gap >= THRESHOLDS.emotionAgainMinGapDays) {
+        found.push({ emotion, lastDate: last.date, gap });
       }
     }
   }
-  return best
-    ? [
-        {
-          type: "emotion-again",
-          emotion: best.emotion,
-          lastDate: best.lastDate,
-        },
-      ]
+  const emotions = found
+    .sort((a, b) => b.gap - a.gap)
+    .slice(0, MAX_EMOTIONS_BACK)
+    .map(({ emotion, lastDate }) => ({ emotion, lastDate }));
+  return emotions.length > 0
+    ? [{ type: "emotion-again", periodKind: input.period.kind, emotions }]
     : [];
 };
 
@@ -137,11 +146,12 @@ const connectedDaysIn = (days: RecapDay[], personId: string) =>
   );
 
 /**
- * One card per person connected in the period: back after 28+ days, first
- * entry ever, or a milestone of connected days in the calendar year. Back
- * wins over a milestone, a milestone over new.
+ * People connected in the period who are back after 28+ days, connected for
+ * the first time, or at a milestone of connected days in the calendar year.
+ * Back wins over a milestone, a milestone over new. People keep the order of
+ * their first connection in the period.
  */
-export const personMoments = (input: RecapInput): MomentCard[] => {
+export const getPersonMoments = (input: RecapInput): PersonMoment[] => {
   if (!input.steps.has("people") || !input.availableSteps.has("people")) {
     return [];
   }
@@ -157,7 +167,7 @@ export const personMoments = (input: RecapInput): MomentCard[] => {
   );
   const year = Number(input.period.end.slice(0, 4));
   const yearStart = `${year}-01-01`;
-  const cards: MomentCard[] = [];
+  const people: PersonMoment[] = [];
   for (const personId of ids) {
     const [first] = connectedDaysIn(input.days, personId);
     const lastBefore = connectedDaysIn(earlier, personId).at(-1);
@@ -176,19 +186,33 @@ export const personMoments = (input: RecapInput): MomentCard[] => {
       (count) => inYearBefore < count && inYear >= count
     );
     if (lastBefore && gap >= THRESHOLDS.personBackMinGapDays) {
-      cards.push({
-        type: "person-back",
+      people.push({
+        kind: "back",
         personId,
         lastDate: lastBefore.date,
         weeks: weeks(gap),
       });
     } else if (milestone !== undefined) {
-      cards.push({ type: "person-milestone", personId, days: milestone, year });
+      people.push({ kind: "milestone", personId, days: milestone, year });
     } else if (!lastBefore && earlier.length >= THRESHOLDS.newMinHistoryDays) {
-      cards.push({ type: "person-new", personId, firstDate: first.date });
+      people.push({ kind: "new", personId, firstDate: first.date });
     }
   }
-  return cards;
+  return people;
+};
+
+/**
+ * One card for all person moments of a month. Week recaps show them in the
+ * rows of the `connected` card instead, so people never appear twice.
+ */
+export const personMoments = (input: RecapInput): MomentCard[] => {
+  if (input.period.kind === "week") {
+    return [];
+  }
+  const people = getPersonMoments(input);
+  return people.length > 0
+    ? [{ type: "people-moments", periodKind: input.period.kind, people }]
+    : [];
 };
 
 /**
@@ -229,9 +253,9 @@ export const firstCity = (input: RecapInput): MomentCard[] => {
 };
 
 /**
- * Tag back after 21+ days, used on 8+ days before, and days with it feel
- * at least as good as an average day. Tags carry no meaning, so a heavy
- * tag never gets a welcome back.
+ * Tags back after 21+ days, used on 8+ days before, and days with them feel
+ * at least as good as an average day, in one card. Tags carry no meaning,
+ * so a heavy tag never gets a welcome back.
  */
 export const tagBack = (input: RecapInput): MomentCard[] => {
   if (!input.steps.has("tags")) {
@@ -245,7 +269,7 @@ export const tagBack = (input: RecapInput): MomentCard[] => {
     )
   );
   const known = new Set(input.tags.map((tag) => tag.id));
-  const cards: MomentCard[] = [];
+  const tags: TagBack[] = [];
   for (const tagId of ids) {
     const has = (item: LogItem) => item.tags.some((tag) => tag.id === tagId);
     const first = firstWith(input.days, has);
@@ -261,15 +285,16 @@ export const tagBack = (input: RecapInput): MomentCard[] => {
       usesBefore >= THRESHOLDS.tagBackMinUses &&
       tagMean >= usual
     ) {
-      cards.push({
-        type: "tag-back",
+      tags.push({
         tagId,
         days: input.days.filter((day) => dayHas(day, has)).length,
         weeks: weeks(daysBetween(last.date, first.date)),
       });
     }
   }
-  return cards;
+  return tags.length > 0
+    ? [{ type: "tag-back", periodKind: input.period.kind, tags }]
+    : [];
 };
 
 const isGoodNight = (day: RecapDay) => {

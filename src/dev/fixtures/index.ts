@@ -6,11 +6,14 @@ import legacy168 from "@/dev/fixtures/legacy-1.68.json";
 import legacy181 from "@/dev/fixtures/legacy-1.81.1.json";
 import seed from "@/dev/fixtures/seed.json";
 import year from "@/dev/fixtures/year.json";
+import { withMenstruation } from "@/dev/fixtures/menstruation";
 import { withTimeline } from "@/dev/fixtures/timeline";
 import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
-import { withRecapMoments } from "@/dev/fixtures/recapMoments";
-import { withRecapNudges } from "@/dev/fixtures/recapNudges";
+import { withPersona } from "@/dev/fixtures/personas";
+import { withRecapMoments } from "@/dev/fixtures/recap-moments";
+import { withRecapNudges } from "@/dev/fixtures/recap-nudges";
+import { withRecapStory, withRecapWeekStory } from "@/dev/fixtures/recap-story";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 
@@ -20,6 +23,9 @@ const asExport = (file: FixtureFile) =>
   // SAFETY: fixture files are Pixy exports; src/__tests__/dev-fixtures.ts checks each against pixySchema.
   // oxlint-disable-next-line anti-slop/no-chained-type-assertions -- see comment above.
   file as unknown as ImportData;
+
+/** Profile name set on every loaded fixture except `fresh`: the Klara demo persona. */
+export const FIXTURE_PROFILE_NAME = "Klara";
 
 /** Fixed ids so e2e flows and tests can reference fixture people. */
 export const FIXTURE_PEOPLE_IDS = {
@@ -73,6 +79,18 @@ const withPeople = (data: ImportData): ImportData => {
 };
 
 /**
+ * Adds an empty Hobbies category next to General, like a person who made
+ * one before category creation was removed.
+ */
+const withTagCategory = (data: ImportData): ImportData => ({
+  ...data,
+  settings: {
+    ...data.settings,
+    tagCategories: [{ id: "fixture-hobbies", title: "Hobbies" }],
+  },
+});
+
+/**
  * Named test data set in the Pixy export format. To add one, export data
  * from Settings > Data, save the file here, and register it below.
  */
@@ -110,6 +128,13 @@ export const FIXTURES: Fixture[] = [
     data: asExport(seed),
   },
   {
+    id: "menstruation",
+    title: "Menstruation",
+    description: "Every daily flow and one day without a value. Step off.",
+    endsToday: true,
+    data: withMenstruation(asExport(empty)),
+  },
+  {
     id: "year",
     title: "One year",
     description:
@@ -124,6 +149,14 @@ export const FIXTURES: Fixture[] = [
       "The `year` fixture plus 3 people (one with photo, one archived) on a fixed share of entries.",
     endsToday: true,
     data: withPeople(asExport(year)),
+  },
+  {
+    id: "tag-categories",
+    title: "One year with a tag category",
+    description:
+      "The `year` fixture plus an empty Hobbies category next to General.",
+    endsToday: true,
+    data: withTagCategory(asExport(year)),
   },
   {
     id: "timeline",
@@ -142,6 +175,62 @@ export const FIXTURES: Fixture[] = [
     data: withChaos(asExport(empty)),
   },
   {
+    id: "persona-lea",
+    title: "Persona: Lea, Quick Tapper",
+    description:
+      "4 weeks ending today, mood only, often 2 entries a day. Steps: Mood.",
+    endsToday: true,
+    data: withPersona("lea")(asExport(empty)),
+  },
+  {
+    id: "persona-jonas",
+    title: "Persona: Jonas, Journaler",
+    description:
+      "4 weeks ending today, notes from 1 line to 5 paragraphs. Steps: Mood, Note.",
+    endsToday: true,
+    data: withPersona("jonas")(asExport(empty)),
+  },
+  {
+    id: "persona-sara",
+    title: "Persona: Sara, Emotion Labeler",
+    description:
+      "4 weeks ending today, 3 to 6 emotions per entry. Steps: Mood, Emotions.",
+    endsToday: true,
+    data: withPersona("sara")(asExport(empty)),
+  },
+  {
+    id: "persona-ben",
+    title: "Persona: Ben, Tag Tracker",
+    description:
+      "4 weeks ending today, 3 to 6 tags per entry from 8. Steps: Mood, Tags.",
+    endsToday: true,
+    data: withPersona("ben")(asExport(empty)),
+  },
+  {
+    id: "persona-mia",
+    title: "Persona: Mia, Tryout",
+    description:
+      "3 entries in her first days, newest one a hard day. Default steps.",
+    endsToday: true,
+    data: withPersona("mia")(asExport(empty)),
+  },
+  {
+    id: "persona-paul",
+    title: "Persona: Paul, Multi-Logger",
+    description:
+      "4 weeks ending today, every step, people and photos on some days.",
+    endsToday: true,
+    data: withPersona("paul")(asExport(empty)),
+  },
+  {
+    id: "persona-nina",
+    title: "Persona: Nina, Max Load",
+    description:
+      "4 weeks ending today, every step filled heavily: 8+ emotions and tags, 3+ people, 4+ photos, long notes.",
+    endsToday: true,
+    data: withPersona("nina")(asExport(empty)),
+  },
+  {
     id: "recap-nudges",
     title: "Recap nudges",
     description:
@@ -156,6 +245,20 @@ export const FIXTURES: Fixture[] = [
       "91 days ending today with every week moment: person back, new person, 25 days connected with Lena, emotion again and absent, tag back, sleep turnaround, first city (location on).",
     endsToday: true,
     data: withRecapMoments(asExport(empty)),
+  },
+  {
+    id: "recap-story",
+    title: "Recap story",
+    description:
+      "Last month as a full month story: every Saturday swimming, Handover on 2 of 3 harder days, first days at the sea, 10 photo days, Ada and Chuky. Plus 12 check-ins the month before.",
+    data: withRecapStory(asExport(empty)),
+  },
+  {
+    id: "recap-week-story",
+    title: "Recap week story",
+    description:
+      "Last 7 days as a full week story: 4 photo days for the cover, a best day without a photo, emotions every day, 4 Hamburg districts and 2 days in Copenhagen (location on), people quiz with Ada, Chuky, Jen, and Max, Walk, Work, and Reading on 4+ days.",
+    data: withRecapWeekStory(asExport(empty)),
   },
 ];
 

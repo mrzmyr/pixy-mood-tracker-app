@@ -4,13 +4,13 @@ import {
   PostHogProvider,
   usePostHog as getPostHogTestClient,
 } from "posthog-react-native";
-import { _generateItem } from "@/__tests__/utils";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { _generateItem } from "@/testing/log-item";
+import { INITIAL_STATE } from "@/constants/settings";
 import { AnalyticsProvider } from "@/state/analytics";
-import { FeatureFlagsProvider } from "@/state/featureFlags";
+import { FeatureFlagsProvider } from "@/state/feature-flags";
 import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
-import { useCalendarLayout } from "../calendarLayout";
-import { getTimelineRows } from "../screens/Calendar/Timeline/rows";
+import { useCalendarLayout } from "../calendar-layout";
+import { getTimelineRows } from "../screens/calendar/timeline/rows";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
 const mockReload = jest.mocked(getPostHogTestClient().reloadFeatureFlagsAsync);
@@ -28,18 +28,13 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 /** Renders the hook with consent given, so remote flags load. */
 const renderCalendarLayout = async ({
   isFlagOn,
-  isMapFlagOn = false,
   storedLayout = "calendar",
 }: {
   isFlagOn: boolean;
-  isMapFlagOn?: boolean;
   /** Raw stored value, also invalid ones from old or broken storage. */
   storedLayout?: string;
 }) => {
-  mockReload.mockResolvedValue({
-    "calendar-timeline": isFlagOn,
-    "calendar-map": isMapFlagOn,
-  });
+  mockReload.mockResolvedValue({ "calendar-timeline": isFlagOn });
   await AsyncStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({
@@ -55,9 +50,7 @@ const renderCalendarLayout = async ({
     { wrapper }
   );
   await waitFor(() => {
-    expect(hook.result.current.calendarLayout.isEnabled).toBe(
-      isFlagOn || isMapFlagOn
-    );
+    expect(hook.result.current.calendarLayout.isEnabled).toBe(isFlagOn);
   });
   return hook;
 };
@@ -78,14 +71,21 @@ describe("useCalendarLayout", () => {
     expect(result.current.calendarLayout.layout).toBe("timeline");
   });
 
-  it("falls back to the calendar for an unknown stored value", async () => {
-    const { result } = await renderCalendarLayout({
-      isFlagOn: true,
-      storedLayout: "grid",
-    });
+  it.each(["grid", "map"])(
+    "falls back to the calendar for unknown stored value %s",
+    async (storedLayout) => {
+      const { result } = await renderCalendarLayout({
+        isFlagOn: true,
+        storedLayout,
+      });
 
-    expect(result.current.calendarLayout.layout).toBe("calendar");
-  });
+      expect(result.current.calendarLayout.layout).toBe("calendar");
+      expect(result.current.calendarLayout.availableLayouts).toEqual([
+        "calendar",
+        "timeline",
+      ]);
+    }
+  );
 
   it("shows the calendar with the flag off and keeps the stored choice", async () => {
     const { result } = await renderCalendarLayout({
@@ -95,32 +95,6 @@ describe("useCalendarLayout", () => {
 
     expect(result.current.calendarLayout.layout).toBe("calendar");
     expect(result.current.settings.settings.calendarLayout).toBe("timeline");
-  });
-
-  it("switches to the map with only the map flag on", async () => {
-    const { result } = await renderCalendarLayout({
-      isFlagOn: false,
-      isMapFlagOn: true,
-    });
-
-    expect(result.current.calendarLayout.availableLayouts).toEqual([
-      "calendar",
-      "map",
-    ]);
-
-    await act(() => result.current.calendarLayout.setLayout("map"));
-
-    expect(result.current.calendarLayout.layout).toBe("map");
-  });
-
-  it("shows the calendar with the map flag off and keeps the stored map", async () => {
-    const { result } = await renderCalendarLayout({
-      isFlagOn: true,
-      storedLayout: "map",
-    });
-
-    expect(result.current.calendarLayout.layout).toBe("calendar");
-    expect(result.current.settings.settings.calendarLayout).toBe("map");
   });
 
   it("keeps the device layout when importing settings", async () => {
@@ -133,7 +107,6 @@ describe("useCalendarLayout", () => {
         scaleType: settings.scaleType,
         reminderEnabled: settings.reminderEnabled,
         reminderTime: settings.reminderTime,
-        analyticsEnabled: settings.analyticsEnabled,
         actionsDone: settings.actionsDone,
         steps: settings.steps,
       })

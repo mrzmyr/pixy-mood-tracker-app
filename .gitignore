@@ -3,6 +3,10 @@ node_modules/
 dist/
 /android/
 /ios/
+# Local Expo modules keep their native sources in git, not their build output.
+modules/*/android/build/
+modules/*/android/.cxx/
+modules/*/android/.gradle/
 npm-debug.*
 *.jks
 *.p8
@@ -41,3 +45,6 @@ expo-env.d.ts
 # PR proof: upload with gh pr edit --attach, never commit
 /output/
 /screens/
+
+# Apple artwork: license forbids redistribution. Prebuild downloads it.
+/assets/third-party/

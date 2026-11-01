@@ -1,10 +1,15 @@
-export { BackupProvider, useBackup } from "./BackupProvider";
-export type { BackupStatus, BackupValue } from "./BackupProvider";
+export { BackupProvider, useBackup } from "./backup-provider";
+export type { BackupStatus, BackupValue } from "./backup-provider";
 export {
   canReplaceBackup,
   createBackupFile,
   parseBackupFile,
-} from "./backupFile";
-export type { BackupFile } from "./backupFile";
-export { BACKUP_FILE, setBackupCloudOverride } from "./cloud";
+} from "./backup-file";
+export type { BackupFile } from "./backup-file";
+export { BACKUP_FILE } from "./cloud";
 export type { BackupCloud } from "./cloud";
+export {
+  getBackupFlag,
+  setBackupCloudOverride,
+  useBackupProviders,
+} from "./providers";

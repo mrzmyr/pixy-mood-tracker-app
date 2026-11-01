@@ -1,9 +1,9 @@
 import _ from "lodash";
 import type { ImportData } from "../import";
 import { migrateImportData } from "../migration";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { INITIAL_STATE } from "@/constants/settings";
 import type { Tag } from "@/features/tags";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 
 const testTags: Tag[] = [
   {

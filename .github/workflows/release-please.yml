@@ -2,12 +2,23 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform to rebuild and auto-submit (after credential changes such as HealthKit)
+        type: choice
+        options:
+          - ios
+          - android
+          - both
+        default: ios
 name: release-please
 
 permissions: {}
 
 jobs:
   release-please:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -28,9 +39,19 @@ jobs:
   store-release:
     name: Build and submit ${{ matrix.platform }}
     needs: release-please
-    if: needs.release-please.outputs.release_created == 'true'
+    # Push: only when release-please cut a release. Dispatch: manual rebuild (e.g. after HealthKit profile sync).
+    # Do not reference matrix here (job-level if cannot use matrix context).
+    if: |
+      always() && (
+        (github.event_name == 'push' && needs.release-please.result == 'success' && needs.release-please.outputs.release_created == 'true')
+        || (
+          github.event_name == 'workflow_dispatch'
+          && (github.event.inputs.platform == 'both' || github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'android')
+        )
+      )
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Wait for EAS so a failed build fails CI instead of going green on queue.
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
@@ -43,33 +64,42 @@ jobs:
       contents: read
     steps:
       - name: Checkout released commit
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'both' || github.event.inputs.platform == matrix.platform
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ needs.release-please.outputs.release_sha }}
+          # On release: the tag commit. On dispatch: the commit this workflow ran against.
+          ref: ${{ needs.release-please.outputs.release_sha || github.sha }}
           persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'both' || github.event.inputs.platform == matrix.platform
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .node-version
 
       - name: Set up Bun
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'both' || github.event.inputs.platform == matrix.platform
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: package.json
 
       - name: Set up Expo and EAS
-        uses: expo/expo-github-action@eab7a230208c952974db8c3245cfd78402c7b385 # 9.0.0
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'both' || github.event.inputs.platform == matrix.platform
+        uses: expo/expo-github-action@9da89d3617bb88139671bad31b09c65714c2ee06 # 9.0.1
         with:
-          eas-version: 21.4.0
+          eas-version: 25.1.1
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'both' || github.event.inputs.platform == matrix.platform
         run: bun ci
 
       - name: Build and submit ${{ matrix.platform }} release
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'both' || github.event.inputs.platform == matrix.platform
         env:
           EXPO_PUBLIC_APP_VARIANT: production
           PLATFORM: ${{ matrix.platform }}
+        # No --freeze-credentials: EAS must refresh the App Store profile when entitlements change (e.g. HealthKit).
+        # No --no-wait: job fails if the EAS build or auto-submit fails.
         run: >-
-          eas build --platform "$PLATFORM" --profile production --auto-submit --non-interactive --no-wait --freeze-credentials
+          eas build --platform "$PLATFORM" --profile production --auto-submit --non-interactive

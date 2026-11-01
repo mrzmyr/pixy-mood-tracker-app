@@ -4,7 +4,7 @@ tags: [p1, people]
 # People behind the `people` flag: import several contacts at once, mark
 # contacts that are already people, archive, delete with the entry count,
 # and keep the rest. The address book and photo library are system data, so the flow swaps
-# them for fakes (src/dev/fakePeopleSources.ts). Check the real pickers by
+# them for fakes (src/dev/fake-people-sources.ts). Check the real pickers by
 # hand before a release.
 - runFlow:
     file: ../subflows/load-fixture.yaml
@@ -39,8 +39,8 @@ tags: [p1, people]
 
 # Import from contacts: the fake address book holds Sam, Kim, and Lee Fake.
 # Pick two at once.
-- tapOn:
-    id: "people-add"
+# iOS: plus in the bar, Android: bottom button. Both read "Add Person".
+- tapOn: "Add Person"
 - assertVisible: "Add Person"
 - tapOn:
     id: "person-from-contacts"
@@ -54,28 +54,55 @@ tags: [p1, people]
 - assertVisible: "Kim Fake"
 
 # Contacts that are already people show as added; search narrows the list.
-- tapOn:
-    id: "people-add"
+- tapOn: "Add Person"
 - tapOn:
     id: "person-from-contacts"
 - assertVisible: "Added"
-- tapOn:
-    id: "contact-import-search"
+# iOS: native search bar in the sheet header. Android: field in the screen.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "Search Contacts"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          id: "contact-import-search"
 - inputText: "lee"
 - assertVisible: "Lee Fake"
 - assertNotVisible: "Kim Fake"
-- tapOn: "Cancel"
-
-# Manual add with a typed name.
 - tapOn:
-    id: "people-add"
+    id: "contact-import-cancel"
+
+# Manual add with a typed name and role.
+- tapOn: "Add Person"
 - tapOn:
     id: "person-name"
 - inputText: "Jo"
 - runFlow: ../subflows/dismiss-keyboard.yaml
 - tapOn:
+    id: "person-role"
+- tapOn: "Friend"
+- tapOn:
     id: "person-save"
 - assertVisible: "Jo"
+
+# Role keeps; a missing role is requested, never typed in.
+- tapOn: "Jo"
+- assertVisible: "Edit Person"
+- assertVisible: "Friend"
+- tapOn:
+    id: "person-role"
+- tapOn: "Request a Role…"
+- assertVisible: "Which role is missing from your list?"
+# Close the empty request sheet by swiping it down.
+- swipe:
+    start: 50%, 15%
+    end: 50%, 90%
+- tapOn:
+    id: "person-cancel"
 
 # Archive Alex: gone from the list, still in the archive.
 - tapOn: "Alex"

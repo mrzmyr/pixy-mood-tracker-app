@@ -1,1 +1,1 @@
-export { BackupScreen as default } from "@/features/settings";
+export { BackupScreen as default } from "@/features/backup/routes";

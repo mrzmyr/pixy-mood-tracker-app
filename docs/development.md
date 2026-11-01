@@ -40,32 +40,45 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 - `bun ios` and `bun android` build `development`. `bun ios:preview` and `bun android:preview` build a `preview` release. Set `EXPO_PUBLIC_APP_VARIANT` for anything else.
 - Each variant reports to its own PostHog project ("Pixy App - Development", "Pixy App - Preview", "Pixy App - Production") and Sentry project. Sentry events carry the variant as `environment`.
+- Sentry and EAS Observe report only from real devices on `preview` and `production` ([`src/lib/telemetry.ts`](../src/lib/telemetry.ts)). Development builds, simulators, emulators, and e2e runs send nothing; debug with Metro logs.
 - Metro's `cacheVersion` includes the variant ([`metro.config.js`](../metro.config.js)), because inlined `EXPO_PUBLIC_*` values are not part of Metro's cache key.
 - Development and preview icons carry a ribbon with the variant name (a label pill on Android adaptive icons). After changing `icon.png` or `adaptive-icon.png`, regenerate them with `swift scripts/generate-variant-icons.swift`.
 - Development and preview builds add Settings > Development > Test data and `<scheme>://dev/fixture?id=<id>` to load [fixtures](../src/dev/fixtures/index.ts). Production bundles do not contain them: [`src/dev/index.ts`](../src/dev/index.ts) checks the inlined variant at the `require`, so Metro drops the code.
   - `chaos` fixture stress-tests the UI: every limit at max, text in many scripts and emoji, years with gaps, days with up to 100 entries, though the app has no per-day limit ([`chaos.ts`](../src/dev/fixtures/chaos.ts))
+- Same builds add Settings > Development > Playground: components in every state, without touching user data. Deep link: `<scheme>://dev/playground/recap-story?deck=<id>&theme=light|dark`. Deck IDs: `all`, `week`, `month`, `<type>` (every case), `<type>/<index>` (one case).
+  - Recap story slide states: [`slide-cases.ts`](../src/features/recaps/story/slide-cases.ts). New slide type without a case fails `tsc`.
+  - Feature `playground.ts` entry: only `src/dev` may import it, so production bundles never reach it ([`oxlint.config.ts`](../oxlint.config.ts)).
 - TestFlight builds are production builds. Apple promotes the tested TestFlight binary to the App Store.
 - `ios/` and `android/` are generated ([Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)). [`scripts/run-native.ts`](../scripts/run-native.ts) reruns `expo prebuild --clean` when the variant or native fingerprint changed since the last prebuild. Never edit these folders.
 
 ### Feature flags
 
-- PostHog feature flags. Keys, descriptions, and locations live in [`src/state/featureFlags/keys.ts`](../src/state/featureFlags/keys.ts)
-- Read a flag with `useFeatureFlag(key)` ([`src/state/featureFlags/index.tsx`](../src/state/featureFlags/index.tsx))
-- Wrap flagged UI in `<FlagHighlight flag="<key>">` ([`src/components/FlagHighlight.tsx`](../src/components/FlagHighlight.tsx)) inside the `useFeatureFlag` condition. It never gates
+- PostHog feature flags. Keys, descriptions, and locations live in [`src/state/feature-flags/keys.ts`](../src/state/feature-flags/keys.ts)
+- Read a flag with `useFeatureFlag(key)` ([`src/state/feature-flags/index.tsx`](../src/state/feature-flags/index.tsx))
+- Wrap flagged UI in `<FlagHighlight flag="<key>">` ([`src/components/flag-highlight.tsx`](../src/components/flag-highlight.tsx)) inside the `useFeatureFlag` condition. It never gates
 - Settings > Development > Feature flags > Highlight flagged features outlines every `<FlagHighlight>` with its key. Same access as overrides. Ends when the app restarts
 - Each key needs a boolean flag with the same key in the PostHog project of every variant
 - New key in `keys.ts`: create the PostHog flag in the same task. Do not ask first
-  - Create it in all 3 app projects: Production `7630`, Preview `14574`, Development `628970`
+  - Create it in all 3 EU app projects: Production `321829`, Preview `321849`, Development `321850`
   - Development and Preview: disabled
   - Production: disabled, or release condition limited to internal testers. Never roll out to users without request
   - Run `switch-project` before each create. The MCP keeps the last active project
 - Never replace or delete existing release conditions or rollout percentages. Add a separate condition group instead
-- Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthogOptions.ts`](../src/shell/posthogOptions.ts))
+- Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthog-options.ts`](../src/shell/posthog-options.ts))
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
 - Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts
-- Production builds apply overrides only while flag `feature-flag-overrides` is on. That flag also shows Settings > Development > Feature flags. It needs consent, so testers agreed to the privacy policy. It is never overridable itself ([`src/state/featureFlags/overrides.ts`](../src/state/featureFlags/overrides.ts))
-- Settings > Development is hidden in production builds. Flag `development`, flag `feature-flag-overrides`, or 20 taps on the version in Settings show it ([Settings screen](../src/features/settings/screens/Settings/index.tsx)). Taps last until app restart. Development and preview builds always show it
+- Production builds apply overrides only while flag `feature-flag-overrides` is on. That flag also shows Settings > Development > Feature flags. It needs consent, so testers agreed to the privacy policy. It is never overridable itself ([`src/state/feature-flags/overrides.ts`](../src/state/feature-flags/overrides.ts))
+- Settings > Development is hidden in production builds. Flag `development`, flag `feature-flag-overrides`, or 20 taps on the version in Settings show it ([Settings screen](../src/features/settings/screens/settings/index.tsx)). Taps last until app restart. Development and preview builds always show it
 - Enable `interventions` to show exercises after entries with anxious-type emotions ([`src/features/interventions`](../src/features/interventions))
+
+### Announcements
+
+- Calendar card from `https://pixy.day/api/announcements`. App picks the newest one matching version, platform, dates, and flag that the user has not dismissed ([`announcements.ts`](../src/features/calendar/screens/calendar/announcements.ts))
+- Show a FeatureOS changelog post: add label `In-app` to it. Remove the label to hide the card. Website refreshes every 5 minutes
+- Target by app version, platform, end date, or PostHog flag: add an entry to the manual list in the website repo (`src/lib/announcements.ts`)
+- `flag` cards reach only users with analytics consent ([feature flags](#feature-flags))
+- Never reuse an id: users who dismissed it skip the new card
+- Builds before the announcements endpoint show the newest FeatureOS RSS post. Unpublish it in FeatureOS to hide it there
 
 ### Photos
 
@@ -76,19 +89,33 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Export JSON holds photo metadata only, no files
 - Backups: iOS iCloud and Finder backups include `Documents/photos`, restored with entries
 - Android backups never include photos. #480 backs up the `database` domain only. Keep photos out: Android stops the whole app backup above 25 MB
-- Preview builds: `<scheme>://dev/fake-files` swaps picker and library for [`fakePhotoSource`](../src/dev/fakePhotoSource.ts). Library access starts `undetermined`
+- Preview builds: `<scheme>://dev/fake-files` swaps picker and library for [`fakePhotoSource`](../src/dev/fake-photo-source.ts). Library access starts `undetermined`
 
 ### Location
 
 - Code: [`src/features/location`](../src/features/location). Flag `location`, switch in Settings > Check-in
 - Switch on asks for location access while in use. Denied access keeps switch off
-- New entries for today get current place passively: never asks, never marks draft dirty ([`usePassiveLocation`](../src/features/logger/hooks/usePassiveLocation.ts)). Other days start with "Add Location". Moving the time to another day drops the passive place. Edits keep stored place
+- New entries for today get current place passively: never asks, never marks draft dirty ([`usePassiveLocation`](../src/features/logger/hooks/use-passive-location.ts)). Other days start with "Add Location". Moving the time to another day drops the passive place. Edits keep stored place
 - Rating slide: time bottom left, place bottom right. Place opens picker: search, current location, remove
-- Picker map: iOS only, Apple Maps via `expo-maps`. Tap map to pin a place. Android has no map: Google Maps needs an API key, so `package.json` excludes `expo-maps` from Android autolinking ([`PlaceMap.tsx`](../src/features/location/components/PlaceMap.tsx))
+- Picker map: iOS only, Apple Maps via `expo-maps`. Tap map to pin a place. Android has no map: Google Maps needs an API key, so `package.json` excludes `expo-maps` from Android autolinking ([`place-map.tsx`](../src/features/location/components/place-map.tsx))
 - Entries store coordinates plus district and city. Name `null` when reverse geocoding fails offline
 - Location stays on device and in JSON exports. Never in analytics: `logger:log_saved` sends `has_location` only
 - Setting is device-bound, not in exports
 - Simulator: `xcrun simctl location <udid> set <lat>,<lon>`. e2e: [`location.yaml`](../e2e/flows/location.yaml), needs network for place names
+
+### Apple Health
+
+- Code: [`src/features/health`](../src/features/health). Flag `apple-health`, iOS only. Settings > Check-in > Sleep is a page for everyone; flag on adds switch "Auto Fill" under "Apple Health"
+- Library: [`@kingstinct/react-native-healthkit`](https://github.com/kingstinct/react-native-healthkit). Read sleep only. Keep `NSHealthUpdateUsageDescription` set (Apple rejects the binary without it when HealthKit is enabled) and drop background delivery
+- Apple Sleep Score has no API. Pixy computes own score from sleep samples ([`sleep-score.ts`](../src/features/health/sleep-score.ts)). Score bands map to the 5 sleep qualities
+- Switch on shows the Health access sheet. HealthKit hides read denial: switch stays on, entries get no sleep quality. Settings text points to Health app > Apps > Pixy
+- Auto Fill on: new entries skip the sleep slide. Logger fills quality in background ([`useHealthSleepFill`](../src/features/logger/hooks/use-health-sleep-fill.ts)), same rule as sleep step: step on, first entry of day with sleep. Save waits up to 1 second for Apple Health. No sleep data: entry saves without quality
+- Edits keep stored quality. Sleep slide in edit shows card above scale: total sleep and stacked bar of stages (awake, REM, core, deep), colors close to Apple Health. Without a watch: one "In Bed" bar
+- Apple Health icon: Apple's artwork license forbids redistribution, so the repository never holds it. Config plugin [`with-apple-health-icon.cjs`](../tools/expo-plugins/with-apple-health-icon.cjs) adds it to the iOS asset catalog at prebuild from gitignored `assets/third-party/apple-health/`, or downloads Apple's disk image on macOS. Missing icon: build continues, rows show no icon
+- Icon rules ([HIG HealthKit](https://developer.apple.com/design/human-interface-guidelines/healthkit)): "Apple Health" close to the icon, never a button, never altered. Icon is a white tile and vanishes on white rows, so [`apple-health-icon.tsx`](../src/features/health/components/apple-health-icon.tsx) draws a hairline gray outline around it. Apple's HIG lists borders as not allowed: product decision, check again before App Store review
+- Entries store quality only. No Health values in entries, exports, or analytics
+- Setting is device-bound, not in exports
+- Simulator holds no watch sleep. Preview builds: `<scheme>://dev/fake-files` swaps Apple Health for [`fakeHealthSource`](../src/dev/fake-health-source.ts)
 
 ### App CLI
 
@@ -109,6 +136,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - `bun app close` ends the session, resets app data, and stops this checkout's Metro. See [Phones](#phones) for phone behavior.
 - `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.
 - `bun e2e run --video` records each flow attempt to `recording.mp4` in its artifacts folder and prints the paths.
+- `bun release smoke --platform=ios` launches the production JS bundle in a copy of the cached iOS Release build. No native compile, about 2 minutes. Catches release-only startup crashes ([`scripts/cli/release-smoke.ts`](../scripts/cli/release-smoke.ts)).
 - `bun builds list` lists cached builds. `bun builds rm --build=<id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
 - Commands take options only, no positional arguments. `bun <noun> <command> --help` lists options, examples, and errors.
 - The CLI selects the preview variant. Metro stays off. `bun app dev` is the exception: development variant with Metro.
@@ -140,6 +168,15 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - iPhone: flows with `openLink` outside [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml) ([agent-device#2998](https://github.com/callstack/agent-device/issues/2998)). For `load-fixture.yaml`, `bun e2e run` loads the fixture with `devicectl` before each flow and runs flows one at a time.
 - iPhone: flows with `clearState`. agent-device clears app state on simulators only.
 
+### Device Hub
+
+- `bun hub` opens [Expo Device Hub](https://github.com/expo/expo-device-hub) on `http://localhost:3400`: live view of every simulator and emulator, tap and type, appearance, Liquid Glass, text size, accessibility toggles.
+- For humans only. Agents drive devices with `bun app drive`.
+- Never press **Shut down** or **Remove**. Simulators belong to checkouts: shut down stops another session, remove deletes its claimed simulator. `--hide-boot-device` hides only boot and create.
+- Plugin stays out of `expo start` (`expo.autolinking.exclude` in [`package.json`](../package.json)). Reason: Metro listens on all interfaces and the plugin API has no token, so anyone on the network could control devices.
+- Other Mac: run `bun hub` there, forward the port over SSH: `ssh -N -L 3400:localhost:3400 <mac>`, then open `http://localhost:3400`.
+- No SSH: `bun hub --host 0.0.0.0 --require-token` on the other Mac. Open the printed link. Treat the token like a password: never paste it into issues, PRs, or logs.
+
 ### Widgets (iOS)
 
 - Code: [`src/features/widget`](../src/features/widget). Extension bundle ID `<appId>.widgets`, app group `group.<appId>` ([`app.config.ts`](../app.config.ts))
@@ -147,7 +184,7 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - Fallback: `bunx eas-cli build -p ios --local --profile=preview --output <file>.ipa`. Run it once interactively: eas-cli creates the extension profile only then. Later runs accept `--non-interactive`.
 - Unset `CI` before eas-cli. An empty `CI` fails with `GetEnv.NoBoolean`.
 - Install the IPA: `xcrun devicectl device install app --device <id> <file>.ipa`
-- Extension memory limit: 30 MB. Too many SwiftUI nodes crash the widget, then WidgetKit shows a stale archive. Render big grids in the app as one image ([`WidgetSync.tsx`](../src/features/widget/WidgetSync.tsx)).
+- Extension memory limit: 30 MB. Too many SwiftUI nodes crash the widget, then WidgetKit shows a stale archive. Render big grids in the app as one image ([`widget-sync.tsx`](../src/features/widget/widget-sync.tsx)).
 - WidgetKit holds timeline reloads while the app is in the foreground. Send the app home and wait about 10 seconds. Remove and add the widget again to force a fresh timeline.
 - Logs: `idevicesyslog -u <udid>` (Homebrew `libimobiledevice`). Grep `[ExpoWidgets]` for the extension, `PixyPreview(React)` for app `console.error`. Release builds print both.
 - Home Screen on a phone: `agent-device open com.apple.springboard`, `longpress` on empty space, then tap by coordinates from screenshots. `snapshot` shows no accessibility tree there.
@@ -161,7 +198,7 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
   - `p2`: smoke check. Run before release.
 - Pick severity from usage in the "Pixy App - Production" PostHog project, then raise it for data risk.
 - Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
-- `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fakeFileTransfer.ts`](../src/dev/fakeFileTransfer.ts)), address book and person photos ([`src/dev/fakePeopleSources.ts`](../src/dev/fakePeopleSources.ts)), entry photo picker and photo library ([`src/dev/fakePhotoSource.ts`](../src/dev/fakePhotoSource.ts)). Fakes end when the app restarts.
+- `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fake-file-transfer.ts`](../src/dev/fake-file-transfer.ts)), address book and person photos ([`src/dev/fake-people-sources.ts`](../src/dev/fake-people-sources.ts)), entry photo picker and photo library ([`src/dev/fake-photo-source.ts`](../src/dev/fake-photo-source.ts)), Apple Health sleep ([`src/dev/fake-health-source.ts`](../src/dev/fake-health-source.ts)). Fakes end when the app restarts. `?contacts=fail-once` makes the first contact read fail.
 - `<scheme>://dev/fake-contacts?count=<n>` writes `n` fake contacts (company "Pixy Test Contact", every fifth with a photo) into the real device address book. `count=0` deletes exactly those. Synced accounts (iCloud, Google) sync them too, so delete them after testing.
 - Fixtures count as consent, so preview builds load flags from "Pixy App - Preview". Shared flows expect every flag off there. A flow that needs a flag turns it on with [`enable-feature-flag.yaml`](../e2e/subflows/enable-feature-flag.yaml) (not on iPhones)
 - Each flow asserts a result. Opening a screen is not a test.
@@ -176,7 +213,7 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 
 - Storage fixtures (`legacy-1.81.1`, `legacy-1.68`) hold raw AsyncStorage as those versions wrote it ([`src/dev/fixtures/index.ts`](../src/dev/fixtures/index.ts)).
 - `upgrade-from-*.yaml` flows (`p0`) write them, restart the app, and check entries, tags, and a first new entry.
-- `storage-load-error.yaml` writes `corrupt-logs` (unreadable logs) and checks the load error screen and its export ([`src/navigation/StorageLoadGate.tsx`](../src/navigation/StorageLoadGate.tsx)). It ends with `clearState`, so it runs on simulators and emulators only.
+- `storage-load-error.yaml` writes `corrupt-logs` (unreadable logs) and checks the load error screen and its export ([`src/shell/storage-load-gate.tsx`](../src/shell/storage-load-gate.tsx)). It ends with `clearState`, so it runs on simulators and emulators only.
 
 ### Jest
 
@@ -208,6 +245,9 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 ### Parallel runs
 
 - Each worktree gets one iPhone 17 Pro simulator named `pixy-mood-tracker-<hash>`. The CLI boots it with `simctl`.
+- Optional: `brew install mobai-app/tap/simslim`. The CLI then boots the simulator slim with [`simslim.json`](../scripts/cli/simslim.json): background daemons Pixy does not use stay off, about 1.9 GB instead of 4.6 GB per simulator.
+- Slim keeps widgets, HealthKit, contacts, and the photo picker. Off: Siri and speech, iCloud, StoreKit, remote push. For voice, iCloud backup, or store review work, run with `SIMSLIM=0`. It reboots the simulator stock.
+- `bun release smoke` always uses a stock simulator.
 - Two worktrees can build, install, open, and run iOS e2e flows at the same time. Device claims keep their sessions separate.
 - Each checkout's Metro runs on its own port (8082-8181, from the checkout hash). 8081 stays free for a manual `bun start`.
 - Android uses one `pixy-mood-tracker` AVD per machine. Android runs serialize through device claims.
@@ -226,7 +266,7 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 ### Preview App Icon
 
 - Enable `app-icons` in Settings > Development > Feature flags to unlock new icons in Settings > App Icon. Remote flag stays disabled.
-- Icons need a native build: [`expo-alternate-app-icons`](https://github.com/pchalupa/expo-alternate-app-icons) plugin config in [`app.json`](../app.json), catalog in [`src/constants/AppIcons.ts`](../src/constants/AppIcons.ts), sources (SVG or 1024 px PNG) in [`assets/images/app-icons/`](../assets/images/app-icons/)
+- Icons need a native build: [`expo-alternate-app-icons`](https://github.com/pchalupa/expo-alternate-app-icons) plugin config in [`app.json`](../app.json), catalog in [`src/constants/app-icons.ts`](../src/constants/app-icons.ts), sources (SVG or 1024 px PNG) in [`assets/images/app-icons/`](../assets/images/app-icons/)
 
 ### Preview Support Pixy
 

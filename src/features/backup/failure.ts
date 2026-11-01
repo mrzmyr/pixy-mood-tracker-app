@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { createStructuredError } from "@/lib/errors";
 
 /** Status of a cloud call that failed for lack of internet. */
 export const OFFLINE_STATUS = "backup_offline";
@@ -57,3 +58,51 @@ export const isOfflineFailure = (failure: CloudFailure): boolean =>
   /network|offline|internet|unreachable|timed out/iu.test(
     failure.message ?? ""
   );
+
+/**
+ * `react-native-cloud-storage` code when Google Drive rejects the token:
+ * access revoked in the Google account, or the token expired for good.
+ */
+export const DRIVE_SIGN_IN_REJECTED = "ERR_AUTHENTICATION_FAILED";
+
+/**
+ * Error for a failed cloud call: `backup_offline` without internet,
+ * `backup_signed_out` for a rejected Google token, else the given status.
+ * Every cloud call throws through this, so callers see one error shape.
+ */
+export const createCloudError = (
+  failure: CloudFailure,
+  status: string,
+  message: string
+) => {
+  const why = failure.message ?? "The cloud call failed without a message";
+  if (isOfflineFailure(failure)) {
+    return createStructuredError({
+      status: OFFLINE_STATUS,
+      message: "No connection to the cloud",
+      why,
+      fix: "Pixy retries when the phone is online again.",
+    });
+  }
+  if (failure.code === DRIVE_SIGN_IN_REJECTED) {
+    return Object.assign(
+      createStructuredError({
+        status: SIGNED_OUT_STATUS,
+        message: "Google Drive rejected the sign-in",
+        why: failure.message ?? "Access was revoked or the token expired",
+        fix: "Sign in to Google Drive again from Settings > Data > Backup.",
+      }),
+      { code: failure.code }
+    );
+  }
+  // Keep the library code: callers and Sentry need the original cause.
+  return Object.assign(
+    createStructuredError({
+      status,
+      message,
+      why,
+      fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
+    }),
+    { code: failure.code }
+  );
+};

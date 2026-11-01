@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import { RATING_MAPPING } from "@/constants/Ratings";
+import { RATING_MAPPING } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
-import { getAverageSleepQuality } from "@/lib/utils";
+import { getAverageSleepQuality } from "@/features/logs";
 import { isInPeriod } from "./period";
 import type { DateKey, Period, RecapDay } from "./types";
 

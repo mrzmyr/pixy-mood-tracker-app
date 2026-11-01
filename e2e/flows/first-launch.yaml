@@ -4,8 +4,12 @@ tags: [p0, onboarding]
 # New user: onboarding, first entry, entry survives a cold start.
 - launchApp:
     clearState: true
-- assertVisible: "Welcome 👋"
-- tapOn: "Start"
+- extendedWaitUntil:
+    visible:
+      id: "onboarding-welcome"
+    timeout: 10000
+- tapOn:
+    id: "onboarding-start"
 - assertVisible: "Calendar"
 - tapOn: "Next"
 - assertVisible: "Statistics"
@@ -23,7 +27,8 @@ tags: [p0, onboarding]
 
 - stopApp
 - launchApp
-- assertNotVisible: "Welcome 👋"
+- assertNotVisible:
+    id: "onboarding-welcome"
 - extendedWaitUntil:
     visible: "Add another entry for today"
     timeout: 10000

@@ -35,8 +35,42 @@ export const APP_VARIANTS = {
   },
 } as const;
 
+/**
+ * Google Sign-In URL scheme of an iOS OAuth client: the client id with its
+ * parts reversed (`com.googleusercontent.apps.<id>`).
+ */
+export const toGoogleIosUrlScheme = (clientId: string) =>
+  `com.googleusercontent.apps.${clientId.replace(".apps.googleusercontent.com", "")}`;
+
 /** Name of an app variant: `development`, `preview`, or `production`. */
 export type AppVariant = keyof typeof APP_VARIANTS;
+
+/**
+ * iOS OAuth client for Google Drive backup, one per bundle id
+ * ([docs](docs/backup.md#google-drive)). `null`: no Google Sign-In on iOS,
+ * so the Backup screen offers no Google Drive there.
+ */
+const GOOGLE_IOS_CLIENT_IDS: Record<AppVariant, string | null> = {
+  development: null,
+  preview: null,
+  production: null,
+};
+
+/**
+ * Google Sign-In config plugin for variants with an iOS OAuth client. The
+ * plugin needs the client's URL scheme, so it never runs without a client.
+ */
+const getGoogleSignInPlugins = (
+  clientId: string | null
+): NonNullable<ExpoConfig["plugins"]> =>
+  clientId === null
+    ? []
+    : [
+        [
+          "@react-native-google-signin/google-signin",
+          { iosUrlScheme: toGoogleIosUrlScheme(clientId) },
+        ],
+      ];
 
 /**
  * Home screen widgets (iOS). Each entry is one widget kind in the gallery.
@@ -247,7 +281,9 @@ const withShadowNodeLookupFix = (config: ExpoConfig) =>
   });
 
 const appConfig = ({ config }: ConfigContext): ExpoConfig => {
-  const variant = APP_VARIANTS[getAppVariant()];
+  const variantName = getAppVariant();
+  const variant = APP_VARIANTS[variantName];
+  const googleIosClientId = GOOGLE_IOS_CLIENT_IDS[variantName];
   return withShadowNodeLookupFix(
     withGradleMemory({
       ...config,
@@ -255,6 +291,10 @@ const appConfig = ({ config }: ConfigContext): ExpoConfig => {
       slug: config.slug ?? "pixy-mood-tracker",
       icon: variant.icon,
       scheme: variant.scheme,
+      extra: {
+        ...config.extra,
+        googleIosClientId,
+      },
       ios: {
         ...config.ios,
         bundleIdentifier: variant.appId,
@@ -293,6 +333,8 @@ const appConfig = ({ config }: ConfigContext): ExpoConfig => {
             widgets: WIDGETS,
           },
         ],
+        // Google Drive backup on iOS.
+        ...getGoogleSignInPlugins(googleIosClientId),
       ],
     })
   );

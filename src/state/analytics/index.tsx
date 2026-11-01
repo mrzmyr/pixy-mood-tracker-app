@@ -2,6 +2,7 @@ import { usePostHog } from "posthog-react-native";
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import { createMissingProviderError } from "@/lib/errors";
+import { configureObserve } from "@/lib/observe";
 import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
 import type {
   AnalyticsEvent,
@@ -9,7 +10,6 @@ import type {
   UsageSummaryOnce,
   TrackArgs,
 } from "@/state/analytics/events";
-import { Observe } from "expo-observe";
 
 interface AnaylticsState {
   enable: () => void;
@@ -65,7 +65,7 @@ const AnalyticsProvider = ({
     } else {
       posthog?.optOut();
     }
-    Observe.configure({ dispatchingEnabled: settings.analyticsEnabled });
+    configureObserve({ consent: settings.analyticsEnabled });
   }, [isSettingsReady, settings.analyticsEnabled, posthog]);
 
   // Identify the install by its random device id, only while analytics is on.
@@ -116,6 +116,7 @@ const AnalyticsProvider = ({
         setSettings((currentSettings) => ({
           ...currentSettings,
           analyticsEnabled: true,
+          analyticsConsentAt: new Date().toISOString(),
         }));
       },
       disable: () => {
@@ -123,6 +124,7 @@ const AnalyticsProvider = ({
         setSettings((currentSettings) => ({
           ...currentSettings,
           analyticsEnabled: false,
+          analyticsConsentAt: new Date().toISOString(),
         }));
       },
       // New anonymous id, then the regional default, like a fresh install.
@@ -136,6 +138,7 @@ const AnalyticsProvider = ({
         setSettings((currentSettings) => ({
           ...currentSettings,
           analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
+          analyticsConsentAt: null,
         }));
       },
       track: (...[eventName, properties]) => {

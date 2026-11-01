@@ -1,0 +1,21 @@
+import { Text } from "react-native";
+import useColors from "@/hooks/use-colors";
+
+/** Section title on the Statistics tab. */
+export const Title = ({ children }: { children: string }) => {
+  const colors = useColors();
+
+  return (
+    <Text
+      accessibilityRole="header"
+      style={{
+        fontSize: 20,
+        color: colors.text,
+        fontWeight: "bold",
+        marginTop: 16,
+      }}
+    >
+      {children}
+    </Text>
+  );
+};

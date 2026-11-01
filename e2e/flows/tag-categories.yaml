@@ -1,32 +1,26 @@
 appId: ${APP_ID}
 tags: [p1, tags]
 ---
-# Tag categories: imported tags start in General, a new category takes tags
-# from the tag editor and by drag, categories reorder by drag, the check-in
-# groups tags under category headings, and Delete moves tags back to General.
+# Tag categories: imported tags start in General, no category can be added,
+# an existing category takes tags from the tag editor and by drag, categories
+# reorder by drag, the check-in groups tags under category headings, and
+# Delete moves tags back to General.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
-      FIXTURE: year
+      FIXTURE: tag-categories
 - runFlow: ../subflows/open-settings.yaml
 - tapOn: "Tags"
 - assertVisible:
     id: "tag-category-edit-general"
 - assertVisible: "Work"
 
-# Create a category.
+# The fixture's category is listed, and there is no way to add one.
 - tapOn:
     id: "tag-categories-link"
 - assertVisible: "General"
-- tapOn:
-    id: "tag-category-create"
-- tapOn:
-    id: "tag-category-name"
-- inputText: "Hobbies"
-- runFlow: ../subflows/dismiss-keyboard.yaml
-- tapOn:
-    id: "tag-category-save"
 - assertVisible: "Hobbies"
+- assertNotVisible: "New Category"
 
 # Reorder categories: drag Hobbies above General.
 - swipe:
@@ -35,8 +29,7 @@ tags: [p1, tags]
     direction: UP
     duration: 1500
 - waitForAnimationToEnd
-- tapOn:
-    id: "tag-categories-close"
+- back
 
 # The new, empty category offers a drop target.
 - scrollUntilVisible:
@@ -52,31 +45,25 @@ tags: [p1, tags]
     id: "tag-save"
 - assertNotVisible: "Drag tags here"
 
-# Drag Work by its handle above the General header: it joins Hobbies, the
-# first category.
-- swipe:
-    from:
-      id: "tag-drag-handle-ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
-    direction: UP
-    duration: 2000
-- waitForAnimationToEnd
-- tapOn: "Work"
-# Category rows expose selected on iOS and checked on Android.
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - assertVisible:
-          text: "Hobbies"
-          selected: true
+# Android: drag Work by its handle above the General header: it joins
+# Hobbies, the first category. iOS reorders with the native SwiftUI
+# long-press drag, which Maestro cannot drive.
 - runFlow:
     when:
       platform: Android
     commands:
+      - swipe:
+          from:
+            id: "tag-drag-handle-ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+          direction: UP
+          duration: 2000
+      - waitForAnimationToEnd
+      - tapOn: "Work"
       - assertVisible:
           text: "Hobbies"
           checked: true
-- tapOn: "Cancel"
+      - tapOn:
+          id: "tag-cancel"
 - back
 - back
 
@@ -112,7 +99,6 @@ tags: [p1, tags]
     text: "Delete"
     index: 0
 - assertNotVisible: "Hobbies"
-- tapOn:
-    id: "tag-categories-close"
+- back
 - assertVisible: "Sport"
 - assertNotVisible: "Drag tags here"

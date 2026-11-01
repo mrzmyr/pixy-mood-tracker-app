@@ -5,7 +5,7 @@ import {
   usePostHog as getPostHogTestClient,
 } from "posthog-react-native";
 import { AnalyticsProvider, useAnalytics } from "@/state/analytics";
-import { INITIAL_STATE } from "@/constants/Settings";
+import { INITIAL_STATE } from "@/constants/settings";
 import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
 import {
   SettingsProvider,
@@ -143,6 +143,9 @@ describe("useAnalytics()", () => {
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
       true
     );
+    expect(
+      hook.result.current.settingsState.settings.analyticsConsentAt
+    ).toEqual(expect.any(String));
     expect(mockOptIn).toBeCalled();
   });
 
@@ -158,6 +161,9 @@ describe("useAnalytics()", () => {
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
       false
     );
+    expect(
+      hook.result.current.settingsState.settings.analyticsConsentAt
+    ).toEqual(expect.any(String));
     expect(mockOptOut).toBeCalled();
   });
 
@@ -311,6 +317,9 @@ describe("useAnalytics()", () => {
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
       DEFAULT_ANALYTICS_ENABLED
     );
+    expect(
+      hook.result.current.settingsState.settings.analyticsConsentAt
+    ).toBeNull();
   });
 
   test("should send usage summary only while enabled", async () => {

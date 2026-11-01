@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 16.0.0",
+    "version": ">= 22.0.0",
     "appVersionSource": "remote"
   },
   "build": {
@@ -33,7 +33,8 @@
       "env": {
         "EXPO_PUBLIC_APP_VARIANT": "production"
       },
-      "autoIncrement": true
+      "autoIncrement": true,
+      "uploadSourceMaps": true
     }
   },
   "submit": {

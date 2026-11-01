@@ -7,14 +7,15 @@ import {
   useLogLoad,
   useLogState,
   useLogUpdater,
-} from "../LogsProvider";
-import type { LogsState } from "../LogsProvider";
+} from "../logs-provider";
+import type { LogsState } from "../logs-provider";
 
 import { SettingsProvider } from "@/state/settings";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 import { File } from "expo-file-system";
 import { getPhotosDirectory } from "@/features/photos";
 import omit from "lodash/omit";
+import { LOGGER_RECOVERY_KEY } from "@/state/logger-recovery";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -222,6 +223,23 @@ describe("useLogs()", () => {
       hook.result.current.updater.sweepPhotos();
     });
 
+    expect(photo.exists).toBe(false);
+  });
+
+  test("should keep photo files of the logger recovery snapshot on `sweepPhotos`", async () => {
+    const photo = createPhotoFile(storedPhoto.fileName);
+    await AsyncStorage.setItem(
+      LOGGER_RECOVERY_KEY,
+      JSON.stringify({ draft: { photos: [storedPhoto] } })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    await act(() => hook.result.current.updater.sweepPhotos());
+    expect(photo.exists).toBe(true);
+
+    await AsyncStorage.removeItem(LOGGER_RECOVERY_KEY);
+    await act(() => hook.result.current.updater.sweepPhotos());
     expect(photo.exists).toBe(false);
   });
 

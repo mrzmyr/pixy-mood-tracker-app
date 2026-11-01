@@ -1,1 +1,1 @@
-export { StatisticsHighlights as default } from "@/features/statistics";
+export { StatisticsHighlights as default } from "@/features/statistics/routes";

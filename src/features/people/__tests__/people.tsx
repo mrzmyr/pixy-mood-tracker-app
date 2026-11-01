@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import * as FileSystem from "expo-file-system/legacy";
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 import {
   LogsProvider,
   useLogLoad,
@@ -16,8 +16,8 @@ import {
   usePeopleLoad,
   usePeopleState,
   usePeopleUpdater,
-} from "../PeopleProvider";
-import type { Person } from "../PeopleProvider";
+} from "../people-provider";
+import type { Person } from "../people-provider";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -101,6 +101,25 @@ describe("usePeople()", () => {
     ]);
   });
 
+  test("keeps a known role and reads an unknown role as no role", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        people: [
+          { ...sam, role: "friend" },
+          { ...alex, role: "neighbor" },
+        ],
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    expect(hook.result.current.state.people.map((p) => p.role)).toEqual([
+      "friend",
+      undefined,
+    ]);
+    expect(hook.result.current.state.people).toHaveLength(2);
+  });
+
   test("persists after add, edit, and delete", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -117,6 +136,25 @@ describe("usePeople()", () => {
 
     await act(() => hook.result.current.updater.deletePerson(sam.id));
     expect(hook.result.current.state.people).toEqual([]);
+  });
+
+  test("persists a new order", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.updater.createPerson(sam);
+      hook.result.current.updater.createPerson(alex);
+    });
+    await act(() =>
+      hook.result.current.updater.reorderPeople([alex.id, sam.id])
+    );
+
+    await waitFor(async () => {
+      expect(await AsyncStorage.getItem(STORAGE_KEY)).toEqual(
+        JSON.stringify({ people: [alex, sam] })
+      );
+    });
   });
 
   test("delete strips the person from entries and removes the avatar file", async () => {

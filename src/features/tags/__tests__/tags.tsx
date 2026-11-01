@@ -15,7 +15,7 @@ import {
   useSettingsLoad,
   STORAGE_KEY as STORAGE_KEY_SETTINGS,
 } from "@/state/settings";
-import { INITIAL_STATE as INITIAL_STATE_SETTINGS } from "@/constants/Settings";
+import { INITIAL_STATE as INITIAL_STATE_SETTINGS } from "@/constants/settings";
 
 import {
   STORAGE_KEY as STORAGE_KEY_TAGS,
@@ -23,11 +23,11 @@ import {
   useTagsLoad,
   useTagsState,
   useTagsUpdater,
-} from "../TagsProvider";
-import type { Tag } from "../TagsProvider";
-import { GENERAL_CATEGORY_ID, MAX_TAG_CATEGORIES } from "../tagCategories";
+} from "../tags-provider";
+import type { Tag } from "../tags-provider";
+import { GENERAL_CATEGORY_ID, MAX_TAG_CATEGORIES } from "../tag-categories";
 
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 
 const GENERAL = { id: GENERAL_CATEGORY_ID, title: "General" };
 const inGeneral = (tags: Tag[]) =>

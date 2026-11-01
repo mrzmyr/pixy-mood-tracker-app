@@ -1,4 +1,4 @@
-import { _generateItem } from "@/__tests__/utils";
+import { _generateItem } from "@/testing/log-item";
 import type { LogPhoto } from "@/types";
 import {
   getAvailableStepsForCreate,
@@ -27,9 +27,12 @@ const hasStep = (step: string) => enabledSteps.has(step);
 
 const getCreateSteps = ({ isPhotosEnabled }: { isPhotosEnabled: boolean }) =>
   getAvailableStepsForCreate({
+    isMenstruationEnabled: false,
+    hasMenstruationOnDay: false,
     question: null,
     hasStep,
     hasSleepOnDay: false,
+    isSleepAutoFilled: false,
     reminderEnabled: true,
     itemsCount: 5,
     hasPeople: false,
@@ -56,6 +59,7 @@ describe("logger steps and the photos flag", () => {
 
     expect(
       getAvailableStepsForEdit({
+        isMenstruationEnabled: false,
         item,
         hasStep: () => false,
         hasSleepOnDay: false,
@@ -69,6 +73,7 @@ describe("logger steps and the photos flag", () => {
     const item = _generateItem({ photos: [PHOTO], message: "Lunch" });
 
     const steps = getAvailableStepsForEdit({
+      isMenstruationEnabled: false,
       item,
       hasStep: () => false,
       hasSleepOnDay: false,
@@ -84,6 +89,7 @@ describe("logger steps and the photos flag", () => {
 
     expect(
       getAvailableStepsForEdit({
+        isMenstruationEnabled: false,
         item,
         hasStep: () => true,
         hasSleepOnDay: false,
@@ -98,9 +104,12 @@ describe("logger steps and the people flag", () => {
   test("flag off: create hides the people step even when enabled", () => {
     expect(
       getAvailableStepsForCreate({
+        isMenstruationEnabled: false,
+        hasMenstruationOnDay: false,
         question: null,
         hasStep: () => true,
         hasSleepOnDay: false,
+        isSleepAutoFilled: false,
         reminderEnabled: true,
         itemsCount: 5,
         hasPeople: false,
@@ -114,6 +123,7 @@ describe("logger steps and the people flag", () => {
 
     expect(
       getAvailableStepsForEdit({
+        isMenstruationEnabled: false,
         item,
         hasStep: () => false,
         hasSleepOnDay: false,
@@ -126,15 +136,20 @@ describe("logger steps and the people flag", () => {
 
 const getCreateStepsWithSleep = ({
   hasSleepOnDay,
+  isSleepAutoFilled = false,
 }: {
   hasSleepOnDay: boolean;
+  isSleepAutoFilled?: boolean;
 }) =>
   getAvailableStepsForCreate({
+    isMenstruationEnabled: false,
+    hasMenstruationOnDay: false,
     question: null,
     hasStep: (step) => step === "sleep" || step === "emotions",
     reminderEnabled: true,
     itemsCount: 5,
     hasSleepOnDay,
+    isSleepAutoFilled,
     hasPeople: false,
     isPhotosEnabled: false,
   });
@@ -155,11 +170,18 @@ describe("logger steps and sleep", () => {
     ]);
   });
 
+  test("create skips sleep while Apple Health fills it", () => {
+    expect(
+      getCreateStepsWithSleep({ hasSleepOnDay: false, isSleepAutoFilled: true })
+    ).toEqual(["rating", "emotions"]);
+  });
+
   test("edit keeps the sleep step for an entry with sleep, also with the step off", () => {
     const item = _generateItem({ sleep: { quality: "good" } });
 
     expect(
       getAvailableStepsForEdit({
+        isMenstruationEnabled: false,
         item,
         hasStep: () => false,
         hasSleepOnDay: true,
@@ -175,6 +197,7 @@ describe("logger steps and sleep", () => {
 
     expect(
       getAvailableStepsForEdit({
+        isMenstruationEnabled: false,
         item,
         hasStep: () => true,
         hasSleepOnDay: true,

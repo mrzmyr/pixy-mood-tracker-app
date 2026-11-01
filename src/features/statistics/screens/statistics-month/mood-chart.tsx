@@ -1,0 +1,71 @@
+import random from "lodash/random";
+import range from "lodash/range";
+import { useMemo } from "react";
+import { useWindowDimensions } from "react-native";
+import { BigCard } from "../../components/big-card";
+import { RatingChart } from "../../components/rating-chart";
+import type { ScaleItem } from "../../components/rating-chart";
+
+import { t } from "@/lib/translation";
+import { getRatingDistributionForXDays } from "../../rating-distribution";
+import { NotEnoughDataOverlay } from "../../components/not-enough-data-overlay";
+
+const MIN_ITEMS = 5;
+
+/**
+ * Mood line chart for every day of the month of `date`. `items` must
+ * already be limited to that month.
+ */
+export const MoodChart = ({ date, items }) => {
+  const data = getRatingDistributionForXDays(
+    items,
+    date,
+    date.daysInMonth() - 1
+  );
+
+  const width = useWindowDimensions().width - 80;
+  const height = width / 2.5;
+
+  // Placeholder data is generated once per mount so it does not change on re-render.
+  const dataDummy = useMemo<ScaleItem[]>(
+    () =>
+      range(1, 30).map((i) => ({
+        key: `${i}`,
+        count: random(3, 6),
+        value: random(1, 6),
+      })),
+    []
+  );
+
+  const validatedData = data.filter((d) => d.value !== null);
+
+  return (
+    <BigCard
+      title={t("statistics_mood_chart")}
+      subtitle={t("statistics_mood_chart_description", {
+        date: date.format("MMMM, YYYY"),
+      })}
+      isShareable={true}
+      analyticsId="rating-distribution"
+    >
+      {validatedData.length < MIN_ITEMS && (
+        <NotEnoughDataOverlay limit={MIN_ITEMS - validatedData.length} />
+      )}
+      {validatedData.length >= MIN_ITEMS ? (
+        <RatingChart
+          showAverage={true}
+          data={data}
+          height={height}
+          width={width}
+        />
+      ) : (
+        <RatingChart
+          showAverage={true}
+          data={dataDummy}
+          height={height}
+          width={width}
+        />
+      )}
+    </BigCard>
+  );
+};

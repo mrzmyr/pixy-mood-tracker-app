@@ -1,8 +1,8 @@
-import type { LoggerStep } from "@/constants/LoggerSteps";
+import type { LoggerStep } from "@/constants/logger-steps";
 import type { LogItem } from "@/features/logs";
 import type { IQuestion } from "@/features/questioner";
 import type { useSettings } from "@/state/settings";
-import { getItemDate } from "@/lib/logDates";
+import { getItemDate } from "@/lib/log-dates";
 
 /**
  * Some entry on `date` (`DATE_FORMAT`) holds a sleep quality. Sleep is asked
@@ -11,12 +11,20 @@ import { getItemDate } from "@/lib/logDates";
 export const hasSleepOnDate = (items: LogItem[], date: string) =>
   items.some((item) => !!item.sleep?.quality && getItemDate(item) === date);
 
+/** A day value includes explicit `none`; absence never means no bleeding. */
+export const hasMenstruationOnDate = (items: LogItem[], date: string) =>
+  items.some(
+    (item) => item.menstruation !== undefined && getItemDate(item) === date
+  );
+
 /**
  * Steps of the create logger: enabled optional steps, plus the reminder
  * slide on the first entry while reminders are off, and the feedback slide
  * from the third entry when a question is available. `people` needs the
  * `people` feature flag, `photos` the `photos` feature flag. `sleep` shows
- * only while no entry of the day holds a sleep quality.
+ * only while no entry of the day holds a sleep quality, and never while
+ * Apple Health fills it. Menstruation needs its flag and enabled step, and
+ * no stored flow on the day.
  */
 export const getAvailableStepsForCreate = ({
   question,
@@ -24,8 +32,11 @@ export const getAvailableStepsForCreate = ({
   reminderEnabled,
   itemsCount,
   hasSleepOnDay,
+  isSleepAutoFilled,
   hasPeople,
   isPhotosEnabled,
+  isMenstruationEnabled,
+  hasMenstruationOnDay,
 }: {
   question: IQuestion | null;
   hasStep: ReturnType<typeof useSettings>["hasStep"];
@@ -33,15 +44,28 @@ export const getAvailableStepsForCreate = ({
   itemsCount: number;
   /** See `hasSleepOnDate`. */
   hasSleepOnDay: boolean;
+  /** Apple Health "Auto Fill" is on; see `useHealthSleepFill`. */
+  isSleepAutoFilled: boolean;
   /** The `people` feature flag; off hides the slide even with the step on. */
   hasPeople: boolean;
   /** Value of the `photos` feature flag. */
   isPhotosEnabled: boolean;
+  /** Menstruation flag gates recording, never stored data. */
+  isMenstruationEnabled: boolean;
+  /** Includes explicit `none`. */
+  hasMenstruationOnDay: boolean;
 }) => {
   const slides: LoggerStep[] = ["rating"];
 
-  if (hasStep("sleep") && !hasSleepOnDay) {
+  if (hasStep("sleep") && !hasSleepOnDay && !isSleepAutoFilled) {
     slides.push("sleep");
+  }
+  if (
+    isMenstruationEnabled &&
+    hasStep("menstruation") &&
+    !hasMenstruationOnDay
+  ) {
+    slides.push("menstruation");
   }
   if (hasStep("emotions")) {
     slides.push("emotions");
@@ -76,7 +100,8 @@ export const getAvailableStepsForCreate = ({
  * also without the `people` flag. `photos` needs the `photos` feature flag,
  * also when the entry has photos: the day view still shows them. `sleep`
  * shows when the entry holds a sleep quality, or when the step is on and no
- * entry of the day holds one.
+ * entry of the day holds one. Menstruation shows only on the holding entry
+ * while its flag is on, even if the user disabled the step.
  */
 export const getAvailableStepsForEdit = ({
   item,
@@ -84,6 +109,7 @@ export const getAvailableStepsForEdit = ({
   hasSleepOnDay,
   hasPeople,
   isPhotosEnabled,
+  isMenstruationEnabled,
 }: {
   item: LogItem;
   hasStep: ReturnType<typeof useSettings>["hasStep"];
@@ -93,11 +119,17 @@ export const getAvailableStepsForEdit = ({
   hasPeople: boolean;
   /** Value of the `photos` feature flag. */
   isPhotosEnabled: boolean;
+  /** Menstruation flag gates recording, never stored data. */
+  isMenstruationEnabled: boolean;
 }) => {
   const slides: LoggerStep[] = ["rating"];
 
   if (!!item.sleep?.quality || (hasStep("sleep") && !hasSleepOnDay)) {
     slides.push("sleep");
+  }
+  // Only the holding entry can edit a daily value. Flag off keeps it read-only.
+  if (isMenstruationEnabled && item.menstruation !== undefined) {
+    slides.push("menstruation");
   }
   if (hasStep("emotions") || item.emotions.length > 0) {
     slides.push("emotions");

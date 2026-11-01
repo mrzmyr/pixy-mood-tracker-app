@@ -1,14 +1,13 @@
-export type { FileTransfer } from "./fileTransfer";
+export type { FileTransfer } from "./file-transfer";
 export type { ExportPerson, ImportData } from "./import";
-export { DataScreen } from "./screens/Data";
-export { exportRawStorage } from "./rawExport";
-export { PERSISTED_STORES, useAppData } from "./appData";
+export { exportRawStorage } from "./raw-export";
+export { PERSISTED_STORES, useAppData } from "./app-data";
 export { pixySchema } from "./import";
 export { decodeBackup, decodeBackupData, encodeBackup } from "./backup";
 export type { Backup, DecodeBackupResult } from "./backup";
-export type { AppData } from "./appData";
+export type { AppData } from "./app-data";
 export {
   createMemoryFileTransfer,
   setFileTransferOverride,
-} from "./fileTransfer";
-export * from "./DataGate";
+} from "./file-transfer";
+export * from "./data-gate";

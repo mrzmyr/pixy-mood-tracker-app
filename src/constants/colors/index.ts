@@ -1,0 +1,537 @@
+import { Platform } from "react-native";
+
+import colors from "@/constants/colors/tailwind-colors";
+
+import { TAG_COLOR_NAMES } from "@/constants/config";
+import scales from "@/constants/colors/scales";
+
+type TagColorKey = (typeof TAG_COLOR_NAMES)[number];
+
+interface TagColors {
+  [tag: TagColorKey]: {
+    title: string;
+    dot: string;
+    background: string;
+    text: string;
+    border: string;
+  };
+}
+
+const tagsDark: TagColors = {};
+const tagsLight: TagColors = {};
+
+const tagColorNames = TAG_COLOR_NAMES;
+
+for (const color of tagColorNames) {
+  tagsDark[color] = {
+    title: color,
+    dot: colors[color]["500"],
+    background: colors[color]["700"],
+    text: colors[color]["200"],
+    border: colors[color]["600"],
+  };
+  tagsLight[color] = {
+    title: color,
+    dot: colors[color]["400"],
+    background: colors[color]["200"],
+    text: colors[color]["700"],
+    border: colors[color]["400"],
+  };
+}
+
+// iOS systemRed, Android Material 3 error
+const dangerLight = Platform.OS === "android" ? "#BA1A1A" : "#FF3B30";
+const dangerDark = Platform.OS === "android" ? "#FFB4AB" : "#FF453A";
+
+/**
+ * Android: seed for every `@expo/ui` `Host`. Compose derives one Material 3
+ * palette from it (surfaces, switches, menus), so controls never follow the
+ * wallpaper while the tint stays fixed.
+ */
+export const MATERIAL_SEED_COLOR = "#005BC1";
+
+// Plain hex strings: chroma-js, Reanimated, React Navigation, and widget
+// data need strings, so never use PlatformColor here.
+// iOS systemBlue. Android: Material 3 primary (tone 40 light, tone 80
+// dark) of the same blue, fixed brand color, no dynamic color.
+const IS_ANDROID = Platform.OS === "android";
+const tintColorLight = IS_ANDROID ? MATERIAL_SEED_COLOR : "#007aff";
+const tintColorDark = IS_ANDROID ? "#ADC6FF" : "#0a84ff";
+// Text and icons on a tint background (Material 3 onPrimary).
+const onTintLight = "#FFF";
+const onTintDark = IS_ANDROID ? "#002E69" : "#FFF";
+
+const light = {
+  text: "#000",
+  textSecondary: colors.neutral[500],
+  background: colors.neutral[100],
+  backgroundSecondary: colors.neutral[300],
+  link: tintColorLight,
+  tint: tintColorLight,
+
+  loadingIndicator: colors.neutral[500],
+
+  logHeaderText: colors.neutral[600],
+  logHeaderHighlight: colors.neutral[200],
+
+  logBackground: colors.neutral[100],
+  logBackgroundTransparent: "rgba(245,245,245, 0)",
+
+  logCardBackground: colors.white,
+  logCardBackgroundTransparent: "rgba(255,255,255, 0)",
+  logCardBorder: colors.neutral[200],
+
+  logActionBackground: colors.neutral[200],
+  logActionBorder: tintColorLight,
+  logActionText: colors.neutral[500],
+
+  tagBackground: colors.white,
+  tagText: colors.neutral[800],
+  tagBackgroundActive: colors.blue[100],
+  tagTextActive: colors.blue[600],
+
+  stepperBackground: colors.neutral[300],
+  stepperBackgroundActive: colors.neutral[700],
+
+  bottomSheetHeaderBackground: colors.neutral[50],
+  bottomSheetBackground: colors.neutral[100],
+  bottomSheetHeaderBorder: colors.neutral[200],
+  bottomSheetHandle: "rgba(255, 255, 255, 0.5)",
+
+  feedbackSelectionBackground: colors.neutral[200],
+  feedbackSelectionText: colors.neutral[900],
+  feedbackBackground: colors.neutral[100],
+
+  cardBackground: "#fff",
+  cardBorder: colors.neutral[200],
+  toastSuccessIcon: colors.green[600],
+
+  // InlineAlert: accent colors the icon. Background = accent at 12% (dark 16%).
+  alert: {
+    error: { accent: dangerLight, background: `${dangerLight}1F` },
+    warning: {
+      accent: colors.amber[600],
+      background: `${colors.amber[600]}1F`,
+    },
+    info: { accent: tintColorLight, background: `${tintColorLight}1F` },
+    success: {
+      accent: colors.green[600],
+      background: `${colors.green[600]}1F`,
+    },
+  },
+  snackbarBackground: colors.neutral[800],
+  snackbarText: colors.neutral[50],
+  snackbarAction: colors.blue[300],
+
+  headerBorder: colors.neutral[300],
+
+  tabsBackground: colors.neutral[100],
+  tabsBorder: colors.neutral[300],
+
+  tabsIconActive: tintColorLight,
+  tabsIconInactive: colors.neutral[400],
+  tabsTextActive: tintColorLight,
+  tabsTextInactive: colors.neutral[400],
+
+  menuListItemBackground: "#FFF",
+  // Hairline around Apple's white Health tile on white rows.
+  healthIconBorder: colors.neutral[300],
+  menuListItemText: "#000",
+  menuListItemIcon: "#000",
+  menuListItemBorder: colors.neutral[100],
+
+  pressRipple: "rgba(0, 0, 0, 0.12)",
+
+  notificationBackground: "#FFF",
+
+  calendarBackground: colors.neutral[50],
+  calendarItemBackgroundFuture: colors.neutral[50],
+  calendarWeekNameColor: colors.neutral[400],
+  calendarMonthNameColor: colors.neutral[400],
+
+  linkButtonTextPrimary: tintColorLight,
+  linkButtonTextPrimaryDisabled: colors.neutral[400],
+  linkButtonTextSecondary: colors.neutral[500],
+  linkButtonTextSecondaryDisabled: colors.neutral[400],
+
+  primaryButtonBackground: tintColorLight,
+  primaryButtonText: onTintLight,
+  primaryButtonBorder: tintColorLight,
+
+  primaryButtonBackgroundDisabled: colors.neutral[300],
+  primaryButtonTextDisabled: colors.neutral[500],
+  primaryButtonBorderDisabled: colors.neutral[300],
+
+  secondaryButtonBackground: colors.blue[100],
+  secondaryButtonText: colors.blue[600],
+  secondaryButtonBorder: colors.blue[100],
+  secondaryButtonBorderDisabled: colors.neutral[300],
+  secondaryButtonBackgroundDisabled: colors.neutral[300],
+  secondaryButtonTextDisabled: colors.neutral[500],
+
+  contrastButtonBackground: colors.neutral[900],
+  contrastButtonText: colors.white,
+  contrastButtonBorder: colors.neutral[900],
+  contrastButtonBackgroundDisabled: colors.neutral[300],
+  contrastButtonTextDisabled: colors.neutral[500],
+  contrastButtonBorderDisabled: colors.neutral[300],
+
+  tertiaryButtonBackground: colors.neutral[200],
+  tertiaryButtonText: colors.neutral[600],
+  tertiaryButtonBorder: colors.neutral[200],
+  tertiaryButtonBorderDisabled: colors.neutral[300],
+
+  danger: dangerLight,
+  dangerButtonBackground: colors.neutral[200],
+  dangerButtonText: dangerLight,
+  dangerButtonBorder: colors.neutral[200],
+
+  textInputBackground: colors.neutral[200],
+  textInputText: colors.neutral[800],
+  textInputPlaceholder: colors.neutral[400],
+  textInputLabel: colors.neutral[700],
+  textInputBorder: colors.neutral[200],
+
+  checkboxBackground: colors.neutral[100],
+  checkboxBorder: colors.neutral[300],
+  checkboxCheckedBackground: tintColorLight,
+  checkboxCheckedBorder: tintColorLight,
+  checkboxCheckedText: onTintLight,
+
+  statisticsBackground: colors.neutral[100],
+  statisticsCardBackground: "#FFF",
+  statisticsCardSubtitle: colors.neutral[500],
+  statisticsWeekdayText: colors.neutral[400],
+  statisticsWeekdayBorder: colors.neutral[200],
+  statisticsCalendarDotBackground: colors.neutral[200],
+  statisticsCalendarDotText: colors.neutral[500],
+  statisticsCalendarDotBorder: colors.neutral[400],
+  statisticsNoDataBorder: colors.neutral[300],
+  statisticsNoDataText: colors.neutral[500],
+
+  statisticsLinePrimary: colors.neutral[400],
+  statisticsLineMuted: colors.neutral[300],
+  statisticsLegendText: colors.neutral[400],
+  statisticsGridLine: colors.neutral[200],
+
+  statisticsNotEnoughDataTitle: colors.black,
+  statisticsNotEnoughDataSubtitle: colors.neutral[500],
+  statisticsNotEnoughDataBackdrop: "rgba(255, 255, 255, 0.8)",
+
+  statisticsTagsTrendMutedBackground: colors.neutral[200],
+  statisticsTagsTrendMutedText: colors.neutral[800],
+
+  yearPixelsEmptyDot: colors.neutral[200],
+
+  widgetBackground: colors.white,
+  widgetText: colors.neutral[900],
+  widgetTextSecondary: colors.neutral[500],
+  widgetFutureDay: colors.neutral[100],
+  yearPixelsLegendText: colors.neutral[400],
+
+  onboardingTitle: colors.black,
+  onboardingBody: colors.neutral[700],
+
+  // Sky color under the cloud photo until it loads.
+  onboardingSkyBackground: "#a9d4fd",
+  // Controls over the sky are see-through, so they take its color.
+  onboardingPaginationText: "rgba(0, 0, 0, 0.45)",
+  onboardingPaginationDotActive: "rgba(0, 0, 0, 0.45)",
+  onboardingPaginationDotInactive: "rgba(0, 0, 0, 0.12)",
+  onboardingControlBackground: "rgba(255, 255, 255, 0.4)",
+
+  onboardingListItemDot: colors.neutral[500],
+  onboardingListItemText: colors.neutral[800],
+
+  onboardingPrivacyBadgeBackground: tintColorLight,
+  onboardingPrivacyBadgeVector: onTintLight,
+
+  sharingLogoBackground: colors.white,
+  sharingLogoText: colors.neutral[600],
+
+  entryBackground: colors.white,
+  entryItemBorder: colors.neutral[200],
+  // See-through hairline for chips on glass tiles; blends with any backdrop.
+  glassBorder: "rgba(0, 0, 0, 0.1)",
+  // Entry summary: page under the hero, and the tiles on it.
+  summaryBackground: colors.white,
+  summaryTile: colors.white,
+
+  // Bezel: outer shell around statistics cards. `bezelInnerBorder` also edges person tiles.
+  bezelBackground: colors.white,
+  bezelBorder: colors.neutral[200],
+  bezelInnerBorder: colors.neutral[200],
+  bezelShadow: "0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.035)",
+
+  feedbackBoxBackground: colors.amber[50],
+
+  promoCardBackground: colors.white,
+  promoCardText: colors.neutral[800],
+  promoCardBorder: colors.neutral[200],
+
+  // See-through, so the meter works on glass tiles too.
+  sleepQualityEmpty: "rgba(99, 102, 241, 0.18)",
+  sleepQualityFull: colors.indigo[500],
+  menstruationEmpty: colors.rose[100],
+  menstruationFull: colors.rose[500],
+
+  // Recap chart and marker accents.
+  moduleMood: colors.emerald[700],
+  moduleEmotions: colors.rose[600],
+  moduleLocation: colors.teal[700],
+
+  // Recap card: white card, hairline border, small shadow; footer row on a
+  // faint tint (footer text, neutral 500, keeps 4.5:1 on it). Media panels
+  // and chips share the muted gray.
+  recapCardBorder: colors.neutral[200],
+  recapCardShadow: "0 1px 2px rgba(0,0,0,0.05)",
+  recapFooterBackground: colors.neutral[50],
+  recapMutedBackground: colors.neutral[100],
+
+  scales: scales.light,
+  tags: tagsLight,
+  palette: colors,
+};
+
+/**
+ * Theme colors passed to `NavigationContainer` and read via `useColors`.
+ * Light and dark themes must define the same keys.
+ */
+export type IColors = typeof light & {
+  scales: typeof scales.light;
+  tags: typeof tagsLight;
+};
+
+const dark: IColors & {
+  scales: typeof scales.dark;
+  tags: typeof tagsDark;
+} = {
+  text: "#fff",
+  textSecondary: colors.neutral[400],
+  background: "#000",
+  backgroundSecondary: colors.neutral[900],
+  link: tintColorDark,
+  tint: tintColorDark,
+
+  loadingIndicator: "#fff",
+
+  logHeaderText: colors.neutral[300],
+  logHeaderHighlight: colors.neutral[800],
+
+  logBackground: colors.neutral[900],
+  logBackgroundTransparent: "rgba(23, 23, 23, 0)",
+
+  logCardBackground: colors.neutral[800],
+  logCardBackgroundTransparent: "rgba(38,38,38,0)",
+  logCardBorder: colors.neutral[700],
+
+  logActionBackground: colors.neutral[800],
+  logActionBorder: tintColorDark,
+  logActionText: colors.neutral[300],
+
+  tagBackground: colors.neutral[900],
+  tagText: colors.neutral[200],
+  tagBackgroundActive: colors.blue[900],
+  tagTextActive: colors.blue[100],
+
+  stepperBackground: colors.neutral[800],
+  stepperBackgroundActive: colors.neutral[600],
+
+  bottomSheetHeaderBackground: colors.neutral[900],
+  bottomSheetBackground: colors.neutral[900],
+  bottomSheetHeaderBorder: colors.neutral[800],
+  bottomSheetHandle: "rgba(255, 255, 255, 0.5)",
+
+  feedbackSelectionBackground: colors.neutral[800],
+  feedbackSelectionText: colors.white,
+  feedbackBackground: colors.neutral[900],
+
+  cardBackground: colors.neutral[900],
+  cardBorder: colors.neutral[800],
+  toastSuccessIcon: colors.green[400],
+
+  alert: {
+    error: { accent: dangerDark, background: `${dangerDark}29` },
+    warning: {
+      accent: colors.amber[400],
+      background: `${colors.amber[400]}29`,
+    },
+    info: { accent: tintColorDark, background: `${tintColorDark}29` },
+    success: {
+      accent: colors.green[400],
+      background: `${colors.green[400]}29`,
+    },
+  },
+  snackbarBackground: colors.neutral[200],
+  snackbarText: colors.neutral[900],
+  snackbarAction: colors.blue[700],
+
+  headerBorder: colors.neutral[800],
+
+  tabsBackground: "transparent",
+  tabsBorder: colors.neutral[800],
+
+  tabsIconActive: tintColorDark,
+  tabsIconInactive: colors.neutral[600],
+  tabsTextActive: tintColorDark,
+  tabsTextInactive: colors.neutral[600],
+
+  menuListItemBackground: colors.neutral[900],
+  healthIconBorder: colors.neutral[700],
+  menuListItemText: colors.neutral[50],
+  menuListItemIcon: colors.neutral[200],
+  menuListItemBorder: colors.neutral[800],
+
+  pressRipple: "rgba(255, 255, 255, 0.16)",
+
+  notificationBackground: colors.neutral[900],
+
+  calendarBackground: "#000",
+  calendarItemBackgroundFuture: "#000",
+  calendarWeekNameColor: colors.neutral[500],
+  calendarMonthNameColor: colors.neutral[500],
+
+  linkButtonTextPrimary: tintColorDark,
+  linkButtonTextPrimaryDisabled: colors.neutral[400],
+  linkButtonTextSecondary: colors.neutral[500],
+  linkButtonTextSecondaryDisabled: colors.neutral[400],
+
+  primaryButtonBackground: tintColorDark,
+  primaryButtonText: onTintDark,
+  primaryButtonBorder: tintColorDark,
+
+  primaryButtonBackgroundDisabled: colors.neutral[800],
+  primaryButtonTextDisabled: colors.neutral[400],
+  primaryButtonBorderDisabled: colors.neutral[800],
+
+  secondaryButtonBackground: colors.blue[900],
+  secondaryButtonText: colors.blue[100],
+  secondaryButtonBorder: colors.blue[900],
+  secondaryButtonBackgroundDisabled: colors.neutral[800],
+  secondaryButtonTextDisabled: colors.neutral[400],
+  secondaryButtonBorderDisabled: colors.neutral[800],
+
+  contrastButtonBackground: colors.white,
+  contrastButtonText: colors.neutral[900],
+  contrastButtonBorder: colors.white,
+  contrastButtonBackgroundDisabled: colors.neutral[800],
+  contrastButtonTextDisabled: colors.neutral[400],
+  contrastButtonBorderDisabled: colors.neutral[800],
+
+  tertiaryButtonBackground: colors.neutral[800],
+  tertiaryButtonText: colors.white,
+  tertiaryButtonBorder: colors.neutral[800],
+  tertiaryButtonBorderDisabled: colors.neutral[800],
+
+  danger: dangerDark,
+  dangerButtonBackground: colors.neutral[800],
+  dangerButtonText: dangerDark,
+  dangerButtonBorder: colors.neutral[800],
+
+  textInputBackground: colors.neutral[800],
+  textInputText: colors.neutral[200],
+  textInputPlaceholder: colors.neutral[500],
+  textInputBorder: colors.neutral[900],
+  textInputLabel: colors.neutral[500],
+
+  checkboxBackground: colors.neutral[800],
+  checkboxBorder: colors.neutral[700],
+  checkboxCheckedBackground: tintColorDark,
+  checkboxCheckedBorder: tintColorDark,
+  checkboxCheckedText: onTintDark,
+
+  statisticsBackground: "#000",
+  statisticsCardBackground: colors.neutral[900],
+  statisticsCardSubtitle: colors.neutral[400],
+  statisticsWeekdayText: colors.neutral[400],
+  statisticsWeekdayBorder: colors.neutral[800],
+  statisticsCalendarDotBackground: colors.neutral[800],
+  statisticsCalendarDotText: colors.neutral[600],
+  statisticsCalendarDotBorder: colors.neutral[700],
+  statisticsNoDataBorder: colors.neutral[800],
+  statisticsNoDataText: colors.neutral[700],
+
+  statisticsTagsTrendMutedBackground: colors.neutral[800],
+  statisticsTagsTrendMutedText: colors.neutral[500],
+
+  statisticsLinePrimary: colors.white,
+  statisticsLineMuted: colors.neutral[500],
+  statisticsLegendText: colors.neutral[600],
+  statisticsGridLine: colors.neutral[700],
+
+  statisticsNotEnoughDataTitle: colors.white,
+  statisticsNotEnoughDataSubtitle: colors.neutral[500],
+  statisticsNotEnoughDataBackdrop: "rgba(0, 0, 0, 0.7)",
+
+  yearPixelsEmptyDot: colors.neutral[800],
+
+  widgetBackground: colors.neutral[900],
+  widgetText: colors.white,
+  widgetTextSecondary: colors.neutral[400],
+  widgetFutureDay: colors.neutral[700],
+  yearPixelsLegendText: colors.neutral[500],
+
+  onboardingTitle: colors.white,
+  onboardingBody: colors.neutral[300],
+
+  // Night sky behind faint clouds and stars.
+  onboardingSkyBackground: "#0a1124",
+  onboardingPaginationText: "rgba(255, 255, 255, 0.6)",
+  onboardingPaginationDotActive: "rgba(255, 255, 255, 0.6)",
+  onboardingPaginationDotInactive: "rgba(255, 255, 255, 0.2)",
+  onboardingControlBackground: "rgba(255, 255, 255, 0.12)",
+
+  onboardingPrivacyBadgeBackground: tintColorDark,
+  onboardingPrivacyBadgeVector: onTintDark,
+  onboardingListItemDot: colors.neutral[700],
+  onboardingListItemText: colors.neutral[300],
+
+  sharingLogoBackground: colors.neutral[800],
+  sharingLogoText: colors.neutral[400],
+
+  entryBackground: colors.neutral[800],
+  entryItemBorder: colors.neutral[700],
+  glassBorder: "rgba(255, 255, 255, 0.16)",
+  summaryBackground: colors.black,
+  summaryTile: colors.neutral[900],
+
+  // Darker than the inner surfaces, lighter than the black background.
+  bezelBackground: "#0f0f0f",
+  bezelBorder: colors.neutral[800],
+  bezelInnerBorder: colors.neutral[700],
+  bezelShadow: "0 1px 2px rgba(0,0,0,0.5)",
+
+  feedbackBoxBackground: colors.neutral[900],
+
+  promoCardBackground: colors.neutral[900],
+  promoCardText: colors.white,
+  promoCardBorder: colors.neutral[800],
+
+  sleepQualityEmpty: "rgba(99, 102, 241, 0.4)",
+  sleepQualityFull: colors.indigo[400],
+  menstruationEmpty: colors.rose[900],
+  menstruationFull: colors.rose[400],
+
+  moduleMood: colors.emerald[400],
+  moduleEmotions: colors.rose[400],
+  moduleLocation: colors.teal[400],
+
+  // Lighter than the muted panel, so boxed nights keep an edge.
+  recapCardBorder: colors.neutral[700],
+  recapCardShadow: "0 1px 2px rgba(0,0,0,0.5)",
+  recapFooterBackground: "#0f0f0f",
+  recapMutedBackground: colors.neutral[800],
+
+  scales: scales.dark,
+  tags: tagsDark,
+  palette: colors,
+};
+
+/**
+ * Light and dark themes; the navigator picks one from the system color
+ * scheme.
+ */
+export default {
+  light,
+  dark,
+};

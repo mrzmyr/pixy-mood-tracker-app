@@ -5,8 +5,6 @@
 export const THRESHOLDS = {
   /** Reminder nudge: a week that cannot reach this many check-in days. */
   reminderMaxCheckInDays: 5,
-  /** Group your tags: at least this many active tags, all in General. */
-  categoriesMinTags: 30,
   /** Emotion again: good emotion, first time in at least this many days. */
   emotionAgainMinGapDays: 30,
   /** Emotion absent: days with no hard emotion, counted back from period end. */
@@ -47,6 +45,10 @@ export const THRESHOLDS = {
   tripMinKm: 25,
   /** Trips: days in one city merge across gaps up to this many days. */
   tripMaxGapDays: 2,
+  /** Places: home areas needed without a trip, so one area never fills a card. */
+  placesMinSpots: 2,
+  /** Places: rows at most, trips first. */
+  placesMaxRows: 5,
   /** Effects: days with the driver needed for any signal. */
   effectMinDays: 5,
   /** Effects: difference over standard error for a strong signal. */
@@ -71,10 +73,10 @@ export const THRESHOLDS = {
   peopleMoodMinPeople: 4,
   /** People and mood: rows at most. */
   peopleMoodMaxRows: 8,
-  /** Trends: rolling window in days, per recap. */
-  trendWindowDays: { quarter: 30, year: 60 },
-  /** Trends: days between window ends, per recap. */
-  trendStepDays: { quarter: 7, year: 14 },
+  /** Trends: rolling window in days. */
+  trendWindowDays: 60,
+  /** Trends: days between window ends. */
+  trendStepDays: 14,
   /** Trends: days with and days without the driver per window. */
   trendMinDays: 5,
   /** Trends: window ends needed for a line. */
@@ -85,4 +87,52 @@ export const THRESHOLDS = {
   trendSteadyBelow: 0.25,
   /** Trends: rows at most. */
   trendMaxRows: 5,
+  /** Month story: check-in days needed for a story. */
+  storyMinCheckIns: 10,
+  /** Month story: months back from the current month that keep a story. */
+  storyMaxMonthsBack: 3,
+  /** Week story: check-in days needed. */
+  weekStoryMinCheckIns: 4,
+  /** Week story: weeks before the current one that still get a story. */
+  weekStoryMaxWeeksBack: 2,
+  /** Story photos and bright days: rating at least this (good). */
+  storyBrightMinRating: 4,
+  /** Story tags that felt lighter or heavier: rows at most. Medium or strong effects only. */
+  storyTagEffectMaxRows: 3,
+  /** Story orbit: people with enough connected days needed. */
+  storyOrbitMinPeople: 3,
+  /** Story orbit: connected days per person, at least. */
+  storyOrbitMinDays: 2,
+  /** Story orbit: people at most. */
+  storyOrbitMaxPeople: 8,
+  /** Share card: bright photo days needed for photos on the card. */
+  sharePhotos: 1,
+  /** Mood chart: check-in days needed. */
+  moodChartMinDays: 4,
+  /** Mood count: check-in days needed. */
+  moodCountMinDays: 10,
+  /** Good and harder days: days of the kind needed. */
+  moodDaysMin: 2,
+  /** Good days: day rating at least this (good). */
+  moodDaysGoodMinRating: 4,
+  /** Harder days: day rating at most this (bad). */
+  moodDaysHardMaxRating: 2,
+  /** Sleep chart: nights with sleep needed in a week. */
+  sleepChartMinNightsWeek: 3,
+  /** Sleep chart: nights with sleep needed in a month. */
+  sleepChartMinNightsMonth: 7,
+  /** Most used tags: different tags needed. */
+  tagsMinDifferent: 3,
+  /** Most used tags: rows at most. */
+  tagsMaxRows: 5,
+  /** Tag days: days with the tag in a week, at least. */
+  tagDaysMinWeek: 3,
+  /** Tag days: days with the tag in a month, at least. */
+  tagDaysMinMonth: 6,
+  /** Tag days: cards per period, at most. */
+  tagDaysMaxCards: 2,
+  /** Year in pixels: check-in days in the year needed. */
+  yearPixelsMinDays: 30,
+  /** Best month: check-in days a month needs to rank. */
+  bestMonthMinDays: 7,
 } as const;

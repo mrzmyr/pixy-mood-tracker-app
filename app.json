@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pixy",
     "slug": "pixy-mood-tracker",
-    "version": "1.97.0",
+    "version": "1.110.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
@@ -53,6 +53,22 @@
             "NSPrivacyCollectedDataTypeTracking": false,
             "NSPrivacyCollectedDataTypePurposes": [
               "NSPrivacyCollectedDataTypePurposeAnalytics"
+            ]
+          },
+          {
+            "NSPrivacyCollectedDataType": "NSPrivacyCollectedDataTypeEmailAddress",
+            "NSPrivacyCollectedDataTypeLinked": true,
+            "NSPrivacyCollectedDataTypeTracking": false,
+            "NSPrivacyCollectedDataTypePurposes": [
+              "NSPrivacyCollectedDataTypePurposeAppFunctionality"
+            ]
+          },
+          {
+            "NSPrivacyCollectedDataType": "NSPrivacyCollectedDataTypeCustomerSupport",
+            "NSPrivacyCollectedDataTypeLinked": true,
+            "NSPrivacyCollectedDataTypeTracking": false,
+            "NSPrivacyCollectedDataTypePurposes": [
+              "NSPrivacyCollectedDataTypePurposeAppFunctionality"
             ]
           }
         ]
@@ -140,7 +156,9 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 24
+            "minSdkVersion": 24,
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
           },
           "ios": {
             "deploymentTarget": "16.4"
@@ -171,6 +189,14 @@
               "foregroundImage": "./assets/images/app-icons/tangerine-inverse-foreground.png",
               "backgroundColor": "#FFFFFF"
             }
+          },
+          {
+            "name": "Sky",
+            "ios": "./assets/images/app-icons/sky.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sky-foreground.png",
+              "backgroundImage": "./assets/images/app-icons/sky-background.png"
+            }
           }
         ]
       ],
@@ -178,6 +204,13 @@
         "expo-contacts",
         {
           "contactsPermission": "Pixy lists your contacts so you can add people. Only the people you pick are saved, with name and photo, on your device."
+        }
+      ],
+      [
+        "expo-speech-transcriber",
+        {
+          "speechRecognitionPermission": "Pixy turns what you say into a check-in note and finds people, tags, and emotions in it. Speech is processed on your device.",
+          "microphonePermission": "Pixy listens while you talk about your day to write your check-in. Audio is never saved."
         }
       ],
       "expo-image",
@@ -203,7 +236,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Pixy adds the place where you check in to your entry. Your location stays on your device.",
+          "locationWhenInUsePermission": "Pixy adds the place where you check in to your entry. Pixy stores the place on your device and asks Apple Maps for its name.",
           "locationAlwaysAndWhenInUsePermission": false,
           "locationAlwaysPermission": false,
           "motionUsagePermission": "Pixy does not use motion data. Our location tool includes this permission, but Pixy never asks for it."
@@ -214,7 +247,16 @@
         {
           "faceIDPermission": "Pixy uses Face ID to unlock the app when App Lock is on."
         }
-      ]
+      ],
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "Pixy reads your sleep to suggest how well you slept when you check in. Your sleep data stays on your iPhone.",
+          "NSHealthUpdateUsageDescription": "Pixy does not save data to Apple Health. Apple requires this notice when HealthKit is on. Pixy only reads sleep to suggest sleep quality, and that data stays on your iPhone.",
+          "background": false
+        }
+      ],
+      "./tools/expo-plugins/with-apple-health-icon.cjs"
     ],
     "buildCacheProvider": {
       "plugin": "./scripts/build-cache-provider.cjs"
@@ -227,6 +269,9 @@
     "experiments": {
       "reactCompiler": true,
       "typedRoutes": true
+    },
+    "web": {
+      "output": "single"
     }
   }
 }

@@ -1,1 +1,1 @@
-export { DevFakeCloudLinkScreen as default } from "@/features/settings";
+export { DevFakeCloudLinkScreen as default } from "@/features/settings/routes";

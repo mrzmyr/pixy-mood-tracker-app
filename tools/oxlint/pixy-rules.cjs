@@ -1,3 +1,5 @@
+const path = require("node:path");
+
 const getFunctionName = (node) => {
   if (node.id?.type === "Identifier") {
     return node.id.name;
@@ -285,6 +287,67 @@ const noLayoutAnimation = {
   },
 };
 
+// Handled errors go through src/lib/report-error.ts, so Sentry and Observe
+// both see them and Observe never receives `why`.
+const DIRECT_ERROR_REPORTERS = {
+  "@sentry/react-native": { exportName: null, method: "captureException" },
+  "expo-observe": { exportName: "Observe", method: "reportError" },
+};
+
+const noDirectErrorReporting = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Disallow Sentry.captureException and Observe.reportError outside reportError",
+    },
+    messages: {
+      banned:
+        "Call `reportError` from `@/lib/report-error` so Sentry and Observe both get the error.",
+    },
+    schema: [],
+  },
+  create(context) {
+    // Local name of the object that holds the banned method, mapped to it.
+    const reporterNames = new Map();
+
+    return {
+      ImportDeclaration(node) {
+        const reporter = DIRECT_ERROR_REPORTERS[node.source.value];
+        if (!reporter) {
+          return;
+        }
+        for (const specifier of node.specifiers) {
+          const imported =
+            specifier.type === "ImportSpecifier"
+              ? (specifier.imported.name ?? specifier.imported.value)
+              : null;
+          if (reporter.exportName === null && imported === null) {
+            reporterNames.set(specifier.local.name, reporter.method);
+          } else if (imported === reporter.exportName) {
+            reporterNames.set(specifier.local.name, reporter.method);
+          } else if (
+            reporter.exportName === null &&
+            imported === reporter.method
+          ) {
+            context.report({ messageId: "banned", node: specifier });
+          }
+        }
+      },
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.object.type === "Identifier" &&
+          node.property.type === "Identifier" &&
+          reporterNames.get(node.object.name) === node.property.name
+        ) {
+          context.report({ messageId: "banned", node: node.property });
+        }
+      },
+    };
+  },
+};
+
 // String literals are the only literals whose raw source starts with a quote.
 const getStringValue = (element) =>
   element?.type === "Literal" && /^["']/u.test(element.raw)
@@ -341,15 +404,105 @@ const sortedStringArrays = {
   },
 };
 
+// unicorn/filename-case checks file names only. This rule checks folders under `src/`.
+// Tool-owned names stay: `__tests__`, `__mocks__`, `(group)`, `[param]`, `@scope`.
+const KEBAB_FOLDER = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
+const TOOL_OWNED_FOLDER = /^[_+[(@]/u;
+
+const kebabCaseFolders = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Require kebab-case folder names under src/",
+    },
+    messages: {
+      folder:
+        "Rename folder `{{name}}` to kebab-case. `bun scripts/codemods/kebab-case-files.ts` renames it and its imports.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const relative = path.relative(
+      context.cwd ?? process.cwd(),
+      context.filename
+    );
+    const [root, ...segments] = relative.split(path.sep);
+    if (root !== "src") {
+      return {};
+    }
+    const folder = segments
+      .slice(0, -1)
+      .find(
+        (name) => !TOOL_OWNED_FOLDER.test(name) && !KEBAB_FOLDER.test(name)
+      );
+    if (folder === undefined) {
+      return {};
+    }
+    return {
+      Program(node) {
+        context.report({ messageId: "folder", node, data: { name: folder } });
+      },
+    };
+  },
+};
+
+// Modal routes show the native sheet bar on iOS (DESIGN.md "Sheets and Modals").
+// `transparentModal` is left out: media overlays such as the photo viewer.
+const MODAL_PRESENTATIONS = new Set([
+  "modal",
+  "formSheet",
+  "pageSheet",
+  "fullScreenModal",
+  "containedModal",
+]);
+
+const getLiteralProperty = (node, name) =>
+  node.properties.find(
+    (property) =>
+      property.type === "Property" &&
+      property.key.type === "Identifier" &&
+      property.key.name === name &&
+      property.value.type === "Literal"
+  )?.value.value;
+
+const modalRouteShowsHeader = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Forbid hidden headers on modal routes",
+    },
+    messages: {
+      hidden:
+        "Modal route hides the native bar. Use `getModalRouteOptions` and `RouteModalHeader` (DESIGN.md Sheets and Modals).",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      ObjectExpression(node) {
+        if (
+          MODAL_PRESENTATIONS.has(getLiteralProperty(node, "presentation")) &&
+          getLiteralProperty(node, "headerShown") === false
+        ) {
+          context.report({ messageId: "hidden", node });
+        }
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
     "no-hermes-missing-array-methods": noHermesMissingArrayMethods,
     "no-hermes-missing-intl": noHermesMissingIntl,
     "no-layout-animation": noLayoutAnimation,
+    "no-direct-error-reporting": noDirectErrorReporting,
     "require-exported-jsdoc": requireExportedJsDoc,
     "boolean-function-prefix": booleanFunctionPrefix,
     "structured-thrown-errors": structuredThrownErrors,
     "sorted-string-arrays": sortedStringArrays,
+    "kebab-case-folders": kebabCaseFolders,
+    "modal-route-shows-header": modalRouteShowsHeader,
   },
 };

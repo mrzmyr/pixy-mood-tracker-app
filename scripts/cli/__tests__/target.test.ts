@@ -170,24 +170,28 @@ describe("phone targets", () => {
         target: "mobile",
       });
     }
-    const iosDevices = phones
-      .filter((phone) => phone.platform === "ios")
-      .map((phone) => ({
-        hardwareProperties: { udid: phone.id },
-        connectionProperties: { pairingState: "paired" },
-        deviceProperties: {
-          bootState: "booted",
-          developerModeStatus: "enabled",
-        },
-      }));
+    const iosDevices = phones.flatMap((phone) =>
+      phone.platform === "ios"
+        ? [
+            {
+              hardwareProperties: { udid: phone.id },
+              connectionProperties: { pairingState: "paired" },
+              deviceProperties: {
+                bootState: "booted",
+                developerModeStatus: "enabled",
+              },
+            },
+          ]
+        : []
+    );
     const rows = buildRows({
       ...base,
       agentDevices: phones,
       iosDevices,
       adbStates: Object.fromEntries(
-        phones
-          .filter((phone) => phone.platform === "android")
-          .map((phone) => [phone.id, "device"])
+        phones.flatMap((phone) =>
+          phone.platform === "android" ? [[phone.id, "device"]] : []
+        )
       ),
     });
     expect(rows).toHaveLength(12);

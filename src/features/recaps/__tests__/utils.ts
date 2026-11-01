@@ -1,5 +1,5 @@
-import { _generateItem } from "@/__tests__/utils";
-import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
+import { _generateItem } from "@/testing/log-item";
+import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 import type { LogItem } from "@/features/logs";
 import type { Tag } from "@/features/tags";
 import { getWeekLocale } from "@/lib/translation";

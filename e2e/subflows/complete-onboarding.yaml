@@ -1,9 +1,12 @@
 appId: ${APP_ID}
 ---
-# Completes onboarding from the Welcome screen to the Calendar tab.
-- assertVisible: "Welcome 👋"
+# Completes onboarding from the tagline screen to the Calendar tab.
+- extendedWaitUntil:
+    visible:
+      id: "onboarding-welcome"
+    timeout: 10000
 - tapOn:
-    text: "Start"
+    id: "onboarding-start"
 - tapOn:
     text: "Next"
 - tapOn:

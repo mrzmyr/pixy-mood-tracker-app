@@ -2,12 +2,12 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
-import MenuList from "@/components/MenuList";
-import MenuListHeadline from "@/components/MenuListHeadline";
-import MenuListItem from "@/components/MenuListItem";
-import TextInfo from "@/components/TextInfo";
-import { APP_VARIANT } from "@/constants/AppVariant";
-import useColors from "@/hooks/useColors";
+import MenuList from "@/components/menu-list";
+import MenuListHeadline from "@/components/menu-list-headline";
+import MenuListItem from "@/components/menu-list-item";
+import TextInfo from "@/components/text-info";
+import { APP_VARIANT } from "@/constants/app-variant";
+import useColors from "@/hooks/use-colors";
 import pkg from "../../package.json";
 import {
   FIXTURES,
@@ -19,17 +19,27 @@ import type { Fixture } from "@/dev/fixtures";
 
 import { setFileTransferOverride } from "@/features/datagate";
 import { setPhotoSourceOverride } from "@/features/photos";
-import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
-import { fakeBackupCloud } from "@/dev/fakeBackupCloud";
+import { fakeFileTransfer } from "@/dev/fake-file-transfer";
+import {
+  createFailOnceFakePeopleSources,
+  fakePeopleSources,
+} from "@/dev/fake-people-sources";
+import { addFakeContacts, removeFakeContacts } from "@/dev/fake-contacts";
+import { fakeBackupCloud } from "@/dev/fake-backup-cloud";
 import { setBackupCloudOverride } from "@/features/backup";
-import { fakePeopleSources } from "@/dev/fakePeopleSources";
-import { addFakeContacts, removeFakeContacts } from "@/dev/fakeContacts";
 import { setPeopleSourcesOverride } from "@/features/people";
-import { isOverride, setOverride } from "@/state/featureFlags/overrides";
-import { FEATURE_FLAGS, isFeatureFlag } from "@/state/featureFlags/keys";
+import { setHealthSourceOverride } from "@/features/health";
+import { fakeHealthSource } from "@/dev/fake-health-source";
+import { isOverride, setOverride } from "@/state/feature-flags/overrides";
+import { FEATURE_FLAGS, isFeatureFlag } from "@/state/feature-flags/keys";
 import { useSettings, useSettingsLoad } from "@/state/settings";
-import { fakePhotoSource } from "@/dev/fakePhotoSource";
-import { useLoadFixture, writeStorageFixture } from "@/dev/useLoadFixture";
+import { fakePhotoSource } from "@/dev/fake-photo-source";
+import { useLoadFixture, writeStorageFixture } from "@/dev/use-load-fixture";
+
+export {
+  DevPlaygroundScreen,
+  DevRecapPlaygroundScreen,
+} from "@/dev/playground";
 
 // Drops every screen behind the new state, like a fresh app start.
 const openApp = (router: ReturnType<typeof useRouter>, fixture: Fixture) => {
@@ -170,25 +180,33 @@ export const DevFixtureLinkScreen = () => {
 /**
  * Target of `<scheme>://dev/fake-files`. Swaps the share sheet and document
  * picker for `fakeFileTransfer`, the contact picker and person photo
- * library for `fakePeopleSources`, and the photo picker and photo library
- * for `fakePhotoSource`, until the app restarts. Then opens the app.
+ * library for `fakePeopleSources`, the photo picker and photo library for
+ * `fakePhotoSource`, and Apple Health for `fakeHealthSource`, until the app
+ * restarts. Then opens the app. `?contacts=fail-once` makes the first
+ * contact read fail.
  */
 export const DevFakeFilesLinkScreen = () => {
   const router = useRouter();
+  const { contacts } = useLocalSearchParams<{ contacts?: string }>();
   useEffect(() => {
     setFileTransferOverride(fakeFileTransfer);
-    setPeopleSourcesOverride(fakePeopleSources);
+    setPeopleSourcesOverride(
+      contacts === "fail-once"
+        ? createFailOnceFakePeopleSources()
+        : fakePeopleSources
+    );
     setPhotoSourceOverride(fakePhotoSource);
+    setHealthSourceOverride(fakeHealthSource);
     router.dismissAll();
     router.replace("/calendar");
-  }, [router]);
+  }, [router, contacts]);
 
   return <ActivityIndicator testID="dev-fake-files-link" />;
 };
 
 /**
  * Target of `<scheme>://dev/fake-cloud`. Swaps iCloud and Google Drive for
- * `fakeBackupCloud` until the app restarts, turns the backup switch off so
+ * `fakeBackupCloud` until the app restarts, turns backup off so
  * the next switch-on uses the fake, then opens the app.
  */
 export const DevFakeCloudLinkScreen = () => {
@@ -196,7 +214,7 @@ export const DevFakeCloudLinkScreen = () => {
   const { setSettings } = useSettings();
   useEffect(() => {
     setBackupCloudOverride(fakeBackupCloud);
-    setSettings((current) => ({ ...current, backupEnabled: false }));
+    setSettings((current) => ({ ...current, backupProvider: null }));
     router.dismissAll();
     router.replace("/calendar");
   }, [router, setSettings]);
