@@ -27,7 +27,7 @@ import type { StoryTheme } from "../story/theme";
 import type { StoryPhoto, StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
 import { t } from "@/lib/translation";
-import { StoryFinale } from "../story/story-finale";
+import { StoryFinale, StoryShuffleButton } from "../story/story-finale";
 import { getSlideDuration } from "../story/timing";
 import { StoryShareButton } from "../story/story-share-button";
 import { shareStoryCard } from "../story/share-image";
@@ -37,13 +37,17 @@ const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 const isSource = (value: unknown): value is StorySource =>
   SOURCES.some((source) => source === value);
 
-/** Share, Helpful, Not Helpful. Every action pauses the story first. */
+/**
+ * Share bottom left; Helpful and Not Helpful bottom right, or Shuffle on the
+ * last slide. Share and feedback pause the story first.
+ */
 const StoryActions = ({
   theme,
   isSharing,
   isAnswered,
   pause,
   onShare,
+  onShuffle,
   onHelpful,
   onNotHelpful,
 }: {
@@ -51,8 +55,9 @@ const StoryActions = ({
   isSharing: boolean;
   isAnswered: boolean;
   pause: () => void;
-  /** `null` on the last slide: it has its own wide share button. */
-  onShare: (() => void) | null;
+  onShare: () => void;
+  /** Last slide with more than 3 photos: 3 other photos on the card. */
+  onShuffle: (() => void) | null;
   onHelpful: () => void;
   onNotHelpful: () => void;
 }) => {
@@ -69,21 +74,21 @@ const StoryActions = ({
       }}
       pointerEvents="box-none"
     >
-      {onShare ? (
-        <StoryShareButton
-          theme={theme}
-          disabled={isSharing}
-          onPress={paused(onShare)}
-        />
-      ) : (
-        <View />
-      )}
-      <StoryFeedback
+      <StoryShareButton
         theme={theme}
-        isAnswered={isAnswered}
-        onHelpful={paused(onHelpful)}
-        onNotHelpful={paused(onNotHelpful)}
+        disabled={isSharing}
+        onPress={paused(onShare)}
       />
+      {onShuffle ? (
+        <StoryShuffleButton theme={theme} onPress={onShuffle} />
+      ) : (
+        <StoryFeedback
+          theme={theme}
+          isAnswered={isAnswered}
+          onHelpful={paused(onHelpful)}
+          onNotHelpful={paused(onNotHelpful)}
+        />
+      )}
     </View>
   );
 };
@@ -120,12 +125,11 @@ const RecapStory = () => {
     new Map()
   );
   const [asking, setAsking] = useState<number | null>(null);
-  const shareCard = useRef<ViewType>(null);
   const slideView = useRef<ViewType>(null);
   const [shuffles, setShuffles] = useState(0);
   // From the Share tap until the share sheet closes.
   const [isSharing, setIsSharing] = useState(false);
-  // A plain slide shows the app icon and name while it is captured.
+  // The slide shows the app icon and name while it is captured.
   const [isCapturingSlide, setIsCapturingSlide] = useState(false);
   const lastShown = useRef(0);
 
@@ -220,8 +224,8 @@ const RecapStory = () => {
       : [0, 1, 2].map((offset) => pool[(shuffles * 3 + offset) % pool.length]);
 
   /**
-   * Shares the slide at `index` as an image. The share slide sends its card;
-   * every other slide sends itself on the sky, without bars and buttons.
+   * Shares the slide at `index` as an image: the sky, the title, and the
+   * content on a see-through card, without bars and buttons.
    */
   const share = (index: number) => {
     const slide = story[index];
@@ -230,9 +234,9 @@ const RecapStory = () => {
     }
     const isShareCard = slide.type === "share";
     setIsSharing(true);
-    setIsCapturingSlide(!isShareCard);
+    setIsCapturingSlide(true);
     void shareStoryCard({
-      view: isShareCard ? shareCard.current : slideView.current,
+      view: slideView.current,
       dialogTitle: shareTitle,
       onCaptured: () => setIsCapturingSlide(false),
       onDone: () => setIsSharing(false),
@@ -245,22 +249,17 @@ const RecapStory = () => {
     });
   };
 
-  const contentOf = (slide: StorySlide, index: number) => {
+  /** Shuffle on the share slide when more than 3 photos wait in the pool. */
+  const shuffleOf = (index: number) => {
+    const slide = slideOf(index);
+    return slide?.type === "share" && slide.photos.length > 3
+      ? () => setShuffles((current) => current + 1)
+      : null;
+  };
+
+  const contentOf = (slide: StorySlide) => {
     if (slide.type === "share") {
-      return (
-        <StoryFinale
-          ctx={ctx}
-          photos={pickPhotos(slide.photos)}
-          cardRef={shareCard}
-          isSharing={isSharing}
-          onShare={() => share(index)}
-          onShuffle={
-            slide.photos.length > 3
-              ? () => setShuffles((current) => current + 1)
-              : null
-          }
-        />
-      );
+      return <StoryFinale ctx={ctx} photos={pickPhotos(slide.photos)} />;
     }
     return <SlideContent slide={slide} ctx={ctx} />;
   };
@@ -269,7 +268,7 @@ const RecapStory = () => {
     key: `${index}-${slide.type}`,
     theme: getStoryTheme(ctx.isDark),
     durationMs: getSlideDuration(slide),
-    content: contentOf(slide, index),
+    content: contentOf(slide),
   }));
 
   return (
@@ -297,7 +296,8 @@ const RecapStory = () => {
             isSharing={isSharing}
             isAnswered={answers.has(index)}
             pause={controls.pause}
-            onShare={story[index]?.type === "share" ? null : () => share(index)}
+            onShare={() => share(index)}
+            onShuffle={shuffleOf(index)}
             onHelpful={() => send(index, true, [], "")}
             onNotHelpful={() => setAsking(index)}
           />

@@ -24,6 +24,7 @@ import { SteppedSky } from "@/components/stepped-sky";
 import { RADIUS } from "@/constants/radius";
 import { usePixyIdle } from "@/features/logger";
 import { t } from "@/lib/translation";
+import { StoryCaptureContext } from "./capture-context";
 import { StoryBrand } from "./story-brand";
 import { STORY_PALETTE, STORY_SLIDE_MS } from "./theme";
 import type { StoryTheme } from "./theme";
@@ -194,8 +195,8 @@ interface Clock {
  * `renderBottom` draws per slide below the content (Share, Helpful, Not
  * Helpful); its `controls.pause` stops the story while the user acts.
  * `isCapturing` swaps bars and buttons for the app icon and name, so the
- * shared image carries the brand in the bottom left corner. A slide that
- * does not fill the screen shares only its content, with the brand below.
+ * shared image carries the brand in the bottom left corner, and puts slide
+ * content on a see-through card (`SlideCard`).
  */
 export const StoryPlayer = ({
   slides,
@@ -380,7 +381,9 @@ export const StoryPlayer = ({
               }}
               testID={`recap-story-slide-${slide.key}`}
             >
-              {slide.content}
+              <StoryCaptureContext value={isCapturing}>
+                {slide.content}
+              </StoryCaptureContext>
             </Animated.View>
           </Pressable>
         </CloudPixyLayer>

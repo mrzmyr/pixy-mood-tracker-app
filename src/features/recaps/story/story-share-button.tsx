@@ -3,30 +3,23 @@ import { Pressable } from "react-native";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 import { StoryText } from "./parts";
-import { STORY_PALETTE } from "./theme";
+import { STORY_PALETTE, storyButtonTint } from "./theme";
 import type { StoryTheme } from "./theme";
 
 /**
  * Share pill under every story slide. Secondary: a light tint of the slide
- * color, so it sits next to Helpful / Not Helpful instead of shouting. The
- * last slide uses the wide, solid one.
+ * color, so it sits next to Helpful / Not Helpful instead of shouting.
  */
 export const StoryShareButton = ({
   theme,
   disabled,
   onPress,
-  isWide = false,
 }: {
   theme: StoryTheme;
   disabled: boolean;
   onPress: () => void;
-  /** Big and solid, for the last slide where sharing is the point. */
-  isWide?: boolean;
 }) => {
-  const palette = STORY_PALETTE[theme];
-  const ink = isWide ? palette.background : palette.text;
-  const tint =
-    theme === "paper" ? "rgba(10,10,10,0.06)" : "rgba(255,255,255,0.14)";
+  const ink = STORY_PALETTE[theme].text;
   return (
     <Pressable
       accessibilityRole="button"
@@ -38,10 +31,10 @@ export const StoryShareButton = ({
         alignItems: "center",
         justifyContent: "center",
         gap: 8,
-        minHeight: isWide ? 52 : 44,
-        paddingHorizontal: isWide ? 24 : 16,
+        minHeight: 44,
+        paddingHorizontal: 16,
         borderRadius: RADIUS.full,
-        backgroundColor: isWide ? palette.text : tint,
+        backgroundColor: storyButtonTint(theme),
         opacity: pressed || disabled ? 0.6 : 1,
       })}
     >
@@ -49,7 +42,7 @@ export const StoryShareButton = ({
       <StoryText
         kind="label"
         theme={theme}
-        style={{ fontSize: isWide ? 17 : 15, color: ink }}
+        style={{ fontSize: 15, color: ink }}
       >
         {t("recaps_story_share")}
       </StoryText>

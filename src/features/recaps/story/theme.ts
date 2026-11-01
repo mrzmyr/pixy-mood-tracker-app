@@ -1,3 +1,4 @@
+import chroma, { mix } from "chroma-js";
 import { getTextRevealDuration } from "@/components/text-reveal-parts";
 
 /**
@@ -30,6 +31,23 @@ export const STORY_TITLE_GAP = 40;
 
 /** Space between blocks of slide content. */
 export const STORY_BLOCK_GAP = 28;
+
+/** Corner radius of glass cards on the sky. */
+export const STORY_CARD_RADIUS = 28;
+
+/** Inner space of glass cards on the sky. */
+export const STORY_CARD_PADDING = 16;
+
+/** See-through fill of a colored mark on the sky: pixels, bars. */
+export const glassFill = (color: string) => chroma(color).alpha(0.7).css();
+
+/** Light outline of a `glassFill` mark: the same hue, near white. */
+export const glassEdge = (color: string) =>
+  mix(color, "#FFFFFF", 0.6).alpha(0.9).css();
+
+/** Light tint of the slide color behind story buttons: Share, Shuffle. */
+export const storyButtonTint = (theme: StoryTheme) =>
+  theme === "paper" ? "rgba(10,10,10,0.06)" : "rgba(255,255,255,0.14)";
 
 /** Theme of every slide: text on the sky follows the app's light or dark mode. */
 export const getStoryTheme = (isDark: boolean): StoryTheme =>

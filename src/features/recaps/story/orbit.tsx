@@ -16,7 +16,7 @@ import type { Person } from "@/features/people";
 import { ProfileAvatar, useProfile } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
-import { SlideHeader, StoryText } from "./parts";
+import { SlideCard, SlideHeader, StoryText } from "./parts";
 import {
   getStoryTheme,
   STORY_PALETTE,
@@ -57,6 +57,9 @@ const FLOAT = 3;
 const NAME_GAP = 4;
 /** Extra width a name may use beyond its planet, in points. */
 const NAME_OVERHANG = 24;
+
+/** First word of a name: full names crowd the orbit. */
+const firstName = (name: string) => name.trim().split(/\s+/u)[0] ?? name;
 
 const lerp = (from: number, to: number, share: number) =>
   from + (to - from) * share;
@@ -183,7 +186,7 @@ const PlanetView = ({
             numberOfLines={1}
             style={{ maxWidth: width, textAlign: "center" }}
           >
-            {planet.person.name}
+            {firstName(planet.person.name)}
           </StoryText>
         </View>
       </Animated.View>
@@ -254,46 +257,48 @@ export const Orbit = ({
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <View
-        accessible
-        accessibilityRole="image"
-        accessibilityLabel={label}
-        style={{ width, height: width, marginTop: 24 }}
-      >
-        <Animated.View
-          entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
-          style={StyleSheet.absoluteFill}
+      <SlideCard theme={theme}>
+        <View
+          accessible
+          accessibilityRole="image"
+          accessibilityLabel={label}
+          style={{ width, height: width }}
         >
-          <OrbitRings planets={planets} width={width} theme={theme} />
-        </Animated.View>
-        <Animated.View
-          entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
-          style={{
-            position: "absolute",
-            left: (width - self) / 2,
-            top: (width - self) / 2,
-          }}
-        >
-          <ProfileAvatar
-            size={self}
-            photoUri={profile.photoUri}
-            initials={profile.initials}
-          />
-        </Animated.View>
-        {planets.map((planet, index) => (
-          <PlanetView
-            key={planet.person.id}
-            planet={planet}
-            index={index}
-            center={width / 2}
-            turn={turn}
-            settle={settle}
-            float={float}
-            theme={theme}
-            delay={peopleAt}
-          />
-        ))}
-      </View>
+          <Animated.View
+            entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
+            style={StyleSheet.absoluteFill}
+          >
+            <OrbitRings planets={planets} width={width} theme={theme} />
+          </Animated.View>
+          <Animated.View
+            entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
+            style={{
+              position: "absolute",
+              left: (width - self) / 2,
+              top: (width - self) / 2,
+            }}
+          >
+            <ProfileAvatar
+              size={self}
+              photoUri={profile.photoUri}
+              initials={profile.initials}
+            />
+          </Animated.View>
+          {planets.map((planet, index) => (
+            <PlanetView
+              key={planet.person.id}
+              planet={planet}
+              index={index}
+              center={width / 2}
+              turn={turn}
+              settle={settle}
+              float={float}
+              theme={theme}
+              delay={peopleAt}
+            />
+          ))}
+        </View>
+      </SlideCard>
     </>
   );
 };

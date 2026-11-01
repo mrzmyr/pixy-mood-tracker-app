@@ -12,6 +12,7 @@ import {
   Reveal,
   RevealBar,
   RevealText,
+  SlideCard,
   SlideHeader,
   StoryImage,
   StoryText,
@@ -26,7 +27,6 @@ import {
   STORY_BLOCK_GAP,
   STORY_PALETTE,
   STORY_SCREEN_PADDING,
-  STORY_TITLE_GAP,
   revealTextMs,
   titleRevealEnd,
 } from "./theme";
@@ -57,8 +57,8 @@ const GRID_GAP = 8;
 const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
   const theme = getStoryTheme(ctx.isDark);
   const palette = STORY_PALETTE[theme];
-  const dayColors = useDayColors(ctx.days);
-  const dayOutlines = useDayColors(ctx.days, "border");
+  const dayColors = useDayColors(ctx.days, "glass");
+  const dayOutlines = useDayColors(ctx.days, "glassEdge");
   const isWeek = ctx.period.kind === "week";
   const month = monthName(ctx.period.start);
   const byDate = new Map(slide.photos.map((item) => [item.date, item.photo]));
@@ -80,7 +80,8 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
         }
         title={title}
       />
-      <View style={{ marginTop: STORY_TITLE_GAP }}>
+      {/* Hugs the grid: pixels stop at 40 points, short of the width. */}
+      <SlideCard theme={theme} style={{ alignSelf: "flex-start" }}>
         <MonthGrid
           period={ctx.period}
           dayColors={dayColors}
@@ -101,7 +102,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
             ) : null;
           }}
         />
-      </View>
+      </SlideCard>
     </>
   );
 };
@@ -141,7 +142,7 @@ const TagEffects = ({
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <View style={{ marginTop: STORY_TITLE_GAP, gap: STORY_BLOCK_GAP }}>
+      <SlideCard theme={theme} style={{ gap: STORY_BLOCK_GAP }}>
         {slide.rows.map((row, index) => {
           const tag = ctx.tags.get(row.tagId);
           if (!tag) {
@@ -193,8 +194,6 @@ const TagEffects = ({
             </View>
           );
         })}
-      </View>
-      <View style={{ marginTop: STORY_BLOCK_GAP }}>
         <RevealText
           text={note}
           at={rowAt(slide.rows.length)}
@@ -202,7 +201,7 @@ const TagEffects = ({
           theme={theme}
           tone="muted"
         />
-      </View>
+      </SlideCard>
     </>
   );
 };
@@ -225,8 +224,8 @@ const ComingUp = ({
   const palette = STORY_PALETTE[theme];
   const { year } = slide;
   const yearDays = ctx.history.filter((day) => day.date.startsWith(`${year}-`));
-  const dayColors = useDayColors(yearDays);
-  const dayOutlines = useDayColors(yearDays, "border");
+  const dayColors = useDayColors(yearDays, "glass");
+  const dayOutlines = useDayColors(yearDays, "glassEdge");
   const size = 9;
   const pending = (date: DateKey) =>
     date > ctx.today ? (
@@ -257,91 +256,92 @@ const ComingUp = ({
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <View
-        style={{
-          marginTop: STORY_TITLE_GAP,
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          rowGap: 22,
-        }}
-      >
-        {MONTHS.map((month) => {
-          const monthStart = dayjs(`${year}-01-01`).add(month, "month");
-          const period: Period = {
-            kind: "month",
-            start: monthStart.format("YYYY-MM-DD"),
-            end: monthStart.endOf("month").format("YYYY-MM-DD"),
-          };
-          return (
-            <Reveal
-              key={month}
-              at={start + month * MONTH_STEP_MS}
-              style={{ gap: 6 }}
-            >
-              <StoryText
-                kind="label"
-                theme={theme}
-                tone="muted"
-                style={{ fontSize: 12 }}
+      <SlideCard theme={theme}>
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            rowGap: 22,
+          }}
+        >
+          {MONTHS.map((month) => {
+            const monthStart = dayjs(`${year}-01-01`).add(month, "month");
+            const period: Period = {
+              kind: "month",
+              start: monthStart.format("YYYY-MM-DD"),
+              end: monthStart.endOf("month").format("YYYY-MM-DD"),
+            };
+            return (
+              <Reveal
+                key={month}
+                at={start + month * MONTH_STEP_MS}
+                style={{ gap: 6 }}
               >
-                {monthStart.format("MMM")}
-              </StoryText>
-              <MonthGrid
-                period={period}
-                dayColors={dayColors}
-                dayOutlines={dayOutlines}
-                size={size}
-                gap={2}
-                empty={palette.glass}
-                emptyOutline={palette.glassBorder}
-                render={pending}
+                <StoryText
+                  kind="label"
+                  theme={theme}
+                  tone="muted"
+                  style={{ fontSize: 12 }}
+                >
+                  {monthStart.format("MMM")}
+                </StoryText>
+                <MonthGrid
+                  period={period}
+                  dayColors={dayColors}
+                  dayOutlines={dayOutlines}
+                  size={size}
+                  gap={2}
+                  empty={palette.glass}
+                  emptyOutline={palette.glassBorder}
+                  render={pending}
+                />
+              </Reveal>
+            );
+          })}
+        </View>
+        <View
+          style={{ flexDirection: "row", gap: 20, marginTop: STORY_BLOCK_GAP }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+            <Reveal at={legendAt}>
+              <Pixel
+                size={10}
+                color={palette.glass}
+                outline={palette.glassBorder}
               />
             </Reveal>
-          );
-        })}
-      </View>
-      <View
-        style={{ flexDirection: "row", gap: 20, marginTop: STORY_BLOCK_GAP }}
-      >
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-          <Reveal at={legendAt}>
-            <Pixel
-              size={10}
-              color={palette.glass}
-              outline={palette.glassBorder}
+            <RevealText
+              text={missed}
+              at={legendAt}
+              kind="label"
+              theme={theme}
+              tone="muted"
+              style={{ fontSize: 12 }}
             />
-          </Reveal>
-          <RevealText
-            text={missed}
-            at={legendAt}
-            kind="label"
-            theme={theme}
-            tone="muted"
-            style={{ fontSize: 12 }}
-          />
-        </View>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-          <Reveal at={legendAt + revealTextMs(missed)}>
-            <View
-              style={{
-                width: 3,
-                height: 3,
-                borderRadius: 2,
-                backgroundColor: palette.muted,
-              }}
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+            <Reveal at={legendAt + revealTextMs(missed)}>
+              <View
+                style={{
+                  width: 3,
+                  height: 3,
+                  borderRadius: 2,
+                  backgroundColor: palette.muted,
+                }}
+              />
+            </Reveal>
+            <RevealText
+              text={left}
+              at={legendAt + revealTextMs(missed)}
+              kind="label"
+              theme={theme}
+              tone="muted"
+              style={{ fontSize: 12 }}
             />
-          </Reveal>
-          <RevealText
-            text={left}
-            at={legendAt + revealTextMs(missed)}
-            kind="label"
-            theme={theme}
-            tone="muted"
-            style={{ fontSize: 12 }}
-          />
+          </View>
         </View>
-      </View>
+      </SlideCard>
     </>
   );
 };

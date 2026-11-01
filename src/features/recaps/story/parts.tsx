@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { Image } from "expo-image";
 import { Text, View } from "react-native";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import Animated, {
   Easing,
   FadeIn,
@@ -23,9 +23,15 @@ import { useSettings } from "@/state/settings";
 import type { LogPhoto } from "@/types";
 import { addDays, daysBetween } from "../days";
 import type { DateKey, Period, RecapDay } from "../types";
+import { StoryCaptureContext } from "./capture-context";
 import {
+  glassEdge,
+  glassFill,
+  STORY_CARD_PADDING,
+  STORY_CARD_RADIUS,
   STORY_MAX_FONT_SCALE,
   STORY_PALETTE,
+  STORY_TITLE_GAP,
   STORY_TYPE,
   TITLE_DELAY_MS,
 } from "./theme";
@@ -93,12 +99,57 @@ export const SlideHeader = ({
 );
 
 /**
+ * Slide content below the title. On screen it sits straight on the sky; in
+ * a shared image it gets a see-through card with a light outline, so the
+ * content holds together on the sky. Same layout both ways: the card's
+ * padding hangs out into the screen margin.
+ */
+export const SlideCard = ({
+  theme,
+  style,
+  children,
+}: {
+  theme: StoryTheme;
+  style?: ViewStyle;
+  children: React.ReactNode;
+}) => {
+  const isCapturing = use(StoryCaptureContext);
+  const palette = STORY_PALETTE[theme];
+  return (
+    <View
+      style={[
+        {
+          marginTop: STORY_TITLE_GAP - STORY_CARD_PADDING,
+          marginHorizontal: -STORY_CARD_PADDING,
+          marginBottom: -STORY_CARD_PADDING,
+          padding: STORY_CARD_PADDING,
+          borderRadius: STORY_CARD_RADIUS,
+          borderCurve: "continuous",
+          borderWidth: 1,
+          borderColor: isCapturing ? palette.glassBorder : "transparent",
+          backgroundColor: isCapturing ? palette.glass : "transparent",
+        },
+        style,
+      ]}
+    >
+      {children}
+    </View>
+  );
+};
+
+const SHADES = {
+  background: (color: string) => color,
+  glass: glassFill,
+  glassEdge,
+};
+
+/**
  * Mood color per day: the rounded mean rating, as in the calendar.
- * `border`: the scale's outline shade, so pixels hold on the sky.
+ * `glass` and `glassEdge`: see-through fill and light outline on the sky.
  */
 export const useDayColors = (
   days: RecapDay[],
-  shade: "background" | "border" = "background"
+  shade: keyof typeof SHADES = "background"
 ) => {
   const colors = useColors();
   const { settings } = useSettings();
@@ -107,7 +158,7 @@ export const useDayColors = (
   for (const day of days) {
     const rating = getAverageMood(day.items);
     if (rating) {
-      map.set(day.date, scale[rating][shade]);
+      map.set(day.date, SHADES[shade](scale[rating].background));
     }
   }
   return map;
@@ -197,7 +248,7 @@ export const RevealBar = ({
       // The track shows with its row, just before the bar fills.
       entering={FadeIn.delay(Math.max(0, at - 150)).duration(400)}
       style={{
-        height: 12,
+        height: 14,
         borderRadius: RADIUS.full,
         backgroundColor: palette.glass,
         borderWidth: 1,
@@ -207,7 +258,13 @@ export const RevealBar = ({
     >
       <Animated.View
         style={[
-          { height: "100%", borderRadius: RADIUS.full, backgroundColor: color },
+          {
+            height: "100%",
+            borderRadius: RADIUS.full,
+            backgroundColor: color && glassFill(color),
+            borderWidth: 1,
+            borderColor: color && glassEdge(color),
+          },
           fillStyle,
         ]}
       />
@@ -234,6 +291,7 @@ export const Pixel = ({
         width: size,
         height: size,
         borderRadius: Math.max(3, size * 0.22),
+        borderCurve: "continuous",
         backgroundColor: color,
       },
       outline !== undefined && { borderWidth: 1, borderColor: outline },
