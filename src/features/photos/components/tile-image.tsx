@@ -1,7 +1,8 @@
 import { Image } from "expo-image";
 import ImageOff from "lucide-react-native/icons/image-off";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 
@@ -38,17 +39,17 @@ export const TileImage = ({
         }}
       >
         <ImageOff color={colors.textSecondary} size={24} />
-        <Text
+        <Copy
           numberOfLines={2}
+          size={13}
           style={{
             color: colors.textSecondary,
-            fontSize: 12,
             marginTop: 4,
             textAlign: "center",
           }}
         >
           {t("photos_missing")}
-        </Text>
+        </Copy>
       </View>
     );
   }

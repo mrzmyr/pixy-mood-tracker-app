@@ -22,7 +22,7 @@ export const TitleChip = ({
   label: string;
 }) => {
   const colors = useColors();
-  const { fontSize, fontWeight } = getTypeMetrics().title;
+  const { title } = getTypeMetrics();
 
   return (
     <View
@@ -41,8 +41,9 @@ export const TitleChip = ({
       {marker}
       <Text
         style={{
-          fontSize,
-          fontWeight,
+          // oxlint-disable-next-line pixy-standards/typography-components -- matches the platform `Title` of the recap card it sits inline in
+          fontSize: title.fontSize,
+          fontWeight: title.fontWeight,
           letterSpacing: -0.25,
           color: colors.text,
         }}

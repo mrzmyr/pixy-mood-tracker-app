@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Body, Secondary } from "@/components/type";
 import { Label, getTextStyle } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
@@ -260,20 +260,20 @@ const DayBars = ({
         {days.map((day, index) => (
           // Month labels spill over their narrow column to the right.
           <View key={day.date} style={{ flex: 1, overflow: "visible" }}>
-            <Text
+            <Label
               numberOfLines={1}
+              size={12}
               style={{
                 position: "absolute",
                 left: 0,
                 width: periodKind === "week" ? "100%" : 24,
                 textAlign: periodKind === "week" ? "center" : "left",
-                fontSize: 12,
                 fontVariant: ["tabular-nums"],
                 color: colors.textSecondary,
               }}
             >
               {barLabel(day.date, index, periodKind)}
-            </Text>
+            </Label>
           </View>
         ))}
       </View>
@@ -511,11 +511,16 @@ const YearPixelsBody = ({ context }: { context: Context }) => {
         const start = year.month(month).startOf("month");
         return (
           <View key={month} style={{ flex: 1, gap: 3 }}>
-            <Secondary
-              style={{ textAlign: "center", fontSize: 12, marginBottom: 2 }}
+            <Label
+              size={12}
+              style={{
+                textAlign: "center",
+                marginBottom: 2,
+                color: colors.textSecondary,
+              }}
             >
               {start.format("MMM").slice(0, 1)}
-            </Secondary>
+            </Label>
             {DAYS_OF_MONTH.map((day) => {
               if (day > start.daysInMonth()) {
                 return <View key={day} style={{ aspectRatio: 1 }} />;

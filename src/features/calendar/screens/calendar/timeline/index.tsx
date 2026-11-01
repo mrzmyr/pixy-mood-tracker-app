@@ -2,9 +2,9 @@ import { FlashList } from "@shopify/flash-list";
 import type { ListRenderItemInfo } from "@shopify/flash-list";
 import dayjs from "dayjs";
 import React, { memo, useCallback, useMemo } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Copy } from "@/components/typography";
+import { Copy, Heading } from "@/components/typography";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import useColors from "@/hooks/use-colors";
@@ -25,10 +25,10 @@ const getType = (row: TimelineRow) => row.type;
 const MonthTitle = ({ month }: { month: string }) => {
   const colors = useColors();
   return (
-    <Text
+    <Heading
+      size={24}
       accessibilityRole="header"
       style={{
-        fontSize: 28,
         fontWeight: "bold",
         color: colors.text,
         marginTop: 16,
@@ -36,7 +36,7 @@ const MonthTitle = ({ month }: { month: string }) => {
       }}
     >
       {dayjs(`${month}-01`).format("MMMM YYYY")}
-    </Text>
+    </Heading>
   );
 };
 

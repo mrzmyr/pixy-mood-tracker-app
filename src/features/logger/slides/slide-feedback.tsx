@@ -60,6 +60,7 @@ const AnswerSelector = ({
         <Text
           numberOfLines={1}
           style={{
+            // oxlint-disable-next-line pixy-standards/typography-components -- emoji glyph size, not text typography
             fontSize: 32,
             textAlign: "center",
           }}

@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import useColors from "@/hooks/use-colors";
+import { Label } from "@/components/typography";
 
 const HeaderDay = ({ children }: { children: string }) => {
   const colors = useColors();
@@ -10,16 +11,16 @@ const HeaderDay = ({ children }: { children: string }) => {
         flex: 7,
       }}
     >
-      <Text
+      <Label
+        size={14}
+        strong
         style={{
-          fontSize: 14,
-          fontWeight: "600",
           color: colors.statisticsWeekdayText,
           textAlign: "center",
         }}
       >
         {children}
-      </Text>
+      </Label>
     </View>
   );
 };

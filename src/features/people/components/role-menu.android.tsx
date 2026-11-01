@@ -8,8 +8,8 @@ import {
   Text,
 } from "@expo/ui/jetpack-compose";
 import { useState } from "react";
-import { Text as RNText } from "react-native";
 import MenuList from "@/components/menu-list";
+import { Label } from "@/components/typography";
 import MenuListItem from "@/components/menu-list-item";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -56,9 +56,9 @@ export const RoleMenu = ({
                 accessibilityValue={{ text: label }}
                 onPress={() => setExpanded(true)}
                 iconRight={
-                  <RNText style={{ fontSize: 16, color: colors.textSecondary }}>
+                  <Label size={16} style={{ color: colors.textSecondary }}>
                     {label}
-                  </RNText>
+                  </Label>
                 }
               />
             </RNHostView>

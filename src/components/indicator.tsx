@@ -1,6 +1,7 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import type { ViewStyle } from "react-native";
 
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import type { TAG_COLOR_NAMES } from "@/constants/config";
 import { RADIUS } from "@/constants/radius";
@@ -28,14 +29,9 @@ const Indicator = ({
         ...style,
       }}
     >
-      <Text
-        style={{
-          fontSize: 14,
-          color: colors.tags[colorName]?.text,
-        }}
-      >
+      <Label size={14} style={{ color: colors.tags[colorName]?.text }}>
         {children}
-      </Text>
+      </Label>
     </View>
   );
 };

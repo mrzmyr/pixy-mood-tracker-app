@@ -5,15 +5,10 @@ import * as StoreReview from "expo-store-review";
 import * as WebBrowser from "expo-web-browser";
 import { useState } from "react";
 import { FieldGroup, Host, RNHostView, Text as ExpoText } from "@expo/ui";
-import {
-  Platform,
-  Pressable,
-  Text,
-  View,
-  useWindowDimensions,
-} from "react-native";
+import { Platform, Pressable, View, useWindowDimensions } from "react-native";
 import FlagHighlight from "@/components/flag-highlight";
 import FieldRow from "@/components/field-row";
+import { Label } from "@/components/typography";
 import { ScrollEdge } from "@/components/scroll-edge";
 import { SupportCard } from "@/components/support-card";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/app-variant";
@@ -119,18 +114,13 @@ export const SettingsScreen = () => {
               marginBottom: 40,
             }}
           >
-            <Text style={{ fontSize: 14, color: colors.textSecondary }}>
+            <Label size={14} style={{ color: colors.textSecondary }}>
               Pixy v{pkg.version}
-            </Text>
+            </Label>
             {HAS_APP_VARIANT && (
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: colors.textSecondary,
-                }}
-              >
+              <Label size={14} style={{ color: colors.textSecondary }}>
                 {APP_VARIANT}
-              </Text>
+              </Label>
             )}
           </Pressable>
         </View>

@@ -1,8 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import CalendarDays from "lucide-react-native/icons/calendar-days";
 import useColors from "@/hooks/use-colors";
-import { Label } from "@/components/typography";
+import { Heading, Label } from "@/components/typography";
 
 /** Gradient banner under the native header for the month report. */
 export const Header = ({
@@ -76,17 +76,17 @@ export const Header = ({
         >
           {subtitle}
         </Label>
-        <Text
+        <Heading
+          size={24}
           accessibilityRole="header"
           style={{
             color: colors.palette.white,
-            fontSize: 27,
             fontWeight: "bold",
             marginTop: 8,
           }}
         >
           {title}
-        </Text>
+        </Heading>
       </View>
     </View>
   );

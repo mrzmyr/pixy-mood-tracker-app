@@ -1,7 +1,7 @@
 import { createStructuredError, isStructuredError } from "@/lib/errors";
 import { reportError } from "@/lib/report-error";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View, VirtualizedList } from "react-native";
+import { ActivityIndicator, View, VirtualizedList } from "react-native";
 import Button from "@/components/button";
 import useColors from "@/hooks/use-colors";
 import { useScrollBottomPadding } from "@/hooks/use-scroll-bottom-padding";
@@ -106,15 +106,9 @@ const LicensesContent = ({ onRetry }: { onRetry: () => void }) => {
         data={state.slices}
         initialNumToRender={4}
         renderItem={({ item }: { item: Item }) => (
-          <Text
-            key={item.key}
-            style={{
-              color: colors.text,
-              fontSize: 14,
-            }}
-          >
+          <Copy key={item.key} size={14} style={{ color: colors.text }}>
             {item.value}
-          </Text>
+          </Copy>
         )}
         keyExtractor={(item) => item.key}
         getItemCount={(items) => items.length}

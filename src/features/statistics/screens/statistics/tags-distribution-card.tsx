@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import _ from "lodash";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Card } from "../../components/card";
 import { t } from "@/lib/translation";
 import { useCalendarFilters } from "@/features/calendar";
@@ -8,6 +8,7 @@ import useColors from "@/hooks/use-colors";
 import type { TagsDistributionData } from "../../tags-distribution";
 import type { Tag } from "@/features/tags";
 import { RADIUS } from "@/constants/radius";
+import { Label } from "@/components/typography";
 import { getBarFraction, getMaxCount } from "../../bar-fraction";
 
 /**
@@ -58,11 +59,11 @@ export const TagDistributionContent = ({
                 position: "absolute",
               }}
             />
-            <Text
+            <Label
+              size={14}
+              strong
               style={{
                 color: colors.tags[tag?.details?.color]?.text,
-                fontSize: 14,
-                fontWeight: "600",
                 position: "relative",
                 marginLeft: 8,
                 marginRight: 8,
@@ -70,7 +71,7 @@ export const TagDistributionContent = ({
               numberOfLines={1}
             >
               {tag.count}x {tag?.details?.title}
-            </Text>
+            </Label>
           </Pressable>
         ))}
       </View>
@@ -80,14 +81,14 @@ export const TagDistributionContent = ({
             marginTop: 8,
           }}
         >
-          <Text
+          <Label
+            size={14}
             style={{
-              fontSize: 14,
               color: colors.textSecondary,
             }}
           >
             And {data.tags.length - limit} more
-          </Text>
+          </Label>
         </View>
       )}
     </View>

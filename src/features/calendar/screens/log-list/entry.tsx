@@ -1,5 +1,5 @@
 import FlagHighlight from "@/components/flag-highlight";
-import { Label } from "@/components/typography";
+import { Heading, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
@@ -16,7 +16,7 @@ import { formatItemTime } from "@/lib/utils";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useSetting, useSettings } from "@/state/settings";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { AddPills } from "./add-pills";
 import type { AddableStep } from "./add-pills";
 import { Emotions } from "./emotions";
@@ -112,16 +112,16 @@ const EntryHeader = ({
         }}
       />
       <View style={{ flex: 1, gap: 2 }}>
-        <Text
+        <Heading
+          size={20}
           style={{
-            fontSize: 20,
             fontWeight: "bold",
             color: colors.text,
             fontVariant: ["tabular-nums"],
           }}
         >
           {formatItemTime(item.dateTime)}
-        </Text>
+        </Heading>
         <View
           style={{
             flexDirection: "row",

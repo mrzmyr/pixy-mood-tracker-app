@@ -154,6 +154,7 @@ export const YearPixelsCanvas = ({
           {/* oxlint-disable-next-line react-doctor/no-tiny-text -- captured at 3x and read inside the widget, never as UI text */}
           <Text
             style={{
+              // oxlint-disable-next-line pixy-standards/typography-components -- widget image capture: 9pt month label sized to the fixed 15pt row above the grid
               fontSize: 9,
               lineHeight: 12,
               color: colors.textSecondary,

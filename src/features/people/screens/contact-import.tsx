@@ -416,19 +416,19 @@ export const ContactImport = () => {
               </View>
             }
             renderSectionHeader={({ section }) => (
-              <Text
+              <Label
                 accessibilityRole="header"
+                size={14}
+                strong
                 style={{
                   paddingHorizontal: IS_IOS ? INSET * 2 : INSET,
                   paddingTop: 20,
                   paddingBottom: 8,
-                  fontSize: IS_IOS ? 15 : 14,
-                  fontWeight: "600",
                   color: IS_IOS ? colors.textSecondary : colors.tint,
                 }}
               >
                 {section.title}
-              </Text>
+              </Label>
             )}
             ListEmptyComponent={
               <Text

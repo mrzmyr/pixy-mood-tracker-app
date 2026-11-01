@@ -1,6 +1,6 @@
-import { Pressable, Text, View, useColorScheme } from "react-native";
+import { Pressable, View, useColorScheme } from "react-native";
 import type { PressableProps, ViewStyle } from "react-native";
-import { Label, getTextStyle } from "@/components/typography";
+import { Heading, Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
@@ -20,7 +20,7 @@ const CHIP_SIZES = {
     paddingVertical: 6,
     avatar: 24,
     gap: 8,
-    ...getTextStyle("label", 16),
+    labelSize: 16,
   },
   compact: {
     paddingLeft: COMPACT_CHIP.paddingLeftAvatar,
@@ -29,10 +29,9 @@ const CHIP_SIZES = {
     height: COMPACT_CHIP.height,
     avatar: COMPACT_CHIP.avatarSize,
     gap: COMPACT_CHIP.gap,
-    fontSize: COMPACT_CHIP.fontSize,
-    lineHeight: COMPACT_CHIP.lineHeight,
+    labelSize: 14,
   },
-};
+} as const;
 
 type LongPressProps = Pick<
   PressableProps,
@@ -250,16 +249,16 @@ export const PersonChip = ({
         })}
       >
         <PersonAvatar person={person} size={96} previewUri={previewUri} />
-        <Text
+        <Heading
+          size={20}
           numberOfLines={1}
           style={{
-            fontSize: 20,
             fontWeight: "bold",
             color: colors.text,
           }}
         >
           {person.name}
-        </Text>
+        </Heading>
       </Pressable>
     );
   }
@@ -306,17 +305,16 @@ export const PersonChip = ({
       {...longPressProps}
     >
       <PersonAvatar person={person} size={chipSize.avatar} />
-      <Text
+      <Label
+        size={chipSize.labelSize}
         numberOfLines={1}
         style={{
           flexShrink: 1,
           color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: chipSize.fontSize,
-          lineHeight: chipSize.lineHeight,
         }}
       >
         {person.name}
-      </Text>
+      </Label>
     </Pressable>
   );
 };

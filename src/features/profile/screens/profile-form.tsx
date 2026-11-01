@@ -9,6 +9,7 @@ import RouteModalHeader from "@/components/route-modal-header";
 import type { PhotoAction } from "@/components/photo-button/types";
 import TextInfo from "@/components/text-info";
 import { RADIUS } from "@/constants/radius";
+import { getInputTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
 import Alert from "@/lib/alert";
@@ -182,7 +183,7 @@ export const ProfileForm = () => {
             textContentType="name"
             clearButtonMode="while-editing"
             style={{
-              fontSize: isIOS ? 17 : 16,
+              ...getInputTextStyle(16),
               color: colors.textInputText,
               backgroundColor: isIOS
                 ? colors.menuListItemBackground

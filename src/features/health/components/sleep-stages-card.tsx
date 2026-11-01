@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
@@ -100,24 +100,24 @@ export const SleepStagesCard = ({ sleep }: { sleep: HealthSleep }) => {
           marginTop: 4,
         }}
       >
-        <Text
+        <Label
+          size={12}
           style={{
-            fontSize: 12,
             color: colors.textSecondary,
             fontVariant: ["tabular-nums"],
           }}
         >
           {onset}
-        </Text>
-        <Text
+        </Label>
+        <Label
+          size={12}
           style={{
-            fontSize: 12,
             color: colors.textSecondary,
             fontVariant: ["tabular-nums"],
           }}
         >
           {wake}
-        </Text>
+        </Label>
       </View>
       <View style={{ flexDirection: "row", marginTop: 10, gap: 4 }}>
         {night.stages.map((part) => (
@@ -133,28 +133,28 @@ export const SleepStagesCard = ({ sleep }: { sleep: HealthSleep }) => {
                   backgroundColor: STAGE_COLORS[part.stage],
                 }}
               />
-              <Text
+              <Label
+                size={12}
                 numberOfLines={1}
                 style={{
                   flexShrink: 1,
-                  fontSize: 12,
                   color: colors.textSecondary,
                 }}
               >
                 {STAGE_LABELS[part.stage]()}
-              </Text>
+              </Label>
             </View>
-            <Text
+            <Label
+              size={12}
+              strong
               style={{
                 marginTop: 1,
-                fontSize: 12,
-                fontWeight: "600",
                 color: colors.text,
                 fontVariant: ["tabular-nums"],
               }}
             >
               {formatSleepMinutes(part.minutes)}
-            </Text>
+            </Label>
           </View>
         ))}
       </View>

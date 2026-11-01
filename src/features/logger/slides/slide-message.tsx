@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "@/components/dismis-keyboard";
 import LinkButton from "@/components/link-button";
 import TextArea from "@/components/text-area";
+import { getTextStyle } from "@/components/typography";
 import { LOGGER_HEADER_ICON_INSET } from "../components/logger-header";
 import { Footer } from "./footer";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
@@ -122,7 +123,7 @@ const SlideMessageComponent = (
                 paddingBottom: footerVisible
                   ? 16
                   : INPUT_BOTTOM_PADDING_CLEAR_OF_BUTTON,
-                fontSize: 18,
+                ...getTextStyle("copy", 18),
                 lineHeight: 26,
               }}
             />

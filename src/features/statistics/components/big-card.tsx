@@ -2,14 +2,14 @@ import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/use-colors";
 import * as Sharing from "expo-sharing";
 import { useRef, useState } from "react";
-import { ActivityIndicator, Image, Text, View } from "react-native";
+import { ActivityIndicator, Image, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import Share from "lucide-react-native/icons/share";
 import { captureRef } from "react-native-view-shot";
 import { reportError } from "@/lib/report-error";
 import { ButtonIcon } from "@/components/button-content";
-import { Copy, Label } from "@/components/typography";
+import { Copy, Heading, Label } from "@/components/typography";
 import LinkButton from "@/components/link-button";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
@@ -27,16 +27,16 @@ const Title = ({ children }: { children: string }) => {
   const colors = useColors();
 
   return (
-    <Text
+    <Heading
+      size={20}
       style={{
         letterSpacing: -0.1,
-        fontSize: 20,
         fontWeight: "bold",
         color: colors.text,
       }}
     >
       {children}
-    </Text>
+    </Heading>
   );
 };
 

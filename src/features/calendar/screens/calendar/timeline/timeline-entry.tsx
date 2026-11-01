@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import keyBy from "lodash/keyBy";
 import { memo } from "react";
 import type { ReactElement } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Label } from "@/components/typography";
 import { COMPACT_CHIP } from "@/constants/chip";
 import { getLocationLabel, PlacePreview } from "@/features/location";
@@ -43,15 +43,15 @@ const MoreChip = ({ count }: { count: number }) => {
         borderColor: colors.entryItemBorder,
       }}
     >
-      <Text
+      <Label
+        size={14}
         style={{
-          fontSize: COMPACT_CHIP.fontSize,
           color: colors.textSecondary,
           fontVariant: ["tabular-nums"],
         }}
       >
         {`+${count}`}
-      </Text>
+      </Label>
     </View>
   );
 };

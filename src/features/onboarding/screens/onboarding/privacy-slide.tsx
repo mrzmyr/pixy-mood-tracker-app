@@ -3,7 +3,7 @@ import Lock from "lucide-react-native/icons/lock";
 import Animated, { FadeInRight } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 import Button from "@/components/button";
-import { Copy, Label } from "@/components/typography";
+import { Copy, getTextStyle, Label } from "@/components/typography";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { TextReveal } from "@/components/text-reveal";
@@ -132,7 +132,7 @@ export const PrivacySlide = ({
             containerStyle={{ marginBottom: 20 }}
             style={{
               color: colors.onboardingTitle,
-              fontSize: 24,
+              ...getTextStyle("heading", 24),
               lineHeight: 32,
               fontWeight: "bold",
               textAlign: "left",

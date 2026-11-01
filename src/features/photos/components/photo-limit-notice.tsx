@@ -1,7 +1,7 @@
 import { useEffect, useEffectEvent } from "react";
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { Label } from "@/components/typography";
+import { Copy, Label } from "@/components/typography";
 import { t } from "@/lib/translation";
 import { MAX_PHOTOS_PER_ENTRY } from "../storage";
 import { RADIUS } from "@/constants/radius";
@@ -64,17 +64,17 @@ export const PhotoLimitNotice = ({
         backgroundColor: BACKGROUND,
       }}
     >
-      <Text
+      <Copy
+        size={14}
         style={{
           flex: 1,
           paddingVertical: 8,
           color: FOREGROUND,
-          fontSize: 14,
           lineHeight: 19,
         }}
       >
         {t("photos_limit_reached", { max: MAX_PHOTOS_PER_ENTRY })}
-      </Text>
+      </Copy>
       <Pressable
         testID="photos-limit-notice-ok"
         onPress={onHide}

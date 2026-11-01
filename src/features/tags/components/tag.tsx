@@ -1,4 +1,4 @@
-import { Pressable, Text, View, useColorScheme } from "react-native";
+import { Pressable, View, useColorScheme } from "react-native";
 
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -7,6 +7,7 @@ import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
 import { COMPACT_CHIP } from "@/constants/chip";
 import type { ChipStyle } from "@/constants/chip";
+import { Label } from "@/components/typography";
 
 const DEFAULT_STYLE = {};
 
@@ -91,14 +92,14 @@ const Tag = ({
           backgroundColor: colors.tags[colorName]?.dot,
         }}
       />
-      <Text
+      <Label
+        size={compact ? 14 : 16}
         style={{
           color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: compact ? COMPACT_CHIP.fontSize : 17,
         }}
       >
         {title}
-      </Text>
+      </Label>
     </Pressable>
   );
 };

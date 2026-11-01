@@ -52,6 +52,7 @@ const RouteModalHeader = ({
           style={{
             flex: 1,
             marginLeft: 10,
+            // oxlint-disable-next-line pixy-standards/typography-components -- Material 3 dialog app bar title, 22sp native mimic
             fontSize: 22,
             color: colors.text,
           }}

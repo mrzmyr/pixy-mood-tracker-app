@@ -8,7 +8,8 @@ import {
 } from "@/features/health";
 import { SLEEP_QUALITY_KEYS } from "@/constants/ratings";
 import { useLogDraft } from "../log-draft";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Copy } from "@/components/typography";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
 import { SlideHeadline } from "../components/slide-headline";
@@ -96,27 +97,27 @@ export const SlideSleep = ({
           justifyContent: "space-between",
         }}
       >
-        <Text
+        <Copy
+          size={14}
           style={{
             flex: 5,
-            fontSize: 14,
             color: colors.textSecondary,
             textAlign: "center",
           }}
         >
           {t("logger_step_sleep_low")}
-        </Text>
+        </Copy>
         <View style={{ flex: 15 }} />
-        <Text
+        <Copy
+          size={14}
           style={{
             flex: 5,
-            fontSize: 14,
             color: colors.textSecondary,
             textAlign: "center",
           }}
         >
           {t("logger_step_sleep_high")}
-        </Text>
+        </Copy>
       </View>
       <View style={{ flex: 1 }} />
       <Footer>

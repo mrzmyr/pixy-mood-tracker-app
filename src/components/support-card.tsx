@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
-import { ActivityIndicator, Alert, Text, View } from "react-native";
+import { ActivityIndicator, Alert, View } from "react-native";
 import HandHeart from "lucide-react-native/icons/hand-heart";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useSupport } from "@/support";
 import { PressableScale } from "@/components/pressable-scale";
-import { Copy, Label } from "@/components/typography";
+import { Copy, Heading, Label } from "@/components/typography";
 import type { SupportFlowError } from "@/support";
 import { RADIUS } from "@/constants/radius";
 
@@ -119,18 +119,18 @@ export const SupportCard = () => {
         accessibilityElementsHidden
         importantForAccessibility="no"
       />
-      <Text
+      <Heading
+        size={20}
         style={{
           marginTop: 28,
           color: contentColor,
-          fontSize: 22,
           lineHeight: 28,
           fontWeight: "700",
           letterSpacing: -0.2,
         }}
       >
         {t("support_pixy_heading")}
-      </Text>
+      </Heading>
       <Copy
         size={16}
         style={{

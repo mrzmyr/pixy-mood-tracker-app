@@ -2,7 +2,8 @@ import { EmotionIndicator } from "@/features/logger";
 import useColors from "@/hooks/use-colors";
 import { tDynamic } from "@/lib/translation";
 import type { Emotion } from "@/types";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { COMPACT_CHIP } from "@/constants/chip";
 
@@ -45,14 +46,9 @@ export const EmotionItem = ({
         }}
       >
         <EmotionIndicator emotion={emotion} compact={compact} />
-        <Text
-          style={{
-            color: colors.text,
-            fontSize: compact ? COMPACT_CHIP.fontSize : 17,
-          }}
-        >
+        <Label size={compact ? 14 : 16} style={{ color: colors.text }}>
           {tDynamic(`log_emotion_${emotion.key}`)}
-        </Text>
+        </Label>
       </View>
     </View>
   );

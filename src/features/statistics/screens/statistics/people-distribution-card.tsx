@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Card } from "../../components/card";
 import { t } from "@/lib/translation";
 import { useCalendarFilters } from "@/features/calendar";
@@ -7,6 +7,7 @@ import { PersonChip } from "@/features/people";
 import useColors from "@/hooks/use-colors";
 import type { PeopleDistributionData } from "../../people-distribution";
 import { RADIUS } from "@/constants/radius";
+import { Label } from "@/components/typography";
 import { getBarFraction, getMaxCount } from "../../bar-fraction";
 
 const LIMIT = 5;
@@ -61,18 +62,18 @@ export const PeopleDistributionCard = ({
                 person={entry.details}
                 style={{ flexShrink: 1, minWidth: 0 }}
               />
-              <Text
+              <Label
+                size={14}
+                strong
                 style={{
                   color: colors.text,
-                  fontSize: 14,
-                  fontWeight: "600",
                   fontVariant: ["tabular-nums"],
                   marginLeft: "auto",
                   paddingLeft: 12,
                 }}
               >
                 {entry.count}x
-              </Text>
+              </Label>
             </View>
             <View
               style={{
@@ -95,11 +96,9 @@ export const PeopleDistributionCard = ({
         ))}
       </View>
       {data.people.length > LIMIT && (
-        <Text
-          style={{ marginTop: 8, fontSize: 14, color: colors.textSecondary }}
-        >
+        <Label size={14} style={{ marginTop: 8, color: colors.textSecondary }}>
           {t("statistics_people_more", { count: data.people.length - LIMIT })}
-        </Text>
+        </Label>
       )}
     </Card>
   );

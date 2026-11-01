@@ -3,12 +3,12 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 import { CHIP_FLOW, COMPACT_CHIP } from "@/constants/chip";
-import { Copy, Label } from "@/components/typography";
+import { Copy, Heading, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { SLEEP_QUALITY_MAPPING } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
@@ -174,17 +174,17 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
         }}
       >
         {STRIP_HOURS.map((hour) => (
-          <Text
+          <Label
             key={hour}
+            // Axis ticks: smaller so the strip stays the focus.
+            size={12}
             style={{
-              // Axis ticks: smaller so the strip stays the focus.
-              fontSize: 12,
               color: colors.textSecondary,
               fontVariant: ["tabular-nums"],
             }}
           >
             {hour}
-          </Text>
+          </Label>
         ))}
       </View>
     </View>
@@ -222,20 +222,20 @@ export const MoodHeader = ({
           borderColor: scale.border,
         }}
       />
-      <Text
+      <Heading
         testID="entry-summary-mood"
         accessibilityRole="header"
+        // Mood name: the headline of the screen.
+        size={32}
         style={{
           marginTop: 12,
           color: colors.text,
-          // Mood name: the headline of the screen.
-          fontSize: 34,
           fontWeight: "700",
           letterSpacing: -0.8,
         }}
       >
         {capitalize(t(summary.rating))}
-      </Text>
+      </Heading>
       <Label
         size={14}
         style={{
@@ -286,11 +286,9 @@ export const EmotionsTile = ({
             }}
           >
             <EmotionIndicator emotion={emotion} compact />
-            <Text
-              style={{ fontSize: COMPACT_CHIP.fontSize, color: colors.text }}
-            >
+            <Label size={14} style={{ color: colors.text }}>
               {tDynamic(`log_emotion_${emotion.key}`)}
-            </Text>
+            </Label>
           </View>
         ))}
       </View>

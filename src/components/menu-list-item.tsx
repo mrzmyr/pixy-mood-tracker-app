@@ -1,9 +1,11 @@
 import React, { isValidElement, useCallback } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 import type { AccessibilityValue, ViewStyle } from "react-native";
 
 import ChevronRight from "lucide-react-native/icons/chevron-right";
 import { SFIcon } from "@/components/sf-icon";
+import { Label } from "@/components/typography";
+import type { LabelSize } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
 
@@ -17,7 +19,7 @@ interface Metrics {
   icon: ViewStyle;
   /** Space between the left icon and the title. */
   iconGap: number;
-  titleSize: number;
+  titleSize: LabelSize;
 }
 
 const ANDROID: Metrics = {
@@ -45,7 +47,7 @@ const IOS: Metrics = {
   tallRow: { minHeight: 50 },
   icon: { flexShrink: 0 },
   iconGap: 15,
-  titleSize: 17,
+  titleSize: 16,
 };
 
 const getRowStyle = (
@@ -260,18 +262,18 @@ const MenuListItem = ({
             {titleText === undefined ? (
               <View style={{ flex: 1, minWidth: 0 }}>{title}</View>
             ) : (
-              <Text
+              <Label
+                size={platform.titleSize}
                 style={{
                   flex: 1,
                   minWidth: 0,
-                  fontSize: platform.titleSize,
                   color: titleColor,
                   textAlign: isCentered ? "center" : undefined,
                 }}
                 numberOfLines={1}
               >
                 {titleText}
-              </Text>
+              </Label>
             )}
           </View>
         )}

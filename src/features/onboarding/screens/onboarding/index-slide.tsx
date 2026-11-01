@@ -6,6 +6,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useIsLaunchSplashVisible } from "@/shell/launch-splash-state";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
+import { getTextStyle } from "@/components/typography";
 
 /**
  * First onboarding slide: only the tagline on the sky, then Start. The tagline
@@ -30,7 +31,7 @@ export const IndexSlide = ({ onPress }: { onPress: () => void }) => {
           delay={400}
           style={{
             color: colors.onboardingTitle,
-            fontSize: 34,
+            ...getTextStyle("heading", 32),
             lineHeight: 41,
             fontWeight: "bold",
             textAlign: "center",
