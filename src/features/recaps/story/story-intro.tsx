@@ -4,13 +4,13 @@ import { getTextRevealDuration } from "@/components/text-reveal-parts";
 import { t } from "@/lib/translation";
 import { dayRange } from "./format";
 import { StoryText } from "./parts";
-import { PixyFlightArea } from "./pixy-flight-area";
+import { SkyFlightZone } from "@/components/sky-flight-zone";
 import type { SlideContext } from "./slides";
 import { STORY_PALETTE, STORY_TYPE } from "./theme";
 
 /**
  * First slide of the week story: the sky, a kind welcome that writes
- * itself, and cloud Pixy gliding in to fly below it.
+ * itself, and free sky below it for cloud Pixy.
  */
 export const StoryIntro = ({ ctx }: { ctx: SlideContext }) => {
   const theme = ctx.isDark ? "night" : "paper";
@@ -45,7 +45,7 @@ export const StoryIntro = ({ ctx }: { ctx: SlideContext }) => {
           ))}
         </View>
       </View>
-      <PixyFlightArea style={{ flex: 1, marginTop: 24 }} />
+      <SkyFlightZone style={{ flex: 1, marginTop: 24 }} />
     </View>
   );
 };

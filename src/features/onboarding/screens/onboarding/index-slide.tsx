@@ -5,7 +5,7 @@ import { TextReveal } from "@/components/text-reveal";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useIsLaunchSplashVisible } from "@/shell/launch-splash-state";
-import { SkyFlightZone } from "./sky-flight-zone";
+import { SkyFlightZone } from "@/components/sky-flight-zone";
 
 /**
  * First onboarding slide: only the tagline on the sky, then Start. The tagline

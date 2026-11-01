@@ -1,7 +1,7 @@
 appId: ${APP_ID}
 ---
-# Every new entry ends with the confirmation. Tap Done to close.
+# Every new entry ends with the entry summary. Tap Done to close.
 - assertVisible:
-    id: "confirmation-summary"
+    id: "entry-summary"
 - tapOn:
     id: "confirmation-done"

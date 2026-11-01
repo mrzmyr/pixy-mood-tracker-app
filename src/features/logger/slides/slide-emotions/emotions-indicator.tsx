@@ -1,5 +1,4 @@
 import { useSetting } from "@/state/settings";
-import { useFeatureFlag } from "@/state/feature-flags";
 import useScale from "@/hooks/use-scale";
 import type { Emotion } from "@/types";
 import chroma from "chroma-js";
@@ -7,15 +6,14 @@ import { useColorScheme, View } from "react-native";
 
 import { EMOTION_ICONS } from "../../emotion-icons";
 import { EmotionIcon } from "./emotion-icon";
-import { RADIUS } from "@/constants/radius";
 import { COMPACT_CHIP } from "@/constants/chip";
 
 /**
  * Category marker for an emotion. Uses only the scale's `very_good`,
  * `neutral`, and `very_bad` colors, so `good` and `bad` match the extremes.
  *
- * Flag `emotion-icons` on: two-tone icon tinted with the category color.
- * Off, or no icon for the emotion: 8pt category dot.
+ * Two-tone icon tinted with the category color. Nothing for a key without
+ * an icon, for example from a newer app version.
  */
 export const EmotionIndicator = ({
   emotion,
@@ -31,7 +29,6 @@ export const EmotionIndicator = ({
   const scaleType = useSetting("scaleType");
   const scale = useScale(scaleType);
   const colorScheme = useColorScheme();
-  const isIconsEnabled = useFeatureFlag("emotion-icons");
   const colorMapping = {
     very_good: scale.colors.very_good,
     good: scale.colors.very_good,
@@ -42,42 +39,29 @@ export const EmotionIndicator = ({
 
   const color = colorMapping[emotion.category];
   const gap = compact ? COMPACT_CHIP.gap : 8;
-  const dot = compact ? 7 : 8;
-  const dotGap = compact ? COMPACT_CHIP.gap : 10;
   const icon = EMOTION_ICONS[emotion.key];
 
-  if (isIconsEnabled && icon) {
-    return (
-      <View
-        testID={`emotion-icon-${emotion.key}`}
-        style={{ marginRight: size === undefined ? gap : 0 }}
-      >
-        <EmotionIcon
-          icon={icon}
-          size={size ?? (compact ? 16 : 20)}
-          tint={color.background}
-          stroke={
-            // Light category colors are too pale for a thin outline on white.
-            colorScheme === "light"
-              ? // oxlint-disable-next-line pixy-standards/no-color-shading -- emotion category colors have no border token yet
-                chroma(color.background).darken(1.5).hex()
-              : color.background
-          }
-        />
-      </View>
-    );
+  if (!icon) {
+    return null;
   }
 
   return (
     <View
-      style={{
-        width: size === undefined ? dot : size / 2,
-        height: size === undefined ? dot : size / 2,
-        backgroundColor: color.background,
-        borderRadius: RADIUS.full,
-        marginRight: size === undefined ? dotGap : 0,
-        paddingRight: size === undefined ? 8 : 0,
-      }}
-    />
+      testID={`emotion-icon-${emotion.key}`}
+      style={{ marginRight: size === undefined ? gap : 0 }}
+    >
+      <EmotionIcon
+        icon={icon}
+        size={size ?? (compact ? 16 : 20)}
+        tint={color.background}
+        stroke={
+          // Light category colors are too pale for a thin outline on white.
+          colorScheme === "light"
+            ? // oxlint-disable-next-line pixy-standards/no-color-shading -- emotion category colors have no border token yet
+              chroma(color.background).darken(1.5).hex()
+            : color.background
+        }
+      />
+    </View>
   );
 };

@@ -412,6 +412,14 @@ const AppLayout = () => {
               name="dev/feature-flag"
               options={{ ...pageOptions, headerShown: false }}
             />
+            <Stack.Screen
+              name="dev/playground/index"
+              options={{ ...pageOptions, title: "Playground" }}
+            />
+            <Stack.Screen
+              name="dev/playground/recap-story"
+              options={{ headerShown: false, animation: "fade" }}
+            />
           </Stack.Protected>
         </Stack>
       </View>

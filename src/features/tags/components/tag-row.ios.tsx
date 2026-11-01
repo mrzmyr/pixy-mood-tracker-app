@@ -97,6 +97,21 @@ export const TagRow = ({
         accessible
         accessibilityRole="button"
         accessibilityLabel={props.tag.title}
+        // Swipe actions stay hidden until the row opens, so screen readers get them here.
+        accessibilityActions={[
+          ...(props.tag.isArchived
+            ? []
+            : [{ name: "archive", label: t("archive_tag") }]),
+          { name: "delete", label: t("delete") },
+        ]}
+        onAccessibilityAction={({ nativeEvent }) => {
+          if (nativeEvent.actionName === "archive") {
+            archive(props.tag);
+          }
+          if (nativeEvent.actionName === "delete") {
+            void confirmDelete(props.tag);
+          }
+        }}
         onPress={() => {
           props.onPress();
         }}

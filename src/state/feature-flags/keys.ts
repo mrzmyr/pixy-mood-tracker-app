@@ -9,8 +9,6 @@ export const FEATURE_FLAGS = [
   "apple-health",
   "calendar-timeline",
   "development",
-  "emotion-icons",
-  "entry-summary",
   "feature-flag-overrides",
   "interventions",
   "location",
@@ -61,14 +59,6 @@ export const FEATURE_FLAG_DETAILS: Record<
   development: {
     description: "Development section in production builds",
     location: "Settings > Development",
-  },
-  "emotion-icons": {
-    description: "Icons instead of dots for chosen emotions",
-    location: "Check-in > Emotions step",
-  },
-  "entry-summary": {
-    description: "Everything tracked as tiles on a sky after saving",
-    location: "Check-in confirmation",
   },
   "feature-flag-overrides": {
     description: "Flag overrides in production builds",

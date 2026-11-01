@@ -30,3 +30,15 @@ export const DevFakeFilesLinkScreen = () => {
   const Screen = DEV_TOOLS?.DevFakeFilesLinkScreen;
   return Screen ? <Screen /> : <Redirect href="/calendar" />;
 };
+
+/** Playground list is reachable only in development and preview builds. */
+export const DevPlaygroundScreen = () => {
+  const Screen = DEV_TOOLS?.DevPlaygroundScreen;
+  return Screen ? <Screen /> : <Redirect href="/calendar" />;
+};
+
+/** Recap story playground is reachable only in development and preview builds. */
+export const DevRecapPlaygroundScreen = () => {
+  const Screen = DEV_TOOLS?.DevRecapPlaygroundScreen;
+  return Screen ? <Screen /> : <Redirect href="/calendar" />;
+};

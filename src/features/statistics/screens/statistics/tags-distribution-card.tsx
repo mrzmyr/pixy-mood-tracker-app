@@ -41,6 +41,7 @@ export const TagDistributionContent = ({
           <Pressable
             key={tag?.details?.id}
             onPress={() => onPress(tag.id)}
+            accessibilityRole="button"
             style={{
               position: "relative",
               height: 32,

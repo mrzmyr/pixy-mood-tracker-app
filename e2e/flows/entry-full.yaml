@@ -71,9 +71,9 @@ tags: [p0, entry]
 - tapOn:
     id: "logger-save"
 
-# Saving shows the confirmation with a summary of the day.
+# Saving shows the entry summary.
 - assertVisible:
-    id: "confirmation-summary"
+    id: "entry-summary"
 - tapOn:
     id: "confirmation-done"
 - assertVisible: "Add another entry for today"

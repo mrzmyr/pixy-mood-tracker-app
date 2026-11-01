@@ -7,12 +7,15 @@ const ScaleButton = ({
   backgroundColor,
   textColor,
   isSelected = false,
+  multiSelect = false,
   accessibilityLabel,
   onPress,
 }: {
   backgroundColor: string;
   textColor: string;
   isSelected?: boolean;
+  /** Several values can be selected, so screen readers get checkboxes. */
+  multiSelect?: boolean;
   accessibilityLabel?: string;
   onPress: () => void;
 }) => {
@@ -42,6 +45,10 @@ const ScaleButton = ({
       ]}
       testID={`scale-button-${accessibilityLabel}`}
       accessibilityLabel={accessibilityLabel}
+      accessibilityRole={multiSelect ? "checkbox" : "radio"}
+      accessibilityState={
+        multiSelect ? { checked: isSelected } : { selected: isSelected }
+      }
       accessible={true}
     >
       {isSelected ? (

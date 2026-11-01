@@ -1,6 +1,5 @@
 import type { LogPhoto } from "@/types";
-import type { DateKey, EmotionCount, MoodDay } from "../types";
-import type { QuizSlide } from "./quiz";
+import type { DateKey } from "../types";
 
 /** Photo of a story slide and the day it comes from. */
 export interface StoryPhoto {
@@ -9,20 +8,14 @@ export interface StoryPhoto {
 }
 
 /**
- * Cover of the story. `photos`: a month with 7+ photo days, the grid shows
- * them. `photo`: fewer photo days, or any week with photos: up to 5 photos
- * fill the screen one after another. `pixels`: no photos, a big check-in
- * count over the grid.
+ * Cover of the story: the check-in count over the period's pixel grid.
+ * Good days with a photo show it in their pixel.
  */
 export interface CoverSlide {
   type: "cover";
-  variant: "photos" | "photo" | "pixels";
   /** Days with a check-in. */
   checkIns: number;
-  /**
-   * Good days with a photo: every one for the grid, the brightest first for
-   * the full-screen photos. Empty without photos.
-   */
+  /** Good days with a photo. Empty without photos. */
   photos: StoryPhoto[];
 }
 
@@ -31,37 +24,24 @@ export interface IntroSlide {
   type: "intro";
 }
 
-/** One tag on the same weekday, week after week. */
-export interface WeekdayHabitSlide {
-  type: "weekday-habit";
+/** One row of a tags slide: a tag, its check-in days, and its mood effect. */
+export interface TagEffectRow {
   tagId: string;
-  /** 0 Sunday to 6 Saturday, as in `dayjs().day()`. */
-  weekday: number;
-  /** Days of that weekday with the tag. */
-  hits: number;
-  /** Days of that weekday in the month. */
-  total: number;
-  /** Same weekday in the month before, `null` without check-ins then. */
-  previous: { hits: number; total: number } | null;
+  days: number;
+  /** Mood steps above (positive) or below (negative) days without the tag. */
+  delta: number;
 }
 
-/** The month's most used tags, each as a row of days. */
-export interface MadeOfSlide {
-  type: "made-of";
-  /** Most days first. */
-  tagIds: string[];
+/** Tags whose days felt lighter than days without them. Biggest first. */
+export interface PositiveTagsSlide {
+  type: "positive-tags";
+  rows: TagEffectRow[];
 }
 
-/** Tags whose days felt lighter than days without them. */
-export interface LiftedSlide {
-  type: "lifted";
-  rows: { tagId: string; days: number; delta: number }[];
-}
-
-/** People connected on the most days, with those days as pixels. */
-export interface PeopleSlide {
-  type: "people";
-  people: { personId: string; days: DateKey[] }[];
+/** Tags whose days felt heavier than days without them. Biggest first. */
+export interface NegativeTagsSlide {
+  type: "negative-tags";
+  rows: TagEffectRow[];
 }
 
 /**
@@ -72,107 +52,6 @@ export interface OrbitSlide {
   type: "orbit";
   /** Most connected days first. */
   people: { personId: string; days: number }[];
-}
-
-/** A tag that came up on harder days far more than on other days. */
-export interface HardPatternSlide {
-  type: "hard-pattern";
-  tagId: string;
-  /** Harder days of the month, oldest first. */
-  hardDates: DateKey[];
-  /** Harder days with the tag. */
-  tagHard: number;
-  /** Other check-in days. */
-  otherDays: number;
-  /** Other days with the tag. */
-  tagOther: number;
-}
-
-/** First check-in in a city far from every earlier place. */
-export interface FirstCitySlide {
-  type: "first-city";
-  city: string;
-  date: DateKey;
-  /** Distance from home, `null` without a home city yet. */
-  km: number | null;
-  photo: StoryPhoto | null;
-}
-
-/** Tags used on more or fewer days than in the month before. */
-export interface VsLastSlide {
-  type: "vs-last";
-  /** First day of the month before. */
-  previousStart: DateKey;
-  rows: { tagId: string; days: number; change: number }[];
-}
-
-/** One photo per week of the month. */
-export interface MomentsSlide {
-  type: "moments";
-  /** Weeks of the month with up to 4 bright photos each, brightest first. */
-  weeks: { start: DateKey; end: DateKey; photos: StoryPhoto[] }[];
-}
-
-/** Good emotions and tags back after a break, as on the came-back card. */
-export interface CameBackSlide {
-  type: "came-back";
-  emotions: { emotion: string; lastDate: DateKey }[];
-  tags: { tagId: string; days: number; weeks: number }[];
-}
-
-/** The week's best day: an extremely good day, as on the day recap card. */
-export interface BestDaySlide {
-  type: "best-day";
-  date: DateKey;
-  /** Emotions of the day, at most 3. */
-  emotions: string[];
-  /** First photo of the day, `null` without one: the slide shows the sky. */
-  photo: StoryPhoto | null;
-  /** Every photo of the day, one after another behind the slide. */
-  photos: StoryPhoto[];
-  /** Tags of the day, at most 3. */
-  tagIds: string[];
-  /** Place of the day, "District, City"; `null` with location off. */
-  location: string | null;
-}
-
-/** Mood of each day of the week, as on the mood chart card. */
-export interface WeekMoodSlide {
-  type: "week-mood";
-  days: MoodDay[];
-}
-
-/** The week's most felt emotions, as on the emotions card. */
-export interface TopEmotionsSlide {
-  type: "top-emotions";
-  /** Most days first, at most 6. */
-  counts: EmotionCount[];
-}
-
-/** Map point of a place on a places slide. */
-export interface StoryPlace {
-  name: string;
-  latitude: number;
-  longitude: number;
-  days: number;
-  /** Mean rating of the days there, 0 (worst) to 6. */
-  rating: number;
-  /** Photo of a bright day there, `null` without one. */
-  photo: StoryPhoto | null;
-}
-
-/** Places under 25 km from home or in the home city, most days first. */
-export interface CloseBySlide {
-  type: "close-by";
-  places: StoryPlace[];
-}
-
-/** Trips: 25+ km away, outside the usual city. Most days first. */
-export interface FarOutSlide {
-  type: "far-out";
-  trips: StoryPlace[];
-  /** The week's other places: they frame the map, without a pin. */
-  around: { latitude: number; longitude: number }[];
 }
 
 /** Days still to come in the year, and days without a check-in so far. */
@@ -193,27 +72,14 @@ export interface ShareSlide {
   photos: StoryPhoto[];
 }
 
-/** One page of the month story. Each type has one renderer. */
+/** One page of a story. Each type has one renderer. */
 export type StorySlide =
   | IntroSlide
   | CoverSlide
-  | BestDaySlide
-  | WeekMoodSlide
-  | TopEmotionsSlide
-  | CloseBySlide
-  | FarOutSlide
-  | WeekdayHabitSlide
-  | MadeOfSlide
-  | LiftedSlide
-  | PeopleSlide
+  | PositiveTagsSlide
+  | NegativeTagsSlide
   | OrbitSlide
-  | HardPatternSlide
-  | FirstCitySlide
-  | VsLastSlide
-  | MomentsSlide
-  | CameBackSlide
   | ComingUpSlide
-  | QuizSlide
   | ShareSlide;
 
 /** Key of a slide type. */

@@ -72,6 +72,8 @@ const Tag = ({
             }
           : undefined
       }
+      accessibilityRole={onPress ? "checkbox" : undefined}
+      accessibilityState={onPress ? { checked: selected } : undefined}
       accessibilityActions={
         onLongPress ? [{ name: "edit", label: t("edit") }] : undefined
       }

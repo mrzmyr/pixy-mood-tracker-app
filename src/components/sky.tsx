@@ -24,6 +24,9 @@ const SKY_FADE_MS = 600;
 /** Night: the clouds show only faintly against the dark sky. */
 const NIGHT_CLOUD_OPACITY = 0.07;
 
+/** Stars move at this share of the clouds' extra speed on a step: farther away, slower. */
+const STAR_PARALLAX = 0.3;
+
 /** Last drift offset per `resumeKey`, so a sky that mounts again resumes. */
 const lastOffsets = new Map<string, number>();
 
@@ -74,6 +77,9 @@ export const Sky = ({
   );
   /** Seconds since start. Drives the star twinkle. */
   const clock = useSharedValue(0);
+  /** Star pan, 0 to one screen width. Slower than the clouds, for depth. */
+  const starOffset = useSharedValue(0);
+  const { width: windowWidth } = useWindowDimensions();
 
   useEffect(() => {
     period.set(copyWidth * 2);
@@ -88,6 +94,14 @@ export const Sky = ({
         period.get()
     );
     clock.set(clock.get() + timeSincePreviousFrame / 1000);
+    // Stars hold still at drift speed; they move only while the clouds
+    // rush, slower than the clouds.
+    const rush = Math.max(0, speed.get() - SKY_DRIFT_SPEED);
+    starOffset.set(
+      (starOffset.get() +
+        (rush * STAR_PARALLAX * timeSincePreviousFrame) / 1000) %
+        windowWidth
+    );
   }, !isReducedMotion);
 
   const opacity = useSharedValue(1);
@@ -129,7 +143,7 @@ export const Sky = ({
         <Image source={SKY_FLIPPED} style={{ width: copyWidth, height }} />
         <Image source={SKY} style={{ width: copyWidth, height }} />
       </Animated.View>
-      {isNight ? <NightStars clock={clock} /> : null}
+      {isNight ? <NightStars clock={clock} offset={starOffset} /> : null}
     </Animated.View>
   );
 };

@@ -6,7 +6,7 @@ import { getTextRevealDuration } from "@/components/text-reveal-parts";
 import { SLIDE_TEXT_DELAY_MS } from "./slide-timing";
 import { HeaderImage } from "./header-image";
 import { HeaderNavigation } from "./header-navigation";
-import { SkyFlightZone } from "./sky-flight-zone";
+import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { t, tDynamic } from "@/lib/translation";
 
 const Body = ({ index }: { index: number }) => {

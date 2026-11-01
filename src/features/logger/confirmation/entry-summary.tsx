@@ -2,6 +2,7 @@ import { useEffect, useEffectEvent, useMemo } from "react";
 import type { ReactNode } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useHeaderHeight } from "expo-router/react-navigation";
 import Button from "@/components/button";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
@@ -15,7 +16,7 @@ import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { EMOTIONS } from "../config";
 import { getDaySummary } from "./day-summary";
-import { SummaryHero } from "./entry-summary-hero";
+import { HERO_HEIGHT, SummaryHero } from "./entry-summary-hero";
 import { HALF_TILE_CHIPS_MAX, getBentoRows } from "./entry-summary-layout";
 import type { TileSpan } from "./entry-summary-layout";
 import {
@@ -73,10 +74,10 @@ const chipSpan = (count: number): TileSpan =>
   count > HALF_TILE_CHIPS_MAX ? "full" : "half";
 
 /**
- * Last logger step after a new entry, flag `entry-summary`. A full-width
- * hero leads (photos, else the place on a map, else the sky), then the mood
- * as headline, then the rest of the entry as tiles. No module labels: chips,
- * faces, the meter, and the note explain themselves.
+ * Last logger step after a new entry. A still, full-width hero leads
+ * (photos, else the place on a map, else the sky), then the mood as headline,
+ * then the rest of the entry as tiles. No module labels: chips, faces, the
+ * meter, and the note explain themselves.
  *
  * Mood shows the day average like the calendar pixel; 2+ entries that day
  * add a day strip.
@@ -95,6 +96,13 @@ export const EntrySummary = ({
   const colors = useColors();
   const haptics = useHaptics();
   const insets = useSafeAreaInsets();
+  const headerHeight = useHeaderHeight();
+  // The iOS page sheet already sits below the status bar.
+  const heroExtraHeight = Platform.OS === "android" ? insets.top : 0;
+  // iOS 26 fades a scroll view under the see-through sheet bar. The tiles
+  // start below the bar and scroll over the still hero, so the sky stays
+  // clear up to the top.
+  const scrollTop = Platform.OS === "ios" ? headerHeight : 0;
   const logState = useLogState();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
@@ -165,29 +173,29 @@ export const EntrySummary = ({
         backgroundColor: colors.summaryBackground,
       }}
     >
-      <MaskedView style={{ flex: 1 }} maskElement={<BottomFadeMask />}>
+      <View
+        pointerEvents="none"
+        style={{ position: "absolute", top: 0, left: 0, right: 0 }}
+      >
+        <SummaryHero item={item} extraHeight={heroExtraHeight} />
+      </View>
+      <MaskedView
+        style={{ flex: 1, marginTop: scrollTop }}
+        maskElement={<BottomFadeMask />}
+      >
         <ScrollView
           contentContainerStyle={{
+            // The header rises into the faded bottom of the hero.
+            paddingTop:
+              HERO_HEIGHT + heroExtraHeight - HEADER_OVERLAP - scrollTop,
+            paddingHorizontal: 16,
             // Last tile scrolls clear of the fade.
             paddingBottom: FADE_HEIGHT,
+            gap: GAP,
           }}
         >
-          <SummaryHero
-            item={item}
-            // The iOS page sheet already sits below the status bar.
-            extraHeight={Platform.OS === "android" ? insets.top : 0}
-          />
-          <View
-            style={{
-              // The header rises into the faded bottom of the hero.
-              marginTop: -HEADER_OVERLAP,
-              paddingHorizontal: 16,
-              gap: GAP,
-            }}
-          >
-            <MoodHeader summary={summary} item={item} />
-            <BentoGrid tiles={tiles} />
-          </View>
+          <MoodHeader summary={summary} item={item} />
+          <BentoGrid tiles={tiles} />
         </ScrollView>
       </MaskedView>
 

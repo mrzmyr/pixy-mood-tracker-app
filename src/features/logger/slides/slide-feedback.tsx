@@ -30,6 +30,8 @@ const AnswerSelector = ({
 
   return (
     <Pressable
+      accessibilityRole="button"
+      accessibilityState={{ selected }}
       style={({ pressed }) => ({
         opacity: pressed ? 0.8 : 1,
         borderRadius: RADIUS.sm,

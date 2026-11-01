@@ -85,7 +85,7 @@ jobs:
 
       - name: Set up Expo and EAS
         if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'both' || github.event.inputs.platform == matrix.platform
-        uses: expo/expo-github-action@eab7a230208c952974db8c3245cfd78402c7b385 # 9.0.0
+        uses: expo/expo-github-action@9da89d3617bb88139671bad31b09c65714c2ee06 # 9.0.1
         with:
           eas-version: 25.1.1
           token: ${{ secrets.EXPO_TOKEN }}

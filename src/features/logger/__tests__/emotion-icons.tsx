@@ -9,13 +9,6 @@ import { EMOTIONS } from "../config";
 import { EMOTION_ICONS } from "../emotion-icons";
 import { EmotionIcon } from "../slides/slide-emotions/emotion-icon";
 
-let mockIsIconsEnabled = true;
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the emotion-icons flag comes from PostHog after consent; each test picks on or off.
-jest.mock("@/state/feature-flags", () => ({
-  useFeatureFlag: (flag: string) =>
-    flag === "emotion-icons" && mockIsIconsEnabled,
-}));
-
 const CALM = EMOTIONS.filter((e) => e.key === "calm");
 // Keys are open strings: entries from newer app versions can hold any key.
 const UNKNOWN: Pick<Emotion, "key" | "category">[] = [
@@ -46,25 +39,13 @@ const renderEmotions = (emotions: Pick<Emotion, "key" | "category">[]) =>
   );
 
 describe("Emotion icons", () => {
-  afterEach(() => {
-    mockIsIconsEnabled = true;
-  });
-
-  test("flag on: entry shows the emotion icon", async () => {
+  test("entry shows the emotion icon", async () => {
     await renderEmotions(CALM);
 
     expect(await screen.findByTestId("emotion-icon-calm")).toBeTruthy();
   });
 
-  test("flag off: entry keeps the category dot", async () => {
-    mockIsIconsEnabled = false;
-    await renderEmotions(CALM);
-    await screen.findByText("Calm");
-
-    expect(screen.queryByTestId("emotion-icon-calm")).toBeNull();
-  });
-
-  test("flag on: unknown emotion key keeps the category dot", async () => {
+  test("unknown emotion key renders without an icon", async () => {
     await renderEmotions(UNKNOWN);
 
     expect(screen.queryByTestId("emotion-icon-not_an_emotion")).toBeNull();
