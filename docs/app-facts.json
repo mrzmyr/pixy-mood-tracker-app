@@ -477,7 +477,7 @@
       "label": "Photos",
       "status": "flagged",
       "group": "logging",
-      "description": "Add photos to entries. Behind the photos feature flag.",
+      "description": "Add photos to entries. Long press an empty calendar spot to see a photo of each day on its pixel. Behind the photos feature flag.",
       "competitorKey": "photos",
       "since": "1.95.0",
       "evidence": [

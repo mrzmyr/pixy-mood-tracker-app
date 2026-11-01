@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useMappingHelper } from "@shopify/flash-list";
 import { memo, useCallback, useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { DATE_FORMAT } from "@/constants/config";
 
@@ -13,6 +13,13 @@ import CalendarDay from "./calendar-day";
 import { useCalendarNavigation } from "../../navigation";
 import { useSetting } from "@/state/settings";
 import { getPixelIntroStyle, useCalendarIntro } from "../../intro";
+import {
+  pickPeekPhoto,
+  startPhotoPeek,
+  stopPhotoPeek,
+  usePhotoPeekSeed,
+} from "../../photo-peek";
+import useHaptics from "@/hooks/use-haptics";
 
 dayjs.extend(isSameOrBefore);
 
@@ -21,7 +28,30 @@ const styles = StyleSheet.create({
     flex: 7,
     margin: 3,
   },
+  emptySlot: {
+    flex: 1,
+  },
 });
+
+/** Slot before the first or after the last day of a month. */
+const EmptySlotComponent = () => {
+  const haptics = useHaptics();
+  const onLongPress = useCallback(() => {
+    void haptics.selection();
+    startPhotoPeek();
+  }, [haptics]);
+
+  return (
+    <Pressable
+      accessible={false}
+      style={styles.emptySlot}
+      onLongPress={onLongPress}
+      onPressOut={stopPhotoPeek}
+    />
+  );
+};
+
+const EmptySlot = memo(EmptySlotComponent);
 
 const CalendarDayContainerComponent = ({
   children,
@@ -65,6 +95,7 @@ const CalendarWeekComponent = ({
   const { data: filters } = useCalendarFilters();
   const scaleType = useSetting("scaleType");
   const intro = useCalendarIntro();
+  const peekSeed = usePhotoPeekSeed();
 
   const days = useMemo(() => {
     const weekDays: string[] = [];
@@ -103,6 +134,14 @@ const CalendarWeekComponent = ({
   const renderDay = ({ date }) => {
     const items = itemMap[date] || [];
     const averageRating = items.length < 1 ? null : getAverageMood(items);
+    const peekPhoto =
+      peekSeed === null
+        ? null
+        : pickPeekPhoto({
+            photos: items.flatMap((item) => item.photos ?? []),
+            seed: peekSeed,
+            dateString: date,
+          });
 
     return (
       <CalendarDay
@@ -111,6 +150,7 @@ const CalendarWeekComponent = ({
         scaleType={scaleType}
         isFiltered={filters.filteredDates.has(date)}
         isFiltering={filters.isFiltering}
+        peekPhoto={peekPhoto}
         onPress={onPressDay}
       />
     );
@@ -128,7 +168,9 @@ const CalendarWeekComponent = ({
     >
       {!isLast &&
         emptyDays.map((slot) => (
-          <CalendarDayContainer key={slot} introStyle={null} />
+          <CalendarDayContainer key={slot} introStyle={null}>
+            <EmptySlot />
+          </CalendarDayContainer>
         ))}
 
       {daysMap.map((day, index) => (
@@ -142,7 +184,9 @@ const CalendarWeekComponent = ({
 
       {isLast &&
         emptyDays.map((slot) => (
-          <CalendarDayContainer key={slot} introStyle={null} />
+          <CalendarDayContainer key={slot} introStyle={null}>
+            <EmptySlot />
+          </CalendarDayContainer>
         ))}
     </View>
   );
