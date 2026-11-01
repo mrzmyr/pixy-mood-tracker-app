@@ -85,7 +85,7 @@
       },
       "devDependencies": {
         "@babel/core": "^7.20.0",
-        "@google-cloud/translate": "^10.2.0",
+        "@google-cloud/translate": "^10.3.0",
         "@react-native/jest-preset": "0.86.3",
         "@testing-library/react-native": "^14.0.1",
         "@types/i18n-js": "^4.0.1",
@@ -375,7 +375,7 @@
 
     "@google-cloud/promisify": ["@google-cloud/promisify@6.1.0", "", {}, "sha512-H+Rytzi5zYMyoAmU/zgYLgq7fJ9FY4QQEg4k6gfFx/RY1COJ2xxyIfe8bZ62lqEbWM1DJH7IYETqTFmqNtuUhQ=="],
 
-    "@google-cloud/translate": ["@google-cloud/translate@10.2.0", "", { "dependencies": { "@google-cloud/common": "^8.0.1", "@google-cloud/promisify": "^6.0.0", "arrify": "^2.0.0", "extend": "^3.0.2", "google-gax": "^6.0.0", "is-html": "^2.0.0" } }, "sha512-frorXlWbyUfUu6tbMptCyJqNdxDL/jf+LHwCSVUgB3Rt17nJHu9ZM/vNEc6TedVUxZx2+qgp6tGFJZEn6esgUA=="],
+    "@google-cloud/translate": ["@google-cloud/translate@10.3.0", "", { "dependencies": { "@google-cloud/common": "^8.0.1", "@google-cloud/promisify": "^6.0.0", "arrify": "^2.0.0", "extend": "^3.0.2", "google-gax": "^6.0.0", "is-html": "^2.0.0" } }, "sha512-A/MWeeFoyoON1ir5vKP7MKh+yE3mT95plSA/eq3f54BMRnErdXSddGSuveqeEn8v+9bBjXDMD0NfLdDSHE01wQ=="],
 
     "@grpc/grpc-js": ["@grpc/grpc-js@1.14.5", "", { "dependencies": { "@grpc/proto-loader": "^0.8.0", "@js-sdsl/ordered-map": "^4.4.2" } }, "sha512-7VZM+SVdEcUUqSQeNI3zM8Qs/BhQKZndPo2h5VkYkAM8Iz0wJIa8mKV5ekQGqG8UUsnkQ0NMxIxwkIHYvj0qOw=="],
 
