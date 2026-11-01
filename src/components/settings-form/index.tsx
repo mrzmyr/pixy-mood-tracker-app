@@ -10,7 +10,7 @@ import {
 import { Children, isValidElement } from "react";
 import type { ReactNode } from "react";
 import { MATERIAL_SEED_COLOR } from "@/constants/colors";
-import useFormBackground from "@/hooks/use-form-background";
+import useColors from "@/hooks/use-colors";
 import NavigationChevron from "./navigation-chevron";
 import {
   formModifiers,
@@ -62,7 +62,7 @@ export const SettingsSection = (_props: SettingsSectionProps) => null;
  * [index.web.tsx](./index.web.tsx).
  */
 export const SettingsForm = ({ children }: { children: ReactNode }) => {
-  const backgroundColor = useFormBackground();
+  const { background: backgroundColor } = useColors();
 
   return (
     <Host style={{ flex: 1 }} seedColor={MATERIAL_SEED_COLOR}>
