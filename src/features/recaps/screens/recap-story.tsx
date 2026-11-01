@@ -2,7 +2,8 @@ import dayjs from "dayjs";
 import noop from "lodash/noop";
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { useColorScheme, View } from "react-native";
+import { BackHandler, useColorScheme, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import type { View as ViewType } from "react-native";
 import { setStatusBarHidden } from "expo-status-bar";
 import { useFeedback } from "@/features/feedback";
@@ -31,6 +32,11 @@ import { StoryFinale, StoryShuffleButton } from "../story/story-finale";
 import { getSlideDuration } from "../story/timing";
 import { StoryShareButton } from "../story/story-share-button";
 import { shareStoryCard } from "../story/share-image";
+import { getStoryCardKey, parseStoryOrigin } from "../story/story-motion";
+import {
+  StoryTransitionView,
+  useStoryTransition,
+} from "../story/story-transition";
 
 const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 
@@ -104,6 +110,7 @@ const RecapStory = () => {
     date?: string;
     source?: string;
     kind?: string;
+    origin?: string;
   }>();
   const kind = params.kind === "week" ? "week" : "month";
   const date = dayjs(params.date).isValid()
@@ -132,6 +139,11 @@ const RecapStory = () => {
   // The slide shows the app icon and name while it is captured.
   const [isCapturingSlide, setIsCapturingSlide] = useState(false);
   const lastShown = useRef(0);
+  const transition = useStoryTransition({
+    origin: parseStoryOrigin(params.origin),
+    cardKey: getStoryCardKey({ source, kind, date: period.start }),
+    onClosed: () => router.back(),
+  });
 
   const ctx: SlideContext = {
     period,
@@ -158,6 +170,27 @@ const RecapStory = () => {
       });
     }
   });
+  const close = () => {
+    analytics.track("recaps:story_closed", {
+      position: lastShown.current + 1,
+      slides_count: count,
+      completed: lastShown.current === count - 1,
+    });
+    void transition.close();
+  };
+
+  const onBack = useEffectEvent(() => {
+    close();
+    return true;
+  });
+  useEffect(() => {
+    // Android back shrinks the story into its card, like the close button.
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      onBack
+    );
+    return () => subscription.remove();
+  }, []);
   useEffect(() => {
     onOpen();
     // Full-screen story: the progress bars take the status bar's place.
@@ -178,15 +211,6 @@ const RecapStory = () => {
   }
 
   const slideOf = (index: number): StorySlide | undefined => story[index];
-
-  const close = () => {
-    analytics.track("recaps:story_closed", {
-      position: lastShown.current + 1,
-      slides_count: count,
-      completed: lastShown.current === count - 1,
-    });
-    router.back();
-  };
 
   const send = (
     index: number,
@@ -272,37 +296,45 @@ const RecapStory = () => {
   }));
 
   return (
-    <View style={{ flex: 1 }}>
-      <StoryPlayer
-        slides={slides}
-        slideRef={slideView}
-        onClose={close}
-        isPaused={asking !== null || isSharing}
-        isCapturing={isCapturingSlide}
-        onSlideShown={(index) => {
-          lastShown.current = index;
-          const slide = slideOf(index);
-          if (slide) {
-            analytics.track("recaps:story_slide_shown", {
-              slide_type: slide.type,
-              position: index + 1,
-              slides_count: count,
-            });
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StoryTransitionView transition={transition}>
+        <StoryPlayer
+          slides={slides}
+          slideRef={slideView}
+          onClose={close}
+          // The timer starts once the story is full screen; a drag holds it.
+          isPaused={
+            asking !== null ||
+            isSharing ||
+            !transition.isOpen ||
+            transition.isDragging
           }
-        }}
-        renderBottom={(index, theme, controls) => (
-          <StoryActions
-            theme={theme}
-            isSharing={isSharing}
-            isAnswered={answers.has(index)}
-            pause={controls.pause}
-            onShare={() => share(index)}
-            onShuffle={shuffleOf(index)}
-            onHelpful={() => send(index, true, [], "")}
-            onNotHelpful={() => setAsking(index)}
-          />
-        )}
-      />
+          isCapturing={isCapturingSlide}
+          onSlideShown={(index) => {
+            lastShown.current = index;
+            const slide = slideOf(index);
+            if (slide) {
+              analytics.track("recaps:story_slide_shown", {
+                slide_type: slide.type,
+                position: index + 1,
+                slides_count: count,
+              });
+            }
+          }}
+          renderBottom={(index, theme, controls) => (
+            <StoryActions
+              theme={theme}
+              isSharing={isSharing}
+              isAnswered={answers.has(index)}
+              pause={controls.pause}
+              onShare={() => share(index)}
+              onShuffle={shuffleOf(index)}
+              onHelpful={() => send(index, true, [], "")}
+              onNotHelpful={() => setAsking(index)}
+            />
+          )}
+        />
+      </StoryTransitionView>
       <FeedbackSheet
         visible={asking !== null}
         onCancel={() => setAsking(null)}
@@ -313,7 +345,7 @@ const RecapStory = () => {
           setAsking(null);
         }}
       />
-    </View>
+    </GestureHandlerRootView>
   );
 };
 
