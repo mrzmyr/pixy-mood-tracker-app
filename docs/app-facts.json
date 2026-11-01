@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-10-30",
+  "verifiedOn": "2026-10-31",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -478,13 +478,11 @@
     {
       "id": "entry-summary",
       "label": "Entry summary",
-      "status": "flagged",
+      "status": "available",
       "group": "logging",
-      "description": "After saving, everything in the entry shows as tiles on a sky: mood with a day strip for several check-ins, emotions, photos, sleep, people, tags, and the full note. Behind the entry-summary feature flag.",
-      "evidence": [
-        "src/features/logger/confirmation/entry-summary.tsx",
-        "src/state/feature-flags/keys.ts"
-      ]
+      "description": "After saving, everything in the entry shows as tiles on a sky: mood with a day strip for several check-ins, emotions, photos, sleep, people, tags, and the full note.",
+      "note": "Shows to everyone from the first release after 1.110.0. Earlier releases hide it behind flag `entry-summary`.",
+      "evidence": ["src/features/logger/confirmation/entry-summary.tsx"]
     },
     {
       "id": "voice-mode",

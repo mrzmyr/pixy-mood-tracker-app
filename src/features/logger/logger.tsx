@@ -48,7 +48,6 @@ import { useLoggerTracking } from "./hooks/use-logger-tracking";
 import { usePassiveLocation } from "./hooks/use-passive-location";
 import { useRecoverySnapshot } from "./recovery/use-recovery-snapshot";
 import type { SavedEntry } from "./hooks/use-logger-actions";
-import { Confirmation } from "./confirmation/confirmation";
 import { EntrySummary } from "./confirmation/entry-summary";
 import type { LoggerPrefill } from "./prefill";
 import { VoiceFeedbackSheet } from "@/features/feedback";
@@ -694,7 +693,6 @@ export const LoggerCreate = ({
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
-  const isEntrySummary = useFeatureFlag("entry-summary");
   const { isEnabled: isSleepAutoFilled } = useHealthSleepSetting();
   const logState = useLogState();
   const router = useRouter();
@@ -749,13 +747,7 @@ export const LoggerCreate = ({
     return (
       <>
         <Stack.Screen options={SAVED_BAR_OPTIONS} />
-        {isEntrySummary ? (
-          <FlagHighlight flag="entry-summary" pillOnly style={{ flex: 1 }}>
-            <EntrySummary {...confirmation} />
-          </FlagHighlight>
-        ) : (
-          <Confirmation {...confirmation} />
-        )}
+        <EntrySummary {...confirmation} />
         {prefill?.source === "voice" && (
           <VoiceFeedbackSheet
             context={{
