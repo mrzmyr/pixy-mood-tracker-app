@@ -868,6 +868,7 @@
     "one": "יום אחד עם %{tag} השבוע",
     "other": "{{count}} ימים עם %{tag} השבוע"
   },
+  "recaps_story_banner_label_month": "סיכום חודשי",
   "recaps_story_banner_title": "סיכום %{month}",
   "recaps_story_coming_left": {
     "one": "עוד 1",

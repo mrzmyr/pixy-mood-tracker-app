@@ -868,6 +868,7 @@
     "one": "1 dia com %{tag} nesta semana",
     "other": "{{count}} dias com %{tag} nesta semana"
   },
+  "recaps_story_banner_label_month": "Resumo do mês",
   "recaps_story_banner_title": "Resumo de %{month}",
   "recaps_story_coming_left": {
     "one": "Falta 1",

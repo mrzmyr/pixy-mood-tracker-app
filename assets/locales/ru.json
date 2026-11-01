@@ -868,6 +868,7 @@
     "one": "1 день с %{tag} на этой неделе",
     "other": "Дней с %{tag} на этой неделе: {{count}}"
   },
+  "recaps_story_banner_label_month": "Итоги месяца",
   "recaps_story_banner_title": "Итоги: %{month}",
   "recaps_story_coming_left": {
     "one": "Осталось: 1",

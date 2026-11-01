@@ -868,6 +868,7 @@
     "one": "1 วันที่มี %{tag} สัปดาห์นี้",
     "other": "{{count}} วันที่มี %{tag} สัปดาห์นี้"
   },
+  "recaps_story_banner_label_month": "สรุปย้อนหลังประจำเดือน",
   "recaps_story_banner_title": "สรุปย้อนหลังเดือน%{month}",
   "recaps_story_coming_left": {
     "one": "เหลืออีก 1",

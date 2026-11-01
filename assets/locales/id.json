@@ -868,6 +868,7 @@
     "one": "1 hari dengan %{tag} minggu ini",
     "other": "{{count}} hari dengan %{tag} minggu ini"
   },
+  "recaps_story_banner_label_month": "Rekap Bulanan",
   "recaps_story_banner_title": "Rekap %{month}",
   "recaps_story_coming_left": {
     "one": "1 lagi",

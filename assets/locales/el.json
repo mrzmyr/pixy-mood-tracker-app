@@ -868,6 +868,7 @@
     "one": "1 μέρα με %{tag} αυτή την εβδομάδα",
     "other": "{{count}} μέρες με %{tag} αυτή την εβδομάδα"
   },
+  "recaps_story_banner_label_month": "Ανασκόπηση μήνα",
   "recaps_story_banner_title": "Ανασκόπηση: %{month}",
   "recaps_story_coming_left": {
     "one": "Μένει 1",

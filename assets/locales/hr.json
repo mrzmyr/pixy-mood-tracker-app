@@ -868,6 +868,7 @@
     "one": "1 dan s %{tag} ovaj tjedan",
     "other": "{{count}} dana s %{tag} ovaj tjedan"
   },
+  "recaps_story_banner_label_month": "Osvrt na mjesec",
   "recaps_story_banner_title": "Osvrt: %{month}",
   "recaps_story_coming_left": {
     "one": "Preostalo: 1",
