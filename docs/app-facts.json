@@ -477,11 +477,12 @@
       "label": "Photos",
       "status": "flagged",
       "group": "logging",
-      "description": "Add photos to entries. Behind the photos feature flag.",
+      "description": "Add photos to entries. Behind the photos feature flag. Long press an empty calendar spot to see a photo of each day on its pixel, behind the photo-peek feature flag.",
       "competitorKey": "photos",
       "since": "1.95.0",
       "evidence": [
         "src/features/photos/",
+        "src/features/calendar/photo-peek.ts",
         "src/state/feature-flags/keys.ts",
         "CHANGELOG.md: feat(logger): ask for photos before the note (#661)"
       ]

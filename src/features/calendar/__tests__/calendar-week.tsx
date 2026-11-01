@@ -1,5 +1,11 @@
 import { DefaultTheme, ThemeProvider } from "expo-router/react-navigation";
-import { act, render, screen, userEvent } from "@testing-library/react-native";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  userEvent,
+} from "@testing-library/react-native";
 import { Profiler } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -15,6 +21,8 @@ import {
   useCalendarFiltersSheet,
 } from "../filters";
 import CalendarWeek from "../screens/calendar/calendar-week";
+import { stopPhotoPeek } from "../photo-peek";
+import { FeatureFlagsContext } from "@/state/feature-flags/context";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- jest.setup.js stubs flash-list without useMappingHelper; outside a list it returns the item key.
 jest.mock("@shopify/flash-list", () => ({
@@ -22,7 +30,20 @@ jest.mock("@shopify/flash-list", () => ({
   useMappingHelper: () => ({ getMappingKey: (key: string) => key }),
 }));
 
-const goodDay = _generateItem({ date: "2022-01-03", rating: "good" });
+const goodDay = _generateItem({
+  date: "2022-01-03",
+  rating: "good",
+  photos: [
+    {
+      id: "6f1f6c1e-3b1a-4c55-9d0e-2f4a1b7c8d90",
+      fileName: "beach.jpg",
+      width: 100,
+      height: 100,
+      createdAt: "2022-01-03T10:00:00.000Z",
+      source: "library",
+    },
+  ],
+});
 const badDay = _generateItem({ date: "2022-01-05", rating: "bad" });
 // Stable reference: in the app, `itemMap` only changes when the logs change.
 const itemMap = {
@@ -61,7 +82,13 @@ const SheetButtons = () => {
   );
 };
 
-const renderWeek = (onRender: () => void) =>
+const PHOTO_PEEK_ON = { flags: { "photo-peek": true }, isLoading: false };
+const PHOTO_PEEK_OFF = { flags: { "photo-peek": false }, isLoading: false };
+
+const renderWeek = (
+  onRender: () => void,
+  { isPhotoPeekOn = false }: { isPhotoPeekOn?: boolean } = {}
+) =>
   render(
     <ThemeProvider
       value={{
@@ -82,12 +109,16 @@ const renderWeek = (onRender: () => void) =>
               <CalendarFiltersProvider>
                 <SheetButtons />
                 <Profiler id="week" onRender={onRender}>
-                  <CalendarWeek
-                    startDate="2022-01-02"
-                    endDate="2022-01-08"
-                    height={48}
-                    itemMap={itemMap}
-                  />
+                  <FeatureFlagsContext.Provider
+                    value={isPhotoPeekOn ? PHOTO_PEEK_ON : PHOTO_PEEK_OFF}
+                  >
+                    <CalendarWeek
+                      startDate="2022-01-02"
+                      endDate="2022-01-08"
+                      height={48}
+                      itemMap={itemMap}
+                    />
+                  </FeatureFlagsContext.Provider>
                 </Profiler>
               </CalendarFiltersProvider>
             </LogsProvider>
@@ -102,6 +133,10 @@ const backgroundOf = (date: string) =>
     .backgroundColor;
 
 describe("CalendarWeek", () => {
+  afterEach(() => {
+    stopPhotoPeek();
+  });
+
   test("does not re-render when the filter sheet opens or closes", async () => {
     const onRender = jest.fn();
     await renderWeek(onRender);
@@ -126,5 +161,38 @@ describe("CalendarWeek", () => {
     expect(backgroundOf("2022-01-05")).toBe(
       Colors.light.calendarItemBackgroundFuture
     );
+  });
+
+  test("long press on a day without a pixel shows photos on pixels until release", async () => {
+    await renderWeek(jest.fn(), { isPhotoPeekOn: true });
+    await act(async () => {});
+    const emptyDay = screen.getByTestId("calendar-day-2022-01-04");
+
+    await fireEvent(emptyDay, "longPress");
+
+    expect(screen.getByTestId("calendar-day-photo-2022-01-03")).toBeTruthy();
+    expect(screen.queryByTestId("calendar-day-photo-2022-01-05")).toBeNull();
+
+    await fireEvent(emptyDay, "pressOut");
+
+    expect(screen.queryByTestId("calendar-day-photo-2022-01-03")).toBeNull();
+  });
+
+  test("long press on a pixel shows no photos", async () => {
+    await renderWeek(jest.fn(), { isPhotoPeekOn: true });
+    await act(async () => {});
+
+    await fireEvent(screen.getByTestId("calendar-day-2022-01-03"), "longPress");
+
+    expect(screen.queryByTestId("calendar-day-photo-2022-01-03")).toBeNull();
+  });
+
+  test("long press shows no photos while flag photo-peek is off", async () => {
+    await renderWeek(jest.fn());
+    await act(async () => {});
+
+    await fireEvent(screen.getByTestId("calendar-day-2022-01-04"), "longPress");
+
+    expect(screen.queryByTestId("calendar-day-photo-2022-01-03")).toBeNull();
   });
 });
