@@ -6,6 +6,10 @@ import { StoryText } from "./parts";
 import { STORY_PALETTE } from "./theme";
 import type { StoryTheme } from "./theme";
 
+/** Pressable padding around each answer. The row pulls it back at the right
+ * edge, so the last label ends on the content edge. */
+const ANSWER_PADDING = 8;
+
 const Answer = ({
   label,
   icon,
@@ -28,7 +32,7 @@ const Answer = ({
       alignItems: "center",
       gap: 6,
       minHeight: 44,
-      paddingHorizontal: 8,
+      paddingHorizontal: ANSWER_PADDING,
       opacity: pressed ? 0.6 : 1,
     })}
   >
@@ -61,7 +65,8 @@ export const StoryFeedback = ({
         style={{
           minHeight: 44,
           justifyContent: "center",
-          paddingHorizontal: 8,
+          paddingHorizontal: ANSWER_PADDING,
+          marginRight: -ANSWER_PADDING,
         }}
       >
         <StoryText
@@ -76,7 +81,13 @@ export const StoryFeedback = ({
     );
   }
   return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        marginRight: -ANSWER_PADDING,
+      }}
+    >
       <Answer
         label={t("recaps_feedback_helpful")}
         icon={<ThumbsUp width={16} height={16} color={color} />}
