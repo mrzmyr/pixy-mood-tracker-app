@@ -128,14 +128,15 @@ const yearAgo: LogItem = {
 
 const days: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
   const iso = dayAgo(ago);
-  const people = PEOPLE.filter(
-    (person) =>
-      (person.id === "recap-sam" && SAM.has(ago)) ||
-      (person.id === "recap-rosa" && ROSA.has(ago)) ||
-      (person.id === "recap-lena" && LENA.has(ago)) ||
-      (person.id === "recap-kai" && KAI.has(ago)) ||
-      (person.id === "recap-mira" && MIRA.has(ago))
-  ).map((person) => ({ id: person.id }));
+  const people = PEOPLE.flatMap((person) =>
+    (person.id === "recap-sam" && SAM.has(ago)) ||
+    (person.id === "recap-rosa" && ROSA.has(ago)) ||
+    (person.id === "recap-lena" && LENA.has(ago)) ||
+    (person.id === "recap-kai" && KAI.has(ago)) ||
+    (person.id === "recap-mira" && MIRA.has(ago))
+      ? [{ id: person.id }]
+      : []
+  );
   return {
     id: `recap-moment-${ago}`,
     date: iso.slice(0, 10),

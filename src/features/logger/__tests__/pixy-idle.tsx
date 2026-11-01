@@ -57,10 +57,9 @@ const countBlinks = (frames: PixyIdle[]) =>
 
 /** Glance sides in order, without repeats of the same glance. */
 const glances = (frames: PixyIdle[]) =>
-  frames
-    .map((frame) => frame.look)
-    .filter((look, index, looks) => look !== looks[index - 1])
-    .filter((look) => look !== "center");
+  frames.flatMap(({ look }, index) =>
+    look !== frames[index - 1]?.look && look !== "center" ? [look] : []
+  );
 
 let changeAppState: (state: AppStateStatus) => void = () => {};
 
