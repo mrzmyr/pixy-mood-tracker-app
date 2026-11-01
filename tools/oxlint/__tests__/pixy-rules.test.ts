@@ -378,6 +378,26 @@ describe("radius-token", () => {
   });
 });
 
+describe("typography-components", () => {
+  it("reports fontSize in a style object, literal or not", () => {
+    expect(
+      lint(
+        "typography-components",
+        "const size = 15;\nexport const a = { fontSize: 17 };\nexport const b = { color: 'red', fontSize: size };\n"
+      )
+    ).toBe(2);
+  });
+
+  it("allows other keys and reading fontSize from a style", () => {
+    expect(
+      lint(
+        "typography-components",
+        "const style = { lineHeight: 20 };\nexport const a = { lineHeight: 20, fontWeight: '600' };\nexport const b = style.fontSize;\n"
+      )
+    ).toBe(0);
+  });
+});
+
 describe("no-reduce-motion-never", () => {
   it("reports ReduceMotion.Never", () => {
     expect(

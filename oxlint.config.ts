@@ -3,6 +3,7 @@ import antiSlop from "ultracite/oxlint/anti-slop";
 import core from "ultracite/oxlint/core";
 import { jsPluginSettings, selectJsPlugins } from "ultracite/oxlint/js-plugins";
 import react from "ultracite/oxlint/react";
+import { fontSizeLegacyFiles } from "./tools/oxlint/font-size-legacy.ts";
 
 const jsPlugins = selectJsPlugins(["react-doctor"]);
 
@@ -307,6 +308,7 @@ export default defineConfig({
         "pixy-standards/header-button-only": "error",
         "pixy-standards/no-color-shading": "error",
         "pixy-standards/radius-token": "error",
+        "pixy-standards/typography-components": "error",
         "pixy-standards/no-reduce-motion-never": "error",
         "pixy-standards/title-case-labels": "error",
         "pixy-standards/component-scope": [
@@ -321,6 +323,23 @@ export default defineConfig({
         "src/features/notifications/components/notification-preview*.tsx",
       ],
       rules: { "pixy-standards/radius-token": "off" },
+    },
+    {
+      // Type scales live here. Platform mimics and recap stories copy their own scale.
+      files: [
+        "src/components/typography.tsx",
+        "src/components/type.tsx",
+        "src/components/type-metrics.ts",
+        "src/features/notifications/components/notification-preview*.tsx",
+        "src/features/recaps/story/**",
+        "src/**/__tests__/**",
+      ],
+      rules: { "pixy-standards/typography-components": "off" },
+    },
+    {
+      // Hand-set sizes from before the typography components. Shrink only.
+      files: fontSizeLegacyFiles,
+      rules: { "pixy-standards/typography-components": "off" },
     },
     {
       // The color scale derives its shades here; everything else reads them.

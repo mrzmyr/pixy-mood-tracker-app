@@ -889,6 +889,31 @@ const radiusToken = {
   },
 };
 
+const typographyComponents = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description:
+        "Disallow fontSize in styles; text size comes from the typography components",
+    },
+    messages: {
+      fontSize:
+        "Render text with `Heading`, `Label`, or `Copy` from `@/components/typography` (Geist sizes only). Single-line `TextInput`: `getInputTextStyle`. Other style props: `getTextStyle`.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      Property(node) {
+        const key = node.key.name ?? node.key.value;
+        if (!node.computed && key === "fontSize") {
+          context.report({ messageId: "fontSize", node: node.key });
+        }
+      },
+    };
+  },
+};
+
 const noReduceMotionNever = {
   meta: {
     type: "problem",
@@ -1083,6 +1108,7 @@ module.exports = {
     "header-button-only": headerButtonOnly,
     "no-color-shading": noColorShading,
     "radius-token": radiusToken,
+    "typography-components": typographyComponents,
     "no-reduce-motion-never": noReduceMotionNever,
     "title-case-labels": titleCaseLabels,
   },
