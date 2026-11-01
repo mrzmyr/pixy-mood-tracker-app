@@ -19,19 +19,17 @@ const ICONS =
     ? ({
         filters: "line.3.horizontal.decrease",
         statistics: "chart.pie",
-        settings: "gearshape",
       } as const)
     : {
         filters: require("../../assets/images/icons/filter.png"),
         statistics: require("../../assets/images/icons/statistics.png"),
-        settings: require("../../assets/images/icons/settings.png"),
       };
 
 /**
- * Calendar header buttons: Statistics on the left; Filters and Settings
- * (cog icon) on the right. With the `recaps` flag, the left button opens
- * this week's Recaps, which carry every statistics card. With the `profile` flag, the user's avatar
- * replaces the cog: photo, initials, or a gray silhouette. With the
+ * Calendar header buttons: Statistics on the left; Filters and Settings on
+ * the right. With the `recaps` flag, the left button opens this week's
+ * Recaps, which carry every statistics card. Settings is the user's avatar:
+ * photo, initials, or a gray silhouette. With the
  * `calendar-timeline` flag on, Filters is a menu: it opens the filter sheet
  * and holds the layout picker (Calendar, Timeline). With the flag off,
  * Filters opens the sheet.
@@ -49,7 +47,6 @@ export const CalendarHeaderButtons = () => {
   const { filterCount, isFiltering } = calendarFilters.data;
   const filtersSheet = useCalendarFiltersSheet();
   const calendarLayout = useCalendarLayout();
-  const isProfileEnabled = useFeatureFlag("profile");
   const isRecapsEnabled = useFeatureFlag("recaps");
   const openSettings = () => router.navigate("/settings");
   const openStatistics = () =>
@@ -119,18 +116,9 @@ export const CalendarHeaderButtons = () => {
         )}
         {/* Direct child only: Stack.Toolbar drops Fragments. Filters sets
             `separateBackground`, so the avatar gets its own glass circle. */}
-        {isProfileEnabled ? (
-          <Stack.Toolbar.View>
-            <ProfileHeaderButton onPress={openSettings} />
-          </Stack.Toolbar.View>
-        ) : (
-          <Stack.Toolbar.Button
-            icon={ICONS.settings}
-            accessibilityLabel={t("settings")}
-            onPress={openSettings}
-            separateBackground
-          />
-        )}
+        <Stack.Toolbar.View>
+          <ProfileHeaderButton onPress={openSettings} />
+        </Stack.Toolbar.View>
       </Stack.Toolbar>
     </>
   );

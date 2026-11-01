@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-10-31",
+  "verifiedOn": "2026-11-01",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -262,6 +262,17 @@
       "evidence": [
         "src/constants/colors/scales.ts",
         "src/features/settings/screens/colors/index.tsx"
+      ]
+    },
+    {
+      "id": "profile",
+      "label": "Profile",
+      "status": "available",
+      "group": "personalization",
+      "description": "Add your name and photo. Your avatar opens Settings from the calendar.",
+      "evidence": [
+        "src/features/profile/",
+        "src/shell/calendar-header-buttons.tsx"
       ]
     },
     {

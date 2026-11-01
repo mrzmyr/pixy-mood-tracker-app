@@ -49,9 +49,9 @@ const DEVELOPMENT_UNLOCK_TAPS = 20;
 const SECTION_INSET = Platform.select({ ios: 20, android: 32, default: 16 });
 
 /**
- * Settings screen, opened from the calendar header. With the `profile` flag,
- * the user's name and photo row comes first. The support card needs its
- * feature flag and an enabled client.
+ * Settings screen, opened from the calendar header. The user's name and photo
+ * row comes first. The support card needs its feature flag and an enabled
+ * client.
  * The App Lock row needs the `app-lock` flag, or the lock being on.
  * The Development section shows in development and preview builds, with the
  * `development` or `feature-flag-overrides` feature flag, or after 20 taps on
@@ -65,7 +65,6 @@ export const SettingsScreen = () => {
   const analytics = useAnalytics();
   const isAppLockVisible = useIsAppLockMenuItemVisible();
   const isRecapsEnabled = useFeatureFlag("recaps");
-  const isProfileEnabled = useFeatureFlag("profile");
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
   const isDevelopmentFlagOn = useFeatureFlag("development");
@@ -154,11 +153,9 @@ export const SettingsScreen = () => {
               : undefined
           }
         >
-          {isProfileEnabled && (
-            <FieldGroup.Section>
-              <ProfileRow />
-            </FieldGroup.Section>
-          )}
+          <FieldGroup.Section>
+            <ProfileRow />
+          </FieldGroup.Section>
           <FieldGroup.Section>
             <FieldRow
               title={t("data")}
