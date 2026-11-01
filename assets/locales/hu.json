@@ -868,6 +868,7 @@
     "one": "1 nap ezzel: %{tag} ezen a héten",
     "other": "{{count}} nap ezzel: %{tag} ezen a héten"
   },
+  "recaps_story_banner_label_month": "Havi visszatekintés",
   "recaps_story_banner_title": "Visszatekintés: %{month}",
   "recaps_story_coming_left": {
     "one": "Még 1",

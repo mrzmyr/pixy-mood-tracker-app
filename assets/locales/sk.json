@@ -868,6 +868,7 @@
     "one": "1 deň s %{tag} tento týždeň",
     "other": "{{count}} dní s %{tag} tento týždeň"
   },
+  "recaps_story_banner_label_month": "Ohliadnutie za mesiacom",
   "recaps_story_banner_title": "Ohliadnutie: %{month}",
   "recaps_story_coming_left": {
     "one": "Zostáva 1",

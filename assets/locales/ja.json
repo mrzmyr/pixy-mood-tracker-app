@@ -868,6 +868,7 @@
     "one": "今週%{tag}があった日：1日",
     "other": "今週%{tag}があった日：{{count}}日"
   },
+  "recaps_story_banner_label_month": "月の振り返り",
   "recaps_story_banner_title": "%{month}の振り返り",
   "recaps_story_coming_left": {
     "one": "残り1",

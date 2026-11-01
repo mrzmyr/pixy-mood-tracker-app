@@ -868,6 +868,7 @@
     "one": "इस हफ़्ते %{tag} वाला 1 दिन",
     "other": "इस हफ़्ते %{tag} वाले {{count}} दिन"
   },
+  "recaps_story_banner_label_month": "महीने का रीकैप",
   "recaps_story_banner_title": "%{month} रीकैप",
   "recaps_story_coming_left": {
     "one": "1 बाकी",

@@ -868,6 +868,7 @@
     "one": "1 zi cu %{tag} săptămâna aceasta",
     "other": "{{count}} zile cu %{tag} săptămâna aceasta"
   },
+  "recaps_story_banner_label_month": "Retrospectiva lunii",
   "recaps_story_banner_title": "Retrospectiva lunii %{month}",
   "recaps_story_coming_left": {
     "one": "Mai e 1",

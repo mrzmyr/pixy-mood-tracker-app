@@ -868,6 +868,7 @@
     "one": "1 день з %{tag} цього тижня",
     "other": "Днів з %{tag} цього тижня: {{count}}"
   },
+  "recaps_story_banner_label_month": "Підсумки місяця",
   "recaps_story_banner_title": "Підсумки: %{month}",
   "recaps_story_coming_left": {
     "one": "Залишилося: 1",
