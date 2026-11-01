@@ -14,5 +14,5 @@ appId: ${APP_ID}
 - tapOn:
     text: "Next"
 - tapOn:
-    text: "Maybe later"
+    text: "Maybe Later"
 - runFlow: finish-privacy-slide.yaml

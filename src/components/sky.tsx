@@ -34,8 +34,10 @@ const lastOffsets = new Map<string, number>();
  * Sky with drifting clouds: full screen behind onboarding and voice mode,
  * or inside a card with a smaller `height`.
  * `speed` is the drift in points per second; the owner animates it. Reduced
- * motion keeps the sky still. Dark mode shows a night sky: faint clouds and
- * subtle twinkling stars.
+ * motion keeps the sky still. Light mode: day sky with a drifting cloud photo.
+ * Dark mode: deep navy night sky, faint clouds, subtle twinkling stars. Never
+ * a dimmed day sky. Shows behind onboarding, voice mode, and the entry
+ * summary hero without photos or place.
  */
 export const Sky = ({
   speed,

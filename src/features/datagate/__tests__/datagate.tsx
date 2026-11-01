@@ -282,7 +282,7 @@ describe("useLogs()", () => {
     expect(hook.result.current.logState.items).toEqual(testItems);
     expect(hook.result.current.toast).toBeNull();
     expect(Alert.alert).toHaveBeenLastCalledWith(
-      "Import failed",
+      "Import Failed",
       expect.any(String),
       expect.any(Array),
       expect.anything()
@@ -373,7 +373,7 @@ describe("useLogs()", () => {
     });
 
     expect(alert).toHaveBeenCalledWith(
-      "Export failed",
+      "Export Failed",
       "Check available device storage and try exporting again."
     );
   });

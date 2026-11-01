@@ -131,7 +131,7 @@ const FloatingPixy = () => {
 
 /**
  * Sky for entries without photos or place: clouds by day, stars at night,
- * and cloud Pixy. Reduced motion: still sky, no Pixy (DESIGN.md, Sky).
+ * and cloud Pixy. Reduced motion: still sky, no Pixy (`Sky`, `CloudPixy`).
  */
 const SkyHero = () => {
   const { height } = useWindowDimensions();

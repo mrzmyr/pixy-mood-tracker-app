@@ -69,7 +69,7 @@ tags: [p0, entry]
 - inputText: "e2e second ${output.runId}"
 - tapOn:
     id: "logger-next"
-- tapOn: "Maybe later"
+- tapOn: "Maybe Later"
 - runFlow: ../subflows/close-confirmation.yaml
 
 # Delete the edited entry. Both entries can share the same minute, so the

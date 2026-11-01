@@ -169,3 +169,288 @@ describe("modal-route-shows-header", () => {
     ).toBe(0);
   });
 });
+
+/** Lint one fixture with `component-scope`: Bezel allowed in statistics only. */
+const BEZEL_SCOPE = [
+  {
+    name: "@/components/bezel",
+    allow: ["src/components/", "src/features/statistics/"],
+    message: "Bezel is for statistics cards only.",
+  },
+];
+
+const lintScopeAt = (
+  relativeFile: string,
+  source: string,
+  modules: object[] = BEZEL_SCOPE
+) => {
+  const config = path.join(dir, ".oxlintrc.json");
+  const file = path.join(dir, relativeFile);
+  mkdirSync(path.dirname(file), { recursive: true });
+  writeFileSync(
+    config,
+    JSON.stringify({
+      jsPlugins: [{ name: "pixy-standards", specifier: PLUGIN }],
+      rules: {
+        "pixy-standards/component-scope": [
+          "error",
+          {
+            modules,
+          },
+        ],
+      },
+    })
+  );
+  writeFileSync(file, source);
+  const result = spawnSync(OXLINT, ["-c", config, relativeFile], {
+    cwd: dir,
+    encoding: "utf-8",
+  });
+  return result.stdout.split("pixy-standards(component-scope)").length - 1;
+};
+
+describe("component-scope", () => {
+  it("reports an import outside the allowed folders", () => {
+    expect(
+      lintScopeAt(
+        "src/features/calendar/card.tsx",
+        'import Bezel from "@/components/bezel";\n'
+      )
+    ).toBe(1);
+  });
+
+  it("reports a relative import of the same module", () => {
+    expect(
+      lintScopeAt(
+        "src/shell/card.tsx",
+        'import Bezel from "../components/bezel";\n'
+      )
+    ).toBe(1);
+  });
+
+  it("allows the import inside an allowed folder", () => {
+    expect(
+      lintScopeAt(
+        "src/features/statistics/card.tsx",
+        'import Bezel from "@/components/bezel";\n'
+      )
+    ).toBe(0);
+  });
+
+  it("allows a type-only import", () => {
+    expect(
+      lintScopeAt(
+        "src/features/calendar/card.tsx",
+        'import type Bezel from "@/components/bezel";\n'
+      )
+    ).toBe(0);
+  });
+});
+
+describe("button-label-children", () => {
+  it("reports a raw Text child in Button and LinkButton", () => {
+    expect(
+      lint(
+        "button-label-children",
+        'import { Text } from "react-native";\nimport Button from "@/components/button";\nimport LinkButton from "@/components/link-button";\nexport const A = () => (\n  <>\n    <Button><Text>Save</Text></Button>\n    <LinkButton><Text>Skip</Text></LinkButton>\n  </>\n);\n'
+      )
+    ).toBe(2);
+  });
+
+  it("allows a label string and ButtonText", () => {
+    expect(
+      lint(
+        "button-label-children",
+        'import { Text } from "react-native";\nimport Button from "@/components/button";\nimport { ButtonText } from "@/components/button-content";\nexport const A = () => (\n  <>\n    <Button>Save</Button>\n    <Button><ButtonText>Save</ButtonText></Button>\n    <Text>Note</Text>\n  </>\n);\n'
+      )
+    ).toBe(0);
+  });
+});
+
+describe("component-scope importNames", () => {
+  const modalScope = [
+    {
+      name: "react-native",
+      importNames: ["Modal"],
+      allow: ["src/components/sheet-modal.tsx"],
+      message: "Use SheetModal.",
+    },
+  ];
+
+  it("reports only the scoped named import", () => {
+    expect(
+      lintScopeAt(
+        "src/features/tags/picker.tsx",
+        'import { Modal, View } from "react-native";\n',
+        modalScope
+      )
+    ).toBe(1);
+  });
+
+  it("allows other named imports from the same module", () => {
+    expect(
+      lintScopeAt(
+        "src/features/tags/picker.tsx",
+        'import { View } from "react-native";\n',
+        modalScope
+      )
+    ).toBe(0);
+  });
+});
+
+describe("sheet-keyboard-layout", () => {
+  it("reports keyboard layout in a file that renders a sheet", () => {
+    expect(
+      lint(
+        "sheet-keyboard-layout",
+        'import { Keyboard, KeyboardAvoidingView } from "react-native";\nimport SheetModal from "@/components/sheet-modal";\nKeyboard.addListener("keyboardDidShow", () => {});\n'
+      )
+    ).toBe(2);
+  });
+
+  it("allows keyboard layout in a file without a sheet", () => {
+    expect(
+      lint(
+        "sheet-keyboard-layout",
+        'import { KeyboardAvoidingView } from "react-native";\n'
+      )
+    ).toBe(0);
+  });
+});
+
+describe("header-button-only", () => {
+  it("reports another element in a ModalHeader slot", () => {
+    expect(
+      lint(
+        "header-button-only",
+        'import ModalHeader from "@/components/modal-header";\nimport LinkButton from "@/components/link-button";\nexport const A = ({ busy }: { busy: boolean }) => (\n  <ModalHeader left={<LinkButton>Cancel</LinkButton>} right={busy ? null : <LinkButton>Save</LinkButton>} />\n);\n'
+      )
+    ).toBe(2);
+  });
+
+  it("allows HeaderButton and a spinner", () => {
+    expect(
+      lint(
+        "header-button-only",
+        'import { ActivityIndicator } from "react-native";\nimport ModalHeader from "@/components/modal-header";\nimport { HeaderButton } from "@/components/header-button";\nexport const A = ({ busy }: { busy: boolean }) => (\n  <ModalHeader left={<HeaderButton kind="cancel" label="Cancel" onPress={() => {}} />} right={busy ? <ActivityIndicator /> : <HeaderButton kind="confirm" label="Save" onPress={() => {}} />} />\n);\n'
+      )
+    ).toBe(0);
+  });
+});
+
+describe("no-color-shading", () => {
+  it("reports chroma shading", () => {
+    expect(
+      lint(
+        "no-color-shading",
+        'import chroma from "chroma-js";\nexport const a = chroma("#fff").darken(1).hex();\nexport const b = chroma("#000").brighten(1).hex();\n'
+      )
+    ).toBe(2);
+  });
+
+  it("allows chroma alpha for fades", () => {
+    expect(
+      lint(
+        "no-color-shading",
+        'import chroma from "chroma-js";\nexport const a = chroma("#fff").alpha(0).css();\n'
+      )
+    ).toBe(0);
+  });
+});
+
+describe("radius-token", () => {
+  it("reports a radius literal of 4 or more", () => {
+    expect(
+      lint(
+        "radius-token",
+        "export const a = { borderRadius: 12, borderTopLeftRadius: 4 };\n"
+      )
+    ).toBe(2);
+  });
+
+  it("allows tokens, circles, and hairline rounding below 4", () => {
+    expect(
+      lint(
+        "radius-token",
+        "const RADIUS = { md: 12 };\nconst size = 40;\nexport const a = { borderRadius: RADIUS.md, borderBottomRightRadius: size / 2, borderTopRightRadius: 2 };\n"
+      )
+    ).toBe(0);
+  });
+});
+
+describe("no-reduce-motion-never", () => {
+  it("reports ReduceMotion.Never", () => {
+    expect(
+      lint(
+        "no-reduce-motion-never",
+        'import { ReduceMotion } from "react-native-reanimated";\nexport const a = { reduceMotion: ReduceMotion.Never };\n'
+      )
+    ).toBe(1);
+  });
+
+  it("allows ReduceMotion.System", () => {
+    expect(
+      lint(
+        "no-reduce-motion-never",
+        'import { ReduceMotion } from "react-native-reanimated";\nexport const a = { reduceMotion: ReduceMotion.System };\n'
+      )
+    ).toBe(0);
+  });
+});
+
+/** Lint one fixture with `title-case-labels` against a fixture English locale. */
+const lintTitles = (source: string) => {
+  const config = path.join(dir, ".oxlintrc.json");
+  const locale = path.join(dir, "en.json");
+  writeFileSync(
+    locale,
+    JSON.stringify({
+      save_tag: "Save Tag",
+      try_again: "Try again",
+      skip_step: "I don't track emotions",
+      tagline: "See what shapes how you feel.",
+      show_all: "Show All of Them",
+    })
+  );
+  writeFileSync(
+    config,
+    JSON.stringify({
+      jsPlugins: [{ name: "pixy-standards", specifier: PLUGIN }],
+      rules: {
+        "pixy-standards/title-case-labels": ["error", { localeFile: locale }],
+      },
+    })
+  );
+  writeFileSync(path.join(dir, "fixture.tsx"), source);
+  const result = spawnSync(OXLINT, ["-c", config, "fixture.tsx"], {
+    cwd: dir,
+    encoding: "utf-8",
+  });
+  return result.stdout.split("pixy-standards(title-case-labels)").length - 1;
+};
+
+describe("title-case-labels", () => {
+  it("reports sentence case in a button, header button, and heading", () => {
+    expect(
+      lintTitles(
+        'export const A = () => (\n  <>\n    <Button>{t("try_again")}</Button>\n    <HeaderButton kind="confirm" label={t("try_again")} />\n    <Text accessibilityRole="header">{t("try_again")}</Text>\n  </>\n);\n'
+      )
+    ).toBe(3);
+  });
+
+  it("reports sentence case in an alert title and alert button", () => {
+    expect(
+      lintTitles(
+        'Alert.alert(t("try_again"), t("tagline"), [{ text: t("try_again") }, { text: t("save_tag") }]);\n'
+      )
+    ).toBe(2);
+  });
+
+  it("allows Title Case, small words, and full sentences", () => {
+    expect(
+      lintTitles(
+        'export const A = () => (\n  <>\n    <Button>{t("save_tag")}</Button>\n    <LinkButton>{t("skip_step")}</LinkButton>\n    <Text accessibilityRole="header">{t("tagline")}</Text>\n    <MenuListItem title={t("show_all")} />\n    <Text>{t("try_again")}</Text>\n  </>\n);\n'
+      )
+    ).toBe(0);
+  });
+});

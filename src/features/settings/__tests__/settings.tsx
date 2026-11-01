@@ -234,7 +234,7 @@ describe("Feedback in Settings", () => {
     expect(screen.getByText("Development")).toBeOnTheScreen();
     expect(screen.getByText("Onboarding")).toBeOnTheScreen();
     expect(screen.getByText("Vote Features")).toBeOnTheScreen();
-    expect(screen.getByText("What's new")).toBeOnTheScreen();
+    expect(screen.getByText("What’s new")).toBeOnTheScreen();
     expect(screen.getByText("Statistics for Nerds")).toBeOnTheScreen();
     expect(screen.getByText("Licenses")).toBeOnTheScreen();
   });

@@ -12,7 +12,10 @@ export interface Toast {
   durationMs?: number;
 }
 
-/** Button shown on a toast. `label` is already translated. */
+/**
+ * Button shown on a toast, for example Undo. `label` is already translated.
+ * A toast action is never the only way to do a task.
+ */
 export interface ToastAction {
   label: string;
   onPress: () => void;

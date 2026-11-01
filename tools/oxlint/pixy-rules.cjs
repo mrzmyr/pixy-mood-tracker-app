@@ -1,3 +1,4 @@
+const { readFileSync } = require("node:fs");
 const path = require("node:path");
 
 const getFunctionName = (node) => {
@@ -446,7 +447,7 @@ const kebabCaseFolders = {
   },
 };
 
-// Modal routes show the native sheet bar on iOS (DESIGN.md "Sheets and Modals").
+// Modal routes show the native sheet bar on iOS (DESIGN.md "Components").
 // `transparentModal` is left out: media overlays such as the photo viewer.
 const MODAL_PRESENTATIONS = new Set([
   "modal",
@@ -473,7 +474,7 @@ const modalRouteShowsHeader = {
     },
     messages: {
       hidden:
-        "Modal route hides the native bar. Use `getModalRouteOptions` and `RouteModalHeader` (DESIGN.md Sheets and Modals).",
+        "Modal route hides the native bar. Use `getModalRouteOptions` and `RouteModalHeader` (DESIGN.md Components).",
     },
     schema: [],
   },
@@ -485,6 +486,578 @@ const modalRouteShowsHeader = {
           getLiteralProperty(node, "headerShown") === false
         ) {
           context.report({ messageId: "hidden", node });
+        }
+      },
+    };
+  },
+};
+
+/** Import source as a repo path: `@/x` and `./x` become `src/...`, packages stay as they are. */
+const toRepoPath = (source, fileDir) => {
+  if (source.startsWith("@/")) {
+    return `src/${source.slice(2)}`;
+  }
+  if (source.startsWith(".")) {
+    return path.posix.join(fileDir, source);
+  }
+  return source;
+};
+
+const componentScope = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Allow a module, or some of its named exports, only in listed folders, so one component or icon keeps one use",
+    },
+    messages: {
+      scope: "{{message}}",
+    },
+    schema: [
+      {
+        type: "object",
+        properties: {
+          modules: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                name: { type: "string" },
+                importNames: { type: "array", items: { type: "string" } },
+                allow: { type: "array", items: { type: "string" } },
+                message: { type: "string" },
+              },
+              required: ["name", "allow", "message"],
+            },
+          },
+        },
+      },
+    ],
+  },
+  create(context) {
+    const modules = context.options[0]?.modules ?? [];
+    const relative = path
+      .relative(context.cwd ?? process.cwd(), context.filename)
+      .split(path.sep)
+      .join("/");
+    const scoped = modules.filter(
+      ({ allow }) => !allow.some((prefix) => relative.startsWith(prefix))
+    );
+    if (scoped.length === 0) {
+      return {};
+    }
+    const fileDir = path.posix.dirname(relative);
+
+    return {
+      ImportDeclaration(node) {
+        if (node.importKind === "type") {
+          return;
+        }
+        const target = toRepoPath(node.source.value, fileDir);
+        for (const { name, importNames, message } of scoped) {
+          if (toRepoPath(name, fileDir) !== target) {
+            continue;
+          }
+          if (!importNames) {
+            context.report({
+              messageId: "scope",
+              data: { message },
+              node: node.source,
+            });
+            continue;
+          }
+          for (const specifier of node.specifiers) {
+            if (
+              specifier.type === "ImportSpecifier" &&
+              specifier.importKind !== "type" &&
+              importNames.includes(
+                specifier.imported.name ?? specifier.imported.value
+              )
+            ) {
+              context.report({
+                messageId: "scope",
+                data: { message },
+                node: specifier,
+              });
+            }
+          }
+        }
+      },
+    };
+  },
+};
+
+const BUTTON_MODULES = new Set([
+  "src/components/button",
+  "src/components/link-button",
+]);
+
+const buttonLabelChildren = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Disallow a raw Text child in Button and LinkButton, which set the label and disabled color",
+    },
+    messages: {
+      text: "Pass a label string, or `ButtonIcon` + `ButtonText` from `@/components/button-content`. A raw `Text` keeps its own color when the button is disabled.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const fileDir = path.posix.dirname(
+      path
+        .relative(context.cwd ?? process.cwd(), context.filename)
+        .split(path.sep)
+        .join("/")
+    );
+    const buttonNames = new Set();
+    const textNames = new Set();
+
+    return {
+      ImportDeclaration(node) {
+        const source = node.source.value;
+        for (const specifier of node.specifiers) {
+          if (
+            BUTTON_MODULES.has(toRepoPath(source, fileDir)) &&
+            specifier.type === "ImportDefaultSpecifier"
+          ) {
+            buttonNames.add(specifier.local.name);
+          }
+          if (
+            source === "react-native" &&
+            specifier.type === "ImportSpecifier" &&
+            (specifier.imported.name ?? specifier.imported.value) === "Text"
+          ) {
+            textNames.add(specifier.local.name);
+          }
+        }
+      },
+      JSXElement(node) {
+        const { name } = node.openingElement;
+        if (name.type !== "JSXIdentifier" || !buttonNames.has(name.name)) {
+          return;
+        }
+        for (const child of node.children) {
+          if (
+            child.type === "JSXElement" &&
+            child.openingElement.name.type === "JSXIdentifier" &&
+            textNames.has(child.openingElement.name.name)
+          ) {
+            context.report({ messageId: "text", node: child });
+          }
+        }
+      },
+    };
+  },
+};
+
+/** Files that render a sheet or its header import one of these. */
+const SHEET_MODULES = new Set([
+  "src/components/sheet-modal",
+  "src/components/modal-header",
+]);
+
+const KEYBOARD_LAYOUT_NAMES = new Set([
+  "KeyboardAvoidingView",
+  "useAnimatedKeyboard",
+]);
+
+const sheetKeyboardLayout = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Disallow keyboard-driven layout in files that render a sheet",
+    },
+    messages: {
+      keyboard:
+        "Sheets do not move views on keyboard events. Put inputs at the top of the sheet.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const fileDir = path.posix.dirname(
+      path
+        .relative(context.cwd ?? process.cwd(), context.filename)
+        .split(path.sep)
+        .join("/")
+    );
+    const program = context.sourceCode.ast;
+    const isSheet = program.body.some(
+      (node) =>
+        node.type === "ImportDeclaration" &&
+        SHEET_MODULES.has(toRepoPath(node.source.value, fileDir))
+    );
+    if (!isSheet) {
+      return {};
+    }
+    const keyboardNames = new Set();
+
+    return {
+      ImportDeclaration(node) {
+        for (const specifier of node.specifiers) {
+          if (specifier.type !== "ImportSpecifier") {
+            continue;
+          }
+          const imported = specifier.imported.name ?? specifier.imported.value;
+          if (KEYBOARD_LAYOUT_NAMES.has(imported)) {
+            context.report({ messageId: "keyboard", node: specifier });
+          }
+          if (node.source.value === "react-native" && imported === "Keyboard") {
+            keyboardNames.add(specifier.local.name);
+          }
+        }
+      },
+      CallExpression(node) {
+        const { callee } = node;
+        if (
+          callee.type === "MemberExpression" &&
+          callee.object.type === "Identifier" &&
+          keyboardNames.has(callee.object.name) &&
+          callee.property.type === "Identifier" &&
+          callee.property.name === "addListener"
+        ) {
+          context.report({ messageId: "keyboard", node: callee });
+        }
+      },
+    };
+  },
+};
+
+/** JSX elements in an attribute value, through `cond ? a : b` and `cond && a`. */
+const getJsxValues = (expression) => {
+  if (!expression) {
+    return [];
+  }
+  if (expression.type === "JSXElement") {
+    return [expression];
+  }
+  if (expression.type === "ConditionalExpression") {
+    return [
+      ...getJsxValues(expression.consequent),
+      ...getJsxValues(expression.alternate),
+    ];
+  }
+  if (expression.type === "LogicalExpression") {
+    return getJsxValues(expression.right);
+  }
+  return [];
+};
+
+/** A spinner may replace a header button while its action runs. */
+const HEADER_SLOT_NAMES = new Set(["HeaderButton", "ActivityIndicator"]);
+
+const headerButtonOnly = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Require HeaderButton in the left and right slots of ModalHeader",
+    },
+    messages: {
+      slot: "Modal header buttons are `HeaderButton`. Its `kind` sets side, icon, and style.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const fileDir = path.posix.dirname(
+      path
+        .relative(context.cwd ?? process.cwd(), context.filename)
+        .split(path.sep)
+        .join("/")
+    );
+    const headerNames = new Set();
+
+    return {
+      ImportDeclaration(node) {
+        if (
+          toRepoPath(node.source.value, fileDir) !==
+          "src/components/modal-header"
+        ) {
+          return;
+        }
+        for (const specifier of node.specifiers) {
+          if (specifier.type === "ImportDefaultSpecifier") {
+            headerNames.add(specifier.local.name);
+          }
+        }
+      },
+      JSXOpeningElement(node) {
+        if (
+          node.name.type !== "JSXIdentifier" ||
+          !headerNames.has(node.name.name)
+        ) {
+          return;
+        }
+        for (const attribute of node.attributes) {
+          if (
+            attribute.type !== "JSXAttribute" ||
+            !["left", "right"].includes(attribute.name.name) ||
+            attribute.value?.type !== "JSXExpressionContainer"
+          ) {
+            continue;
+          }
+          for (const element of getJsxValues(attribute.value.expression)) {
+            const { name } = element.openingElement;
+            if (
+              name.type !== "JSXIdentifier" ||
+              !HEADER_SLOT_NAMES.has(name.name)
+            ) {
+              context.report({ messageId: "slot", node: element });
+            }
+          }
+        }
+      },
+    };
+  },
+};
+
+const SHADING_METHODS = new Set([
+  "darken",
+  "brighten",
+  "saturate",
+  "desaturate",
+]);
+
+const noColorShading = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Disallow chroma shading outside the color constants",
+    },
+    messages: {
+      shade:
+        "Get shades from the color scale (`scale[rating].border`) or add a token in `src/constants/colors`. Shading here drifts from the scale.",
+    },
+    schema: [],
+  },
+  create(context) {
+    let hasChroma = false;
+
+    return {
+      ImportDeclaration(node) {
+        if (node.source.value === "chroma-js") {
+          hasChroma = true;
+        }
+      },
+      CallExpression(node) {
+        const { callee } = node;
+        if (
+          hasChroma &&
+          callee.type === "MemberExpression" &&
+          callee.property.type === "Identifier" &&
+          SHADING_METHODS.has(callee.property.name)
+        ) {
+          context.report({ messageId: "shade", node: callee.property });
+        }
+      },
+    };
+  },
+};
+
+const RADIUS_KEY = /^border(?:\w*)Radius$/u;
+/** Below `RADIUS.xs`: hairline rounding of small marks, no token. */
+const RADIUS_LITERAL_MIN = 4;
+
+const radiusToken = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Require RADIUS tokens for corner radii of 4 and more",
+    },
+    messages: {
+      literal:
+        "Use a `RADIUS` step from `@/constants/radius`, picked by role. Circles use `size / 2`.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      Property(node) {
+        const key = node.key.name ?? node.key.value;
+        if (
+          RADIUS_KEY.test(String(key)) &&
+          node.value.type === "Literal" &&
+          Number.isFinite(node.value.value) &&
+          node.value.value >= RADIUS_LITERAL_MIN
+        ) {
+          context.report({ messageId: "literal", node: node.value });
+        }
+      },
+    };
+  },
+};
+
+const noReduceMotionNever = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Disallow ReduceMotion.Never, which ignores the reduce motion setting",
+    },
+    messages: {
+      never:
+        "Animations follow the reduce motion setting. Use the default (`ReduceMotion.System`).",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.object.type === "Identifier" &&
+          node.object.name === "ReduceMotion" &&
+          node.property.type === "Identifier" &&
+          node.property.name === "Never"
+        ) {
+          context.report({ messageId: "never", node });
+        }
+      },
+    };
+  },
+};
+
+/** Chicago style keeps these lower case inside a title. */
+const TITLE_SMALL_WORDS = new Set(
+  "a an the and but or nor for so yet as at by in of off on per to up via vs".split(
+    " "
+  )
+);
+
+/** A full sentence (ends in . ? ! or starts with "I ") keeps sentence case. */
+const isSentence = (text) => /[.?!]$/u.test(text) || text.startsWith("I ");
+
+const isTitleCase = (text) => {
+  const words = text
+    .replaceAll(/\{\{[^}]+\}\}/gu, "X")
+    .match(/[A-Za-z][A-Za-z'’-]*/gu);
+  if (!words) {
+    return true;
+  }
+  return words.every(
+    (word, index) =>
+      (index > 0 &&
+        index < words.length - 1 &&
+        TITLE_SMALL_WORDS.has(word.toLowerCase())) ||
+      word[0] === word[0].toUpperCase()
+  );
+};
+
+/** Elements whose text child is a label. */
+const LABEL_CHILD_ELEMENTS = new Set(["Button", "LinkButton"]);
+/** Element and attribute pairs that hold a label or title. */
+const LABEL_ATTRIBUTES = new Map([
+  ["HeaderButton", "label"],
+  ["MenuListItem", "title"],
+  ["RouteModalHeader", "title"],
+  ["ModalHeader", "title"],
+]);
+
+const localeCache = new Map();
+const readLocale = (file) => {
+  if (!localeCache.has(file)) {
+    localeCache.set(file, JSON.parse(readFileSync(file, "utf-8")));
+  }
+  return localeCache.get(file);
+};
+
+/** Key of `t("key")`, or `undefined`. */
+const getTranslationKey = (node) =>
+  node?.type === "CallExpression" &&
+  node.callee.type === "Identifier" &&
+  node.callee.name === "t" &&
+  node.arguments[0]?.type === "Literal"
+    ? node.arguments[0].value
+    : undefined;
+
+const titleCaseLabels = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description:
+        "Require Title Case (Chicago) in English for headings, buttons, and modal titles",
+    },
+    messages: {
+      title:
+        'English `{{key}}` is a label: use Title Case ("{{text}}"). Full sentences ending in . ? ! keep sentence case.',
+    },
+    schema: [
+      {
+        type: "object",
+        properties: { localeFile: { type: "string" } },
+      },
+    ],
+  },
+  create(context) {
+    const localeFile = path.resolve(
+      context.cwd ?? process.cwd(),
+      context.options[0]?.localeFile ?? "assets/locales/en.json"
+    );
+    const locale = readLocale(localeFile);
+    const check = (expression) => {
+      const key = getTranslationKey(expression);
+      const text = locale[key];
+      if (text === undefined || isSentence(text) || isTitleCase(text)) {
+        return;
+      }
+      context.report({
+        messageId: "title",
+        node: expression,
+        data: { key, text },
+      });
+    };
+
+    return {
+      // Alert.alert(title, message, buttons): the title and button texts are labels.
+      CallExpression(node) {
+        const { callee } = node;
+        if (
+          callee.type !== "MemberExpression" ||
+          callee.object.type !== "Identifier" ||
+          callee.object.name !== "Alert" ||
+          callee.property.type !== "Identifier" ||
+          callee.property.name !== "alert"
+        ) {
+          return;
+        }
+        check(node.arguments[0]);
+        for (const button of node.arguments[2]?.elements ?? []) {
+          for (const property of button?.properties ?? []) {
+            if (property.key?.name === "text") {
+              check(property.value);
+            }
+          }
+        }
+      },
+      JSXElement(node) {
+        const opening = node.openingElement;
+        if (opening.name.type !== "JSXIdentifier") {
+          return;
+        }
+        const isHeading = opening.attributes.some(
+          (attribute) =>
+            attribute.type === "JSXAttribute" &&
+            attribute.name.name === "accessibilityRole" &&
+            attribute.value?.value === "header"
+        );
+        if (isHeading || LABEL_CHILD_ELEMENTS.has(opening.name.name)) {
+          for (const child of node.children) {
+            if (child.type === "JSXExpressionContainer") {
+              check(child.expression);
+            }
+          }
+        }
+        const attributeName = LABEL_ATTRIBUTES.get(opening.name.name);
+        for (const attribute of opening.attributes) {
+          if (
+            attribute.type === "JSXAttribute" &&
+            attribute.name.name === attributeName &&
+            attribute.value?.type === "JSXExpressionContainer"
+          ) {
+            check(attribute.value.expression);
+          }
         }
       },
     };
@@ -504,5 +1077,13 @@ module.exports = {
     "sorted-string-arrays": sortedStringArrays,
     "kebab-case-folders": kebabCaseFolders,
     "modal-route-shows-header": modalRouteShowsHeader,
+    "component-scope": componentScope,
+    "button-label-children": buttonLabelChildren,
+    "sheet-keyboard-layout": sheetKeyboardLayout,
+    "header-button-only": headerButtonOnly,
+    "no-color-shading": noColorShading,
+    "radius-token": radiusToken,
+    "no-reduce-motion-never": noReduceMotionNever,
+    "title-case-labels": titleCaseLabels,
   },
 };

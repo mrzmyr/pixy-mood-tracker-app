@@ -126,7 +126,7 @@ describe("Logger > emotions > Disable Emotions link", () => {
       expect(screen.getByTestId("emotions-step")).toHaveTextContent("on")
     );
 
-    await userEvent.press(await screen.findByText("I don't track emotions"));
+    await userEvent.press(await screen.findByText("I don’t track emotions"));
     expect(Alert.alert).toHaveBeenCalledTimes(1);
     answerAlert("destructive");
 
@@ -137,11 +137,11 @@ describe("Logger > emotions > Disable Emotions link", () => {
 
   test("user who cancels keeps the emotions step on", async () => {
     const screen = await renderLogger();
-    await userEvent.press(await screen.findByText("I don't track emotions"));
+    await userEvent.press(await screen.findByText("I don’t track emotions"));
     answerAlert("cancel");
 
     await waitFor(() => expect(Alert.alert).toHaveBeenCalledTimes(1));
     expect(screen.getByTestId("emotions-step")).toHaveTextContent("on");
-    expect(screen.getByText("I don't track emotions")).toBeTruthy();
+    expect(screen.getByText("I don’t track emotions")).toBeTruthy();
   });
 });

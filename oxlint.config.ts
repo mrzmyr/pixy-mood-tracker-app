@@ -26,12 +26,53 @@ const iconImports = [
   },
 ];
 
-// Modal headers come from `RouteModalHeader`, sheets, or `HeaderButton` (DESIGN.md Modal Headers).
+// Modal headers come from `RouteModalHeader`, sheets, or `HeaderButton` (DESIGN.md Components).
 const closeButtonImport = {
   name: "@/components/close-button",
   message:
     "Use `RouteModalHeader` or `HeaderButton`. CloseButton is for media overlays only.",
 };
+
+// Core Module glyphs keep one meaning: only `ModuleIcon` imports them.
+const moduleIconScope = [
+  "sun",
+  "heart",
+  "tag",
+  "users",
+  "image",
+  "file-text",
+].map((icon) => ({
+  name: `lucide-react-native/icons/${icon}`,
+  allow: ["src/components/module-icon.tsx"],
+  message: "This icon means a Core Module. Use `ModuleIcon`.",
+}));
+
+// One component, one use. DESIGN.md names each component in one sentence.
+const componentScopes = [
+  ...moduleIconScope,
+  {
+    name: "@/components/bezel",
+    allow: ["src/components/", "src/features/statistics/"],
+    message: "Bezel is for statistics cards only.",
+  },
+  {
+    name: "react-native",
+    importNames: ["Modal"],
+    // The photo viewer is a media overlay: full screen, its own close.
+    allow: [
+      "src/components/sheet-modal.tsx",
+      "src/features/photos/screens/viewer.tsx",
+    ],
+    message: "Use `SheetModal` or a route modal. No custom slide-in sheets.",
+  },
+  {
+    name: "react-native",
+    importNames: ["SafeAreaView"],
+    allow: [],
+    message:
+      "Get safe areas from `react-native-safe-area-context`. The React Native SafeAreaView ignores Android.",
+  },
+];
 
 const featureImport = {
   group: ["@/features", "@/features/**"],
@@ -259,10 +300,33 @@ export default defineConfig({
         "pixy-standards/no-layout-animation": "error",
         "pixy-standards/kebab-case-folders": "error",
         "pixy-standards/no-direct-error-reporting": "error",
+        "pixy-standards/button-label-children": "error",
+        "pixy-standards/sheet-keyboard-layout": "error",
+        "pixy-standards/header-button-only": "error",
+        "pixy-standards/no-color-shading": "error",
+        "pixy-standards/radius-token": "error",
+        "pixy-standards/no-reduce-motion-never": "error",
+        "pixy-standards/title-case-labels": "error",
+        "pixy-standards/component-scope": [
+          "error",
+          { modules: componentScopes },
+        ],
       },
     },
     {
-      // Modal routes keep the native bar (DESIGN.md Sheets and Modals).
+      // Platform mimics copy the system radii, not the RADIUS scale.
+      files: [
+        "src/features/notifications/components/notification-preview*.tsx",
+      ],
+      rules: { "pixy-standards/radius-token": "off" },
+    },
+    {
+      // The color scale derives its shades here; everything else reads them.
+      files: ["src/constants/colors/**"],
+      rules: { "pixy-standards/no-color-shading": "off" },
+    },
+    {
+      // Modal routes keep the native bar (DESIGN.md Components).
       files: ["src/app/**"],
       rules: { "pixy-standards/modal-route-shows-header": "error" },
     },

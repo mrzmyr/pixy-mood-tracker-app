@@ -142,6 +142,7 @@ const TimelineEntryComponent = ({
       onPress={open}
       style={({ pressed }) => ({
         marginBottom: 16,
+        // oxlint-disable-next-line pixy-standards/radius-token -- timeline card radius sits between md and lg; pick a step with a visual check
         borderRadius: 16,
         borderCurve: "continuous",
         borderWidth: StyleSheet.hairlineWidth,

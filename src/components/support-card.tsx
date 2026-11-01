@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
-import Heart from "lucide-react-native/icons/heart";
+import HandHeart from "lucide-react-native/icons/hand-heart";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useSupport } from "@/support";
@@ -110,7 +110,7 @@ export const SupportCard = () => {
         backgroundColor: cardColor,
       }}
     >
-      <Heart
+      <HandHeart
         width={28}
         height={28}
         color={contentColor}

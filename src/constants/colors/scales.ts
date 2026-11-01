@@ -5,7 +5,12 @@ interface IScaleMood {
   background: string;
   text: string;
   textSecondary: string;
-  /** Outline for marks and pixels in this color: same hue, a step apart. */
+  /**
+   * Outline for marks, pixels, and bands in this color: same hue, one step
+   * darker on light colors, one step lighter on dark ones, more saturated so
+   * it stays colorful. Never near-black. Use it instead of a fixed white or
+   * black at low opacity, which does not work on every color.
+   */
   border: string;
 }
 

@@ -4,7 +4,7 @@
 
 - New in-app setting: PR cites platform guideline and 2-3 reference apps ([design](DESIGN.md#settings))
 - Component swap: PR shows measured size unchanged ([design](DESIGN.md#layout))
-- New sheet or modal: native `pageSheet`, no custom slide-in ([design](DESIGN.md#sheets-and-modals))
+- New sheet or modal: native `pageSheet`, no custom slide-in ([design](DESIGN.md#components))
 
 ## Commits
 

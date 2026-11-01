@@ -1,216 +1,55 @@
 # Pixy Design
 
-Pixy-specific design rules only. Platform guidelines (Apple HIG, Material 3, WCAG) apply everywhere else.
+Pixy-specific design decisions that a model cannot read from the code. For everything else, follow the [Apple HIG](https://developer.apple.com/design/human-interface-guidelines), [Material 3](https://m3.material.io), and [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/).
 
-- [App UI](#app-ui): components and rules for screens in the app
-- [Marketing assets](#marketing-assets): store screenshots, website, launch headers, social cards
-- Colors: [`src/constants/colors`](src/constants/colors/index.ts), mood scales in [`scales.ts`](src/constants/colors/scales.ts)
-- Facts and claims: [docs/app-facts.json](docs/app-facts.json)
+- Marketing assets (store screenshots, website, social cards): [docs/marketing-design.md](docs/marketing-design.md)
+- Demo characters for assets and fixtures: [docs/demo-characters/](docs/demo-characters/README.md)
+- App facts and claims: [docs/app-facts.json](docs/app-facts.json)
 
-# App UI
+## What goes where
 
-- Use existing components. Need new component: ask, or build it and flag it in PR.
-- Accessibility is required: every control has role, label, state. Whole row is pressable. Every gesture has button or accessibility action.
-- Text size: one base size, `FONT_SIZE.base` ([`src/constants/typography.ts`](src/constants/typography.ts)), for all body text: chips, names, notes, list rows, labels. Other size only with a reason in a comment next to it (headline, mood word, axis ticks). Same kind of text on one screen: same size.
-- `…` not `...`. Curly quotes. Menu items that open follow-up end with `…`.
+- A rule that code can check goes into code: a lint rule, a type, a token, or a check script. Its error message teaches the rule.
+  - To allow a component or icon only in some folders, add it to `componentScopes` in [`oxlint.config.ts`](oxlint.config.ts).
+- How a component behaves goes into its JSDoc.
+- This file keeps only what a model reading the code gets wrong:
+  - a choice between similar options,
+  - a rule that existing code breaks, so copying it spreads the mistake,
+  - taste that no file states,
+  - a process step outside the code.
 
-## Components
+## Basics
 
-- Modal close: [Sheets and Modals](#sheets-and-modals). Back arrow is not close.
-- Buttons: [`Button`](src/components/button.tsx) (filled), [`LinkButton`](src/components/link-button.tsx) (text). Label is plain string, or compose `ButtonIcon` + `ButtonText` ([`ButtonContent`](src/components/button-content.tsx)). Never own `Text` or icon color inside button: disabled color comes from button.
-- Toasts: `showToast` ([`src/lib/toast.ts`](src/lib/toast.ts)). iOS top card, Android M3 snackbar. Optional Undo `action`, never only way to do something.
-- Inline errors, warnings, notices: [`InlineAlert`](src/components/inline-alert.tsx) next to the content they are about. Stays until state changes. Never plain colored text.
-- Menu rows: [`MenuListItem`](src/components/menu-list-item.tsx). Title = short Title Case noun. Status in value slot. Role by `tone`: `default`, `action` (starts something: tint), `destructive` (removes or resets: `colors.danger`, centered with no icon on iOS, left with icon on Android). Never set row text color by hand. Never wrap or shrink: shorten text. Warnings use [`TextInfo`](src/components/text-info.tsx) under list.
-- Bezel ([`Bezel`](src/components/bezel.tsx), radius from `getBezelRadius`): statistics cards only. Calendar days, mood buttons, entry cards, list groups, person tiles have no bezel.
-- Add action inside a picker grid: last grid cell, same size as items. Dashed circle, plus icon, and label all in `colors.tint` ([`AddPersonTile`](src/features/logger/slides/slide-people.tsx)). Never gray: gray reads disabled. Target is the whole cell.
-- Android list groups: M3 full-width list, no chevron, no dividers, 56dp rows ([`MenuList`](src/components/menu-list.tsx)).
-- Tag colors: fixed palette inline in grouped card ([`ColorPicker`](src/features/tags/components/color-picker.tsx)). 48 × 48 targets, never shrink. Selection shown by check + color name, never hue alone.
-- Core Modules ([GLOSSARY.md](GLOSSARY.md)) use same Lucide icon everywhere, 20 px: Mood `Sun`, Emotions `Heart`, Tags `Tag`, People `Users`, Photos `Image`, Note `FileText`. Labels are single nouns.
-- Sleep quality: always [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx), vertical bar filled `colors.sleepQualityFull` on `colors.sleepQualityEmpty`. Never own segments, dots, or colors. Never a rating word next to it.
-- Icons never conflict: one icon, one meaning. Color themes use `Palette`; Menstruation uses `Droplet`.
-- State icons: one glyph per state, same size. Change fill or detail, never icon count or size. Selection and Day view use same state icon.
-
-## Summary tiles
-
-Tile lists like the entry summary: a hero picture on top, then cards on a plain page (`colors.summaryBackground`: white, black in dark mode).
-
-- Tile: `colors.summaryTile` (white, dark gray in dark mode), `RADIUS.lg`, at least 96 pt tall, 1 pt `colors.glassBorder` outline plus a soft shadow.
-- Grid of two columns: a few chips, sleep, and people take half; many chips and the note take the full width. A half without partner takes its row alone.
-- Mood pixel over a photo or map: outlined in its own color, a bit darker.
-- Chips inside: border `colors.glassBorder`, no fill. Overlapping avatars: see-through gap, no card-colored ring.
-- Bottom of a scrolling tile list fades out above the action button (mask, not a color overlay).
-- Text on tiles: `colors.text`, `FONT_SIZE.base`.
-- Marks on a colored surface (day strip): solid in `scale[rating].border`. Pixels: filled with the mood color, 1 pt outline in `scale[rating].border`: one step darker on light colors, one step lighter on dark ones, saturation up so it stays colorful. Shades come from the scale, never darkened on the spot. Never near-black on light colors. A fixed white or black at low opacity does not adapt to every color.
-- Colored bands (day strip): 1 pt outline that follows the colors, in their `scale[rating].border` shades.
-
-## Sheets and Modals
-
-Two kinds. Pick one, never build own header.
-
-- Route modal (screen in `src/app`): options from [`getModalRouteOptions`](src/components/modal-route-options.ts), header [`RouteModalHeader`](src/components/route-modal-header.tsx) (`title`, `onClose`, optional `titleView`, `confirm`). iOS: native sheet bar. Android: Material 3 full-screen dialog bar. Example: [profile](src/features/profile/screens/profile-form.tsx).
-- Sheet (form or picker over current screen, no route): [`SheetModal`](src/components/sheet-modal.tsx) with [`ModalHeader`](src/components/modal-header.tsx) and `HeaderButton`.
-- Header buttons: `HeaderButton` only. Never `LinkButton`, `CloseButton`, or own `Pressable` in a header.
-- Native bar variants keep native bar: form sheet ([feedback](src/features/feedback/screens/feedback-screen.tsx)), transparent bar (check-in, day view). Items via `Stack.Toolbar` only when no e2e flow taps them.
-- Only exception: media overlays (photo viewer, recap stories) hide bar and draw white close.
-- Lint enforces: `pixy-standards/modal-route-shows-header` blocks hidden bar on modal routes. `CloseButton` import blocked outside `src/components`.
-- Never custom slide-in sheet. Never move views from keyboard events. Inputs sit at sheet top.
-
-## Modal Headers
-
-Every sheet and route modal. Sources: [HIG Sheets](https://developer.apple.com/design/human-interface-guidelines/sheets), [HIG Toolbars](https://developer.apple.com/design/human-interface-guidelines/toolbars), [M3 full-screen dialogs](https://m3.material.io/components/dialogs/guidelines).
-
-- Close or cancel: leading, always. Never trailing.
-- Confirm: trailing, one only. Check saves or finishes. Arrow up sends. Label names the action (`Save`, `Send`, `Add`), never `Done` or `OK`.
-- Nothing to confirm (day view, pickers): close only, no trailing item.
-- No divider. No header background: bar shows the content surface. iOS 26 scroll edge effect separates bar from content.
-- iOS 26: Liquid Glass circles, 44 pt, SF Symbols `xmark`, `checkmark`, `arrow.up`. Confirm is prominent, close is not. Never text `Close`.
-- iOS before 26: text `Cancel` leading, bold `Save` or `Send` trailing.
-- Android: close icon leading, start-aligned title, text confirm trailing, 56dp header.
-- Spoken label: `Cancel` when closing drops edits, `Close` when nothing is lost. Dirty form asks before it discards ([`useDiscardGuard`](src/hooks/use-discard-guard.ts)).
-- Buttons: [`HeaderButton`](src/components/header-button.tsx). Native bar items: [`getModalBarOptions`](src/components/modal-bar-options.tsx). Native `Stack.Toolbar` takes no test id: use it only on screens no e2e flow taps.
-- Test ids: `<feature>-cancel`, `<feature>-save`, `<feature>-close`.
-- Own overlay close, white on media: photo viewer, recap stories.
-- Multi-step flow (logger): no back button. Swipe goes back; step dots carry a `Back` accessibility action.
-- Open: Android confirm is disabled until valid; M3 says never disable it in full-screen dialogs. Android feedback sends with an icon; M3 wants a text button.
-
-## Settings
-
-- Prefer system settings (notifications, language, appearance).
-- New in-app setting: check Apple HIG, Material, 2-3 reference apps. Cite research in PR.
-
-## Layout
-
-- Swap keeps size: replacing implementation keeps measured width, height, padding. Measure before and after.
-- Spacing request for one element changes that element only, not shared component or token.
-- Parent owns spacing between children: flex `gap`, not sibling margins. Shared chips (`Tag`, `PersonChip`, `MiniButton`) carry no outer margin. Wrapping chip groups use [`CHIP_FLOW`](src/constants/chip.ts).
-- Radius from [`RADIUS`](src/constants/radius.ts), picked by role. Nested radius ≤ parent radius.
-- No sideways scroller inside sideways parent (pager, carousel): Android steals swipe.
-- Lists > ~20 items virtualized. Safe areas from `react-native-safe-area-context`, never hardcoded.
-- No `LayoutAnimation` ([#610](https://github.com/mrzmyr/pixy-mood-tracker-app/pull/610)). Use Reanimated `entering`/`exiting`/`layout`. Honor reduce motion.
-
-## Sky
-
-Onboarding, recap stories, voice mode, and the entry summary hero without photos or place ([`Sky`](src/components/sky.tsx); onboarding and recap stories wrap it in [`SteppedSky`](src/components/stepped-sky.tsx): clouds speed up on each step; cloud Pixy: [`CloudPixy`](src/components/cloud-pixy.tsx)).
-
-- Light mode: day sky, drifting cloud photo.
-- Dark mode: night sky. Deep navy, faint clouds, subtle stars: small, sparse, dim, slow twinkle. Never the day sky dimmed.
-- Cloud Pixy flies in both, only in free sky: never over text, controls, or screenshots. Slides mark free sky with [`SkyFlightZone`](src/components/sky-flight-zone.tsx). No zone: no Pixy.
-- Reduce motion: no Pixy, still sky.
+- Use the components that exist. If you need a new one, ask first, or build it and name it in the PR description.
+- Make every control accessible: role, label, and state. The full row is pressable. Each gesture also has a button or an accessibility action.
+- Use `FONT_SIZE.base` ([`typography.ts`](src/constants/typography.ts)) for body text. Many screens still set sizes by hand: do not copy them.
 
 ## Copywriting
 
-- App headings and buttons: Title Case (Chicago). Labels specific: "Save Tag", not "Continue".
-- Errors say how to fix.
+- A label tells what happens: "Save Tag", not "Continue".
+- An error tells the user how to fix the problem.
 
-# Marketing assets
+## Components
 
-Inside phone screens, app source wins: copy radius, colors, strings exactly. Rules below apply outside phone.
+- Errors, warnings, and notices: [`InlineAlert`](src/components/inline-alert.tsx), not colored text or `TextInfo`.
+- Add action in a picker grid: copy [`AddPersonTile`](src/features/logger/slides/slide-people.tsx).
+- Sleep quality of one night: [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx), never own bars or dots.
+- One icon has one meaning. Color themes use `Palette`, menstruation uses `Droplet`.
+- A state icon has one glyph per state, at one size. A different state changes the fill or detail, not the icon count or size. Selection and Day view use the same state icon.
+- Modals
+  - Screen in `src/app`: route modal, [`getModalRouteOptions`](src/components/modal-route-options.ts) + [`RouteModalHeader`](src/components/route-modal-header.tsx).
+  - Form or picker over the current screen: [`SheetModal`](src/components/sheet-modal.tsx) + [`ModalHeader`](src/components/modal-header.tsx).
+  - Screen that keeps the native bar: [`getModalBarOptions`](src/components/modal-bar-options.tsx).
+  - A form with unsaved edits uses [`useDiscardGuard`](src/hooks/use-discard-guard.ts).
+- Mood outlines (pixels, marks, bands): `scale[rating].border` ([`scales.ts`](src/constants/colors/scales.ts)), never a fixed white or black.
 
-## Principles
+## Layout
 
-- Pixy = mood journal for self-care. Pitch: "See what shapes how you feel". Year in pixels = signature visual, not category.
-- One claim per asset. Headline states it, phone or pixel grid proves it.
-- Dark canvas, light type, mint accent. Color shows mood, never decoration.
-- Calm: big type, space, max one pop-out group per screen. No emoji, no gradient text, no decorative icons.
-- Hard days stay kind: no sad faces, legends say "Good days" and "Hard days".
+- The parent sets space between children with flex `gap`, not margins on siblings.
+- Do not put a horizontal scroller in a horizontal parent (pager, carousel). Android takes the swipe.
+- A swap keeps the size. Measure width, height, and padding before and after.
+- A spacing request for one element changes that element only, not a shared component or token.
 
-## Tokens
+## Settings
 
-Canvases (px): App Store `1290×2796`, Play `1080×1920`, Play feature graphic `1024×500` (content in center 924×400), OG `1200×630`, X header `1500×500`, LinkedIn `1584×396`, web `1440` and `390`. Margin = 6% of width. Web max width 1200.
-
-| Theme                | Canvas    | Headline  | Sub, body | Eyebrow   |
-| -------------------- | --------- | --------- | --------- | --------- |
-| Night (default)      | `#0A0A0A` | `#FFFFFF` | `#A3A3A3` | `#34D399` |
-| Forest               | `#05392D` | `#FFF7ED` | `#34D399` | `#34D399` |
-| Paper                | `#FAFAFA` | `#0A0A0A` | `#6B6B70` | `#047857` |
-| Black (privacy only) | `#000000` | `#FFFFFF` | `#A3A3A3` | `#34D399` |
-
-- Store set: one theme. Privacy screen: Black.
-- Dark surface `#1C1C1E`, 1px border `#3A3A3C`.
-- Icon: [docs/icon.png](docs/icon.png), transparent, never recolor, min 32px.
-- System blue `#007AFF` only inside app UI.
-
-Mood pixels:
-
-- Inside phone: app scale from `scales.ts`.
-- Outside phone on dark canvas: `neutral` `#737373`, `bad` `#FED7AA`, `empty` `#1F1F1F` (Forest `#0B4A3B`). Other ratings as app.
-- Calendar pixel = rounded square, 15% radius. Year pixel = circle.
-- Year grid: portrait canvas = months as columns, landscape = months as rows.
-- Data: ≥ 60% good, ≤ 15% very bad + extremely bad, a few hard stretches, 2-5% missed. Current year, future days empty. Fixed seed.
-
-Type:
-
-- Marketing: Geist 400/600/700/800. Inside phone: system font (SF Pro, Roboto). Pop-outs count as phone UI.
-- Headline 800, tracking −0.03em. Eyebrow 700 uppercase, +0.08em.
-- Headline / sub (px): App Store 136 / 54, Play 112 / 44, OG and X 72 / 28, LinkedIn 60 / 24, web 72 / 22 (mobile 44 / 18).
-
-## Phone and pop-outs
-
-- Logical screen: iOS 440×956 pt, Android 412×915 dp. Scale to frame.
-- Flat frame `#2C2C2E`, bezel 2.2% of width, radius 14% (Android 11%). Status bar 9:41, full battery.
-- Phones bleed off canvas bottom. Two phones: second lower, lower one in front.
-- Light mode app on dark canvas.
-- Pop-out: real app component at 1.6× phone scale, tilt ±4°, covers ≤ 25% of screen and whole cells only.
-- Shadow only on phone and pop-outs. Optional mint glow behind phone, ≤ 12% opacity.
-
-## Layouts
-
-Store screens stack top to bottom, positions follow content: eyebrow, headline, sub, then phone 140px below text.
-
-- **Store hero:** eyebrow "Mood journal", pitch, calendar phone.
-- **Store feature:** one feature, phone + pop-out.
-- **Store duo:** two related views (logger + calendar, light + dark).
-- **Store privacy:** Black, surface box, checklist with mint checks. No phone, no lock icon.
-- **Feature graphic:** icon + name + ≤ 6 words left, year grid right.
-- **Launch header:** headline left (≤ 50% width), tilted phone right. Keep text clear of profile photo (X: bottom left 420×210; LinkedIn: left 560px below y 200).
-- **Social card:** title ≤ 2 lines, icon bottom left, year grid bleeding right.
-- **Web:** hero (title, lead, store badges, phone), ≤ 6 feature cards, Black privacy section, footer with app-facts links.
-
-## Copy
-
-- Claim only features with `status: available` in app-facts. Free, no ads, no account, local, open source: check `claims`.
-- Verify every number in source. Emotions: 72 enabled. Source and app-facts disagree: omit number.
-- No ratings, downloads, or review quotes without public source and maintainer approval.
-- App has anonymous analytics: never "no tracking". Web privacy section discloses it.
-- Release: version only on GitHub = "Out now on GitHub", no store badges.
-- Headline sentence case, ≤ 28 characters per line, ≤ 3 lines. Sub one sentence, ≤ 60 characters.
-- App strings inside phone: exact from `assets/locales/en.json`.
-- People: "connected", never "together".
-- Store badges: official Apple and Google artwork only.
-
-## Demo characters
-
-Use in every asset, fixture, and copy example. Photos: [docs/demo-characters/](docs/demo-characters/). Never real user data, never stock photos.
-
-**Klara** (user): 36, physiotherapist, part-time, Hamburg-Eimsbüttel. Single parent of Ada since separation last year, shares care with Tobi. Tracks mood to learn what keeps her steady: swimming, Ada, walks with Chuky, Jen. Story: first year rebuilding her routine. Good weeks have swimming and play. Hard days cluster around handovers and Oma Hilde's health.
-
-Klara's people (each connection can feel good, bad, or mixed):
-
-- **Ada**: daughter, 8. Loves Kaifu-Bad and playgrounds. Mostly joyful, some tired evenings. Avatar: [ada.jpg](docs/demo-characters/ada.jpg)
-- **Chuky**: golden retriever puppy since spring. Joy and chaos. Avatar: dog in [klara-chuky.jpg](docs/demo-characters/klara-chuky.jpg)
-- **Jen**: best friend since university. Nights out, long calls. Avatar: Jen in [klara-jen.jpg](docs/demo-characters/klara-jen.jpg)
-- **Oma Hilde**: grandmother, 91, Lübeck, writes letters. Love and worry. Initials avatar
-- **Tobi**: Ada's father. Handovers feel mixed or bad. Initials avatar
-
-Klara's moments:
-
-- **Swim day**: Saturday at Kaifu-Bad with Ada. Very good, happy, proud. Ada, tag Sport, place Kaifu-Bad. Photos: [klara-ada-kaifu-bad.jpg](docs/demo-characters/klara-ada-kaifu-bad.jpg), [klara-ada-swimming.jpg](docs/demo-characters/klara-ada-swimming.jpg), [klara-underwater.jpg](docs/demo-characters/klara-underwater.jpg)
-- **Chuky's first week**: good, loved, tired. Chuky. Photo: [klara-chuky.jpg](docs/demo-characters/klara-chuky.jpg)
-- **Jen's birthday**: very good, silly, energized. Jen. Photo: [klara-jen.jpg](docs/demo-characters/klara-jen.jpg)
-- **Letter from Oma Hilde**: neutral, moved, grateful, sad. Oma Hilde. Photo: [klara-letter.jpg](docs/demo-characters/klara-letter.jpg)
-- **Handover day**: bad, drained, irritated. Tobi. No photo
-
-Feature assets (changelog, launch, store feature):
-
-- One unreleased feature per asset. Turn off flags of all other unreleased features.
-- Entries carry no data from other unreleased features: no photos in People assets, no places in Timeline assets.
-- Released modules (mood, emotions, tags, note) may appear everywhere.
-
-## Render
-
-```sh
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars \
-  --window-size=1290,2796 --virtual-time-budget=5000 --screenshot=out.png file://$PWD/asset.html
-```
-
-- Headless Chrome minimum width is 500. Render 390 web through iframe wrapper.
+- Use system settings when possible: notifications, language, appearance.
+- Before you add an in-app setting, read the Apple HIG and Material guidance and look at 2 or 3 reference apps. Cite this research in the PR.

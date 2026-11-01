@@ -1,5 +1,4 @@
 import { Pressable, Text, View, useColorScheme } from "react-native";
-import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -7,6 +6,7 @@ import type { TAG_COLOR_NAMES } from "@/constants/config";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
 import { COMPACT_CHIP } from "@/constants/chip";
+import type { ChipStyle } from "@/constants/chip";
 
 const DEFAULT_STYLE = {};
 
@@ -27,7 +27,7 @@ const Tag = ({
   onLongPress?: () => void;
   /** Small read-only pill for dense rows, like timeline cards. */
   compact?: boolean;
-  style?: ViewStyle;
+  style?: ChipStyle;
 }) => {
   const colors = useColors();
   const haptics = useHaptics();

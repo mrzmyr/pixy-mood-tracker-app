@@ -46,6 +46,7 @@ const CardPhoto = ({
     style={{
       width: size,
       height: size,
+      // oxlint-disable-next-line pixy-standards/radius-token -- share image artwork, drawn at image scale
       borderRadius: 12,
       backgroundColor: background,
     }}

@@ -28,8 +28,10 @@ const ScaleButton = ({
         {
           borderColor:
             colorScheme === "light"
-              ? chroma(backgroundColor).darken(0.4).hex()
-              : chroma(backgroundColor).brighten(0.5).hex(),
+              ? // oxlint-disable-next-line pixy-standards/no-color-shading -- scale buttons predate scale borders
+                chroma(backgroundColor).darken(0.4).hex()
+              : // oxlint-disable-next-line pixy-standards/no-color-shading -- scale buttons predate scale borders
+                chroma(backgroundColor).brighten(0.5).hex(),
           backgroundColor,
           opacity: pressed ? 0.8 : 1,
           flex: 7,

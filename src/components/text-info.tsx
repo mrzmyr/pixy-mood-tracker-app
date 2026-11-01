@@ -3,6 +3,7 @@ import type { TextStyle } from "react-native";
 
 import useColors from "@/hooks/use-colors";
 
+/** Secondary note under a list, for example a warning about its rows. */
 const TextInfo = ({
   children,
   style,

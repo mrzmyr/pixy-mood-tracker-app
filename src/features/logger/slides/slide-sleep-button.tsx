@@ -13,7 +13,8 @@ const DEFAULT_STYLE = {};
 /**
  * Sleep quality as a filled bar: `value` 0 to 4 fills 0 to 4 quarters.
  * Width is half the height. Shared by the sleep slide, the entry list,
- * and recap cards.
+ * and recap cards. Every view of one night's sleep quality uses it: no own
+ * segments, dots, or colors, and no rating word next to it.
  */
 export const SleepQualityMeter = ({
   value,

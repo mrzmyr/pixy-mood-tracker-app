@@ -1,7 +1,7 @@
 import ArrowDownRight from "lucide-react-native/icons/arrow-down-right";
 import ArrowRight from "lucide-react-native/icons/arrow-right";
 import ArrowUpRight from "lucide-react-native/icons/arrow-up-right";
-import Heart from "lucide-react-native/icons/heart";
+import Sparkles from "lucide-react-native/icons/sparkles";
 import type { LucideIcon } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/use-colors";
@@ -40,7 +40,7 @@ export const EndCheckView = ({
           paddingHorizontal: 12,
         }}
       >
-        <Heart size={40} color={colors.tint} strokeWidth={1.75} />
+        <Sparkles size={40} color={colors.tint} strokeWidth={1.75} />
         <Text
           accessibilityRole="header"
           style={{

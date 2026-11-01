@@ -1,5 +1,4 @@
 import { useRouter } from "expo-router";
-import Image from "lucide-react-native/icons/image";
 import { Pressable, ScrollView } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import type { LogItem } from "@/features/logs";
@@ -13,6 +12,7 @@ import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { RADIUS } from "@/constants/radius";
+import { ModuleIcon } from "@/components/module-icon";
 import { INSET } from "./layout";
 
 const THUMBNAIL_SIZE = 96;
@@ -103,7 +103,7 @@ export const Photos = ({
             opacity: pressed ? 0.6 : 1,
           })}
         >
-          <Image width={20} height={20} color={colors.textSecondary} />
+          <ModuleIcon module="photos" color={colors.textSecondary} />
         </Pressable>
       )}
     </ScrollView>

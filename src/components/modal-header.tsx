@@ -5,6 +5,10 @@ import useColors from "@/hooks/use-colors";
 
 const DEFAULT_STYLE = {};
 
+/**
+ * Header of a `SheetModal`: `left` and `right` take `HeaderButton`. No divider
+ * and no background: the bar shows the sheet surface.
+ */
 const ModalHeader = ({
   title = "",
   right = null,

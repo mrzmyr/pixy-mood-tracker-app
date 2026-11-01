@@ -97,6 +97,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
             return photo ? (
               <StoryImage
                 photo={photo}
+                // oxlint-disable-next-line pixy-standards/radius-token -- story artwork, drawn at story scale
                 style={{ width: size, height: size, borderRadius: 9 }}
               />
             ) : null;

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/use-colors";
 import type { EntryMenuProps } from "./entry-menu-types";
+import { RADIUS } from "@/constants/radius";
 
 /**
  * Entry "…" menu on web: plain popover with Edit and a red Delete. iOS and
@@ -48,7 +49,7 @@ export const EntryMenu = ({
             right: 0,
             minWidth: 140,
             padding: 4,
-            borderRadius: 12,
+            borderRadius: RADIUS.md,
             borderCurve: "continuous",
             backgroundColor: colors.bottomSheetBackground,
           }}
