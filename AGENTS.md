@@ -31,6 +31,9 @@
 - Visual change: screenshot required, video too when motion
 - Screenshots and videos: upload to PR body with [pr-proof skill](.agents/skills/pr-proof/SKILL.md). Proof files stay outside git
 - Prefer small unstacked PRs. If you stack, point the child at `main` once the parent merges.
+- **Done = green CI.** Never report a PR done, ready, or mergeable while a check in `gh pr checks <n>` fails or is pending. Never merge a red PR.
+  - Before push: run `bun run test:ci` (full suite), not only the changed feature.
+  - Pending: wait for the result. Failing: fix it, also when `main` fails the same way.
 
 ## Public repository security
 
