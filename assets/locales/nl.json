@@ -868,6 +868,7 @@
     "one": "1 dag met %{tag} deze week",
     "other": "{{count}} dagen met %{tag} deze week"
   },
+  "recaps_story_banner_label_month": "Maandterugblik",
   "recaps_story_banner_title": "Terugblik op %{month}",
   "recaps_story_coming_left": {
     "one": "Nog 1",

@@ -44,6 +44,7 @@ export const Sky = ({
   isVisible = true,
   height: skyHeight,
   resumeKey,
+  blurRadius,
 }: {
   speed: SharedValue<number>;
   /** False fades the sky out. */
@@ -55,6 +56,8 @@ export const Sky = ({
    * screens in a row show one sky instead of a jump.
    */
   resumeKey?: string;
+  /** Blurs the cloud photo, for a soft layer under text. */
+  blurRadius?: number;
 }) => {
   const { height: windowHeight } = useWindowDimensions();
   const height = skyHeight ?? windowHeight;
@@ -139,9 +142,21 @@ export const Sky = ({
           panStyle,
         ]}
       >
-        <Image source={SKY} style={{ width: copyWidth, height }} />
-        <Image source={SKY_FLIPPED} style={{ width: copyWidth, height }} />
-        <Image source={SKY} style={{ width: copyWidth, height }} />
+        <Image
+          source={SKY}
+          blurRadius={blurRadius}
+          style={{ width: copyWidth, height }}
+        />
+        <Image
+          source={SKY_FLIPPED}
+          blurRadius={blurRadius}
+          style={{ width: copyWidth, height }}
+        />
+        <Image
+          source={SKY}
+          blurRadius={blurRadius}
+          style={{ width: copyWidth, height }}
+        />
       </Animated.View>
       {isNight ? <NightStars clock={clock} offset={starOffset} /> : null}
     </Animated.View>

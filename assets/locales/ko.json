@@ -868,6 +868,7 @@
     "one": "이번 주 %{tag} 있었던 날 1일",
     "other": "이번 주 %{tag} 있었던 날 {{count}}일"
   },
+  "recaps_story_banner_label_month": "한 달 돌아보기",
   "recaps_story_banner_title": "%{month} 돌아보기",
   "recaps_story_coming_left": {
     "one": "1일 남음",

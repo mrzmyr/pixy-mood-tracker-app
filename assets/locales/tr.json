@@ -868,6 +868,7 @@
     "one": "Bu hafta %{tag} olan 1 gün",
     "other": "Bu hafta %{tag} olan {{count}} gün"
   },
+  "recaps_story_banner_label_month": "Ay Özeti",
   "recaps_story_banner_title": "%{month} Özeti",
   "recaps_story_coming_left": {
     "one": "1 kaldı",

@@ -1035,6 +1035,7 @@
     "one": "1 day with %{tag} this week",
     "other": "{{count}} days with %{tag} this week"
   },
+  "recaps_story_banner_label_month": "Month Recap",
   "recaps_story_banner_title": "%{month} Recap",
   "recaps_story_banner_title_week": "Week Recap",
   "recaps_story_coming_left": {

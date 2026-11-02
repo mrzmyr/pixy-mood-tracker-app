@@ -868,6 +868,7 @@
     "one": "1 dag med %{tag} denne uge",
     "other": "{{count}} dage med %{tag} denne uge"
   },
+  "recaps_story_banner_label_month": "Månedens tilbageblik",
   "recaps_story_banner_title": "Tilbageblik: %{month}",
   "recaps_story_coming_left": {
     "one": "1 tilbage",

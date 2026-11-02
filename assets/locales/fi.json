@@ -868,6 +868,7 @@
     "one": "1 päivä, jona %{tag}, tällä viikolla",
     "other": "{{count}} päivää, joina %{tag}, tällä viikolla"
   },
+  "recaps_story_banner_label_month": "Kuukauden katsaus",
   "recaps_story_banner_title": "Katsaus: %{month}",
   "recaps_story_coming_left": {
     "one": "1 jäljellä",

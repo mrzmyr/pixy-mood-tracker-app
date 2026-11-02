@@ -868,6 +868,7 @@
     "one": "1 giorno con %{tag} questa settimana",
     "other": "{{count}} giorni con %{tag} questa settimana"
   },
+  "recaps_story_banner_label_month": "Riepilogo del mese",
   "recaps_story_banner_title": "Riepilogo di %{month}",
   "recaps_story_coming_left": {
     "one": "Ne manca 1",

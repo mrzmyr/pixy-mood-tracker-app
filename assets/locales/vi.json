@@ -868,6 +868,7 @@
     "one": "1 ngày có %{tag} tuần này",
     "other": "{{count}} ngày có %{tag} tuần này"
   },
+  "recaps_story_banner_label_month": "Tổng kết tháng",
   "recaps_story_banner_title": "Tổng kết %{month}",
   "recaps_story_coming_left": {
     "one": "Còn 1",

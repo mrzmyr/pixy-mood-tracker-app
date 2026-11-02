@@ -905,6 +905,7 @@
     "one": "1 Tag mit %{tag} diese Woche",
     "other": "{{count}} Tage mit %{tag} diese Woche"
   },
+  "recaps_story_banner_label_month": "Monatsrückblick",
   "recaps_story_banner_title": "%{month}-Rückblick",
   "recaps_story_banner_title_week": "Wochenrückblick",
   "recaps_story_coming_left": {

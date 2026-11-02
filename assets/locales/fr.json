@@ -869,6 +869,7 @@
     "one": "1 jour avec %{tag} cette semaine",
     "other": "{{count}} jours avec %{tag} cette semaine"
   },
+  "recaps_story_banner_label_month": "Bilan du mois",
   "recaps_story_banner_title": "Bilan du mois : %{month}",
   "recaps_story_coming_left": {
     "one": "Encore 1",

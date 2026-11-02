@@ -868,6 +868,7 @@
     "one": "本周有 %{tag} 的 1 天",
     "other": "本周有 %{tag} 的 {{count}} 天"
   },
+  "recaps_story_banner_label_month": "月度回顾",
   "recaps_story_banner_title": "%{month}回顾",
   "recaps_story_coming_left": {
     "one": "还剩 1 天",

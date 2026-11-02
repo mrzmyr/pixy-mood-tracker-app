@@ -868,6 +868,7 @@
     "one": "يوم واحد مع %{tag} هذا الأسبوع",
     "other": "{{count}} أيام مع %{tag} هذا الأسبوع"
   },
+  "recaps_story_banner_label_month": "ملخص الشهر",
   "recaps_story_banner_title": "ملخص %{month}",
   "recaps_story_coming_left": {
     "one": "متبقٍ: 1",

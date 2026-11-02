@@ -131,6 +131,11 @@ export interface SettingsState {
    */
   profileAvatar: string | null;
   /**
+   * First day of the month whose story card the user closed on the
+   * calendar. The card stays hidden for that month only.
+   */
+  recapStoryDismissedMonth: string | null;
+  /**
    * Quick check-in notifications during the day, on the
    * `quickCheckInSchedule`. Needs notification permission, so imports keep
    * it.
@@ -174,6 +179,7 @@ export type ExportSettings = Omit<
   | "recapNotificationsEnabled"
   | "profileName"
   | "profileAvatar"
+  | "recapStoryDismissedMonth"
   | "quickCheckInEnabled"
   | "quickCheckInSchedule"
 >;
@@ -250,6 +256,7 @@ const reducer = (
         recapNotificationsEnabled: state.recapNotificationsEnabled,
         profileName: state.profileName,
         profileAvatar: state.profileAvatar,
+        recapStoryDismissedMonth: state.recapStoryDismissedMonth,
         quickCheckInEnabled: state.quickCheckInEnabled,
         quickCheckInSchedule: state.quickCheckInSchedule,
       };
@@ -294,6 +301,8 @@ const hydrateStored = ({
   recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
   profileName: z.string().safeParse(stored.profileName).data ?? "",
   profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
+  recapStoryDismissedMonth:
+    z.string().safeParse(stored.recapStoryDismissedMonth).data ?? null,
   quickCheckInEnabled: stored.quickCheckInEnabled === true,
   quickCheckInSchedule:
     QuickCheckInScheduleSchema.safeParse(stored.quickCheckInSchedule).data ??
