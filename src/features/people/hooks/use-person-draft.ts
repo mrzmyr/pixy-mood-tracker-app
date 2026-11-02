@@ -209,6 +209,10 @@ export const usePersonDraft = ({
       });
       peopleUpdater.updatePerson(person);
     }
+    // The new photo has its own file name; drop the replaced file.
+    if (draft.pendingImageUri !== null && draft.person.avatar) {
+      void deleteAvatar(draft.person.avatar);
+    }
     allowLeave();
     router.back();
   };

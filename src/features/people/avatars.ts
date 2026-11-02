@@ -33,8 +33,13 @@ const ensureDirectory = async () => {
   return uri;
 };
 
-/** Relative storage path of the avatar file for `id`. */
-export const getAvatarPath = (id: string) => `${AVATAR_DIRECTORY}${id}.jpg`;
+/**
+ * Relative storage path of the avatar file for `id`, written at `version`.
+ * Each write gets a new name: image caches key local files by path, so a
+ * reused name keeps showing the previous photo.
+ */
+export const getAvatarPath = (id: string, version: number) =>
+  `${AVATAR_DIRECTORY}${id}-${version}.jpg`;
 
 /**
  * Absolute file URI for a stored relative avatar path. Stored paths stay
@@ -53,16 +58,19 @@ const deleteQuietly = async (uri: string) => {
 
 /**
  * Center-crops `sourceUri` to a square, scales it to {@link AVATAR_SIZE},
- * and stores it as JPEG under `people/<id>.jpg`. Replaces an existing file.
+ * and stores it as JPEG under `people/<id>-<time>.jpg`. The previous file
+ * stays; the caller deletes it once the person points to the new path.
  *
  * @returns the relative path to store on the person.
  */
 export const saveAvatar = async ({
   id,
   sourceUri,
+  now = Date.now(),
 }: {
   id: string;
   sourceUri: string;
+  now?: number;
 }): Promise<string> => {
   let resultUri: string;
   try {
@@ -80,12 +88,10 @@ export const saveAvatar = async ({
     });
   }
 
-  const path = getAvatarPath(id);
-  const target = getAvatarUri(path);
+  const path = getAvatarPath(id, now);
   try {
     await ensureDirectory();
-    await FileSystem.deleteAsync(target, { idempotent: true });
-    await FileSystem.moveAsync({ from: resultUri, to: target });
+    await FileSystem.moveAsync({ from: resultUri, to: getAvatarUri(path) });
   } catch (error) {
     await deleteQuietly(resultUri);
     throw createStructuredError({
@@ -99,7 +105,7 @@ export const saveAvatar = async ({
 };
 
 /**
- * Decodes a base64 JPEG from an import file into `people/<id>.jpg`.
+ * Decodes a base64 JPEG from an import file into `people/<id>-<time>.jpg`.
  *
  * @returns the relative path, or `null` when the data cannot be written. A
  *   corrupt avatar must not block the import of the person.
@@ -107,11 +113,13 @@ export const saveAvatar = async ({
 export const writeAvatarFromBase64 = async ({
   id,
   base64,
+  now = Date.now(),
 }: {
   id: string;
   base64: string;
+  now?: number;
 }): Promise<string | null> => {
-  const path = getAvatarPath(id);
+  const path = getAvatarPath(id, now);
   try {
     await ensureDirectory();
     await FileSystem.writeAsStringAsync(getAvatarUri(path), base64, {
