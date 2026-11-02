@@ -51,9 +51,12 @@ export type AppVariant = keyof typeof APP_VARIANTS;
  * so the Backup screen offers no Google Drive there.
  */
 const GOOGLE_IOS_CLIENT_IDS: Record<AppVariant, string | null> = {
-  development: null,
-  preview: null,
-  production: null,
+  development:
+    "4218331782-ocosla7ubm5uvmutmc6hnorvoqjd0bi4.apps.googleusercontent.com",
+  preview:
+    "4218331782-3dd8mnqpc2i6kht2d1o1ijjh3iij6rg4.apps.googleusercontent.com",
+  production:
+    "4218331782-mgk0ng7nro5n7b7ocm8o83cmua0pm9o9.apps.googleusercontent.com",
 };
 
 /**
