@@ -6,6 +6,7 @@ import * as FileSystem from "expo-file-system/legacy";
 import { Pressable, Text } from "react-native";
 import { LogsProvider } from "@/features/logs";
 import Alert from "@/lib/alert";
+import * as squareImage from "@/lib/square-image";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
 import {
@@ -151,6 +152,36 @@ describe("PersonEdit", () => {
     await user.press(screen.getByLabelText("Remove Photo"));
 
     expect(await screen.findByLabelText("Add Photo")).toBeTruthy();
+  });
+
+  test("new photo is stored under a new file name and the old file is deleted", async () => {
+    // Image caches key local files by path; a reused name shows the old photo.
+    setPeopleSourcesOverride(
+      sources({ pickImage: () => Promise.resolve("file:///picked.jpg") })
+    );
+    jest
+      .spyOn(squareImage, "renderSquareJpeg")
+      .mockResolvedValue("file:///cache/rendered.jpg");
+    jest.spyOn(FileSystem, "makeDirectoryAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "moveAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+    const user = await openEditor();
+
+    await user.press(screen.getByLabelText("Choose Photo"));
+    await user.press(screen.getByTestId("person-save"));
+
+    await waitFor(async () => {
+      const stored = JSON.parse(
+        String(await AsyncStorage.getItem(STORAGE_KEY))
+      );
+      expect(stored.people[0].avatar).toMatch(
+        new RegExp(String.raw`^people/${sam.id}-\d+\.jpg$`, "u")
+      );
+    });
+    expect(FileSystem.deleteAsync).toHaveBeenCalledWith(
+      `${FileSystem.documentDirectory}${sam.avatar}`,
+      { idempotent: true }
+    );
   });
 
   test("delete row names the entry count before the confirm", async () => {

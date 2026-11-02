@@ -30,10 +30,10 @@ describe("avatars", () => {
       .mockResolvedValueOnce()
       .mockRejectedValueOnce(new Error("disk full"));
 
-    expect(await writeAvatarFromBase64({ id: "a", base64: "AAAA" })).toBe(
-      "people/a.jpg"
-    );
-    expect(write).toHaveBeenCalledWith(`${DIRECTORY}a.jpg`, "AAAA", {
+    expect(
+      await writeAvatarFromBase64({ id: "a", base64: "AAAA", now: 7 })
+    ).toBe("people/a-7.jpg");
+    expect(write).toHaveBeenCalledWith(`${DIRECTORY}a-7.jpg`, "AAAA", {
       encoding: FileSystem.EncodingType.Base64,
     });
     expect(await writeAvatarFromBase64({ id: "b", base64: "AAAA" })).toBeNull();

@@ -22,7 +22,7 @@ export interface Person {
   id: string;
   /** Display name, at most `MAX_TAG_LENGTH` characters. */
   name: string;
-  /** Relative path `people/<id>.jpg`, never an absolute URI. `null` shows the fallback icon. */
+  /** Relative path `people/<id>-<time>.jpg` (older files: `people/<id>.jpg`), never an absolute URI. `null` shows the fallback icon. */
   avatar: string | null;
   /** OS contact id from the picker; used only to detect a repeated pick. */
   contactId?: string;

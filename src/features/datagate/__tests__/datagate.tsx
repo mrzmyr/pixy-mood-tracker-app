@@ -470,9 +470,17 @@ describe("useLogs()", () => {
       await hook.result.current.datagate.import(exported, { muted: true });
     });
 
-    expect(hook.result.current.peopleState.people).toEqual(testPeople);
+    // Each written avatar gets a new file name, so image caches cannot show an older file.
+    const [imported] = hook.result.current.peopleState.people;
+    expect(hook.result.current.peopleState.people).toEqual([
+      { ...testPeople[0], avatar: imported.avatar },
+      testPeople[1],
+    ]);
+    expect(imported.avatar).toMatch(
+      new RegExp(String.raw`^people/${testPeople[0].id}-\d+\.jpg$`, "u")
+    );
     expect(FileSystem.writeAsStringAsync).toHaveBeenCalledWith(
-      `${FileSystem.documentDirectory}${testPeople[0].avatar}`,
+      `${FileSystem.documentDirectory}${imported.avatar}`,
       base64,
       { encoding: FileSystem.EncodingType.Base64 }
     );
