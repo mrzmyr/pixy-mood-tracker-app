@@ -9,3 +9,4 @@ Mistakes that broke the app or the build, and the rule that prevents them.
 - Keep all `@react-navigation/*` packages on the same major version. Mixing v6 and v7 breaks native navigation.
 - React Compiler plus frozen screens (`freezeOnBlur`, `enableFreeze`) can leave FlashList headers or footers stale after the screen unfreezes. The compiled calendar screen kept a stale footer after a data reset (`e2e/flows/data-round-trip.yaml`). No screen freezes today, so no screen opts out with `"use no memo"`. Before you freeze any screen, run the e2e suite.
 - Initialize Sentry once, at module load in `src/app/_layout.tsx`, before the first render.
+- Never mount an `@expo/ui` picker or `Host` inside a Settings row `accessory`. The row wraps the accessory in an `RNHostView`, and the nested `Host` replaced the Android reminder time pill without showing its dialog. Open native dialogs imperatively, like `DateTimePickerAndroid.open` (PIX-44).

@@ -8,6 +8,7 @@ import {
 } from "@expo/ui/swift-ui/modifiers";
 import type { ModifierConfig } from "@expo/ui/swift-ui/modifiers";
 import type { UniversalTextStyle } from "@expo/ui";
+import type { ColorSchemeName } from "react-native";
 import type {
   SecondaryText,
   SettingsRowProps,
@@ -53,3 +54,6 @@ export const useSecondaryText = (): SecondaryText => ({
 /** Section footer: SwiftUI styles footer text itself. */
 export const useFooterTextStyle = (): UniversalTextStyle | undefined =>
   undefined;
+
+/** Host theme: SwiftUI already follows the app color scheme. */
+export const useHostColorScheme = (): ColorSchemeName | undefined => undefined;
