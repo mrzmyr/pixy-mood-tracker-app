@@ -166,15 +166,15 @@ const AppLayout = () => {
     textColor: colors.text,
     backgroundColor: colors.background,
   });
-  // Logger and interventions: no swipe down, so a half-done flow only
+  // Editing an entry: swipe down closes it. With unsaved changes, the
+  // logger's discard guard stops the swipe and asks first.
+  const logModalOptions = getModalRouteOptions({
+    textColor: colors.text,
+    backgroundColor: colors.logBackground,
+  });
+  // New entries and interventions: no swipe down, so a half-done flow only
   // closes through the close button.
-  const flowModalOptions = {
-    ...getModalRouteOptions({
-      textColor: colors.text,
-      backgroundColor: colors.logBackground,
-    }),
-    gestureEnabled: false,
-  };
+  const flowModalOptions = { ...logModalOptions, gestureEnabled: false };
   // iOS and Android render the native back button. Web has none.
   const pageOptions =
     Platform.OS === "web"
@@ -249,7 +249,7 @@ const AppLayout = () => {
             options={getQuickCheckInOptions(colors.text, colors.background)}
           />
           <Stack.Screen name="interventions/[id]" options={flowModalOptions} />
-          <Stack.Screen name="logs/[id]/edit" options={flowModalOptions} />
+          <Stack.Screen name="logs/[id]/edit" options={logModalOptions} />
           <Stack.Screen
             name="photos/[id]"
             options={{
