@@ -1,23 +1,24 @@
 import { describe, expect, test } from "bun:test";
-import { compareGaps, findGaps, pruneBaseline } from "./check-locales";
+import {
+  LocaleStrings,
+  findGaps,
+  findTranslationProblems,
+  reportGaps,
+} from "./check-locales";
 
 const source = ["cancel", "clear", "done"];
 
 describe("locale parity check", () => {
-  test("passes when every gap is in the baseline", () => {
-    const current = findGaps(source, { de: ["cancel", "done", "old"] });
-
-    expect(
-      compareGaps(current, { de: { missing: ["clear"], extra: ["old"] } })
-    ).toEqual([]);
+  test("passes when every locale has every key", () => {
+    expect(reportGaps(findGaps(source, { de: source, fr: source }))).toEqual(
+      []
+    );
   });
 
-  test("fails when a new key misses in a locale", () => {
-    const current = findGaps(source, { de: ["cancel"], fr: source });
-
-    const problems = compareGaps(current, {
-      de: { missing: ["clear"], extra: [] },
-    });
+  test("fails when a key misses in a locale", () => {
+    const problems = reportGaps(
+      findGaps(source, { de: ["cancel", "clear"], fr: source })
+    );
 
     expect(problems.map(({ status, why }) => [status, why])).toEqual([
       ["locale_key_missing", "Missing: done"],
@@ -25,30 +26,54 @@ describe("locale parity check", () => {
   });
 
   test("fails when a locale keeps a key removed from en.json", () => {
-    const current = findGaps(source, { fr: [...source, "reset"] });
+    const problems = reportGaps(findGaps(source, { fr: [...source, "reset"] }));
 
-    expect(compareGaps(current, {}).map(({ status }) => status)).toEqual([
-      "locale_key_extra",
-    ]);
+    expect(problems.map(({ status }) => status)).toEqual(["locale_key_extra"]);
+  });
+});
+
+describe("locale placeholder check", () => {
+  const english = LocaleStrings.parse({
+    greeting: "Hi {{name}}",
+    since: "Since %{date}",
+    days: { one: "1 day", other: "{{count}} days" },
   });
 
-  test("fails on fixed gaps until the baseline shrinks", () => {
-    const baseline = { de: { missing: ["clear", "done"], extra: [] } };
-    const current = findGaps(source, { de: ["cancel", "clear"] });
+  const check = (german: Parameters<typeof LocaleStrings.parse>[0]) =>
+    findTranslationProblems("de", english, LocaleStrings.parse(german));
 
-    expect(compareGaps(current, baseline).map(({ status }) => status)).toEqual([
-      "locale_baseline_stale",
-    ]);
-    expect(pruneBaseline(current, baseline)).toEqual({
-      de: { missing: ["done"], extra: [] },
-    });
-  });
-
-  test("prune never adds new gaps", () => {
-    const current = findGaps(source, { de: [], fr: [] });
-
+  test("passes when placeholders and plural forms match", () => {
     expect(
-      pruneBaseline(current, { de: { missing: ["clear"], extra: [] } })
-    ).toEqual({ de: { missing: ["clear"], extra: [] } });
+      check({
+        greeting: "Hallo {{name}}",
+        since: "Seit %{date}",
+        days: { one: "1 Tag", other: "{{count}} Tage" },
+      })
+    ).toEqual([]);
+  });
+
+  test("fails when a placeholder is translated or dropped", () => {
+    const problems = check({
+      greeting: "Hallo {{Name}}",
+      since: "Seit",
+      days: { one: "{{count}} Tag", other: "Tage" },
+    });
+
+    expect(problems.map(({ status, message }) => [status, message])).toEqual([
+      [
+        "locale_placeholder_mismatch",
+        "de.json `greeting` changes the placeholders of en.json",
+      ],
+      [
+        "locale_placeholder_mismatch",
+        "de.json `since` changes the placeholders of en.json",
+      ],
+    ]);
+  });
+
+  test("fails when plural forms differ", () => {
+    expect(
+      check({ days: "{{count}} Tage" }).map(({ status }) => status)
+    ).toEqual(["locale_plural_forms_mismatch"]);
   });
 });

@@ -83,6 +83,10 @@
 - Call EAS Observe only through [`src/lib/observe.ts`](src/lib/observe.ts): `configureObserve` for config, `logObserveEvent` for events. Each `Observe.configure` call replaces the whole native config, so a call with one field resets the others. Same free-text ban as PostHog.
 - Report caught errors only through `reportError` ([`src/lib/report-error.ts`](src/lib/report-error.ts)). It takes a `StructuredError`, sends it to Sentry, and sends Observe only `status` and `message`. `pixy-standards/no-direct-error-reporting` blocks direct SDK calls.
 
+### Translations
+
+- Change to `en.json`: translate the key into all 30 other locales in the same change. Task is not done until `bun run check:locales` passes ([i18n](docs/i18n.md#add-strings))
+
 ### Testing
 
 - Never add tests that only check translated labels or copy strings are unique
