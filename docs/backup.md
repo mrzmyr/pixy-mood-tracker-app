@@ -81,6 +81,7 @@ State (2026-10-06), Google Cloud project `pixy-mood-tracker` (4218331782):
 | --- | --- | --- | --- |
 | Pixy Preview (Android) | `com.devmood.pixymoodtracker.preview` | `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25` (local debug keystore) | `4218331782-t8qte9joje3fpj4vp9ej7ii727n397v4.apps.googleusercontent.com` |
 | Pixy (Android, Play) | `com.devmood.pixymoodtracker` | `F7:CD:85:34:FB:39:D3:24:7A:CD:E6:AF:DA:9C:0A:6B:72:BD:62:83` (Play app signing) | `4218331782-u1dkrhi2lf7pbiecul367atepqrhn9f6.apps.googleusercontent.com` |
+| Pixy Dev (Android) | `com.devmood.pixymoodtracker.dev` | `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25` (`android/app/debug.keystore`) | `4218331782-673fcii93qd8o4847e0165dhkv0jpdld.apps.googleusercontent.com` |
 
 - iOS OAuth clients (Team ID `8VVNC4724B`), ids in `GOOGLE_IOS_CLIENT_IDS`:
 
@@ -90,7 +91,7 @@ State (2026-10-06), Google Cloud project `pixy-mood-tracker` (4218331782):
 | Pixy iOS Preview     | `com.devmood.pixymoodtracker.preview` |
 | Pixy iOS Production  | `com.devmood.pixymoodtracker`         |
 
-- Missing: `com.devmood.pixymoodtracker` with upload key `76:7F:4F:D6:E3:95:3C:A6:30:06:21:F4:26:FD:F4:62:4E:CE:75:DA` (only for builds installed outside Play), `.dev` client
+- Missing: `com.devmood.pixymoodtracker` with upload key `76:7F:4F:D6:E3:95:3C:A6:30:06:21:F4:26:FD:F4:62:4E:CE:75:DA` (only for builds installed outside Play)
 
 ### Fake cloud (development and preview builds)
 
