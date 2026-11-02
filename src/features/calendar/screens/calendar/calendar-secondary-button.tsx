@@ -17,9 +17,9 @@ import { HAS_GLASS, IS_ANDROID, RADIUS, SIZE } from "./float-button-metrics";
 const GAP = 12;
 
 /**
- * Round button left of the calendar add button, for voice mode or quick
- * check-in. Same size and surface as the add button, so the row reads as one
- * group. `slot` 1 sits next to the add button, slot 2 one further left.
+ * Round button above the calendar add button, for voice mode or quick
+ * check-in. Same size and surface as the add button, so the column reads as
+ * one group. `slot` 1 sits right above the add button, slot 2 one further up.
  */
 const CalendarSecondaryButton = ({
   icon: Icon,
@@ -46,8 +46,8 @@ const CalendarSecondaryButton = ({
       android_ripple={{ color: "rgba(0, 0, 0, 0.12)", foreground: true }}
       style={({ pressed }) => ({
         position: "absolute",
-        bottom: 20 + insets.bottom,
-        right: 20 + slot * (SIZE + GAP),
+        bottom: 20 + insets.bottom + slot * (SIZE + GAP),
+        right: 20,
         zIndex: 100,
         width: SIZE,
         height: SIZE,
