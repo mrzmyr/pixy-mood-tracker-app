@@ -18,6 +18,7 @@ import {
   switchProps,
   switchTitleModifiers,
   useFooterTextStyle,
+  useHostColorScheme,
   useSecondaryText,
 } from "./platform";
 import type {
@@ -63,9 +64,14 @@ export const SettingsSection = (_props: SettingsSectionProps) => null;
  */
 export const SettingsForm = ({ children }: { children: ReactNode }) => {
   const { background: backgroundColor } = useColors();
+  const colorScheme = useHostColorScheme();
 
   return (
-    <Host style={{ flex: 1 }} seedColor={MATERIAL_SEED_COLOR}>
+    <Host
+      style={{ flex: 1 }}
+      colorScheme={colorScheme}
+      seedColor={MATERIAL_SEED_COLOR}
+    >
       <FieldGroup style={{ backgroundColor }} modifiers={formModifiers}>
         {/* Android groups rows by element type: a wrapper component would
             land inside an implicit section, so render sections here. */}
