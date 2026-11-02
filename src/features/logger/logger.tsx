@@ -21,8 +21,15 @@ import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { Stack, useRouter } from "expo-router";
 import type { ReactElement, RefObject } from "react";
 
-import { Keyboard, Text, useWindowDimensions, View } from "react-native";
+import {
+  AppState,
+  Keyboard,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import type { TextInput } from "react-native";
+import { useSharedValue } from "react-native-reanimated";
 
 import { Carousel } from "react-native-reanimated-carousel";
 import type { CarouselRef } from "react-native-reanimated-carousel";
@@ -274,6 +281,52 @@ const useSlideFocus = ({
   return isMounted;
 };
 
+// Android draws again a short time after the app is active.
+const REDRAW_DELAY_MS = 300;
+
+/**
+ * Redraws the slides and the stepper when the app returns to the foreground.
+ * Android pauses the app while another app shows, for example the system
+ * photo picker. Animation frames that run in that time do not reach the
+ * screen, so a slide change that was still moving left two slides drawn on
+ * top of each other. A one point move of the carousel makes every slide draw
+ * again, then it rests on the nearest slide. `redrawCount` changes on each
+ * redraw; as a key it draws the stepper again. Returns the carousel ref and
+ * scroll offset to pass to the carousel.
+ */
+const useResumeRedraw = (slideWidth: number) => {
+  const carouselRef = useRef<CarouselRef>(null);
+  const offset = useSharedValue(0);
+  const [resumeCount, setResumeCount] = useState(0);
+  const [redrawCount, setRedrawCount] = useState(0);
+  const getSlideWidth = useEffectEvent(() => slideWidth);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state === "active") {
+        setResumeCount((count) => count + 1);
+      }
+    });
+    return () => subscription.remove();
+  }, []);
+
+  useEffect(() => {
+    if (resumeCount === 0) {
+      return;
+    }
+    const timeout = setTimeout(() => {
+      const width = getSlideWidth();
+      const resting = Math.round(offset.get() / width) * width;
+      offset.set(resting + 1);
+      requestAnimationFrame(() => offset.set(resting));
+      setRedrawCount((count) => count + 1);
+    }, REDRAW_DELAY_MS);
+    return () => clearTimeout(timeout);
+  }, [resumeCount, offset]);
+
+  return { carouselRef, offset, redrawCount };
+};
+
 const LoggerSlides = ({
   initialStep,
   avaliableSteps,
@@ -314,7 +367,7 @@ const LoggerSlides = ({
   const { save, cancel } = useLoggerActions({ mode, onCreated });
   const { isLocationVisible, isLocating } = usePassiveLocation({ mode });
 
-  const _carousel = useRef<CarouselRef>(null);
+  const { carouselRef: _carousel, ...redraw } = useResumeRedraw(windowWidth);
   // iOS lays the modal out at full window height first, then shrinks it to
   // the sheet. Without an explicit height the carousel keeps the first,
   // taller slide height, and slide bottoms end up under the home indicator.
@@ -523,6 +576,7 @@ const LoggerSlides = ({
     >
       <View style={{ flex: 1 }}>
         <LoggerHeader
+          key={redraw.redrawCount}
           carouselRef={_carousel}
           slideCount={content.length}
           slideIndex={slideIndex}
@@ -542,6 +596,7 @@ const LoggerSlides = ({
             itemSize={windowWidth}
             style={carouselHeight ? { height: carouselHeight } : undefined}
             ref={_carousel}
+            scrollOffsetValue={redraw.offset}
             data={reachedContent}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
             onProgressChange={(progress) => {
