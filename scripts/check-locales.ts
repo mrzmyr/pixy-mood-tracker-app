@@ -1,12 +1,11 @@
 import { z } from "zod";
 /**
- * Locale key parity check. Fails when a locale in `assets/locales` lacks a key
- * from `en.json` or has a key `en.json` does not have.
+ * Locale parity check. Fails when a locale in `assets/locales` lacks a key
+ * from `en.json`, has a key `en.json` does not have, or changes the
+ * placeholders or plural forms of a string. No baseline: every locale must be
+ * complete.
  *
- * Known gaps live in `scripts/locale-gaps.json`. The baseline may only shrink:
- * `--prune` removes fixed gaps and never adds new ones.
- *
- * Usage: `bun run check:locales [--prune]`
+ * Usage: `bun run check:locales`
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -17,62 +16,47 @@ export interface LocaleGaps {
   extra: string[];
 }
 
-/** Known gaps per locale file name without `.json`, for example `de`. */
-export type GapBaseline = Record<string, LocaleGaps>;
+/** Gaps per locale file name without `.json`, for example `de`. */
+export type LocaleGapMap = Record<string, LocaleGaps>;
 
 /** Structured check failure, see AGENTS.md Errors. */
 export interface LocaleProblem {
   status:
     | "locale_key_missing"
     | "locale_key_extra"
-    | "locale_baseline_stale"
-    | "locale_file_invalid";
+    | "locale_placeholder_mismatch"
+    | "locale_plural_forms_mismatch"
+    | "locale_file_invalid"
+    | "locale_ellipsis"
+    | "locale_straight_quote";
   message: string;
   why: string;
   fix: string;
 }
 
 const LOCALES_DIR = path.join(import.meta.dir, "../assets/locales");
-const BASELINE_PATH = path.join(import.meta.dir, "locale-gaps.json");
 const SOURCE_LOCALE = "en";
-
-const withGapsOnly = (
-  entries: (readonly [string, LocaleGaps])[]
-): GapBaseline =>
-  Object.fromEntries(
-    entries.filter(
-      ([, gaps]) => gaps.missing.length > 0 || gaps.extra.length > 0
-    )
-  );
 
 /** Current gaps of every locale against the source locale keys. */
 export const findGaps = (
   sourceKeys: string[],
   locales: Record<string, string[]>
-) => {
+): LocaleGapMap => {
   const source = new Set(sourceKeys);
-  return withGapsOnly(
-    Object.entries(locales).map(([locale, keys]) => {
-      const own = new Set(keys);
-      return [
-        locale,
-        {
-          missing: sourceKeys.filter((key) => !own.has(key)),
-          extra: keys.filter((key) => !source.has(key)),
-        },
-      ] as const;
-    })
+  return Object.fromEntries(
+    Object.entries(locales)
+      .map(([locale, keys]) => {
+        const own = new Set(keys);
+        return [
+          locale,
+          {
+            missing: sourceKeys.filter((key) => !own.has(key)),
+            extra: keys.filter((key) => !source.has(key)),
+          },
+        ] as const;
+      })
+      .filter(([, gaps]) => gaps.missing.length > 0 || gaps.extra.length > 0)
   );
-};
-
-const difference = (left: string[] = [], right: string[] = []) => {
-  const exclude = new Set(right);
-  return left.filter((key) => !exclude.has(key));
-};
-
-const intersection = (left: string[] = [], right: string[] = []) => {
-  const keep = new Set(right);
-  return left.filter((key) => keep.has(key));
 };
 
 const preview = (keys: string[]) =>
@@ -80,66 +64,96 @@ const preview = (keys: string[]) =>
     ? `${keys.slice(0, 5).join(", ")} (+${keys.length - 5} more)`
     : keys.join(", ");
 
-/** Compare current gaps with the baseline. Empty result means pass. */
-export const compareGaps = (
-  current: GapBaseline,
-  baseline: GapBaseline
-): LocaleProblem[] => {
-  const problems: LocaleProblem[] = [];
-  const locales = [
-    ...new Set([...Object.keys(current), ...Object.keys(baseline)]),
-  ].sort();
-  for (const locale of locales) {
-    const now = current[locale] ?? { missing: [], extra: [] };
-    const known = baseline[locale] ?? { missing: [], extra: [] };
-    const newMissing = difference(now.missing, known.missing);
-    const newExtra = difference(now.extra, known.extra);
-    const fixed = [
-      ...difference(known.missing, now.missing),
-      ...difference(known.extra, now.extra),
-    ];
-    if (newMissing.length > 0) {
-      problems.push({
-        status: "locale_key_missing",
-        message: `${locale}.json lacks ${newMissing.length} key(s) from en.json`,
-        why: `Missing: ${preview(newMissing)}`,
-        fix: `Add translations to assets/locales/${locale}.json in this change (docs/i18n.md#add-strings)`,
-      });
-    }
-    if (newExtra.length > 0) {
-      problems.push({
-        status: "locale_key_extra",
-        message: `${locale}.json has ${newExtra.length} key(s) not in en.json`,
-        why: `Extra: ${preview(newExtra)}`,
-        fix: `Delete the keys from assets/locales/${locale}.json, or add them to en.json`,
-      });
-    }
-    if (fixed.length > 0) {
-      problems.push({
-        status: "locale_baseline_stale",
-        message: `scripts/locale-gaps.json lists ${fixed.length} fixed gap(s) for ${locale}`,
-        why: `Fixed: ${preview(fixed)}`,
-        fix: "Run `bun run check:locales --prune` and commit scripts/locale-gaps.json",
-      });
-    }
-  }
-  return problems;
-};
+/** One problem per locale with missing or extra keys. Empty means pass. */
+export const reportGaps = (gaps: LocaleGapMap): LocaleProblem[] =>
+  Object.entries(gaps)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .flatMap(([locale, { missing, extra }]) => [
+      ...(missing.length > 0
+        ? [
+            {
+              status: "locale_key_missing" as const,
+              message: `${locale}.json lacks ${missing.length} key(s) from en.json`,
+              why: `Missing: ${preview(missing)}`,
+              fix: `Translate the keys into assets/locales/${locale}.json in this change (docs/i18n.md#add-strings)`,
+            },
+          ]
+        : []),
+      ...(extra.length > 0
+        ? [
+            {
+              status: "locale_key_extra" as const,
+              message: `${locale}.json has ${extra.length} key(s) not in en.json`,
+              why: `Extra: ${preview(extra)}`,
+              fix: `Delete the keys from assets/locales/${locale}.json, or add them to en.json`,
+            },
+          ]
+        : []),
+    ]);
 
-/** Baseline without gaps that no longer exist. Never adds gaps. */
-export const pruneBaseline = (current: GapBaseline, baseline: GapBaseline) =>
-  withGapsOnly(
-    Object.entries(baseline).map(
-      ([locale, known]) =>
-        [
-          locale,
-          {
-            missing: intersection(known.missing, current[locale]?.missing),
-            extra: intersection(known.extra, current[locale]?.extra),
-          },
-        ] as const
-    )
-  );
+/**
+ * Locale strings with every value as form → text. A plain string becomes
+ * `{ "": text }`, a plural object keeps its forms such as `one` and `other`.
+ */
+export const LocaleStrings = z.record(
+  z.string(),
+  z.union([
+    z.string().transform((text) => ({ "": text })),
+    z.record(z.string(), z.string()),
+  ])
+);
+
+type Strings = z.infer<typeof LocaleStrings>;
+
+const PLACEHOLDER = /\{\{\w+\}\}|%\{\w+\}/gu;
+
+/** Placeholders of a string. Plural forms may add or drop `{{count}}`. */
+const placeholders = (text: string, isPluralForm: boolean) =>
+  [...new Set(text.matchAll(PLACEHOLDER).map(([name]) => name))]
+    .filter((name) => !(isPluralForm && name === "{{count}}"))
+    .sort()
+    .join(", ");
+
+/**
+ * Strings whose placeholders or plural forms differ from `en.json`. A
+ * translated `{{count}}` or a dropped `other` form breaks the UI at runtime.
+ */
+export const findTranslationProblems = (
+  locale: string,
+  source: Strings,
+  target: Strings
+): LocaleProblem[] =>
+  Object.entries(source).flatMap(([key, english]) => {
+    const translated = target[key];
+    if (!translated) {
+      return [];
+    }
+    const forms = Object.keys(english).sort();
+    if (forms.join(",") !== Object.keys(translated).sort().join(",")) {
+      return [
+        {
+          status: "locale_plural_forms_mismatch" as const,
+          message: `${locale}.json \`${key}\` has other plural forms than en.json`,
+          why: `en.json forms: ${forms.filter(Boolean).join(", ") || "none"}`,
+          fix: `Use exactly the plural forms of en.json in assets/locales/${locale}.json`,
+        },
+      ];
+    }
+    const isPlural = !forms.includes("");
+    return forms.flatMap((form) => {
+      const expected = placeholders(english[form] ?? "", isPlural);
+      return expected === placeholders(translated[form] ?? "", isPlural)
+        ? []
+        : [
+            {
+              status: "locale_placeholder_mismatch" as const,
+              message: `${locale}.json \`${form ? `${key}.${form}` : key}\` changes the placeholders of en.json`,
+              why: `en.json placeholders: ${expected || "none"}`,
+              fix: `Keep every placeholder unchanged in assets/locales/${locale}.json`,
+            },
+          ];
+    });
+  });
 
 /** English strings: plain values, or plural forms such as `{ one, other }`. */
 const SourceStrings = z.record(
@@ -189,9 +203,9 @@ const report = (problem: LocaleProblem) =>
     `error [${problem.status}]: ${problem.message}\n  why: ${problem.why}\n  fix: ${problem.fix}`
   );
 
-const readKeys = (file: string): string[] => {
+const readStrings = (file: string): Strings => {
   try {
-    return Object.keys(JSON.parse(fs.readFileSync(file, "utf-8")));
+    return LocaleStrings.parse(JSON.parse(fs.readFileSync(file, "utf-8")));
   } catch (error) {
     report({
       status: "locale_file_invalid",
@@ -207,39 +221,31 @@ const main = () => {
   const files = fs
     .readdirSync(LOCALES_DIR)
     .filter((file) => file.endsWith(".json"));
-  const locales: Record<string, string[]> = {};
+  const source = readStrings(path.join(LOCALES_DIR, `${SOURCE_LOCALE}.json`));
+  const locales: Record<string, Strings> = {};
   for (const file of files) {
     const locale = path.basename(file, ".json");
     if (locale !== SOURCE_LOCALE) {
-      locales[locale] = readKeys(path.join(LOCALES_DIR, file));
+      locales[locale] = readStrings(path.join(LOCALES_DIR, file));
     }
-  }
-  const current = findGaps(
-    readKeys(path.join(LOCALES_DIR, `${SOURCE_LOCALE}.json`)),
-    locales
-  );
-  const loaded = JSON.parse(fs.readFileSync(BASELINE_PATH, "utf-8"));
-  const isPrune = process.argv.includes("--prune");
-  const baseline = isPrune ? pruneBaseline(current, loaded) : loaded;
-  if (isPrune) {
-    fs.writeFileSync(BASELINE_PATH, `${JSON.stringify(baseline, null, 2)}\n`);
-    console.log("pruned scripts/locale-gaps.json");
   }
 
   const problems = [
-    ...compareGaps(current, baseline),
-    ...findTypographyProblems(
-      flattenStrings(
-        SourceStrings.parse(
-          JSON.parse(
-            fs.readFileSync(
-              path.join(LOCALES_DIR, `${SOURCE_LOCALE}.json`),
-              "utf-8"
-            )
-          )
+    ...reportGaps(
+      findGaps(
+        Object.keys(source),
+        Object.fromEntries(
+          Object.entries(locales).map(([locale, strings]) => [
+            locale,
+            Object.keys(strings),
+          ])
         )
       )
     ),
+    ...Object.entries(locales).flatMap(([locale, strings]) =>
+      findTranslationProblems(locale, source, strings)
+    ),
+    ...findTypographyProblems(flattenStrings(source)),
   ];
   for (const problem of problems) {
     report(problem);
@@ -247,9 +253,7 @@ const main = () => {
   if (problems.length > 0) {
     process.exit(1);
   }
-  console.log(
-    `ok: ${files.length} locale files match en.json or the known-gap baseline`
-  );
+  console.log(`ok: ${files.length} locale files are complete`);
 };
 
 if (import.meta.main) {
