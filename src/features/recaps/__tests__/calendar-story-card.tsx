@@ -83,11 +83,23 @@ test("closing the story card hides it for its month only", async () => {
   jest.useFakeTimers({ now: new Date(2026, 10, 1, 12), advanceTimers: true });
   await seedLogs();
   // September was closed: October's card still shows.
-  await renderCard({ recapStoryDismissedMonth: "2026-09-01" });
+  await renderCard({
+    actionsDone: [
+      { title: "recap_story_dismissed_2026-09-01", date: "2026-09-30" },
+    ],
+  });
 
   fireEvent.press(await screen.findByTestId("recap-story-banner-close"));
 
   await waitFor(() =>
     expect(screen.queryByTestId("recap-story-banner")).toBeNull()
+  );
+  // Stored as a done action, so Development Tools can bring the card back.
+  await waitFor(async () =>
+    expect(
+      JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? "{}").actionsDone
+    ).toContainEqual(
+      expect.objectContaining({ title: "recap_story_dismissed_2026-10-01" })
+    )
   );
 });

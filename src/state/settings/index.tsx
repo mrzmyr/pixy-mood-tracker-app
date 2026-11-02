@@ -15,6 +15,7 @@ import type { Tag } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
 import { INITIAL_STATE, QUICK_CHECK_IN_INTERVALS } from "@/constants/settings";
 import { applyColorScheme, ColorSchemeSettingSchema } from "./color-scheme";
+import { recapStoryDismissedAction } from "./recap-story-dismissed";
 import { toStoreReviewPromptDates } from "./store-review-prompt-dates";
 import type { ColorSchemeSetting } from "./color-scheme";
 
@@ -131,11 +132,6 @@ export interface SettingsState {
    */
   profileAvatar: string | null;
   /**
-   * First day of the month whose story card the user closed on the
-   * calendar. The card stays hidden for that month only.
-   */
-  recapStoryDismissedMonth: string | null;
-  /**
    * Quick check-in notifications during the day, on the
    * `quickCheckInSchedule`. Needs notification permission, so imports keep
    * it.
@@ -179,7 +175,6 @@ export type ExportSettings = Omit<
   | "recapNotificationsEnabled"
   | "profileName"
   | "profileAvatar"
-  | "recapStoryDismissedMonth"
   | "quickCheckInEnabled"
   | "quickCheckInSchedule"
 >;
@@ -256,7 +251,6 @@ const reducer = (
         recapNotificationsEnabled: state.recapNotificationsEnabled,
         profileName: state.profileName,
         profileAvatar: state.profileAvatar,
-        recapStoryDismissedMonth: state.recapStoryDismissedMonth,
         quickCheckInEnabled: state.quickCheckInEnabled,
         quickCheckInSchedule: state.quickCheckInSchedule,
       };
@@ -274,14 +268,32 @@ const reducer = (
 type StoredSettings = SettingsState & {
   /** Single prompt date before `storeReviewPromptDates`. */
   storeReviewPromptedAt?: unknown;
+  /** Closed month story card before it moved into `actionsDone`. */
+  recapStoryDismissedMonth?: unknown;
+};
+
+/** Adds the closed month story card of older versions to `actionsDone`. */
+const withLegacyRecapStoryDismissal = (
+  actionsDone: IAction[],
+  month: string | undefined
+): IAction[] => {
+  const title = month ? recapStoryDismissedAction(month) : null;
+  return title && !actionsDone.some((action) => action.title === title)
+    ? [...actionsDone, { title, date: new Date().toISOString() }]
+    : actionsDone;
 };
 
 const hydrateStored = ({
   storeReviewPromptedAt,
+  recapStoryDismissedMonth,
   ...stored
 }: StoredSettings): SettingsState => ({
   ...INITIAL_STATE,
   ...stored,
+  actionsDone: withLegacyRecapStoryDismissal(
+    stored.actionsDone ?? INITIAL_STATE.actionsDone,
+    z.string().safeParse(recapStoryDismissedMonth).data
+  ),
   deviceId: stored.deviceId || uuidv4(),
   feedbackId: z.string().min(1).safeParse(stored.feedbackId).data ?? uuidv4(),
   steps: sanitizeSteps(stored.steps),
@@ -301,8 +313,6 @@ const hydrateStored = ({
   recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
   profileName: z.string().safeParse(stored.profileName).data ?? "",
   profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
-  recapStoryDismissedMonth:
-    z.string().safeParse(stored.recapStoryDismissedMonth).data ?? null,
   quickCheckInEnabled: stored.quickCheckInEnabled === true,
   quickCheckInSchedule:
     QuickCheckInScheduleSchema.safeParse(stored.quickCheckInSchedule).data ??

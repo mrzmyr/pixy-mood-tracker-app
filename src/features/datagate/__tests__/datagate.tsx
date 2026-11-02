@@ -329,7 +329,6 @@ describe("useLogs()", () => {
           "recapNotificationsEnabled",
           "profileName",
           "profileAvatar",
-          "recapStoryDismissedMonth",
           "quickCheckInEnabled",
           "quickCheckInSchedule",
         ]),
