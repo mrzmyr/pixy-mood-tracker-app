@@ -15,15 +15,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "@/components/dismis-keyboard";
 import LinkButton from "@/components/link-button";
 import TextArea from "@/components/text-area";
+import { TextWrap } from "@/components/text-wrap";
 import { LOGGER_HEADER_ICON_INSET } from "../components/logger-header";
 import { Footer } from "./footer";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 
 const SLIDE_MARGIN_TOP = 8;
 
-// Keeps the last lines above the floating next/save button. The "I don't
-// track" footer (16 margin + 54 height) gives the same space when it shows.
-const INPUT_BOTTOM_PADDING_CLEAR_OF_BUTTON = 72;
+// The note text wraps around the floating next/save button with this space.
+const BUTTON_GAP = 8;
+const BUTTON_TEST_IDS = ["logger-next", "logger-save"];
 
 // Reads the native keyboard state, the same source as the floating
 // next/save button, so the footer and the button switch together. Flips when
@@ -95,7 +96,9 @@ const SlideMessageComponent = (
             paddingBottom: keyboardVisible ? 8 : insets.bottom + 16,
           }}
         >
-          <View
+          <TextWrap
+            avoidTestIDs={BUTTON_TEST_IDS}
+            gap={BUTTON_GAP}
             style={{
               flex: 1,
               marginTop: SLIDE_MARGIN_TOP,
@@ -117,16 +120,12 @@ const SlideMessageComponent = (
                 backgroundColor: "transparent",
                 paddingHorizontal: 0,
                 paddingTop: 8,
-                // Without the footer, the floating button sits over the text
-                // area, so reserve the same space as while typing.
-                paddingBottom: footerVisible
-                  ? 16
-                  : INPUT_BOTTOM_PADDING_CLEAR_OF_BUTTON,
+                paddingBottom: 16,
                 fontSize: 18,
                 lineHeight: 26,
               }}
             />
-          </View>
+          </TextWrap>
           {footerVisible && (
             <Footer>
               <LinkButton

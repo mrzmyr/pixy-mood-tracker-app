@@ -31,6 +31,10 @@ export const EmotionAdvancedSelection = ({
 }) => {
   const _carousel = useRef<CarouselRef>(null);
   const { width: windowWidth } = useWindowDimensions();
+  // The carousel puts each page at its own left edge. A page-wide carousel,
+  // centered and not clipped, centers the current page and lets the
+  // neighbor pages peek in on both sides.
+  const pageWidth = windowWidth / 1.2;
   const locale = getLocale();
 
   const pages = EMOTION_CATEGORIES.map((category) => {
@@ -57,13 +61,14 @@ export const EmotionAdvancedSelection = ({
       defaultIndex={defaultIndex}
       renderItem={({ index }) => pages[index]}
       onConfigurePanGesture={(gesture) => gesture.activeOffsetX([-10, 10])}
-      itemSize={windowWidth / 1.2}
+      itemSize={pageWidth}
       style={{
         height: EMOTION_BUTTON_HEIGHT * 9 + 16 * 8,
-        width: windowWidth,
-        justifyContent: "center",
-        alignItems: "center",
+        width: pageWidth,
+        alignSelf: "center",
+        overflow: "visible",
       }}
+      contentContainerStyle={{ overflow: "visible" }}
     />
   );
 };

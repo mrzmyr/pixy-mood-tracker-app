@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useWindowDimensions, View } from "react-native";
+import { PixelRatio, useWindowDimensions, View } from "react-native";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
@@ -53,6 +53,7 @@ export interface SlideContext {
 // ---------------------------------------------------------------- cover
 
 const GRID_GAP = 8;
+const MAX_PIXEL = 56;
 
 const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
   const theme = getStoryTheme(ctx.isDark);
@@ -62,10 +63,13 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
   const isWeek = ctx.period.kind === "week";
   const month = monthName(ctx.period.start);
   const byDate = new Map(slide.photos.map((item) => [item.date, item.photo]));
-  // 7 pixels a row fill the width, at most 40 points each.
+  // 7 pixels a row fill the content width. The cap only stops tablets.
   const { width: screen } = useWindowDimensions();
   const inner = screen - 2 * STORY_SCREEN_PADDING;
-  const size = Math.min(40, Math.floor((inner - 6 * GRID_GAP) / 7));
+  const size = Math.min(
+    MAX_PIXEL,
+    PixelRatio.roundToNearestPixel((inner - 6 * GRID_GAP) / 7)
+  );
   const title = isWeek
     ? t("recaps_story_cover_pixels_title_week")
     : t("recaps_story_cover_pixels_title", { month });
@@ -80,7 +84,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
         }
         title={title}
       />
-      {/* Hugs the grid: pixels stop at 40 points, short of the width. */}
+      {/* Hugs the grid: on tablets the pixels stop short of the width. */}
       <SlideCard theme={theme} style={{ alignSelf: "flex-start" }}>
         <MonthGrid
           period={ctx.period}

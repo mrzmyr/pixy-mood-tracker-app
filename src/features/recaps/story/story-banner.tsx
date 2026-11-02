@@ -2,6 +2,7 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import { useEffect, useRef } from "react";
 import Play from "lucide-react-native/icons/play";
 import X from "lucide-react-native/icons/x";
 import { Pressable, StyleSheet, useColorScheme, View } from "react-native";
@@ -16,6 +17,12 @@ import type { Period } from "../types";
 import { dayRange, monthName } from "./format";
 import { NightSparkle } from "./night-sparkle";
 import { RunningBorder } from "./running-border";
+import {
+  formatStoryOrigin,
+  getStoryCardKey,
+  measureView,
+  registerStoryCard,
+} from "./story-motion";
 
 /** Card height: label and play button on top, the big title below. */
 const CARD_HEIGHT = 124;
@@ -71,10 +78,11 @@ const MilkWash = ({ isDark }: { isDark: boolean }) => (
 );
 
 /**
- * "Month Recap" over the month name on a drifting sky, with the recap card border and shadow. The
- * two year digits sit large and faint behind the title, and a soft light
- * creeps around the edge. Play button top right. Opens the month story full
- * screen. Week recaps open the week story the same way.
+ * "Month Recap" over the month name on a drifting sky, with the recap card
+ * border and shadow. The two year digits sit large and faint behind the
+ * title, and a soft light creeps around the edge. Opens the month story full
+ * screen. Week recaps open the week story the same way. The story grows out
+ * of this card and shrinks back into it.
  */
 export const StoryBanner = ({
   period,
@@ -100,20 +108,30 @@ export const StoryBanner = ({
   // Deep sky navy by day, not black; white by night. Solid: AA contrast
   // on the lightest cloud.
   const ink = isDark ? "rgba(255,255,255,0.92)" : "#0F2A4A";
+  const card = useRef<View>(null);
+  const cardKey = getStoryCardKey({
+    source,
+    kind: isWeek ? "week" : "month",
+    date: period.start,
+  });
+  useEffect(() => registerStoryCard(cardKey, card.current), [cardKey]);
   return (
     <Pressable
+      ref={card}
       accessibilityRole="button"
       accessibilityLabel={`${label}, ${title}, ${t("recaps_story_ready")}`}
-      onPress={() =>
+      onPress={async () => {
+        const origin = await measureView(card.current);
         router.push({
           pathname: "/recaps/story/[date]",
           params: {
             date: period.start,
             source,
             ...(isWeek && { kind: "week" }),
+            ...(origin && { origin: formatStoryOrigin(origin) }),
           },
-        })
-      }
+        });
+      }}
       testID="recap-story-banner"
       style={({ pressed }) => ({
         height: CARD_HEIGHT,

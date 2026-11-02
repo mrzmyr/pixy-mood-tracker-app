@@ -1,17 +1,23 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { memo, useCallback, useMemo } from "react";
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image } from "expo-image";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useStyle } from "react-native-style-utilities";
 import useColors from "@/hooks/use-colors";
+import useHaptics from "@/hooks/use-haptics";
 import usePressRipple from "@/hooks/use-press-ripple";
 import { useToday } from "@/hooks/use-today";
 import type { LogItem } from "@/features/logs";
 import type { SettingsState } from "@/state/settings";
+import type { LogPhoto } from "@/types";
+import { getPhotoFile } from "@/features/photos";
 import { getRatingLabel } from "@/lib/rating-label";
 import { t } from "@/lib/translation";
 import { getFormatter } from "@/lib/utils";
 import { RADIUS } from "@/constants/radius";
+import { startPhotoPeek, stopPhotoPeek } from "../../../photo-peek";
 
 const DAY_LABEL_OPTIONS: Intl.DateTimeFormatOptions = {
   weekday: "long",
@@ -19,6 +25,9 @@ const DAY_LABEL_OPTIONS: Intl.DateTimeFormatOptions = {
   month: "long",
   day: "numeric",
 };
+
+/** Peek photos fade in and out with soft timing, no spring. */
+const PEEK_FADE_MS = 250;
 
 /** Diameter of the today circle behind the day number. */
 const DAY_NUMBER_SIZE = 20;
@@ -33,8 +42,8 @@ const styles = StyleSheet.create({
     borderCurve: "continuous",
     width: "100%",
     aspectRatio: 1,
-    // Clips the Android ripple to the rounded day.
-    ...Platform.select({ android: { overflow: "hidden" as const } }),
+    // Clips the Android ripple and the peek photo to the rounded day.
+    overflow: "hidden",
   },
   textIndicatorParent2: {
     width: "30%",
@@ -64,6 +73,8 @@ const CalendarDayComponent = ({
   scaleType,
   isFiltered,
   isFiltering,
+  canPeek = false,
+  peekPhoto,
   onPress,
 }: {
   dateString: string;
@@ -71,10 +82,15 @@ const CalendarDayComponent = ({
   scaleType: SettingsState["scaleType"];
   isFiltering: boolean;
   isFiltered: boolean;
+  /** Flag `photo-peek`: spots without a pixel start the photo peek on long press. */
+  canPeek?: boolean;
+  /** Photo of the day while a photo peek runs. Replaces the pixel color. */
+  peekPhoto?: LogPhoto | null;
   /** Receives `dateString`, so one stable handler can serve every day. */
   onPress: (dateString: string) => void;
 }) => {
   const colors = useColors();
+  const haptics = useHaptics();
   const ripple = usePressRipple({ foreground: true });
 
   const _isFiltered = !isFiltered && isFiltering;
@@ -184,6 +200,14 @@ const CalendarDayComponent = ({
     }
   }, [isFuture, onPress, dateString]);
 
+  // Spots without a pixel start the photo peek on long press.
+  const canStartPeek = canPeek && !(!!rating && !isFuture);
+
+  const onLongPress = useCallback(() => {
+    void haptics.selection();
+    startPhotoPeek();
+  }, [haptics]);
+
   const accessibilityLabel = useMemo(() => {
     const date = getFormatter("day_label_long", DAY_LABEL_OPTIONS).format(
       dayjs(dateString).toDate()
@@ -204,9 +228,13 @@ const CalendarDayComponent = ({
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
       accessibilityState={{ disabled: isFuture, selected: isToday }}
-      disabled={isFuture}
+      // With the photo peek, future days stay pressable for the long press;
+      // `_onPress` ignores them.
+      disabled={isFuture && !canPeek}
       onPress={_onPress}
-      android_ripple={ripple}
+      onLongPress={canStartPeek ? onLongPress : undefined}
+      onPressOut={canStartPeek ? stopPhotoPeek : undefined}
+      android_ripple={isFuture ? undefined : ripple}
       style={containerStyles}
     >
       <View style={styles.dayNumberParent1}>
@@ -214,6 +242,26 @@ const CalendarDayComponent = ({
           <Text style={dayNumberTextStyles}>{day}</Text>
         </View>
       </View>
+      {peekPhoto ? (
+        // Keyed by photo: a new peek with another photo fades again.
+        <Animated.View
+          key={peekPhoto.id}
+          // Built at render: router suites mock reanimated without FadeIn.
+          entering={FadeIn.duration(PEEK_FADE_MS)}
+          exiting={FadeOut.duration(PEEK_FADE_MS)}
+          style={StyleSheet.absoluteFill}
+        >
+          <Image
+            testID={`calendar-day-photo-${dateString}`}
+            source={getPhotoFile(peekPhoto).uri}
+            style={StyleSheet.absoluteFill}
+            contentFit="cover"
+            enforceEarlyResizing
+            cachePolicy="memory"
+            accessibilityIgnoresInvertColors
+          />
+        </Animated.View>
+      ) : null}
     </Pressable>
   );
 };

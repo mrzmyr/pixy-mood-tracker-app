@@ -26,7 +26,7 @@ import { usePixyIdle } from "@/features/logger";
 import { t } from "@/lib/translation";
 import { StoryCaptureContext } from "./capture-context";
 import { StoryBrand } from "./story-brand";
-import { STORY_PALETTE, STORY_SLIDE_MS } from "./theme";
+import { STORY_PALETTE, STORY_SCREEN_PADDING, STORY_SLIDE_MS } from "./theme";
 import type { StoryTheme } from "./theme";
 
 /** One slide as the player sees it: background theme and content. */
@@ -377,7 +377,7 @@ export const StoryPlayer = ({
                 flex: 1,
                 paddingTop: insets.top + 76,
                 paddingBottom: insets.bottom + 84,
-                paddingHorizontal: 24,
+                paddingHorizontal: STORY_SCREEN_PADDING,
               }}
               testID={`recap-story-slide-${slide.key}`}
             >
@@ -453,8 +453,8 @@ export const StoryPlayer = ({
         style={[
           {
             position: "absolute",
-            left: 16,
-            right: 16,
+            left: STORY_SCREEN_PADDING,
+            right: STORY_SCREEN_PADDING,
             bottom: insets.bottom + 16,
           },
           chrome,

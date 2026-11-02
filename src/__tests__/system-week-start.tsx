@@ -61,18 +61,25 @@ const assertFirstDay = (
   screen: Awaited<ReturnType<typeof render>>,
   day: string
 ) => {
-  for (const id of ["calendar-weekdays", "mood-weekdays", "tag-weekdays"]) {
+  // The calendar shows one letter; its full name is the accessibility label.
+  expect(
+    within(screen.getByTestId("calendar-weekdays")).getAllByLabelText(
+      /day$/u
+    )[0]
+  ).toHaveProp(
+    "accessibilityLabel",
+    expect.stringMatching(new RegExp(`^${day}`, "u"))
+  );
+  for (const id of ["mood-weekdays", "tag-weekdays"]) {
     expect(
-      within(screen.getByTestId(id)).getAllByText(
-        /Mon|Tue|Wed|Thu|Fri|Sat|Sun/u
-      )[0]
-    ).toHaveTextContent(day);
+      within(screen.getByTestId(id)).getAllByText(/Mo|Tu|We|Th|Fr|Sa|Su/u)[0]
+    ).toHaveTextContent(new RegExp(`^${day}`, "u"));
   }
 };
 
 test("device changes update calendar and weekly stats together", async () => {
   const screen = await render(<CalendarViews />);
-  assertFirstDay(screen, "Mon");
+  assertFirstDay(screen, "Mo");
   const calendars = Localization.useCalendars();
   jest
     .mocked(Localization.useCalendars)
@@ -80,10 +87,10 @@ test("device changes update calendar and weekly stats together", async () => {
       { ...calendars[0], firstWeekday: Localization.Weekday.SUNDAY },
     ]);
   await screen.rerender(<CalendarViews />);
-  assertFirstDay(screen, "Sun");
+  assertFirstDay(screen, "Su");
   await screen.unmount();
   const restarted = await render(<CalendarViews />);
-  assertFirstDay(restarted, "Sun");
+  assertFirstDay(restarted, "Su");
 });
 
 test("stored app choice cannot override device calendar", async () => {
@@ -92,12 +99,12 @@ test("stored app choice cannot override device calendar", async () => {
     JSON.stringify({ weekStart: "sunday" })
   );
   const screen = await render(<CalendarViews />);
-  assertFirstDay(screen, "Mon");
+  assertFirstDay(screen, "Mo");
 });
 
 test.each([
-  { firstWeekday: 1, expected: "Mon" },
-  { firstWeekday: 7, expected: "Sun" },
+  { firstWeekday: 1, expected: "Mo" },
+  { firstWeekday: 7, expected: "Su" },
 ])(
   "web Intl weekday $firstWeekday maps to $expected",
   async ({ firstWeekday, expected }) => {

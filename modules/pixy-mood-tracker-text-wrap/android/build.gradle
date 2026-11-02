@@ -1,0 +1,20 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'com.devmood.pixymoodtracker.textwrap'
+version = '1.0.0'
+
+android {
+  namespace "com.devmood.pixymoodtracker.textwrap"
+  defaultConfig {
+    versionCode 1
+    versionName '1.0.0'
+  }
+}
+
+dependencies {
+  // `com.facebook.react.R.id.react_test_id` finds the button by `testID`.
+  implementation 'com.facebook.react:react-android'
+}

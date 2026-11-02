@@ -16,6 +16,7 @@ export const FEATURE_FLAGS = [
   "more-tags",
   "needs",
   "people",
+  "photo-peek",
   "photos",
   "quick-check-in",
   "recaps",
@@ -87,6 +88,11 @@ export const FEATURE_FLAG_DETAILS: Record<
     description: "People step and people on entries",
     location:
       "Check-in, Settings > Check-in, Day view, Calendar filters, Statistics",
+  },
+  "photo-peek": {
+    description:
+      "Long press an empty calendar spot to show day photos on pixels",
+    location: "Calendar",
   },
   photos: {
     description: "Photos step and photos on entries",

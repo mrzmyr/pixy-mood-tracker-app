@@ -1,23 +1,29 @@
+import { LinearGradient } from "expo-linear-gradient";
 import chroma from "chroma-js";
 import { useWeekLocale } from "@/hooks/use-week-locale";
 import dayjs from "dayjs";
-import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 import useColors from "@/hooks/use-colors";
 import { SHADOW } from "@/constants/shadow";
 import { getChromeIntroStyle, useCalendarIntro } from "../../intro";
 
-// Height of the fade below the floating weekday row.
-const FADE_HEIGHT = 24;
+/** The white keeps fading out this far below the weekday row. */
+const HEADER_FADE_HEIGHT = 48;
 
 const HeaderDay = ({
   children,
+  name,
   index,
+  isWeekend,
 }: {
   children: string;
+  /** Full weekday name for screen readers: one letter is ambiguous. */
+  name: string;
   index: number;
+  /** Saturday and Sunday read quieter than work days. */
+  isWeekend: boolean;
 }) => {
   const colors = useColors();
   return (
@@ -30,10 +36,13 @@ const HeaderDay = ({
     >
       <Text
         testID={`calendar-weekday-${index}`}
+        accessibilityLabel={name}
         style={{
           fontSize: 12,
-          fontWeight: "bold",
-          color: colors.calendarWeekNameColor,
+          fontWeight: "400",
+          color: isWeekend
+            ? colors.calendarWeekendNameColor
+            : colors.calendarWeekNameColor,
           textAlign: "center",
         }}
       >
@@ -60,15 +69,20 @@ const WeekdayRow = () => {
         introStyle,
       ]}
     >
-      {[0, 1, 2, 3, 4, 5, 6].map((index) => (
-        <HeaderDay key={index} index={index}>
-          {dayjs()
-            .locale(locale)
-            .startOf("week")
-            .add(index, "day")
-            .format("ddd")}
-        </HeaderDay>
-      ))}
+      {[0, 1, 2, 3, 4, 5, 6].map((index) => {
+        const day = dayjs().locale(locale).startOf("week").add(index, "day");
+        return (
+          <HeaderDay
+            key={index}
+            index={index}
+            isWeekend={day.day() === 0 || day.day() === 6}
+            name={day.format("dddd")}
+          >
+            {/* One letter: "M", "T". */}
+            {day.format("dd").charAt(0)}
+          </HeaderDay>
+        );
+      })}
     </Animated.View>
   );
 };
@@ -77,11 +91,9 @@ const WeekdayRow = () => {
  * Weekday names above the calendar.
  *
  * Pass `floatingTop` (the header height) when the header is transparent. One
- * gradient then covers the whole top area, from the screen top through the
- * row, and fades out below it. Months scrolling under the buttons and the row
- * stay continuous and only grow fainter; an opaque row band would hide the
- * rows under it and leave cut-off content above it. `onHeightChange` reports
- * the row height, so the list can start below it.
+ * gradient of the calendar background then covers the top area, from the
+ * screen top through the row, and fades out below it. No divider.
+ * `onHeightChange` reports the row height, so the list can start below it.
  */
 const CalendarHeader = ({
   floatingTop,
@@ -110,8 +122,28 @@ const CalendarHeader = ({
     );
   }
 
-  const background = chroma(colors.calendarBackground);
-  const height = floatingTop + rowHeight + FADE_HEIGHT;
+  const height = floatingTop + rowHeight;
+
+  // One gradient of the page color: from the top, through the weekday row,
+  // to clear below it. One layer, so no edge where a band ends.
+  const page = chroma(colors.calendarBackground);
+  const background = (
+    <LinearGradient
+      colors={[
+        page.alpha(0.98).css(),
+        page.alpha(0.94).css(),
+        page.alpha(0).css(),
+      ]}
+      locations={[0, height / (height + HEADER_FADE_HEIGHT), 1]}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: height + HEADER_FADE_HEIGHT,
+      }}
+    />
+  );
 
   return (
     <View
@@ -125,21 +157,7 @@ const CalendarHeader = ({
         zIndex: 3,
       }}
     >
-      <LinearGradient
-        colors={[
-          background.alpha(0.85).css(),
-          background.alpha(0.9).css(),
-          background.alpha(0.95).css(),
-          background.alpha(0).css(),
-        ]}
-        locations={[
-          0,
-          floatingTop / height,
-          (floatingTop + rowHeight) / height,
-          1,
-        ]}
-        style={StyleSheet.absoluteFill}
-      />
+      {background}
       <View
         onLayout={(event) => {
           const { height: measured } = event.nativeEvent.layout;
