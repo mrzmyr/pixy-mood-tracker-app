@@ -1,8 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import Circle from "lucide-react-native/icons/circle";
-import CircleCheck from "lucide-react-native/icons/circle-check";
 import CircleX from "lucide-react-native/icons/circle-x";
 import {
   ActivityIndicator,
@@ -17,6 +15,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
 import RouteModalHeader from "@/components/route-modal-header";
+import { SelectionMark } from "@/components/selection-mark";
 import { SFIcon } from "@/components/sf-icon";
 import TextInfo from "@/components/text-info";
 import { Copy, Label, getInputTextStyle } from "@/components/typography";
@@ -38,27 +37,6 @@ const SELECTED_AVATAR_SIZE = 56;
 /** Screen edge to row content. iOS rows sit in an inset group card. */
 const INSET = 16;
 const MAINTAIN_VISIBLE_POSITION = { minIndexForVisible: 0 };
-
-/** Selection mark: empty circle, or filled check in the tint color. */
-const SelectionMark = ({ isSelected }: { isSelected: boolean }) => {
-  const colors = useColors();
-  const color = isSelected ? colors.tint : colors.textSecondary;
-  return isSelected ? (
-    <SFIcon
-      name="checkmark.circle.fill"
-      color={color}
-      size={24}
-      fallback={<CircleCheck size={24} color={color} />}
-    />
-  ) : (
-    <SFIcon
-      name="circle"
-      color={color}
-      size={24}
-      fallback={<Circle size={24} color={color} />}
-    />
-  );
-};
 
 /**
  * One contact with a selection circle; contacts that are already people are

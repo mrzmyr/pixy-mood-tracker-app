@@ -14,8 +14,8 @@ import { RATING_KEYS } from "@/constants/ratings";
 import { EMOTIONS } from "@/features/logger";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
-import { PersonChip, usePeopleState } from "@/features/people";
-import { TagComponent, useTagsState } from "@/features/tags";
+import { usePeopleState } from "@/features/people";
+import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
 import { t } from "@/lib/translation";
@@ -25,7 +25,16 @@ import { createQuickEntry } from "../check-in-state";
 import { applyVoicePrefill, hasDraftChanges, toDraft } from "../draft";
 import { useVoicePrefill } from "../use-voice-prefill";
 import { getSheetSections } from "../sheet-sections";
-import { EmotionChip, MoodPixel } from "./quick-check-in-chips";
+import {
+  EmotionChips,
+  InfluenceChips,
+  MoodPixel,
+} from "./quick-check-in-chips";
+import {
+  EmotionMatrix,
+  PeopleRow,
+  QuickCheckInListSheets,
+} from "./quick-check-in-pickers";
 import {
   QuickCheckInPhotos,
   useQuickCheckInPhotos,
@@ -34,9 +43,6 @@ import { QuickCheckInSearchBar } from "./quick-check-in-search-bar";
 import type { InfluenceOption } from "../ranking";
 
 const NO_PEOPLE: never[] = [];
-
-/** Space between chips, same as emotion chips. */
-const CHIP_GAP = 8;
 
 /** Note field height, about four lines. */
 const NOTE_HEIGHT = 120;
@@ -121,8 +127,9 @@ const QuickCheckInHeader = ({
 
 /**
  * Quick check-in on one scrolling page: search and voice on top, then mood,
- * note, photos, emotions, Suggested, People A to Z, and Tags A to Z. Opens
- * from Settings and from More in the Android notification.
+ * note, photos, the emotion matrix, a row of people, and the top 20 tags.
+ * Full lists of emotions and people open in a sheet. Opens from Settings and
+ * from More in the Android notification.
  *
  * - `id` names an entry saved in the notification: the screen edits it.
  * - `id` `new` or unknown: Save creates an entry. Save needs a mood.
@@ -175,6 +182,7 @@ export const QuickCheckIn = () => {
       setDraft((current) => ({ ...current, photos: value, source: "user" })),
   });
   const [query, setQuery] = useState("");
+  const [openList, setOpenList] = useState<"emotions" | "people" | null>(null);
   // Ranking time is fixed when the screen opens.
   const now = useMemo(() => dayjs(), []);
 
@@ -188,12 +196,14 @@ export const QuickCheckIn = () => {
         people: visiblePeople,
         tags,
         emotions: EMOTIONS,
+        picked,
+        pickedEmotions: emotions,
         now,
       }),
-    [query, rating, items, visiblePeople, tags, now]
+    [query, rating, items, visiblePeople, tags, picked, emotions, now]
   );
 
-  const toggle = (option: InfluenceOption) => {
+  const toggle = (option: Pick<InfluenceOption, "kind" | "id">) => {
     const key = `${option.kind}:${option.id}`;
     setPicked((current) =>
       current.includes(key)
@@ -253,43 +263,19 @@ export const QuickCheckIn = () => {
 
   const pickedKeys = new Set(picked);
   const emotionKeys = new Set(emotions);
-  const tagById = new Map(tags.map((tag) => [tag.id, tag]));
-  const personById = new Map(people.map((person) => [person.id, person]));
-
-  const renderOption = (option: InfluenceOption) => {
-    const selected = pickedKeys.has(`${option.kind}:${option.id}`);
-    const person =
-      option.kind === "person" ? personById.get(option.id) : undefined;
-    if (person) {
-      return (
-        <PersonChip
-          key={`person:${option.id}`}
-          person={person}
-          selected={selected}
-          onPress={() => toggle(option)}
-        />
-      );
-    }
-    const tag = tagById.get(option.id);
-    if (!tag) {
-      return null;
-    }
-    return (
-      <TagComponent
-        key={`tag:${option.id}`}
-        title={tag.title}
-        colorName={tag.color}
-        selected={selected}
-        onPress={() => toggle(option)}
-      />
-    );
-  };
-
-  const chipRow = (options: InfluenceOption[]) => (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: CHIP_GAP }}>
-      {options.map(renderOption)}
-    </View>
+  const pickedPeople = new Set(
+    references("person").map((reference) => reference.id)
   );
+
+  const toggleEmotion = (key: string) =>
+    setEmotions(
+      emotionKeys.has(key)
+        ? emotions.filter((value) => value !== key)
+        : [...emotions, key]
+    );
+  const togglePerson = (personId: string) =>
+    toggle({ kind: "person", id: personId });
+  const personById = new Map(people.map((person) => [person.id, person]));
 
   const openVoice = () =>
     router.push({ pathname: "/logs/voice", params: { returnTo: id } });
@@ -360,46 +346,79 @@ export const QuickCheckIn = () => {
             )}
           </>
         )}
-        {sections.emotions.length > 0 && (
+        {query.trim() === "" ? (
           <>
             <SectionTitle>{t("emotions")}</SectionTitle>
-            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-              {sections.emotions.map((emotion) => (
-                <EmotionChip
-                  key={emotion.key}
-                  emotion={emotion}
-                  selected={emotionKeys.has(emotion.key)}
-                  onPress={() =>
-                    setEmotions(
-                      emotionKeys.has(emotion.key)
-                        ? emotions.filter((key) => key !== emotion.key)
-                        : [...emotions, emotion.key]
-                    )
-                  }
+            <EmotionMatrix
+              emotions={sections.emotions}
+              picked={emotionKeys}
+              rating={rating}
+              onToggle={toggleEmotion}
+              onShowAll={() => setOpenList("emotions")}
+            />
+            {sections.people.length > 0 && (
+              <>
+                <SectionTitle>{t("people")}</SectionTitle>
+                <PeopleRow
+                  people={sections.people.flatMap((option) => {
+                    const person = personById.get(option.id);
+                    return person ? [person] : [];
+                  })}
+                  picked={pickedPeople}
+                  onToggle={togglePerson}
+                  onShowAll={() => setOpenList("people")}
                 />
-              ))}
-            </View>
+              </>
+            )}
           </>
-        )}
-        {sections.suggested.length > 0 && (
+        ) : (
           <>
-            <SectionTitle>{t("quick_check_in_suggested")}</SectionTitle>
-            {chipRow(sections.suggested)}
-          </>
-        )}
-        {sections.people.length > 0 && (
-          <>
-            <SectionTitle>{t("people")}</SectionTitle>
-            {chipRow(sections.people)}
+            {sections.emotions.length > 0 && (
+              <>
+                <SectionTitle>{t("emotions")}</SectionTitle>
+                <EmotionChips
+                  emotions={sections.emotions}
+                  picked={emotionKeys}
+                  onToggle={toggleEmotion}
+                />
+              </>
+            )}
+            {sections.people.length > 0 && (
+              <>
+                <SectionTitle>{t("people")}</SectionTitle>
+                <InfluenceChips
+                  options={sections.people}
+                  people={people}
+                  tags={tags}
+                  picked={pickedKeys}
+                  onToggle={toggle}
+                />
+              </>
+            )}
           </>
         )}
         {sections.tags.length > 0 && (
           <>
             <SectionTitle>{t("tags")}</SectionTitle>
-            {chipRow(sections.tags)}
+            <InfluenceChips
+              options={sections.tags}
+              people={people}
+              tags={tags}
+              picked={pickedKeys}
+              onToggle={toggle}
+            />
           </>
         )}
       </ScrollView>
+      <QuickCheckInListSheets
+        open={openList}
+        people={visiblePeople}
+        pickedEmotions={emotionKeys}
+        pickedPeople={pickedPeople}
+        onToggleEmotion={toggleEmotion}
+        onTogglePerson={togglePerson}
+        onClose={() => setOpenList(null)}
+      />
     </View>
   );
 };

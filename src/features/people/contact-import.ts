@@ -69,7 +69,11 @@ export interface ContactSection {
 
 const OTHER_SECTION = "#";
 
-const sectionTitle = (name: string) => {
+/**
+ * Letter header for a name: `A`–`Z` with accents folded, or `#` for names
+ * that start with a digit, symbol, or emoji.
+ */
+export const getLetterSection = (name: string) => {
   const first = normalize(name.trim()).charAt(0).toUpperCase();
   return /^[A-Z]$/u.test(first) ? first : OTHER_SECTION;
 };
@@ -82,7 +86,7 @@ export const groupContactRows = (rows: ContactRow[]): ContactSection[] => {
   const sections: ContactSection[] = [];
   const other: ContactRow[] = [];
   for (const row of rows) {
-    const title = sectionTitle(row.name);
+    const title = getLetterSection(row.name);
     if (title === OTHER_SECTION) {
       other.push(row);
       continue;
