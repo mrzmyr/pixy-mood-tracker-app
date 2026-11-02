@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { useWeekLocale } from "@/hooks/use-week-locale";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useSettings } from "@/state/settings";
+import { recapStoryDismissedAction } from "@/state/settings/recap-story-dismissed";
 import { getPeriod } from "../period";
 import type { DateKey } from "../types";
 import { getCalendarStoryMonth } from "./calendar-month";
@@ -14,11 +15,9 @@ const Card = ({ month }: { month: DateKey }) => {
   const weekLocale = useWeekLocale();
   const period = getPeriod("month", month, weekLocale);
   const input = useRecapInput(period);
-  const { settings, setSettings } = useSettings();
-  if (
-    !buildMonthStory(input) ||
-    settings.recapStoryDismissedMonth === period.start
-  ) {
+  const { hasActionDone, addActionDone } = useSettings();
+  const dismissedAction = recapStoryDismissedAction(period.start);
+  if (!buildMonthStory(input) || hasActionDone(dismissedAction)) {
     return null;
   }
   return (
@@ -29,12 +28,7 @@ const Card = ({ month }: { month: DateKey }) => {
         period={period}
         source="calendar"
         // Hidden for this month only; next month's card shows again.
-        onClose={() =>
-          setSettings((current) => ({
-            ...current,
-            recapStoryDismissedMonth: period.start,
-          }))
-        }
+        onClose={() => addActionDone(dismissedAction)}
       />
     </View>
   );

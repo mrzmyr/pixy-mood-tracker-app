@@ -152,6 +152,28 @@ describe("useSettings()", () => {
     );
   });
 
+  test("should move the legacy closed story card month into done actions", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        actionsDone: [{ title: "onboarding", date: "2026-01-01" }],
+        recapStoryDismissedMonth: "2026-10-01",
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(
+      hook.result.current.state.settings.actionsDone.map(
+        (action) => action.title
+      )
+    ).toEqual(["onboarding", "recap_story_dismissed_2026-10-01"]);
+    expect(hook.result.current.state.settings).not.toHaveProperty(
+      "recapStoryDismissedMonth"
+    );
+  });
+
   test("should keep store review prompt state on import", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,
