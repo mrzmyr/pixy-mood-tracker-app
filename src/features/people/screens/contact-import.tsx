@@ -1,5 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack, useRouter } from "expo-router";
+import { useState } from "react";
 import Circle from "lucide-react-native/icons/circle";
 import CircleCheck from "lucide-react-native/icons/circle-check";
 import CircleX from "lucide-react-native/icons/circle-x";
@@ -36,6 +37,7 @@ const AVATAR_SIZE = 40;
 const SELECTED_AVATAR_SIZE = 56;
 /** Screen edge to row content. iOS rows sit in an inset group card. */
 const INSET = 16;
+const MAINTAIN_VISIBLE_POSITION = { minIndexForVisible: 0 };
 
 /** Selection mark: empty circle, or filled check in the tint color. */
 const SelectionMark = ({ isSelected }: { isSelected: boolean }) => {
@@ -310,6 +312,7 @@ export const ContactImport = () => {
   const count = contactImport.selectedIds.length;
   const selected = new Set(contactImport.selectedIds);
   const sections = groupContactRows(contactImport.rows);
+  const [isAtTop, setIsAtTop] = useState(true);
 
   const notices = (
     <>
@@ -400,6 +403,18 @@ export const ContactImport = () => {
             sections={sections}
             keyExtractor={(row) => row.contactId}
             contentInsetAdjustmentBehavior="automatic"
+            // The picked strip in the list header appears on the first pick
+            // and goes away on the last unpick. Scrolled down, the strip is
+            // off screen: keep the visible rows in place. At the top, let the
+            // rows move so the strip shows.
+            maintainVisibleContentPosition={
+              isAtTop ? undefined : MAINTAIN_VISIBLE_POSITION
+            }
+            scrollEventThrottle={100}
+            onScroll={(event) => {
+              const { contentOffset, contentInset } = event.nativeEvent;
+              setIsAtTop(contentOffset.y + contentInset.top < ROW_HEIGHT);
+            }}
             keyboardShouldPersistTaps="handled"
             keyboardDismissMode="on-drag"
             stickySectionHeadersEnabled={false}
