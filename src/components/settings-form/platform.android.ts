@@ -2,6 +2,7 @@ import { useMaterialColors } from "@expo/ui/jetpack-compose";
 import { semantics } from "@expo/ui/jetpack-compose/modifiers";
 import type { ModifierConfig } from "@expo/ui/jetpack-compose/modifiers";
 import type { UniversalTextStyle } from "@expo/ui";
+import { useColorScheme } from "react-native";
 import type {
   SecondaryText,
   SettingsRowProps,
@@ -43,3 +44,9 @@ export const useFooterTextStyle = (): UniversalTextStyle | undefined => {
   const colors = useMaterialColors();
   return { color: colors.onSurfaceVariant, fontSize: 14 };
 };
+
+/**
+ * Host theme: the app color scheme. Without it Compose keeps the scheme it
+ * started with, so default text stays light or dark after a theme change.
+ */
+export const useHostColorScheme = () => useColorScheme() ?? undefined;
