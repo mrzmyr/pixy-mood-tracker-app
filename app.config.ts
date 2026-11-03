@@ -48,18 +48,24 @@ export const WIDGETS = [
     name: "PixyWeek",
     displayName: "4 weeks",
     description: "Your pixels for the last four weeks.",
+    // The sky fills the widget edge to edge; widgets pad their content.
+    contentMarginsDisabled: true,
     ios: { supportedFamilies: ["systemSmall", "systemMedium"] },
   },
   {
     name: "PixyMonth",
     displayName: "Month",
     description: "Your pixels for this month.",
+    // The sky fills the widget edge to edge; widgets pad their content.
+    contentMarginsDisabled: true,
     ios: { supportedFamilies: ["systemSmall", "systemMedium", "systemLarge"] },
   },
   {
     name: "PixyYear",
     displayName: "Year",
     description: "Your pixels for this year.",
+    // The sky fills the widget edge to edge; widgets pad their content.
+    contentMarginsDisabled: true,
     ios: { supportedFamilies: ["systemMedium", "systemLarge"] },
   },
 ];

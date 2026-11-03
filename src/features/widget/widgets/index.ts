@@ -10,7 +10,7 @@ import {
   getYearWidgetProps,
   YEAR_WIDGET_TIMELINE_DAYS,
 } from "../widget-data";
-import type { YearImages } from "../widget-data";
+import type { SkyImages, YearImages } from "../widget-data";
 import PixyMonthWidget from "./pixy-month-widget";
 import PixyWeekWidget from "./pixy-week-widget";
 import PixyYearWidget from "./pixy-year-widget";
@@ -61,17 +61,20 @@ export const syncWidgets = async ({
   items,
   scaleType,
   yearImages,
+  skyImages,
 }: {
   items: LogItem[];
   scaleType: string;
   /** Captured year images; omitted when the capture failed. */
   yearImages?: YearImages;
+  /** Captured sky backgrounds; omitted until the capture finished. */
+  skyImages?: SkyImages;
 }) => {
   if (!IS_WIDGET_SUPPORTED) {
     return;
   }
   try {
-    const input = { items, scaleType, url: getWidgetUrl() };
+    const input = { items, scaleType, skyImages, url: getWidgetUrl() };
     PixyWeekWidget.updateTimeline(getWidgetTimeline(input, getWeekWidgetProps));
     PixyMonthWidget.updateTimeline(
       getWidgetTimeline(input, getMonthWidgetProps)

@@ -32,7 +32,7 @@ export interface WidgetSchemeColors {
   background: string;
   text: string;
   textSecondary: string;
-  /** Fill for a past day without an entry: visible on the background. */
+  /** Fill for a past day without an entry: see-through, visible on the sky. */
   empty: string;
   /** Fill for a day after today: fainter than `empty`. */
   future: string;
@@ -51,6 +51,9 @@ export interface WidgetBaseProps {
   subtitle: string;
   light: WidgetSchemeColors;
   dark: WidgetSchemeColors;
+  /** Sky behind the widget, a `file://` URI in `widgetsDirectory`; `""` before the first capture. */
+  skyLight: string;
+  skyDark: string;
 }
 
 /**

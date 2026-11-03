@@ -1,5 +1,6 @@
 import {
   HStack,
+  Image,
   RoundedRectangle,
   Spacer,
   Text,
@@ -8,12 +9,14 @@ import {
 } from "@expo/ui/swift-ui";
 import {
   aspectRatio,
+  clipped,
   containerBackground,
   font,
   foregroundStyle,
   frame,
   opacity,
   padding,
+  resizable,
   widgetURL,
 } from "@expo/ui/swift-ui/modifiers";
 import { createWidget } from "expo-widgets";
@@ -39,7 +42,7 @@ const PixyMonthWidget = (
           modifiers={[
             frame({ maxWidth: Infinity, maxHeight: Infinity }),
             containerBackground(
-              environment.colorScheme === "dark" ? "#171717" : "#FFFFFF",
+              environment.colorScheme === "dark" ? "#0a1124" : "#a9d4fd",
               "widget"
             ),
           ]}
@@ -131,18 +134,54 @@ const PixyMonthWidget = (
       </HStack>
     );
 
+    // `contentMarginsDisabled` in app.config.ts lets the sky fill the widget
+    // edge to edge; the content keeps the system margins as padding.
+    const contentPadding = padding(
+      environment.widgetContentMargins ?? {
+        top: 16,
+        bottom: 16,
+        leading: 16,
+        trailing: 16,
+      }
+    );
+    const sky =
+      environment.colorScheme === "dark" ? props.skyDark : props.skyLight;
+    // Tinted and clear modes drop the background, so no photo there.
+    const showsSky =
+      Boolean(sky) &&
+      (environment.widgetRenderingMode ?? "fullColor") === "fullColor";
+    const onSky = (content: ReturnType<typeof ZStack>) => (
+      <ZStack
+        modifiers={[
+          containerBackground(scheme.background, "widget"),
+          widgetURL(props.url),
+        ]}
+      >
+        {showsSky ? (
+          <Image
+            uiImage={sky}
+            modifiers={[
+              resizable(),
+              aspectRatio({ contentMode: "fill" }),
+              frame({ maxWidth: Infinity, maxHeight: Infinity }),
+              clipped(),
+            ]}
+          />
+        ) : null}
+        {content}
+      </ZStack>
+    );
     const rootModifiers = [
       frame({
         maxWidth: Infinity,
         maxHeight: Infinity,
         alignment: "topLeading",
       }),
-      containerBackground(scheme.background, "widget"),
-      widgetURL(props.url),
+      contentPadding,
     ];
 
     if (isMedium) {
-      return (
+      return onSky(
         <HStack alignment="top" spacing={16} modifiers={rootModifiers}>
           <VStack alignment="leading" spacing={4}>
             <Text
@@ -169,7 +208,7 @@ const PixyMonthWidget = (
       );
     }
 
-    return (
+    return onSky(
       <VStack
         alignment="leading"
         spacing={isSmall ? 4 : 8}

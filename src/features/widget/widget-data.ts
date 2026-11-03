@@ -43,6 +43,14 @@ export interface WidgetDataInput {
   url: string;
   /** Local date the props describe. Defaults to now. */
   now?: dayjs.Dayjs;
+  /** Captured sky images; omitted until the first capture. */
+  skyImages?: SkyImages;
+}
+
+/** `file://` URIs of the captured sky backgrounds per color scheme. */
+export interface SkyImages {
+  light: string;
+  dark: string;
 }
 
 /** Average rating per local day, for every day with an entry. */
@@ -82,10 +90,7 @@ export const getSchemeColors = (
     background: colors.widgetBackground,
     text: colors.widgetText,
     textSecondary: colors.widgetTextSecondary,
-    // The scale's empty background is nearly the widget background (dark:
-    // neutral 800 on 900), so past empty days use the scale's border color
-    // and future days a theme color one step off the widget background.
-    empty: scale.empty.border,
+    empty: colors.widgetEmptyDay,
     future: colors.widgetFutureDay,
     today: colors.tint,
     ratings,
@@ -131,6 +136,8 @@ const getBaseProps = (
   subtitle: countLogged(cells),
   light: getSchemeColors("light", input.scaleType),
   dark: getSchemeColors("dark", input.scaleType),
+  skyLight: input.skyImages?.light ?? "",
+  skyDark: input.skyImages?.dark ?? "",
 });
 
 /**

@@ -1,6 +1,5 @@
-import chroma, { contrast } from "chroma-js";
+import chroma, { contrast, mix } from "chroma-js";
 import dayjs from "dayjs";
-import scales from "@/constants/colors/scales";
 import { _generateItem } from "@/testing/log-item";
 import {
   WEEK_WIDGET_WEEKS,
@@ -124,32 +123,51 @@ describe("getYearWidgetProps()", () => {
 
 const luminance = (color: string) => chroma(color).luminance();
 
+/** A see-through color as it shows on `backdrop`. */
+const over = (color: string, backdrop: string) => {
+  const fill = chroma(color);
+  return mix(backdrop, fill.alpha(1), fill.alpha(), "rgb").hex();
+};
+
+/** What sits behind widget cells: the sky color, and white clouds by day. */
+const backdrops = (theme: "light" | "dark", background: string) =>
+  theme === "light" ? [background, "#FFFFFF"] : [background];
+
 describe("getSchemeColors()", () => {
-  const cases = (["light", "dark"] as const).flatMap((theme) =>
-    Object.keys(scales[theme]).map((scaleType) => ({ theme, scaleType }))
-  );
-
-  test.each(cases)(
-    "$theme $scaleType: future days sit between background and empty days",
-    ({ theme, scaleType }) => {
-      const colors = getSchemeColors(theme, scaleType);
-      const [low, high] = [
-        luminance(colors.background),
-        luminance(colors.empty),
-      ].sort((a, b) => a - b);
-      expect(luminance(colors.future)).toBeGreaterThan(low);
-      expect(luminance(colors.future)).toBeLessThan(high);
+  test.each(["light", "dark"] as const)(
+    "%s future days sit between the sky and empty days",
+    (theme) => {
+      const colors = getSchemeColors(theme, "ColorBrew-RdYlGn");
+      for (const backdrop of backdrops(theme, colors.background)) {
+        const [low, high] = [
+          luminance(backdrop),
+          luminance(over(colors.empty, backdrop)),
+        ].sort((a, b) => a - b);
+        const future = luminance(over(colors.future, backdrop));
+        expect(future).toBeGreaterThan(low);
+        expect(future).toBeLessThan(high);
+      }
     }
   );
 
-  test("dark future days stay visible on the dark widget background", () => {
-    for (const scaleType of Object.keys(scales.dark)) {
-      const colors = getSchemeColors("dark", scaleType);
-      // Small cells on a dark home screen need more than a faint step.
-      expect(contrast(colors.future, colors.background)).toBeGreaterThanOrEqual(
-        1.5
-      );
+  test.each(["light", "dark"] as const)(
+    "%s empty days stay visible on sky and clouds",
+    (theme) => {
+      const colors = getSchemeColors(theme, "ColorBrew-RdYlGn");
+      for (const backdrop of backdrops(theme, colors.background)) {
+        expect(
+          contrast(over(colors.empty, backdrop), backdrop)
+        ).toBeGreaterThanOrEqual(1.25);
+      }
     }
+  );
+
+  test("dark future days stay visible on the night sky", () => {
+    const colors = getSchemeColors("dark", "ColorBrew-RdYlGn");
+    // Small cells on a dark home screen need more than a faint step.
+    expect(
+      contrast(over(colors.future, colors.background), colors.background)
+    ).toBeGreaterThanOrEqual(1.5);
   });
 });
 
