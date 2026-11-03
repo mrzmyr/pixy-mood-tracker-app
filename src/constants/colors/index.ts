@@ -238,6 +238,9 @@ const light = {
 
   // Sky color under the cloud photo until it loads.
   onboardingSkyBackground: "#a9d4fd",
+  // Full-screen day sky: deeper blue at the top, light near the bottom.
+  onboardingSkyTop: "#5f9ddc",
+  onboardingSkyBottom: "#c2dffb",
   // Controls over the sky are see-through, so they take its color.
   onboardingPaginationText: "rgba(0, 0, 0, 0.45)",
   onboardingPaginationDotActive: "rgba(0, 0, 0, 0.45)",
@@ -482,6 +485,8 @@ const dark: IColors & {
 
   // Night sky behind faint clouds and stars.
   onboardingSkyBackground: "#0a1124",
+  onboardingSkyTop: "#0a1124",
+  onboardingSkyBottom: "#0a1124",
   onboardingPaginationText: "rgba(255, 255, 255, 0.6)",
   onboardingPaginationDotActive: "rgba(255, 255, 255, 0.6)",
   onboardingPaginationDotInactive: "rgba(255, 255, 255, 0.2)",
