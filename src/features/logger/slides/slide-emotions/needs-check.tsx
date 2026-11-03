@@ -92,7 +92,15 @@ export const NeedsCheck = ({
   const values = NEED_STATES.map((state) => t(STATE_LABELS[state]));
 
   return (
-    <View style={{ paddingHorizontal: 20, paddingTop: 12, gap: 28 }}>
+    <View
+      style={{
+        paddingHorizontal: 20,
+        paddingTop: 12,
+        // Last control clears the 32 pt bottom fade of the list.
+        paddingBottom: 40,
+        gap: 28,
+      }}
+    >
       {NEEDS.map((need) => {
         const state = states[need.key];
         const feelings = state
