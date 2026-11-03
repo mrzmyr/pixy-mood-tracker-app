@@ -476,7 +476,7 @@ export const GlassChip = ({
         borderRadius: RADIUS.md,
         borderCurve: "continuous",
         borderWidth: 1,
-        borderColor: palette.glassBorder,
+        borderColor: palette.chipBorder,
         backgroundColor: palette.glass,
       }}
     >

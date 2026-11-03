@@ -12,7 +12,6 @@ import Plus from "lucide-react-native/icons/plus";
 import Button from "@/components/button";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { RADIUS } from "@/constants/radius";
-import useColors from "@/hooks/use-colors";
 import {
   EmotionIndicator,
   EMOTIONS,
@@ -77,32 +76,6 @@ const eveningLabels = (date: DateKey) => ({
 const meterLabel = (quality: number) =>
   `${t("logger_step_sleep")} ${Math.round(quality) + 1}/5`;
 
-/** Story button on the sky, like the privacy slide's secondary button. */
-const ControlButton = ({
-  label,
-  onPress,
-  testID,
-}: {
-  label: string;
-  onPress: () => void;
-  testID: string;
-}) => {
-  const colors = useColors();
-  return (
-    <Button
-      type="tertiary"
-      style={{
-        backgroundColor: colors.onboardingControlBackground,
-        borderColor: "transparent",
-      }}
-      onPress={onPress}
-      testID={testID}
-    >
-      {label}
-    </Button>
-  );
-};
-
 /** Skip and Look side by side, as on the privacy slide: equal weight. */
 const AskButtons = ({
   onSkip,
@@ -113,11 +86,9 @@ const AskButtons = ({
 }) => (
   <View style={{ flexDirection: "row", gap: 12 }}>
     <View style={{ flex: 1 }}>
-      <ControlButton
-        label={t("recaps_story_sleep_skip")}
-        onPress={onSkip}
-        testID="recap-sleep-skip"
-      />
+      <Button type="glass" onPress={onSkip} testID="recap-sleep-skip">
+        {t("recaps_story_sleep_skip")}
+      </Button>
     </View>
     <View style={{ flex: 1 }}>
       <Button type="primary" onPress={onLook} testID="recap-sleep-look">
@@ -251,8 +222,9 @@ export const SleepCalendar = ({
 
 // ---------------------------------------------------------------- one night
 
+/** Small muted line above a title or group. Never uppercase or bold. */
 const Eyebrow = ({ theme, text }: { theme: StoryTheme; text: string }) => (
-  <StoryText kind="eyebrow" theme={theme} tone="muted">
+  <StoryText kind="body" theme={theme} tone="muted">
     {text}
   </StoryText>
 );
@@ -430,11 +402,11 @@ export const RoughNightView = ({
           }}
         >
           <View>
+            <StoryText kind="title" theme={theme}>
+              {labels.date}
+            </StoryText>
             <StoryText kind="body" theme={theme} tone="muted">
               {labels.weekday}
-            </StoryText>
-            <StoryText kind="title" theme={theme} style={{ fontWeight: "800" }}>
-              {labels.date}
             </StoryText>
           </View>
           <View accessible accessibilityLabel={meterLabel(night.quality)}>
@@ -699,7 +671,7 @@ export const RoughNightsAll = ({
                 paddingVertical: 7,
                 borderRadius: RADIUS.lg,
                 borderWidth: 1,
-                borderColor: palette.glassBorder,
+                borderColor: palette.chipBorder,
                 backgroundColor: palette.glass,
               }}
             >
@@ -801,7 +773,7 @@ const PickChip = ({
         borderCurve: "continuous",
         borderWidth: 1,
         borderStyle: isDashed ? "dashed" : "solid",
-        borderColor: isSelected ? palette.text : palette.glassBorder,
+        borderColor: isSelected ? palette.text : palette.chipBorder,
         backgroundColor: chipFill(palette, isSelected, isDashed),
         transform: [{ scale: pressed ? 0.97 : 1 }],
       })}
@@ -1038,12 +1010,7 @@ export const RoughNightsClosing = ({
         {picks.length > 0 && <Chips>{picks}</Chips>}
       </Reveal>
       <SkyFlightZone style={{ flex: 1 }} />
-      <Button
-        type="tertiary"
-        style={{ borderColor: "transparent" }}
-        onPress={onBack}
-        testID="recap-rough-back"
-      >
+      <Button type="glass" onPress={onBack} testID="recap-rough-back">
         {t("recaps_story_rough_back")}
       </Button>
     </View>

@@ -41,6 +41,11 @@ export interface PlayerSlide {
   isWaiting?: boolean;
   /** Time on screen. Default `STORY_SLIDE_MS`. */
   durationMs?: number;
+  /**
+   * Slide draws its own buttons at the bottom edge, where Share and
+   * feedback sit on other slides. `renderBottom` draws nothing for it.
+   */
+  hasOwnButtons?: boolean;
 }
 
 /** Pixy waits for the first slide to settle, then glides in this long. */
@@ -416,7 +421,8 @@ export const StoryPlayer = ({
               style={{
                 flex: 1,
                 paddingTop: insets.top + 76,
-                paddingBottom: insets.bottom + 84,
+                // Own buttons sit where Share and feedback sit.
+                paddingBottom: insets.bottom + (slide.hasOwnButtons ? 16 : 84),
                 paddingHorizontal: STORY_SCREEN_PADDING,
               }}
               testID={`recap-story-slide-${slide.key}`}

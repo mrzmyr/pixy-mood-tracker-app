@@ -345,6 +345,7 @@ const RecapStory = () => {
       (slide.type === "best-day" && !isBestDayUnlocked) ||
       rough.hasOwnButtons(slide),
     durationMs: getSlideDuration(slide),
+    hasOwnButtons: rough.hasOwnButtons(slide),
     content: contentOf(slide, index),
   }));
   return (

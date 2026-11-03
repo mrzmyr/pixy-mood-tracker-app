@@ -21,6 +21,8 @@ interface StoryPalette {
   glass: string;
   /** 1 pt outline of `glass`, so it holds on bright clouds. */
   glassBorder: string;
+  /** Softer outline of glass chips, so many chips stay calm. */
+  chipBorder: string;
 }
 
 /** Space between the screen edge and slide content. */
@@ -64,6 +66,7 @@ export const STORY_PALETTE: Record<StoryTheme, StoryPalette> = {
     empty: "#262626",
     glass: "rgba(255,255,255,0.1)",
     glassBorder: "rgba(255,255,255,0.18)",
+    chipBorder: "rgba(255,255,255,0.1)",
   },
   paper: {
     background: "#FFFFFF",
@@ -74,6 +77,7 @@ export const STORY_PALETTE: Record<StoryTheme, StoryPalette> = {
     empty: "#EEEEEE",
     glass: "rgba(255,255,255,0.35)",
     glassBorder: "rgba(255,255,255,0.75)",
+    chipBorder: "rgba(255,255,255,0.45)",
   },
   photo: {
     background: "#000000",
@@ -84,6 +88,7 @@ export const STORY_PALETTE: Record<StoryTheme, StoryPalette> = {
     empty: "rgba(255,255,255,0.25)",
     glass: "rgba(255,255,255,0.15)",
     glassBorder: "rgba(255,255,255,0.3)",
+    chipBorder: "rgba(255,255,255,0.2)",
   },
 };
 
