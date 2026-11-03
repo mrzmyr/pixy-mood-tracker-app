@@ -39,6 +39,11 @@ export interface PlayerSlide {
   content: React.ReactNode;
   /** Waits for the user instead of moving on, for example a quiz. */
   isWaiting?: boolean;
+  /**
+   * Last slide that stays until the user closes it: no timer, its bar shows
+   * full, so the user can look around.
+   */
+  isHeld?: boolean;
   /** Time on screen. Default `STORY_SLIDE_MS`. */
   durationMs?: number;
 }
@@ -213,8 +218,8 @@ interface Clock {
  * Full-screen story. Tap the right two thirds for the next slide, the left
  * third for the previous one; press and hold to pause and see the slide
  * alone: bars, buttons, and feedback fade out until you let go. Each slide
- * moves on after its time, except waiting slides. The last slide stays
- * until the user closes it. Going to another slide plays the story again.
+ * moves on after its time, except waiting and held slides. The last slide
+ * stays until the user closes it. Going to another slide plays the story again.
  * `renderBottom` draws per slide below the content (Share, Helpful, Not
  * Helpful); its `controls.pause` stops the story while the user acts.
  * `isCapturing` swaps bars and buttons for the app icon and name, so the
@@ -264,7 +269,7 @@ export const StoryPlayer = ({
   const chrome = useAnimatedStyle(() => ({
     opacity: withTiming(isChromeHidden ? 0 : 1, { duration: CHROME_FADE_MS }),
   }));
-  const isWaiting = slide?.isWaiting ?? false;
+  const isWaiting = (slide?.isWaiting || slide?.isHeld) ?? false;
 
   // The clock lives on the JS thread. Reading `progress` right after setting
   // it returns the old value, which made slides run short or stick.
@@ -328,13 +333,15 @@ export const StoryPlayer = ({
     const target = Math.max(0, next);
     cancelAnimation(progress);
     clock.current = { played: 0, startedAt: null, run: clock.current.run + 1 };
-    progress.set(0);
+    // A held slide shows a full bar: nothing more runs out.
+    progress.set(slides[target]?.isHeld ? 1 : 0);
     setIndex(target);
     setIsPausedByUser(false);
     if (target !== index) {
       onSlideShown(target);
     }
-    if (!isHolding && !isPausedFromParent && !slides[target]?.isWaiting) {
+    const isTimed = !slides[target]?.isWaiting && !slides[target]?.isHeld;
+    if (!isHolding && !isPausedFromParent && isTimed) {
       play(target);
     }
   };

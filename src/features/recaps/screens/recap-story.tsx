@@ -299,13 +299,17 @@ const RecapStory = () => {
     );
   };
 
-  const slides: PlayerSlide[] = story.map((slide, index) => ({
-    key: `${index}-${slide.type}`,
-    theme: getStoryTheme(ctx.isDark),
-    durationMs: getSlideDuration(slide),
-    isWaiting: slide.type === "best-day" && !isBestDayUnlocked,
-    content: contentOf(slide),
-  }));
+  const slides: PlayerSlide[] = story.map((slide, index) => {
+    const duration = getSlideDuration(slide, kind);
+    return {
+      key: `${index}-${slide.type}`,
+      theme: getStoryTheme(ctx.isDark),
+      durationMs: duration ?? undefined,
+      isHeld: duration === null,
+      isWaiting: slide.type === "best-day" && !isBestDayUnlocked,
+      content: contentOf(slide),
+    };
+  });
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
