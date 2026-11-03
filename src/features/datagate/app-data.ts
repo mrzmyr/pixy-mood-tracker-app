@@ -20,7 +20,6 @@ import {
   useTagsState,
   useTagsUpdater,
 } from "@/features/tags";
-import { INTERVENTIONS_STORAGE_KEY } from "@/features/interventions";
 import { useAnalytics } from "@/state/analytics";
 import type { Load } from "@/state/persisted/create-persisted-store";
 import {
@@ -36,15 +35,12 @@ import type { ExportPerson } from "./import";
  * Every storage key that holds user data. Raw export reads all of them.
  *
  * `gated` stores load in React and block the app on a failed read.
- * Interventions load lazily outside React: a failed read keeps the stored
- * value and only hides today's progress.
  */
 export const PERSISTED_STORES = [
   { name: "settings", key: SETTINGS_KEY, gated: true },
   { name: "logs", key: LOGS_KEY, gated: true },
   { name: "tags", key: TAGS_KEY, gated: true },
   { name: "people", key: PEOPLE_KEY, gated: true },
-  { name: "interventions", key: INTERVENTIONS_STORAGE_KEY, gated: false },
 ] as const;
 
 type GatedStoreName = Extract<

@@ -54,12 +54,6 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](src/features/logger/confirmation))
   - Shown only after create, not edit
   - Entry metadata: `has_rating`, `has_sleep`, counts, `message_word_count`, `entries_count`
-- Interventions: `interventions:*` ([`src/features/interventions`](src/features/interventions)), flag `interventions`
-  - Card on confirmation and calendar: `card_shown`, then `option_selected` with a new `intervention_session_id`
-  - Flow: `intro_viewed`, `flow_started`, `step_viewed`, `step_back`, `flow_paused`, `flow_resumed`, then `flow_completed` or `flow_abandoned` (`how`: `close`, `end_early`)
-  - End check: `feedback_answered` or `feedback_skipped`. Never the answer
-  - Never the emotion cluster or matched emotions
-  - No dismiss control and no cooldown: cards show for every matching entry of today
 - Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminder-taps.ts`](src/features/notifications/reminder-taps.ts))
   - One event per tap on reminder body. Dismisses and other actions not sent
   - Properties: `cold_start`, `minutes_since_delivered`
@@ -156,6 +150,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `widget:guide_opened`, `widget:guide_step_viewed`, `widget:guide_dismissed`, `widget:guide_completed`: widget guide and Settings > Widgets removed. No replacement
 - `tags:category_created`: users can no longer create tag categories. Existing categories stay; rename, delete, and reorder still send their events. No replacement
 - `recaps:story_quiz_answered`: quiz slide removed from recap stories. Back after `v1.104.0` for the people quiz with `is_correct` only; `quiz` and `module` are no longer sent
+- `interventions:*`: interventions removed after `v1.112.0` with flag `interventions`. No replacement
 
 **Changed properties** (first release after `v1.104.0`)
 
