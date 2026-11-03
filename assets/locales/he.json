@@ -1063,6 +1063,17 @@
     "other": "בהשוואה לימים בלי התגית. {{count}} תיעודים."
   },
   "recaps_story_lifted_title": "ימים עם %{tag} הרגישו הכי קלים",
+  "recaps_story_missed_add": {
+    "one": "הוספה לערב אחד",
+    "other": "הוספה ל־{{count}} ערבים"
+  },
+  "recaps_story_missed_create": "יצירת „{{name}}”",
+  "recaps_story_missed_evenings_hint": "אפשר להוסיף את „%{tag}” לערבים שבהם זה היה. אפשר גם לדלג.",
+  "recaps_story_missed_evenings_title": "הוספה לערבים",
+  "recaps_story_missed_hint": "אפשר לבחור תג קיים או ליצור תג חדש.",
+  "recaps_story_missed_not_now": "לא עכשיו",
+  "recaps_story_missed_search": "חיפוש או יצירה",
+  "recaps_story_missed_title": "איזה תג חסר?",
   "recaps_story_new_people_line_1": "תראה מי מצא את הדרך אל הימים שלך.",
   "recaps_story_new_people_line_10": "לא כל חודש מביא מישהו חדש. החודש הזה כן.",
   "recaps_story_new_people_line_11": "המעגל שלך משתנה, לאט לאט.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "מי שיחק את התפקיד הגדול ביותר החודש?",
   "recaps_story_quiz_wrong": "כמעט. זה היה %{name}.",
   "recaps_story_ready": "מוכן לצפייה",
+  "recaps_story_rough_added": "נוסף",
+  "recaps_story_rough_all_hint": "יש משהו שחוזר יותר מפעם אחת?",
+  "recaps_story_rough_all_title": {
+    "one": "לילה אחד, זה לצד זה",
+    "other": "כל ה־{{count}}, זה לצד זה"
+  },
+  "recaps_story_rough_ask_hint": "אפשר לבחור כמה שרוצים.",
+  "recaps_story_rough_ask_title": "מה לדעתך עמד מאחוריהם?",
+  "recaps_story_rough_back": "חזרה לסיכום",
+  "recaps_story_rough_closing_body": "את הימים שלך אף אחד לא מכיר טוב יותר, וכל תיעוד עוזר.",
+  "recaps_story_rough_closing_title": "ככה, במבט לאחור, הדפוסים מתבהרים.",
+  "recaps_story_rough_done": "סיום",
+  "recaps_story_rough_evening": "%{weekday} בערב",
+  "recaps_story_rough_eyebrow": "לילה קשה %{position} מתוך %{count}",
+  "recaps_story_rough_felt": "רגשות",
+  "recaps_story_rough_missed": "פספסתי תג",
+  "recaps_story_rough_more": {
+    "one": "+1 נוסף",
+    "other": "+{{count}} נוספים"
+  },
+  "recaps_story_rough_most_days": "ברוב הימים",
+  "recaps_story_rough_nights": "לילות קשים",
+  "recaps_story_rough_not_sure": "לא ברור",
+  "recaps_story_rough_note": "הערה",
+  "recaps_story_rough_nothing": "לא תועד כלום",
+  "recaps_story_rough_people": "בקשר עם",
+  "recaps_story_rough_people_short": "אנשים",
+  "recaps_story_rough_tags": "תגים",
   "recaps_story_share": "שיתוף",
   "recaps_story_share_shuffle": "ערבוב תמונות",
   "recaps_story_share_title": "%{month} שלי",
   "recaps_story_share_title_week": "השבוע שלי",
+  "recaps_story_sleep_ask": {
+    "one": "לילה אחד היה קשה. להסתכל מקרוב?",
+    "other": "{{count}} לילות היו קשים. להסתכל מקרוב?"
+  },
+  "recaps_story_sleep_hint": "פס מלא יותר, שינה טובה יותר.",
+  "recaps_story_sleep_look": "בואו נסתכל",
+  "recaps_story_sleep_skip": "לא עכשיו",
+  "recaps_story_sleep_title": "הלילות שלך ב%{month}",
   "recaps_tag_back_text": {
     "one": "ביום אחד, אחרי %{weeks} שבועות בלי.",
     "other": "ב־{{count}} ימים, אחרי %{weeks} שבועות בלי."

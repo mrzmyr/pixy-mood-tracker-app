@@ -196,6 +196,22 @@ const ScreenBrand = ({ theme }: { theme: StoryTheme }) => {
   );
 };
 
+/**
+ * `next` for slide buttons. A button that also changes `slides`, for
+ * example opens more slides, moves on after the render with the new list,
+ * not with the old one.
+ */
+const useNextAfterRender = (advance: () => void) => {
+  const [requests, setRequests] = useState(0);
+  const run = useEffectEvent(advance);
+  useEffect(() => {
+    if (requests > 0) {
+      run();
+    }
+  }, [requests]);
+  return () => setRequests((count) => count + 1);
+};
+
 /** Wall clock in ms. Only event handlers and effects call it. */
 const now = () => Date.now();
 
@@ -362,6 +378,7 @@ export const StoryPlayer = ({
   const controls: PlayerControls = {
     pause: () => setIsPausedByUser(true),
   };
+  const next = useNextAfterRender(() => goTo(index + 1));
 
   if (!slide) {
     return null;
@@ -405,7 +422,7 @@ export const StoryPlayer = ({
               testID={`recap-story-slide-${slide.key}`}
             >
               <StoryCaptureContext value={isCapturing}>
-                <StoryPressContext value={{ onPress, setIsHolding }}>
+                <StoryPressContext value={{ onPress, setIsHolding, next }}>
                   {slide.content}
                 </StoryPressContext>
               </StoryCaptureContext>

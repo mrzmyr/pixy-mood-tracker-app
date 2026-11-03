@@ -25,6 +25,8 @@ import { StoryFeedback } from "../story/story-feedback";
 import { StoryPlayer } from "../story/story-player";
 import type { PlayerSlide } from "../story/story-player";
 import { getStoryTheme } from "../story/theme";
+import { MissedTagSheet } from "../story/missed-tag-sheet";
+import { useRoughNights } from "../story/use-rough-nights";
 import type { StoryTheme } from "../story/theme";
 import type { StoryPhoto, StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
@@ -44,14 +46,20 @@ const SOURCES: StorySource[] = ["recaps", "calendar", "notification"];
 const isSource = (value: unknown): value is StorySource =>
   SOURCES.some((source) => source === value);
 
+/** Rough-night slides hold hard evenings: never shared as an image. */
+const isPrivate = (slide: StorySlide | undefined) =>
+  slide?.type === "rough-night" || slide?.type === "rough-nights-all";
+
 /**
  * Share bottom left; Helpful and Not Helpful bottom right, or Shuffle on the
- * last slide. Share and feedback pause the story first.
+ * last slide. Share and feedback pause the story first. No Share on
+ * `isPrivate` slides.
  */
 const StoryActions = ({
   theme,
   isSharing,
   isAnswered,
+  canShare,
   pause,
   onShare,
   onShuffle,
@@ -61,6 +69,7 @@ const StoryActions = ({
   theme: StoryTheme;
   isSharing: boolean;
   isAnswered: boolean;
+  canShare: boolean;
   pause: () => void;
   onShare: () => void;
   /** Last slide with more than 3 photos: 3 other photos on the card. */
@@ -81,11 +90,15 @@ const StoryActions = ({
       }}
       pointerEvents="box-none"
     >
-      <StoryShareButton
-        theme={theme}
-        disabled={isSharing}
-        onPress={paused(onShare)}
-      />
+      {canShare ? (
+        <StoryShareButton
+          theme={theme}
+          disabled={isSharing}
+          onPress={paused(onShare)}
+        />
+      ) : (
+        <View />
+      )}
       {onShuffle ? (
         <StoryShuffleButton theme={theme} onPress={onShuffle} />
       ) : (
@@ -123,8 +136,14 @@ const RecapStory = () => {
   const input = useRecapInput(period);
   const { tags } = useTagsState();
   const { people } = usePeopleState();
-  const story =
+  const isSleepOn = useFeatureFlag("recap-sleep");
+  const built =
     kind === "week" ? buildWeekStory(input) : buildMonthStory(input);
+  // The sleep slide has its own flag inside the recap story.
+  const rough = useRoughNights(
+    built?.filter((slide) => isSleepOn || slide.type !== "sleep") ?? null
+  );
+  const { story } = rough;
   // "My September", or "My week" for a week story.
   const shareTitle =
     kind === "week"
@@ -314,6 +333,7 @@ const RecapStory = () => {
           isUnlocked: isBestDayUnlocked,
           onUnlock: () => setIsBestDayUnlocked(true),
         }}
+        rough={rough.controls}
       />
     );
   };
@@ -324,10 +344,18 @@ const RecapStory = () => {
     // A quiz waits for the answer, the best day for its unlock, then plays.
     isWaiting:
       (slide.type === "people-quiz" && !picks.has(index)) ||
-      (slide.type === "best-day" && !isBestDayUnlocked),
+      (slide.type === "best-day" && !isBestDayUnlocked) ||
+      rough.isAsking(slide) ||
+      slide.type === "rough-nights-ask",
     durationMs: getSlideDuration(slide),
     content: contentOf(slide, index),
   }));
+  // Slides with their own buttons show no Share and no feedback.
+  const hasOwnButtons = (slide: StorySlide | undefined) =>
+    slide !== undefined &&
+    (rough.isAsking(slide) ||
+      slide.type === "rough-nights-ask" ||
+      slide.type === "rough-nights-closing");
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -339,6 +367,7 @@ const RecapStory = () => {
           // The timer starts once the story is full screen; a drag holds it.
           isPaused={
             asking !== null ||
+            rough.isMissedOpen ||
             isSharing ||
             !transition.isOpen ||
             transition.isDragging
@@ -355,20 +384,24 @@ const RecapStory = () => {
               });
             }
           }}
-          renderBottom={(index, theme, controls) => (
-            <StoryActions
-              theme={theme}
-              isSharing={isSharing}
-              isAnswered={answers.has(index)}
-              pause={controls.pause}
-              onShare={() => share(index)}
-              onShuffle={shuffleOf(index)}
-              onHelpful={() => send(index, true, [], "")}
-              onNotHelpful={() => setAsking(index)}
-            />
-          )}
+          renderBottom={(index, theme, controls) =>
+            hasOwnButtons(slideOf(index)) ? null : (
+              <StoryActions
+                theme={theme}
+                isSharing={isSharing}
+                isAnswered={answers.has(index)}
+                canShare={!isPrivate(slideOf(index))}
+                pause={controls.pause}
+                onShare={() => share(index)}
+                onShuffle={shuffleOf(index)}
+                onHelpful={() => send(index, true, [], "")}
+                onNotHelpful={() => setAsking(index)}
+              />
+            )
+          }
         />
       </StoryTransitionView>
+      {rough.missed && <MissedTagSheet {...rough.missed} />}
       <FeedbackSheet
         visible={asking !== null}
         onCancel={() => setAsking(null)}

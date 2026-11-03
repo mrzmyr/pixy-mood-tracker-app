@@ -1063,6 +1063,17 @@
     "other": "Compared with days without the tag. {{count}} check-ins."
   },
   "recaps_story_lifted_title": "%{tag} Days Felt Lightest",
+  "recaps_story_missed_add": {
+    "one": "Add to 1 Evening",
+    "other": "Add to {{count}} Evenings"
+  },
+  "recaps_story_missed_create": "Create “{{name}}”",
+  "recaps_story_missed_evenings_hint": "Add “%{tag}” to the evenings where it was there. You can skip this.",
+  "recaps_story_missed_evenings_title": "Add to Evenings",
+  "recaps_story_missed_hint": "Pick one you already use or create a new one.",
+  "recaps_story_missed_not_now": "Not Now",
+  "recaps_story_missed_search": "Search or create",
+  "recaps_story_missed_title": "Which Tag Is Missing?",
   "recaps_story_new_people_line_1": "Look who found their way into your days.",
   "recaps_story_new_people_line_10": "Not every month brings someone new. This one did.",
   "recaps_story_new_people_line_11": "Your circle keeps changing, a little at a time.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Who Played the Biggest Role This Month?",
   "recaps_story_quiz_wrong": "So close. It was %{name}.",
   "recaps_story_ready": "Ready to watch",
+  "recaps_story_rough_added": "added",
+  "recaps_story_rough_all_hint": "Anything you see more than once?",
+  "recaps_story_rough_all_title": {
+    "one": "1 Night, Side by Side",
+    "other": "All {{count}}, Side by Side"
+  },
+  "recaps_story_rough_ask_hint": "Pick as many as you like.",
+  "recaps_story_rough_ask_title": "What Do You Think Was Behind Them?",
+  "recaps_story_rough_back": "Back to Your Recap",
+  "recaps_story_rough_closing_body": "You know your days best, and every check-in helps.",
+  "recaps_story_rough_closing_title": "Looking back like this is how patterns get clearer.",
+  "recaps_story_rough_done": "Done",
+  "recaps_story_rough_evening": "%{weekday} evening",
+  "recaps_story_rough_eyebrow": "Rough night %{position} of %{count}",
+  "recaps_story_rough_felt": "Felt",
+  "recaps_story_rough_missed": "I missed a tag",
+  "recaps_story_rough_more": {
+    "one": "+1 more",
+    "other": "+{{count}} more"
+  },
+  "recaps_story_rough_most_days": "most days",
+  "recaps_story_rough_nights": "Rough nights",
+  "recaps_story_rough_not_sure": "Not sure",
+  "recaps_story_rough_note": "Note",
+  "recaps_story_rough_nothing": "Nothing logged",
+  "recaps_story_rough_people": "Connected with",
+  "recaps_story_rough_people_short": "People",
+  "recaps_story_rough_tags": "Tags",
   "recaps_story_share": "Share",
   "recaps_story_share_shuffle": "Shuffle photos",
   "recaps_story_share_title": "My %{month}",
   "recaps_story_share_title_week": "My Week",
+  "recaps_story_sleep_ask": {
+    "one": "1 night was rough. Look closer?",
+    "other": "{{count}} nights were rough. Look closer?"
+  },
+  "recaps_story_sleep_hint": "Fuller bar, better sleep.",
+  "recaps_story_sleep_look": "Let’s Look",
+  "recaps_story_sleep_skip": "Skip for Now",
+  "recaps_story_sleep_title": "Your Nights in %{month}",
   "recaps_tag_back_text": {
     "one": "On one day, after %{weeks} weeks without.",
     "other": "On {{count}} days, after %{weeks} weeks without."

@@ -1063,6 +1063,17 @@
     "other": "A címke nélküli napokhoz képest. {{count}} bejegyzés."
   },
   "recaps_story_lifted_title": "%{tag}: a legkönnyebb napok",
+  "recaps_story_missed_add": {
+    "one": "Hozzáadás 1 estéhez",
+    "other": "Hozzáadás {{count}} estéhez"
+  },
+  "recaps_story_missed_create": "„{{name}}” létrehozása",
+  "recaps_story_missed_evenings_hint": "Add hozzá a(z) „%{tag}” címkét azokhoz az estékhez, amikor jelen volt. Ezt kihagyhatod.",
+  "recaps_story_missed_evenings_title": "Hozzáadás estékhez",
+  "recaps_story_missed_hint": "Válassz egyet, amit már használsz, vagy hozz létre újat.",
+  "recaps_story_missed_not_now": "Most nem",
+  "recaps_story_missed_search": "Keresés vagy létrehozás",
+  "recaps_story_missed_title": "Melyik címke hiányzik?",
   "recaps_story_new_people_line_1": "Nézd, ki talált utat a napjaidba.",
   "recaps_story_new_people_line_10": "Nem minden hónap hoz valaki újat. Ez igen.",
   "recaps_story_new_people_line_11": "A köreid változnak, apránként.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Ki játszotta a legnagyobb szerepet ebben a hónapban?",
   "recaps_story_quiz_wrong": "Majdnem. %{name} volt az.",
   "recaps_story_ready": "Megnézhető",
+  "recaps_story_rough_added": "hozzáadva",
+  "recaps_story_rough_all_hint": "Látsz valamit többször is?",
+  "recaps_story_rough_all_title": {
+    "one": "1 éjszaka egy pillantásra",
+    "other": "Mind a {{count}} egymás mellett"
+  },
+  "recaps_story_rough_ask_hint": "Válassz annyit, amennyit szeretnél.",
+  "recaps_story_rough_ask_title": "Szerinted mi állt mögöttük?",
+  "recaps_story_rough_back": "Vissza a visszatekintéshez",
+  "recaps_story_rough_closing_body": "A napjaidat te ismered a legjobban, és minden bejegyzés segít.",
+  "recaps_story_rough_closing_title": "Az ilyen visszatekintéstől lesznek tisztábbak a minták.",
+  "recaps_story_rough_done": "Kész",
+  "recaps_story_rough_evening": "%{weekday} este",
+  "recaps_story_rough_eyebrow": "Nehéz éjszaka: %{position}/%{count}",
+  "recaps_story_rough_felt": "Érzések",
+  "recaps_story_rough_missed": "Kimaradt egy címke",
+  "recaps_story_rough_more": {
+    "one": "+1 további",
+    "other": "+{{count}} további"
+  },
+  "recaps_story_rough_most_days": "a legtöbb napon",
+  "recaps_story_rough_nights": "Nehéz éjszakák",
+  "recaps_story_rough_not_sure": "Nem tudom",
+  "recaps_story_rough_note": "Jegyzet",
+  "recaps_story_rough_nothing": "Nincs bejegyzés",
+  "recaps_story_rough_people": "Kapcsolatban",
+  "recaps_story_rough_people_short": "Emberek",
+  "recaps_story_rough_tags": "Címkék",
   "recaps_story_share": "Megosztás",
   "recaps_story_share_shuffle": "Fotók keverése",
   "recaps_story_share_title": "Az én %{month} hónapom",
   "recaps_story_share_title_week": "Az én hetem",
+  "recaps_story_sleep_ask": {
+    "one": "1 éjszaka nehéz volt. Megnézzük közelebbről?",
+    "other": "{{count}} éjszaka nehéz volt. Megnézzük közelebbről?"
+  },
+  "recaps_story_sleep_hint": "Teltebb oszlop, jobb alvás.",
+  "recaps_story_sleep_look": "Nézzük",
+  "recaps_story_sleep_skip": "Most nem",
+  "recaps_story_sleep_title": "Éjszakáid: %{month}",
   "recaps_tag_back_text": {
     "one": "Egy napon, %{weeks} hét szünet után.",
     "other": "{{count}} napon, %{weeks} hét szünet után."

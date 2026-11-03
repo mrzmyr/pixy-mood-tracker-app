@@ -1063,6 +1063,17 @@
     "other": "So với những ngày không có thẻ này. {{count}} lần ghi lại."
   },
   "recaps_story_lifted_title": "Những ngày có %{tag} nhẹ nhàng nhất",
+  "recaps_story_missed_add": {
+    "one": "Thêm vào 1 buổi tối",
+    "other": "Thêm vào {{count}} buổi tối"
+  },
+  "recaps_story_missed_create": "Tạo “{{name}}”",
+  "recaps_story_missed_evenings_hint": "Thêm “%{tag}” vào những buổi tối có nó. Bạn có thể bỏ qua bước này.",
+  "recaps_story_missed_evenings_title": "Thêm vào các buổi tối",
+  "recaps_story_missed_hint": "Chọn thẻ bạn đã dùng hoặc tạo thẻ mới.",
+  "recaps_story_missed_not_now": "Để sau",
+  "recaps_story_missed_search": "Tìm hoặc tạo",
+  "recaps_story_missed_title": "Thiếu thẻ nào?",
   "recaps_story_new_people_line_1": "Xem ai đã tìm đến những ngày của bạn.",
   "recaps_story_new_people_line_10": "Không phải tháng nào cũng có người mới. Tháng này thì có.",
   "recaps_story_new_people_line_11": "Vòng tròn của bạn đổi thay, từng chút một.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Ai giữ vai trò lớn nhất trong tháng này?",
   "recaps_story_quiz_wrong": "Gần đúng rồi. Đó là %{name}.",
   "recaps_story_ready": "Sẵn sàng để xem",
+  "recaps_story_rough_added": "đã thêm",
+  "recaps_story_rough_all_hint": "Bạn thấy điều gì lặp lại không?",
+  "recaps_story_rough_all_title": {
+    "one": "1 đêm, đặt cạnh nhau",
+    "other": "Cả {{count}} đêm, đặt cạnh nhau"
+  },
+  "recaps_story_rough_ask_hint": "Chọn bao nhiêu tùy bạn.",
+  "recaps_story_rough_ask_title": "Bạn nghĩ điều gì đứng sau những đêm đó?",
+  "recaps_story_rough_back": "Quay lại tổng kết",
+  "recaps_story_rough_closing_body": "Bạn hiểu ngày của mình nhất, và mỗi lần ghi lại đều có ích.",
+  "recaps_story_rough_closing_title": "Nhìn lại như thế này giúp các khuôn mẫu rõ hơn.",
+  "recaps_story_rough_done": "Xong",
+  "recaps_story_rough_evening": "Tối %{weekday}",
+  "recaps_story_rough_eyebrow": "Đêm khó ngủ %{position}/%{count}",
+  "recaps_story_rough_felt": "Cảm thấy",
+  "recaps_story_rough_missed": "Tôi quên một thẻ",
+  "recaps_story_rough_more": {
+    "one": "+1 nữa",
+    "other": "+{{count}} nữa"
+  },
+  "recaps_story_rough_most_days": "hầu hết các ngày",
+  "recaps_story_rough_nights": "Những đêm khó ngủ",
+  "recaps_story_rough_not_sure": "Không chắc",
+  "recaps_story_rough_note": "Ghi chú",
+  "recaps_story_rough_nothing": "Chưa ghi gì",
+  "recaps_story_rough_people": "Đã kết nối với",
+  "recaps_story_rough_people_short": "Mọi người",
+  "recaps_story_rough_tags": "Thẻ",
   "recaps_story_share": "Chia sẻ",
   "recaps_story_share_shuffle": "Xáo trộn ảnh",
   "recaps_story_share_title": "%{month} của tôi",
   "recaps_story_share_title_week": "Tuần của tôi",
+  "recaps_story_sleep_ask": {
+    "one": "1 đêm khó ngủ. Xem kỹ hơn?",
+    "other": "{{count}} đêm khó ngủ. Xem kỹ hơn?"
+  },
+  "recaps_story_sleep_hint": "Thanh càng đầy, ngủ càng ngon.",
+  "recaps_story_sleep_look": "Xem nào",
+  "recaps_story_sleep_skip": "Để sau",
+  "recaps_story_sleep_title": "Những đêm của bạn trong %{month}",
   "recaps_tag_back_text": {
     "one": "Một ngày, sau %{weeks} tuần vắng.",
     "other": "{{count}} ngày, sau %{weeks} tuần vắng."

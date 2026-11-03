@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import noop from "lodash/noop";
+import { use } from "react";
 import { PixelRatio, useWindowDimensions, View } from "react-native";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
@@ -27,6 +28,16 @@ import { PeopleQuiz } from "./people-quiz";
 import type { QuizAnswer } from "./people-quiz";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { StoryIntro } from "./story-intro";
+import { StoryPressContext } from "./press-context";
+import {
+  RoughNightsAll,
+  RoughNightsAsk,
+  RoughNightsClosing,
+  RoughNightView,
+  SleepCalendar,
+} from "./rough-nights";
+import { EMPTY_ANSWER } from "./sleep";
+import type { RoughNightsAnswer } from "./sleep";
 import {
   getStoryTheme,
   STORY_BLOCK_GAP,
@@ -412,6 +423,105 @@ const SlideBody = ({
 };
 
 /**
+ * What the sleep and rough-night slides need from the story screen: the
+ * answer to "Look closer?", the question state, and moving on.
+ */
+export interface RoughNightsControls {
+  onLook: () => void;
+  onSkip: () => void;
+  answer: RoughNightsAnswer;
+  onToggle: (key: string) => void;
+  onNotSure: () => void;
+  onMissed: () => void;
+  onDone: () => void;
+  onBack: () => void;
+}
+
+/** Controls when the screen passes none, as in the playground. */
+const NO_ROUGH: RoughNightsControls = {
+  onLook: noop,
+  onSkip: noop,
+  answer: EMPTY_ANSWER,
+  onToggle: noop,
+  onNotSure: noop,
+  onMissed: noop,
+  onDone: noop,
+  onBack: noop,
+};
+
+const RoughNightsBody = ({
+  slide,
+  ctx,
+  rough,
+}: {
+  slide: StorySlide;
+  ctx: SlideContext;
+  rough?: RoughNightsControls;
+}) => {
+  const press = use(StoryPressContext);
+  const { answer, onToggle, onNotSure, onMissed, onDone, onBack } =
+    rough ?? NO_ROUGH;
+  // Each answer moves the story on, after the screen added or kept slides.
+  const andNext = (action: () => void) => () => {
+    action();
+    press?.next();
+  };
+  switch (slide.type) {
+    case "sleep": {
+      return rough ? (
+        <SleepCalendar
+          slide={slide}
+          ctx={ctx}
+          onLook={andNext(rough.onLook)}
+          onSkip={andNext(rough.onSkip)}
+        />
+      ) : (
+        <SleepCalendar slide={slide} ctx={ctx} />
+      );
+    }
+    case "rough-night": {
+      return <RoughNightView slide={slide} ctx={ctx} />;
+    }
+    case "rough-nights-all": {
+      return <RoughNightsAll slide={slide} ctx={ctx} />;
+    }
+    case "rough-nights-ask": {
+      return (
+        <RoughNightsAsk
+          slide={slide}
+          ctx={ctx}
+          answer={answer}
+          onToggle={onToggle}
+          onNotSure={onNotSure}
+          onMissed={onMissed}
+          onDone={andNext(onDone)}
+        />
+      );
+    }
+    case "rough-nights-closing": {
+      return (
+        <RoughNightsClosing
+          ctx={ctx}
+          answer={answer}
+          onBack={andNext(onBack)}
+        />
+      );
+    }
+    default: {
+      return null;
+    }
+  }
+};
+
+const ROUGH_TYPES = new Set<StorySlide["type"]>([
+  "sleep",
+  "rough-night",
+  "rough-nights-all",
+  "rough-nights-ask",
+  "rough-nights-closing",
+]);
+
+/**
  * Content of one slide. The player draws background and chrome. Cloudy
  * stays around: it flies in the free sky below the content. The best day
  * places Pixy itself. `quiz`: the answer of a quiz slide, kept by the
@@ -422,15 +532,21 @@ export const SlideContent = ({
   ctx,
   quiz = UNANSWERED,
   lock,
+  rough,
 }: {
   slide: StorySlide;
   ctx: SlideContext;
   quiz?: QuizAnswer;
   /** Best day slide only. Without it the slide keeps its own lock state. */
   lock?: BestDayLock;
+  /** Sleep and rough-night slides. Without it the slides ask nothing. */
+  rough?: RoughNightsControls;
 }) => {
   if (slide.type === "intro") {
     return <StoryIntro ctx={ctx} />;
+  }
+  if (ROUGH_TYPES.has(slide.type)) {
+    return <RoughNightsBody slide={slide} ctx={ctx} rough={rough} />;
   }
   return (
     <View style={{ flex: 1 }}>

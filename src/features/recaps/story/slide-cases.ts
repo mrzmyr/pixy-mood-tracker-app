@@ -1,5 +1,12 @@
 import type { DateKey, Period } from "../types";
-import type { StoryPhoto, StorySlide, StorySlideType } from "./types";
+import { addDays, daysBetween } from "../days";
+import type {
+  RoughNight,
+  SleepSlide,
+  StoryPhoto,
+  StorySlide,
+  StorySlideType,
+} from "./types";
 
 /**
  * What a case reads from the playground data, so cases name real tags,
@@ -37,6 +44,109 @@ const pick = <T>(list: T[], index: number, fallback: T): T =>
 const tagAt = (kit: CaseKit, index: number) => pick(kit.tagIds, index, "");
 const personAt = (kit: CaseKit, index: number) =>
   pick(kit.personIds, index, "");
+
+/** Rough evening `index` of the month: every sixth day from the 3rd. */
+const roughNightAt = (
+  kit: CaseKit,
+  index: number,
+  fill: "typical" | "heavy" | "empty"
+): RoughNight => {
+  const evening = addDays(kit.period.start, 2 + index * 6);
+  if (fill === "empty") {
+    return {
+      evening,
+      quality: 1,
+      tagIds: [],
+      personIds: [],
+      emotions: [],
+      photos: [],
+      note: "",
+    };
+  }
+  if (fill === "heavy") {
+    return {
+      evening,
+      quality: 1,
+      tagIds: kit.tagIds.slice(0, 9),
+      personIds: kit.personIds.slice(0, 5),
+      emotions: [
+        "tired",
+        "stressed",
+        "anxious",
+        "overwhelmed",
+        "calm",
+        "grateful",
+        "sad",
+        "lonely",
+      ],
+      photos: kit.photos.slice(0, 5).map(({ photo }) => photo),
+      note: "Long day. Kept going over tomorrow in my head.",
+    };
+  }
+  return {
+    evening,
+    quality: index === 2 ? 0 : 1,
+    tagIds: [tagAt(kit, 0), ...(index % 2 === 0 ? [tagAt(kit, 2)] : [])],
+    personIds: index % 3 === 0 ? [] : [personAt(kit, index)],
+    emotions: index % 2 === 0 ? ["tired", "stressed"] : [],
+    photos: index === 1 ? kit.photos.slice(0, 1).map(({ photo }) => photo) : [],
+    note: index === 3 ? "Long day. Kept going over tomorrow in my head." : "",
+  };
+};
+
+/** Sleep slide of the month with 4 rough nights, or none to look at. */
+const sleepCase = (
+  kit: CaseKit,
+  fill: "typical" | "heavy" | "empty" | "none" = "typical"
+): SleepSlide => {
+  const days = daysBetween(kit.period.start, kit.period.end) + 1;
+  const roughNights =
+    fill === "none"
+      ? []
+      : [0, 1, 2, 3].map((index) => roughNightAt(kit, index, fill));
+  const rough = new Set(roughNights.map((night) => addDays(night.evening, 1)));
+  return {
+    type: "sleep",
+    nights: Array.from({ length: days }, (_, index) => {
+      const date = addDays(kit.period.start, index);
+      return { date, quality: rough.has(date) ? 1 : 2 + (index % 3) };
+    }).filter((_, index) => index % 9 !== 5),
+    goodNights: 18,
+    roughNights,
+    items:
+      fill === "none" || fill === "empty"
+        ? []
+        : [
+            { kind: "tag", id: tagAt(kit, 0), nights: 4, isEveryday: false },
+            { kind: "tag", id: tagAt(kit, 2), nights: 2, isEveryday: false },
+            {
+              kind: "person",
+              id: personAt(kit, 1),
+              nights: 2,
+              isEveryday: false,
+            },
+          ],
+    marked: [`tag:${tagAt(kit, 0)}`],
+    suggestion: `tag:${tagAt(kit, 0)}`,
+    steps: ["photos", "tags", "people", "emotions", "message"],
+  };
+};
+
+const roughCase = (
+  kit: CaseKit,
+  fill: "typical" | "heavy" | "empty",
+  position: number
+) => {
+  const sleep = sleepCase(kit, fill);
+  const night = sleep.roughNights[position - 1] ?? roughNightAt(kit, 0, fill);
+  return {
+    type: "rough-night" as const,
+    position,
+    count: sleep.roughNights.length,
+    night,
+    sleep,
+  };
+};
 
 /**
  * Every slide type with its states. Typed by slide type, so a new type
@@ -230,6 +340,61 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
       name: "No photos",
       period: "month",
       build: () => ({ type: "share", photos: [] }),
+    },
+  ],
+  sleep: [
+    {
+      name: "Asks to look closer",
+      period: "month",
+      build: (kit) => sleepCase(kit),
+    },
+    {
+      name: "Nothing to look at",
+      period: "month",
+      build: (kit) => sleepCase(kit, "none"),
+    },
+  ],
+  "rough-night": [
+    {
+      name: "First night",
+      period: "month",
+      build: (kit) => roughCase(kit, "typical", 1),
+    },
+    {
+      name: "Repeat marked",
+      period: "month",
+      build: (kit) => roughCase(kit, "typical", 3),
+    },
+    {
+      name: "Max load",
+      period: "month",
+      build: (kit) => roughCase(kit, "heavy", 2),
+    },
+    {
+      name: "Nothing logged",
+      period: "month",
+      build: (kit) => roughCase(kit, "empty", 1),
+    },
+  ],
+  "rough-nights-all": [
+    {
+      name: "4 nights",
+      period: "month",
+      build: (kit) => ({ type: "rough-nights-all", sleep: sleepCase(kit) }),
+    },
+  ],
+  "rough-nights-ask": [
+    {
+      name: "Tags and people",
+      period: "month",
+      build: (kit) => ({ type: "rough-nights-ask", sleep: sleepCase(kit) }),
+    },
+  ],
+  "rough-nights-closing": [
+    {
+      name: "Closing",
+      period: "month",
+      build: () => ({ type: "rough-nights-closing" }),
     },
   ],
 };

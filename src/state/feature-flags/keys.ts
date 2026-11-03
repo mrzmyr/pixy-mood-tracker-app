@@ -19,6 +19,7 @@ export const FEATURE_FLAGS = [
   "photo-peek",
   "photos",
   "quick-check-in",
+  "recap-sleep",
   "recaps",
   "support-pixy",
   "voice-mode",
@@ -102,6 +103,11 @@ export const FEATURE_FLAG_DETAILS: Record<
     description:
       "Quick check-in screen (iOS) or an ongoing notification (Android)",
     location: "Calendar, Settings > Check-in, notification shade",
+  },
+  "recap-sleep": {
+    description:
+      "Sleep slide in the month recap story, with an optional look at rough nights",
+    location: "Month recap story, after the tag slides",
   },
   recaps: {
     description: "Recap cards for week, month, and year",

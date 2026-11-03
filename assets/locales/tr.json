@@ -1063,6 +1063,17 @@
     "other": "Etiketin olmadığı günlerle karşılaştırıldı. {{count}} kayıt."
   },
   "recaps_story_lifted_title": "%{tag} olan günler en hafif hissettirdi",
+  "recaps_story_missed_add": {
+    "one": "1 Akşama Ekle",
+    "other": "{{count}} Akşama Ekle"
+  },
+  "recaps_story_missed_create": "“{{name}}” oluştur",
+  "recaps_story_missed_evenings_hint": "“%{tag}” etiketini olduğu akşamlara ekle. Bunu atlayabilirsin.",
+  "recaps_story_missed_evenings_title": "Akşamlara Ekle",
+  "recaps_story_missed_hint": "Zaten kullandığın birini seç ya da yenisini oluştur.",
+  "recaps_story_missed_not_now": "Şimdi Değil",
+  "recaps_story_missed_search": "Ara veya oluştur",
+  "recaps_story_missed_title": "Hangi Etiket Eksik?",
   "recaps_story_new_people_line_1": "Bak, günlerine kimler yolunu buldu.",
   "recaps_story_new_people_line_10": "Her ay yeni biri getirmez. Bu ay getirdi.",
   "recaps_story_new_people_line_11": "Çevren değişiyor, azar azar.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Bu ay en büyük rolü kim oynadı?",
   "recaps_story_quiz_wrong": "Çok yaklaştın. %{name} idi.",
   "recaps_story_ready": "İzlemeye hazır",
+  "recaps_story_rough_added": "eklendi",
+  "recaps_story_rough_all_hint": "Birden fazla gördüğün bir şey var mı?",
+  "recaps_story_rough_all_title": {
+    "one": "1 Gece, Yan Yana",
+    "other": "{{count}} Gecenin Hepsi, Yan Yana"
+  },
+  "recaps_story_rough_ask_hint": "İstediğin kadar seç.",
+  "recaps_story_rough_ask_title": "Sence Arkasında Ne Vardı?",
+  "recaps_story_rough_back": "Özetine Dön",
+  "recaps_story_rough_closing_body": "Günlerini en iyi sen bilirsin, her kayıt da yardımcı olur.",
+  "recaps_story_rough_closing_title": "Böyle geriye bakmak, örüntüleri netleştirir.",
+  "recaps_story_rough_done": "Tamam",
+  "recaps_story_rough_evening": "%{weekday} akşamı",
+  "recaps_story_rough_eyebrow": "Zor gece %{position}/%{count}",
+  "recaps_story_rough_felt": "Hissettiklerin",
+  "recaps_story_rough_missed": "Bir etiketi unuttum",
+  "recaps_story_rough_more": {
+    "one": "+1 daha",
+    "other": "+{{count}} daha"
+  },
+  "recaps_story_rough_most_days": "çoğu gün",
+  "recaps_story_rough_nights": "Zor geceler",
+  "recaps_story_rough_not_sure": "Emin değilim",
+  "recaps_story_rough_note": "Not",
+  "recaps_story_rough_nothing": "Kayıt yok",
+  "recaps_story_rough_people": "Bağlantıda olduğun kişiler",
+  "recaps_story_rough_people_short": "Kişiler",
+  "recaps_story_rough_tags": "Etiketler",
   "recaps_story_share": "Paylaş",
   "recaps_story_share_shuffle": "Fotoğrafları karıştır",
   "recaps_story_share_title": "%{month} ayım",
   "recaps_story_share_title_week": "Haftam",
+  "recaps_story_sleep_ask": {
+    "one": "1 gece zordu. Daha yakından bakalım mı?",
+    "other": "{{count}} gece zordu. Daha yakından bakalım mı?"
+  },
+  "recaps_story_sleep_hint": "Bar ne kadar doluysa uyku o kadar iyi.",
+  "recaps_story_sleep_look": "Bakalım",
+  "recaps_story_sleep_skip": "Şimdilik Atla",
+  "recaps_story_sleep_title": "%{month} Ayındaki Gecelerin",
   "recaps_tag_back_text": {
     "one": "Bir gün, %{weeks} haftalık aradan sonra.",
     "other": "{{count}} gün, %{weeks} haftalık aradan sonra."

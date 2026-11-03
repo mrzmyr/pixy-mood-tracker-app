@@ -1063,6 +1063,17 @@
     "other": "Jämfört med dagar utan taggen. {{count}} incheckningar."
   },
   "recaps_story_lifted_title": "Dagar med %{tag} kändes lättast",
+  "recaps_story_missed_add": {
+    "one": "Lägg till på 1 kväll",
+    "other": "Lägg till på {{count}} kvällar"
+  },
+  "recaps_story_missed_create": "Skapa ”{{name}}”",
+  "recaps_story_missed_evenings_hint": "Lägg till ”%{tag}” på kvällarna då det fanns med. Du kan hoppa över det här.",
+  "recaps_story_missed_evenings_title": "Lägg till på kvällar",
+  "recaps_story_missed_hint": "Välj en du redan använder eller skapa en ny.",
+  "recaps_story_missed_not_now": "Inte nu",
+  "recaps_story_missed_search": "Sök eller skapa",
+  "recaps_story_missed_title": "Vilken tagg saknas?",
   "recaps_story_new_people_line_1": "Se vem som hittade in i dina dagar.",
   "recaps_story_new_people_line_10": "Inte varje månad ger någon ny. Den här gjorde det.",
   "recaps_story_new_people_line_11": "Din krets förändras, lite i taget.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Vem spelade störst roll den här månaden?",
   "recaps_story_quiz_wrong": "Nära. Det var %{name}.",
   "recaps_story_ready": "Redo att titta",
+  "recaps_story_rough_added": "tillagd",
+  "recaps_story_rough_all_hint": "Ser du något mer än en gång?",
+  "recaps_story_rough_all_title": {
+    "one": "1 natt i överblick",
+    "other": "Alla {{count}} sida vid sida"
+  },
+  "recaps_story_rough_ask_hint": "Välj så många du vill.",
+  "recaps_story_rough_ask_title": "Vad tror du låg bakom?",
+  "recaps_story_rough_back": "Tillbaka till tillbakablicken",
+  "recaps_story_rough_closing_body": "Du känner dina dagar bäst, och varje incheckning hjälper.",
+  "recaps_story_rough_closing_title": "Att blicka tillbaka så här gör mönster tydligare.",
+  "recaps_story_rough_done": "Klar",
+  "recaps_story_rough_evening": "%{weekday} kväll",
+  "recaps_story_rough_eyebrow": "Orolig natt %{position} av %{count}",
+  "recaps_story_rough_felt": "Kände",
+  "recaps_story_rough_missed": "Jag missade en tagg",
+  "recaps_story_rough_more": {
+    "one": "+1 till",
+    "other": "+{{count}} till"
+  },
+  "recaps_story_rough_most_days": "de flesta dagar",
+  "recaps_story_rough_nights": "Oroliga nätter",
+  "recaps_story_rough_not_sure": "Vet inte",
+  "recaps_story_rough_note": "Anteckning",
+  "recaps_story_rough_nothing": "Inget loggat",
+  "recaps_story_rough_people": "I kontakt med",
+  "recaps_story_rough_people_short": "Personer",
+  "recaps_story_rough_tags": "Taggar",
   "recaps_story_share": "Dela",
   "recaps_story_share_shuffle": "Blanda foton",
   "recaps_story_share_title": "Min %{month}",
   "recaps_story_share_title_week": "Min vecka",
+  "recaps_story_sleep_ask": {
+    "one": "1 natt var orolig. Titta närmare?",
+    "other": "{{count}} nätter var oroliga. Titta närmare?"
+  },
+  "recaps_story_sleep_hint": "Fylligare stapel, bättre sömn.",
+  "recaps_story_sleep_look": "Vi tittar",
+  "recaps_story_sleep_skip": "Inte nu",
+  "recaps_story_sleep_title": "Dina nätter i %{month}",
   "recaps_tag_back_text": {
     "one": "En dag, efter %{weeks} veckor utan.",
     "other": "{{count}} dagar, efter %{weeks} veckor utan."

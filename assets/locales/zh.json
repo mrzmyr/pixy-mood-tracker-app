@@ -1063,6 +1063,17 @@
     "other": "与没有该标签的日子相比。{{count}} 次记录。"
   },
   "recaps_story_lifted_title": "有%{tag}的日子感觉最轻松",
+  "recaps_story_missed_add": {
+    "one": "添加到 1 个晚上",
+    "other": "添加到 {{count}} 个晚上"
+  },
+  "recaps_story_missed_create": "创建“{{name}}”",
+  "recaps_story_missed_evenings_hint": "把“%{tag}”添加到出现过它的晚上。也可以跳过。",
+  "recaps_story_missed_evenings_title": "添加到晚上",
+  "recaps_story_missed_hint": "选一个你已经在用的，或新建一个。",
+  "recaps_story_missed_not_now": "以后再说",
+  "recaps_story_missed_search": "搜索或创建",
+  "recaps_story_missed_title": "缺了哪个标签？",
   "recaps_story_new_people_line_1": "看看谁走进了你的日子。",
   "recaps_story_new_people_line_10": "不是每个月都有新的人出现。这个月有。",
   "recaps_story_new_people_line_11": "你的圈子在一点点变化。",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "这个月谁的分量最重？",
   "recaps_story_quiz_wrong": "差一点。是%{name}。",
   "recaps_story_ready": "可以观看了",
+  "recaps_story_rough_added": "已添加",
+  "recaps_story_rough_all_hint": "有没有反复出现的？",
+  "recaps_story_rough_all_title": {
+    "one": "1 个夜晚，放在一起看",
+    "other": "全部 {{count}} 个，放在一起看"
+  },
+  "recaps_story_rough_ask_hint": "想选几个都可以。",
+  "recaps_story_rough_ask_title": "你觉得背后是什么原因？",
+  "recaps_story_rough_back": "返回回顾",
+  "recaps_story_rough_closing_body": "你最了解自己的每一天，每次记录都有帮助。",
+  "recaps_story_rough_closing_title": "像这样回头看，规律会越来越清晰。",
+  "recaps_story_rough_done": "完成",
+  "recaps_story_rough_evening": "%{weekday}晚上",
+  "recaps_story_rough_eyebrow": "难熬的夜晚 %{position}/%{count}",
+  "recaps_story_rough_felt": "感受",
+  "recaps_story_rough_missed": "我漏了一个标签",
+  "recaps_story_rough_more": {
+    "one": "还有 1 个",
+    "other": "还有 {{count}} 个"
+  },
+  "recaps_story_rough_most_days": "大多数日子",
+  "recaps_story_rough_nights": "难熬的夜晚",
+  "recaps_story_rough_not_sure": "不确定",
+  "recaps_story_rough_note": "笔记",
+  "recaps_story_rough_nothing": "没有记录",
+  "recaps_story_rough_people": "联系过",
+  "recaps_story_rough_people_short": "人物",
+  "recaps_story_rough_tags": "标签",
   "recaps_story_share": "分享",
   "recaps_story_share_shuffle": "随机换照片",
   "recaps_story_share_title": "我的%{month}",
   "recaps_story_share_title_week": "我的一周",
+  "recaps_story_sleep_ask": {
+    "one": "有 1 个夜晚比较难熬。仔细看看？",
+    "other": "有 {{count}} 个夜晚比较难熬。仔细看看？"
+  },
+  "recaps_story_sleep_hint": "条越满，睡得越好。",
+  "recaps_story_sleep_look": "看看吧",
+  "recaps_story_sleep_skip": "暂时跳过",
+  "recaps_story_sleep_title": "你在%{month}的夜晚",
   "recaps_tag_back_text": {
     "one": "隔了 %{weeks} 周后出现 1 天。",
     "other": "隔了 %{weeks} 周后出现 {{count}} 天。"

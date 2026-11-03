@@ -1063,6 +1063,17 @@
     "other": "Порівняно з днями без тегу. Відміток: {{count}}."
   },
   "recaps_story_lifted_title": "Дні з %{tag} були найлегшими",
+  "recaps_story_missed_add": {
+    "one": "Додати до 1 вечора",
+    "other": "Додати до вечорів: {{count}}"
+  },
+  "recaps_story_missed_create": "Створити «{{name}}»",
+  "recaps_story_missed_evenings_hint": "Додай «%{tag}» до вечорів, коли це було. Цей крок можна пропустити.",
+  "recaps_story_missed_evenings_title": "Додати до вечорів",
+  "recaps_story_missed_hint": "Обери тег, який уже використовуєш, або створи новий.",
+  "recaps_story_missed_not_now": "Не зараз",
+  "recaps_story_missed_search": "Знайти або створити",
+  "recaps_story_missed_title": "Якого тегу бракує?",
   "recaps_story_new_people_line_1": "Подивіться, хто знайшов дорогу у ваші дні.",
   "recaps_story_new_people_line_10": "Не кожен місяць приносить когось нового. Цей приніс.",
   "recaps_story_new_people_line_11": "Ваше коло змінюється, потроху.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Хто зіграв найбільшу роль цього місяця?",
   "recaps_story_quiz_wrong": "Майже. Це був(ла) %{name}.",
   "recaps_story_ready": "Можна переглянути",
+  "recaps_story_rough_added": "додано",
+  "recaps_story_rough_all_hint": "Щось повторюється?",
+  "recaps_story_rough_all_title": {
+    "one": "1 ніч крупним планом",
+    "other": "Усі ({{count}}) поруч"
+  },
+  "recaps_story_rough_ask_hint": "Обери скільки хочеш.",
+  "recaps_story_rough_ask_title": "Як думаєш, що за ними стояло?",
+  "recaps_story_rough_back": "Назад до підсумків",
+  "recaps_story_rough_closing_body": "Ти найкраще знаєш свої дні, і кожен запис допомагає.",
+  "recaps_story_rough_closing_title": "Такий погляд назад допомагає краще бачити закономірності.",
+  "recaps_story_rough_done": "Готово",
+  "recaps_story_rough_evening": "%{weekday}, вечір",
+  "recaps_story_rough_eyebrow": "Важка ніч %{position} з %{count}",
+  "recaps_story_rough_felt": "Почуття",
+  "recaps_story_rough_missed": "Бракує тегу",
+  "recaps_story_rough_more": {
+    "one": "+1 ще",
+    "other": "+{{count}} ще"
+  },
+  "recaps_story_rough_most_days": "майже щодня",
+  "recaps_story_rough_nights": "Важкі ночі",
+  "recaps_story_rough_not_sure": "Не знаю",
+  "recaps_story_rough_note": "Нотатка",
+  "recaps_story_rough_nothing": "Нічого не записано",
+  "recaps_story_rough_people": "На зв’язку з",
+  "recaps_story_rough_people_short": "Люди",
+  "recaps_story_rough_tags": "Теги",
   "recaps_story_share": "Поділитися",
   "recaps_story_share_shuffle": "Перемішати фото",
   "recaps_story_share_title": "Мій %{month}",
   "recaps_story_share_title_week": "Мій тиждень",
+  "recaps_story_sleep_ask": {
+    "one": "1 ніч була важкою. Подивитися уважніше?",
+    "other": "Важких ночей: {{count}}. Подивитися уважніше?"
+  },
+  "recaps_story_sleep_hint": "Повніший стовпчик, кращий сон.",
+  "recaps_story_sleep_look": "Подивімось",
+  "recaps_story_sleep_skip": "Пропустити",
+  "recaps_story_sleep_title": "Твої ночі: %{month}",
   "recaps_tag_back_text": {
     "one": "Один день, після %{weeks} тиж. без.",
     "other": "{{count}} дн., після %{weeks} тиж. без."

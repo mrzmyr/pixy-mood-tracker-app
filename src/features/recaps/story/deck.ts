@@ -7,6 +7,7 @@ import { parsePlace } from "../places";
 import { getActiveTags } from "../cards/nudges";
 import { peopleOn } from "../cards/summaries";
 import { THRESHOLDS } from "../thresholds";
+import { sleep } from "./sleep";
 import type { DateKey, RecapDay, RecapInput } from "../types";
 import type {
   BestDaySlide,
@@ -357,6 +358,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     bestDay(input),
     positiveTags(input),
     negativeTags(input),
+    sleep(input),
     peopleQuiz(input),
     orbit(input),
     newPeople(input),

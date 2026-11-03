@@ -1063,6 +1063,17 @@
     "other": "이 태그가 없는 날과 비교했어요. 기록 {{count}}개."
   },
   "recaps_story_lifted_title": "%{tag} 있는 날이 가장 가벼웠어요",
+  "recaps_story_missed_add": {
+    "one": "1일 저녁에 추가",
+    "other": "{{count}}일 저녁에 추가"
+  },
+  "recaps_story_missed_create": "“{{name}}” 만들기",
+  "recaps_story_missed_evenings_hint": "“%{tag}”이(가) 있었던 저녁에 추가하세요. 건너뛰어도 괜찮아요.",
+  "recaps_story_missed_evenings_title": "저녁에 추가",
+  "recaps_story_missed_hint": "이미 쓰는 태그를 고르거나 새로 만드세요.",
+  "recaps_story_missed_not_now": "나중에",
+  "recaps_story_missed_search": "검색 또는 만들기",
+  "recaps_story_missed_title": "빠진 태그가 있나요?",
   "recaps_story_new_people_line_1": "누가 당신의 하루에 찾아왔는지 보세요.",
   "recaps_story_new_people_line_10": "매달 새로운 사람이 오는 건 아니에요. 이번 달은 왔어요.",
   "recaps_story_new_people_line_11": "당신의 곁은 조금씩 달라져요.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "이번 달 가장 큰 역할을 한 사람은 누구일까요?",
   "recaps_story_quiz_wrong": "아깝네요. 정답은 %{name}였어요.",
   "recaps_story_ready": "지금 볼 수 있어요",
+  "recaps_story_rough_added": "추가됨",
+  "recaps_story_rough_all_hint": "여러 번 보이는 게 있나요?",
+  "recaps_story_rough_all_title": {
+    "one": "1일 밤, 나란히",
+    "other": "{{count}}일 밤 모두, 나란히"
+  },
+  "recaps_story_rough_ask_hint": "원하는 만큼 고르세요.",
+  "recaps_story_rough_ask_title": "그 뒤에 무엇이 있었다고 생각하나요?",
+  "recaps_story_rough_back": "돌아보기로 돌아가기",
+  "recaps_story_rough_closing_body": "내 하루는 내가 가장 잘 알아요. 기록 하나하나가 도움이 돼요.",
+  "recaps_story_rough_closing_title": "이렇게 돌아보면 패턴이 더 선명해져요.",
+  "recaps_story_rough_done": "완료",
+  "recaps_story_rough_evening": "%{weekday} 저녁",
+  "recaps_story_rough_eyebrow": "힘든 밤 %{position}/%{count}",
+  "recaps_story_rough_felt": "느낀 감정",
+  "recaps_story_rough_missed": "태그를 빠뜨렸어요",
+  "recaps_story_rough_more": {
+    "one": "+1개 더",
+    "other": "+{{count}}개 더"
+  },
+  "recaps_story_rough_most_days": "거의 매일",
+  "recaps_story_rough_nights": "힘든 밤",
+  "recaps_story_rough_not_sure": "잘 모르겠어요",
+  "recaps_story_rough_note": "메모",
+  "recaps_story_rough_nothing": "기록 없음",
+  "recaps_story_rough_people": "연결된 사람",
+  "recaps_story_rough_people_short": "사람",
+  "recaps_story_rough_tags": "태그",
   "recaps_story_share": "공유",
   "recaps_story_share_shuffle": "사진 섞기",
   "recaps_story_share_title": "나의 %{month}",
   "recaps_story_share_title_week": "나의 한 주",
+  "recaps_story_sleep_ask": {
+    "one": "힘든 밤이 1일 있었어요. 자세히 볼까요?",
+    "other": "힘든 밤이 {{count}}일 있었어요. 자세히 볼까요?"
+  },
+  "recaps_story_sleep_hint": "막대가 찰수록 잘 잔 거예요.",
+  "recaps_story_sleep_look": "볼게요",
+  "recaps_story_sleep_skip": "나중에",
+  "recaps_story_sleep_title": "%{month}의 밤",
   "recaps_tag_back_text": {
     "one": "%{weeks}주 만에 하루.",
     "other": "%{weeks}주 만에 {{count}}일."

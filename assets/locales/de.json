@@ -1063,6 +1063,17 @@
     "other": "Im Vergleich zu Tagen ohne. {{count}} Check-ins."
   },
   "recaps_story_lifted_title": "Tage mit %{tag} fühlten sich am leichtesten an",
+  "recaps_story_missed_add": {
+    "one": "Zu 1 Abend hinzufügen",
+    "other": "Zu {{count}} Abenden hinzufügen"
+  },
+  "recaps_story_missed_create": "„{{name}}“ erstellen",
+  "recaps_story_missed_evenings_hint": "Füge „%{tag}“ zu den Abenden hinzu, an denen es dabei war. Du kannst das auch überspringen.",
+  "recaps_story_missed_evenings_title": "Zu Abenden hinzufügen",
+  "recaps_story_missed_hint": "Wähle eins, das du schon nutzt, oder erstelle ein neues.",
+  "recaps_story_missed_not_now": "Nicht jetzt",
+  "recaps_story_missed_search": "Suchen oder erstellen",
+  "recaps_story_missed_title": "Welches Schlagwort fehlt?",
   "recaps_story_new_people_line_1": "Schau, wer den Weg in deine Tage gefunden hat.",
   "recaps_story_new_people_line_10": "Nicht jeder Monat bringt jemand Neues. Dieser schon.",
   "recaps_story_new_people_line_11": "Dein Kreis verändert sich, Stück für Stück.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Wer hat diesen Monat die größte Rolle gespielt?",
   "recaps_story_quiz_wrong": "Knapp daneben. Es war %{name}.",
   "recaps_story_ready": "Bereit zum Ansehen",
+  "recaps_story_rough_added": "hinzugefügt",
+  "recaps_story_rough_all_hint": "Fällt dir etwas mehrmals auf?",
+  "recaps_story_rough_all_title": {
+    "one": "1 Nacht im Überblick",
+    "other": "Alle {{count}} nebeneinander"
+  },
+  "recaps_story_rough_ask_hint": "Wähle so viele, wie du magst.",
+  "recaps_story_rough_ask_title": "Was steckte deiner Meinung nach dahinter?",
+  "recaps_story_rough_back": "Zurück zum Rückblick",
+  "recaps_story_rough_closing_body": "Du kennst deine Tage am besten, und jeder Check-in hilft.",
+  "recaps_story_rough_closing_title": "So zurückzuschauen macht Muster klarer.",
+  "recaps_story_rough_done": "Fertig",
+  "recaps_story_rough_evening": "%{weekday}abend",
+  "recaps_story_rough_eyebrow": "Unruhige Nacht %{position} von %{count}",
+  "recaps_story_rough_felt": "Gefühle",
+  "recaps_story_rough_missed": "Mir fehlt ein Schlagwort",
+  "recaps_story_rough_more": {
+    "one": "+1 weiteres",
+    "other": "+{{count}} weitere"
+  },
+  "recaps_story_rough_most_days": "an den meisten Tagen",
+  "recaps_story_rough_nights": "Unruhige Nächte",
+  "recaps_story_rough_not_sure": "Weiß nicht",
+  "recaps_story_rough_note": "Notiz",
+  "recaps_story_rough_nothing": "Nichts eingetragen",
+  "recaps_story_rough_people": "In Kontakt mit",
+  "recaps_story_rough_people_short": "Personen",
+  "recaps_story_rough_tags": "Schlagwörter",
   "recaps_story_share": "Teilen",
   "recaps_story_share_shuffle": "Fotos mischen",
   "recaps_story_share_title": "Mein %{month}",
   "recaps_story_share_title_week": "Meine Woche",
+  "recaps_story_sleep_ask": {
+    "one": "1 Nacht war unruhig. Genauer hinschauen?",
+    "other": "{{count}} Nächte waren unruhig. Genauer hinschauen?"
+  },
+  "recaps_story_sleep_hint": "Vollerer Balken, besserer Schlaf.",
+  "recaps_story_sleep_look": "Anschauen",
+  "recaps_story_sleep_skip": "Vorerst überspringen",
+  "recaps_story_sleep_title": "Deine Nächte im %{month}",
   "recaps_tag_back_text": {
     "one": "An einem Tag, nach %{weeks} Wochen ohne.",
     "other": "An {{count}} Tagen, nach %{weeks} Wochen ohne."

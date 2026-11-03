@@ -446,6 +446,54 @@ export const TagLabel = ({
   </View>
 );
 
+/**
+ * Emotion, tag, or person on the sky: marker and name on a glass chip.
+ * `trailing` follows the name, for example a count. `isSmall` for busy
+ * slides.
+ */
+export const GlassChip = ({
+  theme,
+  marker,
+  label,
+  trailing,
+  isSmall = false,
+}: {
+  theme: StoryTheme;
+  marker: React.ReactNode;
+  label: string;
+  trailing?: React.ReactNode;
+  isSmall?: boolean;
+}) => {
+  const palette = STORY_PALETTE[theme];
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: isSmall ? 6 : 8,
+        paddingHorizontal: isSmall ? 9 : 12,
+        paddingVertical: isSmall ? 5 : 8,
+        borderRadius: RADIUS.md,
+        borderCurve: "continuous",
+        borderWidth: 1,
+        borderColor: palette.glassBorder,
+        backgroundColor: palette.glass,
+      }}
+    >
+      {marker}
+      <StoryText
+        kind="label"
+        theme={theme}
+        numberOfLines={1}
+        style={isSmall ? { fontSize: 13, lineHeight: 17 } : undefined}
+      >
+        {label}
+      </StoryText>
+      {trailing}
+    </View>
+  );
+};
+
 /** Photo file of an entry, cropped to fill. Never decorative: has a label. */
 export const StoryImage = ({
   photo,

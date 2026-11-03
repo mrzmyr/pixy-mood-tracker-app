@@ -1063,6 +1063,17 @@
     "other": "مقارنةً بالأيام دون هذا الوسم. التسجيلات: {{count}}."
   },
   "recaps_story_lifted_title": "أيام %{tag} كانت الأخف",
+  "recaps_story_missed_add": {
+    "one": "إضافة إلى أمسية واحدة",
+    "other": "إضافة إلى {{count}} أمسيات"
+  },
+  "recaps_story_missed_create": "إنشاء «{{name}}»",
+  "recaps_story_missed_evenings_hint": "أضف «%{tag}» إلى الأمسيات التي كان فيها. يمكنك تخطي هذا.",
+  "recaps_story_missed_evenings_title": "إضافة إلى الأمسيات",
+  "recaps_story_missed_hint": "اختر علامة تستخدمها أو أنشئ علامة جديدة.",
+  "recaps_story_missed_not_now": "ليس الآن",
+  "recaps_story_missed_search": "ابحث أو أنشئ",
+  "recaps_story_missed_title": "ما العلامة الناقصة؟",
   "recaps_story_new_people_line_1": "انظر من وجد طريقه إلى أيامك.",
   "recaps_story_new_people_line_10": "ليس كل شهر يأتي بشخص جديد. هذا الشهر فعل.",
   "recaps_story_new_people_line_11": "دائرتك تتغير، شيئًا فشيئًا.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "من كان له الدور الأكبر هذا الشهر؟",
   "recaps_story_quiz_wrong": "قريب جدًا. كان %{name}.",
   "recaps_story_ready": "جاهز للمشاهدة",
+  "recaps_story_rough_added": "أُضيفت",
+  "recaps_story_rough_all_hint": "هل ترى شيئًا يتكرر؟",
+  "recaps_story_rough_all_title": {
+    "one": "ليلة واحدة، جنبًا إلى جنب",
+    "other": "كل الليالي ({{count}})، جنبًا إلى جنب"
+  },
+  "recaps_story_rough_ask_hint": "اختر ما تشاء.",
+  "recaps_story_rough_ask_title": "ما الذي تظن أنه كان وراءها؟",
+  "recaps_story_rough_back": "العودة إلى ملخصك",
+  "recaps_story_rough_closing_body": "أنت أعلم بأيامك، وكل تسجيل يساعد.",
+  "recaps_story_rough_closing_title": "النظر إلى الوراء هكذا يجعل الأنماط أوضح.",
+  "recaps_story_rough_done": "تم",
+  "recaps_story_rough_evening": "مساء %{weekday}",
+  "recaps_story_rough_eyebrow": "ليلة صعبة %{position} من %{count}",
+  "recaps_story_rough_felt": "المشاعر",
+  "recaps_story_rough_missed": "نسيت علامة",
+  "recaps_story_rough_more": {
+    "one": "+1 أخرى",
+    "other": "+{{count}} أخرى"
+  },
+  "recaps_story_rough_most_days": "معظم الأيام",
+  "recaps_story_rough_nights": "ليالٍ صعبة",
+  "recaps_story_rough_not_sure": "لا أعرف",
+  "recaps_story_rough_note": "ملاحظة",
+  "recaps_story_rough_nothing": "لا شيء مسجّل",
+  "recaps_story_rough_people": "على تواصل مع",
+  "recaps_story_rough_people_short": "الأشخاص",
+  "recaps_story_rough_tags": "العلامات",
   "recaps_story_share": "مشاركة",
   "recaps_story_share_shuffle": "خلط الصور",
   "recaps_story_share_title": "شهري: %{month}",
   "recaps_story_share_title_week": "أسبوعي",
+  "recaps_story_sleep_ask": {
+    "one": "كانت ليلة واحدة صعبة. نلقي نظرة أقرب؟",
+    "other": "كانت {{count}} ليالٍ صعبة. نلقي نظرة أقرب؟"
+  },
+  "recaps_story_sleep_hint": "شريط أملأ، نوم أفضل.",
+  "recaps_story_sleep_look": "لنلقِ نظرة",
+  "recaps_story_sleep_skip": "ليس الآن",
+  "recaps_story_sleep_title": "لياليك في %{month}",
   "recaps_tag_back_text": {
     "one": "في يوم واحد، بعد %{weeks} أسابيع من دونه.",
     "other": "في {{count}} يومًا، بعد %{weeks} أسابيع من دونه."

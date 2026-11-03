@@ -1063,6 +1063,17 @@
     "other": "Sammenlignet med dager uten taggen. {{count}} innsjekkinger."
   },
   "recaps_story_lifted_title": "Dager med %{tag} føltes lettest",
+  "recaps_story_missed_add": {
+    "one": "Legg til 1 kveld",
+    "other": "Legg til {{count}} kvelder"
+  },
+  "recaps_story_missed_create": "Opprett «{{name}}»",
+  "recaps_story_missed_evenings_hint": "Legg til «%{tag}» på kveldene der det var med. Du kan hoppe over dette.",
+  "recaps_story_missed_evenings_title": "Legg til kvelder",
+  "recaps_story_missed_hint": "Velg en du allerede bruker, eller opprett en ny.",
+  "recaps_story_missed_not_now": "Ikke nå",
+  "recaps_story_missed_search": "Søk eller opprett",
+  "recaps_story_missed_title": "Hvilken tagg mangler?",
   "recaps_story_new_people_line_1": "Se hvem som fant veien inn i dagene dine.",
   "recaps_story_new_people_line_10": "Ikke hver måned bringer noen ny. Denne gjorde det.",
   "recaps_story_new_people_line_11": "Kretsen din endrer seg, litt om gangen.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Hvem spilte den største rollen denne måneden?",
   "recaps_story_quiz_wrong": "Nesten. Det var %{name}.",
   "recaps_story_ready": "Klar til å se",
+  "recaps_story_rough_added": "lagt til",
+  "recaps_story_rough_all_hint": "Ser du noe mer enn én gang?",
+  "recaps_story_rough_all_title": {
+    "one": "1 natt i oversikt",
+    "other": "Alle {{count}} side om side"
+  },
+  "recaps_story_rough_ask_hint": "Velg så mange du vil.",
+  "recaps_story_rough_ask_title": "Hva tror du lå bak?",
+  "recaps_story_rough_back": "Tilbake til tilbakeblikket",
+  "recaps_story_rough_closing_body": "Du kjenner dagene dine best, og hver innsjekking hjelper.",
+  "recaps_story_rough_closing_title": "Å se tilbake slik gjør mønstre tydeligere.",
+  "recaps_story_rough_done": "Ferdig",
+  "recaps_story_rough_evening": "%{weekday} kveld",
+  "recaps_story_rough_eyebrow": "Urolig natt %{position} av %{count}",
+  "recaps_story_rough_felt": "Følte",
+  "recaps_story_rough_missed": "Jeg glemte en tagg",
+  "recaps_story_rough_more": {
+    "one": "+1 til",
+    "other": "+{{count}} til"
+  },
+  "recaps_story_rough_most_days": "de fleste dager",
+  "recaps_story_rough_nights": "Urolige netter",
+  "recaps_story_rough_not_sure": "Vet ikke",
+  "recaps_story_rough_note": "Notat",
+  "recaps_story_rough_nothing": "Ingenting registrert",
+  "recaps_story_rough_people": "I kontakt med",
+  "recaps_story_rough_people_short": "Personer",
+  "recaps_story_rough_tags": "Tagger",
   "recaps_story_share": "Del",
   "recaps_story_share_shuffle": "Stokk bildene",
   "recaps_story_share_title": "Min %{month}",
   "recaps_story_share_title_week": "Min uke",
+  "recaps_story_sleep_ask": {
+    "one": "1 natt var urolig. Se nærmere?",
+    "other": "{{count}} netter var urolige. Se nærmere?"
+  },
+  "recaps_story_sleep_hint": "Fyldigere stolpe, bedre søvn.",
+  "recaps_story_sleep_look": "La oss se",
+  "recaps_story_sleep_skip": "Ikke nå",
+  "recaps_story_sleep_title": "Nettene dine i %{month}",
   "recaps_tag_back_text": {
     "one": "Én dag, etter %{weeks} uker uten.",
     "other": "{{count}} dager, etter %{weeks} uker uten."

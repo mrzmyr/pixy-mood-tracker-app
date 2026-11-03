@@ -1063,6 +1063,17 @@
     "other": "Verrattuna päiviin ilman tunnistetta. {{count}} kirjausta."
   },
   "recaps_story_lifted_title": "Päivät, joina %{tag}, tuntuivat kevyimmiltä",
+  "recaps_story_missed_add": {
+    "one": "Lisää 1 iltaan",
+    "other": "Lisää {{count}} iltaan"
+  },
+  "recaps_story_missed_create": "Luo ”{{name}}”",
+  "recaps_story_missed_evenings_hint": "Lisää ”%{tag}” niihin iltoihin, joina se oli mukana. Voit ohittaa tämän.",
+  "recaps_story_missed_evenings_title": "Lisää iltoihin",
+  "recaps_story_missed_hint": "Valitse jo käyttämäsi tai luo uusi.",
+  "recaps_story_missed_not_now": "Ei nyt",
+  "recaps_story_missed_search": "Hae tai luo",
+  "recaps_story_missed_title": "Mikä tunniste puuttuu?",
   "recaps_story_new_people_line_1": "Katso, kuka löysi tiensä päiviisi.",
   "recaps_story_new_people_line_10": "Kaikki kuukaudet eivät tuo ketään uutta. Tämä toi.",
   "recaps_story_new_people_line_11": "Piirisi muuttuu, vähitellen.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Kuka oli tässä kuussa suurimmassa roolissa?",
   "recaps_story_quiz_wrong": "Melkein. Se oli %{name}.",
   "recaps_story_ready": "Valmis katsottavaksi",
+  "recaps_story_rough_added": "lisätty",
+  "recaps_story_rough_all_hint": "Näetkö jotain useammin kuin kerran?",
+  "recaps_story_rough_all_title": {
+    "one": "1 yö yhdellä silmäyksellä",
+    "other": "Kaikki {{count}} rinnakkain"
+  },
+  "recaps_story_rough_ask_hint": "Valitse niin monta kuin haluat.",
+  "recaps_story_rough_ask_title": "Mitä luulet niiden taustalla olleen?",
+  "recaps_story_rough_back": "Takaisin katsaukseen",
+  "recaps_story_rough_closing_body": "Tunnet päiväsi parhaiten, ja jokainen kirjaus auttaa.",
+  "recaps_story_rough_closing_title": "Näin taaksepäin katsomalla kaavat selkenevät.",
+  "recaps_story_rough_done": "Valmis",
+  "recaps_story_rough_evening": "%{weekday}-ilta",
+  "recaps_story_rough_eyebrow": "Levoton yö %{position}/%{count}",
+  "recaps_story_rough_felt": "Tunteet",
+  "recaps_story_rough_missed": "Unohdin tunnisteen",
+  "recaps_story_rough_more": {
+    "one": "+1 lisää",
+    "other": "+{{count}} lisää"
+  },
+  "recaps_story_rough_most_days": "useimpina päivinä",
+  "recaps_story_rough_nights": "Levottomat yöt",
+  "recaps_story_rough_not_sure": "En ole varma",
+  "recaps_story_rough_note": "Muistiinpano",
+  "recaps_story_rough_nothing": "Ei kirjauksia",
+  "recaps_story_rough_people": "Yhteydessä",
+  "recaps_story_rough_people_short": "Ihmiset",
+  "recaps_story_rough_tags": "Tunnisteet",
   "recaps_story_share": "Jaa",
   "recaps_story_share_shuffle": "Sekoita kuvat",
   "recaps_story_share_title": "Minun %{month}",
   "recaps_story_share_title_week": "Minun viikkoni",
+  "recaps_story_sleep_ask": {
+    "one": "1 yö oli levoton. Katsotaanko tarkemmin?",
+    "other": "{{count}} yötä oli levottomia. Katsotaanko tarkemmin?"
+  },
+  "recaps_story_sleep_hint": "Täydempi palkki, parempi uni.",
+  "recaps_story_sleep_look": "Katsotaan",
+  "recaps_story_sleep_skip": "Ei nyt",
+  "recaps_story_sleep_title": "Yösi: %{month}",
   "recaps_tag_back_text": {
     "one": "Yhtenä päivänä, %{weeks} viikon tauon jälkeen.",
     "other": "{{count}} päivänä, %{weeks} viikon tauon jälkeen."

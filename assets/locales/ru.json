@@ -1063,6 +1063,17 @@
     "other": "По сравнению с днями без тега. Отметок: {{count}}."
   },
   "recaps_story_lifted_title": "Дни с %{tag} были самыми лёгкими",
+  "recaps_story_missed_add": {
+    "one": "Добавить к 1 вечеру",
+    "other": "Добавить к вечерам: {{count}}"
+  },
+  "recaps_story_missed_create": "Создать «{{name}}»",
+  "recaps_story_missed_evenings_hint": "Добавь «%{tag}» к вечерам, когда это было. Этот шаг можно пропустить.",
+  "recaps_story_missed_evenings_title": "Добавить к вечерам",
+  "recaps_story_missed_hint": "Выбери тег, который уже используешь, или создай новый.",
+  "recaps_story_missed_not_now": "Не сейчас",
+  "recaps_story_missed_search": "Найти или создать",
+  "recaps_story_missed_title": "Какого тега не хватает?",
   "recaps_story_new_people_line_1": "Посмотрите, кто нашёл дорогу в ваши дни.",
   "recaps_story_new_people_line_10": "Не каждый месяц приносит кого-то нового. Этот принёс.",
   "recaps_story_new_people_line_11": "Ваш круг меняется, понемногу.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Кто сыграл самую большую роль в этом месяце?",
   "recaps_story_quiz_wrong": "Почти. Это был(а) %{name}.",
   "recaps_story_ready": "Можно посмотреть",
+  "recaps_story_rough_added": "добавлено",
+  "recaps_story_rough_all_hint": "Что-то повторяется?",
+  "recaps_story_rough_all_title": {
+    "one": "1 ночь крупным планом",
+    "other": "Все ({{count}}) рядом"
+  },
+  "recaps_story_rough_ask_hint": "Выбери сколько хочешь.",
+  "recaps_story_rough_ask_title": "Как думаешь, что за ними стояло?",
+  "recaps_story_rough_back": "Назад к итогам",
+  "recaps_story_rough_closing_body": "Ты лучше всех знаешь свои дни, и каждая запись помогает.",
+  "recaps_story_rough_closing_title": "Такой взгляд назад помогает лучше видеть закономерности.",
+  "recaps_story_rough_done": "Готово",
+  "recaps_story_rough_evening": "%{weekday}, вечер",
+  "recaps_story_rough_eyebrow": "Трудная ночь %{position} из %{count}",
+  "recaps_story_rough_felt": "Чувства",
+  "recaps_story_rough_missed": "Не хватает тега",
+  "recaps_story_rough_more": {
+    "one": "+1 ещё",
+    "other": "+{{count}} ещё"
+  },
+  "recaps_story_rough_most_days": "почти каждый день",
+  "recaps_story_rough_nights": "Трудные ночи",
+  "recaps_story_rough_not_sure": "Не знаю",
+  "recaps_story_rough_note": "Заметка",
+  "recaps_story_rough_nothing": "Ничего не записано",
+  "recaps_story_rough_people": "На связи с",
+  "recaps_story_rough_people_short": "Люди",
+  "recaps_story_rough_tags": "Теги",
   "recaps_story_share": "Поделиться",
   "recaps_story_share_shuffle": "Перемешать фото",
   "recaps_story_share_title": "Мой %{month}",
   "recaps_story_share_title_week": "Моя неделя",
+  "recaps_story_sleep_ask": {
+    "one": "1 ночь была трудной. Посмотреть внимательнее?",
+    "other": "Трудных ночей: {{count}}. Посмотреть внимательнее?"
+  },
+  "recaps_story_sleep_hint": "Полнее столбик, лучше сон.",
+  "recaps_story_sleep_look": "Посмотрим",
+  "recaps_story_sleep_skip": "Пропустить",
+  "recaps_story_sleep_title": "Твои ночи: %{month}",
   "recaps_tag_back_text": {
     "one": "Один день, после %{weeks} нед. без.",
     "other": "{{count}} дн., после %{weeks} нед. без."

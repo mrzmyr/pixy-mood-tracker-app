@@ -1063,6 +1063,17 @@
     "other": "Ve srovnání s dny bez štítku. Záznamů: {{count}}."
   },
   "recaps_story_lifted_title": "Dny se štítkem %{tag} byly nejlehčí",
+  "recaps_story_missed_add": {
+    "one": "Přidat k 1 večeru",
+    "other": "Přidat k večerům: {{count}}"
+  },
+  "recaps_story_missed_create": "Vytvořit „{{name}}“",
+  "recaps_story_missed_evenings_hint": "Přidej „%{tag}“ k večerům, kdy se objevil. Můžeš to přeskočit.",
+  "recaps_story_missed_evenings_title": "Přidat k večerům",
+  "recaps_story_missed_hint": "Vyber jeden, který už používáš, nebo vytvoř nový.",
+  "recaps_story_missed_not_now": "Teď ne",
+  "recaps_story_missed_search": "Hledat nebo vytvořit",
+  "recaps_story_missed_title": "Který tag chybí?",
   "recaps_story_new_people_line_1": "Podívej, kdo si našel cestu do tvých dnů.",
   "recaps_story_new_people_line_10": "Ne každý měsíc přinese někoho nového. Tenhle ano.",
   "recaps_story_new_people_line_11": "Tvůj okruh se mění, kousek po kousku.",
@@ -1101,10 +1112,46 @@
   "recaps_story_quiz_title": "Kdo hrál tento měsíc největší roli?",
   "recaps_story_quiz_wrong": "Těsně vedle. Byl(a) to %{name}.",
   "recaps_story_ready": "Připraveno ke shlédnutí",
+  "recaps_story_rough_added": "přidáno",
+  "recaps_story_rough_all_hint": "Vidíš něco víckrát?",
+  "recaps_story_rough_all_title": {
+    "one": "1 noc v přehledu",
+    "other": "Všechny ({{count}}) vedle sebe"
+  },
+  "recaps_story_rough_ask_hint": "Vyber, kolik chceš.",
+  "recaps_story_rough_ask_title": "Co podle tebe za nimi stálo?",
+  "recaps_story_rough_back": "Zpět na ohlédnutí",
+  "recaps_story_rough_closing_body": "Své dny znáš nejlíp ty a každý záznam pomáhá.",
+  "recaps_story_rough_closing_title": "Takové ohlédnutí pomáhá, aby vzorce byly jasnější.",
+  "recaps_story_rough_done": "Hotovo",
+  "recaps_story_rough_evening": "%{weekday} večer",
+  "recaps_story_rough_eyebrow": "Těžká noc %{position} z %{count}",
+  "recaps_story_rough_felt": "Pocity",
+  "recaps_story_rough_missed": "Chybí mi tag",
+  "recaps_story_rough_more": {
+    "one": "+1 další",
+    "other": "+{{count}} dalších"
+  },
+  "recaps_story_rough_most_days": "většinu dní",
+  "recaps_story_rough_nights": "Těžké noci",
+  "recaps_story_rough_not_sure": "Nevím",
+  "recaps_story_rough_note": "Poznámka",
+  "recaps_story_rough_nothing": "Nic nezapsáno",
+  "recaps_story_rough_people": "V kontaktu s",
+  "recaps_story_rough_people_short": "Lidé",
+  "recaps_story_rough_tags": "Tagy",
   "recaps_story_share": "Sdílet",
   "recaps_story_share_shuffle": "Zamíchat fotky",
   "recaps_story_share_title": "Můj %{month}",
   "recaps_story_share_title_week": "Můj týden",
+  "recaps_story_sleep_ask": {
+    "one": "1 noc byla těžká. Podívat se blíž?",
+    "other": "Těžké noci: {{count}}. Podívat se blíž?"
+  },
+  "recaps_story_sleep_hint": "Plnější sloupec, lepší spánek.",
+  "recaps_story_sleep_look": "Podívejme se",
+  "recaps_story_sleep_skip": "Teď ne",
+  "recaps_story_sleep_title": "Tvoje noci: %{month}",
   "recaps_tag_back_text": {
     "one": "Jeden den, po %{weeks} týdnech bez.",
     "other": "{{count}} dní, po %{weeks} týdnech bez."
