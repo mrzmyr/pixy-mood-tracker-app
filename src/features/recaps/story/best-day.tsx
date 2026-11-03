@@ -19,11 +19,11 @@ import { EmotionIndicator, EMOTIONS } from "@/features/logger";
 import { t, tDynamic } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
 import {
+  GlassChip,
   Reveal,
   RevealText,
   SlideHeader,
   StoryImage,
-  StoryText,
   TagDot,
 } from "./parts";
 import {
@@ -232,40 +232,6 @@ const SwipeToUnlock = ({
         </Animated.View>
       </View>
     </GestureDetector>
-  );
-};
-
-/** Emotion or tag on the sky: marker and name on a glass chip. */
-const GlassChip = ({
-  theme,
-  marker,
-  label,
-}: {
-  theme: StoryTheme;
-  marker: React.ReactNode;
-  label: string;
-}) => {
-  const palette = STORY_PALETTE[theme];
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 8,
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-        borderRadius: RADIUS.md,
-        borderCurve: "continuous",
-        borderWidth: 1,
-        borderColor: palette.glassBorder,
-        backgroundColor: palette.glass,
-      }}
-    >
-      {marker}
-      <StoryText kind="label" theme={theme} numberOfLines={1}>
-        {label}
-      </StoryText>
-    </View>
   );
 };
 

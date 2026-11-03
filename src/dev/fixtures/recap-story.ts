@@ -88,6 +88,35 @@ const photo = (date: dayjs.Dayjs, name: string, index = 0) => ({
 
 const isHardDay = (day: number) => day === 6 || day === 20 || day === 21;
 const isSeaDay = (day: number) => day >= 11 && day <= 13;
+/**
+ * Mornings after a rough night (bad or very bad sleep). The evenings before
+ * are the 6th, 14th, 20th, 21st, and 27th: 3 Handover evenings with Tobi.
+ */
+const ROUGH_MORNINGS = new Map<number, LogItem["sleep"]["quality"]>([
+  [7, "bad"],
+  [15, "bad"],
+  [21, "very_bad"],
+  [22, "bad"],
+  [28, "bad"],
+]);
+
+/** Sleep of the night before `day`: rough mornings, else a calm mix. */
+const sleepOf = (day: number): LogItem["sleep"] => ({
+  quality:
+    ROUGH_MORNINGS.get(day) ??
+    (["good", "very_good", "good", "neutral"] as const)[day % 4] ??
+    "good",
+});
+
+/** Evenings before rough nights: how they felt, and a note on the 21st. */
+const EVENING_EMOTIONS = new Map([
+  [6, ["tired", "stressed"]],
+  [14, ["calm"]],
+  [20, ["stressed", "anxious"]],
+  [21, ["tired"]],
+  [27, ["tired", "overwhelmed"]],
+]);
+
 /** Middle day at the sea: the best day, with all 3 sea photos and emotions. */
 const BEST_DAY = 12;
 
@@ -179,7 +208,11 @@ const storyMonth = (start: dayjs.Dayjs): LogItem[] =>
       ],
       photos: photosOf(date, day, hasPhoto),
       emotions:
-        day === BEST_DAY ? ["excited", "loved", "grateful", "calm"] : [],
+        day === BEST_DAY
+          ? ["excited", "loved", "grateful", "calm"]
+          : (EVENING_EMOTIONS.get(day) ?? []),
+      sleep: sleepOf(day),
+      message: day === 21 ? "Couldn’t switch off after the call." : "",
       location: placeOf(date, day),
     });
   });

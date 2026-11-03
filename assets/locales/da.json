@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag} fulgte med dine tungere dage",
   "recaps_story_lifted_note": "Sammenlignet med dage uden tagget.",
   "recaps_story_lifted_title": "Dage med %{tag} føltes lettest",
+  "recaps_story_missed_add": {
+    "one": "Tilføj til 1 aften",
+    "other": "Tilføj til {{count}} aftener"
+  },
+  "recaps_story_missed_create": "Opret “{{name}}”",
+  "recaps_story_missed_evenings_hint": "Tilføj “%{tag}” til de aftener, hvor det var der. Du kan springe dette over.",
+  "recaps_story_missed_evenings_title": "Tilføj til aftener",
+  "recaps_story_missed_hint": "Vælg et, du allerede bruger, eller opret et nyt.",
+  "recaps_story_missed_not_now": "Ikke nu",
+  "recaps_story_missed_search": "Søg eller opret",
+  "recaps_story_missed_title": "Hvilket tag mangler?",
   "recaps_story_new_people_line_1": "Se, hvem der fandt vej ind i dine dage.",
   "recaps_story_new_people_line_10": "Ikke hver måned bringer nogen ny. Det gjorde denne.",
   "recaps_story_new_people_line_11": "Din kreds ændrer sig, lidt ad gangen.",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "Hvem spillede den største rolle denne måned?",
   "recaps_story_quiz_wrong": "Tæt på. Det var %{name}.",
   "recaps_story_ready": "Klar til at se",
+  "recaps_story_rough_added": "tilføjet",
+  "recaps_story_rough_all_hint": "Ser du noget mere end én gang?",
+  "recaps_story_rough_all_title": {
+    "one": "1 nat i overblik",
+    "other": "Alle {{count}} side om side"
+  },
+  "recaps_story_rough_ask_hint": "Vælg så mange, du vil.",
+  "recaps_story_rough_ask_title": "Hvad tror du, der lå bag?",
+  "recaps_story_rough_back": "Tilbage til dit tilbageblik",
+  "recaps_story_rough_closing_body": "Du kender dine dage bedst, og hvert check-in hjælper.",
+  "recaps_story_rough_closing_title": "Når du ser tilbage sådan, bliver mønstre tydeligere.",
+  "recaps_story_rough_done": "Færdig",
+  "recaps_story_rough_evening": "%{weekday} aften",
+  "recaps_story_rough_eyebrow": "Urolig nat %{position} af %{count}",
+  "recaps_story_rough_felt": "Følte",
+  "recaps_story_rough_missed": "Jeg glemte et tag",
+  "recaps_story_rough_more": {
+    "one": "+1 mere",
+    "other": "+{{count}} mere"
+  },
+  "recaps_story_rough_most_days": "de fleste dage",
+  "recaps_story_rough_nights": "Urolige nætter",
+  "recaps_story_rough_not_sure": "Ved ikke",
+  "recaps_story_rough_note": "Note",
+  "recaps_story_rough_nothing": "Intet registreret",
+  "recaps_story_rough_people": "I kontakt med",
+  "recaps_story_rough_people_short": "Personer",
+  "recaps_story_rough_tags": "Tags",
   "recaps_story_share": "Del",
   "recaps_story_share_heading_best": "Min bedste dag",
   "recaps_story_share_heading_coming": "Mit år indtil nu",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "Bland fotos",
   "recaps_story_share_title": "Min %{month}",
   "recaps_story_share_title_week": "Min uge",
+  "recaps_story_sleep_ask": {
+    "one": "1 nat var urolig. Se nærmere?",
+    "other": "{{count}} nætter var urolige. Se nærmere?"
+  },
+  "recaps_story_sleep_hint": "Fyldigere bjælke, bedre søvn.",
+  "recaps_story_sleep_look": "Lad os se",
+  "recaps_story_sleep_skip": "Ikke nu",
+  "recaps_story_sleep_title": "Dine nætter i %{month}",
   "recaps_tag_back_text": {
     "one": "Én dag, efter %{weeks} uger uden.",
     "other": "{{count}} dage, efter %{weeks} uger uden."

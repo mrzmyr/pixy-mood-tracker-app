@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag} hoorde bij je zwaardere dagen",
   "recaps_story_lifted_note": "Vergeleken met dagen zonder de tag.",
   "recaps_story_lifted_title": "Dagen met %{tag} voelden het lichtst",
+  "recaps_story_missed_add": {
+    "one": "Toevoegen aan 1 avond",
+    "other": "Toevoegen aan {{count}} avonden"
+  },
+  "recaps_story_missed_create": "“{{name}}” maken",
+  "recaps_story_missed_evenings_hint": "Voeg “%{tag}” toe aan de avonden waarop het speelde. Je kunt dit overslaan.",
+  "recaps_story_missed_evenings_title": "Toevoegen aan avonden",
+  "recaps_story_missed_hint": "Kies er een die je al gebruikt of maak een nieuwe.",
+  "recaps_story_missed_not_now": "Niet nu",
+  "recaps_story_missed_search": "Zoeken of maken",
+  "recaps_story_missed_title": "Welke tag ontbreekt?",
   "recaps_story_new_people_line_1": "Kijk wie de weg naar je dagen vond.",
   "recaps_story_new_people_line_10": "Niet elke maand brengt iemand nieuws. Deze wel.",
   "recaps_story_new_people_line_11": "Je kring verandert, beetje bij beetje.",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "Wie speelde deze maand de grootste rol?",
   "recaps_story_quiz_wrong": "Bijna. Het was %{name}.",
   "recaps_story_ready": "Klaar om te bekijken",
+  "recaps_story_rough_added": "toegevoegd",
+  "recaps_story_rough_all_hint": "Zie je iets vaker terugkomen?",
+  "recaps_story_rough_all_title": {
+    "one": "1 nacht in beeld",
+    "other": "Alle {{count}} naast elkaar"
+  },
+  "recaps_story_rough_ask_hint": "Kies er zoveel als je wilt.",
+  "recaps_story_rough_ask_title": "Wat zat er volgens jou achter?",
+  "recaps_story_rough_back": "Terug naar je terugblik",
+  "recaps_story_rough_closing_body": "Jij kent je dagen het best, en elke check-in helpt.",
+  "recaps_story_rough_closing_title": "Zo terugkijken maakt patronen duidelijker.",
+  "recaps_story_rough_done": "Klaar",
+  "recaps_story_rough_evening": "%{weekday}avond",
+  "recaps_story_rough_eyebrow": "Onrustige nacht %{position} van %{count}",
+  "recaps_story_rough_felt": "Gevoeld",
+  "recaps_story_rough_missed": "Ik mis een tag",
+  "recaps_story_rough_more": {
+    "one": "+1 meer",
+    "other": "+{{count}} meer"
+  },
+  "recaps_story_rough_most_days": "de meeste dagen",
+  "recaps_story_rough_nights": "Onrustige nachten",
+  "recaps_story_rough_not_sure": "Weet ik niet",
+  "recaps_story_rough_note": "Notitie",
+  "recaps_story_rough_nothing": "Niets ingevuld",
+  "recaps_story_rough_people": "Contact met",
+  "recaps_story_rough_people_short": "Mensen",
+  "recaps_story_rough_tags": "Tags",
   "recaps_story_share": "Delen",
   "recaps_story_share_heading_best": "Mijn beste dag",
   "recaps_story_share_heading_coming": "Mijn jaar tot nu toe",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "Foto's husselen",
   "recaps_story_share_title": "Mijn %{month}",
   "recaps_story_share_title_week": "Mijn week",
+  "recaps_story_sleep_ask": {
+    "one": "1 nacht was onrustig. Beter bekijken?",
+    "other": "{{count}} nachten waren onrustig. Beter bekijken?"
+  },
+  "recaps_story_sleep_hint": "Vollere balk, betere slaap.",
+  "recaps_story_sleep_look": "Bekijken",
+  "recaps_story_sleep_skip": "Later",
+  "recaps_story_sleep_title": "Je nachten in %{month}",
   "recaps_tag_back_text": {
     "one": "Op één dag, na %{weeks} weken zonder.",
     "other": "Op {{count}} dagen, na %{weeks} weken zonder."

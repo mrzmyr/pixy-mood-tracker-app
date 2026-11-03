@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag} a însoțit zilele tale mai grele",
   "recaps_story_lifted_note": "Comparat cu zilele fără etichetă.",
   "recaps_story_lifted_title": "Zilele cu %{tag} au fost cele mai ușoare",
+  "recaps_story_missed_add": {
+    "one": "Adaugă la 1 seară",
+    "other": "Adaugă la {{count}} seri"
+  },
+  "recaps_story_missed_create": "Creează „{{name}}”",
+  "recaps_story_missed_evenings_hint": "Adaugă „%{tag}” la serile în care a fost prezentă. Poți sări peste asta.",
+  "recaps_story_missed_evenings_title": "Adaugă la seri",
+  "recaps_story_missed_hint": "Alege una pe care o folosești deja sau creează una nouă.",
+  "recaps_story_missed_not_now": "Nu acum",
+  "recaps_story_missed_search": "Caută sau creează",
+  "recaps_story_missed_title": "Ce etichetă lipsește?",
   "recaps_story_new_people_line_1": "Uite cine și-a găsit drumul în zilele tale.",
   "recaps_story_new_people_line_10": "Nu orice lună aduce pe cineva nou. Aceasta a adus.",
   "recaps_story_new_people_line_11": "Cercul tău se schimbă, puțin câte puțin.",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "Cine a avut cel mai mare rol luna aceasta?",
   "recaps_story_quiz_wrong": "Aproape. A fost %{name}.",
   "recaps_story_ready": "Gata de vizionat",
+  "recaps_story_rough_added": "adăugată",
+  "recaps_story_rough_all_hint": "Vezi ceva de mai multe ori?",
+  "recaps_story_rough_all_title": {
+    "one": "1 noapte pe scurt",
+    "other": "Toate cele {{count}}, una lângă alta"
+  },
+  "recaps_story_rough_ask_hint": "Alege câte vrei.",
+  "recaps_story_rough_ask_title": "Ce crezi că a stat în spatele lor?",
+  "recaps_story_rough_back": "Înapoi la retrospectivă",
+  "recaps_story_rough_closing_body": "Tu îți cunoști cel mai bine zilele, iar fiecare înregistrare ajută.",
+  "recaps_story_rough_closing_title": "Privind înapoi așa, tiparele devin mai clare.",
+  "recaps_story_rough_done": "Gata",
+  "recaps_story_rough_evening": "%{weekday} seara",
+  "recaps_story_rough_eyebrow": "Noapte grea %{position} din %{count}",
+  "recaps_story_rough_felt": "Ai simțit",
+  "recaps_story_rough_missed": "Am omis o etichetă",
+  "recaps_story_rough_more": {
+    "one": "+1 în plus",
+    "other": "+{{count}} în plus"
+  },
+  "recaps_story_rough_most_days": "în majoritatea zilelor",
+  "recaps_story_rough_nights": "Nopți grele",
+  "recaps_story_rough_not_sure": "Nu știu",
+  "recaps_story_rough_note": "Notă",
+  "recaps_story_rough_nothing": "Nimic înregistrat",
+  "recaps_story_rough_people": "În legătură cu",
+  "recaps_story_rough_people_short": "Persoane",
+  "recaps_story_rough_tags": "Etichete",
   "recaps_story_share": "Distribuie",
   "recaps_story_share_heading_best": "Cea mai bună zi a mea",
   "recaps_story_share_heading_coming": "Anul meu până acum",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "Amestecă fotografiile",
   "recaps_story_share_title": "Luna mea: %{month}",
   "recaps_story_share_title_week": "Săptămâna mea",
+  "recaps_story_sleep_ask": {
+    "one": "1 noapte a fost grea. Te uiți mai atent?",
+    "other": "{{count}} nopți au fost grele. Te uiți mai atent?"
+  },
+  "recaps_story_sleep_hint": "Bară mai plină, somn mai bun.",
+  "recaps_story_sleep_look": "Hai să vedem",
+  "recaps_story_sleep_skip": "Nu acum",
+  "recaps_story_sleep_title": "Nopțile tale din %{month}",
   "recaps_tag_back_text": {
     "one": "Într-o zi, după %{weeks} săptămâni fără.",
     "other": "În {{count}} zile, după %{weeks} săptămâni fără."

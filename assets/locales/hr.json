@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag}: često uz tvoje teže dane",
   "recaps_story_lifted_note": "U usporedbi s danima bez oznake.",
   "recaps_story_lifted_title": "Dani s oznakom %{tag} bili su najlakši",
+  "recaps_story_missed_add": {
+    "one": "Dodaj na 1 večer",
+    "other": "Dodaj na večeri: {{count}}"
+  },
+  "recaps_story_missed_create": "Stvori „{{name}}”",
+  "recaps_story_missed_evenings_hint": "Dodaj „%{tag}” na večeri kada je bila prisutna. Ovo možeš preskočiti.",
+  "recaps_story_missed_evenings_title": "Dodaj na večeri",
+  "recaps_story_missed_hint": "Odaberi oznaku koju već koristiš ili stvori novu.",
+  "recaps_story_missed_not_now": "Ne sada",
+  "recaps_story_missed_search": "Traži ili stvori",
+  "recaps_story_missed_title": "Koja oznaka nedostaje?",
   "recaps_story_new_people_line_1": "Pogledaj tko je pronašao put u tvoje dane.",
   "recaps_story_new_people_line_10": "Ne donosi svaki mjesec nekoga novog. Ovaj jest.",
   "recaps_story_new_people_line_11": "Tvoj se krug mijenja, malo po malo.",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "Tko je ovaj mjesec imao najveću ulogu?",
   "recaps_story_quiz_wrong": "Skoro. Bila je to osoba %{name}.",
   "recaps_story_ready": "Spremno za gledanje",
+  "recaps_story_rough_added": "dodano",
+  "recaps_story_rough_all_hint": "Vidiš li nešto više puta?",
+  "recaps_story_rough_all_title": {
+    "one": "1 noć u pregledu",
+    "other": "Sve ({{count}}) jedna uz drugu"
+  },
+  "recaps_story_rough_ask_hint": "Odaberi koliko god želiš.",
+  "recaps_story_rough_ask_title": "Što misliš, što je stajalo iza njih?",
+  "recaps_story_rough_back": "Natrag na osvrt",
+  "recaps_story_rough_closing_body": "Ti najbolje poznaješ svoje dane, a svaki unos pomaže.",
+  "recaps_story_rough_closing_title": "Ovakav pogled unatrag čini obrasce jasnijima.",
+  "recaps_story_rough_done": "Gotovo",
+  "recaps_story_rough_evening": "%{weekday} navečer",
+  "recaps_story_rough_eyebrow": "Teška noć %{position} od %{count}",
+  "recaps_story_rough_felt": "Osjećaji",
+  "recaps_story_rough_missed": "Nedostaje oznaka",
+  "recaps_story_rough_more": {
+    "one": "+1 više",
+    "other": "+{{count}} više"
+  },
+  "recaps_story_rough_most_days": "većinu dana",
+  "recaps_story_rough_nights": "Teške noći",
+  "recaps_story_rough_not_sure": "Ne znam",
+  "recaps_story_rough_note": "Bilješka",
+  "recaps_story_rough_nothing": "Ništa nije zapisano",
+  "recaps_story_rough_people": "U kontaktu s",
+  "recaps_story_rough_people_short": "Ljudi",
+  "recaps_story_rough_tags": "Oznake",
   "recaps_story_share": "Podijeli",
   "recaps_story_share_heading_best": "Moj najbolji dan",
   "recaps_story_share_heading_coming": "Moja godina dosad",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "Promiješaj fotografije",
   "recaps_story_share_title": "Moj %{month}",
   "recaps_story_share_title_week": "Moj tjedan",
+  "recaps_story_sleep_ask": {
+    "one": "1 noć bila je teška. Pogledati pobliže?",
+    "other": "Teških noći: {{count}}. Pogledati pobliže?"
+  },
+  "recaps_story_sleep_hint": "Puniji stupac, bolji san.",
+  "recaps_story_sleep_look": "Pogledajmo",
+  "recaps_story_sleep_skip": "Ne sada",
+  "recaps_story_sleep_title": "Tvoje noći: %{month}",
   "recaps_tag_back_text": {
     "one": "Jedan dan, nakon %{weeks} tjedana bez.",
     "other": "{{count}} dana, nakon %{weeks} tjedana bez."

@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag} a accompagné vos jours plus difficiles",
   "recaps_story_lifted_note": "Comparé aux jours sans ce tag.",
   "recaps_story_lifted_title": "Les jours avec %{tag} semblaient les plus légers",
+  "recaps_story_missed_add": {
+    "one": "Ajouter à 1 soirée",
+    "other": "Ajouter à {{count}} soirées"
+  },
+  "recaps_story_missed_create": "Créer « {{name}} »",
+  "recaps_story_missed_evenings_hint": "Ajoute « %{tag} » aux soirées où il était là. Tu peux passer cette étape.",
+  "recaps_story_missed_evenings_title": "Ajouter aux soirées",
+  "recaps_story_missed_hint": "Choisis-en un que tu utilises déjà ou crée-en un nouveau.",
+  "recaps_story_missed_not_now": "Pas maintenant",
+  "recaps_story_missed_search": "Rechercher ou créer",
+  "recaps_story_missed_title": "Quel mot clé manque ?",
   "recaps_story_new_people_line_1": "Voyez qui a trouvé sa place dans vos journées.",
   "recaps_story_new_people_line_10": "Chaque mois n’apporte pas de nouvelle rencontre. Celui-ci, oui.",
   "recaps_story_new_people_line_11": "Votre cercle change, petit à petit.",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "Qui a joué le plus grand rôle ce mois-ci ?",
   "recaps_story_quiz_wrong": "Presque. C’était %{name}.",
   "recaps_story_ready": "Prêt à regarder",
+  "recaps_story_rough_added": "ajouté",
+  "recaps_story_rough_all_hint": "Quelque chose revient plus d’une fois ?",
+  "recaps_story_rough_all_title": {
+    "one": "1 nuit en un coup d’œil",
+    "other": "Les {{count}} côte à côte"
+  },
+  "recaps_story_rough_ask_hint": "Choisis-en autant que tu veux.",
+  "recaps_story_rough_ask_title": "Qu’est-ce qui était derrière, selon toi ?",
+  "recaps_story_rough_back": "Retour au bilan",
+  "recaps_story_rough_closing_body": "Tu connais tes journées mieux que personne, et chaque check-in aide.",
+  "recaps_story_rough_closing_title": "C’est en regardant en arrière comme ça que les tendances s’éclaircissent.",
+  "recaps_story_rough_done": "Terminé",
+  "recaps_story_rough_evening": "%{weekday} soir",
+  "recaps_story_rough_eyebrow": "Nuit difficile %{position} sur %{count}",
+  "recaps_story_rough_felt": "Ressenti",
+  "recaps_story_rough_missed": "J’ai oublié un mot clé",
+  "recaps_story_rough_more": {
+    "one": "+1 autre",
+    "other": "+{{count}} autres"
+  },
+  "recaps_story_rough_most_days": "la plupart des jours",
+  "recaps_story_rough_nights": "Nuits difficiles",
+  "recaps_story_rough_not_sure": "Je ne sais pas",
+  "recaps_story_rough_note": "Note",
+  "recaps_story_rough_nothing": "Rien de noté",
+  "recaps_story_rough_people": "En lien avec",
+  "recaps_story_rough_people_short": "Personnes",
+  "recaps_story_rough_tags": "Mots clés",
   "recaps_story_share": "Partager",
   "recaps_story_share_heading_best": "Mon meilleur jour",
   "recaps_story_share_heading_coming": "Mon année jusqu’ici",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "Mélanger les photos",
   "recaps_story_share_title": "Mon %{month}",
   "recaps_story_share_title_week": "Ma semaine",
+  "recaps_story_sleep_ask": {
+    "one": "1 nuit a été difficile. Regarder de plus près ?",
+    "other": "{{count}} nuits ont été difficiles. Regarder de plus près ?"
+  },
+  "recaps_story_sleep_hint": "Barre plus pleine, meilleur sommeil.",
+  "recaps_story_sleep_look": "Voyons ça",
+  "recaps_story_sleep_skip": "Plus tard",
+  "recaps_story_sleep_title": "Tes nuits en %{month}",
   "recaps_tag_back_text": {
     "one": "Un jour, après %{weeks} semaines sans.",
     "other": "{{count}} jours, après %{weeks} semaines sans."

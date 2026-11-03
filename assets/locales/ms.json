@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag} mengiringi hari-hari sukar anda",
   "recaps_story_lifted_note": "Berbanding hari tanpa tag ini.",
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
+  "recaps_story_missed_add": {
+    "one": "Tambah ke 1 Malam",
+    "other": "Tambah ke {{count}} Malam"
+  },
+  "recaps_story_missed_create": "Cipta “{{name}}”",
+  "recaps_story_missed_evenings_hint": "Tambah “%{tag}” pada malam-malam ia ada. Anda boleh langkau ini.",
+  "recaps_story_missed_evenings_title": "Tambah ke Malam",
+  "recaps_story_missed_hint": "Pilih yang anda sudah guna atau cipta yang baharu.",
+  "recaps_story_missed_not_now": "Bukan Sekarang",
+  "recaps_story_missed_search": "Cari atau cipta",
+  "recaps_story_missed_title": "Tag Mana yang Tertinggal?",
   "recaps_story_new_people_line_1": "Lihat siapa yang menemui jalan ke hari-hari anda.",
   "recaps_story_new_people_line_10": "Bukan setiap bulan membawa seseorang yang baharu. Bulan ini ya.",
   "recaps_story_new_people_line_11": "Lingkungan anda terus berubah, sedikit demi sedikit.",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "Siapa yang paling berperanan bulan ini?",
   "recaps_story_quiz_wrong": "Hampir. Ia %{name}.",
   "recaps_story_ready": "Sedia untuk ditonton",
+  "recaps_story_rough_added": "ditambah",
+  "recaps_story_rough_all_hint": "Ada yang muncul lebih daripada sekali?",
+  "recaps_story_rough_all_title": {
+    "one": "1 Malam, Sebelah-menyebelah",
+    "other": "Kesemua {{count}}, Sebelah-menyebelah"
+  },
+  "recaps_story_rough_ask_hint": "Pilih seberapa banyak yang anda mahu.",
+  "recaps_story_rough_ask_title": "Pada Pendapat Anda, Apa Puncanya?",
+  "recaps_story_rough_back": "Kembali ke Imbasan Anda",
+  "recaps_story_rough_closing_body": "Anda paling kenal hari-hari anda, dan setiap catatan membantu.",
+  "recaps_story_rough_closing_title": "Melihat kembali begini membuatkan corak lebih jelas.",
+  "recaps_story_rough_done": "Selesai",
+  "recaps_story_rough_evening": "Malam %{weekday}",
+  "recaps_story_rough_eyebrow": "Malam sukar %{position} daripada %{count}",
+  "recaps_story_rough_felt": "Dirasai",
+  "recaps_story_rough_missed": "Saya terlepas satu tag",
+  "recaps_story_rough_more": {
+    "one": "+1 lagi",
+    "other": "+{{count}} lagi"
+  },
+  "recaps_story_rough_most_days": "kebanyakan hari",
+  "recaps_story_rough_nights": "Malam-malam sukar",
+  "recaps_story_rough_not_sure": "Tidak pasti",
+  "recaps_story_rough_note": "Nota",
+  "recaps_story_rough_nothing": "Tiada catatan",
+  "recaps_story_rough_people": "Berhubung dengan",
+  "recaps_story_rough_people_short": "Orang",
+  "recaps_story_rough_tags": "Tag",
   "recaps_story_share": "Kongsi",
   "recaps_story_share_heading_best": "Hari terbaik saya",
   "recaps_story_share_heading_coming": "Tahun saya setakat ini",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "Kocok foto",
   "recaps_story_share_title": "%{month} saya",
   "recaps_story_share_title_week": "Minggu Saya",
+  "recaps_story_sleep_ask": {
+    "one": "1 malam terasa sukar. Lihat lebih dekat?",
+    "other": "{{count}} malam terasa sukar. Lihat lebih dekat?"
+  },
+  "recaps_story_sleep_hint": "Bar lebih penuh, tidur lebih lena.",
+  "recaps_story_sleep_look": "Jom Lihat",
+  "recaps_story_sleep_skip": "Langkau Dahulu",
+  "recaps_story_sleep_title": "Malam-malam Anda pada %{month}",
   "recaps_tag_back_text": {
     "one": "Pada satu hari, selepas %{weeks} minggu tanpanya.",
     "other": "Pada {{count}} hari, selepas %{weeks} minggu tanpanya."

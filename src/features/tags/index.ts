@@ -6,6 +6,7 @@ export {
 } from "./components/create-tag-action";
 export { TagList } from "./components/tag-list";
 export { TagListItem } from "./components/tag-list-item";
+export { default as TagNameField } from "./components/tag-name-field";
 export { default as TagComponent } from "./components/tag";
 export * from "./tags-provider";
 export * from "./tag-categories";

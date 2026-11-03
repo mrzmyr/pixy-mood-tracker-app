@@ -45,6 +45,11 @@ export interface PlayerSlide {
   isHeld?: boolean;
   /** Time on screen. Default `STORY_SLIDE_MS`. */
   durationMs?: number;
+  /**
+   * Slide draws its own buttons at the bottom edge, where Share and
+   * feedback sit on other slides. `renderBottom` draws nothing for it.
+   */
+  hasOwnButtons?: boolean;
 }
 
 /** Pixy waits for the first slide to settle, then glides in this long. */
@@ -180,6 +185,22 @@ const ENTERING = FadeInDown.duration(240);
 
 /** Holding hides bars and buttons this fast, so the slide shows at once. */
 const CHROME_FADE_MS = 80;
+
+/**
+ * `next` for slide buttons. A button that also changes `slides`, for
+ * example opens more slides, moves on after the render with the new list,
+ * not with the old one.
+ */
+const useNextAfterRender = (advance: () => void) => {
+  const [requests, setRequests] = useState(0);
+  const run = useEffectEvent(advance);
+  useEffect(() => {
+    if (requests > 0) {
+      run();
+    }
+  }, [requests]);
+  return () => setRequests((count) => count + 1);
+};
 
 /** Wall clock in ms. Only event handlers and effects call it. */
 const now = () => Date.now();
@@ -344,6 +365,7 @@ export const StoryPlayer = ({
   const controls: PlayerControls = {
     pause: () => setIsPausedByUser(true),
   };
+  const next = useNextAfterRender(() => goTo(index + 1));
 
   if (!slide) {
     return null;
@@ -375,12 +397,13 @@ export const StoryPlayer = ({
               style={{
                 flex: 1,
                 paddingTop: insets.top + 76,
-                paddingBottom: insets.bottom + 84,
+                // Own buttons sit where Share and feedback sit.
+                paddingBottom: insets.bottom + (slide.hasOwnButtons ? 16 : 84),
                 paddingHorizontal: STORY_SCREEN_PADDING,
               }}
               testID={`recap-story-slide-${slide.key}`}
             >
-              <StoryPressContext value={{ onPress, setIsHolding }}>
+              <StoryPressContext value={{ onPress, setIsHolding, next }}>
                 <StoryHoldContext value={setIsHeldBySlide}>
                   {slide.content}
                 </StoryHoldContext>

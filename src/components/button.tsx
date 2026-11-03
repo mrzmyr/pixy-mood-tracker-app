@@ -32,8 +32,12 @@ const Button = ({
   children,
   style = DEFAULT_STYLE,
 }: {
-  /** `contrast`: black in light mode, white in dark mode. */
-  type?: "primary" | "secondary" | "contrast" | "danger" | "tertiary";
+  /**
+   * `contrast`: black in light mode, white in dark mode. `glass`: secondary
+   * button on the sky or a photo, see-through. iOS 26 liquid glass turns
+   * opaque white on the light sky, so it is a plain see-through fill.
+   */
+  type?: "primary" | "secondary" | "contrast" | "danger" | "tertiary" | "glass";
   testID?: string;
   /** Name for icon-only buttons. */
   accessibilityLabel?: string;
@@ -79,6 +83,11 @@ const Button = ({
       background: colors.dangerButtonBackground,
       text: colors.dangerButtonText,
       border: colors.dangerButtonBorder,
+    },
+    glass: {
+      background: colors.onboardingControlBackground,
+      text: colors.tertiaryButtonText,
+      border: "transparent",
     },
   }[type];
 

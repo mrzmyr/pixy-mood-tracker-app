@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag}は、つらかった日によく重なっていました",
   "recaps_story_lifted_note": "このタグがない日との比較。",
   "recaps_story_lifted_title": "%{tag}の日がいちばん軽やかでした",
+  "recaps_story_missed_add": {
+    "one": "1晩に追加",
+    "other": "{{count}}晩に追加"
+  },
+  "recaps_story_missed_create": "「{{name}}」を作成",
+  "recaps_story_missed_evenings_hint": "「%{tag}」があった夜に追加しましょう。スキップしても大丈夫です。",
+  "recaps_story_missed_evenings_title": "夜に追加",
+  "recaps_story_missed_hint": "使っているタグを選ぶか、新しく作成しましょう。",
+  "recaps_story_missed_not_now": "今はしない",
+  "recaps_story_missed_search": "検索または作成",
+  "recaps_story_missed_title": "足りないタグは？",
   "recaps_story_new_people_line_1": "あなたの日々にやってきた人たち。",
   "recaps_story_new_people_line_10": "新しい人が来ない月もあります。今月は来ました。",
   "recaps_story_new_people_line_11": "あなたの輪は、少しずつ変わっていきます。",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "今月いちばん大きな存在だったのは誰？",
   "recaps_story_quiz_wrong": "惜しい。正解は%{name}でした。",
   "recaps_story_ready": "視聴できます",
+  "recaps_story_rough_added": "追加済み",
+  "recaps_story_rough_all_hint": "何度も見かけるものはある？",
+  "recaps_story_rough_all_title": {
+    "one": "1晩を並べて",
+    "other": "{{count}}晩すべてを並べて"
+  },
+  "recaps_story_rough_ask_hint": "いくつでも選べます。",
+  "recaps_story_rough_ask_title": "その背景には何があったと思う？",
+  "recaps_story_rough_back": "振り返りに戻る",
+  "recaps_story_rough_closing_body": "あなたの毎日をいちばん知っているのはあなた。一つひとつの記録が役に立ちます。",
+  "recaps_story_rough_closing_title": "こうして振り返ることで、パターンが見えてきます。",
+  "recaps_story_rough_done": "完了",
+  "recaps_story_rough_evening": "%{weekday}の夜",
+  "recaps_story_rough_eyebrow": "眠れなかった夜 %{position}/%{count}",
+  "recaps_story_rough_felt": "感じたこと",
+  "recaps_story_rough_missed": "タグを付け忘れた",
+  "recaps_story_rough_more": {
+    "one": "ほか1件",
+    "other": "ほか{{count}}件"
+  },
+  "recaps_story_rough_most_days": "ほぼ毎日",
+  "recaps_story_rough_nights": "眠れなかった夜",
+  "recaps_story_rough_not_sure": "わからない",
+  "recaps_story_rough_note": "メモ",
+  "recaps_story_rough_nothing": "記録なし",
+  "recaps_story_rough_people": "つながった人",
+  "recaps_story_rough_people_short": "人",
+  "recaps_story_rough_tags": "タグ",
   "recaps_story_share": "共有",
   "recaps_story_share_heading_best": "わたしのいちばんの日",
   "recaps_story_share_heading_coming": "今年のここまで",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "写真をシャッフル",
   "recaps_story_share_title": "わたしの%{month}",
   "recaps_story_share_title_week": "わたしの一週間",
+  "recaps_story_sleep_ask": {
+    "one": "眠れなかった夜が1晩ありました。詳しく見る？",
+    "other": "眠れなかった夜が{{count}}晩ありました。詳しく見る？"
+  },
+  "recaps_story_sleep_hint": "バーが長いほど、よく眠れた夜。",
+  "recaps_story_sleep_look": "見てみる",
+  "recaps_story_sleep_skip": "今はスキップ",
+  "recaps_story_sleep_title": "%{month}の夜",
   "recaps_tag_back_text": {
     "one": "%{weeks}週間ぶりに1日。",
     "other": "%{weeks}週間ぶりに{{count}}日。"

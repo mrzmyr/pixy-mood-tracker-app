@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag}: συχνά στις πιο δύσκολες μέρες σου",
   "recaps_story_lifted_note": "Σε σύγκριση με μέρες χωρίς την ετικέτα.",
   "recaps_story_lifted_title": "Οι μέρες με %{tag} ήταν οι πιο ανάλαφρες",
+  "recaps_story_missed_add": {
+    "one": "Προσθήκη σε 1 βράδυ",
+    "other": "Προσθήκη σε {{count}} βράδια"
+  },
+  "recaps_story_missed_create": "Δημιουργία «{{name}}»",
+  "recaps_story_missed_evenings_hint": "Πρόσθεσε «%{tag}» στα βράδια που ήταν εκεί. Μπορείς να το παραλείψεις.",
+  "recaps_story_missed_evenings_title": "Προσθήκη σε βράδια",
+  "recaps_story_missed_hint": "Διάλεξε μία που ήδη χρησιμοποιείς ή φτιάξε καινούργια.",
+  "recaps_story_missed_not_now": "Όχι τώρα",
+  "recaps_story_missed_search": "Αναζήτηση ή δημιουργία",
+  "recaps_story_missed_title": "Ποια ετικέτα λείπει;",
   "recaps_story_new_people_line_1": "Δες ποιος βρήκε τον δρόμο προς τις μέρες σου.",
   "recaps_story_new_people_line_10": "Δεν φέρνει κάθε μήνας κάποιον νέο. Αυτός έφερε.",
   "recaps_story_new_people_line_11": "Ο κύκλος σου αλλάζει, λίγο λίγο.",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "Ποιος έπαιξε τον μεγαλύτερο ρόλο αυτόν τον μήνα;",
   "recaps_story_quiz_wrong": "Παραλίγο. Ήταν %{name}.",
   "recaps_story_ready": "Έτοιμο για προβολή",
+  "recaps_story_rough_added": "προστέθηκε",
+  "recaps_story_rough_all_hint": "Βλέπεις κάτι πάνω από μία φορά;",
+  "recaps_story_rough_all_title": {
+    "one": "1 νύχτα με μια ματιά",
+    "other": "Και οι {{count}} δίπλα δίπλα"
+  },
+  "recaps_story_rough_ask_hint": "Διάλεξε όσες θέλεις.",
+  "recaps_story_rough_ask_title": "Τι πιστεύεις ότι υπήρχε πίσω τους;",
+  "recaps_story_rough_back": "Πίσω στην ανασκόπηση",
+  "recaps_story_rough_closing_body": "Εσύ ξέρεις καλύτερα τις μέρες σου, και κάθε καταγραφή βοηθά.",
+  "recaps_story_rough_closing_title": "Έτσι, κοιτώντας πίσω, τα μοτίβα γίνονται πιο καθαρά.",
+  "recaps_story_rough_done": "Τέλος",
+  "recaps_story_rough_evening": "%{weekday} βράδυ",
+  "recaps_story_rough_eyebrow": "Δύσκολη νύχτα %{position} από %{count}",
+  "recaps_story_rough_felt": "Ένιωσες",
+  "recaps_story_rough_missed": "Ξέχασα μια ετικέτα",
+  "recaps_story_rough_more": {
+    "one": "+1 ακόμα",
+    "other": "+{{count}} ακόμα"
+  },
+  "recaps_story_rough_most_days": "τις περισσότερες μέρες",
+  "recaps_story_rough_nights": "Δύσκολες νύχτες",
+  "recaps_story_rough_not_sure": "Δεν ξέρω",
+  "recaps_story_rough_note": "Σημείωση",
+  "recaps_story_rough_nothing": "Τίποτα καταγεγραμμένο",
+  "recaps_story_rough_people": "Σε επαφή με",
+  "recaps_story_rough_people_short": "Άτομα",
+  "recaps_story_rough_tags": "Ετικέτες",
   "recaps_story_share": "Κοινοποίηση",
   "recaps_story_share_heading_best": "Η καλύτερη μέρα μου",
   "recaps_story_share_heading_coming": "Η χρονιά μου ως τώρα",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "Ανακάτεμα φωτογραφιών",
   "recaps_story_share_title": "Ο %{month} μου",
   "recaps_story_share_title_week": "Η εβδομάδα μου",
+  "recaps_story_sleep_ask": {
+    "one": "1 νύχτα ήταν δύσκολη. Να δούμε πιο κοντά;",
+    "other": "{{count}} νύχτες ήταν δύσκολες. Να δούμε πιο κοντά;"
+  },
+  "recaps_story_sleep_hint": "Πιο γεμάτη μπάρα, καλύτερος ύπνος.",
+  "recaps_story_sleep_look": "Ας δούμε",
+  "recaps_story_sleep_skip": "Όχι τώρα",
+  "recaps_story_sleep_title": "Οι νύχτες σου τον %{month}",
   "recaps_tag_back_text": {
     "one": "Μία μέρα, μετά από %{weeks} εβδομάδες χωρίς.",
     "other": "{{count}} μέρες, μετά από %{weeks} εβδομάδες χωρίς."

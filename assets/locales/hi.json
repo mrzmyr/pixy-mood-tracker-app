@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag} आपके मुश्किल दिनों के साथ रहा",
   "recaps_story_lifted_note": "इस टैग के बिना वाले दिनों से तुलना।",
   "recaps_story_lifted_title": "%{tag} वाले दिन सबसे हल्के लगे",
+  "recaps_story_missed_add": {
+    "one": "1 शाम में जोड़ें",
+    "other": "{{count}} शामों में जोड़ें"
+  },
+  "recaps_story_missed_create": "“{{name}}” बनाएँ",
+  "recaps_story_missed_evenings_hint": "“%{tag}” को उन शामों में जोड़ें जब यह था। आप इसे छोड़ भी सकते हैं।",
+  "recaps_story_missed_evenings_title": "शामों में जोड़ें",
+  "recaps_story_missed_hint": "कोई टैग चुनें जो आप पहले से इस्तेमाल करते हैं, या नया बनाएँ।",
+  "recaps_story_missed_not_now": "अभी नहीं",
+  "recaps_story_missed_search": "खोजें या बनाएँ",
+  "recaps_story_missed_title": "कौन सा टैग छूट गया?",
   "recaps_story_new_people_line_1": "देखिए, कौन आपके दिनों में अपनी जगह बना गया।",
   "recaps_story_new_people_line_10": "हर महीना कोई नया नहीं लाता। यह महीना लाया।",
   "recaps_story_new_people_line_11": "आपका दायरा बदलता रहता है, धीरे-धीरे।",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "इस महीने सबसे बड़ी भूमिका किसकी रही?",
   "recaps_story_quiz_wrong": "बहुत क़रीब। वह %{name} थे।",
   "recaps_story_ready": "देखने के लिए तैयार",
+  "recaps_story_rough_added": "जोड़ा गया",
+  "recaps_story_rough_all_hint": "क्या कुछ एक से ज़्यादा बार दिख रहा है?",
+  "recaps_story_rough_all_title": {
+    "one": "1 रात, साथ-साथ",
+    "other": "सभी {{count}}, साथ-साथ"
+  },
+  "recaps_story_rough_ask_hint": "जितने चाहें चुनें।",
+  "recaps_story_rough_ask_title": "आपको क्या लगता है, इनके पीछे क्या था?",
+  "recaps_story_rough_back": "अपने रीकैप पर लौटें",
+  "recaps_story_rough_closing_body": "अपने दिनों को आप सबसे अच्छी तरह जानते हैं, और हर चेक-इन मदद करता है।",
+  "recaps_story_rough_closing_title": "ऐसे पीछे देखने से पैटर्न साफ़ होते हैं।",
+  "recaps_story_rough_done": "हो गया",
+  "recaps_story_rough_evening": "%{weekday} की शाम",
+  "recaps_story_rough_eyebrow": "मुश्किल रात %{position}/%{count}",
+  "recaps_story_rough_felt": "महसूस किया",
+  "recaps_story_rough_missed": "मुझसे एक टैग छूट गया",
+  "recaps_story_rough_more": {
+    "one": "+1 और",
+    "other": "+{{count}} और"
+  },
+  "recaps_story_rough_most_days": "ज़्यादातर दिन",
+  "recaps_story_rough_nights": "मुश्किल रातें",
+  "recaps_story_rough_not_sure": "पक्का नहीं",
+  "recaps_story_rough_note": "नोट",
+  "recaps_story_rough_nothing": "कुछ दर्ज नहीं",
+  "recaps_story_rough_people": "इनसे जुड़े",
+  "recaps_story_rough_people_short": "लोग",
+  "recaps_story_rough_tags": "टैग",
   "recaps_story_share": "साझा करें",
   "recaps_story_share_heading_best": "मेरा सबसे अच्छा दिन",
   "recaps_story_share_heading_coming": "अब तक मेरा साल",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "फ़ोटो बदलें",
   "recaps_story_share_title": "मेरा %{month}",
   "recaps_story_share_title_week": "मेरा हफ़्ता",
+  "recaps_story_sleep_ask": {
+    "one": "1 रात मुश्किल रही। करीब से देखें?",
+    "other": "{{count}} रातें मुश्किल रहीं। करीब से देखें?"
+  },
+  "recaps_story_sleep_hint": "जितनी भरी पट्टी, उतनी अच्छी नींद।",
+  "recaps_story_sleep_look": "चलिए देखें",
+  "recaps_story_sleep_skip": "अभी छोड़ें",
+  "recaps_story_sleep_title": "%{month} में आपकी रातें",
   "recaps_tag_back_text": {
     "one": "एक दिन, %{weeks} हफ़्तों बाद।",
     "other": "{{count}} दिन, %{weeks} हफ़्तों बाद।"

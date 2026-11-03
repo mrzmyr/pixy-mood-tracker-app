@@ -139,6 +139,100 @@ export interface ShareSlide {
   photos: StoryPhoto[];
 }
 
+/** Sleep of one night, stored on the next morning's entries. */
+export interface SleepNight {
+  /** Day the sleep is stored on: the morning after the night. */
+  date: DateKey;
+  /** Mean sleep quality, 0 (very bad) to 4 (very good). */
+  quality: number;
+}
+
+/**
+ * A rough night (quality bad or very bad) and what the user logged the
+ * evening before it. Only data of steps the user has on.
+ */
+export interface RoughNight {
+  /** Day before the night. Its entries hold the evening. */
+  evening: DateKey;
+  quality: number;
+  tagIds: string[];
+  personIds: string[];
+  /** Emotion keys, in entry order. */
+  emotions: string[];
+  photos: LogPhoto[];
+  /** Notes of the evening, joined. Empty without notes. */
+  note: string;
+}
+
+/** Tag or person seen the evening before a rough night. */
+export interface RoughNightItem {
+  kind: "tag" | "person";
+  id: string;
+  /** Rough nights with the item the evening before. */
+  nights: number;
+  /** Logged on most days of the month: never marked as a repeat. */
+  isEveryday: boolean;
+}
+
+/**
+ * Sleep calendar of the month. With 2+ rough nights that have something
+ * logged the evening before, it asks if the user wants to look closer.
+ * The answer opens one slide per rough night, an overview, a question,
+ * and a closing slide (`buildRoughNightSlides`).
+ */
+export interface SleepSlide {
+  type: "sleep";
+  nights: SleepNight[];
+  goodNights: number;
+  /** Oldest first. Empty when there is nothing to look at. */
+  roughNights: RoughNight[];
+  /** Tags and people of the rough nights. Most standing out first. */
+  items: RoughNightItem[];
+  /**
+   * Item keys (`tag:<id>`) that get a repeat marker: at most 2 tags seen
+   * on rough nights clearly more than on other days. Never people.
+   */
+  marked: string[];
+  /** Item key Pixy would suggest. Only measured, never shown. */
+  suggestion: string | null;
+  /** Evening steps the user has on. Each shows, "Nothing logged" when empty. */
+  steps: RoughNightStep[];
+}
+
+/** Step of an evening that a rough-night slide can show. */
+export type RoughNightStep =
+  | "photos"
+  | "tags"
+  | "people"
+  | "emotions"
+  | "message";
+
+/** One rough night: sleep, then tags, people, emotions, photos, note. */
+export interface RoughNightSlide {
+  type: "rough-night";
+  position: number;
+  count: number;
+  night: RoughNight;
+  sleep: SleepSlide;
+}
+
+/** All rough nights side by side. */
+export interface RoughNightsAllSlide {
+  type: "rough-nights-all";
+  sleep: SleepSlide;
+}
+
+/** What the user thinks was behind the rough nights. Waits for Done. */
+export interface RoughNightsAskSlide {
+  type: "rough-nights-ask";
+  sleep: SleepSlide;
+}
+
+/** Calm closing of the rough nights, then back to the recap. */
+export interface RoughNightsClosingSlide {
+  type: "rough-nights-closing";
+}
+
 /** One page of a story. Each type has one renderer. */
 export type StorySlide =
   | IntroSlide
@@ -151,6 +245,11 @@ export type StorySlide =
   | OrbitSlide
   | NewPeopleSlide
   | ComingUpSlide
+  | SleepSlide
+  | RoughNightSlide
+  | RoughNightsAllSlide
+  | RoughNightsAskSlide
+  | RoughNightsClosingSlide
   | ShareSlide;
 
 /** Key of a slide type. */

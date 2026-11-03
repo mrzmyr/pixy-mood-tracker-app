@@ -34,6 +34,9 @@ Pixy-specific design decisions that a model cannot read from the code. For every
 - Errors, warnings, and notices: [`InlineAlert`](src/components/inline-alert.tsx), not colored text or `TextInfo`.
 - Add action in a picker grid: copy [`AddPersonTile`](src/features/logger/slides/slide-people.tsx).
 - Sleep quality of one night: [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx), never own bars or dots.
+- Buttons on the sky or a photo (onboarding, recap stories): primary `Button type="primary"`, secondary `Button type="glass"`. Never a gray `tertiary` there.
+  - `glass` is a see-through white fill. Liquid glass turns opaque white on the light sky.
+  - Put the buttons at the bottom edge of the screen. Two buttons share one row with equal width: secondary left, primary right.
 - One icon has one meaning. Color themes use `Palette`, menstruation uses `Droplet`.
 - A state icon has one glyph per state, at one size. A different state changes the fill or detail, not the icon count or size. Selection and Day view use the same state icon.
 - Modals

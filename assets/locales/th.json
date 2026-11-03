@@ -1070,6 +1070,17 @@
   "recaps_story_hard_title": "%{tag} มักมาพร้อมวันที่หนักกว่าของคุณ",
   "recaps_story_lifted_note": "เทียบกับวันที่ไม่มีแท็กนี้",
   "recaps_story_lifted_title": "วันที่มี %{tag} รู้สึกเบาที่สุด",
+  "recaps_story_missed_add": {
+    "one": "เพิ่มใน 1 คืน",
+    "other": "เพิ่มใน {{count}} คืน"
+  },
+  "recaps_story_missed_create": "สร้าง “{{name}}”",
+  "recaps_story_missed_evenings_hint": "เพิ่ม “%{tag}” ในช่วงเย็นที่มีสิ่งนี้ คุณข้ามขั้นตอนนี้ได้",
+  "recaps_story_missed_evenings_title": "เพิ่มในช่วงเย็น",
+  "recaps_story_missed_hint": "เลือกแท็กที่คุณใช้อยู่แล้ว หรือสร้างแท็กใหม่",
+  "recaps_story_missed_not_now": "ไว้ทีหลัง",
+  "recaps_story_missed_search": "ค้นหาหรือสร้าง",
+  "recaps_story_missed_title": "แท็กไหนที่ขาดไป",
   "recaps_story_new_people_line_1": "ดูสิว่าใครได้เข้ามาในวันของคุณ",
   "recaps_story_new_people_line_10": "ไม่ใช่ทุกเดือนที่จะมีคนใหม่ แต่เดือนนี้มี",
   "recaps_story_new_people_line_11": "วงของคุณเปลี่ยนไป ทีละนิด",
@@ -1112,6 +1123,34 @@
   "recaps_story_quiz_title": "เดือนนี้ใครมีบทบาทมากที่สุด",
   "recaps_story_quiz_wrong": "เกือบแล้ว คือ %{name}",
   "recaps_story_ready": "พร้อมให้ดูแล้ว",
+  "recaps_story_rough_added": "เพิ่มแล้ว",
+  "recaps_story_rough_all_hint": "มีอะไรที่เห็นซ้ำกันไหม",
+  "recaps_story_rough_all_title": {
+    "one": "1 คืน แบบเทียบกัน",
+    "other": "ทั้ง {{count}} คืน แบบเทียบกัน"
+  },
+  "recaps_story_rough_ask_hint": "เลือกได้มากเท่าที่ต้องการ",
+  "recaps_story_rough_ask_title": "คุณคิดว่าอะไรอยู่เบื้องหลัง",
+  "recaps_story_rough_back": "กลับไปที่สรุปย้อนหลัง",
+  "recaps_story_rough_closing_body": "คุณรู้จักวันของตัวเองดีที่สุด และการบันทึกทุกครั้งช่วยได้",
+  "recaps_story_rough_closing_title": "การมองย้อนกลับแบบนี้ทำให้เห็นรูปแบบชัดขึ้น",
+  "recaps_story_rough_done": "เสร็จแล้ว",
+  "recaps_story_rough_evening": "%{weekday} ตอนเย็น",
+  "recaps_story_rough_eyebrow": "คืนที่นอนไม่ดี %{position} จาก %{count}",
+  "recaps_story_rough_felt": "รู้สึก",
+  "recaps_story_rough_missed": "ฉันลืมแท็กไป",
+  "recaps_story_rough_more": {
+    "one": "+อีก 1",
+    "other": "+อีก {{count}}"
+  },
+  "recaps_story_rough_most_days": "แทบทุกวัน",
+  "recaps_story_rough_nights": "คืนที่นอนไม่ดี",
+  "recaps_story_rough_not_sure": "ไม่แน่ใจ",
+  "recaps_story_rough_note": "บันทึก",
+  "recaps_story_rough_nothing": "ไม่ได้บันทึกอะไร",
+  "recaps_story_rough_people": "ติดต่อกับ",
+  "recaps_story_rough_people_short": "ผู้คน",
+  "recaps_story_rough_tags": "แท็ก",
   "recaps_story_share": "แชร์",
   "recaps_story_share_heading_best": "วันที่ดีที่สุดของฉัน",
   "recaps_story_share_heading_coming": "ปีของฉันจนถึงตอนนี้",
@@ -1123,6 +1162,14 @@
   "recaps_story_share_shuffle": "สุ่มรูปภาพ",
   "recaps_story_share_title": "เดือน%{month}ของฉัน",
   "recaps_story_share_title_week": "สัปดาห์ของฉัน",
+  "recaps_story_sleep_ask": {
+    "one": "มี 1 คืนที่นอนไม่ดี ดูให้ละเอียดขึ้นไหม",
+    "other": "มี {{count}} คืนที่นอนไม่ดี ดูให้ละเอียดขึ้นไหม"
+  },
+  "recaps_story_sleep_hint": "แถบยิ่งเต็ม ยิ่งนอนดี",
+  "recaps_story_sleep_look": "ไปดูกัน",
+  "recaps_story_sleep_skip": "ข้ามไปก่อน",
+  "recaps_story_sleep_title": "คืนของคุณใน%{month}",
   "recaps_tag_back_text": {
     "one": "1 วัน หลังจากหายไป %{weeks} สัปดาห์",
     "other": "{{count}} วัน หลังจากหายไป %{weeks} สัปดาห์"

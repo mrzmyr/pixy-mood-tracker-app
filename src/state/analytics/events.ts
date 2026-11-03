@@ -320,6 +320,32 @@ export interface AnalyticsEvents {
     slides_count: number;
     completed: boolean;
   };
+  /**
+   * Answer to "Look closer?" on the sleep slide. Counts only, never sleep
+   * quality or what the evenings held.
+   */
+  "recaps:rough_nights_opened": {
+    opened: boolean;
+    rough_nights: number;
+  };
+  /**
+   * Done on "What do you think was behind them?". Measures whether the
+   * user's pick matched the item Pixy would suggest. Counts and booleans
+   * only: never tag or person names, emotions, notes, or sleep values.
+   */
+  "recaps:rough_nights_answered": {
+    rough_nights: number;
+    picked_count: number;
+    picked_tags: number;
+    picked_people: number;
+    not_sure: boolean;
+    had_suggestion: boolean;
+    matched_suggestion: boolean;
+    suggestion_kind: "tag" | "person" | null;
+    missed_tag: boolean;
+    missed_tag_created: boolean;
+    missed_tag_evenings: number;
+  };
   "tags:categories_reordered": {
     categories_count: number;
     method: "drag" | "accessibility_action";

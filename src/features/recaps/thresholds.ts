@@ -129,6 +129,18 @@ export const THRESHOLDS = {
   sleepChartMinNightsWeek: 3,
   /** Sleep chart: nights with sleep needed in a month. */
   sleepChartMinNightsMonth: 7,
+  /** Sleep story slide: nights with sleep needed in the month. */
+  storySleepMinNights: 7,
+  /** Rough nights with something logged the evening before, to ask. */
+  roughNightsMin: 2,
+  /** Rough-night slides at most: the roughest, shown oldest first. */
+  roughNightsMax: 7,
+  /** Share of the month's days that makes a tag or person "most days". */
+  roughNightsEverydayShare: 0.7,
+  /** Repeat marker: share on rough nights minus share on all days. */
+  roughNightsMarkMinLift: 0.25,
+  /** Repeat markers at most. */
+  roughNightsMarked: 2,
   /** Most used tags: different tags needed. */
   tagsMinDifferent: 3,
   /** Most used tags: rows at most. */
