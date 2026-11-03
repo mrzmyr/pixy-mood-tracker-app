@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 const EmptySlotComponent = () => {
   const haptics = useHaptics();
   const onLongPress = useCallback(() => {
-    void haptics.impact();
+    void haptics.selection();
     startPhotoPeek();
   }, [haptics]);
 
