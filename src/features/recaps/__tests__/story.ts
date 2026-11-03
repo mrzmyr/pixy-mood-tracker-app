@@ -179,6 +179,54 @@ describe("orbit", () => {
   });
 });
 
+describe("people quiz", () => {
+  const connected = month((index) => ({
+    people: [
+      { id: "ada" },
+      ...(index < 9 ? [{ id: "jen" }] : []),
+      ...(index < 5 ? [{ id: "kim" }] : []),
+      ...(index < 3 ? [{ id: "max" }] : []),
+      ...(index < 2 ? [{ id: "sam" }] : []),
+    ],
+  }));
+
+  test("asks for the most connected of the top 4, right before the orbit", () => {
+    const slides = story(connected);
+    const quiz = slide(slides, "people-quiz");
+    expect(quiz?.answer).toBe("ada");
+    expect(
+      [...(quiz?.people ?? [])]
+        .sort((a, b) => b.days - a.days)
+        .map((row) => row.days)
+    ).toEqual([30, 9, 5, 3]);
+    const types = slides?.map((item) => item.type) ?? [];
+    expect(types.indexOf("orbit") - types.indexOf("people-quiz")).toBe(1);
+  });
+
+  test("keeps the same tile order when the story opens again", () => {
+    expect(slide(story(connected), "people-quiz")?.people).toEqual(
+      slide(story(connected), "people-quiz")?.people
+    );
+  });
+
+  test("stays out on a tie for the most days", () => {
+    const tie = month(() => ({
+      people: [{ id: "ada" }, { id: "jen" }, { id: "kim" }],
+    }));
+    expect(slide(story(tie), "people-quiz")).toBeUndefined();
+    expect(slide(story(tie), "orbit")).toBeDefined();
+  });
+
+  test("stays out of the week story", () => {
+    const items = connected.slice(0, 7);
+    const week = buildWeekStory(
+      makeInput({ kind: "week", today: "2026-09-08", date: SEP, items, tags })
+    );
+    expect(week?.some((item) => item.type === "orbit")).toBe(true);
+    expect(week?.some((item) => item.type === "people-quiz")).toBe(false);
+  });
+});
+
 describe("coming up", () => {
   test("counts days left and missed days since the first entry", () => {
     const items = month().slice(0, 20);

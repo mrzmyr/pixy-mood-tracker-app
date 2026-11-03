@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import noop from "lodash/noop";
 import { PixelRatio, useWindowDimensions, View } from "react-native";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
@@ -20,6 +21,8 @@ import {
   useDayColors,
 } from "./parts";
 import { Orbit } from "./orbit";
+import { PeopleQuiz } from "./people-quiz";
+import type { QuizAnswer } from "./people-quiz";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { StoryIntro } from "./story-intro";
 import {
@@ -49,6 +52,8 @@ export interface SlideContext {
   /** App in dark mode: `paper` slides draw as `night`. */
   isDark: boolean;
 }
+
+const UNANSWERED: QuizAnswer = { picked: null, onPick: noop };
 
 // ---------------------------------------------------------------- cover
 
@@ -354,9 +359,11 @@ const ComingUp = ({
 const SlideBody = ({
   slide,
   ctx,
+  quiz,
 }: {
   slide: StorySlide;
   ctx: SlideContext;
+  quiz: QuizAnswer;
 }) => {
   switch (slide.type) {
     case "cover": {
@@ -365,6 +372,9 @@ const SlideBody = ({
     case "positive-tags":
     case "negative-tags": {
       return <TagEffects slide={slide} ctx={ctx} />;
+    }
+    case "people-quiz": {
+      return <PeopleQuiz slide={slide} ctx={ctx} quiz={quiz} />;
     }
     case "orbit": {
       return <Orbit slide={slide} ctx={ctx} />;
@@ -380,20 +390,23 @@ const SlideBody = ({
 
 /**
  * Content of one slide. The player draws background and chrome. Cloud Pixy
- * stays around: it flies in the free sky below the content.
+ * stays around: it flies in the free sky below the content. `quiz`: the
+ * answer of a quiz slide, kept by the caller so it survives going back.
  */
 export const SlideContent = ({
   slide,
   ctx,
+  quiz = UNANSWERED,
 }: {
   slide: StorySlide;
   ctx: SlideContext;
+  quiz?: QuizAnswer;
 }) =>
   slide.type === "intro" ? (
     <StoryIntro ctx={ctx} />
   ) : (
     <View style={{ flex: 1 }}>
-      <SlideBody slide={slide} ctx={ctx} />
+      <SlideBody slide={slide} ctx={ctx} quiz={quiz} />
       <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
     </View>
   );

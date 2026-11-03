@@ -36,6 +36,7 @@ export const RecapStoryPlayground = ({
   const [shuffles, setShuffles] = useState(0);
   const [isSharing, setIsSharing] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
+  const [picks, setPicks] = useState<ReadonlyMap<number, string>>(new Map());
 
   // 3 photos of the pool; each shuffle moves on by 3, as in the app.
   const pickPhotos = (pool: PlaygroundPage["slide"] & { type: "share" }) =>
@@ -47,11 +48,19 @@ export const RecapStoryPlayground = ({
           return photo ? [photo] : [];
         });
 
-  const contentOf = ({ slide, ctx }: PlaygroundPage) =>
+  const contentOf = ({ slide, ctx }: PlaygroundPage, index: number) =>
     slide.type === "share" ? (
       <StoryFinale ctx={ctx} photos={pickPhotos(slide)} />
     ) : (
-      <SlideContent slide={slide} ctx={ctx} />
+      <SlideContent
+        slide={slide}
+        ctx={ctx}
+        quiz={{
+          picked: picks.get(index) ?? null,
+          onPick: (personId) =>
+            setPicks((current) => new Map([...current, [index, personId]])),
+        }}
+      />
     );
 
   const share = () => {
@@ -74,7 +83,7 @@ export const RecapStoryPlayground = ({
     theme: getStoryTheme(isDark),
     // No timer: the playground holds each slide until a tap.
     isWaiting: true,
-    content: contentOf(page),
+    content: contentOf(page, index),
   }));
 
   if (slides.length === 0) {

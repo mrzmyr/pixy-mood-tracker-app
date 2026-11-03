@@ -54,6 +54,18 @@ export interface OrbitSlide {
   people: { personId: string; days: number }[];
 }
 
+/**
+ * Guess before the orbit: which of 3 or 4 people had the most connected
+ * days. Days show on the tiles after the answer.
+ */
+export interface PeopleQuizSlide {
+  type: "people-quiz";
+  /** People and their connected days, in a stable shuffled order. */
+  people: { personId: string; days: number }[];
+  /** Person with the most connected days. Always a clear winner. */
+  answer: string;
+}
+
 /** Days still to come in the year, and days without a check-in so far. */
 export interface ComingUpSlide {
   type: "coming-up";
@@ -78,6 +90,7 @@ export type StorySlide =
   | CoverSlide
   | PositiveTagsSlide
   | NegativeTagsSlide
+  | PeopleQuizSlide
   | OrbitSlide
   | ComingUpSlide
   | ShareSlide;

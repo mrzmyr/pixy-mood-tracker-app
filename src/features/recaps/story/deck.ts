@@ -11,6 +11,7 @@ import type {
   CoverSlide,
   NegativeTagsSlide,
   OrbitSlide,
+  PeopleQuizSlide,
   PositiveTagsSlide,
   ShareSlide,
   StoryPhoto,
@@ -86,12 +87,12 @@ const negativeTags = (input: RecapInput): NegativeTagsSlide | null => {
 };
 
 /**
- * 3+ people connected on 2+ days each, most days first. Any connection
- * counts: the slide shows how often, never how it felt.
+ * People with 2+ connected days, most days first. Any connection counts:
+ * slides show how often, never how it felt.
  */
-const orbit = (input: RecapInput): OrbitSlide | null => {
+const connectedPeople = (input: RecapInput) => {
   if (!peopleOn(input)) {
-    return null;
+    return [];
   }
   const at = indexDays(input.days);
   const counts = new Map<string, number>();
@@ -102,16 +103,55 @@ const orbit = (input: RecapInput): OrbitSlide | null => {
       }
     }
   }
-  const rows = [...counts.entries()]
+  return [...counts.entries()]
     .filter(([, days]) => days >= THRESHOLDS.storyOrbitMinDays)
     .sort(([, a], [, b]) => b - a)
-    .slice(0, THRESHOLDS.storyOrbitMaxPeople);
-  return rows.length >= THRESHOLDS.storyOrbitMinPeople
-    ? {
-        type: "orbit",
-        people: rows.map(([personId, days]) => ({ personId, days })),
-      }
+    .map(([personId, days]) => ({ personId, days }));
+};
+
+/** 3+ connected people, most days first. */
+const orbit = (input: RecapInput): OrbitSlide | null => {
+  const people = connectedPeople(input).slice(
+    0,
+    THRESHOLDS.storyOrbitMaxPeople
+  );
+  return people.length >= THRESHOLDS.storyOrbitMinPeople
+    ? { type: "orbit", people }
     : null;
+};
+
+/** Stable number from 0 to 1 for `text`, so a month keeps its order. */
+const hash = (text: string) => {
+  let value = 7;
+  for (const char of text) {
+    value = (value * 31 + (char.codePointAt(0) ?? 0)) % 1_000_003;
+  }
+  return value / 1_000_003;
+};
+
+/**
+ * The 3 or 4 most connected people as tiles, in a stable shuffled order.
+ * Needs a clear winner: no quiz on a tie for the most days.
+ */
+const peopleQuiz = (input: RecapInput): PeopleQuizSlide | null => {
+  const people = connectedPeople(input).slice(0, 4);
+  const [first, second] = people;
+  if (
+    people.length < THRESHOLDS.storyOrbitMinPeople ||
+    !first ||
+    !second ||
+    first.days === second.days
+  ) {
+    return null;
+  }
+  const seed = input.period.start;
+  return {
+    type: "people-quiz",
+    people: [...people].sort(
+      (a, b) => hash(seed + a.personId) - hash(seed + b.personId)
+    ),
+    answer: first.personId,
+  };
 };
 
 /**
@@ -177,6 +217,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     cover(input),
     positiveTags(input),
     negativeTags(input),
+    peopleQuiz(input),
     orbit(input),
     comingUp(input),
   ];
