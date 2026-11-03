@@ -1050,6 +1050,20 @@
     "one": "%{year}년이 1일 남았어요",
     "other": "%{year}년이 {{count}}일 남았어요"
   },
+  "recaps_story_cover_note_1": {
+    "one": "픽셀 1개를 채웠어요. 정말 대단한 일이에요.",
+    "other": "픽셀 {{count}}개를 채웠어요. 정말 대단한 일이에요."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "1번 멈춰서 내 기분을 살폈어요. 그건 의미 있는 일이에요.",
+    "other": "{{count}}번 멈춰서 내 기분을 살폈어요. 그건 의미 있는 일이에요."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "나를 위해 시간을 낸 날이 1일이에요. 스스로 자랑스러워해도 돼요.",
+    "other": "나를 위해 시간을 낸 날이 {{count}}일이에요. 스스로 자랑스러워해도 돼요."
+  },
+  "recaps_story_cover_note_full": "%{month}의 모든 날에 픽셀이 있어요. 정말 대단한 일이에요.",
+  "recaps_story_cover_note_full_week": "이번 주의 모든 날에 픽셀이 있어요. 정말 대단한 일이에요.",
   "recaps_story_cover_pixels_title": "%{month}의 픽셀",
   "recaps_story_cover_pixels_title_week": "이번 주의 픽셀",
   "recaps_story_cover_title_week": "잠시 멈춰 보세요.\n이번 주의 당신이에요.",
@@ -1058,10 +1072,7 @@
     "other": "{{count}}일"
   },
   "recaps_story_hard_title": "%{tag}, 힘들었던 날과 함께했어요",
-  "recaps_story_lifted_text": {
-    "one": "이 태그가 없는 날과 비교했어요. 기록 1개.",
-    "other": "이 태그가 없는 날과 비교했어요. 기록 {{count}}개."
-  },
+  "recaps_story_lifted_note": "이 태그가 없는 날과 비교했어요.",
   "recaps_story_lifted_title": "%{tag} 있는 날이 가장 가벼웠어요",
   "recaps_story_new_people_line_1": "누가 당신의 하루에 찾아왔는지 보세요.",
   "recaps_story_new_people_line_10": "매달 새로운 사람이 오는 건 아니에요. 이번 달은 왔어요.",

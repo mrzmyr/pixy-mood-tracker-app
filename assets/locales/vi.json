@@ -1050,6 +1050,20 @@
     "one": "Năm %{year} còn 1 ngày nữa",
     "other": "Năm %{year} còn {{count}} ngày nữa"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel đã được tô. Đó là một thành quả thật sự.",
+    "other": "{{count}} pixel đã được tô. Đó là một thành quả thật sự."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "1 lần bạn dừng lại để lắng nghe cảm xúc của mình. Điều đó có ý nghĩa.",
+    "other": "{{count}} lần bạn dừng lại để lắng nghe cảm xúc của mình. Điều đó có ý nghĩa."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 ngày bạn dành thời gian cho chính mình. Hãy tự hào về điều đó.",
+    "other": "{{count}} ngày bạn dành thời gian cho chính mình. Hãy tự hào về điều đó."
+  },
+  "recaps_story_cover_note_full": "Mỗi ngày trong %{month} đều có pixel của nó. Đó là một thành quả thật sự.",
+  "recaps_story_cover_note_full_week": "Mỗi ngày trong tuần này đều có pixel của nó. Đó là một thành quả thật sự.",
   "recaps_story_cover_pixels_title": "pixel trong %{month}",
   "recaps_story_cover_pixels_title_week": "Pixel tuần này",
   "recaps_story_cover_title_week": "Dành một chút thời gian.\nĐây là tuần của bạn.",
@@ -1058,10 +1072,7 @@
     "other": "{{count}} ngày"
   },
   "recaps_story_hard_title": "%{tag} đi cùng những ngày khó khăn hơn của bạn",
-  "recaps_story_lifted_text": {
-    "one": "So với những ngày không có thẻ này. 1 lần ghi lại.",
-    "other": "So với những ngày không có thẻ này. {{count}} lần ghi lại."
-  },
+  "recaps_story_lifted_note": "So với những ngày không có thẻ này.",
   "recaps_story_lifted_title": "Những ngày có %{tag} nhẹ nhàng nhất",
   "recaps_story_new_people_line_1": "Xem ai đã tìm đến những ngày của bạn.",
   "recaps_story_new_people_line_10": "Không phải tháng nào cũng có người mới. Tháng này thì có.",

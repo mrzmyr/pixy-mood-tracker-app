@@ -1050,6 +1050,20 @@
     "one": "%{year}年はあと1日",
     "other": "%{year}年はあと{{count}}日"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1個のピクセルが埋まりました。立派な成果です。",
+    "other": "{{count}}個のピクセルが埋まりました。立派な成果です。"
+  },
+  "recaps_story_cover_note_2": {
+    "one": "1回、立ち止まって自分の気持ちに目を向けました。それには意味があります。",
+    "other": "{{count}}回、立ち止まって自分の気持ちに目を向けました。それには意味があります。"
+  },
+  "recaps_story_cover_note_3": {
+    "one": "自分のために時間をとった日が1日。誇りに思ってください。",
+    "other": "自分のために時間をとった日が{{count}}日。誇りに思ってください。"
+  },
+  "recaps_story_cover_note_full": "%{month}の毎日にピクセルがあります。立派な成果です。",
+  "recaps_story_cover_note_full_week": "今週の毎日にピクセルがあります。立派な成果です。",
   "recaps_story_cover_pixels_title": "%{month}のピクセル",
   "recaps_story_cover_pixels_title_week": "今週のピクセル",
   "recaps_story_cover_title_week": "少しだけ立ち止まって。\nこれがあなたの一週間です。",
@@ -1058,10 +1072,7 @@
     "other": "{{count}}日"
   },
   "recaps_story_hard_title": "%{tag}は、つらかった日によく重なっていました",
-  "recaps_story_lifted_text": {
-    "one": "このタグがない日との比較。記録1件。",
-    "other": "このタグがない日との比較。記録{{count}}件。"
-  },
+  "recaps_story_lifted_note": "このタグがない日との比較。",
   "recaps_story_lifted_title": "%{tag}の日がいちばん軽やかでした",
   "recaps_story_new_people_line_1": "あなたの日々にやってきた人たち。",
   "recaps_story_new_people_line_10": "新しい人が来ない月もあります。今月は来ました。",

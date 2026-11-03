@@ -1050,6 +1050,20 @@
     "one": "%{year} 年还剩 1 天",
     "other": "%{year} 年还剩 {{count}} 天"
   },
+  "recaps_story_cover_note_1": {
+    "one": "填满了 1 个像素。这是真正的成就。",
+    "other": "填满了 {{count}} 个像素。这是真正的成就。"
+  },
+  "recaps_story_cover_note_2": {
+    "one": "你停下来留意自己的感受 1 次。这很重要。",
+    "other": "你停下来留意自己的感受 {{count}} 次。这很重要。"
+  },
+  "recaps_story_cover_note_3": {
+    "one": "有 1 天你为自己留出了时间。为此骄傲吧。",
+    "other": "有 {{count}} 天你为自己留出了时间。为此骄傲吧。"
+  },
+  "recaps_story_cover_note_full": "%{month}的每一天都有它的像素。这是真正的成就。",
+  "recaps_story_cover_note_full_week": "本周的每一天都有它的像素。这是真正的成就。",
   "recaps_story_cover_pixels_title": "%{month}的像素",
   "recaps_story_cover_pixels_title_week": "本周的像素",
   "recaps_story_cover_title_week": "停下来片刻。\n这是你的一周。",
@@ -1058,10 +1072,7 @@
     "other": "{{count}} 天"
   },
   "recaps_story_hard_title": "%{tag}常伴随你比较难熬的日子",
-  "recaps_story_lifted_text": {
-    "one": "与没有该标签的日子相比。1 次记录。",
-    "other": "与没有该标签的日子相比。{{count}} 次记录。"
-  },
+  "recaps_story_lifted_note": "与没有该标签的日子相比。",
   "recaps_story_lifted_title": "有%{tag}的日子感觉最轻松",
   "recaps_story_new_people_line_1": "看看谁走进了你的日子。",
   "recaps_story_new_people_line_10": "不是每个月都有新的人出现。这个月有。",

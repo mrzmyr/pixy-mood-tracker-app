@@ -1050,6 +1050,20 @@
     "one": "Encore 1 jour en %{year}",
     "other": "Encore {{count}} jours en %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel rempli. C’est une vraie réussite.",
+    "other": "{{count}} pixels remplis. C’est une vraie réussite."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Une fois, vous avez pris le temps de sentir comment vous allez. Ça compte.",
+    "other": "{{count}} fois, vous avez pris le temps de sentir comment vous allez. Ça compte."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 jour, vous avez pris du temps pour vous. Soyez-en fier.",
+    "other": "{{count}} jours, vous avez pris du temps pour vous. Soyez-en fier."
+  },
+  "recaps_story_cover_note_full": "Chaque jour de %{month} a son pixel. C’est une vraie réussite.",
+  "recaps_story_cover_note_full_week": "Chaque jour de cette semaine a son pixel. C’est une vraie réussite.",
   "recaps_story_cover_pixels_title": "pixels en %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels de la semaine",
   "recaps_story_cover_title_week": "Prenez un moment.\nVoici votre semaine.",
@@ -1058,10 +1072,7 @@
     "other": "{{count}} jours"
   },
   "recaps_story_hard_title": "%{tag} a accompagné vos jours plus difficiles",
-  "recaps_story_lifted_text": {
-    "one": "Comparé aux jours sans ce tag. 1 check-in.",
-    "other": "Comparé aux jours sans ce tag. {{count}} check-ins."
-  },
+  "recaps_story_lifted_note": "Comparé aux jours sans ce tag.",
   "recaps_story_lifted_title": "Les jours avec %{tag} semblaient les plus légers",
   "recaps_story_new_people_line_1": "Voyez qui a trouvé sa place dans vos journées.",
   "recaps_story_new_people_line_10": "Chaque mois n’apporte pas de nouvelle rencontre. Celui-ci, oui.",

@@ -1050,6 +1050,20 @@
     "one": "Nog 1 dag van %{year} te gaan",
     "other": "Nog {{count}} dagen van %{year} te gaan"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel gevuld. Dat is echt een prestatie.",
+    "other": "{{count}} pixels gevuld. Dat is echt een prestatie."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Eén keer stond je stil bij hoe je je voelt. Dat telt.",
+    "other": "{{count}} keer stond je stil bij hoe je je voelt. Dat telt."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "Op 1 dag maakte je tijd voor jezelf. Wees daar trots op.",
+    "other": "Op {{count}} dagen maakte je tijd voor jezelf. Wees daar trots op."
+  },
+  "recaps_story_cover_note_full": "Elke dag van %{month} heeft zijn pixel. Dat is echt een prestatie.",
+  "recaps_story_cover_note_full_week": "Elke dag van deze week heeft zijn pixel. Dat is echt een prestatie.",
   "recaps_story_cover_pixels_title": "pixels in %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels deze week",
   "recaps_story_cover_title_week": "Neem even de tijd.\nDit was je week.",
@@ -1058,10 +1072,7 @@
     "other": "{{count}} dagen"
   },
   "recaps_story_hard_title": "%{tag} hoorde bij je zwaardere dagen",
-  "recaps_story_lifted_text": {
-    "one": "Vergeleken met dagen zonder de tag. 1 check-in.",
-    "other": "Vergeleken met dagen zonder de tag. {{count}} check-ins."
-  },
+  "recaps_story_lifted_note": "Vergeleken met dagen zonder de tag.",
   "recaps_story_lifted_title": "Dagen met %{tag} voelden het lichtst",
   "recaps_story_new_people_line_1": "Kijk wie de weg naar je dagen vond.",
   "recaps_story_new_people_line_10": "Niet elke maand brengt iemand nieuws. Deze wel.",

@@ -1050,6 +1050,20 @@
     "one": "עוד יום אחד ב־%{year}",
     "other": "עוד {{count}} ימים ב־%{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "פיקסל אחד מלא. זה הישג אמיתי.",
+    "other": "פיקסלים מלאים: {{count}}. זה הישג אמיתי."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "פעם אחת עצרת לשים לב איך אתה מרגיש. זה נחשב.",
+    "other": "מספר הפעמים שעצרת לשים לב איך אתה מרגיש: {{count}}. זה נחשב."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "יום אחד פינית זמן לעצמך. תהיה גאה בזה.",
+    "other": "ימים שבהם פינית זמן לעצמך: {{count}}. תהיה גאה בזה."
+  },
+  "recaps_story_cover_note_full": "לכל יום ב%{month} יש פיקסל. זה הישג אמיתי.",
+  "recaps_story_cover_note_full_week": "לכל יום השבוע יש פיקסל. זה הישג אמיתי.",
   "recaps_story_cover_pixels_title": "פיקסלים ב%{month}",
   "recaps_story_cover_pixels_title_week": "הפיקסלים של השבוע",
   "recaps_story_cover_title_week": "קח רגע.\nזה היה השבוע שלך.",
@@ -1058,10 +1072,7 @@
     "other": "{{count}} ימים"
   },
   "recaps_story_hard_title": "%{tag}: לצד הימים הקשים יותר שלך",
-  "recaps_story_lifted_text": {
-    "one": "בהשוואה לימים בלי התגית. תיעוד 1.",
-    "other": "בהשוואה לימים בלי התגית. {{count}} תיעודים."
-  },
+  "recaps_story_lifted_note": "בהשוואה לימים בלי התגית.",
   "recaps_story_lifted_title": "ימים עם %{tag} הרגישו הכי קלים",
   "recaps_story_new_people_line_1": "תראה מי מצא את הדרך אל הימים שלך.",
   "recaps_story_new_people_line_10": "לא כל חודש מביא מישהו חדש. החודש הזה כן.",

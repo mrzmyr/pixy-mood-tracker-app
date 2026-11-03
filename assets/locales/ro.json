@@ -1050,6 +1050,20 @@
     "one": "Mai urmează 1 zi din %{year}",
     "other": "Mai urmează {{count}} zile din %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel completat. Este o reușită adevărată.",
+    "other": "Pixeli completați: {{count}}. Este o reușită adevărată."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "O dată te-ai oprit să simți cum te simți. Contează.",
+    "other": "De câte ori te-ai oprit să simți cum te simți: {{count}}. Contează."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "O zi ți-ai făcut timp pentru tine. Fii mândru de asta.",
+    "other": "Zile în care ți-ai făcut timp pentru tine: {{count}}. Fii mândru de asta."
+  },
+  "recaps_story_cover_note_full": "Fiecare zi din %{month} are pixelul ei. Este o reușită adevărată.",
+  "recaps_story_cover_note_full_week": "Fiecare zi din această săptămână are pixelul ei. Este o reușită adevărată.",
   "recaps_story_cover_pixels_title": "pixeli în %{month}",
   "recaps_story_cover_pixels_title_week": "Pixelii săptămânii",
   "recaps_story_cover_title_week": "Ia-ți un moment.\nAceasta a fost săptămâna ta.",
@@ -1058,10 +1072,7 @@
     "other": "{{count}} zile"
   },
   "recaps_story_hard_title": "%{tag} a însoțit zilele tale mai grele",
-  "recaps_story_lifted_text": {
-    "one": "Comparat cu zilele fără etichetă. 1 înregistrare.",
-    "other": "Comparat cu zilele fără etichetă. {{count}} înregistrări."
-  },
+  "recaps_story_lifted_note": "Comparat cu zilele fără etichetă.",
   "recaps_story_lifted_title": "Zilele cu %{tag} au fost cele mai ușoare",
   "recaps_story_new_people_line_1": "Uite cine și-a găsit drumul în zilele tale.",
   "recaps_story_new_people_line_10": "Nu orice lună aduce pe cineva nou. Aceasta a adus.",

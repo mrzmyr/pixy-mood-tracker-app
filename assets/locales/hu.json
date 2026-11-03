@@ -1050,6 +1050,20 @@
     "one": "%{year}: még 1 nap van hátra",
     "other": "%{year}: még {{count}} nap van hátra"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 kitöltött pixel. Ez igazi teljesítmény.",
+    "other": "{{count}} kitöltött pixel. Ez igazi teljesítmény."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Egyszer megálltál, hogy figyelj, hogy érzed magad. Ez számít.",
+    "other": "{{count}} alkalommal megálltál, hogy figyelj, hogy érzed magad. Ez számít."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 napon szántál időt magadra. Lehetsz rá büszke.",
+    "other": "{{count}} napon szántál időt magadra. Lehetsz rá büszke."
+  },
+  "recaps_story_cover_note_full": "%{month} minden napjának megvan a pixele. Ez igazi teljesítmény.",
+  "recaps_story_cover_note_full_week": "A hét minden napjának megvan a pixele. Ez igazi teljesítmény.",
   "recaps_story_cover_pixels_title": "pixel · %{month}",
   "recaps_story_cover_pixels_title_week": "A hét pixelei",
   "recaps_story_cover_title_week": "Szánj rá egy pillanatot.\nEz volt a heted.",
@@ -1058,10 +1072,7 @@
     "other": "{{count}} nap"
   },
   "recaps_story_hard_title": "%{tag} a nehezebb napjaiddal járt együtt",
-  "recaps_story_lifted_text": {
-    "one": "A címke nélküli napokhoz képest. 1 bejegyzés.",
-    "other": "A címke nélküli napokhoz képest. {{count}} bejegyzés."
-  },
+  "recaps_story_lifted_note": "A címke nélküli napokhoz képest.",
   "recaps_story_lifted_title": "%{tag}: a legkönnyebb napok",
   "recaps_story_new_people_line_1": "Nézd, ki talált utat a napjaidba.",
   "recaps_story_new_people_line_10": "Nem minden hónap hoz valaki újat. Ez igen.",

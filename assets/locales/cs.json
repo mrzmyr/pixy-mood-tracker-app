@@ -1050,6 +1050,20 @@
     "one": "Z roku %{year} zbývá ještě 1 den",
     "other": "Zbývající dny roku %{year}: {{count}}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 vyplněný pixel. To je skutečný úspěch.",
+    "other": "Vyplněné pixely: {{count}}. To je skutečný úspěch."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Jednou ses zastavil a všiml si, jak se cítíš. To se počítá.",
+    "other": "Kolikrát ses zastavil a všiml si, jak se cítíš: {{count}}. To se počítá."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 den sis udělal čas sám pro sebe. Buď na to hrdý.",
+    "other": "Dny, kdy sis udělal čas sám pro sebe: {{count}}. Buď na to hrdý."
+  },
+  "recaps_story_cover_note_full": "Každý den (%{month}) má svůj pixel. To je skutečný úspěch.",
+  "recaps_story_cover_note_full_week": "Každý den tohoto týdne má svůj pixel. To je skutečný úspěch.",
   "recaps_story_cover_pixels_title": "%{month} v pixelech",
   "recaps_story_cover_pixels_title_week": "Pixely tento týden",
   "recaps_story_cover_title_week": "Zastav se na chvíli.\nTohle byl tvůj týden.",
@@ -1058,10 +1072,7 @@
     "other": "Dní: {{count}}"
   },
   "recaps_story_hard_title": "%{tag}: často v tvých těžších dnech",
-  "recaps_story_lifted_text": {
-    "one": "Ve srovnání s dny bez štítku. 1 záznam.",
-    "other": "Ve srovnání s dny bez štítku. Záznamů: {{count}}."
-  },
+  "recaps_story_lifted_note": "Ve srovnání s dny bez štítku.",
   "recaps_story_lifted_title": "Dny se štítkem %{tag} byly nejlehčí",
   "recaps_story_new_people_line_1": "Podívej, kdo si našel cestu do tvých dnů.",
   "recaps_story_new_people_line_10": "Ne každý měsíc přinese někoho nového. Tenhle ano.",
