@@ -19,6 +19,7 @@ import {
   TagDot,
   useDayColors,
 } from "./parts";
+import { NewPeople } from "./new-people";
 import { BestDay } from "./best-day";
 import { Orbit } from "./orbit";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
@@ -387,6 +388,9 @@ const SlideBody = ({
     }
     case "orbit": {
       return <Orbit slide={slide} ctx={ctx} />;
+    }
+    case "new-people": {
+      return <NewPeople slide={slide} ctx={ctx} />;
     }
     case "coming-up": {
       return <ComingUp slide={slide} ctx={ctx} />;

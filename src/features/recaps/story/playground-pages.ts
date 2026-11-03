@@ -65,6 +65,77 @@ const LONG_PERSON: Person = {
   createdAt: "2026-01-01T09:00:00.000Z",
 };
 
+const CROWD_NAMES = [
+  "Mara",
+  "Lukas",
+  "Selin",
+  "Noah",
+  "Ines",
+  "Paul",
+  "Hannah",
+  "Emre",
+  "Lea",
+  "Jonas",
+  "Mia",
+  "Finn",
+  "Clara",
+  "Ben",
+  "Lina",
+  "Elias",
+  "Sophie",
+  "Milan",
+  "Nora",
+  "Theo",
+  "Emma",
+  "Kai",
+  "Ronja",
+  "Malte",
+  "Yara",
+  "Henri",
+  "Greta",
+  "Arne",
+  "Lotta",
+  "Ole",
+  "Frida",
+  "Timo",
+  "Wiebke",
+  "Jasper",
+  "Merle",
+  "Levi",
+  "Ida",
+  "Hugo",
+  "Pia",
+  "Carl",
+  "Svea",
+  "Anton",
+  "Rieke",
+  "Joris",
+  "Tilda",
+  "Bela",
+  "Enno",
+  "Fenja",
+  "Gesa",
+  "Hauke",
+  "Imke",
+  "Janne",
+  "Kalle",
+  "Liv",
+  "Mats",
+  "Nele",
+  "Okke",
+  "Paula",
+  "Rasmus",
+  "Smilla",
+];
+
+/** Made-up people without photos, for slides with many people. */
+const CROWD: Person[] = CROWD_NAMES.map((name, index) => ({
+  id: `playground-crowd-${index}`,
+  name,
+  avatar: null,
+  createdAt: "2026-01-01T09:00:00.000Z",
+}));
+
 /** Recap input as the story screen builds it, with every step on. */
 const toInput = (
   data: PlaygroundData,
@@ -108,7 +179,7 @@ const toContext = (
   today: input.today,
   tags: new Map([...data.tags, LONG_TAG].map((tag) => [tag.id, tag])),
   people: new Map(
-    [...data.people, LONG_PERSON].map((person) => [person.id, person])
+    [...data.people, LONG_PERSON, ...CROWD].map((person) => [person.id, person])
   ),
   isDark,
 });
@@ -124,6 +195,7 @@ const toKit = (data: PlaygroundData, input: RecapInput): CaseKit => ({
   ),
   longTagId: LONG_TAG.id,
   longPersonId: LONG_PERSON.id,
+  crowdIds: CROWD.map((person) => person.id),
   bestDate:
     bestDay(input)?.date ?? input.days.at(-1)?.date ?? input.period.start,
 });

@@ -1067,6 +1067,23 @@
     "other": "Dibandingkan hari tanpa tag ini. {{count}} catatan."
   },
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
+  "recaps_story_new_people_line_1": "Lihat siapa yang menemukan jalan ke hari-harimu.",
+  "recaps_story_new_people_line_10": "Tidak setiap bulan membawa orang baru. Bulan ini iya.",
+  "recaps_story_new_people_line_11": "Lingkaranmu terus berubah, sedikit demi sedikit.",
+  "recaps_story_new_people_line_12": "Ini halaman pertama dari cerita-cerita baru.",
+  "recaps_story_new_people_line_2": "Setiap cerita punya tokoh baru. Ini tokohmu.",
+  "recaps_story_new_people_line_3": "Setiap lingkaran tumbuh satu nama demi satu nama.",
+  "recaps_story_new_people_line_4": "Nama baru, babak baru.",
+  "recaps_story_new_people_line_5": "Hari-harimu memberi sedikit lebih banyak ruang.",
+  "recaps_story_new_people_line_6": "Setiap hubungan dimulai dengan hari pertama.",
+  "recaps_story_new_people_line_7": "Duniamu sedikit bertambah luas bulan ini.",
+  "recaps_story_new_people_line_8": "Sapaan pertama bisa jadi awal dari sesuatu.",
+  "recaps_story_new_people_line_9": "Inilah mereka yang menjadi bagian dari ceritamu.",
+  "recaps_story_new_people_more": {
+    "one": "Dan 1 lainnya",
+    "other": "Dan {{count}} lainnya"
+  },
+  "recaps_story_new_people_title": "Baru di lingkaranmu",
   "recaps_story_next": "Slide berikutnya",
   "recaps_story_orbit_title": "Siapa saja di orbitmu",
   "recaps_story_pause": "Jeda",

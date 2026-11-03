@@ -1067,6 +1067,23 @@
     "other": "Jämfört med dagar utan taggen. {{count}} incheckningar."
   },
   "recaps_story_lifted_title": "Dagar med %{tag} kändes lättast",
+  "recaps_story_new_people_line_1": "Se vem som hittade in i dina dagar.",
+  "recaps_story_new_people_line_10": "Inte varje månad ger någon ny. Den här gjorde det.",
+  "recaps_story_new_people_line_11": "Din krets förändras, lite i taget.",
+  "recaps_story_new_people_line_12": "Det här är de första sidorna i nya berättelser.",
+  "recaps_story_new_people_line_2": "Varje berättelse får nya personer. Här är dina.",
+  "recaps_story_new_people_line_3": "Varje krets växer ett namn i taget.",
+  "recaps_story_new_people_line_4": "Nya namn, nya kapitel.",
+  "recaps_story_new_people_line_5": "Dina dagar fick lite mer plats.",
+  "recaps_story_new_people_line_6": "Varje kontakt börjar med en första dag.",
+  "recaps_story_new_people_line_7": "Din värld växte lite den här månaden.",
+  "recaps_story_new_people_line_8": "Ett första hej kan bli början på något.",
+  "recaps_story_new_people_line_9": "Här är de som blev en del av din berättelse.",
+  "recaps_story_new_people_more": {
+    "one": "Och 1 till",
+    "other": "Och {{count}} till"
+  },
+  "recaps_story_new_people_title": "Nya i din krets",
   "recaps_story_next": "Nästa bild",
   "recaps_story_orbit_title": "Vem som fanns i din omloppsbana",
   "recaps_story_pause": "Pausa",

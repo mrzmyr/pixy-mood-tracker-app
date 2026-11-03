@@ -1067,6 +1067,23 @@
     "other": "Berbanding hari tanpa tag ini. {{count}} rekod."
   },
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
+  "recaps_story_new_people_line_1": "Lihat siapa yang menemui jalan ke hari-hari anda.",
+  "recaps_story_new_people_line_10": "Bukan setiap bulan membawa seseorang yang baharu. Bulan ini ya.",
+  "recaps_story_new_people_line_11": "Lingkungan anda terus berubah, sedikit demi sedikit.",
+  "recaps_story_new_people_line_12": "Inilah halaman pertama kisah-kisah baharu.",
+  "recaps_story_new_people_line_2": "Setiap kisah ada watak baharu. Inilah watak anda.",
+  "recaps_story_new_people_line_3": "Setiap lingkungan berkembang satu nama demi satu nama.",
+  "recaps_story_new_people_line_4": "Nama baharu, bab baharu.",
+  "recaps_story_new_people_line_5": "Hari-hari anda memberi sedikit lagi ruang.",
+  "recaps_story_new_people_line_6": "Setiap hubungan bermula dengan hari pertama.",
+  "recaps_story_new_people_line_7": "Dunia anda berkembang sedikit bulan ini.",
+  "recaps_story_new_people_line_8": "Sapaan pertama boleh menjadi permulaan sesuatu.",
+  "recaps_story_new_people_line_9": "Inilah mereka yang menjadi sebahagian kisah anda.",
+  "recaps_story_new_people_more": {
+    "one": "Dan 1 lagi",
+    "other": "Dan {{count}} lagi"
+  },
+  "recaps_story_new_people_title": "Baharu dalam lingkungan anda",
   "recaps_story_next": "Slaid seterusnya",
   "recaps_story_orbit_title": "Siapa dalam orbit anda",
   "recaps_story_pause": "Jeda",

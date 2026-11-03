@@ -55,6 +55,16 @@ export interface OrbitSlide {
 }
 
 /**
+ * People connected for the first time ever in the month, in the order they
+ * arrived. Counts and dates only, never how the days felt.
+ */
+export interface NewPeopleSlide {
+  type: "new-people";
+  /** First connected day first. */
+  people: { personId: string; firstDate: DateKey }[];
+}
+
+/**
  * Best day of the month: the highest mean rating above neutral. Locked at
  * first: the user swipes to see it, then photos, title, people, emotions,
  * and tags show one after another.
@@ -90,6 +100,7 @@ export type StorySlide =
   | PositiveTagsSlide
   | NegativeTagsSlide
   | OrbitSlide
+  | NewPeopleSlide
   | ComingUpSlide
   | ShareSlide;
 

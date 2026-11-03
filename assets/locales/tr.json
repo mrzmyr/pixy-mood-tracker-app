@@ -1067,6 +1067,23 @@
     "other": "Etiketin olmadığı günlerle karşılaştırıldı. {{count}} kayıt."
   },
   "recaps_story_lifted_title": "%{tag} olan günler en hafif hissettirdi",
+  "recaps_story_new_people_line_1": "Bak, günlerine kimler yolunu buldu.",
+  "recaps_story_new_people_line_10": "Her ay yeni biri getirmez. Bu ay getirdi.",
+  "recaps_story_new_people_line_11": "Çevren değişiyor, azar azar.",
+  "recaps_story_new_people_line_12": "Bunlar yeni hikâyelerin ilk sayfaları.",
+  "recaps_story_new_people_line_2": "Her hikâyeye yeni karakterler katılır. İşte seninkiler.",
+  "recaps_story_new_people_line_3": "Her çevre bir isimle büyür.",
+  "recaps_story_new_people_line_4": "Yeni isimler, yeni bölümler.",
+  "recaps_story_new_people_line_5": "Günlerin biraz daha yer açtı.",
+  "recaps_story_new_people_line_6": "Her bağ bir ilk günle başlar.",
+  "recaps_story_new_people_line_7": "Dünyan bu ay biraz büyüdü.",
+  "recaps_story_new_people_line_8": "İlk bir merhaba bir şeyin başlangıcı olabilir.",
+  "recaps_story_new_people_line_9": "İşte hikâyenin parçası olanlar.",
+  "recaps_story_new_people_more": {
+    "one": "Ve 1 kişi daha",
+    "other": "Ve {{count}} kişi daha"
+  },
+  "recaps_story_new_people_title": "Çevrende yeni",
   "recaps_story_next": "Sonraki slayt",
   "recaps_story_orbit_title": "Yörüngende kimler vardı",
   "recaps_story_pause": "Duraklat",

@@ -1067,6 +1067,23 @@
     "other": "このタグがない日との比較。記録{{count}}件。"
   },
   "recaps_story_lifted_title": "%{tag}の日がいちばん軽やかでした",
+  "recaps_story_new_people_line_1": "あなたの日々にやってきた人たち。",
+  "recaps_story_new_people_line_10": "新しい人が来ない月もあります。今月は来ました。",
+  "recaps_story_new_people_line_11": "あなたの輪は、少しずつ変わっていきます。",
+  "recaps_story_new_people_line_12": "新しい物語の最初のページです。",
+  "recaps_story_new_people_line_2": "どの物語にも新しい登場人物が現れます。これがあなたの登場人物です。",
+  "recaps_story_new_people_line_3": "どの輪も、ひとつの名前ずつ広がっていきます。",
+  "recaps_story_new_people_line_4": "新しい名前、新しい章。",
+  "recaps_story_new_people_line_5": "あなたの日々に、少し余白が生まれました。",
+  "recaps_story_new_people_line_6": "どんなつながりも、最初の一日から始まります。",
+  "recaps_story_new_people_line_7": "今月、あなたの世界が少し広がりました。",
+  "recaps_story_new_people_line_8": "最初のあいさつが、何かの始まりになるかもしれません。",
+  "recaps_story_new_people_line_9": "あなたの物語の一部になった人たちです。",
+  "recaps_story_new_people_more": {
+    "one": "ほか1人",
+    "other": "ほか{{count}}人"
+  },
+  "recaps_story_new_people_title": "あなたの輪に新しい人",
   "recaps_story_next": "次のスライド",
   "recaps_story_orbit_title": "あなたの軌道にいた人",
   "recaps_story_pause": "一時停止",

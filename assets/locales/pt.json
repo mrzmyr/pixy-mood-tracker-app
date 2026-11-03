@@ -1067,6 +1067,23 @@
     "other": "Comparado com dias sem a tag. {{count}} registros."
   },
   "recaps_story_lifted_title": "Dias com %{tag} foram os mais leves",
+  "recaps_story_new_people_line_1": "Veja quem encontrou um lugar nos seus dias.",
+  "recaps_story_new_people_line_10": "Nem todo mês traz alguém novo. Este trouxe.",
+  "recaps_story_new_people_line_11": "Seu círculo muda, pouco a pouco.",
+  "recaps_story_new_people_line_12": "Estas são as primeiras páginas de novas histórias.",
+  "recaps_story_new_people_line_2": "Toda história ganha novos personagens. Aqui estão os seus.",
+  "recaps_story_new_people_line_3": "Todo círculo cresce um nome de cada vez.",
+  "recaps_story_new_people_line_4": "Novos nomes, novos capítulos.",
+  "recaps_story_new_people_line_5": "Seus dias abriram um pouco mais de espaço.",
+  "recaps_story_new_people_line_6": "Toda conexão começa com um primeiro dia.",
+  "recaps_story_new_people_line_7": "Seu mundo cresceu um pouco este mês.",
+  "recaps_story_new_people_line_8": "Um primeiro olá pode ser o começo de algo.",
+  "recaps_story_new_people_line_9": "Aqui está quem passou a fazer parte da sua história.",
+  "recaps_story_new_people_more": {
+    "one": "E mais 1",
+    "other": "E mais {{count}}"
+  },
+  "recaps_story_new_people_title": "Novos no seu círculo",
   "recaps_story_next": "Próximo slide",
   "recaps_story_orbit_title": "Quem esteve na sua órbita",
   "recaps_story_pause": "Pausar",

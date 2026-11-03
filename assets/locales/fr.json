@@ -1067,6 +1067,23 @@
     "other": "Comparé aux jours sans ce tag. {{count}} check-ins."
   },
   "recaps_story_lifted_title": "Les jours avec %{tag} semblaient les plus légers",
+  "recaps_story_new_people_line_1": "Voyez qui a trouvé sa place dans vos journées.",
+  "recaps_story_new_people_line_10": "Chaque mois n’apporte pas de nouvelle rencontre. Celui-ci, oui.",
+  "recaps_story_new_people_line_11": "Votre cercle change, petit à petit.",
+  "recaps_story_new_people_line_12": "Voici les premières pages de nouvelles histoires.",
+  "recaps_story_new_people_line_2": "Chaque histoire accueille de nouveaux personnages. Voici les vôtres.",
+  "recaps_story_new_people_line_3": "Chaque cercle grandit, un prénom à la fois.",
+  "recaps_story_new_people_line_4": "Nouveaux noms, nouveaux chapitres.",
+  "recaps_story_new_people_line_5": "Vos journées ont fait un peu plus de place.",
+  "recaps_story_new_people_line_6": "Chaque lien commence par un premier jour.",
+  "recaps_story_new_people_line_7": "Votre monde s’est un peu agrandi ce mois-ci.",
+  "recaps_story_new_people_line_8": "Un premier bonjour peut être le début de quelque chose.",
+  "recaps_story_new_people_line_9": "Voici qui est entré dans votre histoire.",
+  "recaps_story_new_people_more": {
+    "one": "Et 1 autre",
+    "other": "Et {{count}} autres"
+  },
+  "recaps_story_new_people_title": "Nouveau dans votre cercle",
   "recaps_story_next": "Diapositive suivante",
   "recaps_story_orbit_title": "Qui était dans votre orbite",
   "recaps_story_pause": "Pause",
