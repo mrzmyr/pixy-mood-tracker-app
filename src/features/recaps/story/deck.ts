@@ -130,21 +130,26 @@ const newPeople = (input: RecapInput): NewPeopleSlide | null => {
     return null;
   }
   const known = new Set(before.flatMap((day) => [...at(day).people]));
-  const found = new Map<string, NewPeopleSlide["people"][number]>();
+  const found = new Map<string, DateKey>();
   for (const day of input.days) {
     for (const personId of at(day).people) {
-      if (input.personIds.has(personId) && !known.has(personId)) {
-        const row = found.get(personId);
-        if (row) {
-          row.days += 1;
-        } else {
-          found.set(personId, { personId, firstDate: day.date, days: 1 });
-        }
+      if (
+        input.personIds.has(personId) &&
+        !known.has(personId) &&
+        !found.has(personId)
+      ) {
+        found.set(personId, day.date);
       }
     }
   }
   return found.size > 0
-    ? { type: "new-people", people: [...found.values()] }
+    ? {
+        type: "new-people",
+        people: [...found].map(([personId, firstDate]) => ({
+          personId,
+          firstDate,
+        })),
+      }
     : null;
 };
 

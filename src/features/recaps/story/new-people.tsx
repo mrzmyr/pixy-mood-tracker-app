@@ -1,28 +1,46 @@
 import dayjs from "dayjs";
-import { View } from "react-native";
+import { use, useState } from "react";
+import { Pressable, useWindowDimensions, View } from "react-native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { RADIUS } from "@/constants/radius";
+import type { Person } from "@/features/people";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
+import { THRESHOLDS } from "../thresholds";
 import type { DateKey } from "../types";
-import { shortDay } from "./format";
-import { Reveal, RevealText, SlideCard, SlideHeader } from "./parts";
+import { Reveal, RevealText, SlideCard, SlideHeader, StoryText } from "./parts";
+import { StoryPressContext } from "./press-context";
 import type { SlideContext } from "./slides";
 import {
   getStoryTheme,
-  revealTextMs,
   STORY_BLOCK_GAP,
   STORY_PALETTE,
+  STORY_SCREEN_PADDING,
   titleRevealEnd,
 } from "./theme";
-import { THRESHOLDS } from "../thresholds";
+import type { StoryTheme } from "./theme";
 import type { NewPeopleSlide } from "./types";
 
-/** Time between two people: one arrives, then the next. Slow on purpose. */
-const PERSON_STEP_MS = 900;
-/** Avatar size of one arrival. */
-const AVATAR = 52;
-/** Space between two arrivals, bridged by the thread. */
-const ROW_GAP = 18;
+/** Time between two faces with few people. Slow on purpose. */
+const FACE_STEP_MS = 700;
+/** All faces arrive within this time, however many there are. */
+const FACES_MS = 3600;
+/** Up to this many people, names show under the faces. */
+const NAMED_MAX = 5;
+/** Width of the name shown while a face is held. */
+const NAME_TAG_WIDTH = 160;
+
+/** Faces shrink as the count grows, so everyone fits on one slide. */
+const faceSize = (count: number) => {
+  if (count === 1) {
+    return 112;
+  }
+  if (count <= NAMED_MAX) {
+    return 64;
+  }
+  return count <= 20 ? 44 : 32;
+};
 
 /**
  * Warm closing lines. One per month, in turn, so stories of months in a
@@ -51,10 +69,124 @@ const newPeopleLine = (periodStart: DateKey): TranslationKey => {
   return LINES[index] ?? LINES[0];
 };
 
+type Align = "left" | "center" | "right";
+
+const TAG_LEFT = { left: 0, center: 0.5, right: 1 } as const;
+const TAG_ITEMS = {
+  left: "flex-start",
+  center: "center",
+  right: "flex-end",
+} as const;
+
+/** Name tag above a held face, kept inside the screen at row ends. */
+const NameTag = ({
+  name,
+  size,
+  align,
+  theme,
+}: {
+  name: string;
+  size: number;
+  align: Align;
+  theme: StoryTheme;
+}) => {
+  const palette = STORY_PALETTE[theme];
+  return (
+    <Animated.View
+      entering={FadeIn.duration(150)}
+      exiting={FadeOut.duration(150)}
+      pointerEvents="none"
+      style={{
+        position: "absolute",
+        bottom: size + 6,
+        left: (size - NAME_TAG_WIDTH) * TAG_LEFT[align],
+        width: NAME_TAG_WIDTH,
+        alignItems: TAG_ITEMS[align],
+      }}
+    >
+      <View
+        style={{
+          paddingHorizontal: 10,
+          paddingVertical: 5,
+          borderRadius: RADIUS.full,
+          backgroundColor: palette.text,
+        }}
+      >
+        <StoryText
+          kind="label"
+          theme={theme}
+          numberOfLines={1}
+          style={{ color: palette.background }}
+        >
+          {name}
+        </StoryText>
+      </View>
+    </Animated.View>
+  );
+};
+
 /**
- * People connected for the first time this month. They arrive one at a
- * time, in the order they joined: avatar, name, first day. A thin thread
- * links each arrival to the one before. A warm line closes the slide.
+ * One face. A tap moves the story like anywhere else. Press and hold
+ * pauses the story; without names under the faces, it also shows the name.
+ */
+const Face = ({
+  person,
+  size,
+  at,
+  align,
+  isNamed,
+  theme,
+}: {
+  person: Person;
+  size: number;
+  at: number;
+  align: Align;
+  isNamed: boolean;
+  theme: StoryTheme;
+}) => {
+  const press = use(StoryPressContext);
+  const [isHeld, setIsHeld] = useState(false);
+  return (
+    <Reveal at={at} style={{ zIndex: isHeld ? 1 : 0 }}>
+      <Pressable
+        accessibilityRole="image"
+        accessibilityLabel={person.name}
+        onPress={(event) => press?.onPress(event)}
+        onLongPress={() => {
+          setIsHeld(true);
+          press?.setIsHolding(true);
+        }}
+        delayLongPress={200}
+        onPressOut={() => {
+          setIsHeld(false);
+          press?.setIsHolding(false);
+        }}
+        style={{ alignItems: "center", gap: 8 }}
+      >
+        <RingedAvatar person={person} size={size} />
+        {isNamed && (
+          <StoryText
+            kind="label"
+            theme={theme}
+            numberOfLines={1}
+            style={{ maxWidth: size + 24, fontSize: size > 64 ? 17 : 13 }}
+          >
+            {person.name}
+          </StoryText>
+        )}
+        {isHeld && !isNamed && (
+          <NameTag name={person.name} size={size} align={align} theme={theme} />
+        )}
+      </Pressable>
+    </Reveal>
+  );
+};
+
+/**
+ * People connected for the first time this month: the count, then every
+ * face, one after another in the order they arrived. Faces shrink as the
+ * count grows. Up to 5 people show names; with more, holding a face shows
+ * its name. A warm line closes the slide.
  */
 export const NewPeople = ({
   slide,
@@ -63,100 +195,87 @@ export const NewPeople = ({
   slide: NewPeopleSlide;
   ctx: SlideContext;
 }) => {
+  const { width: screen } = useWindowDimensions();
   const theme = getStoryTheme(ctx.isDark);
-  const palette = STORY_PALETTE[theme];
-  const rows = slide.people.flatMap((row) => {
-    const person = ctx.people.get(row.personId);
-    return person ? [{ ...row, person }] : [];
+  const people = slide.people.flatMap(({ personId }) => {
+    const person = ctx.people.get(personId);
+    return person ? [person] : [];
   });
-  if (rows.length === 0) {
+  if (people.length === 0) {
     return null;
   }
-  const shown = rows.slice(0, THRESHOLDS.storyNewPeopleMaxRows);
-  const more = rows.length - shown.length;
+  const shown = people.slice(0, THRESHOLDS.storyNewPeopleMaxFaces);
+  const more = people.length - shown.length;
+  const size = faceSize(shown.length);
+  const isNamed = shown.length <= NAMED_MAX;
+  const gap = isNamed ? 16 : 6;
+  // The ring adds 1 pt per side. The grid gets the exact row width, so
+  // rows break where `alignAt` expects.
+  const outer = size + 2;
+  const perRow = Math.max(
+    1,
+    Math.floor((screen - 2 * STORY_SCREEN_PADDING - 1 + gap) / (outer + gap))
+  );
+  const rowWidth = perRow * outer + (perRow - 1) * gap;
+  const alignAt = (index: number): Align => {
+    const column = index % perRow;
+    if (column === 0) {
+      return "left";
+    }
+    return column === perRow - 1 ? "right" : "center";
+  };
   const title = t("recaps_story_new_people_title");
   const start = titleRevealEnd(title);
-  const personAt = (index: number) => start + index * PERSON_STEP_MS;
-  const moreText = t("recaps_story_new_people_more", { count: more });
-  const line = t(newPeopleLine(ctx.period.start));
-  const lineAt = personAt(shown.length) + (more > 0 ? 300 : 0);
+  const step = Math.min(FACE_STEP_MS, FACES_MS / shown.length);
+  const facesEnd = start + shown.length * step;
   return (
     <>
-      <SlideHeader theme={theme} title={title} />
+      <SlideHeader
+        theme={theme}
+        lead={
+          <StoryText kind="number" theme={theme}>
+            {people.length}
+          </StoryText>
+        }
+        title={title}
+      />
       <SlideCard theme={theme} style={{ gap: STORY_BLOCK_GAP }}>
-        <View style={{ gap: ROW_GAP }}>
-          {shown.map((row, index) => {
-            const since = t("recaps_story_new_people_since", {
-              date: shortDay(row.firstDate),
-            });
-            const days = t("recaps_story_days", { count: row.days });
-            const at = personAt(index);
-            return (
-              <View
-                key={row.personId}
-                accessible
-                accessibilityLabel={`${row.person.name}, ${since}, ${days}`}
-                style={{ flexDirection: "row", alignItems: "center", gap: 14 }}
-              >
-                <View>
-                  {index > 0 && (
-                    // Thread from the arrival before, drawn just ahead of this one.
-                    <Reveal
-                      at={at - 250}
-                      style={{
-                        position: "absolute",
-                        left: AVATAR / 2,
-                        bottom: AVATAR,
-                        width: 1,
-                        height: ROW_GAP,
-                        backgroundColor: palette.muted,
-                        opacity: 0.5,
-                      }}
-                    >
-                      {null}
-                    </Reveal>
-                  )}
-                  <Reveal at={at}>
-                    <RingedAvatar person={row.person} size={AVATAR} />
-                  </Reveal>
-                </View>
-                <View style={{ flex: 1, gap: 2 }}>
-                  <RevealText
-                    text={row.person.name}
-                    at={at + 150}
-                    kind="label"
-                    theme={theme}
-                    style={{ fontSize: 17, lineHeight: 22 }}
-                  />
-                  <RevealText
-                    text={since}
-                    at={at + 150 + revealTextMs(row.person.name)}
-                    kind="label"
-                    theme={theme}
-                    tone="muted"
-                  />
-                </View>
-                <RevealText
-                  text={days}
-                  at={at + 300 + revealTextMs(row.person.name)}
-                  kind="label"
-                  theme={theme}
-                  tone="muted"
-                />
-              </View>
-            );
-          })}
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap,
+            width: shown.length === 1 ? undefined : rowWidth,
+            justifyContent: shown.length === 1 ? "center" : "flex-start",
+          }}
+        >
+          {shown.map((person, index) => (
+            <Face
+              key={person.id}
+              person={person}
+              size={size}
+              at={start + index * step}
+              align={alignAt(index)}
+              isNamed={isNamed}
+              theme={theme}
+            />
+          ))}
         </View>
         {more > 0 && (
           <RevealText
-            text={moreText}
-            at={personAt(shown.length)}
+            text={t("recaps_story_new_people_more", { count: more })}
+            at={facesEnd}
             kind="label"
             theme={theme}
             tone="muted"
           />
         )}
-        <RevealText text={line} at={lineAt} kind="body" theme={theme} />
+        <RevealText
+          text={t(newPeopleLine(ctx.period.start))}
+          at={facesEnd + (more > 0 ? 600 : 300)}
+          kind="body"
+          theme={theme}
+        />
       </SlideCard>
     </>
   );

@@ -1079,7 +1079,6 @@
     "one": "Und 1 weitere Person",
     "other": "Und {{count}} weitere"
   },
-  "recaps_story_new_people_since": "Seit %{date}",
   "recaps_story_new_people_title": "Neu in deinem Kreis",
   "recaps_story_next": "Nächste Folie",
   "recaps_story_orbit_title": "Wer in deinem Orbit war",

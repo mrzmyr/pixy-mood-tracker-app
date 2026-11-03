@@ -16,6 +16,8 @@ export interface CaseKit {
   longTagId: string;
   /** Person with a 30-character name, the longest a name can have. */
   longPersonId: string;
+  /** 60 made-up people without photos, for crowded slides. */
+  crowdIds: string[];
 }
 
 /** One state of a slide: typical data, or an edge like one row or long names. */
@@ -125,36 +127,32 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   ],
   "new-people": [
     {
-      name: "3 people",
+      name: "1 person",
       period: "month",
       build: (kit) => ({
         type: "new-people",
-        people: [
-          { personId: personAt(kit, 2), firstDate: kit.period.start, days: 6 },
-          { personId: personAt(kit, 3), firstDate: kit.period.start, days: 3 },
-          { personId: personAt(kit, 4), firstDate: kit.period.end, days: 1 },
-        ],
+        people: [{ personId: personAt(kit, 2), firstDate: kit.period.start }],
       }),
     },
     {
-      name: "1 long name",
+      name: "5 people, 1 long name",
       period: "month",
       build: (kit) => ({
         type: "new-people",
-        people: [
-          { personId: kit.longPersonId, firstDate: kit.period.start, days: 9 },
-        ],
-      }),
-    },
-    {
-      name: "6 people, 2 more",
-      period: "month",
-      build: (kit) => ({
-        type: "new-people",
-        people: [0, 1, 2, 3, 4, 5].map((index) => ({
-          personId: index === 5 ? kit.longPersonId : personAt(kit, index),
+        people: [0, 1, 2, 3, 4].map((index) => ({
+          personId: index === 4 ? kit.longPersonId : personAt(kit, index),
           firstDate: kit.period.start,
-          days: 6 - index,
+        })),
+      }),
+    },
+    {
+      name: "60 people",
+      period: "month",
+      build: (kit) => ({
+        type: "new-people",
+        people: kit.crowdIds.map((personId) => ({
+          personId,
+          firstDate: kit.period.start,
         })),
       }),
     },

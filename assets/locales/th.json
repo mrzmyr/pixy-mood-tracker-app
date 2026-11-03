@@ -1079,7 +1079,6 @@
     "one": "และอีก 1 คน",
     "other": "และอีก {{count}} คน"
   },
-  "recaps_story_new_people_since": "ตั้งแต่ %{date}",
   "recaps_story_new_people_title": "คนใหม่ในวงของคุณ",
   "recaps_story_next": "สไลด์ถัดไป",
   "recaps_story_orbit_title": "ใครอยู่ในวงโคจรของคุณ",

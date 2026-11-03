@@ -61,7 +61,7 @@ export interface OrbitSlide {
 export interface NewPeopleSlide {
   type: "new-people";
   /** First connected day first. */
-  people: { personId: string; firstDate: DateKey; days: number }[];
+  people: { personId: string; firstDate: DateKey }[];
 }
 
 /** Days still to come in the year, and days without a check-in so far. */

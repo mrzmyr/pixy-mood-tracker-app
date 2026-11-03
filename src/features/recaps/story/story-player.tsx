@@ -25,6 +25,7 @@ import { RADIUS } from "@/constants/radius";
 import { usePixyIdle } from "@/features/logger";
 import { t } from "@/lib/translation";
 import { StoryCaptureContext } from "./capture-context";
+import { StoryPressContext } from "./press-context";
 import { StoryBrand } from "./story-brand";
 import { STORY_PALETTE, STORY_SCREEN_PADDING, STORY_SLIDE_MS } from "./theme";
 import type { StoryTheme } from "./theme";
@@ -382,7 +383,9 @@ export const StoryPlayer = ({
               testID={`recap-story-slide-${slide.key}`}
             >
               <StoryCaptureContext value={isCapturing}>
-                {slide.content}
+                <StoryPressContext value={{ onPress, setIsHolding }}>
+                  {slide.content}
+                </StoryPressContext>
               </StoryCaptureContext>
             </Animated.View>
           </Pressable>

@@ -196,8 +196,8 @@ describe("new people", () => {
       ],
     }));
     expect(slide(story([...august, ...items]), "new-people")?.people).toEqual([
-      { personId: "kim", firstDate: "2026-09-04", days: 1 },
-      { personId: "jen", firstDate: "2026-09-10", days: 21 },
+      { personId: "kim", firstDate: "2026-09-04" },
+      { personId: "jen", firstDate: "2026-09-10" },
     ]);
   });
 
