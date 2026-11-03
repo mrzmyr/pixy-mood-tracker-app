@@ -17,7 +17,7 @@ import Svg, {
 } from "react-native-svg";
 
 /** Box size. The cloud fills about 70 points; the rest holds its shadow. */
-export const CLOUD_PIXY_SIZE = 84;
+export const CLOUDY_SIZE = 84;
 /** Leaves room around the cloud, mostly below, for the shadow blur. */
 const VIEW_BOX = "-6 -4 112 112";
 /** Shadow tint: sky blue, darker. A black shadow looks dirty on the sky. */
@@ -78,13 +78,13 @@ const Eye = ({
 };
 
 /**
- * Cloud Pixy: a bright white puff with sparkling eyes, or happy "^^" eyes. Two shadows follow
+ * Cloudy: a bright white puff with sparkling eyes, or happy "^^" eyes. Two shadows follow
  * the cloud outline, a tight one close under it and a wide soft one, so it
  * floats in front of the sky. Flies in light and dark mode, only in free sky
  * (`SkyFlightZone`): never over text, controls, or screenshots. Hidden with
  * reduced motion.
  */
-export const CloudPixy = ({
+export const Cloudy = ({
   isBlinking,
   isHappy = false,
 }: {
@@ -96,7 +96,7 @@ export const CloudPixy = ({
   const fill = `url(#${id}body)`;
 
   return (
-    <Svg width={CLOUD_PIXY_SIZE} height={CLOUD_PIXY_SIZE} viewBox={VIEW_BOX}>
+    <Svg width={CLOUDY_SIZE} height={CLOUDY_SIZE} viewBox={VIEW_BOX}>
       <Defs>
         <LinearGradient
           id={`${id}body`}

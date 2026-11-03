@@ -10,7 +10,7 @@ import Animated, {
 import type { SharedValue } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import Svg, { Path } from "react-native-svg";
-import { CLOUD_PIXY_SIZE } from "@/components/cloud-pixy";
+import { CLOUDY_SIZE } from "@/components/cloudy";
 
 /** One emote rises this long, then it is gone. */
 const RISE_MS = 1300;
@@ -78,7 +78,7 @@ const RisingEmote = ({
 };
 
 /**
- * Sparkles that rise above from cloud Pixy at `x`, `y`: more the higher
+ * Sparkles that rise above from Cloudy at `x`, `y`: more the higher
  * `joy` (0 to 1), and a burst on every new `cheers` count. Decoration only:
  * no touches, no screen reader.
  */
@@ -100,12 +100,12 @@ export const SkyPixyEmotes = ({
   const spawn = (count: number) => {
     const cx = x.get();
     // Above Pixy's head, never on its face.
-    const top = y.get() - CLOUD_PIXY_SIZE * 0.5;
+    const top = y.get() - CLOUDY_SIZE * 0.5;
     const added = Array.from({ length: count }, (): Emote => {
       nextId.current += 1;
       return {
         id: nextId.current,
-        x: cx + (Math.random() - 0.5) * CLOUD_PIXY_SIZE * 0.5,
+        x: cx + (Math.random() - 0.5) * CLOUDY_SIZE * 0.5,
         y: top,
         drift: (Math.random() - 0.5) * 50,
         rise: 50 + Math.random() * 50,

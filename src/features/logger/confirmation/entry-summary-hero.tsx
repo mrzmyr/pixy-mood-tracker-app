@@ -11,7 +11,7 @@ import Animated, {
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
-import { CloudPixy } from "@/components/cloud-pixy";
+import { Cloudy } from "@/components/cloudy";
 import { SKY_DRIFT_SPEED, Sky } from "@/components/sky";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
@@ -93,7 +93,7 @@ const PhotoMosaic = ({ photos }: { photos: LogItem["photos"] }) => {
   );
 };
 
-/** Cloud Pixy bobbing gently in the free sky above the headline. */
+/** Cloudy bobbing gently in the free sky above the headline. */
 const FloatingPixy = () => {
   const bob = useSharedValue(0);
   const idle = usePixyIdle({ isEnabled: true, isReducedMotion: false });
@@ -125,14 +125,14 @@ const FloatingPixy = () => {
         style,
       ]}
     >
-      <CloudPixy isBlinking={idle.isBlinking} />
+      <Cloudy isBlinking={idle.isBlinking} />
     </Animated.View>
   );
 };
 
 /**
  * Sky for entries without photos or place: clouds by day, stars at night,
- * and cloud Pixy. Reduced motion: still sky, no Pixy (`Sky`, `CloudPixy`).
+ * and Cloudy. Reduced motion: still sky, no Cloudy (`Sky`, `Cloudy`).
  */
 const SkyHero = () => {
   const { height } = useWindowDimensions();

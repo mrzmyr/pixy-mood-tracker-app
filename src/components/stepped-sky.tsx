@@ -18,7 +18,7 @@ const STEP_RAMP_DOWN_MS = 1600;
 /**
  * Full-screen sky behind stepped flows: onboarding, recap stories. The
  * clouds drift slowly and speed up for a moment each time `step` changes; `boost` reports how
- * fast, so cloud Pixy can keep pace.
+ * fast, so Cloudy can keep pace.
  */
 export const SteppedSky = ({
   step,
@@ -37,7 +37,7 @@ export const SteppedSky = ({
   useAnimatedReaction(
     () => speed.get(),
     (current) => {
-      // Reduced motion: the sky stands still, so cloud Pixy does too.
+      // Reduced motion: the sky stands still, so Cloudy does too.
       if (!isReducedMotion) {
         boost.set((current - SKY_DRIFT_SPEED) / (STEP_SPEED - SKY_DRIFT_SPEED));
       }

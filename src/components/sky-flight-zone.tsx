@@ -5,7 +5,7 @@ import { FlightZoneContext } from "@/components/flight-zone-context";
 import type { FlightZone } from "@/components/sky-pixy";
 
 /**
- * Empty space on a slide where cloud Pixy may fly. Place it where the slide
+ * Empty space on a slide where Cloudy may fly. Place it where the slide
  * has no text or controls. One per slide. A slide without one hides Pixy.
  */
 export const SkyFlightZone = ({ style }: { style?: StyleProp<ViewStyle> }) => {

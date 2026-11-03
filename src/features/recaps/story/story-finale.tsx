@@ -11,7 +11,7 @@ import type { StoryPhoto } from "./types";
 
 /**
  * Last slide, on the sky: the card to send on. Share and Shuffle sit in the
- * bottom bar like Share on every slide. Cloud Pixy flies in the free sky
+ * bottom bar like Share on every slide. Cloudy flies in the free sky
  * above and never crosses the card. Reduced motion: no Pixy.
  */
 export const StoryFinale = ({

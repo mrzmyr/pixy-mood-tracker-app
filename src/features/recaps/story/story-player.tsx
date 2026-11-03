@@ -48,7 +48,7 @@ const PIXY_ARRIVAL_DELAY_MS = 400;
 const PIXY_ARRIVAL_MS = 2400;
 
 /**
- * Cloud Pixy with the blink of the confirmation Pixy. Glides in from beyond
+ * Cloudy with the blink of the confirmation Pixy. Glides in from beyond
  * the right screen edge once, when the story opens.
  */
 const BlinkingSkyPixy = ({
@@ -93,11 +93,11 @@ const BlinkingSkyPixy = ({
 };
 
 /**
- * Slides with cloud Pixy above them. Holds the zone the slide reports, so a
+ * Slides with Cloudy above them. Holds the zone the slide reports, so a
  * new zone re-renders only Pixy: `children` keep their identity. A slide
  * control calls Pixy over through `PixyGuideContext`.
  */
-const CloudPixyLayer = ({
+const CloudyLayer = ({
   boost,
   isShown,
   children,
@@ -248,7 +248,7 @@ export const StoryPlayer = ({
 }) => {
   const insets = useSafeAreaInsets();
   const isReducedMotion = useReducedMotion();
-  // One sky and one cloud Pixy across every slide, as in onboarding.
+  // One sky and one Cloudy across every slide, as in onboarding.
   const skyBoost = useSharedValue(0);
   const [index, setIndex] = useState(0);
   const [isPausedByUser, setIsPausedByUser] = useState(false);
@@ -379,7 +379,7 @@ export const StoryPlayer = ({
       >
         <SteppedSky step={index} boost={skyBoost} />
         {/* Never in a shared image. */}
-        <CloudPixyLayer
+        <CloudyLayer
           boost={skyBoost}
           isShown={!isReducedMotion && !isCapturing}
         >
@@ -411,7 +411,7 @@ export const StoryPlayer = ({
               </StoryCaptureContext>
             </Animated.View>
           </Pressable>
-        </CloudPixyLayer>
+        </CloudyLayer>
         {isCapturing && <ScreenBrand theme={theme} />}
       </View>
 

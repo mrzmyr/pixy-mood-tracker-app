@@ -7,8 +7,8 @@ export const cheer = (guide: PixyGuide) => {
 };
 
 /**
- * Lets a control on the current slide call cloud Pixy over: Pixy leaves its
- * free sky, hovers at `x`, `y`, and cheers along. Null where no cloud Pixy
+ * Lets a control on the current slide call Cloudy over: Cloudy leaves its
+ * free sky, hovers at `x`, `y`, and cheers along. Null where no Cloudy
  * flies.
  */
 export interface PixyGuide {
@@ -23,7 +23,7 @@ export interface PixyGuide {
   cheers: SharedValue<number>;
 }
 
-/** Guide of the cloud Pixy above the current slide. Null without Pixy. */
+/** Guide of Cloudy above the current slide. Null without Cloudy. */
 export const PixyGuideContext = createContext<PixyGuide | null>(null);
 
 /** Joy levels above 0: `SkyPixyEmotes` sends more emotes per level. */
