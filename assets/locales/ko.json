@@ -889,7 +889,6 @@
   "profile_private_note": "이름과 사진은 이 기기에만 저장됩니다.",
   "quick_check_in_again": "다시 기록하기",
   "quick_check_in_all": "전체",
-  "quick_check_in_all_emotions": "모든 감정",
   "quick_check_in_all_people": "모든 사람",
   "quick_check_in_every": "간격",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}}시간"
   },
   "quick_check_in_from": "시작",
-  "quick_check_in_quadrant_high_pleasant": "높은 에너지, 기분 좋음",
-  "quick_check_in_quadrant_high_unpleasant": "높은 에너지, 불쾌함",
-  "quick_check_in_quadrant_low_pleasant": "낮은 에너지, 기분 좋음",
-  "quick_check_in_quadrant_low_unpleasant": "낮은 에너지, 불쾌함",
   "quick_check_in_question": "지금 기분이 어때요?",
   "quick_check_in_saved": "저장됨",
   "quick_check_in_schedule_empty": "시작 시간보다 늦은 종료 시간을 고르세요.",

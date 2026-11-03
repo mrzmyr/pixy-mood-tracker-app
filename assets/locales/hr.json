@@ -889,7 +889,6 @@
   "profile_private_note": "Tvoje ime i fotografija ostaju na ovom uređaju.",
   "quick_check_in_again": "Ponovno zabilježi",
   "quick_check_in_all": "Sve",
-  "quick_check_in_all_emotions": "Sve emocije",
   "quick_check_in_all_people": "Sve osobe",
   "quick_check_in_every": "Razmak",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} h"
   },
   "quick_check_in_from": "Od",
-  "quick_check_in_quadrant_high_pleasant": "Puno energije, ugodno",
-  "quick_check_in_quadrant_high_unpleasant": "Puno energije, neugodno",
-  "quick_check_in_quadrant_low_pleasant": "Malo energije, ugodno",
-  "quick_check_in_quadrant_low_unpleasant": "Malo energije, neugodno",
   "quick_check_in_question": "Kako si upravo sada?",
   "quick_check_in_saved": "Spremljeno",
   "quick_check_in_schedule_empty": "Odaberi vrijeme završetka nakon vremena početka.",

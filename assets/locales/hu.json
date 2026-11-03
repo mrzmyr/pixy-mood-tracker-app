@@ -889,7 +889,6 @@
   "profile_private_note": "A neved és a fotód ezen az eszközön marad.",
   "quick_check_in_again": "Új bejegyzés",
   "quick_check_in_all": "Összes",
-  "quick_check_in_all_emotions": "Összes érzelem",
   "quick_check_in_all_people": "Összes személy",
   "quick_check_in_every": "Gyakoriság",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} óránként"
   },
   "quick_check_in_from": "Ettől",
-  "quick_check_in_quadrant_high_pleasant": "Sok energia, kellemes",
-  "quick_check_in_quadrant_high_unpleasant": "Sok energia, kellemetlen",
-  "quick_check_in_quadrant_low_pleasant": "Kevés energia, kellemes",
-  "quick_check_in_quadrant_low_unpleasant": "Kevés energia, kellemetlen",
   "quick_check_in_question": "Hogy vagy most?",
   "quick_check_in_saved": "Mentve",
   "quick_check_in_schedule_empty": "Olyan befejezési időt válassz, amely a kezdési idő után van.",

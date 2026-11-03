@@ -889,7 +889,6 @@
   "profile_private_note": "يبقى اسمك وصورتك على هذا الجهاز.",
   "quick_check_in_again": "تسجيل جديد",
   "quick_check_in_all": "الكل",
-  "quick_check_in_all_emotions": "كل المشاعر",
   "quick_check_in_all_people": "كل الأشخاص",
   "quick_check_in_every": "كل",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} ساعات"
   },
   "quick_check_in_from": "من",
-  "quick_check_in_quadrant_high_pleasant": "طاقة عالية، لطيف",
-  "quick_check_in_quadrant_high_unpleasant": "طاقة عالية، غير لطيف",
-  "quick_check_in_quadrant_low_pleasant": "طاقة منخفضة، لطيف",
-  "quick_check_in_quadrant_low_unpleasant": "طاقة منخفضة، غير لطيف",
   "quick_check_in_question": "كيف حالك الآن؟",
   "quick_check_in_saved": "تم الحفظ",
   "quick_check_in_schedule_empty": "اختر وقت انتهاء بعد وقت البدء.",

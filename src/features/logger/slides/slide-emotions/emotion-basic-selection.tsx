@@ -2,6 +2,7 @@ import { getLocale } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import chunk from "lodash/chunk";
 import { View } from "react-native";
+import type { ViewStyle } from "react-native";
 
 import { EmotionButtonBasic } from "./emotion-button-basic";
 import { EmotionContextMenu } from "./emotion-context-menu";
@@ -22,18 +23,20 @@ const COLUMNS = 2;
  *
  * Expects categories already reduced to `good`, `neutral`, and `bad`;
  * `very_good` and `very_bad` have no sort rank. A "Missing one?" tile ends
- * the grid.
+ * the grid. `style` overrides the grid padding and bottom margin.
  */
 export const EmotionBasicSelection = ({
   emotions,
   selectedEmotions,
   onPress,
   onRequestEmotion,
+  style,
 }: {
   emotions: Emotion[];
   selectedEmotions: Emotion[];
   onPress: (emotion: Emotion) => void;
   onRequestEmotion: () => void;
+  style?: ViewStyle;
 }) => {
   const locale = getLocale();
   const isSelected = (emotion: Emotion) =>
@@ -75,6 +78,7 @@ export const EmotionBasicSelection = ({
         paddingLeft: 20,
         paddingRight: 20 + CELL_GAP,
         marginBottom: 120,
+        ...style,
       }}
     >
       {rows.map((row) => (

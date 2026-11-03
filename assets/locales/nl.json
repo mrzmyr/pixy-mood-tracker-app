@@ -889,7 +889,6 @@
   "profile_private_note": "Je naam en foto blijven op dit apparaat.",
   "quick_check_in_again": "Opnieuw inchecken",
   "quick_check_in_all": "Alle",
-  "quick_check_in_all_emotions": "Alle emoties",
   "quick_check_in_all_people": "Alle personen",
   "quick_check_in_every": "Elke",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} uur"
   },
   "quick_check_in_from": "Van",
-  "quick_check_in_quadrant_high_pleasant": "Veel energie, prettig",
-  "quick_check_in_quadrant_high_unpleasant": "Veel energie, onprettig",
-  "quick_check_in_quadrant_low_pleasant": "Weinig energie, prettig",
-  "quick_check_in_quadrant_low_unpleasant": "Weinig energie, onprettig",
   "quick_check_in_question": "Hoe gaat het nu met je?",
   "quick_check_in_saved": "Opgeslagen",
   "quick_check_in_schedule_empty": "Kies een eindtijd na de begintijd.",

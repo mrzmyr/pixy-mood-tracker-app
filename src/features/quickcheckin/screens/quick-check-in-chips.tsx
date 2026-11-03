@@ -1,19 +1,15 @@
 import Check from "lucide-react-native/icons/check";
 import { Pressable, View, useColorScheme } from "react-native";
-import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
-import { EmotionIndicator } from "@/features/logger";
 import type { LogItem } from "@/features/logs";
 import { PersonChip } from "@/features/people";
 import type { Person } from "@/features/people";
 import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
-import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import useScale from "@/hooks/use-scale";
 import { getRatingLabel } from "@/lib/rating-label";
 import { useSetting } from "@/state/settings";
-import type { Emotion } from "@/types";
 import type { InfluenceOption } from "../ranking";
 
 /** One rating as a square pixel. Seven fill a row. */
@@ -63,83 +59,7 @@ export const MoodPixel = ({
   );
 };
 
-/** Emotion as a chip, same shape as tag chips. */
-export const EmotionChip = ({
-  emotion,
-  selected,
-  onPress,
-}: {
-  emotion: Emotion;
-  selected: boolean;
-  onPress: () => void;
-}) => {
-  const colors = useColors();
-  const haptics = useHaptics();
-  const colorScheme = useColorScheme();
-
-  const idleBorder =
-    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
-
-  return (
-    <Pressable
-      accessibilityRole="checkbox"
-      accessibilityLabel={emotion.label}
-      accessibilityState={{ checked: selected }}
-      onPress={async () => {
-        await haptics.selection();
-        onPress();
-      }}
-      style={({ pressed }) => ({
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 8,
-        borderRadius: RADIUS.full,
-        borderWidth: 1,
-        borderColor: selected ? colors.tint : idleBorder,
-        backgroundColor: selected
-          ? colors.tagBackgroundActive
-          : colors.tagBackground,
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        marginRight: 8,
-        marginBottom: 8,
-        opacity: pressed ? 0.8 : 1,
-      })}
-    >
-      <EmotionIndicator emotion={emotion} />
-      <Label
-        size={16}
-        style={{ color: selected ? colors.tagTextActive : colors.tagText }}
-      >
-        {emotion.label}
-      </Label>
-    </Pressable>
-  );
-};
-
-/** Emotion chips that wrap, for one list of emotions. */
-export const EmotionChips = ({
-  emotions,
-  picked,
-  onToggle,
-}: {
-  emotions: Emotion[];
-  picked: ReadonlySet<string>;
-  onToggle: (key: string) => void;
-}) => (
-  <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-    {emotions.map((emotion) => (
-      <EmotionChip
-        key={emotion.key}
-        emotion={emotion}
-        selected={picked.has(emotion.key)}
-        onPress={() => onToggle(emotion.key)}
-      />
-    ))}
-  </View>
-);
-
-/** Space between chips, same as emotion chips. */
+/** Space between chips. */
 const CHIP_GAP = 8;
 
 /** People and tags as wrapping chips. Options without a match are skipped. */

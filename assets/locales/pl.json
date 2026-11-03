@@ -889,7 +889,6 @@
   "profile_private_note": "Twoje imię i zdjęcie zostają na tym urządzeniu.",
   "quick_check_in_again": "Dodaj kolejny wpis",
   "quick_check_in_all": "Wszyscy",
-  "quick_check_in_all_emotions": "Wszystkie emocje",
   "quick_check_in_all_people": "Wszystkie osoby",
   "quick_check_in_every": "Co",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} godz."
   },
   "quick_check_in_from": "Od",
-  "quick_check_in_quadrant_high_pleasant": "Dużo energii, przyjemne",
-  "quick_check_in_quadrant_high_unpleasant": "Dużo energii, nieprzyjemne",
-  "quick_check_in_quadrant_low_pleasant": "Mało energii, przyjemne",
-  "quick_check_in_quadrant_low_unpleasant": "Mało energii, nieprzyjemne",
   "quick_check_in_question": "Jak się teraz czujesz?",
   "quick_check_in_saved": "Zapisano",
   "quick_check_in_schedule_empty": "Wybierz godzinę końcową późniejszą niż początkowa.",

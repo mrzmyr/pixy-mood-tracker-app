@@ -889,7 +889,6 @@
   "profile_private_note": "Vaše meno a fotka zostanú v tomto zariadení.",
   "quick_check_in_again": "Zapísať znova",
   "quick_check_in_all": "Všetko",
-  "quick_check_in_all_emotions": "Všetky emócie",
   "quick_check_in_all_people": "Všetci ľudia",
   "quick_check_in_every": "Každé",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} h"
   },
   "quick_check_in_from": "Od",
-  "quick_check_in_quadrant_high_pleasant": "Veľa energie, príjemné",
-  "quick_check_in_quadrant_high_unpleasant": "Veľa energie, nepríjemné",
-  "quick_check_in_quadrant_low_pleasant": "Málo energie, príjemné",
-  "quick_check_in_quadrant_low_unpleasant": "Málo energie, nepríjemné",
   "quick_check_in_question": "Ako sa práve teraz máš?",
   "quick_check_in_saved": "Uložené",
   "quick_check_in_schedule_empty": "Vyber čas konca po čase začiatku.",

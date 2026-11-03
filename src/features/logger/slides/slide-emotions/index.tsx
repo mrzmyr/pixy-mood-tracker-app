@@ -1,7 +1,7 @@
 import { useSlideMarginTop } from "../margin-top";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
-import { useLogState, getMostUsedEmotions } from "@/features/logs";
+import { useLogState } from "@/features/logs";
 import { useLogDraft } from "../../log-draft";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
@@ -25,40 +25,9 @@ import FlagHighlight from "@/components/flag-highlight";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { NeedsCheck } from "./needs-check";
 import type { NeedStates } from "./needs";
+import { getBasicEmotions, toBasicCategory } from "./basic-emotions";
 
 type Mode = "basic" | "advanced";
-
-const MAX_BASIC_EMOTIONS = 36;
-
-// The basic grid sorts by good, neutral, and bad only.
-const toBasicCategory = (emotion: Emotion): Emotion => ({
-  ...emotion,
-  category: (
-    {
-      very_bad: "bad",
-      bad: "bad",
-      neutral: "neutral",
-      good: "good",
-      very_good: "good",
-    } satisfies Record<Emotion["category"], Emotion["category"]>
-  )[emotion.category],
-});
-
-const appendMissingEmotions = (
-  emotions: Emotion[],
-  candidates: Emotion[]
-): Emotion[] => {
-  if (emotions.length >= MAX_BASIC_EMOTIONS) {
-    return emotions;
-  }
-
-  const emotionKeys = new Set(emotions.map((emotion) => emotion.key));
-  const missingEmotions = candidates
-    .filter((d) => !emotionKeys.has(d.key))
-    .slice(0, MAX_BASIC_EMOTIONS - emotions.length);
-
-  return [...emotions, ...missingEmotions];
-};
 
 /**
  * Headline row of the emotion slide. With the `needs` flag, a link below it
@@ -172,24 +141,10 @@ export const SlideEmotions = ({
   const [isNeedsMode, setIsNeedsMode] = useState(false);
   const showNeeds = hasNeeds && isNeedsMode;
 
-  const mostUsedEmotionKeys = new Set(
-    getMostUsedEmotions(logState.items)
-      .map((d) => d.key)
-      .slice(0, 20)
+  const basicEmotions = getBasicEmotions(
+    initialSelectedEmotions,
+    logState.items
   );
-  const mostUsedEmotions = EMOTIONS.filter((d) =>
-    mostUsedEmotionKeys.has(d.key)
-  );
-  const predefinedBasicEmotions = EMOTIONS.filter(
-    (e) => e.mode === "basic" && e.disabled !== true
-  );
-
-  let basicEmotions = appendMissingEmotions(
-    appendMissingEmotions(initialSelectedEmotions, mostUsedEmotions),
-    predefinedBasicEmotions
-  );
-
-  basicEmotions = basicEmotions.map(toBasicCategory);
 
   const [query, setQuery] = useState("");
   const isSearching = query.trim() !== "";

@@ -47,7 +47,6 @@ const base = {
   tags,
   emotions,
   picked: [],
-  pickedEmotions: [],
   now: NOW,
 };
 
@@ -81,17 +80,6 @@ describe("getSheetSections()", () => {
 
     expect(sections.tags).toHaveLength(21);
     expect(sections.tags[20]?.id).toBe("t24");
-  });
-
-  test("lists basic emotions plus picked advanced ones", () => {
-    const sections = getSheetSections({ ...base, pickedEmotions: ["jealous"] });
-
-    expect(sections.emotions.map((item) => item.key)).toEqual([
-      "calm",
-      "sad",
-      "joyful",
-      "jealous",
-    ]);
   });
 
   test("search matches every emotion, person, and tag", () => {

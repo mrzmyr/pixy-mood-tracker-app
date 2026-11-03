@@ -889,7 +889,6 @@
   "profile_private_note": "Nama dan foto anda kekal pada peranti ini.",
   "quick_check_in_again": "Daftar masuk lagi",
   "quick_check_in_all": "Semua",
-  "quick_check_in_all_emotions": "Semua emosi",
   "quick_check_in_all_people": "Semua orang",
   "quick_check_in_every": "Setiap",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} jam"
   },
   "quick_check_in_from": "Dari",
-  "quick_check_in_quadrant_high_pleasant": "Tenaga tinggi, menyenangkan",
-  "quick_check_in_quadrant_high_unpleasant": "Tenaga tinggi, tidak menyenangkan",
-  "quick_check_in_quadrant_low_pleasant": "Tenaga rendah, menyenangkan",
-  "quick_check_in_quadrant_low_unpleasant": "Tenaga rendah, tidak menyenangkan",
   "quick_check_in_question": "Apa khabar anda sekarang?",
   "quick_check_in_saved": "Disimpan",
   "quick_check_in_schedule_empty": "Pilih masa tamat selepas masa mula.",

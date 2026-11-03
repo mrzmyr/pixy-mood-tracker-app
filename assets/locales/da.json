@@ -889,7 +889,6 @@
   "profile_private_note": "Dit navn og foto bliver på denne enhed.",
   "quick_check_in_again": "Check ind igen",
   "quick_check_in_all": "Alle",
-  "quick_check_in_all_emotions": "Alle følelser",
   "quick_check_in_all_people": "Alle personer",
   "quick_check_in_every": "Hver",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}}. time"
   },
   "quick_check_in_from": "Fra",
-  "quick_check_in_quadrant_high_pleasant": "Høj energi, behagelig",
-  "quick_check_in_quadrant_high_unpleasant": "Høj energi, ubehagelig",
-  "quick_check_in_quadrant_low_pleasant": "Lav energi, behagelig",
-  "quick_check_in_quadrant_low_unpleasant": "Lav energi, ubehagelig",
   "quick_check_in_question": "Hvordan har du det lige nu?",
   "quick_check_in_saved": "Gemt",
   "quick_check_in_schedule_empty": "Vælg et sluttidspunkt efter starttidspunktet.",

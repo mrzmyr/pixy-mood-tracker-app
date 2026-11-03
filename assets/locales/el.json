@@ -889,7 +889,6 @@
   "profile_private_note": "Το όνομα και η φωτογραφία σας μένουν σε αυτή τη συσκευή.",
   "quick_check_in_again": "Νέα καταγραφή",
   "quick_check_in_all": "Όλα",
-  "quick_check_in_all_emotions": "Όλα τα συναισθήματα",
   "quick_check_in_all_people": "Όλα τα άτομα",
   "quick_check_in_every": "Κάθε",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} ώρες"
   },
   "quick_check_in_from": "Από",
-  "quick_check_in_quadrant_high_pleasant": "Υψηλή ενέργεια, ευχάριστο",
-  "quick_check_in_quadrant_high_unpleasant": "Υψηλή ενέργεια, δυσάρεστο",
-  "quick_check_in_quadrant_low_pleasant": "Χαμηλή ενέργεια, ευχάριστο",
-  "quick_check_in_quadrant_low_unpleasant": "Χαμηλή ενέργεια, δυσάρεστο",
   "quick_check_in_question": "Πώς είσαι αυτή τη στιγμή;",
   "quick_check_in_saved": "Αποθηκεύτηκε",
   "quick_check_in_schedule_empty": "Διάλεξε ώρα λήξης μετά την ώρα έναρξης.",

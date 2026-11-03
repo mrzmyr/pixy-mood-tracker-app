@@ -42,9 +42,9 @@ const topWithPicked = (
 /**
  * Lists for the quick check-in screen.
  *
- * - No query: basic emotions plus picked advanced ones (the matrix splits
- *   them by quadrant), the best 12 people and the best 20 tags by
- *   {@link rankInfluences}. Picked items further down stay in the list.
+ * - No query: no emotions (the screen shows the logger emotion grid), the
+ *   best 12 people and the best 20 tags by {@link rankInfluences}. Picked
+ *   items further down stay in the list.
  * - Query: every enabled emotion, person, and tag whose label matches,
  *   A to Z.
  * - Archived people and tags never show.
@@ -57,7 +57,6 @@ export const getSheetSections = ({
   tags,
   emotions,
   picked,
-  pickedEmotions,
   now,
 }: {
   query: string;
@@ -68,7 +67,6 @@ export const getSheetSections = ({
   emotions: Emotion[];
   /** Picked people and tags as `person:<id>` and `tag:<id>`. */
   picked: string[];
-  pickedEmotions: string[];
   now: dayjs.Dayjs;
 }): SheetSections => {
   const ranked = rankInfluences({
@@ -94,12 +92,8 @@ export const getSheetSections = ({
   }
 
   const pickedKeys = new Set(picked);
-  const pickedEmotionKeys = new Set(pickedEmotions);
   return {
-    emotions: enabled.filter(
-      (emotion) =>
-        emotion.mode === "basic" || pickedEmotionKeys.has(emotion.key)
-    ),
+    emotions: [],
     people: topWithPicked(ranked, "person", PEOPLE_ROW_COUNT, pickedKeys),
     tags: topWithPicked(ranked, "tag", TOP_TAG_COUNT, pickedKeys),
   };

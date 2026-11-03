@@ -889,7 +889,6 @@
   "profile_private_note": "ชื่อและรูปภาพของคุณอยู่บนอุปกรณ์นี้เท่านั้น",
   "quick_check_in_again": "เช็กอินอีกครั้ง",
   "quick_check_in_all": "ทั้งหมด",
-  "quick_check_in_all_emotions": "อารมณ์ทั้งหมด",
   "quick_check_in_all_people": "ทุกคน",
   "quick_check_in_every": "ทุก",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} ชั่วโมง"
   },
   "quick_check_in_from": "ตั้งแต่",
-  "quick_check_in_quadrant_high_pleasant": "พลังสูง น่าพอใจ",
-  "quick_check_in_quadrant_high_unpleasant": "พลังสูง ไม่น่าพอใจ",
-  "quick_check_in_quadrant_low_pleasant": "พลังต่ำ น่าพอใจ",
-  "quick_check_in_quadrant_low_unpleasant": "พลังต่ำ ไม่น่าพอใจ",
   "quick_check_in_question": "ตอนนี้คุณรู้สึกอย่างไร",
   "quick_check_in_saved": "บันทึกแล้ว",
   "quick_check_in_schedule_empty": "เลือกเวลาสิ้นสุดที่หลังเวลาเริ่มต้น",

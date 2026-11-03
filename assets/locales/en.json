@@ -889,7 +889,6 @@
   "profile_private_note": "Your name and photo stay on this device.",
   "quick_check_in_again": "Check In Again",
   "quick_check_in_all": "All",
-  "quick_check_in_all_emotions": "All Emotions",
   "quick_check_in_all_people": "All People",
   "quick_check_in_every": "Every",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} hours"
   },
   "quick_check_in_from": "From",
-  "quick_check_in_quadrant_high_pleasant": "High energy, pleasant",
-  "quick_check_in_quadrant_high_unpleasant": "High energy, unpleasant",
-  "quick_check_in_quadrant_low_pleasant": "Low energy, pleasant",
-  "quick_check_in_quadrant_low_unpleasant": "Low energy, unpleasant",
   "quick_check_in_question": "How are you right now?",
   "quick_check_in_saved": "Saved",
   "quick_check_in_schedule_empty": "Pick an end time after the start time.",

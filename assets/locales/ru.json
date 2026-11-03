@@ -889,7 +889,6 @@
   "profile_private_note": "Ваши имя и фото остаются на этом устройстве.",
   "quick_check_in_again": "Новая запись",
   "quick_check_in_all": "Все",
-  "quick_check_in_all_emotions": "Все эмоции",
   "quick_check_in_all_people": "Все люди",
   "quick_check_in_every": "Каждые",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} ч"
   },
   "quick_check_in_from": "С",
-  "quick_check_in_quadrant_high_pleasant": "Много энергии, приятно",
-  "quick_check_in_quadrant_high_unpleasant": "Много энергии, неприятно",
-  "quick_check_in_quadrant_low_pleasant": "Мало энергии, приятно",
-  "quick_check_in_quadrant_low_unpleasant": "Мало энергии, неприятно",
   "quick_check_in_question": "Как ты сейчас?",
   "quick_check_in_saved": "Сохранено",
   "quick_check_in_schedule_empty": "Выбери время окончания позже времени начала.",

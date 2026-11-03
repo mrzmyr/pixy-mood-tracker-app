@@ -889,7 +889,6 @@
   "profile_private_note": "你的名字和照片只保存在这台设备上。",
   "quick_check_in_again": "再次打卡",
   "quick_check_in_all": "全部",
-  "quick_check_in_all_emotions": "所有情绪",
   "quick_check_in_all_people": "所有人",
   "quick_check_in_every": "每隔",
   "quick_check_in_every_hours": {
@@ -897,10 +896,6 @@
     "other": "{{count}} 小时"
   },
   "quick_check_in_from": "从",
-  "quick_check_in_quadrant_high_pleasant": "高能量，愉快",
-  "quick_check_in_quadrant_high_unpleasant": "高能量，不愉快",
-  "quick_check_in_quadrant_low_pleasant": "低能量，愉快",
-  "quick_check_in_quadrant_low_unpleasant": "低能量，不愉快",
   "quick_check_in_question": "你现在感觉怎么样？",
   "quick_check_in_saved": "已保存",
   "quick_check_in_schedule_empty": "请选择晚于开始时间的结束时间。",
