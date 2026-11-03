@@ -1054,6 +1054,20 @@
     "one": "1 Hari Lagi di %{year}",
     "other": "{{count}} Hari Lagi di %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 piksel terisi. Itu pencapaian nyata.",
+    "other": "{{count}} piksel terisi. Itu pencapaian nyata."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Sekali kamu berhenti untuk menyadari perasaanmu. Itu berarti.",
+    "other": "{{count}} kali kamu berhenti untuk menyadari perasaanmu. Itu berarti."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 hari kamu meluangkan waktu untuk dirimu. Banggalah.",
+    "other": "{{count}} hari kamu meluangkan waktu untuk dirimu. Banggalah."
+  },
+  "recaps_story_cover_note_full": "Setiap hari di %{month} punya pikselnya. Itu pencapaian nyata.",
+  "recaps_story_cover_note_full_week": "Setiap hari minggu ini punya pikselnya. Itu pencapaian nyata.",
   "recaps_story_cover_pixels_title": "piksel di %{month}",
   "recaps_story_cover_pixels_title_week": "Piksel Minggu Ini",
   "recaps_story_cover_title_week": "Luangkan waktu sejenak.\nInilah minggumu.",
@@ -1062,10 +1076,7 @@
     "other": "{{count}} hari"
   },
   "recaps_story_hard_title": "%{tag} menyertai hari-hari beratmu",
-  "recaps_story_lifted_text": {
-    "one": "Dibandingkan hari tanpa tag ini. 1 catatan.",
-    "other": "Dibandingkan hari tanpa tag ini. {{count}} catatan."
-  },
+  "recaps_story_lifted_note": "Dibandingkan hari tanpa tag ini.",
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
   "recaps_story_new_people_line_1": "Lihat siapa yang menemukan jalan ke hari-harimu.",
   "recaps_story_new_people_line_10": "Tidak setiap bulan membawa orang baru. Bulan ini iya.",

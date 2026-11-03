@@ -1054,6 +1054,20 @@
     "one": "1 dag kvar av %{year}",
     "other": "{{count}} dagar kvar av %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel ifylld. Det är en riktig bedrift.",
+    "other": "{{count}} pixlar ifyllda. Det är en riktig bedrift."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "En gång stannade du upp och kände efter hur du mår. Det räknas.",
+    "other": "{{count}} gånger stannade du upp och kände efter hur du mår. Det räknas."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 dag tog du dig tid för dig själv. Var stolt över det.",
+    "other": "{{count}} dagar tog du dig tid för dig själv. Var stolt över det."
+  },
+  "recaps_story_cover_note_full": "Varje dag i %{month} har sin pixel. Det är en riktig bedrift.",
+  "recaps_story_cover_note_full_week": "Varje dag den här veckan har sin pixel. Det är en riktig bedrift.",
   "recaps_story_cover_pixels_title": "pixlar i %{month}",
   "recaps_story_cover_pixels_title_week": "Pixlar den här veckan",
   "recaps_story_cover_title_week": "Ta en stund.\nDet här är din vecka.",
@@ -1062,10 +1076,7 @@
     "other": "{{count}} dagar"
   },
   "recaps_story_hard_title": "%{tag} hörde ihop med dina tyngre dagar",
-  "recaps_story_lifted_text": {
-    "one": "Jämfört med dagar utan taggen. 1 incheckning.",
-    "other": "Jämfört med dagar utan taggen. {{count}} incheckningar."
-  },
+  "recaps_story_lifted_note": "Jämfört med dagar utan taggen.",
   "recaps_story_lifted_title": "Dagar med %{tag} kändes lättast",
   "recaps_story_new_people_line_1": "Se vem som hittade in i dina dagar.",
   "recaps_story_new_people_line_10": "Inte varje månad ger någon ny. Den här gjorde det.",

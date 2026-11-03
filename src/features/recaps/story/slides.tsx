@@ -5,6 +5,7 @@ import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
+import { daysBetween } from "../days";
 import type { DateKey, Period, RecapDay } from "../types";
 import { monthName } from "./format";
 import {
@@ -61,14 +62,63 @@ const UNANSWERED: QuizAnswer = { picked: null, onPick: noop };
 
 const GRID_GAP = 8;
 const MAX_PIXEL = 56;
+/** Time between two days of the cover grid build-up. */
+const coverStepMs = (period: Period) => (period.kind === "week" ? 90 : 30);
+
+const coverTitle = (period: Period) =>
+  period.kind === "week"
+    ? t("recaps_story_cover_pixels_title_week")
+    : t("recaps_story_cover_pixels_title", { month: monthName(period.start) });
+
+/**
+ * Kind words under the cover. A month with every day checked in says so;
+ * other months rotate through 3 sentences by month, so two months in a row
+ * read differently.
+ */
+const coverNote = (slide: CoverSlide, period: Period) => {
+  const count = slide.checkIns;
+  if (count >= daysBetween(period.start, period.end) + 1) {
+    return period.kind === "week"
+      ? t("recaps_story_cover_note_full_week")
+      : t("recaps_story_cover_note_full", { month: monthName(period.start) });
+  }
+  const notes = [
+    t("recaps_story_cover_note_1", { count }),
+    t("recaps_story_cover_note_2", { count }),
+    t("recaps_story_cover_note_3", { count }),
+  ];
+  return notes[dayjs(period.start).month() % notes.length] ?? notes[0];
+};
+
+/** Kind words at the bottom of the cover, once the grid stands. */
+const CoverNote = ({
+  slide,
+  ctx,
+}: {
+  slide: CoverSlide;
+  ctx: SlideContext;
+}) => {
+  const days = daysBetween(ctx.period.start, ctx.period.end) + 1;
+  const at =
+    titleRevealEnd(coverTitle(ctx.period)) +
+    days * coverStepMs(ctx.period) +
+    350;
+  return (
+    <RevealText
+      text={coverNote(slide, ctx.period)}
+      at={at}
+      kind="body"
+      theme={getStoryTheme(ctx.isDark)}
+      style={{ fontSize: 17, lineHeight: 24 }}
+    />
+  );
+};
 
 const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
   const theme = getStoryTheme(ctx.isDark);
   const palette = STORY_PALETTE[theme];
   const dayColors = useDayColors(ctx.days, "glass");
   const dayOutlines = useDayColors(ctx.days, "glassEdge");
-  const isWeek = ctx.period.kind === "week";
-  const month = monthName(ctx.period.start);
   const byDate = new Map(slide.photos.map((item) => [item.date, item.photo]));
   // 7 pixels a row fill the content width. The cap only stops tablets.
   const { width: screen } = useWindowDimensions();
@@ -77,9 +127,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
     MAX_PIXEL,
     PixelRatio.roundToNearestPixel((inner - 6 * GRID_GAP) / 7)
   );
-  const title = isWeek
-    ? t("recaps_story_cover_pixels_title_week")
-    : t("recaps_story_cover_pixels_title", { month });
+  const title = coverTitle(ctx.period);
   return (
     <>
       <SlideHeader
@@ -102,7 +150,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
           empty={palette.glass}
           emptyOutline={palette.glassBorder}
           revealAt={titleRevealEnd(title)}
-          revealStepMs={isWeek ? 90 : 30}
+          revealStepMs={coverStepMs(ctx.period)}
           render={(date) => {
             const photo = byDate.get(date);
             return photo ? (
@@ -150,7 +198,7 @@ const TagEffects = ({
     : t("recaps_story_hard_title", { tag: topTag.title });
   const start = titleRevealEnd(title);
   const rowAt = (index: number) => start + index * ROW_STEP_MS;
-  const note = t("recaps_story_lifted_text", { count: ctx.days.length });
+  const note = t("recaps_story_lifted_note");
   return (
     <>
       <SlideHeader theme={theme} title={title} />
@@ -438,6 +486,7 @@ export const SlideContent = ({
       {slide.type !== "best-day" && (
         <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
       )}
+      {slide.type === "cover" && <CoverNote slide={slide} ctx={ctx} />}
     </View>
   );
 };

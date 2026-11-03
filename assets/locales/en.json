@@ -1054,6 +1054,20 @@
     "one": "1 Day of %{year} Still Ahead",
     "other": "{{count}} Days of %{year} Still Ahead"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel filled. That is a real achievement.",
+    "other": "{{count}} pixels filled. That is a real achievement."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Once you paused to notice how you feel. That counts.",
+    "other": "{{count}} times you paused to notice how you feel. That counts."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 day you made time for yourself. Be proud of that.",
+    "other": "{{count}} days you made time for yourself. Be proud of that."
+  },
+  "recaps_story_cover_note_full": "Every day of %{month} has its pixel. That is a real achievement.",
+  "recaps_story_cover_note_full_week": "Every day this week has its pixel. That is a real achievement.",
   "recaps_story_cover_pixels_title": "Pixels in %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels This Week",
   "recaps_story_cover_title_week": "Take a Moment.\nThis Is Your Week.",
@@ -1062,10 +1076,7 @@
     "other": "{{count}} days"
   },
   "recaps_story_hard_title": "%{tag} Went with Your Harder Days",
-  "recaps_story_lifted_text": {
-    "one": "Compared with days without the tag. 1 check-in.",
-    "other": "Compared with days without the tag. {{count}} check-ins."
-  },
+  "recaps_story_lifted_note": "Compared with days without the tag.",
   "recaps_story_lifted_title": "%{tag} Days Felt Lightest",
   "recaps_story_new_people_line_1": "Look who found their way into your days.",
   "recaps_story_new_people_line_10": "Not every month brings someone new. This one did.",

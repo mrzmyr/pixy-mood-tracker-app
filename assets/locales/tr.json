@@ -1054,6 +1054,20 @@
     "one": "%{year} Yılının Bitmesine 1 Gün Var",
     "other": "%{year} Yılının Bitmesine {{count}} Gün Var"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 piksel doldu. Bu gerçek bir başarı.",
+    "other": "{{count}} piksel doldu. Bu gerçek bir başarı."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Bir kez durup nasıl hissettiğine baktın. Bu önemli.",
+    "other": "{{count}} kez durup nasıl hissettiğine baktın. Bu önemli."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 gün kendine zaman ayırdın. Bununla gurur duy.",
+    "other": "{{count}} gün kendine zaman ayırdın. Bununla gurur duy."
+  },
+  "recaps_story_cover_note_full": "%{month} ayının her gününün bir pikseli var. Bu gerçek bir başarı.",
+  "recaps_story_cover_note_full_week": "Bu haftanın her gününün bir pikseli var. Bu gerçek bir başarı.",
   "recaps_story_cover_pixels_title": "piksel · %{month}",
   "recaps_story_cover_pixels_title_week": "Bu Haftanın Pikselleri",
   "recaps_story_cover_title_week": "Bir an dur.\nBu senin haftandı.",
@@ -1062,10 +1076,7 @@
     "other": "{{count}} gün"
   },
   "recaps_story_hard_title": "%{tag} daha zor günlerine eşlik etti",
-  "recaps_story_lifted_text": {
-    "one": "Etiketin olmadığı günlerle karşılaştırıldı. 1 kayıt.",
-    "other": "Etiketin olmadığı günlerle karşılaştırıldı. {{count}} kayıt."
-  },
+  "recaps_story_lifted_note": "Etiketin olmadığı günlerle karşılaştırıldı.",
   "recaps_story_lifted_title": "%{tag} olan günler en hafif hissettirdi",
   "recaps_story_new_people_line_1": "Bak, günlerine kimler yolunu buldu.",
   "recaps_story_new_people_line_10": "Her ay yeni biri getirmez. Bu ay getirdi.",

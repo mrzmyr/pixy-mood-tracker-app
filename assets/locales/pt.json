@@ -1054,6 +1054,20 @@
     "one": "Ainda falta 1 dia de %{year}",
     "other": "Ainda faltam {{count}} dias de %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel preenchido. É uma conquista de verdade.",
+    "other": "{{count}} pixels preenchidos. É uma conquista de verdade."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Uma vez você parou para notar como se sente. Isso conta.",
+    "other": "{{count}} vezes você parou para notar como se sente. Isso conta."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 dia você reservou um tempo para si. Tenha orgulho disso.",
+    "other": "{{count}} dias você reservou um tempo para si. Tenha orgulho disso."
+  },
+  "recaps_story_cover_note_full": "Cada dia de %{month} tem seu pixel. É uma conquista de verdade.",
+  "recaps_story_cover_note_full_week": "Cada dia desta semana tem seu pixel. É uma conquista de verdade.",
   "recaps_story_cover_pixels_title": "pixels em %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels desta semana",
   "recaps_story_cover_title_week": "Reserve um momento.\nEsta foi a sua semana.",
@@ -1062,10 +1076,7 @@
     "other": "{{count}} dias"
   },
   "recaps_story_hard_title": "%{tag} acompanhou seus dias difíceis",
-  "recaps_story_lifted_text": {
-    "one": "Comparado com dias sem a tag. 1 registro.",
-    "other": "Comparado com dias sem a tag. {{count}} registros."
-  },
+  "recaps_story_lifted_note": "Comparado com dias sem a tag.",
   "recaps_story_lifted_title": "Dias com %{tag} foram os mais leves",
   "recaps_story_new_people_line_1": "Veja quem encontrou um lugar nos seus dias.",
   "recaps_story_new_people_line_10": "Nem todo mês traz alguém novo. Este trouxe.",

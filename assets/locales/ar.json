@@ -1054,6 +1054,20 @@
     "one": "يوم واحد متبقٍ من %{year}",
     "other": "{{count}} أيام متبقية من %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "بكسل واحد مكتمل. هذا إنجاز حقيقي.",
+    "other": "البكسلات المكتملة: {{count}}. هذا إنجاز حقيقي."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "توقفت مرة واحدة لتلاحظ شعورك. هذا مهم.",
+    "other": "عدد المرات التي توقفت فيها لتلاحظ شعورك: {{count}}. هذا مهم."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "يوم واحد خصصت فيه وقتًا لنفسك. افخر بذلك.",
+    "other": "الأيام التي خصصت فيها وقتًا لنفسك: {{count}}. افخر بذلك."
+  },
+  "recaps_story_cover_note_full": "لكل يوم من %{month} بكسل خاص به. هذا إنجاز حقيقي.",
+  "recaps_story_cover_note_full_week": "لكل يوم من هذا الأسبوع بكسل خاص به. هذا إنجاز حقيقي.",
   "recaps_story_cover_pixels_title": "بكسل في %{month}",
   "recaps_story_cover_pixels_title_week": "البكسلات هذا الأسبوع",
   "recaps_story_cover_title_week": "خذ لحظة.\nهذا كان أسبوعك.",
@@ -1062,10 +1076,7 @@
     "other": "الأيام: {{count}}"
   },
   "recaps_story_hard_title": "%{tag} رافق أيامك الصعبة",
-  "recaps_story_lifted_text": {
-    "one": "مقارنةً بالأيام دون هذا الوسم. تسجيل واحد.",
-    "other": "مقارنةً بالأيام دون هذا الوسم. التسجيلات: {{count}}."
-  },
+  "recaps_story_lifted_note": "مقارنةً بالأيام دون هذا الوسم.",
   "recaps_story_lifted_title": "أيام %{tag} كانت الأخف",
   "recaps_story_new_people_line_1": "انظر من وجد طريقه إلى أيامك.",
   "recaps_story_new_people_line_10": "ليس كل شهر يأتي بشخص جديد. هذا الشهر فعل.",
