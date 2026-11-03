@@ -9,7 +9,12 @@ import { createStructuredError } from "@/lib/errors";
 import { useSetting } from "@/state/settings";
 import { getSchemeColors, getYearGrid } from "./widget-data";
 import type { SkyImages, YearImages } from "./widget-data";
-import { WidgetSkyCanvas } from "./widget-sky-canvas";
+import {
+  WIDGET_SKY_HEIGHT,
+  WIDGET_SKY_SCALE,
+  WIDGET_SKY_WIDTH,
+  WidgetSkyCanvas,
+} from "./widget-sky-canvas";
 import {
   YEAR_BAND_ROWS,
   YEAR_MONTH_ROWS,
@@ -31,11 +36,13 @@ const DEFAULT_SCALE = "ColorBrew-RdYlGn";
 const captureWidgetImage = async (
   view: View,
   name: string,
-  format: "png" | "jpg"
+  format: "png" | "jpg",
+  size?: { width: number; height: number }
 ) => {
   const captured = await captureRef(view, {
     format,
     quality: format === "png" ? 1 : 0.9,
+    ...size,
   });
   // view-shot returns a bare path; the file system API wants a file URI.
   const from = captured.startsWith("file://") ? captured : `file://${captured}`;
@@ -92,7 +99,10 @@ export const WidgetSync = () => {
                 fix: "Open Pixy again; widgets keep their last sky",
               });
             }
-            return captureWidgetImage(view, `sky-${scheme}`, "jpg");
+            return captureWidgetImage(view, `sky-${scheme}`, "jpg", {
+              width: WIDGET_SKY_WIDTH * WIDGET_SKY_SCALE,
+              height: WIDGET_SKY_HEIGHT * WIDGET_SKY_SCALE,
+            });
           })
         );
         setSkyImages({ light, dark });

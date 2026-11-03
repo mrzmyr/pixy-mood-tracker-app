@@ -18,6 +18,12 @@ const NIGHT_CLOUD_OPACITY = 0.07;
 export const WIDGET_SKY_WIDTH = 364;
 /** Height in points of the captured sky, see `WIDGET_SKY_WIDTH`. */
 export const WIDGET_SKY_HEIGHT = 382;
+/**
+ * Pixels per point of the captured sky. WidgetKit refuses images above
+ * about 1.07 million pixels (`imageTooLarge`), so 3x (1092 x 1146) fails.
+ * The soft cloud photo needs no more than 2x.
+ */
+export const WIDGET_SKY_SCALE = 2;
 
 /**
  * Still frame of the app sky for the widget background, captured as one
