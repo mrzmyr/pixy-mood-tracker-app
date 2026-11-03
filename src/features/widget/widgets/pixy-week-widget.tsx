@@ -13,21 +13,26 @@ import {
   containerBackground,
   font,
   foregroundStyle,
+  fixedSize,
   frame,
+  lineLimit,
+  offset,
   padding,
   resizable,
+  scaleEffect,
   strokeBorder,
   widgetURL,
+  zIndex,
 } from "@expo/ui/swift-ui/modifiers";
 import { createWidget } from "expo-widgets";
 import type { WidgetEnvironment } from "expo-widgets";
 import type { WeekWidgetProps } from "../widget-props";
 
 /**
- * Grid of the last weeks, seven pixels per row, current week last. Runs in
- * the widget runtime: no hooks, no imports besides `@expo/ui`, and no
- * module-scope values. Medium puts the title beside the grid because the
- * grid is height-bound.
+ * This week as seven pixels under a prompt and Cloud Pixy. Pixy looks curious
+ * until today's first check-in, then smiles. Today is a lifted pixel with a
+ * white border. Runs in the widget runtime: no hooks, no imports besides
+ * `@expo/ui`, and no module-scope values.
  */
 const PixyWeekWidget = (
   props: WeekWidgetProps,
@@ -36,7 +41,7 @@ const PixyWeekWidget = (
   "widget";
   try {
     // Before the app's first sync the widget gets empty props.
-    if (props.light === undefined || props.weeks === undefined) {
+    if (props.light === undefined || props.days === undefined) {
       return (
         <VStack
           modifiers={[
@@ -47,61 +52,56 @@ const PixyWeekWidget = (
             ),
           ]}
         >
-          <Text modifiers={[font({ size: 13 }), foregroundStyle("#737373")]}>
+          <Text modifiers={[font({ size: 13 }), foregroundStyle("#404040")]}>
             Open Pixy to see your pixels.
           </Text>
         </VStack>
       );
     }
-    const scheme =
-      environment.colorScheme === "dark" ? props.dark : props.light;
+    const isDark = environment.colorScheme === "dark";
+    const scheme = isDark ? props.dark : props.light;
     const isSmall = environment.widgetFamily === "systemSmall";
-    const gap = isSmall ? 4 : 5;
-    const radius = isSmall ? 4 : 5;
+    const gap = isSmall ? 4 : 10;
+    const radius = isSmall ? 4 : 6;
+    const pixySize = isSmall ? 56 : 84;
 
-    const cellFill = (rating: string, isFuture: boolean) => {
+    const fill = (rating: string, isFuture: boolean, isToday: boolean) => {
       if (rating !== "") {
         // SAFETY: a non-empty rating is a WidgetRating key.
         return scheme.ratings[rating as keyof typeof scheme.ratings];
       }
+      if (isToday) {
+        return scheme.todayEmpty;
+      }
       return isFuture ? scheme.future : scheme.empty;
     };
 
-    const grid = (
-      <VStack spacing={gap}>
-        {props.weeks.map((week, weekIndex) => (
-          <HStack key={weekIndex} spacing={gap}>
-            {week.map((cell) => (
-              <ZStack
-                key={cell.day}
-                modifiers={[aspectRatio({ ratio: 1, contentMode: "fit" })]}
-              >
-                {cell.isToday ? (
-                  <RoundedRectangle
-                    cornerRadius={radius}
-                    modifiers={[foregroundStyle(scheme.today)]}
-                  />
-                ) : null}
-                <RoundedRectangle
-                  cornerRadius={cell.isToday ? radius - 2 : radius}
-                  modifiers={[
-                    foregroundStyle(cellFill(cell.rating, cell.isFuture)),
-                    strokeBorder({
-                      content: cell.isToday ? "#00000000" : scheme.edge,
-                      // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- @expo/ui parameter name
-                      shape: "roundedRectangle",
-                      cornerRadius: radius,
-                      style: { lineWidth: 1 },
-                    }),
-                    padding({ all: cell.isToday ? 2 : 0 }),
-                  ]}
-                />
-              </ZStack>
-            ))}
-          </HStack>
+    const row = (
+      <HStack spacing={gap}>
+        {props.days.map((cell) => (
+          <RoundedRectangle
+            key={cell.day}
+            cornerRadius={radius}
+            modifiers={[
+              foregroundStyle(fill(cell.rating, cell.isFuture, cell.isToday)),
+              strokeBorder({
+                content: cell.isToday ? scheme.today : scheme.edge,
+                // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- @expo/ui parameter name
+                shape: "roundedRectangle",
+                cornerRadius: radius,
+                style: { lineWidth: 1 },
+              }),
+              aspectRatio({ ratio: 1, contentMode: "fit" }),
+              // Today lifts off the sky: larger, drawn on top of its neighbors.
+              scaleEffect(cell.isToday ? 1.15 : 1),
+              zIndex(cell.isToday ? 1 : 0),
+            ]}
+          />
         ))}
-      </VStack>
+      </HStack>
     );
+
+    const pixy = props.isCheckedIn ? props.pixyHappy : props.pixyCurious;
 
     // `contentMarginsDisabled` in app.config.ts lets the sky fill the widget
     // edge to edge; the content keeps the system margins as padding.
@@ -113,20 +113,19 @@ const PixyWeekWidget = (
         trailing: 16,
       }
     );
-    const sky =
-      environment.colorScheme === "dark" ? props.skyDark : props.skyLight;
+    const sky = isDark ? props.skyDark : props.skyLight;
     // Tinted and clear modes drop the background, so no photo there.
-    const showsSky =
-      Boolean(sky) &&
+    const isFullColor =
       (environment.widgetRenderingMode ?? "fullColor") === "fullColor";
-    const onSky = (content: ReturnType<typeof ZStack>) => (
+
+    return (
       <ZStack
         modifiers={[
           containerBackground(scheme.background, "widget"),
           widgetURL(props.url),
         ]}
       >
-        {showsSky ? (
+        {Boolean(sky) && isFullColor ? (
           <Image
             uiImage={sky}
             modifiers={[
@@ -143,70 +142,49 @@ const PixyWeekWidget = (
             ]}
           />
         ) : null}
-        {content}
-      </ZStack>
-    );
-    const rootModifiers = [
-      frame({
-        maxWidth: Infinity,
-        maxHeight: Infinity,
-        alignment: "topLeading",
-      }),
-      contentPadding,
-    ];
-
-    if (!isSmall) {
-      return onSky(
-        <HStack alignment="top" spacing={16} modifiers={rootModifiers}>
-          <VStack alignment="leading" spacing={4}>
+        <VStack
+          alignment="leading"
+          spacing={0}
+          modifiers={[
+            frame({
+              maxWidth: Infinity,
+              maxHeight: Infinity,
+              alignment: "topLeading",
+            }),
+            contentPadding,
+          ]}
+        >
+          <HStack alignment="top" spacing={4}>
             <Text
               modifiers={[
-                font({ size: 15, weight: "semibold" }),
+                font({ size: isSmall ? 14 : 17, weight: "semibold" }),
                 foregroundStyle(scheme.text),
+                lineLimit(isSmall ? 3 : 2),
+                // Wrap onto more lines instead of truncating the first.
+                fixedSize({ horizontal: false, vertical: true }),
               ]}
             >
-              {props.title}
+              {props.prompt}
             </Text>
-            <Text
-              modifiers={[
-                font({ size: 12 }),
-                foregroundStyle(scheme.textSecondary),
-              ]}
-            >
-              {props.subtitle}
-            </Text>
-            <Spacer />
-          </VStack>
-          <Spacer />
-          {grid}
-        </HStack>
-      );
-    }
-
-    return onSky(
-      <VStack alignment="leading" spacing={10} modifiers={rootModifiers}>
-        <HStack>
-          <Text
-            modifiers={[
-              font({ size: 15, weight: "semibold" }),
-              foregroundStyle(scheme.text),
-            ]}
-          >
-            {props.title}
-          </Text>
-          <Spacer />
-          <Text
-            modifiers={[
-              font({ size: 12 }),
-              foregroundStyle(scheme.textSecondary),
-            ]}
-          >
-            {props.subtitle}
-          </Text>
-        </HStack>
-        {grid}
-        <Spacer />
-      </VStack>
+            <Spacer minLength={0} />
+            {pixy ? (
+              <Image
+                uiImage={pixy}
+                modifiers={[
+                  resizable(),
+                  frame({ width: pixySize, height: pixySize }),
+                  // Pixy floats into the corner margin, like on the sky. The
+                  // negative padding keeps the prompt's width.
+                  padding({ trailing: isSmall ? -22 : -24 }),
+                  offset({ y: isSmall ? -14 : -18 }),
+                ]}
+              />
+            ) : null}
+          </HStack>
+          <Spacer minLength={0} />
+          {row}
+        </VStack>
+      </ZStack>
     );
   } catch (error) {
     return (

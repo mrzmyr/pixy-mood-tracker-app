@@ -22,7 +22,7 @@ const MONTH_GAP = 10;
 const MONTH_COLUMNS = 4;
 /** Weeks a month can span; shorter months leave the last rows empty. */
 const MONTH_WEEKS = 6;
-const RING = 1.5;
+const RING = 1;
 const EDGE = 0.5;
 
 const cellFill = (code: YearDayCode, colors: WidgetSchemeColors) => {
@@ -38,7 +38,7 @@ const cellFill = (code: YearDayCode, colors: WidgetSchemeColors) => {
   return colors.ratings[code];
 };
 
-/** Today's ring, or the hairline. Padding cells stay invisible. */
+/** Today's white border, or the hairline. Padding cells stay invisible. */
 const cellBorder = (code: YearDayCode, isToday: boolean) => {
   if (isToday) {
     return RING;
@@ -68,7 +68,8 @@ const Cell = ({
       marginRight: gapRight ? GAP : 0,
       marginBottom: gapBottom ? GAP : 0,
       borderRadius: Math.max(1, size / 5),
-      backgroundColor: cellFill(code, colors),
+      backgroundColor:
+        isToday && code === "" ? colors.todayEmpty : cellFill(code, colors),
       borderWidth: cellBorder(code, isToday),
       borderColor: isToday ? colors.today : colors.edge,
     }}

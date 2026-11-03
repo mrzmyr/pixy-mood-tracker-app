@@ -2,7 +2,6 @@ import chroma, { contrast, mix } from "chroma-js";
 import dayjs from "dayjs";
 import { _generateItem } from "@/testing/log-item";
 import {
-  WEEK_WIDGET_WEEKS,
   WIDGET_TIMELINE_DAYS,
   YEAR_GRID_COLUMNS,
   getMonthWidgetProps,
@@ -28,30 +27,26 @@ const INPUT = {
 };
 
 describe("getWeekWidgetProps()", () => {
-  test("builds four weeks with the current week last and today marked", () => {
+  test("builds the current week with today marked", () => {
     const props = getWeekWidgetProps(INPUT);
-    expect(props.weeks).toHaveLength(WEEK_WIDGET_WEEKS);
     expect(props.url).toBe("pixy://calendar");
-    for (const week of props.weeks) {
-      expect(week).toHaveLength(7);
-    }
-    const thisWeek = props.weeks.at(-1) ?? [];
-    const today = thisWeek.find((day) => day.isToday);
+    expect(props.days).toHaveLength(7);
+    const today = props.days.find((day) => day.isToday);
     expect(today?.day).toBe(15);
     // very_bad (1) and very_good (5) average to neutral (3).
     expect(today?.rating).toBe("neutral");
-    expect(thisWeek.find((day) => day.day === 13)?.rating).toBe("good");
+    expect(props.days.find((day) => day.day === 13)?.rating).toBe("good");
     expect(
-      thisWeek.filter((day) => day.isFuture).map((day) => day.day)
+      props.days.filter((day) => day.isFuture).map((day) => day.day)
     ).toEqual(expect.arrayContaining([16, 17]));
-    expect(props.weeks[0].some((day) => day.isToday)).toBe(false);
   });
 
-  test("subtitle counts logged days over elapsed days of all four weeks", () => {
-    const props = getWeekWidgetProps(INPUT);
-    const elapsed = props.weeks.flat().filter((day) => !day.isFuture).length;
-    expect(props.subtitle).toBe(`2/${elapsed}`);
-    expect(elapsed).toBe(21 + 5);
+  test("Pixy smiles and thanks once today has an entry", () => {
+    const checkedIn = getWeekWidgetProps(INPUT);
+    const notYet = getWeekWidgetProps({ ...INPUT, now: NOW.add(1, "day") });
+    expect(checkedIn.isCheckedIn).toBe(true);
+    expect(notYet.isCheckedIn).toBe(false);
+    expect(checkedIn.prompt).not.toBe(notYet.prompt);
   });
 
   test("falls back to the default scale for an unknown scale type", () => {
@@ -179,7 +174,13 @@ describe("getYearImageColors()", () => {
     (theme) => {
       const image = getYearImageColors(theme, "ColorBrew-RdYlGn");
       const widget = getSchemeColors(theme, "ColorBrew-RdYlGn");
-      for (const key of ["empty", "future", "edge"] as const) {
+      for (const key of [
+        "empty",
+        "future",
+        "edge",
+        "today",
+        "todayEmpty",
+      ] as const) {
         expect(chroma(image[key]).alpha()).toBe(1);
         expect(image[key]).toBe(over(widget[key], widget.background));
       }
@@ -205,8 +206,8 @@ describe("getWidgetTimeline()", () => {
     expect(timeline).toHaveLength(WIDGET_TIMELINE_DAYS);
     expect(timeline[0].date).toEqual(NOW.toDate());
     expect(timeline[1].date).toEqual(NOW.add(1, "day").startOf("day").toDate());
-    expect(
-      (timeline[1].props.weeks.at(-1) ?? []).find((day) => day.isToday)?.day
-    ).toBe(16);
+    expect(timeline[1].props.days.find((day) => day.isToday)?.day).toBe(16);
+    // Midnight entries start without a check-in: Pixy is curious again.
+    expect(timeline[1].props.isCheckedIn).toBe(false);
   });
 });

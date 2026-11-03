@@ -46,8 +46,8 @@ export type AppVariant = keyof typeof APP_VARIANTS;
 export const WIDGETS = [
   {
     name: "PixyWeek",
-    displayName: "4 weeks",
-    description: "Your pixels for the last four weeks.",
+    displayName: "Week",
+    description: "Your pixels for this week, with Cloud Pixy.",
     // The sky fills the widget edge to edge; widgets pad their content.
     contentMarginsDisabled: true,
     ios: { supportedFamilies: ["systemSmall", "systemMedium"] },

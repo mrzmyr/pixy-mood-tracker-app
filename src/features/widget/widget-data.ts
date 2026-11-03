@@ -24,9 +24,6 @@ import type {
 /** Days of timeline entries. Each entry moves the today marker at local midnight. */
 export const WIDGET_TIMELINE_DAYS = 7;
 
-/** Rows in the week widget: the current week and the three before it. */
-export const WEEK_WIDGET_WEEKS = 4;
-
 /**
  * The year widget gets one entry. WidgetKit renders and archives every
  * entry when it builds a timeline, and 7 renders of 372 cells push the
@@ -44,14 +41,16 @@ export interface WidgetDataInput {
   url: string;
   /** Local date the props describe. Defaults to now. */
   now?: dayjs.Dayjs;
-  /** Captured sky images; omitted until the first capture. */
-  skyImages?: SkyImages;
+  /** Sky and Cloud Pixy images; omitted until they are in `widgetsDirectory`. */
+  art?: WidgetArt;
 }
 
-/** `file://` URIs of the captured sky backgrounds per color scheme. */
-export interface SkyImages {
-  light: string;
-  dark: string;
+/** `file://` URIs of the widget art in `widgetsDirectory`. */
+export interface WidgetArt {
+  skyLight: string;
+  skyDark: string;
+  pixyCurious: string;
+  pixyHappy: string;
 }
 
 /** Average rating per local day, for every day with an entry. */
@@ -94,7 +93,8 @@ export const getSchemeColors = (
     empty: colors.widgetEmptyDay,
     future: colors.widgetFutureDay,
     edge: colors.widgetCellEdge,
-    today: colors.tint,
+    today: colors.widgetToday,
+    todayEmpty: colors.widgetTodayEmpty,
     ratings,
   };
 };
@@ -120,6 +120,8 @@ export const getYearImageColors = (
     empty: flatten(colors.empty, colors.background),
     future: flatten(colors.future, colors.background),
     edge: flatten(colors.edge, colors.background),
+    todayEmpty: flatten(colors.todayEmpty, colors.background),
+    today: flatten(colors.today, colors.background),
   };
 };
 
@@ -156,32 +158,38 @@ const getBaseProps = (
   input: WidgetDataInput,
   title: string,
   cells: WidgetCell[]
-): WidgetBaseProps => ({
-  url: input.url,
-  title,
-  subtitle: countLogged(cells),
-  light: getSchemeColors("light", input.scaleType),
-  dark: getSchemeColors("dark", input.scaleType),
-  skyLight: input.skyImages?.light ?? "",
-  skyDark: input.skyImages?.dark ?? "",
-});
+): WidgetBaseProps => {
+  const today = (input.now ?? dayjs()).format(DATE_FORMAT);
+  const isCheckedIn = input.items.some((item) => getItemDate(item) === today);
+  return {
+    url: input.url,
+    title,
+    subtitle: countLogged(cells),
+    light: getSchemeColors("light", input.scaleType),
+    dark: getSchemeColors("dark", input.scaleType),
+    skyLight: input.art?.skyLight ?? "",
+    skyDark: input.art?.skyDark ?? "",
+    pixyCurious: input.art?.pixyCurious ?? "",
+    pixyHappy: input.art?.pixyHappy ?? "",
+    isCheckedIn,
+    prompt: isCheckedIn
+      ? t("widget_prompt_checked_in")
+      : t("quick_check_in_question"),
+  };
+};
 
-/**
- * Props for the week widget: the current locale week as the last row, with
- * the three weeks before it. The subtitle counts all four weeks.
- */
+/** Props for the week widget: the seven days of the current locale week. */
 export const getWeekWidgetProps = (input: WidgetDataInput): WeekWidgetProps => {
   const today = (input.now ?? dayjs()).startOf("day");
   const ratings = getRatingsByDate(input.items);
-  const start = today.startOf("week").subtract(WEEK_WIDGET_WEEKS - 1, "week");
-  const weeks = Array.from({ length: WEEK_WIDGET_WEEKS }, (_, weekIndex) =>
-    Array.from({ length: 7 }, (__, dayIndex) =>
-      makeCell(start.add(weekIndex * 7 + dayIndex, "day"), today, ratings)
-    )
+  const start = today.startOf("week");
+  const days = Array.from({ length: 7 }, (_, index) =>
+    makeCell(start.add(index, "day"), today, ratings)
   );
   return {
-    ...getBaseProps(input, t("widget_week_title"), weeks.flat()),
-    weeks,
+    // The week widget shows the prompt, not a title.
+    ...getBaseProps(input, "", days),
+    days,
   };
 };
 
@@ -211,6 +219,10 @@ export const getMonthWidgetProps = (
   return {
     ...getBaseProps(input, today.format("MMMM"), weeks.flat()),
     weeks,
+    // `dd` is the locale's short weekday ("Mo"); the first letter fits a cell.
+    weekdays: Array.from({ length: 7 }, (_, index) =>
+      gridStart.add(index, "day").format("dd").charAt(0)
+    ),
   };
 };
 
