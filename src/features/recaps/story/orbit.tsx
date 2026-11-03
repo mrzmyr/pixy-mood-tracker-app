@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import { use, useEffect, useState } from "react";
+import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import Animated, {
   Easing,
   FadeIn,
@@ -16,6 +16,8 @@ import type { Person } from "@/features/people";
 import { ProfileAvatar, useProfile } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
+import { StoryHoldContext } from "./hold-context";
+import { OrbitPersonMonth } from "./orbit-person";
 import { SlideCard, SlideHeader, StoryText } from "./parts";
 import {
   getStoryTheme,
@@ -143,6 +145,7 @@ const PlanetView = ({
   float,
   theme,
   delay,
+  onPress,
 }: {
   planet: Planet;
   index: number;
@@ -153,6 +156,7 @@ const PlanetView = ({
   theme: StoryTheme;
   /** When people start to swing in, in milliseconds. */
   delay: number;
+  onPress: () => void;
 }) => {
   const style = useAnimatedStyle(() => {
     const angle =
@@ -177,7 +181,15 @@ const PlanetView = ({
       }}
     >
       <Animated.View style={[{ alignItems: "center" }, style]}>
-        <RingedAvatar person={planet.person} size={planet.size} />
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`${planet.person.name}, ${t("recaps_story_people_days", { count: planet.days })}`}
+          hitSlop={8}
+          onPress={onPress}
+          testID={`recap-story-orbit-${planet.person.id}`}
+        >
+          <RingedAvatar person={planet.person} size={planet.size} />
+        </Pressable>
         <View style={{ position: "absolute", top: planet.size + NAME_GAP }}>
           <StoryText
             kind="label"
@@ -228,7 +240,8 @@ const OrbitRings = ({
 /**
  * The user's avatar in the middle, the month's people around like planets.
  * Closer and bigger: more days connected. Says nothing about how the days
- * felt.
+ * felt. A tap on a person shows their days in the month and holds the
+ * story until the user taps again.
  */
 export const Orbit = ({
   slide,
@@ -239,6 +252,12 @@ export const Orbit = ({
 }) => {
   const { width: screen } = useWindowDimensions();
   const profile = useProfile();
+  const hold = use(StoryHoldContext);
+  const [selected, setSelected] = useState<Planet | null>(null);
+  const select = (planet: Planet | null) => {
+    setSelected(planet);
+    hold(planet !== null);
+  };
   const title = t("recaps_story_orbit_title");
   // Title first, then you and the rings, then people swing in.
   const ringsAt = titleRevealEnd(title);
@@ -248,21 +267,28 @@ export const Orbit = ({
   const width = screen - 2 * STORY_SCREEN_PADDING;
   const planets = placePlanets(slide, ctx.people, width);
   const self = Math.round(width * SIZE.self);
-  const label = planets
-    .map(
-      ({ person, days }) =>
-        `${person.name}, ${t("recaps_story_people_days", { count: days })}`
-    )
-    .join(". ");
   return (
     <>
       <SlideHeader theme={theme} title={title} />
       <SlideCard theme={theme}>
+        {selected && (
+          <OrbitPersonMonth
+            person={selected.person}
+            days={selected.days}
+            width={width}
+            ctx={ctx}
+            onClose={() => select(null)}
+          />
+        )}
+        {/* Stays mounted under the month, so the spin keeps its place. */}
         <View
-          accessible
-          accessibilityRole="image"
-          accessibilityLabel={label}
-          style={{ width, height: width }}
+          style={[
+            { width, height: width },
+            selected && { position: "absolute", opacity: 0 },
+          ]}
+          pointerEvents={selected ? "none" : "box-none"}
+          importantForAccessibility={selected ? "no-hide-descendants" : "auto"}
+          accessibilityElementsHidden={selected !== null}
         >
           <Animated.View
             entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
@@ -295,6 +321,7 @@ export const Orbit = ({
               float={float}
               theme={theme}
               delay={peopleAt}
+              onPress={() => select(planet)}
             />
           ))}
         </View>
