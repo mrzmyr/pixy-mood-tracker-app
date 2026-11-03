@@ -10,7 +10,7 @@ import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import ModalHeader from "@/components/modal-header";
 import { SheetModal } from "@/components/sheet-modal";
-import { Copy } from "@/components/typography";
+import { Copy, Heading } from "@/components/typography";
 import { SleepQualityMeter } from "@/features/logger";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import {
@@ -32,6 +32,25 @@ export interface MissedTag {
   isNew: boolean;
   evenings: number;
 }
+
+/** Title and hint at the top of a step, wraps instead of cutting off. */
+const SheetTitle = ({ title, hint }: { title: string; hint: string }) => {
+  const colors = useColors();
+  return (
+    <View style={{ gap: 4 }}>
+      <Heading
+        size={24}
+        accessibilityRole="header"
+        style={{ color: colors.text }}
+      >
+        {title}
+      </Heading>
+      <Copy size={14} style={{ color: colors.textSecondary }}>
+        {hint}
+      </Copy>
+    </View>
+  );
+};
 
 type Step =
   | { kind: "pick" }
@@ -123,12 +142,8 @@ export const MissedTagSheet = ({
   return (
     <SheetModal visible={visible} onClose={close} backgroundColor={background}>
       <View style={{ flex: 1, backgroundColor: background }}>
+        {/* Title sits in the body: the header's middle slot cuts long titles. */}
         <ModalHeader
-          title={
-            step.kind === "pick"
-              ? t("recaps_story_missed_title")
-              : t("recaps_story_missed_evenings_title")
-          }
           left={
             <HeaderButton
               kind="cancel"
@@ -143,9 +158,10 @@ export const MissedTagSheet = ({
             contentContainerStyle={{ padding: 16, gap: 16 }}
             keyboardShouldPersistTaps="handled"
           >
-            <Copy size={14} style={{ color: colors.textSecondary }}>
-              {t("recaps_story_missed_hint")}
-            </Copy>
+            <SheetTitle
+              title={t("recaps_story_missed_title")}
+              hint={t("recaps_story_missed_hint")}
+            />
             <TagNameField
               value={query}
               onChange={setQuery}
@@ -196,11 +212,12 @@ export const MissedTagSheet = ({
         ) : (
           <>
             <ScrollView contentContainerStyle={{ padding: 16, gap: 16 }}>
-              <Copy size={14} style={{ color: colors.textSecondary }}>
-                {t("recaps_story_missed_evenings_hint", {
+              <SheetTitle
+                title={t("recaps_story_missed_evenings_title")}
+                hint={t("recaps_story_missed_evenings_hint", {
                   tag: step.tag.title,
                 })}
-              </Copy>
+              />
               <MenuList>
                 {roughNights.map((night) => {
                   const isOn = step.evenings.has(night.evening);
