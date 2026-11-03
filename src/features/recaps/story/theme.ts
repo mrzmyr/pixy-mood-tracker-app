@@ -58,6 +58,14 @@ export const STORY_SELECTED_CHIP = {
   shadow: "0 4px 14px rgba(15, 40, 80, 0.12)",
 } as const;
 
+/** Left padding of a story chip: an avatar sits closer to the round end. */
+export const chipInset = (isSmall: boolean, isPerson: boolean) => {
+  if (isPerson) {
+    return isSmall ? 4 : 6;
+  }
+  return isSmall ? 10 : 14;
+};
+
 /** Light tint of the slide color behind story buttons: Share, Shuffle. */
 export const storyButtonTint = (theme: StoryTheme) =>
   theme === "paper" ? "rgba(10,10,10,0.06)" : "rgba(255,255,255,0.14)";
@@ -88,7 +96,7 @@ export const STORY_PALETTE: Record<StoryTheme, StoryPalette> = {
     empty: "#EEEEEE",
     glass: "rgba(255,255,255,0.35)",
     glassBorder: "rgba(255,255,255,0.75)",
-    chipBorder: "rgba(255,255,255,0.45)",
+    chipBorder: "rgba(255,255,255,0.2)",
   },
   photo: {
     background: "#000000",

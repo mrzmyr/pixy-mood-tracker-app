@@ -37,6 +37,7 @@ import { itemKey, seenBefore } from "./sleep";
 import type { RoughNightsAnswer } from "./sleep";
 import type { SlideContext } from "./slides";
 import {
+  chipInset,
   getStoryTheme,
   STORY_BLOCK_GAP,
   STORY_PALETTE,
@@ -509,6 +510,7 @@ export const RoughNightView = ({
                   }
                   label={person.name}
                   isSmall={isDense}
+                  isPerson
                 />
               ))}
               <More theme={theme} count={people.length - CAP.people} />
@@ -587,7 +589,7 @@ const OverviewItems = ({
           <GlassChip
             key={tag.id}
             theme={theme}
-            marker={<TagDot tag={tag} size={8} />}
+            marker={<TagDot tag={tag} size={7} />}
             label={tag.title}
             isSmall
           />
@@ -733,6 +735,14 @@ const chipText = (palette: Palette, isSelected: boolean, isDashed: boolean) => {
   return isDashed ? palette.muted : palette.text;
 };
 
+/** Outline: a dashed chip needs a clearer edge, it has no fill. */
+const chipEdge = (palette: Palette, isSelected: boolean, isDashed: boolean) => {
+  if (isSelected) {
+    return STORY_SELECTED_CHIP.fill;
+  }
+  return isDashed ? palette.glassBorder : palette.chipBorder;
+};
+
 /** Count after an item on the question: "most days", or the rough nights. */
 const itemCount = (item: RoughNightItem) =>
   item.isEveryday ? t("recaps_story_rough_most_days") : `${item.nights}×`;
@@ -745,6 +755,7 @@ const PickChip = ({
   label,
   trailing,
   isDashed = false,
+  isPerson = false,
   testID,
 }: {
   theme: StoryTheme;
@@ -754,6 +765,7 @@ const PickChip = ({
   label: string;
   trailing?: string;
   isDashed?: boolean;
+  isPerson?: boolean;
   testID?: string;
 }) => {
   const palette = STORY_PALETTE[theme];
@@ -768,13 +780,13 @@ const PickChip = ({
         flexDirection: "row",
         alignItems: "center",
         gap: 8,
-        paddingHorizontal: 12,
+        paddingHorizontal: 14,
+        paddingLeft: chipInset(false, isPerson),
         paddingVertical: 8,
-        borderRadius: RADIUS.md,
-        borderCurve: "continuous",
+        borderRadius: RADIUS.full,
         borderWidth: 1,
         borderStyle: isDashed ? "dashed" : "solid",
-        borderColor: isSelected ? STORY_SELECTED_CHIP.fill : palette.chipBorder,
+        borderColor: chipEdge(palette, isSelected, isDashed),
         backgroundColor: chipFill(palette, isSelected, isDashed),
         boxShadow: isSelected ? STORY_SELECTED_CHIP.shadow : undefined,
         transform: [{ scale: pressed ? 0.97 : 1 }],
@@ -884,6 +896,7 @@ export const RoughNightsAsk = ({
                   )
                 }
                 label={tag?.title ?? person?.name ?? ""}
+                isPerson={!tag && person !== undefined}
                 trailing={itemCount(item)}
                 testID={`recap-rough-pick-${item.kind}`}
               />
@@ -991,6 +1004,7 @@ export const RoughNightsClosing = ({
           key={key}
           theme={theme}
           marker={<RingedAvatar person={person} size={18} />}
+          isPerson
           label={person.name}
           isSmall
         />,

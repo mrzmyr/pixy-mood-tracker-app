@@ -85,7 +85,7 @@ const TagDot = ({ tag }: { tag: Tag }) => {
       style={{
         width: 8,
         height: 8,
-        borderRadius: 2,
+        borderRadius: RADIUS.full,
         backgroundColor: colors.tags[tag.color]?.dot,
       }}
     />

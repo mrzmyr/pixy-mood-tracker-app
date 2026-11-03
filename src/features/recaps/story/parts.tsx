@@ -24,6 +24,7 @@ import type { LogPhoto } from "@/types";
 import { addDays, daysBetween } from "../days";
 import type { DateKey, Period, RecapDay } from "../types";
 import {
+  chipInset,
   glassEdge,
   glassFill,
   STORY_CARD_PADDING,
@@ -386,15 +387,15 @@ export const MonthGrid = ({
   );
 };
 
-/** Tag color dot: small rounded square, as in recap card chips. */
-export const TagDot = ({ tag, size = 10 }: { tag: Tag; size?: number }) => {
+/** Tag color dot: round, as on the app's tag chips. */
+export const TagDot = ({ tag, size = 8 }: { tag: Tag; size?: number }) => {
   const colors = useColors();
   return (
     <View
       style={{
         width: size,
         height: size,
-        borderRadius: 2,
+        borderRadius: RADIUS.full,
         backgroundColor: colors.tags[tag.color]?.dot,
       }}
     />
@@ -432,9 +433,10 @@ export const TagLabel = ({
 );
 
 /**
- * Emotion, tag, or person on the sky: marker and name on a glass chip.
- * `trailing` follows the name, for example a count. `isSmall` for busy
- * slides.
+ * Emotion, tag, or person on the sky: marker and name on a glass pill, the
+ * shape of the app's tag and person chips. `trailing` follows the name, for
+ * example a count. `isSmall` for busy slides. `isPerson` tucks the avatar
+ * into the round end.
  */
 export const GlassChip = ({
   theme,
@@ -442,12 +444,14 @@ export const GlassChip = ({
   label,
   trailing,
   isSmall = false,
+  isPerson = false,
 }: {
   theme: StoryTheme;
   marker: React.ReactNode;
   label: string;
   trailing?: React.ReactNode;
   isSmall?: boolean;
+  isPerson?: boolean;
 }) => {
   const palette = STORY_PALETTE[theme];
   return (
@@ -456,10 +460,10 @@ export const GlassChip = ({
         flexDirection: "row",
         alignItems: "center",
         gap: isSmall ? 6 : 8,
-        paddingHorizontal: isSmall ? 9 : 12,
+        paddingHorizontal: isSmall ? 10 : 14,
+        paddingLeft: chipInset(isSmall, isPerson),
         paddingVertical: isSmall ? 5 : 8,
-        borderRadius: RADIUS.md,
-        borderCurve: "continuous",
+        borderRadius: RADIUS.full,
         borderWidth: 1,
         borderColor: palette.chipBorder,
         backgroundColor: palette.glass,
