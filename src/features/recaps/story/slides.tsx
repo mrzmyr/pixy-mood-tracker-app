@@ -399,7 +399,8 @@ const SlideBody = ({
 
 /**
  * Content of one slide. The player draws background and chrome. Cloud Pixy
- * stays around: it flies in the free sky below the content.
+ * stays around: it flies in the free sky below the content. The best day
+ * places Pixy itself.
  */
 export const SlideContent = ({
   slide,
@@ -410,12 +411,16 @@ export const SlideContent = ({
   ctx: SlideContext;
   /** Best day slide only. Without it the slide keeps its own lock state. */
   lock?: BestDayLock;
-}) =>
-  slide.type === "intro" ? (
-    <StoryIntro ctx={ctx} />
-  ) : (
+}) => {
+  if (slide.type === "intro") {
+    return <StoryIntro ctx={ctx} />;
+  }
+  return (
     <View style={{ flex: 1 }}>
       <SlideBody slide={slide} ctx={ctx} lock={lock} />
-      <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
+      {slide.type !== "best-day" && (
+        <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
+      )}
     </View>
   );
+};

@@ -3,6 +3,7 @@ import { Pressable } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
+  useAnimatedReaction,
   useFrameCallback,
   useSharedValue,
   withDelay,
@@ -10,7 +11,11 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
+import { scheduleOnRN } from "react-native-worklets";
 import { CLOUD_PIXY_SIZE, CloudPixy } from "@/components/cloud-pixy";
+import { getJoyLevel } from "@/components/pixy-guide-context";
+import type { PixyGuide } from "@/components/pixy-guide-context";
+import { SkyPixyEmotes } from "@/components/sky-pixy-emotes";
 
 /** Free sky in window coordinates, or in the coordinates of Pixy's layer. */
 export interface FlightZone {
@@ -38,9 +43,15 @@ const HAPPY_EVERY_SPREAD_MS = 8000;
 const MAX_BOOST = 3;
 /** Extra flight speed right after a tap. */
 const MAX_EXCITEMENT = 6;
+/** Happy eyes after a cheer. */
+const CHEER_HAPPY_MS = 2600;
+/** Hover above a guide target: gentle sway, in points. */
+const HOVER_SWAY = 4;
 /** A tap excites Pixy at once, then it calms down over this time. */
 const EXCITE_IN_MS = 180;
 const CALM_DOWN_MS = 2600;
+/** Happy eyes after a tap. */
+const EXCITED_HAPPY_MS = EXCITE_IN_MS + CALM_DOWN_MS;
 
 /**
  * Cloud Pixy flies a slow, looping path inside `zone`, the free sky the
@@ -49,18 +60,22 @@ const CALM_DOWN_MS = 2600;
  * Pixy shrinks to fit a small zone. No zone, or one too small, hides it. `boost` (0 to 1) speeds the flight
  * up while the clouds rush to the next step. A tap excites Pixy: it zips
  * around its zone with a happy hop and "^^" eyes, then calms down. Now and
- * then it smiles on its own. Render only when
- * motion is allowed.
+ * then it smiles on its own. `guide` calls Pixy over to a control: it
+ * glides there, hovers, and sends hearts while the user acts; each new
+ * `cheers` count makes it hop with a burst. Render only when motion is
+ * allowed.
  */
 export const SkyPixy = ({
   boost,
   zone,
   isBlinking,
+  guide,
 }: {
   boost: SharedValue<number>;
   zone: FlightZone | null;
   /** Eyes closed for a blink, from the caller's `usePixyIdle`. */
   isBlinking: boolean;
+  guide?: PixyGuide;
 }) => {
   const excitement = useSharedValue(0);
   const time = useSharedValue(0);
@@ -104,8 +119,8 @@ export const SkyPixy = ({
     };
   }, []);
 
-  const excite = () => {
-    smile(EXCITE_IN_MS + CALM_DOWN_MS);
+  const excite = (happyMs: number = EXCITED_HAPPY_MS) => {
+    smile(happyMs);
     excitement.set(
       withSequence(
         withTiming(1, { duration: EXCITE_IN_MS }),
@@ -116,6 +131,26 @@ export const SkyPixy = ({
       )
     );
   };
+
+  // Joy from the guide keeps the "^^" eyes on; a cheer hops a bit longer.
+  const [joyLevel, setJoyLevel] = useState(0);
+  useAnimatedReaction(
+    () => getJoyLevel(guide?.joy.get() ?? 0),
+    (current, previous) => {
+      if (current !== previous) {
+        scheduleOnRN(setJoyLevel, current);
+      }
+    }
+  );
+  const onCheer = () => excite(CHEER_HAPPY_MS);
+  useAnimatedReaction(
+    () => guide?.cheers.get() ?? 0,
+    (current, previous) => {
+      if (previous !== null && current > previous) {
+        scheduleOnRN(onCheer);
+      }
+    }
+  );
 
   const opacity = useSharedValue(0);
   const zoneX = useSharedValue(0);
@@ -176,46 +211,59 @@ export const SkyPixy = ({
     const bob = Math.sin(t * 2.2) * BOB;
     // Happy hop and a little squash while excited. The hop stays inside
     // the bob room.
-    const hop = -Math.abs(Math.sin(t * 3)) * excitement.get() * BOB;
     const squash = 1 + Math.sin(t * 6) * 0.06 * excitement.get();
+    const freeX = zoneX.get() + zoneWidth.get() / 2 + pathX * rangeX;
+    const freeY = zoneY.get() + zoneHeight.get() / 2 + pathY * rangeY;
+    // Toward the guide target: hovers there with a gentle sway, upright.
+    const follow = guide?.follow.get() ?? 0;
+    // Hovering at a guide target, Pixy has room for a 3 times higher hop.
+    const hop =
+      -Math.abs(Math.sin(t * 3)) * excitement.get() * BOB * (1 + 2 * follow);
+    const hoverX = (guide?.x.get() ?? 0) + Math.sin(t * 0.9) * HOVER_SWAY;
+    const hoverY = guide?.y.get() ?? 0;
+    const centerX = freeX + (hoverX - freeX) * follow;
+    const centerY = freeY + (hoverY - freeY) * follow;
     return {
-      opacity: opacity.get(),
+      opacity: Math.max(opacity.get(), follow),
       transform: [
         // Scale works around the center, so the offsets place the center.
-        {
-          translateX:
-            zoneX.get() + zoneWidth.get() / 2 + pathX * rangeX - SIZE / 2,
-        },
-        {
-          translateY:
-            zoneY.get() +
-            zoneHeight.get() / 2 +
-            pathY * rangeY +
-            bob +
-            hop -
-            SIZE / 2,
-        },
-        { rotate: `${dx * 40}deg` },
-        { scale: scale.get() },
+        { translateX: centerX - SIZE / 2 },
+        { translateY: centerY + bob + hop - SIZE / 2 },
+        { rotate: `${dx * 40 * (1 - follow)}deg` },
+        { scale: scale.get() + (1 - scale.get()) * follow },
         { scaleX: squash },
         { scaleY: 2 - squash },
       ],
     };
   });
 
-  return (
+  const pixy = (
     <Animated.View
       style={[{ position: "absolute", left: 0, top: 0 }, flightStyle]}
     >
       {/* A toy with no function: screen readers skip it. */}
       <Pressable
-        onPress={excite}
+        onPress={() => excite()}
         accessible={false}
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <CloudPixy isBlinking={isBlinking} isHappy={isHappy} />
+        <CloudPixy isBlinking={isBlinking} isHappy={isHappy || joyLevel > 0} />
       </Pressable>
     </Animated.View>
+  );
+  if (!guide) {
+    return pixy;
+  }
+  return (
+    <>
+      <SkyPixyEmotes
+        x={guide.x}
+        y={guide.y}
+        level={joyLevel}
+        cheers={guide.cheers}
+      />
+      {pixy}
+    </>
   );
 };

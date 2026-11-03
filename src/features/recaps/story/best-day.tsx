@@ -1,16 +1,21 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { GestureDetector, usePanGesture } from "react-native-gesture-handler";
 import Animated, {
   Easing,
   interpolate,
+  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withTiming,
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import ChevronsRight from "lucide-react-native/icons/chevrons-right";
+import { CLOUD_PIXY_SIZE } from "@/components/cloud-pixy";
+import { cheer, PixyGuideContext } from "@/components/pixy-guide-context";
+import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { RADIUS } from "@/constants/radius";
 import { EmotionIndicator, EMOTIONS } from "@/features/logger";
 import { t, tDynamic } from "@/lib/translation";
@@ -28,7 +33,6 @@ import {
   revealTextMs,
   STORY_BLOCK_GAP,
   STORY_PALETTE,
-  STORY_TITLE_GAP,
   titleRevealEnd,
 } from "./theme";
 import type { StoryTheme } from "./theme";
@@ -42,6 +46,14 @@ const THUMB_SIZE = TRACK_HEIGHT - 2 * THUMB_INSET;
 const UNLOCK_SHARE = 0.7;
 const SETTLE_MS = 220;
 const EASING = Easing.out(Easing.cubic);
+/** Cloud Pixy glides from its sky to the thumb this long, after this delay. */
+const PIXY_CALL_DELAY_MS = 600;
+const PIXY_GLIDE_MS = 1100;
+const PIXY_GLIDE_EASING = Easing.inOut(Easing.cubic);
+/** Pixy's center sits this far above the track top: just over the thumb. */
+const PIXY_HOVER_GAP = CLOUD_PIXY_SIZE * 0.42;
+/** Pixy cheers this long before the day opens. */
+const CHEER_MS = 800;
 
 /** Time between two photos, and from one block to the next. */
 const PHOTO_STEP_MS = 450;
@@ -62,6 +74,8 @@ const GOOD = new Set(["very_good", "good"]);
 /**
  * Track with a thumb the user drags to the end. Releases short of
  * `UNLOCK_SHARE` slide the thumb back. Screen readers get one button.
+ * Cloud Pixy flies over and hovers above the thumb, follows it, and sends
+ * more hearts the further it goes. On unlock Pixy cheers, then the day opens.
  */
 const SwipeToUnlock = ({
   theme,
@@ -71,9 +85,73 @@ const SwipeToUnlock = ({
   onUnlock: () => void;
 }) => {
   const palette = STORY_PALETTE[theme];
+  const guide = use(PixyGuideContext);
+  const track = useRef<View>(null);
   const [width, setWidth] = useState(0);
   const travel = Math.max(0, width - THUMB_SIZE - 2 * THUMB_INSET);
   const offset = useSharedValue(0);
+  // Thumb start center and travel, for the reaction on the UI thread.
+  const thumbX = useSharedValue(0);
+  const thumbTop = useSharedValue(0);
+  const travelShared = useSharedValue(0);
+  const isUnlocking = useRef(false);
+  const cheerTimer = useRef<ReturnType<typeof setTimeout>>(null);
+
+  useAnimatedReaction(
+    () => offset.get(),
+    (current) => {
+      if (!guide) {
+        return;
+      }
+      guide.x.set(thumbX.get() + current);
+      guide.y.set(thumbTop.get() - PIXY_HOVER_GAP);
+      const range = travelShared.get();
+      guide.joy.set(range > 0 ? current / range : 0);
+    }
+  );
+
+  // Pixy flies back to its free sky when the track goes away.
+  useEffect(
+    () => () => {
+      if (cheerTimer.current) {
+        clearTimeout(cheerTimer.current);
+      }
+      guide?.joy.set(0);
+      guide?.follow.set(
+        withTiming(0, { duration: PIXY_GLIDE_MS, easing: PIXY_GLIDE_EASING })
+      );
+    },
+    [guide]
+  );
+
+  const onLayout = (layoutWidth: number) => {
+    setWidth(layoutWidth);
+    travelShared.set(Math.max(0, layoutWidth - THUMB_SIZE - 2 * THUMB_INSET));
+    track.current?.measureInWindow((x, y) => {
+      thumbX.set(x + THUMB_INSET + THUMB_SIZE / 2);
+      thumbTop.set(y);
+      guide?.x.set(x + THUMB_INSET + THUMB_SIZE / 2 + offset.get());
+      guide?.y.set(y - PIXY_HOVER_GAP);
+      guide?.follow.set(
+        withDelay(
+          PIXY_CALL_DELAY_MS,
+          withTiming(1, { duration: PIXY_GLIDE_MS, easing: PIXY_GLIDE_EASING })
+        )
+      );
+    });
+  };
+
+  const unlock = () => {
+    if (isUnlocking.current) {
+      return;
+    }
+    isUnlocking.current = true;
+    if (guide) {
+      cheer(guide);
+    }
+    cheerTimer.current = setTimeout(onUnlock, guide ? CHEER_MS : 0);
+  };
+
   const gesture = usePanGesture({
     enabled: travel > 0,
     maxPointers: 1,
@@ -93,7 +171,7 @@ const SwipeToUnlock = ({
         })
       );
       if (isUnlocked) {
-        scheduleOnRN(onUnlock);
+        scheduleOnRN(unlock);
       }
     },
   });
@@ -107,13 +185,14 @@ const SwipeToUnlock = ({
   return (
     <GestureDetector gesture={gesture}>
       <View
+        ref={track}
         accessible
         accessibilityRole="button"
         accessibilityLabel={t("recaps_story_best_day_show")}
-        onAccessibilityTap={onUnlock}
+        onAccessibilityTap={unlock}
         // Taps on the track never skip the slide.
         onStartShouldSetResponder={() => true}
-        onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
+        onLayout={(event) => onLayout(event.nativeEvent.layout.width)}
         testID="recap-story-best-day-unlock"
         style={{
           height: TRACK_HEIGHT,
@@ -246,75 +325,78 @@ const OpenDay = ({
     (emotions.length > 0 ? BLOCK_STEP_MS + emotions.length * 120 : 0);
 
   return (
-    <ScrollView
-      // Content height, shrinking to scroll when the day is long; cloud
-      // Pixy flies in the sky left below.
-      style={{ flexGrow: 0, flexShrink: 1 }}
-      contentContainerStyle={{ gap: STORY_BLOCK_GAP, paddingBottom: 24 }}
-      showsVerticalScrollIndicator={false}
-    >
-      {photos.length > 0 && (
-        <View style={{ flexDirection: "row", gap: 8 }}>
-          {photos.map((photo, index) => (
-            <Reveal key={photo.id} at={photoAt(index)} style={{ flex: 1 }}>
-              <StoryImage
-                photo={photo}
-                style={{
-                  width: "100%",
-                  aspectRatio: photos.length === 1 ? 4 / 3 : 3 / 4,
-                  borderRadius: RADIUS.lg,
-                }}
-              />
-            </Reveal>
-          ))}
-        </View>
-      )}
-      <RevealText text={title} at={titleAt} kind="title" theme={theme} />
-      {people.length > 0 && (
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          {shownPeople.map((person, index) => (
-            <Reveal key={person.id} at={peopleAt + index * 120}>
-              <RingedAvatar person={person} size={28} />
-            </Reveal>
-          ))}
-          <View style={{ flexShrink: 1 }}>
-            <RevealText
-              text={names}
-              at={peopleAt + shownPeople.length * 120}
-              kind="body"
-              theme={theme}
-              tone="muted"
-            />
+    <>
+      <ScrollView
+        // Content height, shrinking to scroll when the day is long; cloud
+        // Pixy flies in the sky left below.
+        style={{ flexGrow: 0, flexShrink: 1 }}
+        contentContainerStyle={{ gap: STORY_BLOCK_GAP, paddingBottom: 24 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {photos.length > 0 && (
+          <View style={{ flexDirection: "row", gap: 8 }}>
+            {photos.map((photo, index) => (
+              <Reveal key={photo.id} at={photoAt(index)} style={{ flex: 1 }}>
+                <StoryImage
+                  photo={photo}
+                  style={{
+                    width: "100%",
+                    aspectRatio: photos.length === 1 ? 4 / 3 : 3 / 4,
+                    borderRadius: RADIUS.lg,
+                  }}
+                />
+              </Reveal>
+            ))}
           </View>
-        </View>
-      )}
-      {emotions.length > 0 && (
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-          {emotions.map((emotion, index) => (
-            <Reveal key={emotion.key} at={emotionsAt + index * 120}>
-              <GlassChip
+        )}
+        <RevealText text={title} at={titleAt} kind="title" theme={theme} />
+        {people.length > 0 && (
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            {shownPeople.map((person, index) => (
+              <Reveal key={person.id} at={peopleAt + index * 120}>
+                <RingedAvatar person={person} size={28} />
+              </Reveal>
+            ))}
+            <View style={{ flexShrink: 1 }}>
+              <RevealText
+                text={names}
+                at={peopleAt + shownPeople.length * 120}
+                kind="body"
                 theme={theme}
-                marker={<EmotionIndicator emotion={emotion} compact />}
-                label={tDynamic(`log_emotion_${emotion.key}`)}
+                tone="muted"
               />
-            </Reveal>
-          ))}
-        </View>
-      )}
-      {tags.length > 0 && (
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-          {tags.map((tag, index) => (
-            <Reveal key={tag.id} at={tagsAt + index * 120}>
-              <GlassChip
-                theme={theme}
-                marker={<TagDot tag={tag} />}
-                label={tag.title}
-              />
-            </Reveal>
-          ))}
-        </View>
-      )}
-    </ScrollView>
+            </View>
+          </View>
+        )}
+        {emotions.length > 0 && (
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+            {emotions.map((emotion, index) => (
+              <Reveal key={emotion.key} at={emotionsAt + index * 120}>
+                <GlassChip
+                  theme={theme}
+                  marker={<EmotionIndicator emotion={emotion} compact />}
+                  label={tDynamic(`log_emotion_${emotion.key}`)}
+                />
+              </Reveal>
+            ))}
+          </View>
+        )}
+        {tags.length > 0 && (
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+            {tags.map((tag, index) => (
+              <Reveal key={tag.id} at={tagsAt + index * 120}>
+                <GlassChip
+                  theme={theme}
+                  marker={<TagDot tag={tag} />}
+                  label={tag.title}
+                />
+              </Reveal>
+            ))}
+          </View>
+        )}
+      </ScrollView>
+      <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
+    </>
   );
 };
 
@@ -340,8 +422,9 @@ export const BestDay = ({
     return <OpenDay slide={slide} ctx={ctx} />;
   }
   const title = t("recaps_story_best_day_ask");
+  // Question on top, track at the bottom: Pixy flies down to the thumb.
   return (
-    <View style={{ gap: STORY_TITLE_GAP }}>
+    <View style={{ flex: 1, justifyContent: "space-between" }}>
       <SlideHeader theme={theme} title={title} />
       <Reveal at={titleRevealEnd(title)}>
         <SwipeToUnlock
