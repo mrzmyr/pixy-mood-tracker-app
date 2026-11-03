@@ -1,6 +1,6 @@
 import type { NeedState } from "./needs";
 
-/** Props shared by the iOS, Android, and fallback need rating. */
+/** Props of the need rating. */
 export interface NeedRatingProps {
   /** Need name, for the accessibility label. */
   label: string;
