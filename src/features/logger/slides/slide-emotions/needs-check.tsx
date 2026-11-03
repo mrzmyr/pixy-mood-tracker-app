@@ -1,21 +1,14 @@
-import { SegmentedControl } from "@expo/ui/community/segmented-control";
 import chunk from "lodash/chunk";
 import { View } from "react-native";
 import Animated, { Easing, FadeIn } from "react-native-reanimated";
 import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
-import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import { EmotionButtonBasic } from "./emotion-button-basic";
-import { NEED_STATES, NEEDS, suggestEmotionsForNeed } from "./needs";
+import { NeedRating } from "./need-rating";
+import { NEEDS, suggestEmotionsForNeed } from "./needs";
 import type { NeedKey, NeedState, NeedStates } from "./needs";
-
-const STATE_LABELS = {
-  met: "log_needs_met",
-  partly: "log_needs_partly",
-  unmet: "log_needs_unmet",
-} as const satisfies Record<NeedState, string>;
 
 const CELL_GAP = 8;
 const CELL_STYLE = { flex: 1 };
@@ -68,10 +61,10 @@ const NeedFeelings = ({
 };
 
 /**
- * Needs mode of the emotions step. Each need shows its name, a one-line
- * meaning, and a native segmented control (met, partly, unmet). A rated
- * need shows matching feelings right below its control. Unrated needs show
- * no selected segment and no feelings.
+ * Needs mode of the emotions step. Each need shows its name with a compact
+ * native rating (unmet, partly, met) at the end of the row, and a one-line
+ * meaning below. A rated need shows matching feelings right below. Unrated
+ * needs show no selected segment and no feelings.
  */
 export const NeedsCheck = ({
   states,
@@ -88,8 +81,6 @@ export const NeedsCheck = ({
   onPressEmotion: (emotion: Emotion) => void;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
-  const values = NEED_STATES.map((state) => t(STATE_LABELS[state]));
 
   return (
     <View
@@ -110,9 +101,29 @@ export const NeedsCheck = ({
         return (
           <View key={need.key} style={{ gap: 12 }} testID={`needs-${need.key}`}>
             <View style={{ gap: 2 }}>
-              <Label size={16} strong accessibilityRole="header">
-                {t(need.label)}
-              </Label>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 12,
+                }}
+              >
+                <Label
+                  size={16}
+                  strong
+                  accessibilityRole="header"
+                  style={{ flexShrink: 1 }}
+                >
+                  {t(need.label)}
+                </Label>
+                <NeedRating
+                  label={t(need.label)}
+                  state={state}
+                  onChange={(next) => onChange(need.key, next)}
+                  testID={`needs-${need.key}-control`}
+                />
+              </View>
               <Label
                 size={14}
                 numberOfLines={1}
@@ -123,20 +134,6 @@ export const NeedsCheck = ({
                 {t(need.description)}
               </Label>
             </View>
-            <SegmentedControl
-              values={values}
-              selectedIndex={state ? NEED_STATES.indexOf(state) : -1}
-              tintColor={colors.tint}
-              onChange={(event) => {
-                const next =
-                  NEED_STATES[event.nativeEvent.selectedSegmentIndex];
-                if (next) {
-                  haptics.selection();
-                  onChange(need.key, next);
-                }
-              }}
-              testID={`needs-${need.key}-control`}
-            />
             {feelings.length > 0 && (
               <NeedFeelings
                 emotions={feelings}
