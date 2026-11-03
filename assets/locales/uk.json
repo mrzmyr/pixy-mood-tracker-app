@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Відтворити",
   "recaps_story_previous": "Попередній слайд",
+  "recaps_story_quiz_insight_place": {
+    "one": "День зв’язку з: %{name} минув у: %{place}.",
+    "other": "{{count}} з днів зв’язку з: %{name} минули в: %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} траплялося в день, коли ти був(ла) на зв’язку з: %{name}.",
+    "other": "%{tag} траплялося в {{count}} з днів, коли ти був(ла) на зв’язку з: %{name}."
+  },
+  "recaps_story_quiz_right": "Ти знаєш своїх людей.",
+  "recaps_story_quiz_title": "Хто зіграв найбільшу роль цього місяця?",
+  "recaps_story_quiz_wrong": "Майже. Це був(ла) %{name}.",
   "recaps_story_ready": "Можна переглянути",
   "recaps_story_share": "Поділитися",
   "recaps_story_share_shuffle": "Перемішати фото",

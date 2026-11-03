@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "재생",
   "recaps_story_previous": "이전 슬라이드",
+  "recaps_story_quiz_insight_place": {
+    "one": "%{name}님과 연결된 날은 %{place}에 있었어요.",
+    "other": "%{name}님과 연결된 날 중 {{count}}일은 %{place}에 있었어요."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{name}님과 연결된 날에 %{tag}이(가) 있었어요.",
+    "other": "%{name}님과 연결된 날 중 {{count}}일에 %{tag}이(가) 있었어요."
+  },
+  "recaps_story_quiz_right": "당신은 소중한 사람들을 잘 알고 있어요.",
+  "recaps_story_quiz_title": "이번 달 가장 큰 역할을 한 사람은 누구일까요?",
+  "recaps_story_quiz_wrong": "아깝네요. 정답은 %{name}였어요.",
   "recaps_story_ready": "지금 볼 수 있어요",
   "recaps_story_share": "공유",
   "recaps_story_share_shuffle": "사진 섞기",

@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Phát",
   "recaps_story_previous": "Trang trước",
+  "recaps_story_quiz_insight_place": {
+    "one": "Ngày bạn kết nối với %{name} là ở %{place}.",
+    "other": "{{count}} trong số những ngày bạn kết nối với %{name} là ở %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} xuất hiện vào ngày bạn kết nối với %{name}.",
+    "other": "%{tag} xuất hiện vào {{count}} trong số những ngày bạn kết nối với %{name}."
+  },
+  "recaps_story_quiz_right": "Bạn hiểu những người của mình.",
+  "recaps_story_quiz_title": "Ai giữ vai trò lớn nhất trong tháng này?",
+  "recaps_story_quiz_wrong": "Gần đúng rồi. Đó là %{name}.",
   "recaps_story_ready": "Sẵn sàng để xem",
   "recaps_story_share": "Chia sẻ",
   "recaps_story_share_shuffle": "Xáo trộn ảnh",

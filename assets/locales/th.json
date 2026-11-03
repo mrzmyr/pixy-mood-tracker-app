@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "เล่น",
   "recaps_story_previous": "สไลด์ก่อนหน้า",
+  "recaps_story_quiz_insight_place": {
+    "one": "วันที่คุณเชื่อมต่อกับ %{name} อยู่ที่ %{place}",
+    "other": "{{count}} วันจากวันที่คุณเชื่อมต่อกับ %{name} อยู่ที่ %{place}"
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} เกิดขึ้นในวันที่คุณเชื่อมต่อกับ %{name}",
+    "other": "%{tag} เกิดขึ้น {{count}} วันจากวันที่คุณเชื่อมต่อกับ %{name}"
+  },
+  "recaps_story_quiz_right": "คุณรู้จักคนของคุณดี",
+  "recaps_story_quiz_title": "เดือนนี้ใครมีบทบาทมากที่สุด",
+  "recaps_story_quiz_wrong": "เกือบแล้ว คือ %{name}",
   "recaps_story_ready": "พร้อมให้ดูแล้ว",
   "recaps_story_share": "แชร์",
   "recaps_story_share_shuffle": "สุ่มรูปภาพ",

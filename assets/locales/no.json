@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Spill av",
   "recaps_story_previous": "Forrige side",
+  "recaps_story_quiz_insight_place": {
+    "one": "Dagen du hadde kontakt med %{name} var i %{place}.",
+    "other": "{{count}} av dagene du hadde kontakt med %{name} var i %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} dukket opp den dagen du hadde kontakt med %{name}.",
+    "other": "%{tag} dukket opp på {{count}} av dagene du hadde kontakt med %{name}."
+  },
+  "recaps_story_quiz_right": "Du kjenner folka dine.",
+  "recaps_story_quiz_title": "Hvem spilte den største rollen denne måneden?",
+  "recaps_story_quiz_wrong": "Nesten. Det var %{name}.",
   "recaps_story_ready": "Klar til å se",
   "recaps_story_share": "Del",
   "recaps_story_share_shuffle": "Stokk bildene",

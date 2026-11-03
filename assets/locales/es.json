@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Reproducir",
   "recaps_story_previous": "Diapositiva anterior",
+  "recaps_story_quiz_insight_place": {
+    "one": "El día en que conectaste con %{name} fue en %{place}.",
+    "other": "{{count}} de los días en que conectaste con %{name} fueron en %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} apareció el día en que conectaste con %{name}.",
+    "other": "%{tag} apareció en {{count}} de los días en que conectaste con %{name}."
+  },
+  "recaps_story_quiz_right": "Conoces bien a tu gente.",
+  "recaps_story_quiz_title": "¿Quién tuvo el papel más importante este mes?",
+  "recaps_story_quiz_wrong": "Casi. Era %{name}.",
   "recaps_story_ready": "Listo para ver",
   "recaps_story_share": "Compartir",
   "recaps_story_share_shuffle": "Mezclar fotos",

@@ -105,6 +105,12 @@ export const THRESHOLDS = {
   storyOrbitMinDays: 2,
   /** Story orbit: people at most. */
   storyOrbitMaxPeople: 8,
+  /** Quiz insight: a tag on at least this many of the answer's days. */
+  storyQuizInsightMinTagDays: 3,
+  /** Quiz insight: a city on at least this many of the answer's days. */
+  storyQuizInsightMinPlaceDays: 2,
+  /** Quiz insight skips tags and cities on more of the month: everyday things. */
+  storyQuizInsightMaxMonthShare: 0.6,
   /** Story new people: faces at most. The rest show as a count. */
   storyNewPeopleMaxFaces: 54,
   /** Share card: bright photo days needed for photos on the card. */

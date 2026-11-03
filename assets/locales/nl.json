@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Afspelen",
   "recaps_story_previous": "Vorige dia",
+  "recaps_story_quiz_insight_place": {
+    "one": "De dag dat je contact had met %{name} was in %{place}.",
+    "other": "{{count}} van de dagen dat je contact had met %{name} waren in %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} kwam voor op de dag dat je contact had met %{name}.",
+    "other": "%{tag} kwam voor op {{count}} van de dagen dat je contact had met %{name}."
+  },
+  "recaps_story_quiz_right": "Je kent je mensen.",
+  "recaps_story_quiz_title": "Wie speelde deze maand de grootste rol?",
+  "recaps_story_quiz_wrong": "Bijna. Het was %{name}.",
   "recaps_story_ready": "Klaar om te bekijken",
   "recaps_story_share": "Delen",
   "recaps_story_share_shuffle": "Foto's husselen",

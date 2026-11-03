@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import noop from "lodash/noop";
 import { PixelRatio, useWindowDimensions, View } from "react-native";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
@@ -22,6 +23,8 @@ import {
 import { NewPeople } from "./new-people";
 import { BestDay } from "./best-day";
 import { Orbit } from "./orbit";
+import { PeopleQuiz } from "./people-quiz";
+import type { QuizAnswer } from "./people-quiz";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { StoryIntro } from "./story-intro";
 import {
@@ -51,6 +54,8 @@ export interface SlideContext {
   /** App in dark mode: `paper` slides draw as `night`. */
   isDark: boolean;
 }
+
+const UNANSWERED: QuizAnswer = { picked: null, onPick: noop };
 
 // ---------------------------------------------------------------- cover
 
@@ -362,10 +367,12 @@ export interface BestDayLock {
 const SlideBody = ({
   slide,
   ctx,
+  quiz = UNANSWERED,
   lock,
 }: {
   slide: StorySlide;
   ctx: SlideContext;
+  quiz?: QuizAnswer;
   lock?: BestDayLock;
 }) => {
   switch (slide.type) {
@@ -386,6 +393,9 @@ const SlideBody = ({
     case "negative-tags": {
       return <TagEffects slide={slide} ctx={ctx} />;
     }
+    case "people-quiz": {
+      return <PeopleQuiz slide={slide} ctx={ctx} quiz={quiz} />;
+    }
     case "orbit": {
       return <Orbit slide={slide} ctx={ctx} />;
     }
@@ -404,15 +414,18 @@ const SlideBody = ({
 /**
  * Content of one slide. The player draws background and chrome. Cloudy
  * stays around: it flies in the free sky below the content. The best day
- * places Pixy itself.
+ * places Pixy itself. `quiz`: the answer of a quiz slide, kept by the
+ * caller so it survives going back.
  */
 export const SlideContent = ({
   slide,
   ctx,
+  quiz = UNANSWERED,
   lock,
 }: {
   slide: StorySlide;
   ctx: SlideContext;
+  quiz?: QuizAnswer;
   /** Best day slide only. Without it the slide keeps its own lock state. */
   lock?: BestDayLock;
 }) => {
@@ -421,7 +434,7 @@ export const SlideContent = ({
   }
   return (
     <View style={{ flex: 1 }}>
-      <SlideBody slide={slide} ctx={ctx} lock={lock} />
+      <SlideBody slide={slide} ctx={ctx} quiz={quiz} lock={lock} />
       {slide.type !== "best-day" && (
         <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
       )}

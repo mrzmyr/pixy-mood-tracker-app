@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "再生",
   "recaps_story_previous": "前のスライド",
+  "recaps_story_quiz_insight_place": {
+    "one": "%{name}とつながった日は%{place}にいました。",
+    "other": "%{name}とつながった日のうち{{count}}日は%{place}にいました。"
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{name}とつながった日に%{tag}がありました。",
+    "other": "%{name}とつながった日のうち{{count}}日に%{tag}がありました。"
+  },
+  "recaps_story_quiz_right": "あなたは大切な人をよく知っています。",
+  "recaps_story_quiz_title": "今月いちばん大きな存在だったのは誰？",
+  "recaps_story_quiz_wrong": "惜しい。正解は%{name}でした。",
   "recaps_story_ready": "視聴できます",
   "recaps_story_share": "共有",
   "recaps_story_share_shuffle": "写真をシャッフル",

@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Reproduciraj",
   "recaps_story_previous": "Prethodni slajd",
+  "recaps_story_quiz_insight_place": {
+    "one": "Dan kad si bio u kontaktu s: %{name} bio je u mjestu %{place}.",
+    "other": "{{count}} od dana kad si bio u kontaktu s: %{name} bilo je u mjestu %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} se pojavio na dan kad si bio u kontaktu s: %{name}.",
+    "other": "%{tag} se pojavio u {{count}} od dana kad si bio u kontaktu s: %{name}."
+  },
+  "recaps_story_quiz_right": "Poznaješ svoje ljude.",
+  "recaps_story_quiz_title": "Tko je ovaj mjesec imao najveću ulogu?",
+  "recaps_story_quiz_wrong": "Skoro. Bila je to osoba %{name}.",
   "recaps_story_ready": "Spremno za gledanje",
   "recaps_story_share": "Podijeli",
   "recaps_story_share_shuffle": "Promiješaj fotografije",

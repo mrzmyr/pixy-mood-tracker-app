@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "تشغيل",
   "recaps_story_previous": "الشريحة السابقة",
+  "recaps_story_quiz_insight_place": {
+    "one": "كان اليوم الذي تواصلت فيه مع %{name} في %{place}.",
+    "other": "كانت {{count}} من الأيام التي تواصلت فيها مع %{name} في %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "ظهر %{tag} في اليوم الذي تواصلت فيه مع %{name}.",
+    "other": "ظهر %{tag} في {{count}} من الأيام التي تواصلت فيها مع %{name}."
+  },
+  "recaps_story_quiz_right": "أنت تعرف أشخاصك جيدًا.",
+  "recaps_story_quiz_title": "من كان له الدور الأكبر هذا الشهر؟",
+  "recaps_story_quiz_wrong": "قريب جدًا. كان %{name}.",
   "recaps_story_ready": "جاهز للمشاهدة",
   "recaps_story_share": "مشاركة",
   "recaps_story_share_shuffle": "خلط الصور",

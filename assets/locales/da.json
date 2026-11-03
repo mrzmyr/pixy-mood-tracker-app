@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Afspil",
   "recaps_story_previous": "Forrige slide",
+  "recaps_story_quiz_insight_place": {
+    "one": "Den dag, du var i kontakt med %{name}, var i %{place}.",
+    "other": "{{count}} af de dage, du var i kontakt med %{name}, var i %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} dukkede op den dag, du var i kontakt med %{name}.",
+    "other": "%{tag} dukkede op på {{count}} af de dage, du var i kontakt med %{name}."
+  },
+  "recaps_story_quiz_right": "Du kender dine folk.",
+  "recaps_story_quiz_title": "Hvem spillede den største rolle denne måned?",
+  "recaps_story_quiz_wrong": "Tæt på. Det var %{name}.",
   "recaps_story_ready": "Klar til at se",
   "recaps_story_share": "Del",
   "recaps_story_share_shuffle": "Bland fotos",

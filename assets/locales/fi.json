@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Toista",
   "recaps_story_previous": "Edellinen dia",
+  "recaps_story_quiz_insight_place": {
+    "one": "Päivä, jona olit yhteydessä (%{name}), oli paikassa %{place}.",
+    "other": "{{count}} päivää niistä, joina olit yhteydessä (%{name}), oli paikassa %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} toistui päivänä, jona olit yhteydessä: %{name}.",
+    "other": "%{tag} toistui {{count}} päivänä niistä, joina olit yhteydessä: %{name}."
+  },
+  "recaps_story_quiz_right": "Tunnet ihmisesi.",
+  "recaps_story_quiz_title": "Kuka oli tässä kuussa suurimmassa roolissa?",
+  "recaps_story_quiz_wrong": "Melkein. Se oli %{name}.",
   "recaps_story_ready": "Valmis katsottavaksi",
   "recaps_story_share": "Jaa",
   "recaps_story_share_shuffle": "Sekoita kuvat",

@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Lecture",
   "recaps_story_previous": "Diapositive précédente",
+  "recaps_story_quiz_insight_place": {
+    "one": "Le jour où tu as été en lien avec %{name}, tu étais à %{place}.",
+    "other": "{{count}} des jours où tu as été en lien avec %{name} étaient à %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} est apparu le jour où tu as été en lien avec %{name}.",
+    "other": "%{tag} est apparu sur {{count}} des jours où tu as été en lien avec %{name}."
+  },
+  "recaps_story_quiz_right": "Tu connais bien tes proches.",
+  "recaps_story_quiz_title": "Qui a joué le plus grand rôle ce mois-ci ?",
+  "recaps_story_quiz_wrong": "Presque. C’était %{name}.",
   "recaps_story_ready": "Prêt à regarder",
   "recaps_story_share": "Partager",
   "recaps_story_share_shuffle": "Mélanger les photos",

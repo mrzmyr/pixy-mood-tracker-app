@@ -9,6 +9,7 @@ import { setStatusBarHidden } from "expo-status-bar";
 import { useFeedback } from "@/features/feedback";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
+import useHaptics from "@/hooks/use-haptics";
 import { useWeekLocale } from "@/hooks/use-week-locale";
 import { useAnalytics } from "@/state/analytics";
 import type { StorySource } from "@/state/analytics/events";
@@ -105,6 +106,7 @@ const RecapStory = () => {
   const router = useRouter();
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
+  const haptics = useHaptics();
   const weekLocale = useWeekLocale();
   const params = useLocalSearchParams<{
     date?: string;
@@ -132,6 +134,8 @@ const RecapStory = () => {
     new Map()
   );
   const [asking, setAsking] = useState<number | null>(null);
+  // Person tapped on each quiz slide, by slide index.
+  const [picks, setPicks] = useState<ReadonlyMap<number, string>>(new Map());
   const slideView = useRef<ViewType>(null);
   const [shuffles, setShuffles] = useState(0);
   // From the Share tap until the share sheet closes.
@@ -243,6 +247,17 @@ const RecapStory = () => {
     setAnswers((current) => new Map([...current, [index, helpful]]));
   };
 
+  const pick = (index: number, personId: string) => {
+    const slide = slideOf(index);
+    if (slide?.type !== "people-quiz" || picks.has(index)) {
+      return;
+    }
+    const isCorrect = personId === slide.answer;
+    setPicks((current) => new Map([...current, [index, personId]]));
+    analytics.track("recaps:story_quiz_answered", { is_correct: isCorrect });
+    void (isCorrect ? haptics.success() : haptics.selection());
+  };
+
   /** 3 photos of the pool; each shuffle moves on by 3, wrapping around. */
   const pickPhotos = (pool: StoryPhoto[]) =>
     pool.length <= 3
@@ -283,7 +298,7 @@ const RecapStory = () => {
       : null;
   };
 
-  const contentOf = (slide: StorySlide) => {
+  const contentOf = (slide: StorySlide, index: number) => {
     if (slide.type === "share") {
       return <StoryFinale ctx={ctx} photos={pickPhotos(slide.photos)} />;
     }
@@ -291,6 +306,10 @@ const RecapStory = () => {
       <SlideContent
         slide={slide}
         ctx={ctx}
+        quiz={{
+          picked: picks.get(index) ?? null,
+          onPick: (personId) => pick(index, personId),
+        }}
         lock={{
           isUnlocked: isBestDayUnlocked,
           onUnlock: () => setIsBestDayUnlocked(true),
@@ -302,9 +321,12 @@ const RecapStory = () => {
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getStoryTheme(ctx.isDark),
+    // A quiz waits for the answer, the best day for its unlock, then plays.
+    isWaiting:
+      (slide.type === "people-quiz" && !picks.has(index)) ||
+      (slide.type === "best-day" && !isBestDayUnlocked),
     durationMs: getSlideDuration(slide),
-    isWaiting: slide.type === "best-day" && !isBestDayUnlocked,
-    content: contentOf(slide),
+    content: contentOf(slide, index),
   }));
 
   return (

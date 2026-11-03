@@ -113,6 +113,48 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
       }),
     },
   ],
+  "people-quiz": [
+    {
+      name: "4 people",
+      period: "month",
+      build: (kit) => ({
+        type: "people-quiz",
+        people: [9, 24, 4, 18].map((days, index) => ({
+          personId: personAt(kit, index),
+          days,
+        })),
+        answer: personAt(kit, 1),
+        insight: { kind: "tag", tagId: tagAt(kit, 0), days: 6 },
+      }),
+    },
+    {
+      name: "4 people, city",
+      period: "month",
+      build: (kit) => ({
+        type: "people-quiz",
+        people: [9, 24, 4, 18].map((days, index) => ({
+          personId: personAt(kit, index),
+          days,
+        })),
+        answer: personAt(kit, 1),
+        insight: { kind: "place", city: "Travemünde", days: 3 },
+      }),
+    },
+    {
+      name: "3 people, long name",
+      period: "month",
+      build: (kit) => ({
+        type: "people-quiz",
+        people: [
+          { personId: kit.longPersonId, days: 3 },
+          { personId: personAt(kit, 0), days: 12 },
+          { personId: personAt(kit, 1), days: 7 },
+        ],
+        answer: personAt(kit, 0),
+        insight: null,
+      }),
+    },
+  ],
   orbit: [
     {
       name: "6 people",

@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "Воспроизвести",
   "recaps_story_previous": "Предыдущий слайд",
+  "recaps_story_quiz_insight_place": {
+    "one": "День связи с: %{name} прошёл в: %{place}.",
+    "other": "{{count}} из дней связи с: %{name} прошли в: %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} встречалось в день, когда ты был(а) на связи с: %{name}.",
+    "other": "%{tag} встречалось в {{count}} из дней, когда ты был(а) на связи с: %{name}."
+  },
+  "recaps_story_quiz_right": "Ты знаешь своих людей.",
+  "recaps_story_quiz_title": "Кто сыграл самую большую роль в этом месяце?",
+  "recaps_story_quiz_wrong": "Почти. Это был(а) %{name}.",
   "recaps_story_ready": "Можно посмотреть",
   "recaps_story_share": "Поделиться",
   "recaps_story_share_shuffle": "Перемешать фото",

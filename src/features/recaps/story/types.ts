@@ -55,6 +55,28 @@ export interface OrbitSlide {
 }
 
 /**
+ * Guess before the orbit: which of 3 or 4 people had the most connected
+ * days. Days show on the tiles after the answer.
+ */
+export interface PeopleQuizSlide {
+  type: "people-quiz";
+  /** People and their connected days, in a stable shuffled order. */
+  people: { personId: string; days: number }[];
+  /** Person with the most connected days. Always a clear winner. */
+  answer: string;
+  /** What stood out on the answer's days, shown after the guess. */
+  insight: QuizInsight | null;
+}
+
+/**
+ * A tag or a city on `days` of the answer's connected days. Says what came
+ * up on those days, never how the connection felt.
+ */
+export type QuizInsight =
+  | { kind: "tag"; tagId: string; days: number }
+  | { kind: "place"; city: string; days: number };
+
+/**
  * People connected for the first time ever in the month, in the order they
  * arrived. Counts and dates only, never how the days felt.
  */
@@ -99,6 +121,7 @@ export type StorySlide =
   | BestDaySlide
   | PositiveTagsSlide
   | NegativeTagsSlide
+  | PeopleQuizSlide
   | OrbitSlide
   | NewPeopleSlide
   | ComingUpSlide

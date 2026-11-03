@@ -1093,6 +1093,17 @@
   },
   "recaps_story_play": "चलाएँ",
   "recaps_story_previous": "पिछली स्लाइड",
+  "recaps_story_quiz_insight_place": {
+    "one": "जिस दिन आप %{name} से जुड़े, वह %{place} में था।",
+    "other": "जिन दिनों आप %{name} से जुड़े, उनमें से {{count}} दिन %{place} में थे।"
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} उस दिन आया जब आप %{name} से जुड़े।",
+    "other": "%{tag} उन दिनों में से {{count}} दिन आया जब आप %{name} से जुड़े।"
+  },
+  "recaps_story_quiz_right": "आप अपने लोगों को अच्छी तरह जानते हैं।",
+  "recaps_story_quiz_title": "इस महीने सबसे बड़ी भूमिका किसकी रही?",
+  "recaps_story_quiz_wrong": "बहुत क़रीब। वह %{name} थे।",
   "recaps_story_ready": "देखने के लिए तैयार",
   "recaps_story_share": "साझा करें",
   "recaps_story_share_shuffle": "फ़ोटो बदलें",
