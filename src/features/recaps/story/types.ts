@@ -76,6 +76,26 @@ export type QuizInsight =
   | { kind: "tag"; tagId: string; days: number }
   | { kind: "place"; city: string; days: number };
 
+/**
+ * People connected for the first time ever in the month, in the order they
+ * arrived. Counts and dates only, never how the days felt.
+ */
+export interface NewPeopleSlide {
+  type: "new-people";
+  /** First connected day first. */
+  people: { personId: string; firstDate: DateKey }[];
+}
+
+/**
+ * Best day of the month: the highest mean rating above neutral. Locked at
+ * first: the user swipes to see it, then photos, title, people, emotions,
+ * and tags show one after another.
+ */
+export interface BestDaySlide {
+  type: "best-day";
+  date: DateKey;
+}
+
 /** Days still to come in the year, and days without a check-in so far. */
 export interface ComingUpSlide {
   type: "coming-up";
@@ -98,10 +118,12 @@ export interface ShareSlide {
 export type StorySlide =
   | IntroSlide
   | CoverSlide
+  | BestDaySlide
   | PositiveTagsSlide
   | NegativeTagsSlide
   | PeopleQuizSlide
   | OrbitSlide
+  | NewPeopleSlide
   | ComingUpSlide
   | ShareSlide;
 

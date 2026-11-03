@@ -677,7 +677,9 @@
   "log_needs_use": "Usar necessidades para encontrar emoções",
   "log_note_question": "Escreva sobre o seu dia…",
   "log_people_disable": "Não registro pessoas",
+  "log_people_hide_archived": "Ocultar arquivadas",
   "log_people_question": "Quem fez parte?",
+  "log_people_show_archived": "Mostrar arquivadas",
   "log_photos_disable": "Não adiciono fotos",
   "log_photos_question": "Adicionar fotos",
   "log_question_button": "Salvar",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Resumo do mês",
   "recaps_story_banner_title": "Resumo de %{month}",
   "recaps_story_banner_title_week": "Resumo da semana",
+  "recaps_story_best_day_ask": "Pronto para ver o seu melhor dia?",
+  "recaps_story_best_day_show": "Mostrar o seu melhor dia",
   "recaps_story_coming_left": {
     "one": "Falta 1",
     "other": "Faltam {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "Comparado com dias sem a tag. {{count}} registros."
   },
   "recaps_story_lifted_title": "Dias com %{tag} foram os mais leves",
+  "recaps_story_new_people_line_1": "Veja quem encontrou um lugar nos seus dias.",
+  "recaps_story_new_people_line_10": "Nem todo mês traz alguém novo. Este trouxe.",
+  "recaps_story_new_people_line_11": "Seu círculo muda, pouco a pouco.",
+  "recaps_story_new_people_line_12": "Estas são as primeiras páginas de novas histórias.",
+  "recaps_story_new_people_line_2": "Toda história ganha novos personagens. Aqui estão os seus.",
+  "recaps_story_new_people_line_3": "Todo círculo cresce um nome de cada vez.",
+  "recaps_story_new_people_line_4": "Novos nomes, novos capítulos.",
+  "recaps_story_new_people_line_5": "Seus dias abriram um pouco mais de espaço.",
+  "recaps_story_new_people_line_6": "Toda conexão começa com um primeiro dia.",
+  "recaps_story_new_people_line_7": "Seu mundo cresceu um pouco este mês.",
+  "recaps_story_new_people_line_8": "Um primeiro olá pode ser o começo de algo.",
+  "recaps_story_new_people_line_9": "Aqui está quem passou a fazer parte da sua história.",
+  "recaps_story_new_people_more": {
+    "one": "E mais 1",
+    "other": "E mais {{count}}"
+  },
+  "recaps_story_new_people_title": "Novos no seu círculo",
   "recaps_story_next": "Próximo slide",
   "recaps_story_orbit_title": "Quem esteve na sua órbita",
   "recaps_story_pause": "Pausar",

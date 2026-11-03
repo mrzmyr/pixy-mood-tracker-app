@@ -1,4 +1,4 @@
-import type { Period } from "../types";
+import type { DateKey, Period } from "../types";
 import type { StoryPhoto, StorySlide, StorySlideType } from "./types";
 
 /**
@@ -16,6 +16,10 @@ export interface CaseKit {
   longTagId: string;
   /** Person with a 30-character name, the longest a name can have. */
   longPersonId: string;
+  /** 60 made-up people without photos, for crowded slides. */
+  crowdIds: string[];
+  /** Best day of the month, as the month story picks it. */
+  bestDate: DateKey;
 }
 
 /** One state of a slide: typical data, or an edge like one row or long names. */
@@ -57,6 +61,13 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
       name: "Week",
       period: "week",
       build: (kit) => ({ type: "cover", checkIns: 7, photos: kit.photos }),
+    },
+  ],
+  "best-day": [
+    {
+      name: "Locked, then open",
+      period: "month",
+      build: (kit) => ({ type: "best-day", date: kit.bestDate }),
     },
   ],
   "positive-tags": [
@@ -162,6 +173,38 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
       build: (kit) => ({
         type: "orbit",
         people: [{ personId: personAt(kit, 0), days: 12 }],
+      }),
+    },
+  ],
+  "new-people": [
+    {
+      name: "1 person",
+      period: "month",
+      build: (kit) => ({
+        type: "new-people",
+        people: [{ personId: personAt(kit, 2), firstDate: kit.period.start }],
+      }),
+    },
+    {
+      name: "5 people, 1 long name",
+      period: "month",
+      build: (kit) => ({
+        type: "new-people",
+        people: [0, 1, 2, 3, 4].map((index) => ({
+          personId: index === 4 ? kit.longPersonId : personAt(kit, index),
+          firstDate: kit.period.start,
+        })),
+      }),
+    },
+    {
+      name: "60 people",
+      period: "month",
+      build: (kit) => ({
+        type: "new-people",
+        people: kit.crowdIds.map((personId) => ({
+          personId,
+          firstDate: kit.period.start,
+        })),
       }),
     },
   ],

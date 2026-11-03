@@ -677,7 +677,9 @@
   "log_needs_use": "Nájsť emócie cez potreby",
   "log_note_question": "Napíšte o svojom dni…",
   "log_people_disable": "Ľudí nesledujem",
+  "log_people_hide_archived": "Skryť archivované",
   "log_people_question": "Kto v tom zohral úlohu?",
+  "log_people_show_archived": "Zobraziť archivované",
   "log_photos_disable": "Nepridávam fotky",
   "log_photos_question": "Pridať fotky",
   "log_question_button": "Uložiť",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Ohliadnutie za mesiacom",
   "recaps_story_banner_title": "Ohliadnutie: %{month}",
   "recaps_story_banner_title_week": "Ohliadnutie za týždňom",
+  "recaps_story_best_day_ask": "Chceš vidieť svoj najlepší deň?",
+  "recaps_story_best_day_show": "Zobraziť najlepší deň",
   "recaps_story_coming_left": {
     "one": "Zostáva 1",
     "other": "Zostáva: {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "V porovnaní s dňami bez štítku. Záznamov: {{count}}."
   },
   "recaps_story_lifted_title": "Dni so štítkom %{tag} boli najľahšie",
+  "recaps_story_new_people_line_1": "Pozri, kto si našiel cestu do tvojich dní.",
+  "recaps_story_new_people_line_10": "Nie každý mesiac prinesie niekoho nového. Tento áno.",
+  "recaps_story_new_people_line_11": "Tvoj okruh sa mení, kúsok po kúsku.",
+  "recaps_story_new_people_line_12": "Toto sú prvé strany nových príbehov.",
+  "recaps_story_new_people_line_2": "Každý príbeh dostáva nové postavy. Tu sú tvoje.",
+  "recaps_story_new_people_line_3": "Každý okruh rastie jedno meno po druhom.",
+  "recaps_story_new_people_line_4": "Nové mená, nové kapitoly.",
+  "recaps_story_new_people_line_5": "Tvoje dni urobili trochu viac miesta.",
+  "recaps_story_new_people_line_6": "Každé spojenie začína prvým dňom.",
+  "recaps_story_new_people_line_7": "Tvoj svet tento mesiac trochu vyrástol.",
+  "recaps_story_new_people_line_8": "Prvé ahoj môže byť začiatkom niečoho.",
+  "recaps_story_new_people_line_9": "Tu je, kto sa stal súčasťou tvojho príbehu.",
+  "recaps_story_new_people_more": {
+    "one": "A 1 ďalší",
+    "other": "A ďalší: {{count}}"
+  },
+  "recaps_story_new_people_title": "Nové v tvojom okruhu",
   "recaps_story_next": "Ďalšia snímka",
   "recaps_story_orbit_title": "Kto bol na tvojej obežnej dráhe",
   "recaps_story_pause": "Pozastaviť",

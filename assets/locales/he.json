@@ -677,7 +677,9 @@
   "log_needs_use": "השתמש בצרכים כדי למצוא רגשות",
   "log_note_question": "כתבו על היום שלכם...",
   "log_people_disable": "אני לא מתעד/ת אנשים",
+  "log_people_hide_archived": "הסתרת הארכיון",
   "log_people_question": "מי היה חלק מזה?",
+  "log_people_show_archived": "הצגת הארכיון",
   "log_photos_disable": "אני לא מוסיף/ה תמונות",
   "log_photos_question": "הוספת תמונות",
   "log_question_button": "להציל",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "סיכום חודשי",
   "recaps_story_banner_title": "סיכום %{month}",
   "recaps_story_banner_title_week": "סיכום שבועי",
+  "recaps_story_best_day_ask": "מוכן לראות את היום הכי טוב שלך?",
+  "recaps_story_best_day_show": "הצג את היום הכי טוב שלך",
   "recaps_story_coming_left": {
     "one": "עוד 1",
     "other": "עוד {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "בהשוואה לימים בלי התגית. {{count}} תיעודים."
   },
   "recaps_story_lifted_title": "ימים עם %{tag} הרגישו הכי קלים",
+  "recaps_story_new_people_line_1": "תראה מי מצא את הדרך אל הימים שלך.",
+  "recaps_story_new_people_line_10": "לא כל חודש מביא מישהו חדש. החודש הזה כן.",
+  "recaps_story_new_people_line_11": "המעגל שלך משתנה, לאט לאט.",
+  "recaps_story_new_people_line_12": "אלה העמודים הראשונים של סיפורים חדשים.",
+  "recaps_story_new_people_line_2": "לכל סיפור מצטרפות דמויות חדשות. הנה שלך.",
+  "recaps_story_new_people_line_3": "כל מעגל גדל בשם אחד בכל פעם.",
+  "recaps_story_new_people_line_4": "שמות חדשים, פרקים חדשים.",
+  "recaps_story_new_people_line_5": "הימים שלך פינו קצת יותר מקום.",
+  "recaps_story_new_people_line_6": "כל קשר מתחיל ביום ראשון.",
+  "recaps_story_new_people_line_7": "העולם שלך גדל קצת החודש.",
+  "recaps_story_new_people_line_8": "שלום ראשון יכול להיות התחלה של משהו.",
+  "recaps_story_new_people_line_9": "הנה מי שהפך לחלק מהסיפור שלך.",
+  "recaps_story_new_people_more": {
+    "one": "ועוד 1",
+    "other": "ועוד {{count}}"
+  },
+  "recaps_story_new_people_title": "חדשים במעגל שלך",
   "recaps_story_next": "השקופית הבאה",
   "recaps_story_orbit_title": "מי היה במסלול שלך",
   "recaps_story_pause": "השהיה",

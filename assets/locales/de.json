@@ -677,7 +677,9 @@
   "log_needs_use": "Emotionen über Bedürfnisse finden",
   "log_note_question": "Schreib' über deinen Tag…",
   "log_people_disable": "Ich erfasse keine Personen",
+  "log_people_hide_archived": "Archivierte ausblenden",
   "log_people_question": "Wer hat eine Rolle gespielt?",
+  "log_people_show_archived": "Archivierte zeigen",
   "log_photos_disable": "Ich füge keine Fotos hinzu",
   "log_photos_question": "Fotos hinzufügen",
   "log_question_button": "Speichern",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Monatsrückblick",
   "recaps_story_banner_title": "%{month}-Rückblick",
   "recaps_story_banner_title_week": "Wochenrückblick",
+  "recaps_story_best_day_ask": "Bereit für deinen besten Tag?",
+  "recaps_story_best_day_show": "Deinen besten Tag zeigen",
   "recaps_story_coming_left": {
     "one": "Noch 1",
     "other": "Noch {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "Im Vergleich zu Tagen ohne. {{count}} Check-ins."
   },
   "recaps_story_lifted_title": "Tage mit %{tag} fühlten sich am leichtesten an",
+  "recaps_story_new_people_line_1": "Schau, wer den Weg in deine Tage gefunden hat.",
+  "recaps_story_new_people_line_10": "Nicht jeder Monat bringt jemand Neues. Dieser schon.",
+  "recaps_story_new_people_line_11": "Dein Kreis verändert sich, Stück für Stück.",
+  "recaps_story_new_people_line_12": "Das sind die ersten Seiten neuer Geschichten.",
+  "recaps_story_new_people_line_2": "Jede Geschichte bekommt neue Figuren. Hier sind deine.",
+  "recaps_story_new_people_line_3": "Jeder Kreis wächst, ein Name nach dem anderen.",
+  "recaps_story_new_people_line_4": "Neue Namen, neue Kapitel.",
+  "recaps_story_new_people_line_5": "Deine Tage haben ein bisschen mehr Platz gemacht.",
+  "recaps_story_new_people_line_6": "Jede Verbindung beginnt mit einem ersten Tag.",
+  "recaps_story_new_people_line_7": "Deine Welt ist diesen Monat ein Stück gewachsen.",
+  "recaps_story_new_people_line_8": "Ein erstes Hallo kann der Anfang von etwas sein.",
+  "recaps_story_new_people_line_9": "Hier ist, wer Teil deiner Geschichte wurde.",
+  "recaps_story_new_people_more": {
+    "one": "Und 1 weitere Person",
+    "other": "Und {{count}} weitere"
+  },
+  "recaps_story_new_people_title": "Neu in deinem Kreis",
   "recaps_story_next": "Nächste Folie",
   "recaps_story_orbit_title": "Wer in deinem Orbit war",
   "recaps_story_pause": "Pause",

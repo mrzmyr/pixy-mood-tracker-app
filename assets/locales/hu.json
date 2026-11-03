@@ -677,7 +677,9 @@
   "log_needs_use": "Érzelmek keresése szükségletek alapján",
   "log_note_question": "Írj a napodról…",
   "log_people_disable": "Nem követem az embereket",
+  "log_people_hide_archived": "Archiváltak elrejtése",
   "log_people_question": "Ki játszott szerepet?",
+  "log_people_show_archived": "Archiváltak mutatása",
   "log_photos_disable": "Nem adok hozzá fotókat",
   "log_photos_question": "Fotók hozzáadása",
   "log_question_button": "Mentés",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Havi visszatekintés",
   "recaps_story_banner_title": "Visszatekintés: %{month}",
   "recaps_story_banner_title_week": "Heti visszatekintés",
+  "recaps_story_best_day_ask": "Készen állsz a legjobb napodra?",
+  "recaps_story_best_day_show": "Legjobb napod megjelenítése",
   "recaps_story_coming_left": {
     "one": "Még 1",
     "other": "Még {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "A címke nélküli napokhoz képest. {{count}} bejegyzés."
   },
   "recaps_story_lifted_title": "%{tag}: a legkönnyebb napok",
+  "recaps_story_new_people_line_1": "Nézd, ki talált utat a napjaidba.",
+  "recaps_story_new_people_line_10": "Nem minden hónap hoz valaki újat. Ez igen.",
+  "recaps_story_new_people_line_11": "A köreid változnak, apránként.",
+  "recaps_story_new_people_line_12": "Ezek új történetek első oldalai.",
+  "recaps_story_new_people_line_2": "Minden történet új szereplőket kap. Itt vannak a tieid.",
+  "recaps_story_new_people_line_3": "Minden kör egy névvel nő egyszerre.",
+  "recaps_story_new_people_line_4": "Új nevek, új fejezetek.",
+  "recaps_story_new_people_line_5": "A napjaid egy kicsit több helyet csináltak.",
+  "recaps_story_new_people_line_6": "Minden kapcsolat egy első nappal kezdődik.",
+  "recaps_story_new_people_line_7": "A világod egy kicsit nőtt ebben a hónapban.",
+  "recaps_story_new_people_line_8": "Egy első szia lehet valaminek a kezdete.",
+  "recaps_story_new_people_line_9": "Íme, kik lettek a történeted részei.",
+  "recaps_story_new_people_more": {
+    "one": "És még 1",
+    "other": "És még {{count}}"
+  },
+  "recaps_story_new_people_title": "Új a köreidben",
   "recaps_story_next": "Következő dia",
   "recaps_story_orbit_title": "Ki volt a pályádon",
   "recaps_story_pause": "Szünet",

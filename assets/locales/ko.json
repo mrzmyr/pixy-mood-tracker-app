@@ -677,7 +677,9 @@
   "log_needs_use": "욕구로 감정 찾기",
   "log_note_question": "당신의 하루에 대해 쓰십시오 ...",
   "log_people_disable": "사람을 기록하지 않아요",
+  "log_people_hide_archived": "보관된 사람 숨기기",
   "log_people_question": "누가 관련되어 있었나요?",
+  "log_people_show_archived": "보관된 사람 보기",
   "log_photos_disable": "사진을 추가하지 않음",
   "log_photos_question": "사진 추가",
   "log_question_button": "구하다",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "한 달 돌아보기",
   "recaps_story_banner_title": "%{month} 돌아보기",
   "recaps_story_banner_title_week": "한 주 돌아보기",
+  "recaps_story_best_day_ask": "최고의 하루를 볼 준비가 됐나요?",
+  "recaps_story_best_day_show": "최고의 하루 보기",
   "recaps_story_coming_left": {
     "one": "1일 남음",
     "other": "{{count}}일 남음"
@@ -1063,6 +1067,23 @@
     "other": "이 태그가 없는 날과 비교했어요. 기록 {{count}}개."
   },
   "recaps_story_lifted_title": "%{tag} 있는 날이 가장 가벼웠어요",
+  "recaps_story_new_people_line_1": "누가 당신의 하루에 찾아왔는지 보세요.",
+  "recaps_story_new_people_line_10": "매달 새로운 사람이 오는 건 아니에요. 이번 달은 왔어요.",
+  "recaps_story_new_people_line_11": "당신의 곁은 조금씩 달라져요.",
+  "recaps_story_new_people_line_12": "새로운 이야기들의 첫 페이지예요.",
+  "recaps_story_new_people_line_2": "모든 이야기에는 새로운 인물이 생겨요. 당신의 인물들이에요.",
+  "recaps_story_new_people_line_3": "모든 관계의 원은 이름 하나씩 넓어져요.",
+  "recaps_story_new_people_line_4": "새로운 이름, 새로운 장.",
+  "recaps_story_new_people_line_5": "당신의 하루에 자리가 조금 더 생겼어요.",
+  "recaps_story_new_people_line_6": "모든 연결은 첫날에서 시작돼요.",
+  "recaps_story_new_people_line_7": "이번 달 당신의 세상이 조금 넓어졌어요.",
+  "recaps_story_new_people_line_8": "첫인사가 무언가의 시작이 될 수 있어요.",
+  "recaps_story_new_people_line_9": "당신의 이야기의 일부가 된 사람들이에요.",
+  "recaps_story_new_people_more": {
+    "one": "외 1명",
+    "other": "외 {{count}}명"
+  },
+  "recaps_story_new_people_title": "내 곁의 새로운 사람",
   "recaps_story_next": "다음 슬라이드",
   "recaps_story_orbit_title": "내 궤도에 있던 사람들",
   "recaps_story_pause": "일시정지",

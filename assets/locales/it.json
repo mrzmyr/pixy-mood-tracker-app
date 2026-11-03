@@ -677,7 +677,9 @@
   "log_needs_use": "Usa i bisogni per trovare le emozioni",
   "log_note_question": "Scrivi della tua giornata...",
   "log_people_disable": "Non registro le persone",
+  "log_people_hide_archived": "Nascondi archiviate",
   "log_people_question": "Chi ha avuto un ruolo?",
+  "log_people_show_archived": "Mostra archiviate",
   "log_photos_disable": "Non aggiungo foto",
   "log_photos_question": "Aggiungi foto",
   "log_question_button": "Salva",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Riepilogo del mese",
   "recaps_story_banner_title": "Riepilogo di %{month}",
   "recaps_story_banner_title_week": "Riepilogo della settimana",
+  "recaps_story_best_day_ask": "Pronto a vedere il tuo giorno migliore?",
+  "recaps_story_best_day_show": "Mostra il tuo giorno migliore",
   "recaps_story_coming_left": {
     "one": "Ne manca 1",
     "other": "Ne mancano {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "Rispetto ai giorni senza il tag. {{count}} check-in."
   },
   "recaps_story_lifted_title": "I giorni con %{tag} sono stati i più leggeri",
+  "recaps_story_new_people_line_1": "Guarda chi ha trovato posto nelle tue giornate.",
+  "recaps_story_new_people_line_10": "Non tutti i mesi portano qualcuno di nuovo. Questo sì.",
+  "recaps_story_new_people_line_11": "La tua cerchia cambia, un po’ alla volta.",
+  "recaps_story_new_people_line_12": "Queste sono le prime pagine di nuove storie.",
+  "recaps_story_new_people_line_2": "Ogni storia ha nuovi personaggi. Ecco i tuoi.",
+  "recaps_story_new_people_line_3": "Ogni cerchia cresce un nome alla volta.",
+  "recaps_story_new_people_line_4": "Nuovi nomi, nuovi capitoli.",
+  "recaps_story_new_people_line_5": "Le tue giornate hanno fatto un po’ più di spazio.",
+  "recaps_story_new_people_line_6": "Ogni legame inizia con un primo giorno.",
+  "recaps_story_new_people_line_7": "Il tuo mondo è cresciuto un po’ questo mese.",
+  "recaps_story_new_people_line_8": "Un primo ciao può essere l’inizio di qualcosa.",
+  "recaps_story_new_people_line_9": "Ecco chi è entrato nella tua storia.",
+  "recaps_story_new_people_more": {
+    "one": "E 1 altra persona",
+    "other": "E altre {{count}}"
+  },
+  "recaps_story_new_people_title": "Nuovi nella tua cerchia",
   "recaps_story_next": "Slide successiva",
   "recaps_story_orbit_title": "Chi era nella tua orbita",
   "recaps_story_pause": "Pausa",

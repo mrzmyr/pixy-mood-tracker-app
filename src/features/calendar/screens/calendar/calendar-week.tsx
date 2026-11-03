@@ -96,7 +96,6 @@ const CalendarWeekComponent = ({
   const { data: filters } = useCalendarFilters();
   const scaleType = useSetting("scaleType");
   const intro = useCalendarIntro();
-  const peekSeed = usePhotoPeekSeed();
   const canPeek = useFeatureFlag("photo-peek");
 
   const days = useMemo(() => {
@@ -110,6 +109,11 @@ const CalendarWeekComponent = ({
 
     return weekDays;
   }, [startDate, endDate]);
+
+  const hasPhotos = days.some((date) =>
+    itemMap[date]?.some((item) => (item.photos?.length ?? 0) > 0)
+  );
+  const peekSeed = usePhotoPeekSeed({ hasPhotos });
 
   const emptyDays = useMemo(() => {
     // Placeholder slots have no data identity; the slot position is their stable key.

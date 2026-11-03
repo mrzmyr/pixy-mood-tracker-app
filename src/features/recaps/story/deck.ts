@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { getEffect } from "../correlation";
+import { RATING_MAPPING } from "@/constants/ratings";
 import { addDays, daysBetween, getDayRating } from "../days";
 import { indexDays } from "../day-index";
 import { parsePlace } from "../places";
@@ -8,9 +9,11 @@ import { peopleOn } from "../cards/summaries";
 import { THRESHOLDS } from "../thresholds";
 import type { DateKey, RecapDay, RecapInput } from "../types";
 import type {
+  BestDaySlide,
   ComingUpSlide,
   CoverSlide,
   NegativeTagsSlide,
+  NewPeopleSlide,
   OrbitSlide,
   PeopleQuizSlide,
   PositiveTagsSlide,
@@ -52,6 +55,29 @@ const cover = (input: RecapInput): CoverSlide => ({
   checkIns: input.days.length,
   photos: brightPhotos(input.days),
 });
+
+const emotionCount = (day: RecapDay) =>
+  new Set(day.items.flatMap((item) => item.emotions)).size;
+
+const photoCount = (day: RecapDay) =>
+  day.items.reduce((sum, item) => sum + item.photos.length, 0);
+
+/**
+ * Day with the highest mean rating, only above neutral. Ties: more
+ * emotions, then more photos, then more entries, then the earlier day.
+ */
+export const bestDay = (input: RecapInput): BestDaySlide | null => {
+  const [best] = input.days
+    .filter((day) => getDayRating(day) > RATING_MAPPING.neutral)
+    .sort(
+      (a, b) =>
+        getDayRating(b) - getDayRating(a) ||
+        emotionCount(b) - emotionCount(a) ||
+        photoCount(b) - photoCount(a) ||
+        b.items.length - a.items.length
+    );
+  return best ? { type: "best-day", date: best.date } : null;
+};
 
 /**
  * Active tags with a medium or strong mood effect in the period, biggest
@@ -230,6 +256,44 @@ const peopleQuiz = (input: RecapInput): PeopleQuizSlide | null => {
 };
 
 /**
+ * People connected for the first time ever in the period, in the order
+ * they arrived. Needs 15+ earlier check-in days, so a first month never
+ * calls everyone new. Any connection counts: never how it felt.
+ */
+const newPeople = (input: RecapInput): NewPeopleSlide | null => {
+  if (!peopleOn(input)) {
+    return null;
+  }
+  const at = indexDays(input.history);
+  const before = input.history.filter((day) => day.date < input.period.start);
+  if (before.length < THRESHOLDS.newMinHistoryDays) {
+    return null;
+  }
+  const known = new Set(before.flatMap((day) => [...at(day).people]));
+  const found = new Map<string, DateKey>();
+  for (const day of input.days) {
+    for (const personId of at(day).people) {
+      if (
+        input.personIds.has(personId) &&
+        !known.has(personId) &&
+        !found.has(personId)
+      ) {
+        found.set(personId, day.date);
+      }
+    }
+  }
+  return found.size > 0
+    ? {
+        type: "new-people",
+        people: [...found].map(([personId, firstDate]) => ({
+          personId,
+          firstDate,
+        })),
+      }
+    : null;
+};
+
+/**
  * Days left in the year after today, and days without a check-in since
  * January 1 or the first entry. Only while the month's year is still on.
  */
@@ -290,10 +354,12 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
   }
   const slides: (StorySlide | null)[] = [
     cover(input),
+    bestDay(input),
     positiveTags(input),
     negativeTags(input),
     peopleQuiz(input),
     orbit(input),
+    newPeople(input),
     comingUp(input),
   ];
   return [...slides, share(input)].filter(

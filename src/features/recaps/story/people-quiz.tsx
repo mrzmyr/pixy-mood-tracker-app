@@ -7,8 +7,6 @@ import Animated, {
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
-  withSequence,
-  withSpring,
   withTiming,
 } from "react-native-reanimated";
 import Check from "lucide-react-native/icons/check";
@@ -43,36 +41,19 @@ export interface QuizAnswer {
 /** Time between two tiles of the build-up. */
 const TILE_STEP_MS = 120;
 
-/** Springs the right tile up and back, and fades the tiles out of focus. */
-const TileMotion = ({
-  isRight,
+/** Fades the tiles out of focus once the answer shows. */
+const TileFade = ({
   isDimmed,
   children,
 }: {
-  isRight: boolean;
   isDimmed: boolean;
   children: ReactNode;
 }) => {
-  const isReducedMotion = useReducedMotion();
-  const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
-  useEffect(() => {
-    if (isRight && !isReducedMotion) {
-      scale.set(
-        withSequence(
-          withSpring(1.06, { damping: 12, stiffness: 400 }),
-          withSpring(1, { damping: 10, stiffness: 220 })
-        )
-      );
-    }
-  }, [isRight, isReducedMotion, scale]);
   useEffect(() => {
     opacity.set(withTiming(isDimmed ? DIMMED : 1, { duration: 300 }));
   }, [isDimmed, opacity]);
-  const style = useAnimatedStyle(() => ({
-    opacity: opacity.get(),
-    transform: [{ scale: scale.get() }],
-  }));
+  const style = useAnimatedStyle(() => ({ opacity: opacity.get() }));
   return <Animated.View style={style}>{children}</Animated.View>;
 };
 
@@ -183,10 +164,7 @@ export const PeopleQuiz = ({
               at={tilesAt + index * TILE_STEP_MS}
               style={{ width: "48%" }}
             >
-              <TileMotion
-                isRight={isRight}
-                isDimmed={isDone && !isRight && !isWrongPick}
-              >
+              <TileFade isDimmed={isDone && !isRight && !isWrongPick}>
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={
@@ -241,7 +219,7 @@ export const PeopleQuiz = ({
                     <Badge isRight={isRight} color={palette.muted} />
                   )}
                 </Pressable>
-              </TileMotion>
+              </TileFade>
             </Reveal>
           );
         })}

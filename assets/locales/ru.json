@@ -677,7 +677,9 @@
   "log_needs_use": "Найти эмоции через потребности",
   "log_note_question": "Напишите о своем дне…",
   "log_people_disable": "Я не отмечаю людей",
+  "log_people_hide_archived": "Скрыть архив",
   "log_people_question": "Кто сыграл в этом роль?",
+  "log_people_show_archived": "Показать архив",
   "log_photos_disable": "Я не добавляю фото",
   "log_photos_question": "Добавить фото",
   "log_question_button": "Сохранять",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Итоги месяца",
   "recaps_story_banner_title": "Итоги: %{month}",
   "recaps_story_banner_title_week": "Итоги недели",
+  "recaps_story_best_day_ask": "Готов увидеть свой лучший день?",
+  "recaps_story_best_day_show": "Показать лучший день",
   "recaps_story_coming_left": {
     "one": "Осталось: 1",
     "other": "Осталось: {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "По сравнению с днями без тега. Отметок: {{count}}."
   },
   "recaps_story_lifted_title": "Дни с %{tag} были самыми лёгкими",
+  "recaps_story_new_people_line_1": "Посмотрите, кто нашёл дорогу в ваши дни.",
+  "recaps_story_new_people_line_10": "Не каждый месяц приносит кого-то нового. Этот принёс.",
+  "recaps_story_new_people_line_11": "Ваш круг меняется, понемногу.",
+  "recaps_story_new_people_line_12": "Это первые страницы новых историй.",
+  "recaps_story_new_people_line_2": "В каждой истории появляются новые герои. Вот ваши.",
+  "recaps_story_new_people_line_3": "Каждый круг растёт по одному имени.",
+  "recaps_story_new_people_line_4": "Новые имена, новые главы.",
+  "recaps_story_new_people_line_5": "Ваши дни освободили немного больше места.",
+  "recaps_story_new_people_line_6": "Каждая связь начинается с первого дня.",
+  "recaps_story_new_people_line_7": "Ваш мир немного вырос в этом месяце.",
+  "recaps_story_new_people_line_8": "Первое «привет» может стать началом чего-то.",
+  "recaps_story_new_people_line_9": "Вот кто стал частью вашей истории.",
+  "recaps_story_new_people_more": {
+    "one": "И ещё 1",
+    "other": "И ещё: {{count}}"
+  },
+  "recaps_story_new_people_title": "Новые в вашем круге",
   "recaps_story_next": "Следующий слайд",
   "recaps_story_orbit_title": "Кто был на Вашей орбите",
   "recaps_story_pause": "Пауза",

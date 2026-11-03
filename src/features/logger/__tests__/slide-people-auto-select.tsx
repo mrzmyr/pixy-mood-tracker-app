@@ -199,6 +199,39 @@ describe("SlidePeople auto-select", () => {
     );
   });
 
+  test("Show archived lets you pick an archived person", async () => {
+    await AsyncStorage.setItem(
+      PEOPLE_KEY,
+      JSON.stringify({
+        people: [
+          {
+            id: "person-ada",
+            name: "Ada",
+            avatar: null,
+            createdAt: "2026-10-01T00:00:00.000Z",
+          },
+          {
+            id: "person-bo",
+            name: "Bo",
+            avatar: null,
+            createdAt: "2026-10-01T00:00:00.000Z",
+            isArchived: true,
+          },
+        ],
+      })
+    );
+    const result = await renderSlide();
+    await result.findByTestId("log-person-person-ada");
+    expect(result.queryByTestId("log-person-person-bo")).toBeNull();
+
+    await userEvent.press(result.getByTestId("log-people-archived-toggle"));
+    await userEvent.press(await result.findByTestId("log-person-person-bo"));
+    // Hiding archived people again keeps the picked one on the entry.
+    await userEvent.press(result.getByTestId("log-people-archived-toggle"));
+
+    expect(result.getByTestId("log-person-person-bo")).toBeSelected();
+  });
+
   test("selects nobody when the slide opens", async () => {
     const result = await renderSlide();
     expect(

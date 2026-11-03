@@ -677,7 +677,9 @@
   "log_needs_use": "Brug behov til at finde følelser",
   "log_note_question": "Skriv om din dag...",
   "log_people_disable": "Jeg registrerer ikke personer",
+  "log_people_hide_archived": "Skjul arkiverede",
   "log_people_question": "Hvem spillede en rolle?",
+  "log_people_show_archived": "Vis arkiverede",
   "log_photos_disable": "Jeg tilføjer ikke fotos",
   "log_photos_question": "Tilføj fotos",
   "log_question_button": "Gemme",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Månedens tilbageblik",
   "recaps_story_banner_title": "Tilbageblik: %{month}",
   "recaps_story_banner_title_week": "Ugens tilbageblik",
+  "recaps_story_best_day_ask": "Klar til at se din bedste dag?",
+  "recaps_story_best_day_show": "Vis din bedste dag",
   "recaps_story_coming_left": {
     "one": "1 tilbage",
     "other": "{{count}} tilbage"
@@ -1063,6 +1067,23 @@
     "other": "Sammenlignet med dage uden tagget. {{count}} check-ins."
   },
   "recaps_story_lifted_title": "Dage med %{tag} føltes lettest",
+  "recaps_story_new_people_line_1": "Se, hvem der fandt vej ind i dine dage.",
+  "recaps_story_new_people_line_10": "Ikke hver måned bringer nogen ny. Det gjorde denne.",
+  "recaps_story_new_people_line_11": "Din kreds ændrer sig, lidt ad gangen.",
+  "recaps_story_new_people_line_12": "Det her er de første sider i nye historier.",
+  "recaps_story_new_people_line_2": "Hver historie får nye personer. Her er dine.",
+  "recaps_story_new_people_line_3": "Hver kreds vokser ét navn ad gangen.",
+  "recaps_story_new_people_line_4": "Nye navne, nye kapitler.",
+  "recaps_story_new_people_line_5": "Dine dage fik lidt mere plads.",
+  "recaps_story_new_people_line_6": "Hver forbindelse starter med en første dag.",
+  "recaps_story_new_people_line_7": "Din verden voksede lidt denne måned.",
+  "recaps_story_new_people_line_8": "Et første hej kan være starten på noget.",
+  "recaps_story_new_people_line_9": "Her er dem, der blev en del af din historie.",
+  "recaps_story_new_people_more": {
+    "one": "Og 1 mere",
+    "other": "Og {{count}} mere"
+  },
+  "recaps_story_new_people_title": "Nye i din kreds",
   "recaps_story_next": "Næste slide",
   "recaps_story_orbit_title": "Hvem var i din bane",
   "recaps_story_pause": "Pause",

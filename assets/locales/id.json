@@ -677,7 +677,9 @@
   "log_needs_use": "Gunakan kebutuhan untuk menemukan emosi",
   "log_note_question": "Tulis tentang harimu…",
   "log_people_disable": "Aku tidak mencatat orang",
+  "log_people_hide_archived": "Sembunyikan arsip",
   "log_people_question": "Siapa yang berperan?",
+  "log_people_show_archived": "Tampilkan arsip",
   "log_photos_disable": "Saya tidak menambahkan foto",
   "log_photos_question": "Tambahkan Foto",
   "log_question_button": "Menyimpan",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Rekap Bulanan",
   "recaps_story_banner_title": "Rekap %{month}",
   "recaps_story_banner_title_week": "Rekap Mingguan",
+  "recaps_story_best_day_ask": "Siap melihat hari terbaikmu?",
+  "recaps_story_best_day_show": "Tampilkan hari terbaikmu",
   "recaps_story_coming_left": {
     "one": "1 lagi",
     "other": "{{count}} lagi"
@@ -1063,6 +1067,23 @@
     "other": "Dibandingkan hari tanpa tag ini. {{count}} catatan."
   },
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
+  "recaps_story_new_people_line_1": "Lihat siapa yang menemukan jalan ke hari-harimu.",
+  "recaps_story_new_people_line_10": "Tidak setiap bulan membawa orang baru. Bulan ini iya.",
+  "recaps_story_new_people_line_11": "Lingkaranmu terus berubah, sedikit demi sedikit.",
+  "recaps_story_new_people_line_12": "Ini halaman pertama dari cerita-cerita baru.",
+  "recaps_story_new_people_line_2": "Setiap cerita punya tokoh baru. Ini tokohmu.",
+  "recaps_story_new_people_line_3": "Setiap lingkaran tumbuh satu nama demi satu nama.",
+  "recaps_story_new_people_line_4": "Nama baru, babak baru.",
+  "recaps_story_new_people_line_5": "Hari-harimu memberi sedikit lebih banyak ruang.",
+  "recaps_story_new_people_line_6": "Setiap hubungan dimulai dengan hari pertama.",
+  "recaps_story_new_people_line_7": "Duniamu sedikit bertambah luas bulan ini.",
+  "recaps_story_new_people_line_8": "Sapaan pertama bisa jadi awal dari sesuatu.",
+  "recaps_story_new_people_line_9": "Inilah mereka yang menjadi bagian dari ceritamu.",
+  "recaps_story_new_people_more": {
+    "one": "Dan 1 lainnya",
+    "other": "Dan {{count}} lainnya"
+  },
+  "recaps_story_new_people_title": "Baru di lingkaranmu",
   "recaps_story_next": "Slide berikutnya",
   "recaps_story_orbit_title": "Siapa saja di orbitmu",
   "recaps_story_pause": "Jeda",

@@ -677,7 +677,9 @@
   "log_needs_use": "Utiliser les besoins pour trouver tes émotions",
   "log_note_question": "Racontez votre journée…",
   "log_people_disable": "Je ne suis pas les personnes",
+  "log_people_hide_archived": "Masquer les archivées",
   "log_people_question": "Qui a joué un rôle ?",
+  "log_people_show_archived": "Afficher les archivées",
   "log_photos_disable": "Je n’ajoute pas de photos",
   "log_photos_question": "Ajouter des photos",
   "log_question_button": "sauvegarder",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Bilan du mois",
   "recaps_story_banner_title": "Bilan du mois : %{month}",
   "recaps_story_banner_title_week": "Bilan de la semaine",
+  "recaps_story_best_day_ask": "Prêt à voir ta meilleure journée ?",
+  "recaps_story_best_day_show": "Afficher ta meilleure journée",
   "recaps_story_coming_left": {
     "one": "Encore 1",
     "other": "Encore {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "Comparé aux jours sans ce tag. {{count}} check-ins."
   },
   "recaps_story_lifted_title": "Les jours avec %{tag} semblaient les plus légers",
+  "recaps_story_new_people_line_1": "Voyez qui a trouvé sa place dans vos journées.",
+  "recaps_story_new_people_line_10": "Chaque mois n’apporte pas de nouvelle rencontre. Celui-ci, oui.",
+  "recaps_story_new_people_line_11": "Votre cercle change, petit à petit.",
+  "recaps_story_new_people_line_12": "Voici les premières pages de nouvelles histoires.",
+  "recaps_story_new_people_line_2": "Chaque histoire accueille de nouveaux personnages. Voici les vôtres.",
+  "recaps_story_new_people_line_3": "Chaque cercle grandit, un prénom à la fois.",
+  "recaps_story_new_people_line_4": "Nouveaux noms, nouveaux chapitres.",
+  "recaps_story_new_people_line_5": "Vos journées ont fait un peu plus de place.",
+  "recaps_story_new_people_line_6": "Chaque lien commence par un premier jour.",
+  "recaps_story_new_people_line_7": "Votre monde s’est un peu agrandi ce mois-ci.",
+  "recaps_story_new_people_line_8": "Un premier bonjour peut être le début de quelque chose.",
+  "recaps_story_new_people_line_9": "Voici qui est entré dans votre histoire.",
+  "recaps_story_new_people_more": {
+    "one": "Et 1 autre",
+    "other": "Et {{count}} autres"
+  },
+  "recaps_story_new_people_title": "Nouveau dans votre cercle",
   "recaps_story_next": "Diapositive suivante",
   "recaps_story_orbit_title": "Qui était dans votre orbite",
   "recaps_story_pause": "Pause",

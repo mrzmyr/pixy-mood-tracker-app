@@ -677,7 +677,9 @@
   "log_needs_use": "Dùng nhu cầu để tìm cảm xúc",
   "log_note_question": "Viết về ngày của bạn…",
   "log_people_disable": "Tôi không theo dõi mọi người",
+  "log_people_hide_archived": "Ẩn người đã lưu trữ",
   "log_people_question": "Ai đã góp phần?",
+  "log_people_show_archived": "Hiện người đã lưu trữ",
   "log_photos_disable": "Tôi không thêm ảnh",
   "log_photos_question": "Thêm ảnh",
   "log_question_button": "Tiết kiệm",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Tổng kết tháng",
   "recaps_story_banner_title": "Tổng kết %{month}",
   "recaps_story_banner_title_week": "Tổng kết tuần",
+  "recaps_story_best_day_ask": "Sẵn sàng xem ngày tuyệt nhất của bạn?",
+  "recaps_story_best_day_show": "Hiện ngày tuyệt nhất của bạn",
   "recaps_story_coming_left": {
     "one": "Còn 1",
     "other": "Còn {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "So với những ngày không có thẻ này. {{count}} lần ghi lại."
   },
   "recaps_story_lifted_title": "Những ngày có %{tag} nhẹ nhàng nhất",
+  "recaps_story_new_people_line_1": "Xem ai đã tìm đến những ngày của bạn.",
+  "recaps_story_new_people_line_10": "Không phải tháng nào cũng có người mới. Tháng này thì có.",
+  "recaps_story_new_people_line_11": "Vòng tròn của bạn đổi thay, từng chút một.",
+  "recaps_story_new_people_line_12": "Đây là những trang đầu của những câu chuyện mới.",
+  "recaps_story_new_people_line_2": "Mỗi câu chuyện đều có nhân vật mới. Đây là của bạn.",
+  "recaps_story_new_people_line_3": "Mỗi vòng tròn lớn dần từng cái tên.",
+  "recaps_story_new_people_line_4": "Tên mới, chương mới.",
+  "recaps_story_new_people_line_5": "Những ngày của bạn đã dành thêm chút chỗ.",
+  "recaps_story_new_people_line_6": "Mỗi kết nối bắt đầu từ một ngày đầu tiên.",
+  "recaps_story_new_people_line_7": "Thế giới của bạn rộng thêm một chút tháng này.",
+  "recaps_story_new_people_line_8": "Một lời chào đầu tiên có thể là khởi đầu của điều gì đó.",
+  "recaps_story_new_people_line_9": "Đây là những người đã trở thành một phần câu chuyện của bạn.",
+  "recaps_story_new_people_more": {
+    "one": "Và 1 người nữa",
+    "other": "Và {{count}} người nữa"
+  },
+  "recaps_story_new_people_title": "Mới trong vòng tròn của bạn",
   "recaps_story_next": "Trang tiếp",
   "recaps_story_orbit_title": "Ai ở trong quỹ đạo của bạn",
   "recaps_story_pause": "Tạm dừng",

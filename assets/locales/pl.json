@@ -677,7 +677,9 @@
   "log_needs_use": "Znajdź emocje przez potrzeby",
   "log_note_question": "Napisz o swoim dniu…",
   "log_people_disable": "Nie zapisuję osób",
+  "log_people_hide_archived": "Ukryj zarchiwizowane",
   "log_people_question": "Kto odegrał rolę?",
+  "log_people_show_archived": "Pokaż zarchiwizowane",
   "log_photos_disable": "Nie dodaję zdjęć",
   "log_photos_question": "Dodaj zdjęcia",
   "log_question_button": "Ratować",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Podsumowanie miesiąca",
   "recaps_story_banner_title": "Podsumowanie: %{month}",
   "recaps_story_banner_title_week": "Podsumowanie tygodnia",
+  "recaps_story_best_day_ask": "Gotowy, by zobaczyć swój najlepszy dzień?",
+  "recaps_story_best_day_show": "Pokaż najlepszy dzień",
   "recaps_story_coming_left": {
     "one": "Zostało: 1",
     "other": "Zostało: {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "W porównaniu z dniami bez tego tagu. Wpisy: {{count}}."
   },
   "recaps_story_lifted_title": "Dni z %{tag} były najlżejsze",
+  "recaps_story_new_people_line_1": "Zobacz, kto znalazł drogę do twoich dni.",
+  "recaps_story_new_people_line_10": "Nie każdy miesiąc przynosi kogoś nowego. Ten przyniósł.",
+  "recaps_story_new_people_line_11": "Twoje grono się zmienia, krok po kroku.",
+  "recaps_story_new_people_line_12": "To pierwsze strony nowych historii.",
+  "recaps_story_new_people_line_2": "Każda historia zyskuje nowe postacie. Oto twoje.",
+  "recaps_story_new_people_line_3": "Każde grono rośnie po jednym imieniu.",
+  "recaps_story_new_people_line_4": "Nowe imiona, nowe rozdziały.",
+  "recaps_story_new_people_line_5": "Twoje dni zrobiły trochę więcej miejsca.",
+  "recaps_story_new_people_line_6": "Każda więź zaczyna się od pierwszego dnia.",
+  "recaps_story_new_people_line_7": "Twój świat trochę urósł w tym miesiącu.",
+  "recaps_story_new_people_line_8": "Pierwsze cześć może być początkiem czegoś.",
+  "recaps_story_new_people_line_9": "Oto ci, którzy stali się częścią twojej historii.",
+  "recaps_story_new_people_more": {
+    "one": "I 1 więcej",
+    "other": "I więcej: {{count}}"
+  },
+  "recaps_story_new_people_title": "Nowi w twoim gronie",
   "recaps_story_next": "Następny slajd",
   "recaps_story_orbit_title": "Kto był na twojej orbicie",
   "recaps_story_pause": "Wstrzymaj",

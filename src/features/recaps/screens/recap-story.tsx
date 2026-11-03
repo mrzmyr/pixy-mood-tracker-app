@@ -143,6 +143,8 @@ const RecapStory = () => {
   // The slide shows the app icon and name while it is captured.
   const [isCapturingSlide, setIsCapturingSlide] = useState(false);
   const lastShown = useRef(0);
+  // The best day slide waits for the swipe; once open it stays open.
+  const [isBestDayUnlocked, setIsBestDayUnlocked] = useState(false);
   const transition = useStoryTransition({
     origin: parseStoryOrigin(params.origin),
     cardKey: getStoryCardKey({ source, kind, date: period.start }),
@@ -308,6 +310,10 @@ const RecapStory = () => {
           picked: picks.get(index) ?? null,
           onPick: (personId) => pick(index, personId),
         }}
+        lock={{
+          isUnlocked: isBestDayUnlocked,
+          onUnlock: () => setIsBestDayUnlocked(true),
+        }}
       />
     );
   };
@@ -315,8 +321,10 @@ const RecapStory = () => {
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getStoryTheme(ctx.isDark),
-    // A quiz waits for the answer, then plays.
-    isWaiting: slide.type === "people-quiz" && !picks.has(index),
+    // A quiz waits for the answer, the best day for its unlock, then plays.
+    isWaiting:
+      (slide.type === "people-quiz" && !picks.has(index)) ||
+      (slide.type === "best-day" && !isBestDayUnlocked),
     durationMs: getSlideDuration(slide),
     content: contentOf(slide, index),
   }));

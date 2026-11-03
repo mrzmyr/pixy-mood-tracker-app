@@ -677,7 +677,9 @@
   "log_needs_use": "Gebruik behoeften om emoties te vinden",
   "log_note_question": "Schrijf over je dag...",
   "log_people_disable": "Ik houd geen mensen bij",
+  "log_people_hide_archived": "Gearchiveerd verbergen",
   "log_people_question": "Wie speelde een rol?",
+  "log_people_show_archived": "Gearchiveerd tonen",
   "log_photos_disable": "Ik voeg geen foto's toe",
   "log_photos_question": "Foto's toevoegen",
   "log_question_button": "Opslaan",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Maandterugblik",
   "recaps_story_banner_title": "Terugblik op %{month}",
   "recaps_story_banner_title_week": "Weekterugblik",
+  "recaps_story_best_day_ask": "Klaar om je beste dag te zien?",
+  "recaps_story_best_day_show": "Toon je beste dag",
   "recaps_story_coming_left": {
     "one": "Nog 1",
     "other": "Nog {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "Vergeleken met dagen zonder de tag. {{count}} check-ins."
   },
   "recaps_story_lifted_title": "Dagen met %{tag} voelden het lichtst",
+  "recaps_story_new_people_line_1": "Kijk wie de weg naar je dagen vond.",
+  "recaps_story_new_people_line_10": "Niet elke maand brengt iemand nieuws. Deze wel.",
+  "recaps_story_new_people_line_11": "Je kring verandert, beetje bij beetje.",
+  "recaps_story_new_people_line_12": "Dit zijn de eerste bladzijden van nieuwe verhalen.",
+  "recaps_story_new_people_line_2": "Elk verhaal krijgt nieuwe personages. Hier zijn de jouwe.",
+  "recaps_story_new_people_line_3": "Elke kring groeit, één naam per keer.",
+  "recaps_story_new_people_line_4": "Nieuwe namen, nieuwe hoofdstukken.",
+  "recaps_story_new_people_line_5": "Je dagen maakten wat meer ruimte.",
+  "recaps_story_new_people_line_6": "Elke verbinding begint met een eerste dag.",
+  "recaps_story_new_people_line_7": "Je wereld werd deze maand een beetje groter.",
+  "recaps_story_new_people_line_8": "Een eerste hallo kan het begin van iets zijn.",
+  "recaps_story_new_people_line_9": "Dit is wie deel werd van je verhaal.",
+  "recaps_story_new_people_more": {
+    "one": "En nog 1",
+    "other": "En nog {{count}}"
+  },
+  "recaps_story_new_people_title": "Nieuw in je kring",
   "recaps_story_next": "Volgende dia",
   "recaps_story_orbit_title": "Wie er in je baan was",
   "recaps_story_pause": "Pauze",

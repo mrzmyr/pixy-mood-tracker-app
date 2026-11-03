@@ -71,6 +71,7 @@ describe("month story", () => {
     const slides = story(month());
     expect(slides?.map((item) => item.type)).toEqual([
       "cover",
+      "best-day",
       "coming-up",
       "share",
     ]);
@@ -116,6 +117,39 @@ const moodTags = () =>
     return { tags: [{ id: walk.id }] };
   });
 
+describe("best day", () => {
+  test("picks the day with the highest mood", () => {
+    const items = month((index) =>
+      index === 14 ? { rating: "extremely_good" } : {}
+    );
+    expect(slide(story(items), "best-day")?.date).toBe(addDays(SEP, 14));
+  });
+
+  test("breaks a tie with more emotions, then more photos", () => {
+    const items = month((index) => {
+      if (index === 3) {
+        return { rating: "extremely_good", photos: [photo("a"), photo("b")] };
+      }
+      if (index === 9) {
+        return { rating: "extremely_good", emotions: ["calm", "loved"] };
+      }
+      if (index === 20) {
+        return { rating: "extremely_good", photos: [photo("c")] };
+      }
+      return {};
+    });
+    expect(slide(story(items), "best-day")?.date).toBe(addDays(SEP, 9));
+    expect(
+      slide(story(items.filter((_, index) => index !== 9)), "best-day")?.date
+    ).toBe(addDays(SEP, 3));
+  });
+
+  test("stays out without a day above neutral", () => {
+    const items = month(() => ({ rating: "neutral" }));
+    expect(slide(story(items), "best-day")).toBeUndefined();
+  });
+});
+
 describe("tags that felt lighter or heavier", () => {
   test("name tags whose days felt lighter", () => {
     const rows = slide(story(moodTags()), "positive-tags")?.rows;
@@ -131,11 +165,12 @@ describe("tags that felt lighter or heavier", () => {
     expect(rows?.[0]?.delta).toBeLessThan(0);
   });
 
-  test("follow the cover: lighter first, then heavier", () => {
+  test("follow the cover and best day: lighter first, then heavier", () => {
     const types = (story(moodTags()) ?? []).map((item) => item.type);
 
-    expect(types.slice(0, 3)).toEqual([
+    expect(types.slice(0, 4)).toEqual([
       "cover",
+      "best-day",
       "positive-tags",
       "negative-tags",
     ]);
@@ -272,6 +307,58 @@ describe("people quiz", () => {
     );
     expect(week?.some((item) => item.type === "orbit")).toBe(true);
     expect(week?.some((item) => item.type === "people-quiz")).toBe(false);
+  });
+});
+
+describe("new people", () => {
+  /** 20 August days with Ada, before the September story. */
+  const august = Array.from({ length: 20 }, (_, index) => ({
+    date: addDays("2026-08-01", index),
+    rating: "good" as const,
+    people: [{ id: "ada" }],
+  }));
+
+  test("lists people first connected this month, in arrival order", () => {
+    const items = month((index) => ({
+      people: [
+        { id: "ada" },
+        ...(index >= 9 ? [{ id: "jen" }] : []),
+        ...(index === 3 ? [{ id: "kim" }] : []),
+      ],
+    }));
+    expect(slide(story([...august, ...items]), "new-people")?.people).toEqual([
+      { personId: "kim", firstDate: "2026-09-04" },
+      { personId: "jen", firstDate: "2026-09-10" },
+    ]);
+  });
+
+  test("calls nobody new without 15 earlier check-in days", () => {
+    const items = month(() => ({ people: [{ id: "jen" }] }));
+    expect(
+      slide(story([...august.slice(0, 14), ...items]), "new-people")
+    ).toBeUndefined();
+    expect(
+      slide(story([...august.slice(0, 15), ...items]), "new-people")
+    ).toBeDefined();
+  });
+
+  test("stays out when everyone was there before or people are off", () => {
+    const items = month(() => ({ people: [{ id: "ada" }] }));
+    expect(slide(story([...august, ...items]), "new-people")).toBeUndefined();
+    const withJen = month(() => ({ people: [{ id: "jen" }] }));
+    expect(
+      slide(
+        story([...august, ...withJen], { steps: ["rating", "tags"] }),
+        "new-people"
+      )
+    ).toBeUndefined();
+  });
+
+  test("skips deleted people", () => {
+    const items = month(() => ({ people: [{ id: "jen" }] }));
+    expect(
+      slide(story([...august, ...items], { personIds: ["ada"] }), "new-people")
+    ).toBeUndefined();
   });
 });
 

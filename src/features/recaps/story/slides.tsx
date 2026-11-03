@@ -20,6 +20,8 @@ import {
   TagDot,
   useDayColors,
 } from "./parts";
+import { NewPeople } from "./new-people";
+import { BestDay } from "./best-day";
 import { Orbit } from "./orbit";
 import { PeopleQuiz } from "./people-quiz";
 import type { QuizAnswer } from "./people-quiz";
@@ -356,18 +358,36 @@ const ComingUp = ({
   );
 };
 
+/** Story state of the best day slide: the story waits until unlocked. */
+export interface BestDayLock {
+  isUnlocked: boolean;
+  onUnlock: () => void;
+}
+
 const SlideBody = ({
   slide,
   ctx,
-  quiz,
+  quiz = UNANSWERED,
+  lock,
 }: {
   slide: StorySlide;
   ctx: SlideContext;
-  quiz: QuizAnswer;
+  quiz?: QuizAnswer;
+  lock?: BestDayLock;
 }) => {
   switch (slide.type) {
     case "cover": {
       return <Cover slide={slide} ctx={ctx} />;
+    }
+    case "best-day": {
+      return (
+        <BestDay
+          slide={slide}
+          ctx={ctx}
+          isUnlocked={lock?.isUnlocked}
+          onUnlock={lock?.onUnlock}
+        />
+      );
     }
     case "positive-tags":
     case "negative-tags": {
@@ -378,6 +398,9 @@ const SlideBody = ({
     }
     case "orbit": {
       return <Orbit slide={slide} ctx={ctx} />;
+    }
+    case "new-people": {
+      return <NewPeople slide={slide} ctx={ctx} />;
     }
     case "coming-up": {
       return <ComingUp slide={slide} ctx={ctx} />;
@@ -390,23 +413,31 @@ const SlideBody = ({
 
 /**
  * Content of one slide. The player draws background and chrome. Cloud Pixy
- * stays around: it flies in the free sky below the content. `quiz`: the
- * answer of a quiz slide, kept by the caller so it survives going back.
+ * stays around: it flies in the free sky below the content. The best day
+ * places Pixy itself. `quiz`: the answer of a quiz slide, kept by the
+ * caller so it survives going back.
  */
 export const SlideContent = ({
   slide,
   ctx,
   quiz = UNANSWERED,
+  lock,
 }: {
   slide: StorySlide;
   ctx: SlideContext;
   quiz?: QuizAnswer;
-}) =>
-  slide.type === "intro" ? (
-    <StoryIntro ctx={ctx} />
-  ) : (
+  /** Best day slide only. Without it the slide keeps its own lock state. */
+  lock?: BestDayLock;
+}) => {
+  if (slide.type === "intro") {
+    return <StoryIntro ctx={ctx} />;
+  }
+  return (
     <View style={{ flex: 1 }}>
-      <SlideBody slide={slide} ctx={ctx} quiz={quiz} />
-      <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
+      <SlideBody slide={slide} ctx={ctx} quiz={quiz} lock={lock} />
+      {slide.type !== "best-day" && (
+        <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
+      )}
     </View>
   );
+};

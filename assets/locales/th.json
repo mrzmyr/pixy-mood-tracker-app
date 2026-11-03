@@ -677,7 +677,9 @@
   "log_needs_use": "ใช้ความต้องการเพื่อค้นหาอารมณ์",
   "log_note_question": "เขียนเกี่ยวกับวันของคุณ...",
   "log_people_disable": "ฉันไม่บันทึกผู้คน",
+  "log_people_hide_archived": "ซ่อนที่เก็บถาวร",
   "log_people_question": "ใครมีส่วนเกี่ยวข้อง",
+  "log_people_show_archived": "แสดงที่เก็บถาวร",
   "log_photos_disable": "ฉันไม่เพิ่มรูปภาพ",
   "log_photos_question": "เพิ่มรูปภาพ",
   "log_question_button": "บันทึก",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "สรุปย้อนหลังประจำเดือน",
   "recaps_story_banner_title": "สรุปย้อนหลังเดือน%{month}",
   "recaps_story_banner_title_week": "สรุปย้อนหลังประจำสัปดาห์",
+  "recaps_story_best_day_ask": "พร้อมดูวันที่ดีที่สุดของคุณหรือยัง",
+  "recaps_story_best_day_show": "แสดงวันที่ดีที่สุดของคุณ",
   "recaps_story_coming_left": {
     "one": "เหลืออีก 1",
     "other": "เหลืออีก {{count}}"
@@ -1063,6 +1067,23 @@
     "other": "เทียบกับวันที่ไม่มีแท็กนี้ {{count}} บันทึก"
   },
   "recaps_story_lifted_title": "วันที่มี %{tag} รู้สึกเบาที่สุด",
+  "recaps_story_new_people_line_1": "ดูสิว่าใครได้เข้ามาในวันของคุณ",
+  "recaps_story_new_people_line_10": "ไม่ใช่ทุกเดือนที่จะมีคนใหม่ แต่เดือนนี้มี",
+  "recaps_story_new_people_line_11": "วงของคุณเปลี่ยนไป ทีละนิด",
+  "recaps_story_new_people_line_12": "นี่คือหน้าแรกของเรื่องราวใหม่",
+  "recaps_story_new_people_line_2": "ทุกเรื่องราวมีตัวละครใหม่ นี่คือของคุณ",
+  "recaps_story_new_people_line_3": "ทุกวงเติบโตทีละชื่อ",
+  "recaps_story_new_people_line_4": "ชื่อใหม่ บทใหม่",
+  "recaps_story_new_people_line_5": "วันของคุณมีที่ว่างมากขึ้นอีกนิด",
+  "recaps_story_new_people_line_6": "ทุกการเชื่อมโยงเริ่มจากวันแรก",
+  "recaps_story_new_people_line_7": "โลกของคุณกว้างขึ้นอีกนิดในเดือนนี้",
+  "recaps_story_new_people_line_8": "คำทักทายแรกอาจเป็นจุดเริ่มต้นของบางสิ่ง",
+  "recaps_story_new_people_line_9": "นี่คือคนที่ได้เป็นส่วนหนึ่งของเรื่องราวของคุณ",
+  "recaps_story_new_people_more": {
+    "one": "และอีก 1 คน",
+    "other": "และอีก {{count}} คน"
+  },
+  "recaps_story_new_people_title": "คนใหม่ในวงของคุณ",
   "recaps_story_next": "สไลด์ถัดไป",
   "recaps_story_orbit_title": "ใครอยู่ในวงโคจรของคุณ",
   "recaps_story_pause": "หยุดชั่วคราว",

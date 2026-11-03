@@ -111,6 +111,8 @@ export const THRESHOLDS = {
   storyQuizInsightMinPlaceDays: 2,
   /** Quiz insight skips tags and cities on more of the month: everyday things. */
   storyQuizInsightMaxMonthShare: 0.6,
+  /** Story new people: faces at most. The rest show as a count. */
+  storyNewPeopleMaxFaces: 54,
   /** Share card: bright photo days needed for photos on the card. */
   sharePhotos: 1,
   /** Mood chart: check-in days needed. */
