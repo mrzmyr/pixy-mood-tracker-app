@@ -89,7 +89,7 @@ const PixyWeekWidget = (
                 // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- @expo/ui parameter name
                 shape: "roundedRectangle",
                 cornerRadius: radius,
-                style: { lineWidth: cell.isToday ? 2 : 1 },
+                style: { lineWidth: 1 },
               }),
               aspectRatio({ ratio: 1, contentMode: "fit" }),
               // Today lifts off the sky: larger, drawn on top of its neighbors.

@@ -22,7 +22,7 @@ const MONTH_GAP = 10;
 const MONTH_COLUMNS = 4;
 /** Weeks a month can span; shorter months leave the last rows empty. */
 const MONTH_WEEKS = 6;
-const RING = 1.5;
+const RING = 1;
 const EDGE = 0.5;
 
 const cellFill = (code: YearDayCode, colors: WidgetSchemeColors) => {
