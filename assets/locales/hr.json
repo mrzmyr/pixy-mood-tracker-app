@@ -1042,18 +1042,28 @@
   "recaps_story_banner_title_week": "Tjedni osvrt",
   "recaps_story_best_day_ask": "Spreman vidjeti svoj najbolji dan?",
   "recaps_story_best_day_show": "Prikaži svoj najbolji dan",
-  "recaps_story_coming_left": {
-    "one": "Preostalo: 1",
-    "other": "Preostalo: {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "Propušteno: 1",
-    "other": "Propušteno: {{count}}"
+  "recaps_story_coming_text": {
+    "one": "Čeka te još 1 piksel. Dan po dan.",
+    "other": "Pikseli koji te još čekaju: {{count}}. Dan po dan."
   },
   "recaps_story_coming_title": {
     "one": "Još 1 dan u %{year}.",
     "other": "Još {{count}} dana u %{year}."
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 ispunjen piksel. To je pravo postignuće.",
+    "other": "Ispunjeni pikseli: {{count}}. To je pravo postignuće."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Jednom si zastao i osjetio kako se osjećaš. To se računa.",
+    "other": "Koliko si puta zastao i osjetio kako se osjećaš: {{count}}. To se računa."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 dan si odvojio vrijeme za sebe. Budi ponosan na to.",
+    "other": "Dani kad si odvojio vrijeme za sebe: {{count}}. Budi ponosan na to."
+  },
+  "recaps_story_cover_note_full": "Svaki dan (%{month}) ima svoj piksel. To je pravo postignuće.",
+  "recaps_story_cover_note_full_week": "Svaki dan ovog tjedna ima svoj piksel. To je pravo postignuće.",
   "recaps_story_cover_pixels_title": "%{month} u pikselima",
   "recaps_story_cover_pixels_title_week": "Pikseli ovog tjedna",
   "recaps_story_cover_title_week": "Zastani na trenutak.\nOvo je bio tvoj tjedan.",
@@ -1062,10 +1072,7 @@
     "other": "Dana: {{count}}"
   },
   "recaps_story_hard_title": "%{tag}: često uz tvoje teže dane",
-  "recaps_story_lifted_text": {
-    "one": "U usporedbi s danima bez oznake. 1 unos.",
-    "other": "U usporedbi s danima bez oznake. Unosa: {{count}}."
-  },
+  "recaps_story_lifted_note": "U usporedbi s danima bez oznake.",
   "recaps_story_lifted_title": "Dani s oznakom %{tag} bili su najlakši",
   "recaps_story_new_people_line_1": "Pogledaj tko je pronašao put u tvoje dane.",
   "recaps_story_new_people_line_10": "Ne donosi svaki mjesec nekoga novog. Ovaj jest.",

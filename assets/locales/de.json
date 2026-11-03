@@ -1042,18 +1042,28 @@
   "recaps_story_banner_title_week": "Wochenrückblick",
   "recaps_story_best_day_ask": "Bereit für deinen besten Tag?",
   "recaps_story_best_day_show": "Deinen besten Tag zeigen",
-  "recaps_story_coming_left": {
-    "one": "Noch 1",
-    "other": "Noch {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 verpasst",
-    "other": "{{count}} verpasst"
+  "recaps_story_coming_text": {
+    "one": "Noch 1 Pixel wartet auf dich. Ein Tag nach dem anderen.",
+    "other": "Noch {{count}} Pixel warten auf dich. Ein Tag nach dem anderen."
   },
   "recaps_story_coming_title": {
     "one": "Noch 1 Tag in %{year}",
     "other": "Noch {{count}} Tage in %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 Pixel gefüllt. Das ist eine echte Leistung.",
+    "other": "{{count}} Pixel gefüllt. Das ist eine echte Leistung."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Einmal hast du innegehalten und gespürt, wie es dir geht. Das zählt.",
+    "other": "{{count}}-mal hast du innegehalten und gespürt, wie es dir geht. Das zählt."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "An 1 Tag hast du dir Zeit für dich genommen. Darauf kannst du stolz sein.",
+    "other": "An {{count}} Tagen hast du dir Zeit für dich genommen. Darauf kannst du stolz sein."
+  },
+  "recaps_story_cover_note_full": "Jeder Tag im %{month} hat sein Pixel. Das ist eine echte Leistung.",
+  "recaps_story_cover_note_full_week": "Jeder Tag dieser Woche hat sein Pixel. Das ist eine echte Leistung.",
   "recaps_story_cover_pixels_title": "Pixel im %{month}",
   "recaps_story_cover_pixels_title_week": "Pixel diese Woche",
   "recaps_story_cover_title_week": "Nimm dir einen Moment.\nDas war deine Woche.",
@@ -1062,10 +1072,7 @@
     "other": "{{count}} Tage"
   },
   "recaps_story_hard_title": "%{tag} ging mit deinen schwereren Tagen einher",
-  "recaps_story_lifted_text": {
-    "one": "Im Vergleich zu Tagen ohne. 1 Check-in.",
-    "other": "Im Vergleich zu Tagen ohne. {{count}} Check-ins."
-  },
+  "recaps_story_lifted_note": "Im Vergleich zu Tagen ohne.",
   "recaps_story_lifted_title": "Tage mit %{tag} fühlten sich am leichtesten an",
   "recaps_story_new_people_line_1": "Schau, wer den Weg in deine Tage gefunden hat.",
   "recaps_story_new_people_line_10": "Nicht jeder Monat bringt jemand Neues. Dieser schon.",

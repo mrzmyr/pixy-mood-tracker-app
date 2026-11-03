@@ -1,14 +1,15 @@
+import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { PixelRatio, useWindowDimensions, View } from "react-native";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
+import { daysBetween } from "../days";
 import type { DateKey, Period, RecapDay } from "../types";
 import { monthName } from "./format";
 import {
   MonthGrid,
-  Pixel,
   Reveal,
   RevealBar,
   RevealText,
@@ -32,6 +33,7 @@ import {
   revealTextMs,
   titleRevealEnd,
 } from "./theme";
+import type { StoryTheme } from "./theme";
 import type {
   ComingUpSlide,
   CoverSlide,
@@ -56,14 +58,63 @@ export interface SlideContext {
 
 const GRID_GAP = 8;
 const MAX_PIXEL = 56;
+/** Time between two days of the cover grid build-up. */
+const coverStepMs = (period: Period) => (period.kind === "week" ? 90 : 30);
+
+const coverTitle = (period: Period) =>
+  period.kind === "week"
+    ? t("recaps_story_cover_pixels_title_week")
+    : t("recaps_story_cover_pixels_title", { month: monthName(period.start) });
+
+/**
+ * Kind words under the cover. A month with every day checked in says so;
+ * other months rotate through 3 sentences by month, so two months in a row
+ * read differently.
+ */
+const coverNote = (slide: CoverSlide, period: Period) => {
+  const count = slide.checkIns;
+  if (count >= daysBetween(period.start, period.end) + 1) {
+    return period.kind === "week"
+      ? t("recaps_story_cover_note_full_week")
+      : t("recaps_story_cover_note_full", { month: monthName(period.start) });
+  }
+  const notes = [
+    t("recaps_story_cover_note_1", { count }),
+    t("recaps_story_cover_note_2", { count }),
+    t("recaps_story_cover_note_3", { count }),
+  ];
+  return notes[dayjs(period.start).month() % notes.length] ?? notes[0];
+};
+
+/** Kind words at the bottom of the cover, once the grid stands. */
+const CoverNote = ({
+  slide,
+  ctx,
+}: {
+  slide: CoverSlide;
+  ctx: SlideContext;
+}) => {
+  const days = daysBetween(ctx.period.start, ctx.period.end) + 1;
+  const at =
+    titleRevealEnd(coverTitle(ctx.period)) +
+    days * coverStepMs(ctx.period) +
+    350;
+  return (
+    <RevealText
+      text={coverNote(slide, ctx.period)}
+      at={at}
+      kind="body"
+      theme={getStoryTheme(ctx.isDark)}
+      style={{ fontSize: 17, lineHeight: 24 }}
+    />
+  );
+};
 
 const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
   const theme = getStoryTheme(ctx.isDark);
   const palette = STORY_PALETTE[theme];
   const dayColors = useDayColors(ctx.days, "glass");
   const dayOutlines = useDayColors(ctx.days, "glassEdge");
-  const isWeek = ctx.period.kind === "week";
-  const month = monthName(ctx.period.start);
   const byDate = new Map(slide.photos.map((item) => [item.date, item.photo]));
   // 7 pixels a row fill the content width. The cap only stops tablets.
   const { width: screen } = useWindowDimensions();
@@ -72,9 +123,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
     MAX_PIXEL,
     PixelRatio.roundToNearestPixel((inner - 6 * GRID_GAP) / 7)
   );
-  const title = isWeek
-    ? t("recaps_story_cover_pixels_title_week")
-    : t("recaps_story_cover_pixels_title", { month });
+  const title = coverTitle(ctx.period);
   return (
     <>
       <SlideHeader
@@ -97,7 +146,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
           empty={palette.glass}
           emptyOutline={palette.glassBorder}
           revealAt={titleRevealEnd(title)}
-          revealStepMs={isWeek ? 90 : 30}
+          revealStepMs={coverStepMs(ctx.period)}
           render={(date) => {
             const photo = byDate.get(date);
             return photo ? (
@@ -145,7 +194,7 @@ const TagEffects = ({
     : t("recaps_story_hard_title", { tag: topTag.title });
   const start = titleRevealEnd(title);
   const rowAt = (index: number) => start + index * ROW_STEP_MS;
-  const note = t("recaps_story_lifted_text", { count: ctx.days.length });
+  const note = t("recaps_story_lifted_note");
   return (
     <>
       <SlideHeader theme={theme} title={title} />
@@ -220,6 +269,15 @@ const MONTHS = Array.from({ length: 12 }, (_, index) => index);
 /** Time between two months of the build-up. */
 const MONTH_STEP_MS = 90;
 
+/** Fill of a day with a check-in: one neutral tone, the mood stays private. */
+const loggedFill = (theme: StoryTheme) =>
+  chroma(STORY_PALETTE[theme].text).alpha(0.55).css();
+
+/**
+ * The year so far: days with a check-in in one neutral tone, days without
+ * as empty glass, days to come as dots. No mood colors and no count of
+ * missed days: the slide looks ahead, kindly.
+ */
 const ComingUp = ({
   slide,
   ctx,
@@ -230,9 +288,13 @@ const ComingUp = ({
   const theme = getStoryTheme(ctx.isDark);
   const palette = STORY_PALETTE[theme];
   const { year } = slide;
-  const yearDays = ctx.history.filter((day) => day.date.startsWith(`${year}-`));
-  const dayColors = useDayColors(yearDays, "glass");
-  const dayOutlines = useDayColors(yearDays, "glassEdge");
+  const fill = loggedFill(theme);
+  const logged = new Map<DateKey, string>();
+  for (const day of ctx.history) {
+    if (day.date.startsWith(`${year}-`)) {
+      logged.set(day.date, fill);
+    }
+  }
   const size = 9;
   const pending = (date: DateKey) =>
     date > ctx.today ? (
@@ -257,13 +319,11 @@ const ComingUp = ({
     ) : null;
   const title = t("recaps_story_coming_title", { count: slide.left, year });
   const start = titleRevealEnd(title);
-  const legendAt = start + MONTHS.length * MONTH_STEP_MS + 200;
-  const missed = t("recaps_story_coming_missed", { count: slide.missed });
-  const left = t("recaps_story_coming_left", { count: slide.left });
+  const noteAt = start + MONTHS.length * MONTH_STEP_MS + 200;
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <SlideCard theme={theme}>
+      <SlideCard theme={theme} style={{ gap: STORY_BLOCK_GAP }}>
         <View
           style={{
             flexDirection: "row",
@@ -295,8 +355,7 @@ const ComingUp = ({
                 </StoryText>
                 <MonthGrid
                   period={period}
-                  dayColors={dayColors}
-                  dayOutlines={dayOutlines}
+                  dayColors={logged}
                   size={size}
                   gap={2}
                   empty={palette.glass}
@@ -307,47 +366,13 @@ const ComingUp = ({
             );
           })}
         </View>
-        <View
-          style={{ flexDirection: "row", gap: 20, marginTop: STORY_BLOCK_GAP }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-            <Reveal at={legendAt}>
-              <Pixel
-                size={10}
-                color={palette.glass}
-                outline={palette.glassBorder}
-              />
-            </Reveal>
-            <RevealText
-              text={missed}
-              at={legendAt}
-              kind="label"
-              theme={theme}
-              tone="muted"
-              style={{ fontSize: 12 }}
-            />
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-            <Reveal at={legendAt + revealTextMs(missed)}>
-              <View
-                style={{
-                  width: 3,
-                  height: 3,
-                  borderRadius: 2,
-                  backgroundColor: palette.muted,
-                }}
-              />
-            </Reveal>
-            <RevealText
-              text={left}
-              at={legendAt + revealTextMs(missed)}
-              kind="label"
-              theme={theme}
-              tone="muted"
-              style={{ fontSize: 12 }}
-            />
-          </View>
-        </View>
+        <RevealText
+          text={t("recaps_story_coming_text", { count: slide.left })}
+          at={noteAt}
+          kind="body"
+          theme={theme}
+          style={{ fontSize: 17, lineHeight: 24 }}
+        />
       </SlideCard>
     </>
   );
@@ -425,6 +450,7 @@ export const SlideContent = ({
       {slide.type !== "best-day" && (
         <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
       )}
+      {slide.type === "cover" && <CoverNote slide={slide} ctx={ctx} />}
     </View>
   );
 };

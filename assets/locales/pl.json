@@ -1042,18 +1042,28 @@
   "recaps_story_banner_title_week": "Podsumowanie tygodnia",
   "recaps_story_best_day_ask": "Gotowy, by zobaczyć swój najlepszy dzień?",
   "recaps_story_best_day_show": "Pokaż najlepszy dzień",
-  "recaps_story_coming_left": {
-    "one": "Zostało: 1",
-    "other": "Zostało: {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "Pominięte: 1",
-    "other": "Pominięte: {{count}}"
+  "recaps_story_coming_text": {
+    "one": "Czeka na Ciebie jeszcze 1 piksel. Dzień po dniu.",
+    "other": "Piksele, które jeszcze na Ciebie czekają: {{count}}. Dzień po dniu."
   },
   "recaps_story_coming_title": {
     "one": "1 dzień do końca %{year}",
     "other": "Dni do końca %{year}: {{count}}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 wypełniony piksel. To prawdziwe osiągnięcie.",
+    "other": "Wypełnione piksele: {{count}}. To prawdziwe osiągnięcie."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Raz zatrzymałeś się, by poczuć, jak się masz. To się liczy.",
+    "other": "Ile razy zatrzymałeś się, by poczuć, jak się masz: {{count}}. To się liczy."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "Przez 1 dzień znalazłeś czas dla siebie. Bądź z tego dumny.",
+    "other": "Dni, w które znalazłeś czas dla siebie: {{count}}. Bądź z tego dumny."
+  },
+  "recaps_story_cover_note_full": "Każdy dzień (%{month}) ma swój piksel. To prawdziwe osiągnięcie.",
+  "recaps_story_cover_note_full_week": "Każdy dzień tego tygodnia ma swój piksel. To prawdziwe osiągnięcie.",
   "recaps_story_cover_pixels_title": "%{month} w pikselach",
   "recaps_story_cover_pixels_title_week": "Piksele tego tygodnia",
   "recaps_story_cover_title_week": "Zatrzymaj się na chwilę.\nTo był twój tydzień.",
@@ -1062,10 +1072,7 @@
     "other": "Dni: {{count}}"
   },
   "recaps_story_hard_title": "%{tag}: często w Twoje trudniejsze dni",
-  "recaps_story_lifted_text": {
-    "one": "W porównaniu z dniami bez tego tagu. 1 wpis.",
-    "other": "W porównaniu z dniami bez tego tagu. Wpisy: {{count}}."
-  },
+  "recaps_story_lifted_note": "W porównaniu z dniami bez tego tagu.",
   "recaps_story_lifted_title": "Dni z %{tag} były najlżejsze",
   "recaps_story_new_people_line_1": "Zobacz, kto znalazł drogę do twoich dni.",
   "recaps_story_new_people_line_10": "Nie każdy miesiąc przynosi kogoś nowego. Ten przyniósł.",

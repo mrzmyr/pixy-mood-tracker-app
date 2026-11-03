@@ -1042,18 +1042,28 @@
   "recaps_story_banner_title_week": "Resumen de la semana",
   "recaps_story_best_day_ask": "¿Listo para ver tu mejor día?",
   "recaps_story_best_day_show": "Mostrar tu mejor día",
-  "recaps_story_coming_left": {
-    "one": "Falta 1",
-    "other": "Faltan {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 sin registrar",
-    "other": "{{count}} sin registrar"
+  "recaps_story_coming_text": {
+    "one": "Te espera 1 píxel más. Un día a la vez.",
+    "other": "Te esperan {{count}} píxeles más. Un día a la vez."
   },
   "recaps_story_coming_title": {
     "one": "Aún queda 1 día de %{year}",
     "other": "Aún quedan {{count}} días de %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 píxel lleno. Es un logro de verdad.",
+    "other": "{{count}} píxeles llenos. Es un logro de verdad."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Una vez te detuviste a notar cómo te sientes. Eso cuenta.",
+    "other": "{{count}} veces te detuviste a notar cómo te sientes. Eso cuenta."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 día te diste tiempo para ti. Siéntete orgulloso.",
+    "other": "{{count}} días te diste tiempo para ti. Siéntete orgulloso."
+  },
+  "recaps_story_cover_note_full": "Cada día de %{month} tiene su píxel. Es un logro de verdad.",
+  "recaps_story_cover_note_full_week": "Cada día de esta semana tiene su píxel. Es un logro de verdad.",
   "recaps_story_cover_pixels_title": "píxeles en %{month}",
   "recaps_story_cover_pixels_title_week": "Píxeles de esta semana",
   "recaps_story_cover_title_week": "Tómate un momento.\nEsta fue tu semana.",
@@ -1062,10 +1072,7 @@
     "other": "{{count}} días"
   },
   "recaps_story_hard_title": "%{tag} acompañó tus días difíciles",
-  "recaps_story_lifted_text": {
-    "one": "Comparado con días sin la etiqueta. 1 registro.",
-    "other": "Comparado con días sin la etiqueta. {{count}} registros."
-  },
+  "recaps_story_lifted_note": "Comparado con días sin la etiqueta.",
   "recaps_story_lifted_title": "Los días con %{tag} se sintieron más ligeros",
   "recaps_story_new_people_line_1": "Mira quién encontró su lugar en tus días.",
   "recaps_story_new_people_line_10": "No todos los meses traen a alguien nuevo. Este sí.",

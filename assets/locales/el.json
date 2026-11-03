@@ -1042,18 +1042,28 @@
   "recaps_story_banner_title_week": "Ανασκόπηση εβδομάδας",
   "recaps_story_best_day_ask": "Έτοιμος να δεις την καλύτερη μέρα σου;",
   "recaps_story_best_day_show": "Δείξε την καλύτερη μέρα σου",
-  "recaps_story_coming_left": {
-    "one": "Μένει 1",
-    "other": "Μένουν {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 χαμένη",
-    "other": "{{count}} χαμένες"
+  "recaps_story_coming_text": {
+    "one": "Σε περιμένει ακόμα 1 pixel. Μία μέρα τη φορά.",
+    "other": "Σε περιμένουν ακόμα {{count}} pixels. Μία μέρα τη φορά."
   },
   "recaps_story_coming_title": {
     "one": "Μένει ακόμα 1 μέρα του %{year}",
     "other": "Μένουν ακόμα {{count}} μέρες του %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel συμπληρώθηκε. Είναι πραγματικό επίτευγμα.",
+    "other": "{{count}} pixels συμπληρώθηκαν. Είναι πραγματικό επίτευγμα."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Μία φορά σταμάτησες να νιώσεις πώς είσαι. Αυτό μετράει.",
+    "other": "{{count}} φορές σταμάτησες να νιώσεις πώς είσαι. Αυτό μετράει."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 μέρα έκανες χρόνο για τον εαυτό σου. Να είσαι περήφανος.",
+    "other": "{{count}} μέρες έκανες χρόνο για τον εαυτό σου. Να είσαι περήφανος."
+  },
+  "recaps_story_cover_note_full": "Κάθε μέρα (%{month}) έχει το pixel της. Είναι πραγματικό επίτευγμα.",
+  "recaps_story_cover_note_full_week": "Κάθε μέρα αυτής της εβδομάδας έχει το pixel της. Είναι πραγματικό επίτευγμα.",
   "recaps_story_cover_pixels_title": "pixels · %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels αυτής της εβδομάδας",
   "recaps_story_cover_title_week": "Πάρε μια στιγμή.\nΑυτή ήταν η εβδομάδα σου.",
@@ -1062,10 +1072,7 @@
     "other": "{{count}} μέρες"
   },
   "recaps_story_hard_title": "%{tag}: συχνά στις πιο δύσκολες μέρες σου",
-  "recaps_story_lifted_text": {
-    "one": "Σε σύγκριση με μέρες χωρίς την ετικέτα. 1 καταγραφή.",
-    "other": "Σε σύγκριση με μέρες χωρίς την ετικέτα. {{count}} καταγραφές."
-  },
+  "recaps_story_lifted_note": "Σε σύγκριση με μέρες χωρίς την ετικέτα.",
   "recaps_story_lifted_title": "Οι μέρες με %{tag} ήταν οι πιο ανάλαφρες",
   "recaps_story_new_people_line_1": "Δες ποιος βρήκε τον δρόμο προς τις μέρες σου.",
   "recaps_story_new_people_line_10": "Δεν φέρνει κάθε μήνας κάποιον νέο. Αυτός έφερε.",

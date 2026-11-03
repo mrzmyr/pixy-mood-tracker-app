@@ -1042,18 +1042,28 @@
   "recaps_story_banner_title_week": "Imbasan Mingguan",
   "recaps_story_best_day_ask": "Sedia untuk melihat hari terbaik anda?",
   "recaps_story_best_day_show": "Tunjukkan hari terbaik anda",
-  "recaps_story_coming_left": {
-    "one": "1 lagi",
-    "other": "{{count}} lagi"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 terlepas",
-    "other": "{{count}} terlepas"
+  "recaps_story_coming_text": {
+    "one": "1 lagi piksel menanti anda. Satu hari demi satu hari.",
+    "other": "{{count}} lagi piksel menanti anda. Satu hari demi satu hari."
   },
   "recaps_story_coming_title": {
     "one": "Masih 1 Hari Lagi dalam %{year}",
     "other": "Masih {{count}} Hari Lagi dalam %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 piksel diisi. Itu pencapaian sebenar.",
+    "other": "{{count}} piksel diisi. Itu pencapaian sebenar."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Sekali anda berhenti untuk menyedari perasaan anda. Itu bermakna.",
+    "other": "{{count}} kali anda berhenti untuk menyedari perasaan anda. Itu bermakna."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 hari anda meluangkan masa untuk diri sendiri. Banggalah.",
+    "other": "{{count}} hari anda meluangkan masa untuk diri sendiri. Banggalah."
+  },
+  "recaps_story_cover_note_full": "Setiap hari pada %{month} ada pikselnya. Itu pencapaian sebenar.",
+  "recaps_story_cover_note_full_week": "Setiap hari minggu ini ada pikselnya. Itu pencapaian sebenar.",
   "recaps_story_cover_pixels_title": "piksel pada %{month}",
   "recaps_story_cover_pixels_title_week": "Piksel Minggu Ini",
   "recaps_story_cover_title_week": "Luangkan sedikit masa.\nInilah minggu anda.",
@@ -1062,10 +1072,7 @@
     "other": "{{count}} hari"
   },
   "recaps_story_hard_title": "%{tag} mengiringi hari-hari sukar anda",
-  "recaps_story_lifted_text": {
-    "one": "Berbanding hari tanpa tag ini. 1 rekod.",
-    "other": "Berbanding hari tanpa tag ini. {{count}} rekod."
-  },
+  "recaps_story_lifted_note": "Berbanding hari tanpa tag ini.",
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
   "recaps_story_new_people_line_1": "Lihat siapa yang menemui jalan ke hari-hari anda.",
   "recaps_story_new_people_line_10": "Bukan setiap bulan membawa seseorang yang baharu. Bulan ini ya.",

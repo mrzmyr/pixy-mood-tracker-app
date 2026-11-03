@@ -1042,18 +1042,28 @@
   "recaps_story_banner_title_week": "Ugens tilbageblik",
   "recaps_story_best_day_ask": "Klar til at se din bedste dag?",
   "recaps_story_best_day_show": "Vis din bedste dag",
-  "recaps_story_coming_left": {
-    "one": "1 tilbage",
-    "other": "{{count}} tilbage"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 misset",
-    "other": "{{count}} misset"
+  "recaps_story_coming_text": {
+    "one": "1 pixel mere venter på dig. Én dag ad gangen.",
+    "other": "{{count}} pixels mere venter på dig. Én dag ad gangen."
   },
   "recaps_story_coming_title": {
     "one": "1 dag af %{year} tilbage",
     "other": "{{count}} dage af %{year} tilbage"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel udfyldt. Det er en ægte præstation.",
+    "other": "{{count}} pixels udfyldt. Det er en ægte præstation."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Én gang stoppede du op og mærkede efter, hvordan du har det. Det tæller.",
+    "other": "{{count}} gange stoppede du op og mærkede efter, hvordan du har det. Det tæller."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "På 1 dag gav du dig tid til dig selv. Vær stolt af det.",
+    "other": "På {{count}} dage gav du dig tid til dig selv. Vær stolt af det."
+  },
+  "recaps_story_cover_note_full": "Hver dag i %{month} har sin pixel. Det er en ægte præstation.",
+  "recaps_story_cover_note_full_week": "Hver dag i denne uge har sin pixel. Det er en ægte præstation.",
   "recaps_story_cover_pixels_title": "pixels i %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels denne uge",
   "recaps_story_cover_title_week": "Tag et øjeblik.\nDet her er din uge.",
@@ -1062,10 +1072,7 @@
     "other": "{{count}} dage"
   },
   "recaps_story_hard_title": "%{tag} fulgte med dine tungere dage",
-  "recaps_story_lifted_text": {
-    "one": "Sammenlignet med dage uden tagget. 1 check-in.",
-    "other": "Sammenlignet med dage uden tagget. {{count}} check-ins."
-  },
+  "recaps_story_lifted_note": "Sammenlignet med dage uden tagget.",
   "recaps_story_lifted_title": "Dage med %{tag} føltes lettest",
   "recaps_story_new_people_line_1": "Se, hvem der fandt vej ind i dine dage.",
   "recaps_story_new_people_line_10": "Ikke hver måned bringer nogen ny. Det gjorde denne.",

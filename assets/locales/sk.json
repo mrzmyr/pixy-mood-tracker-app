@@ -1042,18 +1042,28 @@
   "recaps_story_banner_title_week": "Ohliadnutie za týždňom",
   "recaps_story_best_day_ask": "Chceš vidieť svoj najlepší deň?",
   "recaps_story_best_day_show": "Zobraziť najlepší deň",
-  "recaps_story_coming_left": {
-    "one": "Zostáva 1",
-    "other": "Zostáva: {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 vynechaný",
-    "other": "Vynechané: {{count}}"
+  "recaps_story_coming_text": {
+    "one": "Čaká na teba ešte 1 pixel. Deň po dni.",
+    "other": "Pixely, ktoré na teba ešte čakajú: {{count}}. Deň po dni."
   },
   "recaps_story_coming_title": {
     "one": "Z roku %{year} zostáva ešte 1 deň",
     "other": "Z roku %{year} zostáva ešte dní: {{count}}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 vyplnený pixel. To je skutočný úspech.",
+    "other": "Vyplnené pixely: {{count}}. To je skutočný úspech."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Raz si sa zastavil a všimol si, ako sa cítiš. To sa počíta.",
+    "other": "Koľkokrát si sa zastavil a všimol si, ako sa cítiš: {{count}}. To sa počíta."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 deň si si urobil čas sám pre seba. Buď na to hrdý.",
+    "other": "Dni, keď si si urobil čas sám pre seba: {{count}}. Buď na to hrdý."
+  },
+  "recaps_story_cover_note_full": "Každý deň (%{month}) má svoj pixel. To je skutočný úspech.",
+  "recaps_story_cover_note_full_week": "Každý deň tohto týždňa má svoj pixel. To je skutočný úspech.",
   "recaps_story_cover_pixels_title": "%{month} v pixeloch",
   "recaps_story_cover_pixels_title_week": "Pixely tohto týždňa",
   "recaps_story_cover_title_week": "Zastav sa na chvíľu.\nToto bol tvoj týždeň.",
@@ -1062,10 +1072,7 @@
     "other": "Dní: {{count}}"
   },
   "recaps_story_hard_title": "%{tag}: často v tvojich ťažších dňoch",
-  "recaps_story_lifted_text": {
-    "one": "V porovnaní s dňami bez štítku. 1 záznam.",
-    "other": "V porovnaní s dňami bez štítku. Záznamov: {{count}}."
-  },
+  "recaps_story_lifted_note": "V porovnaní s dňami bez štítku.",
   "recaps_story_lifted_title": "Dni so štítkom %{tag} boli najľahšie",
   "recaps_story_new_people_line_1": "Pozri, kto si našiel cestu do tvojich dní.",
   "recaps_story_new_people_line_10": "Nie každý mesiac prinesie niekoho nového. Tento áno.",

@@ -1042,18 +1042,28 @@
   "recaps_story_banner_title_week": "Підсумки тижня",
   "recaps_story_best_day_ask": "Готовий побачити свій найкращий день?",
   "recaps_story_best_day_show": "Показати найкращий день",
-  "recaps_story_coming_left": {
-    "one": "Залишилося: 1",
-    "other": "Залишилося: {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "Пропущено: 1",
-    "other": "Пропущено: {{count}}"
+  "recaps_story_coming_text": {
+    "one": "На Вас чекає ще 1 піксель. День за днем.",
+    "other": "Пікселів, які ще чекають на Вас: {{count}}. День за днем."
   },
   "recaps_story_coming_title": {
     "one": "До кінця %{year} ще 1 день",
     "other": "До кінця %{year} ще днів: {{count}}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "Заповнено 1 піксель. Це справжнє досягнення.",
+    "other": "Заповнено пікселів: {{count}}. Це справжнє досягнення."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Один раз Ви зупинилися й прислухалися до себе. Це важливо.",
+    "other": "Скільки разів Ви зупинялися й прислухалися до себе: {{count}}. Це важливо."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 день Ви знайшли час для себе. Цим можна пишатися.",
+    "other": "Днів, коли Ви знаходили час для себе: {{count}}. Цим можна пишатися."
+  },
+  "recaps_story_cover_note_full": "У кожного дня (%{month}) є свій піксель. Це справжнє досягнення.",
+  "recaps_story_cover_note_full_week": "У кожного дня цього тижня є свій піксель. Це справжнє досягнення.",
   "recaps_story_cover_pixels_title": "%{month} у пікселях",
   "recaps_story_cover_pixels_title_week": "Пікселі цього тижня",
   "recaps_story_cover_title_week": "Зупиніться на мить.\nЦе був ваш тиждень.",
@@ -1062,10 +1072,7 @@
     "other": "Днів: {{count}}"
   },
   "recaps_story_hard_title": "%{tag}: часто в непрості дні",
-  "recaps_story_lifted_text": {
-    "one": "Порівняно з днями без тегу. 1 відмітка.",
-    "other": "Порівняно з днями без тегу. Відміток: {{count}}."
-  },
+  "recaps_story_lifted_note": "Порівняно з днями без тегу.",
   "recaps_story_lifted_title": "Дні з %{tag} були найлегшими",
   "recaps_story_new_people_line_1": "Подивіться, хто знайшов дорогу у ваші дні.",
   "recaps_story_new_people_line_10": "Не кожен місяць приносить когось нового. Цей приніс.",
