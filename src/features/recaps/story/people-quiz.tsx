@@ -142,7 +142,6 @@ export const PeopleQuiz = ({
     <View ref={root}>
       <SlideHeader theme={theme} title={title} />
       <SlideCard
-        theme={theme}
         style={{
           flexDirection: "row",
           flexWrap: "wrap",

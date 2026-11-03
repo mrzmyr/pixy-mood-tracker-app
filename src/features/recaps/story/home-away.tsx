@@ -120,7 +120,7 @@ export const HomeAway = ({
           tone="muted"
         />
       </View>
-      <SlideCard theme={theme} style={{ alignSelf: "flex-start" }}>
+      <SlideCard style={{ alignSelf: "flex-start" }}>
         <View style={{ paddingTop: TAG_SPACE }}>
           {slide.trips.map((trip, index) =>
             getRuns(trip, ctx.period, lead).map((run) => (
