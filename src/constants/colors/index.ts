@@ -236,8 +236,8 @@ const light = {
   widgetFutureDay: "#0A0A0A0D",
   // Hairline around every pixel: light pixels hold on white clouds.
   widgetCellEdge: "#0A0A0A24",
-  // Today: lifted cell with a see-through white border, a light fill until the first check-in.
-  widgetToday: "#FFFFFF99",
+  // Today: lifted cell with a see-through dark border, a light fill until the first check-in.
+  widgetToday: "#0A0A0A59",
   widgetTodayEmpty: "#FFFFFF8C",
   yearPixelsLegendText: colors.neutral[400],
 
