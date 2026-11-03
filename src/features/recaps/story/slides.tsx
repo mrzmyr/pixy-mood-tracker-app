@@ -23,6 +23,7 @@ import {
 import { NewPeople } from "./new-people";
 import { BestDay } from "./best-day";
 import { Orbit } from "./orbit";
+import { HomeAway } from "./home-away";
 import { PeopleQuiz } from "./people-quiz";
 import type { QuizAnswer } from "./people-quiz";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
@@ -378,6 +379,9 @@ const SlideBody = ({
   switch (slide.type) {
     case "cover": {
       return <Cover slide={slide} ctx={ctx} />;
+    }
+    case "places": {
+      return <HomeAway slide={slide} ctx={ctx} />;
     }
     case "best-day": {
       return (

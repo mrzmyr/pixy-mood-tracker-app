@@ -1091,6 +1091,17 @@
     "one": "1 giorno in contatto",
     "other": "{{count}} giorni in contatto"
   },
+  "recaps_story_places_more": {
+    "one": "Ancora 1 viaggio",
+    "other": "Altri {{count}} viaggi"
+  },
+  "recaps_story_places_text": "%{away} via, %{home} a casa a %{city}.",
+  "recaps_story_places_text_away": "%{away} lontano da casa.",
+  "recaps_story_places_title": {
+    "one": "1 viaggio, poi di nuovo a casa",
+    "other": "{{count}} viaggi, poi di nuovo a casa"
+  },
+  "recaps_story_places_title_move": "In giro quasi tutto %{month}",
   "recaps_story_play": "Riproduci",
   "recaps_story_previous": "Slide precedente",
   "recaps_story_quiz_insight_place": {

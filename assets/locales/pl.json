@@ -1091,6 +1091,17 @@
     "one": "1 dzień w kontakcie",
     "other": "Dni w kontakcie: {{count}}"
   },
+  "recaps_story_places_more": {
+    "one": "Jeszcze 1 podróż",
+    "other": "Jeszcze podróże: {{count}}"
+  },
+  "recaps_story_places_text": "%{away} poza domem, %{home} w domu, %{city}.",
+  "recaps_story_places_text_away": "%{away} poza domem.",
+  "recaps_story_places_title": {
+    "one": "1 podróż, potem znów dom",
+    "other": "Podróże: {{count}}, potem znów dom"
+  },
+  "recaps_story_places_title_move": "%{month}: głównie w drodze",
   "recaps_story_play": "Odtwórz",
   "recaps_story_previous": "Poprzedni slajd",
   "recaps_story_quiz_insight_place": {

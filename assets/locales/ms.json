@@ -1091,6 +1091,17 @@
     "one": "1 hari berhubung",
     "other": "{{count}} hari berhubung"
   },
+  "recaps_story_places_more": {
+    "one": "1 lagi perjalanan",
+    "other": "{{count}} lagi perjalanan"
+  },
+  "recaps_story_places_text": "%{away} di luar, %{home} di rumah di %{city}.",
+  "recaps_story_places_text_away": "%{away} jauh dari rumah.",
+  "recaps_story_places_title": {
+    "one": "1 Perjalanan, Kemudian Pulang",
+    "other": "{{count}} Perjalanan, Kemudian Pulang"
+  },
+  "recaps_story_places_title_move": "Kerap Bergerak pada %{month}",
   "recaps_story_play": "Main",
   "recaps_story_previous": "Slaid sebelumnya",
   "recaps_story_quiz_insight_place": {

@@ -1091,6 +1091,17 @@
     "one": "1 dan u kontaktu",
     "other": "Dana u kontaktu: {{count}}"
   },
+  "recaps_story_places_more": {
+    "one": "Još 1 putovanje",
+    "other": "Još putovanja: {{count}}"
+  },
+  "recaps_story_places_text": "%{away} izvan kuće, %{home} kod kuće, %{city}.",
+  "recaps_story_places_text_away": "%{away} izvan kuće.",
+  "recaps_story_places_title": {
+    "one": "1 putovanje, pa opet kući",
+    "other": "Putovanja: {{count}}, pa opet kući"
+  },
+  "recaps_story_places_title_move": "%{month}: uglavnom na putu",
   "recaps_story_play": "Reproduciraj",
   "recaps_story_previous": "Prethodni slajd",
   "recaps_story_quiz_insight_place": {

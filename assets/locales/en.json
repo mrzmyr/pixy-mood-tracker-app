@@ -1091,6 +1091,17 @@
     "one": "1 day connected",
     "other": "{{count}} days connected"
   },
+  "recaps_story_places_more": {
+    "one": "1 more trip",
+    "other": "{{count}} more trips"
+  },
+  "recaps_story_places_text": "%{away} away, %{home} at home in %{city}.",
+  "recaps_story_places_text_away": "%{away} away from home.",
+  "recaps_story_places_title": {
+    "one": "1 Trip, Then Home Again",
+    "other": "{{count}} Trips, Then Home Again"
+  },
+  "recaps_story_places_title_move": "On the Move Most of %{month}",
   "recaps_story_play": "Play",
   "recaps_story_previous": "Previous slide",
   "recaps_story_quiz_insight_place": {

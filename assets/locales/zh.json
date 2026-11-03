@@ -1091,6 +1091,17 @@
     "one": "联系了 1 天",
     "other": "联系了 {{count}} 天"
   },
+  "recaps_story_places_more": {
+    "one": "还有 1 次旅行",
+    "other": "还有 {{count}} 次旅行"
+  },
+  "recaps_story_places_text": "在外 %{away}，在%{city}家中 %{home}。",
+  "recaps_story_places_text_away": "离家 %{away}。",
+  "recaps_story_places_title": {
+    "one": "1 次旅行，然后回家",
+    "other": "{{count}} 次旅行，然后回家"
+  },
+  "recaps_story_places_title_move": "%{month}大多在路上",
   "recaps_story_play": "播放",
   "recaps_story_previous": "上一页",
   "recaps_story_quiz_insight_place": {

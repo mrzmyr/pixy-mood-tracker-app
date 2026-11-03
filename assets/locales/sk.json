@@ -1091,6 +1091,17 @@
     "one": "1 deň v kontakte",
     "other": "Dní v kontakte: {{count}}"
   },
+  "recaps_story_places_more": {
+    "one": "Ešte 1 cesta",
+    "other": "Ďalšie cesty: {{count}}"
+  },
+  "recaps_story_places_text": "%{away} preč, %{home} doma, %{city}.",
+  "recaps_story_places_text_away": "%{away} preč z domova.",
+  "recaps_story_places_title": {
+    "one": "1 cesta, potom zase doma",
+    "other": "Cesty: {{count}}, potom zase doma"
+  },
+  "recaps_story_places_title_move": "%{month}: väčšinou na cestách",
   "recaps_story_play": "Prehrať",
   "recaps_story_previous": "Predchádzajúca snímka",
   "recaps_story_quiz_insight_place": {

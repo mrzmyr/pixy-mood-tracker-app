@@ -1091,6 +1091,17 @@
     "one": "1 nap kapcsolat",
     "other": "{{count}} nap kapcsolat"
   },
+  "recaps_story_places_more": {
+    "one": "Még 1 utazás",
+    "other": "Még {{count}} utazás"
+  },
+  "recaps_story_places_text": "%{away} távol, %{home} otthon (%{city}).",
+  "recaps_story_places_text_away": "%{away} távol otthonról.",
+  "recaps_story_places_title": {
+    "one": "1 utazás, aztán újra otthon",
+    "other": "{{count}} utazás, aztán újra otthon"
+  },
+  "recaps_story_places_title_move": "%{month}: sokat úton",
   "recaps_story_play": "Lejátszás",
   "recaps_story_previous": "Előző dia",
   "recaps_story_quiz_insight_place": {

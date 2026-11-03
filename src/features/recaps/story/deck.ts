@@ -5,7 +5,7 @@ import { addDays, daysBetween, getDayRating } from "../days";
 import { indexDays } from "../day-index";
 import { parsePlace } from "../places";
 import { getActiveTags } from "../cards/nudges";
-import { peopleOn } from "../cards/summaries";
+import { getPlaceVisits, peopleOn } from "../cards/summaries";
 import { THRESHOLDS } from "../thresholds";
 import type { DateKey, RecapDay, RecapInput } from "../types";
 import type {
@@ -16,6 +16,7 @@ import type {
   NewPeopleSlide,
   OrbitSlide,
   PeopleQuizSlide,
+  PlacesSlide,
   PositiveTagsSlide,
   QuizInsight,
   ShareSlide,
@@ -77,6 +78,41 @@ export const bestDay = (input: RecapInput): BestDaySlide | null => {
         b.items.length - a.items.length
     );
   return best ? { type: "best-day", date: best.date } : null;
+};
+
+/**
+ * Days away and at home on the cover's calendar. `null` with location off
+ * or without a trip.
+ */
+const places = (input: RecapInput): PlacesSlide | null => {
+  const visits = getPlaceVisits(input);
+  if (!visits || visits.trips.length === 0) {
+    return null;
+  }
+  const { home } = visits;
+  const trips = visits.trips.map((trip) => ({
+    city: trip.city,
+    start: trip.start,
+    end: trip.end,
+    dates: input.days.flatMap((day) =>
+      day.date >= trip.start && day.date <= trip.end ? [day.date] : []
+    ),
+  }));
+  const away = new Set(trips.flatMap((trip) => trip.dates));
+  const homeDays = input.days.filter(
+    (day) =>
+      !away.has(day.date) &&
+      day.items.some(
+        (item) => parsePlace(item.location?.name)?.city === home.city
+      )
+  ).length;
+  return {
+    type: "places",
+    home: home.city,
+    trips,
+    awayDays: away.size,
+    homeDays,
+  };
 };
 
 /**
@@ -337,7 +373,8 @@ const monthsSince = (start: DateKey, today: DateKey) =>
   dayjs(today).startOf("month").diff(dayjs(start).startOf("month"), "month");
 
 /**
- * Month story slides in deck order. Each slot skips when its rule fails,
+ * Month story slides in deck order: cover, days away and at home, tags,
+ * orbit, coming up, share. Each slot skips when its rule fails,
  * so the deck never pads. `null` for other periods, months outside the
  * current month and the 3 before it, and months with fewer than 10
  * check-in days. The current month gets a story from its 10th check-in.
@@ -354,6 +391,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
   }
   const slides: (StorySlide | null)[] = [
     cover(input),
+    places(input),
     bestDay(input),
     positiveTags(input),
     negativeTags(input),
