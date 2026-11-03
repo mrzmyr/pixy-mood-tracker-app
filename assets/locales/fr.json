@@ -888,6 +888,8 @@
   "profile_logging_since": "Suivi depuis {{date}}",
   "profile_private_note": "Votre nom et votre photo restent sur cet appareil.",
   "quick_check_in_again": "Nouveau check-in",
+  "quick_check_in_all": "Tout",
+  "quick_check_in_all_people": "Toutes les personnes",
   "quick_check_in_every": "Toutes les",
   "quick_check_in_every_hours": {
     "one": "{{count}} heure",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Check-in rapide",
   "quick_check_in_setting_description": "Note ton humeur en quelques touches depuis l’écran verrouillé, sans ouvrir Pixy.",
   "quick_check_in_skip": "Passer",
-  "quick_check_in_suggested": "Suggestions",
   "quick_check_in_title": "Check-in rapide",
   "quick_check_in_until": "À",
   "quick_check_ins": "Check-ins rapides",

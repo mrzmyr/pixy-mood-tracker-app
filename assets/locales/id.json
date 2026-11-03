@@ -888,6 +888,8 @@
   "profile_logging_since": "Mencatat sejak {{date}}",
   "profile_private_note": "Nama dan fotomu tetap di perangkat ini.",
   "quick_check_in_again": "Check-in lagi",
+  "quick_check_in_all": "Semua",
+  "quick_check_in_all_people": "Semua orang",
   "quick_check_in_every": "Setiap",
   "quick_check_in_every_hours": {
     "one": "{{count}} jam",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Check-in cepat",
   "quick_check_in_setting_description": "Catat suasana hatimu dari layar kunci dengan beberapa ketukan, tanpa membuka Pixy.",
   "quick_check_in_skip": "Lewati",
-  "quick_check_in_suggested": "Saran",
   "quick_check_in_title": "Check-in cepat",
   "quick_check_in_until": "Sampai",
   "quick_check_ins": "Check-in Cepat",

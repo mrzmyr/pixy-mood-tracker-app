@@ -888,6 +888,8 @@
   "profile_logging_since": "Καταγραφή από {{date}}",
   "profile_private_note": "Το όνομα και η φωτογραφία σας μένουν σε αυτή τη συσκευή.",
   "quick_check_in_again": "Νέα καταγραφή",
+  "quick_check_in_all": "Όλα",
+  "quick_check_in_all_people": "Όλα τα άτομα",
   "quick_check_in_every": "Κάθε",
   "quick_check_in_every_hours": {
     "one": "{{count}} ώρα",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Γρήγορη καταγραφή",
   "quick_check_in_setting_description": "Κατέγραψε τη διάθεσή σου από την οθόνη κλειδώματος με λίγα αγγίγματα, χωρίς να ανοίξεις το Pixy.",
   "quick_check_in_skip": "Παράλειψη",
-  "quick_check_in_suggested": "Προτάσεις",
   "quick_check_in_title": "Γρήγορη καταγραφή",
   "quick_check_in_until": "Έως",
   "quick_check_ins": "Γρήγορες καταγραφές",

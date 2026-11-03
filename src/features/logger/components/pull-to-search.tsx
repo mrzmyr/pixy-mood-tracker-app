@@ -1,6 +1,10 @@
 import { useRef, useState } from "react";
 import { Pressable, ScrollView, TextInput, View } from "react-native";
-import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import type {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ViewStyle,
+} from "react-native";
 import Search from "lucide-react-native/icons/search";
 import CircleX from "lucide-react-native/icons/circle-x";
 import { getInputTextStyle } from "@/components/typography";
@@ -18,6 +22,7 @@ const SEARCH_HEIGHT = PADDING_TOP + INPUT_HEIGHT;
  * Settings. Pulling the bar more than halfway into view reveals it and
  * focuses the input. Blurring an empty input hides the bar again.
  * `inset` pads the bar horizontally; pass 0 inside an already padded parent.
+ * `accessory` sits right of the input, like a mic button.
  */
 export const PullToSearch = ({
   query,
@@ -25,6 +30,8 @@ export const PullToSearch = ({
   placeholder,
   testID,
   inset = 20,
+  accessory,
+  contentContainerStyle,
   children,
 }: {
   query: string;
@@ -32,6 +39,8 @@ export const PullToSearch = ({
   placeholder: string;
   testID: string;
   inset?: number;
+  accessory?: React.ReactNode;
+  contentContainerStyle?: ViewStyle;
   children: React.ReactNode;
 }) => {
   const colors = useColors();
@@ -100,7 +109,10 @@ export const PullToSearch = ({
         hideInitially(viewportHeight);
       }}
       // Short content still scrolls far enough to hide the bar.
-      contentContainerStyle={{ minHeight: viewportHeight + SEARCH_HEIGHT }}
+      contentContainerStyle={{
+        ...contentContainerStyle,
+        minHeight: viewportHeight + SEARCH_HEIGHT,
+      }}
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
       onScrollEndDrag={settle(true)}
@@ -120,10 +132,13 @@ export const PullToSearch = ({
           height: SEARCH_HEIGHT,
           paddingTop: PADDING_TOP,
           paddingHorizontal: inset,
+          flexDirection: "row",
+          gap: 8,
         }}
       >
         <View
           style={{
+            flex: 1,
             flexDirection: "row",
             alignItems: "center",
             height: INPUT_HEIGHT,
@@ -170,6 +185,7 @@ export const PullToSearch = ({
             </Pressable>
           )}
         </View>
+        {accessory}
       </View>
       {children}
     </ScrollView>

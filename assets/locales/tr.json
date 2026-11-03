@@ -888,6 +888,8 @@
   "profile_logging_since": "{{date}} tarihinden beri kayıt tutuyorsun",
   "profile_private_note": "Adın ve fotoğrafın bu cihazda kalır.",
   "quick_check_in_again": "Yeniden kaydet",
+  "quick_check_in_all": "Tümü",
+  "quick_check_in_all_people": "Tüm kişiler",
   "quick_check_in_every": "Her",
   "quick_check_in_every_hours": {
     "one": "{{count}} saatte bir",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Hızlı kayıt",
   "quick_check_in_setting_description": "Pixy’yi açmadan, kilit ekranından birkaç dokunuşla ruh halini kaydet.",
   "quick_check_in_skip": "Atla",
-  "quick_check_in_suggested": "Öneriler",
   "quick_check_in_title": "Hızlı kayıt",
   "quick_check_in_until": "Bitiş",
   "quick_check_ins": "Hızlı Kayıtlar",

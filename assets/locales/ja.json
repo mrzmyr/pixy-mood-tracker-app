@@ -888,6 +888,8 @@
   "profile_logging_since": "{{date}}から記録中",
   "profile_private_note": "名前と写真はこのデバイスにのみ保存されます。",
   "quick_check_in_again": "もう一度記録",
+  "quick_check_in_all": "すべて",
+  "quick_check_in_all_people": "すべての人",
   "quick_check_in_every": "間隔",
   "quick_check_in_every_hours": {
     "one": "{{count}}時間",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "クイック記録",
   "quick_check_in_setting_description": "Pixyを開かずに、ロック画面から数回タップするだけで気分を記録できます。",
   "quick_check_in_skip": "スキップ",
-  "quick_check_in_suggested": "おすすめ",
   "quick_check_in_title": "クイック記録",
   "quick_check_in_until": "終了",
   "quick_check_ins": "クイック記録",

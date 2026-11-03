@@ -888,6 +888,8 @@
   "profile_logging_since": "{{date}}부터 기록 중",
   "profile_private_note": "이름과 사진은 이 기기에만 저장됩니다.",
   "quick_check_in_again": "다시 기록하기",
+  "quick_check_in_all": "전체",
+  "quick_check_in_all_people": "모든 사람",
   "quick_check_in_every": "간격",
   "quick_check_in_every_hours": {
     "one": "{{count}}시간",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "빠른 기록",
   "quick_check_in_setting_description": "Pixy를 열지 않고 잠금 화면에서 몇 번의 탭으로 기분을 기록하세요.",
   "quick_check_in_skip": "건너뛰기",
-  "quick_check_in_suggested": "추천",
   "quick_check_in_title": "빠른 기록",
   "quick_check_in_until": "종료",
   "quick_check_ins": "빠른 기록",

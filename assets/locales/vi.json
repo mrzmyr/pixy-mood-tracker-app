@@ -888,6 +888,8 @@
   "profile_logging_since": "Ghi lại từ {{date}}",
   "profile_private_note": "Tên và ảnh của bạn chỉ lưu trên thiết bị này.",
   "quick_check_in_again": "Ghi lại lần nữa",
+  "quick_check_in_all": "Tất cả",
+  "quick_check_in_all_people": "Tất cả mọi người",
   "quick_check_in_every": "Mỗi",
   "quick_check_in_every_hours": {
     "one": "{{count}} giờ",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Ghi nhanh",
   "quick_check_in_setting_description": "Ghi lại tâm trạng ngay trên màn hình khóa chỉ với vài lần chạm, không cần mở Pixy.",
   "quick_check_in_skip": "Bỏ qua",
-  "quick_check_in_suggested": "Gợi ý",
   "quick_check_in_title": "Ghi nhanh",
   "quick_check_in_until": "Đến",
   "quick_check_ins": "Ghi nhanh",

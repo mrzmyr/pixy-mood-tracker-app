@@ -888,6 +888,8 @@
   "profile_logging_since": "Naplózás kezdete: {{date}}",
   "profile_private_note": "A neved és a fotód ezen az eszközön marad.",
   "quick_check_in_again": "Új bejegyzés",
+  "quick_check_in_all": "Összes",
+  "quick_check_in_all_people": "Összes személy",
   "quick_check_in_every": "Gyakoriság",
   "quick_check_in_every_hours": {
     "one": "{{count}} óránként",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Gyors bejegyzés",
   "quick_check_in_setting_description": "Rögzítsd a hangulatodat a zárolási képernyőn néhány koppintással, a Pixy megnyitása nélkül.",
   "quick_check_in_skip": "Kihagyás",
-  "quick_check_in_suggested": "Javaslatok",
   "quick_check_in_title": "Gyors bejegyzés",
   "quick_check_in_until": "Eddig",
   "quick_check_ins": "Gyors bejegyzések",

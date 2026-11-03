@@ -888,6 +888,8 @@
   "profile_logging_since": "Bijgehouden sinds {{date}}",
   "profile_private_note": "Je naam en foto blijven op dit apparaat.",
   "quick_check_in_again": "Opnieuw inchecken",
+  "quick_check_in_all": "Alle",
+  "quick_check_in_all_people": "Alle personen",
   "quick_check_in_every": "Elke",
   "quick_check_in_every_hours": {
     "one": "{{count}} uur",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Snelle check-in",
   "quick_check_in_setting_description": "Leg je stemming vast op het vergrendelscherm met een paar tikken, zonder Pixy te openen.",
   "quick_check_in_skip": "Overslaan",
-  "quick_check_in_suggested": "Voorgesteld",
   "quick_check_in_title": "Snelle check-in",
   "quick_check_in_until": "Tot",
   "quick_check_ins": "Snelle check-ins",

@@ -888,6 +888,8 @@
   "profile_logging_since": "Merekod sejak {{date}}",
   "profile_private_note": "Nama dan foto anda kekal pada peranti ini.",
   "quick_check_in_again": "Daftar masuk lagi",
+  "quick_check_in_all": "Semua",
+  "quick_check_in_all_people": "Semua orang",
   "quick_check_in_every": "Setiap",
   "quick_check_in_every_hours": {
     "one": "{{count}} jam",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Daftar masuk pantas",
   "quick_check_in_setting_description": "Rekod mood anda dari skrin kunci dengan beberapa ketikan, tanpa membuka Pixy.",
   "quick_check_in_skip": "Langkau",
-  "quick_check_in_suggested": "Cadangan",
   "quick_check_in_title": "Daftar masuk pantas",
   "quick_check_in_until": "Hingga",
   "quick_check_ins": "Daftar Masuk Pantas",

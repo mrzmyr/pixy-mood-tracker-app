@@ -39,8 +39,19 @@ const tags = [
 const labels = (options: { label: string }[]) =>
   options.map((option) => option.label);
 
+const base = {
+  query: "",
+  rating: "good" as const,
+  items: [],
+  people,
+  tags,
+  emotions,
+  picked: [],
+  now: NOW,
+};
+
 describe("getSheetSections()", () => {
-  test("suggests the top 3 and lists the rest A to Z", () => {
+  test("ranks people and tags best guess first", () => {
     const items = [
       _generateItem({
         dateTime: "2026-10-17T20:00:00",
@@ -49,55 +60,35 @@ describe("getSheetSections()", () => {
       }),
     ];
 
-    const sections = getSheetSections({
-      query: "",
-      rating: "good",
-      items,
-      people,
-      tags,
-      emotions,
-      now: NOW,
-    });
+    const sections = getSheetSections({ ...base, items });
 
-    expect(labels(sections.suggested)).toEqual(["Dora", "Work", "Ada"]);
-    expect(labels(sections.people)).toEqual(["Ben", "Cem"]);
-    expect(labels(sections.tags)).toEqual(["Jogging"]);
+    expect(labels(sections.people)).toEqual(["Dora", "Ada", "Ben", "Cem"]);
+    expect(labels(sections.tags)).toEqual(["Work", "Jogging"]);
   });
 
-  test("lists basic emotions with the mood's category first", () => {
+  test("caps tags at 20 and keeps a picked tag from further down", () => {
+    const many = Array.from({ length: 25 }, (_, index) => ({
+      id: `t${String(index).padStart(2, "0")}`,
+      title: `Tag ${String(index).padStart(2, "0")}`,
+    }));
+
     const sections = getSheetSections({
-      query: "",
-      rating: "very_bad",
-      items: [],
-      people,
-      tags,
-      emotions,
-      now: NOW,
+      ...base,
+      tags: many,
+      picked: ["tag:t24"],
     });
 
-    expect(sections.emotions.map((item) => item.key)).toEqual([
-      "sad",
-      "calm",
-      "joyful",
-    ]);
+    expect(sections.tags).toHaveLength(21);
+    expect(sections.tags[20]?.id).toBe("t24");
   });
 
-  test("search matches every emotion, person, and tag without suggestions", () => {
-    const sections = getSheetSections({
-      query: "J",
-      rating: "good",
-      items: [],
-      people,
-      tags,
-      emotions,
-      now: NOW,
-    });
+  test("search matches every emotion, person, and tag", () => {
+    const sections = getSheetSections({ ...base, query: "J" });
 
     expect(sections.emotions.map((item) => item.key)).toEqual([
       "jealous",
       "joyful",
     ]);
-    expect(sections.suggested).toEqual([]);
     expect(labels(sections.people)).toEqual([]);
     expect(labels(sections.tags)).toEqual(["Jogging"]);
   });

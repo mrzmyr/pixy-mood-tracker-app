@@ -888,6 +888,8 @@
   "profile_logging_since": "บันทึกตั้งแต่ {{date}}",
   "profile_private_note": "ชื่อและรูปภาพของคุณอยู่บนอุปกรณ์นี้เท่านั้น",
   "quick_check_in_again": "เช็กอินอีกครั้ง",
+  "quick_check_in_all": "ทั้งหมด",
+  "quick_check_in_all_people": "ทุกคน",
   "quick_check_in_every": "ทุก",
   "quick_check_in_every_hours": {
     "one": "{{count}} ชั่วโมง",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "เช็กอินด่วน",
   "quick_check_in_setting_description": "บันทึกอารมณ์จากหน้าจอล็อกได้ในไม่กี่แตะ โดยไม่ต้องเปิด Pixy",
   "quick_check_in_skip": "ข้าม",
-  "quick_check_in_suggested": "แนะนำ",
   "quick_check_in_title": "เช็กอินด่วน",
   "quick_check_in_until": "ถึง",
   "quick_check_ins": "เช็กอินด่วน",

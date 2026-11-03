@@ -888,6 +888,8 @@
   "profile_logging_since": "تسجّل منذ {{date}}",
   "profile_private_note": "يبقى اسمك وصورتك على هذا الجهاز.",
   "quick_check_in_again": "تسجيل جديد",
+  "quick_check_in_all": "الكل",
+  "quick_check_in_all_people": "كل الأشخاص",
   "quick_check_in_every": "كل",
   "quick_check_in_every_hours": {
     "one": "{{count}} ساعة",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "تسجيل سريع",
   "quick_check_in_setting_description": "سجّل مزاجك من شاشة القفل ببضع نقرات، دون فتح Pixy.",
   "quick_check_in_skip": "تخطٍّ",
-  "quick_check_in_suggested": "مقترحات",
   "quick_check_in_title": "تسجيل سريع",
   "quick_check_in_until": "حتى",
   "quick_check_ins": "تسجيلات سريعة",

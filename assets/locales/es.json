@@ -888,6 +888,8 @@
   "profile_logging_since": "Registrando desde {{date}}",
   "profile_private_note": "Tu nombre y tu foto se quedan en este dispositivo.",
   "quick_check_in_again": "Registrar de nuevo",
+  "quick_check_in_all": "Todo",
+  "quick_check_in_all_people": "Todas las personas",
   "quick_check_in_every": "Cada",
   "quick_check_in_every_hours": {
     "one": "{{count}} hora",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Registro rápido",
   "quick_check_in_setting_description": "Registra tu estado de ánimo desde la pantalla de bloqueo con unos toques, sin abrir Pixy.",
   "quick_check_in_skip": "Omitir",
-  "quick_check_in_suggested": "Sugerencias",
   "quick_check_in_title": "Registro rápido",
   "quick_check_in_until": "Hasta",
   "quick_check_ins": "Registros rápidos",

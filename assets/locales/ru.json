@@ -888,6 +888,8 @@
   "profile_logging_since": "Ведёте записи с {{date}}",
   "profile_private_note": "Ваши имя и фото остаются на этом устройстве.",
   "quick_check_in_again": "Новая запись",
+  "quick_check_in_all": "Все",
+  "quick_check_in_all_people": "Все люди",
   "quick_check_in_every": "Каждые",
   "quick_check_in_every_hours": {
     "one": "{{count}} ч",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Быстрая запись",
   "quick_check_in_setting_description": "Отмечай настроение с экрана блокировки в несколько касаний, не открывая Pixy.",
   "quick_check_in_skip": "Пропустить",
-  "quick_check_in_suggested": "Предложения",
   "quick_check_in_title": "Быстрая запись",
   "quick_check_in_until": "До",
   "quick_check_ins": "Быстрые записи",

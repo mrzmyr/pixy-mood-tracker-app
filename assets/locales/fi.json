@@ -888,6 +888,8 @@
   "profile_logging_since": "Kirjannut {{date}} alkaen",
   "profile_private_note": "Nimesi ja kuvasi pysyvät tällä laitteella.",
   "quick_check_in_again": "Kirjaa uudelleen",
+  "quick_check_in_all": "Kaikki",
+  "quick_check_in_all_people": "Kaikki ihmiset",
   "quick_check_in_every": "Väli",
   "quick_check_in_every_hours": {
     "one": "{{count}} tunti",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Pikakirjaus",
   "quick_check_in_setting_description": "Kirjaa mielialasi lukitusnäytöltä muutamalla napautuksella avaamatta Pixyä.",
   "quick_check_in_skip": "Ohita",
-  "quick_check_in_suggested": "Ehdotukset",
   "quick_check_in_title": "Pikakirjaus",
   "quick_check_in_until": "Asti",
   "quick_check_ins": "Pikakirjaukset",

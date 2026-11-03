@@ -888,6 +888,8 @@
   "profile_logging_since": "Înregistrezi din {{date}}",
   "profile_private_note": "Numele și fotografia ta rămân pe acest dispozitiv.",
   "quick_check_in_again": "Înregistrează din nou",
+  "quick_check_in_all": "Toate",
+  "quick_check_in_all_people": "Toate persoanele",
   "quick_check_in_every": "La fiecare",
   "quick_check_in_every_hours": {
     "one": "{{count}} oră",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Înregistrare rapidă",
   "quick_check_in_setting_description": "Notează-ți starea de spirit de pe ecranul de blocare în câteva atingeri, fără să deschizi Pixy.",
   "quick_check_in_skip": "Omite",
-  "quick_check_in_suggested": "Sugestii",
   "quick_check_in_title": "Înregistrare rapidă",
   "quick_check_in_until": "Până la",
   "quick_check_ins": "Înregistrări rapide",

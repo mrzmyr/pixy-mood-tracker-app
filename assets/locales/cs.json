@@ -888,6 +888,8 @@
   "profile_logging_since": "Zaznamenáváte od {{date}}",
   "profile_private_note": "Vaše jméno a fotka zůstanou v tomto zařízení.",
   "quick_check_in_again": "Zapsat znovu",
+  "quick_check_in_all": "Vše",
+  "quick_check_in_all_people": "Všichni lidé",
   "quick_check_in_every": "Po",
   "quick_check_in_every_hours": {
     "one": "{{count}} hodině",
@@ -901,7 +903,6 @@
   "quick_check_in_setting": "Rychlý záznam",
   "quick_check_in_setting_description": "Zapiš svou náladu z uzamčené obrazovky několika klepnutími, bez otevření Pixy.",
   "quick_check_in_skip": "Přeskočit",
-  "quick_check_in_suggested": "Návrhy",
   "quick_check_in_title": "Rychlý záznam",
   "quick_check_in_until": "Do",
   "quick_check_ins": "Rychlé záznamy",

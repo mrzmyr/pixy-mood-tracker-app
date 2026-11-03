@@ -40,6 +40,7 @@ import { SlideAction } from "./components/slide-action";
 import { LoggerHeader } from "./components/logger-header";
 import type { LoggerStep } from "@/constants/logger-steps";
 import { SlideEmotions } from "./slides/slide-emotions";
+import { getEmotionPageIndex } from "./slides/slide-emotions/basic-emotions";
 import { SlideFeedback } from "./slides/slide-feedback";
 import { SlideMessage } from "./slides/slide-message";
 import { SlideMood } from "./slides/slide-mood";
@@ -82,16 +83,6 @@ const SLIDE_ORDER: LoggerStep[] = [
   "reminder",
   "feedback",
 ];
-
-const EMOTIONS_INDEX_MAPPING = {
-  extremely_bad: 0,
-  very_bad: 1,
-  bad: 1,
-  neutral: 2,
-  good: 3,
-  very_good: 3,
-  extremely_good: 4,
-};
 
 interface SlideContent {
   key: string;
@@ -489,7 +480,7 @@ const LoggerSlides = ({
           }}
         >
           <SlideEmotions
-            defaultIndex={EMOTIONS_INDEX_MAPPING[draft.rating ?? "neutral"]}
+            defaultIndex={getEmotionPageIndex(draft.rating)}
             onDisableStep={() => disableStep("emotions")}
             initialMode={emotionsMode}
             onModeChange={setEmotionsMode}
