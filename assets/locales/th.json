@@ -1040,7 +1040,6 @@
   "recaps_story_banner_title_week": "สรุปย้อนหลังประจำสัปดาห์",
   "recaps_story_best_day_ask": "พร้อมดูวันที่ดีที่สุดของคุณหรือยัง",
   "recaps_story_best_day_show": "แสดงวันที่ดีที่สุดของคุณ",
-  "recaps_story_best_day_swipe": "ปัดเพื่อดู",
   "recaps_story_coming_left": {
     "one": "เหลืออีก 1",
     "other": "เหลืออีก {{count}}"

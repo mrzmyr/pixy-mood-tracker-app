@@ -19,12 +19,10 @@ const EVERY_MS = [0, 500, 320, 200, 120];
 
 /** Emotes of one cheer. */
 const BURST = 14;
-const HEART = "#F472B6";
 const SPARKLE = "#FDE68A";
 
 interface Emote {
   id: number;
-  kind: "heart" | "sparkle";
   x: number;
   y: number;
   /** Sideways travel while it rises, in points. */
@@ -34,12 +32,10 @@ interface Emote {
   size: number;
 }
 
-const HEART_PATH =
-  "M12 21s-7.5-4.6-10-9.3C.4 8.6 2.3 4.5 6.2 4.5c2.3 0 3.9 1.3 5.8 3.5 1.9-2.2 3.5-3.5 5.8-3.5 3.9 0 5.8 4.1 4.2 7.2C19.5 16.4 12 21 12 21z";
 const SPARKLE_PATH =
   "M12 1 Q13.6 10.4 23 12 Q13.6 13.6 12 23 Q10.4 13.6 1 12 Q10.4 10.4 12 1 Z";
 
-/** Heart or sparkle that rises from Pixy, grows a little, and fades out. */
+/** Sparkle that rises from Pixy, grows a little, and fades out. */
 const RisingEmote = ({
   emote,
   onDone,
@@ -75,17 +71,14 @@ const RisingEmote = ({
   return (
     <Animated.View style={[{ position: "absolute", left: 0, top: 0 }, style]}>
       <Svg width={emote.size} height={emote.size} viewBox="0 0 24 24">
-        <Path
-          d={emote.kind === "heart" ? HEART_PATH : SPARKLE_PATH}
-          fill={emote.kind === "heart" ? HEART : SPARKLE}
-        />
+        <Path d={SPARKLE_PATH} fill={SPARKLE} />
       </Svg>
     </Animated.View>
   );
 };
 
 /**
- * Hearts and sparkles that rise from cloud Pixy at `x`, `y`: more the higher
+ * Sparkles that rise above from cloud Pixy at `x`, `y`: more the higher
  * `joy` (0 to 1), and a burst on every new `cheers` count. Decoration only:
  * no touches, no screen reader.
  */
@@ -106,13 +99,13 @@ export const SkyPixyEmotes = ({
 
   const spawn = (count: number) => {
     const cx = x.get();
-    const top = y.get() - CLOUD_PIXY_SIZE * 0.3;
+    // Above Pixy's head, never on its face.
+    const top = y.get() - CLOUD_PIXY_SIZE * 0.5;
     const added = Array.from({ length: count }, (): Emote => {
       nextId.current += 1;
       return {
         id: nextId.current,
-        kind: Math.random() < 0.6 ? "heart" : "sparkle",
-        x: cx + (Math.random() - 0.5) * CLOUD_PIXY_SIZE * 0.6,
+        x: cx + (Math.random() - 0.5) * CLOUD_PIXY_SIZE * 0.5,
         y: top,
         drift: (Math.random() - 0.5) * 50,
         rise: 50 + Math.random() * 50,

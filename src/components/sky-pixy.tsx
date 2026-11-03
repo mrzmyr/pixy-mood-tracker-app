@@ -61,7 +61,7 @@ const EXCITED_HAPPY_MS = EXCITE_IN_MS + CALM_DOWN_MS;
  * up while the clouds rush to the next step. A tap excites Pixy: it zips
  * around its zone with a happy hop and "^^" eyes, then calms down. Now and
  * then it smiles on its own. `guide` calls Pixy over to a control: it
- * glides there, hovers, and sends hearts while the user acts; each new
+ * glides there, hovers, and sends sparkles while the user acts; each new
  * `cheers` count makes it hop with a burst. Render only when motion is
  * allowed.
  */

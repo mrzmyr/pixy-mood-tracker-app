@@ -1,10 +1,9 @@
 import dayjs from "dayjs";
 import { use, useEffect, useRef, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { GestureDetector, usePanGesture } from "react-native-gesture-handler";
 import Animated, {
   Easing,
-  interpolate,
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
@@ -75,7 +74,7 @@ const GOOD = new Set(["very_good", "good"]);
  * Track with a thumb the user drags to the end. Releases short of
  * `UNLOCK_SHARE` slide the thumb back. Screen readers get one button.
  * Cloud Pixy flies its free sky. On press down it comes over, hovers above
- * the thumb, follows it, and sends more hearts the further it goes. A
+ * the thumb, follows it, and sends more sparkles the further it goes. A
  * release short of the end sends it back to its sky. On unlock Pixy cheers,
  * then the day opens.
  */
@@ -193,10 +192,6 @@ const SwipeToUnlock = ({
   const thumbStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: offset.get() }],
   }));
-  const hintStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(offset.get(), [0, travel * 0.6 || 1], [1, 0], "clamp"),
-  }));
-  const label = t("recaps_story_best_day_swipe");
   return (
     <GestureDetector gesture={gesture}>
       <View
@@ -218,22 +213,6 @@ const SwipeToUnlock = ({
           justifyContent: "center",
         }}
       >
-        <Animated.View
-          pointerEvents="none"
-          style={[
-            StyleSheet.absoluteFill,
-            {
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: THUMB_SIZE,
-            },
-            hintStyle,
-          ]}
-        >
-          <StoryText kind="label" theme={theme} tone="muted">
-            {label}
-          </StoryText>
-        </Animated.View>
         <Animated.View
           style={[
             {
