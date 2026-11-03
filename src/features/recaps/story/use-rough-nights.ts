@@ -42,8 +42,14 @@ export interface MissedSheetProps {
  * once the user said yes. Tracks the answer to "Look closer?" and the
  * question, counts and booleans only.
  */
-export const useRoughNights = (deck: StorySlide[] | null) => {
+export const useRoughNights = (
+  built: StorySlide[] | null,
+  isSleepOn: boolean
+) => {
   const analytics = useAnalytics();
+  // The sleep slide has its own flag inside the recap story.
+  const deck =
+    built?.filter((slide) => isSleepOn || slide.type !== "sleep") ?? null;
   const sleep = deck?.find(isSleep);
   // `null` until answered.
   const [isLookingCloser, setIsLookingCloser] = useState<boolean | null>(null);
@@ -108,9 +114,17 @@ export const useRoughNights = (deck: StorySlide[] | null) => {
     onBack: noop,
   };
 
-  /** Sleep slide that still waits for "Look closer?". */
-  const isAsking = (slide: StorySlide) =>
-    isSleep(slide) && slide.roughNights.length > 0 && isLookingCloser === null;
+  /**
+   * Slide with its own buttons: the sleep slide while it asks, the question,
+   * and the closing. It waits for a tap and shows no Share or feedback.
+   */
+  const hasOwnButtons = (slide: StorySlide | undefined) =>
+    slide !== undefined &&
+    ((isSleep(slide) &&
+      slide.roughNights.length > 0 &&
+      isLookingCloser === null) ||
+      slide.type === "rough-nights-ask" ||
+      slide.type === "rough-nights-closing");
 
   const missed: MissedSheetProps | null = sleep
     ? {
@@ -134,5 +148,5 @@ export const useRoughNights = (deck: StorySlide[] | null) => {
       }
     : null;
 
-  return { story, controls, isAsking, missed, isMissedOpen };
+  return { story, controls, hasOwnButtons, missed, isMissedOpen };
 };

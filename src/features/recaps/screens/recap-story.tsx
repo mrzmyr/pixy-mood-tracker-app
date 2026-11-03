@@ -136,12 +136,9 @@ const RecapStory = () => {
   const input = useRecapInput(period);
   const { tags } = useTagsState();
   const { people } = usePeopleState();
-  const isSleepOn = useFeatureFlag("recap-sleep");
-  const built =
-    kind === "week" ? buildWeekStory(input) : buildMonthStory(input);
-  // The sleep slide has its own flag inside the recap story.
   const rough = useRoughNights(
-    built?.filter((slide) => isSleepOn || slide.type !== "sleep") ?? null
+    kind === "week" ? buildWeekStory(input) : buildMonthStory(input),
+    useFeatureFlag("recap-sleep")
   );
   const { story } = rough;
   // "My September", or "My week" for a week story.
@@ -342,23 +339,14 @@ const RecapStory = () => {
     key: `${index}-${slide.type}`,
     theme: getStoryTheme(ctx.isDark),
     // A quiz waits for the answer, the best day for its unlock, slides with
-    // their own buttons for a tap, then the story plays on.
+    // own buttons for a tap. Then the story plays on.
     isWaiting:
       (slide.type === "people-quiz" && !picks.has(index)) ||
       (slide.type === "best-day" && !isBestDayUnlocked) ||
-      rough.isAsking(slide) ||
-      slide.type === "rough-nights-ask" ||
-      slide.type === "rough-nights-closing",
+      rough.hasOwnButtons(slide),
     durationMs: getSlideDuration(slide),
     content: contentOf(slide, index),
   }));
-  // Slides with their own buttons show no Share and no feedback.
-  const hasOwnButtons = (slide: StorySlide | undefined) =>
-    slide !== undefined &&
-    (rough.isAsking(slide) ||
-      slide.type === "rough-nights-ask" ||
-      slide.type === "rough-nights-closing");
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StoryTransitionView transition={transition}>
@@ -387,7 +375,7 @@ const RecapStory = () => {
             }
           }}
           renderBottom={(index, theme, controls) =>
-            hasOwnButtons(slideOf(index)) ? null : (
+            rough.hasOwnButtons(slideOf(index)) ? null : (
               <StoryActions
                 theme={theme}
                 isSharing={isSharing}
