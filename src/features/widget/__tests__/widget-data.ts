@@ -174,7 +174,13 @@ describe("getYearImageColors()", () => {
     (theme) => {
       const image = getYearImageColors(theme, "ColorBrew-RdYlGn");
       const widget = getSchemeColors(theme, "ColorBrew-RdYlGn");
-      for (const key of ["empty", "future", "edge"] as const) {
+      for (const key of [
+        "empty",
+        "future",
+        "edge",
+        "today",
+        "todayEmpty",
+      ] as const) {
         expect(chroma(image[key]).alpha()).toBe(1);
         expect(image[key]).toBe(over(widget[key], widget.background));
       }

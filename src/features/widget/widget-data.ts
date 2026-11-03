@@ -121,6 +121,7 @@ export const getYearImageColors = (
     future: flatten(colors.future, colors.background),
     edge: flatten(colors.edge, colors.background),
     todayEmpty: flatten(colors.todayEmpty, colors.background),
+    today: flatten(colors.today, colors.background),
   };
 };
 
