@@ -40,6 +40,7 @@ import {
   getStoryTheme,
   STORY_BLOCK_GAP,
   STORY_PALETTE,
+  STORY_SELECTED_CHIP,
   STORY_SCREEN_PADDING,
   titleRevealEnd,
 } from "./theme";
@@ -720,14 +721,14 @@ type Palette = (typeof STORY_PALETTE)[StoryTheme];
 
 const chipFill = (palette: Palette, isSelected: boolean, isDashed: boolean) => {
   if (isSelected) {
-    return palette.text;
+    return STORY_SELECTED_CHIP.fill;
   }
   return isDashed ? "transparent" : palette.glass;
 };
 
 const chipText = (palette: Palette, isSelected: boolean, isDashed: boolean) => {
   if (isSelected) {
-    return palette.background;
+    return STORY_SELECTED_CHIP.text;
   }
   return isDashed ? palette.muted : palette.text;
 };
@@ -773,8 +774,9 @@ const PickChip = ({
         borderCurve: "continuous",
         borderWidth: 1,
         borderStyle: isDashed ? "dashed" : "solid",
-        borderColor: isSelected ? palette.text : palette.chipBorder,
+        borderColor: isSelected ? STORY_SELECTED_CHIP.fill : palette.chipBorder,
         backgroundColor: chipFill(palette, isSelected, isDashed),
+        boxShadow: isSelected ? STORY_SELECTED_CHIP.shadow : undefined,
         transform: [{ scale: pressed ? 0.97 : 1 }],
       })}
     >
@@ -796,8 +798,7 @@ const PickChip = ({
           style={{
             fontSize: 12,
             fontWeight: "500",
-            color: isSelected ? palette.background : palette.muted,
-            opacity: isSelected ? 0.7 : 1,
+            color: isSelected ? STORY_SELECTED_CHIP.muted : palette.muted,
           }}
         >
           {trailing}

@@ -47,6 +47,17 @@ export const glassFill = (color: string) => chroma(color).alpha(0.7).css();
 export const glassEdge = (color: string) =>
   mix(color, "#FFFFFF", 0.6).alpha(0.9).css();
 
+/**
+ * Selected chip on any sky: solid white with ink text and a soft shadow,
+ * so it stands out from the see-through chips around it.
+ */
+export const STORY_SELECTED_CHIP = {
+  fill: "#FFFFFF",
+  text: "#0A0A0A",
+  muted: "#52525B",
+  shadow: "0 4px 14px rgba(15, 40, 80, 0.12)",
+} as const;
+
 /** Light tint of the slide color behind story buttons: Share, Shuffle. */
 export const storyButtonTint = (theme: StoryTheme) =>
   theme === "paper" ? "rgba(10,10,10,0.06)" : "rgba(255,255,255,0.14)";
