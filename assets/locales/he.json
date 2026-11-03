@@ -1091,17 +1091,9 @@
     "one": "יום 1 בקשר",
     "other": "{{count}} ימים בקשר"
   },
-  "recaps_story_places_more": {
-    "one": "עוד טיול אחד",
-    "other": "עוד {{count}} טיולים"
-  },
   "recaps_story_places_text": "%{away} מחוץ לבית, %{home} בבית ב%{city}.",
   "recaps_story_places_text_away": "%{away} מחוץ לבית.",
-  "recaps_story_places_title": {
-    "one": "טיול אחד, ואז שוב בבית",
-    "other": "{{count}} טיולים, ואז שוב בבית"
-  },
-  "recaps_story_places_title_move": "%{month}: רוב הזמן בדרכים",
+  "recaps_story_places_title": "מקומות ב%{month}",
   "recaps_story_play": "הפעלה",
   "recaps_story_previous": "השקופית הקודמת",
   "recaps_story_quiz_insight_place": {

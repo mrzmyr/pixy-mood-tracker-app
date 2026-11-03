@@ -1091,17 +1091,9 @@
     "one": "1 gün bağlantı",
     "other": "{{count}} gün bağlantı"
   },
-  "recaps_story_places_more": {
-    "one": "1 seyahat daha",
-    "other": "{{count}} seyahat daha"
-  },
   "recaps_story_places_text": "%{away} uzakta, %{home} %{city} evinde.",
   "recaps_story_places_text_away": "%{away} evden uzakta.",
-  "recaps_story_places_title": {
-    "one": "1 seyahat, sonra yine ev",
-    "other": "{{count}} seyahat, sonra yine ev"
-  },
-  "recaps_story_places_title_move": "%{month}: çoğunlukla yolda",
+  "recaps_story_places_title": "yerler · %{month}",
   "recaps_story_play": "Oynat",
   "recaps_story_previous": "Önceki slayt",
   "recaps_story_quiz_insight_place": {

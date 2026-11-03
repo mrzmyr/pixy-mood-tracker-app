@@ -1091,17 +1091,9 @@
     "one": "1 μέρα σε επαφή",
     "other": "{{count}} μέρες σε επαφή"
   },
-  "recaps_story_places_more": {
-    "one": "1 ακόμη ταξίδι",
-    "other": "{{count}} ακόμη ταξίδια"
-  },
   "recaps_story_places_text": "%{away} μακριά, %{home} στο σπίτι, στην πόλη %{city}.",
   "recaps_story_places_text_away": "%{away} μακριά από το σπίτι.",
-  "recaps_story_places_title": {
-    "one": "1 ταξίδι, μετά πάλι σπίτι",
-    "other": "{{count}} ταξίδια, μετά πάλι σπίτι"
-  },
-  "recaps_story_places_title_move": "%{month}: συνέχεια σε κίνηση",
+  "recaps_story_places_title": "μέρη · %{month}",
   "recaps_story_play": "Αναπαραγωγή",
   "recaps_story_previous": "Προηγούμενη διαφάνεια",
   "recaps_story_quiz_insight_place": {

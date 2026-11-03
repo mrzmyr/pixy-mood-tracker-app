@@ -1091,17 +1091,9 @@
     "one": "1 día conectado",
     "other": "{{count}} días conectado"
   },
-  "recaps_story_places_more": {
-    "one": "1 viaje más",
-    "other": "{{count}} viajes más"
-  },
   "recaps_story_places_text": "%{away} fuera, %{home} en casa en %{city}.",
   "recaps_story_places_text_away": "%{away} fuera de casa.",
-  "recaps_story_places_title": {
-    "one": "1 viaje y de vuelta a casa",
-    "other": "{{count}} viajes y de vuelta a casa"
-  },
-  "recaps_story_places_title_move": "En movimiento casi todo %{month}",
+  "recaps_story_places_title": "lugares en %{month}",
   "recaps_story_play": "Reproducir",
   "recaps_story_previous": "Diapositiva anterior",
   "recaps_story_quiz_insight_place": {

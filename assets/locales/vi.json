@@ -1091,17 +1091,9 @@
     "one": "1 ngày kết nối",
     "other": "{{count}} ngày kết nối"
   },
-  "recaps_story_places_more": {
-    "one": "Thêm 1 chuyến đi",
-    "other": "Thêm {{count}} chuyến đi"
-  },
   "recaps_story_places_text": "%{away} đi xa, %{home} ở nhà tại %{city}.",
   "recaps_story_places_text_away": "%{away} xa nhà.",
-  "recaps_story_places_title": {
-    "one": "1 chuyến đi, rồi lại về nhà",
-    "other": "{{count}} chuyến đi, rồi lại về nhà"
-  },
-  "recaps_story_places_title_move": "Di chuyển gần cả %{month}",
+  "recaps_story_places_title": "nơi chốn trong %{month}",
   "recaps_story_play": "Phát",
   "recaps_story_previous": "Trang trước",
   "recaps_story_quiz_insight_place": {

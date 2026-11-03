@@ -1091,17 +1091,9 @@
     "one": "1 jour en lien",
     "other": "{{count}} jours en lien"
   },
-  "recaps_story_places_more": {
-    "one": "1 autre voyage",
-    "other": "{{count}} autres voyages"
-  },
   "recaps_story_places_text": "%{away} ailleurs, %{home} chez toi à %{city}.",
   "recaps_story_places_text_away": "%{away} loin de chez toi.",
-  "recaps_story_places_title": {
-    "one": "1 voyage, puis retour à la maison",
-    "other": "{{count}} voyages, puis retour à la maison"
-  },
-  "recaps_story_places_title_move": "Souvent ailleurs en %{month}",
+  "recaps_story_places_title": "lieux en %{month}",
   "recaps_story_play": "Lecture",
   "recaps_story_previous": "Diapositive précédente",
   "recaps_story_quiz_insight_place": {

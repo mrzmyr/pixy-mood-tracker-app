@@ -1091,17 +1091,9 @@
     "one": "ติดต่อ 1 วัน",
     "other": "ติดต่อ {{count}} วัน"
   },
-  "recaps_story_places_more": {
-    "one": "อีก 1 ทริป",
-    "other": "อีก {{count}} ทริป"
-  },
   "recaps_story_places_text": "ไปที่อื่น %{away} อยู่บ้านที่ %{city} %{home}",
   "recaps_story_places_text_away": "ไม่อยู่บ้าน %{away}",
-  "recaps_story_places_title": {
-    "one": "เดินทาง 1 ครั้ง แล้วกลับบ้าน",
-    "other": "เดินทาง {{count}} ครั้ง แล้วกลับบ้าน"
-  },
-  "recaps_story_places_title_move": "%{month} เดินทางเกือบตลอด",
+  "recaps_story_places_title": "สถานที่ในเดือน%{month}",
   "recaps_story_play": "เล่น",
   "recaps_story_previous": "สไลด์ก่อนหน้า",
   "recaps_story_quiz_insight_place": {

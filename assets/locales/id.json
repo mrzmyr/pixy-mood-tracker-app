@@ -1091,17 +1091,9 @@
     "one": "1 hari terhubung",
     "other": "{{count}} hari terhubung"
   },
-  "recaps_story_places_more": {
-    "one": "1 perjalanan lagi",
-    "other": "{{count}} perjalanan lagi"
-  },
   "recaps_story_places_text": "%{away} di luar, %{home} di rumah di %{city}.",
   "recaps_story_places_text_away": "%{away} jauh dari rumah.",
-  "recaps_story_places_title": {
-    "one": "1 Perjalanan, Lalu Pulang",
-    "other": "{{count}} Perjalanan, Lalu Pulang"
-  },
-  "recaps_story_places_title_move": "Sering Bepergian di %{month}",
+  "recaps_story_places_title": "tempat di %{month}",
   "recaps_story_play": "Putar",
   "recaps_story_previous": "Slide sebelumnya",
   "recaps_story_quiz_insight_place": {
