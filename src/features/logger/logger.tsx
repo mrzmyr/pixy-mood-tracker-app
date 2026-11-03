@@ -426,9 +426,9 @@ const LoggerSlides = ({
     slideCount: slideKeys.length,
     slideIndex,
     isTouched: furthestIndex > 0,
+    hasRating: !!draft.rating,
     mode,
   });
-
   const content: SlideContent[] = [];
 
   content.push({
