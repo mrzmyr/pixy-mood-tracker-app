@@ -8,7 +8,7 @@ import {
   Text,
 } from "@expo/ui";
 import { Children, isValidElement } from "react";
-import type { ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { MATERIAL_SEED_COLOR } from "@/constants/colors";
 import useColors from "@/hooks/use-colors";
 import NavigationChevron from "./navigation-chevron";
@@ -59,10 +59,17 @@ export const SettingsSection = (_props: SettingsSectionProps) => null;
 
 /**
  * Settings page as a native grouped list: SwiftUI `Form` on iOS, Material 3
- * list on Android. Fills its parent and scrolls. Web:
+ * list on Android. Fills its parent and scrolls. `header` is React Native
+ * content above the first section that scrolls with the rows. Web:
  * [index.web.tsx](./index.web.tsx).
  */
-export const SettingsForm = ({ children }: { children: ReactNode }) => {
+export const SettingsForm = ({
+  header,
+  children,
+}: {
+  header?: ReactElement;
+  children: ReactNode;
+}) => {
   const { background: backgroundColor } = useColors();
   const colorScheme = useHostColorScheme();
 
@@ -73,6 +80,15 @@ export const SettingsForm = ({ children }: { children: ReactNode }) => {
       seedColor={MATERIAL_SEED_COLOR}
     >
       <FieldGroup style={{ backgroundColor }} modifiers={formModifiers}>
+        {header ? (
+          <FieldGroup.Section>
+            <FieldGroup.SectionHeader>
+              <RNHostView matchContents={{ vertical: true }}>
+                {header}
+              </RNHostView>
+            </FieldGroup.SectionHeader>
+          </FieldGroup.Section>
+        ) : null}
         {/* Android groups rows by element type: a wrapper component would
             land inside an implicit section, so render sections here. */}
         {/* oxlint-disable-next-line react/no-react-children -- @expo/ui FieldGroup reads its direct children the same way. */}
