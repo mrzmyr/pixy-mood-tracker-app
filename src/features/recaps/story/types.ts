@@ -64,7 +64,17 @@ export interface PeopleQuizSlide {
   people: { personId: string; days: number }[];
   /** Person with the most connected days. Always a clear winner. */
   answer: string;
+  /** What stood out on the answer's days, shown after the guess. */
+  insight: QuizInsight | null;
 }
+
+/**
+ * A tag or a city on `days` of the answer's connected days. Says what came
+ * up on those days, never how the connection felt.
+ */
+export type QuizInsight =
+  | { kind: "tag"; tagId: string; days: number }
+  | { kind: "place"; city: string; days: number };
 
 /** Days still to come in the year, and days without a check-in so far. */
 export interface ComingUpSlide {

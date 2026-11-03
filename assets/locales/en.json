@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "Play",
   "recaps_story_previous": "Previous slide",
-  "recaps_story_quiz_right": "You got it",
+  "recaps_story_quiz_insight_place": {
+    "one": "The day you connected with %{name} was in %{place}.",
+    "other": "{{count}} of the days you connected with %{name} were in %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} came up on the day you connected with %{name}.",
+    "other": "%{tag} came up on {{count}} of the days you connected with %{name}."
+  },
+  "recaps_story_quiz_right": "You know your people.",
   "recaps_story_quiz_title": "Who Played the Biggest Role This Month?",
-  "recaps_story_quiz_wrong": "Not quite. It was %{name}.",
+  "recaps_story_quiz_wrong": "So close. It was %{name}.",
   "recaps_story_ready": "Ready to watch",
   "recaps_story_share": "Share",
   "recaps_story_share_shuffle": "Shuffle photos",

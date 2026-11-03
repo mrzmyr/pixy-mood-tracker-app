@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "הפעלה",
   "recaps_story_previous": "השקופית הקודמת",
-  "recaps_story_quiz_right": "ניחשת נכון",
+  "recaps_story_quiz_insight_place": {
+    "one": "היום שבו היית בקשר עם %{name} היה ב%{place}.",
+    "other": "{{count}} מהימים שבהם היית בקשר עם %{name} היו ב%{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} הופיע ביום שבו היית בקשר עם %{name}.",
+    "other": "%{tag} הופיע ב-{{count}} מהימים שבהם היית בקשר עם %{name}."
+  },
+  "recaps_story_quiz_right": "אתה מכיר את האנשים שלך.",
   "recaps_story_quiz_title": "מי שיחק את התפקיד הגדול ביותר החודש?",
-  "recaps_story_quiz_wrong": "לא בדיוק. זה היה %{name}.",
+  "recaps_story_quiz_wrong": "כמעט. זה היה %{name}.",
   "recaps_story_ready": "מוכן לצפייה",
   "recaps_story_share": "שיתוף",
   "recaps_story_share_shuffle": "ערבוב תמונות",

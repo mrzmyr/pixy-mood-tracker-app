@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { getEffect } from "../correlation";
 import { addDays, daysBetween, getDayRating } from "../days";
 import { indexDays } from "../day-index";
+import { parsePlace } from "../places";
 import { getActiveTags } from "../cards/nudges";
 import { peopleOn } from "../cards/summaries";
 import { THRESHOLDS } from "../thresholds";
@@ -13,6 +14,7 @@ import type {
   OrbitSlide,
   PeopleQuizSlide,
   PositiveTagsSlide,
+  QuizInsight,
   ShareSlide,
   StoryPhoto,
   StorySlide,
@@ -130,6 +132,78 @@ const hash = (text: string) => {
 };
 
 /**
+ * Key on the most of `personDays` that is no everyday thing: on at most
+ * `storyQuizInsightMaxMonthShare` of the month and more common on
+ * `personDays` than across the month. `null` below `minDays`.
+ */
+const standout = (
+  input: RecapInput,
+  personDays: RecapDay[],
+  keysOf: (day: RecapDay) => Iterable<string>,
+  minDays: number
+) => {
+  const count = (days: RecapDay[]) => {
+    const counts = new Map<string, number>();
+    for (const day of days) {
+      for (const key of new Set(keysOf(day))) {
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+      }
+    }
+    return counts;
+  };
+  const inMonth = count(input.days);
+  let best: { key: string; days: number } | null = null;
+  for (const [key, days] of count(personDays)) {
+    const monthShare = (inMonth.get(key) ?? 0) / input.days.length;
+    const isStandout =
+      days >= minDays &&
+      monthShare <= THRESHOLDS.storyQuizInsightMaxMonthShare &&
+      days / personDays.length >= monthShare;
+    if (isStandout && (!best || days > best.days)) {
+      best = { key, days };
+    }
+  }
+  return best;
+};
+
+/**
+ * What stood out on the days connected with `personId`: a tag first, else
+ * a city. `null` when nothing stands out.
+ */
+const quizInsight = (
+  input: RecapInput,
+  personId: string
+): QuizInsight | null => {
+  const at = indexDays(input.days);
+  const personDays = input.days.filter((day) => at(day).people.has(personId));
+  if (input.steps.has("tags")) {
+    const active = new Set(getActiveTags(input.tags).map((tag) => tag.id));
+    const tag = standout(
+      input,
+      personDays,
+      (day) => [...at(day).tags].filter((id) => active.has(id)),
+      THRESHOLDS.storyQuizInsightMinTagDays
+    );
+    if (tag) {
+      return { kind: "tag", tagId: tag.key, days: tag.days };
+    }
+  }
+  if (input.locationEnabled) {
+    const city = standout(
+      input,
+      personDays,
+      (day) =>
+        [...at(day).places].flatMap((name) => parsePlace(name)?.city ?? []),
+      THRESHOLDS.storyQuizInsightMinPlaceDays
+    );
+    if (city) {
+      return { kind: "place", city: city.key, days: city.days };
+    }
+  }
+  return null;
+};
+
+/**
  * The 3 or 4 most connected people as tiles, in a stable shuffled order.
  * Needs a clear winner: no quiz on a tie for the most days.
  */
@@ -151,6 +225,7 @@ const peopleQuiz = (input: RecapInput): PeopleQuizSlide | null => {
       (a, b) => hash(seed + a.personId) - hash(seed + b.personId)
     ),
     answer: first.personId,
+    insight: quizInsight(input, first.personId),
   };
 };
 

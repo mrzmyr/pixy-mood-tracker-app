@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "Lejátszás",
   "recaps_story_previous": "Előző dia",
-  "recaps_story_quiz_right": "Eltaláltad",
+  "recaps_story_quiz_insight_place": {
+    "one": "A nap, amikor kapcsolatban voltál vele (%{name}), itt telt: %{place}.",
+    "other": "{{count}} nap azok közül, amikor kapcsolatban voltál vele (%{name}), itt telt: %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} azon a napon is szerepelt, amikor kapcsolatban voltál vele: %{name}.",
+    "other": "%{tag} {{count}} napon szerepelt azok közül, amikor kapcsolatban voltál vele: %{name}."
+  },
+  "recaps_story_quiz_right": "Ismered az embereidet.",
   "recaps_story_quiz_title": "Ki játszotta a legnagyobb szerepet ebben a hónapban?",
-  "recaps_story_quiz_wrong": "Nem egészen. %{name} volt az.",
+  "recaps_story_quiz_wrong": "Majdnem. %{name} volt az.",
   "recaps_story_ready": "Megnézhető",
   "recaps_story_share": "Megosztás",
   "recaps_story_share_shuffle": "Fotók keverése",

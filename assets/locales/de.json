@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "Abspielen",
   "recaps_story_previous": "Vorherige Folie",
-  "recaps_story_quiz_right": "Richtig geraten",
+  "recaps_story_quiz_insight_place": {
+    "one": "Der Tag, an dem du mit %{name} verbunden warst, war in %{place}.",
+    "other": "{{count}} der Tage, an denen du mit %{name} verbunden warst, waren in %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} kam an dem Tag vor, an dem du mit %{name} verbunden warst.",
+    "other": "%{tag} kam an {{count}} der Tage vor, an denen du mit %{name} verbunden warst."
+  },
+  "recaps_story_quiz_right": "Du kennst deine Leute.",
   "recaps_story_quiz_title": "Wer hat diesen Monat die größte Rolle gespielt?",
-  "recaps_story_quiz_wrong": "Nicht ganz. Es war %{name}.",
+  "recaps_story_quiz_wrong": "Knapp daneben. Es war %{name}.",
   "recaps_story_ready": "Bereit zum Ansehen",
   "recaps_story_share": "Teilen",
   "recaps_story_share_shuffle": "Fotos mischen",

@@ -45,6 +45,15 @@ const slide = <T extends StorySlideType>(
     | Extract<StorySlide, { type: T }>
     | undefined;
 
+/** Entry location named `name`. */
+const at = (name: string) => ({
+  location: { latitude: 53.5, longitude: 10, name },
+});
+
+/** First 3 days at the sea, the rest at home. */
+const sea = (index: number) =>
+  index < 3 ? at("Strand, Travemünde") : at("Eimsbüttel, Hamburg");
+
 describe("month story", () => {
   test("needs 10 check-in days", () => {
     expect(story(month().slice(0, 9))).toBeNull();
@@ -190,6 +199,19 @@ describe("people quiz", () => {
     ],
   }));
 
+  /** Insight of the quiz on `connected` days plus `extra` per day. */
+  const insightOf = (
+    extra: (index: number) => Partial<LogItem>,
+    input: Parameters<typeof makeInput>[0] = {}
+  ) =>
+    slide(
+      story(
+        connected.map((item, index) => ({ ...item, ...extra(index) })),
+        input
+      ),
+      "people-quiz"
+    )?.insight;
+
   test("asks for the most connected of the top 4, right before the orbit", () => {
     const slides = story(connected);
     const quiz = slide(slides, "people-quiz");
@@ -215,6 +237,32 @@ describe("people quiz", () => {
     }));
     expect(slide(story(tie), "people-quiz")).toBeUndefined();
     expect(slide(story(tie), "orbit")).toBeDefined();
+  });
+
+  describe("insight", () => {
+    test("names the tag that came up most on the answer's days", () => {
+      expect(
+        insightOf((index) => ({
+          tags: [
+            ...(index % 7 === 0 ? [{ id: swim?.id ?? "" }] : []),
+            ...(index < 3 ? [{ id: work?.id ?? "" }] : []),
+          ],
+        }))
+      ).toEqual({ kind: "tag", tagId: swim?.id, days: 5 });
+    });
+
+    test("skips a tag on most days of the month", () => {
+      expect(insightOf(() => ({ tags: [{ id: walk?.id ?? "" }] }))).toBeNull();
+    });
+
+    test("falls back to a city when no tag stands out", () => {
+      expect(insightOf(sea, { locationEnabled: true })).toEqual({
+        kind: "place",
+        city: "Travemünde",
+        days: 3,
+      });
+      expect(insightOf(sea)).toBeNull();
+    });
   });
 
   test("stays out of the week story", () => {

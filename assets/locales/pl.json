@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "Odtwórz",
   "recaps_story_previous": "Poprzedni slajd",
-  "recaps_story_quiz_right": "Zgadłeś",
+  "recaps_story_quiz_insight_place": {
+    "one": "Dzień kontaktu z: %{name} był w %{place}.",
+    "other": "{{count}} z dni kontaktu z: %{name} było w %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} pojawił się w dniu, w którym miałeś kontakt z: %{name}.",
+    "other": "%{tag} pojawił się w {{count}} z dni, w których miałeś kontakt z: %{name}."
+  },
+  "recaps_story_quiz_right": "Znasz swoich ludzi.",
   "recaps_story_quiz_title": "Kto odegrał w tym miesiącu największą rolę?",
-  "recaps_story_quiz_wrong": "Nie do końca. To był(a) %{name}.",
+  "recaps_story_quiz_wrong": "Prawie. To był(a) %{name}.",
   "recaps_story_ready": "Gotowe do obejrzenia",
   "recaps_story_share": "Udostępnij",
   "recaps_story_share_shuffle": "Losuj zdjęcia",

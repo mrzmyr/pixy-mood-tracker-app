@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "Putar",
   "recaps_story_previous": "Slide sebelumnya",
-  "recaps_story_quiz_right": "Tebakanmu benar",
+  "recaps_story_quiz_insight_place": {
+    "one": "Hari kamu terhubung dengan %{name} ada di %{place}.",
+    "other": "{{count}} dari hari-hari kamu terhubung dengan %{name} ada di %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} muncul di hari kamu terhubung dengan %{name}.",
+    "other": "%{tag} muncul di {{count}} dari hari-hari kamu terhubung dengan %{name}."
+  },
+  "recaps_story_quiz_right": "Kamu kenal orang-orangmu.",
   "recaps_story_quiz_title": "Siapa yang paling berperan bulan ini?",
-  "recaps_story_quiz_wrong": "Belum tepat. Jawabannya %{name}.",
+  "recaps_story_quiz_wrong": "Hampir. Ternyata %{name}.",
   "recaps_story_ready": "Siap ditonton",
   "recaps_story_share": "Bagikan",
   "recaps_story_share_shuffle": "Acak foto",

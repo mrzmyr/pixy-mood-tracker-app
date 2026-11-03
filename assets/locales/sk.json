@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "Prehrať",
   "recaps_story_previous": "Predchádzajúca snímka",
-  "recaps_story_quiz_right": "Správne",
+  "recaps_story_quiz_insight_place": {
+    "one": "Deň, keď si bol(a) v kontakte s: %{name}, bol v %{place}.",
+    "other": "{{count}} z dní, keď si bol(a) v kontakte s: %{name}, bolo v %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} sa objavil v deň, keď si bol(a) v kontakte s: %{name}.",
+    "other": "%{tag} sa objavil v {{count}} z dní, keď si bol(a) v kontakte s: %{name}."
+  },
+  "recaps_story_quiz_right": "Poznáš svojich ľudí.",
   "recaps_story_quiz_title": "Kto hral tento mesiac najväčšiu úlohu?",
-  "recaps_story_quiz_wrong": "Nie celkom. Bol to %{name}.",
+  "recaps_story_quiz_wrong": "Tesne vedľa. Bol(a) to %{name}.",
   "recaps_story_ready": "Pripravené na pozretie",
   "recaps_story_share": "Zdieľať",
   "recaps_story_share_shuffle": "Zamiešať fotky",

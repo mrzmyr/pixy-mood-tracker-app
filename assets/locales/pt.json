@@ -1072,7 +1072,15 @@
   },
   "recaps_story_play": "Reproduzir",
   "recaps_story_previous": "Slide anterior",
-  "recaps_story_quiz_right": "Acertou",
+  "recaps_story_quiz_insight_place": {
+    "one": "O dia em que você se conectou com %{name} foi em %{place}.",
+    "other": "{{count}} dos dias em que você se conectou com %{name} foram em %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} apareceu no dia em que você se conectou com %{name}.",
+    "other": "%{tag} apareceu em {{count}} dos dias em que você se conectou com %{name}."
+  },
+  "recaps_story_quiz_right": "Você conhece bem as suas pessoas.",
   "recaps_story_quiz_title": "Quem teve o papel mais importante este mês?",
   "recaps_story_quiz_wrong": "Quase. Era %{name}.",
   "recaps_story_ready": "Pronto para assistir",

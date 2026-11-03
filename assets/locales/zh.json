@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "播放",
   "recaps_story_previous": "上一页",
-  "recaps_story_quiz_right": "猜对了",
+  "recaps_story_quiz_insight_place": {
+    "one": "你与%{name}有联系的那天在%{place}。",
+    "other": "你与%{name}有联系的日子里，有{{count}}天在%{place}。"
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "在你与%{name}有联系的那天，出现了%{tag}。",
+    "other": "在你与%{name}有联系的日子里，有{{count}}天出现了%{tag}。"
+  },
+  "recaps_story_quiz_right": "你很了解身边的人。",
   "recaps_story_quiz_title": "这个月谁的分量最重？",
-  "recaps_story_quiz_wrong": "差一点。答案是%{name}。",
+  "recaps_story_quiz_wrong": "差一点。是%{name}。",
   "recaps_story_ready": "可以观看了",
   "recaps_story_share": "分享",
   "recaps_story_share_shuffle": "随机换照片",

@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "Main",
   "recaps_story_previous": "Slaid sebelumnya",
-  "recaps_story_quiz_right": "Tekaan anda betul",
+  "recaps_story_quiz_insight_place": {
+    "one": "Hari anda berhubung dengan %{name} adalah di %{place}.",
+    "other": "{{count}} daripada hari anda berhubung dengan %{name} adalah di %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} muncul pada hari anda berhubung dengan %{name}.",
+    "other": "%{tag} muncul pada {{count}} daripada hari anda berhubung dengan %{name}."
+  },
+  "recaps_story_quiz_right": "Anda kenal orang-orang anda.",
   "recaps_story_quiz_title": "Siapa yang paling berperanan bulan ini?",
-  "recaps_story_quiz_wrong": "Belum tepat. Jawapannya %{name}.",
+  "recaps_story_quiz_wrong": "Hampir. Ia %{name}.",
   "recaps_story_ready": "Sedia untuk ditonton",
   "recaps_story_share": "Kongsi",
   "recaps_story_share_shuffle": "Kocok foto",

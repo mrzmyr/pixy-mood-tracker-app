@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "Riproduci",
   "recaps_story_previous": "Slide precedente",
-  "recaps_story_quiz_right": "Indovinato",
+  "recaps_story_quiz_insight_place": {
+    "one": "Il giorno in cui sei stato in contatto con %{name} eri a %{place}.",
+    "other": "{{count}} dei giorni in cui sei stato in contatto con %{name} erano a %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} è comparso nel giorno in cui sei stato in contatto con %{name}.",
+    "other": "%{tag} è comparso in {{count}} dei giorni in cui sei stato in contatto con %{name}."
+  },
+  "recaps_story_quiz_right": "Conosci bene le tue persone.",
   "recaps_story_quiz_title": "Chi ha avuto il ruolo più grande questo mese?",
-  "recaps_story_quiz_wrong": "Non proprio. Era %{name}.",
+  "recaps_story_quiz_wrong": "Quasi. Era %{name}.",
   "recaps_story_ready": "Pronto da guardare",
   "recaps_story_share": "Condividi",
   "recaps_story_share_shuffle": "Mescola foto",

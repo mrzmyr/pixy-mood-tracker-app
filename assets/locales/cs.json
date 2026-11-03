@@ -1072,9 +1072,17 @@
   },
   "recaps_story_play": "Přehrát",
   "recaps_story_previous": "Předchozí snímek",
-  "recaps_story_quiz_right": "Správně",
+  "recaps_story_quiz_insight_place": {
+    "one": "Den, kdy jsi byl(a) v kontaktu s: %{name}, byl v %{place}.",
+    "other": "{{count}} ze dnů, kdy jsi byl(a) v kontaktu s: %{name}, bylo v %{place}."
+  },
+  "recaps_story_quiz_insight_tag": {
+    "one": "%{tag} se objevil v den, kdy jsi byl(a) v kontaktu s: %{name}.",
+    "other": "%{tag} se objevil v {{count}} ze dnů, kdy jsi byl(a) v kontaktu s: %{name}."
+  },
+  "recaps_story_quiz_right": "Znáš své lidi.",
   "recaps_story_quiz_title": "Kdo hrál tento měsíc největší roli?",
-  "recaps_story_quiz_wrong": "Tak úplně ne. Byl to %{name}.",
+  "recaps_story_quiz_wrong": "Těsně vedle. Byl(a) to %{name}.",
   "recaps_story_ready": "Připraveno ke shlédnutí",
   "recaps_story_share": "Sdílet",
   "recaps_story_share_shuffle": "Zamíchat fotky",
