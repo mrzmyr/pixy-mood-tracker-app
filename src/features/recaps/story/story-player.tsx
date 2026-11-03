@@ -28,6 +28,7 @@ import { usePixyIdle } from "@/features/logger";
 import { t } from "@/lib/translation";
 import { StoryCaptureContext } from "./capture-context";
 import { StoryPressContext } from "./press-context";
+import { StoryHoldContext } from "./hold-context";
 import { StoryBrand } from "./story-brand";
 import { STORY_PALETTE, STORY_SCREEN_PADDING, STORY_SLIDE_MS } from "./theme";
 import type { StoryTheme } from "./theme";
@@ -259,11 +260,14 @@ export const StoryPlayer = ({
   const [isPausedByUser, setIsPausedByUser] = useState(false);
   // Press and hold pauses only while held; the pause button pauses until tapped again.
   const [isHolding, setIsHolding] = useState(false);
+  // Slide content holds the story while a detail is open (`StoryHoldContext`).
+  const [isHeldBySlide, setIsHeldBySlide] = useState(false);
   const progress = useSharedValue(0);
   const slide = slides[index];
   const theme = slide?.theme ?? "night";
   const palette = STORY_PALETTE[theme];
-  const isPaused = isPausedByUser || isHolding || isPausedFromParent;
+  const isPaused =
+    isPausedByUser || isHolding || isHeldBySlide || isPausedFromParent;
   // Holding hides bars, buttons, and feedback, like Instagram stories.
   const isChromeHidden = isHolding || isCapturing;
   const chrome = useAnimatedStyle(() => ({
@@ -337,6 +341,7 @@ export const StoryPlayer = ({
     progress.set(slides[target]?.isHeld ? 1 : 0);
     setIndex(target);
     setIsPausedByUser(false);
+    setIsHeldBySlide(false);
     if (target !== index) {
       onSlideShown(target);
     }
@@ -413,7 +418,9 @@ export const StoryPlayer = ({
             >
               <StoryCaptureContext value={isCapturing}>
                 <StoryPressContext value={{ onPress, setIsHolding }}>
-                  {slide.content}
+                  <StoryHoldContext value={setIsHeldBySlide}>
+                    {slide.content}
+                  </StoryHoldContext>
                 </StoryPressContext>
               </StoryCaptureContext>
             </Animated.View>
