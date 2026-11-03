@@ -36,6 +36,8 @@ export interface WidgetSchemeColors {
   empty: string;
   /** Fill for a day after today: fainter than `empty`. */
   future: string;
+  /** Hairline around every other cell, so pastel pixels hold on the sky. */
+  edge: string;
   /** Ring around today's cell. */
   today: string;
   /** Fill per rating, from the user's color scale. */

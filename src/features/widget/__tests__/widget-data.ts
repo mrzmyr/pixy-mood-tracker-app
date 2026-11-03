@@ -10,6 +10,7 @@ import {
   getWidgetTimeline,
   getYearGrid,
   getSchemeColors,
+  getYearImageColors,
   getYearWidgetProps,
 } from "../widget-data";
 
@@ -169,6 +170,21 @@ describe("getSchemeColors()", () => {
       contrast(over(colors.future, colors.background), colors.background)
     ).toBeGreaterThanOrEqual(1.5);
   });
+});
+
+describe("getYearImageColors()", () => {
+  // view-shot stores see-through pixels premultiplied: they turn dark.
+  test.each(["light", "dark"] as const)(
+    "%s year images use opaque cell colors that match the widget cells",
+    (theme) => {
+      const image = getYearImageColors(theme, "ColorBrew-RdYlGn");
+      const widget = getSchemeColors(theme, "ColorBrew-RdYlGn");
+      for (const key of ["empty", "future", "edge"] as const) {
+        expect(chroma(image[key]).alpha()).toBe(1);
+        expect(image[key]).toBe(over(widget[key], widget.background));
+      }
+    }
+  );
 });
 
 describe("props are property-list safe", () => {

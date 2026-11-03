@@ -1,3 +1,4 @@
+import chroma, { mix } from "chroma-js";
 import dayjs from "dayjs";
 import Colors from "@/constants/colors";
 import scales from "@/constants/colors/scales";
@@ -92,8 +93,33 @@ export const getSchemeColors = (
     textSecondary: colors.widgetTextSecondary,
     empty: colors.widgetEmptyDay,
     future: colors.widgetFutureDay,
+    edge: colors.widgetCellEdge,
     today: colors.tint,
     ratings,
+  };
+};
+
+/** A see-through color as it shows on an opaque `backdrop`. */
+const flatten = (color: string, backdrop: string) => {
+  const fill = chroma(color);
+  return mix(backdrop, fill.alpha(1), fill.alpha(), "rgb").hex();
+};
+
+/**
+ * Colors for the captured year images. view-shot writes see-through pixels
+ * premultiplied, so white at 28% comes out dark. The images get the
+ * see-through colors flattened onto the sky color instead.
+ */
+export const getYearImageColors = (
+  theme: "light" | "dark",
+  scaleType: string
+): WidgetSchemeColors => {
+  const colors = getSchemeColors(theme, scaleType);
+  return {
+    ...colors,
+    empty: flatten(colors.empty, colors.background),
+    future: flatten(colors.future, colors.background),
+    edge: flatten(colors.edge, colors.background),
   };
 };
 

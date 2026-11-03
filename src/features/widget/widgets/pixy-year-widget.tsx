@@ -99,7 +99,13 @@ const PixyYearWidget = (
             modifiers={[
               resizable(),
               aspectRatio({ contentMode: "fill" }),
-              frame({ maxWidth: Infinity, maxHeight: Infinity }),
+              // Zero minimums: the photo takes the widget size and never grows it.
+              frame({
+                minWidth: 0,
+                maxWidth: Infinity,
+                minHeight: 0,
+                maxHeight: Infinity,
+              }),
               clipped(),
             ]}
           />

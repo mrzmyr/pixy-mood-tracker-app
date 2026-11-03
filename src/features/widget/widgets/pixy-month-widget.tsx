@@ -17,6 +17,7 @@ import {
   opacity,
   padding,
   resizable,
+  strokeBorder,
   widgetURL,
 } from "@expo/ui/swift-ui/modifiers";
 import { createWidget } from "expo-widgets";
@@ -101,6 +102,13 @@ const PixyMonthWidget = (
                     cornerRadius={cell.isToday ? radius - 2 : radius}
                     modifiers={[
                       foregroundStyle(cellFill(cell.rating, cell.isFuture)),
+                      strokeBorder({
+                        content: cell.isToday ? "#00000000" : scheme.edge,
+                        // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- @expo/ui parameter name
+                        shape: "roundedRectangle",
+                        cornerRadius: radius,
+                        style: { lineWidth: 1 },
+                      }),
                       padding({ all: cell.isToday ? 1.5 : 0 }),
                     ]}
                   />
@@ -163,7 +171,13 @@ const PixyMonthWidget = (
             modifiers={[
               resizable(),
               aspectRatio({ contentMode: "fill" }),
-              frame({ maxWidth: Infinity, maxHeight: Infinity }),
+              // Zero minimums: the photo takes the widget size and never grows it.
+              frame({
+                minWidth: 0,
+                maxWidth: Infinity,
+                minHeight: 0,
+                maxHeight: Infinity,
+              }),
               clipped(),
             ]}
           />

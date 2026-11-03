@@ -234,6 +234,8 @@ const light = {
   // See-through, so pixels hold on blue sky and white clouds alike.
   widgetEmptyDay: "#0A0A0A1F",
   widgetFutureDay: "#0A0A0A0D",
+  // Hairline around every pixel: light pixels hold on white clouds.
+  widgetCellEdge: "#0A0A0A24",
   yearPixelsLegendText: colors.neutral[400],
 
   onboardingTitle: colors.black,
@@ -480,6 +482,7 @@ const dark: IColors & {
   widgetTextSecondary: colors.neutral[300],
   widgetEmptyDay: "#FFFFFF47",
   widgetFutureDay: "#FFFFFF26",
+  widgetCellEdge: "#FFFFFF24",
   yearPixelsLegendText: colors.neutral[500],
 
   onboardingTitle: colors.white,

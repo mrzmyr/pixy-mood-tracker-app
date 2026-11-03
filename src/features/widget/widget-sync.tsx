@@ -2,12 +2,12 @@ import { reportError } from "@/lib/report-error";
 import { widgetsDirectory } from "expo-widgets";
 import * as FileSystem from "expo-file-system/legacy";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AppState, View } from "react-native";
+import { AppState, PixelRatio, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
 import { useLogLoad, useLogState } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
 import { useSetting } from "@/state/settings";
-import { getSchemeColors, getYearGrid } from "./widget-data";
+import { getYearGrid, getYearImageColors } from "./widget-data";
 import type { SkyImages, YearImages } from "./widget-data";
 import {
   WIDGET_SKY_HEIGHT,
@@ -99,9 +99,11 @@ export const WidgetSync = () => {
                 fix: "Open Pixy again; widgets keep their last sky",
               });
             }
+            // view-shot multiplies the size by the screen scale.
+            const toPixels = WIDGET_SKY_SCALE / PixelRatio.get();
             return captureWidgetImage(view, `sky-${scheme}`, "jpg", {
-              width: WIDGET_SKY_WIDTH * WIDGET_SKY_SCALE,
-              height: WIDGET_SKY_HEIGHT * WIDGET_SKY_SCALE,
+              width: WIDGET_SKY_WIDTH * toPixels,
+              height: WIDGET_SKY_HEIGHT * toPixels,
             });
           })
         );
@@ -220,7 +222,7 @@ export const WidgetSync = () => {
                 grid={grid}
                 layout={layout}
                 row={row}
-                colors={getSchemeColors(scheme, scaleType)}
+                colors={getYearImageColors(scheme, scaleType)}
               />
             ))
           )
