@@ -236,6 +236,9 @@ const light = {
   widgetFutureDay: "#0A0A0A0D",
   // Hairline around every pixel: light pixels hold on white clouds.
   widgetCellEdge: "#0A0A0A24",
+  // Today: lifted cell with a white border, a light fill until the first check-in.
+  widgetToday: colors.white,
+  widgetTodayEmpty: "#FFFFFF8C",
   yearPixelsLegendText: colors.neutral[400],
 
   onboardingTitle: colors.black,
@@ -483,6 +486,8 @@ const dark: IColors & {
   widgetEmptyDay: "#FFFFFF47",
   widgetFutureDay: "#FFFFFF26",
   widgetCellEdge: "#FFFFFF24",
+  widgetToday: colors.white,
+  widgetTodayEmpty: "#FFFFFF8C",
   yearPixelsLegendText: colors.neutral[500],
 
   onboardingTitle: colors.white,

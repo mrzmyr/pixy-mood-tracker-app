@@ -1,4 +1,5 @@
 import { reportError } from "@/lib/report-error";
+import { Asset } from "expo-asset";
 import { widgetsDirectory } from "expo-widgets";
 import * as FileSystem from "expo-file-system/legacy";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -8,7 +9,7 @@ import { useLogLoad, useLogState } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
 import { useSetting } from "@/state/settings";
 import { getYearGrid, getYearImageColors } from "./widget-data";
-import type { SkyImages, YearImages } from "./widget-data";
+import type { WidgetArt, YearImages } from "./widget-data";
 import {
   WIDGET_SKY_HEIGHT,
   WIDGET_SKY_SCALE,
@@ -54,6 +55,33 @@ const captureWidgetImage = async (
   return target;
 };
 
+/** Cloud Pixy for the widgets, rendered from `CloudPixy` with transparent edges. */
+const PIXY_IMAGES = {
+  pixyCurious: require(`../../../assets/images/widget/cloud-pixy-curious.png`),
+  pixyHappy: require(`../../../assets/images/widget/cloud-pixy-happy.png`),
+};
+
+/**
+ * Copies a bundled image into the shared widget directory. A file copy keeps
+ * the soft edges: view-shot would store them premultiplied, and they turn
+ * dark. Returns the `file://` URI.
+ */
+const copyWidgetAsset = async (module: number, name: string) => {
+  const [asset] = await Asset.loadAsync(module);
+  if (!asset?.localUri) {
+    throw createStructuredError({
+      status: "widget_asset_missing",
+      message: "Widget image is not on the device",
+      why: `expo-asset returned no local file for ${name}`,
+      fix: "Open Pixy again; widgets show no Pixy meanwhile",
+    });
+  }
+  const target = `${widgetsDirectory}${name}.png`;
+  await FileSystem.deleteAsync(target, { idempotent: true });
+  await FileSystem.copyAsync({ from: asset.localUri, to: target });
+  return target;
+};
+
 /**
  * Keeps the home screen widgets in sync with entries and the color scale.
  * Renders the year grid off screen, captures it as an image for the year
@@ -72,8 +100,8 @@ export const WidgetSync = () => {
     dark: null,
   });
   const [skyLoaded, setSkyLoaded] = useState({ light: false, dark: false });
-  // The sky never changes with entries: capture it once per app run.
-  const [skyImages, setSkyImages] = useState<SkyImages>();
+  // Sky and Pixy never change with entries: prepare them once per app run.
+  const [art, setArt] = useState<WidgetArt>();
   const [isSkyDone, setIsSkyDone] = useState(false);
 
   useEffect(() => {
@@ -87,6 +115,12 @@ export const WidgetSync = () => {
       return;
     }
     const capture = async () => {
+      const next: WidgetArt = {
+        skyLight: "",
+        skyDark: "",
+        pixyCurious: "",
+        pixyHappy: "",
+      };
       try {
         const [light, dark] = await Promise.all(
           (["light", "dark"] as const).map((scheme) => {
@@ -107,7 +141,8 @@ export const WidgetSync = () => {
             });
           })
         );
-        setSkyImages({ light, dark });
+        next.skyLight = light;
+        next.skyDark = dark;
       } catch (error) {
         const structuredError = createStructuredError({
           status: "widget_sky_image_failed",
@@ -118,6 +153,26 @@ export const WidgetSync = () => {
         console.error(structuredError);
         reportError(structuredError);
       }
+      try {
+        next.pixyCurious = await copyWidgetAsset(
+          PIXY_IMAGES.pixyCurious,
+          "pixy-curious"
+        );
+        next.pixyHappy = await copyWidgetAsset(
+          PIXY_IMAGES.pixyHappy,
+          "pixy-happy"
+        );
+      } catch (error) {
+        const structuredError = createStructuredError({
+          status: "widget_pixy_image_failed",
+          message: "Cloud Pixy could not be copied for the widgets",
+          why: error instanceof Error ? error.message : String(error),
+          fix: "Open Pixy again; widgets show no Pixy meanwhile",
+        });
+        console.error(structuredError);
+        reportError(structuredError);
+      }
+      setArt(next);
       setIsSkyDone(true);
     };
     void capture();
@@ -181,7 +236,7 @@ export const WidgetSync = () => {
         console.error(structuredError);
         reportError(structuredError);
       }
-      await syncWidgets({ items, scaleType, yearImages, skyImages });
+      await syncWidgets({ items, scaleType, yearImages, art });
     };
     const timeout = setTimeout(() => {
       void sync();
@@ -195,7 +250,7 @@ export const WidgetSync = () => {
       clearTimeout(timeout);
       subscription.remove();
     };
-  }, [items, loaded, scaleType, skyImages]);
+  }, [items, loaded, scaleType, art]);
 
   const showsSky =
     IS_WIDGET_SUPPORTED && Boolean(widgetsDirectory) && !isSkyDone;

@@ -38,7 +38,7 @@ const cellFill = (code: YearDayCode, colors: WidgetSchemeColors) => {
   return colors.ratings[code];
 };
 
-/** Today's ring, or the hairline. Padding cells stay invisible. */
+/** Today's white border, or the hairline. Padding cells stay invisible. */
 const cellBorder = (code: YearDayCode, isToday: boolean) => {
   if (isToday) {
     return RING;
@@ -68,7 +68,8 @@ const Cell = ({
       marginRight: gapRight ? GAP : 0,
       marginBottom: gapBottom ? GAP : 0,
       borderRadius: Math.max(1, size / 5),
-      backgroundColor: cellFill(code, colors),
+      backgroundColor:
+        isToday && code === "" ? colors.todayEmpty : cellFill(code, colors),
       borderWidth: cellBorder(code, isToday),
       borderColor: isToday ? colors.today : colors.edge,
     }}

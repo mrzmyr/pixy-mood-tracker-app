@@ -38,8 +38,10 @@ export interface WidgetSchemeColors {
   future: string;
   /** Hairline around every other cell, so pastel pixels hold on the sky. */
   edge: string;
-  /** Ring around today's cell. */
+  /** Border of today's lifted cell. */
   today: string;
+  /** Fill of today's cell before the first check-in of the day. */
+  todayEmpty: string;
   /** Fill per rating, from the user's color scale. */
   ratings: Record<WidgetRating, string>;
 }
@@ -56,21 +58,26 @@ export interface WidgetBaseProps {
   /** Sky behind the widget, a `file://` URI in `widgetsDirectory`; `""` before the first capture. */
   skyLight: string;
   skyDark: string;
+  /** Cloud Pixy images, `file://` URIs in `widgetsDirectory`; `""` before the first copy. */
+  pixyCurious: string;
+  pixyHappy: string;
+  /** Today has at least one entry: Pixy smiles and the prompt thanks. */
+  isCheckedIn: boolean;
+  /** Question before today's check-in, thanks after it. */
+  prompt: string;
 }
 
-/**
- * Week widget props. `weeks` holds `WEEK_WIDGET_WEEKS` rows of seven days,
- * oldest first; the last row is the current week. Small shows every row,
- * medium shows the current week only.
- */
+/** Week widget props: the seven days of the current locale week. */
 export interface WeekWidgetProps extends WidgetBaseProps {
-  weeks: WidgetCell[][];
+  days: WidgetCell[];
 }
 
 /** Month widget props. Every row in `weeks` has seven entries. */
 export interface MonthWidgetProps extends WidgetBaseProps {
   /** Rows of seven; `PAD_CELL` fills days outside the month. */
   weeks: WidgetCell[][];
+  /** One letter per weekday, in locale week order. */
+  weekdays: string[];
 }
 
 /** Day code in the year grid. Kept short: 372 cells per timeline entry. */
