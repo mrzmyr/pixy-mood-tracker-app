@@ -1,7 +1,7 @@
 appId: ${APP_ID}
 tags: [p1, location]
 ---
-# With the `location` flag and setting on, a new entry gets the current place.
+# With the location setting on, a new entry gets the current place.
 # The user changes it to another place before saving.
 # Place names come from the system geocoder and need a network. Without a
 # position fix (simulator location unset) the entry starts with "Add Location".
@@ -9,10 +9,6 @@ tags: [p1, location]
     file: ../subflows/load-fixture.yaml
     env:
       FIXTURE: empty
-- runFlow:
-    file: ../subflows/enable-feature-flag.yaml
-    env:
-      FLAG: location
 
 # Turn location on in Settings > Check-in. It is off by default.
 - runFlow: ../subflows/open-settings.yaml
@@ -37,13 +33,9 @@ tags: [p1, location]
     commands:
       - tapOn: "While using the app"
 # Back on the calendar, iOS reports an empty accessibility tree. Relaunch
-# instead. Flag overrides end on restart, so turn the flag on again.
+# instead.
 - stopApp
 - launchApp
-- runFlow:
-    file: ../subflows/enable-feature-flag.yaml
-    env:
-      FLAG: location
 
 # The new entry shows the time bottom left and the place bottom right.
 - tapOn:

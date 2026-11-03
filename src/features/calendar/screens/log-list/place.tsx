@@ -9,7 +9,7 @@ import useColors from "@/hooks/use-colors";
  * Place of an entry in the card header: a gray map pin and the place name on
  * one line, cut off with an ellipsis when long. Without a name it shows
  * rounded coordinates. Display only: the card has no place edit step. Renders
- * nothing without a stored place or while the `location` flag is off.
+ * nothing without a stored place.
  */
 export const Place = ({ item }: { item: LogItem }) => {
   const colors = useColors();

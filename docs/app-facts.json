@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-11-01",
+  "verifiedOn": "2026-11-03",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -471,6 +471,17 @@
       "description": "Not in the app.",
       "competitorKey": "ai",
       "evidence": []
+    },
+    {
+      "id": "location",
+      "label": "Location",
+      "status": "available",
+      "group": "logging",
+      "description": "Add a place to an entry. Turn it on in Settings > Check-in. New entries for today get your current place. Places stay on your phone.",
+      "evidence": [
+        "src/features/location/",
+        "src/features/settings/screens/steps.tsx"
+      ]
     },
     {
       "id": "photos",

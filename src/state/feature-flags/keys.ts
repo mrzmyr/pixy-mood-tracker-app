@@ -10,7 +10,6 @@ export const FEATURE_FLAGS = [
   "calendar-timeline",
   "development",
   "feature-flag-overrides",
-  "location",
   "menstruation",
   "more-tags",
   "needs",
@@ -63,10 +62,6 @@ export const FEATURE_FLAG_DETAILS: Record<
   "feature-flag-overrides": {
     description: "Flag overrides in production builds",
     location: "Settings > Development > Feature flags",
-  },
-  location: {
-    description: "Place of the check-in",
-    location: "Settings > Check-in",
   },
   menstruation: {
     description: "Daily menstruation flow check-in",

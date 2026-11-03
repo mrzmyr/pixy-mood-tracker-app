@@ -163,7 +163,6 @@ describe("day view entry card", () => {
     };
 
     test("shows the place of an entry with a location", async () => {
-      mockOnFlags = ["location"];
       await renderEntry({ item: _generateItem({ location: berlin }) });
 
       expect(await screen.findByText("Mitte, Berlin")).toBeTruthy();
@@ -173,25 +172,16 @@ describe("day view entry card", () => {
       ["no name", { ...berlin, name: null }],
       ["a blank name", { ...berlin, name: " " }],
     ])("shows coordinates for a place with %s", async (_, location) => {
-      mockOnFlags = ["location"];
       await renderEntry({ item: _generateItem({ location }) });
 
       expect(await screen.findByText("52.520, 13.405")).toBeTruthy();
     });
 
     test("shows no place for an entry without a location", async () => {
-      mockOnFlags = ["location"];
       await renderEntry({ item: _generateItem({}) });
 
       await screen.findByLabelText("Edit");
       expect(screen.queryByTestId("log-list-place")).toBeNull();
-    });
-
-    test("hides the place with the location flag off", async () => {
-      await renderEntry({ item: _generateItem({ location: berlin }) });
-
-      await screen.findByLabelText("Edit");
-      expect(screen.queryByText("Mitte, Berlin")).toBeNull();
     });
   });
 });
