@@ -227,10 +227,18 @@ const light = {
 
   yearPixelsEmptyDot: colors.neutral[200],
 
-  widgetBackground: colors.white,
+  // Widgets sit on the day sky: this color shows until the sky image exists.
+  widgetBackground: "#a9d4fd",
   widgetText: colors.neutral[900],
-  widgetTextSecondary: colors.neutral[500],
-  widgetFutureDay: colors.neutral[100],
+  widgetTextSecondary: colors.neutral[700],
+  // See-through, so pixels hold on blue sky and white clouds alike.
+  widgetEmptyDay: "#0A0A0A1F",
+  widgetFutureDay: "#0A0A0A0D",
+  // Hairline around every pixel: light pixels hold on white clouds.
+  widgetCellEdge: "#0A0A0A24",
+  // Today: lifted cell with a see-through dark border, a light fill until the first check-in.
+  widgetToday: "#0A0A0A59",
+  widgetTodayEmpty: "#FFFFFF8C",
   yearPixelsLegendText: colors.neutral[400],
 
   onboardingTitle: colors.black,
@@ -471,10 +479,15 @@ const dark: IColors & {
 
   yearPixelsEmptyDot: colors.neutral[800],
 
-  widgetBackground: colors.neutral[900],
+  // Widgets sit on the night sky: this color shows until the sky image exists.
+  widgetBackground: "#0a1124",
   widgetText: colors.white,
-  widgetTextSecondary: colors.neutral[400],
-  widgetFutureDay: colors.neutral[700],
+  widgetTextSecondary: colors.neutral[300],
+  widgetEmptyDay: "#FFFFFF47",
+  widgetFutureDay: "#FFFFFF26",
+  widgetCellEdge: "#FFFFFF24",
+  widgetToday: "#FFFFFF99",
+  widgetTodayEmpty: "#FFFFFF8C",
   yearPixelsLegendText: colors.neutral[500],
 
   onboardingTitle: colors.white,

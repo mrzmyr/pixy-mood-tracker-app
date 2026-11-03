@@ -1,9 +1,7 @@
-import chroma, { contrast } from "chroma-js";
+import chroma, { contrast, mix } from "chroma-js";
 import dayjs from "dayjs";
-import scales from "@/constants/colors/scales";
 import { _generateItem } from "@/testing/log-item";
 import {
-  WEEK_WIDGET_WEEKS,
   WIDGET_TIMELINE_DAYS,
   YEAR_GRID_COLUMNS,
   getMonthWidgetProps,
@@ -11,6 +9,7 @@ import {
   getWidgetTimeline,
   getYearGrid,
   getSchemeColors,
+  getYearImageColors,
   getYearWidgetProps,
 } from "../widget-data";
 
@@ -28,30 +27,26 @@ const INPUT = {
 };
 
 describe("getWeekWidgetProps()", () => {
-  test("builds four weeks with the current week last and today marked", () => {
+  test("builds the current week with today marked", () => {
     const props = getWeekWidgetProps(INPUT);
-    expect(props.weeks).toHaveLength(WEEK_WIDGET_WEEKS);
     expect(props.url).toBe("pixy://calendar");
-    for (const week of props.weeks) {
-      expect(week).toHaveLength(7);
-    }
-    const thisWeek = props.weeks.at(-1) ?? [];
-    const today = thisWeek.find((day) => day.isToday);
+    expect(props.days).toHaveLength(7);
+    const today = props.days.find((day) => day.isToday);
     expect(today?.day).toBe(15);
     // very_bad (1) and very_good (5) average to neutral (3).
     expect(today?.rating).toBe("neutral");
-    expect(thisWeek.find((day) => day.day === 13)?.rating).toBe("good");
+    expect(props.days.find((day) => day.day === 13)?.rating).toBe("good");
     expect(
-      thisWeek.filter((day) => day.isFuture).map((day) => day.day)
+      props.days.filter((day) => day.isFuture).map((day) => day.day)
     ).toEqual(expect.arrayContaining([16, 17]));
-    expect(props.weeks[0].some((day) => day.isToday)).toBe(false);
   });
 
-  test("subtitle counts logged days over elapsed days of all four weeks", () => {
-    const props = getWeekWidgetProps(INPUT);
-    const elapsed = props.weeks.flat().filter((day) => !day.isFuture).length;
-    expect(props.subtitle).toBe(`2/${elapsed}`);
-    expect(elapsed).toBe(21 + 5);
+  test("Pixy smiles and thanks once today has an entry", () => {
+    const checkedIn = getWeekWidgetProps(INPUT);
+    const notYet = getWeekWidgetProps({ ...INPUT, now: NOW.add(1, "day") });
+    expect(checkedIn.isCheckedIn).toBe(true);
+    expect(notYet.isCheckedIn).toBe(false);
+    expect(checkedIn.prompt).not.toBe(notYet.prompt);
   });
 
   test("falls back to the default scale for an unknown scale type", () => {
@@ -124,33 +119,73 @@ describe("getYearWidgetProps()", () => {
 
 const luminance = (color: string) => chroma(color).luminance();
 
+/** A see-through color as it shows on `backdrop`. */
+const over = (color: string, backdrop: string) => {
+  const fill = chroma(color);
+  return mix(backdrop, fill.alpha(1), fill.alpha(), "rgb").hex();
+};
+
+/** What sits behind widget cells: the sky color, and white clouds by day. */
+const backdrops = (theme: "light" | "dark", background: string) =>
+  theme === "light" ? [background, "#FFFFFF"] : [background];
+
 describe("getSchemeColors()", () => {
-  const cases = (["light", "dark"] as const).flatMap((theme) =>
-    Object.keys(scales[theme]).map((scaleType) => ({ theme, scaleType }))
-  );
-
-  test.each(cases)(
-    "$theme $scaleType: future days sit between background and empty days",
-    ({ theme, scaleType }) => {
-      const colors = getSchemeColors(theme, scaleType);
-      const [low, high] = [
-        luminance(colors.background),
-        luminance(colors.empty),
-      ].sort((a, b) => a - b);
-      expect(luminance(colors.future)).toBeGreaterThan(low);
-      expect(luminance(colors.future)).toBeLessThan(high);
+  test.each(["light", "dark"] as const)(
+    "%s future days sit between the sky and empty days",
+    (theme) => {
+      const colors = getSchemeColors(theme, "ColorBrew-RdYlGn");
+      for (const backdrop of backdrops(theme, colors.background)) {
+        const [low, high] = [
+          luminance(backdrop),
+          luminance(over(colors.empty, backdrop)),
+        ].sort((a, b) => a - b);
+        const future = luminance(over(colors.future, backdrop));
+        expect(future).toBeGreaterThan(low);
+        expect(future).toBeLessThan(high);
+      }
     }
   );
 
-  test("dark future days stay visible on the dark widget background", () => {
-    for (const scaleType of Object.keys(scales.dark)) {
-      const colors = getSchemeColors("dark", scaleType);
-      // Small cells on a dark home screen need more than a faint step.
-      expect(contrast(colors.future, colors.background)).toBeGreaterThanOrEqual(
-        1.5
-      );
+  test.each(["light", "dark"] as const)(
+    "%s empty days stay visible on sky and clouds",
+    (theme) => {
+      const colors = getSchemeColors(theme, "ColorBrew-RdYlGn");
+      for (const backdrop of backdrops(theme, colors.background)) {
+        expect(
+          contrast(over(colors.empty, backdrop), backdrop)
+        ).toBeGreaterThanOrEqual(1.25);
+      }
     }
+  );
+
+  test("dark future days stay visible on the night sky", () => {
+    const colors = getSchemeColors("dark", "ColorBrew-RdYlGn");
+    // Small cells on a dark home screen need more than a faint step.
+    expect(
+      contrast(over(colors.future, colors.background), colors.background)
+    ).toBeGreaterThanOrEqual(1.5);
   });
+});
+
+describe("getYearImageColors()", () => {
+  // view-shot stores see-through pixels premultiplied: they turn dark.
+  test.each(["light", "dark"] as const)(
+    "%s year images use opaque cell colors that match the widget cells",
+    (theme) => {
+      const image = getYearImageColors(theme, "ColorBrew-RdYlGn");
+      const widget = getSchemeColors(theme, "ColorBrew-RdYlGn");
+      for (const key of [
+        "empty",
+        "future",
+        "edge",
+        "today",
+        "todayEmpty",
+      ] as const) {
+        expect(chroma(image[key]).alpha()).toBe(1);
+        expect(image[key]).toBe(over(widget[key], widget.background));
+      }
+    }
+  );
 });
 
 describe("props are property-list safe", () => {
@@ -171,8 +206,8 @@ describe("getWidgetTimeline()", () => {
     expect(timeline).toHaveLength(WIDGET_TIMELINE_DAYS);
     expect(timeline[0].date).toEqual(NOW.toDate());
     expect(timeline[1].date).toEqual(NOW.add(1, "day").startOf("day").toDate());
-    expect(
-      (timeline[1].props.weeks.at(-1) ?? []).find((day) => day.isToday)?.day
-    ).toBe(16);
+    expect(timeline[1].props.days.find((day) => day.isToday)?.day).toBe(16);
+    // Midnight entries start without a check-in: Pixy is curious again.
+    expect(timeline[1].props.isCheckedIn).toBe(false);
   });
 });
