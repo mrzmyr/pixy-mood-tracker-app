@@ -239,7 +239,7 @@ export const NewPeople = ({
         }
         title={title}
       />
-      <SlideCard theme={theme} style={{ gap: STORY_BLOCK_GAP }}>
+      <SlideCard style={{ gap: STORY_BLOCK_GAP }}>
         <View
           style={{
             flexDirection: "row",

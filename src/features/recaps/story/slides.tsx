@@ -136,7 +136,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
         title={title}
       />
       {/* Hugs the grid: on tablets the pixels stop short of the width. */}
-      <SlideCard theme={theme} style={{ alignSelf: "flex-start" }}>
+      <SlideCard style={{ alignSelf: "flex-start" }}>
         <MonthGrid
           period={ctx.period}
           dayColors={dayColors}
@@ -198,7 +198,7 @@ const TagEffects = ({
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <SlideCard theme={theme} style={{ gap: STORY_BLOCK_GAP }}>
+      <SlideCard style={{ gap: STORY_BLOCK_GAP }}>
         {slide.rows.map((row, index) => {
           const tag = ctx.tags.get(row.tagId);
           if (!tag) {
@@ -323,7 +323,7 @@ const ComingUp = ({
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <SlideCard theme={theme} style={{ gap: STORY_BLOCK_GAP }}>
+      <SlideCard style={{ gap: STORY_BLOCK_GAP }}>
         <View
           style={{
             flexDirection: "row",

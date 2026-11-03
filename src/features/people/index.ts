@@ -7,6 +7,7 @@ export type {
   PersonMenuAction,
   PersonMenuActionId,
 } from "./hooks/use-person-menu";
+export { getInitials } from "./initials";
 export { movePerson } from "./people-order";
 export { TILE_RING_GAP, TILE_RING_WIDTH } from "./tile";
 export {
