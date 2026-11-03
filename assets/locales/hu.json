@@ -1038,6 +1038,9 @@
   "recaps_story_banner_label_month": "Havi visszatekintés",
   "recaps_story_banner_title": "Visszatekintés: %{month}",
   "recaps_story_banner_title_week": "Heti visszatekintés",
+  "recaps_story_best_day_ask": "Készen állsz a legjobb napodra?",
+  "recaps_story_best_day_show": "Legjobb napod megjelenítése",
+  "recaps_story_best_day_swipe": "Húzd el a megtekintéshez",
   "recaps_story_coming_left": {
     "one": "Még 1",
     "other": "Még {{count}}"

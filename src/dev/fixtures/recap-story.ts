@@ -77,8 +77,8 @@ const entry = (
 };
 
 /** Klara's photo of a day: `klara-<name>.jpg` in `photo-assets.ts`. */
-const photo = (date: dayjs.Dayjs, name: string) => ({
-  id: `5a0e1c2d-0000-4b3e-9f6e-3c${date.format("MMDD")}000000`,
+const photo = (date: dayjs.Dayjs, name: string, index = 0) => ({
+  id: `5a0e1c2d-0000-4b3e-9f6e-3c${date.format("MMDD")}00000${index}`,
   fileName: `klara-${name}.jpg`,
   width: 640,
   height: 640,
@@ -88,6 +88,8 @@ const photo = (date: dayjs.Dayjs, name: string) => ({
 
 const isHardDay = (day: number) => day === 6 || day === 20 || day === 21;
 const isSeaDay = (day: number) => day >= 11 && day <= 13;
+/** Middle day at the sea: the best day, with all 3 sea photos and emotions. */
+const BEST_DAY = 12;
 
 /** Saturdays: Kaifu-Bad with Ada, then breakfast at home. */
 const SATURDAY_PHOTOS = ["kaifu-bad", "swimming", "underwater", "breakfast"];
@@ -146,6 +148,13 @@ const placeOf = (date: dayjs.Dayjs, day: number) => {
   return date.day() === 6 ? POOL : HOME;
 };
 
+const photosOf = (date: dayjs.Dayjs, day: number, hasPhoto: boolean) => {
+  if (day === BEST_DAY) {
+    return SEA_PHOTOS.map((name, position) => photo(date, name, position));
+  }
+  return hasPhoto ? [photo(date, photoNameOf(date, day))] : [];
+};
+
 /**
  * The story month, like Klara's September: every Saturday swimming, a walk
  * most days, 2 of 3 harder days with Handover, 3 days at the sea (first
@@ -168,7 +177,9 @@ const storyMonth = (start: dayjs.Dayjs): LogItem[] =>
         ...(day % 9 === 4 ? [{ id: HILDE }] : []),
         ...(day === 6 || day === 20 || day === 27 ? [{ id: TOBI }] : []),
       ],
-      photos: hasPhoto ? [photo(date, photoNameOf(date, day))] : [],
+      photos: photosOf(date, day, hasPhoto),
+      emotions:
+        day === BEST_DAY ? ["excited", "loved", "grateful", "calm"] : [],
       location: placeOf(date, day),
     });
   });

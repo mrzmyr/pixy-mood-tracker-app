@@ -1038,6 +1038,9 @@
   "recaps_story_banner_label_month": "Maandterugblik",
   "recaps_story_banner_title": "Terugblik op %{month}",
   "recaps_story_banner_title_week": "Weekterugblik",
+  "recaps_story_best_day_ask": "Klaar om je beste dag te zien?",
+  "recaps_story_best_day_show": "Toon je beste dag",
+  "recaps_story_best_day_swipe": "Veeg om te bekijken",
   "recaps_story_coming_left": {
     "one": "Nog 1",
     "other": "Nog {{count}}"

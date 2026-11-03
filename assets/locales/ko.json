@@ -1038,6 +1038,9 @@
   "recaps_story_banner_label_month": "한 달 돌아보기",
   "recaps_story_banner_title": "%{month} 돌아보기",
   "recaps_story_banner_title_week": "한 주 돌아보기",
+  "recaps_story_best_day_ask": "최고의 하루를 볼 준비가 됐나요?",
+  "recaps_story_best_day_show": "최고의 하루 보기",
+  "recaps_story_best_day_swipe": "밀어서 보기",
   "recaps_story_coming_left": {
     "one": "1일 남음",
     "other": "{{count}}일 남음"

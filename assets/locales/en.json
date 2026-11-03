@@ -1038,6 +1038,9 @@
   "recaps_story_banner_label_month": "Month Recap",
   "recaps_story_banner_title": "%{month} Recap",
   "recaps_story_banner_title_week": "Week Recap",
+  "recaps_story_best_day_ask": "Ready to see your best day?",
+  "recaps_story_best_day_show": "Show your best day",
+  "recaps_story_best_day_swipe": "Swipe to see it",
   "recaps_story_coming_left": {
     "one": "1 to go",
     "other": "{{count}} to go"

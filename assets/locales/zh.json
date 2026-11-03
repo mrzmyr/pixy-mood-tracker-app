@@ -1038,6 +1038,9 @@
   "recaps_story_banner_label_month": "月度回顾",
   "recaps_story_banner_title": "%{month}回顾",
   "recaps_story_banner_title_week": "每周回顾",
+  "recaps_story_best_day_ask": "准备好看看你最棒的一天了吗？",
+  "recaps_story_best_day_show": "显示你最棒的一天",
+  "recaps_story_best_day_swipe": "滑动查看",
   "recaps_story_coming_left": {
     "one": "还剩 1 天",
     "other": "还剩 {{count}} 天"

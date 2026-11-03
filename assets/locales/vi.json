@@ -1038,6 +1038,9 @@
   "recaps_story_banner_label_month": "Tổng kết tháng",
   "recaps_story_banner_title": "Tổng kết %{month}",
   "recaps_story_banner_title_week": "Tổng kết tuần",
+  "recaps_story_best_day_ask": "Sẵn sàng xem ngày tuyệt nhất của bạn?",
+  "recaps_story_best_day_show": "Hiện ngày tuyệt nhất của bạn",
+  "recaps_story_best_day_swipe": "Vuốt để xem",
   "recaps_story_coming_left": {
     "one": "Còn 1",
     "other": "Còn {{count}}"

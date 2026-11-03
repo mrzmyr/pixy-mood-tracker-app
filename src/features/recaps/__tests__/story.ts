@@ -62,6 +62,7 @@ describe("month story", () => {
     const slides = story(month());
     expect(slides?.map((item) => item.type)).toEqual([
       "cover",
+      "best-day",
       "coming-up",
       "share",
     ]);
@@ -107,6 +108,39 @@ const moodTags = () =>
     return { tags: [{ id: walk.id }] };
   });
 
+describe("best day", () => {
+  test("picks the day with the highest mood", () => {
+    const items = month((index) =>
+      index === 14 ? { rating: "extremely_good" } : {}
+    );
+    expect(slide(story(items), "best-day")?.date).toBe(addDays(SEP, 14));
+  });
+
+  test("breaks a tie with more emotions, then more photos", () => {
+    const items = month((index) => {
+      if (index === 3) {
+        return { rating: "extremely_good", photos: [photo("a"), photo("b")] };
+      }
+      if (index === 9) {
+        return { rating: "extremely_good", emotions: ["calm", "loved"] };
+      }
+      if (index === 20) {
+        return { rating: "extremely_good", photos: [photo("c")] };
+      }
+      return {};
+    });
+    expect(slide(story(items), "best-day")?.date).toBe(addDays(SEP, 9));
+    expect(
+      slide(story(items.filter((_, index) => index !== 9)), "best-day")?.date
+    ).toBe(addDays(SEP, 3));
+  });
+
+  test("stays out without a day above neutral", () => {
+    const items = month(() => ({ rating: "neutral" }));
+    expect(slide(story(items), "best-day")).toBeUndefined();
+  });
+});
+
 describe("tags that felt lighter or heavier", () => {
   test("name tags whose days felt lighter", () => {
     const rows = slide(story(moodTags()), "positive-tags")?.rows;
@@ -122,11 +156,12 @@ describe("tags that felt lighter or heavier", () => {
     expect(rows?.[0]?.delta).toBeLessThan(0);
   });
 
-  test("follow the cover: lighter first, then heavier", () => {
+  test("follow the cover and best day: lighter first, then heavier", () => {
     const types = (story(moodTags()) ?? []).map((item) => item.type);
 
-    expect(types.slice(0, 3)).toEqual([
+    expect(types.slice(0, 4)).toEqual([
       "cover",
+      "best-day",
       "positive-tags",
       "negative-tags",
     ]);
