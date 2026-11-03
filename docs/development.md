@@ -93,7 +93,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 ### Location
 
-- Code: [`src/features/location`](../src/features/location). Flag `location`, switch in Settings > Check-in
+- Code: [`src/features/location`](../src/features/location). Switch in Settings > Check-in
 - Switch on asks for location access while in use. Denied access keeps switch off
 - New entries for today get current place passively: never asks, never marks draft dirty ([`usePassiveLocation`](../src/features/logger/hooks/use-passive-location.ts)). Other days start with "Add Location". Moving the time to another day drops the passive place. Edits keep stored place
 - Rating slide: time bottom left, place bottom right. Place opens picker: search, current location, remove
