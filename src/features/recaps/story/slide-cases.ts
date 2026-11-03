@@ -280,14 +280,14 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   ],
   "coming-up": [
     {
-      name: "Some missed",
+      name: "61 days left",
       period: "month",
-      build: () => ({ type: "coming-up", year: 2026, left: 61, missed: 23 }),
+      build: () => ({ type: "coming-up", year: 2026, left: 61 }),
     },
     {
-      name: "None missed",
+      name: "1 day left",
       period: "month",
-      build: () => ({ type: "coming-up", year: 2026, left: 1, missed: 0 }),
+      build: () => ({ type: "coming-up", year: 2026, left: 1 }),
     },
   ],
   share: [

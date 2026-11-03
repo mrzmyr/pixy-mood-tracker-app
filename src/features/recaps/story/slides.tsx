@@ -1,3 +1,4 @@
+import chroma from "chroma-js";
 import dayjs from "dayjs";
 import noop from "lodash/noop";
 import { PixelRatio, useWindowDimensions, View } from "react-native";
@@ -10,7 +11,6 @@ import type { DateKey, Period, RecapDay } from "../types";
 import { monthName } from "./format";
 import {
   MonthGrid,
-  Pixel,
   Reveal,
   RevealBar,
   RevealText,
@@ -37,6 +37,7 @@ import {
   revealTextMs,
   titleRevealEnd,
 } from "./theme";
+import type { StoryTheme } from "./theme";
 import type {
   ComingUpSlide,
   CoverSlide,
@@ -274,6 +275,15 @@ const MONTHS = Array.from({ length: 12 }, (_, index) => index);
 /** Time between two months of the build-up. */
 const MONTH_STEP_MS = 90;
 
+/** Fill of a day with a check-in: one neutral tone, the mood stays private. */
+const loggedFill = (theme: StoryTheme) =>
+  chroma(STORY_PALETTE[theme].text).alpha(0.55).css();
+
+/**
+ * The year so far: days with a check-in in one neutral tone, days without
+ * as empty glass, days to come as dots. No mood colors and no count of
+ * missed days: the slide looks ahead, kindly.
+ */
 const ComingUp = ({
   slide,
   ctx,
@@ -284,9 +294,13 @@ const ComingUp = ({
   const theme = getStoryTheme(ctx.isDark);
   const palette = STORY_PALETTE[theme];
   const { year } = slide;
-  const yearDays = ctx.history.filter((day) => day.date.startsWith(`${year}-`));
-  const dayColors = useDayColors(yearDays, "glass");
-  const dayOutlines = useDayColors(yearDays, "glassEdge");
+  const fill = loggedFill(theme);
+  const logged = new Map<DateKey, string>();
+  for (const day of ctx.history) {
+    if (day.date.startsWith(`${year}-`)) {
+      logged.set(day.date, fill);
+    }
+  }
   const size = 9;
   const pending = (date: DateKey) =>
     date > ctx.today ? (
@@ -311,13 +325,11 @@ const ComingUp = ({
     ) : null;
   const title = t("recaps_story_coming_title", { count: slide.left, year });
   const start = titleRevealEnd(title);
-  const legendAt = start + MONTHS.length * MONTH_STEP_MS + 200;
-  const missed = t("recaps_story_coming_missed", { count: slide.missed });
-  const left = t("recaps_story_coming_left", { count: slide.left });
+  const noteAt = start + MONTHS.length * MONTH_STEP_MS + 200;
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <SlideCard theme={theme}>
+      <SlideCard theme={theme} style={{ gap: STORY_BLOCK_GAP }}>
         <View
           style={{
             flexDirection: "row",
@@ -349,8 +361,7 @@ const ComingUp = ({
                 </StoryText>
                 <MonthGrid
                   period={period}
-                  dayColors={dayColors}
-                  dayOutlines={dayOutlines}
+                  dayColors={logged}
                   size={size}
                   gap={2}
                   empty={palette.glass}
@@ -361,47 +372,13 @@ const ComingUp = ({
             );
           })}
         </View>
-        <View
-          style={{ flexDirection: "row", gap: 20, marginTop: STORY_BLOCK_GAP }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-            <Reveal at={legendAt}>
-              <Pixel
-                size={10}
-                color={palette.glass}
-                outline={palette.glassBorder}
-              />
-            </Reveal>
-            <RevealText
-              text={missed}
-              at={legendAt}
-              kind="label"
-              theme={theme}
-              tone="muted"
-              style={{ fontSize: 12 }}
-            />
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-            <Reveal at={legendAt + revealTextMs(missed)}>
-              <View
-                style={{
-                  width: 3,
-                  height: 3,
-                  borderRadius: 2,
-                  backgroundColor: palette.muted,
-                }}
-              />
-            </Reveal>
-            <RevealText
-              text={left}
-              at={legendAt + revealTextMs(missed)}
-              kind="label"
-              theme={theme}
-              tone="muted"
-              style={{ fontSize: 12 }}
-            />
-          </View>
-        </View>
+        <RevealText
+          text={t("recaps_story_coming_text", { count: slide.left })}
+          at={noteAt}
+          kind="body"
+          theme={theme}
+          style={{ fontSize: 17, lineHeight: 24 }}
+        />
       </SlideCard>
     </>
   );

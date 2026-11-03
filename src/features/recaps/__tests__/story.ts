@@ -405,11 +405,13 @@ describe("new people", () => {
 });
 
 describe("coming up", () => {
-  test("counts days left and missed days since the first entry", () => {
+  test("counts days left in the year", () => {
     const items = month().slice(0, 20);
-    expect(
-      slide(story(items, { firstEntryDate: SEP }), "coming-up")
-    ).toMatchObject({ year: 2026, left: 90, missed: 12 });
+    expect(slide(story(items), "coming-up")).toStrictEqual({
+      type: "coming-up",
+      year: 2026,
+      left: 90,
+    });
   });
 
   test("stays out once the year is over", () => {

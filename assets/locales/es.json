@@ -1038,13 +1038,9 @@
   "recaps_story_banner_title_week": "Resumen de la semana",
   "recaps_story_best_day_ask": "¿Listo para ver tu mejor día?",
   "recaps_story_best_day_show": "Mostrar tu mejor día",
-  "recaps_story_coming_left": {
-    "one": "Falta 1",
-    "other": "Faltan {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 sin registrar",
-    "other": "{{count}} sin registrar"
+  "recaps_story_coming_text": {
+    "one": "Te espera 1 píxel más. Un día a la vez.",
+    "other": "Te esperan {{count}} píxeles más. Un día a la vez."
   },
   "recaps_story_coming_title": {
     "one": "Aún queda 1 día de %{year}",

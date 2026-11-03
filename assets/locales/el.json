@@ -1038,13 +1038,9 @@
   "recaps_story_banner_title_week": "Ανασκόπηση εβδομάδας",
   "recaps_story_best_day_ask": "Έτοιμος να δεις την καλύτερη μέρα σου;",
   "recaps_story_best_day_show": "Δείξε την καλύτερη μέρα σου",
-  "recaps_story_coming_left": {
-    "one": "Μένει 1",
-    "other": "Μένουν {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 χαμένη",
-    "other": "{{count}} χαμένες"
+  "recaps_story_coming_text": {
+    "one": "Σε περιμένει ακόμα 1 pixel. Μία μέρα τη φορά.",
+    "other": "Σε περιμένουν ακόμα {{count}} pixels. Μία μέρα τη φορά."
   },
   "recaps_story_coming_title": {
     "one": "Μένει ακόμα 1 μέρα του %{year}",

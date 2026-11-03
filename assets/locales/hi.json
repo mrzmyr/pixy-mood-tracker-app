@@ -1038,13 +1038,9 @@
   "recaps_story_banner_title_week": "साप्ताहिक रीकैप",
   "recaps_story_best_day_ask": "क्या आप अपना सबसे अच्छा दिन देखने के लिए तैयार हैं?",
   "recaps_story_best_day_show": "अपना सबसे अच्छा दिन दिखाएं",
-  "recaps_story_coming_left": {
-    "one": "1 बाकी",
-    "other": "{{count}} बाकी"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 छूटा",
-    "other": "{{count}} छूटे"
+  "recaps_story_coming_text": {
+    "one": "1 और पिक्सेल आपका इंतज़ार कर रहा है। एक दिन में एक कदम।",
+    "other": "{{count}} और पिक्सेल आपका इंतज़ार कर रहे हैं। एक दिन में एक कदम।"
   },
   "recaps_story_coming_title": {
     "one": "%{year} का 1 दिन अभी बाकी है",

@@ -1038,13 +1038,9 @@
   "recaps_story_banner_title_week": "Ugens tilbageblik",
   "recaps_story_best_day_ask": "Klar til at se din bedste dag?",
   "recaps_story_best_day_show": "Vis din bedste dag",
-  "recaps_story_coming_left": {
-    "one": "1 tilbage",
-    "other": "{{count}} tilbage"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 misset",
-    "other": "{{count}} misset"
+  "recaps_story_coming_text": {
+    "one": "1 pixel mere venter på dig. Én dag ad gangen.",
+    "other": "{{count}} pixels mere venter på dig. Én dag ad gangen."
   },
   "recaps_story_coming_title": {
     "one": "1 dag af %{year} tilbage",
