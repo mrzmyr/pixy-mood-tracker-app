@@ -341,12 +341,14 @@ const RecapStory = () => {
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getStoryTheme(ctx.isDark),
-    // A quiz waits for the answer, the best day for its unlock, then plays.
+    // A quiz waits for the answer, the best day for its unlock, slides with
+    // their own buttons for a tap, then the story plays on.
     isWaiting:
       (slide.type === "people-quiz" && !picks.has(index)) ||
       (slide.type === "best-day" && !isBestDayUnlocked) ||
       rough.isAsking(slide) ||
-      slide.type === "rough-nights-ask",
+      slide.type === "rough-nights-ask" ||
+      slide.type === "rough-nights-closing",
     durationMs: getSlideDuration(slide),
     content: contentOf(slide, index),
   }));

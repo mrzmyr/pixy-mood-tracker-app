@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
+import noop from "lodash/noop";
 import { PixelRatio, Pressable, useWindowDimensions, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -32,6 +33,7 @@ import {
   StoryText,
   TagDot,
 } from "./parts";
+import { StoryPressContext } from "./press-context";
 import { itemKey, seenBefore } from "./sleep";
 import type { RoughNightsAnswer } from "./sleep";
 import type { SlideContext } from "./slides";
@@ -855,12 +857,17 @@ export const RoughNightsAsk = ({
   onMissed: () => void;
   onDone: () => void;
 }) => {
+  const press = use(StoryPressContext);
   const theme = getStoryTheme(ctx.isDark);
   const palette = STORY_PALETTE[theme];
   const title = t("recaps_story_rough_ask_title");
   const at = titleRevealEnd(title);
   const added = answer.added.flatMap(({ tagId }) => ctx.tags.get(tagId) ?? []);
-  const items = slide.sleep.items.slice(0, 9);
+  // A tag added here also lands in the evenings, so the deck lists it too.
+  const addedIds = new Set(answer.added.map(({ tagId }) => tagId));
+  const items = slide.sleep.items
+    .filter((item) => item.kind !== "tag" || !addedIds.has(item.id))
+    .slice(0, 9);
   const section = (kind: RoughNightItem["kind"], heading: string) => {
     const list = items.filter((item) => item.kind === kind);
     const extra = kind === "tag" ? added : [];
@@ -914,7 +921,15 @@ export const RoughNightsAsk = ({
     );
   };
   return (
-    <View style={{ flex: 1 }}>
+    // Taps between the chips stay on the question: only Done moves on.
+    <Pressable
+      accessible={false}
+      onPress={noop}
+      onLongPress={() => press?.setIsHolding(true)}
+      onPressOut={() => press?.setIsHolding(false)}
+      delayLongPress={200}
+      style={{ flex: 1 }}
+    >
       <Eyebrow theme={theme} text={t("recaps_story_rough_nights")} />
       <View style={{ marginTop: 8 }}>
         <SlideHeader theme={theme} title={title} />
@@ -958,7 +973,7 @@ export const RoughNightsAsk = ({
       >
         {t("recaps_story_rough_done")}
       </Button>
-    </View>
+    </Pressable>
   );
 };
 
