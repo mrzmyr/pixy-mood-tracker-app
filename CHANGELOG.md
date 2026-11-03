@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.112.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.111.0...v1.112.0) (2026-11-03)
+
+
+### Features
+
+* **calendar:** stack voice and quick check-in buttons above add button ([#1068](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1068)) ([c356ee1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c356ee1c006a62e4c755e0e3e1b758b6712a79ba))
+* **logger:** rate needs with a compact control and show feelings under each ([#1079](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1079)) ([8d2e89a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8d2e89ad39226c906934e11577c079642ec2415e))
+* **people:** pick archived people in the check-in ([#1077](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1077)) ([e997673](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e99767320e828f4ab83c6976189aaa09050ed28a))
+* **quick-check-in:** logger emotions, people row, pull-down search, and top 20 tags ([#1071](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1071)) ([299b8b4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/299b8b42246af453988d229efb1ac040a8eff93d))
+* **recaps:** best day slide in month story ([#1076](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1076)) ([65c450b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/65c450b7cf842f26675e413a03865c08a69a65e4))
+* **recaps:** days to go shows neutral pixels and a kind sentence, no legend ([#1088](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1088)) ([5809612](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5809612ea9d751e66babed3c12d959347946c0fb))
+* **recaps:** kind words on the cover, no check-in count on tag slides ([#1085](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1085)) ([45d9412](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/45d94125a1d5c8c8d349a6caf5e98c4488481d95))
+* **recaps:** month story slides stay twice as long, last slide waits ([#1084](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1084)) ([accb8bf](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/accb8bf2a9e98558005ee27fbaf17228b1f249bd))
+* **recaps:** new people slide in the month story ([#1075](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1075)) ([bb17b60](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bb17b607686502792d50349d59caae641b737f1d))
+* **recaps:** people quiz before the orbit in month stories ([#1074](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1074)) ([3cf2c7f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3cf2c7f925ea6fe1509e47403340637939dcd68f))
+* **recaps:** places slide after the month story cover ([#1082](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1082)) ([7218991](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/72189913f475fdbb657d9c9864811d067807749a))
+* **recaps:** share a calm story card, last slide card on top with photo gallery ([#1087](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1087)) ([7521870](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7521870e77c0a9b623a3850e817babda8fb91434))
+* **recaps:** sleep slide with an opt-in look at rough nights ([#1089](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1089)) ([054bc2c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/054bc2ce958df104bd092d6555a81a218fccf3ac))
+* **recaps:** tap a person in the orbit to see their days in the month ([#1086](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1086)) ([cc3a692](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/cc3a692c4146b3d8a9127c03aa3826f0504fee19))
+* **widget:** sky background behind home screen widgets ([#1078](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1078)) ([005f35e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/005f35e86a2ef91c286c718ed9dce97285b19348))
+
+
+### Bug Fixes
+
+* **android:** settings text follows theme change right away ([#1059](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1059)) ([119b740](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/119b7402f0beba4e224af8965ff9d7c7ea9ff011))
+* **calendar:** photo peek repeats right after release ([#1072](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1072)) ([025f413](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/025f41371f6e81244c7706882e7b2029993b1a88))
+* **i18n:** complete every locale and make missing keys fail CI ([#1065](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1065)) ([5a01fac](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5a01fac85c027d98a6b8410569509e1463f51902))
+* **i18n:** translate Spanish Settings strings and rename About ([#1058](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1058)) ([5027a7a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5027a7a9b8baebba5d8ffe8a86b8f1a2adceefd8))
+* **logger:** redraw entry slides after returning from photo picker ([#1061](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1061)) ([8106571](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/810657190ced6636321358585b9922fdfd643201))
+* **logger:** show next on mood slide when voice prefilled the mood ([#1073](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1073)) ([b959715](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b9597150a1078a5aa67060425449d0ffcbfac78e))
+* **logger:** swipe down closes an unchanged entry edit ([#1067](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1067)) ([62f7ba7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/62f7ba7d156573a4275afaf31bcc621a6381c652))
+* **people:** keep contact rows in place when the picked strip appears ([#1070](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1070)) ([b2c5780](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b2c578093cb89403620613c032dc94d1cb4aa4b4))
+* **people:** show the new photo after changing or removing a person's photo ([#1066](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1066)) ([56025ee](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/56025ee9ba7d8747d465b348e52545b426f4dcb6))
+* **recaps:** record closed story card in done actions ([#1069](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1069)) ([947d7b2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/947d7b2f4221b51a0676c369ed612c8bb29ee4dc))
+* **reminders:** open Android time picker from Settings again ([#1060](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1060)) ([c491795](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c491795173480ccefabe47bf1de234d99777010b))
+
 ## [1.111.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.110.0...v1.111.0) (2026-11-02)
 
 
