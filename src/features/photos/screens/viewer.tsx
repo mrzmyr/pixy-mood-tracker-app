@@ -97,7 +97,7 @@ const ViewerPhoto = ({
 };
 
 /** Screen that opened the viewer, for analytics. */
-export type PhotoViewerContext = "logger" | "day";
+export type PhotoViewerContext = "logger" | "day" | "recap";
 
 /**
  * Full-screen photo pager: swipe between photos, page dots, counter, close
