@@ -1,6 +1,6 @@
 import { reportError } from "@/lib/report-error";
 import { useEffect, useEffectEvent } from "react";
-import { Linking, View } from "react-native";
+import { Linking } from "react-native";
 import {
   SettingsForm,
   SettingsRow,
@@ -133,115 +133,109 @@ const Reminder = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ padding: 20, paddingBottom: 0 }}>
-        <NotificationPreview time={timeDate} enabled={reminderEnabled} />
-      </View>
-      <SettingsForm>
+    <SettingsForm
+      header={<NotificationPreview time={timeDate} enabled={reminderEnabled} />}
+    >
+      <SettingsSection
+        footer={
+          denied
+            ? t("reminder_permission_denied")
+            : t("evening_reflection_hint")
+        }
+      >
+        <SettingsSwitch
+          label={t("evening_reflection")}
+          value={reminderEnabled}
+          onValueChange={onEnabledChange}
+          testID="reminder-enabled"
+        />
+        {reminderEnabled && (
+          <SettingsRow
+            title={t("time")}
+            accessory={<Clock onChange={onTimeChange} timeDate={timeDate} />}
+          />
+        )}
+        {denied && (
+          <SettingsRow
+            title={t("location_open_settings")}
+            kind="link"
+            onPress={() => {
+              void Linking.openSettings();
+            }}
+          />
+        )}
+      </SettingsSection>
+      {quickCheckIn.isAvailable && (
         <SettingsSection
-          footer={
-            denied
-              ? t("reminder_permission_denied")
-              : t("evening_reflection_hint")
-          }
+          flag="quick-check-in"
+          footer={getQuickCheckInFooter(quickCheckIn.isEnabled, schedule)}
         >
           <SettingsSwitch
-            label={t("evening_reflection")}
-            value={reminderEnabled}
-            onValueChange={onEnabledChange}
-            testID="reminder-enabled"
+            label={t("quick_check_ins")}
+            value={quickCheckIn.isEnabled}
+            onValueChange={onQuickCheckInChange}
+            testID="quick-check-in-enabled"
           />
-          {reminderEnabled && (
+          {quickCheckIn.isEnabled && (
             <SettingsRow
-              title={t("time")}
-              accessory={<Clock onChange={onTimeChange} timeDate={timeDate} />}
+              title={t("quick_check_in_every")}
+              accessory={
+                <IntervalPicker
+                  value={schedule.everyHours}
+                  onChange={(everyHours) =>
+                    quickCheckIn.setSchedule({ ...schedule, everyHours })
+                  }
+                />
+              }
             />
           )}
-          {denied && (
+          {quickCheckIn.isEnabled && (
             <SettingsRow
-              title={t("location_open_settings")}
-              kind="link"
-              onPress={() => {
-                void Linking.openSettings();
-              }}
+              title={t("quick_check_in_from")}
+              accessory={
+                <Clock
+                  testID="quick-check-in-from"
+                  timeDate={reminderTimeToDate(schedule.from)}
+                  onChange={(date) =>
+                    quickCheckIn.setSchedule({
+                      ...schedule,
+                      from: toReminderTime(date),
+                    })
+                  }
+                />
+              }
+            />
+          )}
+          {quickCheckIn.isEnabled && (
+            <SettingsRow
+              title={t("quick_check_in_until")}
+              accessory={
+                <Clock
+                  testID="quick-check-in-until"
+                  timeDate={reminderTimeToDate(schedule.until)}
+                  onChange={(date) =>
+                    quickCheckIn.setSchedule({
+                      ...schedule,
+                      until: toReminderTime(date),
+                    })
+                  }
+                />
+              }
             />
           )}
         </SettingsSection>
-        {quickCheckIn.isAvailable && (
-          <SettingsSection
-            flag="quick-check-in"
-            footer={getQuickCheckInFooter(quickCheckIn.isEnabled, schedule)}
-          >
-            <SettingsSwitch
-              label={t("quick_check_ins")}
-              value={quickCheckIn.isEnabled}
-              onValueChange={onQuickCheckInChange}
-              testID="quick-check-in-enabled"
-            />
-            {quickCheckIn.isEnabled && (
-              <SettingsRow
-                title={t("quick_check_in_every")}
-                accessory={
-                  <IntervalPicker
-                    value={schedule.everyHours}
-                    onChange={(everyHours) =>
-                      quickCheckIn.setSchedule({ ...schedule, everyHours })
-                    }
-                  />
-                }
-              />
-            )}
-            {quickCheckIn.isEnabled && (
-              <SettingsRow
-                title={t("quick_check_in_from")}
-                accessory={
-                  <Clock
-                    testID="quick-check-in-from"
-                    timeDate={reminderTimeToDate(schedule.from)}
-                    onChange={(date) =>
-                      quickCheckIn.setSchedule({
-                        ...schedule,
-                        from: toReminderTime(date),
-                      })
-                    }
-                  />
-                }
-              />
-            )}
-            {quickCheckIn.isEnabled && (
-              <SettingsRow
-                title={t("quick_check_in_until")}
-                accessory={
-                  <Clock
-                    testID="quick-check-in-until"
-                    timeDate={reminderTimeToDate(schedule.until)}
-                    onChange={(date) =>
-                      quickCheckIn.setSchedule({
-                        ...schedule,
-                        until: toReminderTime(date),
-                      })
-                    }
-                  />
-                }
-              />
-            )}
-          </SettingsSection>
-        )}
-        {isRecapsOn && (
-          <SettingsSection
-            flag="recaps"
-            footer={t("recaps_notifications_hint")}
-          >
-            <SettingsSwitch
-              label={t("recaps_notifications_setting")}
-              value={recaps.enabled}
-              onValueChange={onRecapsChange}
-              testID="recap-notifications-enabled"
-            />
-          </SettingsSection>
-        )}
-      </SettingsForm>
-    </View>
+      )}
+      {isRecapsOn && (
+        <SettingsSection flag="recaps" footer={t("recaps_notifications_hint")}>
+          <SettingsSwitch
+            label={t("recaps_notifications_setting")}
+            value={recaps.enabled}
+            onValueChange={onRecapsChange}
+            testID="recap-notifications-enabled"
+          />
+        </SettingsSection>
+      )}
+    </SettingsForm>
   );
 };
 

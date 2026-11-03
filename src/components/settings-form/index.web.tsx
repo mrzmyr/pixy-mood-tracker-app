@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { ScrollView, View } from "react-native";
 import ChevronRight from "lucide-react-native/icons/chevron-right";
 import FlagHighlight from "@/components/flag-highlight";
@@ -26,13 +26,22 @@ export type {
  * importing it throws at load, which blanks the whole web app. Keeps the
  * React Native `MenuList` rows.
  */
-export const SettingsForm = ({ children }: { children: ReactNode }) => {
+export const SettingsForm = ({
+  header,
+  children,
+}: {
+  header?: ReactElement;
+  children: ReactNode;
+}) => {
   const colors = useColors();
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView style={{ padding: 20 }}>
-        <View style={{ gap: 24, paddingBottom: 40 }}>{children}</View>
+        <View style={{ gap: 24, paddingBottom: 40 }}>
+          {header}
+          {children}
+        </View>
       </ScrollView>
     </View>
   );
