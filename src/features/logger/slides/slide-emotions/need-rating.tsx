@@ -1,5 +1,5 @@
 import { Pressable, useColorScheme, View } from "react-native";
-import Svg, { Circle, Path } from "react-native-svg";
+import Svg, { Circle } from "react-native-svg";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -16,8 +16,9 @@ const ICON_SIZE = 12;
 const CENTER = ICON_SIZE / 2;
 const STROKE = 1.5;
 const R = CENTER - STROKE / 2;
+const DOT_R = 2;
 
-/** How full the need was: empty, left half filled, or full circle. */
+/** How full the need was: empty ring, ring with a dot, or full circle. */
 const RatingIcon = ({ value, color }: { value: NeedState; color: string }) => (
   <Svg width={ICON_SIZE} height={ICON_SIZE}>
     <Circle
@@ -29,19 +30,16 @@ const RatingIcon = ({ value, color }: { value: NeedState; color: string }) => (
       fill={value === "met" ? color : "none"}
     />
     {value === "partly" && (
-      <Path
-        d={`M ${CENTER} ${CENTER - R} A ${R} ${R} 0 0 0 ${CENTER} ${CENTER + R} Z`}
-        fill={color}
-      />
+      <Circle cx={CENTER} cy={CENTER} r={DOT_R} fill={color} />
     )}
   </Svg>
 );
 
 /**
- * Need rating: a small segmented control with an empty, half, or full
- * circle for unmet, partly, and met. The native segmented controls draw
- * symbols at full size and in black, too loud next to the need name.
- * Unrated needs show no selected segment.
+ * Need rating: a small segmented control with an empty ring, a ring with a
+ * dot, or a full circle for unmet, partly, and met. The native segmented
+ * controls draw symbols at full size and in black, too loud next to the need
+ * name. Unrated needs show no selected segment.
  */
 export const NeedRating = ({
   label,
