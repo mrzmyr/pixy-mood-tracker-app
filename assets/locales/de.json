@@ -1040,6 +1040,8 @@
   "recaps_story_banner_label_month": "Monatsrückblick",
   "recaps_story_banner_title": "%{month}-Rückblick",
   "recaps_story_banner_title_week": "Wochenrückblick",
+  "recaps_story_best_day_ask": "Bereit für deinen besten Tag?",
+  "recaps_story_best_day_show": "Deinen besten Tag zeigen",
   "recaps_story_coming_left": {
     "one": "Noch 1",
     "other": "Noch {{count}}"

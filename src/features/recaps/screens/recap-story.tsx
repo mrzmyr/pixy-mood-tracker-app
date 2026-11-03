@@ -139,6 +139,8 @@ const RecapStory = () => {
   // The slide shows the app icon and name while it is captured.
   const [isCapturingSlide, setIsCapturingSlide] = useState(false);
   const lastShown = useRef(0);
+  // The best day slide waits for the swipe; once open it stays open.
+  const [isBestDayUnlocked, setIsBestDayUnlocked] = useState(false);
   const transition = useStoryTransition({
     origin: parseStoryOrigin(params.origin),
     cardKey: getStoryCardKey({ source, kind, date: period.start }),
@@ -285,13 +287,23 @@ const RecapStory = () => {
     if (slide.type === "share") {
       return <StoryFinale ctx={ctx} photos={pickPhotos(slide.photos)} />;
     }
-    return <SlideContent slide={slide} ctx={ctx} />;
+    return (
+      <SlideContent
+        slide={slide}
+        ctx={ctx}
+        lock={{
+          isUnlocked: isBestDayUnlocked,
+          onUnlock: () => setIsBestDayUnlocked(true),
+        }}
+      />
+    );
   };
 
   const slides: PlayerSlide[] = story.map((slide, index) => ({
     key: `${index}-${slide.type}`,
     theme: getStoryTheme(ctx.isDark),
     durationMs: getSlideDuration(slide),
+    isWaiting: slide.type === "best-day" && !isBestDayUnlocked,
     content: contentOf(slide),
   }));
 

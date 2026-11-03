@@ -1040,6 +1040,8 @@
   "recaps_story_banner_label_month": "Bilan du mois",
   "recaps_story_banner_title": "Bilan du mois : %{month}",
   "recaps_story_banner_title_week": "Bilan de la semaine",
+  "recaps_story_best_day_ask": "Prêt à voir ta meilleure journée ?",
+  "recaps_story_best_day_show": "Afficher ta meilleure journée",
   "recaps_story_coming_left": {
     "one": "Encore 1",
     "other": "Encore {{count}}"

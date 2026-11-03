@@ -1040,6 +1040,8 @@
   "recaps_story_banner_label_month": "Retrospectiva lunii",
   "recaps_story_banner_title": "Retrospectiva lunii %{month}",
   "recaps_story_banner_title_week": "Retrospectiva săptămânii",
+  "recaps_story_best_day_ask": "Ești gata să vezi cea mai bună zi a ta?",
+  "recaps_story_best_day_show": "Arată cea mai bună zi a ta",
   "recaps_story_coming_left": {
     "one": "Mai e 1",
     "other": "Mai sunt {{count}}"
