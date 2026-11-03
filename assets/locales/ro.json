@@ -1087,6 +1087,9 @@
     "one": "1 zi în legătură",
     "other": "{{count}} zile în legătură"
   },
+  "recaps_story_places_text": "%{away} plecat, %{home} acasă în %{city}.",
+  "recaps_story_places_text_away": "%{away} departe de casă.",
+  "recaps_story_places_title": "locuri în %{month}",
   "recaps_story_play": "Redă",
   "recaps_story_previous": "Slide-ul anterior",
   "recaps_story_quiz_insight_place": {

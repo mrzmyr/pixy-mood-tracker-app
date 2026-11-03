@@ -1087,6 +1087,9 @@
     "one": "1 dan u kontaktu",
     "other": "Dana u kontaktu: {{count}}"
   },
+  "recaps_story_places_text": "%{away} izvan kuće, %{home} kod kuće, %{city}.",
+  "recaps_story_places_text_away": "%{away} izvan kuće.",
+  "recaps_story_places_title": "%{month}: mjesta",
   "recaps_story_play": "Reproduciraj",
   "recaps_story_previous": "Prethodni slajd",
   "recaps_story_quiz_insight_place": {

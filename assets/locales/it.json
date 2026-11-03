@@ -1087,6 +1087,9 @@
     "one": "1 giorno in contatto",
     "other": "{{count}} giorni in contatto"
   },
+  "recaps_story_places_text": "%{away} via, %{home} a casa a %{city}.",
+  "recaps_story_places_text_away": "%{away} lontano da casa.",
+  "recaps_story_places_title": "luoghi di %{month}",
   "recaps_story_play": "Riproduci",
   "recaps_story_previous": "Slide precedente",
   "recaps_story_quiz_insight_place": {

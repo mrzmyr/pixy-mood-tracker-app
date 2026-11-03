@@ -1087,6 +1087,9 @@
     "one": "1 день на зв’язку",
     "other": "Днів на зв’язку: {{count}}"
   },
+  "recaps_story_places_text": "У поїздках: %{away}. Удома в %{city}: %{home}.",
+  "recaps_story_places_text_away": "Далеко від дому: %{away}.",
+  "recaps_story_places_title": "%{month}: місця",
   "recaps_story_play": "Відтворити",
   "recaps_story_previous": "Попередній слайд",
   "recaps_story_quiz_insight_place": {

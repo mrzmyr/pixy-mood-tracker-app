@@ -102,6 +102,48 @@ describe("cover", () => {
   });
 });
 
+describe("home and away", () => {
+  const HAMBURG = { latitude: 53.55, longitude: 9.99, name: "Altona, Hamburg" };
+  const COPENHAGEN = {
+    latitude: 55.68,
+    longitude: 12.59,
+    name: "Indre By, Copenhagen",
+  };
+  /** Hamburg all month, Copenhagen on day indexes 2 to 4. */
+  const trip = () =>
+    month((index) =>
+      index >= 2 && index <= 4
+        ? { location: COPENHAGEN }
+        : { location: HAMBURG }
+    );
+
+  test("rings the trip days right after the cover", () => {
+    const slides = story(trip(), { locationEnabled: true });
+    expect(slides?.[1]).toEqual({
+      type: "places",
+      home: "Hamburg",
+      awayDays: 3,
+      homeDays: 27,
+      trips: [
+        {
+          city: "Copenhagen",
+          start: "2026-09-03",
+          end: "2026-09-05",
+          dates: ["2026-09-03", "2026-09-04", "2026-09-05"],
+        },
+      ],
+    });
+  });
+
+  test("skips without a trip or with location off", () => {
+    const home = month(() => ({ location: HAMBURG }));
+    expect(slide(story(home, { locationEnabled: true }), "places")).toBe(
+      undefined
+    );
+    expect(slide(story(trip()), "places")).toBe(undefined);
+  });
+});
+
 /** Swim on 10 bright days, work on 10 harder days, walk every day. */
 const moodTags = () =>
   month((index) => {

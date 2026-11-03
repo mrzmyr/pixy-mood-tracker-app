@@ -1087,6 +1087,9 @@
     "one": "1 день на связи",
     "other": "Дней на связи: {{count}}"
   },
+  "recaps_story_places_text": "В поездках: %{away}. Дома в %{city}: %{home}.",
+  "recaps_story_places_text_away": "Вдали от дома: %{away}.",
+  "recaps_story_places_title": "%{month}: места",
   "recaps_story_play": "Воспроизвести",
   "recaps_story_previous": "Предыдущий слайд",
   "recaps_story_quiz_insight_place": {

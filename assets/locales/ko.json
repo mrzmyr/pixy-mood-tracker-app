@@ -1087,6 +1087,9 @@
     "one": "연결된 날 1일",
     "other": "연결된 날 {{count}}일"
   },
+  "recaps_story_places_text": "%{away}은 밖에서, %{home}은 %{city} 집에서.",
+  "recaps_story_places_text_away": "%{away}은 집을 떠나서.",
+  "recaps_story_places_title": "%{month}의 장소",
   "recaps_story_play": "재생",
   "recaps_story_previous": "이전 슬라이드",
   "recaps_story_quiz_insight_place": {

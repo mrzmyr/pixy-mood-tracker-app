@@ -1087,6 +1087,9 @@
     "one": "1 den v kontaktu",
     "other": "Dní v kontaktu: {{count}}"
   },
+  "recaps_story_places_text": "%{away} pryč, %{home} doma v %{city}.",
+  "recaps_story_places_text_away": "%{away} pryč z domova.",
+  "recaps_story_places_title": "%{month}: místa",
   "recaps_story_play": "Přehrát",
   "recaps_story_previous": "Předchozí snímek",
   "recaps_story_quiz_insight_place": {

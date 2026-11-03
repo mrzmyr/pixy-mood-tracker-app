@@ -1087,6 +1087,9 @@
     "one": "يوم واحد من التواصل",
     "other": "أيام التواصل: {{count}}"
   },
+  "recaps_story_places_text": "%{away} بعيدًا، و%{home} في المنزل في %{city}.",
+  "recaps_story_places_text_away": "%{away} بعيدًا عن المنزل.",
+  "recaps_story_places_title": "أماكن في %{month}",
   "recaps_story_play": "تشغيل",
   "recaps_story_previous": "الشريحة السابقة",
   "recaps_story_quiz_insight_place": {

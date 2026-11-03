@@ -1087,6 +1087,9 @@
     "one": "יום 1 בקשר",
     "other": "{{count}} ימים בקשר"
   },
+  "recaps_story_places_text": "%{away} מחוץ לבית, %{home} בבית ב%{city}.",
+  "recaps_story_places_text_away": "%{away} מחוץ לבית.",
+  "recaps_story_places_title": "מקומות ב%{month}",
   "recaps_story_play": "הפעלה",
   "recaps_story_previous": "השקופית הקודמת",
   "recaps_story_quiz_insight_place": {

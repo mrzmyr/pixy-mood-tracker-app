@@ -1087,6 +1087,9 @@
     "one": "1 jour en lien",
     "other": "{{count}} jours en lien"
   },
+  "recaps_story_places_text": "%{away} ailleurs, %{home} chez toi à %{city}.",
+  "recaps_story_places_text_away": "%{away} loin de chez toi.",
+  "recaps_story_places_title": "lieux en %{month}",
   "recaps_story_play": "Lecture",
   "recaps_story_previous": "Diapositive précédente",
   "recaps_story_quiz_insight_place": {

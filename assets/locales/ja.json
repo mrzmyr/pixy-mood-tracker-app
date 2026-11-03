@@ -1087,6 +1087,9 @@
     "one": "つながった日：1日",
     "other": "つながった日：{{count}}日"
   },
+  "recaps_story_places_text": "%{away}は旅先、%{home}は%{city}の家で。",
+  "recaps_story_places_text_away": "%{away}は家を離れて。",
+  "recaps_story_places_title": "%{month}の場所",
   "recaps_story_play": "再生",
   "recaps_story_previous": "前のスライド",
   "recaps_story_quiz_insight_place": {

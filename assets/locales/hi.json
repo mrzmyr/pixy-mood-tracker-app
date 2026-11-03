@@ -1087,6 +1087,9 @@
     "one": "1 दिन जुड़े",
     "other": "{{count}} दिन जुड़े"
   },
+  "recaps_story_places_text": "%{away} बाहर, %{home} घर पर, %{city} में।",
+  "recaps_story_places_text_away": "%{away} घर से बाहर।",
+  "recaps_story_places_title": "%{month} की जगहें",
   "recaps_story_play": "चलाएँ",
   "recaps_story_previous": "पिछली स्लाइड",
   "recaps_story_quiz_insight_place": {
