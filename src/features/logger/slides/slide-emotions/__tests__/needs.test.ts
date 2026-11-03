@@ -1,5 +1,6 @@
 import type { Emotion } from "@/types";
-import { getNeedExamples, suggestEmotionsForNeeds } from "../needs";
+import { NEEDS, suggestEmotionsForNeed } from "../needs";
+import type { NeedKey } from "../needs";
 
 const emotion = (key: string, disabled = false): Emotion => ({
   key,
@@ -42,81 +43,36 @@ const CATALOG = [
   "frustrated",
 ].map((key) => emotion(key));
 
-describe("suggestEmotionsForNeeds", () => {
-  it("suggests nothing while no need is rated", () => {
-    expect(suggestEmotionsForNeeds({}, CATALOG)).toEqual([]);
+// SAFETY: NeedKey comes from NEEDS, so every key has one entry.
+const NEED_BY_KEY = Object.fromEntries(
+  NEEDS.map((need) => [need.key, need])
+) as Record<NeedKey, (typeof NEEDS)[number]>;
+const need = (key: NeedKey) => NEED_BY_KEY[key];
+
+describe("suggestEmotionsForNeed", () => {
+  it("shows four unpleasant emotions for an unmet need", () => {
+    expect(
+      keysOf(suggestEmotionsForNeed(need("connection"), "unmet", CATALOG))
+    ).toEqual(["lonely", "alienated", "rejected", "sad"]);
   });
 
-  it("lists emotions of unmet needs before met needs", () => {
-    const keys = keysOf(
-      suggestEmotionsForNeeds({ joy: "met", body: "unmet" }, CATALOG)
+  it("shows pleasant emotions for a met need", () => {
+    expect(keysOf(suggestEmotionsForNeed(need("joy"), "met", CATALOG))).toEqual(
+      ["happy", "excited", "enthusiastic", "content"]
     );
-
-    expect(keys).toEqual([
-      "tired",
-      "exhausted",
-      "weak",
-      "happy",
-      "excited",
-      "enthusiastic",
-    ]);
   });
 
-  it("mixes one pleasant and two unpleasant emotions for a partly met need", () => {
-    const keys = keysOf(
-      suggestEmotionsForNeeds({ connection: "partly" }, CATALOG)
-    );
-
-    expect(keys).toEqual(["connected", "lonely", "alienated"]);
+  it("mixes two pleasant and two unpleasant emotions for a partly met need", () => {
+    expect(
+      keysOf(suggestEmotionsForNeed(need("connection"), "partly", CATALOG))
+    ).toEqual(["connected", "loved", "lonely", "alienated"]);
   });
 
   it("skips disabled and unknown emotions", () => {
     const catalog = [emotion("tired", true), emotion("weak")];
 
-    expect(keysOf(suggestEmotionsForNeeds({ body: "unmet" }, catalog))).toEqual(
-      ["weak"]
-    );
-  });
-
-  it("returns each emotion once and at most 10", () => {
-    const keys = keysOf(
-      suggestEmotionsForNeeds(
-        {
-          body: "unmet",
-          safety: "unmet",
-          connection: "unmet",
-          autonomy: "unmet",
-          competence: "met",
-          joy: "unmet",
-        },
-        CATALOG
-      )
-    );
-
-    expect(keys).toHaveLength(10);
-    expect(new Set(keys).size).toBe(keys.length);
-  });
-});
-
-describe("getNeedExamples", () => {
-  it("takes the first three enabled labels per side", () => {
-    const emotions = [
-      { ...emotion("tired"), label: "Tired" },
-      { ...emotion("exhausted", true), label: "Exhausted" },
-      { ...emotion("weak"), label: "Weak" },
-      { ...emotion("restless"), label: "Restless" },
-      { ...emotion("irritated"), label: "Irritated" },
-      { ...emotion("energized"), label: "Energized" },
-    ];
-
     expect(
-      getNeedExamples(
-        {
-          met: ["energized", "missing"],
-          unmet: ["tired", "exhausted", "weak", "restless", "irritated"],
-        },
-        emotions
-      )
-    ).toEqual({ met: ["Energized"], unmet: ["Tired", "Weak", "Restless"] });
+      keysOf(suggestEmotionsForNeed(need("body"), "unmet", catalog))
+    ).toEqual(["weak"]);
   });
 });
