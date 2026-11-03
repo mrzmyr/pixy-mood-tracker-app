@@ -27,6 +27,7 @@ const subscribe = (listener: () => void) => {
 };
 
 const getSeed = () => seed;
+const getNoSeed = () => null;
 
 /** Starts a peek with a new seed. Calls during a peek pick new photos. */
 export const startPhotoPeek = () => setSeed(Math.random());
@@ -38,9 +39,15 @@ export const stopPhotoPeek = () => {
   }
 };
 
-/** Seed of the running peek, `null` when none runs. */
-export const usePhotoPeekSeed = () =>
-  useSyncExternalStore(subscribe, getSeed, getSeed);
+/**
+ * Seed of the running peek, `null` when none runs. With `hasPhotos` false the
+ * seed stays `null`, so the caller does not re-render on each peek start and
+ * stop. A re-render of every week blocked the next long press.
+ */
+export const usePhotoPeekSeed = ({ hasPhotos }: { hasPhotos: boolean }) => {
+  const getSnapshot = hasPhotos ? getSeed : getNoSeed;
+  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+};
 
 /**
  * Random photo of one day for the peek with `seed`. Stays the same for one
