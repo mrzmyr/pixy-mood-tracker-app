@@ -230,22 +230,57 @@ describe("rating slide button", () => {
   test.each([
     {
       name: "edit with rating as the only slide saves",
-      input: { slideCount: 1, slideIndex: 0, isTouched: false, mode: "edit" },
+      input: {
+        slideCount: 1,
+        slideIndex: 0,
+        isTouched: false,
+        hasRating: false,
+        mode: "edit",
+      },
       expected: "save",
     },
     {
       name: "edit with more slides moves to the next slide",
-      input: { slideCount: 3, slideIndex: 0, isTouched: false, mode: "edit" },
+      input: {
+        slideCount: 3,
+        slideIndex: 0,
+        isTouched: false,
+        hasRating: false,
+        mode: "edit",
+      },
       expected: "next",
     },
     {
       name: "fresh create logger hides the button",
-      input: { slideCount: 3, slideIndex: 0, isTouched: false, mode: "create" },
+      input: {
+        slideCount: 3,
+        slideIndex: 0,
+        isTouched: false,
+        hasRating: false,
+        mode: "create",
+      },
       expected: "hidden",
     },
     {
       name: "create logger after a carousel move shows next",
-      input: { slideCount: 3, slideIndex: 0, isTouched: true, mode: "create" },
+      input: {
+        slideCount: 3,
+        slideIndex: 0,
+        isTouched: true,
+        hasRating: false,
+        mode: "create",
+      },
+      expected: "next",
+    },
+    {
+      name: "create logger with a prefilled rating shows next",
+      input: {
+        slideCount: 3,
+        slideIndex: 0,
+        isTouched: false,
+        hasRating: true,
+        mode: "create",
+      },
       expected: "next",
     },
   ] as const)("$name", ({ input, expected }) => {

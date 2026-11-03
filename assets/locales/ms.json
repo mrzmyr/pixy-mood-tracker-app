@@ -677,7 +677,9 @@
   "log_needs_use": "Guna keperluan untuk cari emosi",
   "log_note_question": "Tulis tentang hari anda…",
   "log_people_disable": "Saya tidak menjejak orang",
+  "log_people_hide_archived": "Sembunyikan arkib",
   "log_people_question": "Siapa yang terlibat?",
+  "log_people_show_archived": "Tunjukkan arkib",
   "log_photos_disable": "Saya Tidak Menambah Foto",
   "log_photos_question": "Tambah Foto",
   "log_question_button": "Jimat",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Imbasan Bulanan",
   "recaps_story_banner_title": "Imbasan %{month}",
   "recaps_story_banner_title_week": "Imbasan Mingguan",
+  "recaps_story_best_day_ask": "Sedia untuk melihat hari terbaik anda?",
+  "recaps_story_best_day_show": "Tunjukkan hari terbaik anda",
   "recaps_story_coming_left": {
     "one": "1 lagi",
     "other": "{{count}} lagi"

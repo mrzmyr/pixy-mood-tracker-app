@@ -677,7 +677,9 @@
   "log_needs_use": "Emotionen über Bedürfnisse finden",
   "log_note_question": "Schreib' über deinen Tag…",
   "log_people_disable": "Ich erfasse keine Personen",
+  "log_people_hide_archived": "Archivierte ausblenden",
   "log_people_question": "Wer hat eine Rolle gespielt?",
+  "log_people_show_archived": "Archivierte zeigen",
   "log_photos_disable": "Ich füge keine Fotos hinzu",
   "log_photos_question": "Fotos hinzufügen",
   "log_question_button": "Speichern",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Monatsrückblick",
   "recaps_story_banner_title": "%{month}-Rückblick",
   "recaps_story_banner_title_week": "Wochenrückblick",
+  "recaps_story_best_day_ask": "Bereit für deinen besten Tag?",
+  "recaps_story_best_day_show": "Deinen besten Tag zeigen",
   "recaps_story_coming_left": {
     "one": "Noch 1",
     "other": "Noch {{count}}"

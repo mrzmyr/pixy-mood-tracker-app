@@ -1,4 +1,4 @@
-import type { Period } from "../types";
+import type { DateKey, Period } from "../types";
 import type { StoryPhoto, StorySlide, StorySlideType } from "./types";
 
 /**
@@ -18,6 +18,8 @@ export interface CaseKit {
   longPersonId: string;
   /** 60 made-up people without photos, for crowded slides. */
   crowdIds: string[];
+  /** Best day of the month, as the month story picks it. */
+  bestDate: DateKey;
 }
 
 /** One state of a slide: typical data, or an edge like one row or long names. */
@@ -59,6 +61,13 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
       name: "Week",
       period: "week",
       build: (kit) => ({ type: "cover", checkIns: 7, photos: kit.photos }),
+    },
+  ],
+  "best-day": [
+    {
+      name: "Locked, then open",
+      period: "month",
+      build: (kit) => ({ type: "best-day", date: kit.bestDate }),
     },
   ],
   "positive-tags": [

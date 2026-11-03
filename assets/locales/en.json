@@ -677,7 +677,9 @@
   "log_needs_use": "Use Needs to Find Emotions",
   "log_note_question": "Write about your day…",
   "log_people_disable": "I don’t track people",
+  "log_people_hide_archived": "Hide archived",
   "log_people_question": "Who played a part?",
+  "log_people_show_archived": "Show archived",
   "log_photos_disable": "I Don’t Add Photos",
   "log_photos_question": "Add Photos",
   "log_question_button": "Save",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Month Recap",
   "recaps_story_banner_title": "%{month} Recap",
   "recaps_story_banner_title_week": "Week Recap",
+  "recaps_story_best_day_ask": "Ready to see your best day?",
+  "recaps_story_best_day_show": "Show your best day",
   "recaps_story_coming_left": {
     "one": "1 to go",
     "other": "{{count}} to go"

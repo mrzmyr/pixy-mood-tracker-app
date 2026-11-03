@@ -677,7 +677,9 @@
   "log_needs_use": "Βρες συναισθήματα μέσω αναγκών",
   "log_note_question": "Γράψε για τη μέρα σου…",
   "log_people_disable": "Δεν καταγράφω άτομα",
+  "log_people_hide_archived": "Απόκρυψη αρχειοθετημένων",
   "log_people_question": "Ποιος έπαιξε ρόλο;",
+  "log_people_show_archived": "Εμφάνιση αρχειοθετημένων",
   "log_photos_disable": "Δεν προσθέτω φωτογραφίες",
   "log_photos_question": "Προσθήκη φωτογραφιών",
   "log_question_button": "Αποθηκεύσετε",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Ανασκόπηση μήνα",
   "recaps_story_banner_title": "Ανασκόπηση: %{month}",
   "recaps_story_banner_title_week": "Ανασκόπηση εβδομάδας",
+  "recaps_story_best_day_ask": "Έτοιμος να δεις την καλύτερη μέρα σου;",
+  "recaps_story_best_day_show": "Δείξε την καλύτερη μέρα σου",
   "recaps_story_coming_left": {
     "one": "Μένει 1",
     "other": "Μένουν {{count}}"

@@ -677,7 +677,9 @@
   "log_needs_use": "Använd behov för att hitta känslor",
   "log_note_question": "Skriv om din dag...",
   "log_people_disable": "Jag spårar inte personer",
+  "log_people_hide_archived": "Dölj arkiverade",
   "log_people_question": "Vem spelade en roll?",
+  "log_people_show_archived": "Visa arkiverade",
   "log_photos_disable": "Jag lägger inte till foton",
   "log_photos_question": "Lägg till foton",
   "log_question_button": "Spara",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Månadens tillbakablick",
   "recaps_story_banner_title": "Tillbakablick: %{month}",
   "recaps_story_banner_title_week": "Veckans tillbakablick",
+  "recaps_story_best_day_ask": "Redo att se din bästa dag?",
+  "recaps_story_best_day_show": "Visa din bästa dag",
   "recaps_story_coming_left": {
     "one": "1 kvar",
     "other": "{{count}} kvar"

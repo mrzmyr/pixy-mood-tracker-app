@@ -677,7 +677,9 @@
   "log_needs_use": "Najít emoce přes potřeby",
   "log_note_question": "Napište o svém dni…",
   "log_people_disable": "Lidi nesleduji",
+  "log_people_hide_archived": "Skrýt archivované",
   "log_people_question": "Kdo v tom hrál roli?",
+  "log_people_show_archived": "Zobrazit archivované",
   "log_photos_disable": "Fotky nepřidávám",
   "log_photos_question": "Přidat fotky",
   "log_question_button": "Uložit",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Ohlédnutí za měsícem",
   "recaps_story_banner_title": "Ohlédnutí: %{month}",
   "recaps_story_banner_title_week": "Ohlédnutí za týdnem",
+  "recaps_story_best_day_ask": "Chceš vidět svůj nejlepší den?",
+  "recaps_story_best_day_show": "Zobrazit nejlepší den",
   "recaps_story_coming_left": {
     "one": "Zbývá 1",
     "other": "Zbývá: {{count}}"

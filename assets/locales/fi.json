@@ -677,7 +677,9 @@
   "log_needs_use": "Löydä tunteet tarpeiden kautta",
   "log_note_question": "Kirjoita päivästäsi…",
   "log_people_disable": "En seuraa ihmisiä",
+  "log_people_hide_archived": "Piilota arkistoidut",
   "log_people_question": "Kuka oli mukana?",
+  "log_people_show_archived": "Näytä arkistoidut",
   "log_photos_disable": "En lisää kuvia",
   "log_photos_question": "Lisää kuvia",
   "log_question_button": "Tallentaa",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Kuukauden katsaus",
   "recaps_story_banner_title": "Katsaus: %{month}",
   "recaps_story_banner_title_week": "Viikon katsaus",
+  "recaps_story_best_day_ask": "Valmis näkemään parhaan päiväsi?",
+  "recaps_story_best_day_show": "Näytä paras päiväsi",
   "recaps_story_coming_left": {
     "one": "1 jäljellä",
     "other": "{{count}} jäljellä"

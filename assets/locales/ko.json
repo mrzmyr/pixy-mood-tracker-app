@@ -677,7 +677,9 @@
   "log_needs_use": "욕구로 감정 찾기",
   "log_note_question": "당신의 하루에 대해 쓰십시오 ...",
   "log_people_disable": "사람을 기록하지 않아요",
+  "log_people_hide_archived": "보관된 사람 숨기기",
   "log_people_question": "누가 관련되어 있었나요?",
+  "log_people_show_archived": "보관된 사람 보기",
   "log_photos_disable": "사진을 추가하지 않음",
   "log_photos_question": "사진 추가",
   "log_question_button": "구하다",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "한 달 돌아보기",
   "recaps_story_banner_title": "%{month} 돌아보기",
   "recaps_story_banner_title_week": "한 주 돌아보기",
+  "recaps_story_best_day_ask": "최고의 하루를 볼 준비가 됐나요?",
+  "recaps_story_best_day_show": "최고의 하루 보기",
   "recaps_story_coming_left": {
     "one": "1일 남음",
     "other": "{{count}}일 남음"

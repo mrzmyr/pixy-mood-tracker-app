@@ -677,7 +677,9 @@
   "log_needs_use": "Знайти емоції через потреби",
   "log_note_question": "Напиши про свій день...",
   "log_people_disable": "Я не відмічаю людей",
+  "log_people_hide_archived": "Сховати архів",
   "log_people_question": "Хто відіграв роль?",
+  "log_people_show_archived": "Показати архів",
   "log_photos_disable": "Я не додаю фото",
   "log_photos_question": "Додати фото",
   "log_question_button": "зберегти",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Підсумки місяця",
   "recaps_story_banner_title": "Підсумки: %{month}",
   "recaps_story_banner_title_week": "Підсумки тижня",
+  "recaps_story_best_day_ask": "Готовий побачити свій найкращий день?",
+  "recaps_story_best_day_show": "Показати найкращий день",
   "recaps_story_coming_left": {
     "one": "Залишилося: 1",
     "other": "Залишилося: {{count}}"

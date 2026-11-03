@@ -677,7 +677,9 @@
   "log_needs_use": "欲求から感情を探す",
   "log_note_question": "あなたの一日について書いてください…",
   "log_people_disable": "人を記録しない",
+  "log_people_hide_archived": "アーカイブを隠す",
   "log_people_question": "誰が関わっていましたか？",
+  "log_people_show_archived": "アーカイブを表示",
   "log_photos_disable": "写真は追加しない",
   "log_photos_question": "写真を追加",
   "log_question_button": "保存",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "月の振り返り",
   "recaps_story_banner_title": "%{month}の振り返り",
   "recaps_story_banner_title_week": "週の振り返り",
+  "recaps_story_best_day_ask": "いちばん良かった日を見る準備はできた？",
+  "recaps_story_best_day_show": "いちばん良かった日を表示",
   "recaps_story_coming_left": {
     "one": "残り1",
     "other": "残り{{count}}"

@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
 import Animated, {
@@ -18,6 +18,8 @@ import Pause from "lucide-react-native/icons/pause";
 import Play from "lucide-react-native/icons/play";
 import X from "lucide-react-native/icons/x";
 import { FlightZoneContext } from "@/components/flight-zone-context";
+import { PixyGuideContext } from "@/components/pixy-guide-context";
+import type { PixyGuide } from "@/components/pixy-guide-context";
 import { SkyPixy } from "@/components/sky-pixy";
 import type { FlightZone } from "@/components/sky-pixy";
 import { SteppedSky } from "@/components/stepped-sky";
@@ -52,9 +54,11 @@ const PIXY_ARRIVAL_MS = 2400;
 const BlinkingSkyPixy = ({
   boost,
   zone,
+  guide,
 }: {
   boost: SharedValue<number>;
   zone: FlightZone | null;
+  guide: PixyGuide;
 }) => {
   const idle = usePixyIdle({ isEnabled: true, isReducedMotion: false });
   const { width } = useWindowDimensions();
@@ -78,14 +82,20 @@ const BlinkingSkyPixy = ({
       pointerEvents="box-none"
       style={[StyleSheet.absoluteFill, arrivalStyle]}
     >
-      <SkyPixy boost={boost} zone={zone} isBlinking={idle.isBlinking} />
+      <SkyPixy
+        boost={boost}
+        zone={zone}
+        isBlinking={idle.isBlinking}
+        guide={guide}
+      />
     </Animated.View>
   );
 };
 
 /**
  * Slides with cloud Pixy above them. Holds the zone the slide reports, so a
- * new zone re-renders only Pixy: `children` keep their identity.
+ * new zone re-renders only Pixy: `children` keep their identity. A slide
+ * control calls Pixy over through `PixyGuideContext`.
  */
 const CloudPixyLayer = ({
   boost,
@@ -97,13 +107,25 @@ const CloudPixyLayer = ({
   children: React.ReactNode;
 }) => {
   const [zone, setZone] = useState<FlightZone | null>(null);
+  const x = useSharedValue(0);
+  const y = useSharedValue(0);
+  const follow = useSharedValue(0);
+  const joy = useSharedValue(0);
+  const cheers = useSharedValue(0);
+  // Same object across renders: slide controls keep effects on it.
+  const guide = useMemo<PixyGuide>(
+    () => ({ x, y, follow, joy, cheers }),
+    [x, y, follow, joy, cheers]
+  );
   return (
     <>
       <FlightZoneContext.Provider value={setZone}>
-        {children}
+        <PixyGuideContext value={isShown ? guide : null}>
+          {children}
+        </PixyGuideContext>
       </FlightZoneContext.Provider>
       {/* Above the slides so it takes taps. */}
-      {isShown && <BlinkingSkyPixy boost={boost} zone={zone} />}
+      {isShown && <BlinkingSkyPixy boost={boost} zone={zone} guide={guide} />}
     </>
   );
 };

@@ -64,6 +64,16 @@ export interface NewPeopleSlide {
   people: { personId: string; firstDate: DateKey }[];
 }
 
+/**
+ * Best day of the month: the highest mean rating above neutral. Locked at
+ * first: the user swipes to see it, then photos, title, people, emotions,
+ * and tags show one after another.
+ */
+export interface BestDaySlide {
+  type: "best-day";
+  date: DateKey;
+}
+
 /** Days still to come in the year, and days without a check-in so far. */
 export interface ComingUpSlide {
   type: "coming-up";
@@ -86,6 +96,7 @@ export interface ShareSlide {
 export type StorySlide =
   | IntroSlide
   | CoverSlide
+  | BestDaySlide
   | PositiveTagsSlide
   | NegativeTagsSlide
   | OrbitSlide

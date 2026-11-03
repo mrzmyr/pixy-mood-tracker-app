@@ -677,7 +677,9 @@
   "log_needs_use": "Usar necesidades para encontrar emociones",
   "log_note_question": "Escribe sobre tu día…",
   "log_people_disable": "No registro personas",
+  "log_people_hide_archived": "Ocultar archivadas",
   "log_people_question": "¿Quién tuvo un papel?",
+  "log_people_show_archived": "Mostrar archivadas",
   "log_photos_disable": "No añado fotos",
   "log_photos_question": "Añadir fotos",
   "log_question_button": "Ahorrar",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Resumen del mes",
   "recaps_story_banner_title": "Resumen de %{month}",
   "recaps_story_banner_title_week": "Resumen de la semana",
+  "recaps_story_best_day_ask": "¿Listo para ver tu mejor día?",
+  "recaps_story_best_day_show": "Mostrar tu mejor día",
   "recaps_story_coming_left": {
     "one": "Falta 1",
     "other": "Faltan {{count}}"

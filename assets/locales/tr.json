@@ -677,7 +677,9 @@
   "log_needs_use": "Duyguları bulmak için ihtiyaçları kullan",
   "log_note_question": "Günün hakkında Yaz…",
   "log_people_disable": "Kişileri takip etmiyorum",
+  "log_people_hide_archived": "Arşivlenenleri gizle",
   "log_people_question": "Kim bir rol oynadı?",
+  "log_people_show_archived": "Arşivlenenleri göster",
   "log_photos_disable": "Fotoğraf Eklemiyorum",
   "log_photos_question": "Fotoğraf Ekle",
   "log_question_button": "Kaydetmek",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "Ay Özeti",
   "recaps_story_banner_title": "%{month} Özeti",
   "recaps_story_banner_title_week": "Hafta Özeti",
+  "recaps_story_best_day_ask": "En iyi gününü görmeye hazır mısın?",
+  "recaps_story_best_day_show": "En iyi gününü göster",
   "recaps_story_coming_left": {
     "one": "1 kaldı",
     "other": "{{count}} kaldı"

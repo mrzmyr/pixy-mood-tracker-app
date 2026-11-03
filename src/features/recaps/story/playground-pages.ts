@@ -6,7 +6,7 @@ import { getDays, getPeriodDays } from "../days";
 import { getPeriod } from "../period";
 import type { DateKey, PeriodKind, RecapInput } from "../types";
 import { getToday } from "../use-recap-input";
-import { buildMonthStory, buildWeekStory } from "./deck";
+import { bestDay, buildMonthStory, buildWeekStory } from "./deck";
 import { SLIDE_CASES } from "./slide-cases";
 import type { CaseKit } from "./slide-cases";
 import type { SlideContext } from "./slides";
@@ -196,6 +196,8 @@ const toKit = (data: PlaygroundData, input: RecapInput): CaseKit => ({
   longTagId: LONG_TAG.id,
   longPersonId: LONG_PERSON.id,
   crowdIds: CROWD.map((person) => person.id),
+  bestDate:
+    bestDay(input)?.date ?? input.days.at(-1)?.date ?? input.period.start,
 });
 
 /** One slide of a deck, with the context of its own period. */

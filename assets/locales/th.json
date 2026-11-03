@@ -677,7 +677,9 @@
   "log_needs_use": "ใช้ความต้องการเพื่อค้นหาอารมณ์",
   "log_note_question": "เขียนเกี่ยวกับวันของคุณ...",
   "log_people_disable": "ฉันไม่บันทึกผู้คน",
+  "log_people_hide_archived": "ซ่อนที่เก็บถาวร",
   "log_people_question": "ใครมีส่วนเกี่ยวข้อง",
+  "log_people_show_archived": "แสดงที่เก็บถาวร",
   "log_photos_disable": "ฉันไม่เพิ่มรูปภาพ",
   "log_photos_question": "เพิ่มรูปภาพ",
   "log_question_button": "บันทึก",
@@ -1038,6 +1040,8 @@
   "recaps_story_banner_label_month": "สรุปย้อนหลังประจำเดือน",
   "recaps_story_banner_title": "สรุปย้อนหลังเดือน%{month}",
   "recaps_story_banner_title_week": "สรุปย้อนหลังประจำสัปดาห์",
+  "recaps_story_best_day_ask": "พร้อมดูวันที่ดีที่สุดของคุณหรือยัง",
+  "recaps_story_best_day_show": "แสดงวันที่ดีที่สุดของคุณ",
   "recaps_story_coming_left": {
     "one": "เหลืออีก 1",
     "other": "เหลืออีก {{count}}"

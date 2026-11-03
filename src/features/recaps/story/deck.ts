@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { getEffect } from "../correlation";
+import { RATING_MAPPING } from "@/constants/ratings";
 import { addDays, daysBetween, getDayRating } from "../days";
 import { indexDays } from "../day-index";
 import { getActiveTags } from "../cards/nudges";
@@ -7,6 +8,7 @@ import { peopleOn } from "../cards/summaries";
 import { THRESHOLDS } from "../thresholds";
 import type { DateKey, RecapDay, RecapInput } from "../types";
 import type {
+  BestDaySlide,
   ComingUpSlide,
   CoverSlide,
   NegativeTagsSlide,
@@ -50,6 +52,29 @@ const cover = (input: RecapInput): CoverSlide => ({
   checkIns: input.days.length,
   photos: brightPhotos(input.days),
 });
+
+const emotionCount = (day: RecapDay) =>
+  new Set(day.items.flatMap((item) => item.emotions)).size;
+
+const photoCount = (day: RecapDay) =>
+  day.items.reduce((sum, item) => sum + item.photos.length, 0);
+
+/**
+ * Day with the highest mean rating, only above neutral. Ties: more
+ * emotions, then more photos, then more entries, then the earlier day.
+ */
+export const bestDay = (input: RecapInput): BestDaySlide | null => {
+  const [best] = input.days
+    .filter((day) => getDayRating(day) > RATING_MAPPING.neutral)
+    .sort(
+      (a, b) =>
+        getDayRating(b) - getDayRating(a) ||
+        emotionCount(b) - emotionCount(a) ||
+        photoCount(b) - photoCount(a) ||
+        b.items.length - a.items.length
+    );
+  return best ? { type: "best-day", date: best.date } : null;
+};
 
 /**
  * Active tags with a medium or strong mood effect in the period, biggest
@@ -214,6 +239,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
   }
   const slides: (StorySlide | null)[] = [
     cover(input),
+    bestDay(input),
     positiveTags(input),
     negativeTags(input),
     orbit(input),
