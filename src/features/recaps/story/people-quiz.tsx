@@ -1,7 +1,15 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { Pressable, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
-import Animated, { FadeIn, useReducedMotion } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withSequence,
+  withSpring,
+} from "react-native-reanimated";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
@@ -23,6 +31,32 @@ export interface QuizAnswer {
 
 /** Time between two tiles of the build-up. */
 const TILE_STEP_MS = 120;
+
+/** Springs the right tile up and back once it turns green. */
+const RightPop = ({
+  isActive,
+  children,
+}: {
+  isActive: boolean;
+  children: ReactNode;
+}) => {
+  const isReducedMotion = useReducedMotion();
+  const scale = useSharedValue(1);
+  useEffect(() => {
+    if (isActive && !isReducedMotion) {
+      scale.set(
+        withSequence(
+          withSpring(1.06, { damping: 12, stiffness: 400 }),
+          withSpring(1, { damping: 10, stiffness: 220 })
+        )
+      );
+    }
+  }, [isActive, isReducedMotion, scale]);
+  const style = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.get() }],
+  }));
+  return <Animated.View style={style}>{children}</Animated.View>;
+};
 
 /**
  * "Who played the biggest role?": one tap on a person. Then every tile
@@ -83,63 +117,71 @@ export const PeopleQuiz = ({
           const isRight = isDone && personId === slide.answer;
           const isWrongPick = picked === personId && !isRight;
           const daysText = t("recaps_story_people_days", { count: days });
+          let borderColor = palette.glassBorder;
+          if (isWrongPick) {
+            borderColor = palette.text;
+          } else if (isRight) {
+            borderColor = RIGHT;
+          }
           return (
             <Reveal
               key={personId}
               at={tilesAt + index * TILE_STEP_MS}
               style={{ width: "48%" }}
             >
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={
-                  isDone ? `${person.name}, ${daysText}` : person.name
-                }
-                accessibilityState={{
-                  selected: picked === personId,
-                  disabled: isDone,
-                }}
-                disabled={isDone}
-                onPress={(event) => pick(personId, event)}
-                testID={`recap-story-quiz-tile-${index}`}
-                style={({ pressed }) => ({
-                  minHeight: 124,
-                  padding: 14,
-                  gap: 10,
-                  borderRadius: RADIUS.lg,
-                  borderCurve: "continuous",
-                  borderWidth: isWrongPick ? 2 : 1,
-                  borderColor: isWrongPick ? palette.text : palette.glassBorder,
-                  backgroundColor: isRight ? RIGHT : palette.glass,
-                  opacity: pressed ? 0.7 : 1,
-                })}
-              >
-                <RingedAvatar person={person} size={44} />
-                <View style={{ marginTop: "auto", gap: 2 }}>
-                  <StoryText
-                    kind="body"
-                    theme={theme}
-                    numberOfLines={1}
-                    style={{
-                      fontWeight: "600",
-                      color: isRight ? "#FFFFFF" : palette.text,
-                    }}
-                  >
-                    {person.name}
-                  </StoryText>
-                  {isDone && (
-                    <Animated.View entering={FadeIn.duration(400)}>
-                      <StoryText
-                        kind="label"
-                        theme={theme}
-                        tone="muted"
-                        style={isRight ? { color: "#FFFFFF" } : undefined}
-                      >
-                        {daysText}
-                      </StoryText>
-                    </Animated.View>
-                  )}
-                </View>
-              </Pressable>
+              <RightPop isActive={isRight}>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={
+                    isDone ? `${person.name}, ${daysText}` : person.name
+                  }
+                  accessibilityState={{
+                    selected: picked === personId,
+                    disabled: isDone,
+                  }}
+                  disabled={isDone}
+                  onPress={(event) => pick(personId, event)}
+                  testID={`recap-story-quiz-tile-${index}`}
+                  style={({ pressed }) => ({
+                    minHeight: 124,
+                    padding: 14,
+                    gap: 10,
+                    borderRadius: RADIUS.lg,
+                    borderCurve: "continuous",
+                    borderWidth: isWrongPick ? 2 : 1,
+                    borderColor,
+                    backgroundColor: isRight ? RIGHT : palette.glass,
+                    opacity: pressed ? 0.7 : 1,
+                  })}
+                >
+                  <RingedAvatar person={person} size={44} />
+                  <View style={{ marginTop: "auto", gap: 2 }}>
+                    <StoryText
+                      kind="body"
+                      theme={theme}
+                      numberOfLines={1}
+                      style={{
+                        fontWeight: "600",
+                        color: isRight ? "#FFFFFF" : palette.text,
+                      }}
+                    >
+                      {person.name}
+                    </StoryText>
+                    {isDone && (
+                      <Animated.View entering={FadeIn.duration(400)}>
+                        <StoryText
+                          kind="label"
+                          theme={theme}
+                          tone="muted"
+                          style={isRight ? { color: "#FFFFFF" } : undefined}
+                        >
+                          {daysText}
+                        </StoryText>
+                      </Animated.View>
+                    )}
+                  </View>
+                </Pressable>
+              </RightPop>
             </Reveal>
           );
         })}

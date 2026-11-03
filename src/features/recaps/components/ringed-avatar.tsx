@@ -19,6 +19,8 @@ export const RingedAvatar = ({
   return (
     <View
       style={{
+        // Hug the avatar: a stretched column child turns the ring into a pill.
+        alignSelf: "flex-start",
         borderRadius: RADIUS.full,
         borderWidth: 1,
         borderColor: colors.cardBorder,
