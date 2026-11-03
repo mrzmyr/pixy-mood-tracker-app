@@ -318,16 +318,20 @@ const RecapStory = () => {
     );
   };
 
-  const slides: PlayerSlide[] = story.map((slide, index) => ({
-    key: `${index}-${slide.type}`,
-    theme: getStoryTheme(ctx.isDark),
-    // A quiz waits for the answer, the best day for its unlock, then plays.
-    isWaiting:
-      (slide.type === "people-quiz" && !picks.has(index)) ||
-      (slide.type === "best-day" && !isBestDayUnlocked),
-    durationMs: getSlideDuration(slide),
-    content: contentOf(slide, index),
-  }));
+  const slides: PlayerSlide[] = story.map((slide, index) => {
+    const duration = getSlideDuration(slide, kind);
+    return {
+      key: `${index}-${slide.type}`,
+      theme: getStoryTheme(ctx.isDark),
+      // A quiz waits for the answer, the best day for its unlock, then plays.
+      isWaiting:
+        (slide.type === "people-quiz" && !picks.has(index)) ||
+        (slide.type === "best-day" && !isBestDayUnlocked),
+      durationMs: duration ?? undefined,
+      isHeld: duration === null,
+      content: contentOf(slide, index),
+    };
+  });
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
