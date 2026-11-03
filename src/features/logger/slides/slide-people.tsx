@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
 import Plus from "lucide-react-native/icons/plus";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pressable, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
@@ -103,9 +103,10 @@ const AddPersonTile = ({ size }: { size: number }) => {
 
 /**
  * People picker slide: "Who played a part?". Archived people are hidden
- * unless the draft already has them. Chips follow the stored order, in a
- * grid of avatars that ends with an add tile. Without people it offers one
- * way out: add some.
+ * unless the draft already has them or "Show archived" is on; then they
+ * follow the active people and stay archived when picked. Chips follow the
+ * stored order, in a grid of avatars that ends with an add tile. Without
+ * people it offers one way out: add some.
  *
  * Tiles reorder by drag and have a menu: Edit, Archive, Delete. iOS: hold
  * shows the system context menu, moving the finger drags. Elsewhere: hold
@@ -135,10 +136,16 @@ export const SlidePeople = ({
     Math.floor(columnWidth - 2 * (TILE_RING_GAP + TILE_RING_WIDTH))
   );
 
+  const [showArchived, setShowArchived] = useState(false);
   const selectedIds = new Set(draft.people.map((person) => person.id));
-  const visible = people.filter(
-    (person) => !person.isArchived || selectedIds.has(person.id)
-  );
+  const hasArchived = people.some((person) => person.isArchived);
+  const visible = [
+    ...people.filter((person) => !person.isArchived),
+    ...people.filter(
+      (person) =>
+        person.isArchived && (showArchived || selectedIds.has(person.id))
+    ),
+  ];
   const marginTop = useSlideMarginTop();
 
   const reorder = (
@@ -294,7 +301,7 @@ export const SlidePeople = ({
           />
         )}
       </View>
-      <Footer>
+      <Footer style={{ justifyContent: "space-between" }}>
         {showDisable && (
           <LinkButton
             type="secondary"
@@ -302,6 +309,20 @@ export const SlidePeople = ({
             style={{ fontWeight: "400" }}
           >
             {t("log_people_disable")}
+          </LinkButton>
+        )}
+        {hasArchived && (
+          <LinkButton
+            type="secondary"
+            onPress={() => setShowArchived((shown) => !shown)}
+            style={{ fontWeight: "400" }}
+            testID="log-people-archived-toggle"
+          >
+            {t(
+              showArchived
+                ? "log_people_hide_archived"
+                : "log_people_show_archived"
+            )}
           </LinkButton>
         )}
       </Footer>
