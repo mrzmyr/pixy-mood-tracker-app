@@ -123,6 +123,42 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
       }),
     },
   ],
+  "new-people": [
+    {
+      name: "3 people",
+      period: "month",
+      build: (kit) => ({
+        type: "new-people",
+        people: [
+          { personId: personAt(kit, 2), firstDate: kit.period.start, days: 6 },
+          { personId: personAt(kit, 3), firstDate: kit.period.start, days: 3 },
+          { personId: personAt(kit, 4), firstDate: kit.period.end, days: 1 },
+        ],
+      }),
+    },
+    {
+      name: "1 long name",
+      period: "month",
+      build: (kit) => ({
+        type: "new-people",
+        people: [
+          { personId: kit.longPersonId, firstDate: kit.period.start, days: 9 },
+        ],
+      }),
+    },
+    {
+      name: "6 people, 2 more",
+      period: "month",
+      build: (kit) => ({
+        type: "new-people",
+        people: [0, 1, 2, 3, 4, 5].map((index) => ({
+          personId: index === 5 ? kit.longPersonId : personAt(kit, index),
+          firstDate: kit.period.start,
+          days: 6 - index,
+        })),
+      }),
+    },
+  ],
   "coming-up": [
     {
       name: "Some missed",

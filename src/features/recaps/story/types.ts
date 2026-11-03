@@ -54,6 +54,16 @@ export interface OrbitSlide {
   people: { personId: string; days: number }[];
 }
 
+/**
+ * People connected for the first time ever in the month, in the order they
+ * arrived. Counts and dates only, never how the days felt.
+ */
+export interface NewPeopleSlide {
+  type: "new-people";
+  /** First connected day first. */
+  people: { personId: string; firstDate: DateKey; days: number }[];
+}
+
 /** Days still to come in the year, and days without a check-in so far. */
 export interface ComingUpSlide {
   type: "coming-up";
@@ -79,6 +89,7 @@ export type StorySlide =
   | PositiveTagsSlide
   | NegativeTagsSlide
   | OrbitSlide
+  | NewPeopleSlide
   | ComingUpSlide
   | ShareSlide;
 

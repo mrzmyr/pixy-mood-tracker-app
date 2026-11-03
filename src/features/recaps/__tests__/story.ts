@@ -179,6 +179,58 @@ describe("orbit", () => {
   });
 });
 
+describe("new people", () => {
+  /** 20 August days with Ada, before the September story. */
+  const august = Array.from({ length: 20 }, (_, index) => ({
+    date: addDays("2026-08-01", index),
+    rating: "good" as const,
+    people: [{ id: "ada" }],
+  }));
+
+  test("lists people first connected this month, in arrival order", () => {
+    const items = month((index) => ({
+      people: [
+        { id: "ada" },
+        ...(index >= 9 ? [{ id: "jen" }] : []),
+        ...(index === 3 ? [{ id: "kim" }] : []),
+      ],
+    }));
+    expect(slide(story([...august, ...items]), "new-people")?.people).toEqual([
+      { personId: "kim", firstDate: "2026-09-04", days: 1 },
+      { personId: "jen", firstDate: "2026-09-10", days: 21 },
+    ]);
+  });
+
+  test("calls nobody new without 15 earlier check-in days", () => {
+    const items = month(() => ({ people: [{ id: "jen" }] }));
+    expect(
+      slide(story([...august.slice(0, 14), ...items]), "new-people")
+    ).toBeUndefined();
+    expect(
+      slide(story([...august.slice(0, 15), ...items]), "new-people")
+    ).toBeDefined();
+  });
+
+  test("stays out when everyone was there before or people are off", () => {
+    const items = month(() => ({ people: [{ id: "ada" }] }));
+    expect(slide(story([...august, ...items]), "new-people")).toBeUndefined();
+    const withJen = month(() => ({ people: [{ id: "jen" }] }));
+    expect(
+      slide(
+        story([...august, ...withJen], { steps: ["rating", "tags"] }),
+        "new-people"
+      )
+    ).toBeUndefined();
+  });
+
+  test("skips deleted people", () => {
+    const items = month(() => ({ people: [{ id: "jen" }] }));
+    expect(
+      slide(story([...august, ...items], { personIds: ["ada"] }), "new-people")
+    ).toBeUndefined();
+  });
+});
+
 describe("coming up", () => {
   test("counts days left and missed days since the first entry", () => {
     const items = month().slice(0, 20);

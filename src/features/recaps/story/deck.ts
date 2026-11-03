@@ -10,6 +10,7 @@ import type {
   ComingUpSlide,
   CoverSlide,
   NegativeTagsSlide,
+  NewPeopleSlide,
   OrbitSlide,
   PositiveTagsSlide,
   ShareSlide,
@@ -115,6 +116,39 @@ const orbit = (input: RecapInput): OrbitSlide | null => {
 };
 
 /**
+ * People connected for the first time ever in the period, in the order
+ * they arrived. Needs 15+ earlier check-in days, so a first month never
+ * calls everyone new. Any connection counts: never how it felt.
+ */
+const newPeople = (input: RecapInput): NewPeopleSlide | null => {
+  if (!peopleOn(input)) {
+    return null;
+  }
+  const at = indexDays(input.history);
+  const before = input.history.filter((day) => day.date < input.period.start);
+  if (before.length < THRESHOLDS.newMinHistoryDays) {
+    return null;
+  }
+  const known = new Set(before.flatMap((day) => [...at(day).people]));
+  const found = new Map<string, NewPeopleSlide["people"][number]>();
+  for (const day of input.days) {
+    for (const personId of at(day).people) {
+      if (input.personIds.has(personId) && !known.has(personId)) {
+        const row = found.get(personId);
+        if (row) {
+          row.days += 1;
+        } else {
+          found.set(personId, { personId, firstDate: day.date, days: 1 });
+        }
+      }
+    }
+  }
+  return found.size > 0
+    ? { type: "new-people", people: [...found.values()] }
+    : null;
+};
+
+/**
  * Days left in the year after today, and days without a check-in since
  * January 1 or the first entry. Only while the month's year is still on.
  */
@@ -178,6 +212,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     positiveTags(input),
     negativeTags(input),
     orbit(input),
+    newPeople(input),
     comingUp(input),
   ];
   return [...slides, share(input)].filter(
