@@ -10,7 +10,7 @@ import { STORY_PALETTE, STORY_TYPE } from "./theme";
 
 /**
  * First slide of the week story: the sky, a kind welcome that writes
- * itself, and free sky below it for cloud Pixy.
+ * itself, and free sky below it for Cloudy.
  */
 export const StoryIntro = ({ ctx }: { ctx: SlideContext }) => {
   const theme = ctx.isDark ? "night" : "paper";

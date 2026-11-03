@@ -19,7 +19,7 @@ export interface CoverSlide {
   photos: StoryPhoto[];
 }
 
-/** First slide of the week story: the sky, cloud Pixy, and a kind welcome. */
+/** First slide of the week story: the sky, Cloudy, and a kind welcome. */
 export interface IntroSlide {
   type: "intro";
 }

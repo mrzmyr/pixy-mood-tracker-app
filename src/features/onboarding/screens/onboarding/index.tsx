@@ -47,7 +47,7 @@ const PRIVACY_SLIDE_INDEX = 5;
 const SLIDE_ENTERING = FadeIn.delay(SLIDE_TEXT_DELAY_MS).duration(700);
 const SLIDE_EXITING = FadeOut.duration(300);
 
-/** Cloud Pixy with the blink of the confirmation Pixy. */
+/** Cloudy with the blink of the confirmation Pixy. */
 const BlinkingSkyPixy = (props: {
   boost: SharedValue<number>;
   zone: FlightZone | null;

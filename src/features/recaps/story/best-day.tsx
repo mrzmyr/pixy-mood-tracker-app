@@ -11,7 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import ChevronsRight from "lucide-react-native/icons/chevrons-right";
-import { CLOUD_PIXY_SIZE } from "@/components/cloud-pixy";
+import { CLOUDY_SIZE } from "@/components/cloudy";
 import { cheer, PixyGuideContext } from "@/components/pixy-guide-context";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { RADIUS } from "@/constants/radius";
@@ -44,13 +44,13 @@ const THUMB_SIZE = TRACK_HEIGHT - 2 * THUMB_INSET;
 const UNLOCK_SHARE = 0.7;
 const SETTLE_MS = 220;
 const EASING = Easing.out(Easing.cubic);
-/** On press down cloud Pixy glides to the thumb this long: slow, calm. */
+/** On press down Cloudy glides to the thumb this long: slow, calm. */
 const PIXY_CALL_MS = 1200;
 /** On release, or when the track goes away, Pixy glides back this long. */
 const PIXY_GLIDE_MS = 1100;
 const PIXY_GLIDE_EASING = Easing.inOut(Easing.cubic);
 /** Pixy's center sits this far above the track top: just over the thumb. */
-const PIXY_HOVER_GAP = CLOUD_PIXY_SIZE * 0.42;
+const PIXY_HOVER_GAP = CLOUDY_SIZE * 0.42;
 /** Pixy cheers this long before the day opens. */
 const CHEER_MS = 800;
 
@@ -73,7 +73,7 @@ const GOOD = new Set(["very_good", "good"]);
 /**
  * Track with a thumb the user drags to the end. Releases short of
  * `UNLOCK_SHARE` slide the thumb back. Screen readers get one button.
- * Cloud Pixy flies its free sky. On press down it comes over, hovers above
+ * Cloudy flies its free sky. On press down it comes over, hovers above
  * the thumb, follows it, and sends more sparkles the further it goes. A
  * release short of the end sends it back to its sky. On unlock Pixy cheers,
  * then the day opens.

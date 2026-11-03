@@ -12,7 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
-import { CLOUD_PIXY_SIZE, CloudPixy } from "@/components/cloud-pixy";
+import { CLOUDY_SIZE, Cloudy } from "@/components/cloudy";
 import { getJoyLevel } from "@/components/pixy-guide-context";
 import type { PixyGuide } from "@/components/pixy-guide-context";
 import { SkyPixyEmotes } from "@/components/sky-pixy-emotes";
@@ -25,8 +25,8 @@ export interface FlightZone {
   height: number;
 }
 
-/** Box size of `CloudPixy`. */
-const SIZE = CLOUD_PIXY_SIZE;
+/** Box size of `Cloudy`. */
+const SIZE = CLOUDY_SIZE;
 /** Up and down bob, in points. Pixy keeps this far from the zone edges. */
 const BOB = 3;
 /** Pixy shrinks to fit small zones, down to this scale. Smaller hides it. */
@@ -54,7 +54,7 @@ const CALM_DOWN_MS = 2600;
 const EXCITED_HAPPY_MS = EXCITE_IN_MS + CALM_DOWN_MS;
 
 /**
- * Cloud Pixy flies a slow, looping path inside `zone`, the free sky the
+ * Cloudy flies a slow, looping path inside `zone`, the free sky the
  * current screen marks (onboarding: `SkyFlightZone`), and leans into its turns. It
  * never crosses text: on a new zone it fades out, moves, and fades back in.
  * Pixy shrinks to fit a small zone. No zone, or one too small, hides it. `boost` (0 to 1) speeds the flight
@@ -248,7 +248,7 @@ export const SkyPixy = ({
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <CloudPixy isBlinking={isBlinking} isHappy={isHappy || joyLevel > 0} />
+        <Cloudy isBlinking={isBlinking} isHappy={isHappy || joyLevel > 0} />
       </Pressable>
     </Animated.View>
   );

@@ -402,7 +402,7 @@ const SlideBody = ({
 };
 
 /**
- * Content of one slide. The player draws background and chrome. Cloud Pixy
+ * Content of one slide. The player draws background and chrome. Cloudy
  * stays around: it flies in the free sky below the content. The best day
  * places Pixy itself.
  */
