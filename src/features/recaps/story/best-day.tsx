@@ -8,7 +8,6 @@ import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withTiming,
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
@@ -46,8 +45,9 @@ const THUMB_SIZE = TRACK_HEIGHT - 2 * THUMB_INSET;
 const UNLOCK_SHARE = 0.7;
 const SETTLE_MS = 220;
 const EASING = Easing.out(Easing.cubic);
-/** Cloud Pixy glides from its sky to the thumb this long, after this delay. */
-const PIXY_CALL_DELAY_MS = 600;
+/** On press down cloud Pixy glides to the thumb this fast. */
+const PIXY_CALL_MS = 450;
+/** On release, or when the track goes away, Pixy glides back this long. */
 const PIXY_GLIDE_MS = 1100;
 const PIXY_GLIDE_EASING = Easing.inOut(Easing.cubic);
 /** Pixy's center sits this far above the track top: just over the thumb. */
@@ -74,8 +74,10 @@ const GOOD = new Set(["very_good", "good"]);
 /**
  * Track with a thumb the user drags to the end. Releases short of
  * `UNLOCK_SHARE` slide the thumb back. Screen readers get one button.
- * Cloud Pixy flies over and hovers above the thumb, follows it, and sends
- * more hearts the further it goes. On unlock Pixy cheers, then the day opens.
+ * Cloud Pixy flies its free sky. On press down it comes over, hovers above
+ * the thumb, follows it, and sends more hearts the further it goes. A
+ * release short of the end sends it back to its sky. On unlock Pixy cheers,
+ * then the day opens.
  */
 const SwipeToUnlock = ({
   theme,
@@ -95,6 +97,8 @@ const SwipeToUnlock = ({
   const thumbTop = useSharedValue(0);
   const travelShared = useSharedValue(0);
   const isUnlocking = useRef(false);
+  // UI thread copy: a release after the unlock keeps Pixy at the thumb.
+  const isUnlockedShared = useSharedValue(false);
   const cheerTimer = useRef<ReturnType<typeof setTimeout>>(null);
 
   useAnimatedReaction(
@@ -132,12 +136,6 @@ const SwipeToUnlock = ({
       thumbTop.set(y);
       guide?.x.set(x + THUMB_INSET + THUMB_SIZE / 2 + offset.get());
       guide?.y.set(y - PIXY_HOVER_GAP);
-      guide?.follow.set(
-        withDelay(
-          PIXY_CALL_DELAY_MS,
-          withTiming(1, { duration: PIXY_GLIDE_MS, easing: PIXY_GLIDE_EASING })
-        )
-      );
     });
   };
 
@@ -147,6 +145,10 @@ const SwipeToUnlock = ({
     }
     isUnlocking.current = true;
     if (guide) {
+      // Screen readers unlock without a press: Pixy comes over to cheer.
+      guide.follow.set(
+        withTiming(1, { duration: PIXY_CALL_MS, easing: PIXY_GLIDE_EASING })
+      );
       cheer(guide);
     }
     cheerTimer.current = setTimeout(onUnlock, guide ? CHEER_MS : 0);
@@ -157,6 +159,18 @@ const SwipeToUnlock = ({
     maxPointers: 1,
     activeOffsetX: 8,
     failOffsetY: [-12, 12],
+    onBegin: () => {
+      guide?.follow.set(
+        withTiming(1, { duration: PIXY_CALL_MS, easing: PIXY_GLIDE_EASING })
+      );
+    },
+    onFinalize: () => {
+      if (!isUnlockedShared.get()) {
+        guide?.follow.set(
+          withTiming(0, { duration: PIXY_GLIDE_MS, easing: PIXY_GLIDE_EASING })
+        );
+      }
+    },
     onUpdate: (event) => {
       offset.set(Math.min(travel, Math.max(0, event.translationX)));
     },
@@ -171,6 +185,7 @@ const SwipeToUnlock = ({
         })
       );
       if (isUnlocked) {
+        isUnlockedShared.set(true);
         scheduleOnRN(unlock);
       }
     },
@@ -422,10 +437,11 @@ export const BestDay = ({
     return <OpenDay slide={slide} ctx={ctx} />;
   }
   const title = t("recaps_story_best_day_ask");
-  // Question on top, track at the bottom: Pixy flies down to the thumb.
+  // Question on top, track at the bottom, Pixy's free sky between them.
   return (
-    <View style={{ flex: 1, justifyContent: "space-between" }}>
+    <View style={{ flex: 1 }}>
       <SlideHeader theme={theme} title={title} />
+      <SkyFlightZone style={{ flex: 1, marginVertical: STORY_BLOCK_GAP }} />
       <Reveal at={titleRevealEnd(title)}>
         <SwipeToUnlock
           theme={theme}
