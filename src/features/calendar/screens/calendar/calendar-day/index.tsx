@@ -204,7 +204,7 @@ const CalendarDayComponent = ({
   const canStartPeek = canPeek && !(!!rating && !isFuture);
 
   const onLongPress = useCallback(() => {
-    void haptics.selection();
+    void haptics.impact();
     startPhotoPeek();
   }, [haptics]);
 
