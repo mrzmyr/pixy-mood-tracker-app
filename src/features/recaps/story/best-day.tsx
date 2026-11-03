@@ -45,8 +45,8 @@ const THUMB_SIZE = TRACK_HEIGHT - 2 * THUMB_INSET;
 const UNLOCK_SHARE = 0.7;
 const SETTLE_MS = 220;
 const EASING = Easing.out(Easing.cubic);
-/** On press down cloud Pixy glides to the thumb this fast. */
-const PIXY_CALL_MS = 450;
+/** On press down cloud Pixy glides to the thumb this long: slow, calm. */
+const PIXY_CALL_MS = 1200;
 /** On release, or when the track goes away, Pixy glides back this long. */
 const PIXY_GLIDE_MS = 1100;
 const PIXY_GLIDE_EASING = Easing.inOut(Easing.cubic);
