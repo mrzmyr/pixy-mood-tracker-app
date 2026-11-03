@@ -82,7 +82,7 @@ const StepRow = ({
  * Sleep opens its page too; the Apple Health switch there sits behind the
  * `apple-health` feature flag.
  * `people`, `photos`, and `menstruation` show only behind their feature
- * flags. The location switch shows behind the `location` feature flag.
+ * flags.
  * Quick check-ins live in Settings > Reminders. Native grouped list on iOS and Android.
  */
 export const StepsScreen = () => {
@@ -123,10 +123,7 @@ export const StepsScreen = () => {
         ))}
       </SettingsSection>
       {isLocationAvailable && (
-        <SettingsSection
-          flag="location"
-          footer={t("location_setting_description")}
-        >
+        <SettingsSection footer={t("location_setting_description")}>
           <SettingsSwitch
             label={t("location_setting")}
             icon={<MapPin width={20} height={20} color={colors.text} />}

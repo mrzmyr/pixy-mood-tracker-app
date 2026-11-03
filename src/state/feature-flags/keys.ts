@@ -11,7 +11,6 @@ export const FEATURE_FLAGS = [
   "development",
   "feature-flag-overrides",
   "interventions",
-  "location",
   "menstruation",
   "more-tags",
   "needs",
@@ -68,10 +67,6 @@ export const FEATURE_FLAG_DETAILS: Record<
   interventions: {
     description: "Exercises for matching emotions",
     location: "Check-in confirmation, Calendar footer",
-  },
-  location: {
-    description: "Place of the check-in",
-    location: "Settings > Check-in",
   },
   menstruation: {
     description: "Daily menstruation flow check-in",
