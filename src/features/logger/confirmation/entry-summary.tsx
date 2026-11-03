@@ -6,7 +6,6 @@ import { useHeaderHeight } from "expo-router/react-navigation";
 import Button from "@/components/button";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-import { ConfirmationOffer } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
@@ -206,7 +205,6 @@ export const EntrySummary = ({
           paddingBottom: insets.bottom + 8,
         }}
       >
-        <ConfirmationOffer item={item} />
         <Button testID="confirmation-done" onPress={onClose}>
           {t("done")}
         </Button>

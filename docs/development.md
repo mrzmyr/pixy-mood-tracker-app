@@ -69,7 +69,6 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts
 - Production builds apply overrides only while flag `feature-flag-overrides` is on. That flag also shows Settings > Development > Feature flags. It needs consent, so testers agreed to the privacy policy. It is never overridable itself ([`src/state/feature-flags/overrides.ts`](../src/state/feature-flags/overrides.ts))
 - Settings > Development is hidden in production builds. Flag `development`, flag `feature-flag-overrides`, or 20 taps on the version in Settings show it ([Settings screen](../src/features/settings/screens/settings/index.tsx)). Taps last until app restart. Development and preview builds always show it
-- Enable `interventions` to show exercises after entries with anxious-type emotions ([`src/features/interventions`](../src/features/interventions))
 
 ### Announcements
 
