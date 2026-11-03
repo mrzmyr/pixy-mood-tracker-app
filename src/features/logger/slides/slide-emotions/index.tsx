@@ -24,9 +24,7 @@ import noop from "lodash/noop";
 import FlagHighlight from "@/components/flag-highlight";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { NeedsCheck } from "./needs-check";
-import { suggestEmotionsForNeeds } from "./needs";
 import type { NeedStates } from "./needs";
-import { SuggestedEmotions } from "./suggested-emotions";
 
 type Mode = "basic" | "advanced";
 
@@ -229,11 +227,9 @@ export const SlideEmotions = ({
           onChange={(key, state) =>
             setNeedStates((current) => ({ ...current, [key]: state }))
           }
-        />
-        <SuggestedEmotions
-          emotions={suggestEmotionsForNeeds(needStates, EMOTIONS)}
-          onPress={onPressEmotion}
+          emotions={EMOTIONS}
           selectedEmotions={selectedEmotions}
+          onPressEmotion={onPressEmotion}
         />
       </FlagHighlight>
     );
