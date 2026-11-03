@@ -4,7 +4,6 @@ import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { BackHandler, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import type { View as ViewType } from "react-native";
 import { setStatusBarHidden } from "expo-status-bar";
 import { useFeedback } from "@/features/feedback";
 import { usePeopleState } from "@/features/people";
@@ -34,7 +33,7 @@ import { t } from "@/lib/translation";
 import { StoryFinale, StoryShuffleButton } from "../story/story-finale";
 import { getSlideDuration } from "../story/timing";
 import { StoryShareButton } from "../story/story-share-button";
-import { shareStoryCard } from "../story/share-image";
+import { useShareFrame } from "../story/use-share-frame";
 import { getStoryCardKey, parseStoryOrigin } from "../story/story-motion";
 import {
   StoryTransitionView,
@@ -152,12 +151,8 @@ const RecapStory = () => {
   const [asking, setAsking] = useState<number | null>(null);
   // Person tapped on each quiz slide, by slide index.
   const [picks, setPicks] = useState<ReadonlyMap<number, string>>(new Map());
-  const slideView = useRef<ViewType>(null);
   const [shuffles, setShuffles] = useState(0);
-  // From the Share tap until the share sheet closes.
-  const [isSharing, setIsSharing] = useState(false);
-  // The slide shows the app icon and name while it is captured.
-  const [isCapturingSlide, setIsCapturingSlide] = useState(false);
+  const { isSharing, share: shareFrame, frame } = useShareFrame();
   const lastShown = useRef(0);
   // The best day slide waits for the swipe; once open it stays open.
   const [isBestDayUnlocked, setIsBestDayUnlocked] = useState(false);
@@ -281,22 +276,21 @@ const RecapStory = () => {
       : [0, 1, 2].map((offset) => pool[(shuffles * 3 + offset) % pool.length]);
 
   /**
-   * Shares the slide at `index` as an image: the sky, the title, and the
-   * content on a see-through card, without bars and buttons.
+   * Shares the slide at `index` as an image: a calm card with the heading,
+   * the slide's content, and the app, drawn behind the story (`ShareFrame`).
+   * Capture starts once the card is laid out and its images loaded.
    */
   const share = (index: number) => {
     const slide = story[index];
-    if (isSharing || !slide) {
+    if (!slide) {
       return;
     }
     const isShareCard = slide.type === "share";
-    setIsSharing(true);
-    setIsCapturingSlide(true);
-    void shareStoryCard({
-      view: slideView.current,
+    shareFrame({
+      slide,
+      ctx,
+      photos: isShareCard ? pickPhotos(slide.photos) : [],
       dialogTitle: shareTitle,
-      onCaptured: () => setIsCapturingSlide(false),
-      onDone: () => setIsSharing(false),
       onShared: () =>
         analytics.track("recaps:story_shared", {
           has_photos: isShareCard && slide.photos.length > 0,
@@ -335,25 +329,30 @@ const RecapStory = () => {
     );
   };
 
-  const slides: PlayerSlide[] = story.map((slide, index) => ({
-    key: `${index}-${slide.type}`,
-    theme: getStoryTheme(ctx.isDark),
-    // A quiz waits for the answer, the best day for its unlock, slides with
-    // own buttons for a tap. Then the story plays on.
-    isWaiting:
-      (slide.type === "people-quiz" && !picks.has(index)) ||
-      (slide.type === "best-day" && !isBestDayUnlocked) ||
-      rough.hasOwnButtons(slide),
-    durationMs: getSlideDuration(slide),
-    hasOwnButtons: rough.hasOwnButtons(slide),
-    content: contentOf(slide, index),
-  }));
+  const slides: PlayerSlide[] = story.map((slide, index) => {
+    const duration = getSlideDuration(slide, kind);
+    return {
+      key: `${index}-${slide.type}`,
+      theme: getStoryTheme(ctx.isDark),
+      // A quiz waits for the answer, the best day for its unlock, slides with
+      // own buttons for a tap. Then the story plays on.
+      isWaiting:
+        (slide.type === "people-quiz" && !picks.has(index)) ||
+        (slide.type === "best-day" && !isBestDayUnlocked) ||
+        rough.hasOwnButtons(slide),
+      durationMs: duration ?? undefined,
+      isHeld: duration === null,
+      hasOwnButtons: rough.hasOwnButtons(slide),
+      content: contentOf(slide, index),
+    };
+  });
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      {frame}
       <StoryTransitionView transition={transition}>
         <StoryPlayer
           slides={slides}
-          slideRef={slideView}
           onClose={close}
           // The timer starts once the story is full screen; a drag holds it.
           isPaused={
@@ -363,7 +362,6 @@ const RecapStory = () => {
             !transition.isOpen ||
             transition.isDragging
           }
-          isCapturing={isCapturingSlide}
           onSlideShown={(index) => {
             lastShown.current = index;
             const slide = slideOf(index);

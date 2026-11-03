@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { Image } from "expo-image";
 import { Text, View } from "react-native";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import Animated, {
   Easing,
   FadeIn,
@@ -23,12 +23,10 @@ import { useSettings } from "@/state/settings";
 import type { LogPhoto } from "@/types";
 import { addDays, daysBetween } from "../days";
 import type { DateKey, Period, RecapDay } from "../types";
-import { StoryCaptureContext } from "./capture-context";
 import {
   glassEdge,
   glassFill,
   STORY_CARD_PADDING,
-  STORY_CARD_RADIUS,
   STORY_MAX_FONT_SCALE,
   STORY_PALETTE,
   STORY_TITLE_GAP,
@@ -99,43 +97,30 @@ export const SlideHeader = ({
 );
 
 /**
- * Slide content below the title. On screen it sits straight on the sky; in
- * a shared image it gets a see-through card with a light outline, so the
- * content holds together on the sky. Same layout both ways: the card's
- * padding hangs out into the screen margin.
+ * Slide content below the title, straight on the sky. Its padding hangs
+ * out into the screen margin, so content lines up with the title.
  */
 export const SlideCard = ({
-  theme,
   style,
   children,
 }: {
-  theme: StoryTheme;
   style?: ViewStyle;
   children: React.ReactNode;
-}) => {
-  const isCapturing = use(StoryCaptureContext);
-  const palette = STORY_PALETTE[theme];
-  return (
-    <View
-      style={[
-        {
-          marginTop: STORY_TITLE_GAP - STORY_CARD_PADDING,
-          marginHorizontal: -STORY_CARD_PADDING,
-          marginBottom: -STORY_CARD_PADDING,
-          padding: STORY_CARD_PADDING,
-          borderRadius: STORY_CARD_RADIUS,
-          borderCurve: "continuous",
-          borderWidth: 1,
-          borderColor: isCapturing ? palette.glassBorder : "transparent",
-          backgroundColor: isCapturing ? palette.glass : "transparent",
-        },
-        style,
-      ]}
-    >
-      {children}
-    </View>
-  );
-};
+}) => (
+  <View
+    style={[
+      {
+        marginTop: STORY_TITLE_GAP - STORY_CARD_PADDING,
+        marginHorizontal: -STORY_CARD_PADDING,
+        marginBottom: -STORY_CARD_PADDING,
+        padding: STORY_CARD_PADDING,
+      },
+      style,
+    ]}
+  >
+    {children}
+  </View>
+);
 
 const SHADES = {
   background: (color: string) => color,

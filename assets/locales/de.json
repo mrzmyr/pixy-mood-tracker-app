@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Wochenrückblick",
   "recaps_story_best_day_ask": "Bereit für deinen besten Tag?",
   "recaps_story_best_day_show": "Deinen besten Tag zeigen",
-  "recaps_story_coming_left": {
-    "one": "Noch 1",
-    "other": "Noch {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 verpasst",
-    "other": "{{count}} verpasst"
+  "recaps_story_coming_text": {
+    "one": "Noch 1 Pixel wartet auf dich. Ein Tag nach dem anderen.",
+    "other": "Noch {{count}} Pixel warten auf dich. Ein Tag nach dem anderen."
   },
   "recaps_story_coming_title": {
     "one": "Noch 1 Tag in %{year}",
     "other": "Noch {{count}} Tage in %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 Pixel gefüllt. Das ist eine echte Leistung.",
+    "other": "{{count}} Pixel gefüllt. Das ist eine echte Leistung."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Einmal hast du innegehalten und gespürt, wie es dir geht. Das zählt.",
+    "other": "{{count}}-mal hast du innegehalten und gespürt, wie es dir geht. Das zählt."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "An 1 Tag hast du dir Zeit für dich genommen. Darauf kannst du stolz sein.",
+    "other": "An {{count}} Tagen hast du dir Zeit für dich genommen. Darauf kannst du stolz sein."
+  },
+  "recaps_story_cover_note_full": "Jeder Tag im %{month} hat sein Pixel. Das ist eine echte Leistung.",
+  "recaps_story_cover_note_full_week": "Jeder Tag dieser Woche hat sein Pixel. Das ist eine echte Leistung.",
   "recaps_story_cover_pixels_title": "Pixel im %{month}",
   "recaps_story_cover_pixels_title_week": "Pixel diese Woche",
   "recaps_story_cover_title_week": "Nimm dir einen Moment.\nDas war deine Woche.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} Tage"
   },
   "recaps_story_hard_title": "%{tag} ging mit deinen schwereren Tagen einher",
-  "recaps_story_lifted_text": {
-    "one": "Im Vergleich zu Tagen ohne. 1 Check-in.",
-    "other": "Im Vergleich zu Tagen ohne. {{count}} Check-ins."
-  },
+  "recaps_story_lifted_note": "Im Vergleich zu Tagen ohne.",
   "recaps_story_lifted_title": "Tage mit %{tag} fühlten sich am leichtesten an",
   "recaps_story_missed_add": {
     "one": "Zu 1 Abend hinzufügen",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Neu in deinem Kreis",
   "recaps_story_next": "Nächste Folie",
+  "recaps_story_orbit_back": "Zurück zum Orbit",
   "recaps_story_orbit_title": "Wer in deinem Orbit war",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
     "one": "1 Tag in Kontakt",
     "other": "{{count}} Tage in Kontakt"
   },
+  "recaps_story_places_text": "%{away} unterwegs, %{home} zu Hause in %{city}.",
+  "recaps_story_places_text_away": "%{away} unterwegs.",
+  "recaps_story_places_title": "Orte im %{month}",
   "recaps_story_play": "Abspielen",
   "recaps_story_previous": "Vorherige Folie",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Personen",
   "recaps_story_rough_tags": "Schlagwörter",
   "recaps_story_share": "Teilen",
+  "recaps_story_share_heading_best": "Mein bester Tag",
+  "recaps_story_share_heading_coming": "Mein Jahr bisher",
+  "recaps_story_share_heading_cover": "Meine Pixel",
+  "recaps_story_share_heading_hard": "Was mich belastet hat",
+  "recaps_story_share_heading_lifted": "Was mir guttat",
+  "recaps_story_share_heading_new": "Neu in meinem Kreis",
+  "recaps_story_share_heading_orbit": "Mein Orbit",
   "recaps_story_share_shuffle": "Fotos mischen",
   "recaps_story_share_title": "Mein %{month}",
   "recaps_story_share_title_week": "Meine Woche",

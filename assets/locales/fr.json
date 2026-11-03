@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Bilan de la semaine",
   "recaps_story_best_day_ask": "Prêt à voir ta meilleure journée ?",
   "recaps_story_best_day_show": "Afficher ta meilleure journée",
-  "recaps_story_coming_left": {
-    "one": "Encore 1",
-    "other": "Encore {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 manqué",
-    "other": "{{count}} manqués"
+  "recaps_story_coming_text": {
+    "one": "Encore 1 pixel vous attend. Un jour à la fois.",
+    "other": "Encore {{count}} pixels vous attendent. Un jour à la fois."
   },
   "recaps_story_coming_title": {
     "one": "Encore 1 jour en %{year}",
     "other": "Encore {{count}} jours en %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel rempli. C’est une vraie réussite.",
+    "other": "{{count}} pixels remplis. C’est une vraie réussite."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Une fois, vous avez pris le temps de sentir comment vous allez. Ça compte.",
+    "other": "{{count}} fois, vous avez pris le temps de sentir comment vous allez. Ça compte."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 jour, vous avez pris du temps pour vous. Soyez-en fier.",
+    "other": "{{count}} jours, vous avez pris du temps pour vous. Soyez-en fier."
+  },
+  "recaps_story_cover_note_full": "Chaque jour de %{month} a son pixel. C’est une vraie réussite.",
+  "recaps_story_cover_note_full_week": "Chaque jour de cette semaine a son pixel. C’est une vraie réussite.",
   "recaps_story_cover_pixels_title": "pixels en %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels de la semaine",
   "recaps_story_cover_title_week": "Prenez un moment.\nVoici votre semaine.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} jours"
   },
   "recaps_story_hard_title": "%{tag} a accompagné vos jours plus difficiles",
-  "recaps_story_lifted_text": {
-    "one": "Comparé aux jours sans ce tag. 1 check-in.",
-    "other": "Comparé aux jours sans ce tag. {{count}} check-ins."
-  },
+  "recaps_story_lifted_note": "Comparé aux jours sans ce tag.",
   "recaps_story_lifted_title": "Les jours avec %{tag} semblaient les plus légers",
   "recaps_story_missed_add": {
     "one": "Ajouter à 1 soirée",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Nouveau dans votre cercle",
   "recaps_story_next": "Diapositive suivante",
+  "recaps_story_orbit_back": "Retour à l’orbite",
   "recaps_story_orbit_title": "Qui était dans votre orbite",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
     "one": "1 jour en lien",
     "other": "{{count}} jours en lien"
   },
+  "recaps_story_places_text": "%{away} ailleurs, %{home} chez toi à %{city}.",
+  "recaps_story_places_text_away": "%{away} loin de chez toi.",
+  "recaps_story_places_title": "lieux en %{month}",
   "recaps_story_play": "Lecture",
   "recaps_story_previous": "Diapositive précédente",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Personnes",
   "recaps_story_rough_tags": "Mots clés",
   "recaps_story_share": "Partager",
+  "recaps_story_share_heading_best": "Mon meilleur jour",
+  "recaps_story_share_heading_coming": "Mon année jusqu’ici",
+  "recaps_story_share_heading_cover": "Mes pixels",
+  "recaps_story_share_heading_hard": "Ce qui m’a pesé",
+  "recaps_story_share_heading_lifted": "Ce qui m’a fait du bien",
+  "recaps_story_share_heading_new": "Nouveau dans mon cercle",
+  "recaps_story_share_heading_orbit": "Mon orbite",
   "recaps_story_share_shuffle": "Mélanger les photos",
   "recaps_story_share_title": "Mon %{month}",
   "recaps_story_share_title_week": "Ma semaine",

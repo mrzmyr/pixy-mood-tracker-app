@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "साप्ताहिक रीकैप",
   "recaps_story_best_day_ask": "क्या आप अपना सबसे अच्छा दिन देखने के लिए तैयार हैं?",
   "recaps_story_best_day_show": "अपना सबसे अच्छा दिन दिखाएं",
-  "recaps_story_coming_left": {
-    "one": "1 बाकी",
-    "other": "{{count}} बाकी"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 छूटा",
-    "other": "{{count}} छूटे"
+  "recaps_story_coming_text": {
+    "one": "1 और पिक्सेल आपका इंतज़ार कर रहा है। एक दिन में एक कदम।",
+    "other": "{{count}} और पिक्सेल आपका इंतज़ार कर रहे हैं। एक दिन में एक कदम।"
   },
   "recaps_story_coming_title": {
     "one": "%{year} का 1 दिन अभी बाकी है",
     "other": "%{year} के {{count}} दिन अभी बाकी हैं"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 पिक्सेल भरा। यह सच में बड़ी बात है।",
+    "other": "{{count}} पिक्सेल भरे। यह सच में बड़ी बात है।"
+  },
+  "recaps_story_cover_note_2": {
+    "one": "1 बार आप रुके और देखा कि आप कैसा महसूस करते हैं। यह मायने रखता है।",
+    "other": "{{count}} बार आप रुके और देखा कि आप कैसा महसूस करते हैं। यह मायने रखता है।"
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 दिन आपने अपने लिए समय निकाला। इस पर गर्व करें।",
+    "other": "{{count}} दिन आपने अपने लिए समय निकाला। इस पर गर्व करें।"
+  },
+  "recaps_story_cover_note_full": "%{month} के हर दिन का अपना पिक्सेल है। यह सच में बड़ी बात है।",
+  "recaps_story_cover_note_full_week": "इस हफ़्ते के हर दिन का अपना पिक्सेल है। यह सच में बड़ी बात है।",
   "recaps_story_cover_pixels_title": "%{month} में पिक्सेल",
   "recaps_story_cover_pixels_title_week": "इस हफ़्ते के पिक्सेल",
   "recaps_story_cover_title_week": "एक पल रुकिए।\nयह आपका हफ़्ता था।",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} दिन"
   },
   "recaps_story_hard_title": "%{tag} आपके मुश्किल दिनों के साथ रहा",
-  "recaps_story_lifted_text": {
-    "one": "इस टैग के बिना वाले दिनों से तुलना। 1 चेक-इन।",
-    "other": "इस टैग के बिना वाले दिनों से तुलना। {{count}} चेक-इन।"
-  },
+  "recaps_story_lifted_note": "इस टैग के बिना वाले दिनों से तुलना।",
   "recaps_story_lifted_title": "%{tag} वाले दिन सबसे हल्के लगे",
   "recaps_story_missed_add": {
     "one": "1 शाम में जोड़ें",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "आपके दायरे में नए",
   "recaps_story_next": "अगली स्लाइड",
+  "recaps_story_orbit_back": "कक्षा पर वापस जाएँ",
   "recaps_story_orbit_title": "आपकी कक्षा में कौन था",
   "recaps_story_pause": "रोकें",
   "recaps_story_people_days": {
     "one": "1 दिन जुड़े",
     "other": "{{count}} दिन जुड़े"
   },
+  "recaps_story_places_text": "%{away} बाहर, %{home} घर पर, %{city} में।",
+  "recaps_story_places_text_away": "%{away} घर से बाहर।",
+  "recaps_story_places_title": "%{month} की जगहें",
   "recaps_story_play": "चलाएँ",
   "recaps_story_previous": "पिछली स्लाइड",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "लोग",
   "recaps_story_rough_tags": "टैग",
   "recaps_story_share": "साझा करें",
+  "recaps_story_share_heading_best": "मेरा सबसे अच्छा दिन",
+  "recaps_story_share_heading_coming": "अब तक मेरा साल",
+  "recaps_story_share_heading_cover": "मेरे पिक्सेल",
+  "recaps_story_share_heading_hard": "जो मुझ पर भारी रहा",
+  "recaps_story_share_heading_lifted": "जिसने मुझे अच्छा महसूस कराया",
+  "recaps_story_share_heading_new": "मेरे दायरे में नए",
+  "recaps_story_share_heading_orbit": "मेरी कक्षा",
   "recaps_story_share_shuffle": "फ़ोटो बदलें",
   "recaps_story_share_title": "मेरा %{month}",
   "recaps_story_share_title_week": "मेरा हफ़्ता",

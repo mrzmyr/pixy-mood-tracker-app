@@ -186,7 +186,7 @@ export interface AnalyticsEvents {
   "photos:import_failed": { source: PhotoSourceKind; status: string };
   /** `viewed_count`: distinct photos shown before close. */
   "photos:viewer_closed": {
-    context: "logger" | "day";
+    context: "logger" | "day" | "recap";
     photos_count: number;
     viewed_count: number;
   };

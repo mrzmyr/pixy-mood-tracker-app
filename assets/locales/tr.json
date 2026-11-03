@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Hafta Özeti",
   "recaps_story_best_day_ask": "En iyi gününü görmeye hazır mısın?",
   "recaps_story_best_day_show": "En iyi gününü göster",
-  "recaps_story_coming_left": {
-    "one": "1 kaldı",
-    "other": "{{count}} kaldı"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 kaçırıldı",
-    "other": "{{count}} kaçırıldı"
+  "recaps_story_coming_text": {
+    "one": "Seni 1 piksel daha bekliyor. Her gün bir adım.",
+    "other": "Seni {{count}} piksel daha bekliyor. Her gün bir adım."
   },
   "recaps_story_coming_title": {
     "one": "%{year} Yılının Bitmesine 1 Gün Var",
     "other": "%{year} Yılının Bitmesine {{count}} Gün Var"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 piksel doldu. Bu gerçek bir başarı.",
+    "other": "{{count}} piksel doldu. Bu gerçek bir başarı."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Bir kez durup nasıl hissettiğine baktın. Bu önemli.",
+    "other": "{{count}} kez durup nasıl hissettiğine baktın. Bu önemli."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 gün kendine zaman ayırdın. Bununla gurur duy.",
+    "other": "{{count}} gün kendine zaman ayırdın. Bununla gurur duy."
+  },
+  "recaps_story_cover_note_full": "%{month} ayının her gününün bir pikseli var. Bu gerçek bir başarı.",
+  "recaps_story_cover_note_full_week": "Bu haftanın her gününün bir pikseli var. Bu gerçek bir başarı.",
   "recaps_story_cover_pixels_title": "piksel · %{month}",
   "recaps_story_cover_pixels_title_week": "Bu Haftanın Pikselleri",
   "recaps_story_cover_title_week": "Bir an dur.\nBu senin haftandı.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} gün"
   },
   "recaps_story_hard_title": "%{tag} daha zor günlerine eşlik etti",
-  "recaps_story_lifted_text": {
-    "one": "Etiketin olmadığı günlerle karşılaştırıldı. 1 kayıt.",
-    "other": "Etiketin olmadığı günlerle karşılaştırıldı. {{count}} kayıt."
-  },
+  "recaps_story_lifted_note": "Etiketin olmadığı günlerle karşılaştırıldı.",
   "recaps_story_lifted_title": "%{tag} olan günler en hafif hissettirdi",
   "recaps_story_missed_add": {
     "one": "1 Akşama Ekle",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Çevrende yeni",
   "recaps_story_next": "Sonraki slayt",
+  "recaps_story_orbit_back": "Yörüngeye dön",
   "recaps_story_orbit_title": "Yörüngende kimler vardı",
   "recaps_story_pause": "Duraklat",
   "recaps_story_people_days": {
     "one": "1 gün bağlantı",
     "other": "{{count}} gün bağlantı"
   },
+  "recaps_story_places_text": "%{away} uzakta, %{home} %{city} evinde.",
+  "recaps_story_places_text_away": "%{away} evden uzakta.",
+  "recaps_story_places_title": "yerler · %{month}",
   "recaps_story_play": "Oynat",
   "recaps_story_previous": "Önceki slayt",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Kişiler",
   "recaps_story_rough_tags": "Etiketler",
   "recaps_story_share": "Paylaş",
+  "recaps_story_share_heading_best": "En iyi günüm",
+  "recaps_story_share_heading_coming": "Şimdiye kadarki yılım",
+  "recaps_story_share_heading_cover": "Piksellerim",
+  "recaps_story_share_heading_hard": "Bana ağır gelenler",
+  "recaps_story_share_heading_lifted": "Beni iyi hissettirenler",
+  "recaps_story_share_heading_new": "Çevremdeki yeni kişiler",
+  "recaps_story_share_heading_orbit": "Yörüngem",
   "recaps_story_share_shuffle": "Fotoğrafları karıştır",
   "recaps_story_share_title": "%{month} ayım",
   "recaps_story_share_title_week": "Haftam",

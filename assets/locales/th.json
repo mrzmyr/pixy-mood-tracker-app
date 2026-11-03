@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "สรุปย้อนหลังประจำสัปดาห์",
   "recaps_story_best_day_ask": "พร้อมดูวันที่ดีที่สุดของคุณหรือยัง",
   "recaps_story_best_day_show": "แสดงวันที่ดีที่สุดของคุณ",
-  "recaps_story_coming_left": {
-    "one": "เหลืออีก 1",
-    "other": "เหลืออีก {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "พลาด 1",
-    "other": "พลาด {{count}}"
+  "recaps_story_coming_text": {
+    "one": "ยังมีอีก 1 พิกเซลรอคุณอยู่ ทีละวัน",
+    "other": "ยังมีอีก {{count}} พิกเซลรอคุณอยู่ ทีละวัน"
   },
   "recaps_story_coming_title": {
     "one": "ปี %{year} ยังเหลืออีก 1 วัน",
     "other": "ปี %{year} ยังเหลืออีก {{count}} วัน"
   },
+  "recaps_story_cover_note_1": {
+    "one": "เติมพิกเซลแล้ว 1 ช่อง นี่คือความสำเร็จจริงๆ",
+    "other": "เติมพิกเซลแล้ว {{count}} ช่อง นี่คือความสำเร็จจริงๆ"
+  },
+  "recaps_story_cover_note_2": {
+    "one": "คุณหยุดเพื่อรับรู้ความรู้สึกของตัวเอง 1 ครั้ง นั่นมีความหมาย",
+    "other": "คุณหยุดเพื่อรับรู้ความรู้สึกของตัวเอง {{count}} ครั้ง นั่นมีความหมาย"
+  },
+  "recaps_story_cover_note_3": {
+    "one": "คุณให้เวลากับตัวเอง 1 วัน ภูมิใจในตัวเองได้เลย",
+    "other": "คุณให้เวลากับตัวเอง {{count}} วัน ภูมิใจในตัวเองได้เลย"
+  },
+  "recaps_story_cover_note_full": "ทุกวันในเดือน%{month}มีพิกเซลของตัวเอง นี่คือความสำเร็จจริงๆ",
+  "recaps_story_cover_note_full_week": "ทุกวันในสัปดาห์นี้มีพิกเซลของตัวเอง นี่คือความสำเร็จจริงๆ",
   "recaps_story_cover_pixels_title": "พิกเซลในเดือน%{month}",
   "recaps_story_cover_pixels_title_week": "พิกเซลสัปดาห์นี้",
   "recaps_story_cover_title_week": "ให้เวลากับตัวเองสักครู่ นี่คือสัปดาห์ของคุณ",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} วัน"
   },
   "recaps_story_hard_title": "%{tag} มักมาพร้อมวันที่หนักกว่าของคุณ",
-  "recaps_story_lifted_text": {
-    "one": "เทียบกับวันที่ไม่มีแท็กนี้ 1 บันทึก",
-    "other": "เทียบกับวันที่ไม่มีแท็กนี้ {{count}} บันทึก"
-  },
+  "recaps_story_lifted_note": "เทียบกับวันที่ไม่มีแท็กนี้",
   "recaps_story_lifted_title": "วันที่มี %{tag} รู้สึกเบาที่สุด",
   "recaps_story_missed_add": {
     "one": "เพิ่มใน 1 คืน",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "คนใหม่ในวงของคุณ",
   "recaps_story_next": "สไลด์ถัดไป",
+  "recaps_story_orbit_back": "กลับไปที่วงโคจร",
   "recaps_story_orbit_title": "ใครอยู่ในวงโคจรของคุณ",
   "recaps_story_pause": "หยุดชั่วคราว",
   "recaps_story_people_days": {
     "one": "ติดต่อ 1 วัน",
     "other": "ติดต่อ {{count}} วัน"
   },
+  "recaps_story_places_text": "ไปที่อื่น %{away} อยู่บ้านที่ %{city} %{home}",
+  "recaps_story_places_text_away": "ไม่อยู่บ้าน %{away}",
+  "recaps_story_places_title": "สถานที่ในเดือน%{month}",
   "recaps_story_play": "เล่น",
   "recaps_story_previous": "สไลด์ก่อนหน้า",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "ผู้คน",
   "recaps_story_rough_tags": "แท็ก",
   "recaps_story_share": "แชร์",
+  "recaps_story_share_heading_best": "วันที่ดีที่สุดของฉัน",
+  "recaps_story_share_heading_coming": "ปีของฉันจนถึงตอนนี้",
+  "recaps_story_share_heading_cover": "พิกเซลของฉัน",
+  "recaps_story_share_heading_hard": "สิ่งที่หนักใจฉัน",
+  "recaps_story_share_heading_lifted": "สิ่งที่ทำให้ฉันใจฟู",
+  "recaps_story_share_heading_new": "คนใหม่ในวงของฉัน",
+  "recaps_story_share_heading_orbit": "วงโคจรของฉัน",
   "recaps_story_share_shuffle": "สุ่มรูปภาพ",
   "recaps_story_share_title": "เดือน%{month}ของฉัน",
   "recaps_story_share_title_week": "สัปดาห์ของฉัน",

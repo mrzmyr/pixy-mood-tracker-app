@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Ukens tilbakeblikk",
   "recaps_story_best_day_ask": "Klar til å se din beste dag?",
   "recaps_story_best_day_show": "Vis din beste dag",
-  "recaps_story_coming_left": {
-    "one": "1 igjen",
-    "other": "{{count}} igjen"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 hoppet over",
-    "other": "{{count}} hoppet over"
+  "recaps_story_coming_text": {
+    "one": "1 piksel til venter på deg. Én dag om gangen.",
+    "other": "{{count}} piksler til venter på deg. Én dag om gangen."
   },
   "recaps_story_coming_title": {
     "one": "1 dag igjen av %{year}",
     "other": "{{count}} dager igjen av %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 piksel fylt. Det er en ekte prestasjon.",
+    "other": "{{count}} piksler fylt. Det er en ekte prestasjon."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Én gang stoppet du opp og kjente etter hvordan du har det. Det teller.",
+    "other": "{{count}} ganger stoppet du opp og kjente etter hvordan du har det. Det teller."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "På 1 dag tok du deg tid til deg selv. Vær stolt av det.",
+    "other": "På {{count}} dager tok du deg tid til deg selv. Vær stolt av det."
+  },
+  "recaps_story_cover_note_full": "Hver dag i %{month} har sin piksel. Det er en ekte prestasjon.",
+  "recaps_story_cover_note_full_week": "Hver dag denne uken har sin piksel. Det er en ekte prestasjon.",
   "recaps_story_cover_pixels_title": "piksler i %{month}",
   "recaps_story_cover_pixels_title_week": "Piksler denne uken",
   "recaps_story_cover_title_week": "Ta deg et øyeblikk.\nDette er uken din.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} dager"
   },
   "recaps_story_hard_title": "%{tag} fulgte dine tyngre dager",
-  "recaps_story_lifted_text": {
-    "one": "Sammenlignet med dager uten taggen. 1 innsjekking.",
-    "other": "Sammenlignet med dager uten taggen. {{count}} innsjekkinger."
-  },
+  "recaps_story_lifted_note": "Sammenlignet med dager uten taggen.",
   "recaps_story_lifted_title": "Dager med %{tag} føltes lettest",
   "recaps_story_missed_add": {
     "one": "Legg til 1 kveld",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Nye i kretsen din",
   "recaps_story_next": "Neste side",
+  "recaps_story_orbit_back": "Tilbake til banen",
   "recaps_story_orbit_title": "Hvem som var i din bane",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
     "one": "1 dag i kontakt",
     "other": "{{count}} dager i kontakt"
   },
+  "recaps_story_places_text": "%{away} borte, %{home} hjemme i %{city}.",
+  "recaps_story_places_text_away": "%{away} borte hjemmefra.",
+  "recaps_story_places_title": "steder i %{month}",
   "recaps_story_play": "Spill av",
   "recaps_story_previous": "Forrige side",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Personer",
   "recaps_story_rough_tags": "Tagger",
   "recaps_story_share": "Del",
+  "recaps_story_share_heading_best": "Min beste dag",
+  "recaps_story_share_heading_coming": "Året mitt så langt",
+  "recaps_story_share_heading_cover": "Mine piksler",
+  "recaps_story_share_heading_hard": "Det som tynget meg",
+  "recaps_story_share_heading_lifted": "Det som løftet meg",
+  "recaps_story_share_heading_new": "Nye i min krets",
+  "recaps_story_share_heading_orbit": "Min bane",
   "recaps_story_share_shuffle": "Stokk bildene",
   "recaps_story_share_title": "Min %{month}",
   "recaps_story_share_title_week": "Min uke",

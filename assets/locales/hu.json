@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Heti visszatekintés",
   "recaps_story_best_day_ask": "Készen állsz a legjobb napodra?",
   "recaps_story_best_day_show": "Legjobb napod megjelenítése",
-  "recaps_story_coming_left": {
-    "one": "Még 1",
-    "other": "Még {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 kimaradt",
-    "other": "{{count}} kimaradt"
+  "recaps_story_coming_text": {
+    "one": "Még 1 pixel vár rád. Napról napra.",
+    "other": "Még {{count}} pixel vár rád. Napról napra."
   },
   "recaps_story_coming_title": {
     "one": "%{year}: még 1 nap van hátra",
     "other": "%{year}: még {{count}} nap van hátra"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 kitöltött pixel. Ez igazi teljesítmény.",
+    "other": "{{count}} kitöltött pixel. Ez igazi teljesítmény."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Egyszer megálltál, hogy figyelj, hogy érzed magad. Ez számít.",
+    "other": "{{count}} alkalommal megálltál, hogy figyelj, hogy érzed magad. Ez számít."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 napon szántál időt magadra. Lehetsz rá büszke.",
+    "other": "{{count}} napon szántál időt magadra. Lehetsz rá büszke."
+  },
+  "recaps_story_cover_note_full": "%{month} minden napjának megvan a pixele. Ez igazi teljesítmény.",
+  "recaps_story_cover_note_full_week": "A hét minden napjának megvan a pixele. Ez igazi teljesítmény.",
   "recaps_story_cover_pixels_title": "pixel · %{month}",
   "recaps_story_cover_pixels_title_week": "A hét pixelei",
   "recaps_story_cover_title_week": "Szánj rá egy pillanatot.\nEz volt a heted.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} nap"
   },
   "recaps_story_hard_title": "%{tag} a nehezebb napjaiddal járt együtt",
-  "recaps_story_lifted_text": {
-    "one": "A címke nélküli napokhoz képest. 1 bejegyzés.",
-    "other": "A címke nélküli napokhoz képest. {{count}} bejegyzés."
-  },
+  "recaps_story_lifted_note": "A címke nélküli napokhoz képest.",
   "recaps_story_lifted_title": "%{tag}: a legkönnyebb napok",
   "recaps_story_missed_add": {
     "one": "Hozzáadás 1 estéhez",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Új a köreidben",
   "recaps_story_next": "Következő dia",
+  "recaps_story_orbit_back": "Vissza a pályához",
   "recaps_story_orbit_title": "Ki volt a pályádon",
   "recaps_story_pause": "Szünet",
   "recaps_story_people_days": {
     "one": "1 nap kapcsolat",
     "other": "{{count}} nap kapcsolat"
   },
+  "recaps_story_places_text": "%{away} távol, %{home} otthon (%{city}).",
+  "recaps_story_places_text_away": "%{away} távol otthonról.",
+  "recaps_story_places_title": "helyek · %{month}",
   "recaps_story_play": "Lejátszás",
   "recaps_story_previous": "Előző dia",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Emberek",
   "recaps_story_rough_tags": "Címkék",
   "recaps_story_share": "Megosztás",
+  "recaps_story_share_heading_best": "A legjobb napom",
+  "recaps_story_share_heading_coming": "Az évem eddig",
+  "recaps_story_share_heading_cover": "A pixeleim",
+  "recaps_story_share_heading_hard": "Ami nyomasztott",
+  "recaps_story_share_heading_lifted": "Ami feldobott",
+  "recaps_story_share_heading_new": "Újak a körömben",
+  "recaps_story_share_heading_orbit": "A pályám",
   "recaps_story_share_shuffle": "Fotók keverése",
   "recaps_story_share_title": "Az én %{month} hónapom",
   "recaps_story_share_title_week": "Az én hetem",

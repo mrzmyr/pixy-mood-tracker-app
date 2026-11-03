@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Итоги недели",
   "recaps_story_best_day_ask": "Готов увидеть свой лучший день?",
   "recaps_story_best_day_show": "Показать лучший день",
-  "recaps_story_coming_left": {
-    "one": "Осталось: 1",
-    "other": "Осталось: {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "Пропущено: 1",
-    "other": "Пропущено: {{count}}"
+  "recaps_story_coming_text": {
+    "one": "Вас ждёт ещё 1 пиксель. День за днём.",
+    "other": "Пикселей, которые ещё ждут Вас: {{count}}. День за днём."
   },
   "recaps_story_coming_title": {
     "one": "До конца %{year} года остался 1 день",
     "other": "Дней до конца %{year} года: {{count}}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "Заполнен 1 пиксель. Это настоящее достижение.",
+    "other": "Заполнено пикселей: {{count}}. Это настоящее достижение."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Один раз Вы остановились и прислушались к себе. Это важно.",
+    "other": "Сколько раз Вы останавливались и прислушивались к себе: {{count}}. Это важно."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 день Вы нашли время для себя. Этим можно гордиться.",
+    "other": "Дней, когда Вы находили время для себя: {{count}}. Этим можно гордиться."
+  },
+  "recaps_story_cover_note_full": "У каждого дня (%{month}) есть свой пиксель. Это настоящее достижение.",
+  "recaps_story_cover_note_full_week": "У каждого дня этой недели есть свой пиксель. Это настоящее достижение.",
   "recaps_story_cover_pixels_title": "%{month} в пикселях",
   "recaps_story_cover_pixels_title_week": "Пиксели этой недели",
   "recaps_story_cover_title_week": "Остановитесь на минуту.\nЭто была ваша неделя.",
@@ -1058,10 +1068,7 @@
     "other": "Дней: {{count}}"
   },
   "recaps_story_hard_title": "%{tag}: часто в непростые дни",
-  "recaps_story_lifted_text": {
-    "one": "По сравнению с днями без тега. 1 отметка.",
-    "other": "По сравнению с днями без тега. Отметок: {{count}}."
-  },
+  "recaps_story_lifted_note": "По сравнению с днями без тега.",
   "recaps_story_lifted_title": "Дни с %{tag} были самыми лёгкими",
   "recaps_story_missed_add": {
     "one": "Добавить к 1 вечеру",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Новые в вашем круге",
   "recaps_story_next": "Следующий слайд",
+  "recaps_story_orbit_back": "Назад к орбите",
   "recaps_story_orbit_title": "Кто был на Вашей орбите",
   "recaps_story_pause": "Пауза",
   "recaps_story_people_days": {
     "one": "1 день на связи",
     "other": "Дней на связи: {{count}}"
   },
+  "recaps_story_places_text": "В поездках: %{away}. Дома в %{city}: %{home}.",
+  "recaps_story_places_text_away": "Вдали от дома: %{away}.",
+  "recaps_story_places_title": "%{month}: места",
   "recaps_story_play": "Воспроизвести",
   "recaps_story_previous": "Предыдущий слайд",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Люди",
   "recaps_story_rough_tags": "Теги",
   "recaps_story_share": "Поделиться",
+  "recaps_story_share_heading_best": "Мой лучший день",
+  "recaps_story_share_heading_coming": "Мой год пока",
+  "recaps_story_share_heading_cover": "Мои пиксели",
+  "recaps_story_share_heading_hard": "Что меня тяготило",
+  "recaps_story_share_heading_lifted": "Что меня поддержало",
+  "recaps_story_share_heading_new": "Новые в моём круге",
+  "recaps_story_share_heading_orbit": "Моя орбита",
   "recaps_story_share_shuffle": "Перемешать фото",
   "recaps_story_share_title": "Мой %{month}",
   "recaps_story_share_title_week": "Моя неделя",

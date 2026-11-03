@@ -26,9 +26,8 @@ import { SteppedSky } from "@/components/stepped-sky";
 import { RADIUS } from "@/constants/radius";
 import { usePixyIdle } from "@/features/logger";
 import { t } from "@/lib/translation";
-import { StoryCaptureContext } from "./capture-context";
 import { StoryPressContext } from "./press-context";
-import { StoryBrand } from "./story-brand";
+import { StoryHoldContext } from "./hold-context";
 import { STORY_PALETTE, STORY_SCREEN_PADDING, STORY_SLIDE_MS } from "./theme";
 import type { StoryTheme } from "./theme";
 
@@ -39,6 +38,11 @@ export interface PlayerSlide {
   content: React.ReactNode;
   /** Waits for the user instead of moving on, for example a quiz. */
   isWaiting?: boolean;
+  /**
+   * Last slide that stays until the user closes it: no timer, its bar shows
+   * full, so the user can look around.
+   */
+  isHeld?: boolean;
   /** Time on screen. Default `STORY_SLIDE_MS`. */
   durationMs?: number;
   /**
@@ -182,25 +186,6 @@ const ENTERING = FadeInDown.duration(240);
 /** Holding hides bars and buttons this fast, so the slide shows at once. */
 const CHROME_FADE_MS = 80;
 
-/** Brand of a shared slide: bottom left, where Share sits. */
-const ScreenBrand = ({ theme }: { theme: StoryTheme }) => {
-  const insets = useSafeAreaInsets();
-  return (
-    <View
-      pointerEvents="none"
-      style={{
-        position: "absolute",
-        left: 24,
-        bottom: insets.bottom + 16,
-        height: 44,
-        justifyContent: "center",
-      }}
-    >
-      <StoryBrand color={STORY_PALETTE[theme].text} />
-    </View>
-  );
-};
-
 /**
  * `next` for slide buttons. A button that also changes `slides`, for
  * example opens more slides, moves on after the render with the new list,
@@ -234,26 +219,19 @@ interface Clock {
  * Full-screen story. Tap the right two thirds for the next slide, the left
  * third for the previous one; press and hold to pause and see the slide
  * alone: bars, buttons, and feedback fade out until you let go. Each slide
- * moves on after its time, except waiting slides. The last slide stays
- * until the user closes it. Going to another slide plays the story again.
+ * moves on after its time, except waiting and held slides. The last slide
+ * stays until the user closes it. Going to another slide plays the story again.
  * `renderBottom` draws per slide below the content (Share, Helpful, Not
  * Helpful); its `controls.pause` stops the story while the user acts.
- * `isCapturing` swaps bars and buttons for the app icon and name, so the
- * shared image carries the brand in the bottom left corner, and puts slide
- * content on a see-through card (`SlideCard`).
  */
 export const StoryPlayer = ({
   slides,
-  slideRef,
   onClose,
   onSlideShown,
   renderBottom,
   isPaused: isPausedFromParent = false,
-  isCapturing = false,
 }: {
   slides: PlayerSlide[];
-  /** Slide without bars and buttons, for sharing it as an image. */
-  slideRef?: React.Ref<View>;
   onClose: () => void;
   /** Every slide change. The first slide counts on open, in the parent. */
   onSlideShown: (index: number) => void;
@@ -264,8 +242,6 @@ export const StoryPlayer = ({
   ) => React.ReactNode;
   /** A sheet on top: the slide holds still until it closes. */
   isPaused?: boolean;
-  /** The slide is being captured as an image. */
-  isCapturing?: boolean;
 }) => {
   const insets = useSafeAreaInsets();
   const isReducedMotion = useReducedMotion();
@@ -275,17 +251,20 @@ export const StoryPlayer = ({
   const [isPausedByUser, setIsPausedByUser] = useState(false);
   // Press and hold pauses only while held; the pause button pauses until tapped again.
   const [isHolding, setIsHolding] = useState(false);
+  // Slide content holds the story while a detail is open (`StoryHoldContext`).
+  const [isHeldBySlide, setIsHeldBySlide] = useState(false);
   const progress = useSharedValue(0);
   const slide = slides[index];
   const theme = slide?.theme ?? "night";
   const palette = STORY_PALETTE[theme];
-  const isPaused = isPausedByUser || isHolding || isPausedFromParent;
+  const isPaused =
+    isPausedByUser || isHolding || isHeldBySlide || isPausedFromParent;
   // Holding hides bars, buttons, and feedback, like Instagram stories.
-  const isChromeHidden = isHolding || isCapturing;
+  const isChromeHidden = isHolding;
   const chrome = useAnimatedStyle(() => ({
     opacity: withTiming(isChromeHidden ? 0 : 1, { duration: CHROME_FADE_MS }),
   }));
-  const isWaiting = slide?.isWaiting ?? false;
+  const isWaiting = (slide?.isWaiting || slide?.isHeld) ?? false;
 
   // The clock lives on the JS thread. Reading `progress` right after setting
   // it returns the old value, which made slides run short or stick.
@@ -349,13 +328,16 @@ export const StoryPlayer = ({
     const target = Math.max(0, next);
     cancelAnimation(progress);
     clock.current = { played: 0, startedAt: null, run: clock.current.run + 1 };
-    progress.set(0);
+    // A held slide shows a full bar: nothing more runs out.
+    progress.set(slides[target]?.isHeld ? 1 : 0);
     setIndex(target);
     setIsPausedByUser(false);
+    setIsHeldBySlide(false);
     if (target !== index) {
       onSlideShown(target);
     }
-    if (!isHolding && !isPausedFromParent && !slides[target]?.isWaiting) {
+    const isTimed = !slides[target]?.isWaiting && !slides[target]?.isHeld;
+    if (!isHolding && !isPausedFromParent && isTimed) {
       play(target);
     }
   };
@@ -392,19 +374,13 @@ export const StoryPlayer = ({
   return (
     <View style={{ flex: 1, backgroundColor: palette.background }}>
       <View
-        ref={slideRef}
-        collapsable={false}
         style={[
           StyleSheet.absoluteFill,
           { backgroundColor: palette.background },
         ]}
       >
         <SteppedSky step={index} boost={skyBoost} />
-        {/* Never in a shared image. */}
-        <CloudyLayer
-          boost={skyBoost}
-          isShown={!isReducedMotion && !isCapturing}
-        >
+        <CloudyLayer boost={skyBoost} isShown={!isReducedMotion}>
           <Pressable
             accessible={false}
             style={StyleSheet.absoluteFill}
@@ -427,15 +403,14 @@ export const StoryPlayer = ({
               }}
               testID={`recap-story-slide-${slide.key}`}
             >
-              <StoryCaptureContext value={isCapturing}>
-                <StoryPressContext value={{ onPress, setIsHolding, next }}>
+              <StoryPressContext value={{ onPress, setIsHolding, next }}>
+                <StoryHoldContext value={setIsHeldBySlide}>
                   {slide.content}
-                </StoryPressContext>
-              </StoryCaptureContext>
+                </StoryHoldContext>
+              </StoryPressContext>
             </Animated.View>
           </Pressable>
         </CloudyLayer>
-        {isCapturing && <ScreenBrand theme={theme} />}
       </View>
 
       <Animated.View

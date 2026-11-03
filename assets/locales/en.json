@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Week Recap",
   "recaps_story_best_day_ask": "Ready to see your best day?",
   "recaps_story_best_day_show": "Show your best day",
-  "recaps_story_coming_left": {
-    "one": "1 to go",
-    "other": "{{count}} to go"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 missed",
-    "other": "{{count}} missed"
+  "recaps_story_coming_text": {
+    "one": "1 more pixel is waiting for you. One day at a time.",
+    "other": "{{count}} more pixels are waiting for you. One day at a time."
   },
   "recaps_story_coming_title": {
     "one": "1 Day of %{year} Still Ahead",
     "other": "{{count}} Days of %{year} Still Ahead"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel filled. That is a real achievement.",
+    "other": "{{count}} pixels filled. That is a real achievement."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Once you paused to notice how you feel. That counts.",
+    "other": "{{count}} times you paused to notice how you feel. That counts."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 day you made time for yourself. Be proud of that.",
+    "other": "{{count}} days you made time for yourself. Be proud of that."
+  },
+  "recaps_story_cover_note_full": "Every day of %{month} has its pixel. That is a real achievement.",
+  "recaps_story_cover_note_full_week": "Every day this week has its pixel. That is a real achievement.",
   "recaps_story_cover_pixels_title": "Pixels in %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels This Week",
   "recaps_story_cover_title_week": "Take a Moment.\nThis Is Your Week.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} days"
   },
   "recaps_story_hard_title": "%{tag} Went with Your Harder Days",
-  "recaps_story_lifted_text": {
-    "one": "Compared with days without the tag. 1 check-in.",
-    "other": "Compared with days without the tag. {{count}} check-ins."
-  },
+  "recaps_story_lifted_note": "Compared with days without the tag.",
   "recaps_story_lifted_title": "%{tag} Days Felt Lightest",
   "recaps_story_missed_add": {
     "one": "Add to 1 Evening",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "New in Your Circle",
   "recaps_story_next": "Next slide",
+  "recaps_story_orbit_back": "Back to the orbit",
   "recaps_story_orbit_title": "Who Was in Your Orbit",
   "recaps_story_pause": "Pause",
   "recaps_story_people_days": {
     "one": "1 day connected",
     "other": "{{count}} days connected"
   },
+  "recaps_story_places_text": "%{away} away, %{home} at home in %{city}.",
+  "recaps_story_places_text_away": "%{away} away from home.",
+  "recaps_story_places_title": "Places in %{month}",
   "recaps_story_play": "Play",
   "recaps_story_previous": "Previous slide",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "People",
   "recaps_story_rough_tags": "Tags",
   "recaps_story_share": "Share",
+  "recaps_story_share_heading_best": "My Best Day",
+  "recaps_story_share_heading_coming": "My Year So Far",
+  "recaps_story_share_heading_cover": "My Pixels",
+  "recaps_story_share_heading_hard": "What Weighed on Me",
+  "recaps_story_share_heading_lifted": "What Lifted Me",
+  "recaps_story_share_heading_new": "New in My Circle",
+  "recaps_story_share_heading_orbit": "My Orbit",
   "recaps_story_share_shuffle": "Shuffle photos",
   "recaps_story_share_title": "My %{month}",
   "recaps_story_share_title_week": "My Week",

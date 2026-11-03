@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Resumo da semana",
   "recaps_story_best_day_ask": "Pronto para ver o seu melhor dia?",
   "recaps_story_best_day_show": "Mostrar o seu melhor dia",
-  "recaps_story_coming_left": {
-    "one": "Falta 1",
-    "other": "Faltam {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 sem registro",
-    "other": "{{count}} sem registro"
+  "recaps_story_coming_text": {
+    "one": "Mais 1 pixel espera por você. Um dia de cada vez.",
+    "other": "Mais {{count}} pixels esperam por você. Um dia de cada vez."
   },
   "recaps_story_coming_title": {
     "one": "Ainda falta 1 dia de %{year}",
     "other": "Ainda faltam {{count}} dias de %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel preenchido. É uma conquista de verdade.",
+    "other": "{{count}} pixels preenchidos. É uma conquista de verdade."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Uma vez você parou para notar como se sente. Isso conta.",
+    "other": "{{count}} vezes você parou para notar como se sente. Isso conta."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 dia você reservou um tempo para si. Tenha orgulho disso.",
+    "other": "{{count}} dias você reservou um tempo para si. Tenha orgulho disso."
+  },
+  "recaps_story_cover_note_full": "Cada dia de %{month} tem seu pixel. É uma conquista de verdade.",
+  "recaps_story_cover_note_full_week": "Cada dia desta semana tem seu pixel. É uma conquista de verdade.",
   "recaps_story_cover_pixels_title": "pixels em %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels desta semana",
   "recaps_story_cover_title_week": "Reserve um momento.\nEsta foi a sua semana.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} dias"
   },
   "recaps_story_hard_title": "%{tag} acompanhou seus dias difíceis",
-  "recaps_story_lifted_text": {
-    "one": "Comparado com dias sem a tag. 1 registro.",
-    "other": "Comparado com dias sem a tag. {{count}} registros."
-  },
+  "recaps_story_lifted_note": "Comparado com dias sem a tag.",
   "recaps_story_lifted_title": "Dias com %{tag} foram os mais leves",
   "recaps_story_missed_add": {
     "one": "Adicionar a 1 noite",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Novos no seu círculo",
   "recaps_story_next": "Próximo slide",
+  "recaps_story_orbit_back": "Voltar à órbita",
   "recaps_story_orbit_title": "Quem esteve na sua órbita",
   "recaps_story_pause": "Pausar",
   "recaps_story_people_days": {
     "one": "1 dia conectado",
     "other": "{{count}} dias conectado"
   },
+  "recaps_story_places_text": "%{away} fora, %{home} em casa em %{city}.",
+  "recaps_story_places_text_away": "%{away} fora de casa.",
+  "recaps_story_places_title": "lugares em %{month}",
   "recaps_story_play": "Reproduzir",
   "recaps_story_previous": "Slide anterior",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Pessoas",
   "recaps_story_rough_tags": "Tags",
   "recaps_story_share": "Compartilhar",
+  "recaps_story_share_heading_best": "Meu melhor dia",
+  "recaps_story_share_heading_coming": "Meu ano até agora",
+  "recaps_story_share_heading_cover": "Meus pixels",
+  "recaps_story_share_heading_hard": "O que me pesou",
+  "recaps_story_share_heading_lifted": "O que me fez bem",
+  "recaps_story_share_heading_new": "Novos no meu círculo",
+  "recaps_story_share_heading_orbit": "Minha órbita",
   "recaps_story_share_shuffle": "Embaralhar fotos",
   "recaps_story_share_title": "Meu %{month}",
   "recaps_story_share_title_week": "Minha semana",

@@ -90,7 +90,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 | `photos:photo_removed` | Remove button on a tile or in the viewer | `source`, `count`, `mode` |
 | `photos:limit_reached` | Unchecked photo or More… tapped at 6 attached | `mode` |
 | `photos:import_failed` | Import error | `source`, `status` |
-| `photos:viewer_closed` | Viewer closes | `context` (`logger`, `day`), `photos_count`, `viewed_count` |
+| `photos:viewer_closed` | Viewer closes | `context` (`logger`, `day`, `recap`), `photos_count`, `viewed_count` |
 | `logger:log_saved` | Save | `photos_count`, `photos_day_count`, `photos_library_count` |
 | `settings:step_toggled` | Check-in toggle | `step: "photos"` |
 | `logger:step_disabled` | "I Don’t Add Photos" | `step: "photos"` |

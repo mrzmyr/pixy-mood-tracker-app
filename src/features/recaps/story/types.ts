@@ -96,12 +96,37 @@ export interface BestDaySlide {
   date: DateKey;
 }
 
-/** Days still to come in the year, and days without a check-in so far. */
+/** Trip of a places slide: city, first and last day, check-in days. */
+export interface PlacesTrip {
+  city: string;
+  start: DateKey;
+  end: DateKey;
+  /** Check-in days of the trip, oldest first: the pixels that stay bright. */
+  dates: DateKey[];
+}
+
+/**
+ * The cover's pixel calendar again: home days fade, days away stay bright.
+ * Rows below name the trips and home. Home stays the anchor: the text counts
+ * days away and at home, never one against the other.
+ */
+export interface PlacesSlide {
+  type: "places";
+  /** Home city name. */
+  home: string;
+  /** Oldest first. */
+  trips: PlacesTrip[];
+  /** Check-in days on a trip. */
+  awayDays: number;
+  /** Check-in days with a place in the home city. */
+  homeDays: number;
+}
+
+/** Days still to come in the year. */
 export interface ComingUpSlide {
   type: "coming-up";
   year: number;
   left: number;
-  missed: number;
 }
 
 /**
@@ -213,6 +238,7 @@ export type StorySlide =
   | IntroSlide
   | CoverSlide
   | BestDaySlide
+  | PlacesSlide
   | PositiveTagsSlide
   | NegativeTagsSlide
   | PeopleQuizSlide

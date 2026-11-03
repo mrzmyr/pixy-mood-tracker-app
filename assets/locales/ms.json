@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Imbasan Mingguan",
   "recaps_story_best_day_ask": "Sedia untuk melihat hari terbaik anda?",
   "recaps_story_best_day_show": "Tunjukkan hari terbaik anda",
-  "recaps_story_coming_left": {
-    "one": "1 lagi",
-    "other": "{{count}} lagi"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 terlepas",
-    "other": "{{count}} terlepas"
+  "recaps_story_coming_text": {
+    "one": "1 lagi piksel menanti anda. Satu hari demi satu hari.",
+    "other": "{{count}} lagi piksel menanti anda. Satu hari demi satu hari."
   },
   "recaps_story_coming_title": {
     "one": "Masih 1 Hari Lagi dalam %{year}",
     "other": "Masih {{count}} Hari Lagi dalam %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 piksel diisi. Itu pencapaian sebenar.",
+    "other": "{{count}} piksel diisi. Itu pencapaian sebenar."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Sekali anda berhenti untuk menyedari perasaan anda. Itu bermakna.",
+    "other": "{{count}} kali anda berhenti untuk menyedari perasaan anda. Itu bermakna."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 hari anda meluangkan masa untuk diri sendiri. Banggalah.",
+    "other": "{{count}} hari anda meluangkan masa untuk diri sendiri. Banggalah."
+  },
+  "recaps_story_cover_note_full": "Setiap hari pada %{month} ada pikselnya. Itu pencapaian sebenar.",
+  "recaps_story_cover_note_full_week": "Setiap hari minggu ini ada pikselnya. Itu pencapaian sebenar.",
   "recaps_story_cover_pixels_title": "piksel pada %{month}",
   "recaps_story_cover_pixels_title_week": "Piksel Minggu Ini",
   "recaps_story_cover_title_week": "Luangkan sedikit masa.\nInilah minggu anda.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} hari"
   },
   "recaps_story_hard_title": "%{tag} mengiringi hari-hari sukar anda",
-  "recaps_story_lifted_text": {
-    "one": "Berbanding hari tanpa tag ini. 1 rekod.",
-    "other": "Berbanding hari tanpa tag ini. {{count}} rekod."
-  },
+  "recaps_story_lifted_note": "Berbanding hari tanpa tag ini.",
   "recaps_story_lifted_title": "Hari dengan %{tag} terasa paling ringan",
   "recaps_story_missed_add": {
     "one": "Tambah ke 1 Malam",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Baharu dalam lingkungan anda",
   "recaps_story_next": "Slaid seterusnya",
+  "recaps_story_orbit_back": "Kembali ke orbit",
   "recaps_story_orbit_title": "Siapa dalam orbit anda",
   "recaps_story_pause": "Jeda",
   "recaps_story_people_days": {
     "one": "1 hari berhubung",
     "other": "{{count}} hari berhubung"
   },
+  "recaps_story_places_text": "%{away} di luar, %{home} di rumah di %{city}.",
+  "recaps_story_places_text_away": "%{away} jauh dari rumah.",
+  "recaps_story_places_title": "tempat pada %{month}",
   "recaps_story_play": "Main",
   "recaps_story_previous": "Slaid sebelumnya",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Orang",
   "recaps_story_rough_tags": "Tag",
   "recaps_story_share": "Kongsi",
+  "recaps_story_share_heading_best": "Hari terbaik saya",
+  "recaps_story_share_heading_coming": "Tahun saya setakat ini",
+  "recaps_story_share_heading_cover": "Piksel saya",
+  "recaps_story_share_heading_hard": "Yang membebankan saya",
+  "recaps_story_share_heading_lifted": "Yang menceriakan saya",
+  "recaps_story_share_heading_new": "Baharu dalam bulatan saya",
+  "recaps_story_share_heading_orbit": "Orbit saya",
   "recaps_story_share_shuffle": "Kocok foto",
   "recaps_story_share_title": "%{month} saya",
   "recaps_story_share_title_week": "Minggu Saya",

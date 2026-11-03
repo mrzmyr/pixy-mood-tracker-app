@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Weekterugblik",
   "recaps_story_best_day_ask": "Klaar om je beste dag te zien?",
   "recaps_story_best_day_show": "Toon je beste dag",
-  "recaps_story_coming_left": {
-    "one": "Nog 1",
-    "other": "Nog {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 gemist",
-    "other": "{{count}} gemist"
+  "recaps_story_coming_text": {
+    "one": "Er wacht nog 1 pixel op je. Dag voor dag.",
+    "other": "Er wachten nog {{count}} pixels op je. Dag voor dag."
   },
   "recaps_story_coming_title": {
     "one": "Nog 1 dag van %{year} te gaan",
     "other": "Nog {{count}} dagen van %{year} te gaan"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel gevuld. Dat is echt een prestatie.",
+    "other": "{{count}} pixels gevuld. Dat is echt een prestatie."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Eén keer stond je stil bij hoe je je voelt. Dat telt.",
+    "other": "{{count}} keer stond je stil bij hoe je je voelt. Dat telt."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "Op 1 dag maakte je tijd voor jezelf. Wees daar trots op.",
+    "other": "Op {{count}} dagen maakte je tijd voor jezelf. Wees daar trots op."
+  },
+  "recaps_story_cover_note_full": "Elke dag van %{month} heeft zijn pixel. Dat is echt een prestatie.",
+  "recaps_story_cover_note_full_week": "Elke dag van deze week heeft zijn pixel. Dat is echt een prestatie.",
   "recaps_story_cover_pixels_title": "pixels in %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels deze week",
   "recaps_story_cover_title_week": "Neem even de tijd.\nDit was je week.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} dagen"
   },
   "recaps_story_hard_title": "%{tag} hoorde bij je zwaardere dagen",
-  "recaps_story_lifted_text": {
-    "one": "Vergeleken met dagen zonder de tag. 1 check-in.",
-    "other": "Vergeleken met dagen zonder de tag. {{count}} check-ins."
-  },
+  "recaps_story_lifted_note": "Vergeleken met dagen zonder de tag.",
   "recaps_story_lifted_title": "Dagen met %{tag} voelden het lichtst",
   "recaps_story_missed_add": {
     "one": "Toevoegen aan 1 avond",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Nieuw in je kring",
   "recaps_story_next": "Volgende dia",
+  "recaps_story_orbit_back": "Terug naar de baan",
   "recaps_story_orbit_title": "Wie er in je baan was",
   "recaps_story_pause": "Pauze",
   "recaps_story_people_days": {
     "one": "1 dag contact",
     "other": "{{count}} dagen contact"
   },
+  "recaps_story_places_text": "%{away} weg, %{home} thuis in %{city}.",
+  "recaps_story_places_text_away": "%{away} van huis.",
+  "recaps_story_places_title": "plekken in %{month}",
   "recaps_story_play": "Afspelen",
   "recaps_story_previous": "Vorige dia",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Mensen",
   "recaps_story_rough_tags": "Tags",
   "recaps_story_share": "Delen",
+  "recaps_story_share_heading_best": "Mijn beste dag",
+  "recaps_story_share_heading_coming": "Mijn jaar tot nu toe",
+  "recaps_story_share_heading_cover": "Mijn pixels",
+  "recaps_story_share_heading_hard": "Wat zwaar op me drukte",
+  "recaps_story_share_heading_lifted": "Wat me goeddeed",
+  "recaps_story_share_heading_new": "Nieuw in mijn kring",
+  "recaps_story_share_heading_orbit": "Mijn baan",
   "recaps_story_share_shuffle": "Foto's husselen",
   "recaps_story_share_title": "Mijn %{month}",
   "recaps_story_share_title_week": "Mijn week",

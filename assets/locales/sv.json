@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Veckans tillbakablick",
   "recaps_story_best_day_ask": "Redo att se din bästa dag?",
   "recaps_story_best_day_show": "Visa din bästa dag",
-  "recaps_story_coming_left": {
-    "one": "1 kvar",
-    "other": "{{count}} kvar"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 missad",
-    "other": "{{count}} missade"
+  "recaps_story_coming_text": {
+    "one": "1 pixel till väntar på dig. En dag i taget.",
+    "other": "{{count}} pixlar till väntar på dig. En dag i taget."
   },
   "recaps_story_coming_title": {
     "one": "1 dag kvar av %{year}",
     "other": "{{count}} dagar kvar av %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel ifylld. Det är en riktig bedrift.",
+    "other": "{{count}} pixlar ifyllda. Det är en riktig bedrift."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "En gång stannade du upp och kände efter hur du mår. Det räknas.",
+    "other": "{{count}} gånger stannade du upp och kände efter hur du mår. Det räknas."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 dag tog du dig tid för dig själv. Var stolt över det.",
+    "other": "{{count}} dagar tog du dig tid för dig själv. Var stolt över det."
+  },
+  "recaps_story_cover_note_full": "Varje dag i %{month} har sin pixel. Det är en riktig bedrift.",
+  "recaps_story_cover_note_full_week": "Varje dag den här veckan har sin pixel. Det är en riktig bedrift.",
   "recaps_story_cover_pixels_title": "pixlar i %{month}",
   "recaps_story_cover_pixels_title_week": "Pixlar den här veckan",
   "recaps_story_cover_title_week": "Ta en stund.\nDet här är din vecka.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} dagar"
   },
   "recaps_story_hard_title": "%{tag} hörde ihop med dina tyngre dagar",
-  "recaps_story_lifted_text": {
-    "one": "Jämfört med dagar utan taggen. 1 incheckning.",
-    "other": "Jämfört med dagar utan taggen. {{count}} incheckningar."
-  },
+  "recaps_story_lifted_note": "Jämfört med dagar utan taggen.",
   "recaps_story_lifted_title": "Dagar med %{tag} kändes lättast",
   "recaps_story_missed_add": {
     "one": "Lägg till på 1 kväll",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Nya i din krets",
   "recaps_story_next": "Nästa bild",
+  "recaps_story_orbit_back": "Tillbaka till omloppsbanan",
   "recaps_story_orbit_title": "Vem som fanns i din omloppsbana",
   "recaps_story_pause": "Pausa",
   "recaps_story_people_days": {
     "one": "1 dag i kontakt",
     "other": "{{count}} dagar i kontakt"
   },
+  "recaps_story_places_text": "%{away} borta, %{home} hemma i %{city}.",
+  "recaps_story_places_text_away": "%{away} hemifrån.",
+  "recaps_story_places_title": "platser i %{month}",
   "recaps_story_play": "Spela upp",
   "recaps_story_previous": "Föregående bild",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Personer",
   "recaps_story_rough_tags": "Taggar",
   "recaps_story_share": "Dela",
+  "recaps_story_share_heading_best": "Min bästa dag",
+  "recaps_story_share_heading_coming": "Mitt år hittills",
+  "recaps_story_share_heading_cover": "Mina pixlar",
+  "recaps_story_share_heading_hard": "Det som tyngde mig",
+  "recaps_story_share_heading_lifted": "Det som lyfte mig",
+  "recaps_story_share_heading_new": "Nya i min krets",
+  "recaps_story_share_heading_orbit": "Min omloppsbana",
   "recaps_story_share_shuffle": "Blanda foton",
   "recaps_story_share_title": "Min %{month}",
   "recaps_story_share_title_week": "Min vecka",

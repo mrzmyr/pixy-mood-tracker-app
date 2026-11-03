@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "每周回顾",
   "recaps_story_best_day_ask": "准备好看看你最棒的一天了吗？",
   "recaps_story_best_day_show": "显示你最棒的一天",
-  "recaps_story_coming_left": {
-    "one": "还剩 1 天",
-    "other": "还剩 {{count}} 天"
-  },
-  "recaps_story_coming_missed": {
-    "one": "错过 1 天",
-    "other": "错过 {{count}} 天"
+  "recaps_story_coming_text": {
+    "one": "还有 1 个像素在等你。一天一天来。",
+    "other": "还有 {{count}} 个像素在等你。一天一天来。"
   },
   "recaps_story_coming_title": {
     "one": "%{year} 年还剩 1 天",
     "other": "%{year} 年还剩 {{count}} 天"
   },
+  "recaps_story_cover_note_1": {
+    "one": "填满了 1 个像素。这是真正的成就。",
+    "other": "填满了 {{count}} 个像素。这是真正的成就。"
+  },
+  "recaps_story_cover_note_2": {
+    "one": "你停下来留意自己的感受 1 次。这很重要。",
+    "other": "你停下来留意自己的感受 {{count}} 次。这很重要。"
+  },
+  "recaps_story_cover_note_3": {
+    "one": "有 1 天你为自己留出了时间。为此骄傲吧。",
+    "other": "有 {{count}} 天你为自己留出了时间。为此骄傲吧。"
+  },
+  "recaps_story_cover_note_full": "%{month}的每一天都有它的像素。这是真正的成就。",
+  "recaps_story_cover_note_full_week": "本周的每一天都有它的像素。这是真正的成就。",
   "recaps_story_cover_pixels_title": "%{month}的像素",
   "recaps_story_cover_pixels_title_week": "本周的像素",
   "recaps_story_cover_title_week": "停下来片刻。\n这是你的一周。",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} 天"
   },
   "recaps_story_hard_title": "%{tag}常伴随你比较难熬的日子",
-  "recaps_story_lifted_text": {
-    "one": "与没有该标签的日子相比。1 次记录。",
-    "other": "与没有该标签的日子相比。{{count}} 次记录。"
-  },
+  "recaps_story_lifted_note": "与没有该标签的日子相比。",
   "recaps_story_lifted_title": "有%{tag}的日子感觉最轻松",
   "recaps_story_missed_add": {
     "one": "添加到 1 个晚上",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "你圈子里的新面孔",
   "recaps_story_next": "下一页",
+  "recaps_story_orbit_back": "返回轨道",
   "recaps_story_orbit_title": "谁在你的轨道上",
   "recaps_story_pause": "暂停",
   "recaps_story_people_days": {
     "one": "联系了 1 天",
     "other": "联系了 {{count}} 天"
   },
+  "recaps_story_places_text": "在外 %{away}，在%{city}家中 %{home}。",
+  "recaps_story_places_text_away": "离家 %{away}。",
+  "recaps_story_places_title": "%{month}的地点",
   "recaps_story_play": "播放",
   "recaps_story_previous": "上一页",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "人物",
   "recaps_story_rough_tags": "标签",
   "recaps_story_share": "分享",
+  "recaps_story_share_heading_best": "我最好的一天",
+  "recaps_story_share_heading_coming": "我的这一年到目前为止",
+  "recaps_story_share_heading_cover": "我的像素",
+  "recaps_story_share_heading_hard": "让我沉重的",
+  "recaps_story_share_heading_lifted": "让我振作的",
+  "recaps_story_share_heading_new": "我圈子里的新面孔",
+  "recaps_story_share_heading_orbit": "我的轨道",
   "recaps_story_share_shuffle": "随机换照片",
   "recaps_story_share_title": "我的%{month}",
   "recaps_story_share_title_week": "我的一周",

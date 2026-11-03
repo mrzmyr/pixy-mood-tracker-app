@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Ανασκόπηση εβδομάδας",
   "recaps_story_best_day_ask": "Έτοιμος να δεις την καλύτερη μέρα σου;",
   "recaps_story_best_day_show": "Δείξε την καλύτερη μέρα σου",
-  "recaps_story_coming_left": {
-    "one": "Μένει 1",
-    "other": "Μένουν {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 χαμένη",
-    "other": "{{count}} χαμένες"
+  "recaps_story_coming_text": {
+    "one": "Σε περιμένει ακόμα 1 pixel. Μία μέρα τη φορά.",
+    "other": "Σε περιμένουν ακόμα {{count}} pixels. Μία μέρα τη φορά."
   },
   "recaps_story_coming_title": {
     "one": "Μένει ακόμα 1 μέρα του %{year}",
     "other": "Μένουν ακόμα {{count}} μέρες του %{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel συμπληρώθηκε. Είναι πραγματικό επίτευγμα.",
+    "other": "{{count}} pixels συμπληρώθηκαν. Είναι πραγματικό επίτευγμα."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Μία φορά σταμάτησες να νιώσεις πώς είσαι. Αυτό μετράει.",
+    "other": "{{count}} φορές σταμάτησες να νιώσεις πώς είσαι. Αυτό μετράει."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 μέρα έκανες χρόνο για τον εαυτό σου. Να είσαι περήφανος.",
+    "other": "{{count}} μέρες έκανες χρόνο για τον εαυτό σου. Να είσαι περήφανος."
+  },
+  "recaps_story_cover_note_full": "Κάθε μέρα (%{month}) έχει το pixel της. Είναι πραγματικό επίτευγμα.",
+  "recaps_story_cover_note_full_week": "Κάθε μέρα αυτής της εβδομάδας έχει το pixel της. Είναι πραγματικό επίτευγμα.",
   "recaps_story_cover_pixels_title": "pixels · %{month}",
   "recaps_story_cover_pixels_title_week": "Pixels αυτής της εβδομάδας",
   "recaps_story_cover_title_week": "Πάρε μια στιγμή.\nΑυτή ήταν η εβδομάδα σου.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} μέρες"
   },
   "recaps_story_hard_title": "%{tag}: συχνά στις πιο δύσκολες μέρες σου",
-  "recaps_story_lifted_text": {
-    "one": "Σε σύγκριση με μέρες χωρίς την ετικέτα. 1 καταγραφή.",
-    "other": "Σε σύγκριση με μέρες χωρίς την ετικέτα. {{count}} καταγραφές."
-  },
+  "recaps_story_lifted_note": "Σε σύγκριση με μέρες χωρίς την ετικέτα.",
   "recaps_story_lifted_title": "Οι μέρες με %{tag} ήταν οι πιο ανάλαφρες",
   "recaps_story_missed_add": {
     "one": "Προσθήκη σε 1 βράδυ",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Νέοι στον κύκλο σου",
   "recaps_story_next": "Επόμενη διαφάνεια",
+  "recaps_story_orbit_back": "Πίσω στην τροχιά",
   "recaps_story_orbit_title": "Ποιοι ήταν στην τροχιά σου",
   "recaps_story_pause": "Παύση",
   "recaps_story_people_days": {
     "one": "1 μέρα σε επαφή",
     "other": "{{count}} μέρες σε επαφή"
   },
+  "recaps_story_places_text": "%{away} μακριά, %{home} στο σπίτι, στην πόλη %{city}.",
+  "recaps_story_places_text_away": "%{away} μακριά από το σπίτι.",
+  "recaps_story_places_title": "μέρη · %{month}",
   "recaps_story_play": "Αναπαραγωγή",
   "recaps_story_previous": "Προηγούμενη διαφάνεια",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Άτομα",
   "recaps_story_rough_tags": "Ετικέτες",
   "recaps_story_share": "Κοινοποίηση",
+  "recaps_story_share_heading_best": "Η καλύτερη μέρα μου",
+  "recaps_story_share_heading_coming": "Η χρονιά μου ως τώρα",
+  "recaps_story_share_heading_cover": "Τα pixels μου",
+  "recaps_story_share_heading_hard": "Τι με βάραινε",
+  "recaps_story_share_heading_lifted": "Τι με ανέβασε",
+  "recaps_story_share_heading_new": "Νέοι στον κύκλο μου",
+  "recaps_story_share_heading_orbit": "Η τροχιά μου",
   "recaps_story_share_shuffle": "Ανακάτεμα φωτογραφιών",
   "recaps_story_share_title": "Ο %{month} μου",
   "recaps_story_share_title_week": "Η εβδομάδα μου",

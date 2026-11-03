@@ -1,6 +1,7 @@
-import type { DateKey, Period } from "../types";
 import { addDays, daysBetween } from "../days";
+import type { DateKey, Period } from "../types";
 import type {
+  PlacesTrip,
   RoughNight,
   SleepSlide,
   StoryPhoto,
@@ -148,6 +149,24 @@ const roughCase = (
   };
 };
 
+/** Trip from day `from` (0 = period start) for `days` days. */
+const trip = (
+  kit: CaseKit,
+  city: string,
+  from: number,
+  days: number
+): PlacesTrip => {
+  const dates = Array.from({ length: days }, (_, index) =>
+    addDays(kit.period.start, from + index)
+  );
+  return {
+    city,
+    start: dates[0] ?? kit.period.start,
+    end: dates.at(-1) ?? kit.period.start,
+    dates,
+  };
+};
+
 /**
  * Every slide type with its states. Typed by slide type, so a new type
  * without a case fails the type check.
@@ -171,6 +190,52 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
       name: "Week",
       period: "week",
       build: (kit) => ({ type: "cover", checkIns: 7, photos: kit.photos }),
+    },
+  ],
+  places: [
+    {
+      name: "3 trips",
+      period: "month",
+      build: (kit) => ({
+        type: "places",
+        home: "Hamburg",
+        awayDays: 6,
+        homeDays: 19,
+        trips: [
+          trip(kit, "Copenhagen", 2, 3),
+          trip(kit, "Berlin", 16, 2),
+          trip(kit, "Lübeck", 24, 1),
+        ],
+      }),
+    },
+    {
+      name: "On the move, 6 trips",
+      period: "month",
+      build: (kit) => ({
+        type: "places",
+        home: "Hamburg",
+        awayDays: 19,
+        homeDays: 6,
+        trips: [
+          trip(kit, "Amsterdam", 1, 3),
+          trip(kit, "Brussels", 5, 2),
+          trip(kit, "Paris", 8, 4),
+          trip(kit, "Lyon", 13, 3),
+          trip(kit, "Munich", 18, 3),
+          trip(kit, "Garmisch-Partenkirchen", 22, 4),
+        ],
+      }),
+    },
+    {
+      name: "1 day, never home",
+      period: "month",
+      build: (kit) => ({
+        type: "places",
+        home: "Hamburg",
+        awayDays: 1,
+        homeDays: 0,
+        trips: [trip(kit, "Lübeck", 24, 1)],
+      }),
     },
   ],
   "best-day": [
@@ -320,14 +385,14 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   ],
   "coming-up": [
     {
-      name: "Some missed",
+      name: "61 days left",
       period: "month",
-      build: () => ({ type: "coming-up", year: 2026, left: 61, missed: 23 }),
+      build: () => ({ type: "coming-up", year: 2026, left: 61 }),
     },
     {
-      name: "None missed",
+      name: "1 day left",
       period: "month",
-      build: () => ({ type: "coming-up", year: 2026, left: 1, missed: 0 }),
+      build: () => ({ type: "coming-up", year: 2026, left: 1 }),
     },
   ],
   share: [

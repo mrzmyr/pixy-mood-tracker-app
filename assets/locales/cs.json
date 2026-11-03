@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Ohlédnutí za týdnem",
   "recaps_story_best_day_ask": "Chceš vidět svůj nejlepší den?",
   "recaps_story_best_day_show": "Zobrazit nejlepší den",
-  "recaps_story_coming_left": {
-    "one": "Zbývá 1",
-    "other": "Zbývá: {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 vynechaný",
-    "other": "Vynecháno: {{count}}"
+  "recaps_story_coming_text": {
+    "one": "Čeká na tebe ještě 1 pixel. Den po dni.",
+    "other": "Pixely, které na tebe ještě čekají: {{count}}. Den po dni."
   },
   "recaps_story_coming_title": {
     "one": "Z roku %{year} zbývá ještě 1 den",
     "other": "Zbývající dny roku %{year}: {{count}}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 vyplněný pixel. To je skutečný úspěch.",
+    "other": "Vyplněné pixely: {{count}}. To je skutečný úspěch."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "Jednou ses zastavil a všiml si, jak se cítíš. To se počítá.",
+    "other": "Kolikrát ses zastavil a všiml si, jak se cítíš: {{count}}. To se počítá."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 den sis udělal čas sám pro sebe. Buď na to hrdý.",
+    "other": "Dny, kdy sis udělal čas sám pro sebe: {{count}}. Buď na to hrdý."
+  },
+  "recaps_story_cover_note_full": "Každý den (%{month}) má svůj pixel. To je skutečný úspěch.",
+  "recaps_story_cover_note_full_week": "Každý den tohoto týdne má svůj pixel. To je skutečný úspěch.",
   "recaps_story_cover_pixels_title": "%{month} v pixelech",
   "recaps_story_cover_pixels_title_week": "Pixely tento týden",
   "recaps_story_cover_title_week": "Zastav se na chvíli.\nTohle byl tvůj týden.",
@@ -1058,10 +1068,7 @@
     "other": "Dní: {{count}}"
   },
   "recaps_story_hard_title": "%{tag}: často v tvých těžších dnech",
-  "recaps_story_lifted_text": {
-    "one": "Ve srovnání s dny bez štítku. 1 záznam.",
-    "other": "Ve srovnání s dny bez štítku. Záznamů: {{count}}."
-  },
+  "recaps_story_lifted_note": "Ve srovnání s dny bez štítku.",
   "recaps_story_lifted_title": "Dny se štítkem %{tag} byly nejlehčí",
   "recaps_story_missed_add": {
     "one": "Přidat k 1 večeru",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Nově ve tvém okruhu",
   "recaps_story_next": "Další snímek",
+  "recaps_story_orbit_back": "Zpět na oběžnou dráhu",
   "recaps_story_orbit_title": "Kdo byl na tvé oběžné dráze",
   "recaps_story_pause": "Pozastavit",
   "recaps_story_people_days": {
     "one": "1 den v kontaktu",
     "other": "Dní v kontaktu: {{count}}"
   },
+  "recaps_story_places_text": "%{away} pryč, %{home} doma v %{city}.",
+  "recaps_story_places_text_away": "%{away} pryč z domova.",
+  "recaps_story_places_title": "%{month}: místa",
   "recaps_story_play": "Přehrát",
   "recaps_story_previous": "Předchozí snímek",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Lidé",
   "recaps_story_rough_tags": "Tagy",
   "recaps_story_share": "Sdílet",
+  "recaps_story_share_heading_best": "Můj nejlepší den",
+  "recaps_story_share_heading_coming": "Můj rok zatím",
+  "recaps_story_share_heading_cover": "Moje pixely",
+  "recaps_story_share_heading_hard": "Co mě tížilo",
+  "recaps_story_share_heading_lifted": "Co mi pomohlo",
+  "recaps_story_share_heading_new": "Nově v mém okruhu",
+  "recaps_story_share_heading_orbit": "Moje oběžná dráha",
   "recaps_story_share_shuffle": "Zamíchat fotky",
   "recaps_story_share_title": "Můj %{month}",
   "recaps_story_share_title_week": "Můj týden",

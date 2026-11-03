@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import { use, useEffect, useState } from "react";
+import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import Animated, {
   Easing,
   FadeIn,
@@ -12,10 +12,11 @@ import Animated, {
 } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
-import type { Person } from "@/features/people";
 import { ProfileAvatar, useProfile } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
+import { StoryHoldContext } from "./hold-context";
+import { OrbitPersonMonth } from "./orbit-person";
 import { SlideCard, SlideHeader, StoryText } from "./parts";
 import {
   getStoryTheme,
@@ -25,20 +26,14 @@ import {
 } from "./theme";
 import type { StoryTheme } from "./theme";
 import type { OrbitSlide } from "./types";
+import { firstName, ORBIT_SIZE, placePlanets } from "./orbit-layout";
+import type { Planet } from "./orbit-layout";
 import type { SlideContext } from "./slides";
 
-/** Sizes as shares of the canvas width. */
-const SIZE = {
-  self: 0.22,
-  /** Planet of the person with the fewest days. */
-  planetMin: 0.1,
-  /** Planet of the person with the most days. */
-  planetMax: 0.17,
-  /** Orbit radius of the person with the most days. */
-  nearest: 0.31,
-  /** Orbit radius of the person with the fewest days. */
-  farthest: 0.44,
-};
+/** Space between avatar and name, in points. */
+const NAME_GAP = 4;
+/** Extra width a name may use beyond its planet, in points. */
+const NAME_OVERHANG = 24;
 
 /** One full turn of the system, in milliseconds: about 40° per slide. */
 const TURN_MS = 60_000;
@@ -52,53 +47,6 @@ const SETTLE_MS = 2500;
 const FLOAT_MS = 6000;
 /** Bob height, in points. */
 const FLOAT = 3;
-
-/** Space between avatar and name, in points. */
-const NAME_GAP = 4;
-/** Extra width a name may use beyond its planet, in points. */
-const NAME_OVERHANG = 24;
-
-/** First word of a name: full names crowd the orbit. */
-const firstName = (name: string) => name.trim().split(/\s+/u)[0] ?? name;
-
-const lerp = (from: number, to: number, share: number) =>
-  from + (to - from) * share;
-
-interface Planet {
-  person: Person;
-  days: number;
-  size: number;
-  radius: number;
-  /** Start angle, radians. */
-  angle: number;
-}
-
-/**
- * Size and distance follow the share of the top person's days. Planets sit
- * evenly around the user, most days at the top, so neighbors never touch.
- */
-const placePlanets = (
-  slide: OrbitSlide,
-  people: ReadonlyMap<string, Person>,
-  width: number
-): Planet[] => {
-  const rows = slide.people.flatMap(({ personId, days }) => {
-    const person = people.get(personId);
-    return person ? [{ person, days }] : [];
-  });
-  const most = rows[0]?.days ?? 1;
-  const least = rows.at(-1)?.days ?? most;
-  return rows.map(({ person, days }, index) => {
-    const share = most === least ? 1 : (days - least) / (most - least);
-    return {
-      person,
-      days,
-      size: Math.round(width * lerp(SIZE.planetMin, SIZE.planetMax, share)),
-      radius: width * lerp(SIZE.farthest, SIZE.nearest, share),
-      angle: -Math.PI / 2 + (index * 2 * Math.PI) / rows.length,
-    };
-  });
-};
 
 /**
  * `turn` runs 0 to 1 once per `TURN_MS`, forever: a slow, steady spin.
@@ -143,6 +91,7 @@ const PlanetView = ({
   float,
   theme,
   delay,
+  onPress,
 }: {
   planet: Planet;
   index: number;
@@ -153,6 +102,7 @@ const PlanetView = ({
   theme: StoryTheme;
   /** When people start to swing in, in milliseconds. */
   delay: number;
+  onPress: () => void;
 }) => {
   const style = useAnimatedStyle(() => {
     const angle =
@@ -177,7 +127,15 @@ const PlanetView = ({
       }}
     >
       <Animated.View style={[{ alignItems: "center" }, style]}>
-        <RingedAvatar person={planet.person} size={planet.size} />
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`${planet.person.name}, ${t("recaps_story_people_days", { count: planet.days })}`}
+          hitSlop={8}
+          onPress={onPress}
+          testID={`recap-story-orbit-${planet.person.id}`}
+        >
+          <RingedAvatar person={planet.person} size={planet.size} />
+        </Pressable>
         <View style={{ position: "absolute", top: planet.size + NAME_GAP }}>
           <StoryText
             kind="label"
@@ -228,7 +186,8 @@ const OrbitRings = ({
 /**
  * The user's avatar in the middle, the month's people around like planets.
  * Closer and bigger: more days connected. Says nothing about how the days
- * felt.
+ * felt. A tap on a person shows their days in the month and holds the
+ * story until the user taps again.
  */
 export const Orbit = ({
   slide,
@@ -239,6 +198,12 @@ export const Orbit = ({
 }) => {
   const { width: screen } = useWindowDimensions();
   const profile = useProfile();
+  const hold = use(StoryHoldContext);
+  const [selected, setSelected] = useState<Planet | null>(null);
+  const select = (planet: Planet | null) => {
+    setSelected(planet);
+    hold(planet !== null);
+  };
   const title = t("recaps_story_orbit_title");
   // Title first, then you and the rings, then people swing in.
   const ringsAt = titleRevealEnd(title);
@@ -247,22 +212,29 @@ export const Orbit = ({
   const theme = getStoryTheme(ctx.isDark);
   const width = screen - 2 * STORY_SCREEN_PADDING;
   const planets = placePlanets(slide, ctx.people, width);
-  const self = Math.round(width * SIZE.self);
-  const label = planets
-    .map(
-      ({ person, days }) =>
-        `${person.name}, ${t("recaps_story_people_days", { count: days })}`
-    )
-    .join(". ");
+  const self = Math.round(width * ORBIT_SIZE.self);
   return (
     <>
       <SlideHeader theme={theme} title={title} />
-      <SlideCard theme={theme}>
+      <SlideCard>
+        {selected && (
+          <OrbitPersonMonth
+            person={selected.person}
+            days={selected.days}
+            width={width}
+            ctx={ctx}
+            onClose={() => select(null)}
+          />
+        )}
+        {/* Stays mounted under the month, so the spin keeps its place. */}
         <View
-          accessible
-          accessibilityRole="image"
-          accessibilityLabel={label}
-          style={{ width, height: width }}
+          style={[
+            { width, height: width },
+            selected && { position: "absolute", opacity: 0 },
+          ]}
+          pointerEvents={selected ? "none" : "box-none"}
+          importantForAccessibility={selected ? "no-hide-descendants" : "auto"}
+          accessibilityElementsHidden={selected !== null}
         >
           <Animated.View
             entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
@@ -295,6 +267,7 @@ export const Orbit = ({
               float={float}
               theme={theme}
               delay={peopleAt}
+              onPress={() => select(planet)}
             />
           ))}
         </View>

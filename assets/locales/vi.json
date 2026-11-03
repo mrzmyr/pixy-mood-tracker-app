@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "Tổng kết tuần",
   "recaps_story_best_day_ask": "Sẵn sàng xem ngày tuyệt nhất của bạn?",
   "recaps_story_best_day_show": "Hiện ngày tuyệt nhất của bạn",
-  "recaps_story_coming_left": {
-    "one": "Còn 1",
-    "other": "Còn {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "Bỏ lỡ 1",
-    "other": "Bỏ lỡ {{count}}"
+  "recaps_story_coming_text": {
+    "one": "Còn 1 pixel đang chờ bạn. Từng ngày một.",
+    "other": "Còn {{count}} pixel đang chờ bạn. Từng ngày một."
   },
   "recaps_story_coming_title": {
     "one": "Năm %{year} còn 1 ngày nữa",
     "other": "Năm %{year} còn {{count}} ngày nữa"
   },
+  "recaps_story_cover_note_1": {
+    "one": "1 pixel đã được tô. Đó là một thành quả thật sự.",
+    "other": "{{count}} pixel đã được tô. Đó là một thành quả thật sự."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "1 lần bạn dừng lại để lắng nghe cảm xúc của mình. Điều đó có ý nghĩa.",
+    "other": "{{count}} lần bạn dừng lại để lắng nghe cảm xúc của mình. Điều đó có ý nghĩa."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "1 ngày bạn dành thời gian cho chính mình. Hãy tự hào về điều đó.",
+    "other": "{{count}} ngày bạn dành thời gian cho chính mình. Hãy tự hào về điều đó."
+  },
+  "recaps_story_cover_note_full": "Mỗi ngày trong %{month} đều có pixel của nó. Đó là một thành quả thật sự.",
+  "recaps_story_cover_note_full_week": "Mỗi ngày trong tuần này đều có pixel của nó. Đó là một thành quả thật sự.",
   "recaps_story_cover_pixels_title": "pixel trong %{month}",
   "recaps_story_cover_pixels_title_week": "Pixel tuần này",
   "recaps_story_cover_title_week": "Dành một chút thời gian.\nĐây là tuần của bạn.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} ngày"
   },
   "recaps_story_hard_title": "%{tag} đi cùng những ngày khó khăn hơn của bạn",
-  "recaps_story_lifted_text": {
-    "one": "So với những ngày không có thẻ này. 1 lần ghi lại.",
-    "other": "So với những ngày không có thẻ này. {{count}} lần ghi lại."
-  },
+  "recaps_story_lifted_note": "So với những ngày không có thẻ này.",
   "recaps_story_lifted_title": "Những ngày có %{tag} nhẹ nhàng nhất",
   "recaps_story_missed_add": {
     "one": "Thêm vào 1 buổi tối",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "Mới trong vòng tròn của bạn",
   "recaps_story_next": "Trang tiếp",
+  "recaps_story_orbit_back": "Quay lại quỹ đạo",
   "recaps_story_orbit_title": "Ai ở trong quỹ đạo của bạn",
   "recaps_story_pause": "Tạm dừng",
   "recaps_story_people_days": {
     "one": "1 ngày kết nối",
     "other": "{{count}} ngày kết nối"
   },
+  "recaps_story_places_text": "%{away} đi xa, %{home} ở nhà tại %{city}.",
+  "recaps_story_places_text_away": "%{away} xa nhà.",
+  "recaps_story_places_title": "nơi chốn trong %{month}",
   "recaps_story_play": "Phát",
   "recaps_story_previous": "Trang trước",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "Mọi người",
   "recaps_story_rough_tags": "Thẻ",
   "recaps_story_share": "Chia sẻ",
+  "recaps_story_share_heading_best": "Ngày tuyệt nhất của tôi",
+  "recaps_story_share_heading_coming": "Năm của tôi đến giờ",
+  "recaps_story_share_heading_cover": "Pixel của tôi",
+  "recaps_story_share_heading_hard": "Điều đè nặng lên tôi",
+  "recaps_story_share_heading_lifted": "Điều giúp tôi vui hơn",
+  "recaps_story_share_heading_new": "Mới trong vòng tròn của tôi",
+  "recaps_story_share_heading_orbit": "Quỹ đạo của tôi",
   "recaps_story_share_shuffle": "Xáo trộn ảnh",
   "recaps_story_share_title": "%{month} của tôi",
   "recaps_story_share_title_week": "Tuần của tôi",

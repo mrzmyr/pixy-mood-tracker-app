@@ -1038,18 +1038,28 @@
   "recaps_story_banner_title_week": "סיכום שבועי",
   "recaps_story_best_day_ask": "מוכן לראות את היום הכי טוב שלך?",
   "recaps_story_best_day_show": "הצג את היום הכי טוב שלך",
-  "recaps_story_coming_left": {
-    "one": "עוד 1",
-    "other": "עוד {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1 פוספס",
-    "other": "{{count}} פוספסו"
+  "recaps_story_coming_text": {
+    "one": "עוד פיקסל אחד מחכה לך. יום אחר יום.",
+    "other": "פיקסלים שעוד מחכים לך: {{count}}. יום אחר יום."
   },
   "recaps_story_coming_title": {
     "one": "עוד יום אחד ב־%{year}",
     "other": "עוד {{count}} ימים ב־%{year}"
   },
+  "recaps_story_cover_note_1": {
+    "one": "פיקסל אחד מלא. זה הישג אמיתי.",
+    "other": "פיקסלים מלאים: {{count}}. זה הישג אמיתי."
+  },
+  "recaps_story_cover_note_2": {
+    "one": "פעם אחת עצרת לשים לב איך אתה מרגיש. זה נחשב.",
+    "other": "מספר הפעמים שעצרת לשים לב איך אתה מרגיש: {{count}}. זה נחשב."
+  },
+  "recaps_story_cover_note_3": {
+    "one": "יום אחד פינית זמן לעצמך. תהיה גאה בזה.",
+    "other": "ימים שבהם פינית זמן לעצמך: {{count}}. תהיה גאה בזה."
+  },
+  "recaps_story_cover_note_full": "לכל יום ב%{month} יש פיקסל. זה הישג אמיתי.",
+  "recaps_story_cover_note_full_week": "לכל יום השבוע יש פיקסל. זה הישג אמיתי.",
   "recaps_story_cover_pixels_title": "פיקסלים ב%{month}",
   "recaps_story_cover_pixels_title_week": "הפיקסלים של השבוע",
   "recaps_story_cover_title_week": "קח רגע.\nזה היה השבוע שלך.",
@@ -1058,10 +1068,7 @@
     "other": "{{count}} ימים"
   },
   "recaps_story_hard_title": "%{tag}: לצד הימים הקשים יותר שלך",
-  "recaps_story_lifted_text": {
-    "one": "בהשוואה לימים בלי התגית. תיעוד 1.",
-    "other": "בהשוואה לימים בלי התגית. {{count}} תיעודים."
-  },
+  "recaps_story_lifted_note": "בהשוואה לימים בלי התגית.",
   "recaps_story_lifted_title": "ימים עם %{tag} הרגישו הכי קלים",
   "recaps_story_missed_add": {
     "one": "הוספה לערב אחד",
@@ -1092,12 +1099,16 @@
   },
   "recaps_story_new_people_title": "חדשים במעגל שלך",
   "recaps_story_next": "השקופית הבאה",
+  "recaps_story_orbit_back": "חזרה למסלול",
   "recaps_story_orbit_title": "מי היה במסלול שלך",
   "recaps_story_pause": "השהיה",
   "recaps_story_people_days": {
     "one": "יום 1 בקשר",
     "other": "{{count}} ימים בקשר"
   },
+  "recaps_story_places_text": "%{away} מחוץ לבית, %{home} בבית ב%{city}.",
+  "recaps_story_places_text_away": "%{away} מחוץ לבית.",
+  "recaps_story_places_title": "מקומות ב%{month}",
   "recaps_story_play": "הפעלה",
   "recaps_story_previous": "השקופית הקודמת",
   "recaps_story_quiz_insight_place": {
@@ -1141,6 +1152,13 @@
   "recaps_story_rough_people_short": "אנשים",
   "recaps_story_rough_tags": "תגים",
   "recaps_story_share": "שיתוף",
+  "recaps_story_share_heading_best": "היום הכי טוב שלי",
+  "recaps_story_share_heading_coming": "השנה שלי עד עכשיו",
+  "recaps_story_share_heading_cover": "הפיקסלים שלי",
+  "recaps_story_share_heading_hard": "מה שהכביד עליי",
+  "recaps_story_share_heading_lifted": "מה שרומם אותי",
+  "recaps_story_share_heading_new": "חדשים במעגל שלי",
+  "recaps_story_share_heading_orbit": "המסלול שלי",
   "recaps_story_share_shuffle": "ערבוב תמונות",
   "recaps_story_share_title": "%{month} שלי",
   "recaps_story_share_title_week": "השבוע שלי",
