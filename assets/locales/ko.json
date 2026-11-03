@@ -1038,13 +1038,9 @@
   "recaps_story_banner_title_week": "한 주 돌아보기",
   "recaps_story_best_day_ask": "최고의 하루를 볼 준비가 됐나요?",
   "recaps_story_best_day_show": "최고의 하루 보기",
-  "recaps_story_coming_left": {
-    "one": "1일 남음",
-    "other": "{{count}}일 남음"
-  },
-  "recaps_story_coming_missed": {
-    "one": "1일 놓침",
-    "other": "{{count}}일 놓침"
+  "recaps_story_coming_text": {
+    "one": "아직 픽셀 1개가 기다리고 있어요. 하루씩 천천히.",
+    "other": "아직 픽셀 {{count}}개가 기다리고 있어요. 하루씩 천천히."
   },
   "recaps_story_coming_title": {
     "one": "%{year}년이 1일 남았어요",

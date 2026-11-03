@@ -122,12 +122,11 @@ export interface PlacesSlide {
   homeDays: number;
 }
 
-/** Days still to come in the year, and days without a check-in so far. */
+/** Days still to come in the year. */
 export interface ComingUpSlide {
   type: "coming-up";
   year: number;
   left: number;
-  missed: number;
 }
 
 /**

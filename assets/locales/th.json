@@ -1038,13 +1038,9 @@
   "recaps_story_banner_title_week": "สรุปย้อนหลังประจำสัปดาห์",
   "recaps_story_best_day_ask": "พร้อมดูวันที่ดีที่สุดของคุณหรือยัง",
   "recaps_story_best_day_show": "แสดงวันที่ดีที่สุดของคุณ",
-  "recaps_story_coming_left": {
-    "one": "เหลืออีก 1",
-    "other": "เหลืออีก {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "พลาด 1",
-    "other": "พลาด {{count}}"
+  "recaps_story_coming_text": {
+    "one": "ยังมีอีก 1 พิกเซลรอคุณอยู่ ทีละวัน",
+    "other": "ยังมีอีก {{count}} พิกเซลรอคุณอยู่ ทีละวัน"
   },
   "recaps_story_coming_title": {
     "one": "ปี %{year} ยังเหลืออีก 1 วัน",

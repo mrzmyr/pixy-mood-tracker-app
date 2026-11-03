@@ -1038,13 +1038,9 @@
   "recaps_story_banner_title_week": "Підсумки тижня",
   "recaps_story_best_day_ask": "Готовий побачити свій найкращий день?",
   "recaps_story_best_day_show": "Показати найкращий день",
-  "recaps_story_coming_left": {
-    "one": "Залишилося: 1",
-    "other": "Залишилося: {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "Пропущено: 1",
-    "other": "Пропущено: {{count}}"
+  "recaps_story_coming_text": {
+    "one": "На Вас чекає ще 1 піксель. День за днем.",
+    "other": "Пікселів, які ще чекають на Вас: {{count}}. День за днем."
   },
   "recaps_story_coming_title": {
     "one": "До кінця %{year} ще 1 день",

@@ -1038,13 +1038,9 @@
   "recaps_story_banner_title_week": "Итоги недели",
   "recaps_story_best_day_ask": "Готов увидеть свой лучший день?",
   "recaps_story_best_day_show": "Показать лучший день",
-  "recaps_story_coming_left": {
-    "one": "Осталось: 1",
-    "other": "Осталось: {{count}}"
-  },
-  "recaps_story_coming_missed": {
-    "one": "Пропущено: 1",
-    "other": "Пропущено: {{count}}"
+  "recaps_story_coming_text": {
+    "one": "Вас ждёт ещё 1 пиксель. День за днём.",
+    "other": "Пикселей, которые ещё ждут Вас: {{count}}. День за днём."
   },
   "recaps_story_coming_title": {
     "one": "До конца %{year} года остался 1 день",

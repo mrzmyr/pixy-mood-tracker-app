@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { getEffect } from "../correlation";
 import { RATING_MAPPING } from "@/constants/ratings";
-import { addDays, daysBetween, getDayRating } from "../days";
+import { daysBetween, getDayRating } from "../days";
 import { indexDays } from "../day-index";
 import { parsePlace } from "../places";
 import { getActiveTags } from "../cards/nudges";
@@ -329,30 +329,17 @@ const newPeople = (input: RecapInput): NewPeopleSlide | null => {
     : null;
 };
 
-/**
- * Days left in the year after today, and days without a check-in since
- * January 1 or the first entry. Only while the month's year is still on.
- */
+/** Days left in the year after today. Only while the month's year is still on. */
 const comingUp = (input: RecapInput): ComingUpSlide | null => {
   const year = dayjs(input.period.start).year();
   const yearEnd = `${year}-12-31`;
   if (dayjs(input.today).year() !== year || input.today >= yearEnd) {
     return null;
   }
-  const [, from] = [
-    `${year}-01-01`,
-    input.firstEntryDate ?? input.today,
-  ].sort();
-  const logged = new Set(input.history.map((day) => day.date));
-  let missed = 0;
-  for (let date = from; date <= input.today; date = addDays(date, 1)) {
-    missed += logged.has(date) ? 0 : 1;
-  }
   return {
     type: "coming-up",
     year,
     left: daysBetween(input.today, yearEnd),
-    missed,
   };
 };
 
