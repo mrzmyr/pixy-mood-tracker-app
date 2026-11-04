@@ -75,15 +75,19 @@ const useBarStyle = (
  * Floating button of the calendar. Away from today it is a tertiary chevron
  * that scrolls to the end. At the end it turns into a plus that adds an
  * entry, always primary, also after today has an entry. The color fades
- * fast; the chevron springs into the plus.
+ * fast; the chevron springs into the plus. `isOpen`: the plus turns into a
+ * close cross while the check-in type menu shows.
  */
 export const CalendarFloatButton = ({
   isAtBottom,
+  isOpen,
   hasTodayEntry,
   onScrollToBottom,
   onAdd,
 }: {
   isAtBottom: boolean;
+  /** Set only when + opens the check-in type menu. */
+  isOpen?: boolean;
   hasTodayEntry: boolean;
   onScrollToBottom: () => void;
   onAdd: () => void;
@@ -96,6 +100,15 @@ export const CalendarFloatButton = ({
   const morph = useSharedValue(morphTarget);
   const color = useSharedValue(colorTarget);
   const pressed = useSharedValue(0);
+  const open = useSharedValue(isOpen ? 1 : 0);
+
+  useEffect(() => {
+    open.set(withSpring(isOpen ? 1 : 0, MORPH_SPRING));
+  }, [isOpen, open]);
+
+  const iconStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${interpolate(open.get(), [0, 1], [0, 45])}deg` }],
+  }));
 
   // Reduced motion: chevron and plus swap without the spring.
   useEffect(() => {
@@ -159,14 +172,20 @@ export const CalendarFloatButton = ({
     colors.primaryButtonText
   );
 
+  let label = t("back_to_today");
+  if (isOpen) {
+    label = t("close");
+  } else if (isAtBottom) {
+    label = t(hasTodayEntry ? "add_today_another_entry" : "add_today_entry");
+  }
+
   return (
     <Pressable
       testID={isAtBottom ? "calendar-add-entry" : "scroll-to-bottom"}
       accessibilityRole="button"
-      accessibilityLabel={
-        isAtBottom
-          ? t(hasTodayEntry ? "add_today_another_entry" : "add_today_entry")
-          : t("back_to_today")
+      accessibilityLabel={label}
+      accessibilityState={
+        isAtBottom && isOpen !== undefined ? { expanded: isOpen } : undefined
       }
       onPress={isAtBottom ? onAdd : onScrollToBottom}
       onPressIn={() => setPressed(1)}
@@ -211,8 +230,16 @@ export const CalendarFloatButton = ({
             style={[StyleSheet.absoluteFill, { borderRadius: RADIUS }]}
           />
         )}
-        <Animated.View style={[styles.bar, firstBar]} />
-        <Animated.View style={[styles.bar, secondBar]} />
+        <Animated.View
+          style={[
+            StyleSheet.absoluteFill,
+            { justifyContent: "center", alignItems: "center" },
+            iconStyle,
+          ]}
+        >
+          <Animated.View style={[styles.bar, firstBar]} />
+          <Animated.View style={[styles.bar, secondBar]} />
+        </Animated.View>
       </Animated.View>
     </Pressable>
   );

@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-11-03",
+  "verifiedOn": "2026-11-04",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -517,6 +517,18 @@
         "src/features/voice/",
         "src/state/feature-flags/keys.ts",
         "patches/expo-speech-transcriber@0.1.9.patch"
+      ]
+    },
+    {
+      "id": "check-in-types",
+      "label": "Morning and evening check-ins",
+      "status": "flagged",
+      "group": "logging",
+      "description": "The + button offers Morning Intention (mood, sleep, note), Quick Check-in, and Evening Reflection (every step except sleep). Entries keep their check-in type. Behind the check-in-types feature flag.",
+      "evidence": [
+        "src/features/calendar/screens/calendar/check-in-type-menu.tsx",
+        "src/features/logger/steps.ts",
+        "src/state/feature-flags/keys.ts"
       ]
     },
     {

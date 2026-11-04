@@ -87,16 +87,22 @@ const CalendarSecondaryButton = ({
   );
 };
 
-/** Voice and quick check-in buttons, each behind its feature flag. */
+/**
+ * Voice and quick check-in buttons, each behind its feature flag.
+ * `hasQuickCheckIn` false hides quick check-in, for example while + opens
+ * the check-in type menu.
+ */
 export const CalendarSecondaryButtons = ({
   hasTodayEntry,
+  hasQuickCheckIn,
 }: {
   hasTodayEntry: boolean;
+  hasQuickCheckIn: boolean;
 }) => {
   const router = useRouter();
   const analytics = useAnalytics();
   const showVoice = useFeatureFlag("voice-mode") && isVoiceModeSupported;
-  const showCheckIn = useFeatureFlag("quick-check-in");
+  const showCheckIn = useFeatureFlag("quick-check-in") && hasQuickCheckIn;
 
   return (
     <>

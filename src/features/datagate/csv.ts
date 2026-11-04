@@ -12,6 +12,7 @@ const HEADERS = [
   "note",
   "sleep_quality",
   "menstruation_flow",
+  "check_in_type",
 ];
 
 const escapeCell = (value: string) => {
@@ -49,6 +50,7 @@ export const createCsv = ({
       item.message ?? "",
       item.sleep?.quality ?? "",
       item.menstruation?.flow ?? "",
+      item.checkInType ?? "",
     ]
       .map(escapeCell)
       .join(",")

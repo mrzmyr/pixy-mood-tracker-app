@@ -8,6 +8,8 @@ Personal mood journal on one device. Person records how they feel, then sees pat
 
 **Check-in**: Guided flow that creates or edits one Entry, one Step at a time. _Avoid_: Logger, log flow, wizard
 
+**Check-in Type**: Kind of Check-in, stored on Entry: Morning Intention (Mood, Sleep, Note), Quick Check-in, Evening Reflection (every Step except Sleep). Older Entries have none. _Avoid_: Check-in mode, check-in kind
+
 **Core Module**: One kind of data Entry records, with own Step, own color, own icon: Mood, Emotions, Tags, People, Photos, Note. Rating is the Mood module and is required. Others are optional. Feedback Step is no Core Module. _Avoid_: Feature, section, widget
 
 **Step**: One screen of Check-in (mood, tags, emotions, note, feedback). Person turns each Step on or off. _Avoid_: Slide, page
