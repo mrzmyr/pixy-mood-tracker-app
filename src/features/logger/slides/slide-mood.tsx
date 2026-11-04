@@ -55,7 +55,11 @@ export const SlideMood = ({
             alignItems: "center",
           }}
         >
-          {t("log_rating_question")}
+          {t(
+            draft.checkInType === "morning_intention"
+              ? "log_rating_question_morning_intention"
+              : "log_rating_question"
+          )}
         </SlideHeadline>
         <View
           style={{
