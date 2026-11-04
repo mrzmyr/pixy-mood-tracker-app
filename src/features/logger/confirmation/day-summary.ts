@@ -13,6 +13,8 @@ export interface DaySummary {
 
 /** One entry of the day on the day strip. */
 export interface CheckIn {
+  /** Entry id. Unique, also when two entries share minute and rating. */
+  id: string;
   /** Minutes since local midnight, 0 to 1439. */
   minute: number;
   rating: LogItem["rating"];
@@ -41,6 +43,7 @@ export const getDaySummary = ({
       .map((entry) => {
         const time = dayjs(getItemTime(entry));
         return {
+          id: entry.id,
           minute: time.hour() * 60 + time.minute(),
           rating: entry.rating,
         };
