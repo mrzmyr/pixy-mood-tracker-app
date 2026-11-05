@@ -36,7 +36,6 @@ import {
   QuickCheckInPhotos,
   useQuickCheckInPhotos,
 } from "./quick-check-in-photos";
-import { QuickCheckInVoiceButton } from "./quick-check-in-voice-button";
 import type { InfluenceOption } from "../ranking";
 
 const NO_PEOPLE: never[] = [];
@@ -121,14 +120,14 @@ const QuickCheckInHeader = ({
 
 /**
  * Quick check-in on one scrolling page: mood, a one-line note, emotions as in
- * the logger, a row of people, the top 20 tags, and photos last. Search and
- * voice hide above the page until the user pulls down. The full list of
- * people opens in a sheet. Opens from Settings and from More in the Android
- * notification.
+ * the logger, a row of people, the top 20 tags, and photos last. Search hides
+ * above the page until the user pulls down. The full list of
+ * people opens in a sheet. Opens from the calendar, from voice mode (with
+ * `prefill`), and from More in the Android notification.
  *
  * - `id` names an entry saved in the notification: the screen edits it.
  * - `id` `new` or unknown: Save creates an entry. Save needs a mood.
- * - `prefill`: set by voice mode on return, added to the draft once.
+ * - `prefill`: set by voice mode, added to the draft once.
  */
 export const QuickCheckIn = () => {
   const { id, prefill } = useLocalSearchParams<{
@@ -271,9 +270,6 @@ export const QuickCheckIn = () => {
     toggle({ kind: "person", id: personId });
   const personById = new Map(people.map((person) => [person.id, person]));
 
-  const openVoice = () =>
-    router.push({ pathname: "/logs/voice", params: { returnTo: id } });
-
   const openRequest = () =>
     router.push({ pathname: "/request", params: { kind: "emotion" } });
 
@@ -302,7 +298,6 @@ export const QuickCheckIn = () => {
           placeholder={t("calendar_filters_search")}
           query={query}
           onChangeQuery={setQuery}
-          accessory={<QuickCheckInVoiceButton onPress={openVoice} />}
           contentContainerStyle={{
             paddingBottom: insets.bottom + 32,
             gap: SECTION_GAP,

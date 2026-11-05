@@ -2,14 +2,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, View } from "react-native";
 import { useKeepAwake } from "expo-keep-awake";
 import * as Linking from "expo-linking";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Check from "lucide-react-native/icons/check";
 import CircleQuestionMark from "lucide-react-native/icons/circle-question-mark";
 import Mic from "lucide-react-native/icons/mic";
 import Pause from "lucide-react-native/icons/pause";
-import dayjs from "dayjs";
 import Button from "@/components/button";
 import RouteModalHeader from "@/components/route-modal-header";
 import { Body, Headline, Secondary } from "@/components/type";
@@ -85,13 +84,10 @@ const blockedCopy = (
 
 /**
  * Voice mode: listen, show detected people, tags, emotions, and the first
- * spoken mood live, then open the logger prefilled. Nothing is saved here.
- *
- * - `returnTo` names a quick check-in (entry id or `new`): Check goes back to
- *   it with the prefill instead of opening the logger.
+ * spoken mood live, then open the quick check-in prefilled. Nothing is saved
+ * here.
  */
 export const VoiceMode = () => {
-  const { returnTo } = useLocalSearchParams<{ returnTo?: string }>();
   const colors = useColors();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -189,19 +185,9 @@ export const VoiceMode = () => {
     });
     haptics.selection();
     allowLeave();
-    if (returnTo) {
-      router.dismissTo({
-        pathname: "/check-in/[id]",
-        params: { id: returnTo, prefill: encodeLoggerPrefill(prefill) },
-      });
-      return;
-    }
     router.replace({
-      pathname: "/logs/create/[dateTime]",
-      params: {
-        dateTime: dayjs().toISOString(),
-        prefill: encodeLoggerPrefill(prefill),
-      },
+      pathname: "/check-in/[id]",
+      params: { id: "new", prefill: encodeLoggerPrefill(prefill) },
     });
   };
 
