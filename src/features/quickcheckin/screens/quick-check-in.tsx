@@ -47,8 +47,17 @@ const INSET = 20;
 /** Space between sections. No section titles: the content explains itself. */
 const SECTION_GAP = 24;
 
-/** Note grows from one line up to about five. */
-const NOTE_STYLE = { height: undefined, maxHeight: 140, paddingVertical: 12 };
+/**
+ * Note grows from one line up to about five. Top and bottom padding are
+ * equal, so one line sits in the vertical middle. `paddingVertical` would
+ * lose to the `paddingTop` of `TextArea`.
+ */
+const NOTE_STYLE = {
+  height: undefined,
+  maxHeight: 140,
+  paddingTop: 12,
+  paddingBottom: 12,
+};
 
 /** Close and Save: iOS sheet bar items, Android Material top app bar. */
 const QuickCheckInHeader = ({
