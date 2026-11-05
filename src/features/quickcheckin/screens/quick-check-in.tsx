@@ -274,7 +274,8 @@ export const QuickCheckIn = () => {
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.background,
+        // Same surface as the logger: both are check-ins.
+        backgroundColor: colors.logBackground,
         // A cold deep link opens the screen as the root, not as a sheet.
         marginTop:
           !isIOS && (Platform.OS === "android" || !isSheet) ? insets.top : 0,

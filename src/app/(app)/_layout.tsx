@@ -246,7 +246,8 @@ const AppLayout = () => {
           <Stack.Screen name="request" options={requestOptions} />
           <Stack.Screen
             name="check-in/[id]"
-            options={getQuickCheckInOptions(colors.text, colors.background)}
+            // Same surface as the logger: both are check-ins.
+            options={getQuickCheckInOptions(colors.text, colors.logBackground)}
           />
           <Stack.Screen name="logs/[id]/edit" options={logModalOptions} />
           <Stack.Screen
