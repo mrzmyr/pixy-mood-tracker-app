@@ -29,11 +29,13 @@ import { VoiceWaveform } from "../components/voice-waveform";
 import { matchTranscript } from "../match-transcript";
 import { getMoodTriggers, matchMood } from "../mood-triggers";
 import { useVoiceTerms } from "../use-voice-terms";
-import { buildVoiceExample } from "../voice-example";
+import { buildVoiceExamples } from "../voice-example";
 import { useVoiceTranscription } from "../use-voice-transcription";
 import type { VoiceErrorStatus, VoiceStatus } from "../use-voice-transcription";
 
 const CONTROL_SIZE = 56;
+/** Examples the empty state cycles through. */
+const EXAMPLE_COUNT = 3;
 
 /**
  * iOS sheet bar over the sky: no fill, so the clouds or stars reach the top
@@ -118,7 +120,12 @@ export const VoiceMode = () => {
   );
   const mood = matchMood(voice.text, moodTriggers);
   const hasText = voice.text.trim() !== "";
-  const example = buildVoiceExample(terms, moodTriggers);
+  // Picked when the screen opens: other tags and people each time. Terms
+  // keep their identity while stores stay the same.
+  const examples = useMemo(
+    () => buildVoiceExamples(terms, getMoodTriggers(), EXAMPLE_COUNT),
+    [terms]
+  );
 
   const { allowLeave } = useDiscardGuard({
     isDirty: hasText,
@@ -224,6 +231,8 @@ export const VoiceMode = () => {
         onContentSizeChange={() => cardsRef.current?.scrollToEnd()}
         style={{ flex: 1 }}
         contentContainerStyle={{
+          // Grows to the full height, so the hint can sit in the middle.
+          flexGrow: 1,
           // iOS: the transparent bar overlaps the screen top.
           paddingTop: Platform.OS === "ios" ? headerHeight : 0,
           paddingHorizontal: 20,
@@ -231,7 +240,7 @@ export const VoiceMode = () => {
         }}
       >
         {!mood && matches.length === 0 && !isBlocked && (
-          <VoiceTrySaying example={example} />
+          <VoiceTrySaying examples={examples} />
         )}
         {mood && <VoiceMoodCard mood={mood} />}
         {matches.map((match) => (
