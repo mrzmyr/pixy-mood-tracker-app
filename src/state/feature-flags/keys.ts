@@ -58,7 +58,7 @@ export const FEATURE_FLAG_DETAILS: Record<
   },
   "check-in-types": {
     description:
-      "+ opens a menu: Morning Intention, Quick Check-in, Evening Reflection",
+      "+ opens a menu: Morning Intention, Evening Reflection. Quick check-in keeps its own button",
     location: "Calendar > + button",
   },
   development: {

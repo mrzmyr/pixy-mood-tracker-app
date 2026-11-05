@@ -100,7 +100,8 @@ export const CalendarFloatButton = ({
   const morph = useSharedValue(morphTarget);
   const color = useSharedValue(colorTarget);
   const pressed = useSharedValue(0);
-  const open = useSharedValue(isOpen ? 1 : 0);
+  // Starts at plus: a button that mounts open still turns into the cross.
+  const open = useSharedValue(0);
 
   useEffect(() => {
     open.set(withSpring(isOpen ? 1 : 0, MORPH_SPRING));

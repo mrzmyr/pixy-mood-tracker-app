@@ -101,8 +101,6 @@ const CalendarScreenComponent = () => {
     (item) => getItemDate(item) === today
   );
   const checkInMenu = useCheckInTypeMenu({ hasTodayEntry });
-  const showSecondaryButtons =
-    showFloatButton && !checkInMenu.isOpen && (!isCalendar || !isAwayFromToday);
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const { contentOffset, contentSize, layoutMeasurement } =
@@ -201,17 +199,10 @@ const CalendarScreenComponent = () => {
         pointerEvents="box-none"
         style={[StyleSheet.absoluteFill, introStyle]}
       >
-        {showFloatButton && checkInMenu.isOpen && (
-          <CheckInTypeMenu
-            onSelect={checkInMenu.handleSelect}
-            onClose={checkInMenu.handleClose}
-          />
-        )}
         {showFloatButton && (
           <CalendarFloatButton
             // Newest entries sit at the timeline top: it always shows add.
             isAtBottom={!isCalendar || !isAwayFromToday}
-            isOpen={checkInMenu.floatButtonOpen}
             hasTodayEntry={hasTodayEntry}
             onScrollToBottom={() => {
               analytics.track("calendar:today_tapped");
@@ -232,14 +223,18 @@ const CalendarScreenComponent = () => {
             }}
           />
         )}
-        {showSecondaryButtons && (
-          <CalendarSecondaryButtons
-            hasTodayEntry={hasTodayEntry}
-            // The check-in type menu holds quick check-in.
-            hasQuickCheckIn={!checkInMenu.isEnabled}
-          />
+        {showFloatButton && (!isCalendar || !isAwayFromToday) && (
+          <CalendarSecondaryButtons hasTodayEntry={hasTodayEntry} />
         )}
       </Animated.View>
+      {checkInMenu.isEnabled && (
+        <CheckInTypeMenu
+          isOpen={checkInMenu.isOpen}
+          hasTodayEntry={hasTodayEntry}
+          onSelect={checkInMenu.handleSelect}
+          onClose={checkInMenu.handleClose}
+        />
+      )}
       {Platform.OS !== "web" && <CalendarBottomSheet />}
     </View>
   );
