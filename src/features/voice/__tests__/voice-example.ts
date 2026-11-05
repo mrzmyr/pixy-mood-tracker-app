@@ -4,9 +4,12 @@ import { RATING_KEYS } from "@/constants/ratings";
 import { matchTranscript } from "../match-transcript";
 import type { VoiceTerm } from "../match-transcript";
 import { matchMood } from "../mood-triggers";
-import { buildVoiceExample } from "../voice-example";
+import { buildVoiceExample, buildVoiceExamples } from "../voice-example";
 
 let table: Record<string, string> = {};
+
+// Random source that always picks the last item.
+const pickLast = () => 0.99;
 
 // Translates from the locale table under test, like `t` with `{{name}}`.
 const translate = (key: string, options: Record<string, string>) =>
@@ -57,5 +60,36 @@ describe("voice example", () => {
     expect(buildVoiceExample([], triggersOf(), translate)).toBe(
       "I feel good today."
     );
+  });
+
+  it("picks tags and people at random, not always the first", () => {
+    table = JSON.parse(
+      fs.readFileSync(path.join(LOCALES_DIR, "en.json"), "utf-8")
+    );
+    const terms: VoiceTerm[] = [
+      { kind: "tag", id: "tag-1", text: "Sport" },
+      { kind: "tag", id: "tag-2", text: "Work" },
+      { kind: "person", id: "person-1", text: "Anna" },
+      { kind: "person", id: "person-2", text: "Ben" },
+    ];
+    expect(buildVoiceExample(terms, triggersOf(), translate, pickLast)).toBe(
+      "I feel good today. Work was part of today. Ben called me."
+    );
+  });
+
+  it("builds different examples to cycle through", () => {
+    const terms: VoiceTerm[] = ["Sport", "Work", "Music"].map((text, i) => ({
+      kind: "tag",
+      id: `tag-${i}`,
+      text,
+    }));
+    const examples = buildVoiceExamples(terms, triggersOf(), 3);
+
+    expect(new Set(examples).size).toBe(examples.length);
+    expect(examples.length).toBeGreaterThan(1);
+  });
+
+  it("stops at one example when the user has nothing to vary", () => {
+    expect(buildVoiceExamples([], triggersOf(), 3)).toHaveLength(1);
   });
 });
