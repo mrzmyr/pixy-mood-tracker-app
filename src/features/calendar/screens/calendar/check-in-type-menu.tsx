@@ -168,6 +168,12 @@ export const useCheckInTypeMenu = ({
   const analytics = useAnalytics();
   const isEnabled = useFeatureFlag("check-in-types");
   const [isOpen, setIsOpen] = useState(false);
+  // Flag turned off while open: start closed when it turns on again.
+  const [wasEnabled, setWasEnabled] = useState(isEnabled);
+  if (wasEnabled !== isEnabled) {
+    setWasEnabled(isEnabled);
+    setIsOpen(false);
+  }
 
   const handleClose = useCallback(() => setIsOpen(false), []);
 

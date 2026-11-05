@@ -1,6 +1,7 @@
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useLogDraft } from "../log-draft";
+import { useActiveCheckInType } from "../check-in-type";
 import type { LogDraft } from "../finalize-draft";
 import { forwardRef, useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
@@ -80,7 +81,7 @@ const SlideMessageComponent = (
   // a changing `defaultValue` would push text back into the input.
   // oxlint-disable-next-line react/hook-use-state -- start text never changes, so no setter
   const [initialMessage] = useState(draft.message);
-  const question = getNoteQuestion(draft.checkInType);
+  const question = getNoteQuestion(useActiveCheckInType(draft.checkInType));
 
   // Slide changes dismiss the keyboard, so `onBlur` publishes the text. This
   // covers an unmount with the keyboard still open.

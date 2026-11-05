@@ -60,6 +60,7 @@ import { EntrySummary } from "./confirmation/entry-summary";
 import type { LoggerPrefill } from "./prefill";
 import { VoiceFeedbackSheet } from "@/features/feedback";
 import type { CheckInType } from "@/types";
+import { useActiveCheckInType } from "./check-in-type";
 import {
   getAvailableStepsForCreate,
   getStepsForCheckInType,
@@ -783,6 +784,8 @@ export const LoggerCreate = ({
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
 
+  // Flag off: a deep link with a type opens the plain logger and stores no type.
+  const newCheckInType = useActiveCheckInType(checkInTypeParam);
   const initialItem: LogDraft =
     restoredDraft ??
     createDraft({
@@ -790,9 +793,10 @@ export const LoggerCreate = ({
       createdAt,
       dateTime,
       prefill,
-      checkInType: checkInTypeParam,
+      checkInType: newCheckInType,
     });
-  const { checkInType } = initialItem;
+  // Flag off: plain steps, also for a restored typed draft. The draft keeps its type.
+  const checkInType = useActiveCheckInType(initialItem.checkInType);
 
   const hasSleepOnDay = hasSleepOnDate(logState.items, initialItem.date);
   const steps =

@@ -118,7 +118,10 @@ export type MenstruationFlow = z.infer<typeof MenstruationFlowSchema>;
 
 /**
  * Kind of Check-in that created an entry. Stored on entries, so never rename
- * or remove a value.
+ * or remove a value. Flag `check-in-types` off ignores it in the logger but
+ * keeps it on entries. Removing the feature: keep the key in this schema or
+ * drop it from types only. Store, edit, import, and backups keep unknown
+ * entry keys, so stored values stay intact.
  */
 export const CheckInTypeSchema = z.enum([
   "morning_intention",
