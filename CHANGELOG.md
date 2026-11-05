@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.113.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.112.0...v1.113.0) (2026-11-05)
+
+
+### Features
+
+* **check-in:** morning intention and evening reflection check-ins ([#1096](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1096)) ([fca177c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fca177ca82bba866b2784c74bae5100851ab805e))
+* **interventions:** remove interventions ([#1093](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1093)) ([4f8d14e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4f8d14e7b2d41bdf882d5055188fc04c3662af06))
+* **location:** show location for everyone, remove location flag ([#1092](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1092)) ([62e8448](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/62e844831e86ee835789c473eebc5f11fbb862e2))
+* **needs:** tap the selected rating again to clear it ([#1099](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1099)) ([b75aef4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b75aef440eced37d1a97e5b7ac7efb0f4bb700c8))
+* **quick-check-in:** more space between sections ([#1101](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1101)) ([282903d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/282903d408db23ec025551f17394b77c912e7d7f))
+* **voice:** open quick check-in after voice mode ([#1105](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1105)) ([550de0e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/550de0e4bc25f8df1223256c2f514b6be187dd50))
+* **voice:** subtle centered hint with random examples ([#1106](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1106)) ([987d81a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/987d81af24d7fa97d935d195397bfba1618d99ff))
+
+
+### Bug Fixes
+
+* **logger:** key day strip markers by entry id ([#1097](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1097)) ([284f511](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/284f5112b9f39d04aa90c0abca10d363597d204a))
+* **logger:** stop emotion rows overlapping near the screen bottom ([#1102](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1102)) ([df82c17](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/df82c1715e86a7bfecbe4d83a87d03b0dc228eea))
+* **needs:** shorter labels for the needs and list switch ([#1098](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1098)) ([53f3690](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/53f3690c11665708ac22cbf6aea3245c596e0e94))
+* **quick-check-in:** center the note placeholder ([#1103](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1103)) ([e3ecf50](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e3ecf50aa0b5da1ee0583c26cac134f215926b73))
+* **quick-check-in:** use the logger background ([#1104](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1104)) ([f2fc7a8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f2fc7a8cb474fb9f6b5710e4b54c0a82eba8281c))
+* **reminders:** scroll whole screen, not only the list ([#1095](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1095)) ([221bcc6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/221bcc6254c367e689f7a46f8847a87b583f3934))
+* **typography:** default text color so labels stay readable in dark mode ([#1100](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1100)) ([4689e9d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4689e9d00cca307dfa2d04bfc5dff8ba3ed22d59))
+* **voice:** let the sky fill the header in voice mode ([#1107](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1107)) ([053436e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/053436eb9a839f62ffb505c390bd04677112c0a2))
+
 ## [1.112.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.111.0...v1.112.0) (2026-11-03)
 
 
