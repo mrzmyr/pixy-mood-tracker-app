@@ -2,7 +2,7 @@
 
 Status: spec, 2026-10-15. Branch `feat/voice-mode`.
 
-Speak about your day. Pixy transcribes on device, finds known people, tags, and emotions, then opens the logger prefilled for review.
+Speak about your day. Pixy transcribes on device, finds known people, tags, and emotions, then opens the quick check-in prefilled for review.
 
 ## Decisions
 
@@ -18,9 +18,9 @@ Speak about your day. Pixy transcribes on device, finds known people, tags, and 
 - People match only when flag `people` is on
 - Rating is never inferred from tone. Only a spoken mood trigger word sets it ([Mood triggers](#mood-triggers)). User reviews it on the rating slide
 - Transcript goes into the entry note, editable
-- Check button opens the normal logger at the rating slide, prefilled. Never saves directly
-- Quick check-in: mic button right of search opens voice mode with `returnTo`. Check goes back to quick check-in and adds the values ([`applyVoicePrefill`](../../src/features/quickcheckin/draft.ts)). Transcript goes into the quick check-in note. No feedback sheet
-- Empty transcript: check button disabled. No matches: logger opens with note only
+- Check button opens the quick check-in, prefilled ([`applyVoicePrefill`](../../src/features/quickcheckin/draft.ts)). Transcript goes into its note. Never saves directly. No feedback sheet
+- Quick check-in has no mic button: voice mode opens only from the calendar
+- Empty transcript: check button disabled. No matches: quick check-in opens with note only
 - Permission denied: explanation plus "Open Settings" button
 - Pause stops listening. Resume appends new text to the transcript
 - Waveform shows real input levels from the same mic tap. One mic owner, no `expo-audio`. The library needs a patch anyway (on-device, locale), so the patch also emits levels
@@ -60,9 +60,9 @@ Calendar mic button
   -> /logs/voice (VoiceMode screen)
      useVoiceTranscription(): start/pause/resume/stop, transcript, level, status
      matchTranscript(transcript, vocabulary) -> { tags, people, emotions }
-  -> check: router.replace /logs/create/[dateTime]?prefill=<json>
-     LogCreate parses prefill (zod), LoggerCreate builds initial draft
-     LogDraftProvider starts dirty: close asks to discard
+  -> check: router.replace /check-in/new?prefill=<json>
+     useVoicePrefill parses prefill (zod), applyVoicePrefill fills the draft
+     Draft is dirty: close asks to discard
 ```
 
 - `prefill` param: `{ message: string; tags: string[]; people: string[]; emotions: string[]; rating?: Rating }` as JSON. Invalid JSON or schema: ignored, empty logger
