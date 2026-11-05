@@ -1,5 +1,6 @@
 import { Text } from "react-native";
 import type { TextProps, TextStyle } from "react-native";
+import useColors from "@/hooks/use-colors";
 
 /**
  * Line height per font size, from the Geist type scale:
@@ -68,10 +69,24 @@ type Props<K extends Kind> = TextProps & {
   strong?: boolean;
 };
 
+/**
+ * Text in the type scale. Color defaults to `colors.text`, so text stays
+ * readable in dark mode; `style` overrides it.
+ */
 const createText = <K extends Kind>(kind: K, displayName: string) => {
-  const Component = ({ size, strong, style, ...props }: Props<K>) => (
-    <Text {...props} style={[getTextStyle(kind, size, { strong }), style]} />
-  );
+  const Component = ({ size, strong, style, ...props }: Props<K>) => {
+    const colors = useColors();
+    return (
+      <Text
+        {...props}
+        style={[
+          getTextStyle(kind, size, { strong }),
+          { color: colors.text },
+          style,
+        ]}
+      />
+    );
+  };
   Component.displayName = displayName;
   return Component;
 };
