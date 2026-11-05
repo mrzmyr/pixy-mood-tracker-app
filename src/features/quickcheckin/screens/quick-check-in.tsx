@@ -48,15 +48,16 @@ const INSET = 20;
 const SECTION_GAP = 24;
 
 /**
- * Note grows from one line up to about five. Top and bottom padding are
- * equal, so one line sits in the vertical middle. `paddingVertical` would
- * lose to the `paddingTop` of `TextArea`.
+ * Note grows from one line up to about five. iOS puts the line height slack
+ * above the text, so the top padding is 4 pt smaller: one line then sits in
+ * the vertical middle. Set top and bottom: `paddingVertical` would lose to
+ * the `paddingTop` of `TextArea`.
  */
 const NOTE_STYLE = {
   height: undefined,
   maxHeight: 140,
-  paddingTop: 12,
-  paddingBottom: 12,
+  paddingTop: 10,
+  paddingBottom: 14,
 };
 
 /** Close and Save: iOS sheet bar items, Android Material top app bar. */
