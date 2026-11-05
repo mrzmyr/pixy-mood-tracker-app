@@ -150,7 +150,7 @@ const DayStrip = ({ checkIns }: { checkIns: CheckIn[] }) => {
       </View>
       {checkIns.map((checkIn) => (
         <View
-          key={`${checkIn.minute}-${checkIn.rating}`}
+          key={checkIn.id}
           style={{
             position: "absolute",
             top: 3,

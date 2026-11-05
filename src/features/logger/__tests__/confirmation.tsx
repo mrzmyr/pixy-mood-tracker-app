@@ -115,8 +115,8 @@ describe("getDaySummary()", () => {
       rating: "very_good",
       // Day strip: oldest first, at the minute of the day.
       checkIns: [
-        { minute: 8 * 60, rating: "good" },
-        { minute: 20 * 60, rating: "extremely_good" },
+        { id: morning.id, minute: 8 * 60, rating: "good" },
+        { id: saved.id, minute: 20 * 60, rating: "extremely_good" },
       ],
     });
   });
