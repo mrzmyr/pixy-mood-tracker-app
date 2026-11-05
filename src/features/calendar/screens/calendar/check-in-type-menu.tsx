@@ -13,7 +13,6 @@ import { FullWindowOverlay } from "react-native-screens";
 import Animated, {
   Easing,
   interpolate,
-  ReduceMotion,
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
@@ -50,10 +49,7 @@ const STAGGER = 0.12;
 // Open: spring with little bounce, about 400 ms (emilkowal.ski/ui/great-animations).
 const OPEN_SPRING = { duration: 400, dampingRatio: 0.85 };
 // Close: fast accelerate, the menu leaves out of the way.
-const CLOSE_TIMING = {
-  duration: 180,
-  easing: Easing.in(Easing.quad),
-};
+const CLOSE_MS = 180;
 
 const OPTIONS: {
   type: MenuCheckInType;
@@ -178,8 +174,11 @@ export const CheckInTypeMenu = ({
     progress.set(
       withTiming(
         0,
-        // oxlint-disable-next-line pixy-standards/no-reduce-motion-never -- only fades and scales the menu away; reduced motion already drops the movement
-        { ...CLOSE_TIMING, reduceMotion: ReduceMotion.Never },
+        {
+          duration: CLOSE_MS,
+          // Built at use: router suites mock reanimated without `Easing.in`.
+          easing: Easing.in(Easing.quad),
+        },
         (finished) => {
           if (finished) {
             scheduleOnRN(setIsMounted, false);
