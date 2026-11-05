@@ -176,9 +176,9 @@ const EntryHeader = ({
  * Full-width card for one entry in the day list. The header shows time, time
  * of day, sleep, menstruation, the place with the `location` flag on, and
  * with `position` the place of the entry in its day ("2/5"). No section titles: white space
- * divides the blocks. Short blocks come first (emotions, people, tags,
- * photos), the note last, so a long note never hides the rest. Empty steps
- * show as dashed add pills at the end.
+ * divides the blocks. Photos come first, then short blocks (emotions,
+ * people, tags), the note last, so a long note never hides the rest. Empty
+ * steps show as dashed add pills at the end.
  *
  * A block or pill opens the logger at its step, only when the edit logger
  * has that step: the step is on in Settings > Steps, or the entry holds
@@ -236,10 +236,10 @@ export const Entry = ({
 
   const editableSteps = new Set(editSteps);
   const emptySteps: [AddableStep, boolean][] = [
+    ["photos", item.photos.length === 0],
     ["emotions", item.emotions.length === 0],
     ["people", knownPeople.length === 0],
     ["tags", item.tags.length === 0],
-    ["photos", item.photos.length === 0],
     ["message", item.message.trim() === ""],
   ];
   const addSteps = emptySteps.flatMap(([step, isEmpty]) =>
@@ -272,6 +272,11 @@ export const Entry = ({
           gap: BLOCK_GAP,
         }}
       >
+        {item.photos.length > 0 && (
+          <FlagHighlight flag="photos">
+            <Photos item={item} onEdit={editStep("photos")} />
+          </FlagHighlight>
+        )}
         <Emotions item={item} onEdit={editStep("emotions")} />
         {knownPeople.length > 0 && (
           <FlagHighlight flag="people">
@@ -279,11 +284,6 @@ export const Entry = ({
           </FlagHighlight>
         )}
         <Tags item={item} onEdit={editStep("tags")} />
-        {item.photos.length > 0 && (
-          <FlagHighlight flag="photos">
-            <Photos item={item} onEdit={editStep("photos")} />
-          </FlagHighlight>
-        )}
         <Message
           item={item}
           onEdit={editStep("message")}
