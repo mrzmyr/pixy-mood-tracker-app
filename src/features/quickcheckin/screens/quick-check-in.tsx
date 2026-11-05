@@ -45,7 +45,7 @@ const NO_PEOPLE: never[] = [];
 const INSET = 20;
 
 /** Space between sections. No section titles: the content explains itself. */
-const SECTION_GAP = 24;
+const SECTION_GAP = 36;
 
 /**
  * Note grows from one line up to about five. iOS puts the line height slack
