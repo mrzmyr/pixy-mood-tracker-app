@@ -39,7 +39,8 @@ const RatingIcon = ({ value, color }: { value: NeedState; color: string }) => (
  * Need rating: a small segmented control with an empty ring, a ring with a
  * dot, or a full circle for unmet, partly, and met. The native segmented
  * controls draw symbols at full size and in black, too loud next to the need
- * name. Unrated needs show no selected segment.
+ * name. Unrated needs show no selected segment. Tapping the selected segment
+ * again clears the rating.
  */
 export const NeedRating = ({
   label,
@@ -79,7 +80,7 @@ export const NeedRating = ({
             hitSlop={{ top: 8, bottom: 8 }}
             onPress={() => {
               haptics.selection();
-              onChange(value);
+              onChange(isSelected ? undefined : value);
             }}
             style={{
               width: SEGMENT_WIDTH,
