@@ -2,6 +2,7 @@ import type { LoggerStep } from "@/constants/logger-steps";
 import type { LogItem } from "@/features/logs";
 import type { IQuestion } from "@/features/questioner";
 import type { useSettings } from "@/state/settings";
+import type { CheckInType } from "@/types";
 import { getItemDate } from "@/lib/log-dates";
 
 /**
@@ -92,6 +93,42 @@ export const getAvailableStepsForCreate = ({
   }
 
   return slides;
+};
+
+/**
+ * Steps of a create logger opened as `checkInType`, from the steps of
+ * `getAvailableStepsForCreate`.
+ *
+ * - `morning_intention`: rating, sleep, note only. Sleep and note show also
+ *   with their step off. Sleep still skips when the day holds a sleep quality
+ *   or Apple Health fills it.
+ * - `evening_reflection`: every step except sleep.
+ * - `quick` and no type: steps unchanged.
+ */
+export const getStepsForCheckInType = ({
+  checkInType,
+  steps,
+  hasSleepOnDay,
+  isSleepAutoFilled,
+}: {
+  checkInType: CheckInType | undefined;
+  steps: LoggerStep[];
+  /** See `hasSleepOnDate`. */
+  hasSleepOnDay: boolean;
+  /** Apple Health "Auto Fill" is on; see `useHealthSleepFill`. */
+  isSleepAutoFilled: boolean;
+}): LoggerStep[] => {
+  if (checkInType === "morning_intention") {
+    return [
+      "rating",
+      ...(hasSleepOnDay || isSleepAutoFilled ? [] : (["sleep"] as const)),
+      "message",
+    ];
+  }
+  if (checkInType === "evening_reflection") {
+    return steps.filter((step) => step !== "sleep");
+  }
+  return steps;
 };
 
 /**

@@ -37,6 +37,7 @@ import { PromoCards } from "./promo-cards";
 import CalendarHeader from "./calendar-header";
 import { CalendarFloatButton } from "./calendar-float-button";
 import { CalendarSecondaryButtons } from "./calendar-secondary-button";
+import { CheckInTypeMenu, useCheckInTypeMenu } from "./check-in-type-menu";
 import { useFootNote } from "./foot-note";
 import { Timeline } from "./timeline";
 import { useRouter } from "expo-router";
@@ -99,6 +100,7 @@ const CalendarScreenComponent = () => {
   const hasTodayEntry = logState.items.some(
     (item) => getItemDate(item) === today
   );
+  const checkInMenu = useCheckInTypeMenu({ hasTodayEntry });
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const { contentOffset, contentSize, layoutMeasurement } =
@@ -207,6 +209,10 @@ const CalendarScreenComponent = () => {
               scrollRef.current?.scrollToEnd({ animated: true });
             }}
             onAdd={() => {
+              if (checkInMenu.isEnabled) {
+                checkInMenu.toggle();
+                return;
+              }
               analytics.track("calendar:add_today_tapped", {
                 has_entries: hasTodayEntry,
               });
@@ -221,6 +227,14 @@ const CalendarScreenComponent = () => {
           <CalendarSecondaryButtons hasTodayEntry={hasTodayEntry} />
         )}
       </Animated.View>
+      {checkInMenu.isEnabled && (
+        <CheckInTypeMenu
+          isOpen={checkInMenu.isOpen}
+          hasTodayEntry={hasTodayEntry}
+          onSelect={checkInMenu.handleSelect}
+          onClose={checkInMenu.handleClose}
+        />
+      )}
       {Platform.OS !== "web" && <CalendarBottomSheet />}
     </View>
   );

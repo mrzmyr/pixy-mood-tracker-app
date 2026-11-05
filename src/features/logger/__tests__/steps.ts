@@ -4,6 +4,7 @@ import {
   getAvailableStepsForCreate,
   getAvailableStepsForEdit,
   getRatingActionType,
+  getStepsForCheckInType,
   hasSleepOnDate,
 } from "../steps";
 
@@ -285,5 +286,60 @@ describe("rating slide button", () => {
     },
   ] as const)("$name", ({ input, expected }) => {
     expect(getRatingActionType(input)).toBe(expected);
+  });
+});
+
+describe("logger steps per check-in type", () => {
+  const ALL_STEPS = [
+    "rating",
+    "sleep",
+    "menstruation",
+    "emotions",
+    "tags",
+    "message",
+    "feedback",
+  ] as const;
+  const getSteps = ({
+    checkInType,
+    hasSleepOnDay = false,
+    isSleepAutoFilled = false,
+    steps = [...ALL_STEPS],
+  }: Partial<Parameters<typeof getStepsForCheckInType>[0]>) =>
+    getStepsForCheckInType({
+      checkInType,
+      steps,
+      hasSleepOnDay,
+      isSleepAutoFilled,
+    });
+
+  test("morning intention asks mood, sleep, and note, also with those steps off", () => {
+    expect(
+      getSteps({ checkInType: "morning_intention", steps: ["rating"] })
+    ).toEqual(["rating", "sleep", "message"]);
+  });
+
+  test("morning intention skips sleep once the day holds it or Apple Health fills it", () => {
+    expect(
+      getSteps({ checkInType: "morning_intention", hasSleepOnDay: true })
+    ).toEqual(["rating", "message"]);
+    expect(
+      getSteps({ checkInType: "morning_intention", isSleepAutoFilled: true })
+    ).toEqual(["rating", "message"]);
+  });
+
+  test("evening reflection keeps every step except sleep", () => {
+    expect(getSteps({ checkInType: "evening_reflection" })).toEqual([
+      "rating",
+      "menstruation",
+      "emotions",
+      "tags",
+      "message",
+      "feedback",
+    ]);
+  });
+
+  test("quick and untyped check-ins keep the steps", () => {
+    expect(getSteps({ checkInType: "quick" })).toEqual([...ALL_STEPS]);
+    expect(getSteps({ checkInType: undefined })).toEqual([...ALL_STEPS]);
   });
 });
