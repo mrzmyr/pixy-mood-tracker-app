@@ -1,18 +1,23 @@
+import { Column, Picker, Row, Spacer, Text } from "@expo/ui";
 import * as Linking from "expo-linking";
-import Check from "lucide-react-native/icons/check";
-import { useSyncExternalStore } from "react";
-import { ScrollView, View } from "react-native";
-import Toggle from "@/components/toggle";
-import MenuList from "@/components/menu-list";
-import MenuListHeadline from "@/components/menu-list-headline";
-import MenuListItem from "@/components/menu-list-item";
-import TextInfo from "@/components/text-info";
-import useColors from "@/hooks/use-colors";
-import { useScrollBottomPadding } from "@/hooks/use-scroll-bottom-padding";
+import { Stack } from "expo-router";
+import { useContext, useState, useSyncExternalStore } from "react";
 import {
-  useFeatureFlagSource,
-  useFeatureFlagState,
-} from "@/state/feature-flags";
+  SettingsForm,
+  SettingsRow,
+  SettingsSection,
+  SettingsSwitch,
+} from "@/components/settings-form";
+import { useSecondaryText } from "@/components/settings-form/platform";
+import useColors from "@/hooks/use-colors";
+import {
+  FeatureFlagsContext,
+  getFeatureFlagState,
+} from "@/state/feature-flags/context";
+import type {
+  FeatureFlagState,
+  RemoteFlags,
+} from "@/state/feature-flags/context";
 import {
   FEATURE_FLAG_DETAILS,
   FEATURE_FLAGS,
@@ -30,151 +35,273 @@ import {
 } from "@/state/feature-flags/overrides";
 import type { FeatureFlagOverride } from "@/state/feature-flags/overrides";
 
-const OVERRIDE_OPTIONS: { value: FeatureFlagOverride; title: string }[] = [
-  { value: "remote", title: "PostHog" },
-  { value: "on", title: "On" },
-  { value: "off", title: "Off" },
+/**
+ * Flags that read the remote value only: the override access flag, and the
+ * App Lock bypass, which ignores overrides on purpose. They show their state
+ * but no picker.
+ */
+const REMOTE_ONLY_FLAGS: readonly FeatureFlag[] = [
+  OVERRIDE_ACCESS_FLAG,
+  "app-lock-bypass",
 ];
 
 const OVERRIDABLE_FLAGS = FEATURE_FLAGS.filter(
-  (key) => key !== OVERRIDE_ACCESS_FLAG
+  (flag) => !REMOTE_ONLY_FLAGS.includes(flag)
 );
 
-/**
- * The override every flag shares, or `undefined` when flags differ. Drives
- * the check mark of the "All Flags" rows.
- */
-const getSharedOverride = (
-  overrides: ReturnType<typeof getOverrides>
-): FeatureFlagOverride | undefined => {
-  const values = new Set(
-    OVERRIDABLE_FLAGS.map((flag) => overrides[flag] ?? "remote")
-  );
-  return values.size === 1 ? [...values][0] : undefined;
+const STATE_LABELS: Record<FeatureFlagState, string> = {
+  on: "On",
+  off: "Off",
+  loading: "Loading",
 };
 
-/** Set every flag to one option in one tap. */
-const AllFlagsSection = ({
-  shared,
-}: {
-  shared: FeatureFlagOverride | undefined;
-}) => {
-  const colors = useColors();
-
-  return (
-    <View>
-      <MenuListHeadline style={{ marginTop: 8, marginBottom: 8 }}>
-        All Flags
-      </MenuListHeadline>
-      <MenuList>
-        {OVERRIDE_OPTIONS.map((option) => (
-          <MenuListItem
-            key={option.value}
-            title={option.title}
-            onPress={() =>
-              setOverrides({ keys: OVERRIDABLE_FLAGS, value: option.value })
-            }
-            iconRight={
-              shared === option.value ? (
-                <Check size={18} color={colors.tint} />
-              ) : null
-            }
-            testID={`feature-flag-all-${option.value}`}
-          />
-        ))}
-      </MenuList>
-      <TextInfo style={{ marginTop: 8 }}>
-        Sets every flag below. No check mark: flags differ.
-      </TextInfo>
-    </View>
-  );
-};
-
-/** One flag: override options, then what it gates and its state now. */
-const FeatureFlagSection = ({
-  flag,
-  override,
-}: {
+interface FlagItem {
   flag: FeatureFlag;
+  state: FeatureFlagState;
+  /** Value without an override: remote flag, or off without remote flags. */
+  defaultState: FeatureFlagState;
   override: "on" | "off" | undefined;
-}) => {
-  const colors = useColors();
-  const state = useFeatureFlagState(flag);
-  const source = useFeatureFlagSource(flag);
-  const { description, location } = FEATURE_FLAG_DETAILS[flag];
+  isRemoteOnly: boolean;
+}
 
-  return (
-    <View>
-      <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
-        {flag}
-      </MenuListHeadline>
-      <MenuList>
-        {OVERRIDE_OPTIONS.map((option) => (
-          <MenuListItem
-            key={option.value}
-            title={option.title}
-            onPress={() => setOverride({ key: flag, value: option.value })}
-            iconRight={
-              (override ?? "remote") === option.value ? (
-                <Check size={18} color={colors.tint} />
-              ) : null
-            }
-            testID={`feature-flag-${flag}-${option.value}`}
-          />
-        ))}
-      </MenuList>
-      <TextInfo style={{ marginTop: 8 }}>
-        {`${description}. Shows in: ${location}. Now ${state} (${source === "override" ? "override" : "PostHog"}).`}
-      </TextInfo>
-    </View>
+/** Case-insensitive match on key, description, and location. */
+const isMatch = (flag: FeatureFlag, query: string) => {
+  const needle = query.trim().toLowerCase();
+  const { description, location } = FEATURE_FLAG_DETAILS[flag];
+  return [flag, description, location].some((text) =>
+    text.toLowerCase().includes(needle)
   );
 };
 
 /**
- * Settings > Development > Feature flags: override PostHog flags on this
- * device until the app restarts, and outline flagged UI. Reachable in
+ * Remote flag status for the overview: why every default can read Off.
+ * Flags load only with analytics consent.
+ */
+const getRemoteStatus = ({
+  flags,
+  isLoading,
+  hasLoadFailed,
+}: {
+  flags: RemoteFlags | null;
+  isLoading: boolean;
+  hasLoadFailed?: boolean;
+}) => {
+  if (isLoading) {
+    return { value: "Loading", footer: "Defaults load from remote config." };
+  }
+  if (hasLoadFailed) {
+    return {
+      value: "Failed",
+      footer:
+        "Remote config did not load, so every default is Off. Check the connection, then restart the app.",
+    };
+  }
+  if (flags === null) {
+    return {
+      value: "Not Loaded",
+      footer:
+        "Remote config loads only with consent: Settings > Privacy > Behavioral Data. Until then every default is Off.",
+    };
+  }
+  return {
+    value: "Loaded",
+    footer: "Default: value from remote config for this device.",
+  };
+};
+
+/** One flag: key and what it gates, then its state or an override picker. */
+const FlagRow = ({ item }: { item: FlagItem }) => {
+  const colors = useColors();
+  const secondary = useSecondaryText();
+  const { description } = FEATURE_FLAG_DETAILS[item.flag];
+
+  return (
+    <Row alignment="center" spacing={12} testID={`feature-flag-${item.flag}`}>
+      <Column alignment="start" spacing={2}>
+        <Text>{item.flag}</Text>
+        <Text
+          textStyle={{ fontSize: 13, color: colors.textSecondary }}
+          numberOfLines={2}
+        >
+          {description}
+        </Text>
+      </Column>
+      <Spacer flexible />
+      {item.isRemoteOnly ? (
+        <Text textStyle={secondary.textStyle} modifiers={secondary.modifiers}>
+          {STATE_LABELS[item.state]}
+        </Text>
+      ) : (
+        <Picker
+          selectedValue={item.override ?? "remote"}
+          onValueChange={(value: FeatureFlagOverride) =>
+            setOverride({ key: item.flag, value })
+          }
+          testID={`feature-flag-${item.flag}-picker`}
+        >
+          <Picker.Item
+            label={`Default (${STATE_LABELS[item.defaultState]})`}
+            value="remote"
+          />
+          <Picker.Item label="On" value="on" />
+          <Picker.Item label="Off" value="off" />
+        </Picker>
+      )}
+    </Row>
+  );
+};
+
+/**
+ * Section of flags in one state, or `null` without flags. A function, not a
+ * component: `SettingsForm` reads only direct `SettingsSection` children.
+ */
+const renderFlagSection = (title: string, items: FlagItem[]) =>
+  items.length === 0 ? null : (
+    <SettingsSection title={`${title} (${items.length})`}>
+      {items.map((item) => (
+        <FlagRow key={item.flag} item={item} />
+      ))}
+    </SettingsSection>
+  );
+
+/**
+ * Settings > Development > Feature flags: which flags are on for this
+ * device, grouped On, Off, and Loading, with a search in the header. Each
+ * flag overrides its remote default until the app restarts. Reachable in
  * development and preview builds, and in production while the
  * `feature-flag-overrides` flag is on.
  */
 export const FeatureFlagsScreen = () => {
   const colors = useColors();
+  const remote = useContext(FeatureFlagsContext);
   const overrides = useSyncExternalStore(subscribe, getOverrides);
   const isHighlighting = useSyncExternalStore(subscribe, isHighlightOn);
-  const paddingBottom = useScrollBottomPadding(16);
+  const [query, setQuery] = useState("");
+
+  const items: FlagItem[] = FEATURE_FLAGS.map((flag) => {
+    const isRemoteOnly = REMOTE_ONLY_FLAGS.includes(flag);
+    const override = isRemoteOnly ? undefined : overrides[flag];
+    const isRemoteOn = remote.flags?.[flag] === true;
+    return {
+      flag,
+      isRemoteOnly,
+      override,
+      state: getFeatureFlagState({
+        override,
+        isLoading: remote.isLoading,
+        isRemoteOn,
+      }),
+      defaultState: getFeatureFlagState({
+        override: undefined,
+        isLoading: remote.isLoading,
+        isRemoteOn,
+      }),
+    };
+  });
+  const matches = items.filter((item) => isMatch(item.flag, query));
+  const isSearching = query.trim() !== "";
+  const onCount = items.filter((item) => item.state === "on").length;
+  const overrideCount = items.filter((item) => item.override).length;
+  const status = getRemoteStatus(remote);
 
   return (
-    <ScrollView
-      style={{ backgroundColor: colors.background, flex: 1 }}
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={{ padding: 16, paddingBottom }}
-    >
-      <AllFlagsSection shared={getSharedOverride(overrides)} />
-      <MenuList>
-        <MenuListItem
-          title="Highlight flagged features"
-          iconRight={
-            <Toggle
-              accessibilityLabel="Highlight flagged features"
-              onValueChange={setHighlight}
+    <>
+      <SettingsForm>
+        {isSearching ? null : (
+          <SettingsSection title="Overview" footer={status.footer}>
+            <SettingsRow
+              title="On for You"
+              value={`${onCount} of ${items.length}`}
+              testID="feature-flags-on-count"
+            />
+            <SettingsRow
+              title="Overrides"
+              value={`${overrideCount}`}
+              testID="feature-flags-override-count"
+            />
+            <SettingsRow
+              title="Remote Config"
+              value={status.value}
+              testID="feature-flags-remote-status"
+            />
+          </SettingsSection>
+        )}
+        {renderFlagSection(
+          "On",
+          matches.filter((item) => item.state === "on")
+        )}
+        {renderFlagSection(
+          "Off",
+          matches.filter((item) => item.state === "off")
+        )}
+        {renderFlagSection(
+          "Loading",
+          matches.filter((item) => item.state === "loading")
+        )}
+        {isSearching && matches.length === 0 ? (
+          <SettingsSection>
+            <SettingsRow title="No Matching Flags" />
+          </SettingsSection>
+        ) : null}
+        {isSearching ? null : (
+          <SettingsSection
+            title="All Flags"
+            footer={
+              IS_OVERRIDE_BUILD
+                ? `Highlight outlines flagged UI with its key. Overrides and highlight end when the app restarts. Tests set an override with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote.`
+                : "Highlight outlines flagged UI with its key. Overrides and highlight end when the app restarts."
+            }
+          >
+            <SettingsSwitch
+              label="Highlight Flagged Features"
               value={isHighlighting}
+              onValueChange={setHighlight}
               testID="feature-flag-highlight"
             />
-          }
-        />
-      </MenuList>
-      <TextInfo style={{ marginTop: 8 }}>
-        Outlines UI behind a flag with its key. Amber dot: override. Blue dot:
-        PostHog.
-      </TextInfo>
-      {OVERRIDABLE_FLAGS.map((flag) => (
-        <FeatureFlagSection key={flag} flag={flag} override={overrides[flag]} />
-      ))}
-      <TextInfo style={{ marginTop: 8 }}>
-        {IS_OVERRIDE_BUILD
-          ? `Overrides and highlight end when the app restarts. Tests set an override with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote.`
-          : "Overrides and highlight end when the app restarts."}
-      </TextInfo>
-      <View style={{ height: 100 }} />
-    </ScrollView>
+            <SettingsRow
+              title="Reset All Overrides"
+              onPress={
+                overrideCount > 0
+                  ? () =>
+                      setOverrides({ keys: OVERRIDABLE_FLAGS, value: "remote" })
+                  : undefined
+              }
+              testID="feature-flag-all-remote"
+            />
+            <SettingsRow
+              title="Turn All On"
+              onPress={() =>
+                setOverrides({ keys: OVERRIDABLE_FLAGS, value: "on" })
+              }
+              testID="feature-flag-all-on"
+            />
+            <SettingsRow
+              title="Turn All Off"
+              onPress={() =>
+                setOverrides({ keys: OVERRIDABLE_FLAGS, value: "off" })
+              }
+              testID="feature-flag-all-off"
+            />
+          </SettingsSection>
+        )}
+      </SettingsForm>
+      <Stack.Screen
+        options={{
+          headerSearchBarOptions: {
+            placeholder: "Search Flags",
+            autoCapitalize: "none",
+            hideWhenScrolling: false,
+            obscureBackground: false,
+            tintColor: colors.tint,
+            textColor: colors.text,
+            hintTextColor: colors.textSecondary,
+            headerIconColor: colors.text,
+            onChangeText: (event) => setQuery(event.nativeEvent.text),
+            onCancelButtonPress: () => setQuery(""),
+            onClose: () => setQuery(""),
+          },
+        }}
+      />
+    </>
   );
 };

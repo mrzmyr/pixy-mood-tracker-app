@@ -45,7 +45,7 @@ export const FEATURE_FLAG_DETAILS: Record<
   },
   "app-lock-bypass": {
     description:
-      "Opens a locked app for a targeted person. PostHog only, local overrides never apply",
+      "Opens a locked app for a targeted person. Remote config only, overrides never apply",
     location: "Lock screen",
   },
   "apple-health": {
