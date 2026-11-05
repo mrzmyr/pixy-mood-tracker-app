@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { Platform, Pressable, ScrollView, View } from "react-native";
 import { useKeepAwake } from "expo-keep-awake";
 import * as Linking from "expo-linking";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useHeaderHeight } from "expo-router/react-navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Check from "lucide-react-native/icons/check";
 import CircleQuestionMark from "lucide-react-native/icons/circle-question-mark";
@@ -33,6 +34,15 @@ import { useVoiceTranscription } from "../use-voice-transcription";
 import type { VoiceErrorStatus, VoiceStatus } from "../use-voice-transcription";
 
 const CONTROL_SIZE = 56;
+
+/**
+ * iOS sheet bar over the sky: no fill, so the clouds or stars reach the top
+ * edge and the close button floats on them.
+ */
+const TRANSPARENT_BAR_OPTIONS = {
+  headerTransparent: true,
+  headerStyle: { backgroundColor: "transparent" },
+};
 
 const STATUS_LABEL: Partial<Record<VoiceStatus, () => string>> = {
   preparing: () => t("voice_preparing"),
@@ -83,6 +93,7 @@ export const VoiceMode = () => {
   const colors = useColors();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const headerHeight = useHeaderHeight();
   const analytics = useAnalytics();
   const haptics = useHaptics();
   const terms = useVoiceTerms();
@@ -203,13 +214,21 @@ export const VoiceMode = () => {
     >
       <VoiceBackground level={voice.level} />
       <RouteModalHeader title="" onClose={close} closeTestID="voice-close" />
+      {Platform.OS === "ios" && (
+        <Stack.Screen options={TRANSPARENT_BAR_OPTIONS} />
+      )}
 
       <ScrollView
         ref={cardsRef}
         // Newest card last: keep it in view while the list grows.
         onContentSizeChange={() => cardsRef.current?.scrollToEnd()}
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingHorizontal: 20, gap: 8 }}
+        contentContainerStyle={{
+          // iOS: the transparent bar overlaps the screen top.
+          paddingTop: Platform.OS === "ios" ? headerHeight : 0,
+          paddingHorizontal: 20,
+          gap: 8,
+        }}
       >
         {!mood && matches.length === 0 && !isBlocked && (
           <VoiceTrySaying example={example} />
