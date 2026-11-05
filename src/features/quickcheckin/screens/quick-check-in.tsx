@@ -31,6 +31,7 @@ import { useVoicePrefill } from "../use-voice-prefill";
 import { getSheetSections } from "../sheet-sections";
 import { InfluenceChips, MoodPixel } from "./quick-check-in-chips";
 import { QuickCheckInEmotions } from "./quick-check-in-emotions";
+import { QuickCheckInSection } from "./quick-check-in-section";
 import { PeopleRow, QuickCheckInListSheets } from "./quick-check-in-pickers";
 import {
   QuickCheckInPhotos,
@@ -41,11 +42,8 @@ import type { InfluenceOption } from "../ranking";
 
 const NO_PEOPLE: never[] = [];
 
-/** Screen edge to content, same as the logger. */
-const INSET = 20;
-
-/** Space between sections. No section titles: the content explains itself. */
-const SECTION_GAP = 24;
+/** Space between sections, each under its Core Module title. */
+const SECTION_GAP = 36;
 
 /** Note grows from one line up to about five. */
 const NOTE_STYLE = { height: undefined, maxHeight: 140, paddingVertical: 12 };
@@ -300,18 +298,20 @@ export const QuickCheckIn = () => {
           {isSearching ? (
             <>
               {sections.emotions.length > 0 && (
-                <EmotionBasicSelection
-                  emotions={sections.emotions.map(toBasicCategory)}
-                  selectedEmotions={EMOTIONS.filter((emotion) =>
-                    emotionKeys.has(emotion.key)
-                  )}
-                  onPress={(emotion) => toggleEmotion(emotion.key)}
-                  onRequestEmotion={openRequest}
-                  style={{ marginBottom: 0 }}
-                />
+                <QuickCheckInSection module="emotions" inset={false}>
+                  <EmotionBasicSelection
+                    emotions={sections.emotions.map(toBasicCategory)}
+                    selectedEmotions={EMOTIONS.filter((emotion) =>
+                      emotionKeys.has(emotion.key)
+                    )}
+                    onPress={(emotion) => toggleEmotion(emotion.key)}
+                    onRequestEmotion={openRequest}
+                    style={{ marginBottom: 0, paddingTop: 0 }}
+                  />
+                </QuickCheckInSection>
               )}
               {sections.people.length > 0 && (
-                <View style={{ paddingHorizontal: INSET }}>
+                <QuickCheckInSection module="people">
                   <InfluenceChips
                     options={sections.people}
                     people={people}
@@ -319,12 +319,12 @@ export const QuickCheckIn = () => {
                     picked={pickedKeys}
                     onToggle={toggle}
                   />
-                </View>
+                </QuickCheckInSection>
               )}
             </>
           ) : (
             <>
-              <View style={{ paddingHorizontal: INSET, gap: 12 }}>
+              <QuickCheckInSection module="rating">
                 <View
                   accessibilityRole="radiogroup"
                   accessibilityLabel={t("logger_step_rating")}
@@ -339,6 +339,8 @@ export const QuickCheckIn = () => {
                     />
                   ))}
                 </View>
+              </QuickCheckInSection>
+              <QuickCheckInSection module="message">
                 <TextArea
                   testID="quick-check-in-note"
                   accessibilityLabel={t("logger_step_message")}
@@ -348,28 +350,32 @@ export const QuickCheckIn = () => {
                   maxLength={MAX_MESSAGE_LENGTH}
                   style={NOTE_STYLE}
                 />
-              </View>
-              <QuickCheckInEmotions
-                picked={emotions}
-                rating={rating}
-                items={items}
-                onToggle={toggleEmotion}
-              />
-              {sections.people.length > 0 && (
-                <PeopleRow
-                  people={sections.people.flatMap((option) => {
-                    const person = personById.get(option.id);
-                    return person ? [person] : [];
-                  })}
-                  picked={pickedPeople}
-                  onToggle={togglePerson}
-                  onShowAll={() => setIsPeopleOpen(true)}
+              </QuickCheckInSection>
+              <QuickCheckInSection module="emotions" inset={false}>
+                <QuickCheckInEmotions
+                  picked={emotions}
+                  rating={rating}
+                  items={items}
+                  onToggle={toggleEmotion}
                 />
+              </QuickCheckInSection>
+              {sections.people.length > 0 && (
+                <QuickCheckInSection module="people" inset={false}>
+                  <PeopleRow
+                    people={sections.people.flatMap((option) => {
+                      const person = personById.get(option.id);
+                      return person ? [person] : [];
+                    })}
+                    picked={pickedPeople}
+                    onToggle={togglePerson}
+                    onShowAll={() => setIsPeopleOpen(true)}
+                  />
+                </QuickCheckInSection>
               )}
             </>
           )}
           {sections.tags.length > 0 && (
-            <View style={{ paddingHorizontal: INSET }}>
+            <QuickCheckInSection module="tags">
               <InfluenceChips
                 options={sections.tags}
                 people={people}
@@ -377,12 +383,12 @@ export const QuickCheckIn = () => {
                 picked={pickedKeys}
                 onToggle={toggle}
               />
-            </View>
+            </QuickCheckInSection>
           )}
           {hasPhotos && !isSearching && (
-            <View style={{ paddingHorizontal: INSET }}>
+            <QuickCheckInSection module="photos">
               <QuickCheckInPhotos draft={draftPhotos} />
-            </View>
+            </QuickCheckInSection>
           )}
         </PullToSearch>
       </View>
