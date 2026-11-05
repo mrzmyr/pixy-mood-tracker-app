@@ -72,6 +72,7 @@ interface UpdaterValue {
   /** Moves listed tags into the given categories and order. */
   arrangeTags: (arrangement: TagArrangement[]) => void;
   createCategory: (category: TagCategory) => void;
+  /** Renames a category. General keeps its name. */
   updateCategory: (category: TagCategory) => void;
   /** Deletes a category and moves its tags to General. General stays. */
   deleteCategory: (categoryId: TagCategory["id"]) => void;
@@ -153,6 +154,9 @@ const reducer = (state: State, action: StateAction): State => {
       return { ...state, categories: [...state.categories, action.payload] };
     }
     case "edit_category": {
+      if (action.payload.id === GENERAL_CATEGORY_ID) {
+        return state;
+      }
       return {
         ...state,
         categories: state.categories.map((category) =>

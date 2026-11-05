@@ -15,7 +15,10 @@ import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { cardCorners } from "@/components/sortable/card-corners";
 import { ReorderHandle } from "@/components/sortable/reorder-handle";
-import { getGeneralCategoryTitle } from "../tag-categories";
+import {
+  GENERAL_CATEGORY_ID,
+  getGeneralCategoryTitle,
+} from "../tag-categories";
 import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { TagCategory } from "../tags-provider";
 import { Label } from "@/components/typography";
@@ -23,9 +26,9 @@ import { Label } from "@/components/typography";
 const IS_IOS = Platform.OS === "ios";
 
 /**
- * Manage tag categories: drag to reorder, tap to rename or delete. Users
- * can't add categories. The order is the order of the check-in and the tag
- * settings.
+ * Manage tag categories: drag to reorder, tap to rename or delete (not
+ * General). Users can't add categories. The order is the order of the
+ * check-in and the tag settings.
  *
  * - `modal` (default): sheet from the check-in, own close header
  * - `page`: pushed from Settings > Tags. iOS shows back in the bar
@@ -101,11 +104,15 @@ export const TagCategories = ({
           <MenuListItem
             testID={`tag-category-row-${item.id}`}
             title={item.title}
-            onPress={() =>
-              router.push({
-                pathname: "/tags/categories/[id]",
-                params: { id: item.id },
-              })
+            // General can be neither renamed nor deleted, so it has no form.
+            onPress={
+              item.id === GENERAL_CATEGORY_ID
+                ? null
+                : () =>
+                    router.push({
+                      pathname: "/tags/categories/[id]",
+                      params: { id: item.id },
+                    })
             }
             iconRight={
               <Label

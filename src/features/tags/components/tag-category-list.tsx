@@ -13,6 +13,7 @@ import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import {
+  GENERAL_CATEGORY_ID,
   groupTagsByCategory,
   moveTag,
   searchTagSections,
@@ -117,23 +118,26 @@ export const TagCategoryList = ({
           >
             {item.category.title}
           </MenuListHeadline>
-          <LinkButton
-            testID={`tag-category-edit-${item.category.id}`}
-            accessibilityLabel={t("tag_category_edit_named", {
-              title: item.category.title,
-            })}
-            onPress={() =>
-              router.push({
-                pathname: "/tags/categories/[id]",
-                params: { id: item.category.id },
-              })
-            }
-            style={{
-              marginRight: IS_IOS ? 0 : 8,
-            }}
-          >
-            {t("edit")}
-          </LinkButton>
+          {/* General can be neither renamed nor deleted. */}
+          {item.category.id !== GENERAL_CATEGORY_ID && (
+            <LinkButton
+              testID={`tag-category-edit-${item.category.id}`}
+              accessibilityLabel={t("tag_category_edit_named", {
+                title: item.category.title,
+              })}
+              onPress={() =>
+                router.push({
+                  pathname: "/tags/categories/[id]",
+                  params: { id: item.category.id },
+                })
+              }
+              style={{
+                marginRight: IS_IOS ? 0 : 8,
+              }}
+            >
+              {t("edit")}
+            </LinkButton>
+          )}
         </View>
       );
       // Nothing may land above the first header, so it keeps its slot.

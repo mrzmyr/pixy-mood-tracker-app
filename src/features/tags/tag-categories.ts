@@ -4,11 +4,11 @@ import type { Tag, TagCategory } from "./tags-provider";
 
 /**
  * Id of the built-in category. Every tag without a known category belongs
- * here, so it can be renamed but never deleted.
+ * here, so it can be neither renamed nor deleted.
  */
 export const GENERAL_CATEGORY_ID = "general";
 
-/** Current General title: the user's name for it, else the default one. */
+/** General title as listed. Always the default name, never a custom one. */
 export const getGeneralCategoryTitle = (categories: TagCategory[]): string =>
   categories.find((category) => category.id === GENERAL_CATEGORY_ID)?.title ??
   t("tag_category_general");
@@ -37,8 +37,9 @@ export interface TagArrangement {
 /**
  * Makes stored tag data consistent. Pure.
  *
- * Keeps General as a category (first, when it was missing) and moves tags
- * without a known category into it. Data from before tag categories has no
+ * Keeps General as a category (first, when it was missing) with
+ * `generalTitle`, and moves tags without a known category into it. Older
+ * versions allowed renaming General; that name is dropped. Data from before tag categories has no
  * categories, so all its tags land in General.
  */
 export const normalizeTagCategories = (
@@ -50,11 +51,14 @@ export const normalizeTagCategories = (
     (category, index, all) =>
       all.findIndex((other) => other.id === category.id) === index
   );
+  const general = { id: GENERAL_CATEGORY_ID, title: generalTitle };
   const withGeneral = known.some(
     (category) => category.id === GENERAL_CATEGORY_ID
   )
-    ? known
-    : [{ id: GENERAL_CATEGORY_ID, title: generalTitle }, ...known];
+    ? known.map((category) =>
+        category.id === GENERAL_CATEGORY_ID ? general : category
+      )
+    : [general, ...known];
   const ids = new Set(withGeneral.map((category) => category.id));
 
   return {

@@ -7,10 +7,11 @@ import { LogsProvider } from "@/features/logs";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
 import { TagCategoryEdit } from "../screens/tag-category-form";
-import { GENERAL_CATEGORY_ID } from "../tag-categories";
 import { STORAGE_KEY, TagsProvider, useTagsState } from "../tags-provider";
 
-/** Lists category titles and opens the General form, like the categories list. */
+const WORK = { id: "work", title: "Job" };
+
+/** Lists category titles and opens the Job form, like the categories list. */
 const CategoriesScreen = () => {
   const router = useRouter();
   const { categories } = useTagsState();
@@ -20,7 +21,7 @@ const CategoriesScreen = () => {
         onPress={() =>
           router.push({
             pathname: "/tags/categories/[id]",
-            params: { id: GENERAL_CATEGORY_ID },
+            params: { id: WORK.id },
           })
         }
       >
@@ -61,6 +62,10 @@ const openEditForm = async () => {
 
 beforeEach(async () => {
   await AsyncStorage.clear();
+  await AsyncStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({ tags: [], categories: [WORK] })
+  );
 });
 
 describe("tag category form", () => {
@@ -74,13 +79,13 @@ describe("tag category form", () => {
     await user.press(screen.getByTestId("tag-category-save"));
 
     expect(await screen.findByTestId("category-titles")).toHaveTextContent(
-      "Work"
+      "General,Work"
     );
     const stored = JSON.parse(
       (await AsyncStorage.getItem(STORAGE_KEY)) ?? "{}"
     );
     expect(
       stored.categories.map((category: { title: string }) => category.title)
-    ).toEqual(["Work"]);
+    ).toEqual(["General", "Work"]);
   });
 });

@@ -54,6 +54,15 @@ describe("normalizeTagCategories()", () => {
     ]);
   });
 
+  test("drops a custom General name from older versions", () => {
+    const result = normalizeTagCategories(
+      [],
+      [work, { id: GENERAL_CATEGORY_ID, title: "Misc" }],
+      "General"
+    );
+    expect(result.categories).toEqual([work, general]);
+  });
+
   test("restores a missing General first and drops duplicate categories", () => {
     const result = normalizeTagCategories([], [work, work], "General");
     expect(result.categories).toEqual([general, work]);
