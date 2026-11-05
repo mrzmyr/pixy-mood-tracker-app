@@ -757,6 +757,7 @@
   "people_role": "Role",
   "people_role_child": "Child",
   "people_role_colleague": "Colleague",
+  "people_role_flatmate": "Flatmate",
   "people_role_friend": "Friend",
   "people_role_none": "None",
   "people_role_other": "Other",

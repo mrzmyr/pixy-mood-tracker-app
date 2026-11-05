@@ -18,6 +18,7 @@ const ROLE_KEYS = {
   child: "people_role_child",
   sibling: "people_role_sibling",
   friend: "people_role_friend",
+  flatmate: "people_role_flatmate",
   colleague: "people_role_colleague",
   other: "people_role_other",
 } as const satisfies Record<RolePreset, TranslationKey>;

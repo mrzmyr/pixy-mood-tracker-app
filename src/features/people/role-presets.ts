@@ -7,6 +7,7 @@ export const ROLE_PRESETS = [
   "child",
   "sibling",
   "friend",
+  "flatmate",
   "colleague",
   "other",
 ] as const;
