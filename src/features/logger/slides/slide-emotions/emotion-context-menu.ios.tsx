@@ -29,7 +29,14 @@ export const EmotionContextMenu = ({
   onPress,
   children,
 }: EmotionContextMenuProps) => (
-  <Host matchContents={{ vertical: true }} style={{ width: "100%" }}>
+  // Inside scrolling content: without `ignoreSafeArea`, rows near the screen
+  // bottom take the home indicator inset and draw up to 16 pt too high,
+  // over the row above.
+  <Host
+    matchContents={{ vertical: true }}
+    ignoreSafeArea="all"
+    style={{ width: "100%" }}
+  >
     <ContextMenu>
       <ContextMenu.Trigger>
         <RNHostView matchContents={{ vertical: true }}>{children}</RNHostView>
