@@ -74,7 +74,8 @@ export const NeedsCheck = ({
   onPressEmotion,
 }: {
   states: NeedStates;
-  onChange: (key: NeedKey, state: NeedState) => void;
+  /** `undefined` clears the rating and hides the need's feelings. */
+  onChange: (key: NeedKey, state: NeedState | undefined) => void;
   /** All emotions. Feelings come from this list. */
   emotions: Emotion[];
   selectedEmotions: Emotion[];

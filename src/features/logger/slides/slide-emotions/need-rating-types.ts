@@ -6,7 +6,8 @@ export interface NeedRatingProps {
   label: string;
   /** Rating of the need. Unrated shows no selected segment. */
   state?: NeedState;
-  onChange: (state: NeedState) => void;
+  /** `undefined`: the user tapped the selected segment again to clear it. */
+  onChange: (state: NeedState | undefined) => void;
   testID?: string;
 }
 
