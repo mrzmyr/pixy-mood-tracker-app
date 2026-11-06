@@ -5,7 +5,6 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { RATING_KEYS } from "@/constants/ratings";
 import { useLogDraft } from "../log-draft";
-import { useActiveCheckInType } from "../check-in-type";
 import { SlideHeadline } from "../components/slide-headline";
 import { SlideMoodButton } from "../components/slide-mood-button";
 import { SlideMoodFooter } from "../components/slide-mood-footer";
@@ -29,7 +28,6 @@ export const SlideMood = ({
 }) => {
   const colors = useColors();
   const { draft, setRating } = useLogDraft();
-  const checkInType = useActiveCheckInType(draft.checkInType);
   const insets = useSafeAreaInsets();
 
   const marginTop = useSlideMarginTop();
@@ -57,11 +55,7 @@ export const SlideMood = ({
             alignItems: "center",
           }}
         >
-          {t(
-            checkInType === "morning_intention"
-              ? "log_rating_question_morning_intention"
-              : "log_rating_question"
-          )}
+          {t("log_rating_question")}
         </SlideHeadline>
         <View
           style={{

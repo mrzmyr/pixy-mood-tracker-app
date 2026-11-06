@@ -221,8 +221,6 @@ const light = {
   statisticsNotEnoughDataTitle: colors.black,
   statisticsNotEnoughDataSubtitle: colors.neutral[500],
   statisticsNotEnoughDataBackdrop: "rgba(255, 255, 255, 0.8)",
-  // Scrim behind the calendar check-in type menu (Material 3 scrim, 32%).
-  checkInMenuBackdrop: "rgba(0, 0, 0, 0.32)",
 
   statisticsTagsTrendMutedBackground: colors.neutral[200],
   statisticsTagsTrendMutedText: colors.neutral[800],
@@ -478,7 +476,6 @@ const dark: IColors & {
   statisticsNotEnoughDataTitle: colors.white,
   statisticsNotEnoughDataSubtitle: colors.neutral[500],
   statisticsNotEnoughDataBackdrop: "rgba(0, 0, 0, 0.7)",
-  checkInMenuBackdrop: "rgba(0, 0, 0, 0.6)",
 
   yearPixelsEmptyDot: colors.neutral[800],
 

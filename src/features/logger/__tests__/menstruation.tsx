@@ -156,10 +156,12 @@ describe("daily menstruation", () => {
         expect(result.backup.items[1]).not.toHaveProperty("menstruation");
       }
       const rows = createCsv({ items, tags: [] }).trim().split("\r\n");
-      const column = rows[0].split(",").indexOf('"menstruation_flow"');
-      expect(column).toBeGreaterThan(-1);
-      expect(rows[1].split(",")[column]).toBe(`"${flow}"`);
-      expect(rows[2].split(",")[column]).toBe('""');
+      expect(rows[0].split(",").slice(-2)).toEqual([
+        '"sleep_quality"',
+        '"menstruation_flow"',
+      ]);
+      expect(rows[1].split(",").at(-1)).toBe(`"${flow}"`);
+      expect(rows[2].split(",").at(-1)).toBe('""');
     }
   );
 

@@ -8,7 +8,6 @@ export const FEATURE_FLAGS = [
   "app-lock-bypass",
   "apple-health",
   "calendar-timeline",
-  "check-in-types",
   "development",
   "feature-flag-overrides",
   "menstruation",
@@ -55,11 +54,6 @@ export const FEATURE_FLAG_DETAILS: Record<
   "calendar-timeline": {
     description: "Timeline layout for the calendar",
     location: "Calendar > Filters menu",
-  },
-  "check-in-types": {
-    description:
-      "+ opens a menu: Morning Intention, Evening Reflection. Quick check-in keeps its own button",
-    location: "Calendar > + button",
   },
   development: {
     description: "Development section in production builds",

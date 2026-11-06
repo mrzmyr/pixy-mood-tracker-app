@@ -1,8 +1,6 @@
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useLogDraft } from "../log-draft";
-import { useActiveCheckInType } from "../check-in-type";
-import type { LogDraft } from "../finalize-draft";
 import { forwardRef, useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
@@ -52,17 +50,6 @@ const useKeyboardVisible = () => {
   return keyboardVisible;
 };
 
-/** Note prompt that fits the check-in type of the draft. */
-const getNoteQuestion = (checkInType: LogDraft["checkInType"]) => {
-  if (checkInType === "morning_intention") {
-    return t("log_note_question_morning_intention");
-  }
-  if (checkInType === "evening_reflection") {
-    return t("log_note_question_evening_reflection");
-  }
-  return t("log_note_question");
-};
-
 const SlideMessageComponent = (
   {
     onDisableStep,
@@ -81,7 +68,6 @@ const SlideMessageComponent = (
   // a changing `defaultValue` would push text back into the input.
   // oxlint-disable-next-line react/hook-use-state -- start text never changes, so no setter
   const [initialMessage] = useState(draft.message);
-  const question = getNoteQuestion(useActiveCheckInType(draft.checkInType));
 
   // Slide changes dismiss the keyboard, so `onBlur` publishes the text. This
   // covers an unmount with the keyboard still open.
@@ -120,9 +106,9 @@ const SlideMessageComponent = (
           >
             <TextArea
               ref={ref}
-              accessibilityLabel={question}
+              accessibilityLabel={t("log_note_question")}
               testID="log-message"
-              placeholder={question}
+              placeholder={t("log_note_question")}
               defaultValue={initialMessage}
               onChange={typeMessage}
               onBlur={flushMessage}
