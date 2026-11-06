@@ -59,11 +59,8 @@ import type { SavedEntry } from "./hooks/use-logger-actions";
 import { EntrySummary } from "./confirmation/entry-summary";
 import type { LoggerPrefill } from "./prefill";
 import { VoiceFeedbackSheet } from "@/features/feedback";
-import type { CheckInType } from "@/types";
-import { useActiveCheckInType } from "./check-in-type";
 import {
   getAvailableStepsForCreate,
-  getStepsForCheckInType,
   getAvailableStepsForEdit,
   getRatingActionType,
   hasSleepOnDate,
@@ -220,10 +217,6 @@ const getSlideKeys = ({
       }
       if (mode === "edit") {
         return avaliableSteps.includes(key);
-      }
-      // A check-in type can leave menstruation out of a fresh draft.
-      if (!avaliableSteps.includes(key) && draft.menstruation === undefined) {
-        return false;
       }
       return (
         hasStep(key) &&
@@ -710,36 +703,6 @@ const SAVED_BAR_OPTIONS = {
   unstable_headerRightItems: () => [],
 };
 
-/** Fresh draft for the create logger, with prefilled values. */
-const createDraft = ({
-  id,
-  createdAt,
-  dateTime,
-  prefill,
-  checkInType,
-}: {
-  id: string;
-  createdAt: string;
-  dateTime: string;
-  prefill?: LoggerPrefill | null;
-  checkInType?: CheckInType;
-}): LogDraft => ({
-  id,
-  date: toLogDate(dateTime || dayjs().toISOString()),
-  dateTime,
-  rating: prefill?.rating ?? null,
-  message: prefill?.message ?? "",
-  emotions: prefill?.emotions ?? [],
-  tags: prefill?.tags.map((tagId) => ({ id: tagId })) ?? [],
-  people: prefill?.people.map((personId) => ({ id: personId })) ?? [],
-  photos: [],
-  sleep: {
-    quality: null,
-  },
-  createdAt,
-  ...(checkInType && { checkInType }),
-});
-
 /**
  * Logger for a new entry at `dateTime` (ISO).
  *
@@ -752,15 +715,12 @@ export const LoggerCreate = ({
   dateTime,
   initialStep,
   avaliableSteps,
-  checkInType: checkInTypeParam,
   prefill,
   restoredDraft,
 }: {
   dateTime: string;
   initialStep?: LoggerStep;
   avaliableSteps?: LoggerStep[];
-  /** Stored on the entry and picks the steps. See `getStepsForCheckInType`. */
-  checkInType?: CheckInType;
   /** Start values, for example from voice mode. */
   prefill?: LoggerPrefill | null;
   /**
@@ -784,42 +744,38 @@ export const LoggerCreate = ({
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
 
-  // Flag off: a deep link with a type opens the plain logger and stores no type.
-  const newCheckInType = useActiveCheckInType(checkInTypeParam);
-  const initialItem: LogDraft =
-    restoredDraft ??
-    createDraft({
-      id,
-      createdAt,
-      dateTime,
-      prefill,
-      checkInType: newCheckInType,
-    });
-  // Flag off: plain steps, also for a restored typed draft. The draft keeps its type.
-  const checkInType = useActiveCheckInType(initialItem.checkInType);
+  const initialItem: LogDraft = restoredDraft ?? {
+    id,
+    date: toLogDate(dateTime || dayjs().toISOString()),
+    dateTime,
+    rating: prefill?.rating ?? null,
+    message: prefill?.message ?? "",
+    emotions: prefill?.emotions ?? [],
+    tags: prefill?.tags.map((tagId) => ({ id: tagId })) ?? [],
+    people: prefill?.people.map((personId) => ({ id: personId })) ?? [],
+    photos: [],
+    sleep: {
+      quality: null,
+    },
+    createdAt,
+  };
 
-  const hasSleepOnDay = hasSleepOnDate(logState.items, initialItem.date);
   const steps =
     avaliableSteps ||
-    getStepsForCheckInType({
-      checkInType,
-      hasSleepOnDay,
+    getAvailableStepsForCreate({
+      question: questioner.question,
+      hasStep,
+      hasPeople,
+      reminderEnabled: settings.reminderEnabled,
+      itemsCount: logState.items.length,
+      hasSleepOnDay: hasSleepOnDate(logState.items, initialItem.date),
       isSleepAutoFilled,
-      steps: getAvailableStepsForCreate({
-        question: questioner.question,
-        hasStep,
-        hasPeople,
-        reminderEnabled: settings.reminderEnabled,
-        itemsCount: logState.items.length,
-        hasSleepOnDay,
-        isSleepAutoFilled,
-        isPhotosEnabled,
-        isMenstruationEnabled,
-        hasMenstruationOnDay: hasMenstruationOnDate(
-          logState.items,
-          initialItem.date
-        ),
-      }),
+      isPhotosEnabled,
+      isMenstruationEnabled,
+      hasMenstruationOnDay: hasMenstruationOnDate(
+        logState.items,
+        initialItem.date
+      ),
     });
 
   if (saved !== null) {

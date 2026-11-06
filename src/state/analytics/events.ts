@@ -2,7 +2,7 @@ import type { FeedackType, FeedbackSource } from "@/types/feedback";
 import type { LoggerStep } from "@/constants/logger-steps";
 import type { AppIconId } from "@/constants/app-icons";
 import type { CalendarLayout, SettingsState } from "@/state/settings";
-import type { CheckInType, PhotoSourceKind } from "@/types";
+import type { PhotoSourceKind } from "@/types";
 
 interface LoggerRecoveryProperties {
   mode: "create" | "edit";
@@ -67,8 +67,6 @@ export interface AnalyticsEvents {
     photos_library_count: number;
     /** Never the place itself. */
     has_location: boolean;
-    /** Missing for the plain logger. */
-    check_in_type?: CheckInType;
   };
   /**
    * New entry got its sleep quality from Apple Health, without the sleep step.
@@ -202,12 +200,6 @@ export interface AnalyticsEvents {
   "calendar:today_tapped": undefined;
   "calendar:voice_tapped": { has_entries: boolean };
   "calendar:check_in_tapped": { has_entries: boolean };
-  /** `+` opened the check-in type menu (flag `check-in-types`). */
-  "calendar:check_in_menu_opened": { has_entries: boolean };
-  "calendar:check_in_type_tapped": {
-    check_in_type: CheckInType;
-    has_entries: boolean;
-  };
   "calendar:filters_opened": undefined;
   "calendar:filters_applied": {
     text_length: number;

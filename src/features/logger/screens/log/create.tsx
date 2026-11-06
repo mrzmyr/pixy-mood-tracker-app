@@ -4,7 +4,6 @@ import type { LoggerStep } from "@/constants/logger-steps";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import { useFeatureFlag } from "@/state/feature-flags";
-import { CheckInTypeSchema } from "@/types";
 import { EMOTIONS } from "../../config";
 import { LoggerCreate } from "../../logger";
 import { parseLoggerPrefill } from "../../prefill";
@@ -13,9 +12,7 @@ import { getRestoredDraft } from "../../recovery/restored-draft";
 /**
  * Route wrapper that opens the logger for a new entry at the rating slide.
  * Optional `prefill` param: see `parseLoggerPrefill`. Optional `restore`
- * param: id of the recovery snapshot to continue, at slide `step`. Optional
- * `checkInType` param: see `CheckInTypeSchema`; unknown values open the plain
- * logger.
+ * param: id of the recovery snapshot to continue, at slide `step`.
  */
 export const LogCreate = () => {
   const {
@@ -23,10 +20,8 @@ export const LogCreate = () => {
     prefill: prefillParam,
     restore,
     step,
-    checkInType,
   } = useLocalSearchParams<{
     dateTime: string;
-    checkInType?: string;
     prefill?: string;
     restore?: string;
     step?: LoggerStep;
@@ -49,7 +44,6 @@ export const LogCreate = () => {
     <LoggerCreate
       dateTime={dateTime}
       initialStep={restored ? step : "rating"}
-      checkInType={CheckInTypeSchema.safeParse(checkInType).data}
       prefill={restored ? null : prefill}
       restoredDraft={restored?.draft}
     />

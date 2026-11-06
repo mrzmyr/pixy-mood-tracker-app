@@ -23,8 +23,8 @@ interface SleepDraft {
 const SKIPPED_SLEEP: SleepDraft = { quality: null };
 
 /**
- * New entry at `now` with no sleep and check-in type `quick`. The
- * notification and the quick check-in screen create entries only through here.
+ * New entry at `now` with no sleep. The notification and the
+ * quick check-in screen create entries only through here.
  */
 export const createQuickEntry = (
   id: string,
@@ -47,7 +47,6 @@ export const createQuickEntry = (
     photos: [],
     // SAFETY: a skipped sleep step stores a null quality, same as the logger (see finalizeDraft).
     sleep: SKIPPED_SLEEP as LogItem["sleep"],
-    checkInType: "quick",
     ...fields,
   };
 };
