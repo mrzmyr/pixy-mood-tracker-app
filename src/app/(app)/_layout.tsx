@@ -419,6 +419,10 @@ const AppLayout = () => {
               options={{ ...pageOptions, title: "Playground" }}
             />
             <Stack.Screen
+              name="dev/playground/design-system"
+              options={{ ...pageOptions, title: "Design System" }}
+            />
+            <Stack.Screen
               name="dev/playground/recap-story"
               options={{ headerShown: false, animation: "fade" }}
             />

@@ -37,6 +37,12 @@ export const DevPlaygroundScreen = () => {
   return Screen ? <Screen /> : <Redirect href="/calendar" />;
 };
 
+/** Design system catalog is reachable only in development and preview builds. */
+export const DevDesignSystemScreen = () => {
+  const Screen = DEV_TOOLS?.DevDesignSystemScreen;
+  return Screen ? <Screen /> : <Redirect href="/calendar" />;
+};
+
 /** Recap story playground is reachable only in development and preview builds. */
 export const DevRecapPlaygroundScreen = () => {
   const Screen = DEV_TOOLS?.DevRecapPlaygroundScreen;
