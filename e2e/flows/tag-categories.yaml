@@ -1,10 +1,10 @@
 appId: ${APP_ID}
 tags: [p1, tags]
 ---
-# Tag categories: imported tags start in General, no category can be added,
-# an existing category takes tags from the tag editor and by drag, categories
-# reorder by drag, the check-in groups tags under category headings, and
-# Delete moves tags back to General.
+# Tag categories: imported tags start in General, General has no Edit, no
+# category can be added, an existing category takes tags from the tag editor
+# and by drag, categories reorder by drag, the check-in groups tags under
+# category headings, and Delete moves tags back to General.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
@@ -12,6 +12,9 @@ tags: [p1, tags]
 - runFlow: ../subflows/open-settings.yaml
 - tapOn: "Tags"
 - assertVisible:
+    id: "tag-category-edit-fixture-hobbies"
+# General can't be renamed or deleted, so it has no Edit.
+- assertNotVisible:
     id: "tag-category-edit-general"
 - assertVisible: "Work"
 

@@ -335,6 +335,20 @@ describe("useTags()", () => {
     ]);
   });
 
+  test("should keep the General name on updateCategory", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.updater.updateCategory({
+        id: GENERAL_CATEGORY_ID,
+        title: "Misc",
+      });
+    });
+
+    expect(hook.result.current.state.categories).toEqual([GENERAL]);
+  });
+
   test("should deleteTag", async () => {
     AsyncStorage.setItem(
       STORAGE_KEY_LOGS,

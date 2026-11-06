@@ -40,6 +40,7 @@ import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import {
+  GENERAL_CATEGORY_ID,
   groupTagsByCategory,
   moveRows,
   searchTagSections,
@@ -157,24 +158,27 @@ export const TagCategoryList = ({
             {row.category.title}
           </Text>
           <Spacer />
-          <Button
-            testID={`tag-category-edit-${row.category.id}`}
-            label={t("edit")}
-            onPress={() =>
-              router.push({
-                pathname: "/tags/categories/[id]",
-                params: { id: row.category.id },
-              })
-            }
-            modifiers={[
-              buttonStyle("borderless"),
-              font({ size: 15 }),
-              tint(colors.tint),
-              accessibilityLabel(
-                t("tag_category_edit_named", { title: row.category.title })
-              ),
-            ]}
-          />
+          {/* General can be neither renamed nor deleted. */}
+          {row.category.id !== GENERAL_CATEGORY_ID && (
+            <Button
+              testID={`tag-category-edit-${row.category.id}`}
+              label={t("edit")}
+              onPress={() =>
+                router.push({
+                  pathname: "/tags/categories/[id]",
+                  params: { id: row.category.id },
+                })
+              }
+              modifiers={[
+                buttonStyle("borderless"),
+                font({ size: 15 }),
+                tint(colors.tint),
+                accessibilityLabel(
+                  t("tag_category_edit_named", { title: row.category.title })
+                ),
+              ]}
+            />
+          )}
         </HStack>
       );
     }

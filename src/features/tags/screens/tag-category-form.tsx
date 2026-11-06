@@ -5,7 +5,6 @@ import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import Trash from "lucide-react-native/icons/trash";
 import RouteModalHeader from "@/components/route-modal-header";
-import TextInfo from "@/components/text-info";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
 import useHaptics from "@/hooks/use-haptics";
@@ -22,8 +21,8 @@ import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { TagCategory } from "../tags-provider";
 
 /**
- * Rename form for a tag category, with Delete except for General, which
- * always exists. Names follow the tag name length limits.
+ * Rename and Delete form for a tag category other than General. Names follow
+ * the tag name length limits.
  */
 const TagCategoryForm = ({ category }: { category: TagCategory }) => {
   const router = useRouter();
@@ -35,7 +34,6 @@ const TagCategoryForm = ({ category }: { category: TagCategory }) => {
   // Seeded once: `TagCategoryEdit` keys the form by category id.
   const [title, setTitle] = useState(() => category.title);
   const [submitted, setSubmitted] = useState(false);
-  const isGeneral = category.id === GENERAL_CATEGORY_ID;
   const general = getGeneralCategoryTitle(categories);
   // Back, the swipe-down gesture, and Cancel ask before dropping the name.
   const { allowLeave } = useDiscardGuard({
@@ -116,35 +114,32 @@ const TagCategoryForm = ({ category }: { category: TagCategory }) => {
           onSubmit={onSave}
           onChange={setTitle}
         />
-        {isGeneral && (
-          <TextInfo style={{ paddingHorizontal: 0, marginTop: 8 }}>
-            {t("tag_category_general_info", { general })}
-          </TextInfo>
-        )}
-        {!isGeneral && (
-          <MenuList style={{ marginTop: 16 }}>
-            <MenuListItem
-              testID="tag-category-delete"
-              title={t("delete")}
-              tone="destructive"
-              iconLeft={<Trash size={24} color={colors.danger} />}
-              onPress={() => confirmDelete(category)}
-            />
-          </MenuList>
-        )}
+        <MenuList style={{ marginTop: 16 }}>
+          <MenuListItem
+            testID="tag-category-delete"
+            title={t("delete")}
+            tone="destructive"
+            iconLeft={<Trash size={24} color={colors.danger} />}
+            onPress={() => confirmDelete(category)}
+          />
+        </MenuList>
       </ScrollView>
     </View>
   );
 };
 
 /**
- * Rename or delete a tag category. Renders nothing for an unknown `id`, for
- * example while the screen closes after Delete.
+ * Rename or delete a tag category. Renders nothing for General, which can
+ * be neither, and for an unknown `id`, for example while the screen closes
+ * after Delete.
  */
 export const TagCategoryEdit = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { categories } = useTagsState();
-  const category = categories.find((item) => item.id === id);
+  const category =
+    id === GENERAL_CATEGORY_ID
+      ? undefined
+      : categories.find((item) => item.id === id);
 
   return category ? (
     <TagCategoryForm key={category.id} category={category} />
