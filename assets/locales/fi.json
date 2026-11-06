@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "ihan ok",
   "voice_mood_very_bad": "huono",
   "voice_mood_very_good": "tosi hyvä",
+  "voice_note": "Sanele muistiinpano",
   "voice_open_settings": "Avaa Asetukset",
   "voice_pause": "Keskeytä",
   "voice_permission_body": "Pixy tarvitsee mikrofonin ja puheentunnistuksen käyttöoikeuden kirjauksesi kirjoittamiseen. Puhe käsitellään laitteellasi. Ääntä ei koskaan tallenneta.",

@@ -17,6 +17,7 @@ const TextAreaComponent = (
     testID,
     maxLength = 500,
     autoFocus = false,
+    editable,
     style,
     onChange = noop,
     onBlur,
@@ -30,6 +31,8 @@ const TextAreaComponent = (
     testID?: string;
     maxLength?: number;
     autoFocus?: boolean;
+    /** `false` blocks typing, for example while voice input writes. */
+    editable?: boolean;
     style?: TextStyle;
     onChange?: (text: string) => void;
     onBlur?: () => void;
@@ -44,6 +47,7 @@ const TextAreaComponent = (
       accessibilityLabel={accessibilityLabel || placeholder || undefined}
       testID={testID}
       autoFocus={autoFocus}
+      editable={editable}
       multiline
       onChangeText={(text) => {
         const newText = text.slice(0, maxLength);

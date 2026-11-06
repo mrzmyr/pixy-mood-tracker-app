@@ -98,6 +98,8 @@ const useStepSlides = ({
   showDisable,
   texAreaRef,
   disableStep,
+  isDictating,
+  setIsDictating,
 }: {
   slideKeys: LoggerStep[];
   isPhotosSlideActive: boolean;
@@ -107,6 +109,9 @@ const useStepSlides = ({
   disableStep: (
     step: "tags" | "people" | "message" | "photos"
   ) => Promise<void>;
+  /** Voice input pill shows on the note slide, in place of the save button. */
+  isDictating: boolean;
+  setIsDictating: (isDictating: boolean) => void;
 }) => {
   const slides: SlideContent[] = [];
 
@@ -158,10 +163,12 @@ const useStepSlides = ({
       slide: (
         <SlideMessage
           onDisableStep={() => disableStep("message")}
+          onDictatingChange={setIsDictating}
           ref={texAreaRef}
           showDisable={showDisable}
         />
       ),
+      action: isDictating ? <SlideAction type="hidden" /> : undefined,
     });
   }
 
@@ -364,6 +371,8 @@ const LoggerSlides = ({
   // taller slide height, and slide bottoms end up under the home indicator.
   const [carouselHeight, setCarouselHeight] = useState<number>();
 
+  const [isDictating, setIsDictating] = useState(false);
+
   const slideKeys = getSlideKeys({
     mode,
     avaliableSteps,
@@ -411,6 +420,8 @@ const LoggerSlides = ({
     showDisable,
     texAreaRef,
     disableStep,
+    isDictating,
+    setIsDictating,
   });
 
   const ratingActionType = getRatingActionType({

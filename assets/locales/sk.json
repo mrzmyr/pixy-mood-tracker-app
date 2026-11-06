@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "ujde to",
   "voice_mood_very_bad": "zle",
   "voice_mood_very_good": "veľmi dobre",
+  "voice_note": "Diktovať poznámku",
   "voice_open_settings": "Otvoriť Nastavenia",
   "voice_pause": "Pozastaviť",
   "voice_permission_body": "Pixy potrebuje prístup k mikrofónu a rozpoznávaniu reči, aby mohol napísať tvoj záznam. Reč sa spracúva v tvojom zariadení. Zvuk sa nikdy neukladá.",
