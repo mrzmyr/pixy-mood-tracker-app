@@ -29,6 +29,13 @@ export const DevPlaygroundScreen = () => {
     <ScrollView
       style={{ backgroundColor: colors.background, flex: 1, padding: 16 }}
     >
+      <MenuList>
+        <MenuListItem
+          title="Design System"
+          onPress={() => router.push("/dev/playground/design-system")}
+          testID="playground-design-system"
+        />
+      </MenuList>
       {PLAYGROUND_SECTIONS.map((section) => (
         <View key={section.title}>
           <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>

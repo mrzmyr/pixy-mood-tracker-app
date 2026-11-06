@@ -39,6 +39,7 @@ export {
   DevPlaygroundScreen,
   DevRecapPlaygroundScreen,
 } from "@/dev/playground";
+export { DevDesignSystemScreen } from "@/dev/design-system";
 
 // Drops every screen behind the new state, like a fresh app start.
 const openApp = (router: ReturnType<typeof useRouter>, fixture: Fixture) => {
