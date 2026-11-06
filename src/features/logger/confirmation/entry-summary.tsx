@@ -1,6 +1,10 @@
 import { useEffect, useEffectEvent, useMemo } from "react";
 import type { ReactNode } from "react";
-import { Platform, ScrollView, View } from "react-native";
+import { Platform, View } from "react-native";
+import Animated, {
+  useAnimatedRef,
+  useScrollOffset,
+} from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import Button from "@/components/button";
@@ -15,7 +19,7 @@ import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { EMOTIONS } from "../config";
 import { getDaySummary } from "./day-summary";
-import { HERO_HEIGHT, SummaryHero } from "./entry-summary-hero";
+import { HERO_HEIGHT, HeroFade, SummaryHero } from "./entry-summary-hero";
 import { HALF_TILE_CHIPS_MAX, getBentoRows } from "./entry-summary-layout";
 import type { TileSpan } from "./entry-summary-layout";
 import {
@@ -102,6 +106,8 @@ export const EntrySummary = ({
   // start below the bar and scroll over the still hero, so the sky stays
   // clear up to the top.
   const scrollTop = Platform.OS === "ios" ? headerHeight : 0;
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const scrollOffset = useScrollOffset(scrollRef);
   const logState = useLogState();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
@@ -178,11 +184,13 @@ export const EntrySummary = ({
       >
         <SummaryHero item={item} extraHeight={heroExtraHeight} />
       </View>
+      <HeroFade extraHeight={heroExtraHeight} scrollOffset={scrollOffset} />
       <MaskedView
         style={{ flex: 1, marginTop: scrollTop }}
         maskElement={<BottomFadeMask />}
       >
-        <ScrollView
+        <Animated.ScrollView
+          ref={scrollRef}
           contentContainerStyle={{
             // The header rises into the faded bottom of the hero.
             paddingTop:
@@ -195,7 +203,7 @@ export const EntrySummary = ({
         >
           <MoodHeader summary={summary} item={item} />
           <BentoGrid tiles={tiles} />
-        </ScrollView>
+        </Animated.ScrollView>
       </MaskedView>
 
       <View

@@ -11,6 +11,7 @@ import Animated, {
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 import { Cloudy } from "@/components/cloudy";
 import { SKY_DRIFT_SPEED, Sky } from "@/components/sky";
 import { Label } from "@/components/typography";
@@ -153,8 +154,9 @@ const SkyHero = () => {
 };
 
 /**
- * Full-width picture at the top of the summary, fading into the page: the
- * entry's photos, else its place on a map, else the sky.
+ * Full-width picture at the top of the summary: the entry's photos, else its
+ * place on a map, else the sky. Stays still; {@link HeroFade} blends it into
+ * the page.
  */
 export const SummaryHero = ({
   item,
@@ -164,9 +166,6 @@ export const SummaryHero = ({
   /** Space under the status bar where the sheet does not cover it. */
   extraHeight: number;
 }) => {
-  const colors = useColors();
-  const background = colors.summaryBackground;
-
   const picture = (() => {
     if (item.photos.length > 0) {
       return <PhotoMosaic photos={item.photos} />;
@@ -184,17 +183,54 @@ export const SummaryHero = ({
   return (
     <View style={{ height: HERO_HEIGHT + extraHeight, overflow: "hidden" }}>
       {picture}
-      <LinearGradient
-        pointerEvents="none"
-        colors={[chroma(background).alpha(0).css(), background]}
-        style={{
+    </View>
+  );
+};
+
+/**
+ * Fade from the hero into the page, then solid page below it. Rises with the
+ * tiles as they scroll up, so the header never slides over a bare photo; the
+ * hero disappears under the page instead. Pulling down leaves it in place.
+ */
+export const HeroFade = ({
+  extraHeight,
+  scrollOffset,
+}: {
+  /** Same as the hero's. */
+  extraHeight: number;
+  scrollOffset: SharedValue<number>;
+}) => {
+  const colors = useColors();
+  const background = colors.summaryBackground;
+  const heroHeight = HERO_HEIGHT + extraHeight;
+
+  const style = useAnimatedStyle(() => ({
+    transform: [
+      {
+        // Clamped: past the hero height the solid part covers all of it.
+        translateY: -Math.min(Math.max(scrollOffset.get(), 0), heroHeight),
+      },
+    ],
+  }));
+
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        {
           position: "absolute",
+          top: heroHeight - HERO_FADE,
           left: 0,
           right: 0,
-          bottom: 0,
-          height: HERO_FADE,
-        }}
+        },
+        style,
+      ]}
+    >
+      <LinearGradient
+        colors={[chroma(background).alpha(0).css(), background]}
+        style={{ height: HERO_FADE }}
       />
-    </View>
+      <View style={{ height: heroHeight, backgroundColor: background }} />
+    </Animated.View>
   );
 };
