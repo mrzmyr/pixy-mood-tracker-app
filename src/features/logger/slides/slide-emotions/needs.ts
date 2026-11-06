@@ -12,7 +12,9 @@ export type NeedState = (typeof NEED_STATES)[number];
  * (autonomy, competence, connection) plus body, safety, and joy from
  * Glasser, Grawe, and Maslow.
  *
- * `met` and `unmet` list emotion keys, strongest match first.
+ * `met` lists pleasant emotion keys, `unmet` unpleasant ones, strongest
+ * match first. A rough match is fine: weak matches go last and show only
+ * after More.
  */
 interface Need {
   key: string;
@@ -29,86 +31,272 @@ export const NEEDS = [
     key: "body",
     label: "log_needs_body",
     description: "log_needs_body_about",
-    met: ["energized", "balanced", "comfortable", "good"],
-    unmet: ["tired", "exhausted", "weak", "restless", "irritated"],
+    met: [
+      "energized",
+      "balanced",
+      "comfortable",
+      "good",
+      "calm",
+      "content",
+      "focused",
+      "productive",
+      "relieved",
+    ],
+    unmet: [
+      "tired",
+      "exhausted",
+      "weak",
+      "restless",
+      "irritated",
+      "distracted",
+      "fragile",
+      "hyper",
+      "unmotivated",
+      "stressed",
+      "impatient",
+      "depressed",
+      "meh",
+    ],
   },
   {
     key: "safety",
     label: "log_needs_safety",
     description: "log_needs_safety_about",
-    met: ["calm", "relieved", "comfortable", "balanced"],
-    unmet: ["anxious", "worried", "nervous", "uneasy", "fearful"],
+    met: [
+      "calm",
+      "relieved",
+      "comfortable",
+      "balanced",
+      "supported",
+      "content",
+      "hopeful",
+      "optimistic",
+      "good",
+    ],
+    unmet: [
+      "anxious",
+      "worried",
+      "nervous",
+      "uneasy",
+      "fearful",
+      "concerned",
+      "stressed",
+      "insecure",
+      "vulnerable",
+      "fragile",
+      "overwhelmed",
+      "pessimistic",
+      "hopeless",
+      "confused",
+      "restless",
+    ],
   },
   {
     key: "connection",
     label: "log_needs_connection",
     description: "log_needs_connection_about",
-    met: ["connected", "loved", "supported", "accepted", "heard"],
-    unmet: ["lonely", "alienated", "rejected", "sad", "vulnerable"],
+    met: [
+      "connected",
+      "loved",
+      "supported",
+      "accepted",
+      "heard",
+      "appreciated",
+      "grateful",
+      "thankful",
+      "compassionate",
+      "happy",
+      "content",
+    ],
+    unmet: [
+      "lonely",
+      "alienated",
+      "rejected",
+      "sad",
+      "vulnerable",
+      "grieved",
+      "awkward",
+      "fomo",
+      "embarrassed",
+      "ashamed",
+      "guilty",
+      "annoyed",
+      "angry",
+      "depressed",
+      "insecure",
+    ],
   },
   {
     key: "autonomy",
     label: "log_needs_autonomy",
     description: "log_needs_autonomy_about",
-    met: ["motivated", "brave", "content", "relieved"],
-    unmet: ["pressured", "frustrated", "angry", "stressed", "impatient"],
+    met: [
+      "motivated",
+      "brave",
+      "content",
+      "relieved",
+      "inspired",
+      "impassioned",
+      "optimistic",
+      "hopeful",
+      "desire",
+      "energized",
+      "focused",
+    ],
+    unmet: [
+      "pressured",
+      "frustrated",
+      "angry",
+      "stressed",
+      "impatient",
+      "irritated",
+      "annoyed",
+      "overwhelmed",
+      "hopeless",
+      "unmotivated",
+      "restless",
+      "guilty",
+    ],
   },
   {
     key: "competence",
     label: "log_needs_competence",
     description: "log_needs_competence_about",
-    met: ["proud", "productive", "focused", "satisfied"],
-    unmet: ["overwhelmed", "insecure", "disappointed", "frustrated"],
+    met: [
+      "proud",
+      "productive",
+      "focused",
+      "satisfied",
+      "motivated",
+      "brave",
+      "appreciated",
+      "inspired",
+      "relieved",
+      "hopeful",
+      "optimistic",
+    ],
+    unmet: [
+      "overwhelmed",
+      "insecure",
+      "disappointed",
+      "frustrated",
+      "embarrassed",
+      "ashamed",
+      "confused",
+      "distracted",
+      "guilty",
+      "pessimistic",
+      "weak",
+      "pressured",
+      "stressed",
+    ],
   },
   {
     key: "joy",
     label: "log_needs_joy",
     description: "log_needs_joy_about",
-    met: ["happy", "excited", "enthusiastic", "good", "content"],
-    unmet: ["bored", "meh", "unmotivated", "fomo", "sad"],
+    met: [
+      "happy",
+      "excited",
+      "enthusiastic",
+      "good",
+      "content",
+      "energized",
+      "inspired",
+      "impassioned",
+      "grateful",
+      "desire",
+      "surprised",
+      "hopeful",
+      "optimistic",
+      "loved",
+      "thankful",
+    ],
+    unmet: [
+      "bored",
+      "meh",
+      "unmotivated",
+      "fomo",
+      "sad",
+      "disappointed",
+      "depressed",
+      "pessimistic",
+      "hyper",
+      "tired",
+      "hopeless",
+      "grieved",
+    ],
   },
 ] as const satisfies readonly Need[];
 
+/** One {@link NEEDS} entry. */
+export type NeedConfig = (typeof NEEDS)[number];
+
 /** Key of one {@link NEEDS} entry. */
-export type NeedKey = (typeof NEEDS)[number]["key"];
+export type NeedKey = NeedConfig["key"];
 
 /** Rated needs. Unrated needs have no key. */
 export type NeedStates = Partial<Record<NeedKey, NeedState>>;
 
-/** Feelings shown under one rated need. Fills two rows of the grid. */
-const MAX_PER_NEED = 4;
+/** Feelings of one rated need, per side. Partly met fills both sides. */
+export interface NeedFeelings {
+  met: Emotion[];
+  unmet: Emotion[];
+}
 
-/** How many feelings of each side a partly met need shows. */
-const PARTLY_PER_SIDE = MAX_PER_NEED / 2;
+/** Feelings shown before More. Fills four rows of the two-column grid. */
+const PREVIEW_COUNT = 8;
 
 /**
- * Emotions shown under one rated need, at most 4, strongest match first.
- *
- * Met shows pleasant emotions, unmet unpleasant ones. Partly met shows two
- * of each. Disabled emotions and keys missing from `emotions` are skipped.
+ * All feelings of one rated need, strongest match first. Met shows
+ * pleasant emotions, unmet unpleasant ones, partly met both. Disabled
+ * emotions and keys missing from `emotions` are skipped.
  */
-export const suggestEmotionsForNeed = (
+export const feelingsForNeed = (
   need: Pick<Need, "met" | "unmet">,
   state: NeedState,
   emotions: Emotion[]
-): Emotion[] => {
+): NeedFeelings => {
   const byKey = new Map<string, Emotion>();
   for (const emotion of emotions) {
     if (emotion.disabled !== true) {
       byKey.set(emotion.key, emotion);
     }
   }
-  const pick = (keys: readonly string[], count: number) =>
-    keys.flatMap((key) => byKey.get(key) ?? []).slice(0, count);
+  const pick = (keys: readonly string[]) =>
+    keys.flatMap((key) => byKey.get(key) ?? []);
 
-  if (state === "met") {
-    return pick(need.met, MAX_PER_NEED);
+  return {
+    met: state === "unmet" ? [] : pick(need.met),
+    unmet: state === "met" ? [] : pick(need.unmet),
+  };
+};
+
+/**
+ * Feelings visible before More: the first 8, or 4 per side when partly
+ * met. A side with fewer than 4 leaves its room unused.
+ */
+export const previewFeelings = (feelings: NeedFeelings): NeedFeelings => {
+  const hasBoth = feelings.met.length > 0 && feelings.unmet.length > 0;
+  const perSide = hasBoth ? PREVIEW_COUNT / 2 : PREVIEW_COUNT;
+  return {
+    met: feelings.met.slice(0, perSide),
+    unmet: feelings.unmet.slice(0, perSide),
+  };
+};
+
+/**
+ * Selected feelings that belong to a rated need, in need order. Shown on
+ * the need tile. Empty for an unrated need.
+ */
+export const pickedForNeed = (
+  need: Pick<Need, "met" | "unmet">,
+  state: NeedState | undefined,
+  selected: Emotion[]
+): Emotion[] => {
+  if (!state) {
+    return [];
   }
-  if (state === "unmet") {
-    return pick(need.unmet, MAX_PER_NEED);
-  }
-  return [
-    ...pick(need.met, PARTLY_PER_SIDE),
-    ...pick(need.unmet, PARTLY_PER_SIDE),
-  ];
+  const feelings = feelingsForNeed(need, state, selected);
+  return [...feelings.met, ...feelings.unmet];
 };

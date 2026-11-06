@@ -1,4 +1,5 @@
 import { Pressable, useColorScheme, View } from "react-native";
+import { Label } from "@/components/typography";
 import Svg, { Circle } from "react-native-svg";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
@@ -10,6 +11,7 @@ import type { NeedRatingProps } from "./need-rating-types";
 
 const SEGMENT_WIDTH = 36;
 const HEIGHT = 28;
+const LABELED_HEIGHT = 36;
 const INSET = 2;
 const ICON_SIZE = 12;
 
@@ -19,7 +21,13 @@ const R = CENTER - STROKE / 2;
 const DOT_R = 2;
 
 /** How full the need was: empty ring, ring with a dot, or full circle. */
-const RatingIcon = ({ value, color }: { value: NeedState; color: string }) => (
+export const RatingIcon = ({
+  value,
+  color,
+}: {
+  value: NeedState;
+  color: string;
+}) => (
   <Svg width={ICON_SIZE} height={ICON_SIZE}>
     <Circle
       cx={CENTER}
@@ -41,11 +49,15 @@ const RatingIcon = ({ value, color }: { value: NeedState; color: string }) => (
  * controls draw symbols at full size and in black, too loud next to the need
  * name. Unrated needs show no selected segment. Tapping the selected segment
  * again clears the rating.
+ *
+ * `isLabeled`: full width, each segment shows its state name next to the
+ * icon. Use where the control has room, for example in the need sheet.
  */
 export const NeedRating = ({
   label,
   state,
   onChange,
+  isLabeled = false,
   testID,
 }: NeedRatingProps) => {
   const colors = useColors();
@@ -61,7 +73,7 @@ export const NeedRating = ({
       testID={testID}
       style={{
         flexDirection: "row",
-        height: HEIGHT,
+        height: isLabeled ? LABELED_HEIGHT : HEIGHT,
         padding: INSET,
         borderRadius: RADIUS.full,
         borderCurve: "continuous",
@@ -83,7 +95,8 @@ export const NeedRating = ({
               onChange(isSelected ? undefined : value);
             }}
             style={{
-              width: SEGMENT_WIDTH,
+              ...(isLabeled ? { flex: 1, gap: 6 } : { width: SEGMENT_WIDTH }),
+              flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
               borderRadius: RADIUS.full,
@@ -98,6 +111,17 @@ export const NeedRating = ({
               value={value}
               color={isSelected ? colors.text : colors.textSecondary}
             />
+            {isLabeled && (
+              <Label
+                size={14}
+                strong={isSelected}
+                style={{
+                  color: isSelected ? colors.text : colors.textSecondary,
+                }}
+              >
+                {t(RATING_LABELS[value])}
+              </Label>
+            )}
           </Pressable>
         );
       })}

@@ -8,6 +8,8 @@ export interface NeedRatingProps {
   state?: NeedState;
   /** `undefined`: the user tapped the selected segment again to clear it. */
   onChange: (state: NeedState | undefined) => void;
+  /** Full width with the state name in each segment. */
+  isLabeled?: boolean;
   testID?: string;
 }
 
