@@ -12,8 +12,11 @@ export type NoteSegment =
   | { type: "text"; text: string }
   | { type: "mention"; id: Person["id"]; name: string };
 
+// Numbered groups: Hermes leaves `match.groups` empty, so named groups read
+// as blank names and ids on device.
 const MENTION_PATTERN =
-  /\[@(?<label>(?:[^\]\\]|\\.)*)\]\(person:(?<id>[^)\s]+)\)/gu;
+  // oxlint-disable-next-line eslint/prefer-named-capture-group -- Hermes lacks `match.groups`
+  /\[@((?:[^\]\\]|\\.)*)\]\(person:([^)\s]+)\)/gu;
 
 /** Mentions open with this character while typing. */
 export const MENTION_TRIGGER = "@";
@@ -23,7 +26,7 @@ const MAX_QUERY_LENGTH = 30;
 
 const escapeLabel = (name: string) => name.replaceAll(/[\\\]]/gu, "\\$&");
 const unescapeLabel = (label: string) =>
-  label.replaceAll(/\\(?<char>.)/gu, "$<char>");
+  label.replaceAll(/\\./gu, (pair) => pair.slice(1));
 
 /** Markdown of one mention. */
 export const formatMention = (person: Pick<Person, "id" | "name">) =>
@@ -40,8 +43,8 @@ export const parseNote = (note: string): NoteSegment[] => {
     }
     segments.push({
       type: "mention",
-      name: unescapeLabel(match.groups?.label ?? ""),
-      id: match.groups?.id ?? "",
+      name: unescapeLabel(match[1] ?? ""),
+      id: match[2] ?? "",
     });
     last = start + match[0].length;
   }

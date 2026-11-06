@@ -22,6 +22,27 @@ const KEYBOARD_OVERLAP = Platform.OS === "ios" ? 20 : 0;
 const SETTLE_DURATION = 120;
 
 /**
+ * Lifts a view at the screen bottom above the native keyboard, on the UI
+ * thread, so it moves in sync with the keyboard.
+ */
+export const useKeyboardLiftStyle = () => {
+  const keyboard = useAnimatedKeyboard();
+  return useAnimatedStyle(() => {
+    const lift = -Math.max(keyboard.height.get() - KEYBOARD_OVERLAP, 0);
+    const settled = keyboard.state.get() === KeyboardState.OPEN;
+    return {
+      transform: [
+        {
+          translateY: settled
+            ? withTiming(lift, { duration: SETTLE_DURATION })
+            : lift,
+        },
+      ],
+    };
+  });
+};
+
+/**
  * Floating next/save button of the logger. It follows the native keyboard
  * frame on the UI thread, so it moves in sync with the keyboard; `hidden`
  * renders nothing.
@@ -38,21 +59,7 @@ export const SlideAction = ({
   const colors = useColors();
   const insets = useSafeAreaInsets();
 
-  const keyboard = useAnimatedKeyboard();
-
-  const keyboardStyle = useAnimatedStyle(() => {
-    const lift = -Math.max(keyboard.height.get() - KEYBOARD_OVERLAP, 0);
-    const settled = keyboard.state.get() === KeyboardState.OPEN;
-    return {
-      transform: [
-        {
-          translateY: settled
-            ? withTiming(lift, { duration: SETTLE_DURATION })
-            : lift,
-        },
-      ],
-    };
-  });
+  const keyboardStyle = useKeyboardLiftStyle();
 
   if (type === "hidden") {
     return null;

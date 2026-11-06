@@ -12,7 +12,12 @@ import { Copy, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { SLEEP_QUALITY_MAPPING } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
-import { NoteContent, PersonAvatar, hasMention } from "@/features/people";
+import {
+  NoteContent,
+  PersonAvatar,
+  hasMention,
+  noteToPlainText,
+} from "@/features/people";
 import type { Person } from "@/features/people";
 import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
@@ -406,6 +411,9 @@ export const NoteTile = ({ note }: { note: string }) => {
       <Copy
         size={14}
         testID="entry-summary-note"
+        accessibilityLabel={
+          hasMention(note) ? noteToPlainText(note) : undefined
+        }
         style={{
           color: colors.text,
           lineHeight: 22,

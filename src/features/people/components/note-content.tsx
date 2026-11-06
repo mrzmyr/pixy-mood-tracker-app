@@ -1,5 +1,5 @@
 import { Fragment, useMemo } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { usePeopleState } from "../people-provider";
 import { parseNote, withOffsets } from "../mentions";
 import type { NoteSegment } from "../mentions";
@@ -48,7 +48,7 @@ export const NoteContent = ({
           return <Fragment key={key}>{segment.name}</Fragment>;
         }
         return (
-          <Text key={key}>
+          <Fragment key={key}>
             <View
               style={{
                 paddingRight: AVATAR_GAP,
@@ -60,7 +60,7 @@ export const NoteContent = ({
               <PersonAvatar person={person} size={avatarSize} />
             </View>
             {person.name}
-          </Text>
+          </Fragment>
         );
       })}
     </>

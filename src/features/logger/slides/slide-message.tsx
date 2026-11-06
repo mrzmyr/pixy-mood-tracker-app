@@ -10,7 +10,7 @@ import {
 } from "react";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
-import {
+import Animated, {
   KeyboardState,
   useAnimatedKeyboard,
   useAnimatedReaction,
@@ -23,6 +23,7 @@ import LinkButton from "@/components/link-button";
 import TextArea from "@/components/text-area";
 import { TextWrap } from "@/components/text-wrap";
 import { LOGGER_HEADER_ICON_INSET } from "../components/logger-header";
+import { useKeyboardLiftStyle } from "../components/slide-action";
 import { Footer } from "./footer";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 import { FLOAT_BUTTON_SIZE } from "@/constants/float-button";
@@ -108,97 +109,104 @@ const SlideMessageComponent = (
     onMention: addPerson,
   });
   const keyboardVisible = useKeyboardVisible();
+  const liftStyle = useKeyboardLiftStyle();
 
   // The footer only exists while the disable link shows and the keyboard is
   // hidden, so typing gets the full height between header and keyboard.
   const footerVisible = showDisable && !keyboardVisible;
 
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={SLIDE_MARGIN_TOP + insets.top + 16}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{
-        flex: 1,
-      }}
-    >
-      <DismissKeyboard>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: colors.logBackground,
-            width: "100%",
-            paddingHorizontal: LOGGER_HEADER_ICON_INSET,
-            paddingBottom: keyboardVisible ? 8 : insets.bottom + 16,
-          }}
-        >
-          <TextWrap
-            avoidTestIDs={BUTTON_TEST_IDS}
-            gap={BUTTON_GAP}
+    <>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={SLIDE_MARGIN_TOP + insets.top + 16}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{
+          flex: 1,
+        }}
+      >
+        <DismissKeyboard>
+          <View
             style={{
               flex: 1,
-              marginTop: SLIDE_MARGIN_TOP,
+              backgroundColor: colors.logBackground,
+              width: "100%",
+              paddingHorizontal: LOGGER_HEADER_ICON_INSET,
+              paddingBottom: keyboardVisible ? 8 : insets.bottom + 16,
             }}
           >
-            <TextArea
-              ref={inputRef}
-              accessibilityLabel={t("log_note_question")}
-              testID="log-message"
-              placeholder={t("log_note_question")}
-              defaultValue={initialMessage}
-              onChange={hasMentions ? mentions.onChangeText : typeMessage}
-              onSelectionChange={
-                hasMentions ? mentions.onSelectionChange : undefined
-              }
-              onBlur={flushMessage}
-              maxLength={MAX_MESSAGE_LENGTH}
+            <TextWrap
+              avoidTestIDs={BUTTON_TEST_IDS}
+              gap={BUTTON_GAP}
               style={{
                 flex: 1,
-                marginBottom: 0,
-                borderWidth: 0,
-                backgroundColor: "transparent",
-                paddingHorizontal: 0,
-                paddingTop: 8,
-                paddingBottom: 16,
-                fontSize: 18,
-                lineHeight: 26,
+                marginTop: SLIDE_MARGIN_TOP,
               }}
             >
-              {hasMentions ? (
-                <MentionSpans segments={mentions.segments} />
-              ) : undefined}
-            </TextArea>
-          </TextWrap>
-          {hasMentions && (
-            <MentionSuggestions
-              candidates={mentions.candidates}
-              onPick={mentions.handlePick}
-              style={{
-                marginBottom: 8,
-                // Keeps the list clear of the floating next/save button.
-                marginRight:
-                  BUTTON_RIGHT +
-                  FLOAT_BUTTON_SIZE +
-                  BUTTON_GAP -
-                  LOGGER_HEADER_ICON_INSET,
-              }}
-            />
-          )}
-          {footerVisible && (
-            <Footer>
-              <LinkButton
-                type="secondary"
-                onPress={onDisableStep}
+              <TextArea
+                ref={inputRef}
+                accessibilityLabel={t("log_note_question")}
+                testID="log-message"
+                placeholder={t("log_note_question")}
+                defaultValue={initialMessage}
+                onChange={hasMentions ? mentions.onChangeText : typeMessage}
+                onSelectionChange={
+                  hasMentions ? mentions.onSelectionChange : undefined
+                }
+                onBlur={flushMessage}
+                maxLength={MAX_MESSAGE_LENGTH}
                 style={{
-                  fontWeight: "400",
+                  flex: 1,
+                  marginBottom: 0,
+                  borderWidth: 0,
+                  backgroundColor: "transparent",
+                  paddingHorizontal: 0,
+                  paddingTop: 8,
+                  paddingBottom: 16,
+                  fontSize: 18,
+                  lineHeight: 26,
                 }}
               >
-                {t("log_message_disable")}
-              </LinkButton>
-            </Footer>
-          )}
-        </View>
-      </DismissKeyboard>
-    </KeyboardAvoidingView>
+                {hasMentions ? (
+                  <MentionSpans segments={mentions.segments} />
+                ) : undefined}
+              </TextArea>
+            </TextWrap>
+            {footerVisible && (
+              <Footer>
+                <LinkButton
+                  type="secondary"
+                  onPress={onDisableStep}
+                  style={{
+                    fontWeight: "400",
+                  }}
+                >
+                  {t("log_message_disable")}
+                </LinkButton>
+              </Footer>
+            )}
+          </View>
+        </DismissKeyboard>
+      </KeyboardAvoidingView>
+      {hasMentions && mentions.candidates.length > 0 && (
+        <Animated.View
+          style={[
+            {
+              position: "absolute",
+              left: LOGGER_HEADER_ICON_INSET,
+              // Keeps the list clear of the floating next/save button.
+              right: BUTTON_RIGHT + FLOAT_BUTTON_SIZE + BUTTON_GAP,
+              bottom: insets.bottom + 16,
+            },
+            liftStyle,
+          ]}
+        >
+          <MentionSuggestions
+            candidates={mentions.candidates}
+            onPick={mentions.handlePick}
+          />
+        </Animated.View>
+      )}
+    </>
   );
 };
 

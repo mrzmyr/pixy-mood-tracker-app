@@ -3,7 +3,7 @@ import { Headline } from "@/components/type";
 import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import type { LogItem } from "@/features/logs";
-import { NoteContent, hasMention } from "@/features/people";
+import { NoteContent, hasMention, noteToPlainText } from "@/features/people";
 import { t } from "@/lib/translation";
 import { Pressable, View } from "react-native";
 import type { NativeSyntheticEvent, TextLayoutEventData } from "react-native";
@@ -65,6 +65,10 @@ export const Message = ({
         disabled={!onEdit}
         onPress={onEdit}
         accessibilityRole={onEdit ? "button" : "text"}
+        // Inline avatars would read as "object replacement character".
+        accessibilityLabel={
+          hasMention(message) ? noteToPlainText(message) : undefined
+        }
         accessibilityHint={
           onEdit
             ? t("view_log_edit", { module: t("logger_step_message") })
