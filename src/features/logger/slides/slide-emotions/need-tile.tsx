@@ -1,9 +1,9 @@
 import Anchor from "lucide-react-native/icons/anchor";
-import Battery from "lucide-react-native/icons/battery";
+import Bed from "lucide-react-native/icons/bed";
 import Compass from "lucide-react-native/icons/compass";
-import Handshake from "lucide-react-native/icons/handshake";
-import PartyPopper from "lucide-react-native/icons/party-popper";
-import TrendingUp from "lucide-react-native/icons/trending-up";
+import Gamepad2 from "lucide-react-native/icons/gamepad-2";
+import MessagesSquare from "lucide-react-native/icons/messages-square";
+import Wrench from "lucide-react-native/icons/wrench";
 import { Pressable, useColorScheme, View } from "react-native";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
@@ -15,15 +15,18 @@ import { RATING_LABELS } from "./need-rating-types";
 import { RatingIcon } from "./need-rating";
 import type { NeedConfig, NeedKey, NeedState } from "./needs";
 
-/** Glyph of each need. Each glyph means this need only. */
+/**
+ * Glyph of each need. Each glyph means this need only: no emotion icon
+ * (`emotion-icons.ts`) and no other screen uses it.
+ */
 const NEED_ICONS = {
-  body: Battery,
+  body: Bed,
   safety: Anchor,
-  connection: Handshake,
+  connection: MessagesSquare,
   autonomy: Compass,
-  competence: TrendingUp,
-  joy: PartyPopper,
-} as const satisfies Record<NeedKey, typeof Battery>;
+  competence: Wrench,
+  joy: Gamepad2,
+} as const satisfies Record<NeedKey, typeof Bed>;
 
 const ICON_SIZE = 20;
 
@@ -66,8 +69,8 @@ export const NeedTile = ({
         flex: 1,
         minHeight: 112,
         padding: 14,
+        // Top-aligned, so names line up across tiles of one row.
         gap: 12,
-        justifyContent: "space-between",
         borderRadius: RADIUS.md,
         borderCurve: "continuous",
         borderWidth: 1,
