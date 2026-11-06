@@ -9,8 +9,8 @@ import { PersonAvatar } from "./person-avatar";
 const AVATAR_SCALE = 0.95;
 /** Space between avatar and name. */
 const AVATAR_GAP = 3;
-/** Inline views sit on the baseline; this lowers them to the text center. */
-const BASELINE_SHIFT = 0.15;
+/** Inline views sit low on iOS; this lifts them to the cap height center. */
+const BASELINE_SHIFT = -0.12;
 
 /**
  * Read-only entry note with mentions, for use inside a `Text`. Mentions read
