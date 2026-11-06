@@ -6,7 +6,7 @@ import { createStructuredError } from "@/lib/errors";
 import { Platform } from "react-native";
 
 /** Most photos {@link PhotoSource.listPhotosOnDate} returns. */
-export const DAY_PHOTOS_LIMIT = 20;
+export const DAY_PHOTOS_LIMIT = 50;
 
 /** Image the user picked or took, before {@link importPhoto} stores it. */
 export interface PickedPhoto {
