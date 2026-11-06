@@ -9,6 +9,7 @@ import LinkButton from "@/components/link-button";
 import { Copy, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
+import { SPACE } from "@/constants/space";
 
 /** Tone of an {@link InlineAlert}: sets icon and accent color. */
 export type InlineAlertVariant = "error" | "warning" | "info" | "success";
@@ -67,7 +68,7 @@ export const InlineAlert = ({
       testID={testID}
       style={[
         {
-          paddingVertical: 12,
+          paddingVertical: SPACE.md,
           paddingHorizontal: 14,
           borderRadius: RADIUS.md,
           borderCurve: "continuous",
@@ -112,7 +113,7 @@ export const InlineAlert = ({
           style={{
             alignSelf: "flex-start",
             marginLeft: ICON_SIZE + GAP,
-            marginTop: 4,
+            marginTop: SPACE.xs,
             paddingHorizontal: 0,
             paddingBottom: 0,
             fontWeight: "600",

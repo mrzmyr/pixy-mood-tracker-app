@@ -25,6 +25,7 @@ import type { Toast } from "@/lib/toast";
 import { RADIUS } from "@/constants/radius";
 import { SHADOW } from "@/constants/shadow";
 import { getTypeMetrics } from "@/components/type-metrics";
+import { SPACE } from "@/constants/space";
 
 const IS_ANDROID = Platform.OS === "android";
 /** Drag distance or speed toward the screen edge that dismisses the toast. */
@@ -93,16 +94,16 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
             {
               flexDirection: "row",
               alignItems: toast.message ? "flex-start" : "center",
-              gap: 12,
-              paddingVertical: 16,
-              paddingHorizontal: 20,
+              gap: SPACE.md,
+              paddingVertical: SPACE.lg,
+              paddingHorizontal: SPACE.xl,
               ...(IS_ANDROID
                 ? {
                     // Material 3 snackbar: inverse surface, 4dp corners.
                     alignItems: "center",
                     minHeight: 48,
-                    paddingVertical: 8,
-                    paddingHorizontal: 16,
+                    paddingVertical: SPACE.sm,
+                    paddingHorizontal: SPACE.lg,
                     borderRadius: RADIUS.xs,
                     borderCurve: "continuous",
                     backgroundColor: colors.snackbarBackground,
@@ -160,7 +161,7 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
                 toast.action?.onPress();
                 hideToast();
               }}
-              style={{ paddingHorizontal: 8, paddingVertical: 8 }}
+              style={{ paddingHorizontal: SPACE.sm, paddingVertical: SPACE.sm }}
             >
               <Text
                 style={{

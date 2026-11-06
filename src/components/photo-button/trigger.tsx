@@ -3,6 +3,7 @@ import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
 
 /**
  * Tonal pill that opens the library or the photo menu on Android and web.
@@ -29,7 +30,7 @@ export const Trigger = ({
       hitSlop={4}
       style={({ pressed }) => ({
         height: 40,
-        paddingHorizontal: 20,
+        paddingHorizontal: SPACE.xl,
         borderRadius: RADIUS.full,
         overflow: "hidden",
         justifyContent: "center",

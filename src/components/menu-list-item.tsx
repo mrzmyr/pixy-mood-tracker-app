@@ -6,6 +6,7 @@ import ChevronRight from "lucide-react-native/icons/chevron-right";
 import { SFIcon } from "@/components/sf-icon";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
+import { SPACE } from "@/constants/space";
 
 const DEFAULT_STYLE = {};
 
@@ -22,8 +23,8 @@ interface Metrics {
 
 const ANDROID: Metrics = {
   frame: {},
-  row: { minHeight: 56, paddingHorizontal: 16 },
-  tallRow: { minHeight: 72, paddingHorizontal: 16 },
+  row: { minHeight: 56, paddingHorizontal: SPACE.lg },
+  tallRow: { minHeight: 72, paddingHorizontal: SPACE.lg },
   icon: {
     width: 24,
     height: 24,
@@ -38,8 +39,8 @@ const ANDROID: Metrics = {
 const IOS: Metrics = {
   frame: {
     borderTopWidth: 1,
-    marginRight: 16,
-    marginLeft: 16,
+    marginRight: SPACE.lg,
+    marginLeft: SPACE.lg,
   },
   row: { minHeight: 50 },
   tallRow: { minHeight: 50 },
@@ -231,8 +232,8 @@ const MenuListItem = ({
           {
             flexDirection: "row",
             alignItems: "center",
-            paddingTop: 8,
-            paddingBottom: 8,
+            paddingTop: SPACE.sm,
+            paddingBottom: SPACE.sm,
             ...rowStyle,
             width: "100%",
             opacity: getPressedOpacity({
@@ -290,7 +291,7 @@ const MenuListItem = ({
           <View
             style={{
               flexShrink: 0,
-              marginLeft: 12,
+              marginLeft: SPACE.md,
               justifyContent: "center",
               alignItems: "flex-end",
             }}

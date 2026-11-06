@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/use-colors";
+import { SPACE } from "@/constants/space";
 
 /** Material 3 full-screen dialog header height. */
 const BAR_HEIGHT = 56;
@@ -34,7 +35,7 @@ const ModalHeader = ({
           alignItems: "center",
           height: BAR_HEIGHT,
           paddingLeft: 6,
-          paddingRight: 8,
+          paddingRight: SPACE.sm,
         },
         style,
       ]}

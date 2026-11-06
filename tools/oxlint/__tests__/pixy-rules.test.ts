@@ -378,6 +378,26 @@ describe("radius-token", () => {
   });
 });
 
+describe("spacing-token", () => {
+  it("reports spacing literals that equal a SPACE step", () => {
+    expect(
+      lint(
+        "spacing-token",
+        "export const a = { padding: 16, marginTop: 8, gap: 4, columnGap: 32 };\n"
+      )
+    ).toBe(4);
+  });
+
+  it("allows tokens and values off the scale", () => {
+    expect(
+      lint(
+        "spacing-token",
+        "const SPACE = { lg: 16 };\nexport const a = { padding: SPACE.lg, marginTop: 6, gap: 2, width: 16, marginLeft: -8 };\n"
+      )
+    ).toBe(0);
+  });
+});
+
 describe("no-reduce-motion-never", () => {
   it("reports ReduceMotion.Never", () => {
     expect(

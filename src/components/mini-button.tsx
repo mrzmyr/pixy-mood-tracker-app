@@ -2,6 +2,7 @@ import useColors from "@/hooks/use-colors";
 import { Pressable } from "react-native";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
 
 /** Small pill button that calls `onPress`. */
 export const MiniButton = ({
@@ -17,10 +18,10 @@ export const MiniButton = ({
     <Pressable
       style={({ pressed }) => [
         {
-          paddingTop: 8,
-          paddingBottom: 8,
-          paddingLeft: 16,
-          paddingRight: 16,
+          paddingTop: SPACE.sm,
+          paddingBottom: SPACE.sm,
+          paddingLeft: SPACE.lg,
+          paddingRight: SPACE.lg,
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "row",

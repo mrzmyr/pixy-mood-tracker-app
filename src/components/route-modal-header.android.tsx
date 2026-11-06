@@ -4,6 +4,7 @@ import { HeaderButton } from "@/components/header-button";
 import { getCloseLabel } from "@/components/close-label";
 import useColors from "@/hooks/use-colors";
 import type { RouteModalHeaderProps } from "./route-modal-header";
+import { SPACE } from "@/constants/space";
 
 /** Material 3 full-screen dialog header height. */
 const BAR_HEIGHT = 56;
@@ -32,7 +33,7 @@ const RouteModalHeader = ({
         height: BAR_HEIGHT + insets.top,
         paddingTop: insets.top,
         paddingLeft: 6,
-        paddingRight: 8,
+        paddingRight: SPACE.sm,
       }}
     >
       <HeaderButton

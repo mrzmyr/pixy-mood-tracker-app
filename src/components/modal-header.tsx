@@ -3,6 +3,7 @@ import type { ViewStyle } from "react-native";
 
 import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
+import { SPACE } from "@/constants/space";
 
 const DEFAULT_STYLE = {};
 
@@ -33,10 +34,10 @@ const ModalHeader = ({
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          paddingTop: 8,
-          paddingLeft: 8,
-          paddingRight: 8,
-          paddingBottom: 8,
+          paddingTop: SPACE.sm,
+          paddingLeft: SPACE.sm,
+          paddingRight: SPACE.sm,
+          paddingBottom: SPACE.sm,
         },
         style,
       ]}

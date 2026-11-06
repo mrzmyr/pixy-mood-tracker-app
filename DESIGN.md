@@ -49,6 +49,7 @@ Pixy-specific design decisions that a model cannot read from the code. For every
 
 ## Layout
 
+- Spacing uses `SPACE` steps from [`space.ts`](src/constants/space.ts). Many screens still use literals: do not copy them.
 - The parent sets space between children with flex `gap`, not margins on siblings.
 - Do not put a horizontal scroller in a horizontal parent (pager, carousel). Android takes the swipe.
 - A swap keeps the size. Measure width, height, and padding before and after.

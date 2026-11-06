@@ -6,6 +6,7 @@ import { getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import noop from "lodash/noop";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
 
 const TextAreaComponent = (
   {
@@ -60,8 +61,8 @@ const TextAreaComponent = (
         borderColor: colors.textInputBorder,
         backgroundColor: colors.textInputBackground,
         color: colors.textInputText,
-        paddingTop: 16,
-        padding: 16,
+        paddingTop: SPACE.lg,
+        padding: SPACE.lg,
         ...getTextStyle("copy", 16),
         height: "100%",
         width: "100%",

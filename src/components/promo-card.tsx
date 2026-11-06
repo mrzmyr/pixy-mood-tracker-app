@@ -6,6 +6,7 @@ import Indicator from "@/components/indicator";
 import { PressableScale } from "@/components/pressable-scale";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
+import { SPACE } from "@/constants/space";
 
 /**
  * Dismissible promo card on the calendar screen.
@@ -48,8 +49,8 @@ export const PromoCard = ({
         borderRadius: RADIUS.md,
         borderCurve: "continuous",
         overflow: "hidden",
-        paddingVertical: 16,
-        paddingHorizontal: 16,
+        paddingVertical: SPACE.lg,
+        paddingHorizontal: SPACE.lg,
         minHeight: 140,
         borderColor: colors.promoCardBorder,
         borderWidth: 1,
@@ -103,7 +104,7 @@ export const PromoCard = ({
             fontSize: 20,
             fontWeight: "bold",
             color: colors.promoCardText,
-            marginTop: 8,
+            marginTop: SPACE.sm,
             lineHeight: 26,
           }}
         >

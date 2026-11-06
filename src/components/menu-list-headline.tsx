@@ -3,6 +3,7 @@ import type { TextStyle } from "react-native";
 
 import { getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
+import { SPACE } from "@/constants/space";
 
 const DEFAULT_STYLE = {};
 
@@ -30,7 +31,7 @@ const MenuListHeadline = ({
         color: Platform.OS === "android" ? colors.tint : colors.textSecondary,
         padding: 0,
         width: "100%",
-        paddingLeft: 16,
+        paddingLeft: SPACE.lg,
         ...style,
       }}
     >
