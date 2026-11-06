@@ -4,6 +4,7 @@ import { ButtonChildren, ButtonProvider } from "@/components/button-content";
 import useColors from "@/hooks/use-colors";
 import { PressableScale } from "@/components/pressable-scale";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
 
 const DEFAULT_STYLE = {};
 const TEXT_STYLE = { fontWeight: "600" } as const;
@@ -101,13 +102,13 @@ const Button = ({
     >
       <PressableScale
         style={{
-          padding: 16,
-          paddingRight: 16,
-          paddingLeft: 16,
+          padding: SPACE.lg,
+          paddingRight: SPACE.lg,
+          paddingLeft: SPACE.lg,
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "row",
-          gap: 8,
+          gap: SPACE.sm,
           borderRadius: RADIUS.full,
           opacity: disabled ? 0.5 : 1,
           backgroundColor: disabled

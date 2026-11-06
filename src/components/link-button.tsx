@@ -4,6 +4,7 @@ import type { TextStyle, ViewStyle } from "react-native";
 import { ButtonChildren, ButtonProvider } from "@/components/button-content";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
+import { SPACE } from "@/constants/space";
 
 const DEFAULT_STYLE = {};
 
@@ -90,7 +91,7 @@ const LinkButton = ({
             alignItems: "center",
             justifyContent: "center",
             gap: 5,
-            padding: 8,
+            padding: SPACE.sm,
             opacity: getPressableOpacity(disabled, pressed),
             overflow:
               Platform.OS === "android" && !isIconOnly ? "hidden" : "visible",

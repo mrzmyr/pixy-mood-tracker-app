@@ -2,6 +2,7 @@ import type { TextStyle } from "react-native";
 
 import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
+import { SPACE } from "@/constants/space";
 
 /** Secondary note under a list, for example a warning about its rows. */
 const TextInfo = ({
@@ -19,7 +20,7 @@ const TextInfo = ({
       style={[
         {
           color: colors.textSecondary,
-          padding: 16,
+          padding: SPACE.lg,
           paddingTop: 0,
         },
         style,

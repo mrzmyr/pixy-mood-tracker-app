@@ -4,6 +4,7 @@ import useColors from "@/hooks/use-colors";
 import { RADIUS } from "@/constants/radius";
 import { Trigger } from "./trigger";
 import type { PhotoButtonProps } from "./types";
+import { SPACE } from "@/constants/space";
 
 /**
  * Photo button on web: tonal pill with a plain popover menu. iOS and Android
@@ -37,7 +38,7 @@ export const PhotoButton = ({
             position: "absolute",
             top: 48,
             minWidth: 200,
-            padding: 4,
+            padding: SPACE.xs,
             borderRadius: RADIUS.md,
             borderCurve: "continuous",
             backgroundColor: colors.bottomSheetBackground,
@@ -52,7 +53,7 @@ export const PhotoButton = ({
                 setOpen(false);
                 action.onPress();
               }}
-              style={{ padding: 12 }}
+              style={{ padding: SPACE.md }}
             >
               <Text
                 style={{

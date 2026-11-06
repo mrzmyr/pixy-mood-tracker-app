@@ -336,6 +336,12 @@ export default defineConfig({
       rules: { "pixy-standards/no-spring-animation": "off" },
     },
     {
+      // Spacing tokens roll out one folder at a time. Add a folder once its
+      // literals use SPACE.
+      files: ["src/components/**"],
+      rules: { "pixy-standards/spacing-token": "error" },
+    },
+    {
       // The color scale derives its shades here; everything else reads them.
       files: ["src/constants/colors/**"],
       rules: { "pixy-standards/no-color-shading": "off" },

@@ -9,6 +9,7 @@ import TextInfo from "@/components/text-info";
 import Toggle from "@/components/toggle";
 import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
+import { SPACE } from "@/constants/space";
 import type {
   SettingsRowProps,
   SettingsSectionProps,
@@ -37,8 +38,8 @@ export const SettingsForm = ({
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <ScrollView style={{ padding: 20 }}>
-        <View style={{ gap: 24, paddingBottom: 40 }}>
+      <ScrollView style={{ padding: SPACE.xl }}>
+        <View style={{ gap: SPACE.xxl, paddingBottom: 40 }}>
           {header}
           {children}
         </View>
@@ -57,12 +58,16 @@ export const SettingsSection = ({
   const section = (
     <View>
       {title ? (
-        <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
+        <MenuListHeadline
+          style={{ marginTop: SPACE.xxxl, marginBottom: SPACE.sm }}
+        >
           {title}
         </MenuListHeadline>
       ) : null}
       <MenuList>{children}</MenuList>
-      {footer ? <TextInfo style={{ marginTop: 8 }}>{footer}</TextInfo> : null}
+      {footer ? (
+        <TextInfo style={{ marginTop: SPACE.sm }}>{footer}</TextInfo>
+      ) : null}
     </View>
   );
 
@@ -122,7 +127,13 @@ export const SettingsRow = ({
       iconRight={
         accessory ??
         (hasChevron ? (
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: SPACE.sm,
+            }}
+          >
             {status}
             <ChevronRight width={18} color={colors.menuListItemIcon} />
           </View>

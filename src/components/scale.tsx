@@ -5,6 +5,7 @@ import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/use-scale";
 import type { SettingsState } from "@/state/settings";
 import ScaleButton from "@/components/scale-button";
+import { SPACE } from "@/constants/space";
 
 const Scale = ({
   type,
@@ -27,8 +28,8 @@ const Scale = ({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        gap: 8,
-        paddingVertical: 4,
+        gap: SPACE.sm,
+        paddingVertical: SPACE.xs,
       }}
     >
       {_labels.map((key, index) => {

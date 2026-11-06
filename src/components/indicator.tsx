@@ -4,6 +4,7 @@ import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/use-colors";
 import type { TAG_COLOR_NAMES } from "@/constants/config";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
 
 const Indicator = ({
   children,
@@ -20,9 +21,9 @@ const Indicator = ({
     <View
       style={{
         backgroundColor: colors.tags[colorName]?.background,
-        padding: 4,
-        paddingLeft: 8,
-        paddingRight: 8,
+        padding: SPACE.xs,
+        paddingLeft: SPACE.sm,
+        paddingRight: SPACE.sm,
         borderRadius: RADIUS.sm,
         borderCurve: "continuous",
         ...style,

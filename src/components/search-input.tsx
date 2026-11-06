@@ -5,6 +5,7 @@ import Search from "lucide-react-native/icons/search";
 import CircleX from "lucide-react-native/icons/circle-x";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
 
 /** Controlled search field with a clear button. Empty `value` hides the button. */
 export const SearchInput = ({
@@ -30,12 +31,12 @@ export const SearchInput = ({
         backgroundColor: colors.textInputBackground,
         borderRadius: RADIUS.sm,
         borderCurve: "continuous",
-        padding: 8,
+        padding: SPACE.sm,
       }}
     >
       <View
         style={{
-          marginLeft: 4,
+          marginLeft: SPACE.xs,
         }}
       >
         <Search color={colors.textInputPlaceholder} width={20} />
@@ -49,7 +50,7 @@ export const SearchInput = ({
         style={{
           flex: 1,
           color: colors.textInputText,
-          marginLeft: 12,
+          marginLeft: SPACE.md,
           ...getInputTextStyle(16),
           width: "100%",
           borderRadius: RADIUS.sm,
@@ -62,8 +63,8 @@ export const SearchInput = ({
           accessibilityLabel={t("clear")}
           accessibilityRole="button"
           style={{
-            paddingRight: 8,
-            padding: 8,
+            paddingRight: SPACE.sm,
+            padding: SPACE.sm,
             margin: -8,
           }}
           onPress={() => onChange("")}

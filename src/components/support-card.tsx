@@ -8,6 +8,7 @@ import { PressableScale } from "@/components/pressable-scale";
 import { Copy, Label } from "@/components/typography";
 import type { SupportFlowError } from "@/support";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
 
 const isSupportFlowError = (error: unknown): error is SupportFlowError => {
   if (typeof error !== "object" || error === null) {
@@ -103,9 +104,9 @@ export const SupportCard = () => {
     <View
       testID="support-pixy-card"
       style={{
-        marginTop: 24,
-        marginBottom: 20,
-        padding: 20,
+        marginTop: SPACE.xxl,
+        marginBottom: SPACE.xl,
+        padding: SPACE.xl,
         borderRadius: RADIUS.lg,
         borderCurve: "continuous",
         backgroundColor: cardColor,
@@ -134,7 +135,7 @@ export const SupportCard = () => {
       <Copy
         size={16}
         style={{
-          marginTop: 12,
+          marginTop: SPACE.md,
           color: contentColor,
           lineHeight: 24,
         }}
@@ -151,8 +152,8 @@ export const SupportCard = () => {
         }}
         style={{
           minHeight: 52,
-          marginTop: 24,
-          paddingHorizontal: 16,
+          marginTop: SPACE.xxl,
+          paddingHorizontal: SPACE.lg,
           paddingVertical: 14,
           borderRadius: RADIUS.md,
           borderCurve: "continuous",

@@ -889,6 +889,54 @@ const radiusToken = {
   },
 };
 
+const SPACING_KEY =
+  /^(?:padding|margin)(?:Top|Bottom|Left|Right|Horizontal|Vertical|Start|End)?$|^(?:gap|rowGap|columnGap)$/u;
+/** `SPACE` values from `src/constants/space.ts`, keyed by value. */
+const SPACE_STEPS = new Map([
+  [4, "xs"],
+  [8, "sm"],
+  [12, "md"],
+  [16, "lg"],
+  [20, "xl"],
+  [24, "xxl"],
+  [32, "xxxl"],
+]);
+
+const spacingToken = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Require SPACE tokens for spacing values on the scale",
+    },
+    messages: {
+      literal:
+        "Use `SPACE.{{step}}` from `@/constants/space` instead of {{value}}.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      Property(node) {
+        const key = node.key.name ?? node.key.value;
+        if (
+          SPACING_KEY.test(String(key)) &&
+          node.value.type === "Literal" &&
+          SPACE_STEPS.has(node.value.value)
+        ) {
+          context.report({
+            messageId: "literal",
+            node: node.value,
+            data: {
+              step: SPACE_STEPS.get(node.value.value),
+              value: node.value.value,
+            },
+          });
+        }
+      },
+    };
+  },
+};
+
 const noReduceMotionNever = {
   meta: {
     type: "problem",
@@ -1129,6 +1177,7 @@ module.exports = {
     "header-button-only": headerButtonOnly,
     "no-color-shading": noColorShading,
     "radius-token": radiusToken,
+    "spacing-token": spacingToken,
     "no-reduce-motion-never": noReduceMotionNever,
     "no-spring-animation": noSpringAnimation,
     "title-case-labels": titleCaseLabels,
