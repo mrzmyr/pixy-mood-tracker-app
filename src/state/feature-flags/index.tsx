@@ -5,10 +5,15 @@ import { useSettings, useSettingsLoad } from "@/state/settings";
 import type { FeatureFlag } from "@/state/feature-flags/keys";
 import {
   FeatureFlagsContext,
+  getFeatureFlagState,
   useAppliedOverride,
 } from "@/state/feature-flags/context";
-import type { RemoteFlags } from "@/state/feature-flags/context";
+import type {
+  FeatureFlagState,
+  RemoteFlags,
+} from "@/state/feature-flags/context";
 
+export type { FeatureFlagState } from "@/state/feature-flags/context";
 export {
   useCanOverrideFeatureFlags,
   useFeatureFlagSource,
@@ -100,9 +105,6 @@ export const FeatureFlagsProvider = ({
   );
 };
 
-/** Feature state: `loading` while settings or the first flag request after consent are pending. */
-export type FeatureFlagState = "on" | "off" | "loading";
-
 /**
  * Like {@link useFeatureFlag}, but tells `loading` apart from `off`. Use it
  * when showing "off" too early would flash, for example widget content.
@@ -110,17 +112,11 @@ export type FeatureFlagState = "on" | "off" | "loading";
 export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
   const { flags: remoteFlags, isLoading } = useContext(FeatureFlagsContext);
   const override = useAppliedOverride(key);
-
-  if (override === "on") {
-    return "on";
-  }
-  if (override === "off") {
-    return "off";
-  }
-  if (isLoading) {
-    return "loading";
-  }
-  return remoteFlags?.[key] === true ? "on" : "off";
+  return getFeatureFlagState({
+    override,
+    isLoading,
+    isRemoteOn: remoteFlags?.[key] === true,
+  });
 };
 
 /**

@@ -10,6 +10,31 @@ import {
 // Flag context and override hooks live apart from `@/state/feature-flags`, so
 // `FlagHighlight` keeps working in tests that mock that module.
 
+/** Feature state: `loading` while settings or the first flag request after consent are pending. */
+export type FeatureFlagState = "on" | "off" | "loading";
+
+/**
+ * State of one flag: an override wins, then `loading` while flags load,
+ * then the remote value.
+ */
+export const getFeatureFlagState = ({
+  override,
+  isLoading,
+  isRemoteOn,
+}: {
+  override: "on" | "off" | undefined;
+  isLoading: boolean;
+  isRemoteOn: boolean;
+}): FeatureFlagState => {
+  if (override) {
+    return override;
+  }
+  if (isLoading) {
+    return "loading";
+  }
+  return isRemoteOn ? "on" : "off";
+};
+
 /** PostHog flag values by key. */
 export type RemoteFlags = Record<string, boolean | string>;
 

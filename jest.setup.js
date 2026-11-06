@@ -143,7 +143,7 @@ const mockExpoUiText = (node) => {
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI and native settings lists; SwiftUI and Compose views have no Jest view. The stand-ins render React Native views: the switch keeps the `Switch` props tests read, a pressable row or list item is a button.
 jest.mock("@expo/ui", () => {
-  const { isValidElement } = require("react");
+  const { Children, isValidElement } = require("react");
   const { Pressable, Switch, Text, TextInput, View } = require("react-native");
   const FieldGroup = Object.assign(({ children }) => <View>{children}</View>, {
     Section: ({ title, children }) => (
@@ -188,7 +188,29 @@ jest.mock("@expo/ui", () => {
         {mockExpoUiText(trailing)}
       </Pressable>
     ),
+    Column: ({ children }) => <View>{children}</View>,
     Icon: Object.assign(() => null, { select: ({ ios }) => ios }),
+    // Options as menu items with their checked state, like the native menu.
+    Picker: Object.assign(
+      ({ children, selectedValue, onValueChange, testID }) => (
+        <View testID={testID}>
+          {Children.toArray(children).map((item) => (
+            <Pressable
+              key={item.props.value}
+              accessibilityRole="menuitem"
+              accessibilityLabel={item.props.label}
+              accessibilityState={{
+                checked: item.props.value === selectedValue,
+              }}
+              onPress={() => onValueChange(item.props.value)}
+            >
+              <Text>{item.props.label}</Text>
+            </Pressable>
+          ))}
+        </View>
+      ),
+      { Item: () => null }
+    ),
     Spacer: () => null,
     Switch: ({ label, value, onValueChange, disabled, testID }) => (
       <Switch
