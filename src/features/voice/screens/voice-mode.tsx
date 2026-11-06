@@ -30,7 +30,8 @@ import { getMoodTriggers, matchMood } from "../mood-triggers";
 import { useVoiceTerms } from "../use-voice-terms";
 import { buildVoiceExamples } from "../voice-example";
 import { useVoiceTranscription } from "../use-voice-transcription";
-import type { VoiceErrorStatus, VoiceStatus } from "../use-voice-transcription";
+import type { VoiceStatus } from "../use-voice-transcription";
+import { blockedCopy } from "../blocked-copy";
 
 const CONTROL_SIZE = 56;
 /** Examples the empty state cycles through. */
@@ -56,30 +57,6 @@ const PREFILL_LIST = {
   person: (prefill: LoggerPrefill) => prefill.people,
   tag: (prefill: LoggerPrefill) => prefill.tags,
   emotion: (prefill: LoggerPrefill) => prefill.emotions,
-};
-
-const blockedCopy = (
-  status: VoiceStatus,
-  errorStatus: VoiceErrorStatus | undefined
-) => {
-  if (status === "denied") {
-    return {
-      title: t("voice_permission_title"),
-      body: t("voice_permission_body"),
-    };
-  }
-  if (errorStatus === "voice_siri_disabled") {
-    return { title: t("voice_failed_title"), body: t("voice_failed_siri") };
-  }
-  const isLanguageMissing =
-    errorStatus === "voice_on_device_unavailable" ||
-    errorStatus === "voice_recognizer_unavailable";
-  return {
-    title: t("voice_failed_title"),
-    body: isLanguageMissing
-      ? t("voice_failed_language")
-      : t("voice_failed_body"),
-  };
 };
 
 /**

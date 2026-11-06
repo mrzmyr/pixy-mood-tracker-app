@@ -1,1 +1,5 @@
 export { isVoiceModeSupported } from "./support";
+export {
+  VOICE_NOTE_BUTTON_TEST_ID,
+  VoiceNoteButton,
+} from "./components/voice-note-button";
