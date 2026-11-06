@@ -1,13 +1,8 @@
-import { Easing, FadeIn, Keyframe } from "react-native-reanimated";
+import { FadeIn, Keyframe } from "react-native-reanimated";
+import { DURATION, getEasing } from "@/constants/motion";
 
 // Everything here is built on call, never at module load: some Jest suites
 // load this module through a reanimated mock without `Easing` or `Keyframe`.
-
-/**
- * Strong ease-out for entering UI. Built-in easings are too weak; never use
- * ease-in on UI. See https://emilkowal.ski/ui/great-animations
- */
-export const getEaseOut = () => Easing.bezier(0.23, 1, 0.32, 1);
 
 /**
  * Text fades in while it rises 8 pt. With reduced motion only the fade
@@ -24,13 +19,17 @@ export const createFadeIn = ({
   isReducedMotion: boolean;
 }) => {
   if (isReducedMotion) {
-    return FadeIn.delay(delay).duration(400);
+    return FadeIn.delay(delay).duration(DURATION.slow);
   }
 
   return new Keyframe({
     0: { opacity: 0, transform: [{ translateY: 8 }] },
-    100: { opacity: 1, transform: [{ translateY: 0 }], easing: getEaseOut() },
+    100: {
+      opacity: 1,
+      transform: [{ translateY: 0 }],
+      easing: getEasing("out"),
+    },
   })
     .delay(delay)
-    .duration(700);
+    .duration(DURATION.slower);
 };

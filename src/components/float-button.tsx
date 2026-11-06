@@ -1,7 +1,6 @@
 import { Platform, Pressable, StyleSheet } from "react-native";
 import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import Animated, {
-  Easing,
   interpolate,
   ReduceMotion,
   useAnimatedStyle,
@@ -12,10 +11,10 @@ import Animated, {
 import useColors from "@/hooks/use-colors";
 import { FLOAT_BUTTON_SIZE } from "@/constants/float-button";
 import { SHADOW } from "@/constants/shadow";
+import { DURATION, getEasing } from "@/constants/motion";
 
-// Press feedback: 0.97 scale in 120 ms, strong ease-out. Same as the
-// calendar float button.
-const PRESS_MS = 120;
+// Press feedback: 0.97 scale, strong ease-out. Same as the calendar float
+// button.
 const PRESS_SCALE = 0.97;
 
 // iOS 26+: native Liquid Glass with its own shadow and press response.
@@ -54,8 +53,8 @@ export const FloatButton = ({
   const setPressed = (value: 0 | 1) =>
     pressed.set(
       withTiming(value, {
-        duration: PRESS_MS,
-        easing: Easing.bezier(0.23, 1, 0.32, 1),
+        duration: DURATION.press,
+        easing: getEasing("out"),
         // oxlint-disable-next-line pixy-standards/no-reduce-motion-never -- press feedback; reduced motion dims it instead
         reduceMotion: ReduceMotion.Never,
       })

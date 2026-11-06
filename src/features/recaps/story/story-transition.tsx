@@ -2,7 +2,6 @@ import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import { GestureDetector, usePanGesture } from "react-native-gesture-handler";
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
@@ -11,6 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { scheduleOnRN, scheduleOnUI } from "react-native-worklets";
 import { RADIUS } from "@/constants/radius";
+import { getEasing } from "@/constants/motion";
 import { measureStoryCard, shouldCloseStory } from "./story-motion";
 import type { Frame } from "./story-motion";
 
@@ -25,7 +25,7 @@ const FADE_MS = 200;
 /** A card that left the screen: the story shrinks this much while it fades. */
 const FALLBACK_SCALE = 0.9;
 /** Fast at first, soft landing, no overshoot. */
-const EASING = Easing.bezier(0.2, 0, 0, 1);
+const EASING = getEasing("move");
 
 /** A drag of this share of the screen height scales the story the most. */
 const DRAG_FULL_RATIO = 0.5;

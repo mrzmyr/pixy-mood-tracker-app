@@ -919,6 +919,52 @@ const noReduceMotionNever = {
   },
 };
 
+/** Reanimated exports that bounce. */
+const SPRING_IMPORTS = new Set(["withSpring"]);
+const BOUNCE_PREFIX = "Bounce";
+
+const noSpringAnimation = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Disallow spring and bounce animations",
+    },
+    messages: {
+      spring:
+        "Pixy motion is soft and eased, never bouncy. Use `withTiming` or `.duration()` with `DURATION` and `getEasing` from `@/constants/motion`.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      ImportDeclaration(node) {
+        if (node.source.value !== "react-native-reanimated") {
+          return;
+        }
+        for (const specifier of node.specifiers) {
+          if (specifier.type !== "ImportSpecifier") {
+            continue;
+          }
+          const name = specifier.imported.name ?? specifier.imported.value;
+          if (SPRING_IMPORTS.has(name) || name.startsWith(BOUNCE_PREFIX)) {
+            context.report({ messageId: "spring", node: specifier });
+          }
+        }
+      },
+      CallExpression(node) {
+        if (
+          node.callee.type === "MemberExpression" &&
+          !node.callee.computed &&
+          node.callee.property.type === "Identifier" &&
+          node.callee.property.name === "springify"
+        ) {
+          context.report({ messageId: "spring", node: node.callee.property });
+        }
+      },
+    };
+  },
+};
+
 /** Chicago style keeps these lower case inside a title. */
 const TITLE_SMALL_WORDS = new Set(
   "a an the and but or nor for so yet as at by in of off on per to up via vs".split(
@@ -1084,6 +1130,7 @@ module.exports = {
     "no-color-shading": noColorShading,
     "radius-token": radiusToken,
     "no-reduce-motion-never": noReduceMotionNever,
+    "no-spring-animation": noSpringAnimation,
     "title-case-labels": titleCaseLabels,
   },
 };

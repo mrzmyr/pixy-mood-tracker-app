@@ -3,7 +3,6 @@ import { Pressable, StyleSheet } from "react-native";
 import { GlassView } from "expo-glass-effect";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
-  Easing,
   interpolate,
   interpolateColor,
   ReduceMotion,
@@ -17,6 +16,7 @@ import type { SharedValue } from "react-native-reanimated";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { SHADOW } from "@/constants/shadow";
+import { DURATION, getEasing } from "@/constants/motion";
 import { HAS_GLASS, IS_ANDROID, RADIUS, SIZE } from "./float-button-metrics";
 
 const BAR_LENGTH = 14;
@@ -36,10 +36,8 @@ const BARS = [
 // Motion values follow https://emilkowal.ski/ui/great-animations.
 // On-screen morph: Apple-style spring, 500 ms, bounce 0.2.
 const MORPH_SPRING = { duration: 500, dampingRatio: 0.8 };
-// Color change: CSS `ease`, 150 ms. Kept with reduced motion: no movement.
-const COLOR_MS = 150;
-// Press feedback: 0.97 scale in 120 ms, strong ease-out.
-const PRESS_MS = 120;
+// Color change kept with reduced motion: no movement.
+// Press feedback: 0.97 scale, strong ease-out.
 const PRESS_SCALE = 0.97;
 
 const styles = StyleSheet.create({
@@ -105,8 +103,8 @@ export const CalendarFloatButton = ({
   useEffect(() => {
     color.set(
       withTiming(colorTarget, {
-        duration: COLOR_MS,
-        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+        duration: DURATION.fast,
+        easing: getEasing("standard"),
         // oxlint-disable-next-line pixy-standards/no-reduce-motion-never -- color fade, nothing moves
         reduceMotion: ReduceMotion.Never,
       })
@@ -116,8 +114,8 @@ export const CalendarFloatButton = ({
   const setPressed = (value: 0 | 1) =>
     pressed.set(
       withTiming(value, {
-        duration: PRESS_MS,
-        easing: Easing.bezier(0.23, 1, 0.32, 1),
+        duration: DURATION.press,
+        easing: getEasing("out"),
         // oxlint-disable-next-line pixy-standards/no-reduce-motion-never -- press feedback; reduced motion dims it instead
         reduceMotion: ReduceMotion.Never,
       })

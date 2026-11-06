@@ -398,6 +398,26 @@ describe("no-reduce-motion-never", () => {
   });
 });
 
+describe("no-spring-animation", () => {
+  it("reports withSpring, Bounce presets, and springify", () => {
+    expect(
+      lint(
+        "no-spring-animation",
+        'import { BounceIn, FadeIn, withSpring } from "react-native-reanimated";\nexport const a = [BounceIn, withSpring(1), FadeIn.springify()];\n'
+      )
+    ).toBe(3);
+  });
+
+  it("allows timing animations", () => {
+    expect(
+      lint(
+        "no-spring-animation",
+        'import { FadeIn, withTiming } from "react-native-reanimated";\nexport const a = [withTiming(1, { duration: 150 }), FadeIn.duration(400)];\n'
+      )
+    ).toBe(0);
+  });
+});
+
 /** Lint one fixture with `title-case-labels` against a fixture English locale. */
 const lintTitles = (source: string) => {
   const config = path.join(dir, ".oxlintrc.json");
