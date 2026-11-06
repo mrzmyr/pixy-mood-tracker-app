@@ -1,7 +1,13 @@
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useLogDraft } from "../log-draft";
-import { forwardRef, useEffect, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
 import {
@@ -19,12 +25,22 @@ import { TextWrap } from "@/components/text-wrap";
 import { LOGGER_HEADER_ICON_INSET } from "../components/logger-header";
 import { Footer } from "./footer";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
+import { FLOAT_BUTTON_SIZE } from "@/constants/float-button";
+import {
+  MentionSpans,
+  MentionSuggestions,
+  useMentionEditor,
+} from "@/features/people";
+import type { Person } from "@/features/people";
+import { useFeatureFlag } from "@/state/feature-flags";
 
 const SLIDE_MARGIN_TOP = 8;
 
 // The note text wraps around the floating next/save button with this space.
 const BUTTON_GAP = 8;
 const BUTTON_TEST_IDS = ["logger-next", "logger-save"];
+// Right edge of the floating button, from the screen edge (see `SlideAction`).
+const BUTTON_RIGHT = 32;
 
 // Reads the native keyboard state, the same source as the floating
 // next/save button, so the footer and the button switch together. Flips when
@@ -62,7 +78,8 @@ const SlideMessageComponent = (
 ) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
-  const { draft, typeMessage, flushMessage } = useLogDraft();
+  const { draft, typeMessage, flushMessage, setPeople } = useLogDraft();
+  const hasMentions = useFeatureFlag("people");
   // Uncontrolled: the native input owns the text, so typing re-renders
   // neither the logger nor the other slides. Keep the start text fixed;
   // a changing `defaultValue` would push text back into the input.
@@ -72,6 +89,24 @@ const SlideMessageComponent = (
   // Slide changes dismiss the keyboard, so `onBlur` publishes the text. This
   // covers an unmount with the keyboard still open.
   useEffect(() => flushMessage, [flushMessage]);
+
+  const inputRef = useRef<TextInput | null>(null);
+  // The logger focuses the input through `ref`; mentions move its caret.
+  // SAFETY: the handle is read after mount, when the input is attached.
+  useImperativeHandle(ref, () => inputRef.current as TextInput, []);
+  // A mentioned person also joins the entry, like a pick on the People step.
+  const addPerson = (person: Person) => {
+    if (!draft.people.some(({ id }) => id === person.id)) {
+      setPeople([...draft.people, { id: person.id }]);
+    }
+  };
+  const mentions = useMentionEditor({
+    initialNote: initialMessage,
+    maxLength: MAX_MESSAGE_LENGTH,
+    inputRef,
+    onChange: typeMessage,
+    onMention: addPerson,
+  });
   const keyboardVisible = useKeyboardVisible();
 
   // The footer only exists while the disable link shows and the keyboard is
@@ -105,12 +140,15 @@ const SlideMessageComponent = (
             }}
           >
             <TextArea
-              ref={ref}
+              ref={inputRef}
               accessibilityLabel={t("log_note_question")}
               testID="log-message"
               placeholder={t("log_note_question")}
               defaultValue={initialMessage}
-              onChange={typeMessage}
+              onChange={hasMentions ? mentions.onChangeText : typeMessage}
+              onSelectionChange={
+                hasMentions ? mentions.onSelectionChange : undefined
+              }
               onBlur={flushMessage}
               maxLength={MAX_MESSAGE_LENGTH}
               style={{
@@ -124,8 +162,27 @@ const SlideMessageComponent = (
                 fontSize: 18,
                 lineHeight: 26,
               }}
-            />
+            >
+              {hasMentions ? (
+                <MentionSpans segments={mentions.segments} />
+              ) : undefined}
+            </TextArea>
           </TextWrap>
+          {hasMentions && (
+            <MentionSuggestions
+              candidates={mentions.candidates}
+              onPick={mentions.handlePick}
+              style={{
+                marginBottom: 8,
+                // Keeps the list clear of the floating next/save button.
+                marginRight:
+                  BUTTON_RIGHT +
+                  FLOAT_BUTTON_SIZE +
+                  BUTTON_GAP -
+                  LOGGER_HEADER_ICON_INSET,
+              }}
+            />
+          )}
           {footerVisible && (
             <Footer>
               <LinkButton
@@ -148,6 +205,7 @@ const SlideMessageComponent = (
 /**
  * Free-text note slide. The question is the input placeholder and the text
  * fills the slide without a box. The ref points at the text input so the
- * logger can focus it.
+ * logger can focus it. With the `people` flag, `@` mentions a person: the
+ * note stores a Markdown link, and the person joins the entry.
  */
 export const SlideMessage = forwardRef(SlideMessageComponent);

@@ -1,5 +1,6 @@
 import type { LogItem } from "@/features/logs";
 import type { Tag } from "@/features/tags";
+import { noteToPlainText } from "@/features/people";
 
 const HEADERS = [
   "id",
@@ -46,7 +47,7 @@ export const createCsv = ({
       item.rating,
       item.emotions.join("; "),
       item.tags.map((tag) => tagNames.get(tag.id) ?? tag.id).join("; "),
-      item.message ?? "",
+      noteToPlainText(item.message ?? ""),
       item.sleep?.quality ?? "",
       item.menstruation?.flow ?? "",
     ]

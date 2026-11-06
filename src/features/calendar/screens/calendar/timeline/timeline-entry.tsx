@@ -8,7 +8,7 @@ import { COMPACT_CHIP } from "@/constants/chip";
 import { getLocationLabel, PlacePreview } from "@/features/location";
 import { EMOTIONS } from "@/features/logger";
 import type { LogItem } from "@/features/logs";
-import { PersonChip, usePeopleState } from "@/features/people";
+import { PersonChip, noteToPlainText, usePeopleState } from "@/features/people";
 import { PhotoThumbnail } from "@/features/photos";
 import { TagComponent, useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
@@ -130,7 +130,9 @@ const TimelineEntryComponent = ({
   const accessibilityLabel = [
     dateLabel,
     location === undefined ? null : getLocationLabel(location),
-    message === "" ? null : message.slice(0, MAX_LABEL_MESSAGE),
+    message === ""
+      ? null
+      : noteToPlainText(message).slice(0, MAX_LABEL_MESSAGE),
   ]
     .filter((part) => part !== null)
     .join(". ");

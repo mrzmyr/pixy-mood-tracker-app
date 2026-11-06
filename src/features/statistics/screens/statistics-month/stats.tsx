@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { t } from "@/lib/translation";
 import { formatNumber } from "@/lib/format-number";
 import type { LogItem } from "@/features/logs";
+import { noteToPlainText } from "@/features/people";
 import { StatsCard } from "./stats-card";
 import { getWordCount } from "@/lib/utils";
 
@@ -21,11 +22,11 @@ export const Stats = ({
   prevItems: LogItem[];
 }) => {
   const words = items.reduce(
-    (acc, item) => acc + getWordCount(item.message),
+    (acc, item) => acc + getWordCount(noteToPlainText(item.message)),
     0
   );
   const wordsPrev = prevItems.reduce(
-    (acc, item) => acc + getWordCount(item.message),
+    (acc, item) => acc + getWordCount(noteToPlainText(item.message)),
     0
   );
   const wordsDiff = round(Math.abs(words - wordsPrev));

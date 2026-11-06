@@ -76,7 +76,7 @@ export const FEATURE_FLAG_DETAILS: Record<
     location: "Check-in > Emotions step",
   },
   people: {
-    description: "People step and people on entries",
+    description: "People step, people on entries, and @ mentions in notes",
     location:
       "Check-in, Settings > Check-in, Day view, Calendar filters, Statistics",
   },

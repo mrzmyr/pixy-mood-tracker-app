@@ -12,7 +12,7 @@ import { Copy, Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { SLEEP_QUALITY_MAPPING } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
-import { PersonAvatar } from "@/features/people";
+import { NoteContent, PersonAvatar, hasMention } from "@/features/people";
 import type { Person } from "@/features/people";
 import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
@@ -411,7 +411,7 @@ export const NoteTile = ({ note }: { note: string }) => {
           lineHeight: 22,
         }}
       >
-        {note}
+        {hasMention(note) ? <NoteContent note={note} fontSize={14} /> : note}
       </Copy>
     </Tile>
   );

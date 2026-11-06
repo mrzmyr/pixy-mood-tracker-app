@@ -138,6 +138,18 @@
       "evidence": ["src/features/logger/slides/slide-message.tsx"]
     },
     {
+      "id": "note-mentions",
+      "label": "Mention people in notes",
+      "status": "flagged",
+      "group": "logging",
+      "description": "Type @ in a note to mention a person; the person joins the entry. Entries show the name with a small avatar. Notes stay Markdown. Behind the people feature flag.",
+      "evidence": [
+        "src/features/people/mentions.ts",
+        "src/features/logger/slides/slide-message.tsx",
+        "src/state/feature-flags/keys.ts"
+      ]
+    },
+    {
       "id": "configurable-steps",
       "label": "Choose your check-in steps",
       "status": "available",

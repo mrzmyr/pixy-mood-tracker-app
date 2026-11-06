@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { TextInput } from "react-native";
-import type { TextStyle } from "react-native";
+import type { TextInputProps, TextStyle } from "react-native";
 
 import { getTextStyle } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
@@ -19,6 +19,8 @@ const TextAreaComponent = (
     style,
     onChange = noop,
     onBlur,
+    onSelectionChange,
+    children,
   }: {
     /** Controlled text. Omit and pass `defaultValue` to let the input own it. */
     value?: string;
@@ -32,6 +34,12 @@ const TextAreaComponent = (
     style?: TextStyle;
     onChange?: (text: string) => void;
     onBlur?: () => void;
+    onSelectionChange?: TextInputProps["onSelectionChange"];
+    /**
+     * Styled text spans instead of `value`. Their text must equal the text
+     * the input reports through `onChange`.
+     */
+    children?: React.ReactNode;
   },
   ref: React.ForwardedRef<TextInput>
 ) => {
@@ -48,9 +56,12 @@ const TextAreaComponent = (
         const newText = text.slice(0, maxLength);
         onChange(newText);
       }}
-      value={value}
-      defaultValue={value === undefined ? defaultValue : undefined}
+      value={children === undefined ? value : undefined}
+      defaultValue={
+        value === undefined && children === undefined ? defaultValue : undefined
+      }
       onBlur={onBlur}
+      onSelectionChange={onSelectionChange}
       maxLength={maxLength}
       placeholder={placeholder}
       placeholderTextColor={colors.textInputPlaceholder}
@@ -69,7 +80,9 @@ const TextAreaComponent = (
         borderCurve: "continuous",
         ...style,
       }}
-    />
+    >
+      {children}
+    </TextInput>
   );
 };
 

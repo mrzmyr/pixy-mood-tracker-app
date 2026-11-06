@@ -3,6 +3,7 @@ import { Headline } from "@/components/type";
 import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import type { LogItem } from "@/features/logs";
+import { NoteContent, hasMention } from "@/features/people";
 import { t } from "@/lib/translation";
 import { Pressable, View } from "react-native";
 import type { NativeSyntheticEvent, TextLayoutEventData } from "react-native";
@@ -50,6 +51,11 @@ export const Message = ({
   };
   const canFold = onToggleExpanded !== undefined;
   const isFolded = canFold && !expanded;
+  const content = hasMention(message) ? (
+    <NoteContent note={message} fontSize={16} />
+  ) : (
+    message
+  );
   const style = { color: colors.text };
 
   return (
@@ -75,7 +81,7 @@ export const Message = ({
           numberOfLines={isFolded ? COLLAPSED_LINES : undefined}
           style={style}
         >
-          {message}
+          {content}
         </Copy>
         {canFold && (
           <Copy
@@ -95,7 +101,7 @@ export const Message = ({
               },
             ]}
           >
-            {message}
+            {content}
           </Copy>
         )}
       </Pressable>

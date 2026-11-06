@@ -1,4 +1,5 @@
 import type { LogItem } from "@/features/logs";
+import { noteToPlainText } from "@/features/people";
 import type { SavedEntryProperties } from "@/state/analytics/events";
 
 /**
@@ -33,7 +34,7 @@ export const getEntryProperties = ({
   tags_count: item.tags.length,
   people_count: item.people.length,
   message_length: item.message.length,
-  message_word_count: countWords(item.message),
+  message_word_count: countWords(noteToPlainText(item.message)),
   has_sleep: (item.sleep?.quality ?? null) !== null,
   entries_count: entriesCount,
 });

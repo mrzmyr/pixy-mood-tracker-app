@@ -12,6 +12,7 @@ import type { LogItem } from "@/features/logs";
 
 import { useContentStableValue } from "@/hooks/use-content-stable-value";
 import type { Tag } from "@/features/tags";
+import { noteToPlainText } from "@/features/people";
 import type { Person } from "@/features/people";
 import { createMissingProviderError } from "@/lib/errors";
 import { getItemDate } from "@/lib/log-dates";
@@ -66,7 +67,7 @@ const initialFilters: FiltersData = {
 };
 
 const isMatchingFilters = (item: LogItem, filters: FiltersData) => {
-  const matchesText = item.message
+  const matchesText = noteToPlainText(item.message)
     .toLowerCase()
     .includes(filters.text.toLowerCase());
   const matchesRatings = filters.ratings.includes(item.rating);

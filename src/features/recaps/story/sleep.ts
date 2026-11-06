@@ -1,3 +1,4 @@
+import { noteToPlainText } from "@/features/people";
 import { addDays, getDaySleep } from "../days";
 import { THRESHOLDS } from "../thresholds";
 import type { RecapDay, RecapInput } from "../types";
@@ -54,7 +55,7 @@ const evening = (
     note: on("message")
       ? items
           .flatMap((item) => {
-            const message = item.message.trim();
+            const message = noteToPlainText(item.message).trim();
             return message ? [message] : [];
           })
           .join("\n\n")
