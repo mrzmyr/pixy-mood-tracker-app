@@ -308,6 +308,7 @@ export default defineConfig({
         "pixy-standards/no-color-shading": "error",
         "pixy-standards/radius-token": "error",
         "pixy-standards/no-reduce-motion-never": "error",
+        "pixy-standards/no-spring-animation": "error",
         "pixy-standards/title-case-labels": "error",
         "pixy-standards/component-scope": [
           "error",
@@ -321,6 +322,18 @@ export default defineConfig({
         "src/features/notifications/components/notification-preview*.tsx",
       ],
       rules: { "pixy-standards/radius-token": "off" },
+    },
+    {
+      // Springs from before the motion tokens. Move each to timing, then
+      // remove its file here.
+      files: [
+        "src/components/toast.tsx",
+        "src/features/calendar/screens/calendar/calendar-float-button.tsx",
+        "src/features/photos/hooks/use-photo-zoom.ts",
+        "src/features/photos/hooks/use-swipe-to-close.ts",
+        "src/features/voice/components/voice-match-card.tsx",
+      ],
+      rules: { "pixy-standards/no-spring-animation": "off" },
     },
     {
       // The color scale derives its shades here; everything else reads them.
