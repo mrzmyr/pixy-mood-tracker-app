@@ -10,12 +10,11 @@ import type { Tag, TagCategory } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
-import { CHIP } from "../chip-marker";
 import { formatDelta } from "../format";
 import type { EffectRow, PatternCard as PatternCardData } from "../types";
 import { RecapCardShell } from "./recap-card-shell";
 import { RingedAvatar } from "./ringed-avatar";
-import { ChipText, RowTagChip, TagChip } from "./title-chip";
+import { RowTagChip } from "./title-chip";
 
 /**
  * Name column of effect rows: one width, so names line up; long names wrap
@@ -177,21 +176,6 @@ export const PatternCard = ({
     onLayout,
     footer,
   };
-  if (card.type === "stood-out") {
-    const tag = tags.find((item) => item.id === card.tagId);
-    if (!tag) {
-      return null;
-    }
-    const title = t("recaps_stood_out_title", { count: card.days, tag: CHIP });
-    return (
-      <RecapCardShell
-        {...shell}
-        title={<ChipText text={title} chip={<TagChip tag={tag} />} />}
-        titleLabel={title.replace(CHIP, tag.title)}
-        text={t("recaps_stood_out_text")}
-      />
-    );
-  }
   if (card.type === "what-moves") {
     const title = t("recaps_what_moves_title");
     return (

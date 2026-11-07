@@ -2,20 +2,16 @@ import { _generateItem } from "@/testing/log-item";
 import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 import type { LogItem } from "@/features/logs";
 import type { Tag } from "@/features/tags";
-import { getWeekLocale } from "@/lib/translation";
 import { getDays, getPeriodDays } from "../days";
 import { getPeriod } from "../period";
 import type { PeriodKind, RecapInput } from "../types";
-
-/** Weeks from Monday. Importing translation registers the week locales. */
-export const WEEK_LOCALE = getWeekLocale({ weekStart: 1 });
 
 /**
  * Recap input for the period around `today`, all steps on by default. The
  * first entry defaults to long before the period.
  */
 export const makeInput = ({
-  kind = "week",
+  kind = "month",
   today = "2026-10-07",
   date = today,
   firstEntryDate = "2020-01-01",
@@ -41,7 +37,7 @@ export const makeInput = ({
   /** Existing people. Defaults to everyone on `items`. */
   personIds?: string[];
 } = {}): RecapInput => {
-  const period = getPeriod(kind, date, WEEK_LOCALE);
+  const period = getPeriod(kind, date);
   const history = getDays(items.map(_generateItem));
   return {
     period,

@@ -13,7 +13,7 @@ import { withChaos } from "@/dev/fixtures/chaos";
 import { withPersona } from "@/dev/fixtures/personas";
 import { withRecapMoments } from "@/dev/fixtures/recap-moments";
 import { withRecapNudges } from "@/dev/fixtures/recap-nudges";
-import { withRecapStory, withRecapWeekStory } from "@/dev/fixtures/recap-story";
+import { withRecapStory } from "@/dev/fixtures/recap-story";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 
@@ -234,7 +234,7 @@ export const FIXTURES: Fixture[] = [
     id: "recap-nudges",
     title: "Recap nudges",
     description:
-      "3 check-in days ending today, reminder off, Emotions, People, and Photos steps off, 34 tags in General. Shows every nudge in the week recap.",
+      "3 check-in days ending today, reminder off, Emotions, People, and Photos steps off, 34 tags in General. Shows every nudge in the month recap.",
     endsToday: true,
     data: withRecapNudges(asExport(empty)),
   },
@@ -242,7 +242,7 @@ export const FIXTURES: Fixture[] = [
     id: "recap-moments",
     title: "Recap moments",
     description:
-      "91 days ending today with every week moment: person back, new person, 25 days connected with Lena, emotion again and absent, tag back, sleep turnaround, first city (location on).",
+      "91 days ending today with every month moment: person back, new person, 25 days connected with Lena, emotion again, tag back, first city (location on).",
     endsToday: true,
     data: withRecapMoments(asExport(empty)),
   },
@@ -252,13 +252,6 @@ export const FIXTURES: Fixture[] = [
     description:
       "Last month as a full month story: every Saturday swimming, Handover on 2 of 3 harder days, first days at the sea, 10 photo days, Ada and Chuky. Plus 12 check-ins the month before.",
     data: withRecapStory(asExport(empty)),
-  },
-  {
-    id: "recap-week-story",
-    title: "Recap week story",
-    description:
-      "Last 7 days as a full week story: 4 photo days for the cover, a best day without a photo, emotions every day, 4 Hamburg districts and 2 days in Copenhagen (location on), people quiz with Ada, Chuky, Jen, and Max, Walk, Work, and Reading on 4+ days.",
-    data: withRecapWeekStory(asExport(empty)),
   },
 ];
 

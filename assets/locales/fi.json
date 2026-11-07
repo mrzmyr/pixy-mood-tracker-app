@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Pikakirjaus",
   "notification_recap_body": "Katso, mikä erottui.",
   "notification_recap_month_title": "Kuukausikatsauksesi on täällä",
-  "notification_recap_week_title": "Viikkokatsauksesi on täällä",
   "notification_recap_year_title": "Vuosikatsauksesi on täällä",
   "notification_reminder_body": "Napauta tätä seurataksesi tämän päivän mielialaasi.",
   "notification_reminder_title": "Seuraa mielialaasi",
@@ -841,20 +840,8 @@
     "other": "{{count}} päivänä, %{weeks} viikon tauon jälkeen"
   },
   "recaps_came_back_title_week": "Palasi tällä viikolla",
-  "recaps_connected_days": {
-    "one": "1 päivä yhteydessä",
-    "other": "{{count}} päivää yhteydessä"
-  },
   "recaps_connected_more": "+%{count} muuta",
-  "recaps_connected_title": {
-    "one": "Olit yhteydessä {{count}} ihmiseen",
-    "other": "Olit yhteydessä {{count}} ihmiseen"
-  },
-  "recaps_connected_title_one": "Olit yhteydessä: %{name}",
-  "recaps_day_ago_text": "Vuosi sitten: %{date}.",
-  "recaps_day_ago_title": "Hieno päivä vuosi sitten",
   "recaps_day_best_title_month": "%{day} oli kuukauden paras päiväsi",
-  "recaps_day_best_title_week": "%{day} oli viikon paras päiväsi",
   "recaps_day_hard_text": "Jokainen kirjaus on tärkeä, oli päivä millainen tahansa.",
   "recaps_day_hard_title": "Kiitos kirjauksesta: %{day}",
   "recaps_day_see": "Näytä tämä päivä",
@@ -862,15 +849,9 @@
     "one": "1 päivä",
     "other": "{{count}} päivää"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Se tuli esiin yhtenä päivänä kahden edellisen kuukauden aikana.",
-    "other": "Se tuli esiin {{count}} päivänä kahden edellisen kuukauden aikana."
-  },
-  "recaps_emotion_absent_title": "3 viikkoa ilman tunnetta %{emotion}",
   "recaps_emotion_again_text": "Ensimmäistä kertaa sitten %{date}.",
   "recaps_emotion_again_title": "Taas %{emotion}",
   "recaps_emotions_back_title_month": "Tunteet, jotka palasivat tässä kuussa",
-  "recaps_emotions_back_title_week": "Tunteet, jotka palasivat tällä viikolla",
   "recaps_emotions_title": "Eniten käytetyt tunteet",
   "recaps_emotions_year_title": "10 yleisintä tunnetta",
   "recaps_empty": "Tälle jaksolle ei ole vielä kortteja. Ne ilmestyvät, kun kirjaat useampia päiviä.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Lisää kuva kirjauksiin. Vuoden päästä katsauksesi voi alkaa sanoilla ”Tänään vuosi sitten”.",
   "recaps_intro_photos_title": "Säilytä päivän kuva",
   "recaps_mood_chart_title_month": "Mieliala tässä kuussa",
-  "recaps_mood_chart_title_week": "Mieliala tällä viikolla",
   "recaps_mood_count_title": "{{percent}} % päivistäsi tuntui hyviltä",
   "recaps_mood_count_title_mixed": "Päiväsi mielialan mukaan",
   "recaps_most_connected_title_month": "Eniten yhteydessä tässä kuussa",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Viikko-, kuukausi- ja vuosikatsaukset saapuvat jokaisen viikon, kuukauden ja vuoden viimeisenä päivänä muistutusaikaasi.",
   "recaps_notifications_setting": "Katsaukset",
   "recaps_nudge_not_now": "Ei nyt",
-  "recaps_nudge_reminder_action": "Muistuta klo %{time}",
-  "recaps_nudge_reminder_text": "Isot päivät jäävät mieleen. Pienet hyvät päivät haalistuvat seuraavaan aamuun mennessä. Lyhyt kirjaus joka ilta säilyttää ne.",
-  "recaps_nudge_reminder_title": "Säilytä myös hiljaiset hyvät päivät",
-  "recaps_open_settings": "Avaa Asetukset",
   "recaps_people_moments_title_month": "Ihmiset tässä kuussa",
-  "recaps_people_moments_title_week": "Ihmiset tällä viikolla",
   "recaps_people_mood_text": "Vihje, ei syy. Yhteys voi tuntua hyvältä, raskaalta tai sekavalta.",
   "recaps_people_mood_title": "Mieliala yhteyden päivinä",
   "recaps_period_month": "Kuukausi",
   "recaps_period_next": "Seuraava jakso",
   "recaps_period_previous": "Edellinen jakso",
-  "recaps_period_week": "Viikko",
   "recaps_period_year": "Vuosi",
   "recaps_person_moment_back": {
     "one": "Takaisin 1 viikon jälkeen",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{count} päivää yhteydessä vuonna %{year}",
   "recaps_person_moment_new": "Ensimmäinen yhteys",
   "recaps_places_title_month": "Paikat tässä kuussa",
-  "recaps_places_title_week": "Paikat tällä viikolla",
   "recaps_places_title_year": "Paikat tänä vuonna",
   "recaps_places_trips": {
     "one": "1 matka poissa kotoa.",
     "other": "%{count} matkaa poissa kotoa."
   },
-  "recaps_reminder_failed": "Muistutusta ei asetettu. Ilmoituksia ei voitu ajoittaa. Yritä uudelleen kohdassa Asetukset > Muistutus.",
-  "recaps_reminder_set": "Muistutus klo %{time}",
   "recaps_sleep_chart_title_month": "Uni tässä kuussa",
-  "recaps_sleep_chart_title_week": "Uni tällä viikolla",
-  "recaps_sleep_rough_text": "%{count} raskasta yötä peräkkäin. Lepää, kun voit.",
-  "recaps_sleep_rough_title": "Muutama raskas yö",
-  "recaps_sleep_turnaround_text": "Muutaman raskaan yön jälkeen edellisellä viikolla.",
-  "recaps_sleep_turnaround_title": "%{count} hyvää yötä peräkkäin",
   "recaps_step_turned_on": "Lisätty kirjaukseesi",
-  "recaps_stood_out_text": "Ne päivät tuntuvat sinusta yleensä kevyemmiltä.",
-  "recaps_stood_out_title": {
-    "one": "1 päivä, jona %{tag}, tällä viikolla",
-    "other": "{{count}} päivää, joina %{tag}, tällä viikolla"
-  },
   "recaps_story_banner_label_month": "Kuukauden katsaus",
   "recaps_story_banner_title": "Katsaus: %{month}",
-  "recaps_story_banner_title_week": "Viikon katsaus",
   "recaps_story_best_day_ask": "Valmis näkemään parhaan päiväsi?",
   "recaps_story_best_day_show": "Näytä paras päiväsi",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "{{count}} päivänä otit aikaa itsellesi. Ole siitä ylpeä."
   },
   "recaps_story_cover_note_full": "Jokaisella päivällä (%{month}) on pikselinsä. Se on todellinen saavutus.",
-  "recaps_story_cover_note_full_week": "Jokaisella tämän viikon päivällä on pikselinsä. Se on todellinen saavutus.",
   "recaps_story_cover_pixels_title": "pikseliä · %{month}",
-  "recaps_story_cover_pixels_title_week": "Viikon pikselit",
-  "recaps_story_cover_title_week": "Pysähdy hetkeksi.\nTämä on viikkosi.",
   "recaps_story_days": {
     "one": "1 päivä",
     "other": "{{count}} päivää"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Kiertoratani",
   "recaps_story_share_shuffle": "Sekoita kuvat",
   "recaps_story_share_title": "Minun %{month}",
-  "recaps_story_share_title_week": "Minun viikkoni",
   "recaps_story_sleep_ask": {
     "one": "1 yö oli levoton. Katsotaanko tarkemmin?",
     "other": "{{count}} yötä oli levottomia. Katsotaanko tarkemmin?"

@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Ghi nhanh",
   "notification_recap_body": "Xem điều gì nổi bật.",
   "notification_recap_month_title": "Tổng kết tháng của bạn đã sẵn sàng",
-  "notification_recap_week_title": "Tổng kết tuần của bạn đã sẵn sàng",
   "notification_recap_year_title": "Tổng kết năm của bạn đã sẵn sàng",
   "notification_reminder_body": "Nhấn vào đây để theo dõi tâm trạng hàng ngày của bạn.",
   "notification_reminder_title": "Theo dõi tâm trạng của bạn",
@@ -841,20 +840,8 @@
     "other": "Vào {{count}} ngày, sau %{weeks} tuần vắng bóng"
   },
   "recaps_came_back_title_week": "Quay lại tuần này",
-  "recaps_connected_days": {
-    "one": "1 ngày kết nối",
-    "other": "{{count}} ngày kết nối"
-  },
   "recaps_connected_more": "+%{count} người khác",
-  "recaps_connected_title": {
-    "one": "Bạn đã kết nối với {{count}} người",
-    "other": "Bạn đã kết nối với {{count}} người"
-  },
-  "recaps_connected_title_one": "Bạn đã kết nối với %{name}",
-  "recaps_day_ago_text": "Một năm trước: %{date}.",
-  "recaps_day_ago_title": "Một ngày tuyệt vời, một năm trước",
   "recaps_day_best_title_month": "%{day} là ngày tuyệt nhất tháng này",
-  "recaps_day_best_title_week": "%{day} là ngày tuyệt nhất tuần này",
   "recaps_day_hard_text": "Mỗi lần ghi lại đều có ý nghĩa, dù là ngày nào.",
   "recaps_day_hard_title": "Cảm ơn bạn đã ghi lại vào %{day}",
   "recaps_day_see": "Xem ngày này",
@@ -862,15 +849,9 @@
     "one": "1 ngày",
     "other": "{{count}} ngày"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Nó xuất hiện một ngày trong hai tháng trước đó.",
-    "other": "Nó xuất hiện {{count}} ngày trong hai tháng trước đó."
-  },
-  "recaps_emotion_absent_title": "3 tuần không thấy %{emotion}",
   "recaps_emotion_again_text": "Lần đầu kể từ %{date}.",
   "recaps_emotion_again_title": "Lại thấy %{emotion}",
   "recaps_emotions_back_title_month": "Cảm xúc quay lại tháng này",
-  "recaps_emotions_back_title_week": "Cảm xúc quay lại tuần này",
   "recaps_emotions_title": "Cảm xúc dùng nhiều nhất",
   "recaps_emotions_year_title": "10 cảm xúc hàng đầu",
   "recaps_empty": "Chưa có thẻ nào cho giai đoạn này. Thẻ sẽ xuất hiện khi bạn ghi lại nhiều ngày hơn.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Thêm ảnh vào ghi chép. Một năm nữa, bản tổng kết có thể mở đầu bằng “Một năm trước vào hôm nay”.",
   "recaps_intro_photos_title": "Giữ một bức ảnh của ngày",
   "recaps_mood_chart_title_month": "Tâm trạng tháng này",
-  "recaps_mood_chart_title_week": "Tâm trạng tuần này",
   "recaps_mood_count_title": "{{percent}}% số ngày của bạn cảm thấy tốt",
   "recaps_mood_count_title_mixed": "Các ngày của bạn theo tâm trạng",
   "recaps_most_connected_title_month": "Kết nối nhiều nhất tháng này",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Tổng kết tuần, tháng và năm sẽ đến vào ngày cuối cùng của mỗi tuần, tháng và năm, vào giờ nhắc nhở của bạn.",
   "recaps_notifications_setting": "Tổng kết",
   "recaps_nudge_not_now": "Để sau",
-  "recaps_nudge_reminder_action": "Nhắc tôi lúc %{time}",
-  "recaps_nudge_reminder_text": "Những ngày lớn ở lại trong trí nhớ. Những ngày tốt nhỏ phai đi trước sáng hôm sau. Một lần ghi ngắn mỗi tối sẽ giữ chúng lại.",
-  "recaps_nudge_reminder_title": "Giữ cả những ngày tốt bình yên",
-  "recaps_open_settings": "Mở Cài đặt",
   "recaps_people_moments_title_month": "Mọi người tháng này",
-  "recaps_people_moments_title_week": "Mọi người tuần này",
   "recaps_people_mood_text": "Một gợi ý, không phải nguyên nhân. Kết nối có thể tốt, nặng nề hoặc lẫn lộn.",
   "recaps_people_mood_title": "Tâm trạng vào những ngày kết nối",
   "recaps_period_month": "Tháng",
   "recaps_period_next": "Giai đoạn sau",
   "recaps_period_previous": "Giai đoạn trước",
-  "recaps_period_week": "Tuần",
   "recaps_period_year": "Năm",
   "recaps_person_moment_back": {
     "one": "Kết nối lại sau 1 tuần",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{count} ngày kết nối trong năm %{year}",
   "recaps_person_moment_new": "Lần kết nối đầu tiên",
   "recaps_places_title_month": "Địa điểm tháng này",
-  "recaps_places_title_week": "Địa điểm tuần này",
   "recaps_places_title_year": "Địa điểm năm nay",
   "recaps_places_trips": {
     "one": "1 chuyến đi xa nhà.",
     "other": "%{count} chuyến đi xa nhà."
   },
-  "recaps_reminder_failed": "Chưa đặt lời nhắc. Không thể lên lịch thông báo. Hãy thử lại trong Cài đặt > Lời nhắc.",
-  "recaps_reminder_set": "Đã đặt nhắc lúc %{time}",
   "recaps_sleep_chart_title_month": "Giấc ngủ tháng này",
-  "recaps_sleep_chart_title_week": "Giấc ngủ tuần này",
-  "recaps_sleep_rough_text": "%{count} đêm khó ngủ liên tiếp. Hãy nghỉ ngơi khi có thể.",
-  "recaps_sleep_rough_title": "Vài đêm khó ngủ",
-  "recaps_sleep_turnaround_text": "Sau vài đêm khó ngủ tuần trước.",
-  "recaps_sleep_turnaround_title": "%{count} đêm ngủ ngon liên tiếp",
   "recaps_step_turned_on": "Đã thêm vào ghi chép",
-  "recaps_stood_out_text": "Những ngày đó thường nhẹ nhàng hơn với bạn.",
-  "recaps_stood_out_title": {
-    "one": "1 ngày có %{tag} tuần này",
-    "other": "{{count}} ngày có %{tag} tuần này"
-  },
   "recaps_story_banner_label_month": "Tổng kết tháng",
   "recaps_story_banner_title": "Tổng kết %{month}",
-  "recaps_story_banner_title_week": "Tổng kết tuần",
   "recaps_story_best_day_ask": "Sẵn sàng xem ngày tuyệt nhất của bạn?",
   "recaps_story_best_day_show": "Hiện ngày tuyệt nhất của bạn",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "{{count}} ngày bạn dành thời gian cho chính mình. Hãy tự hào về điều đó."
   },
   "recaps_story_cover_note_full": "Mỗi ngày trong %{month} đều có pixel của nó. Đó là một thành quả thật sự.",
-  "recaps_story_cover_note_full_week": "Mỗi ngày trong tuần này đều có pixel của nó. Đó là một thành quả thật sự.",
   "recaps_story_cover_pixels_title": "pixel trong %{month}",
-  "recaps_story_cover_pixels_title_week": "Pixel tuần này",
-  "recaps_story_cover_title_week": "Dành một chút thời gian.\nĐây là tuần của bạn.",
   "recaps_story_days": {
     "one": "1 ngày",
     "other": "{{count}} ngày"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Quỹ đạo của tôi",
   "recaps_story_share_shuffle": "Xáo trộn ảnh",
   "recaps_story_share_title": "%{month} của tôi",
-  "recaps_story_share_title_week": "Tuần của tôi",
   "recaps_story_sleep_ask": {
     "one": "1 đêm khó ngủ. Xem kỹ hơn?",
     "other": "{{count}} đêm khó ngủ. Xem kỹ hơn?"

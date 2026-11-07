@@ -19,11 +19,6 @@ export interface CoverSlide {
   photos: StoryPhoto[];
 }
 
-/** First slide of the week story: the sky, Cloudy, and a kind welcome. */
-export interface IntroSlide {
-  type: "intro";
-}
-
 /** One row of a tags slide: a tag, its check-in days, and its mood effect. */
 export interface TagEffectRow {
   tagId: string;
@@ -235,7 +230,6 @@ export interface RoughNightsClosingSlide {
 
 /** One page of a story. Each type has one renderer. */
 export type StorySlide =
-  | IntroSlide
   | CoverSlide
   | BestDaySlide
   | PlacesSlide

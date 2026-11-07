@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Check-in cepat",
   "notification_recap_body": "Lihat apa yang menonjol.",
   "notification_recap_month_title": "Rekap bulanan Anda sudah tiba",
-  "notification_recap_week_title": "Rekap mingguan Anda sudah tiba",
   "notification_recap_year_title": "Rekap tahunan Anda sudah tiba",
   "notification_reminder_body": "Ketuk di sini untuk melacak suasana hati Anda hari ini.",
   "notification_reminder_title": "Lacak suasana hati Anda",
@@ -841,20 +840,8 @@
     "other": "Pada {{count}} hari, setelah %{weeks} minggu absen"
   },
   "recaps_came_back_title_week": "Kembali minggu ini",
-  "recaps_connected_days": {
-    "one": "1 hari terhubung",
-    "other": "{{count}} hari terhubung"
-  },
   "recaps_connected_more": "+%{count} lagi",
-  "recaps_connected_title": {
-    "one": "Kamu terhubung dengan {{count}} orang",
-    "other": "Kamu terhubung dengan {{count}} orang"
-  },
-  "recaps_connected_title_one": "Kamu terhubung dengan %{name}",
-  "recaps_day_ago_text": "Setahun lalu: %{date}.",
-  "recaps_day_ago_title": "Hari yang indah, setahun lalu",
   "recaps_day_best_title_month": "%{day} adalah hari terbaikmu bulan ini",
-  "recaps_day_best_title_week": "%{day} adalah hari terbaikmu minggu ini",
   "recaps_day_hard_text": "Setiap catatan berarti, di hari apa pun.",
   "recaps_day_hard_title": "Terima kasih sudah mencatat pada %{day}",
   "recaps_day_see": "Lihat Hari Ini",
@@ -862,15 +849,9 @@
     "one": "1 hari",
     "other": "{{count}} hari"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Muncul pada satu hari dalam dua bulan sebelumnya.",
-    "other": "Muncul pada {{count}} hari dalam dua bulan sebelumnya."
-  },
-  "recaps_emotion_absent_title": "3 minggu tanpa merasa %{emotion}",
   "recaps_emotion_again_text": "Untuk pertama kalinya sejak %{date}.",
   "recaps_emotion_again_title": "Merasa %{emotion} lagi",
   "recaps_emotions_back_title_month": "Emosi yang kembali bulan ini",
-  "recaps_emotions_back_title_week": "Emosi yang kembali minggu ini",
   "recaps_emotions_title": "Emosi yang paling sering dipakai",
   "recaps_emotions_year_title": "10 emosi teratas",
   "recaps_empty": "Belum ada kartu untuk periode ini. Kartu muncul seiring makin banyak hari yang kamu catat.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Tambahkan foto ke catatan. Setahun lagi, rekapmu bisa dibuka dengan “Setahun lalu hari ini”.",
   "recaps_intro_photos_title": "Simpan foto hari ini",
   "recaps_mood_chart_title_month": "Suasana hati bulan ini",
-  "recaps_mood_chart_title_week": "Suasana hati minggu ini",
   "recaps_mood_count_title": "{{percent}}% harimu terasa baik",
   "recaps_mood_count_title_mixed": "Harimu menurut suasana hati",
   "recaps_most_connected_title_month": "Paling terhubung bulan ini",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Rekap mingguan, bulanan, dan tahunan tiba di hari terakhir setiap minggu, bulan, dan tahun, pada waktu pengingat Anda.",
   "recaps_notifications_setting": "Rekap",
   "recaps_nudge_not_now": "Nanti Saja",
-  "recaps_nudge_reminder_action": "Ingatkan Pukul %{time}",
-  "recaps_nudge_reminder_text": "Hari besar tetap diingat. Hari baik yang kecil memudar keesokan paginya. Catatan singkat tiap malam menyimpannya.",
-  "recaps_nudge_reminder_title": "Simpan juga hari-hari baik yang tenang",
-  "recaps_open_settings": "Buka Pengaturan",
   "recaps_people_moments_title_month": "Orang bulan ini",
-  "recaps_people_moments_title_week": "Orang minggu ini",
   "recaps_people_mood_text": "Petunjuk, bukan penyebab. Hubungan bisa terasa baik, berat, atau campur aduk.",
   "recaps_people_mood_title": "Suasana hati di hari terhubung",
   "recaps_period_month": "Bulan",
   "recaps_period_next": "Periode Berikutnya",
   "recaps_period_previous": "Periode Sebelumnya",
-  "recaps_period_week": "Minggu",
   "recaps_period_year": "Tahun",
   "recaps_person_moment_back": {
     "one": "Kembali setelah 1 minggu",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{count} hari terhubung di %{year}",
   "recaps_person_moment_new": "Terhubung pertama kali",
   "recaps_places_title_month": "Tempat bulan ini",
-  "recaps_places_title_week": "Tempat minggu ini",
   "recaps_places_title_year": "Tempat tahun ini",
   "recaps_places_trips": {
     "one": "1 perjalanan jauh dari rumah.",
     "other": "%{count} perjalanan jauh dari rumah."
   },
-  "recaps_reminder_failed": "Pengingat tidak diatur. Notifikasi tidak dapat dijadwalkan. Coba lagi di Pengaturan > Pengingat.",
-  "recaps_reminder_set": "Pengingat pukul %{time}",
   "recaps_sleep_chart_title_month": "Tidur bulan ini",
-  "recaps_sleep_chart_title_week": "Tidur minggu ini",
-  "recaps_sleep_rough_text": "%{count} malam berat berturut-turut. Istirahatlah saat bisa.",
-  "recaps_sleep_rough_title": "Beberapa malam berat",
-  "recaps_sleep_turnaround_text": "Setelah beberapa malam berat minggu sebelumnya.",
-  "recaps_sleep_turnaround_title": "%{count} malam nyenyak berturut-turut",
   "recaps_step_turned_on": "Ditambahkan ke catatanmu",
-  "recaps_stood_out_text": "Hari-hari itu biasanya terasa lebih ringan bagimu.",
-  "recaps_stood_out_title": {
-    "one": "1 hari dengan %{tag} minggu ini",
-    "other": "{{count}} hari dengan %{tag} minggu ini"
-  },
   "recaps_story_banner_label_month": "Rekap Bulanan",
   "recaps_story_banner_title": "Rekap %{month}",
-  "recaps_story_banner_title_week": "Rekap Mingguan",
   "recaps_story_best_day_ask": "Siap melihat hari terbaikmu?",
   "recaps_story_best_day_show": "Tampilkan hari terbaikmu",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "{{count}} hari kamu meluangkan waktu untuk dirimu. Banggalah."
   },
   "recaps_story_cover_note_full": "Setiap hari di %{month} punya pikselnya. Itu pencapaian nyata.",
-  "recaps_story_cover_note_full_week": "Setiap hari minggu ini punya pikselnya. Itu pencapaian nyata.",
   "recaps_story_cover_pixels_title": "piksel di %{month}",
-  "recaps_story_cover_pixels_title_week": "Piksel Minggu Ini",
-  "recaps_story_cover_title_week": "Luangkan waktu sejenak.\nInilah minggumu.",
   "recaps_story_days": {
     "one": "1 hari",
     "other": "{{count}} hari"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Orbitku",
   "recaps_story_share_shuffle": "Acak foto",
   "recaps_story_share_title": "%{month}-ku",
-  "recaps_story_share_title_week": "Mingguku",
   "recaps_story_sleep_ask": {
     "one": "1 malam terasa berat. Lihat lebih dekat?",
     "other": "{{count}} malam terasa berat. Lihat lebih dekat?"

@@ -44,7 +44,7 @@ const recap = (day: number) => ({
   at: new Date(2026, 9, day, 20),
   title: "Title",
   body: "Body",
-  data: { kind: "week", date: `2026-10-${day}` },
+  data: { kind: "month", date: `2026-10-${day}` },
 });
 
 const quickCheckIn = (hour: number) => ({
@@ -80,7 +80,7 @@ describe("reminder and recap notifications", () => {
     expect(types()).toEqual(["reminder", "reminder", "recap"]);
     expect(mockScheduled[2]?.content.data).toEqual({
       type: "recap",
-      kind: "week",
+      kind: "month",
       date: "2026-10-18",
     });
 

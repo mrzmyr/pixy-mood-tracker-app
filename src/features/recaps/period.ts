@@ -3,16 +3,9 @@ import type { DateKey, Period, PeriodKind } from "./types";
 
 const FORMAT = "YYYY-MM-DD";
 
-/**
- * Calendar period of `kind` that holds `date`. Weeks start on the first day
- * of `weekLocale` (`useWeekLocale`).
- */
-export const getPeriod = (
-  kind: PeriodKind,
-  date: DateKey,
-  weekLocale: string
-): Period => {
-  const day = dayjs(date).locale(weekLocale);
+/** Calendar period of `kind` that holds `date`. */
+export const getPeriod = (kind: PeriodKind, date: DateKey): Period => {
+  const day = dayjs(date);
   return {
     kind,
     start: day.startOf(kind).format(FORMAT),
@@ -21,15 +14,10 @@ export const getPeriod = (
 };
 
 /** Period `offset` steps before (negative) or after `period`. */
-export const shiftPeriod = (
-  period: Period,
-  offset: number,
-  weekLocale: string
-): Period =>
+export const shiftPeriod = (period: Period, offset: number): Period =>
   getPeriod(
     period.kind,
-    dayjs(period.start).add(offset, period.kind).format(FORMAT),
-    weekLocale
+    dayjs(period.start).add(offset, period.kind).format(FORMAT)
   );
 
 /** `date` lies between the first and last day of `period`, both included. */

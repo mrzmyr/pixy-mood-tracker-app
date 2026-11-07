@@ -74,13 +74,11 @@ const cards = new Map<string, Measurable>();
 /** One card per screen and period: the calendar and Recaps each have one. */
 export const getStoryCardKey = ({
   source,
-  kind,
   date,
 }: {
   source: string;
-  kind: "week" | "month";
   date: string;
-}) => `${source}:${kind}:${date}`;
+}) => `${source}:${date}`;
 
 /**
  * Makes a mounted story card findable, so the story can shrink back into

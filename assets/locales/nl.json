@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Snelle check-in",
   "notification_recap_body": "Bekijk wat opviel.",
   "notification_recap_month_title": "Je maandterugblik is er",
-  "notification_recap_week_title": "Je weekterugblik is er",
   "notification_recap_year_title": "Je jaarterugblik is er",
   "notification_reminder_body": "Tik hier om je stemming van vandaag in te vullen.",
   "notification_reminder_title": "Hoe voel je je?",
@@ -841,20 +840,8 @@
     "other": "Op {{count}} dagen, na %{weeks} weken zonder"
   },
   "recaps_came_back_title_week": "Terug deze week",
-  "recaps_connected_days": {
-    "one": "1 dag contact",
-    "other": "{{count}} dagen contact"
-  },
   "recaps_connected_more": "+%{count} meer",
-  "recaps_connected_title": {
-    "one": "Je had contact met {{count}} mensen",
-    "other": "Je had contact met {{count}} mensen"
-  },
-  "recaps_connected_title_one": "Je had contact met %{name}",
-  "recaps_day_ago_text": "Een jaar geleden: %{date}.",
-  "recaps_day_ago_title": "Een mooie dag, een jaar geleden",
   "recaps_day_best_title_month": "%{day} was je beste dag van de maand",
-  "recaps_day_best_title_week": "%{day} was je beste dag van de week",
   "recaps_day_hard_text": "Elke check-in telt, op elke soort dag.",
   "recaps_day_hard_title": "Bedankt voor je check-in op %{day}",
   "recaps_day_see": "Bekijk deze dag",
@@ -862,15 +849,9 @@
     "one": "1 dag",
     "other": "{{count}} dagen"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Het kwam op één dag voor in de twee maanden ervoor.",
-    "other": "Het kwam op {{count}} dagen voor in de twee maanden ervoor."
-  },
-  "recaps_emotion_absent_title": "3 weken zonder %{emotion}",
   "recaps_emotion_again_text": "Voor het eerst sinds %{date}.",
   "recaps_emotion_again_title": "Weer %{emotion}",
   "recaps_emotions_back_title_month": "Emoties terug deze maand",
-  "recaps_emotions_back_title_week": "Emoties terug deze week",
   "recaps_emotions_title": "Meest gebruikte emoties",
   "recaps_emotions_year_title": "Top 10 emoties",
   "recaps_empty": "Nog geen kaarten voor deze periode. Ze verschijnen naarmate je vaker incheckt.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Voeg een foto toe aan check-ins. Over een jaar kan je terugblik openen met ‘Vandaag een jaar geleden’.",
   "recaps_intro_photos_title": "Bewaar een foto van de dag",
   "recaps_mood_chart_title_month": "Stemming deze maand",
-  "recaps_mood_chart_title_week": "Stemming deze week",
   "recaps_mood_count_title": "{{percent}}% van je dagen voelde goed",
   "recaps_mood_count_title_mixed": "Je dagen per stemming",
   "recaps_most_connected_title_month": "Meeste contact deze maand",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Wekelijkse, maandelijkse en jaarlijkse terugblikken komen op de laatste dag van elke week, maand en elk jaar, op je herinneringstijd.",
   "recaps_notifications_setting": "Terugblikken",
   "recaps_nudge_not_now": "Niet nu",
-  "recaps_nudge_reminder_action": "Herinner me om %{time}",
-  "recaps_nudge_reminder_text": "Grote dagen blijven je bij. Kleine goede dagen vervagen voor de volgende ochtend. Een korte check-in elke avond houdt ze vast.",
-  "recaps_nudge_reminder_title": "Bewaar ook de rustige goede dagen",
-  "recaps_open_settings": "Open Instellingen",
   "recaps_people_moments_title_month": "Mensen deze maand",
-  "recaps_people_moments_title_week": "Mensen deze week",
   "recaps_people_mood_text": "Een aanwijzing, geen oorzaak. Contact kan goed, zwaar of gemengd voelen.",
   "recaps_people_mood_title": "Stemming op dagen met contact",
   "recaps_period_month": "Maand",
   "recaps_period_next": "Volgende periode",
   "recaps_period_previous": "Vorige periode",
-  "recaps_period_week": "Week",
   "recaps_period_year": "Jaar",
   "recaps_person_moment_back": {
     "one": "Terug na 1 week",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{count} dagen contact in %{year}",
   "recaps_person_moment_new": "Eerste contact",
   "recaps_places_title_month": "Plekken deze maand",
-  "recaps_places_title_week": "Plekken deze week",
   "recaps_places_title_year": "Plekken dit jaar",
   "recaps_places_trips": {
     "one": "1 trip weg van huis.",
     "other": "%{count} trips weg van huis."
   },
-  "recaps_reminder_failed": "Herinnering niet ingesteld. Meldingen konden niet worden gepland. Probeer het opnieuw via Instellingen > Herinnering.",
-  "recaps_reminder_set": "Herinnering om %{time}",
   "recaps_sleep_chart_title_month": "Slaap deze maand",
-  "recaps_sleep_chart_title_week": "Slaap deze week",
-  "recaps_sleep_rough_text": "%{count} zware nachten op rij. Rust wanneer je kunt.",
-  "recaps_sleep_rough_title": "Een paar zware nachten",
-  "recaps_sleep_turnaround_text": "Na een paar zware nachten de week ervoor.",
-  "recaps_sleep_turnaround_title": "%{count} goede nachten op rij",
   "recaps_step_turned_on": "Toegevoegd aan je check-in",
-  "recaps_stood_out_text": "Die dagen voelen meestal lichter voor je.",
-  "recaps_stood_out_title": {
-    "one": "1 dag met %{tag} deze week",
-    "other": "{{count}} dagen met %{tag} deze week"
-  },
   "recaps_story_banner_label_month": "Maandterugblik",
   "recaps_story_banner_title": "Terugblik op %{month}",
-  "recaps_story_banner_title_week": "Weekterugblik",
   "recaps_story_best_day_ask": "Klaar om je beste dag te zien?",
   "recaps_story_best_day_show": "Toon je beste dag",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "Op {{count}} dagen maakte je tijd voor jezelf. Wees daar trots op."
   },
   "recaps_story_cover_note_full": "Elke dag van %{month} heeft zijn pixel. Dat is echt een prestatie.",
-  "recaps_story_cover_note_full_week": "Elke dag van deze week heeft zijn pixel. Dat is echt een prestatie.",
   "recaps_story_cover_pixels_title": "pixels in %{month}",
-  "recaps_story_cover_pixels_title_week": "Pixels deze week",
-  "recaps_story_cover_title_week": "Neem even de tijd.\nDit was je week.",
   "recaps_story_days": {
     "one": "1 dag",
     "other": "{{count}} dagen"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Mijn baan",
   "recaps_story_share_shuffle": "Foto's husselen",
   "recaps_story_share_title": "Mijn %{month}",
-  "recaps_story_share_title_week": "Mijn week",
   "recaps_story_sleep_ask": {
     "one": "1 nacht was onrustig. Beter bekijken?",
     "other": "{{count}} nachten waren onrustig. Beter bekijken?"

@@ -15,7 +15,6 @@ import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { useSettings } from "@/state/settings";
-import { parsePlace } from "../places";
 import type {
   ConnectedPerson,
   EmotionCount,
@@ -26,7 +25,6 @@ import type {
 import type { Content, Context } from "./card-content";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
 import { getStatContent } from "./stat-content";
-import { getMomentLine } from "./person-moment-line";
 import { RingedAvatar } from "./ringed-avatar";
 import { RowEmotionChip, RowTagChip } from "./title-chip";
 
@@ -98,20 +96,6 @@ const emotionsContent = (
   counts: EmotionCount[],
   periodKind: PeriodKind
 ): Content => {
-  if (periodKind === "week") {
-    const title = t("recaps_emotions_title");
-    return {
-      title,
-      titleLabel: title,
-      body: (
-        <Row>
-          {counts.slice(0, 6).map((count) => (
-            <RowEmotionChip key={count.emotion} emotionKey={count.emotion} />
-          ))}
-        </Row>
-      ),
-    };
-  }
   const size = periodKind === "year" ? 10 : 3;
   // "Top 10" only when there are 10 to show.
   const title =
@@ -125,81 +109,8 @@ const emotionsContent = (
   };
 };
 
-/**
- * Days connected, then the moment: "1 day connected · Back after 6 weeks".
- * A milestone already counts days, so it stands alone.
- */
-const getConnectedLine = (entry: ConnectedPerson) => {
-  const days = t("recaps_connected_days", { count: entry.days });
-  if (!entry.moment) {
-    return days;
-  }
-  const moment = getMomentLine(entry.moment);
-  return entry.moment.kind === "milestone" ? moment : `${days} · ${moment}`;
-};
-
-const PersonRow = ({
-  entry,
-  person,
-}: {
-  entry: ConnectedPerson;
-  person: Person;
-}) => (
-  <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
-    <RingedAvatar person={person} size={40} />
-    <View style={{ flex: 1, gap: 4 }}>
-      <Body>{person.name}</Body>
-      <Secondary>{getConnectedLine(entry)}</Secondary>
-      {entry.emotions.length > 0 && (
-        <Row>
-          {entry.emotions.map((emotion) => (
-            <RowEmotionChip key={emotion} emotionKey={emotion} />
-          ))}
-        </Row>
-      )}
-    </View>
-  </View>
-);
-
 const findPerson = (people: Person[], id: string) =>
   people.find((person) => person.id === id);
-
-const connectedContent = (
-  entries: ConnectedPerson[],
-  people: Person[]
-): Content | null => {
-  const known = entries.filter((entry) => findPerson(people, entry.personId));
-  const [first] = known;
-  if (!first) {
-    return null;
-  }
-  const title =
-    known.length === 1
-      ? t("recaps_connected_title_one", {
-          name: findPerson(people, first.personId)?.name ?? "",
-        })
-      : t("recaps_connected_title", { count: known.length });
-  const rest = known.slice(5);
-  return {
-    title,
-    titleLabel: title,
-    body: (
-      <View style={{ gap: 16 }}>
-        {known.slice(0, 5).map((entry) => {
-          const person = findPerson(people, entry.personId);
-          return person ? (
-            <PersonRow key={entry.personId} entry={entry} person={person} />
-          ) : null;
-        })}
-        {rest.length > 0 && (
-          <Secondary>
-            {t("recaps_connected_more", { count: rest.length })}
-          </Secondary>
-        )}
-      </View>
-    ),
-  };
-};
 
 const MOST_CONNECTED_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
   month: "recaps_most_connected_title_month",
@@ -245,7 +156,6 @@ const Podium = ({
 );
 
 const PLACES_TITLES: Record<PeriodKind, TranslationKey> = {
-  week: "recaps_places_title_week",
   month: "recaps_places_title_month",
   year: "recaps_places_title_year",
 };
@@ -277,7 +187,6 @@ const TripDot = ({ isTrip }: { isTrip: boolean }) => {
 };
 
 const BEST_DAY_TITLES: Partial<Record<PeriodKind, TranslationKey>> = {
-  week: "recaps_day_best_title_week",
   month: "recaps_day_best_title_month",
 };
 
@@ -374,12 +283,7 @@ const dayContent = (
   const goodEmotions = [
     ...new Set(day.items.flatMap((item) => item.emotions)),
   ].filter((key) => GOOD.has(EMOTION_BY_KEY.get(key)?.category ?? ""));
-  const place = parsePlace(
-    day.items.find((item) => item.location?.name)?.location?.name
-  );
-  const weekday = dayjs(day.date).format(
-    periodKind === "week" ? "dddd" : "dddd, D MMMM"
-  );
+  const weekday = dayjs(day.date).format("dddd, D MMMM");
   const shownPeople = dayPeople.slice(0, 4);
   const names = [
     ...shownPeople.map((person) => person.name),
@@ -389,17 +293,12 @@ const dayContent = (
   ].join(", ");
   // People on a day are connections, not company: titles never say "a day
   // with" someone.
-  const agoTitle = () => place?.city ?? t("recaps_day_ago_title");
   const titles = {
     best: () => (bestKey ? t(bestKey, { day: weekday }) : ""),
     hard: () => t("recaps_day_hard_title", { day: weekday }),
-    ago: agoTitle,
   };
   const texts: Partial<Record<typeof card.mode, string>> = {
     hard: t("recaps_day_hard_text"),
-    ago: t("recaps_day_ago_text", {
-      date: dayjs(day.date).format("D MMMM YYYY"),
-    }),
   };
   const title = titles[card.mode]();
   return {
@@ -461,9 +360,6 @@ const getContent = (
     }
     case "emotions": {
       return emotionsContent(card.counts, context.period.kind);
-    }
-    case "connected": {
-      return connectedContent(card.people, context.people);
     }
     case "most-connected": {
       const key = MOST_CONNECTED_TITLES[context.period.kind];
