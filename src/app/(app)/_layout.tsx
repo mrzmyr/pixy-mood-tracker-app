@@ -191,6 +191,7 @@ const AppLayout = () => {
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="home" options={{ headerShown: false }} />
           <Stack.Screen
             name="calendar"
             options={getCalendarOptions(colors.text, colors.calendarBackground)}

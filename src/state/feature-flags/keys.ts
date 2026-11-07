@@ -11,6 +11,7 @@ export const FEATURE_FLAGS = [
   "chip-active-ink",
   "development",
   "feature-flag-overrides",
+  "home-week",
   "menstruation",
   "more-tags",
   "needs",
@@ -60,6 +61,10 @@ export const FEATURE_FLAG_DETAILS: Record<
     description:
       "Gray fill and dark text for selected chips, instead of the inverted style",
     location: "Check-in > Emotions, Tags; Quick check-in",
+  },
+  "home-week": {
+    description: "Home with week strip and entries of the selected day",
+    location: "App start, Calendar > bottom left button",
   },
   development: {
     description: "Development section in production builds",
