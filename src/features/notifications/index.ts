@@ -2,6 +2,7 @@ export { default as Clock } from "./components/clock";
 export { useReminder } from "./use-reminder";
 export type { ReminderResult } from "./use-reminder";
 export { useReminderSync } from "./reminder-sync";
+export { useDismissAnsweredNotifications } from "./answered-notifications";
 export {
   defaultNotificationResponseSource,
   getDeliveryKey,

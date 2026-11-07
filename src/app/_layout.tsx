@@ -32,6 +32,7 @@ import { AppErrorScreen } from "@/shell/app-error-screen";
 import { getNavigationTheme } from "@/shell/navigation-theme";
 import { AppLockScreen } from "@/features/applock";
 import {
+  useDismissAnsweredNotifications,
   useReminderSync,
   useReminderTapTracking,
 } from "@/features/notifications";
@@ -71,6 +72,7 @@ const AppShell = () => {
   useUsageSummarySync();
   useReminderTapTracking();
   useReminderSync();
+  useDismissAnsweredNotifications();
   useRecapNotificationTaps();
   useRecapNotificationSync();
   useQuickCheckInNotificationTaps();

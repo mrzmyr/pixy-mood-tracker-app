@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-11-06",
+  "verifiedOn": "2026-11-08",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -249,9 +249,12 @@
       "label": "Daily reminder",
       "status": "available",
       "group": "reminders",
-      "description": "One daily notification at a time you choose.",
+      "description": "One daily notification at a time you choose. It clears itself once the day has an entry.",
       "competitorKey": "reminders",
-      "evidence": ["src/features/notifications/reminder-scheduler.ts"]
+      "evidence": [
+        "src/features/notifications/reminder-scheduler.ts",
+        "src/features/notifications/answered-notifications.ts"
+      ]
     },
     {
       "id": "color-scales",
