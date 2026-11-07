@@ -2,7 +2,7 @@ appId: ${APP_ID}
 tags: [p0, entry]
 ---
 # Edit an entry, add a second entry for the day, delete the first.
-# The remaining entry survives a cold start.
+# The remaining entry survives a cold start. Deleting it closes the day list.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
@@ -105,5 +105,15 @@ tags: [p0, entry]
     id: "calendar-day-${output.today}"
 - assertVisible: "e2e second ${output.runId}"
 - assertNotVisible: "e2e edited ${output.runId}"
+
+# Deleting the last entry of the day closes the day list.
 - tapOn:
-    id: "log-list-close"
+    id: "log-list-menu"
+- tapOn: "Delete"
+- tapOn:
+    text: "Delete"
+    below: "Are you sure you want to delete this entry?"
+- assertNotVisible:
+    id: "log-list"
+- assertVisible:
+    id: "calendar-day-${output.today}"

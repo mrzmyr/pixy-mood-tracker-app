@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { FloatButton } from "@/components/float-button";
 import { FLOAT_BUTTON_SIZE } from "@/constants/float-button";
@@ -12,7 +12,13 @@ import type { LogItem } from "@/features/logs";
 
 import { getDayDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
-import { useEffect, useEffectEvent, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
 import { FlatList, View } from "react-native";
 import Plus from "lucide-react-native/icons/plus";
 
@@ -57,6 +63,10 @@ const CardGap = () => <View style={{ height: CARD_GAP }} />;
  * Add is a float button at the bottom right, like on the calendar. The
  * list ends with padding, so the last card scrolls clear of it and of the
  * bottom safe area.
+ *
+ * The list closes once its last entry is gone: deleted here, deleted in the
+ * edit sheet, or moved to another day. It waits for focus, so an edit sheet
+ * on top closes first. A day that opens empty stays open.
  *
  * Title and close live in the native stack header. The list is the first
  * view of the screen, so iOS insets it below the header. On iOS 26 the
@@ -109,7 +119,6 @@ export const LogList = () => {
     analytics.track("day:delete_tapped");
     logUpdater.deleteLog(item.id);
     logUpdater.sweepPhotos();
-    // navigation.goBack();
   };
 
   const _delete = async (item: LogItem) => {
@@ -136,6 +145,22 @@ export const LogList = () => {
       return next;
     });
   };
+
+  const isEmpty = items.length === 0;
+  const hasShownEntries = useRef(false);
+  useEffect(() => {
+    if (!isEmpty) {
+      hasShownEntries.current = true;
+    }
+  }, [isEmpty]);
+  // An empty day view has nothing to show: close it.
+  useFocusEffect(
+    useCallback(() => {
+      if (isEmpty && hasShownEntries.current) {
+        router.back();
+      }
+    }, [isEmpty, router])
+  );
 
   const listRef = useRef<FlatList<LogItem>>(null);
   const knownIds = useRef<Set<string> | null>(null);
