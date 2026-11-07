@@ -84,6 +84,7 @@ jest.mock("react-native-reanimated", () => {
       in: (f) => f,
       out: (f) => f,
       inOut: (f) => f,
+      bezier: () => (t) => t,
     },
     cancelAnimation: jest.fn(),
     interpolate: () => 0,

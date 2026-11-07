@@ -1,5 +1,6 @@
 import {
   formatStoryOrigin,
+  getPageStep,
   getStoryCardKey,
   measureStoryCard,
   parseStoryOrigin,
@@ -95,5 +96,36 @@ describe("story card on close", () => {
   test("unmounted card gives no frame", async () => {
     registerStoryCard(key, cardAt([16, 400, 358, 76]))();
     expect(await measureStoryCard(key, window)).toBeNull();
+  });
+});
+
+/** Page step of a swipe on slide `index` of three. */
+const swipe = (translationY: number, velocityY: number, index = 1) =>
+  getPageStep({ translationY, velocityY, screenHeight, index, count: 3 });
+
+describe("story swipe", () => {
+  test("slow short swipe stays on the slide", () => {
+    expect(swipe(-80, -200)).toBe(0);
+    expect(swipe(80, 200)).toBe(0);
+  });
+
+  test("slow long swipe up goes next, down goes back", () => {
+    expect(swipe(-200, 0)).toBe(1);
+    expect(swipe(200, 0)).toBe(-1);
+  });
+
+  test("fast flick pages after a short swipe", () => {
+    expect(swipe(-30, -900)).toBe(1);
+    expect(swipe(30, 900)).toBe(-1);
+  });
+
+  test("flick back against the swipe stays on the slide", () => {
+    expect(swipe(-300, 900)).toBe(0);
+    expect(swipe(300, -900)).toBe(0);
+  });
+
+  test("never pages before the first or after the last slide", () => {
+    expect(swipe(300, 900, 0)).toBe(0);
+    expect(swipe(-300, -900, 2)).toBe(0);
   });
 });

@@ -76,7 +76,7 @@ export const RecapStoryPlayground = ({
   const slides: PlayerSlide[] = pages.map((page, index) => ({
     key: `${index}-${page.label}`,
     theme: getStoryTheme(isDark),
-    // No timer: the playground holds each slide until a tap.
+    // No timer: the playground holds each slide until a swipe.
     isWaiting: true,
     content: contentOf(page, index),
   }));

@@ -1,10 +1,9 @@
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
-import type { GestureResponderEvent } from "react-native";
+import { GestureDetector, usePanGesture } from "react-native-gesture-handler";
 import Animated, {
   cancelAnimation,
   Easing,
-  FadeInDown,
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
@@ -23,11 +22,13 @@ import type { PixyGuide } from "@/components/pixy-guide-context";
 import { SkyPixy } from "@/components/sky-pixy";
 import type { FlightZone } from "@/components/sky-pixy";
 import { SteppedSky } from "@/components/stepped-sky";
+import { DURATION, getEasing } from "@/constants/motion";
 import { RADIUS } from "@/constants/radius";
 import { usePixyIdle } from "@/features/logger";
 import { t } from "@/lib/translation";
 import { StoryPressContext } from "./press-context";
 import { StoryHoldContext } from "./hold-context";
+import { getPageStep } from "./story-motion";
 import { STORY_PALETTE, STORY_SCREEN_PADDING, STORY_SLIDE_MS } from "./theme";
 import type { StoryTheme } from "./theme";
 
@@ -144,47 +145,98 @@ export interface PlayerControls {
   pause: () => void;
 }
 
-const barState = (position: number, index: number) => {
-  if (position < index) {
-    return "done";
-  }
-  return position === index ? "current" : "next";
-};
+/** Holding hides the slider and buttons this fast, so the slide shows at once. */
+const CHROME_FADE_MS = 80;
 
-const ProgressBar = ({
-  state,
+/**
+ * One thin slider at the bottom edge, like Instagram Reels: it flows
+ * through the whole story, slide by slide, as each slide's time runs.
+ */
+const StorySlider = ({
+  index,
+  count,
   progress,
   theme,
+  isHidden,
 }: {
-  state: "done" | "current" | "next";
+  index: number;
+  count: number;
   progress: SharedValue<number>;
   theme: StoryTheme;
+  /** Fades out with the other controls while the user holds. */
+  isHidden: boolean;
 }) => {
-  const fill = useAnimatedStyle(() => ({
-    width: `${(state === "current" ? progress.get() : Number(state === "done")) * 100}%`,
+  const insets = useSafeAreaInsets();
+  const chrome = useAnimatedStyle(() => ({
+    opacity: withTiming(isHidden ? 0 : 1, { duration: CHROME_FADE_MS }),
   }));
-  const color = theme === "paper" ? "#0A0A0A" : "#FFFFFF";
+  const fill = useAnimatedStyle(() => ({
+    width: `${((index + progress.get()) / Math.max(1, count)) * 100}%`,
+  }));
   return (
-    <View
-      style={{
-        flex: 1,
-        height: 3,
-        borderRadius: RADIUS.full,
-        overflow: "hidden",
-        backgroundColor:
-          theme === "paper" ? "rgba(10,10,10,0.15)" : "rgba(255,255,255,0.3)",
-      }}
+    <Animated.View
+      pointerEvents="none"
+      accessibilityRole="progressbar"
+      accessibilityValue={{ min: 1, max: count, now: index + 1 }}
+      style={[
+        {
+          position: "absolute",
+          left: 12,
+          right: 12,
+          // Below Share and feedback, just above the home indicator.
+          bottom: Math.max(insets.bottom - 12, 4),
+          height: 3,
+          borderRadius: RADIUS.full,
+          overflow: "hidden",
+          backgroundColor:
+            theme === "paper" ? "rgba(10,10,10,0.15)" : "rgba(255,255,255,0.3)",
+        },
+        chrome,
+      ]}
+      testID="recap-story-slider"
     >
-      <Animated.View style={[{ height: 3, backgroundColor: color }, fill]} />
-    </View>
+      <Animated.View
+        style={[
+          {
+            height: 3,
+            backgroundColor: theme === "paper" ? "#0A0A0A" : "#FFFFFF",
+          },
+          fill,
+        ]}
+      />
+    </Animated.View>
   );
 };
 
-/** Content of a new slide rises in, like Instagram stories. */
-const ENTERING = FadeInDown.duration(240);
+/** Points a drag moves up or down before it pages; sideways moves fail it. */
+const AXIS_LOCK_DISTANCE = 10;
+/** A new slide enters from this far below or above. */
+const ENTER_DISTANCE = 120;
 
-/** Holding hides bars and buttons this fast, so the slide shows at once. */
-const CHROME_FADE_MS = 80;
+/**
+ * Content of a new slide comes in from the side the swipe pushed it from:
+ * from below for the next slide, from above for the previous one.
+ */
+const enteringFrom = (
+  direction: 1 | -1,
+  easing: ReturnType<typeof getEasing>
+) => {
+  const from = direction * ENTER_DISTANCE;
+  return () => {
+    "worklet";
+    return {
+      initialValues: { opacity: 0, transform: [{ translateY: from }] },
+      animations: {
+        opacity: withTiming(1, { duration: DURATION.base }),
+        transform: [
+          {
+            translateY: withTiming(0, { duration: DURATION.base, easing }),
+          },
+        ],
+      },
+    };
+  };
+};
 
 /**
  * `next` for slide buttons. A button that also changes `slides`, for
@@ -216,10 +268,137 @@ interface Clock {
 }
 
 /**
- * Full-screen story. Tap the right two thirds for the next slide, the left
- * third for the previous one; press and hold to pause and see the slide
- * alone: bars, buttons, and feedback fade out until you let go. Each slide
- * moves on after its time, except waiting and held slides. The last slide
+ * Vertical paging of the story, like Instagram Reels. The slide follows
+ * the finger; past the first or last slide it only gives a little. On
+ * release it leaves the screen and `onPage` shows the next or previous
+ * slide, or it slides back into place. A swipe down on the first slide
+ * fails here, so the parent's drag closes the story.
+ */
+const useSwipePaging = ({
+  index,
+  count,
+  onPage,
+}: {
+  index: number;
+  count: number;
+  onPage: (step: -1 | 1) => void;
+}) => {
+  const { height } = useWindowDimensions();
+  const easing = getEasing("move");
+  // A swipe holds the slide until it pages or slides back.
+  const [isSwiping, setIsSwiping] = useState(false);
+  const swipe = useSharedValue(0);
+
+  const onSwipeEnd = (step: -1 | 0 | 1) => {
+    setIsSwiping(false);
+    if (step !== 0) {
+      onPage(step);
+    }
+  };
+
+  const isFirst = index === 0;
+  const gesture = usePanGesture({
+    maxPointers: 1,
+    activeOffsetY: isFirst
+      ? -AXIS_LOCK_DISTANCE
+      : [-AXIS_LOCK_DISTANCE, AXIS_LOCK_DISTANCE],
+    failOffsetY: isFirst ? AXIS_LOCK_DISTANCE : undefined,
+    failOffsetX: [-AXIS_LOCK_DISTANCE, AXIS_LOCK_DISTANCE],
+    onActivate: () => {
+      scheduleOnRN(setIsSwiping, true);
+    },
+    onUpdate: (event) => {
+      const canPage = event.translationY < 0 ? index < count - 1 : index > 0;
+      swipe.set(canPage ? event.translationY : event.translationY / 4);
+    },
+    onDeactivate: (event) => {
+      const step = event.canceled
+        ? 0
+        : getPageStep({
+            translationY: event.translationY,
+            velocityY: event.velocityY,
+            screenHeight: height,
+            index,
+            count,
+          });
+      swipe.set(
+        withTiming(
+          step === 0 ? 0 : -step * height,
+          { duration: DURATION.fast, easing },
+          (isFinished) => {
+            if (isFinished) {
+              scheduleOnRN(onSwipeEnd, step);
+            }
+          }
+        )
+      );
+    },
+  });
+
+  const style = useAnimatedStyle(() => ({
+    opacity: 1 - Math.min(1, Math.abs(swipe.get()) / height),
+    transform: [{ translateY: swipe.get() }],
+  }));
+
+  /**
+   * The new slide is on screen: back into place. Not earlier, or the old
+   * slide flashes back; it left the screen invisible.
+   */
+  const handleSlideLayout = () => {
+    if (!isSwiping) {
+      swipe.set(0);
+    }
+  };
+
+  return { gesture, style, isSwiping, handleSlideLayout, easing };
+};
+
+/**
+ * The current slide inside the swipe: it moves with the finger, and a new
+ * slide comes in from the side the swipe pushed it from.
+ */
+const PagedSlide = ({
+  slide,
+  paging,
+  direction,
+  children,
+}: {
+  slide: PlayerSlide;
+  paging: ReturnType<typeof useSwipePaging>;
+  direction: 1 | -1;
+  children: React.ReactNode;
+}) => {
+  const insets = useSafeAreaInsets();
+  return (
+    <Animated.View pointerEvents="box-none" style={[{ flex: 1 }, paging.style]}>
+      <Animated.View
+        key={slide.key}
+        entering={enteringFrom(direction, paging.easing)}
+        onLayout={paging.handleSlideLayout}
+        pointerEvents="box-none"
+        style={{
+          flex: 1,
+          paddingTop: insets.top + 76,
+          // Own buttons sit where Share and feedback sit.
+          paddingBottom: insets.bottom + (slide.hasOwnButtons ? 16 : 84),
+          paddingHorizontal: STORY_SCREEN_PADDING,
+        }}
+        testID={`recap-story-slide-${slide.key}`}
+      >
+        {children}
+      </Animated.View>
+    </Animated.View>
+  );
+};
+
+/**
+ * Full-screen story, paged like Instagram Reels. Swipe up for the next
+ * slide, down for the previous one; the slide follows the finger. A
+ * swipe down on the first slide is left to the parent, which closes the
+ * story. Tap to pause or play; press and hold to pause and see the slide
+ * alone: slider, buttons, and feedback fade out until you let go. One
+ * slider at the bottom flows through the whole story. Each slide moves
+ * on after its time, except waiting and held slides. The last slide
  * stays until the user closes it. Going to another slide plays the story again.
  * `renderBottom` draws per slide below the content (Share, Helpful, Not
  * Helpful); its `controls.pause` stops the story while the user acts.
@@ -253,13 +432,26 @@ export const StoryPlayer = ({
   const [isHolding, setIsHolding] = useState(false);
   // Slide content holds the story while a detail is open (`StoryHoldContext`).
   const [isHeldBySlide, setIsHeldBySlide] = useState(false);
+  const paging = useSwipePaging({
+    index,
+    count: slides.length,
+    // oxlint-disable-next-line no-use-before-define -- the hook calls `goTo` only after a swipe, after render.
+    onPage: (step) => goTo(index + step),
+  });
+  const { isSwiping } = paging;
+  // Side the current slide came in from: 1 below, -1 above.
+  const [direction, setDirection] = useState<1 | -1>(1);
   const progress = useSharedValue(0);
   const slide = slides[index];
   const theme = slide?.theme ?? "night";
   const palette = STORY_PALETTE[theme];
   const isPaused =
-    isPausedByUser || isHolding || isHeldBySlide || isPausedFromParent;
-  // Holding hides bars, buttons, and feedback, like Instagram stories.
+    isPausedByUser ||
+    isHolding ||
+    isHeldBySlide ||
+    isSwiping ||
+    isPausedFromParent;
+  // Holding hides the slider, buttons, and feedback, like Instagram Reels.
   const isChromeHidden = isHolding;
   const chrome = useAnimatedStyle(() => ({
     opacity: withTiming(isChromeHidden ? 0 : 1, { duration: CHROME_FADE_MS }),
@@ -328,8 +520,9 @@ export const StoryPlayer = ({
     const target = Math.max(0, next);
     cancelAnimation(progress);
     clock.current = { played: 0, startedAt: null, run: clock.current.run + 1 };
-    // A held slide shows a full bar: nothing more runs out.
+    // A held slide fills its part of the slider: nothing more runs out.
     progress.set(slides[target]?.isHeld ? 1 : 0);
+    setDirection(target < index ? -1 : 1);
     setIndex(target);
     setIsPausedByUser(false);
     setIsHeldBySlide(false);
@@ -337,7 +530,7 @@ export const StoryPlayer = ({
       onSlideShown(target);
     }
     const isTimed = !slides[target]?.isWaiting && !slides[target]?.isHeld;
-    if (!isHolding && !isPausedFromParent && isTimed) {
+    if (!isHolding && !isSwiping && !isPausedFromParent && isTimed) {
       play(target);
     }
   };
@@ -355,12 +548,8 @@ export const StoryPlayer = ({
   }, [isPaused, isWaiting]);
 
   // Pressable skips `onPress` after a long press, so letting go only resumes.
-  // `pageX`, not `locationX`: `locationX` counts from the touched child,
-  // so a tap on the right half over a small tile went back.
-  const onPress = (event: GestureResponderEvent) => {
-    const { pageX } = event.nativeEvent;
-    goTo(pageX < 120 ? index - 1 : index + 1);
-  };
+  // A tap pauses or plays, like Instagram Reels; swipes move the story.
+  const onPress = () => setIsPausedByUser((current) => !current);
 
   const controls: PlayerControls = {
     pause: () => setIsPausedByUser(true),
@@ -381,35 +570,25 @@ export const StoryPlayer = ({
       >
         <SteppedSky step={index} boost={skyBoost} />
         <CloudyLayer boost={skyBoost} isShown={!isReducedMotion}>
-          <Pressable
-            accessible={false}
-            style={StyleSheet.absoluteFill}
-            onLongPress={() => setIsHolding(true)}
-            delayLongPress={200}
-            onPressOut={() => setIsHolding(false)}
-            onPress={onPress}
-            testID="recap-story-tap"
-          >
-            <Animated.View
-              key={slide.key}
-              entering={ENTERING}
-              pointerEvents="box-none"
-              style={{
-                flex: 1,
-                paddingTop: insets.top + 76,
-                // Own buttons sit where Share and feedback sit.
-                paddingBottom: insets.bottom + (slide.hasOwnButtons ? 16 : 84),
-                paddingHorizontal: STORY_SCREEN_PADDING,
-              }}
-              testID={`recap-story-slide-${slide.key}`}
+          <GestureDetector gesture={paging.gesture}>
+            <Pressable
+              accessible={false}
+              style={StyleSheet.absoluteFill}
+              onLongPress={() => setIsHolding(true)}
+              delayLongPress={200}
+              onPressOut={() => setIsHolding(false)}
+              onPress={onPress}
+              testID="recap-story-tap"
             >
-              <StoryPressContext value={{ onPress, setIsHolding, next }}>
-                <StoryHoldContext value={setIsHeldBySlide}>
-                  {slide.content}
-                </StoryHoldContext>
-              </StoryPressContext>
-            </Animated.View>
-          </Pressable>
+              <PagedSlide slide={slide} paging={paging} direction={direction}>
+                <StoryPressContext value={{ onPress, setIsHolding, next }}>
+                  <StoryHoldContext value={setIsHeldBySlide}>
+                    {slide.content}
+                  </StoryHoldContext>
+                </StoryPressContext>
+              </PagedSlide>
+            </Pressable>
+          </GestureDetector>
         </CloudyLayer>
       </View>
 
@@ -419,56 +598,41 @@ export const StoryPlayer = ({
           {
             position: "absolute",
             top: insets.top + 8,
-            left: 12,
             right: 12,
-            gap: 12,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 8,
           },
           chrome,
         ]}
       >
-        <View style={{ flexDirection: "row", gap: 4 }}>
-          {slides.map((item, position) => (
-            <ProgressBar
-              key={item.key}
-              theme={theme}
-              progress={progress}
-              state={barState(position, index)}
-            />
-          ))}
-        </View>
-        <View
-          style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-          pointerEvents="box-none"
+        {/* No title or counter: the slider shows where the story is. */}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t(
+            isPausedByUser ? "recaps_story_play" : "recaps_story_pause"
+          )}
+          hitSlop={10}
+          onPress={() => setIsPausedByUser((current) => !current)}
+          testID="recap-story-pause"
+          style={{ padding: 6 }}
         >
-          {/* No title or counter: the bars already show where the story is. */}
-          <View style={{ flex: 1 }} />
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t(
-              isPausedByUser ? "recaps_story_play" : "recaps_story_pause"
-            )}
-            hitSlop={10}
-            onPress={() => setIsPausedByUser((current) => !current)}
-            testID="recap-story-pause"
-            style={{ padding: 6 }}
-          >
-            {isPausedByUser ? (
-              <Play width={20} height={20} color={palette.text} />
-            ) : (
-              <Pause width={20} height={20} color={palette.text} />
-            )}
-          </Pressable>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t("close")}
-            hitSlop={10}
-            onPress={onClose}
-            testID="recap-story-close"
-            style={{ padding: 6 }}
-          >
-            <X width={22} height={22} color={palette.text} />
-          </Pressable>
-        </View>
+          {isPausedByUser ? (
+            <Play width={20} height={20} color={palette.text} />
+          ) : (
+            <Pause width={20} height={20} color={palette.text} />
+          )}
+        </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t("close")}
+          hitSlop={10}
+          onPress={onClose}
+          testID="recap-story-close"
+          style={{ padding: 6 }}
+        >
+          <X width={22} height={22} color={palette.text} />
+        </Pressable>
       </Animated.View>
 
       <Animated.View
@@ -485,6 +649,14 @@ export const StoryPlayer = ({
       >
         {renderBottom(index, theme, controls)}
       </Animated.View>
+
+      <StorySlider
+        index={index}
+        count={slides.length}
+        progress={progress}
+        theme={theme}
+        isHidden={isChromeHidden}
+      />
 
       {/* Screen readers move by button, not by tap zones. */}
       <View
