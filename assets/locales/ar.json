@@ -962,6 +962,7 @@
   "recaps_story_banner_title_week": "ملخص الأسبوع",
   "recaps_story_best_day_ask": "هل أنت مستعد لرؤية أفضل يوم لك؟",
   "recaps_story_best_day_show": "اعرض أفضل يوم لك",
+  "recaps_story_best_day_slide": "اسحب لإلغاء القفل",
   "recaps_story_coming_text": {
     "one": "بكسل واحد آخر بانتظارك. يومًا بيوم.",
     "other": "البكسلات التي تنتظرك: {{count}}. يومًا بيوم."

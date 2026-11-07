@@ -962,6 +962,7 @@
   "recaps_story_banner_title_week": "每周回顾",
   "recaps_story_best_day_ask": "准备好看看你最棒的一天了吗？",
   "recaps_story_best_day_show": "显示你最棒的一天",
+  "recaps_story_best_day_slide": "滑动来解锁",
   "recaps_story_coming_text": {
     "one": "还有 1 个像素在等你。一天一天来。",
     "other": "还有 {{count}} 个像素在等你。一天一天来。"

@@ -962,6 +962,7 @@
   "recaps_story_banner_title_week": "Tjedni osvrt",
   "recaps_story_best_day_ask": "Spreman vidjeti svoj najbolji dan?",
   "recaps_story_best_day_show": "Prikaži svoj najbolji dan",
+  "recaps_story_best_day_slide": "Povuci za otključavanje",
   "recaps_story_coming_text": {
     "one": "Čeka te još 1 piksel. Dan po dan.",
     "other": "Pikseli koji te još čekaju: {{count}}. Dan po dan."

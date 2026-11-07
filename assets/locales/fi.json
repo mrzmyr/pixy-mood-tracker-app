@@ -962,6 +962,7 @@
   "recaps_story_banner_title_week": "Viikon katsaus",
   "recaps_story_best_day_ask": "Valmis näkemään parhaan päiväsi?",
   "recaps_story_best_day_show": "Näytä paras päiväsi",
+  "recaps_story_best_day_slide": "Avaa liu'uttamalla",
   "recaps_story_coming_text": {
     "one": "Vielä 1 pikseli odottaa sinua. Päivä kerrallaan.",
     "other": "Vielä {{count}} pikseliä odottaa sinua. Päivä kerrallaan."

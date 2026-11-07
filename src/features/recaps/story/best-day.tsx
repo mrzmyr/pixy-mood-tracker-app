@@ -1,14 +1,21 @@
 import dayjs from "dayjs";
+import { Image } from "expo-image";
 import { use, useEffect, useRef, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { GestureDetector, usePanGesture } from "react-native-gesture-handler";
 import Animated, {
+  cancelAnimation,
   Easing,
+  FadeOut,
+  interpolate,
   useAnimatedReaction,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
+  withRepeat,
   withTiming,
 } from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import ChevronsRight from "lucide-react-native/icons/chevrons-right";
 import { CLOUDY_SIZE } from "@/components/cloudy";
@@ -16,6 +23,7 @@ import { cheer, PixyGuideContext } from "@/components/pixy-guide-context";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { RADIUS } from "@/constants/radius";
 import { EmotionIndicator, EMOTIONS } from "@/features/logger";
+import { getPhotoFile } from "@/features/photos";
 import { t, tDynamic } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
 import {
@@ -30,7 +38,10 @@ import {
   getStoryTheme,
   revealTextMs,
   STORY_BLOCK_GAP,
+  STORY_MAX_FONT_SCALE,
   STORY_PALETTE,
+  STORY_TITLE_GAP,
+  STORY_TYPE,
   titleRevealEnd,
 } from "./theme";
 import type { StoryTheme } from "./theme";
@@ -54,6 +65,27 @@ const PIXY_HOVER_GAP = CLOUDY_SIZE * 0.42;
 /** Pixy cheers this long before the day opens. */
 const CHEER_MS = 800;
 
+/** One shine pass over the track label, left to right. */
+const SHIMMER_MS = 2200;
+/**
+ * Shine bands over the label, widest first. Stacked, they make a soft
+ * highlight that is brightest in the middle.
+ */
+const SHIMMER_BANDS = [
+  { width: 96, opacity: 0.5 },
+  { width: 60, opacity: 0.6 },
+  { width: 28, opacity: 0.9 },
+];
+const SHIMMER_REACH = SHIMMER_BANDS[0].width;
+/** Share of the travel after which the label is gone. */
+const LABEL_FADE_SHARE = 0.45;
+/** Locked preview of the day: see-through, photos blurred. */
+const PREVIEW_OPACITY = 0.55;
+const PREVIEW_BLUR = 24;
+const PREVIEW_FADE_MS = 300;
+/** Pill widths of the chip skeletons, in turn. */
+const CHIP_WIDTHS = [88, 64, 104, 72];
+
 /** Time between two photos, and from one block to the next. */
 const PHOTO_STEP_MS = 450;
 const BLOCK_STEP_MS = 500;
@@ -69,6 +101,113 @@ const EMOTION_BY_KEY = new Map(
   EMOTIONS.map((emotion) => [emotion.key, emotion])
 );
 const GOOD = new Set(["very_good", "good"]);
+
+/**
+ * Window over the label that moves with `sweep`. Its text copy moves back
+ * the same distance, so the copy stays on top of the label.
+ */
+const ShimmerBand = ({
+  band,
+  sweep,
+  width,
+  children,
+}: {
+  band: (typeof SHIMMER_BANDS)[number];
+  sweep: SharedValue<number>;
+  width: number;
+  children: React.ReactNode;
+}) => {
+  const left = (progress: number) => {
+    "worklet";
+    const center = interpolate(
+      progress,
+      [0, 1],
+      [-SHIMMER_REACH, width + SHIMMER_REACH]
+    );
+    return center - band.width / 2;
+  };
+  const windowStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: left(sweep.get()) }],
+  }));
+  const copyStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: -left(sweep.get()) }],
+  }));
+  return (
+    <Animated.View
+      style={[
+        {
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          left: 0,
+          width: band.width,
+          overflow: "hidden",
+          opacity: band.opacity,
+        },
+        windowStyle,
+      ]}
+    >
+      <Animated.View style={[{ width }, copyStyle]}>{children}</Animated.View>
+    </Animated.View>
+  );
+};
+
+/**
+ * One line of text with a shine that sweeps across it again and again, as on
+ * the classic lock screen. Without motion it stays still.
+ */
+const ShimmerLabel = ({ text, theme }: { text: string; theme: StoryTheme }) => {
+  const palette = STORY_PALETTE[theme];
+  const isReducedMotion = useReducedMotion();
+  const [width, setWidth] = useState(0);
+  const sweep = useSharedValue(0);
+
+  useEffect(() => {
+    if (isReducedMotion || width === 0) {
+      return;
+    }
+    sweep.set(
+      withRepeat(
+        withTiming(1, { duration: SHIMMER_MS, easing: Easing.linear }),
+        -1
+      )
+    );
+    return () => cancelAnimation(sweep);
+  }, [isReducedMotion, sweep, width]);
+
+  const textStyle = [
+    STORY_TYPE.body,
+    { fontWeight: "500" as const, width, textAlign: "center" as const },
+  ];
+  return (
+    <View
+      accessible={false}
+      importantForAccessibility="no-hide-descendants"
+      onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
+    >
+      <Text
+        maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
+        numberOfLines={1}
+        style={[textStyle, { color: palette.muted }]}
+      >
+        {text}
+      </Text>
+      {width > 0 &&
+        !isReducedMotion &&
+        SHIMMER_BANDS.map((band) => (
+          <ShimmerBand key={band.width} band={band} sweep={sweep} width={width}>
+            <Text
+              maxFontSizeMultiplier={STORY_MAX_FONT_SCALE}
+              numberOfLines={1}
+              style={[textStyle, { color: palette.text }]}
+            >
+              {text}
+            </Text>
+          </ShimmerBand>
+        ))}
+    </View>
+  );
+};
 
 /**
  * Track with a thumb the user drags to the end. Releases short of
@@ -192,6 +331,14 @@ const SwipeToUnlock = ({
   const thumbStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: offset.get() }],
   }));
+  // The label fades while the thumb moves over it, back in when it returns.
+  const labelStyle = useAnimatedStyle(() => {
+    const range = travelShared.get() * LABEL_FADE_SHARE;
+    return {
+      opacity:
+        range > 0 ? interpolate(offset.get(), [0, range], [1, 0], "clamp") : 1,
+    };
+  });
   return (
     <GestureDetector gesture={gesture}>
       <View
@@ -217,6 +364,18 @@ const SwipeToUnlock = ({
           style={[
             {
               position: "absolute",
+              left: THUMB_INSET + THUMB_SIZE,
+              right: THUMB_INSET,
+            },
+            labelStyle,
+          ]}
+        >
+          <ShimmerLabel text={t("recaps_story_best_day_slide")} theme={theme} />
+        </Animated.View>
+        <Animated.View
+          style={[
+            {
+              position: "absolute",
               left: THUMB_INSET,
               width: THUMB_SIZE,
               height: THUMB_SIZE,
@@ -235,19 +394,8 @@ const SwipeToUnlock = ({
   );
 };
 
-/**
- * Best day of the month. Locked first: the question and a swipe track, and
- * the story waits. After the swipe the day builds up: photos one by one,
- * the title, then people, emotions, and tags. Long days scroll.
- */
-const OpenDay = ({
-  slide,
-  ctx,
-}: {
-  slide: BestDaySlide;
-  ctx: SlideContext;
-}) => {
-  const theme = getStoryTheme(ctx.isDark);
+/** What the best day shows: photos, people, good emotions, and tags. */
+const getDayContent = (slide: BestDaySlide, ctx: SlideContext) => {
   const day = ctx.days.find((item) => item.date === slide.date);
   if (!day) {
     return null;
@@ -257,12 +405,6 @@ const OpenDay = ({
     ...new Set(day.items.flatMap((item) => item.people.map(({ id }) => id))),
   ].flatMap((id) => ctx.people.get(id) ?? []);
   const shownPeople = people.slice(0, MAX_PEOPLE);
-  const names = [
-    ...shownPeople.map((person) => person.name),
-    ...(people.length > MAX_PEOPLE
-      ? [t("recaps_connected_more", { count: people.length - MAX_PEOPLE })]
-      : []),
-  ].join(", ");
   const emotions = [
     ...new Set(day.items.flatMap((item) => item.emotions)),
   ].flatMap((key) => {
@@ -272,6 +414,122 @@ const OpenDay = ({
   const tags = [
     ...new Set(day.items.flatMap((item) => item.tags.map(({ id }) => id))),
   ].flatMap((id) => ctx.tags.get(id) ?? []);
+  return { day, photos, people, shownPeople, emotions, tags };
+};
+
+/** Gray bar or pill in place of text the swipe will show. */
+const Skeleton = ({
+  theme,
+  width,
+  height,
+}: {
+  theme: StoryTheme;
+  width: number | `${number}%`;
+  height: number;
+}) => {
+  const palette = STORY_PALETTE[theme];
+  return (
+    <View
+      style={{
+        width,
+        height,
+        borderRadius: RADIUS.full,
+        backgroundColor: palette.glass,
+        borderWidth: 1,
+        borderColor: palette.chipBorder,
+      }}
+    />
+  );
+};
+
+/**
+ * Locked look at the day, in the order of the open day: blurred photos,
+ * and gray bars for the title, people, emotions, and tags. It tells what the
+ * swipe will show and shows nothing of it. Shorter than the open day, so
+ * Pixy keeps sky to fly in. Screen readers skip it.
+ */
+const DayPreview = ({
+  content,
+  theme,
+}: {
+  content: NonNullable<ReturnType<typeof getDayContent>>;
+  theme: StoryTheme;
+}) => {
+  const { photos, people, shownPeople, emotions, tags } = content;
+  // Emotions and tags share one row of pills: the preview stays short.
+  const chipCount = emotions.length + tags.length;
+  return (
+    <View
+      accessible={false}
+      importantForAccessibility="no-hide-descendants"
+      testID="recap-story-best-day-preview"
+      style={{
+        gap: STORY_BLOCK_GAP,
+        opacity: PREVIEW_OPACITY,
+        overflow: "hidden",
+        flexShrink: 1,
+      }}
+    >
+      {photos.length > 0 && (
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          {photos.map((photo) => (
+            <View key={photo.id} style={{ flex: 1 }}>
+              <Image
+                source={{ uri: getPhotoFile(photo).uri }}
+                recyclingKey={photo.id}
+                contentFit="cover"
+                blurRadius={PREVIEW_BLUR}
+                accessible={false}
+                style={{
+                  width: "100%",
+                  aspectRatio: photos.length === 1 ? 2 : 1,
+                  borderRadius: RADIUS.lg,
+                }}
+              />
+            </View>
+          ))}
+        </View>
+      )}
+      <Skeleton theme={theme} width="80%" height={24} />
+      {people.length > 0 && (
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          {shownPeople.map((person) => (
+            <Skeleton key={person.id} theme={theme} width={28} height={28} />
+          ))}
+          <Skeleton theme={theme} width="36%" height={14} />
+        </View>
+      )}
+      {chipCount > 0 && (
+        <View style={{ flexDirection: "row", gap: 8, overflow: "hidden" }}>
+          {CHIP_WIDTHS.slice(0, chipCount).map((width) => (
+            <Skeleton key={width} theme={theme} width={width} height={34} />
+          ))}
+        </View>
+      )}
+    </View>
+  );
+};
+
+/**
+ * Best day of the month. Locked first: the question, a preview of the day,
+ * and a swipe track, and the story waits. After the swipe the day builds up:
+ * photos one by one, the title, then people, emotions, and tags. Long days
+ * scroll.
+ */
+const OpenDay = ({
+  content,
+  theme,
+}: {
+  content: NonNullable<ReturnType<typeof getDayContent>>;
+  theme: StoryTheme;
+}) => {
+  const { day, photos, people, shownPeople, emotions, tags } = content;
+  const names = [
+    ...shownPeople.map((person) => person.name),
+    ...(people.length > MAX_PEOPLE
+      ? [t("recaps_connected_more", { count: people.length - MAX_PEOPLE })]
+      : []),
+  ].join(", ");
 
   const title = t("recaps_day_best_title_month", {
     day: dayjs(day.date).format("dddd, D MMMM"),
@@ -378,16 +636,30 @@ export const BestDay = ({
   const theme = getStoryTheme(ctx.isDark);
   const [isUnlockedHere, setIsUnlockedHere] = useState(false);
   const isUnlocked = isUnlockedFromParent ?? isUnlockedHere;
+  const content = getDayContent(slide, ctx);
+  if (!content) {
+    return null;
+  }
   if (isUnlocked) {
-    return <OpenDay slide={slide} ctx={ctx} />;
+    return <OpenDay content={content} theme={theme} />;
   }
   const title = t("recaps_story_best_day_ask");
-  // Question on top, track at the bottom, Pixy's free sky between them.
+  const previewAt = titleRevealEnd(title);
+  // Question on top, the locked day below it, Pixy's free sky between it and
+  // the track at the bottom.
   return (
     <View style={{ flex: 1 }}>
       <SlideHeader theme={theme} title={title} />
+      <Reveal
+        at={previewAt}
+        style={{ flexShrink: 1, marginTop: STORY_TITLE_GAP }}
+      >
+        <Animated.View exiting={FadeOut.duration(PREVIEW_FADE_MS)}>
+          <DayPreview content={content} theme={theme} />
+        </Animated.View>
+      </Reveal>
       <SkyFlightZone style={{ flex: 1, marginVertical: STORY_BLOCK_GAP }} />
-      <Reveal at={titleRevealEnd(title)}>
+      <Reveal at={previewAt + BLOCK_STEP_MS}>
         <SwipeToUnlock
           theme={theme}
           onUnlock={() => {
