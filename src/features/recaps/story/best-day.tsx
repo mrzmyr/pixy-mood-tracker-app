@@ -715,7 +715,9 @@ const DayLayout = ({
           </ScrollView>
         </Reveal>
         {isUnlocked ? (
-          <SkyFlightZone style={{ flex: 1, marginVertical: STORY_BLOCK_GAP }} />
+          // All the sky under the day: the list's bottom padding keeps
+          // Cloudy off the tags, the slide padding keeps it off Share.
+          <SkyFlightZone style={{ flex: 1 }} />
         ) : (
           <>
             <View style={{ flex: 1, marginVertical: STORY_BLOCK_GAP }} />
