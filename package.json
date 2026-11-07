@@ -43,7 +43,9 @@
     "check:locales": "bun scripts/check-locales.ts",
     "fix": "bun run i18n:sort && oxlint --fix && oxfmt",
     "i18n:sort": "bun scripts/sort-locales.ts",
-    "i18n:sort:check": "bun scripts/sort-locales.ts --check"
+    "i18n:sort:check": "bun scripts/sort-locales.ts --check",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build"
   },
   "dependencies": {
     "@expo/material-symbols": "^0.1.1",
@@ -129,6 +131,7 @@
     "@google-cloud/translate": "^10.3.0",
     "@material/material-color-utilities": "^0.4.0",
     "@react-native/jest-preset": "0.86.3",
+    "@storybook/react-native-web-vite": "10.6.6",
     "@testing-library/react-native": "^14.0.1",
     "@types/i18n-js": "^4.0.1",
     "@types/jest": "29.5.14",
@@ -145,9 +148,11 @@
     "oxfmt": "^0.70.0",
     "oxlint": "^1.87.0",
     "oxlint-plugin-react-doctor": "^0.9.14",
+    "storybook": "10.6.6",
     "test-renderer": "^1.3.0",
     "typescript": "~7.0.2",
-    "ultracite": "8.0.2"
+    "ultracite": "8.0.2",
+    "vite": "^7"
   },
   "overrides": {
     "markdown-it": "^15.0.0",

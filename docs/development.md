@@ -222,6 +222,13 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - Never call reanimated at module scope (`Easing.bezier`, `createAnimatedComponent`, `new Keyframe`). Create the value inside the component or hook.
 - Factory mocks that spread `jest.requireActual` need `__esModule: true`. Without it, Babel gives each importer its own namespace copy, so `jest.spyOn` in a test misses calls from `src`.
 
+### Storybook
+
+- Web Storybook for components: `bun storybook`, then open http://localhost:6006. Static build: `bun storybook:build`
+- Stories: `src/**/*.stories.tsx`, next to the component
+- Runs on React Native Web, without the Expo runtime. `expo-router` resolves to [a theme-only stand-in](../.storybook/expo-router.ts)
+- Theme toolbar switches light and dark app colors ([preview](../.storybook/preview.tsx))
+
 ### Build cache
 
 - Shared builds live under `~/.cache/pixy-mood-tracker/build-cache/`. `bun builds list` shows them with app variant and source.
