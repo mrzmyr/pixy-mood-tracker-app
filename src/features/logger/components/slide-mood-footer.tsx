@@ -13,7 +13,7 @@ import MapPin from "lucide-react-native/icons/map-pin";
 import { useEntryTimePicker } from "../hooks/use-entry-time-picker";
 import { useLogDraft } from "../log-draft";
 import { EntryTimeMenu } from "./entry-time-menu";
-import { PILL_HEIGHT, Pill } from "./pill";
+import { PILL_HEIGHT, Pill } from "@/components/pill";
 
 /**
  * Space the floating next/save button takes from the slide content: it
@@ -75,7 +75,7 @@ export const SlideMoodFooter = ({
     location: draft.location,
     isLocating,
   });
-  const iconProps = { width: 18, height: 18, color: colors.logHeaderText };
+  const iconProps = { width: 18, height: 18, color: colors.pillText };
 
   return (
     <View

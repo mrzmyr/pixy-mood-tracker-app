@@ -3,6 +3,7 @@ import { Pressable, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
 import useColors from "@/hooks/use-colors";
 
 /** Height of a pill. Matches the 44pt minimum hit target. */
@@ -19,8 +20,8 @@ const usePillStyle = (): ViewStyle => {
     justifyContent: "center",
     flexShrink: 0,
     paddingVertical: 6,
-    paddingHorizontal: 12,
-    backgroundColor: colors.logHeaderHighlight,
+    paddingHorizontal: SPACE.md,
+    backgroundColor: colors.pillBackground,
     borderRadius: RADIUS.sm,
     borderCurve: "continuous",
   };
@@ -34,7 +35,7 @@ const PillText = ({ label }: { label: string }) => {
       strong
       numberOfLines={1}
       style={{
-        color: colors.logHeaderText,
+        color: colors.pillText,
         flexShrink: 1,
       }}
     >

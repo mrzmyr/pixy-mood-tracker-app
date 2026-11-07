@@ -73,8 +73,9 @@ const light = {
 
   loadingIndicator: colors.neutral[500],
 
-  logHeaderText: colors.neutral[600],
-  logHeaderHighlight: colors.neutral[200],
+  // Pill: rounded button with icon and label (`components/pill.tsx`).
+  pillText: "#7A7A7A",
+  pillBackground: "#F6F6F6",
 
   logBackground: colors.neutral[100],
   logBackgroundTransparent: "rgba(245,245,245, 0)",
@@ -327,8 +328,8 @@ const dark: IColors & {
 
   loadingIndicator: "#fff",
 
-  logHeaderText: colors.neutral[300],
-  logHeaderHighlight: colors.neutral[800],
+  pillText: colors.neutral[400],
+  pillBackground: colors.neutral[800],
 
   logBackground: colors.neutral[900],
   logBackgroundTransparent: "rgba(23, 23, 23, 0)",

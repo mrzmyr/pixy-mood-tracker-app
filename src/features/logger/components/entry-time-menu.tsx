@@ -6,7 +6,7 @@ import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { ENTRY_TIME_MINUTE_INTERVAL, clampToNow } from "../entry-time";
-import { PILL_HEIGHT, Pill } from "./pill";
+import { PILL_HEIGHT, Pill } from "@/components/pill";
 import type { EntryTimeMenuProps } from "./entry-time-menu-types";
 import { getEntryTimeMenuPresets } from "./entry-time-menu-types";
 
@@ -36,7 +36,7 @@ export const EntryTimeMenu = ({
     <View style={{ zIndex: 1 }}>
       <Pill
         testID={testID}
-        icon={<Clock width={18} height={18} color={colors.logHeaderText} />}
+        icon={<Clock width={18} height={18} color={colors.pillText} />}
         label={label}
         accessibilityLabel={label}
         accessibilityHint={t("logger_date_hint")}

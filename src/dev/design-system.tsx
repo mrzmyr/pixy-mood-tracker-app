@@ -1,7 +1,10 @@
 import type { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
+import Clock from "lucide-react-native/icons/clock";
+import MapPin from "lucide-react-native/icons/map-pin";
 import Button from "@/components/button";
 import { InlineAlert } from "@/components/inline-alert";
+import { Pill } from "@/components/pill";
 import type { InlineAlertVariant } from "@/components/inline-alert";
 import MenuListHeadline from "@/components/menu-list-headline";
 import { Copy, Heading, Label } from "@/components/typography";
@@ -36,6 +39,9 @@ const ALERT_VARIANTS = [
   "info",
   "success",
 ] as const satisfies readonly InlineAlertVariant[];
+
+/** Catalog pills have no action. */
+const ignorePress = () => null;
 
 /** Theme colors that act as roles. Component-specific keys are left out. */
 const ROLE_COLORS = [
@@ -163,6 +169,26 @@ export const DevDesignSystemScreen = () => {
           <Button type="primary" style={{ flex: 1 }}>
             primary
           </Button>
+        </View>
+      </Section>
+
+      <Section title="Pill">
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <Pill
+            testID="design-system-pill-label"
+            icon={<Clock width={18} height={18} color={colors.pillText} />}
+            label="Today, 11:20"
+            accessibilityLabel="Today, 11:20"
+            accessibilityHint="Changes the time."
+            onPress={ignorePress}
+          />
+          <Pill
+            testID="design-system-pill-icon"
+            icon={<MapPin width={18} height={18} color={colors.pillText} />}
+            accessibilityLabel="Location"
+            accessibilityHint="Changes the location."
+            onPress={ignorePress}
+          />
         </View>
       </Section>
 

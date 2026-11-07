@@ -10,7 +10,7 @@ import { useState } from "react";
 import Clock from "lucide-react-native/icons/clock";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
-import { Pill } from "./pill";
+import { Pill } from "@/components/pill";
 import type { EntryTimeMenuProps } from "./entry-time-menu-types";
 import { getEntryTimeMenuPresets } from "./entry-time-menu-types";
 import { MATERIAL_SEED_COLOR } from "@/constants/colors";
@@ -49,9 +49,7 @@ export const EntryTimeMenu = ({
           <RNHostView matchContents>
             <Pill
               testID={testID}
-              icon={
-                <Clock width={18} height={18} color={colors.logHeaderText} />
-              }
+              icon={<Clock width={18} height={18} color={colors.pillText} />}
               label={label}
               accessibilityLabel={label}
               accessibilityHint={t("logger_date_hint")}
