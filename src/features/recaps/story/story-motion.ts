@@ -139,3 +139,47 @@ export const shouldCloseStory = ({
   }
   return translationY > screenHeight * CLOSE_DISTANCE_RATIO;
 };
+
+/** A slow release pages after this share of the screen height. */
+const PAGE_DISTANCE_RATIO = 0.15;
+/** Flick speed in points per second that pages on its own. */
+const PAGE_VELOCITY = 500;
+
+/**
+ * Release decision of a vertical swipe on a story, like Instagram Reels:
+ * `1` for the next slide (swipe up), `-1` for the previous one (swipe
+ * down), `0` to stay. A flick along the drag pages, a flick back stays;
+ * a slow release pages after {@link PAGE_DISTANCE_RATIO} of the screen height. Never pages
+ * before the first or after the last slide.
+ */
+export const getPageStep = ({
+  translationY,
+  velocityY,
+  screenHeight,
+  index,
+  count,
+}: {
+  translationY: number;
+  velocityY: number;
+  screenHeight: number;
+  index: number;
+  count: number;
+}): -1 | 0 | 1 => {
+  "worklet";
+  if (translationY === 0) {
+    return 0;
+  }
+  const isUp = translationY < 0;
+  if (Math.abs(velocityY) > PAGE_VELOCITY) {
+    // A flick back against the drag keeps the slide.
+    if (velocityY < 0 !== isUp) {
+      return 0;
+    }
+  } else if (Math.abs(translationY) < screenHeight * PAGE_DISTANCE_RATIO) {
+    return 0;
+  }
+  if (isUp) {
+    return index < count - 1 ? 1 : 0;
+  }
+  return index > 0 ? -1 : 0;
+};

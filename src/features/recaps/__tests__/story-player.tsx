@@ -48,43 +48,40 @@ const renderPlayer = async () => {
   return { onClose, onSlideShown };
 };
 
-/**
- * Short tap at `x` points from the screen's left edge. `locationX` counts
- * from the touched view, here a child that starts 10 points left of the tap.
- */
-const tap = async (x: number) =>
-  await fireEvent.press(screen.getByTestId("recap-story-tap"), {
-    nativeEvent: { pageX: x, locationX: 10 },
-  });
+/** Screen reader buttons move like a swipe up or down. */
+const showNext = async () =>
+  await fireEvent.press(screen.getByLabelText("Next slide"));
+const showPrevious = async () =>
+  await fireEvent.press(screen.getByLabelText("Previous slide"));
 
 describe("story player", () => {
-  test("tap on the right moves to the next slide", async () => {
+  test("next moves to the next slide", async () => {
     const { onSlideShown } = await renderPlayer();
 
-    await tap(300);
+    await showNext();
 
     expect(screen.getByText("Two")).toBeTruthy();
     expect(screen.getByText("bottom 1")).toBeTruthy();
     expect(onSlideShown).toHaveBeenCalledWith(1);
   });
 
-  test("tap on the left goes back, never before the first slide", async () => {
+  test("previous goes back, never before the first slide", async () => {
     const { onSlideShown } = await renderPlayer();
 
-    await tap(300);
-    await tap(40);
-    await tap(40);
+    await showNext();
+    await showPrevious();
+    await showPrevious();
 
     expect(screen.getByText("One")).toBeTruthy();
     expect(onSlideShown.mock.calls).toEqual([[1], [0]]);
   });
 
-  test("tap on the last slide closes the story", async () => {
+  test("next on the last slide closes the story", async () => {
     const { onClose } = await renderPlayer();
 
-    await tap(300);
-    await tap(300);
-    await tap(300);
+    await showNext();
+    await showNext();
+    await showNext();
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });
@@ -97,22 +94,36 @@ describe("story player", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  test("tap to the next slide plays a paused story again", async () => {
+  test("tap on the slide pauses and plays, and stays on the slide", async () => {
+    const { onSlideShown } = await renderPlayer();
+
+    await fireEvent.press(screen.getByTestId("recap-story-tap"));
+
+    expect(screen.getByLabelText("Play")).toBeTruthy();
+    expect(screen.getByText("One")).toBeTruthy();
+
+    await fireEvent.press(screen.getByTestId("recap-story-tap"));
+
+    expect(screen.getByLabelText("Pause")).toBeTruthy();
+    expect(onSlideShown).not.toHaveBeenCalled();
+  });
+
+  test("next plays a paused story again", async () => {
     await renderPlayer();
 
     await fireEvent.press(screen.getByLabelText("Pause"));
-    await tap(300);
+    await showNext();
 
     expect(screen.getByText("Two")).toBeTruthy();
     expect(screen.getByLabelText("Pause")).toBeTruthy();
   });
 
-  test("tap back plays a paused story again", async () => {
+  test("previous plays a paused story again", async () => {
     await renderPlayer();
 
-    await tap(300);
+    await showNext();
     await fireEvent.press(screen.getByLabelText("Pause"));
-    await tap(40);
+    await showPrevious();
 
     expect(screen.getByText("One")).toBeTruthy();
     expect(screen.getByLabelText("Pause")).toBeTruthy();

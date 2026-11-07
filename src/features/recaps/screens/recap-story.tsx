@@ -154,12 +154,15 @@ const RecapStory = () => {
   const [shuffles, setShuffles] = useState(0);
   const { isSharing, share: shareFrame, frame } = useShareFrame();
   const lastShown = useRef(0);
+  // A swipe down closes the story only on the first slide; later it pages back.
+  const [isFirstShown, setIsFirstShown] = useState(true);
   // The best day slide waits for the swipe; once open it stays open.
   const [isBestDayUnlocked, setIsBestDayUnlocked] = useState(false);
   const transition = useStoryTransition({
     origin: parseStoryOrigin(params.origin),
     cardKey: getStoryCardKey({ source, kind, date: period.start }),
     onClosed: () => router.back(),
+    canDrag: isFirstShown,
   });
 
   const ctx: SlideContext = {
@@ -364,6 +367,7 @@ const RecapStory = () => {
           }
           onSlideShown={(index) => {
             lastShown.current = index;
+            setIsFirstShown(index === 0);
             const slide = slideOf(index);
             if (slide) {
               analytics.track("recaps:story_slide_shown", {

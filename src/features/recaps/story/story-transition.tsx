@@ -78,15 +78,19 @@ const dragFrame = (
  * fades. `isOpen` turns true when the open ends; start the timer then.
  * `close` measures the card again (`cardKey`) and calls `onClosed` when
  * the story is gone. A card that left the screen: fade and scale down.
+ * `canDrag` false turns the drag down off, for example while a swipe down
+ * goes to the previous slide.
  */
 export const useStoryTransition = ({
   origin,
   cardKey,
   onClosed,
+  canDrag = true,
 }: {
   origin: Frame | null;
   cardKey: string;
   onClosed: () => void;
+  canDrag?: boolean;
 }) => {
   const { width, height } = useWindowDimensions();
   const isReducedMotion = useReducedMotion();
@@ -193,7 +197,7 @@ export const useStoryTransition = ({
   };
 
   const gesture = usePanGesture({
-    enabled: isOpen,
+    enabled: isOpen && canDrag,
     maxPointers: 1,
     activeOffsetY: AXIS_LOCK_DISTANCE,
     failOffsetY: -AXIS_LOCK_DISTANCE,
