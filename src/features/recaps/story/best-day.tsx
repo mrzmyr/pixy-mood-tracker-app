@@ -26,6 +26,7 @@ import { RADIUS } from "@/constants/radius";
 import { EmotionIndicator, EMOTIONS } from "@/features/logger";
 import { t, tDynamic } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
+import { TapConfetti } from "./tap-confetti";
 import {
   GlassChip,
   Reveal,
@@ -534,11 +535,14 @@ const DayLayout = ({
   content,
   theme,
   isUnlocked,
+  hasSwiped,
   track,
 }: {
   content: NonNullable<ReturnType<typeof getDayContent>>;
   theme: StoryTheme;
   isUnlocked: boolean;
+  /** Unlocked by a swipe on this screen: bursts sky confetti once. */
+  hasSwiped: boolean;
   track: React.ReactNode;
 }) => {
   const { day, photos, people, shownPeople, emotions, tags } = content;
@@ -563,9 +567,17 @@ const DayLayout = ({
     emotionsAt +
     (emotions.length > 0 ? BLOCK_STEP_MS + emotions.length * 120 : 0);
   const glass = getLockedFill(theme);
+  const isReducedMotion = useReducedMotion();
+  const [size, setSize] = useState({ width: 0, height: 0 });
 
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{ flex: 1 }}
+      onLayout={(event) => {
+        const { width, height } = event.nativeEvent.layout;
+        setSize({ width, height });
+      }}
+    >
       <TitleSlot
         question={question}
         title={title}
@@ -710,6 +722,14 @@ const DayLayout = ({
           </Animated.View>
         </Reveal>
       )}
+      {hasSwiped && !isReducedMotion && size.width > 0 && (
+        // From the thumb at the end of its track.
+        <TapConfetti
+          x={size.width - THUMB_INSET - THUMB_SIZE / 2}
+          y={size.height - TRACK_HEIGHT / 2}
+          kind="sky"
+        />
+      )}
     </View>
   );
 };
@@ -731,6 +751,7 @@ export const BestDay = ({
 }) => {
   const theme = getStoryTheme(ctx.isDark);
   const [isUnlockedHere, setIsUnlockedHere] = useState(false);
+  const [hasSwiped, setHasSwiped] = useState(false);
   const isUnlocked = isUnlockedFromParent ?? isUnlockedHere;
   const content = getDayContent(slide, ctx);
   if (!content) {
@@ -741,11 +762,13 @@ export const BestDay = ({
       content={content}
       theme={theme}
       isUnlocked={isUnlocked}
+      hasSwiped={hasSwiped}
       track={
         <SwipeToUnlock
           theme={theme}
           onUnlock={() => {
             setIsUnlockedHere(true);
+            setHasSwiped(true);
             onUnlock?.();
           }}
         />

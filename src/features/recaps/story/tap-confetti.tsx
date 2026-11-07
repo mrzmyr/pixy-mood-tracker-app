@@ -13,10 +13,6 @@ import type { SharedValue } from "react-native-reanimated";
 const FRAME_MS = 1000 / 60;
 /** Frames until a piece is gone. */
 const TICKS = 170;
-const COUNT = 60;
-/** Launch cone around straight up, in degrees. */
-const SPREAD = 70;
-const START_VELOCITY = 32;
 /** Share of velocity kept per frame: air drag. */
 const DECAY = 0.9;
 /** Fall per frame. Constant, so pieces drift down like paper, not stones. */
@@ -24,15 +20,46 @@ const GRAVITY = 1;
 /** Radius of the side-to-side flutter. */
 const WOBBLE = 6;
 
-const COLORS = [
-  "#26CCFF",
-  "#A25AFD",
-  "#FF5E7E",
-  "#88FF5A",
-  "#FCFF42",
-  "#FFA62D",
-  "#FF36FF",
-];
+interface ConfettiKind {
+  count: number;
+  /** Launch cone around straight up, in degrees. */
+  spread: number;
+  velocity: number;
+  /** Piece size range in points. */
+  size: [number, number];
+  /** Every nth piece is a round puff instead of paper. */
+  roundEvery: number;
+  colors: string[];
+}
+
+const PARTY: ConfettiKind = {
+  count: 60,
+  spread: 70,
+  velocity: 32,
+  size: [6, 9],
+  roundEvery: 5,
+  colors: [
+    "#26CCFF",
+    "#A25AFD",
+    "#FF5E7E",
+    "#88FF5A",
+    "#FCFF42",
+    "#FFA62D",
+    "#FF36FF",
+  ],
+};
+
+/** Tiny and calm: cloud puffs and specks in sky, sun, and sunset colors. */
+const SKY: ConfettiKind = {
+  count: 22,
+  spread: 60,
+  velocity: 20,
+  size: [4, 6],
+  roundEvery: 2,
+  colors: ["#8ECDFF", "#BFE3FF", "#FFD66B", "#FFB4A2", "#DDE9F7"],
+};
+
+const KINDS: Record<"party" | "sky", ConfettiKind> = { party: PARTY, sky: SKY };
 
 interface Piece {
   id: number;
@@ -52,14 +79,15 @@ interface Piece {
 
 const between = (min: number, max: number) => min + Math.random() * (max - min);
 
-const makePieces = (): Piece[] =>
-  Array.from({ length: COUNT }, (_, index) => {
-    const size = between(6, 9);
+const makePieces = (kind: ConfettiKind): Piece[] =>
+  Array.from({ length: kind.count }, (_, index) => {
+    const size = between(...kind.size);
     return {
       id: index,
       // Straight up is -90°.
-      angle: ((-90 + between(-SPREAD / 2, SPREAD / 2)) * Math.PI) / 180,
-      velocity: START_VELOCITY * between(0.5, 1),
+      angle:
+        ((-90 + between(-kind.spread / 2, kind.spread / 2)) * Math.PI) / 180,
+      velocity: kind.velocity * between(0.5, 1),
       drift: between(-0.3, 0.3),
       wobble: between(0, Math.PI * 2),
       wobbleSpeed: between(0.05, 0.11),
@@ -68,8 +96,8 @@ const makePieces = (): Piece[] =>
       spin: between(-6, 6),
       width: size,
       height: index % 3 === 0 ? size : size * 0.55,
-      isRound: index % 5 === 0,
-      color: COLORS[index % COLORS.length] ?? "#26CCFF",
+      isRound: index % kind.roundEvery === 0,
+      color: kind.colors[index % kind.colors.length] ?? "#26CCFF",
     };
   });
 
@@ -128,11 +156,19 @@ const ConfettiPiece = ({
  * Confetti burst from `x`, `y`: the point the user tapped. Pieces shoot up
  * in a cone, slow down in the air, flutter, and drift down while they fade.
  * Plays once on mount. Mount a new one per burst. Callers skip it with
- * reduced motion.
+ * reduced motion. `kind` picks the look: party colors by default.
  */
-export const TapConfetti = ({ x, y }: { x: number; y: number }) => {
+export const TapConfetti = ({
+  x,
+  y,
+  kind = "party",
+}: {
+  x: number;
+  y: number;
+  kind?: keyof typeof KINDS;
+}) => {
   // New random pieces per burst.
-  const pieces = useMemo(() => makePieces(), []);
+  const pieces = useMemo(() => makePieces(KINDS[kind]), [kind]);
   const ms = useSharedValue(0);
   useEffect(() => {
     ms.set(
