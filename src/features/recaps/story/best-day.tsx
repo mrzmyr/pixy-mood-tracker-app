@@ -362,9 +362,11 @@ const SwipeToUnlock = ({
         <Animated.View
           style={[
             {
+              // Same inset both sides: centered on the whole track, clear
+              // of the thumb at rest.
               position: "absolute",
               left: THUMB_INSET + THUMB_SIZE,
-              right: THUMB_INSET,
+              right: THUMB_INSET + THUMB_SIZE,
             },
             labelStyle,
           ]}
