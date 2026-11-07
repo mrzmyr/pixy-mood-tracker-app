@@ -33,6 +33,7 @@ Pixy-specific design decisions that a model cannot read from the code. For every
 ## Components
 
 - Errors, warnings, and notices: [`InlineAlert`](src/components/inline-alert.tsx), not colored text or `TextInfo`.
+- Icon button with optional one-line value (time, place) in a bottom row: [`Pill`](src/components/pill.tsx), colors `pillBackground` and `pillText`.
 - Add action in a picker grid: copy [`AddPersonTile`](src/features/logger/slides/slide-people.tsx).
 - Sleep quality of one night: [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx), never own bars or dots.
 - Buttons on the sky or a photo (onboarding, recap stories): primary `Button type="primary"`, secondary `Button type="glass"`. Never a gray `tertiary` there.

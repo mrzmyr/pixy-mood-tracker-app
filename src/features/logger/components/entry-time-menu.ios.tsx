@@ -10,7 +10,7 @@ import Clock from "lucide-react-native/icons/clock";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { EntryTimePreset } from "../entry-time";
-import { PillFace } from "./pill";
+import { PillFace } from "@/components/pill";
 import type { EntryTimeMenuProps } from "./entry-time-menu-types";
 import { getEntryTimeMenuPresets } from "./entry-time-menu-types";
 
@@ -43,9 +43,7 @@ export const EntryTimeMenu = ({
         label={
           <RNHostView matchContents>
             <PillFace
-              icon={
-                <Clock width={18} height={18} color={colors.logHeaderText} />
-              }
+              icon={<Clock width={18} height={18} color={colors.pillText} />}
               label={label}
             />
           </RNHostView>
