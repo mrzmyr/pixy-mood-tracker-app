@@ -962,6 +962,7 @@
   "recaps_story_banner_title_week": "Weekterugblik",
   "recaps_story_best_day_ask": "Klaar om je beste dag te zien?",
   "recaps_story_best_day_show": "Toon je beste dag",
+  "recaps_story_best_day_slide": "Schuif om te ontgrendelen",
   "recaps_story_coming_text": {
     "one": "Er wacht nog 1 pixel op je. Dag voor dag.",
     "other": "Er wachten nog {{count}} pixels op je. Dag voor dag."

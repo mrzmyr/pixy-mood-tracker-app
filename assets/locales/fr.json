@@ -962,6 +962,7 @@
   "recaps_story_banner_title_week": "Bilan de la semaine",
   "recaps_story_best_day_ask": "Prêt à voir ta meilleure journée ?",
   "recaps_story_best_day_show": "Afficher ta meilleure journée",
+  "recaps_story_best_day_slide": "Glisse pour déverrouiller",
   "recaps_story_coming_text": {
     "one": "Encore 1 pixel vous attend. Un jour à la fois.",
     "other": "Encore {{count}} pixels vous attendent. Un jour à la fois."
