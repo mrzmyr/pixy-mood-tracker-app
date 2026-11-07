@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "تسجيل سريع",
   "notification_recap_body": "اكتشف ما برز.",
   "notification_recap_month_title": "ملخصك الشهري جاهز",
-  "notification_recap_week_title": "ملخصك الأسبوعي جاهز",
   "notification_recap_year_title": "ملخصك السنوي جاهز",
   "notification_reminder_body": "انقر هنا لتتبع حالتك المزاجية اليوم.",
   "notification_reminder_title": "تتبع حالتك المزاجية",
@@ -841,20 +840,8 @@
     "other": "في {{count}} أيام، بعد %{weeks} أسابيع من الغياب"
   },
   "recaps_came_back_title_week": "عاد هذا الأسبوع",
-  "recaps_connected_days": {
-    "one": "يوم واحد من التواصل",
-    "other": "{{count}} يومًا من التواصل"
-  },
   "recaps_connected_more": "+%{count} آخرين",
-  "recaps_connected_title": {
-    "one": "تواصلت مع {{count}} أشخاص",
-    "other": "تواصلت مع {{count}} أشخاص"
-  },
-  "recaps_connected_title_one": "تواصلت مع %{name}",
-  "recaps_day_ago_text": "قبل عام: %{date}.",
-  "recaps_day_ago_title": "يوم رائع قبل عام",
   "recaps_day_best_title_month": "كان %{day} أفضل أيامك هذا الشهر",
-  "recaps_day_best_title_week": "كان %{day} أفضل أيامك هذا الأسبوع",
   "recaps_day_hard_text": "كل تسجيل له قيمة، في كل أنواع الأيام.",
   "recaps_day_hard_title": "شكرًا لأنك سجّلت يوم %{day}",
   "recaps_day_see": "عرض هذا اليوم",
@@ -862,15 +849,9 @@
     "one": "يوم واحد",
     "other": "{{count}} أيام"
   },
-  "recaps_emotion_absent_text": {
-    "one": "ظهر في يوم واحد خلال الشهرين السابقين.",
-    "other": "ظهر في {{count}} يومًا خلال الشهرين السابقين."
-  },
-  "recaps_emotion_absent_title": "3 أسابيع دون شعور %{emotion}",
   "recaps_emotion_again_text": "لأول مرة منذ %{date}.",
   "recaps_emotion_again_title": "%{emotion} من جديد",
   "recaps_emotions_back_title_month": "مشاعر عادت هذا الشهر",
-  "recaps_emotions_back_title_week": "مشاعر عادت هذا الأسبوع",
   "recaps_emotions_title": "أكثر المشاعر استخدامًا",
   "recaps_emotions_year_title": "أهم 10 مشاعر",
   "recaps_empty": "لا توجد بطاقات لهذه الفترة بعد. ستظهر كلما سجّلت أيامًا أكثر.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "أضف صورة إلى تسجيلاتك. بعد عام، يمكن أن يبدأ ملخصك بعبارة «في مثل هذا اليوم قبل عام».",
   "recaps_intro_photos_title": "احتفظ بصورة لليوم",
   "recaps_mood_chart_title_month": "المزاج هذا الشهر",
-  "recaps_mood_chart_title_week": "المزاج هذا الأسبوع",
   "recaps_mood_count_title": "{{percent}}٪ من أيامك كانت جيدة",
   "recaps_mood_count_title_mixed": "أيامك حسب المزاج",
   "recaps_most_connected_title_month": "الأكثر تواصلًا هذا الشهر",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "تصل الملخصات الأسبوعية والشهرية والسنوية في آخر يوم من كل أسبوع وشهر وسنة، في وقت التذكير الخاص بك.",
   "recaps_notifications_setting": "الملخصات",
   "recaps_nudge_not_now": "ليس الآن",
-  "recaps_nudge_reminder_action": "ذكّرني في %{time}",
-  "recaps_nudge_reminder_text": "الأيام الكبيرة تبقى في الذاكرة. أما الأيام الجيدة الصغيرة فتتلاشى بحلول الصباح. تسجيل قصير كل مساء يحفظها.",
-  "recaps_nudge_reminder_title": "احتفظ بالأيام الجيدة الهادئة أيضًا",
-  "recaps_open_settings": "فتح الإعدادات",
   "recaps_people_moments_title_month": "الأشخاص هذا الشهر",
-  "recaps_people_moments_title_week": "الأشخاص هذا الأسبوع",
   "recaps_people_mood_text": "مجرد إشارة لا سبب. قد يكون التواصل جيدًا أو صعبًا أو مختلطًا.",
   "recaps_people_mood_title": "المزاج في أيام التواصل",
   "recaps_period_month": "شهر",
   "recaps_period_next": "الفترة التالية",
   "recaps_period_previous": "الفترة السابقة",
-  "recaps_period_week": "أسبوع",
   "recaps_period_year": "سنة",
   "recaps_person_moment_back": {
     "one": "عاد بعد أسبوع واحد",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{count} أيام من التواصل في %{year}",
   "recaps_person_moment_new": "أول تواصل",
   "recaps_places_title_month": "الأماكن هذا الشهر",
-  "recaps_places_title_week": "الأماكن هذا الأسبوع",
   "recaps_places_title_year": "الأماكن هذا العام",
   "recaps_places_trips": {
     "one": "رحلة واحدة بعيدًا عن المنزل.",
     "other": "%{count} رحلات بعيدًا عن المنزل."
   },
-  "recaps_reminder_failed": "لم يُضبط التذكير. تعذّرت جدولة الإشعارات. حاول مجددًا من الإعدادات > التذكير.",
-  "recaps_reminder_set": "تم ضبط التذكير على %{time}",
   "recaps_sleep_chart_title_month": "النوم هذا الشهر",
-  "recaps_sleep_chart_title_week": "النوم هذا الأسبوع",
-  "recaps_sleep_rough_text": "%{count} ليالٍ صعبة متتالية. استرح متى استطعت.",
-  "recaps_sleep_rough_title": "بضع ليالٍ صعبة",
-  "recaps_sleep_turnaround_text": "بعد بضع ليالٍ صعبة في الأسبوع السابق.",
-  "recaps_sleep_turnaround_title": "%{count} ليالٍ جيدة متتالية",
   "recaps_step_turned_on": "أُضيف إلى تسجيلك",
-  "recaps_stood_out_text": "تبدو تلك الأيام عادة أخف عليك.",
-  "recaps_stood_out_title": {
-    "one": "يوم واحد مع %{tag} هذا الأسبوع",
-    "other": "{{count}} أيام مع %{tag} هذا الأسبوع"
-  },
   "recaps_story_banner_label_month": "ملخص الشهر",
   "recaps_story_banner_title": "ملخص %{month}",
-  "recaps_story_banner_title_week": "ملخص الأسبوع",
   "recaps_story_best_day_ask": "هل أنت مستعد لرؤية أفضل يوم لك؟",
   "recaps_story_best_day_show": "اعرض أفضل يوم لك",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "الأيام التي خصصت فيها وقتًا لنفسك: {{count}}. افخر بذلك."
   },
   "recaps_story_cover_note_full": "لكل يوم من %{month} بكسل خاص به. هذا إنجاز حقيقي.",
-  "recaps_story_cover_note_full_week": "لكل يوم من هذا الأسبوع بكسل خاص به. هذا إنجاز حقيقي.",
   "recaps_story_cover_pixels_title": "بكسل في %{month}",
-  "recaps_story_cover_pixels_title_week": "البكسلات هذا الأسبوع",
-  "recaps_story_cover_title_week": "خذ لحظة.\nهذا كان أسبوعك.",
   "recaps_story_days": {
     "one": "يوم واحد",
     "other": "الأيام: {{count}}"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "مداري",
   "recaps_story_share_shuffle": "خلط الصور",
   "recaps_story_share_title": "شهري: %{month}",
-  "recaps_story_share_title_week": "أسبوعي",
   "recaps_story_sleep_ask": {
     "one": "كانت ليلة واحدة صعبة. نلقي نظرة أقرب؟",
     "other": "كانت {{count}} ليالٍ صعبة. نلقي نظرة أقرب؟"

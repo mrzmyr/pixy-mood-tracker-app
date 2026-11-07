@@ -74,32 +74,6 @@ describe("one day", () => {
       })
     ).toEqual([]);
   });
-
-  test("looks back a year in week recaps, extremely good days only", () => {
-    const yearAgo = { date: "2025-10-07", rating: "extremely_good" as const };
-
-    expect(
-      summaries("day-recap", {
-        items: [yearAgo, { date: mon, rating: "good" }],
-      })
-    ).toEqual([{ type: "day-recap", mode: "ago", date: "2025-10-07" }]);
-    expect(
-      summaries("day-recap", {
-        items: [
-          { ...yearAgo, rating: "very_good" },
-          { date: mon, rating: "good" },
-        ],
-      })
-    ).toEqual([]);
-    expect(
-      summaries("day-recap", {
-        kind: "month",
-        date: "2026-10-01",
-        today: "2026-11-02",
-        items: [yearAgo, { date: mon, rating: "good" }],
-      })
-    ).toEqual([]);
-  });
 });
 
 describe("your emotions", () => {
@@ -133,138 +107,36 @@ describe("your emotions", () => {
 describe("people", () => {
   const lena = { id: "lena" };
   const sam = { id: "sam" };
+  const items = [
+    { date: mon, people: [lena, sam] },
+    { date: "2026-10-06", people: [lena] },
+  ];
 
-  test("lists everyone connected with their top 2 emotions", () => {
-    expect(
-      summaries("connected", {
-        items: [
-          { date: mon, people: [lena], emotions: ["calm", "worried"] },
-          { date: "2026-10-06", people: [lena], emotions: ["calm"] },
-          { date: "2026-10-07", people: [sam], emotions: [] },
-        ],
-      })
-    ).toEqual([
-      {
-        type: "connected",
-        people: [
-          { personId: "lena", days: 2, emotions: ["calm", "worried"] },
-          { personId: "sam", days: 1, emotions: [] },
-        ],
-      },
-    ]);
-  });
-
-  test("tells in the row who is back, so the week has one people card", () => {
-    const cards = summaries("connected", {
-      items: [
-        { date: "2026-09-01", people: [sam] },
-        { date: mon, people: [lena, sam] },
-      ],
-    });
-
-    expect(cards).toEqual([
-      {
-        type: "connected",
-        people: [
-          { personId: "lena", days: 1, emotions: [] },
-          {
-            personId: "sam",
-            days: 1,
-            emotions: [],
-            moment: {
-              kind: "back",
-              personId: "sam",
-              lastDate: "2026-09-01",
-              weeks: 5,
-            },
-          },
-        ],
-      },
-    ]);
-  });
-
-  test("shows no people card with the People step off or nobody", () => {
-    expect(
-      summaries("connected", {
-        items: [{ date: mon, people: [lena] }],
-        steps: ["rating"],
-      })
-    ).toEqual([]);
-    expect(summaries("connected", { items: [{ date: mon }] })).toEqual([]);
-  });
-
-  test("lists people in week recaps only; longer ones show the podium", () => {
-    const items = [
-      { date: mon, people: [lena, sam] },
-      { date: "2026-10-06", people: [lena] },
-    ];
-    const month = {
-      kind: "month" as const,
-      date: "2026-10-01",
-      today: "2026-11-02",
-    };
-
-    expect(summaries("connected", { items })).toHaveLength(1);
-    expect(summaries("connected", { ...month, items })).toEqual([]);
-  });
-
-  test("leaves deleted people out, also from the podium count", () => {
-    const month = {
-      kind: "month" as const,
-      date: "2026-10-01",
-      today: "2026-11-02",
-    };
-    const items = [
-      { date: mon, people: [lena, sam] },
-      { date: "2026-10-06", people: [lena] },
-    ];
-
-    expect(summaries("connected", { items, personIds: ["sam"] })).toEqual([
-      {
-        type: "connected",
-        people: [{ personId: "sam", days: 1, emotions: [] }],
-      },
-    ]);
-    expect(
-      summaries("most-connected", { ...month, items, personIds: ["sam"] })
-    ).toEqual([]);
-  });
-
-  test("podium needs 2 people and a month or longer", () => {
-    const month = {
-      kind: "month" as const,
-      date: "2026-10-01",
-      today: "2026-11-02",
-    };
-
-    expect(
-      summaries("most-connected", {
-        ...month,
-        items: [
-          { date: mon, people: [lena, sam] },
-          { date: "2026-10-06", people: [lena] },
-        ],
-      })
-    ).toEqual([
+  test("podium lists the most connected people from 2 people on", () => {
+    expect(summaries("most-connected", { items })).toEqual([
       {
         type: "most-connected",
         people: [
-          { personId: "lena", days: 2, emotions: [] },
-          { personId: "sam", days: 1, emotions: [] },
+          { personId: "lena", days: 2 },
+          { personId: "sam", days: 1 },
         ],
       },
     ]);
     expect(
-      summaries("most-connected", {
-        ...month,
-        items: [{ date: mon, people: [lena] }],
-      })
+      summaries("most-connected", { items: [{ date: mon, people: [lena] }] })
     ).toEqual([]);
-    expect(
-      summaries("most-connected", {
-        items: [{ date: mon, people: [lena, sam] }],
-      })
-    ).toEqual([]);
+  });
+
+  test("leaves deleted people out of the podium count", () => {
+    expect(summaries("most-connected", { items, personIds: ["sam"] })).toEqual(
+      []
+    );
+  });
+
+  test("shows no podium with the People step off", () => {
+    expect(summaries("most-connected", { items, steps: ["rating"] })).toEqual(
+      []
+    );
   });
 });
 
@@ -379,9 +251,6 @@ describe("places", () => {
     expect(
       summaries("places", {
         ...month,
-        kind: "week",
-        date: "2026-10-05",
-        today: "2026-10-12",
         items: [
           ...home,
           { date: "2026-10-05", location: berlin },

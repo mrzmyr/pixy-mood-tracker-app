@@ -34,7 +34,7 @@ const items: LogItem[] = Array.from({ length: CHECK_IN_DAYS }, (_, index) => {
 });
 
 /**
- * Data that shows every recap nudge in the week recap: 3 check-in days,
+ * Data that shows every recap nudge in the month recap: 3 check-in days,
  * reminder off, Emotions, People, and Photos steps off, and 34 tags in
  * General. People and Photos nudges also need their flags on.
  */

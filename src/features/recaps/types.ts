@@ -20,7 +20,7 @@ export type CardFamily = "moment" | "summary" | "pattern" | "change" | "nudge";
 export type Signal = "strong" | "medium";
 
 /** Length of a recap. Each kind maps to calendar boundaries. */
-export type PeriodKind = "week" | "month" | "year";
+export type PeriodKind = "month" | "year";
 
 /** `YYYY-MM-DD`, as in `LogItem.date`. */
 export type DateKey = string;
@@ -63,7 +63,6 @@ export interface RecapInput {
 
 /** Card that offers to turn a feature on. */
 export type NudgeCard =
-  | { type: "nudge-reminder" }
   | { type: "intro-emotions" }
   | { type: "intro-people" }
   | { type: "intro-photos" };
@@ -94,23 +93,18 @@ export interface TagBack {
 export type MomentCard =
   | {
       type: "emotion-again";
-      periodKind: PeriodKind;
       /** Longest break first. One emotion shows as its own title. */
       emotions: EmotionBack[];
     }
-  | { type: "emotion-absent"; emotion: string; countBefore: number }
-  | { type: "people-moments"; periodKind: PeriodKind; people: PersonMoment[] }
+  | { type: "people-moments"; people: PersonMoment[] }
   | { type: "first-city"; city: string; district: string | null; date: DateKey }
   | {
       type: "tag-back";
-      periodKind: PeriodKind;
       /** One tag shows as its own title. */
       tags: TagBack[];
-    }
-  | { type: "sleep-turnaround"; nights: DateKey[]; week: SleepNight[] }
-  | { type: "sleep-rough"; nights: DateKey[]; week: SleepNight[] };
+    };
 
-/** Night of the recap week: sleep 0 (very bad) to 4 (very good), or `null`. */
+/** Night of the period: sleep 0 (very bad) to 4 (very good), or `null`. */
 export interface SleepNight {
   date: DateKey;
   sleep: number | null;
@@ -122,13 +116,10 @@ export interface EmotionCount {
   days: number;
 }
 
-/** Person, connected days in the period, and their top emotions then. */
+/** Person and connected days in the period. */
 export interface ConnectedPerson {
   personId: string;
   days: number;
-  emotions: string[];
-  /** Back, new, or a milestone in this period. Week recaps only. */
-  moment?: PersonMoment;
 }
 
 /** Days away from home in one city, gaps of up to 2 days allowed. */
@@ -165,7 +156,7 @@ export interface TagCount {
 
 /** Describes the period: a day, mood, emotions, tags, people, places. No causes. */
 export type SummaryCard =
-  | { type: "day-recap"; mode: "best" | "ago" | "hard"; date: DateKey }
+  | { type: "day-recap"; mode: "best" | "hard"; date: DateKey }
   | { type: "mood-chart"; days: MoodDay[] }
   /** Worst to best. `goodShare`: days at good or better, 0 to 1. */
   | { type: "mood-count"; counts: RatingCount[]; goodShare: number }
@@ -178,7 +169,6 @@ export type SummaryCard =
   /** First days of the months. `hardest` is `null` with one month only. */
   | { type: "best-month"; best: DateKey; hardest: DateKey | null }
   | { type: "emotions"; counts: EmotionCount[] }
-  | { type: "connected"; people: ConnectedPerson[] }
   | { type: "most-connected"; people: ConnectedPerson[] }
   | { type: "places"; trips: Trip[]; spots: Spot[] };
 
@@ -193,7 +183,6 @@ export interface EffectRow {
 
 /** A driver goes with an outcome over enough days. Never a cause. */
 export type PatternCard =
-  | { type: "stood-out"; tagId: string; days: number }
   | {
       type: "what-moves";
       tags: EffectRow[];

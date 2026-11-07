@@ -1,26 +1,13 @@
 import { CARD_TYPES } from "./card-types";
+import { introEmotions, introPeople, introPhotos } from "./cards/nudges";
 import {
-  introEmotions,
-  introPeople,
-  introPhotos,
-  nudgeReminder,
-} from "./cards/nudges";
-import {
-  emotionAbsent,
   emotionAgain,
   firstCity,
   personMoments,
-  sleepMoments,
   tagBack,
 } from "./cards/moments";
-import {
-  connected,
-  dayRecap,
-  emotions,
-  mostConnected,
-  places,
-} from "./cards/summaries";
-import { peopleMood, stoodOut, whatMoves } from "./cards/patterns";
+import { dayRecap, emotions, mostConnected, places } from "./cards/summaries";
+import { peopleMood, whatMoves } from "./cards/patterns";
 import {
   bestMonth,
   moodChart,
@@ -41,9 +28,7 @@ const RULES: Rule[] = [
   personMoments,
   emotionAgain,
   firstCity,
-  emotionAbsent,
   tagBack,
-  sleepMoments,
   dayRecap,
   yearPixels,
   bestMonth,
@@ -55,15 +40,12 @@ const RULES: Rule[] = [
   tagDays,
   sleepChart,
   mostConnected,
-  connected,
   places,
-  stoodOut,
   whatMoves,
   peopleMood,
   trendTags,
   trendPeople,
   trendLocation,
-  nudgeReminder,
   introEmotions,
   introPeople,
   introPhotos,

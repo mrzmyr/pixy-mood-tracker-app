@@ -23,7 +23,7 @@ export interface RecapTap {
 
 const RecapDataSchema = z.object({
   type: z.literal(RECAP_NOTIFICATION_TYPE),
-  kind: z.enum(["week", "month", "year"]),
+  kind: z.enum(["month", "year"]),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/u),
 });
 

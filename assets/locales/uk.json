@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Швидкий запис",
   "notification_recap_body": "Подивіться, що вирізнялося.",
   "notification_recap_month_title": "Ваші підсумки місяця готові",
-  "notification_recap_week_title": "Ваші підсумки тижня готові",
   "notification_recap_year_title": "Ваші підсумки року готові",
   "notification_reminder_body": "Торкніться тут, щоб відстежувати свій сьогоднішній настрій.",
   "notification_reminder_title": "Слідкуйте за своїм настроєм",
@@ -841,20 +840,8 @@
     "other": "Днів: {{count}}, після %{weeks} тиж. без нього"
   },
   "recaps_came_back_title_week": "Повернулося цього тижня",
-  "recaps_connected_days": {
-    "one": "1 день на зв’язку",
-    "other": "{{count}} дн. на зв’язку"
-  },
   "recaps_connected_more": "+ще %{count}",
-  "recaps_connected_title": {
-    "one": "Ви були на зв’язку з {{count}} людьми",
-    "other": "Ви були на зв’язку з {{count}} людьми"
-  },
-  "recaps_connected_title_one": "Ви були на зв’язку: %{name}",
-  "recaps_day_ago_text": "Рік тому: %{date}.",
-  "recaps_day_ago_title": "Чудовий день рік тому",
   "recaps_day_best_title_month": "%{day}: найкращий день місяця",
-  "recaps_day_best_title_week": "%{day}: найкращий день тижня",
   "recaps_day_hard_text": "Кожна відмітка важлива, яким би не був день.",
   "recaps_day_hard_title": "Дякуємо за відмітку: %{day}",
   "recaps_day_see": "Відкрити цей день",
@@ -862,15 +849,9 @@
     "one": "1 день",
     "other": "{{count}} дн."
   },
-  "recaps_emotion_absent_text": {
-    "one": "Це було в один день за два місяці до цього.",
-    "other": "Це було в {{count}} дн. за два місяці до цього."
-  },
-  "recaps_emotion_absent_title": "3 тижні без почуття «%{emotion}»",
   "recaps_emotion_again_text": "Уперше з %{date}.",
   "recaps_emotion_again_title": "Знову %{emotion}",
   "recaps_emotions_back_title_month": "Емоції, що повернулися цього місяця",
-  "recaps_emotions_back_title_week": "Емоції, що повернулися цього тижня",
   "recaps_emotions_title": "Найчастіші емоції",
   "recaps_emotions_year_title": "Топ-10 емоцій",
   "recaps_empty": "Для цього періоду ще немає карток. Вони з’являться, коли відміток стане більше.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Додавайте фото до відміток. Через рік ваші підсумки зможуть почати з «Рівно рік тому».",
   "recaps_intro_photos_title": "Зберігайте фото дня",
   "recaps_mood_chart_title_month": "Настрій цього місяця",
-  "recaps_mood_chart_title_week": "Настрій цього тижня",
   "recaps_mood_count_title": "{{percent}}% ваших днів були добрими",
   "recaps_mood_count_title_mixed": "Ваші дні за настроєм",
   "recaps_most_connected_title_month": "Найбільше на зв’язку цього місяця",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Підсумки тижня, місяця й року надходять в останній день кожного тижня, місяця й року, у час вашого нагадування.",
   "recaps_notifications_setting": "Підсумки",
   "recaps_nudge_not_now": "Не зараз",
-  "recaps_nudge_reminder_action": "Нагадати о %{time}",
-  "recaps_nudge_reminder_text": "Великі дні лишаються в пам’яті. Маленькі добрі дні забуваються до ранку. Коротка відмітка щовечора збереже їх.",
-  "recaps_nudge_reminder_title": "Зберігайте й тихі добрі дні",
-  "recaps_open_settings": "Відкрити Налаштування",
   "recaps_people_moments_title_month": "Люди цього місяця",
-  "recaps_people_moments_title_week": "Люди цього тижня",
   "recaps_people_mood_text": "Підказка, а не причина. Зв’язок може відчуватися добрим, важким чи змішаним.",
   "recaps_people_mood_title": "Настрій у дні на зв’язку",
   "recaps_period_month": "Місяць",
   "recaps_period_next": "Наступний період",
   "recaps_period_previous": "Попередній період",
-  "recaps_period_week": "Тиждень",
   "recaps_period_year": "Рік",
   "recaps_person_moment_back": {
     "one": "Знову на зв’язку через 1 тиждень",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "Днів на зв’язку в %{year}: %{count}",
   "recaps_person_moment_new": "Перший зв’язок",
   "recaps_places_title_month": "Місця цього місяця",
-  "recaps_places_title_week": "Місця цього тижня",
   "recaps_places_title_year": "Місця цього року",
   "recaps_places_trips": {
     "one": "1 поїздка поза домом.",
     "other": "Поїздок поза домом: %{count}."
   },
-  "recaps_reminder_failed": "Нагадування не ввімкнено. Не вдалося запланувати сповіщення. Спробуйте ще раз у Налаштування > Нагадування.",
-  "recaps_reminder_set": "Нагадування о %{time}",
   "recaps_sleep_chart_title_month": "Сон цього місяця",
-  "recaps_sleep_chart_title_week": "Сон цього тижня",
-  "recaps_sleep_rough_text": "%{count} важкі ночі поспіль. Відпочивайте, коли можете.",
-  "recaps_sleep_rough_title": "Кілька важких ночей",
-  "recaps_sleep_turnaround_text": "Після кількох важких ночей минулого тижня.",
-  "recaps_sleep_turnaround_title": "%{count} добрі ночі поспіль",
   "recaps_step_turned_on": "Додано до відмітки",
-  "recaps_stood_out_text": "Такі дні зазвичай відчуваються легшими.",
-  "recaps_stood_out_title": {
-    "one": "1 день з %{tag} цього тижня",
-    "other": "Днів з %{tag} цього тижня: {{count}}"
-  },
   "recaps_story_banner_label_month": "Підсумки місяця",
   "recaps_story_banner_title": "Підсумки: %{month}",
-  "recaps_story_banner_title_week": "Підсумки тижня",
   "recaps_story_best_day_ask": "Готовий побачити свій найкращий день?",
   "recaps_story_best_day_show": "Показати найкращий день",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "Днів, коли Ви знаходили час для себе: {{count}}. Цим можна пишатися."
   },
   "recaps_story_cover_note_full": "У кожного дня (%{month}) є свій піксель. Це справжнє досягнення.",
-  "recaps_story_cover_note_full_week": "У кожного дня цього тижня є свій піксель. Це справжнє досягнення.",
   "recaps_story_cover_pixels_title": "%{month} у пікселях",
-  "recaps_story_cover_pixels_title_week": "Пікселі цього тижня",
-  "recaps_story_cover_title_week": "Зупиніться на мить.\nЦе був ваш тиждень.",
   "recaps_story_days": {
     "one": "1 день",
     "other": "Днів: {{count}}"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Моя орбіта",
   "recaps_story_share_shuffle": "Перемішати фото",
   "recaps_story_share_title": "Мій %{month}",
-  "recaps_story_share_title_week": "Мій тиждень",
   "recaps_story_sleep_ask": {
     "one": "1 ніч була важкою. Подивитися уважніше?",
     "other": "Важких ночей: {{count}}. Подивитися уважніше?"

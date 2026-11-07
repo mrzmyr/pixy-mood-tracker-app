@@ -14,7 +14,7 @@ import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { StorySource } from "@/state/analytics/events";
 import type { Period } from "../types";
-import { dayRange, monthName } from "./format";
+import { monthName } from "./format";
 import { NightSparkle } from "./night-sparkle";
 import { RunningBorder } from "./running-border";
 import {
@@ -81,8 +81,7 @@ const MilkWash = ({ isDark }: { isDark: boolean }) => (
  * "Month Recap" over the month name on a drifting sky, with the recap card
  * border and shadow. The two year digits sit large and faint behind the
  * title, and a soft light creeps around the edge. Opens the month story full
- * screen. Week recaps open the week story the same way. The story grows out
- * of this card and shrinks back into it.
+ * screen. The story grows out of this card and shrinks back into it.
  */
 export const StoryBanner = ({
   period,
@@ -98,22 +97,13 @@ export const StoryBanner = ({
   const colors = useColors();
   const isDark = useColorScheme() === "dark";
   const speed = useSharedValue(SKY_DRIFT_SPEED);
-  const isWeek = period.kind === "week";
-  const label = isWeek
-    ? t("recaps_story_banner_title_week")
-    : t("recaps_story_banner_label_month");
-  const title = isWeek
-    ? dayRange(period.start, period.end)
-    : monthName(period.start);
+  const label = t("recaps_story_banner_label_month");
+  const title = monthName(period.start);
   // Deep sky navy by day, not black; white by night. Solid: AA contrast
   // on the lightest cloud.
   const ink = isDark ? "rgba(255,255,255,0.92)" : "#0F2A4A";
   const card = useRef<View>(null);
-  const cardKey = getStoryCardKey({
-    source,
-    kind: isWeek ? "week" : "month",
-    date: period.start,
-  });
+  const cardKey = getStoryCardKey({ source, date: period.start });
   useEffect(() => registerStoryCard(cardKey, card.current), [cardKey]);
   return (
     <Pressable
@@ -127,7 +117,6 @@ export const StoryBanner = ({
           params: {
             date: period.start,
             source,
-            ...(isWeek && { kind: "week" }),
             ...(origin && { origin: formatStoryOrigin(origin) }),
           },
         });
@@ -253,7 +242,7 @@ export const StoryBanner = ({
         )}
       </View>
       <Heading
-        size={isWeek ? 24 : 40}
+        size={40}
         numberOfLines={1}
         adjustsFontSizeToFit
         style={{ color: ink, fontWeight: "800", letterSpacing: -1 }}

@@ -6,7 +6,6 @@ import type {
   RecapNotificationScheduler,
 } from "@/features/notifications";
 import { useToday } from "@/hooks/use-today";
-import { useWeekLocale } from "@/hooks/use-week-locale";
 import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
@@ -20,7 +19,6 @@ import { getRecapNotifications } from "./recap-notifications";
 import type { RecapNotificationKind } from "./recap-notifications";
 
 const TITLES: Record<RecapNotificationKind, TranslationKey> = {
-  week: "notification_recap_week_title",
   month: "notification_recap_month_title",
   year: "notification_recap_year_title",
 };
@@ -28,14 +26,12 @@ const TITLES: Record<RecapNotificationKind, TranslationKey> = {
 /** Recap notification requests from `now`, with text in the app language. */
 export const getRecapRequests = ({
   now,
-  weekLocale,
   reminderTime,
 }: {
   now: Date;
-  weekLocale: string;
   reminderTime: string;
 }): RecapNotificationRequest[] =>
-  getRecapNotifications({ now, weekLocale, reminderTime }).map(
+  getRecapNotifications({ now, reminderTime }).map(
     ({ kind, periodEnd, at }) => ({
       at,
       title: t(TITLES[kind]),
@@ -58,13 +54,13 @@ const reportScheduleError = (cause: unknown) => {
 /**
  * Keeps scheduled recap notifications in line with settings.
  *
- * - On, with flag `recaps` on: schedules the last day of the coming weeks,
- *   months, and year at the reminder time
+ * - On, with flag `recaps` on: schedules the last day of the coming month
+ *   and year at the reminder time
  * - Off, or flag `recaps` off: cancels recap notifications. Reminders stay
  * - A failed flag request keeps the schedule: it reads off without PostHog
  *   turning the flag off
- * - Reschedules when the setting, the reminder time, or the week start
- *   changes, and on a new day (`useToday`)
+ * - Reschedules when the setting or the reminder time changes, and on a
+ *   new day (`useToday`)
  * - Waits for stored settings and flags; never touches the schedule on a
  *   failed read
  */
@@ -78,7 +74,6 @@ export const useRecapNotificationSync = (
   const flagSource = useFeatureFlagSource("recaps");
   // Only an override or a loaded PostHog flag may turn recaps off.
   const isFlagUnknown = hasFlagLoadFailed && flagSource === "remote";
-  const weekLocale = useWeekLocale();
   const today = useToday();
 
   const { recapNotificationsEnabled, reminderTime } = settings;
@@ -95,7 +90,7 @@ export const useRecapNotificationSync = (
       try {
         await (isOn
           ? scheduler.replace(
-              getRecapRequests({ now: new Date(), weekLocale, reminderTime })
+              getRecapRequests({ now: new Date(), reminderTime })
             )
           : scheduler.cancelAll());
       } catch (error) {
@@ -109,8 +104,7 @@ export const useRecapNotificationSync = (
     isFlagUnknown,
     recapNotificationsEnabled,
     reminderTime,
-    weekLocale,
-    // oxlint-disable-next-line react/exhaustive-effect-dependencies -- a new day reschedules, so the schedule keeps its weeks ahead.
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies -- a new day reschedules, so the schedule keeps its periods ahead.
     today,
     scheduler,
   ]);

@@ -1,19 +1,11 @@
-import { getPlaygroundFixtures, toPlaygroundData } from "@/dev/playground-data";
+import { getPlaygroundFixture, toPlaygroundData } from "@/dev/playground-data";
 import { getPlaygroundPages } from "../story/playground-pages";
 
-/** Pages of `deck` from the playground fixtures, none without them. */
+/** Pages of `deck` from the playground fixture, none without it. */
 const pagesOf = (deck: string) => {
-  const fixtures = getPlaygroundFixtures("en");
-  return fixtures
-    ? getPlaygroundPages(
-        deck,
-        {
-          month: toPlaygroundData(fixtures.month),
-          week: toPlaygroundData(fixtures.week),
-        },
-        false,
-        "en"
-      )
+  const fixture = getPlaygroundFixture();
+  return fixture
+    ? getPlaygroundPages(deck, toPlaygroundData(fixture), false)
     : [];
 };
 
@@ -46,8 +38,7 @@ describe("recap story playground", () => {
     }
   });
 
-  test("the fixtures still make a week and a month story", () => {
-    expect(pagesOf("week").length).toBeGreaterThan(3);
+  test("the fixture still makes a month story", () => {
     expect(pagesOf("month").length).toBeGreaterThan(3);
   });
 });

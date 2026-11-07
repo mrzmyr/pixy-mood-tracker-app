@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Rask innsjekking",
   "notification_recap_body": "Se hva som skilte seg ut.",
   "notification_recap_month_title": "Månedens tilbakeblikk er her",
-  "notification_recap_week_title": "Ukens tilbakeblikk er her",
   "notification_recap_year_title": "Årets tilbakeblikk er her",
   "notification_reminder_body": "Trykk her for å spore dagens humør.",
   "notification_reminder_title": "Spor humøret ditt",
@@ -841,20 +840,8 @@
     "other": "På {{count}} dager, etter %{weeks} uker uten"
   },
   "recaps_came_back_title_week": "Tilbake denne uken",
-  "recaps_connected_days": {
-    "one": "1 dag i kontakt",
-    "other": "{{count}} dager i kontakt"
-  },
   "recaps_connected_more": "+%{count} til",
-  "recaps_connected_title": {
-    "one": "Du var i kontakt med {{count}} personer",
-    "other": "Du var i kontakt med {{count}} personer"
-  },
-  "recaps_connected_title_one": "Du var i kontakt med %{name}",
-  "recaps_day_ago_text": "For ett år siden: %{date}.",
-  "recaps_day_ago_title": "En fin dag for ett år siden",
   "recaps_day_best_title_month": "%{day} var din beste dag denne måneden",
-  "recaps_day_best_title_week": "%{day} var din beste dag denne uken",
   "recaps_day_hard_text": "Hver innsjekking teller, uansett hva slags dag.",
   "recaps_day_hard_title": "Takk for at du sjekket inn %{day}",
   "recaps_day_see": "Se denne dagen",
@@ -862,15 +849,9 @@
     "one": "1 dag",
     "other": "{{count}} dager"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Det dukket opp én dag i de to månedene før.",
-    "other": "Det dukket opp {{count}} dager i de to månedene før."
-  },
-  "recaps_emotion_absent_title": "3 uker uten å føle deg %{emotion}",
   "recaps_emotion_again_text": "For første gang siden %{date}.",
   "recaps_emotion_again_title": "%{emotion} igjen",
   "recaps_emotions_back_title_month": "Følelser tilbake denne måneden",
-  "recaps_emotions_back_title_week": "Følelser tilbake denne uken",
   "recaps_emotions_title": "Mest brukte følelser",
   "recaps_emotions_year_title": "Topp 10 følelser",
   "recaps_empty": "Ingen kort for denne perioden ennå. De dukker opp når du sjekker inn flere dager.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Legg til et bilde i innsjekkinger. Om et år kan tilbakeblikket ditt starte med «I dag for ett år siden».",
   "recaps_intro_photos_title": "Ta vare på et bilde fra dagen",
   "recaps_mood_chart_title_month": "Humør denne måneden",
-  "recaps_mood_chart_title_week": "Humør denne uken",
   "recaps_mood_count_title": "{{percent}} % av dagene dine føltes gode",
   "recaps_mood_count_title_mixed": "Dagene dine etter humør",
   "recaps_most_connected_title_month": "Mest i kontakt denne måneden",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Ukentlige, månedlige og årlige tilbakeblikk kommer den siste dagen i hver uke, måned og år, på påminnelsestidspunktet ditt.",
   "recaps_notifications_setting": "Tilbakeblikk",
   "recaps_nudge_not_now": "Ikke nå",
-  "recaps_nudge_reminder_action": "Påminn meg kl. %{time}",
-  "recaps_nudge_reminder_text": "Store dager blir i minnet. Små gode dager blekner til neste morgen. En kort innsjekking hver kveld tar vare på dem.",
-  "recaps_nudge_reminder_title": "Ta vare på de stille gode dagene også",
-  "recaps_open_settings": "Åpne Innstillinger",
   "recaps_people_moments_title_month": "Personer denne måneden",
-  "recaps_people_moments_title_week": "Personer denne uken",
   "recaps_people_mood_text": "Et hint, ikke en årsak. Kontakt kan føles god, tung eller blandet.",
   "recaps_people_mood_title": "Humør på dager i kontakt",
   "recaps_period_month": "Måned",
   "recaps_period_next": "Neste periode",
   "recaps_period_previous": "Forrige periode",
-  "recaps_period_week": "Uke",
   "recaps_period_year": "År",
   "recaps_person_moment_back": {
     "one": "Tilbake etter 1 uke",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{count} dager i kontakt i %{year}",
   "recaps_person_moment_new": "Første kontakt",
   "recaps_places_title_month": "Steder denne måneden",
-  "recaps_places_title_week": "Steder denne uken",
   "recaps_places_title_year": "Steder i år",
   "recaps_places_trips": {
     "one": "1 tur hjemmefra.",
     "other": "%{count} turer hjemmefra."
   },
-  "recaps_reminder_failed": "Påminnelsen er ikke stilt inn. Varsler kunne ikke planlegges. Prøv igjen under Innstillinger > Påminnelse.",
-  "recaps_reminder_set": "Påminnelse kl. %{time}",
   "recaps_sleep_chart_title_month": "Søvn denne måneden",
-  "recaps_sleep_chart_title_week": "Søvn denne uken",
-  "recaps_sleep_rough_text": "%{count} tunge netter på rad. Hvil når du kan.",
-  "recaps_sleep_rough_title": "Noen tunge netter",
-  "recaps_sleep_turnaround_text": "Etter noen tunge netter uken før.",
-  "recaps_sleep_turnaround_title": "%{count} gode netter på rad",
   "recaps_step_turned_on": "Lagt til i innsjekkingen",
-  "recaps_stood_out_text": "De dagene føles vanligvis lettere for deg.",
-  "recaps_stood_out_title": {
-    "one": "1 dag med %{tag} denne uken",
-    "other": "{{count}} dager med %{tag} denne uken"
-  },
   "recaps_story_banner_label_month": "Månedens tilbakeblikk",
   "recaps_story_banner_title": "Tilbakeblikk: %{month}",
-  "recaps_story_banner_title_week": "Ukens tilbakeblikk",
   "recaps_story_best_day_ask": "Klar til å se din beste dag?",
   "recaps_story_best_day_show": "Vis din beste dag",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "På {{count}} dager tok du deg tid til deg selv. Vær stolt av det."
   },
   "recaps_story_cover_note_full": "Hver dag i %{month} har sin piksel. Det er en ekte prestasjon.",
-  "recaps_story_cover_note_full_week": "Hver dag denne uken har sin piksel. Det er en ekte prestasjon.",
   "recaps_story_cover_pixels_title": "piksler i %{month}",
-  "recaps_story_cover_pixels_title_week": "Piksler denne uken",
-  "recaps_story_cover_title_week": "Ta deg et øyeblikk.\nDette er uken din.",
   "recaps_story_days": {
     "one": "1 dag",
     "other": "{{count}} dager"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Min bane",
   "recaps_story_share_shuffle": "Stokk bildene",
   "recaps_story_share_title": "Min %{month}",
-  "recaps_story_share_title_week": "Min uke",
   "recaps_story_sleep_ask": {
     "one": "1 natt var urolig. Se nærmere?",
     "other": "{{count}} netter var urolige. Se nærmere?"

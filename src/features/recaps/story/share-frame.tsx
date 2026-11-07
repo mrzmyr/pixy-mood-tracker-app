@@ -10,7 +10,7 @@ import useColors from "@/hooks/use-colors";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 import type { Period } from "../types";
-import { dayRange, monthName, monthYear, weekdayDay } from "./format";
+import { monthName, monthYear, weekdayDay } from "./format";
 import { firstName, ORBIT_SIZE, placePlanets } from "./orbit-layout";
 import { MonthGrid, Pixel, TagDot, useDayColors } from "./parts";
 import { ImageGateContext } from "./image-gate";
@@ -483,11 +483,8 @@ const FrameBestDay = ({
   );
 };
 
-/** Month and year, "October 2026"; a week reads "Oct 26 – Nov 1". */
-const periodLabel = (period: Period) =>
-  period.kind === "week"
-    ? dayRange(period.start, period.end)
-    : monthYear(period.start);
+/** Month and year, "October 2026". */
+const periodLabel = (period: Period) => monthYear(period.start);
 
 const headingOf = (slide: StorySlide, period: Period) => {
   switch (slide.type) {
@@ -513,9 +510,7 @@ const headingOf = (slide: StorySlide, period: Period) => {
       return t("recaps_story_share_heading_best");
     }
     default: {
-      return period.kind === "week"
-        ? t("recaps_story_share_title_week")
-        : t("recaps_story_share_title", { month: monthName(period.start) });
+      return t("recaps_story_share_title", { month: monthName(period.start) });
     }
   }
 };

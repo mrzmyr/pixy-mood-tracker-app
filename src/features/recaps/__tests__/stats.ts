@@ -30,19 +30,19 @@ const cardsOf = <T extends RecapCard["type"]>(
 describe("mood chart", () => {
   test("has a bar per day up to today, gaps as null", () => {
     const [card] = cardsOf("mood-chart", {
-      date: mon,
-      today: "2026-10-09",
+      date: oct,
+      today: "2026-10-05",
       items: [
-        ...run(mon, 3, { rating: "good" }),
-        { date: "2026-10-09", rating: "extremely_bad" },
+        ...run(oct, 3, { rating: "good" }),
+        { date: "2026-10-05", rating: "extremely_bad" },
       ],
     });
     expect(card?.days).toEqual([
-      { date: "2026-10-05", rating: 4 },
-      { date: "2026-10-06", rating: 4 },
-      { date: "2026-10-07", rating: 4 },
-      { date: "2026-10-08", rating: null },
-      { date: "2026-10-09", rating: 0 },
+      { date: "2026-10-01", rating: 4 },
+      { date: "2026-10-02", rating: 4 },
+      { date: "2026-10-03", rating: 4 },
+      { date: "2026-10-04", rating: null },
+      { date: "2026-10-05", rating: 0 },
     ]);
   });
 
@@ -70,12 +70,6 @@ describe("mood count", () => {
       0, 0, 4, 0, 0, 7, 0,
     ]);
     expect(card?.goodShare).toBeCloseTo(7 / 11);
-  });
-
-  test("stays out of week recaps", () => {
-    expect(cardsOf("mood-count", { date: mon, items: run(mon, 7) })).toEqual(
-      []
-    );
   });
 });
 
@@ -142,21 +136,6 @@ describe("sleep chart", () => {
       })
     ).toEqual([]);
   });
-
-  test("skips a week that already has a sleep moment", () => {
-    const weekBefore = run(addDays(mon, -7), 7, sleep("very_bad"));
-    const week = run(mon, 4, sleep("very_good"));
-    const types = buildCards(
-      makeInput({
-        date: mon,
-        today: "2026-10-11",
-        steps: [...SLEEP_STEPS],
-        items: [...weekBefore, ...week],
-      })
-    ).map((card) => card.type);
-    expect(types).toContain("sleep-turnaround");
-    expect(types).not.toContain("sleep-chart");
-  });
 });
 
 const tagged = (id: string, from: string, count: number) =>
@@ -200,15 +179,6 @@ describe("tags", () => {
       ["tag-1", 8],
       ["tag-2", 7],
     ]);
-  });
-
-  test("tag days: 3+ days in a week", () => {
-    expect(
-      cardsOf("tag-days", { date: mon, tags, items: tagged("tag-0", mon, 3) })
-    ).toHaveLength(1);
-    expect(
-      cardsOf("tag-days", { date: mon, tags, items: tagged("tag-0", mon, 2) })
-    ).toEqual([]);
   });
 });
 

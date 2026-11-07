@@ -1,7 +1,5 @@
-import dayjs from "dayjs";
 import { daysBetween, getDayRating } from "../days";
 import { distanceKm, parsePlace } from "../places";
-import { getPersonMoments } from "./moments";
 import { THRESHOLDS } from "../thresholds";
 import type {
   ConnectedPerson,
@@ -24,8 +22,7 @@ const emotionsOf = (day: RecapDay) =>
 /**
  * One day told like the day view. Best day: an extremely good day, the one
  * with most emotions and entries. Without one, the hardest day at bad or
- * worse, told with care. Week recaps also look back a year, to an
- * extremely good day only.
+ * worse, told with care.
  */
 export const dayRecap = (input: RecapInput): SummaryCard[] => {
   const cards: SummaryCard[] = [];
@@ -45,18 +42,6 @@ export const dayRecap = (input: RecapInput): SummaryCard[] => {
     cards.push({ type: "day-recap", mode: "best", date: best.date });
   } else if (hardest && getDayRating(hardest) <= HARDER_DAY_MAX) {
     cards.push({ type: "day-recap", mode: "hard", date: hardest.date });
-  }
-  if (input.period.kind === "week") {
-    const from = dayjs(input.period.start)
-      .subtract(1, "year")
-      .format("YYYY-MM-DD");
-    const to = dayjs(input.period.end).subtract(1, "year").format("YYYY-MM-DD");
-    const yearAgo = input.history.findLast(
-      (day) => day.date >= from && day.date <= to && hasExtremelyGood(day)
-    );
-    if (yearAgo) {
-      cards.push({ type: "day-recap", mode: "ago", date: yearAgo.date });
-    }
   }
   return cards;
 };
@@ -86,8 +71,8 @@ export const emotions = (input: RecapInput): SummaryCard[] => {
 };
 
 /**
- * People of the period by connected days, with their top 2 emotions on
- * those days. Deleted people stay out. One pass over the days.
+ * People of the period by connected days. Deleted people stay out. One
+ * pass over the days.
  */
 const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
   const daysByPerson = new Map<string, RecapDay[]>();
@@ -107,37 +92,13 @@ const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
     }
   }
   return [...daysByPerson.entries()]
-    .map(([personId, days]) => ({
-      personId,
-      days: days.length,
-      emotions: countEmotions(days)
-        .slice(0, 2)
-        .map((count) => count.emotion),
-    }))
+    .map(([personId, days]) => ({ personId, days: days.length }))
     .sort((a, b) => b.days - a.days);
 };
 
 /** People step on and available. */
 export const peopleOn = (input: RecapInput) =>
   input.steps.has("people") && input.availableSteps.has("people");
-
-/**
- * Everyone connected in the period, most connected first. Each row carries
- * the person's moment (back, new, milestone), if any.
- */
-export const connected = (input: RecapInput): SummaryCard[] => {
-  if (!peopleOn(input)) {
-    return [];
-  }
-  const moments = new Map(
-    getPersonMoments(input).map((moment) => [moment.personId, moment])
-  );
-  const people = connectedPeople(input).map((person) => {
-    const moment = moments.get(person.personId);
-    return moment ? { ...person, moment } : person;
-  });
-  return people.length > 0 ? [{ type: "connected", people }] : [];
-};
 
 /** Top 3 people by connected days, from 2 people on. */
 export const mostConnected = (input: RecapInput): SummaryCard[] => {

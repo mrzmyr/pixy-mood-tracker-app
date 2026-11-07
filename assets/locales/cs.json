@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Rychlý záznam",
   "notification_recap_body": "Podívejte se, co vyniklo.",
   "notification_recap_month_title": "Vaše měsíční ohlédnutí je tady",
-  "notification_recap_week_title": "Vaše týdenní ohlédnutí je tady",
   "notification_recap_year_title": "Vaše roční ohlédnutí je tady",
   "notification_reminder_body": "Klepnutím sem můžete sledovat svou dnešní náladu.",
   "notification_reminder_title": "Sledujte svou náladu",
@@ -841,20 +840,8 @@
     "other": "V {{count}} dnech, po %{weeks} týdnech bez"
   },
   "recaps_came_back_title_week": "Zpět tento týden",
-  "recaps_connected_days": {
-    "one": "1 den v kontaktu",
-    "other": "{{count}} dní v kontaktu"
-  },
   "recaps_connected_more": "+%{count} další",
-  "recaps_connected_title": {
-    "one": "Byl jsi v kontaktu s {{count}} lidmi",
-    "other": "Byl jsi v kontaktu s {{count}} lidmi"
-  },
-  "recaps_connected_title_one": "Byl jsi v kontaktu s: %{name}",
-  "recaps_day_ago_text": "Před rokem: %{date}.",
-  "recaps_day_ago_title": "Skvělý den před rokem",
   "recaps_day_best_title_month": "%{day}: tvůj nejlepší den měsíce",
-  "recaps_day_best_title_week": "%{day}: tvůj nejlepší den týdne",
   "recaps_day_hard_text": "Každý záznam se počítá, ať je den jakýkoli.",
   "recaps_day_hard_title": "Díky, že ses zapsal(a) v %{day}",
   "recaps_day_see": "Zobrazit tento den",
@@ -862,15 +849,9 @@
     "one": "1 den",
     "other": "{{count}} dní"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Objevilo se jeden den v předchozích dvou měsících.",
-    "other": "Objevilo se {{count}} dní v předchozích dvou měsících."
-  },
-  "recaps_emotion_absent_title": "3 týdny bez emoce: %{emotion}",
   "recaps_emotion_again_text": "Poprvé od %{date}.",
   "recaps_emotion_again_title": "Zase %{emotion}",
   "recaps_emotions_back_title_month": "Emoce zpět tento měsíc",
-  "recaps_emotions_back_title_week": "Emoce zpět tento týden",
   "recaps_emotions_title": "Nejčastější emoce",
   "recaps_emotions_year_title": "10 hlavních emocí",
   "recaps_empty": "Pro toto období zatím nejsou žádné karty. Objeví se, až zapíšeš víc dní.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Přidávej fotku k záznamům. Za rok může tvé ohlédnutí začít slovy „Dnes před rokem“.",
   "recaps_intro_photos_title": "Uchovej si fotku dne",
   "recaps_mood_chart_title_month": "Nálada tento měsíc",
-  "recaps_mood_chart_title_week": "Nálada tento týden",
   "recaps_mood_count_title": "{{percent}} % tvých dní bylo dobrých",
   "recaps_mood_count_title_mixed": "Tvoje dny podle nálady",
   "recaps_most_connected_title_month": "Nejvíc v kontaktu tento měsíc",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Týdenní, měsíční a roční ohlédnutí přijdou poslední den každého týdne, měsíce a roku, v čase vaší připomínky.",
   "recaps_notifications_setting": "Ohlédnutí",
   "recaps_nudge_not_now": "Teď ne",
-  "recaps_nudge_reminder_action": "Připomenout v %{time}",
-  "recaps_nudge_reminder_text": "Velké dny zůstávají v paměti. Malé dobré dny do rána vyblednou. Krátký záznam každý večer je uchová.",
-  "recaps_nudge_reminder_title": "Uchovej si i klidné dobré dny",
-  "recaps_open_settings": "Otevřít Nastavení",
   "recaps_people_moments_title_month": "Lidé tento měsíc",
-  "recaps_people_moments_title_week": "Lidé tento týden",
   "recaps_people_mood_text": "Náznak, ne příčina. Kontakt může být dobrý, těžký nebo smíšený.",
   "recaps_people_mood_title": "Nálada ve dnech kontaktu",
   "recaps_period_month": "Měsíc",
   "recaps_period_next": "Další období",
   "recaps_period_previous": "Předchozí období",
-  "recaps_period_week": "Týden",
   "recaps_period_year": "Rok",
   "recaps_person_moment_back": {
     "one": "Zpět po 1 týdnu",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "Dny v kontaktu v roce %{year}: %{count}",
   "recaps_person_moment_new": "První kontakt",
   "recaps_places_title_month": "Místa tento měsíc",
-  "recaps_places_title_week": "Místa tento týden",
   "recaps_places_title_year": "Místa letos",
   "recaps_places_trips": {
     "one": "1 výlet mimo domov.",
     "other": "Výlety mimo domov: %{count}."
   },
-  "recaps_reminder_failed": "Připomenutí není nastavené. Oznámení se nepodařilo naplánovat. Zkus to znovu v Nastavení > Připomenutí.",
-  "recaps_reminder_set": "Připomenutí v %{time}",
   "recaps_sleep_chart_title_month": "Spánek tento měsíc",
-  "recaps_sleep_chart_title_week": "Spánek tento týden",
-  "recaps_sleep_rough_text": "%{count} těžké noci za sebou. Odpočiň si, když můžeš.",
-  "recaps_sleep_rough_title": "Pár těžkých nocí",
-  "recaps_sleep_turnaround_text": "Po pár těžkých nocích týden předtím.",
-  "recaps_sleep_turnaround_title": "%{count} dobré noci za sebou",
   "recaps_step_turned_on": "Přidáno k záznamu",
-  "recaps_stood_out_text": "Takové dny pro tebe bývají lehčí.",
-  "recaps_stood_out_title": {
-    "one": "1 den s %{tag} tento týden",
-    "other": "{{count}} dní s %{tag} tento týden"
-  },
   "recaps_story_banner_label_month": "Ohlédnutí za měsícem",
   "recaps_story_banner_title": "Ohlédnutí: %{month}",
-  "recaps_story_banner_title_week": "Ohlédnutí za týdnem",
   "recaps_story_best_day_ask": "Chceš vidět svůj nejlepší den?",
   "recaps_story_best_day_show": "Zobrazit nejlepší den",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "Dny, kdy sis udělal čas sám pro sebe: {{count}}. Buď na to hrdý."
   },
   "recaps_story_cover_note_full": "Každý den (%{month}) má svůj pixel. To je skutečný úspěch.",
-  "recaps_story_cover_note_full_week": "Každý den tohoto týdne má svůj pixel. To je skutečný úspěch.",
   "recaps_story_cover_pixels_title": "%{month} v pixelech",
-  "recaps_story_cover_pixels_title_week": "Pixely tento týden",
-  "recaps_story_cover_title_week": "Zastav se na chvíli.\nTohle byl tvůj týden.",
   "recaps_story_days": {
     "one": "1 den",
     "other": "Dní: {{count}}"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Moje oběžná dráha",
   "recaps_story_share_shuffle": "Zamíchat fotky",
   "recaps_story_share_title": "Můj %{month}",
-  "recaps_story_share_title_week": "Můj týden",
   "recaps_story_sleep_ask": {
     "one": "1 noc byla těžká. Podívat se blíž?",
     "other": "Těžké noci: {{count}}. Podívat se blíž?"

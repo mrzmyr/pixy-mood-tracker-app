@@ -1,11 +1,9 @@
 import { RECAP_NOTIFICATION_SLOTS } from "@/features/notifications";
-import { getWeekLocale } from "@/lib/translation";
 import { getRecapNotifications } from "../recap-notifications";
-import { WEEK_LOCALE } from "./utils";
 
 const ends = (
   notifications: ReturnType<typeof getRecapNotifications>,
-  kind: "week" | "month" | "year"
+  kind: "month" | "year"
 ) =>
   notifications.flatMap((notification) =>
     notification.kind === kind ? [notification.periodEnd] : []
@@ -15,42 +13,9 @@ describe("getRecapNotifications", () => {
   // Wednesday 2026-10-07, 12:00 local.
   const now = new Date(2026, 9, 7, 12, 0);
 
-  test("ends weeks on Sunday when weeks start on Monday", () => {
-    const notifications = getRecapNotifications({
-      now,
-      weekLocale: WEEK_LOCALE,
-      reminderTime: "20:00",
-      weeks: 4,
-    });
-
-    expect(ends(notifications, "week")).toEqual([
-      "2026-10-11",
-      "2026-10-18",
-      "2026-10-25",
-      "2026-11-01",
-    ]);
-  });
-
-  test("ends weeks on Saturday when weeks start on Sunday", () => {
-    const notifications = getRecapNotifications({
-      now,
-      weekLocale: getWeekLocale({ weekStart: 0 }),
-      reminderTime: "20:00",
-      weeks: 4,
-    });
-
-    expect(ends(notifications, "week")).toEqual([
-      "2026-10-10",
-      "2026-10-17",
-      "2026-10-24",
-      // 2026-10-31 also ends the month: the month notification covers it.
-    ]);
-  });
-
   test("ends months on their last day, February included", () => {
     const notifications = getRecapNotifications({
       now: new Date(2027, 0, 15, 12, 0),
-      weekLocale: WEEK_LOCALE,
       reminderTime: "20:00",
       months: 4,
     });
@@ -66,7 +31,6 @@ describe("getRecapNotifications", () => {
   test("ends years on December 31", () => {
     const notifications = getRecapNotifications({
       now,
-      weekLocale: WEEK_LOCALE,
       reminderTime: "20:00",
       years: 2,
     });
@@ -77,14 +41,13 @@ describe("getRecapNotifications", () => {
   test("sends at the reminder time, sorted by time", () => {
     const notifications = getRecapNotifications({
       now,
-      weekLocale: WEEK_LOCALE,
       reminderTime: "08:30",
     });
 
     expect(notifications[0]).toEqual({
-      kind: "week",
-      periodEnd: "2026-10-11",
-      at: new Date(2026, 9, 11, 8, 30),
+      kind: "month",
+      periodEnd: "2026-10-31",
+      at: new Date(2026, 9, 31, 8, 30),
     });
     const times = notifications.map(({ at }) => at.getTime());
     expect(times).toEqual([...times].sort((a, b) => a - b));
@@ -93,7 +56,6 @@ describe("getRecapNotifications", () => {
   test("includes today's period end while its time is still ahead", () => {
     const notifications = getRecapNotifications({
       now: new Date(2026, 9, 31, 19, 59),
-      weekLocale: WEEK_LOCALE,
       reminderTime: "20:00",
     });
 
@@ -103,7 +65,6 @@ describe("getRecapNotifications", () => {
   test("skips today's period end once its time passed", () => {
     const notifications = getRecapNotifications({
       now: new Date(2026, 9, 31, 20, 0),
-      weekLocale: WEEK_LOCALE,
       reminderTime: "20:00",
       months: 3,
     });
@@ -114,39 +75,29 @@ describe("getRecapNotifications", () => {
   });
 
   test("sends one notification per day: the biggest period wins", () => {
-    // 2026-05-31 is a Sunday and the last day of May.
     const notifications = getRecapNotifications({
-      now: new Date(2026, 4, 25, 12, 0),
-      weekLocale: WEEK_LOCALE,
+      now: new Date(2026, 11, 15, 12, 0),
       reminderTime: "20:00",
     });
 
     expect(
       notifications
-        .filter((notification) => notification.periodEnd === "2026-05-31")
+        .filter((notification) => notification.periodEnd === "2026-12-31")
         .map((notification) => notification.kind)
-    ).toEqual(["month"]);
-    expect(
-      notifications.some(
-        (notification) =>
-          notification.kind === "week" &&
-          notification.periodEnd === "2026-06-07"
-      )
-    ).toBe(true);
+    ).toEqual(["year"]);
   });
 
   test("schedules nothing for a reminder time that is not HH:mm", () => {
     expect(
       getRecapNotifications({
         now,
-        weekLocale: WEEK_LOCALE,
         reminderTime: "evening",
       })
     ).toEqual([]);
   });
 
   test("defaults fit the recap share of the iOS notification limit", () => {
-    // Mid-month, month end on a Sunday, last week of the year, New Year's Eve after the time.
+    // Mid-month, end of May, last week of the year, New Year's Eve after the time.
     const dates = [
       now,
       new Date(2026, 4, 25, 12, 0),
@@ -157,7 +108,6 @@ describe("getRecapNotifications", () => {
       expect(
         getRecapNotifications({
           now: date,
-          weekLocale: WEEK_LOCALE,
           reminderTime: "20:00",
         }).length
       ).toBeLessThanOrEqual(RECAP_NOTIFICATION_SLOTS);

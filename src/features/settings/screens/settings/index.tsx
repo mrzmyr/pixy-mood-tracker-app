@@ -185,7 +185,7 @@ export const SettingsScreen = () => {
                 icon={SETTINGS_ICONS.recaps}
                 kind="push"
                 onPress={() =>
-                  router.push(`/recaps/week/${dayjs().format(DATE_FORMAT)}`)
+                  router.push(`/recaps/month/${dayjs().format(DATE_FORMAT)}`)
                 }
                 testID="recaps"
               />

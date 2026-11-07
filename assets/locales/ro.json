@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Înregistrare rapidă",
   "notification_recap_body": "Vezi ce s-a remarcat.",
   "notification_recap_month_title": "Retrospectiva ta lunară e gata",
-  "notification_recap_week_title": "Retrospectiva ta săptămânală e gata",
   "notification_recap_year_title": "Retrospectiva ta anuală e gata",
   "notification_reminder_body": "Atingeți aici pentru a vă urmări starea de spirit de astăzi.",
   "notification_reminder_title": "Urmăriți-vă starea de spirit",
@@ -841,20 +840,8 @@
     "other": "În {{count}} zile, după %{weeks} săptămâni fără"
   },
   "recaps_came_back_title_week": "Revenite săptămâna aceasta",
-  "recaps_connected_days": {
-    "one": "1 zi în legătură",
-    "other": "{{count}} zile în legătură"
-  },
   "recaps_connected_more": "+%{count} în plus",
-  "recaps_connected_title": {
-    "one": "Ai fost în legătură cu {{count}} persoane",
-    "other": "Ai fost în legătură cu {{count}} persoane"
-  },
-  "recaps_connected_title_one": "Ai fost în legătură cu %{name}",
-  "recaps_day_ago_text": "Acum un an: %{date}.",
-  "recaps_day_ago_title": "O zi minunată, acum un an",
   "recaps_day_best_title_month": "%{day} a fost cea mai bună zi a lunii",
-  "recaps_day_best_title_week": "%{day} a fost cea mai bună zi a săptămânii",
   "recaps_day_hard_text": "Fiecare înregistrare contează, în orice fel de zi.",
   "recaps_day_hard_title": "Mulțumim pentru înregistrarea din %{day}",
   "recaps_day_see": "Vezi această zi",
@@ -862,15 +849,9 @@
     "one": "1 zi",
     "other": "{{count}} zile"
   },
-  "recaps_emotion_absent_text": {
-    "one": "A apărut într-o zi în cele două luni dinainte.",
-    "other": "A apărut în {{count}} zile în cele două luni dinainte."
-  },
-  "recaps_emotion_absent_title": "3 săptămâni fără să te simți %{emotion}",
   "recaps_emotion_again_text": "Pentru prima dată din %{date}.",
   "recaps_emotion_again_title": "Din nou %{emotion}",
   "recaps_emotions_back_title_month": "Emoții revenite luna aceasta",
-  "recaps_emotions_back_title_week": "Emoții revenite săptămâna aceasta",
   "recaps_emotions_title": "Emoțiile cele mai folosite",
   "recaps_emotions_year_title": "Primele 10 emoții",
   "recaps_empty": "Încă nu există carduri pentru această perioadă. Apar pe măsură ce înregistrezi mai multe zile.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Adaugă o fotografie în înregistrări. Peste un an, retrospectiva ta poate începe cu „Acum un an, azi”.",
   "recaps_intro_photos_title": "Păstrează o fotografie a zilei",
   "recaps_mood_chart_title_month": "Starea luna aceasta",
-  "recaps_mood_chart_title_week": "Starea săptămâna aceasta",
   "recaps_mood_count_title": "{{percent}}% din zilele tale au fost bune",
   "recaps_mood_count_title_mixed": "Zilele tale după stare",
   "recaps_most_connected_title_month": "Cel mai mult în legătură luna aceasta",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Retrospectivele săptămânale, lunare și anuale sosesc în ultima zi a fiecărei săptămâni, luni și an, la ora mementoului tău.",
   "recaps_notifications_setting": "Retrospective",
   "recaps_nudge_not_now": "Nu acum",
-  "recaps_nudge_reminder_action": "Amintește-mi la %{time}",
-  "recaps_nudge_reminder_text": "Zilele mari rămân în memorie. Zilele mici și bune se estompează până dimineața. O înregistrare scurtă în fiecare seară le păstrează.",
-  "recaps_nudge_reminder_title": "Păstrează și zilele bune și liniștite",
-  "recaps_open_settings": "Deschide Setări",
   "recaps_people_moments_title_month": "Persoane luna aceasta",
-  "recaps_people_moments_title_week": "Persoane săptămâna aceasta",
   "recaps_people_mood_text": "Un indiciu, nu o cauză. O legătură poate fi bună, grea sau amestecată.",
   "recaps_people_mood_title": "Starea în zilele în legătură",
   "recaps_period_month": "Lună",
   "recaps_period_next": "Perioada următoare",
   "recaps_period_previous": "Perioada anterioară",
-  "recaps_period_week": "Săptămână",
   "recaps_period_year": "An",
   "recaps_person_moment_back": {
     "one": "Din nou după 1 săptămână",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{count} zile în legătură în %{year}",
   "recaps_person_moment_new": "Prima legătură",
   "recaps_places_title_month": "Locuri luna aceasta",
-  "recaps_places_title_week": "Locuri săptămâna aceasta",
   "recaps_places_title_year": "Locuri anul acesta",
   "recaps_places_trips": {
     "one": "1 drum departe de casă.",
     "other": "%{count} drumuri departe de casă."
   },
-  "recaps_reminder_failed": "Mementoul nu a fost setat. Notificările nu au putut fi programate. Încearcă din nou din Setări > Memento.",
-  "recaps_reminder_set": "Memento la %{time}",
   "recaps_sleep_chart_title_month": "Somnul luna aceasta",
-  "recaps_sleep_chart_title_week": "Somnul săptămâna aceasta",
-  "recaps_sleep_rough_text": "%{count} nopți grele la rând. Odihnește-te când poți.",
-  "recaps_sleep_rough_title": "Câteva nopți grele",
-  "recaps_sleep_turnaround_text": "După câteva nopți grele săptămâna dinainte.",
-  "recaps_sleep_turnaround_title": "%{count} nopți bune la rând",
   "recaps_step_turned_on": "Adăugat în înregistrare",
-  "recaps_stood_out_text": "Acele zile ți se par de obicei mai ușoare.",
-  "recaps_stood_out_title": {
-    "one": "1 zi cu %{tag} săptămâna aceasta",
-    "other": "{{count}} zile cu %{tag} săptămâna aceasta"
-  },
   "recaps_story_banner_label_month": "Retrospectiva lunii",
   "recaps_story_banner_title": "Retrospectiva lunii %{month}",
-  "recaps_story_banner_title_week": "Retrospectiva săptămânii",
   "recaps_story_best_day_ask": "Ești gata să vezi cea mai bună zi a ta?",
   "recaps_story_best_day_show": "Arată cea mai bună zi a ta",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "Zile în care ți-ai făcut timp pentru tine: {{count}}. Fii mândru de asta."
   },
   "recaps_story_cover_note_full": "Fiecare zi din %{month} are pixelul ei. Este o reușită adevărată.",
-  "recaps_story_cover_note_full_week": "Fiecare zi din această săptămână are pixelul ei. Este o reușită adevărată.",
   "recaps_story_cover_pixels_title": "pixeli în %{month}",
-  "recaps_story_cover_pixels_title_week": "Pixelii săptămânii",
-  "recaps_story_cover_title_week": "Ia-ți un moment.\nAceasta a fost săptămâna ta.",
   "recaps_story_days": {
     "one": "1 zi",
     "other": "{{count}} zile"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Orbita mea",
   "recaps_story_share_shuffle": "Amestecă fotografiile",
   "recaps_story_share_title": "Luna mea: %{month}",
-  "recaps_story_share_title_week": "Săptămâna mea",
   "recaps_story_sleep_ask": {
     "one": "1 noapte a fost grea. Te uiți mai atent?",
     "other": "{{count}} nopți au fost grele. Te uiți mai atent?"

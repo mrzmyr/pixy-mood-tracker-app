@@ -24,8 +24,7 @@ import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { useScrollBottomPadding } from "@/hooks/use-scroll-bottom-padding";
-import { useWeekLocale } from "@/hooks/use-week-locale";
-import { getLocale, t } from "@/lib/translation";
+import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
@@ -51,14 +50,13 @@ import { getPeriod, shiftPeriod } from "../period";
 import type { Period, PeriodKind, RecapCard } from "../types";
 import { useNudgeActions } from "../use-nudge-actions";
 import { useRecapInput } from "../use-recap-input";
-import { buildMonthStory, buildWeekStory } from "../story/deck";
+import { buildMonthStory } from "../story/deck";
 import type { StorySlide } from "../story/types";
 import { StoryBanner } from "../story/story-banner";
 import { isMostlyVisible } from "../visibility";
 import type { Span } from "../visibility";
 
 const KINDS: { kind: PeriodKind; label: TranslationKey }[] = [
-  { kind: "week", label: "recaps_period_week" },
   { kind: "month", label: "recaps_period_month" },
   { kind: "year", label: "recaps_period_year" },
 ];
@@ -71,17 +69,7 @@ const isDateKey = (value: unknown): value is string =>
   /^\d{4}-\d{2}-\d{2}$/u.test(value) &&
   dayjs(value).isValid();
 
-/** Day and month in the phone locale; the end of a range adds the year. */
-const formatRangeDay = (date: string, withYear: boolean) =>
-  new Intl.DateTimeFormat(getLocale(), {
-    day: "numeric",
-    month: "short",
-    year: withYear ? "numeric" : undefined,
-  }).format(dayjs(date).toDate());
-
 const PERIOD_LABELS: Record<PeriodKind, (period: Period) => string> = {
-  week: ({ start, end }) =>
-    `${formatRangeDay(start, false)} – ${formatRangeDay(end, true)}`,
   month: ({ start }) => dayjs(start).format("MMMM YYYY"),
   year: ({ start }) => dayjs(start).format("YYYY"),
 };
@@ -103,7 +91,7 @@ const cardKey = (card: RecapCard, period: Period) =>
   `${period.kind}:${period.start}:${getCardId(card)}`;
 
 /**
- * Recap cards of one week, month, or year. Period kind and date
+ * Recap cards of one month or year. Period kind and date
  * live in route params. Each card counts as shown once per screen visit,
  * when half of it is on screen.
  */
@@ -112,15 +100,10 @@ const Recaps = () => {
   const paddingBottom = useScrollBottomPadding(16);
   const router = useRouter();
   const analytics = useAnalytics();
-  const weekLocale = useWeekLocale();
   const params = useLocalSearchParams<{ kind?: string; date?: string }>();
   const today = dayjs().format("YYYY-MM-DD");
-  const kind = isPeriodKind(params.kind) ? params.kind : "week";
-  const period = getPeriod(
-    kind,
-    isDateKey(params.date) ? params.date : today,
-    weekLocale
-  );
+  const kind = isPeriodKind(params.kind) ? params.kind : "month";
+  const period = getPeriod(kind, isDateKey(params.date) ? params.date : today);
   const isCurrent = period.end >= today;
 
   const input = useRecapInput(period);
@@ -131,12 +114,8 @@ const Recaps = () => {
   const cards = buildCards(input).filter(
     (card) => !hidden.has(cardKey(card, period))
   );
-  let story: StorySlide[] | null = null;
-  if (period.kind === "month") {
-    story = buildMonthStory(input);
-  } else if (period.kind === "week") {
-    story = buildWeekStory(input);
-  }
+  const story: StorySlide[] | null =
+    period.kind === "month" ? buildMonthStory(input) : null;
 
   const nudge = useNudgeActions(period);
   const feedbackChannel = useFeedback();
@@ -236,7 +215,6 @@ const Recaps = () => {
         <NudgeCard
           key={key}
           card={card}
-          reminderTime={nudge.reminderTime}
           onLayout={onCardLayout(key)}
           onTurnOn={() => nudge.turnOn(card)}
           onNotNow={() => {
@@ -344,7 +322,7 @@ const Recaps = () => {
           accessibilityRole="button"
           accessibilityLabel={t("recaps_period_previous")}
           hitSlop={12}
-          onPress={() => setPeriod(shiftPeriod(period, -1, weekLocale))}
+          onPress={() => setPeriod(shiftPeriod(period, -1))}
           testID="recaps-period-previous"
         >
           <ChevronLeft width={24} height={24} color={colors.text} />
@@ -362,7 +340,7 @@ const Recaps = () => {
           accessibilityState={{ disabled: isCurrent }}
           disabled={isCurrent}
           hitSlop={12}
-          onPress={() => setPeriod(shiftPeriod(period, 1, weekLocale))}
+          onPress={() => setPeriod(shiftPeriod(period, 1))}
           testID="recaps-period-next"
           style={{ opacity: isCurrent ? 0.3 : 1 }}
         >
