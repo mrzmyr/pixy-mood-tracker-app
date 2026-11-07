@@ -143,11 +143,11 @@ export interface SettingsState {
    */
   quickCheckInSchedule: QuickCheckInSchedule;
   /**
-   * Folded state of check-in section cards the user toggled: `true`
-   * collapsed. Keys missing use the section default. Layout taste of this
+   * Quick check-in sections the user folded (`true`) or opened (`false`),
+   * by section. Missing sections use their default. Layout taste of this
    * device, so imports keep it.
    */
-  sectionCollapse: Record<string, boolean>;
+  quickCheckInCollapsed: Record<string, boolean>;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -183,7 +183,7 @@ export type ExportSettings = Omit<
   | "profileAvatar"
   | "quickCheckInEnabled"
   | "quickCheckInSchedule"
-  | "sectionCollapse"
+  | "quickCheckInCollapsed"
 >;
 
 interface IAction {
@@ -237,7 +237,7 @@ const reducer = (
     }
     // Analytics consent, the feedback id, store review prompt state, photo library access,
     // theme, location, calendar layout, app lock, recap notifications, the
-    // profile, collapsed sections, and Apple Health belong to this device, so imports keep the
+    // profile, quick check-in sections, and Apple Health belong to this device, so imports keep the
     // current values.
     case "import": {
       return {
@@ -260,7 +260,7 @@ const reducer = (
         profileAvatar: state.profileAvatar,
         quickCheckInEnabled: state.quickCheckInEnabled,
         quickCheckInSchedule: state.quickCheckInSchedule,
-        sectionCollapse: state.sectionCollapse,
+        quickCheckInCollapsed: state.quickCheckInCollapsed,
       };
     }
     case "reset": {
@@ -325,9 +325,9 @@ const hydrateStored = ({
   quickCheckInSchedule:
     QuickCheckInScheduleSchema.safeParse(stored.quickCheckInSchedule).data ??
     INITIAL_STATE.quickCheckInSchedule,
-  sectionCollapse:
-    z.record(z.string(), z.boolean()).safeParse(stored.sectionCollapse).data ??
-    {},
+  quickCheckInCollapsed:
+    z.record(z.string(), z.boolean()).safeParse(stored.quickCheckInCollapsed)
+      .data ?? {},
 });
 
 const hydrate = (stored: StoredSettings | null): SettingsState =>

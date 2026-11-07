@@ -14,21 +14,12 @@ import {
 } from "@/features/logger";
 import type { NeedStates } from "@/features/logger";
 import type { LogItem } from "@/features/logs";
-import { SPACE } from "@/constants/space";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/feature-flags";
 import type { Emotion } from "@/types";
 
-/**
- * Grid inside the section card: edges at 16 like the card title. Right
- * padding holds one extra cell gap. No footer, unlike the logger slide.
- */
-const GRID_STYLE = {
-  marginBottom: 0,
-  paddingTop: SPACE.xs,
-  paddingLeft: SPACE.lg,
-  paddingRight: SPACE.xxl,
-};
+/** No footer below the grid, unlike the logger slide. */
+const GRID_STYLE = { marginBottom: 0 };
 
 /**
  * Emotions of the quick check-in with the components of the logger emotion
@@ -102,8 +93,9 @@ export const QuickCheckInEmotions = ({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          // LinkButton and ExpandButton pad 8: both line up with the grid.
-          paddingHorizontal: SPACE.sm,
+          // LinkButton pads 8: text lines up with the grid at 20.
+          paddingLeft: 12,
+          paddingRight: 20,
           minHeight: 40,
         }}
       >

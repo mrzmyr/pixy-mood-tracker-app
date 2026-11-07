@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useMemo, useState } from "react";
-import { Platform, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { HeaderButton } from "@/components/header-button";
@@ -55,19 +55,13 @@ const NOTE_STYLE = {
   paddingBottom: 14,
 };
 
-/** Emotion and people content pads itself to the card edges. */
-const SELF_PADDED = { paddingHorizontal: 0, paddingBottom: 0 };
-const SELF_PADDED_ROW = { paddingHorizontal: 0 };
+/** Emotion grid and people row pad themselves to the screen edges. */
+const SELF_PADDED = { paddingHorizontal: 0 };
 
-/** Emotion matches in the card: edges at 16, right padding holds a gap. */
-const SEARCH_GRID_STYLE = {
-  marginBottom: 0,
-  paddingTop: 0,
-  paddingLeft: SPACE.lg,
-  paddingRight: SPACE.xxl,
-};
+/** No footer below the matches, unlike the logger slide. */
+const SEARCH_GRID_STYLE = { marginBottom: 0 };
 
-/** Mood pixels and the note, above the section cards. Always open. */
+/** Mood pixels and the note, above the sections. Always open. */
 const MoodAndNote = ({
   rating,
   onRate,
@@ -82,7 +76,7 @@ const MoodAndNote = ({
   <View
     style={{
       paddingHorizontal: INSET,
-      paddingBottom: SPACE.md,
+      paddingBottom: SPACE.xxl,
       gap: SPACE.md,
     }}
   >
@@ -330,8 +324,6 @@ export const QuickCheckIn = () => {
 
   const isIOS = Platform.OS === "ios";
   const isSearching = query.trim() !== "";
-  const addTag = () => router.push("/tags/create");
-  const addPerson = () => router.push("/people/create");
 
   return (
     <View
@@ -357,116 +349,119 @@ export const QuickCheckIn = () => {
           onChangeQuery={setQuery}
           contentContainerStyle={{
             paddingBottom: insets.bottom + SPACE.xxxl,
-            gap: SPACE.md,
           }}
         >
-          {isSearching ? (
-            <>
-              {sections.emotions.length > 0 && (
+          {!isSearching && (
+            <MoodAndNote
+              rating={rating}
+              onRate={setRating}
+              message={message}
+              onChangeMessage={setMessage}
+            />
+          )}
+          {/* Hairlines above and below each section. */}
+          <View
+            style={{
+              borderTopWidth: StyleSheet.hairlineWidth,
+              borderColor: colors.logCardBorder,
+            }}
+          >
+            {isSearching ? (
+              <>
+                {sections.emotions.length > 0 && (
+                  <QuickCheckInSection
+                    section="emotions"
+                    isSearching={isSearching}
+                    title={t("emotions")}
+                    contentStyle={SELF_PADDED}
+                  >
+                    <EmotionBasicSelection
+                      emotions={sections.emotions.map(toBasicCategory)}
+                      selectedEmotions={EMOTIONS.filter((emotion) =>
+                        emotionKeys.has(emotion.key)
+                      )}
+                      onPress={(emotion) => toggleEmotion(emotion.key)}
+                      onRequestEmotion={openRequest}
+                      style={SEARCH_GRID_STYLE}
+                    />
+                  </QuickCheckInSection>
+                )}
+                {sections.people.length > 0 && (
+                  <QuickCheckInSection
+                    section="people"
+                    isSearching={isSearching}
+                    title={t("people")}
+                  >
+                    <InfluenceChips
+                      options={sections.people}
+                      people={people}
+                      tags={tags}
+                      picked={pickedKeys}
+                      onToggle={toggle}
+                    />
+                  </QuickCheckInSection>
+                )}
+              </>
+            ) : (
+              <>
                 <QuickCheckInSection
                   section="emotions"
                   isSearching={isSearching}
                   title={t("emotions")}
                   contentStyle={SELF_PADDED}
                 >
-                  <EmotionBasicSelection
-                    emotions={sections.emotions.map(toBasicCategory)}
-                    selectedEmotions={EMOTIONS.filter((emotion) =>
-                      emotionKeys.has(emotion.key)
-                    )}
-                    onPress={(emotion) => toggleEmotion(emotion.key)}
-                    onRequestEmotion={openRequest}
-                    style={SEARCH_GRID_STYLE}
+                  <QuickCheckInEmotions
+                    picked={emotions}
+                    rating={rating}
+                    items={items}
+                    onToggle={toggleEmotion}
                   />
                 </QuickCheckInSection>
-              )}
-              {sections.people.length > 0 && (
-                <QuickCheckInSection
-                  section="people"
-                  isSearching={isSearching}
-                  title={t("people")}
-                  onAdd={addPerson}
-                  addLabel={t("people_add")}
-                >
-                  <InfluenceChips
-                    options={sections.people}
-                    people={people}
-                    tags={tags}
-                    picked={pickedKeys}
-                    onToggle={toggle}
-                  />
-                </QuickCheckInSection>
-              )}
-            </>
-          ) : (
-            <>
-              <MoodAndNote
-                rating={rating}
-                onRate={setRating}
-                message={message}
-                onChangeMessage={setMessage}
-              />
+                {sections.people.length > 0 && (
+                  <QuickCheckInSection
+                    section="people"
+                    isSearching={isSearching}
+                    title={t("people")}
+                    contentStyle={SELF_PADDED}
+                  >
+                    <PeopleRow
+                      people={sections.people.flatMap((option) => {
+                        const person = personById.get(option.id);
+                        return person ? [person] : [];
+                      })}
+                      picked={pickedPeople}
+                      onToggle={togglePerson}
+                      onShowAll={() => setIsPeopleOpen(true)}
+                    />
+                  </QuickCheckInSection>
+                )}
+              </>
+            )}
+            {sections.tags.length > 0 && (
               <QuickCheckInSection
-                section="emotions"
+                section="tags"
                 isSearching={isSearching}
-                title={t("emotions")}
-                contentStyle={SELF_PADDED}
+                title={t("tags")}
               >
-                <QuickCheckInEmotions
-                  picked={emotions}
-                  rating={rating}
-                  items={items}
-                  onToggle={toggleEmotion}
+                <InfluenceChips
+                  options={sections.tags}
+                  people={people}
+                  tags={tags}
+                  picked={pickedKeys}
+                  onToggle={toggle}
                 />
               </QuickCheckInSection>
-              {sections.people.length > 0 && (
-                <QuickCheckInSection
-                  section="people"
-                  isSearching={isSearching}
-                  title={t("people")}
-                  onAdd={addPerson}
-                  addLabel={t("people_add")}
-                  contentStyle={SELF_PADDED_ROW}
-                >
-                  <PeopleRow
-                    people={sections.people.flatMap((option) => {
-                      const person = personById.get(option.id);
-                      return person ? [person] : [];
-                    })}
-                    picked={pickedPeople}
-                    onToggle={togglePerson}
-                    onShowAll={() => setIsPeopleOpen(true)}
-                  />
-                </QuickCheckInSection>
-              )}
-            </>
-          )}
-          {sections.tags.length > 0 && (
-            <QuickCheckInSection
-              section="tags"
-              isSearching={isSearching}
-              title={t("tags")}
-              onAdd={addTag}
-              addLabel={t("tags_add")}
-            >
-              <InfluenceChips
-                options={sections.tags}
-                people={people}
-                tags={tags}
-                picked={pickedKeys}
-                onToggle={toggle}
-              />
-            </QuickCheckInSection>
-          )}
-          {hasPhotos && !isSearching && (
-            <QuickCheckInSection
-              section="photos"
-              isSearching={isSearching}
-              title={t("logger_step_photos")}
-            >
-              <QuickCheckInPhotos draft={draftPhotos} />
-            </QuickCheckInSection>
-          )}
+            )}
+            {hasPhotos && !isSearching && (
+              <QuickCheckInSection
+                section="photos"
+                isSearching={isSearching}
+                title={t("logger_step_photos")}
+              >
+                <QuickCheckInPhotos draft={draftPhotos} />
+              </QuickCheckInSection>
+            )}
+          </View>
         </PullToSearch>
       </View>
       <QuickCheckInListSheets

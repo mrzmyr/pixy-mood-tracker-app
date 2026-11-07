@@ -14,11 +14,9 @@ import { useState } from "react";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
-import { CollapsibleSection } from "@/components/collapsible-section";
+import { Label } from "@/components/typography";
 import { MiniButton } from "@/components/mini-button";
-import { CHIP_FLOW } from "@/constants/chip";
-import { SPACE } from "@/constants/space";
-import { useCollapsedSections } from "@/hooks/use-collapsed-sections";
+import { CHIP_FLOW, CHIP_GAP } from "@/constants/chip";
 import { SlideHeadline } from "../components/slide-headline";
 import { PullToSearch } from "../components/pull-to-search";
 import { matchesSearch } from "@/lib/search";
@@ -27,9 +25,9 @@ import noop from "lodash/noop";
 
 /**
  * Tag picker slide. Archived tags are hidden unless the draft already has
- * them. Pulling the list down reveals a search by tag title. Each category
- * with tags is a card: plus adds a tag to it, the chevron folds it away. The
- * folded state stays on the device. A search opens every card.
+ * them. Pulling the list down reveals a search by tag title. Tags are grouped
+ * by category; headings show only when more than one category has tags, so a
+ * single category looks like a plain tag list.
  */
 export const SlideTags = ({
   onDisableStep = noop,
@@ -61,8 +59,7 @@ export const SlideTags = ({
   const sections = groupTagsByCategory(_tags, categories).filter(
     (section) => section.tags.length > 0
   );
-  const isSearching = query.trim() !== "";
-  const collapsed = useCollapsedSections();
+  const showHeadings = sections.length > 1;
 
   const marginTop = useSlideMarginTop();
 
@@ -89,7 +86,7 @@ export const SlideTags = ({
   );
 
   const editButton = (
-    <View style={{ alignItems: "flex-start" }}>
+    <View>
       <MiniButton
         onPress={() => {
           router.push("/tags");
@@ -136,48 +133,44 @@ export const SlideTags = ({
         >
           <View
             style={{
-              marginTop: SPACE.xxl,
-              gap: SPACE.md,
-              paddingBottom: SPACE.md,
+              marginTop: 24,
+              gap: showHeadings ? 12 : 0,
+              paddingBottom: showHeadings ? 12 : 0,
             }}
           >
-            {sections.map(({ category, tags: sectionTags }) => {
-              const key = `tag-category:${category.id}`;
-              return (
-                <CollapsibleSection
-                  key={category.id}
-                  testID={`log-tags-category-${category.id}`}
-                  title={category.title}
-                  isCollapsed={
-                    isSearching ? undefined : collapsed.isCollapsed(key)
-                  }
-                  onToggle={() => collapsed.toggle(key)}
-                  onAdd={() =>
-                    router.push({
-                      pathname: "/tags/create",
-                      params: { categoryId: category.id },
-                    })
-                  }
-                  addLabel={t("tags_add")}
-                  // Chips pad their right and bottom edge with one gap.
-                  contentStyle={{
-                    paddingRight: SPACE.sm,
-                    paddingBottom: SPACE.sm,
+            {sections.map(({ category, tags: sectionTags }, index) => (
+              <View
+                key={category.id}
+                testID={`log-tags-category-${category.id}`}
+                style={{ gap: 8 }}
+              >
+                {showHeadings && (
+                  <Label
+                    size={14}
+                    strong
+                    accessibilityRole="header"
+                    style={{ color: colors.textSecondary }}
+                  >
+                    {category.title}
+                  </Label>
+                )}
+                <View
+                  style={{
+                    ...CHIP_FLOW,
+                    alignItems: "flex-start",
+                    justifyContent: "flex-start",
                   }}
                 >
-                  <View
-                    style={{
-                      ...CHIP_FLOW,
-                      alignItems: "flex-start",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    {sectionTags.map(renderTag)}
-                  </View>
-                </CollapsibleSection>
-              );
-            })}
-            {editButton}
+                  {sectionTags.map(renderTag)}
+                  {index === sections.length - 1 && editButton}
+                </View>
+              </View>
+            ))}
+            {sections.length === 0 && (
+              <View style={{ paddingRight: CHIP_GAP, paddingBottom: CHIP_GAP }}>
+                {editButton}
+              </View>
+            )}
           </View>
           {showDisable && (
             <Footer>

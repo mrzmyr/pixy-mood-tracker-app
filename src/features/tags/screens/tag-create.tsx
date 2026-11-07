@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
@@ -12,7 +12,7 @@ import { ColorPicker } from "../components/color-picker";
 import { GENERAL_CATEGORY_ID } from "../tag-categories";
 import TagNameField from "../components/tag-name-field";
 import { isValidTagTitle } from "../tag-name";
-import { useTagsState, useTagsUpdater } from "../tags-provider";
+import { useTagsUpdater } from "../tags-provider";
 import type { Tag as ITag } from "../tags-provider";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
@@ -20,20 +20,13 @@ const REGEX_EMOJI = /\p{Emoji}/u;
 /**
  * New tag form. Titles must be {@link MIN_TAG_LENGTH} to
  * {@link MAX_TAG_LENGTH} characters; the color defaults to the first tag
- * color. Param `categoryId` picks the category, else General.
+ * color.
  */
 export const TagCreate = () => {
   const router = useRouter();
   const colors = useColors();
   const analytics = useAnalytics();
   const tagsUpdater = useTagsUpdater();
-  const { categories } = useTagsState();
-  const params = useLocalSearchParams<{ categoryId?: string }>();
-  const initialCategoryId = categories.some(
-    (category) => category.id === params.categoryId
-  )
-    ? (params.categoryId ?? GENERAL_CATEGORY_ID)
-    : GENERAL_CATEGORY_ID;
 
   const [firstColor] = Object.keys(colors.tags);
   const [submitted, setSubmitted] = useState(false);
@@ -41,13 +34,13 @@ export const TagCreate = () => {
     id: uuidv4(),
     title: "",
     color: firstColor,
-    categoryId: initialCategoryId,
+    categoryId: GENERAL_CATEGORY_ID,
   });
 
   const isDirty =
     tempTag.title !== "" ||
     tempTag.color !== firstColor ||
-    tempTag.categoryId !== initialCategoryId;
+    tempTag.categoryId !== GENERAL_CATEGORY_ID;
   // Back, the swipe-down gesture, and Cancel ask before dropping the form.
   const { allowLeave } = useDiscardGuard({ isDirty });
 
@@ -67,7 +60,7 @@ export const TagCreate = () => {
       id: uuidv4(),
       title: "",
       color: firstColor,
-      categoryId: initialCategoryId,
+      categoryId: GENERAL_CATEGORY_ID,
     });
 
     tagsUpdater.createTag(tempTag);
