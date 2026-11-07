@@ -142,6 +142,12 @@ export interface SettingsState {
    * (`HH:mm`), both included. Belongs to the device like the switch.
    */
   quickCheckInSchedule: QuickCheckInSchedule;
+  /**
+   * Folded state of check-in section cards the user toggled: `true`
+   * collapsed. Keys missing use the section default. Layout taste of this
+   * device, so imports keep it.
+   */
+  sectionCollapse: Record<string, boolean>;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -177,6 +183,7 @@ export type ExportSettings = Omit<
   | "profileAvatar"
   | "quickCheckInEnabled"
   | "quickCheckInSchedule"
+  | "sectionCollapse"
 >;
 
 interface IAction {
@@ -230,7 +237,7 @@ const reducer = (
     }
     // Analytics consent, the feedback id, store review prompt state, photo library access,
     // theme, location, calendar layout, app lock, recap notifications, the
-    // profile, and Apple Health belong to this device, so imports keep the
+    // profile, collapsed sections, and Apple Health belong to this device, so imports keep the
     // current values.
     case "import": {
       return {
@@ -253,6 +260,7 @@ const reducer = (
         profileAvatar: state.profileAvatar,
         quickCheckInEnabled: state.quickCheckInEnabled,
         quickCheckInSchedule: state.quickCheckInSchedule,
+        sectionCollapse: state.sectionCollapse,
       };
     }
     case "reset": {
@@ -317,6 +325,9 @@ const hydrateStored = ({
   quickCheckInSchedule:
     QuickCheckInScheduleSchema.safeParse(stored.quickCheckInSchedule).data ??
     INITIAL_STATE.quickCheckInSchedule,
+  sectionCollapse:
+    z.record(z.string(), z.boolean()).safeParse(stored.sectionCollapse).data ??
+    {},
 });
 
 const hydrate = (stored: StoredSettings | null): SettingsState =>

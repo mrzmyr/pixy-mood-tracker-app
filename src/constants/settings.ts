@@ -57,4 +57,5 @@ export const INITIAL_STATE: SettingsState = {
   profileAvatar: null,
   quickCheckInEnabled: false,
   quickCheckInSchedule: DEFAULT_QUICK_CHECK_IN_SCHEDULE,
+  sectionCollapse: {},
 };

@@ -10,6 +10,7 @@ import ModalHeader from "@/components/modal-header";
 import TextArea from "@/components/text-area";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 import { RATING_KEYS } from "@/constants/ratings";
+import { SPACE } from "@/constants/space";
 import {
   EMOTIONS,
   EmotionBasicSelection,
@@ -36,15 +37,10 @@ import {
   QuickCheckInPhotos,
   useQuickCheckInPhotos,
 } from "./quick-check-in-photos";
+import { INSET, QuickCheckInSection } from "./quick-check-in-section";
 import type { InfluenceOption } from "../ranking";
 
 const NO_PEOPLE: never[] = [];
-
-/** Screen edge to content, same as the logger. */
-const INSET = 20;
-
-/** Space between sections. No section titles: the content explains itself. */
-const SECTION_GAP = 36;
 
 /**
  * Note grows from one line up to about five. iOS puts the line height slack
@@ -58,6 +54,63 @@ const NOTE_STYLE = {
   paddingTop: 10,
   paddingBottom: 14,
 };
+
+/** Emotion and people content pads itself to the card edges. */
+const SELF_PADDED = { paddingHorizontal: 0, paddingBottom: 0 };
+const SELF_PADDED_ROW = { paddingHorizontal: 0 };
+
+/** Emotion matches in the card: edges at 16, right padding holds a gap. */
+const SEARCH_GRID_STYLE = {
+  marginBottom: 0,
+  paddingTop: 0,
+  paddingLeft: SPACE.lg,
+  paddingRight: SPACE.xxl,
+};
+
+/** Mood pixels and the note, above the section cards. Always open. */
+const MoodAndNote = ({
+  rating,
+  onRate,
+  message,
+  onChangeMessage,
+}: {
+  rating: LogItem["rating"] | null;
+  onRate: (rating: LogItem["rating"]) => void;
+  message: string;
+  onChangeMessage: (message: string) => void;
+}) => (
+  <View
+    style={{
+      paddingHorizontal: INSET,
+      paddingBottom: SPACE.md,
+      gap: SPACE.md,
+    }}
+  >
+    <View
+      accessibilityRole="radiogroup"
+      accessibilityLabel={t("logger_step_rating")}
+      style={{ flexDirection: "row", gap: 6 }}
+    >
+      {[...RATING_KEYS].reverse().map((key) => (
+        <MoodPixel
+          key={key}
+          rating={key}
+          selected={rating === key}
+          onPress={() => onRate(key)}
+        />
+      ))}
+    </View>
+    <TextArea
+      testID="quick-check-in-note"
+      accessibilityLabel={t("logger_step_message")}
+      placeholder={t("log_note_question")}
+      value={message}
+      onChange={onChangeMessage}
+      maxLength={MAX_MESSAGE_LENGTH}
+      style={NOTE_STYLE}
+    />
+  </View>
+);
 
 /** Close and Save: iOS sheet bar items, Android Material top app bar. */
 const QuickCheckInHeader = ({
@@ -119,8 +172,10 @@ const QuickCheckInHeader = ({
   );
 
 /**
- * Quick check-in on one scrolling page: mood, a one-line note, emotions as in
- * the logger, a row of people, the top 20 tags, and photos last. Search hides
+ * Quick check-in on one scrolling page: mood, a one-line note, then cards for
+ * emotions as in the logger, a row of people, the top 20 tags, and photos.
+ * Each card has a title and folds away; the folded state stays on the
+ * device. Search shows matches in open cards without fold. Search hides
  * above the page until the user pulls down. The full list of
  * people opens in a sheet. Opens from the calendar, from voice mode (with
  * `prefill`), and from More in the Android notification.
@@ -275,6 +330,8 @@ export const QuickCheckIn = () => {
 
   const isIOS = Platform.OS === "ios";
   const isSearching = query.trim() !== "";
+  const addTag = () => router.push("/tags/create");
+  const addPerson = () => router.push("/people/create");
 
   return (
     <View
@@ -299,25 +356,38 @@ export const QuickCheckIn = () => {
           query={query}
           onChangeQuery={setQuery}
           contentContainerStyle={{
-            paddingBottom: insets.bottom + 32,
-            gap: SECTION_GAP,
+            paddingBottom: insets.bottom + SPACE.xxxl,
+            gap: SPACE.md,
           }}
         >
           {isSearching ? (
             <>
               {sections.emotions.length > 0 && (
-                <EmotionBasicSelection
-                  emotions={sections.emotions.map(toBasicCategory)}
-                  selectedEmotions={EMOTIONS.filter((emotion) =>
-                    emotionKeys.has(emotion.key)
-                  )}
-                  onPress={(emotion) => toggleEmotion(emotion.key)}
-                  onRequestEmotion={openRequest}
-                  style={{ marginBottom: 0 }}
-                />
+                <QuickCheckInSection
+                  section="emotions"
+                  isSearching={isSearching}
+                  title={t("emotions")}
+                  contentStyle={SELF_PADDED}
+                >
+                  <EmotionBasicSelection
+                    emotions={sections.emotions.map(toBasicCategory)}
+                    selectedEmotions={EMOTIONS.filter((emotion) =>
+                      emotionKeys.has(emotion.key)
+                    )}
+                    onPress={(emotion) => toggleEmotion(emotion.key)}
+                    onRequestEmotion={openRequest}
+                    style={SEARCH_GRID_STYLE}
+                  />
+                </QuickCheckInSection>
               )}
               {sections.people.length > 0 && (
-                <View style={{ paddingHorizontal: INSET }}>
+                <QuickCheckInSection
+                  section="people"
+                  isSearching={isSearching}
+                  title={t("people")}
+                  onAdd={addPerson}
+                  addLabel={t("people_add")}
+                >
                   <InfluenceChips
                     options={sections.people}
                     people={people}
@@ -325,57 +395,60 @@ export const QuickCheckIn = () => {
                     picked={pickedKeys}
                     onToggle={toggle}
                   />
-                </View>
+                </QuickCheckInSection>
               )}
             </>
           ) : (
             <>
-              <View style={{ paddingHorizontal: INSET, gap: 12 }}>
-                <View
-                  accessibilityRole="radiogroup"
-                  accessibilityLabel={t("logger_step_rating")}
-                  style={{ flexDirection: "row", gap: 6 }}
-                >
-                  {[...RATING_KEYS].reverse().map((key) => (
-                    <MoodPixel
-                      key={key}
-                      rating={key}
-                      selected={rating === key}
-                      onPress={() => setRating(key)}
-                    />
-                  ))}
-                </View>
-                <TextArea
-                  testID="quick-check-in-note"
-                  accessibilityLabel={t("logger_step_message")}
-                  placeholder={t("log_note_question")}
-                  value={message}
-                  onChange={setMessage}
-                  maxLength={MAX_MESSAGE_LENGTH}
-                  style={NOTE_STYLE}
-                />
-              </View>
-              <QuickCheckInEmotions
-                picked={emotions}
+              <MoodAndNote
                 rating={rating}
-                items={items}
-                onToggle={toggleEmotion}
+                onRate={setRating}
+                message={message}
+                onChangeMessage={setMessage}
               />
-              {sections.people.length > 0 && (
-                <PeopleRow
-                  people={sections.people.flatMap((option) => {
-                    const person = personById.get(option.id);
-                    return person ? [person] : [];
-                  })}
-                  picked={pickedPeople}
-                  onToggle={togglePerson}
-                  onShowAll={() => setIsPeopleOpen(true)}
+              <QuickCheckInSection
+                section="emotions"
+                isSearching={isSearching}
+                title={t("emotions")}
+                contentStyle={SELF_PADDED}
+              >
+                <QuickCheckInEmotions
+                  picked={emotions}
+                  rating={rating}
+                  items={items}
+                  onToggle={toggleEmotion}
                 />
+              </QuickCheckInSection>
+              {sections.people.length > 0 && (
+                <QuickCheckInSection
+                  section="people"
+                  isSearching={isSearching}
+                  title={t("people")}
+                  onAdd={addPerson}
+                  addLabel={t("people_add")}
+                  contentStyle={SELF_PADDED_ROW}
+                >
+                  <PeopleRow
+                    people={sections.people.flatMap((option) => {
+                      const person = personById.get(option.id);
+                      return person ? [person] : [];
+                    })}
+                    picked={pickedPeople}
+                    onToggle={togglePerson}
+                    onShowAll={() => setIsPeopleOpen(true)}
+                  />
+                </QuickCheckInSection>
               )}
             </>
           )}
           {sections.tags.length > 0 && (
-            <View style={{ paddingHorizontal: INSET }}>
+            <QuickCheckInSection
+              section="tags"
+              isSearching={isSearching}
+              title={t("tags")}
+              onAdd={addTag}
+              addLabel={t("tags_add")}
+            >
               <InfluenceChips
                 options={sections.tags}
                 people={people}
@@ -383,12 +456,16 @@ export const QuickCheckIn = () => {
                 picked={pickedKeys}
                 onToggle={toggle}
               />
-            </View>
+            </QuickCheckInSection>
           )}
           {hasPhotos && !isSearching && (
-            <View style={{ paddingHorizontal: INSET }}>
+            <QuickCheckInSection
+              section="photos"
+              isSearching={isSearching}
+              title={t("logger_step_photos")}
+            >
               <QuickCheckInPhotos draft={draftPhotos} />
-            </View>
+            </QuickCheckInSection>
           )}
         </PullToSearch>
       </View>

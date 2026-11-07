@@ -2,6 +2,7 @@ import Ellipsis from "lucide-react-native/icons/ellipsis";
 import { Pressable, ScrollView, View } from "react-native";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
 import {
   PersonAvatar,
   PersonChip,
@@ -87,7 +88,8 @@ export const PeopleRow = ({
     horizontal
     showsHorizontalScrollIndicator={false}
     keyboardShouldPersistTaps="handled"
-    contentContainerStyle={{ paddingHorizontal: 20, gap: 8 }}
+    // Edges line up with the section card title.
+    contentContainerStyle={{ paddingHorizontal: SPACE.lg, gap: SPACE.sm }}
   >
     {people.map((person) => (
       <PersonChip
