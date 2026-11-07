@@ -15,8 +15,9 @@ import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
 import { Label } from "@/components/typography";
-import { MiniButton } from "@/components/mini-button";
-import { CHIP_FLOW, CHIP_GAP } from "@/constants/chip";
+import { Chip } from "@/components/chip";
+import Plus from "lucide-react-native/icons/plus";
+import { CHIP, CHIP_FLOW, CHIP_GAP } from "@/constants/chip";
 import { SlideHeadline } from "../components/slide-headline";
 import { PullToSearch } from "../components/pull-to-search";
 import { matchesSearch } from "@/lib/search";
@@ -86,15 +87,14 @@ export const SlideTags = ({
   );
 
   const editButton = (
-    <View>
-      <MiniButton
-        onPress={() => {
-          router.push("/tags");
-        }}
-      >
-        {t("tags_edit")}
-      </MiniButton>
-    </View>
+    <Chip
+      isToggle={false}
+      label={t("tags_edit")}
+      lead={<Plus size={CHIP.lead} color={colors.chipText} />}
+      onPress={() => {
+        router.push("/tags");
+      }}
+    />
   );
 
   return (

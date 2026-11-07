@@ -34,11 +34,14 @@ export const EmotionIcon = ({
   stroke,
   tint,
   size = 20,
+  tintOpacity = TINT_OPACITY,
 }: {
   icon: IconSvgObject;
   stroke: string;
   tint: string;
   size?: number;
+  /** Fill opacity; higher on dark surfaces, like a selected chip. */
+  tintOpacity?: number;
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
     {icon.map(([type, { key, ...attributes }]) => {
@@ -53,7 +56,7 @@ export const EmotionIcon = ({
           {...attributes}
           stroke={stroke}
           fill={tint}
-          fillOpacity={TINT_OPACITY}
+          fillOpacity={tintOpacity}
         />
       );
     })}

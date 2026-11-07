@@ -1,6 +1,6 @@
 import { Pressable, Text, View, useColorScheme } from "react-native";
 import type { PressableProps, ViewStyle } from "react-native";
-import { Label, getTextStyle } from "@/components/typography";
+import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
@@ -9,29 +9,22 @@ import { PersonAvatar } from "./person-avatar";
 import { RADIUS } from "@/constants/radius";
 import { COMPACT_CHIP } from "@/constants/chip";
 import type { ChipStyle } from "@/constants/chip";
+import { Chip } from "@/components/chip";
 import { TILE_RING_GAP, TILE_RING_WIDTH } from "../tile";
 
 const DEFAULT_STYLE = {};
-/** Measurements of the `chip` variant, regular and compact. */
-const CHIP_SIZES = {
-  regular: {
-    paddingLeft: 8,
-    paddingRight: 16,
-    paddingVertical: 6,
-    avatar: 24,
-    gap: 8,
-    ...getTextStyle("label", 16),
-  },
-  compact: {
-    paddingLeft: COMPACT_CHIP.paddingLeftAvatar,
-    paddingRight: COMPACT_CHIP.paddingHorizontal,
-    paddingVertical: 0,
-    height: COMPACT_CHIP.height,
-    avatar: COMPACT_CHIP.avatarSize,
-    gap: COMPACT_CHIP.gap,
-    fontSize: COMPACT_CHIP.fontSize,
-    lineHeight: COMPACT_CHIP.lineHeight,
-  },
+/** Avatar in the regular chip: 8 pt from the pill edge on every side. */
+const CHIP_AVATAR = 26;
+/** Measurements of the compact `chip` variant. */
+const COMPACT_SIZE = {
+  paddingLeft: COMPACT_CHIP.paddingLeftAvatar,
+  paddingRight: COMPACT_CHIP.paddingHorizontal,
+  paddingVertical: 0,
+  height: COMPACT_CHIP.height,
+  avatar: COMPACT_CHIP.avatarSize,
+  gap: COMPACT_CHIP.gap,
+  fontSize: COMPACT_CHIP.fontSize,
+  lineHeight: COMPACT_CHIP.lineHeight,
 };
 
 type LongPressProps = Pick<
@@ -88,6 +81,41 @@ const getLongPressProps = ({
     },
   };
 };
+
+/**
+ * Regular `chip` variant of {@link PersonChip}. The chip plays its own
+ * haptics, so it gets the raw handlers; screen reader actions come from
+ * `longPressProps`.
+ */
+const RegularPersonChip = ({
+  person,
+  selected,
+  onPress,
+  onLongPress,
+  longPressProps: { onLongPress: _withHaptics, ...a11yActions },
+  testID,
+  style,
+}: {
+  person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
+  selected: boolean;
+  onPress?: () => void;
+  onLongPress?: () => void;
+  longPressProps: LongPressProps;
+  testID?: string;
+  style: ChipStyle;
+}) => (
+  <Chip
+    label={person.name}
+    selected={selected}
+    onPress={onPress}
+    onLongPress={onLongPress}
+    {...a11yActions}
+    testID={testID}
+    lead={<PersonAvatar person={person} size={CHIP_AVATAR} />}
+    leadSize={CHIP_AVATAR}
+    style={style}
+  />
+);
 
 /** `tile` variant of {@link PersonChip}; `onPress` already plays haptics. */
 const PersonTile = ({
@@ -218,7 +246,7 @@ export const PersonChip = ({
   const colorScheme = useColorScheme();
   const unselectedBorderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
-  const chipSize = CHIP_SIZES[compact ? "compact" : "regular"];
+  const chipSize = COMPACT_SIZE;
 
   const press = async () => {
     if (!onPress) {
@@ -278,6 +306,20 @@ export const PersonChip = ({
     );
   }
 
+  if (!compact) {
+    return (
+      <RegularPersonChip
+        person={person}
+        selected={selected}
+        onPress={onPress}
+        onLongPress={editOnLongPress ? onLongPress : undefined}
+        longPressProps={longPressProps}
+        testID={testID}
+        style={style}
+      />
+    );
+  }
+
   return (
     <Pressable
       accessibilityRole={onPress ? "button" : undefined}
@@ -298,7 +340,7 @@ export const PersonChip = ({
         paddingLeft: chipSize.paddingLeft,
         paddingRight: chipSize.paddingRight,
         paddingVertical: chipSize.paddingVertical,
-        height: "height" in chipSize ? chipSize.height : undefined,
+        height: chipSize.height,
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}

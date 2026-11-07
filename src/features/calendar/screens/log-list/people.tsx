@@ -1,4 +1,3 @@
-import useColors from "@/hooks/use-colors";
 import type { LogItem } from "@/features/logs";
 import { PersonChip, usePeopleState } from "@/features/people";
 import { t } from "@/lib/translation";
@@ -26,7 +25,6 @@ export const People = ({
   item: LogItem;
   onEdit?: () => void;
 }) => {
-  const colors = useColors();
   const known = useKnownPeople(item);
 
   if (known.length === 0) {
@@ -45,14 +43,7 @@ export const People = ({
       testID={onEdit ? "log-list-people-edit" : undefined}
     >
       {known.map((person) => (
-        <PersonChip
-          key={person.id}
-          person={person}
-          style={{
-            backgroundColor: colors.entryBackground,
-            borderColor: colors.entryItemBorder,
-          }}
-        />
+        <PersonChip key={person.id} person={person} />
       ))}
     </ChipRow>
   );

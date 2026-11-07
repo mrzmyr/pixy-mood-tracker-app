@@ -34,6 +34,11 @@ Pixy-specific design decisions that a model cannot read from the code. For every
 
 - Errors, warnings, and notices: [`InlineAlert`](src/components/inline-alert.tsx), not colored text or `TextInfo`.
 - Add action in a picker grid: copy [`AddPersonTile`](src/features/logger/slides/slide-people.tsx).
+- Selectable emotion, tag, or person: [`Chip`](src/components/chip.tsx). Gray fill on white screen, selected chip inverted.
+  - Selection never changes chip size: same font weight, no extra glyph.
+  - Selected look is the same for every chip. Category or tag color stays in the icon or dot only.
+  - Press scale and color change share one timing. Never animate them apart.
+  - Action next to chips, such as Edit: `Chip` with `isToggle={false}`.
 - Sleep quality of one night: [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx), never own bars or dots.
 - Buttons on the sky or a photo (onboarding, recap stories): primary `Button type="primary"`, secondary `Button type="glass"`. Never a gray `tertiary` there.
   - `glass` is a see-through white fill. Liquid glass turns opaque white on the light sky.
