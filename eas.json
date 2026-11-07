@@ -8,7 +8,8 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_APP_VARIANT": "development"
+        "EXPO_PUBLIC_APP_VARIANT": "development",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
       },
       "android": {
         "buildType": "apk"

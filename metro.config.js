@@ -1,6 +1,7 @@
-const { getDefaultConfig } = require("expo/metro-config");
+const { getSentryExpoConfig } = require("@sentry/react-native/metro");
 
-const defaultConfig = getDefaultConfig(__dirname);
+// Adds debug IDs, so Sentry matches uploaded source maps to the bundle.
+const defaultConfig = getSentryExpoConfig(__dirname);
 defaultConfig.resolver.sourceExts.push("cjs");
 // Licenses screen loads `assets/licenses.txt` as an asset, not as JS.
 defaultConfig.resolver.assetExts.push("txt");

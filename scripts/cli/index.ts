@@ -371,6 +371,10 @@ const runCommand = async ({
 let longCommand: string | null = null;
 
 const main = async () => {
+  // Sentry upload fails native builds without a token. Only EAS has it.
+  if (!process.env.SENTRY_AUTH_TOKEN) {
+    process.env.SENTRY_DISABLE_AUTO_UPLOAD ??= "true";
+  }
   const [noun = "", verb, ...argv] = process.argv.slice(2);
   const nounSpec = NOUNS.get(noun);
   if (!nounSpec) {
