@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useMemo, useState } from "react";
-import { Platform, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { HeaderButton } from "@/components/header-button";
@@ -10,12 +10,6 @@ import ModalHeader from "@/components/modal-header";
 import TextArea from "@/components/text-area";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 import { RATING_KEYS } from "@/constants/ratings";
-import {
-  EMOTIONS,
-  EmotionBasicSelection,
-  PullToSearch,
-  toBasicCategory,
-} from "@/features/logger";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
@@ -120,9 +114,8 @@ const QuickCheckInHeader = ({
 
 /**
  * Quick check-in on one scrolling page: mood, a one-line note, emotions as in
- * the logger, a row of people, the top 20 tags, and photos last. Search hides
- * above the page until the user pulls down. The full list of
- * people opens in a sheet. Opens from the calendar, from voice mode (with
+ * the logger, a row of people, the top 20 tags, and photos last. The full
+ * list of people opens in a sheet. Opens from the calendar, from voice mode (with
  * `prefill`), and from More in the Android notification.
  *
  * - `id` names an entry saved in the notification: the screen edits it.
@@ -175,7 +168,6 @@ export const QuickCheckIn = () => {
     onChange: (value) =>
       setDraft((current) => ({ ...current, photos: value, source: "user" })),
   });
-  const [query, setQuery] = useState("");
   const [isPeopleOpen, setIsPeopleOpen] = useState(false);
   // Ranking time is fixed when the screen opens.
   const now = useMemo(() => dayjs(), []);
@@ -184,16 +176,14 @@ export const QuickCheckIn = () => {
   const sections = useMemo(
     () =>
       getSheetSections({
-        query,
         rating,
         items,
         people: visiblePeople,
         tags,
-        emotions: EMOTIONS,
         picked,
         now,
       }),
-    [query, rating, items, visiblePeople, tags, picked, now]
+    [rating, items, visiblePeople, tags, picked, now]
   );
 
   const toggle = (option: Pick<InfluenceOption, "kind" | "id">) => {
@@ -270,11 +260,7 @@ export const QuickCheckIn = () => {
     toggle({ kind: "person", id: personId });
   const personById = new Map(people.map((person) => [person.id, person]));
 
-  const openRequest = () =>
-    router.push({ pathname: "/request", params: { kind: "emotion" } });
-
   const isIOS = Platform.OS === "ios";
-  const isSearching = query.trim() !== "";
 
   return (
     <View
@@ -293,86 +279,56 @@ export const QuickCheckIn = () => {
         onSave={save}
       />
       <View style={{ flex: 1, paddingTop: isIOS ? headerHeight : 0 }}>
-        <PullToSearch
-          testID="quick-check-in-search"
-          placeholder={t("calendar_filters_search")}
-          query={query}
-          onChangeQuery={setQuery}
+        <ScrollView
+          testID="quick-check-in-scroll"
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
           contentContainerStyle={{
             paddingBottom: insets.bottom + 32,
             gap: SECTION_GAP,
           }}
         >
-          {isSearching ? (
-            <>
-              {sections.emotions.length > 0 && (
-                <EmotionBasicSelection
-                  emotions={sections.emotions.map(toBasicCategory)}
-                  selectedEmotions={EMOTIONS.filter((emotion) =>
-                    emotionKeys.has(emotion.key)
-                  )}
-                  onPress={(emotion) => toggleEmotion(emotion.key)}
-                  onRequestEmotion={openRequest}
-                  style={{ marginBottom: 0 }}
+          <View style={{ paddingHorizontal: INSET, gap: 12 }}>
+            <View
+              accessibilityRole="radiogroup"
+              accessibilityLabel={t("logger_step_rating")}
+              style={{ flexDirection: "row", gap: 6 }}
+            >
+              {[...RATING_KEYS].reverse().map((key) => (
+                <MoodPixel
+                  key={key}
+                  rating={key}
+                  selected={rating === key}
+                  onPress={() => setRating(key)}
                 />
-              )}
-              {sections.people.length > 0 && (
-                <View style={{ paddingHorizontal: INSET }}>
-                  <InfluenceChips
-                    options={sections.people}
-                    people={people}
-                    tags={tags}
-                    picked={pickedKeys}
-                    onToggle={toggle}
-                  />
-                </View>
-              )}
-            </>
-          ) : (
-            <>
-              <View style={{ paddingHorizontal: INSET, gap: 12 }}>
-                <View
-                  accessibilityRole="radiogroup"
-                  accessibilityLabel={t("logger_step_rating")}
-                  style={{ flexDirection: "row", gap: 6 }}
-                >
-                  {[...RATING_KEYS].reverse().map((key) => (
-                    <MoodPixel
-                      key={key}
-                      rating={key}
-                      selected={rating === key}
-                      onPress={() => setRating(key)}
-                    />
-                  ))}
-                </View>
-                <TextArea
-                  testID="quick-check-in-note"
-                  accessibilityLabel={t("logger_step_message")}
-                  placeholder={t("log_note_question")}
-                  value={message}
-                  onChange={setMessage}
-                  maxLength={MAX_MESSAGE_LENGTH}
-                  style={NOTE_STYLE}
-                />
-              </View>
-              <QuickCheckInEmotions
-                picked={emotions}
-                rating={rating}
-                items={items}
-                onToggle={toggleEmotion}
-              />
-              {sections.people.length > 0 && (
-                <PeopleRow
-                  people={sections.people.flatMap((option) => {
-                    const person = personById.get(option.id);
-                    return person ? [person] : [];
-                  })}
-                  picked={pickedPeople}
-                  onToggle={togglePerson}
-                  onShowAll={() => setIsPeopleOpen(true)}
-                />
-              )}
-            </>
+              ))}
+            </View>
+            <TextArea
+              testID="quick-check-in-note"
+              accessibilityLabel={t("logger_step_message")}
+              placeholder={t("log_note_question")}
+              value={message}
+              onChange={setMessage}
+              maxLength={MAX_MESSAGE_LENGTH}
+              style={NOTE_STYLE}
+            />
+          </View>
+          <QuickCheckInEmotions
+            picked={emotions}
+            rating={rating}
+            items={items}
+            onToggle={toggleEmotion}
+          />
+          {sections.people.length > 0 && (
+            <PeopleRow
+              people={sections.people.flatMap((option) => {
+                const person = personById.get(option.id);
+                return person ? [person] : [];
+              })}
+              picked={pickedPeople}
+              onToggle={togglePerson}
+              onShowAll={() => setIsPeopleOpen(true)}
+            />
           )}
           {sections.tags.length > 0 && (
             <View style={{ paddingHorizontal: INSET }}>
@@ -385,12 +341,12 @@ export const QuickCheckIn = () => {
               />
             </View>
           )}
-          {hasPhotos && !isSearching && (
+          {hasPhotos && (
             <View style={{ paddingHorizontal: INSET }}>
               <QuickCheckInPhotos draft={draftPhotos} />
             </View>
           )}
-        </PullToSearch>
+        </ScrollView>
       </View>
       <QuickCheckInListSheets
         isOpen={isPeopleOpen}

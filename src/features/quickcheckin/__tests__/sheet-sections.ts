@@ -1,31 +1,8 @@
 import dayjs from "dayjs";
 import { _generateItem } from "@/testing/log-item";
-import type { Emotion } from "@/types";
 import { getSheetSections } from "../sheet-sections";
 
 const NOW = dayjs("2026-10-18T21:00:00");
-
-const emotion = (
-  key: string,
-  category: Emotion["category"],
-  overrides: Partial<Emotion> = {}
-): Emotion => ({
-  key,
-  label: key,
-  description: "",
-  source: "how_we_feel_app",
-  category,
-  mode: "basic",
-  disabled: false,
-  ...overrides,
-});
-
-const emotions = [
-  emotion("calm", "good"),
-  emotion("sad", "very_bad"),
-  emotion("joyful", "very_good"),
-  emotion("jealous", "bad", { mode: "advanced" }),
-];
 
 const people = ["Ben", "Ada", "Cem", "Dora"].map((name) => ({
   id: name.toLowerCase(),
@@ -40,12 +17,10 @@ const labels = (options: { label: string }[]) =>
   options.map((option) => option.label);
 
 const base = {
-  query: "",
   rating: "good" as const,
   items: [],
   people,
   tags,
-  emotions,
   picked: [],
   now: NOW,
 };
@@ -80,16 +55,5 @@ describe("getSheetSections()", () => {
 
     expect(sections.tags).toHaveLength(21);
     expect(sections.tags[20]?.id).toBe("t24");
-  });
-
-  test("search matches every emotion, person, and tag", () => {
-    const sections = getSheetSections({ ...base, query: "J" });
-
-    expect(sections.emotions.map((item) => item.key)).toEqual([
-      "jealous",
-      "joyful",
-    ]);
-    expect(labels(sections.people)).toEqual([]);
-    expect(labels(sections.tags)).toEqual(["Jogging"]);
   });
 });
