@@ -51,7 +51,7 @@ export const EmotionIndicator = ({
       style={{ marginRight: size === undefined ? gap : 0 }}
     >
       <EmotionIcon
-        icon={icon}
+        emotionKey={emotion.key}
         size={size ?? (compact ? 16 : 20)}
         tint={color.background}
         stroke={
