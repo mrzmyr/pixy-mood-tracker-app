@@ -77,8 +77,8 @@ const light = {
   pillText: "#7A7A7A",
   pillBackground: "#F6F6F6",
 
-  logBackground: colors.neutral[100],
-  logBackgroundTransparent: "rgba(245,245,245, 0)",
+  logBackground: colors.white,
+  logBackgroundTransparent: "rgba(255,255,255, 0)",
 
   logCardBackground: colors.white,
   logCardBackgroundTransparent: "rgba(255,255,255, 0)",
