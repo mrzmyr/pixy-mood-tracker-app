@@ -18,7 +18,7 @@ import { toLogDate } from "@/lib/log-dates";
  * only: no permission read, no photos of the day. Photo files no stored
  * entry references are swept when the screen closes, so picks of a
  * cancelled check-in do not stay on the device. Call it in the screen,
- * not in a section that search hides: the picks must survive a search.
+ * so the picks survive while the screen is open.
  */
 export const useQuickCheckInPhotos = ({
   entry,
