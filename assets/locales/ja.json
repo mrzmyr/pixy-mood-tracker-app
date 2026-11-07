@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "クイック記録",
   "notification_recap_body": "印象に残ったことを見てみましょう。",
   "notification_recap_month_title": "今月の振り返りが届きました",
-  "notification_recap_week_title": "今週の振り返りが届きました",
   "notification_recap_year_title": "今年の振り返りが届きました",
   "notification_reminder_body": "ここをタップして、今日の気分を追跡します。",
   "notification_reminder_title": "あなたの気分を追跡する",
@@ -841,20 +840,8 @@
     "other": "%{weeks}週間ぶりに{{count}}日"
   },
   "recaps_came_back_title_week": "今週戻ってきたもの",
-  "recaps_connected_days": {
-    "one": "つながった日：1日",
-    "other": "つながった日：{{count}}日"
-  },
   "recaps_connected_more": "ほか%{count}人",
-  "recaps_connected_title": {
-    "one": "{{count}}人とつながりました",
-    "other": "{{count}}人とつながりました"
-  },
-  "recaps_connected_title_one": "%{name}さんとつながりました",
-  "recaps_day_ago_text": "1年前：%{date}。",
-  "recaps_day_ago_title": "1年前のすてきな日",
   "recaps_day_best_title_month": "今月いちばんの日は%{day}",
-  "recaps_day_best_title_week": "今週いちばんの日は%{day}",
   "recaps_day_hard_text": "どんな日でも、記録の一つひとつが大切です。",
   "recaps_day_hard_title": "%{day}も記録してくれてありがとう",
   "recaps_day_see": "この日を見る",
@@ -862,15 +849,9 @@
     "one": "1日",
     "other": "{{count}}日"
   },
-  "recaps_emotion_absent_text": {
-    "one": "その前の2か月で1日ありました。",
-    "other": "その前の2か月で{{count}}日ありました。"
-  },
-  "recaps_emotion_absent_title": "%{emotion}がない3週間",
   "recaps_emotion_again_text": "%{date}以来はじめて。",
   "recaps_emotion_again_title": "また%{emotion}",
   "recaps_emotions_back_title_month": "今月戻ってきた感情",
-  "recaps_emotions_back_title_week": "今週戻ってきた感情",
   "recaps_emotions_title": "よく使った感情",
   "recaps_emotions_year_title": "感情トップ10",
   "recaps_empty": "この期間のカードはまだありません。記録が増えると表示されます。",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "記録に写真を追加しましょう。1年後、振り返りが「1年前の今日」から始まるかもしれません。",
   "recaps_intro_photos_title": "その日の写真を残す",
   "recaps_mood_chart_title_month": "今月の気分",
-  "recaps_mood_chart_title_week": "今週の気分",
   "recaps_mood_count_title": "{{percent}}%の日がいい気分でした",
   "recaps_mood_count_title_mixed": "気分ごとの日数",
   "recaps_most_connected_title_month": "今月いちばんつながった人",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "週・月・年の振り返りは、毎週・毎月・毎年の最終日のリマインダー時刻に届きます。",
   "recaps_notifications_setting": "振り返り",
   "recaps_nudge_not_now": "今はしない",
-  "recaps_nudge_reminder_action": "%{time}に通知する",
-  "recaps_nudge_reminder_text": "大きな日は記憶に残ります。小さな良い日は翌朝には薄れてしまいます。毎晩の短い記録で残せます。",
-  "recaps_nudge_reminder_title": "穏やかな良い日も残そう",
-  "recaps_open_settings": "設定を開く",
   "recaps_people_moments_title_month": "今月の人",
-  "recaps_people_moments_title_week": "今週の人",
   "recaps_people_mood_text": "ヒントであって原因ではありません。つながりは良くも、重くも、入り混じることもあります。",
   "recaps_people_mood_title": "つながった日の気分",
   "recaps_period_month": "月",
   "recaps_period_next": "次の期間",
   "recaps_period_previous": "前の期間",
-  "recaps_period_week": "週",
   "recaps_period_year": "年",
   "recaps_person_moment_back": {
     "one": "1週間ぶり",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{year}年につながった日：%{count}日",
   "recaps_person_moment_new": "はじめてのつながり",
   "recaps_places_title_month": "今月の場所",
-  "recaps_places_title_week": "今週の場所",
   "recaps_places_title_year": "今年の場所",
   "recaps_places_trips": {
     "one": "家を離れた外出が1回。",
     "other": "家を離れた外出が%{count}回。"
   },
-  "recaps_reminder_failed": "リマインダーが設定されていません。通知をスケジュールできませんでした。設定 > リマインダーでもう一度お試しください。",
-  "recaps_reminder_set": "%{time}にリマインダーを設定しました",
   "recaps_sleep_chart_title_month": "今月の睡眠",
-  "recaps_sleep_chart_title_week": "今週の睡眠",
-  "recaps_sleep_rough_text": "%{count}日連続でつらい夜。休めるときに休んでください。",
-  "recaps_sleep_rough_title": "つらい夜が続きました",
-  "recaps_sleep_turnaround_text": "前の週のつらい夜のあとで。",
-  "recaps_sleep_turnaround_title": "%{count}日連続でよく眠れた夜",
   "recaps_step_turned_on": "記録に追加しました",
-  "recaps_stood_out_text": "そういう日はふだん気分が軽くなりがちです。",
-  "recaps_stood_out_title": {
-    "one": "今週%{tag}があった日：1日",
-    "other": "今週%{tag}があった日：{{count}}日"
-  },
   "recaps_story_banner_label_month": "月の振り返り",
   "recaps_story_banner_title": "%{month}の振り返り",
-  "recaps_story_banner_title_week": "週の振り返り",
   "recaps_story_best_day_ask": "いちばん良かった日を見る準備はできた？",
   "recaps_story_best_day_show": "いちばん良かった日を表示",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "自分のために時間をとった日が{{count}}日。誇りに思ってください。"
   },
   "recaps_story_cover_note_full": "%{month}の毎日にピクセルがあります。立派な成果です。",
-  "recaps_story_cover_note_full_week": "今週の毎日にピクセルがあります。立派な成果です。",
   "recaps_story_cover_pixels_title": "%{month}のピクセル",
-  "recaps_story_cover_pixels_title_week": "今週のピクセル",
-  "recaps_story_cover_title_week": "少しだけ立ち止まって。\nこれがあなたの一週間です。",
   "recaps_story_days": {
     "one": "1日",
     "other": "{{count}}日"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "わたしの軌道",
   "recaps_story_share_shuffle": "写真をシャッフル",
   "recaps_story_share_title": "わたしの%{month}",
-  "recaps_story_share_title_week": "わたしの一週間",
   "recaps_story_sleep_ask": {
     "one": "眠れなかった夜が1晩ありました。詳しく見る？",
     "other": "眠れなかった夜が{{count}}晩ありました。詳しく見る？"

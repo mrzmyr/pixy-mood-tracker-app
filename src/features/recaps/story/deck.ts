@@ -393,35 +393,3 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     (slide): slide is StorySlide => slide !== null
   );
 };
-
-/** Weeks from the story week to today's week: 0 for the current week. */
-const weeksSince = (start: DateKey, today: DateKey) =>
-  Math.floor(daysBetween(start, today) / 7);
-
-/**
- * Week story slides in deck order: intro on the sky, cover, tags that felt
- * lighter and heavier, orbit, and the closing card. Each slot skips when
- * its rule fails. `null` for other periods, weeks more than 2 weeks back
- * or ahead, and weeks with fewer than 4 check-in days.
- */
-export const buildWeekStory = (input: RecapInput): StorySlide[] | null => {
-  const age = weeksSince(input.period.start, input.today);
-  if (
-    input.period.kind !== "week" ||
-    age < 0 ||
-    age > THRESHOLDS.weekStoryMaxWeeksBack ||
-    input.days.length < THRESHOLDS.weekStoryMinCheckIns
-  ) {
-    return null;
-  }
-  const slides: (StorySlide | null)[] = [
-    { type: "intro" },
-    cover(input),
-    positiveTags(input),
-    negativeTags(input),
-    orbit(input),
-  ];
-  return [...slides, share(input)].filter(
-    (slide): slide is StorySlide => slide !== null
-  );
-};

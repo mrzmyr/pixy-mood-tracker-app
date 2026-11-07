@@ -149,14 +149,14 @@ describe("useRecapNotificationTaps()", () => {
 
   test("opens the recap from the tap that launched the app, once", async () => {
     const launch = createResponse({
-      data: { type: "recap", kind: "week", date: "2026-10-11" },
+      data: { type: "recap", kind: "year", date: "2026-12-31" },
     });
     const { source } = createSource(launch);
     const screen = await renderApp({ source, recaps: true });
 
     await waitFor(() =>
       expect(screen.getByTestId("recap-route").props.children).toBe(
-        "week 2026-10-11"
+        "year 2026-12-31"
       )
     );
     expect(source.getLastResponse()).toBeNull();

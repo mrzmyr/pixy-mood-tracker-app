@@ -4,9 +4,9 @@ import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
 import { getDays, getPeriodDays } from "../days";
 import { getPeriod } from "../period";
-import type { DateKey, PeriodKind, RecapInput } from "../types";
+import type { DateKey, RecapInput } from "../types";
 import { getToday } from "../use-recap-input";
-import { bestDay, buildMonthStory, buildWeekStory } from "./deck";
+import { bestDay, buildMonthStory } from "./deck";
 import { SLIDE_CASES } from "./slide-cases";
 import type { CaseKit } from "./slide-cases";
 import type { SlideContext } from "./slides";
@@ -34,7 +34,6 @@ export const PLAYGROUND_SECTIONS = [
     title: "Recap story",
     decks: [
       { id: "all", title: "All slide states" },
-      { id: "week", title: "Week story" },
       { id: "month", title: "Month story" },
     ],
   },
@@ -137,13 +136,9 @@ const CROWD: Person[] = CROWD_NAMES.map((name, index) => ({
 }));
 
 /** Recap input as the story screen builds it, with every step on. */
-const toInput = (
-  data: PlaygroundData,
-  kind: PeriodKind,
-  weekLocale: string
-): RecapInput => {
+const toInput = (data: PlaygroundData): RecapInput => {
   const history = getDays(data.items);
-  const period = getPeriod(kind, data.date, weekLocale);
+  const period = getPeriod("month", data.date);
   const steps = new Set([
     "emotions",
     "tags",
@@ -200,32 +195,23 @@ const toKit = (data: PlaygroundData, input: RecapInput): CaseKit => ({
     bestDay(input)?.date ?? input.days.at(-1)?.date ?? input.period.start,
 });
 
-/** One slide of a deck, with the context of its own period. */
+/** One slide of a deck, with the context of its month. */
 export interface PlaygroundPage {
   slide: StorySlide;
   ctx: SlideContext;
   label: string;
 }
 
-/** Slides of `deck`, each with the context of its period. */
+/** Slides of `deck`, each with the context of the month. */
 export const getPlaygroundPages = (
   deck: string,
-  data: Record<"week" | "month", PlaygroundData>,
-  isDark: boolean,
-  weekLocale: string
+  data: PlaygroundData,
+  isDark: boolean
 ): PlaygroundPage[] => {
-  const periods = {
-    week: toInput(data.week, "week", weekLocale),
-    month: toInput(data.month, "month", weekLocale),
-  };
-  const ctxOf = (kind: "week" | "month") =>
-    toContext(data[kind], periods[kind], isDark);
-  if (deck === "week" || deck === "month") {
-    const story =
-      deck === "week"
-        ? buildWeekStory(periods.week)
-        : buildMonthStory(periods.month);
-    const ctx = ctxOf(deck);
+  const input = toInput(data);
+  const ctx = toContext(data, input, isDark);
+  if (deck === "month") {
+    const story = buildMonthStory(input);
     return (story ?? []).map((slide) => ({ slide, ctx, label: slide.type }));
   }
   // `<type>` plays every case of the type, `<type>/<index>` one case.
@@ -238,10 +224,8 @@ export const getPlaygroundPages = (
       caseIndex === undefined || String(index) === caseIndex
         ? [
             {
-              slide: slideCase.build(
-                toKit(data[slideCase.period], periods[slideCase.period])
-              ),
-              ctx: ctxOf(slideCase.period),
+              slide: slideCase.build(toKit(data, input)),
+              ctx,
               label: `${type}: ${slideCase.name}`,
             },
           ]

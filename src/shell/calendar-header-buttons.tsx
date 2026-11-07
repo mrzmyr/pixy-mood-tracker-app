@@ -53,7 +53,7 @@ export const CalendarHeaderButtons = () => {
     isRecapsEnabled
       ? router.navigate({
           pathname: "/recaps/[kind]/[date]",
-          params: { kind: "week", date: dayjs().format(DATE_FORMAT) },
+          params: { kind: "month", date: dayjs().format(DATE_FORMAT) },
         })
       : router.navigate("/statistics");
   // The calendar intro shows the buttons after the pixels.

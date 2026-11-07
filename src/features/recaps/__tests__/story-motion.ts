@@ -71,7 +71,6 @@ describe("story origin", () => {
 describe("story card on close", () => {
   const key = getStoryCardKey({
     source: "calendar",
-    kind: "month",
     date: "2026-10-01",
   });
 

@@ -29,7 +29,6 @@ import { HomeAway } from "./home-away";
 import { PeopleQuiz } from "./people-quiz";
 import type { QuizAnswer } from "./people-quiz";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
-import { StoryIntro } from "./story-intro";
 import { StoryPressContext } from "./press-context";
 import {
   RoughNightsAll,
@@ -76,12 +75,10 @@ const UNANSWERED: QuizAnswer = { picked: null, onPick: noop };
 const GRID_GAP = 8;
 const MAX_PIXEL = 56;
 /** Time between two days of the cover grid build-up. */
-const coverStepMs = (period: Period) => (period.kind === "week" ? 90 : 30);
+const COVER_STEP_MS = 30;
 
 const coverTitle = (period: Period) =>
-  period.kind === "week"
-    ? t("recaps_story_cover_pixels_title_week")
-    : t("recaps_story_cover_pixels_title", { month: monthName(period.start) });
+  t("recaps_story_cover_pixels_title", { month: monthName(period.start) });
 
 /**
  * Kind words under the cover. A month with every day checked in says so;
@@ -91,9 +88,9 @@ const coverTitle = (period: Period) =>
 const coverNote = (slide: CoverSlide, period: Period) => {
   const count = slide.checkIns;
   if (count >= daysBetween(period.start, period.end) + 1) {
-    return period.kind === "week"
-      ? t("recaps_story_cover_note_full_week")
-      : t("recaps_story_cover_note_full", { month: monthName(period.start) });
+    return t("recaps_story_cover_note_full", {
+      month: monthName(period.start),
+    });
   }
   const notes = [
     t("recaps_story_cover_note_1", { count }),
@@ -113,9 +110,7 @@ const CoverNote = ({
 }) => {
   const days = daysBetween(ctx.period.start, ctx.period.end) + 1;
   const at =
-    titleRevealEnd(coverTitle(ctx.period)) +
-    days * coverStepMs(ctx.period) +
-    350;
+    titleRevealEnd(coverTitle(ctx.period)) + days * COVER_STEP_MS + 350;
   return (
     <RevealText
       text={coverNote(slide, ctx.period)}
@@ -163,7 +158,7 @@ const Cover = ({ slide, ctx }: { slide: CoverSlide; ctx: SlideContext }) => {
           empty={palette.glass}
           emptyOutline={palette.glassBorder}
           revealAt={titleRevealEnd(title)}
-          revealStepMs={coverStepMs(ctx.period)}
+          revealStepMs={COVER_STEP_MS}
           render={(date) => {
             const photo = byDate.get(date);
             return photo ? (
@@ -571,9 +566,6 @@ export const SlideContent = ({
   /** Sleep and rough-night slides. Without it the slides ask nothing. */
   rough?: RoughNightsControls;
 }) => {
-  if (slide.type === "intro") {
-    return <StoryIntro ctx={ctx} />;
-  }
   if (ROUGH_TYPES.has(slide.type)) {
     return <RoughNightsBody slide={slide} ctx={ctx} rough={rough} />;
   }

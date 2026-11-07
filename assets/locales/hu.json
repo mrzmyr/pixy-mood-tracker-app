@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Gyors bejegyzés",
   "notification_recap_body": "Nézd meg, mi emelkedett ki.",
   "notification_recap_month_title": "Megérkezett a havi visszatekintésed",
-  "notification_recap_week_title": "Megérkezett a heti visszatekintésed",
   "notification_recap_year_title": "Megérkezett az éves visszatekintésed",
   "notification_reminder_body": "Koppints ide a mai hangulatod nyomon követéséhez.",
   "notification_reminder_title": "Naplózd a hangulatodat",
@@ -841,20 +840,8 @@
     "other": "{{count}} napon, %{weeks} hét szünet után"
   },
   "recaps_came_back_title_week": "Visszatért a héten",
-  "recaps_connected_days": {
-    "one": "1 nap kapcsolat",
-    "other": "{{count}} nap kapcsolat"
-  },
   "recaps_connected_more": "+%{count} további",
-  "recaps_connected_title": {
-    "one": "{{count}} emberrel voltál kapcsolatban",
-    "other": "{{count}} emberrel voltál kapcsolatban"
-  },
-  "recaps_connected_title_one": "Kapcsolatban voltál vele: %{name}",
-  "recaps_day_ago_text": "Egy éve: %{date}.",
-  "recaps_day_ago_title": "Remek nap egy évvel ezelőtt",
   "recaps_day_best_title_month": "%{day}: a hónapod legjobb napja",
-  "recaps_day_best_title_week": "%{day}: a heted legjobb napja",
   "recaps_day_hard_text": "Minden bejegyzés számít, bármilyen is a nap.",
   "recaps_day_hard_title": "Köszönjük a bejegyzést: %{day}",
   "recaps_day_see": "Nap megtekintése",
@@ -862,15 +849,9 @@
     "one": "1 nap",
     "other": "{{count}} nap"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Egy napon jött elő az előző két hónapban.",
-    "other": "{{count}} napon jött elő az előző két hónapban."
-  },
-  "recaps_emotion_absent_title": "3 hét %{emotion} érzés nélkül",
   "recaps_emotion_again_text": "Először %{date} óta.",
   "recaps_emotion_again_title": "Újra %{emotion}",
   "recaps_emotions_back_title_month": "Ebben a hónapban visszatért érzelmek",
-  "recaps_emotions_back_title_week": "A héten visszatért érzelmek",
   "recaps_emotions_title": "Leggyakrabban használt érzelmek",
   "recaps_emotions_year_title": "Top 10 érzelem",
   "recaps_empty": "Erre az időszakra még nincs kártya. Megjelennek, ahogy több napot rögzítesz.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Adj fotót a bejegyzéseidhez. Egy év múlva a visszatekintésed így kezdődhet: „Ma egy éve”.",
   "recaps_intro_photos_title": "Őrizz meg egy fotót a napról",
   "recaps_mood_chart_title_month": "Hangulat ebben a hónapban",
-  "recaps_mood_chart_title_week": "Hangulat ezen a héten",
   "recaps_mood_count_title": "A napjaid {{percent}}%-a volt jó",
   "recaps_mood_count_title_mixed": "Napjaid hangulat szerint",
   "recaps_most_connected_title_month": "Legtöbb kapcsolat ebben a hónapban",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "A heti, havi és éves visszatekintések minden hét, hónap és év utolsó napján érkeznek, az emlékeztetőd időpontjában.",
   "recaps_notifications_setting": "Visszatekintések",
   "recaps_nudge_not_now": "Most nem",
-  "recaps_nudge_reminder_action": "Emlékeztess %{time}-kor",
-  "recaps_nudge_reminder_text": "A nagy napok megmaradnak. A kis jó napok másnap reggelre elhalványulnak. Egy rövid esti bejegyzés megőrzi őket.",
-  "recaps_nudge_reminder_title": "Őrizd meg a csendes jó napokat is",
-  "recaps_open_settings": "Beállítások megnyitása",
   "recaps_people_moments_title_month": "Emberek ebben a hónapban",
-  "recaps_people_moments_title_week": "Emberek a héten",
   "recaps_people_mood_text": "Jelzés, nem ok. A kapcsolat lehet jó, nehéz vagy vegyes.",
   "recaps_people_mood_title": "Hangulat a kapcsolat napjain",
   "recaps_period_month": "Hónap",
   "recaps_period_next": "Következő időszak",
   "recaps_period_previous": "Előző időszak",
-  "recaps_period_week": "Hét",
   "recaps_period_year": "Év",
   "recaps_person_moment_back": {
     "one": "Újra itt 1 hét után",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{year}: %{count} nap kapcsolódás",
   "recaps_person_moment_new": "Első kapcsolódás",
   "recaps_places_title_month": "Helyek ebben a hónapban",
-  "recaps_places_title_week": "Helyek a héten",
   "recaps_places_title_year": "Helyek ebben az évben",
   "recaps_places_trips": {
     "one": "1 út otthonról.",
     "other": "%{count} út otthonról."
   },
-  "recaps_reminder_failed": "Az emlékeztető nincs beállítva. Az értesítéseket nem sikerült ütemezni. Próbáld újra a Beállítások > Emlékeztető menüben.",
-  "recaps_reminder_set": "Emlékeztető: %{time}",
   "recaps_sleep_chart_title_month": "Alvás ebben a hónapban",
-  "recaps_sleep_chart_title_week": "Alvás ezen a héten",
-  "recaps_sleep_rough_text": "%{count} nehéz éjszaka egymás után. Pihenj, amikor tudsz.",
-  "recaps_sleep_rough_title": "Néhány nehéz éjszaka",
-  "recaps_sleep_turnaround_text": "Néhány nehéz éjszaka után az előző héten.",
-  "recaps_sleep_turnaround_title": "%{count} jó éjszaka egymás után",
   "recaps_step_turned_on": "Hozzáadva a bejegyzéshez",
-  "recaps_stood_out_text": "Ezek a napok általában könnyebbek neked.",
-  "recaps_stood_out_title": {
-    "one": "1 nap ezzel: %{tag} ezen a héten",
-    "other": "{{count}} nap ezzel: %{tag} ezen a héten"
-  },
   "recaps_story_banner_label_month": "Havi visszatekintés",
   "recaps_story_banner_title": "Visszatekintés: %{month}",
-  "recaps_story_banner_title_week": "Heti visszatekintés",
   "recaps_story_best_day_ask": "Készen állsz a legjobb napodra?",
   "recaps_story_best_day_show": "Legjobb napod megjelenítése",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "{{count}} napon szántál időt magadra. Lehetsz rá büszke."
   },
   "recaps_story_cover_note_full": "%{month} minden napjának megvan a pixele. Ez igazi teljesítmény.",
-  "recaps_story_cover_note_full_week": "A hét minden napjának megvan a pixele. Ez igazi teljesítmény.",
   "recaps_story_cover_pixels_title": "pixel · %{month}",
-  "recaps_story_cover_pixels_title_week": "A hét pixelei",
-  "recaps_story_cover_title_week": "Szánj rá egy pillanatot.\nEz volt a heted.",
   "recaps_story_days": {
     "one": "1 nap",
     "other": "{{count}} nap"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "A pályám",
   "recaps_story_share_shuffle": "Fotók keverése",
   "recaps_story_share_title": "Az én %{month} hónapom",
-  "recaps_story_share_title_week": "Az én hetem",
   "recaps_story_sleep_ask": {
     "one": "1 éjszaka nehéz volt. Megnézzük közelebbről?",
     "other": "{{count}} éjszaka nehéz volt. Megnézzük közelebbről?"

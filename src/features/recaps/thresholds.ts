@@ -3,22 +3,8 @@
  * design prototype; tune here, never inline.
  */
 export const THRESHOLDS = {
-  /** Reminder nudge: a week that cannot reach this many check-in days. */
-  reminderMaxCheckInDays: 5,
   /** Emotion again: good emotion, first time in at least this many days. */
   emotionAgainMinGapDays: 30,
-  /** Emotion absent: days with no hard emotion, counted back from period end. */
-  emotionAbsentDays: 21,
-  /** Emotion absent: the window before those days, in days. */
-  emotionAbsentBeforeDays: 60,
-  /** Emotion absent: hard emotion on at least this many days before. */
-  emotionAbsentMinBefore: 5,
-  /** Emotion absent: check-in days needed in the absent window. */
-  emotionAbsentMinCheckIns: 12,
-  /** Heavier week: average rating this far below the usual average. */
-  heavierWeekDrop: 0.6,
-  /** Usual average needs at least this many earlier days. */
-  usualMinDays: 20,
   /** Person back: connected again after at least this many days. */
   personBackMinGapDays: 28,
   /** First city: farther than this from every earlier place, in km. */
@@ -31,12 +17,6 @@ export const THRESHOLDS = {
   tagBackMinGapDays: 21,
   /** Tag back: used on at least this many days before. */
   tagBackMinUses: 8,
-  /** Sleep: nights in a row for a run. */
-  sleepRunNights: 3,
-  /** Sleep turnaround: rough nights the week before, at least. */
-  sleepTurnaroundMinRoughBefore: 2,
-  /** Rough nights: rough nights the week before, at most. */
-  sleepRoughMaxRoughBefore: 1,
   /** Your emotions: different emotions needed. */
   emotionsMinDifferent: 3,
   /** Most connected: people needed. */
@@ -55,16 +35,6 @@ export const THRESHOLDS = {
   effectStrongScore: 2,
   /** Effects: difference over standard error for a medium signal. */
   effectMediumScore: 1,
-  /** Stood out: days before the week the pattern comes from. */
-  stoodOutHistoryDays: 90,
-  /** Stood out: days with history needed in those 90 days. */
-  stoodOutMinHistoryDays: 28,
-  /** Stood out: tag days in the week, at least. */
-  stoodOutMinDays: 2,
-  /** Stood out: smallest lift in mood steps worth naming. */
-  stoodOutMinDelta: 0.25,
-  /** Stood out: cards per week, at most. */
-  stoodOutMaxCards: 2,
   /** What moves your mood: check-in days in the period needed. */
   whatMovesMinDays: 40,
   /** What moves your mood: rows per kind, at most. */
@@ -91,10 +61,6 @@ export const THRESHOLDS = {
   storyMinCheckIns: 10,
   /** Month story: months back from the current month that keep a story. */
   storyMaxMonthsBack: 3,
-  /** Week story: check-in days needed. */
-  weekStoryMinCheckIns: 4,
-  /** Week story: weeks before the current one that still get a story. */
-  weekStoryMaxWeeksBack: 2,
   /** Story photos and bright days: rating at least this (good). */
   storyBrightMinRating: 4,
   /** Story tags that felt lighter or heavier: rows at most. Medium or strong effects only. */
@@ -125,8 +91,6 @@ export const THRESHOLDS = {
   moodDaysGoodMinRating: 4,
   /** Harder days: day rating at most this (bad). */
   moodDaysHardMaxRating: 2,
-  /** Sleep chart: nights with sleep needed in a week. */
-  sleepChartMinNightsWeek: 3,
   /** Sleep chart: nights with sleep needed in a month. */
   sleepChartMinNightsMonth: 7,
   /** Sleep story slide: nights with sleep needed in the month. */
@@ -145,8 +109,6 @@ export const THRESHOLDS = {
   tagsMinDifferent: 3,
   /** Most used tags: rows at most. */
   tagsMaxRows: 5,
-  /** Tag days: days with the tag in a week, at least. */
-  tagDaysMinWeek: 3,
   /** Tag days: days with the tag in a month, at least. */
   tagDaysMinMonth: 6,
   /** Tag days: cards per period, at most. */

@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Γρήγορη καταγραφή",
   "notification_recap_body": "Δείτε τι ξεχώρισε.",
   "notification_recap_month_title": "Η μηνιαία ανασκόπησή σας είναι εδώ",
-  "notification_recap_week_title": "Η εβδομαδιαία ανασκόπησή σας είναι εδώ",
   "notification_recap_year_title": "Η ετήσια ανασκόπησή σας είναι εδώ",
   "notification_reminder_body": "Πατήστε εδώ για να παρακολουθήσετε τη σημερινή σας διάθεση.",
   "notification_reminder_title": "Παρακολουθήστε τη διάθεσή σας",
@@ -841,20 +840,8 @@
     "other": "Σε {{count}} μέρες, μετά από %{weeks} εβδομάδες απουσίας"
   },
   "recaps_came_back_title_week": "Επέστρεψαν αυτή την εβδομάδα",
-  "recaps_connected_days": {
-    "one": "1 μέρα σε επαφή",
-    "other": "{{count}} μέρες σε επαφή"
-  },
   "recaps_connected_more": "+%{count} ακόμη",
-  "recaps_connected_title": {
-    "one": "Ήσουν σε επαφή με {{count}} άτομα",
-    "other": "Ήσουν σε επαφή με {{count}} άτομα"
-  },
-  "recaps_connected_title_one": "Ήσουν σε επαφή με %{name}",
-  "recaps_day_ago_text": "Πριν από έναν χρόνο: %{date}.",
-  "recaps_day_ago_title": "Μια υπέροχη μέρα, πριν από έναν χρόνο",
   "recaps_day_best_title_month": "%{day}: η καλύτερη μέρα του μήνα",
-  "recaps_day_best_title_week": "%{day}: η καλύτερη μέρα της εβδομάδας",
   "recaps_day_hard_text": "Κάθε καταγραφή μετράει, κάθε είδους μέρα.",
   "recaps_day_hard_title": "Ευχαριστούμε που κατέγραψες την %{day}",
   "recaps_day_see": "Δες αυτή τη μέρα",
@@ -862,15 +849,9 @@
     "one": "1 μέρα",
     "other": "{{count}} μέρες"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Εμφανίστηκε μία μέρα τους δύο προηγούμενους μήνες.",
-    "other": "Εμφανίστηκε {{count}} μέρες τους δύο προηγούμενους μήνες."
-  },
-  "recaps_emotion_absent_title": "3 εβδομάδες χωρίς %{emotion}",
   "recaps_emotion_again_text": "Για πρώτη φορά από %{date}.",
   "recaps_emotion_again_title": "Ξανά %{emotion}",
   "recaps_emotions_back_title_month": "Συναισθήματα που επέστρεψαν αυτόν τον μήνα",
-  "recaps_emotions_back_title_week": "Συναισθήματα που επέστρεψαν αυτή την εβδομάδα",
   "recaps_emotions_title": "Τα πιο συχνά συναισθήματα",
   "recaps_emotions_year_title": "Τα 10 κορυφαία συναισθήματα",
   "recaps_empty": "Δεν υπάρχουν ακόμη κάρτες για αυτή την περίοδο. Θα εμφανιστούν όσο καταγράφεις περισσότερες μέρες.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Πρόσθεσε φωτογραφία στις καταγραφές. Σε έναν χρόνο, η ανασκόπησή σου μπορεί να ξεκινά με «Σαν σήμερα πριν από έναν χρόνο».",
   "recaps_intro_photos_title": "Κράτα μια φωτογραφία της μέρας",
   "recaps_mood_chart_title_month": "Διάθεση αυτόν τον μήνα",
-  "recaps_mood_chart_title_week": "Διάθεση αυτή την εβδομάδα",
   "recaps_mood_count_title": "Το {{percent}}% των ημερών σου ήταν καλό",
   "recaps_mood_count_title_mixed": "Οι μέρες σου κατά διάθεση",
   "recaps_most_connected_title_month": "Περισσότερη επαφή αυτόν τον μήνα",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Οι εβδομαδιαίες, μηνιαίες και ετήσιες ανασκοπήσεις έρχονται την τελευταία ημέρα κάθε εβδομάδας, μήνα και έτους, την ώρα της υπενθύμισής σας.",
   "recaps_notifications_setting": "Ανασκοπήσεις",
   "recaps_nudge_not_now": "Όχι τώρα",
-  "recaps_nudge_reminder_action": "Υπενθύμιση στις %{time}",
-  "recaps_nudge_reminder_text": "Οι μεγάλες μέρες μένουν στη μνήμη. Οι μικρές καλές ξεθωριάζουν ως το επόμενο πρωί. Μια σύντομη καταγραφή κάθε βράδυ τις κρατά.",
-  "recaps_nudge_reminder_title": "Κράτα και τις ήσυχες καλές μέρες",
-  "recaps_open_settings": "Άνοιγμα Ρυθμίσεων",
   "recaps_people_moments_title_month": "Άτομα αυτόν τον μήνα",
-  "recaps_people_moments_title_week": "Άτομα αυτή την εβδομάδα",
   "recaps_people_mood_text": "Μια ένδειξη, όχι αιτία. Η επαφή μπορεί να είναι καλή, βαριά ή ανάμεικτη.",
   "recaps_people_mood_title": "Διάθεση σε μέρες επαφής",
   "recaps_period_month": "Μήνας",
   "recaps_period_next": "Επόμενη περίοδος",
   "recaps_period_previous": "Προηγούμενη περίοδος",
-  "recaps_period_week": "Εβδομάδα",
   "recaps_period_year": "Έτος",
   "recaps_person_moment_back": {
     "one": "Ξανά μετά από 1 εβδομάδα",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{count} μέρες σε επαφή το %{year}",
   "recaps_person_moment_new": "Πρώτη επαφή",
   "recaps_places_title_month": "Μέρη αυτόν τον μήνα",
-  "recaps_places_title_week": "Μέρη αυτή την εβδομάδα",
   "recaps_places_title_year": "Μέρη φέτος",
   "recaps_places_trips": {
     "one": "1 ταξίδι μακριά από το σπίτι.",
     "other": "%{count} ταξίδια μακριά από το σπίτι."
   },
-  "recaps_reminder_failed": "Η υπενθύμιση δεν ρυθμίστηκε. Δεν ήταν δυνατός ο προγραμματισμός ειδοποιήσεων. Δοκίμασε ξανά στις Ρυθμίσεις > Υπενθύμιση.",
-  "recaps_reminder_set": "Υπενθύμιση στις %{time}",
   "recaps_sleep_chart_title_month": "Ύπνος αυτόν τον μήνα",
-  "recaps_sleep_chart_title_week": "Ύπνος αυτή την εβδομάδα",
-  "recaps_sleep_rough_text": "%{count} δύσκολες νύχτες στη σειρά. Ξεκουράσου όποτε μπορείς.",
-  "recaps_sleep_rough_title": "Μερικές δύσκολες νύχτες",
-  "recaps_sleep_turnaround_text": "Μετά από μερικές δύσκολες νύχτες την προηγούμενη εβδομάδα.",
-  "recaps_sleep_turnaround_title": "%{count} καλές νύχτες στη σειρά",
   "recaps_step_turned_on": "Προστέθηκε στην καταγραφή",
-  "recaps_stood_out_text": "Αυτές οι μέρες συνήθως σου φαίνονται πιο ανάλαφρες.",
-  "recaps_stood_out_title": {
-    "one": "1 μέρα με %{tag} αυτή την εβδομάδα",
-    "other": "{{count}} μέρες με %{tag} αυτή την εβδομάδα"
-  },
   "recaps_story_banner_label_month": "Ανασκόπηση μήνα",
   "recaps_story_banner_title": "Ανασκόπηση: %{month}",
-  "recaps_story_banner_title_week": "Ανασκόπηση εβδομάδας",
   "recaps_story_best_day_ask": "Έτοιμος να δεις την καλύτερη μέρα σου;",
   "recaps_story_best_day_show": "Δείξε την καλύτερη μέρα σου",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "{{count}} μέρες έκανες χρόνο για τον εαυτό σου. Να είσαι περήφανος."
   },
   "recaps_story_cover_note_full": "Κάθε μέρα (%{month}) έχει το pixel της. Είναι πραγματικό επίτευγμα.",
-  "recaps_story_cover_note_full_week": "Κάθε μέρα αυτής της εβδομάδας έχει το pixel της. Είναι πραγματικό επίτευγμα.",
   "recaps_story_cover_pixels_title": "pixels · %{month}",
-  "recaps_story_cover_pixels_title_week": "Pixels αυτής της εβδομάδας",
-  "recaps_story_cover_title_week": "Πάρε μια στιγμή.\nΑυτή ήταν η εβδομάδα σου.",
   "recaps_story_days": {
     "one": "1 μέρα",
     "other": "{{count}} μέρες"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Η τροχιά μου",
   "recaps_story_share_shuffle": "Ανακάτεμα φωτογραφιών",
   "recaps_story_share_title": "Ο %{month} μου",
-  "recaps_story_share_title_week": "Η εβδομάδα μου",
   "recaps_story_sleep_ask": {
     "one": "1 νύχτα ήταν δύσκολη. Να δούμε πιο κοντά;",
     "other": "{{count}} νύχτες ήταν δύσκολες. Να δούμε πιο κοντά;"

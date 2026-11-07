@@ -16,9 +16,8 @@ import {
   RecapStoryPlayground,
 } from "@/features/recaps/playground";
 import useColors from "@/hooks/use-colors";
-import { useWeekLocale } from "@/hooks/use-week-locale";
-import { getPlaygroundFixtures, toPlaygroundData } from "@/dev/playground-data";
-import type { PlaygroundSets } from "@/dev/playground-data";
+import { getPlaygroundFixture, toPlaygroundData } from "@/dev/playground-data";
+import type { PlaygroundData } from "@/features/recaps/playground";
 import { withPhotoFiles } from "@/dev/use-load-fixture";
 
 /** Settings > Playground: components in every state, without loading test data. */
@@ -59,28 +58,26 @@ export const DevPlaygroundScreen = () => {
         </View>
       ))}
       <TextInfo style={{ marginTop: 8 }}>
-        {`Slides use the recap story fixtures and never change your data. Link: ${Linking.createURL("dev/playground/recap-story")}?deck=<id>&theme=light|dark. Deck IDs: all, week, month, <type>, <type>/<index>.`}
+        {`Slides use the recap story fixtures and never change your data. Link: ${Linking.createURL("dev/playground/recap-story")}?deck=<id>&theme=light|dark. Deck IDs: all, month, <type>, <type>/<index>.`}
       </TextInfo>
     </ScrollView>
   );
 };
 
-/** Playground fixtures with their photo files imported like picked photos. */
-const loadSets = async (weekLocale: string): Promise<PlaygroundSets | null> => {
-  const fixtures = getPlaygroundFixtures(weekLocale);
-  if (!fixtures) {
+/** Playground fixture with its photo files imported like picked photos. */
+const loadData = async (): Promise<PlaygroundData | null> => {
+  const fixture = getPlaygroundFixture();
+  if (!fixture) {
     return null;
   }
-  const [month, week] = await Promise.all(
-    [fixtures.month, fixtures.week].map(async ({ data, date }) =>
-      toPlaygroundData({ data: await withPhotoFiles(data), date })
-    )
-  );
-  return month && week ? { month, week } : null;
+  return toPlaygroundData({
+    data: await withPhotoFiles(fixture.data),
+    date: fixture.date,
+  });
 };
 
 /** Fixture data with photo files, imported once per app start. */
-let loading: Promise<PlaygroundSets | null> | null = null;
+let loading: Promise<PlaygroundData | null> | null = null;
 
 /**
  * Target of `<scheme>://dev/playground/recap-story?deck=<id>&theme=light|dark`.
@@ -89,19 +86,18 @@ let loading: Promise<PlaygroundSets | null> | null = null;
 export const DevRecapPlaygroundScreen = () => {
   const router = useRouter();
   const colorScheme = useColorScheme();
-  const weekLocale = useWeekLocale();
   const { deck = "all", theme } = useLocalSearchParams<{
     deck?: string;
     theme?: string;
   }>();
   // `undefined` while loading, `null` without the fixtures.
-  const [data, setData] = useState<PlaygroundSets | null | undefined>();
+  const [data, setData] = useState<PlaygroundData | null | undefined>();
 
   useEffect(() => {
     let isActive = true;
     const load = async () => {
       if (!loading) {
-        loading = loadSets(weekLocale);
+        loading = loadData();
       }
       const loaded = await loading;
       if (isActive) {
@@ -112,7 +108,7 @@ export const DevRecapPlaygroundScreen = () => {
     return () => {
       isActive = false;
     };
-  }, [weekLocale]);
+  }, []);
 
   if (!data) {
     return (

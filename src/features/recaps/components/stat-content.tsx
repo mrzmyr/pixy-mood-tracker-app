@@ -191,13 +191,9 @@ const PeriodCalendar = ({
   );
 };
 
-/** Day labels under a bar chart: weekdays in a week, a few dates in a month. */
-const barLabel = (date: DateKey, index: number, periodKind: PeriodKind) => {
-  if (periodKind === "week") {
-    return dayjs(date).format("dd").slice(0, 2);
-  }
-  return index % 7 === 0 ? dayjs(date).format("D") : "";
-};
+/** Day labels under a bar chart: a few dates of the month. */
+const barLabel = (date: DateKey, index: number) =>
+  index % 7 === 0 ? dayjs(date).format("D") : "";
 
 const BAR_HEIGHT = 112;
 
@@ -209,17 +205,15 @@ const DayBars = ({
   days,
   max,
   colorOf,
-  periodKind,
   testID,
 }: {
   days: { date: DateKey; value: number | null }[];
   max: number;
   colorOf: (value: number) => string;
-  periodKind: PeriodKind;
   testID: string;
 }) => {
   const colors = useColors();
-  const gap = periodKind === "week" ? 8 : 2;
+  const gap = 2;
   return (
     <View
       testID={testID}
@@ -265,14 +259,14 @@ const DayBars = ({
               style={{
                 position: "absolute",
                 left: 0,
-                width: periodKind === "week" ? "100%" : 24,
-                textAlign: periodKind === "week" ? "center" : "left",
+                width: 24,
+                textAlign: "left",
                 fontSize: 12,
                 fontVariant: ["tabular-nums"],
                 color: colors.textSecondary,
               }}
             >
-              {barLabel(day.date, index, periodKind)}
+              {barLabel(day.date, index)}
             </Text>
           </View>
         ))}
@@ -283,10 +277,8 @@ const DayBars = ({
 
 const MoodChartBody = ({
   card,
-  periodKind,
 }: {
   card: Extract<StatCard, { type: "mood-chart" }>;
-  periodKind: PeriodKind;
 }) => {
   const scale = useScale();
   return (
@@ -295,17 +287,14 @@ const MoodChartBody = ({
       days={card.days.map((day) => ({ date: day.date, value: day.rating }))}
       max={6}
       colorOf={(value) => scale[toRating(value)].background}
-      periodKind={periodKind}
     />
   );
 };
 
 const SleepChartBody = ({
   card,
-  periodKind,
 }: {
   card: Extract<StatCard, { type: "sleep-chart" }>;
-  periodKind: PeriodKind;
 }) => {
   const colors = useColors();
   return (
@@ -317,7 +306,6 @@ const SleepChartBody = ({
       }))}
       max={4}
       colorOf={() => colors.sleepQualityFull}
-      periodKind={periodKind}
     />
   );
 };
@@ -604,11 +592,9 @@ const PERIOD_TITLES: Record<
   Partial<Record<PeriodKind, TranslationKey>>
 > = {
   "mood-chart": {
-    week: "recaps_mood_chart_title_week",
     month: "recaps_mood_chart_title_month",
   },
   "sleep-chart": {
-    week: "recaps_sleep_chart_title_week",
     month: "recaps_sleep_chart_title_month",
   },
 };
@@ -638,9 +624,9 @@ export const getStatContent = (
       return plain(t(key), {
         body:
           card.type === "mood-chart" ? (
-            <MoodChartBody card={card} periodKind={periodKind} />
+            <MoodChartBody card={card} />
           ) : (
-            <SleepChartBody card={card} periodKind={periodKind} />
+            <SleepChartBody card={card} />
           ),
       });
     }

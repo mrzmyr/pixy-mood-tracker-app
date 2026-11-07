@@ -1,34 +1,6 @@
-import dayjs from "dayjs";
 import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 import type { Tag } from "@/features/tags";
-import { THRESHOLDS } from "../thresholds";
 import type { RecapCard, RecapInput } from "../types";
-
-/** Days of the period from today on that have no entry yet. */
-const openDays = ({ period, today, days }: RecapInput) => {
-  const logged = new Set(days.map((day) => day.date));
-  let count = 0;
-  for (
-    let day = dayjs(today > period.start ? today : period.start);
-    day.format("YYYY-MM-DD") <= period.end;
-    day = day.add(1, "day")
-  ) {
-    if (!logged.has(day.format("YYYY-MM-DD"))) {
-      count += 1;
-    }
-  }
-  return count;
-};
-
-/**
- * Reminder off, and the week can no longer reach 5 check-in days: days with
- * an entry plus open days ahead stay below 5.
- */
-export const nudgeReminder = (input: RecapInput): RecapCard | null =>
-  !input.reminderEnabled &&
-  input.days.length + openDays(input) < THRESHOLDS.reminderMaxCheckInDays
-    ? { type: "nudge-reminder" }
-    : null;
 
 const isOff = (
   { steps, availableSteps }: RecapInput,

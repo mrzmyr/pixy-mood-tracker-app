@@ -3,15 +3,12 @@ import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import MapPin from "lucide-react-native/icons/map-pin";
-import { Secondary } from "@/components/type";
 import { Copy, Label } from "@/components/typography";
-import { SleepQualityMeter } from "@/features/logger";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
-import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t, tDynamic } from "@/lib/translation";
-import type { MomentCard as MomentCardData, SleepNight } from "../types";
+import type { MomentCard as MomentCardData } from "../types";
 import { MediaPanel, RecapCardShell } from "./recap-card-shell";
 import { getMomentLine } from "./person-moment-line";
 import { RingedAvatar } from "./ringed-avatar";
@@ -80,78 +77,6 @@ const PeopleMomentsList = ({
   );
 };
 
-/** Night box: the sleep slide's meter at half size. */
-const NIGHT_BOX = 32;
-
-/**
- * Every night of the week with the sleep meter from the check-in. Nights of
- * the run sit in a box with a bold weekday; the other meters fade back.
- * Nights without sleep data show a short dash, never an empty meter, which
- * would read as a very bad night.
- */
-const NightsArt = ({
-  week,
-  nights,
-}: {
-  week: SleepNight[];
-  nights: string[];
-}) => {
-  const colors = useColors();
-  const run = new Set(nights);
-  return (
-    <MediaPanel>
-      <View
-        style={{ flexDirection: "row", justifyContent: "space-between" }}
-        accessible={false}
-        importantForAccessibility="no-hide-descendants"
-      >
-        {week.map((night) => {
-          const inRun = run.has(night.date);
-          return (
-            <View key={night.date} style={{ alignItems: "center", gap: 4 }}>
-              <View
-                style={{
-                  width: NIGHT_BOX,
-                  height: NIGHT_BOX,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: RADIUS.sm,
-                  borderCurve: "continuous",
-                  borderWidth: 1,
-                  borderColor: inRun ? colors.recapCardBorder : "transparent",
-                  backgroundColor: inRun ? colors.cardBackground : undefined,
-                  // Fades the meter only: weekday labels keep their contrast.
-                  opacity: inRun ? 1 : 0.4,
-                }}
-              >
-                {night.sleep === null ? (
-                  <View
-                    style={{
-                      width: 8,
-                      height: 2,
-                      borderRadius: RADIUS.full,
-                      backgroundColor: colors.textSecondary,
-                    }}
-                  />
-                ) : (
-                  <SleepQualityMeter value={night.sleep} height={16} />
-                )}
-              </View>
-              <Secondary
-                style={
-                  inRun ? { color: colors.text, fontWeight: "600" } : undefined
-                }
-              >
-                {dayjs(night.date).format("dd")}
-              </Secondary>
-            </View>
-          );
-        })}
-      </View>
-    </MediaPanel>
-  );
-};
-
 const CityArt = () => {
   const colors = useColors();
   return (
@@ -217,11 +142,7 @@ const getContent = (
           }),
         };
       }
-      const title = t(
-        card.periodKind === "month"
-          ? "recaps_emotions_back_title_month"
-          : "recaps_emotions_back_title_week"
-      );
+      const title = t("recaps_emotions_back_title_month");
       return {
         title,
         titleLabel: title,
@@ -239,19 +160,6 @@ const getContent = (
         ),
       };
     }
-    case "emotion-absent": {
-      const title = t("recaps_emotion_absent_title", { emotion: CHIP });
-      return {
-        title: (
-          <ChipText
-            text={title}
-            chip={<EmotionChip emotionKey={card.emotion} />}
-          />
-        ),
-        titleLabel: title.replace(CHIP, emotionLabel(card.emotion)),
-        text: t("recaps_emotion_absent_text", { count: card.countBefore }),
-      };
-    }
     case "people-moments": {
       const rows = card.people.flatMap((moment) => {
         const person = people.find((item) => item.id === moment.personId);
@@ -260,11 +168,7 @@ const getContent = (
       if (rows.length === 0) {
         return null;
       }
-      const title = t(
-        card.periodKind === "month"
-          ? "recaps_people_moments_title_month"
-          : "recaps_people_moments_title_week"
-      );
+      const title = t("recaps_people_moments_title_month");
       return {
         body: <PeopleMomentsList rows={rows} />,
         title,
@@ -322,26 +226,6 @@ const getContent = (
             }))}
           />
         ),
-      };
-    }
-    case "sleep-turnaround": {
-      const title = t("recaps_sleep_turnaround_title", {
-        count: card.nights.length,
-      });
-      return {
-        media: <NightsArt week={card.week} nights={card.nights} />,
-        title,
-        titleLabel: title,
-        text: t("recaps_sleep_turnaround_text"),
-      };
-    }
-    case "sleep-rough": {
-      const title = t("recaps_sleep_rough_title");
-      return {
-        media: <NightsArt week={card.week} nights={card.nights} />,
-        title,
-        titleLabel: title,
-        text: t("recaps_sleep_rough_text", { count: card.nights.length }),
       };
     }
     default: {

@@ -5,7 +5,7 @@ import { getPeriod, shiftPeriod } from "./period";
 import type { DateKey } from "./types";
 
 /** Period kinds with a recap notification. */
-export type RecapNotificationKind = "week" | "month" | "year";
+export type RecapNotificationKind = "month" | "year";
 
 /** One upcoming recap notification. */
 export interface RecapNotification {
@@ -18,9 +18,8 @@ export interface RecapNotification {
 
 /** Bigger periods win when several end on the same day. */
 const RANK: Record<RecapNotificationKind, number> = {
-  week: 0,
-  month: 1,
-  year: 2,
+  month: 0,
+  year: 1,
 };
 
 interface Time {
@@ -35,17 +34,15 @@ const getUpcoming = ({
   kind,
   count,
   now,
-  weekLocale,
   time,
 }: {
   kind: RecapNotificationKind;
   count: number;
   now: Date;
-  weekLocale: string;
   time: Time;
 }): RecapNotification[] => {
   const notifications: RecapNotification[] = [];
-  let period = getPeriod(kind, dayjs(now).format(DATE_FORMAT), weekLocale);
+  let period = getPeriod(kind, dayjs(now).format(DATE_FORMAT));
   // At most one period ends before `now`; the cap only guards against a
   // bad date so the loop can never spin.
   for (
@@ -57,19 +54,18 @@ const getUpcoming = ({
     if (at > now) {
       notifications.push({ kind, periodEnd: period.end, at });
     }
-    period = shiftPeriod(period, 1, weekLocale);
+    period = shiftPeriod(period, 1);
   }
   return notifications;
 };
 
 /**
- * Upcoming recap notifications: the last day of the next `weeks` weeks,
- * `months` months, and `years` years, at `reminderTime` (`HH:mm`, local).
+ * Upcoming recap notifications: the last day of the next `months` months
+ * and `years` years, at `reminderTime` (`HH:mm`, local).
  *
- * - Weeks end on the last day of `weekLocale` (`useWeekLocale`)
  * - Includes the current period while its time is after `now`
  * - One notification per day: when periods end on the same day, the
- *   biggest wins (year over month over week)
+ *   biggest wins (year over month)
  * - Defaults stay within `RECAP_NOTIFICATION_SLOTS`, so reminders plus
  *   recaps fit the 64 notifications iOS keeps; the app reschedules on each
  *   new day
@@ -78,16 +74,12 @@ const getUpcoming = ({
  */
 export const getRecapNotifications = ({
   now,
-  weekLocale,
   reminderTime,
-  weeks = 2,
   months = 1,
   years = 1,
 }: {
   now: Date;
-  weekLocale: string;
   reminderTime: string;
-  weeks?: number;
   months?: number;
   years?: number;
 }): RecapNotification[] => {
@@ -99,24 +91,15 @@ export const getRecapNotifications = ({
   }
   const all = [
     ...getUpcoming({
-      kind: "week",
-      count: weeks,
-      now,
-      weekLocale,
-      time,
-    }),
-    ...getUpcoming({
       kind: "month",
       count: months,
       now,
-      weekLocale,
       time,
     }),
     ...getUpcoming({
       kind: "year",
       count: years,
       now,
-      weekLocale,
       time,
     }),
   ];

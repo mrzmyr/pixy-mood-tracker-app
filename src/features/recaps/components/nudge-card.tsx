@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { View } from "react-native";
@@ -8,10 +7,6 @@ import LinkButton from "@/components/link-button";
 import { RADIUS } from "@/constants/radius";
 import { EmotionItem } from "@/features/calendar";
 import { EMOTIONS } from "@/features/logger";
-import {
-  NotificationPreview,
-  reminderTimeToDate,
-} from "@/features/notifications";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
@@ -27,11 +22,6 @@ const COPY: Record<
   NudgeType,
   { title: TranslationKey; text: TranslationKey; action: TranslationKey }
 > = {
-  "nudge-reminder": {
-    title: "recaps_nudge_reminder_title",
-    text: "recaps_nudge_reminder_text",
-    action: "recaps_nudge_reminder_action",
-  },
   "intro-emotions": {
     title: "recaps_intro_emotions_title",
     text: "recaps_intro_emotions_text",
@@ -49,11 +39,6 @@ const COPY: Record<
   },
 };
 
-interface ArtProps {
-  /** Saved reminder time, `HH:mm`. */
-  reminderTime: string;
-}
-
 const ART_EMOTION_KEYS = new Set(["calm", "proud", "loved"]);
 const ART_EMOTIONS = EMOTIONS.filter((emotion) =>
   ART_EMOTION_KEYS.has(emotion.key)
@@ -64,10 +49,6 @@ const PLACEHOLDER_PEOPLE = ["a", "b", "c"].map((id) => ({
   avatar: null,
 }));
 const PHOTO_ROTATIONS = [-4, 2, -2];
-
-const ReminderArt = ({ reminderTime }: ArtProps) => (
-  <NotificationPreview time={reminderTimeToDate(reminderTime)} enabled />
-);
 
 const EmotionsArt = () => (
   <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
@@ -111,8 +92,7 @@ const PhotosArt = () => {
   );
 };
 
-const ART: Record<NudgeType, (props: ArtProps) => ReactNode> = {
-  "nudge-reminder": ReminderArt,
+const ART: Record<NudgeType, () => ReactNode> = {
   "intro-emotions": EmotionsArt,
   "intro-people": PeopleArt,
   "intro-photos": PhotosArt,
@@ -121,13 +101,11 @@ const ART: Record<NudgeType, (props: ArtProps) => ReactNode> = {
 /** Card that offers to turn a feature on: art, benefit, action, Not Now. */
 export const NudgeCard = ({
   card,
-  reminderTime,
   onTurnOn,
   onNotNow,
   onLayout,
 }: {
   card: NudgeCardData;
-  reminderTime: string;
   onTurnOn: () => Promise<void>;
   onNotNow: () => void;
   onLayout?: (event: LayoutChangeEvent) => void;
@@ -136,9 +114,6 @@ export const NudgeCard = ({
   const [isBusy, setIsBusy] = useState(false);
   const copy = COPY[card.type];
   const Art = ART[card.type];
-  const options = {
-    time: dayjs(reminderTimeToDate(reminderTime)).format("LT"),
-  };
 
   // `onTurnOn` reports its own failures and never rejects.
   const turnOn = async () => {
@@ -153,10 +128,10 @@ export const NudgeCard = ({
       onLayout={onLayout}
       media={
         <MediaPanel>
-          <Art reminderTime={reminderTime} />
+          <Art />
         </MediaPanel>
       }
-      title={t(copy.title, options)}
+      title={t(copy.title)}
       text={t(copy.text)}
       footer={
         <View
@@ -186,7 +161,7 @@ export const NudgeCard = ({
               paddingHorizontal: 20,
             }}
           >
-            {t(copy.action, options)}
+            {t(copy.action)}
           </Button>
           {/* Tertiary action: text color, never gray. */}
           <LinkButton

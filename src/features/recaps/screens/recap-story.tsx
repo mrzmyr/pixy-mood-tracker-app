@@ -9,14 +9,13 @@ import { useFeedback } from "@/features/feedback";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useHaptics from "@/hooks/use-haptics";
-import { useWeekLocale } from "@/hooks/use-week-locale";
 import { useAnalytics } from "@/state/analytics";
 import type { StorySource } from "@/state/analytics/events";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { FeedbackSheet } from "../components/feedback-sheet";
 import type { FeedbackReason } from "../feedback-reasons";
 import { getPeriod } from "../period";
-import { buildMonthStory, buildWeekStory } from "../story/deck";
+import { buildMonthStory } from "../story/deck";
 import { monthName } from "../story/format";
 import { SlideContent } from "../story/slides";
 import type { SlideContext } from "../story/slides";
@@ -119,32 +118,28 @@ const RecapStory = () => {
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
   const haptics = useHaptics();
-  const weekLocale = useWeekLocale();
   const params = useLocalSearchParams<{
     date?: string;
     source?: string;
-    kind?: string;
     origin?: string;
   }>();
-  const kind = params.kind === "week" ? "week" : "month";
   const date = dayjs(params.date).isValid()
     ? dayjs(params.date).format("YYYY-MM-DD")
-    : dayjs().subtract(1, kind).format("YYYY-MM-DD");
+    : dayjs().subtract(1, "month").format("YYYY-MM-DD");
   const source = isSource(params.source) ? params.source : "recaps";
-  const period = getPeriod(kind, date, weekLocale);
+  const period = getPeriod("month", date);
   const input = useRecapInput(period);
   const { tags } = useTagsState();
   const { people } = usePeopleState();
   const rough = useRoughNights(
-    kind === "week" ? buildWeekStory(input) : buildMonthStory(input),
+    buildMonthStory(input),
     useFeatureFlag("recap-sleep")
   );
   const { story } = rough;
-  // "My September", or "My week" for a week story.
-  const shareTitle =
-    kind === "week"
-      ? t("recaps_story_share_title_week")
-      : t("recaps_story_share_title", { month: monthName(period.start) });
+  // "My September".
+  const shareTitle = t("recaps_story_share_title", {
+    month: monthName(period.start),
+  });
   const [answers, setAnswers] = useState<ReadonlyMap<number, boolean>>(
     new Map()
   );
@@ -158,7 +153,7 @@ const RecapStory = () => {
   const [isBestDayUnlocked, setIsBestDayUnlocked] = useState(false);
   const transition = useStoryTransition({
     origin: parseStoryOrigin(params.origin),
-    cardKey: getStoryCardKey({ source, kind, date: period.start }),
+    cardKey: getStoryCardKey({ source, date: period.start }),
     onClosed: () => router.back(),
   });
 
@@ -176,7 +171,7 @@ const RecapStory = () => {
   const onOpen = useEffectEvent(() => {
     if (story) {
       analytics.track("recaps:story_opened", {
-        period: kind,
+        period: "month",
         source,
         slides_count: count,
       });
@@ -221,7 +216,7 @@ const RecapStory = () => {
       <Redirect
         href={{
           pathname: "/recaps/[kind]/[date]",
-          params: { kind, date: period.start },
+          params: { kind: period.kind, date: period.start },
         }}
       />
     );
@@ -330,7 +325,7 @@ const RecapStory = () => {
   };
 
   const slides: PlayerSlide[] = story.map((slide, index) => {
-    const duration = getSlideDuration(slide, kind);
+    const duration = getSlideDuration(slide);
     return {
       key: `${index}-${slide.type}`,
       theme: getStoryTheme(ctx.isDark),

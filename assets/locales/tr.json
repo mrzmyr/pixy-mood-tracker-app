@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Hızlı kayıt",
   "notification_recap_body": "Öne çıkanlara göz atın.",
   "notification_recap_month_title": "Aylık özetiniz hazır",
-  "notification_recap_week_title": "Haftalık özetiniz hazır",
   "notification_recap_year_title": "Yıllık özetiniz hazır",
   "notification_reminder_body": "Bugünkü ruh halinizi takip etmek için buraya dokunun.",
   "notification_reminder_title": "Ruh halinizi takip edin",
@@ -841,20 +840,8 @@
     "other": "{{count}} günde, %{weeks} haftalık aradan sonra"
   },
   "recaps_came_back_title_week": "Bu hafta geri dönenler",
-  "recaps_connected_days": {
-    "one": "1 gün bağlantı",
-    "other": "{{count}} gün bağlantı"
-  },
   "recaps_connected_more": "+%{count} kişi daha",
-  "recaps_connected_title": {
-    "one": "{{count}} kişiyle bağlantıdaydın",
-    "other": "{{count}} kişiyle bağlantıdaydın"
-  },
-  "recaps_connected_title_one": "%{name} ile bağlantıdaydın",
-  "recaps_day_ago_text": "Bir yıl önce: %{date}.",
-  "recaps_day_ago_title": "Bir yıl önce harika bir gün",
   "recaps_day_best_title_month": "%{day} ayın en iyi günüydü",
-  "recaps_day_best_title_week": "%{day} haftanın en iyi günüydü",
   "recaps_day_hard_text": "Her kayıt önemli, gün nasıl olursa olsun.",
   "recaps_day_hard_title": "%{day} günü kayıt yaptığın için teşekkürler",
   "recaps_day_see": "Bu Günü Gör",
@@ -862,15 +849,9 @@
     "one": "1 gün",
     "other": "{{count}} gün"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Önceki iki ayda bir gün ortaya çıktı.",
-    "other": "Önceki iki ayda {{count}} gün ortaya çıktı."
-  },
-  "recaps_emotion_absent_title": "3 haftadır %{emotion} hissetmedin",
   "recaps_emotion_again_text": "%{date} tarihinden beri ilk kez.",
   "recaps_emotion_again_title": "Yine %{emotion}",
   "recaps_emotions_back_title_month": "Bu ay geri dönen duygular",
-  "recaps_emotions_back_title_week": "Bu hafta geri dönen duygular",
   "recaps_emotions_title": "En çok kullanılan duygular",
   "recaps_emotions_year_title": "İlk 10 duygu",
   "recaps_empty": "Bu dönem için henüz kart yok. Daha fazla gün kaydettikçe görünürler.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Kayıtlarına fotoğraf ekle. Bir yıl sonra özetin “Bir yıl önce bugün” ile açılabilir.",
   "recaps_intro_photos_title": "Günün bir fotoğrafını sakla",
   "recaps_mood_chart_title_month": "Bu ayki ruh hali",
-  "recaps_mood_chart_title_week": "Bu haftaki ruh hali",
   "recaps_mood_count_title": "Günlerinin yüzde {{percent}} kadarı iyi geçti",
   "recaps_mood_count_title_mixed": "Ruh haline göre günlerin",
   "recaps_most_connected_title_month": "Bu ay en çok bağlantı",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Haftalık, aylık ve yıllık özetler her haftanın, ayın ve yılın son günü, hatırlatıcı saatinizde gelir.",
   "recaps_notifications_setting": "Özetler",
   "recaps_nudge_not_now": "Şimdi Değil",
-  "recaps_nudge_reminder_action": "Saat %{time} Hatırlat",
-  "recaps_nudge_reminder_text": "Büyük günler akılda kalır. Küçük iyi günler ertesi sabaha unutulur. Her akşam kısa bir kayıt onları saklar.",
-  "recaps_nudge_reminder_title": "Sessiz iyi günleri de sakla",
-  "recaps_open_settings": "Ayarları Aç",
   "recaps_people_moments_title_month": "Bu ayki kişiler",
-  "recaps_people_moments_title_week": "Bu haftaki kişiler",
   "recaps_people_mood_text": "Bir ipucu, neden değil. Bir bağlantı iyi, zor ya da karışık hissettirebilir.",
   "recaps_people_mood_title": "Bağlantılı günlerde ruh hali",
   "recaps_period_month": "Ay",
   "recaps_period_next": "Sonraki Dönem",
   "recaps_period_previous": "Önceki Dönem",
-  "recaps_period_week": "Hafta",
   "recaps_period_year": "Yıl",
   "recaps_person_moment_back": {
     "one": "1 hafta sonra geri döndü",
@@ -937,29 +911,15 @@
   "recaps_person_moment_milestone": "%{year} yılında %{count} gün bağlantı",
   "recaps_person_moment_new": "İlk bağlantı",
   "recaps_places_title_month": "Bu ayki yerler",
-  "recaps_places_title_week": "Bu haftaki yerler",
   "recaps_places_title_year": "Bu yılki yerler",
   "recaps_places_trips": {
     "one": "Evden uzakta 1 seyahat.",
     "other": "Evden uzakta %{count} seyahat."
   },
-  "recaps_reminder_failed": "Hatırlatıcı ayarlanmadı. Bildirimler planlanamadı. Ayarlar > Hatırlatıcı bölümünden tekrar dene.",
-  "recaps_reminder_set": "Hatırlatıcı %{time} için ayarlandı",
   "recaps_sleep_chart_title_month": "Bu ayki uyku",
-  "recaps_sleep_chart_title_week": "Bu haftaki uyku",
-  "recaps_sleep_rough_text": "Arka arkaya %{count} zor gece. Fırsat buldukça dinlen.",
-  "recaps_sleep_rough_title": "Birkaç zor gece",
-  "recaps_sleep_turnaround_text": "Önceki hafta birkaç zor geceden sonra.",
-  "recaps_sleep_turnaround_title": "Arka arkaya %{count} iyi gece",
   "recaps_step_turned_on": "Kaydına eklendi",
-  "recaps_stood_out_text": "O günler genelde sana daha hafif gelir.",
-  "recaps_stood_out_title": {
-    "one": "Bu hafta %{tag} olan 1 gün",
-    "other": "Bu hafta %{tag} olan {{count}} gün"
-  },
   "recaps_story_banner_label_month": "Ay Özeti",
   "recaps_story_banner_title": "%{month} Özeti",
-  "recaps_story_banner_title_week": "Hafta Özeti",
   "recaps_story_best_day_ask": "En iyi gününü görmeye hazır mısın?",
   "recaps_story_best_day_show": "En iyi gününü göster",
   "recaps_story_coming_text": {
@@ -983,10 +943,7 @@
     "other": "{{count}} gün kendine zaman ayırdın. Bununla gurur duy."
   },
   "recaps_story_cover_note_full": "%{month} ayının her gününün bir pikseli var. Bu gerçek bir başarı.",
-  "recaps_story_cover_note_full_week": "Bu haftanın her gününün bir pikseli var. Bu gerçek bir başarı.",
   "recaps_story_cover_pixels_title": "piksel · %{month}",
-  "recaps_story_cover_pixels_title_week": "Bu Haftanın Pikselleri",
-  "recaps_story_cover_title_week": "Bir an dur.\nBu senin haftandı.",
   "recaps_story_days": {
     "one": "1 gün",
     "other": "{{count}} gün"
@@ -1085,7 +1042,6 @@
   "recaps_story_share_heading_orbit": "Yörüngem",
   "recaps_story_share_shuffle": "Fotoğrafları karıştır",
   "recaps_story_share_title": "%{month} ayım",
-  "recaps_story_share_title_week": "Haftam",
   "recaps_story_sleep_ask": {
     "one": "1 gece zordu. Daha yakından bakalım mı?",
     "other": "{{count}} gece zordu. Daha yakından bakalım mı?"

@@ -1,7 +1,7 @@
 import type { LogItem } from "@/features/logs";
 import type { LogPhoto } from "@/types";
 import { addDays } from "../days";
-import { buildMonthStory, buildWeekStory } from "../story/deck";
+import { buildMonthStory } from "../story/deck";
 import type { StorySlide, StorySlideType } from "../story/types";
 import { makeInput, makeTags } from "./utils";
 
@@ -341,15 +341,6 @@ describe("people quiz", () => {
       expect(insightOf(sea)).toBeNull();
     });
   });
-
-  test("stays out of the week story", () => {
-    const items = connected.slice(0, 7);
-    const week = buildWeekStory(
-      makeInput({ kind: "week", today: "2026-09-08", date: SEP, items, tags })
-    );
-    expect(week?.some((item) => item.type === "orbit")).toBe(true);
-    expect(week?.some((item) => item.type === "people-quiz")).toBe(false);
-  });
 });
 
 describe("new people", () => {
@@ -438,35 +429,5 @@ describe("share card", () => {
 
   test("shows only the grid without bright photo days", () => {
     expect(slide(story(month()), "share")?.photos).toEqual([]);
-  });
-});
-
-describe("week story", () => {
-  // Monday 2026-09-21 to Sunday 2026-09-27.
-  const WEEK = "2026-09-21";
-  const week = (count: number) =>
-    Array.from({ length: count }, (_, index) => ({
-      date: addDays(WEEK, index),
-      rating: "good" as const,
-    }));
-  const weekStory = (items: Partial<LogItem>[], today = "2026-09-28") =>
-    buildWeekStory(makeInput({ kind: "week", today, date: WEEK, items, tags }));
-
-  test("needs 4 check-in days", () => {
-    expect(weekStory(week(3))).toBeNull();
-    expect(weekStory(week(4))).not.toBeNull();
-  });
-
-  test("opens during the week and for 2 weeks after", () => {
-    expect(weekStory(week(7), "2026-09-25")).not.toBeNull();
-    expect(weekStory(week(7), "2026-10-11")).not.toBeNull();
-    expect(weekStory(week(7), "2026-10-12")).toBeNull();
-  });
-
-  test("starts with the intro and the cover, ends with the share card", () => {
-    const types = (weekStory(week(7)) ?? []).map((item) => item.type);
-
-    expect(types.slice(0, 2)).toEqual(["intro", "cover"]);
-    expect(types.at(-1)).toBe("share");
   });
 });

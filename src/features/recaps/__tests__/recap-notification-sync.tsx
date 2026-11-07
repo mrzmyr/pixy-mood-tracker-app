@@ -95,7 +95,7 @@ describe("useRecapNotificationSync()", () => {
       expect(state.requests?.length).toBeGreaterThan(0);
     });
     const kinds = new Set(state.requests?.map(({ data }) => data.kind));
-    expect(kinds).toEqual(new Set(["week", "month", "year"]));
+    expect(kinds).toEqual(new Set(["month", "year"]));
     expect(state.requests).toContainEqual(
       expect.objectContaining({
         at: new Date(2026, 9, 31, 21, 15),
