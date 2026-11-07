@@ -1,16 +1,15 @@
-import { Label } from "@/components/typography";
-import useColors from "@/hooks/use-colors";
-import useHaptics from "@/hooks/use-haptics";
+import { Chip } from "@/components/chip";
+import { CHIP } from "@/constants/chip";
+import { useFeatureFlag } from "@/state/feature-flags";
 import type { Emotion } from "@/types";
-import { Pressable, useColorScheme, View } from "react-native";
-import type { ViewStyle } from "react-native";
+import { useColorScheme } from "react-native";
+import type { ChipStyle } from "@/constants/chip";
 
 import { EmotionIndicator } from "./emotions-indicator";
-import { RADIUS } from "@/constants/radius";
 
 const DEFAULT_STYLE = {};
 
-/** Emotion button in the basic emotion grid. */
+/** Emotion chip in the basic emotion grid; fills its grid cell. */
 export const EmotionButtonBasic = ({
   emotion,
   onPress,
@@ -20,60 +19,31 @@ export const EmotionButtonBasic = ({
   emotion: Emotion;
   onPress: (emotion: Emotion) => void;
   selected: boolean;
-  style?: ViewStyle;
+  style?: ChipStyle;
 }) => {
-  const colors = useColors();
-  const haptics = useHaptics();
   const colorScheme = useColorScheme();
-  const unselectedBorderColor =
-    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
+  const isInk = useFeatureFlag("chip-active-ink");
+  // Inverted selected fill: draw the icon for the opposite surface.
+  const invertedSurface = colorScheme === "light" ? "dark" : "light";
 
   return (
-    <Pressable
-      accessibilityRole="checkbox"
-      accessibilityLabel={emotion.label}
+    <Chip
+      fill
+      label={emotion.label}
       accessibilityHint={emotion.description}
-      accessibilityState={{ checked: selected }}
-      onPress={() => {
-        haptics.selection();
-        onPress(emotion);
-      }}
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        ...style,
-      }}
-    >
-      <View
-        style={{
-          width: "100%",
-          // backgroundColor: colors.cardBackground,
-          backgroundColor: colors.logCardBackground,
-          borderRadius: RADIUS.sm,
-          borderCurve: "continuous",
-          borderWidth: selected ? 2 : 1,
-          borderColor: selected ? colors.tint : unselectedBorderColor,
-          flexDirection: "row",
-          alignItems: "center",
-          paddingVertical: selected ? 11 : 12,
-          paddingRight: selected ? 13 : 14,
-          paddingLeft: selected ? 13 : 14,
-        }}
-      >
-        <EmotionIndicator emotion={emotion} />
-        <Label
-          size={16}
-          style={{
-            color: colors.text,
-            fontWeight: "500",
-            flex: 1,
-          }}
-          numberOfLines={1}
-        >
-          {emotion.label}
-        </Label>
-      </View>
-    </Pressable>
+      selected={selected}
+      onPress={() => onPress(emotion)}
+      lead={<EmotionIndicator emotion={emotion} size={CHIP.lead} />}
+      leadSelected={
+        isInk ? undefined : (
+          <EmotionIndicator
+            emotion={emotion}
+            size={CHIP.lead}
+            surface={invertedSurface}
+          />
+        )
+      }
+      style={style}
+    />
   );
 };

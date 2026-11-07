@@ -1,6 +1,7 @@
 import type { ViewStyle } from "react-native";
 import { getTextStyle } from "@/components/typography";
 import { RADIUS } from "./radius";
+import { SPACE } from "./space";
 
 /** Chip style without outer margin: the parent sets spacing with `gap`. */
 export type ChipStyle = Omit<ViewStyle, "margin" | `margin${string}`>;
@@ -34,4 +35,29 @@ export const CHIP_FLOW = {
   gap: CHIP_GAP,
   paddingRight: CHIP_GAP,
   paddingBottom: CHIP_GAP,
+} as const;
+
+const CHIP_LABEL = getTextStyle("label", 16);
+
+/**
+ * Selectable chip for emotions, tags, and people ([`Chip`](../components/chip.tsx)).
+ * Measured from the reference at 402 pt screen width.
+ */
+export const CHIP = {
+  height: 42,
+  /** Start padding without a marker. */
+  paddingLeft: SPACE.lg,
+  /** Start padding before an icon or dot marker. */
+  paddingLeftLead: 14,
+  paddingRight: SPACE.lg,
+  /** Marker box: icon size, dot centered inside. */
+  lead: 18,
+  /** Space between marker and label. */
+  gap: SPACE.sm,
+  fontSize: CHIP_LABEL.fontSize,
+  lineHeight: CHIP_LABEL.lineHeight,
+  letterSpacing: -0.2,
+  /** One duration for press scale and every color change. */
+  duration: 160,
+  pressedScale: 0.96,
 } as const;

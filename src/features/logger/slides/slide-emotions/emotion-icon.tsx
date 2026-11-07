@@ -42,6 +42,7 @@ export const EmotionIcon = ({
   stroke,
   tint,
   size = 20,
+  tintOpacity = TINT_OPACITY,
 }: {
   emotionKey: Emotion["key"];
   /** Outline color. Default: theme text color. */
@@ -49,6 +50,8 @@ export const EmotionIcon = ({
   /** Tint layer color, drawn at low opacity. Default: theme secondary text color. */
   tint?: string;
   size?: number;
+  /** Tint opacity; higher on dark surfaces, like a selected chip. */
+  tintOpacity?: number;
 }) => {
   const colors = useColors();
   const icon = EMOTION_ICONS[emotionKey];
@@ -74,7 +77,7 @@ export const EmotionIcon = ({
             key={key}
             {...attributes}
             fill={tintColor}
-            fillOpacity={TINT_OPACITY}
+            fillOpacity={tintOpacity}
           />
         );
       })}
@@ -91,7 +94,7 @@ export const EmotionIcon = ({
             {...attributes}
             stroke={outlineColor}
             fill={isFilled ? tintColor : "none"}
-            fillOpacity={TINT_OPACITY}
+            fillOpacity={tintOpacity}
           />
         );
       })}
