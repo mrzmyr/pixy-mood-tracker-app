@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react-native";
+import type { ReactNode } from "react";
 import { View } from "react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import Colors from "@/constants/colors";
@@ -7,6 +8,7 @@ import { SettingsProvider } from "@/state/settings";
 import type { Emotion } from "@/types";
 import { EMOTIONS } from "../config";
 import { EMOTION_ICONS } from "../emotion-icons";
+import { EMOTION_TINTS } from "../emotion-tints";
 import { EmotionIcon } from "../slides/slide-emotions/emotion-icon";
 
 const CALM = EMOTIONS.filter((e) => e.key === "calm");
@@ -21,7 +23,7 @@ const isSvgDrawing = (node: { type: string }) =>
   node.type !== "RNSVGSvgView" &&
   node.type !== "RNSVGGroup";
 
-const renderEmotions = (emotions: Pick<Emotion, "key" | "category">[]) =>
+const renderThemed = (children: ReactNode) =>
   render(
     <ThemeProvider
       value={{
@@ -30,12 +32,15 @@ const renderEmotions = (emotions: Pick<Emotion, "key" | "category">[]) =>
         colors: { ...DefaultTheme.colors, ...Colors.light },
       }}
     >
-      <SettingsProvider>
-        {emotions.map((emotion) => (
-          <EmotionItem key={emotion.key} emotion={emotion} />
-        ))}
-      </SettingsProvider>
+      <SettingsProvider>{children}</SettingsProvider>
     </ThemeProvider>
+  );
+
+const renderEmotions = (emotions: Pick<Emotion, "key" | "category">[]) =>
+  renderThemed(
+    emotions.map((emotion) => (
+      <EmotionItem key={emotion.key} emotion={emotion} />
+    ))
   );
 
 describe("Emotion icons", () => {
@@ -65,16 +70,13 @@ describe("Emotion icons", () => {
   test("every emotion icon draws all of its shapes", async () => {
     // A shape type EmotionIcon cannot draw is skipped silently, so an icon
     // could render empty or half drawn.
-    await render(
+    await renderThemed(
       <View>
-        {EMOTIONS.map(({ key }) => {
-          const icon = EMOTION_ICONS[key];
-          return icon ? (
-            <View key={key} testID={`shapes-${key}`}>
-              <EmotionIcon icon={icon} stroke="#000" tint="#000" />
-            </View>
-          ) : null;
-        })}
+        {EMOTIONS.map(({ key }) => (
+          <View key={key} testID={`shapes-${key}`}>
+            <EmotionIcon emotionKey={key} />
+          </View>
+        ))}
       </View>
     );
 
@@ -84,11 +86,24 @@ describe("Emotion icons", () => {
       if (!icon || !container) {
         return [`${key}: no icon`];
       }
+      const expected =
+        icon.length + (EMOTION_TINTS[key]?.underlay?.length ?? 0);
       const drawn = container.queryAll(isSvgDrawing).length;
-      return drawn > 0 && drawn === icon.length
+      return drawn > 0 && drawn === expected
         ? []
-        : [`${key}: ${drawn} of ${icon.length} shapes`];
+        : [`${key}: ${drawn} of ${expected} shapes`];
     });
     expect(incomplete).toEqual([]);
+  });
+
+  test("every tint fills shapes its icon has", () => {
+    // Swapping an icon can leave tint indexes that point past its shapes,
+    // and the tint then silently disappears.
+    const broken = Object.entries(EMOTION_TINTS).flatMap(([key, tint]) => {
+      const partCount = EMOTION_ICONS[key]?.length ?? 0;
+      const missing = (tint?.fill ?? []).filter((i) => i >= partCount);
+      return missing.length > 0 ? [`${key}: ${missing.join(", ")}`] : [];
+    });
+    expect(broken).toEqual([]);
   });
 });
