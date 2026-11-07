@@ -43,21 +43,3 @@ export const buildVoiceExample = (
   }
   return parts.join(" ");
 };
-
-/**
- * Up to `count` different examples, for the voice mode hint that cycles
- * through them. Fewer when the user has few tags and people.
- */
-export const buildVoiceExamples = (
-  terms: VoiceTerm[],
-  triggers: MoodTrigger[],
-  count: number,
-  random: () => number = Math.random
-) => {
-  const examples = new Set<string>();
-  // A few extra tries: random picks can repeat.
-  for (let tries = 0; tries < count * 4 && examples.size < count; tries += 1) {
-    examples.add(buildVoiceExample(terms, triggers, t, random));
-  }
-  return [...examples];
-};

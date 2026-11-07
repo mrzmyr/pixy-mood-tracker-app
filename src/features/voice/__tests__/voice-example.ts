@@ -4,7 +4,7 @@ import { RATING_KEYS } from "@/constants/ratings";
 import { matchTranscript } from "../match-transcript";
 import type { VoiceTerm } from "../match-transcript";
 import { matchMood } from "../mood-triggers";
-import { buildVoiceExample, buildVoiceExamples } from "../voice-example";
+import { buildVoiceExample } from "../voice-example";
 
 let table: Record<string, string> = {};
 
@@ -75,21 +75,5 @@ describe("voice example", () => {
     expect(buildVoiceExample(terms, triggersOf(), translate, pickLast)).toBe(
       "I feel good today. Work was part of today. Ben called me."
     );
-  });
-
-  it("builds different examples to cycle through", () => {
-    const terms: VoiceTerm[] = ["Sport", "Work", "Music"].map((text, i) => ({
-      kind: "tag",
-      id: `tag-${i}`,
-      text,
-    }));
-    const examples = buildVoiceExamples(terms, triggersOf(), 3);
-
-    expect(new Set(examples).size).toBe(examples.length);
-    expect(examples.length).toBeGreaterThan(1);
-  });
-
-  it("stops at one example when the user has nothing to vary", () => {
-    expect(buildVoiceExamples([], triggersOf(), 3)).toHaveLength(1);
   });
 });

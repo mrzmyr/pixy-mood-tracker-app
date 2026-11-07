@@ -2,7 +2,7 @@ import { BottomSheet, RNHostView } from "@expo/ui";
 import { presentationCornerRadius } from "@expo/ui/swift-ui/modifiers";
 import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Body, Headline } from "@/components/type";
+import { Body, Headline, Secondary } from "@/components/type";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import useScale from "@/hooks/use-scale";
@@ -41,18 +41,21 @@ const MoodList = ({ triggers }: { triggers: MoodTrigger[] }) => {
 };
 
 /**
- * Voice mode help: what voice mode picks up and how, plus every mood trigger
- * word in the user's scale colors. Native `@expo/ui` sheet: SwiftUI on iOS,
+ * Voice mode help: an example sentence from the user's own words, what voice
+ * mode picks up and how, plus every mood trigger word in the user's scale
+ * colors. Native `@expo/ui` sheet: SwiftUI on iOS,
  * Material 3 on Android.
  */
 export const VoiceHelpSheet = ({
   isOpen,
   onClose,
   triggers,
+  example,
 }: {
   isOpen: boolean;
   onClose: () => void;
   triggers: MoodTrigger[];
+  example: string;
 }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -78,6 +81,11 @@ export const VoiceHelpSheet = ({
           <Headline accessibilityRole="header">
             {t("voice_help_title")}
           </Headline>
+          <Body>{t("voice_help_intro")}</Body>
+          <View style={{ gap: 4 }} testID="voice-help-example">
+            <Secondary>{t("voice_help_example")}</Secondary>
+            <Body>{t("voice_example_quote", { example })}</Body>
+          </View>
           <Body>{t("voice_help_people")}</Body>
           <Body>{t("voice_help_tags")}</Body>
           <Body>{t("voice_help_mood")}</Body>

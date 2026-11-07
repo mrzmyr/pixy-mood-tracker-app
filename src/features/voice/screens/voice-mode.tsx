@@ -23,18 +23,15 @@ import { useAnalytics } from "@/state/analytics";
 import { VoiceBackground } from "../components/voice-background";
 import { VoiceHelpSheet } from "../components/voice-help-sheet";
 import { VoiceMatchCard, VoiceMoodCard } from "../components/voice-match-card";
-import { VoiceTrySaying } from "../components/voice-try-saying";
 import { VoiceWaveform } from "../components/voice-waveform";
 import { matchTranscript } from "../match-transcript";
 import { getMoodTriggers, matchMood } from "../mood-triggers";
 import { useVoiceTerms } from "../use-voice-terms";
-import { buildVoiceExamples } from "../voice-example";
+import { buildVoiceExample } from "../voice-example";
 import { useVoiceTranscription } from "../use-voice-transcription";
 import type { VoiceErrorStatus, VoiceStatus } from "../use-voice-transcription";
 
 const CONTROL_SIZE = 56;
-/** Examples the empty state cycles through. */
-const EXAMPLE_COUNT = 3;
 
 /**
  * iOS sheet bar over the sky: no fill, so the clouds or stars reach the top
@@ -45,9 +42,9 @@ const TRANSPARENT_BAR_OPTIONS = {
   headerStyle: { backgroundColor: "transparent" },
 };
 
+// Listening has no label: the waveform shows it.
 const STATUS_LABEL: Partial<Record<VoiceStatus, () => string>> = {
   preparing: () => t("voice_preparing"),
-  listening: () => t("voice_listening"),
   paused: () => t("voice_paused"),
 };
 
@@ -118,8 +115,8 @@ export const VoiceMode = () => {
   const hasText = voice.text.trim() !== "";
   // Picked when the screen opens: other tags and people each time. Terms
   // keep their identity while stores stay the same.
-  const examples = useMemo(
-    () => buildVoiceExamples(terms, getMoodTriggers(), EXAMPLE_COUNT),
+  const example = useMemo(
+    () => buildVoiceExample(terms, getMoodTriggers()),
     [terms]
   );
 
@@ -196,6 +193,7 @@ export const VoiceMode = () => {
   const isRunning = isListening || voice.status === "preparing";
   const isBlocked = voice.status === "denied" || voice.status === "failed";
   const blocked = blockedCopy(voice.status, voice.error?.status);
+  const statusLabel = STATUS_LABEL[voice.status]?.();
 
   return (
     <View
@@ -217,17 +215,12 @@ export const VoiceMode = () => {
         onContentSizeChange={() => cardsRef.current?.scrollToEnd()}
         style={{ flex: 1 }}
         contentContainerStyle={{
-          // Grows to the full height, so the hint can sit in the middle.
-          flexGrow: 1,
           // iOS: the transparent bar overlaps the screen top.
           paddingTop: Platform.OS === "ios" ? headerHeight : 0,
           paddingHorizontal: 20,
           gap: 8,
         }}
       >
-        {!mood && matches.length === 0 && !isBlocked && (
-          <VoiceTrySaying examples={examples} />
-        )}
         {mood && <VoiceMoodCard mood={mood} />}
         {matches.map((match) => (
           <VoiceMatchCard key={`${match.kind}:${match.id}`} match={match} />
@@ -269,9 +262,9 @@ export const VoiceMode = () => {
           }}
         >
           <View style={{ gap: 4 }}>
-            {(isRunning || voice.status === "paused") && (
+            {statusLabel && (
               <Headline accessibilityRole="header" testID="voice-status">
-                {STATUS_LABEL[voice.status]?.()}
+                {statusLabel}
               </Headline>
             )}
             <View
@@ -367,6 +360,7 @@ export const VoiceMode = () => {
         isOpen={isHelpOpen}
         onClose={() => setIsHelpOpen(false)}
         triggers={moodTriggers}
+        example={example}
       />
     </View>
   );
