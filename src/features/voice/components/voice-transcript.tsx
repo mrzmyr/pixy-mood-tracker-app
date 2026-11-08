@@ -5,7 +5,6 @@ import { StyleSheet, Text, View } from "react-native";
 import { Copy } from "@/components/typography";
 import { SPACE } from "@/constants/space";
 import { PersonAvatar, usePeopleState } from "@/features/people";
-import useColors from "@/hooks/use-colors";
 import { findHighlights } from "../highlights";
 import type { VoiceTerm } from "../match-transcript";
 import type { MoodTrigger } from "../mood-triggers";
@@ -17,15 +16,17 @@ const AVATAR_SIZE = 22;
 // Inline views sit on the text baseline, a bit below the middle of the
 // line. Measured on iPhone 14 at 24 pt text.
 const AVATAR_BASELINE_SHIFT = -3;
+/** Highlight: medium weight only, like Slack mentions without the color. */
+const MENTION_STYLE = { fontWeight: "500" } as const;
 // Narrow no-break space: keeps avatar and name on one line.
 const AVATAR_GAP = "\u202F";
 
 /**
  * Live transcript. Newest line sits at the bottom, older lines push up and
  * dissolve at the top edge. Known people, tags, and emotions, plus the
- * first mood trigger, show in tint color and medium weight, like a Slack
- * mention. People also get their avatar before the name. No scrolling: the
- * check-in shows the full text for review.
+ * first mood trigger, show in medium weight, text color unchanged. People
+ * also get their avatar before the name. No scrolling: the check-in shows
+ * the full text for review.
  */
 export const VoiceTranscript = ({
   text,
@@ -39,7 +40,6 @@ export const VoiceTranscript = ({
   /** Screen color: the top fade blends into it. */
   background: string;
 }) => {
-  const colors = useColors();
   const { people } = usePeopleState();
   const peopleById = useMemo(
     () => new Map(people.map((person) => [person.id, person])),
@@ -50,10 +50,6 @@ export const VoiceTranscript = ({
     [text, terms, triggers]
   );
   const fade = chroma(background);
-  const mention = {
-    color: colors.tint,
-    fontWeight: "500" as const,
-  };
 
   const parts: React.ReactNode[] = [];
   let cursor = 0;
@@ -63,7 +59,7 @@ export const VoiceTranscript = ({
       text.slice(cursor, start),
       <Text
         key={`${kind}:${id}:${start}`}
-        style={mention}
+        style={MENTION_STYLE}
         testID={`voice-highlight-${kind}`}
       >
         {person && (
