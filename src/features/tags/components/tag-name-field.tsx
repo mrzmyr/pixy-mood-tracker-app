@@ -66,6 +66,8 @@ const TagNameField = ({
                   alignItems: "center",
                   gap: SPACE.md,
                   padding: SPACE.md,
+                  // Icon box starts at the row text, like the headline above.
+                  paddingLeft: LIST_INSET,
                 }
               : undefined
           }
