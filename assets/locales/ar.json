@@ -1312,7 +1312,6 @@
   "voice_mood_very_good": "جيد جدًا",
   "voice_open_settings": "فتح الإعدادات",
   "voice_pause": "إيقاف مؤقت",
-  "voice_paused": "متوقف مؤقتًا",
   "voice_permission_body": "يحتاج Pixy إلى الوصول إلى الميكروفون والتعرّف على الكلام لكتابة تسجيلك. تتم معالجة الكلام على جهازك. لا يُحفظ الصوت أبدًا.",
   "voice_permission_title": "السماح بالميكروفون والكلام",
   "voice_preparing": "جارٍ التجهيز…",
