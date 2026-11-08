@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.114.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.113.0...v1.114.0) (2026-11-08)
+
+
+### Features
+
+* **chips:** gray chips with inverted selection for emotions, tags, people ([#1132](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1132)) ([21fa25d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/21fa25d185f4047b42a6576c798a51b1b9954225))
+* **day-view:** show photos above emotions ([#1111](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1111)) ([8171a65](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8171a65f452afc5121c5bca2f7d71fc682c3db94))
+* **design:** add motion tokens and ban spring animations ([#1119](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1119)) ([cad776b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/cad776b545baf92e7c1facd6918d3b00b88fcbeb))
+* **design:** add spacing tokens for shared components ([#1120](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1120)) ([6355e88](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6355e8829f4d4f8dd39e67d1366b8ef907c48348))
+* **dev:** add design system catalog to the playground ([#1121](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1121)) ([b2f80f3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b2f80f3effe4d08ab62704a7d942e920758e5881))
+* **emotions:** own duotone tint layer for emotion icons ([#1130](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1130)) ([a652623](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a65262343726fa53200dffd80a673057da85b1e2))
+* **logger:** add header save to entry flow ([#1136](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1136)) ([6bd2af9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6bd2af949996165ca439004343035ce4a6ed8323))
+* **notifications:** clear delivered reminders once an entry answers them ([#1133](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1133)) ([053a749](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/053a7494a6c278d212992caf1c41f9a621578e7b))
+* **people:** add flatmate role ([#1109](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1109)) ([10d85c7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/10d85c77b51e10eb0bcc8411afd1f7a6d2d61c49))
+* **photos:** show up to 50 day photos in logger ([#1112](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1112)) ([b884df2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b884df2d431c7a60f9769efbf1d17fa794ced912))
+* **quick-check-in:** fold sections under dividers ([#1126](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1126)) ([1962fb3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1962fb3ebda8d0b1c134ff51731b62ac2e0c76c4))
+* **quickcheckin:** remove pull-to-search ([#1129](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1129)) ([a7550fc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a7550fc53f1486ba4806219a893b38cb9ba5cca0))
+* **recaps:** remove week recaps ([#1125](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1125)) ([ffa85c3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ffa85c3247f02c4b2d637de6d5abc1b5d817fb12))
+* **recaps:** reveal best day in place with slide to unlock ([#1122](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1122)) ([8f84a51](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8f84a5124a00c86e089546b936743996a9c61ff1))
+* **settings:** overview and native form for feature flags ([#1110](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1110)) ([fd1d106](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fd1d10677f93812a949b7a5ae72703bf052e38cd))
+* **tags:** block renaming the General category ([#1108](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1108)) ([bdf8358](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bdf83586dedb2d917700b887ca09d61288849225))
+
+
+### Bug Fixes
+
+* **calendar:** close day view when its last entry is gone ([#1134](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1134)) ([1452b9c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1452b9ced11e54cb936f551d6ba52b053583c200))
+* **logger:** fade rises with summary header over photos ([#1114](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1114)) ([719a084](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/719a0845500b99285ea9a992e3df0d1d605147ab))
+
 ## [1.113.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.112.0...v1.113.0) (2026-11-05)
 
 
