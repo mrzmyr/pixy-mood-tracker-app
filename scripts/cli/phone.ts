@@ -134,6 +134,10 @@ export const leasePhone = async (phone: Device) => {
     await releasePhone(phone);
     throw error;
   }
+  // An Android phone with its screen off shows nothing to agent-device.
+  if (phone.platform === "android") {
+    await agentDevice(["hardware-button", "wake", ...getSelector(phone)]);
+  }
 };
 
 /** Upload and install an app bundle on the leased phone. */

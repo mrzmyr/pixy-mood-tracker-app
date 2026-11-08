@@ -159,6 +159,7 @@ bun app open --target=pixel-8-09yw
 - simlock picks the phone. `--target` selects its platform and OS version. Two phones with the same platform and OS version are interchangeable.
 - A command leases the phone just before it uses it. The lease stays for later commands of the same checkout. It ends with `bun app close --target=<target>`, or when simlock's lease time passes without use. Other checkouts wait while the lease runs.
 - agent-device reaches the phone through simlock's agent-device proxy, in session `<target>-<checkout hash>`. Proxy state is in `~/.cache/pixy-mood-tracker/agent-device-phones/`, not in `~/.agent-device/`: a proxy connection there takes over every local simulator call.
+- After the lease starts, the CLI wakes an Android phone. A phone with a PIN lock stays locked. Unlock it on its worker Mac.
 - `bun app close` on a phone stops the preview app and ends the lease. simlock then removes every app installed during the lease. The phone stays on.
 - iPhone builds are signed phone builds with cache key prefix `ios-device`, built on this Mac. Cache entry is reused only when its provisioning profile includes the phone. Android phones use the same build as the emulator.
 - `bun e2e run --target` fails with `e2e_phone_unsupported`. agent-device `test --maestro` cannot run flows through the proxy yet. Run flows on the simulator or emulator.
