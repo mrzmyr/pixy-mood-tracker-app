@@ -239,12 +239,24 @@ export interface AnalyticsEvents {
     title_length: number;
     color: string;
     has_emoji: boolean;
+    /** Icon key from the fixed tag icon set. Only with flag `tag-icons`. */
+    icon?: string | null;
+    /** Who set the icon. Only with flag `tag-icons`. */
+    icon_source?: "default" | "model" | "user";
+    /** Who set the color: first color, guess for the name, or user. Only with flag `tag-icons`. */
+    color_source?: "default" | "model" | "user";
   };
   "tags:tag_updated": {
     title_length: number;
     color: string;
     has_emoji: boolean;
     is_archived: boolean;
+    icon?: string | null;
+    icon_source?: "default" | "model" | "user";
+  };
+  /** Tag icon picker opened from the tag form. */
+  "tags:icon_picker_opened": {
+    has_suggestions: boolean;
   };
   "tags:delete_requested": AnalyticsEvents["tags:tag_created"];
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];

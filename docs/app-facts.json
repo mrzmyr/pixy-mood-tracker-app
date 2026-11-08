@@ -129,6 +129,18 @@
       ]
     },
     {
+      "id": "tag-icons",
+      "label": "Tag icons",
+      "status": "flagged",
+      "group": "logging",
+      "description": "Each tag gets an icon from about 250 icons, colored in the tag color. An icon is suggested for the tag name: Apple Intelligence on device on iOS 26, keyword match elsewhere. Icon and color are picked in one sheet. Behind the tag-icons feature flag.",
+      "evidence": [
+        "src/features/tags/tag-icons.ts",
+        "src/features/tags/screens/tag-icon-picker.tsx",
+        "src/state/feature-flags/keys.ts"
+      ]
+    },
+    {
       "id": "notes",
       "label": "Notes",
       "status": "available",

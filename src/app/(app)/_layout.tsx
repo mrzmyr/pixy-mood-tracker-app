@@ -264,6 +264,20 @@ const AppLayout = () => {
           <Stack.Screen name="tags/create" options={modalRouteOptions} />
           <Stack.Screen name="tags/[id]" options={modalRouteOptions} />
           <Stack.Screen
+            name="tags/icon"
+            // Native sheet: half height, drag up for full height. A picker
+            // draws its own header, like `SheetModal` + `ModalHeader`.
+            // oxlint-disable-next-line pixy-standards/modal-route-shows-header -- picker sheet with detents, header in content
+            options={{
+              presentation: "formSheet",
+              headerShown: false,
+              sheetAllowedDetents: [0.5, 1],
+              sheetGrabberVisible: true,
+              sheetCornerRadius: 22,
+              contentStyle: { backgroundColor: colors.logBackground },
+            }}
+          />
+          <Stack.Screen
             name="tags/categories/index"
             options={modalRouteOptions}
           />

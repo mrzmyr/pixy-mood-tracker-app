@@ -1,13 +1,18 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../use-tag-actions";
+import FlagHighlight from "@/components/flag-highlight";
 import RouteModalHeader from "@/components/route-modal-header";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
+import { useFeatureFlag } from "@/state/feature-flags";
+import { TagIconButton } from "../components/tag-icon-button";
+import type { TagIconKey } from "../tag-icons";
+import { useTagIconField } from "../use-tag-icon-field";
 import TagCategoryPicker from "../components/tag-category-picker";
 import { ColorPicker } from "../components/color-picker";
 import { GENERAL_CATEGORY_ID } from "../tag-categories";
@@ -35,6 +40,7 @@ export const TagEdit = () => {
   const tagState = useTagsState();
   const tagsUpdater = useTagsUpdater();
   const analytics = useAnalytics();
+  const hasTagIcons = useFeatureFlag("tag-icons");
 
   const tagExists = tagState.tags.find((tag) => tag.id === id);
   const defaultTag: ITag = tagExists || {
@@ -46,8 +52,31 @@ export const TagEdit = () => {
   const [submitted, setSubmitted] = useState(false);
   const [tag, setTag] = useState(tagExists || defaultTag);
 
+  const setIcon = useCallback(
+    (icon: TagIconKey) => setTag((currentTag) => ({ ...currentTag, icon })),
+    []
+  );
+  const setColor = useCallback(
+    (color: ITag["color"]) =>
+      setTag((currentTag) => ({ ...currentTag, color })),
+    []
+  );
+  const iconField = useTagIconField({
+    enabled: hasTagIcons,
+    // Suggest only after a rename: opening a tag never changes its icon.
+    suggestFor: tag.title === defaultTag.title ? "" : tag.title,
+    title: tag.title,
+    pickedIcon: tag.icon,
+    // An existing tag has a color already: no guess.
+    pickedColor: tag.color,
+    defaultColor: tag.color,
+    onIconPick: setIcon,
+    onColorPick: setColor,
+  });
+
   const isDirty =
     tag.title !== defaultTag.title ||
+    tag.icon !== defaultTag.icon ||
     tag.color !== defaultTag.color ||
     (tag.categoryId ?? GENERAL_CATEGORY_ID) !==
       (defaultTag.categoryId ?? GENERAL_CATEGORY_ID) ||
@@ -73,8 +102,16 @@ export const TagEdit = () => {
       color: updatedTag.color,
       has_emoji: REGEX_EMOJI.test(updatedTag.title),
       is_archived: Boolean(updatedTag.isArchived),
+      ...(hasTagIcons && {
+        icon: iconField.icon ?? null,
+        icon_source: iconField.iconSource,
+      }),
     });
-    tagsUpdater.updateTag(updatedTag);
+    tagsUpdater.updateTag(
+      hasTagIcons && iconField.icon
+        ? { ...updatedTag, icon: iconField.icon }
+        : updatedTag
+    );
     allowLeave();
     router.back();
   };
@@ -106,6 +143,23 @@ export const TagEdit = () => {
         automaticallyAdjustKeyboardInsets
       >
         <TagNameField
+          leading={
+            hasTagIcons ? (
+              <FlagHighlight flag="tag-icons">
+                <TagIconButton
+                  icon={iconField.icon}
+                  color={tag.color}
+                  isSuggesting={iconField.isSuggesting}
+                  onPress={() => {
+                    analytics.track("tags:icon_picker_opened", {
+                      has_suggestions: tag.title.trim() !== "",
+                    });
+                    iconField.openPicker();
+                  }}
+                />
+              </FlagHighlight>
+            ) : undefined
+          }
           value={tag.title}
           showError={submitted}
           onSubmit={() => onSubmit(tag)}
@@ -113,12 +167,7 @@ export const TagEdit = () => {
             setTag((currentTag) => ({ ...currentTag, title }));
           }}
         />
-        <ColorPicker
-          value={tag.color}
-          onChange={(color) => {
-            setTag((currentTag) => ({ ...currentTag, color }));
-          }}
-        />
+        {!hasTagIcons && <ColorPicker value={tag.color} onChange={setColor} />}
         <TagCategoryPicker
           value={tag.categoryId ?? GENERAL_CATEGORY_ID}
           onChange={(categoryId) => {

@@ -21,6 +21,7 @@ export const FEATURE_FLAGS = [
   "recap-sleep",
   "recaps",
   "support-pixy",
+  "tag-icons",
   "voice-mode",
 ] as const;
 
@@ -112,6 +113,11 @@ export const FEATURE_FLAG_DETAILS: Record<
   "support-pixy": {
     description: "Support Pixy card",
     location: "Settings, below Development",
+  },
+  "tag-icons": {
+    description:
+      "Tag icon in the name field, icon and color picker sheet, suggested icons",
+    location: "Tags > Create Tag, Edit Tag",
   },
   "voice-mode": {
     description: "Talk about your day; Pixy prefills a check-in",

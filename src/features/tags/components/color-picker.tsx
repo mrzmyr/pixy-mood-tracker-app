@@ -8,11 +8,13 @@ import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t, tDynamic } from "@/lib/translation";
 
-const TARGET_SIZE = 48;
-const DOT_SIZE = 30;
+/** Touch target of one color. */
+export const SWATCH_TARGET_SIZE = 48;
+/** Visible dot of one color. */
+export const SWATCH_DOT_SIZE = 30;
 const RING_GAP = 2;
 const RING_WIDTH = 2;
-const RING_SIZE = DOT_SIZE + 2 * (RING_GAP + RING_WIDTH);
+const RING_SIZE = SWATCH_DOT_SIZE + 2 * (RING_GAP + RING_WIDTH);
 const GAP = 8;
 
 const styles = StyleSheet.create({
@@ -26,9 +28,9 @@ const styles = StyleSheet.create({
   grid: { flexDirection: "row", flexWrap: "wrap", rowGap: GAP },
   cell: { alignItems: "center" },
   target: {
-    width: TARGET_SIZE,
-    height: TARGET_SIZE,
-    borderRadius: TARGET_SIZE / 2,
+    width: SWATCH_TARGET_SIZE,
+    height: SWATCH_TARGET_SIZE,
+    borderRadius: SWATCH_TARGET_SIZE / 2,
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
@@ -42,13 +44,76 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   dot: {
-    width: DOT_SIZE,
-    height: DOT_SIZE,
-    borderRadius: DOT_SIZE / 2,
+    width: SWATCH_DOT_SIZE,
+    height: SWATCH_DOT_SIZE,
+    borderRadius: SWATCH_DOT_SIZE / 2,
     alignItems: "center",
     justifyContent: "center",
   },
 });
+
+/**
+ * One tag color: 30 pt dot in a 48 pt target. Selected: check tinted with
+ * the tag's text shade. Keyboard focus adds a ring in text color. Shared by
+ * {@link ColorPicker} and the color row of the tag icon picker.
+ */
+export const ColorSwatch = ({
+  color,
+  isSelected,
+  onSelect,
+}: {
+  color: (typeof TAG_COLOR_NAMES)[number];
+  isSelected: boolean;
+  onSelect: () => void;
+}) => {
+  const colors = useColors();
+  const haptics = useHaptics();
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <Pressable
+      accessibilityLabel={tDynamic(`tag_color_${color}`)}
+      accessibilityRole="radio"
+      accessibilityState={{ checked: isSelected }}
+      testID={`tag-color-${color}`}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      android_ripple={{
+        color: colors.backgroundSecondary,
+        borderless: false,
+      }}
+      style={({ pressed }) => [styles.target, { opacity: pressed ? 0.7 : 1 }]}
+      onPress={() => {
+        if (isSelected) {
+          return;
+        }
+        onSelect();
+        haptics.selection();
+      }}
+    >
+      <View
+        accessible={false}
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+        style={[
+          styles.ring,
+          { borderColor: isFocused ? colors.text : "transparent" },
+        ]}
+      >
+        <View style={[styles.dot, { backgroundColor: colors.tags[color].dot }]}>
+          {isSelected && (
+            <Check
+              width={18}
+              height={18}
+              strokeWidth={3}
+              color={colors.tags[color].text}
+            />
+          )}
+        </View>
+      </View>
+    </Pressable>
+  );
+};
 
 /**
  * Fixed tag palette in a grouped card, like iOS Reminders list colors.
@@ -60,19 +125,18 @@ export const ColorPicker = ({
   value,
   onChange,
 }: {
-  value: string;
-  onChange: (color: string) => void;
+  value: (typeof TAG_COLOR_NAMES)[number];
+  onChange: (color: (typeof TAG_COLOR_NAMES)[number]) => void;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
-  const [focusedColor, setFocusedColor] = useState<string | null>(null);
   const [gridWidth, setGridWidth] = useState(0);
 
   const columns = Math.max(
     1,
-    Math.floor((gridWidth + GAP) / (TARGET_SIZE + GAP))
+    Math.floor((gridWidth + GAP) / (SWATCH_TARGET_SIZE + GAP))
   );
-  const cellWidth = gridWidth > 0 ? gridWidth / columns : TARGET_SIZE + GAP;
+  const cellWidth =
+    gridWidth > 0 ? gridWidth / columns : SWATCH_TARGET_SIZE + GAP;
 
   return (
     <View>
@@ -91,65 +155,15 @@ export const ColorPicker = ({
           onLayout={(event) => setGridWidth(event.nativeEvent.layout.width)}
           style={styles.grid}
         >
-          {TAG_COLOR_NAMES.map((color) => {
-            const isSelected = value === color;
-            return (
-              <View key={color} style={[styles.cell, { width: cellWidth }]}>
-                <Pressable
-                  accessibilityLabel={tDynamic(`tag_color_${color}`)}
-                  accessibilityRole="radio"
-                  accessibilityState={{ checked: isSelected }}
-                  testID={`tag-color-${color}`}
-                  onFocus={() => setFocusedColor(color)}
-                  onBlur={() => setFocusedColor(null)}
-                  android_ripple={{
-                    color: colors.backgroundSecondary,
-                    borderless: false,
-                  }}
-                  style={({ pressed }) => [
-                    styles.target,
-                    { opacity: pressed ? 0.7 : 1 },
-                  ]}
-                  onPress={() => {
-                    if (isSelected) {
-                      return;
-                    }
-                    onChange(color);
-                    haptics.selection();
-                  }}
-                >
-                  <View
-                    accessible={false}
-                    accessibilityElementsHidden
-                    importantForAccessibility="no-hide-descendants"
-                    style={[
-                      styles.ring,
-                      {
-                        borderColor:
-                          focusedColor === color ? colors.text : "transparent",
-                      },
-                    ]}
-                  >
-                    <View
-                      style={[
-                        styles.dot,
-                        { backgroundColor: colors.tags[color].dot },
-                      ]}
-                    >
-                      {isSelected && (
-                        <Check
-                          width={18}
-                          height={18}
-                          strokeWidth={3}
-                          color={colors.tags[color].text}
-                        />
-                      )}
-                    </View>
-                  </View>
-                </Pressable>
-              </View>
-            );
-          })}
+          {TAG_COLOR_NAMES.map((color) => (
+            <View key={color} style={[styles.cell, { width: cellWidth }]}>
+              <ColorSwatch
+                color={color}
+                isSelected={value === color}
+                onSelect={() => onChange(color)}
+              />
+            </View>
+          ))}
         </View>
       </MenuList>
     </View>
