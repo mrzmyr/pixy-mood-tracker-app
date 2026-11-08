@@ -1312,7 +1312,6 @@
   "voice_mood_very_good": "molto bene",
   "voice_open_settings": "Apri Impostazioni",
   "voice_pause": "Pausa",
-  "voice_paused": "In pausa",
   "voice_permission_body": "Pixy ha bisogno dell’accesso al microfono e al riconoscimento vocale per scrivere il tuo check-in. La voce viene elaborata sul tuo dispositivo. L’audio non viene mai salvato.",
   "voice_permission_title": "Consenti microfono e voce",
   "voice_preparing": "Preparazione…",

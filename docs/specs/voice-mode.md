@@ -38,7 +38,7 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
   - No cards yet: "Try saying" plus an example from the user's own words: "good" trigger, first tag, first person ([`buildVoiceExample`](../../src/features/voice/voice-example.ts)). Saying it fills every card in every language
   - Spoken mood: first card, dot in the user's scale color, trigger word, kind "Mood" ([`VoiceMoodCard`](../../src/features/voice/components/voice-match-card.tsx))
   - Background: onboarding sky ([`Sky`](../../src/components/sky.tsx)). Clouds drift 8 pt/s, up to 40 pt/s at full voice level. Fade behind the bottom controls keeps text readable. Dark mode: night sky with stars. Reduced motion: still
-  - Bottom: "Listening…" title plus hint "Pixy picks up people, tags, emotions, and your mood." Paused: "Paused"
+  - Bottom: "Listening…" title plus hint "Pixy picks up people, tags, emotions, and your mood." Paused: no title
   - Help button next to the hint opens a sheet ([`VoiceHelpSheet`](../../src/features/voice/components/voice-help-sheet.tsx)): name rules for people, tags, emotions, first mood wins, all 7 mood trigger words with scale color dots, review before save
   - Bottom row: pause/resume button, live waveform, check button (primary)
 - Close with transcript asks to discard ([`useDiscardGuard`](../../src/hooks/useDiscardGuard.ts))
