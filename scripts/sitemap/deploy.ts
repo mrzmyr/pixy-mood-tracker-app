@@ -48,19 +48,31 @@ const vercel = (args: string[], scope: string) => {
   if (result.error || result.status !== 0) {
     const redact = (text: string) =>
       token ? text.replaceAll(token, "<token>") : text;
-    const lastLine = redact(
-      `${result.stderr ?? ""}`.trim().split("\n").at(-1) ?? ""
-    );
+    const stderr = redact(`${result.stderr ?? ""}`.trim());
+    const errorLine =
+      stderr.split("\n").find((line) => line.startsWith("Error:")) ??
+      stderr.split("\n").at(-1) ??
+      "";
     throw new CliError({
       status: "vercel_failed",
       message: `\`vercel ${args[0]}\` failed`,
       why: result.error
         ? result.error.message
-        : `Exit ${result.status}. ${lastLine}`,
+        : `Exit ${result.status}. ${errorLine}`,
       fix: "Run `vercel whoami`. Locally: `vercel login`. CI: check the VERCEL_TOKEN secret.",
     });
   }
   return result.stdout;
+};
+
+/** Create the Vercel project on the first deploy. */
+const ensureProject = (scope: string) => {
+  try {
+    vercel(["project", "inspect", PROJECT], scope);
+  } catch {
+    vercel(["project", "add", PROJECT], scope);
+    note(`Created Vercel project ${PROJECT}`);
+  }
 };
 
 /** Production deployments of earlier commits, newest first. */
@@ -137,6 +149,7 @@ export const deployFor = (values: Record<string, string | undefined>) => {
     });
   }
   const scope = readScope();
+  ensureProject(scope);
   const history = target === "production" ? listHistory(scope) : [];
   const dir = buildSite(sha, history);
   fs.writeFileSync(
