@@ -9,6 +9,7 @@
 - the project is called `pixy-mood-tracker`, use that slug always when creating folders, exeutables etc (not `pixy`, `pixy-app` etc)
 - remove worktree when branch merged
 - Start code changes with `bun worktree new <slug>`. Never edit the main checkout. Never use `--no-verify`.
+- Package manager: bun only. Never run npm, yarn, or pnpm installs. `.npmrc` blocks them with `EBADENGINE`. Broken checkout (`Cannot find module '@expo/cli/...'`): tell the user, never work around silently
 - Do not document anything that an agent can easily find with code search
 - **Minimal diff:** Use the fewest files that solve it. Keep existing signatures and reuse SDK props. Add no new abstractions unless asked. You are free to suggest them, but must find consensus with the user.
 
