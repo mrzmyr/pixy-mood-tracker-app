@@ -1,7 +1,6 @@
 import type { ReactElement, ReactNode } from "react";
 import { ScrollView, View } from "react-native";
 import ChevronRight from "lucide-react-native/icons/chevron-right";
-import FlagHighlight from "@/components/flag-highlight";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
@@ -52,27 +51,22 @@ export const SettingsForm = ({
 export const SettingsSection = ({
   title,
   footer,
-  flag,
   children,
-}: SettingsSectionProps) => {
-  const section = (
-    <View>
-      {title ? (
-        <MenuListHeadline
-          style={{ marginTop: SPACE.xxxl, marginBottom: SPACE.sm }}
-        >
-          {title}
-        </MenuListHeadline>
-      ) : null}
-      <MenuList>{children}</MenuList>
-      {footer ? (
-        <TextInfo style={{ marginTop: SPACE.sm }}>{footer}</TextInfo>
-      ) : null}
-    </View>
-  );
-
-  return flag ? <FlagHighlight flag={flag}>{section}</FlagHighlight> : section;
-};
+}: SettingsSectionProps) => (
+  <View>
+    {title ? (
+      <MenuListHeadline
+        style={{ marginTop: SPACE.xxxl, marginBottom: SPACE.sm }}
+      >
+        {title}
+      </MenuListHeadline>
+    ) : null}
+    <MenuList>{children}</MenuList>
+    {footer ? (
+      <TextInfo style={{ marginTop: SPACE.sm }}>{footer}</TextInfo>
+    ) : null}
+  </View>
+);
 
 /** On/off row: system switch, `label` as its screen reader name. */
 export const SettingsSwitch = ({

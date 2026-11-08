@@ -167,7 +167,6 @@ const Reminder = () => {
       </SettingsSection>
       {quickCheckIn.isAvailable && (
         <SettingsSection
-          flag="quick-check-in"
           footer={getQuickCheckInFooter(quickCheckIn.isEnabled, schedule)}
         >
           <SettingsSwitch
@@ -226,7 +225,7 @@ const Reminder = () => {
         </SettingsSection>
       )}
       {isRecapsOn && (
-        <SettingsSection flag="recaps" footer={t("recaps_notifications_hint")}>
+        <SettingsSection footer={t("recaps_notifications_hint")}>
           <SettingsSwitch
             label={t("recaps_notifications_setting")}
             value={recaps.enabled}

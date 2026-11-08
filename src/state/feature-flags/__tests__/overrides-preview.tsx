@@ -1,5 +1,3 @@
-import { Text } from "react-native";
-import type * as FlagHighlightModule from "@/components/flag-highlight";
 import type * as TestingLibrary from "@testing-library/react-native";
 import type * as FeatureFlags from "@/state/feature-flags";
 import type * as Overrides from "@/state/feature-flags/overrides";
@@ -15,20 +13,10 @@ const testingLibrary: typeof TestingLibrary = require("@testing-library/react-na
 const featureFlags: typeof FeatureFlags = require("@/state/feature-flags");
 // oxlint-disable-next-line typescript/no-require-imports -- loads after the variant is set above.
 const overrides: typeof Overrides = require("@/state/feature-flags/overrides");
-// oxlint-disable-next-line typescript/no-require-imports -- loads after the variant is set above.
-const flagHighlightModule: typeof FlagHighlightModule = require("@/components/flag-highlight");
 
-const { act, render, renderHook } = testingLibrary;
+const { act, renderHook } = testingLibrary;
 const { useCanOverrideFeatureFlags, useFeatureFlag } = featureFlags;
-const { setHighlight, setOverride } = overrides;
-const FlagHighlight = flagHighlightModule.default;
-
-const renderHighlight = () =>
-  render(
-    <FlagHighlight flag="photos">
-      <Text>flagged</Text>
-    </FlagHighlight>
-  );
+const { setOverride } = overrides;
 
 afterAll(() => {
   process.env.EXPO_PUBLIC_APP_VARIANT = ORIGINAL_VARIANT;
@@ -56,38 +44,5 @@ describe("feature flag overrides in preview builds", () => {
       setOverride({ key: "photos", value: "remote" });
     });
     expect(hook.result.current.isOn).toBe(false);
-  });
-
-  test("FlagHighlight never hides children, whatever the flag", async () => {
-    const screen = await renderHighlight();
-    expect(screen.getByText("flagged")).toBeTruthy();
-
-    await act(() => {
-      setOverride({ key: "photos", value: "off" });
-      setHighlight(true);
-    });
-    expect(screen.getByText("flagged")).toBeTruthy();
-
-    await act(() => {
-      setHighlight(false);
-      setOverride({ key: "photos", value: "remote" });
-    });
-  });
-
-  test("highlight outlines UI with its flag key only while on", async () => {
-    const screen = await renderHighlight();
-    expect(screen.queryByTestId("feature-flag-highlight-photos")).toBeNull();
-
-    await act(() => {
-      setHighlight(true);
-    });
-    expect(screen.getByTestId("feature-flag-highlight-photos")).toBeTruthy();
-    expect(screen.getByText("photos")).toBeTruthy();
-
-    await act(() => {
-      setHighlight(false);
-    });
-    expect(screen.queryByTestId("feature-flag-highlight-photos")).toBeNull();
-    expect(screen.getByText("flagged")).toBeTruthy();
   });
 });

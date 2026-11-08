@@ -44,7 +44,6 @@ import { getEmotionPageIndex } from "./slides/slide-emotions/basic-emotions";
 import { SlideFeedback } from "./slides/slide-feedback";
 import { SlideMessage } from "./slides/slide-message";
 import { SlideMood } from "./slides/slide-mood";
-import FlagHighlight from "@/components/flag-highlight";
 import { SlidePhotos } from "./slides/slide-photos";
 import { SlideReminder } from "./slides/slide-reminder";
 import { SlidePeople } from "./slides/slide-people";
@@ -126,12 +125,10 @@ const useStepSlides = ({
     slides.push({
       key: "people",
       slide: (
-        <FlagHighlight flag="people" pillOnly style={{ flex: 1 }}>
-          <SlidePeople
-            onDisableStep={() => disableStep("people")}
-            showDisable={showDisable}
-          />
-        </FlagHighlight>
+        <SlidePeople
+          onDisableStep={() => disableStep("people")}
+          showDisable={showDisable}
+        />
       ),
     });
   }
@@ -140,14 +137,12 @@ const useStepSlides = ({
     slides.push({
       key: "photos",
       slide: (
-        <FlagHighlight flag="photos" pillOnly style={{ flex: 1 }}>
-          <SlidePhotos
-            mode={mode}
-            isActive={isPhotosSlideActive}
-            onDisableStep={() => disableStep("photos")}
-            showDisable={showDisable}
-          />
-        </FlagHighlight>
+        <SlidePhotos
+          mode={mode}
+          isActive={isPhotosSlideActive}
+          onDisableStep={() => disableStep("photos")}
+          showDisable={showDisable}
+        />
       ),
     });
   }
@@ -458,13 +453,11 @@ const LoggerSlides = ({
     content.push({
       key: "menstruation",
       slide: (
-        <FlagHighlight flag="menstruation" pillOnly style={{ flex: 1 }}>
-          <SlideMenstruation
-            onSelect={() => advance(slideKeys.indexOf("menstruation") + 1)}
-            onDisableStep={() => disableStep("menstruation")}
-            showDisable={showDisable}
-          />
-        </FlagHighlight>
+        <SlideMenstruation
+          onSelect={() => advance(slideKeys.indexOf("menstruation") + 1)}
+          onDisableStep={() => disableStep("menstruation")}
+          showDisable={showDisable}
+        />
       ),
     });
   }

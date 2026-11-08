@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { Pressable, Text, View } from "react-native";
 import type { AccessibilityActionEvent, PressableProps } from "react-native";
 import * as Reanimated from "react-native-reanimated";
-import FlagHighlight from "@/components/flag-highlight";
 import { CHIP } from "@/constants/chip";
 import type { ChipStyle } from "@/constants/chip";
 import { RADIUS } from "@/constants/radius";
@@ -214,7 +213,7 @@ export const Chip = ({
       }
     : { fill: colors.chipBackgroundSelected, text: colors.chipTextSelected };
 
-  const chip = (
+  return (
     // oxlint-disable-next-line react/static-components -- memoized above, same component on every render.
     <AnimatedPressable
       disabled={!isPressable && !onLongPress}
@@ -288,15 +287,5 @@ export const Chip = ({
         {label}
       </AnimatedText>
     </AnimatedPressable>
-  );
-
-  // Wrap whenever the flag is on, never by `selected`: a changing tree
-  // would remount the chip and skip the transition.
-  return isInk ? (
-    <FlagHighlight flag="chip-active-ink" pillOnly>
-      {chip}
-    </FlagHighlight>
-  ) : (
-    chip
   );
 };

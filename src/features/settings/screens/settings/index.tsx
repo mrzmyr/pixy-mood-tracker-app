@@ -12,7 +12,6 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import FlagHighlight from "@/components/flag-highlight";
 import FieldRow from "@/components/field-row";
 import { useHostColorScheme } from "@/components/settings-form/platform";
 import { ScrollEdge } from "@/components/scroll-edge";
@@ -101,11 +100,7 @@ export const SettingsScreen = () => {
     <FieldGroup.SectionFooter>
       <RNHostView matchContents>
         <View style={{ width: windowWidth - 2 * SECTION_INSET }}>
-          {isSupportEnabled && support.enabled && (
-            <FlagHighlight flag="support-pixy">
-              <SupportCard />
-            </FlagHighlight>
-          )}
+          {isSupportEnabled && support.enabled && <SupportCard />}
           <Pressable
             testID="settings-version"
             accessible={false}

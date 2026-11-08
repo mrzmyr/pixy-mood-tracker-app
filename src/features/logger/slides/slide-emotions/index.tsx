@@ -21,7 +21,6 @@ import { EmotionBasicGradients } from "./emotion-basic-gradients";
 import { EmotionBasicSelection } from "./emotion-basic-selection";
 import { ExpandButton } from "./expand-button";
 import noop from "lodash/noop";
-import FlagHighlight from "@/components/flag-highlight";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { NeedsCheck } from "./needs-check";
 import type { NeedStates } from "./needs";
@@ -68,21 +67,19 @@ const EmotionsHeader = ({
       )}
     </View>
     {hasNeeds && (
-      <FlagHighlight flag="needs">
-        <LinkButton
-          testID="needs-mode-toggle"
-          onPress={onToggleNeedsMode}
-          style={{
-            alignSelf: "flex-start",
-            // LinkButton pads 8: text lines up with the headline at 20.
-            marginHorizontal: 12,
-            marginBottom: 4,
-            fontWeight: "400",
-          }}
-        >
-          {t(isNeedsMode ? "log_needs_show_all" : "log_needs_use")}
-        </LinkButton>
-      </FlagHighlight>
+      <LinkButton
+        testID="needs-mode-toggle"
+        onPress={onToggleNeedsMode}
+        style={{
+          alignSelf: "flex-start",
+          // LinkButton pads 8: text lines up with the headline at 20.
+          marginHorizontal: 12,
+          marginBottom: 4,
+          fontWeight: "400",
+        }}
+      >
+        {t(isNeedsMode ? "log_needs_show_all" : "log_needs_use")}
+      </LinkButton>
     )}
   </>
 );
@@ -176,17 +173,15 @@ export const SlideEmotions = ({
   let content: React.ReactNode;
   if (showNeeds && !isSearching) {
     content = (
-      <FlagHighlight flag="needs">
-        <NeedsCheck
-          states={needStates}
-          onChange={(key, state) =>
-            setNeedStates((current) => ({ ...current, [key]: state }))
-          }
-          emotions={EMOTIONS}
-          selectedEmotions={selectedEmotions}
-          onPressEmotion={onPressEmotion}
-        />
-      </FlagHighlight>
+      <NeedsCheck
+        states={needStates}
+        onChange={(key, state) =>
+          setNeedStates((current) => ({ ...current, [key]: state }))
+        }
+        emotions={EMOTIONS}
+        selectedEmotions={selectedEmotions}
+        onPressEmotion={onPressEmotion}
+      />
     );
   } else if (isSearching || mode === "basic") {
     content = (
