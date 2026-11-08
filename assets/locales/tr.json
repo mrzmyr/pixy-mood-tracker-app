@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "%{month} Özeti",
   "recaps_story_best_day_ask": "En iyi gününü görmeye hazır mısın?",
   "recaps_story_best_day_show": "En iyi gününü göster",
+  "recaps_story_best_day_slide": "Kilidi açmak için kaydır",
   "recaps_story_coming_text": {
     "one": "Seni 1 piksel daha bekliyor. Her gün bir adım.",
     "other": "Seni {{count}} piksel daha bekliyor. Her gün bir adım."

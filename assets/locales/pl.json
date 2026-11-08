@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "Podsumowanie: %{month}",
   "recaps_story_best_day_ask": "Gotowy, by zobaczyć swój najlepszy dzień?",
   "recaps_story_best_day_show": "Pokaż najlepszy dzień",
+  "recaps_story_best_day_slide": "Przesuń, aby odblokować",
   "recaps_story_coming_text": {
     "one": "Czeka na Ciebie jeszcze 1 piksel. Dzień po dniu.",
     "other": "Piksele, które jeszcze na Ciebie czekają: {{count}}. Dzień po dniu."

@@ -1,14 +1,37 @@
 import dayjs from "dayjs";
-import { use, useEffect, useRef, useState } from "react";
-import { ScrollView, View } from "react-native";
+import memoize from "lodash/memoize";
+import { use, useEffect, useId, useRef, useState } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import type { ViewStyle } from "react-native";
 import { GestureDetector, usePanGesture } from "react-native-gesture-handler";
 import Animated, {
+  cancelAnimation,
+  createAnimatedComponent,
   Easing,
+  FadeOut,
+  interpolate,
+  useAnimatedProps,
   useAnimatedReaction,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
+  withDelay,
+  withRepeat,
   withTiming,
 } from "react-native-reanimated";
+import Svg, {
+  Defs,
+  LinearGradient,
+  Mask,
+  Rect,
+  Stop,
+  Text as SvgText,
+} from "react-native-svg";
 import { scheduleOnRN } from "react-native-worklets";
 import ChevronsRight from "lucide-react-native/icons/chevrons-right";
 import { CLOUDY_SIZE } from "@/components/cloudy";
@@ -18,19 +41,24 @@ import { RADIUS } from "@/constants/radius";
 import { EmotionIndicator, EMOTIONS } from "@/features/logger";
 import { t, tDynamic } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
+import { TapConfetti } from "./tap-confetti";
 import {
   GlassChip,
   Reveal,
   RevealText,
   SlideHeader,
   StoryImage,
+  StoryText,
   TagDot,
 } from "./parts";
 import {
   getStoryTheme,
   revealTextMs,
   STORY_BLOCK_GAP,
+  STORY_MAX_FONT_SCALE,
   STORY_PALETTE,
+  STORY_TITLE_GAP,
+  STORY_TYPE,
   titleRevealEnd,
 } from "./theme";
 import type { StoryTheme } from "./theme";
@@ -54,21 +82,131 @@ const PIXY_HOVER_GAP = CLOUDY_SIZE * 0.42;
 /** Pixy cheers this long before the day opens. */
 const CHEER_MS = 800;
 
+/** One shine pass over the track label, left to right. */
+const SHIMMER_MS = 2200;
+/**
+ * Half width of the shine per character, as in the AI SDK Shimmer: longer
+ * labels get a wider, softer shine.
+ */
+const SHIMMER_SPREAD_PER_CHAR = 3;
+/** Share of the travel after which the label is gone. */
+const LABEL_FADE_SHARE = 0.45;
+/** Fade of one block of the day into its locked shape. */
+const UNVEIL_MS = 600;
+/** The question fades out this long; the day title starts after it. */
+const QUESTION_FADE_MS = 250;
+/** Time the track takes to fade out after the swipe. */
+const TRACK_FADE_MS = 250;
+const AVATAR_SIZE = 28;
+
 /** Time between two photos, and from one block to the next. */
 const PHOTO_STEP_MS = 450;
 const BLOCK_STEP_MS = 500;
-/** Pause after the swipe before the first photo shows. */
-const OPEN_DELAY_MS = 200;
+/** Pause after the swipe before the day title writes itself. */
+const OPEN_DELAY_MS = QUESTION_FADE_MS + 100;
 const MAX_PHOTOS = 3;
 const MAX_PEOPLE = 4;
-
-/** Photo `index` shows this long after the swipe. */
-const photoAt = (index: number) => OPEN_DELAY_MS + index * PHOTO_STEP_MS;
 
 const EMOTION_BY_KEY = new Map(
   EMOTIONS.map((emotion) => [emotion.key, emotion])
 );
 const GOOD = new Set(["very_good", "good"]);
+
+// Built on first render, never at module load: expo-router's Jest mock of
+// reanimated is empty. Memoized, so every render gets the same component.
+const getAnimatedRect = memoize(() => createAnimatedComponent(Rect));
+
+/**
+ * One line of text with a soft shine that sweeps across it again and again,
+ * as on the classic lock screen. The shine is a gradient that fades in and
+ * out, clipped to the glyphs. Without motion the text stays still.
+ */
+const ShimmerLabel = ({ text, theme }: { text: string; theme: StoryTheme }) => {
+  const palette = STORY_PALETTE[theme];
+  const isReducedMotion = useReducedMotion();
+  const { fontScale } = useWindowDimensions();
+  const scale = Math.min(fontScale, STORY_MAX_FONT_SCALE);
+  const fontSize = STORY_TYPE.body.fontSize * scale;
+  const height = STORY_TYPE.body.lineHeight * scale;
+  const [width, setWidth] = useState(0);
+  const sweep = useSharedValue(0);
+  const spread = text.length * SHIMMER_SPREAD_PER_CHAR * scale;
+  // SVG ids may not hold the colons of React ids.
+  const id = useId().replaceAll(/[^a-zA-Z0-9]/gu, "");
+
+  useEffect(() => {
+    if (isReducedMotion || width === 0) {
+      return;
+    }
+    sweep.set(
+      withRepeat(
+        withTiming(1, { duration: SHIMMER_MS, easing: Easing.linear }),
+        -1
+      )
+    );
+    return () => cancelAnimation(sweep);
+  }, [isReducedMotion, sweep, width]);
+
+  const AnimatedRect = getAnimatedRect();
+  const shineProps = useAnimatedProps(() => ({
+    x: interpolate(sweep.get(), [0, 1], [-2 * spread, width]),
+  }));
+  const label = (fill: string) => (
+    <SvgText
+      x={width / 2}
+      // Baseline: middle of the line plus about half the cap height.
+      y={height / 2 + fontSize * 0.35}
+      textAnchor="middle"
+      fontSize={fontSize}
+      fontWeight="500"
+      fill={fill}
+    >
+      {text}
+    </SvgText>
+  );
+  return (
+    <View
+      accessible={false}
+      importantForAccessibility="no-hide-descendants"
+      onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
+      style={{ height }}
+    >
+      {width > 0 && (
+        <Svg width={width} height={height}>
+          <Defs>
+            <LinearGradient id={`${id}shine`} x1="0" y1="0" x2="1" y2="0">
+              <Stop offset="0" stopColor={palette.text} stopOpacity={0} />
+              <Stop offset="0.5" stopColor={palette.text} stopOpacity={1} />
+              <Stop offset="1" stopColor={palette.text} stopOpacity={0} />
+            </LinearGradient>
+            <Mask
+              id={`${id}glyphs`}
+              maskUnits="userSpaceOnUse"
+              x={0}
+              y={0}
+              width={width}
+              height={height}
+            >
+              {label("#FFFFFF")}
+            </Mask>
+          </Defs>
+          {label(palette.muted)}
+          {!isReducedMotion && (
+            // oxlint-disable-next-line react/static-components -- memoized above, same component on every render.
+            <AnimatedRect
+              animatedProps={shineProps}
+              y={0}
+              width={2 * spread}
+              height={height}
+              fill={`url(#${id}shine)`}
+              mask={`url(#${id}glyphs)`}
+            />
+          )}
+        </Svg>
+      )}
+    </View>
+  );
+};
 
 /**
  * Track with a thumb the user drags to the end. Releases short of
@@ -192,6 +330,14 @@ const SwipeToUnlock = ({
   const thumbStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: offset.get() }],
   }));
+  // The label fades while the thumb moves over it, back in when it returns.
+  const labelStyle = useAnimatedStyle(() => {
+    const range = travelShared.get() * LABEL_FADE_SHARE;
+    return {
+      opacity:
+        range > 0 ? interpolate(offset.get(), [0, range], [1, 0], "clamp") : 1,
+    };
+  });
   return (
     <GestureDetector gesture={gesture}>
       <View
@@ -216,6 +362,20 @@ const SwipeToUnlock = ({
         <Animated.View
           style={[
             {
+              // Same inset both sides: centered on the whole track, clear
+              // of the thumb at rest.
+              position: "absolute",
+              left: THUMB_INSET + THUMB_SIZE,
+              right: THUMB_INSET + THUMB_SIZE,
+            },
+            labelStyle,
+          ]}
+        >
+          <ShimmerLabel text={t("recaps_story_best_day_slide")} theme={theme} />
+        </Animated.View>
+        <Animated.View
+          style={[
+            {
               position: "absolute",
               left: THUMB_INSET,
               width: THUMB_SIZE,
@@ -235,19 +395,8 @@ const SwipeToUnlock = ({
   );
 };
 
-/**
- * Best day of the month. Locked first: the question and a swipe track, and
- * the story waits. After the swipe the day builds up: photos one by one,
- * the title, then people, emotions, and tags. Long days scroll.
- */
-const OpenDay = ({
-  slide,
-  ctx,
-}: {
-  slide: BestDaySlide;
-  ctx: SlideContext;
-}) => {
-  const theme = getStoryTheme(ctx.isDark);
+/** What the best day shows: photos, people, good emotions, and tags. */
+const getDayContent = (slide: BestDaySlide, ctx: SlideContext) => {
   const day = ctx.days.find((item) => item.date === slide.date);
   if (!day) {
     return null;
@@ -257,12 +406,6 @@ const OpenDay = ({
     ...new Set(day.items.flatMap((item) => item.people.map(({ id }) => id))),
   ].flatMap((id) => ctx.people.get(id) ?? []);
   const shownPeople = people.slice(0, MAX_PEOPLE);
-  const names = [
-    ...shownPeople.map((person) => person.name),
-    ...(people.length > MAX_PEOPLE
-      ? [t("recaps_connected_more", { count: people.length - MAX_PEOPLE })]
-      : []),
-  ].join(", ");
   const emotions = [
     ...new Set(day.items.flatMap((item) => item.emotions)),
   ].flatMap((key) => {
@@ -272,91 +415,335 @@ const OpenDay = ({
   const tags = [
     ...new Set(day.items.flatMap((item) => item.tags.map(({ id }) => id))),
   ].flatMap((id) => ctx.tags.get(id) ?? []);
+  return { day, photos, people, shownPeople, emotions, tags };
+};
 
+/**
+ * Opacity that stays 0 while the day is locked and fades to 1 `at`
+ * milliseconds after `isShown` turns true.
+ */
+const useUnveil = (isShown: boolean, at: number) => {
+  const opacity = useSharedValue(0);
+  useEffect(() => {
+    if (isShown) {
+      opacity.set(
+        withDelay(at, withTiming(1, { duration: UNVEIL_MS, easing: EASING }))
+      );
+    }
+  }, [opacity, isShown, at]);
+  return useAnimatedStyle(() => ({ opacity: opacity.get() }));
+};
+
+/** Content that fades in over its locked shape on unlock. */
+const Unveil = ({
+  isShown,
+  at,
+  style,
+  children,
+}: {
+  isShown: boolean;
+  at: number;
+  style?: ViewStyle;
+  children: React.ReactNode;
+}) => {
+  const unveil = useUnveil(isShown, at);
+  return <Animated.View style={[style, unveil]}>{children}</Animated.View>;
+};
+
+/** Chip that keeps its glass shape while locked; its content fades in. */
+const UnveilChip = ({
+  isShown,
+  at,
+  ...chip
+}: { isShown: boolean; at: number } & Omit<
+  React.ComponentProps<typeof GlassChip>,
+  "contentStyle"
+>) => {
+  const unveil = useUnveil(isShown, at);
+  return <GlassChip {...chip} contentStyle={unveil} />;
+};
+
+/** See-through white shape in place of a photo, avatar, or line of text. */
+const getLockedFill = (theme: StoryTheme): ViewStyle => ({
+  backgroundColor: STORY_PALETTE[theme].glass,
+  borderWidth: 1,
+  borderColor: STORY_PALETTE[theme].glassBorder,
+});
+
+/**
+ * Title slot: the question while locked, the day title after the swipe.
+ * It keeps the height of the taller one, so nothing below it moves.
+ */
+const TitleSlot = ({
+  question,
+  title,
+  isUnlocked,
+  theme,
+}: {
+  question: string;
+  title: string;
+  isUnlocked: boolean;
+  theme: StoryTheme;
+}) => {
+  const [heights, setHeights] = useState({ question: 0, title: 0 });
+  const measure = (key: keyof typeof heights, text: string) => (
+    <View
+      accessible={false}
+      importantForAccessibility="no-hide-descendants"
+      pointerEvents="none"
+      onLayout={(event) => {
+        const { height } = event.nativeEvent.layout;
+        setHeights((current) =>
+          current[key] === height ? current : { ...current, [key]: height }
+        );
+      }}
+      style={{ position: "absolute", left: 0, right: 0, opacity: 0 }}
+    >
+      <StoryText kind="title" theme={theme}>
+        {text}
+      </StoryText>
+    </View>
+  );
+  return (
+    <View style={{ minHeight: Math.max(heights.question, heights.title) }}>
+      {measure("question", question)}
+      {measure("title", title)}
+      {isUnlocked ? (
+        <RevealText
+          text={title}
+          at={OPEN_DELAY_MS}
+          kind="title"
+          theme={theme}
+        />
+      ) : (
+        <Animated.View exiting={FadeOut.duration(QUESTION_FADE_MS)}>
+          <SlideHeader theme={theme} title={question} />
+        </Animated.View>
+      )}
+    </View>
+  );
+};
+
+/**
+ * Best day of the month. One layout, locked and open. Locked: the question
+ * in the title slot, and the day's shapes in see-through white: empty photo
+ * tiles, avatar circles, a bar for the names, empty chips. Nothing of the
+ * day shows, and no photo loads. The swipe fills the same shapes in place:
+ * the day title replaces the question, then photos, people, emotions, and
+ * tags fade in. Long days scroll.
+ */
+const DayLayout = ({
+  content,
+  theme,
+  isUnlocked,
+  hasSwiped,
+  track,
+}: {
+  content: NonNullable<ReturnType<typeof getDayContent>>;
+  theme: StoryTheme;
+  isUnlocked: boolean;
+  /** Unlocked by a swipe on this screen: bursts sky confetti once. */
+  hasSwiped: boolean;
+  track: React.ReactNode;
+}) => {
+  const { day, photos, people, shownPeople, emotions, tags } = content;
+  const names = [
+    ...shownPeople.map((person) => person.name),
+    ...(people.length > MAX_PEOPLE
+      ? [t("recaps_connected_more", { count: people.length - MAX_PEOPLE })]
+      : []),
+  ].join(", ");
+  const question = t("recaps_story_best_day_ask");
   const title = t("recaps_day_best_title_month", {
     day: dayjs(day.date).format("dddd, D MMMM"),
   });
-  const titleAt = photoAt(photos.length) + (photos.length > 0 ? 300 : 0);
-  const peopleAt = titleAt + revealTextMs(title) + 200;
+  // Locked shapes show once the question has written itself.
+  const lockedAt = titleRevealEnd(question);
+  const photoAt = (index: number) =>
+    OPEN_DELAY_MS + revealTextMs(title) + index * PHOTO_STEP_MS;
+  const peopleAt = photoAt(photos.length) + (photos.length > 0 ? 0 : 200);
   const emotionsAt =
     peopleAt + (people.length > 0 ? BLOCK_STEP_MS + revealTextMs(names) : 0);
   const tagsAt =
     emotionsAt +
     (emotions.length > 0 ? BLOCK_STEP_MS + emotions.length * 120 : 0);
+  const glass = getLockedFill(theme);
+  const isReducedMotion = useReducedMotion();
+  const [size, setSize] = useState({ width: 0, height: 0 });
 
   return (
-    <>
-      <ScrollView
-        // Content height, shrinking to scroll when the day is long; cloud
-        // Pixy flies in the sky left below.
-        style={{ flexGrow: 0, flexShrink: 1 }}
-        contentContainerStyle={{ gap: STORY_BLOCK_GAP, paddingBottom: 24 }}
-        showsVerticalScrollIndicator={false}
-      >
-        {photos.length > 0 && (
-          <View style={{ flexDirection: "row", gap: 8 }}>
-            {photos.map((photo, index) => (
-              <Reveal key={photo.id} at={photoAt(index)} style={{ flex: 1 }}>
-                <StoryImage
-                  photo={photo}
-                  style={{
-                    width: "100%",
-                    aspectRatio: photos.length === 1 ? 4 / 3 : 3 / 4,
-                    borderRadius: RADIUS.lg,
-                  }}
-                />
-              </Reveal>
-            ))}
-          </View>
+    <View
+      style={{ flex: 1 }}
+      onLayout={(event) => {
+        const { width, height } = event.nativeEvent.layout;
+        setSize({ width, height });
+      }}
+    >
+      <TitleSlot
+        question={question}
+        title={title}
+        isUnlocked={isUnlocked}
+        theme={theme}
+      />
+      <View style={{ flex: 1 }}>
+        <Reveal
+          at={isUnlocked ? 0 : lockedAt}
+          style={{ flexShrink: 1, marginTop: STORY_TITLE_GAP }}
+        >
+          <ScrollView
+            // Content height, shrinking to scroll when the day is long; cloud
+            // Pixy flies in the sky left below.
+            style={{ flexGrow: 0, flexShrink: 1 }}
+            contentContainerStyle={{ gap: STORY_BLOCK_GAP, paddingBottom: 24 }}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={isUnlocked}
+            // Locked shapes hold nothing to read.
+            accessibilityElementsHidden={!isUnlocked}
+            importantForAccessibility={
+              isUnlocked ? "auto" : "no-hide-descendants"
+            }
+            testID="recap-story-best-day-content"
+          >
+            {photos.length > 0 && (
+              <View style={{ flexDirection: "row", gap: 8 }}>
+                {photos.map((photo, index) => (
+                  <View
+                    key={photo.id}
+                    style={[
+                      glass,
+                      {
+                        flex: 1,
+                        aspectRatio: photos.length === 1 ? 4 / 3 : 3 / 4,
+                        borderRadius: RADIUS.lg,
+                        overflow: "hidden",
+                      },
+                    ]}
+                  >
+                    {isUnlocked && (
+                      <Unveil isShown at={photoAt(index)} style={{ flex: 1 }}>
+                        <StoryImage
+                          photo={photo}
+                          style={{ flex: 1, borderRadius: RADIUS.lg }}
+                        />
+                      </Unveil>
+                    )}
+                  </View>
+                ))}
+              </View>
+            )}
+            {people.length > 0 && (
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              >
+                {shownPeople.map((person, index) => (
+                  <View
+                    key={person.id}
+                    style={[
+                      glass,
+                      {
+                        width: AVATAR_SIZE,
+                        height: AVATAR_SIZE,
+                        borderRadius: RADIUS.full,
+                      },
+                    ]}
+                  >
+                    {isUnlocked && (
+                      <Unveil
+                        isShown
+                        at={peopleAt + index * 120}
+                        style={{ position: "absolute", top: -1, left: -1 }}
+                      >
+                        <RingedAvatar person={person} size={AVATAR_SIZE} />
+                      </Unveil>
+                    )}
+                  </View>
+                ))}
+                <View style={{ flexShrink: 1, flexGrow: 1 }}>
+                  {isUnlocked ? (
+                    <RevealText
+                      text={names}
+                      at={peopleAt + shownPeople.length * 120}
+                      kind="body"
+                      theme={theme}
+                      tone="muted"
+                    />
+                  ) : (
+                    <Animated.View
+                      // Stays until the names write themselves in its place.
+                      exiting={FadeOut.delay(
+                        peopleAt + shownPeople.length * 120
+                      ).duration(QUESTION_FADE_MS)}
+                      style={[
+                        glass,
+                        {
+                          width: "55%",
+                          height: STORY_TYPE.body.fontSize,
+                          borderRadius: RADIUS.full,
+                        },
+                      ]}
+                    />
+                  )}
+                </View>
+              </View>
+            )}
+            {emotions.length > 0 && (
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                {emotions.map((emotion, index) => (
+                  <UnveilChip
+                    key={emotion.key}
+                    isShown={isUnlocked}
+                    at={emotionsAt + index * 120}
+                    theme={theme}
+                    marker={<EmotionIndicator emotion={emotion} compact />}
+                    label={tDynamic(`log_emotion_${emotion.key}`)}
+                  />
+                ))}
+              </View>
+            )}
+            {tags.length > 0 && (
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                {tags.map((tag, index) => (
+                  <UnveilChip
+                    key={tag.id}
+                    isShown={isUnlocked}
+                    at={tagsAt + index * 120}
+                    theme={theme}
+                    marker={<TagDot tag={tag} />}
+                    label={tag.title}
+                  />
+                ))}
+              </View>
+            )}
+          </ScrollView>
+        </Reveal>
+        {isUnlocked ? (
+          // All the sky under the day: the list's bottom padding keeps
+          // Cloudy off the tags, the slide padding keeps it off Share.
+          <SkyFlightZone style={{ flex: 1 }} />
+        ) : (
+          <>
+            <View style={{ flex: 1, marginVertical: STORY_BLOCK_GAP }} />
+            {/* Locked shapes hold nothing to read: Cloudy flies over them. */}
+            <SkyFlightZone style={StyleSheet.absoluteFill} />
+          </>
         )}
-        <RevealText text={title} at={titleAt} kind="title" theme={theme} />
-        {people.length > 0 && (
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            {shownPeople.map((person, index) => (
-              <Reveal key={person.id} at={peopleAt + index * 120}>
-                <RingedAvatar person={person} size={28} />
-              </Reveal>
-            ))}
-            <View style={{ flexShrink: 1 }}>
-              <RevealText
-                text={names}
-                at={peopleAt + shownPeople.length * 120}
-                kind="body"
-                theme={theme}
-                tone="muted"
-              />
-            </View>
-          </View>
-        )}
-        {emotions.length > 0 && (
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-            {emotions.map((emotion, index) => (
-              <Reveal key={emotion.key} at={emotionsAt + index * 120}>
-                <GlassChip
-                  theme={theme}
-                  marker={<EmotionIndicator emotion={emotion} compact />}
-                  label={tDynamic(`log_emotion_${emotion.key}`)}
-                />
-              </Reveal>
-            ))}
-          </View>
-        )}
-        {tags.length > 0 && (
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-            {tags.map((tag, index) => (
-              <Reveal key={tag.id} at={tagsAt + index * 120}>
-                <GlassChip
-                  theme={theme}
-                  marker={<TagDot tag={tag} />}
-                  label={tag.title}
-                />
-              </Reveal>
-            ))}
-          </View>
-        )}
-      </ScrollView>
-      <SkyFlightZone style={{ flex: 1, marginTop: STORY_BLOCK_GAP }} />
-    </>
+      </View>
+      {!isUnlocked && (
+        <Reveal at={lockedAt + BLOCK_STEP_MS}>
+          <Animated.View exiting={FadeOut.duration(TRACK_FADE_MS)}>
+            {track}
+          </Animated.View>
+        </Reveal>
+      )}
+      {hasSwiped && !isReducedMotion && size.width > 0 && (
+        // From the thumb at the end of its track.
+        <TapConfetti
+          x={size.width - THUMB_INSET - THUMB_SIZE / 2}
+          y={size.height - TRACK_HEIGHT / 2}
+          kind="sky"
+        />
+      )}
+    </View>
   );
 };
 
@@ -377,25 +764,28 @@ export const BestDay = ({
 }) => {
   const theme = getStoryTheme(ctx.isDark);
   const [isUnlockedHere, setIsUnlockedHere] = useState(false);
+  const [hasSwiped, setHasSwiped] = useState(false);
   const isUnlocked = isUnlockedFromParent ?? isUnlockedHere;
-  if (isUnlocked) {
-    return <OpenDay slide={slide} ctx={ctx} />;
+  const content = getDayContent(slide, ctx);
+  if (!content) {
+    return null;
   }
-  const title = t("recaps_story_best_day_ask");
-  // Question on top, track at the bottom, Pixy's free sky between them.
   return (
-    <View style={{ flex: 1 }}>
-      <SlideHeader theme={theme} title={title} />
-      <SkyFlightZone style={{ flex: 1, marginVertical: STORY_BLOCK_GAP }} />
-      <Reveal at={titleRevealEnd(title)}>
+    <DayLayout
+      content={content}
+      theme={theme}
+      isUnlocked={isUnlocked}
+      hasSwiped={hasSwiped}
+      track={
         <SwipeToUnlock
           theme={theme}
           onUnlock={() => {
             setIsUnlockedHere(true);
+            setHasSwiped(true);
             onUnlock?.();
           }}
         />
-      </Reveal>
-    </View>
+      }
+    />
   );
 };

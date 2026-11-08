@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "%{month}の振り返り",
   "recaps_story_best_day_ask": "いちばん良かった日を見る準備はできた？",
   "recaps_story_best_day_show": "いちばん良かった日を表示",
+  "recaps_story_best_day_slide": "スライドでロック解除",
   "recaps_story_coming_text": {
     "one": "あと1個のピクセルがあなたを待っています。一日ずつ。",
     "other": "あと{{count}}個のピクセルがあなたを待っています。一日ずつ。"

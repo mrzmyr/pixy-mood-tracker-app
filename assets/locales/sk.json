@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "Ohliadnutie: %{month}",
   "recaps_story_best_day_ask": "Chceš vidieť svoj najlepší deň?",
   "recaps_story_best_day_show": "Zobraziť najlepší deň",
+  "recaps_story_best_day_slide": "Posuň na odomknutie",
   "recaps_story_coming_text": {
     "one": "Čaká na teba ešte 1 pixel. Deň po dni.",
     "other": "Pixely, ktoré na teba ešte čakajú: {{count}}. Deň po dni."

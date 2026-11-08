@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "สรุปย้อนหลังเดือน%{month}",
   "recaps_story_best_day_ask": "พร้อมดูวันที่ดีที่สุดของคุณหรือยัง",
   "recaps_story_best_day_show": "แสดงวันที่ดีที่สุดของคุณ",
+  "recaps_story_best_day_slide": "เลื่อนเพื่อปลดล็อก",
   "recaps_story_coming_text": {
     "one": "ยังมีอีก 1 พิกเซลรอคุณอยู่ ทีละวัน",
     "other": "ยังมีอีก {{count}} พิกเซลรอคุณอยู่ ทีละวัน"

@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "%{month}-Rückblick",
   "recaps_story_best_day_ask": "Bereit für deinen besten Tag?",
   "recaps_story_best_day_show": "Deinen besten Tag zeigen",
+  "recaps_story_best_day_slide": "Zum Entsperren schieben",
   "recaps_story_coming_text": {
     "one": "Noch 1 Pixel wartet auf dich. Ein Tag nach dem anderen.",
     "other": "Noch {{count}} Pixel warten auf dich. Ein Tag nach dem anderen."

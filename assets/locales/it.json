@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "Riepilogo di %{month}",
   "recaps_story_best_day_ask": "Pronto a vedere il tuo giorno migliore?",
   "recaps_story_best_day_show": "Mostra il tuo giorno migliore",
+  "recaps_story_best_day_slide": "Scorri per sbloccare",
   "recaps_story_coming_text": {
     "one": "Ti aspetta ancora 1 pixel. Un giorno alla volta.",
     "other": "Ti aspettano ancora {{count}} pixel. Un giorno alla volta."

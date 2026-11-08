@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "Tổng kết %{month}",
   "recaps_story_best_day_ask": "Sẵn sàng xem ngày tuyệt nhất của bạn?",
   "recaps_story_best_day_show": "Hiện ngày tuyệt nhất của bạn",
+  "recaps_story_best_day_slide": "Trượt để mở khóa",
   "recaps_story_coming_text": {
     "one": "Còn 1 pixel đang chờ bạn. Từng ngày một.",
     "other": "Còn {{count}} pixel đang chờ bạn. Từng ngày một."

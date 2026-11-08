@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "סיכום %{month}",
   "recaps_story_best_day_ask": "מוכן לראות את היום הכי טוב שלך?",
   "recaps_story_best_day_show": "הצג את היום הכי טוב שלך",
+  "recaps_story_best_day_slide": "החלק לביטול נעילה",
   "recaps_story_coming_text": {
     "one": "עוד פיקסל אחד מחכה לך. יום אחר יום.",
     "other": "פיקסלים שעוד מחכים לך: {{count}}. יום אחר יום."

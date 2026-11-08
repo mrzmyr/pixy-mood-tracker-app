@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "Visszatekintés: %{month}",
   "recaps_story_best_day_ask": "Készen állsz a legjobb napodra?",
   "recaps_story_best_day_show": "Legjobb napod megjelenítése",
+  "recaps_story_best_day_slide": "Csúsztasd a feloldáshoz",
   "recaps_story_coming_text": {
     "one": "Még 1 pixel vár rád. Napról napra.",
     "other": "Még {{count}} pixel vár rád. Napról napra."

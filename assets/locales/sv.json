@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "Tillbakablick: %{month}",
   "recaps_story_best_day_ask": "Redo att se din bästa dag?",
   "recaps_story_best_day_show": "Visa din bästa dag",
+  "recaps_story_best_day_slide": "Skjut för att låsa upp",
   "recaps_story_coming_text": {
     "one": "1 pixel till väntar på dig. En dag i taget.",
     "other": "{{count}} pixlar till väntar på dig. En dag i taget."

@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "Підсумки: %{month}",
   "recaps_story_best_day_ask": "Готовий побачити свій найкращий день?",
   "recaps_story_best_day_show": "Показати найкращий день",
+  "recaps_story_best_day_slide": "Посунь, щоб розблокувати",
   "recaps_story_coming_text": {
     "one": "На Вас чекає ще 1 піксель. День за днем.",
     "other": "Пікселів, які ще чекають на Вас: {{count}}. День за днем."

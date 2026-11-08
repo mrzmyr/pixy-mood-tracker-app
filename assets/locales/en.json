@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "%{month} Recap",
   "recaps_story_best_day_ask": "Ready to see your best day?",
   "recaps_story_best_day_show": "Show your best day",
+  "recaps_story_best_day_slide": "Slide to unlock",
   "recaps_story_coming_text": {
     "one": "1 more pixel is waiting for you. One day at a time.",
     "other": "{{count}} more pixels are waiting for you. One day at a time."

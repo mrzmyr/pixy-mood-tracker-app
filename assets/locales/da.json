@@ -922,6 +922,7 @@
   "recaps_story_banner_title": "Tilbageblik: %{month}",
   "recaps_story_best_day_ask": "Klar til at se din bedste dag?",
   "recaps_story_best_day_show": "Vis din bedste dag",
+  "recaps_story_best_day_slide": "Stryg for at låse op",
   "recaps_story_coming_text": {
     "one": "1 pixel mere venter på dig. Én dag ad gangen.",
     "other": "{{count}} pixels mere venter på dig. Én dag ad gangen."

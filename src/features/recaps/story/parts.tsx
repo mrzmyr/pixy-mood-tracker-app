@@ -11,7 +11,8 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
-import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
+import type { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
+import type { AnimatedStyle } from "react-native-reanimated";
 import { TextReveal } from "@/components/text-reveal";
 import { RADIUS } from "@/constants/radius";
 import { getAverageMood } from "@/features/logs";
@@ -445,6 +446,7 @@ export const GlassChip = ({
   trailing,
   isSmall = false,
   isPerson = false,
+  contentStyle,
 }: {
   theme: StoryTheme;
   marker: React.ReactNode;
@@ -452,8 +454,27 @@ export const GlassChip = ({
   trailing?: React.ReactNode;
   isSmall?: boolean;
   isPerson?: boolean;
+  /**
+   * Style of marker, label, and trailing together, for example an opacity
+   * that hides them while the chip keeps its shape and size.
+   */
+  contentStyle?: StyleProp<AnimatedStyle<ViewStyle>>;
 }) => {
   const palette = STORY_PALETTE[theme];
+  const content = (
+    <>
+      {marker}
+      <StoryText
+        kind="label"
+        theme={theme}
+        numberOfLines={1}
+        style={isSmall ? { fontSize: 13, lineHeight: 17 } : undefined}
+      >
+        {label}
+      </StoryText>
+      {trailing}
+    </>
+  );
   return (
     <View
       style={{
@@ -469,16 +490,23 @@ export const GlassChip = ({
         backgroundColor: palette.glass,
       }}
     >
-      {marker}
-      <StoryText
-        kind="label"
-        theme={theme}
-        numberOfLines={1}
-        style={isSmall ? { fontSize: 13, lineHeight: 17 } : undefined}
-      >
-        {label}
-      </StoryText>
-      {trailing}
+      {contentStyle === undefined ? (
+        content
+      ) : (
+        <Animated.View
+          style={[
+            {
+              flexDirection: "row",
+              alignItems: "center",
+              gap: isSmall ? 6 : 8,
+              flexShrink: 1,
+            },
+            contentStyle,
+          ]}
+        >
+          {content}
+        </Animated.View>
+      )}
     </View>
   );
 };
