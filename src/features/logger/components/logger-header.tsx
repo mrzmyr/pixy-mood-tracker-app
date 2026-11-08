@@ -13,9 +13,10 @@ export const LOGGER_HEADER_ICON_INSET = 26;
 /**
  * Logger bar: close leads, step dots as title. Back is the swipe, or the
  * `Back` accessibility action on the dots.
- * Closing a dirty log asks for confirmation first. A dirty log with more
- * than one slide also gets a trailing save, so the user can save from any
- * slide; the bottom button still moves to the next slide.
+ * Closing a dirty log asks for confirmation first. A dirty log gets a
+ * trailing save on every slide but the last, so the user can save early;
+ * the bottom button still moves to the next slide. The last slide saves
+ * from its own button, so a second save there would duplicate it.
  */
 export const LoggerHeader = ({
   carouselRef,
@@ -52,7 +53,7 @@ export const LoggerHeader = ({
       }}
       closeTestID="logger-close"
       confirm={
-        isDirty && slideCount > 1
+        isDirty && slideIndex < slideCount - 1
           ? {
               label: t("save"),
               onPress: () => {

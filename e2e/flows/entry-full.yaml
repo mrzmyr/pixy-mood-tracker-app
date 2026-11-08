@@ -65,6 +65,9 @@ tags: [p0, entry]
 
 - assertVisible:
     id: "log-message"
+# The last slide saves from its bottom button only.
+- assertNotVisible:
+    id: "logger-header-save"
 - tapOn:
     id: "log-message"
 - inputText: "e2e note ${output.runId}"
