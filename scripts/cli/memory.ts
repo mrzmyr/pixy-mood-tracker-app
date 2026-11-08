@@ -58,7 +58,8 @@ const readMacMemory = () => {
   };
 };
 
-const readMemory = () => {
+/** Host RAM in bytes. `available` is an estimate on macOS; see readMacMemory. */
+export const readMemory = () => {
   if (process.platform === "darwin") {
     return readMacMemory();
   }

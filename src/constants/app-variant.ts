@@ -21,3 +21,13 @@ export const HAS_APP_VARIANT = isAppVariant(value);
 export const APP_VARIANT: AppVariant = isAppVariant(value)
   ? value
   : "production";
+
+/**
+ * Sitemap capture bundle (`bun sitemap capture`): preview variant plus
+ * `EXPO_PUBLIC_SITEMAP_CAPTURE=1`, both inlined at bundle time. Turns off
+ * network, telemetry, keyboard, and motion so screenshots are reproducible
+ * ([`src/shell/sitemap-capture.tsx`](../shell/sitemap-capture.tsx)). Always
+ * false in production bundles.
+ */
+export const IS_SITEMAP_CAPTURE =
+  value === "preview" && process.env.EXPO_PUBLIC_SITEMAP_CAPTURE === "1";

@@ -72,7 +72,7 @@ const readProfileEnv = (profile: ReleaseProfile) => {
 };
 
 /** Cached iOS Release simulator build. Prefers the current native fingerprint. */
-const pickIosBuild = async () => {
+export const pickIosBuild = async () => {
   const builds = listBuilds()
     .filter(
       (build) =>
@@ -139,15 +139,22 @@ const runLogged = async (
   }
 };
 
-/** Export the iOS release JS bundle with the env of the eas.json profile. */
-const exportBundle = async (profile: ReleaseProfile, workDir: string) => {
+/**
+ * Export the iOS release JS bundle with the env of the eas.json profile.
+ * `extraEnv` adds bundle-time values, for example the sitemap capture switch.
+ */
+export const exportBundle = async (
+  profile: ReleaseProfile,
+  workDir: string,
+  extraEnv: Record<string, string> = {}
+) => {
   step("Export JS");
   const outDir = path.join(workDir, "export");
   // Fresh Metro cache: metro.config.js keys its cache on the app variant
   // only, so a shared cache can hide a bundler flag change.
   const tmpDir = path.join(workDir, "tmp");
   fs.mkdirSync(tmpDir);
-  const profileEnv = readProfileEnv(profile);
+  const profileEnv = { ...readProfileEnv(profile), ...extraEnv };
   note(
     `Profile ${profile}: ${Object.entries(profileEnv)
       .map(([key, value]) => `${key}=${value}`)
@@ -185,7 +192,7 @@ const plistValue = (app: string, key: string) =>
   ).trim();
 
 /** Copy the native shell, swap in the exported JS, re-sign ad hoc. */
-const patchApp = (
+export const patchApp = (
   shell: string,
   exported: { bundle: string; assets: string },
   workDir: string
