@@ -47,6 +47,10 @@ gh pr view <n> --json body --jq .body | grep -oE 'https://github.com/user-attach
 
 # Rules
 
+- Proof comes from the app on a simulator, emulator, or phone. Never desktop renders, HTML prototypes, or mock images
+- Re-record after every visual change, before reporting done. Proof that shows old behavior counts as no proof
+- Video covers the whole flow: start state, every interaction, saved result on screen. No partial clips
+- Missing platform or state: say so in the first line of `Evidence`. Never only in the chat reply
 - Done only when PR body contains `user-attachments` URLs. Never report proof done without step 7 output.
 - `gh` exits non-zero when one upload fails. Body keeps the uploads that worked. Retry only the failed file.
 - `--body` or `--body-file` replaces the whole body. Always start from step 4 body, never from an old local draft.
