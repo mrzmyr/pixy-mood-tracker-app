@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react-native-web-vite";
 import { fn } from "storybook/test";
 import { useState } from "react";
 import { View } from "react-native";
-import { ProfileAvatar } from "@/features/profile";
 import type { EntryPreviewData } from "../components/entry-preview";
 import {
   KLARA_ENTRIES,
@@ -40,13 +39,6 @@ const Screen = ({
         entries={entries[selected] ?? []}
         sleepQuality={selected === STORY_TODAY ? 3 : null}
         scale={scale}
-        profileButton={
-          <ProfileAvatar
-            size={40}
-            photoUri="/demo/klara-jen.jpg"
-            initials="K"
-          />
-        }
         onSelectDate={setSelected}
         onWeekChange={(weekStart) =>
           setSelected((date) =>
@@ -55,7 +47,6 @@ const Screen = ({
         }
         onPressEntry={fn()}
         onAdd={fn()}
-        onSwitchView={fn()}
       />
     </View>
   );

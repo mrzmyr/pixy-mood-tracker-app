@@ -1,60 +1,48 @@
 import dayjs from "dayjs";
-import type { ReactNode } from "react";
 import { View } from "react-native";
 import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { HOME_TEXT, HOME_WEIGHT } from "../layout";
 
 /**
- * Top of Home: weekday and date of the selected day on the left, `trailing`
- * (the profile button) on the right.
+ * Top of Home: weekday and date of the selected day. The profile button
+ * sits in the native bar above.
  */
 export const HomeHeader = ({
   date,
-  trailing,
 }: {
   /** `DATE_FORMAT` date. */
   date: string;
-  trailing?: ReactNode;
 }) => {
   const colors = useColors();
   const day = dayjs(date);
 
   return (
     <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
+      accessible
+      accessibilityRole="header"
+      accessibilityLabel={day.format("dddd, LL")}
     >
-      <View
-        accessible
-        accessibilityRole="header"
-        accessibilityLabel={day.format("dddd, LL")}
+      <Label
+        size={20}
+        style={{
+          ...HOME_TEXT.header,
+          color: colors.textSecondary,
+          fontWeight: HOME_WEIGHT,
+        }}
       >
-        <Label
-          size={20}
-          style={{
-            ...HOME_TEXT.header,
-            color: colors.textSecondary,
-            fontWeight: HOME_WEIGHT,
-          }}
-        >
-          {day.format("dddd")}
-        </Label>
-        <Label
-          size={20}
-          style={{
-            ...HOME_TEXT.header,
-            color: colors.homeTextMuted,
-            fontWeight: HOME_WEIGHT,
-          }}
-        >
-          {day.format("MMMM DD")}
-        </Label>
-      </View>
-      {trailing}
+        {day.format("dddd")}
+      </Label>
+      <Label
+        size={20}
+        style={{
+          ...HOME_TEXT.header,
+          color: colors.homeTextMuted,
+          fontWeight: HOME_WEIGHT,
+        }}
+      >
+        {day.format("MMMM DD")}
+      </Label>
     </View>
   );
 };

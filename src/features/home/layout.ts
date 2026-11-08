@@ -33,13 +33,11 @@ export const HOME_LAYOUT = {
   /** Dotted divider: 2 pt dots every 7 pt. */
   dotSize: 2,
   dotGap: 5,
-  /** Floating buttons: circle and add capsule. */
+  /** Add capsule. */
   buttonSize: 49,
   addWidth: 81,
-  /** Floating buttons above the home indicator inset. */
+  /** Add capsule above the tab bar. */
   buttonBottom: 9,
-  /** White fade behind the floating buttons, solid from 42 %. */
-  fadeHeight: 130,
 } as const;
 
 /** Text weight of every Home label, like the reference (SF Pro Medium). */

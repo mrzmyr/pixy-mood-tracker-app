@@ -9,7 +9,6 @@ import {
 import type { LogItem } from "@/features/logs";
 import { useLocationSetting } from "@/features/location";
 import { usePeopleState } from "@/features/people";
-import { ProfileHeaderButton } from "@/features/profile";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { useToday } from "@/hooks/use-today";
@@ -22,9 +21,8 @@ import { getWeekStart, moveToWeek } from "../week";
 import { HomeView } from "./home-view";
 
 /**
- * Home behind flag `home-week`: one week of mood dots and the entries of
- * the selected day. Starts on today. The switch opens Calendar, the avatar
- * opens Settings, an entry opens its day.
+ * Home tab behind flag `home-week`: one week of mood underlines and the
+ * entries of the selected day. Starts on today. An entry opens its day.
  */
 export const HomeScreen = () => {
   const router = useRouter();
@@ -84,9 +82,6 @@ export const HomeScreen = () => {
       entries={entries}
       sleepQuality={getAverageSleepQuality(dayItems)}
       scale={scale}
-      profileButton={
-        <ProfileHeaderButton onPress={() => router.navigate("/settings")} />
-      }
       onSelectDate={setSelectedDate}
       onWeekChange={(weekStart) =>
         setSelectedDate((date) =>
@@ -107,7 +102,6 @@ export const HomeScreen = () => {
           },
         })
       }
-      onSwitchView={() => router.replace("/calendar")}
     />
   );
 };

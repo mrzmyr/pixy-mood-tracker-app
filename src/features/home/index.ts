@@ -1,1 +1,1 @@
-export { CalendarHomeSwitch } from "./calendar-home-switch";
+export { OpenHomeOnce } from "./open-home-once";

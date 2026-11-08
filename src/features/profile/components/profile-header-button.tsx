@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
 import { ScrollToTopGuard } from "react-native-screens/experimental";
 import { t } from "@/lib/translation";
@@ -12,12 +13,13 @@ import { ProfileAvatar } from "./profile-avatar";
 const PROFILE_HEADER_AVATAR_SIZE = 32;
 
 /**
- * Calendar header button that opens Settings. Shows the user's avatar
- * instead of the cog: photo, initials, or silhouette, inset in the system
- * glass circle. Keeps the "Settings" label, so screen readers and
- * e2e flows find it like before.
+ * Header button that opens Settings, on Calendar and Home. Shows the
+ * user's avatar instead of the cog: photo, initials, or silhouette, inset
+ * in the system glass circle. Keeps the "Settings" label, so screen readers
+ * and e2e flows find it like before. Place it in `Stack.Toolbar.View`.
  */
-export const ProfileHeaderButton = ({ onPress }: { onPress: () => void }) => {
+export const ProfileHeaderButton = () => {
+  const router = useRouter();
   const profile = useProfile();
 
   return (
@@ -27,10 +29,10 @@ export const ProfileHeaderButton = ({ onPress }: { onPress: () => void }) => {
     // https://github.com/react/react-native/issues/56061
     <ScrollToTopGuard>
       <Pressable
-        testID="calendar-settings"
+        testID="profile-header-button"
         accessibilityRole="button"
         accessibilityLabel={t("settings")}
-        onPress={onPress}
+        onPress={() => router.navigate("/settings")}
         hitSlop={6}
         style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
       >

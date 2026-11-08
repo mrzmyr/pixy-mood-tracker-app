@@ -48,7 +48,6 @@ export const CalendarHeaderButtons = () => {
   const filtersSheet = useCalendarFiltersSheet();
   const calendarLayout = useCalendarLayout();
   const isRecapsEnabled = useFeatureFlag("recaps");
-  const openSettings = () => router.navigate("/settings");
   const openStatistics = () =>
     isRecapsEnabled
       ? router.navigate({
@@ -117,7 +116,7 @@ export const CalendarHeaderButtons = () => {
         {/* Direct child only: Stack.Toolbar drops Fragments. Filters sets
             `separateBackground`, so the avatar gets its own glass circle. */}
         <Stack.Toolbar.View>
-          <ProfileHeaderButton onPress={openSettings} />
+          <ProfileHeaderButton />
         </Stack.Toolbar.View>
       </Stack.Toolbar>
     </>
