@@ -3,6 +3,21 @@ export const TEXT_REVEAL_STAGGER_MS = 24;
 /** One part's animation. Much longer than the stagger, so parts overlap. */
 export const TEXT_REVEAL_DURATION_MS = 700;
 
+/**
+ * One part's keyframes: fades in, rises a fifth of the font size, and grows
+ * from 90 %. Shared by `TextReveal` and voice mode's live transcript.
+ */
+export const getTextRevealKeyframes = (fontSize: number) => ({
+  from: {
+    opacity: 0,
+    transform: [{ translateY: fontSize * 0.2 }, { scale: 0.9 }],
+  },
+  to: {
+    opacity: 1,
+    transform: [{ translateY: 0 }, { scale: 1 }],
+  },
+});
+
 /** Animate each letter, or each word for long text. */
 export type TextRevealUnit = "char" | "word";
 

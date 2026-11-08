@@ -36,6 +36,7 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
   - White background (`menuListItemBackground`), like a sheet
   - Live transcript fills the screen ([`VoiceTranscript`](../../src/features/voice/components/voice-transcript.tsx)). Newest line at the bottom, older lines push up and fade out in the top 96 pt. No scroll: check-in shows the full text
   - Highlights inline: medium weight (500), text color and background unchanged. Every mention of a known person, tag, or emotion, plus the first mood trigger ([`findHighlights`](../../src/features/voice/highlights.ts)). Later mood triggers stay plain: only the first sets the rating
+  - Words animate in as recognized: same keyframes as recap stories ([`getTextRevealKeyframes`](../../src/components/text-reveal-parts.ts)), 500 ms per word, 90 ms stagger inside one recognizer burst, burst done within 600 ms. Reduced motion: no animation
   - People get their avatar before the name ([`PersonAvatar`](../../src/features/people/components/person-avatar.tsx), 22 pt, inline)
   - Reference: prototype 2026-11-08 (options O5 highlights, O8 input pill). Mobbin: Grok, Manus, ChatGPT voice input
   - Bottom: hint "Pixy picks up people, tags, emotions, and your mood." Title only for "Getting Ready…" and "Paused"; listening has none
