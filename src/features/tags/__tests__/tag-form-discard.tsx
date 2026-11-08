@@ -29,7 +29,7 @@ const theme = {
 const Home = () => {
   const router = useRouter();
   return (
-    <Pressable onPress={() => router.push("/create")}>
+    <Pressable onPress={() => router.push("./create")}>
       <Text>Open form</Text>
     </Pressable>
   );

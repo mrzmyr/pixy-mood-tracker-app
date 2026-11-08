@@ -9,7 +9,7 @@ import { useDiscardGuard } from "../use-discard-guard";
 const Home = () => {
   const router = useRouter();
   return (
-    <Pressable onPress={() => router.push("/form")}>
+    <Pressable onPress={() => router.push("./form")}>
       <Text>Open form</Text>
     </Pressable>
   );
