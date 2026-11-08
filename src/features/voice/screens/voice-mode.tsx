@@ -1,14 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Platform, Pressable, View } from "react-native";
+import { useEffect, useMemo, useRef } from "react";
+import { Platform, View } from "react-native";
 import { useKeepAwake } from "expo-keep-awake";
 import * as Linking from "expo-linking";
 import { Stack, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import CircleQuestionMark from "lucide-react-native/icons/circle-question-mark";
 import Button from "@/components/button";
 import RouteModalHeader from "@/components/route-modal-header";
-import { Body, Headline, Secondary } from "@/components/type";
+import { Body, Headline } from "@/components/type";
 import { SPACE } from "@/constants/space";
 import { encodeLoggerPrefill } from "@/features/logger";
 import type { LoggerPrefill } from "@/features/logger";
@@ -17,13 +16,11 @@ import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import { VoiceHelpSheet } from "../components/voice-help-sheet";
 import { VoiceInputPill } from "../components/voice-input-pill";
 import { VoiceTranscript } from "../components/voice-transcript";
 import { matchTranscript } from "../match-transcript";
 import { getMoodTriggers, matchMood } from "../mood-triggers";
 import { useVoiceTerms } from "../use-voice-terms";
-import { buildVoiceExample } from "../voice-example";
 import { useVoiceTranscription } from "../use-voice-transcription";
 import type { VoiceErrorStatus, VoiceStatus } from "../use-voice-transcription";
 
@@ -87,7 +84,6 @@ export const VoiceMode = () => {
   const haptics = useHaptics();
   const terms = useVoiceTerms();
   const moodTriggers = useMemo(() => getMoodTriggers(), []);
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const hasStarted = useRef(false);
   // Set when listening starts, in the start effect.
   const startedAt = useRef(0);
@@ -101,12 +97,6 @@ export const VoiceMode = () => {
       analytics.track("voice:failed", { status: error.status }),
   });
   const hasText = voice.text.trim() !== "";
-  // Picked when the screen opens: other tags and people each time. Terms
-  // keep their identity while stores stay the same.
-  const example = useMemo(
-    () => buildVoiceExample(terms, moodTriggers),
-    [terms, moodTriggers]
-  );
 
   const { allowLeave } = useDiscardGuard({
     isDirty: hasText,
@@ -243,59 +233,27 @@ export const VoiceMode = () => {
             gap: SPACE.lg,
           }}
         >
-          <View style={{ gap: SPACE.xs, paddingHorizontal: SPACE.xs }}>
-            {statusLabel && (
-              <Headline accessibilityRole="header" testID="voice-status">
-                {statusLabel}
-              </Headline>
-            )}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: SPACE.md,
-              }}
+          {statusLabel && (
+            <Headline
+              accessibilityRole="header"
+              testID="voice-status"
+              style={{ paddingHorizontal: SPACE.xs }}
             >
-              <View style={{ flex: 1 }}>
-                <Secondary>{t("voice_detects")}</Secondary>
-              </View>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t("voice_help_title")}
-                testID="voice-help-open"
-                hitSlop={16}
-                onPress={() => setIsHelpOpen(true)}
-                style={({ pressed }) => ({
-                  padding: 0,
-                  opacity: pressed ? 0.5 : 1,
-                })}
-              >
-                <CircleQuestionMark
-                  width={18}
-                  height={18}
-                  color={colors.textSecondary}
-                />
-              </Pressable>
-            </View>
-          </View>
+              {statusLabel}
+            </Headline>
+          )}
           <VoiceInputPill
             isRunning={isRunning}
             canResume={voice.status === "paused"}
             isListening={isListening}
             hasText={hasText}
-            getLevel={voice.getLevel}
+            level={voice.level}
             onPause={handlePause}
             onResume={handleResume}
             onDone={finish}
           />
         </View>
       )}
-      <VoiceHelpSheet
-        isOpen={isHelpOpen}
-        onClose={() => setIsHelpOpen(false)}
-        triggers={moodTriggers}
-        example={example}
-      />
     </View>
   );
 };

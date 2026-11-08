@@ -39,9 +39,8 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
   - Words animate in as recognized: same keyframes as recap stories ([`getTextRevealKeyframes`](../../src/components/text-reveal-parts.ts)), 500 ms per word, 90 ms stagger inside one recognizer burst, burst done within 600 ms. Reduced motion: no animation
   - People get their avatar before the name ([`PersonAvatar`](../../src/features/people/components/person-avatar.tsx), 22 pt, inline)
   - Reference: prototype 2026-11-08 (options O5 highlights, O8 input pill). Mobbin: Grok, Manus, ChatGPT voice input
-  - Bottom: hint "Pixy picks up people, tags, emotions, and your mood." Title only for "Getting Ready…" and "Paused"; listening has none
-  - Help button next to the hint opens a sheet ([`VoiceHelpSheet`](../../src/features/voice/components/voice-help-sheet.tsx)): intro, example from the user's own words ("good" trigger, random tag, random person; [`buildVoiceExample`](../../src/features/voice/voice-example.ts)), name rules for people, tags, emotions, first mood wins, all 7 mood trigger words with scale color dots, review before save. Saying the example highlights every item in every language
-  - Bottom: one gray capsule ([`VoiceInputPill`](../../src/features/voice/components/voice-input-pill.tsx)): pause/resume button, waveform scrolling in from the right (silence as dots), listening time, black check button
+  - Bottom: no hint, no help. Title only for "Getting Ready…" and "Paused"; listening has none. Highlights show what Pixy picks up
+  - Bottom: one gray capsule ([`VoiceInputPill`](../../src/features/voice/components/voice-input-pill.tsx)): pause/resume button, waveform scrolling in from the right on the UI thread (round bar ends, silence as round dots, one sample per 90 ms), listening time, black check button
 - Close with transcript asks to discard ([`useDiscardGuard`](../../src/hooks/useDiscardGuard.ts))
 - Native module missing (web, Jest, old dev client): screen shows the failed state, never throws on import ([`speech-module.ts`](../../src/features/voice/speech-module.ts))
 

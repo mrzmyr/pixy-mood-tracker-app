@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Pressable, View } from "react-native";
+import type { SharedValue } from "react-native-reanimated";
 import Check from "lucide-react-native/icons/check";
 import Mic from "lucide-react-native/icons/mic";
 import Pause from "lucide-react-native/icons/pause";
@@ -51,7 +52,7 @@ export const VoiceInputPill = ({
   canResume,
   isListening,
   hasText,
-  getLevel,
+  level,
   onPause,
   onResume,
   onDone,
@@ -62,7 +63,7 @@ export const VoiceInputPill = ({
   canResume: boolean;
   isListening: boolean;
   hasText: boolean;
-  getLevel: () => number;
+  level: SharedValue<number>;
   onPause: () => void;
   onResume: () => void;
   onDone: () => void;
@@ -112,7 +113,7 @@ export const VoiceInputPill = ({
       </Pressable>
       <View style={{ flex: 1, overflow: "hidden", alignItems: "flex-end" }}>
         <VoiceWaveform
-          getLevel={getLevel}
+          level={level}
           isActive={isListening}
           color={colors.text}
         />
