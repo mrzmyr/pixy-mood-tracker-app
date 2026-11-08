@@ -162,7 +162,7 @@ bun app open --target=pixel-8-09yw
 - After the lease starts, the CLI wakes an Android phone. A phone with a PIN lock stays locked. Unlock it on its worker Mac.
 - `bun app close` on a phone stops the preview app and ends the lease. simlock then removes every app installed during the lease. The phone stays on.
 - iPhone builds are signed phone builds with cache key prefix `ios-device`, built on this Mac. Cache entry is reused only when its provisioning profile includes the phone. Android phones use the same build as the emulator.
-- `bun e2e run --target` fails with `e2e_phone_unsupported`. agent-device `test --maestro` cannot run flows through the proxy yet. Run flows on the simulator or emulator.
+- `bun e2e run --target` fails with `e2e_phone_unsupported`. agent-device `test --maestro` cannot run flows through the proxy yet ([simlock#1458](https://github.com/callstackincubator/simlock/issues/1458)). Run flows on the simulator or emulator.
 - `bun app dev` has no phone support. Use `bun ios --device <udid>` or `bun android --device <name>` for the dev client on a phone connected to this Mac.
 - `agent-device record` on an iPhone can restart the iOS runner ("iOS runner session restarted during recording"). Every later command then fails. Take screenshots on the phone. Record video on the simulator: `xcrun simctl io <udid> recordVideo --codec=h264 --force <file>.mp4`, stop with `kill -INT`.
 - `agent-device settings appearance` works on simulators only. On a phone, switch dark mode in Settings > Display & Brightness.
