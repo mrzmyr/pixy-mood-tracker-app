@@ -24,12 +24,18 @@ export const TagIconButton = ({
   icon,
   color,
   isSuggesting,
+  placement,
   onPress,
   size = TAG_ICON_BOX_SIZE,
 }: {
   icon: Tag["icon"];
   color: Tag["color"];
   isSuggesting: boolean;
+  /**
+   * Where the box sits. `row`: inside a white row, so the box takes the page
+   * gray (DESIGN.md Color). `page`: on the page itself, chip gray.
+   */
+  placement: "row" | "page";
   /** Omit for a box that only shows the icon, like the picker header. */
   onPress?: () => void;
   size?: number;
@@ -82,7 +88,8 @@ export const TagIconButton = ({
     height: size,
     borderRadius: size >= TAG_ICON_BOX_SIZE ? RADIUS.md : RADIUS.sm,
     borderCurve: "continuous" as const,
-    backgroundColor: colors.chipBackground,
+    backgroundColor:
+      placement === "row" ? colors.background : colors.chipBackground,
     alignItems: "center" as const,
     justifyContent: "center" as const,
   };

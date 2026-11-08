@@ -43,7 +43,7 @@ export const searchTagIcons = (query: string): TagIconKey[] => {
 
 /**
  * Rows of the picker list. Search: results only. Else Suggestions for a
- * non-empty name, then every category. Suggestions show placeholders until
+ * non-empty name with matches, then every category. Suggestions show placeholders until
  * the first answer arrives.
  */
 export const buildTagIconPickerRows = ({
@@ -73,8 +73,9 @@ export const buildTagIconPickerRows = ({
   }
 
   const isLoading = isSuggesting && suggestions.length === 0;
+  // No name, or nothing found for it: no empty section.
   const suggestionRows: TagIconPickerRow[] =
-    title.trim() === ""
+    title.trim() === "" || (!isLoading && suggestions.length === 0)
       ? []
       : [
           {

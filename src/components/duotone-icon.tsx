@@ -21,6 +21,23 @@ const elementFor = (type: string) => {
   return null;
 };
 
+/**
+ * One id per icon object. Keys the Svg, so a new icon mounts new native
+ * shapes: shapes share keys like "0" across icons, and react-native-svg keeps
+ * props that a reused shape no longer has, for example a `transform`.
+ */
+// Icons are module constants, so the map stays small.
+const iconIds = new Map<IconSvgObject, number>();
+const iconIdOf = (icon: IconSvgObject) => {
+  const known = iconIds.get(icon);
+  if (known !== undefined) {
+    return known;
+  }
+  const id = iconIds.size;
+  iconIds.set(icon, id);
+  return id;
+};
+
 /** Opacity of the tint under the outline. */
 export const TINT_OPACITY = 0.35;
 
@@ -62,7 +79,7 @@ export const DuotoneIcon = ({
   const filled = tintLayer?.fill ? new Set(tintLayer.fill) : null;
 
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Svg key={iconIdOf(icon)} width={size} height={size} viewBox="0 0 24 24">
       {tintLayer?.underlay?.map(([type, { key, ...attributes }]) => {
         const Element = elementFor(type);
         if (!Element) {

@@ -129,6 +129,7 @@ export const TagIconPicker = () => {
           }}
         >
           <TagIconButton
+            placement="page"
             icon={session.icon}
             color={session.color}
             isSuggesting={session.isSuggesting}

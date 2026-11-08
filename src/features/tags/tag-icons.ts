@@ -504,7 +504,7 @@ export const TAG_ICONS = {
   user: { icon: UserIcon, keywords: ["me", "self", "person"] },
   couple: {
     icon: UserLove01Icon,
-    keywords: ["partner", "couple", "relationship", "date", "love"],
+    keywords: ["partner", "couple", "relationship", "date", "love", "sex"],
   },
   baby: { icon: Baby01Icon, keywords: ["baby", "newborn", "child"] },
   kid: { icon: ChildIcon, keywords: ["kid", "child", "children", "school"] },
@@ -530,7 +530,7 @@ export const TAG_ICONS = {
     icon: WeddingIcon,
     keywords: ["wedding", "engagement", "ring", "marriage"],
   },
-  kiss: { icon: KissingIcon, keywords: ["kiss", "romance"] },
+  kiss: { icon: KissingIcon, keywords: ["kiss", "romance", "sex", "intimacy"] },
   share: { icon: Share08Icon, keywords: ["share", "social"] },
   community: { icon: UserMultipleIcon, keywords: ["community", "team"] },
   teacher: { icon: TeacherIcon, keywords: ["teacher", "mentor", "lesson"] },

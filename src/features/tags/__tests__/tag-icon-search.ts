@@ -16,6 +16,7 @@ describe("tag icon suggestions without Apple Intelligence", () => {
     ["Headache", "sick"],
     ["Birthday party", "party"],
     ["Therapy", "brain"],
+    ["Sex", "couple"],
   ])("%s suggests %s first", (name, icon) => {
     expect(rankTagIcons(name)[0]).toBe(icon);
   });
@@ -96,6 +97,17 @@ describe("icon picker rows", () => {
       true
     );
     expect(iconsOf(loaded.slice(0, 2))).toEqual(["gym", "run"]);
+  });
+
+  test("a name without suggestions shows no Suggestions section", () => {
+    const rows = buildTagIconPickerRows({
+      query: "",
+      title: "Xyzzy",
+      suggestions: [],
+      isSuggesting: false,
+    });
+
+    expect(rows[0]).toMatchObject({ type: "header", sectionId: "feelings" });
   });
 
   test("search shows matches, or an empty row", () => {

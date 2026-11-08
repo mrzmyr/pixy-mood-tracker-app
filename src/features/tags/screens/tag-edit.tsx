@@ -147,6 +147,7 @@ export const TagEdit = () => {
             hasTagIcons ? (
               <FlagHighlight flag="tag-icons">
                 <TagIconButton
+                  placement="row"
                   icon={iconField.icon}
                   color={tag.color}
                   isSuggesting={iconField.isSuggesting}
