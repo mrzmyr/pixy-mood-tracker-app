@@ -5,10 +5,9 @@ import * as Linking from "expo-linking";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   KeyboardState,
-  SlideInDown,
-  SlideOutDown,
   useAnimatedKeyboard,
   useAnimatedStyle,
+  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import Mic from "lucide-react-native/icons/mic";
@@ -90,11 +89,34 @@ export const VoiceNoteButton = ({
     startedAt: 0,
   });
 
+  // Pill slide: 0 hidden below the screen edge, 1 shown. A shared value,
+  // not a layout animation: a layout animation that starts while the
+  // keyboard closes keeps the pill at the old keyboard edge.
+  const pillBottom = insets.bottom + 16 - (PILL_HEIGHT - SIZE) / 2;
+  const pillShown = useSharedValue(0);
+  const pillStyle = useAnimatedStyle(() => ({
+    opacity: pillShown.get() > 0 ? 1 : 0,
+    transform: [
+      {
+        translateY: (1 - pillShown.get()) * (pillBottom + PILL_HEIGHT + 24),
+      },
+    ],
+  }));
+  const showPill = (shown: boolean) => {
+    pillShown.set(
+      withTiming(shown ? 1 : 0, {
+        duration: DURATION.base,
+        easing: getEasing(shown ? "out" : "move"),
+      })
+    );
+  };
+
   // Latest full note text, for closing from the voice error callbacks.
   const latestNote = useRef("");
   // Failure or denied permission closes the pill with the words so far.
   const close = () => {
     setIsOpen(false);
+    showPill(false);
     callbacks.current.onStop(latestNote.current);
   };
 
@@ -145,6 +167,7 @@ export const VoiceNoteButton = ({
       startedAt: Date.now(),
     });
     setIsOpen(true);
+    showPill(true);
     haptics.selection();
     onStart();
     analytics.track("voice:note_started");
@@ -160,6 +183,7 @@ export const VoiceNoteButton = ({
     const text = voice.stop();
     const sessionSpoken = text.slice(session.spokenOffset).trim();
     setIsOpen(false);
+    showPill(false);
     haptics.selection();
     analytics.track("voice:note_finished", {
       duration_ms: Date.now() - session.startedAt,
@@ -182,95 +206,106 @@ export const VoiceNoteButton = ({
     };
   });
 
-  if (isOpen) {
-    return (
-      <Animated.View
-        testID={VOICE_NOTE_PILL_TEST_ID}
-        entering={SlideInDown.duration(DURATION.base).easing(getEasing("out"))}
-        exiting={SlideOutDown.duration(DURATION.base).easing(getEasing("move"))}
-        style={{
-          position: "absolute",
-          left: PILL_INSET,
-          right: PILL_INSET,
-          bottom: insets.bottom + 16 - (PILL_HEIGHT - SIZE) / 2,
-          zIndex: 999,
-        }}
-      >
-        <VoiceInputPill
-          isRunning={isRunning}
-          canResume={voice.status === "paused"}
-          isListening={voice.status === "listening"}
-          hasText={note.trim() !== ""}
-          level={voice.level}
-          doneLabel={t("done")}
-          onPause={() => {
-            haptics.selection();
-            voice.pause();
-          }}
-          onResume={() => {
-            haptics.selection();
-            voice.resume();
-          }}
-          onDone={finish}
-        />
-      </Animated.View>
-    );
-  }
-
-  return (
+  const pill = (
     <Animated.View
+      testID={isOpen ? VOICE_NOTE_PILL_TEST_ID : undefined}
+      pointerEvents={isOpen ? "auto" : "none"}
+      accessibilityElementsHidden={!isOpen}
+      importantForAccessibility={isOpen ? "auto" : "no-hide-descendants"}
       style={[
         {
           position: "absolute",
-          right: 32,
-          bottom: insets.bottom + 16 + SIZE + GAP,
+          left: PILL_INSET,
+          right: PILL_INSET,
+          bottom: pillBottom,
           zIndex: 999,
         },
-        keyboardStyle,
+        pillStyle,
       ]}
     >
-      <Pressable
-        testID={VOICE_NOTE_BUTTON_TEST_ID}
-        accessibilityRole="button"
-        accessibilityLabel={t("voice_note")}
-        onPress={start}
-        android_ripple={{ color: "rgba(0, 0, 0, 0.12)", foreground: true }}
-        style={({ pressed }) => ({
-          width: SIZE,
-          height: SIZE,
-          borderRadius: RADIUS,
-          opacity: !HAS_GLASS && !IS_ANDROID && pressed ? 0.7 : 1,
-          ...(IS_ANDROID && {
-            backgroundColor: colors.tertiaryButtonBackground,
-            boxShadow: SHADOW.float,
-            overflow: "hidden",
-          }),
-        })}
-      >
-        <View
-          style={[
-            StyleSheet.absoluteFill,
-            {
-              borderRadius: RADIUS,
-              justifyContent: "center",
-              alignItems: "center",
-            },
-            !HAS_GLASS &&
-              !IS_ANDROID && {
-                backgroundColor: colors.tertiaryButtonBackground,
-                boxShadow: SHADOW.float,
-              },
-          ]}
-        >
-          {HAS_GLASS && (
-            <GlassView
-              isInteractive
-              style={[StyleSheet.absoluteFill, { borderRadius: RADIUS }]}
-            />
-          )}
-          <Mic width={22} height={22} color={colors.tertiaryButtonText} />
-        </View>
-      </Pressable>
+      <VoiceInputPill
+        // New timer per session.
+        key={session.startedAt}
+        isRunning={isRunning}
+        canResume={voice.status === "paused"}
+        isListening={voice.status === "listening"}
+        hasText={note.trim() !== ""}
+        level={voice.level}
+        doneLabel={t("done")}
+        onPause={() => {
+          haptics.selection();
+          voice.pause();
+        }}
+        onResume={() => {
+          haptics.selection();
+          voice.resume();
+        }}
+        onDone={finish}
+      />
     </Animated.View>
+  );
+
+  if (isOpen) {
+    return pill;
+  }
+
+  return (
+    <>
+      {pill}
+      <Animated.View
+        style={[
+          {
+            position: "absolute",
+            right: 32,
+            bottom: insets.bottom + 16 + SIZE + GAP,
+            zIndex: 999,
+          },
+          keyboardStyle,
+        ]}
+      >
+        <Pressable
+          testID={VOICE_NOTE_BUTTON_TEST_ID}
+          accessibilityRole="button"
+          accessibilityLabel={t("voice_note")}
+          onPress={start}
+          android_ripple={{ color: "rgba(0, 0, 0, 0.12)", foreground: true }}
+          style={({ pressed }) => ({
+            width: SIZE,
+            height: SIZE,
+            borderRadius: RADIUS,
+            opacity: !HAS_GLASS && !IS_ANDROID && pressed ? 0.7 : 1,
+            ...(IS_ANDROID && {
+              backgroundColor: colors.tertiaryButtonBackground,
+              boxShadow: SHADOW.float,
+              overflow: "hidden",
+            }),
+          })}
+        >
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                borderRadius: RADIUS,
+                justifyContent: "center",
+                alignItems: "center",
+              },
+              !HAS_GLASS &&
+                !IS_ANDROID && {
+                  backgroundColor: colors.tertiaryButtonBackground,
+                  boxShadow: SHADOW.float,
+                },
+            ]}
+          >
+            {HAS_GLASS && (
+              <GlassView
+                isInteractive
+                style={[StyleSheet.absoluteFill, { borderRadius: RADIUS }]}
+              />
+            )}
+            <Mic width={22} height={22} color={colors.tertiaryButtonText} />
+          </View>
+        </Pressable>
+      </Animated.View>
+    </>
   );
 };
