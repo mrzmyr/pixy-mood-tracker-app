@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useMemo, useState } from "react";
-import { Platform, ScrollView, View } from "react-native";
+import { Platform, ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { HeaderButton } from "@/components/header-button";
@@ -10,6 +10,7 @@ import ModalHeader from "@/components/modal-header";
 import TextArea from "@/components/text-area";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 import { RATING_KEYS } from "@/constants/ratings";
+import { SPACE } from "@/constants/space";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
@@ -30,15 +31,10 @@ import {
   QuickCheckInPhotos,
   useQuickCheckInPhotos,
 } from "./quick-check-in-photos";
+import { INSET, QuickCheckInSection } from "./quick-check-in-section";
 import type { InfluenceOption } from "../ranking";
 
 const NO_PEOPLE: never[] = [];
-
-/** Screen edge to content, same as the logger. */
-const INSET = 20;
-
-/** Space between sections. No section titles: the content explains itself. */
-const SECTION_GAP = 36;
 
 /**
  * Note grows from one line up to about five. iOS puts the line height slack
@@ -52,6 +48,54 @@ const NOTE_STYLE = {
   paddingTop: 10,
   paddingBottom: 14,
 };
+
+/** Emotion grid and people row pad themselves to the screen edges. */
+const SELF_PADDED = { paddingHorizontal: 0 };
+
+/** Mood pixels and the note, above the sections. Always open. */
+const MoodAndNote = ({
+  rating,
+  onRate,
+  message,
+  onChangeMessage,
+}: {
+  rating: LogItem["rating"] | null;
+  onRate: (rating: LogItem["rating"]) => void;
+  message: string;
+  onChangeMessage: (message: string) => void;
+}) => (
+  <View
+    style={{
+      paddingHorizontal: INSET,
+      paddingBottom: SPACE.xxl,
+      gap: SPACE.md,
+    }}
+  >
+    <View
+      accessibilityRole="radiogroup"
+      accessibilityLabel={t("logger_step_rating")}
+      style={{ flexDirection: "row", gap: 6 }}
+    >
+      {[...RATING_KEYS].reverse().map((key) => (
+        <MoodPixel
+          key={key}
+          rating={key}
+          selected={rating === key}
+          onPress={() => onRate(key)}
+        />
+      ))}
+    </View>
+    <TextArea
+      testID="quick-check-in-note"
+      accessibilityLabel={t("logger_step_message")}
+      placeholder={t("log_note_question")}
+      value={message}
+      onChange={onChangeMessage}
+      maxLength={MAX_MESSAGE_LENGTH}
+      style={NOTE_STYLE}
+    />
+  </View>
+);
 
 /** Close and Save: iOS sheet bar items, Android Material top app bar. */
 const QuickCheckInHeader = ({
@@ -113,9 +157,10 @@ const QuickCheckInHeader = ({
   );
 
 /**
- * Quick check-in on one scrolling page: mood, a one-line note, emotions as in
- * the logger, a row of people, the top 20 tags, and photos last. The full
- * list of people opens in a sheet. Opens from the calendar, from voice mode (with
+ * Quick check-in on one scrolling page: mood, a one-line note, then sections
+ * for emotions as in the logger, a row of people, the top 20 tags, and
+ * photos. Each section folds under a hairline divider; the folded state stays
+ * on the device. The full list of people opens in a sheet. Opens from the calendar, from voice mode (with
  * `prefill`), and from More in the Android notification.
  *
  * - `id` names an entry saved in the notification: the screen edits it.
@@ -283,69 +328,70 @@ export const QuickCheckIn = () => {
           testID="quick-check-in-scroll"
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
-          contentContainerStyle={{
-            paddingBottom: insets.bottom + 32,
-            gap: SECTION_GAP,
-          }}
+          contentContainerStyle={{ paddingBottom: insets.bottom + SPACE.xxxl }}
         >
-          <View style={{ paddingHorizontal: INSET, gap: 12 }}>
-            <View
-              accessibilityRole="radiogroup"
-              accessibilityLabel={t("logger_step_rating")}
-              style={{ flexDirection: "row", gap: 6 }}
-            >
-              {[...RATING_KEYS].reverse().map((key) => (
-                <MoodPixel
-                  key={key}
-                  rating={key}
-                  selected={rating === key}
-                  onPress={() => setRating(key)}
-                />
-              ))}
-            </View>
-            <TextArea
-              testID="quick-check-in-note"
-              accessibilityLabel={t("logger_step_message")}
-              placeholder={t("log_note_question")}
-              value={message}
-              onChange={setMessage}
-              maxLength={MAX_MESSAGE_LENGTH}
-              style={NOTE_STYLE}
-            />
-          </View>
-          <QuickCheckInEmotions
-            picked={emotions}
+          <MoodAndNote
             rating={rating}
-            items={items}
-            onToggle={toggleEmotion}
+            onRate={setRating}
+            message={message}
+            onChangeMessage={setMessage}
           />
-          {sections.people.length > 0 && (
-            <PeopleRow
-              people={sections.people.flatMap((option) => {
-                const person = personById.get(option.id);
-                return person ? [person] : [];
-              })}
-              picked={pickedPeople}
-              onToggle={togglePerson}
-              onShowAll={() => setIsPeopleOpen(true)}
-            />
-          )}
-          {sections.tags.length > 0 && (
-            <View style={{ paddingHorizontal: INSET }}>
-              <InfluenceChips
-                options={sections.tags}
-                people={people}
-                tags={tags}
-                picked={pickedKeys}
-                onToggle={toggle}
+          {/* Hairlines above and below each section. */}
+          <View
+            style={{
+              borderTopWidth: StyleSheet.hairlineWidth,
+              borderColor: colors.logCardBorder,
+            }}
+          >
+            <QuickCheckInSection
+              section="emotions"
+              title={t("emotions")}
+              contentStyle={SELF_PADDED}
+            >
+              <QuickCheckInEmotions
+                picked={emotions}
+                rating={rating}
+                items={items}
+                onToggle={toggleEmotion}
               />
-            </View>
-          )}
-          {hasPhotos && (
-            <View style={{ paddingHorizontal: INSET }}>
-              <QuickCheckInPhotos draft={draftPhotos} />
-            </View>
-          )}
+            </QuickCheckInSection>
+            {sections.people.length > 0 && (
+              <QuickCheckInSection
+                section="people"
+                title={t("people")}
+                contentStyle={SELF_PADDED}
+              >
+                <PeopleRow
+                  people={sections.people.flatMap((option) => {
+                    const person = personById.get(option.id);
+                    return person ? [person] : [];
+                  })}
+                  picked={pickedPeople}
+                  onToggle={togglePerson}
+                  onShowAll={() => setIsPeopleOpen(true)}
+                />
+              </QuickCheckInSection>
+            )}
+            {sections.tags.length > 0 && (
+              <QuickCheckInSection section="tags" title={t("tags")}>
+                <InfluenceChips
+                  options={sections.tags}
+                  people={people}
+                  tags={tags}
+                  picked={pickedKeys}
+                  onToggle={toggle}
+                />
+              </QuickCheckInSection>
+            )}
+            {hasPhotos && (
+              <QuickCheckInSection
+                section="photos"
+                title={t("logger_step_photos")}
+              >
+                <QuickCheckInPhotos draft={draftPhotos} />
+              </QuickCheckInSection>
+            )}
+          </View>
         </ScrollView>
       </View>
       <QuickCheckInListSheets
