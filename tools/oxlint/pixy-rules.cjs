@@ -1209,6 +1209,131 @@ const modalPageBackground = {
   },
 };
 
+/** Text components that can sit next to a list card. */
+const LIST_SIBLING_TEXT = new Set(["Copy", "Heading", "Label", "Text"]);
+
+const jsxName = (node) =>
+  node.openingElement.name.type === "JSXIdentifier"
+    ? node.openingElement.name.name
+    : null;
+
+/** JSX elements an expression renders, also behind `&&` and `? :`. */
+const expressionElements = (expression) => {
+  if (expression.type === "JSXElement") {
+    return [expression];
+  }
+  if (expression.type === "LogicalExpression") {
+    return expressionElements(expression.right);
+  }
+  if (expression.type === "ConditionalExpression") {
+    return [
+      ...expressionElements(expression.consequent),
+      ...expressionElements(expression.alternate),
+    ];
+  }
+  return [];
+};
+
+/** JSX elements a child renders: direct, or behind `&&` and `? :`. */
+const renderedElements = (child) => {
+  if (child.type === "JSXElement") {
+    return [child];
+  }
+  if (child.type !== "JSXExpressionContainer") {
+    return [];
+  }
+  return expressionElements(child.expression);
+};
+
+/** Inline style objects of an element, also inside a style array. */
+const styleObjects = (element) => {
+  const style = element.openingElement.attributes.find(
+    (attribute) =>
+      attribute.type === "JSXAttribute" && attribute.name.name === "style"
+  );
+  const expression =
+    style?.value?.type === "JSXExpressionContainer"
+      ? style.value.expression
+      : null;
+  if (expression?.type === "ObjectExpression") {
+    return [expression];
+  }
+  if (expression?.type === "ArrayExpression") {
+    return expression.elements.filter(
+      (item) => item?.type === "ObjectExpression"
+    );
+  }
+  return [];
+};
+
+/** Centered text, such as an empty state, has no left edge to align. */
+const isCentered = (element) =>
+  styleObjects(element).some((object) =>
+    object.properties.some(
+      (property) =>
+        property.type === "Property" &&
+        ["textAlign", "alignItems"].includes(
+          property.key.name ?? property.key.value
+        ) &&
+        property.value.type === "Literal" &&
+        property.value.value === "center"
+    )
+  );
+
+/** The text element itself, or the one text element a wrapper holds. */
+const ownText = (element) => {
+  const name = jsxName(element);
+  if (LIST_SIBLING_TEXT.has(name)) {
+    return isCentered(element) ? null : element;
+  }
+  if (isCentered(element)) {
+    return null;
+  }
+  const inner = element.children.flatMap(renderedElements);
+  if (inner.length === 1 && LIST_SIBLING_TEXT.has(jsxName(inner[0]))) {
+    return isCentered(inner[0]) ? null : inner[0];
+  }
+  return null;
+};
+
+/** A `MenuList`, or a wrapper whose one child is a `MenuList`. */
+const isList = (element) => {
+  if (jsxName(element) === "MenuList") {
+    return true;
+  }
+  const inner = element.children.flatMap(renderedElements);
+  return inner.length === 1 && jsxName(inner[0]) === "MenuList";
+};
+
+const listTextInset = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Require MenuListHeadline or TextInfo for text next to a MenuList",
+    },
+    messages: {
+      text: "Text next to a `MenuList` starts at the row text, `LIST_INSET`. Use `MenuListHeadline` above the list or `TextInfo` below it.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const check = (node) => {
+      const siblings = node.children.flatMap(renderedElements);
+      if (!siblings.some(isList)) {
+        return;
+      }
+      for (const sibling of siblings) {
+        const text = ownText(sibling);
+        if (text) {
+          context.report({ messageId: "text", node: text.openingElement });
+        }
+      }
+    };
+    return { JSXElement: check, JSXFragment: check };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
@@ -1233,5 +1358,6 @@ module.exports = {
     "no-reduce-motion-never": noReduceMotionNever,
     "no-spring-animation": noSpringAnimation,
     "title-case-labels": titleCaseLabels,
+    "list-text-inset": listTextInset,
   },
 };

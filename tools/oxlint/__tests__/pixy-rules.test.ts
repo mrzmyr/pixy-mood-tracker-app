@@ -523,3 +523,49 @@ describe("title-case-labels", () => {
     ).toBe(0);
   });
 });
+
+describe("list-text-inset", () => {
+  it("reports text next to a list, also behind && and in a wrapper", () => {
+    expect(
+      lint(
+        "list-text-inset",
+        `export const A = ({ busy }) => (
+  <View>
+    <Pressable><Label>Name</Label></Pressable>
+    <MenuList><Row /></MenuList>
+    {busy && <Copy>Searching</Copy>}
+  </View>
+);
+`
+      )
+    ).toBe(2);
+  });
+
+  it("reports text next to a wrapped list", () => {
+    expect(
+      lint(
+        "list-text-inset",
+        "export const A = () => (\n  <>\n    <Label>Category</Label>\n    <View><MenuList /></View>\n  </>\n);\n"
+      )
+    ).toBe(1);
+  });
+
+  it("allows list text components, centered empty states, and text without a list", () => {
+    expect(
+      lint(
+        "list-text-inset",
+        `export const A = () => (
+  <View>
+    <MenuListHeadline>Name</MenuListHeadline>
+    <View style={{ alignItems: "center" }}><Text>Empty</Text></View>
+    <Copy style={{ textAlign: "center" }}>Nothing yet</Copy>
+    <MenuList />
+    <TextInfo>Note</TextInfo>
+  </View>
+);
+export const B = () => <View><Label>Alone</Label><Copy>Text</Copy></View>;
+`
+      )
+    ).toBe(0);
+  });
+});
