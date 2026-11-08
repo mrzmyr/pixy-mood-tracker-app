@@ -47,8 +47,9 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
 ## Note step
 
 - Mic button above the logger save button, same surface as the calendar mic. Only icon, label "Dictate Note". Same flag and platforms as voice mode
-- Tap: keyboard closes, listening starts, waveform shows left of the button. Words go to the end of the note live. Tap again (pause icon): stops
-- Typing is blocked while listening. Save while listening saves the words so far
+- Tap: keyboard closes, listening starts. Voice input pill (same as voice mode) slides up from the bottom, mic and save button hide. Words go to the end of the note live
+- Pill: pause/resume left, waveform and listening time, black check right. Check ends it, pill slides back down, save button returns. Check disabled while the note is empty
+- Typing is blocked while the pill shows
 - No matching: people, tags, emotions, and mood stay as picked
 - Errors show as toast. Denied permission has "Open Settings"
 - Analytics: `voice:note_started`, `voice:note_finished` `{ duration_ms, transcript_length }`

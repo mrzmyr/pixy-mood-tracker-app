@@ -37,8 +37,9 @@ const SETTLE_DURATION = 120;
 const PILL_HEIGHT = 64;
 const PILL_INSET = 16;
 
-/** Test IDs of the mic button and the pill, for `TextWrap` and e2e flows. */
+/** Test ID of the mic button, for `TextWrap` and e2e flows. */
 export const VOICE_NOTE_BUTTON_TEST_ID = "logger-voice-note";
+/** Test ID of the voice input pill, for `TextWrap` and e2e flows. */
 export const VOICE_NOTE_PILL_TEST_ID = "logger-voice-note-pill";
 
 const joinNote = (note: string, spoken: string) => {
@@ -79,6 +80,7 @@ export const VoiceNoteButton = ({
   const analytics = useAnalytics();
   const keyboard = useAnimatedKeyboard();
   const [isOpen, setIsOpen] = useState(false);
+  const callbacks = useRef({ onText, onStop });
   // Note before this session, and transcript length before it. The hook
   // keeps the transcript of earlier sessions, so each session reads only
   // the text after `spokenOffset`.
@@ -88,8 +90,17 @@ export const VoiceNoteButton = ({
     startedAt: 0,
   });
 
+  // Latest full note text, for closing from the voice error callbacks.
+  const latestNote = useRef("");
+  // Failure or denied permission closes the pill with the words so far.
+  const close = () => {
+    setIsOpen(false);
+    callbacks.current.onStop(latestNote.current);
+  };
+
   const voice = useVoiceTranscription({
     onPermissionDenied: (kind) => {
+      close();
       analytics.track("voice:permission_denied", { kind });
       const copy = blockedCopy("denied", undefined);
       showToast({
@@ -102,6 +113,7 @@ export const VoiceNoteButton = ({
       });
     },
     onFailed: (error) => {
+      close();
       analytics.track("voice:failed", { status: error.status });
       const copy = blockedCopy("failed", error.status);
       showToast({ title: copy.title, message: copy.body });
@@ -115,25 +127,16 @@ export const VoiceNoteButton = ({
   const spoken = voice.text.slice(session.spokenOffset).trim();
   const note = joinNote(session.note, spoken);
 
-  const callbacks = useRef({ onText, onStop });
   useEffect(() => {
     callbacks.current = { onText, onStop };
   }, [onText, onStop]);
 
   useEffect(() => {
+    latestNote.current = note;
     if (isOpen) {
       callbacks.current.onText(note);
     }
   }, [isOpen, note]);
-
-  // Failure or denied permission closes the pill with the words so far.
-  const hasFailed = voice.status === "denied" || voice.status === "failed";
-  useEffect(() => {
-    if (isOpen && hasFailed) {
-      setIsOpen(false);
-      callbacks.current.onStop(note);
-    }
-  }, [isOpen, hasFailed, note]);
 
   const start = () => {
     setSession({
@@ -184,9 +187,7 @@ export const VoiceNoteButton = ({
       <Animated.View
         testID={VOICE_NOTE_PILL_TEST_ID}
         entering={SlideInDown.duration(DURATION.base).easing(getEasing("out"))}
-        exiting={SlideOutDown.duration(DURATION.base).easing(
-          getEasing("move")
-        )}
+        exiting={SlideOutDown.duration(DURATION.base).easing(getEasing("move"))}
         style={{
           position: "absolute",
           left: PILL_INSET,

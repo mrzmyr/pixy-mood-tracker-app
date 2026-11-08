@@ -11,6 +11,7 @@ import Providers from "@/shell/providers";
 import * as speechModule from "../speech-module";
 import {
   VOICE_NOTE_BUTTON_TEST_ID,
+  VOICE_NOTE_PILL_TEST_ID,
   VoiceNoteButton,
 } from "../components/voice-note-button";
 
@@ -107,13 +108,15 @@ afterEach(() => {
 });
 
 describe("VoiceNoteButton", () => {
-  test("appends spoken words to the note, live and on stop", async () => {
+  test("appends spoken words to the note, live and on done", async () => {
     const { screen, emit, onText, onStop } = await renderButton();
-    const button = await screen.findByTestId(VOICE_NOTE_BUTTON_TEST_ID);
 
-    await fireEvent.press(button);
+    await fireEvent.press(await screen.findByTestId(VOICE_NOTE_BUTTON_TEST_ID));
     await waitFor(() =>
-      expect(button).toHaveProp("accessibilityLabel", "Pause")
+      expect(screen.getByTestId("voice-pause")).toHaveProp(
+        "accessibilityLabel",
+        "Pause"
+      )
     );
     await emit("onAudioLevel", { level: 0.3 });
     await emit("onTranscriptionProgress", {
@@ -122,29 +125,55 @@ describe("VoiceNoteButton", () => {
     });
     expect(onText).toHaveBeenLastCalledWith("Tired. Swam with Ada");
 
-    await fireEvent.press(button);
+    await fireEvent.press(screen.getByTestId("voice-done"));
     expect(onStop).toHaveBeenLastCalledWith("Tired. Swam with Ada");
+    expect(screen.getByTestId(VOICE_NOTE_BUTTON_TEST_ID)).toBeTruthy();
   });
 
-  test("a second session adds only its own words", async () => {
+  test("pause keeps the pill open and resume adds to the same note", async () => {
     const { screen, emit, onStop } = await renderButton();
-    const button = await screen.findByTestId(VOICE_NOTE_BUTTON_TEST_ID);
 
-    await fireEvent.press(button);
+    await fireEvent.press(await screen.findByTestId(VOICE_NOTE_BUTTON_TEST_ID));
     await emit("onAudioLevel", { level: 0.3 });
     await emit("onTranscriptionProgress", {
       text: "Swam with Ada.",
       isFinal: true,
     });
-    await fireEvent.press(button);
+    await fireEvent.press(screen.getByTestId("voice-pause"));
+    expect(screen.getByTestId(VOICE_NOTE_PILL_TEST_ID)).toBeTruthy();
+    expect(onStop).not.toHaveBeenCalled();
 
-    await fireEvent.press(button);
+    await fireEvent.press(screen.getByTestId("voice-pause"));
+    await emit("onAudioLevel", { level: 0.3 });
+    await emit("onTranscriptionProgress", {
+      text: "Calmer now.",
+      isFinal: false,
+    });
+    await fireEvent.press(screen.getByTestId("voice-done"));
+
+    expect(onStop).toHaveBeenLastCalledWith(
+      "Tired. Swam with Ada. Calmer now."
+    );
+  });
+
+  test("a second session adds only its own words", async () => {
+    const { screen, emit, onStop } = await renderButton();
+
+    await fireEvent.press(await screen.findByTestId(VOICE_NOTE_BUTTON_TEST_ID));
+    await emit("onAudioLevel", { level: 0.3 });
+    await emit("onTranscriptionProgress", {
+      text: "Swam with Ada.",
+      isFinal: true,
+    });
+    await fireEvent.press(screen.getByTestId("voice-done"));
+
+    await fireEvent.press(screen.getByTestId(VOICE_NOTE_BUTTON_TEST_ID));
     await emit("onAudioLevel", { level: 0.3 });
     await emit("onTranscriptionProgress", {
       text: "Walk with Chuky.",
       isFinal: false,
     });
-    await fireEvent.press(button);
+    await fireEvent.press(screen.getByTestId("voice-done"));
 
     expect(onStop).toHaveBeenLastCalledWith(
       "Tired. Swam with Ada. Walk with Chuky."
