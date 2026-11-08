@@ -57,8 +57,6 @@ const TextAreaComponent = (
       placeholderTextColor={colors.textInputPlaceholder}
       textAlignVertical="top"
       style={{
-        borderWidth: 1,
-        borderColor: colors.textInputBorder,
         backgroundColor: colors.textInputBackground,
         color: colors.textInputText,
         paddingTop: SPACE.lg,
@@ -66,7 +64,7 @@ const TextAreaComponent = (
         ...getTextStyle("copy", 16),
         height: "100%",
         width: "100%",
-        borderRadius: RADIUS.sm,
+        borderRadius: RADIUS.lg,
         borderCurve: "continuous",
         ...style,
       }}
@@ -74,6 +72,11 @@ const TextAreaComponent = (
   );
 };
 
+/**
+ * Multi-line field: notes, messages, comments. Platform field gray, no
+ * border, `RADIUS.lg` next to capsule buttons and fields. Single line:
+ * `TextField`. `style` sets size; keep fill and radius.
+ */
 const TextArea = forwardRef(TextAreaComponent);
 
 export default TextArea;

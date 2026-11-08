@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
+import TextArea from "@/components/text-area";
 import Button from "@/components/button";
 import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import LinkButton from "@/components/link-button";
 import { SheetModal } from "@/components/sheet-modal";
-import { getTextStyle, Label } from "@/components/typography";
+import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -218,30 +219,16 @@ export const VoiceFeedbackSheet = ({
             >
               {t("voice_feedback_comment_label")}
             </Label>
-            <TextInput
+            <TextArea
               // Mounts after the face tap, so focus here, not in `pick`.
               autoFocus
               testID="voice-feedback-comment"
               accessibilityLabel={t("voice_feedback_comment_label")}
-              accessibilityLabelledBy="voice-feedback-comment-label"
-              multiline
               maxLength={500}
               value={comment}
-              onChangeText={setComment}
+              onChange={setComment}
               placeholder={t("voice_feedback_comment_placeholder")}
-              placeholderTextColor={colors.textInputPlaceholder}
-              style={{
-                marginTop: 8,
-                minHeight: 96,
-                borderRadius: RADIUS.sm,
-                borderCurve: "continuous",
-                paddingHorizontal: 14,
-                paddingVertical: 12,
-                ...getTextStyle("copy", 16),
-                textAlignVertical: "top",
-                backgroundColor: colors.textInputBackground,
-                color: colors.text,
-              }}
+              style={{ marginTop: 8, height: undefined, minHeight: 96 }}
             />
             <Button
               testID="voice-feedback-done"

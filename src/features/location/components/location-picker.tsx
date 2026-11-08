@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { ScrollView, TextInput, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import { SearchInput } from "@/components/search-input";
 import MapPin from "lucide-react-native/icons/map-pin";
 import Navigation from "lucide-react-native/icons/navigation";
 import CircleX from "lucide-react-native/icons/circle-x";
 import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import { SheetModal } from "@/components/sheet-modal";
-import { Copy, getInputTextStyle } from "@/components/typography";
+import { Copy } from "@/components/typography";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import useColors from "@/hooks/use-colors";
@@ -21,7 +22,6 @@ import {
 import { ensureLocationAccess } from "../access";
 import { PlaceMap } from "./place-map";
 import type { MapCoordinates } from "./place-map-props";
-import { RADIUS } from "@/constants/radius";
 
 /** Wait after the last keystroke before asking the geocoder. */
 const SEARCH_DELAY_MS = 400;
@@ -170,28 +170,14 @@ const SheetContent = ({
         style={{ flex: 1 }}
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 24 }}
       >
-        <TextInput
-          testID="location-search"
-          accessibilityLabel={t("location_search_placeholder")}
-          autoComplete="off"
-          autoCorrect={false}
-          textContentType="none"
-          returnKeyType="search"
-          value={query}
-          onChangeText={setQuery}
-          placeholder={t("location_search_placeholder")}
-          placeholderTextColor={colors.textInputPlaceholder}
-          style={{
-            marginTop: 4,
-            borderRadius: RADIUS.sm,
-            borderCurve: "continuous",
-            paddingHorizontal: 14,
-            paddingVertical: 12,
-            ...getInputTextStyle(16),
-            backgroundColor: colors.textInputBackground,
-            color: colors.text,
-          }}
-        />
+        <View style={{ marginTop: 4 }}>
+          <SearchInput
+            testID="location-search"
+            value={query}
+            onChange={setQuery}
+            placeholder={t("location_search_placeholder")}
+          />
+        </View>
         {search.status === "idle" && (
           <View style={{ marginTop: 16 }}>
             <PlaceMap

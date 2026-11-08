@@ -67,6 +67,19 @@ const componentScopes = [
   },
   {
     name: "react-native",
+    importNames: ["TextInput"],
+    // Field components own fill, radius, height, and placeholder color.
+    allow: [
+      "src/components/search-input.tsx",
+      "src/components/text-area.tsx",
+      "src/components/text-field.tsx",
+      "src/components/text-field-row.tsx",
+    ],
+    message:
+      "Use `SearchInput`, `TextField`, `TextFieldRow`, or `TextArea`. Raw inputs drift in gray and radius.",
+  },
+  {
+    name: "react-native",
     importNames: ["SafeAreaView"],
     allow: [],
     message:

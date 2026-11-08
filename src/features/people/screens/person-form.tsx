@@ -2,17 +2,18 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import Contact from "lucide-react-native/icons/contact";
 import Trash from "lucide-react-native/icons/trash";
 import { useRef } from "react";
-import { Platform, ScrollView, TextInput, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
+import type { TextInput } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FieldError } from "@/components/field-error";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
+import { TextFieldRow } from "@/components/text-field-row";
 import RouteModalHeader from "@/components/route-modal-header";
 import TextInfo from "@/components/text-info";
 import Toggle from "@/components/toggle";
 import { MAX_TAG_LENGTH } from "@/constants/config";
-import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { PersonAvatar } from "../components/person-avatar";
@@ -207,34 +208,23 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
         <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
           {t("people_name")}
         </MenuListHeadline>
-        <TextInput
-          ref={nameRef}
-          accessibilityLabel={t("people_name")}
-          testID="person-name"
-          autoCorrect={false}
-          autoComplete="name"
-          textContentType="name"
-          clearButtonMode="while-editing"
-          style={{
-            fontSize: isIOS ? 17 : 16,
-            color: colors.textInputText,
-            backgroundColor: isIOS
-              ? colors.menuListItemBackground
-              : colors.textInputBackground,
-            width: "100%",
-            paddingHorizontal: 16,
-            paddingVertical: 14,
-            borderRadius: isIOS ? RADIUS.md : RADIUS.sm,
-            borderCurve: "continuous",
-          }}
-          placeholder={t("people_name_placeholder")}
-          placeholderTextColor={colors.textInputPlaceholder}
-          maxLength={MAX_TAG_LENGTH}
-          value={draft.person.name}
-          returnKeyType="done"
-          onSubmitEditing={handleSave}
-          onChangeText={handleNameChange}
-        />
+        <MenuList>
+          <TextFieldRow
+            ref={nameRef}
+            accessibilityLabel={t("people_name")}
+            testID="person-name"
+            autoCorrect={false}
+            autoComplete="name"
+            textContentType="name"
+            clearButtonMode="while-editing"
+            placeholder={t("people_name_placeholder")}
+            maxLength={MAX_TAG_LENGTH}
+            value={draft.person.name}
+            returnKeyType="done"
+            onSubmitEditing={handleSave}
+            onChangeText={handleNameChange}
+          />
+        </MenuList>
         {draft.nameError && (
           <FieldError
             testID="person-name-error"

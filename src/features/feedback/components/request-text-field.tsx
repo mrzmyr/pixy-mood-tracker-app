@@ -1,6 +1,4 @@
-import { TextInput } from "react-native";
-import { getInputTextStyle } from "@/components/typography";
-import useColors from "@/hooks/use-colors";
+import { TextFieldRow } from "@/components/text-field-row";
 import type { RequestTextFieldProps } from "./request-text-field-types";
 
 /**
@@ -14,26 +12,14 @@ export const RequestTextField = ({
   autoFocus = false,
   maxLength,
   keyboardType = "default",
-}: RequestTextFieldProps) => {
-  const colors = useColors();
-
-  return (
-    <TextInput
-      testID={testID}
-      accessibilityLabel={placeholder}
-      placeholder={placeholder}
-      placeholderTextColor={colors.textInputPlaceholder}
-      onChangeText={onChangeText}
-      autoFocus={autoFocus}
-      maxLength={maxLength}
-      keyboardType={keyboardType}
-      autoCapitalize={keyboardType === "email-address" ? "none" : "sentences"}
-      style={{
-        ...getInputTextStyle(16),
-        color: colors.text,
-        paddingHorizontal: 16,
-        paddingVertical: 14,
-      }}
-    />
-  );
-};
+}: RequestTextFieldProps) => (
+  <TextFieldRow
+    testID={testID}
+    placeholder={placeholder}
+    onChangeText={onChangeText}
+    autoFocus={autoFocus}
+    maxLength={maxLength}
+    keyboardType={keyboardType}
+    autoCapitalize={keyboardType === "email-address" ? "none" : "sentences"}
+  />
+);
