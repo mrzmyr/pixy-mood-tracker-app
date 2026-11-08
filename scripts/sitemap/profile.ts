@@ -16,6 +16,12 @@ export const DEVICE_PROFILE = {
   contentSize: "large",
   /** Wall clock at launch, see scripts/sitemap/capture-polyfill.js. */
   clockStart: "2026-03-18T09:41:00+01:00",
+  /**
+   * Dynamic Island in screenshot pixels. The simulator draws its antialiased
+   * edge with up to 2 levels of noise, so capture redraws it as a hard
+   * stadium on the row background.
+   */
+  island: { x: 415, y: 42, width: 376, height: 110 },
   statusBar: {
     time: "9:41",
     dataNetwork: "wifi",

@@ -19,7 +19,7 @@ import { createInputHasher, pinSource, sha256 } from "./inputs.ts";
 import type { Source } from "./inputs.ts";
 import { passFlags, passId, stateKey } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec, Step } from "./manifest.ts";
-import { decodePng, hashPixels, normalizePng } from "./png.ts";
+import { decodePng, hashPixels, normalizeScreenshot } from "./png.ts";
 import { runPreflight } from "./preflight.ts";
 import {
   CAPTURE_ENV,
@@ -315,11 +315,13 @@ const attempt = async (
       true
     );
   }
-  if (flags.length > 0) {
-    driver.openUrl(
-      `${PREVIEW.scheme}://dev/feature-flag?key=${flags.join(",")}&value=on`
-    );
-  }
+  // Every pass opens the flag link, so every pass reaches the route through
+  // the same navigation. Off pass: `remote` clears overrides, which is the
+  // production default here because remote flags never load.
+  const linkKeys = flags.length > 0 ? flags : OVERRIDABLE_FLAGS;
+  driver.openUrl(
+    `${PREVIEW.scheme}://dev/feature-flag?key=${linkKeys.join(",")}&value=${flags.length > 0 ? "on" : "remote"}`
+  );
   const expected = new Set(flags);
   const flagged = await driver.pollProbes(
     (probes) =>
@@ -449,7 +451,7 @@ const captureOne = async (
         pass,
         context.tmpFile
       );
-      const normalized = normalizePng(bytes);
+      const normalized = normalizeScreenshot(bytes);
       const ms = Date.now() - started;
       if (cached && cached.pngHash !== normalized.hash) {
         summary.nondeterministic += 1;

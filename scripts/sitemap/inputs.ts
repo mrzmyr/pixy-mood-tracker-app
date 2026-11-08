@@ -124,7 +124,17 @@ const RESOLVE_SUFFIXES = [
 
 /** Static import graph of tracked source files, resolved lazily per file. */
 export const createImportGraph = (blobs: Map<string, string>) => {
-  const transpiler = new Bun.Transpiler({ loader: "tsx" });
+  // `.ts` needs the ts loader: tsx reads `<T>(value) =>` as JSX.
+  const tsTranspiler = new Bun.Transpiler({ loader: "ts" });
+  const tsxTranspiler = new Bun.Transpiler({ loader: "tsx" });
+  const jsTranspiler = new Bun.Transpiler({ loader: "jsx" });
+  const transpilerFor = (file: string) => {
+    const extension = path.extname(file);
+    if (extension === ".ts") {
+      return tsTranspiler;
+    }
+    return extension === ".tsx" ? tsxTranspiler : jsTranspiler;
+  };
   const edges = new Map<string, string[]>();
 
   const resolve = (spec: string, from: string) => {
@@ -157,7 +167,7 @@ export const createImportGraph = (blobs: Map<string, string>) => {
     if (SOURCE_EXTENSIONS.includes(path.extname(file))) {
       const code = fs.readFileSync(path.join(REPO_ROOT, file), "utf-8");
       try {
-        found = transpiler
+        found = transpilerFor(file)
           .scanImports(code)
           .map((entry) => resolve(entry.path, file))
           .filter((entry): entry is string => entry !== null);

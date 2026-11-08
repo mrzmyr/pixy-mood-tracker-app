@@ -4,6 +4,7 @@
 import { PNG } from "pngjs";
 
 import { sha256 } from "./inputs.ts";
+import { DEVICE_PROFILE } from "./profile.ts";
 
 /** Decoded image. Width and height in pixels. */
 export interface Image {
@@ -66,4 +67,42 @@ export const downscale = (image: Image, factor: number): Image => {
     }
   }
   return { width, height, data };
+};
+
+/** Pixels around the island that take the row background. */
+const ISLAND_PAD = 4;
+
+/**
+ * Redraw the Dynamic Island: flat row background around it, pure black
+ * inside an exact stadium. Removes simulator edge noise; app pixels stay.
+ */
+export const maskIsland = (image: Image): Image => {
+  const { x, y, width, height } = DEVICE_PROFILE.island;
+  const radius = height / 2;
+  const data = Buffer.from(image.data);
+  const sampleX = x - ISLAND_PAD - 16;
+  for (let py = y - ISLAND_PAD; py < y + height + ISLAND_PAD; py += 1) {
+    const sample = (py * image.width + sampleX) * 4;
+    for (let px = x - ISLAND_PAD; px < x + width + ISLAND_PAD; px += 1) {
+      const centerX = Math.min(
+        Math.max(px + 0.5, x + radius),
+        x + width - radius
+      );
+      const dx = px + 0.5 - centerX;
+      const dy = py + 0.5 - (y + radius);
+      const isInside = dx * dx + dy * dy <= radius * radius;
+      const offset = (py * image.width + px) * 4;
+      for (let channel = 0; channel < 3; channel += 1) {
+        data[offset + channel] = isInside ? 0 : data[sample + channel];
+      }
+      data[offset + 3] = 255;
+    }
+  }
+  return { ...image, data };
+};
+
+/** Screenshot bytes to normalized PNG bytes and hash, island masked. */
+export const normalizeScreenshot = (bytes: Buffer) => {
+  const normalized = encodePng(maskIsland(decodePng(bytes)));
+  return { bytes: normalized, hash: sha256(normalized) };
 };

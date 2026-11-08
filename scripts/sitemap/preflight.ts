@@ -11,7 +11,7 @@ import { createFingerprintAsync } from "@expo/fingerprint";
 import { listBuilds, toBuildId } from "../cli/builds.ts";
 import { MIN_FREE_BYTES, formatGiB, readFreeBytes } from "../cli/disk.ts";
 import { readMemory } from "../cli/memory.ts";
-import { CliError } from "../cli/shared.ts";
+import { CACHE_DIR, CliError } from "../cli/shared.ts";
 import { REPO_ROOT } from "./inputs.ts";
 import { DEVICE_PROFILE } from "./profile.ts";
 
@@ -126,34 +126,85 @@ const checkRuntime = (): Check => {
   };
 };
 
-/** Cached iOS Release shell with this commit's native fingerprint. */
+/**
+ * Own copies of Release shells: `shells/<fingerprint>/<name>.app`. Other
+ * sessions prune the shared build cache to free disk; an APFS clone here
+ * keeps the shell without extra disk until a file changes.
+ */
+const SHELLS_DIR = path.join(CACHE_DIR, "sitemap", "shells");
+
+interface Shell {
+  file: string;
+  fingerprint: string;
+  id: string;
+}
+
+const listShells = (): Shell[] => {
+  const shared = listBuilds()
+    .filter(
+      (build) =>
+        build.platform === "ios" &&
+        build.target === "simulator" &&
+        build.isRelease &&
+        build.file.endsWith(".app")
+    )
+    .map((build) => ({
+      file: build.file,
+      fingerprint: build.fingerprint,
+      id: toBuildId(build.key),
+    }));
+  const own = fs.existsSync(SHELLS_DIR)
+    ? fs.readdirSync(SHELLS_DIR).flatMap((fingerprint) =>
+        fs
+          .readdirSync(path.join(SHELLS_DIR, fingerprint))
+          .filter((name) => name.endsWith(".app"))
+          .map((name) => ({
+            file: path.join(SHELLS_DIR, fingerprint, name),
+            fingerprint,
+            id: `sitemap-${fingerprint.slice(0, 8)}`,
+          }))
+      )
+    : [];
+  return [...own, ...shared];
+};
+
+/** Clone a shared shell into the sitemap cache once. */
+const keepShell = (shell: Shell) => {
+  if (shell.file.startsWith(SHELLS_DIR)) {
+    return shell;
+  }
+  const dir = path.join(SHELLS_DIR, shell.fingerprint);
+  const file = path.join(dir, path.basename(shell.file));
+  if (!fs.existsSync(file)) {
+    fs.mkdirSync(dir, { recursive: true });
+    execFileSync("cp", ["-cR", shell.file, file]);
+  }
+  return { ...shell, file };
+};
+
+/** Release shell with this commit's native fingerprint. */
 const checkNativeShell = async (allowMismatch: boolean) => {
   const previous = process.env.EXPO_PUBLIC_APP_VARIANT;
   process.env.EXPO_PUBLIC_APP_VARIANT = "preview";
   const { hash } = await createFingerprintAsync(REPO_ROOT);
   process.env.EXPO_PUBLIC_APP_VARIANT = previous;
-  const shells = listBuilds().filter(
-    (build) =>
-      build.platform === "ios" &&
-      build.target === "simulator" &&
-      build.isRelease &&
-      build.file.endsWith(".app")
-  );
-  const match = shells.find((build) => build.fingerprint === hash);
+  const shells = listShells();
+  const match = shells.find((shell) => shell.fingerprint === hash);
   const check: Check = match
     ? {
         name: "native",
         status: "ok",
-        detail: `shell ${toBuildId(match.key)} matches fingerprint ${hash.slice(0, 8)}`,
+        detail: `shell ${match.id} matches fingerprint ${hash.slice(0, 8)}`,
       }
     : {
         name: "native",
         status: allowMismatch && shells.length > 0 ? "warn" : "fail",
         detail: `no Release shell for fingerprint ${hash.slice(0, 8)}`,
-        why: `Cached shells: ${shells.map((build) => toBuildId(build.key)).join(", ") || "none"}. JS on another native shell can miss native modules and render other pixels.`,
+        why: `Shells: ${shells.map((shell) => shell.id).join(", ") || "none"}. JS on another native shell can miss native modules and render other pixels.`,
         fix: "Run `bun app build --platform=ios` (cold build needs about 20 GiB free), then retry. --allow-native-mismatch captures anyway; such runs never deploy.",
       };
-  return { check, fingerprint: hash, shell: match ?? shells[0] ?? null };
+  const shell = match ?? shells[0];
+  return { check, fingerprint: hash, shell: shell ? keepShell(shell) : null };
 };
 
 /** Capture builds embed the JS bundle, so Metro must not be the source. */
