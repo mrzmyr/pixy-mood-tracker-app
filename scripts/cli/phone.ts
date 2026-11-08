@@ -61,11 +61,17 @@ export const readPhones = async () => {
   return toPhones((await response.json()) as SimlockStatus);
 };
 
+// The phone flag routes a call through the proxy session, see setPhoneSession.
+// connect, connection, and disconnect refuse --platform.
+const getRoute = (phone: Device) => [
+  phone.platform === "ios" ? "--udid" : "--serial",
+  phone.id,
+];
+
 const getSelector = (phone: Device) => [
   "--platform",
   phone.platform,
-  phone.platform === "ios" ? "--udid" : "--serial",
-  phone.id,
+  ...getRoute(phone),
 ];
 
 /** agent-device session and environment that reach the phone through simlock's proxy. */
@@ -85,7 +91,7 @@ export const attachPhone = (phone: Device) => {
 /** End the phone session and give the lease back. simlock then removes apps installed during the lease. */
 export const releasePhone = async (phone: Device) => {
   try {
-    await agentDevice(["disconnect", ...getSelector(phone)]);
+    await agentDevice(["disconnect", ...getRoute(phone)]);
   } catch (error) {
     if (!(error instanceof CliError)) {
       throw error;
@@ -98,11 +104,10 @@ export const releasePhone = async (phone: Device) => {
 export const leasePhone = async (phone: Device) => {
   const { url } = getSimlock();
   attachPhone(phone);
-  const selector = getSelector(phone);
   const status = await agentDevice<{
     connected?: boolean;
     leaseAllocated?: boolean;
-  }>(["connection", "status", ...selector]).catch(() => null);
+  }>(["connection", "status", ...getRoute(phone)]).catch(() => null);
   if (status?.connected && status.leaseAllocated) {
     return;
   }
@@ -112,7 +117,7 @@ export const leasePhone = async (phone: Device) => {
     "--daemon-base-url",
     `${url}/v1/agent-device`,
     "--force",
-    ...selector,
+    ...getRoute(phone),
   ]);
   note(`Leasing ${phone.key} from simlock`);
   try {
@@ -121,7 +126,7 @@ export const leasePhone = async (phone: Device) => {
         "open",
         "--physical",
         ...(phone.osVersion ? ["--os", phone.osVersion] : []),
-        ...selector,
+        ...getSelector(phone),
       ],
       { timeoutMs: LEASE_TIMEOUT_MS }
     );
