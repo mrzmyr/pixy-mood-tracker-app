@@ -1,45 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { View } from "react-native";
 import Animated, {
   useAnimatedStyle,
+  useFrameCallback,
   useSharedValue,
-  withTiming,
 } from "react-native-reanimated";
 import type { SharedValue } from "react-native-reanimated";
-import { RADIUS } from "@/constants/radius";
 
 const BAR_COUNT = 28;
 const BAR_WIDTH = 3;
 const BAR_GAP = 3;
-const MIN_HEIGHT = 4;
+const STEP = BAR_WIDTH + BAR_GAP;
+/** Silence: a round dot as wide as the bar. */
+const MIN_HEIGHT = BAR_WIDTH;
 const MAX_HEIGHT = 36;
 // New sample every 90 ms: about 2.5 s of history across the bars.
 const SAMPLE_MS = 90;
-// Fixed slots: bar n always shows the n-th newest sample.
-const SLOT_KEYS = Array.from({ length: BAR_COUNT }, (_, slot) => `bar-${slot}`);
+// One extra bar slides in from the right while the row scrolls.
+const SLOT_KEYS = Array.from(
+  { length: BAR_COUNT + 1 },
+  (_, slot) => `bar-${slot}`
+);
 
 const Bar = ({
-  value,
+  slot,
+  samples,
   color,
 }: {
-  value: SharedValue<number>;
+  slot: number;
+  samples: SharedValue<number[]>;
   color: string;
 }) => {
   const style = useAnimatedStyle(() => ({
-    transform: [
-      {
-        scaleY:
-          MIN_HEIGHT / MAX_HEIGHT + value.get() * (1 - MIN_HEIGHT / MAX_HEIGHT),
-      },
-    ],
+    // Height, not scale: scaling would squash the round ends.
+    height: MIN_HEIGHT + (samples.get()[slot] ?? 0) * (MAX_HEIGHT - MIN_HEIGHT),
   }));
   return (
     <Animated.View
       style={[
         {
           width: BAR_WIDTH,
-          height: MAX_HEIGHT,
-          borderRadius: RADIUS.full,
+          borderRadius: BAR_WIDTH / 2,
           backgroundColor: color,
         },
         style,
@@ -48,57 +49,72 @@ const Bar = ({
   );
 };
 
-const SampleBar = ({ sample, color }: { sample: number; color: string }) => {
-  const value = useSharedValue(sample);
-  useEffect(() => {
-    value.set(withTiming(sample, { duration: SAMPLE_MS }));
-  }, [sample, value]);
-  return <Bar value={value} color={color} />;
-};
-
 /**
- * Scrolling waveform of the live input level. Newest sample on the right.
- * Bars scale on the UI thread; JavaScript only shifts samples. Paused: the
- * bars hold still.
+ * Scrolling waveform of the live input level, newest sample on the right.
+ * Runs on the UI thread: the row slides left one bar per sample, so it
+ * scrolls smoothly at frame rate instead of jumping. Bars keep round ends;
+ * silence shows as dots. Paused: the bars hold still.
  */
 export const VoiceWaveform = ({
-  getLevel,
+  level,
   isActive,
   color,
 }: {
-  /** Latest input level, 0 to 1. */
-  getLevel: () => number;
+  /** Live input level, 0 to 1. */
+  level: SharedValue<number>;
   isActive: boolean;
   color: string;
 }) => {
-  const [samples, setSamples] = useState<number[]>(() =>
-    Array.from({ length: BAR_COUNT }, () => 0)
+  const samples = useSharedValue<number[]>(
+    Array.from({ length: BAR_COUNT + 1 }, () => 0)
   );
+  // Time since the last sample, 0 to SAMPLE_MS.
+  const sinceSample = useSharedValue(0);
+
+  const frame = useFrameCallback(({ timeSincePreviousFrame }) => {
+    let since = sinceSample.get() + (timeSincePreviousFrame ?? 0);
+    if (since >= SAMPLE_MS) {
+      since %= SAMPLE_MS;
+      const next = samples.get().slice(1);
+      next.push(level.get());
+      samples.set(next);
+    }
+    sinceSample.set(since);
+  }, false);
 
   useEffect(() => {
-    if (!isActive) {
-      return;
-    }
-    const id = setInterval(() => {
-      setSamples((current) => [...current.slice(1), getLevel()]);
-    }, SAMPLE_MS);
-    return () => clearInterval(id);
-  }, [isActive, getLevel]);
+    frame.setActive(isActive);
+  }, [frame, isActive]);
+
+  const rowStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: -(sinceSample.get() / SAMPLE_MS) * STEP }],
+  }));
 
   return (
     <View
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
       style={{
-        flexDirection: "row",
-        alignItems: "center",
-        gap: BAR_GAP,
+        width: BAR_COUNT * STEP - BAR_GAP,
         height: MAX_HEIGHT,
+        overflow: "hidden",
       }}
     >
-      {SLOT_KEYS.map((slotKey, slot) => (
-        <SampleBar key={slotKey} sample={samples[slot] ?? 0} color={color} />
-      ))}
+      <Animated.View
+        style={[
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            gap: BAR_GAP,
+            height: MAX_HEIGHT,
+          },
+          rowStyle,
+        ]}
+      >
+        {SLOT_KEYS.map((slotKey, slot) => (
+          <Bar key={slotKey} slot={slot} samples={samples} color={color} />
+        ))}
+      </Animated.View>
     </View>
   );
 };
