@@ -41,11 +41,12 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - `bun ios` and `bun android` build `development`. `bun ios:preview` and `bun android:preview` build a `preview` release. Set `EXPO_PUBLIC_APP_VARIANT` for anything else.
 - Each variant reports to its own PostHog project ("Pixy App - Development", "Pixy App - Preview", "Pixy App - Production") and Sentry project. Sentry events carry the variant as `environment`.
 - Sentry and EAS Observe report only from real devices on `preview` and `production` ([`src/lib/telemetry.ts`](../src/lib/telemetry.ts)). Development builds, simulators, emulators, and e2e runs send nothing; debug with Metro logs.
+- Preview and production EAS builds upload source maps and native debug symbols to Sentry with the `SENTRY_AUTH_TOKEN` EAS secret. Builds without the token skip the upload: `bun ios`, `bun android`, and `bun app` set `SENTRY_DISABLE_AUTO_UPLOAD=true`. Set it yourself for `eas build --local`.
 - Metro's `cacheVersion` includes the variant ([`metro.config.js`](../metro.config.js)), because inlined `EXPO_PUBLIC_*` values are not part of Metro's cache key.
 - Development and preview icons carry a ribbon with the variant name (a label pill on Android adaptive icons). After changing `icon.png` or `adaptive-icon.png`, regenerate them with `swift scripts/generate-variant-icons.swift`.
 - Development and preview builds add Settings > Development > Test data and `<scheme>://dev/fixture?id=<id>` to load [fixtures](../src/dev/fixtures/index.ts). Production bundles do not contain them: [`src/dev/index.ts`](../src/dev/index.ts) checks the inlined variant at the `require`, so Metro drops the code.
   - `chaos` fixture stress-tests the UI: every limit at max, text in many scripts and emoji, years with gaps, days with up to 100 entries, though the app has no per-day limit ([`chaos.ts`](../src/dev/fixtures/chaos.ts))
-- Same builds add Settings > Development > Playground: components in every state, without touching user data. Deep link: `<scheme>://dev/playground/recap-story?deck=<id>&theme=light|dark`. Deck IDs: `all`, `week`, `month`, `<type>` (every case), `<type>/<index>` (one case).
+- Same builds add Settings > Development > Playground: components in every state, without touching user data. Deep link: `<scheme>://dev/playground/recap-story?deck=<id>&theme=light|dark`. Deck IDs: `all`, `month`, `<type>` (every case), `<type>/<index>` (one case).
   - Recap story slide states: [`slide-cases.ts`](../src/features/recaps/story/slide-cases.ts). New slide type without a case fails `tsc`.
   - Feature `playground.ts` entry: only `src/dev` may import it, so production bundles never reach it ([`oxlint.config.ts`](../oxlint.config.ts)).
 - TestFlight builds are production builds. Apple promotes the tested TestFlight binary to the App Store.
@@ -220,6 +221,13 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - Suites that import `expo-router/testing-library` get an empty `react-native-reanimated` mock: every export is `undefined`. Its re-mock fails against the `react-native-worklets` mock in [`jest.setup.js`](../jest.setup.js) and falls back to `{}`.
 - Never call reanimated at module scope (`Easing.bezier`, `createAnimatedComponent`, `new Keyframe`). Create the value inside the component or hook.
 - Factory mocks that spread `jest.requireActual` need `__esModule: true`. Without it, Babel gives each importer its own namespace copy, so `jest.spyOn` in a test misses calls from `src`.
+
+### Storybook
+
+- Web Storybook for components: `bun storybook`, then open http://localhost:6006. Static build: `bun storybook:build`
+- Stories: `src/**/*.stories.tsx`, next to the component
+- Runs on React Native Web, without the Expo runtime. `expo-router` resolves to [a theme-only stand-in](../.storybook/expo-router.ts)
+- Theme toolbar switches light and dark app colors ([preview](../.storybook/preview.tsx))
 
 ### Build cache
 

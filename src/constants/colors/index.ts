@@ -76,8 +76,8 @@ const light = {
   logHeaderText: colors.neutral[600],
   logHeaderHighlight: colors.neutral[200],
 
-  logBackground: colors.neutral[100],
-  logBackgroundTransparent: "rgba(245,245,245, 0)",
+  logBackground: colors.white,
+  logBackgroundTransparent: "rgba(255,255,255, 0)",
 
   logCardBackground: colors.white,
   logCardBackgroundTransparent: "rgba(255,255,255, 0)",
@@ -87,6 +87,15 @@ const light = {
   logActionBorder: tintColorLight,
   logActionText: colors.neutral[500],
 
+  /** Selectable chip (emotion, tag, person): idle fill and text. */
+  chipBackground: "#F6F6F6",
+  chipText: "#545454",
+  /** Selected chip, inverted style. */
+  chipBackgroundSelected: "#1C1C1E",
+  chipTextSelected: colors.white,
+  /** Selected chip, ink style (flag `chip-active-ink`). */
+  chipBackgroundSelectedInk: "#DCDCDC",
+  chipTextSelectedInk: "#1C1C1E",
   tagBackground: colors.white,
   tagText: colors.neutral[800],
   tagBackgroundActive: colors.blue[100],
@@ -341,6 +350,12 @@ const dark: IColors & {
   logActionBorder: tintColorDark,
   logActionText: colors.neutral[300],
 
+  chipBackground: "#2C2C2E",
+  chipText: "#C7C7CC",
+  chipBackgroundSelected: "#F2F2F7",
+  chipTextSelected: "#1C1C1E",
+  chipBackgroundSelectedInk: "#48484A",
+  chipTextSelectedInk: colors.white,
   tagBackground: colors.neutral[900],
   tagText: colors.neutral[200],
   tagBackgroundActive: colors.blue[900],

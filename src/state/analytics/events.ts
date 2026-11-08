@@ -282,10 +282,10 @@ export interface AnalyticsEvents {
     has_note: boolean;
   };
   /** Tap on a recap notification body. Ignored while flag `recaps` is off. */
-  "recaps:notification_tapped": { period: "week" | "month" | "year" };
+  "recaps:notification_tapped": { period: "month" | "year" };
   /** Month story opened. Only with a story: 10+ check-in days. */
   "recaps:story_opened": {
-    period: "week" | "month";
+    period: "month";
     source: StorySource;
     slides_count: number;
   };
@@ -536,7 +536,7 @@ export interface RecapCardProperties {
   family: "moment" | "summary" | "pattern" | "change" | "nudge";
   modules: string[];
   signal: "strong" | "medium";
-  period: "week" | "month" | "year";
+  period: "month" | "year";
   /** Screen that showed the card. */
   source: "settings";
 }

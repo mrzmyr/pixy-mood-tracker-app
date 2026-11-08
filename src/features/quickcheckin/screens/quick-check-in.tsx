@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useMemo, useState } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { HeaderButton } from "@/components/header-button";
@@ -11,12 +11,6 @@ import TextArea from "@/components/text-area";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 import { RATING_KEYS } from "@/constants/ratings";
 import { SPACE } from "@/constants/space";
-import {
-  EMOTIONS,
-  EmotionBasicSelection,
-  PullToSearch,
-  toBasicCategory,
-} from "@/features/logger";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
@@ -57,9 +51,6 @@ const NOTE_STYLE = {
 
 /** Emotion grid and people row pad themselves to the screen edges. */
 const SELF_PADDED = { paddingHorizontal: 0 };
-
-/** No footer below the matches, unlike the logger slide. */
-const SEARCH_GRID_STYLE = { marginBottom: 0 };
 
 /** Mood pixels and the note, above the sections. Always open. */
 const MoodAndNote = ({
@@ -166,12 +157,10 @@ const QuickCheckInHeader = ({
   );
 
 /**
- * Quick check-in on one scrolling page: mood, a one-line note, then cards for
- * emotions as in the logger, a row of people, the top 20 tags, and photos.
- * Each card has a title and folds away; the folded state stays on the
- * device. Search shows matches in open cards without fold. Search hides
- * above the page until the user pulls down. The full list of
- * people opens in a sheet. Opens from the calendar, from voice mode (with
+ * Quick check-in on one scrolling page: mood, a one-line note, then sections
+ * for emotions as in the logger, a row of people, the top 20 tags, and
+ * photos. Each section folds under a hairline divider; the folded state stays
+ * on the device. The full list of people opens in a sheet. Opens from the calendar, from voice mode (with
  * `prefill`), and from More in the Android notification.
  *
  * - `id` names an entry saved in the notification: the screen edits it.
@@ -224,7 +213,6 @@ export const QuickCheckIn = () => {
     onChange: (value) =>
       setDraft((current) => ({ ...current, photos: value, source: "user" })),
   });
-  const [query, setQuery] = useState("");
   const [isPeopleOpen, setIsPeopleOpen] = useState(false);
   // Ranking time is fixed when the screen opens.
   const now = useMemo(() => dayjs(), []);
@@ -233,16 +221,14 @@ export const QuickCheckIn = () => {
   const sections = useMemo(
     () =>
       getSheetSections({
-        query,
         rating,
         items,
         people: visiblePeople,
         tags,
-        emotions: EMOTIONS,
         picked,
         now,
       }),
-    [query, rating, items, visiblePeople, tags, picked, now]
+    [rating, items, visiblePeople, tags, picked, now]
   );
 
   const toggle = (option: Pick<InfluenceOption, "kind" | "id">) => {
@@ -319,11 +305,7 @@ export const QuickCheckIn = () => {
     toggle({ kind: "person", id: personId });
   const personById = new Map(people.map((person) => [person.id, person]));
 
-  const openRequest = () =>
-    router.push({ pathname: "/request", params: { kind: "emotion" } });
-
   const isIOS = Platform.OS === "ios";
-  const isSearching = query.trim() !== "";
 
   return (
     <View
@@ -342,23 +324,18 @@ export const QuickCheckIn = () => {
         onSave={save}
       />
       <View style={{ flex: 1, paddingTop: isIOS ? headerHeight : 0 }}>
-        <PullToSearch
-          testID="quick-check-in-search"
-          placeholder={t("calendar_filters_search")}
-          query={query}
-          onChangeQuery={setQuery}
-          contentContainerStyle={{
-            paddingBottom: insets.bottom + SPACE.xxxl,
-          }}
+        <ScrollView
+          testID="quick-check-in-scroll"
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          contentContainerStyle={{ paddingBottom: insets.bottom + SPACE.xxxl }}
         >
-          {!isSearching && (
-            <MoodAndNote
-              rating={rating}
-              onRate={setRating}
-              message={message}
-              onChangeMessage={setMessage}
-            />
-          )}
+          <MoodAndNote
+            rating={rating}
+            onRate={setRating}
+            message={message}
+            onChangeMessage={setMessage}
+          />
           {/* Hairlines above and below each section. */}
           <View
             style={{
@@ -366,83 +343,37 @@ export const QuickCheckIn = () => {
               borderColor: colors.logCardBorder,
             }}
           >
-            {isSearching ? (
-              <>
-                {sections.emotions.length > 0 && (
-                  <QuickCheckInSection
-                    section="emotions"
-                    isSearching={isSearching}
-                    title={t("emotions")}
-                    contentStyle={SELF_PADDED}
-                  >
-                    <EmotionBasicSelection
-                      emotions={sections.emotions.map(toBasicCategory)}
-                      selectedEmotions={EMOTIONS.filter((emotion) =>
-                        emotionKeys.has(emotion.key)
-                      )}
-                      onPress={(emotion) => toggleEmotion(emotion.key)}
-                      onRequestEmotion={openRequest}
-                      style={SEARCH_GRID_STYLE}
-                    />
-                  </QuickCheckInSection>
-                )}
-                {sections.people.length > 0 && (
-                  <QuickCheckInSection
-                    section="people"
-                    isSearching={isSearching}
-                    title={t("people")}
-                  >
-                    <InfluenceChips
-                      options={sections.people}
-                      people={people}
-                      tags={tags}
-                      picked={pickedKeys}
-                      onToggle={toggle}
-                    />
-                  </QuickCheckInSection>
-                )}
-              </>
-            ) : (
-              <>
-                <QuickCheckInSection
-                  section="emotions"
-                  isSearching={isSearching}
-                  title={t("emotions")}
-                  contentStyle={SELF_PADDED}
-                >
-                  <QuickCheckInEmotions
-                    picked={emotions}
-                    rating={rating}
-                    items={items}
-                    onToggle={toggleEmotion}
-                  />
-                </QuickCheckInSection>
-                {sections.people.length > 0 && (
-                  <QuickCheckInSection
-                    section="people"
-                    isSearching={isSearching}
-                    title={t("people")}
-                    contentStyle={SELF_PADDED}
-                  >
-                    <PeopleRow
-                      people={sections.people.flatMap((option) => {
-                        const person = personById.get(option.id);
-                        return person ? [person] : [];
-                      })}
-                      picked={pickedPeople}
-                      onToggle={togglePerson}
-                      onShowAll={() => setIsPeopleOpen(true)}
-                    />
-                  </QuickCheckInSection>
-                )}
-              </>
+            <QuickCheckInSection
+              section="emotions"
+              title={t("emotions")}
+              contentStyle={SELF_PADDED}
+            >
+              <QuickCheckInEmotions
+                picked={emotions}
+                rating={rating}
+                items={items}
+                onToggle={toggleEmotion}
+              />
+            </QuickCheckInSection>
+            {sections.people.length > 0 && (
+              <QuickCheckInSection
+                section="people"
+                title={t("people")}
+                contentStyle={SELF_PADDED}
+              >
+                <PeopleRow
+                  people={sections.people.flatMap((option) => {
+                    const person = personById.get(option.id);
+                    return person ? [person] : [];
+                  })}
+                  picked={pickedPeople}
+                  onToggle={togglePerson}
+                  onShowAll={() => setIsPeopleOpen(true)}
+                />
+              </QuickCheckInSection>
             )}
             {sections.tags.length > 0 && (
-              <QuickCheckInSection
-                section="tags"
-                isSearching={isSearching}
-                title={t("tags")}
-              >
+              <QuickCheckInSection section="tags" title={t("tags")}>
                 <InfluenceChips
                   options={sections.tags}
                   people={people}
@@ -452,17 +383,16 @@ export const QuickCheckIn = () => {
                 />
               </QuickCheckInSection>
             )}
-            {hasPhotos && !isSearching && (
+            {hasPhotos && (
               <QuickCheckInSection
                 section="photos"
-                isSearching={isSearching}
                 title={t("logger_step_photos")}
               >
                 <QuickCheckInPhotos draft={draftPhotos} />
               </QuickCheckInSection>
             )}
           </View>
-        </PullToSearch>
+        </ScrollView>
       </View>
       <QuickCheckInListSheets
         isOpen={isPeopleOpen}

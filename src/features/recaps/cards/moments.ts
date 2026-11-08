@@ -1,12 +1,6 @@
 import { EMOTIONS } from "@/features/logger";
 import type { LogItem } from "@/features/logs";
-import {
-  addDays,
-  dayHas,
-  daysBetween,
-  getDaySleep,
-  getMeanRating,
-} from "../days";
+import { dayHas, daysBetween, getMeanRating } from "../days";
 import { distanceKm, parsePlace } from "../places";
 import { THRESHOLDS } from "../thresholds";
 import type {
@@ -15,7 +9,6 @@ import type {
   PersonMoment,
   RecapDay,
   RecapInput,
-  SleepNight,
   TagBack,
 } from "../types";
 
@@ -23,10 +16,8 @@ const CATEGORY = new Map(
   EMOTIONS.map((emotion) => [emotion.key, emotion.category])
 );
 const GOOD = new Set(["very_good", "good"]);
-const HARD = new Set(["bad", "very_bad"]);
 
 const isGoodEmotion = (key: string) => GOOD.has(CATEGORY.get(key) ?? "");
-const isHardEmotion = (key: string) => HARD.has(CATEGORY.get(key) ?? "");
 
 const before = ({ history, period }: RecapInput) =>
   history.filter((day) => day.date < period.start);
@@ -72,72 +63,7 @@ export const emotionAgain = (input: RecapInput): MomentCard[] => {
     .sort((a, b) => b.gap - a.gap)
     .slice(0, MAX_EMOTIONS_BACK)
     .map(({ emotion, lastDate }) => ({ emotion, lastDate }));
-  return emotions.length > 0
-    ? [{ type: "emotion-again", periodKind: input.period.kind, emotions }]
-    : [];
-};
-
-/** The week is heavier than usual: no celebrations then. */
-const isHeavierWeek = (input: RecapInput) => {
-  const earlier = before(input);
-  const usual = getMeanRating(earlier);
-  const week = getMeanRating(input.days);
-  return (
-    earlier.length >= THRESHOLDS.usualMinDays &&
-    usual !== null &&
-    week !== null &&
-    week < usual - THRESHOLDS.heavierWeekDrop
-  );
-};
-
-/**
- * Hard emotion on 5+ days in the 2 months before, none in the last 3
- * weeks, with enough check-ins to tell. Not in a heavier week.
- */
-export const emotionAbsent = (input: RecapInput): MomentCard[] => {
-  if (!input.steps.has("emotions") || isHeavierWeek(input)) {
-    return [];
-  }
-  // A current week ends in the future: count only days that happened.
-  const end = input.today < input.period.end ? input.today : input.period.end;
-  const since = addDays(end, 1 - THRESHOLDS.emotionAbsentDays);
-  const from = addDays(since, -THRESHOLDS.emotionAbsentBeforeDays);
-  const recent = input.history.filter(
-    (day) => day.date >= since && day.date <= end
-  );
-  const earlier = input.history.filter(
-    (day) => day.date >= from && day.date < since
-  );
-  if (recent.length < THRESHOLDS.emotionAbsentMinCheckIns) {
-    return [];
-  }
-  const counts = new Map<string, number>();
-  for (const day of earlier) {
-    const keys = new Set(
-      day.items.flatMap((item) => item.emotions.filter(isHardEmotion))
-    );
-    for (const key of keys) {
-      counts.set(key, (counts.get(key) ?? 0) + 1);
-    }
-  }
-  const [absent] = [...counts.entries()]
-    .filter(
-      ([emotion, count]) =>
-        count >= THRESHOLDS.emotionAbsentMinBefore &&
-        !recent.some((day) =>
-          dayHas(day, (item) => item.emotions.some((key) => key === emotion))
-        )
-    )
-    .sort(([, a], [, b]) => b - a);
-  return absent
-    ? [
-        {
-          type: "emotion-absent",
-          emotion: absent[0],
-          countBefore: absent[1],
-        },
-      ]
-    : [];
+  return emotions.length > 0 ? [{ type: "emotion-again", emotions }] : [];
 };
 
 const connectedDaysIn = (days: RecapDay[], personId: string) =>
@@ -201,18 +127,10 @@ export const getPersonMoments = (input: RecapInput): PersonMoment[] => {
   return people;
 };
 
-/**
- * One card for all person moments of a month. Week recaps show them in the
- * rows of the `connected` card instead, so people never appear twice.
- */
+/** One card for all person moments of the period. */
 export const personMoments = (input: RecapInput): MomentCard[] => {
-  if (input.period.kind === "week") {
-    return [];
-  }
   const people = getPersonMoments(input);
-  return people.length > 0
-    ? [{ type: "people-moments", periodKind: input.period.kind, people }]
-    : [];
+  return people.length > 0 ? [{ type: "people-moments", people }] : [];
 };
 
 /**
@@ -292,85 +210,5 @@ export const tagBack = (input: RecapInput): MomentCard[] => {
       });
     }
   }
-  return tags.length > 0
-    ? [{ type: "tag-back", periodKind: input.period.kind, tags }]
-    : [];
-};
-
-const isGoodNight = (day: RecapDay) => {
-  const sleep = getDaySleep(day);
-  return sleep !== null && sleep >= 3;
-};
-
-const isRoughNight = (day: RecapDay) => {
-  const sleep = getDaySleep(day);
-  return sleep !== null && sleep <= 1;
-};
-
-/** Longest run of calendar days in a row that pass `test`. */
-const longestRun = (days: RecapDay[], test: (day: RecapDay) => boolean) => {
-  let best: string[] = [];
-  let current: string[] = [];
-  for (const day of days) {
-    const follows =
-      current.length > 0 && daysBetween(current.at(-1) ?? "", day.date) === 1;
-    if (!test(day)) {
-      current = [];
-    } else if (follows) {
-      current = [...current, day.date];
-    } else {
-      current = [day.date];
-    }
-    if (current.length > best.length) {
-      best = current;
-    }
-  }
-  return best;
-};
-
-/** Every night of the period, so cards show the run among the others. */
-const weekNights = (input: RecapInput): SleepNight[] => {
-  const byDate = new Map(input.days.map((day) => [day.date, day]));
-  const count = daysBetween(input.period.start, input.period.end) + 1;
-  return Array.from({ length: count }, (_, index) => {
-    const date = addDays(input.period.start, index);
-    const day = byDate.get(date);
-    return { date, sleep: day ? getDaySleep(day) : null };
-  });
-};
-
-/**
- * Week only, sleep step on. 3+ good nights in a row after 2+ rough nights
- * the week before, or 3+ rough nights in a row after a steadier week: one
- * with 3+ nights of sleep data and at most 1 rough night.
- */
-export const sleepMoments = (input: RecapInput): MomentCard[] => {
-  if (!input.steps.has("sleep")) {
-    return [];
-  }
-  const weekBefore = input.history.filter(
-    (day) =>
-      day.date >= addDays(input.period.start, -7) &&
-      day.date < input.period.start
-  );
-  const roughBefore = weekBefore.filter(isRoughNight).length;
-  const sleptBefore = weekBefore.filter((day) => getDaySleep(day) !== null);
-  const good = longestRun(input.days, isGoodNight);
-  const rough = longestRun(input.days, isRoughNight);
-  if (
-    rough.length >= THRESHOLDS.sleepRunNights &&
-    sleptBefore.length >= THRESHOLDS.sleepRunNights &&
-    roughBefore <= THRESHOLDS.sleepRoughMaxRoughBefore
-  ) {
-    return [{ type: "sleep-rough", nights: rough, week: weekNights(input) }];
-  }
-  if (
-    good.length >= THRESHOLDS.sleepRunNights &&
-    roughBefore >= THRESHOLDS.sleepTurnaroundMinRoughBefore
-  ) {
-    return [
-      { type: "sleep-turnaround", nights: good, week: weekNights(input) },
-    ];
-  }
-  return [];
+  return tags.length > 0 ? [{ type: "tag-back", tags }] : [];
 };

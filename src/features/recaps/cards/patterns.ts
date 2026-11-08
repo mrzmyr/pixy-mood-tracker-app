@@ -1,58 +1,10 @@
 import { GENERAL_CATEGORY_ID } from "@/features/tags";
 import { getEffect } from "../correlation";
-import type { Effect } from "../correlation";
-import { addDays } from "../days";
 import { fits, indexDays } from "../day-index";
 import { THRESHOLDS } from "../thresholds";
 import type { EffectRow, PatternCard, RecapDay, RecapInput } from "../types";
 import { getActiveTags } from "./nudges";
 import { peopleOn } from "./summaries";
-
-/**
- * Week only. An active tag on 2+ days this week whose days felt clearly
- * lighter in the 90 days before. Two cards at most, most days times lift
- * first.
- */
-export const stoodOut = (input: RecapInput): PatternCard[] => {
-  if (!fits(input, "stood-out") || !input.steps.has("tags")) {
-    return [];
-  }
-  const from = addDays(input.period.start, -THRESHOLDS.stoodOutHistoryDays);
-  const history = input.history.filter(
-    (day) => day.date >= from && day.date < input.period.start
-  );
-  if (history.length < THRESHOLDS.stoodOutMinHistoryDays) {
-    return [];
-  }
-  const at = indexDays([...history, ...input.days]);
-  const weekCounts = new Map<string, number>();
-  for (const day of input.days) {
-    for (const id of at(day).tags) {
-      weekCounts.set(id, (weekCounts.get(id) ?? 0) + 1);
-    }
-  }
-  const active = new Set(getActiveTags(input.tags).map((tag) => tag.id));
-  const candidates: { tagId: string; count: number; effect: Effect }[] = [];
-  for (const [tagId, count] of weekCounts) {
-    if (active.has(tagId) && count >= THRESHOLDS.stoodOutMinDays) {
-      const effect = getEffect(history, (day) => at(day).tags.has(tagId));
-      if (
-        effect.signal === "strong" &&
-        effect.delta > THRESHOLDS.stoodOutMinDelta
-      ) {
-        candidates.push({ tagId, count, effect });
-      }
-    }
-  }
-  return candidates
-    .sort((a, b) => b.count * b.effect.delta - a.count * a.effect.delta)
-    .slice(0, THRESHOLDS.stoodOutMaxCards)
-    .map(({ tagId, count }) => ({
-      type: "stood-out",
-      tagId,
-      days: count,
-    }));
-};
 
 interface Driver {
   id: string;

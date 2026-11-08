@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Быстрая запись",
   "notification_recap_body": "Посмотрите, что выделялось.",
   "notification_recap_month_title": "Ваши итоги месяца готовы",
-  "notification_recap_week_title": "Ваши итоги недели готовы",
   "notification_recap_year_title": "Ваши итоги года готовы",
   "notification_reminder_body": "Нажмите здесь, чтобы отслеживать свое сегодняшнее настроение.",
   "notification_reminder_title": "Отслеживайте свое настроение",
@@ -841,20 +840,8 @@
     "other": "{{count}} дн., после %{weeks} нед. без"
   },
   "recaps_came_back_title_week": "Вернулось на этой неделе",
-  "recaps_connected_days": {
-    "one": "1 день на связи",
-    "other": "{{count}} дн. на связи"
-  },
   "recaps_connected_more": "+ещё %{count}",
-  "recaps_connected_title": {
-    "one": "Вы были на связи с {{count}} людьми",
-    "other": "Вы были на связи с {{count}} людьми"
-  },
-  "recaps_connected_title_one": "Вы были на связи: %{name}",
-  "recaps_day_ago_text": "Год назад: %{date}.",
-  "recaps_day_ago_title": "Отличный день год назад",
   "recaps_day_best_title_month": "%{day}: лучший день месяца",
-  "recaps_day_best_title_week": "%{day}: лучший день недели",
   "recaps_day_hard_text": "Каждая отметка важна, каким бы ни был день.",
   "recaps_day_hard_title": "Спасибо за отметку: %{day}",
   "recaps_day_see": "Открыть этот день",
@@ -862,15 +849,9 @@
     "one": "1 день",
     "other": "{{count}} дн."
   },
-  "recaps_emotion_absent_text": {
-    "one": "Это было в один день за два месяца до этого.",
-    "other": "Это было в {{count}} дн. за два месяца до этого."
-  },
-  "recaps_emotion_absent_title": "3 недели без чувства «%{emotion}»",
   "recaps_emotion_again_text": "Впервые с %{date}.",
   "recaps_emotion_again_title": "Снова %{emotion}",
   "recaps_emotions_back_title_month": "Эмоции, вернувшиеся в этом месяце",
-  "recaps_emotions_back_title_week": "Эмоции, вернувшиеся на этой неделе",
   "recaps_emotions_title": "Самые частые эмоции",
   "recaps_emotions_year_title": "Топ-10 эмоций",
   "recaps_empty": "Для этого периода пока нет карточек. Они появятся, когда отметок станет больше.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Добавляйте фото к отметкам. Через год ваши итоги смогут начаться с «Ровно год назад».",
   "recaps_intro_photos_title": "Сохраняйте фото дня",
   "recaps_mood_chart_title_month": "Настроение в этом месяце",
-  "recaps_mood_chart_title_week": "Настроение на этой неделе",
   "recaps_mood_count_title": "{{percent}}% ваших дней были хорошими",
   "recaps_mood_count_title_mixed": "Ваши дни по настроению",
   "recaps_most_connected_title_month": "Больше всего на связи в этом месяце",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Итоги недели, месяца и года приходят в последний день каждой недели, месяца и года, во время вашего напоминания.",
   "recaps_notifications_setting": "Итоги",
   "recaps_nudge_not_now": "Не сейчас",
-  "recaps_nudge_reminder_action": "Напомнить в %{time}",
-  "recaps_nudge_reminder_text": "Большие дни остаются в памяти. Маленькие хорошие дни забываются к утру. Короткая отметка каждый вечер сохранит их.",
-  "recaps_nudge_reminder_title": "Сохраняйте и тихие хорошие дни",
-  "recaps_open_settings": "Открыть Настройки",
   "recaps_people_moments_title_month": "Люди в этом месяце",
-  "recaps_people_moments_title_week": "Люди на этой неделе",
   "recaps_people_mood_text": "Подсказка, а не причина. Связь может ощущаться хорошей, тяжёлой или смешанной.",
   "recaps_people_mood_title": "Настроение в дни на связи",
   "recaps_period_month": "Месяц",
   "recaps_period_next": "Следующий период",
   "recaps_period_previous": "Предыдущий период",
-  "recaps_period_week": "Неделя",
   "recaps_period_year": "Год",
   "recaps_person_moment_back": {
     "one": "Снова на связи через 1 неделю",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "Дней на связи в %{year}: %{count}",
   "recaps_person_moment_new": "Первая связь",
   "recaps_places_title_month": "Места в этом месяце",
-  "recaps_places_title_week": "Места на этой неделе",
   "recaps_places_title_year": "Места в этом году",
   "recaps_places_trips": {
     "one": "1 поездка вдали от дома.",
     "other": "Поездок вдали от дома: %{count}."
   },
-  "recaps_reminder_failed": "Напоминание не включено. Не удалось запланировать уведомления. Попробуйте снова в Настройки > Напоминание.",
-  "recaps_reminder_set": "Напоминание в %{time}",
   "recaps_sleep_chart_title_month": "Сон в этом месяце",
-  "recaps_sleep_chart_title_week": "Сон на этой неделе",
-  "recaps_sleep_rough_text": "%{count} тяжёлые ночи подряд. Отдыхайте, когда можете.",
-  "recaps_sleep_rough_title": "Несколько тяжёлых ночей",
-  "recaps_sleep_turnaround_text": "После нескольких тяжёлых ночей на прошлой неделе.",
-  "recaps_sleep_turnaround_title": "%{count} хорошие ночи подряд",
   "recaps_step_turned_on": "Добавлено в отметку",
-  "recaps_stood_out_text": "Такие дни обычно ощущаются легче.",
-  "recaps_stood_out_title": {
-    "one": "1 день с %{tag} на этой неделе",
-    "other": "Дней с %{tag} на этой неделе: {{count}}"
-  },
   "recaps_story_banner_label_month": "Итоги месяца",
   "recaps_story_banner_title": "Итоги: %{month}",
-  "recaps_story_banner_title_week": "Итоги недели",
   "recaps_story_best_day_ask": "Готов увидеть свой лучший день?",
   "recaps_story_best_day_show": "Показать лучший день",
+  "recaps_story_best_day_slide": "Сдвинь для разблокировки",
   "recaps_story_coming_text": {
     "one": "Вас ждёт ещё 1 пиксель. День за днём.",
     "other": "Пикселей, которые ещё ждут Вас: {{count}}. День за днём."
@@ -983,10 +944,7 @@
     "other": "Дней, когда Вы находили время для себя: {{count}}. Этим можно гордиться."
   },
   "recaps_story_cover_note_full": "У каждого дня (%{month}) есть свой пиксель. Это настоящее достижение.",
-  "recaps_story_cover_note_full_week": "У каждого дня этой недели есть свой пиксель. Это настоящее достижение.",
   "recaps_story_cover_pixels_title": "%{month} в пикселях",
-  "recaps_story_cover_pixels_title_week": "Пиксели этой недели",
-  "recaps_story_cover_title_week": "Остановитесь на минуту.\nЭто была ваша неделя.",
   "recaps_story_days": {
     "one": "1 день",
     "other": "Дней: {{count}}"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "Моя орбита",
   "recaps_story_share_shuffle": "Перемешать фото",
   "recaps_story_share_title": "Мой %{month}",
-  "recaps_story_share_title_week": "Моя неделя",
   "recaps_story_sleep_ask": {
     "one": "1 ночь была трудной. Посмотреть внимательнее?",
     "other": "Трудных ночей: {{count}}. Посмотреть внимательнее?"

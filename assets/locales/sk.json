@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Rýchly záznam",
   "notification_recap_body": "Pozrite sa, čo vyniklo.",
   "notification_recap_month_title": "Vaše mesačné ohliadnutie je tu",
-  "notification_recap_week_title": "Vaše týždenné ohliadnutie je tu",
   "notification_recap_year_title": "Vaše ročné ohliadnutie je tu",
   "notification_reminder_body": "Klepnutím sem môžete sledovať svoju dnešnú náladu.",
   "notification_reminder_title": "Sledujte svoju náladu",
@@ -841,20 +840,8 @@
     "other": "{{count}} dní, po %{weeks} týždňoch bez"
   },
   "recaps_came_back_title_week": "Späť tento týždeň",
-  "recaps_connected_days": {
-    "one": "1 deň v kontakte",
-    "other": "{{count}} dní v kontakte"
-  },
   "recaps_connected_more": "+%{count} ďalší",
-  "recaps_connected_title": {
-    "one": "Bol si v kontakte s {{count}} ľuďmi",
-    "other": "Bol si v kontakte s {{count}} ľuďmi"
-  },
-  "recaps_connected_title_one": "Bol si v kontakte s: %{name}",
-  "recaps_day_ago_text": "Pred rokom: %{date}.",
-  "recaps_day_ago_title": "Skvelý deň pred rokom",
   "recaps_day_best_title_month": "%{day}: tvoj najlepší deň mesiaca",
-  "recaps_day_best_title_week": "%{day}: tvoj najlepší deň týždňa",
   "recaps_day_hard_text": "Každý záznam sa počíta, nech je deň akýkoľvek.",
   "recaps_day_hard_title": "Ďakujeme za záznam: %{day}",
   "recaps_day_see": "Zobraziť tento deň",
@@ -862,15 +849,9 @@
     "one": "1 deň",
     "other": "{{count}} dní"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Objavilo sa jeden deň v predchádzajúcich dvoch mesiacoch.",
-    "other": "Objavilo sa {{count}} dní v predchádzajúcich dvoch mesiacoch."
-  },
-  "recaps_emotion_absent_title": "3 týždne bez emócie: %{emotion}",
   "recaps_emotion_again_text": "Prvýkrát od %{date}.",
   "recaps_emotion_again_title": "Zase %{emotion}",
   "recaps_emotions_back_title_month": "Emócie späť tento mesiac",
-  "recaps_emotions_back_title_week": "Emócie späť tento týždeň",
   "recaps_emotions_title": "Najčastejšie používané emócie",
   "recaps_emotions_year_title": "10 hlavných emócií",
   "recaps_empty": "Pre toto obdobie zatiaľ nie sú žiadne karty. Objavia sa, keď zapíšeš viac dní.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Pridávaj fotku k záznamom. O rok môže tvoje ohliadnutie začať slovami „Dnes pred rokom“.",
   "recaps_intro_photos_title": "Uchovaj si fotku dňa",
   "recaps_mood_chart_title_month": "Nálada tento mesiac",
-  "recaps_mood_chart_title_week": "Nálada tento týždeň",
   "recaps_mood_count_title": "{{percent}} % tvojich dní bolo dobrých",
   "recaps_mood_count_title_mixed": "Tvoje dni podľa nálady",
   "recaps_most_connected_title_month": "Najviac v kontakte tento mesiac",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Týždenné, mesačné a ročné ohliadnutia prídu posledný deň každého týždňa, mesiaca a roka, v čase vašej pripomienky.",
   "recaps_notifications_setting": "Ohliadnutia",
   "recaps_nudge_not_now": "Teraz nie",
-  "recaps_nudge_reminder_action": "Pripomenúť o %{time}",
-  "recaps_nudge_reminder_text": "Veľké dni zostávajú v pamäti. Malé dobré dni do rána vyblednú. Krátky záznam každý večer ich uchová.",
-  "recaps_nudge_reminder_title": "Uchovaj si aj pokojné dobré dni",
-  "recaps_open_settings": "Otvoriť Nastavenia",
   "recaps_people_moments_title_month": "Ľudia tento mesiac",
-  "recaps_people_moments_title_week": "Ľudia tento týždeň",
   "recaps_people_mood_text": "Náznak, nie príčina. Kontakt môže byť dobrý, ťažký alebo zmiešaný.",
   "recaps_people_mood_title": "Nálada v dňoch kontaktu",
   "recaps_period_month": "Mesiac",
   "recaps_period_next": "Ďalšie obdobie",
   "recaps_period_previous": "Predchádzajúce obdobie",
-  "recaps_period_week": "Týždeň",
   "recaps_period_year": "Rok",
   "recaps_person_moment_back": {
     "one": "Späť po 1 týždni",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "Dní v kontakte v roku %{year}: %{count}",
   "recaps_person_moment_new": "Prvý kontakt",
   "recaps_places_title_month": "Miesta tento mesiac",
-  "recaps_places_title_week": "Miesta tento týždeň",
   "recaps_places_title_year": "Miesta tento rok",
   "recaps_places_trips": {
     "one": "1 cesta mimo domova.",
     "other": "Ciest mimo domova: %{count}."
   },
-  "recaps_reminder_failed": "Pripomenutie nie je nastavené. Upozornenia sa nepodarilo naplánovať. Skús to znova v Nastavenia > Pripomenutie.",
-  "recaps_reminder_set": "Pripomenutie o %{time}",
   "recaps_sleep_chart_title_month": "Spánok tento mesiac",
-  "recaps_sleep_chart_title_week": "Spánok tento týždeň",
-  "recaps_sleep_rough_text": "%{count} ťažké noci za sebou. Oddýchni si, keď môžeš.",
-  "recaps_sleep_rough_title": "Pár ťažkých nocí",
-  "recaps_sleep_turnaround_text": "Po pár ťažkých nociach týždeň predtým.",
-  "recaps_sleep_turnaround_title": "%{count} dobré noci za sebou",
   "recaps_step_turned_on": "Pridané k záznamu",
-  "recaps_stood_out_text": "Také dni bývajú pre teba ľahšie.",
-  "recaps_stood_out_title": {
-    "one": "1 deň s %{tag} tento týždeň",
-    "other": "{{count}} dní s %{tag} tento týždeň"
-  },
   "recaps_story_banner_label_month": "Ohliadnutie za mesiacom",
   "recaps_story_banner_title": "Ohliadnutie: %{month}",
-  "recaps_story_banner_title_week": "Ohliadnutie za týždňom",
   "recaps_story_best_day_ask": "Chceš vidieť svoj najlepší deň?",
   "recaps_story_best_day_show": "Zobraziť najlepší deň",
+  "recaps_story_best_day_slide": "Posuň na odomknutie",
   "recaps_story_coming_text": {
     "one": "Čaká na teba ešte 1 pixel. Deň po dni.",
     "other": "Pixely, ktoré na teba ešte čakajú: {{count}}. Deň po dni."
@@ -983,10 +944,7 @@
     "other": "Dni, keď si si urobil čas sám pre seba: {{count}}. Buď na to hrdý."
   },
   "recaps_story_cover_note_full": "Každý deň (%{month}) má svoj pixel. To je skutočný úspech.",
-  "recaps_story_cover_note_full_week": "Každý deň tohto týždňa má svoj pixel. To je skutočný úspech.",
   "recaps_story_cover_pixels_title": "%{month} v pixeloch",
-  "recaps_story_cover_pixels_title_week": "Pixely tohto týždňa",
-  "recaps_story_cover_title_week": "Zastav sa na chvíľu.\nToto bol tvoj týždeň.",
   "recaps_story_days": {
     "one": "1 deň",
     "other": "Dní: {{count}}"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "Moja obežná dráha",
   "recaps_story_share_shuffle": "Zamiešať fotky",
   "recaps_story_share_title": "Môj %{month}",
-  "recaps_story_share_title_week": "Môj týždeň",
   "recaps_story_sleep_ask": {
     "one": "1 noc bola ťažká. Pozrieť sa bližšie?",
     "other": "Ťažké noci: {{count}}. Pozrieť sa bližšie?"

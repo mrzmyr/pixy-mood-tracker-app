@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "빠른 기록",
   "notification_recap_body": "눈에 띈 순간을 확인해 보세요.",
   "notification_recap_month_title": "월간 돌아보기가 도착했어요",
-  "notification_recap_week_title": "주간 돌아보기가 도착했어요",
   "notification_recap_year_title": "연간 돌아보기가 도착했어요",
   "notification_reminder_body": "오늘의 기분을 추적하려면 여기를 탭하세요.",
   "notification_reminder_title": "기분 추적",
@@ -841,20 +840,8 @@
     "other": "%{weeks}주 만에 {{count}}일"
   },
   "recaps_came_back_title_week": "이번 주에 돌아왔어요",
-  "recaps_connected_days": {
-    "one": "1일 연결",
-    "other": "{{count}}일 연결"
-  },
   "recaps_connected_more": "+%{count}명 더",
-  "recaps_connected_title": {
-    "one": "{{count}}명과 연결되었어요",
-    "other": "{{count}}명과 연결되었어요"
-  },
-  "recaps_connected_title_one": "%{name} 님과 연결되었어요",
-  "recaps_day_ago_text": "1년 전: %{date}.",
-  "recaps_day_ago_title": "1년 전 멋진 하루",
   "recaps_day_best_title_month": "이번 달 최고의 날은 %{day}",
-  "recaps_day_best_title_week": "이번 주 최고의 날은 %{day}",
   "recaps_day_hard_text": "어떤 날이든 모든 기록이 소중해요.",
   "recaps_day_hard_title": "%{day}에도 기록해 줘서 고마워요",
   "recaps_day_see": "이날 보기",
@@ -862,15 +849,9 @@
     "one": "1일",
     "other": "{{count}}일"
   },
-  "recaps_emotion_absent_text": {
-    "one": "그전 두 달 동안 하루 있었어요.",
-    "other": "그전 두 달 동안 {{count}}일 있었어요."
-  },
-  "recaps_emotion_absent_title": "%{emotion} 없이 3주",
   "recaps_emotion_again_text": "%{date} 이후 처음입니다.",
   "recaps_emotion_again_title": "다시 %{emotion}",
   "recaps_emotions_back_title_month": "이번 달에 돌아온 감정",
-  "recaps_emotions_back_title_week": "이번 주에 돌아온 감정",
   "recaps_emotions_title": "가장 많이 쓴 감정",
   "recaps_emotions_year_title": "감정 톱 10",
   "recaps_empty": "이 기간의 카드가 아직 없습니다. 기록이 쌓이면 나타납니다.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "기록에 사진을 추가하세요. 1년 뒤 돌아보기가 “1년 전 오늘”로 시작할 수 있습니다.",
   "recaps_intro_photos_title": "오늘의 사진 남기기",
   "recaps_mood_chart_title_month": "이번 달 기분",
-  "recaps_mood_chart_title_week": "이번 주 기분",
   "recaps_mood_count_title": "{{percent}}%의 날이 좋았어요",
   "recaps_mood_count_title_mixed": "기분별 하루",
   "recaps_most_connected_title_month": "이번 달 가장 많이 연결된 사람",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "주간, 월간, 연간 돌아보기는 매주, 매월, 매년 마지막 날 알림 시간에 도착합니다.",
   "recaps_notifications_setting": "돌아보기",
   "recaps_nudge_not_now": "나중에",
-  "recaps_nudge_reminder_action": "%{time}에 알림 받기",
-  "recaps_nudge_reminder_text": "큰일이 있던 날은 기억에 남습니다. 작은 좋은 날은 다음 날 아침이면 흐려집니다. 매일 저녁 짧은 기록이 그날을 남겨 줍니다.",
-  "recaps_nudge_reminder_title": "조용히 좋은 날도 남겨 두세요",
-  "recaps_open_settings": "설정 열기",
   "recaps_people_moments_title_month": "이번 달의 사람",
-  "recaps_people_moments_title_week": "이번 주의 사람",
   "recaps_people_mood_text": "원인이 아니라 힌트예요. 연결은 좋을 수도, 무거울 수도, 섞일 수도 있어요.",
   "recaps_people_mood_title": "연결된 날의 기분",
   "recaps_period_month": "월",
   "recaps_period_next": "다음 기간",
   "recaps_period_previous": "이전 기간",
-  "recaps_period_week": "주",
   "recaps_period_year": "연도",
   "recaps_person_moment_back": {
     "one": "1주 만에 다시",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "%{year}년에 %{count}일 연결됨",
   "recaps_person_moment_new": "첫 연결",
   "recaps_places_title_month": "이번 달의 장소",
-  "recaps_places_title_week": "이번 주의 장소",
   "recaps_places_title_year": "올해의 장소",
   "recaps_places_trips": {
     "one": "집을 떠난 여행 1번.",
     "other": "집을 떠난 여행 %{count}번."
   },
-  "recaps_reminder_failed": "알림이 설정되지 않았습니다. 시스템 알림을 예약할 수 없었습니다. 설정 > 알림에서 다시 시도해 주세요.",
-  "recaps_reminder_set": "%{time}에 알림이 설정되었습니다",
   "recaps_sleep_chart_title_month": "이번 달 수면",
-  "recaps_sleep_chart_title_week": "이번 주 수면",
-  "recaps_sleep_rough_text": "%{count}일 연속 힘든 밤이에요. 쉴 수 있을 때 쉬세요.",
-  "recaps_sleep_rough_title": "힘든 밤이 이어졌어요",
-  "recaps_sleep_turnaround_text": "지난주 힘든 밤들이 지난 뒤예요.",
-  "recaps_sleep_turnaround_title": "%{count}일 연속 잘 잔 밤",
   "recaps_step_turned_on": "기록에 추가되었습니다",
-  "recaps_stood_out_text": "그런 날은 보통 더 가볍게 느껴져요.",
-  "recaps_stood_out_title": {
-    "one": "이번 주 %{tag} 있었던 날 1일",
-    "other": "이번 주 %{tag} 있었던 날 {{count}}일"
-  },
   "recaps_story_banner_label_month": "한 달 돌아보기",
   "recaps_story_banner_title": "%{month} 돌아보기",
-  "recaps_story_banner_title_week": "한 주 돌아보기",
   "recaps_story_best_day_ask": "최고의 하루를 볼 준비가 됐나요?",
   "recaps_story_best_day_show": "최고의 하루 보기",
+  "recaps_story_best_day_slide": "밀어서 잠금 해제",
   "recaps_story_coming_text": {
     "one": "아직 픽셀 1개가 기다리고 있어요. 하루씩 천천히.",
     "other": "아직 픽셀 {{count}}개가 기다리고 있어요. 하루씩 천천히."
@@ -983,10 +944,7 @@
     "other": "나를 위해 시간을 낸 날이 {{count}}일이에요. 스스로 자랑스러워해도 돼요."
   },
   "recaps_story_cover_note_full": "%{month}의 모든 날에 픽셀이 있어요. 정말 대단한 일이에요.",
-  "recaps_story_cover_note_full_week": "이번 주의 모든 날에 픽셀이 있어요. 정말 대단한 일이에요.",
   "recaps_story_cover_pixels_title": "%{month}의 픽셀",
-  "recaps_story_cover_pixels_title_week": "이번 주의 픽셀",
-  "recaps_story_cover_title_week": "잠시 멈춰 보세요.\n이번 주의 당신이에요.",
   "recaps_story_days": {
     "one": "1일",
     "other": "{{count}}일"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "나의 궤도",
   "recaps_story_share_shuffle": "사진 섞기",
   "recaps_story_share_title": "나의 %{month}",
-  "recaps_story_share_title_week": "나의 한 주",
   "recaps_story_sleep_ask": {
     "one": "힘든 밤이 1일 있었어요. 자세히 볼까요?",
     "other": "힘든 밤이 {{count}}일 있었어요. 자세히 볼까요?"

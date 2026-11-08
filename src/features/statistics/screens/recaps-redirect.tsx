@@ -4,7 +4,7 @@ import type { ComponentType } from "react";
 import { DATE_FORMAT } from "@/constants/config";
 import { useFeatureFlag } from "@/state/feature-flags";
 
-type RecapKind = "week" | "month" | "year";
+type RecapKind = "month" | "year";
 
 /**
  * Statistics screen that hands over to Recaps with flag `recaps` on: Recaps

@@ -10,7 +10,7 @@ import {
 import { RADIUS } from "@/constants/radius";
 import { PhotoGallery, PhotoGalleryItem } from "@/features/photos";
 import { t } from "@/lib/translation";
-import { dayRange, monthName } from "./format";
+import { monthName } from "./format";
 import { MonthGrid, StoryImage, useDayColors } from "./parts";
 import type { SlideContext } from "./slides";
 import {
@@ -70,7 +70,10 @@ export const ShareCard = ({
   const photoSize = Math.floor(
     (inner - GAP * (Math.max(shown.length, 2) - 1)) / Math.max(shown.length, 2)
   );
-  const isWeek = ctx.period.kind === "week";
+  // "My September".
+  const title = t("recaps_story_share_title", {
+    month: monthName(ctx.period.start),
+  });
   return (
     // Takes taps, so a tap on the card never moves the story on or closes it.
     <Pressable
@@ -104,9 +107,7 @@ export const ShareCard = ({
               fontVariant: ["tabular-nums"],
             }}
           >
-            {isWeek
-              ? dayRange(ctx.period.start, ctx.period.end)
-              : dayjs(ctx.period.start).format("YYYY")}
+            {dayjs(ctx.period.start).format("YYYY")}
           </Text>
           {/* Big and light: weight 500 with tight tracking reads calm. */}
           <Text
@@ -120,11 +121,7 @@ export const ShareCard = ({
               color: palette.text,
             }}
           >
-            {isWeek
-              ? t("recaps_story_share_title_week")
-              : t("recaps_story_share_title", {
-                  month: monthName(ctx.period.start),
-                })}
+            {title}
           </Text>
         </View>
         <MonthGrid

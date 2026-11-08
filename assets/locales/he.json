@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "צ׳ק־אין מהיר",
   "notification_recap_body": "גלה מה בלט.",
   "notification_recap_month_title": "הסיכום החודשי שלך כאן",
-  "notification_recap_week_title": "הסיכום השבועי שלך כאן",
   "notification_recap_year_title": "הסיכום השנתי שלך כאן",
   "notification_reminder_body": "הקש כאן כדי לעקוב אחר מצב הרוח שלך היום.",
   "notification_reminder_title": "עקוב אחר מצב הרוח שלך",
@@ -841,20 +840,8 @@
     "other": "ב־{{count}} ימים, אחרי הפסקה של %{weeks} שבועות"
   },
   "recaps_came_back_title_week": "חזרו השבוע",
-  "recaps_connected_days": {
-    "one": "יום אחד בקשר",
-    "other": "{{count}} ימים בקשר"
-  },
   "recaps_connected_more": "+%{count} נוספים",
-  "recaps_connected_title": {
-    "one": "היית בקשר עם {{count}} אנשים",
-    "other": "היית בקשר עם {{count}} אנשים"
-  },
-  "recaps_connected_title_one": "היית בקשר עם %{name}",
-  "recaps_day_ago_text": "לפני שנה: %{date}.",
-  "recaps_day_ago_title": "יום נהדר, לפני שנה",
   "recaps_day_best_title_month": "%{day} היה היום הכי טוב שלך החודש",
-  "recaps_day_best_title_week": "%{day} היה היום הכי טוב שלך השבוע",
   "recaps_day_hard_text": "כל תיעוד חשוב, בכל סוג של יום.",
   "recaps_day_hard_title": "תודה שתיעדת ב%{day}",
   "recaps_day_see": "הצגת היום הזה",
@@ -862,15 +849,9 @@
     "one": "יום אחד",
     "other": "{{count}} ימים"
   },
-  "recaps_emotion_absent_text": {
-    "one": "זה עלה ביום אחד בחודשיים שלפני כן.",
-    "other": "זה עלה ב־{{count}} ימים בחודשיים שלפני כן."
-  },
-  "recaps_emotion_absent_title": "3 שבועות בלי %{emotion}",
   "recaps_emotion_again_text": "לראשונה מאז %{date}.",
   "recaps_emotion_again_title": "שוב %{emotion}",
   "recaps_emotions_back_title_month": "רגשות שחזרו החודש",
-  "recaps_emotions_back_title_week": "רגשות שחזרו השבוע",
   "recaps_emotions_title": "הרגשות הנפוצים ביותר",
   "recaps_emotions_year_title": "10 הרגשות המובילים",
   "recaps_empty": "עדיין אין כרטיסים לתקופה הזו. הם יופיעו ככל שתתעד יותר ימים.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "הוסף תמונה לתיעודים. בעוד שנה, הסיכום שלך יוכל להיפתח ב„היום לפני שנה”.",
   "recaps_intro_photos_title": "שמור תמונה של היום",
   "recaps_mood_chart_title_month": "מצב רוח החודש",
-  "recaps_mood_chart_title_week": "מצב רוח השבוע",
   "recaps_mood_count_title": "{{percent}}% מהימים שלך הרגישו טוב",
   "recaps_mood_count_title_mixed": "הימים שלך לפי מצב רוח",
   "recaps_most_connected_title_month": "הכי הרבה בקשר החודש",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "סיכומים שבועיים, חודשיים ושנתיים מגיעים ביום האחרון של כל שבוע, חודש ושנה, בשעת התזכורת שלך.",
   "recaps_notifications_setting": "סיכומים",
   "recaps_nudge_not_now": "לא עכשיו",
-  "recaps_nudge_reminder_action": "הזכר לי ב־%{time}",
-  "recaps_nudge_reminder_text": "ימים גדולים נשארים בזיכרון. ימים טובים קטנים נמוגים עד הבוקר. תיעוד קצר בכל ערב שומר עליהם.",
-  "recaps_nudge_reminder_title": "שמור גם את הימים הטובים והשקטים",
-  "recaps_open_settings": "פתיחת ההגדרות",
   "recaps_people_moments_title_month": "אנשים החודש",
-  "recaps_people_moments_title_week": "אנשים השבוע",
   "recaps_people_mood_text": "רמז, לא סיבה. קשר יכול להרגיש טוב, קשה או מעורב.",
   "recaps_people_mood_title": "מצב רוח בימים של קשר",
   "recaps_period_month": "חודש",
   "recaps_period_next": "התקופה הבאה",
   "recaps_period_previous": "התקופה הקודמת",
-  "recaps_period_week": "שבוע",
   "recaps_period_year": "שנה",
   "recaps_person_moment_back": {
     "one": "שוב אחרי שבוע",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "%{count} ימים של חיבור ב־%{year}",
   "recaps_person_moment_new": "חיבור ראשון",
   "recaps_places_title_month": "מקומות החודש",
-  "recaps_places_title_week": "מקומות השבוע",
   "recaps_places_title_year": "מקומות השנה",
   "recaps_places_trips": {
     "one": "נסיעה אחת מחוץ לבית.",
     "other": "%{count} נסיעות מחוץ לבית."
   },
-  "recaps_reminder_failed": "התזכורת לא הוגדרה. לא ניתן היה לתזמן התראות. נסה שוב בהגדרות > תזכורת.",
-  "recaps_reminder_set": "תזכורת נקבעה ל־%{time}",
   "recaps_sleep_chart_title_month": "שינה החודש",
-  "recaps_sleep_chart_title_week": "שינה השבוע",
-  "recaps_sleep_rough_text": "%{count} לילות קשים ברצף. תנוח כשאפשר.",
-  "recaps_sleep_rough_title": "כמה לילות קשים",
-  "recaps_sleep_turnaround_text": "אחרי כמה לילות קשים בשבוע הקודם.",
-  "recaps_sleep_turnaround_title": "%{count} לילות טובים ברצף",
   "recaps_step_turned_on": "נוסף לתיעוד שלך",
-  "recaps_stood_out_text": "הימים האלה בדרך כלל מרגישים לך קלים יותר.",
-  "recaps_stood_out_title": {
-    "one": "יום אחד עם %{tag} השבוע",
-    "other": "{{count}} ימים עם %{tag} השבוע"
-  },
   "recaps_story_banner_label_month": "סיכום חודשי",
   "recaps_story_banner_title": "סיכום %{month}",
-  "recaps_story_banner_title_week": "סיכום שבועי",
   "recaps_story_best_day_ask": "מוכן לראות את היום הכי טוב שלך?",
   "recaps_story_best_day_show": "הצג את היום הכי טוב שלך",
+  "recaps_story_best_day_slide": "החלק לביטול נעילה",
   "recaps_story_coming_text": {
     "one": "עוד פיקסל אחד מחכה לך. יום אחר יום.",
     "other": "פיקסלים שעוד מחכים לך: {{count}}. יום אחר יום."
@@ -983,10 +944,7 @@
     "other": "ימים שבהם פינית זמן לעצמך: {{count}}. תהיה גאה בזה."
   },
   "recaps_story_cover_note_full": "לכל יום ב%{month} יש פיקסל. זה הישג אמיתי.",
-  "recaps_story_cover_note_full_week": "לכל יום השבוע יש פיקסל. זה הישג אמיתי.",
   "recaps_story_cover_pixels_title": "פיקסלים ב%{month}",
-  "recaps_story_cover_pixels_title_week": "הפיקסלים של השבוע",
-  "recaps_story_cover_title_week": "קח רגע.\nזה היה השבוע שלך.",
   "recaps_story_days": {
     "one": "יום 1",
     "other": "{{count}} ימים"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "המסלול שלי",
   "recaps_story_share_shuffle": "ערבוב תמונות",
   "recaps_story_share_title": "%{month} שלי",
-  "recaps_story_share_title_week": "השבוע שלי",
   "recaps_story_sleep_ask": {
     "one": "לילה אחד היה קשה. להסתכל מקרוב?",
     "other": "{{count}} לילות היו קשים. להסתכל מקרוב?"

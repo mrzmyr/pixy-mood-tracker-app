@@ -11,9 +11,7 @@ import type {
   RecapInput,
   SummaryCard,
 } from "../types";
-import { sleepMoments } from "./moments";
 import { getActiveTags } from "./nudges";
-import { stoodOut } from "./patterns";
 
 /** Every day of the period up to today, oldest first. */
 const getPeriodDates = (input: RecapInput): DateKey[] => {
@@ -104,16 +102,9 @@ export const moodDays = (input: RecapInput): SummaryCard[] => {
   return cards;
 };
 
-/**
- * Sleep of each night of the period. Weeks with a sleep moment card skip
- * it, so the nights never show twice.
- */
+/** Sleep of each night of the period. */
 export const sleepChart = (input: RecapInput): SummaryCard[] => {
   if (!fits(input, "sleep-chart") || !input.steps.has("sleep")) {
-    return [];
-  }
-  const isWeek = input.period.kind === "week";
-  if (isWeek && sleepMoments(input).length > 0) {
     return [];
   }
   const byDate = new Map(input.days.map((day) => [day.date, day]));
@@ -122,10 +113,9 @@ export const sleepChart = (input: RecapInput): SummaryCard[] => {
     return { date, sleep: day ? getDaySleep(day) : null };
   });
   const slept = nights.filter((night) => night.sleep !== null).length;
-  const min = isWeek
-    ? THRESHOLDS.sleepChartMinNightsWeek
-    : THRESHOLDS.sleepChartMinNightsMonth;
-  return slept >= min ? [{ type: "sleep-chart", nights }] : [];
+  return slept >= THRESHOLDS.sleepChartMinNightsMonth
+    ? [{ type: "sleep-chart", nights }]
+    : [];
 };
 
 /** Days per active tag in the period, most first. */
@@ -165,23 +155,14 @@ export const tags = (input: RecapInput): SummaryCard[] => {
 
 /**
  * Tags on many days of the period, one card each with their days on the
- * calendar. Weeks skip tags that already stood out.
+ * calendar.
  */
 export const tagDays = (input: RecapInput): SummaryCard[] => {
   if (!fits(input, "tag-days") || !input.steps.has("tags")) {
     return [];
   }
-  const isWeek = input.period.kind === "week";
-  const min = isWeek ? THRESHOLDS.tagDaysMinWeek : THRESHOLDS.tagDaysMinMonth;
-  const shown = new Set(
-    isWeek
-      ? stoodOut(input).flatMap((card) =>
-          card.type === "stood-out" ? [card.tagId] : []
-        )
-      : []
-  );
   return countTags(input)
-    .filter(({ tagId, dates }) => dates.length >= min && !shown.has(tagId))
+    .filter(({ dates }) => dates.length >= THRESHOLDS.tagDaysMinMonth)
     .slice(0, THRESHOLDS.tagDaysMaxCards)
     .map(({ tagId, dates }) => ({ type: "tag-days", tagId, dates }));
 };

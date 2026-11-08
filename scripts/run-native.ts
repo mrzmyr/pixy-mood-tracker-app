@@ -200,6 +200,10 @@ const main = async () => {
     });
   }
 
+  // Sentry upload fails the build without a token. Only EAS has it.
+  if (!process.env.SENTRY_AUTH_TOKEN) {
+    process.env.SENTRY_DISABLE_AUTO_UPLOAD ??= "true";
+  }
   // `bun ios` builds the development app unless a variant is set.
   process.env.EXPO_PUBLIC_APP_VARIANT ??= "development";
   let variant: string;

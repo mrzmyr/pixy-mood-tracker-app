@@ -1,4 +1,3 @@
-import useColors from "@/hooks/use-colors";
 import type { LogItem } from "@/features/logs";
 import { TagComponent, useTagsState } from "@/features/tags";
 import { t } from "@/lib/translation";
@@ -16,7 +15,6 @@ export const Tags = ({
   item: LogItem;
   onEdit?: () => void;
 }) => {
-  const colors = useColors();
   const { tags } = useTagsState();
 
   const known = item.tags.flatMap(({ id }) => {
@@ -39,15 +37,7 @@ export const Tags = ({
       testID={onEdit ? "log-list-tags-edit" : undefined}
     >
       {known.map((tag) => (
-        <TagComponent
-          key={tag.id}
-          title={tag.title}
-          colorName={tag.color}
-          style={{
-            backgroundColor: colors.entryBackground,
-            borderColor: colors.entryItemBorder,
-          }}
-        />
+        <TagComponent key={tag.id} title={tag.title} colorName={tag.color} />
       ))}
     </ChipWrap>
   );

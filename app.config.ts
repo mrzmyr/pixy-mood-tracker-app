@@ -291,6 +291,21 @@ const appConfig = ({ config }: ConfigContext): ExpoConfig => {
         ...(config.plugins ?? []),
         // Widget extension and app group follow the variant's bundle id, so
         // every variant installs side by side with its own widgets.
+        // Uploads source maps, dSYMs, and Android native symbols at build
+        // time, so Sentry shows file and line for crashes. Needs
+        // SENTRY_AUTH_TOKEN (EAS secret for preview and production).
+        [
+          "@sentry/react-native/expo",
+          {
+            organization: "pixy-9r",
+            project: `pixy-mood-tracker-${getAppVariant()}`,
+            experimental_android: {
+              enableAndroidGradlePlugin: true,
+              uploadNativeSymbols: true,
+              includeNativeSources: true,
+            },
+          },
+        ],
         [
           "expo-widgets",
           {

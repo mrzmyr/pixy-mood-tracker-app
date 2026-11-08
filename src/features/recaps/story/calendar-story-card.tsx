@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { useWeekLocale } from "@/hooks/use-week-locale";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { useSettings } from "@/state/settings";
 import { recapStoryDismissedAction } from "@/state/settings/recap-story-dismissed";
@@ -12,8 +11,7 @@ import { buildMonthStory } from "./deck";
 import { StoryBanner } from "./story-banner";
 
 const Card = ({ month }: { month: DateKey }) => {
-  const weekLocale = useWeekLocale();
-  const period = getPeriod("month", month, weekLocale);
+  const period = getPeriod("month", month);
   const input = useRecapInput(period);
   const { hasActionDone, addActionDone } = useSettings();
   const dismissedAction = recapStoryDismissedAction(period.start);

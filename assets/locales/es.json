@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Registro rápido",
   "notification_recap_body": "Mira lo que destacó.",
   "notification_recap_month_title": "Tu resumen mensual está listo",
-  "notification_recap_week_title": "Tu resumen semanal está listo",
   "notification_recap_year_title": "Tu resumen anual está listo",
   "notification_reminder_body": "Toque aquí para realizar un seguimiento de su estado de ánimo de hoy.",
   "notification_reminder_title": "Sigue tu estado de ánimo",
@@ -841,20 +840,8 @@
     "other": "{{count}} días, tras %{weeks} semanas sin ella"
   },
   "recaps_came_back_title_week": "De vuelta esta semana",
-  "recaps_connected_days": {
-    "one": "1 día conectado",
-    "other": "{{count}} días conectado"
-  },
   "recaps_connected_more": "+%{count} más",
-  "recaps_connected_title": {
-    "one": "Conectaste con {{count}} personas",
-    "other": "Conectaste con {{count}} personas"
-  },
-  "recaps_connected_title_one": "Conectaste con %{name}",
-  "recaps_day_ago_text": "Hace un año: %{date}.",
-  "recaps_day_ago_title": "Un gran día, hace un año",
   "recaps_day_best_title_month": "%{day} fue tu mejor día del mes",
-  "recaps_day_best_title_week": "%{day} fue tu mejor día de la semana",
   "recaps_day_hard_text": "Cada registro cuenta, sea el día que sea.",
   "recaps_day_hard_title": "Gracias por tu registro del %{day}",
   "recaps_day_see": "Ver este día",
@@ -862,15 +849,9 @@
     "one": "1 día",
     "other": "{{count}} días"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Apareció un día en los dos meses anteriores.",
-    "other": "Apareció {{count}} días en los dos meses anteriores."
-  },
-  "recaps_emotion_absent_title": "3 semanas sin sentirte %{emotion}",
   "recaps_emotion_again_text": "Por primera vez desde el %{date}.",
   "recaps_emotion_again_title": "De nuevo %{emotion}",
   "recaps_emotions_back_title_month": "Emociones que volvieron este mes",
-  "recaps_emotions_back_title_week": "Emociones que volvieron esta semana",
   "recaps_emotions_title": "Emociones más usadas",
   "recaps_emotions_year_title": "Las 10 emociones principales",
   "recaps_empty": "Aún no hay tarjetas para este periodo. Aparecerán a medida que registres más días.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Añade una foto a tus registros. Dentro de un año, tu resumen podrá empezar con «Hoy hace un año».",
   "recaps_intro_photos_title": "Guarda una foto del día",
   "recaps_mood_chart_title_month": "Ánimo este mes",
-  "recaps_mood_chart_title_week": "Ánimo esta semana",
   "recaps_mood_count_title": "El {{percent}} % de tus días se sintieron bien",
   "recaps_mood_count_title_mixed": "Tus días según el ánimo",
   "recaps_most_connected_title_month": "Más conectado este mes",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Los resúmenes semanales, mensuales y anuales llegan el último día de cada semana, mes y año, a la hora de tu recordatorio.",
   "recaps_notifications_setting": "Resúmenes",
   "recaps_nudge_not_now": "Ahora no",
-  "recaps_nudge_reminder_action": "Recordármelo a las %{time}",
-  "recaps_nudge_reminder_text": "Los grandes días se quedan en la memoria. Los pequeños días buenos se olvidan a la mañana siguiente. Un registro breve cada noche los guarda.",
-  "recaps_nudge_reminder_title": "Guarda también los días buenos y tranquilos",
-  "recaps_open_settings": "Abrir Ajustes",
   "recaps_people_moments_title_month": "Personas este mes",
-  "recaps_people_moments_title_week": "Personas esta semana",
   "recaps_people_mood_text": "Una pista, no una causa. Una conexión puede sentirse bien, mal o mezclada.",
   "recaps_people_mood_title": "Ánimo en días conectado",
   "recaps_period_month": "Mes",
   "recaps_period_next": "Periodo siguiente",
   "recaps_period_previous": "Periodo anterior",
-  "recaps_period_week": "Semana",
   "recaps_period_year": "Año",
   "recaps_person_moment_back": {
     "one": "De vuelta tras 1 semana",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "%{count} días conectado en %{year}",
   "recaps_person_moment_new": "Primera conexión",
   "recaps_places_title_month": "Lugares este mes",
-  "recaps_places_title_week": "Lugares esta semana",
   "recaps_places_title_year": "Lugares este año",
   "recaps_places_trips": {
     "one": "1 viaje fuera de casa.",
     "other": "%{count} viajes fuera de casa."
   },
-  "recaps_reminder_failed": "Recordatorio no activado. No se pudieron programar las notificaciones. Inténtalo de nuevo en Ajustes > Recordatorio.",
-  "recaps_reminder_set": "Recordatorio a las %{time}",
   "recaps_sleep_chart_title_month": "Sueño este mes",
-  "recaps_sleep_chart_title_week": "Sueño esta semana",
-  "recaps_sleep_rough_text": "%{count} noches difíciles seguidas. Descansa cuando puedas.",
-  "recaps_sleep_rough_title": "Algunas noches difíciles",
-  "recaps_sleep_turnaround_text": "Tras algunas noches difíciles la semana anterior.",
-  "recaps_sleep_turnaround_title": "%{count} buenas noches seguidas",
   "recaps_step_turned_on": "Añadido a tu registro",
-  "recaps_stood_out_text": "Esos días suelen sentirse más ligeros para ti.",
-  "recaps_stood_out_title": {
-    "one": "1 día con %{tag} esta semana",
-    "other": "{{count}} días con %{tag} esta semana"
-  },
   "recaps_story_banner_label_month": "Resumen del mes",
   "recaps_story_banner_title": "Resumen de %{month}",
-  "recaps_story_banner_title_week": "Resumen de la semana",
   "recaps_story_best_day_ask": "¿Listo para ver tu mejor día?",
   "recaps_story_best_day_show": "Mostrar tu mejor día",
+  "recaps_story_best_day_slide": "Desliza para desbloquear",
   "recaps_story_coming_text": {
     "one": "Te espera 1 píxel más. Un día a la vez.",
     "other": "Te esperan {{count}} píxeles más. Un día a la vez."
@@ -983,10 +944,7 @@
     "other": "{{count}} días te diste tiempo para ti. Siéntete orgulloso."
   },
   "recaps_story_cover_note_full": "Cada día de %{month} tiene su píxel. Es un logro de verdad.",
-  "recaps_story_cover_note_full_week": "Cada día de esta semana tiene su píxel. Es un logro de verdad.",
   "recaps_story_cover_pixels_title": "píxeles en %{month}",
-  "recaps_story_cover_pixels_title_week": "Píxeles de esta semana",
-  "recaps_story_cover_title_week": "Tómate un momento.\nEsta fue tu semana.",
   "recaps_story_days": {
     "one": "1 día",
     "other": "{{count}} días"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "Mi órbita",
   "recaps_story_share_shuffle": "Mezclar fotos",
   "recaps_story_share_title": "Mi %{month}",
-  "recaps_story_share_title_week": "Mi semana",
   "recaps_story_sleep_ask": {
     "one": "1 noche fue difícil. ¿Miramos más de cerca?",
     "other": "{{count}} noches fueron difíciles. ¿Miramos más de cerca?"

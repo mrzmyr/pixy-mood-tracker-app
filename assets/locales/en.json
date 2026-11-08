@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Quick check-in",
   "notification_recap_body": "See what stood out.",
   "notification_recap_month_title": "Your monthly recap is here",
-  "notification_recap_week_title": "Your weekly recap is here",
   "notification_recap_year_title": "Your yearly recap is here",
   "notification_reminder_body": "Tap here to track your today’s mood.",
   "notification_reminder_title": "Track your mood",
@@ -841,20 +840,8 @@
     "other": "On {{count}} days, after %{weeks} weeks without"
   },
   "recaps_came_back_title_week": "Back this week",
-  "recaps_connected_days": {
-    "one": "1 day connected",
-    "other": "{{count}} days connected"
-  },
   "recaps_connected_more": "+%{count} more",
-  "recaps_connected_title": {
-    "one": "You connected with 1 person",
-    "other": "You connected with {{count}} people"
-  },
-  "recaps_connected_title_one": "You connected with %{name}",
-  "recaps_day_ago_text": "One year ago: %{date}.",
-  "recaps_day_ago_title": "A great day, a year ago",
   "recaps_day_best_title_month": "%{day} was your best day this month",
-  "recaps_day_best_title_week": "%{day} was your best day this week",
   "recaps_day_hard_text": "Every check-in counts, on every kind of day.",
   "recaps_day_hard_title": "Thanks for checking in on %{day}",
   "recaps_day_see": "See This Day",
@@ -862,15 +849,9 @@
     "one": "1 day",
     "other": "{{count}} days"
   },
-  "recaps_emotion_absent_text": {
-    "one": "It came up once in the two months before.",
-    "other": "It came up on {{count}} days in the two months before."
-  },
-  "recaps_emotion_absent_title": "3 weeks without feeling %{emotion}",
   "recaps_emotion_again_text": "For the first time since %{date}.",
   "recaps_emotion_again_title": "Feeling %{emotion} again",
   "recaps_emotions_back_title_month": "Emotions back this month",
-  "recaps_emotions_back_title_week": "Emotions back this week",
   "recaps_emotions_title": "Most used emotions",
   "recaps_emotions_year_title": "Top 10 emotions",
   "recaps_empty": "No cards for this period yet. They show up as your check-ins add up.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Add a photo to check-ins. A year from now, your recap can open with “One year ago today”.",
   "recaps_intro_photos_title": "Keep a photo of the day",
   "recaps_mood_chart_title_month": "Mood this month",
-  "recaps_mood_chart_title_week": "Mood this week",
   "recaps_mood_count_title": "{{percent}}% of your days felt good",
   "recaps_mood_count_title_mixed": "Your days by mood",
   "recaps_most_connected_title_month": "Most connected this month",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Weekly, monthly, and yearly recaps arrive on the last day of each week, month, and year, at your reminder time.",
   "recaps_notifications_setting": "Recaps",
   "recaps_nudge_not_now": "Not Now",
-  "recaps_nudge_reminder_action": "Remind Me at %{time}",
-  "recaps_nudge_reminder_text": "Big days stay in memory. Small good ones fade by the next morning. A short check-in each evening keeps them.",
-  "recaps_nudge_reminder_title": "Keep the quiet good days, too",
-  "recaps_open_settings": "Open Settings",
   "recaps_people_moments_title_month": "People this month",
-  "recaps_people_moments_title_week": "People this week",
   "recaps_people_mood_text": "A hint, not a cause. A connection can feel good, bad, or mixed.",
   "recaps_people_mood_title": "Mood on connected days",
   "recaps_period_month": "Month",
   "recaps_period_next": "Next Period",
   "recaps_period_previous": "Previous Period",
-  "recaps_period_week": "Week",
   "recaps_period_year": "Year",
   "recaps_person_moment_back": {
     "one": "Back after 1 week",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "%{count} days connected in %{year}",
   "recaps_person_moment_new": "First connection",
   "recaps_places_title_month": "Places this month",
-  "recaps_places_title_week": "Places this week",
   "recaps_places_title_year": "Places this year",
   "recaps_places_trips": {
     "one": "1 trip away from home.",
     "other": "%{count} trips away from home."
   },
-  "recaps_reminder_failed": "Reminder not set. Notifications could not be scheduled. Try again in Settings > Reminder.",
-  "recaps_reminder_set": "Reminder set for %{time}",
   "recaps_sleep_chart_title_month": "Sleep this month",
-  "recaps_sleep_chart_title_week": "Sleep this week",
-  "recaps_sleep_rough_text": "%{count} rough nights in a row. Rest when you can.",
-  "recaps_sleep_rough_title": "A few rough nights",
-  "recaps_sleep_turnaround_text": "After a few rough nights the week before.",
-  "recaps_sleep_turnaround_title": "%{count} good nights in a row",
   "recaps_step_turned_on": "Added to your check-in",
-  "recaps_stood_out_text": "Those days usually feel lighter for you.",
-  "recaps_stood_out_title": {
-    "one": "1 day with %{tag} this week",
-    "other": "{{count}} days with %{tag} this week"
-  },
   "recaps_story_banner_label_month": "Month Recap",
   "recaps_story_banner_title": "%{month} Recap",
-  "recaps_story_banner_title_week": "Week Recap",
   "recaps_story_best_day_ask": "Ready to see your best day?",
   "recaps_story_best_day_show": "Show your best day",
+  "recaps_story_best_day_slide": "Slide to unlock",
   "recaps_story_coming_text": {
     "one": "1 more pixel is waiting for you. One day at a time.",
     "other": "{{count}} more pixels are waiting for you. One day at a time."
@@ -983,10 +944,7 @@
     "other": "{{count}} days you made time for yourself. Be proud of that."
   },
   "recaps_story_cover_note_full": "Every day of %{month} has its pixel. That is a real achievement.",
-  "recaps_story_cover_note_full_week": "Every day this week has its pixel. That is a real achievement.",
   "recaps_story_cover_pixels_title": "Pixels in %{month}",
-  "recaps_story_cover_pixels_title_week": "Pixels This Week",
-  "recaps_story_cover_title_week": "Take a Moment.\nThis Is Your Week.",
   "recaps_story_days": {
     "one": "1 day",
     "other": "{{count}} days"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "My Orbit",
   "recaps_story_share_shuffle": "Shuffle photos",
   "recaps_story_share_title": "My %{month}",
-  "recaps_story_share_title_week": "My Week",
   "recaps_story_sleep_ask": {
     "one": "1 night was rough. Look closer?",
     "other": "{{count}} nights were rough. Look closer?"

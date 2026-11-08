@@ -2,7 +2,6 @@ import noop from "lodash/noop";
 import { useState } from "react";
 import { View } from "react-native";
 import { StoryText } from "./parts";
-import { useWeekLocale } from "@/hooks/use-week-locale";
 import { getPlaygroundPages } from "./playground-pages";
 import type { PlaygroundData, PlaygroundPage } from "./playground-pages";
 import { SlideContent } from "./slides";
@@ -25,12 +24,11 @@ export const RecapStoryPlayground = ({
 }: {
   /** Deck id from `PLAYGROUND_SECTIONS`. */
   deck: string;
-  data: Record<"week" | "month", PlaygroundData>;
+  data: PlaygroundData;
   isDark: boolean;
   onClose: () => void;
 }) => {
-  const weekLocale = useWeekLocale();
-  const pages = getPlaygroundPages(deck, data, isDark, weekLocale);
+  const pages = getPlaygroundPages(deck, data, isDark);
   const [shuffles, setShuffles] = useState(0);
   const { isSharing, share: shareFrame, frame } = useShareFrame();
   const [picks, setPicks] = useState<ReadonlyMap<number, string>>(new Map());

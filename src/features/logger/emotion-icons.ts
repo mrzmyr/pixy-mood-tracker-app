@@ -95,7 +95,6 @@ import MountainIcon from "@hugeicons/core-free-icons/MountainIcon";
 import MusicNote01Icon from "@hugeicons/core-free-icons/MusicNote01Icon";
 import NeutralIcon from "@hugeicons/core-free-icons/NeutralIcon";
 import PartyPopperIcon from "@hugeicons/core-free-icons/PartyPopperIcon";
-import PersonStandingIcon from "@hugeicons/core-free-icons/PersonStandingIcon";
 import Plant02Icon from "@hugeicons/core-free-icons/Plant02Icon";
 import PowerOffIcon from "@hugeicons/core-free-icons/PowerOffIcon";
 import PrisonIcon from "@hugeicons/core-free-icons/PrisonIcon";
@@ -156,10 +155,12 @@ import VomitingIcon from "@hugeicons/core-free-icons/VomitingIcon";
 import WavesIcon from "@hugeicons/core-free-icons/WavesIcon";
 import WeightIcon from "@hugeicons/core-free-icons/WeightIcon";
 import WindIcon from "@hugeicons/core-free-icons/WindIcon";
-import WorkoutRunIcon from "@hugeicons/core-free-icons/WorkoutRunIcon";
 import WorryIcon from "@hugeicons/core-free-icons/WorryIcon";
 import Yoga01Icon from "@hugeicons/core-free-icons/Yoga01Icon";
 import ZapIcon from "@hugeicons/core-free-icons/ZapIcon";
+import Flag02Icon from "@hugeicons/core-free-icons/Flag02Icon";
+import User02Icon from "@hugeicons/core-free-icons/User02Icon";
+import Yoga03Icon from "@hugeicons/core-free-icons/Yoga03Icon";
 
 /** Icon per emotion key. Keys are open strings, so lookups may miss. */
 export type EmotionIcons = Partial<Record<Emotion["key"], IconSvgObject>>;
@@ -209,7 +210,7 @@ export const EMOTION_ICONS: EmotionIcons = {
   comfortable: ArmchairIcon,
   compassionate: HandHeartIcon,
   connected: UsersIcon,
-  content: PersonStandingIcon,
+  content: Yoga03Icon,
   fragile: DentalBrokenToothIcon,
   good: SmileIcon,
   grateful: HandPrayerIcon,
@@ -227,7 +228,7 @@ export const EMOTION_ICONS: EmotionIcons = {
   exhausted: BatteryIcon,
   hopeless: CircleOffIcon,
   insecure: ShieldQuestionMarkIcon,
-  lonely: PersonStandingIcon,
+  lonely: User02Icon,
   meh: NeutralIcon,
   pessimistic: TrendingDownIcon,
   sad: DropletIcon,
@@ -244,7 +245,7 @@ export const EMOTION_ICONS: EmotionIcons = {
   impatient: Timer01Icon,
   brave: ShieldHalfIcon,
   guilty: GavelIcon,
-  motivated: WorkoutRunIcon,
+  motivated: Flag02Icon,
   // Emotions the logger no longer offers. Old entries still show them.
   accomplished: Award01Icon,
   alive: Activity01Icon,

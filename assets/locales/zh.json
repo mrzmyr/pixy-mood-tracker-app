@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "快速打卡",
   "notification_recap_body": "看看有哪些亮点。",
   "notification_recap_month_title": "你的每月回顾来了",
-  "notification_recap_week_title": "你的每周回顾来了",
   "notification_recap_year_title": "你的年度回顾来了",
   "notification_reminder_body": "点击此处跟踪您今天的心情。",
   "notification_reminder_title": "追踪你的心情",
@@ -841,20 +840,8 @@
     "other": "在 {{count}} 天出现，此前 %{weeks} 周没有"
   },
   "recaps_came_back_title_week": "本周回归",
-  "recaps_connected_days": {
-    "one": "联系 1 天",
-    "other": "联系 {{count}} 天"
-  },
   "recaps_connected_more": "另外 %{count} 人",
-  "recaps_connected_title": {
-    "one": "你和 {{count}} 个人有联系",
-    "other": "你和 {{count}} 个人有联系"
-  },
-  "recaps_connected_title_one": "你和 %{name} 有联系",
-  "recaps_day_ago_text": "一年前：%{date}。",
-  "recaps_day_ago_title": "一年前美好的一天",
   "recaps_day_best_title_month": "%{day}是你本月最好的一天",
-  "recaps_day_best_title_week": "%{day}是你本周最好的一天",
   "recaps_day_hard_text": "每一次记录都有意义，无论哪一天。",
   "recaps_day_hard_title": "谢谢你在%{day}记录",
   "recaps_day_see": "查看这一天",
@@ -862,15 +849,9 @@
     "one": "1 天",
     "other": "{{count}} 天"
   },
-  "recaps_emotion_absent_text": {
-    "one": "之前两个月里出现过 1 天。",
-    "other": "之前两个月里出现过 {{count}} 天。"
-  },
-  "recaps_emotion_absent_title": "3 周没有感到%{emotion}",
   "recaps_emotion_again_text": "自 %{date} 以来第一次。",
   "recaps_emotion_again_title": "又感到%{emotion}",
   "recaps_emotions_back_title_month": "本月回归的情绪",
-  "recaps_emotions_back_title_week": "本周回归的情绪",
   "recaps_emotions_title": "最常用的情绪",
   "recaps_emotions_year_title": "前 10 种情绪",
   "recaps_empty": "这个时段还没有卡片。记录越多，卡片越多。",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "在记录中添加照片。一年后，你的回顾可以从“一年前的今天”开始。",
   "recaps_intro_photos_title": "留下一张今天的照片",
   "recaps_mood_chart_title_month": "本月心情",
-  "recaps_mood_chart_title_week": "本周心情",
   "recaps_mood_count_title": "{{percent}}% 的日子感觉不错",
   "recaps_mood_count_title_mixed": "按心情看你的日子",
   "recaps_most_connected_title_month": "本月联系最多",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "每周、每月和每年的回顾会在每周、每月和每年的最后一天，按你的提醒时间送达。",
   "recaps_notifications_setting": "回顾",
   "recaps_nudge_not_now": "以后再说",
-  "recaps_nudge_reminder_action": "在 %{time} 提醒我",
-  "recaps_nudge_reminder_text": "重要的日子会被记住。小小的好日子到第二天早上就淡了。每晚简短记录一下，就能留住它们。",
-  "recaps_nudge_reminder_title": "也留住平静的好日子",
-  "recaps_open_settings": "打开设置",
   "recaps_people_moments_title_month": "本月的人物",
-  "recaps_people_moments_title_week": "本周的人物",
   "recaps_people_mood_text": "只是提示，不是原因。联系可能是好的、沉重的或复杂的。",
   "recaps_people_mood_title": "有联系的日子的心情",
   "recaps_period_month": "月",
   "recaps_period_next": "下一个时段",
   "recaps_period_previous": "上一个时段",
-  "recaps_period_week": "周",
   "recaps_period_year": "年",
   "recaps_person_moment_back": {
     "one": "隔了 1 周再次联系",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "%{year} 年联系了 %{count} 天",
   "recaps_person_moment_new": "首次联系",
   "recaps_places_title_month": "本月的地点",
-  "recaps_places_title_week": "本周的地点",
   "recaps_places_title_year": "今年的地点",
   "recaps_places_trips": {
     "one": "1 次离家出行。",
     "other": "%{count} 次离家出行。"
   },
-  "recaps_reminder_failed": "未设置提醒。无法安排通知。请在“设置 > 提醒”中重试。",
-  "recaps_reminder_set": "已设置 %{time} 提醒",
   "recaps_sleep_chart_title_month": "本月睡眠",
-  "recaps_sleep_chart_title_week": "本周睡眠",
-  "recaps_sleep_rough_text": "连续 %{count} 个难眠之夜。能休息时就好好休息。",
-  "recaps_sleep_rough_title": "几个难眠之夜",
-  "recaps_sleep_turnaround_text": "在前一周几个难眠之夜之后。",
-  "recaps_sleep_turnaround_title": "连续 %{count} 个好眠之夜",
   "recaps_step_turned_on": "已添加到你的记录",
-  "recaps_stood_out_text": "这些日子通常让你感觉更轻松。",
-  "recaps_stood_out_title": {
-    "one": "本周有 %{tag} 的 1 天",
-    "other": "本周有 %{tag} 的 {{count}} 天"
-  },
   "recaps_story_banner_label_month": "月度回顾",
   "recaps_story_banner_title": "%{month}回顾",
-  "recaps_story_banner_title_week": "每周回顾",
   "recaps_story_best_day_ask": "准备好看看你最棒的一天了吗？",
   "recaps_story_best_day_show": "显示你最棒的一天",
+  "recaps_story_best_day_slide": "滑动来解锁",
   "recaps_story_coming_text": {
     "one": "还有 1 个像素在等你。一天一天来。",
     "other": "还有 {{count}} 个像素在等你。一天一天来。"
@@ -983,10 +944,7 @@
     "other": "有 {{count}} 天你为自己留出了时间。为此骄傲吧。"
   },
   "recaps_story_cover_note_full": "%{month}的每一天都有它的像素。这是真正的成就。",
-  "recaps_story_cover_note_full_week": "本周的每一天都有它的像素。这是真正的成就。",
   "recaps_story_cover_pixels_title": "%{month}的像素",
-  "recaps_story_cover_pixels_title_week": "本周的像素",
-  "recaps_story_cover_title_week": "停下来片刻。\n这是你的一周。",
   "recaps_story_days": {
     "one": "1 天",
     "other": "{{count}} 天"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "我的轨道",
   "recaps_story_share_shuffle": "随机换照片",
   "recaps_story_share_title": "我的%{month}",
-  "recaps_story_share_title_week": "我的一周",
   "recaps_story_sleep_ask": {
     "one": "有 1 个夜晚比较难熬。仔细看看？",
     "other": "有 {{count}} 个夜晚比较难熬。仔细看看？"

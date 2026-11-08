@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Snabb incheckning",
   "notification_recap_body": "Se vad som stack ut.",
   "notification_recap_month_title": "Din månadstillbakablick är här",
-  "notification_recap_week_title": "Din veckotillbakablick är här",
   "notification_recap_year_title": "Din årstillbakablick är här",
   "notification_reminder_body": "Tryck här för att spåra ditt humör idag.",
   "notification_reminder_title": "Spåra ditt humör",
@@ -841,20 +840,8 @@
     "other": "{{count}} dagar, efter %{weeks} veckor utan"
   },
   "recaps_came_back_title_week": "Tillbaka den här veckan",
-  "recaps_connected_days": {
-    "one": "1 dag i kontakt",
-    "other": "{{count}} dagar i kontakt"
-  },
   "recaps_connected_more": "+%{count} till",
-  "recaps_connected_title": {
-    "one": "Du hade kontakt med {{count}} personer",
-    "other": "Du hade kontakt med {{count}} personer"
-  },
-  "recaps_connected_title_one": "Du hade kontakt med %{name}",
-  "recaps_day_ago_text": "För ett år sedan: %{date}.",
-  "recaps_day_ago_title": "En fin dag för ett år sedan",
   "recaps_day_best_title_month": "%{day} var din bästa dag den här månaden",
-  "recaps_day_best_title_week": "%{day} var din bästa dag den här veckan",
   "recaps_day_hard_text": "Varje incheckning räknas, oavsett vilken sorts dag.",
   "recaps_day_hard_title": "Tack för din incheckning %{day}",
   "recaps_day_see": "Visa den här dagen",
@@ -862,15 +849,9 @@
     "one": "1 dag",
     "other": "{{count}} dagar"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Det kom upp en dag under de två månaderna innan.",
-    "other": "Det kom upp {{count}} dagar under de två månaderna innan."
-  },
-  "recaps_emotion_absent_title": "3 veckor utan att känna dig %{emotion}",
   "recaps_emotion_again_text": "För första gången sedan %{date}.",
   "recaps_emotion_again_title": "%{emotion} igen",
   "recaps_emotions_back_title_month": "Känslor som kom tillbaka den här månaden",
-  "recaps_emotions_back_title_week": "Känslor som kom tillbaka den här veckan",
   "recaps_emotions_title": "Mest använda känslor",
   "recaps_emotions_year_title": "Topp 10 känslor",
   "recaps_empty": "Inga kort för den här perioden än. De dyker upp när du checkar in fler dagar.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Lägg till ett foto i incheckningar. Om ett år kan din tillbakablick börja med ”I dag för ett år sedan”.",
   "recaps_intro_photos_title": "Spara ett foto från dagen",
   "recaps_mood_chart_title_month": "Humör den här månaden",
-  "recaps_mood_chart_title_week": "Humör den här veckan",
   "recaps_mood_count_title": "{{percent}} % av dina dagar kändes bra",
   "recaps_mood_count_title_mixed": "Dina dagar efter humör",
   "recaps_most_connected_title_month": "Mest kontakt den här månaden",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Veckovisa, månatliga och årliga tillbakablickar kommer den sista dagen i varje vecka, månad och år, vid din påminnelsetid.",
   "recaps_notifications_setting": "Tillbakablickar",
   "recaps_nudge_not_now": "Inte nu",
-  "recaps_nudge_reminder_action": "Påminn mig kl. %{time}",
-  "recaps_nudge_reminder_text": "Stora dagar stannar i minnet. Små bra dagar bleknar till nästa morgon. En kort incheckning varje kväll sparar dem.",
-  "recaps_nudge_reminder_title": "Spara även de lugna bra dagarna",
-  "recaps_open_settings": "Öppna Inställningar",
   "recaps_people_moments_title_month": "Personer den här månaden",
-  "recaps_people_moments_title_week": "Personer den här veckan",
   "recaps_people_mood_text": "En ledtråd, inte en orsak. Kontakt kan kännas bra, tung eller blandad.",
   "recaps_people_mood_title": "Humör dagar i kontakt",
   "recaps_period_month": "Månad",
   "recaps_period_next": "Nästa period",
   "recaps_period_previous": "Föregående period",
-  "recaps_period_week": "Vecka",
   "recaps_period_year": "År",
   "recaps_person_moment_back": {
     "one": "Tillbaka efter 1 vecka",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "%{count} dagar i kontakt under %{year}",
   "recaps_person_moment_new": "Första kontakten",
   "recaps_places_title_month": "Platser den här månaden",
-  "recaps_places_title_week": "Platser den här veckan",
   "recaps_places_title_year": "Platser i år",
   "recaps_places_trips": {
     "one": "1 resa hemifrån.",
     "other": "%{count} resor hemifrån."
   },
-  "recaps_reminder_failed": "Påminnelsen är inte inställd. Notiser kunde inte schemaläggas. Försök igen under Inställningar > Påminnelse.",
-  "recaps_reminder_set": "Påminnelse kl. %{time}",
   "recaps_sleep_chart_title_month": "Sömn den här månaden",
-  "recaps_sleep_chart_title_week": "Sömn den här veckan",
-  "recaps_sleep_rough_text": "%{count} tunga nätter i rad. Vila när du kan.",
-  "recaps_sleep_rough_title": "Några tunga nätter",
-  "recaps_sleep_turnaround_text": "Efter några tunga nätter veckan innan.",
-  "recaps_sleep_turnaround_title": "%{count} bra nätter i rad",
   "recaps_step_turned_on": "Tillagt i din incheckning",
-  "recaps_stood_out_text": "De dagarna känns oftast lättare för dig.",
-  "recaps_stood_out_title": {
-    "one": "1 dag med %{tag} den här veckan",
-    "other": "{{count}} dagar med %{tag} den här veckan"
-  },
   "recaps_story_banner_label_month": "Månadens tillbakablick",
   "recaps_story_banner_title": "Tillbakablick: %{month}",
-  "recaps_story_banner_title_week": "Veckans tillbakablick",
   "recaps_story_best_day_ask": "Redo att se din bästa dag?",
   "recaps_story_best_day_show": "Visa din bästa dag",
+  "recaps_story_best_day_slide": "Skjut för att låsa upp",
   "recaps_story_coming_text": {
     "one": "1 pixel till väntar på dig. En dag i taget.",
     "other": "{{count}} pixlar till väntar på dig. En dag i taget."
@@ -983,10 +944,7 @@
     "other": "{{count}} dagar tog du dig tid för dig själv. Var stolt över det."
   },
   "recaps_story_cover_note_full": "Varje dag i %{month} har sin pixel. Det är en riktig bedrift.",
-  "recaps_story_cover_note_full_week": "Varje dag den här veckan har sin pixel. Det är en riktig bedrift.",
   "recaps_story_cover_pixels_title": "pixlar i %{month}",
-  "recaps_story_cover_pixels_title_week": "Pixlar den här veckan",
-  "recaps_story_cover_title_week": "Ta en stund.\nDet här är din vecka.",
   "recaps_story_days": {
     "one": "1 dag",
     "other": "{{count}} dagar"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "Min omloppsbana",
   "recaps_story_share_shuffle": "Blanda foton",
   "recaps_story_share_title": "Min %{month}",
-  "recaps_story_share_title_week": "Min vecka",
   "recaps_story_sleep_ask": {
     "one": "1 natt var orolig. Titta närmare?",
     "other": "{{count}} nätter var oroliga. Titta närmare?"

@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "क्विक चेक-इन",
   "notification_recap_body": "देखें क्या खास रहा।",
   "notification_recap_month_title": "आपका मासिक रीकैप आ गया है",
-  "notification_recap_week_title": "आपका साप्ताहिक रीकैप आ गया है",
   "notification_recap_year_title": "आपका वार्षिक रीकैप आ गया है",
   "notification_reminder_body": "अपने आज के मूड को ट्रैक करने के लिए यहां टैप करें।",
   "notification_reminder_title": "अपने मूड को ट्रैक करें",
@@ -841,20 +840,8 @@
     "other": "{{count}} दिन, %{weeks} हफ़्तों के अंतराल के बाद"
   },
   "recaps_came_back_title_week": "इस हफ़्ते फिर लौटे",
-  "recaps_connected_days": {
-    "one": "1 दिन जुड़े",
-    "other": "{{count}} दिन जुड़े"
-  },
   "recaps_connected_more": "+%{count} और",
-  "recaps_connected_title": {
-    "one": "आप {{count}} लोगों से जुड़े",
-    "other": "आप {{count}} लोगों से जुड़े"
-  },
-  "recaps_connected_title_one": "आप %{name} से जुड़े",
-  "recaps_day_ago_text": "एक साल पहले: %{date}।",
-  "recaps_day_ago_title": "एक साल पहले का एक शानदार दिन",
   "recaps_day_best_title_month": "%{day} इस महीने का आपका सबसे अच्छा दिन था",
-  "recaps_day_best_title_week": "%{day} इस हफ़्ते का आपका सबसे अच्छा दिन था",
   "recaps_day_hard_text": "हर चेक-इन मायने रखता है, दिन चाहे जैसा भी हो।",
   "recaps_day_hard_title": "%{day} को चेक-इन करने के लिए धन्यवाद",
   "recaps_day_see": "यह दिन देखें",
@@ -862,15 +849,9 @@
     "one": "1 दिन",
     "other": "{{count}} दिन"
   },
-  "recaps_emotion_absent_text": {
-    "one": "पिछले दो महीनों में यह एक दिन आया।",
-    "other": "पिछले दो महीनों में यह {{count}} दिन आया।"
-  },
-  "recaps_emotion_absent_title": "3 हफ़्ते बिना %{emotion} महसूस किए",
   "recaps_emotion_again_text": "%{date} के बाद पहली बार।",
   "recaps_emotion_again_title": "फिर से %{emotion}",
   "recaps_emotions_back_title_month": "इस महीने लौटी भावनाएँ",
-  "recaps_emotions_back_title_week": "इस हफ़्ते लौटी भावनाएँ",
   "recaps_emotions_title": "सबसे ज़्यादा इस्तेमाल की गई भावनाएँ",
   "recaps_emotions_year_title": "शीर्ष 10 भावनाएँ",
   "recaps_empty": "इस अवधि के लिए अभी कोई कार्ड नहीं है। जैसे-जैसे आप ज़्यादा दिन दर्ज करेंगे, ये दिखेंगे।",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "चेक-इन में फ़ोटो जोड़ें। एक साल बाद आपका रीकैप “आज से एक साल पहले” से शुरू हो सकता है।",
   "recaps_intro_photos_title": "दिन की एक फ़ोटो रखें",
   "recaps_mood_chart_title_month": "इस महीने का मूड",
-  "recaps_mood_chart_title_week": "इस हफ़्ते का मूड",
   "recaps_mood_count_title": "आपके {{percent}}% दिन अच्छे रहे",
   "recaps_mood_count_title_mixed": "मूड के अनुसार आपके दिन",
   "recaps_most_connected_title_month": "इस महीने सबसे ज़्यादा जुड़े",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "साप्ताहिक, मासिक और वार्षिक रीकैप हर सप्ताह, महीने और साल के आखिरी दिन, आपके रिमाइंडर समय पर आते हैं।",
   "recaps_notifications_setting": "रीकैप",
   "recaps_nudge_not_now": "अभी नहीं",
-  "recaps_nudge_reminder_action": "%{time} पर याद दिलाएँ",
-  "recaps_nudge_reminder_text": "बड़े दिन याद रहते हैं। छोटे अच्छे दिन अगली सुबह तक धुंधले हो जाते हैं। हर शाम एक छोटा चेक-इन उन्हें सहेज लेता है।",
-  "recaps_nudge_reminder_title": "शांत अच्छे दिनों को भी सहेजें",
-  "recaps_open_settings": "सेटिंग्स खोलें",
   "recaps_people_moments_title_month": "इस महीने के लोग",
-  "recaps_people_moments_title_week": "इस हफ़्ते के लोग",
   "recaps_people_mood_text": "एक संकेत, कारण नहीं। जुड़ाव अच्छा, भारी या मिला-जुला लग सकता है।",
   "recaps_people_mood_title": "जुड़े हुए दिनों का मूड",
   "recaps_period_month": "महीना",
   "recaps_period_next": "अगली अवधि",
   "recaps_period_previous": "पिछली अवधि",
-  "recaps_period_week": "सप्ताह",
   "recaps_period_year": "साल",
   "recaps_person_moment_back": {
     "one": "1 हफ़्ते बाद फिर से",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "%{year} में %{count} दिन जुड़े",
   "recaps_person_moment_new": "पहला जुड़ाव",
   "recaps_places_title_month": "इस महीने की जगहें",
-  "recaps_places_title_week": "इस हफ़्ते की जगहें",
   "recaps_places_title_year": "इस साल की जगहें",
   "recaps_places_trips": {
     "one": "घर से दूर 1 यात्रा।",
     "other": "घर से दूर %{count} यात्राएँ।"
   },
-  "recaps_reminder_failed": "रिमाइंडर सेट नहीं हुआ। सूचनाएँ शेड्यूल नहीं हो सकीं। सेटिंग्स > रिमाइंडर में फिर से कोशिश करें।",
-  "recaps_reminder_set": "रिमाइंडर %{time} पर सेट है",
   "recaps_sleep_chart_title_month": "इस महीने की नींद",
-  "recaps_sleep_chart_title_week": "इस हफ़्ते की नींद",
-  "recaps_sleep_rough_text": "लगातार %{count} मुश्किल रातें। जब हो सके, आराम करें।",
-  "recaps_sleep_rough_title": "कुछ मुश्किल रातें",
-  "recaps_sleep_turnaround_text": "पिछले हफ़्ते कुछ मुश्किल रातों के बाद।",
-  "recaps_sleep_turnaround_title": "लगातार %{count} अच्छी रातें",
   "recaps_step_turned_on": "आपके चेक-इन में जोड़ा गया",
-  "recaps_stood_out_text": "वे दिन आमतौर पर आपको हल्के लगते हैं।",
-  "recaps_stood_out_title": {
-    "one": "इस हफ़्ते %{tag} वाला 1 दिन",
-    "other": "इस हफ़्ते %{tag} वाले {{count}} दिन"
-  },
   "recaps_story_banner_label_month": "महीने का रीकैप",
   "recaps_story_banner_title": "%{month} रीकैप",
-  "recaps_story_banner_title_week": "साप्ताहिक रीकैप",
   "recaps_story_best_day_ask": "क्या आप अपना सबसे अच्छा दिन देखने के लिए तैयार हैं?",
   "recaps_story_best_day_show": "अपना सबसे अच्छा दिन दिखाएं",
+  "recaps_story_best_day_slide": "अनलॉक करने के लिए स्लाइड करें",
   "recaps_story_coming_text": {
     "one": "1 और पिक्सेल आपका इंतज़ार कर रहा है। एक दिन में एक कदम।",
     "other": "{{count}} और पिक्सेल आपका इंतज़ार कर रहे हैं। एक दिन में एक कदम।"
@@ -983,10 +944,7 @@
     "other": "{{count}} दिन आपने अपने लिए समय निकाला। इस पर गर्व करें।"
   },
   "recaps_story_cover_note_full": "%{month} के हर दिन का अपना पिक्सेल है। यह सच में बड़ी बात है।",
-  "recaps_story_cover_note_full_week": "इस हफ़्ते के हर दिन का अपना पिक्सेल है। यह सच में बड़ी बात है।",
   "recaps_story_cover_pixels_title": "%{month} में पिक्सेल",
-  "recaps_story_cover_pixels_title_week": "इस हफ़्ते के पिक्सेल",
-  "recaps_story_cover_title_week": "एक पल रुकिए।\nयह आपका हफ़्ता था।",
   "recaps_story_days": {
     "one": "1 दिन",
     "other": "{{count}} दिन"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "मेरी कक्षा",
   "recaps_story_share_shuffle": "फ़ोटो बदलें",
   "recaps_story_share_title": "मेरा %{month}",
-  "recaps_story_share_title_week": "मेरा हफ़्ता",
   "recaps_story_sleep_ask": {
     "one": "1 रात मुश्किल रही। करीब से देखें?",
     "other": "{{count}} रातें मुश्किल रहीं। करीब से देखें?"

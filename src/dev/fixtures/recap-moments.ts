@@ -55,7 +55,7 @@ const POTSDAM = {
 /** Days before the newest day, per moment it triggers. */
 const SAM = new Set([3, 45, 47, 50, 52, 55]);
 const ROSA = new Set([2]);
-// 24 connected days before the newest week, then day 4: crosses 25.
+// 24 connected days before, then day 4: crosses 25.
 const LENA = new Set([
   4,
   ...Array.from({ length: 24 }, (_, index) => 8 + index * 3),
@@ -64,28 +64,17 @@ const SPORT = new Set([2, 3, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58]);
 const STRESSED = new Set([30, 35, 40, 45, 50, 55]);
 const PROUD = new Set([1, 70]);
 const GRATEFUL = new Set([3, 6]);
-const ROUGH_NIGHTS = new Set([9, 10]);
-const GOOD_NIGHTS = new Set([0, 1, 2]);
 const BEST_DAY = 5;
 // People for "People and mood" in the year recap: 4+ people with 5+
 // connected days.
 const KAI = new Set([20, 25, 30, 35, 40, 45, 50, 55, 60]);
 const MIRA = new Set([15, 22, 29, 36, 43, 50, 57, 64]);
 const LISBON_TRIP = new Set([7, 8]);
-// One year before a day of the newest week: an extremely good day away.
-const YEAR_AGO = 366;
 
 const dayAgo = (ago: number) => {
   const date = new Date(`${NEWEST_DAY}T18:00:00.000Z`);
   date.setUTCDate(date.getUTCDate() - ago);
   return date.toISOString();
-};
-
-const sleepOf = (ago: number): LogItem["sleep"]["quality"] => {
-  if (GOOD_NIGHTS.has(ago)) {
-    return "very_good";
-  }
-  return ROUGH_NIGHTS.has(ago) ? "bad" : "neutral";
 };
 
 // Lena: neutral days early in the fixture, very good days later.
@@ -111,21 +100,6 @@ const placeOf = (ago: number) => {
   return LISBON_TRIP.has(ago) ? LISBON : BERLIN;
 };
 
-const yearAgo: LogItem = {
-  id: "recap-moment-year-ago",
-  date: dayAgo(YEAR_AGO).slice(0, 10),
-  dateTime: dayAgo(YEAR_AGO),
-  createdAt: dayAgo(YEAR_AGO),
-  rating: "extremely_good",
-  message: "",
-  sleep: { quality: "good" },
-  tags: [],
-  people: [{ id: "recap-sam" }],
-  emotions: ["proud", "calm"],
-  photos: [],
-  location: LISBON,
-};
-
 const days: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
   const iso = dayAgo(ago);
   const people = PEOPLE.flatMap((person) =>
@@ -144,7 +118,7 @@ const days: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
     createdAt: iso,
     rating: ratingOf(ago),
     message: "",
-    sleep: { quality: sleepOf(ago) },
+    sleep: { quality: "neutral" },
     tags: [
       { id: "recap-work" },
       ...(SPORT.has(ago) ? [{ id: "recap-sport" }] : []),
@@ -161,21 +135,17 @@ const days: LogItem[] = Array.from({ length: DAYS }, (_, ago) => {
   };
 });
 
-const items = [...days, yearAgo];
-
 /**
- * Data that shows every moment in the week recap: Sam back after 6 weeks,
- * Rosa new, 25 days connected with Lena, Proud again, 3 weeks without Stressed,
- * Sport back, 3 good nights after rough ones, first check-in in Potsdam
- * (needs the location setting on). Summaries: a best day, a year ago in
- * Lisbon with Sam, emotions, people, and a Lisbon trip this month.
- * Patterns: Sport stood out this week; the year recap has what moves your
- * mood and people and mood. All steps and the reminder are on, so no
- * nudges show.
+ * Data that shows every moment in the month recap: Sam back after 6 weeks,
+ * Rosa new, 25 days connected with Lena, Proud again, Sport back, first
+ * check-in in Potsdam (needs the location setting on). Summaries: a best
+ * day, emotions, people, and a Lisbon trip this month. The year recap has
+ * what moves your mood and people and mood. All steps and the reminder are
+ * on, so no nudges show.
  */
 export const withRecapMoments = (data: ImportData): ImportData => ({
   ...data,
-  items,
+  items: days,
   tags: TAGS,
   people: PEOPLE,
   settings: {

@@ -48,3 +48,6 @@ expo-env.d.ts
 
 # Apple artwork: license forbids redistribution. Prebuild downloads it.
 /assets/third-party/
+
+# Storybook static build
+/storybook-static/

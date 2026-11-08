@@ -8,6 +8,7 @@ export const FEATURE_FLAGS = [
   "app-lock-bypass",
   "apple-health",
   "calendar-timeline",
+  "chip-active-ink",
   "development",
   "feature-flag-overrides",
   "menstruation",
@@ -54,6 +55,11 @@ export const FEATURE_FLAG_DETAILS: Record<
   "calendar-timeline": {
     description: "Timeline layout for the calendar",
     location: "Calendar > Filters menu",
+  },
+  "chip-active-ink": {
+    description:
+      "Gray fill and dark text for selected chips, instead of the inverted style",
+    location: "Check-in > Emotions, Tags; Quick check-in",
   },
   development: {
     description: "Development section in production builds",

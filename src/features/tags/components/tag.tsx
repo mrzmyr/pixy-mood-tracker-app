@@ -7,6 +7,7 @@ import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
 import { COMPACT_CHIP } from "@/constants/chip";
 import type { ChipStyle } from "@/constants/chip";
+import { Chip } from "@/components/chip";
 
 const DEFAULT_STYLE = {};
 
@@ -31,10 +32,32 @@ const Tag = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
+
   const colorScheme = useColorScheme();
   const unselectedBorderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
+  if (!compact) {
+    return (
+      <Chip
+        label={title}
+        selected={selected}
+        onPress={onPress}
+        onLongPress={onLongPress}
+        lead={
+          <View
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: RADIUS.full,
+              backgroundColor: colors.tags[colorName]?.dot,
+            }}
+          />
+        }
+        style={style}
+      />
+    );
+  }
   return (
     <Pressable
       style={({ pressed }) => ({

@@ -43,25 +43,23 @@ const useSectionFold = (section: SectionKey) => {
  * One quick check-in section below a hairline divider: a quiet title row
  * and the content. The whole title row folds the section; the state stays
  * on the device for the next quick check-in. Title and chevron are gray so
- * the content leads. A search keeps the section open without a chevron.
+ * the content leads.
  */
 export const QuickCheckInSection = ({
   section,
   title,
-  isSearching,
   contentStyle,
   children,
 }: {
   section: SectionKey;
   title: string;
-  isSearching: boolean;
   /** Overrides the content padding, for content that pads itself. */
   contentStyle?: ViewStyle;
   children: ReactNode;
 }) => {
   const colors = useColors();
   const fold = useSectionFold(section);
-  const isOpen = isSearching || !fold.isCollapsed;
+  const isOpen = !fold.isCollapsed;
   const Chevron = isOpen ? ChevronDown : ChevronRight;
 
   return (
@@ -74,11 +72,10 @@ export const QuickCheckInSection = ({
     >
       <Pressable
         testID={`quick-check-in-section-${section}-toggle`}
-        disabled={isSearching}
         onPress={() => fold.toggle()}
-        accessibilityRole={isSearching ? "header" : "button"}
+        accessibilityRole="button"
         accessibilityLabel={title}
-        accessibilityState={isSearching ? undefined : { expanded: isOpen }}
+        accessibilityState={{ expanded: isOpen }}
         style={({ pressed }) => ({
           flexDirection: "row",
           alignItems: "center",
@@ -95,9 +92,7 @@ export const QuickCheckInSection = ({
         >
           {title}
         </Label>
-        {!isSearching && (
-          <Chevron width={20} height={20} color={colors.textSecondary} />
-        )}
+        <Chevron width={20} height={20} color={colors.textSecondary} />
       </Pressable>
       {isOpen && (
         <View

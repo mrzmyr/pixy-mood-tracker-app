@@ -33,8 +33,6 @@ export interface CaseKit {
 /** One state of a slide: typical data, or an edge like one row or long names. */
 export interface SlideCase {
   name: string;
-  /** Period the slide belongs to: its context and days. */
-  period: "week" | "month";
   build: (kit: CaseKit) => StorySlide;
 }
 
@@ -172,30 +170,19 @@ const trip = (
  * without a case fails the type check.
  */
 export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
-  intro: [
-    { name: "Welcome", period: "week", build: () => ({ type: "intro" }) },
-  ],
   cover: [
     {
       name: "With photos",
-      period: "month",
       build: (kit) => ({ type: "cover", checkIns: 30, photos: kit.photos }),
     },
     {
       name: "No photos",
-      period: "month",
       build: () => ({ type: "cover", checkIns: 30, photos: [] }),
-    },
-    {
-      name: "Week",
-      period: "week",
-      build: (kit) => ({ type: "cover", checkIns: 7, photos: kit.photos }),
     },
   ],
   places: [
     {
       name: "3 trips",
-      period: "month",
       build: (kit) => ({
         type: "places",
         home: "Hamburg",
@@ -210,7 +197,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
     },
     {
       name: "On the move, 6 trips",
-      period: "month",
       build: (kit) => ({
         type: "places",
         home: "Hamburg",
@@ -228,7 +214,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
     },
     {
       name: "1 day, never home",
-      period: "month",
       build: (kit) => ({
         type: "places",
         home: "Hamburg",
@@ -241,14 +226,12 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   "best-day": [
     {
       name: "Locked, then open",
-      period: "month",
       build: (kit) => ({ type: "best-day", date: kit.bestDate }),
     },
   ],
   "positive-tags": [
     {
       name: "3 tags",
-      period: "month",
       build: (kit) => ({
         type: "positive-tags",
         rows: [
@@ -260,7 +243,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
     },
     {
       name: "1 long tag",
-      period: "month",
       build: (kit) => ({
         type: "positive-tags",
         rows: [{ tagId: kit.longTagId, days: 3, delta: 0.5 }],
@@ -270,7 +252,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   "negative-tags": [
     {
       name: "2 tags",
-      period: "month",
       build: (kit) => ({
         type: "negative-tags",
         rows: [
@@ -281,7 +262,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
     },
     {
       name: "1 long tag",
-      period: "month",
       build: (kit) => ({
         type: "negative-tags",
         rows: [{ tagId: kit.longTagId, days: 2, delta: -0.6 }],
@@ -291,7 +271,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   "people-quiz": [
     {
       name: "4 people",
-      period: "month",
       build: (kit) => ({
         type: "people-quiz",
         people: [9, 24, 4, 18].map((days, index) => ({
@@ -304,7 +283,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
     },
     {
       name: "4 people, city",
-      period: "month",
       build: (kit) => ({
         type: "people-quiz",
         people: [9, 24, 4, 18].map((days, index) => ({
@@ -317,7 +295,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
     },
     {
       name: "3 people, long name",
-      period: "month",
       build: (kit) => ({
         type: "people-quiz",
         people: [
@@ -333,7 +310,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   orbit: [
     {
       name: "6 people",
-      period: "month",
       build: (kit) => ({
         type: "orbit",
         people: [24, 18, 9, 4, 3, 2].map((days, index) => ({
@@ -344,7 +320,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
     },
     {
       name: "1 person",
-      period: "month",
       build: (kit) => ({
         type: "orbit",
         people: [{ personId: personAt(kit, 0), days: 12 }],
@@ -354,7 +329,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   "new-people": [
     {
       name: "1 person",
-      period: "month",
       build: (kit) => ({
         type: "new-people",
         people: [{ personId: personAt(kit, 2), firstDate: kit.period.start }],
@@ -362,7 +336,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
     },
     {
       name: "5 people, 1 long name",
-      period: "month",
       build: (kit) => ({
         type: "new-people",
         people: [0, 1, 2, 3, 4].map((index) => ({
@@ -373,7 +346,6 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
     },
     {
       name: "60 people",
-      period: "month",
       build: (kit) => ({
         type: "new-people",
         people: kit.crowdIds.map((personId) => ({
@@ -386,79 +358,66 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   "coming-up": [
     {
       name: "61 days left",
-      period: "month",
       build: () => ({ type: "coming-up", year: 2026, left: 61 }),
     },
     {
       name: "1 day left",
-      period: "month",
       build: () => ({ type: "coming-up", year: 2026, left: 1 }),
     },
   ],
   share: [
     {
       name: "Shuffle photos",
-      period: "month",
       build: (kit) => ({ type: "share", photos: kit.photos }),
     },
     {
       name: "No photos",
-      period: "month",
       build: () => ({ type: "share", photos: [] }),
     },
   ],
   sleep: [
     {
       name: "Asks to look closer",
-      period: "month",
       build: (kit) => sleepCase(kit),
     },
     {
       name: "Nothing to look at",
-      period: "month",
       build: (kit) => sleepCase(kit, "none"),
     },
   ],
   "rough-night": [
     {
       name: "First night",
-      period: "month",
       build: (kit) => roughCase(kit, "typical", 1),
     },
     {
       name: "Repeat marked",
-      period: "month",
       build: (kit) => roughCase(kit, "typical", 3),
     },
     {
       name: "Max load",
-      period: "month",
       build: (kit) => roughCase(kit, "heavy", 2),
     },
     {
       name: "Nothing logged",
-      period: "month",
       build: (kit) => roughCase(kit, "empty", 1),
     },
   ],
   "rough-nights-all": [
     {
       name: "4 nights",
-      period: "month",
       build: (kit) => ({ type: "rough-nights-all", sleep: sleepCase(kit) }),
     },
   ],
   "rough-nights-ask": [
     {
       name: "Tags and people",
-      period: "month",
       build: (kit) => ({ type: "rough-nights-ask", sleep: sleepCase(kit) }),
     },
   ],
   "rough-nights-closing": [
     {
       name: "Closing",
-      period: "month",
       build: () => ({ type: "rough-nights-closing" }),
     },
   ],

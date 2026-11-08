@@ -8,98 +8,71 @@ import type {
   SummaryCard,
 } from "./types";
 
-const WEEK_MONTH: CardMeta["periods"] = ["week", "month"];
-const ALL_PERIODS: CardMeta["periods"] = ["week", "month", "year"];
+const ALL_PERIODS: CardMeta["periods"] = ["month", "year"];
 
 /** Family, modules, signal, and fitting recaps of every card type. */
 export const CARD_TYPES: Record<CardType, CardMeta> = {
-  "nudge-reminder": {
-    family: "nudge",
-    modules: ["mood"],
-    signal: "strong",
-    periods: ["week"],
-  },
   "intro-emotions": {
     family: "nudge",
     modules: ["emotions"],
     signal: "strong",
-    periods: WEEK_MONTH,
+    periods: ["month"],
   },
   "intro-people": {
     family: "nudge",
     modules: ["people"],
     signal: "strong",
-    periods: WEEK_MONTH,
+    periods: ["month"],
   },
   "intro-photos": {
     family: "nudge",
     modules: ["photos"],
     signal: "strong",
-    periods: WEEK_MONTH,
+    periods: ["month"],
   },
   "emotion-again": {
     family: "moment",
     modules: ["emotions"],
     signal: "strong",
-    periods: WEEK_MONTH,
-  },
-  "emotion-absent": {
-    family: "moment",
-    modules: ["emotions"],
-    signal: "medium",
-    periods: ["week"],
+    periods: ["month"],
   },
   // One card for every person back, new, or at a milestone in the period.
   "people-moments": {
     family: "moment",
     modules: ["people"],
     signal: "strong",
-    periods: WEEK_MONTH,
+    periods: ["month"],
   },
   "first-city": {
     family: "moment",
     modules: ["location"],
     signal: "strong",
-    periods: WEEK_MONTH,
+    periods: ["month"],
   },
   "tag-back": {
     family: "moment",
     modules: ["tags"],
     signal: "strong",
-    periods: WEEK_MONTH,
-  },
-  "sleep-turnaround": {
-    family: "moment",
-    modules: ["sleep"],
-    signal: "medium",
-    periods: ["week"],
-  },
-  "sleep-rough": {
-    family: "moment",
-    modules: ["sleep"],
-    signal: "medium",
-    periods: ["week"],
+    periods: ["month"],
   },
   "day-recap": {
     family: "summary",
     modules: ["mood", "photos"],
     signal: "strong",
-    periods: WEEK_MONTH,
+    periods: ["month"],
   },
   "mood-chart": {
     family: "summary",
     modules: ["mood"],
     signal: "strong",
-    periods: WEEK_MONTH,
+    periods: ["month"],
   },
-  // Month only: a week has 7 days, the mood chart shows each one.
   "mood-count": {
     family: "summary",
     modules: ["mood"],
     signal: "strong",
     periods: ["month"],
   },
-  // Month only: week recaps tell the best or hardest day instead.
   "mood-days": {
     family: "summary",
     modules: ["mood"],
@@ -110,7 +83,7 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     family: "summary",
     modules: ["sleep"],
     signal: "strong",
-    periods: WEEK_MONTH,
+    periods: ["month"],
   },
   tags: {
     family: "summary",
@@ -122,7 +95,7 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     family: "summary",
     modules: ["tags"],
     signal: "strong",
-    periods: WEEK_MONTH,
+    periods: ["month"],
   },
   "year-pixels": {
     family: "summary",
@@ -142,14 +115,6 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     signal: "strong",
     periods: ALL_PERIODS,
   },
-  // Week only: longer recaps show the podium instead, so people never
-  // appear twice.
-  connected: {
-    family: "summary",
-    modules: ["people", "emotions"],
-    signal: "strong",
-    periods: ["week"],
-  },
   "most-connected": {
     family: "summary",
     modules: ["people"],
@@ -161,12 +126,6 @@ export const CARD_TYPES: Record<CardType, CardMeta> = {
     modules: ["location"],
     signal: "strong",
     periods: ALL_PERIODS,
-  },
-  "stood-out": {
-    family: "pattern",
-    modules: ["tags", "mood"],
-    signal: "strong",
-    periods: ["week"],
   },
   "what-moves": {
     family: "pattern",

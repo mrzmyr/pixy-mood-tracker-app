@@ -664,7 +664,6 @@
   "notification_quick_check_in_title": "Kurzer Check-in",
   "notification_recap_body": "Sieh, was herausstach.",
   "notification_recap_month_title": "Dein Monatsrückblick ist da",
-  "notification_recap_week_title": "Dein Wochenrückblick ist da",
   "notification_recap_year_title": "Dein Jahresrückblick ist da",
   "notification_reminder_body": "Tippe hier, um deine heutige Stimmung einzutragen.",
   "notification_reminder_title": "Stimmung eintragen",
@@ -841,20 +840,8 @@
     "other": "An {{count}} Tagen, nach %{weeks} Wochen ohne"
   },
   "recaps_came_back_title_week": "Wieder da diese Woche",
-  "recaps_connected_days": {
-    "one": "1 Tag in Kontakt",
-    "other": "{{count}} Tage in Kontakt"
-  },
   "recaps_connected_more": "+%{count} weitere",
-  "recaps_connected_title": {
-    "one": "Du warst mit {{count}} Personen in Kontakt",
-    "other": "Du warst mit {{count}} Personen in Kontakt"
-  },
-  "recaps_connected_title_one": "Du warst in Kontakt mit %{name}",
-  "recaps_day_ago_text": "Vor einem Jahr: %{date}.",
-  "recaps_day_ago_title": "Ein toller Tag, vor einem Jahr",
   "recaps_day_best_title_month": "%{day} war dein bester Tag diesen Monat",
-  "recaps_day_best_title_week": "%{day} war dein bester Tag diese Woche",
   "recaps_day_hard_text": "Jeder Check-in zählt, an jeder Art von Tag.",
   "recaps_day_hard_title": "Danke für deinen Check-in am %{day}",
   "recaps_day_see": "Diesen Tag ansehen",
@@ -862,15 +849,9 @@
     "one": "1 Tag",
     "other": "{{count}} Tage"
   },
-  "recaps_emotion_absent_text": {
-    "one": "Es kam in den zwei Monaten davor an einem Tag vor.",
-    "other": "Es kam in den zwei Monaten davor an {{count}} Tagen vor."
-  },
-  "recaps_emotion_absent_title": "3 Wochen ohne %{emotion}",
   "recaps_emotion_again_text": "Zum ersten Mal seit dem %{date}.",
   "recaps_emotion_again_title": "Wieder %{emotion}",
   "recaps_emotions_back_title_month": "Wieder gefühlt diesen Monat",
-  "recaps_emotions_back_title_week": "Wieder gefühlt diese Woche",
   "recaps_emotions_title": "Meistgenutzte Gefühle",
   "recaps_emotions_year_title": "Top 10 Gefühle",
   "recaps_empty": "Noch keine Karten für diesen Zeitraum. Sie erscheinen, sobald du öfter eincheckst.",
@@ -908,7 +889,6 @@
   "recaps_intro_photos_text": "Füge deinen Check-ins ein Foto hinzu. In einem Jahr kann dein Rückblick mit „Heute vor einem Jahr“ beginnen.",
   "recaps_intro_photos_title": "Behalte ein Foto des Tages",
   "recaps_mood_chart_title_month": "Stimmung diesen Monat",
-  "recaps_mood_chart_title_week": "Stimmung diese Woche",
   "recaps_mood_count_title": "{{percent}} % deiner Tage fühlten sich gut an",
   "recaps_mood_count_title_mixed": "Deine Tage nach Stimmung",
   "recaps_most_connected_title_month": "Am meisten in Kontakt diesen Monat",
@@ -917,18 +897,12 @@
   "recaps_notifications_hint": "Wöchentliche, monatliche und jährliche Rückblicke kommen am letzten Tag jeder Woche, jedes Monats und jedes Jahres, zu deiner Erinnerungszeit.",
   "recaps_notifications_setting": "Rückblicke",
   "recaps_nudge_not_now": "Nicht jetzt",
-  "recaps_nudge_reminder_action": "Um %{time} erinnern",
-  "recaps_nudge_reminder_text": "Große Tage bleiben im Gedächtnis. Kleine gute Tage verblassen bis zum nächsten Morgen. Ein kurzer Check-in am Abend hält sie fest.",
-  "recaps_nudge_reminder_title": "Behalte auch die stillen guten Tage",
-  "recaps_open_settings": "Einstellungen öffnen",
   "recaps_people_moments_title_month": "Menschen diesen Monat",
-  "recaps_people_moments_title_week": "Menschen diese Woche",
   "recaps_people_mood_text": "Ein Hinweis, kein Grund. Kontakt kann sich gut, schwer oder gemischt anfühlen.",
   "recaps_people_mood_title": "Stimmung an Tagen in Kontakt",
   "recaps_period_month": "Monat",
   "recaps_period_next": "Nächster Zeitraum",
   "recaps_period_previous": "Vorheriger Zeitraum",
-  "recaps_period_week": "Woche",
   "recaps_period_year": "Jahr",
   "recaps_person_moment_back": {
     "one": "Zurück nach 1 Woche",
@@ -937,31 +911,18 @@
   "recaps_person_moment_milestone": "%{count} Tage verbunden in %{year}",
   "recaps_person_moment_new": "Erste Verbindung",
   "recaps_places_title_month": "Orte diesen Monat",
-  "recaps_places_title_week": "Orte diese Woche",
   "recaps_places_title_year": "Orte dieses Jahr",
   "recaps_places_trips": {
     "one": "1 Reise weg von zu Hause.",
     "other": "%{count} Reisen weg von zu Hause."
   },
-  "recaps_reminder_failed": "Erinnerung nicht eingestellt. Benachrichtigungen konnten nicht geplant werden. Versuche es erneut unter Einstellungen > Erinnerung.",
-  "recaps_reminder_set": "Erinnerung um %{time} eingestellt",
   "recaps_sleep_chart_title_month": "Schlaf diesen Monat",
-  "recaps_sleep_chart_title_week": "Schlaf diese Woche",
-  "recaps_sleep_rough_text": "%{count} unruhige Nächte in Folge. Ruh dich aus, wenn du kannst.",
-  "recaps_sleep_rough_title": "Ein paar unruhige Nächte",
-  "recaps_sleep_turnaround_text": "Nach ein paar unruhigen Nächten in der Woche davor.",
-  "recaps_sleep_turnaround_title": "%{count} gute Nächte in Folge",
   "recaps_step_turned_on": "Zum Check-in hinzugefügt",
-  "recaps_stood_out_text": "Solche Tage fühlen sich für dich meist leichter an.",
-  "recaps_stood_out_title": {
-    "one": "1 Tag mit %{tag} diese Woche",
-    "other": "{{count}} Tage mit %{tag} diese Woche"
-  },
   "recaps_story_banner_label_month": "Monatsrückblick",
   "recaps_story_banner_title": "%{month}-Rückblick",
-  "recaps_story_banner_title_week": "Wochenrückblick",
   "recaps_story_best_day_ask": "Bereit für deinen besten Tag?",
   "recaps_story_best_day_show": "Deinen besten Tag zeigen",
+  "recaps_story_best_day_slide": "Zum Entsperren schieben",
   "recaps_story_coming_text": {
     "one": "Noch 1 Pixel wartet auf dich. Ein Tag nach dem anderen.",
     "other": "Noch {{count}} Pixel warten auf dich. Ein Tag nach dem anderen."
@@ -983,10 +944,7 @@
     "other": "An {{count}} Tagen hast du dir Zeit für dich genommen. Darauf kannst du stolz sein."
   },
   "recaps_story_cover_note_full": "Jeder Tag im %{month} hat sein Pixel. Das ist eine echte Leistung.",
-  "recaps_story_cover_note_full_week": "Jeder Tag dieser Woche hat sein Pixel. Das ist eine echte Leistung.",
   "recaps_story_cover_pixels_title": "Pixel im %{month}",
-  "recaps_story_cover_pixels_title_week": "Pixel diese Woche",
-  "recaps_story_cover_title_week": "Nimm dir einen Moment.\nDas war deine Woche.",
   "recaps_story_days": {
     "one": "1 Tag",
     "other": "{{count}} Tage"
@@ -1085,7 +1043,6 @@
   "recaps_story_share_heading_orbit": "Mein Orbit",
   "recaps_story_share_shuffle": "Fotos mischen",
   "recaps_story_share_title": "Mein %{month}",
-  "recaps_story_share_title_week": "Meine Woche",
   "recaps_story_sleep_ask": {
     "one": "1 Nacht war unruhig. Genauer hinschauen?",
     "other": "{{count}} Nächte waren unruhig. Genauer hinschauen?"
