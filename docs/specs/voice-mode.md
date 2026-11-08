@@ -35,7 +35,7 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
   - Top right: [`CloseButton`](../../src/components/CloseButton.tsx). Video shows top left; [design rule](../design.md#close-button) wins
   - White background (`menuListItemBackground`), like a sheet
   - Live transcript fills the screen ([`VoiceTranscript`](../../src/features/voice/components/voice-transcript.tsx)). Newest line at the bottom, older lines push up and fade out in the top 96 pt. No scroll: check-in shows the full text
-  - Highlights inline, like Slack mentions: tint color text on 14% tint background. Every mention of a known person, tag, or emotion, plus the first mood trigger ([`findHighlights`](../../src/features/voice/highlights.ts)). Later mood triggers stay plain: only the first sets the rating
+  - Highlights inline, like Slack mentions: tint color, medium weight (500), no background. Every mention of a known person, tag, or emotion, plus the first mood trigger ([`findHighlights`](../../src/features/voice/highlights.ts)). Later mood triggers stay plain: only the first sets the rating
   - People get their avatar before the name ([`PersonAvatar`](../../src/features/people/components/person-avatar.tsx), 22 pt, inline)
   - Reference: prototype 2026-11-08 (options O5 highlights, O8 input pill). Mobbin: Grok, Manus, ChatGPT voice input
   - Bottom: hint "Pixy picks up people, tags, emotions, and your mood." Title only for "Getting Ready…" and "Paused"; listening has none

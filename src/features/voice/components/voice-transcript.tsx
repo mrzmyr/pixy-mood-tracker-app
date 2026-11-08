@@ -23,9 +23,9 @@ const AVATAR_GAP = "\u202F";
 /**
  * Live transcript. Newest line sits at the bottom, older lines push up and
  * dissolve at the top edge. Known people, tags, and emotions, plus the
- * first mood trigger, get a tint like a Slack mention. People also get
- * their avatar before the name. No scrolling: the check-in shows the full
- * text for review.
+ * first mood trigger, show in tint color and medium weight, like a Slack
+ * mention. People also get their avatar before the name. No scrolling: the
+ * check-in shows the full text for review.
  */
 export const VoiceTranscript = ({
   text,
@@ -52,7 +52,7 @@ export const VoiceTranscript = ({
   const fade = chroma(background);
   const mention = {
     color: colors.tint,
-    backgroundColor: chroma(colors.tint).alpha(0.14).css(),
+    fontWeight: "500" as const,
   };
 
   const parts: React.ReactNode[] = [];
