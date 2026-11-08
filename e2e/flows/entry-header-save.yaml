@@ -1,0 +1,25 @@
+appId: ${APP_ID}
+tags: [p0, entry]
+---
+# The header save stores a new entry from a middle slide.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+
+- tapOn: "Add New Entry"
+- assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "logger-header-save"
+- tapOn:
+    id: "mood-good"
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "How did you feel?"
+- tapOn:
+    id: "logger-header-save"
+- runFlow: ../subflows/close-confirmation.yaml
+- assertVisible: "Add another entry for today"

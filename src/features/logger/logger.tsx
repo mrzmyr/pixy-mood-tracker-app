@@ -571,7 +571,7 @@ const LoggerSlides = ({
           carouselRef={_carousel}
           slideCount={content.length}
           slideIndex={slideIndex}
-          onCancel={cancel}
+          actions={{ cancel, save }}
         />
         <View
           onLayout={(event) =>
