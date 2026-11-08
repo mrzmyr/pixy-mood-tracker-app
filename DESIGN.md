@@ -60,6 +60,21 @@ Pixy-specific design decisions that a model cannot read from the code. For every
 - A swap keeps the size. Measure width, height, and padding before and after.
 - A spacing request for one element changes that element only, not a shared component or token.
 
+## Copying a reference
+
+- Measure every element of the reference: spacing, size, corner radius, font family and weight, color, contrast, and line count.
+- Put a table in the PR or prototype with reference value, our value, and match per element.
+- List what you did not measure as unchecked. Never claim a match for an unmeasured part.
+
+## HTML prototypes
+
+- Serve on the LAN (`0.0.0.0`) and give the LAN URL, so the user can open it on a phone or another computer.
+- Open it in the default browser.
+- Put the settings bar at the top and make it sticky.
+- Add a dark mode switch.
+- Use [demo characters](docs/demo-characters/README.md) with real-looking photos and entries.
+- Use a realistic data volume, for example 50 people and 50 tags, not 3.
+
 ## Settings
 
 - Use system settings when possible: notifications, language, appearance.
