@@ -138,7 +138,7 @@
     "@types/lodash": "^4.17.25",
     "@types/node": "^26.6.2",
     "@types/react": "~19.2.10",
-    "agent-device": "0.21.25",
+    "agent-device": "0.21.36",
     "babel-plugin-module-resolver": "^5.0.3",
     "expo-device-hub": "^0.17.3",
     "husky": "^9.1.7",
