@@ -65,6 +65,10 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
   - Production: disabled, or release condition limited to internal testers. Never roll out to users without request
   - Run `switch-project` before each create. The MCP keeps the last active project
 - Never replace or delete existing release conditions or rollout percentages. Add a separate condition group instead
+- Data changes behind a flag are additive and optional: new fields only, never renamed, removed, or retyped fields
+  - Flag on, then off, then the feature deleted: no crash, no data loss, export and import still work
+  - Entries without the new field render as before
+  - Not possible: explain the breaking change and get the user's explicit consent before writing it
 - Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthog-options.ts`](../src/shell/posthog-options.ts))
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
 - Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts

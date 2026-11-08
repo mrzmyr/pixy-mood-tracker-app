@@ -24,6 +24,7 @@
 - User MUST agree to the privacy policy to be able to test features using feature flags
 - Setup, consent gate, and dev overrides: [docs/development.md](docs/development.md#feature-flags)
 - New key in `keys.ts`: create PostHog flag in same task, never ask. Never replace existing release conditions. Rules: [docs/development.md](docs/development.md#feature-flags)
+- Flagged features change data backward compatibly. Not possible: get the user's explicit consent before the change. Rules: [docs/development.md](docs/development.md#feature-flags)
 
 ## PRs
 
