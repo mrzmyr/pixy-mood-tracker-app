@@ -33,11 +33,8 @@ export const HOME_LAYOUT = {
   /** Dotted divider: 2 pt dots every 7 pt. */
   dotSize: 2,
   dotGap: 5,
-  /** Add capsule. */
-  buttonSize: 49,
-  addWidth: 81,
-  /** Add capsule above the tab bar. */
-  buttonBottom: 9,
+  /** Space below the last entry, clear of the add button. */
+  addClearance: 96,
 } as const;
 
 /** Text weight of every Home label, like the reference (SF Pro Medium). */
