@@ -14,7 +14,7 @@ const pick = <T>(items: T[], random: () => number): T | undefined =>
 /**
  * Example sentence from the user's own words: the "good" mood trigger, a
  * random tag, and a random person. Each part only when it exists. Saying it
- * makes the cards appear.
+ * highlights each part.
  */
 export const buildVoiceExample = (
   terms: VoiceTerm[],

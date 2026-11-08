@@ -33,14 +33,13 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
 - Home: round mic button left of the "+" bubble. Same size, tertiary style. Shows only when "+" is in add state and flag `voice-mode` is on
 - Voice screen: modal, route `/logs/voice`
   - Top right: [`CloseButton`](../../src/components/CloseButton.tsx). Video shows top left; [design rule](../design.md#close-button) wins
-  - Top: detected items as cards, in order of first mention. Card shows person avatar, tag color dot, or emotion dot plus label and kind
-  - Cards pop in from small, then drift: slow bob and slight tilt, own direction and delay per card. Reduced motion: fade in, still
-  - No cards yet: empty sky. Waveform alone shows listening
-  - Spoken mood: first card, dot in the user's scale color, trigger word, kind "Mood" ([`VoiceMoodCard`](../../src/features/voice/components/voice-match-card.tsx))
-  - Background: onboarding sky ([`Sky`](../../src/components/sky.tsx)). Clouds drift 8 pt/s, up to 40 pt/s at full voice level. Fade behind the bottom controls keeps text readable. Dark mode: night sky with stars. Reduced motion: still
+  - White background (`menuListItemBackground`), like a sheet
+  - Live transcript fills the screen ([`VoiceTranscript`](../../src/features/voice/components/voice-transcript.tsx)). Newest line at the bottom, older lines push up and fade out in the top 96 pt. No scroll: check-in shows the full text
+  - Highlights inline, like Slack mentions: tint color text on 14% tint background. Every mention of a known person, tag, or emotion, plus the first mood trigger ([`findHighlights`](../../src/features/voice/highlights.ts)). Later mood triggers stay plain: only the first sets the rating
+  - Reference: prototype 2026-11-08 (options O5 highlights, O8 input pill). Mobbin: Grok, Manus, ChatGPT voice input
   - Bottom: hint "Pixy picks up people, tags, emotions, and your mood." Title only for "Getting Ready…" and "Paused"; listening has none
-  - Help button next to the hint opens a sheet ([`VoiceHelpSheet`](../../src/features/voice/components/voice-help-sheet.tsx)): intro, example from the user's own words ("good" trigger, random tag, random person; [`buildVoiceExample`](../../src/features/voice/voice-example.ts)), name rules for people, tags, emotions, first mood wins, all 7 mood trigger words with scale color dots, review before save. Saying the example fills every card in every language
-  - Bottom row: pause/resume button, live waveform, check button (primary)
+  - Help button next to the hint opens a sheet ([`VoiceHelpSheet`](../../src/features/voice/components/voice-help-sheet.tsx)): intro, example from the user's own words ("good" trigger, random tag, random person; [`buildVoiceExample`](../../src/features/voice/voice-example.ts)), name rules for people, tags, emotions, first mood wins, all 7 mood trigger words with scale color dots, review before save. Saying the example highlights every item in every language
+  - Bottom: one gray capsule ([`VoiceInputPill`](../../src/features/voice/components/voice-input-pill.tsx)): pause/resume button, waveform scrolling in from the right (silence as dots), listening time, black check button
 - Close with transcript asks to discard ([`useDiscardGuard`](../../src/hooks/useDiscardGuard.ts))
 - Native module missing (web, Jest, old dev client): screen shows the failed state, never throws on import ([`speech-module.ts`](../../src/features/voice/speech-module.ts))
 
@@ -72,7 +71,7 @@ Calendar mic button
 
 File: `src/features/voice/match-transcript.ts`. Pure function, unit tested.
 
-- Normalize both sides: lowercase, strip diacritics, collapse punctuation to spaces
+- Normalize both sides: lowercase, strip diacritics, collapse punctuation to spaces. Per character, so each match maps back to its place in the transcript for highlights
 - Whole word match, multi word terms allowed ("left out"). Scripts without spaces (zh, ja, th): substring match
 - Longest term wins on overlap
 - People also match by first or last word of the name ("Anna" or "Schmidt" for Anna Schmidt). Card shows full name
