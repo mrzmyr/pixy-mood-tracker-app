@@ -27,7 +27,7 @@ const TagCategoryPicker = ({
   const { categories } = useTagsState();
 
   return (
-    <View style={{ marginTop: 24 }}>
+    <View>
       <Label
         size={13}
         strong

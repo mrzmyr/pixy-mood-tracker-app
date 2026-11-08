@@ -4,6 +4,7 @@ import Check from "lucide-react-native/icons/check";
 import MenuList from "@/components/menu-list";
 import { Label } from "@/components/typography";
 import { TAG_COLOR_NAMES } from "@/constants/config";
+import { SPACE } from "@/constants/space";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t, tDynamic } from "@/lib/translation";
@@ -139,7 +140,8 @@ export const ColorPicker = ({
     gridWidth > 0 ? gridWidth / columns : SWATCH_TARGET_SIZE + GAP;
 
   return (
-    <View>
+    // Section gap to the category picker below.
+    <View style={{ marginBottom: SPACE.xxl }}>
       <Label
         size={13}
         strong

@@ -1158,6 +1158,57 @@ const titleCaseLabels = {
   },
 };
 
+/**
+ * Form screens with `RouteModalHeader` sit on the grouped page gray, the
+ * header's color. `logBackground` is white: rows (`menuListItemBackground`)
+ * vanish on it and the header stands out (DESIGN.md Color, Gray).
+ */
+const modalPageBackground = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Require the grouped page color on screens with RouteModalHeader",
+    },
+    messages: {
+      logBackground:
+        "Screen has `RouteModalHeader`: use `colors.background` for the page. `logBackground` is white, so rows vanish and the header color differs.",
+    },
+    schema: [],
+  },
+  create(context) {
+    let hasModalHeader = false;
+    const uses = [];
+    return {
+      JSXOpeningElement(node) {
+        if (
+          node.name.type === "JSXIdentifier" &&
+          node.name.name === "RouteModalHeader"
+        ) {
+          hasModalHeader = true;
+        }
+      },
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.property.type === "Identifier" &&
+          node.property.name === "logBackground"
+        ) {
+          uses.push(node);
+        }
+      },
+      "Program:exit"() {
+        if (!hasModalHeader) {
+          return;
+        }
+        for (const node of uses) {
+          context.report({ messageId: "logBackground", node });
+        }
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
@@ -1171,6 +1222,7 @@ module.exports = {
     "sorted-string-arrays": sortedStringArrays,
     "kebab-case-folders": kebabCaseFolders,
     "modal-route-shows-header": modalRouteShowsHeader,
+    "modal-page-background": modalPageBackground,
     "component-scope": componentScope,
     "button-label-children": buttonLabelChildren,
     "sheet-keyboard-layout": sheetKeyboardLayout,

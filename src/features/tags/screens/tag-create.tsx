@@ -117,7 +117,7 @@ export const TagCreate = () => {
       style={{
         flex: 1,
         justifyContent: "flex-start",
-        backgroundColor: colors.logBackground,
+        backgroundColor: colors.background,
       }}
     >
       <RouteModalHeader
