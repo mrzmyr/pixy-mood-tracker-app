@@ -9,6 +9,7 @@ import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
 import { QuickCheckInNotificationSync } from "@/features/quickcheckin";
 import { WidgetSync } from "@/features/widget";
 import { LoggerRecoveryPrompt } from "@/features/logger";
+import { CalendarScreenReaderTitle } from "@/features/calendar";
 import { HAS_FLOATING_HEADER } from "@/constants/floating-header";
 import { getModalRouteOptions } from "@/components/modal-route-options";
 
@@ -127,6 +128,44 @@ const getDefaultOptions = (textColor: string, backgroundColor: string) => ({
   headerShadowVisible: Platform.OS !== "web",
 });
 
+/**
+ * Calendar page options. Title stays the iOS back button label; the header
+ * shows none but exposes the screen name to screen readers. Onboarding hands
+ * off to the calendar with a cross-fade.
+ */
+const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
+  title: t("calendar"),
+  animation: "fade" as const,
+  headerTitle: CalendarScreenReaderTitle,
+  headerTintColor: textColor,
+  headerShadowVisible: false,
+  ...(HAS_FLOATING_HEADER
+    ? {
+        headerTransparent: true,
+        scrollEdgeEffects: { top: "soft" as const },
+      }
+    : { headerStyle: { backgroundColor } }),
+});
+
+/**
+ * Home page options (flag `home-week`): native bar without title, like
+ * Calendar. The screen sets the bar items (`Stack.Toolbar`). Calendar and
+ * Home swap with a cross-fade.
+ */
+const getHomeOptions = (textColor: string, backgroundColor: string) => ({
+  title: t("today"),
+  animation: "fade" as const,
+  headerTitle: "",
+  headerTintColor: textColor,
+  headerShadowVisible: false,
+  ...(HAS_FLOATING_HEADER
+    ? {
+        headerTransparent: true,
+        scrollEdgeEffects: { top: "soft" as const },
+      }
+    : { headerStyle: { backgroundColor } }),
+});
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
@@ -172,14 +211,12 @@ const AppLayout = () => {
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen
-            name="(tabs)"
-            // Onboarding hands off to the calendar with a cross-fade. The
-            // title is the back button label screen readers announce.
-            options={{
-              headerShown: false,
-              animation: "fade",
-              title: t("back"),
-            }}
+            name="home"
+            options={getHomeOptions(colors.text, colors.calendarBackground)}
+          />
+          <Stack.Screen
+            name="calendar"
+            options={getCalendarOptions(colors.text, colors.calendarBackground)}
           />
           <Stack.Screen
             name="statistics/index"
