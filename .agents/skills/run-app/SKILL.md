@@ -8,16 +8,15 @@ description: Build, install, and run the app on a device. Use when asked to run 
 Run in order. Relay each `Step N` line. Do not pick variants; the CLI owns them.
 
 1. `bun devices list`. Copy one value of column `OPTION`: `--platform=<ios|android>` for simulator or emulator, `--target=<target>` for a phone. Use it as `<device>` below.
-   Phone: `bun devices reserve <device> --goal="<what you do>"` first, so other agents cannot take it. Pick another phone on `device_reserved`.
+   Phone: needs `SIMLOCK_URL` and `SIMLOCK_TOKEN`. The first phone command leases it from simlock; other agents wait until `bun app close`.
 2. `bun app install <device>`
 3. `bun app seed <device> --fixture=<id>` (ids: `bun app seed --help`)
 4. `bun app open <device>`
-5. Use the app: `bun app drive <device> -- <agent-device args>`. Commands: `bunx agent-device help workflow`. Never call `bunx agent-device` directly: it skips reservations and picks its own session.
-6. `bun app close <device>`
-7. Phone: `bun devices release <device>`
+5. Use the app: `bun app drive <device> -- <agent-device args>`. Commands: `bunx agent-device help workflow`. Never call `bunx agent-device` directly: it picks its own session and cannot reach a simlock phone.
+6. `bun app close <device>`. Phone: also ends the simlock lease.
 
-e2e: `bun e2e run <device> [--paths=<path,...>]`. One device per command. Start one command per phone for parallel runs.
-Help and errors: `bun <noun> <command> --help`. devicectl hangs or "Device is busy": `bun devices doctor`. Limits on phones: [development.md](../../../docs/development.md#phones).
+e2e: `bun e2e run --platform=<ios|android> [--paths=<path,...>]`. Phones cannot run flows yet.
+Help and errors: `bun <noun> <command> --help`. Limits on phones: [development.md](../../../docs/development.md#phones).
 
 # Waiting
 

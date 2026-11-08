@@ -135,29 +135,53 @@ interface AgentDeviceResult<T> {
   };
 }
 
-// agent-device keeps one default session per checkout and platform. Simulator
-// and phones of one platform would share it, so each phone gets its own.
-let phoneSession: string | null = null;
+/** Proxy session of the leased phone. `env` points agent-device at simlock. */
+interface PhoneSession {
+  session: string;
+  id: string;
+  env: Record<string, string>;
+}
 
-/** Run later device commands in a session named after the phone target. */
-const setPhoneSession = (target: string) => {
-  phoneSession = target;
+// Phones sit on a simlock fleet. simlock's agent-device proxy picks the
+// device and refuses --udid and --serial, so calls that select the leased
+// phone go through its proxy session instead. Other calls stay local.
+let phoneSession: PhoneSession | null = null;
+
+/** Route later device commands for this phone through its proxy session. */
+const setPhoneSession = (session: PhoneSession) => {
+  phoneSession = session;
 };
 
-const getSessionArgs = (args: string[]) =>
-  phoneSession && (args.includes("--udid") || args.includes("--serial"))
-    ? ["--session", phoneSession]
-    : [];
+const toPhoneCall = (args: string[]) => {
+  const index = args.findIndex(
+    (arg, position) =>
+      (arg === "--udid" || arg === "--serial") &&
+      args[position + 1] === phoneSession?.id
+  );
+  if (!phoneSession || index === -1) {
+    return { args, env: getAgentDeviceEnv() };
+  }
+  return {
+    args: [
+      ...args.slice(0, index),
+      ...args.slice(index + 2),
+      "--session",
+      phoneSession.session,
+    ],
+    env: { ...getAgentDeviceEnv(), ...phoneSession.env },
+  };
+};
 
 const agentDevice = async <T>(
   args: string[],
   options: { timeoutMs?: number } = {}
 ): Promise<T> => {
   await stopStaleDaemon();
-  const command = [AGENT_DEVICE, ...args, ...getSessionArgs(args), "--json"];
+  const call = toPhoneCall(args);
+  const command = [AGENT_DEVICE, ...call.args, "--json"];
   const child = Bun.spawn(command, {
     cwd: REPO_ROOT,
-    env: getAgentDeviceEnv(),
+    env: call.env,
     stderr: "pipe",
     stdout: "pipe",
   });

@@ -4,12 +4,13 @@ Usage: bun app drive (--platform=<ios|android> | --target=<target>) -- <agent-de
 
 Options:
   --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
-  --target=<target>         One phone. Copy the value from `bun devices list`.
+  --target=<target>         One simlock phone. Copy the value from `bun devices list`.
 
 Behavior:
   Runs agent-device with the args after `--` unchanged, no shell.
-  Adds --platform, --udid or --serial, and --session for this device.
-  Adds signing and Android SDK environment. Phones: fails on device_reserved.
+  Adds --platform and --udid or --serial for this device.
+  Phones: leases the phone from simlock and adds its proxy --session instead.
+  Adds signing and Android SDK environment.
   Does not create or boot a simulator or emulator. Run `bun app open` first.
 
 Output:
@@ -20,12 +21,12 @@ Examples:
   bun app drive --target=pixel-8-09yw -- press 'label="Start"' --settle
 
 Errors:
-  missing_option       Neither --platform nor --target passed
-  conflicting_options  Both --platform and --target passed, or args after `--` select a device
-  invalid_platform     --platform is not ios or android
-  missing_argument     No agent-device command after `--`
-  target_not_found     No connected phone has this target
-  device_reserved      Another checkout reserved this phone
-  device_not_running   Simulator not created or emulator not booted
+  missing_option          Neither --platform nor --target passed
+  conflicting_options     Both --platform and --target passed, or args after `--` select a device
+  invalid_platform        --platform is not ios or android
+  missing_argument        No agent-device command after `--`
+  target_not_found        No simlock phone has this target
+  simlock_not_configured  SIMLOCK_URL or SIMLOCK_TOKEN not set
+  device_not_running      Simulator not created or emulator not booted
 
 Exit codes: 0 ok, 1 failure, 2 usage error

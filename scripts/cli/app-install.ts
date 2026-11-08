@@ -8,7 +8,7 @@ import type { BuildVariant } from "./app-build.ts";
 import type { Device } from "./device.ts";
 import { assertHostReady } from "./disk.ts";
 import { resolveDevice } from "./device.ts";
-import { preflightPhone, installPhoneApp } from "./phone.ts";
+import { installPhoneApp, leasePhone } from "./phone.ts";
 import { setResultPath, step } from "./run-log.ts";
 import { CliError, note } from "./shared.ts";
 
@@ -67,8 +67,8 @@ export const installBuild = async (device: Device) => {
   step("Install");
   setResultPath(file);
   if (device.kind === "phone") {
-    preflightPhone(device);
-    installPhoneApp(device, file);
+    await leasePhone(device);
+    await installPhoneApp(device, file);
     note(`Installed on ${device.key}`);
     return;
   }
