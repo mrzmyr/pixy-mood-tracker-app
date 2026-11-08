@@ -32,6 +32,7 @@
 - When multiple things have beend worked on in one go you want to create PR, suggest the user to create multiple PRs by topics for easier reviews; If you are sure, just go ahead and create multiple PRs even when the user said "create PR"
 - Visual change: screenshot required, video too when motion
 - Screenshots and videos: upload to PR body with [pr-proof skill](.agents/skills/pr-proof/SKILL.md). Proof files stay outside git
+- **Data schema change → `## Data Schema Changes` section in PR body, always.** Covers stored data (AsyncStorage stores, files), backup export and import (`src/features/datagate/`), and analytics events (`events.ts`). Show each change as a `diff` of the type or schema. State what old data and older app versions do with it. Start the section with `⚠️ Needs human review`. A human must approve it before merge; an agent never merges such a PR.
 - Prefer small unstacked PRs. If you stack, point the child at `main` once the parent merges.
 - **Done = green CI.** Never report a PR done, ready, or mergeable while a check in `gh pr checks <n>` fails or is pending. Never merge a red PR.
   - Before push: run `bun run test:ci` (full suite), not only the changed feature.
