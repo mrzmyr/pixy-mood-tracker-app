@@ -105,6 +105,8 @@ export const pixySchema = z.strictObject({
         title: z.string(),
         color: z.string().refine((color) => TAG_COLOR_NAMES.includes(color)),
         categoryId: z.string().optional(),
+        /** Tag icon key (flag `tag-icons`). Older apps ignore it. */
+        icon: z.string().optional(),
       })
     )
     .optional(),

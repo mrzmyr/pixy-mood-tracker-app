@@ -1,9 +1,11 @@
 import { useRef } from "react";
+import type { ReactNode } from "react";
 import { Pressable, TextInput, View } from "react-native";
 import { FieldError } from "@/components/field-error";
 import MenuList from "@/components/menu-list";
 import { Label, getInputTextStyle } from "@/components/typography";
 import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/config";
+import { SPACE } from "@/constants/space";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { isValidTagTitle, shouldShowCounter } from "../tag-name";
@@ -11,7 +13,9 @@ import { isValidTagTitle, shouldShowCounter } from "../tag-name";
 /**
  * Tag or tag category name input with a visible label, an `n/MAX` counter near the limit, and
  * an inline error. Tapping the label focuses the input. The input sits in a
- * {@link MenuList} so it matches the other form sections.
+ * {@link MenuList} so it matches the other form sections. `leading` sits
+ * before the input, inset {@link SPACE.md} from the row edge, like the tag
+ * icon button.
  */
 const TagNameField = ({
   value,
@@ -21,6 +25,7 @@ const TagNameField = ({
   testID = "tag-name",
   autoFocus = false,
   onSubmit,
+  leading,
 }: {
   value: string;
   placeholder?: string;
@@ -31,6 +36,8 @@ const TagNameField = ({
   onSubmit?: () => void;
   /** Show the length error under the field. */
   showError: boolean;
+  /** Element before the input, like the tag icon button. */
+  leading?: ReactNode;
 }) => {
   const colors = useColors();
   const inputRef = useRef<TextInput>(null);
@@ -56,29 +63,44 @@ const TagNameField = ({
         </Label>
       </Pressable>
       <MenuList>
-        <TextInput
-          ref={inputRef}
-          accessibilityLabel={t("tags_name_label")}
-          accessibilityLabelledBy="tag-name-label"
-          testID={testID}
-          autoFocus={autoFocus}
-          autoCorrect={false}
-          style={{
-            ...getInputTextStyle(16),
-            color: colors.textInputText,
-            width: "100%",
-            padding: 16,
-          }}
-          placeholder={placeholder}
-          placeholderTextColor={colors.textInputPlaceholder}
-          maxLength={MAX_TAG_LENGTH}
-          value={value}
-          returnKeyType="done"
-          // Keep the keyboard up so a too-short name can be fixed right away.
-          submitBehavior="submit"
-          onSubmitEditing={onSubmit}
-          onChangeText={onChange}
-        />
+        <View
+          style={
+            leading
+              ? {
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: SPACE.md,
+                  padding: SPACE.md,
+                }
+              : undefined
+          }
+        >
+          {leading}
+          <TextInput
+            ref={inputRef}
+            accessibilityLabel={t("tags_name_label")}
+            accessibilityLabelledBy="tag-name-label"
+            testID={testID}
+            autoFocus={autoFocus}
+            autoCorrect={false}
+            style={{
+              ...getInputTextStyle(16),
+              color: colors.textInputText,
+              ...(leading
+                ? { flex: 1, paddingVertical: SPACE.md, paddingRight: SPACE.xs }
+                : { width: "100%", padding: 16 }),
+            }}
+            placeholder={placeholder}
+            placeholderTextColor={colors.textInputPlaceholder}
+            maxLength={MAX_TAG_LENGTH}
+            value={value}
+            returnKeyType="done"
+            // Keep the keyboard up so a too-short name can be fixed right away.
+            submitBehavior="submit"
+            onSubmitEditing={onSubmit}
+            onChangeText={onChange}
+          />
+        </View>
       </MenuList>
       <View
         accessibilityLiveRegion="polite"

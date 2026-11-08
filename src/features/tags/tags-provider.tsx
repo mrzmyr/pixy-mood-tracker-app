@@ -34,6 +34,11 @@ export interface Tag {
   isArchived?: boolean;
   /** {@link TagCategory} id. Missing on data from before tag categories; read as General. */
   categoryId?: TagCategory["id"];
+  /**
+   * Key in `TAG_ICONS`. Missing on data from before tag icons and on tags
+   * without an own icon. Unknown keys draw the default icon.
+   */
+  icon?: string;
 }
 
 /**
