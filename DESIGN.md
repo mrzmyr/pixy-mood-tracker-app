@@ -68,7 +68,14 @@ Pixy-specific design decisions that a model cannot read from the code. For every
 
 ## HTML prototypes
 
-- Serve on the LAN (`0.0.0.0`) and give the LAN URL, so the user can open it on a phone or another computer.
+- Share it over Tailscale, so it opens on the LAN and remotely on every tailnet device:
+  - Run a static server on `127.0.0.1:<port>`.
+  - Run `tailscale serve --bg --https=<port> http://127.0.0.1:<port>` and give the `https://<host>.ts.net:<port>` URL. `tailscale status --json` shows the host under `Self.DNSName`.
+  - macOS CLI: `/Applications/Tailscale.app/Contents/MacOS/Tailscale`. The App Store build can't serve a folder directly, so proxy the local server.
+  - The first request waits for the TLS certificate.
+  - Never `tailscale funnel`: it makes the prototype public.
+  - Once reviewed: `tailscale serve --https=<port> off`.
+  - No Tailscale: serve on `0.0.0.0` and give the LAN URL.
 - Open it in the default browser.
 - Put the settings bar at the top and make it sticky.
 - Add a dark mode switch.
