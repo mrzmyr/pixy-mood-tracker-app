@@ -57,7 +57,7 @@ const settle = async (driver: Driver, file: string) => {
     "settle_timeout",
     "Screen kept changing",
     "30 screenshots 300 ms apart all differed. An animation or timer runs.",
-    "Stop the motion in capture builds (src/shell/sitemap-capture.tsx) or pick a still state."
+    "Gate the loop on `useReducedMotion()`: capture turns iOS Reduce Motion on. Or pick a still state."
   );
 };
 
@@ -147,7 +147,8 @@ export const attempt = async (
     );
   }
   const route = state.route ?? screen.route;
-  const [pathname] = route.split("?");
+  // The probe reports the decoded pathname.
+  const pathname = decodeURIComponent(route.split("?")[0] ?? route);
   if (flagged.probes.route !== pathname) {
     driver.openPath(route);
     const routed = await driver.pollProbes(

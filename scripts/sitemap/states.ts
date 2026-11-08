@@ -202,7 +202,7 @@ export const SCREENS: ScreenSpec[] = [
         id: "year",
         title: "March 2026",
         fixture: "year",
-        wait: 'text="Mood Count"',
+        wait: 'text="Month Report"',
       },
     ],
   },
@@ -213,7 +213,12 @@ export const SCREENS: ScreenSpec[] = [
     parent: "statistics",
     hiddenBy: ["recaps"],
     states: [
-      { id: "year", title: "2026", fixture: "year", wait: 'text="Mood Count"' },
+      {
+        id: "year",
+        title: "2026",
+        fixture: "year",
+        wait: 'text="Year Report"',
+      },
     ],
   },
   {
@@ -512,6 +517,7 @@ export const SCREENS: ScreenSpec[] = [
         id: "year",
         title: "Privacy",
         fixture: "year",
+        steps: [{ scroll: "down", until: 'id="behavioral-data-enabled"' }],
         wait: 'id="behavioral-data-enabled"',
       },
     ],

@@ -393,12 +393,26 @@ const attribute = async (
     }
   };
   await search(candidates, nodes);
-  return nodes.map((node) => ({
-    id: node.id,
-    label: node.label,
-    rect: node.rect,
-    flags: found.get(node.index) ?? candidates,
-  }));
+  // Verify: each element must appear with exactly its flags on. Elements
+  // that only moved into view, like calendar days after a layout change,
+  // fail here and are dropped instead of guessed.
+  const verified: FlaggedRegion[] = [];
+  for (const node of nodes) {
+    const flags = found.get(node.index) ?? candidates;
+    // oxlint-disable-next-line no-await-in-loop -- one simulator; cached when bisection captured the set
+    const check = await captureOne(context, screen, state, {
+      kind: "set",
+      flags,
+    });
+    if (isAdded(check.tree, node)) {
+      verified.push({ id: node.id, label: node.label, rect: node.rect, flags });
+    } else {
+      process.stdout.write(
+        `dropped  ${stateKey(screen, state)} "${node.label || node.id}": not added by ${flags.join("+")} alone\n`
+      );
+    }
+  }
+  return verified;
 };
 
 const selectScreens = (only: string | undefined) => {

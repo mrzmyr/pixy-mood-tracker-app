@@ -83,6 +83,18 @@ export const createDriver = (device: Device, executable: string) => {
       "--operatorName",
       statusBar.operatorName,
     ]);
+    // iOS Reduce Motion: sky, Pixy flight, and other `useReducedMotion`
+    // loops stand still. Read at app launch, and capture relaunches per state.
+    simctl([
+      "spawn",
+      device.id,
+      "defaults",
+      "write",
+      "com.apple.Accessibility",
+      "ReduceMotionEnabled",
+      "-bool",
+      "true",
+    ]);
     // Location off: no passive place, no reverse geocoding.
     trySimctl(["privacy", device.id, "revoke", "location", PREVIEW.appId]);
     approveIosScheme(device.id, PREVIEW);

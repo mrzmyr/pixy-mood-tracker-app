@@ -149,6 +149,17 @@ bun app install --platform=ios
 bun app open --target=pixel-8-09yw
 ```
 
+### Sitemap
+
+- `bun sitemap capture|build|deploy`: screenshot of every screen and state in [`states.ts`](../scripts/sitemap/states.ts), flags off and on, as a static site on Vercel. `--help` lists options, output lines, and errors.
+- Source is `origin/main` only. Capture fails on another HEAD or a dirty tree. `--ref=head` is for capture logic work and never deploys.
+- Capture app: cached iOS Release shell plus `expo export` of the preview JS with `EXPO_PUBLIC_SITEMAP_CAPTURE=1`. No Metro, no LogBox, no network, no telemetry, no keyboard, reduced motion ([`sitemap-capture.tsx`](../src/shell/sitemap-capture.tsx)). Clock starts at 2026-03-18 09:41 Europe/Berlin on every launch ([polyfill](../scripts/sitemap/capture-polyfill.js)).
+- Device profile is part of every input hash ([`profile.ts`](../scripts/sitemap/profile.ts)). Other runtime, other pixels: preflight fails.
+- New screen: add it to `states.ts`. Wait for a testID; tap testIDs; label only for native header items. `bun run test:cli` checks ids, routes, fixtures, and strings.
+- Flagged UI: elements in the flags-on tree that the flags-off tree lacks. Capture finds the flag by turning halves of the candidate flags on. `attribute` narrows candidates.
+- Equal input hash reuses the cached PNG. `--verify=<n>` captures cached states again: a new PNG fails with `nondeterministic`. Never delete a cache entry to hide it.
+- Deploy needs `SITEMAP_VERCEL_SCOPE`. Every deployment is immutable and behind Vercel Authentication. Production moves the project domain (`latest`). CI: [`sitemap.yml`](../.github/workflows/sitemap.yml).
+
 ### Phones
 
 - Phones sit on a [simlock](https://github.com/callstackincubator/simlock) fleet. A phone can be connected to another Mac. The CLI never runs `devicectl` or `adb` on a phone.

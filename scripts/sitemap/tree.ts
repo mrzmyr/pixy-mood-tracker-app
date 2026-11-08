@@ -9,6 +9,7 @@ export interface RawNode {
   label?: string;
   value?: string;
   identifier?: string;
+  hittable?: boolean;
   rect?: { x: number; y: number; width: number; height: number };
 }
 
@@ -19,6 +20,8 @@ export interface TreeNode {
   type: string;
   id: string;
   label: string;
+  /** False for elements under a modal or off screen. */
+  isHittable: boolean;
   rect: [number, number, number, number];
 }
 
@@ -38,6 +41,7 @@ export const normalizeTree = (nodes: RawNode[]): TreeNode[] =>
             type: node.type ?? "",
             id: node.identifier ?? "",
             label: node.label ?? "",
+            isHittable: node.hittable === true,
             rect: [
               round(node.rect?.x ?? 0),
               round(node.rect?.y ?? 0),
@@ -81,7 +85,8 @@ const nodeKey = (node: TreeNode) => `${node.type}|${node.id}|${node.label}`;
 const isScrollBar = (node: TreeNode) => /scroll bar/iu.test(node.label);
 
 /**
- * Nodes of `on` whose identity `off` lacks entirely. More copies of a known
+ * Hittable nodes of `on` whose identity `off` lacks entirely. Elements
+ * under a modal sheet are not hittable and never count. More copies of a known
  * element, such as row chevrons of a longer list, do not count. Only the
  * outermost new node of a subtree is returned.
  */
@@ -90,6 +95,7 @@ export const diffTrees = (off: TreeNode[], on: TreeNode[]): TreeNode[] => {
   const added = new Set(
     on.flatMap((node) =>
       known.has(nodeKey(node)) ||
+      !node.isHittable ||
       isScrollBar(node) ||
       node.type === "Application"
         ? []
