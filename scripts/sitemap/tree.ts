@@ -77,30 +77,28 @@ export const readProbes = (nodes: RawNode[]): Probes => {
 /** Identity of a node across trees: type, testID, and label, not position. */
 const nodeKey = (node: TreeNode) => `${node.type}|${node.id}|${node.label}`;
 
+/** System scroll indicators: their label counts pages, not app UI. */
+const isScrollBar = (node: TreeNode) => /scroll bar/iu.test(node.label);
+
 /**
- * Nodes of `on` that `off` lacks, counted per key, so a second copy of a row
- * also counts. Only the outermost new node of a subtree is returned.
+ * Nodes of `on` whose identity `off` lacks entirely. More copies of a known
+ * element, such as row chevrons of a longer list, do not count. Only the
+ * outermost new node of a subtree is returned.
  */
 export const diffTrees = (off: TreeNode[], on: TreeNode[]): TreeNode[] => {
-  const available = new Map<string, number>();
-  for (const node of off) {
-    available.set(nodeKey(node), (available.get(nodeKey(node)) ?? 0) + 1);
-  }
-  const added = new Set<number>();
-  for (const node of on) {
-    const key = nodeKey(node);
-    const count = available.get(key) ?? 0;
-    if (count > 0) {
-      available.set(key, count - 1);
-    } else {
-      added.add(node.index);
-    }
-  }
+  const known = new Set(off.map(nodeKey));
+  const added = new Set(
+    on.flatMap((node) =>
+      known.has(nodeKey(node)) ||
+      isScrollBar(node) ||
+      node.type === "Application"
+        ? []
+        : [node.index]
+    )
+  );
   return on.filter(
     (node) =>
-      added.has(node.index) &&
-      !(node.parent !== null && added.has(node.parent)) &&
-      node.type !== "Application"
+      added.has(node.index) && !(node.parent !== null && added.has(node.parent))
   );
 };
 

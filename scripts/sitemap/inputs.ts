@@ -254,7 +254,10 @@ const ROOT_ENTRIES = [
   "src/app/(app)/dev/feature-flag.tsx",
 ];
 
-/** Files outside the import graph that change any screenshot. */
+/**
+ * Files outside the import graph that change any screenshot. Capture
+ * driver files count; diff, attribution, and site code do not.
+ */
 const SHARED_PATTERNS = [
   /^package\.json$/u,
   /^bun\.lock$/u,
@@ -264,7 +267,7 @@ const SHARED_PATTERNS = [
   /^tsconfig\.json$/u,
   /^patches\//u,
   /^assets\//u,
-  /^scripts\/sitemap\/(?:capture-polyfill\.js|capture\.ts|device\.ts|profile\.ts|manifest\.ts|flags\.ts|inputs\.ts|png\.ts|tree\.ts)$/u,
+  /^scripts\/sitemap\/(?:capture-polyfill\.js|attempt\.ts|device\.ts|profile\.ts|png\.ts)$/u,
   /^scripts\/cli\/release-smoke\.ts$/u,
 ];
 
