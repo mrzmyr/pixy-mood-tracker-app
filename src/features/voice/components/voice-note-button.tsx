@@ -11,7 +11,10 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Mic from "lucide-react-native/icons/mic";
-import { FLOAT_BUTTON_SIZE } from "@/constants/float-button";
+import {
+  FLOAT_BUTTON_HIDDEN_SCALE,
+  FLOAT_BUTTON_SIZE,
+} from "@/constants/float-button";
 import { DURATION, getEasing } from "@/constants/motion";
 import { SHADOW } from "@/constants/shadow";
 import useColors from "@/hooks/use-colors";
@@ -35,6 +38,8 @@ const SETTLE_DURATION = 120;
 // Pill height, from `VoiceInputPill`. Centers the pill on the save button.
 const PILL_HEIGHT = 64;
 const PILL_INSET = 16;
+// Pill rises this far into place (HTML prototype).
+const PILL_SLIDE = 110;
 
 /** Test ID of the mic button, for `TextWrap` and e2e flows. */
 export const VOICE_NOTE_BUTTON_TEST_ID = "logger-voice-note";
@@ -89,25 +94,28 @@ export const VoiceNoteButton = ({
     startedAt: 0,
   });
 
-  // Pill slide: 0 hidden below the screen edge, 1 shown. A shared value,
-  // not a layout animation: a layout animation that starts while the
-  // keyboard closes keeps the pill at the old keyboard edge.
+  // Pill comes up from the bottom and fades in; mic and save button fade
+  // and shrink away (HTML prototype). Shared values, not a layout
+  // animation: a layout animation that starts while the keyboard closes
+  // keeps the pill at the old keyboard edge.
   const pillBottom = insets.bottom + 16 - (PILL_HEIGHT - SIZE) / 2;
-  const pillShown = useSharedValue(0);
+  const pillSlide = useSharedValue(0);
+  const pillOpacity = useSharedValue(0);
+  const micShown = useSharedValue(1);
   const pillStyle = useAnimatedStyle(() => ({
-    opacity: pillShown.get() > 0 ? 1 : 0,
-    transform: [
-      {
-        translateY: (1 - pillShown.get()) * (pillBottom + PILL_HEIGHT + 24),
-      },
-    ],
+    opacity: pillOpacity.get(),
+    transform: [{ translateY: (1 - pillSlide.get()) * PILL_SLIDE }],
   }));
   const showPill = (shown: boolean) => {
-    pillShown.set(
-      withTiming(shown ? 1 : 0, {
-        duration: DURATION.base,
-        easing: getEasing(shown ? "out" : "move"),
-      })
+    const easing = getEasing("out");
+    pillSlide.set(
+      withTiming(shown ? 1 : 0, { duration: DURATION.base, easing })
+    );
+    pillOpacity.set(
+      withTiming(shown ? 1 : 0, { duration: DURATION.fast, easing })
+    );
+    micShown.set(
+      withTiming(shown ? 0 : 1, { duration: DURATION.fast, easing })
     );
   };
 
@@ -196,11 +204,17 @@ export const VoiceNoteButton = ({
     const lift = -Math.max(keyboard.height.get() - KEYBOARD_OVERLAP, 0);
     const settled = keyboard.state.get() === KeyboardState.OPEN;
     return {
+      opacity: micShown.get(),
       transform: [
         {
           translateY: settled
             ? withTiming(lift, { duration: SETTLE_DURATION })
             : lift,
+        },
+        {
+          scale:
+            FLOAT_BUTTON_HIDDEN_SCALE +
+            (1 - FLOAT_BUTTON_HIDDEN_SCALE) * micShown.get(),
         },
       ],
     };
@@ -245,14 +259,13 @@ export const VoiceNoteButton = ({
     </Animated.View>
   );
 
-  if (isOpen) {
-    return pill;
-  }
-
   return (
     <>
       {pill}
       <Animated.View
+        pointerEvents={isOpen ? "none" : "auto"}
+        accessibilityElementsHidden={isOpen}
+        importantForAccessibility={isOpen ? "no-hide-descendants" : "auto"}
         style={[
           {
             position: "absolute",

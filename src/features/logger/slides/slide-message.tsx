@@ -24,10 +24,16 @@ import {
   VOICE_NOTE_BUTTON_TEST_ID,
   VOICE_NOTE_PILL_TEST_ID,
   VoiceNoteButton,
+  VoiceNoteText,
 } from "@/features/voice";
+import { getTextStyle } from "@/components/typography";
 import { useFeatureFlag } from "@/state/feature-flags";
 
 const SLIDE_MARGIN_TOP = 8;
+// Note text style, shared by the input and the voice overlay.
+const NOTE_PADDING_TOP = 8;
+const NOTE_FONT_SIZE = 18;
+const NOTE_LINE_HEIGHT = 26;
 
 // The note text wraps around the floating next/save button with this space.
 const BUTTON_GAP = 8;
@@ -89,6 +95,8 @@ const SlideMessageComponent = (
   // Set while voice input listens: the input is controlled then.
   const [spokenMessage, setSpokenMessage] = useState<string>();
   const [isListening, setIsListening] = useState(false);
+  // Note length before the voice session: text after it animates in.
+  const [spokenFrom, setSpokenFrom] = useState(0);
   const hasVoice = useFeatureFlag("voice-mode") && isVoiceModeSupported;
 
   // Slide changes dismiss the keyboard, so `onBlur` publishes the text. This
@@ -135,6 +143,9 @@ const SlideMessageComponent = (
                 value={spokenMessage}
                 editable={!isListening}
                 defaultValue={initialMessage}
+                // While listening, `VoiceNoteText` shows the same text with
+                // the spoken words animating in.
+                hidden={isListening}
                 onChange={(text) => {
                   message.current = text;
                   typeMessage(text);
@@ -147,13 +158,38 @@ const SlideMessageComponent = (
                   borderWidth: 0,
                   backgroundColor: "transparent",
                   paddingHorizontal: 0,
-                  paddingTop: 8,
+                  paddingTop: NOTE_PADDING_TOP,
                   paddingBottom: 16,
-                  fontSize: 18,
-                  lineHeight: 26,
+                  fontSize: NOTE_FONT_SIZE,
+                  lineHeight: NOTE_LINE_HEIGHT,
                 }}
               />
             </TextWrap>
+            {isListening && (
+              <View
+                pointerEvents="none"
+                style={{
+                  position: "absolute",
+                  top: SLIDE_MARGIN_TOP + NOTE_PADDING_TOP,
+                  left: LOGGER_HEADER_ICON_INSET,
+                  right: LOGGER_HEADER_ICON_INSET,
+                }}
+              >
+                <VoiceNoteText
+                  text={spokenMessage ?? ""}
+                  newFrom={spokenFrom}
+                  placeholder={t("voice_listening")}
+                  placeholderColor={colors.textInputPlaceholder}
+                  style={[
+                    getTextStyle("copy", NOTE_FONT_SIZE),
+                    {
+                      lineHeight: NOTE_LINE_HEIGHT,
+                      color: colors.textInputText,
+                    },
+                  ]}
+                />
+              </View>
+            )}
             {footerVisible && (
               <Footer>
                 <LinkButton
@@ -175,6 +211,8 @@ const SlideMessageComponent = (
           getNote={() => message.current}
           onStart={() => {
             Keyboard.dismiss();
+            setSpokenFrom(message.current.length);
+            setSpokenMessage(message.current);
             setIsListening(true);
             onDictatingChange(true);
           }}

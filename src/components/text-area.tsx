@@ -18,6 +18,7 @@ const TextAreaComponent = (
     maxLength = 500,
     autoFocus = false,
     editable,
+    hidden = false,
     style,
     onChange = noop,
     onBlur,
@@ -33,6 +34,8 @@ const TextAreaComponent = (
     autoFocus?: boolean;
     /** `false` blocks typing, for example while voice input writes. */
     editable?: boolean;
+    /** Keeps the input and its layout, but draws nothing. */
+    hidden?: boolean;
     style?: TextStyle;
     onChange?: (text: string) => void;
     onBlur?: () => void;
@@ -73,6 +76,7 @@ const TextAreaComponent = (
         borderRadius: RADIUS.sm,
         borderCurve: "continuous",
         ...style,
+        ...(hidden && { opacity: 0 }),
       }}
     />
   );

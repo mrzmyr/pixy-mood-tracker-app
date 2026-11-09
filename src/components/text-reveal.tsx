@@ -5,6 +5,7 @@ import Animated, { useReducedMotion } from "react-native-reanimated";
 import {
   TEXT_REVEAL_DURATION_MS,
   TEXT_REVEAL_STAGGER_MS,
+  getTextRevealKeyframes,
   getTextRevealWords,
 } from "./text-reveal-parts";
 import type { TextRevealUnit } from "./text-reveal-parts";
@@ -65,16 +66,7 @@ export const TextReveal = ({
 
   const flat = StyleSheet.flatten(style) ?? {};
   const fontSize = flat.fontSize ?? DEFAULT_FONT_SIZE;
-  const keyframes = {
-    from: {
-      opacity: 0,
-      transform: [{ translateY: fontSize * 0.2 }, { scale: 0.9 }],
-    },
-    to: {
-      opacity: 1,
-      transform: [{ translateY: 0 }, { scale: 1 }],
-    },
-  };
+  const keyframes = getTextRevealKeyframes(fontSize);
 
   return (
     <View
