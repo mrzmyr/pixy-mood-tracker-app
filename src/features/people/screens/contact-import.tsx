@@ -9,16 +9,16 @@ import {
   ScrollView,
   SectionList,
   Text,
-  TextInput,
   View,
 } from "react-native";
+import { SearchInput } from "@/components/search-input";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
 import RouteModalHeader from "@/components/route-modal-header";
 import { SelectionMark } from "@/components/selection-mark";
 import { SFIcon } from "@/components/sf-icon";
 import TextInfo from "@/components/text-info";
-import { Copy, Label, getInputTextStyle } from "@/components/typography";
+import { Copy, Label } from "@/components/typography";
 import { MAX_PEOPLE } from "@/constants/config";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
@@ -350,22 +350,11 @@ export const ContactImport = () => {
         <View
           style={{ paddingHorizontal: INSET, paddingTop: 8, paddingBottom: 12 }}
         >
-          <TextInput
-            accessibilityLabel={t("people_import_search")}
+          <SearchInput
             testID="contact-import-search"
-            autoCorrect={false}
-            style={{
-              ...getInputTextStyle(16),
-              color: colors.textInputText,
-              backgroundColor: colors.textInputBackground,
-              padding: 12,
-              borderRadius: RADIUS.sm,
-              borderCurve: "continuous",
-            }}
             placeholder={t("people_import_search")}
-            placeholderTextColor={colors.textInputPlaceholder}
             value={contactImport.query}
-            onChangeText={handleQueryChange}
+            onChange={handleQueryChange}
           />
         </View>
       )}

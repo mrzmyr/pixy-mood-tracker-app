@@ -1,21 +1,17 @@
 import { useRef, useState } from "react";
-import { Pressable, ScrollView, TextInput, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import type {
+  TextInput,
   NativeScrollEvent,
   NativeSyntheticEvent,
   ViewStyle,
 } from "react-native";
-import Search from "lucide-react-native/icons/search";
-import CircleX from "lucide-react-native/icons/circle-x";
-import { getInputTextStyle } from "@/components/typography";
-import useColors from "@/hooks/use-colors";
-import { t } from "@/lib/translation";
-import { RADIUS } from "@/constants/radius";
+import { SearchInput } from "@/components/search-input";
+import { FIELD_HEIGHT } from "@/components/text-field";
 
-const INPUT_HEIGHT = 40;
 const PADDING_TOP = 12;
 // Search bar height, also the scroll offset that hides it.
-const SEARCH_HEIGHT = PADDING_TOP + INPUT_HEIGHT;
+const SEARCH_HEIGHT = PADDING_TOP + FIELD_HEIGHT;
 
 /**
  * Vertical scroll view with a search bar hidden above its content, like iOS
@@ -43,7 +39,6 @@ export const PullToSearch = ({
   contentContainerStyle?: ViewStyle;
   children: React.ReactNode;
 }) => {
-  const colors = useColors();
   const scrollRef = useRef<ScrollView>(null);
   const inputRef = useRef<TextInput>(null);
   const [viewportHeight, setViewportHeight] = useState(0);
@@ -136,54 +131,19 @@ export const PullToSearch = ({
           gap: 8,
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
-            height: INPUT_HEIGHT,
-            backgroundColor: colors.textInputBackground,
-            borderRadius: RADIUS.sm,
-            borderCurve: "continuous",
-            paddingHorizontal: 10,
-          }}
-        >
-          <Search color={colors.textInputPlaceholder} width={18} />
-          <TextInput
+        <View style={{ flex: 1 }}>
+          <SearchInput
             ref={inputRef}
             testID={`${testID}-input`}
-            accessibilityLabel={placeholder}
             placeholder={placeholder}
-            placeholderTextColor={colors.textInputPlaceholder}
             value={query}
-            onChangeText={onChangeQuery}
+            onChange={onChangeQuery}
             onBlur={() => {
               if (query === "") {
                 hide();
               }
             }}
-            returnKeyType="search"
-            autoCorrect={false}
-            autoComplete="off"
-            textContentType="none"
-            style={{
-              flex: 1,
-              height: INPUT_HEIGHT,
-              marginLeft: 8,
-              ...getInputTextStyle(16),
-              color: colors.textInputText,
-            }}
           />
-          {query !== "" && (
-            <Pressable
-              accessibilityLabel={t("clear")}
-              accessibilityRole="button"
-              hitSlop={12}
-              onPress={() => onChangeQuery("")}
-            >
-              <CircleX color={colors.textInputPlaceholder} width={18} />
-            </Pressable>
-          )}
         </View>
         {accessory}
       </View>

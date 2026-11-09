@@ -4,7 +4,7 @@ import colors from "@/constants/colors/tailwind-colors";
 
 import { TAG_COLOR_NAMES } from "@/constants/config";
 import scales from "@/constants/colors/scales";
-import { groupedColors } from "@/constants/colors/grouped";
+import { fieldColors, groupedColors } from "@/constants/colors/grouped";
 
 type TagColorKey = (typeof TAG_COLOR_NAMES)[number];
 
@@ -215,11 +215,10 @@ const light = {
   dangerButtonText: dangerLight,
   dangerButtonBorder: colors.neutral[200],
 
-  textInputBackground: colors.neutral[200],
-  textInputText: colors.neutral[800],
-  textInputPlaceholder: colors.neutral[400],
-  textInputLabel: colors.neutral[700],
-  textInputBorder: colors.neutral[200],
+  // Platform field colors (`grouped.ts`). Fields have no border.
+  textInputBackground: fieldColors.light.background,
+  textInputText: fieldColors.light.text,
+  textInputPlaceholder: fieldColors.light.placeholder,
 
   checkboxBackground: colors.neutral[100],
   checkboxBorder: colors.neutral[300],
@@ -473,11 +472,9 @@ const dark: IColors & {
   dangerButtonText: dangerDark,
   dangerButtonBorder: colors.neutral[800],
 
-  textInputBackground: colors.neutral[800],
-  textInputText: colors.neutral[200],
-  textInputPlaceholder: colors.neutral[500],
-  textInputBorder: colors.neutral[900],
-  textInputLabel: colors.neutral[500],
+  textInputBackground: fieldColors.dark.background,
+  textInputText: fieldColors.dark.text,
+  textInputPlaceholder: fieldColors.dark.placeholder,
 
   checkboxBackground: colors.neutral[800],
   checkboxBorder: colors.neutral[700],

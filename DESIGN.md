@@ -21,7 +21,7 @@ Pixy-specific design decisions that a model cannot read from the code. For every
 
 - Use the components that exist. If you need a new one, ask first, or build it and name it in the PR description.
 - Make every control accessible: role, label, and state. The full row is pressable. Each gesture also has a button or an accessibility action.
-- Gray: page and header use `background`. A row or card on the page uses `menuListItemBackground`. Values are platform system colors, fixed in [`grouped.ts`](src/constants/colors/grouped.ts). Never use a `neutral` gray for a page, header, or row.
+- Gray: page and header use `background`. A row or card on the page uses `menuListItemBackground`. A text field uses `textInputBackground`. Values are platform system colors, fixed in [`grouped.ts`](src/constants/colors/grouped.ts). Never use a `neutral` gray for a page, header, row, or field.
 - A box inside a row, like an icon tile, uses the page color `background`, so it reads as a cut-out of the page. A box on the page itself uses `chipBackground`. Example: `TagIconButton` `placement`.
 - Motion is soft and eased, never bouncy. Use `DURATION` and `getEasing` from [`motion.ts`](src/constants/motion.ts). Recap story choreography may time itself.
 - Render text with `Heading`, `Label`, or `Copy` ([`typography.tsx`](src/components/typography.tsx)), the [Geist type scale](https://vercel.com/geist/typography). Label is one line, Copy can wrap. Only Geist sizes: never set `fontSize` by hand. Many screens still do: do not copy them.
@@ -40,6 +40,12 @@ Pixy-specific design decisions that a model cannot read from the code. For every
   - Selected look is the same for every chip. Category or tag color stays in the icon or dot only.
   - Press scale and color change share one timing. Never animate them apart.
   - Action next to chips, such as Edit: `Chip` with `isToggle={false}`.
+- Text input: pick by job. Lint blocks raw `TextInput` in features.
+  - Search: [`SearchInput`](src/components/search-input.tsx). iOS screen with native header bar: `headerSearchBarOptions`.
+  - One line on its own, like an email: [`TextField`](src/components/text-field.tsx).
+  - One line in a form list, like a name: [`TextFieldRow`](src/components/text-field-row.tsx) inside `MenuList`.
+  - Several lines: [`TextArea`](src/components/text-area.tsx).
+  - One-line fields are capsules like `Button`. `TextArea` uses `RADIUS.lg`. No border. Never pass fill, radius, or placeholder color.
 - Sleep quality of one night: [`SleepQualityMeter`](src/features/logger/slides/slide-sleep-button.tsx), never own bars or dots.
 - Buttons on the sky or a photo (onboarding, recap stories): primary `Button type="primary"`, secondary `Button type="glass"`. Never a gray `tertiary` there.
   - `glass` is a see-through white fill. Liquid glass turns opaque white on the light sky.

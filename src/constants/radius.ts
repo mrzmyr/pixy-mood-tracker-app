@@ -9,12 +9,12 @@
 export const RADIUS = {
   /** Chart bars, color swatches, small marks. */
   xs: 4,
-  /** Text inputs, chips, badges, compact controls. */
+  /** Chips, badges, compact controls. */
   sm: 8,
   /** Cards, list groups, tiles, toasts, tooltips. */
   md: 12,
-  /** Large feature cards. */
+  /** Large feature cards, multi-line text areas. */
   lg: 20,
-  /** Capsule buttons, pills, dots. */
+  /** Capsule buttons, one-line text fields, search fields, pills, dots. */
   full: 999,
 } as const;
