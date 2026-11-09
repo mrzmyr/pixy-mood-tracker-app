@@ -85,6 +85,13 @@ const nodeKey = (node: TreeNode) => `${node.type}|${node.id}|${node.label}`;
 const isScrollBar = (node: TreeNode) => /scroll bar/iu.test(node.label);
 
 /**
+ * Bare numbers without a testID: calendar days and counts. A flag that
+ * shifts layout brings other days into view; that is not flagged UI.
+ */
+const isLayoutNumber = (node: TreeNode) =>
+  node.id === "" && /^[\d\s.,:%+−-]+$/u.test(node.label);
+
+/**
  * Hittable nodes of `on` whose identity `off` lacks entirely. Elements
  * under a modal sheet are not hittable and never count. More copies of a known
  * element, such as row chevrons of a longer list, do not count. Only the
@@ -92,9 +99,23 @@ const isScrollBar = (node: TreeNode) => /scroll bar/iu.test(node.label);
  */
 export const diffTrees = (off: TreeNode[], on: TreeNode[]): TreeNode[] => {
   const known = new Set(off.map(nodeKey));
+  // Same testID with another label is the same element in another state.
+  // A text with a label the off tree shows is the same text, exposed apart
+  // from its button.
+  const knownIds = new Set<string>();
+  const knownLabels = new Set<string>();
+  for (const node of off) {
+    if (node.id) {
+      knownIds.add(node.id);
+    }
+    knownLabels.add(node.label);
+  }
   const added = new Set(
     on.flatMap((node) =>
       known.has(nodeKey(node)) ||
+      knownIds.has(node.id) ||
+      (node.type === "StaticText" && knownLabels.has(node.label)) ||
+      isLayoutNumber(node) ||
       !node.isHittable ||
       isScrollBar(node) ||
       node.type === "Application"

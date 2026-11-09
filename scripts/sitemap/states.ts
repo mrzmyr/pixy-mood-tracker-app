@@ -535,18 +535,4 @@ export const SCREENS: ScreenSpec[] = [
       },
     ],
   },
-  {
-    id: "feature-flags",
-    title: "Feature flags",
-    route: "/settings/feature-flags",
-    parent: "settings",
-    states: [
-      {
-        id: "year",
-        title: "Overrides",
-        fixture: "year",
-        wait: 'id="feature-flags-on-count"',
-      },
-    ],
-  },
 ];

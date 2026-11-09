@@ -587,6 +587,34 @@ const captureScreen = async (
   };
 };
 
+const regionKey = (region: FlaggedRegion) =>
+  `${region.id}|${region.label}|${region.rect.join(",")}`;
+
+/**
+ * A sheet shows the screens below it. Flagged UI of an ancestor at the
+ * same place belongs to that ancestor, not to the sheet.
+ */
+const dropInheritedRegions = (results: ScreenResult[]) => {
+  const byId = new Map(results.map((screen) => [screen.id, screen]));
+  for (const screen of results) {
+    const inherited = new Set<string>();
+    let parent = screen.parent ? byId.get(screen.parent) : undefined;
+    while (parent) {
+      for (const state of parent.states) {
+        for (const region of state.flagged) {
+          inherited.add(regionKey(region));
+        }
+      }
+      parent = parent.parent ? byId.get(parent.parent) : undefined;
+    }
+    for (const state of screen.states) {
+      state.flagged = state.flagged.filter(
+        (region) => !inherited.has(regionKey(region))
+      );
+    }
+  }
+};
+
 /**
  * `bun sitemap capture`: pin, preflight, build the capture app, capture every
  * selected state, write result.json. Fails at the end on any failure.
@@ -654,6 +682,7 @@ export const captureFor = async (
     // oxlint-disable-next-line no-await-in-loop -- one simulator, captures run in order
     results.push(await captureScreen(context, screen));
   }
+  dropInheritedRegions(results);
   const run: RunResult = {
     sha: source.sha,
     subject: source.subject,
