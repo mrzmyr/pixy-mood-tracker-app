@@ -13,8 +13,11 @@ defaultConfig.cacheVersion = [
   process.env.EXPO_PUBLIC_APP_VARIANT,
 ].join(":");
 // Sitemap capture bundles (`bun sitemap capture`) freeze the clock and seed
-// Math.random before any module runs.
-if (process.env.EXPO_PUBLIC_SITEMAP_CAPTURE === "1") {
+// Math.random before any module runs. Same gate as IS_SITEMAP_CAPTURE.
+if (
+  process.env.EXPO_PUBLIC_SITEMAP_CAPTURE === "1" &&
+  process.env.EXPO_PUBLIC_APP_VARIANT === "preview"
+) {
   const { getPolyfills } = defaultConfig.serializer;
   defaultConfig.serializer.getPolyfills = (options) => [
     ...(getPolyfills ? getPolyfills(options) : []),

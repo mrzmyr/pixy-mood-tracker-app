@@ -115,7 +115,7 @@ const readCached = (inputHash: string) =>
 
 const short = (hash: string) => hash.slice(0, 12);
 
-/** Copy the native shell and swap in the capture JS. Reused per commit and shell. */
+/** Copy the native shell and swap in the capture JS. Reused per source tree and shell. */
 const prepareApp = async (
   source: Source,
   shellFile: string,
@@ -124,7 +124,7 @@ const prepareApp = async (
   const dir = path.join(
     SITEMAP_DIR,
     "apps",
-    `${source.sha.slice(0, 12)}-${fingerprint.slice(0, 8)}-${sha256(shellFile).slice(0, 8)}`
+    `${source.sha.slice(0, 12)}-${source.tree.slice(0, 8)}-${fingerprint.slice(0, 8)}-${sha256(shellFile).slice(0, 8)}`
   );
   const marker = path.join(dir, "ready.json");
   const ready = readJson<{ app: string; executable: string }>(marker);
@@ -221,6 +221,8 @@ interface Context {
   tmpFile: string;
   /** First nondeterministic capture. The run fails with it at the end. */
   nondeterministic: CliError | null;
+  /** Every input hash this run looked up, attribution passes included. */
+  used: Set<string>;
 }
 
 /**
@@ -306,6 +308,7 @@ const captureOne = async (
   const { driver, summary } = context;
   const key = stateKey(screen, state);
   const inputHash = context.hash(screen, state, pass);
+  context.used.add(inputHash);
   const label = `${key} ${passId(pass)}`;
   const started = Date.now();
   const cached = readCached(inputHash);
@@ -531,7 +534,7 @@ const captureState = async (
   const result: StateResult = {
     id: state.id,
     title: state.title,
-    route: state.route ?? screen.route,
+    route: screen.route,
     off: null,
     on: null,
     flagged: [],
@@ -555,7 +558,7 @@ const captureState = async (
         state,
         off.tree,
         added,
-        screen.attribute ?? OVERRIDABLE_FLAGS
+        OVERRIDABLE_FLAGS
       );
     } catch (error) {
       // SAFETY: captureOne wraps every failure in a CliError.
@@ -615,6 +618,118 @@ const dropInheritedRegions = (results: ScreenResult[]) => {
   }
 };
 
+/** Delete cache entries this run did not use, and PNGs no entry names. */
+const pruneCache = (used: Set<string>) => {
+  if (!fs.existsSync(STATES_DIR) || !fs.existsSync(PNG_DIR)) {
+    return;
+  }
+  const keptPngs = new Set<string>();
+  let removed = 0;
+  for (const file of fs.readdirSync(STATES_DIR)) {
+    const inputHash = path.basename(file, ".json");
+    const entry = used.has(inputHash) ? readCached(inputHash) : null;
+    if (entry) {
+      keptPngs.add(entry.pngHash);
+    } else {
+      fs.rmSync(path.join(STATES_DIR, file));
+      removed += 1;
+    }
+  }
+  for (const file of fs.readdirSync(PNG_DIR)) {
+    if (!keptPngs.has(path.basename(file, ".png"))) {
+      fs.rmSync(path.join(PNG_DIR, file));
+      removed += 1;
+    }
+  }
+  note(`Pruned ${removed} cache files`);
+};
+
+/** Capture every selected state on the prepared simulator, write result.json. */
+const captureAll = async ({
+  values,
+  source,
+  screens,
+  driver,
+  nativeFingerprint,
+  isNativeMatch,
+  runStarted,
+}: {
+  values: Record<string, string | undefined>;
+  source: Source;
+  screens: ScreenSpec[];
+  driver: Driver;
+  nativeFingerprint: string;
+  isNativeMatch: boolean;
+  runStarted: number;
+}) => {
+  const hash = createInputHasher({ source, nativeFingerprint });
+  const allHashes = screens.flatMap((screen) =>
+    screen.states.flatMap((state) =>
+      passesOf(screen).map((pass) => hash(screen, state, pass))
+    )
+  );
+  const context: Context = {
+    source,
+    driver,
+    hash,
+    verify: pickVerify(allHashes, Number(values.verify ?? 0)),
+    summary: {
+      captured: 0,
+      cached: 0,
+      noise: 0,
+      failed: 0,
+      nondeterministic: 0,
+    },
+    nondeterministic: null,
+    used: new Set(),
+    tmpFile: path.join(
+      os.tmpdir(),
+      `pixy-mood-tracker-sitemap-${process.pid}.png`
+    ),
+  };
+  const results: ScreenResult[] = [];
+  for (const screen of screens) {
+    // oxlint-disable-next-line no-await-in-loop -- one simulator, captures run in order
+    results.push(await captureScreen(context, screen));
+  }
+  dropInheritedRegions(results);
+  const run: RunResult = {
+    sha: source.sha,
+    subject: source.subject,
+    date: source.date,
+    isDeployable: source.isDeployable && isNativeMatch && !values.only,
+    nativeFingerprint,
+    profile: DEVICE_PROFILE,
+    screens: results,
+    summary: context.summary,
+  };
+  fs.mkdirSync(runDir(source.sha), { recursive: true });
+  const resultFile = path.join(runDir(source.sha), "result.json");
+  fs.writeFileSync(resultFile, `${JSON.stringify(run, null, 1)}\n`);
+  fs.rmSync(context.tmpFile, { force: true });
+  // CI keeps its cache small. Partial runs would drop the other screens.
+  if (values.prune !== undefined && !values.only) {
+    pruneCache(context.used);
+  }
+  const { captured, cached, failed } = context.summary;
+  process.stdout.write(
+    `summary  captured=${captured} cached=${cached} noise=${context.summary.noise} failed=${failed} nondeterministic=${context.summary.nondeterministic} deployable=${run.isDeployable} ${Math.round((Date.now() - runStarted) / 1000)}s\n` +
+      `result   ${resultFile}\n`
+  );
+  if (context.nondeterministic) {
+    throw context.nondeterministic;
+  }
+  if (failed > 0) {
+    throw new CliError({
+      status: "capture_failed",
+      message: `${failed} capture(s) failed`,
+      why: "See the fail lines above. Each names the wait condition and the saved files.",
+      fix: "Fix each failure, then rerun. Cached states are skipped.",
+    });
+  }
+  return run;
+};
+
 /**
  * `bun sitemap capture`: pin, preflight, build the capture app, capture every
  * selected state, write result.json. Fails at the end on any failure.
@@ -637,11 +752,10 @@ export const captureFor = async (
     });
   }
   const screens = selectScreens(values.only);
-  const app = await prepareApp(
-    source,
-    preflight.shell.file,
-    preflight.fingerprint
-  );
+  // The shell's own fingerprint, not the commit's: with
+  // --allow-native-mismatch they differ, and the pixels come from the shell.
+  const nativeFingerprint = preflight.shell.fingerprint;
+  const app = await prepareApp(source, preflight.shell.file, nativeFingerprint);
   const device = await ensureDevice("ios", { slim: false });
   assertDeviceRuntime(device);
   execFileSync("xcrun", ["simctl", "uninstall", device.id, PREVIEW.appId], {
@@ -650,69 +764,17 @@ export const captureFor = async (
   installFile(device, app.app, "preview");
   const driver = createDriver(device, app.executable);
   driver.prepare();
-  const hash = createInputHasher({
-    source,
-    nativeFingerprint: preflight.fingerprint,
-  });
-  const allHashes = screens.flatMap((screen) =>
-    screen.states.flatMap((state) =>
-      passesOf(screen).map((pass) => hash(screen, state, pass))
-    )
-  );
-  const context: Context = {
-    source,
-    driver,
-    hash,
-    verify: pickVerify(allHashes, Number(values.verify ?? 0)),
-    summary: {
-      captured: 0,
-      cached: 0,
-      noise: 0,
-      failed: 0,
-      nondeterministic: 0,
-    },
-    nondeterministic: null,
-    tmpFile: path.join(
-      os.tmpdir(),
-      `pixy-mood-tracker-sitemap-${process.pid}.png`
-    ),
-  };
-  const results: ScreenResult[] = [];
-  for (const screen of screens) {
-    // oxlint-disable-next-line no-await-in-loop -- one simulator, captures run in order
-    results.push(await captureScreen(context, screen));
-  }
-  dropInheritedRegions(results);
-  const run: RunResult = {
-    sha: source.sha,
-    subject: source.subject,
-    date: source.date,
-    isDeployable:
-      source.isDeployable && preflight.isNativeMatch && !values.only,
-    nativeFingerprint: preflight.fingerprint,
-    profile: DEVICE_PROFILE,
-    screens: results,
-    summary: context.summary,
-  };
-  fs.mkdirSync(runDir(source.sha), { recursive: true });
-  const resultFile = path.join(runDir(source.sha), "result.json");
-  fs.writeFileSync(resultFile, `${JSON.stringify(run, null, 1)}\n`);
-  fs.rmSync(context.tmpFile, { force: true });
-  const { captured, cached, failed } = context.summary;
-  process.stdout.write(
-    `summary  captured=${captured} cached=${cached} noise=${context.summary.noise} failed=${failed} nondeterministic=${context.summary.nondeterministic} deployable=${run.isDeployable} ${Math.round((Date.now() - runStarted) / 1000)}s\n` +
-      `result   ${resultFile}\n`
-  );
-  if (context.nondeterministic) {
-    throw context.nondeterministic;
-  }
-  if (failed > 0) {
-    throw new CliError({
-      status: "capture_failed",
-      message: `${failed} capture(s) failed`,
-      why: "See the fail lines above. Each names the wait condition and the saved files.",
-      fix: "Fix each failure, then rerun. Cached states are skipped.",
+  try {
+    return await captureAll({
+      values,
+      source,
+      screens,
+      driver,
+      nativeFingerprint,
+      isNativeMatch: preflight.isNativeMatch,
+      runStarted,
     });
+  } finally {
+    driver.restore();
   }
-  return run;
 };

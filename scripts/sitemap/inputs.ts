@@ -3,7 +3,7 @@
 // Input hash of a state = git blob ids of every file its route can load
 // (static import closure from the route file, both root layouts, and the
 // fixture and flag link routes) + shared build inputs + native fingerprint
-// + device profile + fixture, flags, route, steps, and wait condition.
+// + device profile + fixture, flags, route, and wait condition.
 import { execFileSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -33,6 +33,9 @@ const git = (args: string[]) =>
 export const sha256 = (value: string | Uint8Array) =>
   crypto.createHash("sha256").update(value).digest("hex");
 
+const hashList = (entries: [string, string][]) =>
+  sha256(entries.map(([file, blob]) => `${blob} ${file}`).join("\n"));
+
 /** Commit a capture runs on, plus the blob id of every tracked file. */
 export interface Source {
   sha: string;
@@ -42,6 +45,8 @@ export interface Source {
   /** True only when HEAD is origin/main and the tree is clean. */
   isDeployable: boolean;
   blobs: Map<string, string>;
+  /** Hash of every blob, uncommitted and untracked files included. */
+  tree: string;
 }
 
 /**
@@ -63,10 +68,11 @@ export const pinSource = ({ allowHead }: { allowHead: boolean }): Source => {
   }
   const main = git(["rev-parse", "origin/main"]);
   const head = git(["rev-parse", "HEAD"]);
-  // Tracked files that differ from HEAD, staged or not.
-  const dirty = git(["diff", "--name-only", "HEAD"])
-    .split("\n")
-    .filter(Boolean);
+  // Tracked files that differ from HEAD, staged or not, and untracked files.
+  const dirty = [
+    ...git(["diff", "--name-only", "HEAD"]).split("\n"),
+    ...git(["ls-files", "--others", "--exclude-standard"]).split("\n"),
+  ].filter(Boolean);
   const isDeployable = head === main && dirty.length === 0;
   if (!isDeployable && !allowHead) {
     throw new CliError({
@@ -101,7 +107,10 @@ export const pinSource = ({ allowHead }: { allowHead: boolean }): Source => {
   note(
     `Source: ${head} ${isDeployable ? "(origin/main)" : "(HEAD, not deployable)"} ${subject}`
   );
-  return { sha: head, subject, date, isDeployable, blobs };
+  const tree = hashList(
+    [...blobs.entries()].toSorted(([a], [b]) => a.localeCompare(b))
+  );
+  return { sha: head, subject, date, isDeployable, blobs, tree };
 };
 
 const SOURCE_EXTENSIONS = [".tsx", ".ts", ".jsx", ".js", ".cjs"];
@@ -250,6 +259,8 @@ export const findRouteFile = (
 const ROOT_ENTRIES = [
   "src/app/_layout.tsx",
   "src/app/(app)/_layout.tsx",
+  // Fixture and flag links end on the calendar; sheets show it behind them.
+  "src/app/(app)/calendar.tsx",
   "src/app/(app)/dev/fixture.tsx",
   "src/app/(app)/dev/feature-flag.tsx",
 ];
@@ -270,9 +281,6 @@ const SHARED_PATTERNS = [
   /^scripts\/sitemap\/(?:capture-polyfill\.js|attempt\.ts|device\.ts|profile\.ts|png\.ts)$/u,
   /^scripts\/cli\/release-smoke\.ts$/u,
 ];
-
-const hashList = (entries: [string, string][]) =>
-  sha256(entries.map(([file, blob]) => `${blob} ${file}`).join("\n"));
 
 /** Input hashes for many states, sharing one import graph. */
 export const createInputHasher = ({
@@ -314,7 +322,7 @@ export const createInputHasher = ({
 
   /** Input hash of one state in one pass. */
   return (screen: ScreenSpec, state: StateSpec, pass: Pass) => {
-    const route = state.route ?? screen.route;
+    const { route } = screen;
     return sha256(
       JSON.stringify({
         schema: SCHEMA_VERSION,
@@ -326,7 +334,6 @@ export const createInputHasher = ({
         route,
         fixture: state.fixture,
         flags: passFlags(screen, pass),
-        steps: state.steps ?? [],
         wait: state.wait,
       })
     );

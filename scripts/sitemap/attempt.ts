@@ -1,4 +1,4 @@
-// One capture attempt: launch, fixture, flags, route, steps, wait, settle,
+// One capture attempt: launch, fixture, flags, route, wait, settle,
 // screenshot, tree. Part of every input hash (inputs.ts SHARED_PATTERNS):
 // a change here captures every state again.
 import { setTimeout as sleep } from "node:timers/promises";
@@ -7,7 +7,7 @@ import { CaptureError, PREVIEW } from "./device.ts";
 import type { Driver } from "./device.ts";
 import { OVERRIDABLE_FLAGS } from "./flags.ts";
 import { passFlags } from "./manifest.ts";
-import type { Pass, ScreenSpec, StateSpec, Step } from "./manifest.ts";
+import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
 import { decodePng, hashPixels } from "./png.ts";
 import { CLOCK_BUDGET_SECONDS } from "./profile.ts";
 import { normalizeTree } from "./tree.ts";
@@ -20,25 +20,6 @@ const trap = (
   fix: string,
   isRetryable = false
 ) => new CaptureError({ status, message, why, fix }, isRetryable);
-
-const runStep = async (driver: Driver, step: Step) => {
-  try {
-    if ("press" in step) {
-      await driver.press(step.press);
-    } else if ("scroll" in step) {
-      await driver.scroll(step.scroll, step.until);
-    } else {
-      await driver.waitFor(step.wait);
-    }
-  } catch (error) {
-    throw trap(
-      "step_failed",
-      `Step ${JSON.stringify(step)} failed`,
-      error instanceof Error ? error.message : String(error),
-      "Check the selector in scripts/sitemap/states.ts against the saved tree.json."
-    );
-  }
-};
 
 /** Screenshots until two in a row have equal pixels. */
 const settle = async (driver: Driver, file: string) => {
@@ -61,7 +42,6 @@ const settle = async (driver: Driver, file: string) => {
   );
 };
 
-/** One attempt: launch, fixture, flags, route, steps, wait, screenshot, tree. */
 /** One attempt of one state and pass. Throws a CaptureError on a named trap. */
 export const attempt = async (
   driver: Driver,
@@ -146,7 +126,7 @@ export const attempt = async (
       true
     );
   }
-  const route = state.route ?? screen.route;
+  const { route } = screen;
   // The probe reports the decoded pathname.
   const pathname = decodeURIComponent(route.split("?")[0] ?? route);
   if (flagged.probes.route !== pathname) {
@@ -163,10 +143,6 @@ export const attempt = async (
         "Check the route in scripts/sitemap/states.ts and the screen's redirect logic."
       );
     }
-  }
-  for (const step of state.steps ?? []) {
-    // oxlint-disable-next-line no-await-in-loop -- steps run in order
-    await runStep(driver, step);
   }
   try {
     await driver.waitFor(state.wait);
@@ -204,7 +180,7 @@ export const attempt = async (
       "clock_budget_exceeded",
       `State took ${seconds.toFixed(0)}s from launch`,
       `The app clock started at 09:41:00. After ${CLOCK_BUDGET_SECONDS}s a minute can roll over and change pixels.`,
-      "Relaunch runs once. Still slow: check load (`uptime`) or shorten the steps.",
+      "Relaunch runs once. Still slow: check load (`uptime`).",
       true
     );
   }

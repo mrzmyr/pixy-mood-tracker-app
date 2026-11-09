@@ -9,22 +9,13 @@ import type { FeatureFlag } from "./flags.ts";
  */
 export type Selector = string;
 
-/** One action after the route opened. No coordinates, no sleeps. */
-export type Step =
-  | { press: Selector }
-  | { scroll: "up" | "down"; until: Selector }
-  | { wait: Selector };
-
-/** One state of a screen: fixture plus steps, proven by a named element. */
+/** One state of a screen: a fixture, proven by a named element. */
 export interface StateSpec {
   /** Unique within the screen. The first state is the screen's default. */
   id: string;
   title: string;
   /** Fixture id from src/dev/fixtures. Loaded after every launch. */
   fixture: string;
-  /** Deep link path. Default: the screen route. */
-  route?: string;
-  steps?: Step[];
   /** Element that must show before the screenshot. */
   wait: Selector;
 }
@@ -47,8 +38,6 @@ export interface ScreenSpec {
    * to Recaps. Captured in the flags-off pass only.
    */
   hiddenBy?: FeatureFlag[];
-  /** Candidate flags for flagged UI. Default: every overridable flag. */
-  attribute?: FeatureFlag[];
   states: StateSpec[];
 }
 
@@ -98,11 +87,7 @@ const checkScreen = (screen: ScreenSpec, fixtureIds: Set<string>) => {
       `screen "${screen.id}": requires and hiddenBy exclude each other`
     );
   }
-  const flags = [
-    ...(screen.requires ?? []),
-    ...(screen.hiddenBy ?? []),
-    ...(screen.attribute ?? []),
-  ];
+  const flags = [...(screen.requires ?? []), ...(screen.hiddenBy ?? [])];
   for (const flag of flags.filter((key) => !FEATURE_FLAGS.includes(key))) {
     problems.push(`screen "${screen.id}": unknown flag "${flag}"`);
   }
@@ -164,16 +149,6 @@ export const checkManifest = (
   ...checkTree(screens),
 ];
 
-const stepSelector = (step: Step): Selector => {
-  if ("press" in step) {
-    return step.press;
-  }
-  return "scroll" in step ? step.until : step.wait;
-};
-
-/** Every selector of a screen's states: waits and step targets. */
+/** Every wait selector of a screen's states. */
 export const listSelectors = (screen: ScreenSpec): Selector[] =>
-  screen.states.flatMap((state) => [
-    state.wait,
-    ...(state.steps ?? []).map(stepSelector),
-  ]);
+  screen.states.map((state) => state.wait);

@@ -157,7 +157,7 @@ bun app open --target=pixel-8-09yw
 - Device profile is part of every input hash ([`profile.ts`](../scripts/sitemap/profile.ts)). Other runtime, other pixels: preflight fails.
 - Capture simulator runs with iOS Reduce Motion and Reduce Transparency on. Screens with a sky or glass look calmer than on a phone.
 - New screen: add it to `states.ts`. Wait for a testID; tap testIDs; label only for native header items. `bun run test:cli` checks ids, routes, fixtures, and strings.
-- Flagged UI: elements in the flags-on tree that the flags-off tree lacks. Capture finds the flag by turning halves of the candidate flags on. `attribute` narrows candidates.
+- Flagged UI: elements in the flags-on tree that the flags-off tree lacks. Capture finds the flag by turning halves of the overridable flags on.
 - Equal input hash reuses the cached PNG. `--verify=<n>` captures cached states again. Native glass buttons differ by a few color levels per launch: within the [noise budget](../scripts/sitemap/noise.ts) the cached PNG stays, beyond it the run fails with `nondeterministic`. Never delete a cache entry to hide it.
 - Deploy needs `SITEMAP_VERCEL_SCOPE`. Every deployment is immutable and behind Vercel Authentication. Production moves the project domain (`latest`). CI: [`sitemap.yml`](../.github/workflows/sitemap.yml).
 

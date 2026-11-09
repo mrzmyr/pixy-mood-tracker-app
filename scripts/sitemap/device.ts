@@ -112,6 +112,26 @@ export const createDriver = (device: Device, executable: string) => {
     approveIosScheme(device.id, PREVIEW);
   };
 
+  /** Undo prepare's motion, transparency, and status bar changes. */
+  const restore = () => {
+    trySimctl(["status_bar", device.id, "clear"]);
+    for (const key of [
+      "ReduceMotionEnabled",
+      "EnhancedBackgroundContrastEnabled",
+    ]) {
+      trySimctl([
+        "spawn",
+        device.id,
+        "defaults",
+        "write",
+        "com.apple.Accessibility",
+        key,
+        "-bool",
+        "false",
+      ]);
+    }
+  };
+
   const pid = () => {
     const line = (trySimctl(["spawn", device.id, "launchctl", "list"]) ?? "")
       .split("\n")
@@ -187,14 +207,6 @@ export const createDriver = (device: Device, executable: string) => {
     });
   };
 
-  const press = (selector: string) =>
-    agentDevice(["press", selector, ...deviceArgs], { timeoutMs: 30_000 });
-
-  const scroll = (direction: "up" | "down", until: string) =>
-    agentDevice(["scroll", direction, "--until", until, ...deviceArgs], {
-      timeoutMs: 60_000,
-    });
-
   /** Text of the system alert on screen, or null. */
   const readAlert = async () => {
     try {
@@ -230,6 +242,7 @@ export const createDriver = (device: Device, executable: string) => {
 
   return {
     prepare,
+    restore,
     launch,
     pid,
     secondsSinceLaunch,
@@ -238,8 +251,6 @@ export const createDriver = (device: Device, executable: string) => {
     snapshot,
     pollProbes,
     waitFor,
-    press,
-    scroll,
     readAlert,
     screenshot,
     findCrashReport,

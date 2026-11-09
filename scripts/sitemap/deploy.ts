@@ -1,11 +1,12 @@
 // `bun sitemap deploy`: one immutable Vercel deployment per commit. Production
 // deployments move the project domain, which is the `latest` alias of main.
-import { spawnSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
 import { CliError, note, readJson } from "../cli/shared.ts";
 import { runDir } from "./capture.ts";
+import { REPO_ROOT } from "./inputs.ts";
 import type { RunResult } from "./capture.ts";
 import { buildSite, resolveSha } from "./site.ts";
 import type { HistoryEntry } from "./site.ts";
@@ -17,6 +18,9 @@ export const PROJECT = "pixy-mood-tracker-sitemap";
 const META_SHA = "sitemapSha";
 const META_SUBJECT = "sitemapSubject";
 const META_DATE = "sitemapDate";
+
+/** Pinned Vercel CLI: CI runners ship none, and flags change between majors. */
+const VERCEL_CLI = "vercel@60.1.3";
 
 const readScope = () => {
   const scope = process.env.SITEMAP_VERCEL_SCOPE?.trim();
@@ -35,8 +39,9 @@ const readScope = () => {
 const vercel = (args: string[], scope: string) => {
   const token = process.env.VERCEL_TOKEN?.trim();
   const result = spawnSync(
-    "vercel",
+    "bunx",
     [
+      VERCEL_CLI,
       ...args,
       "--scope",
       scope,
@@ -59,7 +64,7 @@ const vercel = (args: string[], scope: string) => {
       why: result.error
         ? result.error.message
         : `Exit ${result.status}. ${errorLine}`,
-      fix: "Run `vercel whoami`. Locally: `vercel login`. CI: check the VERCEL_TOKEN secret.",
+      fix: `Run \`bunx ${VERCEL_CLI} whoami\`. Locally: \`bunx ${VERCEL_CLI} login\`. CI: check the VERCEL_TOKEN secret.`,
     });
   }
   return result.stdout;
@@ -147,6 +152,20 @@ export const deployFor = (values: Record<string, string | undefined>) => {
       why: "It ran with --ref=head, --only, or --allow-native-mismatch.",
       fix: "Capture origin/main without those options, or pass --target=preview for a throwaway deployment.",
     });
+  }
+  if (target === "production") {
+    const main = execFileSync("git", ["rev-parse", "origin/main"], {
+      cwd: REPO_ROOT,
+      encoding: "utf-8",
+    }).trim();
+    if (main !== sha) {
+      throw new CliError({
+        status: "not_latest",
+        message: `${sha.slice(0, 8)} is not origin/main ${main.slice(0, 8)}`,
+        why: "Production is the latest alias. An older commit would move it back.",
+        fix: "Capture origin/main again, or pass --target=preview.",
+      });
+    }
   }
   const scope = readScope();
   ensureProject(scope);

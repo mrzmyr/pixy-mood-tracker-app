@@ -36,13 +36,9 @@ describe("sitemap states", () => {
 
   test("every route has a route file", () => {
     const missing = SCREENS.flatMap((screen) =>
-      [
-        screen.route,
-        ...screen.states.map((state) => state.route ?? screen.route),
-      ].filter(
-        (route) =>
-          findRouteFile(decodeURIComponent(route), trackedFiles) === null
-      )
+      findRouteFile(decodeURIComponent(screen.route), trackedFiles) === null
+        ? [screen.route]
+        : []
     );
     expect(missing).toEqual([]);
   });

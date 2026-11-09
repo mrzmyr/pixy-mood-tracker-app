@@ -18,7 +18,7 @@ export const SITEMAP: Noun = {
       summary:
         "Capture every state in scripts/sitemap/states.ts on the pinned commit.",
       usage:
-        "Usage: bun sitemap capture [--only=<screen|screen/state,...>] [--verify=<n>] [--ref=head] [--allow-native-mismatch]",
+        "Usage: bun sitemap capture [--only=<screen|screen/state,...>] [--verify=<n>] [--ref=head] [--allow-native-mismatch] [--prune]",
       options: {
         only: {
           value: "<ids>",
@@ -42,6 +42,12 @@ export const SITEMAP: Noun = {
             "For capture logic work only; never deploys.",
           ],
         },
+        prune: {
+          description: [
+            "After a full run, delete cache entries and PNGs the run did not use.",
+            "CI uses it so its cache does not grow.",
+          ],
+        },
         "allow-native-mismatch": {
           description: [
             "Capture on a cached Release shell of another native fingerprint.",
@@ -61,11 +67,11 @@ export const SITEMAP: Noun = {
             `Device    ${model}, iOS ${runtime.version} (${runtime.build}), ${locale}, ${timeZone}, light,`,
             "          text size large, status bar 9:41.",
             "Capture   Per state and pass: relaunch, fixture link, flag link, check flag probes,",
-            "          route link, steps, wait, settle, screenshot, accessibility tree.",
+            "          route link, wait, settle, screenshot, accessibility tree.",
             "Passes    off: production default. on: every overridable flag. Flagged elements of",
             "          the on tree are attributed by turning candidate flag halves on (bisection).",
             "Cache     Input hash = file blobs the route imports, shared build files, native",
-            "          fingerprint, device profile, fixture, flags, route, steps, wait. Equal",
+            "          fingerprint, device profile, fixture, flags, route, wait. Equal",
             "          hash: cached PNG reused. Recaptured hash with new PNG: nondeterministic.",
           ],
         },
@@ -105,7 +111,6 @@ export const SITEMAP: Noun = {
         flags_wrong:
           "Flag probes differ from the pass after relaunch; relaunched once",
         route_timeout: "Route link did not open the route",
-        step_failed: "A step selector failed",
         wait_failed: "Wait condition did not show",
         system_alert: "System alert on screen",
         settle_timeout: "Screen kept changing",
@@ -163,7 +168,7 @@ export const SITEMAP: Noun = {
         {
           title: "Requires",
           lines: [
-            "SITEMAP_VERCEL_SCOPE: Vercel team slug. VERCEL_TOKEN in CI, `vercel login` locally.",
+            "SITEMAP_VERCEL_SCOPE: Vercel team slug. VERCEL_TOKEN in CI, `bunx vercel@60.1.3 login` locally.",
           ],
         },
         {
@@ -178,6 +183,7 @@ export const SITEMAP: Noun = {
         vercel_scope_missing: "SITEMAP_VERCEL_SCOPE not set",
         not_deployable:
           "Capture used --ref=head, --only, or --allow-native-mismatch",
+        not_latest: "Production deploy of a commit that is not origin/main",
         vercel_failed: "Vercel CLI failed",
         run_missing: "No capture result for the commit",
       },
