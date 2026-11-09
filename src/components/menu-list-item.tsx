@@ -3,6 +3,7 @@ import { Platform, Pressable, Text, View } from "react-native";
 import type { AccessibilityValue, ViewStyle } from "react-native";
 
 import ChevronRight from "lucide-react-native/icons/chevron-right";
+import { LIST_INSET } from "@/components/list-inset";
 import { SFIcon } from "@/components/sf-icon";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
@@ -23,8 +24,8 @@ interface Metrics {
 
 const ANDROID: Metrics = {
   frame: {},
-  row: { minHeight: 56, paddingHorizontal: SPACE.lg },
-  tallRow: { minHeight: 72, paddingHorizontal: SPACE.lg },
+  row: { minHeight: 56, paddingHorizontal: LIST_INSET },
+  tallRow: { minHeight: 72, paddingHorizontal: LIST_INSET },
   icon: {
     width: 24,
     height: 24,
@@ -39,8 +40,8 @@ const ANDROID: Metrics = {
 const IOS: Metrics = {
   frame: {
     borderTopWidth: 1,
-    marginRight: SPACE.lg,
-    marginLeft: SPACE.lg,
+    marginRight: LIST_INSET,
+    marginLeft: LIST_INSET,
   },
   row: { minHeight: 50 },
   tallRow: { minHeight: 50 },

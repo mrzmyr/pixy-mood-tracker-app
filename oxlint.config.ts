@@ -311,6 +311,7 @@ export default defineConfig({
         "pixy-standards/no-reduce-motion-never": "error",
         "pixy-standards/no-spring-animation": "error",
         "pixy-standards/title-case-labels": "error",
+        "pixy-standards/list-text-inset": "error",
         "pixy-standards/component-scope": [
           "error",
           { modules: componentScopes },

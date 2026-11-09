@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Platform, Pressable, StyleSheet, View } from "react-native";
 import Check from "lucide-react-native/icons/check";
 import MenuList from "@/components/menu-list";
-import { Label } from "@/components/typography";
+import MenuListHeadline from "@/components/menu-list-headline";
 import { TAG_COLOR_NAMES } from "@/constants/config";
 import { SPACE } from "@/constants/space";
 import useColors from "@/hooks/use-colors";
@@ -129,7 +129,6 @@ export const ColorPicker = ({
   value: (typeof TAG_COLOR_NAMES)[number];
   onChange: (color: (typeof TAG_COLOR_NAMES)[number]) => void;
 }) => {
-  const colors = useColors();
   const [gridWidth, setGridWidth] = useState(0);
 
   const columns = Math.max(
@@ -142,14 +141,9 @@ export const ColorPicker = ({
   return (
     // Section gap to the category picker below.
     <View style={{ marginBottom: SPACE.xxl }}>
-      <Label
-        size={13}
-        strong
-        accessibilityRole="header"
-        style={[styles.label, { color: colors.textSecondary }]}
-      >
+      <MenuListHeadline style={styles.label}>
         {t("color")}: {tDynamic(`tag_color_${value}`)}
-      </Label>
+      </MenuListHeadline>
       <MenuList style={styles.card}>
         <View
           accessibilityRole="radiogroup"

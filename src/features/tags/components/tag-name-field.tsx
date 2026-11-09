@@ -2,7 +2,9 @@ import { useRef } from "react";
 import type { ReactNode } from "react";
 import { Pressable, TextInput, View } from "react-native";
 import { FieldError } from "@/components/field-error";
+import { LIST_INSET } from "@/components/list-inset";
 import MenuList from "@/components/menu-list";
+import MenuListHeadline from "@/components/menu-list-headline";
 import { Label, getInputTextStyle } from "@/components/typography";
 import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/config";
 import { SPACE } from "@/constants/space";
@@ -51,16 +53,9 @@ const TagNameField = ({
         onPress={() => inputRef.current?.focus()}
         style={{ paddingBottom: 8 }}
       >
-        <Label
-          size={13}
-          strong
-          nativeID="tag-name-label"
-          style={{
-            color: colors.textSecondary,
-          }}
-        >
+        <MenuListHeadline nativeID="tag-name-label">
           {t("tags_name_label")}
-        </Label>
+        </MenuListHeadline>
       </Pressable>
       <MenuList>
         <View
@@ -71,6 +66,8 @@ const TagNameField = ({
                   alignItems: "center",
                   gap: SPACE.md,
                   padding: SPACE.md,
+                  // Icon box starts at the row text, like the headline above.
+                  paddingLeft: LIST_INSET,
                 }
               : undefined
           }
@@ -88,7 +85,7 @@ const TagNameField = ({
               color: colors.textInputText,
               ...(leading
                 ? { flex: 1, paddingVertical: SPACE.md, paddingRight: SPACE.xs }
-                : { width: "100%", padding: 16 }),
+                : { width: "100%", padding: LIST_INSET }),
             }}
             placeholder={placeholder}
             placeholderTextColor={colors.textInputPlaceholder}
@@ -107,6 +104,7 @@ const TagNameField = ({
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
+          paddingHorizontal: LIST_INSET,
           marginTop: hasError || showCounter ? 6 : 0,
         }}
       >

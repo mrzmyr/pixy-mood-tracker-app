@@ -1,13 +1,12 @@
 import { Platform, View } from "react-native";
 import MenuList from "@/components/menu-list";
+import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
 import RadioMark from "@/components/radio-mark";
-import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { useTagsState } from "../tags-provider";
 import type { TagCategory } from "../tags-provider";
-import { Label } from "@/components/typography";
 
 const IS_ANDROID = Platform.OS === "android";
 
@@ -22,23 +21,17 @@ const TagCategoryPicker = ({
   value: TagCategory["id"];
   onChange: (categoryId: TagCategory["id"]) => void;
 }) => {
-  const colors = useColors();
   const haptics = useHaptics();
   const { categories } = useTagsState();
 
   return (
     <View>
-      <Label
-        size={13}
-        strong
+      <MenuListHeadline
         nativeID="tag-category-label"
-        style={{
-          color: colors.textSecondary,
-          paddingBottom: 8,
-        }}
+        style={{ paddingBottom: 8 }}
       >
         {t("tag_category")}
-      </Label>
+      </MenuListHeadline>
       <View
         accessibilityRole="radiogroup"
         accessibilityLabelledBy="tag-category-label"

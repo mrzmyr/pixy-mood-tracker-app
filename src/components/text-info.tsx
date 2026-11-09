@@ -1,16 +1,15 @@
-import type { TextStyle } from "react-native";
-
+import { LIST_INSET } from "@/components/list-inset";
+import type { ListTextStyle } from "@/components/list-inset";
 import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
-import { SPACE } from "@/constants/space";
 
-/** Secondary note under a list, for example a warning about its rows. */
+/** Secondary note under a list or field. Starts at the row text, `LIST_INSET`. */
 const TextInfo = ({
   children,
   style,
 }: {
   children: React.ReactNode;
-  style?: TextStyle;
+  style?: ListTextStyle;
 }) => {
   const colors = useColors();
 
@@ -20,7 +19,7 @@ const TextInfo = ({
       style={[
         {
           color: colors.textSecondary,
-          padding: SPACE.lg,
+          padding: LIST_INSET,
           paddingTop: 0,
         },
         style,

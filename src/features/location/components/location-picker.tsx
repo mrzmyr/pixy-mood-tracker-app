@@ -6,9 +6,10 @@ import CircleX from "lucide-react-native/icons/circle-x";
 import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import { SheetModal } from "@/components/sheet-modal";
-import { Copy, getInputTextStyle } from "@/components/typography";
+import { getInputTextStyle } from "@/components/typography";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
+import TextInfo from "@/components/text-info";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { LogLocation } from "@/types";
@@ -243,22 +244,14 @@ const SheetContent = ({
           </MenuList>
         )}
         {search.status === "searching" && (
-          <Copy
-            size={14}
-            accessibilityLiveRegion="polite"
-            style={{ marginTop: 16, color: colors.textSecondary }}
-          >
-            {t("location_searching")}
-          </Copy>
+          <View accessibilityLiveRegion="polite" style={{ marginTop: 16 }}>
+            <TextInfo>{t("location_searching")}</TextInfo>
+          </View>
         )}
         {search.status === "done" && search.results.length === 0 && (
-          <Copy
-            size={14}
-            accessibilityLiveRegion="polite"
-            style={{ marginTop: 16, color: colors.textSecondary }}
-          >
-            {t("location_no_results")}
-          </Copy>
+          <View accessibilityLiveRegion="polite" style={{ marginTop: 16 }}>
+            <TextInfo>{t("location_no_results")}</TextInfo>
+          </View>
         )}
         {search.status === "done" && search.results.length > 0 && (
           <MenuList style={{ marginTop: 16 }}>
