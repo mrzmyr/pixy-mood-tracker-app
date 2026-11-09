@@ -1,6 +1,5 @@
-// Sitemap viewer. No dependencies. Data comes from the inline JSON blocks
-// that `bun sitemap build` writes into index.html.
-"use strict";
+// Sitemap viewer. No dependencies. Data comes from sitemap.json, which
+// `bun sitemap build` writes; images load from Vercel Blob.
 
 const CARD_W = 220;
 const CARD_H = 520;
@@ -60,8 +59,12 @@ const regionsLayer = (regions, scale) =>
     return box;
   });
 
-const DATA = JSON.parse($("data").textContent);
-const HISTORY = JSON.parse($("history").textContent);
+const response = await fetch("sitemap.json");
+const DATA = await response.json();
+const image = (png) => `${DATA.imageBase}/small/${png}.png`;
+document.title = `pixy-mood-tracker sitemap ${DATA.sha.slice(0, 7)}`;
+$("commit").textContent =
+  `${DATA.sha.slice(0, 7)}  ${DATA.date.slice(0, 10)}  ${DATA.subject}`;
 const { screens } = DATA;
 const byId = new Map(screens.map((screen) => [screen.id, screen]));
 const children = new Map(screens.map((screen) => [screen.id, []]));
@@ -125,7 +128,7 @@ const shot = (screen, state, scale, container) => {
   if (png) {
     container.replaceChildren(
       el("img", {
-        src: `img/${png}.png`,
+        src: image(png),
         alt: `${screen.title}, ${state.title}`,
       }),
       ...regionsLayer(regions, scale)
@@ -215,9 +218,7 @@ const renderDetail = () => {
         title: candidate.title,
       });
       if (png) {
-        thumb.append(
-          el("img", { src: `img/${png}.png`, alt: "", loading: "lazy" })
-        );
+        thumb.append(el("img", { src: image(png), alt: "", loading: "lazy" }));
       }
       thumb.append(el("span", { class: "thumb-label", text: candidate.title }));
       return thumb;
@@ -477,24 +478,6 @@ document.addEventListener("keydown", (event) => {
   }
 });
 window.addEventListener("resize", renderDetail);
-
-// Commit switcher. Older deployments list only commits deployed before them.
-const commit = $("commit");
-for (const entry of HISTORY) {
-  const label = `${entry.sha.slice(0, 7)}  ${entry.date.slice(0, 10)}  ${entry.subject}`;
-  const option = el("option", {
-    value: entry.sha,
-    text: label.length > 80 ? `${label.slice(0, 79)}…` : label,
-  });
-  option.selected = entry.sha === DATA.sha;
-  commit.append(option);
-}
-commit.addEventListener("change", () => {
-  const entry = HISTORY.find((candidate) => candidate.sha === commit.value);
-  if (entry && entry.url) {
-    location.href = `${entry.url.replace(/\/$/u, "")}/${location.hash}`;
-  }
-});
 
 const { summary, profile } = DATA;
 $("foot").replaceChildren(

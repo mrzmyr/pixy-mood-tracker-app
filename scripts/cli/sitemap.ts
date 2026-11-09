@@ -1,18 +1,18 @@
 // `bun sitemap`: screenshots of every screen and state from origin/main,
-// published as a static sitemap. Code: scripts/sitemap.
+// published as a static sitemap in apps/sitemap. Code: scripts/sitemap.
 import { captureFor } from "../sitemap/capture.ts";
-import { deployFor } from "../sitemap/deploy.ts";
 import { CLOCK_BUDGET_SECONDS, DEVICE_PROFILE } from "../sitemap/profile.ts";
-import { buildSite, resolveSha } from "../sitemap/site.ts";
+import { buildSite, pruneBlobs, resolveSha } from "../sitemap/site.ts";
 import { defineCommand } from "./shared.ts";
 import type { Noun } from "./shared.ts";
 
 const { model, runtime, locale, timeZone } = DEVICE_PROFILE;
 
-/** `bun sitemap` noun: capture, build, deploy. Code lives in scripts/sitemap. */
+/** `bun sitemap` noun: capture, build, prune. Code lives in scripts/sitemap. */
 export const SITEMAP: Noun = {
-  summary: "Capture every screen and state, build the sitemap site, deploy it.",
-  commandOrder: ["capture", "build", "deploy"],
+  summary:
+    "Capture every screen and state, write apps/sitemap/sitemap.json, prune Blob.",
+  commandOrder: ["capture", "build", "prune"],
   commands: {
     capture: defineCommand({
       summary:
@@ -24,7 +24,7 @@ export const SITEMAP: Noun = {
           value: "<ids>",
           description: [
             "Comma-separated screen or <screen>/<state> ids.",
-            "Partial runs never deploy.",
+            "Partial runs never become the sitemap.",
           ],
         },
         verify: {
@@ -39,7 +39,7 @@ export const SITEMAP: Noun = {
           choices: ["head"],
           description: [
             "head: capture HEAD as is, also when it is not origin/main.",
-            "For capture logic work only; never deploys.",
+            "For capture logic work only; never becomes the sitemap.",
           ],
         },
         prune: {
@@ -51,7 +51,7 @@ export const SITEMAP: Noun = {
         "allow-native-mismatch": {
           description: [
             "Capture on a cached Release shell of another native fingerprint.",
-            "Never deploys.",
+            "Never becomes the sitemap.",
           ],
         },
       },
@@ -73,6 +73,8 @@ export const SITEMAP: Noun = {
             "Cache     Input hash = file blobs the route imports, shared build files, native",
             "          fingerprint, device profile, fixture, flags, route, wait. Equal",
             "          hash: cached PNG reused. Recaptured hash with new PNG: nondeterministic.",
+            "Blob      With BLOB_READ_WRITE_TOKEN: cache misses download from Vercel Blob, new",
+            "          captures and site images upload at the end, also after failures.",
           ],
         },
         {
@@ -124,43 +126,17 @@ export const SITEMAP: Noun = {
       },
     }),
     build: defineCommand({
-      summary: "Build the static site of one captured commit.",
-      usage: "Usage: bun sitemap build [--sha=<sha>]",
+      summary: "Write apps/sitemap/sitemap.json for one captured commit.",
+      usage: "Usage: bun sitemap build [--sha=<sha>] [--force]",
       options: {
         sha: {
           value: "<sha>",
           description: ["Captured commit. Default: HEAD."],
         },
-      },
-      sections: [
-        {
-          title: "Output",
-          lines: [
-            "Site folder on stdout: ~/.cache/pixy-mood-tracker/sitemap/site/<sha>.",
-            "Open its index.html in a browser. No server needed.",
-          ],
-        },
-      ],
-      errors: { run_missing: "No capture result for the commit" },
-      run: (values) => {
-        buildSite(resolveSha(values.sha));
-      },
-    }),
-    deploy: defineCommand({
-      summary: "Deploy the site of one captured commit to Vercel.",
-      usage:
-        "Usage: bun sitemap deploy [--sha=<sha>] [--target=<production|preview>]",
-      options: {
-        sha: {
-          value: "<sha>",
-          description: ["Captured commit. Default: HEAD."],
-        },
-        target: {
-          value: "<production|preview>",
-          choices: ["production", "preview"],
+        force: {
           description: [
-            "production: moves the latest alias. Needs a full origin/main capture.",
-            "preview: throwaway deployment of any capture. Default: production.",
+            "Write a capture that is not a full origin/main run.",
+            "Local preview only; never commit the result.",
           ],
         },
       },
@@ -168,27 +144,55 @@ export const SITEMAP: Noun = {
         {
           title: "Requires",
           lines: [
-            "SITEMAP_VERCEL_SCOPE: Vercel team slug. VERCEL_TOKEN in CI, `bunx vercel@60.1.3 login` locally.",
+            "BLOB_READ_WRITE_TOKEN: images load from Vercel Blob. CI reads it from a secret.",
           ],
         },
         {
           title: "Behavior",
           lines: [
-            "Lists earlier production deployments by their sitemapSha metadata for the commit",
-            "switcher, builds the site, deploys it. Each deployment URL is immutable.",
+            "Checks every shown image is in Blob, then writes sitemap.json with the Blob origin.",
+            "CI commits it to main. Vercel deploys apps/sitemap on that commit.",
+            "Preview: `bunx serve apps/sitemap`.",
           ],
         },
       ],
       errors: {
-        vercel_scope_missing: "SITEMAP_VERCEL_SCOPE not set",
+        run_missing: "No capture result for the commit",
         not_deployable:
           "Capture used --ref=head, --only, or --allow-native-mismatch",
-        not_latest: "Production deploy of a commit that is not origin/main",
-        vercel_failed: "Vercel CLI failed",
-        run_missing: "No capture result for the commit",
+        images_missing: "Shown images not uploaded to Blob",
+        blob_token_missing: "BLOB_READ_WRITE_TOKEN not set",
+        blob_failed: "Vercel Blob request failed",
       },
-      run: (values) => {
-        deployFor(values);
+      run: async (values) => {
+        await buildSite(resolveSha(values.sha), values.force !== undefined);
+      },
+    }),
+    prune: defineCommand({
+      summary: "Delete Blob files that sitemap.json does not use.",
+      usage: "Usage: bun sitemap prune [--days=<n>]",
+      options: {
+        days: {
+          value: "<n>",
+          description: ["Keep unused files younger than n days. Default 30."],
+        },
+      },
+      sections: [
+        {
+          title: "Behavior",
+          lines: [
+            "Keeps every file the committed sitemap.json uses, at any age: shown images and",
+            "the cache entries of every input hash the run looked up. CI runs it after build.",
+          ],
+        },
+      ],
+      errors: {
+        not_deployable: "sitemap.json missing or not from origin/main",
+        blob_token_missing: "BLOB_READ_WRITE_TOKEN not set",
+        blob_failed: "Vercel Blob request failed",
+      },
+      run: async (values) => {
+        await pruneBlobs(Number(values.days ?? 30));
       },
     }),
   },

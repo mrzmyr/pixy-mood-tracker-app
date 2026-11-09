@@ -66,9 +66,11 @@ input:focus-visible {
 .bar-name {
   font-weight: 600;
 }
-.bar-commit select {
+#commit {
   max-width: 420px;
-  font-family: var(--mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .segmented {
   display: flex;

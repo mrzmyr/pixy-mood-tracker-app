@@ -1,19 +1,21 @@
 name: sitemap
 
-# Capture every screen of main and deploy the sitemap. Same CLI as local
-# runs: `bun sitemap capture`, then `bun sitemap deploy`.
+# Capture every screen of main, commit apps/sitemap/sitemap.json to main.
+# Vercel deploys apps/sitemap on that commit. Same CLI as local runs.
+# The bot commit uses GITHUB_TOKEN, so it starts no workflow, this one included.
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
-# A newer push supersedes the run: capture refuses a HEAD behind origin/main.
+# Queue instead of cancel: busy merge days would cancel every run. GitHub
+# keeps one pending run, and it checks out the newest main.
 concurrency:
   group: sitemap
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   sitemap:
@@ -24,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          persist-credentials: false
+          ref: main
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -43,24 +45,13 @@ jobs:
           hash=$(EXPO_PUBLIC_APP_VARIANT=preview bun -e 'import { createFingerprintAsync } from "@expo/fingerprint"; console.log((await createFingerprintAsync(process.cwd())).hash)')
           echo "hash=$hash" >> "$GITHUB_OUTPUT"
       # Release shell: one native build per fingerprint, then cached.
-      # Restore and save are split: a failed capture must not drop the
-      # build or the captures it made.
+      # Restore and save are split: a failed capture must not drop the build.
       - name: Restore Release shell
         id: shell-cache
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.cache/pixy-mood-tracker/build-cache
           key: sitemap-shell-${{ runner.arch }}-${{ steps.fingerprint.outputs.hash }}
-      # Same key scheme as local: cache entries are named by input hash, so
-      # any earlier run's entries are valid for every later commit.
-      - name: Restore captures
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
-        with:
-          path: |
-            ~/.cache/pixy-mood-tracker/sitemap/states
-            ~/.cache/pixy-mood-tracker/sitemap/png
-          key: sitemap-captures-v1-${{ runner.arch }}-${{ github.sha }}
-          restore-keys: sitemap-captures-v1-${{ runner.arch }}-
       - name: Build Release shell
         id: build
         env:
@@ -75,23 +66,31 @@ jobs:
         with:
           path: ~/.cache/pixy-mood-tracker/build-cache
           key: sitemap-shell-${{ runner.arch }}-${{ steps.fingerprint.outputs.hash }}
+      # Cache entries and images live in Vercel Blob, named by hash.
       - name: Capture
-        id: capture
-        run: bun sitemap capture --verify=2 --prune
-      # Entries are named by input hash, so a partial run's entries are valid.
-      - name: Save captures
-        if: always() && steps.capture.outcome != 'skipped'
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
-        with:
-          path: |
-            ~/.cache/pixy-mood-tracker/sitemap/states
-            ~/.cache/pixy-mood-tracker/sitemap/png
-          key: sitemap-captures-v1-${{ runner.arch }}-${{ github.sha }}
-      - name: Deploy
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          SITEMAP_VERCEL_SCOPE: ${{ secrets.SITEMAP_VERCEL_SCOPE }}
-        run: bun sitemap deploy
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: bun sitemap capture --verify=2
+      - name: Build
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: bun sitemap build
+      - name: Commit sitemap.json
+        run: |
+          git add apps/sitemap/sitemap.json
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(sitemap): update screens"
+          # main may have moved; only this job writes sitemap.json.
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin main && git push origin HEAD:main && exit 0
+          done
+          exit 1
+      - name: Prune Blob
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: bun sitemap prune --days=30
       - name: Upload failures
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

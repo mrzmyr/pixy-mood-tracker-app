@@ -11,6 +11,8 @@ import type { Device } from "../cli/device.ts";
 import { exportBundle, patchApp } from "../cli/release-smoke.ts";
 import { CACHE_DIR, CliError, note, readJson } from "../cli/shared.ts";
 import { attempt } from "./attempt.ts";
+import { download, hasBlobToken, listBlobs, uploadAll } from "./blob.ts";
+import type { RemoteBlob } from "./blob.ts";
 import { CaptureError, PREVIEW, createDriver } from "./device.ts";
 import type { Driver } from "./device.ts";
 import { OVERRIDABLE_FLAGS } from "./flags.ts";
@@ -20,19 +22,21 @@ import type { Source } from "./inputs.ts";
 import { passId, stateKey } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
 import { measureNoise } from "./noise.ts";
-import { normalizeScreenshot } from "./png.ts";
+import { decodePng, downscale, encodePng, normalizeScreenshot } from "./png.ts";
 import { runPreflight } from "./preflight.ts";
-import { CAPTURE_ENV, DEVICE_PROFILE } from "./profile.ts";
+import { CAPTURE_ENV, DEVICE_PROFILE, SITE_IMAGE_SCALE } from "./profile.ts";
 import { SCREENS } from "./states.ts";
 import { countNode, diffTrees } from "./tree.ts";
 import type { TreeNode } from "./tree.ts";
 
-/** Cache root of the sitemap. CI restores states/ and png/ between runs. */
+/** Local cache root. Vercel Blob mirrors states/, png/, and small/. */
 export const SITEMAP_DIR = path.join(CACHE_DIR, "sitemap");
 /** `<input hash>.json`: PNG hash and tree of one capture. */
 export const STATES_DIR = path.join(SITEMAP_DIR, "states");
 /** `<png hash>.png`: full-size normalized screenshots, shared by states. */
 export const PNG_DIR = path.join(SITEMAP_DIR, "png");
+/** `<png hash>.png`: downscaled site images. */
+export const SMALL_DIR = path.join(SITEMAP_DIR, "small");
 /** Result and failure files of one commit. */
 export const runDir = (sha: string) => path.join(SITEMAP_DIR, "runs", sha);
 
@@ -94,6 +98,8 @@ export interface RunResult {
   profile: typeof DEVICE_PROFILE;
   screens: ScreenResult[];
   summary: Summary;
+  /** Every input hash the run looked up, sorted. Prune keeps their blobs. */
+  used: string[];
 }
 
 interface Summary {
@@ -112,6 +118,47 @@ const hostInfo = () => ({
 
 const readCached = (inputHash: string) =>
   readJson<CachedCapture>(path.join(STATES_DIR, `${inputHash}.json`));
+
+/** Local cache entry, downloaded from Blob on a local miss. */
+const loadCached = async (
+  remote: Map<string, RemoteBlob> | null,
+  inputHash: string
+) => {
+  const local = readCached(inputHash);
+  const blob = remote?.get(`states/${inputHash}.json`);
+  if (local || !blob) {
+    return local;
+  }
+  await download(blob.url, path.join(STATES_DIR, `${inputHash}.json`));
+  return readCached(inputHash);
+};
+
+/** Full-size PNG on disk, downloaded from Blob when missing. False: gone. */
+const ensurePng = async (
+  remote: Map<string, RemoteBlob> | null,
+  pngHash: string
+) => {
+  const file = path.join(PNG_DIR, `${pngHash}.png`);
+  const blob = remote?.get(`png/${pngHash}.png`);
+  if (!fs.existsSync(file) && blob) {
+    await download(blob.url, file);
+  }
+  return fs.existsSync(file);
+};
+
+/** Downscaled site image of a local full-size PNG. */
+const smallImage = (pngHash: string) => {
+  const file = path.join(SMALL_DIR, `${pngHash}.png`);
+  if (!fs.existsSync(file)) {
+    const full = fs.readFileSync(path.join(PNG_DIR, `${pngHash}.png`));
+    fs.mkdirSync(SMALL_DIR, { recursive: true });
+    fs.writeFileSync(
+      file,
+      encodePng(downscale(decodePng(full), SITE_IMAGE_SCALE))
+    );
+  }
+  return file;
+};
 
 const short = (hash: string) => hash.slice(0, 12);
 
@@ -223,6 +270,8 @@ interface Context {
   nondeterministic: CliError | null;
   /** Every input hash this run looked up, attribution passes included. */
   used: Set<string>;
+  /** Blob listing at run start. Null without BLOB_READ_WRITE_TOKEN. */
+  remote: Map<string, RemoteBlob> | null;
 }
 
 /**
@@ -311,13 +360,17 @@ const captureOne = async (
   context.used.add(inputHash);
   const label = `${key} ${passId(pass)}`;
   const started = Date.now();
-  const cached = readCached(inputHash);
+  let cached = await loadCached(context.remote, inputHash);
   if (cached && !context.verify.has(inputHash)) {
     summary.cached += 1;
     process.stdout.write(
       `cached   ${label.padEnd(44)} in=${short(inputHash)} png=${short(cached.pngHash)} ${Date.now() - started}ms\n`
     );
     return cached;
+  }
+  if (cached && !(await ensurePng(context.remote, cached.pngHash))) {
+    // Pruned PNG: nothing to compare with, so capture as new.
+    cached = null;
   }
   let lastError: CliError | null = null;
   for (let round = 1; round <= 2; round += 1) {
@@ -496,13 +549,72 @@ const passesOf = (screen: ScreenSpec): Pass[] => [
 ];
 
 /** Pick `count` cached states to capture again, the same ones for the same hashes. */
-const pickVerify = (hashes: string[], count: number) =>
-  new Set(
-    hashes
-      .filter((hash) => readCached(hash))
+const pickVerify = async (
+  remote: Map<string, RemoteBlob> | null,
+  hashes: string[],
+  count: number
+) => {
+  const cached = [];
+  for (const hash of hashes) {
+    // oxlint-disable-next-line no-await-in-loop -- small JSON files, in order
+    if (await loadCached(remote, hash)) {
+      cached.push(hash);
+    }
+  }
+  return new Set(
+    cached
       .toSorted((a, b) => sha256(a).localeCompare(sha256(b)))
       .slice(0, count)
   );
+};
+
+/**
+ * Upload what the run used and Blob lacks: cache entries, full PNGs, and
+ * site images of the shown PNGs. Runs before failures throw, so a failed
+ * run still shares its captures.
+ */
+const syncUp = async (context: Context, results: ScreenResult[]) => {
+  if (!context.remote) {
+    return;
+  }
+  const files: { pathname: string; file: string }[] = [];
+  for (const inputHash of context.used) {
+    const entry = readCached(inputHash);
+    if (entry && fs.existsSync(path.join(PNG_DIR, `${entry.pngHash}.png`))) {
+      files.push(
+        {
+          pathname: `states/${inputHash}.json`,
+          file: path.join(STATES_DIR, `${inputHash}.json`),
+        },
+        {
+          pathname: `png/${entry.pngHash}.png`,
+          file: path.join(PNG_DIR, `${entry.pngHash}.png`),
+        }
+      );
+    }
+  }
+  const shown = new Set(
+    results.flatMap((screen) =>
+      screen.states.flatMap((state) =>
+        [state.off?.pngHash, state.on?.pngHash].filter((hash): hash is string =>
+          Boolean(hash)
+        )
+      )
+    )
+  );
+  for (const pngHash of shown) {
+    if (
+      !context.remote.has(`small/${pngHash}.png`) &&
+      fs.existsSync(path.join(PNG_DIR, `${pngHash}.png`))
+    ) {
+      files.push({
+        pathname: `small/${pngHash}.png`,
+        file: smallImage(pngHash),
+      });
+    }
+  }
+  await uploadAll(files, context.remote);
+};
 
 /** Capture one pass; a failure lands in `result.errors` instead of throwing. */
 const runPass = async (
@@ -663,6 +775,12 @@ const captureAll = async ({
   runStarted: number;
 }) => {
   const hash = createInputHasher({ source, nativeFingerprint });
+  const remote = hasBlobToken() ? await listBlobs() : null;
+  note(
+    remote
+      ? `Blob: ${remote.size} files`
+      : "Blob: BLOB_READ_WRITE_TOKEN not set, local cache only"
+  );
   const allHashes = screens.flatMap((screen) =>
     screen.states.flatMap((state) =>
       passesOf(screen).map((pass) => hash(screen, state, pass))
@@ -672,7 +790,7 @@ const captureAll = async ({
     source,
     driver,
     hash,
-    verify: pickVerify(allHashes, Number(values.verify ?? 0)),
+    verify: await pickVerify(remote, allHashes, Number(values.verify ?? 0)),
     summary: {
       captured: 0,
       cached: 0,
@@ -682,6 +800,7 @@ const captureAll = async ({
     },
     nondeterministic: null,
     used: new Set(),
+    remote,
     tmpFile: path.join(
       os.tmpdir(),
       `pixy-mood-tracker-sitemap-${process.pid}.png`
@@ -702,11 +821,13 @@ const captureAll = async ({
     profile: DEVICE_PROFILE,
     screens: results,
     summary: context.summary,
+    used: [...context.used].toSorted(),
   };
   fs.mkdirSync(runDir(source.sha), { recursive: true });
   const resultFile = path.join(runDir(source.sha), "result.json");
   fs.writeFileSync(resultFile, `${JSON.stringify(run, null, 1)}\n`);
   fs.rmSync(context.tmpFile, { force: true });
+  await syncUp(context, results);
   // CI keeps its cache small. Partial runs would drop the other screens.
   if (values.prune !== undefined && !values.only) {
     pruneCache(context.used);
