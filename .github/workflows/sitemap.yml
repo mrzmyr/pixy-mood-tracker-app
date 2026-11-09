@@ -59,8 +59,10 @@ jobs:
           key: sitemap-captures-v1-${{ runner.arch }}-${{ github.sha }}
           restore-keys: sitemap-captures-v1-${{ runner.arch }}-
       - name: Build Release shell
+        env:
+          FINGERPRINT: ${{ steps.fingerprint.outputs.hash }}
         run: |
-          if ! bun builds list --platform=ios | grep -q "${{ steps.fingerprint.outputs.hash }}" ; then
+          if ! bun builds list --platform=ios | grep -q "ios-${FINGERPRINT:0:8}-Release" ; then
             bun app build --platform=ios
           fi
       - name: Capture
