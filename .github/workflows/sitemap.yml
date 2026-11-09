@@ -1,0 +1,105 @@
+name: sitemap
+
+# Capture every screen of main, commit apps/sitemap/sitemap.json to main.
+# Vercel deploys apps/sitemap on that commit. Same CLI as local runs.
+# The bot commit uses GITHUB_TOKEN, so it starts no workflow, this one included.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Queue instead of cancel: busy merge days would cancel every run. GitHub
+# keeps one pending run, and it checks out the newest main.
+concurrency:
+  group: sitemap
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sitemap:
+    runs-on: macos-26
+    timeout-minutes: 120
+    env:
+      XCODE_APP: /Applications/Xcode_26.4.app
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      - name: Select Xcode
+        run: sudo xcode-select -s "$XCODE_APP"
+      - name: Install dependencies
+        run: bun ci
+      - name: Native fingerprint
+        id: fingerprint
+        run: |
+          hash=$(EXPO_PUBLIC_APP_VARIANT=preview bun -e 'import { createFingerprintAsync } from "@expo/fingerprint"; console.log((await createFingerprintAsync(process.cwd())).hash)')
+          echo "hash=$hash" >> "$GITHUB_OUTPUT"
+      # Release shell: one native build per fingerprint, then cached.
+      # Restore and save are split: a failed capture must not drop the build.
+      - name: Restore Release shell
+        id: shell-cache
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/pixy-mood-tracker/build-cache
+          key: sitemap-shell-${{ runner.arch }}-${{ steps.fingerprint.outputs.hash }}
+      - name: Build Release shell
+        id: build
+        env:
+          FINGERPRINT: ${{ steps.fingerprint.outputs.hash }}
+        run: |
+          if ! bun builds list --platform=ios | grep -q "ios-${FINGERPRINT:0:8}-Release" ; then
+            bun app build --platform=ios
+          fi
+      - name: Save Release shell
+        if: always() && steps.shell-cache.outputs.cache-hit != 'true' && steps.build.outcome == 'success'
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/pixy-mood-tracker/build-cache
+          key: sitemap-shell-${{ runner.arch }}-${{ steps.fingerprint.outputs.hash }}
+      # Cache entries and images live in Vercel Blob, named by hash.
+      - name: Capture
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: bun sitemap capture --verify=2
+      - name: Build
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: bun sitemap build
+      - name: Commit sitemap.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git add apps/sitemap/sitemap.json
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(sitemap): update screens"
+          # Token only in this step, not in .git/config for later steps.
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          # main may have moved; only this job writes sitemap.json.
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash "$remote" main && git push "$remote" HEAD:main && exit 0
+          done
+          exit 1
+      - name: Prune Blob
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: bun sitemap prune --days=30
+      - name: Upload failures
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: sitemap-failures
+          path: ~/.cache/pixy-mood-tracker/sitemap/runs/*/failures
+          if-no-files-found: ignore

@@ -1,3 +1,5 @@
+import { HAS_APP_VARIANT, IS_SITEMAP_CAPTURE } from "@/constants/app-variant";
+
 /** Minimum tag title length accepted by the tag create and edit screens. */
 export const MIN_TAG_LENGTH = 3;
 /** Maximum tag title length; also the text input `maxLength`. */
@@ -54,9 +56,10 @@ export const TAG_COLOR_NAMES = [
 
 /**
  * Analytics follow user consent in every app variant; each variant reports
- * to its own PostHog project (see `POSTHOG_API_KEY`). Off in Jest.
+ * to its own PostHog project (see `POSTHOG_API_KEY`). Off in Jest and in
+ * sitemap capture bundles, which make no network requests.
  */
-export { HAS_APP_VARIANT as TRACKING_ENABLED } from "@/constants/app-variant";
+export const TRACKING_ENABLED = HAS_APP_VARIANT && !IS_SITEMAP_CAPTURE;
 
 /** Changelog board opened in the in-app browser from Settings. */
 export const CHANGELOG_URL = "https://pixy.hellonext.co/embed/c?no_header=true";

@@ -149,6 +149,20 @@ bun app install --platform=ios
 bun app open --target=pixel-8-09yw
 ```
 
+### Sitemap
+
+- `bun sitemap capture|build|prune`: screenshot of every screen and state in [`states.ts`](../scripts/sitemap/states.ts), flags off and on, as a static site in [`apps/sitemap`](../apps/sitemap). `--help` lists options, output lines, and errors.
+- Source is `origin/main` only. Capture fails on another HEAD or a dirty tree. `--ref=head` is for capture logic work and never becomes the sitemap.
+- Capture app: cached iOS Release shell plus `expo export` of the preview JS with `EXPO_PUBLIC_SITEMAP_CAPTURE=1`. No Metro, no LogBox, no network, no telemetry, no keyboard, reduced motion ([`sitemap-capture.tsx`](../src/shell/sitemap-capture.tsx)). Clock starts at 2026-03-18 09:41 Europe/Berlin on every launch ([polyfill](../scripts/sitemap/capture-polyfill.js)).
+- Device profile is part of every input hash ([`profile.ts`](../scripts/sitemap/profile.ts)). Other runtime, other pixels: preflight fails.
+- Capture simulator runs with iOS Reduce Motion and Reduce Transparency on. Screens with a sky or glass look calmer than on a phone.
+- New screen: add it to `states.ts`. Wait for a testID; tap testIDs; label only for native header items. `bun run test:cli` checks ids, routes, fixtures, and strings.
+- Flagged UI: elements in the flags-on tree that the flags-off tree lacks. Capture finds the flag by turning halves of the overridable flags on.
+- Equal input hash reuses the cached PNG. `--verify=<n>` captures cached states again. Native glass buttons differ by a few color levels per launch: within the [noise budget](../scripts/sitemap/noise.ts) the cached PNG stays, beyond it the run fails with `nondeterministic`. Never delete a cache entry to hide it.
+- Cache entries and images live in Vercel Blob, named by hash. Capture with `BLOB_READ_WRITE_TOKEN` downloads misses and uploads new captures. Without it, capture uses the local cache only.
+- On every push to main, [`sitemap.yml`](../.github/workflows/sitemap.yml) captures, commits `apps/sitemap/sitemap.json` to main, and prunes Blob files older than 30 days that main does not use. Vercel deploys `apps/sitemap` on that commit, behind Vercel Authentication.
+- Never edit `sitemap.json` by hand or commit one from a local run.
+
 ### Phones
 
 - Phones sit on a [simlock](https://github.com/callstackincubator/simlock) fleet. A phone can be connected to another Mac. The CLI never runs `devicectl` or `adb` on a phone.
