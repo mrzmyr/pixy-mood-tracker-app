@@ -172,6 +172,11 @@ const light = {
   notificationBackground: "#FFF",
 
   calendarBackground: "#FFF",
+  // Home week view, measured from the reference screen (see features/home).
+  homeTextMuted: colors.neutral[400],
+  homeTextFaint: colors.neutral[300],
+  homeDivider: colors.neutral[200],
+  homeSelectedDay: colors.neutral[50],
   calendarItemBackgroundFuture: "#FFF",
   // AA on white: 600 is 7.8:1, 500 is 4.7:1. Weekends read quieter.
   calendarWeekNameColor: colors.neutral[600],
@@ -430,6 +435,10 @@ const dark: IColors & {
   notificationBackground: colors.neutral[900],
 
   calendarBackground: "#000",
+  homeTextMuted: colors.neutral[500],
+  homeTextFaint: colors.neutral[600],
+  homeDivider: colors.neutral[800],
+  homeSelectedDay: colors.neutral[900],
   calendarItemBackgroundFuture: "#000",
   // AA on black: 300 is 14:1, 400 is 8.4:1. Weekends read quieter.
   calendarWeekNameColor: colors.neutral[300],

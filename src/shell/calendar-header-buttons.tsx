@@ -9,6 +9,7 @@ import {
   useIsCalendarIntroActive,
 } from "@/features/calendar";
 import { DATE_FORMAT } from "@/constants/config";
+import { useViewSwitch } from "@/features/home";
 import { ProfileHeaderButton } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/feature-flags";
@@ -26,8 +27,8 @@ const ICONS =
       };
 
 /**
- * Calendar header buttons: Statistics on the left; Filters and Settings on
- * the right. With the `recaps` flag, the left button opens this week's
+ * Calendar header buttons: Statistics on the left, after the Home switch
+ * with flag `home-week`; Filters and Settings on the right. With the `recaps` flag, the left button opens this week's
  * Recaps, which carry every statistics card. Settings is the user's avatar:
  * photo, initials, or a gray silhouette. With the
  * `calendar-timeline` flag on, Filters is a menu: it opens the filter sheet
@@ -48,7 +49,7 @@ export const CalendarHeaderButtons = () => {
   const filtersSheet = useCalendarFiltersSheet();
   const calendarLayout = useCalendarLayout();
   const isRecapsEnabled = useFeatureFlag("recaps");
-  const openSettings = () => router.navigate("/settings");
+  const viewSwitch = useViewSwitch("home");
   const openStatistics = () =>
     isRecapsEnabled
       ? router.navigate({
@@ -66,6 +67,7 @@ export const CalendarHeaderButtons = () => {
   return (
     <>
       <Stack.Toolbar placement="left">
+        {viewSwitch && <Stack.Toolbar.Button {...viewSwitch} />}
         <Stack.Toolbar.Button
           icon={ICONS.statistics}
           accessibilityLabel={isRecapsEnabled ? t("recaps") : t("statistics")}
@@ -117,7 +119,7 @@ export const CalendarHeaderButtons = () => {
         {/* Direct child only: Stack.Toolbar drops Fragments. Filters sets
             `separateBackground`, so the avatar gets its own glass circle. */}
         <Stack.Toolbar.View>
-          <ProfileHeaderButton onPress={openSettings} />
+          <ProfileHeaderButton />
         </Stack.Toolbar.View>
       </Stack.Toolbar>
     </>

@@ -2,3 +2,4 @@
 export { EntryPhotosScreen } from "./screens/entry-photos";
 export { LogList } from "./screens/log-list";
 export { default as CalendarScreen } from "./screens/calendar";
+export { CalendarFloatButton } from "./screens/calendar/calendar-float-button";

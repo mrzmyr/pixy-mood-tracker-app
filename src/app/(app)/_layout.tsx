@@ -147,6 +147,25 @@ const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
     : { headerStyle: { backgroundColor } }),
 });
 
+/**
+ * Home page options (flag `home-week`): native bar without title, like
+ * Calendar. The screen sets the bar items (`Stack.Toolbar`). Calendar and
+ * Home swap with a cross-fade.
+ */
+const getHomeOptions = (textColor: string, backgroundColor: string) => ({
+  title: t("today"),
+  animation: "fade" as const,
+  headerTitle: "",
+  headerTintColor: textColor,
+  headerShadowVisible: false,
+  ...(HAS_FLOATING_HEADER
+    ? {
+        headerTransparent: true,
+        scrollEdgeEffects: { top: "soft" as const },
+      }
+    : { headerStyle: { backgroundColor } }),
+});
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
@@ -191,6 +210,10 @@ const AppLayout = () => {
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="home"
+            options={getHomeOptions(colors.text, colors.calendarBackground)}
+          />
           <Stack.Screen
             name="calendar"
             options={getCalendarOptions(colors.text, colors.calendarBackground)}

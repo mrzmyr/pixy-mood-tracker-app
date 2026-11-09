@@ -73,18 +73,24 @@ const useBarStyle = (
  * Floating button of the calendar. Away from today it is a tertiary chevron
  * that scrolls to the end. At the end it turns into a plus that adds an
  * entry, always primary, also after today has an entry. The color fades
- * fast; the chevron springs into the plus.
+ * fast; the chevron springs into the plus. Home reuses it as its add
+ * button with `addLabel` and `addTestID`.
  */
 export const CalendarFloatButton = ({
   isAtBottom,
   hasTodayEntry,
   onScrollToBottom,
   onAdd,
+  addLabel,
+  addTestID = "calendar-add-entry",
 }: {
   isAtBottom: boolean;
   hasTodayEntry: boolean;
   onScrollToBottom: () => void;
   onAdd: () => void;
+  /** Overrides the "add today's entry" label. */
+  addLabel?: string;
+  addTestID?: string;
 }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -159,11 +165,12 @@ export const CalendarFloatButton = ({
 
   return (
     <Pressable
-      testID={isAtBottom ? "calendar-add-entry" : "scroll-to-bottom"}
+      testID={isAtBottom ? addTestID : "scroll-to-bottom"}
       accessibilityRole="button"
       accessibilityLabel={
         isAtBottom
-          ? t(hasTodayEntry ? "add_today_another_entry" : "add_today_entry")
+          ? (addLabel ??
+            t(hasTodayEntry ? "add_today_another_entry" : "add_today_entry"))
           : t("back_to_today")
       }
       onPress={isAtBottom ? onAdd : onScrollToBottom}
