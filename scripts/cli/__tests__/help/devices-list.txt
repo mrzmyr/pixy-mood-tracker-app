@@ -1,4 +1,4 @@
-List simulator, emulator, and connected phones.
+List simulator, emulator, and simlock phones.
 
 Usage: bun devices list [--platform=<ios|android>]
 
@@ -10,7 +10,7 @@ Output:
   OPTION   Copy this value into any `bun app` or `bun e2e` command
   KIND     simulator, emulator, or phone
   OS       ios or android
-  NAME     Device name
+  NAME     Device name. Phones: model (OS version)
   STATE    ready, booted, shutdown, not created, in use, or blocked
   PROBLEM  Cause when STATE is in use or blocked, else empty
 

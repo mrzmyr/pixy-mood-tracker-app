@@ -48,7 +48,6 @@ const TRANSPARENT_BAR_OPTIONS = {
 const STATUS_LABEL: Partial<Record<VoiceStatus, () => string>> = {
   preparing: () => t("voice_preparing"),
   listening: () => t("voice_listening"),
-  paused: () => t("voice_paused"),
 };
 
 // Prefill list each match kind goes to.
@@ -269,7 +268,7 @@ export const VoiceMode = () => {
           }}
         >
           <View style={{ gap: 4 }}>
-            {(isRunning || voice.status === "paused") && (
+            {isRunning && (
               <Headline accessibilityRole="header" testID="voice-status">
                 {STATUS_LABEL[voice.status]?.()}
               </Headline>

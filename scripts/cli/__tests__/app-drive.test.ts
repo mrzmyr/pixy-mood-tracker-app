@@ -39,24 +39,24 @@ describe("buildDriveCommand", () => {
     ]);
   });
 
-  test("pins an Android phone by serial in its own session", () => {
-    const { argv } = buildDriveCommand({
+  test("runs a phone in its proxy session without a serial", () => {
+    const { argv, env } = buildDriveCommand({
       device: {
         platform: "android",
         id: "SERIAL-1",
-        session: "pixel-8-al-1",
+        session: "pixel-8-09yw-abc",
+        env: { AGENT_DEVICE_STATE_DIR: "/phones" },
       },
       args: ["snapshot", "-i"],
-      env: {},
+      env: { AGENT_DEVICE_STATE_DIR: "/custom" },
     });
     expect(argv.slice(3)).toEqual([
       "--platform",
       "android",
-      "--serial",
-      "SERIAL-1",
       "--session",
-      "pixel-8-al-1",
+      "pixel-8-09yw-abc",
     ]);
+    expect(env.AGENT_DEVICE_STATE_DIR).toBe("/phones");
   });
 
   test("defaults the state dir and keeps caller environment", () => {

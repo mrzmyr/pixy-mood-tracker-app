@@ -11,7 +11,6 @@ import { includesPhone, readProfile } from "./provisioning.ts";
 import { openOutputLog, step } from "./run-log.ts";
 import { CliError, getStateDir, note, withLogsOnStderr } from "./shared.ts";
 import type { Platform } from "./shared.ts";
-import { preflightPhone } from "./phone.ts";
 import type { Device } from "./device.ts";
 
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
@@ -95,7 +94,6 @@ const runBuildCommand = async (
 
 /** Build signed preview app for one iPhone, reusing cache only when profile covers that phone. */
 export const buildIosPhone = async (device: Device) => {
-  preflightPhone(device);
   step("Fingerprint");
   process.env.EXPO_PUBLIC_APP_VARIANT = "preview";
   const fingerprint = await createFingerprintAsync(REPO_ROOT);

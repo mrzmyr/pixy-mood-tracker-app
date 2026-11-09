@@ -151,6 +151,7 @@ export default defineConfig({
     "pixy-standards/boolean-function-prefix": "error",
     "pixy-standards/require-exported-jsdoc": "error",
     "pixy-standards/structured-thrown-errors": "error",
+    "pixy-standards/modal-page-background": "error",
     // File names use kebab-case. `bun scripts/codemods/kebab-case-files.ts` renames old files.
     // Expo Router params (`[dateTime].tsx`) name the search param, so they keep their case.
     "unicorn/filename-case": [

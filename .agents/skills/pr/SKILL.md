@@ -21,6 +21,10 @@ Use this template for writing the PR body:
 - **Before:** <screenshot/output/failing test run>
   **After:** <screenshot/output/passing test run>
 
+## Data Schema Changes
+
+<only when stored data, backup format, or analytics events change; see AGENTS.md>
+
 ## Merge Danger
 
 **Door:** <one-way or two-way>
@@ -162,6 +166,10 @@ Concrete evidence that the change works. Show a before and after.
 Screenshots are S-tier. Visual change: screenshot required, video too when motion. See [pr-proof skill](../pr-proof/SKILL.md).
 
 Execution-based evidence is A-tier. Test results, console output. Show the exact test that now fails and passes, using pseudocode.
+
+### Data Schema Changes
+
+Required when the PR changes stored data, the backup export or import format, or analytics events. Start with `⚠️ Needs human review`. Per change: a `diff` of the type or schema, then what old data and older app versions do with it. Omit the section when nothing changes. A human approves it before merge.
 
 ### Merge Danger
 

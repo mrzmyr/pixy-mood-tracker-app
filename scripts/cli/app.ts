@@ -16,9 +16,6 @@ import type { Noun } from "./shared.ts";
 
 const FIXTURE_IDS = FIXTURES.map((fixture) => fixture.id);
 
-// app-session builds phone runner commands with prepareRunnerArgs.
-export { prepareIosRunner } from "./app-session.ts";
-
 const APP: Noun = {
   commands: {
     build: defineCommand({
@@ -50,7 +47,7 @@ const APP: Noun = {
         missing_option: "Neither --platform nor --target passed",
         conflicting_options: "Both --platform and --target passed",
         invalid_platform: "--platform is not ios or android",
-        target_not_found: "No connected phone has this target",
+        target_not_found: "No simlock phone has this target",
         signing_team_missing: "No Apple Development team to sign with",
         signing_profile_missing: "Provisioning profile lacks this iPhone",
         native_build_failed: "Compiler failed, read the log",
@@ -108,7 +105,6 @@ const APP: Noun = {
       ],
       errors: {
         ...DEVICE_ERRORS,
-        ios_runner_not_ready: "agent-device runner did not start on iPhone",
         app_not_ready: "First screen did not appear in 120 seconds",
       },
       run: (values) => openFor(values),
@@ -172,8 +168,8 @@ const APP: Noun = {
           lines: [
             "Simulator, emulator  Reset data, shut down device, stop this checkout's Metro,",
             "                     prune old builds.",
-            "Phone                Stop app, remove preview app data, prune old builds.",
-            "                     Phone stays on. No other app is touched.",
+            "Phone                Stop app, release the simlock lease, prune old builds.",
+            "                     simlock removes apps installed during the lease.",
           ],
         },
         {
@@ -212,8 +208,9 @@ const APP: Noun = {
           title: "Behavior",
           lines: [
             "Runs agent-device with the args after `--` unchanged, no shell.",
-            "Adds --platform, --udid or --serial, and --session for this device.",
-            "Adds signing and Android SDK environment. Phones: fails on device_reserved.",
+            "Adds --platform and --udid or --serial for this device.",
+            "Phones: leases the phone from simlock and adds its proxy --session instead.",
+            "Adds signing and Android SDK environment.",
             "Does not create or boot a simulator or emulator. Run `bun app open` first.",
           ],
         },
@@ -237,8 +234,8 @@ const APP: Noun = {
           "Both --platform and --target passed, or args after `--` select a device",
         invalid_platform: "--platform is not ios or android",
         missing_argument: "No agent-device command after `--`",
-        target_not_found: "No connected phone has this target",
-        device_reserved: "Another checkout reserved this phone",
+        target_not_found: "No simlock phone has this target",
+        simlock_not_configured: "SIMLOCK_URL or SIMLOCK_TOKEN not set",
         device_not_running: "Simulator not created or emulator not booted",
       },
       run: (values, rest) => driveFor(values, rest),

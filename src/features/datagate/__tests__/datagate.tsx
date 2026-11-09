@@ -331,6 +331,7 @@ describe("useLogs()", () => {
           "profileAvatar",
           "quickCheckInEnabled",
           "quickCheckInSchedule",
+          "quickCheckInCollapsed",
         ]),
         tagCategories: testTagCategories,
       } satisfies ExportSettings & { tagCategories: TagCategory[] },

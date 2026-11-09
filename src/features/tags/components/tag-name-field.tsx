@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import type { ReactNode } from "react";
 import { Pressable, View } from "react-native";
 import type { TextInput } from "react-native";
 import { FieldError } from "@/components/field-error";
@@ -13,7 +14,9 @@ import { isValidTagTitle, shouldShowCounter } from "../tag-name";
 /**
  * Tag or tag category name input with a visible label, an `n/MAX` counter near the limit, and
  * an inline error. Tapping the label focuses the input. The input sits in a
- * {@link MenuList} so it matches the other form sections.
+ * {@link MenuList} so it matches the other form sections. `leading` sits
+ * before the input, inset {@link SPACE.md} from the row edge, like the tag
+ * icon button.
  */
 const TagNameField = ({
   value,
@@ -23,6 +26,7 @@ const TagNameField = ({
   testID = "tag-name",
   autoFocus = false,
   onSubmit,
+  leading,
 }: {
   value: string;
   placeholder?: string;
@@ -33,6 +37,8 @@ const TagNameField = ({
   onSubmit?: () => void;
   /** Show the length error under the field. */
   showError: boolean;
+  /** Element before the input, like the tag icon button. */
+  leading?: ReactNode;
 }) => {
   const colors = useColors();
   const inputRef = useRef<TextInput>(null);
@@ -59,6 +65,7 @@ const TagNameField = ({
       </Pressable>
       <MenuList>
         <TextFieldRow
+          leading={leading}
           ref={inputRef}
           accessibilityLabel={t("tags_name_label")}
           accessibilityLabelledBy="tag-name-label"

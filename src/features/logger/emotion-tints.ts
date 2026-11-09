@@ -1,16 +1,9 @@
 import type { IconSvgObject } from "@hugeicons/core-free-icons/types";
+import type { DuotoneTint } from "@/components/duotone-icon";
 import type { Emotion } from "@/types";
 
-/**
- * Own two-tone layer for one emotion icon. Pixy draws these shapes. They are
- * not from Hugeicons.
- */
-export interface EmotionTint {
-  /** Icon shapes, by index, that get the tint. Default: every shape. */
-  fill?: readonly number[];
-  /** Tint drawn under the outline, on the 24 by 24 icon grid. */
-  underlay?: IconSvgObject;
-}
+/** Own two-tone layer for one emotion icon. */
+export type EmotionTint = DuotoneTint;
 
 /** Cloud body of the Hugeicons cloud icons, cut flat at `bottom`. */
 const cloud = (bottom: number): IconSvgObject => [

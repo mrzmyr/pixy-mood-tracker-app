@@ -23,7 +23,15 @@ const backup: Backup = {
       ],
     }),
   ],
-  tags: [{ id: "t1", title: "Work", color: "blue", categoryId: "c1" }],
+  tags: [
+    {
+      id: "t1",
+      title: "Work",
+      color: "blue",
+      categoryId: "c1",
+      icon: "office",
+    },
+  ],
   tagCategories: [
     { id: "general", title: "General" },
     { id: "c1", title: "Job" },

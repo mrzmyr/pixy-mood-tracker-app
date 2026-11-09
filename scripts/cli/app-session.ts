@@ -5,29 +5,9 @@ import { setTimeout as sleep } from "node:timers/promises";
 
 import { APP_VARIANTS } from "../../app.config.ts";
 import { FIXTURES } from "../../src/dev/fixtures/index.ts";
-import {
-  agentDevice,
-  ensureDaemonSigningEnv,
-  getAgentDeviceEnv,
-  getRunnerBundleId,
-  stopStaleDaemon,
-} from "./agent-device.ts";
+import { agentDevice } from "./agent-device.ts";
 import { getAdb } from "./adb.ts";
 import { pruneBuilds } from "./builds.ts";
-import {
-  checkRunnerSigning,
-  findRunnerCaches,
-  hasXcodeAccount,
-  readLocalProfiles,
-  readProfile,
-} from "./provisioning.ts";
-import {
-  prepareRunnerArgs,
-  RUNNER_TIMEOUT_MS,
-  toRunnerError,
-  withProgress,
-} from "./ios-runner.ts";
-import { isRunnerStartFailure } from "./runner-error.ts";
 import { deviceFlag, findDevice, resolveDevice } from "./device.ts";
 import type { Device } from "./device.ts";
 import { approveIosScheme } from "./app-dev.ts";
@@ -38,76 +18,16 @@ import { getPlatform } from "./options.ts";
 import { CliError, getStateDir, note } from "./shared.ts";
 import type { Platform } from "./shared.ts";
 import {
-  clearPhoneAppData,
+  attachPhone,
+  leasePhone,
   openIosPhoneLink,
-  preflightPhone,
+  releasePhone,
   stopPhoneApp,
-  uninstallPhoneApp,
 } from "./phone.ts";
 
 const PREVIEW = APP_VARIANTS.preview;
 const READY_SELECTORS = ['role="button" label="Start"', 'id="calendar-list"'];
 const READY_TIMEOUT_MS = 120_000;
-
-const checkRunnerProfile = (device: Device) => {
-  const env = getAgentDeviceEnv();
-  const result = checkRunnerSigning({
-    bundleId: getRunnerBundleId(),
-    caches: findRunnerCaches(
-      env.AGENT_DEVICE_IOS_RUNNER_DERIVED_PATH?.trim() || undefined
-    ).map(({ dir, files }) => ({ dir, profiles: files.map(readProfile) })),
-    localProfiles: readLocalProfiles(),
-    now: Date.now(),
-    teamId: env.AGENT_DEVICE_IOS_TEAM_ID?.trim() || undefined,
-    udid: device.id,
-  });
-  if (result.status === "ok") {
-    note(
-      `Runner profile "${result.profile.name}" (${result.source}) includes ${device.name}`
-    );
-    return;
-  }
-  if (result.status === "unknown") {
-    note(
-      "No cached runner or local profile. Xcode creates runner profile during prepare."
-    );
-    return;
-  }
-  const stale = [
-    ...result.caches,
-    ...result.profiles.map((profile) => profile.file),
-  ];
-  throw new CliError({
-    status: "runner_provisioning_device_missing",
-    message: `Runner profile does not include ${device.name}`,
-    why: "Cached runner or local profile is expired or does not include this iPhone.",
-    fix: `${hasXcodeAccount() ? "" : "Add the signing Apple ID in Xcode Settings > Accounts. "}Move stale profiles aside (${stale.join(", ")}), then retry.`,
-  });
-};
-
-const prepareIosRunner = async (device: Device) => {
-  if (device.kind !== "phone" || device.platform !== "ios") {
-    return;
-  }
-  await stopStaleDaemon();
-  await ensureDaemonSigningEnv();
-  checkRunnerProfile(device);
-  try {
-    await withProgress(
-      agentDevice(prepareRunnerArgs(device.id), {
-        timeoutMs: RUNNER_TIMEOUT_MS,
-      }),
-      (seconds) => note(`iPhone runner starting: ${seconds}s`)
-    );
-  } catch (error) {
-    if (isRunnerStartFailure(error)) {
-      throw toRunnerError(error);
-    }
-    throw error;
-  }
-};
-
-export { prepareIosRunner };
 
 const platformFor = (values: Record<string, string | undefined>) =>
   getPlatform(values.platform);
@@ -246,8 +166,7 @@ const acceptPreviewAlert = async (platform: Platform, id: string) => {
 const open = async (device: Device) => {
   const { platform } = device;
   if (device.kind === "phone") {
-    preflightPhone(device);
-    await prepareIosRunner(device);
+    await leasePhone(device);
   }
   await agentDevice(
     [
@@ -281,8 +200,7 @@ const seed = async (
     });
   }
   if (device.kind === "phone") {
-    preflightPhone(device);
-    await prepareIosRunner(device);
+    await leasePhone(device);
   }
   const [url] = devLinks(app.scheme, { fixture: fixtureId });
   if (variant === "dev") {
@@ -304,7 +222,7 @@ const seed = async (
     await waitReady(platform, device.id, device.key);
   }
   if (device.kind === "phone" && platform === "ios") {
-    openIosPhoneLink(device, app.appId, url);
+    await openIosPhoneLink(device, app.appId, url);
   } else {
     await agentDevice([
       "open",
@@ -364,33 +282,15 @@ const ignoreMissingSession = async (args: string[]) => {
   }
 };
 
+// Ending the lease makes simlock remove apps installed during it, so the
+// preview app and its data go with it.
 const closePhone = async (phone: Device) => {
-  await preflightPhone(phone);
-  if (phone.platform === "android") {
-    stopPhoneApp(phone, PREVIEW.appId, PREVIEW.name);
-    const result = clearPhoneAppData(phone, PREVIEW.appId);
-    if (result !== "Success") {
-      throw new CliError({
-        status: "app_clear_failed",
-        message: `${phone.key}: preview app data was not cleared`,
-        why: `pm clear returned "${result}".`,
-        fix: "Check phone state and retry close.",
-      });
-    }
-    await ignoreMissingSession([
-      "close",
-      ...getDeviceArgs(phone.platform, phone.id),
-    ]);
-  } else {
-    await ignoreMissingSession([
-      "close",
-      ...getDeviceArgs(phone.platform, phone.id),
-    ]);
-    stopPhoneApp(phone, PREVIEW.appId, PREVIEW.name);
-    uninstallPhoneApp(phone, PREVIEW.appId);
-  }
+  attachPhone(phone);
+  // The app may not run, or the lease may have ended. Release still works.
+  await stopPhoneApp(phone, PREVIEW.appId).catch(() => null);
+  await releasePhone(phone);
   await pruneBuilds();
-  note("Closed phone session");
+  note("Closed phone session and released the phone");
 };
 
 const clearAndroidData = (deviceId: string) => {

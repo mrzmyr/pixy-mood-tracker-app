@@ -4,3 +4,4 @@ export { TagEdit } from "./screens/tag-edit";
 export { TagCategories } from "./screens/tag-categories";
 export { TagCategoryEdit } from "./screens/tag-category-form";
 export { Tags } from "./screens/tags";
+export { TagIconPicker } from "./screens/tag-icon-picker";

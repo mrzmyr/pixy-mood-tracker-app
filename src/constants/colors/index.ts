@@ -15,8 +15,19 @@ interface TagColors {
     background: string;
     text: string;
     border: string;
+    /** Tag icon outline. Light: darker shade, so pale colors stay visible on white. */
+    iconStroke: string;
+    /** Tag icon tint layer, drawn at low opacity under the outline. */
+    iconTint: string;
   };
 }
+
+/**
+ * Tailwind scale behind a tag color. `slate` keeps its stored name but uses
+ * `neutral`: a gray without the blue cast.
+ */
+const tagScale = (color: TagColorKey) =>
+  color === "slate" ? colors.neutral : colors[color];
 
 const tagsDark: TagColors = {};
 const tagsLight: TagColors = {};
@@ -24,19 +35,24 @@ const tagsLight: TagColors = {};
 const tagColorNames = TAG_COLOR_NAMES;
 
 for (const color of tagColorNames) {
+  const scale = tagScale(color);
   tagsDark[color] = {
     title: color,
-    dot: colors[color]["500"],
-    background: colors[color]["700"],
-    text: colors[color]["200"],
-    border: colors[color]["600"],
+    dot: scale["500"],
+    background: scale["700"],
+    text: scale["200"],
+    border: scale["600"],
+    iconStroke: scale["400"],
+    iconTint: scale["500"],
   };
   tagsLight[color] = {
     title: color,
-    dot: colors[color]["400"],
-    background: colors[color]["200"],
-    text: colors[color]["700"],
-    border: colors[color]["400"],
+    dot: scale["400"],
+    background: scale["200"],
+    text: scale["700"],
+    border: scale["400"],
+    iconStroke: scale["700"],
+    iconTint: scale["400"],
   };
 }
 

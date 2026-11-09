@@ -128,7 +128,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - macOS estimate adds free, inactive, and speculative pages. Inactive pages may need writeback. Linux uses `MemAvailable`.
 - Every device command takes exactly one device option:
   - `--platform=<ios|android>`: simulator or emulator that the CLI manages for this checkout
-  - `--target=<target>`: one connected phone
+  - `--target=<target>`: one phone of the simlock fleet. See [Phones](#phones).
 - `bun devices list` prints the option to copy for every device, plus state and problem. `--platform=<ios|android>` filters by OS.
 - `bun app dev` installs the cached dev client, starts this checkout's Metro, and opens the app on it. Rerun to reload. Simulator and emulator only.
   - Hides the dev menu onboarding, launch menu, and floating button ([`scripts/cli/dev-client.ts`](../scripts/cli/dev-client.ts))
@@ -148,29 +148,24 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 ```shell
 bun devices list
 bun app install --platform=ios
-bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
+bun app open --target=pixel-8-09yw
 ```
 
 ### Phones
 
-- Target: slug of phone name plus last 4 characters of phone ID, for example `pixel-8-09yw`. Same phone gives same target in every checkout.
-- Phone must be connected, unlocked, and trusted. `bun devices list` names the problem when not.
-- iPhone builds are signed phone builds with cache key prefix `ios-device`. Cache entry is reused only when its provisioning profile includes the phone.
-- Android phones use the same build as the emulator.
-- `bun app close` on a phone never shuts down or erases the phone. Android: stops the app and clears its data. iPhone: stops and uninstalls the preview app.
-- One device per command. Start one command per phone to run phones in parallel.
-- Reserve a phone for a whole task: `bun devices reserve --target=<target> --goal=<goal>`. Other checkouts then fail with `device_reserved`, which names the goal. Release with `bun devices release --target=<target>`. Reservations expire after 60 minutes (`--minutes=<n>`) or when their checkout is deleted.
-- See reservations in the macOS menu bar: `bun devices menubar` ([source](../tools/devices-menu-bar/main.swift)).
-- `bun app dev` has no phone support. Use `bun ios --device <udid>` or `bun android --device <name>` for the dev client on a phone.
-- Open a deep link on an iPhone: `xcrun devicectl device process launch --device <id> --terminate-existing --payload-url "<url>" <bundle-id>`. `--payload-url` goes before the bundle ID. `agent-device open` with a URL fails on iPhones.
+- Phones sit on a [simlock](https://github.com/callstackincubator/simlock) fleet. A phone can be connected to another Mac. The CLI never runs `devicectl` or `adb` on a phone.
+- Setup: set `SIMLOCK_URL` (simlock gateway or daemon) and `SIMLOCK_TOKEN` (agent token). The phone's simlock worker needs agent-device installed and `capabilities.agent-device.enabled`. Without the two variables, `bun devices list` shows no phones.
+- Target: slug of phone model plus last 4 characters of phone ID, for example `pixel-8-09yw`. `bun devices list` shows the state of each phone in simlock.
+- simlock picks the phone. `--target` selects its platform and OS version. Two phones with the same platform and OS version are interchangeable.
+- A command leases the phone just before it uses it. The lease stays for later commands of the same checkout. It ends with `bun app close --target=<target>`, or when simlock's lease time passes without use. Other checkouts wait while the lease runs.
+- agent-device reaches the phone through simlock's agent-device proxy, in session `<target>-<checkout hash>`. Proxy state is in `~/.cache/pixy-mood-tracker/agent-device-phones/`, not in `~/.agent-device/`: a proxy connection there takes over every local simulator call.
+- After the lease starts, the CLI wakes an Android phone. A phone with a PIN lock stays locked. Unlock it on its worker Mac.
+- `bun app close` on a phone stops the preview app and ends the lease. simlock then removes every app installed during the lease. The phone stays on.
+- iPhone builds are signed phone builds with cache key prefix `ios-device`, built on this Mac. Cache entry is reused only when its provisioning profile includes the phone. Android phones use the same build as the emulator.
+- `bun e2e run --target` fails with `e2e_phone_unsupported`. agent-device `test --maestro` cannot run flows through the proxy yet ([simlock#1458](https://github.com/callstackincubator/simlock/issues/1458)). Run flows on the simulator or emulator.
+- `bun app dev` has no phone support. Use `bun ios --device <udid>` or `bun android --device <name>` for the dev client on a phone connected to this Mac.
 - `agent-device record` on an iPhone can restart the iOS runner ("iOS runner session restarted during recording"). Every later command then fails. Take screenshots on the phone. Record video on the simulator: `xcrun simctl io <udid> recordVideo --codec=h264 --force <file>.mp4`, stop with `kill -INT`.
 - `agent-device settings appearance` works on simulators only. On a phone, switch dark mode in Settings > Display & Brightness.
-
-Known limits. A phone run fails with `flows_unsupported_on_phone` before it changes anything on the phone, and names every blocked flow plus the command to run it elsewhere:
-
-- Android phone: flows with `eraseText`. Non-ASCII `inputText` fails during the run with `android_phone_text_input_unsupported`. Cause: agent-device 0.21.15 enables its test keyboard on phones only through `open --test-ime` ([agent-device#2997](https://github.com/callstack/agent-device/issues/2997)).
-- iPhone: flows with `openLink` outside [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml) ([agent-device#2998](https://github.com/callstack/agent-device/issues/2998)). For `load-fixture.yaml`, `bun e2e run` loads the fixture with `devicectl` before each flow and runs flows one at a time.
-- iPhone: flows with `clearState`. agent-device clears app state on simulators only.
 
 ### Device Hub
 
@@ -262,8 +257,7 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - Two worktrees can build, install, open, and run iOS e2e flows at the same time. Device claims keep their sessions separate.
 - Each checkout's Metro runs on its own port (8082-8181, from the checkout hash). 8081 stays free for a manual `bun start`.
 - Android uses one `pixy-mood-tracker` AVD per machine. Android runs serialize through device claims.
-- Phones are shared by all worktrees. A second command on a busy phone fails with `device_in_use`.
-- Reservations live under `~/.cache/pixy-mood-tracker/reservations/`, one file per phone. See [Phones](#phones).
+- Phones are shared by all worktrees through simlock leases. See [Phones](#phones).
 - Check `uptime` before device work. Above load average ~100, simulators, emulators, and agent-device time out. Android ANR dialogs and Watchdog restarts of `system_server` are then not app bugs.
 - An Android build can lose its Gradle daemon ("Gradle build daemon disappeared unexpectedly") while an iOS build runs. Run the Android build alone.
 
@@ -295,10 +289,11 @@ iOS device builds require Xcode and CocoaPods. `bun ios --device <device-id>` bu
 
 agent-device runner signing on physical iPhones:
 
-- agent-device builds its own runner app and signs it with the team wildcard profile `iOS Team Provisioning Profile: *`
-- Runner cache: `~/.agent-device/apple-runner/derived/ios-device/`
+- agent-device builds its own runner app on the Mac the iPhone is connected to, and signs it with the team wildcard profile `iOS Team Provisioning Profile: *`
+- simlock worker: set `capabilities.agent-device.ios` to `{"teamId": "<team>", "bundleId": "<runner bundle ID>"}`. The team must be the team of the Apple ID in Xcode > Settings > Accounts on that Mac. Else the build fails with `No Account for Team`.
+- The worker builds the runner from its launchd service. An `xcodebuild` over ssh fails at code signing, because the login keychain is locked in ssh sessions.
+- Runner cache: `~/.agent-device/apple-runner/derived/ios-device/` on that Mac
 - Stale wildcard profile or cache without a new phone: install fails with `0xe8008012 (This provisioning profile cannot be installed on this device.)`
-- CLI never moves files itself; another worktree can use the runner cache
 
 On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails to load: `env -u GEM_HOME -u GEM_PATH bun ios --device <device-id>`.
 
