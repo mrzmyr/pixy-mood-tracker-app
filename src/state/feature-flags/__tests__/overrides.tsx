@@ -1,16 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  act,
-  render,
-  renderHook,
-  waitFor,
-} from "@testing-library/react-native";
-import { Text } from "react-native";
+import { act, renderHook, waitFor } from "@testing-library/react-native";
 import {
   PostHogProvider,
   usePostHog as getPostHogTestClient,
 } from "posthog-react-native";
-import FlagHighlight from "@/components/flag-highlight";
 import { INITIAL_STATE } from "@/constants/settings";
 import {
   FeatureFlagsProvider,
@@ -19,7 +12,6 @@ import {
 } from "@/state/feature-flags";
 import { FEATURE_FLAGS } from "@/state/feature-flags/keys";
 import {
-  setHighlight,
   setOverride,
   setOverrides,
   subscribe,
@@ -78,7 +70,6 @@ describe("feature flag overrides in production builds", () => {
     await AsyncStorage.clear();
     // Overrides live in memory; drop the ones of the last test.
     setOverrides({ keys: FEATURE_FLAGS, value: "remote" });
-    setHighlight(false);
   });
 
   test("ignores overrides without the access flag", async () => {
@@ -182,40 +173,5 @@ describe("feature flag overrides in production builds", () => {
 
     expect(hook.result.current.canOverride).toBe(false);
     expect(hook.result.current.isPhotosOn).toBe(false);
-  });
-
-  test("never outlines UI without the access flag", async () => {
-    mockReload.mockResolvedValue({ photos: true });
-    await renderFlags();
-    setHighlight(true);
-
-    const screen = await render(
-      <FlagHighlight flag="photos">
-        <Text>flagged</Text>
-      </FlagHighlight>,
-      { wrapper }
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText("flagged")).toBeTruthy();
-    });
-    expect(screen.queryByTestId("feature-flag-highlight-photos")).toBeNull();
-  });
-
-  test("outlines UI while the access flag is on", async () => {
-    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
-    await renderFlags();
-    setHighlight(true);
-
-    const screen = await render(
-      <FlagHighlight flag="photos">
-        <Text>flagged</Text>
-      </FlagHighlight>,
-      { wrapper }
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId("feature-flag-highlight-photos")).toBeTruthy();
-    });
   });
 });

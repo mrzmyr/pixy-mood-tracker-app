@@ -1,4 +1,3 @@
-import FlagHighlight from "@/components/flag-highlight";
 import type { DebouncedFunc } from "lodash";
 import debounce from "lodash/debounce";
 import { useEffect, useRef, useState } from "react";
@@ -120,13 +119,11 @@ export const Body = () => {
         onSelect={onPressTag}
       />
       {hasPeople && _people.length > 0 && (
-        <FlagHighlight flag="people">
-          <PeopleSection
-            people={_people}
-            selectedIds={selectedPersonIds}
-            onSelect={onPressPerson}
-          />
-        </FlagHighlight>
+        <PeopleSection
+          people={_people}
+          selectedIds={selectedPersonIds}
+          onSelect={onPressPerson}
+        />
       )}
       {/* Reset shares the result row: the half-height Android sheet cuts off
           anything below it. */}

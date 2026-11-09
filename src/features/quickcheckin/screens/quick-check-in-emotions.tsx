@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
-import FlagHighlight from "@/components/flag-highlight";
 import LinkButton from "@/components/link-button";
 import {
   EMOTIONS,
@@ -53,17 +52,15 @@ export const QuickCheckInEmotions = ({
   let content: React.ReactNode;
   if (showNeeds) {
     content = (
-      <FlagHighlight flag="needs">
-        <NeedsCheck
-          states={needStates}
-          onChange={(key, state) =>
-            setNeedStates((current) => ({ ...current, [key]: state }))
-          }
-          emotions={EMOTIONS}
-          selectedEmotions={selected}
-          onPressEmotion={onPress}
-        />
-      </FlagHighlight>
+      <NeedsCheck
+        states={needStates}
+        onChange={(key, state) =>
+          setNeedStates((current) => ({ ...current, [key]: state }))
+        }
+        emotions={EMOTIONS}
+        selectedEmotions={selected}
+        onPressEmotion={onPress}
+      />
     );
   } else if (isAdvanced) {
     content = (
@@ -100,15 +97,13 @@ export const QuickCheckInEmotions = ({
         }}
       >
         {hasNeeds ? (
-          <FlagHighlight flag="needs">
-            <LinkButton
-              testID="quick-check-in-needs-toggle"
-              onPress={() => setIsNeedsMode((current) => !current)}
-              style={{ fontWeight: "400" }}
-            >
-              {t(showNeeds ? "log_needs_show_all" : "log_needs_use")}
-            </LinkButton>
-          </FlagHighlight>
+          <LinkButton
+            testID="quick-check-in-needs-toggle"
+            onPress={() => setIsNeedsMode((current) => !current)}
+            style={{ fontWeight: "400" }}
+          >
+            {t(showNeeds ? "log_needs_show_all" : "log_needs_use")}
+          </LinkButton>
         ) : (
           <View />
         )}

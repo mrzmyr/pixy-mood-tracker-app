@@ -6,9 +6,8 @@ import {
 import Circle from "lucide-react-native/icons/circle";
 import CircleCheck from "lucide-react-native/icons/circle-check";
 import Lock from "lucide-react-native/icons/lock";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { Image, Platform, Pressable, ScrollView, View } from "react-native";
-import FlagHighlight from "@/components/flag-highlight";
 import MenuList from "@/components/menu-list";
 import TextInfo from "@/components/text-info";
 import { APP_ICONS } from "@/constants/app-icons";
@@ -230,26 +229,18 @@ export const AppIconScreen = () => {
         accessibilityRole="radiogroup"
       >
         <MenuList>
-          {APP_ICONS.map((icon, index) => {
-            const row = (
-              <AppIconRow
-                icon={icon}
-                isSelected={icon.id === activeId}
-                // The active icon stays selected after the flag turns off, so
-                // the user sees it and can switch back to Default.
-                isLocked={isLocked(icon) && icon.id !== activeId}
-                isLast={index === APP_ICONS.length - 1}
-                onSelect={selectIcon}
-              />
-            );
-            return icon.isFlagged ? (
-              <FlagHighlight key={icon.id} flag="app-icons">
-                {row}
-              </FlagHighlight>
-            ) : (
-              <Fragment key={icon.id}>{row}</Fragment>
-            );
-          })}
+          {APP_ICONS.map((icon, index) => (
+            <AppIconRow
+              key={icon.id}
+              icon={icon}
+              isSelected={icon.id === activeId}
+              // The active icon stays selected after the flag turns off, so
+              // the user sees it and can switch back to Default.
+              isLocked={isLocked(icon) && icon.id !== activeId}
+              isLast={index === APP_ICONS.length - 1}
+              onSelect={selectIcon}
+            />
+          ))}
         </MenuList>
         {hasLockedIcons && (
           <View testID="app-icon-locked-info">

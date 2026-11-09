@@ -1,4 +1,3 @@
-import FlagHighlight from "@/components/flag-highlight";
 import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { useLogState } from "@/features/logs";
@@ -273,15 +272,11 @@ export const Entry = ({
         }}
       >
         {item.photos.length > 0 && (
-          <FlagHighlight flag="photos">
-            <Photos item={item} onEdit={editStep("photos")} />
-          </FlagHighlight>
+          <Photos item={item} onEdit={editStep("photos")} />
         )}
         <Emotions item={item} onEdit={editStep("emotions")} />
         {knownPeople.length > 0 && (
-          <FlagHighlight flag="people">
-            <People item={item} onEdit={editStep("people")} />
-          </FlagHighlight>
+          <People item={item} onEdit={editStep("people")} />
         )}
         <Tags item={item} onEdit={editStep("tags")} />
         <Message

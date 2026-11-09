@@ -6,7 +6,6 @@ import {
   SettingsForm,
   SettingsRow,
   SettingsSection,
-  SettingsSwitch,
 } from "@/components/settings-form";
 import { useSecondaryText } from "@/components/settings-form/platform";
 import useColors from "@/hooks/use-colors";
@@ -25,10 +24,8 @@ import {
 import type { FeatureFlag } from "@/state/feature-flags/keys";
 import {
   getOverrides,
-  isHighlightOn,
   IS_OVERRIDE_BUILD,
   OVERRIDE_ACCESS_FLAG,
-  setHighlight,
   setOverride,
   setOverrides,
   subscribe,
@@ -175,7 +172,6 @@ export const FeatureFlagsScreen = () => {
   const colors = useColors();
   const remote = useContext(FeatureFlagsContext);
   const overrides = useSyncExternalStore(subscribe, getOverrides);
-  const isHighlighting = useSyncExternalStore(subscribe, isHighlightOn);
   const [query, setQuery] = useState("");
 
   const items: FlagItem[] = FEATURE_FLAGS.map((flag) => {
@@ -248,16 +244,10 @@ export const FeatureFlagsScreen = () => {
             title="All Flags"
             footer={
               IS_OVERRIDE_BUILD
-                ? `Highlight outlines flagged UI with its key. Overrides and highlight end when the app restarts. Tests set an override with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote.`
-                : "Highlight outlines flagged UI with its key. Overrides and highlight end when the app restarts."
+                ? `Overrides end when the app restarts. Tests set an override with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote.`
+                : "Overrides end when the app restarts."
             }
           >
-            <SettingsSwitch
-              label="Highlight Flagged Features"
-              value={isHighlighting}
-              onValueChange={setHighlight}
-              testID="feature-flag-highlight"
-            />
             <SettingsRow
               title="Reset All Overrides"
               onPress={
