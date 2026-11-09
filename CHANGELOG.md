@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.115.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.114.0...v1.115.0) (2026-11-09)
+
+
+### Features
+
+* **cli:** lease phones from simlock ([#1149](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1149)) ([f9d2131](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f9d21314cd58caa62381fdac8ec54e80c3b7ad66))
+* **tags:** add tag icons with on-device suggestions ([#1143](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1143)) ([5d77e46](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5d77e46d3ac828cf8db4bfb148236d7a1d8d8305))
+
+
+### Bug Fixes
+
+* **tags:** drop removed FlagHighlight from tag screens ([#1153](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1153)) ([94e0505](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/94e050583782d946efda100a14007de9b64941d0))
+* **ui:** unify text inputs with platform grays and capsule radius ([#1150](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1150)) ([25ccf40](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/25ccf4099dbece8367f6789872fcd64884552af5))
+* **voice:** keep RECORD_AUDIO on Android ([#1154](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1154)) ([b3d1e24](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b3d1e24bc8656f3d1449c0838d2d890444dd9aed))
+* **voice:** remove "Paused" title from voice mode ([#1147](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1147)) ([07bed47](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/07bed47fc3813ae40f80337ed47937d93d2837be))
+
 ## [1.114.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.113.0...v1.114.0) (2026-11-08)
 
 
