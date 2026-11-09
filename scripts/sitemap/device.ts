@@ -95,6 +95,18 @@ export const createDriver = (device: Device, executable: string) => {
       "-bool",
       "true",
     ]);
+    // iOS Reduce Transparency: Liquid Glass draws its halo with a few
+    // levels of noise per frame; reduced transparency draws it static.
+    simctl([
+      "spawn",
+      device.id,
+      "defaults",
+      "write",
+      "com.apple.Accessibility",
+      "EnhancedBackgroundContrastEnabled",
+      "-bool",
+      "true",
+    ]);
     // Location off: no passive place, no reverse geocoding.
     trySimctl(["privacy", device.id, "revoke", "location", PREVIEW.appId]);
     approveIosScheme(device.id, PREVIEW);

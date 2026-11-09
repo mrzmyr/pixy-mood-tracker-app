@@ -19,6 +19,7 @@ import { createInputHasher, pinSource, sha256 } from "./inputs.ts";
 import type { Source } from "./inputs.ts";
 import { passId, stateKey } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
+import { measureNoise } from "./noise.ts";
 import { normalizeScreenshot } from "./png.ts";
 import { runPreflight } from "./preflight.ts";
 import { CAPTURE_ENV, DEVICE_PROFILE } from "./profile.ts";
@@ -98,6 +99,8 @@ export interface RunResult {
 interface Summary {
   captured: number;
   cached: number;
+  /** Recaptures within the noise budget; the cached PNG was kept. */
+  noise: number;
   failed: number;
   nondeterministic: number;
 }
@@ -220,6 +223,79 @@ interface Context {
   nondeterministic: CliError | null;
 }
 
+/**
+ * Write a fresh capture to the cache. A recapture of a cached input keeps
+ * the cached bytes within the noise budget and throws `nondeterministic`
+ * beyond it.
+ */
+const storeCapture = (
+  context: Context,
+  capture: {
+    label: string;
+    key: string;
+    pass: Pass;
+    inputHash: string;
+    cached: CachedCapture | null;
+    bytes: Buffer;
+    tree: TreeNode[];
+    ms: number;
+  }
+): CachedCapture => {
+  const { summary } = context;
+  const { label, key, pass, inputHash, cached, tree, ms } = capture;
+  const normalized = normalizeScreenshot(capture.bytes);
+  if (cached && cached.pngHash !== normalized.hash) {
+    const noise = measureNoise(
+      fs.readFileSync(path.join(PNG_DIR, `${cached.pngHash}.png`)),
+      normalized.bytes
+    );
+    if (noise.isWithinBudget) {
+      // Cached bytes stay canonical: output never changes on a rerun.
+      summary.noise += 1;
+      process.stdout.write(
+        `noise    ${label.padEnd(44)} in=${short(inputHash)} png=${short(cached.pngHash)} kept, new differs by ${noise.maxDelta} levels in ${noise.pixels} px\n`
+      );
+      return cached;
+    }
+    summary.nondeterministic += 1;
+    const dir = failureDir(context.source.sha, key, pass);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, "new.png"), normalized.bytes);
+    fs.copyFileSync(
+      path.join(PNG_DIR, `${cached.pngHash}.png`),
+      path.join(dir, "cached.png")
+    );
+    throw new CliError({
+      status: "nondeterministic",
+      message: `${label}: same inputs, new pixels`,
+      why: `Input ${short(inputHash)} gave png ${short(cached.pngHash)} before and ${short(normalized.hash)} now, ${noise.maxDelta} levels in ${noise.pixels} px, over the noise budget. Compare ${dir}/cached.png and new.png.`,
+      fix: "Find the unpinned input (time, random, network, animation) and pin it in the capture build. Never delete the cache entry to hide it.",
+    });
+  }
+  fs.mkdirSync(PNG_DIR, { recursive: true });
+  fs.mkdirSync(STATES_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(PNG_DIR, `${normalized.hash}.png`),
+    normalized.bytes
+  );
+  const entry: CachedCapture = {
+    inputHash,
+    pngHash: normalized.hash,
+    tree,
+    ms,
+    host: hostInfo(),
+  };
+  fs.writeFileSync(
+    path.join(STATES_DIR, `${inputHash}.json`),
+    `${JSON.stringify(entry)}\n`
+  );
+  summary.captured += 1;
+  process.stdout.write(
+    `${cached ? "verified" : "captured"} ${label.padEnd(44)} in=${short(inputHash)} png=${short(normalized.hash)} ${ms}ms\n`
+  );
+  return entry;
+};
+
 /** Capture one state in one pass, or reuse the cache. Prints one line. */
 const captureOne = async (
   context: Context,
@@ -251,46 +327,16 @@ const captureOne = async (
         pass,
         context.tmpFile
       );
-      const normalized = normalizeScreenshot(bytes);
-      const ms = Date.now() - started;
-      if (cached && cached.pngHash !== normalized.hash) {
-        summary.nondeterministic += 1;
-        const dir = failureDir(context.source.sha, key, pass);
-        fs.mkdirSync(dir, { recursive: true });
-        fs.writeFileSync(path.join(dir, "new.png"), normalized.bytes);
-        fs.copyFileSync(
-          path.join(PNG_DIR, `${cached.pngHash}.png`),
-          path.join(dir, "cached.png")
-        );
-        throw new CliError({
-          status: "nondeterministic",
-          message: `${label}: same inputs, new pixels`,
-          why: `Input ${short(inputHash)} gave png ${short(cached.pngHash)} before and ${short(normalized.hash)} now. Compare ${dir}/cached.png and new.png.`,
-          fix: "Find the unpinned input (time, random, network, animation) and pin it in the capture build. Never delete the cache entry to hide it.",
-        });
-      }
-      fs.mkdirSync(PNG_DIR, { recursive: true });
-      fs.mkdirSync(STATES_DIR, { recursive: true });
-      fs.writeFileSync(
-        path.join(PNG_DIR, `${normalized.hash}.png`),
-        normalized.bytes
-      );
-      const entry: CachedCapture = {
+      return storeCapture(context, {
+        label,
+        key,
+        pass,
         inputHash,
-        pngHash: normalized.hash,
+        cached,
+        bytes,
         tree,
-        ms,
-        host: hostInfo(),
-      };
-      fs.writeFileSync(
-        path.join(STATES_DIR, `${inputHash}.json`),
-        `${JSON.stringify(entry)}\n`
-      );
-      summary.captured += 1;
-      process.stdout.write(
-        `${cached ? "verified" : "captured"} ${label.padEnd(44)} in=${short(inputHash)} png=${short(normalized.hash)} ${ms}ms\n`
-      );
-      return entry;
+        ms: Date.now() - started,
+      });
     } catch (error) {
       if (error instanceof CliError && error.status === "nondeterministic") {
         throw error;
@@ -590,7 +636,13 @@ export const captureFor = async (
     driver,
     hash,
     verify: pickVerify(allHashes, Number(values.verify ?? 0)),
-    summary: { captured: 0, cached: 0, failed: 0, nondeterministic: 0 },
+    summary: {
+      captured: 0,
+      cached: 0,
+      noise: 0,
+      failed: 0,
+      nondeterministic: 0,
+    },
     nondeterministic: null,
     tmpFile: path.join(
       os.tmpdir(),
@@ -619,7 +671,7 @@ export const captureFor = async (
   fs.rmSync(context.tmpFile, { force: true });
   const { captured, cached, failed } = context.summary;
   process.stdout.write(
-    `summary  captured=${captured} cached=${cached} failed=${failed} nondeterministic=${context.summary.nondeterministic} deployable=${run.isDeployable} ${Math.round((Date.now() - runStarted) / 1000)}s\n` +
+    `summary  captured=${captured} cached=${cached} noise=${context.summary.noise} failed=${failed} nondeterministic=${context.summary.nondeterministic} deployable=${run.isDeployable} ${Math.round((Date.now() - runStarted) / 1000)}s\n` +
       `result   ${resultFile}\n`
   );
   if (context.nondeterministic) {

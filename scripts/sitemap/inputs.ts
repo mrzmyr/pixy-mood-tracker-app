@@ -63,10 +63,10 @@ export const pinSource = ({ allowHead }: { allowHead: boolean }): Source => {
   }
   const main = git(["rev-parse", "origin/main"]);
   const head = git(["rev-parse", "HEAD"]);
-  const dirty = git(["status", "--porcelain", "--untracked-files=no"])
+  // Tracked files that differ from HEAD, staged or not.
+  const dirty = git(["diff", "--name-only", "HEAD"])
     .split("\n")
-    .filter(Boolean)
-    .map((line) => line.slice(3));
+    .filter(Boolean);
   const isDeployable = head === main && dirty.length === 0;
   if (!isDeployable && !allowHead) {
     throw new CliError({
