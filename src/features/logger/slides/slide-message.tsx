@@ -1,8 +1,8 @@
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useLogDraft } from "../log-draft";
-import { forwardRef, useEffect, useState } from "react";
-import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
 import {
   KeyboardState,
@@ -19,12 +19,30 @@ import { TextWrap } from "@/components/text-wrap";
 import { LOGGER_HEADER_ICON_INSET } from "../components/logger-header";
 import { Footer } from "./footer";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
+import {
+  isVoiceModeSupported,
+  VOICE_NOTE_BUTTON_TEST_ID,
+  VOICE_NOTE_PILL_TEST_ID,
+  VoiceNoteButton,
+  VoiceNoteText,
+} from "@/features/voice";
+import { getTextStyle } from "@/components/typography";
+import { useFeatureFlag } from "@/state/feature-flags";
 
 const SLIDE_MARGIN_TOP = 8;
+// Note text style, shared by the input and the voice overlay.
+const NOTE_PADDING_TOP = 8;
+const NOTE_FONT_SIZE = 18;
+const NOTE_LINE_HEIGHT = 26;
 
 // The note text wraps around the floating next/save button with this space.
 const BUTTON_GAP = 8;
-const BUTTON_TEST_IDS = ["logger-next", "logger-save"];
+const BUTTON_TEST_IDS = [
+  "logger-next",
+  "logger-save",
+  VOICE_NOTE_BUTTON_TEST_ID,
+  VOICE_NOTE_PILL_TEST_ID,
+];
 
 // Reads the native keyboard state, the same source as the floating
 // next/save button, so the footer and the button switch together. Flips when
@@ -53,9 +71,12 @@ const useKeyboardVisible = () => {
 const SlideMessageComponent = (
   {
     onDisableStep,
+    onDictatingChange,
     showDisable,
   }: {
     onDisableStep: () => void;
+    /** Voice input pill opens or closes. The logger hides its save button. */
+    onDictatingChange: (isDictating: boolean) => void;
     showDisable: boolean;
   },
   ref: React.ForwardedRef<TextInput>
@@ -66,8 +87,17 @@ const SlideMessageComponent = (
   // Uncontrolled: the native input owns the text, so typing re-renders
   // neither the logger nor the other slides. Keep the start text fixed;
   // a changing `defaultValue` would push text back into the input.
-  // oxlint-disable-next-line react/hook-use-state -- start text never changes, so no setter
-  const [initialMessage] = useState(draft.message);
+  // Voice input changes it once listening stops, to the text the input
+  // already shows, so the native text stays as it is.
+  const [initialMessage, setInitialMessage] = useState(draft.message);
+  // Text the input shows. Read when voice input starts.
+  const message = useRef(draft.message);
+  // Set while voice input listens: the input is controlled then.
+  const [spokenMessage, setSpokenMessage] = useState<string>();
+  const [isListening, setIsListening] = useState(false);
+  // Note length before the voice session: text after it animates in.
+  const [spokenFrom, setSpokenFrom] = useState(0);
+  const hasVoice = useFeatureFlag("voice-mode") && isVoiceModeSupported;
 
   // Slide changes dismiss the keyboard, so `onBlur` publishes the text. This
   // covers an unmount with the keyboard still open.
@@ -79,69 +109,132 @@ const SlideMessageComponent = (
   const footerVisible = showDisable && !keyboardVisible;
 
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={SLIDE_MARGIN_TOP + insets.top + 16}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{
-        flex: 1,
-      }}
-    >
-      <DismissKeyboard>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: colors.logBackground,
-            width: "100%",
-            paddingHorizontal: LOGGER_HEADER_ICON_INSET,
-            paddingBottom: keyboardVisible ? 8 : insets.bottom + 16,
-          }}
-        >
-          <TextWrap
-            avoidTestIDs={BUTTON_TEST_IDS}
-            gap={BUTTON_GAP}
+    <View style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={SLIDE_MARGIN_TOP + insets.top + 16}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{
+          flex: 1,
+        }}
+      >
+        <DismissKeyboard>
+          <View
             style={{
               flex: 1,
-              marginTop: SLIDE_MARGIN_TOP,
+              backgroundColor: colors.logBackground,
+              width: "100%",
+              paddingHorizontal: LOGGER_HEADER_ICON_INSET,
+              paddingBottom: keyboardVisible ? 8 : insets.bottom + 16,
             }}
           >
-            <TextArea
-              ref={ref}
-              accessibilityLabel={t("log_note_question")}
-              testID="log-message"
-              placeholder={t("log_note_question")}
-              defaultValue={initialMessage}
-              onChange={typeMessage}
-              onBlur={flushMessage}
-              maxLength={MAX_MESSAGE_LENGTH}
+            <TextWrap
+              avoidTestIDs={BUTTON_TEST_IDS}
+              gap={BUTTON_GAP}
               style={{
                 flex: 1,
-                marginBottom: 0,
-                borderWidth: 0,
-                backgroundColor: "transparent",
-                paddingHorizontal: 0,
-                paddingTop: 8,
-                paddingBottom: 16,
-                fontSize: 18,
-                lineHeight: 26,
+                marginTop: SLIDE_MARGIN_TOP,
               }}
-            />
-          </TextWrap>
-          {footerVisible && (
-            <Footer>
-              <LinkButton
-                type="secondary"
-                onPress={onDisableStep}
+            >
+              <TextArea
+                ref={ref}
+                accessibilityLabel={t("log_note_question")}
+                testID="log-message"
+                placeholder={t("log_note_question")}
+                value={spokenMessage}
+                editable={!isListening}
+                defaultValue={initialMessage}
+                // While listening, `VoiceNoteText` shows the same text with
+                // the spoken words animating in.
+                hidden={isListening}
+                onChange={(text) => {
+                  message.current = text;
+                  typeMessage(text);
+                }}
+                onBlur={flushMessage}
+                maxLength={MAX_MESSAGE_LENGTH}
                 style={{
-                  fontWeight: "400",
+                  flex: 1,
+                  marginBottom: 0,
+                  borderWidth: 0,
+                  backgroundColor: "transparent",
+                  paddingHorizontal: 0,
+                  paddingTop: NOTE_PADDING_TOP,
+                  paddingBottom: 16,
+                  fontSize: NOTE_FONT_SIZE,
+                  lineHeight: NOTE_LINE_HEIGHT,
+                }}
+              />
+            </TextWrap>
+            {isListening && (
+              <View
+                pointerEvents="none"
+                style={{
+                  position: "absolute",
+                  top: SLIDE_MARGIN_TOP + NOTE_PADDING_TOP,
+                  left: LOGGER_HEADER_ICON_INSET,
+                  right: LOGGER_HEADER_ICON_INSET,
                 }}
               >
-                {t("log_message_disable")}
-              </LinkButton>
-            </Footer>
-          )}
-        </View>
-      </DismissKeyboard>
-    </KeyboardAvoidingView>
+                <VoiceNoteText
+                  text={spokenMessage ?? ""}
+                  newFrom={spokenFrom}
+                  placeholder={t("voice_listening")}
+                  placeholderColor={colors.textInputPlaceholder}
+                  style={[
+                    getTextStyle("copy", NOTE_FONT_SIZE),
+                    {
+                      lineHeight: NOTE_LINE_HEIGHT,
+                      color: colors.textInputText,
+                    },
+                  ]}
+                />
+              </View>
+            )}
+            {footerVisible && (
+              <Footer>
+                <LinkButton
+                  type="secondary"
+                  onPress={onDisableStep}
+                  style={{
+                    fontWeight: "400",
+                  }}
+                >
+                  {t("log_message_disable")}
+                </LinkButton>
+              </Footer>
+            )}
+          </View>
+        </DismissKeyboard>
+      </KeyboardAvoidingView>
+      {hasVoice && (
+        <VoiceNoteButton
+          getNote={() => message.current}
+          onStart={() => {
+            Keyboard.dismiss();
+            setSpokenFrom(message.current.length);
+            setSpokenMessage(message.current);
+            setIsListening(true);
+            onDictatingChange(true);
+          }}
+          onText={(text) => {
+            const next = text.slice(0, MAX_MESSAGE_LENGTH);
+            message.current = next;
+            setSpokenMessage(next);
+            typeMessage(next);
+          }}
+          onStop={(text) => {
+            const next = text.slice(0, MAX_MESSAGE_LENGTH);
+            message.current = next;
+            setInitialMessage(next);
+            setSpokenMessage(undefined);
+            setIsListening(false);
+            onDictatingChange(false);
+            typeMessage(next);
+            flushMessage();
+          }}
+        />
+      )}
+    </View>
   );
 };
 

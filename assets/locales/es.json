@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "regular",
   "voice_mood_very_bad": "mal",
   "voice_mood_very_good": "muy bien",
+  "voice_note": "Dictar nota",
   "voice_open_settings": "Abrir Ajustes",
   "voice_pause": "Pausar",
   "voice_permission_body": "Pixy necesita acceso al micrófono y al reconocimiento de voz para escribir tu registro. La voz se procesa en tu dispositivo. El audio nunca se guarda.",

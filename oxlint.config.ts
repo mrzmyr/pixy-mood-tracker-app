@@ -322,6 +322,7 @@ export default defineConfig({
         "pixy-standards/no-color-shading": "error",
         "pixy-standards/radius-token": "error",
         "pixy-standards/no-reduce-motion-never": "error",
+        "pixy-standards/float-surface-glass": "error",
         "pixy-standards/no-spring-animation": "error",
         "pixy-standards/title-case-labels": "error",
         "pixy-standards/component-scope": [

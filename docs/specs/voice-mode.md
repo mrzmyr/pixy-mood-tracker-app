@@ -44,6 +44,16 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
 - Close with transcript asks to discard ([`useDiscardGuard`](../../src/hooks/useDiscardGuard.ts))
 - Native module missing (web, Jest, old dev client): screen shows the failed state, never throws on import ([`speech-module.ts`](../../src/features/voice/speech-module.ts))
 
+## Note step
+
+- Mic button above the logger save button, same surface as the calendar mic. Only icon, label "Dictate Note". Same flag and platforms as voice mode
+- Tap: keyboard closes, listening starts. Voice input pill (same as voice mode) slides up from the bottom, mic and save button hide. Words go to the end of the note live
+- Pill: pause/resume left, waveform and listening time, black check right. Check ends it, pill slides back down, save button returns. Check disabled while the note is empty
+- Typing is blocked while the pill shows
+- No matching: people, tags, emotions, and mood stay as picked
+- Errors show as toast. Denied permission has "Open Settings"
+- Analytics: `voice:note_started`, `voice:note_finished` `{ duration_ms, transcript_length }`
+
 ## Feedback
 
 - After saving a voice check-in, a sheet asks "How was checking in by voice?" over the saved confirmation ([`VoiceFeedbackSheet`](../../src/features/feedback/components/voice-feedback-sheet.tsx))

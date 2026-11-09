@@ -50,6 +50,8 @@ Pixy-specific design decisions that a model cannot read from the code. For every
 - Buttons on the sky or a photo (onboarding, recap stories): primary `Button type="primary"`, secondary `Button type="glass"`. Never a gray `tertiary` there.
   - `glass` is a see-through white fill. Liquid glass turns opaque white on the light sky.
   - Put the buttons at the bottom edge of the screen. Two buttons share one row with equal width: secondary left, primary right.
+- Floating controls over content (float buttons, input pills, toolbars): Liquid Glass on iOS 26 with `GlassView`, plain fill plus `SHADOW.float` elsewhere. Use [`FloatButton`](src/components/float-button.tsx) for a single button. Lint rule `pixy-standards/float-surface-glass` checks it.
+  - A control copied from another screen takes the surface of its new place. Check it on iOS 26 before the PR.
 - One icon has one meaning. Color themes use `Palette`, menstruation uses `Droplet`.
 - A state icon has one glyph per state, at one size. A different state changes the fill or detail, not the icon count or size. Selection and Day view use the same state icon.
 - Modals

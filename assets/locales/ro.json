@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "așa și așa",
   "voice_mood_very_bad": "rău",
   "voice_mood_very_good": "foarte bine",
+  "voice_note": "Dictează nota",
   "voice_open_settings": "Deschide Configurări",
   "voice_pause": "Pauză",
   "voice_permission_body": "Pixy are nevoie de acces la microfon și la recunoașterea vorbirii pentru a scrie înregistrarea ta. Vorbirea este procesată pe dispozitivul tău. Sunetul nu este salvat niciodată.",
