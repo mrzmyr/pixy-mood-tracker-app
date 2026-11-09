@@ -254,7 +254,7 @@ input:focus-visible {
 .detail-shot {
   position: relative;
   margin: 0;
-  height: min(874px, calc(100vh - 230px));
+  height: min(874px, calc(100vh - 300px));
   aspect-ratio: 402 / 874;
   border: var(--line);
 }

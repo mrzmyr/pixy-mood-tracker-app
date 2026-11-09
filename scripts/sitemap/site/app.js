@@ -127,8 +127,6 @@ const shot = (screen, state, scale, container) => {
       el("img", {
         src: `img/${png}.png`,
         alt: `${screen.title}, ${state.title}`,
-        loading: "lazy",
-        decoding: "async",
       }),
       ...regionsLayer(regions, scale)
     );
