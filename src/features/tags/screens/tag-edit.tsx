@@ -3,7 +3,6 @@ import { useCallback, useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../use-tag-actions";
-import FlagHighlight from "@/components/flag-highlight";
 import RouteModalHeader from "@/components/route-modal-header";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -145,20 +144,18 @@ export const TagEdit = () => {
         <TagNameField
           leading={
             hasTagIcons ? (
-              <FlagHighlight flag="tag-icons">
-                <TagIconButton
-                  placement="row"
-                  icon={iconField.icon}
-                  color={tag.color}
-                  isSuggesting={iconField.isSuggesting}
-                  onPress={() => {
-                    analytics.track("tags:icon_picker_opened", {
-                      has_suggestions: tag.title.trim() !== "",
-                    });
-                    iconField.openPicker();
-                  }}
-                />
-              </FlagHighlight>
+              <TagIconButton
+                placement="row"
+                icon={iconField.icon}
+                color={tag.color}
+                isSuggesting={iconField.isSuggesting}
+                onPress={() => {
+                  analytics.track("tags:icon_picker_opened", {
+                    has_suggestions: tag.title.trim() !== "",
+                  });
+                  iconField.openPicker();
+                }}
+              />
             ) : undefined
           }
           value={tag.title}

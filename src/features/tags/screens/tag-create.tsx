@@ -2,7 +2,6 @@ import { useRouter } from "expo-router";
 import { useCallback, useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
-import FlagHighlight from "@/components/flag-highlight";
 import RouteModalHeader from "@/components/route-modal-header";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -137,20 +136,18 @@ export const TagCreate = () => {
         <TagNameField
           leading={
             hasTagIcons ? (
-              <FlagHighlight flag="tag-icons">
-                <TagIconButton
-                  placement="row"
-                  icon={iconField.icon}
-                  color={iconField.color}
-                  isSuggesting={iconField.isSuggesting}
-                  onPress={() => {
-                    analytics.track("tags:icon_picker_opened", {
-                      has_suggestions: tempTag.title.trim() !== "",
-                    });
-                    iconField.openPicker();
-                  }}
-                />
-              </FlagHighlight>
+              <TagIconButton
+                placement="row"
+                icon={iconField.icon}
+                color={iconField.color}
+                isSuggesting={iconField.isSuggesting}
+                onPress={() => {
+                  analytics.track("tags:icon_picker_opened", {
+                    has_suggestions: tempTag.title.trim() !== "",
+                  });
+                  iconField.openPicker();
+                }}
+              />
             ) : undefined
           }
           autoFocus
