@@ -1,399 +1,166 @@
-import { execFileSync } from "node:child_process";
-import fs from "node:fs";
-import os from "node:os";
+// Phones sit on a simlock fleet (https://github.com/callstackincubator/simlock).
+// simlock leases a phone to one session at a time. agent-device drives it
+// through simlock's agent-device proxy, so the CLI never runs devicectl or adb
+// on a phone, and the phone does not need to be on this Mac.
 import path from "node:path";
-import { agentDevice } from "./agent-device.ts";
-import { getAdb, listPackagesArgs, listsPackage } from "./adb.ts";
-import { CliError } from "./shared.ts";
-import type { Device } from "./device.ts";
-import { findPhone } from "./target.ts";
-import type { AgentPhone, IosState } from "./target.ts";
 
-const run = (command: string, args: string[], timeout = 60_000) => {
+import { agentDevice, setPhoneSession } from "./agent-device.ts";
+import type { Device } from "./device.ts";
+import { CACHE_DIR, CliError, getCheckoutDir, note } from "./shared.ts";
+import { toPhones } from "./target.ts";
+import type { SimlockStatus } from "./target.ts";
+
+const REPO_ROOT = path.resolve(import.meta.dir, "../..");
+// Own state dir: a proxy connection in agent-device's default state dir takes
+// over every local simulator call on this Mac.
+const PHONE_STATE_DIR = path.join(CACHE_DIR, "agent-device-phones");
+const LEASE_TIMEOUT_MS = 180_000;
+const INSTALL_TIMEOUT_MS = 600_000;
+
+const getSimlock = () => {
+  const url = process.env.SIMLOCK_URL?.replace(/\/+$/u, "");
+  const token = process.env.SIMLOCK_TOKEN;
+  if (!url || !token) {
+    throw new CliError({
+      status: "simlock_not_configured",
+      message: "Phones need simlock",
+      why: "SIMLOCK_URL or SIMLOCK_TOKEN is not set. Phones are leased from a simlock fleet.",
+      fix: "Set SIMLOCK_URL and SIMLOCK_TOKEN (an agent token of your simlock gateway or daemon), then retry. See docs/development.md#phones.",
+    });
+  }
+  return { url, token };
+};
+
+/** Read the phones of the simlock fleet. Does not lease. */
+export const readPhones = async () => {
+  const { url, token } = getSimlock();
+  let response: Response;
   try {
-    return execFileSync(command, args, {
-      encoding: "utf-8",
-      timeout,
-      stdio: ["ignore", "pipe", "pipe"],
-    }).trim();
+    response = await fetch(`${url}/v1/status`, {
+      headers: { Authorization: `Bearer ${token}` },
+      signal: AbortSignal.timeout(30_000),
+    });
   } catch (error) {
-    const isTimeout =
-      error instanceof Error && "code" in error && error.code === "ETIMEDOUT";
-    // Apple's CoreDevice service stops answering after long runner sessions.
-    // Every devicectl call then hangs until it is restarted.
-    if (isTimeout && args[0] === "devicectl") {
-      throw new CliError({
-        status: "coredevice_stuck",
-        message: `xcrun devicectl ${args.slice(1, 3).join(" ")} did not answer`,
-        why: `Apple's device service gave no answer within ${timeout / 1000} seconds.`,
-        fix: "Run `bun devices doctor` for the restart command. Restart interrupts phone work in other sessions.",
-      });
+    throw new CliError({
+      status: "simlock_unreachable",
+      message: `simlock at ${url} did not answer`,
+      why: error instanceof Error ? error.message : String(error),
+      fix: "Check SIMLOCK_URL and the network to the simlock gateway, then retry.",
+    });
+  }
+  if (!response.ok) {
+    const body = await response.text();
+    throw new CliError({
+      status: "simlock_request_failed",
+      message: `simlock status answered ${response.status}`,
+      why: body.slice(0, 300),
+      fix: "Check SIMLOCK_TOKEN with `simlock whoami`, then retry.",
+    });
+  }
+  // SAFETY: simlock's GET /v1/status returns devices, leases, and workers.
+  return toPhones((await response.json()) as SimlockStatus);
+};
+
+// The phone flag routes a call through the proxy session, see setPhoneSession.
+// connect, connection, and disconnect refuse --platform.
+const getRoute = (phone: Device) => [
+  phone.platform === "ios" ? "--udid" : "--serial",
+  phone.id,
+];
+
+const getSelector = (phone: Device) => [
+  "--platform",
+  phone.platform,
+  ...getRoute(phone),
+];
+
+/** agent-device session and environment that reach the phone through simlock's proxy. */
+export const getPhoneSession = (phone: Device) => ({
+  session: `${phone.key}-${path.basename(getCheckoutDir(REPO_ROOT))}`,
+  env: {
+    AGENT_DEVICE_STATE_DIR: PHONE_STATE_DIR,
+    AGENT_DEVICE_DAEMON_AUTH_TOKEN: getSimlock().token,
+  },
+});
+
+/** Route later agent-device calls that select the phone through its proxy session. Does not lease. */
+export const attachPhone = (phone: Device) => {
+  setPhoneSession({ ...getPhoneSession(phone), id: phone.id });
+};
+
+/** End the phone session and give the lease back. simlock then removes apps installed during the lease. */
+export const releasePhone = async (phone: Device) => {
+  try {
+    await agentDevice(["disconnect", ...getRoute(phone)]);
+  } catch (error) {
+    if (!(error instanceof CliError)) {
+      throw error;
     }
-    if (isTimeout) {
-      throw new CliError({
-        status: "phone_command_timeout",
-        message: `${path.basename(command)} ${args.slice(0, 3).join(" ")} did not answer`,
-        why: `The phone gave no answer within ${timeout / 1000} seconds.`,
-        fix: "Unlock the phone, check the cable, then retry.",
-      });
-    }
+    note(`note: ${phone.key} disconnect: ${error.message}`);
+  }
+};
+
+/** Lease the phone for this checkout, or keep the lease it holds. */
+export const leasePhone = async (phone: Device) => {
+  const { url } = getSimlock();
+  attachPhone(phone);
+  const status = await agentDevice<{
+    connected?: boolean;
+    leaseAllocated?: boolean;
+  }>(["connection", "status", ...getRoute(phone)]).catch(() => null);
+  if (status?.connected && status.leaseAllocated) {
+    return;
+  }
+  await agentDevice([
+    "connect",
+    "proxy",
+    "--daemon-base-url",
+    `${url}/v1/agent-device`,
+    "--force",
+    ...getRoute(phone),
+  ]);
+  note(`Leasing ${phone.key} from simlock`);
+  try {
+    await agentDevice(
+      [
+        "open",
+        "--physical",
+        ...(phone.osVersion ? ["--os", phone.osVersion] : []),
+        ...getSelector(phone),
+      ],
+      { timeoutMs: LEASE_TIMEOUT_MS }
+    );
+  } catch (error) {
+    await releasePhone(phone);
     throw error;
   }
-};
-const withJsonFile = <T>(purpose: string, action: (file: string) => T): T => {
-  const file = path.join(
-    os.tmpdir(),
-    `pixy-mood-tracker-devicectl-${process.pid}-${purpose}.json`
-  );
-  try {
-    return action(file);
-  } finally {
-    fs.rmSync(file, { force: true });
+  // An Android phone with its screen off shows nothing to agent-device.
+  if (phone.platform === "android") {
+    await agentDevice(["hardware-button", "wake", ...getSelector(phone)]);
   }
 };
 
-/** Read the connected iOS phone state without changing device state. */
-export const readIosPhoneStates = () =>
-  withJsonFile("list", (file) => {
-    run("xcrun", ["devicectl", "list", "devices", "--json-output", file]);
-    return (
-      // SAFETY: devicectl writes the result schema documented in section 6 of the CLI spec.
-      (
-        JSON.parse(fs.readFileSync(file, "utf-8")) as {
-          result?: { devices?: IosState[] };
-        }
-      ).result?.devices ?? []
-    );
-  });
-
-/** Read Android phone serial states through the selected SDK adb binary. */
-export const readAndroidStates = () => {
-  const output = run(getAdb(), ["devices"]);
-  return Object.fromEntries(
-    output
-      .split("\n")
-      .slice(1)
-      .flatMap((line) => {
-        const [serial, state] = line.trim().split(/\s+/u);
-        return serial && state ? [[serial, state]] : [];
-      })
-  );
-};
-
-/** Find one connected phone by target without preflight. Lists phones only, no devicectl call. */
-export const findConnectedPhone = async (target: string) => {
-  const { devices = [] } = await agentDevice<{ devices?: AgentPhone[] }>(
-    ["devices"],
-    { timeoutMs: 30_000 }
-  );
-  return findPhone(
-    devices.filter(
-      (device) => device.kind === "device" && device.target === "mobile"
-    ),
-    target
-  );
-};
-
-/** Read phone identities and status details concurrently for device listing. */
-export const readPhones = async () => {
-  const [agent, iosDevices, adbStates] = await Promise.all([
-    agentDevice<{ devices: AgentPhone[] }>(["devices"]),
-    Promise.resolve().then(readIosPhoneStates),
-    Promise.resolve().then(readAndroidStates),
-  ]);
-  const lockStates: Record<string, boolean | undefined> = {};
-  const pairedPhones = (agent.devices ?? []).filter((phone) => {
-    if (phone.platform !== "ios" || phone.kind !== "device") {
-      return false;
-    }
-    const state = iosDevices.find(
-      (device) => device.hardwareProperties?.udid === phone.id
-    );
-    return (
-      state?.deviceProperties?.bootState === "booted" &&
-      state.connectionProperties?.pairingState === "paired" &&
-      state.deviceProperties.developerModeStatus === "enabled"
-    );
-  });
-  for (const [index, phone] of pairedPhones.entries()) {
-    try {
-      const result = withJsonFile(`lock-${index}`, (file) => {
-        run("xcrun", [
-          "devicectl",
-          "device",
-          "info",
-          "lockState",
-          "--device",
-          phone.id,
-          "--json-output",
-          file,
-        ]);
-        // SAFETY: devicectl lockState output has a result.passcodeRequired boolean.
-        return JSON.parse(fs.readFileSync(file, "utf-8")) as {
-          result?: { passcodeRequired?: boolean };
-        };
-      });
-      lockStates[phone.id] = result.result?.passcodeRequired;
-    } catch {
-      lockStates[phone.id] = undefined;
-    }
-  }
-  return { phones: agent.devices ?? [], iosDevices, adbStates, lockStates };
-};
-
-const phoneError = (status: string, phone: Device, why: string, fix: string) =>
-  new CliError({ status, message: `${phone.key}: ${why}`, why, fix });
-
-/** Check pairing, reachability, developer mode, authorization, and lock state before phone actions. */
-export const preflightPhone = (phone: Device) => {
-  if (phone.platform === "ios") {
-    const device = readIosPhoneStates().find(
-      (entry) => entry.hardwareProperties?.udid === phone.id
-    );
-    if (!device || device.deviceProperties?.bootState !== "booted") {
-      throw phoneError(
-        "phone_offline",
-        phone,
-        "Phone is not reachable.",
-        "Connect the phone by cable, then retry."
-      );
-    }
-    if (device.connectionProperties?.pairingState !== "paired") {
-      throw phoneError(
-        "phone_not_paired",
-        phone,
-        "Phone does not trust this Mac.",
-        "Unlock the phone, tap Trust, then retry."
-      );
-    }
-    if (device.deviceProperties?.developerModeStatus !== "enabled") {
-      throw phoneError(
-        "developer_mode_off",
-        phone,
-        "Developer Mode is off.",
-        "Open Settings > Privacy & Security > Developer Mode, then retry."
-      );
-    }
-    // `info details` is the call that hangs when Apple's device service is
-    // stuck. Other failures of this probe say nothing, so they pass.
-    try {
-      withJsonFile("details", (file) =>
-        run(
-          "xcrun",
-          [
-            "devicectl",
-            "device",
-            "info",
-            "details",
-            "--device",
-            phone.id,
-            "--json-output",
-            file,
-          ],
-          15_000
-        )
-      );
-    } catch (error) {
-      if (error instanceof CliError) {
-        throw error;
-      }
-    }
-    const lock = withJsonFile("lock", (file) => {
-      run("xcrun", [
-        "devicectl",
-        "device",
-        "info",
-        "lockState",
-        "--device",
-        phone.id,
-        "--json-output",
-        file,
-      ]);
-      // SAFETY: devicectl lockState output has a result.passcodeRequired boolean.
-      return JSON.parse(fs.readFileSync(file, "utf-8")) as {
-        result?: { passcodeRequired?: boolean };
-      };
-    });
-    if (lock.result?.passcodeRequired) {
-      throw phoneError(
-        "phone_locked",
-        phone,
-        "Phone is locked.",
-        "Unlock the phone, then retry."
-      );
-    }
-  } else {
-    const state = readAndroidStates()[phone.id];
-    if (state === "offline") {
-      throw phoneError(
-        "phone_offline",
-        phone,
-        "Phone is offline.",
-        "Connect the phone by cable, then retry."
-      );
-    }
-    if (state === "unauthorized") {
-      throw phoneError(
-        "phone_unauthorized",
-        phone,
-        "Phone refuses USB debugging.",
-        'Unlock the phone, accept "Allow USB debugging", then retry.'
-      );
-    }
-    run(getAdb(), [
-      "-s",
-      phone.id,
-      "shell",
-      "input",
-      "keyevent",
-      "KEYCODE_WAKEUP",
-    ]);
-    run(getAdb(), ["-s", phone.id, "shell", "wm", "dismiss-keyguard"]);
-    if (
-      run(getAdb(), ["-s", phone.id, "shell", "dumpsys", "window"]).includes(
-        "isKeyguardShowing=true"
-      )
-    ) {
-      throw phoneError(
-        "phone_locked",
-        phone,
-        "Phone is locked.",
-        "Unlock the phone, then retry."
-      );
-    }
-  }
-};
-
-/** Install preview app bundle on one physical phone. */
+/** Upload and install an app bundle on the leased phone. */
 export const installPhoneApp = (phone: Device, appPath: string) =>
-  phone.platform === "ios"
-    ? run("xcrun", [
-        "devicectl",
-        "device",
-        "install",
-        "app",
-        "--device",
-        phone.id,
-        appPath,
-      ])
-    : run(getAdb(), ["-s", phone.id, "install", "-r", appPath]);
+  agentDevice(["install", appPath, ...getSelector(phone)], {
+    timeoutMs: INSTALL_TIMEOUT_MS,
+  });
 
-/** Check whether preview app is installed on one physical phone. */
-export const isPhoneAppInstalled = (phone: Device, bundleId: string) =>
-  phone.platform === "ios"
-    ? withJsonFile("apps", (file) => {
-        run("xcrun", [
-          "devicectl",
-          "device",
-          "info",
-          "apps",
-          "--device",
-          phone.id,
-          "--bundle-id",
-          bundleId,
-          "--json-output",
-          file,
-        ]);
-        // SAFETY: devicectl apps output has a result.apps array.
-        const apps = (
-          JSON.parse(fs.readFileSync(file, "utf-8")) as {
-            result?: { apps?: unknown[] };
-          }
-        ).result?.apps;
-        return (apps?.length ?? 0) > 0;
-      })
-    : listsPackage(
-        run(getAdb(), listPackagesArgs(phone.id, bundleId)),
-        bundleId
-      );
-
-/**
- * Open a link in a running or stopped app on an iPhone. agent-device 0.21.15
- * passes `--payload-url` after the bundle ID, where devicectl hands it to the
- * app as a program argument, so the link never opens.
- */
+/** Open a link in an app on the leased iPhone. */
 export const openIosPhoneLink = (
   phone: Device,
   bundleId: string,
   url: string,
   options: { terminateExisting?: boolean } = {}
 ) =>
-  run("xcrun", [
-    "devicectl",
-    "device",
-    "process",
-    "launch",
-    "--device",
-    phone.id,
-    ...(options.terminateExisting ? ["--terminate-existing"] : []),
-    "--payload-url",
-    url,
+  agentDevice([
+    "open",
     bundleId,
+    url,
+    ...(options.terminateExisting ? ["--relaunch"] : []),
+    ...getSelector(phone),
   ]);
 
-/** Remove preview app from one physical phone. */
-export const uninstallPhoneApp = (phone: Device, bundleId: string) =>
-  phone.platform === "ios"
-    ? run("xcrun", [
-        "devicectl",
-        "device",
-        "uninstall",
-        "app",
-        "--device",
-        phone.id,
-        bundleId,
-      ])
-    : run(getAdb(), ["-s", phone.id, "uninstall", bundleId]);
-
-/** Stop preview app without shutting down phone. */
-export const stopPhoneApp = (
-  phone: Device,
-  bundleId: string,
-  appName: string
-) =>
-  phone.platform === "android"
-    ? run(getAdb(), ["-s", phone.id, "shell", "am", "force-stop", bundleId])
-    : withJsonFile("processes", (file) => {
-        run("xcrun", [
-          "devicectl",
-          "device",
-          "info",
-          "processes",
-          "--device",
-          phone.id,
-          "--json-output",
-          file,
-        ]);
-        // SAFETY: devicectl writes { result: { runningProcesses } } to the JSON file.
-        const processes = (
-          JSON.parse(fs.readFileSync(file, "utf-8")) as {
-            result: {
-              runningProcesses: {
-                executable?: string;
-                processIdentifier: number;
-              }[];
-            };
-          }
-        ).result.runningProcesses;
-        const executable = appName.replaceAll(/[^a-zA-Z0-9]/gu, "");
-        const matchingProcesses = processes.filter((process) =>
-          process.executable?.endsWith(`.app/${executable}`)
-        );
-        for (const process of matchingProcesses) {
-          run("xcrun", [
-            "devicectl",
-            "device",
-            "process",
-            "terminate",
-            "--device",
-            phone.id,
-            "--pid",
-            String(process.processIdentifier),
-          ]);
-        }
-      });
-/** Remove preview app data on Android or uninstall it on iOS. */
-export const clearPhoneAppData = (phone: Device, bundleId: string) =>
-  phone.platform === "android"
-    ? run(getAdb(), ["-s", phone.id, "shell", "pm", "clear", bundleId])
-    : uninstallPhoneApp(phone, bundleId);
+/** Stop an app on the leased phone. The phone stays on. */
+export const stopPhoneApp = (phone: Device, bundleId: string) =>
+  agentDevice(["close", bundleId, ...getSelector(phone)]);
