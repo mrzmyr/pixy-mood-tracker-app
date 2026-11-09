@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { Pressable, View } from "react-native";
+import { Platform, Pressable, StyleSheet, View } from "react-native";
+import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import type { SharedValue } from "react-native-reanimated";
 import Check from "lucide-react-native/icons/check";
 import Mic from "lucide-react-native/icons/mic";
 import Pause from "lucide-react-native/icons/pause";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
+import { SHADOW } from "@/constants/shadow";
 import { SPACE } from "@/constants/space";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -14,6 +16,9 @@ import { VoiceWaveform } from "./voice-waveform";
 const PILL_HEIGHT = 64;
 const BUTTON_SIZE = 48;
 const TICK_MS = 250;
+// iOS 26+: Liquid Glass capsule, like the float buttons. Elsewhere a plain
+// fill with the float shadow.
+const HAS_GLASS = Platform.OS === "ios" && isGlassEffectAPIAvailable();
 
 const formatElapsed = (ms: number) => {
   const seconds = Math.floor(ms / 1000);
@@ -80,13 +85,21 @@ export const VoiceInputPill = ({
       style={{
         height: PILL_HEIGHT,
         borderRadius: RADIUS.full,
-        backgroundColor: colors.background,
         flexDirection: "row",
         alignItems: "center",
         gap: SPACE.md,
         paddingHorizontal: SPACE.sm,
+        ...(!HAS_GLASS && {
+          backgroundColor: colors.background,
+          boxShadow: SHADOW.float,
+        }),
       }}
     >
+      {HAS_GLASS && (
+        <GlassView
+          style={[StyleSheet.absoluteFill, { borderRadius: RADIUS.full }]}
+        />
+      )}
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={isRunning ? t("voice_pause") : t("voice_resume")}
@@ -99,7 +112,8 @@ export const VoiceInputPill = ({
           borderRadius: RADIUS.full,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: buttonFill,
+          // On glass the icon sits on the capsule, like a toolbar button.
+          backgroundColor: HAS_GLASS ? undefined : buttonFill,
           opacity: pressed ? 0.7 : 1,
         })}
       >
