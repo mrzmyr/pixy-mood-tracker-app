@@ -218,6 +218,8 @@
   "import_success_title": "Tuonti onnistui",
   "issue": "Ongelma",
   "keep_editing": "Jatka muokkaamista",
+  "language": "Kieli",
+  "language_name": "Suomi",
   "less": "Vähemmän",
   "licenses": "Lisenssit",
   "licenses_load_failed": "Lisenssejä ei voitu ladata. Yritä uudelleen.",

@@ -25,6 +25,10 @@ export const SETTINGS_ICONS = {
     ios: "circle.lefthalf.filled",
     android: import("@expo/material-symbols/contrast.xml"),
   }),
+  language: Icon.select({
+    ios: "globe",
+    android: import("@expo/material-symbols/language.xml"),
+  }),
   appIcon: Icon.select({
     ios: "app",
     android: import("@expo/material-symbols/apps.xml"),

@@ -218,6 +218,8 @@
   "import_success_title": "Import successful",
   "issue": "Issue",
   "keep_editing": "Keep Editing",
+  "language": "Language",
+  "language_name": "English",
   "less": "Less",
   "licenses": "Licenses",
   "licenses_load_failed": "Licenses could not be loaded. Try again.",

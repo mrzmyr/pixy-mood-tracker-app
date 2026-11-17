@@ -218,6 +218,8 @@
   "import_success_title": "导入成功",
   "issue": "问题",
   "keep_editing": "继续编辑",
+  "language": "语言",
+  "language_name": "简体中文",
   "less": "较少的",
   "licenses": "许可证",
   "licenses_load_failed": "无法加载许可证。请重试。",

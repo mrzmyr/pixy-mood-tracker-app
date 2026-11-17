@@ -218,6 +218,8 @@
   "import_success_title": "Importen lyckades",
   "issue": "Problem",
   "keep_editing": "Fortsätt redigera",
+  "language": "Språk",
+  "language_name": "Svenska",
   "less": "Mindre",
   "licenses": "Licenser",
   "licenses_load_failed": "Licenserna kunde inte läsas in. Försök igen.",

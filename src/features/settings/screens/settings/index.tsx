@@ -48,6 +48,15 @@ const DEVELOPMENT_UNLOCK_TAPS = 20;
 const SECTION_INSET = Platform.select({ ios: 20, android: 32, default: 16 });
 
 /**
+ * The app language follows the system per-app language setting, which
+ * `Linking.openSettings()` opens on the Pixy page. iOS has it since iOS 13,
+ * Android since Android 13 (API 33). Web and older Android have none.
+ */
+const HAS_APP_LANGUAGE_SETTING =
+  Platform.OS === "ios" ||
+  (Platform.OS === "android" && Platform.Version >= 33);
+
+/**
  * Settings screen, opened from the calendar header. The user's name and photo
  * row comes first. The support card needs its feature flag and an enabled
  * client.
@@ -196,6 +205,16 @@ export const SettingsScreen = () => {
               onPress={cycleColorScheme}
               testID="theme"
             />
+            {HAS_APP_LANGUAGE_SETTING && (
+              <FieldRow
+                title={t("language")}
+                icon={SETTINGS_ICONS.language}
+                kind="external"
+                value={t("language_name")}
+                onPress={() => Linking.openSettings()}
+                testID="language"
+              />
+            )}
             <FieldRow
               title={t("app_icon")}
               icon={SETTINGS_ICONS.appIcon}

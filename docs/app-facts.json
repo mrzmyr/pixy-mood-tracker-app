@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-11-08",
+  "verifiedOn": "2026-11-17",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -303,9 +303,13 @@
       "label": "31 languages",
       "status": "available",
       "group": "personalization",
-      "description": "The app is translated into 31 languages.",
+      "description": "The app is translated into 31 languages. Settings > Language opens the system per-app language setting on iOS and Android 13+.",
       "note": "The App Store listing lists English only.",
-      "evidence": ["assets/locales/", "docs/i18n.md"]
+      "evidence": [
+        "assets/locales/",
+        "docs/i18n.md",
+        "src/features/settings/screens/settings/index.tsx"
+      ]
     },
     {
       "id": "local-storage",
