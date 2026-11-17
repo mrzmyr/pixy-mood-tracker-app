@@ -38,19 +38,6 @@ const brightPhotos = (days: RecapDay[]): StoryPhoto[] =>
     return photo ? [{ date: day.date, photo }] : [];
   });
 
-/** Bright photos, one per file, brightest day first. */
-const uniqueBrightPhotos = (days: RecapDay[]) => {
-  const seen = new Set<string>();
-  const sorted = [...days].sort((a, b) => getDayRating(b) - getDayRating(a));
-  return brightPhotos(sorted).filter(({ photo }) => {
-    if (seen.has(photo.fileName)) {
-      return false;
-    }
-    seen.add(photo.fileName);
-    return true;
-  });
-};
-
 /** Check-ins over the pixel grid. Bright days with a photo show it. */
 const cover = (input: RecapInput): CoverSlide => ({
   type: "cover",
@@ -344,14 +331,8 @@ const comingUp = (input: RecapInput): ComingUpSlide | null => {
   };
 };
 
-/** Share card with 3+ bright photo days' photos, else none. Always last. */
-const share = (input: RecapInput): ShareSlide => {
-  const photos = uniqueBrightPhotos(input.days);
-  return {
-    type: "share",
-    photos: photos.length >= THRESHOLDS.sharePhotos ? photos : [],
-  };
-};
+/** Share card with the month's pixels. Always last. */
+const share = (): ShareSlide => ({ type: "share" });
 
 /**
  * Months from the story month to today's month: 0 for the current month,
@@ -389,7 +370,7 @@ export const buildMonthStory = (input: RecapInput): StorySlide[] | null => {
     newPeople(input),
     comingUp(input),
   ];
-  return [...slides, share(input)].filter(
+  return [...slides, share()].filter(
     (slide): slide is StorySlide => slide !== null
   );
 };

@@ -6,12 +6,11 @@ import type { ImageGate } from "./image-gate";
 import { ShareFrame } from "./share-frame";
 import { shareStoryCard } from "./share-image";
 import type { SlideContext } from "./slides";
-import type { StoryPhoto, StorySlide } from "./types";
+import type { StorySlide } from "./types";
 
 interface Capture {
   slide: StorySlide;
   ctx: SlideContext;
-  photos: StoryPhoto[];
   gate: ImageGate;
 }
 
@@ -29,14 +28,11 @@ export const useShareFrame = () => {
   const share = ({
     slide,
     ctx,
-    photos,
     dialogTitle,
     onShared,
   }: {
     slide: StorySlide;
     ctx: SlideContext;
-    /** Photos of the last slide's card. */
-    photos: StoryPhoto[];
     dialogTitle: string;
     onShared: () => void;
   }) => {
@@ -53,7 +49,7 @@ export const useShareFrame = () => {
         onShared,
       });
     });
-    setCapture({ slide, ctx, photos, gate });
+    setCapture({ slide, ctx, gate });
   };
 
   // Under the story: never on screen, only in the capture.
@@ -65,7 +61,6 @@ export const useShareFrame = () => {
       <ShareFrame
         slide={capture.slide}
         ctx={capture.ctx}
-        photos={capture.photos}
         frameRef={frameView}
         gate={capture.gate}
       />

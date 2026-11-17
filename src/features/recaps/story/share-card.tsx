@@ -7,11 +7,9 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { RADIUS } from "@/constants/radius";
-import { PhotoGallery, PhotoGalleryItem } from "@/features/photos";
 import { t } from "@/lib/translation";
 import { monthName } from "./format";
-import { MonthGrid, StoryImage, useDayColors } from "./parts";
+import { MonthGrid, useDayColors } from "./parts";
 import type { SlideContext } from "./slides";
 import {
   getStoryTheme,
@@ -19,57 +17,50 @@ import {
   STORY_MAX_FONT_SCALE,
   STORY_PALETTE,
 } from "./theme";
-import type { StoryPhoto } from "./types";
 
 /** Card padding per side. */
 const PADDING = 20;
-/** Space between day pixels and between photos. */
+/** Space between day pixels. */
 const GAP = 8;
-/** Photos on the card, all square. */
-const PHOTOS = 3;
 
-/** iOS 26 liquid glass blurs the sky behind the card. */
+/** iOS 26 liquid glass blurs the day sky behind the light card. */
 const HAS_GLASS = isGlassEffectAPIAvailable();
 
 /**
- * Card fill on the sky: less white than the slide glass, so the day sky
- * shows through and the card does not glare.
+ * Light card: see-through and less white than the slide glass, so the day
+ * sky shows through and the card does not glare. Dark card: solid, so it
+ * reads as a dark card on the night sky, with solid mood pixels.
  */
-const CARD_FILL = {
-  paper: "rgba(255,255,255,0.16)",
-  paperBorder: "rgba(255,255,255,0.45)",
-};
+const CARD = {
+  paper: {
+    fill: "rgba(255,255,255,0.16)",
+    border: "rgba(255,255,255,0.45)",
+    isGlass: true,
+  },
+  night: {
+    fill: STORY_PALETTE.night.surface,
+    border: STORY_PALETTE.night.chipBorder,
+    isGlass: false,
+  },
+} as const;
 
 /**
- * Card to send to someone close: the days as mood pixels and 3 square
- * bright photos when there are enough. Light type, no tags: the days and
- * photos tell the story. See-through on the sky with a light outline and,
- * on iOS 26, a blur of the sky behind it. A photo opens the gallery with
- * all 3; a tap anywhere else on the card does nothing, so the story stays.
+ * Card to send to someone close: the month's days as mood pixels only.
+ * Light mode: see-through on the day sky with a light outline and, on
+ * iOS 26, a blur of the sky behind it. Dark mode: a solid dark card. A tap
+ * on the card does nothing, so the story stays.
  */
-export const ShareCard = ({
-  ctx,
-  photos,
-}: {
-  ctx: SlideContext;
-  photos: StoryPhoto[];
-}) => {
-  const dayColors = useDayColors(ctx.days, "glass");
-  const dayOutlines = useDayColors(ctx.days, "glassEdge");
+export const ShareCard = ({ ctx }: { ctx: SlideContext }) => {
   const theme = getStoryTheme(ctx.isDark);
+  const isNight = theme === "night";
+  const card = isNight ? CARD.night : CARD.paper;
   const palette = STORY_PALETTE[theme];
-  const fill = theme === "paper" ? CARD_FILL.paper : palette.glass;
-  const border =
-    theme === "paper" ? CARD_FILL.paperBorder : palette.glassBorder;
+  const dayColors = useDayColors(ctx.days, isNight ? "background" : "glass");
+  const glassOutlines = useDayColors(ctx.days, "glassEdge");
   const { width } = useWindowDimensions();
   // Days fill the card: slide padding 24 and card padding per side.
   const inner = width - 48 - PADDING * 2;
   const cell = Math.floor((inner - GAP * 6) / 7);
-  const shown = photos.slice(0, PHOTOS);
-  // Fewer photos share the row, each at most half of it.
-  const photoSize = Math.floor(
-    (inner - GAP * (Math.max(shown.length, 2) - 1)) / Math.max(shown.length, 2)
-  );
   // "My September".
   const title = t("recaps_story_share_title", {
     month: monthName(ctx.period.start),
@@ -80,16 +71,16 @@ export const ShareCard = ({
       accessible={false}
       testID="recap-story-share-card"
       style={{
-        backgroundColor: fill,
+        backgroundColor: card.fill,
         borderRadius: STORY_CARD_RADIUS,
         borderCurve: "continuous",
         padding: PADDING,
         borderWidth: 1,
-        borderColor: border,
+        borderColor: card.border,
         overflow: "hidden",
       }}
     >
-      {HAS_GLASS && (
+      {HAS_GLASS && card.isGlass && (
         <GlassView
           glassEffectStyle="clear"
           style={[StyleSheet.absoluteFill, { borderRadius: STORY_CARD_RADIUS }]}
@@ -129,36 +120,12 @@ export const ShareCard = ({
           dayColors={dayColors}
           size={cell}
           gap={GAP}
-          empty={palette.glass}
-          dayOutlines={dayOutlines}
-          emptyOutline={palette.glassBorder}
+          empty={isNight ? palette.empty : palette.glass}
+          // Solid pixels on the dark card need no outline.
+          dayOutlines={isNight ? undefined : glassOutlines}
+          emptyOutline={isNight ? undefined : palette.glassBorder}
           weekdayColor={palette.muted}
         />
-        {shown.length > 0 && (
-          <PhotoGallery
-            photos={shown.map((item) => item.photo)}
-            context="recap"
-          >
-            <View style={{ flexDirection: "row", gap: GAP }}>
-              {shown.map((item, index) => (
-                <PhotoGalleryItem key={item.photo.id} index={index}>
-                  <StoryImage
-                    photo={item.photo}
-                    label={t("photos_thumbnail_label", {
-                      index: index + 1,
-                      count: shown.length,
-                    })}
-                    style={{
-                      width: photoSize,
-                      height: photoSize,
-                      borderRadius: RADIUS.md,
-                    }}
-                  />
-                </PhotoGalleryItem>
-              ))}
-            </View>
-          </PhotoGallery>
-        )}
       </View>
     </Pressable>
   );

@@ -79,8 +79,6 @@ export const THRESHOLDS = {
   storyQuizInsightMaxMonthShare: 0.6,
   /** Story new people: faces at most. The rest show as a count. */
   storyNewPeopleMaxFaces: 54,
-  /** Share card: bright photo days needed for photos on the card. */
-  sharePhotos: 1,
   /** Mood chart: check-in days needed. */
   moodChartMinDays: 4,
   /** Mood count: check-in days needed. */

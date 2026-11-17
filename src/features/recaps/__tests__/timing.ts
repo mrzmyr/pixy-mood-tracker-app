@@ -3,7 +3,7 @@ import type { CoverSlide } from "../story/types";
 
 describe("slide duration", () => {
   test("waits on the last slide instead of moving on", () => {
-    expect(getSlideDuration({ type: "share", photos: [] })).toBeNull();
+    expect(getSlideDuration({ type: "share" })).toBeNull();
   });
 
   test("moves on from other slides after a while", () => {

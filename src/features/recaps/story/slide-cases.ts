@@ -367,12 +367,8 @@ export const SLIDE_CASES: Record<StorySlideType, SlideCase[]> = {
   ],
   share: [
     {
-      name: "Shuffle photos",
-      build: (kit) => ({ type: "share", photos: kit.photos }),
-    },
-    {
-      name: "No photos",
-      build: () => ({ type: "share", photos: [] }),
+      name: "Pixels",
+      build: () => ({ type: "share" }),
     },
   ],
   sleep: [

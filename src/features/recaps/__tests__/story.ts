@@ -413,21 +413,10 @@ describe("coming up", () => {
 });
 
 describe("share card", () => {
-  test("shows 3 photos from 3 bright photo days", () => {
+  test("comes last with pixels only, also on bright photo days", () => {
     const items = month((index) =>
       index < 3 ? { photos: [photo(`${index}`)] } : {}
     );
-    expect(slide(story(items), "share")?.photos).toHaveLength(3);
-  });
-
-  test("shows photos from 1 or 2 bright photo days too", () => {
-    const items = month((index) =>
-      index < 2 ? { photos: [photo(`${index}`)] } : {}
-    );
-    expect(slide(story(items), "share")?.photos).toHaveLength(2);
-  });
-
-  test("shows only the grid without bright photo days", () => {
-    expect(slide(story(month()), "share")?.photos).toEqual([]);
+    expect(story(items)?.at(-1)).toStrictEqual({ type: "share" });
   });
 });

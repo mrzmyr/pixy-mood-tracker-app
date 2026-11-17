@@ -518,13 +518,11 @@ const headingOf = (slide: StorySlide, period: Period) => {
 const FrameContent = ({
   slide,
   ctx,
-  photos,
   width,
   colors,
 }: {
   slide: StorySlide;
   ctx: SlideContext;
-  photos: StoryPhoto[];
   width: number;
   colors: FrameColors;
 }) => {
@@ -562,25 +560,7 @@ const FrameContent = ({
       );
     }
     case "share": {
-      const size = Math.floor((width - GAP * 2) / 3);
-      return (
-        <View style={{ gap: 16 }}>
-          <FrameMonth ctx={ctx} width={width} colors={colors} />
-          {photos.length > 0 && (
-            <View style={{ flexDirection: "row", gap: GAP }}>
-              {photos.map((photo) => (
-                <FrameImage
-                  key={photo.photo.id}
-                  uri={getPhotoFile(photo.photo).uri}
-                  size={size}
-                  radius={RADIUS.md}
-                  background={colors.empty}
-                />
-              ))}
-            </View>
-          )}
-        </View>
-      );
+      return <FrameMonth ctx={ctx} width={width} colors={colors} />;
     }
     default: {
       return null;
@@ -598,14 +578,11 @@ const FrameContent = ({
 export const ShareFrame = ({
   slide,
   ctx,
-  photos,
   frameRef,
   gate,
 }: {
   slide: StorySlide;
   ctx: SlideContext;
-  /** Photos of the last slide's card. */
-  photos: StoryPhoto[];
   frameRef: React.Ref<ViewType>;
   /** From `createImageGate`: starts the capture once the frame is ready. */
   gate: ImageGate;
@@ -650,7 +627,6 @@ export const ShareFrame = ({
             <FrameContent
               slide={slide}
               ctx={ctx}
-              photos={photos}
               width={inner}
               colors={colors}
             />

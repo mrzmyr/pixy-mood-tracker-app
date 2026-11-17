@@ -125,13 +125,11 @@ export interface ComingUpSlide {
 }
 
 /**
- * Last slide, on the sky: thanks for looking back, and a card to send to
- * someone close, with the period's days and 3 photos when it has 3+ bright
- * photo days. `photos` is the shuffle pool, brightest first.
+ * Last slide, on the sky: a card to send to someone close, with the
+ * period's days as mood pixels only.
  */
 export interface ShareSlide {
   type: "share";
-  photos: StoryPhoto[];
 }
 
 /** Sleep of one night, stored on the next morning's entries. */

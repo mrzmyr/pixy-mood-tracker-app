@@ -1,5 +1,7 @@
 import ShareIcon from "lucide-react-native/icons/share";
 import { Pressable } from "react-native";
+import Button from "@/components/button";
+import { ButtonIcon, ButtonText } from "@/components/button-content";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 import { StoryText } from "./parts";
@@ -49,3 +51,25 @@ export const StoryShareButton = ({
     </Pressable>
   );
 };
+
+/**
+ * Share on the last slide: the slide's one action, so a full-width
+ * primary button at the bottom edge instead of the light pill.
+ */
+export const StoryFinaleShareButton = ({
+  disabled,
+  onPress,
+}: {
+  disabled: boolean;
+  onPress: () => void;
+}) => (
+  <Button
+    type="primary"
+    disabled={disabled}
+    onPress={onPress}
+    testID="recap-story-share"
+  >
+    <ButtonIcon icon={ShareIcon} size={18} />
+    <ButtonText>{t("recaps_story_share")}</ButtonText>
+  </Button>
+);
