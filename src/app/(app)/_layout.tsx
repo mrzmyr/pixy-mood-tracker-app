@@ -136,6 +136,9 @@ const getDefaultOptions = (textColor: string, backgroundColor: string) => ({
 const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
   title: t("calendar"),
   animation: "fade" as const,
+  // Home and Calendar replace each other: nothing to go back to.
+  headerBackVisible: false,
+  gestureEnabled: false,
   headerTitle: CalendarScreenReaderTitle,
   headerTintColor: textColor,
   headerShadowVisible: false,
@@ -156,6 +159,9 @@ const getHomeOptions = (textColor: string, backgroundColor: string) => ({
   title: t("today"),
   animation: "fade" as const,
   headerTitle: "",
+  // Home and Calendar replace each other: nothing to go back to.
+  headerBackVisible: false,
+  gestureEnabled: false,
   headerTintColor: textColor,
   headerShadowVisible: false,
   ...(HAS_FLOATING_HEADER
