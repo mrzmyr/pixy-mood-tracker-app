@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
 import { ButtonIcon, ButtonText } from "@/components/button-content";
 import LinkButton from "@/components/link-button";
-import { Label } from "@/components/typography";
+import { Copy, Label } from "@/components/typography";
 import {
   AddPhotoTile,
   MAX_PHOTOS_PER_ENTRY,
@@ -100,6 +100,8 @@ export const SlidePhotos = ({
   const hasDayGrid = permission === "granted" || permission === "limited";
   const isLimited = permission === "limited";
   const hasLibraryTag = hasDayGrid && draft.dayPhotoCount > 0;
+  // Access on, no photos that day: one muted line next to Library.
+  const isDayEmpty = permission === "granted" && draft.dayPhotoCount === 0;
 
   const removeByKey = (key: string) => {
     const photo = draft.photos.find((candidate) => candidate.key === key);
@@ -160,7 +162,26 @@ export const SlidePhotos = ({
 
   const renderIos = () => (
     <>
-      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          gap: 12,
+        }}
+      >
+        {isDayEmpty && (
+          <Copy
+            size={14}
+            numberOfLines={1}
+            testID="photos-day-empty"
+            style={{ flex: 1, color: colors.textSecondary }}
+          >
+            {t("photos_day_empty", {
+              day: formatDayLabel({ date, isTitleCase: false }),
+            })}
+          </Copy>
+        )}
         <Button
           type="secondary"
           testID="photos-library-button"
