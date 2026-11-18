@@ -24,7 +24,8 @@ import {
   FEEDBACK_FEATURES_URL,
 } from "@/constants/config";
 import { DEV_TOOLS } from "@/dev";
-import { t } from "@/lib/translation";
+import { getLanguageName } from "@/lib/language-names";
+import { getLanguage, t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import {
   useCanOverrideFeatureFlags,
@@ -43,6 +44,28 @@ import { useSupport } from "@/support";
 import { SETTINGS_ICONS } from "./icons";
 
 const DEVELOPMENT_UNLOCK_TAPS = 20;
+
+/**
+ * The app's page in system Settings offers a per-app language on iOS and
+ * on Android 13+ (`supportedLocales` in app.json). Older Android has none.
+ */
+const hasAppLanguageSettings =
+  Platform.OS === "ios" ||
+  (Platform.OS === "android" && Number(Platform.Version) >= 33);
+
+/** Current app language; opens the app's page in system Settings. */
+const LanguageRow = () => (
+  <FieldRow
+    title={t("settings_language")}
+    icon={SETTINGS_ICONS.language}
+    kind="external"
+    value={getLanguageName(getLanguage())}
+    onPress={() => {
+      void Linking.openSettings();
+    }}
+    testID="language"
+  />
+);
 
 /** Horizontal space a native section header or footer leaves on each side. */
 const SECTION_INSET = Platform.select({ ios: 20, android: 32, default: 16 });
@@ -196,6 +219,7 @@ export const SettingsScreen = () => {
               onPress={cycleColorScheme}
               testID="theme"
             />
+            {hasAppLanguageSettings && <LanguageRow />}
             <FieldRow
               title={t("app_icon")}
               icon={SETTINGS_ICONS.appIcon}
