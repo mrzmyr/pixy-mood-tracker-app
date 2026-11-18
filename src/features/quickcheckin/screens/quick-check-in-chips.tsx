@@ -2,7 +2,7 @@ import Check from "lucide-react-native/icons/check";
 import { Pressable, View, useColorScheme } from "react-native";
 import { RADIUS } from "@/constants/radius";
 import type { LogItem } from "@/features/logs";
-import { PersonChip } from "@/features/people";
+import { getShortNames, PersonChip } from "@/features/people";
 import type { Person } from "@/features/people";
 import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
@@ -79,6 +79,7 @@ export const InfluenceChips = ({
 }) => {
   const tagById = new Map(tags.map((tag) => [tag.id, tag]));
   const personById = new Map(people.map((person) => [person.id, person]));
+  const shortNames = getShortNames(people);
 
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", gap: CHIP_GAP }}>
@@ -92,6 +93,7 @@ export const InfluenceChips = ({
             <PersonChip
               key={key}
               person={person}
+              label={shortNames.get(person.id)}
               selected={selected}
               onPress={() => onToggle(option)}
             />

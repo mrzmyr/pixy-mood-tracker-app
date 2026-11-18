@@ -22,6 +22,11 @@ const INSET = 16;
 export interface PickerItem {
   key: string;
   label: string;
+  /**
+   * Full text for search and screen readers when `label` is short, like a
+   * person's full name behind a first name. Defaults to `label`.
+   */
+  fullLabel?: string;
   /** Section title. Items keep their order inside a section. */
   section: string;
   leading: ReactNode;
@@ -61,7 +66,7 @@ const PickerRow = ({
     >
       <Pressable
         accessibilityRole="checkbox"
-        accessibilityLabel={item.label}
+        accessibilityLabel={item.fullLabel ?? item.label}
         accessibilityState={{ checked: isSelected }}
         testID={`quick-check-in-picker-${item.key}`}
         onPress={async () => {
@@ -118,7 +123,10 @@ export const QuickCheckInPickerSheet = ({
   const needle = query.trim().toLocaleLowerCase();
   const sections: { title: string; data: PickerItem[] }[] = [];
   for (const item of items) {
-    if (needle !== "" && !item.label.toLocaleLowerCase().includes(needle)) {
+    if (
+      needle !== "" &&
+      !(item.fullLabel ?? item.label).toLocaleLowerCase().includes(needle)
+    ) {
       continue;
     }
     const last = sections.at(-1);

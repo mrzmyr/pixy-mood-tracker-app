@@ -13,7 +13,7 @@ import { RATING_KEYS } from "@/constants/ratings";
 import { SPACE } from "@/constants/space";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
-import { usePeopleState } from "@/features/people";
+import { getShortNames, usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
@@ -218,6 +218,10 @@ export const QuickCheckIn = () => {
   const now = useMemo(() => dayjs(), []);
 
   const visiblePeople = hasPeople ? people : NO_PEOPLE;
+  const shortNames = useMemo(
+    () => getShortNames(visiblePeople),
+    [visiblePeople]
+  );
   const sections = useMemo(
     () =>
       getSheetSections({
@@ -366,6 +370,7 @@ export const QuickCheckIn = () => {
                     const person = personById.get(option.id);
                     return person ? [person] : [];
                   })}
+                  shortNames={shortNames}
                   picked={pickedPeople}
                   onToggle={togglePerson}
                   onShowAll={() => setIsPeopleOpen(true)}
