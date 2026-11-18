@@ -11,6 +11,7 @@ import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/feature-flags";
+import { LabelMeasure, LabelMoreButton, useLabelMore } from "./label-more";
 
 // Built on first render, never at module load: expo-router's Jest mock of
 // reanimated is empty. Without reanimated, plain components and no
@@ -41,6 +42,15 @@ const getTransitions = memoize(() => {
     lead: { transitionProperty: ["opacity"], ...timing },
   });
 });
+
+/** Expanded chip: top and bottom space around wrapped label lines. */
+const EXPANDED_PADDING_VERTICAL = 10;
+
+const LABEL_STYLE = {
+  fontSize: CHIP.fontSize,
+  lineHeight: CHIP.lineHeight,
+  letterSpacing: CHIP.letterSpacing,
+};
 
 type Transitions = ReturnType<typeof getTransitions>;
 
@@ -116,6 +126,58 @@ const ChipLead = ({
   );
 };
 
+/** Chip label; with `expandable`, a cut-off label gets a "More" control. */
+const ChipLabel = ({
+  label,
+  expandable,
+  more,
+  color,
+  transitions,
+}: {
+  label: string;
+  expandable: boolean;
+  more: ReturnType<typeof useLabelMore>;
+  color: string;
+  transitions: Transitions;
+}) => {
+  const AnimatedText = getAnimatedText();
+  const isExpanded = expandable && more.isExpanded;
+
+  return (
+    <>
+      {/* oxlint-disable-next-line react/static-components -- memoized above, same component on every render. */}
+      <AnimatedText
+        numberOfLines={isExpanded ? undefined : 1}
+        onLayout={expandable ? more.handleVisibleLayout : undefined}
+        style={[
+          {
+            flexShrink: 1,
+            ...LABEL_STYLE,
+            color,
+          },
+          transitions?.label,
+        ]}
+      >
+        {label}
+      </AnimatedText>
+      {expandable && more.isTruncated && (
+        <LabelMoreButton
+          color={color}
+          labelStyle={LABEL_STYLE}
+          onPress={more.handleExpand}
+        />
+      )}
+      {expandable && !isExpanded && (
+        <LabelMeasure
+          label={label}
+          style={LABEL_STYLE}
+          onLayout={more.handleNaturalLayout}
+        />
+      )}
+    </>
+  );
+};
+
 /**
  * Screen reader props. Toggle: checkbox with checked state. Action: button.
  * Read-only: no role. Long press doubles as the "edit" action.
@@ -174,6 +236,7 @@ export const Chip = ({
   leadSelected,
   leadSize = CHIP.lead,
   fill = false,
+  expandable = false,
   isToggle = true,
   onPress,
   onLongPress,
@@ -190,6 +253,11 @@ export const Chip = ({
   leadSize?: number;
   /** Stretch to the parent width, label start-aligned. For grid cells. */
   fill?: boolean;
+  /**
+   * Cut-off label shows "More"; pressing it grows the chip to the full
+   * label. For long translations in fixed-width grid cells.
+   */
+  expandable?: boolean;
   /** `false` for an action chip, like "Edit": button role, no checked state. */
   isToggle?: boolean;
   onPress?: () => void;
@@ -202,16 +270,19 @@ export const Chip = ({
   const isReducedMotion = useIsReducedMotion();
   const [isPressed, setIsPressed] = useState(false);
   const AnimatedPressable = getAnimatedPressable();
-  const AnimatedText = getAnimatedText();
   // Reduced motion: no transitions, every change is instant.
   const transitions = isReducedMotion ? null : getTransitions();
   const isPressable = onPress !== undefined;
+  const more = useLabelMore();
+  const isExpanded = expandable && more.isExpanded;
   const selectedColors = isInk
     ? {
         fill: colors.chipBackgroundSelectedInk,
         text: colors.chipTextSelectedInk,
       }
     : { fill: colors.chipBackgroundSelected, text: colors.chipTextSelected };
+
+  const textColor = selected ? selectedColors.text : colors.chipText;
 
   return (
     // oxlint-disable-next-line react/static-components -- memoized above, same component on every render.
@@ -242,7 +313,12 @@ export const Chip = ({
       }
       style={[
         {
-          height: CHIP.height,
+          ...(isExpanded
+            ? {
+                minHeight: CHIP.height,
+                paddingVertical: EXPANDED_PADDING_VERTICAL,
+              }
+            : { height: CHIP.height }),
           flexDirection: "row",
           alignItems: "center",
           alignSelf: fill ? "stretch" : "flex-start",
@@ -270,22 +346,13 @@ export const Chip = ({
           transitions={transitions}
         />
       )}
-      {/* oxlint-disable-next-line react/static-components -- memoized above, same component on every render. */}
-      <AnimatedText
-        numberOfLines={1}
-        style={[
-          {
-            flexShrink: 1,
-            fontSize: CHIP.fontSize,
-            lineHeight: CHIP.lineHeight,
-            letterSpacing: CHIP.letterSpacing,
-            color: selected ? selectedColors.text : colors.chipText,
-          },
-          transitions?.label,
-        ]}
-      >
-        {label}
-      </AnimatedText>
+      <ChipLabel
+        label={label}
+        expandable={expandable}
+        more={more}
+        color={textColor}
+        transitions={transitions}
+      />
     </AnimatedPressable>
   );
 };

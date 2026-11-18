@@ -1,4 +1,3 @@
-import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import type { Emotion } from "@/types";
@@ -8,6 +7,17 @@ import type { ViewStyle } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { EmotionIndicator } from "./emotions-indicator";
 import { RADIUS } from "@/constants/radius";
+import {
+  LabelMeasure,
+  LabelMoreButton,
+  useLabelMore,
+} from "@/components/label-more";
+import { Label, getTextStyle } from "@/components/typography";
+
+const LABEL_STYLE = {
+  ...getTextStyle("label", 16),
+  fontWeight: "500" as const,
+};
 
 const DEFAULT_STYLE = {};
 
@@ -26,6 +36,7 @@ export const EmotionButtonAdvanced = ({
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
+  const more = useLabelMore();
   const unselectedBorderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
@@ -64,17 +75,34 @@ export const EmotionButtonAdvanced = ({
         }}
       >
         <EmotionIndicator emotion={emotion} />
-        <Label
-          size={16}
-          style={{
-            color: colors.text,
-            fontWeight: "500",
-            flex: 1,
-          }}
-          numberOfLines={1}
-        >
-          {emotion.label}
-        </Label>
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <Label
+            size={16}
+            style={{
+              color: colors.text,
+              fontWeight: "500",
+              flexShrink: 1,
+            }}
+            numberOfLines={more.isExpanded ? undefined : 1}
+            onLayout={more.handleVisibleLayout}
+          >
+            {emotion.label}
+          </Label>
+        </View>
+        {more.isTruncated && (
+          <LabelMoreButton
+            color={colors.text}
+            labelStyle={LABEL_STYLE}
+            onPress={more.handleExpand}
+          />
+        )}
+        {!more.isExpanded && (
+          <LabelMeasure
+            label={emotion.label}
+            style={LABEL_STYLE}
+            onLayout={more.handleNaturalLayout}
+          />
+        )}
       </View>
     </RectButton>
   );

@@ -29,6 +29,7 @@ export const EmotionButtonBasic = ({
   return (
     <Chip
       fill
+      expandable
       label={emotion.label}
       accessibilityHint={emotion.description}
       selected={selected}
