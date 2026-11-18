@@ -1,12 +1,16 @@
+import { useEffect } from "react";
 import { Platform } from "react-native";
 import Animated, {
   KeyboardState,
   useAnimatedKeyboard,
   useAnimatedStyle,
+  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import ArrowRight from "lucide-react-native/icons/arrow-right";
 import Check from "lucide-react-native/icons/check";
+import { FLOAT_BUTTON_HIDDEN_SCALE } from "@/constants/float-button";
+import { DURATION, getEasing } from "@/constants/motion";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { FloatButton } from "@/components/float-button";
@@ -24,31 +28,49 @@ const SETTLE_DURATION = 120;
 /**
  * Floating next/save button of the logger. It follows the native keyboard
  * frame on the UI thread, so it moves in sync with the keyboard; `hidden`
- * renders nothing.
+ * renders nothing. `isHidden` fades and shrinks it away, for an overlay
+ * such as the voice input pill.
  */
 export const SlideAction = ({
   type,
   disabled,
+  isHidden = false,
   onPress,
 }: {
   type: "next" | "save" | "hidden";
   disabled?: boolean;
+  isHidden?: boolean;
   onPress?: () => void;
 }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
 
   const keyboard = useAnimatedKeyboard();
+  const shown = useSharedValue(isHidden ? 0 : 1);
+  useEffect(() => {
+    shown.set(
+      withTiming(isHidden ? 0 : 1, {
+        duration: DURATION.fast,
+        easing: getEasing("out"),
+      })
+    );
+  }, [isHidden, shown]);
 
   const keyboardStyle = useAnimatedStyle(() => {
     const lift = -Math.max(keyboard.height.get() - KEYBOARD_OVERLAP, 0);
     const settled = keyboard.state.get() === KeyboardState.OPEN;
     return {
+      opacity: shown.get(),
       transform: [
         {
           translateY: settled
             ? withTiming(lift, { duration: SETTLE_DURATION })
             : lift,
+        },
+        {
+          scale:
+            FLOAT_BUTTON_HIDDEN_SCALE +
+            (1 - FLOAT_BUTTON_HIDDEN_SCALE) * shown.get(),
         },
       ],
     };
@@ -60,6 +82,9 @@ export const SlideAction = ({
 
   return (
     <Animated.View
+      pointerEvents={isHidden ? "none" : "auto"}
+      accessibilityElementsHidden={isHidden}
+      importantForAccessibility={isHidden ? "no-hide-descendants" : "auto"}
       style={[
         {
           flex: 1,

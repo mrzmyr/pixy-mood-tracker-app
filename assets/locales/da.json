@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "nogenlunde",
   "voice_mood_very_bad": "dårligt",
   "voice_mood_very_good": "rigtig godt",
+  "voice_note": "Diktér note",
   "voice_open_settings": "Åbn Indstillinger",
   "voice_pause": "Sæt på pause",
   "voice_permission_body": "Pixy skal have adgang til mikrofon og talegenkendelse for at skrive dit check-in. Tale behandles på din enhed. Lyd gemmes aldrig.",

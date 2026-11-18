@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "bof",
   "voice_mood_very_bad": "mal",
   "voice_mood_very_good": "très bien",
+  "voice_note": "Dicter la note",
   "voice_open_settings": "Ouvrir les réglages",
   "voice_pause": "Pause",
   "voice_permission_body": "Pixy a besoin d’accéder au micro et à la reconnaissance vocale pour rédiger ton check-in. La parole est traitée sur ton appareil. L’audio n’est jamais enregistré.",

@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "ठीक-ठाक",
   "voice_mood_very_bad": "बुरा",
   "voice_mood_very_good": "बहुत अच्छा",
+  "voice_note": "नोट बोलकर लिखें",
   "voice_open_settings": "सेटिंग्ज़ खोलें",
   "voice_pause": "रोकें",
   "voice_permission_body": "आपका चेक-इन लिखने के लिए Pixy को माइक्रोफ़ोन और स्पीच रिकग्निशन की अनुमति चाहिए। आवाज़ आपके डिवाइस पर ही प्रोसेस होती है। ऑडियो कभी सेव नहीं होता।",

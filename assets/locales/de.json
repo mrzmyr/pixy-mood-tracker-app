@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "so lala",
   "voice_mood_very_bad": "schlecht",
   "voice_mood_very_good": "sehr gut",
+  "voice_note": "Notiz diktieren",
   "voice_open_settings": "Einstellungen öffnen",
   "voice_pause": "Pausieren",
   "voice_permission_body": "Pixy braucht Zugriff auf Mikrofon und Spracherkennung, um deinen Check-in zu schreiben. Die Sprache wird auf deinem Gerät verarbeitet. Audio wird nie gespeichert.",

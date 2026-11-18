@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "elmegy",
   "voice_mood_very_bad": "rosszul",
   "voice_mood_very_good": "nagyon jól",
+  "voice_note": "Jegyzet diktálása",
   "voice_open_settings": "Beállítások megnyitása",
   "voice_pause": "Szünet",
   "voice_permission_body": "A Pixynek hozzáférés kell a mikrofonhoz és a beszédfelismeréshez, hogy megírja a bejegyzésedet. A beszéd feldolgozása az eszközödön történik. Hangot soha nem ment.",

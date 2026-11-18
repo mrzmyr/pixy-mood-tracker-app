@@ -39,9 +39,10 @@ export type VoiceErrorStatus =
 
 // Native level is linear over -50..0 dB (iOS) or -2..10 dB (Android). Speech
 // near the mic sits in the lower half, so room noise maps to 0 and normal
-// speech fills most of the range.
-const LEVEL_FLOOR = 0.15;
-const LEVEL_CEILING = 0.6;
+// speech at arm's length fills most of the range. 0.12 to 0.45 is about
+// -44 to -28 dB on iOS.
+const LEVEL_FLOOR = 0.12;
+const LEVEL_CEILING = 0.45;
 const toDisplayLevel = (raw: number) => {
   const value = (raw - LEVEL_FLOOR) / (LEVEL_CEILING - LEVEL_FLOOR);
   return Math.sqrt(Math.min(1, Math.max(0, value)));
@@ -129,7 +130,6 @@ export const useVoiceTranscription = ({
   // Mirror for `stop`, which returns the text in the same event.
   const transcriptRef = useRef<TranscriptState>(EMPTY_TRANSCRIPT);
   const level: SharedValue<number> = useSharedValue(0);
-  const latestLevel = useRef(0);
   // Restarts without any text in between. Stops a restart loop.
   const emptyRestarts = useRef(0);
   // Index into `getSpeechLocales()`. Moves on when a locale has no model.
@@ -197,7 +197,6 @@ export const useVoiceTranscription = ({
         setStatusBoth("listening");
       }
       const next = toDisplayLevel(raw);
-      latestLevel.current = next;
       level.set(withTiming(next, { duration: 80 }));
     });
     const errors = speech.addListener(
@@ -325,8 +324,6 @@ export const useVoiceTranscription = ({
     error,
     text: transcriptText(transcript),
     level,
-    /** Latest level for JavaScript readers, such as the waveform. */
-    getLevel: useCallback(() => latestLevel.current, []),
     start,
     pause,
     resume,

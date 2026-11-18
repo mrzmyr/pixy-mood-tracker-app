@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "عادي",
   "voice_mood_very_bad": "سيئ",
   "voice_mood_very_good": "جيد جدًا",
+  "voice_note": "إملاء الملاحظة",
   "voice_open_settings": "فتح الإعدادات",
   "voice_pause": "إيقاف مؤقت",
   "voice_permission_body": "يحتاج Pixy إلى الوصول إلى الميكروفون والتعرّف على الكلام لكتابة تسجيلك. تتم معالجة الكلام على جهازك. لا يُحفظ الصوت أبدًا.",

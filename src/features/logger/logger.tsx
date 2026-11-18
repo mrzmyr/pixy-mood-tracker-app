@@ -87,7 +87,33 @@ interface SlideContent {
   key: string;
   slide: ReactElement;
   action?: ReactElement;
+  /** Fades the default next/save button away, for the voice input pill. */
+  isActionHidden?: boolean;
 }
+
+/** Next/save button of the shown slide: its own `action`, else the default. */
+const CurrentSlideAction = ({
+  slide,
+  isLast,
+  onNext,
+}: {
+  slide: SlideContent | undefined;
+  isLast: boolean;
+  onNext: () => void;
+}) => {
+  if (!slide) {
+    return null;
+  }
+  return (
+    slide.action ?? (
+      <SlideAction
+        type={isLast ? "save" : "next"}
+        isHidden={slide.isActionHidden}
+        onPress={onNext}
+      />
+    )
+  );
+};
 
 /** Slides of the steps the user can turn off from the logger, in order. */
 const useStepSlides = ({
@@ -107,6 +133,8 @@ const useStepSlides = ({
     step: "tags" | "people" | "message" | "photos"
   ) => Promise<void>;
 }) => {
+  // Voice input pill shows on the note slide, in place of the save button.
+  const [isDictating, setIsDictating] = useState(false);
   const slides: SlideContent[] = [];
 
   if (slideKeys.includes("tags")) {
@@ -153,10 +181,12 @@ const useStepSlides = ({
       slide: (
         <SlideMessage
           onDisableStep={() => disableStep("message")}
+          onDictatingChange={setIsDictating}
           ref={texAreaRef}
           showDisable={showDisable}
         />
       ),
+      isActionHidden: isDictating,
     });
   }
 
@@ -601,13 +631,11 @@ const LoggerSlides = ({
           />
         </View>
       </View>
-      {content[slideIndex] &&
-        (content[slideIndex].action || (
-          <SlideAction
-            type={slideIndex === content.length - 1 ? "save" : "next"}
-            onPress={next}
-          />
-        ))}
+      <CurrentSlideAction
+        slide={content[slideIndex]}
+        isLast={slideIndex === content.length - 1}
+        onNext={next}
+      />
     </View>
   );
 };

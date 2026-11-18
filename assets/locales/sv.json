@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "sådär",
   "voice_mood_very_bad": "dåligt",
   "voice_mood_very_good": "mycket bra",
+  "voice_note": "Diktera anteckning",
   "voice_open_settings": "Öppna Inställningar",
   "voice_pause": "Pausa",
   "voice_permission_body": "Pixy behöver åtkomst till mikrofon och taligenkänning för att skriva din incheckning. Tal behandlas på din enhet. Ljud sparas aldrig.",

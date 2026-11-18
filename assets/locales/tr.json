@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "idare eder",
   "voice_mood_very_bad": "kötü",
   "voice_mood_very_good": "çok iyi",
+  "voice_note": "Notu dikte et",
   "voice_open_settings": "Ayarları aç",
   "voice_pause": "Duraklat",
   "voice_permission_body": "Pixy'nin kaydını yazmak için mikrofon ve konuşma tanıma erişimine ihtiyacı var. Konuşma cihazında işlenir. Ses asla kaydedilmez.",

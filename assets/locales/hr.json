@@ -1326,6 +1326,7 @@
   "voice_mood_neutral": "onako",
   "voice_mood_very_bad": "loše",
   "voice_mood_very_good": "jako dobro",
+  "voice_note": "Diktiraj bilješku",
   "voice_open_settings": "Otvori Postavke",
   "voice_pause": "Pauziraj",
   "voice_permission_body": "Pixy treba pristup mikrofonu i prepoznavanju govora da napiše tvoj unos. Govor se obrađuje na tvom uređaju. Zvuk se nikad ne sprema.",
