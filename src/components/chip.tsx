@@ -152,6 +152,7 @@ const ChipLabel = ({
         style={[
           {
             flexShrink: 1,
+            maxWidth: expandable ? more.maxWidth : undefined,
             ...LABEL_STYLE,
             color,
           },
@@ -165,6 +166,7 @@ const ChipLabel = ({
           color={color}
           labelStyle={LABEL_STYLE}
           onPress={more.handleExpand}
+          onLayout={more.handleMoreLayout}
         />
       )}
       {expandable && !isExpanded && (
@@ -273,7 +275,10 @@ export const Chip = ({
   // Reduced motion: no transitions, every change is instant.
   const transitions = isReducedMotion ? null : getTransitions();
   const isPressable = onPress !== undefined;
-  const more = useLabelMore();
+  const more = useLabelMore({
+    endInset: CHIP.paddingRight,
+    moreGap: CHIP.gap,
+  });
   const isExpanded = expandable && more.isExpanded;
   const selectedColors = isInk
     ? {

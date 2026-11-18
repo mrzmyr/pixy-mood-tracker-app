@@ -118,10 +118,11 @@ jest.mock("react-native-worklets", () => ({
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the toast swipe uses native gesture handlers that Jest cannot run.
 jest.mock("react-native-gesture-handler", () => {
-  const { View } = require("react-native");
+  const { Pressable, View } = require("react-native");
   return {
     GestureDetector: ({ children }) => children,
     GestureHandlerRootView: View,
+    Pressable,
     usePanGesture: () => ({}),
   };
 });

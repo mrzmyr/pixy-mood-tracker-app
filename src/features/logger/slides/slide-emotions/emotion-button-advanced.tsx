@@ -14,6 +14,10 @@ import {
 } from "@/components/label-more";
 import { Label, getTextStyle } from "@/components/typography";
 
+/** Border plus end padding; selected trades 1 pt padding for border. */
+const CARD_END_INSET = 15;
+const MORE_GAP = 6;
+
 const LABEL_STYLE = {
   ...getTextStyle("label", 16),
   fontWeight: "500" as const,
@@ -36,7 +40,7 @@ export const EmotionButtonAdvanced = ({
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
-  const more = useLabelMore();
+  const more = useLabelMore({ endInset: CARD_END_INSET, moreGap: MORE_GAP });
   const unselectedBorderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
@@ -75,26 +79,29 @@ export const EmotionButtonAdvanced = ({
         }}
       >
         <EmotionIndicator emotion={emotion} />
-        <View style={{ flex: 1, flexDirection: "row" }}>
-          <Label
-            size={16}
-            style={{
-              color: colors.text,
-              fontWeight: "500",
-              flexShrink: 1,
-            }}
-            numberOfLines={more.isExpanded ? undefined : 1}
-            onLayout={more.handleVisibleLayout}
-          >
-            {emotion.label}
-          </Label>
-        </View>
+        <Label
+          size={16}
+          style={{
+            color: colors.text,
+            fontWeight: "500",
+            flexShrink: 1,
+            marginRight: "auto",
+            maxWidth: more.maxWidth,
+          }}
+          numberOfLines={more.isExpanded ? undefined : 1}
+          onLayout={more.handleVisibleLayout}
+        >
+          {emotion.label}
+        </Label>
         {more.isTruncated && (
-          <LabelMoreButton
-            color={colors.text}
-            labelStyle={LABEL_STYLE}
-            onPress={more.handleExpand}
-          />
+          <View style={{ marginLeft: MORE_GAP }}>
+            <LabelMoreButton
+              color={colors.text}
+              labelStyle={LABEL_STYLE}
+              onPress={more.handleExpand}
+              onLayout={more.handleMoreLayout}
+            />
+          </View>
         )}
         {!more.isExpanded && (
           <LabelMeasure

@@ -12,6 +12,9 @@ import {
   frame,
   padding,
 } from "@expo/ui/swift-ui/modifiers";
+import { useState } from "react";
+import { View } from "react-native";
+import { HostWidthContext } from "@/components/host-width-context";
 import { t } from "@/lib/translation";
 import type { EmotionContextMenuProps } from "./emotion-context-menu-types";
 
@@ -28,48 +31,65 @@ export const EmotionContextMenu = ({
   selected,
   onPress,
   children,
-}: EmotionContextMenuProps) => (
-  // Inside scrolling content: without `ignoreSafeArea`, rows near the screen
-  // bottom take the home indicator inset and draw up to 16 pt too high,
-  // over the row above.
-  <Host
-    matchContents={{ vertical: true }}
-    ignoreSafeArea="all"
-    style={{ width: "100%" }}
-  >
-    <ContextMenu>
-      <ContextMenu.Trigger>
-        <RNHostView matchContents={{ vertical: true }}>{children}</RNHostView>
-      </ContextMenu.Trigger>
-      <ContextMenu.Preview>
-        <VStack
-          alignment="leading"
-          spacing={4}
-          modifiers={[
-            padding({ all: 16 }),
-            frame({ width: PREVIEW_WIDTH, alignment: "leading" }),
-          ]}
+}: EmotionContextMenuProps) => {
+  const [width, setWidth] = useState<number>();
+
+  return (
+    // Measured outside the host: inside it, flex does not shrink labels, so
+    // they get the cell width from `HostWidthContext`.
+    <View onLayout={(event) => setWidth(event.nativeEvent.layout.width)}>
+      <HostWidthContext value={width}>
+        {/* Inside scrolling content: without `ignoreSafeArea`, rows near
+            the screen bottom take the home indicator inset and draw up to
+            16 pt too high, over the row above. */}
+        <Host
+          matchContents={{ vertical: true }}
+          ignoreSafeArea="all"
+          style={{ width: "100%" }}
         >
-          <Text modifiers={[font({ textStyle: "headline" })]}>
-            {emotion.label}
-          </Text>
-          <Text
-            modifiers={[
-              font({ textStyle: "subheadline" }),
-              foregroundStyle({ type: "hierarchical", style: "secondary" }),
-            ]}
-          >
-            {emotion.description}
-          </Text>
-        </VStack>
-      </ContextMenu.Preview>
-      <ContextMenu.Items>
-        <Button
-          label={t(selected ? "log_emotions_deselect" : "log_emotions_select")}
-          systemImage={selected ? "minus.circle" : "checkmark.circle"}
-          onPress={() => onPress(emotion)}
-        />
-      </ContextMenu.Items>
-    </ContextMenu>
-  </Host>
-);
+          <ContextMenu>
+            <ContextMenu.Trigger>
+              <RNHostView matchContents={{ vertical: true }}>
+                {children}
+              </RNHostView>
+            </ContextMenu.Trigger>
+            <ContextMenu.Preview>
+              <VStack
+                alignment="leading"
+                spacing={4}
+                modifiers={[
+                  padding({ all: 16 }),
+                  frame({ width: PREVIEW_WIDTH, alignment: "leading" }),
+                ]}
+              >
+                <Text modifiers={[font({ textStyle: "headline" })]}>
+                  {emotion.label}
+                </Text>
+                <Text
+                  modifiers={[
+                    font({ textStyle: "subheadline" }),
+                    foregroundStyle({
+                      type: "hierarchical",
+                      style: "secondary",
+                    }),
+                  ]}
+                >
+                  {emotion.description}
+                </Text>
+              </VStack>
+            </ContextMenu.Preview>
+            <ContextMenu.Items>
+              <Button
+                label={t(
+                  selected ? "log_emotions_deselect" : "log_emotions_select"
+                )}
+                systemImage={selected ? "minus.circle" : "checkmark.circle"}
+                onPress={() => onPress(emotion)}
+              />
+            </ContextMenu.Items>
+          </ContextMenu>
+        </Host>
+      </HostWidthContext>
+    </View>
+  );
+};
