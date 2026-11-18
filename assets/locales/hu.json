@@ -1002,7 +1002,7 @@
     "other": "%{tag} {{count}} napon szerepelt azok közül, amikor kapcsolatban voltál vele: %{name}."
   },
   "recaps_story_quiz_right": "Ismered az embereidet.",
-  "recaps_story_quiz_title": "Ki játszotta a legnagyobb szerepet ebben a hónapban?",
+  "recaps_story_quiz_title": "Találd ki, ki játszotta a legnagyobb szerepet",
   "recaps_story_quiz_wrong": "Majdnem. %{name} volt az.",
   "recaps_story_ready": "Megnézhető",
   "recaps_story_rough_added": "hozzáadva",

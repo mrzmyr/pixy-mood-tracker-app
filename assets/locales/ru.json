@@ -1002,7 +1002,7 @@
     "other": "%{tag} встречалось в {{count}} из дней, когда ты был(а) на связи с: %{name}."
   },
   "recaps_story_quiz_right": "Ты знаешь своих людей.",
-  "recaps_story_quiz_title": "Кто сыграл самую большую роль в этом месяце?",
+  "recaps_story_quiz_title": "Угадайте, кто сыграл самую большую роль",
   "recaps_story_quiz_wrong": "Почти. Это был(а) %{name}.",
   "recaps_story_ready": "Можно посмотреть",
   "recaps_story_rough_added": "добавлено",

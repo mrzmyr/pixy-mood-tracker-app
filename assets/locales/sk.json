@@ -1002,7 +1002,7 @@
     "other": "%{tag} sa objavil v {{count}} z dní, keď si bol(a) v kontakte s: %{name}."
   },
   "recaps_story_quiz_right": "Poznáš svojich ľudí.",
-  "recaps_story_quiz_title": "Kto hral tento mesiac najväčšiu úlohu?",
+  "recaps_story_quiz_title": "Hádaj, kto hral najväčšiu úlohu",
   "recaps_story_quiz_wrong": "Tesne vedľa. Bol(a) to %{name}.",
   "recaps_story_ready": "Pripravené na pozretie",
   "recaps_story_rough_added": "pridané",

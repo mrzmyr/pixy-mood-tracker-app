@@ -1002,7 +1002,7 @@
     "other": "%{tag} pojawił się w {{count}} z dni, w których miałeś kontakt z: %{name}."
   },
   "recaps_story_quiz_right": "Znasz swoich ludzi.",
-  "recaps_story_quiz_title": "Kto odegrał w tym miesiącu największą rolę?",
+  "recaps_story_quiz_title": "Zgadnij, kto odegrał największą rolę",
   "recaps_story_quiz_wrong": "Prawie. To był(a) %{name}.",
   "recaps_story_ready": "Gotowe do obejrzenia",
   "recaps_story_rough_added": "dodano",

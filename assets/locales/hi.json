@@ -1002,7 +1002,7 @@
     "other": "%{tag} उन दिनों में से {{count}} दिन आया जब आप %{name} से जुड़े।"
   },
   "recaps_story_quiz_right": "आप अपने लोगों को अच्छी तरह जानते हैं।",
-  "recaps_story_quiz_title": "इस महीने सबसे बड़ी भूमिका किसकी रही?",
+  "recaps_story_quiz_title": "अंदाज़ा लगाइए, सबसे बड़ी भूमिका किसकी रही",
   "recaps_story_quiz_wrong": "बहुत क़रीब। वह %{name} थे।",
   "recaps_story_ready": "देखने के लिए तैयार",
   "recaps_story_rough_added": "जोड़ा गया",

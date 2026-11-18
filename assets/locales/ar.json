@@ -1002,7 +1002,7 @@
     "other": "ظهر %{tag} في {{count}} من الأيام التي تواصلت فيها مع %{name}."
   },
   "recaps_story_quiz_right": "أنت تعرف أشخاصك جيدًا.",
-  "recaps_story_quiz_title": "من كان له الدور الأكبر هذا الشهر؟",
+  "recaps_story_quiz_title": "خمّن: من كان له الدور الأكبر هذا الشهر؟",
   "recaps_story_quiz_wrong": "قريب جدًا. كان %{name}.",
   "recaps_story_ready": "جاهز للمشاهدة",
   "recaps_story_rough_added": "أُضيفت",

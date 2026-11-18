@@ -1002,7 +1002,7 @@
     "other": "%{tag} a apărut în {{count}} dintre zilele în care ai fost în legătură cu %{name}."
   },
   "recaps_story_quiz_right": "Îți cunoști oamenii.",
-  "recaps_story_quiz_title": "Cine a avut cel mai mare rol luna aceasta?",
+  "recaps_story_quiz_title": "Ghicește cine a avut cel mai mare rol",
   "recaps_story_quiz_wrong": "Aproape. A fost %{name}.",
   "recaps_story_ready": "Gata de vizionat",
   "recaps_story_rough_added": "adăugată",
