@@ -1002,7 +1002,7 @@
     "other": "%{tag} dukkede op på {{count}} af de dage, du var i kontakt med %{name}."
   },
   "recaps_story_quiz_right": "Du kender dine folk.",
-  "recaps_story_quiz_title": "Hvem spillede den største rolle denne måned?",
+  "recaps_story_quiz_title": "Gæt, hvem der spillede den største rolle",
   "recaps_story_quiz_wrong": "Tæt på. Det var %{name}.",
   "recaps_story_ready": "Klar til at se",
   "recaps_story_rough_added": "tilføjet",

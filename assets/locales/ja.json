@@ -1002,7 +1002,7 @@
     "other": "%{name}とつながった日のうち{{count}}日に%{tag}がありました。"
   },
   "recaps_story_quiz_right": "あなたは大切な人をよく知っています。",
-  "recaps_story_quiz_title": "今月いちばん大きな存在だったのは誰？",
+  "recaps_story_quiz_title": "今月いちばん大きな存在だった人を当ててみよう",
   "recaps_story_quiz_wrong": "惜しい。正解は%{name}でした。",
   "recaps_story_ready": "視聴できます",
   "recaps_story_rough_added": "追加済み",

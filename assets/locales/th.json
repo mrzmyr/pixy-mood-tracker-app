@@ -1002,7 +1002,7 @@
     "other": "%{tag} เกิดขึ้น {{count}} วันจากวันที่คุณเชื่อมต่อกับ %{name}"
   },
   "recaps_story_quiz_right": "คุณรู้จักคนของคุณดี",
-  "recaps_story_quiz_title": "เดือนนี้ใครมีบทบาทมากที่สุด",
+  "recaps_story_quiz_title": "ทายสิว่าใครมีบทบาทมากที่สุด",
   "recaps_story_quiz_wrong": "เกือบแล้ว คือ %{name}",
   "recaps_story_ready": "พร้อมให้ดูแล้ว",
   "recaps_story_rough_added": "เพิ่มแล้ว",

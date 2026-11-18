@@ -1002,7 +1002,7 @@
     "other": "%{tag} se pojavio u {{count}} od dana kad si bio u kontaktu s: %{name}."
   },
   "recaps_story_quiz_right": "Poznaješ svoje ljude.",
-  "recaps_story_quiz_title": "Tko je ovaj mjesec imao najveću ulogu?",
+  "recaps_story_quiz_title": "Pogodi tko je imao najveću ulogu",
   "recaps_story_quiz_wrong": "Skoro. Bila je to osoba %{name}.",
   "recaps_story_ready": "Spremno za gledanje",
   "recaps_story_rough_added": "dodano",

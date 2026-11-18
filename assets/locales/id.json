@@ -1002,7 +1002,7 @@
     "other": "%{tag} muncul di {{count}} dari hari-hari kamu terhubung dengan %{name}."
   },
   "recaps_story_quiz_right": "Kamu kenal orang-orangmu.",
-  "recaps_story_quiz_title": "Siapa yang paling berperan bulan ini?",
+  "recaps_story_quiz_title": "Tebak Siapa yang Paling Berperan",
   "recaps_story_quiz_wrong": "Hampir. Ternyata %{name}.",
   "recaps_story_ready": "Siap ditonton",
   "recaps_story_rough_added": "ditambahkan",

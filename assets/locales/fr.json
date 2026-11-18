@@ -1002,7 +1002,7 @@
     "other": "%{tag} est apparu sur {{count}} des jours où tu as été en lien avec %{name}."
   },
   "recaps_story_quiz_right": "Tu connais bien tes proches.",
-  "recaps_story_quiz_title": "Qui a joué le plus grand rôle ce mois-ci ?",
+  "recaps_story_quiz_title": "Devine qui a joué le plus grand rôle",
   "recaps_story_quiz_wrong": "Presque. C’était %{name}.",
   "recaps_story_ready": "Prêt à regarder",
   "recaps_story_rough_added": "ajouté",

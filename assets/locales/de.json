@@ -1002,7 +1002,7 @@
     "other": "%{tag} kam an {{count}} der Tage vor, an denen du mit %{name} verbunden warst."
   },
   "recaps_story_quiz_right": "Du kennst deine Leute.",
-  "recaps_story_quiz_title": "Wer hat diesen Monat die größte Rolle gespielt?",
+  "recaps_story_quiz_title": "Rate, wer die größte Rolle gespielt hat",
   "recaps_story_quiz_wrong": "Knapp daneben. Es war %{name}.",
   "recaps_story_ready": "Bereit zum Ansehen",
   "recaps_story_rough_added": "hinzugefügt",

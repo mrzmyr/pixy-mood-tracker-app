@@ -1002,7 +1002,7 @@
     "other": "%{tag} kwam voor op {{count}} van de dagen dat je contact had met %{name}."
   },
   "recaps_story_quiz_right": "Je kent je mensen.",
-  "recaps_story_quiz_title": "Wie speelde deze maand de grootste rol?",
+  "recaps_story_quiz_title": "Raad wie de grootste rol speelde",
   "recaps_story_quiz_wrong": "Bijna. Het was %{name}.",
   "recaps_story_ready": "Klaar om te bekijken",
   "recaps_story_rough_added": "toegevoegd",

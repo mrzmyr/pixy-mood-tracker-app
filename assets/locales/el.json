@@ -1002,7 +1002,7 @@
     "other": "Το %{tag} εμφανίστηκε σε {{count}} από τις μέρες που ήρθες σε επαφή με: %{name}."
   },
   "recaps_story_quiz_right": "Ξέρεις τους ανθρώπους σου.",
-  "recaps_story_quiz_title": "Ποιος έπαιξε τον μεγαλύτερο ρόλο αυτόν τον μήνα;",
+  "recaps_story_quiz_title": "Μάντεψε ποιος έπαιξε τον μεγαλύτερο ρόλο",
   "recaps_story_quiz_wrong": "Παραλίγο. Ήταν %{name}.",
   "recaps_story_ready": "Έτοιμο για προβολή",
   "recaps_story_rough_added": "προστέθηκε",
