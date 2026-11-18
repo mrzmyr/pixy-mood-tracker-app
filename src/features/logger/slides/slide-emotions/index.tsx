@@ -22,6 +22,7 @@ import { EmotionBasicSelection } from "./emotion-basic-selection";
 import { ExpandButton } from "./expand-button";
 import noop from "lodash/noop";
 import { useFeatureFlag } from "@/state/feature-flags";
+import { EmotionHint, useEmotionHint } from "./emotion-hint";
 import { NeedsCheck } from "./needs-check";
 import type { NeedStates } from "./needs";
 import { getBasicEmotions, toBasicCategory } from "./basic-emotions";
@@ -152,13 +153,18 @@ export const SlideEmotions = ({
     }
   }
 
+  const hint = useEmotionHint();
   const onPressEmotion = (emotion: Emotion) => {
     if (selectedEmotions.map((d) => d.key).includes(emotion.key)) {
       _setSelectedEmotions(
         selectedEmotions.filter((e) => e.key !== emotion.key)
       );
+      if (hint.emotion?.key === emotion.key) {
+        hint.hide();
+      }
     } else {
       _setSelectedEmotions([...selectedEmotions, emotion]);
+      hint.show(emotion);
     }
   };
 
@@ -255,6 +261,7 @@ export const SlideEmotions = ({
           ) : (
             <EmotionAdvancedGradients />
           )}
+          <EmotionHint emotion={hint.emotion} />
         </View>
         <Footer
           style={{
