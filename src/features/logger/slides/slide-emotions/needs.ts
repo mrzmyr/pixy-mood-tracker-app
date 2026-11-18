@@ -19,6 +19,8 @@ interface Need {
   label: TranslationKey;
   /** What the need means, short enough for one line. */
   description: TranslationKey;
+  /** Individual needs in this category, one line ("Sleep · Food · …"). */
+  items: TranslationKey;
   met: string[];
   unmet: string[];
 }
@@ -29,6 +31,7 @@ export const NEEDS = [
     key: "body",
     label: "log_needs_body",
     description: "log_needs_body_about",
+    items: "log_needs_body_items",
     met: ["energized", "balanced", "comfortable", "good"],
     unmet: ["tired", "exhausted", "weak", "restless", "irritated"],
   },
@@ -36,6 +39,7 @@ export const NEEDS = [
     key: "safety",
     label: "log_needs_safety",
     description: "log_needs_safety_about",
+    items: "log_needs_safety_items",
     met: ["calm", "relieved", "comfortable", "balanced"],
     unmet: ["anxious", "worried", "nervous", "uneasy", "fearful"],
   },
@@ -43,6 +47,7 @@ export const NEEDS = [
     key: "connection",
     label: "log_needs_connection",
     description: "log_needs_connection_about",
+    items: "log_needs_connection_items",
     met: ["connected", "loved", "supported", "accepted", "heard"],
     unmet: ["lonely", "alienated", "rejected", "sad", "vulnerable"],
   },
@@ -50,6 +55,7 @@ export const NEEDS = [
     key: "autonomy",
     label: "log_needs_autonomy",
     description: "log_needs_autonomy_about",
+    items: "log_needs_autonomy_items",
     met: ["motivated", "brave", "content", "relieved"],
     unmet: ["pressured", "frustrated", "angry", "stressed", "impatient"],
   },
@@ -57,6 +63,7 @@ export const NEEDS = [
     key: "competence",
     label: "log_needs_competence",
     description: "log_needs_competence_about",
+    items: "log_needs_competence_items",
     met: ["proud", "productive", "focused", "satisfied"],
     unmet: ["overwhelmed", "insecure", "disappointed", "frustrated"],
   },
@@ -64,6 +71,7 @@ export const NEEDS = [
     key: "joy",
     label: "log_needs_joy",
     description: "log_needs_joy_about",
+    items: "log_needs_joy_items",
     met: ["happy", "excited", "enthusiastic", "good", "content"],
     unmet: ["bored", "meh", "unmotivated", "fomo", "sad"],
   },

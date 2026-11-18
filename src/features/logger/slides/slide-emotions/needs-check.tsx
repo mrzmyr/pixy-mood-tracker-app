@@ -1,6 +1,8 @@
 import chunk from "lodash/chunk";
+import { useState } from "react";
 import { View } from "react-native";
-import Animated, { Easing, FadeIn } from "react-native-reanimated";
+import Animated, { FadeIn } from "react-native-reanimated";
+import Button from "@/components/button";
 import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -34,8 +36,9 @@ const NeedFeelings = ({
 
   return (
     <Animated.View
-      // Built at render: router suites mock reanimated without FadeIn.
-      entering={FadeIn.duration(REVEAL_MS).easing(Easing.out(Easing.quad))}
+      // Built at render: router suites mock reanimated without FadeIn. No
+      // custom easing: the Jest mock of reanimated has no `easing`.
+      entering={FadeIn.duration(REVEAL_MS)}
       style={{ gap: CELL_GAP }}
       testID={testID}
     >
@@ -61,10 +64,11 @@ const NeedFeelings = ({
 };
 
 /**
- * Needs mode of the emotions step. Each need shows its name with a compact
- * native rating (unmet, partly, met) at the end of the row, and a one-line
- * meaning below. A rated need shows matching feelings right below. Unrated
- * needs show no selected segment and no feelings.
+ * Needs mode of the emotions step. Each need shows, top to bottom: its name
+ * and meaning, a full-width rating (unmet, partly, met), and its individual
+ * needs in one line. A rated need shows a large "Show Feelings" button;
+ * pressing it reveals matching feelings below. Unrated needs show no
+ * selected segment, no button, and no feelings.
  */
 export const NeedsCheck = ({
   states,
@@ -82,6 +86,9 @@ export const NeedsCheck = ({
   onPressEmotion: (emotion: Emotion) => void;
 }) => {
   const colors = useColors();
+  const [revealed, setRevealed] = useState<ReadonlySet<NeedKey>>(
+    () => new Set()
+  );
 
   return (
     <View
@@ -90,41 +97,22 @@ export const NeedsCheck = ({
         paddingTop: 12,
         // Last control clears the 32 pt bottom fade of the list.
         paddingBottom: 40,
-        gap: 28,
+        gap: 32,
       }}
     >
       {NEEDS.map((need) => {
         const state = states[need.key];
-        const feelings = state
+        const isRevealed = state !== undefined && revealed.has(need.key);
+        const feelings = isRevealed
           ? suggestEmotionsForNeed(need, state, emotions)
           : [];
 
         return (
           <View key={need.key} style={{ gap: 12 }} testID={`needs-${need.key}`}>
             <View style={{ gap: 2 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 12,
-                }}
-              >
-                <Label
-                  size={16}
-                  strong
-                  accessibilityRole="header"
-                  style={{ flexShrink: 1 }}
-                >
-                  {t(need.label)}
-                </Label>
-                <NeedRating
-                  label={t(need.label)}
-                  state={state}
-                  onChange={(next) => onChange(need.key, next)}
-                  testID={`needs-${need.key}-control`}
-                />
-              </View>
+              <Label size={16} strong accessibilityRole="header">
+                {t(need.label)}
+              </Label>
               <Label
                 size={14}
                 numberOfLines={1}
@@ -135,6 +123,32 @@ export const NeedsCheck = ({
                 {t(need.description)}
               </Label>
             </View>
+            <NeedRating
+              fill
+              label={t(need.label)}
+              state={state}
+              onChange={(next) => onChange(need.key, next)}
+              testID={`needs-${need.key}-control`}
+            />
+            <Label
+              size={14}
+              testID={`needs-${need.key}-items`}
+              style={{ color: colors.textSecondary }}
+            >
+              {t(need.items)}
+            </Label>
+            {state !== undefined && !isRevealed && (
+              <Button
+                type="secondary"
+                testID={`needs-${need.key}-show`}
+                onPress={() =>
+                  setRevealed((current) => new Set(current).add(need.key))
+                }
+                style={{ minHeight: 48 }}
+              >
+                {t("log_needs_show_feelings")}
+              </Button>
+            )}
             {feelings.length > 0 && (
               <NeedFeelings
                 emotions={feelings}

@@ -1,5 +1,6 @@
 import { Pressable, useColorScheme, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
+import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -10,6 +11,8 @@ import type { NeedRatingProps } from "./need-rating-types";
 
 const SEGMENT_WIDTH = 36;
 const HEIGHT = 28;
+/** Full-width row: room for the icon and the state name side by side. */
+const FILL_HEIGHT = 40;
 const INSET = 2;
 const ICON_SIZE = 12;
 
@@ -40,12 +43,14 @@ const RatingIcon = ({ value, color }: { value: NeedState; color: string }) => (
  * dot, or a full circle for unmet, partly, and met. The native segmented
  * controls draw symbols at full size and in black, too loud next to the need
  * name. Unrated needs show no selected segment. Tapping the selected segment
- * again clears the rating.
+ * again clears the rating. `fill`: full-width row with the state name next
+ * to each icon.
  */
 export const NeedRating = ({
   label,
   state,
   onChange,
+  fill = false,
   testID,
 }: NeedRatingProps) => {
   const colors = useColors();
@@ -61,7 +66,8 @@ export const NeedRating = ({
       testID={testID}
       style={{
         flexDirection: "row",
-        height: HEIGHT,
+        alignSelf: fill ? "stretch" : "auto",
+        height: fill ? FILL_HEIGHT : HEIGHT,
         padding: INSET,
         borderRadius: RADIUS.full,
         borderCurve: "continuous",
@@ -83,7 +89,8 @@ export const NeedRating = ({
               onChange(isSelected ? undefined : value);
             }}
             style={{
-              width: SEGMENT_WIDTH,
+              ...(fill ? { flex: 1, gap: 6 } : { width: SEGMENT_WIDTH }),
+              flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
               borderRadius: RADIUS.full,
@@ -98,6 +105,19 @@ export const NeedRating = ({
               value={value}
               color={isSelected ? colors.text : colors.textSecondary}
             />
+            {fill && (
+              <Label
+                size={14}
+                strong={isSelected}
+                numberOfLines={1}
+                style={{
+                  flexShrink: 1,
+                  color: isSelected ? colors.text : colors.textSecondary,
+                }}
+              >
+                {t(RATING_LABELS[value])}
+              </Label>
+            )}
           </Pressable>
         );
       })}
