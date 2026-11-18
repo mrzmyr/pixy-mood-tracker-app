@@ -98,6 +98,7 @@ const light = {
   logCardBackground: colors.white,
   logCardBackgroundTransparent: "rgba(255,255,255, 0)",
   logCardBorder: colors.neutral[200],
+  addPhotoTileBorder: colors.neutral[300],
 
   logActionBackground: colors.neutral[200],
   logActionBorder: tintColorLight,
@@ -360,6 +361,7 @@ const dark: IColors & {
   logCardBackground: colors.neutral[800],
   logCardBackgroundTransparent: "rgba(38,38,38,0)",
   logCardBorder: colors.neutral[700],
+  addPhotoTileBorder: colors.neutral[600],
 
   logActionBackground: colors.neutral[800],
   logActionBorder: tintColorDark,

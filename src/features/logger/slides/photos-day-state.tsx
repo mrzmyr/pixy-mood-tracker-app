@@ -1,17 +1,18 @@
 import { Linking } from "react-native";
 import { ButtonText } from "@/components/button-content";
 import LinkButton from "@/components/link-button";
-import { getTextStyle } from "@/components/typography";
+import { Copy, getTextStyle } from "@/components/typography";
 import { PhotosPromptCard } from "@/features/photos";
 import type { useDraftPhotos } from "@/features/photos";
+import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 
 /**
  * Below the photos step grid on iOS: why photos of the entry's day are
  * missing, and the way to get them. Not asked: a card with a preview row,
  * "Allow Photo Access" and "Not Now". After "Not Now": a button. Access
- * off: a card with "Open Settings". Access on, no photos that day: a card
- * that points to the library. Renders nothing while photos of the day show.
+ * off: a card with "Open Settings". Access on, no photos that day: one
+ * muted line. Renders nothing while photos of the day show.
  */
 export const PhotosDayState = ({
   draft,
@@ -24,6 +25,7 @@ export const PhotosDayState = ({
   /** "today", "yesterday", or a short date. */
   dayLabel: string;
 }) => {
+  const colors = useColors();
   if (draft.isDayAccessPromptVisible) {
     return (
       <PhotosPromptCard
@@ -78,11 +80,14 @@ export const PhotosDayState = ({
   }
   if (draft.permission === "granted" && draft.dayPhotoCount === 0) {
     return (
-      <PhotosPromptCard
+      <Copy
+        size={14}
+        numberOfLines={1}
         testID="photos-day-empty"
-        title={t("photos_day_empty_title", { day: dayTitle })}
-        body={t("photos_day_empty_body")}
-      />
+        style={{ color: colors.textSecondary }}
+      >
+        {t("photos_day_empty", { day: dayLabel })}
+      </Copy>
     );
   }
   return null;

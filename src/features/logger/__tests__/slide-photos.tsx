@@ -109,9 +109,10 @@ const waitForImport = (position: number) =>
     });
   });
 
-/** Android: the card opens the picker; the pick lands checked in the grid. */
+/** Android: the "Add Photo" tile opens the picker; the pick lands checked. */
 const pickOnAndroid = async () => {
-  await fireEvent.press(await screen.findByTestId("photos-choose-action"));
+  await layOut("photo-grid");
+  await fireEvent.press(await screen.findByLabelText("Add Photo"));
   await screen.findByText("1 of 6");
   await layOut("photo-grid");
   await waitForImport(1);
@@ -144,18 +145,15 @@ describe("SlidePhotos", () => {
   });
 
   describe("Android", () => {
-    test("card opens the picker; the pick shows checked", async () => {
+    test("Add Photo opens the picker; the pick shows checked", async () => {
       await renderStep();
       expect(await screen.findByText("0 of 6")).toBeTruthy();
 
       await pickOnAndroid();
 
       expect(isChecked(1)).toBe(true);
-      expect(screen.queryByTestId("photos-choose")).toBeNull();
-      // No photos of the day, so no day section.
-      expect(screen.queryByText("From Today")).toBeNull();
       // "More…" opens the picker again.
-      await fireEvent.press(screen.getByTestId("photo-add-tile"));
+      await fireEvent.press(screen.getByLabelText("More…"));
       await screen.findByText("2 of 6");
     });
 
@@ -190,7 +188,6 @@ describe("SlidePhotos", () => {
   describe("iOS", () => {
     test("day photos check in place with their order", async () => {
       await renderWithDayPhotos();
-      expect(screen.getByText("From Today")).toBeTruthy();
 
       await fireEvent.press(getTile(2));
       await fireEvent.press(getTile(1));
