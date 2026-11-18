@@ -92,7 +92,6 @@ export const NativePeopleTileGrid = ({
     <Animated.View key={person.id} style={cellStyle} layout={CELL_TRANSITION}>
       <NativeTile
         tileId={person.id}
-        menuTitle={person.name}
         actions={menuActions(person)}
         style={{ opacity: draggingId === person.id ? 0 : 1 }}
         onMenuAction={({ nativeEvent }) => onMenuAction(person, nativeEvent.id)}
