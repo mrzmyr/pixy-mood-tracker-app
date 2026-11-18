@@ -130,6 +130,7 @@ const getPeopleItems = (people: Person[]): PickerItem[] => {
     .map(({ person, section }) => ({
       key: person.id,
       label: shortNames.get(person.id) ?? person.name,
+      fullLabel: person.name,
       section,
       leading: <PersonAvatar person={person} size={32} />,
     }));
