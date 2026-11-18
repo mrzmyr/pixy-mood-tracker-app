@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import Animated, {
   Easing,
@@ -15,8 +15,8 @@ import Svg, { Circle } from "react-native-svg";
 import { ProfileAvatar, useProfile } from "@/features/profile";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
-import { StoryHoldContext } from "./hold-context";
 import { OrbitPersonMonth } from "./orbit-person";
+import type { OrbitOrigin } from "./orbit-person";
 import { SlideCard, SlideHeader, StoryText } from "./parts";
 import {
   getStoryTheme,
@@ -78,6 +78,16 @@ const useOrbitMotion = (delay: number) => {
   return { turn, settle, float };
 };
 
+/** Where a planet sits now, relative to the orbit center. */
+const planetOffset = (planet: Planet, turn: number, settle: number) => {
+  "worklet";
+  const angle = planet.angle + turn * 2 * Math.PI - settle * SETTLE;
+  return {
+    x: Math.cos(angle) * planet.radius,
+    y: Math.sin(angle) * planet.radius,
+  };
+};
+
 /**
  * One person on their orbit. The whole system turns as one, so planets
  * keep their spacing; each bobs on its own beat. Avatars stay upright.
@@ -105,14 +115,10 @@ const PlanetView = ({
   onPress: () => void;
 }) => {
   const style = useAnimatedStyle(() => {
-    const angle =
-      planet.angle + turn.get() * 2 * Math.PI - settle.get() * SETTLE;
+    const { x, y } = planetOffset(planet, turn.get(), settle.get());
     const bob = Math.sin(float.get() * 2 * Math.PI + index) * FLOAT;
     return {
-      transform: [
-        { translateX: Math.cos(angle) * planet.radius },
-        { translateY: Math.sin(angle) * planet.radius + bob },
-      ],
+      transform: [{ translateX: x }, { translateY: y + bob }],
     };
   });
   const width = planet.size + NAME_OVERHANG * 2;
@@ -198,12 +204,10 @@ export const Orbit = ({
 }) => {
   const { width: screen } = useWindowDimensions();
   const profile = useProfile();
-  const hold = use(StoryHoldContext);
-  const [selected, setSelected] = useState<Planet | null>(null);
-  const select = (planet: Planet | null) => {
-    setSelected(planet);
-    hold(planet !== null);
-  };
+  const [selected, setSelected] = useState<{
+    planet: Planet;
+    origin: OrbitOrigin;
+  } | null>(null);
   const title = t("recaps_story_orbit_title");
   // Title first, then you and the rings, then people swing in.
   const ringsAt = titleRevealEnd(title);
@@ -219,11 +223,12 @@ export const Orbit = ({
       <SlideCard>
         {selected && (
           <OrbitPersonMonth
-            person={selected.person}
-            days={selected.days}
+            person={selected.planet.person}
+            days={selected.planet.days}
             width={width}
+            origin={selected.origin}
             ctx={ctx}
-            onClose={() => select(null)}
+            onClose={() => setSelected(null)}
           />
         )}
         {/* Stays mounted under the month, so the spin keeps its place. */}
@@ -267,7 +272,12 @@ export const Orbit = ({
               float={float}
               theme={theme}
               delay={peopleAt}
-              onPress={() => select(planet)}
+              onPress={() =>
+                setSelected({
+                  planet,
+                  origin: planetOffset(planet, turn.get(), settle.get()),
+                })
+              }
             />
           ))}
         </View>
