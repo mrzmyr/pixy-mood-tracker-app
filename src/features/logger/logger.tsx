@@ -313,6 +313,79 @@ const useResumeRedraw = (slideWidth: number) => {
   return { carouselRef, offset, redrawCount };
 };
 
+/**
+ * Slide whose note input takes focus: on a new entry the note slide; when
+ * editing, only when the logger opened at the note, for example from a tap
+ * on the note in day view. `null` for no focus.
+ */
+const getNoteFocusIndex = ({
+  mode,
+  initialStep,
+  content,
+}: {
+  mode: LoggerMode;
+  initialStep?: LoggerStep;
+  content: { key: string }[];
+}) => {
+  const index = content.findIndex((item) => item.key === "message");
+  return index !== -1 && (mode === "create" || initialStep === "message")
+    ? index
+    : null;
+};
+
+/** Waits between jumps to the start slide, until it shows. */
+const START_SLIDE_TRIES_MS = [0, 100, 150, 250];
+
+/**
+ * The carousel drops `defaultIndex` when it measures itself after mount, so
+ * a step link (a day view pill, a tap on the note) opened the first slide.
+ * Once the carousel has its height, jumps to the start slide without
+ * animation, and tries again a few times until `slideIndex` shows it: an
+ * early jump can land before the carousel takes its size.
+ */
+const useStartSlide = ({
+  carouselHeight,
+  initialIndex,
+  slideIndex,
+  ref,
+}: {
+  carouselHeight: number | undefined;
+  initialIndex: number;
+  slideIndex: number;
+  /** The carousel. */
+  ref: RefObject<CarouselRef | null>;
+}) => {
+  const isDone = useRef(initialIndex === 0);
+  // `slideIndex` starts at `initialIndex` before the carousel reports, so
+  // only a return to it after another slide counts as done.
+  const hasLeft = useRef(false);
+  useEffect(() => {
+    if (slideIndex !== initialIndex) {
+      hasLeft.current = true;
+    } else if (hasLeft.current) {
+      isDone.current = true;
+    }
+  }, [slideIndex, initialIndex]);
+  useEffect(() => {
+    if (isDone.current || carouselHeight === undefined) {
+      return;
+    }
+    let attempt = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const tryJump = () => {
+      if (!isDone.current) {
+        ref.current?.scrollTo({ index: initialIndex, animated: false });
+      }
+      attempt += 1;
+      if (attempt < START_SLIDE_TRIES_MS.length) {
+        timer = setTimeout(tryJump, START_SLIDE_TRIES_MS[attempt]);
+      }
+    };
+    timer = setTimeout(tryJump, START_SLIDE_TRIES_MS[0]);
+    return () => clearTimeout(timer);
+  }, [carouselHeight, initialIndex, ref]);
+};
+
 const LoggerSlides = ({
   initialStep,
   avaliableSteps,
@@ -538,12 +611,11 @@ const LoggerSlides = ({
     // The refs are stable; listed because the lint rule cannot tell.
   }, [reachedIndex, _carousel, pendingIndex]);
 
-  const messageSlideIndex = content.findIndex((item) => item.key === "message");
+  useStartSlide({ carouselHeight, initialIndex, slideIndex, ref: _carousel });
 
   const isMounted = useSlideFocus({
     slideIndex,
-    focusSlideIndex:
-      mode === "create" && messageSlideIndex !== -1 ? messageSlideIndex : null,
+    focusSlideIndex: getNoteFocusIndex({ mode, initialStep, content }),
     texAreaRef,
   });
 
