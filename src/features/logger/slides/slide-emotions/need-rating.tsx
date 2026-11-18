@@ -43,8 +43,8 @@ const RatingIcon = ({ value, color }: { value: NeedState; color: string }) => (
  * dot, or a full circle for unmet, partly, and met. The native segmented
  * controls draw symbols at full size and in black, too loud next to the need
  * name. Unrated needs show no selected segment. Tapping the selected segment
- * again clears the rating. `fill`: full-width row with the state name next
- * to each icon.
+ * again clears the rating. `fill`: full-width row with the state names as
+ * text, no icons.
  */
 export const NeedRating = ({
   label,
@@ -89,7 +89,7 @@ export const NeedRating = ({
               onChange(isSelected ? undefined : value);
             }}
             style={{
-              ...(fill ? { flex: 1, gap: 6 } : { width: SEGMENT_WIDTH }),
+              ...(fill ? { flex: 1 } : { width: SEGMENT_WIDTH }),
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
@@ -101,10 +101,12 @@ export const NeedRating = ({
                 : undefined,
             }}
           >
-            <RatingIcon
-              value={value}
-              color={isSelected ? colors.text : colors.textSecondary}
-            />
+            {!fill && (
+              <RatingIcon
+                value={value}
+                color={isSelected ? colors.text : colors.textSecondary}
+              />
+            )}
             {fill && (
               <Label
                 size={14}

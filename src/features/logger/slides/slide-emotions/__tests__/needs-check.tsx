@@ -32,28 +32,22 @@ const Harness = () => {
 };
 
 describe("NeedsCheck", () => {
-  test("feelings show only after rating and pressing Show Feelings", async () => {
+  test("rating a need shows its feelings right away", async () => {
     await render(<Harness />);
-    expect(screen.queryByTestId("needs-body-show")).toBeNull();
-
-    await userEvent.press(screen.getByTestId("needs-body-control-unmet"));
     expect(screen.queryByTestId("needs-body-feelings")).toBeNull();
 
-    await userEvent.press(screen.getByTestId("needs-body-show"));
+    await userEvent.press(screen.getByTestId("needs-body-control-unmet"));
 
     expect(screen.getByTestId("needs-body-feelings")).toBeTruthy();
-    expect(screen.queryByTestId("needs-body-show")).toBeNull();
   });
 
   test("clearing the rating hides the feelings", async () => {
     await render(<Harness />);
     const unmet = screen.getByTestId("needs-body-control-unmet");
     await userEvent.press(unmet);
-    await userEvent.press(screen.getByTestId("needs-body-show"));
 
     await userEvent.press(unmet);
 
     expect(screen.queryByTestId("needs-body-feelings")).toBeNull();
-    expect(screen.queryByTestId("needs-body-show")).toBeNull();
   });
 });

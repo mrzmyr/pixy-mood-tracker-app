@@ -1,8 +1,6 @@
 import chunk from "lodash/chunk";
-import { useState } from "react";
 import { View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
-import Button from "@/components/button";
 import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -64,11 +62,10 @@ const NeedFeelings = ({
 };
 
 /**
- * Needs mode of the emotions step. Each need shows, top to bottom: its name
- * and meaning, a full-width rating (unmet, partly, met), and its individual
- * needs in one line. A rated need shows a large "Show Feelings" button;
- * pressing it reveals matching feelings below. Unrated needs show no
- * selected segment, no button, and no feelings.
+ * Needs mode of the emotions step. Each need shows its name and meaning,
+ * then a full-width rating (unmet, partly, met). A rated need shows
+ * matching feelings right below. Unrated needs show no selected segment
+ * and no feelings.
  */
 export const NeedsCheck = ({
   states,
@@ -86,9 +83,6 @@ export const NeedsCheck = ({
   onPressEmotion: (emotion: Emotion) => void;
 }) => {
   const colors = useColors();
-  const [revealed, setRevealed] = useState<ReadonlySet<NeedKey>>(
-    () => new Set()
-  );
 
   return (
     <View
@@ -102,8 +96,7 @@ export const NeedsCheck = ({
     >
       {NEEDS.map((need) => {
         const state = states[need.key];
-        const isRevealed = state !== undefined && revealed.has(need.key);
-        const feelings = isRevealed
+        const feelings = state
           ? suggestEmotionsForNeed(need, state, emotions)
           : [];
 
@@ -130,25 +123,6 @@ export const NeedsCheck = ({
               onChange={(next) => onChange(need.key, next)}
               testID={`needs-${need.key}-control`}
             />
-            <Label
-              size={14}
-              testID={`needs-${need.key}-items`}
-              style={{ color: colors.textSecondary }}
-            >
-              {t(need.items)}
-            </Label>
-            {state !== undefined && !isRevealed && (
-              <Button
-                type="secondary"
-                testID={`needs-${need.key}-show`}
-                onPress={() =>
-                  setRevealed((current) => new Set(current).add(need.key))
-                }
-                style={{ minHeight: 48 }}
-              >
-                {t("log_needs_show_feelings")}
-              </Button>
-            )}
             {feelings.length > 0 && (
               <NeedFeelings
                 emotions={feelings}
