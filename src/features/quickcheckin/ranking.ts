@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { RATING_MAPPING } from "@/constants/ratings";
 import type { LogItem } from "@/features/logs";
 import type { Emotion } from "@/types";
+import { toShortNames } from "@/features/people";
 
 /** Days of history that count toward a suggestion. */
 export const RANKING_WINDOW_DAYS = 90;
@@ -220,23 +221,13 @@ export const GLANCE_LABEL_LENGTH = 12;
  * {@link GLANCE_LABEL_LENGTH} characters are cut.
  */
 export const getGlanceLabels = (options: InfluenceOption[]): string[] => {
-  const firstNames = new Map<string, number>();
-  const parts = options.map((option) =>
-    option.kind === "person" ? option.label.trim().split(/\s+/u) : []
+  const people = options.filter((option) => option.kind === "person");
+  const shortNames = toShortNames(people.map((option) => option.label));
+  const personLabels = new Map(
+    people.map((option, index) => [option, shortNames[index]])
   );
-  for (const words of parts) {
-    if (words.length > 0) {
-      firstNames.set(words[0], (firstNames.get(words[0]) ?? 0) + 1);
-    }
-  }
-  return options.map((option, index) => {
-    const words = parts[index];
-    let label = option.label.trim();
-    if (words.length > 0) {
-      const isShared = (firstNames.get(words[0]) ?? 0) > 1;
-      const initial = words.length > 1 ? (words.at(-1)?.[0] ?? "") : "";
-      label = isShared && initial ? `${words[0]} ${initial}.` : words[0];
-    }
+  return options.map((option) => {
+    const label = personLabels.get(option) ?? option.label.trim();
     return label.length > GLANCE_LABEL_LENGTH
       ? `${label.slice(0, GLANCE_LABEL_LENGTH - 1)}…`
       : label;
