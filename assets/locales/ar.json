@@ -1271,6 +1271,7 @@
   "today": "اليوم",
   "very_bad": "سيئ جدا",
   "very_good": "حسن جدا",
+  "view_day": "اليوم",
   "view_log_add": "إضافة {{module}}",
   "view_log_edit": "تعديل {{module}}",
   "voice_detects": "يتعرّف Pixy على الأشخاص والوسوم والمشاعر ومزاجك.",

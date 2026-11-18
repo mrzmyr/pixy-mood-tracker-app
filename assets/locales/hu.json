@@ -1271,6 +1271,7 @@
   "today": "Ma",
   "very_bad": "Nagyon rossz",
   "very_good": "Nagyon jó",
+  "view_day": "Nap",
   "view_log_add": "Hozzáadás: {{module}}",
   "view_log_edit": "Szerkesztés: {{module}}",
   "voice_detects": "Pixy felismeri az embereket, címkéket, érzelmeket és a hangulatodat.",

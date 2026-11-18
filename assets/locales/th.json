@@ -1271,6 +1271,7 @@
   "today": "วันนี้",
   "very_bad": "ที่เลวร้ายมาก",
   "very_good": "ดีมาก",
+  "view_day": "วัน",
   "view_log_add": "เพิ่ม{{module}}",
   "view_log_edit": "แก้ไข{{module}}",
   "voice_detects": "Pixy จับได้ทั้งคน แท็ก อารมณ์ และความรู้สึกของคุณ",

@@ -1271,6 +1271,7 @@
   "today": "Hari ini",
   "very_bad": "Sangat buruk",
   "very_good": "Sangat bagus",
+  "view_day": "Hari",
   "view_log_add": "Tambah {{module}}",
   "view_log_edit": "Edit {{module}}",
   "voice_detects": "Pixy mengenali orang, tag, emosi, dan suasana hatimu.",

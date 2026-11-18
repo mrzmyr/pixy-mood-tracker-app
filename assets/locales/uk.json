@@ -1271,6 +1271,7 @@
   "today": "Сьогодні",
   "very_bad": "Дуже погано",
   "very_good": "Дуже добре",
+  "view_day": "День",
   "view_log_add": "Додати: {{module}}",
   "view_log_edit": "Змінити: {{module}}",
   "voice_detects": "Pixy розпізнає людей, теги, емоції та твій настрій.",
