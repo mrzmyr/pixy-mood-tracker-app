@@ -17,7 +17,12 @@ import { RingedAvatar } from "../components/ringed-avatar";
 import { Reveal, SlideCard, SlideHeader, StoryText } from "./parts";
 import type { SlideContext } from "./slides";
 import { TapConfetti } from "./tap-confetti";
-import { getStoryTheme, STORY_PALETTE, titleRevealEnd } from "./theme";
+import {
+  getStoryTheme,
+  STORY_PALETTE,
+  STORY_SELECTED_CHIP,
+  titleRevealEnd,
+} from "./theme";
 import type { StoryTheme } from "./theme";
 import type { PeopleQuizSlide, QuizInsight } from "./types";
 
@@ -105,7 +110,7 @@ const CHOICE = {
   paperBorder: "rgba(255,255,255,0.95)",
   nightFill: "rgba(255,255,255,0.16)",
   nightBorder: "rgba(255,255,255,0.35)",
-  shadow: "0 4px 14px rgba(15, 40, 80, 0.12)",
+  shadow: STORY_SELECTED_CHIP.shadow,
   pressedScale: 0.96,
   ring: 20,
 } as const;
