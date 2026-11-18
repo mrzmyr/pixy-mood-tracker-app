@@ -768,7 +768,7 @@
   "photos_add": "إضافة صورة",
   "photos_add_failed": "تعذّرت إضافة الصورة. حاول مرة أخرى أو اختر صورة أخرى.",
   "photos_count_of": "{{count}} من {{max}}",
-  "photos_day_access_body": "اسمح مرة واحدة، وسيعرض Pixy الصور من كل يوم تسجّله. لا توجد صور بعد؟ ستظهر الصور الجديدة هنا. تبقى الصور على جهازك.",
+  "photos_day_access_body": "اسمح مرة واحدة، وسيعرض Pixy الصور من كل يوم تسجّله. لا توجد صور بعد؟ ستظهر الصور الجديدة هنا.",
   "photos_day_access_button": "السماح بالوصول إلى الصور",
   "photos_day_access_dismiss": "ليس الآن",
   "photos_day_access_title": "عرض الصور من {{day}}",

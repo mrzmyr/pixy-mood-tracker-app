@@ -768,7 +768,7 @@
   "photos_add": "Legg til bilde",
   "photos_add_failed": "Bildet kunne ikke legges til. Prøv igjen eller velg et annet bilde.",
   "photos_count_of": "{{count}} av {{max}}",
-  "photos_day_access_body": "Gi tilgang én gang, så viser Pixy bilder fra hver dag du registrerer. Ingen bilder ennå? Nye dukker opp her. Bildene blir på enheten din.",
+  "photos_day_access_body": "Gi tilgang én gang, så viser Pixy bilder fra hver dag du registrerer. Ingen bilder ennå? Nye dukker opp her.",
   "photos_day_access_button": "Gi tilgang til bilder",
   "photos_day_access_dismiss": "Ikke nå",
   "photos_day_access_title": "Se bilder fra {{day}}",

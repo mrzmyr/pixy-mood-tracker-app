@@ -768,7 +768,7 @@
   "photos_add": "사진 추가",
   "photos_add_failed": "사진을 추가하지 못했어요. 다시 시도하거나 다른 사진을 골라 주세요.",
   "photos_count_of": "{{count}}/{{max}}",
-  "photos_day_access_body": "한 번만 허용하면 기록한 모든 날의 사진을 Pixy가 보여 줘요. 아직 사진이 없나요? 새 사진이 여기에 나타나요. 사진은 기기에만 남아요.",
+  "photos_day_access_body": "한 번만 허용하면 기록한 모든 날의 사진을 Pixy가 보여 줘요. 아직 사진이 없나요? 새 사진이 여기에 나타나요.",
   "photos_day_access_button": "사진 접근 허용",
   "photos_day_access_dismiss": "나중에",
   "photos_day_access_title": "{{day}}의 사진 보기",

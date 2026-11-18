@@ -768,7 +768,7 @@
   "photos_add": "Dodaj fotografiju",
   "photos_add_failed": "Fotografija nije dodana. Pokušaj ponovno ili odaberi drugu fotografiju.",
   "photos_count_of": "{{count}} od {{max}}",
-  "photos_day_access_body": "Dopusti jednom i Pixy će prikazivati fotografije svakog dana koji zabilježiš. Još nema fotografija? Nove će se pojaviti ovdje. Fotografije ostaju na tvom uređaju.",
+  "photos_day_access_body": "Dopusti jednom i Pixy će prikazivati fotografije svakog dana koji zabilježiš. Još nema fotografija? Nove će se pojaviti ovdje.",
   "photos_day_access_button": "Dopusti pristup fotografijama",
   "photos_day_access_dismiss": "Ne sada",
   "photos_day_access_title": "Pogledaj fotografije: {{day}}",

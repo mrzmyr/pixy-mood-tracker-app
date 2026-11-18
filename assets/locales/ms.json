@@ -768,7 +768,7 @@
   "photos_add": "Tambah Foto",
   "photos_add_failed": "Foto tidak dapat ditambah. Cuba lagi atau pilih foto lain.",
   "photos_count_of": "{{count}} daripada {{max}}",
-  "photos_day_access_body": "Benarkan sekali, dan Pixy akan menunjukkan foto dari setiap hari yang anda rekod. Belum ada foto? Foto baharu akan muncul di sini. Foto kekal pada peranti anda.",
+  "photos_day_access_body": "Benarkan sekali, dan Pixy akan menunjukkan foto dari setiap hari yang anda rekod. Belum ada foto? Foto baharu akan muncul di sini.",
   "photos_day_access_button": "Benarkan Akses Foto",
   "photos_day_access_dismiss": "Bukan Sekarang",
   "photos_day_access_title": "Lihat Foto dari {{day}}",

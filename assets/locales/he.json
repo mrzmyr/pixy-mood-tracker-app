@@ -768,7 +768,7 @@
   "photos_add": "הוספת תמונה",
   "photos_add_failed": "לא ניתן היה להוסיף את התמונה. נסו שוב או בחרו תמונה אחרת.",
   "photos_count_of": "{{count}} מתוך {{max}}",
-  "photos_day_access_body": "אפשרו פעם אחת, ו־Pixy תציג תמונות מכל יום שאתם מתעדים. עוד אין תמונות? תמונות חדשות יופיעו כאן. התמונות נשארות במכשיר שלכם.",
+  "photos_day_access_body": "אפשרו פעם אחת, ו־Pixy תציג תמונות מכל יום שאתם מתעדים. עוד אין תמונות? תמונות חדשות יופיעו כאן.",
   "photos_day_access_button": "אפשור גישה לתמונות",
   "photos_day_access_dismiss": "לא עכשיו",
   "photos_day_access_title": "תמונות מ{{day}}",

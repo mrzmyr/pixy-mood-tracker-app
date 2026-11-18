@@ -768,7 +768,7 @@
   "photos_add": "Fotó hozzáadása",
   "photos_add_failed": "Nem sikerült hozzáadni a fotót. Próbáld újra, vagy válassz másik fotót.",
   "photos_count_of": "{{count}}/{{max}}",
-  "photos_day_access_body": "Engedélyezd egyszer, és a Pixy minden olyan nap fotóit megmutatja, amelyről bejegyzést írsz. Még nincsenek fotók? Az újak itt jelennek meg. A fotók az eszközödön maradnak.",
+  "photos_day_access_body": "Engedélyezd egyszer, és a Pixy minden olyan nap fotóit megmutatja, amelyről bejegyzést írsz. Még nincsenek fotók? Az újak itt jelennek meg.",
   "photos_day_access_button": "Fotóhozzáférés engedélyezése",
   "photos_day_access_dismiss": "Most nem",
   "photos_day_access_title": "Fotók megtekintése: {{day}}",

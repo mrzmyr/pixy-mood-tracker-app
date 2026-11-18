@@ -768,7 +768,7 @@
   "photos_add": "Lisää kuva",
   "photos_add_failed": "Kuvaa ei voitu lisätä. Yritä uudelleen tai valitse toinen kuva.",
   "photos_count_of": "{{count}}/{{max}}",
-  "photos_day_access_body": "Salli kerran, niin Pixy näyttää kuvat jokaiselta päivältä, jonka kirjaat. Ei vielä kuvia? Uudet näkyvät tässä. Kuvat pysyvät laitteellasi.",
+  "photos_day_access_body": "Salli kerran, niin Pixy näyttää kuvat jokaiselta päivältä, jonka kirjaat. Ei vielä kuvia? Uudet näkyvät tässä.",
   "photos_day_access_button": "Salli kuvien käyttö",
   "photos_day_access_dismiss": "Ei nyt",
   "photos_day_access_title": "{{day}}: katso kuvat",

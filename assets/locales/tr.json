@@ -768,7 +768,7 @@
   "photos_add": "Fotoğraf Ekle",
   "photos_add_failed": "Fotoğraf eklenemedi. Tekrar dene ya da başka bir fotoğraf seç.",
   "photos_count_of": "{{count}}/{{max}}",
-  "photos_day_access_body": "Bir kez izin ver, Pixy kayıt yaptığın her günün fotoğraflarını göstersin. Henüz fotoğraf yok mu? Yenileri burada görünür. Fotoğraflar cihazında kalır.",
+  "photos_day_access_body": "Bir kez izin ver, Pixy kayıt yaptığın her günün fotoğraflarını göstersin. Henüz fotoğraf yok mu? Yenileri burada görünür.",
   "photos_day_access_button": "Fotoğraf Erişimine İzin Ver",
   "photos_day_access_dismiss": "Şimdi Değil",
   "photos_day_access_title": "Fotoğrafları Gör: {{day}}",

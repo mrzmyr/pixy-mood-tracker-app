@@ -768,7 +768,7 @@
   "photos_add": "Aggiungi foto",
   "photos_add_failed": "Impossibile aggiungere la foto. Riprova o scegli un’altra foto.",
   "photos_count_of": "{{count}} di {{max}}",
-  "photos_day_access_body": "Consenti una volta e Pixy mostra le foto di ogni giorno che registri. Ancora nessuna foto? Quelle nuove appariranno qui. Le foto restano sul tuo dispositivo.",
+  "photos_day_access_body": "Consenti una volta e Pixy mostra le foto di ogni giorno che registri. Ancora nessuna foto? Quelle nuove appariranno qui.",
   "photos_day_access_button": "Consenti accesso alle foto",
   "photos_day_access_dismiss": "Non ora",
   "photos_day_access_title": "Vedi le foto di {{day}}",

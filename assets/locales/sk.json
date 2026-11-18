@@ -768,7 +768,7 @@
   "photos_add": "Pridať fotku",
   "photos_add_failed": "Fotku sa nepodarilo pridať. Skús to znova alebo vyber inú fotku.",
   "photos_count_of": "{{count}} z {{max}}",
-  "photos_day_access_body": "Povoľ raz a Pixy ti ukáže fotky z každého dňa, ktorý zapíšeš. Zatiaľ žiadne fotky? Nové sa zobrazia tu. Fotky zostávajú v tvojom zariadení.",
+  "photos_day_access_body": "Povoľ raz a Pixy ti ukáže fotky z každého dňa, ktorý zapíšeš. Zatiaľ žiadne fotky? Nové sa zobrazia tu.",
   "photos_day_access_button": "Povoliť prístup k fotkám",
   "photos_day_access_dismiss": "Teraz nie",
   "photos_day_access_title": "Zobraziť fotky z {{day}}",

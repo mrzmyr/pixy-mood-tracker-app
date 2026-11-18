@@ -768,7 +768,7 @@
   "photos_add": "Foto toevoegen",
   "photos_add_failed": "Foto kon niet worden toegevoegd. Probeer het opnieuw of kies een andere foto.",
   "photos_count_of": "{{count}} van {{max}}",
-  "photos_day_access_body": "Sta het één keer toe, en Pixy toont foto's van elke dag die je invult. Nog geen foto's? Nieuwe verschijnen hier. Foto's blijven op je apparaat.",
+  "photos_day_access_body": "Sta het één keer toe, en Pixy toont foto's van elke dag die je invult. Nog geen foto's? Nieuwe verschijnen hier.",
   "photos_day_access_button": "Fototoegang toestaan",
   "photos_day_access_dismiss": "Niet nu",
   "photos_day_access_title": "Foto's van {{day}} bekijken",

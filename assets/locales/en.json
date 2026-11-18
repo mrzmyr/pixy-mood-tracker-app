@@ -768,7 +768,7 @@
   "photos_add": "Add Photo",
   "photos_add_failed": "Photo could not be added. Try again or pick another photo.",
   "photos_count_of": "{{count}} of {{max}}",
-  "photos_day_access_body": "Allow once, and Pixy shows photos from every day you log. No photos yet? New ones show up here. Photos stay on your device.",
+  "photos_day_access_body": "Allow once, and Pixy shows photos from every day you log. No photos yet? New ones show up here.",
   "photos_day_access_button": "Allow Photo Access",
   "photos_day_access_dismiss": "Not Now",
   "photos_day_access_title": "See Photos from {{day}}",

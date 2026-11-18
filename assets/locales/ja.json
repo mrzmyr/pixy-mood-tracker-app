@@ -768,7 +768,7 @@
   "photos_add": "写真を追加",
   "photos_add_failed": "写真を追加できませんでした。もう一度試すか、別の写真を選んでください。",
   "photos_count_of": "{{count}}/{{max}}",
-  "photos_day_access_body": "一度許可すると、記録したすべての日の写真がPixyに表示されます。まだ写真がない場合は、新しい写真がここに表示されます。写真はデバイスに保存されたままです。",
+  "photos_day_access_body": "一度許可すると、記録したすべての日の写真がPixyに表示されます。まだ写真がない場合は、新しい写真がここに表示されます。",
   "photos_day_access_button": "写真へのアクセスを許可",
   "photos_day_access_dismiss": "今はしない",
   "photos_day_access_title": "{{day}}の写真を見る",

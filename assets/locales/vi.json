@@ -768,7 +768,7 @@
   "photos_add": "Thêm ảnh",
   "photos_add_failed": "Không thể thêm ảnh. Hãy thử lại hoặc chọn ảnh khác.",
   "photos_count_of": "{{count}}/{{max}}",
-  "photos_day_access_body": "Cho phép một lần, Pixy sẽ hiện ảnh từ mỗi ngày bạn ghi lại. Chưa có ảnh? Ảnh mới sẽ xuất hiện ở đây. Ảnh vẫn ở trên thiết bị của bạn.",
+  "photos_day_access_body": "Cho phép một lần, Pixy sẽ hiện ảnh từ mỗi ngày bạn ghi lại. Chưa có ảnh? Ảnh mới sẽ xuất hiện ở đây.",
   "photos_day_access_button": "Cho phép truy cập ảnh",
   "photos_day_access_dismiss": "Để sau",
   "photos_day_access_title": "Xem ảnh từ {{day}}",

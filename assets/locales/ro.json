@@ -768,7 +768,7 @@
   "photos_add": "Adaugă fotografie",
   "photos_add_failed": "Fotografia nu a putut fi adăugată. Încearcă din nou sau alege altă fotografie.",
   "photos_count_of": "{{count}} din {{max}}",
-  "photos_day_access_body": "Permite o dată, iar Pixy îți arată fotografii din fiecare zi pe care o înregistrezi. Încă nu ai fotografii? Cele noi apar aici. Fotografiile rămân pe dispozitivul tău.",
+  "photos_day_access_body": "Permite o dată, iar Pixy îți arată fotografii din fiecare zi pe care o înregistrezi. Încă nu ai fotografii? Cele noi apar aici.",
   "photos_day_access_button": "Permite accesul la fotografii",
   "photos_day_access_dismiss": "Nu acum",
   "photos_day_access_title": "Vezi fotografii din {{day}}",

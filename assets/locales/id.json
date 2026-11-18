@@ -768,7 +768,7 @@
   "photos_add": "Tambahkan Foto",
   "photos_add_failed": "Foto tidak dapat ditambahkan. Coba lagi atau pilih foto lain.",
   "photos_count_of": "{{count}} dari {{max}}",
-  "photos_day_access_body": "Izinkan sekali, dan Pixy menampilkan foto dari setiap hari yang kamu catat. Belum ada foto? Foto baru akan muncul di sini. Foto tetap di perangkatmu.",
+  "photos_day_access_body": "Izinkan sekali, dan Pixy menampilkan foto dari setiap hari yang kamu catat. Belum ada foto? Foto baru akan muncul di sini.",
   "photos_day_access_button": "Izinkan Akses Foto",
   "photos_day_access_dismiss": "Nanti Saja",
   "photos_day_access_title": "Lihat Foto dari {{day}}",
