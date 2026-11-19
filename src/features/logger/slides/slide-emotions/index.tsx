@@ -134,8 +134,9 @@ export const SlideEmotions = ({
   const [mode, setMode] = useState<Mode>(initialMode);
   const hasNeeds = useFeatureFlag("needs");
   const [needStates, setNeedStates] = useState<NeedStates>({});
-  // Needs mode: rate needs, pick from suggested emotions only.
-  const [isNeedsMode, setIsNeedsMode] = useState(false);
+  // Needs mode: rate needs, pick from suggested emotions only. Starts on;
+  // without flag `needs`, `showNeeds` stays false.
+  const [isNeedsMode, setIsNeedsMode] = useState(true);
   const showNeeds = hasNeeds && isNeedsMode;
 
   const basicEmotions = getBasicEmotions(

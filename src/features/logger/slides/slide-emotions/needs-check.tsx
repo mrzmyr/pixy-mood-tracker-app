@@ -1,6 +1,6 @@
 import chunk from "lodash/chunk";
 import { View } from "react-native";
-import Animated, { Easing, FadeIn } from "react-native-reanimated";
+import Animated, { FadeIn } from "react-native-reanimated";
 import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -34,8 +34,9 @@ const NeedFeelings = ({
 
   return (
     <Animated.View
-      // Built at render: router suites mock reanimated without FadeIn.
-      entering={FadeIn.duration(REVEAL_MS).easing(Easing.out(Easing.quad))}
+      // Built at render: router suites mock reanimated without FadeIn. No
+      // custom easing: the Jest mock of reanimated has no `easing`.
+      entering={FadeIn.duration(REVEAL_MS)}
       style={{ gap: CELL_GAP }}
       testID={testID}
     >
@@ -61,10 +62,10 @@ const NeedFeelings = ({
 };
 
 /**
- * Needs mode of the emotions step. Each need shows its name with a compact
- * native rating (unmet, partly, met) at the end of the row, and a one-line
- * meaning below. A rated need shows matching feelings right below. Unrated
- * needs show no selected segment and no feelings.
+ * Needs mode of the emotions step. Each need shows its name and meaning,
+ * then a full-width rating (unmet, partly, met). A rated need shows
+ * matching feelings right below. Unrated needs show no selected segment
+ * and no feelings.
  */
 export const NeedsCheck = ({
   states,
@@ -90,7 +91,7 @@ export const NeedsCheck = ({
         paddingTop: 12,
         // Last control clears the 32 pt bottom fade of the list.
         paddingBottom: 40,
-        gap: 28,
+        gap: 32,
       }}
     >
       {NEEDS.map((need) => {
@@ -102,29 +103,9 @@ export const NeedsCheck = ({
         return (
           <View key={need.key} style={{ gap: 12 }} testID={`needs-${need.key}`}>
             <View style={{ gap: 2 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 12,
-                }}
-              >
-                <Label
-                  size={16}
-                  strong
-                  accessibilityRole="header"
-                  style={{ flexShrink: 1 }}
-                >
-                  {t(need.label)}
-                </Label>
-                <NeedRating
-                  label={t(need.label)}
-                  state={state}
-                  onChange={(next) => onChange(need.key, next)}
-                  testID={`needs-${need.key}-control`}
-                />
-              </View>
+              <Label size={16} strong accessibilityRole="header">
+                {t(need.label)}
+              </Label>
               <Label
                 size={14}
                 numberOfLines={1}
@@ -135,6 +116,13 @@ export const NeedsCheck = ({
                 {t(need.description)}
               </Label>
             </View>
+            <NeedRating
+              fill
+              label={t(need.label)}
+              state={state}
+              onChange={(next) => onChange(need.key, next)}
+              testID={`needs-${need.key}-control`}
+            />
             {feelings.length > 0 && (
               <NeedFeelings
                 emotions={feelings}
