@@ -122,17 +122,24 @@ const PlanetView = ({
     };
   });
   const width = planet.size + NAME_OVERHANG * 2;
+  // The spin moves the outer view itself: Android only sends touches to
+  // children inside their parent's bounds, so a moved child gets no taps.
   return (
     <Animated.View
-      entering={FadeIn.delay(delay + index * 90).duration(500)}
-      style={{
-        position: "absolute",
-        left: center - width / 2,
-        top: center - planet.size / 2,
-        width,
-      }}
+      style={[
+        {
+          position: "absolute",
+          left: center - width / 2,
+          top: center - planet.size / 2,
+          width,
+        },
+        style,
+      ]}
     >
-      <Animated.View style={[{ alignItems: "center" }, style]}>
+      <Animated.View
+        entering={FadeIn.delay(delay + index * 90).duration(500)}
+        style={{ alignItems: "center" }}
+      >
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={`${planet.person.name}, ${t("recaps_story_people_days", { count: planet.days })}`}
@@ -190,10 +197,103 @@ const OrbitRings = ({
 };
 
 /**
- * The user's avatar in the middle, the month's people around like planets.
- * Closer and bigger: more days connected. Says nothing about how the days
- * felt. A tap on a person shows their days in the month and holds the
- * story until the user taps again.
+ * The user's avatar in the middle, `people` around like planets. Closer and
+ * bigger: more days connected. Says nothing about how the days felt. A tap
+ * on a person shows their days in `ctx.period` until the user taps again.
+ * Fills a `width` square. People swing in after `delay`.
+ */
+export const OrbitSystem = ({
+  people,
+  ctx,
+  width,
+  delay,
+}: {
+  /** Most connected days first. */
+  people: OrbitSlide["people"];
+  ctx: SlideContext;
+  width: number;
+  /** When the rings and the user's avatar fade in, in milliseconds. */
+  delay: number;
+}) => {
+  const profile = useProfile();
+  const [selected, setSelected] = useState<{
+    planet: Planet;
+    origin: OrbitOrigin;
+  } | null>(null);
+  const peopleAt = delay + RINGS_MS;
+  const { turn, settle, float } = useOrbitMotion(peopleAt);
+  const theme = getStoryTheme(ctx.isDark);
+  const planets = placePlanets(people, ctx.people, width);
+  const self = Math.round(width * ORBIT_SIZE.self);
+  return (
+    <>
+      {selected && (
+        <OrbitPersonMonth
+          person={selected.planet.person}
+          days={selected.planet.days}
+          width={width}
+          origin={selected.origin}
+          ctx={ctx}
+          onClose={() => setSelected(null)}
+        />
+      )}
+      {/* Stays mounted under the month, so the spin keeps its place. */}
+      <View
+        style={[
+          { width, height: width },
+          selected && { position: "absolute", opacity: 0 },
+        ]}
+        pointerEvents={selected ? "none" : "box-none"}
+        importantForAccessibility={selected ? "no-hide-descendants" : "auto"}
+        accessibilityElementsHidden={selected !== null}
+      >
+        <Animated.View
+          entering={FadeIn.delay(delay).duration(RINGS_MS)}
+          style={StyleSheet.absoluteFill}
+        >
+          <OrbitRings planets={planets} width={width} theme={theme} />
+        </Animated.View>
+        <Animated.View
+          entering={FadeIn.delay(delay).duration(RINGS_MS)}
+          style={{
+            position: "absolute",
+            left: (width - self) / 2,
+            top: (width - self) / 2,
+          }}
+        >
+          <ProfileAvatar
+            size={self}
+            photoUri={profile.photoUri}
+            initials={profile.initials}
+          />
+        </Animated.View>
+        {planets.map((planet, index) => (
+          <PlanetView
+            key={planet.person.id}
+            planet={planet}
+            index={index}
+            center={width / 2}
+            turn={turn}
+            settle={settle}
+            float={float}
+            theme={theme}
+            delay={peopleAt}
+            onPress={() =>
+              setSelected({
+                planet,
+                origin: planetOffset(planet, turn.get(), settle.get()),
+              })
+            }
+          />
+        ))}
+      </View>
+    </>
+  );
+};
+
+/**
+ * The month's people in orbit around the user. A tap on a person shows
+ * their days in the month and holds the story until the user taps again.
  */
 export const Orbit = ({
   slide,
@@ -203,84 +303,18 @@ export const Orbit = ({
   ctx: SlideContext;
 }) => {
   const { width: screen } = useWindowDimensions();
-  const profile = useProfile();
-  const [selected, setSelected] = useState<{
-    planet: Planet;
-    origin: OrbitOrigin;
-  } | null>(null);
   const title = t("recaps_story_orbit_title");
-  // Title first, then you and the rings, then people swing in.
-  const ringsAt = titleRevealEnd(title);
-  const peopleAt = ringsAt + RINGS_MS;
-  const { turn, settle, float } = useOrbitMotion(peopleAt);
-  const theme = getStoryTheme(ctx.isDark);
-  const width = screen - 2 * STORY_SCREEN_PADDING;
-  const planets = placePlanets(slide, ctx.people, width);
-  const self = Math.round(width * ORBIT_SIZE.self);
   return (
     <>
-      <SlideHeader theme={theme} title={title} />
+      <SlideHeader theme={getStoryTheme(ctx.isDark)} title={title} />
       <SlideCard>
-        {selected && (
-          <OrbitPersonMonth
-            person={selected.planet.person}
-            days={selected.planet.days}
-            width={width}
-            origin={selected.origin}
-            ctx={ctx}
-            onClose={() => setSelected(null)}
-          />
-        )}
-        {/* Stays mounted under the month, so the spin keeps its place. */}
-        <View
-          style={[
-            { width, height: width },
-            selected && { position: "absolute", opacity: 0 },
-          ]}
-          pointerEvents={selected ? "none" : "box-none"}
-          importantForAccessibility={selected ? "no-hide-descendants" : "auto"}
-          accessibilityElementsHidden={selected !== null}
-        >
-          <Animated.View
-            entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
-            style={StyleSheet.absoluteFill}
-          >
-            <OrbitRings planets={planets} width={width} theme={theme} />
-          </Animated.View>
-          <Animated.View
-            entering={FadeIn.delay(ringsAt).duration(RINGS_MS)}
-            style={{
-              position: "absolute",
-              left: (width - self) / 2,
-              top: (width - self) / 2,
-            }}
-          >
-            <ProfileAvatar
-              size={self}
-              photoUri={profile.photoUri}
-              initials={profile.initials}
-            />
-          </Animated.View>
-          {planets.map((planet, index) => (
-            <PlanetView
-              key={planet.person.id}
-              planet={planet}
-              index={index}
-              center={width / 2}
-              turn={turn}
-              settle={settle}
-              float={float}
-              theme={theme}
-              delay={peopleAt}
-              onPress={() =>
-                setSelected({
-                  planet,
-                  origin: planetOffset(planet, turn.get(), settle.get()),
-                })
-              }
-            />
-          ))}
-        </View>
+        <OrbitSystem
+          people={slide.people}
+          ctx={ctx}
+          width={screen - 2 * STORY_SCREEN_PADDING}
+          // Title first, then you and the rings, then people swing in.
+          delay={titleRevealEnd(title)}
+        />
       </SlideCard>
     </>
   );

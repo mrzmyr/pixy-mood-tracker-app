@@ -276,7 +276,7 @@ const FrameOrbit = ({
   colors: FrameColors;
 }) => {
   const profile = useProfile();
-  const planets = placePlanets(slide, ctx.people, width);
+  const planets = placePlanets(slide.people, ctx.people, width);
   const self = Math.round(width * ORBIT_SIZE.self);
   const center = width / 2;
   const radii = [

@@ -35,11 +35,11 @@ export interface Planet {
  * evenly around the user, most days at the top, so neighbors never touch.
  */
 export const placePlanets = (
-  slide: OrbitSlide,
+  connected: OrbitSlide["people"],
   people: ReadonlyMap<string, Person>,
   width: number
 ): Planet[] => {
-  const rows = slide.people.flatMap(({ personId, days }) => {
+  const rows = connected.flatMap(({ personId, days }) => {
     const person = people.get(personId);
     return person ? [{ person, days }] : [];
   });
