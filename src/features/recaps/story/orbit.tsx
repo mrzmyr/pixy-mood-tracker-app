@@ -122,17 +122,24 @@ const PlanetView = ({
     };
   });
   const width = planet.size + NAME_OVERHANG * 2;
+  // The spin moves the outer view itself: Android only sends touches to
+  // children inside their parent's bounds, so a moved child gets no taps.
   return (
     <Animated.View
-      entering={FadeIn.delay(delay + index * 90).duration(500)}
-      style={{
-        position: "absolute",
-        left: center - width / 2,
-        top: center - planet.size / 2,
-        width,
-      }}
+      style={[
+        {
+          position: "absolute",
+          left: center - width / 2,
+          top: center - planet.size / 2,
+          width,
+        },
+        style,
+      ]}
     >
-      <Animated.View style={[{ alignItems: "center" }, style]}>
+      <Animated.View
+        entering={FadeIn.delay(delay + index * 90).duration(500)}
+        style={{ alignItems: "center" }}
+      >
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={`${planet.person.name}, ${t("recaps_story_people_days", { count: planet.days })}`}
