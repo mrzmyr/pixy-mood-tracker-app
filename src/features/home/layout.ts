@@ -35,6 +35,8 @@ export const HOME_LAYOUT = {
   /** Dotted divider: 2 pt dots every 7 pt. */
   dotSize: 2,
   dotGap: 5,
+  /** Entries fade out over this height under the week strip. */
+  listFade: 24,
   /** Space below the last entry, clear of the add button. */
   addClearance: 96,
 } as const;

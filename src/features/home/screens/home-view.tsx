@@ -1,3 +1,5 @@
+import chroma from "chroma-js";
+import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, View } from "react-native";
 import type { IScale } from "@/constants/colors/scales";
 import { SPACE } from "@/constants/space";
@@ -14,8 +16,9 @@ import { HOME_LAYOUT } from "../layout";
 /**
  * Home layout without data access: header, week strip, entries of the
  * selected day, and Calendar's float button as add button. `HomeScreen`
- * feeds it. The native bar is transparent: the date stays pinned in its
- * row, level with the menu and profile buttons, and entries scroll under it.
+ * feeds it. The native bar is transparent: the date sits in its row, level
+ * with the menu and profile buttons. Date and week strip stay put; the
+ * entries scroll below them and fade out under the strip.
  */
 export const HomeView = ({
   today,
@@ -52,36 +55,46 @@ export const HomeView = ({
   onAdd: () => void;
 }) => {
   const colors = useColors();
+  const page = chroma(colors.calendarBackground);
 
   return (
     <View
       testID="home"
       style={{ flex: 1, backgroundColor: colors.calendarBackground }}
     >
-      <ScrollView
-        contentInsetAdjustmentBehavior="never"
-        contentContainerStyle={{
-          paddingTop:
-            topInset + HOME_LAYOUT.headerHeight + HOME_LAYOUT.headerGap,
-          paddingBottom: HOME_LAYOUT.addClearance + bottomInset,
+      {/* Date and week strip stay put; only the entries scroll. */}
+      <View
+        style={{
+          paddingTop: topInset,
+          paddingHorizontal: HOME_LAYOUT.listInset,
         }}
       >
-        <View style={{ paddingHorizontal: HOME_LAYOUT.listInset }}>
-          <WeekStrip
-            firstWeekStart={firstWeekStart}
-            weekLocale={weekLocale}
-            ratings={ratings}
-            scale={scale}
-            selectedDate={selectedDate}
-            today={today}
-            onSelectDate={onSelectDate}
-            onWeekChange={onWeekChange}
-          />
-        </View>
         <View
           style={{
+            paddingHorizontal: HOME_LAYOUT.headerInset - HOME_LAYOUT.listInset,
+            marginBottom: HOME_LAYOUT.headerGap,
+          }}
+        >
+          <HomeHeader date={selectedDate} />
+        </View>
+        <WeekStrip
+          firstWeekStart={firstWeekStart}
+          weekLocale={weekLocale}
+          ratings={ratings}
+          scale={scale}
+          selectedDate={selectedDate}
+          today={today}
+          onSelectDate={onSelectDate}
+          onWeekChange={onWeekChange}
+        />
+      </View>
+      <View style={{ flex: 1 }}>
+        <ScrollView
+          contentInsetAdjustmentBehavior="never"
+          contentContainerStyle={{
+            paddingTop: SPACE.sm,
             paddingHorizontal: HOME_LAYOUT.listInset,
-            marginTop: SPACE.sm,
+            paddingBottom: HOME_LAYOUT.addClearance + bottomInset,
           }}
         >
           <DayEntries
@@ -90,24 +103,19 @@ export const HomeView = ({
             scale={scale}
             onPressEntry={onPressEntry}
           />
-        </View>
-      </ScrollView>
-      {/* After the list, so it draws above the entries. */}
-      <View
-        pointerEvents="none"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          paddingTop: topInset,
-          paddingBottom: HOME_LAYOUT.headerGap,
-          paddingHorizontal: HOME_LAYOUT.headerInset,
-          // Solid band: entries scroll under it, the date stays legible.
-          backgroundColor: colors.calendarBackground,
-        }}
-      >
-        <HomeHeader date={selectedDate} />
+        </ScrollView>
+        {/* Entries fade out under the week strip. */}
+        <LinearGradient
+          pointerEvents="none"
+          colors={[page.alpha(1).css(), page.alpha(0).css()]}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: HOME_LAYOUT.listFade,
+          }}
+        />
       </View>
       <CalendarFloatButton
         isAtBottom
