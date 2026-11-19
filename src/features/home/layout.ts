@@ -7,6 +7,8 @@ export const HOME_LAYOUT = {
   headerInset: 30,
   /** Week strip and entry list to the screen edges. */
   listInset: 24,
+  /** Weekday and date: two header lines. */
+  headerHeight: 50,
   /** Header bottom to the week strip. */
   headerGap: 13,
   /** Selected day: full column width, 72 tall. */

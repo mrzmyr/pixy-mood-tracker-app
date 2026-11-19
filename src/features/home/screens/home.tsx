@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
 import { useRouter } from "expo-router";
+import { useHeaderHeight } from "expo-router/react-navigation";
 import { useEffect, useMemo, useState } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   getAverageSleepQuality,
   getLogDays,
@@ -18,6 +20,7 @@ import { useSetting } from "@/state/settings";
 import { markHomeOpened } from "../home-session";
 import { getEntryPreview } from "../entry-preview-data";
 import { getWeekStart, moveToWeek } from "../week";
+import { HOME_LAYOUT } from "../layout";
 import { HomeView } from "./home-view";
 
 /**
@@ -35,6 +38,12 @@ export const HomeScreen = () => {
   const { tags } = useTagsState();
   const { isAvailable: showPlace } = useLocationSetting();
   const scale = colors.scales[useSetting("scaleType")];
+  const insets = useSafeAreaInsets();
+  const headerHeight = useHeaderHeight();
+  // Date centered on the transparent bar's buttons, never under the status bar.
+  const topInset =
+    insets.top +
+    Math.max(0, (headerHeight - insets.top - HOME_LAYOUT.headerHeight) / 2);
 
   useEffect(markHomeOpened, []);
 
@@ -74,6 +83,8 @@ export const HomeScreen = () => {
 
   return (
     <HomeView
+      topInset={topInset}
+      bottomInset={insets.bottom}
       today={today}
       selectedDate={selectedDate}
       firstWeekStart={firstWeekStart}

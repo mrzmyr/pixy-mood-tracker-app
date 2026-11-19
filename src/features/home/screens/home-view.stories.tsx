@@ -31,6 +31,8 @@ const Screen = ({
   return (
     <View style={{ width: 402, height: 874, margin: -16 }}>
       <HomeView
+        topInset={62}
+        bottomInset={34}
         today={STORY_TODAY}
         selectedDate={selected}
         firstWeekStart="2026-10-12"

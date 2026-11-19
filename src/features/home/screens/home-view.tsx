@@ -14,7 +14,8 @@ import { HOME_LAYOUT } from "../layout";
 /**
  * Home layout without data access: header, week strip, entries of the
  * selected day, and Calendar's float button as add button. `HomeScreen`
- * feeds it. The native bar and tab bar set the scroll insets.
+ * feeds it. The native bar is transparent: the date stays pinned in its
+ * row, level with the menu and profile buttons, and entries scroll under it.
  */
 export const HomeView = ({
   today,
@@ -29,7 +30,13 @@ export const HomeView = ({
   onWeekChange,
   onPressEntry,
   onAdd,
+  topInset,
+  bottomInset,
 }: {
+  /** Space above the date: centers it on the native bar's buttons. */
+  topInset: number;
+  /** Bottom safe area. */
+  bottomInset: number;
   today: string;
   selectedDate: string;
   firstWeekStart: string;
@@ -52,20 +59,13 @@ export const HomeView = ({
       style={{ flex: 1, backgroundColor: colors.calendarBackground }}
     >
       <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
+        contentInsetAdjustmentBehavior="never"
         contentContainerStyle={{
-          paddingTop: SPACE.sm,
-          paddingBottom: HOME_LAYOUT.addClearance,
+          paddingTop:
+            topInset + HOME_LAYOUT.headerHeight + HOME_LAYOUT.headerGap,
+          paddingBottom: HOME_LAYOUT.addClearance + bottomInset,
         }}
       >
-        <View
-          style={{
-            paddingHorizontal: HOME_LAYOUT.headerInset,
-            marginBottom: HOME_LAYOUT.headerGap,
-          }}
-        >
-          <HomeHeader date={selectedDate} />
-        </View>
         <View style={{ paddingHorizontal: HOME_LAYOUT.listInset }}>
           <WeekStrip
             firstWeekStart={firstWeekStart}
@@ -92,6 +92,23 @@ export const HomeView = ({
           />
         </View>
       </ScrollView>
+      {/* After the list, so it draws above the entries. */}
+      <View
+        pointerEvents="none"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          paddingTop: topInset,
+          paddingBottom: HOME_LAYOUT.headerGap,
+          paddingHorizontal: HOME_LAYOUT.headerInset,
+          // Solid band: entries scroll under it, the date stays legible.
+          backgroundColor: colors.calendarBackground,
+        }}
+      >
+        <HomeHeader date={selectedDate} />
+      </View>
       <CalendarFloatButton
         isAtBottom
         hasTodayEntry={false}
