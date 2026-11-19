@@ -1281,6 +1281,7 @@
   "today": "Aujourd'hui",
   "very_bad": "Très mauvais",
   "very_good": "Très bien",
+  "view_day": "Jour",
   "view_log_add": "Ajouter : {{module}}",
   "view_log_edit": "Modifier : {{module}}",
   "voice_detects": "Pixy repère les personnes, les mots clés, les émotions et ton humeur.",

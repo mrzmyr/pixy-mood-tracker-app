@@ -1281,6 +1281,7 @@
   "today": "Today",
   "very_bad": "Very Bad",
   "very_good": "Very Good",
+  "view_day": "Day",
   "view_log_add": "Add {{module}}",
   "view_log_edit": "Edit {{module}}",
   "voice_detects": "Pixy picks up people, tags, emotions, and your mood.",

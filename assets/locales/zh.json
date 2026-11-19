@@ -1281,6 +1281,7 @@
   "today": "今天",
   "very_bad": "很坏",
   "very_good": "很好",
+  "view_day": "日",
   "view_log_add": "添加{{module}}",
   "view_log_edit": "编辑{{module}}",
   "voice_detects": "Pixy 会识别人物、标签、情绪和你的心情。",

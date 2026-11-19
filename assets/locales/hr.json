@@ -1281,6 +1281,7 @@
   "today": "Danas",
   "very_bad": "Jako loše",
   "very_good": "Vrlo dobro",
+  "view_day": "Dan",
   "view_log_add": "Dodaj: {{module}}",
   "view_log_edit": "Uredi: {{module}}",
   "voice_detects": "Pixy prepoznaje osobe, oznake, emocije i tvoje raspoloženje.",

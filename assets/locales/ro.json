@@ -1281,6 +1281,7 @@
   "today": "Astăzi",
   "very_bad": "Foarte rău",
   "very_good": "Foarte bun",
+  "view_day": "Zi",
   "view_log_add": "Adaugă: {{module}}",
   "view_log_edit": "Editează: {{module}}",
   "voice_detects": "Pixy recunoaște persoane, etichete, emoții și starea ta.",

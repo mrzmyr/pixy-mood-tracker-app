@@ -1281,6 +1281,7 @@
   "today": "Dnes",
   "very_bad": "Velmi špatný",
   "very_good": "Velmi dobře",
+  "view_day": "Den",
   "view_log_add": "Přidat: {{module}}",
   "view_log_edit": "Upravit: {{module}}",
   "voice_detects": "Pixy rozpozná lidi, štítky, emoce a tvou náladu.",

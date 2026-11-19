@@ -43,7 +43,9 @@ export { DevDesignSystemScreen } from "@/dev/design-system";
 
 // Drops every screen behind the new state, like a fresh app start.
 const openApp = (router: ReturnType<typeof useRouter>, fixture: Fixture) => {
-  router.dismissAll();
+  if (router.canDismiss()) {
+    router.dismissAll();
+  }
   router.replace(fixture.isFresh ? "/onboarding" : "/calendar");
 };
 
@@ -201,7 +203,9 @@ export const DevFakeFilesLinkScreen = () => {
     );
     setPhotoSourceOverride(fakePhotoSource);
     setHealthSourceOverride(fakeHealthSource);
-    router.dismissAll();
+    if (router.canDismiss()) {
+      router.dismissAll();
+    }
     router.replace("/calendar");
   }, [router, contacts]);
 
@@ -304,7 +308,9 @@ export const DevFeatureFlagLinkScreen = () => {
       return;
     }
     setOverride({ key, value });
-    router.dismissAll();
+    if (router.canDismiss()) {
+      router.dismissAll();
+    }
     router.replace(isOnboarded ? "/calendar" : "/onboarding");
   }, [key, value, isSettingsReady, isOnboarded, router]);
 
