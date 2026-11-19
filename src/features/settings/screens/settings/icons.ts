@@ -21,6 +21,10 @@ export const SETTINGS_ICONS = {
     ios: "square.stack",
     android: import("@expo/material-symbols/layers.xml"),
   }),
+  orbit: Icon.select({
+    ios: "atom",
+    android: import("@expo/material-symbols/orbit.xml"),
+  }),
   theme: Icon.select({
     ios: "circle.lefthalf.filled",
     android: import("@expo/material-symbols/contrast.xml"),

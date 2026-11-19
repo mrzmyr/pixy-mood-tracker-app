@@ -14,6 +14,7 @@ export const FEATURE_FLAGS = [
   "menstruation",
   "more-tags",
   "needs",
+  "orbit",
   "people",
   "photo-peek",
   "photos",
@@ -81,6 +82,11 @@ export const FEATURE_FLAG_DETAILS: Record<
   needs: {
     description: "Rate six needs, then get matching emotions",
     location: "Check-in > Emotions step",
+  },
+  orbit: {
+    description:
+      "People of the last 4 weeks in orbit, as in the month recap story, and a list by connected days",
+    location: "Settings > Orbit (needs people flag)",
   },
   people: {
     description: "People step and people on entries",

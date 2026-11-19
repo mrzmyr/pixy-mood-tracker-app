@@ -74,7 +74,7 @@ export const emotions = (input: RecapInput): SummaryCard[] => {
  * People of the period by connected days. Deleted people stay out. One
  * pass over the days.
  */
-const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
+export const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
   const daysByPerson = new Map<string, RecapDay[]>();
   for (const day of input.days) {
     const ids = new Set(

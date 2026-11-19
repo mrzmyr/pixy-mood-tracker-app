@@ -70,6 +70,22 @@ const LanguageRow = () => (
 /** Horizontal space a native section header or footer leaves on each side. */
 const SECTION_INSET = Platform.select({ ios: 20, android: 32, default: 16 });
 
+/** Settings > Orbit, behind flags `orbit` and `people`. */
+const OrbitRow = () => {
+  const router = useRouter();
+  const isOrbitOn = useFeatureFlag("orbit");
+  const isPeopleOn = useFeatureFlag("people");
+  return isOrbitOn && isPeopleOn ? (
+    <FieldRow
+      title={t("orbit")}
+      icon={SETTINGS_ICONS.orbit}
+      kind="push"
+      onPress={() => router.push("/settings/orbit")}
+      testID="orbit"
+    />
+  ) : null;
+};
+
 /**
  * Settings screen, opened from the calendar header. The user's name and photo
  * row comes first. The support card needs its feature flag and an enabled
@@ -208,6 +224,7 @@ export const SettingsScreen = () => {
                 testID="recaps"
               />
             )}
+            <OrbitRow />
           </FieldGroup.Section>
 
           <FieldGroup.Section title={t("settings_appearance")}>
