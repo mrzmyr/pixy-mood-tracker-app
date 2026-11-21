@@ -27,14 +27,7 @@ const hashWith = (changed?: string) => {
       file === changed ? "changed" : "base",
     ])
   );
-  const source: Source = {
-    sha: "sha",
-    subject: "",
-    date: "",
-    isDeployable: false,
-    blobs,
-    tree: "",
-  };
+  const source: Source = { sha: "sha", blobs, tree: "" };
   const hash = createInputHasher({ source, nativeFingerprint: "native" });
   return hash(TAGS, TAGS.states[0], { kind: "off" });
 };

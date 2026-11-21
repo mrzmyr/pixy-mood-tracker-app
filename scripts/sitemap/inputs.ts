@@ -9,7 +9,9 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import { CliError, note } from "../cli/shared.ts";
+import { createFingerprintAsync } from "@expo/fingerprint";
+
+import { CliError } from "../cli/shared.ts";
 import { passFlags } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
 import {
@@ -36,55 +38,24 @@ export const sha256 = (value: string | Uint8Array) =>
 const hashList = (entries: [string, string][]) =>
   sha256(entries.map(([file, blob]) => `${blob} ${file}`).join("\n"));
 
-/** Commit a capture runs on, plus the blob id of every tracked file. */
+/** Checkout a capture or check reads: HEAD plus uncommitted changes. */
 export interface Source {
   sha: string;
-  subject: string;
-  /** Committer date, ISO 8601. */
-  date: string;
-  /** True only when HEAD is origin/main and the tree is clean. */
-  isDeployable: boolean;
+  /** Blob id of every tracked and untracked file, working tree included. */
   blobs: Map<string, string>;
-  /** Hash of every blob, uncommitted and untracked files included. */
+  /** Hash of every blob; keys the capture app. */
   tree: string;
 }
 
 /**
- * Fetch origin, then pin the commit. Default: HEAD must equal origin/main
- * with a clean tree. `allowHead` captures HEAD as is, for capture logic work;
- * such runs never deploy.
+ * Read the checkout as it is on disk. Input hashes use working-tree
+ * content, so a capture before the commit matches the check after it.
  */
-export const pinSource = ({ allowHead }: { allowHead: boolean }): Source => {
-  try {
-    git(["fetch", "origin", "main", "--quiet"]);
-  } catch (error) {
-    throw new CliError({
-      status: "fetch_failed",
-      message: "Could not fetch origin/main",
-      why:
-        error instanceof Error ? error.message.split("\n")[0] : String(error),
-      fix: "Check network and GitHub access (`git fetch origin`), then retry.",
-    });
-  }
-  const main = git(["rev-parse", "origin/main"]);
-  const head = git(["rev-parse", "HEAD"]);
-  // Tracked files that differ from HEAD, staged or not, and untracked files.
+export const readSource = (): Source => {
   const dirty = [
     ...git(["diff", "--name-only", "HEAD"]).split("\n"),
     ...git(["ls-files", "--others", "--exclude-standard"]).split("\n"),
   ].filter(Boolean);
-  const isDeployable = head === main && dirty.length === 0;
-  if (!isDeployable && !allowHead) {
-    throw new CliError({
-      status: "source_not_origin_main",
-      message: "Checkout is not origin/main",
-      why:
-        head === main
-          ? `${dirty.length} tracked files changed: ${dirty.slice(0, 3).join(", ")}.`
-          : `HEAD ${head.slice(0, 8)}, origin/main ${main.slice(0, 8)}.`,
-      fix: "Capture from a clean checkout of origin/main: `bun worktree new sitemap-main --branch=sitemap-main` then `git -C <path> checkout --detach origin/main`. Pass --ref=head only for capture logic work; it never deploys.",
-    });
-  }
   const blobs = new Map<string, string>();
   for (const line of git(["ls-files", "-s"]).split("\n")) {
     // <mode> <blob> <stage>\t<path>
@@ -94,23 +65,32 @@ export const pinSource = ({ allowHead }: { allowHead: boolean }): Source => {
     }
   }
   for (const file of dirty) {
-    blobs.set(
-      file,
-      fs.existsSync(path.join(REPO_ROOT, file))
-        ? git(["hash-object", file])
-        : "deleted"
-    );
+    if (fs.existsSync(path.join(REPO_ROOT, file))) {
+      blobs.set(file, git(["hash-object", file]));
+    } else {
+      blobs.delete(file);
+    }
   }
-  const [subject, date] = git(["log", "-1", "--format=%s%n%cI", "HEAD"]).split(
-    "\n"
-  );
-  note(
-    `Source: ${head} ${isDeployable ? "(origin/main)" : "(HEAD, not deployable)"} ${subject}`
-  );
   const tree = hashList(
     [...blobs.entries()].toSorted(([a], [b]) => a.localeCompare(b))
   );
-  return { sha: head, subject, date, isDeployable, blobs, tree };
+  return { sha: git(["rev-parse", "HEAD"]), blobs, tree };
+};
+
+/** Native fingerprint of the preview variant, the key of the Release shell. */
+export const readNativeFingerprint = async () => {
+  const previous = process.env.EXPO_PUBLIC_APP_VARIANT;
+  process.env.EXPO_PUBLIC_APP_VARIANT = "preview";
+  try {
+    const fingerprint = await createFingerprintAsync(REPO_ROOT);
+    return fingerprint.hash;
+  } finally {
+    if (previous === undefined) {
+      delete process.env.EXPO_PUBLIC_APP_VARIANT;
+    } else {
+      process.env.EXPO_PUBLIC_APP_VARIANT = previous;
+    }
+  }
 };
 
 const SOURCE_EXTENSIONS = [".tsx", ".ts", ".jsx", ".js", ".cjs"];

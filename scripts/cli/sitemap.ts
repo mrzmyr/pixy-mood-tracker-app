@@ -1,103 +1,98 @@
-// `bun sitemap`: screenshots of every screen and state from origin/main,
-// published as a static sitemap in apps/sitemap. Code: scripts/sitemap.
+// `bun sitemap`: screenshots of every screen and state, committed as
+// apps/sitemap/sitemap.json with the code they show. Code: scripts/sitemap.
 import { captureFor } from "../sitemap/capture.ts";
 import { CLOCK_BUDGET_SECONDS, DEVICE_PROFILE } from "../sitemap/profile.ts";
-import { buildSite, pruneBlobs, resolveSha } from "../sitemap/site.ts";
+import { checkSite, pruneBlobs } from "../sitemap/site.ts";
 import { defineCommand } from "./shared.ts";
 import type { Noun } from "./shared.ts";
 
 const { model, runtime, locale, timeZone } = DEVICE_PROFILE;
 
-/** `bun sitemap` noun: capture, build, prune. Code lives in scripts/sitemap. */
+/** `bun sitemap` noun: capture, check, prune. Code lives in scripts/sitemap. */
 export const SITEMAP: Noun = {
   summary:
-    "Capture every screen and state, write apps/sitemap/sitemap.json, prune Blob.",
-  commandOrder: ["capture", "build", "prune"],
+    "Capture changed screens into apps/sitemap/sitemap.json, check it, prune Blob.",
+  commandOrder: ["capture", "check", "prune"],
   commands: {
     capture: defineCommand({
       summary:
-        "Capture every state in scripts/sitemap/states.ts on the pinned commit.",
+        "Capture states whose inputs changed, upload to Blob, write sitemap.json.",
       usage:
-        "Usage: bun sitemap capture [--only=<screen|screen/state,...>] [--verify=<n>] [--ref=head] [--allow-native-mismatch] [--prune]",
+        "Usage: bun sitemap capture [--only=<screen|screen/state,...>] [--verify=<n>] [--allow-native-mismatch]",
       options: {
         only: {
           value: "<ids>",
           description: [
             "Comma-separated screen or <screen>/<state> ids.",
-            "Partial runs never become the sitemap.",
+            "Other stale states stay stale; `bun sitemap check` still fails.",
           ],
         },
         verify: {
           value: "<n>",
           description: [
-            "Capture n cached states again and compare PNG hashes.",
-            "Default 0. CI uses 2.",
-          ],
-        },
-        ref: {
-          value: "<head>",
-          choices: ["head"],
-          description: [
-            "head: capture HEAD as is, also when it is not origin/main.",
-            "For capture logic work only; never becomes the sitemap.",
-          ],
-        },
-        prune: {
-          description: [
-            "After a full run, delete cache entries and PNGs the run did not use.",
-            "CI uses it so its cache does not grow.",
+            "Capture n fresh states again and compare PNG hashes.",
+            "Default 0.",
           ],
         },
         "allow-native-mismatch": {
           description: [
             "Capture on a cached Release shell of another native fingerprint.",
-            "Never becomes the sitemap.",
+            "For capture logic work; never writes sitemap.json.",
           ],
         },
       },
       sections: [
         {
+          title: "Requires",
+          lines: [
+            "BLOB_READ_WRITE_TOKEN: cache and images live in Vercel Blob.",
+            "A Mac with the pinned iOS runtime and a Release shell for the native fingerprint.",
+          ],
+        },
+        {
           title: "Behavior",
           lines: [
-            "Pin       `git fetch origin main`. HEAD must equal origin/main with a clean tree.",
-            "Preflight One line per check: commit, ram, disk, runtime, metro, native.",
+            "Plan      Input hash per state and pass from the working tree. A state is fresh",
+            "          when sitemap.json has the same hashes and Blob has its images. Nothing",
+            "          stale: rewrite sitemap.json and stop, no simulator.",
+            "Preflight One line per check: ram, disk, runtime, metro, native.",
             "Build     `expo export` of the preview JS with EXPO_PUBLIC_SITEMAP_CAPTURE=1, put into",
             "          the cached iOS Release shell. Frozen clock, seeded Math.random, no network,",
             "          no keyboard, reduced motion, invisible probes. No Metro, no LogBox.",
             `Device    ${model}, iOS ${runtime.version} (${runtime.build}), ${locale}, ${timeZone}, light,`,
             "          text size large, status bar 9:41.",
-            "Capture   Per state and pass: relaunch, fixture link, flag link, check flag probes,",
-            "          route link, wait, settle, screenshot, accessibility tree.",
+            "Capture   Stale states only. Per state and pass: relaunch, fixture link, flag link,",
+            "          check flag probes, route link, wait, settle, screenshot, accessibility tree.",
             "Passes    off: production default. on: every overridable flag. Flagged elements of",
             "          the on tree are attributed by turning candidate flag halves on (bisection).",
             "Cache     Input hash = file blobs the route imports, shared build files, native",
-            "          fingerprint, device profile, fixture, flags, route, wait. Equal",
-            "          hash: cached PNG reused. Recaptured hash with new PNG: nondeterministic.",
-            "Blob      With BLOB_READ_WRITE_TOKEN: cache misses download from Vercel Blob, new",
-            "          captures and site images upload at the end, also after failures.",
+            "          fingerprint, device profile, fixture, flags, route, wait. A hash already",
+            "          in Blob reuses its PNG. Recaptured hash with new PNG: nondeterministic.",
+            "Write     Upload new captures and site images to Blob, then write",
+            "          apps/sitemap/sitemap.json, also after failures. Commit it with the code.",
           ],
         },
         {
           title: "Output",
           lines: [
-            "stdout, one line per capture as it finishes:",
+            "stdout: one `stale` line per stale state, then one line per capture:",
             "  <cached|captured|verified|retry|fail> <screen>/<state> <pass> in=<hash> png=<hash> <ms>",
             "fail lines add why, fix, and saved screen.png, tree.json, crash report.",
-            "Last lines: summary counts and result.json path.",
-            "Files: ~/.cache/pixy-mood-tracker/sitemap/{states,png,apps,runs/<sha>}.",
+            "Last lines: summary counts and the sitemap.json path.",
+            "Files: ~/.cache/pixy-mood-tracker/sitemap/{states,png,small,apps,runs/<sha>}.",
           ],
         },
         {
           title: "Examples",
           lines: [
             "bun sitemap capture",
-            "bun sitemap capture --only=settings,calendar/year --ref=head",
+            "bun sitemap capture --only=settings,calendar/year",
             "bun sitemap capture --verify=2",
           ],
         },
       ],
       errors: {
-        source_not_origin_main: "HEAD is not a clean origin/main",
+        blob_token_missing: "BLOB_READ_WRITE_TOKEN not set",
         preflight_ram: "Less than 4 GiB RAM headroom",
         preflight_load: "Load above 2x cores",
         preflight_disk: "Less than 10 GiB free disk",
@@ -125,47 +120,28 @@ export const SITEMAP: Noun = {
         await captureFor(values);
       },
     }),
-    build: defineCommand({
-      summary: "Write apps/sitemap/sitemap.json for one captured commit.",
-      usage: "Usage: bun sitemap build [--sha=<sha>] [--force]",
-      options: {
-        sha: {
-          value: "<sha>",
-          description: ["Captured commit. Default: HEAD."],
-        },
-        force: {
-          description: [
-            "Write a capture that is not a full origin/main run.",
-            "Local preview only; never commit the result.",
-          ],
-        },
-      },
+    check: defineCommand({
+      summary:
+        "Fail when apps/sitemap/sitemap.json does not show this checkout.",
+      usage: "Usage: bun sitemap check",
+      options: {},
       sections: [
-        {
-          title: "Requires",
-          lines: [
-            "BLOB_READ_WRITE_TOKEN: images load from Vercel Blob. CI reads it from a secret.",
-          ],
-        },
         {
           title: "Behavior",
           lines: [
-            "Checks every shown image is in Blob, then writes sitemap.json with the Blob origin.",
-            "CI commits it to main. Vercel deploys apps/sitemap on that commit.",
-            "Preview: `bunx serve apps/sitemap`.",
+            "Computes every input hash from the working tree, like capture, and compares",
+            "them with sitemap.json. Also checks screen list, flags, device profile, native",
+            "fingerprint, failed captures, and that Blob serves every shown image.",
+            "No simulator, no token. CI runs it on every pull request and push to main.",
           ],
         },
       ],
       errors: {
-        run_missing: "No capture result for the commit",
-        not_deployable:
-          "Capture used --ref=head, --only, or --allow-native-mismatch",
-        images_missing: "Shown images not uploaded to Blob",
-        blob_token_missing: "BLOB_READ_WRITE_TOKEN not set",
-        blob_failed: "Vercel Blob request failed",
+        sitemap_missing: "apps/sitemap/sitemap.json is missing",
+        sitemap_stale: "sitemap.json does not show this checkout",
       },
-      run: async (values) => {
-        await buildSite(resolveSha(values.sha), values.force !== undefined);
+      run: async () => {
+        await checkSite();
       },
     }),
     prune: defineCommand({
@@ -182,12 +158,12 @@ export const SITEMAP: Noun = {
           title: "Behavior",
           lines: [
             "Keeps every file the committed sitemap.json uses, at any age: shown images and",
-            "the cache entries of every input hash the run looked up. CI runs it after build.",
+            "the cache entries of their input hashes. CI runs it on pushes to main.",
           ],
         },
       ],
       errors: {
-        not_deployable: "sitemap.json missing or not from origin/main",
+        sitemap_missing: "apps/sitemap/sitemap.json is missing",
         blob_token_missing: "BLOB_READ_WRITE_TOKEN not set",
         blob_failed: "Vercel Blob request failed",
       },

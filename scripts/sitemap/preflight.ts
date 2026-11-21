@@ -6,8 +6,6 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { createFingerprintAsync } from "@expo/fingerprint";
-
 import { listBuilds, toBuildId } from "../cli/builds.ts";
 import { MIN_FREE_BYTES, formatGiB, readFreeBytes } from "../cli/disk.ts";
 import { readMemory } from "../cli/memory.ts";
@@ -182,12 +180,8 @@ const keepShell = (shell: Shell) => {
   return { ...shell, file };
 };
 
-/** Release shell with this commit's native fingerprint. */
-const checkNativeShell = async (allowMismatch: boolean) => {
-  const previous = process.env.EXPO_PUBLIC_APP_VARIANT;
-  process.env.EXPO_PUBLIC_APP_VARIANT = "preview";
-  const { hash } = await createFingerprintAsync(REPO_ROOT);
-  process.env.EXPO_PUBLIC_APP_VARIANT = previous;
+/** Release shell with the checkout's native fingerprint. */
+const checkNativeShell = (allowMismatch: boolean, hash: string) => {
   const shells = listShells();
   const match = shells.find((shell) => shell.fingerprint === hash);
   const check: Check = match
@@ -201,7 +195,7 @@ const checkNativeShell = async (allowMismatch: boolean) => {
         status: allowMismatch && shells.length > 0 ? "warn" : "fail",
         detail: `no Release shell for fingerprint ${hash.slice(0, 8)}`,
         why: `Shells: ${shells.map((shell) => shell.id).join(", ") || "none"}. JS on another native shell can miss native modules and render other pixels.`,
-        fix: "Run `bun app build --platform=ios` (cold build needs about 20 GiB free), then retry. --allow-native-mismatch captures anyway; such runs never deploy.",
+        fix: "Run `bun app build --platform=ios` (cold build needs about 20 GiB free), then retry. --allow-native-mismatch captures anyway; such runs never write sitemap.json.",
       };
   const shell = match ?? shells[0];
   return { check, fingerprint: hash, shell: shell ? keepShell(shell) : null };
@@ -227,13 +221,13 @@ const checkToolchain = (): Check => {
 };
 
 /** Run every check, print one line each, stop on any failure. */
-export const runPreflight = async ({
+export const runPreflight = ({
   allowMismatch,
-  source,
+  fingerprint,
 }: {
   allowMismatch: boolean;
-  /** Result of the source pin, printed as its own check. */
-  source: { sha: string; isDeployable: boolean };
+  /** Native fingerprint of the checkout. */
+  fingerprint: string;
 }) => {
   const started = Date.now();
   const checks: Check[] = [];
@@ -241,18 +235,11 @@ export const runPreflight = async ({
     checks.push(check);
     print(check);
   };
-  add({
-    name: "commit",
-    status: source.isDeployable ? "ok" : "warn",
-    detail: `${source.sha}${source.isDeployable ? " = origin/main" : " is not origin/main"}`,
-    why: "Capture of HEAD with --ref=head.",
-    fix: "Runs from HEAD never deploy. Capture from origin/main for the site.",
-  });
   add(checkRam());
   add(checkDisk());
   add(checkRuntime());
   add(checkToolchain());
-  const native = await checkNativeShell(allowMismatch);
+  const native = checkNativeShell(allowMismatch, fingerprint);
   add(native.check);
   process.stdout.write(`preflight ${Date.now() - started}ms\n`);
   const failed = checks.find((check) => check.status === "fail");

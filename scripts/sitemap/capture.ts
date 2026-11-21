@@ -1,5 +1,7 @@
-// `bun sitemap capture`: every state of states.ts, flags off and on, on a
-// pinned commit. One stdout line per capture as it finishes.
+// `bun sitemap capture`: capture every state whose inputs changed since the
+// committed sitemap.json, flags off and on, then write sitemap.json. Fresh
+// states keep their committed result without a simulator. One stdout line
+// per capture as it finishes.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
@@ -11,20 +13,46 @@ import type { Device } from "../cli/device.ts";
 import { exportBundle, patchApp } from "../cli/release-smoke.ts";
 import { CACHE_DIR, CliError, note, readJson } from "../cli/shared.ts";
 import { attempt } from "./attempt.ts";
-import { download, hasBlobToken, listBlobs, uploadAll } from "./blob.ts";
+import { blobOrigin, download, listBlobs, uploadAll } from "./blob.ts";
 import type { RemoteBlob } from "./blob.ts";
 import { CaptureError, PREVIEW, createDriver } from "./device.ts";
 import type { Driver } from "./device.ts";
-import { OVERRIDABLE_FLAGS } from "./flags.ts";
+import { FEATURE_FLAG_DETAILS, OVERRIDABLE_FLAGS } from "./flags.ts";
 import type { FeatureFlag } from "./flags.ts";
-import { createInputHasher, pinSource, sha256 } from "./inputs.ts";
+import {
+  createInputHasher,
+  readNativeFingerprint,
+  readSource,
+  sha256,
+} from "./inputs.ts";
 import type { Source } from "./inputs.ts";
 import { passId, stateKey } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
 import { measureNoise } from "./noise.ts";
 import { decodePng, downscale, encodePng, normalizeScreenshot } from "./png.ts";
 import { runPreflight } from "./preflight.ts";
-import { CAPTURE_ENV, DEVICE_PROFILE, SITE_IMAGE_SCALE } from "./profile.ts";
+import {
+  CAPTURE_ENV,
+  DEVICE_PROFILE,
+  SCHEMA_VERSION,
+  SITE_IMAGE_SCALE,
+} from "./profile.ts";
+import {
+  DATA_FILE,
+  pairStates,
+  passesOf,
+  readSite,
+  screenMeta,
+  shownPngs,
+  staleReason,
+  writeSite,
+} from "./site.ts";
+import type {
+  CachedCapture,
+  FlaggedRegion,
+  ScreenResult,
+  StateResult,
+} from "./site.ts";
 import { SCREENS } from "./states.ts";
 import { countNode, diffTrees } from "./tree.ts";
 import type { TreeNode } from "./tree.ts";
@@ -39,68 +67,6 @@ export const PNG_DIR = path.join(SITEMAP_DIR, "png");
 export const SMALL_DIR = path.join(SITEMAP_DIR, "small");
 /** Result and failure files of one commit. */
 export const runDir = (sha: string) => path.join(SITEMAP_DIR, "runs", sha);
-
-/** Cache entry of one input hash. */
-export interface CachedCapture {
-  inputHash: string;
-  pngHash: string;
-  tree: TreeNode[];
-  ms: number;
-  host: { arch: string; runtime: string };
-}
-
-/** Flagged element in the flags-on screenshot, rect in points. */
-export interface FlaggedRegion {
-  id: string;
-  label: string;
-  rect: [number, number, number, number];
-  /** Flags that add it. More than one: it needs them together. */
-  flags: FeatureFlag[];
-}
-
-/** Hashes of one pass. The PNG lives at png/<pngHash>.png. */
-export interface PassResult {
-  inputHash: string;
-  pngHash: string;
-}
-
-/** One state in result.json. A null pass was skipped or failed; see errors. */
-export interface StateResult {
-  id: string;
-  title: string;
-  route: string;
-  off: PassResult | null;
-  on: PassResult | null;
-  flagged: FlaggedRegion[];
-  /** Pass id to `status: message` of a failed capture. */
-  errors: Record<string, string>;
-}
-
-/** One screen card in result.json. */
-export interface ScreenResult {
-  id: string;
-  title: string;
-  route: string;
-  parent: string | null;
-  isFlagOnly: boolean;
-  requires: FeatureFlag[];
-  hiddenBy: FeatureFlag[];
-  states: StateResult[];
-}
-
-/** runs/<sha>/result.json: everything `bun sitemap build` reads. */
-export interface RunResult {
-  sha: string;
-  subject: string;
-  date: string;
-  isDeployable: boolean;
-  nativeFingerprint: string;
-  profile: typeof DEVICE_PROFILE;
-  screens: ScreenResult[];
-  summary: Summary;
-  /** Every input hash the run looked up, sorted. Prune keeps their blobs. */
-  used: string[];
-}
 
 interface Summary {
   captured: number;
@@ -270,8 +236,8 @@ interface Context {
   nondeterministic: CliError | null;
   /** Every input hash this run looked up, attribution passes included. */
   used: Set<string>;
-  /** Blob listing at run start. Null without BLOB_READ_WRITE_TOKEN. */
-  remote: Map<string, RemoteBlob> | null;
+  /** Blob listing at run start. */
+  remote: Map<string, RemoteBlob>;
 }
 
 /**
@@ -542,12 +508,6 @@ const selectScreens = (only: string | undefined) => {
   return selected;
 };
 
-/** Main passes of a screen: off unless flag-only, on unless a flag hides it. */
-const passesOf = (screen: ScreenSpec): Pass[] => [
-  ...((screen.requires ?? []).length > 0 ? [] : [{ kind: "off" } as const]),
-  ...((screen.hiddenBy ?? []).length > 0 ? [] : [{ kind: "on" } as const]),
-];
-
 /** Pick `count` cached states to capture again, the same ones for the same hashes. */
 const pickVerify = async (
   remote: Map<string, RemoteBlob> | null,
@@ -574,9 +534,6 @@ const pickVerify = async (
  * run still shares its captures.
  */
 const syncUp = async (context: Context, results: ScreenResult[]) => {
-  if (!context.remote) {
-    return;
-  }
   const files: { pathname: string; file: string }[] = [];
   for (const inputHash of context.used) {
     const entry = readCached(inputHash);
@@ -593,19 +550,11 @@ const syncUp = async (context: Context, results: ScreenResult[]) => {
       );
     }
   }
-  const shown = new Set(
-    results.flatMap((screen) =>
-      screen.states.flatMap((state) =>
-        [state.off?.pngHash, state.on?.pngHash].filter((hash): hash is string =>
-          Boolean(hash)
-        )
-      )
-    )
-  );
-  for (const pngHash of shown) {
+  for (const pngHash of shownPngs(results)) {
     if (
       !context.remote.has(`small/${pngHash}.png`) &&
-      fs.existsSync(path.join(PNG_DIR, `${pngHash}.png`))
+      // oxlint-disable-next-line no-await-in-loop -- downloads only after Blob lost a site image
+      (await ensurePng(context.remote, pngHash))
     ) {
       files.push({
         pathname: `small/${pngHash}.png`,
@@ -681,27 +630,6 @@ const captureState = async (
   return result;
 };
 
-const captureScreen = async (
-  context: Context,
-  screen: ScreenSpec
-): Promise<ScreenResult> => {
-  const states: StateResult[] = [];
-  for (const state of screen.states) {
-    // oxlint-disable-next-line no-await-in-loop -- one simulator, captures run in order
-    states.push(await captureState(context, screen, state));
-  }
-  return {
-    id: screen.id,
-    title: screen.title,
-    route: screen.route,
-    parent: screen.parent,
-    isFlagOnly: (screen.requires ?? []).length > 0,
-    requires: screen.requires ?? [],
-    hiddenBy: screen.hiddenBy ?? [],
-    states,
-  };
-};
-
 const regionKey = (region: FlaggedRegion) =>
   `${region.id}|${region.label}|${region.rect.join(",")}`;
 
@@ -730,67 +658,146 @@ const dropInheritedRegions = (results: ScreenResult[]) => {
   }
 };
 
-/** Delete cache entries this run did not use, and PNGs no entry names. */
-const pruneCache = (used: Set<string>) => {
-  if (!fs.existsSync(STATES_DIR) || !fs.existsSync(PNG_DIR)) {
-    return;
-  }
-  const keptPngs = new Set<string>();
-  let removed = 0;
-  for (const file of fs.readdirSync(STATES_DIR)) {
-    const inputHash = path.basename(file, ".json");
-    const entry = used.has(inputHash) ? readCached(inputHash) : null;
-    if (entry) {
-      keptPngs.add(entry.pngHash);
-    } else {
-      fs.rmSync(path.join(STATES_DIR, file));
-      removed += 1;
+interface Plan {
+  screen: ScreenSpec;
+  state: StateSpec;
+  /** Committed result; reused when `reason` is null. */
+  result: StateResult | undefined;
+  reason: string | null;
+}
+
+/**
+ * Which states to capture: stale ones, and with --only, only those. A state
+ * is stale when its inputs changed since sitemap.json or Blob lost an image.
+ */
+const planStates = (
+  hash: ReturnType<typeof createInputHasher>,
+  remote: Map<string, RemoteBlob>,
+  only: string | undefined
+): Plan[] => {
+  const selected = new Set(
+    selectScreens(only).flatMap((screen) =>
+      screen.states.map((state) => stateKey(screen, state))
+    )
+  );
+  return pairStates(readSite()).map(({ screen, state, result }) => {
+    let reason = staleReason(hash, screen, state, result);
+    if (!reason && result) {
+      const lost = [
+        ...shownPngs([{ ...screenMeta(screen), states: [result] }]),
+      ].filter((png) => !remote.has(`small/${png}.png`));
+      if (lost.length > 0) {
+        reason = `image ${short(lost[0])} missing in Blob`;
+      }
     }
-  }
-  for (const file of fs.readdirSync(PNG_DIR)) {
-    if (!keptPngs.has(path.basename(file, ".png"))) {
-      fs.rmSync(path.join(PNG_DIR, file));
-      removed += 1;
+    if (reason && !selected.has(stateKey(screen, state))) {
+      reason = null;
     }
-  }
-  note(`Pruned ${removed} cache files`);
+    return { screen, state, result, reason };
+  });
 };
 
-/** Capture every selected state on the prepared simulator, write result.json. */
-const captureAll = async ({
-  values,
-  source,
-  screens,
-  driver,
-  nativeFingerprint,
-  isNativeMatch,
-  runStarted,
-}: {
-  values: Record<string, string | undefined>;
-  source: Source;
-  screens: ScreenSpec[];
-  driver: Driver;
-  nativeFingerprint: string;
-  isNativeMatch: boolean;
-  runStarted: number;
-}) => {
-  const hash = createInputHasher({ source, nativeFingerprint });
-  const remote = hasBlobToken() ? await listBlobs() : null;
-  note(
-    remote
-      ? `Blob: ${remote.size} files`
-      : "Blob: BLOB_READ_WRITE_TOKEN not set, local cache only"
+/** Every screen of states.ts, states in manifest order. */
+const assemble = (results: Map<string, StateResult>): ScreenResult[] =>
+  SCREENS.map((screen) => ({
+    ...screenMeta(screen),
+    states: screen.states.map(
+      (state) =>
+        results.get(stateKey(screen, state)) ?? {
+          id: state.id,
+          title: state.title,
+          route: screen.route,
+          off: null,
+          on: null,
+          flagged: [],
+          errors: { all: "not captured: run `bun sitemap capture`" },
+        }
+    ),
+  }));
+
+/**
+ * `bun sitemap capture`: plan, then capture stale states on the simulator,
+ * upload to Blob, write sitemap.json. Fails at the end on any failure.
+ */
+export const captureFor = async (
+  values: Record<string, string | undefined>
+) => {
+  const runStarted = Date.now();
+  const allowMismatch = values["allow-native-mismatch"] !== undefined;
+  const remote = await listBlobs();
+  note(`Blob: ${remote.size} files`);
+  const source = readSource();
+  const fingerprint = await readNativeFingerprint();
+  const plan = planStates(
+    createInputHasher({ source, nativeFingerprint: fingerprint }),
+    remote,
+    values.only
   );
-  const allHashes = screens.flatMap((screen) =>
-    screen.states.flatMap((state) =>
+  const verifyCount = Number(values.verify ?? 0);
+  const todo = plan.filter((item) => item.reason !== null);
+  for (const item of todo) {
+    process.stdout.write(
+      `stale    ${stateKey(item.screen, item.state).padEnd(44)} ${item.reason}\n`
+    );
+  }
+  const results = new Map<string, StateResult>();
+  for (const item of plan) {
+    if (item.reason === null && item.result) {
+      results.set(stateKey(item.screen, item.state), item.result);
+    }
+  }
+  const site = (screens: ScreenResult[]) =>
+    writeSite({
+      schema: SCHEMA_VERSION,
+      nativeFingerprint: fingerprint,
+      profile: DEVICE_PROFILE,
+      flags: FEATURE_FLAG_DETAILS,
+      imageBase: blobOrigin(remote),
+      screens,
+    });
+  if (todo.length === 0 && verifyCount === 0) {
+    site(assemble(results));
+    process.stdout.write(
+      `summary  fresh=${plan.length} captured=0 ${Math.round((Date.now() - runStarted) / 1000)}s\n` +
+        `site     ${DATA_FILE}\n`
+    );
+    return;
+  }
+  const preflight = runPreflight({ allowMismatch, fingerprint });
+  if (!preflight.shell) {
+    throw new CliError({
+      status: "release_build_missing",
+      message: "No cached iOS Release simulator build",
+      why: "Capture needs a Release build as native shell.",
+      fix: "Run `bun app build --platform=ios`, then retry.",
+    });
+  }
+  // The shell's own fingerprint, not the checkout's: with
+  // --allow-native-mismatch they differ, and the pixels come from the shell.
+  const nativeFingerprint = preflight.shell.fingerprint;
+  const hash = createInputHasher({ source, nativeFingerprint });
+  const app = await prepareApp(source, preflight.shell.file, nativeFingerprint);
+  const device = await ensureDevice("ios", { slim: false });
+  assertDeviceRuntime(device);
+  execFileSync("xcrun", ["simctl", "uninstall", device.id, PREVIEW.appId], {
+    stdio: "ignore",
+  });
+  installFile(device, app.app, "preview");
+  const driver = createDriver(device, app.executable);
+  driver.prepare();
+  const fresh = plan.filter((item) => item.reason === null);
+  const verify = await pickVerify(
+    remote,
+    fresh.flatMap(({ screen, state }) =>
       passesOf(screen).map((pass) => hash(screen, state, pass))
-    )
+    ),
+    verifyCount
   );
   const context: Context = {
     source,
     driver,
     hash,
-    verify: await pickVerify(remote, allHashes, Number(values.verify ?? 0)),
+    verify,
     summary: {
       captured: 0,
       cached: 0,
@@ -806,37 +813,36 @@ const captureAll = async ({
       `pixy-mood-tracker-sitemap-${process.pid}.png`
     ),
   };
-  const results: ScreenResult[] = [];
-  for (const screen of screens) {
-    // oxlint-disable-next-line no-await-in-loop -- one simulator, captures run in order
-    results.push(await captureScreen(context, screen));
-  }
-  dropInheritedRegions(results);
-  const run: RunResult = {
-    sha: source.sha,
-    subject: source.subject,
-    date: source.date,
-    isDeployable: source.isDeployable && isNativeMatch && !values.only,
-    nativeFingerprint,
-    profile: DEVICE_PROFILE,
-    screens: results,
-    summary: context.summary,
-    used: [...context.used].toSorted(),
-  };
-  fs.mkdirSync(runDir(source.sha), { recursive: true });
-  const resultFile = path.join(runDir(source.sha), "result.json");
-  fs.writeFileSync(resultFile, `${JSON.stringify(run, null, 1)}\n`);
-  fs.rmSync(context.tmpFile, { force: true });
-  await syncUp(context, results);
-  // CI keeps its cache small. Partial runs would drop the other screens.
-  if (values.prune !== undefined && !values.only) {
-    pruneCache(context.used);
-  }
-  const { captured, cached, failed } = context.summary;
-  process.stdout.write(
-    `summary  captured=${captured} cached=${cached} noise=${context.summary.noise} failed=${failed} nondeterministic=${context.summary.nondeterministic} deployable=${run.isDeployable} ${Math.round((Date.now() - runStarted) / 1000)}s\n` +
-      `result   ${resultFile}\n`
+  const recapture = plan.filter(
+    (item) =>
+      item.reason !== null ||
+      passesOf(item.screen).some((pass) =>
+        verify.has(hash(item.screen, item.state, pass))
+      )
   );
+  try {
+    for (const { screen, state } of recapture) {
+      // oxlint-disable-next-line no-await-in-loop -- one simulator, captures run in order
+      const result = await captureState(context, screen, state);
+      results.set(stateKey(screen, state), result);
+    }
+  } finally {
+    driver.restore();
+  }
+  fs.rmSync(context.tmpFile, { force: true });
+  const screens = assemble(results);
+  dropInheritedRegions(screens);
+  await syncUp(context, screens);
+  const { captured, cached, failed, noise, nondeterministic } = context.summary;
+  process.stdout.write(
+    `summary  fresh=${fresh.length} captured=${captured} cached=${cached} noise=${noise} failed=${failed} nondeterministic=${nondeterministic} ${Math.round((Date.now() - runStarted) / 1000)}s\n`
+  );
+  if (preflight.isNativeMatch) {
+    site(screens);
+    process.stdout.write(`site     ${DATA_FILE}\n`);
+  } else {
+    note("Native shell does not match the checkout: sitemap.json not written");
+  }
   if (context.nondeterministic) {
     throw context.nondeterministic;
   }
@@ -844,58 +850,8 @@ const captureAll = async ({
     throw new CliError({
       status: "capture_failed",
       message: `${failed} capture(s) failed`,
-      why: "See the fail lines above. Each names the wait condition and the saved files.",
-      fix: "Fix each failure, then rerun. Cached states are skipped.",
+      why: "See the fail lines above. Each names the wait condition and the saved files. sitemap.json records them, so `bun sitemap check` fails.",
+      fix: "Fix each failure, then rerun. Fresh states are skipped.",
     });
-  }
-  return run;
-};
-
-/**
- * `bun sitemap capture`: pin, preflight, build the capture app, capture every
- * selected state, write result.json. Fails at the end on any failure.
- */
-export const captureFor = async (
-  values: Record<string, string | undefined>
-) => {
-  const runStarted = Date.now();
-  const source = pinSource({ allowHead: values.ref === "head" });
-  const preflight = await runPreflight({
-    allowMismatch: values["allow-native-mismatch"] !== undefined,
-    source,
-  });
-  if (!preflight.shell) {
-    throw new CliError({
-      status: "release_build_missing",
-      message: "No cached iOS Release simulator build",
-      why: "Capture needs a Release build as native shell.",
-      fix: "Run `bun app build --platform=ios`, then retry.",
-    });
-  }
-  const screens = selectScreens(values.only);
-  // The shell's own fingerprint, not the commit's: with
-  // --allow-native-mismatch they differ, and the pixels come from the shell.
-  const nativeFingerprint = preflight.shell.fingerprint;
-  const app = await prepareApp(source, preflight.shell.file, nativeFingerprint);
-  const device = await ensureDevice("ios", { slim: false });
-  assertDeviceRuntime(device);
-  execFileSync("xcrun", ["simctl", "uninstall", device.id, PREVIEW.appId], {
-    stdio: "ignore",
-  });
-  installFile(device, app.app, "preview");
-  const driver = createDriver(device, app.executable);
-  driver.prepare();
-  try {
-    return await captureAll({
-      values,
-      source,
-      screens,
-      driver,
-      nativeFingerprint,
-      isNativeMatch: preflight.isNativeMatch,
-      runStarted,
-    });
-  } finally {
-    driver.restore();
   }
 };

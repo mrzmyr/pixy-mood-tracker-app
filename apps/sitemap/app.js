@@ -1,5 +1,5 @@
 // Sitemap viewer. No dependencies. Data comes from sitemap.json, which
-// `bun sitemap build` writes; images load from Vercel Blob.
+// `bun sitemap capture` writes; images load from Vercel Blob.
 
 const CARD_W = 220;
 const CARD_H = 520;
@@ -62,9 +62,7 @@ const regionsLayer = (regions, scale) =>
 const response = await fetch("sitemap.json");
 const DATA = await response.json();
 const image = (png) => `${DATA.imageBase}/small/${png}.png`;
-document.title = `pixy-mood-tracker sitemap ${DATA.sha.slice(0, 7)}`;
-$("commit").textContent =
-  `${DATA.sha.slice(0, 7)}  ${DATA.date.slice(0, 10)}  ${DATA.subject}`;
+$("commit").textContent = `native ${DATA.nativeFingerprint.slice(0, 8)}`;
 const { screens } = DATA;
 const byId = new Map(screens.map((screen) => [screen.id, screen]));
 const children = new Map(screens.map((screen) => [screen.id, []]));
@@ -479,16 +477,18 @@ document.addEventListener("keydown", (event) => {
 });
 window.addEventListener("resize", renderDetail);
 
-const { summary, profile } = DATA;
+const { profile } = DATA;
+let failed = 0;
+for (const screen of screens) {
+  for (const state of screen.states) {
+    failed += Object.keys(state.errors).length > 0 ? 1 : 0;
+  }
+}
 $("foot").replaceChildren(
-  el("span", { text: `${DATA.sha.slice(0, 12)}  ${DATA.subject}` }),
   el("span", {
     text: `${profile.model}, iOS ${profile.runtime.version} (${profile.runtime.build}), ${profile.locale}, ${profile.timeZone}, ${profile.clockStart}`,
   }),
-  el("span", {
-    text: `captured ${summary.captured}, cached ${summary.cached}, failed ${summary.failed}`,
-  }),
-  el("span", { text: DATA.isDeployable ? "" : "not from origin/main" })
+  el("span", { text: failed > 0 ? `${failed} states failed` : "" })
 );
 
 readHash();
