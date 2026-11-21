@@ -29,7 +29,7 @@ import { addFakeContacts, removeFakeContacts } from "@/dev/fake-contacts";
 import { setPeopleSourcesOverride } from "@/features/people";
 import { setHealthSourceOverride } from "@/features/health";
 import { fakeHealthSource } from "@/dev/fake-health-source";
-import { isOverride, setOverride } from "@/state/feature-flags/overrides";
+import { isOverride, setOverrides } from "@/state/feature-flags/overrides";
 import { FEATURE_FLAGS, isFeatureFlag } from "@/state/feature-flags/keys";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import { fakePhotoSource } from "@/dev/fake-photo-source";
@@ -284,7 +284,8 @@ export const DevFakeContactsLinkScreen = () => {
 
 /**
  * Target of `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`.
- * Sets the override until the app restarts, then opens the app.
+ * `key` also takes a comma-separated list. Sets the overrides until the app
+ * restarts, then opens the app.
  */
 export const DevFeatureFlagLinkScreen = () => {
   const router = useRouter();
@@ -295,15 +296,17 @@ export const DevFeatureFlagLinkScreen = () => {
     key: string;
     value: string;
   }>();
-  const isValid = isFeatureFlag(key) && isOverride(value);
+  const keys = (key ?? "").split(",");
+  const isValid = keys.every(isFeatureFlag) && isOverride(value);
   const isOnboarded = hasActionDone("onboarding");
 
   // Waits for settings: a cold start through the link has not read them yet.
   useEffect(() => {
-    if (!isFeatureFlag(key) || !isOverride(value) || !isSettingsReady) {
+    const flags = (key ?? "").split(",");
+    if (!flags.every(isFeatureFlag) || !isOverride(value) || !isSettingsReady) {
       return;
     }
-    setOverride({ key, value });
+    setOverrides({ keys: flags, value });
     router.dismissAll();
     router.replace(isOnboarded ? "/calendar" : "/onboarding");
   }, [key, value, isSettingsReady, isOnboarded, router]);

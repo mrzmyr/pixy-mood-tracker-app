@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>pixy-mood-tracker sitemap</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <div class="bar-commit mono">
+        <span class="bar-name">pixy-mood-tracker</span>
+        <span id="commit"></span>
+      </div>
+      <div class="segmented" role="group" aria-label="Feature flags">
+        <span class="segmented-label">Flags</span>
+        <button type="button" id="flags-off" aria-pressed="true">Off</button>
+        <button type="button" id="flags-on" aria-pressed="false">On</button>
+      </div>
+      <input
+        id="search"
+        type="search"
+        placeholder="Search screens"
+        aria-label="Search screens"
+        autocomplete="off"
+      />
+      <div class="bar-actions">
+        <button type="button" id="fit" title="Fit to window (0)">Fit</button>
+        <button type="button" id="fullscreen" title="Fullscreen (f)">
+          Fullscreen
+        </button>
+      </div>
+    </header>
+    <main id="viewport" aria-label="Sitemap canvas">
+      <div id="canvas"><svg id="lines" aria-hidden="true"></svg></div>
+    </main>
+    <section
+      id="detail"
+      hidden
+      aria-modal="true"
+      role="dialog"
+      aria-labelledby="detail-title"
+    >
+      <header class="detail-head">
+        <div>
+          <div id="detail-title" class="mono detail-title"></div>
+          <div id="detail-route" class="mono detail-route"></div>
+        </div>
+        <div id="detail-state" class="detail-state"></div>
+        <button type="button" id="detail-close" aria-label="Close (Esc)">
+          Close
+        </button>
+      </header>
+      <div class="detail-body">
+        <button
+          type="button"
+          class="pager"
+          id="prev"
+          aria-label="Previous state (←)"
+        >
+          ←
+        </button>
+        <figure class="detail-shot" id="detail-shot"></figure>
+        <button
+          type="button"
+          class="pager"
+          id="next"
+          aria-label="Next state (→)"
+        >
+          →
+        </button>
+        <aside class="detail-side">
+          <div class="side-title">Flagged UI</div>
+          <ol id="detail-flagged" class="mono"></ol>
+          <div id="detail-errors" class="mono"></div>
+        </aside>
+      </div>
+      <nav id="strip" class="strip" aria-label="States"></nav>
+    </section>
+    <footer class="foot mono" id="foot"></footer>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
