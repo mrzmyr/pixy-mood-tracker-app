@@ -15,9 +15,17 @@ import {
   readNativeFingerprint,
   readSource,
 } from "./inputs.ts";
-import { passId, stateKey } from "./manifest.ts";
+import { passId, stateKey, variantsOf } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
-import { DEVICE_PROFILE, SCHEMA_VERSION } from "./profile.ts";
+import {
+  ANDROID_PROFILE,
+  DEVICE_PROFILE,
+  SCHEMA_VERSION,
+  SITE_IMAGE_SCALE,
+  VARIANTS,
+  variantId,
+} from "./profile.ts";
+import type { Platform, Variant } from "./profile.ts";
 import { SCREENS } from "./states.ts";
 import type { TreeNode } from "./tree.ts";
 
@@ -30,10 +38,10 @@ export interface CachedCapture {
   pngHash: string;
   tree: TreeNode[];
   ms: number;
-  host: { arch: string; runtime: string };
+  host: { arch: string; runtime: string; platform?: Platform };
 }
 
-/** Flagged element in the flags-on screenshot, rect in points. */
+/** Flagged element in the flags-on screenshot, rect in tree units. */
 export interface FlaggedRegion {
   id: string;
   label: string;
@@ -48,16 +56,23 @@ export interface PassResult {
   pngHash: string;
 }
 
-/** One state. A null pass was skipped or failed; see errors. */
+/** One state in one variant. A null pass was skipped or failed; see errors. */
+export interface VariantResult {
+  off: PassResult | null;
+  on: PassResult | null;
+  /** Pass id to `status: message` of a failed capture. */
+  errors: Record<string, string>;
+}
+
+/** One state in every variant of its screen. */
 export interface StateResult {
   id: string;
   title: string;
   route: string;
-  off: PassResult | null;
-  on: PassResult | null;
-  flagged: FlaggedRegion[];
-  /** Pass id to `status: message` of a failed capture. */
-  errors: Record<string, string>;
+  /** Key: variant id, for example `android-dark`. */
+  variants: Record<string, VariantResult>;
+  /** Found in the light variant of each platform; dark shows the same UI. */
+  flagged: Partial<Record<Platform, FlaggedRegion[]>>;
 }
 
 /** One screen card. */
@@ -69,6 +84,7 @@ export interface ScreenResult {
   isFlagOnly: boolean;
   requires: FeatureFlag[];
   hiddenBy: FeatureFlag[];
+  platforms: Platform[];
   states: StateResult[];
 }
 
@@ -76,15 +92,25 @@ export interface ScreenResult {
 export interface SiteData {
   schema: number;
   nativeFingerprint: string;
-  profile: typeof DEVICE_PROFILE;
+  profiles: typeof PROFILES;
+  /** Variant ids in site order. */
+  variants: string[];
+  /** Site image px per tree rect unit, per platform. */
+  rectScale: Record<Platform, number>;
   flags: typeof FEATURE_FLAG_DETAILS;
   /** Blob origin; images are `<imageBase>/small/<png hash>.png`. */
   imageBase: string;
   screens: ScreenResult[];
 }
 
-/** Committed sitemap.json, or null before the first capture. */
-export const readSite = () => readJson<SiteData>(DATA_FILE);
+/**
+ * Committed sitemap.json, or null before the first capture. A file from
+ * before variants reads as null, so every state captures again.
+ */
+export const readSite = () => {
+  const data = readJson<SiteData>(DATA_FILE);
+  return Array.isArray(data?.variants) ? data : null;
+};
 
 /** Stable key order and indent, so a rerun with fresh states writes the same bytes. */
 export const writeSite = (data: SiteData) => {
@@ -106,6 +132,30 @@ export const screenMeta = (screen: ScreenSpec) => ({
   isFlagOnly: (screen.requires ?? []).length > 0,
   requires: screen.requires ?? [],
   hiddenBy: screen.hiddenBy ?? [],
+  platforms: [
+    ...new Set(variantsOf(screen).map((variant) => variant.platform)),
+  ],
+});
+
+const PROFILES = { ios: DEVICE_PROFILE, android: ANDROID_PROFILE };
+
+/**
+ * Tree rects: iOS in points (3 px each), Android in pixels. Site images are
+ * screenshots divided by SITE_IMAGE_SCALE.
+ */
+const RECT_SCALE: Record<Platform, number> = {
+  ios: 3 / SITE_IMAGE_SCALE,
+  android: 1 / SITE_IMAGE_SCALE,
+};
+
+/** Fields every sitemap.json write and check agree on. */
+export const siteHeader = (nativeFingerprint: string) => ({
+  schema: SCHEMA_VERSION,
+  nativeFingerprint,
+  profiles: PROFILES,
+  variants: VARIANTS.map(variantId),
+  rectScale: RECT_SCALE,
+  flags: FEATURE_FLAG_DETAILS,
 });
 
 /** PNG hashes the site shows; the site loads `small/<hash>.png` for each. */
@@ -113,8 +163,10 @@ export const shownPngs = (screens: ScreenResult[]) =>
   new Set(
     screens.flatMap((screen) =>
       screen.states.flatMap((state) =>
-        [state.off?.pngHash, state.on?.pngHash].filter((hash): hash is string =>
-          Boolean(hash)
+        Object.values(state.variants).flatMap((result) =>
+          [result.off?.pngHash, result.on?.pngHash].filter(
+            (hash): hash is string => Boolean(hash)
+          )
         )
       )
     )
@@ -131,21 +183,23 @@ export const staleReason = (
   hash: Hasher,
   screen: ScreenSpec,
   state: StateSpec,
-  result: StateResult | undefined
+  variant: Variant,
+  stateResult: StateResult | undefined
 ): string | null => {
-  if (!result) {
+  const result = stateResult?.variants[variantId(variant)];
+  if (!stateResult || !result) {
     return "not captured";
   }
   const errors = Object.entries(result.errors);
   if (errors.length > 0) {
     return `failed ${errors.map(([pass, error]) => `${pass}: ${error}`).join("; ")}`;
   }
-  if (result.title !== state.title || result.route !== screen.route) {
+  if (stateResult.title !== state.title || stateResult.route !== screen.route) {
     return "title or route changed";
   }
   for (const pass of [{ kind: "off" }, { kind: "on" }] as const) {
     const expected = passesOf(screen).some((item) => item.kind === pass.kind)
-      ? hash(screen, state, pass)
+      ? hash(screen, state, pass, variant)
       : null;
     const actual = result[pass.kind]?.inputHash ?? null;
     if (expected !== actual) {
@@ -215,19 +269,18 @@ export const checkSite = async () => {
   }
   const hash = createInputHasher({ source: readSource(), nativeFingerprint });
   const problems: string[] = [];
-  if (site.schema !== SCHEMA_VERSION) {
-    problems.push(`schema ${site.schema}, expected ${SCHEMA_VERSION}`);
-  }
-  if (site.nativeFingerprint !== nativeFingerprint) {
-    problems.push(
-      `native fingerprint ${site.nativeFingerprint.slice(0, 8)}, checkout ${nativeFingerprint.slice(0, 8)}`
-    );
-  }
-  if (JSON.stringify(site.profile) !== JSON.stringify(DEVICE_PROFILE)) {
-    problems.push("device profile changed");
-  }
-  if (JSON.stringify(site.flags) !== JSON.stringify(FEATURE_FLAG_DETAILS)) {
-    problems.push("feature flags changed");
+  const header = siteHeader(nativeFingerprint);
+  for (const key of [
+    "schema",
+    "nativeFingerprint",
+    "profiles",
+    "variants",
+    "rectScale",
+    "flags",
+  ] as const) {
+    if (JSON.stringify(site[key]) !== JSON.stringify(header[key])) {
+      problems.push(`${key} changed`);
+    }
   }
   const cards = JSON.stringify(
     site.screens.map(({ states: _states, ...meta }) => meta)
@@ -235,10 +288,14 @@ export const checkSite = async () => {
   if (cards !== JSON.stringify(SCREENS.map(screenMeta))) {
     problems.push("screen list changed in scripts/sitemap/states.ts");
   }
-  const stale = pairStates(site).flatMap(({ screen, state, result }) => {
-    const reason = staleReason(hash, screen, state, result);
-    return reason ? [`${stateKey(screen, state)}: ${reason}`] : [];
-  });
+  const stale = pairStates(site).flatMap(({ screen, state, result }) =>
+    variantsOf(screen).flatMap((variant) => {
+      const reason = staleReason(hash, screen, state, variant, result);
+      return reason
+        ? [`${stateKey(screen, state)} ${variantId(variant)}: ${reason}`]
+        : [];
+    })
+  );
   const missing = stale.length === 0 ? await missingImages(site) : [];
   for (const line of [...problems, ...stale]) {
     process.stdout.write(`stale    ${line}\n`);
@@ -248,19 +305,22 @@ export const checkSite = async () => {
       `missing  ${missing.length} images, e.g. small/${missing[0]}.png\n`
     );
   }
-  const states = pairStates(site).length;
+  const states = pairStates(site).reduce(
+    (count, { screen }) => count + variantsOf(screen).length,
+    0
+  );
   process.stdout.write(
-    `summary  states=${states} stale=${stale.length} problems=${problems.length} missing-images=${missing.length}\n`
+    `summary  captures=${states} stale=${stale.length} problems=${problems.length} missing-images=${missing.length}\n`
   );
   if (problems.length + stale.length + missing.length > 0) {
     throw new CliError({
       status: "sitemap_stale",
       message: "apps/sitemap/sitemap.json does not show this checkout",
-      why: `${stale.length} of ${states} states stale, ${problems.length} other changes, ${missing.length} images missing in Blob.`,
+      why: `${stale.length} of ${states} state variants stale, ${problems.length} other changes, ${missing.length} images missing in Blob.`,
       fix: CHECK_FIX,
     });
   }
-  note(`Sitemap fresh: ${states} states`);
+  note(`Sitemap fresh: ${states} state variants`);
 };
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -287,7 +347,10 @@ export const pruneBlobs = async (days: number) => {
   }
   for (const screen of site.screens) {
     for (const state of screen.states) {
-      for (const pass of [state.off, state.on]) {
+      for (const pass of Object.values(state.variants).flatMap((result) => [
+        result.off,
+        result.on,
+      ])) {
         const blob = pass && remote.get(`states/${pass.inputHash}.json`);
         if (blob) {
           keep.add(blob.pathname);

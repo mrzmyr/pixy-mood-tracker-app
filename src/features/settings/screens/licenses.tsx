@@ -105,6 +105,7 @@ const LicensesContent = ({ onRetry }: { onRetry: () => void }) => {
         contentContainerStyle={{ padding: 16, paddingBottom }}
         data={state.slices}
         initialNumToRender={4}
+        testID="licenses-list"
         renderItem={({ item }: { item: Item }) => (
           <Text
             key={item.key}

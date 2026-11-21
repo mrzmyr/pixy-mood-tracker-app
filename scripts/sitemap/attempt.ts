@@ -3,8 +3,8 @@
 // a change here captures every state again.
 import { setTimeout as sleep } from "node:timers/promises";
 
-import { CaptureError, PREVIEW } from "./device.ts";
-import type { Driver } from "./device.ts";
+import { CaptureError, PREVIEW } from "./driver.ts";
+import type { Driver } from "./driver.ts";
 import { OVERRIDABLE_FLAGS } from "./flags.ts";
 import { passFlags } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
@@ -38,7 +38,7 @@ const settle = async (driver: Driver, file: string) => {
     "settle_timeout",
     "Screen kept changing",
     "30 screenshots 300 ms apart all differed. An animation or timer runs.",
-    "Gate the loop on `useReducedMotion()`: capture turns iOS Reduce Motion on. Or pick a still state."
+    "Gate the loop on `useReducedMotion()`: capture turns reduced motion on. Or pick a still state."
   );
 };
 

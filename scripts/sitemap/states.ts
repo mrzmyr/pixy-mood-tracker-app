@@ -13,6 +13,8 @@ const TODAY = "2026-03-18";
 const YEAR_NEWEST_LOG = "b4e69720-ca77-5f71-9788-e735d10406db";
 const WORK_TAG = "ad3d979b-4bf1-5bd8-8fcf-407b2606649c";
 const PERSON_SAM = "7f1d6a3e-0001-4a3e-8f6e-0f0000000001";
+/** Entry of today with three photos in the `timeline` fixture. */
+const TIMELINE_PHOTO_ENTRY = "7e1a0000-0000-4000-8000-000000000002";
 
 const PERSONAS = [
   "lea",
@@ -31,6 +33,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Calendar",
     route: "/calendar",
     parent: null,
+    userData: true,
     states: [
       {
         id: "year",
@@ -57,6 +60,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Onboarding",
     route: "/onboarding",
     parent: "calendar",
+    userData: false,
     states: [
       {
         id: "welcome",
@@ -71,6 +75,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Day",
     route: `/days/${TODAY}`,
     parent: "calendar",
+    userData: true,
     states: [
       {
         id: "year",
@@ -97,6 +102,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Edit entry",
     route: `/logs/${YEAR_NEWEST_LOG}/edit`,
     parent: "day",
+    userData: false,
     states: [
       {
         id: "rating",
@@ -111,6 +117,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "New entry",
     route: `/logs/create/${encodeURIComponent("2026-03-18T08:41:00.000Z")}`,
     parent: "calendar",
+    userData: false,
     states: [
       {
         id: "rating",
@@ -131,6 +138,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Request a word",
     route: "/request?kind=emotion",
     parent: "entry-create",
+    userData: false,
     states: [
       {
         id: "emotion",
@@ -145,6 +153,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Quick check-in",
     route: "/check-in/new",
     parent: "calendar",
+    userData: false,
     requires: ["quick-check-in"],
     states: [
       {
@@ -160,6 +169,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Statistics",
     route: "/statistics",
     parent: "calendar",
+    userData: true,
     hiddenBy: ["recaps"],
     states: [
       {
@@ -174,6 +184,12 @@ export const SCREENS: ScreenSpec[] = [
         fixture: "persona-mia",
         wait: 'text="Highlights"',
       },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
+        wait: 'text="Highlights"',
+      },
     ],
   },
   {
@@ -181,12 +197,19 @@ export const SCREENS: ScreenSpec[] = [
     title: "Highlights",
     route: "/statistics/highlights",
     parent: "statistics",
+    userData: true,
     hiddenBy: ["recaps"],
     states: [
       {
         id: "year",
         title: "Last 2 weeks",
         fixture: "year",
+        wait: 'text="Last 2 weeks"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
         wait: 'text="Last 2 weeks"',
       },
     ],
@@ -196,12 +219,19 @@ export const SCREENS: ScreenSpec[] = [
     title: "Month report",
     route: "/statistics/month/2026-03-01",
     parent: "statistics",
+    userData: true,
     hiddenBy: ["recaps"],
     states: [
       {
         id: "year",
         title: "March 2026",
         fixture: "year",
+        wait: 'text="Month Report"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
         wait: 'text="Month Report"',
       },
     ],
@@ -211,12 +241,19 @@ export const SCREENS: ScreenSpec[] = [
     title: "Year report",
     route: "/statistics/year/2026-01-01",
     parent: "statistics",
+    userData: true,
     hiddenBy: ["recaps"],
     states: [
       {
         id: "year",
         title: "2026",
         fixture: "year",
+        wait: 'text="Year Report"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
         wait: 'text="Year Report"',
       },
     ],
@@ -226,6 +263,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Month recap",
     route: "/recaps/month/2026-03-01",
     parent: "calendar",
+    userData: true,
     requires: ["recaps"],
     states: [
       {
@@ -240,6 +278,12 @@ export const SCREENS: ScreenSpec[] = [
         fixture: "recap-moments",
         wait: 'id="recaps-period-kind"',
       },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
+        wait: 'id="recaps-empty"',
+      },
     ],
   },
   {
@@ -247,6 +291,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Year recap",
     route: "/recaps/year/2026-01-01",
     parent: "recaps-month",
+    userData: true,
     requires: ["recaps"],
     states: [
       {
@@ -255,6 +300,12 @@ export const SCREENS: ScreenSpec[] = [
         fixture: "year",
         wait: 'id="recaps-period-kind"',
       },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
+        wait: 'id="recaps-empty"',
+      },
     ],
   },
   {
@@ -262,11 +313,18 @@ export const SCREENS: ScreenSpec[] = [
     title: "Tags",
     route: "/tags",
     parent: "calendar",
+    userData: true,
     states: [
       {
         id: "year",
         title: "Tags",
         fixture: "year",
+        wait: 'id="tag-categories-link"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
         wait: 'id="tag-categories-link"',
       },
     ],
@@ -276,6 +334,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "New tag",
     route: "/tags/create",
     parent: "tags",
+    userData: false,
     states: [
       {
         id: "empty",
@@ -290,6 +349,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Edit tag",
     route: `/tags/${WORK_TAG}`,
     parent: "tags",
+    userData: false,
     states: [
       { id: "work", title: "Work", fixture: "year", wait: 'id="tag-name"' },
     ],
@@ -299,11 +359,18 @@ export const SCREENS: ScreenSpec[] = [
     title: "Tag categories",
     route: "/tags/categories",
     parent: "tags",
+    userData: true,
     states: [
       {
         id: "hobbies",
         title: "With Hobbies",
         fixture: "tag-categories",
+        wait: 'id="tag-categories-close"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
         wait: 'id="tag-categories-close"',
       },
     ],
@@ -313,6 +380,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Edit category",
     route: "/tags/categories/fixture-hobbies",
     parent: "tag-categories",
+    userData: false,
     states: [
       {
         id: "hobbies",
@@ -327,6 +395,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Settings",
     route: "/settings",
     parent: "calendar",
+    userData: false,
     states: [
       { id: "year", title: "Settings", fixture: "year", wait: 'id="data"' },
     ],
@@ -336,6 +405,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Profile",
     route: "/profile",
     parent: "settings",
+    userData: false,
     states: [
       {
         id: "klara",
@@ -350,6 +420,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Check-in steps",
     route: "/settings/steps",
     parent: "settings",
+    userData: false,
     states: [
       { id: "year", title: "Steps", fixture: "year", wait: 'id="step-tags"' },
     ],
@@ -359,11 +430,18 @@ export const SCREENS: ScreenSpec[] = [
     title: "Tags step",
     route: "/settings/steps/tags",
     parent: "steps",
+    userData: true,
     states: [
       {
         id: "year",
         title: "Tags step",
         fixture: "year",
+        wait: 'id="step-tags-enabled"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
         wait: 'id="step-tags-enabled"',
       },
     ],
@@ -373,11 +451,18 @@ export const SCREENS: ScreenSpec[] = [
     title: "Tag categories",
     route: "/settings/steps/tags/categories",
     parent: "steps-tags",
+    userData: true,
     states: [
       {
         id: "hobbies",
         title: "With Hobbies",
         fixture: "tag-categories",
+        wait: 'id="tag-category-row-general"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
         wait: 'id="tag-category-row-general"',
       },
     ],
@@ -387,6 +472,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Sleep step",
     route: "/settings/steps/sleep",
     parent: "steps",
+    userData: false,
     states: [
       {
         id: "year",
@@ -401,12 +487,19 @@ export const SCREENS: ScreenSpec[] = [
     title: "People step",
     route: "/settings/steps/people",
     parent: "steps",
+    userData: true,
     requires: ["people"],
     states: [
       {
         id: "people",
         title: "Three people",
         fixture: "people",
+        wait: 'id="step-people-enabled"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
         wait: 'id="step-people-enabled"',
       },
     ],
@@ -416,6 +509,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "New person",
     route: "/people/create",
     parent: "steps-people",
+    userData: false,
     requires: ["people"],
     states: [
       {
@@ -431,6 +525,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Edit person",
     route: `/people/${PERSON_SAM}`,
     parent: "steps-people",
+    userData: false,
     requires: ["people"],
     states: [
       {
@@ -446,6 +541,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Reminder",
     route: "/settings/reminder",
     parent: "settings",
+    userData: false,
     states: [
       {
         id: "year",
@@ -460,6 +556,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Colors",
     route: "/settings/colors",
     parent: "settings",
+    userData: false,
     states: [
       {
         id: "year",
@@ -474,6 +571,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "App icon",
     route: "/settings/app-icon",
     parent: "settings",
+    userData: false,
     states: [
       {
         id: "default",
@@ -488,6 +586,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "App Lock",
     route: "/settings/app-lock",
     parent: "settings",
+    userData: false,
     requires: ["app-lock"],
     states: [
       {
@@ -503,6 +602,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Data",
     route: "/settings/data",
     parent: "settings",
+    userData: false,
     states: [
       { id: "year", title: "Data", fixture: "year", wait: 'id="export-json"' },
     ],
@@ -512,6 +612,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Privacy",
     route: "/settings/privacy",
     parent: "settings",
+    userData: false,
     states: [
       {
         id: "year",
@@ -526,6 +627,7 @@ export const SCREENS: ScreenSpec[] = [
     title: "Feedback",
     route: "/feedback",
     parent: "settings",
+    userData: false,
     states: [
       {
         id: "issue",
@@ -535,4 +637,177 @@ export const SCREENS: ScreenSpec[] = [
       },
     ],
   },
+  {
+    id: "orbit",
+    title: "Orbit",
+    route: "/settings/orbit",
+    parent: "settings",
+    userData: true,
+    requires: ["orbit", "people"],
+    states: [
+      {
+        id: "people",
+        title: "People of the last 4 weeks",
+        fixture: "people",
+        wait: 'id="orbit-screen"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
+        wait: 'id="orbit-empty"',
+      },
+    ],
+  },
+  {
+    id: "people-archive",
+    title: "Archived people",
+    route: "/settings/steps/people/archive",
+    parent: "steps-people",
+    userData: true,
+    requires: ["people"],
+    states: [
+      {
+        id: "people",
+        title: "One archived person",
+        fixture: "people",
+        wait: 'id="people-archive"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
+        wait: 'id="people-archive"',
+      },
+    ],
+  },
+  {
+    id: "tags-archive",
+    title: "Archived tags",
+    route: "/settings/steps/tags/archive",
+    parent: "steps-tags",
+    userData: true,
+    states: [
+      {
+        id: "chaos",
+        title: "Archived tags",
+        fixture: "chaos",
+        wait: 'id="tags-archive"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
+        wait: 'id="tags-archive"',
+      },
+    ],
+  },
+  {
+    id: "photo",
+    title: "Photo",
+    route: `/photos/${TIMELINE_PHOTO_ENTRY}?index=0`,
+    parent: "day",
+    userData: false,
+    states: [
+      {
+        id: "timeline",
+        title: "First photo of today",
+        fixture: "timeline",
+        wait: 'id="photo-viewer"',
+      },
+    ],
+  },
+  {
+    id: "recap-story",
+    title: "Recap story",
+    route: "/recaps/story/2026-02-01",
+    parent: "recaps-month",
+    userData: false,
+    requires: ["recaps"],
+    states: [
+      {
+        id: "february",
+        title: "February story",
+        fixture: "recap-story",
+        wait: 'id="recap-story-close"',
+      },
+    ],
+  },
+  {
+    id: "licenses",
+    title: "Licenses",
+    route: "/settings/licenses",
+    parent: "settings",
+    userData: false,
+    states: [
+      {
+        id: "year",
+        title: "Open source licenses",
+        fixture: "year",
+        wait: 'id="licenses-list"',
+      },
+    ],
+  },
+  {
+    id: "development-tools",
+    title: "Development tools",
+    route: "/settings/development-tools",
+    parent: "settings",
+    userData: true,
+    states: [
+      {
+        id: "year",
+        title: "One year of entries",
+        fixture: "year",
+        wait: 'id="widget-sync-status"',
+      },
+      {
+        id: "empty",
+        title: "No data",
+        fixture: "empty",
+        wait: 'id="widget-sync-status"',
+      },
+    ],
+  },
+  {
+    id: "feature-flags",
+    title: "Feature flags",
+    route: "/settings/feature-flags",
+    parent: "settings",
+    userData: false,
+    states: [
+      {
+        id: "year",
+        title: "Feature flags",
+        fixture: "year",
+        wait: 'id="feature-flags-on-count"',
+      },
+    ],
+  },
 ];
+
+/**
+ * Route files under src/app the sitemap does not capture, with the reason.
+ * states.test.ts fails on a route file in neither list.
+ */
+export const NOT_CAPTURED = {
+  "src/app/(app)/index.tsx": "Redirects to /calendar.",
+  "src/app/(app)/dev/fixture.tsx":
+    "Deep link handler: loads a fixture, then leaves. Capture uses it.",
+  "src/app/(app)/dev/feature-flag.tsx":
+    "Deep link handler: sets flags, then leaves. Capture uses it.",
+  "src/app/(app)/dev/fake-contacts.tsx":
+    "Deep link handler: seeds device contacts for tests.",
+  "src/app/(app)/dev/fake-files.tsx":
+    "Deep link handler: seeds files for tests.",
+  "src/app/(app)/dev/fixtures.tsx": "Developer fixture picker, not product UI.",
+  "src/app/(app)/dev/playground/index.tsx": "Developer playground.",
+  "src/app/(app)/dev/playground/design-system.tsx": "Developer playground.",
+  "src/app/(app)/dev/playground/recap-story.tsx": "Developer playground.",
+  "src/app/(app)/logs/voice.tsx":
+    "Starts listening on open; simulator audio crashes it. Needs a phone.",
+  "src/app/(app)/people/import.tsx":
+    "Reads device contacts; needs the contacts permission and device data.",
+  "src/app/(app)/tags/icon.tsx":
+    "Opens only from a tap in tag create; a deep link alone goes back.",
+} satisfies Record<string, string>;

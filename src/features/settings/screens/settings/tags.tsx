@@ -180,7 +180,10 @@ export const SettingsTagsArchive = () => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
+    <View
+      style={{ flex: 1, backgroundColor: colors.background }}
+      testID="tags-archive"
+    >
       <TagScrollView style={{ flex: 1 }}>
         <TagList tags={_tags} emptyMessage={t("tags_archive_empty")} />
         {Platform.OS !== "ios" && (

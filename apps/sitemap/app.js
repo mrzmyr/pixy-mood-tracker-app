@@ -5,9 +5,6 @@ const CARD_W = 220;
 const CARD_H = 520;
 const GAP_X = 40;
 const GAP_Y = 90;
-const SHOT_W = 200;
-const POINTS_W = 402;
-const POINTS_H = 874;
 
 const $ = (id) => document.querySelector(`#${id}`);
 
@@ -76,7 +73,21 @@ const roots = screens.filter(
 );
 
 const view = { x: 40, y: 40, scale: 0.6 };
-const ui = { flags: "off", screen: null, state: 0, query: "" };
+const ui = {
+  flags: "off",
+  platform: "ios",
+  theme: "light",
+  screen: null,
+  state: 0,
+  query: "",
+};
+
+/** Toggle groups: ui key to button id prefix and values. */
+const TOGGLES = {
+  platform: ["ios", "android"],
+  theme: ["light", "dark"],
+  flags: ["off", "on"],
+};
 const drag = { start: null, isMoved: false };
 
 const canvas = $("canvas");
@@ -105,32 +116,51 @@ for (const root of roots) {
   place(root.id, 0);
 }
 
-/** Image and flagged regions of one state for the current flags mode. */
-const variant = (state) =>
-  ui.flags === "on"
-    ? { png: state.on && state.on.pngHash, regions: state.flagged }
-    : { png: state.off && state.off.pngHash, regions: [] };
+/** Image and flagged regions of one state for the current platform, theme, and flags. */
+const variant = (state) => {
+  const result = state.variants[`${ui.platform}-${ui.theme}`];
+  const pass = result && (ui.flags === "on" ? result.on : result.off);
+  return {
+    png: pass && pass.pngHash,
+    regions: ui.flags === "on" ? state.flagged[ui.platform] || [] : [],
+    errors: result ? result.errors : {},
+  };
+};
 
 const emptyReason = (screen, state) => {
+  if (!screen.platforms.includes(ui.platform)) {
+    return `Not on ${ui.platform === "ios" ? "iOS" : "Android"}.`;
+  }
   if (screen.isFlagOnly && ui.flags === "off") {
     return `Flag-only: ${screen.requires.join(", ")}. Turn flags on.`;
   }
   if (screen.hiddenBy.length > 0 && ui.flags === "on") {
     return `Replaced when ${screen.hiddenBy.join(", ")} is on. Turn flags off.`;
   }
-  return Object.values(state.errors)[0] || "Not captured";
+  return Object.values(variant(state).errors)[0] || "Not captured";
 };
 
-const shot = (screen, state, scale, container) => {
+const shot = (screen, state, container) => {
   const { png, regions } = variant(state);
   if (png) {
-    container.replaceChildren(
-      el("img", {
-        src: image(png),
-        alt: `${screen.title}, ${state.title}`,
-      }),
-      ...regionsLayer(regions, scale)
-    );
+    const img = el("img", {
+      src: image(png),
+      alt: `${screen.title}, ${state.title}`,
+    });
+    container.replaceChildren(img);
+    // Rects are in tree units; the image shows them at its own scale.
+    const draw = () =>
+      container.append(
+        ...regionsLayer(
+          regions,
+          (img.clientWidth / img.naturalWidth) * DATA.rectScale[ui.platform]
+        )
+      );
+    if (img.complete && img.naturalWidth > 0) {
+      draw();
+    } else {
+      img.addEventListener("load", draw, { once: true });
+    }
   } else {
     container.replaceChildren(
       el("div", { class: "card-empty", text: emptyReason(screen, state) })
@@ -138,15 +168,17 @@ const shot = (screen, state, scale, container) => {
   }
 };
 
-// Deep link: #screen=<id>&state=<id>&flags=on
+// Deep link: #screen=<id>&state=<id>&platform=android&theme=dark&flags=on
 const writeHash = () => {
   const params = new URLSearchParams();
   if (ui.screen) {
     params.set("screen", ui.screen);
     params.set("state", byId.get(ui.screen).states[ui.state].id);
   }
-  if (ui.flags === "on") {
-    params.set("flags", "on");
+  for (const [key, values] of Object.entries(TOGGLES)) {
+    if (ui[key] !== values[0]) {
+      params.set(key, ui[key]);
+    }
   }
   const hash = params.toString();
   history.replaceState(
@@ -158,7 +190,9 @@ const writeHash = () => {
 
 const readHash = () => {
   const params = new URLSearchParams(location.hash.slice(1));
-  ui.flags = params.get("flags") === "on" ? "on" : "off";
+  for (const [key, values] of Object.entries(TOGGLES)) {
+    ui[key] = values.includes(params.get(key)) ? params.get(key) : values[0];
+  }
   const screen = byId.get(params.get("screen") || "");
   ui.screen = screen ? screen.id : null;
   ui.state = screen
@@ -181,12 +215,7 @@ const renderDetail = () => {
   $("detail-state").textContent =
     `${state.title}  ·  ${ui.state + 1} / ${screen.states.length}${screen.isFlagOnly ? `  ·  flag-only: ${screen.requires.join(", ")}` : ""}`;
   const figure = $("detail-shot");
-  shot(
-    screen,
-    state,
-    (figure.getBoundingClientRect().height || POINTS_H) / POINTS_H,
-    figure
-  );
+  shot(screen, state, figure);
   $("prev").disabled = ui.state === 0;
   $("next").disabled = ui.state === screen.states.length - 1;
   const { regions } = variant(state);
@@ -201,7 +230,7 @@ const renderDetail = () => {
       : [el("li", { text: "None on this state." })];
   }
   $("detail-flagged").replaceChildren(...items);
-  const errors = Object.entries(state.errors);
+  const errors = Object.entries(variant(state).errors);
   $("detail-errors").textContent = errors.length
     ? `Capture errors\n${errors.map(([pass, text]) => `${pass}: ${text}`).join("\n")}`
     : "";
@@ -279,12 +308,7 @@ const renderCards = () => {
       canvas.append(card);
       cards.set(screen.id, card);
     }
-    shot(
-      screen,
-      screen.states[0],
-      SHOT_W / POINTS_W,
-      card.querySelector(".card-shot")
-    );
+    shot(screen, screen.states[0], card.querySelector(".card-shot"));
   }
 };
 
@@ -342,10 +366,41 @@ const centerOn = (id) => {
   applyView();
 };
 
-const setFlags = (mode) => {
-  ui.flags = mode;
-  $("flags-off").setAttribute("aria-pressed", String(mode === "off"));
-  $("flags-on").setAttribute("aria-pressed", String(mode === "on"));
+const renderFoot = () => {
+  const profile = DATA.profiles[ui.platform];
+  const device =
+    ui.platform === "ios"
+      ? `${profile.model}, iOS ${profile.runtime.version} (${profile.runtime.build})`
+      : `${profile.model}, ${profile.systemImage.package} r${profile.systemImage.revision}`;
+  let failed = 0;
+  for (const screen of screens) {
+    for (const state of screen.states) {
+      failed += Object.keys(variant(state).errors).length > 0 ? 1 : 0;
+    }
+  }
+  $("foot").replaceChildren(
+    el("span", {
+      text: `${device}, ${profile.locale}, ${profile.timeZone}, ${profile.clockStart}`,
+    }),
+    el("span", { text: failed > 0 ? `${failed} states failed` : "" })
+  );
+};
+
+const pressToggles = () => {
+  for (const [key, values] of Object.entries(TOGGLES)) {
+    for (const value of values) {
+      $(`${key}-${value}`).setAttribute(
+        "aria-pressed",
+        String(ui[key] === value)
+      );
+    }
+  }
+  renderFoot();
+};
+
+const setToggle = (key, value) => {
+  ui[key] = value;
+  pressToggles();
   renderCards();
   renderDetail();
   writeHash();
@@ -435,8 +490,11 @@ viewport.addEventListener(
 $("prev").addEventListener("click", () => step(-1));
 $("next").addEventListener("click", () => step(1));
 $("detail-close").addEventListener("click", closeDetail);
-$("flags-off").addEventListener("click", () => setFlags("off"));
-$("flags-on").addEventListener("click", () => setFlags("on"));
+for (const [key, values] of Object.entries(TOGGLES)) {
+  for (const value of values) {
+    $(`${key}-${value}`).addEventListener("click", () => setToggle(key, value));
+  }
+}
 search.addEventListener("input", runSearch);
 search.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
@@ -477,23 +535,8 @@ document.addEventListener("keydown", (event) => {
 });
 window.addEventListener("resize", renderDetail);
 
-const { profile } = DATA;
-let failed = 0;
-for (const screen of screens) {
-  for (const state of screen.states) {
-    failed += Object.keys(state.errors).length > 0 ? 1 : 0;
-  }
-}
-$("foot").replaceChildren(
-  el("span", {
-    text: `${profile.model}, iOS ${profile.runtime.version} (${profile.runtime.build}), ${profile.locale}, ${profile.timeZone}, ${profile.clockStart}`,
-  }),
-  el("span", { text: failed > 0 ? `${failed} states failed` : "" })
-);
-
 readHash();
-$("flags-off").setAttribute("aria-pressed", String(ui.flags === "off"));
-$("flags-on").setAttribute("aria-pressed", String(ui.flags === "on"));
+pressToggles();
 renderCards();
 renderLines();
 fit();

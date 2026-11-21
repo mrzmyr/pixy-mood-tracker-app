@@ -1,7 +1,11 @@
 // `bun sitemap`: screenshots of every screen and state, committed as
 // apps/sitemap/sitemap.json with the code they show. Code: scripts/sitemap.
 import { captureFor } from "../sitemap/capture.ts";
-import { CLOCK_BUDGET_SECONDS, DEVICE_PROFILE } from "../sitemap/profile.ts";
+import {
+  ANDROID_PROFILE,
+  CLOCK_BUDGET_SECONDS,
+  DEVICE_PROFILE,
+} from "../sitemap/profile.ts";
 import { checkSite, pruneBlobs } from "../sitemap/site.ts";
 import { defineCommand } from "./shared.ts";
 import type { Noun } from "./shared.ts";
@@ -18,8 +22,16 @@ export const SITEMAP: Noun = {
       summary:
         "Capture states whose inputs changed, upload to Blob, write sitemap.json.",
       usage:
-        "Usage: bun sitemap capture [--only=<screen|screen/state,...>] [--verify=<n>] [--allow-native-mismatch]",
+        "Usage: bun sitemap capture [--platform=<ios|android>] [--only=<screen|screen/state,...>] [--verify=<n>] [--allow-native-mismatch]",
       options: {
+        platform: {
+          value: "<ios|android>",
+          choices: ["ios", "android"],
+          description: [
+            "Capture one platform only, light and dark.",
+            "The other platform's stale states stay stale; check still fails.",
+          ],
+        },
         only: {
           value: "<ids>",
           description: [
@@ -46,21 +58,27 @@ export const SITEMAP: Noun = {
           title: "Requires",
           lines: [
             "BLOB_READ_WRITE_TOKEN: cache and images live in Vercel Blob.",
-            "A Mac with the pinned iOS runtime and a Release shell for the native fingerprint.",
+            "iOS: the pinned iOS runtime and a Release shell for the native fingerprint.",
+            `Android: ${ANDROID_PROFILE.systemImage.package} r${ANDROID_PROFILE.systemImage.revision}, JDK 17, Android SDK.`,
           ],
         },
         {
           title: "Behavior",
           lines: [
-            "Plan      Input hash per state and pass from the working tree. A state is fresh",
+            "Variants  ios-light, ios-dark, android-light, android-dark. Each is captured and checked.",
+            "Plan      Input hash per state, variant, and pass from the working tree. Fresh",
             "          when sitemap.json has the same hashes and Blob has its images. Nothing",
-            "          stale: rewrite sitemap.json and stop, no simulator.",
-            "Preflight One line per check: ram, disk, runtime, metro, native.",
-            "Build     `expo export` of the preview JS with EXPO_PUBLIC_SITEMAP_CAPTURE=1, put into",
-            "          the cached iOS Release shell. Frozen clock, seeded Math.random, no network,",
-            "          no keyboard, reduced motion, invisible probes. No Metro, no LogBox.",
-            `Device    ${model}, iOS ${runtime.version} (${runtime.build}), ${locale}, ${timeZone}, light,`,
+            "          stale: rewrite sitemap.json and stop, no device.",
+            "Preflight iOS: ram, disk, runtime, metro, native. Android: system image revision.",
+            "Build     Preview JS with EXPO_PUBLIC_SITEMAP_CAPTURE=1. iOS: `expo export` into the",
+            "          cached Release shell. Android: incremental Gradle release build in android/.",
+            "          Frozen clock, seeded Math.random, no network, no keyboard, reduced motion,",
+            "          invisible probes. No Metro, no LogBox.",
+            `Device    ${model}, iOS ${runtime.version} (${runtime.build}), ${locale}, ${timeZone},`,
             "          text size large, status bar 9:41.",
+            `          ${ANDROID_PROFILE.model} emulator, ${ANDROID_PROFILE.locale}, font scale ${ANDROID_PROFILE.fontScale},`,
+            "          animations off, demo status bar 09:41.",
+            "Appearance Light, then dark, per platform. Attribution runs on light only.",
             "Capture   Stale states only. Per state and pass: relaunch, fixture link, flag link,",
             "          check flag probes, route link, wait, settle, screenshot, accessibility tree.",
             "Passes    off: production default. on: every overridable flag. Flagged elements of",

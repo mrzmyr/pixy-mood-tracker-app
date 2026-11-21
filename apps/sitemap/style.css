@@ -1,8 +1,17 @@
 :root {
-  --line: 1px solid #000;
+  --fg: #000;
+  --bg: #fff;
+  --line: 1px solid var(--fg);
+  color-scheme: light dark;
   --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   --sans:
     -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #fff;
+    --bg: #000;
+  }
 }
 * {
   box-sizing: border-box;
@@ -11,8 +20,8 @@ html,
 body {
   margin: 0;
   height: 100%;
-  background: #fff;
-  color: #000;
+  background: var(--bg);
+  color: var(--fg);
   font: 13px/1.4 var(--sans);
 }
 body {
@@ -27,8 +36,8 @@ button,
 select,
 input {
   font: inherit;
-  color: #000;
-  background: #fff;
+  color: var(--fg);
+  background: var(--bg);
   border: var(--line);
   border-radius: 0;
   padding: 4px 10px;
@@ -37,13 +46,13 @@ button {
   cursor: pointer;
 }
 button:hover {
-  background: #000;
-  color: #fff;
+  background: var(--fg);
+  color: var(--bg);
 }
 button:focus-visible,
 select:focus-visible,
 input:focus-visible {
-  outline: 2px solid #000;
+  outline: 2px solid var(--fg);
   outline-offset: 2px;
 }
 .bar {
@@ -55,7 +64,7 @@ input:focus-visible {
   align-items: center;
   padding: 10px 16px;
   border-bottom: var(--line);
-  background: #fff;
+  background: var(--bg);
   flex-wrap: wrap;
 }
 .bar-commit {
@@ -83,8 +92,8 @@ input:focus-visible {
   border-left: 0;
 }
 .segmented button[aria-pressed="true"] {
-  background: #000;
-  color: #fff;
+  background: var(--fg);
+  color: var(--bg);
 }
 #search {
   width: 220px;
@@ -118,7 +127,7 @@ input:focus-visible {
 }
 #lines path {
   fill: none;
-  stroke: #000;
+  stroke: var(--fg);
   stroke-width: 1;
   shape-rendering: crispEdges;
   vector-effect: non-scaling-stroke;
@@ -128,13 +137,13 @@ input:focus-visible {
   width: 220px;
   padding: 0;
   text-align: left;
-  background: #fff;
+  background: var(--bg);
   border: var(--line);
   display: block;
 }
 .card:hover {
-  background: #fff;
-  color: #000;
+  background: var(--bg);
+  color: var(--fg);
 }
 .card.flag-only {
   border-style: dashed;
@@ -143,7 +152,7 @@ input:focus-visible {
   opacity: 0.2;
 }
 .card.match {
-  outline: 2px solid #000;
+  outline: 2px solid var(--fg);
   outline-offset: 4px;
 }
 .card-head {
@@ -175,10 +184,14 @@ input:focus-visible {
   border: var(--line);
   overflow: hidden;
 }
-.card-shot img,
-.detail-shot img {
+.card-shot img {
   display: block;
   width: 100%;
+  height: auto;
+}
+.detail-shot img {
+  display: block;
+  width: auto;
   height: 100%;
 }
 .card-empty {
@@ -201,7 +214,7 @@ input:focus-visible {
 }
 .region {
   position: absolute;
-  border: 1px dashed #000;
+  border: 1px dashed var(--fg);
   pointer-events: none;
 }
 .region-label {
@@ -209,8 +222,8 @@ input:focus-visible {
   top: -1px;
   left: -1px;
   transform: translateY(-100%);
-  background: #fff;
-  border: 1px dashed #000;
+  background: var(--bg);
+  border: 1px dashed var(--fg);
   font: 10px/1.2 var(--mono);
   padding: 1px 3px;
   white-space: nowrap;
@@ -219,7 +232,7 @@ input:focus-visible {
   position: fixed;
   inset: 0;
   z-index: 5;
-  background: #fff;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
 }
@@ -257,7 +270,8 @@ input:focus-visible {
   position: relative;
   margin: 0;
   height: min(874px, calc(100vh - 300px));
-  aspect-ratio: 402 / 874;
+  width: fit-content;
+  min-width: 200px;
   border: var(--line);
 }
 .detail-shot .region-label {
@@ -272,8 +286,8 @@ input:focus-visible {
 .pager:disabled {
   opacity: 0.2;
   cursor: default;
-  background: #fff;
-  color: #000;
+  background: var(--bg);
+  color: var(--fg);
 }
 .detail-side {
   align-self: stretch;
@@ -310,10 +324,10 @@ input:focus-visible {
   width: 64px;
   padding: 0;
   border: var(--line);
-  background: #fff;
+  background: var(--bg);
 }
 .thumb:hover {
-  background: #fff;
+  background: var(--bg);
 }
 .thumb img {
   display: block;
@@ -321,7 +335,7 @@ input:focus-visible {
   height: 135px;
 }
 .thumb[aria-current="true"] {
-  outline: 2px solid #000;
+  outline: 2px solid var(--fg);
   outline-offset: 2px;
 }
 .thumb-label {

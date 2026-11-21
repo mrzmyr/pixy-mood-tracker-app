@@ -1,4 +1,4 @@
-// Drives this checkout's simulator for one capture. Launch, links, and
+// Drives this checkout's iOS simulator for one capture. Launch, links, and
 // screenshots go through simctl, so the app runs with the fixed time zone
 // and locale. Waits, taps, and trees go through agent-device.
 import { execFileSync } from "node:child_process";
@@ -7,17 +7,15 @@ import os from "node:os";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
-import { APP_VARIANTS } from "../../app.config.ts";
 import { agentDevice } from "../cli/agent-device.ts";
 import { approveIosScheme } from "../cli/app-dev.ts";
 import type { Device } from "../cli/device.ts";
-import { CliError } from "../cli/shared.ts";
+import { PREVIEW } from "./driver.ts";
+import type { Driver } from "./driver.ts";
 import { DEVICE_PROFILE } from "./profile.ts";
+import type { Appearance } from "./profile.ts";
 import { readProbes } from "./tree.ts";
 import type { Probes, RawNode } from "./tree.ts";
-
-/** The capture app replaces the preview app; same bundle ID and scheme. */
-export const PREVIEW = APP_VARIANTS.preview;
 
 const simctl = (args: string[], env?: Record<string, string>) =>
   execFileSync("xcrun", ["simctl", ...args], {
@@ -35,30 +33,14 @@ const trySimctl = (args: string[]) => {
   }
 };
 
-/** Capture error: same four fields as every CLI error, plus a trap name. */
-export class CaptureError extends CliError {
-  /** Recoverable by a relaunch: the state runs once more. */
-  isRetryable: boolean;
-
-  constructor(
-    fields: { status: string; message: string; why: string; fix: string },
-    isRetryable = false
-  ) {
-    super(fields);
-    this.name = "CaptureError";
-    this.isRetryable = isRetryable;
-  }
-}
-
 /** Simulator session of one capture run. */
-export const createDriver = (device: Device, executable: string) => {
+export const createDriver = (device: Device, executable: string): Driver => {
   const deviceArgs = ["--platform", "ios", "--udid", device.id];
   let launchedAt = 0;
 
   /** Appearance, text size, status bar, and permissions. Same on every host. */
   const prepare = () => {
-    const { appearance, contentSize, statusBar } = DEVICE_PROFILE;
-    simctl(["ui", device.id, "appearance", appearance]);
+    const { contentSize, statusBar } = DEVICE_PROFILE;
     simctl(["ui", device.id, "content_size", contentSize]);
     simctl([
       "status_bar",
@@ -112,9 +94,14 @@ export const createDriver = (device: Device, executable: string) => {
     approveIosScheme(device.id, PREVIEW);
   };
 
-  /** Undo prepare's motion, transparency, and status bar changes. */
+  const setAppearance = (appearance: Appearance) => {
+    simctl(["ui", device.id, "appearance", appearance]);
+  };
+
+  /** Undo prepare's motion, transparency, status bar, and appearance changes. */
   const restore = () => {
     trySimctl(["status_bar", device.id, "clear"]);
+    trySimctl(["ui", device.id, "appearance", "light"]);
     for (const key of [
       "ReduceMotionEnabled",
       "EnhancedBackgroundContrastEnabled",
@@ -243,6 +230,7 @@ export const createDriver = (device: Device, executable: string) => {
   return {
     prepare,
     restore,
+    setAppearance,
     launch,
     pid,
     secondsSinceLaunch,
@@ -256,6 +244,3 @@ export const createDriver = (device: Device, executable: string) => {
     findCrashReport,
   };
 };
-
-/** Simulator session from {@link createDriver}. */
-export type Driver = ReturnType<typeof createDriver>;
