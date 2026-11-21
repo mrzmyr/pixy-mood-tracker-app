@@ -54,7 +54,10 @@ const devClientUrl = (metro: Metro) =>
 // iOS asks "Open in Pixy Dev?" before a link launches the app. Expo CLI
 // pre-approves the scheme in the simulator's Launch Services plist. Same here,
 // so the link opens the app without a tap.
-const approveIosScheme = (udid: string) => {
+const approveIosScheme = (
+  udid: string,
+  app: { scheme: string; appId: string } = DEV
+) => {
   const plist = path.join(
     os.homedir(),
     "Library/Developer/CoreSimulator/Devices",
@@ -69,14 +72,14 @@ const approveIosScheme = (udid: string) => {
           run("plutil", ["-convert", "json", "-o", "-", plist])
         ) as Record<string, string>)
       : {};
-    approvals[`com.apple.CoreSimulator.CoreSimulatorBridge-->${DEV.scheme}`] =
-      DEV.appId;
+    approvals[`com.apple.CoreSimulator.CoreSimulatorBridge-->${app.scheme}`] =
+      app.appId;
     fs.mkdirSync(path.dirname(plist), { recursive: true });
     fs.writeFileSync(json, JSON.stringify(approvals));
     run("plutil", ["-convert", "binary1", "-o", plist, json]);
   } catch (error) {
     note(
-      `note: could not pre-approve ${DEV.scheme} links: ${error instanceof Error ? describeError(error) : String(error)}. Tap "Open" in the simulator.`
+      `note: could not pre-approve ${app.scheme} links: ${error instanceof Error ? describeError(error) : String(error)}. Tap "Open" in the simulator.`
     );
   } finally {
     fs.rmSync(json, { force: true });
