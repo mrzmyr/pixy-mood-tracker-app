@@ -1,1506 +1,1883 @@
 {
-  "schema": 1,
-  "nativeFingerprint": "7de28d21e3422a456a2404323fe9801a86410069",
-  "profile": {
-    "model": "iPhone 17 Pro",
-    "runtime": {
-      "version": "26.4",
-      "build": "23E244"
-    },
-    "language": "en",
-    "locale": "en_US",
-    "timeZone": "Europe/Berlin",
-    "appearance": "light",
-    "contentSize": "large",
-    "clockStart": "2026-03-18T09:41:00+01:00",
-    "island": {
-      "x": 415,
-      "y": 42,
-      "width": 376,
-      "height": 110
-    },
-    "statusBar": {
-      "time": "9:41",
-      "dataNetwork": "wifi",
-      "wifiMode": "active",
-      "wifiBars": "3",
-      "cellularMode": "active",
-      "cellularBars": "4",
-      "batteryState": "charged",
-      "batteryLevel": "100",
-      "operatorName": ""
-    }
+ "schema": 1,
+ "nativeFingerprint": "7de28d21e3422a456a2404323fe9801a86410069",
+ "profile": {
+  "model": "iPhone 17 Pro",
+  "runtime": {
+   "version": "26.4",
+   "build": "23E244"
   },
-  "flags": {
-    "app-icons": {
-      "description": "Flagged alternate app icons",
-      "location": "Settings > App icon"
-    },
-    "app-lock": {
-      "description": "Face ID, Touch ID, or passcode lock",
-      "location": "Settings > App Lock"
-    },
-    "app-lock-bypass": {
-      "description": "Opens a locked app for a targeted person. Remote config only, overrides never apply",
-      "location": "Lock screen"
-    },
-    "apple-health": {
-      "description": "Sleep quality filled from Apple Health",
-      "location": "Settings > Check-in > Sleep, new entries, Edit entry > Sleep"
-    },
-    "calendar-timeline": {
-      "description": "Timeline layout for the calendar",
-      "location": "Calendar > Filters menu"
-    },
-    "chip-active-ink": {
-      "description": "Gray fill and dark text for selected chips, instead of the inverted style",
-      "location": "Check-in > Emotions, Tags; Quick check-in"
-    },
-    "development": {
-      "description": "Development section in production builds",
-      "location": "Settings > Development"
-    },
-    "feature-flag-overrides": {
-      "description": "Flag overrides in production builds",
-      "location": "Settings > Development > Feature flags"
-    },
-    "menstruation": {
-      "description": "Daily menstruation flow check-in",
-      "location": "Check-in, Settings > Check-in"
-    },
-    "more-tags": {
-      "description": "Tag limit 500 instead of 50",
-      "location": "Tags, Settings > Tags"
-    },
-    "needs": {
-      "description": "Rate six needs, then get matching emotions",
-      "location": "Check-in > Emotions step"
-    },
-    "orbit": {
-      "description": "People of the last 4 weeks in orbit, as in the month recap story, and a list by connected days",
-      "location": "Settings > Orbit (needs people flag)"
-    },
-    "people": {
-      "description": "People step and people on entries",
-      "location": "Check-in, Settings > Check-in, Day view, Calendar filters, Statistics"
-    },
-    "photo-peek": {
-      "description": "Long press an empty calendar spot to show day photos on pixels",
-      "location": "Calendar"
-    },
-    "photos": {
-      "description": "Photos step and photos on entries",
-      "location": "Check-in, Settings > Check-in, Day view"
-    },
-    "quick-check-in": {
-      "description": "Quick check-in screen (iOS) or an ongoing notification (Android)",
-      "location": "Calendar, Settings > Check-in, notification shade"
-    },
-    "recap-sleep": {
-      "description": "Sleep slide in the month recap story, with an optional look at rough nights",
-      "location": "Month recap story, after the tag slides"
-    },
-    "recaps": {
-      "description": "Recap cards for week, month, and year",
-      "location": "Settings > Recaps"
-    },
-    "support-pixy": {
-      "description": "Support Pixy card",
-      "location": "Settings, below Development"
-    },
-    "tag-icons": {
-      "description": "Tag icon in the name field, icon and color picker sheet, suggested icons",
-      "location": "Tags > Create Tag, Edit Tag"
-    },
-    "voice-mode": {
-      "description": "Talk about your day; Pixy prefills a check-in",
-      "location": "Calendar > Mic button next to +"
-    }
+  "language": "en",
+  "locale": "en_US",
+  "timeZone": "Europe/Berlin",
+  "appearance": "light",
+  "contentSize": "large",
+  "clockStart": "2026-03-18T09:41:00+01:00",
+  "island": {
+   "x": 415,
+   "y": 42,
+   "width": 376,
+   "height": 110
   },
-  "imageBase": "https://2ijolzfjjno4va77.public.blob.vercel-storage.com",
-  "screens": [
+  "statusBar": {
+   "time": "9:41",
+   "dataNetwork": "wifi",
+   "wifiMode": "active",
+   "wifiBars": "3",
+   "cellularMode": "active",
+   "cellularBars": "4",
+   "batteryState": "charged",
+   "batteryLevel": "100",
+   "operatorName": ""
+  }
+ },
+ "flags": {
+  "app-icons": {
+   "description": "Flagged alternate app icons",
+   "location": "Settings > App icon"
+  },
+  "app-lock": {
+   "description": "Face ID, Touch ID, or passcode lock",
+   "location": "Settings > App Lock"
+  },
+  "app-lock-bypass": {
+   "description": "Opens a locked app for a targeted person. Remote config only, overrides never apply",
+   "location": "Lock screen"
+  },
+  "apple-health": {
+   "description": "Sleep quality filled from Apple Health",
+   "location": "Settings > Check-in > Sleep, new entries, Edit entry > Sleep"
+  },
+  "calendar-timeline": {
+   "description": "Timeline layout for the calendar",
+   "location": "Calendar > Filters menu"
+  },
+  "chip-active-ink": {
+   "description": "Gray fill and dark text for selected chips, instead of the inverted style",
+   "location": "Check-in > Emotions, Tags; Quick check-in"
+  },
+  "development": {
+   "description": "Development section in production builds",
+   "location": "Settings > Development"
+  },
+  "feature-flag-overrides": {
+   "description": "Flag overrides in production builds",
+   "location": "Settings > Development > Feature flags"
+  },
+  "menstruation": {
+   "description": "Daily menstruation flow check-in",
+   "location": "Check-in, Settings > Check-in"
+  },
+  "more-tags": {
+   "description": "Tag limit 500 instead of 50",
+   "location": "Tags, Settings > Tags"
+  },
+  "needs": {
+   "description": "Rate six needs, then get matching emotions",
+   "location": "Check-in > Emotions step"
+  },
+  "orbit": {
+   "description": "People of the last 4 weeks in orbit, as in the month recap story, and a list by connected days",
+   "location": "Settings > Orbit (needs people flag)"
+  },
+  "people": {
+   "description": "People step and people on entries",
+   "location": "Check-in, Settings > Check-in, Day view, Calendar filters, Statistics"
+  },
+  "photo-peek": {
+   "description": "Long press an empty calendar spot to show day photos on pixels",
+   "location": "Calendar"
+  },
+  "photos": {
+   "description": "Photos step and photos on entries",
+   "location": "Check-in, Settings > Check-in, Day view"
+  },
+  "quick-check-in": {
+   "description": "Quick check-in screen (iOS) or an ongoing notification (Android)",
+   "location": "Calendar, Settings > Check-in, notification shade"
+  },
+  "recap-sleep": {
+   "description": "Sleep slide in the month recap story, with an optional look at rough nights",
+   "location": "Month recap story, after the tag slides"
+  },
+  "recaps": {
+   "description": "Recap cards for week, month, and year",
+   "location": "Settings > Recaps"
+  },
+  "support-pixy": {
+   "description": "Support Pixy card",
+   "location": "Settings, below Development"
+  },
+  "tag-icons": {
+   "description": "Tag icon in the name field, icon and color picker sheet, suggested icons",
+   "location": "Tags > Create Tag, Edit Tag"
+  },
+  "voice-mode": {
+   "description": "Talk about your day; Pixy prefills a check-in",
+   "location": "Calendar > Mic button next to +"
+  }
+ },
+ "imageBase": "https://2ijolzfjjno4va77.public.blob.vercel-storage.com",
+ "screens": [
+  {
+   "id": "calendar",
+   "title": "Calendar",
+   "route": "/calendar",
+   "parent": null,
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
     {
-      "id": "calendar",
-      "title": "Calendar",
-      "route": "/calendar",
-      "parent": null,
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "One year of entries",
-          "route": "/calendar",
-          "off": {
-            "inputHash": "f9beaacd81764d539822ee1a3fb1989570707b54560a1f8bfa2836ffbe663c10",
-            "pngHash": "fa57c067f498f3459e7ab36076b0a4014e7818b8ab5cb2d1978f26905f5aff2f"
-          },
-          "on": {
-            "inputHash": "1d785e73c4f47bd3797bd12ae3f1c742774846e4f9de2b6a5aa4553c3ef3f462",
-            "pngHash": "d97ab8c2e143484f462083a2a52c3c92bfe946aaa1de9d5aacf645914ad845e3"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [20, 66, 36, 36],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "calendar-quick-check-in",
-              "label": "Quick Check-in",
-              "rect": [328, 634, 54, 54],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "calendar-voice-entry",
-              "label": "Check In by Voice",
-              "rect": [328, 700, 54, 54],
-              "flags": ["voice-mode"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "empty",
-          "title": "No entries",
-          "route": "/calendar",
-          "off": {
-            "inputHash": "ca1c343ee11eee118dbaad4baa05cd69e639867b05526962f6cd6801471c5708",
-            "pngHash": "a5282b716227c3622818764e821a03193356f76a0e8f357ac90b03abcdc60d77"
-          },
-          "on": {
-            "inputHash": "a157b3322c284b871ed7d23d690f293f3013f8e41a4858b74e4c8936607c8d0f",
-            "pngHash": "010a0a5a719d64d52977f35172acc0c82ba9bc06411d3085a71dcb6da5142870"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [20, 66, 36, 36],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "calendar-quick-check-in",
-              "label": "Quick Check-in",
-              "rect": [328, 634, 54, 54],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "calendar-voice-entry",
-              "label": "Check In by Voice",
-              "rect": [328, 700, 54, 54],
-              "flags": ["voice-mode"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "persona-lea",
-          "title": "Persona Lea",
-          "route": "/calendar",
-          "off": {
-            "inputHash": "5368314cca0a340725706d9d75218ac2929c97a50460e3855014647b4f15169f",
-            "pngHash": "f3515c6ee976bf0596520d61081e272e4dd7988f5cd3e69229c51c745746f95e"
-          },
-          "on": {
-            "inputHash": "ee4815404cee13cf002842d7f881a2879ec327b1c9a9662a7712c90436cac388",
-            "pngHash": "265d1f90d7a66cd4ae2000cc8c8bc55a80f54132454550855120dc9cfa161e2c"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [20, 66, 36, 36],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "calendar-quick-check-in",
-              "label": "Quick Check-in",
-              "rect": [328, 634, 54, 54],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "calendar-voice-entry",
-              "label": "Check In by Voice",
-              "rect": [328, 700, 54, 54],
-              "flags": ["voice-mode"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "persona-jonas",
-          "title": "Persona Jonas",
-          "route": "/calendar",
-          "off": {
-            "inputHash": "3413b4ea51365ab93dffe9f57c448a68df588b9ec3f633aa35d955813de77d1f",
-            "pngHash": "707f1a3a636f5034eba2c76a0004905929a2c3c36d4b3c981cc577d78a404a09"
-          },
-          "on": {
-            "inputHash": "84419155f38e92b5338b281761d3851282f15acb9f5829f785a9883be3c762a0",
-            "pngHash": "939b56a8ebe248f9eedb3853ae8beebc54a1f463b3cba8910f0ad1584a65af00"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [20, 66, 36, 36],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "calendar-quick-check-in",
-              "label": "Quick Check-in",
-              "rect": [328, 634, 54, 54],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "calendar-voice-entry",
-              "label": "Check In by Voice",
-              "rect": [328, 700, 54, 54],
-              "flags": ["voice-mode"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "persona-sara",
-          "title": "Persona Sara",
-          "route": "/calendar",
-          "off": {
-            "inputHash": "4000e363c4510d00470d73d914eb9ce89892d8309fb367cf033ec67caf3cb89b",
-            "pngHash": "404ff1d3790730ff6b36cfb359454f38168d5a5286043a0435a1e7761f20fab3"
-          },
-          "on": {
-            "inputHash": "51bb54144538acf8fe8ac3fbd4712782ab4eaa2a24f6c319feb4d859137993fb",
-            "pngHash": "a7a9642d1a0558dca38b8269e94d45f75f262efbc0da1aac59a217f23faa0191"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [20, 66, 36, 36],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "",
-              "label": "K",
-              "rect": [359.5, 76, 9, 15.5],
-              "flags": ["app-icons"]
-            },
-            {
-              "id": "calendar-quick-check-in",
-              "label": "Quick Check-in",
-              "rect": [328, 634, 54, 54],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "calendar-voice-entry",
-              "label": "Check In by Voice",
-              "rect": [328, 700, 54, 54],
-              "flags": ["voice-mode"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "persona-ben",
-          "title": "Persona Ben",
-          "route": "/calendar",
-          "off": {
-            "inputHash": "5d157ce693f5ac3cfde98122137cb9ea81eaefd0cc43a68c9d3cd478d7444328",
-            "pngHash": "4f4739560b6ff1689feff19fbdc11b5aaabb0d1c3ec93aed10bf6ed737d3d2e6"
-          },
-          "on": {
-            "inputHash": "b9735d3e3ae125b28089fb30ca59a8651baafc11a1b1bb41290fdf9d1d82e424",
-            "pngHash": "b0efd23a86d7def2920f3d9b55bbcf32d6f0c97604fd4ca312243f35a3dcf521"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [20, 66, 36, 36],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "calendar-quick-check-in",
-              "label": "Quick Check-in",
-              "rect": [328, 634, 54, 54],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "calendar-voice-entry",
-              "label": "Check In by Voice",
-              "rect": [328, 700, 54, 54],
-              "flags": ["voice-mode"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "persona-mia",
-          "title": "Persona Mia",
-          "route": "/calendar",
-          "off": {
-            "inputHash": "5d87e437b646a5c851adf6cee0df5c88e57684e692df6e4e36722d5279fb82a2",
-            "pngHash": "b75129fa87618279de7d4e1dcdb21587fd2a782e5a15fa19f43d721f11287f56"
-          },
-          "on": {
-            "inputHash": "0c454625ebda145095c4fb066b24c69a454569d1e826b43644338c8835945b73",
-            "pngHash": "820b1edef408b9bde60d31c68d9a5dddb570e2b88e13a8eda9008e5400e99255"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [20, 66, 36, 36],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "calendar-quick-check-in",
-              "label": "Quick Check-in",
-              "rect": [328, 634, 54, 54],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "calendar-voice-entry",
-              "label": "Check In by Voice",
-              "rect": [328, 700, 54, 54],
-              "flags": ["voice-mode"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "persona-paul",
-          "title": "Persona Paul",
-          "route": "/calendar",
-          "off": {
-            "inputHash": "cdf21d2a4b01f7092f033af95e56b151f2b1b659375eaaecbbbe2bffeed7b9db",
-            "pngHash": "a4f8d8c6839f68cda0923226fb2857970a43302aeb875ce33368ae309517d57f"
-          },
-          "on": {
-            "inputHash": "dd58f19862eb4f7937afa08cd139621cbfb9d8fcbbad86d4835384267fe55cd1",
-            "pngHash": "e545caee487d70c586637b27fc4536fb9a47c12f56475d0468d08f853516d848"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [20, 66, 36, 36],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "calendar-quick-check-in",
-              "label": "Quick Check-in",
-              "rect": [328, 634, 54, 54],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "calendar-voice-entry",
-              "label": "Check In by Voice",
-              "rect": [328, 700, 54, 54],
-              "flags": ["voice-mode"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "persona-nina",
-          "title": "Persona Nina",
-          "route": "/calendar",
-          "off": {
-            "inputHash": "82b6f555cb6ed3f155e13ed8a2a1bc511bbac360e13cf6513f299221f9395a5f",
-            "pngHash": "7cf73150d8291a661959bbdcacf76a92238ec571ccc6233beca3977dcd5048cd"
-          },
-          "on": {
-            "inputHash": "dcd35fe6fc8d7d2b0dfc80fee57275c431e55e0031062f86040e39521cdecc55",
-            "pngHash": "a7a9642d1a0558dca38b8269e94d45f75f262efbc0da1aac59a217f23faa0191"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [20, 66, 36, 36],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "calendar-quick-check-in",
-              "label": "Quick Check-in",
-              "rect": [328, 634, 54, 54],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "calendar-voice-entry",
-              "label": "Check In by Voice",
-              "rect": [328, 700, 54, 54],
-              "flags": ["voice-mode"]
-            }
-          ],
-          "errors": {}
-        }
-      ]
+     "id": "year",
+     "title": "One year of entries",
+     "route": "/calendar",
+     "off": {
+      "inputHash": "f9beaacd81764d539822ee1a3fb1989570707b54560a1f8bfa2836ffbe663c10",
+      "pngHash": "fa57c067f498f3459e7ab36076b0a4014e7818b8ab5cb2d1978f26905f5aff2f"
+     },
+     "on": {
+      "inputHash": "1d785e73c4f47bd3797bd12ae3f1c742774846e4f9de2b6a5aa4553c3ef3f462",
+      "pngHash": "d97ab8c2e143484f462083a2a52c3c92bfe946aaa1de9d5aacf645914ad845e3"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        20,
+        66,
+        36,
+        36
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "calendar-quick-check-in",
+       "label": "Quick Check-in",
+       "rect": [
+        328,
+        634,
+        54,
+        54
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "calendar-voice-entry",
+       "label": "Check In by Voice",
+       "rect": [
+        328,
+        700,
+        54,
+        54
+       ],
+       "flags": [
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
     },
     {
-      "id": "onboarding",
-      "title": "Onboarding",
-      "route": "/onboarding",
-      "parent": "calendar",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "welcome",
-          "title": "Welcome",
-          "route": "/onboarding",
-          "off": {
-            "inputHash": "b2fd11bd8409972929ec4c9e24eaeddbf699193216da719d13116e9dbae7a302",
-            "pngHash": "e051421e01e3171bc35e67697478ac2e388f9ed04eb32f3bc89da0a168827607"
-          },
-          "on": {
-            "inputHash": "25845f06cb026753a2c8c4fdbd4c8686004115ad55d40bb66327229f60511a17",
-            "pngHash": "e051421e01e3171bc35e67697478ac2e388f9ed04eb32f3bc89da0a168827607"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
+     "id": "empty",
+     "title": "No entries",
+     "route": "/calendar",
+     "off": {
+      "inputHash": "ca1c343ee11eee118dbaad4baa05cd69e639867b05526962f6cd6801471c5708",
+      "pngHash": "a5282b716227c3622818764e821a03193356f76a0e8f357ac90b03abcdc60d77"
+     },
+     "on": {
+      "inputHash": "a157b3322c284b871ed7d23d690f293f3013f8e41a4858b74e4c8936607c8d0f",
+      "pngHash": "010a0a5a719d64d52977f35172acc0c82ba9bc06411d3085a71dcb6da5142870"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        20,
+        66,
+        36,
+        36
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "calendar-quick-check-in",
+       "label": "Quick Check-in",
+       "rect": [
+        328,
+        634,
+        54,
+        54
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "calendar-voice-entry",
+       "label": "Check In by Voice",
+       "rect": [
+        328,
+        700,
+        54,
+        54
+       ],
+       "flags": [
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
     },
     {
-      "id": "day",
-      "title": "Day",
-      "route": "/days/2026-03-18",
-      "parent": "calendar",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Entries of today",
-          "route": "/days/2026-03-18",
-          "off": {
-            "inputHash": "71bf14b511f114859ca6f1cafb58ce0eb56c7cea287c566519e29eb2572fad21",
-            "pngHash": "17d6a93f6ca0395aab33b8407bd90306f2d81189a0791364bcb8c4a23054f497"
-          },
-          "on": {
-            "inputHash": "e050aef893aac44aff5f7f26b2115b2f155bc547e8527d232ce2531771031c1c",
-            "pngHash": "f185b982c17ed0840ff330d4f077415bab1e4c8f508b771ec293882ffe71a197"
-          },
-          "flagged": [
-            {
-              "id": "log-list-photos-edit",
-              "label": "Add Photos",
-              "rect": [33, 410, 110, 38],
-              "flags": ["photos"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "timeline",
-          "title": "Many entries, photos, places",
-          "route": "/days/2026-03-18",
-          "off": {
-            "inputHash": "3081c303aaea1aeb5b6ccdd899652126188c3d488adfd3bfca60bb0ff85f5ba9",
-            "pngHash": "3ccca8e41bbd7bc78c108ee2c34fc22c1c26b680e103b28fd981bd690d729111"
-          },
-          "on": {
-            "inputHash": "b3e544ce6910c4af16ccc00dc41a5b563389bd36be8f22a080b8ccff32d23c03",
-            "pngHash": "2e33cc7244d66ea42b69aa6a86a02752cf4ec074cd532ec1a6c0458da34d7f6d"
-          },
-          "flagged": [
-            {
-              "id": "log-list-photos-edit",
-              "label": "Edit Photos",
-              "rect": [137, 246, 96, 96],
-              "flags": ["photos"]
-            }
-          ],
-          "errors": {}
-        },
-        {
-          "id": "empty",
-          "title": "Day without entries",
-          "route": "/days/2026-03-18",
-          "off": {
-            "inputHash": "9c5575b0ddc9000243514377e3235019b9485e7c935ab0b2b9c07a3dcc95db2b",
-            "pngHash": "548af8399fa5f7af060f8548c7cab53e53d73b2401129e9395fdb22683338d9f"
-          },
-          "on": {
-            "inputHash": "88d572cbc5357fda1f17a1226f4c14dc8d339c9494d771459de76af02c617e64",
-            "pngHash": "b13c9d133915fd1ed86a3f198bc06e70e42e40c7e090d7b1fd4be578d3de8be8"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
+     "id": "persona-lea",
+     "title": "Persona Lea",
+     "route": "/calendar",
+     "off": {
+      "inputHash": "5368314cca0a340725706d9d75218ac2929c97a50460e3855014647b4f15169f",
+      "pngHash": "f3515c6ee976bf0596520d61081e272e4dd7988f5cd3e69229c51c745746f95e"
+     },
+     "on": {
+      "inputHash": "ee4815404cee13cf002842d7f881a2879ec327b1c9a9662a7712c90436cac388",
+      "pngHash": "265d1f90d7a66cd4ae2000cc8c8bc55a80f54132454550855120dc9cfa161e2c"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        20,
+        66,
+        36,
+        36
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "calendar-quick-check-in",
+       "label": "Quick Check-in",
+       "rect": [
+        328,
+        634,
+        54,
+        54
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "calendar-voice-entry",
+       "label": "Check In by Voice",
+       "rect": [
+        328,
+        700,
+        54,
+        54
+       ],
+       "flags": [
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
     },
     {
-      "id": "entry-edit",
-      "title": "Edit entry",
-      "route": "/logs/b4e69720-ca77-5f71-9788-e735d10406db/edit",
-      "parent": "day",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "rating",
-          "title": "Rating step",
-          "route": "/logs/b4e69720-ca77-5f71-9788-e735d10406db/edit",
-          "off": {
-            "inputHash": "af620af1996f08d56402bc7f6657a5285c6d3fb9595a7f050b79064191c45bde",
-            "pngHash": "cfb28161f15017228e2e4587080d382c33aaeb6b75d8ada0bced37146641f64c"
-          },
-          "on": {
-            "inputHash": "a2b25a2a88c57a93f9d44e20dd4dc6f5dc6c210ce323246c7a351a34d1a19f27",
-            "pngHash": "a4c3a632014d72e5685b3c222d57d06100480888001b40d53e330dced2bbfa15"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
+     "id": "persona-jonas",
+     "title": "Persona Jonas",
+     "route": "/calendar",
+     "off": {
+      "inputHash": "3413b4ea51365ab93dffe9f57c448a68df588b9ec3f633aa35d955813de77d1f",
+      "pngHash": "707f1a3a636f5034eba2c76a0004905929a2c3c36d4b3c981cc577d78a404a09"
+     },
+     "on": {
+      "inputHash": "84419155f38e92b5338b281761d3851282f15acb9f5829f785a9883be3c762a0",
+      "pngHash": "939b56a8ebe248f9eedb3853ae8beebc54a1f463b3cba8910f0ad1584a65af00"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        20,
+        66,
+        36,
+        36
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "calendar-quick-check-in",
+       "label": "Quick Check-in",
+       "rect": [
+        328,
+        634,
+        54,
+        54
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "calendar-voice-entry",
+       "label": "Check In by Voice",
+       "rect": [
+        328,
+        700,
+        54,
+        54
+       ],
+       "flags": [
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
     },
     {
-      "id": "entry-create",
-      "title": "New entry",
-      "route": "/logs/create/2026-03-18T08%3A41%3A00.000Z",
-      "parent": "calendar",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "rating",
-          "title": "Rating step",
-          "route": "/logs/create/2026-03-18T08%3A41%3A00.000Z",
-          "off": {
-            "inputHash": "654161cde5b2377f454ab885b941fac677b6981704c1bbdcb003750f30606e9d",
-            "pngHash": "40877d947b63b1747b9bb0444db93af4f6e6f9d7699690568e4f0c093aa53f50"
-          },
-          "on": {
-            "inputHash": "5053404980d93dda41f228074ea7111c7ac51e14b99ae608bcf1eb4f5ea9fd8c",
-            "pngHash": "f5c0df6740d386834e0beb746efd439f3a74f06f9eeae99dad65ece6ccd15828"
-          },
-          "flagged": [],
-          "errors": {}
-        },
-        {
-          "id": "every-step",
-          "title": "Every step on",
-          "route": "/logs/create/2026-03-18T08%3A41%3A00.000Z",
-          "off": {
-            "inputHash": "93354a2870f201339bca1d41ac7e28407557d9c986adaf292ad1b1b14740759c",
-            "pngHash": "326663497aef64d57dd9591e990cf6196abf05f01c5d74d61702c2e5862b3093"
-          },
-          "on": {
-            "inputHash": "3a183675d83618a44b63159bb1e314e152e55d401a0baef9a3f3bc580eb26023",
-            "pngHash": "037f1beeb6af8dc5f5c548be371dc70967e8f1511d85396b8e900c3faada0662"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
+     "id": "persona-sara",
+     "title": "Persona Sara",
+     "route": "/calendar",
+     "off": {
+      "inputHash": "4000e363c4510d00470d73d914eb9ce89892d8309fb367cf033ec67caf3cb89b",
+      "pngHash": "404ff1d3790730ff6b36cfb359454f38168d5a5286043a0435a1e7761f20fab3"
+     },
+     "on": {
+      "inputHash": "51bb54144538acf8fe8ac3fbd4712782ab4eaa2a24f6c319feb4d859137993fb",
+      "pngHash": "a7a9642d1a0558dca38b8269e94d45f75f262efbc0da1aac59a217f23faa0191"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        20,
+        66,
+        36,
+        36
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "",
+       "label": "K",
+       "rect": [
+        359.5,
+        76,
+        9,
+        15.5
+       ],
+       "flags": [
+        "app-icons"
+       ]
+      },
+      {
+       "id": "calendar-quick-check-in",
+       "label": "Quick Check-in",
+       "rect": [
+        328,
+        634,
+        54,
+        54
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "calendar-voice-entry",
+       "label": "Check In by Voice",
+       "rect": [
+        328,
+        700,
+        54,
+        54
+       ],
+       "flags": [
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
     },
     {
-      "id": "request",
-      "title": "Request a word",
-      "route": "/request?kind=emotion",
-      "parent": "entry-create",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "emotion",
-          "title": "Emotion word",
-          "route": "/request?kind=emotion",
-          "off": {
-            "inputHash": "d9fe010125f150e2a553950d0dc2e2aec7c16c24bded515f510db3c83641168d",
-            "pngHash": "6845fa6d4eac1c0ab7519a528eba3ae8212e42b94c7c40393aa2b339ed77fa44"
-          },
-          "on": {
-            "inputHash": "7753633c365984e954ab1d307e206b83243afb02ffbf9ec95b45c8123bcbeb48",
-            "pngHash": "2496675c70a9293b1f1ac86d79a2c79ca085aaf233e65e09438633a01b6906ce"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
+     "id": "persona-ben",
+     "title": "Persona Ben",
+     "route": "/calendar",
+     "off": {
+      "inputHash": "5d157ce693f5ac3cfde98122137cb9ea81eaefd0cc43a68c9d3cd478d7444328",
+      "pngHash": "4f4739560b6ff1689feff19fbdc11b5aaabb0d1c3ec93aed10bf6ed737d3d2e6"
+     },
+     "on": {
+      "inputHash": "b9735d3e3ae125b28089fb30ca59a8651baafc11a1b1bb41290fdf9d1d82e424",
+      "pngHash": "b0efd23a86d7def2920f3d9b55bbcf32d6f0c97604fd4ca312243f35a3dcf521"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        20,
+        66,
+        36,
+        36
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "calendar-quick-check-in",
+       "label": "Quick Check-in",
+       "rect": [
+        328,
+        634,
+        54,
+        54
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "calendar-voice-entry",
+       "label": "Check In by Voice",
+       "rect": [
+        328,
+        700,
+        54,
+        54
+       ],
+       "flags": [
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
     },
     {
-      "id": "quick-check-in",
-      "title": "Quick check-in",
-      "route": "/check-in/new",
-      "parent": "calendar",
-      "isFlagOnly": true,
-      "requires": ["quick-check-in"],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "new",
-          "title": "New check-in",
-          "route": "/check-in/new",
-          "off": null,
-          "on": {
-            "inputHash": "102f33f7d8ce42d040ce93507b95c8d65816e140bb4ff90bab7f3db13d1dd486",
-            "pngHash": "43c905c5ceafbe68190d251f5db3ff7ce1649c88c3b865955ac39aa3e9518bd0"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
+     "id": "persona-mia",
+     "title": "Persona Mia",
+     "route": "/calendar",
+     "off": {
+      "inputHash": "5d87e437b646a5c851adf6cee0df5c88e57684e692df6e4e36722d5279fb82a2",
+      "pngHash": "b75129fa87618279de7d4e1dcdb21587fd2a782e5a15fa19f43d721f11287f56"
+     },
+     "on": {
+      "inputHash": "0c454625ebda145095c4fb066b24c69a454569d1e826b43644338c8835945b73",
+      "pngHash": "820b1edef408b9bde60d31c68d9a5dddb570e2b88e13a8eda9008e5400e99255"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        20,
+        66,
+        36,
+        36
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "calendar-quick-check-in",
+       "label": "Quick Check-in",
+       "rect": [
+        328,
+        634,
+        54,
+        54
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "calendar-voice-entry",
+       "label": "Check In by Voice",
+       "rect": [
+        328,
+        700,
+        54,
+        54
+       ],
+       "flags": [
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
     },
     {
-      "id": "statistics",
-      "title": "Statistics",
-      "route": "/statistics",
-      "parent": "calendar",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": ["recaps"],
-      "states": [
-        {
-          "id": "year",
-          "title": "One year of entries",
-          "route": "/statistics",
-          "off": {
-            "inputHash": "f8db9e19501e2a3bbc50029f6f42755e529dd5ff37eb6e9c0f172c18f64ca0ef",
-            "pngHash": "dc29916fa78cb288aae16de64a03a55f8d88e0451d45da2b35f8760abf6a0366"
-          },
-          "on": null,
-          "flagged": [],
-          "errors": {}
-        },
-        {
-          "id": "locked",
-          "title": "Too few entries",
-          "route": "/statistics",
-          "off": {
-            "inputHash": "0d75e8f8f8756aff131c4aabbe61944a720c757f5cd1e250d9603ce3815be1ae",
-            "pngHash": "435d92030e965a643d538b91c70cf7a9355e5d01a68e23b05c6b62af82b6ddd1"
-          },
-          "on": null,
-          "flagged": [],
-          "errors": {}
-        }
-      ]
+     "id": "persona-paul",
+     "title": "Persona Paul",
+     "route": "/calendar",
+     "off": {
+      "inputHash": "cdf21d2a4b01f7092f033af95e56b151f2b1b659375eaaecbbbe2bffeed7b9db",
+      "pngHash": "a4f8d8c6839f68cda0923226fb2857970a43302aeb875ce33368ae309517d57f"
+     },
+     "on": {
+      "inputHash": "dd58f19862eb4f7937afa08cd139621cbfb9d8fcbbad86d4835384267fe55cd1",
+      "pngHash": "e545caee487d70c586637b27fc4536fb9a47c12f56475d0468d08f853516d848"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        20,
+        66,
+        36,
+        36
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "calendar-quick-check-in",
+       "label": "Quick Check-in",
+       "rect": [
+        328,
+        634,
+        54,
+        54
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "calendar-voice-entry",
+       "label": "Check In by Voice",
+       "rect": [
+        328,
+        700,
+        54,
+        54
+       ],
+       "flags": [
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
     },
     {
-      "id": "statistics-highlights",
-      "title": "Highlights",
-      "route": "/statistics/highlights",
-      "parent": "statistics",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": ["recaps"],
-      "states": [
-        {
-          "id": "year",
-          "title": "Last 2 weeks",
-          "route": "/statistics/highlights",
-          "off": {
-            "inputHash": "95af0d63f193a93a1f7e14fb72067460af9aa0e478bd4edc1eab69040627640f",
-            "pngHash": "f72e4d5b5e6c9986950450dd18ea91d85efa6cdf576a5a2094e8b71f8992b8f0"
-          },
-          "on": null,
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "statistics-month",
-      "title": "Month report",
-      "route": "/statistics/month/2026-03-01",
-      "parent": "statistics",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": ["recaps"],
-      "states": [
-        {
-          "id": "year",
-          "title": "March 2026",
-          "route": "/statistics/month/2026-03-01",
-          "off": {
-            "inputHash": "6e088379349347df16072a804f62d2e7aff99e478f4eafb0573ab28169521c0d",
-            "pngHash": "6650368cffbcd5a1650068fad16dbf0a377d842f4fcb18548557661449b269e2"
-          },
-          "on": null,
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "statistics-year",
-      "title": "Year report",
-      "route": "/statistics/year/2026-01-01",
-      "parent": "statistics",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": ["recaps"],
-      "states": [
-        {
-          "id": "year",
-          "title": "2026",
-          "route": "/statistics/year/2026-01-01",
-          "off": {
-            "inputHash": "d016d26b57c4a3b717d10841262e599792317d3e4929028fd716b8cd3950c748",
-            "pngHash": "b77045b941c48fd4604cd78983eec369bfa3b0cc095035b30b17004199e74e3e"
-          },
-          "on": null,
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "recaps-month",
-      "title": "Month recap",
-      "route": "/recaps/month/2026-03-01",
-      "parent": "calendar",
-      "isFlagOnly": true,
-      "requires": ["recaps"],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "March 2026",
-          "route": "/recaps/month/2026-03-01",
-          "off": null,
-          "on": {
-            "inputHash": "6fe6512ed559ebe5abc40dc42a56824452f8d46d3e7ea4e4c0cb68497b743409",
-            "pngHash": "b59bb7de6f9e2515965cf12b9c106e2108a851d08ab47f9e4f95d55e873abf0d"
-          },
-          "flagged": [],
-          "errors": {}
-        },
-        {
-          "id": "moments",
-          "title": "Month moments",
-          "route": "/recaps/month/2026-03-01",
-          "off": null,
-          "on": {
-            "inputHash": "b9e75b2b1029e40696753213d8255d4d8ca3b9bff774316df0be112ca53c913c",
-            "pngHash": "d9653875060eaa31b1e7f35110177bfc07d20b151307d72908e0430d4e099273"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "recaps-year",
-      "title": "Year recap",
-      "route": "/recaps/year/2026-01-01",
-      "parent": "recaps-month",
-      "isFlagOnly": true,
-      "requires": ["recaps"],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "2026",
-          "route": "/recaps/year/2026-01-01",
-          "off": null,
-          "on": {
-            "inputHash": "7328f1ef4ef7496e855944be1cb9b9797600e86e76e54ef5e60fceba8f91e308",
-            "pngHash": "faa120451b11a3ad414126c8fbce5976c114f432545ff9f1998ca56bdb9e71c0"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "tags",
-      "title": "Tags",
-      "route": "/tags",
-      "parent": "calendar",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Tags",
-          "route": "/tags",
-          "off": {
-            "inputHash": "e75c662a2863a3f8b923e0ed199ec02bc622a56e66f5ebcc59b611eb60180925",
-            "pngHash": "247b1da533f2a01de337acd6d84069fa49a567f82fd304b848f244049c44697c"
-          },
-          "on": {
-            "inputHash": "6d65eddc2dde015d2db0041500b13bccab15868cec839441213d4a87262d4bb6",
-            "pngHash": "b5c6d0ac190228167d0fb668d945702978eada410d1973387787d93240108d9b"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "tag-create",
-      "title": "New tag",
-      "route": "/tags/create",
-      "parent": "tags",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "empty",
-          "title": "Empty form",
-          "route": "/tags/create",
-          "off": {
-            "inputHash": "d03723cf24f319caf61c69843bffa8a18b9bad31645dcad86b0f30ba8c4fbc6b",
-            "pngHash": "63293f6af4ea6d557a6989a171050c0fa49ce04de4569f5ac96e45cb129304d3"
-          },
-          "on": {
-            "inputHash": "898c8d2500285c918e157cd74a9e13ceabb2a75d378af0a44b0bac2c17b98e0e",
-            "pngHash": "d30a3a298a629be9a9eb17a56b46b803c9fa0c0120be0431cfda7ddd19a17f3d"
-          },
-          "flagged": [
-            {
-              "id": "tag-icon",
-              "label": "Change icon: tag",
-              "rect": [32, 187, 44, 44],
-              "flags": ["tag-icons"]
-            }
-          ],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "tag-edit",
-      "title": "Edit tag",
-      "route": "/tags/ad3d979b-4bf1-5bd8-8fcf-407b2606649c",
-      "parent": "tags",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "work",
-          "title": "Work",
-          "route": "/tags/ad3d979b-4bf1-5bd8-8fcf-407b2606649c",
-          "off": {
-            "inputHash": "3c739ce16dac9cc9924023f0d8c98363554540c529f13ed18ccaa5a7820b55cf",
-            "pngHash": "a7a1e7c9985e8c6127b58565edb602f6c0f033e1a8b2ae0c8341c32623fd5cdb"
-          },
-          "on": {
-            "inputHash": "b0902a30c40365735a670561de577b7c82e174d1c5085db536ce94ce766020b4",
-            "pngHash": "92f201f80b5c757e157b5976eab3b3c8d254d808381a8bcf3be8a9c57706ff39"
-          },
-          "flagged": [
-            {
-              "id": "tag-icon",
-              "label": "Change icon: tag",
-              "rect": [32, 187, 44, 44],
-              "flags": ["tag-icons"]
-            }
-          ],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "tag-categories",
-      "title": "Tag categories",
-      "route": "/tags/categories",
-      "parent": "tags",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "hobbies",
-          "title": "With Hobbies",
-          "route": "/tags/categories",
-          "off": {
-            "inputHash": "d2565a52fd2bbd66bf4ab016de11faeeda65db6b928b43bf6f1fee8f9201e8fb",
-            "pngHash": "cce8c0592c244849b7323c1558333223419a007d363222737d4a04b109510cac"
-          },
-          "on": {
-            "inputHash": "21db1f37aaa03d30131c06bfd6afb572f966f7110089c8446eadad93ec3ae552",
-            "pngHash": "c25ae63d8d583b780edce1d505f83246c7b8101050157b934563a7e1f801ad18"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "tag-category-edit",
-      "title": "Edit category",
-      "route": "/tags/categories/fixture-hobbies",
-      "parent": "tag-categories",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "hobbies",
-          "title": "Hobbies",
-          "route": "/tags/categories/fixture-hobbies",
-          "off": {
-            "inputHash": "d989dbf036f56ecaccee3c3f65fa377af0fa43be234adda86188c5ad855553eb",
-            "pngHash": "f038bbc99241e11a2d68af2a2925279127d95386073a8ece14e232bb3375601a"
-          },
-          "on": {
-            "inputHash": "5cf910d96d7ceb6dd9c8f7c92d22732ef12ee5dffc1a0d7731910bfcc20ff56e",
-            "pngHash": "0294ee794c99ea452f3849b5de93ac19e07096675a7654fd399bb6763b76f81f"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "settings",
-      "title": "Settings",
-      "route": "/settings",
-      "parent": "calendar",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Settings",
-          "route": "/settings",
-          "off": {
-            "inputHash": "30d861616dd93e8492098bfcbd8d9d7837887eb10b03e48beca549065c8a39ee",
-            "pngHash": "6ad1d3a878708e9b777bf5b5d42326251947a1e27dd6ee0735f9c615f3d09522"
-          },
-          "on": {
-            "inputHash": "c64b3d9e334ab1f4b7178dcb692746d710cb879ca102c11f25c1bcda0d44ea36",
-            "pngHash": "799170875d4af7132f6746139a2be1120b0d19f30f74a070f98a302c7638df88"
-          },
-          "flagged": [
-            {
-              "id": "app-lock",
-              "label": "App Lock, Off",
-              "rect": [16, 446, 370, 58],
-              "flags": ["app-lock"]
-            },
-            {
-              "id": "recaps",
-              "label": "Recaps",
-              "rect": [16, 504, 370, 58],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "orbit",
-              "label": "Orbit",
-              "rect": [16, 562, 370, 58],
-              "flags": [
-                "app-icons",
-                "app-lock",
-                "apple-health",
-                "calendar-timeline",
-                "chip-active-ink",
-                "development",
-                "menstruation",
-                "more-tags",
-                "needs",
-                "orbit",
-                "people",
-                "photo-peek",
-                "photos",
-                "quick-check-in",
-                "recap-sleep",
-                "recaps",
-                "support-pixy",
-                "tag-icons",
-                "voice-mode"
-              ]
-            }
-          ],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "profile",
-      "title": "Profile",
-      "route": "/profile",
-      "parent": "settings",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "klara",
-          "title": "Klara",
-          "route": "/profile",
-          "off": {
-            "inputHash": "3deab1c23af9349838bfefbe927da863ee987ba00dda03fddaba118b4632e70f",
-            "pngHash": "ae06d71c659faa7ab25e0b0a6cafb1c5914c6e003c3190f1647f7eed1cbc2cb0"
-          },
-          "on": {
-            "inputHash": "846fd4a2c128effb5ac8b0692f23fc9aef9f29a0c6999106007f01745dbacdc6",
-            "pngHash": "f25af76b3bdf4de5b36a1856772afd3e3838ae6b7d1dc63268f236378c5042ed"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "steps",
-      "title": "Check-in steps",
-      "route": "/settings/steps",
-      "parent": "settings",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Steps",
-          "route": "/settings/steps",
-          "off": {
-            "inputHash": "e26180c65c91c9fc3cf08c180fa9253617e6c44a33bfee4cd5e3db936b4c47e5",
-            "pngHash": "861ad32fb3b94f3eb3431d92e6110c35dd8746191c0f8268365ef3a48925cc97"
-          },
-          "on": {
-            "inputHash": "a141d9068b7ef52b5001aa67e9e9454640fc67345eaf1004fc6635c3c1f037d6",
-            "pngHash": "2f20ada16c6afaeaaf7c8d315e3db1849635d7e7cf1b7c80b2a9722f44c567d4"
-          },
-          "flagged": [
-            {
-              "id": "step-people-step-people-step-people-step-people",
-              "label": "People, Off",
-              "rect": [16, 260.5, 370, 52],
-              "flags": ["people"]
-            },
-            {
-              "id": "",
-              "label": "Menstruation",
-              "rect": [64, 383, 100.5, 20.5],
-              "flags": ["menstruation"]
-            },
-            {
-              "id": "step-menstruation-enabled",
-              "label": "Menstruation",
-              "rect": [309, 379.5, 61, 28],
-              "flags": ["menstruation"]
-            },
-            {
-              "id": "",
-              "label": "Photos",
-              "rect": [64, 499, 53.5, 20.5],
-              "flags": ["photos"]
-            },
-            {
-              "id": "step-photos-enabled",
-              "label": "Photos",
-              "rect": [309, 495.5, 61, 28],
-              "flags": ["photos"]
-            }
-          ],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "steps-tags",
-      "title": "Tags step",
-      "route": "/settings/steps/tags",
-      "parent": "steps",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Tags step",
-          "route": "/settings/steps/tags",
-          "off": {
-            "inputHash": "005569190880bff11ac893b57f47b44ced303c872730113e8b38e809c001a980",
-            "pngHash": "3b821bde5414f95d47fd978c48f35373762ffbc9fa9211861782b05f64224f6b"
-          },
-          "on": {
-            "inputHash": "b588b0509e2eba7439ea8e2f863710f5779e4c5082b7085713cf65ee5ea6ad1c",
-            "pngHash": "3b821bde5414f95d47fd978c48f35373762ffbc9fa9211861782b05f64224f6b"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "steps-tag-categories",
-      "title": "Tag categories",
-      "route": "/settings/steps/tags/categories",
-      "parent": "steps-tags",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "hobbies",
-          "title": "With Hobbies",
-          "route": "/settings/steps/tags/categories",
-          "off": {
-            "inputHash": "3a78c1db7ef7580525c6608dd68a9de9ec8ef3547c06cb81b110b45b0f39f1f1",
-            "pngHash": "e4257008b8efbe97476bd21e1fb8b953b5fd42c94360c3cd0d8b06c25863525e"
-          },
-          "on": {
-            "inputHash": "f73ef2a5015c5199f36b81ba3b1dd9a21bcf65c19f17e1880a1fbaaa37adade5",
-            "pngHash": "e4257008b8efbe97476bd21e1fb8b953b5fd42c94360c3cd0d8b06c25863525e"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "steps-sleep",
-      "title": "Sleep step",
-      "route": "/settings/steps/sleep",
-      "parent": "steps",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Sleep step",
-          "route": "/settings/steps/sleep",
-          "off": {
-            "inputHash": "fd8840eb5f358cc8a0e9627c079ea981f2b90b5eb87371ed6821c11896e2ea5c",
-            "pngHash": "1dace562c49f6dfc77e13f41cf5fd994dc46099e2a9f3c93036370dace05d1aa"
-          },
-          "on": {
-            "inputHash": "f7fdd93f6bce0f657e9704e50909f78d1b368b846614b15b6bfa49cb1a4c0240",
-            "pngHash": "30f821e37bf34b774d1b6dc8bc0e4258d9e4b7755abe00cfdf7ab379f1801f62"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Apple Health",
-              "rect": [16, 240, 370, 16],
-              "flags": ["apple-health"]
-            },
-            {
-              "id": "AppleHealthIcon",
-              "label": "",
-              "rect": [32.5, 274.5, 29, 29],
-              "flags": ["apple-health"]
-            },
-            {
-              "id": "",
-              "label": "Auto Fill",
-              "rect": [77.5, 279, 217.5, 20.5],
-              "flags": ["apple-health"]
-            },
-            {
-              "id": "health-sleep-enabled",
-              "label": "Auto Fill",
-              "rect": [307, 275, 63, 28],
-              "flags": ["apple-health"]
-            },
-            {
-              "id": "",
-              "label": "Pixy scores last night from how long you slept, your usual bedtime, and wake-ups, then picks the sleep quality. Check-ins skip the sleep step. Edit an entry to change its sleep quality. Pixy only reads sleep data. It stays on this iPhone.",
-              "rect": [16, 322, 370, 106],
-              "flags": ["apple-health"]
-            }
-          ],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "steps-people",
-      "title": "People step",
-      "route": "/settings/steps/people",
-      "parent": "steps",
-      "isFlagOnly": true,
-      "requires": ["people"],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "people",
-          "title": "Three people",
-          "route": "/settings/steps/people",
-          "off": null,
-          "on": {
-            "inputHash": "31fb5d457155644ff9534a5da954b492049a2193ff7e9bc98cb77ff63a0e667c",
-            "pngHash": "cd1742d406649767eb9991248c4ad742913cd09ecc025a087e30ce2d5aede775"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "person-create",
-      "title": "New person",
-      "route": "/people/create",
-      "parent": "steps-people",
-      "isFlagOnly": true,
-      "requires": ["people"],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "empty",
-          "title": "Empty form",
-          "route": "/people/create",
-          "off": null,
-          "on": {
-            "inputHash": "6b1104975c796dc80ea4ba183027dafc29a3e16bfe688f11b9027f7e12b90eef",
-            "pngHash": "f275d70d7b13601514a9a4006881c3ffa942db8229523580408e5d2fcbd5fb08"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "person-edit",
-      "title": "Edit person",
-      "route": "/people/7f1d6a3e-0001-4a3e-8f6e-0f0000000001",
-      "parent": "steps-people",
-      "isFlagOnly": true,
-      "requires": ["people"],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "sam",
-          "title": "Sam, with photo",
-          "route": "/people/7f1d6a3e-0001-4a3e-8f6e-0f0000000001",
-          "off": null,
-          "on": {
-            "inputHash": "f50220adcae4f1b367f13cd0a38795f751caba702de6b8ca307518d3e6d88d51",
-            "pngHash": "e810d74e83d6594113f064f72b1e4d2f5fd1ff8b9fbf3c9ba1d62aa56fcbb73a"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "reminder",
-      "title": "Reminder",
-      "route": "/settings/reminder",
-      "parent": "settings",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Reminder",
-          "route": "/settings/reminder",
-          "off": {
-            "inputHash": "8ed1dfa6a9feabd5940a6a644ce645dbe7f66ff9873ec92be63449176701b78d",
-            "pngHash": "e623a5d7ef489de7644a07722bc3227a4962167839cb5b8ef112937894826c40"
-          },
-          "on": {
-            "inputHash": "75549fe65ea1366f9a867e71d7de9710337b967ada71db336c404a301a23528d",
-            "pngHash": "d10992fb07974a570da4bf9593b057ad423460e040bf04744cfdfa445061c891"
-          },
-          "flagged": [
-            {
-              "id": "",
-              "label": "Quick Check-ins",
-              "rect": [32, 555, 125.5, 20.5],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "quick-check-in-enabled",
-              "label": "Quick Check-ins",
-              "rect": [16, 536.5, 370, 58],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "",
-              "label": "Short check-ins during the day: mood, emotions, people, and tags in a few taps.",
-              "rect": [16, 594.5, 370, 45.5],
-              "flags": ["quick-check-in"]
-            },
-            {
-              "id": "",
-              "label": "Recaps",
-              "rect": [32, 676, 56.5, 20.5],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "recap-notifications-enabled",
-              "label": "Recaps",
-              "rect": [16, 657.5, 370, 58],
-              "flags": ["recaps"]
-            },
-            {
-              "id": "",
-              "label": "Weekly, monthly, and yearly recaps arrive on the last day of each week, month, and year, at your reminder time.",
-              "rect": [16, 715.5, 370, 61.5],
-              "flags": ["recaps"]
-            }
-          ],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "colors",
-      "title": "Colors",
-      "route": "/settings/colors",
-      "parent": "settings",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Colors",
-          "route": "/settings/colors",
-          "off": {
-            "inputHash": "81123c4c5e3dfec126b80a80cd66baeb53eb40001972d442e4060f27b4dba25b",
-            "pngHash": "1694e26a7747bcbaf3f81ecd001080834f7d33f8e62370f13642b2bcfec623a2"
-          },
-          "on": {
-            "inputHash": "94d5ebc1598d03c69232e7bd73271cf1a4854fd9435b1602130899ed55f26d48",
-            "pngHash": "1694e26a7747bcbaf3f81ecd001080834f7d33f8e62370f13642b2bcfec623a2"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "app-icon",
-      "title": "App icon",
-      "route": "/settings/app-icon",
-      "parent": "settings",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "default",
-          "title": "Default icon",
-          "route": "/settings/app-icon",
-          "off": {
-            "inputHash": "c5428aef50d36527eb1e7bfbad99984553dacd67d001d34658d20ecd5f484248",
-            "pngHash": "dd8c7c45f3954620316a5243fbfb38c65738481be5398ac521fee13142abc799"
-          },
-          "on": {
-            "inputHash": "3460f1c258526fddb5f96b7a138db62cbda872be16b3b42866a234410819a346",
-            "pngHash": "6105ad20dc0e69e41b7976e4f4cb25229931749db8ee31acec501005ad1c48ab"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "app-lock",
-      "title": "App Lock",
-      "route": "/settings/app-lock",
-      "parent": "settings",
-      "isFlagOnly": true,
-      "requires": ["app-lock"],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "off",
-          "title": "Lock off",
-          "route": "/settings/app-lock",
-          "off": null,
-          "on": {
-            "inputHash": "014d795055f2078611541c3b8db941eb43e0c11490c4376e7d252f5b0d2899c0",
-            "pngHash": "c0b4d5f57940f3092f350eb466ebc17849e10368ee873bf09c5db1c2c1db93dc"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "data",
-      "title": "Data",
-      "route": "/settings/data",
-      "parent": "settings",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Data",
-          "route": "/settings/data",
-          "off": {
-            "inputHash": "799551cd674b66ee6b2ca66b820f2a663926fcd40e6fe4b65a9feb6892e4830e",
-            "pngHash": "11d938164028b1f38f4fa06ec316e23ebf857ab779e1243e1ae37afef9b935bb"
-          },
-          "on": {
-            "inputHash": "6cf566a15a0dc37bb63bb19c9eb07dad8a7c7f8fca05b5d040add952f508b99f",
-            "pngHash": "11d938164028b1f38f4fa06ec316e23ebf857ab779e1243e1ae37afef9b935bb"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "privacy",
-      "title": "Privacy",
-      "route": "/settings/privacy",
-      "parent": "settings",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "year",
-          "title": "Privacy",
-          "route": "/settings/privacy",
-          "off": {
-            "inputHash": "4eaed2af83c31981a1e8276c39acd69f976e4c2f953dd7a4a15ad461956c03ae",
-            "pngHash": "2e86f56ad1c66bf9bb2a3da66ce8e69ad30009e838c40d28edd219a2168002c4"
-          },
-          "on": {
-            "inputHash": "71c6903d0622bc6e47d0969dd78a9019c36b497bfaa8ba7b1ca624a1ccb2e506",
-            "pngHash": "2e86f56ad1c66bf9bb2a3da66ce8e69ad30009e838c40d28edd219a2168002c4"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
-    },
-    {
-      "id": "feedback",
-      "title": "Feedback",
-      "route": "/feedback",
-      "parent": "settings",
-      "isFlagOnly": false,
-      "requires": [],
-      "hiddenBy": [],
-      "states": [
-        {
-          "id": "issue",
-          "title": "Report an issue",
-          "route": "/feedback",
-          "off": {
-            "inputHash": "29e452463186e337c6cc8da53f04005899695445699d33101cad22d0ab4161ed",
-            "pngHash": "8861a8fc347af8b6638813ad6bfa2fc166481f2c0ca82b25da4875153f808fac"
-          },
-          "on": {
-            "inputHash": "9654ec18ee6154336f430c885badc66f561af05e4b9ec72a3aa5b3f0bd51d50f",
-            "pngHash": "5367093d2d49683c086fb62c6b39a00fb74167f119a87528063c54966727be5d"
-          },
-          "flagged": [],
-          "errors": {}
-        }
-      ]
+     "id": "persona-nina",
+     "title": "Persona Nina",
+     "route": "/calendar",
+     "off": {
+      "inputHash": "82b6f555cb6ed3f155e13ed8a2a1bc511bbac360e13cf6513f299221f9395a5f",
+      "pngHash": "7cf73150d8291a661959bbdcacf76a92238ec571ccc6233beca3977dcd5048cd"
+     },
+     "on": {
+      "inputHash": "dcd35fe6fc8d7d2b0dfc80fee57275c431e55e0031062f86040e39521cdecc55",
+      "pngHash": "a7a9642d1a0558dca38b8269e94d45f75f262efbc0da1aac59a217f23faa0191"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        20,
+        66,
+        36,
+        36
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "calendar-quick-check-in",
+       "label": "Quick Check-in",
+       "rect": [
+        328,
+        634,
+        54,
+        54
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "calendar-voice-entry",
+       "label": "Check In by Voice",
+       "rect": [
+        328,
+        700,
+        54,
+        54
+       ],
+       "flags": [
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
     }
-  ]
+   ]
+  },
+  {
+   "id": "onboarding",
+   "title": "Onboarding",
+   "route": "/onboarding",
+   "parent": "calendar",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "welcome",
+     "title": "Welcome",
+     "route": "/onboarding",
+     "off": {
+      "inputHash": "b2fd11bd8409972929ec4c9e24eaeddbf699193216da719d13116e9dbae7a302",
+      "pngHash": "e051421e01e3171bc35e67697478ac2e388f9ed04eb32f3bc89da0a168827607"
+     },
+     "on": {
+      "inputHash": "25845f06cb026753a2c8c4fdbd4c8686004115ad55d40bb66327229f60511a17",
+      "pngHash": "e051421e01e3171bc35e67697478ac2e388f9ed04eb32f3bc89da0a168827607"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "day",
+   "title": "Day",
+   "route": "/days/2026-03-18",
+   "parent": "calendar",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Entries of today",
+     "route": "/days/2026-03-18",
+     "off": {
+      "inputHash": "71bf14b511f114859ca6f1cafb58ce0eb56c7cea287c566519e29eb2572fad21",
+      "pngHash": "17d6a93f6ca0395aab33b8407bd90306f2d81189a0791364bcb8c4a23054f497"
+     },
+     "on": {
+      "inputHash": "e050aef893aac44aff5f7f26b2115b2f155bc547e8527d232ce2531771031c1c",
+      "pngHash": "f185b982c17ed0840ff330d4f077415bab1e4c8f508b771ec293882ffe71a197"
+     },
+     "flagged": [
+      {
+       "id": "log-list-photos-edit",
+       "label": "Add Photos",
+       "rect": [
+        33,
+        410,
+        110,
+        38
+       ],
+       "flags": [
+        "photos"
+       ]
+      }
+     ],
+     "errors": {}
+    },
+    {
+     "id": "timeline",
+     "title": "Many entries, photos, places",
+     "route": "/days/2026-03-18",
+     "off": {
+      "inputHash": "3081c303aaea1aeb5b6ccdd899652126188c3d488adfd3bfca60bb0ff85f5ba9",
+      "pngHash": "3ccca8e41bbd7bc78c108ee2c34fc22c1c26b680e103b28fd981bd690d729111"
+     },
+     "on": {
+      "inputHash": "b3e544ce6910c4af16ccc00dc41a5b563389bd36be8f22a080b8ccff32d23c03",
+      "pngHash": "2e33cc7244d66ea42b69aa6a86a02752cf4ec074cd532ec1a6c0458da34d7f6d"
+     },
+     "flagged": [
+      {
+       "id": "log-list-photos-edit",
+       "label": "Edit Photos",
+       "rect": [
+        137,
+        246,
+        96,
+        96
+       ],
+       "flags": [
+        "photos"
+       ]
+      }
+     ],
+     "errors": {}
+    },
+    {
+     "id": "empty",
+     "title": "Day without entries",
+     "route": "/days/2026-03-18",
+     "off": {
+      "inputHash": "9c5575b0ddc9000243514377e3235019b9485e7c935ab0b2b9c07a3dcc95db2b",
+      "pngHash": "548af8399fa5f7af060f8548c7cab53e53d73b2401129e9395fdb22683338d9f"
+     },
+     "on": {
+      "inputHash": "88d572cbc5357fda1f17a1226f4c14dc8d339c9494d771459de76af02c617e64",
+      "pngHash": "b13c9d133915fd1ed86a3f198bc06e70e42e40c7e090d7b1fd4be578d3de8be8"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "entry-edit",
+   "title": "Edit entry",
+   "route": "/logs/b4e69720-ca77-5f71-9788-e735d10406db/edit",
+   "parent": "day",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "rating",
+     "title": "Rating step",
+     "route": "/logs/b4e69720-ca77-5f71-9788-e735d10406db/edit",
+     "off": {
+      "inputHash": "af620af1996f08d56402bc7f6657a5285c6d3fb9595a7f050b79064191c45bde",
+      "pngHash": "cfb28161f15017228e2e4587080d382c33aaeb6b75d8ada0bced37146641f64c"
+     },
+     "on": {
+      "inputHash": "a2b25a2a88c57a93f9d44e20dd4dc6f5dc6c210ce323246c7a351a34d1a19f27",
+      "pngHash": "a4c3a632014d72e5685b3c222d57d06100480888001b40d53e330dced2bbfa15"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "entry-create",
+   "title": "New entry",
+   "route": "/logs/create/2026-03-18T08%3A41%3A00.000Z",
+   "parent": "calendar",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "rating",
+     "title": "Rating step",
+     "route": "/logs/create/2026-03-18T08%3A41%3A00.000Z",
+     "off": {
+      "inputHash": "654161cde5b2377f454ab885b941fac677b6981704c1bbdcb003750f30606e9d",
+      "pngHash": "40877d947b63b1747b9bb0444db93af4f6e6f9d7699690568e4f0c093aa53f50"
+     },
+     "on": {
+      "inputHash": "5053404980d93dda41f228074ea7111c7ac51e14b99ae608bcf1eb4f5ea9fd8c",
+      "pngHash": "f5c0df6740d386834e0beb746efd439f3a74f06f9eeae99dad65ece6ccd15828"
+     },
+     "flagged": [],
+     "errors": {}
+    },
+    {
+     "id": "every-step",
+     "title": "Every step on",
+     "route": "/logs/create/2026-03-18T08%3A41%3A00.000Z",
+     "off": {
+      "inputHash": "93354a2870f201339bca1d41ac7e28407557d9c986adaf292ad1b1b14740759c",
+      "pngHash": "326663497aef64d57dd9591e990cf6196abf05f01c5d74d61702c2e5862b3093"
+     },
+     "on": {
+      "inputHash": "3a183675d83618a44b63159bb1e314e152e55d401a0baef9a3f3bc580eb26023",
+      "pngHash": "037f1beeb6af8dc5f5c548be371dc70967e8f1511d85396b8e900c3faada0662"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "request",
+   "title": "Request a word",
+   "route": "/request?kind=emotion",
+   "parent": "entry-create",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "emotion",
+     "title": "Emotion word",
+     "route": "/request?kind=emotion",
+     "off": {
+      "inputHash": "d9fe010125f150e2a553950d0dc2e2aec7c16c24bded515f510db3c83641168d",
+      "pngHash": "6845fa6d4eac1c0ab7519a528eba3ae8212e42b94c7c40393aa2b339ed77fa44"
+     },
+     "on": {
+      "inputHash": "7753633c365984e954ab1d307e206b83243afb02ffbf9ec95b45c8123bcbeb48",
+      "pngHash": "2496675c70a9293b1f1ac86d79a2c79ca085aaf233e65e09438633a01b6906ce"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "quick-check-in",
+   "title": "Quick check-in",
+   "route": "/check-in/new",
+   "parent": "calendar",
+   "isFlagOnly": true,
+   "requires": [
+    "quick-check-in"
+   ],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "new",
+     "title": "New check-in",
+     "route": "/check-in/new",
+     "off": null,
+     "on": {
+      "inputHash": "102f33f7d8ce42d040ce93507b95c8d65816e140bb4ff90bab7f3db13d1dd486",
+      "pngHash": "43c905c5ceafbe68190d251f5db3ff7ce1649c88c3b865955ac39aa3e9518bd0"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "statistics",
+   "title": "Statistics",
+   "route": "/statistics",
+   "parent": "calendar",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [
+    "recaps"
+   ],
+   "states": [
+    {
+     "id": "year",
+     "title": "One year of entries",
+     "route": "/statistics",
+     "off": {
+      "inputHash": "f8db9e19501e2a3bbc50029f6f42755e529dd5ff37eb6e9c0f172c18f64ca0ef",
+      "pngHash": "dc29916fa78cb288aae16de64a03a55f8d88e0451d45da2b35f8760abf6a0366"
+     },
+     "on": null,
+     "flagged": [],
+     "errors": {}
+    },
+    {
+     "id": "locked",
+     "title": "Too few entries",
+     "route": "/statistics",
+     "off": {
+      "inputHash": "0d75e8f8f8756aff131c4aabbe61944a720c757f5cd1e250d9603ce3815be1ae",
+      "pngHash": "435d92030e965a643d538b91c70cf7a9355e5d01a68e23b05c6b62af82b6ddd1"
+     },
+     "on": null,
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "statistics-highlights",
+   "title": "Highlights",
+   "route": "/statistics/highlights",
+   "parent": "statistics",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [
+    "recaps"
+   ],
+   "states": [
+    {
+     "id": "year",
+     "title": "Last 2 weeks",
+     "route": "/statistics/highlights",
+     "off": {
+      "inputHash": "95af0d63f193a93a1f7e14fb72067460af9aa0e478bd4edc1eab69040627640f",
+      "pngHash": "f72e4d5b5e6c9986950450dd18ea91d85efa6cdf576a5a2094e8b71f8992b8f0"
+     },
+     "on": null,
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "statistics-month",
+   "title": "Month report",
+   "route": "/statistics/month/2026-03-01",
+   "parent": "statistics",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [
+    "recaps"
+   ],
+   "states": [
+    {
+     "id": "year",
+     "title": "March 2026",
+     "route": "/statistics/month/2026-03-01",
+     "off": {
+      "inputHash": "6e088379349347df16072a804f62d2e7aff99e478f4eafb0573ab28169521c0d",
+      "pngHash": "6650368cffbcd5a1650068fad16dbf0a377d842f4fcb18548557661449b269e2"
+     },
+     "on": null,
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "statistics-year",
+   "title": "Year report",
+   "route": "/statistics/year/2026-01-01",
+   "parent": "statistics",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [
+    "recaps"
+   ],
+   "states": [
+    {
+     "id": "year",
+     "title": "2026",
+     "route": "/statistics/year/2026-01-01",
+     "off": {
+      "inputHash": "d016d26b57c4a3b717d10841262e599792317d3e4929028fd716b8cd3950c748",
+      "pngHash": "b77045b941c48fd4604cd78983eec369bfa3b0cc095035b30b17004199e74e3e"
+     },
+     "on": null,
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "recaps-month",
+   "title": "Month recap",
+   "route": "/recaps/month/2026-03-01",
+   "parent": "calendar",
+   "isFlagOnly": true,
+   "requires": [
+    "recaps"
+   ],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "March 2026",
+     "route": "/recaps/month/2026-03-01",
+     "off": null,
+     "on": {
+      "inputHash": "6fe6512ed559ebe5abc40dc42a56824452f8d46d3e7ea4e4c0cb68497b743409",
+      "pngHash": "b59bb7de6f9e2515965cf12b9c106e2108a851d08ab47f9e4f95d55e873abf0d"
+     },
+     "flagged": [],
+     "errors": {}
+    },
+    {
+     "id": "moments",
+     "title": "Month moments",
+     "route": "/recaps/month/2026-03-01",
+     "off": null,
+     "on": {
+      "inputHash": "b9e75b2b1029e40696753213d8255d4d8ca3b9bff774316df0be112ca53c913c",
+      "pngHash": "d9653875060eaa31b1e7f35110177bfc07d20b151307d72908e0430d4e099273"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "recaps-year",
+   "title": "Year recap",
+   "route": "/recaps/year/2026-01-01",
+   "parent": "recaps-month",
+   "isFlagOnly": true,
+   "requires": [
+    "recaps"
+   ],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "2026",
+     "route": "/recaps/year/2026-01-01",
+     "off": null,
+     "on": {
+      "inputHash": "7328f1ef4ef7496e855944be1cb9b9797600e86e76e54ef5e60fceba8f91e308",
+      "pngHash": "faa120451b11a3ad414126c8fbce5976c114f432545ff9f1998ca56bdb9e71c0"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "tags",
+   "title": "Tags",
+   "route": "/tags",
+   "parent": "calendar",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Tags",
+     "route": "/tags",
+     "off": {
+      "inputHash": "e75c662a2863a3f8b923e0ed199ec02bc622a56e66f5ebcc59b611eb60180925",
+      "pngHash": "247b1da533f2a01de337acd6d84069fa49a567f82fd304b848f244049c44697c"
+     },
+     "on": {
+      "inputHash": "6d65eddc2dde015d2db0041500b13bccab15868cec839441213d4a87262d4bb6",
+      "pngHash": "b5c6d0ac190228167d0fb668d945702978eada410d1973387787d93240108d9b"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "tag-create",
+   "title": "New tag",
+   "route": "/tags/create",
+   "parent": "tags",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "empty",
+     "title": "Empty form",
+     "route": "/tags/create",
+     "off": {
+      "inputHash": "d03723cf24f319caf61c69843bffa8a18b9bad31645dcad86b0f30ba8c4fbc6b",
+      "pngHash": "63293f6af4ea6d557a6989a171050c0fa49ce04de4569f5ac96e45cb129304d3"
+     },
+     "on": {
+      "inputHash": "898c8d2500285c918e157cd74a9e13ceabb2a75d378af0a44b0bac2c17b98e0e",
+      "pngHash": "d30a3a298a629be9a9eb17a56b46b803c9fa0c0120be0431cfda7ddd19a17f3d"
+     },
+     "flagged": [
+      {
+       "id": "tag-icon",
+       "label": "Change icon: tag",
+       "rect": [
+        32,
+        187,
+        44,
+        44
+       ],
+       "flags": [
+        "tag-icons"
+       ]
+      }
+     ],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "tag-edit",
+   "title": "Edit tag",
+   "route": "/tags/ad3d979b-4bf1-5bd8-8fcf-407b2606649c",
+   "parent": "tags",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "work",
+     "title": "Work",
+     "route": "/tags/ad3d979b-4bf1-5bd8-8fcf-407b2606649c",
+     "off": {
+      "inputHash": "3c739ce16dac9cc9924023f0d8c98363554540c529f13ed18ccaa5a7820b55cf",
+      "pngHash": "a7a1e7c9985e8c6127b58565edb602f6c0f033e1a8b2ae0c8341c32623fd5cdb"
+     },
+     "on": {
+      "inputHash": "b0902a30c40365735a670561de577b7c82e174d1c5085db536ce94ce766020b4",
+      "pngHash": "92f201f80b5c757e157b5976eab3b3c8d254d808381a8bcf3be8a9c57706ff39"
+     },
+     "flagged": [
+      {
+       "id": "tag-icon",
+       "label": "Change icon: tag",
+       "rect": [
+        32,
+        187,
+        44,
+        44
+       ],
+       "flags": [
+        "tag-icons"
+       ]
+      }
+     ],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "tag-categories",
+   "title": "Tag categories",
+   "route": "/tags/categories",
+   "parent": "tags",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "hobbies",
+     "title": "With Hobbies",
+     "route": "/tags/categories",
+     "off": {
+      "inputHash": "d2565a52fd2bbd66bf4ab016de11faeeda65db6b928b43bf6f1fee8f9201e8fb",
+      "pngHash": "cce8c0592c244849b7323c1558333223419a007d363222737d4a04b109510cac"
+     },
+     "on": {
+      "inputHash": "21db1f37aaa03d30131c06bfd6afb572f966f7110089c8446eadad93ec3ae552",
+      "pngHash": "c25ae63d8d583b780edce1d505f83246c7b8101050157b934563a7e1f801ad18"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "tag-category-edit",
+   "title": "Edit category",
+   "route": "/tags/categories/fixture-hobbies",
+   "parent": "tag-categories",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "hobbies",
+     "title": "Hobbies",
+     "route": "/tags/categories/fixture-hobbies",
+     "off": {
+      "inputHash": "d989dbf036f56ecaccee3c3f65fa377af0fa43be234adda86188c5ad855553eb",
+      "pngHash": "f038bbc99241e11a2d68af2a2925279127d95386073a8ece14e232bb3375601a"
+     },
+     "on": {
+      "inputHash": "5cf910d96d7ceb6dd9c8f7c92d22732ef12ee5dffc1a0d7731910bfcc20ff56e",
+      "pngHash": "0294ee794c99ea452f3849b5de93ac19e07096675a7654fd399bb6763b76f81f"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "settings",
+   "title": "Settings",
+   "route": "/settings",
+   "parent": "calendar",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Settings",
+     "route": "/settings",
+     "off": {
+      "inputHash": "30d861616dd93e8492098bfcbd8d9d7837887eb10b03e48beca549065c8a39ee",
+      "pngHash": "6ad1d3a878708e9b777bf5b5d42326251947a1e27dd6ee0735f9c615f3d09522"
+     },
+     "on": {
+      "inputHash": "c64b3d9e334ab1f4b7178dcb692746d710cb879ca102c11f25c1bcda0d44ea36",
+      "pngHash": "799170875d4af7132f6746139a2be1120b0d19f30f74a070f98a302c7638df88"
+     },
+     "flagged": [
+      {
+       "id": "app-lock",
+       "label": "App Lock, Off",
+       "rect": [
+        16,
+        446,
+        370,
+        58
+       ],
+       "flags": [
+        "app-lock"
+       ]
+      },
+      {
+       "id": "recaps",
+       "label": "Recaps",
+       "rect": [
+        16,
+        504,
+        370,
+        58
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "orbit",
+       "label": "Orbit",
+       "rect": [
+        16,
+        562,
+        370,
+        58
+       ],
+       "flags": [
+        "app-icons",
+        "app-lock",
+        "apple-health",
+        "calendar-timeline",
+        "chip-active-ink",
+        "development",
+        "menstruation",
+        "more-tags",
+        "needs",
+        "orbit",
+        "people",
+        "photo-peek",
+        "photos",
+        "quick-check-in",
+        "recap-sleep",
+        "recaps",
+        "support-pixy",
+        "tag-icons",
+        "voice-mode"
+       ]
+      }
+     ],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "profile",
+   "title": "Profile",
+   "route": "/profile",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "klara",
+     "title": "Klara",
+     "route": "/profile",
+     "off": {
+      "inputHash": "3deab1c23af9349838bfefbe927da863ee987ba00dda03fddaba118b4632e70f",
+      "pngHash": "ae06d71c659faa7ab25e0b0a6cafb1c5914c6e003c3190f1647f7eed1cbc2cb0"
+     },
+     "on": {
+      "inputHash": "846fd4a2c128effb5ac8b0692f23fc9aef9f29a0c6999106007f01745dbacdc6",
+      "pngHash": "f25af76b3bdf4de5b36a1856772afd3e3838ae6b7d1dc63268f236378c5042ed"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "steps",
+   "title": "Check-in steps",
+   "route": "/settings/steps",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Steps",
+     "route": "/settings/steps",
+     "off": {
+      "inputHash": "e26180c65c91c9fc3cf08c180fa9253617e6c44a33bfee4cd5e3db936b4c47e5",
+      "pngHash": "861ad32fb3b94f3eb3431d92e6110c35dd8746191c0f8268365ef3a48925cc97"
+     },
+     "on": {
+      "inputHash": "a141d9068b7ef52b5001aa67e9e9454640fc67345eaf1004fc6635c3c1f037d6",
+      "pngHash": "2f20ada16c6afaeaaf7c8d315e3db1849635d7e7cf1b7c80b2a9722f44c567d4"
+     },
+     "flagged": [
+      {
+       "id": "step-people-step-people-step-people-step-people",
+       "label": "People, Off",
+       "rect": [
+        16,
+        260.5,
+        370,
+        52
+       ],
+       "flags": [
+        "people"
+       ]
+      },
+      {
+       "id": "",
+       "label": "Menstruation",
+       "rect": [
+        64,
+        383,
+        100.5,
+        20.5
+       ],
+       "flags": [
+        "menstruation"
+       ]
+      },
+      {
+       "id": "step-menstruation-enabled",
+       "label": "Menstruation",
+       "rect": [
+        309,
+        379.5,
+        61,
+        28
+       ],
+       "flags": [
+        "menstruation"
+       ]
+      },
+      {
+       "id": "",
+       "label": "Photos",
+       "rect": [
+        64,
+        499,
+        53.5,
+        20.5
+       ],
+       "flags": [
+        "photos"
+       ]
+      },
+      {
+       "id": "step-photos-enabled",
+       "label": "Photos",
+       "rect": [
+        309,
+        495.5,
+        61,
+        28
+       ],
+       "flags": [
+        "photos"
+       ]
+      }
+     ],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "steps-tags",
+   "title": "Tags step",
+   "route": "/settings/steps/tags",
+   "parent": "steps",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Tags step",
+     "route": "/settings/steps/tags",
+     "off": {
+      "inputHash": "005569190880bff11ac893b57f47b44ced303c872730113e8b38e809c001a980",
+      "pngHash": "3b821bde5414f95d47fd978c48f35373762ffbc9fa9211861782b05f64224f6b"
+     },
+     "on": {
+      "inputHash": "b588b0509e2eba7439ea8e2f863710f5779e4c5082b7085713cf65ee5ea6ad1c",
+      "pngHash": "3b821bde5414f95d47fd978c48f35373762ffbc9fa9211861782b05f64224f6b"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "steps-tag-categories",
+   "title": "Tag categories",
+   "route": "/settings/steps/tags/categories",
+   "parent": "steps-tags",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "hobbies",
+     "title": "With Hobbies",
+     "route": "/settings/steps/tags/categories",
+     "off": {
+      "inputHash": "3a78c1db7ef7580525c6608dd68a9de9ec8ef3547c06cb81b110b45b0f39f1f1",
+      "pngHash": "e4257008b8efbe97476bd21e1fb8b953b5fd42c94360c3cd0d8b06c25863525e"
+     },
+     "on": {
+      "inputHash": "f73ef2a5015c5199f36b81ba3b1dd9a21bcf65c19f17e1880a1fbaaa37adade5",
+      "pngHash": "e4257008b8efbe97476bd21e1fb8b953b5fd42c94360c3cd0d8b06c25863525e"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "steps-sleep",
+   "title": "Sleep step",
+   "route": "/settings/steps/sleep",
+   "parent": "steps",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Sleep step",
+     "route": "/settings/steps/sleep",
+     "off": {
+      "inputHash": "fd8840eb5f358cc8a0e9627c079ea981f2b90b5eb87371ed6821c11896e2ea5c",
+      "pngHash": "1dace562c49f6dfc77e13f41cf5fd994dc46099e2a9f3c93036370dace05d1aa"
+     },
+     "on": {
+      "inputHash": "f7fdd93f6bce0f657e9704e50909f78d1b368b846614b15b6bfa49cb1a4c0240",
+      "pngHash": "30f821e37bf34b774d1b6dc8bc0e4258d9e4b7755abe00cfdf7ab379f1801f62"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Apple Health",
+       "rect": [
+        16,
+        240,
+        370,
+        16
+       ],
+       "flags": [
+        "apple-health"
+       ]
+      },
+      {
+       "id": "AppleHealthIcon",
+       "label": "",
+       "rect": [
+        32.5,
+        274.5,
+        29,
+        29
+       ],
+       "flags": [
+        "apple-health"
+       ]
+      },
+      {
+       "id": "",
+       "label": "Auto Fill",
+       "rect": [
+        77.5,
+        279,
+        217.5,
+        20.5
+       ],
+       "flags": [
+        "apple-health"
+       ]
+      },
+      {
+       "id": "health-sleep-enabled",
+       "label": "Auto Fill",
+       "rect": [
+        307,
+        275,
+        63,
+        28
+       ],
+       "flags": [
+        "apple-health"
+       ]
+      },
+      {
+       "id": "",
+       "label": "Pixy scores last night from how long you slept, your usual bedtime, and wake-ups, then picks the sleep quality. Check-ins skip the sleep step. Edit an entry to change its sleep quality. Pixy only reads sleep data. It stays on this iPhone.",
+       "rect": [
+        16,
+        322,
+        370,
+        106
+       ],
+       "flags": [
+        "apple-health"
+       ]
+      }
+     ],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "steps-people",
+   "title": "People step",
+   "route": "/settings/steps/people",
+   "parent": "steps",
+   "isFlagOnly": true,
+   "requires": [
+    "people"
+   ],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "people",
+     "title": "Three people",
+     "route": "/settings/steps/people",
+     "off": null,
+     "on": {
+      "inputHash": "31fb5d457155644ff9534a5da954b492049a2193ff7e9bc98cb77ff63a0e667c",
+      "pngHash": "cd1742d406649767eb9991248c4ad742913cd09ecc025a087e30ce2d5aede775"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "person-create",
+   "title": "New person",
+   "route": "/people/create",
+   "parent": "steps-people",
+   "isFlagOnly": true,
+   "requires": [
+    "people"
+   ],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "empty",
+     "title": "Empty form",
+     "route": "/people/create",
+     "off": null,
+     "on": {
+      "inputHash": "6b1104975c796dc80ea4ba183027dafc29a3e16bfe688f11b9027f7e12b90eef",
+      "pngHash": "f275d70d7b13601514a9a4006881c3ffa942db8229523580408e5d2fcbd5fb08"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "person-edit",
+   "title": "Edit person",
+   "route": "/people/7f1d6a3e-0001-4a3e-8f6e-0f0000000001",
+   "parent": "steps-people",
+   "isFlagOnly": true,
+   "requires": [
+    "people"
+   ],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "sam",
+     "title": "Sam, with photo",
+     "route": "/people/7f1d6a3e-0001-4a3e-8f6e-0f0000000001",
+     "off": null,
+     "on": {
+      "inputHash": "f50220adcae4f1b367f13cd0a38795f751caba702de6b8ca307518d3e6d88d51",
+      "pngHash": "e810d74e83d6594113f064f72b1e4d2f5fd1ff8b9fbf3c9ba1d62aa56fcbb73a"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "reminder",
+   "title": "Reminder",
+   "route": "/settings/reminder",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Reminder",
+     "route": "/settings/reminder",
+     "off": {
+      "inputHash": "8ed1dfa6a9feabd5940a6a644ce645dbe7f66ff9873ec92be63449176701b78d",
+      "pngHash": "e623a5d7ef489de7644a07722bc3227a4962167839cb5b8ef112937894826c40"
+     },
+     "on": {
+      "inputHash": "75549fe65ea1366f9a867e71d7de9710337b967ada71db336c404a301a23528d",
+      "pngHash": "d10992fb07974a570da4bf9593b057ad423460e040bf04744cfdfa445061c891"
+     },
+     "flagged": [
+      {
+       "id": "",
+       "label": "Quick Check-ins",
+       "rect": [
+        32,
+        555,
+        125.5,
+        20.5
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "quick-check-in-enabled",
+       "label": "Quick Check-ins",
+       "rect": [
+        16,
+        536.5,
+        370,
+        58
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "",
+       "label": "Short check-ins during the day: mood, emotions, people, and tags in a few taps.",
+       "rect": [
+        16,
+        594.5,
+        370,
+        45.5
+       ],
+       "flags": [
+        "quick-check-in"
+       ]
+      },
+      {
+       "id": "",
+       "label": "Recaps",
+       "rect": [
+        32,
+        676,
+        56.5,
+        20.5
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "recap-notifications-enabled",
+       "label": "Recaps",
+       "rect": [
+        16,
+        657.5,
+        370,
+        58
+       ],
+       "flags": [
+        "recaps"
+       ]
+      },
+      {
+       "id": "",
+       "label": "Weekly, monthly, and yearly recaps arrive on the last day of each week, month, and year, at your reminder time.",
+       "rect": [
+        16,
+        715.5,
+        370,
+        61.5
+       ],
+       "flags": [
+        "recaps"
+       ]
+      }
+     ],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "colors",
+   "title": "Colors",
+   "route": "/settings/colors",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Colors",
+     "route": "/settings/colors",
+     "off": {
+      "inputHash": "81123c4c5e3dfec126b80a80cd66baeb53eb40001972d442e4060f27b4dba25b",
+      "pngHash": "1694e26a7747bcbaf3f81ecd001080834f7d33f8e62370f13642b2bcfec623a2"
+     },
+     "on": {
+      "inputHash": "94d5ebc1598d03c69232e7bd73271cf1a4854fd9435b1602130899ed55f26d48",
+      "pngHash": "1694e26a7747bcbaf3f81ecd001080834f7d33f8e62370f13642b2bcfec623a2"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "app-icon",
+   "title": "App icon",
+   "route": "/settings/app-icon",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "default",
+     "title": "Default icon",
+     "route": "/settings/app-icon",
+     "off": {
+      "inputHash": "c5428aef50d36527eb1e7bfbad99984553dacd67d001d34658d20ecd5f484248",
+      "pngHash": "dd8c7c45f3954620316a5243fbfb38c65738481be5398ac521fee13142abc799"
+     },
+     "on": {
+      "inputHash": "3460f1c258526fddb5f96b7a138db62cbda872be16b3b42866a234410819a346",
+      "pngHash": "6105ad20dc0e69e41b7976e4f4cb25229931749db8ee31acec501005ad1c48ab"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "app-lock",
+   "title": "App Lock",
+   "route": "/settings/app-lock",
+   "parent": "settings",
+   "isFlagOnly": true,
+   "requires": [
+    "app-lock"
+   ],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "off",
+     "title": "Lock off",
+     "route": "/settings/app-lock",
+     "off": null,
+     "on": {
+      "inputHash": "014d795055f2078611541c3b8db941eb43e0c11490c4376e7d252f5b0d2899c0",
+      "pngHash": "c0b4d5f57940f3092f350eb466ebc17849e10368ee873bf09c5db1c2c1db93dc"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "data",
+   "title": "Data",
+   "route": "/settings/data",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Data",
+     "route": "/settings/data",
+     "off": {
+      "inputHash": "799551cd674b66ee6b2ca66b820f2a663926fcd40e6fe4b65a9feb6892e4830e",
+      "pngHash": "11d938164028b1f38f4fa06ec316e23ebf857ab779e1243e1ae37afef9b935bb"
+     },
+     "on": {
+      "inputHash": "6cf566a15a0dc37bb63bb19c9eb07dad8a7c7f8fca05b5d040add952f508b99f",
+      "pngHash": "11d938164028b1f38f4fa06ec316e23ebf857ab779e1243e1ae37afef9b935bb"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "privacy",
+   "title": "Privacy",
+   "route": "/settings/privacy",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "year",
+     "title": "Privacy",
+     "route": "/settings/privacy",
+     "off": {
+      "inputHash": "4eaed2af83c31981a1e8276c39acd69f976e4c2f953dd7a4a15ad461956c03ae",
+      "pngHash": "2e86f56ad1c66bf9bb2a3da66ce8e69ad30009e838c40d28edd219a2168002c4"
+     },
+     "on": {
+      "inputHash": "71c6903d0622bc6e47d0969dd78a9019c36b497bfaa8ba7b1ca624a1ccb2e506",
+      "pngHash": "2e86f56ad1c66bf9bb2a3da66ce8e69ad30009e838c40d28edd219a2168002c4"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  },
+  {
+   "id": "feedback",
+   "title": "Feedback",
+   "route": "/feedback",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "states": [
+    {
+     "id": "issue",
+     "title": "Report an issue",
+     "route": "/feedback",
+     "off": {
+      "inputHash": "29e452463186e337c6cc8da53f04005899695445699d33101cad22d0ab4161ed",
+      "pngHash": "8861a8fc347af8b6638813ad6bfa2fc166481f2c0ca82b25da4875153f808fac"
+     },
+     "on": {
+      "inputHash": "9654ec18ee6154336f430c885badc66f561af05e4b9ec72a3aa5b3f0bd51d50f",
+      "pngHash": "5367093d2d49683c086fb62c6b39a00fb74167f119a87528063c54966727be5d"
+     },
+     "flagged": [],
+     "errors": {}
+    }
+   ]
+  }
+ ]
 }

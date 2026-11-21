@@ -23,5 +23,7 @@ export default defineConfig({
     // Human-owned (AGENTS.md). Keep the author's line breaks.
     "vision.md",
     "app.json",
+    // `bun sitemap capture` writes it; reformatting makes every rerun a diff.
+    "apps/sitemap/sitemap.json",
   ],
 });
