@@ -93,6 +93,9 @@ export interface AnalyticsEvents {
     /** A mood trigger word was spoken, so the logger opens with a rating. */
     has_rating: boolean;
   };
+  /** Mic button on the logger note step. Never the transcript. */
+  "voice:note_started": undefined;
+  "voice:note_finished": { duration_ms: number; transcript_length: number };
   "voice:permission_denied": { kind: "microphone" | "speech" };
   "voice:failed": { status: string };
   /** Feedback sheet after saving a voice check-in. `prompt_index` 1 to 3. */
@@ -322,8 +325,6 @@ export interface AnalyticsEvents {
   /** Share card sent from the share sheet. Never the photos or lines. */
   /** `slide_type`: the shared slide; `share` is the share card. */
   "recaps:story_shared": {
-    has_photos: boolean;
-    shuffles: number;
     slide_type: string;
   };
   /** Story closed by the user or after the last slide. */

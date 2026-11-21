@@ -89,6 +89,7 @@ const getLongPressProps = ({
  */
 const RegularPersonChip = ({
   person,
+  label,
   selected,
   onPress,
   onLongPress,
@@ -97,6 +98,7 @@ const RegularPersonChip = ({
   style,
 }: {
   person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
+  label?: string;
   selected: boolean;
   onPress?: () => void;
   onLongPress?: () => void;
@@ -105,7 +107,8 @@ const RegularPersonChip = ({
   style: ChipStyle;
 }) => (
   <Chip
-    label={person.name}
+    label={label ?? person.name}
+    accessibilityLabel={person.name}
     selected={selected}
     onPress={onPress}
     onLongPress={onLongPress}
@@ -120,6 +123,7 @@ const RegularPersonChip = ({
 /** `tile` variant of {@link PersonChip}; `onPress` already plays haptics. */
 const PersonTile = ({
   person,
+  label,
   selected,
   onPress,
   longPressProps,
@@ -128,6 +132,7 @@ const PersonTile = ({
   size,
 }: {
   person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
+  label?: string;
   selected: boolean;
   onPress?: () => void;
   longPressProps: LongPressProps;
@@ -191,7 +196,7 @@ const PersonTile = ({
           color: colors.text,
         }}
       >
-        {person.name}
+        {label ?? person.name}
       </Label>
     </Pressable>
   );
@@ -213,6 +218,7 @@ const PersonTile = ({
  */
 export const PersonChip = ({
   person,
+  label,
   selected = false,
   variant = "chip",
   onPress,
@@ -226,6 +232,11 @@ export const PersonChip = ({
   compact = false,
 }: {
   person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
+  /**
+   * Shown name in `chip` and `tile`, like a first name. Screen readers
+   * still get the full name. Defaults to the name.
+   */
+  label?: string;
   selected?: boolean;
   variant?: "chip" | "large" | "tile";
   onPress?: () => void;
@@ -296,6 +307,7 @@ export const PersonChip = ({
     return (
       <PersonTile
         person={person}
+        label={label}
         selected={selected}
         onPress={onPress ? press : undefined}
         longPressProps={longPressProps}
@@ -310,6 +322,7 @@ export const PersonChip = ({
     return (
       <RegularPersonChip
         person={person}
+        label={label}
         selected={selected}
         onPress={onPress}
         onLongPress={editOnLongPress ? onLongPress : undefined}

@@ -17,7 +17,13 @@ import { RingedAvatar } from "../components/ringed-avatar";
 import { Reveal, SlideCard, SlideHeader, StoryText } from "./parts";
 import type { SlideContext } from "./slides";
 import { TapConfetti } from "./tap-confetti";
-import { getStoryTheme, STORY_PALETTE, titleRevealEnd } from "./theme";
+import {
+  getStoryTheme,
+  STORY_PALETTE,
+  STORY_SELECTED_CHIP,
+  titleRevealEnd,
+} from "./theme";
+import type { StoryTheme } from "./theme";
 import type { PeopleQuizSlide, QuizInsight } from "./types";
 
 /**
@@ -94,6 +100,68 @@ const insightText = (insight: QuizInsight, name: string, ctx: SlideContext) => {
     ? t("recaps_story_quiz_insight_tag", { count: insight.days, name, tag })
     : null;
 };
+
+/**
+ * Unanswered tiles look like choices: a brighter fill, a stronger outline,
+ * a soft shadow, an empty ring to tick, and a press that sinks in.
+ */
+const CHOICE = {
+  paperFill: "rgba(255,255,255,0.7)",
+  paperBorder: "rgba(255,255,255,0.95)",
+  nightFill: "rgba(255,255,255,0.16)",
+  nightBorder: "rgba(255,255,255,0.35)",
+  shadow: STORY_SELECTED_CHIP.shadow,
+  pressedScale: 0.96,
+  ring: 20,
+} as const;
+
+const tileFill = (
+  isRight: boolean,
+  isDone: boolean,
+  theme: StoryTheme,
+  palette: (typeof STORY_PALETTE)[StoryTheme]
+) => {
+  if (isRight) {
+    return ANSWER.fill;
+  }
+  if (isDone) {
+    return palette.glass;
+  }
+  return theme === "paper" ? CHOICE.paperFill : CHOICE.nightFill;
+};
+
+const tileBorder = (
+  isRight: boolean,
+  isDone: boolean,
+  theme: StoryTheme,
+  palette: (typeof STORY_PALETTE)[StoryTheme]
+) => {
+  if (isRight) {
+    return ANSWER.fill;
+  }
+  if (isDone) {
+    return palette.glassBorder;
+  }
+  return theme === "paper" ? CHOICE.paperBorder : CHOICE.nightBorder;
+};
+
+/** Empty ring in the tile corner: "pick one". */
+const ChoiceRing = ({ color }: { color: string }) => (
+  <View
+    accessible={false}
+    style={{
+      position: "absolute",
+      top: 14,
+      right: 14,
+      width: CHOICE.ring,
+      height: CHOICE.ring,
+      borderRadius: RADIUS.full,
+      borderWidth: 1.5,
+      borderColor: color,
+      opacity: 0.45,
+    }}
+  />
+);
 
 /**
  * "Who played the biggest role?": one tap on a person. Then every tile
@@ -182,13 +250,15 @@ export const PeopleQuiz = ({
                     gap: 10,
                     borderRadius: RADIUS.lg,
                     borderCurve: "continuous",
-                    borderWidth: 1,
-                    borderColor: isRight ? ANSWER.fill : palette.glassBorder,
-                    backgroundColor: isRight ? ANSWER.fill : palette.glass,
-                    opacity: pressed ? 0.7 : 1,
+                    borderWidth: isDone ? 1 : 1.5,
+                    borderColor: tileBorder(isRight, isDone, theme, palette),
+                    backgroundColor: tileFill(isRight, isDone, theme, palette),
+                    boxShadow: isDone ? undefined : CHOICE.shadow,
+                    transform: [{ scale: pressed ? CHOICE.pressedScale : 1 }],
                   })}
                 >
                   <RingedAvatar person={person} size={44} />
+                  {!isDone && <ChoiceRing color={palette.text} />}
                   <View style={{ marginTop: "auto", gap: 2 }}>
                     <StoryText
                       kind="body"

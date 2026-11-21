@@ -18,6 +18,13 @@ Run in order. Relay each `Step N` line. Do not pick variants; the CLI owns them.
 e2e: `bun e2e run --platform=<ios|android> [--paths=<path,...>]`. Phones cannot run flows yet.
 Help and errors: `bun <noun> <command> --help`. Limits on phones: [development.md](../../../docs/development.md#phones).
 
+# Device limit
+
+At most 1 iOS simulator and 1 Android emulator run on a machine at a time. More runs the host out of memory.
+
+- Before `app install`, `app dev`, or `e2e run`: check `xcrun simctl list devices booted` (iOS) or `adb devices` (Android). If another checkout's device runs, wait until it closes or ask the user. Never boot a second one.
+- Always finish with `bun app close <device>`.
+
 # Waiting
 
 `app build`, `app install`, `app dev`, and `e2e run` take minutes. First stderr line: `Log: <path>`, new file per run. Last stdout line: `PIXY_RESULT status=<ok|error> command=<name> [code=<status>] [path=<artifact>]`.

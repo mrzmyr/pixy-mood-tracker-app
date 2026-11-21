@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.114.0",
+  "version": "1.115.0",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
@@ -18,7 +18,7 @@
     "release": "bun scripts/cli/index.ts release",
     "sitemap": "bun scripts/cli/index.ts sitemap",
     "worktree": "bun scripts/cli/index.ts worktree",
-    "test:cli": "bun test scripts/cli scripts/sitemap scripts/codemods scripts/check-locales scripts/sort-locales scripts/generate-licenses",
+    "test:cli": "bun test scripts/cli scripts/sitemap scripts/codemods scripts/check-locales scripts/sort-locales scripts/generate-licenses scripts/app-config",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",
     "test:ci": "jest --env=jsdom",

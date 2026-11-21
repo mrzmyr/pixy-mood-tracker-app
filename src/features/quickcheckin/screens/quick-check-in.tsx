@@ -13,7 +13,11 @@ import { RATING_KEYS } from "@/constants/ratings";
 import { SPACE } from "@/constants/space";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
-import { usePeopleState } from "@/features/people";
+import {
+  getShortNames,
+  usePeopleAdded,
+  usePeopleState,
+} from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
@@ -160,7 +164,8 @@ const QuickCheckInHeader = ({
  * Quick check-in on one scrolling page: mood, a one-line note, then sections
  * for emotions as in the logger, a row of people, the top 20 tags, and
  * photos. Each section folds under a hairline divider; the folded state stays
- * on the device. The full list of people opens in a sheet. Opens from the calendar, from voice mode (with
+ * on the device. The full list of people opens in a sheet, with "Add
+ * Person" on top. Opens from the calendar, from voice mode (with
  * `prefill`), and from More in the Android notification.
  *
  * - `id` names an entry saved in the notification: the screen edits it.
@@ -218,6 +223,10 @@ export const QuickCheckIn = () => {
   const now = useMemo(() => dayjs(), []);
 
   const visiblePeople = hasPeople ? people : NO_PEOPLE;
+  const shortNames = useMemo(
+    () => getShortNames(visiblePeople),
+    [visiblePeople]
+  );
   const sections = useMemo(
     () =>
       getSheetSections({
@@ -303,6 +312,13 @@ export const QuickCheckIn = () => {
     );
   const togglePerson = (personId: string) =>
     toggle({ kind: "person", id: personId });
+  // "Add Person" opens the person form on top: select whoever it adds.
+  usePeopleAdded(people, (added) =>
+    setPicked((current) => [
+      ...current,
+      ...added.map((person) => `person:${person.id}`),
+    ])
+  );
   const personById = new Map(people.map((person) => [person.id, person]));
 
   const isIOS = Platform.OS === "ios";
@@ -366,6 +382,7 @@ export const QuickCheckIn = () => {
                     const person = personById.get(option.id);
                     return person ? [person] : [];
                   })}
+                  shortNames={shortNames}
                   picked={pickedPeople}
                   onToggle={togglePerson}
                   onShowAll={() => setIsPeopleOpen(true)}

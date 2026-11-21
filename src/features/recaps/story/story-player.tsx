@@ -253,6 +253,12 @@ export const StoryPlayer = ({
   const [isHolding, setIsHolding] = useState(false);
   // Slide content holds the story while a detail is open (`StoryHoldContext`).
   const [isHeldBySlide, setIsHeldBySlide] = useState(false);
+  // While a slide holds, a tap closes its detail instead of moving on.
+  const release = useRef<(() => void) | null>(null);
+  const holdBySlide = (isHeld: boolean, onRelease?: () => void) => {
+    setIsHeldBySlide(isHeld);
+    release.current = isHeld ? (onRelease ?? null) : null;
+  };
   const progress = useSharedValue(0);
   const slide = slides[index];
   const theme = slide?.theme ?? "night";
@@ -332,7 +338,7 @@ export const StoryPlayer = ({
     progress.set(slides[target]?.isHeld ? 1 : 0);
     setIndex(target);
     setIsPausedByUser(false);
-    setIsHeldBySlide(false);
+    holdBySlide(false);
     if (target !== index) {
       onSlideShown(target);
     }
@@ -358,6 +364,10 @@ export const StoryPlayer = ({
   // `pageX`, not `locationX`: `locationX` counts from the touched child,
   // so a tap on the right half over a small tile went back.
   const onPress = (event: GestureResponderEvent) => {
+    if (release.current) {
+      release.current();
+      return;
+    }
     const { pageX } = event.nativeEvent;
     goTo(pageX < 120 ? index - 1 : index + 1);
   };
@@ -404,7 +414,7 @@ export const StoryPlayer = ({
               testID={`recap-story-slide-${slide.key}`}
             >
               <StoryPressContext value={{ onPress, setIsHolding, next }}>
-                <StoryHoldContext value={setIsHeldBySlide}>
+                <StoryHoldContext value={holdBySlide}>
                   {slide.content}
                 </StoryHoldContext>
               </StoryPressContext>

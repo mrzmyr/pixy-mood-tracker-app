@@ -447,6 +447,26 @@ describe("no-reduce-motion-never", () => {
   });
 });
 
+describe("float-surface-glass", () => {
+  it("reports the float shadow without a glass view", () => {
+    expect(
+      lint(
+        "float-surface-glass",
+        'import { View } from "react-native";\nconst SHADOW = { float: "x" };\nexport const Pill = () => <View style={{ boxShadow: SHADOW.float }} />;\n'
+      )
+    ).toBe(1);
+  });
+
+  it("allows the float shadow as fallback next to a glass view", () => {
+    expect(
+      lint(
+        "float-surface-glass",
+        'import { View } from "react-native";\nimport { GlassView } from "expo-glass-effect";\nconst SHADOW = { float: "x" };\nexport const Pill = ({ glass }: { glass: boolean }) => (glass ? <GlassView /> : <View style={{ boxShadow: SHADOW.float }} />);\n'
+      )
+    ).toBe(0);
+  });
+});
+
 describe("no-spring-animation", () => {
   it("reports withSpring, Bounce presets, and springify", () => {
     expect(

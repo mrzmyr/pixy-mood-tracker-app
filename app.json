@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pixy",
     "slug": "pixy-mood-tracker",
-    "version": "1.114.0",
+    "version": "1.115.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
@@ -219,7 +219,7 @@
         {
           "photosPermission": "Pixy adds photos you choose to your entries and people. Photos stay on your device.",
           "cameraPermission": false,
-          "microphonePermission": false
+          "microphonePermission": "Pixy listens while you talk about your day to write your check-in. Audio is never saved."
         }
       ],
       [

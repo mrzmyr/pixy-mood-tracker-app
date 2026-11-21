@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.115.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.114.0...v1.115.0) (2026-11-19)
+
+
+### Features
+
+* **cli:** lease phones from simlock ([#1149](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1149)) ([f9d2131](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f9d21314cd58caa62381fdac8ec54e80c3b7ad66))
+* **needs:** full-width rating, individual needs, and Show Feelings button ([#1162](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1162)) ([2ccf5df](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2ccf5df8df00a8114338cd33b940f434eea427ad))
+* **quick-check-in:** add person from the All people list ([#1171](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1171)) ([7c657f3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7c657f3bfd7f162b7a204f670680b3e1e9f00a59))
+* **quick-check-in:** open emotions on needs when needs flag is on ([#1158](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1158)) ([61eb334](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/61eb33403951358d00752a9935c614e33c6e1c04))
+* **quick-check-in:** show people by first name ([#1160](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1160)) ([04aea4e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/04aea4e7565f4064a4e164b88ebd42f5900a8674))
+* **recaps:** dark share card in dark mode, pixels only, prominent Share ([#1163](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1163)) ([7dac31c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7dac31ca578489a547b665cc9dd8fe36a60270a3))
+* **recaps:** orbit month grows from the person, closes on any tap, rings today ([#1165](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1165)) ([13b7980](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/13b798000d7147ddfdadce049be93c692767ab13))
+* **settings:** Language row opens the app's system language setting ([#1170](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1170)) ([0fd12da](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0fd12da0ec16322b167c042d39e2842c2d150650))
+* **settings:** Orbit page with people of the last 4 weeks ([#1172](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1172)) ([3c7398a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3c7398a373c454d68cce8d18bec0085e44b9b7e0))
+* **tags:** add tag icons with on-device suggestions ([#1143](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1143)) ([5d77e46](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5d77e46d3ac828cf8db4bfb148236d7a1d8d8305))
+* **voice:** dictate into the note with the voice input pill ([#1116](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1116)) ([571fb85](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/571fb85e928a682c92e871bb6918f33d4e977489))
+
+
+### Bug Fixes
+
+* **logger:** open at the tapped step from day view and focus the note ([#1168](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1168)) ([4ce7343](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4ce734332d9acd925fa9d786f4a9017022cf9609))
+* **people:** drop the person name from the tile context menu ([#1161](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1161)) ([98e76f3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/98e76f3690cfab5cfbbd8a939b1e7ae5de79c9e5))
+* **photos:** quieter photos step and softer Add Photo tile ([#1159](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1159)) ([9f0ee5b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9f0ee5b01328ba631b59d1794225f040e1951b1b))
+* **recaps:** best day teaser asks to unlock and scrolls under a pinned track ([#1167](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1167)) ([c38746e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c38746e535c64ecbbfe1e885df651ef33328dece))
+* **recaps:** quiz people look tappable and the title asks to guess ([#1166](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1166)) ([c158d9e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c158d9ec15e7fe2f5f61ffa597e9d8f539ab183e))
+* **recaps:** say orbit instead of circle for the user's people ([#1164](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1164)) ([6637781](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/66377816b8cfc46338e052ade8b1b5a0e730888b))
+* **tags:** drop removed FlagHighlight from tag screens ([#1153](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1153)) ([94e0505](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/94e050583782d946efda100a14007de9b64941d0))
+* **ui:** unify text inputs with platform grays and capsule radius ([#1150](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1150)) ([25ccf40](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/25ccf4099dbece8367f6789872fcd64884552af5))
+* **voice:** keep RECORD_AUDIO on Android ([#1154](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1154)) ([b3d1e24](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b3d1e24bc8656f3d1449c0838d2d890444dd9aed))
+* **voice:** remove "Paused" title from voice mode ([#1147](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1147)) ([07bed47](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/07bed47fc3813ae40f80337ed47937d93d2837be))
+
 ## [1.114.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.113.0...v1.114.0) (2026-11-08)
 
 

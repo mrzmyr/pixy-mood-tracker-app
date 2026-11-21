@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
 import Plus from "lucide-react-native/icons/plus";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Pressable, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
@@ -19,6 +19,7 @@ import {
   getPeopleLimit,
   getPersonMenuActions,
   movePerson,
+  usePeopleAdded,
   usePeopleState,
   usePeopleUpdater,
   usePersonMenu,
@@ -180,23 +181,10 @@ export const SlidePeople = ({
     );
   };
 
-  // The add-person form opens on top of this slide, which stays mounted.
-  // Anyone who shows up in the list after mount is new: select them.
-  const knownIds = useRef<Set<string> | null>(null);
-  if (knownIds.current === null) {
-    knownIds.current = new Set(people.map((person) => person.id));
-  }
-  useEffect(() => {
-    const known = knownIds.current;
-    const added = people.filter((person) => !known?.has(person.id));
-    if (added.length === 0) {
-      return;
-    }
-    for (const person of added) {
-      known?.add(person.id);
-    }
-    setPeople([...draft.people, ...added.map((person) => ({ id: person.id }))]);
-  }, [people, draft.people, setPeople]);
+  // The add-person form opens on top of this slide: select whoever it adds.
+  usePeopleAdded(people, (added) =>
+    setPeople([...draft.people, ...added.map((person) => ({ id: person.id }))])
+  );
 
   return (
     <View

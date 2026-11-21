@@ -13,12 +13,15 @@ export const SheetModal = ({
   visible,
   onClose,
   onShow,
+  onDismiss,
   backgroundColor,
   children,
 }: {
   visible: boolean;
   onClose: () => void;
   onShow?: () => void;
+  /** Runs once the close animation ends. Present the next screen here. */
+  onDismiss?: () => void;
   /** Fills the area behind the status bar on Android. Match the header. */
   backgroundColor: string;
   children: React.ReactNode;
@@ -29,6 +32,7 @@ export const SheetModal = ({
     presentationStyle="pageSheet"
     onRequestClose={onClose}
     onShow={onShow}
+    onDismiss={onDismiss}
   >
     <PageModalLayout style={{ backgroundColor }}>{children}</PageModalLayout>
   </Modal>

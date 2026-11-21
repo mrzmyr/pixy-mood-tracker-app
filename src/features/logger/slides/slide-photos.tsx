@@ -12,7 +12,6 @@ import {
   MAX_PHOTOS_PER_ENTRY,
   PhotoGrid,
   PhotoLimitNotice,
-  PhotosPromptCard,
   PickTile,
   useDraftPhotos,
 } from "@/features/photos";
@@ -64,9 +63,9 @@ const formatDayLabel = ({
  * "More Photos…".
  *
  * Android: Google Play allows no broad photo access for Pixy, so there are
- * no photos of the day (`unavailable`). A card opens the system Photo
- * Picker; picks fill the same grid, "More…" at its end opens the picker
- * again. The next button skips the step.
+ * no photos of the day (`unavailable`). An "Add Photo" tile opens the
+ * system Photo Picker; picks fill the same grid, "More…" at its end opens
+ * the picker again. The next button skips the step.
  */
 export const SlidePhotos = ({
   mode,
@@ -101,6 +100,8 @@ export const SlidePhotos = ({
   const hasDayGrid = permission === "granted" || permission === "limited";
   const isLimited = permission === "limited";
   const hasLibraryTag = hasDayGrid && draft.dayPhotoCount > 0;
+  // Access on, no photos that day: one muted line next to Library.
+  const isDayEmpty = permission === "granted" && draft.dayPhotoCount === 0;
 
   const removeByKey = (key: string) => {
     const photo = draft.photos.find((candidate) => candidate.key === key);
@@ -141,35 +142,23 @@ export const SlidePhotos = ({
       />
     ));
 
-  const renderAndroid = () => {
-    if (draft.items.length === 0) {
-      return (
-        <PhotosPromptCard
-          testID="photos-choose"
-          hasPreview
-          title={t("photos_choose_title")}
-          body={t("photos_choose_body", { max: MAX_PHOTOS_PER_ENTRY })}
-          actionLabel={t("photos_choose_button")}
-          onAction={addFromLibrary}
-        />
-      );
-    }
-    return (
-      <PhotoGrid testID="photo-grid">
-        {(cellSize) => (
-          <>
-            {renderTiles(cellSize)}
-            <AddPhotoTile
-              label={t("photos_more")}
-              onPress={addFromLibrary}
-              size={cellSize}
-              disabled={draft.isAddDisabled}
-            />
-          </>
-        )}
-      </PhotoGrid>
-    );
-  };
+  // No card when nothing is picked: the "Add Photo" tile alone opens the
+  // picker, so the step stays quiet.
+  const renderAndroid = () => (
+    <PhotoGrid testID="photo-grid">
+      {(cellSize) => (
+        <>
+          {renderTiles(cellSize)}
+          <AddPhotoTile
+            label={t(draft.items.length === 0 ? "photos_add" : "photos_more")}
+            onPress={addFromLibrary}
+            size={cellSize}
+            disabled={draft.isAddDisabled}
+          />
+        </>
+      )}
+    </PhotoGrid>
+  );
 
   const renderIos = () => (
     <>
@@ -177,18 +166,22 @@ export const SlidePhotos = ({
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "flex-end",
           gap: 12,
         }}
       >
-        <Label
-          size={16}
-          strong
-          accessibilityRole="header"
-          style={{ color: colors.text }}
-        >
-          {t("photos_from_day", { day: dayTitle })}
-        </Label>
+        {isDayEmpty && (
+          <Copy
+            size={14}
+            numberOfLines={1}
+            testID="photos-day-empty"
+            style={{ flex: 1, color: colors.textSecondary }}
+          >
+            {t("photos_day_empty", {
+              day: formatDayLabel({ date, isTitleCase: false }),
+            })}
+          </Copy>
+        )}
         <Button
           type="secondary"
           testID="photos-library-button"
@@ -276,18 +269,8 @@ export const SlidePhotos = ({
           }}
         >
           {/* Unknown until the permission read: no layout to flash. */}
-          {permission !== null && (
-            <>
-              {isAndroid ? renderAndroid() : renderIos()}
-              <Copy
-                size={13}
-                testID="photos-helper"
-                style={{ color: colors.textSecondary }}
-              >
-                {t(isAndroid ? "photos_choose_helper" : "photos_step_helper")}
-              </Copy>
-            </>
-          )}
+          {permission !== null && isAndroid && renderAndroid()}
+          {permission !== null && !isAndroid && renderIos()}
         </ScrollView>
         <PhotoLimitNotice
           isVisible={draft.isLimitNoticeVisible}

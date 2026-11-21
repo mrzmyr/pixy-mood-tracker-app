@@ -23,8 +23,9 @@ const GRID_STYLE = { marginBottom: 0 };
 /**
  * Emotions of the quick check-in with the components of the logger emotion
  * step. Basic grid first; More shows all emotions by category. With flag
- * `needs`, a link switches to needs mode: rate needs, pick from the feelings
- * of each rated need. Picks and need ratings stay when switching.
+ * `needs`, needs mode comes first: rate needs, pick from the feelings of
+ * each rated need. A link switches to all emotions and back. Picks and need
+ * ratings stay when switching.
  */
 export const QuickCheckInEmotions = ({
   picked,
@@ -40,7 +41,8 @@ export const QuickCheckInEmotions = ({
   const router = useRouter();
   const hasNeeds = useFeatureFlag("needs");
   const [isAdvanced, setIsAdvanced] = useState(false);
-  const [isNeedsMode, setIsNeedsMode] = useState(false);
+  // Starts in needs mode; without flag `needs`, `showNeeds` stays false.
+  const [isNeedsMode, setIsNeedsMode] = useState(true);
   const [needStates, setNeedStates] = useState<NeedStates>({});
 
   const showNeeds = hasNeeds && isNeedsMode;

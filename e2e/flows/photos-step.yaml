@@ -50,7 +50,6 @@ tags: [p1, photos]
     when:
       platform: iOS
     commands:
-      - assertVisible: "From Today"
       - assertVisible:
           id: "photos-day-access"
       - tapOn:
@@ -100,15 +99,14 @@ tags: [p1, photos]
           id: "photo-pick-1"
       - assertVisible: "3 of 6"
 
-# Android: no photos of the day. The card opens the system Photo Picker,
-# picks land checked in the grid, "More…" opens the picker again.
+# Android: no photos of the day. The "Add Photo" tile opens the system
+# Photo Picker, picks land checked in the grid, "More…" opens it again.
 - runFlow:
     when:
       platform: Android
     commands:
-      - assertNotVisible: "From Today"
       - tapOn:
-          id: "photos-choose-action"
+          id: "photo-add-tile"
       - extendedWaitUntil:
           visible: "1 of 6"
           timeout: 10000

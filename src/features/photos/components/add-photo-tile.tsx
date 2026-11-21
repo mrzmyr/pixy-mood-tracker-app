@@ -1,4 +1,4 @@
-import ImagePlus from "lucide-react-native/icons/image-plus";
+import Plus from "lucide-react-native/icons/plus";
 import { Pressable } from "react-native";
 import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
@@ -6,8 +6,9 @@ import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
 
 /**
- * Square dashed tile that starts adding a photo, usually the system photo
- * library picker. Without `size`, the tile fills the width of its parent.
+ * Square gray tile with a plus that starts adding a photo, usually the
+ * system photo library picker. The label wraps by word, so long
+ * translations break onto more lines inside the side padding. Without `size`, the tile fills the width of its parent.
  */
 export const AddPhotoTile = ({
   onPress,
@@ -38,19 +39,18 @@ export const AddPhotoTile = ({
         aspectRatio: 1,
         borderRadius: RADIUS.md,
         borderCurve: "continuous",
-        borderWidth: 1.5,
-        borderStyle: "dashed",
-        borderColor: colors.textSecondary,
+        backgroundColor: colors.chipBackground,
         alignItems: "center",
         justifyContent: "center",
-        padding: 4,
+        paddingVertical: 4,
+        paddingHorizontal: 10,
         opacity: disabled || pressed ? 0.4 : 1,
       })}
     >
-      <ImagePlus color={colors.textSecondary} size={24} />
+      <Plus color={colors.textSecondary} size={28} />
       <Copy
         size={13}
-        numberOfLines={2}
+        numberOfLines={3}
         style={{
           color: colors.textSecondary,
           marginTop: 4,

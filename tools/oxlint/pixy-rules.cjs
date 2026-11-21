@@ -1209,6 +1209,54 @@ const modalPageBackground = {
   },
 };
 
+const floatSurfaceGlass = {
+  meta: {
+    type: "problem",
+    docs: {
+      description:
+        "Require Liquid Glass on floating surfaces that use the float shadow",
+    },
+    messages: {
+      glass:
+        "Floating controls use Liquid Glass on iOS 26: render `GlassView` (expo-glass-effect) when available, and keep `SHADOW.float` as the fallback. Or use `FloatButton`.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const floatShadows = [];
+    let hasGlass = false;
+    return {
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.object.type === "Identifier" &&
+          node.object.name === "SHADOW" &&
+          node.property.type === "Identifier" &&
+          node.property.name === "float"
+        ) {
+          floatShadows.push(node);
+        }
+      },
+      JSXOpeningElement(node) {
+        if (
+          node.name.type === "JSXIdentifier" &&
+          node.name.name === "GlassView"
+        ) {
+          hasGlass = true;
+        }
+      },
+      "Program:exit"() {
+        if (hasGlass) {
+          return;
+        }
+        for (const node of floatShadows) {
+          context.report({ messageId: "glass", node });
+        }
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
@@ -1231,6 +1279,7 @@ module.exports = {
     "radius-token": radiusToken,
     "spacing-token": spacingToken,
     "no-reduce-motion-never": noReduceMotionNever,
+    "float-surface-glass": floatSurfaceGlass,
     "no-spring-animation": noSpringAnimation,
     "title-case-labels": titleCaseLabels,
   },
