@@ -1,6 +1,8 @@
 // Types and checks for the checked-in state list (states.ts).
 import { FEATURE_FLAGS, OVERRIDABLE_FLAGS } from "./flags.ts";
 import type { FeatureFlag } from "./flags.ts";
+import { VARIANTS } from "./profile.ts";
+import type { Platform, Variant } from "./profile.ts";
 
 /**
  * agent-device selector, for example `id="calendar-list"` or
@@ -38,8 +40,22 @@ export interface ScreenSpec {
    * to Recaps. Captured in the flags-off pass only.
    */
   hiddenBy?: FeatureFlag[];
+  /**
+   * Shows the user's own data (entries, tags, people, photos). Such a screen
+   * needs an `empty` state and a full-data state: states.test.ts checks it.
+   */
+  userData: boolean;
+  /** Platforms that have the screen. Default: every platform. */
+  platforms?: Platform[];
   states: StateSpec[];
 }
+
+/** Variants a screen is captured in: every variant of its platforms. */
+export const variantsOf = (screen: ScreenSpec): Variant[] =>
+  VARIANTS.filter(
+    (variant) =>
+      !screen.platforms || screen.platforms.includes(variant.platform)
+  );
 
 /**
  * Flags state of one capture. `off`: production default. `on`: every

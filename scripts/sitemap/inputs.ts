@@ -2,8 +2,9 @@
 //
 // Input hash of a state = git blob ids of every file its route can load
 // (static import closure from the route file, both root layouts, and the
-// fixture and flag link routes) + shared build inputs + native fingerprint
-// + device profile + fixture, flags, route, and wait condition.
+// fixture and flag link routes, resolved per platform) + shared build inputs
+// + native fingerprint + variant and its device profile + fixture, flags,
+// route, and wait condition.
 import { execFileSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -16,9 +17,11 @@ import { passFlags } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
 import {
   CLOCK_BUDGET_SECONDS,
-  DEVICE_PROFILE,
   SCHEMA_VERSION,
+  profileOf,
+  variantId,
 } from "./profile.ts";
+import type { Platform, Variant } from "./profile.ts";
 
 /** Checkout root; capture reads source and git state from here. */
 export const REPO_ROOT = path.resolve(import.meta.dir, "../..");
@@ -94,10 +97,11 @@ export const readNativeFingerprint = async () => {
 };
 
 const SOURCE_EXTENSIONS = [".tsx", ".ts", ".jsx", ".js", ".cjs"];
-const RESOLVE_SUFFIXES = [
+/** Metro resolution order: platform file, native file, plain file. */
+const resolveSuffixes = (platform: Platform) => [
   "",
-  ".ios.tsx",
-  ".ios.ts",
+  `.${platform}.tsx`,
+  `.${platform}.ts`,
   ".native.tsx",
   ".native.ts",
   ".tsx",
@@ -105,14 +109,18 @@ const RESOLVE_SUFFIXES = [
   ".jsx",
   ".js",
   ".json",
-  "/index.ios.tsx",
+  `/index.${platform}.tsx`,
   "/index.tsx",
   "/index.ts",
   "/index.js",
 ];
 
 /** Static import graph of tracked source files, resolved lazily per file. */
-export const createImportGraph = (blobs: Map<string, string>) => {
+export const createImportGraph = (
+  blobs: Map<string, string>,
+  platform: Platform
+) => {
+  const suffixes = resolveSuffixes(platform);
   // `.ts` needs the ts loader: tsx reads `<T>(value) =>` as JSX.
   const tsTranspiler = new Bun.Transpiler({ loader: "ts" });
   const tsxTranspiler = new Bun.Transpiler({ loader: "tsx" });
@@ -138,7 +146,7 @@ export const createImportGraph = (blobs: Map<string, string>) => {
       // Packages: bun.lock is a shared input.
       return null;
     }
-    for (const suffix of RESOLVE_SUFFIXES) {
+    for (const suffix of suffixes) {
       const candidate = `${base}${suffix}`;
       if (blobs.has(candidate)) {
         return candidate;
@@ -246,10 +254,17 @@ const ROOT_ENTRIES = [
 ];
 
 /**
- * Files outside the import graph that change any screenshot. Capture
- * driver files count; diff, attribution, and site code do not.
+ * Files outside the import graph that change any screenshot of a platform.
+ * Capture driver files count; diff, attribution, and site code do not.
  */
-const SHARED_PATTERNS = [
+const SHARED_PATTERNS: Record<Platform, RegExp[]> = {
+  ios: [
+    /^scripts\/sitemap\/device\.ts$/u,
+    /^scripts\/cli\/release-smoke\.ts$/u,
+  ],
+  android: [/^scripts\/sitemap\/(?:device-android|android-app)\.ts$/u],
+};
+const COMMON_PATTERNS = [
   /^package\.json$/u,
   /^bun\.lock$/u,
   /^(?:metro|babel)\.config\.js$/u,
@@ -258,11 +273,10 @@ const SHARED_PATTERNS = [
   /^tsconfig\.json$/u,
   /^patches\//u,
   /^assets\//u,
-  /^scripts\/sitemap\/(?:capture-polyfill\.js|attempt\.ts|device\.ts|profile\.ts|png\.ts)$/u,
-  /^scripts\/cli\/release-smoke\.ts$/u,
+  /^scripts\/sitemap\/(?:capture-polyfill\.js|attempt\.ts|profile\.ts|png\.ts)$/u,
 ];
 
-/** Input hashes for many states, sharing one import graph. */
+/** Input hashes for many states, sharing one import graph per platform. */
 export const createInputHasher = ({
   source,
   nativeFingerprint,
@@ -270,43 +284,57 @@ export const createInputHasher = ({
   source: Source;
   nativeFingerprint: string;
 }) => {
-  const graph = createImportGraph(source.blobs);
-  const shared = hashList(
-    [...source.blobs.entries()]
-      .filter(([file]) => SHARED_PATTERNS.some((pattern) => pattern.test(file)))
-      .toSorted(([a], [b]) => a.localeCompare(b))
-  );
-  const depsByRoute = new Map<string, string>();
-
-  const depsHash = (route: string) => {
-    const cached = depsByRoute.get(route);
-    if (cached) {
-      return cached;
-    }
-    const routeFile = findRouteFile(route, source.blobs);
-    if (!routeFile) {
-      throw new CliError({
-        status: "route_file_missing",
-        message: `No route file for ${route}`,
-        why: "No file under src/app matches the route path.",
-        fix: "Fix the route in scripts/sitemap/states.ts, then retry.",
-      });
-    }
-    const files = graph.closure([routeFile, ...ROOT_ENTRIES]);
-    const hash = hashList(
-      files.map((file) => [file, source.blobs.get(file) ?? "missing"])
+  const perPlatform = (platform: Platform) => {
+    const graph = createImportGraph(source.blobs, platform);
+    const patterns = [...COMMON_PATTERNS, ...SHARED_PATTERNS[platform]];
+    const shared = hashList(
+      [...source.blobs.entries()]
+        .filter(([file]) => patterns.some((pattern) => pattern.test(file)))
+        .toSorted(([a], [b]) => a.localeCompare(b))
     );
-    depsByRoute.set(route, hash);
-    return hash;
+    const depsByRoute = new Map<string, string>();
+    const depsHash = (route: string) => {
+      const cached = depsByRoute.get(route);
+      if (cached) {
+        return cached;
+      }
+      const routeFile = findRouteFile(route, source.blobs);
+      if (!routeFile) {
+        throw new CliError({
+          status: "route_file_missing",
+          message: `No route file for ${route}`,
+          why: "No file under src/app matches the route path.",
+          fix: "Fix the route in scripts/sitemap/states.ts, then retry.",
+        });
+      }
+      const files = graph.closure([routeFile, ...ROOT_ENTRIES]);
+      const hash = hashList(
+        files.map((file) => [file, source.blobs.get(file) ?? "missing"])
+      );
+      depsByRoute.set(route, hash);
+      return hash;
+    };
+    return { shared, depsHash };
+  };
+  const platforms = {
+    ios: perPlatform("ios"),
+    android: perPlatform("android"),
   };
 
-  /** Input hash of one state in one pass. */
-  return (screen: ScreenSpec, state: StateSpec, pass: Pass) => {
+  /** Input hash of one state in one pass and variant. */
+  return (
+    screen: ScreenSpec,
+    state: StateSpec,
+    pass: Pass,
+    variant: Variant
+  ) => {
     const { route } = screen;
+    const { shared, depsHash } = platforms[variant.platform];
     return sha256(
       JSON.stringify({
         schema: SCHEMA_VERSION,
-        profile: DEVICE_PROFILE,
+        variant: variantId(variant),
+        profile: profileOf(variant),
         clockBudget: CLOCK_BUDGET_SECONDS,
         nativeFingerprint,
         shared,

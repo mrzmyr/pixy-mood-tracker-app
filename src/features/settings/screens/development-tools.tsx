@@ -98,6 +98,7 @@ export const DevelopmentTools = () => {
       style={{
         flex: 1,
       }}
+      testID="development-tools"
     >
       <ScrollView
         style={{ backgroundColor: colors.background }}

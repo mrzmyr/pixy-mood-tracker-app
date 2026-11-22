@@ -43,7 +43,7 @@ interface EasProfile {
 }
 
 /** Env of one eas.json build profile, `extends` chain included. */
-const readProfileEnv = (profile: ReleaseProfile) => {
+export const readProfileEnv = (profile: ReleaseProfile) => {
   const eas = readJson<{ build?: Record<string, EasProfile> }>(
     path.join(REPO_ROOT, "eas.json")
   );

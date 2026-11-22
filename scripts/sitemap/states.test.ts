@@ -8,7 +8,7 @@ import { FIXTURES } from "../../src/dev/fixtures/index.ts";
 import { collectTestIdPatterns } from "../cli/flow-lint.ts";
 import { findRouteFile, REPO_ROOT } from "./inputs.ts";
 import { checkManifest, listSelectors } from "./manifest.ts";
-import { SCREENS } from "./states.ts";
+import { NOT_CAPTURED, SCREENS } from "./states.ts";
 
 const trackedFiles = new Map<string, string>(
   Bun.spawnSync(["git", "ls-files"], { cwd: REPO_ROOT })
@@ -64,5 +64,40 @@ describe("sitemap states", () => {
       })
     );
     expect(unknown).toEqual([]);
+  });
+
+  test("every route file is captured or listed in NOT_CAPTURED", () => {
+    const routeFiles = [...trackedFiles.keys()].filter(
+      (file) =>
+        file.startsWith("src/app/") &&
+        /\.tsx?$/u.test(file) &&
+        !/\/(?:_layout|\+[^/]+)\.tsx?$/u.test(file)
+    );
+    const captured = new Set(
+      SCREENS.map((screen) =>
+        findRouteFile(decodeURIComponent(screen.route), trackedFiles)
+      )
+    );
+    const missing = routeFiles.filter(
+      (file) => !captured.has(file) && !(file in NOT_CAPTURED)
+    );
+    expect(missing).toEqual([]);
+    expect(
+      Object.keys(NOT_CAPTURED).filter((file) => !trackedFiles.has(file))
+    ).toEqual([]);
+  });
+
+  test("every screen with user data has an empty and a full-data state", () => {
+    const incomplete = SCREENS.filter(
+      (screen) =>
+        screen.userData &&
+        !(
+          screen.states.some((state) => state.fixture === "empty") &&
+          screen.states.some(
+            (state) => !["empty", "fresh"].includes(state.fixture)
+          )
+        )
+    ).map((screen) => screen.id);
+    expect(incomplete).toEqual([]);
   });
 });

@@ -15,9 +15,10 @@ import { CACHE_DIR, CliError, note, readJson } from "../cli/shared.ts";
 import { attempt } from "./attempt.ts";
 import { blobOrigin, download, listBlobs, uploadAll } from "./blob.ts";
 import type { RemoteBlob } from "./blob.ts";
-import { CaptureError, PREVIEW, createDriver } from "./device.ts";
-import type { Driver } from "./device.ts";
-import { FEATURE_FLAG_DETAILS, OVERRIDABLE_FLAGS } from "./flags.ts";
+import { createDriver } from "./device.ts";
+import { CaptureError, PREVIEW } from "./driver.ts";
+import type { Driver } from "./driver.ts";
+import { OVERRIDABLE_FLAGS } from "./flags.ts";
 import type { FeatureFlag } from "./flags.ts";
 import {
   createInputHasher,
@@ -26,17 +27,25 @@ import {
   sha256,
 } from "./inputs.ts";
 import type { Source } from "./inputs.ts";
-import { passId, stateKey } from "./manifest.ts";
+import { passId, stateKey, variantsOf } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
 import { measureNoise } from "./noise.ts";
 import { decodePng, downscale, encodePng, normalizeScreenshot } from "./png.ts";
 import { runPreflight } from "./preflight.ts";
+import { prepareAndroidApp } from "./android-app.ts";
 import {
+  createAndroidDriver,
+  normalizeAndroidScreenshot,
+  runAndroidPreflight,
+} from "./device-android.ts";
+import {
+  ANDROID_PROFILE,
   CAPTURE_ENV,
   DEVICE_PROFILE,
-  SCHEMA_VERSION,
   SITE_IMAGE_SCALE,
+  variantId,
 } from "./profile.ts";
+import type { Platform, Variant } from "./profile.ts";
 import {
   DATA_FILE,
   pairStates,
@@ -44,6 +53,7 @@ import {
   readSite,
   screenMeta,
   shownPngs,
+  siteHeader,
   staleReason,
   writeSite,
 } from "./site.ts";
@@ -52,6 +62,7 @@ import type {
   FlaggedRegion,
   ScreenResult,
   StateResult,
+  VariantResult,
 } from "./site.ts";
 import { SCREENS } from "./states.ts";
 import { countNode, diffTrees } from "./tree.ts";
@@ -77,9 +88,13 @@ interface Summary {
   nondeterministic: number;
 }
 
-const hostInfo = () => ({
+const hostInfo = (platform: Platform) => ({
   arch: os.arch(),
-  runtime: `${DEVICE_PROFILE.runtime.version} (${DEVICE_PROFILE.runtime.build})`,
+  platform,
+  runtime:
+    platform === "ios"
+      ? `${DEVICE_PROFILE.runtime.version} (${DEVICE_PROFILE.runtime.build})`
+      : `${ANDROID_PROFILE.systemImage.package} r${ANDROID_PROFILE.systemImage.revision}`,
 });
 
 const readCached = (inputHash: string) =>
@@ -185,11 +200,11 @@ const assertDeviceRuntime = (device: Device) => {
   }
 };
 
-const failureDir = (sha: string, key: string, pass: Pass) =>
+const failureDir = (context: Context, key: string, pass: Pass) =>
   path.join(
-    runDir(sha),
+    runDir(context.source.sha),
     "failures",
-    `${key.replace("/", "__")}__${passId(pass).replaceAll(/[^a-z0-9+:-]/gu, "_")}`
+    `${key.replace("/", "__")}__${variantId(context.variant)}__${passId(pass).replaceAll(/[^a-z0-9+:-]/gu, "_")}`
   );
 
 /** Screenshot, tree, and crash report of a failed capture. Never throws. */
@@ -227,6 +242,10 @@ const saveFailure = async (driver: Driver, dir: string, error: CliError) => {
 interface Context {
   source: Source;
   driver: Driver;
+  /** Variant the driver shows now. */
+  variant: Variant;
+  /** Screenshot bytes to normalized PNG bytes and hash, per platform. */
+  normalize: (bytes: Buffer) => { bytes: Buffer; hash: string };
   hash: ReturnType<typeof createInputHasher>;
   /** Input hashes to capture again even when cached. */
   verify: Set<string>;
@@ -260,7 +279,7 @@ const storeCapture = (
 ): CachedCapture => {
   const { summary } = context;
   const { label, key, pass, inputHash, cached, tree, ms } = capture;
-  const normalized = normalizeScreenshot(capture.bytes);
+  const normalized = context.normalize(capture.bytes);
   if (cached && cached.pngHash !== normalized.hash) {
     const noise = measureNoise(
       fs.readFileSync(path.join(PNG_DIR, `${cached.pngHash}.png`)),
@@ -275,7 +294,7 @@ const storeCapture = (
       return cached;
     }
     summary.nondeterministic += 1;
-    const dir = failureDir(context.source.sha, key, pass);
+    const dir = failureDir(context, key, pass);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, "new.png"), normalized.bytes);
     fs.copyFileSync(
@@ -300,7 +319,7 @@ const storeCapture = (
     pngHash: normalized.hash,
     tree,
     ms,
-    host: hostInfo(),
+    host: hostInfo(context.variant.platform),
   };
   fs.writeFileSync(
     path.join(STATES_DIR, `${inputHash}.json`),
@@ -322,9 +341,9 @@ const captureOne = async (
 ): Promise<CachedCapture> => {
   const { driver, summary } = context;
   const key = stateKey(screen, state);
-  const inputHash = context.hash(screen, state, pass);
+  const inputHash = context.hash(screen, state, pass, context.variant);
   context.used.add(inputHash);
-  const label = `${key} ${passId(pass)}`;
+  const label = `${key} ${variantId(context.variant)} ${passId(pass)}`;
   const started = Date.now();
   let cached = await loadCached(context.remote, inputHash);
   if (cached && !context.verify.has(inputHash)) {
@@ -395,7 +414,7 @@ const captureOne = async (
   const failure = lastError as CliError;
   const saved = await saveFailure(
     driver,
-    failureDir(context.source.sha, key, pass),
+    failureDir(context, key, pass),
     failure
   );
   summary.failed += 1;
@@ -533,7 +552,10 @@ const pickVerify = async (
  * site images of the shown PNGs. Runs before failures throw, so a failed
  * run still shares its captures.
  */
-const syncUp = async (context: Context, results: ScreenResult[]) => {
+const syncUp = async (
+  context: Pick<Context, "remote" | "used">,
+  results: ScreenResult[]
+) => {
   const files: { pathname: string; file: string }[] = [];
   for (const inputHash of context.used) {
     const entry = readCached(inputHash);
@@ -571,7 +593,7 @@ const runPass = async (
   screen: ScreenSpec,
   state: StateSpec,
   pass: Pass,
-  result: StateResult
+  result: VariantResult
 ) => {
   try {
     return await captureOne(context, screen, state, pass);
@@ -586,21 +608,16 @@ const runPass = async (
   }
 };
 
-/** Main passes, then flag attribution of what the on pass adds. */
+/**
+ * Main passes of one state in the context's variant. Light variants also
+ * attribute what the on pass adds; dark shows the same elements.
+ */
 const captureState = async (
   context: Context,
   screen: ScreenSpec,
   state: StateSpec
-): Promise<StateResult> => {
-  const result: StateResult = {
-    id: state.id,
-    title: state.title,
-    route: screen.route,
-    off: null,
-    on: null,
-    flagged: [],
-    errors: {},
-  };
+): Promise<{ result: VariantResult; flagged: FlaggedRegion[] | null }> => {
+  const result: VariantResult = { off: null, on: null, errors: {} };
   const passes = passesOf(screen);
   const off = passes.some((pass) => pass.kind === "off")
     ? await runPass(context, screen, state, { kind: "off" }, result)
@@ -610,24 +627,29 @@ const captureState = async (
     : null;
   result.off = off && { inputHash: off.inputHash, pngHash: off.pngHash };
   result.on = on && { inputHash: on.inputHash, pngHash: on.pngHash };
-  const added = off && on ? diffTrees(off.tree, on.tree) : [];
-  if (off && added.length > 0) {
-    try {
-      result.flagged = await attribute(
-        context,
-        screen,
-        state,
-        off.tree,
-        added,
-        OVERRIDABLE_FLAGS
-      );
-    } catch (error) {
-      // SAFETY: captureOne wraps every failure in a CliError.
-      const failure = error as CliError;
-      result.errors.attribution = `${failure.status}: ${failure.message}`;
-    }
+  if (context.variant.appearance !== "light") {
+    return { result, flagged: null };
   }
-  return result;
+  const added = off && on ? diffTrees(off.tree, on.tree) : [];
+  if (!off || added.length === 0) {
+    return { result, flagged: [] };
+  }
+  try {
+    const flagged = await attribute(
+      context,
+      screen,
+      state,
+      off.tree,
+      added,
+      OVERRIDABLE_FLAGS
+    );
+    return { result, flagged };
+  } catch (error) {
+    // SAFETY: captureOne wraps every failure in a CliError.
+    const failure = error as CliError;
+    result.errors.attribution = `${failure.status}: ${failure.message}`;
+    return { result, flagged: [] };
+  }
 };
 
 const regionKey = (region: FlaggedRegion) =>
@@ -639,21 +661,26 @@ const regionKey = (region: FlaggedRegion) =>
  */
 const dropInheritedRegions = (results: ScreenResult[]) => {
   const byId = new Map(results.map((screen) => [screen.id, screen]));
-  for (const screen of results) {
-    const inherited = new Set<string>();
-    let parent = screen.parent ? byId.get(screen.parent) : undefined;
-    while (parent) {
-      for (const state of parent.states) {
-        for (const region of state.flagged) {
-          inherited.add(regionKey(region));
+  for (const platform of ["ios", "android"] as const) {
+    for (const screen of results) {
+      const inherited = new Set<string>();
+      let parent = screen.parent ? byId.get(screen.parent) : undefined;
+      while (parent) {
+        for (const state of parent.states) {
+          for (const region of state.flagged[platform] ?? []) {
+            inherited.add(regionKey(region));
+          }
+        }
+        parent = parent.parent ? byId.get(parent.parent) : undefined;
+      }
+      for (const state of screen.states) {
+        const regions = state.flagged[platform];
+        if (regions) {
+          state.flagged[platform] = regions.filter(
+            (region) => !inherited.has(regionKey(region))
+          );
         }
       }
-      parent = parent.parent ? byId.get(parent.parent) : undefined;
-    }
-    for (const state of screen.states) {
-      state.flagged = state.flagged.filter(
-        (region) => !inherited.has(regionKey(region))
-      );
     }
   }
 };
@@ -661,40 +688,77 @@ const dropInheritedRegions = (results: ScreenResult[]) => {
 interface Plan {
   screen: ScreenSpec;
   state: StateSpec;
-  /** Committed result; reused when `reason` is null. */
+  variant: Variant;
+  /** Committed result of the whole state, all variants. */
   result: StateResult | undefined;
+  /** Null: fresh, reuse the committed variant result. */
   reason: string | null;
 }
 
 /**
- * Which states to capture: stale ones, and with --only, only those. A state
- * is stale when its inputs changed since sitemap.json or Blob lost an image.
+ * Which state variants to capture: stale ones, and with --only and
+ * --platform, only those. Stale: inputs changed since sitemap.json, or Blob
+ * lost an image.
  */
 const planStates = (
   hash: ReturnType<typeof createInputHasher>,
   remote: Map<string, RemoteBlob>,
-  only: string | undefined
+  values: Record<string, string | undefined>
 ): Plan[] => {
   const selected = new Set(
-    selectScreens(only).flatMap((screen) =>
+    selectScreens(values.only).flatMap((screen) =>
       screen.states.map((state) => stateKey(screen, state))
     )
   );
-  return pairStates(readSite()).map(({ screen, state, result }) => {
-    let reason = staleReason(hash, screen, state, result);
-    if (!reason && result) {
-      const lost = [
-        ...shownPngs([{ ...screenMeta(screen), states: [result] }]),
-      ].filter((png) => !remote.has(`small/${png}.png`));
-      if (lost.length > 0) {
-        reason = `image ${short(lost[0])} missing in Blob`;
+  return pairStates(readSite()).flatMap(({ screen, state, result }) =>
+    variantsOf(screen).map((variant) => {
+      let reason = staleReason(hash, screen, state, variant, result);
+      const committed = result?.variants[variantId(variant)];
+      if (!reason && committed) {
+        const lost = [committed.off?.pngHash, committed.on?.pngHash].filter(
+          (png): png is string =>
+            png !== undefined && !remote.has(`small/${png}.png`)
+        );
+        if (lost.length > 0) {
+          reason = `image ${short(lost[0])} missing in Blob`;
+        }
       }
+      const isSelected =
+        selected.has(stateKey(screen, state)) &&
+        (!values.platform || values.platform === variant.platform);
+      return {
+        screen,
+        state,
+        variant,
+        result,
+        reason: isSelected ? reason : null,
+      };
+    })
+  );
+};
+
+/**
+ * State results keyed by state: committed variants that stay fresh, and
+ * committed flagged regions. Captured variants replace entries later.
+ */
+const seedResults = (plan: Plan[]) => {
+  const results = new Map<string, StateResult>();
+  for (const { screen, state, variant, result, reason } of plan) {
+    const key = stateKey(screen, state);
+    const target = results.get(key) ?? {
+      id: state.id,
+      title: state.title,
+      route: screen.route,
+      variants: {},
+      flagged: { ...result?.flagged },
+    };
+    results.set(key, target);
+    const committed = result?.variants[variantId(variant)];
+    if (reason === null && committed) {
+      target.variants[variantId(variant)] = committed;
     }
-    if (reason && !selected.has(stateKey(screen, state))) {
-      reason = null;
-    }
-    return { screen, state, result, reason };
-  });
+  }
+  return results;
 };
 
 /** Every screen of states.ts, states in manifest order. */
@@ -707,61 +771,33 @@ const assemble = (results: Map<string, StateResult>): ScreenResult[] =>
           id: state.id,
           title: state.title,
           route: screen.route,
-          off: null,
-          on: null,
-          flagged: [],
-          errors: { all: "not captured: run `bun sitemap capture`" },
+          variants: {},
+          flagged: {},
         }
     ),
   }));
 
-/**
- * `bun sitemap capture`: plan, then capture stale states on the simulator,
- * upload to Blob, write sitemap.json. Fails at the end on any failure.
- */
-export const captureFor = async (
-  values: Record<string, string | undefined>
+/** Driver, normalizer, and device of one platform, ready to capture. */
+const startPlatform = async (
+  platform: Platform,
+  source: Source,
+  fingerprint: string,
+  allowMismatch: boolean
 ) => {
-  const runStarted = Date.now();
-  const allowMismatch = values["allow-native-mismatch"] !== undefined;
-  const remote = await listBlobs();
-  note(`Blob: ${remote.size} files`);
-  const source = readSource();
-  const fingerprint = await readNativeFingerprint();
-  const plan = planStates(
-    createInputHasher({ source, nativeFingerprint: fingerprint }),
-    remote,
-    values.only
-  );
-  const verifyCount = Number(values.verify ?? 0);
-  const todo = plan.filter((item) => item.reason !== null);
-  for (const item of todo) {
-    process.stdout.write(
-      `stale    ${stateKey(item.screen, item.state).padEnd(44)} ${item.reason}\n`
+  if (platform === "android") {
+    runAndroidPreflight();
+    const apk = await prepareAndroidApp(
+      source,
+      fingerprint,
+      path.join(SITEMAP_DIR, "apps")
     );
-  }
-  const results = new Map<string, StateResult>();
-  for (const item of plan) {
-    if (item.reason === null && item.result) {
-      results.set(stateKey(item.screen, item.state), item.result);
-    }
-  }
-  const site = (screens: ScreenResult[]) =>
-    writeSite({
-      schema: SCHEMA_VERSION,
+    const driver = await createAndroidDriver(apk);
+    return {
+      driver,
+      normalize: normalizeAndroidScreenshot,
       nativeFingerprint: fingerprint,
-      profile: DEVICE_PROFILE,
-      flags: FEATURE_FLAG_DETAILS,
-      imageBase: blobOrigin(remote),
-      screens,
-    });
-  if (todo.length === 0 && verifyCount === 0) {
-    site(assemble(results));
-    process.stdout.write(
-      `summary  fresh=${plan.length} captured=0 ${Math.round((Date.now() - runStarted) / 1000)}s\n` +
-        `site     ${DATA_FILE}\n`
-    );
-    return;
+      isNativeMatch: true,
+    };
   }
   const preflight = runPreflight({ allowMismatch, fingerprint });
   if (!preflight.shell) {
@@ -775,7 +811,6 @@ export const captureFor = async (
   // The shell's own fingerprint, not the checkout's: with
   // --allow-native-mismatch they differ, and the pixels come from the shell.
   const nativeFingerprint = preflight.shell.fingerprint;
-  const hash = createInputHasher({ source, nativeFingerprint });
   const app = await prepareApp(source, preflight.shell.file, nativeFingerprint);
   const device = await ensureDevice("ios", { slim: false });
   assertDeviceRuntime(device);
@@ -784,72 +819,176 @@ export const captureFor = async (
   });
   installFile(device, app.app, "preview");
   const driver = createDriver(device, app.executable);
-  driver.prepare();
-  const fresh = plan.filter((item) => item.reason === null);
-  const verify = await pickVerify(
-    remote,
-    fresh.flatMap(({ screen, state }) =>
-      passesOf(screen).map((pass) => hash(screen, state, pass))
-    ),
-    verifyCount
-  );
-  const context: Context = {
-    source,
+  return {
     driver,
-    hash,
-    verify,
-    summary: {
-      captured: 0,
-      cached: 0,
-      noise: 0,
-      failed: 0,
-      nondeterministic: 0,
-    },
-    nondeterministic: null,
-    used: new Set(),
-    remote,
-    tmpFile: path.join(
-      os.tmpdir(),
-      `pixy-mood-tracker-sitemap-${process.pid}.png`
-    ),
+    normalize: normalizeScreenshot,
+    nativeFingerprint,
+    isNativeMatch: preflight.isNativeMatch,
   };
-  const recapture = plan.filter(
-    (item) =>
-      item.reason !== null ||
-      passesOf(item.screen).some((pass) =>
-        verify.has(hash(item.screen, item.state, pass))
-      )
-  );
-  try {
-    for (const { screen, state } of recapture) {
-      // oxlint-disable-next-line no-await-in-loop -- one simulator, captures run in order
-      const result = await captureState(context, screen, state);
-      results.set(stateKey(screen, state), result);
-    }
-  } finally {
-    driver.restore();
+};
+
+/**
+ * `bun sitemap capture`: plan, then capture stale state variants per
+ * platform and appearance, upload to Blob, write sitemap.json. Fails at the
+ * end on any failure.
+ */
+export const captureFor = async (
+  values: Record<string, string | undefined>
+) => {
+  const runStarted = Date.now();
+  const allowMismatch = values["allow-native-mismatch"] !== undefined;
+  const remote = await listBlobs();
+  note(`Blob: ${remote.size} files`);
+  const source = readSource();
+  const fingerprint = await readNativeFingerprint();
+  const checkoutHash = createInputHasher({
+    source,
+    nativeFingerprint: fingerprint,
+  });
+  const plan = planStates(checkoutHash, remote, values);
+  const verifyCount = Number(values.verify ?? 0);
+  for (const item of plan.filter((entry) => entry.reason !== null)) {
+    process.stdout.write(
+      `stale    ${`${stateKey(item.screen, item.state)} ${variantId(item.variant)}`.padEnd(44)} ${item.reason}\n`
+    );
   }
-  fs.rmSync(context.tmpFile, { force: true });
+  const results = seedResults(plan);
+  const site = (screens: ScreenResult[]) =>
+    writeSite({
+      ...siteHeader(fingerprint),
+      imageBase: blobOrigin(remote),
+      screens,
+    });
+  const todo = plan.filter((item) => item.reason !== null);
+  if (todo.length === 0 && verifyCount === 0) {
+    site(assemble(results));
+    process.stdout.write(
+      `summary  fresh=${plan.length} captured=0 ${Math.round((Date.now() - runStarted) / 1000)}s\n` +
+        `site     ${DATA_FILE}\n`
+    );
+    return;
+  }
+  const summary: Summary = {
+    captured: 0,
+    cached: 0,
+    noise: 0,
+    failed: 0,
+    nondeterministic: 0,
+  };
+  let nondeterministic: CliError | null = null;
+  const used = new Set<string>();
+  let isNativeMatch = true;
+  const platforms = (["ios", "android"] as const).filter((platform) =>
+    plan.some(
+      (item) =>
+        item.variant.platform === platform &&
+        (item.reason !== null || verifyCount > 0) &&
+        (!values.platform || values.platform === platform)
+    )
+  );
+  for (const platform of platforms) {
+    // oxlint-disable-next-line no-await-in-loop -- one device at a time; RAM
+    const started = await startPlatform(
+      platform,
+      source,
+      fingerprint,
+      allowMismatch
+    );
+    isNativeMatch &&= started.isNativeMatch;
+    const hash = createInputHasher({
+      source,
+      nativeFingerprint: started.nativeFingerprint,
+    });
+    const items = plan.filter((item) => item.variant.platform === platform);
+    // oxlint-disable-next-line no-await-in-loop -- one device at a time
+    const verify = await pickVerify(
+      remote,
+      items
+        .filter((item) => item.reason === null)
+        .flatMap(({ screen, state, variant }) =>
+          passesOf(screen).map((pass) => hash(screen, state, pass, variant))
+        ),
+      verifyCount
+    );
+    started.driver.prepare();
+    try {
+      for (const appearance of ["light", "dark"] as const) {
+        const variant = { platform, appearance };
+        const recapture = items.filter(
+          (item) =>
+            variantId(item.variant) === variantId(variant) &&
+            (item.reason !== null ||
+              passesOf(item.screen).some((pass) =>
+                verify.has(hash(item.screen, item.state, pass, variant))
+              ))
+        );
+        if (recapture.length === 0) {
+          continue;
+        }
+        started.driver.setAppearance(appearance);
+        const context: Context = {
+          source,
+          driver: started.driver,
+          variant,
+          normalize: started.normalize,
+          hash,
+          verify,
+          summary,
+          nondeterministic: null,
+          used,
+          remote,
+          tmpFile: path.join(
+            os.tmpdir(),
+            `pixy-mood-tracker-sitemap-${process.pid}.png`
+          ),
+        };
+        for (const { screen, state } of recapture) {
+          // oxlint-disable-next-line no-await-in-loop -- one device, captures run in order
+          const captured = await captureState(context, screen, state);
+          // SAFETY: results has every key of the plan.
+          const target = results.get(stateKey(screen, state)) as StateResult;
+          target.variants[variantId(variant)] = captured.result;
+          if (captured.flagged) {
+            target.flagged[platform] = captured.flagged;
+          }
+        }
+        nondeterministic ??= context.nondeterministic;
+        fs.rmSync(context.tmpFile, { force: true });
+      }
+    } finally {
+      started.driver.restore();
+    }
+  }
   const screens = assemble(results);
   dropInheritedRegions(screens);
-  await syncUp(context, screens);
-  const { captured, cached, failed, noise, nondeterministic } = context.summary;
+  // sitemap.json is written even when an upload fails: `bun sitemap check`
+  // names missing images, and the next capture uploads them.
+  let uploaded: CliError | null = null;
+  try {
+    await syncUp({ remote, used }, screens);
+  } catch (error) {
+    // SAFETY: uploadAll wraps every failure in a CliError.
+    uploaded = error as CliError;
+  }
   process.stdout.write(
-    `summary  fresh=${fresh.length} captured=${captured} cached=${cached} noise=${noise} failed=${failed} nondeterministic=${nondeterministic} ${Math.round((Date.now() - runStarted) / 1000)}s\n`
+    `summary  fresh=${plan.length - todo.length} captured=${summary.captured} cached=${summary.cached} noise=${summary.noise} failed=${summary.failed} nondeterministic=${summary.nondeterministic} ${Math.round((Date.now() - runStarted) / 1000)}s\n`
   );
-  if (preflight.isNativeMatch) {
+  if (isNativeMatch) {
     site(screens);
     process.stdout.write(`site     ${DATA_FILE}\n`);
   } else {
     note("Native shell does not match the checkout: sitemap.json not written");
   }
-  if (context.nondeterministic) {
-    throw context.nondeterministic;
+  if (uploaded) {
+    throw uploaded;
   }
-  if (failed > 0) {
+  if (nondeterministic) {
+    throw nondeterministic;
+  }
+  if (summary.failed > 0) {
     throw new CliError({
       status: "capture_failed",
-      message: `${failed} capture(s) failed`,
+      message: `${summary.failed} capture(s) failed`,
       why: "See the fail lines above. Each names the wait condition and the saved files. sitemap.json records them, so `bun sitemap check` fails.",
       fix: "Fix each failure, then rerun. Fresh states are skipped.",
     });

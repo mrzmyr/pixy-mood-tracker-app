@@ -17,3 +17,6 @@ Facts about the platform, tools, and machine that code search does not show.
 - Close your own simulator, emulator, and Metro once proof is uploaded
 - Simulator screenshots draw the Dynamic Island edge with up to 2 levels of noise between runs, and an iOS 26 glass back button renders a few pixels differently after another navigation path. Pixel compares must mask the island and reach a screen by the same path ([`png.ts`](scripts/sitemap/png.ts)).
 - Other sessions prune the shared build cache to free disk, so a cached Release shell can vanish mid-task. Long-running tools keep an APFS clone (`cp -c`) of what they need.
+- An Android Gradle build rewrites library manifests in `node_modules` (React Native's Gradle plugin drops their `package` attribute). The native fingerprint hashes those files, so it changes on that machine until `bun install` runs again. Restore them after the build ([`android-app.ts`](scripts/sitemap/android-app.ts)).
+- agent-device's regular Android snapshot drops tiny views that the user cannot see, such as 1 dp probes under the status bar. `snapshot --raw` keeps them.
+- `adb shell monkey -p <package> 1` aborts on an emulator without physical keys. Start the activity with `am start -W -n <package>/.MainActivity`.
