@@ -135,7 +135,13 @@ export const SITEMAP: Noun = {
         capture_failed: "At least one capture failed",
       },
       run: async (values) => {
-        await captureFor(values);
+        try {
+          await captureFor(values);
+        } finally {
+          // A Blob request that timed out keeps its socket and the process
+          // alive. Exit once the CLI has printed the result.
+          setTimeout(() => process.exit(), 1000);
+        }
       },
     }),
     check: defineCommand({

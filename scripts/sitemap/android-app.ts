@@ -48,6 +48,35 @@ const run = async (
 };
 
 /**
+ * Library manifests Gradle rewrites in node_modules (the React Native plugin
+ * drops their `package` attribute). The native fingerprint hashes them, so
+ * the Gradle run must leave them as installed.
+ */
+const LIBRARY_MANIFESTS = [
+  "node_modules/*/android/src/main/AndroidManifest.xml",
+  "node_modules/@*/*/android/src/main/AndroidManifest.xml",
+].map((pattern) => new Bun.Glob(pattern));
+
+const keepLibraryManifests = async <T>(work: () => Promise<T>) => {
+  const saved = new Map<string, string>();
+  for (const glob of LIBRARY_MANIFESTS) {
+    for (const file of glob.scanSync({ cwd: REPO_ROOT })) {
+      const full = path.join(REPO_ROOT, file);
+      saved.set(full, fs.readFileSync(full, "utf-8"));
+    }
+  }
+  try {
+    return await work();
+  } finally {
+    for (const [file, contents] of saved) {
+      if (fs.readFileSync(file, "utf-8") !== contents) {
+        fs.writeFileSync(file, contents);
+      }
+    }
+  }
+};
+
+/**
  * Release APK with the capture JS for this source tree. Reused per source
  * tree and native fingerprint.
  */
@@ -84,15 +113,20 @@ export const prepareAndroidApp = async (
   };
   const started = Date.now();
   note(`Android capture app: building, log ${log}`);
-  await ensurePrebuild("android", "preview", env, fingerprint);
-  for (const output of BUNDLE_OUTPUTS) {
-    fs.rmSync(path.join(ANDROID_DIR, output), { recursive: true, force: true });
-  }
-  await run(
-    path.join(ANDROID_DIR, "gradlew"),
-    ["app:assembleRelease", "--console=plain"],
-    { cwd: ANDROID_DIR, env, log }
-  );
+  await keepLibraryManifests(async () => {
+    await ensurePrebuild("android", "preview", env, fingerprint);
+    for (const output of BUNDLE_OUTPUTS) {
+      fs.rmSync(path.join(ANDROID_DIR, output), {
+        recursive: true,
+        force: true,
+      });
+    }
+    await run(
+      path.join(ANDROID_DIR, "gradlew"),
+      ["app:assembleRelease", "--console=plain"],
+      { cwd: ANDROID_DIR, env, log }
+    );
+  });
   const built = path.join(
     ANDROID_DIR,
     "app/build/outputs/apk/release/app-release.apk"

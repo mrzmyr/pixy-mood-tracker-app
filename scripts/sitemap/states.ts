@@ -270,13 +270,13 @@ export const SCREENS: ScreenSpec[] = [
         id: "year",
         title: "March 2026",
         fixture: "year",
-        wait: 'id="recaps-period-kind"',
+        wait: 'id="recaps-period-label"',
       },
       {
         id: "moments",
         title: "Month moments",
         fixture: "recap-moments",
-        wait: 'id="recaps-period-kind"',
+        wait: 'id="recaps-period-label"',
       },
       {
         id: "empty",
@@ -298,7 +298,7 @@ export const SCREENS: ScreenSpec[] = [
         id: "year",
         title: "2026",
         fixture: "year",
-        wait: 'id="recaps-period-kind"',
+        wait: 'id="recaps-period-label"',
       },
       {
         id: "empty",
@@ -689,9 +689,9 @@ export const SCREENS: ScreenSpec[] = [
     userData: true,
     states: [
       {
-        id: "chaos",
-        title: "Archived tags",
-        fixture: "chaos",
+        id: "archived",
+        title: "Two archived tags",
+        fixture: "archive",
         wait: 'id="tags-archive"',
       },
       {
@@ -759,13 +759,13 @@ export const SCREENS: ScreenSpec[] = [
         id: "year",
         title: "One year of entries",
         fixture: "year",
-        wait: 'id="widget-sync-status"',
+        wait: 'id="development-tools"',
       },
       {
         id: "empty",
         title: "No data",
         fixture: "empty",
-        wait: 'id="widget-sync-status"',
+        wait: 'id="development-tools"',
       },
     ],
   },

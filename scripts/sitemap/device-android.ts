@@ -85,6 +85,23 @@ export const createAndroidDriver = async (apk: string): Promise<Driver> => {
   tryAdb(["uninstall", pkg]);
   installFile(device, apk, "sitemap capture");
 
+  /** Location off: no passive place. Notifications on: no permission dialog. */
+  const setPermissions = () => {
+    for (const permission of [
+      "android.permission.ACCESS_FINE_LOCATION",
+      "android.permission.ACCESS_COARSE_LOCATION",
+    ]) {
+      tryAdb(["shell", "pm", "revoke", pkg, permission]);
+    }
+    tryAdb([
+      "shell",
+      "pm",
+      "grant",
+      pkg,
+      "android.permission.POST_NOTIFICATIONS",
+    ]);
+  };
+
   const prepare = () => {
     const { timeZone, locale, fontScale, statusBar } = ANDROID_PROFILE;
     const deviceLocale = shell("getprop", "persist.sys.locale");
@@ -131,20 +148,6 @@ export const createAndroidDriver = async (apk: string): Promise<Driver> => {
     ]);
     demo("network", ["-e", "mobile", "hide"]);
     demo("notifications", ["-e", "visible", "false"]);
-    // Location off: no passive place. Notifications on: no permission dialog.
-    for (const permission of [
-      "android.permission.ACCESS_FINE_LOCATION",
-      "android.permission.ACCESS_COARSE_LOCATION",
-    ]) {
-      tryAdb(["shell", "pm", "revoke", pkg, permission]);
-    }
-    tryAdb([
-      "shell",
-      "pm",
-      "grant",
-      pkg,
-      "android.permission.POST_NOTIFICATIONS",
-    ]);
     const zone = shell("getprop", "persist.sys.timezone");
     if (zone !== timeZone) {
       throw new CliError({
@@ -187,7 +190,10 @@ export const createAndroidDriver = async (apk: string): Promise<Driver> => {
   };
 
   const launch = async () => {
-    shell("am", "force-stop", pkg);
+    // Fresh app data per launch: a state that breaks storage, like the
+    // `chaos` fixture over Android's 2 MB row limit, cannot break the next.
+    shell("pm", "clear", pkg);
+    setPermissions();
     shell("logcat", "-b", "crash", "-c");
     launchedAt = Date.now();
     // `monkey` aborts on an emulator without physical keys.

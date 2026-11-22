@@ -1,35 +1,62 @@
 {
  "schema": 1,
  "nativeFingerprint": "7de28d21e3422a456a2404323fe9801a86410069",
- "profile": {
-  "model": "iPhone 17 Pro",
-  "runtime": {
-   "version": "26.4",
-   "build": "23E244"
+ "profiles": {
+  "ios": {
+   "model": "iPhone 17 Pro",
+   "runtime": {
+    "version": "26.4",
+    "build": "23E244"
+   },
+   "language": "en",
+   "locale": "en_US",
+   "timeZone": "Europe/Berlin",
+   "contentSize": "large",
+   "clockStart": "2026-03-18T09:41:00+01:00",
+   "island": {
+    "x": 415,
+    "y": 42,
+    "width": 376,
+    "height": 110
+   },
+   "statusBar": {
+    "time": "9:41",
+    "dataNetwork": "wifi",
+    "wifiMode": "active",
+    "wifiBars": "3",
+    "cellularMode": "active",
+    "cellularBars": "4",
+    "batteryState": "charged",
+    "batteryLevel": "100",
+    "operatorName": ""
+   }
   },
-  "language": "en",
-  "locale": "en_US",
-  "timeZone": "Europe/Berlin",
-  "appearance": "light",
-  "contentSize": "large",
-  "clockStart": "2026-03-18T09:41:00+01:00",
-  "island": {
-   "x": 415,
-   "y": 42,
-   "width": 376,
-   "height": 110
-  },
-  "statusBar": {
-   "time": "9:41",
-   "dataNetwork": "wifi",
-   "wifiMode": "active",
-   "wifiBars": "3",
-   "cellularMode": "active",
-   "cellularBars": "4",
-   "batteryState": "charged",
-   "batteryLevel": "100",
-   "operatorName": ""
+  "android": {
+   "model": "Pixel 8",
+   "systemImage": {
+    "package": "system-images;android-36;google_apis_playstore;arm64-v8a",
+    "revision": "7"
+   },
+   "locale": "en-US",
+   "timeZone": "Europe/Berlin",
+   "fontScale": "1.0",
+   "clockStart": "2026-03-18T09:41:00+01:00",
+   "statusBar": {
+    "clock": "0941",
+    "battery": "100",
+    "wifi": "4"
+   }
   }
+ },
+ "variants": [
+  "ios-light",
+  "ios-dark",
+  "android-light",
+  "android-dark"
+ ],
+ "rectScale": {
+  "ios": 1,
+  "android": 0.3333333333333333
  },
  "flags": {
   "app-icons": {
@@ -127,514 +154,1108 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "One year of entries",
      "route": "/calendar",
-     "off": {
-      "inputHash": "f9beaacd81764d539822ee1a3fb1989570707b54560a1f8bfa2836ffbe663c10",
-      "pngHash": "fa57c067f498f3459e7ab36076b0a4014e7818b8ab5cb2d1978f26905f5aff2f"
-     },
-     "on": {
-      "inputHash": "1d785e73c4f47bd3797bd12ae3f1c742774846e4f9de2b6a5aa4553c3ef3f462",
-      "pngHash": "d97ab8c2e143484f462083a2a52c3c92bfe946aaa1de9d5aacf645914ad845e3"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        20,
-        66,
-        36,
-        36
-       ],
-       "flags": [
-        "recaps"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "bb4974e82dfbaffb9f284f0d73e39b8f58935f1ab0b67332a310945aa1e57989",
+        "pngHash": "fa57c067f498f3459e7ab36076b0a4014e7818b8ab5cb2d1978f26905f5aff2f"
+       },
+       "on": {
+        "inputHash": "9746b5e46db3bdd73d7dbe604aa240b8916841965a4fb0dab490abfec9d2e596",
+        "pngHash": "d97ab8c2e143484f462083a2a52c3c92bfe946aaa1de9d5aacf645914ad845e3"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-quick-check-in",
-       "label": "Quick Check-in",
-       "rect": [
-        328,
-        634,
-        54,
-        54
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "7a43271c14218ea44efec8858f7029933906a6481c1055a50c7cdb4f85fdac48",
+        "pngHash": "7d060985a83f32ef61d2652aab1c6261505857bed01f03e40ab9f82fa3c8b60c"
+       },
+       "on": {
+        "inputHash": "af4cd24af9fbadcc916ffacf0a25dccbdd7ccd7e9f94e9f2a131d3b16194b5f3",
+        "pngHash": "8cfb58e15ea932ff2b27ab0433450c2b48a41cda8291179f04f49196c2c8cc74"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-voice-entry",
-       "label": "Check In by Voice",
-       "rect": [
-        328,
-        700,
-        54,
-        54
-       ],
-       "flags": [
-        "voice-mode"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "ccfe1620a17ba93a1347326ad7dfe515de98fee09071246b7d28e6245f6355fd",
+        "pngHash": "dc492ae419d1b4de1033f4e2625d7b1296f79fe848f319336eb0ffb9ecbf13a4"
+       },
+       "on": {
+        "inputHash": "2d85becb14ff12a7d477b055a710896536568d63e7cc93e5743952e14cbf0666",
+        "pngHash": "15f7802c22b09f52ac17cdb4093594a99e34635a73edf0038b6baa1d486d7e06"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "5cc88f314bcf15418cc20e847a8f9e85b8b645d63a56aac2703c44db28dc56bc",
+        "pngHash": "dc8ee84bfde214c4f672597b24b159e342816b450c78de3c6e3a14934593d204"
+       },
+       "on": {
+        "inputHash": "d3f8ec52edc91eea261be2b2068330fd331673cf6bb1f2c6de9a22f34e40aebd",
+        "pngHash": "cf26fcc08830daf037994267cc63a72804f3797b6babfba2379e5189a89aabbe"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         881,
+         1781,
+         147,
+         147
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         881,
+         1959,
+         147,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         20,
+         66,
+         36,
+         36
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         328,
+         634,
+         54,
+         54
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         328,
+         700,
+         54,
+         54
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "empty",
      "title": "No entries",
      "route": "/calendar",
-     "off": {
-      "inputHash": "ca1c343ee11eee118dbaad4baa05cd69e639867b05526962f6cd6801471c5708",
-      "pngHash": "a5282b716227c3622818764e821a03193356f76a0e8f357ac90b03abcdc60d77"
-     },
-     "on": {
-      "inputHash": "a157b3322c284b871ed7d23d690f293f3013f8e41a4858b74e4c8936607c8d0f",
-      "pngHash": "010a0a5a719d64d52977f35172acc0c82ba9bc06411d3085a71dcb6da5142870"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        20,
-        66,
-        36,
-        36
-       ],
-       "flags": [
-        "recaps"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "23ac9cb610c8fb1952e6336cc4872a218922238ab1ee87f1ade94a0556bc2ad7",
+        "pngHash": "4c75a0dee7eee9acaf646b032dd6d5a476900de1c404e85945b6cd5d671306bc"
+       },
+       "on": {
+        "inputHash": "7e536561d09eb1a5286e4869e7a77cd00817e76f8edc73b32994f4afbdf845e5",
+        "pngHash": "cc2126947684339e2f71d7f7962b18e465ca6247cfdae2ac9621fb6c3eb6ea41"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-quick-check-in",
-       "label": "Quick Check-in",
-       "rect": [
-        328,
-        634,
-        54,
-        54
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "d30ffc34955df51e46a9fcddcb75612e043424f6f102ee5cbe3006c614b054a6",
+        "pngHash": "894dcb036dbd889651dfa01535a83a7dae5a96b169e83a258b5267b6c20094b8"
+       },
+       "on": {
+        "inputHash": "8fc201832c8ba90fd073f5cbb0cd9d44e01a0c932269d4dae9c5709d1fefa680",
+        "pngHash": "aa6bf1cf16af275d8531796005162b1bc30898d43704e905b30fd39ee36cad63"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-voice-entry",
-       "label": "Check In by Voice",
-       "rect": [
-        328,
-        700,
-        54,
-        54
-       ],
-       "flags": [
-        "voice-mode"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "07d29f43ecb7a59319aa7e1f65f5004811afe8e300f6327e714fb02dc42070dc",
+        "pngHash": "4987fbb92e7986b1ca31b9c458714564505f23568750ad92009549503809f1e1"
+       },
+       "on": {
+        "inputHash": "e997efd9fbe7d225e20a64ff52f8ad7756cd191fa98e7ed20991d6d23bbf5c2b",
+        "pngHash": "0e5c79dad3ba0ce13740303a9ddb268338e4615deae83f4762b40237c623af47"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "2aab71c9300a4d7b8c84c6935eff4e7c3e6684eb8a31bc6314de54acb6d0090d",
+        "pngHash": "45ee2a0ebb2aaf68112c8d2524ac0e791d230eff18e88b6406d9d9dda2a15783"
+       },
+       "on": {
+        "inputHash": "49493cc5343134f38b72766e4ea935e730bd3093d4bccbe3e2d81ea3113df90c",
+        "pngHash": "3796cdde3c9e8e3abf3f27519e688abe7b050dd022debca56f45dd961d27230a"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         881,
+         1781,
+         147,
+         147
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         881,
+         1959,
+         147,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         20,
+         66,
+         36,
+         36
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         328,
+         634,
+         54,
+         54
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         328,
+         700,
+         54,
+         54
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "persona-lea",
      "title": "Persona Lea",
      "route": "/calendar",
-     "off": {
-      "inputHash": "5368314cca0a340725706d9d75218ac2929c97a50460e3855014647b4f15169f",
-      "pngHash": "f3515c6ee976bf0596520d61081e272e4dd7988f5cd3e69229c51c745746f95e"
-     },
-     "on": {
-      "inputHash": "ee4815404cee13cf002842d7f881a2879ec327b1c9a9662a7712c90436cac388",
-      "pngHash": "265d1f90d7a66cd4ae2000cc8c8bc55a80f54132454550855120dc9cfa161e2c"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        20,
-        66,
-        36,
-        36
-       ],
-       "flags": [
-        "recaps"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "ad087212be9c16ada231728fe7a2138863dab3af6397c878338ce96a6bca5e68",
+        "pngHash": "79d2586f212198bf22a006a860bf5e544b8d67d318ca955d1b628a64e3c76f7a"
+       },
+       "on": {
+        "inputHash": "50a612b4dd6b16b0063cd197efb13e45ece8bb524a38211d8a78339b296aa78e",
+        "pngHash": "265d1f90d7a66cd4ae2000cc8c8bc55a80f54132454550855120dc9cfa161e2c"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-quick-check-in",
-       "label": "Quick Check-in",
-       "rect": [
-        328,
-        634,
-        54,
-        54
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "630252abb2a6cbdc739be0bbff1dfe5ca763c629eaf4d380cada9edc87874099",
+        "pngHash": "c6f3683f0b33b7a19fabecb5d4b5f5599c07266848f2fd6a41dbcf1b585f9745"
+       },
+       "on": {
+        "inputHash": "329ebf88126f6a36e377dd7f357428823f68f6f34b4b0699ec6ddd6532a282d7",
+        "pngHash": "0cb03c3e359eb4f09e5379c862bf1d9cc7d29ae24671a11e77e4f7c9e87090a7"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-voice-entry",
-       "label": "Check In by Voice",
-       "rect": [
-        328,
-        700,
-        54,
-        54
-       ],
-       "flags": [
-        "voice-mode"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "e4f3431024d5d7deb352a62ea29e435823b6e4b6f70e35de88fc78a2625ca540",
+        "pngHash": "ab088ce8adb4d9f2e28f80bb48e109a92bc53611f49875c3ecc8a681805be0e6"
+       },
+       "on": {
+        "inputHash": "80a7ef495e54246a97a7290f62043d69e21360df27571407ec65316ae67a0c58",
+        "pngHash": "a153d06698e6a3e4ea0c58cdfaa52c4a472933173f68da0fd829b9cd496c6e30"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "8f8d6e96942d645f729044d9630996fba9d8c65ebc716094fa04e951bcdae5c1",
+        "pngHash": "307effe6364c9c9c0a753526690431def08ec1cdfca6a96616086d54a6ce6273"
+       },
+       "on": {
+        "inputHash": "eb35d06ae99e6757870d81f650aaa73dc212a58294be41599990dbc9b22856e1",
+        "pngHash": "7ee752ec9211ea29a00cd936eac90604f98b61c239a4909600b17f6696ebcc2e"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         881,
+         1781,
+         147,
+         147
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         881,
+         1959,
+         147,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         20,
+         66,
+         36,
+         36
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         328,
+         634,
+         54,
+         54
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         328,
+         700,
+         54,
+         54
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "persona-jonas",
      "title": "Persona Jonas",
      "route": "/calendar",
-     "off": {
-      "inputHash": "3413b4ea51365ab93dffe9f57c448a68df588b9ec3f633aa35d955813de77d1f",
-      "pngHash": "707f1a3a636f5034eba2c76a0004905929a2c3c36d4b3c981cc577d78a404a09"
-     },
-     "on": {
-      "inputHash": "84419155f38e92b5338b281761d3851282f15acb9f5829f785a9883be3c762a0",
-      "pngHash": "939b56a8ebe248f9eedb3853ae8beebc54a1f463b3cba8910f0ad1584a65af00"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        20,
-        66,
-        36,
-        36
-       ],
-       "flags": [
-        "recaps"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "41bee256e31c00f77721a32cc8dd5be1d0447ed28c7c14a87bbbf98f8f5edbf0",
+        "pngHash": "23895bd12fd6437b52b6a5b51380ebf4c484fca6912a012e7b31d3cc31adaa46"
+       },
+       "on": {
+        "inputHash": "18f3aad8c2be564fd9d01d9f9d0cae468f090043e0e17f0165a0d1e79fa66d52",
+        "pngHash": "939b56a8ebe248f9eedb3853ae8beebc54a1f463b3cba8910f0ad1584a65af00"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-quick-check-in",
-       "label": "Quick Check-in",
-       "rect": [
-        328,
-        634,
-        54,
-        54
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "454ac8b4e3475d7fbaf24c443fb46ae466d48f5503134608f5063175276d6cf9",
+        "pngHash": "e5b7d3d1e1527f5c96d1e32572f4b0be178387fc50a91ed650b16acff0bf22ab"
+       },
+       "on": {
+        "inputHash": "1232d960f98a1dba42a9e253ea2746f0782caae0ba99cdaf8d6451feb4cb9911",
+        "pngHash": "e2bcc4d32842f1cf2789aac8fcace7a4c88897f98d48908c7ce07c37e0dd3263"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-voice-entry",
-       "label": "Check In by Voice",
-       "rect": [
-        328,
-        700,
-        54,
-        54
-       ],
-       "flags": [
-        "voice-mode"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "13a48302a6647e71c0a5cb3eafe7c75a12a2215f0d400234e967bd255dceb9bf",
+        "pngHash": "700bd767b5c0c0e48439695d6a475810ac3911907b442d826ca1398f64ee4340"
+       },
+       "on": {
+        "inputHash": "16ecc2584b1794cb702343fdc3ace593b60ec9ea7b8a308d52a67281ec19bb45",
+        "pngHash": "06964e0bd6a192e91bcd44382fff4b9fc5bd91a0d4ea4b5ee02d4e45fd08dc06"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "a7b4921ad3dc34001762599702796a3aadabaec5a533e67d846e71d4b6e2157d",
+        "pngHash": "02d6f2c553daa9c8f171118a036ee7ec40f0af2547fe311930097d6785cb0af1"
+       },
+       "on": {
+        "inputHash": "3d3d2c80766b8d00875279a26e22c07b22ef75a552bc654164363edf6e5762e0",
+        "pngHash": "2ce5611e9af74199e8ca95f846b0966b7f8b3809ea546a44084982ee0fea56cf"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         881,
+         1781,
+         147,
+         147
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         881,
+         1959,
+         147,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         20,
+         66,
+         36,
+         36
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         328,
+         634,
+         54,
+         54
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         328,
+         700,
+         54,
+         54
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "persona-sara",
      "title": "Persona Sara",
      "route": "/calendar",
-     "off": {
-      "inputHash": "4000e363c4510d00470d73d914eb9ce89892d8309fb367cf033ec67caf3cb89b",
-      "pngHash": "404ff1d3790730ff6b36cfb359454f38168d5a5286043a0435a1e7761f20fab3"
-     },
-     "on": {
-      "inputHash": "51bb54144538acf8fe8ac3fbd4712782ab4eaa2a24f6c319feb4d859137993fb",
-      "pngHash": "a7a9642d1a0558dca38b8269e94d45f75f262efbc0da1aac59a217f23faa0191"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        20,
-        66,
-        36,
-        36
-       ],
-       "flags": [
-        "recaps"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "fd0cbfe9c6a0d7f6d011ed8a4b2cb40af8c9aa2048868c201c6f9af8a4d70302",
+        "pngHash": "686a9a92d54b88d7d4011a010e631d060258a7b24dc1b3e096051e85ce07a175"
+       },
+       "on": {
+        "inputHash": "a2147a94d97acc8ceb5c4bed0c964319691f6ed37d01df9c0ed81140ce5f3bf8",
+        "pngHash": "cd37670d2815f2f93aa2b015c80dae8a339f69c584067cada2c4c9736a00c4a0"
+       },
+       "errors": {}
       },
-      {
-       "id": "",
-       "label": "K",
-       "rect": [
-        359.5,
-        76,
-        9,
-        15.5
-       ],
-       "flags": [
-        "app-icons"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "81f48b1e9a4eacab1163c3579d5f8699e2d18bd073add6ef31fc1921bd165287",
+        "pngHash": "aaa751cedbda3a15a31abb0fb0589175414bf7671eed6d405f98deb867a8db8a"
+       },
+       "on": {
+        "inputHash": "3fe6bd7b0282e757ac1821ea1d269390b07098ce9eb4fdfae95b7c1dc5d6b14a",
+        "pngHash": "122255e5e8bf47c5d5cc95bab36ac97a67a0a630171cf86c98357b3727892690"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-quick-check-in",
-       "label": "Quick Check-in",
-       "rect": [
-        328,
-        634,
-        54,
-        54
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "6e9ca014d3f08df15ee725a9432648c448b2cf8fcb380ee04da9110a81ea90a2",
+        "pngHash": "741f3892a46f8792f997b4874187b9df5f96e46711c7c74b80f25a880da5c831"
+       },
+       "on": {
+        "inputHash": "bc615f014cc648bf8ce99ee652ea46f572a653de19d0fad28b5da0faf1101b46",
+        "pngHash": "e112646c0654ee907584e5a808f8a9f58117b3b7af412efa104a3398b69a6eac"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-voice-entry",
-       "label": "Check In by Voice",
-       "rect": [
-        328,
-        700,
-        54,
-        54
-       ],
-       "flags": [
-        "voice-mode"
-       ]
+      "android-dark": {
+       "off": {
+        "inputHash": "23b39fa2565ee9ff6d3e14ad1a6f280e95517d5a34bdb75efdf29a3e75f1b80c",
+        "pngHash": "2d5fc395ef19644856021bff67d973fad8f7891064537315cb9642f9d7cb1667"
+       },
+       "on": {
+        "inputHash": "0ff2d6f3229478d5707a587c05c6c2c20f4340bbae632861ae7da2381b36ea49",
+        "pngHash": "8f1099f14d684a87016931acdfccba1d3610da21356a44829d574fd25228d7e3"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         881,
+         1781,
+         147,
+         147
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         881,
+         1959,
+         147,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         20,
+         66,
+         36,
+         36
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         328,
+         634,
+         54,
+         54
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         328,
+         700,
+         54,
+         54
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "persona-ben",
      "title": "Persona Ben",
      "route": "/calendar",
-     "off": {
-      "inputHash": "5d157ce693f5ac3cfde98122137cb9ea81eaefd0cc43a68c9d3cd478d7444328",
-      "pngHash": "4f4739560b6ff1689feff19fbdc11b5aaabb0d1c3ec93aed10bf6ed737d3d2e6"
-     },
-     "on": {
-      "inputHash": "b9735d3e3ae125b28089fb30ca59a8651baafc11a1b1bb41290fdf9d1d82e424",
-      "pngHash": "b0efd23a86d7def2920f3d9b55bbcf32d6f0c97604fd4ca312243f35a3dcf521"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        20,
-        66,
-        36,
-        36
-       ],
-       "flags": [
-        "recaps"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "9a59f38a2cb70a0d566b86614c025da78ebc959e8cfeac092220ca95855d7a57",
+        "pngHash": "4f4739560b6ff1689feff19fbdc11b5aaabb0d1c3ec93aed10bf6ed737d3d2e6"
+       },
+       "on": {
+        "inputHash": "7c637d67a64181f3a9c3fc7a69dfacc74438347d30fea26bf710cc720a73e57e",
+        "pngHash": "b0efd23a86d7def2920f3d9b55bbcf32d6f0c97604fd4ca312243f35a3dcf521"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-quick-check-in",
-       "label": "Quick Check-in",
-       "rect": [
-        328,
-        634,
-        54,
-        54
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "40ba0dfefd756493027d8b0b325685db1f063d29389017aef32871757bac912e",
+        "pngHash": "5d2453901f9dbdf18fc6d52b2138ba58325be4fd75f2cf3f5300f7496e195087"
+       },
+       "on": {
+        "inputHash": "1a34e007ef2472b44698bf72d879e25c996217cce321c022a3c6606a06a2e4cd",
+        "pngHash": "655da17f2de479d02f9ea4c1cda5654a9f8af60aeb74c23bc8ae71c733765553"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-voice-entry",
-       "label": "Check In by Voice",
-       "rect": [
-        328,
-        700,
-        54,
-        54
-       ],
-       "flags": [
-        "voice-mode"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "ac0d2660f3ebdb15003dd664bf50b68d0226c5ec1750e2f1d9a163cb52738ac0",
+        "pngHash": "4f7a91faf08a54ddf4c529551f020777734ad07e961e544291caccaa64b6c498"
+       },
+       "on": {
+        "inputHash": "f5dc12f04180a3d28bdb1881f19520367c3c33c913c859931c8e3c47237f66f3",
+        "pngHash": "41be62778d14408a152408221681acf1eb8d34670d48fa2c3204ceb15e450237"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "fcadba6935f56ab88719086fcdaa79464502e9c83126baecaf401bf7c69e74a3",
+        "pngHash": "58ef99cfe4ac3d0ffed86489d04591b240108b2bdc7400b7616e7c2d383f189d"
+       },
+       "on": {
+        "inputHash": "45766c503e89a8cac146596665249ddc15c25e3d9ba7b915de53f420c3f8ac1b",
+        "pngHash": "b15973b59bc1aa62c4c8848b83e618c694e623dd2b4e50c9c13c70589e988839"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         881,
+         1781,
+         147,
+         147
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         881,
+         1959,
+         147,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         20,
+         66,
+         36,
+         36
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         328,
+         634,
+         54,
+         54
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         328,
+         700,
+         54,
+         54
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "persona-mia",
      "title": "Persona Mia",
      "route": "/calendar",
-     "off": {
-      "inputHash": "5d87e437b646a5c851adf6cee0df5c88e57684e692df6e4e36722d5279fb82a2",
-      "pngHash": "b75129fa87618279de7d4e1dcdb21587fd2a782e5a15fa19f43d721f11287f56"
-     },
-     "on": {
-      "inputHash": "0c454625ebda145095c4fb066b24c69a454569d1e826b43644338c8835945b73",
-      "pngHash": "820b1edef408b9bde60d31c68d9a5dddb570e2b88e13a8eda9008e5400e99255"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        20,
-        66,
-        36,
-        36
-       ],
-       "flags": [
-        "recaps"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "f4140e680cc49b347525f634e4791060d808c3f3c0ec4560a3eb7086469cea31",
+        "pngHash": "a6b07e34fb85e9d55f4549d86ab6afb50ecb73d6f3a5367911b4795ce05bcdf6"
+       },
+       "on": {
+        "inputHash": "fa3becfdd07971c55497de595f530640fbeb554b08afe85906ab1a1690a96885",
+        "pngHash": "820b1edef408b9bde60d31c68d9a5dddb570e2b88e13a8eda9008e5400e99255"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-quick-check-in",
-       "label": "Quick Check-in",
-       "rect": [
-        328,
-        634,
-        54,
-        54
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "f2ad637b8e2768a7d9ad7031462d3bec6090761299e6b7692fd386bd6c463c60",
+        "pngHash": "8182465256f29bf6468692c811ef0f042fdee0e33ae52aa885a91a1a7af33cf0"
+       },
+       "on": {
+        "inputHash": "3efcf941a0c34d5bcfa64e0a6da21962c90f673e2a0d80d6b790eb7ec6f40afa",
+        "pngHash": "2dbe10c93f3e787b7ca60e1eb71c0b0162098d2b7c8e007a8a5efc34cc692634"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-voice-entry",
-       "label": "Check In by Voice",
-       "rect": [
-        328,
-        700,
-        54,
-        54
-       ],
-       "flags": [
-        "voice-mode"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "aa21f3c18b9a8615c999440d27c08fcc37041b709e49d5dae0c141973942ac48",
+        "pngHash": "0d198cde3ee7e3e0a60f4f1b5040e27b3fac0ee4b33299ba314184a372875407"
+       },
+       "on": {
+        "inputHash": "7ee8c27be4e3d8cca2e8e24c5db6170b3b95fe868f8443fc4243c1bf2ed20889",
+        "pngHash": "da80aff48866fe8fae7f065fd389b0a53f8a0fe3ce1f536ff3e00ecea982c459"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "80c15f64fbb53af6f8cc53cae9c4b67f4fe1511ed8f756680ab6876edbe37b80",
+        "pngHash": "b0b3881ed70cc530ee0a5957d06da5ff5733ea3255c8883c3c86d65f61cd5eec"
+       },
+       "on": {
+        "inputHash": "5a7b0ecf48b1330b3c79c2edaa85256d9bbd13b162034632ac83c76c72cd688f",
+        "pngHash": "f073ac0d10ccaadada3974a4cda0c6843698a98f374be76fcae61ae391133587"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         881,
+         1781,
+         147,
+         147
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         881,
+         1959,
+         147,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         20,
+         66,
+         36,
+         36
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         328,
+         634,
+         54,
+         54
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         328,
+         700,
+         54,
+         54
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "persona-paul",
      "title": "Persona Paul",
      "route": "/calendar",
-     "off": {
-      "inputHash": "cdf21d2a4b01f7092f033af95e56b151f2b1b659375eaaecbbbe2bffeed7b9db",
-      "pngHash": "a4f8d8c6839f68cda0923226fb2857970a43302aeb875ce33368ae309517d57f"
-     },
-     "on": {
-      "inputHash": "dd58f19862eb4f7937afa08cd139621cbfb9d8fcbbad86d4835384267fe55cd1",
-      "pngHash": "e545caee487d70c586637b27fc4536fb9a47c12f56475d0468d08f853516d848"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        20,
-        66,
-        36,
-        36
-       ],
-       "flags": [
-        "recaps"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "4596981628622cb62cd131db16e8df44f86c1930c57f6888e274c347fd6cabf7",
+        "pngHash": "4345891080419e8ab76d19c852d5c8370c65bae8fc71b4dc05a585b3ddaca7d0"
+       },
+       "on": {
+        "inputHash": "8f0fa27696a00ef525c4b51d3796ec78da0f6368d92f3133dec9b07e900050e3",
+        "pngHash": "b7e2e12e931cd64e5e3e94650abdbe27c22e6ddd89cfd0247560617771a18613"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-quick-check-in",
-       "label": "Quick Check-in",
-       "rect": [
-        328,
-        634,
-        54,
-        54
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "aef3cd077bc6ade6525d3e8df8682db556922035896a4d95455eda99539ef73c",
+        "pngHash": "4b80c7ddb489fdf7bdcfddf50f71c47e09ae79945de660cdfd53e99f51abda28"
+       },
+       "on": {
+        "inputHash": "e0d1287eb277b543903ebd36022f8f83053ab05cfbd92ab4e1764ae9ef220ef9",
+        "pngHash": "e847723a49464df128f19c70475598a18150a41992e28c12a8c1398f67e1e702"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-voice-entry",
-       "label": "Check In by Voice",
-       "rect": [
-        328,
-        700,
-        54,
-        54
-       ],
-       "flags": [
-        "voice-mode"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "cd3092c512f51d3d3e01ea8c514f49e62269ce08c752de313b1f04c637e2cba0",
+        "pngHash": "321363f5bf9d1e8a5c72cfb249462e6254db9c7561c9a2c37bf1c6e67efb64b3"
+       },
+       "on": {
+        "inputHash": "366b77bfe60ea259a5e61c185de24ec12e775cd742ff38f5d285e88fa39c4b01",
+        "pngHash": "5d85e896e834f7c35b443ac97ff3fafe55c2ee6d4fb50281ca6da2c4f90ebe75"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "eecf7cfb90c6f778b441707f8a2a6b9a21cbba89030504c3c4d17dacabca30fb",
+        "pngHash": "a202daad6d5dda878118744dfbace21c8c107cad5aad8cdadb37090814096e78"
+       },
+       "on": {
+        "inputHash": "d53e1c1b55825db9257d9ba0a26d47117d2ff38ad4fcac3174780a4ad109c12e",
+        "pngHash": "b5d4f022a8dfcfe5e7f68829c17923ac1fe7bc075e60650375a13685689adb9a"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         881,
+         1781,
+         147,
+         147
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         881,
+         1959,
+         147,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         20,
+         66,
+         36,
+         36
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         328,
+         634,
+         54,
+         54
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         328,
+         700,
+         54,
+         54
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "persona-nina",
      "title": "Persona Nina",
      "route": "/calendar",
-     "off": {
-      "inputHash": "82b6f555cb6ed3f155e13ed8a2a1bc511bbac360e13cf6513f299221f9395a5f",
-      "pngHash": "7cf73150d8291a661959bbdcacf76a92238ec571ccc6233beca3977dcd5048cd"
-     },
-     "on": {
-      "inputHash": "dcd35fe6fc8d7d2b0dfc80fee57275c431e55e0031062f86040e39521cdecc55",
-      "pngHash": "a7a9642d1a0558dca38b8269e94d45f75f262efbc0da1aac59a217f23faa0191"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        20,
-        66,
-        36,
-        36
-       ],
-       "flags": [
-        "recaps"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "0d8874f14a02fc19bacf3675891acf18c6b9518b75190f06abd410db3929210e",
+        "pngHash": "18e64b9cc783f742adb88ae73912122d1f0f06d911502f33584dbb7f87e4f6e7"
+       },
+       "on": {
+        "inputHash": "4645d4206f18360e07f9eee805f544ac6b0c3dad432f48a9e5f3f658c878d32c",
+        "pngHash": "a7a9642d1a0558dca38b8269e94d45f75f262efbc0da1aac59a217f23faa0191"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-quick-check-in",
-       "label": "Quick Check-in",
-       "rect": [
-        328,
-        634,
-        54,
-        54
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "d9976b8e13aa8df532f8827f5b63b55841f5ef1b95d1784491b2cb11f91d1ed3",
+        "pngHash": "5527006a023cfeccbc840a17b735e053cac3cc3e672cb67818c9522ebb0f5f69"
+       },
+       "on": {
+        "inputHash": "4e9371f6c74ce48db8463c22e6052d4e6d7868ce6627213f0e07b0ea7706f588",
+        "pngHash": "d5c2153071a3e5a31eb7c77af11b5a0e4babc0e29aa744769a01185868a233c6"
+       },
+       "errors": {}
       },
-      {
-       "id": "calendar-voice-entry",
-       "label": "Check In by Voice",
-       "rect": [
-        328,
-        700,
-        54,
-        54
-       ],
-       "flags": [
-        "voice-mode"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "69aeb345a02e2a73d875260274edda096fd0ff2f62d6f8795473ec40317175c1",
+        "pngHash": "741f3892a46f8792f997b4874187b9df5f96e46711c7c74b80f25a880da5c831"
+       },
+       "on": {
+        "inputHash": "fbd9dc80402cea17744b15777b58e02ca30a01cfba656f0d14ed55d5b3355cc4",
+        "pngHash": "e112646c0654ee907584e5a808f8a9f58117b3b7af412efa104a3398b69a6eac"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "0bb9fa7653a47e65575032ab9e94e5ce80f3ce1599c84909e33f35e456a839f2",
+        "pngHash": "2d5fc395ef19644856021bff67d973fad8f7891064537315cb9642f9d7cb1667"
+       },
+       "on": {
+        "inputHash": "7fbda109ffd0f1e4f14bada65461e95a6f93c9b2befe9434d4673570df6fe640",
+        "pngHash": "8f1099f14d684a87016931acdfccba1d3610da21356a44829d574fd25228d7e3"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         881,
+         1781,
+         147,
+         147
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         881,
+         1959,
+         147,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         20,
+         66,
+         36,
+         36
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "calendar-quick-check-in",
+        "label": "Quick Check-in",
+        "rect": [
+         328,
+         634,
+         54,
+         54
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "calendar-voice-entry",
+        "label": "Check In by Voice",
+        "rect": [
+         328,
+         700,
+         54,
+         54
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     }
    ]
   },
@@ -646,21 +1267,65 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "welcome",
      "title": "Welcome",
      "route": "/onboarding",
-     "off": {
-      "inputHash": "b2fd11bd8409972929ec4c9e24eaeddbf699193216da719d13116e9dbae7a302",
-      "pngHash": "e051421e01e3171bc35e67697478ac2e388f9ed04eb32f3bc89da0a168827607"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "84496467e49e33eed7b2872e4527abf914b6b2ddbf8124c7ca181570e8f722d1",
+        "pngHash": "e051421e01e3171bc35e67697478ac2e388f9ed04eb32f3bc89da0a168827607"
+       },
+       "on": {
+        "inputHash": "344ca3cfb6f705b1cc6334911da4f4f2736c8d2c4cc28ca31fd26a6af66a0379",
+        "pngHash": "e051421e01e3171bc35e67697478ac2e388f9ed04eb32f3bc89da0a168827607"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "9556c47b7d216d397ff90a20a897822dace75a68e4f8a67104c062e670da41ba",
+        "pngHash": "c97869288b14e6d5239e5b65f38afdf226fc58341b79d75d781f346c4ae5482b"
+       },
+       "on": {
+        "inputHash": "fda9289a9dd83f75854d97c479ddcd62231cf14de7daeabe2e6be3fdd7979baa",
+        "pngHash": "c97869288b14e6d5239e5b65f38afdf226fc58341b79d75d781f346c4ae5482b"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "147f17a4ffe1909b6d17c0c873efd3b8b4a1e55dfbd99ce9a9c5ed0afd8c150a",
+        "pngHash": "b908256a3f0899e6a31fd657ffa8a0e3a16786a94d06ce4348a4fb8b09ff9c5e"
+       },
+       "on": {
+        "inputHash": "bc5f09c5e07b8ac9410613e28b9983e7b0a891c2e6b1934662b369e6e75cc8e9",
+        "pngHash": "b908256a3f0899e6a31fd657ffa8a0e3a16786a94d06ce4348a4fb8b09ff9c5e"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "e6b4da3449e4035b3dd127f0fb427cc28a62bc59dc76cc692e2769fa9b3f7c54",
+        "pngHash": "e935094c052659126a66652fe495622e3e283c34fb6fc56d4f1cd4e9872e6c15"
+       },
+       "on": {
+        "inputHash": "70fe8a6083d6a9ab0169289ebc836790303fd27f942aa7553ba56c73b27cb672",
+        "pngHash": "e935094c052659126a66652fe495622e3e283c34fb6fc56d4f1cd4e9872e6c15"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "25845f06cb026753a2c8c4fdbd4c8686004115ad55d40bb66327229f60511a17",
-      "pngHash": "e051421e01e3171bc35e67697478ac2e388f9ed04eb32f3bc89da0a168827607"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -672,79 +1337,244 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Entries of today",
      "route": "/days/2026-03-18",
-     "off": {
-      "inputHash": "71bf14b511f114859ca6f1cafb58ce0eb56c7cea287c566519e29eb2572fad21",
-      "pngHash": "17d6a93f6ca0395aab33b8407bd90306f2d81189a0791364bcb8c4a23054f497"
-     },
-     "on": {
-      "inputHash": "e050aef893aac44aff5f7f26b2115b2f155bc547e8527d232ce2531771031c1c",
-      "pngHash": "f185b982c17ed0840ff330d4f077415bab1e4c8f508b771ec293882ffe71a197"
-     },
-     "flagged": [
-      {
-       "id": "log-list-photos-edit",
-       "label": "Add Photos",
-       "rect": [
-        33,
-        410,
-        110,
-        38
-       ],
-       "flags": [
-        "photos"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "4691fb46779dd6fea7768100e165243861b3394084a5ee0339485d4b0a9912d1",
+        "pngHash": "12ecafbe78ca31d0590da96a87eae9d5490c92d4b9e7dda9fac1c4cdca5fc64c"
+       },
+       "on": {
+        "inputHash": "7431e9f2bdf446cfea4b71568ee11b338b27cc2664056a57b9c166e04382657b",
+        "pngHash": "8f010516083d58fa2dccf950a5f054141dca5c76f435c05e828cf81e0bff84fa"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "2347d469c669f4a3a78476db20583b3eaba1c614c615670f31a9502a30748bc6",
+        "pngHash": "475f029e000f9ff6fcefbe96102823d8d59912a9c7245602983d7021d8c46c14"
+       },
+       "on": {
+        "inputHash": "3be6060cd7c4abfc48e1abe3d3bfc0dc8e6361f60f1f97387da3ce6a35efe2b1",
+        "pngHash": "9efdb1a25497148d6dd0a7cac9d5a3e40fdff721c53a6229576d8c97306bd041"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "087c1ea744bc73ec0320eb8d03d01840cc6b9c5c379d85a0f99a538eab5ec5e7",
+        "pngHash": "8f79649b343533f5af9fa016ac396ad07d887e8e6f7245067e61cf2c8df27eab"
+       },
+       "on": {
+        "inputHash": "0452be9fd8840ad80f5a1cc2bbcbebf4d47b23a2750b6155a873402fcecfb374",
+        "pngHash": "602427fc90f4d698dfce72a6ab18c6e62779c268b7570e1a7210430e3468f71a"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "7ab764ab30fee341e184af282e8d7b180edbf381677f61dc030107b40568483a",
+        "pngHash": "a1f8309ce4f7c33fd79e0d7c3977b3aa54161b62b1fe53ae2fbdaac1495eae11"
+       },
+       "on": {
+        "inputHash": "ec4641e30aa5ed7c13468433cabb987cadfec34af9cfd59191f61d6fd4d26429",
+        "pngHash": "f5dfa9cec4126810da831be13290e0952b822e8ef7e789db7902677ac71933e7"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "log-list-photos-edit",
+        "label": "Add Photos",
+        "rect": [
+         87,
+         1020,
+         289,
+         101
+        ],
+        "flags": [
+         "photos"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "log-list-photos-edit",
+        "label": "Add Photos",
+        "rect": [
+         33,
+         410,
+         110,
+         38
+        ],
+        "flags": [
+         "photos"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "timeline",
      "title": "Many entries, photos, places",
      "route": "/days/2026-03-18",
-     "off": {
-      "inputHash": "3081c303aaea1aeb5b6ccdd899652126188c3d488adfd3bfca60bb0ff85f5ba9",
-      "pngHash": "3ccca8e41bbd7bc78c108ee2c34fc22c1c26b680e103b28fd981bd690d729111"
-     },
-     "on": {
-      "inputHash": "b3e544ce6910c4af16ccc00dc41a5b563389bd36be8f22a080b8ccff32d23c03",
-      "pngHash": "2e33cc7244d66ea42b69aa6a86a02752cf4ec074cd532ec1a6c0458da34d7f6d"
-     },
-     "flagged": [
-      {
-       "id": "log-list-photos-edit",
-       "label": "Edit Photos",
-       "rect": [
-        137,
-        246,
-        96,
-        96
-       ],
-       "flags": [
-        "photos"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "7f4032d675bd447229d947ac77c7a555fba9905a936920cabf12962079266b91",
+        "pngHash": "68da7b107fd8d97851c307034c91142f57f18fa699edc864489c7896329c18de"
+       },
+       "on": {
+        "inputHash": "d1e926bf3646e1b27798d458f241f95c077f158d719ed2a9130873904a313803",
+        "pngHash": "1bdf57b10d8a9203fdf335e7282b88c202479cc10b1363a0b385b33d153145d0"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "cb6644ad175af78c44e91cccd0508c7380610cd8df6ef2dd966cf70f328e086b",
+        "pngHash": "a86bcfaa0e2f1b390917a75761182073fbb7ed23050ad91211d879dcc70606de"
+       },
+       "on": {
+        "inputHash": "5e46f3f7651fca3748a1d735be1deb35c5e815120c092f9ce1112e87ba590862",
+        "pngHash": "8db5c2e7ff59d0e01bb8183eafe591ff7e07e798fcb41f491c581253a1bd3870"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "4da4336f5f123afda0eabb0fa8069f3e8e7a8454434113e011ff93c5bdce986c",
+        "pngHash": "23f812a08674d06ecc6b8f28b7d2f4d4468ef189667883cc54284b9ff8c50617"
+       },
+       "on": {
+        "inputHash": "a4863b834327743c57bf650587c3b58b0810e9a8e69dc256d6da04e258986d56",
+        "pngHash": "639484533b3efd898425d764d25b5316655a65e07c224cfd14634efb3c610a6e"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "3c8beac8485ef78c760f02b8726235c410a26df0575901779fc65919840465b8",
+        "pngHash": "cba2fe91e66807a9bfd5597975b1d008b46d68c50a0905fbdd5c0256f5c14644"
+       },
+       "on": {
+        "inputHash": "c6acb3fbb09a6c3ef7a34a48bf2a086268a06bac3bc2d5ba24e5c3191a0f513f",
+        "pngHash": "52cd549c5651b220f8fcc5ba6968b0935a1fc59ff06ad5219de53d66fd0527d6"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "log-list-photos-edit",
+        "label": "Edit Photos",
+        "rect": [
+         360,
+         587,
+         252,
+         252
+        ],
+        "flags": [
+         "photos"
+        ]
+       },
+       {
+        "id": "log-list-photos-edit",
+        "label": "Add Photos",
+        "rect": [
+         87,
+         2565,
+         289,
+         0
+        ],
+        "flags": [
+         "photos"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "log-list-photos-edit",
+        "label": "Edit Photos",
+        "rect": [
+         137,
+         246,
+         96,
+         96
+        ],
+        "flags": [
+         "photos"
+        ]
+       }
+      ]
+     }
     },
     {
      "id": "empty",
      "title": "Day without entries",
      "route": "/days/2026-03-18",
-     "off": {
-      "inputHash": "9c5575b0ddc9000243514377e3235019b9485e7c935ab0b2b9c07a3dcc95db2b",
-      "pngHash": "548af8399fa5f7af060f8548c7cab53e53d73b2401129e9395fdb22683338d9f"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "71ac088589653b83e628187f083cff832f00ebb54301ffa1f98967e7ae436691",
+        "pngHash": "cb4e08aa1cc1ef40737d801624b96189d80805400b584ce27f77735ce80dc2c1"
+       },
+       "on": {
+        "inputHash": "1eb95e7f68af16d9e4b6ae5d0216c3c0efc402344d39b3f4a0591c6912cc05cd",
+        "pngHash": "fc36b5a084238bc5430ec4372d9c11adbc9f4608f545675b732502099045bad6"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "9db33c574f5f7e629b08b30345201493766327fcf22c13650b190046264d6665",
+        "pngHash": "49b4f8b6525aa6735886f5f14e90c17f39cf46f5901f186946bb0bf987acd69a"
+       },
+       "on": {
+        "inputHash": "d725f46ea1a0ae13770877e3c9bd45bcb93a9796914aa5143a20e4d472c77198",
+        "pngHash": "d15bc92ba13c66fd3bd380004d0c54a738d740a66f9e08b2373499dcd7910c4a"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "efcc6b840ccfabc218ad5d7d0d5388fbd0120218938bb47d4e4ed5a512b4d85d",
+        "pngHash": "c06d720d6b08645a697fbf55aa92865de5391b01e7667ed00cef33f389f8f76d"
+       },
+       "on": {
+        "inputHash": "1064729b18d0a37134bca19a820ac69857106eba8b2f3e665858fb3e5d6cb617",
+        "pngHash": "c06d720d6b08645a697fbf55aa92865de5391b01e7667ed00cef33f389f8f76d"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "1d02c75e8c1599bc8038648bc87ea78c44c2275cbbda96098c8e086f6a8075fd",
+        "pngHash": "19073c84fbd94f4cf58eba152b67e1929e58a44509d554b912868aa4dea0c7b3"
+       },
+       "on": {
+        "inputHash": "352671dd4d811744e401102c36269302a6fffab127e55a4d207bd9810b4e8209",
+        "pngHash": "19073c84fbd94f4cf58eba152b67e1929e58a44509d554b912868aa4dea0c7b3"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "88d572cbc5357fda1f17a1226f4c14dc8d339c9494d771459de76af02c617e64",
-      "pngHash": "b13c9d133915fd1ed86a3f198bc06e70e42e40c7e090d7b1fd4be578d3de8be8"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -756,21 +1586,352 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "rating",
      "title": "Rating step",
      "route": "/logs/b4e69720-ca77-5f71-9788-e735d10406db/edit",
-     "off": {
-      "inputHash": "af620af1996f08d56402bc7f6657a5285c6d3fb9595a7f050b79064191c45bde",
-      "pngHash": "cfb28161f15017228e2e4587080d382c33aaeb6b75d8ada0bced37146641f64c"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "2d5c79e779f7f09f544a31407cad0b3ad452b2420f10bdc084807fab0216b7e0",
+        "pngHash": "27ce21dbebd44396104145108c721f448c2cfce093ae3e0d4a98a0a755a06640"
+       },
+       "on": {
+        "inputHash": "34bd57c44599526e28d586c017eb99ae4f98312340ab47f0dd9b04334f476a7b",
+        "pngHash": "cb680f89a7a9ee67ddc6600fa889601a54e74fa0dba56787915ef418f371e3b5"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "0a64ff7be1dd42b3ee24f6bdd5e6beade416e9dd3d491f2b22ec71d12edf5c93",
+        "pngHash": "63528c1b621d7c9f8068dc44407fef63535eb55573b0cad8608da50e19f837b6"
+       },
+       "on": {
+        "inputHash": "58b570165c6e70a45927ecffe201a16571dd1407aec34503c023d6ad4478f6ea",
+        "pngHash": "fc2fde6350e42257bf798b6a831843ca0092ac0ac021c57d60b83d6d52dcdde3"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "9400046eb4b8d7109f59c76c97e4a1586c0dd318976e50d3cc17e43fdb0749c6",
+        "pngHash": "1dd2b4aa737b5190992d352112dc5faecc4678bedcce4e84d816936351c1ee7f"
+       },
+       "on": {
+        "inputHash": "cf4333d0b239e5f21a71f76374e52eccab1d05f727c2ca8156ec5d73b1f80f3e",
+        "pngHash": "2106a7b0da7ce059556f1c2ed01270b496e73e06f764da6478838b2c5db2d776"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "a5e467103556ff5ec822f37bc0dc8316eb18b5cc2153108c87c542df90571087",
+        "pngHash": "e7c8a756b94dc44d824b7b2492298708250ad3093027b75219164728f5b8d704"
+       },
+       "on": {
+        "inputHash": "79d08e94b0b060911e802557220b0e276ca0e4b4b162e70ba5a87a58e078f848",
+        "pngHash": "e1cba1ee0a7a4fd652c36492ba3c59ee365419d0723629008acfb61d3c3703af"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "a2b25a2a88c57a93f9d44e20dd4dc6f5dc6c210ce323246c7a351a34d1a19f27",
-      "pngHash": "a4c3a632014d72e5685b3c222d57d06100480888001b40d53e330dced2bbfa15"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [
+       {
+        "id": "needs-mode-toggle",
+        "label": "Show List",
+        "rect": [
+         2192,
+         448,
+         0,
+         95
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-body-control-unmet",
+        "label": "Unmet",
+        "rect": [
+         2218,
+         733,
+         0,
+         94
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-body-control-partly",
+        "label": "Partly",
+        "rect": [
+         2540,
+         733,
+         0,
+         94
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-body-control-met",
+        "label": "Met",
+        "rect": [
+         2861,
+         733,
+         0,
+         94
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-safety-control-unmet",
+        "label": "Unmet",
+        "rect": [
+         2218,
+         1064,
+         0,
+         95
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-safety-control-partly",
+        "label": "Partly",
+        "rect": [
+         2540,
+         1064,
+         0,
+         95
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-safety-control-met",
+        "label": "Met",
+        "rect": [
+         2861,
+         1064,
+         0,
+         95
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-connection-control-unmet",
+        "label": "Unmet",
+        "rect": [
+         2218,
+         1396,
+         0,
+         95
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-connection-control-partly",
+        "label": "Partly",
+        "rect": [
+         2540,
+         1396,
+         0,
+         95
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-connection-control-met",
+        "label": "Met",
+        "rect": [
+         2861,
+         1396,
+         0,
+         95
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-autonomy-control-unmet",
+        "label": "Unmet",
+        "rect": [
+         2218,
+         1728,
+         0,
+         94
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-autonomy-control-partly",
+        "label": "Partly",
+        "rect": [
+         2540,
+         1728,
+         0,
+         94
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-autonomy-control-met",
+        "label": "Met",
+        "rect": [
+         2861,
+         1728,
+         0,
+         94
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-competence-control-unmet",
+        "label": "Unmet",
+        "rect": [
+         2218,
+         2060,
+         0,
+         41
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-competence-control-partly",
+        "label": "Partly",
+        "rect": [
+         2540,
+         2060,
+         0,
+         41
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-competence-control-met",
+        "label": "Met",
+        "rect": [
+         2861,
+         2060,
+         0,
+         41
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-joy-control-unmet",
+        "label": "Unmet",
+        "rect": [
+         2218,
+         2101,
+         0,
+         290
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-joy-control-partly",
+        "label": "Partly",
+        "rect": [
+         2540,
+         2101,
+         0,
+         290
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "needs-joy-control-met",
+        "label": "Met",
+        "rect": [
+         2861,
+         2101,
+         0,
+         290
+        ],
+        "flags": [
+         "needs"
+        ]
+       },
+       {
+        "id": "logger-voice-note",
+        "label": "Dictate Note",
+        "rect": [
+         6249,
+         1970,
+         0,
+         147
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       },
+       {
+        "id": "voice-pause",
+        "label": "Resume",
+        "rect": [
+         5463,
+         2400,
+         0,
+         0
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       },
+       {
+        "id": "voice-done",
+        "label": "Done",
+        "rect": [
+         6291,
+         2400,
+         0,
+         0
+        ],
+        "flags": [
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": []
+     }
     }
    ]
   },
@@ -782,36 +1943,120 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "rating",
      "title": "Rating step",
      "route": "/logs/create/2026-03-18T08%3A41%3A00.000Z",
-     "off": {
-      "inputHash": "654161cde5b2377f454ab885b941fac677b6981704c1bbdcb003750f30606e9d",
-      "pngHash": "40877d947b63b1747b9bb0444db93af4f6e6f9d7699690568e4f0c093aa53f50"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "ffe8457f999e69717c407ace169e457e1fe83bca6a102a2da5312f46f7344131",
+        "pngHash": "2d8df7fa208c7fa31c85adb5ec1b3ca4723120b04a4274e6f85f9576be2ecbe1"
+       },
+       "on": {
+        "inputHash": "64c85221a41c2b3ff4ba9f18ea3d3789996f1d53de04c0c37399d435d0385bd5",
+        "pngHash": "0d5f24cefbf0af315f06b202f8cc556149ac6962b0012759a0b46a0056939931"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "b6e7c64739c0c8b803f827f1599d784e52dd4f03e198d5fad2586532a8720777",
+        "pngHash": "f0eae40c184654350695b07a5d8b324e8c7ba3acfd542e7c13f69eb106aae637"
+       },
+       "on": {
+        "inputHash": "7c8c3e4a5e56eb7bbfe7b120e111acaccb7d1ea6c3b4351738e31ea3ca4f3860",
+        "pngHash": "7298da553223fb688f6f352924738258c1184310a827eab42e091e81ea57306b"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "f5439e8b0c19bf74627881ea13bf3e4fc2a65fdfeeab3b1f96d120988f18fec4",
+        "pngHash": "c3fcc1208e106470cfe76e7334800011de9eb48bc52b54d8021ac670c7707864"
+       },
+       "on": {
+        "inputHash": "88184ac79bee3303d3e6c93a8b63c6c963be56f071b6475b10f717d7399e1bff",
+        "pngHash": "1190d91252f134fd316dfc705d2e055cfc61bb640f5bc3be78eaa058efef2930"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "eca6aff7d7591e92931d01388efa66f516e0fe060600f05254c1a8df2643d808",
+        "pngHash": "a9999682d58cfdf95a00062e4e02d3360937f1ba06f9003fa812c088e84a28ae"
+       },
+       "on": {
+        "inputHash": "c6ef098977a0a3b932662ed719b9dc0e2e252c1236174b3d154e6dadf3ee632a",
+        "pngHash": "ff77079a009af4053742bb97a2858434988b2b854a77abd1065f8f09653ef41c"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "5053404980d93dda41f228074ea7111c7ac51e14b99ae608bcf1eb4f5ea9fd8c",
-      "pngHash": "f5c0df6740d386834e0beb746efd439f3a74f06f9eeae99dad65ece6ccd15828"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     },
     {
      "id": "every-step",
      "title": "Every step on",
      "route": "/logs/create/2026-03-18T08%3A41%3A00.000Z",
-     "off": {
-      "inputHash": "93354a2870f201339bca1d41ac7e28407557d9c986adaf292ad1b1b14740759c",
-      "pngHash": "326663497aef64d57dd9591e990cf6196abf05f01c5d74d61702c2e5862b3093"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "3d51556d9fb119a896b8677154c135e62003e7b99ed592d27c7287aae6310177",
+        "pngHash": "1efec8d63025d6a7ef675ad607e4be2b184d9ac76544a97cfad7f3ce41425eea"
+       },
+       "on": {
+        "inputHash": "a826f595b055f733eaa8dbb458e7856a29645b10f166fead83eec63760b58d7b",
+        "pngHash": "39fc02567985e47822c98c2dc951aee3c5ff25a0b774665831654bb8842b0cb6"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "65818cb66435bf888ceb144cbaa59b3e8fd07377a2684b0a182d1d51b8cf5e18",
+        "pngHash": "48bc5c531eb48e16d0de285465c87c07153fc80902b7acde571ccb457bfae76a"
+       },
+       "on": {
+        "inputHash": "9dff4dddc36a68548ddacadb7608f9408ac0dd601488d6c25bb777a47307daf7",
+        "pngHash": "0e6104fa540592e26f0b1afd5288bc23e225793938d2cd6345d6dd56942bcb93"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "10bb94e77fe6894cba0005f13acb2f0cb90c2cdf8caec69ebfa8b86c9f21b929",
+        "pngHash": "c3fcc1208e106470cfe76e7334800011de9eb48bc52b54d8021ac670c7707864"
+       },
+       "on": {
+        "inputHash": "b6e5217263ef7973b36fa7061729f6a64e032d34f749f3163046a0a8681a1c65",
+        "pngHash": "1395a72796cd68ded887d2bbca6a8d9d29e1e354a719b4e610f182e1c7d85b0d"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "01e118027c5a13c31e4015776a8eca92a4d715cf3e8762cb8b1057c01422423e",
+        "pngHash": "a9999682d58cfdf95a00062e4e02d3360937f1ba06f9003fa812c088e84a28ae"
+       },
+       "on": {
+        "inputHash": "50d079ad0b887febfcc1865f2ca2f4acbe09d1e3a7b7d52ced113465aa714273",
+        "pngHash": "ee2098736b5fc426b708e6602eeac624b767bc91355b74f46836826e0dd6859e"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "3a183675d83618a44b63159bb1e314e152e55d401a0baef9a3f3bc580eb26023",
-      "pngHash": "037f1beeb6af8dc5f5c548be371dc70967e8f1511d85396b8e900c3faada0662"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -823,21 +2068,65 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "emotion",
      "title": "Emotion word",
      "route": "/request?kind=emotion",
-     "off": {
-      "inputHash": "d9fe010125f150e2a553950d0dc2e2aec7c16c24bded515f510db3c83641168d",
-      "pngHash": "6845fa6d4eac1c0ab7519a528eba3ae8212e42b94c7c40393aa2b339ed77fa44"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "9f1ea5f38467177c314d00994fcbb588509723a84b0c228767bbab5a6b52ef52",
+        "pngHash": "572814a89d6dee9b4a948a33f212faae569a4b898125e59800b2d47119cfe6fe"
+       },
+       "on": {
+        "inputHash": "9fe1ad9797c9c5717ebcc59f48d34439a9500a947ffe4467b34f2a79864d3121",
+        "pngHash": "a38fbe06e401fd0aa133a681a7c5f66f0357d912a2277427952918f6b8b51d62"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "0ceb882462ae6de8964c637468cf2b73a47be21f6fa61120f70b47ea8aa6118d",
+        "pngHash": "3f14b9311b8003238286923b5750fd741d15c080bacc38166cd29f3c9b17cda9"
+       },
+       "on": {
+        "inputHash": "2cae556f59f2d70deefb84643b0bfc3314849b58fd869e2dcb1a2126692dffaf",
+        "pngHash": "bf8f6e0005ebc839fa8f0f426640de7c71861a3afa9245e5f57417777a789fd2"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "814f922f875bcf1ee0fac63e393f07218a8e0c262a31dc721540dc701b5ca898",
+        "pngHash": "fb2cc7d7fd175907d260ca73faeaadf04f48791bb812e41b6452288078854315"
+       },
+       "on": {
+        "inputHash": "db5e2f2adddc9ee092065c2a714de2d1cf2ce075783dbadec5af40ecf8af6ed3",
+        "pngHash": "fb2cc7d7fd175907d260ca73faeaadf04f48791bb812e41b6452288078854315"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "f01007e66c151ceac4998e41e02b06feac7e39ad800c1f0560126f6199a581ce",
+        "pngHash": "e397bf361c41a90cfcbc37de9159412d400c683fe793e70d04d81737e3080fbb"
+       },
+       "on": {
+        "inputHash": "3248a0b9947f133c256feae88ebccf75df69617fca7df79847976e714ea2542a",
+        "pngHash": "e397bf361c41a90cfcbc37de9159412d400c683fe793e70d04d81737e3080fbb"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "7753633c365984e954ab1d307e206b83243afb02ffbf9ec95b45c8123bcbeb48",
-      "pngHash": "2496675c70a9293b1f1ac86d79a2c79ca085aaf233e65e09438633a01b6906ce"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -851,18 +2140,53 @@
     "quick-check-in"
    ],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "new",
      "title": "New check-in",
      "route": "/check-in/new",
-     "off": null,
-     "on": {
-      "inputHash": "102f33f7d8ce42d040ce93507b95c8d65816e140bb4ff90bab7f3db13d1dd486",
-      "pngHash": "43c905c5ceafbe68190d251f5db3ff7ce1649c88c3b865955ac39aa3e9518bd0"
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "855dd989b7e389d10923e4db266f1e29c4f10ce75f9e2431e89aeb0b8cbcfc58",
+        "pngHash": "a4d33b3e31ee1e05539334351359703478d1edaddc5168bb62fbc17982b81706"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "3bf1fd2b4ddc5257f92d64519675617b2cc93ceecd397ca062a5c8f27cfb2787",
+        "pngHash": "b9bd6d14bd832fbcf9134a3a22dc73f86acf546d72e0ee667213be4d78cac10d"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "2d5308da87bf16aecd22983d39684fac79a2ac264b0cf8e064d5baebbd7c1714",
+        "pngHash": "1c9fae2bdabbe01e31b7fe89aa0ccca86b73d2cdeab2b3b6f580c2576d5c6716"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "5f1bd7c19ec08f2df60416b235a2c66616c2c50f0b06c1a1c6a7c95d761fc38e",
+        "pngHash": "0847da4a4247b96479e513046dc6324243111b32a9cabef8a7414f257be84d49"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -876,30 +2200,139 @@
    "hiddenBy": [
     "recaps"
    ],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "One year of entries",
      "route": "/statistics",
-     "off": {
-      "inputHash": "f8db9e19501e2a3bbc50029f6f42755e529dd5ff37eb6e9c0f172c18f64ca0ef",
-      "pngHash": "dc29916fa78cb288aae16de64a03a55f8d88e0451d45da2b35f8760abf6a0366"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "6da752cf9f540c886a349b96b412cd64e378076d9d2de2448070200a2342c8d6",
+        "pngHash": "dc29916fa78cb288aae16de64a03a55f8d88e0451d45da2b35f8760abf6a0366"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "b42dcdc7d2a133c004e8b669ff1220a33c939962ce5564fa87da7ee1b105c7c0",
+        "pngHash": "1dc29055fa103b81a734968f2d3849353b36f38cd5cc7640e04ab2879395e9e6"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "137e8ea3ef4efc47b3f885dcdc2be2735071a2c778b66a5ff82447a284ff84b3",
+        "pngHash": "7f22ad4280ef3c70b4300446beae9c91c4f2930f1237cc176a873492f3a1f0eb"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "3b6e52f8773676c2363ed3e6fbe29489a5c17192ee65ee46b4192adcaaf2d2e9",
+        "pngHash": "2915700c46d19efa139858ea820c9aa4cef1f47b8f3716ff4b1c40a99d1dd66c"
+       },
+       "on": null,
+       "errors": {}
+      }
      },
-     "on": null,
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     },
     {
      "id": "locked",
      "title": "Too few entries",
      "route": "/statistics",
-     "off": {
-      "inputHash": "0d75e8f8f8756aff131c4aabbe61944a720c757f5cd1e250d9603ce3815be1ae",
-      "pngHash": "435d92030e965a643d538b91c70cf7a9355e5d01a68e23b05c6b62af82b6ddd1"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "5eceaec62007fc507010dd6c3c2c4834cf5b72fff2cce9b30a361c797593d669",
+        "pngHash": "435d92030e965a643d538b91c70cf7a9355e5d01a68e23b05c6b62af82b6ddd1"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "6ac8d486f6367fc64d822314ed00688a0c0dc8b7bc8b0a50a7fb923d45970cf0",
+        "pngHash": "7f616fc65ab2cc28bea45dc13584e0f8e9e16bcaec1df9a0eb60e1c05ad7399f"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "25a9f4b7789f4b9c92fc7c84367b4ed75849c3e614ce9f185ca4071ce7961fa9",
+        "pngHash": "444ad037253f0fff66ccb4234f27e610a84843589829b14d7850e3dcaee949b8"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "ef4ac6a6b37ad5288c420a6fe5388af4ad784b85a26d81274a99268f2fcc9754",
+        "pngHash": "8c9c5138625db1a031beae8b7b842012ece62f85325f891897f1c94b27e1b271"
+       },
+       "on": null,
+       "errors": {}
+      }
      },
-     "on": null,
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/statistics",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "2a29067b78c3267feee96f37b510c396622d07a54e0646680c422b0ab3313382",
+        "pngHash": "d2e3184a7d506394a63f6845c9b50b1ea489c7511e451737add75ed7f3b204da"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "48d42d13250376c66ed04a6e520fca4096e89de8cd520004ff3c93a76e2c7260",
+        "pngHash": "49afe8a8cab492d83087cb9627b425897054cbf3de9cab630b0225c66408c96d"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "41fb3d0c705310e33776ea7caf54116cf4540028e53716b497db6573c9d2945c",
+        "pngHash": "32312d30dbe947b0ab4692615a1470c2f30f2a6f5d1c64fa1bcacff45543030d"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "c1a327690578cb1ea6ca4a8fa24fd06db4c3d602d0ec1f2cdda1c0b9ec5db5a9",
+        "pngHash": "65290b7f1963de8a175f8828cac5770e5d3d737c5e58101af7318a4a05af7769"
+       },
+       "on": null,
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -913,18 +2346,96 @@
    "hiddenBy": [
     "recaps"
    ],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Last 2 weeks",
      "route": "/statistics/highlights",
-     "off": {
-      "inputHash": "95af0d63f193a93a1f7e14fb72067460af9aa0e478bd4edc1eab69040627640f",
-      "pngHash": "f72e4d5b5e6c9986950450dd18ea91d85efa6cdf576a5a2094e8b71f8992b8f0"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "9f925a03d05c289bfe73b6a8d84193c88e50d6aab7e61cd5c65e854d4354302d",
+        "pngHash": "f72e4d5b5e6c9986950450dd18ea91d85efa6cdf576a5a2094e8b71f8992b8f0"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "42dc9dc53265a082b14ceb1ae5aceffa00a60567fd5e793662f1d099e0f894c5",
+        "pngHash": "a465da1faaae48680fadd05249134731d2c583cbb8349f03fd73aba1d260ad00"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "ed135d6a025024a170ca4671b8148ecc87773e093128d0a39e0f77385673bdba",
+        "pngHash": "28d1e02186e17458e696368c7ef305dfe71b6a36c713b4085ea970568c73fa6c"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "3993a0c5758bb662c9cb4673e0cbea128a569882d935668ca1e6bcb5acd39d01",
+        "pngHash": "7bdf6923a9883b712d95d888b0768acedd86910a4165550c61e9350b931c3fd2"
+       },
+       "on": null,
+       "errors": {}
+      }
      },
-     "on": null,
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/statistics/highlights",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "34243d5ea74471e283cdd702bcb18bc247c45d31d6e3f0b1621b3ef508262d12",
+        "pngHash": "a01d368de6dcdcf633d6474786512d99a2550f8e48c6cd059babc3eb19a4de4e"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "b0c416b64b733d6373bf766a17e571e36456b1b3834e005aab2a4a1949ad6ba2",
+        "pngHash": "bb8c93c9ba90f65412158b9b65d61ff429b98c57ab1f6f0aeea3627154177288"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "e055f807cc06014a7d02be38b8215a31ec2c22998eede478daf7a0759e9c581d",
+        "pngHash": "9f1f05e539e649189cdc2bcef25cc8b6bf6c391df95f8aa3015ea56465992e89"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "23f39baba71f91d8944f15f466fad9e4b14e9464c305fcf2cbb57f52729f632e",
+        "pngHash": "a53f33b8575eab93687ee88fe9527d79f9891abbd1ce1cd6f9263e860743c78a"
+       },
+       "on": null,
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -938,18 +2449,96 @@
    "hiddenBy": [
     "recaps"
    ],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "March 2026",
      "route": "/statistics/month/2026-03-01",
-     "off": {
-      "inputHash": "6e088379349347df16072a804f62d2e7aff99e478f4eafb0573ab28169521c0d",
-      "pngHash": "6650368cffbcd5a1650068fad16dbf0a377d842f4fcb18548557661449b269e2"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "01f921e028c984d74f085611b0ce475ba017271ae41b280ae165891f00bff2fd",
+        "pngHash": "6650368cffbcd5a1650068fad16dbf0a377d842f4fcb18548557661449b269e2"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "849e182fa59bf3fe64139e7386bddc40cfe4f74505bd620b0500b9a26474d8c4",
+        "pngHash": "38e8707aca90766620c83eaa4f2b8de1ad4b94fee2831ba757971d55a391c2cd"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "255c3a57af29898986f725362510311a9f07131f55e88af4dfa11730865ecf37",
+        "pngHash": "c8e5306e174d37483d988260b37e321bb9fe7e00dcefab8b6f1bc8169bced867"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "1c18bab15995c7cff1d5c606cae9269e1199f6b44533e52074d03cc6c7ac6c4f",
+        "pngHash": "80a5cb0c9902ab1818fb460c616a5e493e6554806b9e4232032c3de672232987"
+       },
+       "on": null,
+       "errors": {}
+      }
      },
-     "on": null,
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/statistics/month/2026-03-01",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "f39a9a1ba72c8c21ff30f716d3b883bad66b9838265428fa065c26b4014b52c0",
+        "pngHash": "da5ac1ed270f8243b833c98a1dc33e596c03c4ea689c2156aac1cb7bf2310fdf"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "586c1b197aeeea0dfca5fda1fac0c204d0e2c0f37579700b6ab454bc614159ae",
+        "pngHash": "72af3bd11df6d41d20fa90522dfdacb2cc749326b25c4faa7c9edb18fa96a650"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "e9fe35c869096c4ca11b59994b7a66e44f40f484295969663637db0f1f23f2bc",
+        "pngHash": "2cfbe77bb268677f450bb2148b1248529906739b1b7cc7f7e8709600d83e1075"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "580821f70decf00666a7519d541fcea525ff2cf3cedb0dcd41896d4882c4f4c4",
+        "pngHash": "190b7f4a38da14b047094f3f28d9448db73f299097ebae60b5531b332a888364"
+       },
+       "on": null,
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -963,18 +2552,96 @@
    "hiddenBy": [
     "recaps"
    ],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "2026",
      "route": "/statistics/year/2026-01-01",
-     "off": {
-      "inputHash": "d016d26b57c4a3b717d10841262e599792317d3e4929028fd716b8cd3950c748",
-      "pngHash": "b77045b941c48fd4604cd78983eec369bfa3b0cc095035b30b17004199e74e3e"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "d57a0959892685f8b237f9e25769fdcc3af32a542049532a13aa009ae77aa3d2",
+        "pngHash": "b77045b941c48fd4604cd78983eec369bfa3b0cc095035b30b17004199e74e3e"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "8e520ec0b50589f16a53b86218c8fe624ea501b64fb940319fff0f0c7e13049e",
+        "pngHash": "ff527ab737c77c750455217ac610a6e4d38bbb799e86fb9ebfd64d956eb5b437"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "f1a0c6f0b1ed0c471cf2df1647313a77faf92a4067b0527264aca8ff63c0bb77",
+        "pngHash": "34f427003e2cb785b5f42bc05e1e352799a81a050f9fa4a234e21a20d6c10075"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "f5ea864cb7d5b0c172073a295239b0ba92d5597ac82061634a489fee0d3bfa46",
+        "pngHash": "14914ed89d362f657ccba256e063a91a3f2099ec2265ee411113563393d70dab"
+       },
+       "on": null,
+       "errors": {}
+      }
      },
-     "on": null,
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/statistics/year/2026-01-01",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "3b33f7dc84f958fda4679577991c95dff9eacc253e3fc75a8a8ebf30c5a4bbca",
+        "pngHash": "285a35eb237825befe18dc0cbca4efd2cd314a43fa69cc4fd9f92e30b8b75095"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "cd5d97821b88d728d5e0ac9977be5d49914cf52e694af05dd9ebf43cc8469924",
+        "pngHash": "6fecc0469f5f40831a9d2e34756a5133adc972e9ba7a5bf9015f5ce14c29c759"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "64d5757ef12adb73bf866fdedaf79268937d910068f6bdb80c8f5ed114dfe76f",
+        "pngHash": "4e3c79ae260dad7f9785aca66dd6776f1917c8a1a05a1a318d8d91a696850dfd"
+       },
+       "on": null,
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "e1465d0b1d2aa3667e22baf4e9623c8c08addba24efdd7b108de893debb18f91",
+        "pngHash": "c1d1086b090cc673e5f3f1360ae0a67de5eb16284be6112c92489ffbc17fea6c"
+       },
+       "on": null,
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -988,30 +2655,139 @@
     "recaps"
    ],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "March 2026",
      "route": "/recaps/month/2026-03-01",
-     "off": null,
-     "on": {
-      "inputHash": "6fe6512ed559ebe5abc40dc42a56824452f8d46d3e7ea4e4c0cb68497b743409",
-      "pngHash": "b59bb7de6f9e2515965cf12b9c106e2108a851d08ab47f9e4f95d55e873abf0d"
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "46079557852955e82cb109681852da8cfebdc2fb7ed8a05ff2a6d0e715ef641f",
+        "pngHash": "b59bb7de6f9e2515965cf12b9c106e2108a851d08ab47f9e4f95d55e873abf0d"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "5e3c1bfa1412fda8ccb6643cc124bfddb83b6fd7779278e85baeaa9209c4dfd0",
+        "pngHash": "da68bb0ce98b61bdd1bdb8ccd4d543c624ac208ac4324b646029a3e4364c4cf5"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "6193b141ed8bce73ee5c19d439968fb09f0af578a22559543dfad89e5a87d474",
+        "pngHash": "9f91c95a0478f291ceaec97f4bd70a7042c322b61d9b0d014897353713a1bca0"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "e72d89519ac539cd1ed1e05dd11db27ad37adcd62983ef75d07ab93e3a97633d",
+        "pngHash": "c91a787981d7b1725aa759be128e7e9360495da3078563da5249663f04826f7b"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     },
     {
      "id": "moments",
      "title": "Month moments",
      "route": "/recaps/month/2026-03-01",
-     "off": null,
-     "on": {
-      "inputHash": "b9e75b2b1029e40696753213d8255d4d8ca3b9bff774316df0be112ca53c913c",
-      "pngHash": "d9653875060eaa31b1e7f35110177bfc07d20b151307d72908e0430d4e099273"
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "0100c9d1e16c9358366e54cab5f6418d3236e780e4fda56376bc0f30ed518659",
+        "pngHash": "d9653875060eaa31b1e7f35110177bfc07d20b151307d72908e0430d4e099273"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "6fddd2c6dded7a15cf52d28556dc6b74acfb08ef4507e4770a331669feb1ad7c",
+        "pngHash": "3af7502dbeaa17abf75f1f02ba3a364319ea06f372f50f722c84a0e94d2abfcd"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "546a21a9f73d89965093da23a6b6d7e3f0d0cd8b3b77cd29a723502ce37c14fb",
+        "pngHash": "24b0aea710c534fec916a17abe59e08b3114cb34de99256d65aa317bdc975912"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "70749ab38f6b43827d6b684a8a3971754e43395d457ac801081c46ce4ccbc8ab",
+        "pngHash": "06c61e1bb1249fe853adf1e54191e6302b9cbabf8b0fdcedfda765e8049c528b"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/recaps/month/2026-03-01",
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "525e74d1c43a5eb210bbbe54ac6352fadbf8c5f13fb8483e59f1cb2c860efbd9",
+        "pngHash": "4e276bd12ed6a4c357dae58efb9d744861e70c311b4eea08347d9fd694ef8acc"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "b95667c19a79767a309a29f5db6fce8c86855d547b3bf62561d3b2684eeb418e",
+        "pngHash": "260952cab9d8552edfe935001b0136d2d40a3792e9314bf878e4cc5b9ed83143"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "c5885d39793933008c6b67170194c112e615427dd5ef494b6b7973843c65a661",
+        "pngHash": "7597440dc6a01daa42f720fcaaaaba1d3d0ef6fff02da8867225c96b33729d1c"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "e195165a9088d91e8fcdd6f33b3741f040b1b74ee72e0e7800532b742683fb10",
+        "pngHash": "cd296a751b5405a8024c0e6267ec125a196de9562603d68e6c31a2bfeeaba591"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1025,18 +2801,96 @@
     "recaps"
    ],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "2026",
      "route": "/recaps/year/2026-01-01",
-     "off": null,
-     "on": {
-      "inputHash": "7328f1ef4ef7496e855944be1cb9b9797600e86e76e54ef5e60fceba8f91e308",
-      "pngHash": "faa120451b11a3ad414126c8fbce5976c114f432545ff9f1998ca56bdb9e71c0"
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "a789b83861a762d8b8cbb9a9c0b8b9f8bb4545ca5bce26d5822e2bb5919caf24",
+        "pngHash": "faa120451b11a3ad414126c8fbce5976c114f432545ff9f1998ca56bdb9e71c0"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "befaf16b027f7385d5f81dba184a93af233b4e248879acede8530553f4eb743f",
+        "pngHash": "e60322cc78df85153aa93a8aa4091c09c850cf1ec618cabe2067c580799a5f8e"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "b85777a004e767c070f800ecbb512e2059eb7ace012ae05f089aacb071835f86",
+        "pngHash": "d7b244402f4e4a0bd0be0294baf4162be84024d1955baa3fbd2ebe1942cda2c5"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "07199b2e7c56ecf6b1cc4b5dce0b12be36371a58adeb52e5f7c0e2517ad228d6",
+        "pngHash": "3328ef4862de3c65f56aaecb4fed9c30ae5f1bb2b4ab1a36d151306a452389f1"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/recaps/year/2026-01-01",
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "8f63d82afdacdcf49321f3d7a4ab162198da134771356da2decdfec33b9e8f38",
+        "pngHash": "45542d2a31abe13f3989c182a5ed0f95d81705d949317e20778adf83b400b144"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "189f0ca7afa1f7f56c2d5ab52da0b53f0635378cf544467f582dc7a6edc000e6",
+        "pngHash": "885917aa746dc83d25badb892443f150ebd0b2e302d253f8d8140dc53b0461cd"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "992138ca913edad4ffb0f5bbb935c9c2862bb01a17aec87a98d4f1586f6c13cd",
+        "pngHash": "1658361f7324ad5d6fa5bb1217bf1a84e9b8e3600c90638eab87d13964b6b6de"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "6f28ae4fdc2204d871b74266bc98d981d75ff52eb683e0300210dfbf8dd05543",
+        "pngHash": "75cc8ebdb7ce0e56eb04d6c2423573dce0881992f4d210c012995fba8ef13818"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1048,21 +2902,120 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Tags",
      "route": "/tags",
-     "off": {
-      "inputHash": "e75c662a2863a3f8b923e0ed199ec02bc622a56e66f5ebcc59b611eb60180925",
-      "pngHash": "247b1da533f2a01de337acd6d84069fa49a567f82fd304b848f244049c44697c"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "c8362ca0d8c3476ef294ead1aec1d9bd11e6dbe2dd034c590e3520a4b120d2fd",
+        "pngHash": "bec678f9587f30eec44ab8245e3e3cf658ba2bd89985dd78f0e1a3b9520d2222"
+       },
+       "on": {
+        "inputHash": "43e93b8ad671d0b8416a8e26de655659e2fb3734fd4d0a675e7e42cbdd7c1bfb",
+        "pngHash": "0caa596845b563bb2e8e0a485cdd2fdb85c55c8da1a14c6bdcf9c3acacf2e627"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "8c077e778e329cc8a8f1832960c18e8d9005bca99a3c26417e8b1e50cc80e8de",
+        "pngHash": "63dfe70c9f3bb820bfbc7e4f44abcc9fb638a5b54979039fdeece5e6c988d110"
+       },
+       "on": {
+        "inputHash": "fe44a607d77f73a85d79ea590380d36d8a18522a8e9618f3f41dcde3254c4592",
+        "pngHash": "c097aebacc89012dc4d08109670ebaf9e49ef140110a8e8b8cda4ba238a0bda1"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "32bb8f06933aae8b286bfe3ad111e2f13cf90d69fc0e47b7302c425a66c215ae",
+        "pngHash": "8905a498a718f15710037f482e634fb65f94ec78538b71d66e822918a1899041"
+       },
+       "on": {
+        "inputHash": "74a21946522803b9081f86ea500b06e5712359dc4aa6fbeedbd8edebfd71961f",
+        "pngHash": "8905a498a718f15710037f482e634fb65f94ec78538b71d66e822918a1899041"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "34a2cb46a7a109b3c4bd08a37a9988e7c68a0b7449efd360a963cb922d3601bb",
+        "pngHash": "bf11a632bb65ab9247bad60c2263dae1818b8ebadb33db2e55e0a54950cdf091"
+       },
+       "on": {
+        "inputHash": "4ff4e8d66e2cfba80d554e86768edfd2cfd267228a654bafbd964d08b42439da",
+        "pngHash": "bf11a632bb65ab9247bad60c2263dae1818b8ebadb33db2e55e0a54950cdf091"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "6d65eddc2dde015d2db0041500b13bccab15868cec839441213d4a87262d4bb6",
-      "pngHash": "b5c6d0ac190228167d0fb668d945702978eada410d1973387787d93240108d9b"
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/tags",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "8aa75b6431f964eec25d7eb41e7a4979168fffa01f8f3c8e412cc3ed386cf43d",
+        "pngHash": "6f6ab5c877405215ef550b077a65f373448cabb90e6c9e1151676cfb6781b24c"
+       },
+       "on": {
+        "inputHash": "bdbc847cbb4a99f68f86cc5cd7ac60f098c230fea652bacac9a9590086605baa",
+        "pngHash": "0990c7103c26dcefe250645effdc1bdb2f416d063e25f977b05cc10acc0abad3"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "e4a4738185558eeed9ebbbb981a22c104926dd7262e81edb05c6aec33a80f0c1",
+        "pngHash": "c6d88407567069bc8a74682654204647d31162fca200c8ab7465150424bc757a"
+       },
+       "on": {
+        "inputHash": "49ffe34c2e12147be12de0118155f76f8574ae28486033866be0ee219d9df22c",
+        "pngHash": "da3931228094eac6f206705799c4b83fe80d5530994162fd24b3511c4032ec21"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "dd62a2c8454743b17120b953731c2597f98a4f5f5a29d622ecf9b72efa2c0f09",
+        "pngHash": "fd9fce2e781dcfa758174da358f38ce00660e35ce5a5ac92e1f841832c797659"
+       },
+       "on": {
+        "inputHash": "267e847a324251ce4f6f7857d6e000d0cab6563aecfa917e8f43231b67748423",
+        "pngHash": "fd9fce2e781dcfa758174da358f38ce00660e35ce5a5ac92e1f841832c797659"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "d2bcfcbea3c4209523e756e27c58d3ae226860ea1c1248db32de84ebabde6d61",
+        "pngHash": "c2f47bdc43634c28e05f6838f559264b89a1bdb87ecd06545260b8cbedffc779"
+       },
+       "on": {
+        "inputHash": "bc45dc6db771c25c8ec1c2d1572683af01fd61f56957801f8a000b1d847f62e6",
+        "pngHash": "c2f47bdc43634c28e05f6838f559264b89a1bdb87ecd06545260b8cbedffc779"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1074,35 +3027,93 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "empty",
      "title": "Empty form",
      "route": "/tags/create",
-     "off": {
-      "inputHash": "d03723cf24f319caf61c69843bffa8a18b9bad31645dcad86b0f30ba8c4fbc6b",
-      "pngHash": "63293f6af4ea6d557a6989a171050c0fa49ce04de4569f5ac96e45cb129304d3"
-     },
-     "on": {
-      "inputHash": "898c8d2500285c918e157cd74a9e13ceabb2a75d378af0a44b0bac2c17b98e0e",
-      "pngHash": "d30a3a298a629be9a9eb17a56b46b803c9fa0c0120be0431cfda7ddd19a17f3d"
-     },
-     "flagged": [
-      {
-       "id": "tag-icon",
-       "label": "Change icon: tag",
-       "rect": [
-        32,
-        187,
-        44,
-        44
-       ],
-       "flags": [
-        "tag-icons"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "db1a5459e0ee8f4ea974b5282bec8a0218e461625ae2ba171f417d4ecd8280da",
+        "pngHash": "0fb510698888b862680fd03d057b5f0f826fa7a8d5e4b3e0cd63363bf2ae250e"
+       },
+       "on": {
+        "inputHash": "ae0685c537010e84e6b1db473e8a7a5672b3a52996307dceba7f78d1287f44fe",
+        "pngHash": "61f921ebbf4e15965291c56fb7afa9c3b96d2beb2b69b176596c8d52e9a17ff9"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "9a263d9dd528ede40eb4b78ab6255b1e7cc12018aab10e4681346329280d813d",
+        "pngHash": "8855582baf942314ab10603c3d7f51e40244502b253f6027dc81285704e50858"
+       },
+       "on": {
+        "inputHash": "1206769c871f976ed6e88601e1d212f823bb0735cb212a779febf0e244711c6e",
+        "pngHash": "f0ab93ea3d7c5eeed3b39687ce555171ddb9283f5aac9232263d947496d14851"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "2f774794cbb9184fc7e1250e66c5eb843ec8bd6b2660a60d5b8fc6d405352e1d",
+        "pngHash": "2134daf49a1a33cc0a459da49d625e5ce09c8cf1f32adfd2e73d3db9be79eef5"
+       },
+       "on": {
+        "inputHash": "3995a79d7d4807c290af275750d91777ad612a07d4eb07f7204a9e863111b0ba",
+        "pngHash": "cb4b5aa0c9c8d6f37d219e7ff64ed6022bd4a0015fbb653ebcece3785e3ef956"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "0231b9eff15035560c90955b7c86180c8a90480ff916ebdd19544ba780aaf121",
+        "pngHash": "6371a913cee23cb97243e990e94f0aefefdeaba5ea2682ae43c0dcaf9ce4b776"
+       },
+       "on": {
+        "inputHash": "ca7860b9bbede0a1e1497f57c3b727cd4f8df11ee52b3223fa2f21ddd7357f8b",
+        "pngHash": "1938eb869044eb6d956aa2c87759d4869f058bce14f96f1f33f9f712e89d2d79"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "tag-icon",
+        "label": "Change icon: tag",
+        "rect": [
+         33,
+         429,
+         115,
+         116
+        ],
+        "flags": [
+         "tag-icons"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "tag-icon",
+        "label": "Change icon: tag",
+        "rect": [
+         32,
+         187,
+         44,
+         44
+        ],
+        "flags": [
+         "tag-icons"
+        ]
+       }
+      ]
+     }
     }
    ]
   },
@@ -1114,35 +3125,93 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "work",
      "title": "Work",
      "route": "/tags/ad3d979b-4bf1-5bd8-8fcf-407b2606649c",
-     "off": {
-      "inputHash": "3c739ce16dac9cc9924023f0d8c98363554540c529f13ed18ccaa5a7820b55cf",
-      "pngHash": "a7a1e7c9985e8c6127b58565edb602f6c0f033e1a8b2ae0c8341c32623fd5cdb"
-     },
-     "on": {
-      "inputHash": "b0902a30c40365735a670561de577b7c82e174d1c5085db536ce94ce766020b4",
-      "pngHash": "92f201f80b5c757e157b5976eab3b3c8d254d808381a8bcf3be8a9c57706ff39"
-     },
-     "flagged": [
-      {
-       "id": "tag-icon",
-       "label": "Change icon: tag",
-       "rect": [
-        32,
-        187,
-        44,
-        44
-       ],
-       "flags": [
-        "tag-icons"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "e828123f2c5ae2156b5b63cf91c7fe097f93e067728f2f49ece572b6fa6f5215",
+        "pngHash": "66c9e0861d464286c81623b5a528725c13cb67c5a62fda586b5c84748451d855"
+       },
+       "on": {
+        "inputHash": "a0ce4970e6056a383e09f67644741ecd303af126363a91694fc219cc0bfbaa04",
+        "pngHash": "9f705e1adf26d31d3acd9d03ddd90a6cb5c900eae767881eb626210006e70331"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "12728db7d3466df19b74007f25701bd9b0229b34148eafe224f08eb376239abd",
+        "pngHash": "e43bf5b24e74cc86bef77da4582328b79457aa23c3356c993c7b93dbb6b78905"
+       },
+       "on": {
+        "inputHash": "443b2afc238953192d02d67f3f90e66caaf816157cf877370ab32cb392bf17b0",
+        "pngHash": "2554499a621f08f426f93f1e1c59f536d12402f61a9315175b43d2eb870d9300"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "9caa2c8f62bad734b8bb43ac48c3e9b76aa1ddee375e25c16f53abb7384b94fa",
+        "pngHash": "39ab8626be2f115106f457c659492a105bd03db85481b3494eb62477396c7045"
+       },
+       "on": {
+        "inputHash": "e95159742fef93b605fc6a14182e2c4c3db82678d17badf708777f5c8619316f",
+        "pngHash": "e5298094c5575105e5a31cf59dabe472c735e01b7049327d6f3737969d2dbf43"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "045e952e2f49968afc42206106c914489d34a88273dbaa4c20cd115c078c7a4e",
+        "pngHash": "c5f7bcb04317f84bd288f3d2cb99f0497b104bfaf9c68f3d782c3c71460cff20"
+       },
+       "on": {
+        "inputHash": "0c41683c352600833a641fefed3170ce3c9ad60e4ac1d7c0d1b76d4cd83c5554",
+        "pngHash": "f2d9ef547052472d0fac3f2dea21c5274d4db208737717e381a10b0c6bc57a69"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "tag-icon",
+        "label": "Change icon: tag",
+        "rect": [
+         33,
+         429,
+         115,
+         116
+        ],
+        "flags": [
+         "tag-icons"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "tag-icon",
+        "label": "Change icon: tag",
+        "rect": [
+         32,
+         187,
+         44,
+         44
+        ],
+        "flags": [
+         "tag-icons"
+        ]
+       }
+      ]
+     }
     }
    ]
   },
@@ -1154,21 +3223,120 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "hobbies",
      "title": "With Hobbies",
      "route": "/tags/categories",
-     "off": {
-      "inputHash": "d2565a52fd2bbd66bf4ab016de11faeeda65db6b928b43bf6f1fee8f9201e8fb",
-      "pngHash": "cce8c0592c244849b7323c1558333223419a007d363222737d4a04b109510cac"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "a1690bfa1f138d768a58052b7fd236e6c76f59f68250992ce332db6a60dde893",
+        "pngHash": "e26298ac3d8b2561caca51f08bc911d502222862b5ae8c20eedbd993882e05a3"
+       },
+       "on": {
+        "inputHash": "f82786a3202695b333eed255c5a0f67defd44a7e91a778930f273cac1e4bdd17",
+        "pngHash": "10d313b6d7cc8477b50daea000db7f82a04ea9952ec4a887033bab678c00f651"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "dee770a45a526979e73f18e6ca2d35c41f965edadfd74b9bb08eef936edcd9e2",
+        "pngHash": "62188e6fcd38746f3abf1e89bad51f966a9456e26b56b748fbe02f330cec06dd"
+       },
+       "on": {
+        "inputHash": "8d52d36e8d31589e52d6748c6bb2d695ffa45c8aff9eef7281a19c32d992f17f",
+        "pngHash": "e11303664bc9ffb25c391c30c5f14f6ea8bdbdba28f562e0b3c85e93d74e1828"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "fd44084cc9eb77425c201494049aa3649c75122a6c86cbfc997b3d7451e849f7",
+        "pngHash": "59e34db92c7d57c1c7f545b4d1539b8d499c10a00f7f25a77e02307d018c5e76"
+       },
+       "on": {
+        "inputHash": "68cd6f3727cb9df022814e3a0f5a388cd3da21da75906da26f150bb7b99b9616",
+        "pngHash": "59e34db92c7d57c1c7f545b4d1539b8d499c10a00f7f25a77e02307d018c5e76"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "af88ae020b138c69bb06db85dae6af022b5ee58510fffda6764a9499b81afdd4",
+        "pngHash": "dcaa0c1991448d7fb1b1ee07ab77b47b3e60aa562153d875a4a75497851d04d6"
+       },
+       "on": {
+        "inputHash": "c72676835c613027d3063e5d1b2842c349d4a3488094ff867219f7cb50160ef5",
+        "pngHash": "dcaa0c1991448d7fb1b1ee07ab77b47b3e60aa562153d875a4a75497851d04d6"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "21db1f37aaa03d30131c06bfd6afb572f966f7110089c8446eadad93ec3ae552",
-      "pngHash": "c25ae63d8d583b780edce1d505f83246c7b8101050157b934563a7e1f801ad18"
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/tags/categories",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "cf41a2f2c70dce0890122793d2ffba6529cf82e44ee8b9ec6fe1c365e2674744",
+        "pngHash": "248d18f0441dace9174676f2d4fd15027cfe891fb194c8ec71503358c95d6cbf"
+       },
+       "on": {
+        "inputHash": "7f9b9471d93d5b54e947634e5b33f88b8280bda714808f8fd325e15ea06e5686",
+        "pngHash": "56b999c4ed8542e728ad463bf5d3c47437b6bb6b30f72fbef58f453e5e2c65b0"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "5cb9e534d0a843b73cd3bb9fd2c600ca6c25cb2047ef8e4ba66034a6d9731584",
+        "pngHash": "5367b966d3da468ab47bec114ac83cdaf902f371f95c747874e77270ee963230"
+       },
+       "on": {
+        "inputHash": "0805e07984f3b3e68c41def0a16d250ae287993ed43164fdaf217d5cc0b217ef",
+        "pngHash": "0bef5a21fdefd52b9ea34314bbf5a18d9fa3bb3a66bf421c5072045817219958"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "828032b646e753fd50877dbec8e264d5ad65ddd906101e86dc42b55afa8f1011",
+        "pngHash": "a419988398a98addee687692bcf08d672f05263c6204d3a1eac8c847606bebe5"
+       },
+       "on": {
+        "inputHash": "449a8a665e22ca61357fd412473a8d824858d7ffb3a179f2edeaa4ce1fa46537",
+        "pngHash": "a419988398a98addee687692bcf08d672f05263c6204d3a1eac8c847606bebe5"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "1d4612255f00adeb4f7d0de74ea16bf8babf735652058c7268de98846d264ade",
+        "pngHash": "dba24d4e5a5ec4dd1f140698e4f0a037b45ac9fca50fa4d0f271ce6a4368d144"
+       },
+       "on": {
+        "inputHash": "feb494a0944ee0a75b21394acf2d9e00b630ed7c706a16ac9eef0f2d6f0f14c5",
+        "pngHash": "dba24d4e5a5ec4dd1f140698e4f0a037b45ac9fca50fa4d0f271ce6a4368d144"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1180,21 +3348,65 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "hobbies",
      "title": "Hobbies",
      "route": "/tags/categories/fixture-hobbies",
-     "off": {
-      "inputHash": "d989dbf036f56ecaccee3c3f65fa377af0fa43be234adda86188c5ad855553eb",
-      "pngHash": "f038bbc99241e11a2d68af2a2925279127d95386073a8ece14e232bb3375601a"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "5a1090f3ff55a5d5791d6df3ea9f2bd98b083525d60e3b23995eff89cc83f9f0",
+        "pngHash": "a953668065761ce3ae1d43a8f06f05405974571a887c059c6d09d9b8acc49a8b"
+       },
+       "on": {
+        "inputHash": "dc251aa38120be9708125132f100ccf84b0da8725502bcc655e73924eedad991",
+        "pngHash": "243c2b57875dba0a76fb8207eb4fe8796c9d49994e759fc9f7a711d8ce73e466"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "b372109050845b9845b33fbadd1ac61a4adacae22ce6cb92a2fcf202ca7524e9",
+        "pngHash": "1b272991452caa60847c396adb84eeb4c51900af20b5dedd2116a0daf9e440f9"
+       },
+       "on": {
+        "inputHash": "580039f085c94f5d47957dfc1bfa640f3a167e1ee1897405a12d68268be15619",
+        "pngHash": "3e3400b48728b81d3d93d4168655643d0d0216ddf85bf6fa2bc9e9f84b38ac60"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "2bcb1401a387b680edd2f40e41b2fa9807cd7c79ff6932d59f122257c0f0c631",
+        "pngHash": "fdce9c1db4bd7b174bb54a249fd8e16b41da518951a6feee087e5b09a9f55a51"
+       },
+       "on": {
+        "inputHash": "9772ca8ea4ac16f66707ee1659329e6cd3f267d3f577b30cb47ae77ffb70e527",
+        "pngHash": "fdce9c1db4bd7b174bb54a249fd8e16b41da518951a6feee087e5b09a9f55a51"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "dd610d2532a59d5eb7e6dfaf0f87ce8bd38685a220ffc085a0575e5fd5318ddd",
+        "pngHash": "64575889e9ab27fc88e0f865a25e4fc8d7c1234fa7fe28b2acd54777871574d1"
+       },
+       "on": {
+        "inputHash": "35c62f5e374ab43725db4c2bf0e0643c232ef3ca31ced88e9607ef05a6b73df3",
+        "pngHash": "64575889e9ab27fc88e0f865a25e4fc8d7c1234fa7fe28b2acd54777871574d1"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "5cf910d96d7ceb6dd9c8f7c92d22732ef12ee5dffc1a0d7731910bfcc20ff56e",
-      "pngHash": "0294ee794c99ea452f3849b5de93ac19e07096675a7654fd399bb6763b76f81f"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1206,79 +3418,181 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Settings",
      "route": "/settings",
-     "off": {
-      "inputHash": "30d861616dd93e8492098bfcbd8d9d7837887eb10b03e48beca549065c8a39ee",
-      "pngHash": "6ad1d3a878708e9b777bf5b5d42326251947a1e27dd6ee0735f9c615f3d09522"
-     },
-     "on": {
-      "inputHash": "c64b3d9e334ab1f4b7178dcb692746d710cb879ca102c11f25c1bcda0d44ea36",
-      "pngHash": "799170875d4af7132f6746139a2be1120b0d19f30f74a070f98a302c7638df88"
-     },
-     "flagged": [
-      {
-       "id": "app-lock",
-       "label": "App Lock, Off",
-       "rect": [
-        16,
-        446,
-        370,
-        58
-       ],
-       "flags": [
-        "app-lock"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "d2df5c6088bb5ec6edaa9f05a7cfe1be8cf2755d239ec1f800bfd177a3ea2747",
+        "pngHash": "6ad1d3a878708e9b777bf5b5d42326251947a1e27dd6ee0735f9c615f3d09522"
+       },
+       "on": {
+        "inputHash": "60aeeac27d98df69605b645550304ca9c403aeb9ae21814623517ac5919618d8",
+        "pngHash": "799170875d4af7132f6746139a2be1120b0d19f30f74a070f98a302c7638df88"
+       },
+       "errors": {}
       },
-      {
-       "id": "recaps",
-       "label": "Recaps",
-       "rect": [
-        16,
-        504,
-        370,
-        58
-       ],
-       "flags": [
-        "recaps"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "935875b55b38af5ffb0a90b151d60f7a917b58bea8cf5632932e23d5f7196f0b",
+        "pngHash": "bea23c991f651e1c6eb677c4a25a1f33d65ebcf46dfd3b215bdd08906703f671"
+       },
+       "on": {
+        "inputHash": "f218659546b05092245a66762195591dc92156ffadd16d15fdfd3be87fa7f368",
+        "pngHash": "1005a0e65468758302ae655f89a487e80aae59f19941c034630addabe9c9517e"
+       },
+       "errors": {}
       },
-      {
-       "id": "orbit",
-       "label": "Orbit",
-       "rect": [
-        16,
-        562,
-        370,
-        58
-       ],
-       "flags": [
-        "app-icons",
-        "app-lock",
-        "apple-health",
-        "calendar-timeline",
-        "chip-active-ink",
-        "development",
-        "menstruation",
-        "more-tags",
-        "needs",
-        "orbit",
-        "people",
-        "photo-peek",
-        "photos",
-        "quick-check-in",
-        "recap-sleep",
-        "recaps",
-        "support-pixy",
-        "tag-icons",
-        "voice-mode"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "51b4d2fd94dd3c2f692d2df0dddcd21a384f7db11e547f9c9ce688a788fd6aa7",
+        "pngHash": "24b52eab5d68c62d242a517c1eb3cd5db379b6f051b8cb4f2654a97204716092"
+       },
+       "on": {
+        "inputHash": "6bd43da1c05e1481349788366a623ce84ccfb4fa36b41c959dd874a7bc8573fc",
+        "pngHash": "34167c8ba5e31a7a13bd95535c34621a0dfa97ee9ce1b8bd9397c1bf48221e59"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "88cd4fd41819b45a5edbaf5247a38239e5eb1b4bed254743ad0756848cc4d320",
+        "pngHash": "80df9c2f1cc85879adf40b78c08f78ca184002f0d1cf17d8a632ad55801e2a53"
+       },
+       "on": {
+        "inputHash": "6dcc8d0d442a045ce9515ef9f1602dd3e2d2d1988a32a90b99f86be57d0cdb9e",
+        "pngHash": "b206a1d1ccbd79c6887aee335cc1e43e64961d9dc6caa229d9197dcd3f47370a"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "app-lock",
+        "label": "",
+        "rect": [
+         84,
+         1082,
+         912,
+         126
+        ],
+        "flags": [
+         "app-lock"
+        ]
+       },
+       {
+        "id": "recaps",
+        "label": "",
+        "rect": [
+         84,
+         1234,
+         912,
+         126
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "orbit",
+        "label": "",
+        "rect": [
+         84,
+         1386,
+         912,
+         126
+        ],
+        "flags": [
+         "app-icons",
+         "app-lock",
+         "apple-health",
+         "calendar-timeline",
+         "chip-active-ink",
+         "development",
+         "menstruation",
+         "more-tags",
+         "needs",
+         "orbit",
+         "people",
+         "photo-peek",
+         "photos",
+         "quick-check-in",
+         "recap-sleep",
+         "recaps",
+         "support-pixy",
+         "tag-icons",
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "app-lock",
+        "label": "App Lock, Off",
+        "rect": [
+         16,
+         446,
+         370,
+         58
+        ],
+        "flags": [
+         "app-lock"
+        ]
+       },
+       {
+        "id": "recaps",
+        "label": "Recaps",
+        "rect": [
+         16,
+         504,
+         370,
+         58
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "orbit",
+        "label": "Orbit",
+        "rect": [
+         16,
+         562,
+         370,
+         58
+        ],
+        "flags": [
+         "app-icons",
+         "app-lock",
+         "apple-health",
+         "calendar-timeline",
+         "chip-active-ink",
+         "development",
+         "menstruation",
+         "more-tags",
+         "needs",
+         "orbit",
+         "people",
+         "photo-peek",
+         "photos",
+         "quick-check-in",
+         "recap-sleep",
+         "recaps",
+         "support-pixy",
+         "tag-icons",
+         "voice-mode"
+        ]
+       }
+      ]
+     }
     }
    ]
   },
@@ -1290,21 +3604,65 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "klara",
      "title": "Klara",
      "route": "/profile",
-     "off": {
-      "inputHash": "3deab1c23af9349838bfefbe927da863ee987ba00dda03fddaba118b4632e70f",
-      "pngHash": "ae06d71c659faa7ab25e0b0a6cafb1c5914c6e003c3190f1647f7eed1cbc2cb0"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "8c14a4fd36eae3254cf58886072b396c5acb2b00e86722ffd56b9ff7643c5074",
+        "pngHash": "20799c13702af24d0e9e2e3cd462670a443810e6f04aed0f7ebd98029aa90b97"
+       },
+       "on": {
+        "inputHash": "6e670b1fbe0f43cb872e2576061efa38a12bb5e7a65f23d2525bb58eeb45e604",
+        "pngHash": "60f6634d0843d87db197942f8620e4a59dd7f0cc4112b4d18d0207d67627eaaf"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "d8f6b11f9dc195eb2538f04f65620dc777d6a20a8b475dd9f946a617d8bd74ad",
+        "pngHash": "8f60cec695b5d6574ce9dbeb4340b0ba29e21a04b38071894e33bc35fe819b26"
+       },
+       "on": {
+        "inputHash": "31c164d258f0025127e55933dd3ce5adbbe508ef20d6d04c411764d21d1f743d",
+        "pngHash": "6b649eca6ca369cc271648c1b88d50ba58263ebdce9ed1d52d2b5d4014538d66"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "effd213232e30836bf5b6df53284fe9eb34d5b2a6b82397dae532e850e17b103",
+        "pngHash": "4793768a72cf0ba2d978324e75ad674c4492724cbc93c4c39c2e611f8f138d06"
+       },
+       "on": {
+        "inputHash": "3dc499235688f243eccd8e7bfcee831783225c4b00ede9d5ed83762103bafabd",
+        "pngHash": "4793768a72cf0ba2d978324e75ad674c4492724cbc93c4c39c2e611f8f138d06"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "dae808a94e9cee21e6aef9090e59f428aa52273f3503355d428e3f82ad9926a8",
+        "pngHash": "1ef5f1c34a69faa05df156e49ba8519cbfaa13479da18ccf419efe64f123867c"
+       },
+       "on": {
+        "inputHash": "7542cf8a6f41cfef448d0784e3a38a14ec10b898370b3b9e990e99e17aaf6530",
+        "pngHash": "1ef5f1c34a69faa05df156e49ba8519cbfaa13479da18ccf419efe64f123867c"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "846fd4a2c128effb5ac8b0692f23fc9aef9f29a0c6999106007f01745dbacdc6",
-      "pngHash": "f25af76b3bdf4de5b36a1856772afd3e3838ae6b7d1dc63268f236378c5042ed"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1316,87 +3674,171 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Steps",
      "route": "/settings/steps",
-     "off": {
-      "inputHash": "e26180c65c91c9fc3cf08c180fa9253617e6c44a33bfee4cd5e3db936b4c47e5",
-      "pngHash": "861ad32fb3b94f3eb3431d92e6110c35dd8746191c0f8268365ef3a48925cc97"
-     },
-     "on": {
-      "inputHash": "a141d9068b7ef52b5001aa67e9e9454640fc67345eaf1004fc6635c3c1f037d6",
-      "pngHash": "2f20ada16c6afaeaaf7c8d315e3db1849635d7e7cf1b7c80b2a9722f44c567d4"
-     },
-     "flagged": [
-      {
-       "id": "step-people-step-people-step-people-step-people",
-       "label": "People, Off",
-       "rect": [
-        16,
-        260.5,
-        370,
-        52
-       ],
-       "flags": [
-        "people"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "d797293cc58076d26413cf75b13051745b1c8450f1df15674b4f61d96370edfc",
+        "pngHash": "861ad32fb3b94f3eb3431d92e6110c35dd8746191c0f8268365ef3a48925cc97"
+       },
+       "on": {
+        "inputHash": "f4b8bbce734676a92279ca4f27187d7f52ecb996c1f52a04751affa48e9ee99c",
+        "pngHash": "2f20ada16c6afaeaaf7c8d315e3db1849635d7e7cf1b7c80b2a9722f44c567d4"
+       },
+       "errors": {}
       },
-      {
-       "id": "",
-       "label": "Menstruation",
-       "rect": [
-        64,
-        383,
-        100.5,
-        20.5
-       ],
-       "flags": [
-        "menstruation"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "8468b3cac77911d37963fda23c6d3c98cb3059e87143e4db564efe1295f23fa3",
+        "pngHash": "b70e8f49d6014a3db0e82b135c813634a55caa592709451a16e536591b2af04d"
+       },
+       "on": {
+        "inputHash": "7a905571e0767b36c4097ccbf79a7c899b669bc099d02cd1b260249c0deb2daa",
+        "pngHash": "2209e5de51ba85c29a50b550ec466efa81c2be4f2bc3d74c164a05f471a70a93"
+       },
+       "errors": {}
       },
-      {
-       "id": "step-menstruation-enabled",
-       "label": "Menstruation",
-       "rect": [
-        309,
-        379.5,
-        61,
-        28
-       ],
-       "flags": [
-        "menstruation"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "cd7b5a1c72192ff82c2fd878f6b89fc7d3d2eb9361427c967a0c2f52954bf486",
+        "pngHash": "889ca819c15591ffdb456dad5f9ba561c9a357c1bcd79e3977db887cef74564e"
+       },
+       "on": {
+        "inputHash": "6027f43b413a3340e083f1d0a89ab67e0a8e8708092672e5123cfa34a0d1f38b",
+        "pngHash": "908174d390ca7a50d156f93e856527dad9a0332d2fef7bf8bd2ae9c74e59cae5"
+       },
+       "errors": {}
       },
-      {
-       "id": "",
-       "label": "Photos",
-       "rect": [
-        64,
-        499,
-        53.5,
-        20.5
-       ],
-       "flags": [
-        "photos"
-       ]
-      },
-      {
-       "id": "step-photos-enabled",
-       "label": "Photos",
-       "rect": [
-        309,
-        495.5,
-        61,
-        28
-       ],
-       "flags": [
-        "photos"
-       ]
+      "android-dark": {
+       "off": {
+        "inputHash": "6f86817e4c963f05ca53b2afd15f4d8d5286ccd8c34ec6ede3d8ace13a4c0ec2",
+        "pngHash": "7e264c9a0a8d9c6dd8d85bca63e4b1e7b2fc65da78d5cf45114d1b4a1cc8828e"
+       },
+       "on": {
+        "inputHash": "37426ee7f80a82d4af36210e7d4c8038fb5321f0ca3c82bc5ae8b0629204d263",
+        "pngHash": "216d68384a928d2c45abb37bd209980b5edcaf3c008ea349d35a35a353bdc589"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "step-people",
+        "label": "",
+        "rect": [
+         84,
+         731,
+         912,
+         126
+        ],
+        "flags": [
+         "people"
+        ]
+       },
+       {
+        "id": "step-menstruation-enabled",
+        "label": "",
+        "rect": [
+         859,
+         1045,
+         137,
+         126
+        ],
+        "flags": [
+         "menstruation"
+        ]
+       },
+       {
+        "id": "step-photos-enabled",
+        "label": "",
+        "rect": [
+         859,
+         1391,
+         137,
+         126
+        ],
+        "flags": [
+         "photos"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "step-people-step-people-step-people-step-people",
+        "label": "People, Off",
+        "rect": [
+         16,
+         260.5,
+         370,
+         52
+        ],
+        "flags": [
+         "people"
+        ]
+       },
+       {
+        "id": "",
+        "label": "Menstruation",
+        "rect": [
+         64,
+         383,
+         100.5,
+         20.5
+        ],
+        "flags": [
+         "menstruation"
+        ]
+       },
+       {
+        "id": "step-menstruation-enabled",
+        "label": "Menstruation",
+        "rect": [
+         309,
+         379.5,
+         61,
+         28
+        ],
+        "flags": [
+         "menstruation"
+        ]
+       },
+       {
+        "id": "",
+        "label": "Photos",
+        "rect": [
+         64,
+         499,
+         53.5,
+         20.5
+        ],
+        "flags": [
+         "photos"
+        ]
+       },
+       {
+        "id": "step-photos-enabled",
+        "label": "Photos",
+        "rect": [
+         309,
+         495.5,
+         61,
+         28
+        ],
+        "flags": [
+         "photos"
+        ]
+       }
+      ]
+     }
     }
    ]
   },
@@ -1408,21 +3850,120 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Tags step",
      "route": "/settings/steps/tags",
-     "off": {
-      "inputHash": "005569190880bff11ac893b57f47b44ced303c872730113e8b38e809c001a980",
-      "pngHash": "3b821bde5414f95d47fd978c48f35373762ffbc9fa9211861782b05f64224f6b"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "db6dc3d62fe22c61e0d35e80d9a5e691e9f1a42b4b372ff2244d577d4a773ab3",
+        "pngHash": "3b821bde5414f95d47fd978c48f35373762ffbc9fa9211861782b05f64224f6b"
+       },
+       "on": {
+        "inputHash": "75f5feff02631a914e069844bda4be6e594cf4d2e64b622d0c72dc5ef74f98ec",
+        "pngHash": "3b821bde5414f95d47fd978c48f35373762ffbc9fa9211861782b05f64224f6b"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "93653f2ab99b49d7535fd1e0d2277d5a2a789a3d1fa05d1baadd0c56cfe5005d",
+        "pngHash": "fbda7287ff3a19fe7b5636f61fa5a33b1353aab4f8278bb0f96a7df8cb35f956"
+       },
+       "on": {
+        "inputHash": "e8570c9b9f0916f15310ac4cd12f199f2fc5bd18ad31a05194ccb037da5c31a3",
+        "pngHash": "fbda7287ff3a19fe7b5636f61fa5a33b1353aab4f8278bb0f96a7df8cb35f956"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "81209bdd05f04b6886431f8957a772e717f553819354102cd1d807a926489be1",
+        "pngHash": "61fe6acd8075fa60db258257d7a0c553373d233941e11fb82032439e6db74e4b"
+       },
+       "on": {
+        "inputHash": "fdc4c3b8d9347f2b7115a9e4de98529038fb2df919d3085206c24bb41bbd623a",
+        "pngHash": "61fe6acd8075fa60db258257d7a0c553373d233941e11fb82032439e6db74e4b"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "d2af1b63ba363012771c9dc10e4887aa4e1da826aba6b0d843a1ace3a2e4379e",
+        "pngHash": "05bbda8d31c32fa65cc3846b09817dfd6dca8d9b4223c407e58a98a5f4b7b359"
+       },
+       "on": {
+        "inputHash": "460433b915d9fee51fe28be8fae035ee8314d8328c6c9cdd3d3dd5b4b469ef2b",
+        "pngHash": "05bbda8d31c32fa65cc3846b09817dfd6dca8d9b4223c407e58a98a5f4b7b359"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "b588b0509e2eba7439ea8e2f863710f5779e4c5082b7085713cf65ee5ea6ad1c",
-      "pngHash": "3b821bde5414f95d47fd978c48f35373762ffbc9fa9211861782b05f64224f6b"
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/settings/steps/tags",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "e4111cb36bb306618051e103764669f82f9111083f5d39329544737e330e1686",
+        "pngHash": "176cf60cd678c7fe243b09a2b55aee8c64366c2f87315bb8253148ed23e462c4"
+       },
+       "on": {
+        "inputHash": "3d9fd6cad42dad4e2d11a700a63c12ff9f521ecdcd1c21101a0981371d9d3777",
+        "pngHash": "176cf60cd678c7fe243b09a2b55aee8c64366c2f87315bb8253148ed23e462c4"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "ff46ecdffa42db7b5bcb9671840b4ffcb705bae2e5f02ff04b2fd97a7a7418a3",
+        "pngHash": "b808dceca3b4a8f676d217146519a0109521e259445ab1018d9093d2d5f99452"
+       },
+       "on": {
+        "inputHash": "b9a8381c3c8b7076a12e41aee0a0f37a4c055255bd56a1e4bb94e4e530598863",
+        "pngHash": "b808dceca3b4a8f676d217146519a0109521e259445ab1018d9093d2d5f99452"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "91eac256dc337bcb285ca0150282d8eaef077f6ce38faa3b7ed2523e191c7392",
+        "pngHash": "4d66580d27155ac78107bbfbd033da98bc7b2ec6edb066c3b76c1a996320b07f"
+       },
+       "on": {
+        "inputHash": "54471efdba7ce81bb7a0588f4b03c98110ffcc1e3ce4ee1b733c3566b056add1",
+        "pngHash": "4d66580d27155ac78107bbfbd033da98bc7b2ec6edb066c3b76c1a996320b07f"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "e8cdc004b5507e227552ad4fb8c950292301fcc4f02263b2e859a29949776c1d",
+        "pngHash": "0e5b3521cbfa3f752f821990dc6dfeb3ad9bd7fad4cd0873b4eaee5841062ef3"
+       },
+       "on": {
+        "inputHash": "0158140536854cc3f121e086375a94a87a281b287139f18c8ff82c6391de82b5",
+        "pngHash": "0e5b3521cbfa3f752f821990dc6dfeb3ad9bd7fad4cd0873b4eaee5841062ef3"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1434,21 +3975,120 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "hobbies",
      "title": "With Hobbies",
      "route": "/settings/steps/tags/categories",
-     "off": {
-      "inputHash": "3a78c1db7ef7580525c6608dd68a9de9ec8ef3547c06cb81b110b45b0f39f1f1",
-      "pngHash": "e4257008b8efbe97476bd21e1fb8b953b5fd42c94360c3cd0d8b06c25863525e"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "8361cb6118106e79d87901c7e65d19ac0d9b60e0cf07d27f905ea987badd3251",
+        "pngHash": "e4257008b8efbe97476bd21e1fb8b953b5fd42c94360c3cd0d8b06c25863525e"
+       },
+       "on": {
+        "inputHash": "4a9e22f1c116cb869fd05d2765a0c264cb4c2845ad74a2cadab1441844cc5f55",
+        "pngHash": "e4257008b8efbe97476bd21e1fb8b953b5fd42c94360c3cd0d8b06c25863525e"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "cd8c53ff171399a1344fe0a397b78af976ed46ea79534a4a97ef96c4118fad51",
+        "pngHash": "73a3694ac8d0db2e296f377c4cd052e4c8ff667d8f27602084a386f804032c4a"
+       },
+       "on": {
+        "inputHash": "94fa11f543eb11975bf9262acad63f8f78aa5e10f421a2d5ac3665088e6eeadd",
+        "pngHash": "73a3694ac8d0db2e296f377c4cd052e4c8ff667d8f27602084a386f804032c4a"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "300ca220c21402a7853db08cf27d789a7849b9401323feafcc236799c990db76",
+        "pngHash": "eb5f87f96f71e42b81d537bfe11fcb96840c4fc305df3f7fca17ea65dce6554c"
+       },
+       "on": {
+        "inputHash": "7d7c3dadb9567fdb6fe5b9c943febf5b6c2d430fb66eb864b09612c5aa20aaf5",
+        "pngHash": "eb5f87f96f71e42b81d537bfe11fcb96840c4fc305df3f7fca17ea65dce6554c"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "621d4be1e8cc94dbe5dad59ed9eae7a4c10c057d1000215086d742ca39be31f0",
+        "pngHash": "4817fa55908017cbc27311acf4575153cd0c5532dd3630f0701f1a0994dd5c98"
+       },
+       "on": {
+        "inputHash": "796d5ebd26261a920da8f6d68a6b3d89042e8c45139580b670916298b49c791f",
+        "pngHash": "4817fa55908017cbc27311acf4575153cd0c5532dd3630f0701f1a0994dd5c98"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "f73ef2a5015c5199f36b81ba3b1dd9a21bcf65c19f17e1880a1fbaaa37adade5",
-      "pngHash": "e4257008b8efbe97476bd21e1fb8b953b5fd42c94360c3cd0d8b06c25863525e"
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/settings/steps/tags/categories",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "b923bebcc3b695fbebea4b959e0dc91ceb06367bc91e06f0c7d0b7a34fa11a9b",
+        "pngHash": "96dc1699cf5e750459adcc070dfbe5053ed6848f85e7d6853028a60d33472bf2"
+       },
+       "on": {
+        "inputHash": "1f572c066023baaa82094beb1cb4ea1dd92c85b30dcd51aeadc2d4d4c8ca7ed3",
+        "pngHash": "96dc1699cf5e750459adcc070dfbe5053ed6848f85e7d6853028a60d33472bf2"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "23f2a072a8805277fba26d003bda451ead8a46a931604810154699b5bb734394",
+        "pngHash": "86c811d7220eca2cc4fb5ad412cbed4d4f5cb584fd15861d6f026450a1dd5651"
+       },
+       "on": {
+        "inputHash": "8ab30674ef80ef8e1f68f54c9e69dd3c7790bd272de6d497c64acc9c81155527",
+        "pngHash": "86c811d7220eca2cc4fb5ad412cbed4d4f5cb584fd15861d6f026450a1dd5651"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "b7225af1013e6b1c74a385fa3a8cba6054ffc20be4d8bf3867412cb0103dd979",
+        "pngHash": "ffe49e221a2862468c5af922bead6318ddeadbdd03256834e9b5a237b018609d"
+       },
+       "on": {
+        "inputHash": "1e6e1e7b25f7b0824f04bbd4173cd8e9c1268e12ffbe554b9ab6388c7db15306",
+        "pngHash": "ffe49e221a2862468c5af922bead6318ddeadbdd03256834e9b5a237b018609d"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "6ecd2e316c4249b579735f8b3093457572701913a0891b06d31319edc131e132",
+        "pngHash": "54badbfc2de3093feb80524fd52ba822f87ef4d3f74b2ae33fab399fa99a8070"
+       },
+       "on": {
+        "inputHash": "f5bf7141bcf8595bb0f0031cbb91740a24f31ff1d78706e3c594bfa1e5cf5a9a",
+        "pngHash": "54badbfc2de3093feb80524fd52ba822f87ef4d3f74b2ae33fab399fa99a8070"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1460,87 +4100,131 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Sleep step",
      "route": "/settings/steps/sleep",
-     "off": {
-      "inputHash": "fd8840eb5f358cc8a0e9627c079ea981f2b90b5eb87371ed6821c11896e2ea5c",
-      "pngHash": "1dace562c49f6dfc77e13f41cf5fd994dc46099e2a9f3c93036370dace05d1aa"
-     },
-     "on": {
-      "inputHash": "f7fdd93f6bce0f657e9704e50909f78d1b368b846614b15b6bfa49cb1a4c0240",
-      "pngHash": "30f821e37bf34b774d1b6dc8bc0e4258d9e4b7755abe00cfdf7ab379f1801f62"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Apple Health",
-       "rect": [
-        16,
-        240,
-        370,
-        16
-       ],
-       "flags": [
-        "apple-health"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "9998b2eacf7143519a8bd7ddaeca6cc47689e001024d52d64bcb7d0799468932",
+        "pngHash": "1dace562c49f6dfc77e13f41cf5fd994dc46099e2a9f3c93036370dace05d1aa"
+       },
+       "on": {
+        "inputHash": "3ccd74cb9e716e289bac5ae4cd086164dbed583fa9adb75ee8a4c7797b7295d1",
+        "pngHash": "30f821e37bf34b774d1b6dc8bc0e4258d9e4b7755abe00cfdf7ab379f1801f62"
+       },
+       "errors": {}
       },
-      {
-       "id": "AppleHealthIcon",
-       "label": "",
-       "rect": [
-        32.5,
-        274.5,
-        29,
-        29
-       ],
-       "flags": [
-        "apple-health"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "93d922dd1c5e043cc5ba7bcc785293d9153b63c7a7fdb92967bad78fc5450621",
+        "pngHash": "6b384b7db1257157ee77588e66fa36e52b064159a8cb1a01aaf663bc21d352f1"
+       },
+       "on": {
+        "inputHash": "984b2796257f246ab44f7018b134ca17a10200e6c872a43a8dd4fd75249c22e7",
+        "pngHash": "a4efd1b1ba0a5ece08967bc6f77f29f24defaeb9909a6bd441e4dd3c06c4a724"
+       },
+       "errors": {}
       },
-      {
-       "id": "",
-       "label": "Auto Fill",
-       "rect": [
-        77.5,
-        279,
-        217.5,
-        20.5
-       ],
-       "flags": [
-        "apple-health"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "36ba968f26243bfdee111d057e54cefeae350324689718ba15df653ecbc2d2ed",
+        "pngHash": "925b1d367a75ff4146a4b8adbf493279e2d7502883b8f726f788e7ac5488af74"
+       },
+       "on": {
+        "inputHash": "bc7b573ca8b4cf1319a8d08a7cf6c187ee9673b9a9d66f7166906e92383e48cc",
+        "pngHash": "925b1d367a75ff4146a4b8adbf493279e2d7502883b8f726f788e7ac5488af74"
+       },
+       "errors": {}
       },
-      {
-       "id": "health-sleep-enabled",
-       "label": "Auto Fill",
-       "rect": [
-        307,
-        275,
-        63,
-        28
-       ],
-       "flags": [
-        "apple-health"
-       ]
-      },
-      {
-       "id": "",
-       "label": "Pixy scores last night from how long you slept, your usual bedtime, and wake-ups, then picks the sleep quality. Check-ins skip the sleep step. Edit an entry to change its sleep quality. Pixy only reads sleep data. It stays on this iPhone.",
-       "rect": [
-        16,
-        322,
-        370,
-        106
-       ],
-       "flags": [
-        "apple-health"
-       ]
+      "android-dark": {
+       "off": {
+        "inputHash": "18388506d7a14fb5d6426ed620fb67563d1e1b2d9ff8e05e5a3d23758b3fa44d",
+        "pngHash": "40fc59b5b796c1afdc4518ba118e01a7efed32afbdcfeb6e5ee8b9fa0028623e"
+       },
+       "on": {
+        "inputHash": "982b39344965610ea0b4e70d9f381aaabad168ebb1b6e1acd767199416e68727",
+        "pngHash": "688eb038e771697c9b30cd19449e639a9bccf6c757e2b7e3df4c375beb127023"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [],
+      "ios": [
+       {
+        "id": "",
+        "label": "Apple Health",
+        "rect": [
+         16,
+         240,
+         370,
+         16
+        ],
+        "flags": [
+         "apple-health"
+        ]
+       },
+       {
+        "id": "AppleHealthIcon",
+        "label": "",
+        "rect": [
+         32.5,
+         274.5,
+         29,
+         29
+        ],
+        "flags": [
+         "apple-health"
+        ]
+       },
+       {
+        "id": "",
+        "label": "Auto Fill",
+        "rect": [
+         77.5,
+         279,
+         217.5,
+         20.5
+        ],
+        "flags": [
+         "apple-health"
+        ]
+       },
+       {
+        "id": "health-sleep-enabled",
+        "label": "Auto Fill",
+        "rect": [
+         307,
+         275,
+         63,
+         28
+        ],
+        "flags": [
+         "apple-health"
+        ]
+       },
+       {
+        "id": "",
+        "label": "Pixy scores last night from how long you slept, your usual bedtime, and wake-ups, then picks the sleep quality. Check-ins skip the sleep step. Edit an entry to change its sleep quality. Pixy only reads sleep data. It stays on this iPhone.",
+        "rect": [
+         16,
+         322,
+         370,
+         106
+        ],
+        "flags": [
+         "apple-health"
+        ]
+       }
+      ]
+     }
     }
    ]
   },
@@ -1554,18 +4238,96 @@
     "people"
    ],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "people",
      "title": "Three people",
      "route": "/settings/steps/people",
-     "off": null,
-     "on": {
-      "inputHash": "31fb5d457155644ff9534a5da954b492049a2193ff7e9bc98cb77ff63a0e667c",
-      "pngHash": "cd1742d406649767eb9991248c4ad742913cd09ecc025a087e30ce2d5aede775"
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "9fa7b6e51b0c0162acd8378db7916a5481625124d45f30c36b84de31aad84e45",
+        "pngHash": "cd1742d406649767eb9991248c4ad742913cd09ecc025a087e30ce2d5aede775"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "6db5f89824edf0fcc10ab9f60ce94b5c96ac21c75966f29809ce1d06c2f1a043",
+        "pngHash": "91fa7af8084d65e592a2afbacaa5b877c7a0def25792977d8d0301de7e8de5a5"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "e8d8f9264f59f69068fd6f34e99fe5099f509a460f5038f4852e07f238ae8cf9",
+        "pngHash": "fe304b51cbfbdfaf0328b414a21f4c11fe351e137ddac8901ea16e6da24de89a"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "73db518b36080b330ab5f39fe5f650953307c2fe8f0defc3493d1f74ecaf44ac",
+        "pngHash": "46dc7e35d115a38e82a2b8474f0d194c5ffb5c07d7ca9a3cd85502b19eeaeba2"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/settings/steps/people",
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "3051901b7463f6c55c6acd01af5d394314bc841f40e8d2d4f6680da23e834c51",
+        "pngHash": "cd1742d406649767eb9991248c4ad742913cd09ecc025a087e30ce2d5aede775"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "5f6c5ccc8141e1f8c4c700bac4a55d83dcadc0e2651c24a9c59e0a9b51e6f633",
+        "pngHash": "91fa7af8084d65e592a2afbacaa5b877c7a0def25792977d8d0301de7e8de5a5"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "81c7267f6a1f54b7b139cb8f15596c6a7e4ab1ce2714be691ea06259c1589c52",
+        "pngHash": "fe304b51cbfbdfaf0328b414a21f4c11fe351e137ddac8901ea16e6da24de89a"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "8648e7e4035827ac88ff2b44ba1a24554c39416ed923681f81517510b6806f40",
+        "pngHash": "46dc7e35d115a38e82a2b8474f0d194c5ffb5c07d7ca9a3cd85502b19eeaeba2"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1579,18 +4341,53 @@
     "people"
    ],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "empty",
      "title": "Empty form",
      "route": "/people/create",
-     "off": null,
-     "on": {
-      "inputHash": "6b1104975c796dc80ea4ba183027dafc29a3e16bfe688f11b9027f7e12b90eef",
-      "pngHash": "f275d70d7b13601514a9a4006881c3ffa942db8229523580408e5d2fcbd5fb08"
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "18e71e8b5255aae83356fd0df8bb996e828046a6e47d1c7033a4504cae338fd0",
+        "pngHash": "17ca3729189045aaab7f678e2a6e634455496ec4db1b914b8466ce75e707451f"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "fcbfe0efa4dc304d64e0220fa54e2983443d421f70d2113d4daa739b82caea20",
+        "pngHash": "e3dab6d219838ebbd125f969d9ef5950e570d42da96aa98be6a54d4bf8a6c8d6"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "51d0fa393148e425e602f588112326542d1bd9e24134b6e39708347118593a14",
+        "pngHash": "44160d2e18408496af4cd3a79c08eed605257ad386fedd445ff4924f5c789a1d"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "b8c745f0d8586c6f41f26300c7be38ed3d0677d9679315a4c0281c38aec68830",
+        "pngHash": "4a59984730fd32daefa898dc693fadbcd3400c13c85e59bb759f79fe820f65bb"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1604,18 +4401,53 @@
     "people"
    ],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "sam",
      "title": "Sam, with photo",
      "route": "/people/7f1d6a3e-0001-4a3e-8f6e-0f0000000001",
-     "off": null,
-     "on": {
-      "inputHash": "f50220adcae4f1b367f13cd0a38795f751caba702de6b8ca307518d3e6d88d51",
-      "pngHash": "e810d74e83d6594113f064f72b1e4d2f5fd1ff8b9fbf3c9ba1d62aa56fcbb73a"
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "7c93ec014c622d90adec0668a9b6cb35925e554eecbf9c0d6de506bea0066928",
+        "pngHash": "b406bb04127906d5bc5dfb6728f1d4b0abe77c9eb2ac9c35b6b6693119a748c1"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "e8763f57d1f788012866e06a287b6571fe2c009c7f7c687cc666a1678685f798",
+        "pngHash": "e7cb2a20cd4247d82dd98494ba53e031de9da9a73b7b8d94f6dc5db13ba03880"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "a910bd631ec03e360af8c7f9bb331008c9c77bb9ef5e1d37e48f2bddd32b89e3",
+        "pngHash": "7df064ea17d0ba8b7232f136e3c57c4903cf5f3c7b972ea9120f767d3bfef06e"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "8f24054637181ebebd6728263008318dbc5a87781037c5501ed6979e53467e64",
+        "pngHash": "78f05a932ad70a5da8172f82ba86fe978adde30cc6beb2f6494cfb2e1da8cc8b"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1627,100 +4459,171 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Reminder",
      "route": "/settings/reminder",
-     "off": {
-      "inputHash": "8ed1dfa6a9feabd5940a6a644ce645dbe7f66ff9873ec92be63449176701b78d",
-      "pngHash": "e623a5d7ef489de7644a07722bc3227a4962167839cb5b8ef112937894826c40"
-     },
-     "on": {
-      "inputHash": "75549fe65ea1366f9a867e71d7de9710337b967ada71db336c404a301a23528d",
-      "pngHash": "d10992fb07974a570da4bf9593b057ad423460e040bf04744cfdfa445061c891"
-     },
-     "flagged": [
-      {
-       "id": "",
-       "label": "Quick Check-ins",
-       "rect": [
-        32,
-        555,
-        125.5,
-        20.5
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "a09c170450b0235d69d14075fba89fc916afeec9d3683b7560dcb2616815ad11",
+        "pngHash": "e623a5d7ef489de7644a07722bc3227a4962167839cb5b8ef112937894826c40"
+       },
+       "on": {
+        "inputHash": "0db45e6b8e5c96710ce7117a8f191bf32155efcf7cfb67baf186895004cafe10",
+        "pngHash": "d10992fb07974a570da4bf9593b057ad423460e040bf04744cfdfa445061c891"
+       },
+       "errors": {}
       },
-      {
-       "id": "quick-check-in-enabled",
-       "label": "Quick Check-ins",
-       "rect": [
-        16,
-        536.5,
-        370,
-        58
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "ios-dark": {
+       "off": {
+        "inputHash": "c52a719ab144547ab3354d7ceac597d983ce201db8832fc4eae5da1421f8c796",
+        "pngHash": "b9b60067da5836283a893c7bdb49bc4e918ed68bd36e7bfc062050bd0d9c5601"
+       },
+       "on": {
+        "inputHash": "c74fa57fdbd8e0a4c5852cdafad0212902460918d1a6eb8beb0ca4e9aa407ab7",
+        "pngHash": "e851bfc5a1141de1e3bf9a00df1c5e4eac86786a1e18329e790f8c0ed07b17f7"
+       },
+       "errors": {}
       },
-      {
-       "id": "",
-       "label": "Short check-ins during the day: mood, emotions, people, and tags in a few taps.",
-       "rect": [
-        16,
-        594.5,
-        370,
-        45.5
-       ],
-       "flags": [
-        "quick-check-in"
-       ]
+      "android-light": {
+       "off": {
+        "inputHash": "9d5a9692873c6fa873b1e230c15c99319b3d8e0695c554e58b81653162e0a024",
+        "pngHash": "b678453d1ec0dacd64aa6be12714e9a9cd99c78d4c97410d367641da591c2c69"
+       },
+       "on": {
+        "inputHash": "95edb0d535e683c5dea7321691d0dbc204bd48cdd124850e3225ede110dc2648",
+        "pngHash": "f808e2bf24a319996e3765b95fa2d58f09c4e31ac787ad947f618f80c61e19dd"
+       },
+       "errors": {}
       },
-      {
-       "id": "",
-       "label": "Recaps",
-       "rect": [
-        32,
-        676,
-        56.5,
-        20.5
-       ],
-       "flags": [
-        "recaps"
-       ]
-      },
-      {
-       "id": "recap-notifications-enabled",
-       "label": "Recaps",
-       "rect": [
-        16,
-        657.5,
-        370,
-        58
-       ],
-       "flags": [
-        "recaps"
-       ]
-      },
-      {
-       "id": "",
-       "label": "Weekly, monthly, and yearly recaps arrive on the last day of each week, month, and year, at your reminder time.",
-       "rect": [
-        16,
-        715.5,
-        370,
-        61.5
-       ],
-       "flags": [
-        "recaps"
-       ]
+      "android-dark": {
+       "off": {
+        "inputHash": "82e428fdab11dd85c99221be5d77bf0989a66d954aa5ad51aecc72612042d854",
+        "pngHash": "c3d5bfcbc35d8ac7e20c0daf9c131fc2d25338356cc4b180660625a2b29530af"
+       },
+       "on": {
+        "inputHash": "7b733b1597c00f3b2eca7bca050108068aee302efe2a60eac3c72a90c4ec195d",
+        "pngHash": "4323e91e59aa8cfda1a5f5370a6095d5d910b5b426de269e5b13bb27288fa59e"
+       },
+       "errors": {}
       }
-     ],
-     "errors": {}
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "quick-check-in-enabled",
+        "label": "",
+        "rect": [
+         859,
+         1405,
+         137,
+         126
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "recap-notifications-enabled",
+        "label": "",
+        "rect": [
+         859,
+         1744,
+         137,
+         126
+        ],
+        "flags": [
+         "recaps"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "Quick Check-ins",
+        "rect": [
+         32,
+         555,
+         125.5,
+         20.5
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "quick-check-in-enabled",
+        "label": "Quick Check-ins",
+        "rect": [
+         16,
+         536.5,
+         370,
+         58
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "",
+        "label": "Short check-ins during the day: mood, emotions, people, and tags in a few taps.",
+        "rect": [
+         16,
+         594.5,
+         370,
+         45.5
+        ],
+        "flags": [
+         "quick-check-in"
+        ]
+       },
+       {
+        "id": "",
+        "label": "Recaps",
+        "rect": [
+         32,
+         676,
+         56.5,
+         20.5
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "recap-notifications-enabled",
+        "label": "Recaps",
+        "rect": [
+         16,
+         657.5,
+         370,
+         58
+        ],
+        "flags": [
+         "recaps"
+        ]
+       },
+       {
+        "id": "",
+        "label": "Weekly, monthly, and yearly recaps arrive on the last day of each week, month, and year, at your reminder time.",
+        "rect": [
+         16,
+         715.5,
+         370,
+         61.5
+        ],
+        "flags": [
+         "recaps"
+        ]
+       }
+      ]
+     }
     }
    ]
   },
@@ -1732,21 +4635,65 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Colors",
      "route": "/settings/colors",
-     "off": {
-      "inputHash": "81123c4c5e3dfec126b80a80cd66baeb53eb40001972d442e4060f27b4dba25b",
-      "pngHash": "1694e26a7747bcbaf3f81ecd001080834f7d33f8e62370f13642b2bcfec623a2"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "4f0cef2c3abbcdf8fcfe2c254791a753c208fefd483e37292c8746fa29b7e050",
+        "pngHash": "1694e26a7747bcbaf3f81ecd001080834f7d33f8e62370f13642b2bcfec623a2"
+       },
+       "on": {
+        "inputHash": "b3fe208ac4b61d770d9f4f3db29c0be6c31551faab025ddef85d06343374e08b",
+        "pngHash": "1694e26a7747bcbaf3f81ecd001080834f7d33f8e62370f13642b2bcfec623a2"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "ecb03ffe9102ecb31619bab6649e21be52a6ac1b10405d4a7456cceb1485f081",
+        "pngHash": "c9332d3218f701ba1e90010abf192a523ed483e4cf33dfaad18370b3f41ed6ea"
+       },
+       "on": {
+        "inputHash": "e65bda9366d0fd5c6d01afb1d68c219dde3d0219e227e56a530c64f022f993a0",
+        "pngHash": "c9332d3218f701ba1e90010abf192a523ed483e4cf33dfaad18370b3f41ed6ea"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "c6f310460c16ae95ae24fcfe6942041a7dc0b7a7deef0d1ba902d5dcd33e8066",
+        "pngHash": "f21a7a6d2793040fd01e98abe1d5ff0a23a7ed085d5e6a0244c0e081e1e43eb2"
+       },
+       "on": {
+        "inputHash": "de61f57d9d8425a7265a2c1470f62ba61a962fd8e2b6a1dfd45bba1fdb03667a",
+        "pngHash": "f21a7a6d2793040fd01e98abe1d5ff0a23a7ed085d5e6a0244c0e081e1e43eb2"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "b025b27002436356324c917b2230a7c9268502d964ce37ada932ff969a19cb4c",
+        "pngHash": "4fc6dafa4652c2f4f101ee896b93e9b1e6fbaf1d3556e7a8ae2246bdac8f8067"
+       },
+       "on": {
+        "inputHash": "1137355c5ee52ad578787561d1cb62ef05d1946427cfa87e1e011268904c4dd4",
+        "pngHash": "4fc6dafa4652c2f4f101ee896b93e9b1e6fbaf1d3556e7a8ae2246bdac8f8067"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "94d5ebc1598d03c69232e7bd73271cf1a4854fd9435b1602130899ed55f26d48",
-      "pngHash": "1694e26a7747bcbaf3f81ecd001080834f7d33f8e62370f13642b2bcfec623a2"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1758,21 +4705,65 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "default",
      "title": "Default icon",
      "route": "/settings/app-icon",
-     "off": {
-      "inputHash": "c5428aef50d36527eb1e7bfbad99984553dacd67d001d34658d20ecd5f484248",
-      "pngHash": "dd8c7c45f3954620316a5243fbfb38c65738481be5398ac521fee13142abc799"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "22626c7960a23299fff12caf39400bbdb634bdeef91cb046f778aa1b54741380",
+        "pngHash": "dd8c7c45f3954620316a5243fbfb38c65738481be5398ac521fee13142abc799"
+       },
+       "on": {
+        "inputHash": "59378874d3cc3674144caa4fdc6aa276da26b875178eaf6b75253f53620c5384",
+        "pngHash": "6105ad20dc0e69e41b7976e4f4cb25229931749db8ee31acec501005ad1c48ab"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "72846e37500b717c016874edfb04bfd476d7f6db9450e96c5f6db3b386e3cb14",
+        "pngHash": "a2724cb341e436ce766ad634ec76d7676807f48a972656a06062d3fffa92a748"
+       },
+       "on": {
+        "inputHash": "343ed7be1c3e53d0b7b32433e3eecc317ffc0739fd7d6557371fcaa842e8a9da",
+        "pngHash": "a6e66fee139ba8634721a7e130da037f453ac9049975ed2d168f30935ba20aa5"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "ab1a6a85482ae468a80745e1ab259d1eeac1d6cb6c3912692f40e4d89998e5b7",
+        "pngHash": "1c3129490ae90b544c2eed80ed62ffbd465c178525e374e0ea5060a831709253"
+       },
+       "on": {
+        "inputHash": "c760a2cf6dbab86853fc21f1aae87fff92aa9dc922196cff92471c4c7142a707",
+        "pngHash": "1bb6bb22f156eb2ab49a18672598413d1e8edf6aa15b116b5e9ffd554f9c251c"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "1c929ce68877ee6f01c2a5e91cc0beec9140f27e6d43c836779b234889241dea",
+        "pngHash": "80e598c5f3b76c6951e3d3c9415311fbb0f1d26177c0a20408e297692173dae0"
+       },
+       "on": {
+        "inputHash": "c4cd094db78c191f026f0c74f6a90df04f329141f24bafc6e280ead2dfd3d74b",
+        "pngHash": "3304410b5fc4ccce54fe35629b1cbfb3bedb6a141db020170bfcc9b982ff262c"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "3460f1c258526fddb5f96b7a138db62cbda872be16b3b42866a234410819a346",
-      "pngHash": "6105ad20dc0e69e41b7976e4f4cb25229931749db8ee31acec501005ad1c48ab"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1786,18 +4777,53 @@
     "app-lock"
    ],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "off",
      "title": "Lock off",
      "route": "/settings/app-lock",
-     "off": null,
-     "on": {
-      "inputHash": "014d795055f2078611541c3b8db941eb43e0c11490c4376e7d252f5b0d2899c0",
-      "pngHash": "c0b4d5f57940f3092f350eb466ebc17849e10368ee873bf09c5db1c2c1db93dc"
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "cbf2982c09a639b289edad897f774c8c33d6e745ed87992305eddbe5403c8de1",
+        "pngHash": "c0b4d5f57940f3092f350eb466ebc17849e10368ee873bf09c5db1c2c1db93dc"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "5c06188ca53b94ab6e3e4fd85b15d5082d5f8cbc5458452f0efefa329d23692f",
+        "pngHash": "68820f26ed4d974a0446033cbc188cbcd67c9d3fc754442c888f0e826a5cd8d7"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "4eafae695fbe991ed91f64e968ebceb6bdd4dcb108eaf8be5dfe3852f999095b",
+        "pngHash": "2c5bee7e54b79db1038cfeb6c6f1d108f61c283b9e9d57fea4bc6e9a73356aa9"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "6e7c59636de6d8d4336ff0ec5f61c21efc19d968b6c47536381e1361c3ccff02",
+        "pngHash": "d61264af6d53cd05de36447203af0f1c8b4e76906d061faeb34e6047ed404cad"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1809,21 +4835,65 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Data",
      "route": "/settings/data",
-     "off": {
-      "inputHash": "799551cd674b66ee6b2ca66b820f2a663926fcd40e6fe4b65a9feb6892e4830e",
-      "pngHash": "11d938164028b1f38f4fa06ec316e23ebf857ab779e1243e1ae37afef9b935bb"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "bd80ec53b1e1d388f7ea36a679be5e1598741aa8c8d5144eb59f0474c0920673",
+        "pngHash": "11d938164028b1f38f4fa06ec316e23ebf857ab779e1243e1ae37afef9b935bb"
+       },
+       "on": {
+        "inputHash": "21a568ff10e151a328cb3ed7ca51ddaf375a2b6563a44489a0fad704c78178e5",
+        "pngHash": "11d938164028b1f38f4fa06ec316e23ebf857ab779e1243e1ae37afef9b935bb"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "954bb653757c722fd531f1ee7b23b62b776479495cb23d5b5102f1a56ce69ea9",
+        "pngHash": "40e03e7083cca26123fb3b4650acf9b7b880184deea178775dee367c7119ab8a"
+       },
+       "on": {
+        "inputHash": "9c2b1ebaec0367ac399d1ed5515131964dd33b5d4c02f3389e1c652c27b53d0e",
+        "pngHash": "40e03e7083cca26123fb3b4650acf9b7b880184deea178775dee367c7119ab8a"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "0938fa8b4b24b02e33b23c9d83339449cf3e727b8f2856396aa29b1e7e2a83d9",
+        "pngHash": "35a7334255112c50fb77a1a5e42ea6608e71be2deb620db31233b52f3f032840"
+       },
+       "on": {
+        "inputHash": "a4b5dda22fcf71071c5b14a558e9ffd6abe26c85c933339393b038c1e1314263",
+        "pngHash": "35a7334255112c50fb77a1a5e42ea6608e71be2deb620db31233b52f3f032840"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "dcaf7c4899be977a3272542d2f418366452efb372eac3d66fc0adda000f4a6db",
+        "pngHash": "302375a9f5ee4e4f0e54c07ae81e71c437f814bf8a88ada00043383d7acd1f2f"
+       },
+       "on": {
+        "inputHash": "14b7974ecb153a3358dc554e47eafab0f881c262242c287ea82374ee7b23f80c",
+        "pngHash": "302375a9f5ee4e4f0e54c07ae81e71c437f814bf8a88ada00043383d7acd1f2f"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "6cf566a15a0dc37bb63bb19c9eb07dad8a7c7f8fca05b5d040add952f508b99f",
-      "pngHash": "11d938164028b1f38f4fa06ec316e23ebf857ab779e1243e1ae37afef9b935bb"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1835,21 +4905,65 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "year",
      "title": "Privacy",
      "route": "/settings/privacy",
-     "off": {
-      "inputHash": "4eaed2af83c31981a1e8276c39acd69f976e4c2f953dd7a4a15ad461956c03ae",
-      "pngHash": "2e86f56ad1c66bf9bb2a3da66ce8e69ad30009e838c40d28edd219a2168002c4"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "fa902e777649f4ec10ec9d3122b763e22551daee6924c5e280e2b2b3d05f9f97",
+        "pngHash": "2e86f56ad1c66bf9bb2a3da66ce8e69ad30009e838c40d28edd219a2168002c4"
+       },
+       "on": {
+        "inputHash": "2daabaa80b1c2be9a5937377bc319c75edae2ff8e494680ed1d6400d76d69740",
+        "pngHash": "2e86f56ad1c66bf9bb2a3da66ce8e69ad30009e838c40d28edd219a2168002c4"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "4e4a713d3aad964b5aff054502d597b15ffeb8700615af5cf656024aca701b2a",
+        "pngHash": "c513c6e0582389e5e175758480de8560f13ec029262e26e479c430d61f1d231a"
+       },
+       "on": {
+        "inputHash": "2f88cb8c1ecc3825e3af558aeaa54214e98258dfc91bd3de33a3a3f0e9ad3894",
+        "pngHash": "c513c6e0582389e5e175758480de8560f13ec029262e26e479c430d61f1d231a"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "b524a4e271df31ada5565abdf980c7fdf3d169d112fdaf7e27e45e52b3474397",
+        "pngHash": "95f95067ebd271d5635a4b401185fd93c5ca18699888a7c343b9b29e82811fcc"
+       },
+       "on": {
+        "inputHash": "fff66ad125aab1383f3648b1834f1b2cf6cc7d1976c233cf602ecc4b15fe0cf3",
+        "pngHash": "53c710e9e6e586353e6c4346fed96a9a125904dc417addfa3fb2e6cd71d33293"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "4a716ff4fbad6a5d82db296cb3456c0d90ece4a45d00995329a12011b1ea2168",
+        "pngHash": "e04fe5154733df656dd2a70db7e2102968a29ca2ba00a5daf80104659d8b737d"
+       },
+       "on": {
+        "inputHash": "4f1e6919a58ca86106f518539cd59bab4a44d562e4ce194432da612ab70b810a",
+        "pngHash": "882dcdc86aeeba94f8296a3a732e01e91caba61b94c47d99e063ce3daca47281"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "71c6903d0622bc6e47d0969dd78a9019c36b497bfaa8ba7b1ca624a1ccb2e506",
-      "pngHash": "2e86f56ad1c66bf9bb2a3da66ce8e69ad30009e838c40d28edd219a2168002c4"
-     },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
     }
    ]
   },
@@ -1861,21 +4975,1097 @@
    "isFlagOnly": false,
    "requires": [],
    "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
    "states": [
     {
      "id": "issue",
      "title": "Report an issue",
      "route": "/feedback",
-     "off": {
-      "inputHash": "29e452463186e337c6cc8da53f04005899695445699d33101cad22d0ab4161ed",
-      "pngHash": "8861a8fc347af8b6638813ad6bfa2fc166481f2c0ca82b25da4875153f808fac"
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "03dfdc56b6722c04aee6737bb9121ee165e812f1cce6cfe673aa3990d3a94ef8",
+        "pngHash": "484b868cc1b6f12655ff656fa69eb23b4363e0b4d49a10e122e2d7e617e2f4af"
+       },
+       "on": {
+        "inputHash": "def5102c1df63bc31a792a446cf73c775fdb6d4355d62f2d585f038656653f30",
+        "pngHash": "e7da5ffd61948341843644af6d9f2538196549a7e7eb513d28194266562157c0"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "500d66635fadd4e60098d3fd5434b68396ad0e04dc23243d5196e99341d713d8",
+        "pngHash": "b0d95eb9ac49741b0a5905e1e03c43af3027ec6f3c0e7ea58186f2296d74ba63"
+       },
+       "on": {
+        "inputHash": "90888272b9a67b29ac221b79f3779aa38c01bf5b60fa6526804e899b3cec1710",
+        "pngHash": "8c59c34bc34302384ce8a111a4b7abcdf309ad03ada3ed67e10be8c7bf1a5f38"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "6274478dca74bb1b8e947f30697fad0ccc7d894b74bb086d37b362f51396bb78",
+        "pngHash": "320593c8363a8d9a413b22c226c656b5d1140eb8907679fd4b5e45589ba99ec8"
+       },
+       "on": {
+        "inputHash": "d26286c80e6e3bbfa2dd05189b49a317d2b641a495282641b3395915ef9fbfed",
+        "pngHash": "320593c8363a8d9a413b22c226c656b5d1140eb8907679fd4b5e45589ba99ec8"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "f926354a36beb7bd0cc94af81c0f4becff753c3e03955c8743ef88b81a157a7d",
+        "pngHash": "67925f78ff1212e17898b23b7d81a768c577d6731d23f7309b2b72e2becd6e7f"
+       },
+       "on": {
+        "inputHash": "dd206cc09330d06847d31830600ede688ddef70500aa2c265aaeda54a29f9e95",
+        "pngHash": "67925f78ff1212e17898b23b7d81a768c577d6731d23f7309b2b72e2becd6e7f"
+       },
+       "errors": {}
+      }
      },
-     "on": {
-      "inputHash": "9654ec18ee6154336f430c885badc66f561af05e4b9ec72a3aa5b3f0bd51d50f",
-      "pngHash": "5367093d2d49683c086fb62c6b39a00fb74167f119a87528063c54966727be5d"
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "orbit",
+   "title": "Orbit",
+   "route": "/settings/orbit",
+   "parent": "settings",
+   "isFlagOnly": true,
+   "requires": [
+    "orbit",
+    "people"
+   ],
+   "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
+   "states": [
+    {
+     "id": "people",
+     "title": "People of the last 4 weeks",
+     "route": "/settings/orbit",
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "ffc12a200afcff8f2810926a6e3e8189c2545e7125559e7906bf62a6d9823c15",
+        "pngHash": "883f9d586bceb5b7b887d349efd5a06eb7685931331cc90266a888544d5d9622"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "f283432a25b6776e437aa21f72bf7eb4408250aaa1b5c73d9da64ec4066c3876",
+        "pngHash": "74fb28491910e4ea2544deef0e75cd77a750577e9560985b3ccdc69678285e17"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "8118f26bdcfff8eda6035dc3a77d4a9be8e07a90cbef59202af8ec33ec52c1dc",
+        "pngHash": "959ae94f1657463a57b9e362a854f422cbbd87717a5f15cf8e364e9651ac36dd"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "731b52a42919bc3136faa9bcc870b5b017dc5bbe223c6c205e622ad5e89ab265",
+        "pngHash": "c7c7f0a9678ccb122e4d736c2311ab458828ba0ce155701b50f05ca3764c7f5c"
+       },
+       "errors": {}
+      }
      },
-     "flagged": [],
-     "errors": {}
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/settings/orbit",
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "11badbbdbf8f787df49731f9f05a27e674311a38e7fbd6988c56dfa17a151290",
+        "pngHash": "61d7ebb1e00641b72075d656a7ef7432ab91151286b6eb7a468a7566374d0d57"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "990b3adf377605d67af91b7f40dd16dc713370ad2938e77807540da989125e6f",
+        "pngHash": "3fe3a0e0cd3419fe0e1a159227a0daa26e69fc6aa7a67ee1acb850e8fc8cbcce"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "d9e38574ef2e52e3c079d37e781de5ab026b5b531b8d9a90764aacd054d17f0b",
+        "pngHash": "395b275e25206a681afb79b7043bb674f0339aac552f30723ae7a92574475224"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "bc41e0a22930926b6a7e458f5d0e874e47698da129ec6c13b91c651732faa5d8",
+        "pngHash": "af0741554add47ffadeb701ba867157dda6a5e183551e30caf164e31523f3603"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "people-archive",
+   "title": "Archived people",
+   "route": "/settings/steps/people/archive",
+   "parent": "steps-people",
+   "isFlagOnly": true,
+   "requires": [
+    "people"
+   ],
+   "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
+   "states": [
+    {
+     "id": "people",
+     "title": "One archived person",
+     "route": "/settings/steps/people/archive",
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "05a19111e1691686d81fd223725b6326e2c49c7106f059517f96817c0c3413d8",
+        "pngHash": "ac1bc0d7da65dfe3fa248a96b531c33519b73909f1104eae8ae69fee97ad1c7b"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "d03eb661b61b43cd0135dd3215ee9a1deb1f5952de3864040439f6a8c1905f21",
+        "pngHash": "b1a0ab20bad4388a7c6f76a6d578fa91552d6beba64a6e25cc9a42ab10de6b4e"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "c99258d2ccfbf91dfc4d99f40336ee09e39df3dc92836718d220cb8516403a78",
+        "pngHash": "b79d15d9f91fcd6e1623cb519bcaafc54b59e6f3610a300ce688d702d9641863"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "e922b8cebf363ff13cac1f98ac1060a6eb6f821969d7a28164ba84c1a2383803",
+        "pngHash": "2bada1d822110a9088dca417214960f9190ebb89c6046e710c3ee68cba7c8390"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/settings/steps/people/archive",
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "1d5885c402c8ebcf4f3015bdbbd523b346fae91368829321a41e53d89a4ce10a",
+        "pngHash": "838af3aba9438ba1cdebdb02d209a310b1173b357aa3ae0572061fe3717cd213"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "91edda74fa93ce0ea1ad79d6df5debf2c2cbaebe328d4f50a1bce875069766f6",
+        "pngHash": "f367e1b833d450c0cc052c72f8f3ea58498ee3952203026d8212ee9797d942e6"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "669d7d275224cb042a4948a72f5f179e70443c5a9f8c5d39664cbb41cd25c1a3",
+        "pngHash": "4f36842fc6ec23add362947b5582d2a92e469672aa4a7fc1f41e889d47a1d5bc"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "9029b2a557cf045d449558d9b8723feaaeefb305be5f95b29804fc0a17c00588",
+        "pngHash": "7957daa807f035af09b659e219c6a50ea31fc28a4abd3b72a8cf995072031539"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "tags-archive",
+   "title": "Archived tags",
+   "route": "/settings/steps/tags/archive",
+   "parent": "steps-tags",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
+   "states": [
+    {
+     "id": "archived",
+     "title": "Two archived tags",
+     "route": "/settings/steps/tags/archive",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "c5f82debdc2202261edf411bb64c3e43fd07fe95d2f210a75242db40284b04ba",
+        "pngHash": "0ea71bde2677716277ac7c37cd0113075fed9a2c3028845b7565a3850c0b539b"
+       },
+       "on": {
+        "inputHash": "1fdac519eb19504af2f1945bb25b18f51d4c483535d8aaf952a25f12397bcc94",
+        "pngHash": "0ea71bde2677716277ac7c37cd0113075fed9a2c3028845b7565a3850c0b539b"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "c2dca9b793e80bfc510f87116b61f9404e97f8a35bee447879b34798cb3e76c9",
+        "pngHash": "b55fc04f8b9dab93fd7f700ea51b395bf6c149581777ecb7d70d12fa8e5295e3"
+       },
+       "on": {
+        "inputHash": "0026a0230c6925d6d446bbc324e061ca8e51859704465788129f23c96faeef6c",
+        "pngHash": "b55fc04f8b9dab93fd7f700ea51b395bf6c149581777ecb7d70d12fa8e5295e3"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "edff1965412c4a52d3b54a2d4c08a26e8dbf87fcc719e07aaff120f2f86bab69",
+        "pngHash": "6b074f7070f3aabe089a9a991ed955cc2ce28438f8df82c36249519059aafaa7"
+       },
+       "on": {
+        "inputHash": "02e3a148db677b42c7052b7a66d648bd42de851b37ed27f4794d7204d1b18b44",
+        "pngHash": "6b074f7070f3aabe089a9a991ed955cc2ce28438f8df82c36249519059aafaa7"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "b7a7de3ed0aba543c15d7f4733840a7a5e18df125cff976e1da3d37ad65d9046",
+        "pngHash": "d0febe32af6944b38f32c8027bdd945ca7ee5589dde27b6a6026ced2d3291227"
+       },
+       "on": {
+        "inputHash": "467dd11e8dca20a3cad8c640f02375ed3ca02356110d3bb1add1855215cfa3be",
+        "pngHash": "d0febe32af6944b38f32c8027bdd945ca7ee5589dde27b6a6026ced2d3291227"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/settings/steps/tags/archive",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "d434f4fece914a4cd4342e549237ea800d77e51a74a09f070565bd5cdb10d78b",
+        "pngHash": "22d35c086c6d5fa0af7e8ecd110f781e904c9471d5a4b4e85aa0a7b156a6e612"
+       },
+       "on": {
+        "inputHash": "747a5e1b9dbbb33cb791b3cf7dde4b1485d88f26152e9f210948f6a3f6b8de12",
+        "pngHash": "22d35c086c6d5fa0af7e8ecd110f781e904c9471d5a4b4e85aa0a7b156a6e612"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "4bfdeec95d219c658a832c1c4ae24f8530295d36a17b28b4b5144885502c5cbc",
+        "pngHash": "e249f102c8545a8b30395db4b58f3b8d227075eb76fe583c6287c5093adcc7be"
+       },
+       "on": {
+        "inputHash": "9d5adf178c91775f0704f3eb98fa7542058fb25f5c34ab2d4eafcfdd9210c0be",
+        "pngHash": "e249f102c8545a8b30395db4b58f3b8d227075eb76fe583c6287c5093adcc7be"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "c7e0c6a3be88a225f63ccf2ed0a8f174f42841196830ccc6bfa246b1c02f6c39",
+        "pngHash": "d0b4249e906adda603ddec023e6817461df37668bc17e7988ca653381c02c081"
+       },
+       "on": {
+        "inputHash": "4c8308d43aea456d190cd45e5dfe10af6f12b4dfe68dc30b9bcc4036b69664dd",
+        "pngHash": "d0b4249e906adda603ddec023e6817461df37668bc17e7988ca653381c02c081"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "7eb25ba63ddf2a715a402f9f92e3097333db52beee104bbd518396d754ee75a9",
+        "pngHash": "b34ba26282d6be09fca210f9f0a89ac455f31b71dd1d85a6185ea2023f64139b"
+       },
+       "on": {
+        "inputHash": "e890d37006bf20790733fa5ec2a861eb2618249c4a0857a900468e1d5b2a81fc",
+        "pngHash": "b34ba26282d6be09fca210f9f0a89ac455f31b71dd1d85a6185ea2023f64139b"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "photo",
+   "title": "Photo",
+   "route": "/photos/7e1a0000-0000-4000-8000-000000000002?index=0",
+   "parent": "day",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
+   "states": [
+    {
+     "id": "timeline",
+     "title": "First photo of today",
+     "route": "/photos/7e1a0000-0000-4000-8000-000000000002?index=0",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "dd211602516fe826c8ac47e7e1feb8cfdb382eed5991912a733706878a15f32a",
+        "pngHash": "4ec3cee5869405bf5d52b957a7e7d19436dc7d995b158a06e60efc2001c4ac20"
+       },
+       "on": {
+        "inputHash": "a2bf455649288ee00f23b564247cbd2805cf104a5470ffe4db38e1bd7761935d",
+        "pngHash": "4ec3cee5869405bf5d52b957a7e7d19436dc7d995b158a06e60efc2001c4ac20"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "b6b5140382825c3893644fad0cd28c10080eb3736021e9cf213616950a31c63a",
+        "pngHash": "be1a19f984e5326aedc7c2cc3e5954e3c38352b29475d4be63a9a053b7de866c"
+       },
+       "on": {
+        "inputHash": "022d0cfbe7ff89c218e9a7ee5533ad345da91387f52760f5a10bb243c12e65d9",
+        "pngHash": "be1a19f984e5326aedc7c2cc3e5954e3c38352b29475d4be63a9a053b7de866c"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "975dfba72053dce4716c5dd20ad281b9dd2b98723f139a1b7c6ed4fc274437f3",
+        "pngHash": "9478a7e0cb3b8c6da541119258ef0f85ae0fefeda2356633cd612bcb2996c12a"
+       },
+       "on": {
+        "inputHash": "e5c38927e0ea666c36cd29eed326a150cf7d43d891bd6d0103545aa6d4006a45",
+        "pngHash": "9478a7e0cb3b8c6da541119258ef0f85ae0fefeda2356633cd612bcb2996c12a"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "c4c5bf951a8036254f8dd5809fbb4d5b73136bb5366685bc4b9282ac2b6d04f9",
+        "pngHash": "5784d2e7c74092c48448aa483f2c8f24c56bb5feedf81fd773df55205849515b"
+       },
+       "on": {
+        "inputHash": "a005b0f3b747a615533452bb8bd5d521dbdb9a74babed9a375f03d86856b03a2",
+        "pngHash": "5784d2e7c74092c48448aa483f2c8f24c56bb5feedf81fd773df55205849515b"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "recap-story",
+   "title": "Recap story",
+   "route": "/recaps/story/2026-02-01",
+   "parent": "recaps-month",
+   "isFlagOnly": true,
+   "requires": [
+    "recaps"
+   ],
+   "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
+   "states": [
+    {
+     "id": "february",
+     "title": "February story",
+     "route": "/recaps/story/2026-02-01",
+     "variants": {
+      "ios-light": {
+       "off": null,
+       "on": {
+        "inputHash": "721b92074d30c6138dede23ca96d4532ff3d87d7a424b89f117aa9289ef5cf2c",
+        "pngHash": "b8a3e61ac56481c3611bf4d4e487be29ad81268da6e32466b1294168769a3d5c"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "39db2253957c999b272b9c25398fc6b849279d9673b909942bd927bdf2b2f6d0",
+        "pngHash": "74ed928c01f5d245f345f55387409251fea24f8e4f7773a0db58fd6d2a731adf"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": null,
+       "on": {
+        "inputHash": "d2fc6f00eef524a7aad95fc9f06a1b81482b2d561a4510d02a2d1a0d350e1a4a",
+        "pngHash": "973b1c79c4c9fa859f1b737772ccc5dbecc334de2feb9dfc9469247c915c802f"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": null,
+       "on": {
+        "inputHash": "a9d98ee227bb646702199958df1090dfa39200ff2560e984db448b61091e5369",
+        "pngHash": "cad93b7c06a854373a7e4edc2facc4dcf50e4672df3f35f8a7b8a345203d3595"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "licenses",
+   "title": "Licenses",
+   "route": "/settings/licenses",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
+   "states": [
+    {
+     "id": "year",
+     "title": "Open source licenses",
+     "route": "/settings/licenses",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "8d5f9721548fa51039b10ad46080cb73d5066031909dc1559afc6e0f6f967439",
+        "pngHash": "5bd53697a6898e5096a9406fae2276e1b3ade2c0e261b3bccd6245bada79cc64"
+       },
+       "on": {
+        "inputHash": "ab71bd5f3ebea0677365148dafa942a36cbe0a8c3874ea58a5979dee5c6b0f6e",
+        "pngHash": "5bd53697a6898e5096a9406fae2276e1b3ade2c0e261b3bccd6245bada79cc64"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "3be85a39e9613589fa36a1523909351558aac7d8b60d113e75d0f64b8116c746",
+        "pngHash": "87c19ec6b4b0dd9903f388b309ddc258adbaedc51a180c4d366db7dc6be82471"
+       },
+       "on": {
+        "inputHash": "4724e6228977614338a2a75e585a40b10aceadf1fc3c32c930315c03e738fabe",
+        "pngHash": "87c19ec6b4b0dd9903f388b309ddc258adbaedc51a180c4d366db7dc6be82471"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "bff7cc8ba1085db7217d694977e2bbfcc67fc742605b188bd2b59fbd0ffff843",
+        "pngHash": "a81fab0723cca4de55edac8bfdb47087d2eb26a30fd069141a9ee3bd7fdb17fb"
+       },
+       "on": {
+        "inputHash": "73d5a26d15b81a8387046dbb65861beb91757e972a6bd5f861d966645d07d64a",
+        "pngHash": "a81fab0723cca4de55edac8bfdb47087d2eb26a30fd069141a9ee3bd7fdb17fb"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "ab40425f32fa8066ce3495c63ade6ef1490ef3c77fea81ed1e7d29991ba67711",
+        "pngHash": "55b9663a1bbaef0700463640b88c739c284dbafe61eba3b714d70839d5d28d63"
+       },
+       "on": {
+        "inputHash": "6207649fb4ba6a36972fc56d1fa81536e490aebbd130b64ef38acd373679766c",
+        "pngHash": "6d2c9b0cda593bd693d02b92db2c13518115b59a554fc5e085575c995370e38c"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [],
+      "ios": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "development-tools",
+   "title": "Development tools",
+   "route": "/settings/development-tools",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
+   "states": [
+    {
+     "id": "year",
+     "title": "One year of entries",
+     "route": "/settings/development-tools",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "a62eb0ddfb50f94f2c76a9d64288ead3421a666a0e3a78eca4b01a335057ce7c",
+        "pngHash": "d69326994342918127f8e233c581ccff5755c47c90d66b53cda0dc270ad5113f"
+       },
+       "on": {
+        "inputHash": "a828acd194397880f640599b309fda47853a9e03b906ccef789c597d7bdd1aa4",
+        "pngHash": "40168d38b434273433748cd2fb9757eeb523bedd60e71dc41549b984bb446be4"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "c56b172e9921a6620e69736963d3f6545d7f3885aa0bfa4e1108dc5740fafd92",
+        "pngHash": "9fe252b2593ea581bc721e55b109a4e34e69a0ddd1b0d9702896cb4cf21d659a"
+       },
+       "on": {
+        "inputHash": "f8b3a4dde8e46b303edd7e7af8a2729ed984eaffe87f9b47939b1dad54cb9615",
+        "pngHash": "26284fbb17d23a4739122d9d72d95d85e4bc6792816160a41ca7ac2c69c71757"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "b8dcd30c8eaf0734b289b81ac3aac173af8868fb3a86fe30b338b2f16a5d9928",
+        "pngHash": "ab2b7c0ae72ff16a1abbcec1c2ebd5b5eedbc60a4df8f5df0758d375b124e7f8"
+       },
+       "on": {
+        "inputHash": "b5a085106098342ddadf4ea7f1e3575e23423181759a503994ead68758289696",
+        "pngHash": "3d1e0f08e7a0f97d5957237c3030ea6400ef3feef027de72845214eb142d9738"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "6b506351e41f2b243bd9d114ae7f4b1b612b5c22ae8050affd1d4b75b2b21680",
+        "pngHash": "981917bb8b378022196b75fef3d8e0ac4dbe1b4c86fb6205f232258cb2e483bc"
+       },
+       "on": {
+        "inputHash": "c597aca9ce2a94f057c6ab52e40ab718c0474d741024132175042b94f781e02c",
+        "pngHash": "7b1001f6f85474a72419e5e049d1a50beb32a54f6f96c1c0e4dd67d77f3baac5"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "",
+        "label": "019d001a-f6e2-73f8-adbc-3e7598d5f9b7",
+        "rect": [
+         42,
+         1235,
+         996,
+         51
+        ],
+        "flags": [
+         "app-icons",
+         "app-lock",
+         "apple-health",
+         "calendar-timeline",
+         "chip-active-ink",
+         "development",
+         "menstruation",
+         "more-tags",
+         "needs",
+         "orbit",
+         "people",
+         "photo-peek",
+         "photos",
+         "quick-check-in",
+         "recap-sleep",
+         "recaps",
+         "support-pixy",
+         "tag-icons",
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": []
+     }
+    },
+    {
+     "id": "empty",
+     "title": "No data",
+     "route": "/settings/development-tools",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "33ac75c9134c7ba85ac8eb8c9c4c2c40cc67e4afa85d373fd3d47397627d9a39",
+        "pngHash": "eb077039acb344880e1cd6e3fad889796ab3318546ac578cee58bcc8b9516f8b"
+       },
+       "on": {
+        "inputHash": "331f039d8ca7f7f6462771e3b56dd387779107cdb8cb5bdccbe1112098948551",
+        "pngHash": "61854ad8841725b55cc7397be608fd652eed8fdcb86bda0030808be1f911f7ed"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "9e5cd7b1654f1626912e6865d38cb119d01705298034e5786bf4264d5fa81e9b",
+        "pngHash": "b1b5e463c7f3703232814262703a5947719c6998796d82df8bef21f8788206ff"
+       },
+       "on": {
+        "inputHash": "8fc794918be137c4c6617b240fe8f5989a785f233c81f25eaeb7ef33bab61a3c",
+        "pngHash": "79461f48fcfa31db2cbbeaa5700e1fff0adb1ef84d60b05a83558f7b035bec58"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "6a57ab489ff19f1c2308ce96914f5d724e706c23d7466b8dd6c9c59b96eadf25",
+        "pngHash": "d6c9f22ad7334b0237d5ccaa568f022f9314e90a1087b3396840ce5ec1868609"
+       },
+       "on": {
+        "inputHash": "81eb5bcab1fefd3c6cb61389f94c690820cf20896a361481c2cea9396af201ea",
+        "pngHash": "49441ffc7132a21f598eefc66bb480dc5123bc6483aef1f38db5ada26b93aceb"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "3cdee0bb90b28818781098a87d3adfb0b18e77682acaa3e0d3f4dc7e8a897cba",
+        "pngHash": "5e6801501f20b7b072176dee37494d04e71e33c3caa065ed46e14583b8756ebc"
+       },
+       "on": {
+        "inputHash": "8615e6b46de2c3f01c8fa294e73061ab7df2f9ffa469b80f5073fc6dd1f9024a",
+        "pngHash": "6d5c73339534e14a22972c9b8557ddbf245110a6e95eaf3804066acff288a358"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "",
+        "label": "019d001a-f6e2-73f8-adbc-3e7598d5f9b7",
+        "rect": [
+         42,
+         1235,
+         996,
+         51
+        ],
+        "flags": [
+         "app-icons",
+         "app-lock",
+         "apple-health",
+         "calendar-timeline",
+         "chip-active-ink",
+         "development",
+         "menstruation",
+         "more-tags",
+         "needs",
+         "orbit",
+         "people",
+         "photo-peek",
+         "photos",
+         "quick-check-in",
+         "recap-sleep",
+         "recaps",
+         "support-pixy",
+         "tag-icons",
+         "voice-mode"
+        ]
+       }
+      ],
+      "ios": []
+     }
+    }
+   ]
+  },
+  {
+   "id": "feature-flags",
+   "title": "Feature flags",
+   "route": "/settings/feature-flags",
+   "parent": "settings",
+   "isFlagOnly": false,
+   "requires": [],
+   "hiddenBy": [],
+   "platforms": [
+    "ios",
+    "android"
+   ],
+   "states": [
+    {
+     "id": "year",
+     "title": "Feature flags",
+     "route": "/settings/feature-flags",
+     "variants": {
+      "ios-light": {
+       "off": {
+        "inputHash": "e00f00a05d4946163cb4dab5b4e4eb321d3ab0249027c50b72b2112d48ee058e",
+        "pngHash": "7ba14447277c5f138ac94448f053c2e1640033b4ecfdda886aaff4b47a1b4eeb"
+       },
+       "on": {
+        "inputHash": "f4fa58e006ba63a2e60caa7bef216c916c7d238d5bf925c231ff428d98a3cfa2",
+        "pngHash": "bcde967468da0dbd5c0d82f1cc459e352b9eacb252c5ab49537a75f74b5a5991"
+       },
+       "errors": {}
+      },
+      "ios-dark": {
+       "off": {
+        "inputHash": "8e71f0e366dbc85af8002a6c337010ba8ef939fb1b5be79a7e5ec9f9089da44e",
+        "pngHash": "5d27c98f6007d57495b35f347e40f5441043518414984ced9bab8437f5303717"
+       },
+       "on": {
+        "inputHash": "d34a57442cdb7bab7f44e5d02a5341f93224d45eb7fbf57aa46209abaad0aafe",
+        "pngHash": "ba001e5c9a7283b75db519230bfad5e4ca34b58ce2cb5cd5194b184be5c65eca"
+       },
+       "errors": {}
+      },
+      "android-light": {
+       "off": {
+        "inputHash": "356869e9553f415d20ad613d8ff06fd0c144b215e130af891bd2facf62ec5b6d",
+        "pngHash": "f2e120256e36e6750e53033e36400f3a711cebab27c945adce8c58f6440fbf9d"
+       },
+       "on": {
+        "inputHash": "b25f64a447e5964151e407431d3fc6e1261fe82beb7879952b34bb91aebca1c2",
+        "pngHash": "a0dc33376f9be11495369b16f7ba26345b82ad77b6e28ac3c9e3329aa00c58ac"
+       },
+       "errors": {}
+      },
+      "android-dark": {
+       "off": {
+        "inputHash": "42edbf4508ada802c4147308a358dae62d13faea7f138fa832c221d3c1c48ed3",
+        "pngHash": "1285b7f18d61e2c4afd8cce9b459ead0a299b8d6ecef8e7760d4b7634c230b69"
+       },
+       "on": {
+        "inputHash": "634a6dd62aa45e42878618450d37f02177e899fdf5b4dde2d545bbacb4ae839c",
+        "pngHash": "74cc04f0aad3aa692d04cd79035d631109defdd55038eb195fa157278797ca9b"
+       },
+       "errors": {}
+      }
+     },
+     "flagged": {
+      "android": [
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         535,
+         1154,
+         461,
+         147
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         645,
+         1348,
+         351,
+         147
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         669,
+         1542,
+         327,
+         147
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         592,
+         1736,
+         404,
+         147
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         738,
+         2124,
+         258,
+         147
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         606,
+         2318,
+         390,
+         126
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       }
+      ],
+      "ios": [
+       {
+        "id": "",
+        "label": "On (19)",
+        "rect": [
+         16,
+         374,
+         370,
+         40.5
+        ],
+        "flags": [
+         "app-icons",
+         "app-lock",
+         "apple-health",
+         "calendar-timeline",
+         "chip-active-ink",
+         "development",
+         "menstruation",
+         "more-tags",
+         "needs",
+         "orbit",
+         "people",
+         "photo-peek",
+         "photos",
+         "quick-check-in",
+         "recap-sleep",
+         "recaps",
+         "support-pixy",
+         "tag-icons",
+         "voice-mode"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         331,
+         438.5,
+         22.5,
+         20.5
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         331,
+         506.5,
+         22.5,
+         20.5
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         331,
+         574.5,
+         22.5,
+         20.5
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         331,
+         642.5,
+         22.5,
+         20.5
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "",
+        "label": "On",
+        "rect": [
+         331,
+         718,
+         22.5,
+         20.5
+        ],
+        "flags": [
+         "app-icons"
+        ]
+       },
+       {
+        "id": "feature-flag-development",
+        "label": "development",
+        "rect": [
+         32,
+         785,
+         99.5,
+         20.5
+        ],
+        "flags": [
+         "development"
+        ]
+       },
+       {
+        "id": "feature-flag-development",
+        "label": "Development section in production builds",
+        "rect": [
+         32,
+         807.5,
+         251.5,
+         15.5
+        ],
+        "flags": [
+         "development"
+        ]
+       },
+       {
+        "id": "feature-flag-development",
+        "label": "On",
+        "rect": [
+         319.5,
+         787,
+         50.5,
+         34.5
+        ],
+        "flags": [
+         "development"
+        ]
+       },
+       {
+        "id": "feature-flag-menstruation",
+        "label": "menstruation",
+        "rect": [
+         32,
+         853,
+         100.5,
+         20.5
+        ],
+        "flags": [
+         "menstruation"
+        ]
+       },
+       {
+        "id": "feature-flag-menstruation",
+        "label": "On",
+        "rect": [
+         319.5,
+         855,
+         50.5,
+         19
+        ],
+        "flags": [
+         "menstruation"
+        ]
+       }
+      ]
+     }
     }
    ]
   }

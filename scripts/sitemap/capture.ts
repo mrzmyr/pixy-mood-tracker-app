@@ -961,7 +961,15 @@ export const captureFor = async (
   }
   const screens = assemble(results);
   dropInheritedRegions(screens);
-  await syncUp({ remote, used }, screens);
+  // sitemap.json is written even when an upload fails: `bun sitemap check`
+  // names missing images, and the next capture uploads them.
+  let uploaded: CliError | null = null;
+  try {
+    await syncUp({ remote, used }, screens);
+  } catch (error) {
+    // SAFETY: uploadAll wraps every failure in a CliError.
+    uploaded = error as CliError;
+  }
   process.stdout.write(
     `summary  fresh=${plan.length - todo.length} captured=${summary.captured} cached=${summary.cached} noise=${summary.noise} failed=${summary.failed} nondeterministic=${summary.nondeterministic} ${Math.round((Date.now() - runStarted) / 1000)}s\n`
   );
@@ -970,6 +978,9 @@ export const captureFor = async (
     process.stdout.write(`site     ${DATA_FILE}\n`);
   } else {
     note("Native shell does not match the checkout: sitemap.json not written");
+  }
+  if (uploaded) {
+    throw uploaded;
   }
   if (nondeterministic) {
     throw nondeterministic;

@@ -4,11 +4,32 @@
 //   png/<png hash>.png        full-size normalized screenshot
 //   small/<png hash>.png      site image
 import fs from "node:fs";
+import { setTimeout as sleep } from "node:timers/promises";
 import path from "node:path";
 
 import { del, list, put } from "@vercel/blob";
 
 import { CliError, note } from "../cli/shared.ts";
+
+/** A Blob request can hang with no reply; abort it and retry. */
+const REQUEST_TIMEOUT_MS = 60_000;
+
+/**
+ * Reject after REQUEST_TIMEOUT_MS. `put` can hang past its abortSignal, so
+ * the abort alone does not end the wait.
+ */
+const withTimeout = <T>(work: Promise<T>) =>
+  Promise.race([
+    work,
+    sleep(REQUEST_TIMEOUT_MS).then(() => {
+      throw new CliError({
+        status: "blob_timeout",
+        message: `Vercel Blob gave no reply after ${REQUEST_TIMEOUT_MS / 1000}s`,
+        why: "The request hung past its abort signal.",
+        fix: "Retry; uploads retry on their own first.",
+      });
+    }),
+  ]);
 
 /** Without the token, capture uses the local cache only. */
 export const hasBlobToken = () =>
@@ -63,13 +84,19 @@ export const listBlobs = async (prefix = "") => {
 
 /** Download a blob to `file`. */
 export const download = async (url: string, file: string) => {
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
   if (!response.ok) {
     throw wrap("download", `${response.status} for ${url}`);
   }
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, Buffer.from(await response.arrayBuffer()));
 };
+
+const UPLOAD_BATCH = 8;
+/** Blob puts time out now and then; a retry passes. */
+const UPLOAD_ATTEMPTS = 3;
 
 /** Upload local files; content-addressed, so existing paths are skipped. */
 export const uploadAll = async (
@@ -78,24 +105,43 @@ export const uploadAll = async (
 ) => {
   requireToken();
   const missing = files.filter(({ pathname }) => !existing.has(pathname));
-  for (const { pathname, file } of missing) {
-    try {
-      // oxlint-disable-next-line no-await-in-loop -- few files per run; keeps errors in order
-      const blob = await put(pathname, fs.readFileSync(file), {
-        access: "public",
-        addRandomSuffix: false,
-        allowOverwrite: true,
-        cacheControlMaxAge: 31_536_000,
-        contentType: pathname.endsWith(".json")
-          ? "application/json"
-          : "image/png",
-      });
-      existing.set(pathname, { ...blob, uploadedAt: new Date() });
-    } catch (error) {
-      throw wrap(
-        `upload of ${pathname}`,
-        error instanceof Error ? error.message : String(error)
-      );
+  const upload = async ({
+    pathname,
+    file,
+  }: {
+    pathname: string;
+    file: string;
+  }) => {
+    let lastMessage = "";
+    for (let attempt = 1; attempt <= UPLOAD_ATTEMPTS; attempt += 1) {
+      try {
+        // oxlint-disable-next-line no-await-in-loop -- retry after a timeout
+        const blob = await withTimeout(
+          put(pathname, fs.readFileSync(file), {
+            access: "public",
+            addRandomSuffix: false,
+            allowOverwrite: true,
+            cacheControlMaxAge: 31_536_000,
+            abortSignal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+            contentType: pathname.endsWith(".json")
+              ? "application/json"
+              : "image/png",
+          })
+        );
+        existing.set(pathname, { ...blob, uploadedAt: new Date() });
+        return;
+      } catch (error) {
+        lastMessage = error instanceof Error ? error.message : String(error);
+      }
+    }
+    throw wrap(`upload of ${pathname}`, lastMessage);
+  };
+  // A full capture uploads over a thousand files; one at a time takes an hour.
+  for (let index = 0; index < missing.length; index += UPLOAD_BATCH) {
+    // oxlint-disable-next-line no-await-in-loop -- batches of UPLOAD_BATCH
+    await Promise.all(missing.slice(index, index + UPLOAD_BATCH).map(upload));
+    if (index > 0 && index % (UPLOAD_BATCH * 10) === 0) {
+      note(`Blob: uploaded ${index} of ${missing.length} files`);
     }
   }
   note(`Blob: uploaded ${missing.length} files`);
