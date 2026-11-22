@@ -15,6 +15,10 @@ const ICONS =
         next: require("../../../../assets/images/icons/chevron-right.png"),
       };
 
+// Toolbar views need a fixed size: the native item does not measure React
+// content. Fits "September 2026"; longer names shrink to fit.
+const LABEL_WIDTH = 150;
+
 interface PeriodStepperProps {
   /** Current period, for example "November 2026". */
   label: string;
@@ -87,6 +91,8 @@ export const PeriodStepper = (props: PeriodStepperProps) => {
     return <PeriodRow {...props} />;
   }
   const isIos = Platform.OS === "ios";
+  // Button titles double as labels: expo-router drops `accessibilityLabel`
+  // on iOS bar items. With an icon, iOS shows only the icon.
   return (
     <Stack.Toolbar placement="bottom">
       {isIos && <Stack.Toolbar.Spacer />}
@@ -94,28 +100,42 @@ export const PeriodStepper = (props: PeriodStepperProps) => {
         icon={ICONS.previous}
         accessibilityLabel={t("recaps_period_previous")}
         onPress={props.onPrevious}
-      />
+      >
+        {t("recaps_period_previous")}
+      </Stack.Toolbar.Button>
       <Stack.Toolbar.View>
-        <Text
-          accessibilityRole="header"
-          testID="recaps-period-label"
+        <View
           style={{
-            color: colors.text,
-            fontSize: 17,
-            fontWeight: "600",
-            fontVariant: ["tabular-nums"],
-            paddingHorizontal: 8,
+            width: LABEL_WIDTH,
+            height: 44,
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          {props.label}
-        </Text>
+          <Text
+            accessibilityRole="header"
+            testID="recaps-period-label"
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            style={{
+              color: colors.text,
+              fontSize: 17,
+              fontWeight: "600",
+              fontVariant: ["tabular-nums"],
+            }}
+          >
+            {props.label}
+          </Text>
+        </View>
       </Stack.Toolbar.View>
       <Stack.Toolbar.Button
         icon={ICONS.next}
         accessibilityLabel={t("recaps_period_next")}
         disabled={props.isCurrent}
         onPress={props.onNext}
-      />
+      >
+        {t("recaps_period_next")}
+      </Stack.Toolbar.Button>
       {isIos && <Stack.Toolbar.Spacer />}
     </Stack.Toolbar>
   );
