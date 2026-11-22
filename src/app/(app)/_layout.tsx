@@ -24,13 +24,6 @@ const getOrbitOptions = <T extends object>(pageOptions: T) => ({
   headerShadowVisible: false,
 });
 
-/** Recaps: no divider, cards start below the bar on the same background. */
-const getRecapsOptions = <T extends object>(pageOptions: T) => ({
-  ...pageOptions,
-  title: t("recaps"),
-  headerShadowVisible: false,
-});
-
 // Report screens draw a gradient banner under the header and refine these
 // options while scrolling (see `useReportHeader`).
 const reportHeaderOptions = {
@@ -87,6 +80,20 @@ const largeTitleOptions = (backgroundColor: string) => {
         }),
   };
 };
+
+/**
+ * Recaps: native header. iOS large title that collapses on scroll, Liquid
+ * Glass bar on iOS 26. No divider: cards start on the same background.
+ */
+const getRecapsOptions = <T extends object>(
+  pageOptions: T,
+  backgroundColor: string
+) => ({
+  ...pageOptions,
+  title: t("recaps"),
+  headerShadowVisible: false,
+  ...largeTitleOptions(backgroundColor),
+});
 
 /**
  * Feedback form: iOS form sheet (Liquid Glass header on iOS 26), Android
@@ -345,7 +352,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="recaps/[kind]/[date]"
-            options={getRecapsOptions(pageOptions)}
+            options={getRecapsOptions(pageOptions, colors.background)}
           />
           <Stack.Screen name="settings/orbit" options={orbitOptions} />
           <Stack.Screen
