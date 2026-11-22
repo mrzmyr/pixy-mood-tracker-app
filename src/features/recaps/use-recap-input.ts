@@ -1,10 +1,8 @@
 import dayjs from "dayjs";
-import type { ConfigurableLoggerStep } from "@/constants/logger-steps";
 import { useLocationSetting } from "@/features/location";
 import { useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { useSettings } from "@/state/settings";
 import { getDays, getPeriodDays } from "./days";
 import type { Period, RecapInput } from "./types";
@@ -20,13 +18,6 @@ export const useRecapInput = (period: Period): RecapInput => {
   const { tags, categories } = useTagsState();
   const { settings } = useSettings();
   const { people } = usePeopleState();
-  const isPeopleOn = useFeatureFlag("people");
-  const isPhotosOn = useFeatureFlag("photos");
-  const availableSteps = new Set<ConfigurableLoggerStep>(
-    ["emotions", "tags", isPeopleOn && "people", isPhotosOn && "photos"].filter(
-      (step): step is ConfigurableLoggerStep => step !== false
-    )
-  );
   return {
     period,
     today: getToday(),
@@ -35,7 +26,6 @@ export const useRecapInput = (period: Period): RecapInput => {
     history,
     locationEnabled: location.isAvailable && location.isEnabled,
     steps: new Set(settings.steps),
-    availableSteps,
     reminderEnabled: settings.reminderEnabled,
     tags,
     tagCategories: categories,

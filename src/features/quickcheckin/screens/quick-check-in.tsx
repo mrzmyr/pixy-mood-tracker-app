@@ -29,7 +29,6 @@ import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { createQuickEntry } from "../check-in-state";
 import { applyVoicePrefill, hasDraftChanges, toDraft } from "../draft";
 import { useVoicePrefill } from "../use-voice-prefill";
@@ -44,8 +43,6 @@ import {
 } from "./quick-check-in-photos";
 import { INSET, QuickCheckInSection } from "./quick-check-in-section";
 import type { InfluenceOption } from "../ranking";
-
-const NO_PEOPLE: never[] = [];
 
 /**
  * Note grows from one line up to about five. iOS puts the line height slack
@@ -172,8 +169,6 @@ export const QuickCheckIn = () => {
   const analytics = useAnalytics();
   const { items } = useLogState();
   const logUpdater = useLogUpdater();
-  const hasPeople = useFeatureFlag("people");
-  const hasPhotos = useFeatureFlag("photos");
   const { people } = usePeopleState();
   const { tags } = useTagsState();
 
@@ -217,22 +212,18 @@ export const QuickCheckIn = () => {
   // Ranking time is fixed when the screen opens.
   const now = useMemo(() => dayjs(), []);
 
-  const visiblePeople = hasPeople ? people : NO_PEOPLE;
-  const shortNames = useMemo(
-    () => getShortNames(visiblePeople),
-    [visiblePeople]
-  );
+  const shortNames = useMemo(() => getShortNames(people), [people]);
   const sections = useMemo(
     () =>
       getSheetSections({
         rating,
         items,
-        people: visiblePeople,
+        people,
         tags,
         picked,
         now,
       }),
-    [rating, items, visiblePeople, tags, picked, now]
+    [rating, items, people, tags, picked, now]
   );
 
   const toggle = (option: Pick<InfluenceOption, "kind" | "id">) => {
@@ -408,14 +399,12 @@ export const QuickCheckIn = () => {
                     />
                   </QuickCheckInSection>
                 )}
-                {hasPhotos && (
-                  <QuickCheckInSection
-                    section="photos"
-                    title={t("logger_step_photos")}
-                  >
-                    <QuickCheckInPhotos draft={draftPhotos} />
-                  </QuickCheckInSection>
-                )}
+                <QuickCheckInSection
+                  section="photos"
+                  title={t("logger_step_photos")}
+                >
+                  <QuickCheckInPhotos draft={draftPhotos} />
+                </QuickCheckInSection>
               </View>
             </ScrollView>
           </View>
@@ -423,7 +412,7 @@ export const QuickCheckIn = () => {
       </View>
       <QuickCheckInListSheets
         isOpen={isPeopleOpen}
-        people={visiblePeople}
+        people={people}
         picked={pickedPeople}
         onToggle={togglePerson}
         onClose={() => setIsPeopleOpen(false)}

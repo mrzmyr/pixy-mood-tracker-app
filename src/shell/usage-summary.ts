@@ -5,7 +5,6 @@ import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/config";
 import { createStructuredError } from "@/lib/errors";
 import { getItemDate } from "@/lib/log-dates";
 import { useAnalytics } from "@/state/analytics";
-import { useFeatureFlag } from "@/state/feature-flags";
 import type { UsageSummary } from "@/state/analytics/events";
 import { useSettings } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
@@ -60,7 +59,6 @@ export const getUsageSummary = ({
   tags,
   people = [],
   settings,
-  isPhotosEnabled,
   photoLibraryAccess,
   now,
 }: {
@@ -71,8 +69,6 @@ export const getUsageSummary = ({
     SettingsState,
     "reminderEnabled" | "reminderTime" | "scaleType" | "steps" | "actionsDone"
   >;
-  /** Value of the `photos` feature flag. */
-  isPhotosEnabled: boolean;
   photoLibraryAccess: LibraryPermission;
   now: Date;
 }): UsageSummary => {
@@ -162,7 +158,6 @@ export const getUsageSummary = ({
     questions_answered_count: settings.actionsDone.filter((action) =>
       action.title.startsWith(QUESTION_ACTION_PREFIX)
     ).length,
-    photos_enabled: isPhotosEnabled,
     photos_pct_30d: getPercent(
       items30d.filter((item) => item.photos.length > 0).length,
       items30d.length
@@ -187,30 +182,22 @@ export const useUsageSummarySync = () => {
   const { people } = usePeopleState();
   const isStoresReady = useAppData().load.status === "ready";
   const lastSent = useRef<string | null>(null);
-  const isPhotosEnabled = useFeatureFlag("photos");
-  const [libraryAccess, setLibraryAccess] = useState<LibraryPermission | null>(
-    null
-  );
-  const photoLibraryAccess = isPhotosEnabled ? libraryAccess : "unavailable";
+  const [photoLibraryAccess, setPhotoLibraryAccess] =
+    useState<LibraryPermission | null>(null);
 
-  // Read once when the photos flag turns on. Never reads the library with
-  // photos off.
   useEffect(() => {
-    if (!isPhotosEnabled) {
-      return;
-    }
     let isCurrent = true;
     const load = async () => {
       const access = await readPhotoLibraryAccess();
       if (isCurrent) {
-        setLibraryAccess(access);
+        setPhotoLibraryAccess(access);
       }
     };
     void load();
     return () => {
       isCurrent = false;
     };
-  }, [isPhotosEnabled]);
+  }, []);
 
   const { reminderEnabled, reminderTime, scaleType, steps, actionsDone } =
     settings;
@@ -232,7 +219,6 @@ export const useUsageSummarySync = () => {
         steps,
         actionsDone,
       },
-      isPhotosEnabled,
       photoLibraryAccess,
       now: new Date(),
     });
@@ -256,7 +242,6 @@ export const useUsageSummarySync = () => {
     scaleType,
     steps,
     actionsDone,
-    isPhotosEnabled,
     photoLibraryAccess,
   ]);
 };

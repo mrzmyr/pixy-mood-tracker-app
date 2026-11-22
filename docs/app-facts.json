@@ -449,7 +449,7 @@
       "label": "Quick check-in",
       "status": "flagged",
       "group": "platforms",
-      "description": "A Live Activity on the iOS 26 Lock Screen or an Android notification, started from Settings for testing, asks for mood, an emotion, and people or tags in a few taps. More opens a one-page check-in with search, a note, photos (with the photos feature flag), and voice input. Behind the quick-check-in feature flag.",
+      "description": "A Live Activity on the iOS 26 Lock Screen or an Android notification, started from Settings for testing, asks for mood, an emotion, and people or tags in a few taps. More opens a one-page check-in with search, a note, photos, and voice input. Behind the quick-check-in feature flag.",
       "evidence": [
         "src/features/quickcheckin",
         "modules/pixy-mood-tracker-quick-check-in",
@@ -502,9 +502,9 @@
     {
       "id": "photos",
       "label": "Photos",
-      "status": "flagged",
+      "status": "available",
       "group": "logging",
-      "description": "Add photos to entries. Behind the photos feature flag. Long press an empty calendar spot to see a photo of each day on its pixel, behind the photo-peek feature flag.",
+      "description": "Add photos to entries. Long press an empty calendar spot to see a photo of each day on its pixel, behind the photo-peek feature flag.",
       "competitorKey": "photos",
       "since": "1.95.0",
       "evidence": [
@@ -512,6 +512,18 @@
         "src/features/calendar/photo-peek.ts",
         "src/state/feature-flags/keys.ts",
         "CHANGELOG.md: feat(logger): ask for photos before the note (#661)"
+      ]
+    },
+    {
+      "id": "people",
+      "label": "People",
+      "status": "available",
+      "group": "logging",
+      "description": "Add the people you connected with to an entry: met, called, texted, or thought about. Add them by hand or from your contacts. Turn it on in Settings > Check-in. Statistics and calendar filters show people. People stay on your phone.",
+      "evidence": [
+        "src/features/people/",
+        "src/features/settings/screens/steps.tsx",
+        "docs/specs/people.md"
       ]
     },
     {

@@ -18,11 +18,11 @@ const statusOf = (work: () => void) => {
 
 describe("dev links", () => {
   test("open fixture before flags, in passed order", () => {
-    const flags = parseFlagOverrides("people=on,photos=off");
+    const flags = parseFlagOverrides("recaps=on,orbit=off");
     expect(devLinks("pixy-dev", { fixture: "year", flags })).toEqual([
       "pixy-dev://dev/fixture?id=year",
-      "pixy-dev://dev/feature-flag?key=people&value=on",
-      "pixy-dev://dev/feature-flag?key=photos&value=off",
+      "pixy-dev://dev/feature-flag?key=recaps&value=on",
+      "pixy-dev://dev/feature-flag?key=orbit&value=off",
     ]);
   });
 
@@ -33,11 +33,11 @@ describe("dev links", () => {
   test("reject unknown keys, bad values, and repeated keys", () => {
     for (const raw of [
       "nope=on",
-      "people=yes",
-      "people",
-      "people=on=off",
-      "people=on,people=off",
-      "people=on,",
+      "recaps=yes",
+      "recaps",
+      "recaps=on=off",
+      "recaps=on,recaps=off",
+      "recaps=on,",
     ]) {
       expect(statusOf(() => parseFlagOverrides(raw))).toBe("invalid_flag");
     }

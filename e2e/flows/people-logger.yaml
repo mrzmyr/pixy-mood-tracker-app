@@ -1,14 +1,13 @@
 appId: ${APP_ID}
 tags: [p1, people]
 ---
-# With the `people` flag and step on, a new entry asks "Who played a part?".
+# With the people step on, a new entry asks "Who played a part?".
 # The picked person shows on the entry card, and the people filter narrows
 # the calendar to entries with that person.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
       FIXTURE: people
-- openLink: ${APP_SCHEME}://dev/feature-flag?key=people&value=on
 - extendedWaitUntil:
     visible:
       id: "calendar-list"

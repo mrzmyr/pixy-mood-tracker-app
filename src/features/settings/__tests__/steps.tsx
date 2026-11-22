@@ -5,13 +5,11 @@ import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
 import { StepsScreen } from "../screens/steps";
 
-let mockIsPhotosEnabled = true;
 let mockIsMenstruationEnabled = false;
 let mockIsHealthFlagOn = false;
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the photos, apple-health, and menstruation flags come from PostHog after consent; each test picks on or off.
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the apple-health and menstruation flags come from PostHog after consent; each test picks on or off.
 jest.mock("@/state/feature-flags", () => ({
   useFeatureFlag: (flag: string) =>
-    (flag === "photos" && mockIsPhotosEnabled) ||
     (flag === "apple-health" && mockIsHealthFlagOn) ||
     (flag === "menstruation" && mockIsMenstruationEnabled),
 }));
@@ -35,26 +33,17 @@ const renderSteps = () =>
 
 describe("Settings > Check-in", () => {
   afterEach(() => {
-    mockIsPhotosEnabled = true;
     mockIsMenstruationEnabled = false;
     mockIsHealthFlagOn = false;
   });
 
-  test("flag on: shows the Photos toggle, on for new installs", async () => {
+  test("shows the Photos toggle, on for new installs", async () => {
     await renderSteps();
 
     await waitFor(() => {
       expect(screen.getByTestId("step-photos-enabled").props.value).toBe(true);
     });
     expect(screen.getAllByText("Photos").length).toBeGreaterThan(0);
-  });
-
-  test("flag off: no Photos toggle", async () => {
-    mockIsPhotosEnabled = false;
-    await renderSteps();
-
-    expect(screen.queryByTestId("step-photos-enabled")).toBeNull();
-    expect(screen.getByTestId("step-emotions-enabled")).toBeTruthy();
   });
 
   test("steps with a page show their status in the same row as the title", async () => {

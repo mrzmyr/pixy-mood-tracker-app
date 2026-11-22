@@ -2,25 +2,21 @@ import { useMemo } from "react";
 import { EMOTIONS } from "@/features/logger";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
-import { useFeatureFlag } from "@/state/feature-flags";
 import type { VoiceTerm } from "./match-transcript";
 
 /**
- * Words voice mode listens for: active tags, active people (flag `people`),
- * and enabled emotions by their label in the app language.
+ * Words voice mode listens for: active tags, active people, and enabled
+ * emotions by their label in the app language.
  */
 export const useVoiceTerms = (): VoiceTerm[] => {
   const { tags } = useTagsState();
   const { people } = usePeopleState();
-  const hasPeople = useFeatureFlag("people");
 
   return useMemo(() => {
     const terms: VoiceTerm[] = [];
-    if (hasPeople) {
-      for (const person of people) {
-        if (!person.isArchived) {
-          terms.push({ kind: "person", id: person.id, text: person.name });
-        }
+    for (const person of people) {
+      if (!person.isArchived) {
+        terms.push({ kind: "person", id: person.id, text: person.name });
       }
     }
     for (const tag of tags) {
@@ -34,5 +30,5 @@ export const useVoiceTerms = (): VoiceTerm[] => {
       }
     }
     return terms;
-  }, [hasPeople, people, tags]);
+  }, [people, tags]);
 };
