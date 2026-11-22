@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import LinkButton from "@/components/link-button";
 import {
@@ -25,18 +25,21 @@ const GRID_STYLE = { marginBottom: 0 };
  * step. Basic grid first; More shows all emotions by category. With flag
  * `needs`, needs mode comes first: rate needs, pick from the feelings of
  * each rated need. A link switches to all emotions and back. Picks and need
- * ratings stay when switching.
+ * ratings stay when switching. `onPagingChange` tells while the emotion
+ * pages, which swipe sideways, show.
  */
 export const QuickCheckInEmotions = ({
   picked,
   rating,
   items,
   onToggle,
+  onPagingChange,
 }: {
   picked: string[];
   rating: LogItem["rating"] | null;
   items: LogItem[];
   onToggle: (key: string) => void;
+  onPagingChange: (isPaging: boolean) => void;
 }) => {
   const router = useRouter();
   const hasNeeds = useFeatureFlag("needs");
@@ -46,6 +49,16 @@ export const QuickCheckInEmotions = ({
   const [needStates, setNeedStates] = useState<NeedStates>({});
 
   const showNeeds = hasNeeds && isNeedsMode;
+  // Folding the section unmounts the pages: swiping comes back.
+  useEffect(() => () => onPagingChange(false), [onPagingChange]);
+  const handleNeedsToggle = () => {
+    setIsNeedsMode(!isNeedsMode);
+    onPagingChange(isNeedsMode && isAdvanced);
+  };
+  const handleExpand = () => {
+    setIsAdvanced(!isAdvanced);
+    onPagingChange(!showNeeds && !isAdvanced);
+  };
   const selected = EMOTIONS.filter((emotion) => picked.includes(emotion.key));
   const onPress = (emotion: Emotion) => onToggle(emotion.key);
   const openRequest = () =>
@@ -101,7 +114,7 @@ export const QuickCheckInEmotions = ({
         {hasNeeds ? (
           <LinkButton
             testID="quick-check-in-needs-toggle"
-            onPress={() => setIsNeedsMode((current) => !current)}
+            onPress={handleNeedsToggle}
             style={{ fontWeight: "400" }}
           >
             {t(showNeeds ? "log_needs_show_all" : "log_needs_use")}
@@ -110,10 +123,7 @@ export const QuickCheckInEmotions = ({
           <View />
         )}
         {!showNeeds && (
-          <ExpandButton
-            expanded={!isAdvanced}
-            onPress={() => setIsAdvanced((current) => !current)}
-          />
+          <ExpandButton expanded={!isAdvanced} onPress={handleExpand} />
         )}
       </View>
       {content}
