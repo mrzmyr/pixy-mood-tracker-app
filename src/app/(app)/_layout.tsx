@@ -15,15 +15,6 @@ import { getModalRouteOptions } from "@/components/modal-route-options";
 
 const renderHeaderLeft = () => <BackButton testID="settings-back-button" />;
 
-/** Settings > Orbit: the sky reaches the top edge, under the bar. */
-const getOrbitOptions = <T extends object>(pageOptions: T) => ({
-  ...pageOptions,
-  title: t("orbit"),
-  headerTransparent: true,
-  headerStyle: { backgroundColor: "transparent" },
-  headerShadowVisible: false,
-});
-
 // Report screens draw a gradient banner under the header and refine these
 // options while scrolling (see `useReportHeader`).
 const reportHeaderOptions = {
@@ -191,7 +182,7 @@ const AppLayout = () => {
       : defaultOptions;
 
   const settingsFormOptions = formHeaderOptions(pageOptions, colors.background);
-  const orbitOptions = getOrbitOptions(pageOptions);
+  const orbitOptions = { ...pageOptions, title: t("orbit") };
 
   return (
     <StorageLoadGate>

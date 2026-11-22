@@ -644,7 +644,7 @@ export const SCREENS: ScreenSpec[] = [
     states: [
       {
         id: "people",
-        title: "People of the last 4 weeks",
+        title: "People of the last 30 days",
         fixture: "people",
         wait: 'id="orbit-screen"',
       },

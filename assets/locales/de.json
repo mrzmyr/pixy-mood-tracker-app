@@ -698,8 +698,23 @@
   "onboarding_step_5_title": "Wir nehmen Datenschutz ernst und gehen mit deinen Daten sorgfältig um.",
   "onboarding_tagline": "Sieh, was prägt, wie du dich fühlst.",
   "orbit": "Orbit",
-  "orbit_empty": "In den letzten 4 Wochen keine Verbindung. Füge Personen zu deinen Einträgen hinzu, um sie hier zu sehen.",
-  "orbit_period": "Letzte 4 Wochen",
+  "orbit_days_ago": {
+    "one": "vor 1 Tag",
+    "other": "vor {{count}} Tagen"
+  },
+  "orbit_empty": "In diesem Zeitraum keine Verbindung. Füge Personen zu deinen Einträgen hinzu, um sie hier zu sehen.",
+  "orbit_months_ago": {
+    "one": "vor 1 Monat",
+    "other": "vor {{count}} Monaten"
+  },
+  "orbit_range": "Zeitraum",
+  "orbit_range_12_months": "Letzte 12 Monate",
+  "orbit_range_30_days": "Letzte 30 Tage",
+  "orbit_range_90_days": "Letzte 90 Tage",
+  "orbit_weeks_ago": {
+    "one": "vor 1 Woche",
+    "other": "vor {{count}} Wochen"
+  },
   "other": "Anderes",
   "people": "Personen",
   "people_add": "Person hinzufügen",

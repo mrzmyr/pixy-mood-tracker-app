@@ -318,7 +318,8 @@ export const useMonthLead = (start: DateKey) => {
 
 /**
  * Month as a 7-column calendar of pixels. `render` can replace a day's
- * pixel, for example with a photo.
+ * pixel, for example with a photo. `isWeekColumns` turns it: one column
+ * per week, 7 rows, for periods longer than a month.
  */
 export const MonthGrid = ({
   period,
@@ -333,8 +334,10 @@ export const MonthGrid = ({
   revealAt,
   revealStepMs = 30,
   highlight,
+  isWeekColumns = false,
 }: {
   period: Period;
+  isWeekColumns?: boolean;
   /** Day with a thin bright ring around its pixel, like today. */
   highlight?: { date: DateKey; color: string };
   dayColors: ReadonlyMap<DateKey, string>;
@@ -362,13 +365,14 @@ export const MonthGrid = ({
   return (
     <View
       style={{
-        flexDirection: "row",
+        flexDirection: isWeekColumns ? "column" : "row",
         flexWrap: "wrap",
-        width: size * 7 + gap * 6,
+        [isWeekColumns ? "height" : "width"]: size * 7 + gap * 6,
         gap,
       }}
     >
       {weekdayColor !== undefined &&
+        !isWeekColumns &&
         cells.slice(0, 7).map((date) => (
           <Text
             key={`weekday-${date}`}

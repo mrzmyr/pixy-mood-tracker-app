@@ -698,8 +698,23 @@
   "onboarding_step_5_title": "Soukromí bereme vážně a s vašimi údaji nakládáme opatrně.",
   "onboarding_tagline": "Zjisti, co ovlivňuje, jak se cítíš.",
   "orbit": "Orbita",
-  "orbit_empty": "Za poslední 4 týdny žádné spojení. Přidej lidi ke svým záznamům a uvidíš je tady.",
-  "orbit_period": "Poslední 4 týdny",
+  "orbit_days_ago": {
+    "one": "před 1 dnem",
+    "other": "před {{count}} dny"
+  },
+  "orbit_empty": "V tomto období žádné spojení. Přidej lidi ke svým záznamům a uvidíš je tady.",
+  "orbit_months_ago": {
+    "one": "před 1 měsícem",
+    "other": "před {{count}} měsíci"
+  },
+  "orbit_range": "Období",
+  "orbit_range_12_months": "Posledních 12 měsíců",
+  "orbit_range_30_days": "Posledních 30 dní",
+  "orbit_range_90_days": "Posledních 90 dní",
+  "orbit_weeks_ago": {
+    "one": "před 1 týdnem",
+    "other": "před {{count}} týdny"
+  },
   "other": "jiný",
   "people": "Lidé",
   "people_add": "Přidat osobu",

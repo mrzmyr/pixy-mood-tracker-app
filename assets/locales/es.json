@@ -698,8 +698,23 @@
   "onboarding_step_5_title": "Nos tomamos la privacidad en serio y manejamos sus datos con cuidado.",
   "onboarding_tagline": "Descubre qué influye en cómo te sientes.",
   "orbit": "Órbita",
-  "orbit_empty": "Sin conexiones en las últimas 4 semanas. Añade personas a tus registros para verlas aquí.",
-  "orbit_period": "Últimas 4 semanas",
+  "orbit_days_ago": {
+    "one": "hace 1 día",
+    "other": "hace {{count}} días"
+  },
+  "orbit_empty": "Sin conexiones en este periodo. Añade personas a tus registros para verlas aquí.",
+  "orbit_months_ago": {
+    "one": "hace 1 mes",
+    "other": "hace {{count}} meses"
+  },
+  "orbit_range": "Periodo",
+  "orbit_range_12_months": "Últimos 12 meses",
+  "orbit_range_30_days": "Últimos 30 días",
+  "orbit_range_90_days": "Últimos 90 días",
+  "orbit_weeks_ago": {
+    "one": "hace 1 semana",
+    "other": "hace {{count}} semanas"
+  },
   "other": "Otro",
   "people": "Personas",
   "people_add": "Añadir persona",

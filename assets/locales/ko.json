@@ -698,8 +698,23 @@
   "onboarding_step_5_title": "우리는 개인 정보를 중요하게 생각하며 신중하게 데이터를 처리합니다.",
   "onboarding_tagline": "내 기분을 만드는 것을 알아보세요.",
   "orbit": "궤도",
-  "orbit_empty": "최근 4주 동안 연결된 사람이 없어요. 기록에 사람을 추가하면 여기에 표시돼요.",
-  "orbit_period": "최근 4주",
+  "orbit_days_ago": {
+    "one": "1일 전",
+    "other": "{{count}}일 전"
+  },
+  "orbit_empty": "이 기간에 연결된 사람이 없어요. 기록에 사람을 추가하면 여기에 표시돼요.",
+  "orbit_months_ago": {
+    "one": "1개월 전",
+    "other": "{{count}}개월 전"
+  },
+  "orbit_range": "기간",
+  "orbit_range_12_months": "최근 12개월",
+  "orbit_range_30_days": "최근 30일",
+  "orbit_range_90_days": "최근 90일",
+  "orbit_weeks_ago": {
+    "one": "1주 전",
+    "other": "{{count}}주 전"
+  },
   "other": "다른",
   "people": "사람",
   "people_add": "사람 추가",
