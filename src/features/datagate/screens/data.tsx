@@ -10,6 +10,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { useScrollBottomPadding } from "@/hooks/use-scroll-bottom-padding";
 import { useDatagate } from "../data-gate";
+import { SPACE } from "@/constants/space";
 
 /**
  * Settings > Data: import, export, and deletion of all user data via
@@ -31,7 +32,7 @@ export const DataScreen = () => {
       <ScrollView
         style={{ flex: 1 }}
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ padding: 20, paddingBottom }}
+        contentContainerStyle={{ padding: SPACE.lg, paddingBottom }}
       >
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem

@@ -23,6 +23,7 @@ import { RolePicker } from "../components/role-picker";
 import { usePersonDraft } from "../hooks/use-person-draft";
 import { usePersonEntryCount } from "../hooks/use-person-entry-count";
 import { usePersonActions } from "../hooks/use-person-actions";
+import { SPACE } from "@/constants/space";
 
 const AVATAR_SIZE = 112;
 const SECTION_GAP = 32;
@@ -175,7 +176,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
         keyboardDismissMode={isIOS ? "interactive" : "on-drag"}
         automaticallyAdjustKeyboardInsets
         contentContainerStyle={{
-          padding: 20,
+          padding: SPACE.lg,
           paddingBottom: 20 + insets.bottom,
         }}
       >

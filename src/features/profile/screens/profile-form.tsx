@@ -24,6 +24,7 @@ import {
   saveProfilePhoto,
 } from "../photo";
 import { getInitials } from "../use-profile";
+import { SPACE } from "@/constants/space";
 
 const AVATAR_SIZE = 112;
 const SECTION_GAP = 32;
@@ -150,7 +151,7 @@ export const ProfileForm = () => {
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode={isIOS ? "interactive" : "on-drag"}
           contentContainerStyle={{
-            padding: 20,
+            padding: SPACE.lg,
             paddingBottom: 20 + insets.bottom,
           }}
         >

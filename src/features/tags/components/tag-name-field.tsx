@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import type { ReactNode } from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, View, Platform } from "react-native";
 import type { TextInput } from "react-native";
 import { FieldError } from "@/components/field-error";
 import MenuList from "@/components/menu-list";
@@ -10,6 +10,7 @@ import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from "@/constants/config";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { isValidTagTitle, shouldShowCounter } from "../tag-name";
+import { SPACE } from "@/constants/space";
 
 /**
  * Tag or tag category name input with a visible label, an `n/MAX` counter near the limit, and
@@ -58,6 +59,7 @@ const TagNameField = ({
           nativeID="tag-name-label"
           style={{
             color: colors.textSecondary,
+            paddingLeft: Platform.OS === "ios" ? SPACE.lg : 0,
           }}
         >
           {t("tags_name_label")}

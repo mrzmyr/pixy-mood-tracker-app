@@ -23,6 +23,7 @@ import type { TranslationKey } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { Copy, Label } from "@/components/typography";
+import { SPACE } from "@/constants/space";
 
 const PREVIEW_SIZE = 56;
 
@@ -225,7 +226,7 @@ export const AppIconScreen = () => {
       <ScrollView
         style={{ flex: 1 }}
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ padding: 20, paddingBottom }}
+        contentContainerStyle={{ padding: SPACE.lg, paddingBottom }}
         accessibilityRole="radiogroup"
       >
         <MenuList>

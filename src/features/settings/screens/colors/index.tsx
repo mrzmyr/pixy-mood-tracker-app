@@ -9,6 +9,7 @@ import { useSettings } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
 import { Radio } from "./radio";
 import { Scale } from "./scale";
+import { SPACE } from "@/constants/space";
 
 const typesNames = [
   { id: `ColorBrew-RdYlGn` },
@@ -48,7 +49,7 @@ export const ColorsScreen = () => {
     >
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ padding: 20, paddingBottom }}
+        contentContainerStyle={{ padding: SPACE.lg, paddingBottom }}
       >
         <View style={{ gap: 10 }}>
           {typesNames.map((type) => (
