@@ -53,10 +53,10 @@ const NOTE_STYLE = {
   paddingBottom: 14,
 };
 
-/** Emotion grid and people row pad themselves to the screen edges. */
+/** People row pads itself to the screen edges. */
 const SELF_PADDED = { paddingHorizontal: 0 };
 
-/** Mood pixels and the note, above the sections. Always open. */
+/** Mood pixels and the note, below emotions. Always open. */
 const MoodAndNote = ({
   rating,
   onRate,
@@ -161,10 +161,10 @@ const QuickCheckInHeader = ({
   );
 
 /**
- * Quick check-in on one scrolling page: mood, a one-line note, then sections
- * for emotions as in the logger, a row of people, the top 20 tags, and
- * photos. Each section folds under a hairline divider; the folded state stays
- * on the device. The full list of people opens in a sheet, with "Add
+ * Quick check-in on one scrolling page: emotions as in the logger first,
+ * then mood and a one-line note, then sections for a row of people, the
+ * top 20 tags, and photos. Each section folds under a hairline divider;
+ * the folded state stays on the device. The full list of people opens in a sheet, with "Add
  * Person" on top. Opens from the calendar, from voice mode (with
  * `prefill`), and from More in the Android notification.
  *
@@ -346,6 +346,17 @@ export const QuickCheckIn = () => {
           keyboardDismissMode="on-drag"
           contentContainerStyle={{ paddingBottom: insets.bottom + SPACE.xxxl }}
         >
+          <View
+            testID="quick-check-in-emotions"
+            style={{ paddingBottom: SPACE.lg }}
+          >
+            <QuickCheckInEmotions
+              picked={emotions}
+              rating={rating}
+              items={items}
+              onToggle={toggleEmotion}
+            />
+          </View>
           <MoodAndNote
             rating={rating}
             onRate={setRating}
@@ -359,18 +370,6 @@ export const QuickCheckIn = () => {
               borderColor: colors.logCardBorder,
             }}
           >
-            <QuickCheckInSection
-              section="emotions"
-              title={t("emotions")}
-              contentStyle={SELF_PADDED}
-            >
-              <QuickCheckInEmotions
-                picked={emotions}
-                rating={rating}
-                items={items}
-                onToggle={toggleEmotion}
-              />
-            </QuickCheckInSection>
             {sections.people.length > 0 && (
               <QuickCheckInSection
                 section="people"

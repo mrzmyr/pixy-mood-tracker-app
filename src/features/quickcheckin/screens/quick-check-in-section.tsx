@@ -11,14 +11,11 @@ import { useSettings } from "@/state/settings";
 /** Screen edge to content, same as the logger. */
 export const INSET = 20;
 
-/** Sections that fold away. Mood and note always show. */
-export type SectionKey = "emotions" | "people" | "tags" | "photos";
+/** Sections that fold away. Emotions, mood, and note always show. */
+export type SectionKey = "people" | "tags" | "photos";
 
-/** Long sections start folded, so mood, note, and people fit one screen. */
-const DEFAULT_COLLAPSED: ReadonlySet<SectionKey> = new Set([
-  "emotions",
-  "tags",
-]);
+/** Long sections start folded, so the top of the screen stays short. */
+const DEFAULT_COLLAPSED: ReadonlySet<SectionKey> = new Set(["tags"]);
 
 /** Open and folded sections, kept from the last quick check-in. */
 const useSectionFold = (section: SectionKey) => {
