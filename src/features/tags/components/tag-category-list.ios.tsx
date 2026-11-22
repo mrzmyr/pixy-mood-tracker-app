@@ -39,6 +39,7 @@ import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/feature-flags";
 import {
   GENERAL_CATEGORY_ID,
   groupTagsByCategory,
@@ -51,6 +52,7 @@ import type { TagArrangement, TagCategoryRow } from "../tag-categories";
 import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { Tag } from "../tags-provider";
 import { useTagActions } from "../use-tag-actions";
+import { TagIcon } from "./tag-icon";
 
 /** Rows draw their own card, so the list draws no background or divider. */
 const ROW_MODIFIERS = [
@@ -86,6 +88,7 @@ export const TagCategoryList = ({
   hasBottomBar?: boolean;
 }) => {
   const colors = useColors();
+  const hasTagIcons = useFeatureFlag("tag-icons");
   const router = useRouter();
   const analytics = useAnalytics();
   const { tags, categories } = useTagsState();
@@ -244,19 +247,27 @@ export const TagCategoryList = ({
               testID={`tag-row-${tag.id}`}
               spacing={16}
               modifiers={[
-                padding({ leading: 20, trailing: 16 }),
+                padding({ leading: hasTagIcons ? 16 : 20, trailing: 16 }),
                 frame({ maxWidth: Infinity, minHeight: 50 }),
               ]}
             >
-              <Circle
-                modifiers={[
-                  frame({ width: 10, height: 10 }),
-                  foregroundStyle({
-                    type: "color",
-                    color: colors.tags[tag.color]?.dot ?? colors.text,
-                  }),
-                ]}
-              />
+              {hasTagIcons ? (
+                <RNHostView matchContents>
+                  <View collapsable={false}>
+                    <TagIcon icon={tag.icon} color={tag.color} size={20} />
+                  </View>
+                </RNHostView>
+              ) : (
+                <Circle
+                  modifiers={[
+                    frame({ width: 10, height: 10 }),
+                    foregroundStyle({
+                      type: "color",
+                      color: colors.tags[tag.color]?.dot ?? colors.text,
+                    }),
+                  ]}
+                />
+              )}
               <Text
                 modifiers={[
                   font({ size: 17 }),

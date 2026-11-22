@@ -5,9 +5,12 @@ import useHaptics from "@/hooks/use-haptics";
 import type { TAG_COLOR_NAMES } from "@/constants/config";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
-import { COMPACT_CHIP } from "@/constants/chip";
+import { CHIP, COMPACT_CHIP } from "@/constants/chip";
 import type { ChipStyle } from "@/constants/chip";
 import { Chip } from "@/components/chip";
+import { useFeatureFlag } from "@/state/feature-flags";
+import type { Tag as TagType } from "../tags-provider";
+import { TagIcon } from "./tag-icon";
 
 const DEFAULT_STYLE = {};
 
@@ -15,6 +18,8 @@ const Tag = ({
   title,
   selected = false,
   colorName,
+  icon,
+  showIcon = false,
   onPress,
   onLongPress,
   compact = false,
@@ -23,6 +28,9 @@ const Tag = ({
   title: string;
   selected?: boolean;
   colorName: (typeof TAG_COLOR_NAMES)[number];
+  icon?: TagType["icon"];
+  /** Tag icon instead of the color dot. Missing `icon` draws the default. */
+  showIcon?: boolean;
   onPress?: () => void;
   /** Opens the tag editor; also offered as the "edit" accessibility action. */
   onLongPress?: () => void;
@@ -34,6 +42,7 @@ const Tag = ({
   const haptics = useHaptics();
 
   const colorScheme = useColorScheme();
+  const isInk = useFeatureFlag("chip-active-ink");
   const unselectedBorderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
@@ -45,14 +54,28 @@ const Tag = ({
         onPress={onPress}
         onLongPress={onLongPress}
         lead={
-          <View
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: RADIUS.full,
-              backgroundColor: colors.tags[colorName]?.dot,
-            }}
-          />
+          showIcon ? (
+            <TagIcon icon={icon} color={colorName} size={CHIP.lead} />
+          ) : (
+            <View
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: RADIUS.full,
+                backgroundColor: colors.tags[colorName]?.dot,
+              }}
+            />
+          )
+        }
+        leadSelected={
+          showIcon && !isInk ? (
+            <TagIcon
+              icon={icon}
+              color={colorName}
+              size={CHIP.lead}
+              surface={colorScheme === "light" ? "dark" : "light"}
+            />
+          ) : undefined
         }
         style={style}
       />
@@ -64,19 +87,15 @@ const Tag = ({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
-        gap: compact ? COMPACT_CHIP.gap : 10,
+        gap: COMPACT_CHIP.gap,
         borderRadius: RADIUS.full,
         backgroundColor: selected
           ? colors.tagBackgroundActive
           : colors.tagBackground,
         borderColor: selected ? colors.tint : unselectedBorderColor,
         borderWidth: 1,
-        ...(compact
-          ? {
-              height: COMPACT_CHIP.height,
-              paddingHorizontal: COMPACT_CHIP.paddingHorizontal,
-            }
-          : { paddingHorizontal: 16, paddingVertical: 8 }),
+        height: COMPACT_CHIP.height,
+        paddingHorizontal: COMPACT_CHIP.paddingHorizontal,
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}
@@ -108,8 +127,8 @@ const Tag = ({
     >
       <View
         style={{
-          width: compact ? 7 : 8,
-          height: compact ? 7 : 8,
+          width: 7,
+          height: 7,
           borderRadius: RADIUS.sm,
           backgroundColor: colors.tags[colorName]?.dot,
         }}
@@ -117,7 +136,7 @@ const Tag = ({
       <Text
         style={{
           color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: compact ? COMPACT_CHIP.fontSize : 17,
+          fontSize: COMPACT_CHIP.fontSize,
         }}
       >
         {title}
