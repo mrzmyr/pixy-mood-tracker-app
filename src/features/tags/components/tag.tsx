@@ -8,7 +8,6 @@ import { RADIUS } from "@/constants/radius";
 import { CHIP, COMPACT_CHIP } from "@/constants/chip";
 import type { ChipStyle } from "@/constants/chip";
 import { Chip } from "@/components/chip";
-import { useFeatureFlag } from "@/state/feature-flags";
 import type { Tag as TagType } from "../tags-provider";
 import { TagIcon } from "./tag-icon";
 
@@ -42,7 +41,6 @@ const Tag = ({
   const haptics = useHaptics();
 
   const colorScheme = useColorScheme();
-  const isInk = useFeatureFlag("chip-active-ink");
   const unselectedBorderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
@@ -68,7 +66,7 @@ const Tag = ({
           )
         }
         leadSelected={
-          showIcon && !isInk ? (
+          showIcon ? (
             <TagIcon
               icon={icon}
               color={colorName}
