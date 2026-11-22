@@ -53,7 +53,7 @@ const renderFlag = async ({
   );
   const hook = await renderHook(
     () => ({
-      isOn: useFeatureFlag("photos"),
+      isOn: useFeatureFlag("recaps"),
       settings: useSettings(),
       settingsLoad: useSettingsLoad(),
     }),
@@ -108,7 +108,7 @@ describe("feature flags", () => {
   });
 
   test("reloads flags once after consent, then reads the flag", async () => {
-    mockReload.mockResolvedValue({ photos: true });
+    mockReload.mockResolvedValue({ recaps: true });
     const hook = await renderFlag({ analyticsEnabled: false });
 
     await setAnalytics(hook, true);
@@ -123,7 +123,7 @@ describe("feature flags", () => {
   });
 
   test("stays off when the PostHog flag is off", async () => {
-    mockReload.mockResolvedValue({ photos: false });
+    mockReload.mockResolvedValue({ recaps: false });
     const hook = await renderFlag({ analyticsEnabled: true });
 
     await waitFor(() => {
@@ -143,7 +143,7 @@ describe("feature flags", () => {
   });
 
   test("turns off when consent ends and ignores flags of that period", async () => {
-    mockReload.mockResolvedValue({ photos: true });
+    mockReload.mockResolvedValue({ recaps: true });
     const hook = await renderFlag({ analyticsEnabled: true });
     await waitFor(() => {
       expect(hook.result.current.isOn).toBe(true);

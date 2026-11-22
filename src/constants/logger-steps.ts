@@ -16,7 +16,7 @@ export type ConfigurableLoggerStep = Exclude<LoggerStep, "reminder">;
 
 /**
  * Order of the toggles on the Steps settings screen. `people` is off by
- * default and shows only behind the `people` feature flag.
+ * default.
  */
 export const STEP_OPTIONS: ConfigurableLoggerStep[] = [
   "rating",

@@ -488,7 +488,6 @@ export const SCREENS: ScreenSpec[] = [
     route: "/settings/steps/people",
     parent: "steps",
     userData: true,
-    requires: ["people"],
     states: [
       {
         id: "people",
@@ -510,7 +509,6 @@ export const SCREENS: ScreenSpec[] = [
     route: "/people/create",
     parent: "steps-people",
     userData: false,
-    requires: ["people"],
     states: [
       {
         id: "empty",
@@ -526,7 +524,6 @@ export const SCREENS: ScreenSpec[] = [
     route: `/people/${PERSON_SAM}`,
     parent: "steps-people",
     userData: false,
-    requires: ["people"],
     states: [
       {
         id: "sam",
@@ -643,7 +640,7 @@ export const SCREENS: ScreenSpec[] = [
     route: "/settings/orbit",
     parent: "settings",
     userData: true,
-    requires: ["orbit", "people"],
+    requires: ["orbit"],
     states: [
       {
         id: "people",
@@ -665,7 +662,6 @@ export const SCREENS: ScreenSpec[] = [
     route: "/settings/steps/people/archive",
     parent: "steps-people",
     userData: true,
-    requires: ["people"],
     states: [
       {
         id: "people",

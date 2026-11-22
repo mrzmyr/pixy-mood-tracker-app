@@ -15,9 +15,7 @@ export const FEATURE_FLAGS = [
   "more-tags",
   "needs",
   "orbit",
-  "people",
   "photo-peek",
-  "photos",
   "quick-check-in",
   "recap-sleep",
   "recaps",
@@ -86,21 +84,12 @@ export const FEATURE_FLAG_DETAILS: Record<
   orbit: {
     description:
       "People of the last 4 weeks in orbit, as in the month recap story, and a list by connected days",
-    location: "Settings > Orbit (needs people flag)",
-  },
-  people: {
-    description: "People step and people on entries",
-    location:
-      "Check-in, Settings > Check-in, Day view, Calendar filters, Statistics",
+    location: "Settings > Orbit",
   },
   "photo-peek": {
     description:
       "Long press an empty calendar spot to show day photos on pixels",
     location: "Calendar",
-  },
-  photos: {
-    description: "Photos step and photos on entries",
-    location: "Check-in, Settings > Check-in, Day view",
   },
   "quick-check-in": {
     description:

@@ -39,7 +39,7 @@ describe("Settings > Development > Feature flags", () => {
 
   test("lists flags on for this device first and counts them", async () => {
     await renderScreen({
-      flags: { recaps: true, people: true },
+      flags: { recaps: true, orbit: true },
       isLoading: false,
     });
     jest.useRealTimers();
@@ -55,7 +55,7 @@ describe("Settings > Development > Feature flags", () => {
     jest.useRealTimers();
 
     await userEvent.press(
-      within(await screen.findByTestId("feature-flag-photos-picker")).getByRole(
+      within(await screen.findByTestId("feature-flag-orbit-picker")).getByRole(
         "menuitem",
         { name: "On" }
       )

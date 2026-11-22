@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import type { LoggerStep } from "@/constants/logger-steps";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { EMOTIONS } from "../../config";
 import { LoggerCreate } from "../../logger";
 import { parseLoggerPrefill } from "../../prefill";
@@ -30,12 +29,9 @@ export const LogCreate = () => {
   const restored = useMemo(() => getRestoredDraft(restore), [restore]);
   const { tags } = useTagsState();
   const { people } = usePeopleState();
-  const hasPeople = useFeatureFlag("people");
   const prefill = parseLoggerPrefill(prefillParam, {
     tags: tags.flatMap((tag) => (tag.isArchived ? [] : [tag.id])),
-    people: hasPeople
-      ? people.flatMap((person) => (person.isArchived ? [] : [person.id]))
-      : [],
+    people: people.flatMap((person) => (person.isArchived ? [] : [person.id])),
     emotions: EMOTIONS.flatMap((emotion) =>
       emotion.disabled ? [] : [emotion.key]
     ),

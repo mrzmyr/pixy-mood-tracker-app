@@ -155,7 +155,6 @@ const toInput = (data: PlaygroundData): RecapInput => {
     history,
     locationEnabled: true,
     steps,
-    availableSteps: steps,
     reminderEnabled: true,
     tags: data.tags,
     tagCategories: [],

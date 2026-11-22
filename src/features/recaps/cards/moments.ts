@@ -78,7 +78,7 @@ const connectedDaysIn = (days: RecapDay[], personId: string) =>
  * their first connection in the period.
  */
 export const getPersonMoments = (input: RecapInput): PersonMoment[] => {
-  if (!input.steps.has("people") || !input.availableSteps.has("people")) {
+  if (!input.steps.has("people")) {
     return [];
   }
   const earlier = before(input);

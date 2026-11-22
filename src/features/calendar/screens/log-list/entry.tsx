@@ -181,11 +181,9 @@ const EntryHeader = ({
  *
  * A block or pill opens the logger at its step, only when the edit logger
  * has that step: the step is on in Settings > Steps, or the entry holds
- * content for it. People show behind the `people` flag or when the entry has
- * people. Stored photos always show, so turning the `photos` flag or consent
- * off never hides user data. Delete calls `onDelete` without asking, so the
- * caller must confirm. The card has its natural height; the list around it
- * scrolls. Chip and photo rows scroll sideways inside it.
+ * content for it. Delete calls `onDelete` without asking, so the caller must
+ * confirm. The card has its natural height; the list around it scrolls. Chip
+ * and photo rows scroll sideways inside it.
  *
  * A long note folds behind "More" when `onToggleNote` is given. The list
  * owns `isNoteExpanded`, so a card that scrolls out and in keeps its state.
@@ -207,9 +205,7 @@ export const Entry = ({
 }) => {
   const colors = useColors();
   const router = useRouter();
-  const hasPeople = useFeatureFlag("people");
   const { hasStep } = useSettings();
-  const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
   const logState = useLogState();
   const knownPeople = useKnownPeople(item);
@@ -219,8 +215,6 @@ export const Entry = ({
     item,
     hasStep,
     hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(item)),
-    hasPeople,
-    isPhotosEnabled,
     isMenstruationEnabled,
   });
   const editStep = (step: LoggerStep) =>

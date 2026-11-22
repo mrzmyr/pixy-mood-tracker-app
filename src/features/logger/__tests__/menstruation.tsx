@@ -25,8 +25,6 @@ const options = {
   hasStep: () => true,
   hasSleepOnDay: false,
   isSleepAutoFilled: false,
-  hasPeople: false,
-  isPhotosEnabled: false,
   isMenstruationEnabled: true,
 };
 
