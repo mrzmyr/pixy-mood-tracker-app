@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import noop from "lodash/noop";
 import {
   Redirect,
+  Stack,
   useFocusEffect,
   useLocalSearchParams,
   useRouter,
@@ -14,7 +15,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { Platform, Pressable, ScrollView, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import ChevronLeft from "lucide-react-native/icons/chevron-left";
 import ChevronRight from "lucide-react-native/icons/chevron-right";
@@ -60,6 +61,12 @@ const KINDS: { kind: PeriodKind; label: TranslationKey }[] = [
   { kind: "month", label: "recaps_period_month" },
   { kind: "year", label: "recaps_period_year" },
 ];
+
+// Android renders only image icons in the header; iOS uses SF Symbols.
+const PERIOD_ICON =
+  Platform.OS === "ios"
+    ? "line.3.horizontal.decrease"
+    : require("../../../../assets/images/icons/filter.png");
 
 const isPeriodKind = (value: unknown): value is PeriodKind =>
   KINDS.some(({ kind }) => kind === value);
@@ -300,17 +307,41 @@ const Recaps = () => {
         trackShown();
       }}
     >
-      <SegmentedControl
-        values={KINDS.map(({ label }) => t(label))}
-        selectedIndex={KINDS.findIndex((option) => option.kind === kind)}
-        onChange={(event) => {
-          const next = KINDS[event.nativeEvent.selectedSegmentIndex];
-          if (next) {
-            setPeriod({ kind: next.kind, start: today });
-          }
-        }}
-        testID="recaps-period-kind"
-      />
+      {Platform.OS === "web" ? (
+        // Web has no native header, so the period kind stays in the page.
+        <SegmentedControl
+          values={KINDS.map(({ label }) => t(label))}
+          selectedIndex={KINDS.findIndex((option) => option.kind === kind)}
+          onChange={(event) => {
+            const next = KINDS[event.nativeEvent.selectedSegmentIndex];
+            if (next) {
+              setPeriod({ kind: next.kind, start: today });
+            }
+          }}
+          testID="recaps-period-kind"
+        />
+      ) : (
+        // Header menu like calendar Filters: Liquid Glass on iOS 26, Material
+        // icon button on Android. Renders nothing here: `Stack.Toolbar` sets
+        // header options of this route.
+        <Stack.Toolbar placement="right">
+          <Stack.Toolbar.Menu
+            icon={PERIOD_ICON}
+            accessibilityLabel={t("recaps_period")}
+            title={t("recaps_period")}
+          >
+            {KINDS.map((option) => (
+              <Stack.Toolbar.MenuAction
+                key={option.kind}
+                isOn={option.kind === kind}
+                onPress={() => setPeriod({ kind: option.kind, start: today })}
+              >
+                {t(option.label)}
+              </Stack.Toolbar.MenuAction>
+            ))}
+          </Stack.Toolbar.Menu>
+        </Stack.Toolbar>
+      )}
       <View
         style={{
           flexDirection: "row",
