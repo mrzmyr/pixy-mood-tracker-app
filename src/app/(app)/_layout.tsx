@@ -24,6 +24,13 @@ const getOrbitOptions = <T extends object>(pageOptions: T) => ({
   headerShadowVisible: false,
 });
 
+/** Recaps: no divider, cards start below the bar on the same background. */
+const getRecapsOptions = <T extends object>(pageOptions: T) => ({
+  ...pageOptions,
+  title: t("recaps"),
+  headerShadowVisible: false,
+});
+
 // Report screens draw a gradient banner under the header and refine these
 // options while scrolling (see `useReportHeader`).
 const reportHeaderOptions = {
@@ -338,7 +345,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="recaps/[kind]/[date]"
-            options={{ ...pageOptions, title: t("recaps") }}
+            options={getRecapsOptions(pageOptions)}
           />
           <Stack.Screen name="settings/orbit" options={orbitOptions} />
           <Stack.Screen
