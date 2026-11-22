@@ -8,6 +8,7 @@ import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
 import type { FeedackType } from "../feedback";
+import { SPACE } from "@/constants/space";
 
 const PLACEHOLDER_KEYS: Partial<Record<FeedackType, TranslationKey>> = {
   idea: "feedback_modal_message_placeholder_idea",
@@ -46,7 +47,7 @@ export const FeedbackFields = ({
           marginBottom: 24,
           color: colors.textSecondary,
           lineHeight: 20,
-          textAlign: "center",
+          paddingHorizontal: SPACE.lg,
         }}
       >
         {t("feedback_modal_description")}
@@ -76,7 +77,7 @@ export const FeedbackFields = ({
         style={{
           fontSize: 14,
           color: colors.textSecondary,
-          padding: 8,
+          padding: SPACE.lg,
           paddingTop: 0,
           marginTop: 8,
         }}
