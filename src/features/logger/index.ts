@@ -24,3 +24,6 @@ export { EmotionBasicSelection } from "./slides/slide-emotions/emotion-basic-sel
 export { ExpandButton } from "./slides/slide-emotions/expand-button";
 export { NeedsCheck } from "./slides/slide-emotions/needs-check";
 export type { NeedStates } from "./slides/slide-emotions/needs";
+export { SlideHeadline } from "./components/slide-headline";
+export { SlideMoodButton } from "./components/slide-mood-button";
+export { useSlideMarginTop } from "./slides/margin-top";
