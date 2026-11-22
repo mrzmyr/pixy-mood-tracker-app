@@ -16,10 +16,9 @@ import { SettingsProvider, useSettingsLoad } from "@/state/settings";
 import type { LogPhoto } from "@/types";
 import { Entry } from "../screens/log-list/entry";
 
-let mockIsPhotosEnabled = true;
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the photos flag comes from PostHog after consent; each test picks on or off.
+// oxlint-disable-next-line anti-slop/no-module-mocking -- flags come from PostHog after consent; the entry shows no flagged content here.
 jest.mock("@/state/feature-flags", () => ({
-  useFeatureFlag: (flag: string) => flag === "photos" && mockIsPhotosEnabled,
+  useFeatureFlag: () => false,
 }));
 
 const photo: LogPhoto = {
@@ -72,11 +71,7 @@ const renderEntry = ({ photos }: { photos: LogPhoto[] }) =>
   );
 
 describe("day view photos section", () => {
-  afterEach(() => {
-    mockIsPhotosEnabled = true;
-  });
-
-  test("flag on, no photos: add pill, no photo row", async () => {
+  test("no photos: add pill, no photo row", async () => {
     await renderEntry({ photos: [] });
 
     await waitFor(() => {
@@ -87,7 +82,7 @@ describe("day view photos section", () => {
     expect(screen.queryByTestId("photo-add-tile")).toBeNull();
   });
 
-  test("flag on, with photos: thumbnails and edit tile", async () => {
+  test("with photos: thumbnails and edit tile", async () => {
     await renderEntry({ photos: [photo] });
 
     await waitFor(() => {
@@ -97,28 +92,7 @@ describe("day view photos section", () => {
     expect(screen.queryByLabelText("Add Photos")).toBeNull();
   });
 
-  test("flag off, with photos: stored photos stay, no pencil", async () => {
-    mockIsPhotosEnabled = false;
-    await renderEntry({ photos: [photo] });
-
-    await waitFor(() => {
-      expect(screen.getByLabelText("Photo 1 of 1")).toBeTruthy();
-    });
-    expect(screen.queryByTestId("log-list-photos-edit")).toBeNull();
-  });
-
-  test("flag off, no photos: no photo row, no add pill", async () => {
-    mockIsPhotosEnabled = false;
-    await renderEntry({ photos: [] });
-
-    await waitFor(() => {
-      expect(screen.getByLabelText("Add Tags")).toBeTruthy();
-    });
-    expect(screen.queryByTestId("log-list-photos")).toBeNull();
-    expect(screen.queryByTestId("log-list-photos-edit")).toBeNull();
-  });
-
-  test("flag on, native viewer: close tracks distinct photos viewed", async () => {
+  test("native viewer: close tracks distinct photos viewed", async () => {
     const photos = [1, 2, 3].map((index) => ({
       ...photo,
       id: `photo-${index}`,
@@ -161,7 +135,7 @@ describe("day view photos section", () => {
     ]);
   });
 
-  test("flag on, native viewer: screen reader opens the route viewer", async () => {
+  test("native viewer: screen reader opens the route viewer", async () => {
     const push = jest.spyOn(router, "push").mockImplementation(() => {});
     const photos = [1, 2, 3].map((index) => ({
       ...photo,
@@ -186,15 +160,5 @@ describe("day view photos section", () => {
       params: expect.objectContaining({ index: "1" }),
     });
     push.mockRestore();
-  });
-
-  test("flag off: no native viewer, tiles open the route viewer", async () => {
-    mockIsPhotosEnabled = false;
-    await renderEntry({ photos: [photo] });
-
-    await waitFor(() => {
-      expect(screen.getByLabelText("Photo 1 of 1")).toBeTruthy();
-    });
-    expect(screen.queryByTestId("galeria-image-0")).toBeNull();
   });
 });

@@ -743,8 +743,6 @@ export const LoggerEdit = ({
 }) => {
   const logState = useLogState();
   const { hasStep } = useSettings();
-  const hasPeople = useFeatureFlag("people");
-  const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
   const storedItem = logState?.items.find((item) => item.id === id);
 
@@ -764,8 +762,6 @@ export const LoggerEdit = ({
     item: initialItem,
     hasStep,
     hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(initialItem)),
-    hasPeople,
-    isPhotosEnabled,
     isMenstruationEnabled,
   });
 
@@ -829,8 +825,6 @@ export const LoggerCreate = ({
   );
   const questioner = useQuestioner();
   const { hasStep, settings } = useSettings();
-  const hasPeople = useFeatureFlag("people");
-  const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
   const { isEnabled: isSleepAutoFilled } = useHealthSleepSetting();
   const logState = useLogState();
@@ -858,12 +852,10 @@ export const LoggerCreate = ({
     getAvailableStepsForCreate({
       question: questioner.question,
       hasStep,
-      hasPeople,
       reminderEnabled: settings.reminderEnabled,
       itemsCount: logState.items.length,
       hasSleepOnDay: hasSleepOnDate(logState.items, initialItem.date),
       isSleepAutoFilled,
-      isPhotosEnabled,
       isMenstruationEnabled,
       hasMenstruationOnDay: hasMenstruationOnDate(
         logState.items,

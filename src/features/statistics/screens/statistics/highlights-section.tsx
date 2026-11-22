@@ -23,7 +23,6 @@ import { Subtitle } from "./subtitle";
 import { TagPeaksCard } from "./tag-peaks-cards";
 import { TagsDistributionCard } from "./tags-distribution-card";
 import { Title } from "./title";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { PeopleHighlights } from "./people-highlights";
 import {
   getPeopleHighlightProperties,
@@ -78,9 +77,7 @@ export const HighlightsSection = ({ report }: { report: HighlightsReport }) => {
   const showEmotionsDistribution = cards.emotions_distribution.available;
   const showMoodChart = cards.mood_chart.available;
   const showSleepQualityChart = cards.sleep_quality_distribution.available;
-  const hasPeople = useFeatureFlag("people");
   const peopleHighlights = getPeopleHighlightsState({
-    hasPeople,
     highlightedOnly: true,
     cards,
   });
@@ -117,7 +114,6 @@ export const HighlightsSection = ({ report }: { report: HighlightsReport }) => {
     Object.assign(
       highlights,
       getPeopleHighlightProperties({
-        hasPeople,
         state: peopleHighlights,
         distribution: data.peopleDistributionData,
         peaks: data.peoplePeaksData,

@@ -17,7 +17,6 @@ export const makeInput = ({
   firstEntryDate = "2020-01-01",
   items = [],
   steps = ["rating", "tags", "emotions", "people", "photos"],
-  availableSteps = ["rating", "tags", "emotions", "people", "photos"],
   reminderEnabled = false,
   tags = [],
   locationEnabled = false,
@@ -30,7 +29,6 @@ export const makeInput = ({
   firstEntryDate?: string | null;
   items?: Partial<LogItem>[];
   steps?: ConfigurableLoggerStep[];
-  availableSteps?: ConfigurableLoggerStep[];
   reminderEnabled?: boolean;
   tags?: Tag[];
   locationEnabled?: boolean;
@@ -47,7 +45,6 @@ export const makeInput = ({
     history,
     locationEnabled,
     steps: new Set(steps),
-    availableSteps: new Set(availableSteps),
     reminderEnabled,
     tags,
     tagCategories: [{ id: "general", title: "General" }],

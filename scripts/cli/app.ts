@@ -292,7 +292,7 @@ const APP: Noun = {
           title: "Examples",
           lines: [
             "bun app dev --platform=ios",
-            "bun app dev --platform=android --fixture=year --flag=people=on,photos=off",
+            "bun app dev --platform=android --fixture=year --flag=recaps=on,orbit=off",
           ],
         },
       ],

@@ -10,7 +10,6 @@ import {
 } from "@/features/photos";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { RADIUS } from "@/constants/radius";
 import { ModuleIcon } from "@/components/module-icon";
 import { INSET } from "./layout";
@@ -19,11 +18,11 @@ const THUMBNAIL_SIZE = 96;
 
 /**
  * Photos of an entry card as one scrollable row. Each thumbnail opens the
- * viewer. With the photos flag on, the native viewer (`PhotoGallery`) opens:
- * the photo grows from its tile. Web, reduce motion, screen readers, and
- * flag off open `PhotoViewer` through `/photos/[id]`. With `onEdit`, a
- * dashed tile at the end opens the logger at the photos step. Without
- * photos it renders nothing; the add pills offer the step instead.
+ * viewer. The native viewer (`PhotoGallery`) opens: the photo grows from its
+ * tile. Web, reduce motion, and screen readers open `PhotoViewer` through
+ * `/photos/[id]`. With `onEdit`, a dashed tile at the end opens the logger at
+ * the photos step. Without photos it renders nothing; the add pills offer
+ * the step instead.
  */
 export const Photos = ({
   item,
@@ -34,12 +33,10 @@ export const Photos = ({
 }) => {
   const colors = useColors();
   const router = useRouter();
-  const isPhotosEnabled = useFeatureFlag("photos");
   // Galeria animates the photo out of the tile and has no reduce motion
   // option. The route viewer fades instead.
   const isReducedMotion = useReducedMotion();
-  const hasGallery =
-    isPhotosEnabled && IS_PHOTO_GALLERY_SUPPORTED && !isReducedMotion;
+  const hasGallery = IS_PHOTO_GALLERY_SUPPORTED && !isReducedMotion;
   const { photos } = item;
 
   if (photos.length === 0) {

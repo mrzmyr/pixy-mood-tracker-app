@@ -1,13 +1,12 @@
 appId: ${APP_ID}
 tags: [p1, people]
 ---
-# With the `people` flag on, the Statistics tab shows who the user saw most
+# The Statistics tab shows who the user saw most
 # in the last 14 days, and the full highlights list the people cards.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
       FIXTURE: people
-- openLink: ${APP_SCHEME}://dev/feature-flag?key=people&value=on
 - extendedWaitUntil:
     visible:
       id: "calendar-list"

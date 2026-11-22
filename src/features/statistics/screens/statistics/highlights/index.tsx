@@ -15,23 +15,15 @@ import { Title } from "../title";
 import { t } from "@/lib/translation";
 import { MoodChart } from "../mood-chart";
 import { SleepQualityChartCard } from "../sleep-quality-graph";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { PeopleHighlights } from "../people-highlights";
 import {
   getPeopleHighlightProperties,
   getPeopleHighlightsState,
 } from "../people-highlights-state";
 
-const ReportCards = ({
-  report,
-  hasPeople,
-}: {
-  report: HighlightsReport;
-  hasPeople: boolean;
-}) => {
+const ReportCards = ({ report }: { report: HighlightsReport }) => {
   const { cards, data, window } = report;
   const peopleHighlights = getPeopleHighlightsState({
-    hasPeople,
     highlightedOnly: false,
     cards,
   });
@@ -105,8 +97,6 @@ export const StatisticsHighlights = () => {
   const analytics = useAnalytics();
   const report = useHighlightsReport();
 
-  const hasPeople = useFeatureFlag("people");
-
   // Effect event: tracks with the latest visibility flags and analytics, but
   // only when the report content changes (see the effect below).
   const trackHighlights = useEffectEvent((loaded: HighlightsReport) => {
@@ -136,9 +126,7 @@ export const StatisticsHighlights = () => {
     Object.assign(
       highlights,
       getPeopleHighlightProperties({
-        hasPeople,
         state: getPeopleHighlightsState({
-          hasPeople,
           highlightedOnly: false,
           cards,
         }),
@@ -176,7 +164,7 @@ export const StatisticsHighlights = () => {
         >
           <Title>{t("statistics_2_week_highlights")}</Title>
 
-          <ReportCards report={report} hasPeople={hasPeople} />
+          <ReportCards report={report} />
         </View>
       </ScrollView>
     </View>

@@ -66,7 +66,6 @@ describe("getUsageSummary()", () => {
         tags,
         people,
         settings,
-        isPhotosEnabled: true,
         photoLibraryAccess: "granted",
         now: NOW,
       })
@@ -93,7 +92,6 @@ describe("getUsageSummary()", () => {
       steps: INITIAL_STATE.steps,
       onboarding_done: true,
       questions_answered_count: 1,
-      photos_enabled: true,
       photos_pct_30d: 0,
       photos_count: 0,
       photos_day_pct: null,
@@ -125,7 +123,6 @@ describe("getUsageSummary()", () => {
       items,
       tags: [],
       settings,
-      isPhotosEnabled: false,
       photoLibraryAccess: "limited",
       now: NOW,
     });
@@ -146,7 +143,6 @@ describe("getUsageSummary()", () => {
       items: [],
       tags: [],
       settings: { ...settings, reminderEnabled: false, actionsDone: [] },
-      isPhotosEnabled: false,
       photoLibraryAccess: "unavailable",
       now: NOW,
     });

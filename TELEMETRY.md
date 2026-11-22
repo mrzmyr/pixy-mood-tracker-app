@@ -117,6 +117,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Removed properties**
 
 - `recaps:story_shared` lost `has_photos` and `shuffles`: the share card shows pixels only, no photos, no Shuffle (PIX-58)
+- Usage summary lost `photos_enabled`: photos no longer need the `photos` feature flag, so the value was always `true`
 
 **Added events**
 

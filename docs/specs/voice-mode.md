@@ -15,7 +15,6 @@ Speak about your day. Pixy transcribes on device, finds known people, tags, and 
 - iOS < 26: `SFSpeechRecognizer` on-device mode. Needs Siri on (`kLSRErrorDomain 201` "Siri and Dictation are disabled", found on device 2026-10-15). Siri off: state "voice mode needs Siri"
 - Matching: on-device keyword match (option a). Swappable matcher for Apple Foundation Models later (option c, out of scope)
 - Match only existing, non-archived tags, people, and enabled emotions. Unknown names are ignored. Nothing is auto-created
-- People match only when flag `people` is on
 - Rating is never inferred from tone. Only a spoken mood trigger word sets it ([Mood triggers](#mood-triggers)). User reviews it on the rating slide
 - Transcript goes into the entry note, editable
 - Check button opens the quick check-in, prefilled ([`applyVoicePrefill`](../../src/features/quickcheckin/draft.ts)). Transcript goes into its note. Never saves directly. No feedback sheet

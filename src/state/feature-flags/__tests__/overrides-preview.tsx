@@ -26,22 +26,22 @@ describe("feature flag overrides in preview builds", () => {
   test("override wins without consent and `remote` removes it", async () => {
     const hook = await renderHook(() => ({
       canOverride: useCanOverrideFeatureFlags(),
-      isOn: useFeatureFlag("photos"),
+      isOn: useFeatureFlag("recaps"),
     }));
     expect(hook.result.current).toEqual({ canOverride: true, isOn: false });
 
     await act(() => {
-      setOverride({ key: "photos", value: "on" });
+      setOverride({ key: "recaps", value: "on" });
     });
     expect(hook.result.current.isOn).toBe(true);
 
     await act(() => {
-      setOverride({ key: "photos", value: "off" });
+      setOverride({ key: "recaps", value: "off" });
     });
     expect(hook.result.current.isOn).toBe(false);
 
     await act(() => {
-      setOverride({ key: "photos", value: "remote" });
+      setOverride({ key: "recaps", value: "remote" });
     });
     expect(hook.result.current.isOn).toBe(false);
   });
