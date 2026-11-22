@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-11-08",
+  "verifiedOn": "2026-11-22",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -133,10 +133,11 @@
       "label": "Tag icons",
       "status": "flagged",
       "group": "logging",
-      "description": "Each tag gets an icon from about 250 icons, colored in the tag color. An icon is suggested for the tag name: Apple Intelligence on device on iOS 26, keyword match elsewhere. Icon and color are picked in one sheet. Behind the tag-icons feature flag.",
+      "description": "Each tag gets an icon from about 250 icons, colored in the tag color. An icon is suggested for the tag name: Apple Intelligence on device on iOS 26, keyword match elsewhere. Icon and color are picked in one sheet. The tag list and the check-in tag chips show the icon. Behind the tag-icons feature flag.",
       "evidence": [
         "src/features/tags/tag-icons.ts",
         "src/features/tags/screens/tag-icon-picker.tsx",
+        "src/features/tags/components/tag.tsx",
         "src/state/feature-flags/keys.ts"
       ]
     },

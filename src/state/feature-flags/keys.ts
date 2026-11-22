@@ -122,8 +122,8 @@ export const FEATURE_FLAG_DETAILS: Record<
   },
   "tag-icons": {
     description:
-      "Tag icon in the name field, icon and color picker sheet, suggested icons",
-    location: "Tags > Create Tag, Edit Tag",
+      "Tag icons in the tag list, check-in tag chips, and the name field; icon and color picker sheet, suggested icons",
+    location: "Tags > Create Tag, Edit Tag, tag list; Check-in > Tags",
   },
   "voice-mode": {
     description: "Talk about your day; Pixy prefills a check-in",

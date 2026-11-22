@@ -2,6 +2,7 @@ import type { IconSvgObject } from "@hugeicons/core-free-icons/types";
 import { useMemo } from "react";
 import { DuotoneIcon } from "@/components/duotone-icon";
 import type { DuotoneTint } from "@/components/duotone-icon";
+import themes from "@/constants/colors";
 import useColors from "@/hooks/use-colors";
 import {
   DEFAULT_TAG_ICON,
@@ -41,15 +42,22 @@ export const TagIcon = ({
   icon,
   color,
   size = 24,
+  surface,
 }: {
   icon: Tag["icon"];
   color: Tag["color"];
   size?: number;
+  /**
+   * Surface the icon sits on. Defaults to the app theme. A selected chip is
+   * inverted, so its icon draws for the opposite surface.
+   */
+  surface?: "light" | "dark";
 }) => {
   const colors = useColors();
   const key = icon && isTagIconKey(icon) ? icon : DEFAULT_TAG_ICON;
   const tintLayer = useMemo(() => tintLayerFor(key), [key]);
-  const tagColors = colors.tags[color] ?? colors.tags.slate;
+  const tags = surface ? themes[surface].tags : colors.tags;
+  const tagColors = tags[color] ?? tags.slate;
 
   return (
     <DuotoneIcon
