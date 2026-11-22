@@ -2,7 +2,7 @@ import { useLogLoad } from "@/features/logs";
 import { usePeopleLoad } from "@/features/people";
 import { useTagsLoad } from "@/features/tags";
 import { useFeatureFlagState } from "@/state/feature-flags";
-import { useSetting, useSettingsLoad } from "@/state/settings";
+import { useSettingsLoad } from "@/state/settings";
 
 /**
  * Whether a glance surface should run. Both values stay `false` until the
@@ -14,7 +14,6 @@ import { useSetting, useSettingsLoad } from "@/state/settings";
  */
 export const useQuickCheckInStatus = (isSupported: boolean) => {
   const flagState = useFeatureFlagState("quick-check-in");
-  const isSettingOn = useSetting("quickCheckInEnabled") === true;
   const loads = [
     useSettingsLoad(),
     useLogLoad(),
@@ -23,6 +22,6 @@ export const useQuickCheckInStatus = (isSupported: boolean) => {
   ];
   const isReady = loads.every((load) => load.status === "ready");
   const isKnown = isSupported && isReady && flagState !== "loading";
-  const isOn = flagState === "on" && isSettingOn;
+  const isOn = flagState === "on";
   return { isEnabled: isKnown && isOn, isDisabled: isKnown && !isOn };
 };

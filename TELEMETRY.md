@@ -50,7 +50,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
   - `trigger`: `first` (first prompt, from 7 entries), `later` (later prompt, from 30 entries). Never the mood behind it
   - `entries_count`: all saved entries. Never ratings or averages
   - OS decides whether prompt shows
-- Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`), `quick_check_in:setting_changed` (`enabled`), `quick_check_in:schedule_changed` (`every_hours`, `from`, `until` as picked `HH:mm`, `times_count`), `quick_check_in:notification_tapped` (`cold_start`). `source`: `notification` (Android), `app`. Never people or tag names
+- Quick check-in ([`src/features/quickcheckin`](src/features/quickcheckin)), flag `quick-check-in`: `quick_check_in:entry_saved` (`source`), `quick_check_in:completed` (`source`, `has_emotion`, `influences_count`). `source`: `notification` (Android), `app`. Never people or tag names
 - Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](src/features/logger/confirmation))
   - Shown only after create, not edit
   - Entry metadata: `has_rating`, `has_sleep`, counts, `message_word_count`, `entries_count`
@@ -158,6 +158,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `tags:category_created`: users can no longer create tag categories. Existing categories stay; rename, delete, and reorder still send their events. No replacement
 - `recaps:story_quiz_answered`: quiz slide removed from recap stories. Back after `v1.104.0` for the people quiz with `is_correct` only; `quiz` and `module` are no longer sent
 - `interventions:*`: interventions removed after `v1.112.0` with flag `interventions`. No replacement
+- `quick_check_in:setting_changed`, `quick_check_in:schedule_changed`, `quick_check_in:notification_tapped`: quick check-in notifications and their schedule in Settings > Reminders removed after `v1.115.0` (flag `quick-check-in`). The quick check-in screen opens from the calendar. No replacement
 
 **Changed properties** (first release after `v1.104.0`)
 

@@ -83,7 +83,7 @@ const StepRow = ({
  * `apple-health` feature flag.
  * `people`, `photos`, and `menstruation` show only behind their feature
  * flags.
- * Quick check-ins live in Settings > Reminders. Native grouped list on iOS and Android.
+ * Native grouped list on iOS and Android.
  */
 export const StepsScreen = () => {
   const colors = useColors();
