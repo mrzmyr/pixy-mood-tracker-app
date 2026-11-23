@@ -147,6 +147,16 @@ describe("input hash", () => {
     expect(hashWith(edit("tags/index"))).not.toBe(base);
   });
 
+  test("a layout variable only another route reads keeps the hash", () => {
+    const layout = "src/app/(app)/_layout.tsx";
+    const edit = replace(
+      layout,
+      /const orbitOptions = [^;]+;/u,
+      'const orbitOptions = { title: "x" };'
+    );
+    expect(hashWith(edit)).toBe(base);
+  });
+
   test("a developer tool screen no capture opens keeps every hash", () => {
     const edit = runsOnLoad("src/dev/playground.tsx");
     expect(hashWith(edit)).toBe(base);

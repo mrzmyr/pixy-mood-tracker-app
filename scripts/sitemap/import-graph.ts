@@ -293,14 +293,15 @@ const readModuleRecord = (
   }
   for (const entry of module.staticExports.flatMap((item) => item.entries)) {
     const exportName = nameOf(entry.exportName);
-    if (entry.isType || !exportName) {
+    if (entry.isType) {
       continue;
     }
-    if (!entry.moduleRequest) {
-      record.locals.set(exportName, entry.localName.name ?? DEFAULT_LOCAL);
-    } else if (entry.importName.kind === "AllButDefault") {
+    // `export * from` has no export name: check it before the name.
+    if (entry.moduleRequest && entry.importName.kind === "AllButDefault") {
       record.stars.push(entry.moduleRequest.value);
-    } else {
+    } else if (!exportName) {
+      continue;
+    } else if (entry.moduleRequest) {
       record.reexports.set(exportName, {
         spec: entry.moduleRequest.value,
         name:
@@ -308,6 +309,8 @@ const readModuleRecord = (
             ? ALL
             : (nameOf(entry.importName) ?? ALL),
       });
+    } else {
+      record.locals.set(exportName, entry.localName.name ?? DEFAULT_LOCAL);
     }
   }
 };
@@ -468,11 +471,14 @@ const sha256 = (value: string) =>
 const textWithout = (code: string, unit: Unit, spans: Span[]) => {
   let text = "";
   let cursor = unit.start;
-  for (const span of spans.filter(
-    ({ start, end }) => start >= unit.start && end <= unit.end
-  )) {
-    text += code.slice(cursor, span.start);
-    cursor = span.end;
+  const within = spans
+    .filter(({ start, end }) => start >= unit.start && end <= unit.end)
+    .toSorted((a, b) => a.start - b.start);
+  for (const span of within) {
+    if (span.end > cursor) {
+      text += code.slice(cursor, Math.max(cursor, span.start));
+      cursor = span.end;
+    }
   }
   return text + code.slice(cursor, unit.end);
 };
@@ -494,6 +500,42 @@ const screenIsShown = (layout: string, name: string, routes: string[]) =>
       .replace(/\.[^./]+$/u, "");
     return relative === name || relative.startsWith(`${name}/`);
   });
+
+const HOOK_CALL = /\buse[A-Z]\w*\s*\(/u;
+
+const inside = (spans: Span[], start: number) =>
+  spans.some((span) => start >= span.start && start < span.end);
+
+/**
+ * Adds layout variables that only hidden `<Stack.Screen>` elements read,
+ * like `const orbitOptions = …` inside the layout component. Repeats until
+ * nothing changes. Never hides a hook call: hooks run on every render.
+ */
+const hideUnusedVariables = (record: ModuleRecord, screens: Span[]) => {
+  const idents = record.units.flatMap((unit) => unit.idents);
+  const hidden = [...screens];
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const [name, spans] of record.variables) {
+      const isHidden = spans.every((span) => inside(hidden, span.start));
+      const readsOutside = idents.some(
+        (ident) =>
+          ident.name === name &&
+          !inside(spans, ident.start) &&
+          !inside(hidden, ident.start)
+      );
+      const callsHook = spans.some((span) =>
+        HOOK_CALL.test(record.code.slice(span.start, span.end))
+      );
+      if (!isHidden && !readsOutside && !callsHook) {
+        hidden.push(...spans);
+        changed = true;
+      }
+    }
+  }
+  return hidden;
+};
 
 /**
  * Import graph of tracked source files, resolved per export name and per
@@ -590,8 +632,11 @@ export const createImportGraph = (
     const hiddenOf = (file: string, record: ModuleRecord) => {
       let hidden = hiddenCache.get(file);
       if (!hidden) {
-        hidden = record.screens.filter(
-          (screen) => !screenIsShown(file, screen.name, shown)
+        hidden = hideUnusedVariables(
+          record,
+          record.screens.filter(
+            (screen) => !screenIsShown(file, screen.name, shown)
+          )
         );
         hiddenCache.set(file, hidden);
       }
