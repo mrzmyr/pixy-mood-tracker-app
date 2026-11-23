@@ -6,7 +6,9 @@ import { BackHandler, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { setStatusBarHidden } from "expo-status-bar";
 import { useFeedback } from "@/features/feedback";
+import { useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
+import { useStoreReviewPrompt } from "@/features/review";
 import { useTagsState } from "@/features/tags";
 import useHaptics from "@/hooks/use-haptics";
 import { useAnalytics } from "@/state/analytics";
@@ -126,6 +128,8 @@ const RecapStory = () => {
   const analytics = useAnalytics();
   const feedbackChannel = useFeedback();
   const haptics = useHaptics();
+  const logState = useLogState();
+  const requestStoreReviewPrompt = useStoreReviewPrompt();
   const params = useLocalSearchParams<{
     date?: string;
     source?: string;
@@ -190,11 +194,19 @@ const RecapStory = () => {
     }
   });
   const close = () => {
+    const isCompleted = lastShown.current === count - 1;
     analytics.track("recaps:story_closed", {
       position: lastShown.current + 1,
       slides_count: count,
-      completed: lastShown.current === count - 1,
+      completed: isCompleted,
     });
+    if (isCompleted) {
+      requestStoreReviewPrompt({
+        kind: "recap_completed",
+        entriesCount: logState.items.length,
+        hasNotHelpful: [...answers.values()].includes(false),
+      });
+    }
     void transition.close();
   };
 

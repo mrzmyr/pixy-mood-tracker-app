@@ -28,17 +28,32 @@ const YEAR_MS = 365 * DAY_MS;
 /** Analytics `trigger` value: the moment that requested the prompt. */
 export type StoreReviewTrigger = "entries_7" | "good_entry_30";
 
-/** Good moment that may request the prompt. Mood values never leave the app. */
-export interface StoreReviewMoment {
-  /** New entry saved. Edits never count. */
-  kind: "entry_saved";
-  /** Saved entries across all time, including the entry just saved. */
-  entriesCount: number;
-  /** Rating the user picked; `null` when the entry got the fallback. */
-  rating: LogItem["rating"] | null;
-  /** The entry has an emotion of category `bad` or `very_bad`. */
-  hasNegativeEmotion: boolean;
-}
+/**
+ * Good moment that may request the prompt. Each kind has its own positive
+ * check in {@link isPositive}. Mood values never leave the app.
+ */
+export type StoreReviewMoment =
+  | {
+      /** New entry saved. Edits never count. */
+      kind: "entry_saved";
+      /** Saved entries across all time, including the entry just saved. */
+      entriesCount: number;
+      /** Rating the user picked; `null` when the entry got the fallback. */
+      rating: LogItem["rating"] | null;
+      /** The entry has an emotion of category `bad` or `very_bad`. */
+      hasNegativeEmotion: boolean;
+    }
+  | {
+      /** Month recap story closed after its last slide. */
+      kind: "recap_completed";
+      /** Saved entries across all time. */
+      entriesCount: number;
+      /** The user marked a slide of this story as Not Helpful. */
+      hasNotHelpful: boolean;
+    };
+
+/** Analytics `moment` value: kind of the moment that requested the prompt. */
+export type StoreReviewMomentKind = StoreReviewMoment["kind"];
 
 /** Device, build, and prompt history that limit every moment. */
 export interface StoreReviewGate {
@@ -60,12 +75,20 @@ export interface StoreReviewGate {
 const isGood = (rating: LogItem["rating"] | null) =>
   rating !== null && RATING_MAPPING[rating] >= RATING_MAPPING.good;
 
+/** The moment is clearly positive for the user. */
+const isPositive = (moment: StoreReviewMoment): boolean => {
+  if (moment.kind === "entry_saved") {
+    return isGood(moment.rating) && !moment.hasNegativeEmotion;
+  }
+  return !moment.hasNotHelpful;
+};
+
 /** Trigger of `moment` when it is clearly positive, else `null`. */
 const getTrigger = (
   moment: StoreReviewMoment,
   hasPrompted: boolean
 ): StoreReviewTrigger | null => {
-  if (!isGood(moment.rating) || moment.hasNegativeEmotion) {
+  if (!isPositive(moment)) {
     return null;
   }
   if (!hasPrompted) {
