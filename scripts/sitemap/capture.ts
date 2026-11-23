@@ -23,6 +23,7 @@ import type { FeatureFlag } from "./flags.ts";
 import {
   createInputHasher,
   readNativeFingerprint,
+  readChangedFiles,
   readSource,
   sha256,
 } from "./inputs.ts";
@@ -710,9 +711,10 @@ const planStates = (
       screen.states.map((state) => stateKey(screen, state))
     )
   );
+  const changed = readChangedFiles();
   return pairStates(readSite()).flatMap(({ screen, state, result }) =>
     variantsOf(screen).map((variant) => {
-      let reason = staleReason(hash, screen, state, variant, result);
+      let reason = staleReason(hash, screen, state, variant, result, changed);
       const committed = result?.variants[variantId(variant)];
       if (!reason && committed) {
         const lost = [committed.off?.pngHash, committed.on?.pngHash].filter(

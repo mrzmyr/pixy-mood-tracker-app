@@ -1,22 +1,29 @@
 // Source pin and per-state input hashes.
 //
 // Input hash of a state = git blob ids of every file its route can load
-// (static import closure from the route file, both root layouts, and the
-// fixture and flag link routes, resolved per platform) + shared build inputs
-// + native fingerprint + variant and its device profile + fixture, flags,
-// route, and wait condition.
+// (import closure from the route file, both root layouts, and the fixture
+// and flag link routes, resolved per platform and per imported name) +
+// capture-language text of the translation keys those files name + shared
+// build inputs + native fingerprint + variant and its device profile +
+// fixture, flags, route, and wait condition.
 import { execFileSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
 import { createFingerprintAsync } from "@expo/fingerprint";
+import { z } from "zod";
 
 import { CliError } from "../cli/shared.ts";
+import { FEATURE_FLAGS } from "./flags.ts";
+import type { FeatureFlag } from "./flags.ts";
+import { createImportGraph } from "./import-graph.ts";
+import type { ReadFile } from "./import-graph.ts";
 import { passFlags } from "./manifest.ts";
 import type { Pass, ScreenSpec, StateSpec } from "./manifest.ts";
 import {
   CLOCK_BUDGET_SECONDS,
+  DEVICE_PROFILE,
   SCHEMA_VERSION,
   profileOf,
   variantId,
@@ -96,107 +103,9 @@ export const readNativeFingerprint = async () => {
   }
 };
 
-const SOURCE_EXTENSIONS = [".tsx", ".ts", ".jsx", ".js", ".cjs"];
-/** Metro resolution order: platform file, native file, plain file. */
-const resolveSuffixes = (platform: Platform) => [
-  "",
-  `.${platform}.tsx`,
-  `.${platform}.ts`,
-  ".native.tsx",
-  ".native.ts",
-  ".tsx",
-  ".ts",
-  ".jsx",
-  ".js",
-  ".json",
-  `/index.${platform}.tsx`,
-  "/index.tsx",
-  "/index.ts",
-  "/index.js",
-];
-
-/** Static import graph of tracked source files, resolved lazily per file. */
-export const createImportGraph = (
-  blobs: Map<string, string>,
-  platform: Platform
-) => {
-  const suffixes = resolveSuffixes(platform);
-  // `.ts` needs the ts loader: tsx reads `<T>(value) =>` as JSX.
-  const tsTranspiler = new Bun.Transpiler({ loader: "ts" });
-  const tsxTranspiler = new Bun.Transpiler({ loader: "tsx" });
-  const jsTranspiler = new Bun.Transpiler({ loader: "jsx" });
-  const transpilerFor = (file: string) => {
-    const extension = path.extname(file);
-    if (extension === ".ts") {
-      return tsTranspiler;
-    }
-    return extension === ".tsx" ? tsxTranspiler : jsTranspiler;
-  };
-  const edges = new Map<string, string[]>();
-
-  const resolve = (spec: string, from: string) => {
-    let base: string;
-    if (spec.startsWith("@/")) {
-      base = path.posix.join("src", spec.slice(2));
-    } else if (spec.startsWith(".")) {
-      base = path.posix.normalize(
-        path.posix.join(path.posix.dirname(from), spec)
-      );
-    } else {
-      // Packages: bun.lock is a shared input.
-      return null;
-    }
-    for (const suffix of suffixes) {
-      const candidate = `${base}${suffix}`;
-      if (blobs.has(candidate)) {
-        return candidate;
-      }
-    }
-    return null;
-  };
-
-  const importsOf = (file: string) => {
-    const cached = edges.get(file);
-    if (cached) {
-      return cached;
-    }
-    let found: string[] = [];
-    if (SOURCE_EXTENSIONS.includes(path.extname(file))) {
-      const code = fs.readFileSync(path.join(REPO_ROOT, file), "utf-8");
-      try {
-        found = transpilerFor(file)
-          .scanImports(code)
-          .map((entry) => resolve(entry.path, file))
-          .filter((entry): entry is string => entry !== null);
-      } catch (error) {
-        throw new CliError({
-          status: "import_scan_failed",
-          message: `Could not read imports of ${file}`,
-          why: error instanceof Error ? error.message : String(error),
-          fix: "Fix the syntax error in that file, then retry.",
-        });
-      }
-    }
-    edges.set(file, found);
-    return found;
-  };
-
-  /** Every tracked file reachable from the entries, sorted. */
-  const closure = (entries: string[]) => {
-    const seen = new Set<string>();
-    const queue = [...entries];
-    while (queue.length > 0) {
-      const file = queue.pop();
-      if (file !== undefined && !seen.has(file)) {
-        seen.add(file);
-        queue.push(...importsOf(file));
-      }
-    }
-    return [...seen].toSorted();
-  };
-
-  return { closure };
-};
+/** Reads a checkout file from the working tree. */
+const readWorkingTree: ReadFile = (file) =>
+  fs.readFileSync(path.join(REPO_ROOT, file), "utf-8");
 
 /** Route path to its file under src/app, for example /settings/data. */
 export const findRouteFile = (
@@ -244,14 +153,15 @@ export const findRouteFile = (
   return best;
 };
 
+const APP_LAYOUT = "src/app/(app)/_layout.tsx";
 const ROOT_ENTRIES = [
   "src/app/_layout.tsx",
-  "src/app/(app)/_layout.tsx",
-  // Fixture and flag links end on the calendar; sheets show it behind them.
-  "src/app/(app)/calendar.tsx",
+  APP_LAYOUT,
   "src/app/(app)/dev/fixture.tsx",
   "src/app/(app)/dev/feature-flag.tsx",
 ];
+/** Fixture and flag links end on the calendar; sheets show it at the top. */
+const CALENDAR = "src/app/(app)/calendar.tsx";
 
 /**
  * Files outside the import graph that change any screenshot of a platform.
@@ -264,37 +174,187 @@ const SHARED_PATTERNS: Record<Platform, RegExp[]> = {
   ],
   android: [/^scripts\/sitemap\/(?:device-android|android-app)\.ts$/u],
 };
+/**
+ * package.json, bun.lock, app.json, and translations count only in part:
+ * see packageInputs, lockInputs, appJsonInputs, and copyHash.
+ */
 const COMMON_PATTERNS = [
-  /^package\.json$/u,
-  /^bun\.lock$/u,
   /^(?:metro|babel)\.config\.js$/u,
-  /^app\.(?:config\.ts|json)$/u,
+  /^scripts\/sitemap\/capture-stubs\.cjs$/u,
+  /^app\.config\.ts$/u,
   /^eas\.json$/u,
   /^tsconfig\.json$/u,
   /^patches\//u,
-  /^assets\//u,
   /^scripts\/sitemap\/(?:capture-polyfill\.js|attempt\.ts|profile\.ts|png\.ts)$/u,
 ];
+
+/** Translation tables. Only the capture language counts, key by key. */
+const LOCALE_FILE = /^assets\/locales\/[^/]+\.json$/u;
+const COPY_FILE = `assets/locales/${DEVICE_PROFILE.language}.json`;
+/** Shortest template head or `+` head read as a translation key prefix. */
+const MIN_KEY_PREFIX = 3;
+
+/** Dev dependencies that transform app code: babel.config.js loads them. */
+const BUNDLE_DEV_DEPENDENCIES = ["@babel/core", "babel-plugin-module-resolver"];
+
+const PackageJson = z.looseObject({
+  main: z.string().optional(),
+  expo: z.json().optional(),
+  dependencies: z.record(z.string(), z.string()).default({}),
+  devDependencies: z.record(z.string(), z.string()).default({}),
+  overrides: z.json().optional(),
+  patchedDependencies: z.json().optional(),
+});
+
+/** package.json without release version, scripts, and tool config. */
+const packageInputs = (text: string) => {
+  const pkg = PackageJson.parse(JSON.parse(text));
+  return JSON.stringify({
+    main: pkg.main,
+    expo: pkg.expo,
+    dependencies: pkg.dependencies,
+    bundleDevDependencies: BUNDLE_DEV_DEPENDENCIES.map((name) => [
+      name,
+      pkg.devDependencies[name] ?? null,
+    ]),
+    overrides: pkg.overrides,
+    patchedDependencies: pkg.patchedDependencies,
+  });
+};
+
+const AppJson = z.looseObject({ expo: z.looseObject({}).default({}) });
+
+/** app.json without the release version: no screen shows it. */
+const appJsonInputs = (text: string) => {
+  const config = AppJson.parse(JSON.parse(text));
+  return JSON.stringify({ ...config, expo: { ...config.expo, version: null } });
+};
+
+/** bun.lock entry: `[name@version, registry, meta?, integrity?]`. */
+const LockPackage = z.tuple([z.string(), z.string()]).rest(z.json());
+const LockMeta = z.looseObject({
+  dependencies: z.record(z.string(), z.string()).default({}),
+  optionalDependencies: z.record(z.string(), z.string()).default({}),
+  peerDependencies: z.record(z.string(), z.string()).default({}),
+});
+const Lockfile = z.object({
+  workspaces: z.record(
+    z.string(),
+    z.looseObject({
+      dependencies: z.record(z.string(), z.string()).default({}),
+    })
+  ),
+  overrides: z.json().optional(),
+  patchedDependencies: z.json().optional(),
+  packages: z.record(z.string(), LockPackage),
+});
+
+/**
+ * bun.lock entries the app bundle can load: runtime dependencies and the
+ * babel packages, with everything they depend on. Bumping a test or lint
+ * tool keeps every hash.
+ */
+const lockInputs = (text: string) => {
+  // bun.lock is JSON with trailing commas.
+  const lock = Lockfile.parse(
+    JSON.parse(text.replaceAll(/,(?<close>\s*[}\]])/gu, "$<close>"))
+  );
+  const used = new Map<string, z.infer<typeof LockPackage>>();
+  // Name with the entry keys of its dependents: bun nests a package under
+  // the key of the package that needs another version.
+  const queue = [
+    ...Object.keys(lock.workspaces[""]?.dependencies ?? {}),
+    ...BUNDLE_DEV_DEPENDENCIES,
+  ].map((name) => ({ name, chain: new Array<string>() }));
+  for (let item = queue.pop(); item; item = queue.pop()) {
+    const { name, chain } = item;
+    const key = [...chain.toReversed(), ""]
+      .map((parent) => (parent ? `${parent}/${name}` : name))
+      .find((candidate) => candidate in lock.packages);
+    const entry = key === undefined ? undefined : lock.packages[key];
+    if (key === undefined || !entry || used.has(key)) {
+      continue;
+    }
+    used.set(key, entry);
+    const meta = LockMeta.safeParse(entry[2]);
+    const dependencies = meta.success
+      ? [
+          ...Object.keys(meta.data.dependencies),
+          ...Object.keys(meta.data.optionalDependencies),
+          ...Object.keys(meta.data.peerDependencies),
+        ]
+      : [];
+    for (const dependency of dependencies) {
+      queue.push({ name: dependency, chain: [...chain, key] });
+    }
+  }
+  return JSON.stringify({
+    overrides: lock.overrides,
+    patchedDependencies: lock.patchedDependencies,
+    packages: [...used.entries()].toSorted(([a], [b]) => a.localeCompare(b)),
+  });
+};
+
+/** Partly counted files and how to reduce each to what screens can show. */
+const PARTIAL_INPUTS = {
+  "package.json": packageInputs,
+  "bun.lock": lockInputs,
+  "app.json": appJsonInputs,
+} satisfies Record<string, (text: string) => string>;
+
+/** Translation table of the capture language: key to text or plural forms. */
+const CopyTable = z.record(z.string(), z.json());
+
+/** What makes a state's input hash, file by file, for stale reasons. */
+export interface StateInputs {
+  /** Files whose whole content counts. */
+  files: string[];
+  /** Files that count in part: package.json, bun.lock, app.json. */
+  partial: string[];
+  /** Translation keys whose capture-language text counts. */
+  keys: string[];
+}
 
 /** Input hashes for many states, sharing one import graph per platform. */
 export const createInputHasher = ({
   source,
   nativeFingerprint,
+  read = readWorkingTree,
 }: {
   source: Source;
   nativeFingerprint: string;
+  read?: ReadFile;
 }) => {
+  const partialHash = Object.fromEntries(
+    Object.entries(PARTIAL_INPUTS)
+      .filter(([file]) => source.blobs.has(file))
+      .map(([file, reduce]) => [file, sha256(reduce(read(file)))])
+  );
+  const copy = source.blobs.has(COPY_FILE)
+    ? CopyTable.parse(JSON.parse(read(COPY_FILE)))
+    : {};
+  const copyKeys = Object.keys(copy).toSorted();
+
   const perPlatform = (platform: Platform) => {
-    const graph = createImportGraph(source.blobs, platform);
+    const graph = createImportGraph(source.blobs, platform, read);
     const patterns = [...COMMON_PATTERNS, ...SHARED_PATTERNS[platform]];
-    const shared = hashList(
-      [...source.blobs.entries()]
-        .filter(([file]) => patterns.some((pattern) => pattern.test(file)))
-        .toSorted(([a], [b]) => a.localeCompare(b))
+    const sharedFiles = [...source.blobs.keys()]
+      .filter((file) => patterns.some((pattern) => pattern.test(file)))
+      .toSorted();
+    const shared = sha256(
+      JSON.stringify({
+        files: hashList(
+          sharedFiles.map((file) => [file, source.blobs.get(file) ?? ""])
+        ),
+        partial: partialHash,
+      })
     );
-    const depsByRoute = new Map<string, string>();
-    const depsHash = (route: string) => {
-      const cached = depsByRoute.get(route);
+    const byRoute = new Map<
+      string,
+      { hash: string; flags: FeatureFlag[]; inputs: StateInputs }
+    >();
+    const routeInputs = (route: string) => {
+      const cached = byRoute.get(route);
       if (cached) {
         return cached;
       }
@@ -307,14 +367,51 @@ export const createInputHasher = ({
           fix: "Fix the route in scripts/sitemap/states.ts, then retry.",
         });
       }
-      const files = graph.closure([routeFile, ...ROOT_ENTRIES]);
-      const hash = hashList(
-        files.map((file) => [file, source.blobs.get(file) ?? "missing"])
+      const {
+        files: reached,
+        strings,
+        prefixes,
+      } = graph.closure([
+        routeFile,
+        ...ROOT_ENTRIES,
+        ...(graph.isModal(APP_LAYOUT, routeFile) ? [CALENDAR] : []),
+      ]);
+      // package.json and app.json count without the release version, also
+      // where code imports them: Settings shows the version of its last
+      // capture.
+      const files = [...reached.entries()].flatMap(
+        ([file, hash]): [string, string][] =>
+          LOCALE_FILE.test(file) ? [] : [[file, partialHash[file] ?? hash]]
       );
-      depsByRoute.set(route, hash);
-      return hash;
+      const keyPrefixes = [...prefixes].filter(
+        (prefix) => prefix.length >= MIN_KEY_PREFIX
+      );
+      const keys = copyKeys.filter(
+        (key) =>
+          strings.has(key) ||
+          keyPrefixes.some((prefix) => key.startsWith(prefix))
+      );
+      // Flags no reached statement names cannot change this route.
+      const flags = FEATURE_FLAGS.filter((flag) => strings.has(flag));
+      const hash = sha256(
+        JSON.stringify({
+          files: hashList(files),
+          copy: keys.map((key) => [key, copy[key]]),
+        })
+      );
+      const result = {
+        hash,
+        flags,
+        inputs: {
+          files: [...sharedFiles, ...files.map(([file]) => file)],
+          partial: Object.keys(partialHash),
+          keys,
+        },
+      };
+      byRoute.set(route, result);
+      return result;
     };
-    return { shared, depsHash };
+    return { shared, routeInputs };
   };
   const platforms = {
     ios: perPlatform("ios"),
@@ -322,14 +419,15 @@ export const createInputHasher = ({
   };
 
   /** Input hash of one state in one pass and variant. */
-  return (
+  const hash = (
     screen: ScreenSpec,
     state: StateSpec,
     pass: Pass,
     variant: Variant
   ) => {
     const { route } = screen;
-    const { shared, depsHash } = platforms[variant.platform];
+    const { shared, routeInputs } = platforms[variant.platform];
+    const deps = routeInputs(route);
     return sha256(
       JSON.stringify({
         schema: SCHEMA_VERSION,
@@ -338,12 +436,76 @@ export const createInputHasher = ({
         clockBudget: CLOCK_BUDGET_SECONDS,
         nativeFingerprint,
         shared,
-        deps: depsHash(route),
+        deps: deps.hash,
         route,
         fixture: state.fixture,
-        flags: passFlags(screen, pass),
+        flags: passFlags(screen, pass).filter((flag) =>
+          deps.flags.includes(flag)
+        ),
         wait: state.wait,
       })
     );
   };
+  /** Files and translation keys behind a screen's hash on a platform. */
+  const inputsOf = (screen: ScreenSpec, variant: Variant) =>
+    platforms[variant.platform].routeInputs(screen.route).inputs;
+  return Object.assign(hash, { inputsOf });
+};
+
+/**
+ * Files that differ from the main branch: commits since the merge base
+ * with origin/main plus uncommitted changes. Empty without origin/main.
+ */
+export const readChangedFiles = (): Set<string> => {
+  let base: string;
+  try {
+    base = git(["merge-base", "HEAD", "origin/main"]);
+  } catch {
+    return new Set();
+  }
+  const files = [
+    ...git(["diff", "--name-only", base]).split("\n"),
+    ...git(["ls-files", "--others", "--exclude-standard"]).split("\n"),
+  ].filter(Boolean);
+  // package.json without a runtime change does not reach any state.
+  const counts = (file: string) => {
+    const reduce = Object.entries(PARTIAL_INPUTS).find(
+      ([name]) => name === file
+    )?.[1];
+    if (!reduce || !fs.existsSync(path.join(REPO_ROOT, file))) {
+      return true;
+    }
+    try {
+      return (
+        reduce(git(["show", `${base}:${file}`])) !==
+        reduce(readWorkingTree(file))
+      );
+    } catch {
+      return true;
+    }
+  };
+  return new Set(files.filter(counts));
+};
+
+/**
+ * Changed files a state reaches, for stale lines: `a.tsx, b.ts +3`, or
+ * null when none does. A file counts even if only parts the state does not
+ * reach changed.
+ */
+export const describeChange = (inputs: StateInputs, changed: Set<string>) => {
+  if (changed.size === 0) {
+    return null;
+  }
+  const hits = [...inputs.files, ...inputs.partial].filter((file) =>
+    changed.has(file)
+  );
+  if (changed.has(COPY_FILE) && inputs.keys.length > 0) {
+    hits.push(COPY_FILE);
+  }
+  if (hits.length === 0) {
+    return null;
+  }
+  const shown = hits.slice(0, 3).map((file) => file.replace(/^src\//u, ""));
+  const more = hits.length > 3 ? ` +${hits.length - 3}` : "";
+  return `${shown.join(", ")}${more}`;
 };
