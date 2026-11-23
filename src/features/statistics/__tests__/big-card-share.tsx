@@ -14,6 +14,7 @@ import { Text } from "react-native";
 import { captureRef } from "react-native-view-shot";
 import Colors from "@/constants/colors";
 import { INITIAL_STATE } from "@/constants/settings";
+import { LogsProvider } from "@/features/logs";
 import { t } from "@/lib/translation";
 import { AnalyticsProvider } from "@/state/analytics";
 import {
@@ -44,6 +45,13 @@ jest.mock("@sentry/react-native", () => ({
 const mockCaptureRef = jest.mocked(captureRef);
 const mockShareAsync = jest.mocked(Sharing.shareAsync);
 const mockCaptureException = jest.mocked(Sentry.captureException);
+
+/** Share errors only. `LogsProvider` may report its own storage errors. */
+const shareErrors = () =>
+  // SAFETY: the app reports only structured errors, which carry a string `status`.
+  mockCaptureException.mock.calls
+    .map(([error]) => error as { status?: string })
+    .filter((error) => error.status?.startsWith("statistics_card_"));
 // jest.setup.js replaces posthog-react-native with one shared fake client.
 const { capture: mockCapture } = getPostHogTestClient();
 
@@ -64,9 +72,11 @@ const renderCard = async () => {
       <SettingsProvider>
         <AnalyticsProvider options={{ enabled: true }}>
           <SettingsLoaded>
-            <BigCard title="Mood" analyticsId="mood_chart" isShareable>
-              <Text>Chart</Text>
-            </BigCard>
+            <LogsProvider>
+              <BigCard title="Mood" analyticsId="mood_chart" isShareable>
+                <Text>Chart</Text>
+              </BigCard>
+            </LogsProvider>
           </SettingsLoaded>
         </AnalyticsProvider>
       </SettingsProvider>
@@ -159,8 +169,8 @@ describe("BigCard share", () => {
     fireEvent.press(screen.getByLabelText(t("a11y_share")));
     await layoutShareCopy();
 
-    await waitFor(() => expect(mockCaptureException).toHaveBeenCalledTimes(1));
-    expect(mockCaptureException.mock.calls[0][0]).toEqual(
+    await waitFor(() => expect(shareErrors()).toHaveLength(1));
+    expect(shareErrors()[0]).toEqual(
       expect.objectContaining({
         status: "statistics_card_capture_failed",
         message: "Statistics card image could not be captured",
@@ -182,8 +192,8 @@ describe("BigCard share", () => {
     fireEvent.press(screen.getByLabelText(t("a11y_share")));
     await layoutShareCopy();
 
-    await waitFor(() => expect(mockCaptureException).toHaveBeenCalledTimes(1));
-    expect(mockCaptureException.mock.calls[0][0]).toEqual(
+    await waitFor(() => expect(shareErrors()).toHaveLength(1));
+    expect(shareErrors()[0]).toEqual(
       expect.objectContaining({
         status: "statistics_card_share_failed",
         why: expect.stringContaining("sharing not available"),

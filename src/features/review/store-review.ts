@@ -64,6 +64,12 @@ export type StoreReviewMoment =
       kind: "voice_great";
       /** Saved entries across all time. */
       entriesCount: number;
+    }
+  | {
+      /** Statistics card or recap slide sent from the share sheet. */
+      kind: "content_shared";
+      /** Saved entries across all time. */
+      entriesCount: number;
     };
 
 /** Analytics `moment` value: kind of the moment that requested the prompt. */
@@ -96,6 +102,10 @@ const isPositive = (moment: StoreReviewMoment): boolean => {
   }
   if (moment.kind === "voice_great") {
     // The user just said so.
+    return true;
+  }
+  if (moment.kind === "content_shared") {
+    // Sharing Pixy with others is the strongest praise there is.
     return true;
   }
   return !moment.hasNotHelpful;

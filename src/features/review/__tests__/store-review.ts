@@ -157,6 +157,20 @@ describe("decideStoreReview()", () => {
     });
   });
 
+  describe("content shared", () => {
+    test("should prompt first time with 7 entries", () => {
+      expect(
+        decideStoreReview({ kind: "content_shared", entriesCount: 7 }, GATE)
+      ).toBe("entries_7");
+    });
+
+    test("should not prompt below 7 entries", () => {
+      expect(
+        decideStoreReview({ kind: "content_shared", entriesCount: 6 }, GATE)
+      ).toBeNull();
+    });
+  });
+
   describe("limits", () => {
     test("should allow a second prompt 120 days after the first", () => {
       expect(

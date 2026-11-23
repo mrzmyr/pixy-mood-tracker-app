@@ -16,6 +16,8 @@ import { t } from "@/lib/translation";
 import { createStructuredError } from "@/lib/errors";
 import type { StructuredError } from "@/lib/errors";
 import { SPACE } from "@/constants/space";
+import { useLogState } from "@/features/logs";
+import { useStoreReviewPrompt } from "@/features/review";
 
 /**
  * Logo in the captured share copy. Stays a React Native `Image`, not
@@ -197,6 +199,8 @@ export const BigCard = ({
   // Set on the first layout of the share copy; later layouts must not capture again.
   const captureStartedRef = useRef(false);
   const analytics = useAnalytics();
+  const logState = useLogState();
+  const requestStoreReviewPrompt = useStoreReviewPrompt();
   const [isCapturing, setIsCapturing] = useState(false);
 
   const share = () => {
@@ -222,6 +226,10 @@ export const BigCard = ({
         },
         onShared: () => {
           analytics.track("statistics:card_shared", { card: analyticsId });
+          requestStoreReviewPrompt({
+            kind: "content_shared",
+            entriesCount: logState.items.length,
+          });
         },
       });
     });
