@@ -47,11 +47,21 @@ const recap = (day: number) => ({
   data: { kind: "month", date: `2026-10-${day}` },
 });
 
-const quickCheckIn = (hour: number) => ({
-  at: new Date(2026, 9, 8, hour),
-  title: "Title",
-  body: "Body",
-});
+const scheduleQuickCheckIn = (hour: number) =>
+  // Older app versions scheduled these; the app only cancels them.
+  mockScheduled.push({
+    identifier: `quick-${hour}`,
+    content: {
+      title: "Title",
+      subtitle: null,
+      body: "Body",
+      data: { type: "quick_check_in" },
+      categoryIdentifier: null,
+      sound: null,
+    },
+    // SAFETY: the fake module reads only `type`.
+    trigger: { type: "date", value: new Date(2026, 9, 8, hour) } as never,
+  });
 
 describe("reminder and recap notifications", () => {
   beforeEach(() => {
@@ -113,12 +123,10 @@ describe("reminder and recap notifications", () => {
     expect(types()).toEqual(["recap", "reminder"]);
   });
 
-  test("reminders, recaps, and quick check-ins keep each other", async () => {
+  test("canceling quick check-ins of older versions keeps reminders and recaps", async () => {
     await defaultRecapScheduler.replace([recap(11)]);
-    await defaultQuickCheckInScheduler.replace([
-      quickCheckIn(10),
-      quickCheckIn(14),
-    ]);
+    scheduleQuickCheckIn(10);
+    scheduleQuickCheckIn(14);
     await defaultReminderScheduler.replace([new Date(2026, 9, 8, 20)]);
 
     expect(types()).toEqual([
@@ -128,14 +136,9 @@ describe("reminder and recap notifications", () => {
       "reminder",
     ]);
 
-    await defaultReminderScheduler.cancelAll();
-    await defaultQuickCheckInScheduler.replace([quickCheckIn(18)]);
-
-    expect(types()).toEqual(["recap", "quick_check_in"]);
-
     await defaultQuickCheckInScheduler.cancelAll();
 
-    expect(types()).toEqual(["recap"]);
+    expect(types()).toEqual(["recap", "reminder"]);
   });
 
   test("overlapping changes run one at a time", async () => {

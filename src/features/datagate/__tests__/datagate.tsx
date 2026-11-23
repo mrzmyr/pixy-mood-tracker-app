@@ -329,8 +329,6 @@ describe("useLogs()", () => {
           "recapNotificationsEnabled",
           "profileName",
           "profileAvatar",
-          "quickCheckInEnabled",
-          "quickCheckInSchedule",
           "quickCheckInCollapsed",
         ]),
         tagCategories: testTagCategories,

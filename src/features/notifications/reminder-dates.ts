@@ -16,14 +16,10 @@ export const IOS_SCHEDULED_LIMIT = 64;
  */
 export const RECAP_NOTIFICATION_SLOTS = 4;
 
-/** Most quick check-in notifications scheduled at once. */
-export const QUICK_CHECK_IN_NOTIFICATION_SLOTS = 30;
-
 /**
- * Days ahead that get a reminder, today included. Together with recaps and
- * quick check-ins it stays within `IOS_SCHEDULED_LIMIT`:
- * `REMINDER_DAYS + RECAP_NOTIFICATION_SLOTS +
- * QUICK_CHECK_IN_NOTIFICATION_SLOTS <= IOS_SCHEDULED_LIMIT`. The app
+ * Days ahead that get a reminder, today included. Together with recaps it
+ * stays within `IOS_SCHEDULED_LIMIT`:
+ * `REMINDER_DAYS + RECAP_NOTIFICATION_SLOTS <= IOS_SCHEDULED_LIMIT`. The app
  * reschedules on each new day and launch, so the schedule stays ahead.
  */
 export const REMINDER_DAYS = 30;

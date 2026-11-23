@@ -17,7 +17,6 @@ export {
   RECAP_NOTIFICATION_TYPE,
 } from "./reminder-scheduler";
 export type {
-  QuickCheckInNotificationRequest,
   QuickCheckInNotificationScheduler,
   RecapNotificationRequest,
   RecapNotificationScheduler,
@@ -28,8 +27,5 @@ export {
   reminderTimeToDate,
   toReminderTime,
 } from "./reminder-time";
-export {
-  QUICK_CHECK_IN_NOTIFICATION_SLOTS,
-  RECAP_NOTIFICATION_SLOTS,
-} from "./reminder-dates";
+export { RECAP_NOTIFICATION_SLOTS } from "./reminder-dates";
 export { default as NotificationPreview } from "./components/notification-preview";
