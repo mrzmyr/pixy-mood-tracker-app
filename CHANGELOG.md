@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.116.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.115.0...v1.116.0) (2026-11-23)
+
+
+### Features
+
+* **chip:** inverted selected chip for every emotion, darker idle text ([#1177](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1177)) ([9552165](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/95521656e255d0d39d42b33432abd86da7fe87b5))
+* **quick-check-in:** mood first slide, details second ([#1180](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1180)) ([a98e9c7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a98e9c758bbf80a3c22addcb746241028d3e0a8a))
+* **quick-check-in:** remove scheduled quick check-in notifications ([#1175](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1175)) ([8072069](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8072069791a13e13bc42b1867ec11d7d43697b19))
+* **recaps:** move Month and Year to header menu like calendar Filters ([#1176](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1176)) ([3869529](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/386952914198262d85abede89e748b04db0a2997))
+* **settings:** Orbit range menu and last connected day ([#1184](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1184)) ([4088927](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4088927ecc1432f4647802a5424ccea20ef926be))
+* ship people and photos to everyone, remove their flags ([#1181](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1181)) ([015ad40](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/015ad403a033a5d0a3789bd49b06d61c1787934d))
+* **sitemap:** Android and dark mode variants, coverage rules ([#1174](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1174)) ([13633e2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/13633e25fc403fb5cdb48e3acd03a0e8b77cd9c3))
+* **sitemap:** capture changed screens per PR, CI checks freshness ([#1151](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1151)) ([c0c3938](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c0c39380c7255ee451ebbf096f42e785db084cba))
+* **sitemap:** focus input hashes on what a state can show ([#1186](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1186)) ([76bc340](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/76bc340529bfa7eb48139f57e87cfaa6dc0db3b7))
+* **tags:** show tag icons in tag list and check-in tag chips ([#1178](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1178)) ([91656bb](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/91656bb5c86111ffb45dd86b2922a2a8d5184292))
+
+
+### Bug Fixes
+
+* align screens to 16pt box and 32pt text lines ([#1185](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1185)) ([85c39d0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/85c39d0e66b9506fb9c4351461e6e48d6b3dd3e1))
+
 ## [1.115.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.114.0...v1.115.0) (2026-11-19)
 
 
