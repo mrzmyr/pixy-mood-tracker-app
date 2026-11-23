@@ -17,6 +17,7 @@ import ModalHeader from "@/components/modal-header";
 import TextArea from "@/components/text-area";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 import { SPACE } from "@/constants/space";
+import { hasNegativeEmotion } from "@/features/logger";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import {
@@ -24,6 +25,7 @@ import {
   usePeopleAdded,
   usePeopleState,
 } from "@/features/people";
+import { useStoreReviewPrompt } from "@/features/review";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
@@ -169,6 +171,7 @@ export const QuickCheckIn = () => {
   const analytics = useAnalytics();
   const { items } = useLogState();
   const logUpdater = useLogUpdater();
+  const requestStoreReviewPrompt = useStoreReviewPrompt();
   const { people } = usePeopleState();
   const { tags } = useTagsState();
 
@@ -267,12 +270,22 @@ export const QuickCheckIn = () => {
       message,
       photos,
     };
-    if (items.some((item) => item.id === id)) {
-      logUpdater.editLog({ id, ...changes });
-    } else {
+    // An existing id is the entry the notification saved: this screen
+    // completes it, so it still counts as a new check-in.
+    const isNew = !items.some((item) => item.id === id);
+    if (isNew) {
       logUpdater.addLog(createQuickEntry(uuidv4(), dayjs(), changes));
       analytics.track("quick_check_in:entry_saved", { source: "app" });
+    } else {
+      logUpdater.editLog({ id, ...changes });
     }
+    requestStoreReviewPrompt({
+      kind: "entry_saved",
+      // `items` predates this save, so count a new entry.
+      entriesCount: items.length + (isNew ? 1 : 0),
+      rating,
+      hasNegativeEmotion: hasNegativeEmotion(emotions),
+    });
     analytics.track("quick_check_in:completed", {
       source: "app",
       has_emotion: emotions.length > 0,

@@ -27,7 +27,7 @@ const reportPromptError = (cause: unknown) => {
 };
 
 /**
- * Returns a callback for the logger save flow. It requests the system store
+ * Returns a callback for check-in saves (logger, quick check-in). It requests the system store
  * review prompt `STORE_REVIEW_DELAY_MS` after a good save when
  * `decideStoreReview` allows it.
  *
