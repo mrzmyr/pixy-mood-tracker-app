@@ -47,18 +47,6 @@ describe("turn on nudges", () => {
     ).toEqual(["intro-emotions", "intro-people", "intro-photos"]);
   });
 
-  test("skip steps this build does not have", () => {
-    expect(
-      types(
-        makeInput({
-          items: checkIns,
-          steps: ["rating", "tags"],
-          availableSteps: ["rating", "tags", "emotions"],
-        })
-      )
-    ).toEqual(["intro-emotions"]);
-  });
-
   test("fit month, not year", () => {
     const input = { items: checkIns, steps: ["rating" as const] };
 

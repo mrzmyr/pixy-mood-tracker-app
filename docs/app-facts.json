@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-11-08",
+  "verifiedOn": "2026-11-22",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -133,10 +133,11 @@
       "label": "Tag icons",
       "status": "flagged",
       "group": "logging",
-      "description": "Each tag gets an icon from about 250 icons, colored in the tag color. An icon is suggested for the tag name: Apple Intelligence on device on iOS 26, keyword match elsewhere. Icon and color are picked in one sheet. Behind the tag-icons feature flag.",
+      "description": "Each tag gets an icon from about 250 icons, colored in the tag color. An icon is suggested for the tag name: Apple Intelligence on device on iOS 26, keyword match elsewhere. Icon and color are picked in one sheet. The tag list and the check-in tag chips show the icon. Behind the tag-icons feature flag.",
       "evidence": [
         "src/features/tags/tag-icons.ts",
         "src/features/tags/screens/tag-icon-picker.tsx",
+        "src/features/tags/components/tag.tsx",
         "src/state/feature-flags/keys.ts"
       ]
     },
@@ -448,7 +449,7 @@
       "label": "Quick check-in",
       "status": "flagged",
       "group": "platforms",
-      "description": "One-page check-in from the calendar: mood, emotions, people or tags in a few taps, with search, a note, photos (with the photos feature flag), and voice input. Behind the quick-check-in feature flag.",
+      "description": "Check-in from the calendar: mood first, then emotions, people or tags in a few taps, with search, a note, photos, and voice input. Behind the quick-check-in feature flag.",
       "evidence": [
         "src/features/quickcheckin",
         "modules/pixy-mood-tracker-quick-check-in",
@@ -501,9 +502,9 @@
     {
       "id": "photos",
       "label": "Photos",
-      "status": "flagged",
+      "status": "available",
       "group": "logging",
-      "description": "Add photos to entries. Behind the photos feature flag. Long press an empty calendar spot to see a photo of each day on its pixel, behind the photo-peek feature flag.",
+      "description": "Add photos to entries. Long press an empty calendar spot to see a photo of each day on its pixel, behind the photo-peek feature flag.",
       "competitorKey": "photos",
       "since": "1.95.0",
       "evidence": [
@@ -511,6 +512,18 @@
         "src/features/calendar/photo-peek.ts",
         "src/state/feature-flags/keys.ts",
         "CHANGELOG.md: feat(logger): ask for photos before the note (#661)"
+      ]
+    },
+    {
+      "id": "people",
+      "label": "People",
+      "status": "available",
+      "group": "logging",
+      "description": "Add the people you connected with to an entry: met, called, texted, or thought about. Add them by hand or from your contacts. Turn it on in Settings > Check-in. Statistics and calendar filters show people. People stay on your phone.",
+      "evidence": [
+        "src/features/people/",
+        "src/features/settings/screens/steps.tsx",
+        "docs/specs/people.md"
       ]
     },
     {

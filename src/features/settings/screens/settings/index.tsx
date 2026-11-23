@@ -74,8 +74,7 @@ const SECTION_INSET = Platform.select({ ios: 20, android: 32, default: 16 });
 const OrbitRow = () => {
   const router = useRouter();
   const isOrbitOn = useFeatureFlag("orbit");
-  const isPeopleOn = useFeatureFlag("people");
-  return isOrbitOn && isPeopleOn ? (
+  return isOrbitOn ? (
     <FieldRow
       title={t("orbit")}
       icon={SETTINGS_ICONS.orbit}

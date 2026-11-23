@@ -486,8 +486,6 @@ export type UsageSummary = {
   steps: SettingsState["steps"];
   onboarding_done: boolean;
   questions_answered_count: number;
-  /** Value of the `photos` feature flag on this install. */
-  photos_enabled: boolean;
   /** Share of entries in the last 30 days with at least 1 photo, 0 to 100. */
   photos_pct_30d: number | null;
   /** Photos on all entries. */

@@ -1,7 +1,8 @@
 import type { Emotion } from "@/types";
 import chunkArray from "lodash/chunk";
 import { View } from "react-native";
-import { EmotionButtonAdvanced } from "./emotion-button-advanced";
+import { CHIP_GAP } from "@/constants/chip";
+import { EmotionButtonBasic } from "./emotion-button-basic";
 import { EmotionContextMenu } from "./emotion-context-menu";
 import { MissingEmotionTile } from "./missing-emotion-tile";
 import { sortForColumns } from "./sort-for-columns";
@@ -13,8 +14,7 @@ const keyOf = (cell: Cell) =>
 
 const COLUMNS = 2;
 
-// Plain views split each row evenly. Without them a `RectButton` emotion next
-// to the `Pressable` "Missing one?" tile gets a narrower share of the row.
+// Plain views split each row evenly, so every cell gets the same width.
 const CELL_STYLE = { flex: 1 };
 // Content keeps its own height. With `flex: 1` it collapses in the
 // fixed-height carousel.
@@ -53,7 +53,7 @@ export const EmotionPage = ({
         width: "100%",
         paddingHorizontal: 4,
         paddingTop: 12,
-        gap: 6,
+        gap: CHIP_GAP,
         paddingBottom: 6,
       }}
     >
@@ -62,7 +62,7 @@ export const EmotionPage = ({
           key={`emotion-page-${keyOf(chunk[0])}`}
           style={{
             flexDirection: "row",
-            gap: 6,
+            gap: CHIP_GAP,
           }}
         >
           {chunk.map((cell) => (
@@ -79,7 +79,7 @@ export const EmotionPage = ({
                   onPress={onPress}
                   selected={isSelected(cell)}
                 >
-                  <EmotionButtonAdvanced
+                  <EmotionButtonBasic
                     emotion={cell}
                     onPress={onPress}
                     selected={isSelected(cell)}

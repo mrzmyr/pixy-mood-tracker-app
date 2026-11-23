@@ -25,7 +25,7 @@ const enabledSteps = new Set<string>([
 ]);
 const hasStep = (step: string) => enabledSteps.has(step);
 
-const getCreateSteps = ({ isPhotosEnabled }: { isPhotosEnabled: boolean }) =>
+const getCreateSteps = () =>
   getAvailableStepsForCreate({
     isMenstruationEnabled: false,
     hasMenstruationOnDay: false,
@@ -35,23 +35,17 @@ const getCreateSteps = ({ isPhotosEnabled }: { isPhotosEnabled: boolean }) =>
     isSleepAutoFilled: false,
     reminderEnabled: true,
     itemsCount: 5,
-    hasPeople: false,
-    isPhotosEnabled,
   });
 
-describe("logger steps and the photos flag", () => {
-  test("flag on: create shows the photos step before the message", () => {
-    expect(getCreateSteps({ isPhotosEnabled: true })).toEqual([
+describe("logger steps and photos", () => {
+  test("create shows the photos step before the message", () => {
+    expect(getCreateSteps()).toEqual([
       "rating",
       "emotions",
       "tags",
       "photos",
       "message",
     ]);
-  });
-
-  test("flag off: create hides the photos step even when enabled", () => {
-    expect(getCreateSteps({ isPhotosEnabled: false })).not.toContain("photos");
   });
 
   test("edit shows the photos step for an entry with photos", () => {
@@ -63,8 +57,6 @@ describe("logger steps and the photos flag", () => {
         item,
         hasStep: () => false,
         hasSleepOnDay: false,
-        hasPeople: false,
-        isPhotosEnabled: true,
       })
     ).toContain("photos");
   });
@@ -77,48 +69,14 @@ describe("logger steps and the photos flag", () => {
       item,
       hasStep: () => false,
       hasSleepOnDay: false,
-      hasPeople: false,
-      isPhotosEnabled: true,
     });
 
     expect(steps.slice(-2)).toEqual(["photos", "message"]);
   });
-
-  test("flag off: edit hides the photos step, also with photos", () => {
-    const item = _generateItem({ photos: [PHOTO] });
-
-    expect(
-      getAvailableStepsForEdit({
-        isMenstruationEnabled: false,
-        item,
-        hasStep: () => true,
-        hasSleepOnDay: false,
-        hasPeople: false,
-        isPhotosEnabled: false,
-      })
-    ).not.toContain("photos");
-  });
 });
 
-describe("logger steps and the people flag", () => {
-  test("flag off: create hides the people step even when enabled", () => {
-    expect(
-      getAvailableStepsForCreate({
-        isMenstruationEnabled: false,
-        hasMenstruationOnDay: false,
-        question: null,
-        hasStep: () => true,
-        hasSleepOnDay: false,
-        isSleepAutoFilled: false,
-        reminderEnabled: true,
-        itemsCount: 5,
-        hasPeople: false,
-        isPhotosEnabled: false,
-      })
-    ).not.toContain("people");
-  });
-
-  test("flag off: edit keeps the people step for an entry with people", () => {
+describe("logger steps and people", () => {
+  test("edit keeps the people step for an entry with people, also with the step off", () => {
     const item = _generateItem({ people: [{ id: "p1" }] });
 
     expect(
@@ -127,8 +85,6 @@ describe("logger steps and the people flag", () => {
         item,
         hasStep: () => false,
         hasSleepOnDay: false,
-        hasPeople: false,
-        isPhotosEnabled: false,
       })
     ).toContain("people");
   });
@@ -150,8 +106,6 @@ const getCreateStepsWithSleep = ({
     itemsCount: 5,
     hasSleepOnDay,
     isSleepAutoFilled,
-    hasPeople: false,
-    isPhotosEnabled: false,
   });
 
 describe("logger steps and sleep", () => {
@@ -185,8 +139,6 @@ describe("logger steps and sleep", () => {
         item,
         hasStep: () => false,
         hasSleepOnDay: true,
-        hasPeople: false,
-        isPhotosEnabled: false,
       })
     ).toContain("sleep");
   });
@@ -201,8 +153,6 @@ describe("logger steps and sleep", () => {
         item,
         hasStep: () => true,
         hasSleepOnDay: true,
-        hasPeople: false,
-        isPhotosEnabled: false,
       })
     ).not.toContain("sleep");
   });

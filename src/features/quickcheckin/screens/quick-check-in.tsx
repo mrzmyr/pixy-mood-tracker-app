@@ -1,15 +1,21 @@
 import dayjs from "dayjs";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
-import { useMemo, useState } from "react";
-import { Platform, ScrollView, StyleSheet, View } from "react-native";
+import { useMemo, useRef, useState } from "react";
+import {
+  Keyboard,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import TextArea from "@/components/text-area";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
-import { RATING_KEYS } from "@/constants/ratings";
 import { SPACE } from "@/constants/space";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
@@ -23,13 +29,13 @@ import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { createQuickEntry } from "../check-in-state";
 import { applyVoicePrefill, hasDraftChanges, toDraft } from "../draft";
 import { useVoicePrefill } from "../use-voice-prefill";
 import { getSheetSections } from "../sheet-sections";
-import { InfluenceChips, MoodPixel } from "./quick-check-in-chips";
+import { InfluenceChips } from "./quick-check-in-chips";
 import { QuickCheckInEmotions } from "./quick-check-in-emotions";
+import { QuickCheckInMoodSlide } from "./quick-check-in-mood-slide";
 import { PeopleRow, QuickCheckInListSheets } from "./quick-check-in-pickers";
 import {
   QuickCheckInPhotos,
@@ -37,8 +43,6 @@ import {
 } from "./quick-check-in-photos";
 import { INSET, QuickCheckInSection } from "./quick-check-in-section";
 import type { InfluenceOption } from "../ranking";
-
-const NO_PEOPLE: never[] = [];
 
 /**
  * Note grows from one line up to about five. iOS puts the line height slack
@@ -53,48 +57,27 @@ const NOTE_STYLE = {
   paddingBottom: 14,
 };
 
+/** Swiping between slides closes the keyboard. */
+const handleSlideDrag = () => Keyboard.dismiss();
+
 /** Emotion grid and people row pad themselves to the screen edges. */
 const SELF_PADDED = { paddingHorizontal: 0 };
 
-/** Mood pixels and the note, above the sections. Always open. */
-const MoodAndNote = ({
-  rating,
-  onRate,
+/** The note, above the sections. Always open. */
+const Note = ({
   message,
-  onChangeMessage,
+  onChange,
 }: {
-  rating: LogItem["rating"] | null;
-  onRate: (rating: LogItem["rating"]) => void;
   message: string;
-  onChangeMessage: (message: string) => void;
+  onChange: (message: string) => void;
 }) => (
-  <View
-    style={{
-      paddingHorizontal: INSET,
-      paddingBottom: SPACE.xxl,
-      gap: SPACE.md,
-    }}
-  >
-    <View
-      accessibilityRole="radiogroup"
-      accessibilityLabel={t("logger_step_rating")}
-      style={{ flexDirection: "row", gap: 6 }}
-    >
-      {[...RATING_KEYS].reverse().map((key) => (
-        <MoodPixel
-          key={key}
-          rating={key}
-          selected={rating === key}
-          onPress={() => onRate(key)}
-        />
-      ))}
-    </View>
+  <View style={{ paddingHorizontal: INSET, paddingBottom: SPACE.xxl }}>
     <TextArea
       testID="quick-check-in-note"
       accessibilityLabel={t("logger_step_message")}
       placeholder={t("log_note_question")}
       value={message}
-      onChange={onChangeMessage}
+      onChange={onChange}
       maxLength={MAX_MESSAGE_LENGTH}
       style={NOTE_STYLE}
     />
@@ -161,9 +144,11 @@ const QuickCheckInHeader = ({
   );
 
 /**
- * Quick check-in on one scrolling page: mood, a one-line note, then sections
- * for emotions as in the logger, a row of people, the top 20 tags, and
- * photos. Each section folds under a hairline divider; the folded state stays
+ * Quick check-in on two slides, like the logger. First the mood buttons of
+ * the logger; a tap slides on. Second one scrolling page: a one-line note,
+ * then sections for emotions as in the logger, a row of people, the top 20
+ * tags, and photos. Swiping forward needs a mood; swiping back returns to it.
+ * Swiping pauses while the emotion pages, which swipe themselves, show. Each section folds under a hairline divider; the folded state stays
  * on the device. The full list of people opens in a sheet, with "Add
  * Person" on top. Opens from the calendar, from voice mode (with
  * `prefill`), and from More in the Android notification.
@@ -184,8 +169,6 @@ export const QuickCheckIn = () => {
   const analytics = useAnalytics();
   const { items } = useLogState();
   const logUpdater = useLogUpdater();
-  const hasPeople = useFeatureFlag("people");
-  const hasPhotos = useFeatureFlag("photos");
   const { people } = usePeopleState();
   const { tags } = useTagsState();
 
@@ -219,25 +202,28 @@ export const QuickCheckIn = () => {
       setDraft((current) => ({ ...current, photos: value, source: "user" })),
   });
   const [isPeopleOpen, setIsPeopleOpen] = useState(false);
+  const { width: windowWidth } = useWindowDimensions();
+  const slidesRef = useRef<ScrollView>(null);
+  const [isEmotionPaging, setIsEmotionPaging] = useState(false);
+  const rate = (value: LogItem["rating"]) => {
+    setRating(value);
+    slidesRef.current?.scrollTo({ x: windowWidth, animated: true });
+  };
   // Ranking time is fixed when the screen opens.
   const now = useMemo(() => dayjs(), []);
 
-  const visiblePeople = hasPeople ? people : NO_PEOPLE;
-  const shortNames = useMemo(
-    () => getShortNames(visiblePeople),
-    [visiblePeople]
-  );
+  const shortNames = useMemo(() => getShortNames(people), [people]);
   const sections = useMemo(
     () =>
       getSheetSections({
         rating,
         items,
-        people: visiblePeople,
+        people,
         tags,
         picked,
         now,
       }),
-    [rating, items, visiblePeople, tags, picked, now]
+    [rating, items, people, tags, picked, now]
   );
 
   const toggle = (option: Pick<InfluenceOption, "kind" | "id">) => {
@@ -341,79 +327,92 @@ export const QuickCheckIn = () => {
       />
       <View style={{ flex: 1, paddingTop: isIOS ? headerHeight : 0 }}>
         <ScrollView
-          testID="quick-check-in-scroll"
+          ref={slidesRef}
+          testID="quick-check-in-slides"
+          horizontal
+          pagingEnabled
+          bounces={false}
+          showsHorizontalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="on-drag"
-          contentContainerStyle={{ paddingBottom: insets.bottom + SPACE.xxxl }}
+          scrollEnabled={rating !== null && !isEmotionPaging}
+          onScrollBeginDrag={handleSlideDrag}
         >
-          <MoodAndNote
-            rating={rating}
-            onRate={setRating}
-            message={message}
-            onChangeMessage={setMessage}
-          />
-          {/* Hairlines above and below each section. */}
-          <View
-            style={{
-              borderTopWidth: StyleSheet.hairlineWidth,
-              borderColor: colors.logCardBorder,
-            }}
-          >
-            <QuickCheckInSection
-              section="emotions"
-              title={t("emotions")}
-              contentStyle={SELF_PADDED}
+          <View style={{ width: windowWidth }}>
+            <QuickCheckInMoodSlide rating={rating} onRate={rate} />
+          </View>
+          <View style={{ width: windowWidth }}>
+            <ScrollView
+              testID="quick-check-in-scroll"
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="on-drag"
+              contentContainerStyle={{
+                paddingBottom: insets.bottom + SPACE.xxxl,
+              }}
             >
-              <QuickCheckInEmotions
-                picked={emotions}
-                rating={rating}
-                items={items}
-                onToggle={toggleEmotion}
-              />
-            </QuickCheckInSection>
-            {sections.people.length > 0 && (
-              <QuickCheckInSection
-                section="people"
-                title={t("people")}
-                contentStyle={SELF_PADDED}
+              <Note message={message} onChange={setMessage} />
+              {/* Hairlines above and below each section. */}
+              <View
+                style={{
+                  borderTopWidth: StyleSheet.hairlineWidth,
+                  borderColor: colors.logCardBorder,
+                }}
               >
-                <PeopleRow
-                  people={sections.people.flatMap((option) => {
-                    const person = personById.get(option.id);
-                    return person ? [person] : [];
-                  })}
-                  shortNames={shortNames}
-                  picked={pickedPeople}
-                  onToggle={togglePerson}
-                  onShowAll={() => setIsPeopleOpen(true)}
-                />
-              </QuickCheckInSection>
-            )}
-            {sections.tags.length > 0 && (
-              <QuickCheckInSection section="tags" title={t("tags")}>
-                <InfluenceChips
-                  options={sections.tags}
-                  people={people}
-                  tags={tags}
-                  picked={pickedKeys}
-                  onToggle={toggle}
-                />
-              </QuickCheckInSection>
-            )}
-            {hasPhotos && (
-              <QuickCheckInSection
-                section="photos"
-                title={t("logger_step_photos")}
-              >
-                <QuickCheckInPhotos draft={draftPhotos} />
-              </QuickCheckInSection>
-            )}
+                <QuickCheckInSection
+                  section="emotions"
+                  title={t("emotions")}
+                  contentStyle={SELF_PADDED}
+                >
+                  <QuickCheckInEmotions
+                    picked={emotions}
+                    rating={rating}
+                    items={items}
+                    onToggle={toggleEmotion}
+                    onPagingChange={setIsEmotionPaging}
+                  />
+                </QuickCheckInSection>
+                {sections.people.length > 0 && (
+                  <QuickCheckInSection
+                    section="people"
+                    title={t("people")}
+                    contentStyle={SELF_PADDED}
+                  >
+                    <PeopleRow
+                      people={sections.people.flatMap((option) => {
+                        const person = personById.get(option.id);
+                        return person ? [person] : [];
+                      })}
+                      shortNames={shortNames}
+                      picked={pickedPeople}
+                      onToggle={togglePerson}
+                      onShowAll={() => setIsPeopleOpen(true)}
+                    />
+                  </QuickCheckInSection>
+                )}
+                {sections.tags.length > 0 && (
+                  <QuickCheckInSection section="tags" title={t("tags")}>
+                    <InfluenceChips
+                      options={sections.tags}
+                      people={people}
+                      tags={tags}
+                      picked={pickedKeys}
+                      onToggle={toggle}
+                    />
+                  </QuickCheckInSection>
+                )}
+                <QuickCheckInSection
+                  section="photos"
+                  title={t("logger_step_photos")}
+                >
+                  <QuickCheckInPhotos draft={draftPhotos} />
+                </QuickCheckInSection>
+              </View>
+            </ScrollView>
           </View>
         </ScrollView>
       </View>
       <QuickCheckInListSheets
         isOpen={isPeopleOpen}
-        people={visiblePeople}
+        people={people}
         picked={pickedPeople}
         onToggle={togglePerson}
         onClose={() => setIsPeopleOpen(false)}

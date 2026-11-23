@@ -8,24 +8,19 @@ import useColors from "@/hooks/use-colors";
 import { useScrollBottomPadding } from "@/hooks/use-scroll-bottom-padding";
 import { useAnalytics } from "@/state/analytics";
 import { t } from "@/lib/translation";
-import { useFeatureFlag } from "@/state/feature-flags";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import TextInfo from "@/components/text-info";
 
 /**
  * Settings > Privacy: privacy summary, link to the full policy, and the
- * analytics opt-in switch. The people section shows only behind the
- * `people` feature flag.
+ * analytics opt-in switch.
  */
 export const PrivacyScreen = () => {
   const colors = useColors();
   const analytics = useAnalytics();
-  const hasPeople = useFeatureFlag("people");
   const paddingBottom = useScrollBottomPadding(16);
-  const content = hasPeople
-    ? `${t("privacy_content")}\n\n${t("privacy_people_content")}`
-    : t("privacy_content");
+  const content = `${t("privacy_content")}\n\n${t("privacy_people_content")}`;
 
   const _handlePressButtonAsync = async () => {
     await WebBrowser.openBrowserAsync("https://pixy.day/privacy", {

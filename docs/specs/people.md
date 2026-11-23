@@ -8,7 +8,6 @@ Track who played a part in each entry: met, called, or thought of. Goal: statist
 
 - Name: **People**. Not Friends (excludes partner, family, coworkers), not Connections (network vibe)
 - Own store and own logger slide, not a tag subtype
-- Behind PostHog flag `people`. Flag off hides settings entry, slide, step toggle. Data stays
 - Step `people` disabled by default. User enables in Settings > Steps. Later: in-app announcement enables it (separate spec)
 - No color per person. Fallback avatar: gray initials (first and last word), gray user icon while name is blank
 - Max 50 people (`MAX_PEOPLE`), name max 30 chars (reuse `MAX_TAG_LENGTH`)
@@ -118,7 +117,6 @@ people: Array<
 ### Settings > Check-in > People (`/settings/steps/people`)
 
 - Settings root has no People row. Check-in lists People as a link with On/Off, like Tags (`/settings/steps/tags`)
-- Visible only with flag `people`
 - Top: "Track People" switch, same setting as the step. Off hides the logger step and the list, archive link, and add button on this page
 - List active, "Archived" link, "Add" button hidden at `MAX_PEOPLE`
 - Add: person form with name, or **Pick From Contacts…** into the import list
@@ -140,7 +138,7 @@ people: Array<
 ### Elsewhere
 
 - Log detail: chips under tags
-- Logs filter: multi select, OR logic, mirrors tag filter. Section hidden without flag or without active people
+- Logs filter: multi select, OR logic, mirrors tag filter. Section hidden without active people
 
 ## Statistics
 

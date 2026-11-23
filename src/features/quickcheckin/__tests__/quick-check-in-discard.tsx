@@ -93,7 +93,7 @@ describe("quick check-in discard guard", () => {
     expect(Alert.alert).not.toHaveBeenCalled();
 
     // Save closes without a prompt and stores the entry.
-    fireEvent.press(await result.findByTestId("quick-check-in-mood-good"));
+    fireEvent.press(await result.findByTestId("mood-good"));
     fireEvent.changeText(result.getByTestId("quick-check-in-note"), "Tea");
     await waitFor(() =>
       expect(result.getByTestId("quick-check-in-save")).toBeEnabled()

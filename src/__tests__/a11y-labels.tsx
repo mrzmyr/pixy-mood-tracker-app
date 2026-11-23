@@ -8,7 +8,6 @@ import { DATE_FORMAT } from "@/constants/config";
 import CalendarDay from "@/features/calendar/screens/calendar/calendar-day";
 import { SlideAction } from "@/features/logger/components/slide-action";
 import { SlideMoodButton } from "@/features/logger/components/slide-mood-button";
-import { EmotionButtonAdvanced } from "@/features/logger/slides/slide-emotions/emotion-button-advanced";
 import { EmotionButtonBasic } from "@/features/logger/slides/slide-emotions/emotion-button-basic";
 import { Navigation } from "@/features/statistics/screens/statistics-month/navigation";
 import { Title } from "@/features/statistics/screens/statistics/title";
@@ -152,14 +151,11 @@ describe("mood and emotion choices", () => {
     expect(after.props.accessibilityState.selected).toBe(true);
   });
 
-  test.each([
-    ["basic", EmotionButtonBasic],
-    ["advanced", EmotionButtonAdvanced],
-  ])("%s emotion tile is a checkbox that follows presses", async (_, Tile) => {
+  test("emotion chip is a checkbox that follows presses", async () => {
     const Harness = () => {
       const [selected, setSelected] = useState(false);
       return (
-        <Tile
+        <EmotionButtonBasic
           emotion={EMOTION}
           selected={selected}
           onPress={() => setSelected((s) => !s)}

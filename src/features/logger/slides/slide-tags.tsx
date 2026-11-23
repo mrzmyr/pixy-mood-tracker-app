@@ -22,6 +22,7 @@ import { SlideHeadline } from "../components/slide-headline";
 import { PullToSearch } from "../components/pull-to-search";
 import { matchesSearch } from "@/lib/search";
 import { Footer } from "./footer";
+import { useFeatureFlag } from "@/state/feature-flags";
 import noop from "lodash/noop";
 
 /**
@@ -43,6 +44,7 @@ export const SlideTags = ({
   const colors = useColors();
   const { tags, categories } = useTagsState();
   const [query, setQuery] = useState("");
+  const hasTagIcons = useFeatureFlag("tag-icons");
 
   const selectedTagIds = new Set(draft.tags.map((d) => d.id));
 
@@ -81,6 +83,8 @@ export const SlideTags = ({
       }
       title={tag.title}
       colorName={tag.color}
+      icon={tag.icon}
+      showIcon={hasTagIcons}
       selected={selectedTagIds.has(tag.id)}
       key={tag.id}
     />

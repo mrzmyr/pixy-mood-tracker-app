@@ -88,7 +88,6 @@ const USAGE_SUMMARY = {
   steps: INITIAL_STATE.steps,
   onboarding_done: true,
   questions_answered_count: 1,
-  photos_enabled: true,
   photos_pct_30d: 10,
   photos_count: 4,
   photos_day_pct: 50,

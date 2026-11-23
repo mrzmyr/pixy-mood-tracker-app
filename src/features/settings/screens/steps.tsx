@@ -87,8 +87,6 @@ const StepRow = ({
  */
 export const StepsScreen = () => {
   const colors = useColors();
-  const hasPeople = useFeatureFlag("people");
-  const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
   const {
     isAvailable: isLocationAvailable,
@@ -96,10 +94,7 @@ export const StepsScreen = () => {
     setEnabled: setLocationEnabled,
   } = useLocationSetting();
   const options = STEP_OPTIONS.filter(
-    (option) =>
-      (option !== "people" || hasPeople) &&
-      (option !== "photos" || isPhotosEnabled) &&
-      (option !== "menstruation" || isMenstruationEnabled)
+    (option) => option !== "menstruation" || isMenstruationEnabled
   );
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {

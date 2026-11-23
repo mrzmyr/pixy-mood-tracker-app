@@ -105,13 +105,10 @@ const light = {
 
   /** Selectable chip (emotion, tag, person): idle fill and text. */
   chipBackground: "#F6F6F6",
-  chipText: "#545454",
+  chipText: "#1C1C1E",
   /** Selected chip, inverted style. */
   chipBackgroundSelected: "#1C1C1E",
   chipTextSelected: colors.white,
-  /** Selected chip, ink style (flag `chip-active-ink`). */
-  chipBackgroundSelectedInk: "#DCDCDC",
-  chipTextSelectedInk: "#1C1C1E",
   tagBackground: colors.white,
   tagText: colors.neutral[800],
   tagBackgroundActive: colors.blue[100],
@@ -366,11 +363,9 @@ const dark: IColors & {
   logActionText: colors.neutral[300],
 
   chipBackground: "#2C2C2E",
-  chipText: "#C7C7CC",
+  chipText: "#F2F2F7",
   chipBackgroundSelected: "#F2F2F7",
   chipTextSelected: "#1C1C1E",
-  chipBackgroundSelectedInk: "#48484A",
-  chipTextSelectedInk: colors.white,
   tagBackground: colors.neutral[900],
   tagText: colors.neutral[200],
   tagBackgroundActive: colors.blue[900],

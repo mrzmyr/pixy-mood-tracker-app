@@ -8,16 +8,13 @@ export const FEATURE_FLAGS = [
   "app-lock-bypass",
   "apple-health",
   "calendar-timeline",
-  "chip-active-ink",
   "development",
   "feature-flag-overrides",
   "menstruation",
   "more-tags",
   "needs",
   "orbit",
-  "people",
   "photo-peek",
-  "photos",
   "quick-check-in",
   "recap-sleep",
   "recaps",
@@ -58,11 +55,6 @@ export const FEATURE_FLAG_DETAILS: Record<
     description: "Timeline layout for the calendar",
     location: "Calendar > Filters menu",
   },
-  "chip-active-ink": {
-    description:
-      "Gray fill and dark text for selected chips, instead of the inverted style",
-    location: "Check-in > Emotions, Tags; Quick check-in",
-  },
   development: {
     description: "Development section in production builds",
     location: "Settings > Development",
@@ -86,21 +78,12 @@ export const FEATURE_FLAG_DETAILS: Record<
   orbit: {
     description:
       "People of the last 4 weeks in orbit, as in the month recap story, and a list by connected days",
-    location: "Settings > Orbit (needs people flag)",
-  },
-  people: {
-    description: "People step and people on entries",
-    location:
-      "Check-in, Settings > Check-in, Day view, Calendar filters, Statistics",
+    location: "Settings > Orbit",
   },
   "photo-peek": {
     description:
       "Long press an empty calendar spot to show day photos on pixels",
     location: "Calendar",
-  },
-  photos: {
-    description: "Photos step and photos on entries",
-    location: "Check-in, Settings > Check-in, Day view",
   },
   "quick-check-in": {
     description:
@@ -122,8 +105,8 @@ export const FEATURE_FLAG_DETAILS: Record<
   },
   "tag-icons": {
     description:
-      "Tag icon in the name field, icon and color picker sheet, suggested icons",
-    location: "Tags > Create Tag, Edit Tag",
+      "Tag icons in the tag list, check-in tag chips, and the name field; icon and color picker sheet, suggested icons",
+    location: "Tags > Create Tag, Edit Tag, tag list; Check-in > Tags",
   },
   "voice-mode": {
     description: "Talk about your day; Pixy prefills a check-in",

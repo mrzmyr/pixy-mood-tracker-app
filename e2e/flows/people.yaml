@@ -1,7 +1,7 @@
 appId: ${APP_ID}
 tags: [p1, people]
 ---
-# People behind the `people` flag: import several contacts at once, mark
+# People: import several contacts at once, mark
 # contacts that are already people, archive, delete with the entry count,
 # and keep the rest. The address book and photo library are system data, so the flow swaps
 # them for fakes (src/dev/fake-people-sources.ts). Check the real pickers by
@@ -10,7 +10,6 @@ tags: [p1, people]
     file: ../subflows/load-fixture.yaml
     env:
       FIXTURE: people
-- openLink: ${APP_SCHEME}://dev/feature-flag?key=people&value=on
 - extendedWaitUntil:
     visible:
       id: "calendar-list"

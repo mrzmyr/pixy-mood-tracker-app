@@ -96,9 +96,8 @@ export const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
     .sort((a, b) => b.days - a.days);
 };
 
-/** People step on and available. */
-export const peopleOn = (input: RecapInput) =>
-  input.steps.has("people") && input.availableSteps.has("people");
+/** People step on. */
+export const peopleOn = (input: RecapInput) => input.steps.has("people");
 
 /** Top 3 people by connected days, from 2 people on. */
 export const mostConnected = (input: RecapInput): SummaryCard[] => {

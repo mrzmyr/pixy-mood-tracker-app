@@ -50,8 +50,8 @@ const renderFlags = async () => {
   const hook = await renderHook(
     () => ({
       canOverride: useCanOverrideFeatureFlags(),
-      isPhotosOn: useFeatureFlag("photos"),
-      isPeopleOn: useFeatureFlag("people"),
+      isRecapsOn: useFeatureFlag("recaps"),
+      isOrbitOn: useFeatureFlag("orbit"),
       isAccessOn: useFeatureFlag("feature-flag-overrides"),
       settings: useSettings(),
       settingsLoad: useSettingsLoad(),
@@ -73,15 +73,15 @@ describe("feature flag overrides in production builds", () => {
   });
 
   test("ignores overrides without the access flag", async () => {
-    mockReload.mockResolvedValue({ photos: true });
+    mockReload.mockResolvedValue({ recaps: true });
     const hook = await renderFlags();
 
     await act(() => {
-      setOverride({ key: "photos", value: "off" });
+      setOverride({ key: "recaps", value: "off" });
     });
 
     expect(hook.result.current.canOverride).toBe(false);
-    expect(hook.result.current.isPhotosOn).toBe(true);
+    expect(hook.result.current.isRecapsOn).toBe(true);
   });
 
   test("applies overrides while the access flag is on", async () => {
@@ -92,10 +92,10 @@ describe("feature flag overrides in production builds", () => {
     });
 
     await act(() => {
-      setOverride({ key: "photos", value: "on" });
+      setOverride({ key: "recaps", value: "on" });
     });
 
-    expect(hook.result.current.isPhotosOn).toBe(true);
+    expect(hook.result.current.isRecapsOn).toBe(true);
   });
 
   test("sets many flags in one update", async () => {
@@ -108,35 +108,35 @@ describe("feature flag overrides in production builds", () => {
     const unsubscribe = subscribe(listener);
 
     await act(() => {
-      setOverrides({ keys: ["photos", "people"], value: "on" });
+      setOverrides({ keys: ["recaps", "orbit"], value: "on" });
     });
     unsubscribe();
 
     expect(listener).toHaveBeenCalledTimes(1);
-    expect(hook.result.current.isPhotosOn).toBe(true);
-    expect(hook.result.current.isPeopleOn).toBe(true);
+    expect(hook.result.current.isRecapsOn).toBe(true);
+    expect(hook.result.current.isOrbitOn).toBe(true);
   });
 
   test("returns many flags to PostHog in one update", async () => {
     mockReload.mockResolvedValue({
       "feature-flag-overrides": true,
-      people: true,
+      orbit: true,
     });
     const hook = await renderFlags();
     await waitFor(() => {
       expect(hook.result.current.canOverride).toBe(true);
     });
     await act(() => {
-      setOverrides({ keys: ["photos", "people"], value: "off" });
+      setOverrides({ keys: ["recaps", "orbit"], value: "off" });
     });
-    expect(hook.result.current.isPeopleOn).toBe(false);
+    expect(hook.result.current.isOrbitOn).toBe(false);
 
     await act(() => {
-      setOverrides({ keys: ["photos", "people"], value: "remote" });
+      setOverrides({ keys: ["recaps", "orbit"], value: "remote" });
     });
 
-    expect(hook.result.current.isPhotosOn).toBe(false);
-    expect(hook.result.current.isPeopleOn).toBe(true);
+    expect(hook.result.current.isRecapsOn).toBe(false);
+    expect(hook.result.current.isOrbitOn).toBe(true);
   });
 
   test("never overrides the access flag itself", async () => {
@@ -161,7 +161,7 @@ describe("feature flag overrides in production builds", () => {
       expect(hook.result.current.canOverride).toBe(true);
     });
     await act(() => {
-      setOverride({ key: "photos", value: "on" });
+      setOverride({ key: "recaps", value: "on" });
     });
 
     await act(() => {
@@ -172,6 +172,6 @@ describe("feature flag overrides in production builds", () => {
     });
 
     expect(hook.result.current.canOverride).toBe(false);
-    expect(hook.result.current.isPhotosOn).toBe(false);
+    expect(hook.result.current.isRecapsOn).toBe(false);
   });
 });

@@ -23,7 +23,7 @@ Output:
 
 Examples:
   bun app dev --platform=ios
-  bun app dev --platform=android --fixture=year --flag=people=on,photos=off
+  bun app dev --platform=android --fixture=year --flag=recaps=on,orbit=off
 
 Progress:
   First stderr line: Log: <path>. New log file per run.
