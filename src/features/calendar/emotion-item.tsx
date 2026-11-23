@@ -37,7 +37,6 @@ export const EmotionItem = ({
           backgroundColor: colors.entryBackground,
           borderColor: colors.entryItemBorder,
           borderWidth: 1,
-          flex: 1,
           flexDirection: "row",
           alignItems: "center",
         }}
