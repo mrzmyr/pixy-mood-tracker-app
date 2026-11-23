@@ -299,8 +299,13 @@ const RecapStory = () => {
       // The share card shows pixels only, no photos.
       photos: [],
       dialogTitle: shareTitle,
-      onShared: () =>
-        analytics.track("recaps:story_shared", { slide_type: slide.type }),
+      onShared: () => {
+        analytics.track("recaps:story_shared", { slide_type: slide.type });
+        requestStoreReviewPrompt({
+          kind: "content_shared",
+          entriesCount: logState.items.length,
+        });
+      },
     });
   };
 
