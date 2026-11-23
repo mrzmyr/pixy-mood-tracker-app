@@ -13,7 +13,6 @@ export {
 export { encodeLoggerPrefill, parseLoggerPrefill } from "./prefill";
 export type { LoggerPrefill } from "./prefill";
 export { LoggerRecoveryPrompt } from "./recovery/recovery-prompt";
-export { PullToSearch } from "./components/pull-to-search";
 export {
   getBasicEmotions,
   getEmotionPageIndex,

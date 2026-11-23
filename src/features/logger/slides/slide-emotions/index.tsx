@@ -8,11 +8,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import LinkButton from "@/components/link-button";
 import { SlideHeadline } from "../../components/slide-headline";
-import { PullToSearch } from "../../components/pull-to-search";
-import { matchesSearch } from "@/lib/search";
 import { EMOTIONS } from "../../config";
 import { Footer } from "../footer";
 import { EmotionAdvancedGradients } from "./emotion-advanced-gradients";
@@ -24,7 +22,7 @@ import noop from "lodash/noop";
 import { useFeatureFlag } from "@/state/feature-flags";
 import { NeedsCheck } from "./needs-check";
 import type { NeedStates } from "./needs";
-import { getBasicEmotions, toBasicCategory } from "./basic-emotions";
+import { getBasicEmotions } from "./basic-emotions";
 
 type Mode = "basic" | "advanced";
 
@@ -88,9 +86,8 @@ const EmotionsHeader = ({
  * Emotion slide of the logger.
  *
  * Basic mode shows up to 36 emotions: the draft's picks, then the 20 most
- * used, then the predefined basic set. Pulling the list down reveals a
- * search over all emotions, shown in the basic grid. Must render inside
- * `LogDraftProvider` and `LogsProvider`.
+ * used, then the predefined basic set. Must render inside `LogDraftProvider`
+ * and `LogsProvider`.
  *
  * With the `needs` flag, a link under the headline switches to needs mode:
  * rate needs, pick from suggested emotions only. Needs mode hides More and
@@ -144,15 +141,6 @@ export const SlideEmotions = ({
     logState.items
   );
 
-  const [query, setQuery] = useState("");
-  const isSearching = query.trim() !== "";
-  const searchResults: Emotion[] = [];
-  for (const emotion of EMOTIONS) {
-    if (emotion.disabled !== true && matchesSearch(emotion.label, query)) {
-      searchResults.push(toBasicCategory(emotion));
-    }
-  }
-
   const onPressEmotion = (emotion: Emotion) => {
     if (selectedEmotions.map((d) => d.key).includes(emotion.key)) {
       _setSelectedEmotions(
@@ -172,7 +160,7 @@ export const SlideEmotions = ({
   };
 
   let content: React.ReactNode;
-  if (showNeeds && !isSearching) {
+  if (showNeeds) {
     content = (
       <NeedsCheck
         states={needStates}
@@ -184,10 +172,10 @@ export const SlideEmotions = ({
         onPressEmotion={onPressEmotion}
       />
     );
-  } else if (isSearching || mode === "basic") {
+  } else if (mode === "basic") {
     content = (
       <EmotionBasicSelection
-        emotions={isSearching ? searchResults : basicEmotions}
+        emotions={basicEmotions}
         onPress={onPressEmotion}
         selectedEmotions={selectedEmotions}
         onRequestEmotion={openRequest}
@@ -243,15 +231,8 @@ export const SlideEmotions = ({
               width: "100%",
             }}
           />
-          <PullToSearch
-            testID="logger-emotions-search"
-            placeholder={t("log_emotions_search")}
-            query={query}
-            onChangeQuery={setQuery}
-          >
-            {content}
-          </PullToSearch>
-          {isSearching || showNeeds || mode === "basic" ? (
+          <ScrollView>{content}</ScrollView>
+          {showNeeds || mode === "basic" ? (
             <EmotionBasicGradients />
           ) : (
             <EmotionAdvancedGradients />
