@@ -18,6 +18,7 @@ import TagNameField from "../components/tag-name-field";
 import { isValidTagTitle } from "../tag-name";
 import { useTagsUpdater } from "../tags-provider";
 import type { Tag as ITag } from "../tags-provider";
+import { SPACE } from "@/constants/space";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
@@ -128,7 +129,7 @@ export const TagCreate = () => {
       {/* Scrolls once many categories push the form past the screen. */}
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+        contentContainerStyle={{ padding: SPACE.lg, paddingBottom: 40 }}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
         automaticallyAdjustKeyboardInsets

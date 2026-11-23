@@ -19,6 +19,7 @@ import {
 import { isValidTagTitle } from "../tag-name";
 import { useTagsState, useTagsUpdater } from "../tags-provider";
 import type { TagCategory } from "../tags-provider";
+import { SPACE } from "@/constants/space";
 
 /**
  * Rename and Delete form for a tag category other than General. Names follow
@@ -101,7 +102,7 @@ const TagCategoryForm = ({ category }: { category: TagCategory }) => {
       />
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{ padding: 20 }}
+        contentContainerStyle={{ padding: SPACE.lg }}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
         automaticallyAdjustKeyboardInsets

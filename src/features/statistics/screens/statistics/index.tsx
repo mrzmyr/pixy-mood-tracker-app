@@ -14,6 +14,7 @@ import { EmptyPlaceholder } from "./empty-placeholder";
 import { HighlightsSection } from "./highlights-section";
 
 import { DATE_FORMAT } from "@/constants/config";
+import { SPACE } from "@/constants/space";
 
 /**
  * Statistics screen, opened from the calendar header.
@@ -36,7 +37,7 @@ export const StatisticsScreen = () => {
     >
       <View
         style={{
-          paddingHorizontal: 20,
+          paddingHorizontal: SPACE.lg,
           paddingTop: 20,
           // iOS adds the bottom safe area through
           // `contentInsetAdjustmentBehavior`.

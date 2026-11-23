@@ -20,3 +20,4 @@ Facts about the platform, tools, and machine that code search does not show.
 - An Android Gradle build rewrites library manifests in `node_modules` (React Native's Gradle plugin drops their `package` attribute). The native fingerprint hashes those files, so it changes on that machine until `bun install` runs again. Restore them after the build ([`android-app.ts`](scripts/sitemap/android-app.ts)).
 - agent-device's regular Android snapshot drops tiny views that the user cannot see, such as 1 dp probes under the status bar. `snapshot --raw` keeps them.
 - `adb shell monkey -p <package> 1` aborts on an emulator without physical keys. Start the activity with `am start -W -n <package>/.MainActivity`.
+- `bun run type-check` runs `tsc` on `src/` only (`tsconfig.json` `include`). Scripts under `scripts/` are not type-checked there. Check a script change with a temporary tsconfig that extends the root one, includes the files, and sets `allowImportingTsExtensions`.

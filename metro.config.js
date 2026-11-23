@@ -24,5 +24,29 @@ if (
     require.resolve("./scripts/sitemap/capture-polyfill.js"),
   ];
   defaultConfig.cacheVersion = `${defaultConfig.cacheVersion}:sitemap`;
+  // Stubs for UI no captured state shows, see scripts/sitemap/capture-stubs.cjs.
+  const stubs = require("./scripts/sitemap/capture-stubs.cjs");
+  const path = require("node:path");
+  const upstream = defaultConfig.resolver.resolveRequest;
+  defaultConfig.resolver.resolveRequest = (context, moduleName, platform) => {
+    // Babel's module-resolver has already turned `@/x` into a relative path.
+    const repoPath = (file) =>
+      path.relative(__dirname, file).split(path.sep).join("/");
+    const from = repoPath(context.originModulePath);
+    const target = moduleName.startsWith(".")
+      ? repoPath(
+          path.resolve(path.dirname(context.originModulePath), moduleName)
+        )
+      : moduleName.replace(/^@\//u, "src/");
+    const stub = Object.entries(stubs[from] ?? {}).find(
+      ([spec]) => spec.replace(/^@\//u, "src/") === target
+    )?.[1];
+    if (stub) {
+      return { type: "sourceFile", filePath: path.join(__dirname, stub) };
+    }
+    return upstream
+      ? upstream(context, moduleName, platform)
+      : context.resolveRequest(context, moduleName, platform);
+  };
 }
 module.exports = defaultConfig;

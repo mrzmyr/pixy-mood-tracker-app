@@ -12,7 +12,9 @@ import type { FeatureFlag } from "./flags.ts";
 import {
   REPO_ROOT,
   createInputHasher,
+  describeChange,
   readNativeFingerprint,
+  readChangedFiles,
   readSource,
 } from "./inputs.ts";
 import { passId, stateKey, variantsOf } from "./manifest.ts";
@@ -184,7 +186,8 @@ export const staleReason = (
   screen: ScreenSpec,
   state: StateSpec,
   variant: Variant,
-  stateResult: StateResult | undefined
+  stateResult: StateResult | undefined,
+  changed = new Set<string>()
 ): string | null => {
   const result = stateResult?.variants[variantId(variant)];
   if (!stateResult || !result) {
@@ -203,7 +206,8 @@ export const staleReason = (
       : null;
     const actual = result[pass.kind]?.inputHash ?? null;
     if (expected !== actual) {
-      return `${passId(pass)} inputs changed`;
+      const files = describeChange(hash.inputsOf(screen, variant), changed);
+      return `${passId(pass)} inputs changed${files ? `: ${files}` : ""}`;
     }
   }
   return null;
@@ -268,6 +272,7 @@ export const checkSite = async () => {
     });
   }
   const hash = createInputHasher({ source: readSource(), nativeFingerprint });
+  const changed = readChangedFiles();
   const problems: string[] = [];
   const header = siteHeader(nativeFingerprint);
   for (const key of [
@@ -290,7 +295,7 @@ export const checkSite = async () => {
   }
   const stale = pairStates(site).flatMap(({ screen, state, result }) =>
     variantsOf(screen).flatMap((variant) => {
-      const reason = staleReason(hash, screen, state, variant, result);
+      const reason = staleReason(hash, screen, state, variant, result, changed);
       return reason
         ? [`${stateKey(screen, state)} ${variantId(variant)}: ${reason}`]
         : [];

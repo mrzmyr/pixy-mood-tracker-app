@@ -14,3 +14,11 @@ export const DEV_TOOLS: typeof Screens | null =
     ? // oxlint-disable-next-line typescript/no-require-imports -- a static import would ship developer tools in production bundles.
       require("@/dev/screens")
     : null;
+
+/**
+ * Whether this build has developer tools. Reads no developer tool code, so
+ * screens that only check it do not depend on `./screens`.
+ */
+export const HAS_DEV_TOOLS =
+  process.env.EXPO_PUBLIC_APP_VARIANT === "development" ||
+  process.env.EXPO_PUBLIC_APP_VARIANT === "preview";

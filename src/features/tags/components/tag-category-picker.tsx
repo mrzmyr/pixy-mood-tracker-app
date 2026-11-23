@@ -8,6 +8,7 @@ import { t } from "@/lib/translation";
 import { useTagsState } from "../tags-provider";
 import type { TagCategory } from "../tags-provider";
 import { Label } from "@/components/typography";
+import { SPACE } from "@/constants/space";
 
 const IS_ANDROID = Platform.OS === "android";
 
@@ -35,6 +36,7 @@ const TagCategoryPicker = ({
         style={{
           color: colors.textSecondary,
           paddingBottom: 8,
+          paddingLeft: IS_ANDROID ? 0 : SPACE.lg,
         }}
       >
         {t("tag_category")}

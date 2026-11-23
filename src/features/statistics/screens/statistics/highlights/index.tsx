@@ -20,6 +20,7 @@ import {
   getPeopleHighlightProperties,
   getPeopleHighlightsState,
 } from "../people-highlights-state";
+import { SPACE } from "@/constants/space";
 
 const ReportCards = ({ report }: { report: HighlightsReport }) => {
   const { cards, data, window } = report;
@@ -154,7 +155,7 @@ export const StatisticsHighlights = () => {
     >
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ padding: 20, paddingBottom }}
+        contentContainerStyle={{ padding: SPACE.lg, paddingBottom }}
       >
         <View
           style={{

@@ -5,7 +5,7 @@ import { isViewSwitch } from "@/shell/view-menu";
 import { StorageLoadGate } from "@/shell/storage-load-gate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
-import { DEV_TOOLS } from "@/dev";
+import { HAS_DEV_TOOLS } from "@/dev";
 import { useCanOverrideFeatureFlags } from "@/state/feature-flags";
 import { QuickCheckInNotificationSync } from "@/features/quickcheckin";
 import { WidgetSync } from "@/features/widget";
@@ -462,7 +462,7 @@ const AppLayout = () => {
               options={{ ...pageOptions, title: "Feature flags" }}
             />
           </Stack.Protected>
-          <Stack.Protected guard={DEV_TOOLS !== null}>
+          <Stack.Protected guard={HAS_DEV_TOOLS}>
             <Stack.Screen
               name="dev/fixtures"
               options={{ ...pageOptions, title: "Test data" }}
