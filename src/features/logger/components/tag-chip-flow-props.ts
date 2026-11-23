@@ -13,6 +13,8 @@ export interface TagChipFlowProps {
   trailing: ReactElement | null;
   /** Visible tag ids in their new order. */
   onReorder: (orderedIds: Tag["id"][]) => void;
+  /** `true` while a chip drags, `false` after the drop. */
+  onDragChange?: (isDragging: boolean) => void;
   menuActions: (tag: Tag) => TagMenuAction[];
   onMenuAction: (tag: Tag, actionId: TagMenuActionId) => void;
 }

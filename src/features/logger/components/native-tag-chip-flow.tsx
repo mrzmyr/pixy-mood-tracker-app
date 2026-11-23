@@ -23,6 +23,7 @@ export const NativeTagChipFlow = ({
   renderTag,
   trailing,
   onReorder,
+  onDragChange,
   menuActions,
   onMenuAction,
 }: TagChipFlowProps & {
@@ -55,6 +56,7 @@ export const NativeTagChipFlow = ({
     dragOrderRef.current = null;
     setDragOrder(null);
     setDraggingId(null);
+    onDragChange?.(false);
   };
 
   const renderChip = (tag: Tag) => (
@@ -69,6 +71,7 @@ export const NativeTagChipFlow = ({
           pressBlocked.current = true;
           if (nativeEvent.dragging) {
             setDraggingId(tag.id);
+            onDragChange?.(true);
           }
         }}
         onDragEnter={({ nativeEvent }) =>

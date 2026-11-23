@@ -56,6 +56,8 @@ export const SlideTags = ({
   const colors = useColors();
   const { tags, categories } = useTagsState();
   const [query, setQuery] = useState("");
+  // A chip drag near the top edge would scroll the hidden search bar in.
+  const [isDraggingTag, setIsDraggingTag] = useState(false);
   const hasTagIcons = useFeatureFlag("tag-icons");
   const analytics = useAnalytics();
   const { arrangeTags } = useTagsUpdater();
@@ -203,6 +205,7 @@ export const SlideTags = ({
           placeholder={t("log_tags_search")}
           query={query}
           onChangeQuery={setQuery}
+          scrollEnabled={!isDraggingTag}
         >
           <View
             style={{
@@ -240,6 +243,7 @@ export const SlideTags = ({
                   onReorder={(orderedIds) =>
                     reorder(category.id, orderedIds, "drag")
                   }
+                  onDragChange={setIsDraggingTag}
                   menuActions={getTagMenuActions}
                   onMenuAction={(tag, actionId) =>
                     runMenuAction(tag, actionId, {

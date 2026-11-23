@@ -18,6 +18,7 @@ export const SortableTagChipFlow = ({
   renderTag,
   trailing,
   onReorder,
+  onDragChange,
   menuActions,
   onMenuAction,
 }: TagChipFlowProps) => {
@@ -34,6 +35,7 @@ export const SortableTagChipFlow = ({
     indexToKey,
   }: SortableFlexDragEndParams) => {
     isDragging.current = true;
+    onDragChange?.(false);
     if (fromIndex !== toIndex) {
       onReorder(indexToKey.filter((itemKey) => itemKey !== TRAILING_KEY));
       return;
@@ -57,6 +59,7 @@ export const SortableTagChipFlow = ({
       paddingBottom={CHIP_FLOW.paddingBottom}
       onDragStart={() => {
         isDragging.current = true;
+        onDragChange?.(true);
       }}
       onDragEnd={onDragEnd}
       customHandle
