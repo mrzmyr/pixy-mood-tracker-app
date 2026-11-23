@@ -160,7 +160,7 @@ export const SCREENS: ScreenSpec[] = [
         id: "new",
         title: "New check-in",
         fixture: "year",
-        wait: 'id="quick-check-in-scroll"',
+        wait: 'id="quick-check-in-slides"',
       },
     ],
   },
