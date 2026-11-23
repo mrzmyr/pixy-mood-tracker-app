@@ -9,6 +9,7 @@
 // comments between statements never count. Metro still evaluates the rest;
 // it draws nothing.
 import crypto from "node:crypto";
+import { createRequire } from "node:module";
 import path from "node:path";
 
 import { parseSync, Visitor } from "oxc-parser";
@@ -46,6 +47,14 @@ const resolveSuffixes = (platform: Platform) => [
   "/index.ts",
   "/index.js",
 ];
+
+const CaptureStubs = z.record(z.string(), z.record(z.string(), z.string()));
+/** Imports capture bundles replace, shared with metro.config.js. */
+const CAPTURE_STUBS = CaptureStubs.parse(
+  createRequire(import.meta.url)("./capture-stubs.cjs")
+);
+const stubFor = (from: string, spec: string) =>
+  CAPTURE_STUBS[from]?.[spec] ?? null;
 
 /** Every export of a module: `import * as x`, `require()`, `import "x"`. */
 const ALL = "*";
@@ -550,6 +559,10 @@ export const createImportGraph = (
   const records = new Map<string, ModuleRecord | null>();
 
   const resolve = (spec: string, from: string) => {
+    const stub = stubFor(from, spec);
+    if (stub && blobs.has(stub)) {
+      return stub;
+    }
     let base: string;
     if (spec.startsWith("@/")) {
       base = path.posix.join("src", spec.slice(2));

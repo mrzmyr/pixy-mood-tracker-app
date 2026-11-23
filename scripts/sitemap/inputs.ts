@@ -180,6 +180,7 @@ const SHARED_PATTERNS: Record<Platform, RegExp[]> = {
  */
 const COMMON_PATTERNS = [
   /^(?:metro|babel)\.config\.js$/u,
+  /^scripts\/sitemap\/capture-stubs\.cjs$/u,
   /^app\.config\.ts$/u,
   /^eas\.json$/u,
   /^tsconfig\.json$/u,

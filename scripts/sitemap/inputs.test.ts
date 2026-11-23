@@ -157,6 +157,15 @@ describe("input hash", () => {
     expect(hashWith(edit)).toBe(base);
   });
 
+  test("a module only a capture stub replaces keeps every hash", () => {
+    const edit = runsOnLoad(
+      "src/features/feedback/components/feedback-modal.tsx"
+    );
+    expect(hashWith(edit, IOS_LIGHT, LICENSES)).toBe(
+      hashWith(undefined, IOS_LIGHT, LICENSES)
+    );
+  });
+
   test("a developer tool screen no capture opens keeps every hash", () => {
     const edit = runsOnLoad("src/dev/playground.tsx");
     expect(hashWith(edit)).toBe(base);
