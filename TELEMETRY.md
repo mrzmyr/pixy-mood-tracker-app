@@ -47,6 +47,7 @@ Pixy sends anonymous usage events to PostHog. This file lists what is sent, what
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](src/features/review))
   - Fires when a good moment requests the system prompt. Max 3 per 365 days, 120 days apart, 1 per app version
+  - Moments: good new entry from logger or quick check-in screen
   - `trigger`: `first` (first prompt, from 7 entries), `later` (later prompt, from 30 entries). Never the mood behind it
   - `entries_count`: all saved entries. Never ratings or averages
   - OS decides whether prompt shows

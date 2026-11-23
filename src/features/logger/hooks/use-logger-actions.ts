@@ -8,19 +8,11 @@ import { useLogState, useLogUpdater } from "@/features/logs";
 import { countPhotosBySource } from "@/features/photos";
 import { useStoreReviewPrompt } from "@/features/review";
 
-import { EMOTIONS } from "../config";
+import { hasNegativeEmotion } from "../negative-emotions";
 import { useLogDraft } from "../log-draft";
 import type { FinalizedDraft } from "../finalize-draft";
 import type { LoggerMode } from "../logger";
 import { useSaveAfterSleepFill } from "./use-health-sleep-fill";
-
-/** Emotions that make a save a bad moment for a store review prompt. */
-const NEGATIVE_EMOTION_KEYS = new Set<string>();
-for (const emotion of EMOTIONS) {
-  if (emotion.category === "bad" || emotion.category === "very_bad") {
-    NEGATIVE_EMOTION_KEYS.add(emotion.key);
-  }
-}
 
 /** New entry plus where the logger closes to once the user is done. */
 export type SavedEntry = Pick<FinalizedDraft, "item" | "closeTo">;
@@ -117,9 +109,7 @@ export const useLoggerActions = ({
       // `logState` predates this save, so count the new entry.
       entriesCount: logState.items.length + 1,
       rating: hasRating ? item.rating : null,
-      hasNegativeEmotion: item.emotions.some((key) =>
-        NEGATIVE_EMOTION_KEYS.has(key)
-      ),
+      hasNegativeEmotion: hasNegativeEmotion(item.emotions),
     });
 
     if (onCreated) {

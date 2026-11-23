@@ -1,4 +1,5 @@
 export { EMOTIONS } from "./config";
+export { hasNegativeEmotion } from "./negative-emotions";
 export { usePixyIdle } from "./confirmation/use-pixy-idle";
 export { EmotionIndicator } from "./slides/slide-emotions/emotions-indicator";
 export {
