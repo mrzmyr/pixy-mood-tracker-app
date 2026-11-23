@@ -1,18 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Platform, Pressable, ScrollView, View } from "react-native";
+import { useEffect, useMemo, useRef } from "react";
+import { Platform, View } from "react-native";
 import { useKeepAwake } from "expo-keep-awake";
 import * as Linking from "expo-linking";
 import { Stack, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Check from "lucide-react-native/icons/check";
-import CircleQuestionMark from "lucide-react-native/icons/circle-question-mark";
-import Mic from "lucide-react-native/icons/mic";
-import Pause from "lucide-react-native/icons/pause";
 import Button from "@/components/button";
 import RouteModalHeader from "@/components/route-modal-header";
-import { Body, Headline, Secondary } from "@/components/type";
-import { RADIUS } from "@/constants/radius";
+import { Body, Headline } from "@/components/type";
+import { SPACE } from "@/constants/space";
 import { encodeLoggerPrefill } from "@/features/logger";
 import type { LoggerPrefill } from "@/features/logger";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
@@ -20,35 +16,28 @@ import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import { VoiceBackground } from "../components/voice-background";
-import { VoiceHelpSheet } from "../components/voice-help-sheet";
-import { VoiceMatchCard, VoiceMoodCard } from "../components/voice-match-card";
-import { VoiceTrySaying } from "../components/voice-try-saying";
-import { VoiceWaveform } from "../components/voice-waveform";
+import { VoiceInputPill } from "../components/voice-input-pill";
+import { VoiceTranscript } from "../components/voice-transcript";
 import { matchTranscript } from "../match-transcript";
 import { getMoodTriggers, matchMood } from "../mood-triggers";
 import { useVoiceTerms } from "../use-voice-terms";
-import { buildVoiceExamples } from "../voice-example";
 import { useVoiceTranscription } from "../use-voice-transcription";
 import type { VoiceStatus } from "../use-voice-transcription";
 import { blockedCopy } from "../blocked-copy";
 
-const CONTROL_SIZE = 56;
-/** Examples the empty state cycles through. */
-const EXAMPLE_COUNT = 3;
-
 /**
- * iOS sheet bar over the sky: no fill, so the clouds or stars reach the top
- * edge and the close button floats on them.
+ * iOS sheet bar: no fill, so the transcript fades out under the close
+ * button.
  */
 const TRANSPARENT_BAR_OPTIONS = {
   headerTransparent: true,
   headerStyle: { backgroundColor: "transparent" },
 };
 
+// Listening and paused have no label: the waveform and the resume icon
+// show them.
 const STATUS_LABEL: Partial<Record<VoiceStatus, () => string>> = {
   preparing: () => t("voice_preparing"),
-  listening: () => t("voice_listening"),
 };
 
 // Prefill list each match kind goes to.
@@ -59,9 +48,9 @@ const PREFILL_LIST = {
 };
 
 /**
- * Voice mode: listen, show detected people, tags, emotions, and the first
- * spoken mood live, then open the quick check-in prefilled. Nothing is saved
- * here.
+ * Voice mode: listen, show the live transcript with detected people, tags,
+ * emotions, and the first spoken mood highlighted, then open the quick
+ * check-in prefilled. Nothing is saved here.
  */
 export const VoiceMode = () => {
   const colors = useColors();
@@ -71,10 +60,8 @@ export const VoiceMode = () => {
   const analytics = useAnalytics();
   const haptics = useHaptics();
   const terms = useVoiceTerms();
-  const moodTriggers = getMoodTriggers();
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const moodTriggers = useMemo(() => getMoodTriggers(), []);
   const hasStarted = useRef(false);
-  const cardsRef = useRef<ScrollView>(null);
   // Set when listening starts, in the start effect.
   const startedAt = useRef(0);
   // Screen lock would cut the recording mid-sentence.
@@ -86,18 +73,7 @@ export const VoiceMode = () => {
     onFailed: (error) =>
       analytics.track("voice:failed", { status: error.status }),
   });
-  const matches = useMemo(
-    () => matchTranscript(voice.text, terms),
-    [voice.text, terms]
-  );
-  const mood = matchMood(voice.text, moodTriggers);
   const hasText = voice.text.trim() !== "";
-  // Picked when the screen opens: other tags and people each time. Terms
-  // keep their identity while stores stay the same.
-  const examples = useMemo(
-    () => buildVoiceExamples(terms, getMoodTriggers(), EXAMPLE_COUNT),
-    [terms]
-  );
 
   const { allowLeave } = useDiscardGuard({
     isDirty: hasText,
@@ -167,55 +143,45 @@ export const VoiceMode = () => {
     });
   };
 
+  const { pause: handlePause, resume: handleResume } = voice;
   const isListening = voice.status === "listening";
   // Pause also cancels setup, so it counts as running.
   const isRunning = isListening || voice.status === "preparing";
   const isBlocked = voice.status === "denied" || voice.status === "failed";
   const blocked = blockedCopy(voice.status, voice.error?.status);
+  const statusLabel = STATUS_LABEL[voice.status]?.();
+
+  // White like a sheet, not the grouped page gray.
+  const background = colors.menuListItemBackground;
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.background,
-      }}
-      testID="voice-mode"
-    >
-      <VoiceBackground level={voice.level} />
+    <View style={{ flex: 1, backgroundColor: background }} testID="voice-mode">
       <RouteModalHeader title="" onClose={close} closeTestID="voice-close" />
       {Platform.OS === "ios" && (
         <Stack.Screen options={TRANSPARENT_BAR_OPTIONS} />
       )}
 
-      <ScrollView
-        ref={cardsRef}
-        // Newest card last: keep it in view while the list grows.
-        onContentSizeChange={() => cardsRef.current?.scrollToEnd()}
-        style={{ flex: 1 }}
-        contentContainerStyle={{
-          // Grows to the full height, so the hint can sit in the middle.
-          flexGrow: 1,
+      <View
+        style={{
+          flex: 1,
           // iOS: the transparent bar overlaps the screen top.
           paddingTop: Platform.OS === "ios" ? headerHeight : 0,
-          paddingHorizontal: 20,
-          gap: 8,
         }}
       >
-        {!mood && matches.length === 0 && !isBlocked && (
-          <VoiceTrySaying examples={examples} />
-        )}
-        {mood && <VoiceMoodCard mood={mood} />}
-        {matches.map((match) => (
-          <VoiceMatchCard key={`${match.kind}:${match.id}`} match={match} />
-        ))}
-      </ScrollView>
+        <VoiceTranscript
+          text={voice.text}
+          terms={terms}
+          triggers={moodTriggers}
+          background={background}
+        />
+      </View>
 
       {isBlocked ? (
         <View
           style={{
-            paddingHorizontal: 20,
-            paddingBottom: insets.bottom + 20,
-            gap: 12,
+            paddingHorizontal: SPACE.xl,
+            paddingBottom: insets.bottom + SPACE.xl,
+            gap: SPACE.md,
           }}
           accessibilityLiveRegion="polite"
         >
@@ -239,111 +205,32 @@ export const VoiceMode = () => {
       ) : (
         <View
           style={{
-            paddingHorizontal: 20,
-            paddingBottom: insets.bottom + 20,
-            gap: 20,
+            paddingHorizontal: SPACE.lg,
+            paddingBottom: insets.bottom + SPACE.sm,
+            gap: SPACE.lg,
           }}
         >
-          <View style={{ gap: 4 }}>
-            {isRunning && (
-              <Headline accessibilityRole="header" testID="voice-status">
-                {STATUS_LABEL[voice.status]?.()}
-              </Headline>
-            )}
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
+          {statusLabel && (
+            <Headline
+              accessibilityRole="header"
+              testID="voice-status"
+              style={{ paddingHorizontal: SPACE.xs }}
             >
-              <View style={{ flex: 1 }}>
-                <Secondary>{t("voice_detects")}</Secondary>
-              </View>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t("voice_help_title")}
-                testID="voice-help-open"
-                hitSlop={16}
-                onPress={() => setIsHelpOpen(true)}
-                style={({ pressed }) => ({
-                  padding: 0,
-                  opacity: pressed ? 0.5 : 1,
-                })}
-              >
-                <CircleQuestionMark
-                  width={18}
-                  height={18}
-                  color={colors.textSecondary}
-                />
-              </Pressable>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={
-                isRunning ? t("voice_pause") : t("voice_resume")
-              }
-              testID="voice-pause"
-              disabled={!isRunning && voice.status !== "paused"}
-              onPress={isRunning ? voice.pause : voice.resume}
-              style={({ pressed }) => ({
-                width: CONTROL_SIZE,
-                height: CONTROL_SIZE,
-                borderRadius: RADIUS.full,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: colors.tertiaryButtonBackground,
-                opacity: pressed ? 0.7 : 1,
-              })}
-            >
-              {isRunning ? (
-                <Pause
-                  width={22}
-                  height={22}
-                  color={colors.tertiaryButtonText}
-                />
-              ) : (
-                <Mic width={22} height={22} color={colors.tertiaryButtonText} />
-              )}
-            </Pressable>
-            <VoiceWaveform
-              level={voice.level}
-              isActive={isListening}
-              color={colors.primaryButtonBackground}
-            />
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t("voice_done")}
-              accessibilityState={{ disabled: !hasText }}
-              testID="voice-done"
-              disabled={!hasText}
-              onPress={finish}
-              style={({ pressed }) => ({
-                width: CONTROL_SIZE,
-                height: CONTROL_SIZE,
-                borderRadius: RADIUS.full,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: hasText
-                  ? colors.primaryButtonBackground
-                  : colors.primaryButtonBackgroundDisabled,
-                opacity: pressed ? 0.8 : 1,
-              })}
-            >
-              <Check width={26} height={26} color={colors.primaryButtonText} />
-            </Pressable>
-          </View>
+              {statusLabel}
+            </Headline>
+          )}
+          <VoiceInputPill
+            isRunning={isRunning}
+            canResume={voice.status === "paused"}
+            isListening={isListening}
+            hasText={hasText}
+            level={voice.level}
+            onPause={handlePause}
+            onResume={handleResume}
+            onDone={finish}
+          />
         </View>
       )}
-      <VoiceHelpSheet
-        isOpen={isHelpOpen}
-        onClose={() => setIsHelpOpen(false)}
-        triggers={moodTriggers}
-      />
     </View>
   );
 };
