@@ -19,7 +19,7 @@ export interface VoiceMatch<Kind extends string = VoiceMatchKind> {
 }
 
 // Punctuation and symbols between words. Letters of every script stay.
-const SEPARATORS = /[\s.,!?;:"'`´’‘“”„«»()[\]{}<>…\-–—_/\\|*+=&%$#@~^0-9]+/gu;
+const SEPARATOR = /^[\s.,!?;:"'`´’‘“”„«»()[\]{}<>…\-–—_/\\|*+=&%$#@~^0-9]$/u;
 // Scripts where words run together or carry attached particles: Thai,
 // Japanese kana, CJK ideographs, Hangul. These match as substrings.
 const NO_SPACE_SCRIPT =
@@ -27,13 +27,55 @@ const NO_SPACE_SCRIPT =
 // Combining accents left by NFD normalization.
 const COMBINING_MARKS = /\p{Mn}/gu;
 
-const normalize = (text: string) =>
-  ` ${text
-    .normalize("NFD")
-    .replaceAll(COMBINING_MARKS, "")
-    .toLowerCase()
-    .replaceAll(SEPARATORS, " ")
-    .trim()} `;
+/** Normalized text, padded with one space on each side. */
+interface Normalized {
+  text: string;
+  /** Per character of `text`: start of its source character in the input. */
+  from: number[];
+  /** Per character of `text`: end of its source character in the input. */
+  to: number[];
+}
+
+/**
+ * Lowercase, accents removed, separators collapsed to one space, padded
+ * with spaces. Works per character, so every normalized character maps
+ * back to its place in the input for highlighting.
+ */
+const normalizeWithMap = (input: string): Normalized => {
+  const chars = [" "];
+  const from = [0];
+  const to = [0];
+  let index = 0;
+  for (const char of input) {
+    const end = index + char.length;
+    if (SEPARATOR.test(char)) {
+      if (chars.at(-1) !== " ") {
+        chars.push(" ");
+        from.push(index);
+        to.push(end);
+      }
+    } else {
+      const folded = char
+        .normalize("NFD")
+        .replaceAll(COMBINING_MARKS, "")
+        .toLowerCase();
+      for (const unit of folded.split("")) {
+        chars.push(unit);
+        from.push(index);
+        to.push(end);
+      }
+    }
+    index = end;
+  }
+  if (chars.at(-1) !== " ") {
+    chars.push(" ");
+    from.push(index);
+    to.push(index);
+  }
+  return { text: chars.join(""), from, to };
+};
+
+const normalize = (text: string) => normalizeWithMap(text).text;
 
 // Shortest first or last name that matches on its own. Shorter words ("Al",
 // "Jo", an initial "S.") collide with everyday words ("al", "jo", "it's").
@@ -115,25 +157,14 @@ const getNeedles = <Kind extends string>(
 };
 
 /**
- * Find known people, tags, and emotions in a transcript.
- *
- * - Case and accents are ignored. Terms match whole words only, except in
- *   scripts without spaces (Chinese, Japanese, Korean, Thai).
- * - People also match by first or last name alone ("Anna" or "Schmidt" for
- *   Anna Schmidt). A name part shared by several people matches nobody. A
- *   name part never beats a full term: person "Anna", tag "Anna", or
- *   emotion "Joy" on the same words wins.
- * - Overlapping terms: the longest term wins ("left out" over "out").
- * - Returns each item once, in order of its first mention.
- *
- * Swap this function for a smarter matcher later. Callers only rely on the
- * signature.
+ * Hits that survive overlap rules, in transcript order. `everyMention`
+ * finds each mention of a term, otherwise only its first.
  */
-export const matchTranscript = <Kind extends string = VoiceMatchKind>(
-  transcript: string,
-  terms: VoiceTerm<Kind>[]
-): VoiceMatch<Kind>[] => {
-  const haystack = normalize(transcript);
+const findHits = <Kind extends string>(
+  haystack: string,
+  terms: VoiceTerm<Kind>[],
+  everyMention: boolean
+): Hit<Kind>[] => {
   if (haystack.trim() === "") {
     return [];
   }
@@ -142,12 +173,15 @@ export const matchTranscript = <Kind extends string = VoiceMatchKind>(
   for (const { text, term, isNamePart } of getNeedles(terms)) {
     const isNoSpace = NO_SPACE_SCRIPT.test(text);
     const pattern = isNoSpace ? text : ` ${text} `;
-    const index = haystack.indexOf(pattern);
-    if (index === -1) {
-      continue;
+    let index = haystack.indexOf(pattern);
+    while (index !== -1) {
+      const start = isNoSpace ? index : index + 1;
+      hits.push({ start, end: start + text.length, term, isNamePart });
+      if (!everyMention) {
+        break;
+      }
+      index = haystack.indexOf(pattern, start + text.length);
     }
-    const start = isNoSpace ? index : index + 1;
-    hits.push({ start, end: start + text.length, term, isNamePart });
   }
 
   // Longest first, so shorter terms inside a longer hit drop out. On equal
@@ -172,8 +206,29 @@ export const matchTranscript = <Kind extends string = VoiceMatchKind>(
       kept.push(hit);
     }
   }
+  return kept.sort((a, b) => a.start - b.start);
+};
 
-  kept.sort((a, b) => a.start - b.start);
+/**
+ * Find known people, tags, and emotions in a transcript.
+ *
+ * - Case and accents are ignored. Terms match whole words only, except in
+ *   scripts without spaces (Chinese, Japanese, Korean, Thai).
+ * - People also match by first or last name alone ("Anna" or "Schmidt" for
+ *   Anna Schmidt). A name part shared by several people matches nobody. A
+ *   name part never beats a full term: person "Anna", tag "Anna", or
+ *   emotion "Joy" on the same words wins.
+ * - Overlapping terms: the longest term wins ("left out" over "out").
+ * - Returns each item once, in order of its first mention.
+ *
+ * Swap this function for a smarter matcher later. Callers only rely on the
+ * signature.
+ */
+export const matchTranscript = <Kind extends string = VoiceMatchKind>(
+  transcript: string,
+  terms: VoiceTerm<Kind>[]
+): VoiceMatch<Kind>[] => {
+  const kept = findHits(normalize(transcript), terms, false);
   const seen = new Set<string>();
   const matches: VoiceMatch<Kind>[] = [];
   for (const { term } of kept) {
@@ -185,4 +240,34 @@ export const matchTranscript = <Kind extends string = VoiceMatchKind>(
     matches.push({ kind: term.kind, id: term.id, text: term.text });
   }
   return matches;
+};
+
+/** Place of one matched term in a transcript, as string indices. */
+export interface VoiceSpan<Kind extends string = VoiceMatchKind> {
+  kind: Kind;
+  id: string;
+  start: number;
+  end: number;
+}
+
+/**
+ * Every mention of a known term in `transcript`, with its place in the
+ * original text, in reading order. Same rules as `matchTranscript`. One
+ * span per place: two kinds on the same words keep the first.
+ */
+export const findTranscriptSpans = <Kind extends string = VoiceMatchKind>(
+  transcript: string,
+  terms: VoiceTerm<Kind>[]
+): VoiceSpan<Kind>[] => {
+  const normalized = normalizeWithMap(transcript);
+  const spans: VoiceSpan<Kind>[] = [];
+  for (const hit of findHits(normalized.text, terms, true)) {
+    const start = normalized.from[hit.start] ?? 0;
+    const end = normalized.to[hit.end - 1] ?? start;
+    if (spans.at(-1)?.start === start) {
+      continue;
+    }
+    spans.push({ kind: hit.term.kind, id: hit.term.id, start, end });
+  }
+  return spans;
 };
