@@ -4,6 +4,7 @@ import { Pressable, View } from "react-native";
 import { Copy, Label } from "@/components/typography";
 import type { IScale } from "@/constants/colors/scales";
 import { RADIUS } from "@/constants/radius";
+import { CHIP_GAP } from "@/constants/chip";
 import { SPACE } from "@/constants/space";
 import { EmotionItem } from "@/features/calendar";
 import type { LogItem } from "@/features/logs";
@@ -13,6 +14,7 @@ import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { tDynamic } from "@/lib/translation";
+import { useFeatureFlag } from "@/state/feature-flags";
 import type { Emotion } from "@/types";
 import { HOME_LAYOUT, HOME_TEXT, HOME_WEIGHT } from "../layout";
 import { DottedDivider } from "./dotted-divider";
@@ -32,23 +34,21 @@ export interface EntryPreviewData {
   /** People that still exist. */
   people: Pick<Person, "id" | "name" | "avatar" | "updatedAt">[];
   /** Tags that still exist. */
-  tags: Pick<Tag, "id" | "title" | "color">[];
+  tags: Pick<Tag, "id" | "title" | "color" | "icon">[];
   place: string | null;
   /** Up to 3 photos for the cover strip; empty without photos. */
   photoUris: string[];
 }
 
 /**
- * Emotions, people, and tags as compact chips, the same chips as the
- * Timeline; then the place. Chips wrap: Home pages days sideways, so a
- * sideways chip scroller would fight the swipe. Nothing when empty.
+ * Emotions, people, and tags as read-only chips, the same chips as the
+ * check-in (tag icons with flag `tag-icons`); then the place. Chips wrap:
+ * Home pages days sideways, so a sideways chip scroller would fight the
+ * swipe. Nothing when empty.
  */
 const Chips = ({ entry }: { entry: EntryPreviewData }) => {
   const colors = useColors();
-  const chipStyle = {
-    backgroundColor: colors.entryBackground,
-    borderColor: colors.entryItemBorder,
-  };
+  const hasTagIcons = useFeatureFlag("tag-icons");
   if (
     entry.emotions.length === 0 &&
     entry.people.length === 0 &&
@@ -62,26 +62,26 @@ const Chips = ({ entry }: { entry: EntryPreviewData }) => {
       testID="home-entry-chips"
       pointerEvents="none"
       style={{
-        marginTop: SPACE.sm,
+        marginTop: SPACE.md,
         flexDirection: "row",
         flexWrap: "wrap",
         alignItems: "center",
-        gap: SPACE.sm,
+        gap: CHIP_GAP,
       }}
     >
       {entry.emotions.map((emotion) => (
-        <EmotionItem key={emotion.key} emotion={emotion} compact />
+        <EmotionItem key={emotion.key} emotion={emotion} />
       ))}
       {entry.people.map((person) => (
-        <PersonChip key={person.id} person={person} compact style={chipStyle} />
+        <PersonChip key={person.id} person={person} />
       ))}
       {entry.tags.map((tag) => (
         <TagComponent
           key={tag.id}
           title={tag.title}
           colorName={tag.color}
-          compact
-          style={chipStyle}
+          icon={tag.icon}
+          showIcon={hasTagIcons}
         />
       ))}
       {entry.place && (
