@@ -63,8 +63,9 @@ export const TagEdit = () => {
   );
   const iconField = useTagIconField({
     enabled: hasTagIcons,
-    // Suggest only after a rename: opening a tag never changes its icon.
-    suggestFor: tag.title === defaultTag.title ? "" : tag.title,
+    suggestFor: tag.title,
+    // Apply only after a rename: opening a tag never changes its icon.
+    applySuggestion: tag.title !== defaultTag.title,
     title: tag.title,
     pickedIcon: tag.icon,
     // An existing tag has a color already: no guess.

@@ -29,6 +29,7 @@ const sourceOf = (
 export const useTagIconField = ({
   enabled,
   suggestFor,
+  applySuggestion = true,
   title,
   pickedIcon,
   pickedColor,
@@ -37,8 +38,13 @@ export const useTagIconField = ({
   onColorPick,
 }: {
   enabled: boolean;
-  /** Name to suggest icons for. Empty: no suggestions, for example an unchanged tag in the edit form. */
+  /** Name to suggest icons for. Empty: no suggestions. */
   suggestFor: string;
+  /**
+   * Use the best suggestion as the icon when none is picked. Off: the picker
+   * still lists suggestions, for example an unchanged tag in the edit form.
+   */
+  applySuggestion?: boolean;
   title: string;
   /** Icon the user picked or the tag already had. */
   pickedIcon: Tag["icon"];
@@ -52,7 +58,7 @@ export const useTagIconField = ({
   const { suggestions, isSuggesting, firstColor } = useTagIconSuggestions(
     enabled ? suggestFor : ""
   );
-  const [suggested] = suggestions;
+  const suggested = applySuggestion ? suggestions[0] : undefined;
   const icon = pickedIcon ?? suggested;
   const color = pickedColor ?? firstColor ?? defaultColor;
 
@@ -88,7 +94,8 @@ export const useTagIconField = ({
     iconSource: sourceOf(pickedIcon, suggested),
     color,
     colorSource: sourceOf(pickedColor, firstColor),
-    isSuggesting,
+    // The form waits only for a suggestion it will apply.
+    isSuggesting: applySuggestion && isSuggesting,
     openPicker: () => router.push("/tags/icon"),
   };
 };
