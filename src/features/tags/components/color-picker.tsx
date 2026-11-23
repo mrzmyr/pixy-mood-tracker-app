@@ -20,7 +20,10 @@ const GAP = 8;
 
 const styles = StyleSheet.create({
   // Matches the Name label in TagNameField.
-  label: { paddingBottom: 8 },
+  label: {
+    paddingBottom: 8,
+    paddingLeft: Platform.OS === "ios" ? SPACE.lg : 0,
+  },
   // Android lists run edge to edge, so swatches keep Material's 16dp inset.
   card: Platform.select({
     android: { paddingHorizontal: 16, paddingVertical: 12 },

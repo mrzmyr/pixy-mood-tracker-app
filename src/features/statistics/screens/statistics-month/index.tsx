@@ -17,6 +17,7 @@ import { Navigation } from "./navigation";
 import { Stats } from "./stats";
 import { EmotionsDistribution } from "../../components/emotions-distribution";
 import { getItemDate } from "@/lib/log-dates";
+import { SPACE } from "@/constants/space";
 
 /**
  * Month report screen.
@@ -83,7 +84,7 @@ export const StatisticsMonthScreen = () => {
         />
         <View
           style={{
-            paddingHorizontal: 20,
+            paddingHorizontal: SPACE.lg,
             paddingTop: 20,
             paddingBottom: inset.bottom + 16,
           }}

@@ -22,7 +22,6 @@ import { RingedAvatar } from "../components/ringed-avatar";
 import { formatAgo, lastConnected } from "../last-connected";
 import { OrbitSystem } from "../story/orbit";
 import type { SlideContext } from "../story/slides";
-import { STORY_SCREEN_PADDING } from "../story/theme";
 import { THRESHOLDS } from "../thresholds";
 import { useRecapInput } from "../use-recap-input";
 import type { Period } from "../types";
@@ -152,7 +151,7 @@ export const OrbitScreen = () => {
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
           paddingTop: SPACE.sm,
-          paddingHorizontal: STORY_SCREEN_PADDING,
+          paddingHorizontal: SPACE.lg,
           paddingBottom,
           gap: SPACE.xxl,
         }}
@@ -172,7 +171,7 @@ export const OrbitScreen = () => {
               key={range}
               people={connected.slice(0, THRESHOLDS.storyOrbitMaxPeople)}
               ctx={ctx}
-              width={screen - 2 * STORY_SCREEN_PADDING}
+              width={screen - 2 * SPACE.lg}
               delay={0}
             />
             <MenuList>

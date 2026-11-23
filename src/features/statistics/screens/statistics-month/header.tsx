@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import CalendarDays from "lucide-react-native/icons/calendar-days";
 import useColors from "@/hooks/use-colors";
 import { Label } from "@/components/typography";
+import { SPACE } from "@/constants/space";
 
 /** Gradient banner under the native header for the month report. */
 export const Header = ({
@@ -25,7 +26,7 @@ export const Header = ({
       style={{
         width: "100%",
         height: bannerHeight,
-        paddingHorizontal: 20,
+        paddingHorizontal: SPACE.lg,
         paddingBottom: 24,
         paddingTop: headerHeight + 8,
         position: "relative",

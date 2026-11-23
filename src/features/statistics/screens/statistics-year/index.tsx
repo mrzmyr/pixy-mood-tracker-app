@@ -16,6 +16,7 @@ import YearInPixels from "./year-in-pixels";
 import { TagDistribution } from "../../components/tag-distribution";
 import { EmotionsDistribution } from "../../components/emotions-distribution";
 import { getItemDate } from "@/lib/log-dates";
+import { SPACE } from "@/constants/space";
 
 /** Year report screen. Invalid `date` params fall back to the current year. */
 export const StatisticsYearScreen = () => {
@@ -62,7 +63,7 @@ export const StatisticsYearScreen = () => {
       />
       <View
         style={{
-          paddingHorizontal: 20,
+          paddingHorizontal: SPACE.lg,
           paddingVertical: 8,
           paddingBottom: insets.bottom + 16,
         }}

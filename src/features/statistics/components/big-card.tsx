@@ -15,6 +15,7 @@ import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 import { createStructuredError } from "@/lib/errors";
 import type { StructuredError } from "@/lib/errors";
+import { SPACE } from "@/constants/space";
 
 /**
  * Logo in the captured share copy. Stays a React Native `Image`, not
@@ -73,7 +74,7 @@ const Container = ({
         backgroundColor: colors.cardBackground,
         borderRadius: RADIUS.md,
         borderCurve: "continuous",
-        paddingHorizontal: 20,
+        paddingHorizontal: SPACE.lg,
         paddingVertical: 16,
         marginTop: 16,
         ...style,
