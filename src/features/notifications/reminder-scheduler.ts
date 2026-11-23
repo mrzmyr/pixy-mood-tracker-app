@@ -49,22 +49,13 @@ export interface RecapNotificationScheduler {
 }
 
 /**
- * `content.data.type` of quick check-in notifications. Reminder and recap
- * changes keep them.
+ * `content.data.type` of the quick check-in notifications older app
+ * versions scheduled. Reminder and recap changes keep them.
  */
 export const QUICK_CHECK_IN_NOTIFICATION_TYPE = "quick_check_in";
 
-/** One quick check-in notification. */
-export interface QuickCheckInNotificationRequest {
-  at: Date;
-  title: string;
-  body: string;
-}
-
 /** Quick check-in notification API. Tests pass an in-memory fake. */
 export interface QuickCheckInNotificationScheduler {
-  /** Replace all scheduled quick check-ins. Reminders and recaps stay. */
-  replace: (requests: QuickCheckInNotificationRequest[]) => Promise<void>;
   /** Cancel all scheduled quick check-ins. Reminders and recaps stay. */
   cancelAll: () => Promise<void>;
 }
@@ -127,19 +118,6 @@ const scheduleRecap = ({ at, title, body, data }: RecapNotificationRequest) =>
     },
   });
 
-const scheduleQuickCheckIn = ({
-  at,
-  title,
-  body,
-}: QuickCheckInNotificationRequest) =>
-  Notifications.scheduleNotificationAsync({
-    content: { title, body, data: { type: QUICK_CHECK_IN_NOTIFICATION_TYPE } },
-    trigger: {
-      type: Notifications.SchedulableTriggerInputTypes.DATE,
-      date: at,
-    },
-  });
-
 const isRecapRequest = (request: Notifications.NotificationRequest) =>
   request.content.data?.type === RECAP_NOTIFICATION_TYPE;
 
@@ -177,13 +155,6 @@ const replaceNative = async (dates: Date[]) => {
 const replaceRecapsNative = async (requests: RecapNotificationRequest[]) => {
   await cancelWhere(isRecapRequest);
   await Promise.all(requests.map(scheduleRecap));
-};
-
-const replaceQuickCheckInsNative = async (
-  requests: QuickCheckInNotificationRequest[]
-) => {
-  await cancelWhere(isQuickCheckInRequest);
-  await Promise.all(requests.map(scheduleQuickCheckIn));
 };
 
 // Runs one change at a time, reminders, recaps, and quick check-ins alike: overlapping changes
@@ -241,12 +212,10 @@ export const defaultRecapScheduler =
   Platform.OS === "web" ? webRecapScheduler : nativeRecapScheduler;
 
 const nativeQuickCheckInScheduler: QuickCheckInNotificationScheduler = {
-  replace: (requests) => serialize(() => replaceQuickCheckInsNative(requests)),
   cancelAll: () => serialize(() => cancelWhere(isQuickCheckInRequest)),
 };
 
 const webQuickCheckInScheduler: QuickCheckInNotificationScheduler = {
-  replace: () => Promise.resolve(),
   cancelAll: () => Promise.resolve(),
 };
 

@@ -1,4 +1,3 @@
-import FlagHighlight from "@/components/flag-highlight";
 import type { DebouncedFunc } from "lodash";
 import debounce from "lodash/debounce";
 import { useEffect, useRef, useState } from "react";
@@ -9,7 +8,6 @@ import { useCalendarFilters } from "../../../filters";
 import { useTagsState } from "@/features/tags";
 import { usePeopleState } from "@/features/people";
 import type { Person } from "@/features/people";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { PeopleSection } from "./people-section";
 import { RatingSection } from "./rating-section";
 import { ResultsSection } from "./results-section";
@@ -18,15 +16,14 @@ import { TagsSection } from "./tags-section";
 
 /**
  * Calendar filter form (text, ratings, tags, people). Archived tags and
- * people cannot be selected; people show only behind the `people` flag. Text search is debounced by 200 ms; rating and tag changes
- * apply at once. Filters stay when the sheet closes; Reset clears them.
- * Must render inside `CalendarFiltersProvider`.
+ * people cannot be selected. Text search is debounced by 200 ms; rating and
+ * tag changes apply at once. Filters stay when the sheet closes; Reset
+ * clears them. Must render inside `CalendarFiltersProvider`.
  */
 export const Body = () => {
   const calendarFilters = useCalendarFilters();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
-  const hasPeople = useFeatureFlag("people");
 
   const _tags = tags.filter((tag) => !tag.isArchived);
   const selectedTagIds = new Set(calendarFilters.data.tagIds);
@@ -119,14 +116,12 @@ export const Body = () => {
         selectedTags={_tags.filter((tag) => selectedTagIds.has(tag.id))}
         onSelect={onPressTag}
       />
-      {hasPeople && _people.length > 0 && (
-        <FlagHighlight flag="people">
-          <PeopleSection
-            people={_people}
-            selectedIds={selectedPersonIds}
-            onSelect={onPressPerson}
-          />
-        </FlagHighlight>
+      {_people.length > 0 && (
+        <PeopleSection
+          people={_people}
+          selectedIds={selectedPersonIds}
+          onSelect={onPressPerson}
+        />
       )}
       {/* Reset shares the result row: the half-height Android sheet cuts off
           anything below it. */}

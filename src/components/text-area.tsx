@@ -17,6 +17,8 @@ const TextAreaComponent = (
     testID,
     maxLength = 500,
     autoFocus = false,
+    editable,
+    hidden = false,
     style,
     onChange = noop,
     onBlur,
@@ -30,6 +32,10 @@ const TextAreaComponent = (
     testID?: string;
     maxLength?: number;
     autoFocus?: boolean;
+    /** `false` blocks typing, for example while voice input writes. */
+    editable?: boolean;
+    /** Keeps the input and its layout, but draws nothing. */
+    hidden?: boolean;
     style?: TextStyle;
     onChange?: (text: string) => void;
     onBlur?: () => void;
@@ -44,6 +50,7 @@ const TextAreaComponent = (
       accessibilityLabel={accessibilityLabel || placeholder || undefined}
       testID={testID}
       autoFocus={autoFocus}
+      editable={editable}
       multiline
       onChangeText={(text) => {
         const newText = text.slice(0, maxLength);
@@ -57,8 +64,6 @@ const TextAreaComponent = (
       placeholderTextColor={colors.textInputPlaceholder}
       textAlignVertical="top"
       style={{
-        borderWidth: 1,
-        borderColor: colors.textInputBorder,
         backgroundColor: colors.textInputBackground,
         color: colors.textInputText,
         paddingTop: SPACE.lg,
@@ -66,14 +71,20 @@ const TextAreaComponent = (
         ...getTextStyle("copy", 16),
         height: "100%",
         width: "100%",
-        borderRadius: RADIUS.sm,
+        borderRadius: RADIUS.lg,
         borderCurve: "continuous",
         ...style,
+        ...(hidden && { opacity: 0 }),
       }}
     />
   );
 };
 
+/**
+ * Multi-line field: notes, messages, comments. Platform field gray, no
+ * border, `RADIUS.lg` next to capsule buttons and fields. Single line:
+ * `TextField`. `style` sets size; keep fill and radius.
+ */
 const TextArea = forwardRef(TextAreaComponent);
 
 export default TextArea;

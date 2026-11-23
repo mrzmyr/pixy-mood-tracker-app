@@ -13,7 +13,7 @@ import type { Load } from "@/state/persisted/create-persisted-store";
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
-import { INITIAL_STATE, QUICK_CHECK_IN_INTERVALS } from "@/constants/settings";
+import { INITIAL_STATE } from "@/constants/settings";
 import { applyColorScheme, ColorSchemeSettingSchema } from "./color-scheme";
 import { recapStoryDismissedAction } from "./recap-story-dismissed";
 import { toStoreReviewPromptDates } from "./store-review-prompt-dates";
@@ -42,24 +42,6 @@ export type CalendarLayout = "calendar" | "timeline";
 
 const isCalendarLayout = (value: unknown): value is CalendarLayout =>
   value === "calendar" || value === "timeline";
-
-/** Times of the quick check-in notifications. */
-export interface QuickCheckInSchedule {
-  /** First check-in of the day, `HH:mm`. */
-  from: string;
-  /** Last possible check-in of the day, `HH:mm`. */
-  until: string;
-  /** Hours between check-ins. */
-  everyHours: number;
-}
-
-const QuickCheckInScheduleSchema = z.object({
-  from: z.string().regex(/^\d{2}:\d{2}$/u),
-  until: z.string().regex(/^\d{2}:\d{2}$/u),
-  everyHours: z
-    .number()
-    .refine((hours) => QUICK_CHECK_IN_INTERVALS.some((step) => step === hours)),
-});
 
 /**
  * Persisted user settings.
@@ -132,17 +114,6 @@ export interface SettingsState {
    */
   profileAvatar: string | null;
   /**
-   * Quick check-in notifications during the day, on the
-   * `quickCheckInSchedule`. Needs notification permission, so imports keep
-   * it.
-   */
-  quickCheckInEnabled: boolean;
-  /**
-   * Quick check-in times: every `everyHours` hours from `from` to `until`
-   * (`HH:mm`), both included. Belongs to the device like the switch.
-   */
-  quickCheckInSchedule: QuickCheckInSchedule;
-  /**
    * Quick check-in sections the user folded (`true`) or opened (`false`),
    * by section. Missing sections use their default. Layout taste of this
    * device, so imports keep it.
@@ -181,8 +152,6 @@ export type ExportSettings = Omit<
   | "recapNotificationsEnabled"
   | "profileName"
   | "profileAvatar"
-  | "quickCheckInEnabled"
-  | "quickCheckInSchedule"
   | "quickCheckInCollapsed"
 >;
 
@@ -258,8 +227,6 @@ const reducer = (
         recapNotificationsEnabled: state.recapNotificationsEnabled,
         profileName: state.profileName,
         profileAvatar: state.profileAvatar,
-        quickCheckInEnabled: state.quickCheckInEnabled,
-        quickCheckInSchedule: state.quickCheckInSchedule,
         quickCheckInCollapsed: state.quickCheckInCollapsed,
       };
     }
@@ -321,10 +288,6 @@ const hydrateStored = ({
   recapNotificationsEnabled: stored.recapNotificationsEnabled === true,
   profileName: z.string().safeParse(stored.profileName).data ?? "",
   profileAvatar: z.string().safeParse(stored.profileAvatar).data ?? null,
-  quickCheckInEnabled: stored.quickCheckInEnabled === true,
-  quickCheckInSchedule:
-    QuickCheckInScheduleSchema.safeParse(stored.quickCheckInSchedule).data ??
-    INITIAL_STATE.quickCheckInSchedule,
   quickCheckInCollapsed:
     z.record(z.string(), z.boolean()).safeParse(stored.quickCheckInCollapsed)
       .data ?? {},

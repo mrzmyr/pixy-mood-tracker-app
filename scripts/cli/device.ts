@@ -6,11 +6,9 @@ import { setTimeout as sleep } from "node:timers/promises";
 
 import { getAndroidBuildEnv } from "../run-native.ts";
 import { getAdb } from "./adb.ts";
-import { setPhoneSession } from "./agent-device.ts";
 import { CliError, getCheckoutDir, note, tryRun } from "./shared.ts";
-import { preflightPhone, readPhones } from "./phone.ts";
-import { assertNotReserved } from "./reservation.ts";
-import { buildRows, findPhone, toToken } from "./target.ts";
+import { readPhones } from "./phone.ts";
+import { findPhone, toToken } from "./target.ts";
 import type { Platform } from "./shared.ts";
 
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
@@ -397,9 +395,11 @@ export interface Device {
   id: string;
   name: string;
   key: string;
+  /** Phones: OS version simlock leases by. */
+  osVersion?: string;
 }
 
-/** Resolve one managed device or preflight one physical phone target. */
+/** Resolve one managed device or one simlock phone target. Does not lease the phone. */
 export const resolveDevice = async (values: {
   platform?: string;
   target?: string;
@@ -426,41 +426,35 @@ export const resolveDevice = async (values: {
       fix: "Pass exactly one device option.",
     });
   }
-  const phoneData = await readPhones();
-  const { phones } = phoneData;
-  const candidates = phones.filter(
-    (item) => item.kind === "device" && item.target === "mobile"
-  );
+  const phones = await readPhones();
   let phone;
   try {
-    phone = findPhone(candidates, values.target);
+    phone = findPhone(phones, values.target);
   } catch (error) {
     if (!(error instanceof CliError) || error.status !== "target_not_found") {
       throw error;
     }
-    const rows = buildRows({
-      agentDevices: phones,
-      iosDevices: phoneData.iosDevices,
-      lockStates: phoneData.lockStates,
-      adbStates: phoneData.adbStates,
-      managed: [],
-      repositoryRoot: REPO_ROOT,
-    });
-    const blocked = rows.filter((row) => row.state === "blocked");
-    const valid = rows
-      .filter((row) => row.kind === "phone" && row.option !== "-")
-      .map((row) => row.option.replace("--target=", ""));
-    const blockedWhy = blocked.length
-      ? ` ${blocked.length} connected phone${blocked.length === 1 ? " is" : "s are"} blocked: ${blocked.map((row) => `${row.token} (${row.problem})`).join(", ")}.`
-      : "";
+    const valid = phones.map(
+      (item) => `${toToken(item.name, item.id)} (${item.state})`
+    );
     throw new CliError({
       exitCode: 2,
       status: "target_not_found",
-      message: `No connected phone has target "${values.target}"`,
-      why: `No matching phone is connected.${blockedWhy}`,
+      message: `No simlock phone has target "${values.target}"`,
+      why: valid.length
+        ? `simlock phones: ${valid.join(", ")}.`
+        : "simlock has no enrolled phone.",
       fix: valid.length
-        ? `Run \`bun devices list\` and pass one current target: ${valid.join(", ")}. Simulators and emulators use --platform.`
-        : "No phone connected. Run `bun devices list` after connecting a phone.",
+        ? "Run `bun devices list` and pass one current target. Simulators and emulators use --platform."
+        : "Enroll a phone on a simlock worker, then retry.",
+    });
+  }
+  if (phone.state === "blocked") {
+    throw new CliError({
+      status: "phone_blocked",
+      message: `${values.target}: ${phone.problem}`,
+      why: phone.problem,
+      fix: "Fix the phone on its simlock worker, then retry. `bun devices list` shows the state.",
     });
   }
   const token = toToken(phone.name, phone.id);
@@ -470,10 +464,8 @@ export const resolveDevice = async (values: {
     id: phone.id,
     name: phone.name,
     key: token,
+    osVersion: phone.osVersion,
   };
-  assertNotReserved(phone.id);
-  await preflightPhone(device);
-  setPhoneSession(token);
   note(`Using ${token}`);
   return device;
 };

@@ -2,24 +2,16 @@ import { execFileSync, spawn } from "node:child_process";
 import { once } from "node:events";
 import path from "node:path";
 import fs from "node:fs";
-import { setTimeout as sleep } from "node:timers/promises";
 
 import { APP_VARIANTS } from "../../app.config.ts";
-import { FIXTURES } from "../../src/dev/fixtures/index.ts";
 import { installBuild } from "./app-install.ts";
 import { shutdownDevice } from "./app-session.ts";
 import { pruneCheckouts } from "./builds.ts";
-import {
-  assertFlowsSupported,
-  findFixture,
-  listFlows,
-} from "./flow-support.ts";
 import {
   readFailedFlows,
   readKnownFailures,
   toFailedFlowsError,
 } from "./known-failures.ts";
-import { prepareIosRunner } from "./app.ts";
 import {
   AGENT_DEVICE,
   agentDevice,
@@ -30,14 +22,6 @@ import { deviceFlag, isDeviceBooted, resolveDevice } from "./device.ts";
 import { getAdb, listPackagesArgs, listsPackage } from "./adb.ts";
 import { DEVICE_ERRORS, DEVICE_OPTIONS } from "./options.ts";
 import { appendRunLog, setResultPath, step } from "./run-log.ts";
-import {
-  clearPhoneAppData,
-  isPhoneAppInstalled,
-  openIosPhoneLink,
-  preflightPhone,
-  stopPhoneApp,
-  uninstallPhoneApp,
-} from "./phone.ts";
 import {
   CliError,
   defineCommand,
@@ -85,17 +69,6 @@ const DEFAULT_PATHS: Record<Platform, string[]> = {
   ios: ["e2e/flows"],
 };
 
-const resetPhonePreview = (device: Device) => {
-  if (isPhoneAppInstalled(device, APP_VARIANTS.preview.appId)) {
-    stopPhoneApp(device, APP_VARIANTS.preview.appId, APP_VARIANTS.preview.name);
-    if (device.platform === "ios") {
-      uninstallPhoneApp(device, APP_VARIANTS.preview.appId);
-    } else {
-      clearPhoneAppData(device, APP_VARIANTS.preview.appId);
-    }
-  }
-};
-
 const resetIosSimulatorPreview = (deviceId: string) => {
   const apps = execFileSync("xcrun", ["simctl", "listapps", deviceId], {
     encoding: "utf-8",
@@ -136,9 +109,7 @@ const resetAndroidEmulatorPreview = (deviceId: string) => {
 };
 
 const resetPreview = (device: Device) => {
-  if (device.kind === "phone") {
-    resetPhonePreview(device);
-  } else if (device.platform === "ios") {
+  if (device.platform === "ios") {
     resetIosSimulatorPreview(device.id);
   } else {
     resetAndroidEmulatorPreview(device.id);
@@ -149,22 +120,12 @@ const resetBeforeRun = (device: Device) => {
   try {
     resetPreview(device);
   } catch (error) {
-    // Phone errors already carry their own status and fix.
-    if (error instanceof CliError) {
-      throw error;
-    }
     throw new CliError({
       status: "app_reset_failed",
       message: "Could not reset preview app before E2E run",
       why: error instanceof Error ? error.message : String(error),
       fix: "Check device state, then retry E2E run.",
     });
-  }
-};
-
-const preparePhoneRunner = async (device: Device) => {
-  if (device.kind === "phone" && device.platform === "ios") {
-    await prepareIosRunner(device);
   }
 };
 
@@ -241,7 +202,6 @@ const runTest = async (
 };
 
 const toRunError = (device: Device, code: number | null, output: string) => {
-  const { platform } = device;
   if (
     output.includes("DEVICE_IN_USE") ||
     output.includes("is owned by session")
@@ -253,99 +213,12 @@ const toRunError = (device: Device, code: number | null, output: string) => {
       fix: "Wait for the other run to finish, then retry.",
     });
   }
-  if (
-    device.kind === "phone" &&
-    platform === "android" &&
-    output.includes("test IME")
-  ) {
-    return new CliError({
-      status: "android_phone_text_input_unsupported",
-      message:
-        "Flow needs text input that agent-device cannot do on an Android phone",
-      why: "agent-device 0.21.15 erases text and types non-ASCII text on Android phones only in sessions opened with --test-ime. Flow runs cannot set it (https://github.com/callstack/agent-device/issues/2997).",
-      fix: "Run this flow on the emulator: bun e2e run --platform=android --paths=<same paths>. Flows without eraseText run on the phone.",
-    });
-  }
-  if (
-    device.kind === "phone" &&
-    platform === "ios" &&
-    output.includes("only supported on iOS simulators")
-  ) {
-    return new CliError({
-      status: "iphone_flow_step_unsupported",
-      message: "Flow has a step that agent-device cannot do on an iPhone",
-      why: "agent-device 0.21.14 runs launchApp with clearState or permissions on iOS simulators only.",
-      fix: "Run this flow on the simulator: bun e2e run --platform=ios --paths=<same paths>. Flows without clearState and permissions run on the iPhone.",
-    });
-  }
   return new CliError({
     status: "e2e_failed",
     message: "E2E flow failed",
     why: `agent-device test exited with ${code}.`,
     fix: "Read the failed flow and artifacts in the checkout state directory, then retry.",
   });
-};
-
-// Storage writes of a loaded fixture finish within this time.
-const FIXTURE_SETTLE_MS = 5000;
-
-// agent-device cannot open links on iPhones, so each flow runs alone, after
-// devicectl loaded its fixture.
-const runIosPhoneFlows = async (
-  device: Device,
-  paths: string[],
-  options: RunOptions
-) => {
-  const { artifactsDir } = options;
-  const flows = listFlows(REPO_ROOT, paths);
-  const failed: string[] = [];
-  for (const flow of flows) {
-    const fixtureId = findFixture(REPO_ROOT, flow);
-    if (fixtureId) {
-      if (!FIXTURES.some((fixture) => fixture.id === fixtureId)) {
-        throw new CliError({
-          exitCode: 2,
-          status: "fixture_not_found",
-          message: `Unknown fixture "${fixtureId}" in ${flow}`,
-          why: "No fixture in src/dev/fixtures has this ID.",
-          fix: `Use one of: ${FIXTURES.map((fixture) => fixture.id).join(", ")}.`,
-        });
-      }
-      note(`Seeding fixture ${fixtureId} for ${flow}`);
-      openIosPhoneLink(
-        device,
-        APP_VARIANTS.preview.appId,
-        `${APP_VARIANTS.preview.scheme}://dev/fixture?id=${fixtureId}`,
-        { terminateExisting: true }
-      );
-      // oxlint-disable-next-line no-await-in-loop -- flows run one at a time on one phone
-      await sleep(FIXTURE_SETTLE_MS);
-    }
-    const name = path.basename(flow).replace(/\.ya?ml$/u, "");
-    // oxlint-disable-next-line no-await-in-loop -- flows run one at a time on one phone
-    const { code, output } = await runTest(
-      device,
-      [flow],
-      options,
-      `junit-${name}.xml`
-    );
-    if (code !== 0) {
-      const error = toRunError(device, code, output);
-      if (error.status !== "e2e_failed") {
-        throw error;
-      }
-      failed.push(flow);
-    }
-  }
-  if (failed.length) {
-    throw toFailedFlowsError({
-      failed,
-      known: readKnownFailures(REPO_ROOT),
-      total: flows.length,
-      retry: `bun e2e run --target=${device.key} --paths=`,
-      artifactsDir,
-    });
-  }
 };
 
 // agent-device writes junit.xml at the end of a run. A run that crashed
@@ -371,7 +244,7 @@ const toFlowsError = (
   return toFailedFlowsError({
     failed,
     known: readKnownFailures(REPO_ROOT),
-    retry: `bun e2e run ${device.kind === "phone" ? `--target=${device.key}` : `--platform=${device.platform}`} --paths=`,
+    retry: `bun e2e run --platform=${device.platform} --paths=`,
     artifactsDir,
   });
 };
@@ -392,10 +265,6 @@ const printVideos = (artifactsDir: string, since: number) => {
 const run = async (device: Device, paths: string[], isVideo: boolean) => {
   const { platform } = device;
   const selectedPaths = paths.length ? paths : DEFAULT_PATHS[platform];
-  if (device.kind === "phone") {
-    assertFlowsSupported(REPO_ROOT, device, selectedPaths);
-    await preflightPhone(device);
-  }
   step("Reset app");
   const selector = ["--platform", platform, deviceFlag(platform), device.id];
   try {
@@ -414,7 +283,6 @@ const run = async (device: Device, paths: string[], isVideo: boolean) => {
   await installBuild(device);
   step("Start runner");
   await stopStaleDaemon();
-  await preparePhoneRunner(device);
   const artifactsDir = path.join(getStateDir("e2e"), device.key);
   fs.mkdirSync(artifactsDir, { recursive: true });
   setResultPath(artifactsDir);
@@ -423,10 +291,6 @@ const run = async (device: Device, paths: string[], isVideo: boolean) => {
   const options = { artifactsDir, isVideo };
   const startedAt = Date.now();
   try {
-    if (device.kind === "phone" && platform === "ios") {
-      await runIosPhoneFlows(device, selectedPaths, options);
-      return;
-    }
     const { code, output } = await runTest(
       device,
       selectedPaths,
@@ -477,6 +341,15 @@ const runAndShutdown = async (
   paths: string[],
   isVideo: boolean
 ) => {
+  if (values.target) {
+    throw new CliError({
+      exitCode: 2,
+      status: "e2e_phone_unsupported",
+      message: "E2E runs on phones are not supported",
+      why: "Phones are leased from simlock. agent-device `test` cannot run flows through simlock's proxy yet.",
+      fix: "Run on the simulator or emulator: bun e2e run --platform=<ios|android>. Drive a phone with `bun app drive --target=<target>`.",
+    });
+  }
   assertHostReady();
   await warnOnFailure(() => withLogsOnStderr(pruneCheckouts));
   const { platform } = values;
@@ -511,6 +384,12 @@ const E2E: Noun = {
     run: defineCommand({
       options: {
         ...DEVICE_OPTIONS,
+        target: {
+          ...DEVICE_OPTIONS.target,
+          description: [
+            "Not supported yet: agent-device `test` cannot run through simlock.",
+          ],
+        },
         paths: {
           value: "<path,...>",
           description: [
@@ -550,7 +429,6 @@ const E2E: Noun = {
           lines: [
             "Flow results on stdout.",
             "Artifacts folder includes junit.xml.",
-            "iPhone: one junit-<flow>.xml per flow.",
             "--video: video paths on stdout after the run, also when flows fail.",
             "Failures: e2e_failed names new flows apart from flows in e2e/known-failures.json.",
           ],
@@ -559,7 +437,6 @@ const E2E: Noun = {
           title: "Examples",
           lines: [
             "bun e2e run --platform=ios",
-            "bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml",
             "bun e2e run --platform=ios --paths=e2e/flows/first-launch.yaml,e2e/flows/entry-cancel.yaml",
             "bun e2e run --platform=android --paths=e2e/flows/tags.yaml --video",
           ],
@@ -568,10 +445,8 @@ const E2E: Noun = {
       errors: {
         ...DEVICE_ERRORS,
         path_not_found: "One --paths entry does not exist",
-        flows_unsupported_on_phone:
-          "Selected flows use steps agent-device cannot run on this phone",
+        e2e_phone_unsupported: "--target passed. Phones cannot run flows yet",
         app_reset_failed: "Preview app was not removed before the run",
-        ios_runner_not_ready: "agent-device runner did not start on iPhone",
         e2e_failed: "One or more flows failed, read artifacts",
         known_failures_invalid: "e2e/known-failures.json is not valid",
         disk_low:

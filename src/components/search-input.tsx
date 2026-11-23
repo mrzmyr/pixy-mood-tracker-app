@@ -1,23 +1,37 @@
 import { Pressable, TextInput, View } from "react-native";
-import { getInputTextStyle } from "@/components/typography";
-import useColors from "@/hooks/use-colors";
 import Search from "lucide-react-native/icons/search";
 import CircleX from "lucide-react-native/icons/circle-x";
+
+import { FIELD_HEIGHT } from "@/components/text-field";
+import { getInputTextStyle } from "@/components/typography";
+import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/radius";
 import { SPACE } from "@/constants/space";
 
-/** Controlled search field with a clear button. Empty `value` hides the button. */
+const ICON_SIZE = 18;
+
+/**
+ * Controlled search field with a clear button. Empty `value` hides the
+ * button. Capsule like `Button` and the iOS search bar, platform field gray.
+ * Screens with a native header bar on iOS use `headerSearchBarOptions`.
+ */
 export const SearchInput = ({
+  ref,
   value,
   onChange,
   placeholder = t("calendar_filters_search"),
   testID,
+  autoFocus,
+  onBlur,
 }: {
+  ref?: React.Ref<TextInput>;
   value: string;
   onChange: (text: string) => void;
   placeholder?: string;
   testID?: string;
+  autoFocus?: boolean;
+  onBlur?: () => void;
 }) => {
   const colors = useColors();
 
@@ -26,50 +40,44 @@ export const SearchInput = ({
       style={{
         flexDirection: "row",
         alignItems: "center",
-        borderWidth: 1,
-        borderColor: colors.textInputBorder,
+        gap: SPACE.sm,
+        height: FIELD_HEIGHT,
+        paddingHorizontal: SPACE.md,
         backgroundColor: colors.textInputBackground,
-        borderRadius: RADIUS.sm,
+        borderRadius: RADIUS.full,
         borderCurve: "continuous",
-        padding: SPACE.sm,
       }}
     >
-      <View
-        style={{
-          marginLeft: SPACE.xs,
-        }}
-      >
-        <Search color={colors.textInputPlaceholder} width={20} />
-      </View>
+      <Search color={colors.textInputPlaceholder} width={ICON_SIZE} />
       <TextInput
+        ref={ref}
         accessibilityLabel={placeholder}
         testID={testID}
+        autoFocus={autoFocus}
         placeholder={placeholder}
         value={value}
         placeholderTextColor={colors.textInputPlaceholder}
+        returnKeyType="search"
+        autoCorrect={false}
+        autoComplete="off"
+        textContentType="none"
         style={{
           flex: 1,
+          height: FIELD_HEIGHT,
           color: colors.textInputText,
-          marginLeft: SPACE.md,
           ...getInputTextStyle(16),
-          width: "100%",
-          borderRadius: RADIUS.sm,
-          borderCurve: "continuous",
         }}
         onChangeText={onChange}
+        onBlur={onBlur}
       />
       {value !== "" && (
         <Pressable
           accessibilityLabel={t("clear")}
           accessibilityRole="button"
-          style={{
-            paddingRight: SPACE.sm,
-            padding: SPACE.sm,
-            margin: -8,
-          }}
+          hitSlop={12}
           onPress={() => onChange("")}
         >
-          <CircleX color={colors.textInputPlaceholder} width={20} />
+          <CircleX color={colors.textInputPlaceholder} width={ICON_SIZE} />
         </Pressable>
       )}
     </View>

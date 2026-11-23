@@ -48,7 +48,7 @@ it("hides a half visible bar after the user's fling stops", async () => {
   await fireEvent(scrollView, "momentumScrollEnd", scrollEvent(40));
 
   expect(scrollTo).toHaveBeenCalledTimes(1);
-  expect(scrollTo).toHaveBeenCalledWith({ y: 52, animated: true });
+  expect(scrollTo).toHaveBeenCalledWith({ y: 56, animated: true });
 });
 
 // iOS reports the end of a `scrollTo` animation as a momentum end. When the

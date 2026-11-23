@@ -17,7 +17,7 @@ import { enableScreens } from "react-native-screens";
 import Providers from "@/shell/providers";
 import { ToastHost } from "@/components/toast";
 import { SENTRY_DSN } from "@/constants/api";
-import { APP_VARIANT } from "@/constants/app-variant";
+import { APP_VARIANT, IS_SITEMAP_CAPTURE } from "@/constants/app-variant";
 import { configureObserve } from "@/lib/observe";
 import { scrubBreadcrumb, scrubEvent } from "@/lib/sentry-scrub";
 import { CAN_REPORT_TELEMETRY } from "@/lib/telemetry";
@@ -28,6 +28,8 @@ import { useStorageLoadEvent } from "@/shell/storage-load-event";
 import { useUsageSummarySync } from "@/shell/usage-summary";
 import { useScreenTracking } from "@/shell/screen-tracking";
 import { LaunchSplash } from "@/shell/launch-splash";
+import { SitemapProbe } from "@/shell/sitemap-capture";
+import { blockSitemapNetwork } from "@/shell/sitemap-network";
 import { AppErrorScreen } from "@/shell/app-error-screen";
 import { getNavigationTheme } from "@/shell/navigation-theme";
 import { AppLockScreen } from "@/features/applock";
@@ -40,10 +42,7 @@ import {
   useRecapNotificationSync,
   useRecapNotificationTaps,
 } from "@/features/recaps";
-import {
-  useQuickCheckInNotificationTaps,
-  useQuickCheckInReminderSync,
-} from "@/features/quickcheckin";
+import { useCancelQuickCheckInNotifications } from "@/features/quickcheckin";
 
 // Configure before first render; each app variant reports to its own project.
 // Same gate as Observe: real devices on shipped variants only.
@@ -57,6 +56,9 @@ if (CAN_REPORT_TELEMETRY) {
   });
 }
 enableScreens();
+if (IS_SITEMAP_CAPTURE) {
+  blockSitemapNetwork();
+}
 // Drop startup metrics until stored settings confirm analytics consent.
 configureObserve({ consent: false });
 
@@ -75,8 +77,7 @@ const AppShell = () => {
   useDismissAnsweredNotifications();
   useRecapNotificationTaps();
   useRecapNotificationSync();
-  useQuickCheckInNotificationTaps();
-  useQuickCheckInReminderSync();
+  useCancelQuickCheckInNotifications();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state, and dev links pick their own route.
@@ -120,6 +121,7 @@ const RootLayout = () => {
           <StatusBar />
           <LaunchSplash />
           <AppLockScreen />
+          {IS_SITEMAP_CAPTURE && <SitemapProbe />}
         </Providers>
       </ThemeProvider>
     </GestureHandlerRootView>

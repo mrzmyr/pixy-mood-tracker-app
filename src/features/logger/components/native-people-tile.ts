@@ -7,11 +7,11 @@ const MODULE_NAME = "PixyMoodTrackerPeopleTile";
 
 /**
  * Props of the native tile. It draws nothing itself: `children` is the
- * tile, `actions` fill the context menu, events carry tile ids.
+ * tile, `actions` fill the context menu, events carry tile ids. The menu
+ * has no title: the long-pressed tile already shows who it is for.
  */
 export interface NativePeopleTileProps {
   tileId: string;
-  menuTitle: string;
   actions: PersonMenuAction[];
   style?: ViewStyle;
   children: ReactNode;

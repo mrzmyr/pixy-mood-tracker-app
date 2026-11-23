@@ -75,8 +75,7 @@ const AddPersonButton = () => {
 
 /**
  * Settings > Check-in > People: `header` (the step switch), then a link to
- * archived people and the active people while `isListVisible`. Reachable
- * only while the `people` feature flag is on.
+ * archived people and the active people while `isListVisible`.
  *
  * Like Settings > Tags: tap a person to edit, drag the handle to reorder.
  * iOS: large title, search on pull-down, Liquid Glass plus in the bar. The
@@ -202,7 +201,10 @@ export const SettingsPeopleArchive = () => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
+    <View
+      style={{ flex: 1, backgroundColor: colors.background }}
+      testID="people-archive"
+    >
       <ScrollView style={{ flex: 1 }}>
         <PeopleList
           people={archived}

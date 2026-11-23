@@ -7,7 +7,6 @@ import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { useSetting } from "@/state/settings";
 import { useQuickCheckInStatus } from "../use-quick-check-in-status";
 import { native } from "./native-module";
@@ -16,8 +15,6 @@ import type { InboxEntry } from "./notification-plan";
 
 /** Default color scale when the setting holds an unknown key. */
 const DEFAULT_SCALE = "ColorBrew-RdYlGn";
-
-const NO_PEOPLE: never[] = [];
 
 const report = (status: string, message: string, why: string) => {
   const structuredError = createStructuredError({
@@ -45,7 +42,6 @@ const parseInbox = (raw: string): InboxEntry[] => {
 export const useStartQuickCheckInNotification = () => {
   const { items } = useLogState();
   const { people } = usePeopleState();
-  const hasPeople = useFeatureFlag("people");
   const { tags } = useTagsState();
   const scaleType = useSetting("scaleType") ?? DEFAULT_SCALE;
 
@@ -58,7 +54,7 @@ export const useStartQuickCheckInNotification = () => {
         JSON.stringify(
           getNotificationPlan({
             items,
-            people: hasPeople ? people : NO_PEOPLE,
+            people,
             tags,
             emotions: EMOTIONS,
             scaleType,

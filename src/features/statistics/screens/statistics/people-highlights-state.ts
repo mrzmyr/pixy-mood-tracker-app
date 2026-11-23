@@ -3,7 +3,7 @@ import type { HighlightsReport } from "../../highlights-report";
 import type { PeopleDistributionData } from "../../people-distribution";
 import type { PeoplePeaksData } from "../../people-peaks";
 
-/** Which people cards show; both `false` without the `people` flag. */
+/** Which people cards show. */
 export interface PeopleHighlightsState {
   showDistribution: boolean;
   showPeaks: boolean;
@@ -15,40 +15,28 @@ export interface PeopleHighlightsState {
  * it has data.
  */
 export const getPeopleHighlightsState = ({
-  hasPeople,
   highlightedOnly,
   cards,
 }: {
-  hasPeople: boolean;
   highlightedOnly: boolean;
   cards: HighlightsReport["cards"];
-}): PeopleHighlightsState => {
-  if (!hasPeople) {
-    return { showDistribution: false, showPeaks: false };
-  }
-  return {
-    showDistribution: cards.people_distribution.available,
-    showPeaks: highlightedOnly
-      ? cards.people_peaks.highlighted
-      : cards.people_peaks.available,
-  };
-};
+}): PeopleHighlightsState => ({
+  showDistribution: cards.people_distribution.available,
+  showPeaks: highlightedOnly
+    ? cards.people_peaks.highlighted
+    : cards.people_peaks.available,
+});
 
-/** Analytics properties for the people cards, only while the flag is on. */
+/** Analytics properties for the people cards. */
 export const getPeopleHighlightProperties = ({
-  hasPeople,
   state,
   distribution,
   peaks,
 }: {
-  hasPeople: boolean;
   state: PeopleHighlightsState;
   distribution: PeopleDistributionData;
   peaks: PeoplePeaksData;
 }): Partial<HighlightsProperties> => {
-  if (!hasPeople) {
-    return {};
-  }
   const properties: Partial<HighlightsProperties> = {
     people_distribution_show: state.showDistribution,
     people_peaks_show: state.showPeaks,

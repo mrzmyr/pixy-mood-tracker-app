@@ -1,14 +1,14 @@
 import { CliError } from "./shared.ts";
 import type { Platform } from "./shared.ts";
 
-/** Agent-device phone identity and optional ownership metadata. */
-export interface AgentPhone {
+/** One phone of the simlock fleet. `id` is its UDID or adb serial. */
+export interface Phone {
   platform: Platform;
   id: string;
   name: string;
-  kind: string;
-  target: string;
-  claimedBy?: { workspace?: string };
+  osVersion: string;
+  state: "ready" | "in use" | "blocked";
+  problem: string;
 }
 /** One printable managed-device or phone row. */
 export interface DeviceRow {
@@ -23,12 +23,7 @@ export interface DeviceRow {
 }
 /** Pure input snapshot used to render device list rows. */
 export interface TargetInput {
-  agentDevices: AgentPhone[];
-  iosDevices?: IosState[];
-  lockStates?: Record<string, boolean | undefined>;
-  adbStates?: Record<string, string>;
-  /** Active reservations by other checkouts, keyed by phone ID. */
-  reservations?: Record<string, { holder: string; expiresAt: string }>;
+  phones: Phone[];
   managed: {
     platform: Platform;
     name: string;
@@ -39,23 +34,57 @@ export interface TargetInput {
   repositoryRoot: string;
   platform?: Platform;
 }
-/** Relevant devicectl fields for one iOS phone. */
-export interface IosState {
-  hardwareProperties?: { udid?: string; deviceType?: string };
-  connectionProperties?: { pairingState?: string; tunnelState?: string };
-  deviceProperties?: { bootState?: string; developerModeStatus?: string };
+/** Fields of simlock's `GET /v1/status` that phones need. */
+export interface SimlockStatus {
+  devices?: {
+    id: string;
+    physical?: boolean;
+    state?: string;
+    driverDeviceId?: string;
+    workerId?: string;
+    presence?: { present?: boolean };
+    spec?: { platform?: string; model?: string; osVersion?: string };
+  }[];
+  leases?: { deviceId?: string }[];
+  workers?: { id: string; drained?: boolean }[];
 }
 
-/** Name the phone type. devicectl tells iPad from iPhone. */
-export const toPhoneType = (phone: AgentPhone, iosDevices: IosState[] = []) => {
-  if (phone.platform === "android") {
-    return "Android phone";
-  }
-  const device = iosDevices.find(
-    (item) => item.hardwareProperties?.udid === phone.id
-  );
-  return device?.hardwareProperties?.deviceType === "iPad" ? "iPad" : "iPhone";
-};
+/** Phones of a simlock status. Leased phones are in use; absent phones and phones of drained workers are blocked. */
+export const toPhones = (status: SimlockStatus): Phone[] =>
+  (status.devices ?? []).flatMap((device) => {
+    const platform = device.spec?.platform;
+    if (
+      !device.physical ||
+      device.state === "deleted" ||
+      !device.driverDeviceId ||
+      (platform !== "ios" && platform !== "android")
+    ) {
+      return [];
+    }
+    const worker = status.workers?.find((item) => item.id === device.workerId);
+    let state: Phone["state"] = "ready";
+    let problem = "";
+    if (device.presence?.present === false) {
+      state = "blocked";
+      problem = "Phone not reachable from its simlock worker. Check the cable.";
+    } else if (worker?.drained) {
+      state = "blocked";
+      problem = "Its simlock worker is drained.";
+    } else if (status.leases?.some((lease) => lease.deviceId === device.id)) {
+      state = "in use";
+      problem = "Leased by another session. A lease request waits for it.";
+    }
+    return [
+      {
+        platform,
+        id: device.driverDeviceId,
+        name: device.spec?.model ?? "phone",
+        osVersion: device.spec?.osVersion ?? "",
+        state,
+        problem,
+      },
+    ];
+  });
 
 /** Create stateless phone target token from display name and device ID. */
 export const toToken = (name: string, id: string) => {
@@ -71,66 +100,9 @@ export const toToken = (name: string, id: string) => {
   return `${slug}-${suffix}`;
 };
 
-/** First blocking problem of one phone as [status, fix], else null. */
-export const phoneProblem = (phone: AgentPhone, input: TargetInput) => {
-  if (phone.platform === "ios") {
-    const device = input.iosDevices?.find(
-      (item) => item.hardwareProperties?.udid === phone.id
-    );
-    if (!device || device.deviceProperties?.bootState !== "booted") {
-      return [
-        "phone_offline",
-        "Phone not reachable. Connect the phone by cable.",
-      ];
-    }
-    if (device.connectionProperties?.pairingState !== "paired") {
-      return [
-        "phone_not_paired",
-        "Phone does not trust this Mac. Unlock the phone, tap Trust.",
-      ];
-    }
-    if (device.deviceProperties?.developerModeStatus !== "enabled") {
-      return [
-        "developer_mode_off",
-        "Developer Mode off. Turn it on in Settings > Privacy & Security > Developer Mode.",
-      ];
-    }
-    if (input.lockStates?.[phone.id]) {
-      return ["phone_locked", "Phone locked. Unlock the phone."];
-    }
-  } else {
-    const state = input.adbStates?.[phone.id];
-    if (state === "offline") {
-      return [
-        "phone_offline",
-        "Phone not reachable. Connect the phone by cable.",
-      ];
-    }
-    if (state === "unauthorized") {
-      return [
-        "phone_unauthorized",
-        'USB debugging not allowed. Unlock the phone, accept "Allow USB debugging".',
-      ];
-    }
-  }
-  return null;
-};
-
-const problemForAdbState = (state: string) => {
-  if (state === "unauthorized") {
-    return 'USB debugging not allowed. Unlock the phone, accept "Allow USB debugging".';
-  }
-  return "Phone not reachable. Connect the phone by cable.";
-};
-
 /** Build managed and phone table rows without changing any device state. */
 export const buildRows = (input: TargetInput): DeviceRow[] => {
-  const phones = input.agentDevices.filter(
-    (device) =>
-      device.kind === "device" &&
-      device.target === "mobile" &&
-      (device.platform === "ios" || device.platform === "android")
-  );
+  const { phones } = input;
   const phoneTokens = phones.map((phone) => toToken(phone.name, phone.id));
   const rows: DeviceRow[] = input.managed.map((device) => ({
     option: `--platform=${device.platform}`,
@@ -150,47 +122,16 @@ export const buildRows = (input: TargetInput): DeviceRow[] => {
   for (const [index, phone] of phones.entries()) {
     const token = phoneTokens[index];
     const useId = phoneTokens.filter((item) => item === token).length > 1;
-    const problem = phoneProblem(phone, input);
-    const heldBy = phone.claimedBy?.workspace;
-    const reservation = input.reservations?.[phone.id];
-    let state = "ready";
-    let why = problem?.[1] ?? "";
-    if (problem) {
-      state = "blocked";
-    }
-    if (heldBy && heldBy !== input.repositoryRoot) {
-      state = "in use";
-      why = `Held by ${heldBy}.`;
-    } else if (reservation) {
-      state = "in use";
-      why = `Reserved by ${reservation.holder} until ${reservation.expiresAt}.`;
-    }
     rows.push({
       option: useId ? `--target=${phone.id}` : `--target=${token}`,
       kind: "phone",
       os: phone.platform,
-      name: phone.name,
-      state,
-      problem: why,
+      name: `${phone.name} (${phone.osVersion})`,
+      state: phone.state,
+      problem: phone.problem,
       id: phone.id,
       token,
     });
-  }
-  for (const [id, state] of Object.entries(input.adbStates ?? {})) {
-    if (id.startsWith("emulator-") || phones.some((phone) => phone.id === id)) {
-      continue;
-    }
-    if (state === "offline" || state === "unauthorized") {
-      rows.push({
-        option: "-",
-        kind: "phone",
-        os: "android",
-        name: "unknown",
-        state: "blocked",
-        problem: problemForAdbState(state),
-        id,
-      });
-    }
   }
   const ordered = rows
     .filter((row) => !input.platform || row.os === input.platform)
@@ -216,7 +157,7 @@ export const buildRows = (input: TargetInput): DeviceRow[] => {
 };
 
 /** Resolve one phone token or full ID. Duplicate tokens require full IDs. */
-export const findPhone = <T extends AgentPhone>(
+export const findPhone = <T extends Pick<Phone, "id" | "name">>(
   phones: T[],
   target: string
 ): T => {

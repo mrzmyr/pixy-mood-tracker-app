@@ -20,11 +20,10 @@ export const hasMenstruationOnDate = (items: LogItem[], date: string) =>
 /**
  * Steps of the create logger: enabled optional steps, plus the reminder
  * slide on the first entry while reminders are off, and the feedback slide
- * from the third entry when a question is available. `people` needs the
- * `people` feature flag, `photos` the `photos` feature flag. `sleep` shows
- * only while no entry of the day holds a sleep quality, and never while
- * Apple Health fills it. Menstruation needs its flag and enabled step, and
- * no stored flow on the day.
+ * from the third entry when a question is available. `sleep` shows only
+ * while no entry of the day holds a sleep quality, and never while Apple
+ * Health fills it. Menstruation needs its flag and enabled step, and no
+ * stored flow on the day.
  */
 export const getAvailableStepsForCreate = ({
   question,
@@ -33,8 +32,6 @@ export const getAvailableStepsForCreate = ({
   itemsCount,
   hasSleepOnDay,
   isSleepAutoFilled,
-  hasPeople,
-  isPhotosEnabled,
   isMenstruationEnabled,
   hasMenstruationOnDay,
 }: {
@@ -46,10 +43,6 @@ export const getAvailableStepsForCreate = ({
   hasSleepOnDay: boolean;
   /** Apple Health "Auto Fill" is on; see `useHealthSleepFill`. */
   isSleepAutoFilled: boolean;
-  /** The `people` feature flag; off hides the slide even with the step on. */
-  hasPeople: boolean;
-  /** Value of the `photos` feature flag. */
-  isPhotosEnabled: boolean;
   /** Menstruation flag gates recording, never stored data. */
   isMenstruationEnabled: boolean;
   /** Includes explicit `none`. */
@@ -73,10 +66,10 @@ export const getAvailableStepsForCreate = ({
   if (hasStep("tags")) {
     slides.push("tags");
   }
-  if (hasPeople && hasStep("people")) {
+  if (hasStep("people")) {
     slides.push("people");
   }
-  if (isPhotosEnabled && hasStep("photos")) {
+  if (hasStep("photos")) {
     slides.push("photos");
   }
   if (hasStep("message")) {
@@ -96,29 +89,21 @@ export const getAvailableStepsForCreate = ({
 
 /**
  * Steps of the edit logger: enabled optional steps, plus every step that
- * holds content on the entry. Entries with people keep the `people` step,
- * also without the `people` flag. `photos` needs the `photos` feature flag,
- * also when the entry has photos: the day view still shows them. `sleep`
- * shows when the entry holds a sleep quality, or when the step is on and no
- * entry of the day holds one. Menstruation shows only on the holding entry
- * while its flag is on, even if the user disabled the step.
+ * holds content on the entry. `sleep` shows when the entry holds a sleep
+ * quality, or when the step is on and no entry of the day holds one.
+ * Menstruation shows only on the holding entry while its flag is on, even if
+ * the user disabled the step.
  */
 export const getAvailableStepsForEdit = ({
   item,
   hasStep,
   hasSleepOnDay,
-  hasPeople,
-  isPhotosEnabled,
   isMenstruationEnabled,
 }: {
   item: LogItem;
   hasStep: ReturnType<typeof useSettings>["hasStep"];
   /** See `hasSleepOnDate`. */
   hasSleepOnDay: boolean;
-  /** The `people` feature flag. */
-  hasPeople: boolean;
-  /** Value of the `photos` feature flag. */
-  isPhotosEnabled: boolean;
   /** Menstruation flag gates recording, never stored data. */
   isMenstruationEnabled: boolean;
 }) => {
@@ -137,10 +122,10 @@ export const getAvailableStepsForEdit = ({
   if (hasStep("tags") || item.tags.length > 0) {
     slides.push("tags");
   }
-  if ((hasPeople && hasStep("people")) || item.people.length > 0) {
+  if (hasStep("people") || item.people.length > 0) {
     slides.push("people");
   }
-  if (isPhotosEnabled && (hasStep("photos") || item.photos.length > 0)) {
+  if (hasStep("photos") || item.photos.length > 0) {
     slides.push("photos");
   }
   if (hasStep("message") || item.message.length > 0) {

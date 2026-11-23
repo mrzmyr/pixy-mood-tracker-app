@@ -74,7 +74,7 @@ export const emotions = (input: RecapInput): SummaryCard[] => {
  * People of the period by connected days. Deleted people stay out. One
  * pass over the days.
  */
-const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
+export const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
   const daysByPerson = new Map<string, RecapDay[]>();
   for (const day of input.days) {
     const ids = new Set(
@@ -96,9 +96,8 @@ const connectedPeople = (input: RecapInput): ConnectedPerson[] => {
     .sort((a, b) => b.days - a.days);
 };
 
-/** People step on and available. */
-export const peopleOn = (input: RecapInput) =>
-  input.steps.has("people") && input.availableSteps.has("people");
+/** People step on. */
+export const peopleOn = (input: RecapInput) => input.steps.has("people");
 
 /** Top 3 people by connected days, from 2 people on. */
 export const mostConnected = (input: RecapInput): SummaryCard[] => {

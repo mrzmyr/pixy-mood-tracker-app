@@ -52,8 +52,6 @@ export interface RecapInput {
   locationEnabled: boolean;
   /** Logger steps the user has on. */
   steps: ReadonlySet<ConfigurableLoggerStep>;
-  /** Steps that exist in this build: People and Photos sit behind flags. */
-  availableSteps: ReadonlySet<ConfigurableLoggerStep>;
   reminderEnabled: boolean;
   tags: Tag[];
   tagCategories: TagCategory[];

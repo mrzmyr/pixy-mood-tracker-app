@@ -14,7 +14,7 @@ export const PLATFORM_OPTION_SPEC: OptionSpec = {
 /** Shared token placeholder for physical phone commands. */
 export const TARGET_OPTION_SPEC: OptionSpec = {
   value: "<target>",
-  description: ["One phone. Copy the value from `bun devices list`."],
+  description: ["One simlock phone. Copy the value from `bun devices list`."],
 };
 /** Stable option order for every command that selects one device. */
 export const DEVICE_OPTIONS = {
@@ -26,14 +26,11 @@ export const DEVICE_ERRORS = {
   missing_option: "Neither --platform nor --target passed",
   conflicting_options: "Both --platform and --target passed",
   invalid_platform: "--platform is not ios or android",
-  target_not_found: "No connected phone has this target",
-  phone_offline: "Phone not reachable",
-  phone_unauthorized: "Android phone refuses USB debugging",
-  phone_not_paired: "iPhone does not trust this Mac",
-  developer_mode_off: "iPhone has Developer Mode off",
-  phone_locked: "Phone is locked",
+  target_not_found: "No simlock phone has this target",
+  simlock_not_configured: "SIMLOCK_URL or SIMLOCK_TOKEN not set",
+  simlock_unreachable: "simlock did not answer",
+  phone_blocked: "Phone not reachable from its simlock worker",
   device_in_use: "Another run holds this device",
-  device_reserved: "Another checkout reserved this phone",
 };
 
 /** Validate platform values after parser precedence checks. */

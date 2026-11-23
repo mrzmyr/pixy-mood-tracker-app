@@ -1,8 +1,9 @@
-import { Text, TextInput, View } from "react-native";
+import { Text, View } from "react-native";
+import type { TextInput } from "react-native";
 import { InlineAlert } from "@/components/inline-alert";
 import TextArea from "@/components/text-area";
-import { Copy, getInputTextStyle } from "@/components/typography";
-import { RADIUS } from "@/constants/radius";
+import { TextField } from "@/components/text-field";
+import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { TranslationKey } from "@/lib/translation";
@@ -60,25 +61,17 @@ export const FeedbackFields = ({
           PLACEHOLDER_KEYS[type] ?? "feedback_modal_message_placeholder"
         )}
       />
-      <TextInput
-        accessibilityLabel={t("feedback_modal_email_placeholder")}
-        testID="feedback-modal-email"
-        style={{
-          marginTop: 8,
-          backgroundColor: colors.textInputBackground,
-          borderRadius: RADIUS.sm,
-          borderCurve: "continuous",
-          padding: 16,
-          color: colors.text,
-          ...getInputTextStyle(16),
-        }}
-        autoComplete="email"
-        keyboardType="email-address"
-        placeholderTextColor={colors.textInputPlaceholder}
-        value={email}
-        onChangeText={onEmailChange}
-        placeholder={t("feedback_modal_email_placeholder")}
-      />
+      <View style={{ marginTop: 8 }}>
+        <TextField
+          testID="feedback-modal-email"
+          autoComplete="email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={onEmailChange}
+          placeholder={t("feedback_modal_email_placeholder")}
+        />
+      </View>
       <Text
         style={{
           fontSize: 14,

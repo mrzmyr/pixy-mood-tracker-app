@@ -44,7 +44,6 @@ import { getEmotionPageIndex } from "./slides/slide-emotions/basic-emotions";
 import { SlideFeedback } from "./slides/slide-feedback";
 import { SlideMessage } from "./slides/slide-message";
 import { SlideMood } from "./slides/slide-mood";
-import FlagHighlight from "@/components/flag-highlight";
 import { SlidePhotos } from "./slides/slide-photos";
 import { SlideReminder } from "./slides/slide-reminder";
 import { SlidePeople } from "./slides/slide-people";
@@ -88,7 +87,33 @@ interface SlideContent {
   key: string;
   slide: ReactElement;
   action?: ReactElement;
+  /** Fades the default next/save button away, for the voice input pill. */
+  isActionHidden?: boolean;
 }
+
+/** Next/save button of the shown slide: its own `action`, else the default. */
+const CurrentSlideAction = ({
+  slide,
+  isLast,
+  onNext,
+}: {
+  slide: SlideContent | undefined;
+  isLast: boolean;
+  onNext: () => void;
+}) => {
+  if (!slide) {
+    return null;
+  }
+  return (
+    slide.action ?? (
+      <SlideAction
+        type={isLast ? "save" : "next"}
+        isHidden={slide.isActionHidden}
+        onPress={onNext}
+      />
+    )
+  );
+};
 
 /** Slides of the steps the user can turn off from the logger, in order. */
 const useStepSlides = ({
@@ -108,6 +133,8 @@ const useStepSlides = ({
     step: "tags" | "people" | "message" | "photos"
   ) => Promise<void>;
 }) => {
+  // Voice input pill shows on the note slide, in place of the save button.
+  const [isDictating, setIsDictating] = useState(false);
   const slides: SlideContent[] = [];
 
   if (slideKeys.includes("tags")) {
@@ -126,12 +153,10 @@ const useStepSlides = ({
     slides.push({
       key: "people",
       slide: (
-        <FlagHighlight flag="people" pillOnly style={{ flex: 1 }}>
-          <SlidePeople
-            onDisableStep={() => disableStep("people")}
-            showDisable={showDisable}
-          />
-        </FlagHighlight>
+        <SlidePeople
+          onDisableStep={() => disableStep("people")}
+          showDisable={showDisable}
+        />
       ),
     });
   }
@@ -140,14 +165,12 @@ const useStepSlides = ({
     slides.push({
       key: "photos",
       slide: (
-        <FlagHighlight flag="photos" pillOnly style={{ flex: 1 }}>
-          <SlidePhotos
-            mode={mode}
-            isActive={isPhotosSlideActive}
-            onDisableStep={() => disableStep("photos")}
-            showDisable={showDisable}
-          />
-        </FlagHighlight>
+        <SlidePhotos
+          mode={mode}
+          isActive={isPhotosSlideActive}
+          onDisableStep={() => disableStep("photos")}
+          showDisable={showDisable}
+        />
       ),
     });
   }
@@ -158,10 +181,12 @@ const useStepSlides = ({
       slide: (
         <SlideMessage
           onDisableStep={() => disableStep("message")}
+          onDictatingChange={setIsDictating}
           ref={texAreaRef}
           showDisable={showDisable}
         />
       ),
+      isActionHidden: isDictating,
     });
   }
 
@@ -318,6 +343,79 @@ const useResumeRedraw = (slideWidth: number) => {
   return { carouselRef, offset, redrawCount };
 };
 
+/**
+ * Slide whose note input takes focus: on a new entry the note slide; when
+ * editing, only when the logger opened at the note, for example from a tap
+ * on the note in day view. `null` for no focus.
+ */
+const getNoteFocusIndex = ({
+  mode,
+  initialStep,
+  content,
+}: {
+  mode: LoggerMode;
+  initialStep?: LoggerStep;
+  content: { key: string }[];
+}) => {
+  const index = content.findIndex((item) => item.key === "message");
+  return index !== -1 && (mode === "create" || initialStep === "message")
+    ? index
+    : null;
+};
+
+/** Waits between jumps to the start slide, until it shows. */
+const START_SLIDE_TRIES_MS = [0, 100, 150, 250];
+
+/**
+ * The carousel drops `defaultIndex` when it measures itself after mount, so
+ * a step link (a day view pill, a tap on the note) opened the first slide.
+ * Once the carousel has its height, jumps to the start slide without
+ * animation, and tries again a few times until `slideIndex` shows it: an
+ * early jump can land before the carousel takes its size.
+ */
+const useStartSlide = ({
+  carouselHeight,
+  initialIndex,
+  slideIndex,
+  ref,
+}: {
+  carouselHeight: number | undefined;
+  initialIndex: number;
+  slideIndex: number;
+  /** The carousel. */
+  ref: RefObject<CarouselRef | null>;
+}) => {
+  const isDone = useRef(initialIndex === 0);
+  // `slideIndex` starts at `initialIndex` before the carousel reports, so
+  // only a return to it after another slide counts as done.
+  const hasLeft = useRef(false);
+  useEffect(() => {
+    if (slideIndex !== initialIndex) {
+      hasLeft.current = true;
+    } else if (hasLeft.current) {
+      isDone.current = true;
+    }
+  }, [slideIndex, initialIndex]);
+  useEffect(() => {
+    if (isDone.current || carouselHeight === undefined) {
+      return;
+    }
+    let attempt = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const tryJump = () => {
+      if (!isDone.current) {
+        ref.current?.scrollTo({ index: initialIndex, animated: false });
+      }
+      attempt += 1;
+      if (attempt < START_SLIDE_TRIES_MS.length) {
+        timer = setTimeout(tryJump, START_SLIDE_TRIES_MS[attempt]);
+      }
+    };
+    timer = setTimeout(tryJump, START_SLIDE_TRIES_MS[0]);
+    return () => clearTimeout(timer);
+  }, [carouselHeight, initialIndex, ref]);
+};
+
 const LoggerSlides = ({
   initialStep,
   avaliableSteps,
@@ -458,13 +556,11 @@ const LoggerSlides = ({
     content.push({
       key: "menstruation",
       slide: (
-        <FlagHighlight flag="menstruation" pillOnly style={{ flex: 1 }}>
-          <SlideMenstruation
-            onSelect={() => advance(slideKeys.indexOf("menstruation") + 1)}
-            onDisableStep={() => disableStep("menstruation")}
-            showDisable={showDisable}
-          />
-        </FlagHighlight>
+        <SlideMenstruation
+          onSelect={() => advance(slideKeys.indexOf("menstruation") + 1)}
+          onDisableStep={() => disableStep("menstruation")}
+          showDisable={showDisable}
+        />
       ),
     });
   }
@@ -545,12 +641,11 @@ const LoggerSlides = ({
     // The refs are stable; listed because the lint rule cannot tell.
   }, [reachedIndex, _carousel, pendingIndex]);
 
-  const messageSlideIndex = content.findIndex((item) => item.key === "message");
+  useStartSlide({ carouselHeight, initialIndex, slideIndex, ref: _carousel });
 
   const isMounted = useSlideFocus({
     slideIndex,
-    focusSlideIndex:
-      mode === "create" && messageSlideIndex !== -1 ? messageSlideIndex : null,
+    focusSlideIndex: getNoteFocusIndex({ mode, initialStep, content }),
     texAreaRef,
   });
 
@@ -608,13 +703,11 @@ const LoggerSlides = ({
           />
         </View>
       </View>
-      {content[slideIndex] &&
-        (content[slideIndex].action || (
-          <SlideAction
-            type={slideIndex === content.length - 1 ? "save" : "next"}
-            onPress={next}
-          />
-        ))}
+      <CurrentSlideAction
+        slide={content[slideIndex]}
+        isLast={slideIndex === content.length - 1}
+        onNext={next}
+      />
     </View>
   );
 };
@@ -650,8 +743,6 @@ export const LoggerEdit = ({
 }) => {
   const logState = useLogState();
   const { hasStep } = useSettings();
-  const hasPeople = useFeatureFlag("people");
-  const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
   const storedItem = logState?.items.find((item) => item.id === id);
 
@@ -671,8 +762,6 @@ export const LoggerEdit = ({
     item: initialItem,
     hasStep,
     hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(initialItem)),
-    hasPeople,
-    isPhotosEnabled,
     isMenstruationEnabled,
   });
 
@@ -736,8 +825,6 @@ export const LoggerCreate = ({
   );
   const questioner = useQuestioner();
   const { hasStep, settings } = useSettings();
-  const hasPeople = useFeatureFlag("people");
-  const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
   const { isEnabled: isSleepAutoFilled } = useHealthSleepSetting();
   const logState = useLogState();
@@ -765,12 +852,10 @@ export const LoggerCreate = ({
     getAvailableStepsForCreate({
       question: questioner.question,
       hasStep,
-      hasPeople,
       reminderEnabled: settings.reminderEnabled,
       itemsCount: logState.items.length,
       hasSleepOnDay: hasSleepOnDate(logState.items, initialItem.date),
       isSleepAutoFilled,
-      isPhotosEnabled,
       isMenstruationEnabled,
       hasMenstruationOnDay: hasMenstruationOnDate(
         logState.items,

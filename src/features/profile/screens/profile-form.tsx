@@ -1,14 +1,15 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, ScrollView, TextInput, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "@/components/dismis-keyboard";
+import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
+import { TextFieldRow } from "@/components/text-field-row";
 import { PhotoButton } from "@/components/photo-button";
 import RouteModalHeader from "@/components/route-modal-header";
 import type { PhotoAction } from "@/components/photo-button/types";
 import TextInfo from "@/components/text-info";
-import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
 import Alert from "@/lib/alert";
@@ -174,35 +175,24 @@ export const ProfileForm = () => {
           <MenuListHeadline style={{ marginTop: 32, marginBottom: 8 }}>
             {t("people_name")}
           </MenuListHeadline>
-          <TextInput
-            accessibilityLabel={t("people_name")}
-            testID="profile-name"
-            autoCorrect={false}
-            autoComplete="name"
-            textContentType="name"
-            clearButtonMode="while-editing"
-            style={{
-              fontSize: isIOS ? 17 : 16,
-              color: colors.textInputText,
-              backgroundColor: isIOS
-                ? colors.menuListItemBackground
-                : colors.textInputBackground,
-              width: "100%",
-              paddingHorizontal: 16,
-              paddingVertical: 14,
-              borderRadius: isIOS ? RADIUS.md : RADIUS.sm,
-              borderCurve: "continuous",
-            }}
-            placeholder={t("people_name_placeholder")}
-            placeholderTextColor={colors.textInputPlaceholder}
-            maxLength={PROFILE_NAME_MAX_LENGTH}
-            value={name}
-            returnKeyType="done"
-            onSubmitEditing={() => {
-              void handleSave();
-            }}
-            onChangeText={setName}
-          />
+          <MenuList>
+            <TextFieldRow
+              accessibilityLabel={t("people_name")}
+              testID="profile-name"
+              autoCorrect={false}
+              autoComplete="name"
+              textContentType="name"
+              clearButtonMode="while-editing"
+              placeholder={t("people_name_placeholder")}
+              maxLength={PROFILE_NAME_MAX_LENGTH}
+              value={name}
+              returnKeyType="done"
+              onSubmitEditing={() => {
+                void handleSave();
+              }}
+              onChangeText={setName}
+            />
+          </MenuList>
           <TextInfo style={{ marginTop: 8 }}>
             {t("profile_private_note")}
           </TextInfo>

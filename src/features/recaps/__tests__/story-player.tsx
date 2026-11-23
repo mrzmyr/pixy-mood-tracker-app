@@ -1,10 +1,23 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
+import { use, useEffect } from "react";
 import { Pressable, Text } from "react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { StoryPlayer } from "../story/story-player";
 import type { PlayerSlide } from "../story/story-player";
+import { StoryHoldContext } from "../story/hold-context";
+
+const onRelease = jest.fn();
+
+/** Slide content that holds the story while mounted, like an open detail. */
+const HeldDetail = () => {
+  const hold = use(StoryHoldContext);
+  useEffect(() => {
+    hold(true, onRelease);
+  }, [hold]);
+  return <Text>Detail</Text>;
+};
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -17,7 +30,7 @@ const SLIDES: PlayerSlide[] = ["One", "Two", "Three"].map((label) => ({
   content: <Text>{label}</Text>,
 }));
 
-const renderPlayer = async () => {
+const renderPlayer = async (slides: PlayerSlide[] = SLIDES) => {
   const onClose = jest.fn();
   const onSlideShown = jest.fn();
   await render(
@@ -30,7 +43,7 @@ const renderPlayer = async () => {
     >
       <SafeAreaProvider initialMetrics={METRICS}>
         <StoryPlayer
-          slides={SLIDES}
+          slides={slides}
           onClose={onClose}
           onSlideShown={onSlideShown}
           renderBottom={(index, _theme, controls) => (
@@ -58,6 +71,19 @@ const tap = async (x: number) =>
   });
 
 describe("story player", () => {
+  test("tap while a slide holds a detail releases it, not the slide", async () => {
+    const { onSlideShown } = await renderPlayer([
+      { key: "held", theme: "night", content: <HeldDetail /> },
+      ...SLIDES,
+    ]);
+
+    await tap(300);
+
+    expect(onRelease).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("Detail")).toBeTruthy();
+    expect(onSlideShown).not.toHaveBeenCalled();
+  });
+
   test("tap on the right moves to the next slide", async () => {
     const { onSlideShown } = await renderPlayer();
 

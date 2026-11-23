@@ -7,11 +7,9 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { RADIUS } from "@/constants/radius";
-import { PhotoGallery, PhotoGalleryItem } from "@/features/photos";
 import { t } from "@/lib/translation";
 import { monthName } from "./format";
-import { MonthGrid, StoryImage, useDayColors } from "./parts";
+import { MonthGrid, useDayColors } from "./parts";
 import type { SlideContext } from "./slides";
 import {
   getStoryTheme,
@@ -19,16 +17,16 @@ import {
   STORY_MAX_FONT_SCALE,
   STORY_PALETTE,
 } from "./theme";
-import type { StoryPhoto } from "./types";
 
 /** Card padding per side. */
 const PADDING = 20;
-/** Space between day pixels and between photos. */
+/** Space between day pixels. */
 const GAP = 8;
-/** Photos on the card, all square. */
-const PHOTOS = 3;
 
-/** iOS 26 liquid glass blurs the sky behind the card. */
+/**
+ * iOS 26 liquid glass blurs the sky behind the card. Light mode only: on the
+ * night sky clear glass turns the card bright.
+ */
 const HAS_GLASS = isGlassEffectAPIAvailable();
 
 /**
@@ -38,38 +36,30 @@ const HAS_GLASS = isGlassEffectAPIAvailable();
 const CARD_FILL = {
   paper: "rgba(255,255,255,0.16)",
   paperBorder: "rgba(255,255,255,0.45)",
+  // Dark mode: a dark see-through card, so it never glares on the night sky.
+  night: "rgba(10,10,10,0.55)",
+  nightBorder: "rgba(255,255,255,0.14)",
 };
 
 /**
- * Card to send to someone close: the days as mood pixels and 3 square
- * bright photos when there are enough. Light type, no tags: the days and
- * photos tell the story. See-through on the sky with a light outline and,
- * on iOS 26, a blur of the sky behind it. A photo opens the gallery with
- * all 3; a tap anywhere else on the card does nothing, so the story stays.
+ * Card to send to someone close: the days as mood pixels, no photos. Light
+ * type, no tags: the days tell the story. Light mode: see-through on the
+ * sky with a light outline and, on iOS 26, a blur of the sky behind it.
+ * Dark mode: a dark see-through card. A tap on the card does nothing, so
+ * the story stays.
  */
-export const ShareCard = ({
-  ctx,
-  photos,
-}: {
-  ctx: SlideContext;
-  photos: StoryPhoto[];
-}) => {
+export const ShareCard = ({ ctx }: { ctx: SlideContext }) => {
   const dayColors = useDayColors(ctx.days, "glass");
   const dayOutlines = useDayColors(ctx.days, "glassEdge");
   const theme = getStoryTheme(ctx.isDark);
   const palette = STORY_PALETTE[theme];
-  const fill = theme === "paper" ? CARD_FILL.paper : palette.glass;
+  const fill = theme === "paper" ? CARD_FILL.paper : CARD_FILL.night;
   const border =
-    theme === "paper" ? CARD_FILL.paperBorder : palette.glassBorder;
+    theme === "paper" ? CARD_FILL.paperBorder : CARD_FILL.nightBorder;
   const { width } = useWindowDimensions();
   // Days fill the card: slide padding 24 and card padding per side.
   const inner = width - 48 - PADDING * 2;
   const cell = Math.floor((inner - GAP * 6) / 7);
-  const shown = photos.slice(0, PHOTOS);
-  // Fewer photos share the row, each at most half of it.
-  const photoSize = Math.floor(
-    (inner - GAP * (Math.max(shown.length, 2) - 1)) / Math.max(shown.length, 2)
-  );
   // "My September".
   const title = t("recaps_story_share_title", {
     month: monthName(ctx.period.start),
@@ -89,7 +79,7 @@ export const ShareCard = ({
         overflow: "hidden",
       }}
     >
-      {HAS_GLASS && (
+      {HAS_GLASS && theme === "paper" && (
         <GlassView
           glassEffectStyle="clear"
           style={[StyleSheet.absoluteFill, { borderRadius: STORY_CARD_RADIUS }]}
@@ -134,31 +124,6 @@ export const ShareCard = ({
           emptyOutline={palette.glassBorder}
           weekdayColor={palette.muted}
         />
-        {shown.length > 0 && (
-          <PhotoGallery
-            photos={shown.map((item) => item.photo)}
-            context="recap"
-          >
-            <View style={{ flexDirection: "row", gap: GAP }}>
-              {shown.map((item, index) => (
-                <PhotoGalleryItem key={item.photo.id} index={index}>
-                  <StoryImage
-                    photo={item.photo}
-                    label={t("photos_thumbnail_label", {
-                      index: index + 1,
-                      count: shown.length,
-                    })}
-                    style={{
-                      width: photoSize,
-                      height: photoSize,
-                      borderRadius: RADIUS.md,
-                    }}
-                  />
-                </PhotoGalleryItem>
-              ))}
-            </View>
-          </PhotoGallery>
-        )}
       </View>
     </Pressable>
   );

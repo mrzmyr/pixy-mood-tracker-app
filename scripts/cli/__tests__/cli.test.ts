@@ -104,13 +104,7 @@ describe("CLI options", () => {
         2,
         "conflicting_options",
       ],
-      [["devices", "reserve", "--target=x"], 2, "missing_option"],
-      [["devices", "reserve", "--target=x", "--goal=  "], 2, "invalid_goal"],
-      [
-        ["devices", "reserve", "--target=x", `--goal=${"x".repeat(121)}`],
-        2,
-        "invalid_goal",
-      ],
+      [["e2e", "run", "--target=x"], 2, "e2e_phone_unsupported"],
       [["release", "smoke"], 2, "missing_option"],
       [
         ["release", "smoke", "--platform=ios", "--profile=staging"],

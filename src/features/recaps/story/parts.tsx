@@ -287,6 +287,28 @@ export const Pixel = ({
   />
 );
 
+/** Space between a pixel and its highlight ring. */
+const RING_GAP = 3;
+
+/** Thin bright ring just outside one pixel. */
+const HighlightRing = ({ size, color }: { size: number; color: string }) => (
+  <View
+    pointerEvents="none"
+    testID="month-grid-highlight"
+    style={{
+      position: "absolute",
+      top: -RING_GAP,
+      left: -RING_GAP,
+      width: size + RING_GAP * 2,
+      height: size + RING_GAP * 2,
+      borderRadius: Math.max(3, size * 0.22) + RING_GAP,
+      borderCurve: "continuous",
+      borderWidth: 1.5,
+      borderColor: color,
+    }}
+  />
+);
+
 /** Leading empty cells before day 1 for the user's week start. */
 export const useMonthLead = (start: DateKey) => {
   const weekLocale = useWeekLocale();
@@ -296,7 +318,8 @@ export const useMonthLead = (start: DateKey) => {
 
 /**
  * Month as a 7-column calendar of pixels. `render` can replace a day's
- * pixel, for example with a photo.
+ * pixel, for example with a photo. `isWeekColumns` turns it: one column
+ * per week, 7 rows, for periods longer than a month.
  */
 export const MonthGrid = ({
   period,
@@ -310,8 +333,13 @@ export const MonthGrid = ({
   emptyOutline,
   revealAt,
   revealStepMs = 30,
+  highlight,
+  isWeekColumns = false,
 }: {
   period: Period;
+  isWeekColumns?: boolean;
+  /** Day with a thin bright ring around its pixel, like today. */
+  highlight?: { date: DateKey; color: string };
   dayColors: ReadonlyMap<DateKey, string>;
   /** Outline per day with a check-in, from `useDayColors(days, "border")`. */
   dayOutlines?: ReadonlyMap<DateKey, string>;
@@ -337,13 +365,14 @@ export const MonthGrid = ({
   return (
     <View
       style={{
-        flexDirection: "row",
+        flexDirection: isWeekColumns ? "column" : "row",
         flexWrap: "wrap",
-        width: size * 7 + gap * 6,
+        [isWeekColumns ? "height" : "width"]: size * 7 + gap * 6,
         gap,
       }}
     >
       {weekdayColor !== undefined &&
+        !isWeekColumns &&
         cells.slice(0, 7).map((date) => (
           <Text
             key={`weekday-${date}`}
@@ -380,6 +409,9 @@ export const MonthGrid = ({
                 color={dayColors.get(date) ?? empty}
                 outline={dayOutlines?.get(date) ?? emptyOutline}
               />
+            )}
+            {highlight?.date === date && (
+              <HighlightRing size={size} color={highlight.color} />
             )}
           </Animated.View>
         )

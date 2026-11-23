@@ -8,20 +8,19 @@ export const FEATURE_FLAGS = [
   "app-lock-bypass",
   "apple-health",
   "calendar-timeline",
-  "chip-active-ink",
   "day-view",
   "development",
   "feature-flag-overrides",
   "menstruation",
   "more-tags",
   "needs",
-  "people",
+  "orbit",
   "photo-peek",
-  "photos",
   "quick-check-in",
   "recap-sleep",
   "recaps",
   "support-pixy",
+  "tag-icons",
   "voice-mode",
 ] as const;
 
@@ -57,11 +56,6 @@ export const FEATURE_FLAG_DETAILS: Record<
     description: "Timeline layout for the calendar",
     location: "Calendar > Filters menu",
   },
-  "chip-active-ink": {
-    description:
-      "Gray fill and dark text for selected chips, instead of the inverted style",
-    location: "Check-in > Emotions, Tags; Quick check-in",
-  },
   "day-view": {
     description:
       "Day view: week strip and entries of the selected day, swipe between days",
@@ -87,19 +81,15 @@ export const FEATURE_FLAG_DETAILS: Record<
     description: "Rate six needs, then get matching emotions",
     location: "Check-in > Emotions step",
   },
-  people: {
-    description: "People step and people on entries",
-    location:
-      "Check-in, Settings > Check-in, Day view, Calendar filters, Statistics",
+  orbit: {
+    description:
+      "People of the last 4 weeks in orbit, as in the month recap story, and a list by connected days",
+    location: "Settings > Orbit",
   },
   "photo-peek": {
     description:
       "Long press an empty calendar spot to show day photos on pixels",
     location: "Calendar",
-  },
-  photos: {
-    description: "Photos step and photos on entries",
-    location: "Check-in, Settings > Check-in, Day view",
   },
   "quick-check-in": {
     description:
@@ -118,6 +108,11 @@ export const FEATURE_FLAG_DETAILS: Record<
   "support-pixy": {
     description: "Support Pixy card",
     location: "Settings, below Development",
+  },
+  "tag-icons": {
+    description:
+      "Tag icons in the tag list, check-in tag chips, and the name field; icon and color picker sheet, suggested icons",
+    location: "Tags > Create Tag, Edit Tag, tag list; Check-in > Tags",
   },
   "voice-mode": {
     description: "Talk about your day; Pixy prefills a check-in",

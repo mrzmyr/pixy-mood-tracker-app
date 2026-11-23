@@ -1,8 +1,12 @@
+import { useRouter } from "expo-router";
 import Ellipsis from "lucide-react-native/icons/ellipsis";
+import { useRef } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import {
+  getPeopleLimit,
+  getShortNames,
   PersonAvatar,
   PersonChip,
   getLetterSection,
@@ -74,11 +78,14 @@ const AllPeopleTile = ({ onPress }: { onPress: () => void }) => {
  */
 export const PeopleRow = ({
   people,
+  shortNames,
   picked,
   onToggle,
   onShowAll,
 }: {
   people: Person[];
+  /** First names by person id, from all people so namesakes get an initial. */
+  shortNames: ReadonlyMap<string, string>;
   picked: ReadonlySet<string>;
   onToggle: (id: string) => void;
   onShowAll: () => void;
@@ -95,6 +102,7 @@ export const PeopleRow = ({
         variant="tile"
         size={AVATAR_SIZE}
         person={person}
+        label={shortNames.get(person.id)}
         selected={picked.has(person.id)}
         onPress={() => onToggle(person.id)}
         testID={`quick-check-in-person-${person.id}`}
@@ -104,9 +112,13 @@ export const PeopleRow = ({
   </ScrollView>
 );
 
-/** Active people A to Z by letter, names without a letter under `#` last. */
-const getPeopleItems = (people: Person[]): PickerItem[] =>
-  people
+/**
+ * Active people A to Z by letter, names without a letter under `#` last.
+ * Labels are first names; namesakes get their last initial.
+ */
+const getPeopleItems = (people: Person[]): PickerItem[] => {
+  const shortNames = getShortNames(people);
+  return people
     .flatMap((person) =>
       person.isArchived === true
         ? []
@@ -120,12 +132,17 @@ const getPeopleItems = (people: Person[]): PickerItem[] =>
     )
     .map(({ person, section }) => ({
       key: person.id,
-      label: person.name,
+      label: shortNames.get(person.id) ?? person.name,
+      fullLabel: person.name,
       section,
       leading: <PersonAvatar person={person} size={32} />,
     }));
+};
 
-/** Full list of people behind "All" in the people row. */
+/**
+ * Full list of people behind "All" in the people row. "Add Person" on top
+ * closes the list, then opens the person form; hidden at `MAX_PEOPLE`.
+ */
 export const QuickCheckInListSheets = ({
   isOpen,
   people,
@@ -138,13 +155,37 @@ export const QuickCheckInListSheets = ({
   picked: ReadonlySet<string>;
   onToggle: (id: string) => void;
   onClose: () => void;
-}) => (
-  <QuickCheckInPickerSheet
-    visible={isOpen}
-    title={t("people")}
-    items={isOpen ? getPeopleItems(people) : []}
-    selected={picked}
-    onToggle={onToggle}
-    onClose={onClose}
-  />
-);
+}) => {
+  const router = useRouter();
+  // iOS presents one sheet at a time: open the form once the list is gone.
+  const isAddPending = useRef(false);
+
+  return (
+    <QuickCheckInPickerSheet
+      visible={isOpen}
+      title={t("people")}
+      items={isOpen ? getPeopleItems(people) : []}
+      selected={picked}
+      onToggle={onToggle}
+      onClose={onClose}
+      onDismiss={() => {
+        if (isAddPending.current) {
+          isAddPending.current = false;
+          router.push("/people/create");
+        }
+      }}
+      add={
+        getPeopleLimit(people).reached
+          ? undefined
+          : {
+              label: t("people_add"),
+              testID: "quick-check-in-people-add",
+              onPress: () => {
+                isAddPending.current = true;
+                onClose();
+              },
+            }
+      }
+    />
+  );
+};

@@ -1,5 +1,4 @@
 import { ScrollView, View } from "react-native";
-import FlagHighlight from "@/components/flag-highlight";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
@@ -30,26 +29,24 @@ export const SettingsSleepScreen = () => {
           <MenuListHeadline style={{ marginTop: 16, marginBottom: 8 }}>
             {t("health_section")}
           </MenuListHeadline>
-          <FlagHighlight flag="apple-health">
-            <MenuList>
-              <MenuListItem
-                title={t("health_sleep_setting")}
-                // Apple's rules: "Apple Health" sits close to the icon,
-                // here in the headline right above.
-                iconLeft={<AppleHealthIcon size={29} />}
-                iconRight={
-                  <Toggle
-                    accessibilityLabel={t("health_sleep_setting")}
-                    testID="health-sleep-enabled"
-                    onValueChange={(next) => {
-                      void setEnabled(next);
-                    }}
-                    value={isEnabled}
-                  />
-                }
-              />
-            </MenuList>
-          </FlagHighlight>
+          <MenuList>
+            <MenuListItem
+              title={t("health_sleep_setting")}
+              // Apple's rules: "Apple Health" sits close to the icon,
+              // here in the headline right above.
+              iconLeft={<AppleHealthIcon size={29} />}
+              iconRight={
+                <Toggle
+                  accessibilityLabel={t("health_sleep_setting")}
+                  testID="health-sleep-enabled"
+                  onValueChange={(next) => {
+                    void setEnabled(next);
+                  }}
+                  value={isEnabled}
+                />
+              }
+            />
+          </MenuList>
           <TextInfo style={{ marginTop: 8 }}>
             {t("health_sleep_setting_description")}
           </TextInfo>

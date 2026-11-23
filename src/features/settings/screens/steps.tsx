@@ -83,12 +83,10 @@ const StepRow = ({
  * `apple-health` feature flag.
  * `people`, `photos`, and `menstruation` show only behind their feature
  * flags.
- * Quick check-ins live in Settings > Reminders. Native grouped list on iOS and Android.
+ * Native grouped list on iOS and Android.
  */
 export const StepsScreen = () => {
   const colors = useColors();
-  const hasPeople = useFeatureFlag("people");
-  const isPhotosEnabled = useFeatureFlag("photos");
   const isMenstruationEnabled = useFeatureFlag("menstruation");
   const {
     isAvailable: isLocationAvailable,
@@ -96,10 +94,7 @@ export const StepsScreen = () => {
     setEnabled: setLocationEnabled,
   } = useLocationSetting();
   const options = STEP_OPTIONS.filter(
-    (option) =>
-      (option !== "people" || hasPeople) &&
-      (option !== "photos" || isPhotosEnabled) &&
-      (option !== "menstruation" || isMenstruationEnabled)
+    (option) => option !== "menstruation" || isMenstruationEnabled
   );
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {

@@ -1,33 +1,9 @@
-import Svg, { Circle, Ellipse, Path, Rect } from "react-native-svg";
-
+import { DuotoneIcon, TINT_OPACITY } from "@/components/duotone-icon";
 import useColors from "@/hooks/use-colors";
 import type { Emotion } from "@/types";
 
 import { EMOTION_ICONS } from "../../emotion-icons";
 import { EMOTION_TINTS } from "../../emotion-tints";
-
-/**
- * SVG element for a Hugeicons shape type: every type the free set uses.
- * Unknown types return `null` and the shape is skipped.
- */
-const elementFor = (type: string) => {
-  if (type === "path") {
-    return Path;
-  }
-  if (type === "circle") {
-    return Circle;
-  }
-  if (type === "ellipse") {
-    return Ellipse;
-  }
-  if (type === "rect") {
-    return Rect;
-  }
-  return null;
-};
-
-/** Opacity of the tint under the outline. */
-const TINT_OPACITY = 0.35;
 
 /**
  * Two-tone icon for an emotion: a tint layer at low opacity under an outline.
@@ -59,45 +35,14 @@ export const EmotionIcon = ({
     return null;
   }
 
-  const tintLayer = EMOTION_TINTS[emotionKey];
-  const filled = tintLayer?.fill ? new Set(tintLayer.fill) : null;
-  const outlineColor = stroke ?? colors.text;
-  const tintColor = tint ?? colors.textSecondary;
-
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24">
-      {tintLayer?.underlay?.map(([type, { key, ...attributes }]) => {
-        const Element = elementFor(type);
-        if (!Element) {
-          return null;
-        }
-
-        return (
-          <Element
-            key={key}
-            {...attributes}
-            fill={tintColor}
-            fillOpacity={tintOpacity}
-          />
-        );
-      })}
-      {icon.map(([type, { key, ...attributes }], index) => {
-        const Element = elementFor(type);
-        if (!Element) {
-          return null;
-        }
-        const isFilled = filled?.has(index) ?? true;
-
-        return (
-          <Element
-            key={key}
-            {...attributes}
-            stroke={outlineColor}
-            fill={isFilled ? tintColor : "none"}
-            fillOpacity={tintOpacity}
-          />
-        );
-      })}
-    </Svg>
+    <DuotoneIcon
+      icon={icon}
+      tintLayer={EMOTION_TINTS[emotionKey]}
+      stroke={stroke ?? colors.text}
+      tint={tint ?? colors.textSecondary}
+      size={size}
+      tintOpacity={tintOpacity}
+    />
   );
 };

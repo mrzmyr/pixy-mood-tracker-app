@@ -13,17 +13,7 @@ import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/feature-flags";
-import {
-  formatReminderTime,
-  reminderTimeToDate,
-  toReminderTime,
-} from "../reminder-time";
-import {
-  getQuickCheckInTimes,
-  IntervalPicker,
-  useQuickCheckInSetting,
-} from "@/features/quickcheckin";
-import type { QuickCheckInSchedule } from "@/state/settings";
+import { reminderTimeToDate, toReminderTime } from "../reminder-time";
 import { useNotificationPermissionDenied } from "../use-notification-permission-denied";
 import { useRecapNotificationsSetting } from "../use-recap-notifications-setting";
 import type { RecapNotificationsSettingResult } from "../use-recap-notifications-setting";
@@ -40,31 +30,10 @@ const reportRecapsToggleError = (value: boolean, cause: unknown) => {
   reportError(error);
 };
 
-/** Footer under the quick check-in rows: the times, or why there are none. */
-const getQuickCheckInFooter = (
-  isEnabled: boolean,
-  schedule: QuickCheckInSchedule
-) => {
-  if (!isEnabled) {
-    return t("quick_check_ins_hint");
-  }
-  const times = getQuickCheckInTimes(schedule);
-  if (times.length === 0) {
-    return t("quick_check_in_schedule_empty");
-  }
-  return t("quick_check_in_schedule_footer", {
-    times: times
-      .map((time) => formatReminderTime(reminderTimeToDate(time)))
-      .join(", "),
-    count: schedule.everyHours,
-  });
-};
-
 /**
  * Settings > Reminders: notification preview, then one section per kind of
  * notification. Evening Reflection is the daily reminder with its time.
- * Quick Check-ins (flag `quick-check-in`) repeat every few hours between
- * two times. Recaps (flag `recaps`) arrive at the end of each period.
+ * Recaps (flag `recaps`) arrive at the end of each period.
  */
 const Reminder = () => {
   const reminder = useReminder();
@@ -72,8 +41,6 @@ const Reminder = () => {
   const { denied, refresh } = useNotificationPermissionDenied();
   const isRecapsOn = useFeatureFlag("recaps");
   const recaps = useRecapNotificationsSetting();
-  const quickCheckIn = useQuickCheckInSetting();
-  const { schedule } = quickCheckIn;
 
   const reminderEnabled = reminder.enabled;
   const timeDate = reminderTimeToDate(reminder.time);
@@ -121,11 +88,6 @@ const Reminder = () => {
     });
   };
 
-  const onQuickCheckInChange = async (value: boolean) => {
-    await quickCheckIn.setEnabled(value);
-    void refresh();
-  };
-
   const onTimeChange = (selectedDate: Date) => {
     const time = toReminderTime(selectedDate);
     analytics.track("reminders:time_changed", { time });
@@ -165,68 +127,8 @@ const Reminder = () => {
           />
         )}
       </SettingsSection>
-      {quickCheckIn.isAvailable && (
-        <SettingsSection
-          flag="quick-check-in"
-          footer={getQuickCheckInFooter(quickCheckIn.isEnabled, schedule)}
-        >
-          <SettingsSwitch
-            label={t("quick_check_ins")}
-            value={quickCheckIn.isEnabled}
-            onValueChange={onQuickCheckInChange}
-            testID="quick-check-in-enabled"
-          />
-          {quickCheckIn.isEnabled && (
-            <SettingsRow
-              title={t("quick_check_in_every")}
-              accessory={
-                <IntervalPicker
-                  value={schedule.everyHours}
-                  onChange={(everyHours) =>
-                    quickCheckIn.setSchedule({ ...schedule, everyHours })
-                  }
-                />
-              }
-            />
-          )}
-          {quickCheckIn.isEnabled && (
-            <SettingsRow
-              title={t("quick_check_in_from")}
-              accessory={
-                <Clock
-                  testID="quick-check-in-from"
-                  timeDate={reminderTimeToDate(schedule.from)}
-                  onChange={(date) =>
-                    quickCheckIn.setSchedule({
-                      ...schedule,
-                      from: toReminderTime(date),
-                    })
-                  }
-                />
-              }
-            />
-          )}
-          {quickCheckIn.isEnabled && (
-            <SettingsRow
-              title={t("quick_check_in_until")}
-              accessory={
-                <Clock
-                  testID="quick-check-in-until"
-                  timeDate={reminderTimeToDate(schedule.until)}
-                  onChange={(date) =>
-                    quickCheckIn.setSchedule({
-                      ...schedule,
-                      until: toReminderTime(date),
-                    })
-                  }
-                />
-              }
-            />
-          )}
-        </SettingsSection>
-      )}
       {isRecapsOn && (
-        <SettingsSection flag="recaps" footer={t("recaps_notifications_hint")}>
+        <SettingsSection footer={t("recaps_notifications_hint")}>
           <SettingsSwitch
             label={t("recaps_notifications_setting")}
             value={recaps.enabled}

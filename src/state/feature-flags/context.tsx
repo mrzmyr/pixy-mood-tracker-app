@@ -7,9 +7,6 @@ import {
   subscribe,
 } from "@/state/feature-flags/overrides";
 
-// Flag context and override hooks live apart from `@/state/feature-flags`, so
-// `FlagHighlight` keeps working in tests that mock that module.
-
 /** Feature state: `loading` while settings or the first flag request after consent are pending. */
 export type FeatureFlagState = "on" | "off" | "loading";
 

@@ -73,6 +73,20 @@ const largeTitleOptions = (backgroundColor: string) => {
 };
 
 /**
+ * Recaps: native header. iOS large title that collapses on scroll, Liquid
+ * Glass bar on iOS 26. No divider: cards start on the same background.
+ */
+const getRecapsOptions = <T extends object>(
+  pageOptions: T,
+  backgroundColor: string
+) => ({
+  ...pageOptions,
+  title: t("recaps"),
+  headerShadowVisible: false,
+  ...largeTitleOptions(backgroundColor),
+});
+
+/**
  * Feedback form: iOS form sheet (Liquid Glass header on iOS 26), Android
  * full-screen dialog with the Material top app bar. Header items live in
  * the screen (`Stack.Toolbar`).
@@ -171,6 +185,18 @@ const getHomeOptions = (textColor: string) => ({
     : { headerStyle: { backgroundColor: "transparent" } }),
 });
 
+/** Day modal options. The screen sets its title and close button (`LogList`). */
+const getDayOptions = (textColor: string, backgroundColor: string) => ({
+  presentation: "modal" as const,
+  headerShown: true,
+  headerTintColor: textColor,
+  headerShadowVisible: false,
+  contentStyle: { backgroundColor },
+  ...(HAS_FLOATING_HEADER
+    ? { headerTransparent: true, scrollEdgeEffects: { top: "soft" as const } }
+    : { headerStyle: { backgroundColor } }),
+});
+
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
@@ -206,6 +232,7 @@ const AppLayout = () => {
       : defaultOptions;
 
   const settingsFormOptions = formHeaderOptions(pageOptions, colors.background);
+  const orbitOptions = { ...pageOptions, title: t("orbit") };
 
   return (
     <StorageLoadGate>
@@ -252,20 +279,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="days/[date]"
-            options={{
-              // Day view sets its title and close button (see `LogList`).
-              presentation: "modal",
-              headerShown: true,
-              headerTintColor: colors.text,
-              headerShadowVisible: false,
-              contentStyle: { backgroundColor: colors.logBackground },
-              ...(HAS_FLOATING_HEADER
-                ? {
-                    headerTransparent: true,
-                    scrollEdgeEffects: { top: "soft" as const },
-                  }
-                : { headerStyle: { backgroundColor: colors.logBackground } }),
-            }}
+            options={getDayOptions(colors.text, colors.logBackground)}
           />
           <Stack.Screen name="feedback" options={feedbackOptions} />
           <Stack.Screen name="request" options={requestOptions} />
@@ -288,6 +302,20 @@ const AppLayout = () => {
           <Stack.Screen name="tags/index" options={modalRouteOptions} />
           <Stack.Screen name="tags/create" options={modalRouteOptions} />
           <Stack.Screen name="tags/[id]" options={modalRouteOptions} />
+          <Stack.Screen
+            name="tags/icon"
+            // Native sheet: half height, drag up for full height. A picker
+            // draws its own header, like `SheetModal` + `ModalHeader`.
+            // oxlint-disable-next-line pixy-standards/modal-route-shows-header -- picker sheet with detents, header in content
+            options={{
+              presentation: "formSheet",
+              headerShown: false,
+              sheetAllowedDetents: [0.5, 1],
+              sheetGrabberVisible: true,
+              sheetCornerRadius: 22,
+              contentStyle: { backgroundColor: colors.logBackground },
+            }}
+          />
           <Stack.Screen
             name="tags/categories/index"
             options={modalRouteOptions}
@@ -339,8 +367,9 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="recaps/[kind]/[date]"
-            options={{ ...pageOptions, title: t("recaps") }}
+            options={getRecapsOptions(pageOptions, colors.background)}
           />
+          <Stack.Screen name="settings/orbit" options={orbitOptions} />
           <Stack.Screen
             name="settings/colors"
             options={{ ...pageOptions, title: t("colors") }}

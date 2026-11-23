@@ -67,6 +67,19 @@ const componentScopes = [
   },
   {
     name: "react-native",
+    importNames: ["TextInput"],
+    // Field components own fill, radius, height, and placeholder color.
+    allow: [
+      "src/components/search-input.tsx",
+      "src/components/text-area.tsx",
+      "src/components/text-field.tsx",
+      "src/components/text-field-row.tsx",
+    ],
+    message:
+      "Use `SearchInput`, `TextField`, `TextFieldRow`, or `TextArea`. Raw inputs drift in gray and radius.",
+  },
+  {
+    name: "react-native",
     importNames: ["SafeAreaView"],
     allow: [],
     message:
@@ -138,6 +151,7 @@ export default defineConfig({
     "pixy-standards/boolean-function-prefix": "error",
     "pixy-standards/require-exported-jsdoc": "error",
     "pixy-standards/structured-thrown-errors": "error",
+    "pixy-standards/modal-page-background": "error",
     // File names use kebab-case. `bun scripts/codemods/kebab-case-files.ts` renames old files.
     // Expo Router params (`[dateTime].tsx`) name the search param, so they keep their case.
     "unicorn/filename-case": [
@@ -308,6 +322,7 @@ export default defineConfig({
         "pixy-standards/no-color-shading": "error",
         "pixy-standards/radius-token": "error",
         "pixy-standards/no-reduce-motion-never": "error",
+        "pixy-standards/float-surface-glass": "error",
         "pixy-standards/no-spring-animation": "error",
         "pixy-standards/title-case-labels": "error",
         "pixy-standards/component-scope": [

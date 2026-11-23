@@ -1,6 +1,5 @@
 import type { SwitchProps, UniversalTextStyle } from "@expo/ui";
 import type { ReactElement, ReactNode } from "react";
-import type { FeatureFlag } from "@/state/feature-flags/keys";
 
 /** One group of rows. Must be a direct child of `SettingsForm`. */
 export interface SettingsSectionProps {
@@ -8,8 +7,6 @@ export interface SettingsSectionProps {
   title?: string;
   /** Help text under the rows. */
   footer?: string;
-  /** Web only: outline the section while flag highlight is on. */
-  flag?: FeatureFlag;
   children?: ReactNode;
 }
 

@@ -1,46 +1,85 @@
 import { describe, expect, test } from "bun:test";
-import { buildRows, findPhone, toToken } from "../target.ts";
-import type { AgentPhone, TargetInput } from "../target.ts";
+import { buildRows, findPhone, toPhones, toToken } from "../target.ts";
+import type { Phone, SimlockStatus, TargetInput } from "../target.ts";
 
-const iphone: AgentPhone = {
+const iphone: Phone = {
   platform: "ios",
   id: "IOS-DEVICE-01",
-  name: "my-iphone-14",
-  kind: "device",
-  target: "mobile",
+  name: "iPhone 14 Pro",
+  osVersion: "26.2",
+  state: "ready",
+  problem: "",
 };
-const ipad: AgentPhone = {
-  platform: "ios",
-  id: "IOS-DEVICE-02",
-  name: "my-ipad",
-  kind: "device",
-  target: "mobile",
-};
-const android: AgentPhone = {
+const android: Phone = {
   platform: "android",
   id: "AAAA1111BB09YW",
   name: "Pixel 8",
-  kind: "device",
-  target: "mobile",
+  osVersion: "37",
+  state: "ready",
+  problem: "",
 };
-const readyIos = [
-  {
-    hardwareProperties: { udid: iphone.id },
-    connectionProperties: { pairingState: "paired" },
-    deviceProperties: { bootState: "booted", developerModeStatus: "enabled" },
-  },
-];
 const base: TargetInput = {
-  agentDevices: [],
-  iosDevices: [],
-  lockStates: {},
-  adbStates: {},
+  phones: [],
   managed: [
     { platform: "ios", name: "pixy-mood-tracker", state: "not created" },
     { platform: "android", name: "pixy-mood-tracker", state: "not created" },
   ],
   repositoryRoot: "/repo",
 };
+const phoneDevice = (
+  id: string,
+  driverDeviceId: string,
+  extra: Partial<NonNullable<SimlockStatus["devices"]>[number]> = {}
+) => ({
+  id,
+  physical: true,
+  state: "ready",
+  driverDeviceId,
+  workerId: "worker-1",
+  presence: { present: true },
+  spec: { platform: "android", model: "Pixel 8", osVersion: "37" },
+  ...extra,
+});
+
+describe("simlock phones", () => {
+  test("keeps only physical iOS and Android phones", () => {
+    const phones = toPhones({
+      devices: [
+        phoneDevice("dev_1", "SERIAL-1"),
+        { ...phoneDevice("dev_2", "SIM-1"), physical: false },
+        { ...phoneDevice("dev_3", "SERIAL-3"), state: "deleted" },
+        {
+          ...phoneDevice("dev_4", "MAC-1"),
+          spec: { platform: "macos", model: "Mac" },
+        },
+      ],
+      workers: [{ id: "worker-1" }],
+    });
+    expect(phones.map((phone) => phone.id)).toEqual(["SERIAL-1"]);
+    expect(phones[0]).toMatchObject({
+      platform: "android",
+      name: "Pixel 8",
+      osVersion: "37",
+      state: "ready",
+    });
+  });
+  test("marks leased phones in use and unreachable or drained phones blocked", () => {
+    const phones = toPhones({
+      devices: [
+        phoneDevice("dev_1", "LEASED"),
+        phoneDevice("dev_2", "ABSENT", { presence: { present: false } }),
+        phoneDevice("dev_3", "DRAINED", { workerId: "worker-2" }),
+      ],
+      leases: [{ deviceId: "dev_1" }],
+      workers: [{ id: "worker-1" }, { id: "worker-2", drained: true }],
+    });
+    expect(phones.map((phone) => [phone.id, phone.state])).toEqual([
+      ["LEASED", "in use"],
+      ["ABSENT", "blocked"],
+      ["DRAINED", "blocked"],
+    ]);
+  });
+});
 
 describe("phone targets", () => {
   test("creates exact stable tokens", () => {
@@ -49,166 +88,41 @@ describe("phone targets", () => {
     expect(toToken("Jörg's Phone!", "ABC-12")).toBe("j-rg-s-phone-bc12");
     expect(toToken("!!!", "XYZ98765")).toBe("phone-8765");
   });
-  test("keeps managed rows when no phone is connected", () => {
+  test("keeps managed rows when simlock has no phone", () => {
     expect(buildRows(base).map((row) => row.state)).toEqual([
       "not created",
       "not created",
     ]);
   });
-  test("marks reachable and unreachable iPhones", () => {
-    const rows = buildRows({
-      ...base,
-      agentDevices: [iphone, ipad],
-      iosDevices: [
-        ...readyIos,
-        {
-          hardwareProperties: { udid: ipad.id },
-          connectionProperties: { pairingState: "paired" },
-          deviceProperties: { developerModeStatus: "enabled" },
-        },
-      ],
+  test("shows phone state and uses full IDs for token collisions", () => {
+    const busy: Phone = { ...android, state: "in use", problem: "Leased." };
+    expect(buildRows({ ...base, phones: [busy] }).at(-1)).toMatchObject({
+      option: "--target=pixel-8-09yw",
+      name: "Pixel 8 (37)",
+      state: "in use",
+      problem: "Leased.",
     });
-    expect(rows.find((row) => row.id === iphone.id)?.state).toBe("ready");
-    expect(rows.find((row) => row.id === ipad.id)?.problem).toContain(
-      "Phone not reachable."
-    );
-  });
-  test("reports iPhone trust, developer mode, and lock blockers", () => {
-    expect(
-      buildRows({
-        ...base,
-        agentDevices: [iphone],
-        iosDevices: [
-          {
-            ...readyIos[0],
-            connectionProperties: { pairingState: "unpaired" },
-          },
-        ],
-      }).at(-1)?.problem
-    ).toContain("does not trust this Mac");
-    expect(
-      buildRows({
-        ...base,
-        agentDevices: [iphone],
-        iosDevices: [
-          {
-            ...readyIos[0],
-            deviceProperties: {
-              bootState: "booted",
-              developerModeStatus: "disabled",
-            },
-          },
-        ],
-      }).at(-1)?.state
-    ).toBe("blocked");
-    expect(
-      buildRows({
-        ...base,
-        agentDevices: [iphone],
-        iosDevices: readyIos,
-        lockStates: { [iphone.id]: true },
-      }).at(-1)?.problem
-    ).toBe("Phone locked. Unlock the phone.");
-  });
-  test("shows unauthorized adb phones without agent-device rows", () => {
-    const row = buildRows({
-      ...base,
-      adbStates: { unauthorized: "unauthorized" },
-    }).at(-1);
-    expect(row).toMatchObject({
-      option: "-",
-      name: "unknown",
-      state: "blocked",
-    });
-  });
-  test("marks claimed phones and uses full IDs for token collisions", () => {
-    const held = { ...android, claimedBy: { workspace: "/other" } };
-    expect(
-      buildRows({
-        ...base,
-        agentDevices: [held],
-        adbStates: { [android.id]: "device" },
-      }).at(-1)
-    ).toMatchObject({ state: "in use", problem: "Held by /other." });
     const duplicate = { ...android, id: "OTHER-09YW" };
     expect(
-      buildRows({
-        ...base,
-        agentDevices: [android, duplicate],
-        adbStates: { [android.id]: "device", [duplicate.id]: "device" },
-      })
+      buildRows({ ...base, phones: [android, duplicate] })
         .slice(-2)
         .map((row) => row.option)
     ).toEqual([`--target=${android.id}`, `--target=${duplicate.id}`]);
   });
-  test("excludes Mac host and filters platform", () => {
-    // SAFETY: buildRows must filter non-mobile hosts despite wider runtime platform values.
-    const mac = { ...iphone, platform: "macos", name: "Mac" } as AgentPhone;
-    const rows = buildRows({
-      ...base,
-      agentDevices: [mac, iphone],
-      iosDevices: readyIos,
-    });
-    expect(rows.map((row) => row.name)).not.toContain("Mac");
-    expect(
-      buildRows({
-        ...base,
-        agentDevices: [iphone],
-        iosDevices: readyIos,
-        platform: "android",
-      }).every((row) => row.os === "android")
-    ).toBe(true);
-  });
-  test("sorts ten phones after two managed devices", () => {
-    const phones: AgentPhone[] = [];
-    for (let index = 0; index < 10; index += 1) {
-      phones.push({
-        platform: index % 2 ? "android" : "ios",
-        id: `ID000${index}`,
-        name: `Phone ${index}`,
-        kind: "device",
-        target: "mobile",
-      });
-    }
-    const iosDevices = phones.flatMap((phone) =>
-      phone.platform === "ios"
-        ? [
-            {
-              hardwareProperties: { udid: phone.id },
-              connectionProperties: { pairingState: "paired" },
-              deviceProperties: {
-                bootState: "booted",
-                developerModeStatus: "enabled",
-              },
-            },
-          ]
-        : []
-    );
-    const rows = buildRows({
-      ...base,
-      agentDevices: phones,
-      iosDevices,
-      adbStates: Object.fromEntries(
-        phones.flatMap((phone) =>
-          phone.platform === "android" ? [[phone.id, "device"]] : []
-        )
-      ),
-    });
-    expect(rows).toHaveLength(12);
-    expect(rows[0].kind).toBe("simulator");
-    expect(rows[1].kind).toBe("emulator");
-    expect(rows.slice(2).map((row) => row.os)).toEqual([
-      "ios",
-      "ios",
-      "ios",
-      "ios",
-      "ios",
-      "android",
-      "android",
-      "android",
-      "android",
-      "android",
+  test("filters platform and sorts iPhones before Android phones", () => {
+    const rows = buildRows({ ...base, phones: [android, iphone] });
+    expect(rows.map((row) => row.kind)).toEqual([
+      "simulator",
+      "emulator",
+      "phone",
+      "phone",
     ]);
+    expect(rows.slice(2).map((row) => row.os)).toEqual(["ios", "android"]);
+    expect(
+      buildRows({ ...base, phones: [android, iphone], platform: "android" })
+        .map((row) => row.os)
+        .every((os) => os === "android")
+    ).toBe(true);
   });
   test("resolves token or full ID and reports ambiguous token", () => {
     expect(findPhone([android], "pixel-8-09yw")).toBe(android);

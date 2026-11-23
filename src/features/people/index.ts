@@ -3,11 +3,13 @@ export { PeopleList } from "./components/people-list";
 export { PersonAvatar } from "./components/person-avatar";
 export { PersonChip } from "./components/person-chip";
 export { getPersonMenuActions, usePersonMenu } from "./hooks/use-person-menu";
+export { usePeopleAdded } from "./hooks/use-people-added";
 export type {
   PersonMenuAction,
   PersonMenuActionId,
 } from "./hooks/use-person-menu";
 export { getInitials } from "./initials";
+export { getShortNames, toShortNames } from "./short-names";
 export { getLetterSection } from "./contact-import";
 export { movePerson } from "./people-order";
 export { TILE_RING_GAP, TILE_RING_WIDTH } from "./tile";

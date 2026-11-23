@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
-import FlagHighlight from "@/components/flag-highlight";
 import LinkButton from "@/components/link-button";
 import {
   EMOTIONS,
@@ -24,27 +23,42 @@ const GRID_STYLE = { marginBottom: 0 };
 /**
  * Emotions of the quick check-in with the components of the logger emotion
  * step. Basic grid first; More shows all emotions by category. With flag
- * `needs`, a link switches to needs mode: rate needs, pick from the feelings
- * of each rated need. Picks and need ratings stay when switching.
+ * `needs`, needs mode comes first: rate needs, pick from the feelings of
+ * each rated need. A link switches to all emotions and back. Picks and need
+ * ratings stay when switching. `onPagingChange` tells while the emotion
+ * pages, which swipe sideways, show.
  */
 export const QuickCheckInEmotions = ({
   picked,
   rating,
   items,
   onToggle,
+  onPagingChange,
 }: {
   picked: string[];
   rating: LogItem["rating"] | null;
   items: LogItem[];
   onToggle: (key: string) => void;
+  onPagingChange: (isPaging: boolean) => void;
 }) => {
   const router = useRouter();
   const hasNeeds = useFeatureFlag("needs");
   const [isAdvanced, setIsAdvanced] = useState(false);
-  const [isNeedsMode, setIsNeedsMode] = useState(false);
+  // Starts in needs mode; without flag `needs`, `showNeeds` stays false.
+  const [isNeedsMode, setIsNeedsMode] = useState(true);
   const [needStates, setNeedStates] = useState<NeedStates>({});
 
   const showNeeds = hasNeeds && isNeedsMode;
+  // Folding the section unmounts the pages: swiping comes back.
+  useEffect(() => () => onPagingChange(false), [onPagingChange]);
+  const handleNeedsToggle = () => {
+    setIsNeedsMode(!isNeedsMode);
+    onPagingChange(isNeedsMode && isAdvanced);
+  };
+  const handleExpand = () => {
+    setIsAdvanced(!isAdvanced);
+    onPagingChange(!showNeeds && !isAdvanced);
+  };
   const selected = EMOTIONS.filter((emotion) => picked.includes(emotion.key));
   const onPress = (emotion: Emotion) => onToggle(emotion.key);
   const openRequest = () =>
@@ -53,17 +67,15 @@ export const QuickCheckInEmotions = ({
   let content: React.ReactNode;
   if (showNeeds) {
     content = (
-      <FlagHighlight flag="needs">
-        <NeedsCheck
-          states={needStates}
-          onChange={(key, state) =>
-            setNeedStates((current) => ({ ...current, [key]: state }))
-          }
-          emotions={EMOTIONS}
-          selectedEmotions={selected}
-          onPressEmotion={onPress}
-        />
-      </FlagHighlight>
+      <NeedsCheck
+        states={needStates}
+        onChange={(key, state) =>
+          setNeedStates((current) => ({ ...current, [key]: state }))
+        }
+        emotions={EMOTIONS}
+        selectedEmotions={selected}
+        onPressEmotion={onPress}
+      />
     );
   } else if (isAdvanced) {
     content = (
@@ -100,23 +112,18 @@ export const QuickCheckInEmotions = ({
         }}
       >
         {hasNeeds ? (
-          <FlagHighlight flag="needs">
-            <LinkButton
-              testID="quick-check-in-needs-toggle"
-              onPress={() => setIsNeedsMode((current) => !current)}
-              style={{ fontWeight: "400" }}
-            >
-              {t(showNeeds ? "log_needs_show_all" : "log_needs_use")}
-            </LinkButton>
-          </FlagHighlight>
+          <LinkButton
+            testID="quick-check-in-needs-toggle"
+            onPress={handleNeedsToggle}
+            style={{ fontWeight: "400" }}
+          >
+            {t(showNeeds ? "log_needs_show_all" : "log_needs_use")}
+          </LinkButton>
         ) : (
           <View />
         )}
         {!showNeeds && (
-          <ExpandButton
-            expanded={!isAdvanced}
-            onPress={() => setIsAdvanced((current) => !current)}
-          />
+          <ExpandButton expanded={!isAdvanced} onPress={handleExpand} />
         )}
       </View>
       {content}

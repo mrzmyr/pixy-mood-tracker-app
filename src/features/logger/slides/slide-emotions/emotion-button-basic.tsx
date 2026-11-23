@@ -1,6 +1,5 @@
 import { Chip } from "@/components/chip";
 import { CHIP } from "@/constants/chip";
-import { useFeatureFlag } from "@/state/feature-flags";
 import type { Emotion } from "@/types";
 import { useColorScheme } from "react-native";
 import type { ChipStyle } from "@/constants/chip";
@@ -9,7 +8,7 @@ import { EmotionIndicator } from "./emotions-indicator";
 
 const DEFAULT_STYLE = {};
 
-/** Emotion chip in the basic emotion grid; fills its grid cell. */
+/** Emotion chip in the emotion grids and pages; fills its grid cell. */
 export const EmotionButtonBasic = ({
   emotion,
   onPress,
@@ -22,7 +21,6 @@ export const EmotionButtonBasic = ({
   style?: ChipStyle;
 }) => {
   const colorScheme = useColorScheme();
-  const isInk = useFeatureFlag("chip-active-ink");
   // Inverted selected fill: draw the icon for the opposite surface.
   const invertedSurface = colorScheme === "light" ? "dark" : "light";
 
@@ -35,13 +33,11 @@ export const EmotionButtonBasic = ({
       onPress={() => onPress(emotion)}
       lead={<EmotionIndicator emotion={emotion} size={CHIP.lead} />}
       leadSelected={
-        isInk ? undefined : (
-          <EmotionIndicator
-            emotion={emotion}
-            size={CHIP.lead}
-            surface={invertedSurface}
-          />
-        )
+        <EmotionIndicator
+          emotion={emotion}
+          size={CHIP.lead}
+          surface={invertedSurface}
+        />
       }
       style={style}
     />

@@ -93,6 +93,9 @@ export interface AnalyticsEvents {
     /** A mood trigger word was spoken, so the logger opens with a rating. */
     has_rating: boolean;
   };
+  /** Mic button on the logger note step. Never the transcript. */
+  "voice:note_started": undefined;
+  "voice:note_finished": { duration_ms: number; transcript_length: number };
   "voice:permission_denied": { kind: "microphone" | "speech" };
   "voice:failed": { status: string };
   /** Feedback sheet after saving a voice check-in. `prompt_index` 1 to 3. */
@@ -127,15 +130,6 @@ export interface AnalyticsEvents {
     /** App screen only. The notification has no photos. */
     photos_count?: number;
   };
-  "quick_check_in:setting_changed": { enabled: boolean };
-  /** Fixed values only: times are `HH:mm` picks, not free text. */
-  "quick_check_in:schedule_changed": {
-    every_hours: number;
-    from: string;
-    until: string;
-    times_count: number;
-  };
-  "quick_check_in:notification_tapped": { cold_start: boolean };
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
@@ -239,12 +233,24 @@ export interface AnalyticsEvents {
     title_length: number;
     color: string;
     has_emoji: boolean;
+    /** Icon key from the fixed tag icon set. Only with flag `tag-icons`. */
+    icon?: string | null;
+    /** Who set the icon. Only with flag `tag-icons`. */
+    icon_source?: "default" | "model" | "user";
+    /** Who set the color: first color, guess for the name, or user. Only with flag `tag-icons`. */
+    color_source?: "default" | "model" | "user";
   };
   "tags:tag_updated": {
     title_length: number;
     color: string;
     has_emoji: boolean;
     is_archived: boolean;
+    icon?: string | null;
+    icon_source?: "default" | "model" | "user";
+  };
+  /** Tag icon picker opened from the tag form. */
+  "tags:icon_picker_opened": {
+    has_suggestions: boolean;
   };
   "tags:delete_requested": AnalyticsEvents["tags:tag_created"];
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];
@@ -310,8 +316,6 @@ export interface AnalyticsEvents {
   /** Share card sent from the share sheet. Never the photos or lines. */
   /** `slide_type`: the shared slide; `share` is the share card. */
   "recaps:story_shared": {
-    has_photos: boolean;
-    shuffles: number;
     slide_type: string;
   };
   /** Story closed by the user or after the last slide. */
@@ -482,8 +486,6 @@ export type UsageSummary = {
   steps: SettingsState["steps"];
   onboarding_done: boolean;
   questions_answered_count: number;
-  /** Value of the `photos` feature flag on this install. */
-  photos_enabled: boolean;
   /** Share of entries in the last 30 days with at least 1 photo, 0 to 100. */
   photos_pct_30d: number | null;
   /** Photos on all entries. */

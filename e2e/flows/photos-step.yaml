@@ -1,13 +1,11 @@
 appId: ${APP_ID}
 tags: [p1, photos]
 ---
-# Photos step behind the `photos` feature flag. Check photos in place (iOS:
+# Photos step. Check photos in place (iOS:
 # photos of the day and library picks; Android: Photo Picker picks),
 # uncheck and check again, open the viewer, save through the whole logger,
 # and find the photos in the day view. The photo library is a
-# system screen, so the flow swaps it for src/dev/fake-photo-source.ts. Shared
-# flows run without the flag, so this flow turns it on with the dev
-# override link.
+# system screen, so the flow swaps it for src/dev/fake-photo-source.ts.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
@@ -17,10 +15,6 @@ tags: [p1, photos]
     visible:
       id: "calendar-list"
     timeout: 10000
-- runFlow:
-    file: ../subflows/enable-feature-flag.yaml
-    env:
-      FLAG: photos
 
 - tapOn: "Add New Entry"
 - assertVisible: "How was your day?"
@@ -50,7 +44,6 @@ tags: [p1, photos]
     when:
       platform: iOS
     commands:
-      - assertVisible: "From Today"
       - assertVisible:
           id: "photos-day-access"
       - tapOn:
@@ -100,15 +93,14 @@ tags: [p1, photos]
           id: "photo-pick-1"
       - assertVisible: "3 of 6"
 
-# Android: no photos of the day. The card opens the system Photo Picker,
-# picks land checked in the grid, "More…" opens the picker again.
+# Android: no photos of the day. The "Add Photo" tile opens the system
+# Photo Picker, picks land checked in the grid, "More…" opens it again.
 - runFlow:
     when:
       platform: Android
     commands:
-      - assertNotVisible: "From Today"
       - tapOn:
-          id: "photos-choose-action"
+          id: "photo-add-tile"
       - extendedWaitUntil:
           visible: "1 of 6"
           timeout: 10000

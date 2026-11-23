@@ -91,6 +91,26 @@ const withTagCategory = (data: ImportData): ImportData => ({
   },
 });
 
+/** Adds two archived tags next to the year's tags, like tags no longer in use. */
+const withArchivedTags = (data: ImportData): ImportData => ({
+  ...data,
+  tags: [
+    ...(data.tags ?? []),
+    {
+      id: "7f1d6a3e-0101-4a3e-8f6e-0f0000000101",
+      title: "Old job",
+      color: "slate",
+      isArchived: true,
+    },
+    {
+      id: "7f1d6a3e-0102-4a3e-8f6e-0f0000000102",
+      title: "Guitar",
+      color: "orange",
+      isArchived: true,
+    },
+  ],
+});
+
 /**
  * Named test data set in the Pixy export format. To add one, export data
  * from Settings > Data, save the file here, and register it below.
@@ -158,6 +178,14 @@ export const FIXTURES: Fixture[] = [
       "The `year` fixture plus an empty Hobbies category next to General.",
     endsToday: true,
     data: withTagCategory(asExport(year)),
+  },
+  {
+    id: "archive",
+    title: "One year with archived items",
+    description:
+      "The `people` fixture (Mia archived) plus 2 archived tags. Small enough for Android storage, unlike `chaos`.",
+    endsToday: true,
+    data: withArchivedTags(withPeople(asExport(year))),
   },
   {
     id: "timeline",

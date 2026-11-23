@@ -26,10 +26,10 @@ import { getStoryTheme } from "../story/theme";
 import { MissedTagSheet } from "../story/missed-tag-sheet";
 import { useRoughNights } from "../story/use-rough-nights";
 import type { StoryTheme } from "../story/theme";
-import type { StoryPhoto, StorySlide } from "../story/types";
+import type { StorySlide } from "../story/types";
 import { useRecapInput } from "../use-recap-input";
 import { t } from "@/lib/translation";
-import { StoryFinale, StoryShuffleButton } from "../story/story-finale";
+import { StoryFinale } from "../story/story-finale";
 import { getSlideDuration } from "../story/timing";
 import { StoryShareButton } from "../story/story-share-button";
 import { useShareFrame } from "../story/use-share-frame";
@@ -49,9 +49,9 @@ const isPrivate = (slide: StorySlide | undefined) =>
   slide?.type === "rough-night" || slide?.type === "rough-nights-all";
 
 /**
- * Share bottom left; Helpful and Not Helpful bottom right, or Shuffle on the
- * last slide. Share and feedback pause the story first. No Share on
- * `isPrivate` slides.
+ * Share bottom left; Helpful and Not Helpful bottom right. The last slide
+ * has only a full-width Share. Share and feedback pause the story first.
+ * No Share on `isPrivate` slides.
  */
 const StoryActions = ({
   theme,
@@ -59,8 +59,8 @@ const StoryActions = ({
   isAnswered,
   canShare,
   pause,
+  isFinale,
   onShare,
-  onShuffle,
   onHelpful,
   onNotHelpful,
 }: {
@@ -69,9 +69,9 @@ const StoryActions = ({
   isAnswered: boolean;
   canShare: boolean;
   pause: () => void;
+  /** Last slide: the share card. Share fills the bar, no feedback. */
+  isFinale: boolean;
   onShare: () => void;
-  /** Last slide with more than 3 photos: 3 other photos on the card. */
-  onShuffle: (() => void) | null;
   onHelpful: () => void;
   onNotHelpful: () => void;
 }) => {
@@ -79,6 +79,18 @@ const StoryActions = ({
     pause();
     action();
   };
+  if (isFinale) {
+    return (
+      <View style={{ flexDirection: "row" }} pointerEvents="box-none">
+        <StoryShareButton
+          theme={theme}
+          prominent
+          disabled={isSharing}
+          onPress={paused(onShare)}
+        />
+      </View>
+    );
+  }
   return (
     <View
       style={{
@@ -97,16 +109,12 @@ const StoryActions = ({
       ) : (
         <View />
       )}
-      {onShuffle ? (
-        <StoryShuffleButton theme={theme} onPress={onShuffle} />
-      ) : (
-        <StoryFeedback
-          theme={theme}
-          isAnswered={isAnswered}
-          onHelpful={paused(onHelpful)}
-          onNotHelpful={paused(onNotHelpful)}
-        />
-      )}
+      <StoryFeedback
+        theme={theme}
+        isAnswered={isAnswered}
+        onHelpful={paused(onHelpful)}
+        onNotHelpful={paused(onNotHelpful)}
+      />
     </View>
   );
 };
@@ -146,7 +154,6 @@ const RecapStory = () => {
   const [asking, setAsking] = useState<number | null>(null);
   // Person tapped on each quiz slide, by slide index.
   const [picks, setPicks] = useState<ReadonlyMap<number, string>>(new Map());
-  const [shuffles, setShuffles] = useState(0);
   const { isSharing, share: shareFrame, frame } = useShareFrame();
   const lastShown = useRef(0);
   // The best day slide waits for the swipe; once open it stays open.
@@ -264,12 +271,6 @@ const RecapStory = () => {
     void (isCorrect ? haptics.success() : haptics.selection());
   };
 
-  /** 3 photos of the pool; each shuffle moves on by 3, wrapping around. */
-  const pickPhotos = (pool: StoryPhoto[]) =>
-    pool.length <= 3
-      ? pool
-      : [0, 1, 2].map((offset) => pool[(shuffles * 3 + offset) % pool.length]);
-
   /**
    * Shares the slide at `index` as an image: a calm card with the heading,
    * the slide's content, and the app, drawn behind the story (`ShareFrame`).
@@ -280,32 +281,20 @@ const RecapStory = () => {
     if (!slide) {
       return;
     }
-    const isShareCard = slide.type === "share";
     shareFrame({
       slide,
       ctx,
-      photos: isShareCard ? pickPhotos(slide.photos) : [],
+      // The share card shows pixels only, no photos.
+      photos: [],
       dialogTitle: shareTitle,
       onShared: () =>
-        analytics.track("recaps:story_shared", {
-          has_photos: isShareCard && slide.photos.length > 0,
-          shuffles: isShareCard ? shuffles : 0,
-          slide_type: slide.type,
-        }),
+        analytics.track("recaps:story_shared", { slide_type: slide.type }),
     });
-  };
-
-  /** Shuffle on the share slide when more than 3 photos wait in the pool. */
-  const shuffleOf = (index: number) => {
-    const slide = slideOf(index);
-    return slide?.type === "share" && slide.photos.length > 3
-      ? () => setShuffles((current) => current + 1)
-      : null;
   };
 
   const contentOf = (slide: StorySlide, index: number) => {
     if (slide.type === "share") {
-      return <StoryFinale ctx={ctx} photos={pickPhotos(slide.photos)} />;
+      return <StoryFinale ctx={ctx} />;
     }
     return (
       <SlideContent
@@ -377,7 +366,7 @@ const RecapStory = () => {
                 canShare={!isPrivate(slideOf(index))}
                 pause={controls.pause}
                 onShare={() => share(index)}
-                onShuffle={shuffleOf(index)}
+                isFinale={slideOf(index)?.type === "share"}
                 onHelpful={() => send(index, true, [], "")}
                 onNotHelpful={() => setAsking(index)}
               />

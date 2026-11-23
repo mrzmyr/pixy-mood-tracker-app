@@ -4,18 +4,15 @@ import path from "node:path";
 
 import {
   AGENT_DEVICE,
-  ensureDaemonSigningEnv,
   getAgentDeviceEnv,
   STATE_DIR,
   stopStaleDaemon,
 } from "./agent-device.ts";
-import { deviceFlag, findDevice } from "./device.ts";
+import { deviceFlag, findDevice, resolveDevice } from "./device.ts";
 import { getPlatform } from "./options.ts";
-import { findConnectedPhone } from "./phone.ts";
-import { assertNotReserved } from "./reservation.ts";
+import { getPhoneSession, leasePhone } from "./phone.ts";
 import { CliError } from "./shared.ts";
 import type { Platform } from "./shared.ts";
-import { toToken } from "./target.ts";
 
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
 
@@ -29,11 +26,12 @@ const OWNED_FLAGS = [
   "--state-dir",
 ];
 
-/** Device that agent-device commands run on. Phones get their own session. */
+/** Device that agent-device commands run on. Phones run in their simlock proxy session. */
 export interface DriveDevice {
   platform: Platform;
   id: string;
   session?: string;
+  env?: Record<string, string>;
 }
 
 /** Fail before any device access when args are empty or select a device. */
@@ -78,11 +76,11 @@ export const buildDriveCommand = ({
       ...args,
       "--platform",
       device.platform,
-      deviceFlag(device.platform),
-      device.id,
-      ...(device.session ? ["--session", device.session] : []),
+      ...(device.session
+        ? ["--session", device.session]
+        : [deviceFlag(device.platform), device.id]),
     ],
-    env: { AGENT_DEVICE_STATE_DIR: STATE_DIR, ...env },
+    env: { AGENT_DEVICE_STATE_DIR: STATE_DIR, ...env, ...device.env },
   };
 };
 
@@ -90,15 +88,12 @@ const resolveDriveDevice = async (
   values: Record<string, string | undefined>
 ): Promise<DriveDevice> => {
   if (values.target) {
-    const phone = await findConnectedPhone(values.target);
-    assertNotReserved(phone.id);
-    if (phone.platform === "ios") {
-      await ensureDaemonSigningEnv();
-    }
+    const phone = await resolveDevice({ target: values.target });
+    await leasePhone(phone);
     return {
       platform: phone.platform,
       id: phone.id,
-      session: toToken(phone.name, phone.id),
+      ...getPhoneSession(phone),
     };
   }
   // SAFETY: parser accepts only ios or android, and exactlyOne requires one option.

@@ -209,6 +209,35 @@ const lintScopeAt = (
   return result.stdout.split("pixy-standards(component-scope)").length - 1;
 };
 
+describe("modal-page-background", () => {
+  it("reports logBackground on a screen with RouteModalHeader", () => {
+    expect(
+      lint(
+        "modal-page-background",
+        'export const A = ({ colors }) => (\n  <View style={{ backgroundColor: colors.logBackground }}>\n    <RouteModalHeader title="A" onClose={() => {}} />\n  </View>\n);\n'
+      )
+    ).toBe(1);
+  });
+
+  it("allows the page color with RouteModalHeader", () => {
+    expect(
+      lint(
+        "modal-page-background",
+        'export const A = ({ colors }) => (\n  <View style={{ backgroundColor: colors.background }}>\n    <RouteModalHeader title="A" onClose={() => {}} />\n  </View>\n);\n'
+      )
+    ).toBe(0);
+  });
+
+  it("allows logBackground without RouteModalHeader", () => {
+    expect(
+      lint(
+        "modal-page-background",
+        "export const B = ({ colors }) => <View style={{ backgroundColor: colors.logBackground }} />;\n"
+      )
+    ).toBe(0);
+  });
+});
+
 describe("component-scope", () => {
   it("reports an import outside the allowed folders", () => {
     expect(
@@ -413,6 +442,26 @@ describe("no-reduce-motion-never", () => {
       lint(
         "no-reduce-motion-never",
         'import { ReduceMotion } from "react-native-reanimated";\nexport const a = { reduceMotion: ReduceMotion.System };\n'
+      )
+    ).toBe(0);
+  });
+});
+
+describe("float-surface-glass", () => {
+  it("reports the float shadow without a glass view", () => {
+    expect(
+      lint(
+        "float-surface-glass",
+        'import { View } from "react-native";\nconst SHADOW = { float: "x" };\nexport const Pill = () => <View style={{ boxShadow: SHADOW.float }} />;\n'
+      )
+    ).toBe(1);
+  });
+
+  it("allows the float shadow as fallback next to a glass view", () => {
+    expect(
+      lint(
+        "float-surface-glass",
+        'import { View } from "react-native";\nimport { GlassView } from "expo-glass-effect";\nconst SHADOW = { float: "x" };\nexport const Pill = ({ glass }: { glass: boolean }) => (glass ? <GlassView /> : <View style={{ boxShadow: SHADOW.float }} />);\n'
       )
     ).toBe(0);
   });

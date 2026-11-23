@@ -15,7 +15,6 @@ Speak about your day. Pixy transcribes on device, finds known people, tags, and 
 - iOS < 26: `SFSpeechRecognizer` on-device mode. Needs Siri on (`kLSRErrorDomain 201` "Siri and Dictation are disabled", found on device 2026-10-15). Siri off: state "voice mode needs Siri"
 - Matching: on-device keyword match (option a). Swappable matcher for Apple Foundation Models later (option c, out of scope)
 - Match only existing, non-archived tags, people, and enabled emotions. Unknown names are ignored. Nothing is auto-created
-- People match only when flag `people` is on
 - Rating is never inferred from tone. Only a spoken mood trigger word sets it ([Mood triggers](#mood-triggers)). User reviews it on the rating slide
 - Transcript goes into the entry note, editable
 - Check button opens the quick check-in, prefilled ([`applyVoicePrefill`](../../src/features/quickcheckin/draft.ts)). Transcript goes into its note. Never saves directly. No feedback sheet
@@ -38,11 +37,21 @@ Reference: screen recording 2026-10-15 (task app voice capture). Same layout, Pi
   - No cards yet: "Try saying" plus an example from the user's own words: "good" trigger, first tag, first person ([`buildVoiceExample`](../../src/features/voice/voice-example.ts)). Saying it fills every card in every language
   - Spoken mood: first card, dot in the user's scale color, trigger word, kind "Mood" ([`VoiceMoodCard`](../../src/features/voice/components/voice-match-card.tsx))
   - Background: onboarding sky ([`Sky`](../../src/components/sky.tsx)). Clouds drift 8 pt/s, up to 40 pt/s at full voice level. Fade behind the bottom controls keeps text readable. Dark mode: night sky with stars. Reduced motion: still
-  - Bottom: "Listening…" title plus hint "Pixy picks up people, tags, emotions, and your mood." Paused: "Paused"
+  - Bottom: "Listening…" title plus hint "Pixy picks up people, tags, emotions, and your mood." Paused: no title
   - Help button next to the hint opens a sheet ([`VoiceHelpSheet`](../../src/features/voice/components/voice-help-sheet.tsx)): name rules for people, tags, emotions, first mood wins, all 7 mood trigger words with scale color dots, review before save
   - Bottom row: pause/resume button, live waveform, check button (primary)
 - Close with transcript asks to discard ([`useDiscardGuard`](../../src/hooks/useDiscardGuard.ts))
 - Native module missing (web, Jest, old dev client): screen shows the failed state, never throws on import ([`speech-module.ts`](../../src/features/voice/speech-module.ts))
+
+## Note step
+
+- Mic button above the logger save button, same surface as the calendar mic. Only icon, label "Dictate Note". Same flag and platforms as voice mode
+- Tap: keyboard closes, listening starts. Voice input pill (same as voice mode) slides up from the bottom, mic and save button hide. Words go to the end of the note live
+- Pill: pause/resume left, waveform and listening time, black check right. Check ends it, pill slides back down, save button returns. Check disabled while the note is empty
+- Typing is blocked while the pill shows
+- No matching: people, tags, emotions, and mood stay as picked
+- Errors show as toast. Denied permission has "Open Settings"
+- Analytics: `voice:note_started`, `voice:note_finished` `{ duration_ms, transcript_length }`
 
 ## Feedback
 

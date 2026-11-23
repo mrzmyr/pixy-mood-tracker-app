@@ -4,6 +4,7 @@ import { BUILDS } from "./builds.ts";
 import { E2E } from "./e2e.ts";
 import { DEVICES } from "./devices.ts";
 import { RELEASE } from "./release.ts";
+import { SITEMAP } from "./sitemap.ts";
 import { WORKTREE } from "./worktree.ts";
 import { reportMemory } from "./memory.ts";
 import { finishRunLog, startRunLog } from "./run-log.ts";
@@ -16,6 +17,7 @@ const NOUNS = new Map<string, Noun>([
   ["e2e", E2E],
   ["devices", DEVICES],
   ["release", RELEASE],
+  ["sitemap", SITEMAP],
   ["worktree", WORKTREE],
 ]);
 const ALIASES = new Map([

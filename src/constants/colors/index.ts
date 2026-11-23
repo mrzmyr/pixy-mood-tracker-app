@@ -4,7 +4,7 @@ import colors from "@/constants/colors/tailwind-colors";
 
 import { TAG_COLOR_NAMES } from "@/constants/config";
 import scales from "@/constants/colors/scales";
-import { groupedColors } from "@/constants/colors/grouped";
+import { fieldColors, groupedColors } from "@/constants/colors/grouped";
 
 type TagColorKey = (typeof TAG_COLOR_NAMES)[number];
 
@@ -15,8 +15,19 @@ interface TagColors {
     background: string;
     text: string;
     border: string;
+    /** Tag icon outline. Light: darker shade, so pale colors stay visible on white. */
+    iconStroke: string;
+    /** Tag icon tint layer, drawn at low opacity under the outline. */
+    iconTint: string;
   };
 }
+
+/**
+ * Tailwind scale behind a tag color. `slate` keeps its stored name but uses
+ * `neutral`: a gray without the blue cast.
+ */
+const tagScale = (color: TagColorKey) =>
+  color === "slate" ? colors.neutral : colors[color];
 
 const tagsDark: TagColors = {};
 const tagsLight: TagColors = {};
@@ -24,19 +35,24 @@ const tagsLight: TagColors = {};
 const tagColorNames = TAG_COLOR_NAMES;
 
 for (const color of tagColorNames) {
+  const scale = tagScale(color);
   tagsDark[color] = {
     title: color,
-    dot: colors[color]["500"],
-    background: colors[color]["700"],
-    text: colors[color]["200"],
-    border: colors[color]["600"],
+    dot: scale["500"],
+    background: scale["700"],
+    text: scale["200"],
+    border: scale["600"],
+    iconStroke: scale["400"],
+    iconTint: scale["500"],
   };
   tagsLight[color] = {
     title: color,
-    dot: colors[color]["400"],
-    background: colors[color]["200"],
-    text: colors[color]["700"],
-    border: colors[color]["400"],
+    dot: scale["400"],
+    background: scale["200"],
+    text: scale["700"],
+    border: scale["400"],
+    iconStroke: scale["700"],
+    iconTint: scale["400"],
   };
 }
 
@@ -89,13 +105,10 @@ const light = {
 
   /** Selectable chip (emotion, tag, person): idle fill and text. */
   chipBackground: "#F6F6F6",
-  chipText: "#545454",
+  chipText: "#1C1C1E",
   /** Selected chip, inverted style. */
   chipBackgroundSelected: "#1C1C1E",
   chipTextSelected: colors.white,
-  /** Selected chip, ink style (flag `chip-active-ink`). */
-  chipBackgroundSelectedInk: "#DCDCDC",
-  chipTextSelectedInk: "#1C1C1E",
   tagBackground: colors.white,
   tagText: colors.neutral[800],
   tagBackgroundActive: colors.blue[100],
@@ -204,11 +217,10 @@ const light = {
   dangerButtonText: dangerLight,
   dangerButtonBorder: colors.neutral[200],
 
-  textInputBackground: colors.neutral[200],
-  textInputText: colors.neutral[800],
-  textInputPlaceholder: colors.neutral[400],
-  textInputLabel: colors.neutral[700],
-  textInputBorder: colors.neutral[200],
+  // Platform field colors (`grouped.ts`). Fields have no border.
+  textInputBackground: fieldColors.light.background,
+  textInputText: fieldColors.light.text,
+  textInputPlaceholder: fieldColors.light.placeholder,
 
   checkboxBackground: colors.neutral[100],
   checkboxBorder: colors.neutral[300],
@@ -356,11 +368,9 @@ const dark: IColors & {
   logActionText: colors.neutral[300],
 
   chipBackground: "#2C2C2E",
-  chipText: "#C7C7CC",
+  chipText: "#F2F2F7",
   chipBackgroundSelected: "#F2F2F7",
   chipTextSelected: "#1C1C1E",
-  chipBackgroundSelectedInk: "#48484A",
-  chipTextSelectedInk: colors.white,
   tagBackground: colors.neutral[900],
   tagText: colors.neutral[200],
   tagBackgroundActive: colors.blue[900],
@@ -466,11 +476,9 @@ const dark: IColors & {
   dangerButtonText: dangerDark,
   dangerButtonBorder: colors.neutral[800],
 
-  textInputBackground: colors.neutral[800],
-  textInputText: colors.neutral[200],
-  textInputPlaceholder: colors.neutral[500],
-  textInputBorder: colors.neutral[900],
-  textInputLabel: colors.neutral[500],
+  textInputBackground: fieldColors.dark.background,
+  textInputText: fieldColors.dark.text,
+  textInputPlaceholder: fieldColors.dark.placeholder,
 
   checkboxBackground: colors.neutral[800],
   checkboxBorder: colors.neutral[700],

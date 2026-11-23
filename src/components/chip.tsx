@@ -4,14 +4,12 @@ import type { ReactNode } from "react";
 import { Pressable, Text, View } from "react-native";
 import type { AccessibilityActionEvent, PressableProps } from "react-native";
 import * as Reanimated from "react-native-reanimated";
-import FlagHighlight from "@/components/flag-highlight";
 import { CHIP } from "@/constants/chip";
 import type { ChipStyle } from "@/constants/chip";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { t } from "@/lib/translation";
-import { useFeatureFlag } from "@/state/feature-flags";
 
 // Built on first render, never at module load: expo-router's Jest mock of
 // reanimated is empty. Without reanimated, plain components and no
@@ -159,8 +157,7 @@ const getA11yProps = ({
 
 /**
  * Pill for emotions, tags, and people. Gray idle fill; a selected chip is
- * inverted, or ink with flag `chip-active-ink`. Selection never changes the
- * size: same weight, no extra glyphs.
+ * inverted. Selection never changes the size: same weight, no extra glyphs.
  *
  * Press scale, fill, label color, and the `lead` to `leadSelected` crossfade
  * share one 160 ms transition, so color and scale move together. Reduced
@@ -199,7 +196,6 @@ export const Chip = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
-  const isInk = useFeatureFlag("chip-active-ink");
   const isReducedMotion = useIsReducedMotion();
   const [isPressed, setIsPressed] = useState(false);
   const AnimatedPressable = getAnimatedPressable();
@@ -207,14 +203,8 @@ export const Chip = ({
   // Reduced motion: no transitions, every change is instant.
   const transitions = isReducedMotion ? null : getTransitions();
   const isPressable = onPress !== undefined;
-  const selectedColors = isInk
-    ? {
-        fill: colors.chipBackgroundSelectedInk,
-        text: colors.chipTextSelectedInk,
-      }
-    : { fill: colors.chipBackgroundSelected, text: colors.chipTextSelected };
 
-  const chip = (
+  return (
     // oxlint-disable-next-line react/static-components -- memoized above, same component on every render.
     <AnimatedPressable
       disabled={!isPressable && !onLongPress}
@@ -252,7 +242,7 @@ export const Chip = ({
           paddingRight: CHIP.paddingRight,
           borderRadius: RADIUS.full,
           backgroundColor: selected
-            ? selectedColors.fill
+            ? colors.chipBackgroundSelected
             : colors.chipBackground,
           transform: [
             { scale: isPressed && isPressable ? CHIP.pressedScale : 1 },
@@ -280,7 +270,7 @@ export const Chip = ({
             fontSize: CHIP.fontSize,
             lineHeight: CHIP.lineHeight,
             letterSpacing: CHIP.letterSpacing,
-            color: selected ? selectedColors.text : colors.chipText,
+            color: selected ? colors.chipTextSelected : colors.chipText,
           },
           transitions?.label,
         ]}
@@ -288,15 +278,5 @@ export const Chip = ({
         {label}
       </AnimatedText>
     </AnimatedPressable>
-  );
-
-  // Wrap whenever the flag is on, never by `selected`: a changing tree
-  // would remount the chip and skip the transition.
-  return isInk ? (
-    <FlagHighlight flag="chip-active-ink" pillOnly>
-      {chip}
-    </FlagHighlight>
-  ) : (
-    chip
   );
 };
