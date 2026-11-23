@@ -3,6 +3,13 @@ import { getCalendarLayoutLabel, useCalendarLayout } from "@/features/calendar";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/feature-flags";
 
+/** Route param of a view switch: the target screen opens without animation. */
+const VIEW_SWITCH_PARAMS = { view: "switch" } as const;
+
+/** Route opened from the View menu, see {@link VIEW_SWITCH_PARAMS}. */
+export const isViewSwitch = (params?: { view?: string }) =>
+  params?.view === VIEW_SWITCH_PARAMS.view;
+
 /** One choice in the View section of the header menu. */
 interface ViewMenuItem {
   key: string;
@@ -45,7 +52,10 @@ export const useViewMenu = (current: "home" | "calendar") => {
       handlePress: () => {
         calendarLayout.setLayout(layout);
         if (current !== "calendar") {
-          router.replace("/calendar");
+          router.replace({
+            pathname: "/calendar",
+            params: VIEW_SWITCH_PARAMS,
+          });
         }
       },
     })

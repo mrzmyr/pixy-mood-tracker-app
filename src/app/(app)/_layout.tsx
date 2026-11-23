@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { Platform, View } from "react-native";
 import { BackButton } from "@/shell/back-button";
+import { isViewSwitch } from "@/shell/view-menu";
 import { StorageLoadGate } from "@/shell/storage-load-gate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
@@ -147,9 +148,17 @@ const getDefaultOptions = (textColor: string, backgroundColor: string) => ({
  * shows none but exposes the screen name to screen readers. Onboarding hands
  * off to the calendar with a cross-fade.
  */
-const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
+/**
+ * Calendar page options. Fades in, except from the View menu: a view
+ * switch shows the new view right away.
+ */
+const getCalendarOptions = (
+  textColor: string,
+  backgroundColor: string,
+  isFromViewMenu: boolean
+) => ({
   title: t("calendar"),
-  animation: "fade" as const,
+  animation: isFromViewMenu ? ("none" as const) : ("fade" as const),
   // Home and Calendar replace each other: nothing to go back to.
   headerBackVisible: false,
   gestureEnabled: false,
@@ -166,12 +175,12 @@ const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
 
 /**
  * Home page options (flag `day-view`): native bar without title, like
- * Calendar. The screen sets the bar items (`Stack.Toolbar`). Calendar and
- * Home swap with a cross-fade.
+ * Calendar. The screen sets the bar items (`Stack.Toolbar`). Home only
+ * opens as a view switch, so it shows right away, without animation.
  */
 const getHomeOptions = (textColor: string) => ({
   title: t("today"),
-  animation: "fade" as const,
+  animation: "none" as const,
   headerTitle: "",
   // Home and Calendar replace each other: nothing to go back to.
   headerBackVisible: false,
@@ -245,7 +254,13 @@ const AppLayout = () => {
           <Stack.Screen name="home" options={getHomeOptions(colors.text)} />
           <Stack.Screen
             name="calendar"
-            options={getCalendarOptions(colors.text, colors.calendarBackground)}
+            options={({ route }) =>
+              getCalendarOptions(
+                colors.text,
+                colors.calendarBackground,
+                isViewSwitch(route.params)
+              )
+            }
           />
           <Stack.Screen
             name="statistics/index"
