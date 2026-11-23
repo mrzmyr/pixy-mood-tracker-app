@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Privatnost shvaćamo ozbiljno i pažljivo postupamo s vašim podacima.",
   "onboarding_tagline": "Otkrij što oblikuje kako se osjećaš.",
   "orbit": "Orbita",
-  "orbit_empty": "Nema povezivanja u zadnja 4 tjedna. Dodaj osobe u svoje unose da ih vidiš ovdje.",
-  "orbit_period": "Zadnja 4 tjedna",
+  "orbit_days_ago": {
+    "one": "prije 1 dan",
+    "other": "prije {{count}} dana"
+  },
+  "orbit_empty": "Nema povezivanja u ovom razdoblju. Dodaj osobe u svoje unose da ih vidiš ovdje.",
+  "orbit_months_ago": {
+    "one": "prije 1 mjesec",
+    "other": "prije {{count}} mjeseci"
+  },
+  "orbit_range": "Razdoblje",
+  "orbit_range_12_months": "Zadnjih 12 mjeseci",
+  "orbit_range_30_days": "Zadnjih 30 dana",
+  "orbit_range_90_days": "Zadnjih 90 dana",
+  "orbit_weeks_ago": {
+    "one": "prije 1 tjedan",
+    "other": "prije {{count}} tjedana"
+  },
   "other": "Ostalo",
   "people": "Ljudi",
   "people_add": "Dodaj osobu",

@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "当社はプライバシーを重視し、お客様のデータを慎重に取り扱います。",
   "onboarding_tagline": "あなたの気持ちを形づくるものを見つけよう。",
   "orbit": "オービット",
-  "orbit_empty": "過去4週間につながった人はいません。記録に人を追加するとここに表示されます。",
-  "orbit_period": "過去4週間",
+  "orbit_days_ago": {
+    "one": "1日前",
+    "other": "{{count}}日前"
+  },
+  "orbit_empty": "この期間につながった人はいません。記録に人を追加するとここに表示されます。",
+  "orbit_months_ago": {
+    "one": "1か月前",
+    "other": "{{count}}か月前"
+  },
+  "orbit_range": "期間",
+  "orbit_range_12_months": "過去12か月",
+  "orbit_range_30_days": "過去30日間",
+  "orbit_range_90_days": "過去90日間",
+  "orbit_weeks_ago": {
+    "one": "1週間前",
+    "other": "{{count}}週間前"
+  },
   "other": "他の",
   "people": "人",
   "people_add": "人を追加",

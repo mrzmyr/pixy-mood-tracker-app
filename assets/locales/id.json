@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Kami menganggap serius privasi dan menangani data Anda dengan hati-hati.",
   "onboarding_tagline": "Lihat apa yang membentuk perasaanmu.",
   "orbit": "Orbit",
-  "orbit_empty": "Tidak ada yang terhubung dalam 4 minggu terakhir. Tambahkan orang ke catatanmu untuk melihat mereka di sini.",
-  "orbit_period": "4 minggu terakhir",
+  "orbit_days_ago": {
+    "one": "1 hr lalu",
+    "other": "{{count}} hr lalu"
+  },
+  "orbit_empty": "Tidak ada yang terhubung dalam rentang ini. Tambahkan orang ke catatanmu untuk melihat mereka di sini.",
+  "orbit_months_ago": {
+    "one": "1 bln lalu",
+    "other": "{{count}} bln lalu"
+  },
+  "orbit_range": "Rentang waktu",
+  "orbit_range_12_months": "12 bulan terakhir",
+  "orbit_range_30_days": "30 hari terakhir",
+  "orbit_range_90_days": "90 hari terakhir",
+  "orbit_weeks_ago": {
+    "one": "1 mgg lalu",
+    "other": "{{count}} mgg lalu"
+  },
   "other": "Lainnya",
   "people": "Orang",
   "people_add": "Tambah orang",

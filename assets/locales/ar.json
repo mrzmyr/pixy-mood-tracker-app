@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "نتعامل مع الخصوصية بجدية ونتعامل مع بياناتك بعناية.",
   "onboarding_tagline": "اكتشف ما يشكّل مشاعرك.",
   "orbit": "المدار",
-  "orbit_empty": "لم تتواصل مع أحد في آخر 4 أسابيع. أضف أشخاصًا إلى إدخالاتك لتراهم هنا.",
-  "orbit_period": "آخر 4 أسابيع",
+  "orbit_days_ago": {
+    "one": "قبل يوم",
+    "other": "قبل {{count}} يوم"
+  },
+  "orbit_empty": "لم تتواصل مع أحد في هذه الفترة. أضف أشخاصًا إلى إدخالاتك لتراهم هنا.",
+  "orbit_months_ago": {
+    "one": "قبل شهر",
+    "other": "قبل {{count}} شهر"
+  },
+  "orbit_range": "الفترة الزمنية",
+  "orbit_range_12_months": "آخر 12 شهرًا",
+  "orbit_range_30_days": "آخر 30 يومًا",
+  "orbit_range_90_days": "آخر 90 يومًا",
+  "orbit_weeks_ago": {
+    "one": "قبل أسبوع",
+    "other": "قبل {{count}} أسبوع"
+  },
   "other": "آخر",
   "people": "الأشخاص",
   "people_add": "إضافة شخص",

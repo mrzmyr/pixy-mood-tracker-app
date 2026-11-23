@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Komolyan vesszük az adatvédelmet, és óvatosan kezeljük adatait.",
   "onboarding_tagline": "Lásd, mi alakítja, hogyan érzed magad.",
   "orbit": "Pálya",
-  "orbit_empty": "Az elmúlt 4 hétben nem volt kapcsolat. Adj hozzá embereket a bejegyzéseidhez, hogy itt lásd őket.",
-  "orbit_period": "Elmúlt 4 hét",
+  "orbit_days_ago": {
+    "one": "1 napja",
+    "other": "{{count}} napja"
+  },
+  "orbit_empty": "Ebben az időszakban nem volt kapcsolat. Adj hozzá embereket a bejegyzéseidhez, hogy itt lásd őket.",
+  "orbit_months_ago": {
+    "one": "1 hónapja",
+    "other": "{{count}} hónapja"
+  },
+  "orbit_range": "Időszak",
+  "orbit_range_12_months": "Elmúlt 12 hónap",
+  "orbit_range_30_days": "Elmúlt 30 nap",
+  "orbit_range_90_days": "Elmúlt 90 nap",
+  "orbit_weeks_ago": {
+    "one": "1 hete",
+    "other": "{{count}} hete"
+  },
   "other": "Egyéb",
   "people": "Emberek",
   "people_add": "Személy hozzáadása",

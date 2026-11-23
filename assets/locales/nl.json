@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Wij nemen privacy serieus en gaan zorgvuldig om met uw gegevens.",
   "onboarding_tagline": "Zie wat bepaalt hoe je je voelt.",
   "orbit": "Baan",
-  "orbit_empty": "Geen contact in de afgelopen 4 weken. Voeg mensen toe aan je invoer om ze hier te zien.",
-  "orbit_period": "Afgelopen 4 weken",
+  "orbit_days_ago": {
+    "one": "1 d geleden",
+    "other": "{{count}} d geleden"
+  },
+  "orbit_empty": "Geen contact in deze periode. Voeg mensen toe aan je invoer om ze hier te zien.",
+  "orbit_months_ago": {
+    "one": "1 mnd geleden",
+    "other": "{{count}} mnd geleden"
+  },
+  "orbit_range": "Periode",
+  "orbit_range_12_months": "Afgelopen 12 maanden",
+  "orbit_range_30_days": "Afgelopen 30 dagen",
+  "orbit_range_90_days": "Afgelopen 90 dagen",
+  "orbit_weeks_ago": {
+    "one": "1 w geleden",
+    "other": "{{count}} w geleden"
+  },
   "other": "Ander",
   "people": "Mensen",
   "people_add": "Persoon toevoegen",

@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Vi tar personvernet på alvor og behandler dataene dine med forsiktighet.",
   "onboarding_tagline": "Se hva som former hvordan du har det.",
   "orbit": "Bane",
-  "orbit_empty": "Ingen kontakt de siste 4 ukene. Legg til personer i oppføringene dine for å se dem her.",
-  "orbit_period": "Siste 4 uker",
+  "orbit_days_ago": {
+    "one": "for 1 dag siden",
+    "other": "for {{count}} dager siden"
+  },
+  "orbit_empty": "Ingen kontakt i denne perioden. Legg til personer i oppføringene dine for å se dem her.",
+  "orbit_months_ago": {
+    "one": "for 1 måned siden",
+    "other": "for {{count}} måneder siden"
+  },
+  "orbit_range": "Periode",
+  "orbit_range_12_months": "Siste 12 måneder",
+  "orbit_range_30_days": "Siste 30 dager",
+  "orbit_range_90_days": "Siste 90 dager",
+  "orbit_weeks_ago": {
+    "one": "for 1 uke siden",
+    "other": "for {{count}} uker siden"
+  },
   "other": "Annen",
   "people": "Personer",
   "people_add": "Legg til person",

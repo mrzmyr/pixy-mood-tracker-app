@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import { Stack } from "expo-router";
+import { useState } from "react";
 import {
   Platform,
   ScrollView,
@@ -6,99 +8,126 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
-import { useHeaderHeight } from "expo-router/react-navigation";
-import { SKY_DRIFT_SPEED, Sky } from "@/components/sky";
+import MenuList from "@/components/menu-list";
+import MenuListItem from "@/components/menu-list-item";
+import { Copy, Label } from "@/components/typography";
+import { SPACE } from "@/constants/space";
 import { usePeopleState } from "@/features/people";
 import type { Person } from "@/features/people";
+import useColors from "@/hooks/use-colors";
 import { useScrollBottomPadding } from "@/hooks/use-scroll-bottom-padding";
 import { t } from "@/lib/translation";
 import { connectedPeople } from "../cards/summaries";
 import { RingedAvatar } from "../components/ringed-avatar";
+import { formatAgo, lastConnected } from "../last-connected";
 import { OrbitSystem } from "../story/orbit";
-import { StoryText } from "../story/parts";
 import type { SlideContext } from "../story/slides";
-import {
-  getStoryTheme,
-  STORY_CARD_RADIUS,
-  STORY_PALETTE,
-  STORY_SCREEN_PADDING,
-} from "../story/theme";
-import type { StoryTheme } from "../story/theme";
+import { STORY_SCREEN_PADDING } from "../story/theme";
 import { THRESHOLDS } from "../thresholds";
 import { useRecapInput } from "../use-recap-input";
 import type { Period } from "../types";
 
-/** Days the orbit looks back, today included: the last 4 weeks. */
-const ORBIT_DAYS = 28;
-const AVATAR = 40;
+const AVATAR = 32;
 
-/** The last `ORBIT_DAYS` days, today included. */
-const lastFourWeeks = (): Period => {
+// Android renders only image icons in the header; iOS uses SF Symbols.
+const FILTER_ICON =
+  Platform.OS === "ios"
+    ? "line.3.horizontal.decrease"
+    : require("../../../../assets/images/icons/filter.png");
+
+/** The last `count` days, today included. */
+const lastDays = (count: number): Period => {
   const today = dayjs();
   return {
     kind: "month",
-    start: today.subtract(ORBIT_DAYS - 1, "day").format("YYYY-MM-DD"),
+    start: today.subtract(count - 1, "day").format("YYYY-MM-DD"),
     end: today.format("YYYY-MM-DD"),
   };
 };
 
-/** One person and their connected days, divider above all but the first. */
+type OrbitRange = "30-days" | "90-days" | "12-months";
+
+const RANGES: {
+  range: OrbitRange;
+  label: () => string;
+  period: () => Period;
+}[] = [
+  {
+    range: "30-days",
+    label: () => t("orbit_range_30_days"),
+    period: () => lastDays(30),
+  },
+  {
+    range: "90-days",
+    label: () => t("orbit_range_90_days"),
+    period: () => lastDays(90),
+  },
+  {
+    range: "12-months",
+    label: () => t("orbit_range_12_months"),
+    period: () => ({
+      kind: "year",
+      start: dayjs().subtract(12, "month").add(1, "day").format("YYYY-MM-DD"),
+      end: dayjs().format("YYYY-MM-DD"),
+    }),
+  },
+];
+
+/**
+ * One person. Shows when the user last connected with them; a tap toggles
+ * to the connected days in the range.
+ */
 const PersonRow = ({
   person,
   days,
-  isFirst,
-  theme,
+  ago,
 }: {
   person: Person;
   days: number;
-  isFirst: boolean;
-  theme: StoryTheme;
-}) => (
-  <View
-    accessible
-    accessibilityLabel={`${person.name}, ${t("recaps_story_people_days", { count: days })}`}
-    testID={`orbit-person-${person.id}`}
-    style={{
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 12,
-      paddingVertical: 10,
-      borderTopWidth: isFirst ? 0 : 1,
-      borderTopColor: STORY_PALETTE[theme].glassBorder,
-    }}
-  >
-    <RingedAvatar person={person} size={AVATAR} />
-    <View style={{ flex: 1 }}>
-      <StoryText kind="label" theme={theme} numberOfLines={1}>
-        {person.name}
-      </StoryText>
-    </View>
-    <StoryText
-      kind="label"
-      theme={theme}
-      style={{ fontVariant: ["tabular-nums"] }}
-    >
-      {days}
-    </StoryText>
-  </View>
-);
+  ago: string;
+}) => {
+  const colors = useColors();
+  const [isCountShown, setIsCountShown] = useState(false);
+  const count = t("recaps_story_people_days", { count: days });
+  return (
+    <MenuListItem
+      title={person.name}
+      iconLeft={<RingedAvatar person={person} size={AVATAR} />}
+      iconRight={
+        <Label
+          size={14}
+          style={{
+            color: colors.textSecondary,
+            fontVariant: ["tabular-nums"],
+          }}
+        >
+          {isCountShown ? count : ago}
+        </Label>
+      }
+      onPress={() => setIsCountShown((shown) => !shown)}
+      accessibilityValue={{ text: isCountShown ? count : ago }}
+      testID={`orbit-person-${person.id}`}
+    />
+  );
+};
 
 /**
- * Settings > Orbit: the people of the last 4 weeks around the user, as in
- * the month recap story, on the sky. A tap on a person shows their days.
- * Below: everyone connected in that time, most connected days first.
- * Counts only, never how the days felt.
+ * Settings > Orbit: the people of a time range around the user, as in the
+ * month recap story. A tap on a person shows their days. Below: everyone
+ * connected in that range, most connected days first, with the last day
+ * connected. The header menu picks the range. Counts only, never how the
+ * days felt.
  */
 export const OrbitScreen = () => {
-  const period = lastFourWeeks();
+  const [range, setRange] = useState<OrbitRange>("30-days");
+  const selected = RANGES.find((option) => option.range === range) ?? RANGES[0];
+  const period = selected.period();
   const input = useRecapInput(period);
   const { people } = usePeopleState();
+  const colors = useColors();
   const colorScheme = useColorScheme();
   const { width: screen } = useWindowDimensions();
-  const headerHeight = useHeaderHeight();
   const paddingBottom = useScrollBottomPadding(24);
-  const speed = useSharedValue(SKY_DRIFT_SPEED);
   const ctx: SlideContext = {
     period,
     days: input.days,
@@ -108,64 +137,74 @@ export const OrbitScreen = () => {
     people: new Map(people.map((person) => [person.id, person])),
     isDark: colorScheme === "dark",
   };
-  const theme = getStoryTheme(ctx.isDark);
-  const palette = STORY_PALETTE[theme];
   const connected = connectedPeople(input);
+  const last = lastConnected(input.days);
   const rows = connected.flatMap(({ personId, days }) => {
     const person = ctx.people.get(personId);
-    return person ? [{ person, days }] : [];
+    const date = last.get(personId);
+    return person && date
+      ? [{ person, days, ago: formatAgo(date, input.today) }]
+      : [];
   });
   return (
-    <View style={{ flex: 1, backgroundColor: palette.background }}>
-      <Sky speed={speed} />
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
-          paddingTop: Platform.OS === "ios" ? 8 : headerHeight + 8,
+          paddingTop: SPACE.sm,
           paddingHorizontal: STORY_SCREEN_PADDING,
           paddingBottom,
-          gap: 24,
+          gap: SPACE.xxl,
         }}
         testID="orbit-screen"
       >
-        <StoryText kind="label" theme={theme} tone="muted">
-          {t("orbit_period")}
-        </StoryText>
+        <Label size={14} style={{ color: colors.textSecondary }}>
+          {selected.label()}
+        </Label>
         {rows.length === 0 ? (
-          <StoryText kind="body" theme={theme} testID="orbit-empty">
+          <Copy size={16} testID="orbit-empty">
             {t("orbit_empty")}
-          </StoryText>
+          </Copy>
         ) : (
           <>
             <OrbitSystem
+              // New range: people swing in again.
+              key={range}
               people={connected.slice(0, THRESHOLDS.storyOrbitMaxPeople)}
               ctx={ctx}
               width={screen - 2 * STORY_SCREEN_PADDING}
               delay={0}
             />
-            <View
-              style={{
-                paddingHorizontal: 16,
-                paddingVertical: 4,
-                borderRadius: STORY_CARD_RADIUS,
-                borderWidth: 1,
-                borderColor: palette.glassBorder,
-                backgroundColor: palette.glass,
-              }}
-            >
-              {rows.map(({ person, days }, index) => (
+            <MenuList>
+              {rows.map(({ person, days, ago }) => (
                 <PersonRow
-                  key={person.id}
+                  // New range: rows show the last day again.
+                  key={`${range}-${person.id}`}
                   person={person}
                   days={days}
-                  isFirst={index === 0}
-                  theme={theme}
+                  ago={ago}
                 />
               ))}
-            </View>
+            </MenuList>
           </>
         )}
       </ScrollView>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Menu
+          icon={FILTER_ICON}
+          accessibilityLabel={t("orbit_range")}
+        >
+          {RANGES.map((option) => (
+            <Stack.Toolbar.MenuAction
+              key={option.range}
+              isOn={option.range === range}
+              onPress={() => setRange(option.range)}
+            >
+              {option.label()}
+            </Stack.Toolbar.MenuAction>
+          ))}
+        </Stack.Toolbar.Menu>
+      </Stack.Toolbar>
     </View>
   );
 };

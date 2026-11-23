@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Levamos a privacidade a sério e tratamos seus dados com cuidado.",
   "onboarding_tagline": "Descubra o que molda como você se sente.",
   "orbit": "Órbita",
-  "orbit_empty": "Nenhuma conexão nas últimas 4 semanas. Adicione pessoas aos seus registros para vê-las aqui.",
-  "orbit_period": "Últimas 4 semanas",
+  "orbit_days_ago": {
+    "one": "há 1 dia",
+    "other": "há {{count}} dias"
+  },
+  "orbit_empty": "Nenhuma conexão neste período. Adicione pessoas aos seus registros para vê-las aqui.",
+  "orbit_months_ago": {
+    "one": "há 1 mês",
+    "other": "há {{count}} meses"
+  },
+  "orbit_range": "Período",
+  "orbit_range_12_months": "Últimos 12 meses",
+  "orbit_range_30_days": "Últimos 30 dias",
+  "orbit_range_90_days": "Últimos 90 dias",
+  "orbit_weeks_ago": {
+    "one": "há 1 semana",
+    "other": "há {{count}} semanas"
+  },
   "other": "De outros",
   "people": "Pessoas",
   "people_add": "Adicionar pessoa",

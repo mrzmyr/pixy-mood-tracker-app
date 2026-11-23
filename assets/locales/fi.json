@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Suhtaudumme tietosuojaan vakavasti ja käsittelemme tietojasi huolellisesti.",
   "onboarding_tagline": "Näe, mikä vaikuttaa siihen, miltä sinusta tuntuu.",
   "orbit": "Kiertorata",
-  "orbit_empty": "Ei yhteyksiä viimeisen 4 viikon aikana. Lisää ihmisiä merkintöihisi nähdäksesi heidät täällä.",
-  "orbit_period": "Viimeiset 4 viikkoa",
+  "orbit_days_ago": {
+    "one": "1 pv sitten",
+    "other": "{{count}} pv sitten"
+  },
+  "orbit_empty": "Ei yhteyksiä tällä aikavälillä. Lisää ihmisiä merkintöihisi nähdäksesi heidät täällä.",
+  "orbit_months_ago": {
+    "one": "1 kk sitten",
+    "other": "{{count}} kk sitten"
+  },
+  "orbit_range": "Aikaväli",
+  "orbit_range_12_months": "Viimeiset 12 kuukautta",
+  "orbit_range_30_days": "Viimeiset 30 päivää",
+  "orbit_range_90_days": "Viimeiset 90 päivää",
+  "orbit_weeks_ago": {
+    "one": "1 vk sitten",
+    "other": "{{count}} vk sitten"
+  },
   "other": "Muut",
   "people": "Ihmiset",
   "people_add": "Lisää henkilö",

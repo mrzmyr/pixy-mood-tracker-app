@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Vi tager privatlivets fred alvorligt og behandler dine data med omhu.",
   "onboarding_tagline": "Se, hvad der former, hvordan du har det.",
   "orbit": "Kredsløb",
-  "orbit_empty": "Ingen forbindelser de seneste 4 uger. Tilføj personer til dine registreringer for at se dem her.",
-  "orbit_period": "Seneste 4 uger",
+  "orbit_days_ago": {
+    "one": "for 1 dag siden",
+    "other": "for {{count}} dage siden"
+  },
+  "orbit_empty": "Ingen forbindelser i denne periode. Tilføj personer til dine registreringer for at se dem her.",
+  "orbit_months_ago": {
+    "one": "for 1 måned siden",
+    "other": "for {{count}} måneder siden"
+  },
+  "orbit_range": "Periode",
+  "orbit_range_12_months": "Seneste 12 måneder",
+  "orbit_range_30_days": "Seneste 30 dage",
+  "orbit_range_90_days": "Seneste 90 dage",
+  "orbit_weeks_ago": {
+    "one": "for 1 uge siden",
+    "other": "for {{count}} uger siden"
+  },
   "other": "Andet",
   "people": "Personer",
   "people_add": "Tilføj person",

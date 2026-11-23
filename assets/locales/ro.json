@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Luăm în serios confidențialitatea și gestionăm datele dumneavoastră cu grijă.",
   "onboarding_tagline": "Vezi ce îți modelează starea.",
   "orbit": "Orbită",
-  "orbit_empty": "Nicio legătură în ultimele 4 săptămâni. Adaugă persoane în înregistrări ca să le vezi aici.",
-  "orbit_period": "Ultimele 4 săptămâni",
+  "orbit_days_ago": {
+    "one": "acum 1 zi",
+    "other": "acum {{count}} zile"
+  },
+  "orbit_empty": "Nicio legătură în această perioadă. Adaugă persoane în înregistrări ca să le vezi aici.",
+  "orbit_months_ago": {
+    "one": "acum 1 lună",
+    "other": "acum {{count}} luni"
+  },
+  "orbit_range": "Perioadă",
+  "orbit_range_12_months": "Ultimele 12 luni",
+  "orbit_range_30_days": "Ultimele 30 de zile",
+  "orbit_range_90_days": "Ultimele 90 de zile",
+  "orbit_weeks_ago": {
+    "one": "acum 1 săpt.",
+    "other": "acum {{count}} săpt."
+  },
   "other": "Alte",
   "people": "Persoane",
   "people_add": "Adaugă persoană",

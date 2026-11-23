@@ -696,8 +696,23 @@
   "onboarding_step_5_title": "Gizliliği ciddiye alıyoruz ve verilerinizi özenle kullanıyoruz.",
   "onboarding_tagline": "Nasıl hissettiğini neyin şekillendirdiğini gör.",
   "orbit": "Yörünge",
-  "orbit_empty": "Son 4 haftada kimseyle bağlantı yok. Burada görmek için kayıtlarına kişi ekle.",
-  "orbit_period": "Son 4 hafta",
+  "orbit_days_ago": {
+    "one": "1 g önce",
+    "other": "{{count}} g önce"
+  },
+  "orbit_empty": "Bu aralıkta kimseyle bağlantı yok. Burada görmek için kayıtlarına kişi ekle.",
+  "orbit_months_ago": {
+    "one": "1 ay önce",
+    "other": "{{count}} ay önce"
+  },
+  "orbit_range": "Zaman aralığı",
+  "orbit_range_12_months": "Son 12 ay",
+  "orbit_range_30_days": "Son 30 gün",
+  "orbit_range_90_days": "Son 90 gün",
+  "orbit_weeks_ago": {
+    "one": "1 hf önce",
+    "other": "{{count}} hf önce"
+  },
   "other": "Diğer",
   "people": "Kişiler",
   "people_add": "Kişi ekle",
