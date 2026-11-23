@@ -1,12 +1,14 @@
 import dayjs from "dayjs";
+import { useState } from "react";
 import { View } from "react-native";
-import { Label } from "@/components/typography";
+import { TextMorph } from "@/components/text-morph";
 import useColors from "@/hooks/use-colors";
 import { HOME_TEXT, HOME_WEIGHT } from "../layout";
 
 /**
  * Top of Home: weekday and date of the selected day. The profile button
- * sits in the native bar above.
+ * sits in the native bar above. Changed letters and digits morph when the
+ * day changes: down for an earlier day, up for a later one.
  */
 export const HomeHeader = ({
   date,
@@ -16,6 +18,10 @@ export const HomeHeader = ({
 }) => {
   const colors = useColors();
   const day = dayjs(date);
+  const [shown, setShown] = useState({ date, isEarlier: false });
+  if (shown.date !== date) {
+    setShown({ date, isEarlier: date < shown.date });
+  }
 
   return (
     <View
@@ -23,8 +29,8 @@ export const HomeHeader = ({
       accessibilityRole="header"
       accessibilityLabel={day.format("dddd, LL")}
     >
-      <Label
-        size={20}
+      <TextMorph
+        countsDown={shown.isEarlier}
         style={{
           ...HOME_TEXT.header,
           color: colors.textSecondary,
@@ -32,9 +38,9 @@ export const HomeHeader = ({
         }}
       >
         {day.format("dddd")}
-      </Label>
-      <Label
-        size={20}
+      </TextMorph>
+      <TextMorph
+        countsDown={shown.isEarlier}
         style={{
           ...HOME_TEXT.header,
           color: colors.homeTextMuted,
@@ -42,7 +48,7 @@ export const HomeHeader = ({
         }}
       >
         {day.format("MMMM DD")}
-      </Label>
+      </TextMorph>
     </View>
   );
 };
