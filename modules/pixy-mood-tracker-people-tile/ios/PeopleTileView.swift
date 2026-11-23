@@ -1,7 +1,7 @@
 import ExpoModulesCore
 import UIKit
 
-/// Wraps one check-in person tile drawn by React Native.
+/// Wraps one check-in tile drawn by React Native: a person tile or a tag chip.
 ///
 /// - Hold: system context menu with a lifted preview
 /// - Move while the menu shows: menu goes away, the tile drags
@@ -23,6 +23,9 @@ class PeopleTileView: ExpoView, UIContextMenuInteractionDelegate, UIDragInteract
   var tileId = ""
   var menuTitle = ""
   var actions: [PeopleTileMenuAction] = []
+  /// Set for pill tiles like tag chips: the lift preview is the whole tile,
+  /// rounded by this radius. Unset: the preview traces the tile's shapes.
+  var previewCornerRadius: CGFloat?
 
   required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
@@ -38,6 +41,11 @@ class PeopleTileView: ExpoView, UIContextMenuInteractionDelegate, UIDragInteract
   private func previewParameters() -> UIPreviewParameters {
     let parameters = UIPreviewParameters()
     parameters.backgroundColor = .clear
+    if let radius = previewCornerRadius {
+      parameters.visiblePath = UIBezierPath(
+        roundedRect: bounds, cornerRadius: min(radius, bounds.height / 2))
+      return parameters
+    }
     let path = UIBezierPath()
     appendShapes(of: self, to: path)
     parameters.visiblePath =

@@ -1277,6 +1277,7 @@
   "tags_reached_max_archived": "You reached the maximum of {{max_count}} tags. Archived tags count too. Delete an archived tag to free a slot.",
   "tags_reorder_handle": "Reorder {{title}}",
   "tags_search_empty": "No tags found.",
+  "tags_unarchive": "Unarchive",
   "tags_used": "Tags used",
   "theme": "Theme",
   "theme_dark": "Dark",

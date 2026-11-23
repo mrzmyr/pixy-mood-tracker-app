@@ -7,7 +7,7 @@ import type { Tag as ITag } from "./tags-provider";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
-/** Shared delete confirmation and immediate archive action; analytics exclude tag names. */
+/** Shared delete confirmation and immediate archive actions; analytics exclude tag names. */
 export const useTagActions = ({
   onDeleted,
 }: { onDeleted?: () => void } = {}) => {
@@ -15,7 +15,11 @@ export const useTagActions = ({
   const analytics = useAnalytics();
   const haptics = useHaptics();
 
-  const confirmDelete = (tagToDelete: ITag) => {
+  /** `options.onDeleted` runs instead of the hook's `onDeleted`. */
+  const confirmDelete = (
+    tagToDelete: ITag,
+    options?: { onDeleted?: () => void }
+  ) => {
     analytics.track("tags:delete_requested", {
       title_length: tagToDelete.title.length,
       color: tagToDelete.color,
@@ -43,7 +47,7 @@ export const useTagActions = ({
               has_emoji: REGEX_EMOJI.test(tagToDelete.title),
             });
             tagsUpdater.deleteTag(tagToDelete.id);
-            onDeleted?.();
+            (options?.onDeleted ?? onDeleted)?.();
           },
           style: "destructive",
         },
@@ -52,15 +56,20 @@ export const useTagActions = ({
     );
   };
 
-  const archive = (tag: ITag) => {
+  const setArchived = (tag: ITag, isArchived: boolean) => {
     analytics.track("tags:tag_updated", {
       title_length: tag.title.length,
       color: tag.color,
       has_emoji: REGEX_EMOJI.test(tag.title),
-      is_archived: true,
+      is_archived: isArchived,
     });
-    tagsUpdater.updateTag({ ...tag, isArchived: true });
+    tagsUpdater.updateTag({ ...tag, isArchived });
   };
 
-  return { confirmDelete, archive };
+  const archive = (tag: ITag) => setArchived(tag, true);
+
+  /** Archives an active tag, unarchives an archived one. */
+  const toggleArchived = (tag: ITag) => setArchived(tag, !tag.isArchived);
+
+  return { confirmDelete, archive, toggleArchived };
 };

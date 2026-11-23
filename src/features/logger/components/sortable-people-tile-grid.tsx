@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ActionSheetIOS, Platform, View } from "react-native";
+import { View } from "react-native";
 import Animated, { useAnimatedRef } from "react-native-reanimated";
 import Sortable from "react-native-sortables";
 import type {
@@ -7,44 +7,10 @@ import type {
   SortableGridRenderItemInfo,
 } from "react-native-sortables";
 import type { Person } from "@/features/people";
-import { t } from "@/lib/translation";
 import type { PeopleTileGridProps } from "./people-tile-grid-props";
+import { showTileMenu } from "./tile-reorder";
 
 type Cell = { type: "person"; person: Person } | { type: "add" };
-
-/**
- * Menu for a tile released without moving. iOS: action sheet with the menu
- * rows. Elsewhere the first row runs.
- */
-const showMenu = (
-  person: Person,
-  {
-    menuActions,
-    onMenuAction,
-  }: Pick<PeopleTileGridProps, "menuActions" | "onMenuAction">
-) => {
-  const actions = menuActions(person);
-  if (Platform.OS !== "ios") {
-    if (actions[0]) {
-      onMenuAction(person, actions[0].id);
-    }
-    return;
-  }
-  ActionSheetIOS.showActionSheetWithOptions(
-    {
-      title: person.name,
-      options: [...actions.map((action) => action.title), t("cancel")],
-      destructiveButtonIndex: actions.findIndex((action) => action.destructive),
-      cancelButtonIndex: actions.length,
-    },
-    (index) => {
-      const action = actions[index];
-      if (action) {
-        onMenuAction(person, action.id);
-      }
-    }
-  );
-};
 
 /**
  * Scrolling grid of person tiles, drawn with `react-native-sortables`. Hold
@@ -90,7 +56,9 @@ export const SortablePeopleTileGrid = ({
     }
     const person = people.find((item) => item.id === key);
     if (person) {
-      showMenu(person, { menuActions, onMenuAction });
+      showTileMenu(person.name, menuActions(person), (actionId) =>
+        onMenuAction(person, actionId)
+      );
     }
   };
 
