@@ -27,8 +27,7 @@ const reportPromptError = (cause: unknown) => {
 };
 
 /**
- * Returns a callback for good moments (logger or quick check-in save,
- * recap story completed).
+ * Returns a callback for good moments (see `StoreReviewMoment` kinds).
  * It requests the system store review prompt `STORE_REVIEW_DELAY_MS` after
  * the moment when `decideStoreReview` allows it.
  *
