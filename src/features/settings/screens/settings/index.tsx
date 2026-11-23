@@ -23,7 +23,7 @@ import {
   DATE_FORMAT,
   FEEDBACK_FEATURES_URL,
 } from "@/constants/config";
-import { DEV_TOOLS } from "@/dev";
+import { HAS_DEV_TOOLS } from "@/dev";
 import { getLanguageName } from "@/lib/language-names";
 import { getLanguage, t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -108,7 +108,7 @@ export const SettingsScreen = () => {
   const canOverrideFeatureFlags = useCanOverrideFeatureFlags();
   const [versionTaps, setVersionTaps] = useState(0);
   const isDevelopmentVisible =
-    DEV_TOOLS !== null ||
+    HAS_DEV_TOOLS ||
     isDevelopmentFlagOn ||
     canOverrideFeatureFlags ||
     versionTaps >= DEVELOPMENT_UNLOCK_TAPS;
@@ -345,7 +345,7 @@ export const SettingsScreen = () => {
                 kind="push"
                 onPress={() => router.push("/onboarding")}
               />
-              {DEV_TOOLS && (
+              {HAS_DEV_TOOLS && (
                 <FieldRow
                   title="Test data"
                   icon={SETTINGS_ICONS.data}
@@ -354,7 +354,7 @@ export const SettingsScreen = () => {
                   testID="dev-fixtures"
                 />
               )}
-              {DEV_TOOLS && (
+              {HAS_DEV_TOOLS && (
                 <FieldRow
                   title="Playground"
                   icon={SETTINGS_ICONS.playground}
