@@ -29,7 +29,7 @@ const ICONS =
  * the right. With the `recaps` flag, the left button opens this week's
  * Recaps, which carry every statistics card. Settings is the user's avatar:
  * photo, initials, or a gray silhouette. With more than one view
- * (`useViewMenu`: Day with `home-week`, Timeline with `calendar-timeline`),
+ * (`useViewMenu`: Day with `day-view`, Timeline with `calendar-timeline`),
  * Filters is a menu: it opens the filter sheet and holds the View picker
  * (Day, Calendar, Timeline). Otherwise Filters opens the sheet.
  *

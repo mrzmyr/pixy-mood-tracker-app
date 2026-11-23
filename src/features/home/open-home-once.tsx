@@ -4,13 +4,13 @@ import { useFeatureFlag } from "@/state/feature-flags";
 import { getHasOpenedHome, markHomeOpened } from "./home-session";
 
 /**
- * Calendar part of flag `home-week`: switches to Home once when the
+ * Calendar part of flag `day-view`: switches to Home once when the
  * flag turns on in this session. Later the user picks the view. Renders
  * nothing.
  */
 export const OpenHomeOnce = () => {
   const router = useRouter();
-  const isEnabled = useFeatureFlag("home-week");
+  const isEnabled = useFeatureFlag("day-view");
 
   useEffect(() => {
     if (isEnabled && !getHasOpenedHome()) {

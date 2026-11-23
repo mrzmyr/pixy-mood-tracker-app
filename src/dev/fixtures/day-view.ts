@@ -3,7 +3,7 @@ import type { ExportPerson, ImportData } from "@/features/datagate";
 import type { LogItem } from "@/features/logs";
 import type { Tag } from "@/features/tags";
 
-// Klara's last 6 days for Home (flag `home-week`): same entries as the HTML
+// Klara's last 6 days for Home (flag `day-view`): same entries as the HTML
 // prototype, with her real photos from `photo-assets.ts`. Today is the
 // 6th day; earlier weeks get one entry a day so the week strip has colors.
 
@@ -248,7 +248,7 @@ const item = (
 };
 
 /** Klara's week for Home, ending today. */
-export const withHomeWeek = (data: ImportData, today = dayjs()): ImportData => {
+export const withDayView = (data: ImportData, today = dayjs()): ImportData => {
   const start = today.startOf("day");
   const earlier = EARLIER.map((rating, day) =>
     item(start.subtract(26 - day, "day"), day, "good", {

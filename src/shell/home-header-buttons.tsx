@@ -11,7 +11,7 @@ const VIEW_ICON =
     : require("../../assets/images/icons/filter.png");
 
 /**
- * Home header buttons (flag `home-week`), top right like on Calendar: the
+ * Home header buttons (flag `day-view`), top right like on Calendar: the
  * View menu (Day, Calendar, Timeline) on the filter icon, then Settings.
  * Must render inside the home page: `Stack.Toolbar` sets options of the
  * current route.

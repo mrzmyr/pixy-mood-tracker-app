@@ -35,11 +35,13 @@ const Screen = ({
         bottomInset={34}
         today={STORY_TODAY}
         selectedDate={selected}
-        firstWeekStart="2026-10-12"
+        firstDate="2026-10-12"
         weekLocale={STORY_WEEK_LOCALE}
         ratings={ratings}
-        entries={entries[selected] ?? []}
-        sleepQuality={selected === STORY_TODAY ? 3 : null}
+        getDay={(date) => ({
+          entries: entries[date] ?? [],
+          sleepQuality: date === STORY_TODAY ? 3 : null,
+        })}
         scale={scale}
         onSelectDate={setSelected}
         onWeekChange={(weekStart) =>
@@ -54,7 +56,7 @@ const Screen = ({
   );
 };
 
-/** Klara, Saturday swim day. Tap days and swipe weeks. */
+/** Klara, Saturday swim day. Tap or swipe days, swipe weeks. */
 export const Klara: StoryObj = {
   render: () => <Screen entries={KLARA_ENTRIES} ratings={KLARA_RATINGS} />,
 };

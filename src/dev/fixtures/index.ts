@@ -10,7 +10,7 @@ import { withMenstruation } from "@/dev/fixtures/menstruation";
 import { withTimeline } from "@/dev/fixtures/timeline";
 import { FIXTURE_AVATAR_BASE64 } from "@/dev/fixtures/avatar";
 import { withChaos } from "@/dev/fixtures/chaos";
-import { withHomeWeek } from "@/dev/fixtures/home-week";
+import { withDayView } from "@/dev/fixtures/day-view";
 import { withPersona } from "@/dev/fixtures/personas";
 import { withRecapMoments } from "@/dev/fixtures/recap-moments";
 import { withRecapNudges } from "@/dev/fixtures/recap-nudges";
@@ -248,11 +248,11 @@ export const FIXTURES: Fixture[] = [
     data: withRecapMoments(asExport(empty)),
   },
   {
-    id: "home-week",
-    title: "Home week",
+    id: "day-view",
+    title: "Day view",
     description:
       "Klara's last 6 days, same as the Home HTML prototype: real photos, people, tags, sleep, and the swim day today. 3 weeks of single check-ins before.",
-    data: withHomeWeek(asExport(empty)),
+    data: withDayView(asExport(empty)),
   },
   {
     id: "recap-story",

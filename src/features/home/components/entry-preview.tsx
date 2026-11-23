@@ -4,22 +4,20 @@ import { Pressable, View } from "react-native";
 import { Copy, Label } from "@/components/typography";
 import type { IScale } from "@/constants/colors/scales";
 import { RADIUS } from "@/constants/radius";
+import { SPACE } from "@/constants/space";
+import { EmotionItem } from "@/features/calendar";
 import type { LogItem } from "@/features/logs";
+import { PersonChip } from "@/features/people";
+import type { Person } from "@/features/people";
+import { TagComponent } from "@/features/tags";
+import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { tDynamic } from "@/lib/translation";
+import type { Emotion } from "@/types";
 import { HOME_LAYOUT, HOME_TEXT, HOME_WEIGHT } from "../layout";
 import { DottedDivider } from "./dotted-divider";
 
 const COVER_PHOTOS = 3;
-const { avatarSize } = HOME_LAYOUT;
-
-/** Person on an entry preview: photo or initials. */
-export interface EntryPreviewPerson {
-  id: string;
-  name: string;
-  avatarUri: string | null;
-  initials: string;
-}
 
 /** Display data of one entry on Home. Build it with `getEntryPreview`. */
 export interface EntryPreviewData {
@@ -28,101 +26,63 @@ export interface EntryPreviewData {
   date: string;
   time: string;
   rating: LogItem["rating"];
-  /** Emotion names; empty shows the rating name. */
-  emotions: string[];
+  /** Known emotions, positive first; unknown keys are skipped. */
+  emotions: Pick<Emotion, "key" | "category">[];
   note: string;
-  people: EntryPreviewPerson[];
-  tags: { id: string; title: string }[];
+  /** People that still exist. */
+  people: Pick<Person, "id" | "name" | "avatar" | "updatedAt">[];
+  /** Tags that still exist. */
+  tags: Pick<Tag, "id" | "title" | "color">[];
   place: string | null;
   /** Up to 3 photos for the cover strip; empty without photos. */
   photoUris: string[];
 }
 
-const Avatars = ({ people }: { people: EntryPreviewPerson[] }) => {
+/**
+ * Emotions, people, and tags as compact chips, the same chips as the
+ * Timeline; then the place. Chips wrap: Home pages days sideways, so a
+ * sideways chip scroller would fight the swipe. Nothing when empty.
+ */
+const Chips = ({ entry }: { entry: EntryPreviewData }) => {
   const colors = useColors();
-  return (
-    <View style={{ flexDirection: "row" }}>
-      {people.slice(0, 3).map((person, index) => (
-        <View
-          key={person.id}
-          style={{
-            width: avatarSize,
-            height: avatarSize,
-            borderRadius: avatarSize / 2,
-            marginLeft: index === 0 ? 0 : -6,
-            borderWidth: 2,
-            borderColor: colors.calendarBackground,
-            backgroundColor: colors.homeTextFaint,
-            overflow: "hidden",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {person.avatarUri ? (
-            <Image
-              source={{ uri: person.avatarUri }}
-              style={{ width: avatarSize, height: avatarSize }}
-              contentFit="cover"
-            />
-          ) : (
-            <Label
-              size={12}
-              strong
-              style={{ lineHeight: 14, color: colors.textSecondary }}
-            >
-              {person.initials}
-            </Label>
-          )}
-        </View>
-      ))}
-    </View>
-  );
-};
-
-/** People, tags, and place of a preview on one line. Nothing when empty. */
-const Meta = ({ entry }: { entry: EntryPreviewData }) => {
-  const colors = useColors();
-  const text = { ...HOME_TEXT.meta, color: colors.homeTextMuted };
-  const hasPeople = entry.people.length > 0;
-  if (!hasPeople && entry.tags.length === 0 && !entry.place) {
+  const chipStyle = {
+    backgroundColor: colors.entryBackground,
+    borderColor: colors.entryItemBorder,
+  };
+  if (
+    entry.emotions.length === 0 &&
+    entry.people.length === 0 &&
+    entry.tags.length === 0 &&
+    !entry.place
+  ) {
     return null;
   }
   return (
     <View
+      testID="home-entry-chips"
+      pointerEvents="none"
       style={{
-        marginTop: 8,
+        marginTop: SPACE.sm,
         flexDirection: "row",
+        flexWrap: "wrap",
         alignItems: "center",
-        gap: 8,
-        overflow: "hidden",
+        gap: SPACE.sm,
       }}
     >
-      {hasPeople && (
-        <>
-          <Avatars people={entry.people} />
-          <Label size={13} numberOfLines={1} style={text}>
-            {entry.people.map((person) => person.name).join(", ")}
-          </Label>
-        </>
-      )}
-      {entry.tags.slice(0, 3).map((tag) => (
-        <View
+      {entry.emotions.map((emotion) => (
+        <EmotionItem key={emotion.key} emotion={emotion} compact />
+      ))}
+      {entry.people.map((person) => (
+        <PersonChip key={person.id} person={person} compact style={chipStyle} />
+      ))}
+      {entry.tags.map((tag) => (
+        <TagComponent
           key={tag.id}
-          style={{
-            paddingHorizontal: 7,
-            paddingVertical: 2,
-            borderRadius: RADIUS.xs,
-            backgroundColor: colors.homeSelectedDay,
-          }}
-        >
-          <Label
-            size={13}
-            numberOfLines={1}
-            style={{ ...text, fontWeight: HOME_WEIGHT }}
-          >
-            {tag.title}
-          </Label>
-        </View>
+          title={tag.title}
+          colorName={tag.color}
+          compact
+          style={chipStyle}
+        />
       ))}
       {entry.place && (
         <View
@@ -134,7 +94,15 @@ const Meta = ({ entry }: { entry: EntryPreviewData }) => {
           }}
         >
           <MapPin color={colors.homeTextMuted} size={12} strokeWidth={2.4} />
-          <Label size={13} numberOfLines={1} style={{ ...text, flexShrink: 1 }}>
+          <Label
+            size={13}
+            numberOfLines={1}
+            style={{
+              ...HOME_TEXT.meta,
+              color: colors.homeTextMuted,
+              flexShrink: 1,
+            }}
+          >
             {entry.place}
           </Label>
         </View>
@@ -145,7 +113,8 @@ const Meta = ({ entry }: { entry: EntryPreviewData }) => {
 
 /**
  * One entry as a row: mood square at the top left; photos as a cover strip
- * (up to 3), emotions as title, time, 2 lines of note, people, tags, place.
+ * (up to 3), rating as title, time, 2 lines of note, then chips for
+ * emotions, people, and tags, and the place.
  * A dotted line sits at the top edge when `hasDivider`. A tap opens the
  * full entry.
  */
@@ -162,10 +131,10 @@ export const EntryPreview = ({
 }) => {
   const colors = useColors();
   const mood = scale[entry.rating];
-  const title =
-    entry.emotions.length > 0
-      ? entry.emotions.join(", ")
-      : tDynamic(entry.rating);
+  const title = tDynamic(entry.rating);
+  const emotionNames = entry.emotions.map((emotion) =>
+    tDynamic(`log_emotion_${emotion.key}`)
+  );
 
   return (
     <Pressable
@@ -173,8 +142,11 @@ export const EntryPreview = ({
       accessibilityRole="button"
       accessibilityLabel={[
         entry.time,
-        tDynamic(entry.rating),
         title,
+        emotionNames.join(", "),
+        ...entry.people.map((person) => person.name),
+        ...entry.tags.map((tag) => tag.title),
+        entry.place,
         entry.note,
       ]
         .filter(Boolean)
@@ -258,7 +230,7 @@ export const EntryPreview = ({
             {entry.note}
           </Copy>
         )}
-        <Meta entry={entry} />
+        <Chips entry={entry} />
       </View>
     </Pressable>
   );

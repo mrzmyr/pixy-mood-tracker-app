@@ -1,3 +1,5 @@
+import keyBy from "lodash/keyBy";
+import { EMOTIONS } from "@/features/logger";
 import { getWeekLocale } from "@/lib/translation";
 import type { EntryPreviewData } from "../components/entry-preview";
 
@@ -5,34 +7,38 @@ import type { EntryPreviewData } from "../components/entry-preview";
 // from Storybook `staticDirs`.
 const photo = (file: string) => `/demo/${file}`;
 
+const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
+/** Emotions by English name, like "Rested"; unknown names are skipped. */
+const emotions = (names: string[]) =>
+  names.flatMap((name) => {
+    const emotion = EMOTIONS_BY_KEY[name.toLowerCase().replaceAll(" ", "_")];
+    return emotion ? [emotion] : [];
+  });
+
 /** Fixed "today" of every story: Saturday, swim day. */
 export const STORY_TODAY = "2026-11-07";
 
 const ada = {
   id: "ada",
   name: "Ada",
-  avatarUri: photo("ada.jpg"),
-  initials: "A",
+  avatar: null,
 };
 const chuky = {
   id: "chuky",
   name: "Chuky",
-  avatarUri: photo("klara-chuky.jpg"),
-  initials: "C",
+  avatar: null,
 };
 const jen = {
   id: "jen",
   name: "Jen",
-  avatarUri: photo("klara-jen.jpg"),
-  initials: "J",
+  avatar: null,
 };
 const hilde = {
   id: "hilde",
   name: "Oma Hilde",
-  avatarUri: null,
-  initials: "OH",
+  avatar: null,
 };
-const tobi = { id: "tobi", name: "Tobi", avatarUri: null, initials: "T" };
+const tobi = { id: "tobi", name: "Tobi", avatar: null };
 
 const base = {
   emotions: [],
@@ -52,10 +58,10 @@ export const KLARA_ENTRIES = {
       date: "2026-11-07",
       time: "07:40",
       rating: "good",
-      emotions: ["Rested", "Calm"],
+      emotions: emotions(["Rested", "Calm"]),
       note: "Ada climbed into bed at 6. Coffee before anyone else was up.",
       people: [ada],
-      tags: [{ id: "morning", title: "Morning" }],
+      tags: [{ id: "morning", title: "Morning", color: "slate" }],
     },
     {
       ...base,
@@ -63,10 +69,10 @@ export const KLARA_ENTRIES = {
       date: "2026-11-07",
       time: "11:40",
       rating: "very_good",
-      emotions: ["Happy", "Proud"],
+      emotions: emotions(["Happy", "Proud"]),
       note: "Swim day at Kaifu-Bad. Ada jumped from the 3 m board for the first time and would not stop talking about it.",
       people: [ada],
-      tags: [{ id: "sport", title: "Sport" }],
+      tags: [{ id: "sport", title: "Sport", color: "slate" }],
       place: "Kaifu-Bad",
       photoUris: [
         photo("klara-ada-kaifu-bad.jpg"),
@@ -80,10 +86,10 @@ export const KLARA_ENTRIES = {
       date: "2026-11-07",
       time: "15:10",
       rating: "good",
-      emotions: ["Loved", "Tired"],
+      emotions: emotions(["Loved", "Tired"]),
       note: "Long loop through Eimsbüttel with Chuky. He ate a leaf. Again.",
       people: [chuky, ada],
-      tags: [{ id: "walk", title: "Walk" }],
+      tags: [{ id: "walk", title: "Walk", color: "slate" }],
       photoUris: [photo("klara-chuky.jpg")],
     },
   ],
@@ -94,9 +100,9 @@ export const KLARA_ENTRIES = {
       date: "2026-11-06",
       time: "12:30",
       rating: "good",
-      emotions: ["Focused"],
+      emotions: emotions(["Focused"]),
       note: "Short lunch in the sun between patients.",
-      tags: [{ id: "work", title: "Work" }],
+      tags: [{ id: "work", title: "Work", color: "slate" }],
     },
     {
       ...base,
@@ -104,10 +110,10 @@ export const KLARA_ENTRIES = {
       date: "2026-11-06",
       time: "23:15",
       rating: "very_good",
-      emotions: ["Silly", "Energized"],
+      emotions: emotions(["Silly", "Energized"]),
       note: "Jen’s birthday. Danced way too long, voice is gone.",
       people: [jen],
-      tags: [{ id: "friends", title: "Friends" }],
+      tags: [{ id: "friends", title: "Friends", color: "slate" }],
       photoUris: [photo("klara-jen.jpg")],
     },
   ],
@@ -118,7 +124,7 @@ export const KLARA_ENTRIES = {
       date: "2026-11-05",
       time: "21:10",
       rating: "very_good",
-      emotions: ["Loved", "Relieved"],
+      emotions: emotions(["Loved", "Relieved"]),
       note: "Two-hour call with Jen. Feels lighter.",
       people: [jen],
     },
@@ -130,10 +136,10 @@ export const KLARA_ENTRIES = {
       date: "2026-11-04",
       time: "17:05",
       rating: "neutral",
-      emotions: ["Moved", "Grateful", "Sad"],
+      emotions: emotions(["Moved", "Grateful", "Sad"]),
       note: "Letter from Oma Hilde. Her handwriting is shakier.",
       people: [hilde],
-      tags: [{ id: "family", title: "Family" }],
+      tags: [{ id: "family", title: "Family", color: "slate" }],
       photoUris: [photo("klara-letter.jpg")],
     },
   ],
@@ -144,10 +150,10 @@ export const KLARA_ENTRIES = {
       date: "2026-11-02",
       time: "18:40",
       rating: "bad",
-      emotions: ["Drained", "Irritated"],
+      emotions: emotions(["Drained", "Irritated"]),
       note: "Handover at the station took forever. Ada cried in the car.",
       people: [tobi, ada],
-      tags: [{ id: "handover", title: "Handover" }],
+      tags: [{ id: "handover", title: "Handover", color: "slate" }],
     },
   ],
 } satisfies Record<string, EntryPreviewData[]>;
@@ -193,14 +199,14 @@ export const PERSONA_ENTRIES = {
     date: STORY_TODAY,
     time: "19:15",
     rating: "very_good",
-    emotions: [
+    emotions: emotions([
       "Grateful",
       "Hopeful",
       "Content",
       "Inspired",
       "Relieved",
       "Proud",
-    ],
+    ]),
   },
   "D Ben, tags": {
     ...base,
@@ -209,7 +215,7 @@ export const PERSONA_ENTRIES = {
     time: "18:00",
     rating: "good",
     tags: ["Gym", "Work", "Coffee", "Reading", "Cooking", "Early Night"].map(
-      (title) => ({ id: title, title })
+      (title) => ({ id: title, title, color: "slate" as const })
     ),
   },
   "F Paul, every module": { ...KLARA_ENTRIES["2026-11-07"][1], id: "paul" },
@@ -219,7 +225,7 @@ export const PERSONA_ENTRIES = {
     date: STORY_TODAY,
     time: "23:58",
     rating: "extremely_bad",
-    emotions: [
+    emotions: emotions([
       "Overwhelmed",
       "Anxious",
       "Lonely",
@@ -230,7 +236,7 @@ export const PERSONA_ENTRIES = {
       "Restless",
       "Numb",
       "Hopeless",
-    ],
+    ]),
     note: "Everything at once today. ".repeat(60),
     people: [ada, chuky, jen, hilde, tobi],
     tags: [
@@ -242,7 +248,7 @@ export const PERSONA_ENTRIES = {
       "Deadline",
       "Kids",
       "Money",
-    ].map((title) => ({ id: title, title })),
+    ].map((title) => ({ id: title, title, color: "slate" as const })),
     place: "Universitätsklinikum Hamburg-Eppendorf, Martinistraße",
     photoUris: [photo("klara-underwater.jpg")],
   },

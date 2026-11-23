@@ -26,8 +26,6 @@ export const HOME_LAYOUT = {
   /** Cover strip above the title. */
   coverHeight: 132,
   coverGap: 12,
-  /** Avatars in the meta line, with a 2 pt ring in the page color. */
-  avatarSize: 22,
   /** Mood underline under each weekday: 18 x 3 pt, 5 pt plus the 2 pt row gap below the label. */
   dayBarWidth: 18,
   dayBarHeight: 3,

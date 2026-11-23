@@ -9,9 +9,9 @@ export const FEATURE_FLAGS = [
   "apple-health",
   "calendar-timeline",
   "chip-active-ink",
+  "day-view",
   "development",
   "feature-flag-overrides",
-  "home-week",
   "menstruation",
   "more-tags",
   "needs",
@@ -62,9 +62,10 @@ export const FEATURE_FLAG_DETAILS: Record<
       "Gray fill and dark text for selected chips, instead of the inverted style",
     location: "Check-in > Emotions, Tags; Quick check-in",
   },
-  "home-week": {
-    description: "Home with week strip and entries of the selected day",
-    location: "App start, Calendar > bottom left button",
+  "day-view": {
+    description:
+      "Day view: week strip and entries of the selected day, swipe between days",
+    location: "App start, Calendar > Filters menu > View",
   },
   development: {
     description: "Development section in production builds",

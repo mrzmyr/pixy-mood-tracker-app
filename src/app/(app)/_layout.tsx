@@ -151,7 +151,7 @@ const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
 });
 
 /**
- * Home page options (flag `home-week`): native bar without title, like
+ * Home page options (flag `day-view`): native bar without title, like
  * Calendar. The screen sets the bar items (`Stack.Toolbar`). Calendar and
  * Home swap with a cross-fade.
  */

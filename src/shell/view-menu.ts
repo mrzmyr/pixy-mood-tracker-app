@@ -13,14 +13,14 @@ interface ViewMenuItem {
 
 /**
  * View choices for the top right header menu, in order: Day (Home, flag
- * `home-week`), then the calendar layouts (Calendar, Timeline with flag
+ * `day-view`), then the calendar layouts (Calendar, Timeline with flag
  * `calendar-timeline`). `current` is the screen the menu sits on. Picking a
  * calendar layout from Day switches to Calendar. `isEnabled` is false with
  * one choice only: then there is nothing to switch.
  */
 export const useViewMenu = (current: "home" | "calendar") => {
   const router = useRouter();
-  const isHomeEnabled = useFeatureFlag("home-week");
+  const isHomeEnabled = useFeatureFlag("day-view");
   const calendarLayout = useCalendarLayout();
 
   const day: ViewMenuItem[] = isHomeEnabled

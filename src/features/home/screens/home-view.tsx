@@ -8,26 +8,35 @@ import type { LogItem } from "@/features/logs";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { DayEntries } from "../components/day-entries";
+import { DayPager } from "../components/day-pager";
 import type { EntryPreviewData } from "../components/entry-preview";
 import { HomeHeader } from "../components/home-header";
 import { WeekStrip } from "../components/week-strip";
 import { HOME_LAYOUT } from "../layout";
+import { getWeekStart } from "../week";
+
+/** Rows of one day on Home. */
+export interface HomeDay {
+  entries: EntryPreviewData[];
+  /** Average sleep quality of the day, 0 to 4, or `null`. */
+  sleepQuality: number | null;
+}
 
 /**
  * Home layout without data access: header, week strip, entries of the
  * selected day, and Calendar's float button as add button. `HomeScreen`
  * feeds it. The native bar is transparent: the date sits in its row, level
  * with the menu and profile buttons. Date and week strip stay put; the
- * entries scroll below them and fade out under the strip.
+ * entries scroll below them and fade out under the strip. Swipe the
+ * entries sideways for the previous or next day.
  */
 export const HomeView = ({
   today,
   selectedDate,
-  firstWeekStart,
+  firstDate,
   weekLocale,
   ratings,
-  entries,
-  sleepQuality,
+  getDay,
   scale,
   onSelectDate,
   onWeekChange,
@@ -42,12 +51,12 @@ export const HomeView = ({
   bottomInset: number;
   today: string;
   selectedDate: string;
-  firstWeekStart: string;
+  /** `DATE_FORMAT` day of the oldest entry, or today. */
+  firstDate: string;
   weekLocale: string;
   ratings: Record<string, LogItem["rating"]>;
-  entries: EntryPreviewData[];
-  /** Average sleep quality of the selected day, 0 to 4, or `null`. */
-  sleepQuality: number | null;
+  /** Rows of one day; called for the selected day and its neighbours. */
+  getDay: (date: string) => HomeDay;
   scale: IScale;
   onSelectDate: (date: string) => void;
   onWeekChange: (weekStart: string) => void;
@@ -78,7 +87,7 @@ export const HomeView = ({
           <HomeHeader date={selectedDate} />
         </View>
         <WeekStrip
-          firstWeekStart={firstWeekStart}
+          firstWeekStart={getWeekStart(firstDate, weekLocale)}
           weekLocale={weekLocale}
           ratings={ratings}
           scale={scale}
@@ -89,21 +98,32 @@ export const HomeView = ({
         />
       </View>
       <View style={{ flex: 1 }}>
-        <ScrollView
-          contentInsetAdjustmentBehavior="never"
-          contentContainerStyle={{
-            paddingTop: SPACE.sm,
-            paddingHorizontal: HOME_LAYOUT.listInset,
-            paddingBottom: HOME_LAYOUT.addClearance + bottomInset,
+        <DayPager
+          selectedDate={selectedDate}
+          firstDate={firstDate}
+          today={today}
+          onDayChange={onSelectDate}
+          renderDay={(date) => {
+            const day = getDay(date);
+            return (
+              <ScrollView
+                contentInsetAdjustmentBehavior="never"
+                contentContainerStyle={{
+                  paddingTop: SPACE.sm,
+                  paddingHorizontal: HOME_LAYOUT.listInset,
+                  paddingBottom: HOME_LAYOUT.addClearance + bottomInset,
+                }}
+              >
+                <DayEntries
+                  entries={day.entries}
+                  sleepQuality={day.sleepQuality}
+                  scale={scale}
+                  onPressEntry={onPressEntry}
+                />
+              </ScrollView>
+            );
           }}
-        >
-          <DayEntries
-            entries={entries}
-            sleepQuality={sleepQuality}
-            scale={scale}
-            onPressEntry={onPressEntry}
-          />
-        </ScrollView>
+        />
         {/* Entries fade out under the week strip. */}
         <LinearGradient
           pointerEvents="none"

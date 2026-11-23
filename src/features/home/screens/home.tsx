@@ -19,13 +19,15 @@ import { getItemDate } from "@/lib/log-dates";
 import { useSetting } from "@/state/settings";
 import { markHomeOpened } from "../home-session";
 import { getEntryPreview } from "../entry-preview-data";
-import { getWeekStart, moveToWeek } from "../week";
+import { moveToWeek } from "../week";
 import { HOME_LAYOUT } from "../layout";
 import { HomeView } from "./home-view";
+import type { HomeDay } from "./home-view";
 
 /**
- * Home tab behind flag `home-week`: one week of mood underlines and the
- * entries of the selected day. Starts on today. An entry opens its day.
+ * Home tab behind flag `day-view`: one week of mood underlines and the
+ * entries of the selected day. Starts on today. Swipe the entries for the
+ * previous or next day. An entry opens its day.
  */
 export const HomeScreen = () => {
   const router = useRouter();
@@ -55,31 +57,36 @@ export const HomeScreen = () => {
     return result;
   }, [items]);
 
-  const firstWeekStart = useMemo(() => {
-    let first = today;
+  const itemsByDate = useMemo(() => {
+    const result = new Map<string, LogItem[]>();
     for (const item of items) {
       const date = getItemDate(item);
+      result.set(date, [...(result.get(date) ?? []), item]);
+    }
+    return result;
+  }, [items]);
+
+  const firstDate = useMemo(() => {
+    let first = today;
+    for (const date of itemsByDate.keys()) {
       if (date < first) {
         first = date;
       }
     }
-    return getWeekStart(first, weekLocale);
-  }, [items, today, weekLocale]);
+    return first;
+  }, [itemsByDate, today]);
 
-  const dayItems = useMemo(
-    () =>
-      [...items]
-        .filter((item) => getItemDate(item) === selectedDate)
-        .sort((a, b) => a.dateTime.localeCompare(b.dateTime)),
-    [items, selectedDate]
-  );
-  const entries = useMemo(
-    () =>
-      dayItems.map((item) =>
+  const getDay = (date: string): HomeDay => {
+    const dayItems = [...(itemsByDate.get(date) ?? [])].sort((a, b) =>
+      a.dateTime.localeCompare(b.dateTime)
+    );
+    return {
+      entries: dayItems.map((item) =>
         getEntryPreview(item, { people, tags, showPlace })
       ),
-    [dayItems, people, tags, showPlace]
-  );
+      sleepQuality: getAverageSleepQuality(dayItems),
+    };
+  };
 
   return (
     <HomeView
@@ -87,11 +94,10 @@ export const HomeScreen = () => {
       bottomInset={insets.bottom}
       today={today}
       selectedDate={selectedDate}
-      firstWeekStart={firstWeekStart}
+      firstDate={firstDate}
       weekLocale={weekLocale}
       ratings={ratings}
-      entries={entries}
-      sleepQuality={getAverageSleepQuality(dayItems)}
+      getDay={getDay}
       scale={scale}
       onSelectDate={setSelectedDate}
       onWeekChange={(weekStart) =>
