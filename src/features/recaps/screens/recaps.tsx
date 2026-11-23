@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import noop from "lodash/noop";
 import {
   Redirect,
+  Stack,
   useFocusEffect,
   useLocalSearchParams,
   useRouter,
@@ -14,11 +15,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import ChevronLeft from "lucide-react-native/icons/chevron-left";
-import ChevronRight from "lucide-react-native/icons/chevron-right";
-import { Secondary, Section } from "@/components/type";
+import { Secondary } from "@/components/type";
 import { useFeedback } from "@/features/feedback";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
@@ -33,6 +32,7 @@ import { buildCards } from "../build-cards";
 import { FeedbackFooter } from "../components/feedback-footer";
 import type { CardFeedback } from "../components/feedback-footer";
 import { FeedbackSheet } from "../components/feedback-sheet";
+import { PeriodStepper } from "../components/period-stepper";
 import type { FeedbackReason } from "../feedback-reasons";
 import { MomentCard } from "../components/moment-card";
 import { ChangeCard } from "../components/change-card";
@@ -60,6 +60,12 @@ const KINDS: { kind: PeriodKind; label: TranslationKey }[] = [
   { kind: "month", label: "recaps_period_month" },
   { kind: "year", label: "recaps_period_year" },
 ];
+
+// Android renders only image icons in the header; iOS uses SF Symbols.
+const PERIOD_ICON =
+  Platform.OS === "ios"
+    ? "line.3.horizontal.decrease"
+    : require("../../../../assets/images/icons/filter.png");
 
 const isPeriodKind = (value: unknown): value is PeriodKind =>
   KINDS.some(({ kind }) => kind === value);
@@ -279,7 +285,7 @@ const Recaps = () => {
   const setPeriod = (next: Pick<Period, "kind" | "start">) =>
     router.setParams({ kind: next.kind, date: next.start });
 
-  return (
+  const page = (
     <ScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
       contentInsetAdjustmentBehavior="automatic"
@@ -300,53 +306,41 @@ const Recaps = () => {
         trackShown();
       }}
     >
-      <SegmentedControl
-        values={KINDS.map(({ label }) => t(label))}
-        selectedIndex={KINDS.findIndex((option) => option.kind === kind)}
-        onChange={(event) => {
-          const next = KINDS[event.nativeEvent.selectedSegmentIndex];
-          if (next) {
-            setPeriod({ kind: next.kind, start: today });
-          }
-        }}
-        testID="recaps-period-kind"
-      />
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t("recaps_period_previous")}
-          hitSlop={12}
-          onPress={() => setPeriod(shiftPeriod(period, -1))}
-          testID="recaps-period-previous"
-        >
-          <ChevronLeft width={24} height={24} color={colors.text} />
-        </Pressable>
-        <Section
-          accessibilityRole="header"
-          testID="recaps-period-label"
-          style={{ fontWeight: "700", fontVariant: ["tabular-nums"] }}
-        >
-          {PERIOD_LABELS[period.kind](period)}
-        </Section>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t("recaps_period_next")}
-          accessibilityState={{ disabled: isCurrent }}
-          disabled={isCurrent}
-          hitSlop={12}
-          onPress={() => setPeriod(shiftPeriod(period, 1))}
-          testID="recaps-period-next"
-          style={{ opacity: isCurrent ? 0.3 : 1 }}
-        >
-          <ChevronRight width={24} height={24} color={colors.text} />
-        </Pressable>
-      </View>
+      {Platform.OS === "web" ? (
+        // Web has no native header, so the period kind stays in the page.
+        <SegmentedControl
+          values={KINDS.map(({ label }) => t(label))}
+          selectedIndex={KINDS.findIndex((option) => option.kind === kind)}
+          onChange={(event) => {
+            const next = KINDS[event.nativeEvent.selectedSegmentIndex];
+            if (next) {
+              setPeriod({ kind: next.kind, start: today });
+            }
+          }}
+          testID="recaps-period-kind"
+        />
+      ) : (
+        // Header menu like calendar Filters: Liquid Glass on iOS 26, Material
+        // icon button on Android. Renders nothing here: `Stack.Toolbar` sets
+        // header options of this route.
+        <Stack.Toolbar placement="right">
+          <Stack.Toolbar.Menu
+            icon={PERIOD_ICON}
+            accessibilityLabel={t("recaps_period")}
+            title={t("recaps_period")}
+          >
+            {KINDS.map((option) => (
+              <Stack.Toolbar.MenuAction
+                key={option.kind}
+                isOn={option.kind === kind}
+                onPress={() => setPeriod({ kind: option.kind, start: today })}
+              >
+                {t(option.label)}
+              </Stack.Toolbar.MenuAction>
+            ))}
+          </Stack.Toolbar.Menu>
+        </Stack.Toolbar>
+      )}
       <View
         style={{ gap: 24 }}
         onLayout={(event) => {
@@ -369,6 +363,18 @@ const Recaps = () => {
         }}
       />
     </ScrollView>
+  );
+
+  return (
+    <>
+      {page}
+      <PeriodStepper
+        label={PERIOD_LABELS[period.kind](period)}
+        isCurrent={isCurrent}
+        onPrevious={() => setPeriod(shiftPeriod(period, -1))}
+        onNext={() => setPeriod(shiftPeriod(period, 1))}
+      />
+    </>
   );
 };
 
