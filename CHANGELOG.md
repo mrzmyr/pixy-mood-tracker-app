@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.117.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.116.0...v1.117.0) (2026-11-23)
+
+
+### Features
+
+* **review:** ask for store review after completed recap story ([#1188](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1188)) ([7468f06](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7468f06b6f401eb6479ca1c014c3b53e52482b99))
+* **review:** ask for store review after good quick check-in ([#1187](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1187)) ([5710318](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/571031821dbde4bbff03ed295234dc2c7fcfdb7f))
+* **review:** ask for store review after helpful recap card ([#1189](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1189)) ([47d5a1f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/47d5a1f1e15662b8a321ee6d18cd4ea7d4df05e4))
+* **review:** ask for store review after sharing a card ([#1191](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1191)) ([9a663b2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9a663b22d3a404265627934536d5d9f8206627c3))
+* **review:** ask for store review after voice check-in rated great ([#1190](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1190)) ([3899742](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/38997425c290d037877222a05a04bbf6a7af7ec8))
+* **voice:** live transcript with inline highlights and input pill ([#1193](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1193)) ([80c6eab](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/80c6eab131cf858e8ae95a8de865d7e16a9352f0))
+
 ## [1.116.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.115.0...v1.116.0) (2026-11-23)
 
 
