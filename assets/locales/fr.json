@@ -698,8 +698,23 @@
   "onboarding_step_5_title": "Nous prenons la confidentialité au sérieux et traitons vos données avec soin.",
   "onboarding_tagline": "Découvre ce qui façonne ce que tu ressens.",
   "orbit": "Orbite",
-  "orbit_empty": "Aucun lien ces 4 dernières semaines. Ajoute des personnes à tes entrées pour les voir ici.",
-  "orbit_period": "4 dernières semaines",
+  "orbit_days_ago": {
+    "one": "il y a 1 j",
+    "other": "il y a {{count}} j"
+  },
+  "orbit_empty": "Aucun lien sur cette période. Ajoute des personnes à tes entrées pour les voir ici.",
+  "orbit_months_ago": {
+    "one": "il y a 1 mois",
+    "other": "il y a {{count}} mois"
+  },
+  "orbit_range": "Période",
+  "orbit_range_12_months": "12 derniers mois",
+  "orbit_range_30_days": "30 derniers jours",
+  "orbit_range_90_days": "90 derniers jours",
+  "orbit_weeks_ago": {
+    "one": "il y a 1 sem.",
+    "other": "il y a {{count}} sem."
+  },
   "other": "Autre",
   "people": "Personnes",
   "people_add": "Ajouter une personne",

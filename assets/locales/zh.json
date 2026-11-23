@@ -698,8 +698,23 @@
   "onboarding_step_5_title": "我们重视隐私并小心处理您的数据。",
   "onboarding_tagline": "看看是什么塑造了你的感受。",
   "orbit": "轨道",
-  "orbit_empty": "最近 4 周没有联系过任何人。在记录中添加人物即可在此看到。",
-  "orbit_period": "最近 4 周",
+  "orbit_days_ago": {
+    "one": "1 天前",
+    "other": "{{count}} 天前"
+  },
+  "orbit_empty": "这段时间没有联系过任何人。在记录中添加人物即可在此看到。",
+  "orbit_months_ago": {
+    "one": "1 个月前",
+    "other": "{{count}} 个月前"
+  },
+  "orbit_range": "时间范围",
+  "orbit_range_12_months": "最近 12 个月",
+  "orbit_range_30_days": "最近 30 天",
+  "orbit_range_90_days": "最近 90 天",
+  "orbit_weeks_ago": {
+    "one": "1 周前",
+    "other": "{{count}} 周前"
+  },
   "other": "其他",
   "people": "人物",
   "people_add": "添加人物",

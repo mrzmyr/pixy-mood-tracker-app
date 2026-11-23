@@ -160,7 +160,7 @@ export const SCREENS: ScreenSpec[] = [
         id: "new",
         title: "New check-in",
         fixture: "year",
-        wait: 'id="quick-check-in-scroll"',
+        wait: 'id="quick-check-in-slides"',
       },
     ],
   },
@@ -644,7 +644,7 @@ export const SCREENS: ScreenSpec[] = [
     states: [
       {
         id: "people",
-        title: "People of the last 4 weeks",
+        title: "People of the last 30 days",
         fixture: "people",
         wait: 'id="orbit-screen"',
       },

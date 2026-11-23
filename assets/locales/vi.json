@@ -698,8 +698,23 @@
   "onboarding_step_5_title": "Chúng tôi coi trọng quyền riêng tư và xử lý dữ liệu của bạn một cách cẩn thận.",
   "onboarding_tagline": "Xem điều gì định hình cảm xúc của bạn.",
   "orbit": "Quỹ đạo",
-  "orbit_empty": "Không có kết nối nào trong 4 tuần qua. Thêm người vào mục ghi để xem họ ở đây.",
-  "orbit_period": "4 tuần qua",
+  "orbit_days_ago": {
+    "one": "1 ngày trước",
+    "other": "{{count}} ngày trước"
+  },
+  "orbit_empty": "Không có kết nối nào trong khoảng thời gian này. Thêm người vào mục ghi để xem họ ở đây.",
+  "orbit_months_ago": {
+    "one": "1 tháng trước",
+    "other": "{{count}} tháng trước"
+  },
+  "orbit_range": "Khoảng thời gian",
+  "orbit_range_12_months": "12 tháng qua",
+  "orbit_range_30_days": "30 ngày qua",
+  "orbit_range_90_days": "90 ngày qua",
+  "orbit_weeks_ago": {
+    "one": "1 tuần trước",
+    "other": "{{count}} tuần trước"
+  },
   "other": "Khác",
   "people": "Mọi người",
   "people_add": "Thêm người",

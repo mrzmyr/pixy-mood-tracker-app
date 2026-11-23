@@ -12,12 +12,17 @@ import type { Person } from "@/features/people";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";
 import { indexDays } from "../day-index";
+import { daysBetween } from "../days";
 import { StoryHoldContext } from "./hold-context";
 import { MonthGrid, StoryText, useDayColors } from "./parts";
 import type { SlideContext } from "./slides";
 import { getStoryTheme, STORY_PALETTE } from "./theme";
 
 const GAP = 8;
+/** Most weeks a month can touch. */
+const MONTH_WEEKS = 6;
+/** Gap of a week column grid, as a share of one cell plus gap. */
+const WEEK_COLUMN_GAP = 0.2;
 const AVATAR = 44;
 /** Grows out of the person: slow enough to follow. */
 const OPEN_MS = 450;
@@ -40,7 +45,8 @@ export interface OrbitOrigin {
  * Grows out of the person (`origin`) and shrinks back into them, faster.
  * A tap on the month or anywhere else on the story goes back to the orbit,
  * never to the next slide. Fills the orbit's square, so the slide keeps
- * its layout. Holds the story while open.
+ * its layout. Holds the story while open. A period longer than a month
+ * shows one column per week.
  */
 export const OrbitPersonMonth = ({
   person,
@@ -114,7 +120,14 @@ export const OrbitPersonMonth = ({
   const connected = ctx.days.filter((day) => at(day).people.has(person.id));
   const dayColors = useDayColors(connected, "glass");
   const dayOutlines = useDayColors(connected, "glassEdge");
-  const cell = Math.floor((width - GAP * 6) / 7);
+  // Longer than a month: one column per week, so the year fits the width.
+  const weeks = Math.ceil(
+    (daysBetween(ctx.period.start, ctx.period.end) + 7) / 7
+  );
+  const isWeekColumns = weeks > MONTH_WEEKS;
+  const unit = width / weeks;
+  const gap = isWeekColumns ? unit * WEEK_COLUMN_GAP : GAP;
+  const cell = isWeekColumns ? unit - gap : Math.floor((width - GAP * 6) / 7);
   const count = t("recaps_story_people_days", { count: days });
   return (
     <Pressable
@@ -142,10 +155,11 @@ export const OrbitPersonMonth = ({
           dayColors={dayColors}
           dayOutlines={dayOutlines}
           size={cell}
-          gap={GAP}
+          gap={gap}
+          isWeekColumns={isWeekColumns}
           empty={palette.glass}
           emptyOutline={palette.glassBorder}
-          weekdayColor={palette.muted}
+          weekdayColor={isWeekColumns ? undefined : palette.muted}
           highlight={
             today === null ? undefined : { date: today, color: TODAY_RING }
           }

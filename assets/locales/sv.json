@@ -698,8 +698,23 @@
   "onboarding_step_5_title": "Vi tar integritet på allvar och hanterar dina uppgifter med omsorg.",
   "onboarding_tagline": "Se vad som påverkar hur du mår.",
   "orbit": "Omloppsbana",
-  "orbit_empty": "Ingen kontakt de senaste 4 veckorna. Lägg till personer i dina anteckningar för att se dem här.",
-  "orbit_period": "Senaste 4 veckorna",
+  "orbit_days_ago": {
+    "one": "för 1 dag sedan",
+    "other": "för {{count}} dagar sedan"
+  },
+  "orbit_empty": "Ingen kontakt under den här perioden. Lägg till personer i dina anteckningar för att se dem här.",
+  "orbit_months_ago": {
+    "one": "för 1 månad sedan",
+    "other": "för {{count}} månader sedan"
+  },
+  "orbit_range": "Period",
+  "orbit_range_12_months": "Senaste 12 månaderna",
+  "orbit_range_30_days": "Senaste 30 dagarna",
+  "orbit_range_90_days": "Senaste 90 dagarna",
+  "orbit_weeks_ago": {
+    "one": "för 1 vecka sedan",
+    "other": "för {{count}} veckor sedan"
+  },
   "other": "Övrig",
   "people": "Personer",
   "people_add": "Lägg till person",
