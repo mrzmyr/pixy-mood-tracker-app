@@ -50,6 +50,14 @@ export type StoreReviewMoment =
       entriesCount: number;
       /** The user marked a slide of this story as Not Helpful. */
       hasNotHelpful: boolean;
+    }
+  | {
+      /** Recap card marked Helpful. */
+      kind: "recap_helpful";
+      /** Saved entries across all time. */
+      entriesCount: number;
+      /** The user marked another card as Not Helpful on this screen visit. */
+      hasNotHelpful: boolean;
     };
 
 /** Analytics `moment` value: kind of the moment that requested the prompt. */

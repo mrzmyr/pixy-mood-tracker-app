@@ -45,6 +45,12 @@ const completed = (
   hasNotHelpful,
 });
 
+const helpful = (hasNotHelpful: boolean): StoreReviewMoment => ({
+  kind: "recap_helpful",
+  entriesCount: 7,
+  hasNotHelpful,
+});
+
 describe("decideStoreReview()", () => {
   describe("entry saved, first prompt (entries_7)", () => {
     test("should prompt on a good save that reaches 7 entries", () => {
@@ -124,6 +130,16 @@ describe("decideStoreReview()", () => {
 
     test("should not prompt after a Not Helpful answer in the story", () => {
       expect(decideStoreReview(completed(40, true), GATE)).toBeNull();
+    });
+  });
+
+  describe("recap card marked Helpful", () => {
+    test("should prompt when no card got Not Helpful", () => {
+      expect(decideStoreReview(helpful(false), GATE)).toBe("entries_7");
+    });
+
+    test("should not prompt after a Not Helpful card on the same visit", () => {
+      expect(decideStoreReview(helpful(true), GATE)).toBeNull();
     });
   });
 

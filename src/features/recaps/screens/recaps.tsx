@@ -19,7 +19,9 @@ import { Platform, ScrollView, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
 import { Secondary } from "@/components/type";
 import { useFeedback } from "@/features/feedback";
+import { useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
+import { useStoreReviewPrompt } from "@/features/review";
 import { useTagsState } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { useScrollBottomPadding } from "@/hooks/use-scroll-bottom-padding";
@@ -125,6 +127,8 @@ const Recaps = () => {
 
   const nudge = useNudgeActions(period);
   const feedbackChannel = useFeedback();
+  const logState = useLogState();
+  const requestStoreReviewPrompt = useStoreReviewPrompt();
   const [feedback, setFeedback] = useState<ReadonlyMap<string, CardFeedback>>(
     new Map()
   );
@@ -157,6 +161,13 @@ const Recaps = () => {
       (current) =>
         new Map([...current, [key, helpful ? "helpful" : "not_helpful"]])
     );
+    if (helpful) {
+      requestStoreReviewPrompt({
+        kind: "recap_helpful",
+        entriesCount: logState.items.length,
+        hasNotHelpful: [...feedback.values()].includes("not_helpful"),
+      });
+    }
   };
 
   const footerFor = (card: RecapCard, key: string) => (
