@@ -58,6 +58,12 @@ export type StoreReviewMoment =
       entriesCount: number;
       /** The user marked another card as Not Helpful on this screen visit. */
       hasNotHelpful: boolean;
+    }
+  | {
+      /** Voice check-in rated "great" in the voice feedback sheet. */
+      kind: "voice_great";
+      /** Saved entries across all time. */
+      entriesCount: number;
     };
 
 /** Analytics `moment` value: kind of the moment that requested the prompt. */
@@ -87,6 +93,10 @@ const isGood = (rating: LogItem["rating"] | null) =>
 const isPositive = (moment: StoreReviewMoment): boolean => {
   if (moment.kind === "entry_saved") {
     return isGood(moment.rating) && !moment.hasNegativeEmotion;
+  }
+  if (moment.kind === "voice_great") {
+    // The user just said so.
+    return true;
   }
   return !moment.hasNotHelpful;
 };
