@@ -788,6 +788,8 @@ export const SCREENS: ScreenSpec[] = [
  */
 export const NOT_CAPTURED = {
   "src/app/(app)/index.tsx": "Redirects to /calendar.",
+  "src/app/(app)/home.tsx":
+    "Day view behind flag day-view, off everywhere; redirects to /calendar while off.",
   "src/app/(app)/dev/fixture.tsx":
     "Deep link handler: loads a fixture, then leaves. Capture uses it.",
   "src/app/(app)/dev/feature-flag.tsx":
