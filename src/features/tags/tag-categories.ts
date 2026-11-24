@@ -151,6 +151,27 @@ export const reorderCategories = (
   );
 };
 
+/**
+ * Arrangement for one category after a reorder of the tags a list shows.
+ * Shown tags take the slots shown tags had, in `orderedIds` order. Hidden
+ * tags, like archived ones or search misses, keep their slots. Pure.
+ */
+export const arrangeShownTags = (
+  tags: Tag[],
+  categoryId: TagCategory["id"],
+  orderedIds: Tag["id"][]
+): TagArrangement => {
+  const shown = new Set(orderedIds);
+  const queue = [...orderedIds];
+  const tagIds = tags.flatMap((tag) => {
+    if ((tag.categoryId ?? GENERAL_CATEGORY_ID) !== categoryId) {
+      return [];
+    }
+    return [shown.has(tag.id) ? (queue.shift() ?? tag.id) : tag.id];
+  });
+  return { categoryId, tagIds };
+};
+
 /** One row of the grouped, sortable tag list. */
 export type TagCategoryRow =
   | { type: "category"; key: string; category: TagCategory; index: number }

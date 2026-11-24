@@ -36,6 +36,21 @@ const goodSave = (
   ...overrides,
 });
 
+const completed = (
+  entriesCount: number,
+  hasNotHelpful = false
+): StoreReviewMoment => ({
+  kind: "recap_completed",
+  entriesCount,
+  hasNotHelpful,
+});
+
+const helpful = (hasNotHelpful: boolean): StoreReviewMoment => ({
+  kind: "recap_helpful",
+  entriesCount: 7,
+  hasNotHelpful,
+});
+
 describe("decideStoreReview()", () => {
   describe("entry saved, first prompt (entries_7)", () => {
     test("should prompt on a good save that reaches 7 entries", () => {
@@ -94,6 +109,64 @@ describe("decideStoreReview()", () => {
     test("should not prompt again after a neutral save", () => {
       expect(
         decideStoreReview(goodSave(40, { rating: "neutral" }), PROMPTED_ONCE)
+      ).toBeNull();
+    });
+  });
+
+  describe("recap story completed", () => {
+    test("should prompt first time with 7 entries", () => {
+      expect(decideStoreReview(completed(7), GATE)).toBe("entries_7");
+    });
+
+    test("should prompt later with 30 entries", () => {
+      expect(decideStoreReview(completed(30), PROMPTED_ONCE)).toBe(
+        "good_entry_30"
+      );
+    });
+
+    test("should not prompt below 7 entries", () => {
+      expect(decideStoreReview(completed(6), GATE)).toBeNull();
+    });
+
+    test("should not prompt after a Not Helpful answer in the story", () => {
+      expect(decideStoreReview(completed(40, true), GATE)).toBeNull();
+    });
+  });
+
+  describe("recap card marked Helpful", () => {
+    test("should prompt when no card got Not Helpful", () => {
+      expect(decideStoreReview(helpful(false), GATE)).toBe("entries_7");
+    });
+
+    test("should not prompt after a Not Helpful card on the same visit", () => {
+      expect(decideStoreReview(helpful(true), GATE)).toBeNull();
+    });
+  });
+
+  describe("voice check-in rated great", () => {
+    test("should prompt first time with 7 entries", () => {
+      expect(
+        decideStoreReview({ kind: "voice_great", entriesCount: 7 }, GATE)
+      ).toBe("entries_7");
+    });
+
+    test("should not prompt below 7 entries", () => {
+      expect(
+        decideStoreReview({ kind: "voice_great", entriesCount: 6 }, GATE)
+      ).toBeNull();
+    });
+  });
+
+  describe("content shared", () => {
+    test("should prompt first time with 7 entries", () => {
+      expect(
+        decideStoreReview({ kind: "content_shared", entriesCount: 7 }, GATE)
+      ).toBe("entries_7");
+    });
+
+    test("should not prompt below 7 entries", () => {
+      expect(
+        decideStoreReview({ kind: "content_shared", entriesCount: 6 }, GATE)
       ).toBeNull();
     });
   });

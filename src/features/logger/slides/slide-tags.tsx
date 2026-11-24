@@ -2,22 +2,30 @@ import { useSlideMarginTop } from "./margin-top";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import {
+  arrangeShownTags,
+  getTagMenuActions,
   groupTagsByCategory,
+  useTagMenu,
   useTagsState,
+  useTagsUpdater,
   TagComponent as Tag,
 } from "@/features/tags";
-import type { Tag as ITag } from "@/features/tags";
+import type { Tag as ITag, TagCategory } from "@/features/tags";
 import { useLogDraft } from "../log-draft";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
 import { Label } from "@/components/typography";
 import { Chip } from "@/components/chip";
 import Plus from "lucide-react-native/icons/plus";
-import { CHIP, CHIP_FLOW, CHIP_GAP } from "@/constants/chip";
+import { CHIP, CHIP_GAP } from "@/constants/chip";
+import { useAnalytics } from "@/state/analytics";
 import { SlideHeadline } from "../components/slide-headline";
+import { TagChipFlow } from "../components/tag-chip-flow";
+import { moveId } from "../components/tile-reorder";
 import { Footer } from "./footer";
 import { useFeatureFlag } from "@/state/feature-flags";
 import noop from "lodash/noop";
@@ -26,6 +34,11 @@ import noop from "lodash/noop";
  * Tag picker slide. Archived tags are hidden unless the draft already has
  * them. Tags are grouped by category; headings show only when more than one
  * category has tags, so a single category looks like a plain tag list.
+ *
+ * Chips reorder by drag inside their category and have a menu: Edit,
+ * Archive, Delete. iOS: hold shows the system context menu, moving the
+ * finger drags. Elsewhere: hold lifts the chip, release in place opens the
+ * editor. Archive and Delete also take the tag off the draft.
  */
 export const SlideTags = ({
   onDisableStep = noop,
@@ -39,7 +52,12 @@ export const SlideTags = ({
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const { tags, categories } = useTagsState();
+  // A chip drag must not scroll the list under the finger.
+  const [isDraggingTag, setIsDraggingTag] = useState(false);
   const hasTagIcons = useFeatureFlag("tag-icons");
+  const analytics = useAnalytics();
+  const { arrangeTags } = useTagsUpdater();
+  const runMenuAction = useTagMenu();
 
   const selectedTagIds = new Set(draft.tags.map((d) => d.id));
 
@@ -54,29 +72,83 @@ export const SlideTags = ({
 
   const marginTop = useSlideMarginTop();
 
-  const renderTag = (tag: ITag) => (
-    <Tag
-      onPress={() => {
-        setTags(
-          selectedTagIds.has(tag.id)
-            ? draft.tags.filter((selectedTag) => selectedTag.id !== tag.id)
-            : [...draft.tags, tag]
+  const reorder = (
+    categoryId: TagCategory["id"],
+    orderedIds: ITag["id"][],
+    method: "drag" | "accessibility_action"
+  ) => {
+    analytics.track("tags:tags_arranged", {
+      tags_count: orderedIds.length,
+      categories_count: categories.length,
+      category_changed: false,
+      method,
+    });
+    arrangeTags([arrangeShownTags(tags, categoryId, orderedIds)]);
+  };
+
+  const deselect = (id: ITag["id"]) =>
+    setTags(draft.tags.filter((selectedTag) => selectedTag.id !== id));
+
+  const editTag = (id: ITag["id"]) =>
+    router.push({ pathname: "/tags/[id]", params: { id } });
+
+  const renderTag = (
+    {
+      categoryId,
+      sectionTags,
+    }: { categoryId: TagCategory["id"]; sectionTags: ITag[] },
+    tag: ITag,
+    isPressBlocked: () => boolean
+  ) => {
+    const sectionIds = sectionTags.map((item) => item.id);
+    const move = (offset: -1 | 1) => {
+      const neighborId = sectionIds[sectionIds.indexOf(tag.id) + offset];
+      if (neighborId) {
+        reorder(
+          categoryId,
+          moveId(sectionIds, tag.id, neighborId),
+          "accessibility_action"
         );
-      }}
-      onLongPress={() =>
-        router.push({
-          pathname: "/tags/[id]",
-          params: { id: tag.id },
-        })
       }
-      title={tag.title}
-      colorName={tag.color}
-      icon={tag.icon}
-      showIcon={hasTagIcons}
-      selected={selectedTagIds.has(tag.id)}
-      key={tag.id}
-    />
-  );
+    };
+    return (
+      <Tag
+        onPress={() => {
+          if (isPressBlocked()) {
+            return;
+          }
+          setTags(
+            selectedTagIds.has(tag.id)
+              ? draft.tags.filter((selectedTag) => selectedTag.id !== tag.id)
+              : [...draft.tags, tag]
+          );
+        }}
+        // Hold opens the menu or lifts the chip; screen readers keep "edit".
+        accessibilityActions={[
+          { name: "edit", label: t("edit") },
+          { name: "moveUp", label: t("tags_move_up") },
+          { name: "moveDown", label: t("tags_move_down") },
+        ]}
+        onAccessibilityAction={({ nativeEvent }) => {
+          if (nativeEvent.actionName === "edit") {
+            editTag(tag.id);
+          }
+          if (nativeEvent.actionName === "moveUp") {
+            move(-1);
+          }
+          if (nativeEvent.actionName === "moveDown") {
+            move(1);
+          }
+        }}
+        title={tag.title}
+        colorName={tag.color}
+        icon={tag.icon}
+        showIcon={hasTagIcons}
+        selected={selectedTagIds.has(tag.id)}
+        testID={`log-tag-${tag.id}`}
+      />
+    );
+  };
 
   const editButton = (
     <Chip
@@ -116,7 +188,7 @@ export const SlideTags = ({
             width: "100%",
           }}
         />
-        <ScrollView style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }} scrollEnabled={!isDraggingTag}>
           <View
             style={{
               marginTop: 24,
@@ -140,16 +212,29 @@ export const SlideTags = ({
                     {category.title}
                   </Label>
                 )}
-                <View
-                  style={{
-                    ...CHIP_FLOW,
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                  }}
-                >
-                  {sectionTags.map(renderTag)}
-                  {index === sections.length - 1 && editButton}
-                </View>
+                <TagChipFlow
+                  tags={sectionTags}
+                  renderTag={(tag, isPressBlocked) =>
+                    renderTag(
+                      { categoryId: category.id, sectionTags },
+                      tag,
+                      isPressBlocked
+                    )
+                  }
+                  trailing={index === sections.length - 1 ? editButton : null}
+                  onReorder={(orderedIds) =>
+                    reorder(category.id, orderedIds, "drag")
+                  }
+                  onDragChange={setIsDraggingTag}
+                  menuActions={getTagMenuActions}
+                  onMenuAction={(tag, actionId) =>
+                    runMenuAction(tag, actionId, {
+                      onEdit: () => editTag(tag.id),
+                      onArchived: () => deselect(tag.id),
+                      onDeleted: () => deselect(tag.id),
+                    })
+                  }
+                />
               </View>
             ))}
             {sections.length === 0 && (

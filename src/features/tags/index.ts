@@ -10,3 +10,5 @@ export { default as TagNameField } from "./components/tag-name-field";
 export { default as TagComponent } from "./components/tag";
 export * from "./tags-provider";
 export * from "./tag-categories";
+export { getTagMenuActions, useTagMenu } from "./tag-menu";
+export type { TagMenuAction, TagMenuActionId } from "./tag-menu";

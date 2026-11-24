@@ -1,4 +1,5 @@
 import { Pressable, Text, View, useColorScheme } from "react-native";
+import type { PressableProps } from "react-native";
 
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -23,7 +24,13 @@ const Tag = ({
   onLongPress,
   compact = false,
   style = DEFAULT_STYLE,
-}: {
+  accessibilityActions,
+  onAccessibilityAction,
+  testID,
+}: Pick<
+  PressableProps,
+  "accessibilityActions" | "onAccessibilityAction" | "testID"
+> & {
   title: string;
   selected?: boolean;
   colorName: (typeof TAG_COLOR_NAMES)[number];
@@ -31,7 +38,10 @@ const Tag = ({
   /** Tag icon instead of the color dot. Missing `icon` draws the default. */
   showIcon?: boolean;
   onPress?: () => void;
-  /** Opens the tag editor; also offered as the "edit" accessibility action. */
+  /**
+   * Opens the tag editor; also offered as the "edit" accessibility action.
+   * `accessibilityActions` replace that action, for chips whose hold drags.
+   */
   onLongPress?: () => void;
   /** Small read-only pill for dense rows, like timeline cards. */
   compact?: boolean;
@@ -51,6 +61,9 @@ const Tag = ({
         selected={selected}
         onPress={onPress}
         onLongPress={onLongPress}
+        accessibilityActions={accessibilityActions}
+        onAccessibilityAction={onAccessibilityAction}
+        testID={testID}
         lead={
           showIcon ? (
             <TagIcon icon={icon} color={colorName} size={CHIP.lead} />

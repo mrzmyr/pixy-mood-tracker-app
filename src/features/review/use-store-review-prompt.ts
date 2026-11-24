@@ -27,9 +27,9 @@ const reportPromptError = (cause: unknown) => {
 };
 
 /**
- * Returns a callback for the logger save flow. It requests the system store
- * review prompt `STORE_REVIEW_DELAY_MS` after a good save when
- * `decideStoreReview` allows it.
+ * Returns a callback for good moments (see `StoreReviewMoment` kinds).
+ * It requests the system store review prompt `STORE_REVIEW_DELAY_MS` after
+ * the moment when `decideStoreReview` allows it.
  *
  * Never throws and never blocks the moment. The OS decides whether the
  * prompt shows (iOS: max 3 times per 365 days; Google Play: undisclosed
@@ -67,6 +67,7 @@ export const useStoreReviewPrompt = () => {
       }));
       analytics.track("logger:store_review_requested", {
         trigger: trigger === "entries_7" ? "first" : "later",
+        moment: moment.kind,
         entries_count: moment.entriesCount,
       });
       await StoreReview.requestReview();

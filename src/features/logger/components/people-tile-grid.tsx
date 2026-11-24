@@ -1,4 +1,5 @@
 import { Platform } from "react-native";
+import type { PersonMenuActionId } from "@/features/people";
 import { getNativePeopleTile } from "./native-people-tile";
 import { NativePeopleTileGrid } from "./native-people-tile-grid";
 import type { PeopleTileGridProps } from "./people-tile-grid-props";
@@ -10,7 +11,8 @@ import { SortablePeopleTileGrid } from "./sortable-people-tile-grid";
  * grid, release without moving shows the menu.
  */
 export const PeopleTileGrid = (props: PeopleTileGridProps) => {
-  const NativeTile = Platform.OS === "ios" ? getNativePeopleTile() : null;
+  const NativeTile =
+    Platform.OS === "ios" ? getNativePeopleTile<PersonMenuActionId>() : null;
   if (NativeTile) {
     return <NativePeopleTileGrid NativeTile={NativeTile} {...props} />;
   }
