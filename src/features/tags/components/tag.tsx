@@ -1,4 +1,5 @@
 import { Pressable, Text, View, useColorScheme } from "react-native";
+import type { PressableProps } from "react-native";
 
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
@@ -8,30 +9,43 @@ import { RADIUS } from "@/constants/radius";
 import { CHIP, COMPACT_CHIP } from "@/constants/chip";
 import type { ChipStyle } from "@/constants/chip";
 import { Chip } from "@/components/chip";
+import { useFeatureFlag } from "@/state/feature-flags";
 import type { Tag as TagType } from "../tags-provider";
 import { TagIcon } from "./tag-icon";
 
 const DEFAULT_STYLE = {};
+/** Same as the compact emotion icon, so mixed chip rows line up. */
+const COMPACT_ICON_SIZE = 16;
 
 const Tag = ({
   title,
   selected = false,
   colorName,
   icon,
-  showIcon = false,
   onPress,
   onLongPress,
   compact = false,
   style = DEFAULT_STYLE,
-}: {
+  accessibilityActions,
+  onAccessibilityAction,
+  testID,
+}: Pick<
+  PressableProps,
+  "accessibilityActions" | "onAccessibilityAction" | "testID"
+> & {
   title: string;
   selected?: boolean;
   colorName: (typeof TAG_COLOR_NAMES)[number];
+  /**
+   * Drawn instead of the color dot while flag `tag-icons` is on. Missing
+   * `icon` draws the default.
+   */
   icon?: TagType["icon"];
-  /** Tag icon instead of the color dot. Missing `icon` draws the default. */
-  showIcon?: boolean;
   onPress?: () => void;
-  /** Opens the tag editor; also offered as the "edit" accessibility action. */
+  /**
+   * Opens the tag editor; also offered as the "edit" accessibility action.
+   * `accessibilityActions` replace that action, for chips whose hold drags.
+   */
   onLongPress?: () => void;
   /** Small read-only pill for dense rows, like timeline cards. */
   compact?: boolean;
@@ -39,6 +53,7 @@ const Tag = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
+  const showIcon = useFeatureFlag("tag-icons");
 
   const colorScheme = useColorScheme();
   const unselectedBorderColor =
@@ -51,6 +66,9 @@ const Tag = ({
         selected={selected}
         onPress={onPress}
         onLongPress={onLongPress}
+        accessibilityActions={accessibilityActions}
+        onAccessibilityAction={onAccessibilityAction}
+        testID={testID}
         lead={
           showIcon ? (
             <TagIcon icon={icon} color={colorName} size={CHIP.lead} />
@@ -123,14 +141,18 @@ const Tag = ({
         }
       }}
     >
-      <View
-        style={{
-          width: 7,
-          height: 7,
-          borderRadius: RADIUS.sm,
-          backgroundColor: colors.tags[colorName]?.dot,
-        }}
-      />
+      {showIcon ? (
+        <TagIcon icon={icon} color={colorName} size={COMPACT_ICON_SIZE} />
+      ) : (
+        <View
+          style={{
+            width: 7,
+            height: 7,
+            borderRadius: RADIUS.sm,
+            backgroundColor: colors.tags[colorName]?.dot,
+          }}
+        />
+      )}
       <Text
         style={{
           color: selected ? colors.tagTextActive : colors.tagText,

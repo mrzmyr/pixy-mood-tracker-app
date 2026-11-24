@@ -25,6 +25,10 @@ public class PeopleTileModule: Module {
       Prop("actions") { (view: PeopleTileView, actions: [PeopleTileMenuAction]) in
         view.actions = actions
       }
+
+      Prop("previewCornerRadius") { (view: PeopleTileView, radius: Double?) in
+        view.previewCornerRadius = radius.map { CGFloat($0) }
+      }
     }
   }
 }

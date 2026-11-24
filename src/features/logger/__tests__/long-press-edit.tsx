@@ -79,6 +79,58 @@ jest.mock("../components/people-tile-grid", () => {
   };
 });
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-router/testing-library swaps in an empty reanimated mock, so the sortable flex cannot render here. `<action>-<id>` buttons stand in for the chip menu rows.
+jest.mock("../components/tag-chip-flow", () => {
+  const { Fragment, createElement } = require("react");
+  return {
+    __esModule: true,
+    TagChipFlow: ({
+      tags,
+      renderTag,
+      trailing,
+      menuActions,
+      onMenuAction,
+    }: {
+      tags: { id: string }[];
+      renderTag: (
+        tag: { id: string },
+        isPressBlocked: () => boolean
+      ) => React.ReactElement;
+      trailing: React.ReactElement | null;
+      menuActions: (tag: { id: string }) => { id: string }[];
+      onMenuAction: (tag: { id: string }, actionId: string) => void;
+    }) => {
+      const {
+        Pressable: MenuButton,
+        Text: MenuLabel,
+      } = require("react-native");
+      return createElement(
+        Fragment,
+        null,
+        ...tags.map((tag) =>
+          createElement(
+            Fragment,
+            { key: tag.id },
+            renderTag(tag, () => false),
+            ...menuActions(tag).map((action) =>
+              createElement(
+                MenuButton,
+                {
+                  key: action.id,
+                  testID: `${action.id}-${tag.id}`,
+                  onPress: () => onMenuAction(tag, action.id),
+                },
+                createElement(MenuLabel, null, action.id)
+              )
+            )
+          )
+        ),
+        trailing
+      );
+    },
+  };
+});
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
 jest.mock("react-native-safe-area-context", () => {
   const { View } = jest.requireActual("react-native");
@@ -171,10 +223,29 @@ describe("Logger tag and people slides", () => {
     );
   });
 
-  test("long press on a tag opens its editor", async () => {
+  test("screen reader edit action on a tag opens its editor", async () => {
     const result = await renderLogger();
-    await userEvent.longPress(await result.findByText("Work"));
+    const tag = await result.findByTestId("log-tag-tag-work");
+    await act(() =>
+      fireEvent(tag, "accessibilityAction", {
+        nativeEvent: { actionName: "edit" },
+      })
+    );
     expect(await result.findByText("Editing tag tag-work")).toBeOnTheScreen();
+  });
+
+  test("long press on a tag no longer opens its editor", async () => {
+    const result = await renderLogger();
+    await userEvent.longPress(await result.findByTestId("log-tag-tag-work"));
+    expect(result.queryByText("Editing tag tag-work")).not.toBeOnTheScreen();
+  });
+
+  test("archive from the tag menu takes the tag off the slide", async () => {
+    const result = await renderLogger();
+    await userEvent.press(await result.findByTestId("log-tag-tag-work"));
+    expect(result.getByTestId("log-tag-tag-work")).toBeChecked();
+    await userEvent.press(result.getByTestId("archive-tag-work"));
+    expect(result.queryByTestId("log-tag-tag-work")).not.toBeOnTheScreen();
   });
 
   test("screen reader edit action on a person opens their editor", async () => {

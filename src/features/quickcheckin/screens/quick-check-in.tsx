@@ -17,6 +17,7 @@ import ModalHeader from "@/components/modal-header";
 import TextArea from "@/components/text-area";
 import { MAX_MESSAGE_LENGTH } from "@/constants/config";
 import { SPACE } from "@/constants/space";
+import { hasNegativeEmotion, TagPicker } from "@/features/logger";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import {
@@ -24,7 +25,8 @@ import {
   usePeopleAdded,
   usePeopleState,
 } from "@/features/people";
-import { useTagsState } from "@/features/tags";
+import { useStoreReviewPrompt } from "@/features/review";
+import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
 import { t } from "@/lib/translation";
@@ -33,7 +35,6 @@ import { createQuickEntry } from "../check-in-state";
 import { applyVoicePrefill, hasDraftChanges, toDraft } from "../draft";
 import { useVoicePrefill } from "../use-voice-prefill";
 import { getSheetSections } from "../sheet-sections";
-import { InfluenceChips } from "./quick-check-in-chips";
 import { QuickCheckInEmotions } from "./quick-check-in-emotions";
 import { QuickCheckInMoodSlide } from "./quick-check-in-mood-slide";
 import { PeopleRow, QuickCheckInListSheets } from "./quick-check-in-pickers";
@@ -84,7 +85,10 @@ const Note = ({
   </View>
 );
 
-/** Close and Save: iOS sheet bar items, Android Material top app bar. */
+/**
+ * Close and Save: iOS sheet bar items, Android Material top app bar. No
+ * title.
+ */
 const QuickCheckInHeader = ({
   canSave,
   onClose,
@@ -96,7 +100,8 @@ const QuickCheckInHeader = ({
 }) =>
   Platform.OS === "ios" ? (
     <>
-      <Stack.Screen options={{ title: t("quick_check_in_title") }} />
+      {/* Empty title: without it iOS shows the route name. */}
+      <Stack.Screen options={{ title: "" }} />
       {/* Title doubles as label: expo-router drops `accessibilityLabel`
           on iOS bar items. With an icon, iOS shows only the icon. */}
       <Stack.Toolbar placement="left">
@@ -122,7 +127,6 @@ const QuickCheckInHeader = ({
     </>
   ) : (
     <ModalHeader
-      title={t("quick_check_in_title")}
       left={
         <HeaderButton
           kind="cancel"
@@ -146,8 +150,9 @@ const QuickCheckInHeader = ({
 /**
  * Quick check-in on two slides, like the logger. First the mood buttons of
  * the logger; a tap slides on. Second one scrolling page: a one-line note,
- * then sections for emotions as in the logger, a row of people, the top 20
- * tags, and photos. Swiping forward needs a mood; swiping back returns to it.
+ * then sections for emotions as in the logger, a row of people, tags as in
+ * the logger (stored order, categories, drag to reorder, menu, "Edit
+ * tags"), and photos. Swiping forward needs a mood; swiping back returns to it.
  * Swiping pauses while the emotion pages, which swipe themselves, show. Each section folds under a hairline divider; the folded state stays
  * on the device. The full list of people opens in a sheet, with "Add
  * Person" on top. Opens from the calendar, from voice mode (with
@@ -155,7 +160,8 @@ const QuickCheckInHeader = ({
  *
  * - `id` names an entry saved in the notification: the screen edits it.
  * - `id` `new` or unknown: Save creates an entry. Save needs a mood.
- * - `prefill`: set by voice mode, added to the draft once.
+ * - `prefill`: set by voice mode, added to the draft once. With a spoken
+ *   mood the screen opens on the second slide.
  */
 export const QuickCheckIn = () => {
   const { id, prefill } = useLocalSearchParams<{
@@ -169,8 +175,8 @@ export const QuickCheckIn = () => {
   const analytics = useAnalytics();
   const { items } = useLogState();
   const logUpdater = useLogUpdater();
+  const requestStoreReviewPrompt = useStoreReviewPrompt();
   const { people } = usePeopleState();
-  const { tags } = useTagsState();
 
   const entry = items.find((item) => item.id === id);
   const [draft, setDraft] = useState(() => toDraft(entry));
@@ -179,9 +185,14 @@ export const QuickCheckIn = () => {
   if (entry && draft.source === "empty") {
     setDraft(toDraft(entry));
   }
-  useVoicePrefill(prefill, (parsed) =>
-    setDraft((current) => applyVoicePrefill(current, parsed))
-  );
+  // A spoken mood answers the first slide: open on the second.
+  const [skipsMood, setSkipsMood] = useState(false);
+  useVoicePrefill(prefill, (parsed) => {
+    setDraft((current) => applyVoicePrefill(current, parsed));
+    if (parsed.rating !== undefined) {
+      setSkipsMood(true);
+    }
+  });
   const { rating, emotions, picked, message, photos } = draft;
   const setRating = (value: LogItem["rating"]) =>
     setDraft((current) => ({ ...current, rating: value, source: "user" }));
@@ -205,6 +216,8 @@ export const QuickCheckIn = () => {
   const { width: windowWidth } = useWindowDimensions();
   const slidesRef = useRef<ScrollView>(null);
   const [isEmotionPaging, setIsEmotionPaging] = useState(false);
+  // A tag chip drag must not scroll the page or the slides.
+  const [isDraggingTag, setIsDraggingTag] = useState(false);
   const rate = (value: LogItem["rating"]) => {
     setRating(value);
     slidesRef.current?.scrollTo({ x: windowWidth, animated: true });
@@ -219,11 +232,10 @@ export const QuickCheckIn = () => {
         rating,
         items,
         people,
-        tags,
         picked,
         now,
       }),
-    [rating, items, people, tags, picked, now]
+    [rating, items, people, picked, now]
   );
 
   const toggle = (option: Pick<InfluenceOption, "kind" | "id">) => {
@@ -267,12 +279,22 @@ export const QuickCheckIn = () => {
       message,
       photos,
     };
-    if (items.some((item) => item.id === id)) {
-      logUpdater.editLog({ id, ...changes });
-    } else {
+    // An existing id is the entry the notification saved: this screen
+    // completes it, so it still counts as a new check-in.
+    const isNew = !items.some((item) => item.id === id);
+    if (isNew) {
       logUpdater.addLog(createQuickEntry(uuidv4(), dayjs(), changes));
       analytics.track("quick_check_in:entry_saved", { source: "app" });
+    } else {
+      logUpdater.editLog({ id, ...changes });
     }
+    requestStoreReviewPrompt({
+      kind: "entry_saved",
+      // `items` predates this save, so count a new entry.
+      entriesCount: items.length + (isNew ? 1 : 0),
+      rating,
+      hasNegativeEmotion: hasNegativeEmotion(emotions),
+    });
     analytics.track("quick_check_in:completed", {
       source: "app",
       has_emotion: emotions.length > 0,
@@ -284,7 +306,6 @@ export const QuickCheckIn = () => {
     close();
   };
 
-  const pickedKeys = new Set(picked);
   const emotionKeys = new Set(emotions);
   const pickedPeople = new Set(
     references("person").map((reference) => reference.id)
@@ -305,6 +326,12 @@ export const QuickCheckIn = () => {
       ...added.map((person) => `person:${person.id}`),
     ])
   );
+  const pickedTags = new Set(
+    references("tag").map((reference) => reference.id)
+  );
+  const toggleTag = (tag: Tag) => toggle({ kind: "tag", id: tag.id });
+  const deselectTag = (tagId: Tag["id"]) =>
+    setPicked((current) => current.filter((key) => key !== `tag:${tagId}`));
   const personById = new Map(people.map((person) => [person.id, person]));
 
   const isIOS = Platform.OS === "ios";
@@ -334,7 +361,8 @@ export const QuickCheckIn = () => {
           bounces={false}
           showsHorizontalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
-          scrollEnabled={rating !== null && !isEmotionPaging}
+          scrollEnabled={rating !== null && !isEmotionPaging && !isDraggingTag}
+          contentOffset={skipsMood ? { x: windowWidth, y: 0 } : undefined}
           onScrollBeginDrag={handleSlideDrag}
         >
           <View style={{ width: windowWidth }}>
@@ -345,6 +373,7 @@ export const QuickCheckIn = () => {
               testID="quick-check-in-scroll"
               keyboardShouldPersistTaps="handled"
               keyboardDismissMode="on-drag"
+              scrollEnabled={!isDraggingTag}
               contentContainerStyle={{
                 paddingBottom: insets.bottom + SPACE.xxxl,
               }}
@@ -388,17 +417,14 @@ export const QuickCheckIn = () => {
                     />
                   </QuickCheckInSection>
                 )}
-                {sections.tags.length > 0 && (
-                  <QuickCheckInSection section="tags" title={t("tags")}>
-                    <InfluenceChips
-                      options={sections.tags}
-                      people={people}
-                      tags={tags}
-                      picked={pickedKeys}
-                      onToggle={toggle}
-                    />
-                  </QuickCheckInSection>
-                )}
+                <QuickCheckInSection section="tags" title={t("tags")}>
+                  <TagPicker
+                    selectedIds={pickedTags}
+                    onToggle={toggleTag}
+                    onDeselect={deselectTag}
+                    onDragChange={setIsDraggingTag}
+                  />
+                </QuickCheckInSection>
                 <QuickCheckInSection
                   section="photos"
                   title={t("logger_step_photos")}

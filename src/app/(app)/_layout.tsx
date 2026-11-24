@@ -241,7 +241,7 @@ const AppLayout = () => {
       : defaultOptions;
 
   const settingsFormOptions = formHeaderOptions(pageOptions, colors.background);
-  const orbitOptions = { ...pageOptions, title: t("orbit") };
+  const orbitOptions = { ...settingsFormOptions, title: t("orbit") };
 
   return (
     <StorageLoadGate>

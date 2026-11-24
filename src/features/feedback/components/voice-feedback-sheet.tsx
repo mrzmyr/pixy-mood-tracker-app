@@ -8,6 +8,8 @@ import LinkButton from "@/components/link-button";
 import { SheetModal } from "@/components/sheet-modal";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
+import { useLogState } from "@/features/logs";
+import { useStoreReviewPrompt } from "@/features/review";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { showToast } from "@/lib/toast";
@@ -52,6 +54,8 @@ export const VoiceFeedbackSheet = ({
   const haptics = useHaptics();
   const analytics = useAnalytics();
   const feedback = useFeedback();
+  const logState = useLogState();
+  const requestStoreReviewPrompt = useStoreReviewPrompt();
   const { hasActionDone, addActionDone } = useSettings();
   const [prompt, setPrompt] = useState<{
     index: number;
@@ -93,13 +97,24 @@ export const VoiceFeedbackSheet = ({
     return null;
   }
 
+  /** Hide the sheet. "Great" asks for a store review once it is gone. */
+  const hide = () => {
+    setVisible(false);
+    if (rating === "great") {
+      requestStoreReviewPrompt({
+        kind: "voice_great",
+        entriesCount: logState.items.length,
+      });
+    }
+  };
+
   const close = () => {
     if (rating === null) {
       analytics.track("voice:feedback_skipped", {
         prompt_index: prompt.index,
       });
     }
-    setVisible(false);
+    hide();
   };
 
   const pick = (next: Rating) => {
@@ -125,7 +140,7 @@ export const VoiceFeedbackSheet = ({
       message: `[voice ${rating}] ${comment.trim()}`,
       onOk: () => {
         haptics.success();
-        setVisible(false);
+        hide();
         showToast({ title: t("voice_feedback_thanks") });
       },
       onCancel: () => setIsSending(false),

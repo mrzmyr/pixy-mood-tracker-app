@@ -1,36 +1,19 @@
 import { useSlideMarginTop } from "./margin-top";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
-import {
-  groupTagsByCategory,
-  useTagsState,
-  TagComponent as Tag,
-} from "@/features/tags";
-import type { Tag as ITag } from "@/features/tags";
+import type { Tag } from "@/features/tags";
 import { useLogDraft } from "../log-draft";
-import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
-import { Label } from "@/components/typography";
-import { Chip } from "@/components/chip";
-import Plus from "lucide-react-native/icons/plus";
-import { CHIP, CHIP_FLOW, CHIP_GAP } from "@/constants/chip";
 import { SlideHeadline } from "../components/slide-headline";
-import { PullToSearch } from "../components/pull-to-search";
-import { matchesSearch } from "@/lib/search";
+import { TagPicker } from "../components/tag-picker";
 import { Footer } from "./footer";
-import { useFeatureFlag } from "@/state/feature-flags";
 import noop from "lodash/noop";
 
-/**
- * Tag picker slide. Archived tags are hidden unless the draft already has
- * them. Pulling the list down reveals a search by tag title. Tags are grouped
- * by category; headings show only when more than one category has tags, so a
- * single category looks like a plain tag list.
- */
+/** Tag picker slide: {@link TagPicker} under a headline. */
 export const SlideTags = ({
   onDisableStep = noop,
   showDisable,
@@ -39,67 +22,22 @@ export const SlideTags = ({
   showDisable: boolean;
 }) => {
   const { draft, setTags } = useLogDraft();
-  const router = useRouter();
   const insets = useSafeAreaInsets();
   const colors = useColors();
-  const { tags, categories } = useTagsState();
-  const [query, setQuery] = useState("");
-  const hasTagIcons = useFeatureFlag("tag-icons");
+  // A chip drag must not scroll the list under the finger.
+  const [isDraggingTag, setIsDraggingTag] = useState(false);
 
   const selectedTagIds = new Set(draft.tags.map((d) => d.id));
 
-  const _tags = tags.filter((tag) => {
-    const isSelected = selectedTagIds.has(tag.id);
+  const deselect = (id: Tag["id"]) =>
+    setTags(draft.tags.filter((selectedTag) => selectedTag.id !== id));
 
-    return (
-      ((!isSelected && !tag.isArchived) ||
-        (isSelected && tag.isArchived) ||
-        (isSelected && !tag.isArchived)) &&
-      matchesSearch(tag.title, query)
-    );
-  });
-
-  const sections = groupTagsByCategory(_tags, categories).filter(
-    (section) => section.tags.length > 0
-  );
-  const showHeadings = sections.length > 1;
+  const toggle = (tag: Tag) =>
+    selectedTagIds.has(tag.id)
+      ? deselect(tag.id)
+      : setTags([...draft.tags, tag]);
 
   const marginTop = useSlideMarginTop();
-
-  const renderTag = (tag: ITag) => (
-    <Tag
-      onPress={() => {
-        setTags(
-          selectedTagIds.has(tag.id)
-            ? draft.tags.filter((selectedTag) => selectedTag.id !== tag.id)
-            : [...draft.tags, tag]
-        );
-      }}
-      onLongPress={() =>
-        router.push({
-          pathname: "/tags/[id]",
-          params: { id: tag.id },
-        })
-      }
-      title={tag.title}
-      colorName={tag.color}
-      icon={tag.icon}
-      showIcon={hasTagIcons}
-      selected={selectedTagIds.has(tag.id)}
-      key={tag.id}
-    />
-  );
-
-  const editButton = (
-    <Chip
-      isToggle={false}
-      label={t("tags_edit")}
-      lead={<Plus size={CHIP.lead} color={colors.chipText} />}
-      onPress={() => {
-        router.push("/tags");
-      }}
-    />
-  );
 
   return (
     <View
@@ -128,53 +66,14 @@ export const SlideTags = ({
             width: "100%",
           }}
         />
-        <PullToSearch
-          testID="logger-tags-search"
-          inset={0}
-          placeholder={t("log_tags_search")}
-          query={query}
-          onChangeQuery={setQuery}
-        >
-          <View
-            style={{
-              marginTop: 24,
-              gap: showHeadings ? 12 : 0,
-              paddingBottom: showHeadings ? 12 : 0,
-            }}
-          >
-            {sections.map(({ category, tags: sectionTags }, index) => (
-              <View
-                key={category.id}
-                testID={`log-tags-category-${category.id}`}
-                style={{ gap: 8 }}
-              >
-                {showHeadings && (
-                  <Label
-                    size={14}
-                    strong
-                    accessibilityRole="header"
-                    style={{ color: colors.textSecondary }}
-                  >
-                    {category.title}
-                  </Label>
-                )}
-                <View
-                  style={{
-                    ...CHIP_FLOW,
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                  }}
-                >
-                  {sectionTags.map(renderTag)}
-                  {index === sections.length - 1 && editButton}
-                </View>
-              </View>
-            ))}
-            {sections.length === 0 && (
-              <View style={{ paddingRight: CHIP_GAP, paddingBottom: CHIP_GAP }}>
-                {editButton}
-              </View>
-            )}
+        <ScrollView style={{ flex: 1 }} scrollEnabled={!isDraggingTag}>
+          <View style={{ marginTop: 24 }}>
+            <TagPicker
+              selectedIds={selectedTagIds}
+              onToggle={toggle}
+              onDeselect={deselect}
+              onDragChange={setIsDraggingTag}
+            />
           </View>
           {showDisable && (
             <Footer>
@@ -191,7 +90,7 @@ export const SlideTags = ({
           )}
           {/* Keep final actions above the 54 pt Next button and its spacing. */}
           <View style={{ height: insets.bottom + 54 + 32 }} />
-        </PullToSearch>
+        </ScrollView>
       </View>
     </View>
   );

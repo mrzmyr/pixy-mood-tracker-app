@@ -2,21 +2,12 @@ import { useRef, useState } from "react";
 import type { ComponentType } from "react";
 import { ScrollView, View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import type { Person } from "@/features/people";
+import type { Person, PersonMenuActionId } from "@/features/people";
 import type { NativePeopleTileProps } from "./native-people-tile";
 import type { PeopleTileGridProps } from "./people-tile-grid-props";
+import { moveId } from "./tile-reorder";
 
 const CELL_TRANSITION = LinearTransition.duration(200);
-
-/** `ids` with `sourceId` moved to the spot of `targetId`. */
-const moveId = (ids: string[], sourceId: string, targetId: string) => {
-  const targetIndex = ids.indexOf(targetId);
-  if (targetIndex === -1 || !ids.includes(sourceId)) {
-    return ids;
-  }
-  const rest = ids.filter((id) => id !== sourceId);
-  return [...rest.slice(0, targetIndex), sourceId, ...rest.slice(targetIndex)];
-};
 
 /** Tile from `renderTile`; each new touch calls `onTouchStart`. */
 const TileContent = ({
@@ -51,7 +42,7 @@ export const NativePeopleTileGrid = ({
   menuActions,
   onMenuAction,
 }: PeopleTileGridProps & {
-  NativeTile: ComponentType<NativePeopleTileProps>;
+  NativeTile: ComponentType<NativePeopleTileProps<PersonMenuActionId>>;
 }) => {
   const [dragOrder, setDragOrder] = useState<string[] | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);

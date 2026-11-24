@@ -8,11 +8,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import LinkButton from "@/components/link-button";
 import { SlideHeadline } from "../../components/slide-headline";
-import { PullToSearch } from "../../components/pull-to-search";
-import { matchesSearch } from "@/lib/search";
 import { EMOTIONS } from "../../config";
 import { Footer } from "../footer";
 import { EmotionAdvancedGradients } from "./emotion-advanced-gradients";
@@ -21,80 +19,42 @@ import { EmotionBasicGradients } from "./emotion-basic-gradients";
 import { EmotionBasicSelection } from "./emotion-basic-selection";
 import { ExpandButton } from "./expand-button";
 import noop from "lodash/noop";
-import { useFeatureFlag } from "@/state/feature-flags";
-import { NeedsCheck } from "./needs-check";
-import type { NeedStates } from "./needs";
-import { getBasicEmotions, toBasicCategory } from "./basic-emotions";
+import { getBasicEmotions } from "./basic-emotions";
 
 type Mode = "basic" | "advanced";
 
-/**
- * Headline row of the emotion slide. With the `needs` flag, a link below it
- * switches between all emotions and needs mode. Needs mode hides More.
- */
+/** Headline row of the emotion slide with the More toggle. */
 const EmotionsHeader = ({
   marginTop,
-  hasNeeds,
-  isNeedsMode,
   isExpanded,
   onToggleMode,
-  onToggleNeedsMode,
 }: {
   marginTop: number;
-  hasNeeds: boolean;
-  isNeedsMode: boolean;
   isExpanded: boolean;
   onToggleMode: () => void;
-  onToggleNeedsMode: () => void;
 }) => (
-  <>
-    <View
-      style={{
-        width: "100%",
-        paddingHorizontal: 20,
-        marginTop,
-        marginBottom: 4,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      <SlideHeadline>
-        {t(isNeedsMode ? "log_needs_title" : "log_emotions_question")}
-      </SlideHeadline>
-      {!isNeedsMode && (
-        <ExpandButton expanded={isExpanded} onPress={onToggleMode} />
-      )}
-    </View>
-    {hasNeeds && (
-      <LinkButton
-        testID="needs-mode-toggle"
-        onPress={onToggleNeedsMode}
-        style={{
-          alignSelf: "flex-start",
-          // LinkButton pads 8: text lines up with the headline at 20.
-          marginHorizontal: 12,
-          marginBottom: 4,
-          fontWeight: "400",
-        }}
-      >
-        {t(isNeedsMode ? "log_needs_show_all" : "log_needs_use")}
-      </LinkButton>
-    )}
-  </>
+  <View
+    style={{
+      width: "100%",
+      paddingHorizontal: 20,
+      marginTop,
+      marginBottom: 4,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+    }}
+  >
+    <SlideHeadline>{t("log_emotions_question")}</SlideHeadline>
+    <ExpandButton expanded={isExpanded} onPress={onToggleMode} />
+  </View>
 );
 
 /**
  * Emotion slide of the logger.
  *
  * Basic mode shows up to 36 emotions: the draft's picks, then the 20 most
- * used, then the predefined basic set. Pulling the list down reveals a
- * search over all emotions, shown in the basic grid. Must render inside
- * `LogDraftProvider` and `LogsProvider`.
- *
- * With the `needs` flag, a link under the headline switches to needs mode:
- * rate needs, pick from suggested emotions only. Needs mode hides More and
- * all emotions. Ratings and picks stay when switching back.
+ * used, then the predefined basic set. Must render inside `LogDraftProvider`
+ * and `LogsProvider`.
  */
 export const SlideEmotions = ({
   defaultIndex,
@@ -132,26 +92,11 @@ export const SlideEmotions = ({
   };
 
   const [mode, setMode] = useState<Mode>(initialMode);
-  const hasNeeds = useFeatureFlag("needs");
-  const [needStates, setNeedStates] = useState<NeedStates>({});
-  // Needs mode: rate needs, pick from suggested emotions only. Starts on;
-  // without flag `needs`, `showNeeds` stays false.
-  const [isNeedsMode, setIsNeedsMode] = useState(true);
-  const showNeeds = hasNeeds && isNeedsMode;
 
   const basicEmotions = getBasicEmotions(
     initialSelectedEmotions,
     logState.items
   );
-
-  const [query, setQuery] = useState("");
-  const isSearching = query.trim() !== "";
-  const searchResults: Emotion[] = [];
-  for (const emotion of EMOTIONS) {
-    if (emotion.disabled !== true && matchesSearch(emotion.label, query)) {
-      searchResults.push(toBasicCategory(emotion));
-    }
-  }
 
   const onPressEmotion = (emotion: Emotion) => {
     if (selectedEmotions.map((d) => d.key).includes(emotion.key)) {
@@ -171,30 +116,15 @@ export const SlideEmotions = ({
     setInitialSelectedEmotions(selectedEmotions);
   };
 
-  let content: React.ReactNode;
-  if (showNeeds && !isSearching) {
-    content = (
-      <NeedsCheck
-        states={needStates}
-        onChange={(key, state) =>
-          setNeedStates((current) => ({ ...current, [key]: state }))
-        }
-        emotions={EMOTIONS}
-        selectedEmotions={selectedEmotions}
-        onPressEmotion={onPressEmotion}
-      />
-    );
-  } else if (isSearching || mode === "basic") {
-    content = (
+  const content =
+    mode === "basic" ? (
       <EmotionBasicSelection
-        emotions={isSearching ? searchResults : basicEmotions}
+        emotions={basicEmotions}
         onPress={onPressEmotion}
         selectedEmotions={selectedEmotions}
         onRequestEmotion={openRequest}
       />
-    );
-  } else {
-    content = (
+    ) : (
       <EmotionAdvancedSelection
         defaultIndex={defaultIndex}
         onPress={onPressEmotion}
@@ -202,7 +132,6 @@ export const SlideEmotions = ({
         onRequestEmotion={openRequest}
       />
     );
-  }
 
   return (
     <View
@@ -220,11 +149,8 @@ export const SlideEmotions = ({
       >
         <EmotionsHeader
           marginTop={marginTop}
-          hasNeeds={hasNeeds}
-          isNeedsMode={showNeeds}
           isExpanded={mode === "basic"}
           onToggleMode={toggleMode}
-          onToggleNeedsMode={() => setIsNeedsMode((current) => !current)}
         />
         <View
           style={{
@@ -243,15 +169,8 @@ export const SlideEmotions = ({
               width: "100%",
             }}
           />
-          <PullToSearch
-            testID="logger-emotions-search"
-            placeholder={t("log_emotions_search")}
-            query={query}
-            onChangeQuery={setQuery}
-          >
-            {content}
-          </PullToSearch>
-          {isSearching || showNeeds || mode === "basic" ? (
+          <ScrollView>{content}</ScrollView>
+          {mode === "basic" ? (
             <EmotionBasicGradients />
           ) : (
             <EmotionAdvancedGradients />

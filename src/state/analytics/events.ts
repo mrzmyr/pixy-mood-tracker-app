@@ -114,6 +114,13 @@ export interface AnalyticsEvents {
   "logger:store_review_requested": {
     /** `first`: first prompt, `later`: a later one. Never the mood behind it. */
     trigger: "first" | "later";
+    /** Moment that asked. Fixed kind, never the mood behind it. */
+    moment:
+      | "entry_saved"
+      | "recap_completed"
+      | "recap_helpful"
+      | "voice_great"
+      | "content_shared";
     entries_count: number;
   };
 
