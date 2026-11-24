@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { ComponentType } from "react";
 import { View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
@@ -8,8 +8,6 @@ import type { NativePeopleTileProps } from "./native-people-tile";
 import type { TagChipFlowProps } from "./tag-chip-flow-props";
 import { moveId } from "./tile-reorder";
 import { TagChipContent } from "./tag-chip-content";
-
-const CHIP_TRANSITION = LinearTransition.duration(200);
 
 /**
  * Wrapping tag chips, each in the native iOS tile: hold shows the system
@@ -29,6 +27,10 @@ export const NativeTagChipFlow = ({
 }: TagChipFlowProps & {
   NativeTile: ComponentType<NativePeopleTileProps<TagMenuActionId>>;
 }) => {
+  // Built on first render, not on import: the jest reanimated mock of
+  // expo-router/testing-library has no LinearTransition, and screens
+  // importing `@/features/logger` load this file.
+  const chipTransition = useMemo(() => LinearTransition.duration(200), []);
   const [dragOrder, setDragOrder] = useState<string[] | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const dragOrderRef = useRef<string[] | null>(null);
@@ -60,7 +62,7 @@ export const NativeTagChipFlow = ({
   };
 
   const renderChip = (tag: Tag) => (
-    <Animated.View key={tag.id} layout={CHIP_TRANSITION}>
+    <Animated.View key={tag.id} layout={chipTransition}>
       <NativeTile
         tileId={tag.id}
         actions={menuActions(tag)}
@@ -107,7 +109,7 @@ export const NativeTagChipFlow = ({
     >
       {ordered.map(renderChip)}
       {trailing && (
-        <Animated.View layout={CHIP_TRANSITION}>{trailing}</Animated.View>
+        <Animated.View layout={chipTransition}>{trailing}</Animated.View>
       )}
     </View>
   );
