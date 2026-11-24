@@ -197,8 +197,8 @@ const OrbitRings = ({
 };
 
 /**
- * The user's avatar in the middle, `people` around like planets. Closer and
- * bigger: more days connected. Says nothing about how the days felt. A tap
+ * The user's avatar in the middle, `people` around like planets. Bigger:
+ * more days connected. Closer: more days, or `closeness`. Says nothing about how the days felt. A tap
  * on a person shows their days in `ctx.period` until the user taps again.
  * Fills a `width` square. People swing in after `delay`.
  */
@@ -207,13 +207,16 @@ export const OrbitSystem = ({
   ctx,
   width,
   delay,
+  closeness,
 }: {
-  /** Most connected days first. */
+  /** First person sits at the top. */
   people: OrbitSlide["people"];
   ctx: SlideContext;
   width: number;
   /** When the rings and the user's avatar fade in, in milliseconds. */
   delay: number;
+  /** Picks each person's orbit, 0 to 1, 1 nearest. Default: share of days. */
+  closeness?: (personId: string) => number;
 }) => {
   const profile = useProfile();
   const [selected, setSelected] = useState<{
@@ -223,7 +226,7 @@ export const OrbitSystem = ({
   const peopleAt = delay + RINGS_MS;
   const { turn, settle, float } = useOrbitMotion(peopleAt);
   const theme = getStoryTheme(ctx.isDark);
-  const planets = placePlanets(people, ctx.people, width);
+  const planets = placePlanets(people, ctx.people, width, closeness);
   const self = Math.round(width * ORBIT_SIZE.self);
   return (
     <>

@@ -19,12 +19,13 @@ import { useScrollBottomPadding } from "@/hooks/use-scroll-bottom-padding";
 import { t } from "@/lib/translation";
 import { connectedPeople } from "../cards/summaries";
 import { RingedAvatar } from "../components/ringed-avatar";
+import { daysBetween } from "../days";
 import { formatAgo, lastConnected } from "../last-connected";
 import { OrbitSystem } from "../story/orbit";
 import type { SlideContext } from "../story/slides";
 import { THRESHOLDS } from "../thresholds";
 import { useRecapInput } from "../use-recap-input";
-import type { Period } from "../types";
+import type { DateKey, Period } from "../types";
 
 const AVATAR = 32;
 
@@ -72,22 +73,37 @@ const RANGES: {
   },
 ];
 
+interface OrbitRow {
+  days: number;
+  date: DateKey;
+}
+
+const byDays = (a: OrbitRow, b: OrbitRow) => b.days - a.days;
+const byLatest = (a: OrbitRow, b: OrbitRow) => b.date.localeCompare(a.date);
+
+/** What every row shows, and the sort order of rows and orbit. */
+type OrbitMode = "last-connected" | "days";
+
 /**
- * One person. Shows when the user last connected with them; a tap toggles
- * to the connected days in the range.
+ * One person with their last connected day or their connected days in the
+ * range, per `mode`. A tap switches the mode of the whole page.
  */
 const PersonRow = ({
   person,
   days,
   ago,
+  mode,
+  onPress,
 }: {
   person: Person;
   days: number;
   ago: string;
+  mode: OrbitMode;
+  onPress: () => void;
 }) => {
   const colors = useColors();
-  const [isCountShown, setIsCountShown] = useState(false);
-  const count = t("recaps_story_people_days", { count: days });
+  const value =
+    mode === "days" ? t("recaps_story_people_days", { count: days }) : ago;
   return (
     <MenuListItem
       title={person.name}
@@ -100,11 +116,11 @@ const PersonRow = ({
             fontVariant: ["tabular-nums"],
           }}
         >
-          {isCountShown ? count : ago}
+          {value}
         </Label>
       }
-      onPress={() => setIsCountShown((shown) => !shown)}
-      accessibilityValue={{ text: isCountShown ? count : ago }}
+      onPress={onPress}
+      accessibilityValue={{ text: value }}
       testID={`orbit-person-${person.id}`}
     />
   );
@@ -113,12 +129,14 @@ const PersonRow = ({
 /**
  * Settings > Orbit: the people of a time range around the user, as in the
  * month recap story. A tap on a person shows their days. Below: everyone
- * connected in that range, most connected days first, with the last day
- * connected. The header menu picks the range. Counts only, never how the
- * days felt.
+ * connected in that range. Rows show the last connected day, latest first,
+ * or the connected days, most first; a tap on any row switches. Planet size
+ * is always connected days; the orbit follows the mode. The header menu
+ * picks the range. Counts only, never how the days felt.
  */
 export const OrbitScreen = () => {
   const [range, setRange] = useState<OrbitRange>("30-days");
+  const [mode, setMode] = useState<OrbitMode>("last-connected");
   const selected = RANGES.find((option) => option.range === range) ?? RANGES[0];
   const period = selected.period();
   const input = useRecapInput(period);
@@ -136,15 +154,31 @@ export const OrbitScreen = () => {
     people: new Map(people.map((person) => [person.id, person])),
     isDark: colorScheme === "dark",
   };
-  const connected = connectedPeople(input);
   const last = lastConnected(input.days);
-  const rows = connected.flatMap(({ personId, days }) => {
+  const rows = connectedPeople(input).flatMap(({ personId, days }) => {
     const person = ctx.people.get(personId);
     const date = last.get(personId);
     return person && date
-      ? [{ person, days, ago: formatAgo(date, input.today) }]
+      ? [{ personId, person, days, date, ago: formatAgo(date, input.today) }]
       : [];
   });
+  rows.sort(
+    mode === "days"
+      ? (a, b) => byDays(a, b) || byLatest(a, b)
+      : (a, b) => byLatest(a, b) || byDays(a, b)
+  );
+  const lastDates = new Map(rows.map((row) => [row.personId, row.date]));
+  const span = Math.max(1, daysBetween(period.start, period.end));
+  // Last connected mode: today on the inner orbit, the range start outside.
+  const closeness =
+    mode === "last-connected"
+      ? (personId: string) =>
+          1 -
+          daysBetween(lastDates.get(personId) ?? period.start, input.today) /
+            span
+      : undefined;
+  const toggleMode = () =>
+    setMode((current) => (current === "days" ? "last-connected" : "days"));
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView
@@ -157,9 +191,6 @@ export const OrbitScreen = () => {
         }}
         testID="orbit-screen"
       >
-        <Label size={14} style={{ color: colors.textSecondary }}>
-          {selected.label()}
-        </Label>
         {rows.length === 0 ? (
           <Copy size={16} testID="orbit-empty">
             {t("orbit_empty")}
@@ -167,21 +198,23 @@ export const OrbitScreen = () => {
         ) : (
           <>
             <OrbitSystem
-              // New range: people swing in again.
-              key={range}
-              people={connected.slice(0, THRESHOLDS.storyOrbitMaxPeople)}
+              // New range or mode: people swing in again.
+              key={`${range}-${mode}`}
+              people={rows.slice(0, THRESHOLDS.storyOrbitMaxPeople)}
               ctx={ctx}
               width={screen - 2 * SPACE.lg}
               delay={0}
+              closeness={closeness}
             />
             <MenuList>
               {rows.map(({ person, days, ago }) => (
                 <PersonRow
-                  // New range: rows show the last day again.
-                  key={`${range}-${person.id}`}
+                  key={person.id}
                   person={person}
                   days={days}
                   ago={ago}
+                  mode={mode}
+                  onPress={toggleMode}
                 />
               ))}
             </MenuList>
