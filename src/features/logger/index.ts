@@ -14,6 +14,7 @@ export {
 export { encodeLoggerPrefill, parseLoggerPrefill } from "./prefill";
 export type { LoggerPrefill } from "./prefill";
 export { LoggerRecoveryPrompt } from "./recovery/recovery-prompt";
+export { TagPicker } from "./components/tag-picker";
 export {
   getBasicEmotions,
   getEmotionPageIndex,
