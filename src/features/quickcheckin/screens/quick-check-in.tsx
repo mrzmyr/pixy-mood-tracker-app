@@ -86,7 +86,10 @@ const Note = ({
   </View>
 );
 
-/** Close and Save: iOS sheet bar items, Android Material top app bar. */
+/**
+ * Close and Save: iOS sheet bar items, Android Material top app bar. No
+ * title.
+ */
 const QuickCheckInHeader = ({
   canSave,
   onClose,
@@ -98,7 +101,8 @@ const QuickCheckInHeader = ({
 }) =>
   Platform.OS === "ios" ? (
     <>
-      <Stack.Screen options={{ title: t("quick_check_in_title") }} />
+      {/* Empty title: without it iOS shows the route name. */}
+      <Stack.Screen options={{ title: "" }} />
       {/* Title doubles as label: expo-router drops `accessibilityLabel`
           on iOS bar items. With an icon, iOS shows only the icon. */}
       <Stack.Toolbar placement="left">
@@ -124,7 +128,6 @@ const QuickCheckInHeader = ({
     </>
   ) : (
     <ModalHeader
-      title={t("quick_check_in_title")}
       left={
         <HeaderButton
           kind="cancel"
