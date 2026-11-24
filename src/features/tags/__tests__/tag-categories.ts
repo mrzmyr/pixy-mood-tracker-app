@@ -1,4 +1,5 @@
 import {
+  arrangeShownTags,
   arrangeTags,
   GENERAL_CATEGORY_ID,
   groupTagsByCategory,
@@ -250,5 +251,29 @@ describe("searchTagSections()", () => {
 
   test("returns all sections, empty ones included, for a blank query", () => {
     expect(searchTagSections(sections, "  ")).toBe(sections);
+  });
+});
+
+describe("arrangeShownTags()", () => {
+  test("keeps hidden tags in their slots", () => {
+    const tags = [
+      tag("a", "work"),
+      tag("hidden", "work", true),
+      tag("b", "work"),
+      tag("c", "work"),
+      tag("other", "fun"),
+    ];
+    const arrangement = arrangeShownTags(tags, "work", ["c", "a", "b"]);
+    expect(arrangement).toEqual({
+      categoryId: "work",
+      tagIds: ["c", "hidden", "a", "b"],
+    });
+    expect(ids(arrangeTags(tags, [arrangement]))).toEqual([
+      "c",
+      "hidden",
+      "a",
+      "b",
+      "other",
+    ]);
   });
 });

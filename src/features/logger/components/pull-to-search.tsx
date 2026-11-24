@@ -19,6 +19,7 @@ const SEARCH_HEIGHT = PADDING_TOP + FIELD_HEIGHT;
  * focuses the input. Blurring an empty input hides the bar again.
  * `inset` pads the bar horizontally; pass 0 inside an already padded parent.
  * `accessory` sits right of the input, like a mic button.
+ * `scrollEnabled={false}` locks the scroll, for example while a child drags.
  */
 export const PullToSearch = ({
   query,
@@ -28,6 +29,7 @@ export const PullToSearch = ({
   inset = 20,
   accessory,
   contentContainerStyle,
+  scrollEnabled = true,
   children,
 }: {
   query: string;
@@ -37,6 +39,7 @@ export const PullToSearch = ({
   inset?: number;
   accessory?: React.ReactNode;
   contentContainerStyle?: ViewStyle;
+  scrollEnabled?: boolean;
   children: React.ReactNode;
 }) => {
   const scrollRef = useRef<ScrollView>(null);
@@ -108,6 +111,7 @@ export const PullToSearch = ({
         ...contentContainerStyle,
         minHeight: viewportHeight + SEARCH_HEIGHT,
       }}
+      scrollEnabled={scrollEnabled}
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
       onScrollEndDrag={settle(true)}

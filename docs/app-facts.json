@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-11-22",
+  "verifiedOn": "2026-11-24",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -121,7 +121,7 @@
       "label": "Custom tags",
       "status": "available",
       "group": "logging",
-      "description": "Create your own tags for activities, people, or places. Add them to entries, edit and archive them.",
+      "description": "Create your own tags for activities, people, or places. Add them to entries, edit and archive them. In the check-in, drag tags to reorder them; hold a tag for Edit, Archive, and Delete.",
       "competitorKey": "tags",
       "evidence": [
         "src/features/tags/",
