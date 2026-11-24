@@ -160,7 +160,8 @@ const QuickCheckInHeader = ({
  *
  * - `id` names an entry saved in the notification: the screen edits it.
  * - `id` `new` or unknown: Save creates an entry. Save needs a mood.
- * - `prefill`: set by voice mode, added to the draft once.
+ * - `prefill`: set by voice mode, added to the draft once. With a spoken
+ *   mood the screen opens on the second slide.
  */
 export const QuickCheckIn = () => {
   const { id, prefill } = useLocalSearchParams<{
@@ -185,9 +186,14 @@ export const QuickCheckIn = () => {
   if (entry && draft.source === "empty") {
     setDraft(toDraft(entry));
   }
-  useVoicePrefill(prefill, (parsed) =>
-    setDraft((current) => applyVoicePrefill(current, parsed))
-  );
+  // A spoken mood answers the first slide: open on the second.
+  const [skipsMood, setSkipsMood] = useState(false);
+  useVoicePrefill(prefill, (parsed) => {
+    setDraft((current) => applyVoicePrefill(current, parsed));
+    if (parsed.rating !== undefined) {
+      setSkipsMood(true);
+    }
+  });
   const { rating, emotions, picked, message, photos } = draft;
   const setRating = (value: LogItem["rating"]) =>
     setDraft((current) => ({ ...current, rating: value, source: "user" }));
@@ -351,6 +357,7 @@ export const QuickCheckIn = () => {
           showsHorizontalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           scrollEnabled={rating !== null && !isEmotionPaging}
+          contentOffset={skipsMood ? { x: windowWidth, y: 0 } : undefined}
           onScrollBeginDrag={handleSlideDrag}
         >
           <View style={{ width: windowWidth }}>
