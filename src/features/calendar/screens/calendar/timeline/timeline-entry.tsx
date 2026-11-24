@@ -105,6 +105,7 @@ const TimelineEntryComponent = ({
               key={id}
               title={tag.title}
               colorName={tag.color}
+              icon={tag.icon}
               compact
               style={chipStyle}
             />,

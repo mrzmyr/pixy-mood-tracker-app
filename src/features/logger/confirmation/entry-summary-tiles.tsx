@@ -309,6 +309,7 @@ export const TagsTile = ({ tags }: { tags: Tag[] }) => {
             key={tag.id}
             title={tag.title}
             colorName={tag.color}
+            icon={tag.icon}
             compact
             // Glass shows through, like the emotion chips.
             style={{

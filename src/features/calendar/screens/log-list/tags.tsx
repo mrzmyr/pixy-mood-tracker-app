@@ -37,7 +37,12 @@ export const Tags = ({
       testID={onEdit ? "log-list-tags-edit" : undefined}
     >
       {known.map((tag) => (
-        <TagComponent key={tag.id} title={tag.title} colorName={tag.color} />
+        <TagComponent
+          key={tag.id}
+          title={tag.title}
+          colorName={tag.color}
+          icon={tag.icon}
+        />
       ))}
     </ChipWrap>
   );

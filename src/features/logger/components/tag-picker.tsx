@@ -17,7 +17,6 @@ import type { Tag, TagCategory } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import { useFeatureFlag } from "@/state/feature-flags";
 import { TagChipFlow } from "./tag-chip-flow";
 import { moveId } from "./tile-reorder";
 
@@ -49,7 +48,6 @@ export const TagPicker = ({
   const router = useRouter();
   const colors = useColors();
   const { tags, categories } = useTagsState();
-  const hasTagIcons = useFeatureFlag("tag-icons");
   const analytics = useAnalytics();
   const { arrangeTags } = useTagsUpdater();
   const runMenuAction = useTagMenu();
@@ -126,7 +124,6 @@ export const TagPicker = ({
         title={tag.title}
         colorName={tag.color}
         icon={tag.icon}
-        showIcon={hasTagIcons}
         selected={selectedIds.has(tag.id)}
         testID={`log-tag-${tag.id}`}
       />

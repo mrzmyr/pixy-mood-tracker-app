@@ -26,6 +26,7 @@ export const TagsSection = ({
           onPress={() => onSelect(tag)}
           key={tag.id}
           colorName={tag.color}
+          icon={tag.icon}
           title={tag.title}
         />
       ))}
