@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { Platform, View } from "react-native";
 import { BackButton } from "@/shell/back-button";
+import { isViewSwitch } from "@/shell/view-menu";
 import { StorageLoadGate } from "@/shell/storage-load-gate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
@@ -147,9 +148,20 @@ const getDefaultOptions = (textColor: string, backgroundColor: string) => ({
  * shows none but exposes the screen name to screen readers. Onboarding hands
  * off to the calendar with a cross-fade.
  */
-const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
+/**
+ * Calendar page options. Fades in, except from the View menu: a view
+ * switch shows the new view right away.
+ */
+const getCalendarOptions = (
+  textColor: string,
+  backgroundColor: string,
+  isFromViewMenu: boolean
+) => ({
   title: t("calendar"),
-  animation: "fade" as const,
+  animation: isFromViewMenu ? ("none" as const) : ("fade" as const),
+  // Home and Calendar replace each other: nothing to go back to.
+  headerBackVisible: false,
+  gestureEnabled: false,
   headerTitle: CalendarScreenReaderTitle,
   headerTintColor: textColor,
   headerShadowVisible: false,
@@ -158,6 +170,39 @@ const getCalendarOptions = (textColor: string, backgroundColor: string) => ({
         headerTransparent: true,
         scrollEdgeEffects: { top: "soft" as const },
       }
+    : { headerStyle: { backgroundColor } }),
+});
+
+/**
+ * Home page options (flag `day-view`): native bar without title, like
+ * Calendar. The screen sets the bar items (`Stack.Toolbar`). Home only
+ * opens as a view switch, so it shows right away, without animation.
+ */
+const getHomeOptions = (textColor: string) => ({
+  title: t("today"),
+  animation: "none" as const,
+  headerTitle: "",
+  // Home and Calendar replace each other: nothing to go back to.
+  headerBackVisible: false,
+  gestureEnabled: false,
+  headerTintColor: textColor,
+  headerShadowVisible: false,
+  // Transparent on every platform: Home puts its date in the bar's row.
+  headerTransparent: true,
+  ...(HAS_FLOATING_HEADER
+    ? { scrollEdgeEffects: { top: "soft" as const } }
+    : { headerStyle: { backgroundColor: "transparent" } }),
+});
+
+/** Day modal options. The screen sets its title and close button (`LogList`). */
+const getDayOptions = (textColor: string, backgroundColor: string) => ({
+  presentation: "modal" as const,
+  headerShown: true,
+  headerTintColor: textColor,
+  headerShadowVisible: false,
+  contentStyle: { backgroundColor },
+  ...(HAS_FLOATING_HEADER
+    ? { headerTransparent: true, scrollEdgeEffects: { top: "soft" as const } }
     : { headerStyle: { backgroundColor } }),
 });
 
@@ -206,9 +251,16 @@ const AppLayout = () => {
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="home" options={getHomeOptions(colors.text)} />
           <Stack.Screen
             name="calendar"
-            options={getCalendarOptions(colors.text, colors.calendarBackground)}
+            options={({ route }) =>
+              getCalendarOptions(
+                colors.text,
+                colors.calendarBackground,
+                isViewSwitch(route.params)
+              )
+            }
           />
           <Stack.Screen
             name="statistics/index"
@@ -242,20 +294,7 @@ const AppLayout = () => {
           />
           <Stack.Screen
             name="days/[date]"
-            options={{
-              // Day view sets its title and close button (see `LogList`).
-              presentation: "modal",
-              headerShown: true,
-              headerTintColor: colors.text,
-              headerShadowVisible: false,
-              contentStyle: { backgroundColor: colors.logBackground },
-              ...(HAS_FLOATING_HEADER
-                ? {
-                    headerTransparent: true,
-                    scrollEdgeEffects: { top: "soft" as const },
-                  }
-                : { headerStyle: { backgroundColor: colors.logBackground } }),
-            }}
+            options={getDayOptions(colors.text, colors.logBackground)}
           />
           <Stack.Screen name="feedback" options={feedbackOptions} />
           <Stack.Screen name="request" options={requestOptions} />

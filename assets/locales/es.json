@@ -1269,6 +1269,7 @@
   "today": "Este Dia",
   "very_bad": "Muy mal",
   "very_good": "Muy bueno",
+  "view_day": "Día",
   "view_log_add": "Añadir {{module}}",
   "view_log_edit": "Editar {{module}}",
   "voice_done": "Continuar al registro",

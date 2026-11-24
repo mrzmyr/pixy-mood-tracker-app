@@ -6,7 +6,7 @@ Options:
   --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
                             CLI creates and boots it.
   --target=<target>         One simlock phone. Copy the value from `bun devices list`.
-  --fixture=<id>            Required. One of: fresh, empty, seed, menstruation, year, people, tag-categories, archive, timeline, chaos, persona-lea, persona-jonas, persona-sara, persona-ben, persona-mia, persona-paul, persona-nina, recap-nudges, recap-moments, recap-story.
+  --fixture=<id>            Required. One of: fresh, empty, seed, menstruation, year, people, tag-categories, archive, timeline, chaos, persona-lea, persona-jonas, persona-sara, persona-ben, persona-mia, persona-paul, persona-nina, recap-nudges, recap-moments, day-view, recap-story.
   --variant=<dev|preview>   App to seed. Default: dev while this checkout's `bun app dev` runs,
                             else preview. Phones: preview only.
 

@@ -1269,6 +1269,7 @@
   "today": "Tänään",
   "very_bad": "Todella paha",
   "very_good": "Oikein hyvä",
+  "view_day": "Päivä",
   "view_log_add": "Lisää: {{module}}",
   "view_log_edit": "Muokkaa: {{module}}",
   "voice_done": "Jatka kirjaukseen",
