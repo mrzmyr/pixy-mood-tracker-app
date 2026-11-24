@@ -133,7 +133,7 @@
       "label": "Tag icons",
       "status": "flagged",
       "group": "logging",
-      "description": "Each tag gets an icon from about 250 icons, colored in the tag color. An icon is suggested for the tag name: Apple Intelligence on device on iOS 26, keyword match elsewhere. Icon and color are picked in one sheet. The tag list and the check-in tag chips show the icon. Behind the tag-icons feature flag.",
+      "description": "Each tag gets an icon from about 550 icons, colored in the tag color. An icon is suggested for the tag name: Apple Intelligence on device on iOS 26, keyword match elsewhere. Icon and color are picked in one sheet. The tag list and the check-in tag chips show the icon. Behind the tag-icons feature flag.",
       "evidence": [
         "src/features/tags/tag-icons.ts",
         "src/features/tags/screens/tag-icon-picker.tsx",
