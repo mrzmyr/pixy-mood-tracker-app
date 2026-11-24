@@ -14,7 +14,6 @@ import { TagComponent } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/use-colors";
 import { tDynamic } from "@/lib/translation";
-import { useFeatureFlag } from "@/state/feature-flags";
 import type { Emotion } from "@/types";
 import { HOME_LAYOUT, HOME_TEXT, HOME_WEIGHT } from "../layout";
 import { DottedDivider } from "./dotted-divider";
@@ -48,7 +47,6 @@ export interface EntryPreviewData {
  */
 const Chips = ({ entry }: { entry: EntryPreviewData }) => {
   const colors = useColors();
-  const hasTagIcons = useFeatureFlag("tag-icons");
   if (
     entry.emotions.length === 0 &&
     entry.people.length === 0 &&
@@ -81,7 +79,6 @@ const Chips = ({ entry }: { entry: EntryPreviewData }) => {
           title={tag.title}
           colorName={tag.color}
           icon={tag.icon}
-          showIcon={hasTagIcons}
         />
       ))}
       {entry.place && (
