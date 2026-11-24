@@ -19,67 +19,34 @@ import { EmotionBasicGradients } from "./emotion-basic-gradients";
 import { EmotionBasicSelection } from "./emotion-basic-selection";
 import { ExpandButton } from "./expand-button";
 import noop from "lodash/noop";
-import { useFeatureFlag } from "@/state/feature-flags";
-import { NeedsCheck } from "./needs-check";
-import type { NeedStates } from "./needs";
 import { getBasicEmotions } from "./basic-emotions";
 
 type Mode = "basic" | "advanced";
 
-/**
- * Headline row of the emotion slide. With the `needs` flag, a link below it
- * switches between all emotions and needs mode. Needs mode hides More.
- */
+/** Headline row of the emotion slide with the More toggle. */
 const EmotionsHeader = ({
   marginTop,
-  hasNeeds,
-  isNeedsMode,
   isExpanded,
   onToggleMode,
-  onToggleNeedsMode,
 }: {
   marginTop: number;
-  hasNeeds: boolean;
-  isNeedsMode: boolean;
   isExpanded: boolean;
   onToggleMode: () => void;
-  onToggleNeedsMode: () => void;
 }) => (
-  <>
-    <View
-      style={{
-        width: "100%",
-        paddingHorizontal: 20,
-        marginTop,
-        marginBottom: 4,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      <SlideHeadline>
-        {t(isNeedsMode ? "log_needs_title" : "log_emotions_question")}
-      </SlideHeadline>
-      {!isNeedsMode && (
-        <ExpandButton expanded={isExpanded} onPress={onToggleMode} />
-      )}
-    </View>
-    {hasNeeds && (
-      <LinkButton
-        testID="needs-mode-toggle"
-        onPress={onToggleNeedsMode}
-        style={{
-          alignSelf: "flex-start",
-          // LinkButton pads 8: text lines up with the headline at 20.
-          marginHorizontal: 12,
-          marginBottom: 4,
-          fontWeight: "400",
-        }}
-      >
-        {t(isNeedsMode ? "log_needs_show_all" : "log_needs_use")}
-      </LinkButton>
-    )}
-  </>
+  <View
+    style={{
+      width: "100%",
+      paddingHorizontal: 20,
+      marginTop,
+      marginBottom: 4,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+    }}
+  >
+    <SlideHeadline>{t("log_emotions_question")}</SlideHeadline>
+    <ExpandButton expanded={isExpanded} onPress={onToggleMode} />
+  </View>
 );
 
 /**
@@ -88,10 +55,6 @@ const EmotionsHeader = ({
  * Basic mode shows up to 36 emotions: the draft's picks, then the 20 most
  * used, then the predefined basic set. Must render inside `LogDraftProvider`
  * and `LogsProvider`.
- *
- * With the `needs` flag, a link under the headline switches to needs mode:
- * rate needs, pick from suggested emotions only. Needs mode hides More and
- * all emotions. Ratings and picks stay when switching back.
  */
 export const SlideEmotions = ({
   defaultIndex,
@@ -129,12 +92,6 @@ export const SlideEmotions = ({
   };
 
   const [mode, setMode] = useState<Mode>(initialMode);
-  const hasNeeds = useFeatureFlag("needs");
-  const [needStates, setNeedStates] = useState<NeedStates>({});
-  // Needs mode: rate needs, pick from suggested emotions only. Starts on;
-  // without flag `needs`, `showNeeds` stays false.
-  const [isNeedsMode, setIsNeedsMode] = useState(true);
-  const showNeeds = hasNeeds && isNeedsMode;
 
   const basicEmotions = getBasicEmotions(
     initialSelectedEmotions,
@@ -159,30 +116,15 @@ export const SlideEmotions = ({
     setInitialSelectedEmotions(selectedEmotions);
   };
 
-  let content: React.ReactNode;
-  if (showNeeds) {
-    content = (
-      <NeedsCheck
-        states={needStates}
-        onChange={(key, state) =>
-          setNeedStates((current) => ({ ...current, [key]: state }))
-        }
-        emotions={EMOTIONS}
-        selectedEmotions={selectedEmotions}
-        onPressEmotion={onPressEmotion}
-      />
-    );
-  } else if (mode === "basic") {
-    content = (
+  const content =
+    mode === "basic" ? (
       <EmotionBasicSelection
         emotions={basicEmotions}
         onPress={onPressEmotion}
         selectedEmotions={selectedEmotions}
         onRequestEmotion={openRequest}
       />
-    );
-  } else {
-    content = (
+    ) : (
       <EmotionAdvancedSelection
         defaultIndex={defaultIndex}
         onPress={onPressEmotion}
@@ -190,7 +132,6 @@ export const SlideEmotions = ({
         onRequestEmotion={openRequest}
       />
     );
-  }
 
   return (
     <View
@@ -208,11 +149,8 @@ export const SlideEmotions = ({
       >
         <EmotionsHeader
           marginTop={marginTop}
-          hasNeeds={hasNeeds}
-          isNeedsMode={showNeeds}
           isExpanded={mode === "basic"}
           onToggleMode={toggleMode}
-          onToggleNeedsMode={() => setIsNeedsMode((current) => !current)}
         />
         <View
           style={{
@@ -232,7 +170,7 @@ export const SlideEmotions = ({
             }}
           />
           <ScrollView>{content}</ScrollView>
-          {showNeeds || mode === "basic" ? (
+          {mode === "basic" ? (
             <EmotionBasicGradients />
           ) : (
             <EmotionAdvancedGradients />

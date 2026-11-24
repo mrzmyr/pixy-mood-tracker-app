@@ -12,7 +12,6 @@ export const FEATURE_FLAGS = [
   "feature-flag-overrides",
   "menstruation",
   "more-tags",
-  "needs",
   "orbit",
   "photo-peek",
   "quick-check-in",
@@ -70,10 +69,6 @@ export const FEATURE_FLAG_DETAILS: Record<
   "more-tags": {
     description: "Tag limit 500 instead of 50",
     location: "Tags, Settings > Tags",
-  },
-  needs: {
-    description: "Rate six needs, then get matching emotions",
-    location: "Check-in > Emotions step",
   },
   orbit: {
     description:
