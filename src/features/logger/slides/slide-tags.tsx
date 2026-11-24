@@ -15,7 +15,7 @@ import { useLogDraft } from "../log-draft";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/link-button";
 import { Label } from "@/components/typography";
@@ -24,19 +24,16 @@ import Plus from "lucide-react-native/icons/plus";
 import { CHIP, CHIP_GAP } from "@/constants/chip";
 import { useAnalytics } from "@/state/analytics";
 import { SlideHeadline } from "../components/slide-headline";
-import { PullToSearch } from "../components/pull-to-search";
 import { TagChipFlow } from "../components/tag-chip-flow";
 import { moveId } from "../components/tile-reorder";
-import { matchesSearch } from "@/lib/search";
 import { Footer } from "./footer";
 import { useFeatureFlag } from "@/state/feature-flags";
 import noop from "lodash/noop";
 
 /**
  * Tag picker slide. Archived tags are hidden unless the draft already has
- * them. Pulling the list down reveals a search by tag title. Tags are grouped
- * by category; headings show only when more than one category has tags, so a
- * single category looks like a plain tag list.
+ * them. Tags are grouped by category; headings show only when more than one
+ * category has tags, so a single category looks like a plain tag list.
  *
  * Chips reorder by drag inside their category and have a menu: Edit,
  * Archive, Delete. iOS: hold shows the system context menu, moving the
@@ -55,8 +52,7 @@ export const SlideTags = ({
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const { tags, categories } = useTagsState();
-  const [query, setQuery] = useState("");
-  // A chip drag near the top edge would scroll the hidden search bar in.
+  // A chip drag must not scroll the list under the finger.
   const [isDraggingTag, setIsDraggingTag] = useState(false);
   const hasTagIcons = useFeatureFlag("tag-icons");
   const analytics = useAnalytics();
@@ -65,16 +61,9 @@ export const SlideTags = ({
 
   const selectedTagIds = new Set(draft.tags.map((d) => d.id));
 
-  const _tags = tags.filter((tag) => {
-    const isSelected = selectedTagIds.has(tag.id);
-
-    return (
-      ((!isSelected && !tag.isArchived) ||
-        (isSelected && tag.isArchived) ||
-        (isSelected && !tag.isArchived)) &&
-      matchesSearch(tag.title, query)
-    );
-  });
+  const _tags = tags.filter(
+    (tag) => selectedTagIds.has(tag.id) || !tag.isArchived
+  );
 
   const sections = groupTagsByCategory(_tags, categories).filter(
     (section) => section.tags.length > 0
@@ -199,14 +188,7 @@ export const SlideTags = ({
             width: "100%",
           }}
         />
-        <PullToSearch
-          testID="logger-tags-search"
-          inset={0}
-          placeholder={t("log_tags_search")}
-          query={query}
-          onChangeQuery={setQuery}
-          scrollEnabled={!isDraggingTag}
-        >
+        <ScrollView style={{ flex: 1 }} scrollEnabled={!isDraggingTag}>
           <View
             style={{
               marginTop: 24,
@@ -276,7 +258,7 @@ export const SlideTags = ({
           )}
           {/* Keep final actions above the 54 pt Next button and its spacing. */}
           <View style={{ height: insets.bottom + 54 + 32 }} />
-        </PullToSearch>
+        </ScrollView>
       </View>
     </View>
   );
