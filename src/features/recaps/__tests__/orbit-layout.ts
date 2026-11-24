@@ -1,3 +1,4 @@
+import type { Person } from "@/features/people";
 import { placePlanets } from "../story/orbit-layout";
 
 const WIDTH = 300;
@@ -10,7 +11,12 @@ const setup = (days: number[]) => {
   const people = new Map(
     connected.map(({ personId }) => [
       personId,
-      { id: personId, name: personId, photoUri: null, role: null },
+      {
+        id: personId,
+        name: personId,
+        avatar: null,
+        createdAt: "2026-01-01T00:00:00.000Z",
+      } satisfies Person,
     ])
   );
   return { connected, people };
