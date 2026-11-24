@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.118.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.117.0...v1.118.0) (2026-11-24)
+
+
+### Features
+
+* **logger:** drag to reorder tags, hold for tag menu ([#1195](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1195)) ([a915058](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a915058f5d77472ce7497965a36e14b4f0327477))
+* **logger:** remove needs feature ([#1200](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1200)) ([df3a939](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/df3a9395dce1920b74aa8bdf672851a50d59baea))
+* **logger:** remove search from emotions and tags steps ([#1198](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1198)) ([370dd2c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/370dd2c8cfdd9bc8b7364de08422de6c25758138))
+* **quick-check-in:** remove title from header ([#1201](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1201)) ([e8438f7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e8438f7997f50cb4810d4902920cb4d952855d7d))
+* **quick-check-in:** skip mood slide when voice note names a mood ([#1203](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1203)) ([f9abf9d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f9abf9d4dc661ffe180f254dc2996d1a5c5fc012))
+* **quick-check-in:** tags as in the logger ([#1202](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1202)) ([8826f09](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8826f09faf83171b319e23b146b71274b73563e4))
+* **settings:** Orbit rows switch page mode, rings snap to 3 orbits ([#1197](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1197)) ([84a8061](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/84a8061672d5b125d920d712c14c66d77f4b39e1))
+* **tags:** add 290 tag icons ([#1196](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1196)) ([203b4a5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/203b4a51fbb02f45c808b4ff1f5dcb0c0be99f02))
+
+
+### Bug Fixes
+
+* **tags:** show icon suggestions when editing an unchanged tag ([#1194](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1194)) ([28a9de2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/28a9de2b454d7ed20c36083e1cce61a6bf234f7e))
+* **tags:** show tag icons on day view, timeline, and filters ([#1204](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/1204)) ([f3aa0d2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f3aa0d2bd07f532f95362dddad9c851c5419d394))
+
 ## [1.117.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.116.0...v1.117.0) (2026-11-23)
 
 
