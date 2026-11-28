@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
-import Trash from "lucide-react-native/icons/trash";
+import { TrashIcon } from "@/components/icons";
 import RouteModalHeader from "@/components/route-modal-header";
 import useColors from "@/hooks/use-colors";
 import { useDiscardGuard } from "@/hooks/use-discard-guard";
@@ -120,7 +120,7 @@ const TagCategoryForm = ({ category }: { category: TagCategory }) => {
             testID="tag-category-delete"
             title={t("delete")}
             tone="destructive"
-            iconLeft={<Trash size={24} color={colors.danger} />}
+            iconLeft={<TrashIcon size={24} color={colors.danger} />}
             onPress={() => confirmDelete(category)}
           />
         </MenuList>

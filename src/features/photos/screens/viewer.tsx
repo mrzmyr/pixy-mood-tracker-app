@@ -1,6 +1,5 @@
 import { Image } from "expo-image";
-import ImageOff from "lucide-react-native/icons/image-off";
-import Trash from "lucide-react-native/icons/trash";
+import { ImageOffIcon, TrashIcon } from "@/components/icons";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import {
   Modal,
@@ -67,7 +66,7 @@ const ViewerPhoto = ({
   if (hasLoadError) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ImageOff color={FOREGROUND_MUTED} size={48} />
+        <ImageOffIcon color={FOREGROUND_MUTED} size={48} />
         <Label size={16} style={{ color: FOREGROUND_MUTED, marginTop: 8 }}>
           {t("photos_missing")}
         </Label>
@@ -332,7 +331,7 @@ export const PhotoViewer = ({
                 opacity: pressed ? 0.8 : 1,
               })}
             >
-              <Trash
+              <TrashIcon
                 color={FOREGROUND}
                 size={20}
                 accessibilityElementsHidden

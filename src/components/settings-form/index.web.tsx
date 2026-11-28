@@ -1,6 +1,6 @@
 import type { ReactElement, ReactNode } from "react";
 import { ScrollView, View } from "react-native";
-import ChevronRight from "lucide-react-native/icons/chevron-right";
+import { ChevronRightIcon } from "@/components/icons";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
@@ -129,7 +129,7 @@ export const SettingsRow = ({
             }}
           >
             {status}
-            <ChevronRight width={18} color={colors.menuListItemIcon} />
+            <ChevronRightIcon width={18} color={colors.menuListItemIcon} />
           </View>
         ) : (
           status

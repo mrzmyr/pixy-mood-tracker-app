@@ -2,9 +2,9 @@ import Svg, { Path } from "react-native-svg";
 import type { SvgProps } from "react-native-svg";
 
 /**
- * GitHub mark in Feather style (MIT, feathericons.com). Lucide dropped brand
- * icons, so the Settings source link keeps this copy. Takes the same
- * `width`, `height`, and `color` props as the Lucide icons.
+ * GitHub mark in Feather style (MIT, feathericons.com) for the Settings
+ * source link. Brand marks stay out of `@/components/icons`. Takes the same
+ * `width`, `height`, and `color` props as those icons.
  */
 const GithubIcon = (props: SvgProps) => (
   <Svg

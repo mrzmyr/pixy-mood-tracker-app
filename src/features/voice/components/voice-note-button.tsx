@@ -10,7 +10,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Mic from "lucide-react-native/icons/mic";
+import { MicIcon as Mic } from "@/components/icons";
 import {
   FLOAT_BUTTON_HIDDEN_SCALE,
   FLOAT_BUTTON_SIZE,

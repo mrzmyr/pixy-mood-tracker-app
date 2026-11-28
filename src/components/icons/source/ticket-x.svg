@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="fomo" data-waive-radius="side notches are semicircle cut-outs of a ticket">
+  <path d="M6 5H18A4 4 0 0 1 22 9V10A2 2 0 0 0 22 14V15A4 4 0 0 1 18 19H6A4 4 0 0 1 2 15V14A2 2 0 0 0 2 10V9A4 4 0 0 1 6 5Z"/>
+  <path d="M9.5 9.5l5 5M14.5 9.5l-5 5" data-role="detail"/>
+  <path d="M6 5H18A4 4 0 0 1 22 9V10A2 2 0 0 0 22 14V15A4 4 0 0 1 18 19H6A4 4 0 0 1 2 15V14A2 2 0 0 0 2 10V9A4 4 0 0 1 6 5Z" data-role="silhouette"/>
+</svg>

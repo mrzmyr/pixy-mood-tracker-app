@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="embarrassed" data-waive-kink="2-3 degree joins between brow arcs; invisible at real size" data-waive-radius="r2 outer corners of the mask band, read the same as squircle">
+  <path d="M4 5.5h3a8 8 0 0 1 5 2a8 8 0 0 1 5-2h3a2 2 0 0 1 2 2V12a5.5 5.5 0 0 1-5.5 5.5a7 7 0 0 0-4.5 2a7 7 0 0 0-4.5-2A5.5 5.5 0 0 1 2 12V7.5a2 2 0 0 1 2-2Z"/>
+  <path d="M6 11.5c1.5 0 2.5.5 3 1.5M18 11.5c-1.5 0-2.5.5-3 1.5" data-role="detail"/>
+  <path d="M4 5.5h3a8 8 0 0 1 5 2a8 8 0 0 1 5-2h3a2 2 0 0 1 2 2V12a5.5 5.5 0 0 1-5.5 5.5a7 7 0 0 0-4.5 2a7 7 0 0 0-4.5-2A5.5 5.5 0 0 1 2 12V7.5a2 2 0 0 1 2-2Z" data-role="silhouette"/>
+</svg>

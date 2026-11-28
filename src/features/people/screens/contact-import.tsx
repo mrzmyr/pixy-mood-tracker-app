@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import CircleX from "lucide-react-native/icons/circle-x";
+import { CircleXIcon } from "@/components/icons";
 import {
   ActivityIndicator,
   Platform,
@@ -181,7 +181,7 @@ const SelectedContact = ({
             name="xmark.circle.fill"
             color={colors.textSecondary}
             size={24}
-            fallback={<CircleX size={24} color={colors.textSecondary} />}
+            fallback={<CircleXIcon size={24} color={colors.textSecondary} />}
           />
         </View>
       </View>

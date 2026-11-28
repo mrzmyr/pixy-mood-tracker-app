@@ -3,11 +3,13 @@ import useColors from "@/hooks/use-colors";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { useRouter } from "expo-router";
-import Moon from "lucide-react-native/icons/moon";
-import Clock12 from "lucide-react-native/icons/clock-12";
-import SunMedium from "lucide-react-native/icons/sun-medium";
-import Sunrise from "lucide-react-native/icons/sunrise";
-import Sunset from "lucide-react-native/icons/sunset";
+import {
+  Clock12Icon as Clock12,
+  MoonIcon as Moon,
+  SunMediumIcon as SunMedium,
+  SunriseIcon as Sunrise,
+  SunsetIcon as Sunset,
+} from "@/components/icons";
 import type { LoggerStep } from "@/constants/logger-steps";
 import { getAvailableStepsForEdit, hasSleepOnDate } from "@/features/logger";
 import { getItemDate } from "@/lib/log-dates";

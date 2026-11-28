@@ -2,9 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Platform, Pressable, StyleSheet, View } from "react-native";
 import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import type { SharedValue } from "react-native-reanimated";
-import Check from "lucide-react-native/icons/check";
-import Mic from "lucide-react-native/icons/mic";
-import Pause from "lucide-react-native/icons/pause";
+import { CheckIcon, MicIcon, PauseIcon } from "@/components/icons";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
 import { SHADOW } from "@/constants/shadow";
@@ -118,14 +116,14 @@ export const VoiceInputPill = ({
         })}
       >
         {isRunning ? (
-          <Pause
+          <PauseIcon
             width={22}
             height={22}
             color={colors.text}
             fill={colors.text}
           />
         ) : (
-          <Mic width={22} height={22} color={colors.text} />
+          <MicIcon width={22} height={22} color={colors.text} />
         )}
       </Pressable>
       <View style={{ flex: 1, overflow: "hidden", alignItems: "flex-end" }}>
@@ -163,7 +161,12 @@ export const VoiceInputPill = ({
           opacity: pressed ? 0.8 : 1,
         })}
       >
-        <Check width={24} height={24} color={buttonFill} strokeWidth={2.5} />
+        <CheckIcon
+          width={24}
+          height={24}
+          color={buttonFill}
+          strokeWidth={2.5}
+        />
       </Pressable>
     </View>
   );

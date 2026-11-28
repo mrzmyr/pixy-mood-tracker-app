@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-waive-off-grid="X eyes sized to sit between rim and mouth">
+  <circle cx="12" cy="12" r="10"/>
+  <path d="M7.375 8.125l2.25 2.25M9.625 8.125l-2.25 2.25M14.375 8.125l2.25 2.25M16.625 8.125l-2.25 2.25" data-role="detail"/>
+  <path d="M8 16.5a5 5 0 0 1 8 0" data-role="detail"/>
+  <circle cx="12" cy="12" r="10" data-role="silhouette"/>
+</svg>

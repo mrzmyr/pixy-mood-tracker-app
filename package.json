@@ -35,6 +35,7 @@
     "eas:preview": "bun run eas:ios:preview && bun run eas:android:preview",
     "eas:prod": "bun run eas:ios:prod && bun run eas:android:prod",
     "translate-app": "bun scripts/generate-translations-app.js",
+    "icons": "bun scripts/generate-icons.ts && oxfmt src/components/icons",
     "licenses": "bun scripts/generate-licenses.ts",
     "reviews": "node scripts/store-reviews.mjs",
     "type-check": "tsc",
@@ -106,7 +107,6 @@
     "expo-widgets": "~57.0.27",
     "i18n-js": "^4.5.3",
     "lodash": "^4.17.21",
-    "lucide-react-native": "^1.61.0",
     "posthog-react-native": "^4.75.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -168,9 +168,6 @@
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
   "jest": {
-    "moduleNameMapper": {
-      "^lucide-react-native/icons/(.+)$": "<rootDir>/node_modules/lucide-react-native/dist/cjs/icons/$1.js"
-    },
     "preset": "jest-expo",
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"

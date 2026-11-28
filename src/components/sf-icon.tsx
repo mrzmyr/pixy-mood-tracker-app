@@ -16,7 +16,7 @@ export const SFIcon = ({
   name: string;
   color: string;
   size?: number;
-  /** Android and web icon, for example a Lucide icon. */
+  /** Android and web icon, for example one from `@/components/icons`. */
   fallback: ReactElement;
 }) =>
   Platform.OS === "ios" ? (

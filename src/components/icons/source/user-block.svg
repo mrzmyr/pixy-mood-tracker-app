@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="excluded blocked" data-waive-off-grid="slash ends sit on the badge circle at 45 degrees">
+  <circle cx="9" cy="6" r="4"/>
+  <path d="M2 21A7 7 0 0 1 11.958 14.656"/>
+  <circle cx="9" cy="6" r="4" data-role="silhouette"/>
+  <circle cx="18.5" cy="18.5" r="3.5"/>
+  <path d="M16.025 20.975l4.95-4.95" data-role="detail"/>
+  <circle cx="18.5" cy="18.5" r="3.5" data-role="silhouette"/>
+</svg>

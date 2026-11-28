@@ -1,4 +1,4 @@
-import MapPin from "lucide-react-native/icons/map-pin";
+import { MapPinIcon } from "@/components/icons";
 import { View } from "react-native";
 import useColors from "@/hooks/use-colors";
 import type { LogLocation } from "@/types";
@@ -12,7 +12,7 @@ export const PlacePreviewMap = (_props: { location: LogLocation }) => {
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <MapPin size={28} color={colors.textSecondary} />
+      <MapPinIcon size={28} color={colors.textSecondary} />
     </View>
   );
 };

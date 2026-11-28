@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import Clock from "lucide-react-native/icons/clock";
+import { ClockIcon } from "@/components/icons";
 import { RADIUS } from "@/constants/radius";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -36,7 +36,7 @@ export const EntryTimeMenu = ({
     <View style={{ zIndex: 1 }}>
       <Pill
         testID={testID}
-        icon={<Clock width={18} height={18} color={colors.logHeaderText} />}
+        icon={<ClockIcon width={18} height={18} color={colors.logHeaderText} />}
         label={label}
         accessibilityLabel={label}
         accessibilityHint={t("logger_date_hint")}

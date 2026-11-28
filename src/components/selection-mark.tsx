@@ -1,5 +1,4 @@
-import Circle from "lucide-react-native/icons/circle";
-import CircleCheck from "lucide-react-native/icons/circle-check";
+import { CircleCheckIcon, CircleIcon } from "@/components/icons";
 import { SFIcon } from "@/components/sf-icon";
 import useColors from "@/hooks/use-colors";
 
@@ -15,14 +14,14 @@ export const SelectionMark = ({ isSelected }: { isSelected: boolean }) => {
       name="checkmark.circle.fill"
       color={color}
       size={24}
-      fallback={<CircleCheck size={24} color={color} />}
+      fallback={<CircleCheckIcon size={24} color={color} />}
     />
   ) : (
     <SFIcon
       name="circle"
       color={color}
       size={24}
-      fallback={<Circle size={24} color={color} />}
+      fallback={<CircleIcon size={24} color={color} />}
     />
   );
 };

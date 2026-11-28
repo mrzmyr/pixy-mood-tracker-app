@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="isolated">
+  <path d="M6 16A7.5 7.5 0 0 1 18 16"/>
+  <path d="M12 13.5A9 9 0 0 0 14.5 6"/>
+  <path d="M14.5 6A5.5 5.5 0 0 0 9 9"/>
+  <path d="M14.5 6A5.5 5.5 0 0 1 20.5 10"/>
+  <path d="M2 21a3.5 3.5 0 0 1 5 0a3.5 3.5 0 0 0 5 0a3.5 3.5 0 0 1 5 0a3.5 3.5 0 0 0 5 0"/>
+  <path d="M6 16A7.5 7.5 0 0 1 18 16Z" data-role="silhouette"/>
+</svg>

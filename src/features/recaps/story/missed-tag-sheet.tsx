@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 import { ScrollView, View } from "react-native";
-import Check from "lucide-react-native/icons/check";
-import Plus from "lucide-react-native/icons/plus";
+import { CheckIcon, PlusIcon } from "@/components/icons";
 import { v4 as uuidv4 } from "uuid";
 import Button from "@/components/button";
 import { HeaderButton } from "@/components/header-button";
@@ -175,7 +174,9 @@ export const MissedTagSheet = ({
                 <MenuListItem
                   title={t("recaps_story_missed_create", { name })}
                   tone="action"
-                  iconLeft={<Plus width={18} height={18} color={colors.tint} />}
+                  iconLeft={
+                    <PlusIcon width={18} height={18} color={colors.tint} />
+                  }
                   onPress={() =>
                     setStep({
                       kind: "evenings",
@@ -231,7 +232,11 @@ export const MissedTagSheet = ({
                       }
                       iconRight={
                         isOn ? (
-                          <Check width={20} height={20} color={colors.tint} />
+                          <CheckIcon
+                            width={20}
+                            height={20}
+                            color={colors.tint}
+                          />
                         ) : (
                           <View style={{ width: 20 }} />
                         )

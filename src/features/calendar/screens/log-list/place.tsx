@@ -1,4 +1,4 @@
-import MapPin from "lucide-react-native/icons/map-pin";
+import { MapPinIcon } from "@/components/icons";
 import { View } from "react-native";
 import { Label } from "@/components/typography";
 import type { LogItem } from "@/features/logs";
@@ -30,7 +30,7 @@ export const Place = ({ item }: { item: LogItem }) => {
       accessibilityLabel={label}
       style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
     >
-      <MapPin color={colors.textSecondary} size={14} />
+      <MapPinIcon color={colors.textSecondary} size={14} />
       <Label
         size={13}
         numberOfLines={1}

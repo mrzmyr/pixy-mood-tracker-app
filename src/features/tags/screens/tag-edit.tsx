@@ -22,7 +22,7 @@ import type { Tag as ITag } from "../tags-provider";
 
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
-import Trash from "lucide-react-native/icons/trash";
+import { TrashIcon } from "@/components/icons";
 import Toggle from "@/components/toggle";
 import TextInfo from "@/components/text-info";
 import { SPACE } from "@/constants/space";
@@ -205,7 +205,7 @@ export const TagEdit = () => {
             testID="tag-delete"
             title={t("delete")}
             tone="destructive"
-            iconLeft={<Trash size={24} color={colors.danger} />}
+            iconLeft={<TrashIcon size={24} color={colors.danger} />}
             onPress={() => confirmDelete(tag)}
           />
         </MenuList>

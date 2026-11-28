@@ -1,5 +1,4 @@
-import Circle from "lucide-react-native/icons/circle";
-import CircleCheck from "lucide-react-native/icons/circle-check";
+import { CircleCheckIcon, CircleIcon } from "@/components/icons";
 import useColors from "@/hooks/use-colors";
 
 /** Props of the radio mark in a radio menu row. */
@@ -19,14 +18,14 @@ const RadioMark = ({ selected }: RadioMarkProps) => {
   const colors = useColors();
 
   return selected ? (
-    <CircleCheck
+    <CircleCheckIcon
       size={24}
       color={colors.background}
       fill={colors.tint}
       aria-hidden
     />
   ) : (
-    <Circle
+    <CircleIcon
       size={24}
       color={colors.textSecondary}
       strokeWidth={1.5}

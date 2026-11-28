@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="included group">
+  <circle cx="12" cy="7.5" r="3.5"/>
+  <path d="M6 21a6 6 0 0 1 12 0"/>
+  <path d="M18.5 4a3.5 3.5 0 0 1 0 7"/>
+  <path d="M5.5 4a3.5 3.5 0 0 0 0 7"/>
+  <path d="M20 15a6 6 0 0 1 2 5"/>
+  <path d="M4 15a6 6 0 0 0-2 5"/>
+  <circle cx="12" cy="7.5" r="3.5" data-role="silhouette"/>
+  <path d="M6 21a6 6 0 0 1 12 0Z" data-role="silhouette"/>
+</svg>

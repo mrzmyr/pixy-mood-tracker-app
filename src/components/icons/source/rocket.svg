@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="enthusiastic">
+  <path d="M8 16V10A8 8 0 0 1 12 3A8 8 0 0 1 16 10V16Z"/>
+  <path d="M8 12l-4 4v3M16 12l4 4v3"/>
+  <path d="M12 9.5h.01" data-role="detail"/>
+  <path d="M12 19.75v1.25"/>
+  <path d="M8 16V10A8 8 0 0 1 12 3A8 8 0 0 1 16 10V16Z" data-role="silhouette"/>
+</svg>

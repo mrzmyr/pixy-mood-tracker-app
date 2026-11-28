@@ -9,8 +9,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Check from "lucide-react-native/icons/check";
-import X from "lucide-react-native/icons/x";
+import { CheckIcon as Check, XIcon as X } from "@/components/icons";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";
 import { RingedAvatar } from "../components/ringed-avatar";

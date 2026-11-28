@@ -1,7 +1,5 @@
 import { ScrollView, View } from "react-native";
-import Download from "lucide-react-native/icons/download";
-import Trash from "lucide-react-native/icons/trash";
-import Upload from "lucide-react-native/icons/upload";
+import { DownloadIcon, TrashIcon, UploadIcon } from "@/components/icons";
 import MenuList from "@/components/menu-list";
 import MenuListHeadline from "@/components/menu-list-headline";
 import MenuListItem from "@/components/menu-list-item";
@@ -38,7 +36,7 @@ export const DataScreen = () => {
           <MenuListItem
             title={t("import")}
             onPress={() => datagate.openImportDialog()}
-            iconLeft={<Download {...iconProps} />}
+            iconLeft={<DownloadIcon {...iconProps} />}
           />
           {__DEV__ && (
             <MenuListItem
@@ -46,7 +44,7 @@ export const DataScreen = () => {
               onPress={() =>
                 datagate.openDangerousImportDirectlyToAsyncStorageDialog()
               }
-              iconLeft={<Download {...iconProps} />}
+              iconLeft={<DownloadIcon {...iconProps} />}
             />
           )}
         </MenuList>
@@ -58,13 +56,13 @@ export const DataScreen = () => {
             testID="export-json"
             title="JSON"
             onPress={() => datagate.openExportDialog({ format: "json" })}
-            iconLeft={<Upload {...iconProps} />}
+            iconLeft={<UploadIcon {...iconProps} />}
           />
           <MenuListItem
             testID="export-csv"
             title="CSV"
             onPress={() => datagate.openExportDialog({ format: "csv" })}
-            iconLeft={<Upload {...iconProps} />}
+            iconLeft={<UploadIcon {...iconProps} />}
           />
         </MenuList>
         <TextInfo
@@ -84,7 +82,9 @@ export const DataScreen = () => {
                 console.log(error);
               }
             }}
-            iconLeft={<Trash width={20} height={20} color={colors.danger} />}
+            iconLeft={
+              <TrashIcon width={20} height={20} color={colors.danger} />
+            }
             tone="destructive"
           />
         </MenuList>

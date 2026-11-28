@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Platform, Pressable, StyleSheet, View } from "react-native";
-import Check from "lucide-react-native/icons/check";
+import { CheckIcon } from "@/components/icons";
 import MenuList from "@/components/menu-list";
 import { Label } from "@/components/typography";
 import { TAG_COLOR_NAMES } from "@/constants/config";
@@ -106,7 +106,7 @@ export const ColorSwatch = ({
       >
         <View style={[styles.dot, { backgroundColor: colors.tags[color].dot }]}>
           {isSelected && (
-            <Check
+            <CheckIcon
               width={18}
               height={18}
               strokeWidth={3}

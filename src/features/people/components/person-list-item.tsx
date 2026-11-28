@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import Pen from "lucide-react-native/icons/pen";
+import { PenIcon } from "@/components/icons";
 import MenuListItem from "@/components/menu-list-item";
 import { Label } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
@@ -46,7 +46,7 @@ export const PersonListItem = ({
         {hasTrailingControl ? (
           <View style={{ width: 44 }} />
         ) : (
-          <Pen width={20} color={colors.tint} />
+          <PenIcon width={20} color={colors.tint} />
         )}
       </View>
     </MenuListItem>

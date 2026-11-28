@@ -14,9 +14,7 @@ import Animated, {
 import type { SharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { scheduleOnRN } from "react-native-worklets";
-import Pause from "lucide-react-native/icons/pause";
-import Play from "lucide-react-native/icons/play";
-import X from "lucide-react-native/icons/x";
+import { PauseIcon, PlayIcon as Play, XIcon } from "@/components/icons";
 import { FlightZoneContext } from "@/components/flight-zone-context";
 import { PixyGuideContext } from "@/components/pixy-guide-context";
 import type { PixyGuide } from "@/components/pixy-guide-context";
@@ -465,7 +463,7 @@ export const StoryPlayer = ({
             {isPausedByUser ? (
               <Play width={20} height={20} color={palette.text} />
             ) : (
-              <Pause width={20} height={20} color={palette.text} />
+              <PauseIcon width={20} height={20} color={palette.text} />
             )}
           </Pressable>
           <Pressable
@@ -476,7 +474,7 @@ export const StoryPlayer = ({
             testID="recap-story-close"
             style={{ padding: 6 }}
           >
-            <X width={22} height={22} color={palette.text} />
+            <XIcon width={22} height={22} color={palette.text} />
           </Pressable>
         </View>
       </Animated.View>

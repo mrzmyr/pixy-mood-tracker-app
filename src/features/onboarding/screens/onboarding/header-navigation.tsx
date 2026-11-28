@@ -1,5 +1,5 @@
 import { Pressable, View } from "react-native";
-import ArrowLeft from "lucide-react-native/icons/arrow-left";
+import { ArrowLeftIcon } from "@/components/icons";
 import { Label } from "@/components/typography";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
@@ -41,7 +41,7 @@ export const HeaderNavigation = ({
           setIndex(index - 1);
         }}
       >
-        <ArrowLeft
+        <ArrowLeftIcon
           width={24}
           height={24}
           color={colors.onboardingPaginationText}

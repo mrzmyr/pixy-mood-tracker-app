@@ -1,7 +1,6 @@
 import { Stack } from "expo-router";
 import { Platform, Pressable, Text, View } from "react-native";
-import ChevronLeft from "lucide-react-native/icons/chevron-left";
-import ChevronRight from "lucide-react-native/icons/chevron-right";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 import { Section } from "@/components/type";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -53,7 +52,7 @@ const PeriodRow = ({
         onPress={onPrevious}
         testID="recaps-period-previous"
       >
-        <ChevronLeft width={24} height={24} color={colors.text} />
+        <ChevronLeftIcon width={24} height={24} color={colors.text} />
       </Pressable>
       <Section
         accessibilityRole="header"
@@ -72,7 +71,7 @@ const PeriodRow = ({
         testID="recaps-period-next"
         style={{ opacity: isCurrent ? 0.3 : 1 }}
       >
-        <ChevronRight width={24} height={24} color={colors.text} />
+        <ChevronRightIcon width={24} height={24} color={colors.text} />
       </Pressable>
     </View>
   );

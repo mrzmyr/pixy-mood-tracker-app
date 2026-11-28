@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="thrilled" data-waive-angle="strings meet under both balloons">
+  <ellipse cx="6.5" cy="7" rx="3.5" ry="4.5"/>
+  <ellipse cx="17.5" cy="7.5" rx="3.5" ry="4.5"/>
+  <path d="M6.5 11.5L12 21M17.5 12L12 21"/>
+  <ellipse cx="6.5" cy="7" rx="3.5" ry="4.5" data-role="silhouette"/>
+  <ellipse cx="17.5" cy="7.5" rx="3.5" ry="4.5" data-role="silhouette"/>
+</svg>

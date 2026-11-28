@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import Plus from "lucide-react-native/icons/plus";
+import { PlusIcon } from "@/components/icons";
 import { View } from "react-native";
 import { Chip } from "@/components/chip";
 import { Label } from "@/components/typography";
@@ -134,7 +134,7 @@ export const TagPicker = ({
     <Chip
       isToggle={false}
       label={t("tags_edit")}
-      lead={<Plus size={CHIP.lead} color={colors.chipText} />}
+      lead={<PlusIcon size={CHIP.lead} color={colors.chipText} />}
       onPress={() => router.push("/tags")}
     />
   );

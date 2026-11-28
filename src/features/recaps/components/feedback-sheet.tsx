@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
-import Check from "lucide-react-native/icons/check";
+import { CheckIcon } from "@/components/icons";
 import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import { SheetModal } from "@/components/sheet-modal";
@@ -51,7 +51,9 @@ const ReasonChip = ({
         backgroundColor: selected ? colors.text : colors.cardBackground,
       }}
     >
-      {selected && <Check width={16} height={16} color={colors.background} />}
+      {selected && (
+        <CheckIcon width={16} height={16} color={colors.background} />
+      )}
       <Secondary style={{ color: selected ? colors.background : colors.text }}>
         {t(LABELS[reason])}
       </Secondary>

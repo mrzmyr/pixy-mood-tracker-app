@@ -1,6 +1,5 @@
 import { Pressable, View } from "react-native";
-import ThumbsDown from "lucide-react-native/icons/thumbs-down";
-import ThumbsUp from "lucide-react-native/icons/thumbs-up";
+import { ThumbsDownIcon, ThumbsUpIcon } from "@/components/icons";
 import { t } from "@/lib/translation";
 import { StoryText } from "./parts";
 import { STORY_PALETTE } from "./theme";
@@ -90,7 +89,7 @@ export const StoryFeedback = ({
     >
       <Answer
         label={t("recaps_feedback_helpful")}
-        icon={<ThumbsUp width={16} height={16} color={color} />}
+        icon={<ThumbsUpIcon width={16} height={16} color={color} />}
         onPress={onHelpful}
         theme={theme}
         testID="recap-story-feedback-helpful"
@@ -100,7 +99,7 @@ export const StoryFeedback = ({
       />
       <Answer
         label={t("recaps_feedback_not_helpful")}
-        icon={<ThumbsDown width={16} height={16} color={color} />}
+        icon={<ThumbsDownIcon width={16} height={16} color={color} />}
         onPress={onNotHelpful}
         theme={theme}
         testID="recap-story-feedback-not-helpful"

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="hot tub blissful" data-waive-radius="tub bottom is a bowl curve, not a box corner">
+  <path d="M2.5 12h19"/>
+  <path d="M4 12v3.5a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5V12"/>
+  <path d="M8 16h8" data-role="detail"/>
+  <circle cx="12" cy="6.25" r="2"/>
+  <path d="M5.5 3c-1.5 1.5 1.5 3 0 4.5M18.5 3c-1.5 1.5 1.5 3 0 4.5"/>
+  <path d="M4 12v3.5a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5V12Z" data-role="silhouette"/>
+  <circle cx="12" cy="6.25" r="2" data-role="silhouette"/>
+</svg>

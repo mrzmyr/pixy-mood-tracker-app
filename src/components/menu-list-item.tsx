@@ -2,7 +2,7 @@ import React, { isValidElement, useCallback } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import type { AccessibilityValue, ViewStyle } from "react-native";
 
-import ChevronRight from "lucide-react-native/icons/chevron-right";
+import { ChevronRightIcon } from "@/components/icons";
 import { SFIcon } from "@/components/sf-icon";
 import useColors from "@/hooks/use-colors";
 import usePressRipple from "@/hooks/use-press-ripple";
@@ -80,7 +80,7 @@ const getRightIcon = ({
       name="chevron.right"
       size={13}
       color={color}
-      fallback={<ChevronRight width={18} color={color} />}
+      fallback={<ChevronRightIcon width={18} color={color} />}
     />
   ) : (
     iconRight

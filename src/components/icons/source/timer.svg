@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="impatient stopwatch">
+  <circle cx="12" cy="14" r="7.5"/>
+  <path d="M12 2.5v4M10 2.5h4"/>
+  <path d="M17.303 8.697L19 7"/>
+  <path d="M12 14v-3.5" data-role="detail"/>
+  <circle cx="12" cy="14" r="7.5" data-role="silhouette"/>
+</svg>

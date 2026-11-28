@@ -16,7 +16,7 @@ Implementation: `index.html` (built by `build.py`, app UI in `appscreens.js`).
   - emotions: white pill, tilted, blue ring when selected
   - tags: straight gray card with chips
   - cards: white app card with shadow
-- emotion icons: app Hugeicons, two-tone fill (35% tint); green good, gray neutral, orange bad
+- emotion icons: app Pixy icon set, two-tone fill (35% tint); green good, gray neutral, orange bad
 
 ## 1. screen: proof
 

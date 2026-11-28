@@ -1,5 +1,5 @@
 import * as Clipboard from "expo-clipboard";
-import Lock from "lucide-react-native/icons/lock";
+import { LockIcon } from "@/components/icons";
 import { usePostHog } from "posthog-react-native";
 import { useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
@@ -132,7 +132,7 @@ export const AppLockScreen = () => {
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <Lock size={40} color={colors.text} strokeWidth={2} />
+        <LockIcon size={40} color={colors.text} strokeWidth={2} />
       </View>
       {isLocked && (
         <>

@@ -2,7 +2,7 @@ import { createStructuredError } from "@/lib/errors";
 import { reportError } from "@/lib/report-error";
 import { useEffect, useEffectEvent, useState } from "react";
 import { Alert, Linking, ScrollView, Text, View } from "react-native";
-import CircleAlert from "lucide-react-native/icons/circle-alert";
+import { CircleAlertIcon } from "@/components/icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
 import { exportRawStorage, useAppData } from "@/features/datagate";
@@ -79,7 +79,7 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
         }}
       >
         <View style={{ alignItems: "center", marginBottom: 24 }}>
-          <CircleAlert color={colors.text} width={48} height={48} />
+          <CircleAlertIcon color={colors.text} width={48} height={48} />
         </View>
         <Text
           accessibilityRole="header"

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="confused">
+  <circle cx="12" cy="12" r="10"/>
+  <path d="M9 9A3 3 0 1 1 13.5 11.598C12.6 12.118 12 12.85 12 13.5" data-role="detail"/>
+  <path d="M12 17.25h.01" data-role="detail"/>
+  <circle cx="12" cy="12" r="10" data-role="silhouette"/>
+</svg>

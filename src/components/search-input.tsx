@@ -1,6 +1,5 @@
 import { Pressable, TextInput, View } from "react-native";
-import Search from "lucide-react-native/icons/search";
-import CircleX from "lucide-react-native/icons/circle-x";
+import { CircleXIcon, SearchIcon } from "@/components/icons";
 
 import { FIELD_HEIGHT } from "@/components/text-field";
 import { getInputTextStyle } from "@/components/typography";
@@ -48,7 +47,7 @@ export const SearchInput = ({
         borderCurve: "continuous",
       }}
     >
-      <Search color={colors.textInputPlaceholder} width={ICON_SIZE} />
+      <SearchIcon color={colors.textInputPlaceholder} width={ICON_SIZE} />
       <TextInput
         ref={ref}
         accessibilityLabel={placeholder}
@@ -77,7 +76,7 @@ export const SearchInput = ({
           hitSlop={12}
           onPress={() => onChange("")}
         >
-          <CircleX color={colors.textInputPlaceholder} width={ICON_SIZE} />
+          <CircleXIcon color={colors.textInputPlaceholder} width={ICON_SIZE} />
         </Pressable>
       )}
     </View>

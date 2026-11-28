@@ -17,8 +17,7 @@ import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
 import { t } from "@/lib/translation";
 import sortBy from "lodash/sortBy";
-import Archive from "lucide-react-native/icons/archive";
-import Folder from "lucide-react-native/icons/folder";
+import { ArchiveIcon, FolderIcon } from "@/components/icons";
 import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StepSwitch } from "../../components/step-switch";
@@ -69,7 +68,7 @@ const SearchableTagList = () => {
                     <SFIcon
                       name="folder"
                       color={colors.text}
-                      fallback={<Folder size={20} color={colors.text} />}
+                      fallback={<FolderIcon size={20} color={colors.text} />}
                     />
                   }
                   isLink
@@ -83,7 +82,7 @@ const SearchableTagList = () => {
                     <SFIcon
                       name="archivebox"
                       color={colors.text}
-                      fallback={<Archive size={20} color={colors.text} />}
+                      fallback={<ArchiveIcon size={20} color={colors.text} />}
                     />
                   }
                   isLink

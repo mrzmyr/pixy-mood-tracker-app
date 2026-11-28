@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="distracted">
+  <path d="M4 17h16"/>
+  <path d="M6 17V10a6 6 0 0 1 12 0v7"/>
+  <path d="M10 21h4"/>
+  <path d="M20 2.5a8 8 0 0 1 2 4.5M4 2.5a8 8 0 0 0-2 4.5"/>
+  <path d="M6 17V10a6 6 0 0 1 12 0v7Z" data-role="silhouette"/>
+</svg>

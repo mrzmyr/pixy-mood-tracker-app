@@ -1,4 +1,4 @@
-import Plus from "lucide-react-native/icons/plus";
+import { PlusIcon } from "@/components/icons";
 import { Pressable } from "react-native";
 import type { ViewStyle } from "react-native";
 import { Label } from "@/components/typography";
@@ -44,7 +44,7 @@ export const MissingEmotionTile = ({
         ...style,
       })}
     >
-      <Plus size={18} color={colors.tint} />
+      <PlusIcon size={18} color={colors.tint} />
       <Label
         size={16}
         numberOfLines={1}

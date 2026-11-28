@@ -3,8 +3,7 @@ import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
-import Play from "lucide-react-native/icons/play";
-import X from "lucide-react-native/icons/x";
+import { PlayIcon, XIcon } from "@/components/icons";
 import { Pressable, StyleSheet, useColorScheme, View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { Sky, SKY_DRIFT_SPEED } from "@/components/sky";
@@ -206,7 +205,7 @@ export const StoryBanner = ({
               : "rgba(255,255,255,0.8)",
           }}
         >
-          <Play
+          <PlayIcon
             width={9}
             height={9}
             color={ink}
@@ -237,7 +236,7 @@ export const StoryBanner = ({
               opacity: pressed ? 0.5 : 1,
             })}
           >
-            <X width={18} height={18} color={ink} strokeWidth={2.25} />
+            <XIcon width={18} height={18} color={ink} strokeWidth={2.25} />
           </Pressable>
         )}
       </View>

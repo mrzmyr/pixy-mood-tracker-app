@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="envious see">
+  <path d="M2 12A10.643 10.643 0 0 1 22 12A10.643 10.643 0 0 1 2 12Z"/>
+  <circle cx="12" cy="12" r="3" data-role="detail"/>
+  <path d="M2 12A10.643 10.643 0 0 1 22 12A10.643 10.643 0 0 1 2 12Z" data-role="silhouette"/>
+</svg>

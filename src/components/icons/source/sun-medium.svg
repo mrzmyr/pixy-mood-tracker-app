@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="day light" data-waive-off-grid="45° rays land off the half grid by construction" data-waive-detail-budget="eight rays keep it the same sun as sun">
+  <circle cx="12" cy="12" r="4"/>
+  <circle cx="12" cy="12" r="4" data-role="silhouette"/>
+  <path d="M20 12L21 12M17.657 17.657L18.364 18.364M12 20L12 21M6.343 17.657L5.636 18.364M4 12L3 12M6.343 6.343L5.636 5.636M12 4L12 3M17.657 6.343L18.364 5.636"/>
+</svg>

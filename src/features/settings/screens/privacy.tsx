@@ -1,7 +1,7 @@
 import * as WebBrowser from "expo-web-browser";
 import { ScrollView, View } from "react-native";
 import Toggle from "@/components/toggle";
-import Shield from "lucide-react-native/icons/shield";
+import { ShieldIcon } from "@/components/icons";
 import Markdown from "react-native-markdown-display";
 import LinkButton from "@/components/link-button";
 import useColors from "@/hooks/use-colors";
@@ -52,7 +52,7 @@ export const PrivacyScreen = () => {
               padding: 16,
             }}
           >
-            <Shield color={colors.text} width={80} height={30} />
+            <ShieldIcon color={colors.text} width={80} height={30} />
           </View>
           <Markdown
             style={{

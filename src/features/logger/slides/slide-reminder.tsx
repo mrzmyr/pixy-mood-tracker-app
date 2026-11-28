@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Platform, View } from "react-native";
-import Bell from "lucide-react-native/icons/bell";
+import { BellIcon } from "@/components/icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/button";
 import { Copy } from "@/components/typography";
@@ -78,7 +78,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
             alignItems: "center",
           }}
         >
-          <Bell color="#fff" width={20} strokeWidth={2} />
+          <BellIcon color="#fff" width={20} strokeWidth={2} />
         </View>
         <SlideHeadline
           style={{

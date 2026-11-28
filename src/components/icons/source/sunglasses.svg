@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-waive-heavy="the bar and two lenses are the sunglasses; fewer strokes stop reading as glasses">
+  <circle cx="12" cy="12" r="10"/>
+  <path d="M2.46 9h19.08M6.6 9L6.6 10.8C6.6 11.601 6.6 12.002 6.849 12.251C7.098 12.5 7.499 12.5 8.3 12.5C9.101 12.5 9.502 12.5 9.751 12.251C10 12.002 10 11.601 10 10.8L10 9M14 9L14 10.8C14 11.601 14 12.002 14.249 12.251C14.498 12.5 14.899 12.5 15.7 12.5C16.501 12.5 16.902 12.5 17.151 12.251C17.4 12.002 17.4 11.601 17.4 10.8L17.4 9" data-role="detail"/>
+  <path d="M9 16.5a4 4 0 0 0 6 0" data-role="detail"/>
+  <circle cx="12" cy="12" r="10" data-role="silhouette"/>
+</svg>

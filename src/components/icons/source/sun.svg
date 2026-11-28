@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="mood rating happy" data-waive-detail-budget="eight rays are what make it read as the sun">
+  <circle cx="12" cy="12" r="4"/>
+  <circle cx="12" cy="12" r="4" data-role="silhouette"/>
+  <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.929 4.929l1.414 1.414M17.657 17.657l1.414 1.414M4.929 19.071l1.414-1.414M17.657 6.343l1.414-1.414"/>
+</svg>

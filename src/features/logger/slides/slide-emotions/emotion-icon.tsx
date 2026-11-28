@@ -3,15 +3,13 @@ import useColors from "@/hooks/use-colors";
 import type { Emotion } from "@/types";
 
 import { EMOTION_ICONS } from "../../emotion-icons";
-import { EMOTION_TINTS } from "../../emotion-tints";
 
 /**
  * Two-tone icon for an emotion: a tint layer at low opacity under an outline.
  * Neutral theme colors by default. Pass `stroke` and `tint` to color it.
  *
- * Outline from Hugeicons free Stroke Rounded (MIT). Hugeicons free has no
- * two-tone style, so the tint layer is Pixy's own (`EMOTION_TINTS`).
- * Nothing for a key without an icon, for example from a newer app version.
+ * Outline and tint body (silhouette) come from the Pixy icon set. Nothing for
+ * a key without an icon, for example from a newer app version.
  */
 export const EmotionIcon = ({
   emotionKey,
@@ -37,8 +35,8 @@ export const EmotionIcon = ({
 
   return (
     <DuotoneIcon
-      icon={icon}
-      tintLayer={EMOTION_TINTS[emotionKey]}
+      icon={icon.outline}
+      tintLayer={{ fill: [], underlay: icon.silhouette }}
       stroke={stroke ?? colors.text}
       tint={tint ?? colors.textSecondary}
       size={size}

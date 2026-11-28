@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { ActivityIndicator, Image, Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
-import Share from "lucide-react-native/icons/share";
+import { ShareIcon as Share } from "@/components/icons";
 import { captureRef } from "react-native-view-shot";
 import { reportError } from "@/lib/report-error";
 import { ButtonIcon } from "@/components/button-content";
