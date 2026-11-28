@@ -1,0 +1,27 @@
+product: Pixy mood tracker, a private daily journal for mood, emotions, tags and people
+personality: [calm, kind, warm]
+sizes: [16, 18, 20, 24]
+dir: src/components/icons
+avoid:
+  [
+    letters or numbers inside icons,
+    sad or crying faces for hard days outside emotion icons,
+    money symbols,
+  ]
+
+# Baked into every drawing: changing it means redrawing every icon (stroke: re-lint and fix instead).
+dna:
+  style: duotone # UI renders strokes only (outline); emotion icons render the silhouette tint
+  stroke: 1.75
+  grid: 24
+  padding: 1
+  keylines: { circle: 20, square: 18, portrait: [16, 20], landscape: [20, 16] }
+  corners:
+    { family: squircle, radius: { large: 4, small: 2 }, largeThreshold: 8 }
+  caps: round
+  joins: round
+  angles: [0, 45, 90]
+  detail: low
+  minGap: 2
+  badge: { position: bottom-right, size: 8, gap: 2 }
+  duotoneOpacity: 0.35

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Pressable, View } from "react-native";
-import Circle from "lucide-react-native/icons/circle";
+import { CircleIcon } from "@/components/icons";
 import useColors from "@/hooks/use-colors";
 import useHaptics from "@/hooks/use-haptics";
 import { RADIUS } from "@/constants/radius";
@@ -70,7 +70,7 @@ export const Radio = ({
             marginLeft: 8,
           }}
         >
-          <Circle
+          <CircleIcon
             width={24}
             color={isDisabled ? colors.textSecondary : colors.text}
           />

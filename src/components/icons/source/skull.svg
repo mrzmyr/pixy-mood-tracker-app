@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path d="M7 17.37A8.5 8.5 0 1 1 17 17.37L17 19C17 19.943 17 20.414 16.707 20.707C16.414 21 15.943 21 15 21L9 21C8.057 21 7.586 21 7.293 20.707C7 20.414 7 19.943 7 19Z"/>
+  <circle cx="8.5" cy="11" r="1" data-role="detail"/>
+  <circle cx="15.5" cy="11" r="1" data-role="detail"/>
+  <path d="M12 14.5h.01" data-role="detail"/>
+  <path d="M12 21v-2.5" data-role="detail"/>
+  <path d="M7 17.37A8.5 8.5 0 1 1 17 17.37L17 19C17 19.943 17 20.414 16.707 20.707C16.414 21 15.943 21 15 21L9 21C8.057 21 7.586 21 7.293 20.707C7 20.414 7 19.943 7 19Z" data-role="silhouette"/>
+</svg>

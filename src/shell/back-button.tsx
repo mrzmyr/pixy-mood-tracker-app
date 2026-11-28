@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
-import ArrowLeft from "lucide-react-native/icons/arrow-left";
+import { ArrowLeftIcon } from "@/components/icons";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 
@@ -23,7 +23,7 @@ export const BackButton = ({ testID }: { testID?: string }) => {
       accessibilityLabel={t("back")}
       testID={testID}
     >
-      <ArrowLeft width={24} color={colors.text} />
+      <ArrowLeftIcon width={24} color={colors.text} />
     </Pressable>
   );
 };

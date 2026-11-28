@@ -7,7 +7,7 @@ import type { ReactElement } from "react";
 
 import { useContentStableValue } from "@/hooks/use-content-stable-value";
 import { View } from "react-native";
-import Activity from "lucide-react-native/icons/activity";
+import { ActivityIcon } from "@/components/icons";
 import { useAnalytics } from "@/state/analytics";
 import type { HighlightsProperties } from "@/state/analytics/events";
 import useColors from "@/hooks/use-colors";
@@ -223,7 +223,9 @@ export const HighlightsSection = ({ report }: { report: HighlightsReport }) => {
             title={t("statistics_highlights_more")}
             isLink
             onPress={() => router.push("/statistics/highlights")}
-            iconLeft={<Activity width={18} height={18} color={colors.text} />}
+            iconLeft={
+              <ActivityIcon width={18} height={18} color={colors.text} />
+            }
           />
         </MenuList>
       </View>

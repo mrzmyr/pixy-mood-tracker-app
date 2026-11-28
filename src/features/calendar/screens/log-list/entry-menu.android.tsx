@@ -5,7 +5,7 @@ import {
   RNHostView,
   Text,
 } from "@expo/ui/jetpack-compose";
-import EllipsisVertical from "lucide-react-native/icons/ellipsis-vertical";
+import { EllipsisVerticalIcon } from "@/components/icons";
 import { useState } from "react";
 import { Pressable } from "react-native";
 import useColors from "@/hooks/use-colors";
@@ -69,7 +69,7 @@ export const EntryMenu = ({
                 justifyContent: "center",
               }}
             >
-              <EllipsisVertical color={colors.text} size={ICON_SIZE} />
+              <EllipsisVerticalIcon color={colors.text} size={ICON_SIZE} />
             </Pressable>
           </RNHostView>
         </DropdownMenu.Trigger>

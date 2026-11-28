@@ -7,8 +7,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import ArrowRight from "lucide-react-native/icons/arrow-right";
-import Check from "lucide-react-native/icons/check";
+import { ArrowRightIcon, CheckIcon } from "@/components/icons";
 import { FLOAT_BUTTON_HIDDEN_SCALE } from "@/constants/float-button";
 import { DURATION, getEasing } from "@/constants/motion";
 import useColors from "@/hooks/use-colors";
@@ -112,7 +111,7 @@ export const SlideAction = ({
         disabled={disabled}
       >
         {type === "save" && (
-          <Check
+          <CheckIcon
             color={
               disabled
                 ? colors.primaryButtonTextDisabled
@@ -122,7 +121,7 @@ export const SlideAction = ({
           />
         )}
         {type === "next" && (
-          <ArrowRight
+          <ArrowRightIcon
             color={
               disabled
                 ? colors.primaryButtonTextDisabled

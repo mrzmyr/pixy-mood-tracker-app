@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import Ellipsis from "lucide-react-native/icons/ellipsis";
+import { EllipsisIcon } from "@/components/icons";
 import { useRef } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import { Label } from "@/components/typography";
@@ -58,7 +58,7 @@ const AllPeopleTile = ({ onPress }: { onPress: () => void }) => {
             justifyContent: "center",
           }}
         >
-          <Ellipsis size={22} color={colors.tint} strokeWidth={2} />
+          <EllipsisIcon size={22} color={colors.tint} strokeWidth={2} />
         </View>
       </View>
       <Label

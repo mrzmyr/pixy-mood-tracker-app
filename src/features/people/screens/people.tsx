@@ -1,7 +1,7 @@
 import { Stack, useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import sortBy from "lodash/sortBy";
-import Archive from "lucide-react-native/icons/archive";
+import { ArchiveIcon } from "@/components/icons";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
@@ -122,7 +122,7 @@ export const SettingsPeople = ({
                   <SFIcon
                     name="archivebox"
                     color={colors.text}
-                    fallback={<Archive size={20} color={colors.text} />}
+                    fallback={<ArchiveIcon size={20} color={colors.text} />}
                   />
                 }
                 isLink

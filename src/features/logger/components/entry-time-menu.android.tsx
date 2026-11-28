@@ -7,7 +7,7 @@ import {
   Text,
 } from "@expo/ui/jetpack-compose";
 import { useState } from "react";
-import Clock from "lucide-react-native/icons/clock";
+import { ClockIcon } from "@/components/icons";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import { Pill } from "./pill";
@@ -50,7 +50,11 @@ export const EntryTimeMenu = ({
             <Pill
               testID={testID}
               icon={
-                <Clock width={18} height={18} color={colors.logHeaderText} />
+                <ClockIcon
+                  width={18}
+                  height={18}
+                  color={colors.logHeaderText}
+                />
               }
               label={label}
               accessibilityLabel={label}

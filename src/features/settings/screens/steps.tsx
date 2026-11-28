@@ -12,11 +12,13 @@ import {
 } from "@/components/settings-form";
 import { t } from "@/lib/translation";
 import type { ReactElement } from "react";
-import BedDouble from "lucide-react-native/icons/bed-double";
-import Bell from "lucide-react-native/icons/bell";
-import Droplet from "lucide-react-native/icons/droplet";
-import MapPin from "lucide-react-native/icons/map-pin";
-import MessageSquare from "lucide-react-native/icons/message-square";
+import {
+  BedDoubleIcon,
+  BellIcon,
+  DropletIcon,
+  MapPinIcon,
+  MessageSquareIcon,
+} from "@/components/icons";
 import { useRouter } from "expo-router";
 import useColors from "@/hooks/use-colors";
 import { ModuleIcon } from "@/components/module-icon";
@@ -103,11 +105,11 @@ export const StepsScreen = () => {
     photos: <ModuleIcon module="photos" color={colors.text} />,
     tags: <ModuleIcon module="tags" color={colors.text} />,
     people: <ModuleIcon module="people" color={colors.text} />,
-    sleep: <BedDouble size={20} color={colors.text} />,
-    menstruation: <Droplet size={20} color={colors.text} />,
+    sleep: <BedDoubleIcon size={20} color={colors.text} />,
+    menstruation: <DropletIcon size={20} color={colors.text} />,
     emotions: <ModuleIcon module="emotions" color={colors.text} />,
-    feedback: <MessageSquare width={20} height={20} color={colors.text} />,
-    reminder: <Bell width={20} height={20} color={colors.text} />,
+    feedback: <MessageSquareIcon width={20} height={20} color={colors.text} />,
+    reminder: <BellIcon width={20} height={20} color={colors.text} />,
   };
 
   return (
@@ -121,7 +123,7 @@ export const StepsScreen = () => {
         <SettingsSection footer={t("location_setting_description")}>
           <SettingsSwitch
             label={t("location_setting")}
-            icon={<MapPin width={20} height={20} color={colors.text} />}
+            icon={<MapPinIcon width={20} height={20} color={colors.text} />}
             value={isLocationEnabled}
             onValueChange={setLocationEnabled}
             testID="location-enabled"

@@ -1,4 +1,4 @@
-import MapPin from "lucide-react-native/icons/map-pin";
+import { MapPinIcon } from "@/components/icons";
 import { View } from "react-native";
 import { Label } from "@/components/typography";
 import { RADIUS } from "@/constants/radius";
@@ -61,7 +61,7 @@ export const PlacePreview = ({
             backgroundColor: colors.logCardBackground,
           }}
         >
-          <MapPin size={12} color={colors.text} />
+          <MapPinIcon size={12} color={colors.text} />
           <Label
             size={13}
             numberOfLines={1}

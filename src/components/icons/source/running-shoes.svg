@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="eager sneaker" data-waive-radius="toe and heel are rounded like a real sneaker, not box corners">
+  <path d="M3 18.5V8.5a1.5 1.5 0 0 1 1.5-1.5H6.5c1 0 1.75 2 3.25 2S12 8.5 12.5 8.5L16 12h2.5a2.5 2.5 0 0 1 2.5 2.5V18.5a1.5 1.5 0 0 1-1.5 1.5H4.5a1.5 1.5 0 0 1-1.5-1.5Z"/>
+  <path d="M3 16h18" data-role="detail"/>
+  <path d="M3 18.5V8.5a1.5 1.5 0 0 1 1.5-1.5H6.5c1 0 1.75 2 3.25 2S12 8.5 12.5 8.5L16 12h2.5a2.5 2.5 0 0 1 2.5 2.5V18.5a1.5 1.5 0 0 1-1.5 1.5H4.5a1.5 1.5 0 0 1-1.5-1.5Z" data-role="silhouette"/>
+</svg>

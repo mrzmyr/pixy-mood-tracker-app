@@ -1,6 +1,6 @@
 import chroma from "chroma-js";
 import { Pressable, Text, useColorScheme } from "react-native";
-import Check from "lucide-react-native/icons/check";
+import { CheckIcon } from "@/components/icons";
 import { RADIUS } from "@/constants/radius";
 
 const ScaleButton = ({
@@ -52,7 +52,7 @@ const ScaleButton = ({
       accessible={true}
     >
       {isSelected ? (
-        <Check color={textColor} width={24} />
+        <CheckIcon color={textColor} width={24} />
       ) : (
         <Text>&nbsp;</Text>
       )}

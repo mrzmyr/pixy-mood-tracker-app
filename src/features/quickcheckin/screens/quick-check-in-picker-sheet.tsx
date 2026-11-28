@@ -1,4 +1,4 @@
-import Plus from "lucide-react-native/icons/plus";
+import { PlusIcon } from "@/components/icons";
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { Platform, Pressable, SectionList, View } from "react-native";
@@ -152,7 +152,7 @@ const AddRow = ({
             justifyContent: "center",
           }}
         >
-          <Plus size={16} color={colors.tint} strokeWidth={2.5} />
+          <PlusIcon size={16} color={colors.tint} strokeWidth={2.5} />
         </View>
         <Label
           size={16}

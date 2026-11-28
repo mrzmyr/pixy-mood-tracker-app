@@ -1,6 +1,6 @@
 import { useSetting } from "@/state/settings";
 import { Platform, Pressable, useColorScheme, View } from "react-native";
-import Check from "lucide-react-native/icons/check";
+import { CheckIcon } from "@/components/icons";
 import useHaptics from "@/hooks/use-haptics";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/use-scale";
@@ -62,7 +62,7 @@ export const SlideMoodButton = ({
           justifyContent: "center",
         }}
       >
-        <Check
+        <CheckIcon
           color={selected ? scale.colors[rating].text : "transparent"}
           width={24}
           height={24}

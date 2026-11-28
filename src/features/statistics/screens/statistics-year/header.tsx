@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
-import Star from "lucide-react-native/icons/star";
+import { StarIcon } from "@/components/icons";
 import useColors from "@/hooks/use-colors";
 import { Label } from "@/components/typography";
 import { SPACE } from "@/constants/space";
@@ -55,7 +55,7 @@ export const Header = ({
           transform: [{ rotate: "-40deg" }],
         }}
       >
-        <Star
+        <StarIcon
           width={500}
           height={500}
           fill={gradientColors[0]}

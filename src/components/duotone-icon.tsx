@@ -1,25 +1,6 @@
 import type { IconSvgObject } from "@hugeicons/core-free-icons/types";
-import Svg, { Circle, Ellipse, Path, Rect } from "react-native-svg";
-
-/**
- * SVG element for a Hugeicons shape type: every type the free set uses.
- * Unknown types return `null` and the shape is skipped.
- */
-const elementFor = (type: string) => {
-  if (type === "path") {
-    return Path;
-  }
-  if (type === "circle") {
-    return Circle;
-  }
-  if (type === "ellipse") {
-    return Ellipse;
-  }
-  if (type === "rect") {
-    return Rect;
-  }
-  return null;
-};
+import Svg from "react-native-svg";
+import { elementFor } from "@/components/icons/create-icon";
 
 /**
  * One id per icon object. Keys the Svg, so a new icon mounts new native
@@ -53,9 +34,9 @@ export interface DuotoneTint {
 }
 
 /**
- * Pixy two-tone icon: a tint layer at low opacity under a Hugeicons free
- * Stroke Rounded outline (MIT). Hugeicons free has no two-tone style, so the
- * tint layer is Pixy's own. Used by emotion and tag icons.
+ * Pixy two-tone icon: a tint layer at low opacity under an outline. Emotion
+ * icons pass a Pixy glyph. Tag icons pass a Hugeicons free Stroke Rounded
+ * outline (MIT) with Pixy's own tint layer.
  */
 export const DuotoneIcon = ({
   icon,

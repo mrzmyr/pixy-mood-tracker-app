@@ -1,6 +1,6 @@
 import { Pressable } from "react-native";
 import type { ViewStyle } from "react-native";
-import X from "lucide-react-native/icons/x";
+import { XIcon } from "@/components/icons";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 
@@ -62,7 +62,7 @@ export const CloseButton = ({
         style,
       ]}
     >
-      <X
+      <XIcon
         width={ICON_SIZE}
         height={ICON_SIZE}
         color={color ?? colors.text}

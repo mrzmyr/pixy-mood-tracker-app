@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
-import Plus from "lucide-react-native/icons/plus";
+import { PlusIcon } from "@/components/icons";
 import { useState } from "react";
 import { Pressable, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -79,7 +79,7 @@ const AddPersonTile = ({ size }: { size: number }) => {
             justifyContent: "center",
           }}
         >
-          <Plus
+          <PlusIcon
             size={Math.round(size * 0.35)}
             color={colors.tint}
             strokeWidth={2}

@@ -6,7 +6,7 @@ import {
   buttonStyle,
   disabled,
 } from "@expo/ui/swift-ui/modifiers";
-import Clock from "lucide-react-native/icons/clock";
+import { ClockIcon } from "@/components/icons";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
 import type { EntryTimePreset } from "../entry-time";
@@ -44,7 +44,11 @@ export const EntryTimeMenu = ({
           <RNHostView matchContents>
             <PillFace
               icon={
-                <Clock width={18} height={18} color={colors.logHeaderText} />
+                <ClockIcon
+                  width={18}
+                  height={18}
+                  color={colors.logHeaderText}
+                />
               }
               label={label}
             />

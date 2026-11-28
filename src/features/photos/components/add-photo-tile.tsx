@@ -1,4 +1,4 @@
-import Plus from "lucide-react-native/icons/plus";
+import { PlusIcon } from "@/components/icons";
 import { Pressable } from "react-native";
 import { Copy } from "@/components/typography";
 import useColors from "@/hooks/use-colors";
@@ -47,7 +47,7 @@ export const AddPhotoTile = ({
         opacity: disabled || pressed ? 0.4 : 1,
       })}
     >
-      <Plus color={colors.textSecondary} size={28} />
+      <PlusIcon color={colors.textSecondary} size={28} />
       <Copy
         size={13}
         numberOfLines={3}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="engaged think mind" data-waive-off-grid="lobe arcs meet the midline at circle intersections">
+  <path d="M12 4.018A3.25 3.25 0 0 0 6.293 7.098A3.25 3.25 0 0 0 3.945 13.104A3 3 0 0 0 6.755 18.326A2.75 2.75 0 0 0 12 19.646"/>
+  <path d="M12 4.018A3.25 3.25 0 0 1 17.707 7.098A3.25 3.25 0 0 1 20.055 13.104A3 3 0 0 1 17.245 18.326A2.75 2.75 0 0 1 12 19.646"/>
+  <path d="M12 4.018V19.646" data-role="detail"/>
+  <path d="M12 10H9M12 14h3" data-role="detail"/>
+  <path d="M12 4.018A3.25 3.25 0 0 0 6.293 7.098A3.25 3.25 0 0 0 3.945 13.104A3 3 0 0 0 6.755 18.326A2.75 2.75 0 0 0 12 19.646A2.75 2.75 0 0 0 17.245 18.326A3 3 0 0 0 20.055 13.104A3.25 3.25 0 0 0 17.707 7.098A3.25 3.25 0 0 0 12 4.018Z" data-role="silhouette"/>
+</svg>

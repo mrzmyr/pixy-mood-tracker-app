@@ -1,5 +1,7 @@
-import ChevronDown from "lucide-react-native/icons/chevron-down";
-import ChevronRight from "lucide-react-native/icons/chevron-right";
+import {
+  ChevronDownIcon as ChevronDown,
+  ChevronRightIcon as ChevronRight,
+} from "@/components/icons";
 import type { ReactNode } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import type { ViewStyle } from "react-native";

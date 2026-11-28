@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { SearchInput } from "@/components/search-input";
-import MapPin from "lucide-react-native/icons/map-pin";
-import Navigation from "lucide-react-native/icons/navigation";
-import CircleX from "lucide-react-native/icons/circle-x";
+import { CircleXIcon, MapPinIcon, NavigationIcon } from "@/components/icons";
 import { HeaderButton } from "@/components/header-button";
 import ModalHeader from "@/components/modal-header";
 import { SheetModal } from "@/components/sheet-modal";
@@ -200,7 +198,7 @@ const SheetContent = ({
                         place: getLocationLabel(pinned.place),
                       })
                 }
-                iconLeft={<MapPin {...iconProps} />}
+                iconLeft={<MapPinIcon {...iconProps} />}
                 deactivated={pinned.place === null}
                 onPress={() => {
                   if (pinned.place !== null) {
@@ -214,7 +212,7 @@ const SheetContent = ({
               title={
                 isLocating ? t("location_locating") : t("location_current")
               }
-              iconLeft={<Navigation {...iconProps} />}
+              iconLeft={<NavigationIcon {...iconProps} />}
               deactivated={isLocating}
               onPress={useCurrentLocation}
             />
@@ -222,7 +220,7 @@ const SheetContent = ({
               <MenuListItem
                 testID="location-remove"
                 title={t("location_remove")}
-                iconLeft={<CircleX {...iconProps} />}
+                iconLeft={<CircleXIcon {...iconProps} />}
                 onPress={() => pick()}
               />
             )}
@@ -253,7 +251,7 @@ const SheetContent = ({
                 key={`${place.latitude},${place.longitude}`}
                 testID={`location-result-${index}`}
                 title={getLocationLabel(place)}
-                iconLeft={<MapPin {...iconProps} />}
+                iconLeft={<MapPinIcon {...iconProps} />}
                 onPress={() => pick(place)}
               />
             ))}

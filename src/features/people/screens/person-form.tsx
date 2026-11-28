@@ -1,6 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import Contact from "lucide-react-native/icons/contact";
-import Trash from "lucide-react-native/icons/trash";
+import { ContactIcon, TrashIcon } from "@/components/icons";
 import { useRef } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import type { TextInput } from "react-native";
@@ -81,7 +80,7 @@ const EditActions = ({
         <MenuListItem
           testID="person-delete"
           onPress={askToDelete}
-          iconLeft={<Trash size={24} color={colors.danger} />}
+          iconLeft={<TrashIcon size={24} color={colors.danger} />}
           title={t("people_delete")}
           tone="destructive"
         />
@@ -199,7 +198,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
           <MenuList style={{ marginTop: SECTION_GAP }}>
             <MenuListItem
               title={t("people_add_from_contacts")}
-              iconLeft={<Contact size={22} color={colors.tint} />}
+              iconLeft={<ContactIcon size={22} color={colors.tint} />}
               onPress={() => router.replace("/people/import")}
               tone="action"
               testID="person-from-contacts"

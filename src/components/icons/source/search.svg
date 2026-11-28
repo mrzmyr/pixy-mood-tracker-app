@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="find magnifier">
+  <circle cx="11" cy="11" r="8"/>
+  <path d="M16.657 16.657L21 21"/>
+  <circle cx="11" cy="11" r="8" data-role="silhouette"/>
+</svg>

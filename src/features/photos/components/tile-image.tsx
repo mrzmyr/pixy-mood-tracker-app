@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import ImageOff from "lucide-react-native/icons/image-off";
+import { ImageOffIcon as ImageOff } from "@/components/icons";
 import { useState } from "react";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/use-colors";

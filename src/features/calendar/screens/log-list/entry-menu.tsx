@@ -1,4 +1,4 @@
-import Ellipsis from "lucide-react-native/icons/ellipsis";
+import { EllipsisIcon } from "@/components/icons";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/use-colors";
@@ -39,7 +39,7 @@ export const EntryMenu = ({
           justifyContent: "center",
         }}
       >
-        <Ellipsis color={colors.textSecondary} size={22} />
+        <EllipsisIcon color={colors.textSecondary} size={22} />
       </Pressable>
       {open && (
         <View

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import Check from "lucide-react-native/icons/check";
+import { CheckIcon } from "@/components/icons";
 import {
   GestureDetector,
   GestureHandlerRootView,
@@ -121,7 +121,7 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
           ]}
         >
           {!IS_ANDROID && (
-            <Check
+            <CheckIcon
               width={18}
               height={18}
               strokeWidth={2.5}

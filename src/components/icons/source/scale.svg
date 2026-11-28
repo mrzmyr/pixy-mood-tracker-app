@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="balanced" data-waive-radius="pans are half circles hanging from the beam">
+  <path d="M12 4v17M7.5 21h9"/>
+  <path d="M5 14V7h14v7"/>
+  <path d="M2 14h6a3 3 0 0 1-6 0Z"/>
+  <path d="M16 14h6a3 3 0 0 1-6 0Z"/>
+  <path d="M2 14h6a3 3 0 0 1-6 0Z" data-role="silhouette"/>
+  <path d="M16 14h6a3 3 0 0 1-6 0Z" data-role="silhouette"/>
+</svg>

@@ -35,7 +35,7 @@ import Svg, {
   Text as SvgText,
 } from "react-native-svg";
 import { scheduleOnRN } from "react-native-worklets";
-import ChevronsRight from "lucide-react-native/icons/chevrons-right";
+import { ChevronsRightIcon } from "@/components/icons";
 import { CLOUDY_SIZE } from "@/components/cloudy";
 import { cheer, PixyGuideContext } from "@/components/pixy-guide-context";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
@@ -390,7 +390,11 @@ const SwipeToUnlock = ({
             thumbStyle,
           ]}
         >
-          <ChevronsRight width={22} height={22} color={palette.background} />
+          <ChevronsRightIcon
+            width={22}
+            height={22}
+            color={palette.background}
+          />
         </Animated.View>
       </View>
     </GestureDetector>

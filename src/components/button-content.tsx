@@ -68,7 +68,7 @@ type IconComponent = ComponentType<{
   strokeWidth?: number;
 }>;
 
-/** Icon in the button's color. Feather and Lucide icons fit. */
+/** Icon in the button's color. Icons from `@/components/icons` fit. */
 export const ButtonIcon = ({
   icon: Icon,
   size = 20,

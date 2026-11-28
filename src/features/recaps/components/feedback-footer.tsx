@@ -1,6 +1,5 @@
 import { Pressable, View } from "react-native";
-import ThumbsDown from "lucide-react-native/icons/thumbs-down";
-import ThumbsUp from "lucide-react-native/icons/thumbs-up";
+import { ThumbsDownIcon, ThumbsUpIcon } from "@/components/icons";
 import { Secondary } from "@/components/type";
 import useColors from "@/hooks/use-colors";
 import { t } from "@/lib/translation";
@@ -91,7 +90,7 @@ export const FeedbackFooter = ({
     >
       <FooterButton
         label={t("recaps_feedback_helpful")}
-        icon={<ThumbsUp {...iconProps} />}
+        icon={<ThumbsUpIcon {...iconProps} />}
         onPress={onHelpful}
         testID={`${testID}-helpful`}
       />
@@ -104,7 +103,7 @@ export const FeedbackFooter = ({
       />
       <FooterButton
         label={t("recaps_feedback_not_helpful")}
-        icon={<ThumbsDown {...iconProps} />}
+        icon={<ThumbsDownIcon {...iconProps} />}
         onPress={onNotHelpful}
         testID={`${testID}-not-helpful`}
       />

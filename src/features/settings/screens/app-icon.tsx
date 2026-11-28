@@ -3,9 +3,7 @@ import {
   setAlternateAppIcon,
   supportsAlternateIcons,
 } from "expo-alternate-app-icons";
-import Circle from "lucide-react-native/icons/circle";
-import CircleCheck from "lucide-react-native/icons/circle-check";
-import Lock from "lucide-react-native/icons/lock";
+import { CircleCheckIcon, CircleIcon, LockIcon } from "@/components/icons";
 import { useState } from "react";
 import { Image, Platform, Pressable, ScrollView, View } from "react-native";
 import MenuList from "@/components/menu-list";
@@ -86,11 +84,11 @@ const AppIconRow = ({
 
   const trailing = () => {
     if (isLocked) {
-      return <Lock size={22} color={colors.textSecondary} aria-hidden />;
+      return <LockIcon size={22} color={colors.textSecondary} aria-hidden />;
     }
     if (isSelected) {
       return (
-        <CircleCheck
+        <CircleCheckIcon
           size={26}
           color={colors.background}
           fill={colors.tint}
@@ -99,7 +97,7 @@ const AppIconRow = ({
       );
     }
     return (
-      <Circle
+      <CircleIcon
         size={26}
         color={colors.textSecondary}
         strokeWidth={1.5}

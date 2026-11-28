@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path d="M5 7.343A9 9 0 1 0 19 7.343"/>
+  <ellipse cx="12" cy="3.5" rx="5" ry="1.25"/>
+  <path d="M9 10.5h.01M15 10.5h.01" data-role="detail"/>
+  <path d="M8 15a5 5 0 0 0 8 0" data-role="detail"/>
+  <path d="M5 7.343A9 9 0 1 0 19 7.343Z" data-role="silhouette"/>
+</svg>

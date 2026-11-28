@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import Folder from "lucide-react-native/icons/folder";
+import { FolderIcon } from "@/components/icons";
 import { View } from "react-native";
 import MenuList from "@/components/menu-list";
 import MenuListItem from "@/components/menu-list-item";
@@ -41,7 +41,7 @@ export const Tags = () => {
               <MenuListItem
                 testID="tag-categories-link"
                 title={t("tag_categories")}
-                iconLeft={<Folder size={20} color={colors.text} />}
+                iconLeft={<FolderIcon size={20} color={colors.text} />}
                 isLink
                 onPress={() => router.push("/tags/categories")}
               />

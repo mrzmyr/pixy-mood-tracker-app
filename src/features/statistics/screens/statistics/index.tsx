@@ -5,8 +5,7 @@ import MenuListItem from "@/components/menu-list-item";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
 import { Platform, ScrollView, View } from "react-native";
-import CalendarDays from "lucide-react-native/icons/calendar-days";
-import Star from "lucide-react-native/icons/star";
+import { CalendarDaysIcon, StarIcon } from "@/components/icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/use-colors";
 import { useHighlightsReport } from "../../use-highlights-report";
@@ -65,7 +64,7 @@ export const StatisticsScreen = () => {
                   })
                 }
                 iconLeft={
-                  <CalendarDays
+                  <CalendarDaysIcon
                     width={18}
                     // Stroke icon: a fill in the stroke color hides its grid.
                     fill="none"
@@ -85,7 +84,7 @@ export const StatisticsScreen = () => {
                   })
                 }
                 iconLeft={
-                  <Star
+                  <StarIcon
                     width={18}
                     fill={colors.palette.amber[500]}
                     color={colors.palette.amber[500]}

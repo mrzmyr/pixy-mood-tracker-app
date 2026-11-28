@@ -8,7 +8,6 @@ import { SettingsProvider } from "@/state/settings";
 import type { Emotion } from "@/types";
 import { EMOTIONS } from "../config";
 import { EMOTION_ICONS } from "../emotion-icons";
-import { EMOTION_TINTS } from "../emotion-tints";
 import { EmotionIcon } from "../slides/slide-emotions/emotion-icon";
 
 const CALM = EMOTIONS.filter((e) => e.key === "calm");
@@ -86,24 +85,12 @@ describe("Emotion icons", () => {
       if (!icon || !container) {
         return [`${key}: no icon`];
       }
-      const expected =
-        icon.length + (EMOTION_TINTS[key]?.underlay?.length ?? 0);
+      const expected = icon.outline.length + icon.silhouette.length;
       const drawn = container.queryAll(isSvgDrawing).length;
       return drawn > 0 && drawn === expected
         ? []
         : [`${key}: ${drawn} of ${expected} shapes`];
     });
     expect(incomplete).toEqual([]);
-  });
-
-  test("every tint fills shapes its icon has", () => {
-    // Swapping an icon can leave tint indexes that point past its shapes,
-    // and the tint then silently disappears.
-    const broken = Object.entries(EMOTION_TINTS).flatMap(([key, tint]) => {
-      const partCount = EMOTION_ICONS[key]?.length ?? 0;
-      const missing = (tint?.fill ?? []).filter((i) => i >= partCount);
-      return missing.length > 0 ? [`${key}: ${missing.join(", ")}`] : [];
-    });
-    expect(broken).toEqual([]);
   });
 });

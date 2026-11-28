@@ -8,7 +8,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
-import Plus from "lucide-react-native/icons/plus";
+import { PlusIcon } from "@/components/icons";
 import Button from "@/components/button";
 import { SkyFlightZone } from "@/components/sky-flight-zone";
 import { RADIUS } from "@/constants/radius";
@@ -935,7 +935,7 @@ export const RoughNightsAsk = ({
             theme={theme}
             isSelected={false}
             onPress={onMissed}
-            marker={<Plus width={14} height={14} color={palette.muted} />}
+            marker={<PlusIcon width={14} height={14} color={palette.muted} />}
             label={t("recaps_story_rough_missed")}
             isDashed
             testID="recap-rough-missed"

@@ -1,7 +1,7 @@
 import useColors from "@/hooks/use-colors";
 import { useSettings } from "@/state/settings";
 import { Pressable, Text, View } from "react-native";
-import X from "lucide-react-native/icons/x";
+import { XIcon } from "@/components/icons";
 import Indicator from "@/components/indicator";
 import { PressableScale } from "@/components/pressable-scale";
 import { RADIUS } from "@/constants/radius";
@@ -90,7 +90,7 @@ export const PromoCard = ({
         accessibilityRole="button"
         accessibilityLabel={t("close")}
       >
-        <X stroke={colors.promoCardText} width={24} height={24} />
+        <XIcon stroke={colors.promoCardText} width={24} height={24} />
       </Pressable>
       <View
         style={{

@@ -1,4 +1,4 @@
-import ShareIcon from "lucide-react-native/icons/share";
+import { ShareIcon } from "@/components/icons";
 import { Pressable } from "react-native";
 import { RADIUS } from "@/constants/radius";
 import { t } from "@/lib/translation";

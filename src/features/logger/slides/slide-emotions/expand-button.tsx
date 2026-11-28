@@ -2,8 +2,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/use-colors";
 import { Pressable, View } from "react-native";
 import { Label } from "@/components/typography";
-import Minus from "lucide-react-native/icons/minus";
-import Plus from "lucide-react-native/icons/plus";
+import { MinusIcon, PlusIcon } from "@/components/icons";
 
 /**
  * Toggle between basic and advanced emotions. `expanded` is true in basic
@@ -29,9 +28,9 @@ export const ExpandButton = ({
         }}
       >
         {expanded ? (
-          <Plus width={24} height={24} color={colors.textSecondary} />
+          <PlusIcon width={24} height={24} color={colors.textSecondary} />
         ) : (
-          <Minus width={24} height={24} color={colors.textSecondary} />
+          <MinusIcon width={24} height={24} color={colors.textSecondary} />
         )}
         <Label
           size={16}

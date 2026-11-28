@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-waive-angle="a slight tilt is the unamused smirk; 45 degrees reads as a grimace">
+  <circle cx="12" cy="12" r="10"/>
+  <path d="M7 9a1.5 1.5 0 0 0 3 0M14 9a1.5 1.5 0 0 0 3 0" data-role="detail"/>
+  <path d="M9.5 16.5l5-1.5" data-role="detail"/>
+  <circle cx="12" cy="12" r="10" data-role="silhouette"/>
+</svg>

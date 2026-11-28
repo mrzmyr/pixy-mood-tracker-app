@@ -20,7 +20,7 @@ import {
   useState,
 } from "react";
 import { FlatList, View } from "react-native";
-import Plus from "lucide-react-native/icons/plus";
+import { PlusIcon } from "@/components/icons";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Entry } from "./entry";
@@ -270,7 +270,7 @@ export const LogList = () => {
           accessibilityLabel={t("add_entry")}
           onPress={add}
         >
-          <Plus
+          <PlusIcon
             color={colors.primaryButtonText}
             width={24}
             height={24}

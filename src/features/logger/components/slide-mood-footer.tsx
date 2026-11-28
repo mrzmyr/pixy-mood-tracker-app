@@ -9,7 +9,7 @@ import useColors from "@/hooks/use-colors";
 import { getShortItemDateTitle } from "@/lib/utils";
 import { useState } from "react";
 import { View } from "react-native";
-import MapPin from "lucide-react-native/icons/map-pin";
+import { MapPinIcon } from "@/components/icons";
 import { useEntryTimePicker } from "../hooks/use-entry-time-picker";
 import { useLogDraft } from "../log-draft";
 import { EntryTimeMenu } from "./entry-time-menu";
@@ -109,7 +109,7 @@ export const SlideMoodFooter = ({
               draft.location === undefined && !isLocating ? (
                 <MapPinOff {...iconProps} />
               ) : (
-                <MapPin {...iconProps} />
+                <MapPinIcon {...iconProps} />
               )
             }
             accessibilityLabel={locationText}

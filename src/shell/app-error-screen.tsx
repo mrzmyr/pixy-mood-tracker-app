@@ -7,7 +7,7 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import CircleAlert from "lucide-react-native/icons/circle-alert";
+import { CircleAlertIcon } from "@/components/icons";
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -107,7 +107,7 @@ const AppErrorContent = ({
         }}
       >
         <View style={{ alignItems: "center", marginBottom: 24 }}>
-          <CircleAlert color={colors.text} width={48} height={48} />
+          <CircleAlertIcon color={colors.text} width={48} height={48} />
         </View>
         <Text
           accessibilityRole="header"

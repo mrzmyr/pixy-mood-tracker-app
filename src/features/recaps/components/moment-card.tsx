@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import MapPin from "lucide-react-native/icons/map-pin";
+import { MapPinIcon } from "@/components/icons";
 import { Copy, Label } from "@/components/typography";
 import type { Person } from "@/features/people";
 import type { Tag } from "@/features/tags";
@@ -82,7 +82,7 @@ const CityArt = () => {
   return (
     <MediaPanel minHeight={120}>
       <View style={{ alignItems: "center" }}>
-        <MapPin width={32} height={32} color={colors.text} />
+        <MapPinIcon width={32} height={32} color={colors.text} />
       </View>
     </MediaPanel>
   );

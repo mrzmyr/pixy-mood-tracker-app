@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
-import CalendarDays from "lucide-react-native/icons/calendar-days";
+import { CalendarDaysIcon } from "@/components/icons";
 import useColors from "@/hooks/use-colors";
 import { Label } from "@/components/typography";
 import { SPACE } from "@/constants/space";
@@ -54,7 +54,7 @@ export const Header = ({
           top: "-80%",
         }}
       >
-        <CalendarDays
+        <CalendarDaysIcon
           width={600}
           height={600}
           // Stroke icon: a fill in the stroke color hides its grid.

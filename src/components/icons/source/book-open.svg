@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-aliases="thoughtful" data-waive-radius="r2 page corners; squircle and circle look the same at that size" data-waive-gap="pages meet the spine in a curve, like every open book glyph">
+  <path d="M12 21a3 3 0 0 0-3-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3a5 5 0 0 1 5 5V21"/>
+  <path d="M12 10a5 5 0 0 1 5-5h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-5a3 3 0 0 0-3 3"/>
+  <path d="M12 21a3 3 0 0 0-3-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3a5 5 0 0 1 5 5V21Z" data-role="silhouette"/>
+  <path d="M12 10a5 5 0 0 1 5-5h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-5a3 3 0 0 0-3 3V10Z" data-role="silhouette"/>
+</svg>
